@@ -1,153 +1,160 @@
-Return-Path: <linux-leds+bounces-494-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-495-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1A881F61E
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Dec 2023 09:55:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FF381F989
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Dec 2023 16:16:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA5B31C20F8F
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Dec 2023 08:55:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99DEA1F21663
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Dec 2023 15:16:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9366AA4;
-	Thu, 28 Dec 2023 08:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzxQblfl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07E57DDCE;
+	Thu, 28 Dec 2023 15:16:22 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2134.outbound.protection.outlook.com [40.107.215.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45276AA2
-	for <linux-leds@vger.kernel.org>; Thu, 28 Dec 2023 08:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e81761e43so2497911e87.2
-        for <linux-leds@vger.kernel.org>; Thu, 28 Dec 2023 00:55:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703753708; x=1704358508; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qYw7n5C4jk5rnW7Kp5bQ86A+b2MaTcD2IOW0N1qCDmU=;
-        b=UzxQblfl7Ph4Q0fm3uCP1n7TtaE0mhnlyGQh5m1yAu5mF5gJuqHb8Z5sb1Lam4ZUgv
-         dgAjF8NIamSc9Iuk0ZiahXpmPXQ5PM1HodvD5Qo4+7M2cdHkLzVGB4qg7ZyyhZ4FBbE2
-         x1E9fQ4Jx6S+bQZrjkGiyChD5pRoLN1LvqJXDzSRYLu8toUUEASdGLtbM9PLgJrxMZrF
-         mdbcNdZ6oE/PSjXMDtFDaJTeV3nF9m3E4KUOsgdKNFRBr1f0F3SdQthFwR7hfnQvTGyz
-         uO8Ls2XOhrnHkTemI2ZzD5tJgJ/PrVT8Uo4rysVEY7mf4jD4EGUIBb16Eqc+MamX64as
-         K5yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703753708; x=1704358508;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qYw7n5C4jk5rnW7Kp5bQ86A+b2MaTcD2IOW0N1qCDmU=;
-        b=ZfGnRUDo1VRdGQ0TN9/UNwc81/VNKDZJd3QRGtKwXJOTlmHzsoNrLfjs9o0pszx/9H
-         yQizdUydvzxpmrYpxrOUXGrIv5nZgAY8Y35FR7oS1DMAbMpfN5I2bRqKBK3neD9+Gc1F
-         Q1jVGSBGwH4cjJuy/SianAEq+5/LBIrR1x5AQKj9zttv95u9hccm/8sqJoc28/29bXiZ
-         unqBXVcoz3/nHKrTdF/m9/KIPhpBQh+8PFG9WVTq1H8gGH3uCOMTIdYpuyZZ0Z8D18E1
-         j7zgdjZAYIudjUMeMu9/SBmLLoKgwqU+zNA9d47roAhm8DQjKCajeucVQ2Q6i/BlIno+
-         8fNg==
-X-Gm-Message-State: AOJu0YwHkN0GIFc0e3+U1yjlmRvxVqtbblZux04Np1mQNFWQtsKQ61Qk
-	RmmfE7C8tltSurZ3GRYUDA60c4CCIG8=
-X-Google-Smtp-Source: AGHT+IFpkaJ6gJ+K2ymIwZHhYwDP1YIN/89eMw8ixf2w5qnkBEqXqIugFGn+/AxjT7syT5G42OgHZw==
-X-Received: by 2002:a05:6512:419:b0:50e:504e:6c34 with SMTP id u25-20020a056512041900b0050e504e6c34mr4415445lfk.3.1703753707379;
-        Thu, 28 Dec 2023 00:55:07 -0800 (PST)
-Received: from ?IPV6:2a01:c22:7631:d500:84f:c992:adf1:8a6d? (dynamic-2a01-0c22-7631-d500-084f-c992-adf1-8a6d.c22.pool.telefonica.de. [2a01:c22:7631:d500:84f:c992:adf1:8a6d])
-        by smtp.googlemail.com with ESMTPSA id i21-20020a0564020f1500b0055344b92fb6sm9653160eda.75.2023.12.28.00.55.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Dec 2023 00:55:06 -0800 (PST)
-Message-ID: <0f6f432b-c650-4bb8-a1b5-fe3372804d52@gmail.com>
-Date: Thu, 28 Dec 2023 09:55:08 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4249CE56D;
+	Thu, 28 Dec 2023 15:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yunjingtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yunjingtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cp3wxd5VoVRge34z3pH8amivOxKa3U4PxHoVClTbTHK7//bVY70QhGdNZpSP7EIjc4vMUeXx5RVsdru2R69KhCFCMt8lbiypZsqT+j3x78K5s8kKm1EgQkwCLhsMglqihWbeiyOHtHP+KQwjeNdIB+IT4SYB8rT/ESw4yxs89RS7LbGuxodYjGNGIVYLKmLjJzGfHHOcapkajyKfu67IIJEw/8WrrkSGj3BxBGw6aPXlHKd8lKPLVWwLogZh7ALXvpozGM7u2Bo8Ltq5P6s8QNLK2Xzf00ChIGEk+hV/KsHaYrxi9Cs3ZCylE+wJc+FxeUJSl+2/nzQwcuPrc/MPhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+kMX+iaQF7eV2eG4yRS9BO0ucCvnAayyILyKPd0OpWE=;
+ b=ERN3iKK68ySforf4BRjkvdsp/D7zKeLHVXx3KLOcBs6hcAoJbPmtkhb2KlE5/G7m4ylpTIi17Ea5A6YOTv+nUvmJ8XUBBAYnOV2cWl4UCF0kUTWRQCrzimwvvMsOM41EYa0xHo8EnA5q7tSuVKrEOuyB5Y8zi1RSlkR18WgqCADqAnfOm6Y5aMAjZXx5xHsNC4Ud709FTytYd8gDkvYjB/dy+fPQyWxkxUxeBIEcuiKqsYwJzZwv2Y5G7Q/w7kQFs5LevybY2uU32t+5AtqMYfpAKo99wmXN81AkIoCSotlAa2eEtqXQRpUbyGa0zAglEi3lZ5R5GE2eiJTDGpfXEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=yunjingtech.com; dmarc=pass action=none
+ header.from=yunjingtech.com; dkim=pass header.d=yunjingtech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=yunjingtech.com;
+Received: from SEYPR06MB6507.apcprd06.prod.outlook.com (2603:1096:101:177::9)
+ by KL1PR06MB6650.apcprd06.prod.outlook.com (2603:1096:820:fc::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.26; Thu, 28 Dec
+ 2023 15:16:13 +0000
+Received: from SEYPR06MB6507.apcprd06.prod.outlook.com
+ ([fe80::883b:97ce:6565:e5e]) by SEYPR06MB6507.apcprd06.prod.outlook.com
+ ([fe80::883b:97ce:6565:e5e%4]) with mapi id 15.20.7135.019; Thu, 28 Dec 2023
+ 15:16:12 +0000
+From: "larry.lai" <larry.lai@yunjingtech.com>
+To: lee@kernel.org,
+	andriy.shevchenko@linux.intel.com,
+	linus.walleij@linaro.org,
+	pavel@ucw.cz,
+	krzk@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	GaryWang@aaeon.com.tw,
+	musa.lin@yunjingtech.com,
+	jack.chang@yunjingtech.com,
+	noah.hung@yunjingtech.com,
+	"larry.lai" <larry.lai@yunjingtech.com>
+Subject: [PATCH V8 0/3] Add support control UP board CPLD/FPGA pin control
+Date: Thu, 28 Dec 2023 23:15:41 +0800
+Message-Id: <20231228151544.14408-1-larry.lai@yunjingtech.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SG2P153CA0039.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::8)
+ To SEYPR06MB6507.apcprd06.prod.outlook.com (2603:1096:101:177::9)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: Change devm_led_classdev_register_ext stub logic to use
- IS_REACHABLE
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEYPR06MB6507:EE_|KL1PR06MB6650:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0eead564-e176-4df6-2e80-08dc07b7ec36
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	FVGnxHVJvlklSI5XYjqU9Qlmuq5ujw1LUdCfXjbtJpwsKtiA7SwAzGBYhG9h7uqo/+g3Y63W+P4RM43ybrl50uEsK/sG7zMmfrMgbOafsqze8yP9TR4Kdnsv0CDwvHy8QGT3BmNgYn0b8MlJJV02j+LdT2ia56eRBsxCcgDYnyOD4kmePC6j8LTvSv/LZeiGnxq5QJRopLqKG+fH9Gy1y2/zULliIidqcKzgilN53AewPhP94tfARF7+hadecSErvfcqweNu+XrFOjCCTmRk5cK4hc1YQINe4dsa7SEf83rOTkrGvb+YAy1piN5fBgLVSbS/0wFyokEvG1esOLIAWtkn5F8szRdnG21ZkPOV5eWTyq7/5GHquxjc2pKgpfs413KlLjf8DAqa0oglvx3V50C4CHhSiM6eQ5J3ph8ej5Un6+VJyfocijPRfwoxMDilHgyb+HmBtfyV8lXehHbhGgl1w6Q+5NxQUGZIB4baNbpvLyuOpwjo9EPYQSd2E6G4iNmwJCNBnqeXVFgkP+7HaSo9dDmvnUGsRlA1JLWiLXIxHyGtA7syvPZB9X8p+0SxHB0NbxgIMbL9qxe3nNCG1zxNeNwbHuvwwt0+yZyGDtw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6507.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(39830400003)(346002)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(38350700005)(86362001)(2906002)(38100700002)(36756003)(41300700001)(66946007)(66476007)(316002)(66556008)(83380400001)(6486002)(6506007)(52116002)(1076003)(107886003)(26005)(478600001)(2616005)(6666004)(5660300002)(4326008)(8936002)(8676002)(6512007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MQTaqJf70eSmTmfgHmSqIA8QYmiQqtsyL6XmZoSfJnGkXgyJF/7l7YUL0opw?=
+ =?us-ascii?Q?2dxWmr/Dpe8joxYva/yk5mrX14mIpig9hXiB3t60UQxeY5ky8vupabCKOYH3?=
+ =?us-ascii?Q?g+tIvWBFmn1vJXrhaIEQEncOHPQ6KzEVRj/U1x5JVBZObzx2ndI058DuVCGX?=
+ =?us-ascii?Q?EZD/w7DiJg00JDZHwNSqUNMtMYSwc4tDcEEe5mx5FwNb9/2wSFcPL8J1Ybi/?=
+ =?us-ascii?Q?pAhqvXdLabHWYEWPZtXM+X1CppWykI7DppjK6cKS5Hp+hVb/n6OY4nH4zzaK?=
+ =?us-ascii?Q?Qwfue64Vj9DYQ9l4+jz91HXHgv1Uah4ptvyg9cZKEE3vXFdCHeyPpsd/Lt02?=
+ =?us-ascii?Q?sYZYPEWG2Rs0h9piqA1GVOY0VPApljMu8MLzvujfGQb5EhKcCq/umX8hUDMx?=
+ =?us-ascii?Q?cyJjJdqfcNn7vX6uawzbwR+FTNGL995FxmmsJsesg90yIUlQB8hPuZOFeJ8+?=
+ =?us-ascii?Q?0/zeDzNLsXlbPsfzG38bX3iYlkjY1rY6EDEvdZueDojJAStkl5yQFeDn96ap?=
+ =?us-ascii?Q?XZHoZtokc0pQaBbsl3vgEDSoomTnFiyxNBgCzCrNnf5G+UnN6e70TrxWuMBU?=
+ =?us-ascii?Q?scOpLeK0Vn2RHmdiPJLR2kybrYzOOtDSt0MVAaq+ktkWVDe3eLh8xP2qA+7o?=
+ =?us-ascii?Q?st7r0GAVIKu0wAKTWQt5/3VIndzNlVh6WtL2w9Ka8dE0pWh+ihsnIPb06U1T?=
+ =?us-ascii?Q?rs5Tfc/LVx7QBy9Kqmyd5O6WCYrYS/JEwCa0S6EgOpQyTtsLCvm0wnoKmeC8?=
+ =?us-ascii?Q?COelabjkLarXmQS41OU+k8koOwX2n4ay0cWWzdHWQmrz7P/zKr/52Er6FruL?=
+ =?us-ascii?Q?eI5z/+k+A8AVWEaRc70D2RkKhtUO+LzRjadsVze7igkuthiK4WxmMmkNoMIO?=
+ =?us-ascii?Q?Fcxp8aVLuQK3uws0l2iDdOzPWwCN8kXaxEcacOaVSnmxz9eGBf+8rCqB6lbr?=
+ =?us-ascii?Q?g3lgyY4k13FbPLAhx/d854rE3jan3ZsC02uCrKQTbFBgdrOD4bVKxen2gI8J?=
+ =?us-ascii?Q?bT4CUFhnTL9OB3KKdLVUOCj+S5dgADwPikQJ6BHoq1hqMR2v4tkM4VwEOjfV?=
+ =?us-ascii?Q?YFJuNCI4m1U1warF6pxC6YmbZNkQ/yUy9mCeZWjPVZuwhQnTE+JBs9KObnE6?=
+ =?us-ascii?Q?4Oq7JTA1npPxPSmYbIjs9HIIe4QFyFEUPYPwIW/jNweMq+lyALg/5A+dtjWi?=
+ =?us-ascii?Q?8KhXFMwM+AyC6wTyfzzK3xM/ek3rp1MI6caV80sbM+vzcBlfddf4DJTHVTZS?=
+ =?us-ascii?Q?BfJmiaNORB1HgHe/hOHaPoZ8sg+EypZGwJ+zBaYDkvmX6wfQVTmiUd5x5Z10?=
+ =?us-ascii?Q?bWmeSFh/hvdmdIE6BI/NsALQKqAY2dXVKGMeu1t1/ej+W8KZLL9btJnXRh/B?=
+ =?us-ascii?Q?skMGrILCvNVwV0V4wJEu5yP5HnuaikajRo9MMUz55kmQijEXyBDi0wyviVhq?=
+ =?us-ascii?Q?0RRWBMrkr0vbGe4hWnjRWL/IHrk4RddLjWjwwwHw4HgMYy3MmwFE99gPvEuv?=
+ =?us-ascii?Q?VNFnJEb/HUBBE+sj+/uq+S0r82QqM16mg0MRUvzDa/tkBGlckFYAV1gw63YX?=
+ =?us-ascii?Q?X9h2oBxKsmC32GwJ1aKzEgtKyzZQc9zF4mgqv5yfc1AvV/BEolgRU4qXb5pT?=
+ =?us-ascii?Q?GQ=3D=3D?=
+X-OriginatorOrg: yunjingtech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0eead564-e176-4df6-2e80-08dc07b7ec36
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6507.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2023 15:16:11.1224
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: be2d5505-f7e6-4600-bbe2-b3201c91b344
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wzj5XLWMeItG18y5vdFphr3BdomdEg9njcOz6wb81qgTHojg+l5uniKNCzW8mU2mB9I6RWWgQET92sPsr02+Es4Yfz0Rx0JHWYDjjG+kqL8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6650
 
-If CONFIG_LEDS_CLASS = m and the caller of devm_led_classdev_register
-is built-in, we get a compile/link error.
-To avoid this we could add conditional compiling to the caller, but
-exactly this overhead we wanted to avoid with adding the stubs.
-Easiest solution is to use the existing stub also in case IS_ENABLED
-is true, but IS_REACHABLE is false.
+The UP board <https://up-board.org/> is the computer board for 
+Professional Makers and Industrial Applications. We want to upstream 
+the UP board 40-pin GP-bus Kernel driver for giving the users better 
+experience on the software release. (not just download from UP board 
+github)
 
-Fixes: 18764b883e15 ("r8169: add support for LED's on RTL8168/RTL8101")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202312281159.9TPeXbNd-lkp@intel.com/
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- include/linux/leds.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These patches are generated from the Linux kernel mainline tag v6.0.
 
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 4754b02d3..1eecee316 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -279,7 +279,7 @@ static inline int led_classdev_register(struct device *parent,
- 	return led_classdev_register_ext(parent, led_cdev, NULL);
- }
- 
--#if IS_ENABLED(CONFIG_LEDS_CLASS)
-+#if IS_REACHABLE(CONFIG_LEDS_CLASS)
- int devm_led_classdev_register_ext(struct device *parent,
- 					  struct led_classdev *led_cdev,
- 					  struct led_init_data *init_data);
+This is the PATCH V8. It fixed and addressed Andy Shevchenko and 
+Krzysztof Kozlowski review comments.
+
+larry.lai (3):
+  mfd: Add support for UP board CPLD/FPGA
+  pinctrl: Add support pin control for UP board CPLD/FPGA
+  leds: Add support for UP board CPLD onboard LEDS
+
+ drivers/leds/Kconfig              |   10 +
+ drivers/leds/Makefile             |    1 +
+ drivers/leds/leds-upboard.c       |  154 ++++
+ drivers/mfd/Kconfig               |   12 +
+ drivers/mfd/Makefile              |    1 +
+ drivers/mfd/upboard-fpga.c        |  364 ++++++++
+ drivers/pinctrl/Kconfig           |   15 +
+ drivers/pinctrl/Makefile          |    1 +
+ drivers/pinctrl/pinctrl-upboard.c | 1309 +++++++++++++++++++++++++++++
+ include/linux/mfd/upboard-fpga.h  |   59 ++
+ 10 files changed, 1926 insertions(+)
+ create mode 100644 drivers/leds/leds-upboard.c
+ create mode 100644 drivers/mfd/upboard-fpga.c
+ create mode 100644 drivers/pinctrl/pinctrl-upboard.c
+ create mode 100644 include/linux/mfd/upboard-fpga.h
+
+
+base-commit: 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
 -- 
-2.43.0
+2.17.1
 
 
