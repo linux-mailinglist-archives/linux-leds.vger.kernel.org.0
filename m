@@ -1,132 +1,139 @@
-Return-Path: <linux-leds+bounces-511-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-512-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8748206A9
-	for <lists+linux-leds@lfdr.de>; Sat, 30 Dec 2023 15:09:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECBA82211E
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jan 2024 19:38:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE09C1F210D1
-	for <lists+linux-leds@lfdr.de>; Sat, 30 Dec 2023 14:09:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B0401C22932
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jan 2024 18:38:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 585F68BED;
-	Sat, 30 Dec 2023 14:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0549156FA;
+	Tue,  2 Jan 2024 18:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FqHaMHZ0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/diWnij"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338E08BEB;
-	Sat, 30 Dec 2023 14:09:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9092AC433C7;
-	Sat, 30 Dec 2023 14:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703945377;
-	bh=nsKRP3aVdcHZsaI5kaflHCeA58+0ZnjyEaviK6To36g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FqHaMHZ0h4YwhTlUBPXdYZEyvYybYPGdsJP3j73KbSVK9IF5XSj1AGe8aC3Zk3d19
-	 DeQqsv42XV+qK0Q22Ju4uJQFAAQjFoI72fz4YOpiGhGEEzjtjbp80EeWdmakfXcw9b
-	 P1hy/JjxGn5ng63tH3ozs+Itw6KUaIo7w+sK/lhaxk5F4mKM/n9nXmoTG1z39pULP2
-	 BwFkT1rwXsBwXnFgbv7Q5W2fhp7X0Uh7sIptHKDqhLI1nexV2cnp+wJ0Eab62TQzgq
-	 BHW2wFxG4g9jyIlfT25ExiJYRm7EOUi7FgFk3FAmZ+NAM0kRXl/jbCRZm6kqBJHGfl
-	 hlfoV2VIQyH1w==
-Message-ID: <639fb3c8-6ead-409c-b06c-1e3158f716a8@kernel.org>
-Date: Sat, 30 Dec 2023 15:09:29 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F307156EF;
+	Tue,  2 Jan 2024 18:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40d2e56f3a6so55564005e9.1;
+        Tue, 02 Jan 2024 10:38:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704220729; x=1704825529; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TSbX98OpsIFhknrkPUlnLd/Gb/xC0302JuUUTWaUNQQ=;
+        b=F/diWnijXehkaytk6d6bz516XLsD6t29KKBQLoUd9wiI7FxEgYSe1HuQrXWq4SzNUf
+         uoZIjjBKFspPIjfTbaZIrSCmcQ4kbALgQoy1cE7/DHCZWEB29KmHt8zU+gzA36tolp21
+         vQVeQOYbpELVh4o63Qy4U2MEz/G8Ozg1j2d+gJwe68EElPcEmQV61hQ/Sro7VAGjFkkH
+         9lKUQ5v/UK9uNPtKwD4ITMP7GVkAG/t4S3xgezWauUvqg5lsgLpHEHEl9xA5KYMRIZzu
+         34QOo9BUNn4iJc3iFbCyzY9zmqcZr4k1kPTzBndTdX2IKwJ1XwJbk+l7OXPBr9gY6WdX
+         P00Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704220729; x=1704825529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TSbX98OpsIFhknrkPUlnLd/Gb/xC0302JuUUTWaUNQQ=;
+        b=ARZkmpptTy0FjyZiZjYFwPoij8nfJanwf07BzVOa33IZDrUdLlerX4MoLq16fYPDaX
+         DA9ZQYb2krKk+NtUtXz2zpCIYF4ooO+fbikb4rkzxkTnDEefL3Moqv/w7QuoNYXufcyP
+         KJsPh8zRGNChmD7t/WNSJepukyqbdBdu9+Z0PWpQEWr6XNRxt76l6kvb2lfNJ9U6VV79
+         Tc78CxFUC3R3eNeLDDPelMTduZa3XQkMXp0IVh9k8IsJVUcnLOwfOHFe3fZ0JeWxP2+F
+         ya9lOz/W3fg4L0HWzCNIwsuE4NA0LXe5KmETMETYXG8y3PYInzjUqf5WR9N/aT+z1tOI
+         Rhsw==
+X-Gm-Message-State: AOJu0Yx/mJpbspeFnbM3dzr+Z8pLFFcel5q22zuTal+Z6v6Bdh9Hgn+z
+	J6hB7kJuH5t7e7V7l2okJv4=
+X-Google-Smtp-Source: AGHT+IHS1rXQmYTNGbOeFEUNy2APVbixEkLwy9K4cxhk/vuhAL2D1ayBVg6w75D32M9xrGQChzIoaw==
+X-Received: by 2002:a05:600c:3542:b0:40d:5a6f:fb72 with SMTP id i2-20020a05600c354200b0040d5a6ffb72mr5752891wmq.57.1704220728913;
+        Tue, 02 Jan 2024 10:38:48 -0800 (PST)
+Received: from localhost.localdomain (host-87-10-250-100.retail.telecomitalia.it. [87.10.250.100])
+        by smtp.googlemail.com with ESMTPSA id p15-20020a05600c468f00b0040d4e1393dcsm37963071wmo.20.2024.01.02.10.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jan 2024 10:38:48 -0800 (PST)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	William Zhang <william.zhang@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	=?UTF-8?q?Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>,
+	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org
+Subject: [net-next PATCH v6 0/5] net: phy: generic polarity + LED support for qca808x
+Date: Tue,  2 Jan 2024 19:38:29 +0100
+Message-ID: <20240102183835.5332-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V8 2/3] pinctrl: Add support pin control for UP board
- CPLD/FPGA
-To: Jack Chang <jack.chang@yunjingtech.com>,
- "larry.lai" <larry.lai@yunjingtech.com>, lee@kernel.org,
- andriy.shevchenko@linux.intel.com, linus.walleij@linaro.org, pavel@ucw.cz
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw, musa.lin@yunjingtech.com,
- noah.hung@yunjingtech.com
-References: <20231228151544.14408-1-larry.lai@yunjingtech.com>
- <20231228151544.14408-3-larry.lai@yunjingtech.com>
- <49f1ebee-c2c6-426a-8b85-69d8f5b65c65@kernel.org>
- <c3a5e8ab-f1ec-e9f4-927b-994bd94a475f@yunjingtech.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c3a5e8ab-f1ec-e9f4-927b-994bd94a475f@yunjingtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 29/12/2023 10:18, Jack Chang wrote:
-> On 2023/12/28 23:28, Krzysztof Kozlowski wrote:
->> On 28/12/2023 16:15, larry.lai wrote:
->>> The UP Squared board <http://www.upboard.com> implements certain
->>> features (pin control) through an on-board FPGA.
-> 
-> ...
-> 
->>> +MODULE_ALIAS("platform:upboard-pinctrl");
->>
->> This is a friendly reminder during the review process.
->>
->> It seems my or other reviewer's previous comments were not fully
->> addressed. Maybe the feedback got lost between the quotes, maybe you
->> just forgot to apply it. Please go back to the previous discussion and
->> either implement all requested changes or keep discussing them.
-> 
-> add "platform:" for auto probe these two drivers when upboard-fpga
-> has probe and register these 2 drivers.
+This small series add LEDs support for qca808x.
 
-Why do you use alias instead of missing ID table? This scales poorly.
-Use ID table and if you disagree, then respond with proper comment. You
-just replied something obvious.
+QCA808x apply on PHY reset a strange polarity settings and require
+some tweak to apply a more common configuration found on devices.
+On adding support for it, it was pointed out that a similar
+feature is also being implemented for a marvell PHY where
+LED polarity is set per LED (and not global) and also have
+a special mode where the LED is tristated.
 
-Best regards,
-Krzysztof
+The first 3 patch are to generalize this as we expect more PHY
+in the future to have a similar configuration.
+
+The implementation is extensible to support additional special
+mode in the future with minimal changes and don't create regression
+on already implemented PHY drivers.
+
+(changelog present in single patch)
+
+Christian Marangi (5):
+  dt-bindings: net: phy: Make LED active-low property common
+  dt-bindings: net: phy: Document LED inactive high impedance mode
+  net: phy: add support for PHY LEDs polarity modes
+  dt-bindings: net: Document QCA808x PHYs
+  net: phy: at803x: add LED support for qca808x
+
+ .../devicetree/bindings/leds/common.yaml      |  12 +
+ .../bindings/leds/leds-bcm63138.yaml          |   4 -
+ .../bindings/leds/leds-bcm6328.yaml           |   4 -
+ .../devicetree/bindings/leds/leds-bcm6358.txt |   2 -
+ .../bindings/leds/leds-pwm-multicolor.yaml    |   4 -
+ .../devicetree/bindings/leds/leds-pwm.yaml    |   5 -
+ .../devicetree/bindings/net/qca,qca808x.yaml  |  54 +++
+ drivers/net/phy/at803x.c                      | 333 ++++++++++++++++++
+ drivers/net/phy/phy_device.c                  |  12 +
+ include/linux/phy.h                           |  22 ++
+ 10 files changed, 433 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/qca,qca808x.yaml
+
+-- 
+2.43.0
 
 
