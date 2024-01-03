@@ -1,167 +1,182 @@
-Return-Path: <linux-leds+bounces-519-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-520-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D32822C2E
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Jan 2024 12:34:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F89822D68
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jan 2024 13:46:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A36FB20C32
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Jan 2024 11:34:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC92C1F24204
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jan 2024 12:46:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDBB918E2D;
-	Wed,  3 Jan 2024 11:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5786818EDB;
+	Wed,  3 Jan 2024 12:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hhv2qjci"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="37mFj8qz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="M18QOB3l"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5A018E21;
-	Wed,  3 Jan 2024 11:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d5f402571so70056005e9.0;
-        Wed, 03 Jan 2024 03:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704281633; x=1704886433; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9ohc7n8TVBVA7/T0EriFba7tB6cwG/fNjcjj7C7uviM=;
-        b=Hhv2qjci59wP6za0qTnkjsrBlD78d2R32f7LeqFHLSi8MieV87Ao9y9BBBljqtqifc
-         PxOgll2lPsDoPXoeywAdC5b2w6qlPoqSG7V+QP00Evny8tlwl5XuMIoMm54DgCXx6AIW
-         Xn8o9P0gRFJkCcVqBMbIKIBGsttEDiz4dLOvyEvETQf8FtA6mAI+EoMCZmvDwjrSqRQv
-         vq/RYN2EIb95lspsvBai0JH6a6heD+br0pn/L4qxS6O9BmT+cpnR8joqLSoyEr30XD1j
-         PZOV7VqFNXnvcyqX6nIKWC0XAS4zjmD5Iy3OZCDPmQnKej3b7oqyQawrAxNp2dx4BMgc
-         1i8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704281633; x=1704886433;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ohc7n8TVBVA7/T0EriFba7tB6cwG/fNjcjj7C7uviM=;
-        b=JN/LZnaGv2O6357V4GASfjL2NmmHQ+ekBIsw4hTq55XcVXQJC1r0w6rb+eY4PinFKt
-         +j3NowezgyH9dsn+b0QimYMvUgu2LuA22suN1RAzLdKvMbZzbaKkuj1TUp2iiMyEAOBu
-         V3zdE5uKVHmWeZNZolbrDNyB6R5IhifTk6TQrSnnvj81372EPNfxcZK0k3g+R44GSGWd
-         hvnLvOL/o+s5iIuTMqCZ1tAMA3BgLiTH4JbrdNgeeBe79WfBmuif+SFNQJHOUZiyZVfS
-         MMdbI8p+YAzz4FxJqYJJ6oFwcEmuF4OTWhxtZLMy1pGKTgbvYDn5vE7PvUlhboaBRaBB
-         FAdg==
-X-Gm-Message-State: AOJu0YzGYHvGZGXRKAEBpC0GAJ9bTnYvz5kpZ1knnuvmlGAZl15kGagI
-	RwWOSVJ6pAJoLCawOcQq3e06RV+2RIY=
-X-Google-Smtp-Source: AGHT+IE9+xOdktMpz/1QouXYzi2ALYWAZOU3I+meM9kVvuAwrYvUoULxCXRkAtT6H7AivGjgrD8gtA==
-X-Received: by 2002:a05:600c:138d:b0:40d:6473:c666 with SMTP id u13-20020a05600c138d00b0040d6473c666mr4683062wmf.147.1704281632992;
-        Wed, 03 Jan 2024 03:33:52 -0800 (PST)
-Received: from ?IPV6:2a01:c22:7399:5700:b8cf:27e9:e910:c205? (dynamic-2a01-0c22-7399-5700-b8cf-27e9-e910-c205.c22.pool.telefonica.de. [2a01:c22:7399:5700:b8cf:27e9:e910:c205])
-        by smtp.googlemail.com with ESMTPSA id k16-20020a05600c0b5000b0040d88f6bc94sm2028531wmr.34.2024.01.03.03.33.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jan 2024 03:33:52 -0800 (PST)
-Message-ID: <5b0a6150-8043-4de7-980f-54020a3e7981@gmail.com>
-Date: Wed, 3 Jan 2024 12:33:53 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1AF18EC7;
+	Wed,  3 Jan 2024 12:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 11E363200B01;
+	Wed,  3 Jan 2024 07:46:01 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 03 Jan 2024 07:46:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1704285961; x=1704372361; bh=/YviPdGLiP
+	zVy+UBu96lnyvudyBzhXETVuOdEEmoVnY=; b=37mFj8qzThYf0OHLiNiNt6+Kzr
+	fs/DrSxWzwL3K5Zm55mjG5r1SlI4Kztn+D+/fVWNzAutasVCBUFt4HzZDArPtZpd
+	0mG5VkTZbcjkQE2TPIZ9FBIquoyGUs0B5IidqiQcp0nGqXA9EB9mE4BHmenkXhYW
+	L/Po8v1oDWV78D1R+r+3Uy+KlbBILYUYn2V3z44y//MesGLes8DdzbYeFalHjGLN
+	3QivW+N5kU72Na9yCGpL4ce0vjxThyiJVZmJmpflqQWyXYlTNDU3jk527nGhhL2b
+	kybcJxlhQzd6eBi1iRoD0lv7XlT9C3Wdy5yeIppeP1awCnJYg/tulms/Gg+Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704285961; x=1704372361; bh=/YviPdGLiPzVy+UBu96lnyvudyBz
+	hXETVuOdEEmoVnY=; b=M18QOB3lpnuX7UIIPcUOnkESWrGWNpytFQtFOLTUo2xg
+	HyO/FJVU8jOrqsIRrddXqJYfmk+GwT9GiI6eJguV+z9gYljk+a8WLo43ZEH3NCGK
+	kXRAmjD/w4jLqqQNiJ/X0T8PpTOKNFhQ4BgfZOPwEjRJB+EoLManx8xe87gI4cFH
+	RYu/2eAok0flIb/9XrCAEDLtbNvKFIuPmWRsUypEZUh89jp6+oH8c8NwkXqsscbC
+	/QLj3SYi3y5mKMh9pfEEHD9BT9fMSd5vAHbmtTorj+XYObOfTCNIzIiH2M+abR2G
+	sozfLm3n4X7QEzU5f3MIxDHDcORsdT9J5/9yOVRcZQ==
+X-ME-Sender: <xms:CVeVZfGYMXBBwbIMGbb5vRoqJ8lWfmXo9MRAm0wDNA529q8Dd_ZoTA>
+    <xme:CVeVZcXAqJiANhx0xZbvWHPCcrPQEQNANrfdGNDOK11Hko4Np40ncrOrw0_kVdUDA
+    bJeZ8VlKXoyhrdaylY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeghedggeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:CVeVZRJqByB2XxDf71DssllxMxQiBDWsn1vpCIGKZmUhP4wqPlUOhA>
+    <xmx:CVeVZdHB7_XE_La-qJ0L-7eUQemP9mvO2zXkxt36QwUvQ2aoCVsHBQ>
+    <xmx:CVeVZVUQJ0bb_XCOl5c_84SfC1uJl7RRLkQZNBStE6h689DH06BaXA>
+    <xmx:CVeVZUEGCEBjlTkjGs_BECuaU81YWSXgTL0YzbZiYxHWNEaUDuq7Aw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 397AAB6008D; Wed,  3 Jan 2024 07:46:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] r8169: fix building with CONFIG_LEDS_CLASS=m
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- Lee Jones <lee@kernel.org>
+Message-Id: <b310230b-f20b-489a-97ed-908df193a942@app.fastmail.com>
+In-Reply-To: <5b0a6150-8043-4de7-980f-54020a3e7981@gmail.com>
 References: <20240103102630.3770242-1-arnd@kernel.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <20240103102630.3770242-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <5b0a6150-8043-4de7-980f-54020a3e7981@gmail.com>
+Date: Wed, 03 Jan 2024 13:45:40 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Heiner Kallweit" <hkallweit1@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>
+Cc: Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ "Lee Jones" <lee@kernel.org>
+Subject: Re: [PATCH] r8169: fix building with CONFIG_LEDS_CLASS=m
+Content-Type: text/plain
 
-On 03.01.2024 11:26, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> When r8169 is built-in but the LED support is a loadable module, the
-> new code to drive the LED now causes a link failure:
-> 
-> ld: drivers/net/ethernet/realtek/r8169_leds.o: in function `rtl8168_init_leds':
-> r8169_leds.c:(.text+0x36c): undefined reference to `devm_led_classdev_register_ext'
-> 
-> Add a Kconfig dependency to prevent the broken configuration but still
-> allow having the network code built-in as long as CONFIG_LEDS_TRIGGER_NETDEV
-> is disabled, regardless of CONFIG_LEDS_CLASS.
-> 
-The proposed change is more of a workaround IMO. A proper fix (in LED subsystem)
-has been submitted, but it's not reviewed/applied yet. And I don't think building
-r8169 should depend on support for an optional feature.
-This fix would also allow to remove Kconfig dependencies similar to the one
-proposed here from other drivers. Link to submitted fix:
+On Wed, Jan 3, 2024, at 12:33, Heiner Kallweit wrote:
+> On 03.01.2024 11:26, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> When r8169 is built-in but the LED support is a loadable module, the
+>> new code to drive the LED now causes a link failure:
+>> 
+>> ld: drivers/net/ethernet/realtek/r8169_leds.o: in function `rtl8168_init_leds':
+>> r8169_leds.c:(.text+0x36c): undefined reference to `devm_led_classdev_register_ext'
+>> 
+>> Add a Kconfig dependency to prevent the broken configuration but still
+>> allow having the network code built-in as long as CONFIG_LEDS_TRIGGER_NETDEV
+>> is disabled, regardless of CONFIG_LEDS_CLASS.
+>> 
+> The proposed change is more of a workaround IMO. A proper fix (in LED 
+> subsystem)
+> has been submitted, but it's not reviewed/applied yet. And I don't 
+> think building
+> r8169 should depend on support for an optional feature.
+> This fix would also allow to remove Kconfig dependencies similar to the 
+> one
+> proposed here from other drivers. Link to submitted fix:
+>
+> https://lore.kernel.org/linux-leds/0f6f432b-c650-4bb8-a1b5-fe3372804d52@gmail.com/T/#u
 
-https://lore.kernel.org/linux-leds/0f6f432b-c650-4bb8-a1b5-fe3372804d52@gmail.com/T/#u
+I think that is a much worse workaround, as this just leads to
+a feature silently not working even when it is enabled (as loadable
+module), and hiding other dependency problems where drivers
+actually require the LED support to do something useful.
 
-> Fixes: 18764b883e15 ("r8169: add support for LED's on RTL8168/RTL8101")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/net/ethernet/realtek/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/net/ethernet/realtek/Kconfig b/drivers/net/ethernet/realtek/Kconfig
-> index 93d9df55b361..fd3f18b328de 100644
-> --- a/drivers/net/ethernet/realtek/Kconfig
-> +++ b/drivers/net/ethernet/realtek/Kconfig
-> @@ -98,6 +98,7 @@ config 8139_OLD_RX_RESET
->  config R8169
->  	tristate "Realtek 8169/8168/8101/8125 ethernet support"
->  	depends on PCI
-> +	depends on LEDS_CLASS || !LEDS_TRIGGER_NETDEV
->  	select FW_LOADER
->  	select CRC32
->  	select PHYLIB
+IS_REACHABLE() is pretty much always a bad idea because of this.
 
+If you want the LED support in r8169_leds to be optional, I would
+suggest adding a separate Kconfig symbol for that, either user
+visible or hidden, and have the correct Kconfig dependencies
+for the new symbol, something like the change below (untested).
+
+     Arnd
+
+8<---
+diff --git a/drivers/net/ethernet/realtek/Kconfig b/drivers/net/ethernet/realtek/Kconfig
+index fd3f18b328de..b54aae30b3c1 100644
+--- a/drivers/net/ethernet/realtek/Kconfig
++++ b/drivers/net/ethernet/realtek/Kconfig
+@@ -114,4 +114,9 @@ config R8169
+          To compile this driver as a module, choose M here: the module
+          will be called r8169.  This is recommended.
+ 
++config R8169_LEDS
++       def_bool y
++       depends on LEDS_TRIGGER_NETDEV && R8169
++       depends on !(R8169=y && LEDS_CLASS=m)
++
+ endif # NET_VENDOR_REALTEK
+diff --git a/drivers/net/ethernet/realtek/Makefile b/drivers/net/ethernet/realtek/Makefile
+index adff9ebfbf2c..635491d8826e 100644
+--- a/drivers/net/ethernet/realtek/Makefile
++++ b/drivers/net/ethernet/realtek/Makefile
+@@ -6,8 +6,6 @@
+ obj-$(CONFIG_8139CP) += 8139cp.o
+ obj-$(CONFIG_8139TOO) += 8139too.o
+ obj-$(CONFIG_ATP) += atp.o
+-r8169-objs += r8169_main.o r8169_firmware.o r8169_phy_config.o
+-ifdef CONFIG_LEDS_TRIGGER_NETDEV
+-r8169-objs += r8169_leds.o
+-endif
++r8169-y += r8169_main.o r8169_firmware.o r8169_phy_config.o
++r8169-$(CONFIG_R8169_LEDS) += r8169_leds.o
+ obj-$(CONFIG_R8169) += r8169.o
+diff --git a/drivers/net/ethernet/realtek/r8169_main.c b/drivers/net/ethernet/realtek/r8169_main.c
+index 05ba5f743af2..f3321299b2fa 100644
+--- a/drivers/net/ethernet/realtek/r8169_main.c
++++ b/drivers/net/ethernet/realtek/r8169_main.c
+@@ -5356,11 +5356,10 @@ static int rtl_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+        if (rc)
+                return rc;
+ 
+-#if IS_REACHABLE(CONFIG_LEDS_CLASS) && IS_ENABLED(CONFIG_LEDS_TRIGGER_NETDEV)
+-       if (tp->mac_version > RTL_GIGA_MAC_VER_06 &&
++       if (IS_ENABLED(CONFIG_R8169_LEDS) &&
++           tp->mac_version > RTL_GIGA_MAC_VER_06 &&
+            tp->mac_version < RTL_GIGA_MAC_VER_61)
+                rtl8168_init_leds(dev);
+-#endif
+ 
+        netdev_info(dev, "%s, %pM, XID %03x, IRQ %d\n",
+                    rtl_chip_infos[chipset].name, dev->dev_addr, xid, tp->irq);
 
