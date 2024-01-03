@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-518-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-519-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DA4822253
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jan 2024 20:56:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D32822C2E
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jan 2024 12:34:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B30611F236B5
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jan 2024 19:56:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A36FB20C32
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jan 2024 11:34:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E82415E9F;
-	Tue,  2 Jan 2024 19:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDBB918E2D;
+	Wed,  3 Jan 2024 11:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hD49ufOu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hhv2qjci"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8AC168A4;
-	Tue,  2 Jan 2024 19:56:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5A018E21;
+	Wed,  3 Jan 2024 11:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a279ce3aab9so356709066b.0;
-        Tue, 02 Jan 2024 11:56:22 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d5f402571so70056005e9.0;
+        Wed, 03 Jan 2024 03:33:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704225381; x=1704830181; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1704281633; x=1704886433; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=aI7spMTV6CKlgvG4WBtP/EUsuNOkjp9RFAnmt60+P4g=;
-        b=hD49ufOuXoEL7Qy0xM/p8drlRVWPEnaDABJNeg9+ZgaD8jjl7zsRNy0hQU+F/Frr21
-         NvvrFRQ6CN8xAxnS/VZA2tESc+ss2WbnPFLAtKaSMP2zgWcT1op/Mvh7DgGDF4jk+V2z
-         HWUFNjheEZutkj9wvHKCLExVt6biYmX1tbN5FBbruxVcRMmYYUf0V99c4Gg9grv4oBK6
-         LNFM/FDKrZIWfCw5M3mwdnrROIsRsmQvn1LPbO1wPlqfNiBb/gYrSIL1rcN2/2nZRLeD
-         rXf6v8qECuZVHs0QY7I+RNImNMU58J5cc1fb+XYXeQTqQY3uL70iddhNHA67yEzzzlVV
-         Ro9Q==
+        bh=9ohc7n8TVBVA7/T0EriFba7tB6cwG/fNjcjj7C7uviM=;
+        b=Hhv2qjci59wP6za0qTnkjsrBlD78d2R32f7LeqFHLSi8MieV87Ao9y9BBBljqtqifc
+         PxOgll2lPsDoPXoeywAdC5b2w6qlPoqSG7V+QP00Evny8tlwl5XuMIoMm54DgCXx6AIW
+         Xn8o9P0gRFJkCcVqBMbIKIBGsttEDiz4dLOvyEvETQf8FtA6mAI+EoMCZmvDwjrSqRQv
+         vq/RYN2EIb95lspsvBai0JH6a6heD+br0pn/L4qxS6O9BmT+cpnR8joqLSoyEr30XD1j
+         PZOV7VqFNXnvcyqX6nIKWC0XAS4zjmD5Iy3OZCDPmQnKej3b7oqyQawrAxNp2dx4BMgc
+         1i8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704225381; x=1704830181;
+        d=1e100.net; s=20230601; t=1704281633; x=1704886433;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aI7spMTV6CKlgvG4WBtP/EUsuNOkjp9RFAnmt60+P4g=;
-        b=mlPXoZsbGCedjSyO8LHMx1BjHx/Fh8ya6EEcBId1eL0PgYZwMvT/qPI+PGG92hvzLP
-         8bTLiQg5uV2zJnnjWavbUm9Cifbk9fw5aHyCWrFbHtY4gCFtI1jw9n6woSg0rGGgBVQg
-         nVswMpTQ84Xdcexn5iUng1+pjtJn2ErV17obdMnxABmY7g3F29Hxn7ko1auqpmiUfaxA
-         T96LTYdQs3NRBhec8JS2UKpnjJotmSSNQhD9GSgvDZ6/c57VW6flEsRdc2zgcrK/uOjR
-         DXin+rzDh4tRrA6NPEL9rWOUWcLGgPxI/pgyW6Qn+WRG5SJXu/0H2j9d76+lw8g01xnj
-         y/Gw==
-X-Gm-Message-State: AOJu0YypXCNnhVa+KfnItM2fLLexHky3cTrJEu73hJDN5hDBSPnD5EAZ
-	t/B00CXDgU6qAsO/hxEk7go=
-X-Google-Smtp-Source: AGHT+IFtvZpVbiuj4pGgF1iExi9HBdS5n2jo7O3KbABu/XLr1aQneJT/WWv7ACIrbWDWtQn1uqSy9g==
-X-Received: by 2002:a17:906:88d:b0:a22:ebed:863 with SMTP id n13-20020a170906088d00b00a22ebed0863mr3400516eje.207.1704225380939;
-        Tue, 02 Jan 2024 11:56:20 -0800 (PST)
-Received: from ?IPV6:2a01:c23:c1df:9400:e9d7:fbcb:4065:ab66? (dynamic-2a01-0c23-c1df-9400-e9d7-fbcb-4065-ab66.c23.pool.telefonica.de. [2a01:c23:c1df:9400:e9d7:fbcb:4065:ab66])
-        by smtp.googlemail.com with ESMTPSA id vz16-20020a17090704d000b00a2471bb0d11sm11982894ejb.31.2024.01.02.11.56.20
+        bh=9ohc7n8TVBVA7/T0EriFba7tB6cwG/fNjcjj7C7uviM=;
+        b=JN/LZnaGv2O6357V4GASfjL2NmmHQ+ekBIsw4hTq55XcVXQJC1r0w6rb+eY4PinFKt
+         +j3NowezgyH9dsn+b0QimYMvUgu2LuA22suN1RAzLdKvMbZzbaKkuj1TUp2iiMyEAOBu
+         V3zdE5uKVHmWeZNZolbrDNyB6R5IhifTk6TQrSnnvj81372EPNfxcZK0k3g+R44GSGWd
+         hvnLvOL/o+s5iIuTMqCZ1tAMA3BgLiTH4JbrdNgeeBe79WfBmuif+SFNQJHOUZiyZVfS
+         MMdbI8p+YAzz4FxJqYJJ6oFwcEmuF4OTWhxtZLMy1pGKTgbvYDn5vE7PvUlhboaBRaBB
+         FAdg==
+X-Gm-Message-State: AOJu0YzGYHvGZGXRKAEBpC0GAJ9bTnYvz5kpZ1knnuvmlGAZl15kGagI
+	RwWOSVJ6pAJoLCawOcQq3e06RV+2RIY=
+X-Google-Smtp-Source: AGHT+IE9+xOdktMpz/1QouXYzi2ALYWAZOU3I+meM9kVvuAwrYvUoULxCXRkAtT6H7AivGjgrD8gtA==
+X-Received: by 2002:a05:600c:138d:b0:40d:6473:c666 with SMTP id u13-20020a05600c138d00b0040d6473c666mr4683062wmf.147.1704281632992;
+        Wed, 03 Jan 2024 03:33:52 -0800 (PST)
+Received: from ?IPV6:2a01:c22:7399:5700:b8cf:27e9:e910:c205? (dynamic-2a01-0c22-7399-5700-b8cf-27e9-e910-c205.c22.pool.telefonica.de. [2a01:c22:7399:5700:b8cf:27e9:e910:c205])
+        by smtp.googlemail.com with ESMTPSA id k16-20020a05600c0b5000b0040d88f6bc94sm2028531wmr.34.2024.01.03.03.33.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jan 2024 11:56:20 -0800 (PST)
-Message-ID: <d8fc6f4f-7458-4c67-a6e1-5a917ad95507@gmail.com>
-Date: Tue, 2 Jan 2024 20:56:19 +0100
+        Wed, 03 Jan 2024 03:33:52 -0800 (PST)
+Message-ID: <5b0a6150-8043-4de7-980f-54020a3e7981@gmail.com>
+Date: Wed, 3 Jan 2024 12:33:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,17 +66,16 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: Tree for Jan 2 (net/ethernet/realtek/r8169)
+Subject: Re: [PATCH] r8169: fix building with CONFIG_LEDS_CLASS=m
 Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- nic_swsd@realtek.com, Network Development <netdev@vger.kernel.org>,
+To: Arnd Bergmann <arnd@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
  "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
-References: <20240102165725.6d18cc50@canb.auug.org.au>
- <a80c1568-7742-4938-a460-d8a5170ae24b@infradead.org>
+ Lee Jones <lee@kernel.org>
+References: <20240103102630.3770242-1-arnd@kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
@@ -121,39 +120,48 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-In-Reply-To: <a80c1568-7742-4938-a460-d8a5170ae24b@infradead.org>
+In-Reply-To: <20240103102630.3770242-1-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02.01.2024 18:02, Randy Dunlap wrote:
+On 03.01.2024 11:26, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
+> When r8169 is built-in but the LED support is a loadable module, the
+> new code to drive the LED now causes a link failure:
 > 
-> On 1/1/24 21:57, Stephen Rothwell wrote:
->> Hi all,
->>
->> Changes since 20231222:
->>
+> ld: drivers/net/ethernet/realtek/r8169_leds.o: in function `rtl8168_init_leds':
+> r8169_leds.c:(.text+0x36c): undefined reference to `devm_led_classdev_register_ext'
 > 
-> on ppc32:
+> Add a Kconfig dependency to prevent the broken configuration but still
+> allow having the network code built-in as long as CONFIG_LEDS_TRIGGER_NETDEV
+> is disabled, regardless of CONFIG_LEDS_CLASS.
 > 
-> when CONFIG_R8169=y and
-> CONFIG_LEDS_TRIGGER_NETDEV=m, this part of the
-> r8169 Makefile doesn't work as needed:
-> 
-> ifdef CONFIG_LEDS_TRIGGER_NETDEV
-> r8169-objs += r8169_leds.o
-> endif
-> 
-> causing
-> 
-> r8169_leds.c:(.text+0x97c): undefined reference to `devm_led_classdev_register_ext'
-> 
-> 
-> Full randconfig file is attached.
-> 
-Thanks for the report. The issue is known and a fix has been submitted.
-It's just not reviewed/applied yet.
+The proposed change is more of a workaround IMO. A proper fix (in LED subsystem)
+has been submitted, but it's not reviewed/applied yet. And I don't think building
+r8169 should depend on support for an optional feature.
+This fix would also allow to remove Kconfig dependencies similar to the one
+proposed here from other drivers. Link to submitted fix:
 
 https://lore.kernel.org/linux-leds/0f6f432b-c650-4bb8-a1b5-fe3372804d52@gmail.com/T/#u
+
+> Fixes: 18764b883e15 ("r8169: add support for LED's on RTL8168/RTL8101")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/net/ethernet/realtek/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/net/ethernet/realtek/Kconfig b/drivers/net/ethernet/realtek/Kconfig
+> index 93d9df55b361..fd3f18b328de 100644
+> --- a/drivers/net/ethernet/realtek/Kconfig
+> +++ b/drivers/net/ethernet/realtek/Kconfig
+> @@ -98,6 +98,7 @@ config 8139_OLD_RX_RESET
+>  config R8169
+>  	tristate "Realtek 8169/8168/8101/8125 ethernet support"
+>  	depends on PCI
+> +	depends on LEDS_CLASS || !LEDS_TRIGGER_NETDEV
+>  	select FW_LOADER
+>  	select CRC32
+>  	select PHYLIB
 
 
