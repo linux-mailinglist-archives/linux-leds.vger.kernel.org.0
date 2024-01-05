@@ -1,42 +1,63 @@
-Return-Path: <linux-leds+bounces-539-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-540-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C9B824CE6
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jan 2024 03:25:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E48825525
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Jan 2024 15:27:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E16D1C21D8B
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jan 2024 02:25:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 435211C22ECF
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Jan 2024 14:27:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF2A1FD1;
-	Fri,  5 Jan 2024 02:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F91E2DF68;
+	Fri,  5 Jan 2024 14:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="o4GsTItl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EmWVi5xn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CC31FBF;
-	Fri,  5 Jan 2024 02:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=9Fm13D6HkTMzEZBlOarDnIVaiSDDHq61aKHqbRpbK1E=; b=o4GsTItlbg+grt7he924K/ku2I
-	5+z0tWqqFd2nbLjRcJ8orIs0aKlySKR+eL+k4wUwmoF4/O5x2EniSQ2Qga17JV0zNUmjgPDIaH1Ee
-	s0V1ZkV/FPJ+h0CtIu6Pel8NQDLjdCDPNaPuqRdEaDINZtPui0O9ZNztJI6M/ncFOrcE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rLZtq-004Pl0-14; Fri, 05 Jan 2024 03:25:30 +0100
-Date: Fri, 5 Jan 2024 03:25:30 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00524249E4;
+	Fri,  5 Jan 2024 14:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40e3712d259so9463105e9.3;
+        Fri, 05 Jan 2024 06:27:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704464850; x=1705069650; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=APs6M2apAcMc7l4gyNVGbiDS8kiXtv8paG4oTVl8I+M=;
+        b=EmWVi5xnxcxZZ1XXRNIERX3OCp9zflu6KisHrOmviY58TiVMUSZMcco1e8EtJC6MK7
+         d9IAjs2vnZhI9Rn3kOAW1Z7yC7JH8LFulJ2OYs8GulJnXpoNJFknqLLZiYmoXCWbw7Vs
+         r1cPt1PoFq1NLjsXBBc5NSRtWtA7DWu7TTYM9GghnsilLlFUXn8PmmdoRnIIjd6nFNoy
+         buH1GGrUxCrBanbqYMZgBBgSC/Tg5dw2udn/10hE5ptXBy/+EhJTnwjHbj91Giu/1nXc
+         0fjSc1cILQGPKCxp8U+MHGw5biqNdXnZHdBKNaGc4FKUzCYKNPSP1eX04G1qSBrQWumd
+         BCog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704464850; x=1705069650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=APs6M2apAcMc7l4gyNVGbiDS8kiXtv8paG4oTVl8I+M=;
+        b=ME154JN+MZq4qWVg/JOUY4ha1L1xHSt2PAPva/ZNI+CKRuMsl0KI0aYZiAQdBrz7NL
+         GhTLyhMj5tgebWTtsLXHSgfR0IIngkncoku1CiPKubHXfs7/PGM1PyaRcfBhjPFprGpW
+         IrwDlgnZDt6fqHb6ERvto+0XsKQ1jWX2ODI7B0n5jVPszWP97ofDa+4MuwgoSP0/Z3jo
+         P+EXNH5HqGEBoyaEN2+hC0dLCKRyR8rYlujyBDqSJqvFDbRGLqNKE05TaWVyYyGOP59Y
+         tbmx7x3cq/OtdGntF1yjTkhUff7tcigfHifR8btlJGUVKao2t/6Linh01Gieu9lPSYbb
+         NAfw==
+X-Gm-Message-State: AOJu0YwPzM+wwUrZMMFtQx9fp4wcWqhxC38LgXRu8Y61RBmTLMMDrdCy
+	KZ+C6RiuqiRzgQtzzL0SD3A=
+X-Google-Smtp-Source: AGHT+IHYUKZEg3ZHc+KdILbEa3OOY5XvzVdKgu2YvZoApQ8eTegy++Sxib9JfwSlgU2ZR06SaA255A==
+X-Received: by 2002:a05:600c:3ac7:b0:40e:3ae4:84ef with SMTP id d7-20020a05600c3ac700b0040e3ae484efmr112839wms.73.1704464849826;
+        Fri, 05 Jan 2024 06:27:29 -0800 (PST)
+Received: from localhost.localdomain (host-80-116-159-187.retail.telecomitalia.it. [80.116.159.187])
+        by smtp.googlemail.com with ESMTPSA id j10-20020a05600c190a00b0040d87100733sm1721901wmq.39.2024.01.05.06.27.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 06:27:29 -0800 (PST)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -44,56 +65,75 @@ Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Anand Gore <anand.gore@broadcom.com>,
 	Kursad Oney <kursad.oney@broadcom.com>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew@lunn.ch>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
 	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	=?iso-8859-1?Q?Fern=E1ndez?= Rojas <noltari@gmail.com>,
+	=?UTF-8?q?Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>,
 	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v8 3/5] net: phy: add support for PHY LEDs
- polarity modes
-Message-ID: <957df01b-bb92-4f8a-9f2b-aacd3de1208d@lunn.ch>
-References: <20240104110114.2020-1-ansuelsmth@gmail.com>
- <20240104110114.2020-4-ansuelsmth@gmail.com>
- <47f18def-d34f-4224-9de2-6e0ae7122a52@lunn.ch>
- <6597286c.050a0220.4684a.182e@mx.google.com>
+Subject: [net-next PATCH v9 0/5] net: phy: generic polarity + LED support for qca808x
+Date: Fri,  5 Jan 2024 15:27:12 +0100
+Message-ID: <20240105142719.11042-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6597286c.050a0220.4684a.182e@mx.google.com>
+Content-Transfer-Encoding: 8bit
 
-> > > +	 * @dev: PHY device which has the LED
-> > > +	 * @index: Which LED of the PHY device or -1
-> > > +	 * @modes: bitmap of LED polarity modes
-> > > +	 *
-> > > +	 * Configure LED with all the required polarity modes in @modes
-> > > +	 * to make it correctly turn ON or OFF.
-> > 
-> > index == -1 should be explained.
-> >
-> 
-> If you are referring to the special way of setting the LED globally,
-> that is not a thing anymore. Rob pointed out that having the double
-> reference in DT is problematic and PHY driver should handle that
-> internally.
+This small series add LEDs support for qca808x.
 
-So it sounds like you need to change
+QCA808x apply on PHY reset a strange polarity settings and require
+some tweak to apply a more common configuration found on devices.
+On adding support for it, it was pointed out that a similar
+feature is also being implemented for a marvell PHY where
+LED polarity is set per LED (and not global) and also have
+a special mode where the LED is tristated.
 
-> > > +	 * @index: Which LED of the PHY device or -1
+The first 3 patch are to generalize this as we expect more PHY
+in the future to have a similar configuration.
 
-to remove the 'or -1'
+The implementation is extensible to support additional special
+mode in the future with minimal changes and don't create regression
+on already implemented PHY drivers.
 
-   Andrew
+(changelog present in single patch)
+
+Christian Marangi (5):
+  dt-bindings: net: phy: Make LED active-low property common
+  dt-bindings: net: phy: Document LED inactive high impedance mode
+  net: phy: add support for PHY LEDs polarity modes
+  dt-bindings: net: Document QCA808x PHYs
+  net: phy: at803x: add LED support for qca808x
+
+ .../devicetree/bindings/leds/common.yaml      |  12 +
+ .../bindings/leds/leds-bcm63138.yaml          |   4 -
+ .../bindings/leds/leds-bcm6328.yaml           |   4 -
+ .../devicetree/bindings/leds/leds-bcm6358.txt |   2 -
+ .../bindings/leds/leds-pwm-multicolor.yaml    |   4 -
+ .../devicetree/bindings/leds/leds-pwm.yaml    |   5 -
+ .../devicetree/bindings/net/qca,qca808x.yaml  |  54 +++
+ drivers/net/phy/at803x.c                      | 325 ++++++++++++++++++
+ drivers/net/phy/phy_device.c                  |  16 +
+ include/linux/phy.h                           |  22 ++
+ 10 files changed, 429 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/qca,qca808x.yaml
+
+-- 
+2.43.0
+
 
