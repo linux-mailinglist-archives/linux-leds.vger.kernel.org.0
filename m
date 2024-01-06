@@ -1,527 +1,524 @@
-Return-Path: <linux-leds+bounces-545-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-546-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308E1825538
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jan 2024 15:29:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9F48260E7
+	for <lists+linux-leds@lfdr.de>; Sat,  6 Jan 2024 18:30:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFB7E1F23CD1
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jan 2024 14:29:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 468FB2824DF
+	for <lists+linux-leds@lfdr.de>; Sat,  6 Jan 2024 17:30:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC9CD31758;
-	Fri,  5 Jan 2024 14:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2503C150;
+	Sat,  6 Jan 2024 17:30:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqS4T71y"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qNlkUWTg";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RMv+AbRP"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C008D31A89;
-	Fri,  5 Jan 2024 14:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40d87df95ddso14271575e9.0;
-        Fri, 05 Jan 2024 06:27:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704464865; x=1705069665; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1RPN76dImVZ9qk/dQRb5vSc4CF59XSeyiqnxzvzXS/Y=;
-        b=QqS4T71y7Bz51SUtMnGpadueGoVE5VOo23pnWLtWqaflXoHy/1vU3xg9K0j3ZeZfIK
-         CazyvZmJqyzEMONNTo3B/JfMhabGaIUST1jFdsuOrHs7niCN5aVyn6Zxu4AbClmxqDkC
-         0CoF0YVA37HETm1YV7pDoYIx74Nro72gg5H8tw8ap7BLQNGKzchb4Op06efHP1rAdDeW
-         C7AJmNguSrGFLN8LzCgGt/jDoTC4yKm//GgPD71twbUToecJMT9+Yjf/WFHNmMc8DLUu
-         PjIz+IejXWi2RO7WKLc7M+9Gquk/c9d5A/OnIFqb8+eX/lfRtUA6RcY3E4IVDb3BvMJ4
-         i59w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704464865; x=1705069665;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1RPN76dImVZ9qk/dQRb5vSc4CF59XSeyiqnxzvzXS/Y=;
-        b=LjA/Eu9vEUr3Pg4QIA2nEf4lwkwvvm/wgaT26lwK4BH5JY8LxOgunrwL3+obzKDRb7
-         vj8YhkiWQ5icZrDqIm1c0M1lIuT9gl/IHUG87xs0Lcn+fDP+UIDP1R5gIEG1MY3VjbPF
-         a1Pt6x8CQXZhG5IoH5R7uNdZJKl/YznizvW3QbkRKP19AMWErSoG1FA1Xzp1yWimE7xr
-         8OrEdEme4aXwuKyo/1UBcSUqlIuVq5WAlaUFDXmTpdLUu4jEhxirclIptza9CTgX1T4z
-         AJK3XNINbsGUAXdmpxm9bJkZY2NUfdDvbPoaZML7te8ek0UXhOhLajMqM1xcsKGd+ynD
-         FZgA==
-X-Gm-Message-State: AOJu0YzJjKzX6okc41Cs2n9E6nIQv2wAdEJFs0hUKKGEQTqNNi25Q2PD
-	RCtpFhmPPj1M6BysMgOokCs=
-X-Google-Smtp-Source: AGHT+IHu43QPGzQCbul+r4WQ159aXXuoPh/GzOxgYPcbOIyFUJK74U+H5XDij62VuYdOLrBqbfP+yA==
-X-Received: by 2002:a05:600c:4f4e:b0:40d:5f3e:e985 with SMTP id m14-20020a05600c4f4e00b0040d5f3ee985mr642484wmq.154.1704464864973;
-        Fri, 05 Jan 2024 06:27:44 -0800 (PST)
-Received: from localhost.localdomain (host-80-116-159-187.retail.telecomitalia.it. [80.116.159.187])
-        by smtp.googlemail.com with ESMTPSA id j10-20020a05600c190a00b0040d87100733sm1721901wmq.39.2024.01.05.06.27.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 06:27:44 -0800 (PST)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	William Zhang <william.zhang@broadcom.com>,
-	Anand Gore <anand.gore@broadcom.com>,
-	Kursad Oney <kursad.oney@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	=?UTF-8?q?Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>,
-	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B4DC13F;
+	Sat,  6 Jan 2024 17:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4T6nQq5CJmz9spR;
+	Sat,  6 Jan 2024 18:30:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1704562227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=q/Eq3yP5KA2gwv8ubx54zXH/JIaUvO7W4LSfmtGdXog=;
+	b=qNlkUWTgVowZGQoFql7GF/BepUHM/PHyvrOOR6Ltaf6PSJgBwbFcAxh/Zdc5y3s5c8O8lH
+	XZ0xKYB0PWwagDaz2c3scdZKmc38lRd6bxvFVRqQm//ADU88knQ4pqtZN8wr1uNLh1Xwsk
+	13hKtpflHFckxQRqEj9heDt8ZD7MGOS7XcSc5ocSLWK6kdu73Bz6fhdeleIg1dT+1tC553
+	ryFcCwITvBqwBa/C/IY8SRgGM0boaPFFfTqUX7/bJpIlXJn4nh+K7cNOSKVLsq87Q2mrXJ
+	4aIn7mw+SjcwxK3DMI+RcjwKMqz8yXNmNdZ8BPVbmr3xhD5K19BP550T2eVJbg==
+From: Joseph Strauss <jstrauss@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1704562225;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=q/Eq3yP5KA2gwv8ubx54zXH/JIaUvO7W4LSfmtGdXog=;
+	b=RMv+AbRPa//IRRnb/Olc1Cpc5PyQgaWkKSFdjP1+DhEkAqQKi72XugvhwEyiKOS8+Smzcs
+	OrhIC2oeIVL1cIQuCw5cDkILn53xgMZOS52f1eZxAgmf/+1hUtFCPahr4H/rvo/cpmPc8G
+	NoqqPQXeDqcb7n9P4IVKV8qiGEP3HDuMK3i6iW7KTi5KHtp6iUYFcf/tO1uvbTyrK2VL/g
+	CiuL6RdlM7ALO+UGUW0tMa+g3ZFscM51M8djH87g8Gu+cO4x0lCfm+Xuo63StDewdrhV9/
+	ixQK5FnyIb7qVsqR6sDRBh7zJdgz4THC9ICrf8izjXCXLVh/rqfidClGh3BPCg==
+To: lee@kernel.org
+Cc: pavel@ucw.cz,
+	jansimon.moeller@gmx.de,
+	conor@kernel.org,
+	christophe.jaillet@wanadoo.fr,
 	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org
-Subject: [net-next PATCH v9 5/5] net: phy: at803x: add LED support for qca808x
-Date: Fri,  5 Jan 2024 15:27:17 +0100
-Message-ID: <20240105142719.11042-6-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240105142719.11042-1-ansuelsmth@gmail.com>
-References: <20240105142719.11042-1-ansuelsmth@gmail.com>
+	Joseph Strauss <jstrauss@mailbox.org>
+Subject: [PATCH v4] Add multicolor support to BlinkM LED driver
+Date: Sat,  6 Jan 2024 11:23:28 -0600
+Message-ID: <20240106172944.7593-1-jstrauss@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: xwztjy6ebmwwn5njiattb74knuf11rjz
+X-MBO-RS-ID: 18e49a1cc48f9a7243f
 
-Add LED support for QCA8081 PHY.
+Add multicolor support to the BlinkM driver, making it easier to control
+from userspace. The BlinkM LED is a programmable RGB LED. The driver
+currently supports only the regular LED sysfs class, resulting in the
+creation of three distinct classes, one for red, green, and blue. The
+user then has to input three values into the three seperate brightness
+files within those classes. The multicolor LED framework makes the
+device easier to control with the multi_intensity file: the user can
+input three values at once to form a color, while still controlling the
+lightness with the brightness file.
 
-Documentation for this LEDs PHY is very scarce even with NDA access
-to Documentation for OEMs. Only the blink pattern are documented and are
-very confusing most of the time. No documentation is present about
-forcing the LED on/off or to always blink.
+The main struct blinkm_led has changed slightly. The struct led_classdev
+for the regular sysfs classes remain. The blinkm_probe function checks
+CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
+sysfs classes or the single multicolor one, but never both. The
+blinkm_set_mc_brightness() function had to be added to calculate the
+three color components and then set the fields of the blinkm_data
+structure accordingly.
 
-Those settings were reversed by poking the regs and trying to find the
-correct bits to trigger these modes. Some bits mode are not clear and
-maybe the documentation option are not 100% correct. For the sake of LED
-support the reversed option are enough to add support for current LED
-APIs.
+All of the feedback has been much appreciated. Thanks!
 
-Supported HW control modes are:
-- tx
-- rx
-- link10
-- link100
-- link1000
-- half_duplex
-- full_duplex
-
-Also add support for LED polarity set to set LED polarity to active
-high or low. QSDK sets this value to high by default but PHY reset value
-doesn't have this enabled by default.
-
-QSDK also sets 2 additional bits but their usage is not clear, info about
-this is added in the header. It was verified that for correct function
-of the LED if active high is needed, only BIT 6 is needed.
-
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
 ---
-Changes v9:
-- Fix copy-paste error for blink settings
-Changes v8:
-- Drop unused ret variable
-Changes v7:
-- Improve set polarity settings (Suggested by Russell)
-Changes v6:
-- Rebase on top of net-next
-Changes v5:
-- Rework to polarity option bitmap
-- Rafactor with new finding from further reverse
-Changes v4:
-- Rework to polarity option (for marvell10g series support)
-- Rework logic to enforce single PHY polarity mode
-Changes v3:
-- Out of RFC
-- Drop link_25000 and add TODO commends waiting for the
-  netdev trigger thing to be merged (I will take care of
-  sending a followup patch later)
-Changes v2:
-- Move to new led_polarity_set implementation
-- Drop special probe
+Changes in v2:
+- Replaced instances of the constant 3 with NUM_LEDS, where applicable
+- Fixed formatting errors
+- Replaced loop inside of blinkm_set_mc_brightness() with equivalent
+  statements
+- Changed id of multicolor class from 4 to 3
+- Replaced call to devm_kmalloc_array() with devm_kcalloc()
+Changes in v3:
+- Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
+  funcitonality
+- Extend well-known-leds.txt to include standard names for RGB and indicator
+  LEDS
+- Change name of Blinkm sysfs class according to well-known-leds.txt
+- Simplify struct blinkm_led and struct blinkm_data
+- Remove magic numbers
+- Fix formatting errors
+- Remove unrelated changes
+Changes in v4:
+- Fix indentation
+- Add default case to switch statement
 
- drivers/net/phy/at803x.c | 325 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 325 insertions(+)
+ Documentation/leds/leds-blinkm.rst     |  27 ++-
+ Documentation/leds/well-known-leds.txt |   8 +
+ drivers/leds/Kconfig                   |   8 +
+ drivers/leds/leds-blinkm.c             | 217 +++++++++++++++++--------
+ 4 files changed, 185 insertions(+), 75 deletions(-)
 
-diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
-index aaf6c654aaed..3e3a95e594c7 100644
---- a/drivers/net/phy/at803x.c
-+++ b/drivers/net/phy/at803x.c
-@@ -272,6 +272,87 @@
- #define QCA808X_CDT_STATUS_STAT_OPEN		2
- #define QCA808X_CDT_STATUS_STAT_SHORT		3
+diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-blinkm.rst
+index c74b5bc877b1..16883c2a9a99 100644
+--- a/Documentation/leds/leds-blinkm.rst
++++ b/Documentation/leds/leds-blinkm.rst
+@@ -13,9 +13,27 @@ The device accepts RGB and HSB color values through separate commands.
+ Also you can store blinking sequences as "scripts" in
+ the controller and run them. Also fading is an option.
  
-+#define QCA808X_MMD7_LED_GLOBAL			0x8073
-+#define QCA808X_LED_BLINK_1			GENMASK(11, 6)
-+#define QCA808X_LED_BLINK_2			GENMASK(5, 0)
-+/* Values are the same for both BLINK_1 and BLINK_2 */
-+#define QCA808X_LED_BLINK_FREQ_MASK		GENMASK(5, 3)
-+#define QCA808X_LED_BLINK_FREQ_2HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x0)
-+#define QCA808X_LED_BLINK_FREQ_4HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x1)
-+#define QCA808X_LED_BLINK_FREQ_8HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x2)
-+#define QCA808X_LED_BLINK_FREQ_16HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x3)
-+#define QCA808X_LED_BLINK_FREQ_32HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x4)
-+#define QCA808X_LED_BLINK_FREQ_64HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x5)
-+#define QCA808X_LED_BLINK_FREQ_128HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x6)
-+#define QCA808X_LED_BLINK_FREQ_256HZ		FIELD_PREP(QCA808X_LED_BLINK_FREQ_MASK, 0x7)
-+#define QCA808X_LED_BLINK_DUTY_MASK		GENMASK(2, 0)
-+#define QCA808X_LED_BLINK_DUTY_50_50		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x0)
-+#define QCA808X_LED_BLINK_DUTY_75_25		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x1)
-+#define QCA808X_LED_BLINK_DUTY_25_75		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x2)
-+#define QCA808X_LED_BLINK_DUTY_33_67		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x3)
-+#define QCA808X_LED_BLINK_DUTY_67_33		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x4)
-+#define QCA808X_LED_BLINK_DUTY_17_83		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x5)
-+#define QCA808X_LED_BLINK_DUTY_83_17		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x6)
-+#define QCA808X_LED_BLINK_DUTY_8_92		FIELD_PREP(QCA808X_LED_BLINK_DUTY_MASK, 0x7)
+-The interface this driver provides is 2-fold:
++The interface this driver provides is 3-fold:
+ 
+-a) LED class interface for use with triggers
++a) LED multicolor class interface for use with triggers
++#######################################################
 +
-+#define QCA808X_MMD7_LED2_CTRL			0x8074
-+#define QCA808X_MMD7_LED2_FORCE_CTRL		0x8075
-+#define QCA808X_MMD7_LED1_CTRL			0x8076
-+#define QCA808X_MMD7_LED1_FORCE_CTRL		0x8077
-+#define QCA808X_MMD7_LED0_CTRL			0x8078
-+#define QCA808X_MMD7_LED_CTRL(x)		(0x8078 - ((x) * 2))
++The registration follows the scheme::
 +
-+/* LED hw control pattern is the same for every LED */
-+#define QCA808X_LED_PATTERN_MASK		GENMASK(15, 0)
-+#define QCA808X_LED_SPEED2500_ON		BIT(15)
-+#define QCA808X_LED_SPEED2500_BLINK		BIT(14)
-+/* Follow blink trigger even if duplex or speed condition doesn't match */
-+#define QCA808X_LED_BLINK_CHECK_BYPASS		BIT(13)
-+#define QCA808X_LED_FULL_DUPLEX_ON		BIT(12)
-+#define QCA808X_LED_HALF_DUPLEX_ON		BIT(11)
-+#define QCA808X_LED_TX_BLINK			BIT(10)
-+#define QCA808X_LED_RX_BLINK			BIT(9)
-+#define QCA808X_LED_TX_ON_10MS			BIT(8)
-+#define QCA808X_LED_RX_ON_10MS			BIT(7)
-+#define QCA808X_LED_SPEED1000_ON		BIT(6)
-+#define QCA808X_LED_SPEED100_ON			BIT(5)
-+#define QCA808X_LED_SPEED10_ON			BIT(4)
-+#define QCA808X_LED_COLLISION_BLINK		BIT(3)
-+#define QCA808X_LED_SPEED1000_BLINK		BIT(2)
-+#define QCA808X_LED_SPEED100_BLINK		BIT(1)
-+#define QCA808X_LED_SPEED10_BLINK		BIT(0)
++  blinkm-<i2c-bus-nr>-<i2c-device-nr>:rgb:indicator
 +
-+#define QCA808X_MMD7_LED0_FORCE_CTRL		0x8079
-+#define QCA808X_MMD7_LED_FORCE_CTRL(x)		(0x8079 - ((x) * 2))
++  $ ls -h /sys/class/leds/blinkm-1-9:rgb:indicator
++  brightness  device  max_brightness  multi_index  multi_intensity  power  subsystem  trigger  uevent
 +
-+/* LED force ctrl is the same for every LED
-+ * No documentation exist for this, not even internal one
-+ * with NDA as QCOM gives only info about configuring
-+ * hw control pattern rules and doesn't indicate any way
-+ * to force the LED to specific mode.
-+ * These define comes from reverse and testing and maybe
-+ * lack of some info or some info are not entirely correct.
-+ * For the basic LED control and hw control these finding
-+ * are enough to support LED control in all the required APIs.
-+ *
-+ * On doing some comparison with implementation with qca807x,
-+ * it was found that it's 1:1 equal to it and confirms all the
-+ * reverse done. It was also found further specification with the
-+ * force mode and the blink modes.
-+ */
-+#define QCA808X_LED_FORCE_EN			BIT(15)
-+#define QCA808X_LED_FORCE_MODE_MASK		GENMASK(14, 13)
-+#define QCA808X_LED_FORCE_BLINK_1		FIELD_PREP(QCA808X_LED_FORCE_MODE_MASK, 0x3)
-+#define QCA808X_LED_FORCE_BLINK_2		FIELD_PREP(QCA808X_LED_FORCE_MODE_MASK, 0x2)
-+#define QCA808X_LED_FORCE_ON			FIELD_PREP(QCA808X_LED_FORCE_MODE_MASK, 0x1)
-+#define QCA808X_LED_FORCE_OFF			FIELD_PREP(QCA808X_LED_FORCE_MODE_MASK, 0x0)
++The order in which to write the intensity values can be found in multi_index.
++Exactly three values between 0 and 255 must be written to multi_intensity to change the color::
 +
-+#define QCA808X_MMD7_LED_POLARITY_CTRL		0x901a
-+/* QSDK sets by default 0x46 to this reg that sets BIT 6 for
-+ * LED to active high. It's not clear what BIT 3 and BIT 4 does.
-+ */
-+#define QCA808X_LED_ACTIVE_HIGH			BIT(6)
++  $ echo 255 100 50 > multi_intensity
 +
- /* QCA808X 1G chip type */
- #define QCA808X_PHY_MMD7_CHIP_TYPE		0x901d
- #define QCA808X_PHY_CHIP_TYPE_1G		BIT(0)
-@@ -317,6 +398,7 @@ struct at803x_priv {
- 	struct regulator_dev *vddio_rdev;
- 	struct regulator_dev *vddh_rdev;
- 	u64 stats[ARRAY_SIZE(qca83xx_hw_stats)];
-+	int led_polarity_mode;
++The overall brightness of the color that you choose can also be changed by
++writing a value between 0 and 255 to the brightness file.
++
++b) LED class interface for use with triggers
+ ############################################
+ 
+ The registration follows the scheme::
+@@ -50,7 +68,7 @@ E.g.::
+   $
+ 
+ 
+-b) Sysfs group to control rgb, fade, hsb, scripts ...
++c) Sysfs group to control rgb, fade, hsb, scripts ...
+ #####################################################
+ 
+ This extended interface is available as folder blinkm
+@@ -79,6 +97,7 @@ E.g.::
+ 
+ 
+ 
+-as of 6/2012
++as of 01/2024
+ 
+ dl9pf <at> gmx <dot> de
++jstrauss <at> mailbox <dot> org
+diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
+index 2160382c86be..2ac4eaed1454 100644
+--- a/Documentation/leds/well-known-leds.txt
++++ b/Documentation/leds/well-known-leds.txt
+@@ -70,3 +70,11 @@ Good: "platform:*:charging" (allwinner sun50i)
+ * Screen
+ 
+ Good: ":backlight" (Motorola Droid 4)
++
++* Indicators
++
++Good: ":indicator" (Blinkm)
++
++* RGB
++
++Good: ":rgb" (Blinkm)
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 499d0f215a8b..f38d786f9a89 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -736,6 +736,14 @@ config LEDS_BLINKM
+ 	  This option enables support for the BlinkM RGB LED connected
+ 	  through I2C. Say Y to enable support for the BlinkM LED.
+ 
++config LEDS_BLINKM_MULTICOLOR
++	bool "Enable multicolor support for BlinkM I2C RGB LED"
++	depends on LEDS_BLINKM
++	depends on LEDS_CLASS_MULTICOLOR
++	help
++	  This option enables multicolor sysfs class support for BlinkM LED and
++	  disables the older, separated sysfs interface
++
+ config LEDS_POWERNV
+ 	tristate "LED support for PowerNV Platform"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+index e19cc8a7b7ca..5ad04a9c278c 100644
+--- a/drivers/leds/leds-blinkm.c
++++ b/drivers/leds/leds-blinkm.c
+@@ -2,6 +2,7 @@
+ /*
+  *  leds-blinkm.c
+  *  (c) Jan-Simon Möller (dl9pf@gmx.de)
++ *  (c) Joseph Strauss (jstrauss@mailbox.org)
+  */
+ 
+ #include <linux/module.h>
+@@ -15,6 +16,10 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/leds.h>
+ #include <linux/delay.h>
++#include <linux/led-class-multicolor.h>
++#include <linux/kconfig.h>
++
++#define NUM_LEDS 3
+ 
+ /* Addresses to scan - BlinkM is on 0x09 by default*/
+ static const unsigned short normal_i2c[] = { 0x09, I2C_CLIENT_END };
+@@ -22,19 +27,24 @@ static const unsigned short normal_i2c[] = { 0x09, I2C_CLIENT_END };
+ static int blinkm_transfer_hw(struct i2c_client *client, int cmd);
+ static int blinkm_test_run(struct i2c_client *client);
+ 
++/* Contains data structures for both the color-seperated sysfs classes, and the new multicolor class */
+ struct blinkm_led {
+ 	struct i2c_client *i2c_client;
++	/* used when multicolor support is disabled */
+ 	struct led_classdev led_cdev;
++	struct led_classdev_mc mcled_cdev;
+ 	int id;
  };
  
- struct at803x_context {
-@@ -677,6 +759,9 @@ static int at803x_probe(struct phy_device *phydev)
- 	if (!priv)
- 		return -ENOMEM;
+-#define cdev_to_blmled(c)          container_of(c, struct blinkm_led, led_cdev)
++#define led_cdev_to_blmled(c)				container_of(c, struct blinkm_led, led_cdev)
++#define mcled_cdev_to_led(c)				container_of(c, struct blinkm_led, mcled_cdev)
  
-+	/* Init LED polarity mode to -1 */
-+	priv->led_polarity_mode = -1;
+ struct blinkm_data {
+ 	struct i2c_client *i2c_client;
+ 	struct mutex update_lock;
+ 	/* used for led class interface */
+-	struct blinkm_led blinkm_leds[3];
++	struct blinkm_led blinkm_leds[NUM_LEDS];
 +
- 	phydev->priv = priv;
- 
- 	ret = at803x_parse_dt(phydev);
-@@ -2161,6 +2246,240 @@ static void qca808x_link_change_notify(struct phy_device *phydev)
- 				   phydev->link ? QCA8081_PHY_FIFO_RSTN : 0);
+ 	/* used for "blinkm" sysfs interface */
+ 	u8 red;			/* color red */
+ 	u8 green;		/* color green */
+@@ -419,11 +429,29 @@ static int blinkm_transfer_hw(struct i2c_client *client, int cmd)
+ 	return 0;
  }
  
-+static int qca808x_led_parse_netdev(struct phy_device *phydev, unsigned long rules,
-+				    u16 *offload_trigger)
++static int blinkm_set_mc_brightness(struct led_classdev *led_cdev,
++				 enum led_brightness value)
 +{
-+	/* TODO: add link_2500 when added to netdev trigger */
-+	/* Parsing specific to netdev trigger */
-+	if (test_bit(TRIGGER_NETDEV_TX, &rules))
-+		*offload_trigger |= QCA808X_LED_TX_BLINK;
-+	if (test_bit(TRIGGER_NETDEV_RX, &rules))
-+		*offload_trigger |= QCA808X_LED_RX_BLINK;
-+	if (test_bit(TRIGGER_NETDEV_LINK_10, &rules))
-+		*offload_trigger |= QCA808X_LED_SPEED10_ON;
-+	if (test_bit(TRIGGER_NETDEV_LINK_100, &rules))
-+		*offload_trigger |= QCA808X_LED_SPEED100_ON;
-+	if (test_bit(TRIGGER_NETDEV_LINK_1000, &rules))
-+		*offload_trigger |= QCA808X_LED_SPEED1000_ON;
-+	if (test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &rules))
-+		*offload_trigger |= QCA808X_LED_HALF_DUPLEX_ON;
-+	if (test_bit(TRIGGER_NETDEV_FULL_DUPLEX, &rules))
-+		*offload_trigger |= QCA808X_LED_FULL_DUPLEX_ON;
++	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
++	struct blinkm_led *led = mcled_cdev_to_led(mcled_cdev);
++	struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
 +
-+	if (rules && !*offload_trigger)
-+		return -EOPNOTSUPP;
++	led_mc_calc_color_components(mcled_cdev, value);
 +
-+	/* Enable BLINK_CHECK_BYPASS by default to make the LED
-+	 * blink even with duplex or speed mode not enabled.
-+	 */
-+	*offload_trigger |= QCA808X_LED_BLINK_CHECK_BYPASS;
++	data->next_red = (u8) mcled_cdev->subled_info[RED].brightness;
++	data->next_green = (u8) mcled_cdev->subled_info[GREEN].brightness;
++	data->next_blue = (u8) mcled_cdev->subled_info[BLUE].brightness;
++
++	blinkm_transfer_hw(led->i2c_client, BLM_GO_RGB);
 +
 +	return 0;
 +}
 +
-+static int qca808x_led_hw_control_enable(struct phy_device *phydev, u8 index)
-+{
-+	u16 reg;
-+
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	reg = QCA808X_MMD7_LED_FORCE_CTRL(index);
-+
-+	return phy_clear_bits_mmd(phydev, MDIO_MMD_AN, reg,
-+				  QCA808X_LED_FORCE_EN);
-+}
-+
-+static int qca808x_led_hw_is_supported(struct phy_device *phydev, u8 index,
-+				       unsigned long rules)
-+{
-+	u16 offload_trigger = 0;
-+
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	return qca808x_led_parse_netdev(phydev, rules, &offload_trigger);
-+}
-+
-+static int qca808x_led_hw_control_set(struct phy_device *phydev, u8 index,
-+				      unsigned long rules)
-+{
-+	u16 reg, offload_trigger = 0;
-+	int ret;
-+
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	reg = QCA808X_MMD7_LED_CTRL(index);
-+
-+	ret = qca808x_led_parse_netdev(phydev, rules, &offload_trigger);
-+	if (ret)
-+		return ret;
-+
-+	ret = qca808x_led_hw_control_enable(phydev, index);
-+	if (ret)
-+		return ret;
-+
-+	return phy_modify_mmd(phydev, MDIO_MMD_AN, reg,
-+			      QCA808X_LED_PATTERN_MASK,
-+			      offload_trigger);
-+}
-+
-+static bool qca808x_led_hw_control_status(struct phy_device *phydev, u8 index)
-+{
-+	u16 reg;
-+	int val;
-+
-+	if (index > 2)
-+		return false;
-+
-+	reg = QCA808X_MMD7_LED_FORCE_CTRL(index);
-+
-+	val = phy_read_mmd(phydev, MDIO_MMD_AN, reg);
-+
-+	return !(val & QCA808X_LED_FORCE_EN);
-+}
-+
-+static int qca808x_led_hw_control_get(struct phy_device *phydev, u8 index,
-+				      unsigned long *rules)
-+{
-+	u16 reg;
-+	int val;
-+
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	/* Check if we have hw control enabled */
-+	if (qca808x_led_hw_control_status(phydev, index))
-+		return -EINVAL;
-+
-+	reg = QCA808X_MMD7_LED_CTRL(index);
-+
-+	/* TODO: add link_2500 when added to netdev trigger */
-+	val = phy_read_mmd(phydev, MDIO_MMD_AN, reg);
-+	if (val & QCA808X_LED_TX_BLINK)
-+		set_bit(TRIGGER_NETDEV_TX, rules);
-+	if (val & QCA808X_LED_RX_BLINK)
-+		set_bit(TRIGGER_NETDEV_RX, rules);
-+	if (val & QCA808X_LED_SPEED10_ON)
-+		set_bit(TRIGGER_NETDEV_LINK_10, rules);
-+	if (val & QCA808X_LED_SPEED100_ON)
-+		set_bit(TRIGGER_NETDEV_LINK_100, rules);
-+	if (val & QCA808X_LED_SPEED1000_ON)
-+		set_bit(TRIGGER_NETDEV_LINK_1000, rules);
-+	if (val & QCA808X_LED_HALF_DUPLEX_ON)
-+		set_bit(TRIGGER_NETDEV_HALF_DUPLEX, rules);
-+	if (val & QCA808X_LED_FULL_DUPLEX_ON)
-+		set_bit(TRIGGER_NETDEV_FULL_DUPLEX, rules);
-+
-+	return 0;
-+}
-+
-+static int qca808x_led_hw_control_reset(struct phy_device *phydev, u8 index)
-+{
-+	u16 reg;
-+
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	reg = QCA808X_MMD7_LED_CTRL(index);
-+
-+	return phy_clear_bits_mmd(phydev, MDIO_MMD_AN, reg,
-+				  QCA808X_LED_PATTERN_MASK);
-+}
-+
-+static int qca808x_led_brightness_set(struct phy_device *phydev,
-+				      u8 index, enum led_brightness value)
-+{
-+	u16 reg;
-+	int ret;
-+
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	if (!value) {
-+		ret = qca808x_led_hw_control_reset(phydev, index);
-+		if (ret)
-+			return ret;
+ static int blinkm_led_common_set(struct led_classdev *led_cdev,
+ 				 enum led_brightness value, int color)
+ {
+ 	/* led_brightness is 0, 127 or 255 - we just use it here as-is */
+-	struct blinkm_led *led = cdev_to_blmled(led_cdev);
++	struct blinkm_led *led = led_cdev_to_blmled(led_cdev);
+ 	struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
+ 
+ 	switch (color) {
+@@ -569,7 +597,11 @@ static int blinkm_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+ {
+ 	struct blinkm_data *data;
+-	struct blinkm_led *led[3];
++	/* For multicolor support */
++	struct blinkm_led *mc_led;
++	struct mc_subled *mc_led_info;
++	/* 3 seperate classes for red, green, and blue respectively */
++	struct blinkm_led *leds[NUM_LEDS];
+ 	int err, i;
+ 	char blinkm_led_name[28];
+ 
+@@ -580,6 +612,12 @@ static int blinkm_probe(struct i2c_client *client,
+ 		goto exit;
+ 	}
+ 
++	mc_led_info = devm_kcalloc(&client->dev, NUM_LEDS, sizeof(*mc_led_info),
++					GFP_KERNEL);
++	if (!mc_led_info) {
++		err = -ENOMEM;
++		goto exit;
 +	}
+ 	data->i2c_addr = 0x08;
+ 	/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
+ 	data->fw_ver = 0xfe;
+@@ -598,81 +636,118 @@ static int blinkm_probe(struct i2c_client *client,
+ 		goto exit;
+ 	}
+ 
+-	for (i = 0; i < 3; i++) {
+-		/* RED = 0, GREEN = 1, BLUE = 2 */
+-		led[i] = &data->blinkm_leds[i];
+-		led[i]->i2c_client = client;
+-		led[i]->id = i;
+-		led[i]->led_cdev.max_brightness = 255;
+-		led[i]->led_cdev.flags = LED_CORE_SUSPENDRESUME;
+-		switch (i) {
+-		case RED:
+-			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+-					 "blinkm-%d-%d-red",
+-					 client->adapter->nr,
+-					 client->addr);
+-			led[i]->led_cdev.name = blinkm_led_name;
+-			led[i]->led_cdev.brightness_set_blocking =
+-							blinkm_led_red_set;
+-			err = led_classdev_register(&client->dev,
+-						    &led[i]->led_cdev);
+-			if (err < 0) {
+-				dev_err(&client->dev,
+-					"couldn't register LED %s\n",
+-					led[i]->led_cdev.name);
+-				goto failred;
+-			}
+-			break;
+-		case GREEN:
+-			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+-					 "blinkm-%d-%d-green",
+-					 client->adapter->nr,
+-					 client->addr);
+-			led[i]->led_cdev.name = blinkm_led_name;
+-			led[i]->led_cdev.brightness_set_blocking =
+-							blinkm_led_green_set;
+-			err = led_classdev_register(&client->dev,
+-						    &led[i]->led_cdev);
+-			if (err < 0) {
+-				dev_err(&client->dev,
+-					"couldn't register LED %s\n",
+-					led[i]->led_cdev.name);
+-				goto failgreen;
+-			}
+-			break;
+-		case BLUE:
+-			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+-					 "blinkm-%d-%d-blue",
+-					 client->adapter->nr,
+-					 client->addr);
+-			led[i]->led_cdev.name = blinkm_led_name;
+-			led[i]->led_cdev.brightness_set_blocking =
+-							blinkm_led_blue_set;
+-			err = led_classdev_register(&client->dev,
+-						    &led[i]->led_cdev);
+-			if (err < 0) {
+-				dev_err(&client->dev,
+-					"couldn't register LED %s\n",
+-					led[i]->led_cdev.name);
+-				goto failblue;
+-			}
+-			break;
+-		}		/* end switch */
+-	}			/* end for */
+-
+-	/* Initialize the blinkm */
++	if (!IS_ENABLED(CONFIG_LEDS_BLINKM_MULTICOLOR)) {
++		/* Register red, green, and blue sysfs classes */
++		for (i = 0; i < NUM_LEDS; i++) {
++			/* RED = 0, GREEN = 1, BLUE = 2 */
++			leds[i] = &data->blinkm_leds[i];
++			leds[i]->i2c_client = client;
++			leds[i]->id = i;
++			leds[i]->led_cdev.max_brightness = 255;
++			leds[i]->led_cdev.flags = LED_CORE_SUSPENDRESUME;
++			switch (i) {
++			case RED:
++				snprintf(blinkm_led_name, sizeof(blinkm_led_name),
++						 "blinkm-%d-%d-red",
++						 client->adapter->nr,
++						 client->addr);
++				leds[i]->led_cdev.name = blinkm_led_name;
++				leds[i]->led_cdev.brightness_set_blocking =
++								blinkm_led_red_set;
++				err = led_classdev_register(&client->dev,
++								&leds[i]->led_cdev);
++				if (err < 0) {
++					dev_err(&client->dev,
++						"couldn't register LED %s\n",
++						leds[i]->led_cdev.name);
++					goto failred;
++				}
++				break;
++			case GREEN:
++				snprintf(blinkm_led_name, sizeof(blinkm_led_name),
++						 "blinkm-%d-%d-green",
++						 client->adapter->nr,
++						 client->addr);
++				leds[i]->led_cdev.name = blinkm_led_name;
++				leds[i]->led_cdev.brightness_set_blocking =
++								blinkm_led_green_set;
++				err = led_classdev_register(&client->dev,
++							&leds[i]->led_cdev);
++				if (err < 0) {
++					dev_err(&client->dev,
++						"couldn't register LED %s\n",
++						leds[i]->led_cdev.name);
++					goto failgreen;
++				}
++				break;
++			case BLUE:
++				snprintf(blinkm_led_name, sizeof(blinkm_led_name),
++						 "blinkm-%d-%d-blue",
++						 client->adapter->nr,
++						 client->addr);
++				leds[i]->led_cdev.name = blinkm_led_name;
++				leds[i]->led_cdev.brightness_set_blocking =
++								blinkm_led_blue_set;
++				err = led_classdev_register(&client->dev,
++								&leds[i]->led_cdev);
++				if (err < 0) {
++					dev_err(&client->dev,
++						"couldn't register LED %s\n",
++						leds[i]->led_cdev.name);
++					goto failblue;
++				}
++				break;
++			default:
++				break;
++			}		/* end switch */
++		}			/* end for */
++	} else {
++		/* Register multicolor sysfs class */
++		/* The first element of leds is used for multicolor facilities */
++		mc_led = &data->blinkm_leds[RED];
++		mc_led->i2c_client = client;
 +
-+	reg = QCA808X_MMD7_LED_FORCE_CTRL(index);
++		mc_led_info[RED].color_index = LED_COLOR_ID_RED;
++		mc_led_info[GREEN].color_index = LED_COLOR_ID_GREEN;
++		mc_led_info[BLUE].color_index = LED_COLOR_ID_BLUE;
 +
-+	return phy_modify_mmd(phydev, MDIO_MMD_AN, reg,
-+			      QCA808X_LED_FORCE_EN | QCA808X_LED_FORCE_MODE_MASK,
-+			      QCA808X_LED_FORCE_EN | value ? QCA808X_LED_FORCE_ON :
-+							     QCA808X_LED_FORCE_OFF);
-+}
++		mc_led->mcled_cdev.subled_info = mc_led_info;
++		mc_led->mcled_cdev.num_colors = NUM_LEDS;
++		mc_led->mcled_cdev.led_cdev.brightness = 255;
++		mc_led->mcled_cdev.led_cdev.max_brightness = 255;
++		mc_led->mcled_cdev.led_cdev.flags = LED_CORE_SUSPENDRESUME;
 +
-+static int qca808x_led_blink_set(struct phy_device *phydev, u8 index,
-+				 unsigned long *delay_on,
-+				 unsigned long *delay_off)
-+{
-+	int ret;
-+	u16 reg;
++		snprintf(blinkm_led_name, sizeof(blinkm_led_name),
++			 "blinkm-%d-%d:rgb:indicator",
++			 client->adapter->nr,
++			 client->addr);
++		mc_led->mcled_cdev.led_cdev.name = blinkm_led_name;
++		mc_led->mcled_cdev.led_cdev.brightness_set_blocking = blinkm_set_mc_brightness;
 +
-+	if (index > 2)
-+		return -EINVAL;
-+
-+	reg = QCA808X_MMD7_LED_FORCE_CTRL(index);
-+
-+	/* Set blink to 50% off, 50% on at 4Hz by default */
-+	ret = phy_modify_mmd(phydev, MDIO_MMD_AN, QCA808X_MMD7_LED_GLOBAL,
-+			     QCA808X_LED_BLINK_FREQ_MASK | QCA808X_LED_BLINK_DUTY_MASK,
-+			     QCA808X_LED_BLINK_FREQ_4HZ | QCA808X_LED_BLINK_DUTY_50_50);
-+	if (ret)
-+		return ret;
-+
-+	/* We use BLINK_1 for normal blinking */
-+	ret = phy_modify_mmd(phydev, MDIO_MMD_AN, reg,
-+			     QCA808X_LED_FORCE_EN | QCA808X_LED_FORCE_MODE_MASK,
-+			     QCA808X_LED_FORCE_EN | QCA808X_LED_FORCE_BLINK_1);
-+	if (ret)
-+		return ret;
-+
-+	/* We set blink to 4Hz, aka 250ms */
-+	*delay_on = 250 / 2;
-+	*delay_off = 250 / 2;
-+
-+	return 0;
-+}
-+
-+static int qca808x_led_polarity_set(struct phy_device *phydev, int index,
-+				    unsigned long modes)
-+{
-+	struct at803x_priv *priv = phydev->priv;
-+	bool active_low = false;
-+	u32 mode;
-+
-+	for_each_set_bit(mode, &modes, __PHY_LED_MODES_NUM) {
-+		switch (mode) {
-+		case PHY_LED_ACTIVE_LOW:
-+			active_low = true;
-+			break;
-+		default:
-+			return -EINVAL;
++		err = led_classdev_multicolor_register(&client->dev, &mc_led->mcled_cdev);
++		if (err < 0) {
++			dev_err(&client->dev, "couldn't register LED %s\n",
++					mc_led->led_cdev.name);
++			goto failmulti;
 +		}
 +	}
 +
-+	/* PHY polarity is global and can't be set per LED.
-+	 * To detect this, check if last requested polarity mode
-+	 * match the new one.
-+	 */
-+	if (priv->led_polarity_mode >= 0 &&
-+	    priv->led_polarity_mode != active_low) {
-+		phydev_err(phydev, "PHY polarity is global. Mismatched polarity on different LED\n");
-+		return -EINVAL;
-+	}
-+
-+	/* Save the last PHY polarity mode */
-+	priv->led_polarity_mode = active_low;
-+
-+	return phy_modify_mmd(phydev, MDIO_MMD_AN,
-+			      QCA808X_MMD7_LED_POLARITY_CTRL,
-+			      QCA808X_LED_ACTIVE_HIGH,
-+			      active_low ? 0 : QCA808X_LED_ACTIVE_HIGH);
-+}
-+
- static struct phy_driver at803x_driver[] = {
- {
- 	/* Qualcomm Atheros AR8035 */
-@@ -2337,6 +2656,12 @@ static struct phy_driver at803x_driver[] = {
- 	.cable_test_start	= qca808x_cable_test_start,
- 	.cable_test_get_status	= qca808x_cable_test_get_status,
- 	.link_change_notify	= qca808x_link_change_notify,
-+	.led_brightness_set	= qca808x_led_brightness_set,
-+	.led_blink_set		= qca808x_led_blink_set,
-+	.led_hw_is_supported	= qca808x_led_hw_is_supported,
-+	.led_hw_control_set	= qca808x_led_hw_control_set,
-+	.led_hw_control_get	= qca808x_led_hw_control_get,
-+	.led_polarity_set	= qca808x_led_polarity_set,
- }, };
+ 	blinkm_init_hw(client);
  
- module_phy_driver(at803x_driver);
+ 	return 0;
+ 
++failmulti:
++	led_classdev_unregister(&leds[BLUE]->led_cdev);
++
+ failblue:
+-	led_classdev_unregister(&led[GREEN]->led_cdev);
++	led_classdev_unregister(&leds[GREEN]->led_cdev);
+ 
+ failgreen:
+-	led_classdev_unregister(&led[RED]->led_cdev);
++	led_classdev_unregister(&leds[RED]->led_cdev);
+ 
+ failred:
+ 	sysfs_remove_group(&client->dev.kobj, &blinkm_group);
++
+ exit:
+ 	return err;
+ }
+@@ -684,7 +759,7 @@ static void blinkm_remove(struct i2c_client *client)
+ 	int i;
+ 
+ 	/* make sure no workqueue entries are pending */
+-	for (i = 0; i < 3; i++)
++	for (i = 0; i < NUM_LEDS; i++)
+ 		led_classdev_unregister(&data->blinkm_leds[i].led_cdev);
+ 
+ 	/* reset rgb */
+@@ -741,6 +816,6 @@ static struct i2c_driver blinkm_driver = {
+ module_i2c_driver(blinkm_driver);
+ 
+ MODULE_AUTHOR("Jan-Simon Moeller <dl9pf@gmx.de>");
++MODULE_AUTHOR("Joseph Strauss <jstrauss@mailbox.org>");
+ MODULE_DESCRIPTION("BlinkM RGB LED driver");
+ MODULE_LICENSE("GPL");
+-
 -- 
-2.43.0
+2.42.0
 
 
