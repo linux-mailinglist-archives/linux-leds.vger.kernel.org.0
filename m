@@ -1,337 +1,196 @@
-Return-Path: <linux-leds+bounces-564-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-565-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A76C8288A3
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 16:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290B2828A23
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 17:38:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46548287195
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 15:01:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C72C228656A
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 16:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9781139AE3;
-	Tue,  9 Jan 2024 15:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1ED339AFD;
+	Tue,  9 Jan 2024 16:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0csb2EM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAAclciL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6285736AFB;
-	Tue,  9 Jan 2024 15:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CE738F9A;
+	Tue,  9 Jan 2024 16:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40d60c49ee7so34799935e9.0;
-        Tue, 09 Jan 2024 07:01:22 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e766937ddso3559125e87.3;
+        Tue, 09 Jan 2024 08:38:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704812480; x=1705417280; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kFSSTbq7IPBf5s843uaxKy0JnvdppW2Wga9+VXd4oEI=;
-        b=I0csb2EMXTHAt9mBrt7T1DKe6+bVXCRUbwKGPP7H1jV78VANdwkKjkdbMkX62GJUJ5
-         flgKVhgUFNN2ArpYOs/SZC/ir2a7xo/+b7kiFtuaFcw6ceRpsvFWJJzzmgUlAYNvgMZk
-         71sY2VZw5ZJksuFsvpDXZMLG16yUSnkJQsjcI3YoVXDwb5uWs5jhMwD8tc+EhLpB1kJR
-         yPCs9MWiQX7zj/ix1maeEYyXzNFRK5GR2NKAHu2RppyP309HO4pp0DtZaTJi7LGVHN4m
-         hTGQQqFgVG+lzB0BzZM1eQT/mompXzxg46QB9FaA1i54o5wtsr2A5HYNM8t8zsbvr8OZ
-         BDZg==
+        d=gmail.com; s=20230601; t=1704818315; x=1705423115; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mOZQ7Q6/TyAbQPkXNKAKhNzxIS14TPe9owB9d+1h5JI=;
+        b=kAAclciLqb9G4wGultkCE45Q8NL8I8pc1mBlxC6n0EWQWhVsRI1qsQerFFy9qRla+i
+         fBBXyaJJ3LrB5xtAgMsJFZ169X0BK/yuDToiMCvOJsJ2JdohNoALdUW5XELiomaPThkh
+         2KsKuN9/nQsANJx3fTqQrw2TjQEV4jIL6TWkkpI/xxpgjSsTHHURvkDfZuZ5jsXBhFNL
+         HebuoI3Yrw/kpAAM8gxqhgMLnoh3fY6CePm9/YudyyWmAzwn3Q1dREjqM2V0C9dFLU+f
+         B2ZBOKcNnNRVlcKWSidPpMD+voID/HgIOjq097uwGBIDVe7jKRvrRz3P05Fj/36svcte
+         thCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704812480; x=1705417280;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kFSSTbq7IPBf5s843uaxKy0JnvdppW2Wga9+VXd4oEI=;
-        b=Eek/c5U845G6pWpha0WKKKsdo6GKdPmmmQUnC9wnRDeSaGYU6XdbA+J0IEwAd6EEDv
-         c/Nog3OfS8QsEE1Ri5bQUxCOgAeNgWyvqxyXwEbWCN+EBSV4zdzp9yo97XHL4OeChC6i
-         K1H9geb/tWaSs3j7Gs3F3nHiqt+HaIkDxETAWvXmV+fE9VXYkvGLQHGvm441lRuOHQ8g
-         btc3SrYxpt5/eBmFR/j3IMvGzCqlOPs6zmYvA64yh1l7xjnO1EhNGpUHm4V050erUNmy
-         vpSa2R164kWhBK+BJKnREG7fvb65+MTcKuHAq13G6QwixXVonzY1T8NmKTtJXr3pVOsK
-         YBcw==
-X-Gm-Message-State: AOJu0Yy0tYAmE5r4xq8Jpmba0QaLD8Z/2YIByBuZAjKT9RnRhYILed3+
-	WNUL6QMhJ5z8z/sX31iweIg=
-X-Google-Smtp-Source: AGHT+IFnCZV4eOcSwHP2r/qM2xNuE/Uh53VLu5Icgk7vJJUxvGy3erlqRBeM/fpa2jWk5pyp9xPW+A==
-X-Received: by 2002:a05:600c:21c7:b0:40e:46b3:fe3a with SMTP id x7-20020a05600c21c700b0040e46b3fe3amr1964801wmj.47.1704812480117;
-        Tue, 09 Jan 2024 07:01:20 -0800 (PST)
-Received: from localhost (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
-        by smtp.gmail.com with ESMTPSA id h4-20020a05600c314400b0040d7c3d5454sm15009382wmo.3.2024.01.09.07.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 07:01:19 -0800 (PST)
-From: Rui Miguel Silva <rmfrfs@gmail.com>
-To: Arnd Bergmann <arnd@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones
- <lee@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Heiner
- Kallweit <hkallweit1@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, Johan Hovold
- <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Andreas Kemnade
- <andreas@kemnade.info>, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] leds: make flash and multicolor dependencies
- unconditional
-In-Reply-To: <20240109090715.982332-2-arnd@kernel.org>
-References: <20240109090715.982332-1-arnd@kernel.org>
- <20240109090715.982332-2-arnd@kernel.org>
-Date: Tue, 09 Jan 2024 15:01:18 +0000
-Message-ID: <m3mstey2ip.fsf@gmail.com>
+        d=1e100.net; s=20230601; t=1704818315; x=1705423115;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mOZQ7Q6/TyAbQPkXNKAKhNzxIS14TPe9owB9d+1h5JI=;
+        b=YJtsVFowndZlOMI4ewKOsTZkYRWVIDyMij5ls/ZHHl+ocupwUrO0YiGta5F48+qA6z
+         cTYdtqHzViYQP15WPoVPnv2SI1YkQOKxENl/4AvC+dYVR4guNoWRWPFGep4vY04MFOwa
+         /fogSNTv/eHpWOjmFHpTa8jPUxrb0T4c4WukwUpL+1Y+HN7RI/3KOU684SBPmxKU7P/L
+         ll8Fd3DPX8fQk2MyQKEvF+xVUrIyOyyGd8eoLUW4BQLFkz79kbNht8Q8TAJVuTRk28F7
+         nGgCEVOSFX1pwgqwRlIc0S6u88pgVx+HnHUauAfceyMB2lfHDgIJjdyIMAQ9jEKCNFSB
+         qbtw==
+X-Gm-Message-State: AOJu0YwQ77g7P+r1hkljNMZ69vSDKBn8xGiePv7/RpbcyFejaDS/nzu3
+	wDZkKYyDwbcuSj6dsJXk1Bc=
+X-Google-Smtp-Source: AGHT+IG7AEsDYBeDjF+tkfOF5dIxVnM8sQKYK8HsBHazIt8hMy8AYIFsW9BehQoH0zZebY5v9DGQdg==
+X-Received: by 2002:a19:6556:0:b0:50e:b413:400f with SMTP id c22-20020a196556000000b0050eb413400fmr2205345lfj.49.1704818314790;
+        Tue, 09 Jan 2024 08:38:34 -0800 (PST)
+Received: from [192.168.26.149] (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.googlemail.com with ESMTPSA id y5-20020a170906070500b00a26b36311ecsm1231196ejb.146.2024.01.09.08.38.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jan 2024 08:38:34 -0800 (PST)
+Message-ID: <69966efa-21ab-4a38-ad06-61e7e2e5b6d3@gmail.com>
+Date: Tue, 9 Jan 2024 17:38:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH dt-schema] schemas: chosen: Add OpenWrt LEDs properties
+ for system states
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, openwrt-devel@lists.openwrt.org,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20240109082312.9989-1-zajec5@gmail.com>
+ <1b90c50c-0a09-4627-83cd-1794dae7ed9b@linaro.org>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <1b90c50c-0a09-4627-83cd-1794dae7ed9b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hey Arnd,
-Many thanks for the patch.
+On 9.01.2024 10:02, Krzysztof Kozlowski wrote:
+> On 09/01/2024 09:23, Rafał Miłecki wrote:
+>> From: Rafał Miłecki <rafal@milecki.pl>
+>>
+>> OpenWrt project provides downstream support for thousands of embedded
+>> home network devices. Its custom requirement for DT is to provide info
+>> about LEDs roles. Currently it does it by using custom non-documented
+>> aliases. While formally valid (aliases.yaml doesn't limit names or
+>> purposes of aliases) it's quite a loose solution.
+>>
+>> Document 4 precise "chosen" biding properties with clearly documented
+>> OpenWrt usage. This will allow upstreaming tons of DTS files that noone
+> 
+> typo: none
 
-Arnd Bergmann <arnd@kernel.org> writes:
+typo: no one ;)
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Along the same lines as making devm_led_classdev_register() declared
-> extern unconditional, do the same thing for the two sub-classes
-> that have similar stubs.
->
-> The users of these interfaces go to great lengths to allow building
-> with both the generic leds API and the extended version, but realistically
-> there is not much use in this, so just simplify it to always rely
-> on it and remove the confusing fallback logic.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/leds/Kconfig                 |  4 ++--
->  drivers/leds/flash/Kconfig           |  4 ++--
->  drivers/staging/greybus/Kconfig      |  2 +-
->  drivers/staging/greybus/light.c      | 21 --------------------
->  include/linux/led-class-flash.h      | 24 -----------------------
->  include/linux/led-class-multicolor.h | 29 ----------------------------
->  6 files changed, 5 insertions(+), 79 deletions(-)
->
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index d721b254e1e4..9613a45a35bd 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -395,7 +395,7 @@ config LEDS_LP3952
->  config LEDS_LP50XX
->  	tristate "LED Support for TI LP5036/30/24/18/12/09 LED driver chip"
->  	depends on LEDS_CLASS && REGMAP_I2C
-> -	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
-> +	depends on LEDS_CLASS_MULTICOLOR
->  	help
->  	  If you say yes here you get support for the Texas Instruments
->  	  LP5036, LP5030, LP5024, LP5018, LP5012 and LP5009 LED driver.
-> @@ -406,7 +406,7 @@ config LEDS_LP50XX
->  config LEDS_LP55XX_COMMON
->  	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
->  	depends on LEDS_CLASS
-> -	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
-> +	depends on LEDS_CLASS_MULTICOLOR
->  	depends on OF
->  	depends on I2C
->  	select FW_LOADER
-> diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
-> index 4e08dbc05709..b95f90cd5749 100644
-> --- a/drivers/leds/flash/Kconfig
-> +++ b/drivers/leds/flash/Kconfig
-> @@ -51,8 +51,8 @@ config LEDS_MAX77693
->  config LEDS_MT6360
->  	tristate "LED Support for Mediatek MT6360 PMIC"
->  	depends on LEDS_CLASS && OF
-> -	depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
-> -	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
-> +	depends on LEDS_CLASS_FLASH
-> +	depends on LEDS_CLASS_MULTICOLOR
->  	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
->  	depends on MFD_MT6360
->  	help
-> diff --git a/drivers/staging/greybus/Kconfig b/drivers/staging/greybus/Kconfig
-> index 927cfa4bc989..1e745a8d439c 100644
-> --- a/drivers/staging/greybus/Kconfig
-> +++ b/drivers/staging/greybus/Kconfig
-> @@ -64,7 +64,7 @@ config GREYBUS_HID
->  
->  config GREYBUS_LIGHT
->  	tristate "Greybus LED Class driver"
-> -	depends on LEDS_CLASS
-> +	depends on LEDS_CLASS_FLASH
+>> cared about so far as those would need to be patched downstream anyway.
+> 
+>  From all this description I understand why you want to add it, but I
+> don't understand what are you exactly adding and how it is being used by
+> the users/OS.
 
-Agree with the change for the greybus driver, one note, since you are
-cleaning up this, maybe also remove the other #if down when setting
-the flash specific operations, right?
+In OpenWrt we have user space script that reads LED full path:
+cat /proc/device-tree/aliases/led-<foo>
 
-#if IS_REACHABLE(CONFIG_LEDS_CLASS_FLASH)
-/* Flash specific operations */
-static int gb_lights_flash_intensity_set(struct led_classdev_flash *fcdev,
-					 u32 brightness)
-{
-	struct gb_channel *channel = container_of(fcdev, struct gb_channel,
-						  fled);
-	int ret;
-.
-.
-.
-.
-
-#else
-static int gb_lights_channel_flash_config(struct gb_channel *channel)
-{
-	struct gb_connection *connection = get_conn_from_channel(channel);
-
-	dev_err(&connection->bundle->dev, "no support for flash devices\n");
-	return 0;
-}
-.
-.
-.
+And then sets LED to state matching current boot stage:
+echo 1 > /sys/class/leds/<bar>/brightness
 
 
-Thanks again.
+>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+>> ---
+>> A few weeks ago I was seeking for a help regarding OpenWrt's need for
+>> specifing LEDs roles in DT, see:
+>>
+>> Describing LEDs roles in device tree?
+>> https://lore.kernel.org/linux-devicetree/ee912a89-4fd7-43c3-a79b-16659a035fe1@gmail.com/T/#u
+>>
+>> I DON'T think OpenWrt's current solution with aliases is good enough:
+>> * It's not clearly documented
+>> * It may vary from other projects usa case
+>> * It may be refused by random maintainers I think
+>>
+>> I decided to suggest 4 OpenWrt-prefixed properties for "chosen". I'm
+>> hoping this small custom binding is sth we could go with. I'm really
+>> looking forward to upstreaming OpenWrt's downstream DTS files so other
+>> projects (e.g. Buildroot) can use them.
+>>
+>> If you have any better fitting solution in mind please let me know. I
+>> should be fine with anything that lets me solve this downstream mess
+>> situation.
+>>
+>>   dtschema/schemas/chosen.yaml | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/dtschema/schemas/chosen.yaml b/dtschema/schemas/chosen.yaml
+>> index 6d5c3f1..96d0db7 100644
+>> --- a/dtschema/schemas/chosen.yaml
+>> +++ b/dtschema/schemas/chosen.yaml
+>> @@ -264,4 +264,13 @@ properties:
+>>   patternProperties:
+>>     "^framebuffer": true
+>>   
+>> +  "^openwrt,led-(boot|failsafe|running|upgrade)$":
+>> +    $ref: types.yaml#/definitions/string
+>> +    description:
+>> +      OpenWrt choice of LED for a given role.
+> 
+> Neither this explains it. What is "OpenWrt choice"? Choice like what?
+> What are the valid choices?
+> 
+>> Value must be a full path (encoded
+>> +      as a string) to a relevant LED node.
+> 
+> What do you mean by full path? DT node path? Then no, use phandles.
+> 
+> Anyway, we have existing properties for this - LED functions. Just
+> choose LED with given function (from sysfs) and you are done. If
+> function is missing in the header: feel free to go, least for me.
 
-Cheers,
-    Rui
+In "Describing LEDs roles in device tree?" e-mail I wrote:
 
->  	help
->  	  Select this option if you have a device that follows the
->  	  Greybus LED Class specification.
-> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-> index 87d36948c610..d62f97249aca 100644
-> --- a/drivers/staging/greybus/light.c
-> +++ b/drivers/staging/greybus/light.c
-> @@ -29,13 +29,9 @@ struct gb_channel {
->  	struct attribute_group		*attr_group;
->  	const struct attribute_group	**attr_groups;
->  	struct led_classdev		*led;
-> -#if IS_REACHABLE(CONFIG_LEDS_CLASS_FLASH)
->  	struct led_classdev_flash	fled;
->  	struct led_flash_setting	intensity_uA;
->  	struct led_flash_setting	timeout_us;
-> -#else
-> -	struct led_classdev		cled;
-> -#endif
->  	struct gb_light			*light;
->  	bool				is_registered;
->  	bool				releasing;
-> @@ -84,7 +80,6 @@ static bool is_channel_flash(struct gb_channel *channel)
->  				   | GB_CHANNEL_MODE_INDICATOR));
->  }
->  
-> -#if IS_REACHABLE(CONFIG_LEDS_CLASS_FLASH)
->  static struct gb_channel *get_channel_from_cdev(struct led_classdev *cdev)
->  {
->  	struct led_classdev_flash *fled_cdev = lcdev_to_flcdev(cdev);
-> @@ -153,22 +148,6 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
->  
->  	return __gb_lights_flash_intensity_set(channel, intensity);
->  }
-> -#else
-> -static struct gb_channel *get_channel_from_cdev(struct led_classdev *cdev)
-> -{
-> -	return container_of(cdev, struct gb_channel, cled);
-> -}
-> -
-> -static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
-> -{
-> -	return &channel->cled;
-> -}
-> -
-> -static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
-> -{
-> -	return 0;
-> -}
-> -#endif
->  
->  static int gb_lights_color_set(struct gb_channel *channel, u32 color);
->  static int gb_lights_fade_set(struct gb_channel *channel);
-> diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
-> index 612b4cab3819..36df927ec4b7 100644
-> --- a/include/linux/led-class-flash.h
-> +++ b/include/linux/led-class-flash.h
-> @@ -85,7 +85,6 @@ static inline struct led_classdev_flash *lcdev_to_flcdev(
->  	return container_of(lcdev, struct led_classdev_flash, led_cdev);
->  }
->  
-> -#if IS_ENABLED(CONFIG_LEDS_CLASS_FLASH)
->  /**
->   * led_classdev_flash_register_ext - register a new object of LED class with
->   *				     init data and with support for flash LEDs
-> @@ -116,29 +115,6 @@ int devm_led_classdev_flash_register_ext(struct device *parent,
->  void devm_led_classdev_flash_unregister(struct device *parent,
->  					struct led_classdev_flash *fled_cdev);
->  
-> -#else
-> -
-> -static inline int led_classdev_flash_register_ext(struct device *parent,
-> -				    struct led_classdev_flash *fled_cdev,
-> -				    struct led_init_data *init_data)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev) {};
-> -static inline int devm_led_classdev_flash_register_ext(struct device *parent,
-> -				     struct led_classdev_flash *fled_cdev,
-> -				     struct led_init_data *init_data)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void devm_led_classdev_flash_unregister(struct device *parent,
-> -					struct led_classdev_flash *fled_cdev)
-> -{};
-> -
-> -#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_FLASH) */
-> -
->  static inline int led_classdev_flash_register(struct device *parent,
->  					   struct led_classdev_flash *fled_cdev)
->  {
-> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-> index 210d57bcd767..db9f34c6736e 100644
-> --- a/include/linux/led-class-multicolor.h
-> +++ b/include/linux/led-class-multicolor.h
-> @@ -30,7 +30,6 @@ static inline struct led_classdev_mc *lcdev_to_mccdev(
->  	return container_of(led_cdev, struct led_classdev_mc, led_cdev);
->  }
->  
-> -#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR)
->  /**
->   * led_classdev_multicolor_register_ext - register a new object of led_classdev
->   *				      class with support for multicolor LEDs
-> @@ -64,34 +63,6 @@ int devm_led_classdev_multicolor_register_ext(struct device *parent,
->  
->  void devm_led_classdev_multicolor_unregister(struct device *parent,
->  					    struct led_classdev_mc *mcled_cdev);
-> -#else
-> -
-> -static inline int led_classdev_multicolor_register_ext(struct device *parent,
-> -					    struct led_classdev_mc *mcled_cdev,
-> -					    struct led_init_data *init_data)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev) {};
-> -static inline int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
-> -					       enum led_brightness brightness)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline int devm_led_classdev_multicolor_register_ext(struct device *parent,
-> -					  struct led_classdev_mc *mcled_cdev,
-> -					  struct led_init_data *init_data)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void devm_led_classdev_multicolor_unregister(struct device *parent,
-> -					    struct led_classdev_mc *mcled_cdev)
-> -{};
-> -
-> -#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR) */
->  
->  static inline int led_classdev_multicolor_register(struct device *parent,
->  					    struct led_classdev_mc *mcled_cdev)
-> -- 
-> 2.39.2
+"
+Please note that "function" on its own is not sufficient as multiple
+LEDs my share the same function name but its meaning may vary depending
+on color.
+"
+
+Let me elaborate here.
+
+Values of "function" property match LEDs descriptions (usually it's a
+physical label). That is OK and makes sense but doesn't allow OpenWrt to
+automatically pick proper LED to use during given boot stage.
+
+Some devices may have multiple color of a the same LED function. OpenWrt
+developer needs to choose which color to use for failsafe more and which
+boot fully booted state (and others too).
+
+Devices also differ in available LEDs by their functions. Some may have
+LED_FUNCTION_POWER that OpenWrt needs to use. Some may have
+LED_FUNCTION_STATUS. Or both. There are some more (less common)
+functions like LED_FUNCTION_ACTIVITY.
+
+We failed at OpenWrt to develop a single generic script to rule all
+devices and all their LEDs combinations. We ended up with developers
+*choosing* what LED to use for a given system state.
+
+
+> Also: please Cc LED maintainers on all future submissions of this.
+Included them (apart from linux-leds@ already present) now, thanks.
 
