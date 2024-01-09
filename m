@@ -1,159 +1,81 @@
-Return-Path: <linux-leds+bounces-562-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-563-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05489828410
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 11:35:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A185D828777
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 14:55:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 289F91C2391D
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 10:35:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC0ABB23897
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 13:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF82D29429;
-	Tue,  9 Jan 2024 10:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8687A38FB9;
+	Tue,  9 Jan 2024 13:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="jWiapSy2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="7xYaP8h9"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="GLm0jjhZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECBB13FE0;
-	Tue,  9 Jan 2024 10:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id B579A3200A51;
-	Tue,  9 Jan 2024 05:35:47 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 09 Jan 2024 05:35:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1704796547; x=1704882947; bh=DgG9tCDREy
-	TfxAwH9mDVpC/UFPRAXNZSHBS2vcSJXRU=; b=jWiapSy2JW7izbbWmSzVs7RHGy
-	NYrT/mP0CmV2uSUWKFoTiLgU2aLm3HH7zxQbmpqnFerzFFas2LevMfawtBzbA21/
-	6v6gS6FV5yzPH19s0wTx/x0H6VGa4wDACgkmQNzYstwJIqGhGzxi4H4N16yfAnUf
-	Pt1Lzs22mpi4artsj9c5FHd6ZBWktc6Hm/WU0+6JRQn2Xj5LqDMU6PScnGpGybyn
-	EWeyT+9uczVokEfqp64mLFxRXE44Y/4Li71gkF2rmJydO3RJRrBSDEP/HbSAoh13
-	Z+byJFgUoimTjicJGGpUgyZT0Hja9tZj4Ojl1fEFc+BTncvqF2opTFvGNufA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1704796547; x=1704882947; bh=DgG9tCDREyTfxAwH9mDVpC/UFPRA
-	XNZSHBS2vcSJXRU=; b=7xYaP8h9UrHAJ+SEQA2d0sh8T9lgXKtXfhz7L/ctcO6m
-	o2LC21vB2dwZ+BMW5T51rOTtYk5W2TuWaJt0Q5KEErupShgEUupuRC+EIemJL+2y
-	Uk4P6/8yA+VVvYtaat6upbpwfAkIhs9q+yp+xIn+W5a58IPDfBnIkptEPuDYAh5f
-	vmRx9jwvSyWmWwgy7J+7+o62fWT2TOgZ3Lrv7vtsXBoP3TiG9FmNS/fqtz0M+O4x
-	oUxWnmY0djEj/ogNCfN2gTShnkd7HFvOl78cfBTDOvAzJglXTmIHqeKQhVlcbwKu
-	3i9uk9fEC4TGGgC8+SCMycak2wmwg2pqedMWW6Yhqg==
-X-ME-Sender: <xms:giGdZY-PegoksqYrZRanLBhTqZVVFv-DRKm7bu2rw1yRRGDmbHLHZg>
-    <xme:giGdZQu28zTkxel3LogUfLSzJcFR10IY7WoGL-VfIxoPVxgK8Q4o5dTp4TkuElwgS
-    Tjht46wuNLhtB0dCX0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehledgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:giGdZeC81tTlvnFmALc-wQhcV6FNbl3C0ydHmAju8mN2Jomw-zihvQ>
-    <xmx:giGdZYcXgzAU3cbWsycUQc9iJsOMvsxU8jqcxPqnRCZEnD82NXlNYQ>
-    <xmx:giGdZdMSrG0d9-vyy7aZ7_uZX2IzqRxOzX3jGxafbTH_MYqZC1_FeA>
-    <xmx:gyGdZZD2dvZNN4ekKml_HGglqJScMv8XauUYoLa3RKkaYmVWChESRw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 973E4B6008F; Tue,  9 Jan 2024 05:35:46 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F272038F9A;
+	Tue,  9 Jan 2024 13:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=HOt3XKn1cL8RiCwi3hZoWQh0woHeYDJpEgyYREq1Hn8=; b=GLm0jjhZJxgMyW7v6lQku4aFI4
+	TUuwdUGIHq8de+u+1HY0EehjLNVA7Ml2PKh38t2EALGEVtRhVv2qCZ25Y3hxoucW5Vt47LrElXYGQ
+	/RnVBvMn0bXWArRk/lkUTbVPGd9X6LEd9nWTeTxLP/UeVxZJ48zx0A5iOT8cdPW/UyFw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rNCZi-004pz2-4i; Tue, 09 Jan 2024 14:55:26 +0100
+Date: Tue, 9 Jan 2024 14:55:26 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	William Zhang <william.zhang@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	=?iso-8859-1?Q?Fern=E1ndez?= Rojas <noltari@gmail.com>,
+	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v9 0/5] net: phy: generic polarity + LED support
+ for qca808x
+Message-ID: <edfd300f-224f-4ce6-930c-d9419a2077ab@lunn.ch>
+References: <20240105142719.11042-1-ansuelsmth@gmail.com>
+ <20240108191427.6455185a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <468ce58a-9f4a-4a75-adbf-7beb8fa13580@app.fastmail.com>
-In-Reply-To: <4c859da1-9551-4d0b-a19c-f20f1133acac@gmail.com>
-References: <20240109090715.982332-1-arnd@kernel.org>
- <4c859da1-9551-4d0b-a19c-f20f1133acac@gmail.com>
-Date: Tue, 09 Jan 2024 11:35:25 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Heiner Kallweit" <hkallweit1@gmail.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Pavel Machek" <pavel@ucw.cz>,
- "Lee Jones" <lee@kernel.org>
-Cc: "Andrew Lunn" <andrew@lunn.ch>, "Hans de Goede" <hdegoede@redhat.com>,
- "Jean-Jacques Hiblot" <jjhiblot@traphandler.com>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] leds: remove led_init_default_state_get() and
- devm_led_classdev_register_ext() stubs
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240108191427.6455185a@kernel.org>
 
-On Tue, Jan 9, 2024, at 11:10, Heiner Kallweit wrote:
-> On 09.01.2024 10:06, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> These two functions have stub implementations that are called when
->> NEW_LEDS and/or LEDS_CLASS are disabled, theorerically allowing drivers
->> to optionally use the LED subsystem.
->> 
->> However, this has never really worked because a built-in driver is
->> unable to link against these functions if the LED class is in a loadable
->> module. Heiner ran into this problem with a driver that newly gained
->> a LEDS_CLASS dependency and suggested using an IS_REACHABLE() check.
->> 
->> This is the reverse approach, removing the stub entirely to acknowledge
->> that it is pointless in its current form, and that not having it avoids
->> misleading developers into thinking that they can rely on it.
->> 
->> This survived around 1000 randconfig builds to validate that any callers
->> of the interface already have the correct Kconfig dependency already,
->> with the exception of the one that Heiner just added.
->> 
->> Cc: Heiner Kallweit <hkallweit1@gmail.com>
->> Link: https://lore.kernel.org/linux-leds/0f6f432b-c650-4bb8-a1b5-fe3372804d52@gmail.com/T/#u
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> ---
->
-> For r8169 we have a Kconfig-based solution now, right. I had a brief look
-> at other drivers using LED functionality, and already the first one I looked
-> at seems to suffer from the same problem. input/keyboard/qt2160.c has the
-> following what should result in the same link error if qt2160 is built-in
-> and CONFIG_LEDS_CLASS=m. qt2160 has a Kconfig dependency only on I2C.
->
-> #ifdef CONFIG_LEDS_CLASS
-> static int qt2160_register_leds(struct qt2160_data *qt2160)
-> {
-> [...]
-> 	error = devm_led_classdev_register(&client->dev, &led->cdev);
-> [...]		
-> }
-> #else
+> Looks like we're missing some tags from DTB maintainers here.
+> Andrew, is there some urgency in getting this merged or can we
+> defer until v6.9?
 
-This is a bug, but I think a different one, with a similar effect.
+It can wait.
 
-Part of the problem in this driver is that it uses #ifdef instead
-of "#if IS_ENABLED(CONFIG_LEDS_CLASS)". As a result, it just
-never uses the LEDS when LEDS_CLASS=m, because that would
-define CONFIG_LEDS_CLASS_MODULE but not CONFIG_LEDS_CLASS.
-
-Changing it to IS_ENABLED() would cause the link failure
-you describe, but would do it regardless of my change.
-
-The same bug seems to be present in other files as well.
-
-> 2. If stubs are removed (but also in the current situation, see example),
->    then it seems some drivers need adding proper build dependencies.
-
-I don't see any driver that actually relies on the stub, since
-that would only work a driver that can never be built-in.
-
-If a driver can be built-in (like your r8169 code) and uses
-the stub, we would have seen it fail to link in randconfig
-kernels and added a LEDS_CLASS dependency.
-
-     Arnd
+	Andrew
 
