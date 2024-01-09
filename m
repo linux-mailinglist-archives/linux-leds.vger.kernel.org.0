@@ -1,25 +1,25 @@
-Return-Path: <linux-leds+bounces-550-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-551-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AB5827C76
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 02:17:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB49827C7F
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 02:20:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 170441F24323
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 01:17:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDEFA1C23264
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jan 2024 01:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4858E15A4;
-	Tue,  9 Jan 2024 01:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C5D138A;
+	Tue,  9 Jan 2024 01:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="v/lbuY5V"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Av6YPCMA"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FAA10E4;
-	Tue,  9 Jan 2024 01:17:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3A428EC;
+	Tue,  9 Jan 2024 01:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -27,13 +27,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=FPrSPQwpGRXGcWgS2/Xl7mlZOd6cB77MFosAaFhdoXM=; b=v/lbuY5VEwWYEVTql+YCU+QKc+
-	CLCLuKd8C+OmDI8F37K59Sa/4G3AFc/FLuCvmzG8EzkAfglmDQKNLCgBKQcB368CevY1ibCXPVoc7
-	mj6fQqXS535fd3WMvyBjIGcKgkswF5nUsvs2RiFX7RoK9tBWxq0oRfwizY1QEBmevEGI=;
+	bh=6BtEmCtYZmMHFCY50bU7DnIDw00PYo7ASFK/qSsw0RM=; b=Av6YPCMAPr8U6MpxUhGmP7ljKc
+	10TfumncpOYXF5qldqNoR4q/HRNHL/y+zucm855Y0H2ITU/eXyfdCWKEmQXHF/9hhvCcfNR3zjrkp
+	Bxy/Tl58bcpAAHTdiaxbeHgXYTDfvhCwSuHCMO96sClL1DtEcUu7qBilt3hv7X9ZwD3g=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1rN0kC-004hJv-Da; Tue, 09 Jan 2024 02:17:28 +0100
-Date: Tue, 9 Jan 2024 02:17:28 +0100
+	id 1rN0mt-004hLR-HN; Tue, 09 Jan 2024 02:20:15 +0100
+Date: Tue, 9 Jan 2024 02:20:15 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Christian Marangi <ansuelsmth@gmail.com>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
@@ -57,11 +57,11 @@ Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v9 3/5] net: phy: add support for PHY LEDs
- polarity modes
-Message-ID: <b7bccef0-570a-4ed9-b349-6d7d0fcc2e2a@lunn.ch>
+Subject: Re: [net-next PATCH v9 5/5] net: phy: at803x: add LED support for
+ qca808x
+Message-ID: <c138382e-096c-4ce0-87bd-4e42e6236972@lunn.ch>
 References: <20240105142719.11042-1-ansuelsmth@gmail.com>
- <20240105142719.11042-4-ansuelsmth@gmail.com>
+ <20240105142719.11042-6-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -70,22 +70,38 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240105142719.11042-4-ansuelsmth@gmail.com>
+In-Reply-To: <20240105142719.11042-6-ansuelsmth@gmail.com>
 
-On Fri, Jan 05, 2024 at 03:27:15PM +0100, Christian Marangi wrote:
-> Add support for PHY LEDs polarity modes. Some PHY require LED to be set
-> to active low to be turned ON. Adds support for this by declaring
-> active-low property in DT.
+On Fri, Jan 05, 2024 at 03:27:17PM +0100, Christian Marangi wrote:
+> Add LED support for QCA8081 PHY.
 > 
-> PHY driver needs to declare .led_polarity_set() to configure LED
-> polarity modes. Function will pass the index with the LED index and a
-> bitmap with all the required modes to set.
+> Documentation for this LEDs PHY is very scarce even with NDA access
+> to Documentation for OEMs. Only the blink pattern are documented and are
+> very confusing most of the time. No documentation is present about
+> forcing the LED on/off or to always blink.
 > 
-> Current supported modes are:
-> - active-low with the flag PHY_LED_ACTIVE_LOW. LED is set to active-low
->   to turn it ON.
-> - inactive-high-impedance with the flag PHY_LED_INACTIVE_HIGH_IMPEDANCE.
->   LED is set to high impedance to turn it OFF.
+> Those settings were reversed by poking the regs and trying to find the
+> correct bits to trigger these modes. Some bits mode are not clear and
+> maybe the documentation option are not 100% correct. For the sake of LED
+> support the reversed option are enough to add support for current LED
+> APIs.
+> 
+> Supported HW control modes are:
+> - tx
+> - rx
+> - link10
+> - link100
+> - link1000
+> - half_duplex
+> - full_duplex
+> 
+> Also add support for LED polarity set to set LED polarity to active
+> high or low. QSDK sets this value to high by default but PHY reset value
+> doesn't have this enabled by default.
+> 
+> QSDK also sets 2 additional bits but their usage is not clear, info about
+> this is added in the header. It was verified that for correct function
+> of the LED if active high is needed, only BIT 6 is needed.
 > 
 > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 
