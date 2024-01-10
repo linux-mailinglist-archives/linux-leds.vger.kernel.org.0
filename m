@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-569-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-570-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951A982944D
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Jan 2024 08:28:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A752F829471
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Jan 2024 08:40:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0470A1F2712D
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Jan 2024 07:28:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D415B253B4
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Jan 2024 07:40:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C91839FCB;
-	Wed, 10 Jan 2024 07:28:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 507E43A8DF;
+	Wed, 10 Jan 2024 07:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vPx8xnrW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IselThKt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7360F39AF5
-	for <linux-leds@vger.kernel.org>; Wed, 10 Jan 2024 07:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB2A3A1B7
+	for <linux-leds@vger.kernel.org>; Wed, 10 Jan 2024 07:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50ea9e189ebso3911250e87.3
-        for <linux-leds@vger.kernel.org>; Tue, 09 Jan 2024 23:28:42 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40e5521dab6so5630055e9.1
+        for <linux-leds@vger.kernel.org>; Tue, 09 Jan 2024 23:40:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704871720; x=1705476520; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1704872411; x=1705477211; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JVBX5etdoAzgr9+pLxG10oD5FiibLDWzHD4Y2Mq2tt0=;
-        b=vPx8xnrWQ8ZfToJ3VOxwq5WRTLB7x7ZRsUvryfNQAs529+d4eOOLXcpqCrWKlSF2Wh
-         mIeiP9woZr9YfEDQQRhQ59UvOVeKWFSYVxJTjGYSMivOhdo+oct6CxgdlJN/c4c1LL4w
-         eiy16wMrK0G7Qc6+gvCaQWxZlP7nLeuds/bVlwYW7jzi118b3xK6BFwSnSqR1uB/+ntP
-         K497Gz3xW4NXz8/oPgE9Sw0P4y2QT3Ibm060vVD4tGSZLzgRz7Jg/7pjtonTjIRSRn3v
-         mpmwv4CA9gcjm7tvxCyew+BvbSykC9u20dYIzm4m7jJ+t0E04oTgnJHO7sKgk5BIXTQc
-         6Z2Q==
+        bh=ctTZECAtqC1iPMbP63QXR7yjoHxoDS3skKp3Qzi73/o=;
+        b=IselThKtGIAQtemI/zjjWehTG39xKMWtYOhrSHlwTBlFxkL2IgI74fn5JPipxjlxvR
+         iF4z/tTVChFF7gms+m1cCWewNoqWCcnKexIVazElPxh5XwUd+y3gKULk27UYL2Y4Ul5g
+         Cg7wETEz3BFdZZVfFN9E46zYgIQ3upJXnOIOPLyhC+yv+Qvo/XzALdE8C7H4fA8dmnYR
+         ap2pYVwVchNvqgGRmPPmnJyn/bfDR+6cSymxOCjTfyWcrWIoQTa6GZvnrxEbmezJH1Iu
+         GGJRrdY/o1E3K42p8kOgw/iMAGE0Ha+tG225FsaNxEcEr5ZXvLO2A0xGMnGuiA3CYqEa
+         33UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704871720; x=1705476520;
+        d=1e100.net; s=20230601; t=1704872411; x=1705477211;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JVBX5etdoAzgr9+pLxG10oD5FiibLDWzHD4Y2Mq2tt0=;
-        b=PIt87Lp9/5AmfBnKnJ0liEIY6Q4+WhTIAdbl1R9cPA+WkMuxu343CX7zgh0HqYBiBX
-         Y/Twmq4IkIui4XFt8n3RHepPGMu+fnwZktxPITZ8wP+cI6a5ePZ6NPXmrxuNbaypka7O
-         n3Ri9+Uljz89kjvHF7cGXNbbjz3rOBPrO7UpDMlqy5l2fNInwSSTpR1T7StFx+0PX7l/
-         8AmHy+n2Bc+n7pCyyXITCfD+kB5TCEAXzhzrBJydhtqOiDpavYOyLL9ZtNhEYjKa2GCT
-         kwaLOX9SgAuo3rK6PHolBpzOul0GUeWhYz5WynmLdqZfFGtuXrXurZYBTEd3jdfmCgna
-         5Esg==
-X-Gm-Message-State: AOJu0Yybb6TVPvtGTEqLIzCQoQRfXcf33fkaqkthdFCOSixqusA87Jnm
-	BKJTk9alL0UinE63l44/xH7Kfq2sdtiOzw==
-X-Google-Smtp-Source: AGHT+IGydUSfCgHpYRePlQnwbswXNg46P9mzqd2WmznBWo9bXKrtJ0dquI7S6+ZrYbY4keGgGj6XpA==
-X-Received: by 2002:a05:6512:1184:b0:50e:b298:9e16 with SMTP id g4-20020a056512118400b0050eb2989e16mr132832lfr.135.1704871720303;
-        Tue, 09 Jan 2024 23:28:40 -0800 (PST)
+        bh=ctTZECAtqC1iPMbP63QXR7yjoHxoDS3skKp3Qzi73/o=;
+        b=r0Mr3TusGemXD1cVahN3QsyeHf8YSmaKXg81sMV7RrlgS25v6+KmojuZ491sRjy35g
+         g7PGbnkOVtbT7wIPz9euFp2gUwkDpLpLFzU3lT1SrwEOrgujQhLeMaTE42LSwYgKWDMc
+         6VqGrZ4jegs98lPM8Am186/C0xPjYoFB2VNmO8E1cSvU2lvyCNLWeorA19tXNCLUSVUm
+         wT+/BvuFpcd+XqyWH/7n7Fz8zzXSeb01aF2gTNGdISbPMLtpcYVqS82NuBqq30hoG7ZZ
+         NO7wBAUMu5Q15U6ncfooGEnU4ZkZdESqk8MVtq3ryFPYkM2e+ODfMxKwVAJl119BFGQD
+         Nlow==
+X-Gm-Message-State: AOJu0YzeEM3d+UvXB6naOqgZne7vFJA5bPp3OLvPTiV2qR53iDXjkdCk
+	re34sKelR9tGhO0SrAhfw3ai49pet6sPDw==
+X-Google-Smtp-Source: AGHT+IHi7aH6RPqOqnxOyQBMAWOT8awtGLxr4q1o168dRsKDM6Xmd/Lzlb9AMOsLl38dILVFbogsvA==
+X-Received: by 2002:a05:600c:1393:b0:40e:4d7b:b2fb with SMTP id u19-20020a05600c139300b0040e4d7bb2fbmr297804wmf.59.1704872410688;
+        Tue, 09 Jan 2024 23:40:10 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id a21-20020a170906275500b00a2b94ba997fsm802577ejd.89.2024.01.09.23.28.38
+        by smtp.gmail.com with ESMTPSA id u18-20020a05600c139200b0040e4bcfd826sm1149322wmf.47.2024.01.09.23.40.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 23:28:39 -0800 (PST)
-Message-ID: <a2394a4a-0fc1-45a0-9f01-c792a138fe0c@linaro.org>
-Date: Wed, 10 Jan 2024 08:28:37 +0100
+        Tue, 09 Jan 2024 23:40:09 -0800 (PST)
+Message-ID: <90ba555f-fec5-4fcf-8b70-5c50752e0ed1@linaro.org>
+Date: Wed, 10 Jan 2024 08:40:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,19 +69,18 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH dt-schema] schemas: chosen: Add OpenWrt LEDs properties
  for system states
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- linux-leds@vger.kernel.org, openwrt-devel@lists.openwrt.org,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, openwrt-devel@lists.openwrt.org,
  =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
 References: <20240109082312.9989-1-zajec5@gmail.com>
  <1b90c50c-0a09-4627-83cd-1794dae7ed9b@linaro.org>
  <69966efa-21ab-4a38-ad06-61e7e2e5b6d3@gmail.com>
  <987fe3e7-adc8-489f-867b-2d3aaa004d94@linaro.org>
- <CAMuHMdW4BVWd93GcKwujb1p_gdOejDKwq9ewrwCqytDFRW9r=A@mail.gmail.com>
+ <62fdd030-7eb0-4658-969a-3bbddfa3334f@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -127,82 +126,11 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAMuHMdW4BVWd93GcKwujb1p_gdOejDKwq9ewrwCqytDFRW9r=A@mail.gmail.com>
+In-Reply-To: <62fdd030-7eb0-4658-969a-3bbddfa3334f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/01/2024 22:08, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Tue, Jan 9, 2024 at 8:10 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 09/01/2024 17:38, Rafał Miłecki wrote:
->>> On 9.01.2024 10:02, Krzysztof Kozlowski wrote:
->>>> On 09/01/2024 09:23, Rafał Miłecki wrote:
->>>>> From: Rafał Miłecki <rafal@milecki.pl>
->>>>>
->>>>> OpenWrt project provides downstream support for thousands of embedded
->>>>> home network devices. Its custom requirement for DT is to provide info
->>>>> about LEDs roles. Currently it does it by using custom non-documented
->>>>> aliases. While formally valid (aliases.yaml doesn't limit names or
->>>>> purposes of aliases) it's quite a loose solution.
->>>>>
->>>>> Document 4 precise "chosen" biding properties with clearly documented
->>>>> OpenWrt usage. This will allow upstreaming tons of DTS files that noone
->>>>
->>>> typo: none
->>>
->>> typo: no one ;)
->>>
->>>>> cared about so far as those would need to be patched downstream anyway.
->>>>
->>>>  From all this description I understand why you want to add it, but I
->>>> don't understand what are you exactly adding and how it is being used by
->>>> the users/OS.
->>>
->>> In OpenWrt we have user space script that reads LED full path:
->>> cat /proc/device-tree/aliases/led-<foo>
->>>
->>> And then sets LED to state matching current boot stage:
->>> echo 1 > /sys/class/leds/<bar>/brightness
->>
->> OK, it's nowhere close to a hardware property. You now instruct OS what
->> to do. It's software or software policy.
-> 
->>>> Anyway, we have existing properties for this - LED functions. Just
->>>> choose LED with given function (from sysfs) and you are done. If
->>>> function is missing in the header: feel free to go, least for me.
->>>
->>> In "Describing LEDs roles in device tree?" e-mail I wrote:
->>>
->>> "
->>> Please note that "function" on its own is not sufficient as multiple
->>> LEDs my share the same function name but its meaning may vary depending
->>> on color.
->>> "
->>>
->>> Let me elaborate here.
->>>
->>> Values of "function" property match LEDs descriptions (usually it's a
->>> physical label). That is OK and makes sense but doesn't allow OpenWrt to
->>> automatically pick proper LED to use during given boot stage.
->>>
->>> Some devices may have multiple color of a the same LED function. OpenWrt
->>> developer needs to choose which color to use for failsafe more and which
->>> boot fully booted state (and others too).
->>>
->>> Devices also differ in available LEDs by their functions. Some may have
->>> LED_FUNCTION_POWER that OpenWrt needs to use. Some may have
->>> LED_FUNCTION_STATUS. Or both. There are some more (less common)
->>> functions like LED_FUNCTION_ACTIVITY.
->>>
->>> We failed at OpenWrt to develop a single generic script to rule all
->>> devices and all their LEDs combinations. We ended up with developers
->>> *choosing* what LED to use for a given system state.
->>
->> So this all is because you want to write easier OS. That's abuse of
->> Devicetree. You can define which LEDs have different meaning, e.g.
->> physical label or icon attached to them. That's a hardware property.
+On 09/01/2024 22:48, Rafał Miłecki wrote:
 >>
 >> You can also define how pieces of hardware are wired together and create
 >> entire system, e.g. connect one LED to disk activity.
@@ -213,22 +141,82 @@ On 09/01/2024 22:08, Geert Uytterhoeven wrote:
 >> The problem of OS to nicely figure out which LED to blink when, is not a
 >> problem of Devicetree. It is a problem of OS and its configuration.
 > 
-> I'd say it's a grey area...
+> I'd say it's a thin line. Or just a grey idea as Geert said.
 > 
-> What if the colors are printed on the case, next to the LED?
-> Like these multi-color LEDs indicating port speed on network switches?
-> Then it suddenly becomes hardware description, just like
-> "aliases/serial2 = &...;" referring to serial port 2.
+> What is a LED "function" after all? How exactly are:
+> LED_FUNCTION_STATUS
+> LED_FUNCTION_ACTIVITY
+> LED_FUNCTION_BOOT
+> LED_FUNCTION_HEARTBEAT
+> different from each other?
 > 
-> Next, what if the colors are not printed on the case, but documented
-> in the product's manual?
-> What if there is no paper product manual, but just the OpenWRT online
-> documentation?
+> I can imagine OpenWrt seeing a different role for LED_FUNCTION_ACTIVITY
+> or LED_FUNCTION_BOOT than other projects.
 
-Mapping between colors and logical meanings is subjective. I don't think
-it is the same case as LED with a radio-signal or power-plug label.
+...which is not a problem. The meaning of these, except quite obvious
+heartbeat, is defined by the OS or system configurators.
 
-Anyway I also agree that this distinction is a bit blurred.
+> 
+> Proposed properties "openwrt,led-<foo>" don't exactly describe hardware
+> per se but are still designed to deal with hardware differences.
+> 
+>  From a practical point of view it's much easier to put such OS
+> configuration info in DT since it's closely related to LEDs defined
+> there and it helps a lot with maintenance. If at some point we change
+
+I agree, however this is an abuse of DT and therefore it is not an
+argument to put something into DT. And this was told many, many times on
+the lists: just because it is easier to instantiate each Linux struct
+device from DT (with 1-1 mapping between devices and device nodes), does
+not mean you should do it.
+
+Same here. Just because it is easier for OpenWRT, does not mean this is
+the solution.
+
+This is the most frequent argument used in all of such DT abuses.
+Another example: I want to boot some virtual machine and doing ACPI is
+too difficult, so I will just use DT as way to pass from host to guest.
+There were several examples of this. I understand why DT is the easiest
+for the job...
+
+> DT due to previous mistake (e.g. we fix LED color from amber to red)
+> that would mean breaking user space of Linux system (changing LED name).
+> Having DT binding for LEDs roles would prevent that.
+
+I can argue that LEDs "label" can be un-deprecated and used for that
+purpose as well. It will provide you stable sysfs entry, regardless of
+the "color" property.
+
+In your case you could also use to solve the actual problem: just label
+each LED accordingly, e.g. "phase:boot", "phase:upgrade". It might be
+not the best solution though, because we put one's OS expectations
+inside DT device node...
+
+> I was hoping that vendor prefixed "chosen" properties may somehow get
+> accepted as a reasonable solution for dealing with hardware differences
+> even if they don't strictly describe hardware itself.
+
+It's actually not the worst idea considering above "OS expectations
+inside DT device node" when using "label"...
+
+> 
+> Is there any other DT solution you think would be better and could be
+> accepted?
+> Given my hesitation about "function" meaning would something like
+> openwrt,function = "(boot|failsafe|running|upgrade)"
+> be any better?
+
+Your problem is not really that specific to OpenWRT - several embedded
+systems want to do the same, including Android. Some of the LEDs must be
+active before the user-space comes up, so it is the job for kernel
+and/or DT. Therefore let's go with generic solutions?
+
+I still wonder why we cannot define new LED FUNCTION constants and use
+them? You need them only for the pre-userspace phase, so do you expect
+one LED would have two functions? But if you do not have user-space how
+this aliases are being handled? By how?
+
+If you have user-space, then it's not a job for kernel.
 
 Best regards,
 Krzysztof
