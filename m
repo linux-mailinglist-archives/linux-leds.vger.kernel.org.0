@@ -1,145 +1,105 @@
-Return-Path: <linux-leds+bounces-589-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-590-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEFF82AD57
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 12:26:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73B782AE63
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 13:08:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD46B289652
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 11:26:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31401284B66
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 12:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264BE154AF;
-	Thu, 11 Jan 2024 11:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF7B01640B;
+	Thu, 11 Jan 2024 12:04:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBTO0rWF"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="MReblS0X"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0927E154AC;
-	Thu, 11 Jan 2024 11:26:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EBC1C433A6;
-	Thu, 11 Jan 2024 11:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704972403;
-	bh=ZIWRy+xjY6IT5ij6R/Vb7UhT0I45ahpnU35t0mqhwaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eBTO0rWFAH6NH7qj5EdoUo93cBBFXywZeeO4eLzzKNdf/jJNY1ZmmdUY8aX02m4LL
-	 sHRootAdW7DbUjFVp8tEDblrymA4js3Zd1yZJRnEUOsDuCHeS10O19SGdwAWSMJGhN
-	 /K94pPoHXu/oIv75ME8Zug9Om0Ry2j03k9kXBZsvCu9pkpUu2BcArNBONDPzbtrsCo
-	 Fa9bCWPwMeCEJJkeDjAwKyQNjIeOWXtEKgh06VmaQfzWZc4HP9x7baM+LnxLl7R47o
-	 1fM5W6aXyE2gfB1EoMRK1Mw+nfm4CpMZ4piq7f9d/XYa1W3uJ4TCpldCsMjVxqFuNd
-	 SVpSd2DO0GBCw==
-Date: Thu, 11 Jan 2024 11:26:38 +0000
-From: Lee Jones <lee@kernel.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Daniel Golle <daniel@makrotopia.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] docs: ABI: sysfs-class-led-trigger-netdev:
- Document now hidable link_*
-Message-ID: <20240111112638.GG1678981@google.com>
-References: <20231221171125.1732-1-ansuelsmth@gmail.com>
- <20231221171125.1732-2-ansuelsmth@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810C7156C1;
+	Thu, 11 Jan 2024 12:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1704974640; x=1705579440; i=markus.elfring@web.de;
+	bh=XPHM31/TfKCxRDz0ZIth51Z9vULocFfBJjxf1ByCGxM=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=MReblS0Xa1Lw1gy5z6IuAQWXzQ57Bwbd0y/lwQxOMULwtYZ6fg5FYZyWP3rsMc+2
+	 HVhRiawwCKRSTLIRz6aDoiGMvXBK8taczd6ZUW+o8I3HczwtAMs+ajPbZWZ0CDrbj
+	 dYUqT3VKZ3D+whh3Fb86WI94kbyhklGe1j3Y9tbC8jgACrszCd6EKb3C7yQYbiQhi
+	 ilP14+NMVzxJ6yEm1ObNKH4HfjKl4eRMPTR002cBbXLC6Pp73h+gZyxTvWeo4FSSC
+	 3SbM3Ft30XxNtCduiLMpUScr3k7p9ZsBDQaB+hFQc6NmadfpxZPSwXcR4GgzPJWsN
+	 QanFhIRW06xeKzi7hg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MPaMQ-1raSrC2av4-00MgMN; Thu, 11
+ Jan 2024 13:04:00 +0100
+Message-ID: <58d6b9d0-a2d6-4d8d-bc36-fe783839ca79@web.de>
+Date: Thu, 11 Jan 2024 13:03:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231221171125.1732-2-ansuelsmth@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: leds: trigger: oneshot: One function call less in pattern_init()
+ after error detection
+Content-Language: en-GB
+To: Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Pavel Machek <pavel@ucw.cz>, LKML <linux-kernel@vger.kernel.org>,
+ cocci@inria.fr
+References: <c73761c5-7150-4f20-9b3e-1da680400250@web.de>
+ <20240111104109.GB1665043@google.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240111104109.GB1665043@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qumbmpRY/AvugoD+arzlfhgcwcM2WMYsUP+tFvej/BAbGvxkk0Z
+ e8y7OICMQuzVRm8s5LQRo1FexoABXySiyHNy+QXWnLInWQUoNRaEGBLQPWpeFOOKawso4Nx
+ LYmrOyL4cSHDzg+r5Y8tNV40c0u16U87YhMfqfpaBg0Cgn/th+CAubmnVYsk0l1+9nAwQD0
+ bJHdPeEaL5RwzIKQ/PzgA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HUQG9nPB8vc=;kuYbAD82Z4Urm4GTFEM8Jzm2C9x
+ Bvt3YOEdxzFMzVCuRkW4I83vAgEuJgmyCqOOtZiTlY2C/5cZxfSuU8ZXoBj7JTbfbgppXSeJa
+ TmlOceBYybxxkFptQHGSYLjnBEZtPG4l4PRJ1qmYIEuKpEmBxneh3s426HXBex2yikHXegBVc
+ aq3srAR1GTS8IEnKgiRHVofcT808PmVM3U5a0wd5D8oqgKN580E8SkQT0xtrnshNV+6vHoGVx
+ Oxck1zZn/mcGuWYU4A4vsJgJjX/j7FH+RMIHjukpXmP/ezEKI9EZn3E/BiNySVEAM5b63Mc+p
+ ZZ+xm4qT42XdltpLGZagpqbY0c7nDbQEBPw3M46Shj6Goe24vf1GjSI6qJIb11K5jmr8E9c5/
+ yV/1AtH94uYeK8Dho7ZT4fEetj+OXnCMSsAbU2C/ioGpnxtnqCGzT2kXI7CpnCqwmvnTXWUXE
+ si1pdIruNdI9cnWLQY3JHZRrTw4Ft/yiCp8rijGO5qvw4OiuwY0TYbbMuJSDUGz4UYLWuZiGM
+ zmMUBdpgG/yjMo3ynhcSVoqh/DUpQsP7xancrSafgZLtW8TMv60gao8wmmDoc9+9cuXXZv97o
+ C1HC6rYO9bAjGvGgtc4Zm4wzL3IOs1VO1+G2gV9fQaSboxlA/81anFma5zQECwl3Wrdl+RqoA
+ ZN+uMLnbXikCmVPXnrKGbKrVRpJhYviTwgVbEhJyPvdlosF7CcFrzfv6HPTIBqPxgfvy4Bwx2
+ P+He0VFCSb042PrRyNOwUYhiTwIVhbfVNzvZS/SQY6fM16LPyIrzvgueCWbbS8fvEaz20QXGE
+ SlnCkVupTKyBeXhvif9cBAq1ufBYpTUvOzpBr9gnzjwKZENhIbDpuQFy1M4wXEOssbc3IGqmN
+ pV/fr7iHzCdyva18wZOG5s4dBi67P1f2MkCrOs34Et34nj1xwGCnxKJuq3n4gAAVXkZSfPqLF
+ KHxEcTKxb6mhV2YVdzEXjkYSQ5k=
 
-On Thu, 21 Dec 2023, Christian Marangi wrote:
+>> The kfree() function was called in one case by
+>> the pattern_init() function during error handling
+>> even if the passed variable contained a null pointer.
+>
+> It's totally valid to call kfree() on a NULL pointer:
+>
+>   * If @object is NULL, no operation is performed.
+>
+> Why do we care all that much?
 
-> Document now hidable link speed modes for the LED netdev trigger.
-> 
-> Link speed modes are now showed only if the named network device
-> supports them and are hidden if not.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> Reviewed-by: Marek Behún <kabel@kernel.org>
-> ---
-> Changes v6:
-> - Add Reviewed-by tag
-> Changes v2:
-> - Add this patch
-> 
->  .../ABI/testing/sysfs-class-led-trigger-netdev       | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+Would you dare to categorise such special function calls as redundant?
 
-Reviewed-by: Lee Jones <lee@kernel.org>
+Should they be skipped in more cases?
 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> index a6c307c4befa..ed46b37ab8a2 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> @@ -88,6 +88,8 @@ Description:
->  		speed of 10MBps of the named network device.
->  		Setting this value also immediately changes the LED state.
->  
-> +		Present only if the named network device supports 10Mbps link speed.
-> +
->  What:		/sys/class/leds/<led>/link_100
->  Date:		Jun 2023
->  KernelVersion:	6.5
-> @@ -101,6 +103,8 @@ Description:
->  		speed of 100Mbps of the named network device.
->  		Setting this value also immediately changes the LED state.
->  
-> +		Present only if the named network device supports 100Mbps link speed.
-> +
->  What:		/sys/class/leds/<led>/link_1000
->  Date:		Jun 2023
->  KernelVersion:	6.5
-> @@ -114,6 +118,8 @@ Description:
->  		speed of 1000Mbps of the named network device.
->  		Setting this value also immediately changes the LED state.
->  
-> +		Present only if the named network device supports 1000Mbps link speed.
-> +
->  What:		/sys/class/leds/<led>/link_2500
->  Date:		Nov 2023
->  KernelVersion:	6.8
-> @@ -127,6 +133,8 @@ Description:
->  		speed of 2500Mbps of the named network device.
->  		Setting this value also immediately changes the LED state.
->  
-> +		Present only if the named network device supports 2500Mbps link speed.
-> +
->  What:		/sys/class/leds/<led>/link_5000
->  Date:		Nov 2023
->  KernelVersion:	6.8
-> @@ -140,6 +148,8 @@ Description:
->  		speed of 5000Mbps of the named network device.
->  		Setting this value also immediately changes the LED state.
->  
-> +		Present only if the named network device supports 5000Mbps link speed.
-> +
->  What:		/sys/class/leds/<led>/link_10000
->  Date:		Nov 2023
->  KernelVersion:	6.8
-> @@ -153,6 +163,8 @@ Description:
->  		speed of 10000Mbps of the named network device.
->  		Setting this value also immediately changes the LED state.
->  
-> +		Present only if the named network device supports 10000Mbps link speed.
-> +
->  What:		/sys/class/leds/<led>/half_duplex
->  Date:		Jun 2023
->  KernelVersion:	6.5
-> -- 
-> 2.40.1
-> 
+See also:
+https://wiki.sei.cmu.edu/confluence/display/c/MEM12-C.+Consider+using+a+go=
+to+chain+when+leaving+a+function+on+error+when+using+and+releasing+resourc=
+es
 
--- 
-Lee Jones [李琼斯]
+
+Regards,
+Markus
 
