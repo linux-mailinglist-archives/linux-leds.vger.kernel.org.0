@@ -1,46 +1,67 @@
-Return-Path: <linux-leds+bounces-584-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-585-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC0482ACB5
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 11:59:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A943A82ACC2
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 12:02:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1BF82839C4
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 10:58:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE7F11C20E5B
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 11:02:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C3814F68;
-	Thu, 11 Jan 2024 10:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8154C14F79;
+	Thu, 11 Jan 2024 11:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvqQgHrB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P25cJYRu"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC82C14F65;
-	Thu, 11 Jan 2024 10:58:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0806C433F1;
-	Thu, 11 Jan 2024 10:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAA114F6F;
+	Thu, 11 Jan 2024 11:02:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404F4C433F1;
+	Thu, 11 Jan 2024 11:02:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704970722;
-	bh=ZPmFNbT3sULJipHfdwJsDJ+/K6p0fplCO6ZXJFDlwuU=;
+	s=k20201202; t=1704970975;
+	bh=pJz6MwE2zBPVI4q4f57nWgVYzmFvUxMHAkevW/NMbk8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pvqQgHrBFMIIOQ1F6qtZIzeAZyKo/xS3SbY9P4qoaMaFdOwPE+yiUPJUawBBeyaVu
-	 VZAGYiUAEoDeN8OM0cv6+WEDT7xYD43oYJBA1IVOWbdHv1U34noLCI14kkc56YFaqk
-	 Pp1gn+mp77YEZZY/wUgPKLdmIsNTgWfFbMG0Qh4V5o2ZN32ePqO7UPQZkFX4cfAGyR
-	 I92JYRpWWxHQQoG1QG/wv5C0cF7+sGH6MOsRlfbvCiTiOiq05/dbYeKSq8eFeEpoRm
-	 OX25eNa4eAC5cCYnhl5YG367u62MqqQ4VE91SUeqUnZfbjvsJqDgrTfPQl8x5XUsYs
-	 l9TRiRoxE/RNw==
-Date: Thu, 11 Jan 2024 10:58:38 +0000
+	b=P25cJYRuVtBiv+DEUg07HRqzlxooGGBwT0C1UQXWoXFpMqMPtpvsSSkZl3QAMIa7Y
+	 wl1XaVbkO+mQmy9J7YFpLi2eB0Df2wX4FCuOEoG7BO58k3YTMXLxL1OaZhWGxFwdqw
+	 gPpLcT9RUjEfXlEJFI7PfZ0FWLfvdgsz/gZzGUOhzxQcnO94f1JLzl4n9XbBHDRtI3
+	 d7nQI/zjftRZKQ2y3z2fIQXDDjKf0VEHIHA+SZcxFCsveIuuOgBhcbsvmCARDTBcao
+	 ZP5JKO9UNurGvzFzxX4SW9zNkPrV509nTZOWyRl+NG0+MVPc8Mx2PtZXrtcajAPUz6
+	 oGlJQMV6RZ1TA==
+Date: Thu, 11 Jan 2024 11:02:47 +0000
 From: Lee Jones <lee@kernel.org>
-To: Joseph Strauss <jstrauss@mailbox.org>
-Cc: pavel@ucw.cz, jansimon.moeller@gmx.de, conor@kernel.org,
-	christophe.jaillet@wanadoo.fr, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] Add multicolor support to BlinkM LED driver
-Message-ID: <20240111105838.GB1678981@google.com>
-References: <20240106172944.7593-1-jstrauss@mailbox.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	William Zhang <william.zhang@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	=?iso-8859-1?Q?Fern=E1ndez?= Rojas <noltari@gmail.com>,
+	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v9 2/5] dt-bindings: net: phy: Document LED
+ inactive high impedance mode
+Message-ID: <20240111110247.GD1678981@google.com>
+References: <20240105142719.11042-1-ansuelsmth@gmail.com>
+ <20240105142719.11042-3-ansuelsmth@gmail.com>
+ <37668408-9930-4984-8182-fc315e506211@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,60 +71,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240106172944.7593-1-jstrauss@mailbox.org>
+In-Reply-To: <37668408-9930-4984-8182-fc315e506211@lunn.ch>
 
-On Sat, 06 Jan 2024, Joseph Strauss wrote:
+On Tue, 09 Jan 2024, Andrew Lunn wrote:
 
-> Add multicolor support to the BlinkM driver, making it easier to control
-> from userspace. The BlinkM LED is a programmable RGB LED. The driver
-> currently supports only the regular LED sysfs class, resulting in the
-> creation of three distinct classes, one for red, green, and blue. The
-> user then has to input three values into the three seperate brightness
-> files within those classes. The multicolor LED framework makes the
-> device easier to control with the multi_intensity file: the user can
-> input three values at once to form a color, while still controlling the
-> lightness with the brightness file.
+> On Fri, Jan 05, 2024 at 03:27:14PM +0100, Christian Marangi wrote:
+> > Document LED inactive high impedance mode to set the LED to require high
+> > impedance configuration to be turned OFF.
+> > 
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 > 
-> The main struct blinkm_led has changed slightly. The struct led_classdev
-> for the regular sysfs classes remain. The blinkm_probe function checks
-> CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
-> sysfs classes or the single multicolor one, but never both. The
-> blinkm_set_mc_brightness() function had to be added to calculate the
-> three color components and then set the fields of the blinkm_data
-> structure accordingly.
-> 
-> All of the feedback has been much appreciated. Thanks!
-> 
-> Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
-> ---
-> Changes in v2:
-> - Replaced instances of the constant 3 with NUM_LEDS, where applicable
-> - Fixed formatting errors
-> - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
->   statements
-> - Changed id of multicolor class from 4 to 3
-> - Replaced call to devm_kmalloc_array() with devm_kcalloc()
-> Changes in v3:
-> - Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
->   funcitonality
-> - Extend well-known-leds.txt to include standard names for RGB and indicator
->   LEDS
-> - Change name of Blinkm sysfs class according to well-known-leds.txt
-> - Simplify struct blinkm_led and struct blinkm_data
-> - Remove magic numbers
-> - Fix formatting errors
-> - Remove unrelated changes
-> Changes in v4:
-> - Fix indentation
-> - Add default case to switch statement
-> 
->  Documentation/leds/leds-blinkm.rst     |  27 ++-
->  Documentation/leds/well-known-leds.txt |   8 +
->  drivers/leds/Kconfig                   |   8 +
->  drivers/leds/leds-blinkm.c             | 217 +++++++++++++++++--------
->  4 files changed, 185 insertions(+), 75 deletions(-)
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-FYI: I won't be reviewing this until all of the build-bots are happy.
+If the DT Maintainers are happy, so am I.
+
+Acked-by: Lee Jones <lee@kernel.org>
+
 
 -- 
 Lee Jones [李琼斯]
