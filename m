@@ -1,42 +1,41 @@
-Return-Path: <linux-leds+bounces-585-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-586-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A943A82ACC2
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 12:02:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F1B82ACCB
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 12:03:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE7F11C20E5B
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 11:02:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6CEA1F23431
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jan 2024 11:03:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8154C14F79;
-	Thu, 11 Jan 2024 11:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780AD14F9D;
+	Thu, 11 Jan 2024 11:03:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P25cJYRu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gXydpx5Y"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAA114F6F;
-	Thu, 11 Jan 2024 11:02:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404F4C433F1;
-	Thu, 11 Jan 2024 11:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5370515482;
+	Thu, 11 Jan 2024 11:03:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0942C433C7;
+	Thu, 11 Jan 2024 11:03:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704970975;
-	bh=pJz6MwE2zBPVI4q4f57nWgVYzmFvUxMHAkevW/NMbk8=;
+	s=k20201202; t=1704971012;
+	bh=bI1Tet5jDj/QH09wURUJK1NElS1yuV/fwxx+hGurCKQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P25cJYRuVtBiv+DEUg07HRqzlxooGGBwT0C1UQXWoXFpMqMPtpvsSSkZl3QAMIa7Y
-	 wl1XaVbkO+mQmy9J7YFpLi2eB0Df2wX4FCuOEoG7BO58k3YTMXLxL1OaZhWGxFwdqw
-	 gPpLcT9RUjEfXlEJFI7PfZ0FWLfvdgsz/gZzGUOhzxQcnO94f1JLzl4n9XbBHDRtI3
-	 d7nQI/zjftRZKQ2y3z2fIQXDDjKf0VEHIHA+SZcxFCsveIuuOgBhcbsvmCARDTBcao
-	 ZP5JKO9UNurGvzFzxX4SW9zNkPrV509nTZOWyRl+NG0+MVPc8Mx2PtZXrtcajAPUz6
-	 oGlJQMV6RZ1TA==
-Date: Thu, 11 Jan 2024 11:02:47 +0000
+	b=gXydpx5YYq7Gt4XhTMlirofDbH/GMG4JFQlhuY7CLC45RscIa+dfuNP803StsPw4j
+	 n/UR34vmiBCA5F5LI5+rTkeauMcYorGlS7G839valCfkC8HrstTBx/HJsz6aG/7HPW
+	 0Dc/Zw10+M/cbeekw5rO3Q4C8RFcHWRO0oUmMto6iyj7jTZEYb/tzmOLpyuIpMrkle
+	 rT74OZ9SuM4hEjuUvmH/w+kcmqEybvzeiuRI5mLvZvnafUfn+u4YJWb7y0p2tW7toF
+	 0YZdGHN5h95Yfef+oqzDKrSKm8BoCpRNP7GIQ5gIchh5x8DU1Sg6DKuGEhiBjyddh0
+	 ws0TlA9d2M/Dg==
+Date: Thu, 11 Jan 2024 11:03:25 +0000
 From: Lee Jones <lee@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh+dt@kernel.org>,
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	William Zhang <william.zhang@broadcom.com>,
@@ -48,6 +47,7 @@ Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew@lunn.ch>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
 	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -56,12 +56,11 @@ Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v9 2/5] dt-bindings: net: phy: Document LED
- inactive high impedance mode
-Message-ID: <20240111110247.GD1678981@google.com>
+Subject: Re: [net-next PATCH v9 1/5] dt-bindings: net: phy: Make LED
+ active-low property common
+Message-ID: <20240111110325.GE1678981@google.com>
 References: <20240105142719.11042-1-ansuelsmth@gmail.com>
- <20240105142719.11042-3-ansuelsmth@gmail.com>
- <37668408-9930-4984-8182-fc315e506211@lunn.ch>
+ <20240105142719.11042-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,22 +70,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <37668408-9930-4984-8182-fc315e506211@lunn.ch>
+In-Reply-To: <20240105142719.11042-2-ansuelsmth@gmail.com>
 
-On Tue, 09 Jan 2024, Andrew Lunn wrote:
+On Fri, 05 Jan 2024, Christian Marangi wrote:
 
-> On Fri, Jan 05, 2024 at 03:27:14PM +0100, Christian Marangi wrote:
-> > Document LED inactive high impedance mode to set the LED to require high
-> > impedance configuration to be turned OFF.
-> > 
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> Move LED active-low property to common.yaml. This property is currently
+> defined multiple times by bcm LEDs. This property will now be supported
+> in a generic way for PHY LEDs with the use of a generic function.
 > 
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> With active-low bool property not defined, active-high is always
+> assumed.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+> Changes v5:
+> - Make active-low generic
+> Changes v4:
+> - Drop support for global active-low
+> - Rework to polarity option (for marvell10g series support)
+> Changes v3:
+> - Out of RFC
+> Changes v2:
+> - Add this patch
+> 
+>  Documentation/devicetree/bindings/leds/common.yaml          | 6 ++++++
+>  Documentation/devicetree/bindings/leds/leds-bcm63138.yaml   | 4 ----
+>  Documentation/devicetree/bindings/leds/leds-bcm6328.yaml    | 4 ----
+>  Documentation/devicetree/bindings/leds/leds-bcm6358.txt     | 2 --
+>  .../devicetree/bindings/leds/leds-pwm-multicolor.yaml       | 4 ----
+>  Documentation/devicetree/bindings/leds/leds-pwm.yaml        | 5 -----
+>  6 files changed, 6 insertions(+), 19 deletions(-)
 
 If the DT Maintainers are happy, so am I.
 
 Acked-by: Lee Jones <lee@kernel.org>
-
 
 -- 
 Lee Jones [李琼斯]
