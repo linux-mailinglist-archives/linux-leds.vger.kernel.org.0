@@ -1,336 +1,143 @@
-Return-Path: <linux-leds+bounces-599-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-600-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545B182CA7E
-	for <lists+linux-leds@lfdr.de>; Sat, 13 Jan 2024 09:27:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A98882CDA0
+	for <lists+linux-leds@lfdr.de>; Sat, 13 Jan 2024 17:00:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3ADB284AF4
-	for <lists+linux-leds@lfdr.de>; Sat, 13 Jan 2024 08:27:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B40F3282139
+	for <lists+linux-leds@lfdr.de>; Sat, 13 Jan 2024 16:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D9551865A;
-	Sat, 13 Jan 2024 08:27:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F1804414;
+	Sat, 13 Jan 2024 16:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUdwzJHS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PAWyYYUf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8D818647
-	for <linux-leds@vger.kernel.org>; Sat, 13 Jan 2024 08:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705134460; x=1736670460;
-  h=date:from:to:cc:subject:message-id;
-  bh=NhRk9CrsTeKamB2raCdwhghDTciLfWj4SBH4QYpxa2c=;
-  b=gUdwzJHSertOq0u9jpZUJ6SDk/KG1XHc1v7Ur2tCdwFm7zEPKbvv7KWz
-   4wnHqXbPV7cYXizKrKF4/wbi7cwzO35aVXIAWXwhnQqaokEEooAgMUMHR
-   Rc+o6LF+fqL0kc0kpJv/x/UIiUZY8gfK6ykthVyas7CFQR09DTL0IbLUJ
-   2MVFhcAKMwhkbl6foxsJdoKpfB00wODDAOsa44wJlH78Jz4k/iaBybUuR
-   jqdE5zJ/WtXS2AmQFxEfno3EBQMqFNxyUBs7prL8i6O0BitCwdzPmAsFH
-   NavoofPtG5pr9y9X/PtVQaE2Pv2jfAwTx/ANpSsqgZPfSMvxgH0uhA8ug
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="20841574"
-X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="20841574"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 00:27:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="853504537"
-X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="853504537"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jan 2024 00:27:38 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rOZMd-000AGk-21;
-	Sat, 13 Jan 2024 08:27:35 +0000
-Date: Sat, 13 Jan 2024 16:26:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next-next] BUILD REGRESSION
- 1f88a09c35f8d50eff1adbc9e35cc2982b3ac9f9
-Message-ID: <202401131654.HSONHFjm-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97544400
+	for <linux-leds@vger.kernel.org>; Sat, 13 Jan 2024 16:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a29058bb2ceso803440966b.0
+        for <linux-leds@vger.kernel.org>; Sat, 13 Jan 2024 08:00:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705161613; x=1705766413; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qaMn8nzvo9vva6b+v3aHZDSs5OLOr5rfMNN+htxZNaE=;
+        b=PAWyYYUfHnl3ELnJ/Qlw3Ofym8+y32iCkaPmopYv4f2sRXtAqMWB4WCCAvvq+ke+tL
+         TFrlxOUtA+tGSKV0ymIR5+mfdqf9kHkiZ4LisEl+/X06tbQpiqQiBX5FFIThyJfG77De
+         VwX4/1FhulT74HzUQY8/3u67tnvQ9QDcJSoA98WR8JucUOc/oYHR/VFLE7jX0o7PQVyO
+         P5WzxaYZaYOqjpE2xECU9FIR+aVlSynaRb4BMD+X9RAPSwm7DOZ7uhS9tpgtYfXbKdvp
+         RkC9eWtP+QuPFJqA+bial4SwOUbADsvUy37UZbugg1tFKl1YZuk8vE8Idtu/z9qRJ26c
+         BdEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705161613; x=1705766413;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qaMn8nzvo9vva6b+v3aHZDSs5OLOr5rfMNN+htxZNaE=;
+        b=o4SSL+dYvVJyA/4l27LwCkgVrYTfNbviDL2+bTT12BBDvIwNltVixXpvMAEaGd1swN
+         DPS8N0VnIjrG89IzdGOqGurMIiz8Vi7WRxVxJErJFdh1jfp9Bl+bXIM6brZRYug4j6LP
+         D8nIYZ1juqll3fCFzDxrvlXQBlRvKYOuXbQLDppW9BEoIkS+nT2ZavvgPOl5JG2fp9XS
+         SW7leW7Ogc/8Yg+NIddRI43Xlgb85tHy2L1RGC/w15X32ofzODYO8KX91nPr+Nl0TsId
+         oas0HkxfBjbhCOv/fOTXw31Pr9ilD6qT4l+ZAu7banJNRbFRJa969dTIK0jUjGfG80LO
+         Ia6w==
+X-Gm-Message-State: AOJu0Yxuor0leK65NbHbyE3dXlRP1fUrtn/j+0WD6mNUSvdXfP3FLm+I
+	WhUeqIcXUjnq9vKjqBzeHycQBVPok5g=
+X-Google-Smtp-Source: AGHT+IETt9HdaA1CV2zljl/MXgoc8r58OJlkdm8SDqiHChU1nDFo2YkzLwkoGcgzqD+oHxyENXzw8Q==
+X-Received: by 2002:a17:906:3bce:b0:a23:4472:57e7 with SMTP id v14-20020a1709063bce00b00a23447257e7mr987364ejf.174.1705161612672;
+        Sat, 13 Jan 2024 08:00:12 -0800 (PST)
+Received: from ?IPV6:2a01:c22:6f53:1400:f940:1690:80f6:61b6? (dynamic-2a01-0c22-6f53-1400-f940-1690-80f6-61b6.c22.pool.telefonica.de. [2a01:c22:6f53:1400:f940:1690:80f6:61b6])
+        by smtp.googlemail.com with ESMTPSA id vs7-20020a170907a58700b00a2caa85c0c1sm2097225ejc.30.2024.01.13.08.00.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 Jan 2024 08:00:12 -0800 (PST)
+Message-ID: <4663d2d8-660d-4af2-9f65-d95e95263923@gmail.com>
+Date: Sat, 13 Jan 2024 17:00:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] leds: trigger: audio: Set module alias for module
+ auto-loading
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next-next
-branch HEAD: 1f88a09c35f8d50eff1adbc9e35cc2982b3ac9f9  docs: ABI: sysfs-class-led-trigger-netdev: Document now hidable link_*
+This a follow-up to 5edf7f11313d ("leds: trigger: Load trigger modules
+on-demand if used as default trigger") and sets an alias for the audio
+triggers.
 
-Error/Warning reports:
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/leds/trigger/ledtrig-audio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-https://lore.kernel.org/oe-kbuild-all/202401131235.zLTJE6Po-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-drivers/leds/rgb/leds-qcom-lpg.c:17:10: fatal error: linux/soc/qcom/qcom-pbs.h: No such file or directory
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- arc-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- arc-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- arm-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- arm-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- arm64-randconfig-001-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- csky-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- csky-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- i386-buildonly-randconfig-003-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- i386-randconfig-062-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- loongarch-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- loongarch-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- loongarch-randconfig-002-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- m68k-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- m68k-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- microblaze-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- microblaze-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- mips-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- mips-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- nios2-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- nios2-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- nios2-randconfig-002-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- openrisc-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- openrisc-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- parisc-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- parisc-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- powerpc64-randconfig-001-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- powerpc64-randconfig-r123-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- riscv-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- riscv-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- s390-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- s390-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sh-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sh-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sparc-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sparc-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sparc-randconfig-002-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sparc64-allmodconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- sparc64-allyesconfig
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-|-- x86_64-randconfig-072-20240113
-|   `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-`-- xtensa-allyesconfig
-    `-- drivers-leds-rgb-leds-qcom-lpg.c:fatal-error:linux-soc-qcom-qcom-pbs.h:No-such-file-or-directory
-
-elapsed time: 1458m
-
-configs tested: 163
-configs skipped: 1
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                               defconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240113   gcc  
-arc                   randconfig-002-20240113   gcc  
-arm                               allnoconfig   gcc  
-arm                           imxrt_defconfig   gcc  
-arm                      integrator_defconfig   gcc  
-arm                            mps2_defconfig   gcc  
-arm                         nhk8815_defconfig   gcc  
-arm                          pxa3xx_defconfig   gcc  
-arm                   randconfig-001-20240113   gcc  
-arm                   randconfig-002-20240113   gcc  
-arm                   randconfig-003-20240113   gcc  
-arm                   randconfig-004-20240113   gcc  
-arm                           sunxi_defconfig   gcc  
-arm64                            alldefconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240113   gcc  
-arm64                 randconfig-002-20240113   gcc  
-arm64                 randconfig-003-20240113   gcc  
-arm64                 randconfig-004-20240113   gcc  
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240113   gcc  
-csky                  randconfig-002-20240113   gcc  
-hexagon                          allmodconfig   clang
-hexagon                          allyesconfig   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386                                defconfig   gcc  
-i386                  randconfig-011-20240113   clang
-i386                  randconfig-012-20240113   clang
-i386                  randconfig-013-20240113   clang
-i386                  randconfig-014-20240113   clang
-i386                  randconfig-015-20240113   clang
-i386                  randconfig-016-20240113   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240113   gcc  
-loongarch             randconfig-002-20240113   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                         apollo_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        m5307c3_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                        bcm47xx_defconfig   gcc  
-mips                           gcw0_defconfig   gcc  
-nios2                            alldefconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240113   gcc  
-nios2                 randconfig-002-20240113   gcc  
-openrisc                         alldefconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc                randconfig-001-20240113   gcc  
-parisc                randconfig-002-20240113   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                 canyonlands_defconfig   gcc  
-powerpc                    ge_imp3a_defconfig   gcc  
-powerpc               randconfig-001-20240113   gcc  
-powerpc               randconfig-002-20240113   gcc  
-powerpc               randconfig-003-20240113   gcc  
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                     stx_gp3_defconfig   gcc  
-powerpc                     taishan_defconfig   gcc  
-powerpc                     tqm8540_defconfig   gcc  
-powerpc                     tqm8555_defconfig   gcc  
-powerpc                        warp_defconfig   gcc  
-powerpc64             randconfig-001-20240113   gcc  
-powerpc64             randconfig-002-20240113   gcc  
-powerpc64             randconfig-003-20240113   gcc  
-riscv                            allmodconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv             nommu_k210_sdcard_defconfig   gcc  
-riscv                 randconfig-001-20240113   gcc  
-riscv                 randconfig-002-20240113   gcc  
-riscv                          rv32_defconfig   clang
-s390                              allnoconfig   gcc  
-s390                                defconfig   gcc  
-s390                       zfcpdump_defconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                        apsh4ad0a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                    randconfig-001-20240113   gcc  
-sh                    randconfig-002-20240113   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                           se7343_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sh                          urquell_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                       sparc64_defconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240113   gcc  
-sparc64               randconfig-002-20240113   gcc  
-um                               allmodconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240113   gcc  
-um                    randconfig-002-20240113   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240113   gcc  
-x86_64       buildonly-randconfig-002-20240113   gcc  
-x86_64       buildonly-randconfig-003-20240113   gcc  
-x86_64       buildonly-randconfig-004-20240113   gcc  
-x86_64       buildonly-randconfig-005-20240113   gcc  
-x86_64       buildonly-randconfig-006-20240113   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-011-20240113   gcc  
-x86_64                randconfig-012-20240113   gcc  
-x86_64                randconfig-013-20240113   gcc  
-x86_64                randconfig-014-20240113   gcc  
-x86_64                randconfig-015-20240113   gcc  
-x86_64                randconfig-016-20240113   gcc  
-x86_64                randconfig-071-20240113   gcc  
-x86_64                randconfig-072-20240113   gcc  
-x86_64                randconfig-073-20240113   gcc  
-x86_64                randconfig-074-20240113   gcc  
-x86_64                randconfig-075-20240113   gcc  
-x86_64                randconfig-076-20240113   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240113   gcc  
-xtensa                randconfig-002-20240113   gcc  
-
+diff --git a/drivers/leds/trigger/ledtrig-audio.c b/drivers/leds/trigger/ledtrig-audio.c
+index c6b437e63..2ecd4b760 100644
+--- a/drivers/leds/trigger/ledtrig-audio.c
++++ b/drivers/leds/trigger/ledtrig-audio.c
+@@ -63,3 +63,5 @@ module_exit(ledtrig_audio_exit);
+ 
+ MODULE_DESCRIPTION("LED trigger for audio mute control");
+ MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("ledtrig:audio-mute");
++MODULE_ALIAS("ledtrig:audio-micmute");
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
 
