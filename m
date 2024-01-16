@@ -1,146 +1,212 @@
-Return-Path: <linux-leds+bounces-607-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-608-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D5482EDC5
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 12:33:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 418D582F494
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 19:50:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CC961F2454C
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 11:33:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1FEB1F24B45
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 18:50:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44EA51B95D;
-	Tue, 16 Jan 2024 11:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E37731CF8F;
+	Tue, 16 Jan 2024 18:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLohVOwM"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EYvnLMYD"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD2F1B94D
-	for <linux-leds@vger.kernel.org>; Tue, 16 Jan 2024 11:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33761e291c1so5516561f8f.0
-        for <linux-leds@vger.kernel.org>; Tue, 16 Jan 2024 03:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705404761; x=1706009561; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=H3qXSRq538Ovs0cJ4DjzEgwX9/MA2ShIwOsyBWZLwfo=;
-        b=OLohVOwMzRKvqKyKS7FYzU50FDusI0aZUhHrFfPm6stFi8DVN614xOkG09I8FWW7IC
-         DcK04VLjVNqi0JAxsVEaByYXm6S+Egio2teh3cCpTCUhT2iVUeF7iovU3fMhQUOpAvup
-         srKgq0ib3QGpQvnXMSIlvuNxS8waS6o72rYZgAaS2KlONUjQJlHjHFxQxJsrYbe394NU
-         zHvUB/YiunP8GZcwLg433NEOfJNZii/vXY2Jl2jo8xb7bb8S9NrYasPMdugBX+/NmW4r
-         nMeeP6vB3ojKsFXlL6UFJYWGMNmDTSBR3XRV6h2xH0oQcMIwMhlzaqyytGhHN4XVHBBb
-         lI5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705404761; x=1706009561;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H3qXSRq538Ovs0cJ4DjzEgwX9/MA2ShIwOsyBWZLwfo=;
-        b=rXMUHSHSPFJzKMKjGBBoBes+R5yLVIRld6K8b5du0FuYMz5wAPrNtuyLDLg+wmbbll
-         IOcmWQlWeYh0RVPt2JSNpdCAUUZDVIKwmOascYbBADqPz54DV/hxSU2HBMFQN8lsm5v+
-         1hzwbq+dNO68xP9dtKuc0rNcbJRzN1AchOX1fQuLSJ/KcN2K2nZPt23kC22gxy+UMngy
-         cQnYk6vh+X4Dcs/UlbXdCR6+EVbKEGCseLv4iO+gZbNwFmZD6s/8dzxyswzIoIi8g2rQ
-         SfM4vF9jb4tcwNV7mpeDHjZEFf4D9Qr1qs5ts8LmBnodKPD1l0gyb7G9GYr2lHUTSWO5
-         83HQ==
-X-Gm-Message-State: AOJu0YwvQovVhz0iKEbwgRdDJ9ZwpupJEXCsGtnb1OPoZ37NtA0aW3+W
-	rDcJ0A56O7MLEwqbcmV2vKc=
-X-Google-Smtp-Source: AGHT+IEzwljUnYQSGUikOZhsDCOxW8CGZd1MVbduv6KWGlntPEwmj5ZyFUn+Qo8nE75Q0kdeWyuVIw==
-X-Received: by 2002:a05:600c:358b:b0:40e:4560:6cf5 with SMTP id p11-20020a05600c358b00b0040e45606cf5mr3792246wmq.25.1705404760641;
-        Tue, 16 Jan 2024 03:32:40 -0800 (PST)
-Received: from ?IPV6:2a01:c22:73ee:f700:d8a3:e1c3:569e:b92c? (dynamic-2a01-0c22-73ee-f700-d8a3-e1c3-569e-b92c.c22.pool.telefonica.de. [2a01:c22:73ee:f700:d8a3:e1c3:569e:b92c])
-        by smtp.googlemail.com with ESMTPSA id fm23-20020a05600c0c1700b0040e612aa673sm18911223wmb.17.2024.01.16.03.32.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 03:32:40 -0800 (PST)
-Message-ID: <b7e2062d-f8ee-448c-952d-7af6f2abd210@gmail.com>
-Date: Tue, 16 Jan 2024 12:32:39 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A501D520;
+	Tue, 16 Jan 2024 18:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705431018; cv=none; b=HsRLyvFNEO2MkQuBC5FpPDdZjhFrlgCKhBS+YtGz3sSO1mbE4BNdoX7V0F/YDDLT1nK/rZqbnc/uFGL0o/rkZ9oTceluO1CPiVrPfBy+44NYnCGqrJIYmYBeUwzWyZI+X/UXDf/YuW9nm+gSZkkeflXSQjXu0ITNjqSqb4uo69U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705431018; c=relaxed/simple;
+	bh=u9HtAreXvZzRNiP6Z/mv4lczqcqgpaGLfP2V36U+ZO8=;
+	h=Received:DKIM-Signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:Content-Language:To:CC:
+	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Originating-IP:X-ClientProxiedBy:X-QCInternal:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details; b=O1PmgqplueSvGIQJPSCiLfQH20XwdN/fX4jdnCRgz44Nd/UC70JeEojwcpdH+x1ek+zMv7olqlQlFlrCP0WVAKGCwOYx4eZmxZ7ZEx9f1A5ktQ7rq27wxP1eWRkUi0rh+nUpg4Wpt0//mWuj/4tSxA9N389ISwfdWZ0pdoGNIB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EYvnLMYD; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40GHJqcE002807;
+	Tue, 16 Jan 2024 18:50:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=RhJ8xMqSq4+fViYmhVIvXju/z80MFnRKlqjM76zqqC8=; b=EY
+	vnLMYDbg+PpcPxubij3rLp7H+lyFZmVAvrPDIDYnk6+NmTyVKZ0dZT6pu1l+8JUy
+	qmqx6H+RhL3QWuWwbUEOxrI7GOE6FDIMP7VL1dEMf1A4b7uUkS4t0ZTqld9HgXgk
+	bK5xfvSI3PuhSaE7Hy+crhuiz5XFz24cRn/F+qxKoBY0ntDWWezS6m9chfXQkAJ2
+	S6Zdyr0dtXbRfrkQeYZHafd93/adpNV8AV7AK3mprx+tQeXpkV+gPKAeORjV6g6V
+	p/afQoEnPKV6sQrZpOVQ5iTvquGhoNEdnPZ43Iu23FK29RUeut1MoWfPL2VXzzT4
+	92CiJEZqhb8LStdsyLUQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vnnajhm3b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Jan 2024 18:50:00 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40GInwWh009909
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Jan 2024 18:49:58 GMT
+Received: from [10.110.59.103] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 16 Jan
+ 2024 10:49:58 -0800
+Message-ID: <dc8a58ab-00df-bfd4-39f7-ec196e578260@quicinc.com>
+Date: Tue, 16 Jan 2024 10:49:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: trigger: audio: Set module alias for module
- auto-loading
-To: Krzysztof Kozlowski <krzk@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <4574bfb1-5156-46d4-90f5-4d6477b248b8@gmail.com>
- <e8b7b746-5089-4b16-8aae-b0403abcd97e@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: (subset) [PATCH v8 0/7] Add support for LUT PPG
 Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <e8b7b746-5089-4b16-8aae-b0403abcd97e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: Lee Jones <lee@kernel.org>, <pavel@ucw.cz>, <thierry.reding@gmail.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <agross@kernel.org>, <andersson@kernel.org>
+CC: <luca.weiss@fairphone.com>, <konrad.dybcio@linaro.org>,
+        <u.kleine-koenig@pengutronix.de>, <quic_subbaram@quicinc.com>,
+        <quic_gurus@quicinc.com>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+References: <20231221185838.28440-1-quic_amelende@quicinc.com>
+ <170496750168.1654525.11132648331912183091.b4-ty@kernel.org>
+ <20240111100747.GM7948@google.com>
+From: Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <20240111100747.GM7948@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nCYl4rsDxYDo4V1V6G-YW2wRQ5an-h_m
+X-Proofpoint-ORIG-GUID: nCYl4rsDxYDo4V1V6G-YW2wRQ5an-h_m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 clxscore=1011 priorityscore=1501 impostorscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 adultscore=0 phishscore=0
+ bulkscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2311290000 definitions=main-2401160148
 
-On 16.01.2024 11:22, Krzysztof Kozlowski wrote:
-> On 15/01/2024 22:36, Heiner Kallweit wrote:
->> Few drivers (e.g. under platform/x86) have these triggers as default
->> trigger. So add alias information to allow module auto-loading.
+
+
+On 1/11/2024 2:07 AM, Lee Jones wrote:
+> On Thu, 11 Jan 2024, Lee Jones wrote:
+> 
+>> On Thu, 21 Dec 2023 10:58:30 -0800, Anjelique Melendez wrote:
+>>> In certain PMICs, LUT pattern and LPG configuration is stored in SDAM
+>>> modules instead of LUT peripheral. This feature is called PPG.
+>>>
+>>> This change series adds support for PPG. Thanks!
+>>> Changes since v7:
+>>>   - Patch 4/7
+>>>     - Initialize hi/lo_pause variables in lpg_pattern_set()
+>>> Changes since v6:
+>>>   - Patch 2/7
+>>>     - Removed required by constraint on PPG dt properties
+>>> Changes since v5:
+>>>   - Patch 4/7
+>>>     - Update logic so that multicolor led device triggers pattern
+>>>       on all LEDs at the same time
+>>>     - Update nitpicks from Lee
+>>>   - Patch 5/7
+>>>     - Update nitpicks from Lee
+>>> Changes since v4:
+>>>   - Patch 3/7
+>>>     - Get rid of r/w helpers
+>>>     - Use regmap_read_poll_timeout() in qcom_pbs_wait_for_ack()
+>>>     - Update error path in qcom_pbs_trigger_event()
+>>>     - Fix reverse christmas tree
+>>>   - Patch 4/7
+>>>     - Get rid of r/w helpers
+>>>     - Update variables to use "sdam" instead of "nvmem"
+>>>     - Fix comments
+>>>     - Fix reverse christmas tree
+>>>     - Update lpg_pattern_set() logic
+>>>   - Patch 5/7
+>>>     - Removed sdam_lut_base from lpg_data
+>>> Changes since v3:
+>>>   - Patch 4/7
+>>>     - Fix function returns
+>>>     - Move register definition to top of file
+>>>     - Revert max_brightness and probe accidental changes
+>>>     - Combine init_sdam() and parse_sdam()
+>>>     - Change error prints in probe to use dev_err_probe
+>>>     - Remove ppg_en variable
+>>>     - Update when pbs triggers are set/cleared
+>>>   - Patch 6/7
+>>>     - Remove use of nvmem_count
+>>>     - Move register definition to top of file
+>>>     - Remove lpg_get_sdam_lut_idx()
+>>> Changes since v2:
+>>>   - Patch 1/7
+>>>     - Fix dt_binding_check error
+>>>     - Rename binding file to match compatible
+>>>     - Iclude SoC specific comptaibles
+>>>   - Patch 2/7
+>>>     - Update nvmem-names list
+>>>   - Patch 3/7
+>>>     - Update EXPORT_SYMBOL to EXPORT_SYMBOL_GPL
+>>>     - Fix return/break logic in qcom_pbs_wait_for_ack()
+>>>     - Update iterators to be int
+>>>     - Add constants
+>>>     - Fix function calls in qcom_pbs_trigger_event()
+>>>     - Remove unnessary comments
+>>>     - Return -EPROBE_DEFER from get_pbs_client_device()
+>>> Changes since v1:
+>>>   - Patch 1/7
+>>>     - Fix dt_binding_check errors
+>>>     - Update binding description
+>>>   - Path 2/7
+>>>     - Fix dt_binding_check errors
+>>>     - Update per variant constraints
+>>>     - Update nvmem description
+>>>   - Patch 3/7
+>>>     - Update get_pbs_client_device()
+>>>     - Drop use of printk
+>>>     - Remove unused function
+>>>
+>>> [...]
 >>
->> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
->> ---
->>  drivers/leds/trigger/ledtrig-audio.c | 2 ++
+>> Applied, thanks!
+>>
+>> [2/7] dt-bindings: leds: leds-qcom-lpg: Add support for LPG PPG
+>>       commit: 2fdd08fec742e0c94a2a06a0c9ee0912b6f7ac39
+>> [4/7] leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM
+>>       commit: 07a1afc8fbb77cc893e2285112482902ac88a295
+>> [5/7] leds: rgb: leds-qcom-lpg: Update PMI632 lpg_data to support PPG
+>>       commit: f4f5f6a6f8d7bcc8efd0eee6751def22c9a38fd0
+>> [6/7] leds: rgb: leds-qcom-lpg: Include support for PPG with dedicated LUT SDAM
+>>       commit: 7399a927272de1fc42f4da8af1d8d60b65a15b84
+>> [7/7] leds: rgb: Update PM8350C lpg_data to support two-nvmem PPG Scheme
+>>       commit: 7b4066868689b1f341e61957611d252b6fa8cafc
 > 
-> You already sent it few days ago, so:
-> 1. This is v2 (missing proper patch prefix)
-> 2. You need changelog under ---.
+> This set had a bunch of checkpatch.pl errors.
 > 
-Oh, indeed. My bad. There's no change, so please disregard
-the resubmit.
+> Please fix them up subsequently.
+> 
+Hi Lee,
 
-> Best regards,
-> Krzysztof
-> 
-Heiner
+Just wanted to get some quick clarification. Would you like checkpatch.pl issues fixed in a new version
+of this series or would you like a new patch to fix all the issues? Looks like these patches are in your
+for-leds-next-next branch so I am guessing you would like a new follow up patch
+but I just wanted to double check.
+
+Thanks,
+Anjelique
 
