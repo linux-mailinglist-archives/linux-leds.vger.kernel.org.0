@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-604-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-605-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F69C82E9FC
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 08:25:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F11D82EA15
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 08:34:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DCE22847D0
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 07:25:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DAACAB2187D
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jan 2024 07:34:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E66E610A2D;
-	Tue, 16 Jan 2024 07:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F65810A3D;
+	Tue, 16 Jan 2024 07:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LViGTcfc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2UQs8Ku"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984CF10A30;
-	Tue, 16 Jan 2024 07:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0163010A3B;
+	Tue, 16 Jan 2024 07:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6d99980b2e0so7865739b3a.2;
-        Mon, 15 Jan 2024 23:25:10 -0800 (PST)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3bd6581bc66so2241604b6e.1;
+        Mon, 15 Jan 2024 23:34:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705389910; x=1705994710; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1705390474; x=1705995274; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFU8V44giJ9TqpBstuJqgsawkBd+gwhzF3e12FlfS0Q=;
-        b=LViGTcfc+2hEbvVLqgu7Ab/c5GFEbJ0/EUnCWV8lyOw3B3ADs4nF0PiQZLFJ4QUIbX
-         LEYWIC1n0zN1821+g0ruLZZVispET4bAdN4+YeDk/Az0VD/GQcdeehj5PjAWdR/LT+Ht
-         tM5+huWXgNpzCMnp6RhYnEQERtanmoA1nGMcKsfYQw+pwcsfvb5F7DTkCxGNLb6guRgh
-         EirO36KzzV/6aL+XjG65uWUP0r7cfO+ayaRmIUCebMT09e2Ji39CN9tlsLaU+PYdwvtr
-         kr8/dixocCYYraGeDgyzAHk0pAhn7HmZy46gPhmJZTI47M7/urdd2aMl38etDGzqLq3r
-         qdLg==
+        bh=rDF06Zzvqqqna3Wwn8GfbWo7pzcxs94u77eb9fZ1A8o=;
+        b=X2UQs8KuPyl7EJ4JiaCjGp7JVwDPEaL+9vCScai3EzuBe3TgkIw/jTNsgSwIfI3oEJ
+         gz7ydvxg7NCyU37cs7shcOvi33GTn9jLdtfd9eyQ/4iKptZtnlJRBQURrFP5nEPXroG6
+         xhgtbD93ioq/txPlMlG6gqFBIWTic1/ffDrh6rtplOFqhtBbJtyaXgHsH5pi4fBqd6FN
+         ZhOEAzCD1mhbKWKj+XqpKWQD0m9nKaB1n/wNBPd3/IcGaVame7kBX6yQbIj56GJ/lcmu
+         5D/UdTNL3lMlFCVR/VAtMPMGdeAFmuhp3q01zBTXVjbaXaWtilV1HxRLJx5WhaBHbLA1
+         wmWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705389910; x=1705994710;
+        d=1e100.net; s=20230601; t=1705390474; x=1705995274;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IFU8V44giJ9TqpBstuJqgsawkBd+gwhzF3e12FlfS0Q=;
-        b=gI/ZxjuK+9HISimxIVUeBvUvIQqs8bLKj0DioJBHj/HE3vsuZcIa0YFIMso1Xe9JsK
-         l+NMffYCwATkuFGs1Fb3Kzp6yM6emerjipkd6nDXrC3/xAKSlK9ffoSV8mydpnS9hoqo
-         ZmdpqCbF740/veswIOWihUsrKWED3G9K1/FZ45oR+vKvdrm8yn3LZs7cd6YJGdwtNNEk
-         KmEZUo13xnJx7WIRHSEKfEoUnCoPyS7PSRjOjE1ch200ohYI7oCuGODPmlPMXsDOEX3X
-         an1XFMqUjn8aZ92sAH+VJwfX/ceCUNTxanAgz5CyNP/0ZKt2M18S61rOt3JlEnjmxVBD
-         tbyw==
-X-Gm-Message-State: AOJu0Yz7nRa9IUfr2RL8YbBbmtPSbmNR9T4XCe14LU4w/D9BIJRzeOhI
-	C62H4yx9nNpuZZeIjjeP6xI=
-X-Google-Smtp-Source: AGHT+IGAbSbVrbiKZ/CglJ3QzFOrQSx/78jF/361yQ4BQFSCLIL9XJjqe4MDGnOamYNJcFJWg6vmtQ==
-X-Received: by 2002:a05:6a00:b4c:b0:6d9:b075:a7d6 with SMTP id p12-20020a056a000b4c00b006d9b075a7d6mr9267851pfo.19.1705389909792;
-        Mon, 15 Jan 2024 23:25:09 -0800 (PST)
-Received: from amiden.localdomain ([2402:e280:2243:161:4f40:49bc:8675:1a83])
-        by smtp.gmail.com with ESMTPSA id t12-20020a056a00138c00b006d9ecb8e956sm8853148pfg.173.2024.01.15.23.25.03
+        bh=rDF06Zzvqqqna3Wwn8GfbWo7pzcxs94u77eb9fZ1A8o=;
+        b=YI8Y5GJWpXYp6axQJK01Ks4xbl0tsuBHNAaxayxYoHLy72TaZiHJdyTu3I/v7upEsd
+         z+dF/5AxPYLhTsdiaQjrqI0upns1Uu9yG21EbwN3VR89PEBLdAwwqdCxr0TnpCl28hxR
+         UNh23PCx7I/azq8GABWmgcKplllhQAPmfDBLMFmBgMy6qy1C9AV97eBOkyvvqR82FZ1L
+         oMITgFhxkDwGtyaFVNERPMK4m6Hpkat8aXQUG7tPLK0/cRogiyvEAUIfgB6dv5f0K8vx
+         FizgT4ve7iBRxad1GbQ2lOizs/LPSOdT9vh9KfGNRgguvWZnUrblpB0X3W3Cys6wi7lz
+         UWWQ==
+X-Gm-Message-State: AOJu0YycJz9yBY1yHInjxMT3X2Z8SyKGn2Fa+yMEDmFCX8wTe03fCloT
+	YZgPdkRzObdVF/5kVqUR7swGzeawQuI=
+X-Google-Smtp-Source: AGHT+IE4a+szMrr9YrG276Q+kgmVzCPxfIm3ZQaGJrfA4lKonmVAAHO1UVjrnBulAwpG9tiWvXUmkQ==
+X-Received: by 2002:a05:6808:14c5:b0:3bd:38c1:fdec with SMTP id f5-20020a05680814c500b003bd38c1fdecmr8930182oiw.67.1705390473870;
+        Mon, 15 Jan 2024 23:34:33 -0800 (PST)
+Received: from amiden.localdomain ([2402:e280:2243:161:fb91:1080:2d1d:9736])
+        by smtp.gmail.com with ESMTPSA id m11-20020a62f20b000000b006daa809584csm8526886pfh.182.2024.01.15.23.34.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 23:25:09 -0800 (PST)
+        Mon, 15 Jan 2024 23:34:33 -0800 (PST)
 From: Amitesh Singh <singh.amitesh@gmail.com>
 To: pavel@ucw.cz
 Cc: lee@kernel.org,
@@ -63,8 +63,8 @@ Cc: lee@kernel.org,
 	linux-kernel@vger.kernel.org,
 	Amitesh Singh <singh.amitesh@gmail.com>
 Subject: [PATCH] leds/pca963x: implement power management
-Date: Tue, 16 Jan 2024 12:54:57 +0530
-Message-ID: <20240116072457.383438-1-singh.amitesh@gmail.com>
+Date: Tue, 16 Jan 2024 13:04:21 +0530
+Message-ID: <20240116073421.395547-1-singh.amitesh@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -80,11 +80,11 @@ on system-wide sleep/hibernation
 
 Signed-off-by: Amitesh Singh <singh.amitesh@gmail.com>
 ---
- drivers/leds/leds-pca963x.c | 38 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ drivers/leds/leds-pca963x.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
 diff --git a/drivers/leds/leds-pca963x.c b/drivers/leds/leds-pca963x.c
-index 47223c850e4b..2474e40d8479 100644
+index 47223c850e4b..a5804989d756 100644
 --- a/drivers/leds/leds-pca963x.c
 +++ b/drivers/leds/leds-pca963x.c
 @@ -39,6 +39,7 @@
@@ -95,7 +95,7 @@ index 47223c850e4b..2474e40d8479 100644
  #define PCA963X_MODE2_OUTDRV	0x04	/* Open-drain or totem pole */
  #define PCA963X_MODE2_INVRT	0x10	/* Normal or inverted direction */
  #define PCA963X_MODE2_DMBLNK	0x20	/* Enable blinking */
-@@ -380,6 +381,42 @@ static int pca963x_register_leds(struct i2c_client *client,
+@@ -380,6 +381,38 @@ static int pca963x_register_leds(struct i2c_client *client,
  	return ret;
  }
  
@@ -129,20 +129,16 @@ index 47223c850e4b..2474e40d8479 100644
 +}
 +#endif
 +
-+static const struct dev_pm_ops pca963x_pmops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(pca963x_suspend, pca963x_resume)
-+};
-+
 +static SIMPLE_DEV_PM_OPS(pca963x_pm, pca963x_suspend, pca963x_resume);
 +
  static const struct of_device_id of_pca963x_match[] = {
  	{ .compatible = "nxp,pca9632", },
  	{ .compatible = "nxp,pca9633", },
-@@ -430,6 +467,7 @@ static struct i2c_driver pca963x_driver = {
+@@ -430,6 +463,7 @@ static struct i2c_driver pca963x_driver = {
  	.driver = {
  		.name	= "leds-pca963x",
  		.of_match_table = of_pca963x_match,
-+		.pm = &pca963x_pmops
++		.pm = &pca963x_pm
  	},
  	.probe = pca963x_probe,
  	.id_table = pca963x_id,
