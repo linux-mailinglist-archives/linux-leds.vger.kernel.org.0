@@ -1,183 +1,119 @@
-Return-Path: <linux-leds+bounces-617-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-618-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2900E831BB9
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Jan 2024 15:49:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E26C1831E75
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Jan 2024 18:33:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5473285537
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Jan 2024 14:49:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A96328310E
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Jan 2024 17:33:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A46B21DA2C;
-	Thu, 18 Jan 2024 14:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZAvBPWzi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BA032D047;
+	Thu, 18 Jan 2024 17:33:35 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72ADE250E7;
-	Thu, 18 Jan 2024 14:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7E32D78A;
+	Thu, 18 Jan 2024 17:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705589359; cv=none; b=XAXeldyqQIhktJXImQlfgKRDHsqDqVmNuHCaNuU+e0IcnpTQ7hWE0QCIECN9xg7dY/UqVu1iYLkpgEYuMnsrKnMoCd7+4NvnGmsCtH8uU/Pw0M6cLhuL7DVVgZeorLbLYIPh8xZ4YzExIzvpN8LYK3rInstFcIHlQ7bkwpXaICw=
+	t=1705599215; cv=none; b=uT9EFRjfzGIJ/nAkCvUspR0vlR5O+uZMLqF95/bSBkStH2sfMLSsCbtZiqRmwwiDsFzQsrDMzWJPkaQpZECi0ez5d4h77+eUUKcqwpfca573JTEYqkAUJd1Um9tGqJrq78+Yt/PRUsRhMBfsmxqB2CCRmRoh180j2xbjMOk7SOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705589359; c=relaxed/simple;
-	bh=oaXZOHDx2BP58wrfTY7FOWKwJKm/7v9GcGOdWbyjMH0=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To; b=gpe9SBzCcqb+jGyYO2yheYz/8z6+xcQYr2u3ZNAxEc5XY8mqMvKGQOIO7BTrszXtbeHfKLtkeM3zuAvEoieYu91sqX+mtYp9/Sj/xki/ZnIwaOsh5Hr7x54yDVQyQaFPbYykVg3du4CUR5S3hfeeoRqziYPzGpWl0NLlhcoEiOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZAvBPWzi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37E88C433A6;
-	Thu, 18 Jan 2024 14:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705589358;
-	bh=oaXZOHDx2BP58wrfTY7FOWKwJKm/7v9GcGOdWbyjMH0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZAvBPWzieJskFoW183PEr8ko56ub1ezMkwW/ohvj1sw9/kCHfTebfeHgole8+UtBy
-	 oSEHXiF8clPeYat+HYQzqzDgBvzL8othGgtOItqYWNCMUFFaYudSb+JxreiZlrI5HN
-	 6K8SlxPuZl98eVjzlA6Dkru8H5dyhUzqhwIub2Q7fvMAMJPs1bcq3eTEKrhu9rLxB5
-	 m/eJnCNM0bjMP02XpFYF/zpQG+ICKsvCJOiWnEB3XnglwsvConsP6vhgdwaycTopGV
-	 koI+u1gFMxFJ7hjQuhj2S1C0/eKZm1EoiN7CTnCJvnvAFwbip7l+BpdJvLAy0hGeF2
-	 Cm3402uD0STMA==
-Date: Thu, 18 Jan 2024 14:49:12 +0000
-From: Lee Jones <lee@kernel.org>
-To: Anjelique Melendez <quic_amelende@quicinc.com>
-Cc: pavel@ucw.cz, thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, andersson@kernel.org, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: (subset) [PATCH v8 0/7] Add support for LUT PPG
-Message-ID: <20240118144912.GC3305748@google.com>
-References: <20231221185838.28440-1-quic_amelende@quicinc.com>
- <170496750168.1654525.11132648331912183091.b4-ty@kernel.org>
- <20240111100747.GM7948@google.com>
- <dc8a58ab-00df-bfd4-39f7-ec196e578260@quicinc.com>
+	s=arc-20240116; t=1705599215; c=relaxed/simple;
+	bh=zSojkb9oa18GUBW1ZjAD4v5bdWLOPJhL+eDSN4oBcHs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CIge7drM6Hz9k5G95LfIyliIAeXFsDlfDMmRxFqBkDtg0ipgzW5457pMsvvS0q0lFimpBcg5ZDn7rwTDGqLfD+JOMK0za/fxQu2rtQeqAR5Cm01pVrqQTL2VCJ2smbc9ekgLcQcundi2yLU7srCHT1N4sCsoZiGKwRylz3sMRyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 344D3866EA;
+	Thu, 18 Jan 2024 18:33:24 +0100 (CET)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: [PATCH v2 0/2] Kinetic KTD2801 backlight driver
+Date: Thu, 18 Jan 2024 18:32:37 +0100
+Message-Id: <20240118-ktd2801-v2-0-425cf32e0769@skole.hr>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <dc8a58ab-00df-bfd4-39f7-ec196e578260@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIALVgqWUC/z3MQQrDIBCF4auEWdcyaiymq96jZJHopEpKDBqkJ
+ Xj32kC7/B+Pb4dE0VOCa7NDpOyTD0sNcWrAuGF5EPO2NggUkiO2bN6s0MgZTlJraUbVWYT6XiN
+ N/nVI976282kL8X3AmX/Xn6H+Rq4Ma6WxWo14Ed1wS3N40tlF6EspH+mznb2dAAAA
+To: Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Cc: Karel Balej <balejk@matfyz.cz>, ~postmarketos/upstreaming@lists.sr.ht, 
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1320;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=zSojkb9oa18GUBW1ZjAD4v5bdWLOPJhL+eDSN4oBcHs=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlqWDBb2YGGpgsgix8UXpwxFe4Vyv+qY/SOJaLM
+ g8Eq0fu96SJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZalgwQAKCRCaEZ6wQi2W
+ 4SPlEACZQl6p/zx4TzYIK7kXZhjzDR2FDa/QIbn50ad9nnDfWy6jkRd+lDv5gXm8ZVBjD01e3FK
+ ECgsBBs9oft4nrZ35uY6iNTcNgyCwDL8fSbqZfuTye1yUP1yy06nPrUNmFULuyJ5HrcbGQN6We6
+ m4uEfEr5Rn7vLGviVuwK/rj+9YZSWAI2Wd/rqNd39yx8/MGo4oz4VnC9JbQhZhBw7PMtDL7mWUV
+ ptjS0gmRx5sJK7YiOWhj8IC95h5U97ShkeUMMaVkvgoPpUVjQPpdTWVIGZ1x1BlJIDdh3RYjhHE
+ DpiTjcvNWGxRa99NdqXb7Cb47auZTC/Z5Bb8N7jPH5N4WektAg7H+M9yefS8tkP+N3fJC142eYq
+ 3IW0gwnZEghHWXxZZ6/My/wsElID+ykQbVY+YnNrmcfl0pjuogDjMOmlsRrvxWp79FetLSNG8CE
+ zwOneEqUnD3SipnO4B8k85rIwGiIfE4IILfl6STltOpjnc27aRmE62HGgJ1iY2semAdicA/4gR6
+ s39lseXtoRyHYp9b0n/y7WNj3sCDykDybv0yMr0vz8AytVMgTu9bKM1RSQ619r2nVOMQfRxKsh1
+ Y7ZJFiUU9VozU84WtPsqHIEXHz6tU+bDIBNpqp0ok5Db4G8p7xf64JsdgPqzKu/x4Ylw5yDq70i
+ lgpHmR+3Ow8kDqg==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 
-On Tue, 16 Jan 2024, Anjelique Melendez wrote:
+Hello,
 
-> 
-> 
-> On 1/11/2024 2:07 AM, Lee Jones wrote:
-> > On Thu, 11 Jan 2024, Lee Jones wrote:
-> > 
-> >> On Thu, 21 Dec 2023 10:58:30 -0800, Anjelique Melendez wrote:
-> >>> In certain PMICs, LUT pattern and LPG configuration is stored in SDAM
-> >>> modules instead of LUT peripheral. This feature is called PPG.
-> >>>
-> >>> This change series adds support for PPG. Thanks!
-> >>> Changes since v7:
-> >>>   - Patch 4/7
-> >>>     - Initialize hi/lo_pause variables in lpg_pattern_set()
-> >>> Changes since v6:
-> >>>   - Patch 2/7
-> >>>     - Removed required by constraint on PPG dt properties
-> >>> Changes since v5:
-> >>>   - Patch 4/7
-> >>>     - Update logic so that multicolor led device triggers pattern
-> >>>       on all LEDs at the same time
-> >>>     - Update nitpicks from Lee
-> >>>   - Patch 5/7
-> >>>     - Update nitpicks from Lee
-> >>> Changes since v4:
-> >>>   - Patch 3/7
-> >>>     - Get rid of r/w helpers
-> >>>     - Use regmap_read_poll_timeout() in qcom_pbs_wait_for_ack()
-> >>>     - Update error path in qcom_pbs_trigger_event()
-> >>>     - Fix reverse christmas tree
-> >>>   - Patch 4/7
-> >>>     - Get rid of r/w helpers
-> >>>     - Update variables to use "sdam" instead of "nvmem"
-> >>>     - Fix comments
-> >>>     - Fix reverse christmas tree
-> >>>     - Update lpg_pattern_set() logic
-> >>>   - Patch 5/7
-> >>>     - Removed sdam_lut_base from lpg_data
-> >>> Changes since v3:
-> >>>   - Patch 4/7
-> >>>     - Fix function returns
-> >>>     - Move register definition to top of file
-> >>>     - Revert max_brightness and probe accidental changes
-> >>>     - Combine init_sdam() and parse_sdam()
-> >>>     - Change error prints in probe to use dev_err_probe
-> >>>     - Remove ppg_en variable
-> >>>     - Update when pbs triggers are set/cleared
-> >>>   - Patch 6/7
-> >>>     - Remove use of nvmem_count
-> >>>     - Move register definition to top of file
-> >>>     - Remove lpg_get_sdam_lut_idx()
-> >>> Changes since v2:
-> >>>   - Patch 1/7
-> >>>     - Fix dt_binding_check error
-> >>>     - Rename binding file to match compatible
-> >>>     - Iclude SoC specific comptaibles
-> >>>   - Patch 2/7
-> >>>     - Update nvmem-names list
-> >>>   - Patch 3/7
-> >>>     - Update EXPORT_SYMBOL to EXPORT_SYMBOL_GPL
-> >>>     - Fix return/break logic in qcom_pbs_wait_for_ack()
-> >>>     - Update iterators to be int
-> >>>     - Add constants
-> >>>     - Fix function calls in qcom_pbs_trigger_event()
-> >>>     - Remove unnessary comments
-> >>>     - Return -EPROBE_DEFER from get_pbs_client_device()
-> >>> Changes since v1:
-> >>>   - Patch 1/7
-> >>>     - Fix dt_binding_check errors
-> >>>     - Update binding description
-> >>>   - Path 2/7
-> >>>     - Fix dt_binding_check errors
-> >>>     - Update per variant constraints
-> >>>     - Update nvmem description
-> >>>   - Patch 3/7
-> >>>     - Update get_pbs_client_device()
-> >>>     - Drop use of printk
-> >>>     - Remove unused function
-> >>>
-> >>> [...]
-> >>
-> >> Applied, thanks!
-> >>
-> >> [2/7] dt-bindings: leds: leds-qcom-lpg: Add support for LPG PPG
-> >>       commit: 2fdd08fec742e0c94a2a06a0c9ee0912b6f7ac39
-> >> [4/7] leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM
-> >>       commit: 07a1afc8fbb77cc893e2285112482902ac88a295
-> >> [5/7] leds: rgb: leds-qcom-lpg: Update PMI632 lpg_data to support PPG
-> >>       commit: f4f5f6a6f8d7bcc8efd0eee6751def22c9a38fd0
-> >> [6/7] leds: rgb: leds-qcom-lpg: Include support for PPG with dedicated LUT SDAM
-> >>       commit: 7399a927272de1fc42f4da8af1d8d60b65a15b84
-> >> [7/7] leds: rgb: Update PM8350C lpg_data to support two-nvmem PPG Scheme
-> >>       commit: 7b4066868689b1f341e61957611d252b6fa8cafc
-> > 
-> > This set had a bunch of checkpatch.pl errors.
-> > 
-> > Please fix them up subsequently.
-> > 
-> Hi Lee,
-> 
-> Just wanted to get some quick clarification. Would you like checkpatch.pl issues fixed in a new version
-> of this series or would you like a new patch to fix all the issues? Looks like these patches are in your
-> for-leds-next-next branch so I am guessing you would like a new follow up patch
-> but I just wanted to double check.
+This small series adds a driver for the Kinetic KTD2801 backlight IC.
+The driver has been tested on the samsung,coreprimevelte for which
+support is still out-of-tree.
 
-A follow-up please.
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+---
+Changes in v2:
+- Address maintainer comments:
+  - Drop MODULE_ALIAS
+  - Rename enable-gpios to ctrl-gpios
+  - Rename ktd2801_backlight->desc to ktd2801_backlight->gpiod
+  - Give time constants more descriptive names and note their origins in
+    Samsung driver
+  - Convert to GPIO_ACTIVE_HIGH
+- Update trailers
+- Link to v1: https://lore.kernel.org/r/20231005-ktd2801-v1-0-43cd85b0629a@skole.hr
 
+---
+Duje Mihanović (2):
+      dt-bindings: backlight: add Kinetic KTD2801 binding
+      backlight: Add Kinetic KTD2801 driver
+
+ .../bindings/leds/backlight/kinetic,ktd2801.yaml   |  46 +++++++
+ MAINTAINERS                                        |   6 +
+ drivers/video/backlight/Kconfig                    |   7 +
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/ktd2801-backlight.c        | 149 +++++++++++++++++++++
+ 5 files changed, 209 insertions(+)
+---
+base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+change-id: 20231004-ktd2801-0f3883cb59d0
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
+Duje Mihanović <duje.mihanovic@skole.hr>
+
+
 
