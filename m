@@ -1,140 +1,170 @@
-Return-Path: <linux-leds+bounces-633-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-634-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F0E832E41
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 18:37:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0911C832EF4
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 19:33:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 43969B217F0
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 17:37:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 766BC1F24E80
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 18:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F6C56466;
-	Fri, 19 Jan 2024 17:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF851E4A4;
+	Fri, 19 Jan 2024 18:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2wnjMVm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A895577D;
-	Fri, 19 Jan 2024 17:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1A32112;
+	Fri, 19 Jan 2024 18:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705685821; cv=none; b=EwseZnIf4esj+M+FhGE9r51xDrB6FaP+jwQu3XZE6ghQamgP3ieiVyo0MJS5jZ9Gzt8eKG0w0FKxR4wV+6k2PAQiywnJae3QhVhL9MaavnnhOtxFMwyVVbktQKML+PUhw5qOg4sSyhVo9OZKUCQ0kSxic2wjkCQVl1wKRAHz1qA=
+	t=1705689219; cv=none; b=bB+DAQgW5kD4/7JTfbRFfSA2h7mBDj+bWv4SldvoTDgwpaLafYv0vzXsI8CiogxeHxFY/aMjvIBkkoaKkKoeLGh7ef2a6N27l55oyAX0t4pqg7pcmeSWX/hsfSNNrSM7+XqQfN+vuhCpXX2jcXCCQHQP5C+6P3ECmIzBtQuEXj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705685821; c=relaxed/simple;
-	bh=hpvlFjQYQ+F7RT5mW2r1opu6+5eS/F7pSSdF5Mk80LU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KBz2+zs0zZ+9tjjAzEZ7c1htTqo+Voi7GLAKa3dOQx2Nbc8psw7cUe3M+YHYYbyPzzz0XsbhAw7ucyfHkvYM7RvUUmqhyWzxM6HleAYYdJYUBhAwyjsLhHBtrS4KCkG6+CaWxxyXoMpj3r96LPtBnWKXc8Up4Q1FS33toe8Sij0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 6A1FE86959;
-	Fri, 19 Jan 2024 18:36:50 +0100 (CET)
-From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Karel Balej <balejk@matfyz.cz>, ~postmarketos/upstreaming@lists.sr.ht,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] backlight: Add Kinetic KTD2801 driver
-Date: Fri, 19 Jan 2024 18:36:15 +0100
-Message-ID: <3283558.44csPzL39Z@radijator>
-In-Reply-To: <51576fbb-c7dd-4ee8-a77f-ae7f62b254ab@wanadoo.fr>
-References:
- <20240118-ktd2801-v2-0-425cf32e0769@skole.hr>
- <20240118-ktd2801-v2-2-425cf32e0769@skole.hr>
- <51576fbb-c7dd-4ee8-a77f-ae7f62b254ab@wanadoo.fr>
+	s=arc-20240116; t=1705689219; c=relaxed/simple;
+	bh=2UTEvLs5YWOQsuXjS93MK2My/6R/O8u9HEeLv8CKhG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=do+6HDDjIwT8KrbpHUysXXUVliABemfeZKsoZE7jQDKmUaPsDLWSs+1Y5t3bsz2J/uuKomDy0uysfO47ycchtTJzB4Yao7x3pp3O9H5fBQ9GkeqlwFI/bSJjF8MAONduPNXJRNwbXhsnXQAprKDGBWjKzQ8EvncvEtk1pMSeYxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2wnjMVm; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29065efa06fso23199a91.1;
+        Fri, 19 Jan 2024 10:33:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705689217; x=1706294017; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zkKnoesKahkqO2ThUINQtzJ7lHkLPPLje48Y8+4TcIw=;
+        b=Z2wnjMVmqbKU4URiAB5MWVd7m6hoNZChZS9B+T9HEHRQXoW1QoQZ41wlR/DVovmaMr
+         91bK2XzCUz6ZuMIgjZvW4Vbw9c1u0r4Hi1o3Mob17pqk0A99HS3KzwSAF6RTvQmK2+Mq
+         kJPKQYYykrQIA3im+Jk54Vk3b16bZvdeGSiBacOgE2AWGmsEVltChCmJn+UDe17Ep0KY
+         7fznHTphIhTH7ykH9BCuUdiP1rYKVpCrPIKXhtc+ny/xx3SGsuhBQrydPlhYSV8t0kiM
+         tv9R1+b9EHl1IL4nTNBvVtmBE3hy9BeftjScoVsB+Qm+LnJxmBY4/E4RaXlazYqxIgKr
+         xq7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705689217; x=1706294017;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zkKnoesKahkqO2ThUINQtzJ7lHkLPPLje48Y8+4TcIw=;
+        b=Hgh0KviQhYeyw/p1cREDb1CaP3SaLKfHxU27gCjf45HuQLtAuQRKf/HPH4zCyML0Dm
+         59oIR7Y6Q7lTpH+Bvjw1yV/Mv2HBYPCB3upRW1a8q81SV0gt+Ej8Pbc6Ta1BCI3Isg+J
+         5ObsLCkrY9vk9EudPt6Xen+61RdoPkIfX86rI5JZ3GXrnlSTO7nXK1LS0UMjtlzYj2+V
+         J+Eumnt+T4JPPCc4ppJwpFDxx1CsLVOCK5Qc7dM9j9VBadV1/ns2Xp0y0RnX/UuPIqBK
+         SO7qidDDGGyWg04JaLAQVvoqlHTi58OOTigUWdh54YwegD1FIzmdhDPvYBnijJ47diSe
+         +ZEg==
+X-Gm-Message-State: AOJu0Yw1QZ9k9WSAW5yV7fH3V/47CI1mr9eEqBd4ypSQDE8ILThaLUtu
+	b2rmAasgWCnuhzDr1qeMlFHVXffealFCCXozpaXI4I+dLQis3fiH
+X-Google-Smtp-Source: AGHT+IE3J3mk+o/jaEbN4lFdflrsPSNaC31PQjCmi5eiwC0XemD3b7u1le1I/qswQjFVSQuib1m0zA==
+X-Received: by 2002:a17:90a:c7cb:b0:290:1426:86fc with SMTP id gf11-20020a17090ac7cb00b00290142686fcmr182985pjb.89.1705689217443;
+        Fri, 19 Jan 2024 10:33:37 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:97b4:2663:16e0:cf81])
+        by smtp.gmail.com with ESMTPSA id sy14-20020a17090b2d0e00b0029005525d76sm4412592pjb.16.2024.01.19.10.33.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 10:33:37 -0800 (PST)
+Date: Fri, 19 Jan 2024 10:33:34 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+	Werner Sembach <wse@tuxedocomputers.com>, jikos@kernel.org,
+	Jelle van der Waa <jelle@vdwaa.nl>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	linux-input@vger.kernel.org, ojeda@kernel.org,
+	linux-leds@vger.kernel.org,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Message-ID: <ZarAfg2_5ocfKAWo@google.com>
+References: <87sf61bm8t.fsf@intel.com>
+ <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <87bk9hppee.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr;
- keydata=
- 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
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87bk9hppee.fsf@intel.com>
 
-On Friday, January 19, 2024 6:29:21 PM CET Christophe JAILLET wrote:
-> Le 18/01/2024 =C3=A0 18:32, Duje Mihanovi=C4=87 a =C3=A9crit :
-> > Add driver for the Kinetic KTD2801 backlight driver.
-> >=20
-> > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
-> >=20
-> > ---
->=20
-> ...
->=20
-> > +	ktd2801->gpiod =3D devm_gpiod_get(dev, "ctrl", GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(ktd2801->gpiod))
-> > +		return dev_err_probe(dev, PTR_ERR(dev),
->=20
-> PTR_ERR(ktd2801->gpiod); ?
+On Fri, Jan 19, 2024 at 12:51:21PM +0200, Jani Nikula wrote:
+> On Fri, 19 Jan 2024, Hans de Goede <hdegoede@redhat.com> wrote:
+> > For per key controllable rgb LEDs we need to discuss a coordinate
+> > system. I propose using a fixed size of 16 rows of 64 keys,
+> > so 64x16 in standard WxH notation.
+> >
+> > And then storing RGB in separate bytes, so userspace will then
+> > always send a buffer of 192 bytes per line (64x3) x 14 rows
+> > = 3072 bytes. With the kernel driver ignoring parts of
+> > the buffer where there are no actual keys.
+> >
+> > I would then like the map the standard 105 key layout onto this,
+> > starting at x.y (column.row) coordinates of 16.6 (with 0.0 being
+> > the top left). Leaving plenty of space on the left top and right
+> > (and some on the bottom) for extra media key rows, macro keys, etc.
+> >
+> > The idea to have the standard layout at a fixed place is to allow
+> > userspace to have a database of preset patterns which will work
+> > everywhere.
+> >
+> > Note I say standard 105 key layout, but in reality for
+> > defining the standardized part of the buffer we should
+> > use the maximum amount of keys per row of all the standard layouts,
+> > so for row 6 (the ESC row) and for extra keys on the right outside
+> > the main block we use the standard layout as shown here:
+> 
+> Doesn't the input stack already have to have pretty much all of this
+> already covered? I can view the keyboard layout in my desktop
+> environment, and it's a reasonably accurate match, even if unlikely to
+> be pixel perfect. But crucially, it has to have all the possible layouts
+> covered already.
 
-Good catch, I'll fix it in v3.
+The kernel actually is not aware of the keyboard geometry, it had no
+idea if you are dealing with a standard full 101/102 keys keyboard,
+TKL or even smaller one, if it is split or not, maybe something like
+Kinesis Advantage360. Arguably, it could potentially know about
+101/TLK if vendors would program accurate descriptors into their
+devices, but nobody does... And geometry is not a part of HID interface
+at all. So your desktop environment makes an [un]educated guess.
 
-Regards,
-=2D-
-Duje
+> 
+> And while I would personally hate it, you can imagine a use case where
+> you'd like a keypress to have a visual effect around the key you
+> pressed. A kind of force feedback, if you will. I don't actually know,
+> and correct me if I'm wrong, but feels like implementing that outside of
+> the input subsystem would be non-trivial.
 
+Actually I think it does not belong to the input subsystem as it is,
+where the goal is to deliver keystrokes and gestures to userspace.  The
+"force feedback" kind of fits, but not really practical, again because
+of lack of geometry info. It is also not really essential to be fully
+and automatically handled by the kernel. So I think the best way is to
+have an API that is flexible enough for the userspace solution to
+control, and that is not restricted by the input core design. The
+hardware drivers are not restricted to using a single API, they can
+implement both an input device and whatever new "rgbled" and userspace
+can associate them by topology/sysfs.
 
+> 
+> Cc: Dmitry, could we at least have some input from the input subsystem
+> POV on this? AFAICT we have received none.
 
+Sorry, I was not CCed and I missed this on the mainling list.
+
+Thanks.
+
+-- 
+Dmitry
 
