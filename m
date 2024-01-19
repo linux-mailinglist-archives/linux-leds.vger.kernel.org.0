@@ -1,283 +1,117 @@
-Return-Path: <linux-leds+bounces-623-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-624-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DD38325EE
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 09:44:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D91AC8325F2
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 09:48:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD3121F23594
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 08:44:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B31B1F23519
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 08:48:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C5A2C6A2;
-	Fri, 19 Jan 2024 08:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0563C1E862;
+	Fri, 19 Jan 2024 08:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZtZv2Yw5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZlGhTDsA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15592C1AB
-	for <linux-leds@vger.kernel.org>; Fri, 19 Jan 2024 08:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835898F6E
+	for <linux-leds@vger.kernel.org>; Fri, 19 Jan 2024 08:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705653856; cv=none; b=N2v8hXbN0E62j6PaM0BFBcw0S+7NU4GLQ54hbgjFlxPFnML2VWG5p0CIIw81T1hLeAxm72sqipX260UTNPiAupgsCmotPmLZA0l8CZmef+UnWA5UUiNFlCBmFlFrL1Eg+S5AuyOWosQzBCQlG6Joolp5bjQc+Bc5ovb3BJYvVjs=
+	t=1705654101; cv=none; b=FKm0cncJ0JssvKjKpk2lgtBy3dsRONFxtpuHAQcrC5qy16aurvNkGJXC6cAwrvHYl03MQO5C31Xox8c7hE2nMMBo0OvU8EjNA3/f/twTab92G8b0XQAxBjiA8n5HUNEoxIjLeoXNnlCyQiGLa1LbjJ0+2SEdGkwtXQcNLXLMcEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705653856; c=relaxed/simple;
-	bh=9XbCjjF8r2gVGofKMbrTlFCA/5ptow5KkNMD0C96u2k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=os28bfiOc/8fJ46KRQ5lvGl4Dkn4EQk18EDeRqeIooIfciwvZ9FWSWn0KvnmeVmmFjwTAVZZXA7F2+M2ojHqfWZL3QmcU68PDPBb/M2J3YSK3eKT4ItFsWAxWL7B2+X6pXEvjXVB2vJbAbhKNbE/T6MZfI4MNBDbXjLRcHmFVMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZtZv2Yw5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705653853;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MJTkm+mOw+g+wQwvmg6Px3ajeLTkr/0B7LPwNJlQxg0=;
-	b=ZtZv2Yw5jq35B+QEx8K8nChFSO2bHkkDOdBE/6yewrxBfMuya09pq70ScRjp3Pk8OuX/1l
-	gVmZCTqqfRrdNwEv2luDTmmmDYv5Cy2Ab7sbHXA+S/dt1IRBVDWKYCR/Wnac5WcKgWpth0
-	kgfO6NDsrNE6XaAoso78AKjwBWqa7ho=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-494-3YCZBZxYPfW0yw0zDHIkPg-1; Fri, 19 Jan 2024 03:44:12 -0500
-X-MC-Unique: 3YCZBZxYPfW0yw0zDHIkPg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a2ec4eaa663so19543766b.2
-        for <linux-leds@vger.kernel.org>; Fri, 19 Jan 2024 00:44:11 -0800 (PST)
+	s=arc-20240116; t=1705654101; c=relaxed/simple;
+	bh=jfhDYLG1dvsUdgbiJSB+en/Ncg1jyK/q0ET+NJJxBo4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m3d788TAuVoFe1EphGN7/+5UqQ1B1vtormXI9fwvOL+VrqUInnjnBt3x8s1wddTqD09xS6FJH8ZUlayGtAE5/UPv3fzm6ehHMmOiuoTNf+gzg9tIbg7qsGoO8pYIKvdtvV2HZs/w8j7UrEktOX1FrZAESBdXPogEVKpXnmlcKLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZlGhTDsA; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dc24f395c84so457376276.1
+        for <linux-leds@vger.kernel.org>; Fri, 19 Jan 2024 00:48:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705654099; x=1706258899; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BhDXGzyPXV715cy+WNtJqPuL0E1aYaWoiHU1aAEw5Sw=;
+        b=ZlGhTDsAtQyGA1QXYktDzVppnBOAmXOhr5p7NWt/Ap6RzGABo8JnrODMZfEzCUzA2M
+         acOL3JfizQuDwDS/u4vSmKeczyPmQ1FM4VpJxdEH9Ai3ivPW+lf6RH5KIihrJIQp2m3D
+         E+Op6daQTVA5yUZ2GtDsjacv1nTKYkAigVXkeq/ZiHx6F8NQm/xDnL9zx7oRSBBi1jN7
+         X8m+K+Y3jVhhbFCylQVhfr6OP2zQT8gNKDCKaHLRsp7wi9Zpm9U6yED1SiK1hbCHoXPW
+         XPxf+twA326KHq4plX0I3LhwXpwmDTnnNAZnJQBGFO/xmjHM9KHKetE8NtqTh/6v0+2c
+         M2Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705653851; x=1706258651;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MJTkm+mOw+g+wQwvmg6Px3ajeLTkr/0B7LPwNJlQxg0=;
-        b=GKxvFRBwhaxOsM7EugFXBAEB1LvVMJEyu8TCwZGWQpdaKrSE+iNn/R0H7BPZDnVIqu
-         axkrMhXYV0oBSsZCEHuY9/T/0ZKGAcdeEh7Z6cc1DmApZFJLbdyiU4VM48eZEs55nm9H
-         aEms5Aa3uphkBup/yBbX1oHCYIy8Fd0RVGjs0j/46D/GV6BpOI+dtmd3gFrhPVRJ9lGd
-         Y2JjUKLBtcNl7orYjiC1b3xBVHX23vvnS2YqJXStbOR+eHZH3wZh6BZijXrAOBCCJA6k
-         QxaEgEsYqVxK8mdQMOzBouUveubL2Vz9MvHBCYSwUBZF1UdA++vR2wL8xhhg405dF1no
-         rwoA==
-X-Gm-Message-State: AOJu0YxtP0qFuptTNVH99sNYA1aX1rTT3ldiOz/WWgL6IW2j8opVYB5Z
-	awqycK1lAl9Opf3LyCZoUB7eJqSxzWYiwKHMKphYUogbM/WbifgcBxKKWExN7T2HxMqDbp8Oq9v
-	xHoyurOwm2y6Xu1yWQYFLbsd3uhnaLS0vOqComFSljh3h5pKqEcIlxJtiJck=
-X-Received: by 2002:a17:907:970a:b0:a28:d122:ef4a with SMTP id jg10-20020a170907970a00b00a28d122ef4amr1014783ejc.125.1705653850888;
-        Fri, 19 Jan 2024 00:44:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEPaki7Nvh5s+ZRsiTzSg8e/2nNuxfLn/8eX3GvtF22Txji1mc1ty+kzsiF/OK7tcW1i5nY+A==
-X-Received: by 2002:a17:907:970a:b0:a28:d122:ef4a with SMTP id jg10-20020a170907970a00b00a28d122ef4amr1014778ejc.125.1705653850502;
-        Fri, 19 Jan 2024 00:44:10 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ti8-20020a170907c20800b00a2da4738882sm6498313ejc.131.2024.01.19.00.44.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jan 2024 00:44:09 -0800 (PST)
-Message-ID: <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
-Date: Fri, 19 Jan 2024 09:44:09 +0100
+        d=1e100.net; s=20230601; t=1705654099; x=1706258899;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BhDXGzyPXV715cy+WNtJqPuL0E1aYaWoiHU1aAEw5Sw=;
+        b=q/+ZvtIAkGXTpKaqIVfM6S6YQii7HX8JrNDhDl4qtNC1kyFf+7ZtVvCIJj70Ddnrno
+         yWxnMtphayLRZKQIbuYNmGg+iboAvJIvvIIUC5KS0YLpa1BmQdCFDjh022cOmuVw+Kkh
+         /pG7dGpRO/h3eIRsdum3agKkVYPxJ2Ke0YGfrNQzzoPy2sMLnC/o5itqdh//Zat1DinN
+         WZdPxB2KPMBuz1bYD+LxlmtVzLbJ3+I12AKRw1V6TKBq7LAQCWLxw6f52nfJTHLPikqj
+         Q6Z2A4YaFVMWa43T+pyKPpl+WUpYEiu9y95x3TajBh5b/uxmPNQN7AYdJfEUhSlkxrTg
+         d81A==
+X-Gm-Message-State: AOJu0YyEMUSuzO6ICi6ldt4K7X0k/kXMH3h6ixHIkzzEArhWojDvfUsx
+	GJK9338+fpOTvs50rrXKQf9Pay9HYWEk14RbHlvnMVMXAFoaXc9XP6Oms0Cps8dZehg8Ptd/30X
+	s/nn43Y2no+dRWR24KsLJdUuiBD0G74Kdfs25zA==
+X-Google-Smtp-Source: AGHT+IF88cG+WncmwGCjZW5ji71ZZSYIYdW1UlFjUZvVHBfh93nZW6jzoVh6/wt8z+AYZ5sFNPleDu0D+2abT8Xvrkc=
+X-Received: by 2002:a25:9bc7:0:b0:dc2:3a0d:23c1 with SMTP id
+ w7-20020a259bc7000000b00dc23a0d23c1mr326772ybo.49.1705654099618; Fri, 19 Jan
+ 2024 00:48:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Pavel Machek <pavel@ucw.cz>, Werner Sembach <wse@tuxedocomputers.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZaljwLe7P+dXHEHb@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240118-ktd2801-v2-0-425cf32e0769@skole.hr> <20240118-ktd2801-v2-1-425cf32e0769@skole.hr>
+In-Reply-To: <20240118-ktd2801-v2-1-425cf32e0769@skole.hr>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 19 Jan 2024 09:48:08 +0100
+Message-ID: <CACRpkdY72JLKTC=1agqHFzOPaTwBe2Y-OfCkeUUYGz13J-5r=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: add Kinetic KTD2801 binding
+To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Helge Deller <deller@gmx.de>, Karel Balej <balejk@matfyz.cz>, ~postmarketos/upstreaming@lists.sr.ht, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Duje,
 
-On 1/18/24 18:45, Pavel Machek wrote:
-> Hi!
-> 
->> We have an upcoming device that has a per-key keyboard backlight, but does
->> the control completely via a wmi/acpi interface. So no usable hidraw here
->> for a potential userspace driver implementation ...
->>
->> So a quick summary for the ideas floating in this thread so far:
->>
->> 1. Expand leds interface allowing arbitrary modes with semi arbitrary
->> optional attributes:
-> 
->>     - Con:
->>
->>         - Violates the simplicity paradigm of the leds interface (e.g. with
->> this one leds entry controls possible multiple leds)
-> 
-> Let's not do this.
-> 
->> 2. Implement per-key keyboards as auxdisplay
->>
->>     - Pro:
->>
->>         - Already has a concept for led positions
->>
->>         - Is conceptually closer to "multiple leds forming a singular entity"
->>
->>     - Con:
->>
->>         - No preexisting UPower support
->>
->>         - No concept for special hardware lightning modes
->>
->>         - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
-> 
-> Please do this one.
+thanks for your patch!
 
-Ok, so based on the discussion so far and Pavel's feedback lets try to
-design a custom userspace API for this. I do not believe that auxdisplay
-is a good fit because:
+On Thu, Jan 18, 2024 at 6:33=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic=
+@skole.hr> wrote:
 
-- auxdisplay is just a directory name, it does not seem to clearly
-  define an API
+> Add the dt binding for the Kinetic KTD2801 backlight driver.
 
-- instead the deprecated /dev/fb API is used which is deprecated
+Maybe add some commit message?
 
-- auxdisplays are very much displays (hence /dev/fb) they are typically
-  small LCD displays with a straight widthxheight grid of square pixels
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+(...)
+> +  ctrl-gpios:
+> +    maxItems: 1
 
-- /dev/fb does gives us nothing for effects, zoned keyboard, etc.
+First I thought this was inconsistent with ktd253, then
+I looked at the datasheets and they really did change "en" to "ctrl" so
+this needs a new name indeed.
 
-So my proposal would be an ioctl interface (ioctl only no r/w)
-using /dev/rgbkbd0 /dev/rgbkdb1, etc. registered as a misc chardev.
+With commit message added:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-For per key controllable rgb LEDs we need to discuss a coordinate
-system. I propose using a fixed size of 16 rows of 64 keys,
-so 64x16 in standard WxH notation.
-
-And then storing RGB in separate bytes, so userspace will then
-always send a buffer of 192 bytes per line (64x3) x 14 rows
-= 3072 bytes. With the kernel driver ignoring parts of
-the buffer where there are no actual keys.
-
-I would then like the map the standard 105 key layout onto this,
-starting at x.y (column.row) coordinates of 16.6 (with 0.0 being
-the top left). Leaving plenty of space on the left top and right
-(and some on the bottom) for extra media key rows, macro keys, etc.
-
-The idea to have the standard layout at a fixed place is to allow
-userspace to have a database of preset patterns which will work
-everywhere.
-
-Note I say standard 105 key layout, but in reality for
-defining the standardized part of the buffer we should
-use the maximum amount of keys per row of all the standard layouts,
-so for row 6 (the ESC row) and for extra keys on the right outside
-the main block we use the standard layout as shown here:
-
-http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg
-
-For the main area of the keyboard looking at:
-
-http://bopqehorizon.weebly.com/uploads/1/3/4/3/134337299/913246919_orig.png
-
-We want to max rows per key, so this means that per row we use
-(from the above image) :
-
-row  7: 106/109 - JIS 
-row  8: 101/104 - ANSI
-row  9: 102/105 - ISO
-row 10: 104/107 - ABNT
-row 11: 106/109 - JIS
-
-(with row 7 being the main area top row)
-
-This way we can address all the possible keys in the various
-standard layouts in one standard wat and then the drivers can
-just skip keys which are not there when preparing the buffer
-to send to the hw / fw.
-
-One open question is if we should add padding after the main
-area so that the printscreen / ins / del / leftarrow of the
-"middle" block of 
-
-http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg
-
-all start at the same x (say 32) or we just pack these directly
-after the main area.
-
-And the same question for the numlock block, do we align
-this to an x of say 36, or pack it ?
-
-
-As for the actual IOCTL API I think there should be
-the following ioctls:
-
-1. A get-info ioctl returning a struct with the following members:
-
-{
-char name[64]      /* Keyboard model name / identifier */
-int row_begin[16]; /* The x address of the first available key per row. On a std 105key kbd this will be 16 for rows 6-11, 0 for other rows */
-int row_end[16];   /* x+1 for the address of the last available key per row, end - begin gives number of keys in a row */
-int rgb_zones;     /* number of rgb zones for zoned keyboards. Note both
-                      zones and per key addressing may be available if
-                      effects are applied per zone. */
-?
-}
-
-2. A set-leds ioctl which takes the earlier discussed 3092 bytes buffer
-to set all the LEDs at once, only valid if at least one row has a non 0 lenght.
-
-3. A set-zones ioctl which takes an array of bytes sized 3 * number-of-zones
-containing RGB values for each zone
-
-4. A enum_effects ioctl which takes a struct with the following members:
-
-{
-long size; /* Size of passed in struct including the size member itself */
-long effects_mask[]
-}
-
-the idea being that there is an enum with effects, which gets extended
-as we encounter more effects and the bitmask in effects_mask has a bit set
-for each effects enum value which is supported. effects_mask is an array
-so that we don't run out of bits. If older userspace only passes 1 long
-(size == (2*sizeof(long)) when 2 are needed at some point in the future 
-then the kernel will simply only fill the first long.
-
-5. A set_effect ioctl which takes a struct with the following members:
-
-{
-long size; /* Size of passed in struct including the size member itself */
-int effect_nr; /* enum value of the effect to enable, 0 for disable effect */
-int zone;  /* zone to apply the effect to */
-int speed; /* cycle speed of the effect in milli-hz */
-char color1[3]; /* effect dependend may be unused. */
-char color2[3]; /* effect dependend may be unused. */
-}
-
-Again the idea with the size member is that the struct can be extended with
-new members if necessary and the kernel will supply a default value for
-older userspaces which provide a smaller struct (note size being smaller
-then sizeof(struct-v1) will invalid).
-
-
-Note this is all just a rough sketch suggestions welcome!
-
-Regards,
-
-Hans
-
-
-
+Yours,
+Linus Walleij
 
