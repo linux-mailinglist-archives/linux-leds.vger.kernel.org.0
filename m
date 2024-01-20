@@ -1,79 +1,41 @@
-Return-Path: <linux-leds+bounces-639-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-640-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E323833175
-	for <lists+linux-leds@lfdr.de>; Sat, 20 Jan 2024 00:26:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D662683366B
+	for <lists+linux-leds@lfdr.de>; Sat, 20 Jan 2024 22:27:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 612A31C22139
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Jan 2024 23:26:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 673A21F2149B
+	for <lists+linux-leds@lfdr.de>; Sat, 20 Jan 2024 21:27:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B7D358AD3;
-	Fri, 19 Jan 2024 23:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9Mey18p"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0817F1400D;
+	Sat, 20 Jan 2024 21:27:30 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB10B1E484;
-	Fri, 19 Jan 2024 23:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03F112E5F;
+	Sat, 20 Jan 2024 21:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705706795; cv=none; b=rzlDXcJdjtajPgI3TN428+muxp1jC0tRsvG7CLkBB5pN7FAaTBdASY02YWuIuxVagoiIwTsJCtF8fp39Du1d0JvV6So9bOHaEpYSa3UkvSsgIBJ5DUARbye9edjfQwbdFBjIE1oVwGJoceljBga4ox6uFJy8+KMgH6f4qXXYxuI=
+	t=1705786049; cv=none; b=Y8d0a7gtw74ZoTafuxV88YSYa5L/LoIFoXdb0r217uYDo7uM331+7g6hUg8KxMONlGjshcWSYnPAlhfCQLB/nvL0khVDVPWKn3Q4rrUVs9MAEQ1raBWfbtBHOdg1AU1N5OTlM7L1+826mtn0n4W490XyOkq2kYzL2l99ct2IUSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705706795; c=relaxed/simple;
-	bh=/b7XbxIYbAPBG+nwiZX8T1zbq6IDXVnJIcZiWY7bUEk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Ajb7lK8IZsIHkAKzKbRCBaiSywvMuoXF9aiSCwlhfqm0/YkLiBlYfBnqLSc2ifkYKSR9efEUBA8MPeCwyYOd0Se9ZC54bjKmczPGXyaikw+1J2yQwZhJFDb/qQtg7n3rcqBQL26eAVSAeR7fZ7Ys/eb64z8/nMJdK7YHgNE4YGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m9Mey18p; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e7e2e04f0so13535235e9.1;
-        Fri, 19 Jan 2024 15:26:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705706792; x=1706311592; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1wZK+516K0XpuaX6YHVhJjzhdI9/8JfrLsvg1F0YHkg=;
-        b=m9Mey18pW+OJnEWftyltag+ZBF5dZaKjvcQlMwJeIrtb8rrs1ExJB62TxsHfRZaYkk
-         8Bhrx3DYhy91CLZ/EGyAhaoXd6mclUvhdsSWgE3oErLVEMDkdu2QzvNPpo36l9B1x+d9
-         O78feCZxUzS8g3BkHmBtBl4BcN0l78sYAOY1RMi+jVJykCcuAwlutxven7yYl69BsQyN
-         A76DYMNGZwcUxzYqH1oCunYsOGJqKJKiM/EhDIZJco5DuFaTxDC2bvJv4rsMk/3h0Uzn
-         TjUfwbVrG6xKcIGgSnmVeh/oCX0o7ORRmT9teLZugy7NbOez2vR5yKS+Ef7oiO/Rv8vp
-         zQhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705706792; x=1706311592;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1wZK+516K0XpuaX6YHVhJjzhdI9/8JfrLsvg1F0YHkg=;
-        b=ldK43NepEJPnwoIx253I63JIpLUBg4unkKc2uOEq1so2S+GMKxSaZ9JOIzhEcndHOC
-         lUNlZSH2MZl94yAdxCryeiaBzuOq8OGBlMTeCm8g78w1oxY7uZS9R8cBdWELJr1O6TFl
-         6Yp8iqvQxko8oo+U/hmrp3z6/0tkOut9BBsdWpm2ZJZOV+g8eNSSTzzPCZ/mYx0jpjAh
-         iBkmzSqJMrtAQpiKar/TV6WT/8yEK6UrwdapUfgTLkhNRdGY7+J3gpv0Z0Qv+yk+Dmja
-         zvQ0NsiMQHeLBGKa4+Y4FApMbe4anD634XmBA8S+6IxoyDstHL6g4ol7AFmqE/BZAJd9
-         pHNg==
-X-Gm-Message-State: AOJu0Yyfl5dv+IX1mvNyN/+/yRhrXASkaS/k341DXSRRfvX3sJhMzRSu
-	l5+v2ER6t5w/3THH0t1o8sENwPRYxY77bleDrfBsdWSKUpmbinLL
-X-Google-Smtp-Source: AGHT+IHMKimO5Hsr9aIwhnd/9SE4aiPdxps8Eal5zD6k7O6Y+UUxyI7VM85mlOtZgV9WPD8Rgbmv2w==
-X-Received: by 2002:a05:600c:4fd3:b0:40e:5581:511a with SMTP id o19-20020a05600c4fd300b0040e5581511amr304286wmq.2.1705706791884;
-        Fri, 19 Jan 2024 15:26:31 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id n4-20020adffe04000000b00339272c885csm360875wrr.87.2024.01.19.15.26.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 15:26:31 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] leds: aw200xx: make read-only array coeff_table static const
-Date: Fri, 19 Jan 2024 23:26:30 +0000
-Message-Id: <20240119232630.2752239-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1705786049; c=relaxed/simple;
+	bh=wUqtxI1FSpcpCqfPkwEhcve6CkyStV415xdTZekKd5c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=luFsp8K/vnnrfGLvWCIlzoxR2qvLD2N75WyEB5euBb/qArO8lZENmWQWRNpnU3xlX4Z1izhgzun8+y6SgeZTheUI4KFXLIdx/77fi+pjPFu4lkdUPLYYBwzk6G0iJC5zTEm13lwfDKXNWp2I/BaTrYGeolaNlKaZNEIsTNNoJSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 6344D858F6;
+	Sat, 20 Jan 2024 22:27:24 +0100 (CET)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: [PATCH v3 0/3] Kinetic ExpressWire library and KTD2801 backlight
+ driver
+Date: Sat, 20 Jan 2024 22:26:42 +0100
+Message-Id: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -82,29 +44,99 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJI6rGUC/03MQQ6CMBCF4auQWVsznVIsrryHcQFtkQZDTUsaD
+ eHuFhLU5ZvM/80QbXA2wrmYIdjkovNjHuJQgO6b8W6ZM3kDIQmOWLJhMqSQM+yEUkK3sjYI+fs
+ ZbOdem3S95d27OPnw3uDE1+tuyK+RMsNKoY2SLVZUN5c4+Ic99gFWItGelci5+mW0ZiR1J8jiq
+ ar/smVZPnZlwOrUAAAA
+To: Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Karel Balej <balejk@matfyz.cz>, ~postmarketos/upstreaming@lists.sr.ht, 
+ phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2318;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=wUqtxI1FSpcpCqfPkwEhcve6CkyStV415xdTZekKd5c=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlrDqXO1xcPWa+CH+urwK0NvcRf1j9ADUaEYL3q
+ Z0+Lp2SODSJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZaw6lwAKCRCaEZ6wQi2W
+ 4WDxD/9C7pKu8/wuladiEQq90adnWZCAYzen10KGjYQBYJEXSHlFDm2pePOnghvI52wc31JdByK
+ E62TJwaSmJnFzpHw0efPbFRQAjwjBOS1BS0em/wQ1qRy3b4VTdlvaH7VBW4CT0Z4OYd8Y/gWElU
+ g6RuW7Z+JC6d2V6Cc0NvDOfHrttiKM84SRAgNN69fOe96HUKcJxazbvfjFKwNM0NeYQutlml7dB
+ FviZZ7WIoIqT7c8T1CP7JiMuRYYGNSGLe9ZNMQkP+XlMv+XPQYrHmESunSUTND+rh9JLQnQ1pBK
+ nyy/oyLLOk3g0YIbgAcX3MhVudzZzk8ql6bRgf0MJQbgBrqqeYfTKiteRpxf1FF/nSJyOVGgL+K
+ xMWYuXIVKIB/vbhfKugHWCWhKlyFobQo+zFhyV79Sk9uD4djAtt5WwpjRwfxJUAzICzSz4zMc4X
+ +ncqASI0zOBZI0hJpYIwComSqOIYAxf/L6jIx9MIINXVTnuAXAXV5x4onDy4AJHkxVZ3yGXYzg+
+ O+PGGAibXT2VGwowdsnNKkOKKKvAfT2J9ckKPMp2E2WGGK1QQrKa+vtIXUHT3+oezLcx/JfH6qn
+ F6ZaGsxGIgHENFtzr+lHWSubVBGyTF1zue/KM645It3AuM0TfNdoCHcizYZm7rsgqIj2h3Bn5Sc
+ Syyfrd1xwQ4K9uw==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 
-Don't populate the read-only array coeff_table on the stack at
-run time, instead make it static const.
+Hello,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+This series adds support for the Kinetic KTD2801 LED backlight driver
+IC found in samsung,coreprimevelte.
+
+Support is already upstream for the somewhat similar KTD2692 flash
+driver, and this series since v3 also moves its ExpressWire code into a
+separate library and converts the KTD2692 driver to use that library.
+
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
- drivers/leds/leds-aw200xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- Split ExpressWire code into library (and convert KTD2692 to use this
+  library)
+- Rewrite commit messages
+- Add link to datasheet
+- Drop of.h include in ktd2801
+- Use _cansleep and usleep_range when powering off
+- Clean up bitwise operation in update_status
+- Link to v2: https://lore.kernel.org/r/20240118-ktd2801-v2-0-425cf32e0769@skole.hr
 
-diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-index f584a7f98fc5..6c8c9f2c19e3 100644
---- a/drivers/leds/leds-aw200xx.c
-+++ b/drivers/leds/leds-aw200xx.c
-@@ -282,7 +282,7 @@ static int aw200xx_set_imax(const struct aw200xx *const chip,
- 			    u32 led_imax_uA)
- {
- 	u32 g_imax_uA = aw200xx_imax_to_global(chip, led_imax_uA);
--	u32 coeff_table[] = {1, 2, 3, 4, 6, 8, 12, 16};
-+	static const u32 coeff_table[] = {1, 2, 3, 4, 6, 8, 12, 16};
- 	u32 gccr_imax = UINT_MAX;
- 	u32 cur_imax = 0;
- 	int i;
+Changes in v2:
+- Address maintainer comments:
+  - Drop MODULE_ALIAS
+  - Rename enable-gpios to ctrl-gpios
+  - Rename ktd2801_backlight->desc to ktd2801_backlight->gpiod
+  - Give time constants more descriptive names and note their origins in
+    Samsung driver
+  - Convert to GPIO_ACTIVE_HIGH
+- Update trailers
+- Link to v1: https://lore.kernel.org/r/20231005-ktd2801-v1-0-43cd85b0629a@skole.hr
+
+---
+Duje Mihanović (3):
+      leds: ktd2692: move ExpressWire code to library
+      dt-bindings: backlight: add Kinetic KTD2801 binding
+      backlight: Add Kinetic KTD2801 backlight support
+
+ .../bindings/leds/backlight/kinetic,ktd2801.yaml   |  46 +++++++
+ MAINTAINERS                                        |  13 ++
+ drivers/leds/Kconfig                               |   3 +
+ drivers/leds/Makefile                              |   3 +
+ drivers/leds/flash/Kconfig                         |   1 +
+ drivers/leds/flash/leds-ktd2692.c                  |  91 ++++---------
+ drivers/leds/leds-expresswire.c                    |  59 +++++++++
+ drivers/video/backlight/Kconfig                    |   8 ++
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/ktd2801-backlight.c        | 143 +++++++++++++++++++++
+ include/linux/leds-expresswire.h                   |  35 +++++
+ 11 files changed, 336 insertions(+), 67 deletions(-)
+---
+base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+change-id: 20231004-ktd2801-0f3883cb59d0
+
+Best regards,
 -- 
-2.39.2
+Duje Mihanović <duje.mihanovic@skole.hr>
+
 
 
