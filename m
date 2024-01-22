@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-651-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-652-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AF1836DBA
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 18:38:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0C7836EA9
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 18:59:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8E101C27C22
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 17:38:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B42A4B353F0
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 17:38:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F1F5A7AA;
-	Mon, 22 Jan 2024 16:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B916F40C18;
+	Mon, 22 Jan 2024 16:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wKiw9W9B"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D5kwTiZ4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C3C5A79D
-	for <linux-leds@vger.kernel.org>; Mon, 22 Jan 2024 16:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0857B40C19
+	for <linux-leds@vger.kernel.org>; Mon, 22 Jan 2024 16:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705942217; cv=none; b=o2Z2h6M86BjGStW1mGqCdm+idlsxEYjatTiJGnIZnQzXjhiBFb0iVoE5ZWw0pfFNC4oTcYVTh/CIr0+BUnr9HomWcu4clVOc9N0SJfiJDbKeRtnGJDe023y/miNR0Ztr8ZcaTogM4axM9rXT0o6qooicnb7CPYvmiVMj1IODmic=
+	t=1705942287; cv=none; b=n/7wjzuBTpyxhIuvXTpvMq6xFpUTNf7yMI4CPQ/ubToCpJleT/Y3OboSBkGwfVC09y10pr9/Fd4Q+0KvLvZuteHtGyiadyPeo9y67ET7mnaPGZSu1whItfm4Btbcz6Xz5ArzlJjTU8Qev2b1j57527v6TvzuEylTpPk9+YWOMMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705942217; c=relaxed/simple;
-	bh=0ruM/gNibJeJfXSYwhoWuQgAeyRU3c7XqXfVEhgtTGE=;
+	s=arc-20240116; t=1705942287; c=relaxed/simple;
+	bh=+b00yzntzNaMOB3fvEhCtmlXhPID8D+X7olNpK8KzM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WiI4NUMPLX/cVi5DWvnjH/yBewoHnDwGk0EDrFV3iAq8pmkcAVK67OPQtGaEWyOZSIz4Hm1MqmvTjoVg0qioztTWfLRkNkvBbgbLgsDQ7Jl7l5tLA/t2+8eckeXBw9nNB13jnoU11KxCNWc4xl1e9rtocPu1LfTl++ZBZKrQMGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wKiw9W9B; arc=none smtp.client-ip=209.85.221.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=XeoRxFlczL5iMri39JvpKEWePeRCbi7sennPPZ5c57NYFAEcM+kBQ+ySET+B7DN+4h+wmrDHv6NBj42H2Eg4zvX2rTPNw2WXUdlABbYgGeWhdYSVbK++F9Qtt+e87UfQPn52rqWDenNAy2wlTmFedTABfwnYOjYPi3jYzFWacn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D5kwTiZ4; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3392ba29845so1867472f8f.2
-        for <linux-leds@vger.kernel.org>; Mon, 22 Jan 2024 08:50:15 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e8801221cso33913865e9.1
+        for <linux-leds@vger.kernel.org>; Mon, 22 Jan 2024 08:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705942213; x=1706547013; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705942284; x=1706547084; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=U2u02dHyzXh8Z7GhixGdPG0+iHyMzaUZy8vA0Gln640=;
-        b=wKiw9W9B+puVyaMaPiGE8nyIDzniCMcSewRBP5z/d00eWzqCz4fprSuzR0Bj4Iw3q+
-         4Cn8EjXyJUi1OYdqQE8IfBkKF1GuISf9LS9IRpZnETdjt2NvmPu1GxSCbsFCeGGhtUew
-         XXQqzuqcyDyZy4jja6A8GTVHmevgSmNs9ruLS33mGFpCjdk5DHoPGEpFz1DrYwrLayUC
-         wnp5I1LYEN07hr42G2LtMUGNkPwKLhm27Sm/6DxC1tFkiNasyj++oTABjdsVtef6n5VZ
-         5dIUtpYXmwDuCdFG0HiebbiVg8gkuilRLhQo5b9hWGadBRdCjJcsya0E5YuqyaNahjTK
-         fG2w==
+        bh=9Xb3P5uW0KtHlr1gJq8gbLgJiB2wQ8rCJWCXkjGJUtQ=;
+        b=D5kwTiZ4WknU5u/XVuRikr5TCLZs5eeF4JPi3cVFBFoFsn5EkN2mtcEdJs6tJ79+ah
+         rFFL+8RfHJCsQlpUlKSs8b8YjHYZHBZtWqdPxjBEHij2i2iwlFqTx8dCukYmKNh1mfKi
+         ruOHbInznOWxkVx/kNH+QYTaetdQf8WSgf3tydOtfpu/4qC7SNDQHwJ5ErMnw6g9f2gV
+         PfuXdE0qr5lEVl82kO5hPnn67VAyVMHRAlqpFkVqRW2/U+qXVGy1ZyH4VIA61nXav+iQ
+         QwZMWFE1prBMzKu7A7pm1MDQi2QfHSxLUiI1MjF3l+WqZOtKyrkuGuXwtlbObvsBEtay
+         UxGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705942213; x=1706547013;
+        d=1e100.net; s=20230601; t=1705942284; x=1706547084;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U2u02dHyzXh8Z7GhixGdPG0+iHyMzaUZy8vA0Gln640=;
-        b=Q1RsSWp5ObagdQ4jYQJf2SN+LYru1SMcP7jrbUjGvcSohTBSR9hxjW5D5Jme8u0A/L
-         mR/JSsgk1rVaZXjLwkw0xopAxxIRzA32aFmZbVH3oB2NU7mT3Pfq8xUFWETvVDDttNLl
-         JAbKJP4RzR6oDe6cGbQAwGp8B6OBcfn9NzSemmK9w/Vq8m6GbUk/8RhWfgZwuTLaUcCe
-         dZtDe21WImKyezVGZKcmVIesca18An14WddGW38SZ9MKjSjPtNtbncnbeQI/5BkB0wOG
-         adLbtGSCFfcHyC8COYBVxjb9xrJpaWMlgB1hDVjci04XOAPcgoq8fpHQ1kTZp38fHQ3s
-         Klyw==
-X-Gm-Message-State: AOJu0Yycm2LHNd8oHH+ghYye/mMguhemFJXZkPrxj0ZXxrKBG58BeL15
-	ywA1sgY8iO8NOoaYAspOJYGdW1nOq9vrku8/ZOsUWEl/TCkhqSsCQWGthJKPqbY=
-X-Google-Smtp-Source: AGHT+IH9kUc+oTorubUMxmQGsHzNDlOEembJL7z3hBRj9dGgCGiiPfSpDD3ONpdmGFYg9O2W5PgfHw==
-X-Received: by 2002:a05:600c:310e:b0:40e:5186:7ed1 with SMTP id g14-20020a05600c310e00b0040e51867ed1mr1744941wmo.25.1705942213558;
-        Mon, 22 Jan 2024 08:50:13 -0800 (PST)
+        bh=9Xb3P5uW0KtHlr1gJq8gbLgJiB2wQ8rCJWCXkjGJUtQ=;
+        b=rg33SjdxFQH+m9TbWApl4/aAnqVBl2g7W+baC0wFx85Scm6DtcDnQ5bjwMoBz6+w5D
+         lir6wAqPkcNCuflpkWONyJ0xUCEIdyIgYGLk+kz/GkMkI5QSGyLzqz65wJkGLC8UHg4x
+         45XY8WSBAevHxPPp58LYu409BvlrhrTQqpEI2Z2bfs2i076Hta9WhcBXW8eM87cgZ/CG
+         MSinoY2R58egawCyzRQ2HQr90NOmdijxNLgkz9i5ORA657C3xo1kg9sLnAwaP7Xi55gf
+         nziQ4YwVuCMj/hkUDaoOzmA5jwKPB4BfXV60Kqxsp3h5ClzqLa9UUFVOtpcmJmMYAEtZ
+         i/nw==
+X-Gm-Message-State: AOJu0YzNXb/iMhERYCzq0eWwEpEVPAJzrKcKZbpSt+3cZvm4d6fPqSGp
+	lxFmMEmJ8lj5b/Kk3Bxh8T3qhux8j0A0sIM5J0r6DW0GVm88MuGhC5RdilYprwM=
+X-Google-Smtp-Source: AGHT+IEe3ZCJOUFqqCaZfXUenFubOiJGjr88xxBaUX1UAuvcpYxGpx+soMDWnfmXjkm1SCbpuxpXaQ==
+X-Received: by 2002:a05:600c:b9a:b0:40e:a9c0:31fe with SMTP id fl26-20020a05600c0b9a00b0040ea9c031femr1882939wmb.68.1705942284282;
+        Mon, 22 Jan 2024 08:51:24 -0800 (PST)
 Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id g7-20020a7bc4c7000000b0040d5c58c41dsm38655169wmk.24.2024.01.22.08.50.12
+        by smtp.gmail.com with ESMTPSA id iv11-20020a05600c548b00b0040d8ff79fd8sm39802749wmb.7.2024.01.22.08.51.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 08:50:13 -0800 (PST)
-Date: Mon, 22 Jan 2024 16:50:11 +0000
+        Mon, 22 Jan 2024 08:51:23 -0800 (PST)
+Date: Mon, 22 Jan 2024 16:51:22 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
 Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -79,12 +79,12 @@ Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
 	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
-Message-ID: <20240122165011.GA8815@aspen.lan>
+Subject: Re: [PATCH v3 3/3] backlight: Add Kinetic KTD2801 backlight support
+Message-ID: <20240122165122.GB8815@aspen.lan>
 References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <20240120-ktd2801-v3-1-fe2cbafffb21@skole.hr>
- <20240122101926.GA8596@aspen.lan>
- <5907190.MhkbZ0Pkbq@radijator>
+ <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
+ <20240122102805.GB8596@aspen.lan>
+ <1783156.VLH7GnMWUR@radijator>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -94,43 +94,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5907190.MhkbZ0Pkbq@radijator>
+In-Reply-To: <1783156.VLH7GnMWUR@radijator>
 
-On Mon, Jan 22, 2024 at 05:24:51PM +0100, Duje Mihanović wrote:
-> On Monday, January 22, 2024 11:19:26 AM CET Daniel Thompson wrote:
-> > On Sat, Jan 20, 2024 at 10:26:43PM +0100, Duje Mihanović wrote:
-> > > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> > > index 6292fddcc55c..d29b6823e7d1 100644
-> > > --- a/drivers/leds/Kconfig
-> > > +++ b/drivers/leds/Kconfig
-> > > @@ -181,6 +181,9 @@ config LEDS_EL15203000
-> > >
-> > >  	  To compile this driver as a module, choose M here: the module
-> > >  	  will be called leds-el15203000.
-> > >
-> > > +config LEDS_EXPRESSWIRE
-> > > +	bool
-> > > +
+On Mon, Jan 22, 2024 at 05:24:56PM +0100, Duje Mihanović wrote:
+> On Monday, January 22, 2024 11:28:05 AM CET Daniel Thompson wrote:
+> > On Sat, Jan 20, 2024 at 10:26:45PM +0100, Duje Mihanović wrote:
+> > > diff --git a/drivers/video/backlight/ktd2801-backlight.c
+> > > b/drivers/video/backlight/ktd2801-backlight.c new file mode 100644
+> > > index 000000000000..7b9d1a93aa71
+> > > --- /dev/null
+> > > <snip>
+> > > +/* These values have been extracted from Samsung's driver. */
+> > > +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US	150
+> > > +#define KTD2801_EXPRESSWIRE_DETECT_US		270
+> > > +#define KTD2801_SHORT_BITSET_US			5
+> > > +#define KTD2801_LONG_BITSET_US			(3 *
+> KTD2801_SHORT_BITSET_US)
+> > > +#define KTD2801_DATA_START_US			5
+> > > +#define KTD2801_END_OF_DATA_LOW_US		10
+> > > +#define KTD2801_END_OF_DATA_HIGH_US		350
+> > > +#define KTD2801_PWR_DOWN_DELAY_US		2600
 > >
-> > Shouldn't there be a "select GPIOLIB" here? It seems odd to make the
-> > clients responsible for the dependencies.
+> > These are a little pointless now. They are all single use constants
+> > and have little documentary value.
 > >
-> > BTW there seems to be very little consistency across the kernel between
-> > "depends on GPIOLIB" and "select GPIOLIB".. but select is marginally
-> > more popular (283 vs. 219 in the kernel I checked).
+> > The lack of documentary value is because, for example,
+> > KTD2801_EXPRESSWIRE_DETECT_DELAY_US, is assigned to a structure
+> > field called detect_delay_us.
+> >
+> > Likewise I doubt that explicitly stating that long_bitset_us is 3x
+> > bigger than short_bitset_us is important for future driver maintainance.
 >
-> I believe a "select" would be more appropriate here unless these backlights
-> should be hidden if GPIOLIB is disabled. The catch with "select" is that there
-> seems to be no way to throw in the "|| COMPILE_TEST" other GPIO-based
-> backlights have and I'm not sure what to do about that.
+> Does this apply for ktd2692 as well?
 
-I think the "|| COMPILE_TEST" might just be a copy 'n paste'ism (in fact I
-may even have been guilty off propagating it in reviews when checking
-for inconsistencies).
-
-AFAICT nothing will inhibit setting GPIOLIB so allyes- and allmodconfig
-builds will always end up with GPIOLIB enabled. If we are happy to
-select it then I think that is enough!
+I think so, yes... but I won't get in the way if you (or anyone else)
+decides otherwise.
 
 
 Daniel.
