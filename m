@@ -1,279 +1,267 @@
-Return-Path: <linux-leds+bounces-660-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-661-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B825837346
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 20:54:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B052A837471
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 21:48:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68863B239CF
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 19:52:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D6851F2660A
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 20:48:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F8E40BFF;
-	Mon, 22 Jan 2024 19:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A35247F58;
+	Mon, 22 Jan 2024 20:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="w72KG6Dw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88F63FB33;
-	Mon, 22 Jan 2024 19:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6F47E8;
+	Mon, 22 Jan 2024 20:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705953105; cv=none; b=nRchK+0xiBTzs2OgKODeorDjfnb6jfLtRclqd7E57fxR9EYZuAGk4c098cFJUwPtXDmmiA1dd6jY/0BdhRlNZMpbdNnY5kkwNFs5DbExNPylDXCorIfHqVRCSBebUYINnZESemG+y8the9AW6zjTf3USaDai/D+/+aENMlpCoG8=
+	t=1705956427; cv=none; b=W1yxUg+qwcwfpBNKxudFrioJxHkvTGGMJjZivRqkXODTDLVYq/2KqjvZ7KeoLTtF6BvneOG26v3DCTXXWavWkU4rPTPlRMagE38xSDKqd93pPKfvHBBsoYaBXs+KBnP1xONdSnGETcjJMyMQk09t8d7J3Q2EYhgXHjfQ+Kw6dV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705953105; c=relaxed/simple;
-	bh=5fQOXzMx0sk8VbcIHgQr1j5EvAtZ+SFCQYKkGVxpjwQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xt5nKFindA7oidiIOukj1G80G4OYwApqtyIjAXv6rHuCS9XkjHDPRUc4t5EBv+C4JkotHgC2UJCzYOUep+QMkSrM8oYxEXUcyCm2gBakkM01T9AoZ+oUUZU6FvrD5Bjl3H/cFmk/qwcgQE1t4lPeBxyrNgyK1SucOjTmXh7RWbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 7EEC085970;
-	Mon, 22 Jan 2024 20:51:41 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Mon, 22 Jan 2024 20:50:59 +0100
-Subject: [PATCH v4 3/3] backlight: Add Kinetic KTD2801 backlight support
+	s=arc-20240116; t=1705956427; c=relaxed/simple;
+	bh=xhoSg7HCiJB8nm0GytlBZuAs5wdKZX1yo/OegtNKoH4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T/YOphgoGhcANUtaEY/oqZzaX+Vmnlcad24MFqtHMDlv7LwMYtwnrdOh0ZxDQTz79bJek+4Y2D46wsEwqFTej2E0q3Gusjxxyjh4I3WUZUCCahOAky02BnqDIPcfrc0aBk8nDtMHmVSYRGX4uEushUngGSnAOgws77rTUe96ik8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=w72KG6Dw; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id E182C8785F;
+	Mon, 22 Jan 2024 21:47:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1705956422;
+	bh=JxBtzlcpgR9/Ek6eHU9p5BsUP/L8XPN5FuVoVVQTYTw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=w72KG6DwouCrNqJd8AreYW6NfPC3VAxDJuG2XBRUo4+51bOUKzV6cCbjOfPcHjmSZ
+	 bDfsVCUMg3irOy0aSwynaP3q9Mp4yjkz+XYswsAMeKeEi8PqITG4U9kwmmZCn9Ow64
+	 vE+kPNVqkNyAEYiziN2XYvaGB40hXq41F0E/296AisZVdvNy4ZgZwu3a0BwfLu0HTj
+	 UieZSxkZJObJ43ZJg+G7Nj9LafFy9H5bOYh8HvP8EzP6QuVtIXRKD9jp9/OZUVA25V
+	 M4CuTEZfP8FlOvzJf5kLRqzKhhE12brD63tn5lJE7R03Ph3Xqf1G0WIOAqjXuoWu69
+	 UUXNBYM02cwhg==
+From: Marek Vasut <marex@denx.de>
+To: netdev@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: [PATCH] [RFC] net: phy: broadcom: Add DT LED configuration support
+Date: Mon, 22 Jan 2024 21:45:51 +0100
+Message-ID: <20240122204650.344794-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240122-ktd2801-v4-3-33c986a3eb68@skole.hr>
-References: <20240122-ktd2801-v4-0-33c986a3eb68@skole.hr>
-In-Reply-To: <20240122-ktd2801-v4-0-33c986a3eb68@skole.hr>
-To: Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Karel Balej <balejk@matfyz.cz>, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6449;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=5fQOXzMx0sk8VbcIHgQr1j5EvAtZ+SFCQYKkGVxpjwQ=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlrsck71V1SHKFF5Fndc5m9LwAhxluGt6iuSrqj
- IeJCCf8H3GJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZa7HJAAKCRCaEZ6wQi2W
- 4RrUD/4q1q+fvjmFi87rZXxY30ZZb8xlXQr9AqNVHJdGddHm96yN3cEwj+pP3hdwpkkk+x+jLwV
- i79VDHNQ5A/ltb9lKFn7/IHbpdYYOIOV4JeXjWa8hrEJNc5M3P7cFNH2JhJa+e8HPIofWovhog9
- v6YjwZgqu6oEwywumapJsNFRIgQStOZuSbtaOVlEcuvGlHaReLfJ4QzNw/xTkqM80boyF2pV4qS
- Cwf0Q76p0gf7qiYrac3nJe2G7nkpOru4hFactSINrMe14eLSdZvngCfXPFgZ5AjOKs0vXRklDjS
- 7p+wlKCwHNm5S2nImfYNUq9iPrHAbZQ140PJSd8lieBEV+7O4iqo1PYFWaaF9HalveIQxIFSfHp
- EowMFexZau05bMsAZfdHil0W1AlPgdy5eIcEq4WrbiD4QAX/6i7oP2Ivb4OjB8Rm0OM9xmvVdWz
- lhwA+Rc7DI6BaVN4sNiL2clAM7aLGJ9uvfxPp4uOtujBSRKe5dRakjTi5sNNVYlAypMewApUAUS
- P40YUucfmG0205GM0ZAqSIrl1l9dhPPD354hpCMYSYBCFTAvDaqCT+f8lH39aDxlaxZQMV7W8PV
- pvPczZ5zyzwCN+6xR6k4FZYjr7hlH5N42eY7DPzxaaOghP88zL1X4d9QFZTtQF2kuRUZAJY9fng
- /qswvQA6ccnCSOQ==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-KTD2801 is a LED backlight driver IC found in samsung,coreprimevelte.
-The brightness can be set using PWM or the ExpressWire protocol. Add
-support for the KTD2801.
+The BCM54213E and similar PHYs have extensive LED configuration
+capabilities -- the PHY has two LEDs, either of the two LEDs can
+be configured to 1 of 16 functions (speed, TX, RX, activity, on,
+off, quality, ... multi-color) used to drive single-color LED.
+The multi-color mode is special, it provides 16 more sub-modes
+used to drive multi-color LED.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+The current configuration -- both LEDs configured as multi-color,
+with both LEDs multi-color sub-mode set to link activity indicator,
+is not suitable for all systems in which this PHY is used.
+
+Attempt to implement a way to describe the LED configuration in DT.
+
+Use Documentation/devicetree/bindings/net/ethernet-phy.yaml leds {}
+subnode of the PHY DT node, describe both LEDs present on this PHY
+as single LEDs within the leds {} subnode. Each described LED is a
+subnode of its own, the description uses standard LED subsystem
+bindings from Documentation/devicetree/bindings/leds/common.yaml .
+
+The DT description of the LED configuration can look for example
+like this:
+
+"
+ethernet-phy@1 {
+...
+	leds {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		led@0 {
+			reg = <0>;
+			function = LED_FUNCTION_ACTIVITY;
+		};
+
+		led@1 {
+			reg = <1>;
+			function = LED_FUNCTION_SPEED_2;
+		};
+	};
+};
+"
+
+Implement parsing code in the broadcom PHY driver to detemine desired
+LED configuration from DT. In case the leds {} subnode is present, the
+parser code iterates over its subnodes and for each led@N subnode it
+parses the following properties:
+
+- reg - LED ID, either 0 or 1, used to identify the LED on the PHY
+- function - LED single-color function (speed, TX, RX, multi-color...),
+             uses LED subsystem LED_FUNCTION_* string. The parser in
+	     the driver maps this to register setting.
+- function-enumerator - In case function is set to "multi-color",
+                        the multi-color function number. The parser
+			in the driver uses this value directly for
+			the multi-color configuration register.
+
+Once the properties are parsed, the LED configuration registers of the
+PHY are programmed.
+
+The current list of LED subsystem LED_FUNCTION_* does not cover the
+entire list of possible single-color LED functions of this PHY, add
+example extension for "link speed 1" and "link speed 2" setting into
+the leds/common.h header file.
+
+The function-enumerator should probably not be a number, but maybe
+some sort of macro specific to this PHY ? I would like to avoid new
+broadcom PHY specific DT properties.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- MAINTAINERS                                 |   6 ++
- drivers/video/backlight/Kconfig             |   7 ++
- drivers/video/backlight/Makefile            |   1 +
- drivers/video/backlight/ktd2801-backlight.c | 128 ++++++++++++++++++++++++++++
- 4 files changed, 142 insertions(+)
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Lee Jones <lee@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Rafał Miłecki <rafal@milecki.pl>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: devicetree@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: netdev@vger.kernel.org
+---
+ drivers/net/phy/broadcom.c        | 56 +++++++++++++++++++++++++++----
+ include/dt-bindings/leds/common.h |  2 ++
+ 2 files changed, 52 insertions(+), 6 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 87b12d2448a0..dddffbd8d2a0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11891,6 +11891,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
+diff --git a/drivers/net/phy/broadcom.c b/drivers/net/phy/broadcom.c
+index 312a8bb35d780..9250cd45b0b24 100644
+--- a/drivers/net/phy/broadcom.c
++++ b/drivers/net/phy/broadcom.c
+@@ -407,20 +407,64 @@ static int bcm54xx_config_init(struct phy_device *phydev)
  
-+KTD2801 BACKLIGHT DRIVER
-+M:	Duje Mihanović <duje.mihanovic@skole.hr>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
-+F:	drivers/video/backlight/ktd2801-backlight.c
+ 	/* For non-SFP setups, encode link speed into LED1 and LED3 pair
+ 	 * (green/amber).
+-	 * Also flash these two LEDs on activity. This means configuring
+-	 * them for MULTICOLOR and encoding link/activity into them.
++	 * By default, flash these two LEDs on activity. This means
++	 * configuring them for MULTICOLOR and encoding link/activity
++	 * into them, but let user reconfigure this via DT.
+ 	 * Don't do this for devices on an SFP module, since some of these
+ 	 * use the LED outputs to control the SFP LOS signal, and changing
+ 	 * these settings will cause LOS to malfunction.
+ 	 */
+ 	if (!phy_on_sfp(phydev)) {
+-		val = BCM54XX_SHD_LEDS1_LED1(BCM_LED_SRC_MULTICOLOR1) |
+-			BCM54XX_SHD_LEDS1_LED3(BCM_LED_SRC_MULTICOLOR1);
++		struct device_node *np = phydev->mdio.dev.of_node;
++		struct device_node *leds, *led = NULL;
++		u8 mode[2] = { BCM_LED_SRC_MULTICOLOR1, BCM_LED_SRC_MULTICOLOR1 };
++		u8 mcmode[2] = { BCM_LED_MULTICOLOR_LINK_ACT, BCM_LED_MULTICOLOR_LINK_ACT };
++		const char *func;
++		u32 val, enumerator;
++		int ret;
 +
- KTEST
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	John Hawley <warthog9@eaglescrag.net>
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 51387b1ef012..bba9d8ffccff 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -183,6 +183,13 @@ config BACKLIGHT_KTD253
- 	  which is a 1-wire GPIO-controlled backlight found in some mobile
- 	  phones.
++		leds = of_find_node_by_name(np, "leds");
++		if (leds) {
++			for_each_available_child_of_node(leds, led) {
++				ret = of_property_read_u32(led, "reg", &val);
++				if (ret < 0 || val >= 2)
++					continue;
++
++				ret = of_property_read_string(led, "function", &func);
++				if (ret)
++					continue;
++
++				if (!strcmp(func, LED_FUNCTION_TX))
++					mode[val] = BCM_LED_SRC_XMITLED;
++				else if (!strcmp(func, LED_FUNCTION_RX))
++					mode[val] = BCM_LED_SRC_RCVLED;
++				else if (!strcmp(func, LED_FUNCTION_ACTIVITY))
++					mode[val] = BCM_LED_SRC_ACTIVITYLED;
++				else if (!strcmp(func, LED_FUNCTION_SPEED_1))
++					mode[val] = BCM_LED_SRC_LINKSPD1;
++				else if (!strcmp(func, LED_FUNCTION_SPEED_2))
++					mode[val] = BCM_LED_SRC_LINKSPD2;
++				/* Add other LED settings here */
++
++				ret = of_property_read_string(led, "function", &func);
++				if (ret)
++					continue;
++
++				ret = of_property_read_u32(led, "function-enumerator", &enumerator);
++				if (ret || enumerator >= 16)
++					continue;
++
++				mcmode[val] = enumerator;
++			}
++		}
++
++		val = BCM54XX_SHD_LEDS1_LED1(mode[0]) |
++			BCM54XX_SHD_LEDS1_LED3(mode[1]);
+ 		bcm_phy_write_shadow(phydev, BCM54XX_SHD_LEDS1, val);
  
-+config BACKLIGHT_KTD2801
-+	tristate "Backlight Driver for Kinetic KTD2801"
-+	select LEDS_EXPRESSWIRE
-+	help
-+	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
-+	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
-+
- config BACKLIGHT_KTZ8866
- 	tristate "Backlight Driver for Kinetic KTZ8866"
- 	depends on I2C
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index f72e1c3c59e9..b33b647f31ca 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -35,6 +35,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
- obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
- obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
-+obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
-diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
-new file mode 100644
-index 000000000000..c020acff40f1
---- /dev/null
-+++ b/drivers/video/backlight/ktd2801-backlight.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Datasheet:
-+ * https://www.kinet-ic.com/uploads/web/KTD2801/KTD2801-04b.pdf
-+ */
-+#include <linux/backlight.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/leds-expresswire.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+#define KTD2801_DEFAULT_BRIGHTNESS	100
-+#define KTD2801_MAX_BRIGHTNESS		255
-+
-+/* These values have been extracted from Samsung's driver. */
-+const struct expresswire_timing ktd2801_timing = {
-+	.poweroff_us = 2600,
-+	.detect_delay_us = 150,
-+	.detect_us = 270,
-+	.data_start_us = 5,
-+	.short_bitset_us = 5,
-+	.long_bitset_us = 15,
-+	.end_of_data_low_us = 10,
-+	.end_of_data_high_us = 350
-+};
-+
-+struct ktd2801_backlight {
-+	struct expresswire_common_props props;
-+	struct backlight_device *bd;
-+	bool was_on;
-+};
-+
-+static int ktd2801_update_status(struct backlight_device *bd)
-+{
-+	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
-+	u8 brightness = (u8) backlight_get_brightness(bd);
-+
-+	if (backlight_is_blank(bd)) {
-+		expresswire_power_off(&ktd2801->props);
-+		ktd2801->was_on = false;
-+		return 0;
-+	}
-+
-+	if (!ktd2801->was_on) {
-+		expresswire_enable(&ktd2801->props);
-+		ktd2801->was_on = true;
-+	}
-+
-+	expresswire_write_u8(&ktd2801->props, brightness);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ktd2801_backlight_ops = {
-+	.update_status = ktd2801_update_status,
-+};
-+
-+static int ktd2801_backlight_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct backlight_device *bd;
-+	struct ktd2801_backlight *ktd2801;
-+	u32 brightness, max_brightness;
-+	int ret;
-+
-+	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
-+	if (!ktd2801)
-+		return -ENOMEM;
-+	ktd2801->was_on = true;
-+	ktd2801->props.timing = ktd2801_timing;
-+
-+	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
-+	if (ret)
-+		max_brightness = KTD2801_MAX_BRIGHTNESS;
-+	if (max_brightness > KTD2801_MAX_BRIGHTNESS) {
-+		dev_err(dev, "illegal max brightness specified\n");
-+		max_brightness = KTD2801_MAX_BRIGHTNESS;
-+	}
-+
-+	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-+	if (ret)
-+		brightness = KTD2801_DEFAULT_BRIGHTNESS;
-+	if (brightness > max_brightness) {
-+		dev_err(dev, "default brightness exceeds max\n");
-+		brightness = max_brightness;
-+	}
-+
-+	ktd2801->props.ctrl_gpio = devm_gpiod_get(dev, "ctrl", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ktd2801->props.ctrl_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ktd2801->props.ctrl_gpio),
-+				"failed to get backlight GPIO");
-+	gpiod_set_consumer_name(ktd2801->props.ctrl_gpio, dev_name(dev));
-+
-+	bd = devm_backlight_device_register(dev, dev_name(dev), dev, ktd2801,
-+			&ktd2801_backlight_ops, NULL);
-+	if (IS_ERR(bd))
-+		return dev_err_probe(dev, PTR_ERR(bd),
-+				"failed to register backlight");
-+
-+	bd->props.max_brightness = max_brightness;
-+	bd->props.brightness = brightness;
-+
-+	ktd2801->bd = bd;
-+	platform_set_drvdata(pdev, bd);
-+	backlight_update_status(bd);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ktd2801_of_match[] = {
-+	{ .compatible = "kinetic,ktd2801" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ktd2801_of_match);
-+
-+static struct platform_driver ktd2801_backlight_driver = {
-+	.driver = {
-+		.name = "ktd2801-backlight",
-+		.of_match_table = ktd2801_of_match,
-+	},
-+	.probe = ktd2801_backlight_probe,
-+};
-+module_platform_driver(ktd2801_backlight_driver);
-+
-+MODULE_IMPORT_NS(EXPRESSWIRE);
-+MODULE_AUTHOR("Duje Mihanović <duje.mihanovic@skole.hr>");
-+MODULE_DESCRIPTION("Kinetic KTD2801 Backlight Driver");
-+MODULE_LICENSE("GPL");
-
+ 		val = BCM_LED_MULTICOLOR_IN_PHASE |
+-			BCM54XX_SHD_LEDS1_LED1(BCM_LED_MULTICOLOR_LINK_ACT) |
+-			BCM54XX_SHD_LEDS1_LED3(BCM_LED_MULTICOLOR_LINK_ACT);
++			BCM54XX_SHD_LEDS1_LED1(mcmode[0]) |
++			BCM54XX_SHD_LEDS1_LED3(mcmode[1]);
+ 		bcm_phy_write_exp(phydev, BCM_EXP_MULTICOLOR, val);
+ 	}
+ 
+diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+index 9a0d33d027fff..83d09508841b6 100644
+--- a/include/dt-bindings/leds/common.h
++++ b/include/dt-bindings/leds/common.h
+@@ -102,5 +102,7 @@
+ #define LED_FUNCTION_WAN "wan"
+ #define LED_FUNCTION_WLAN "wlan"
+ #define LED_FUNCTION_WPS "wps"
++#define LED_FUNCTION_SPEED_1 "speed-1"
++#define LED_FUNCTION_SPEED_2 "speed-2"
+ 
+ #endif /* __DT_BINDINGS_LEDS_H */
 -- 
 2.43.0
-
 
 
