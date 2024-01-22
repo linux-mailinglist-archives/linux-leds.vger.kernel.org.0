@@ -1,37 +1,37 @@
-Return-Path: <linux-leds+bounces-653-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-654-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924E6836DEC
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 18:41:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4D6836EE2
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 19:05:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 244BA28CAD7
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 17:41:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1DB41C267B5
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 18:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1FB05C5E7;
-	Mon, 22 Jan 2024 16:58:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F21163510;
+	Mon, 22 Jan 2024 17:26:49 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEE95C5E1;
-	Mon, 22 Jan 2024 16:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7963963400;
+	Mon, 22 Jan 2024 17:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705942717; cv=none; b=K4Uz9HZ511+HTvpkokg2V1jKlLEpbfRPagfgCGCrLXM8iznYyKkDMbBrvxms8b0blABBo+tRmkin+uZNudh/EHV1uk0on9gyaKg/VKbJl0H5nEVwLobis7t7yRf5jZFFhwVzciw3wGC5+4N3ZTZxI+pAuflP/SAzGgKAK1GV49k=
+	t=1705944409; cv=none; b=EUqUpsUtPmj+EnHmXs1nqPqi8d/TeHGKrcZOvDMQ+kjb1WVlmdhhOBOUbh9Cye9HL+4mlsajy7+rPCKb3le7ZXbmjPGZh9/8gwCTuq99WNkMj1RfoGVJgEYg9Yzsi18KTapPUTymvhQviqbU2ASoZd+KlNAQ/pbJjspsekURVvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705942717; c=relaxed/simple;
-	bh=bHAsR+sP5wRVnZ/aU2TbA3EueXSQy72cM9bFE1CTV5M=;
+	s=arc-20240116; t=1705944409; c=relaxed/simple;
+	bh=3UJFuNRSEFwMANMrZXNe/xPrZguhxa3YsrtpAdZQDW8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TCME4n9oWWJ3kTjkewwiwJR37PXUeHdemzrSNZmxI0spF0QdpoYd7ZiCQREV0hqLKwvYSOcIsgo6GlH+FPmTWJPGDtXUhvG8iAxJUDAl/WLA6pmV5MFvv6nHI4ZLji4V/aZ9M20zPsNT3+3TB7ZF0q7Fb/w7EI6hIRpqYMncgMw=
+	 MIME-Version:Content-Type; b=meKls/QZ1fYk4bZY8nWJ2uNqCuakSTY1If4p+XL9BIUJCJkMQojQUhtZ/NZQ8T0tL56A/QsQbW01DoRsZA9hwZ+G2LOV8zC46ygv4CybxgxJmqkq8m5BDC5nFglABYDJD3+JEZO5FIm8E7ISKwrIgA4bLcetrWsHPP05SpsV0mI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
 Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id D19AA8525B;
-	Mon, 22 Jan 2024 17:58:31 +0100 (CET)
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 2F22885291;
+	Mon, 22 Jan 2024 18:26:43 +0100 (CET)
 From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
 To: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -44,12 +44,12 @@ Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org
 Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
-Date: Mon, 22 Jan 2024 17:57:53 +0100
-Message-ID: <23373359.6Emhk5qWAg@radijator>
-In-Reply-To: <20240122165011.GA8815@aspen.lan>
+Date: Mon, 22 Jan 2024 18:26:04 +0100
+Message-ID: <3603320.R56niFO833@radijator>
+In-Reply-To: <23373359.6Emhk5qWAg@radijator>
 References:
- <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr> <5907190.MhkbZ0Pkbq@radijator>
- <20240122165011.GA8815@aspen.lan>
+ <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
+ <20240122165011.GA8815@aspen.lan> <23373359.6Emhk5qWAg@radijator>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -112,24 +112,34 @@ Autocrypt: addr=duje.mihanovic@skole.hr;
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-On Monday, January 22, 2024 5:50:11 PM CET Daniel Thompson wrote:
-> On Mon, Jan 22, 2024 at 05:24:51PM +0100, Duje Mihanovi=C4=87 wrote:
-> > I believe a "select" would be more appropriate here unless these=20
-backlights
-> > should be hidden if GPIOLIB is disabled. The catch with "select" is that
-> > there seems to be no way to throw in the "|| COMPILE_TEST" other GPIO-
-based
-> > backlights have and I'm not sure what to do about that.
+On Monday, January 22, 2024 5:57:53 PM CET Duje Mihanovi=C4=87 wrote:
+> On Monday, January 22, 2024 5:50:11 PM CET Daniel Thompson wrote:
+> > AFAICT nothing will inhibit setting GPIOLIB so allyes- and allmodconfig
+> > builds will always end up with GPIOLIB enabled. If we are happy to
+> > select it then I think that is enough!
 >=20
-> I think the "|| COMPILE_TEST" might just be a copy 'n paste'ism (in fact I
-> may even have been guilty off propagating it in reviews when checking
-> for inconsistencies).
->=20
-> AFAICT nothing will inhibit setting GPIOLIB so allyes- and allmodconfig
-> builds will always end up with GPIOLIB enabled. If we are happy to
-> select it then I think that is enough!
+> In that case I guess I'll just make it select GPIOLIB.
 
-In that case I guess I'll just make it select GPIOLIB.
+Nevermind that, it'll have to be 'depends on' after all:
+
+drivers/gpio/Kconfig:6:error: recursive dependency detected!
+drivers/gpio/Kconfig:6: symbol GPIOLIB is selected by LEDS_EXPRESSWIRE
+drivers/leds/Kconfig:184:       symbol LEDS_EXPRESSWIRE depends on NEW_LEDS
+drivers/leds/Kconfig:9: symbol NEW_LEDS is selected by SENSORS_APPLESMC
+drivers/hwmon/Kconfig:348:      symbol SENSORS_APPLESMC depends on HWMON
+drivers/hwmon/Kconfig:6:        symbol HWMON is selected by EEEPC_LAPTOP
+drivers/platform/x86/Kconfig:325:       symbol EEEPC_LAPTOP depends on=20
+ACPI_VIDEO
+drivers/acpi/Kconfig:209:       symbol ACPI_VIDEO depends on=20
+BACKLIGHT_CLASS_DEVICE
+drivers/video/backlight/Kconfig:136:    symbol BACKLIGHT_CLASS_DEVICE is=20
+selected by FB_BACKLIGHT
+drivers/video/fbdev/core/Kconfig:180:   symbol FB_BACKLIGHT is selected by=
+=20
+=46B_SSD1307
+drivers/video/fbdev/Kconfig:1934:       symbol FB_SSD1307 depends on GPIOLIB
+=46or a resolution refer to Documentation/kbuild/kconfig-language.rst
+subsection "Kconfig recursive dependency limitations"
 
 Regards,
 =2D-
