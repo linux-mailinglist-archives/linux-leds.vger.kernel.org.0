@@ -1,118 +1,122 @@
-Return-Path: <linux-leds+bounces-663-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-664-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A810B837795
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jan 2024 00:14:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C954E83958A
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jan 2024 17:58:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD3C11C24818
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jan 2024 23:14:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F17B291F54
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jan 2024 16:58:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49ECC4BA94;
-	Mon, 22 Jan 2024 23:14:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519E38005F;
+	Tue, 23 Jan 2024 16:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TVRE0u/k"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="GNMBobsM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46624BA8C;
-	Mon, 22 Jan 2024 23:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D473E7FBA7;
+	Tue, 23 Jan 2024 16:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705965268; cv=none; b=GrDxpaw2v/RK635fR/dmtGX+Y6qkkJVVQmcvWM9y7DQb/w4FsYpucA+OydvlBr4Hymvpw/YGtFQicohnWZK1QkYgh2Xiwn483B2RTWQHjbq5ei1Tk0hlQLMl/dyX3kDHmdQfsFV5THOlG4IZ2jUWP8pcOcGtVpEbXrTZFJuRBN0=
+	t=1706028677; cv=none; b=Y4Au2I1aBu/7pGBv3yUVI1c+7c+yU5wOK/WLqDROOAjJ6C/DKJhdkTRvuyYRK2N+i11IamGotHR8wpZbPSnaj57t7y6m6YYhDreRUzlPcFu8cnz/2hSNZqw5+9KLlsTGxhBMT/jQfkJyw72ipWKo6DzoJWk1/VJ4LwGagA8bJ30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705965268; c=relaxed/simple;
-	bh=J+Nv+hdqVF+im3TfXxoL+5ny+DELxKOVdeT8dwnwp+w=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HIGuohYQVrsWZiUkEdfPUO6hnGzoN9fcz4Qck7kxtaB3q2VvKiXmYxldeI7Gl1MBHYTdDvWznbxkufc/BKYj6dradW4oI+gk0Q38tIKYTtrLb5IeV8DFcyBCwHObFNKhEi3w2o2BnOWL5EK7PG22YwPUZYsdLOrvFAj88jq8huQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TVRE0u/k; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33924df7245so2579525f8f.0;
-        Mon, 22 Jan 2024 15:14:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705965265; x=1706570065; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=LDR/kvoyAv+Kg1rNifyUzWqNwxfd+kAINIMhGDItT0k=;
-        b=TVRE0u/kPy6Oto43hmclYfWFqysgvVjLxjBzWWiQY43ZnyV9GotAAw3R0/N2xwx/Zy
-         bhizyCUpc6uDgkMqxYTT6w3SEL0affwYOc1PKf2O65dzo8RPXbBPYKriGLdjrCHbMT2y
-         VfbSGYwO7cesF30isvaf2ku/xTKNO6NDyopHydHHtuL3QqkzRxlZndx7Vez1Ie6tmgHO
-         Fh5mpbcUhvFvxQrGH1iE80zpxCe5OwLM0cgWFEw8r70mfqYYSOtD7gnw+kEr2LlfgArb
-         kpglwToM2KOX92hsI6h3Azhm680IH6ZfcV4G1Er8Ful489uUhSDU7MHJAK0O+Noc0xfX
-         TeGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705965265; x=1706570065;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LDR/kvoyAv+Kg1rNifyUzWqNwxfd+kAINIMhGDItT0k=;
-        b=PeeQb/DX5GNJ/4tzQVo+ZHUfLOkeUeoiY2U3o+4mD3/gvCWf1v+LqeUUanrK47fbJn
-         gzoAclL+y6Yl1E+HLRb3cEvt1wrqEhWfcsWDe/a1uUEz5fWNU2xPDsvYIT58E5PxkLRy
-         85GT7EfPREEV2iGUe+9B+ytmQkAi8gITDiJrLGm9/e3rGYx8wADf4qav6wksORABpboF
-         cpb9w+Xa3tm0mDglsVR+3DrzzN6IH0LLo4ghDIEq282H1Qmfjqzv0xbsaYZAiXnKxfrT
-         VK6uZHVBqbS5Oowsg2WTMrzPTXq6jYsutZKqGt6wR/YGQu6l3aBWk9LbYwgHRRphdHte
-         AQ7Q==
-X-Gm-Message-State: AOJu0YyQy68uSURb/ukTXfTV5P9qeoneTbkJj3t/X7nRGH7P6wlLxxAU
-	YTJADY9Lu7ANIYaqFraeIMrmNQvFozu6gIrDWdyrKi2pplWsDyCt
-X-Google-Smtp-Source: AGHT+IGho5OTYN6HS7J0wQiT0HOnK/Y9tWkjndbiJS4yvlyAFVhGQdAemOhOpY7G9T7boXgjdjTt/Q==
-X-Received: by 2002:adf:f811:0:b0:337:c097:db9f with SMTP id s17-20020adff811000000b00337c097db9fmr2745493wrp.17.1705965264410;
-        Mon, 22 Jan 2024 15:14:24 -0800 (PST)
-Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.gmail.com with ESMTPSA id m28-20020a056000181c00b00339280c57e4sm7465215wrh.102.2024.01.22.15.14.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 15:14:24 -0800 (PST)
-Message-ID: <65aef6d0.050a0220.54d73.c4e9@mx.google.com>
-X-Google-Original-Message-ID: <Za72zG-qUjeoywrd@Ansuel-xps.>
-Date: Tue, 23 Jan 2024 00:14:20 +0100
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jakub Kicinski <kuba@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	William Zhang <william.zhang@broadcom.com>,
-	Anand Gore <anand.gore@broadcom.com>,
-	Kursad Oney <kursad.oney@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	=?iso-8859-1?Q?Fern=E1ndez?= Rojas <noltari@gmail.com>,
-	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v9 0/5] net: phy: generic polarity + LED support
- for qca808x
-References: <20240105142719.11042-1-ansuelsmth@gmail.com>
- <20240108191427.6455185a@kernel.org>
- <edfd300f-224f-4ce6-930c-d9419a2077ab@lunn.ch>
+	s=arc-20240116; t=1706028677; c=relaxed/simple;
+	bh=VE3TwMTd3CZosuWs/YQh6GO1jbfQe0kjsCQk3Fo5jOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=efAgRucbwvtDZaG2tnLcvkwG/3t2+BsJIIYJ3EzCw58LjKhueLLDUXHIuAHfuUyzxMQMrHz2+xQUWdMgLF6mvycWOYllf58xsfl2BZvRw0899CwRyYAs041IcfITILnJM0+FuXcVQhCsG1DKSo7BKUoQYD1G8gmbk5LZ0fU7Sxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=GNMBobsM; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 9C3C22FC0050;
+	Tue, 23 Jan 2024 17:51:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1706028666;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VdkokTZGvxcJHk9IiPC4nPROKX8TmRItLHJlrEqCNJs=;
+	b=GNMBobsM25vzbIaUJ9ZsUXY1t95zxv/x9Yb3+W+7pAvEmJYGD68iisuOJAL1aT70kBltww
+	LgcsjCrRpRcBlhU9ICKmB6aem1k8IkLgcVm+nXcdUMoKeDKUT6g+yb7SGTE3xnplyyTFTn
+	3AqrmNSNTous3svtFzJSaayp9w+UIUc=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <7df49b4f-5d9f-48f2-98bd-e2c3f567126c@tuxedocomputers.com>
+Date: Tue, 23 Jan 2024 17:51:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <edfd300f-224f-4ce6-930c-d9419a2077ab@lunn.ch>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com> <87bk9hppee.fsf@intel.com>
+ <ZarAfg2_5ocfKAWo@google.com> <Zar0MFelV4gY50La@duo.ucw.cz>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <Zar0MFelV4gY50La@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 09, 2024 at 02:55:26PM +0100, Andrew Lunn wrote:
-> > Looks like we're missing some tags from DTB maintainers here.
-> > Andrew, is there some urgency in getting this merged or can we
-> > defer until v6.9?
+
+Am 19.01.24 um 23:14 schrieb Pavel Machek:
+> Hi!
 >
-
-Should I send a new version now that net-next is open again or it's ok?
-
--- 
-	Ansuel
+>>> And while I would personally hate it, you can imagine a use case where
+>>> you'd like a keypress to have a visual effect around the key you
+>>> pressed. A kind of force feedback, if you will. I don't actually know,
+>>> and correct me if I'm wrong, but feels like implementing that outside of
+>>> the input subsystem would be non-trivial.
+>> Actually I think it does not belong to the input subsystem as it is,
+>> where the goal is to deliver keystrokes and gestures to userspace.  The
+>> "force feedback" kind of fits, but not really practical, again because
+>> of lack of geometry info. It is also not really essential to be fully
+>> and automatically handled by the kernel. So I think the best way is
+>>> to
+> So that's actually big question.
+>
+> If the common usage is "run bad apple demo on keyboard" than pretty
+> clearly it should be display.
+>
+> If the common usage is "computer is asking yes/no question, so
+> highlight yes and no buttons", then there are good arguments why input
+> should handle that (as it does capslock led, for example).
+The common usage is "make keyboard look flashy", for some a fixed color scheme 
+is enough, other ones might probably enable one of the built in modes. Most 
+people I think will be satisfied with these 2 options, albeit both of your 
+suggestions sound cool.
+>
+> Actually I could imagine "real" use when shift / control /alt
+> backlight would indicate sticky-shift keys for handicapped.
+>
+> It seems they are making mice with backlit buttons. If the main use is
+> highlight this key whereever it is, then it should be input.
+>
+> But I suspect may use is just fancy colors and it should be display.
+>
+> Best regards,
+> 								Pavel
 
