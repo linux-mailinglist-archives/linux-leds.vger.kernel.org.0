@@ -1,103 +1,93 @@
-Return-Path: <linux-leds+bounces-675-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-676-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB60983AC58
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 15:47:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D94B83B0D6
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 19:19:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46D752876B6
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 14:47:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0C011C22AFA
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 18:18:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F3B87CF20;
-	Wed, 24 Jan 2024 14:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC11112A171;
+	Wed, 24 Jan 2024 18:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CUKcFhYi"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RZiH9wTh"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467D97A728;
-	Wed, 24 Jan 2024 14:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F0B12A165;
+	Wed, 24 Jan 2024 18:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706106713; cv=none; b=QgfxEWarPnEppU/173I8dJyzV1nfF/RHW40QUInBqb2wWTiapFI9IjFLw4ZBF48jdV3tRrFb0BoM21y6DNp2LW5+o/j2olhEhUx1DWxfTurZVjRHYL5XZZlAXfhLPvZ+w9Ikkq6RSAdqN4iZH7d32odORAyS99fZ6z6yxOVvUKM=
+	t=1706120334; cv=none; b=fA/CPS5DMLg42WJjQLFwbjW4vGs/21jwMC1JHR4h28aYdxs1mfBsWUy6dbsOwNSAaP7EeyQiAVa7yuWc8unlM//smskvhRK0wZwfEYihHRcOrgYipy+ZpzKKHB/YRd3+ENHKh+2PpSHNYc94YuznxSQCSGgpzHc2M2YUJTL8sn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706106713; c=relaxed/simple;
-	bh=AINMiAkHA2Ql7rL36V22ul/Y3by28TWkVQGvsoWyHJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s7o4+VxGhlEQTGxU59HjOA86XjVysK10R/zVifetvv5V7QCTfptNKEDh4BJbP1m/QPnYxK2/yp8+upftCVqDv9ww+QGdqyfofgOGRVdHXERycA1pmaMiTlwU+DMM7Y8gJEgrGzJh8MmN4p35ePtUfnJeYAb6Y4hYoGQVIYcvpkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CUKcFhYi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02C82C43394;
-	Wed, 24 Jan 2024 14:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706106712;
-	bh=AINMiAkHA2Ql7rL36V22ul/Y3by28TWkVQGvsoWyHJI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CUKcFhYio1LpaOdKAyD+dP/fEylRNapYK/p2+lB22p4Ms95yYFeIrWGNJ1fpc7w2c
-	 jmo2oTc+ZT4fvZq8z/7VgyBPk2k/2B2PYKE48+xIvRIhGiAfd1QKPvngPwvOD6wSsX
-	 xGPeAuz0rztLgyMfEzyfAkwHe0Y0SHHR0MLBvrtnUnHQg3gCWLHXq/SktmvG1fZgUl
-	 qsOn/wABaIzomIrrO0N5NVqg1k7vrVjI2I2i0l5A1U8sI5KNVHKAIRerjpfxDnecSX
-	 aBhN2OKzanqQHA0Ym7nWzkeLJGkh1WZQuKiWAw+Tlcw1KfZAu6QGiME1xAfc50KbRx
-	 gD3brqrxLTUYA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	pavel@ucw.cz,
-	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/5] leds: trigger: panic: Don't register panic notifier if creating the trigger failed
-Date: Wed, 24 Jan 2024 09:31:36 -0500
-Message-ID: <20240124143149.1284622-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1706120334; c=relaxed/simple;
+	bh=DL/EQqcJCQTk9UAclAYOtLINf9xZa1C9Zef6JseuhSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bqSR+GsaTzhttc1U+Q7ET0hbBTITXId7dXp4pAE0APPIx/WbVKCN6e34H1TLHX2uTHWh5DYOHTvPI4kTCAKRYMjPmIhEowaOSEYXr8Se+su568cm6vfoOENuabafm6UVvuw/yYkc5jnM1CXzEg/NuNXzhCLyjoh2pQCfEcYjcpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RZiH9wTh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2D5C433C7;
+	Wed, 24 Jan 2024 18:18:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706120334;
+	bh=DL/EQqcJCQTk9UAclAYOtLINf9xZa1C9Zef6JseuhSA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RZiH9wThtrZRAy5vV1Ct2uyELIURtWXK8fmQT/2Pz+TJephG7gDlaFcKPIoidKbOh
+	 gbGFb3T3yNFSsTfnTLTOotgkxbd7uLnw9S9WuMD3YiZDqBRoEPgpUqZM1H2gx4QWWt
+	 0nF6bVM7nmeusnnZkvpUM46WZ1v+DMPR5CDVdVxU=
+Date: Wed, 24 Jan 2024 10:18:53 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] leds: make flash and multicolor dependencies
+ unconditional
+Message-ID: <2024012442-retool-surgical-d828@gregkh>
+References: <20240109090715.982332-1-arnd@kernel.org>
+ <20240109090715.982332-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.305
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109090715.982332-2-arnd@kernel.org>
 
-From: Heiner Kallweit <hkallweit1@gmail.com>
+On Tue, Jan 09, 2024 at 10:06:40AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Along the same lines as making devm_led_classdev_register() declared
+> extern unconditional, do the same thing for the two sub-classes
+> that have similar stubs.
+> 
+> The users of these interfaces go to great lengths to allow building
+> with both the generic leds API and the extended version, but realistically
+> there is not much use in this, so just simplify it to always rely
+> on it and remove the confusing fallback logic.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/leds/Kconfig                 |  4 ++--
+>  drivers/leds/flash/Kconfig           |  4 ++--
+>  drivers/staging/greybus/Kconfig      |  2 +-
+>  drivers/staging/greybus/light.c      | 21 --------------------
+>  include/linux/led-class-flash.h      | 24 -----------------------
+>  include/linux/led-class-multicolor.h | 29 ----------------------------
+>  6 files changed, 5 insertions(+), 79 deletions(-)
 
-[ Upstream commit afacb21834bb02785ddb0c3ec197208803b74faa ]
-
-It doesn't make sense to register the panic notifier if creating the
-panic trigger failed.
-
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-Link: https://lore.kernel.org/r/8a61e229-5388-46c7-919a-4d18cc7362b2@gmail.com
-Signed-off-by: Lee Jones <lee@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/leds/trigger/ledtrig-panic.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-panic.c b/drivers/leds/trigger/ledtrig-panic.c
-index d735526b9db4..2fc04418a87e 100644
---- a/drivers/leds/trigger/ledtrig-panic.c
-+++ b/drivers/leds/trigger/ledtrig-panic.c
-@@ -67,10 +67,13 @@ static long led_panic_blink(int state)
- 
- static int __init ledtrig_panic_init(void)
- {
-+	led_trigger_register_simple("panic", &trigger);
-+	if (!trigger)
-+		return -ENOMEM;
-+
- 	atomic_notifier_chain_register(&panic_notifier_list,
- 				       &led_trigger_panic_nb);
- 
--	led_trigger_register_simple("panic", &trigger);
- 	panic_blink = led_panic_blink;
- 	return 0;
- }
--- 
-2.43.0
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
