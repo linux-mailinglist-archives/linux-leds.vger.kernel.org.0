@@ -1,46 +1,45 @@
-Return-Path: <linux-leds+bounces-670-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-671-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6530783ABE0
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 15:33:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2945983ABFE
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 15:36:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BFF02869FC
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 14:33:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B50241F235BE
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 14:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B7686145;
-	Wed, 24 Jan 2024 14:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29B7A7CF03;
+	Wed, 24 Jan 2024 14:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q56lv06z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KEszC+d7"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20937CF3B;
-	Wed, 24 Jan 2024 14:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F369D604B2;
+	Wed, 24 Jan 2024 14:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706106554; cv=none; b=jGRMN6V1+bwtI4kdYUM6iIn/vOwIaRtJkcYZc5WqmCComEgQjR/NejaapbI9YM8Cuxg6qJBV+mmQW6pE7hlJy40wUaxzjmcdqTHCqtOurwcFzl7wapVd8f+6JVOJXsHNzy/AtdUwWuYuP9iYdC03PlLalYOheKwQC4B5T0Zq8UQ=
+	t=1706106593; cv=none; b=hznwPpqE9pVeGC71ktkIiAPMyr8wVUv91W1JPlqeQgYMkLu+pIaRRk1EHLUFB/vsgVVW8Ybx3qNEcooMCllOEOPOTVdsf3jzuSXcbazZ3Pwz+9WHMJldU29OpivgKQsD4v3wAEa8MB7zzkfnICE4bAhxGhps6jRr5RUf7U/y3bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706106554; c=relaxed/simple;
+	s=arc-20240116; t=1706106593; c=relaxed/simple;
 	bh=OYia0AtsnKf67CdsbSIm04KyjzCViV9xEqkqRkan7fg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lOXgkzroeEcvBV7zxxAle1VHdrKc5xZLaxJu0lwzsRNPjQoYHjvbtempXTkMgyV/BrJ6oYoBtbRqnRKlIaDvrZWJNPA86oGzKQ2FHJTv6HqKTmbXdE0PemKj7PFCBFZDpGqQnqoKmXrRR82xFQb43AInttmVoXeIdZVNYKYJkik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q56lv06z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6990C433A6;
-	Wed, 24 Jan 2024 14:29:12 +0000 (UTC)
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fVzNq3N6gmagYjnaMi7WWrVkwFPoNJah082LrUiLDsxvUk0HM43OgGpN7wiP6tq9maF7Wd0Aem/rz/uhAldiS9I9aaYfzDAgBINpKICsvNIk1uQzDumwgMCbYl+sIZ0To4w5k/mV4xHVTv/LYyOkwyhcwjhW7Tn/4w9JFs8KQTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KEszC+d7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B265C433F1;
+	Wed, 24 Jan 2024 14:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706106553;
+	s=k20201202; t=1706106592;
 	bh=OYia0AtsnKf67CdsbSIm04KyjzCViV9xEqkqRkan7fg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q56lv06zo3hwYjN/4W7w3Yy0O2B6yRhbMogdy/I/SbXIzv4OiVEWUlIQczhu89UBq
-	 oD/4BAB7sGKZixSj5TYiJqRTrWeKolaQVZbNfoeVYL5A7NvRUBaOGGhJE0aaP7fOke
-	 UjjTGQoymFXfnfIsxLOGhfz1Kr/jC4NYR4kGn9cOxpyC0U1tH3uVYn8ShIXA57X7cM
-	 8t9I4mUqmZufN9gXzw1Bi/X+B53AF/xG9ifs5B0wC2mrAno9rWfWJsPZgAMQ6jVkm4
-	 88oYuSJD7t1xw+p8Q/7XKFwgA+FyIYVtc3YUHIuyFM+kLl3ZacDl+7DOhIYUnprX7F
-	 V5+Ln5PSPEQgw==
+	h=From:To:Cc:Subject:Date:From;
+	b=KEszC+d7wJwEZ429lAyXqII8qCj3CaebuBUJjlJ40/Ez3XYIivWx1u6ewhTVWI2OI
+	 wuErfHUXvxuk6LbwjnsyToAo1AQ6eDgyTRB7tsUaQw6baP+UywYeruWRwHXOsAJ1ah
+	 NV9/5KH0Mbwp3ImCcVP8MI+l+8WVDyi3dRNeQ3szrE2CNSfVQeZd7KEp/WKtpXEY1b
+	 i9PSN3CTtotQK5EZwwnC/zizC8FB6kyfY0KHvW86bM5JQyFQWiXb9FKt2Zyt/OdxFs
+	 a88WH3j6F1NI75a6GRuh9tTfXi/QG5vTP2x9v13hyu3M0npYK11vlD8/iM/PndqRsa
+	 ludhp8jpZN/HA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,12 +48,10 @@ Cc: Heiner Kallweit <hkallweit1@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@ucw.cz,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 02/11] leds: trigger: panic: Don't register panic notifier if creating the trigger failed
-Date: Wed, 24 Jan 2024 09:28:45 -0500
-Message-ID: <20240124142907.1283546-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 1/9] leds: trigger: panic: Don't register panic notifier if creating the trigger failed
+Date: Wed, 24 Jan 2024 09:29:31 -0500
+Message-ID: <20240124142949.1283818-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240124142907.1283546-1-sashal@kernel.org>
-References: <20240124142907.1283546-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,7 +60,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.13
+X-stable-base: Linux 6.1.74
 Content-Transfer-Encoding: 8bit
 
 From: Heiner Kallweit <hkallweit1@gmail.com>
