@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-669-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-670-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C25783ABBC
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 15:29:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6530783ABE0
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 15:33:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC37F1C21BA0
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 14:29:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BFF02869FC
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jan 2024 14:33:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7587D7E566;
-	Wed, 24 Jan 2024 14:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B7686145;
+	Wed, 24 Jan 2024 14:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dc7rMO2r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q56lv06z"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157267C0B8;
-	Wed, 24 Jan 2024 14:28:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20937CF3B;
+	Wed, 24 Jan 2024 14:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706106507; cv=none; b=PTjzjVuTkEfi22pVL9J9nPVxe+9Uvo5HYt2T0AZxX+RjtrhcIXM483lMeHkUXpq8TMWN+fQeZ+uay/BPbcLQ13xUAzsoOnPnNS3NgCqGB2x6cD4Jr9z94WEpCw5+Pa008nkexel8LYlbD998L7AbjZfeXyLk8465YrJ+ltl8dV0=
+	t=1706106554; cv=none; b=jGRMN6V1+bwtI4kdYUM6iIn/vOwIaRtJkcYZc5WqmCComEgQjR/NejaapbI9YM8Cuxg6qJBV+mmQW6pE7hlJy40wUaxzjmcdqTHCqtOurwcFzl7wapVd8f+6JVOJXsHNzy/AtdUwWuYuP9iYdC03PlLalYOheKwQC4B5T0Zq8UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706106507; c=relaxed/simple;
+	s=arc-20240116; t=1706106554; c=relaxed/simple;
 	bh=OYia0AtsnKf67CdsbSIm04KyjzCViV9xEqkqRkan7fg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MTvVp6zpJM/PTwzBkDwQDxu6lP5jKdaI0VAW3KKKirvcqHxw7LdynlFkMUhJA5PZZ4q+Oxs6nid585jv0vSie0PerJmAcuQybR5IteHkU+N9bZoGnEIUN1vx/LYj9G+Dgfrk/jMx1agf/50uXmcDcga1dXjEeLkDmJomxziOogU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dc7rMO2r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E8CDC433A6;
-	Wed, 24 Jan 2024 14:28:25 +0000 (UTC)
+	 MIME-Version; b=lOXgkzroeEcvBV7zxxAle1VHdrKc5xZLaxJu0lwzsRNPjQoYHjvbtempXTkMgyV/BrJ6oYoBtbRqnRKlIaDvrZWJNPA86oGzKQ2FHJTv6HqKTmbXdE0PemKj7PFCBFZDpGqQnqoKmXrRR82xFQb43AInttmVoXeIdZVNYKYJkik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q56lv06z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6990C433A6;
+	Wed, 24 Jan 2024 14:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706106506;
+	s=k20201202; t=1706106553;
 	bh=OYia0AtsnKf67CdsbSIm04KyjzCViV9xEqkqRkan7fg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Dc7rMO2rCI3XpSWoRKOcryjtr4m+jP1bXdASFV5pMDDw5KwiQlDWkhWc+CmtDNLMU
-	 F+n4QLnkphaym3ZpBJRWBZ+iUTHTzdsxXiKpEvg7H+PNhKAxplzVm0YbEyVZBRhm6p
-	 hjM+Elrkuis24X5/yps7ogg+iObzSVUiY0h1oRUWUDqbgSZTBdyyehoSK0Mmy1RSTe
-	 4kEnKzY3XKllR2eDgJtI4R3IhcEeZ8StKgH8KG1F5HLq1s/QOJltc5HOQsP4P8XxPv
-	 0I1x66QgJ+g9UaO2sKdaVIbKWlPD9nBH+QsoG0nFzeO3VsOVImGzWUdeco6czcJD8t
-	 pf1D968GHj7wQ==
+	b=Q56lv06zo3hwYjN/4W7w3Yy0O2B6yRhbMogdy/I/SbXIzv4OiVEWUlIQczhu89UBq
+	 oD/4BAB7sGKZixSj5TYiJqRTrWeKolaQVZbNfoeVYL5A7NvRUBaOGGhJE0aaP7fOke
+	 UjjTGQoymFXfnfIsxLOGhfz1Kr/jC4NYR4kGn9cOxpyC0U1tH3uVYn8ShIXA57X7cM
+	 8t9I4mUqmZufN9gXzw1Bi/X+B53AF/xG9ifs5B0wC2mrAno9rWfWJsPZgAMQ6jVkm4
+	 88oYuSJD7t1xw+p8Q/7XKFwgA+FyIYVtc3YUHIuyFM+kLl3ZacDl+7DOhIYUnprX7F
+	 V5+Ln5PSPEQgw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,12 +49,12 @@ Cc: Heiner Kallweit <hkallweit1@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@ucw.cz,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 02/13] leds: trigger: panic: Don't register panic notifier if creating the trigger failed
-Date: Wed, 24 Jan 2024 09:27:55 -0500
-Message-ID: <20240124142820.1283206-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 02/11] leds: trigger: panic: Don't register panic notifier if creating the trigger failed
+Date: Wed, 24 Jan 2024 09:28:45 -0500
+Message-ID: <20240124142907.1283546-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240124142820.1283206-1-sashal@kernel.org>
-References: <20240124142820.1283206-1-sashal@kernel.org>
+In-Reply-To: <20240124142907.1283546-1-sashal@kernel.org>
+References: <20240124142907.1283546-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.1
+X-stable-base: Linux 6.6.13
 Content-Transfer-Encoding: 8bit
 
 From: Heiner Kallweit <hkallweit1@gmail.com>
