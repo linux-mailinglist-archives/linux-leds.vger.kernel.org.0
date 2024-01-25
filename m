@@ -1,101 +1,89 @@
-Return-Path: <linux-leds+bounces-691-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-692-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881EF83C3FA
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 14:45:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7AD83C41D
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 14:51:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB0FA1C248A8
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 13:45:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0A201C215CA
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 13:51:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A013D56B60;
-	Thu, 25 Jan 2024 13:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4466F5B20C;
+	Thu, 25 Jan 2024 13:51:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rug8Utf/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fzyt2/gs"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6888056756;
-	Thu, 25 Jan 2024 13:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1886A5B204;
+	Thu, 25 Jan 2024 13:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706190305; cv=none; b=iIB1B4rqSzVRmdXRDVSotCccsLNJtpt7w40sPNA1yRQ2icPpJ0VK9fBdhXa6aZG9sKvAE+oACR5h4qTlmt287ZulLNm3mGFMtRZlPQsb7dpWTcMAXf1nP+PsKqSeQ2wZzLVohk/sVBR9mVybcR82d0k1rSuI1XcxcBMBN6MlQ+Y=
+	t=1706190675; cv=none; b=KSIsmad6SXCiT1i0pMoJehadZ76vkipm6pgwHXW+6S1XmeNXlrphsr920iSVuiQK0DB3vVmCfWqKeM/TLeDRPbFlj6qPLzE/FOstdrVGOdmLzJ3ORCLohyJL6I07B9qO1FSh+a6oakernCIEWHF+VJLPSFr5ztBtv2DDIV8UoeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706190305; c=relaxed/simple;
-	bh=NkGyl0Jo0whrkxO3b7LKj7C4yJ2z5Q7jS9gPgnwH+To=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TWirHiRsF9x9BInlPJbR89htS3CHJ5XVKCxw4p0Pv5No6e9DNHJCliUgEpVfd6hRH3rFDGHxiFtuuLmeQ85Gzz5pg7xMlOZmXUhxVLXGi4nSg8XWrQKvlnZ44LbBe8K8o5iQSb4NNMj6nUUw118zO84LXIrVvAI9pR5k5grbBp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rug8Utf/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59646C433C7;
-	Thu, 25 Jan 2024 13:45:01 +0000 (UTC)
+	s=arc-20240116; t=1706190675; c=relaxed/simple;
+	bh=wH81iS855opiUGjOXv2S6FTtpKNofrQv2CSZAxYC3/k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XuS9yd/it7VNNy7wFnUy15ZpQKrLQCXg9jD0o4okLSdW10qskDXyH+aqApGQT8EWKIZe8++/DVPjtjY4n6qnxuvDmAoeubRoZGbLrVq2sEd0lf0rlpZ7SVvnqHiaE0zoq6nD8XT6gSTttzezd6Bp8yXqNuUJu5gRKecrqIFZZEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fzyt2/gs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC8DC433F1;
+	Thu, 25 Jan 2024 13:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706190304;
-	bh=NkGyl0Jo0whrkxO3b7LKj7C4yJ2z5Q7jS9gPgnwH+To=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rug8Utf/w3dEQerx0wbHVZ/SWWLm4O7sohG0zDLffqrmWy1HvAKou2t+boHVJO82r
-	 +wpGR6eKbO4rXTPaejfNyYwS8RxD5FSOnymemR/CviaMKn1H6ZhtKt9RVJyexJs+MW
-	 DcK9n4RlsioLM/MRILqegUMF79BdrWHlfGqtQ2X8cBcNXjrCSfgrrrImI3ueuCg/8h
-	 iHXb0JHwoTtGos5SeeD/EylC6Yq+7hTRzfWURDCmZRRT67R7ib026siLqXYVvzH4/N
-	 PZzt51NLWtfLNpaBoE52UJui1OwWm1uMSJM9wCfXzRJERo6qQvyRr7eehDSvc/XuDY
-	 gudz9vm89sPpA==
-Date: Thu, 25 Jan 2024 13:44:58 +0000
+	s=k20201202; t=1706190674;
+	bh=wH81iS855opiUGjOXv2S6FTtpKNofrQv2CSZAxYC3/k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fzyt2/gsNccB/ZCejD01UTKlKnbJ/DDRyMh4JuscNZPSrX0Bgt8TItGfPX6z4Qmis
+	 MeE60VNLb/zQcqOlYLpSxGqC+4YSfUMpEp1zbVHpfYIba/LwaNoFR0Y49Y2d1ba/4f
+	 aa+o1kQjtomqLMHgdPAOdiyAmmnrGMwGVwm6PpHplc8V05zSNJvIvg9C+0V2Es6ty3
+	 EWy/62av6nWIFq5f6caMPyYFUtNmChzhuxwq49D3zJYKwcWTB/WB2YlmKUFjUzul5V
+	 I4OiuXKvHow9jE3ajDGgGCibe28VgIgA3t4h4mk7VrD7QLRg0mx5qkPgYV8uvhTsZm
+	 M5sdhjzkxIyFQ==
 From: Lee Jones <lee@kernel.org>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Karel Balej <balejk@matfyz.cz>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] leds: ktd2692: move ExpressWire code to library
-Message-ID: <20240125134458.GK74950@google.com>
-References: <20240122-ktd2801-v4-0-33c986a3eb68@skole.hr>
- <20240122-ktd2801-v4-1-33c986a3eb68@skole.hr>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240109090715.982332-1-arnd@kernel.org>
+References: <20240109090715.982332-1-arnd@kernel.org>
+Subject: Re: [PATCH 1/2] leds: remove led_init_default_state_get() and
+ devm_led_classdev_register_ext() stubs
+Message-Id: <170619067236.1476369.7542248214179652574.b4-ty@kernel.org>
+Date: Thu, 25 Jan 2024 13:51:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240122-ktd2801-v4-1-33c986a3eb68@skole.hr>
+X-Mailer: b4 0.12.3
 
-On Mon, 22 Jan 2024, Duje Mihanović wrote:
-
-> The ExpressWire protocol is shared between at least KTD2692 and KTD2801
-> with slight differences such as timings and the former not having a
-> defined set of pulses for enabling the protocol (possibly because it
-> does not support PWM unlike KTD2801). Despite these differences the
-> ExpressWire handling code can be shared between the two, so move it into
-> a library in preparation for adding KTD2801 support.
+On Tue, 09 Jan 2024 10:06:39 +0100, Arnd Bergmann wrote:
+> These two functions have stub implementations that are called when
+> NEW_LEDS and/or LEDS_CLASS are disabled, theorerically allowing drivers
+> to optionally use the LED subsystem.
 > 
-> Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
-> ---
->  MAINTAINERS                       |   7 +++
->  drivers/leds/Kconfig              |   4 ++
->  drivers/leds/Makefile             |   3 +
->  drivers/leds/flash/Kconfig        |   2 +-
->  drivers/leds/flash/leds-ktd2692.c | 116 +++++++++-----------------------------
+> However, this has never really worked because a built-in driver is
+> unable to link against these functions if the LED class is in a loadable
+> module. Heiner ran into this problem with a driver that newly gained
+> a LEDS_CLASS dependency and suggested using an IS_REACHABLE() check.
+> 
+> [...]
 
->  drivers/leds/leds-expresswire.c   |  68 ++++++++++++++++++++++
->  include/linux/leds-expresswire.h  |  36 ++++++++++++
+Applied, thanks!
 
-Please can you separate the Expresswire addition into its own patch?
+[1/2] leds: remove led_init_default_state_get() and devm_led_classdev_register_ext() stubs
+      commit: c0b64609dada48907b04b48873ba052efa8f121d
+[2/2] leds: make flash and multicolor dependencies unconditional
+      commit: 54602f38551e89b520611ffb9df05232d1bf73f8
 
->  7 files changed, 146 insertions(+), 90 deletions(-)
-
--- 
+--
 Lee Jones [李琼斯]
+
 
