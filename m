@@ -1,61 +1,56 @@
-Return-Path: <linux-leds+bounces-688-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-689-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B4683C3BA
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 14:33:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD4183C3C2
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 14:35:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C13201F26AEC
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 13:33:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A6F61C23DAC
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 13:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A31D355E6E;
-	Thu, 25 Jan 2024 13:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D80656B75;
+	Thu, 25 Jan 2024 13:34:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ft1hS6ad"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9aJmDU4"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EA54F212;
-	Thu, 25 Jan 2024 13:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A22C56B70
+	for <linux-leds@vger.kernel.org>; Thu, 25 Jan 2024 13:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706189592; cv=none; b=qC+0UUPrt6BS3LifA+uTh5bR7j3kb+TSsj07AU6hXGfnBfMKccw+LLwSbgLnxGBUmynSzQ2s9zB5b+GEJb0/lG/iuUOd9NQRYIut4tlymR2e204Bky5r0H09wPzh4Ix1ojTc2ScbywQDmWCt4RpIShwpCmkOR3pGk2hbewz4Phc=
+	t=1706189695; cv=none; b=eToz5hzo5enkqGcZ3zG3+9+wvgUrCrtbt5TqZPOf6tTXfAjEWL3lW8zwbS48x16+cuV0s0ozTqvry55j10LrqA89M4dFdyBUuUmk14UwTPp6l1gzdjhtD5QYKRwA1BZ0pFyYwhhDJoNAnSWCFk2NoVSUnsrkrl/iM0ZaN7x1/4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706189592; c=relaxed/simple;
-	bh=oR73ElII+Ea6VkMoxYabaKds5uCTTrP+pC0GdwTuXJw=;
+	s=arc-20240116; t=1706189695; c=relaxed/simple;
+	bh=+ggGKmdSKIdil0cIH9UDvQ3QAOpoE/tAJBXJvCRS5Oc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t4xTg+fLjrBx3R//vSMBCADbiIC+2GcG9PD6p5LIyNqXXmI8BhK+ZxE5OR6fkpxNXmUy9GFNbgepIxhqdwKydrKJ4Ry4DCajpb7oYxA1QGjhH/UhC9uMYrdfdWruC67ErD7DOCxkelTR5At9EKn01xmi1TrztdSfuhGSzSIJ2ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ft1hS6ad; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6A0C433C7;
-	Thu, 25 Jan 2024 13:33:09 +0000 (UTC)
+	 MIME-Version:Content-Type; b=f3TdO9/kpPf0tnHcqFusTuz6BN4c8YX+PioVOIHPh91Jq4wNoDSb+SWK0e51UwcVuuQO5x48wLvC2MHcKQEC0GnQsEVR4W99P+FwcmgwJIEfxiSxZ2Nik4IGwETEawXit3aAdpLbhNV48aAnxlY7L6rFvocy8zVbMJB5IS+83+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9aJmDU4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA40BC433F1;
+	Thu, 25 Jan 2024 13:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706189592;
-	bh=oR73ElII+Ea6VkMoxYabaKds5uCTTrP+pC0GdwTuXJw=;
+	s=k20201202; t=1706189694;
+	bh=+ggGKmdSKIdil0cIH9UDvQ3QAOpoE/tAJBXJvCRS5Oc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ft1hS6adPP9rT33QQ5YF1IUjkQU/i4uGCPgGGVy6fv1v2/1MWLgEGyW/yBxL4fCtf
-	 /wkb2OI9H150wo5Ql7HEXpRbe6897kQEKEGKHd3CikE5FnL5h/PglTcLXo5+yWdCDC
-	 64ReazRq9rCEAlsrkEQhEjq/xPmVv3suG7qTNOWHB/4h2e8A8/tZ+NVDa51ip3frcV
-	 CZAxmGk0/UjHSc4LHzDEQUegYEpJUdE/ELITIWFt3WdWC9ECx7Jp4mYVW5uf+FJq6G
-	 Pk+hFzHICw75gO4/fNn20eCl/m/jk1jfpAGR5vguJLF6FjGrvOdv//+8coaoDZQylW
-	 rAqX5U2Yzcefw==
+	b=S9aJmDU4hovZXxSkA6XqmtLRTkG5ZZxMOV9NdPrtQ0gnIBV2xIxNyzrNY8Hnl70YG
+	 EJrD967RJFxCiDFinNGhU+mgpIrEFmZuRcpIxLzjhc9a6KmmJVesRNpWPME5XjKAPM
+	 upn20KKj7knOE0S/uGHsIov7ZIkAHMMWVHwZWS5Jq382kzPnGiQ0X9DuI6Z8p7/i+I
+	 be/9eEG3VjNmvMEh3JT2p9dczpJYna01YZshX6WtPmANgb2Bjq2l6OAPCgCnep/E+3
+	 ZYflCQ6X8GRfiveOOOv954K8bR2xk9+5zage+xtclgIY0X++BxSl0/kfDvkLGF4WlW
+	 UuS4DhbLqEL6g==
 From: Lee Jones <lee@kernel.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, openwrt-devel@lists.openwrt.org, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
-In-Reply-To: <20240117151736.27440-1-zajec5@gmail.com>
-References: <20240117151736.27440-1-zajec5@gmail.com>
-Subject: Re: (subset) [PATCH] dt-bindings: leds: add FUNCTION defines for
- per-band WLANs
-Message-Id: <170618958957.1465772.9140099725352786170.b4-ty@kernel.org>
-Date: Thu, 25 Jan 2024 13:33:09 +0000
+ Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-leds@vger.kernel.org
+In-Reply-To: <84c0fa67-2f03-4474-aa75-914d65d88dd0@gmail.com>
+References: <84c0fa67-2f03-4474-aa75-914d65d88dd0@gmail.com>
+Subject: Re: (subset) [PATCH] leds: trigger: panic: simplify
+ led_trigger_set_panic
+Message-Id: <170618969339.1467009.16893486596600124077.b4-ty@kernel.org>
+Date: Thu, 25 Jan 2024 13:34:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,20 +61,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.3
 
-On Wed, 17 Jan 2024 16:17:36 +0100, Rafał Miłecki wrote:
-> Most wireless routers and access points can operate in multiple bands
-> simultaneously. Vendors often equip their devices with per-band LEDs.
+On Sat, 09 Dec 2023 23:54:51 +0100, Heiner Kallweit wrote:
+> I don't see why we iterate over all triggers to find the panic trigger.
+> We *are* the panic trigger. Therefore we also know that the panic
+> trigger doesn't have an activate() hook. So we can simplify the code
+> significantly.
 > 
-> Add defines for those very common functions to allow cleaner & clearer
-> bindings.
 > 
-> 
-> [...]
 
 Applied, thanks!
 
-[1/1] dt-bindings: leds: add FUNCTION defines for per-band WLANs
-      commit: 89d9d3eedc8804e06a770e3cf1279f9131b785f1
+[1/1] leds: trigger: panic: simplify led_trigger_set_panic
+      commit: 682e98564ffb67989a77002844767318d366a9ee
 
 --
 Lee Jones [李琼斯]
