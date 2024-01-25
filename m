@@ -1,77 +1,87 @@
-Return-Path: <linux-leds+bounces-687-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-688-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F74E83C3A4
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 14:30:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B4683C3BA
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 14:33:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A97BA291873
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 13:30:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C13201F26AEC
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jan 2024 13:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B45050A69;
-	Thu, 25 Jan 2024 13:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A31D355E6E;
+	Thu, 25 Jan 2024 13:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUzyXi/4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ft1hS6ad"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473B4F8BC;
-	Thu, 25 Jan 2024 13:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EA54F212;
+	Thu, 25 Jan 2024 13:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706189411; cv=none; b=JVpxdeBeY4HuIHuTJ0NbfAf4ValWM4QsSNyTRsRjCUWyJFAYx1zgXYjKQkELLJ4lpkNT83+b0om12lOSV+3F8SPFGjg97YZlHcLGQ2Q5q75Hl+wOV1Y8iiPL11jVgnsCgcE4hgMtxhGwTNU+ey/6ZqiQV/PgptKGI4Lb7uSvlHU=
+	t=1706189592; cv=none; b=qC+0UUPrt6BS3LifA+uTh5bR7j3kb+TSsj07AU6hXGfnBfMKccw+LLwSbgLnxGBUmynSzQ2s9zB5b+GEJb0/lG/iuUOd9NQRYIut4tlymR2e204Bky5r0H09wPzh4Ix1ojTc2ScbywQDmWCt4RpIShwpCmkOR3pGk2hbewz4Phc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706189411; c=relaxed/simple;
-	bh=616lcI+RmME+q9+3VPHfZWCLqdXDF+Z6zI5Uf57tygc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0a4l69p80LI3hIHLctdd1CiHEw7L3BVcwY5oXodSZ98zS0IzhnwLOUFyywgAHtBqgI/Jxe8Pu31A5aTCUD8eQA30Xj6NMucIMQ26A1beHU3z4EKN8M0irx5qqIiQhcUXoivwqkInzXL1AxLS2lcz/HoapYixRHL2zlYvySF0xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUzyXi/4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF69C433F1;
-	Thu, 25 Jan 2024 13:30:09 +0000 (UTC)
+	s=arc-20240116; t=1706189592; c=relaxed/simple;
+	bh=oR73ElII+Ea6VkMoxYabaKds5uCTTrP+pC0GdwTuXJw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=t4xTg+fLjrBx3R//vSMBCADbiIC+2GcG9PD6p5LIyNqXXmI8BhK+ZxE5OR6fkpxNXmUy9GFNbgepIxhqdwKydrKJ4Ry4DCajpb7oYxA1QGjhH/UhC9uMYrdfdWruC67ErD7DOCxkelTR5At9EKn01xmi1TrztdSfuhGSzSIJ2ZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ft1hS6ad; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6A0C433C7;
+	Thu, 25 Jan 2024 13:33:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706189411;
-	bh=616lcI+RmME+q9+3VPHfZWCLqdXDF+Z6zI5Uf57tygc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lUzyXi/4JMzaBZnEPwz8BEPPY+XpD9SLMTdzneSsgy/jbk0KnCCgNu4Mex7ra/EcY
-	 TrMdkfn2ysaFncfOr4MET4U1Nf4MSQP8y4PagkbdOa90wAVZjF5Sm13WHMFcxIHpnd
-	 kxLwi2C4M4YV/rDIMiVb09qzjVGLD9OFyqngwwH/oe8kQNe8f4j/ZKDKvnFrYaInto
-	 ppfy09gwM8TZgY/z2TNMHgxbj1uCro332nqOql59WIz+h7XjNhBtIhgwPrYMm7O690
-	 rxPQZnzeYdRm5e+32CuJKAXxf31JykztEtdMr3r8srLA9xueWOEfnrkfc0L0Io6ob9
-	 SAGtrZRgma8gw==
-Date: Thu, 25 Jan 2024 13:30:07 +0000
+	s=k20201202; t=1706189592;
+	bh=oR73ElII+Ea6VkMoxYabaKds5uCTTrP+pC0GdwTuXJw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ft1hS6adPP9rT33QQ5YF1IUjkQU/i4uGCPgGGVy6fv1v2/1MWLgEGyW/yBxL4fCtf
+	 /wkb2OI9H150wo5Ql7HEXpRbe6897kQEKEGKHd3CikE5FnL5h/PglTcLXo5+yWdCDC
+	 64ReazRq9rCEAlsrkEQhEjq/xPmVv3suG7qTNOWHB/4h2e8A8/tZ+NVDa51ip3frcV
+	 CZAxmGk0/UjHSc4LHzDEQUegYEpJUdE/ELITIWFt3WdWC9ECx7Jp4mYVW5uf+FJq6G
+	 Pk+hFzHICw75gO4/fNn20eCl/m/jk1jfpAGR5vguJLF6FjGrvOdv//+8coaoDZQylW
+	 rAqX5U2Yzcefw==
 From: Lee Jones <lee@kernel.org>
-To: Amitesh Singh <singh.amitesh@gmail.com>
-Cc: pavel@ucw.cz, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds/pca963x: implement power management
-Message-ID: <20240125133007.GJ74950@google.com>
-References: <20240116073421.395547-1-singh.amitesh@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, openwrt-devel@lists.openwrt.org, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
+In-Reply-To: <20240117151736.27440-1-zajec5@gmail.com>
+References: <20240117151736.27440-1-zajec5@gmail.com>
+Subject: Re: (subset) [PATCH] dt-bindings: leds: add FUNCTION defines for
+ per-band WLANs
+Message-Id: <170618958957.1465772.9140099725352786170.b4-ty@kernel.org>
+Date: Thu, 25 Jan 2024 13:33:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240116073421.395547-1-singh.amitesh@gmail.com>
+X-Mailer: b4 0.12.3
 
-On Tue, 16 Jan 2024, Amitesh Singh wrote:
-
-> This implements power management in upstream driver
-> for pca9633 which enables device sleep and resume
-> on system-wide sleep/hibernation
+On Wed, 17 Jan 2024 16:17:36 +0100, Rafał Miłecki wrote:
+> Most wireless routers and access points can operate in multiple bands
+> simultaneously. Vendors often equip their devices with per-band LEDs.
 > 
-> Signed-off-by: Amitesh Singh <singh.amitesh@gmail.com>
-> ---
->  drivers/leds/leds-pca963x.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
+> Add defines for those very common functions to allow cleaner & clearer
+> bindings.
+> 
+> 
+> [...]
 
-Same review comments as before.
+Applied, thanks!
 
--- 
+[1/1] dt-bindings: leds: add FUNCTION defines for per-band WLANs
+      commit: 89d9d3eedc8804e06a770e3cf1279f9131b785f1
+
+--
 Lee Jones [李琼斯]
+
 
