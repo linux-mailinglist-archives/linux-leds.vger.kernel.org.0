@@ -1,176 +1,111 @@
-Return-Path: <linux-leds+bounces-710-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-711-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F1883E7E4
-	for <lists+linux-leds@lfdr.de>; Sat, 27 Jan 2024 01:10:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1888A83EB31
+	for <lists+linux-leds@lfdr.de>; Sat, 27 Jan 2024 06:10:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62C5CB21A60
-	for <lists+linux-leds@lfdr.de>; Sat, 27 Jan 2024 00:10:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7408128645C
+	for <lists+linux-leds@lfdr.de>; Sat, 27 Jan 2024 05:10:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C7ACB664;
-	Sat, 27 Jan 2024 00:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5316214288;
+	Sat, 27 Jan 2024 05:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGsgwn/y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3zx9WhK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4A023D9
-	for <linux-leds@vger.kernel.org>; Sat, 27 Jan 2024 00:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECFC13AF9;
+	Sat, 27 Jan 2024 05:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706313654; cv=none; b=IA3/RF0rzp/V7w8NFq9bNNHpjSJmmYTxWjuDBNKzOeS3dBP6qCmJm31QzuwpXDJH2vFd/uiD+HmHVK8lT5dbIbi2s7L1wUHf8PL7kWva0embTAqChPoFd16e1qsaVuDkYdP88Eg7jttYznMOvc7XpxupWHT/0RMMDvBqwTLYfHU=
+	t=1706332230; cv=none; b=XBuWWT2H8Rl/Wm6GB8SkcIUaq3D1mErCDGk+HvUCF7OYjAP9cyG7yHCwHKrNW6V8y0PUe5KFD2kxi8jOcsIbFcxoPK4TMODebvztX+I6k+XV5ku9IEkSQCupwS0agmKjN2gm5k2V1MhJTJeF/U2XCFz9v1+EfzTb22g1auDD9rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706313654; c=relaxed/simple;
-	bh=RIH2lYzzSP87URqnkDGfXRA2SdxlQPIGZ2TfpyFIQIE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gSwi2Ht/iXGOGimAxyY4ymwEUzFQdA68ZmQ0Po7JtJFMv3gknhGge8NLroQoyMm/qMXmj+QvVOQA+U643NHQItFVY7iPGdp0ZFdc5yK2azNi+/HlTBuQwD5WL442ArDi1xUBxjLfm5nqLOjs57iPwbBXDZaJkDHLrIi/739Usu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MGsgwn/y; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706313652; x=1737849652;
-  h=date:from:to:cc:subject:message-id;
-  bh=RIH2lYzzSP87URqnkDGfXRA2SdxlQPIGZ2TfpyFIQIE=;
-  b=MGsgwn/yZcis2bWK1+0f7sBH6wn6tseQV5ciPB44xDZkquK/7V7cpy2Y
-   1O2+EJo+OzQ2+CIf8D6HLlqsLhM7PhP+PhhU7RxYRzMD/QCyWHlMbx83A
-   xcjBcs+Iuht6y6dC92DONTH9qaULkXtVrS60B+IlHlPSaZXIdU4Tu2rty
-   6tch1JfACwz6BWphE8Y3R9DdhVWIgFE6HNi0AqFcpFKbtiWCy/cSommmX
-   JosYi3NVz4DpTboK03RmabxSf5VfQsvGAOtPeZaHbDFp7ZVJYd/c+KjMY
-   lQRAuKHSPB4xXC5negKeysHhmGP1FKwlWWicwbVyf5p5wwgy6CaXcjWDG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9993432"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="9993432"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 16:00:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="910494242"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="910494242"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 Jan 2024 16:00:49 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTW7r-0001TO-17;
-	Sat, 27 Jan 2024 00:00:47 +0000
-Date: Sat, 27 Jan 2024 08:00:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 54602f38551e89b520611ffb9df05232d1bf73f8
-Message-ID: <202401270810.Ew7BAKAQ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1706332230; c=relaxed/simple;
+	bh=wUmUAKvbwlQsmbXWrLM1GAtgXCgeiPGESIUk3Gb490s=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=L+KpCrnkdNzFB1P7E+/+bVY0wgT6U7CYVOTJ2pliKhi8hJaKLjpMjzTHsxtmX/99j1W+pBtN2r7JFE4n+qKzpKyEtqXbmgZduXQBZ13CuW0GPmCdXqX2PNbmLqoFhkaq9KNqdiDzEsnpiRjQZXFUjNlxPANFQki2LB1fqSOruLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3zx9WhK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA0E6C43394;
+	Sat, 27 Jan 2024 05:10:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706332229;
+	bh=wUmUAKvbwlQsmbXWrLM1GAtgXCgeiPGESIUk3Gb490s=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=s3zx9WhKs34Tvi7pZjHVF05k5goKTZuVJpH+1ZZ05yBuBsrn3ZuBKc5KkFwg7wXUE
+	 BHDUTilhbpHzSGrGfspjF5wiQDh9OV3ut6gkSk/cAmKshWfXZvM5AXkKYDBt8MOfvB
+	 iPRlgIUDVwDbrMTTuYiRT4ATrKnE34A8yuuLCfI3kQiVALqn7W6VCSFPkrzaNln/tO
+	 F88qBWkIXfIACaG7Ws7hk7VJHJH0mWjD+fyReIZYJiJQt1r2uhK3xcczxNnmnFWM3P
+	 ZBXxzul8hjbwKJqIRrGhxxY+s7yAn9Y+cvnk2W83vDgs33znTg65TfFeAxUiNEG0BD
+	 qCPtZGxhRqXcA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 890FAD8C9C3;
+	Sat, 27 Jan 2024 05:10:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next PATCH v10 0/5] net: phy: generic polarity + LED support for
+ qca808x
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170633222955.22327.17810717334139226034.git-patchwork-notify@kernel.org>
+Date: Sat, 27 Jan 2024 05:10:29 +0000
+References: <20240125203702.4552-1-ansuelsmth@gmail.com>
+In-Reply-To: <20240125203702.4552-1-ansuelsmth@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ william.zhang@broadcom.com, anand.gore@broadcom.com,
+ kursad.oney@broadcom.com, florian.fainelli@broadcom.com, rafal@milecki.pl,
+ bcm-kernel-feedback-list@broadcom.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, andrew@lunn.ch,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, jacek.anaszewski@gmail.com,
+ noltari@gmail.com, sven.schwermer@disruptive-technologies.com,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ netdev@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 54602f38551e89b520611ffb9df05232d1bf73f8  leds: Make flash and multicolor dependencies unconditional
+Hello:
 
-elapsed time: 1983m
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-configs tested: 86
-configs skipped: 3
+On Thu, 25 Jan 2024 21:36:56 +0100 you wrote:
+> This small series add LEDs support for qca808x.
+> 
+> QCA808x apply on PHY reset a strange polarity settings and require
+> some tweak to apply a more common configuration found on devices.
+> On adding support for it, it was pointed out that a similar
+> feature is also being implemented for a marvell PHY where
+> LED polarity is set per LED (and not global) and also have
+> a special mode where the LED is tristated.
+> 
+> [...]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Here is the summary with links:
+  - [net-next,v10,1/5] dt-bindings: net: phy: Make LED active-low property common
+    https://git.kernel.org/netdev/net-next/c/c94d1783136e
+  - [net-next,v10,2/5] dt-bindings: net: phy: Document LED inactive high impedance mode
+    https://git.kernel.org/netdev/net-next/c/355c6dc37efa
+  - [net-next,v10,3/5] net: phy: add support for PHY LEDs polarity modes
+    https://git.kernel.org/netdev/net-next/c/7ae215ee7bb8
+  - [net-next,v10,4/5] dt-bindings: net: Document QCA808x PHYs
+    https://git.kernel.org/netdev/net-next/c/91e893b43d1c
+  - [net-next,v10,5/5] net: phy: at803x: add LED support for qca808x
+    https://git.kernel.org/netdev/net-next/c/7196062b64ee
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20240126   clang
-i386         buildonly-randconfig-002-20240126   clang
-i386         buildonly-randconfig-003-20240126   clang
-i386         buildonly-randconfig-004-20240126   clang
-i386         buildonly-randconfig-005-20240126   clang
-i386         buildonly-randconfig-006-20240126   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240126   clang
-i386                  randconfig-002-20240126   clang
-i386                  randconfig-003-20240126   clang
-i386                  randconfig-004-20240126   clang
-i386                  randconfig-005-20240126   clang
-i386                  randconfig-006-20240126   clang
-i386                  randconfig-011-20240126   gcc  
-i386                  randconfig-012-20240126   gcc  
-i386                  randconfig-013-20240126   gcc  
-i386                  randconfig-014-20240126   gcc  
-i386                  randconfig-015-20240126   gcc  
-i386                  randconfig-016-20240126   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                               defconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                                defconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
