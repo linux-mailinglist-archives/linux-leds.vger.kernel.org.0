@@ -1,50 +1,50 @@
-Return-Path: <linux-leds+bounces-711-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-712-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1888A83EB31
-	for <lists+linux-leds@lfdr.de>; Sat, 27 Jan 2024 06:10:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEB083F9E5
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Jan 2024 21:48:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7408128645C
-	for <lists+linux-leds@lfdr.de>; Sat, 27 Jan 2024 05:10:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CF951F21B60
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Jan 2024 20:48:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5316214288;
-	Sat, 27 Jan 2024 05:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78A12E859;
+	Sun, 28 Jan 2024 20:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3zx9WhK"
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="Q7uXlMIy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECFC13AF9;
-	Sat, 27 Jan 2024 05:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3BC2E62B;
+	Sun, 28 Jan 2024 20:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706332230; cv=none; b=XBuWWT2H8Rl/Wm6GB8SkcIUaq3D1mErCDGk+HvUCF7OYjAP9cyG7yHCwHKrNW6V8y0PUe5KFD2kxi8jOcsIbFcxoPK4TMODebvztX+I6k+XV5ku9IEkSQCupwS0agmKjN2gm5k2V1MhJTJeF/U2XCFz9v1+EfzTb22g1auDD9rQ=
+	t=1706474925; cv=none; b=pMpOLPp22r9kW7iidKxC+DSDDMKOq5DyfG72a9srPMStad8E/P+bK3Lk6IAxiCwN0sGLR1BnLXezDdrI/o7fwOYitBp0KMFWnu1zFae7T0jwV6xSbCYYMAZWZZkbEbiwRXPbkF8CA+r7kExGgE6ChplFKhxMsicO9dtGTZu0vmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706332230; c=relaxed/simple;
-	bh=wUmUAKvbwlQsmbXWrLM1GAtgXCgeiPGESIUk3Gb490s=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=L+KpCrnkdNzFB1P7E+/+bVY0wgT6U7CYVOTJ2pliKhi8hJaKLjpMjzTHsxtmX/99j1W+pBtN2r7JFE4n+qKzpKyEtqXbmgZduXQBZ13CuW0GPmCdXqX2PNbmLqoFhkaq9KNqdiDzEsnpiRjQZXFUjNlxPANFQki2LB1fqSOruLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3zx9WhK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AA0E6C43394;
-	Sat, 27 Jan 2024 05:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706332229;
-	bh=wUmUAKvbwlQsmbXWrLM1GAtgXCgeiPGESIUk3Gb490s=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=s3zx9WhKs34Tvi7pZjHVF05k5goKTZuVJpH+1ZZ05yBuBsrn3ZuBKc5KkFwg7wXUE
-	 BHDUTilhbpHzSGrGfspjF5wiQDh9OV3ut6gkSk/cAmKshWfXZvM5AXkKYDBt8MOfvB
-	 iPRlgIUDVwDbrMTTuYiRT4ATrKnE34A8yuuLCfI3kQiVALqn7W6VCSFPkrzaNln/tO
-	 F88qBWkIXfIACaG7Ws7hk7VJHJH0mWjD+fyReIZYJiJQt1r2uhK3xcczxNnmnFWM3P
-	 ZBXxzul8hjbwKJqIRrGhxxY+s7yAn9Y+cvnk2W83vDgs33znTg65TfFeAxUiNEG0BD
-	 qCPtZGxhRqXcA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 890FAD8C9C3;
-	Sat, 27 Jan 2024 05:10:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1706474925; c=relaxed/simple;
+	bh=DKGeUasBS6xTyhYqe+UExGr24G9PuFPZv+fUiAffDj4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oWAqEMi8WW6rfSWVRxKzLSIJuuvb+lm69zj7EVEwla80TdItQHq8Zc0tu1bSs8g4RS45rS5jHauSrVdCK+Ft+WJTZkjmVmzhpbOrykVP97Xn96lbD7ck8TTjdJQ8VafEq2WK/lQWX16dLPH4kpsZZluU7/LM9plaezLMWQChNcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=Q7uXlMIy; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id B11E846366;
+	Sun, 28 Jan 2024 20:48:35 +0000 (UTC)
+From: Aren Moynihan <aren@peacevolution.org>
+To: linux-kernel@vger.kernel.org
+Cc: Miles Alan <m@milesalan.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Aren Moynihan <aren@peacevolution.org>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org
+Subject: [PATCH 1/4] leds: rgb: leds-group-multicolor: allow leds to stay on in suspend
+Date: Sun, 28 Jan 2024 15:45:07 -0500
+Message-ID: <20240128204740.2355092-1-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -52,60 +52,67 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next PATCH v10 0/5] net: phy: generic polarity + LED support for
- qca808x
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170633222955.22327.17810717334139226034.git-patchwork-notify@kernel.org>
-Date: Sat, 27 Jan 2024 05:10:29 +0000
-References: <20240125203702.4552-1-ansuelsmth@gmail.com>
-In-Reply-To: <20240125203702.4552-1-ansuelsmth@gmail.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- william.zhang@broadcom.com, anand.gore@broadcom.com,
- kursad.oney@broadcom.com, florian.fainelli@broadcom.com, rafal@milecki.pl,
- bcm-kernel-feedback-list@broadcom.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, andrew@lunn.ch,
- hkallweit1@gmail.com, linux@armlinux.org.uk, jacek.anaszewski@gmail.com,
- noltari@gmail.com, sven.schwermer@disruptive-technologies.com,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- netdev@vger.kernel.org
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+X-Spam-Level: ****
+X-Spamd-Bar: ++++
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1706474916;
+	h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding;
+	bh=lb0m4VN+fLcRwTMjHhUiN4pOHzBM3BNlNUXpNwfCjmE=;
+	b=Q7uXlMIygUiuEL02z/PKkAuY3qqvE7csYD6Ap3VSRKMhAcg9XvsTxqUCfzt1iXgwsFM/dA
+	OjBDHPlh47mATnlAVVPe8P9+k/GJS+gEBeeDeytbBimKfDq+phqSniMkY4TWN7GlpCfmcI
+	uWHqkBDSAjOl2f0CL/XYL7DgnPb4WCk=
 
-Hello:
+If none of the managed leds enable LED_CORE_SUSPENDRESUME, then we
+shouldn't need to set it here. This makes it possible to use multicolor
+groups with gpio leds that enable retain-state-suspended in the device
+tree.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+---
 
-On Thu, 25 Jan 2024 21:36:56 +0100 you wrote:
-> This small series add LEDs support for qca808x.
-> 
-> QCA808x apply on PHY reset a strange polarity settings and require
-> some tweak to apply a more common configuration found on devices.
-> On adding support for it, it was pointed out that a similar
-> feature is also being implemented for a marvell PHY where
-> LED polarity is set per LED (and not global) and also have
-> a special mode where the LED is tristated.
-> 
-> [...]
+ drivers/leds/rgb/leds-group-multicolor.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Here is the summary with links:
-  - [net-next,v10,1/5] dt-bindings: net: phy: Make LED active-low property common
-    https://git.kernel.org/netdev/net-next/c/c94d1783136e
-  - [net-next,v10,2/5] dt-bindings: net: phy: Document LED inactive high impedance mode
-    https://git.kernel.org/netdev/net-next/c/355c6dc37efa
-  - [net-next,v10,3/5] net: phy: add support for PHY LEDs polarity modes
-    https://git.kernel.org/netdev/net-next/c/7ae215ee7bb8
-  - [net-next,v10,4/5] dt-bindings: net: Document QCA808x PHYs
-    https://git.kernel.org/netdev/net-next/c/91e893b43d1c
-  - [net-next,v10,5/5] net: phy: at803x: add LED support for qca808x
-    https://git.kernel.org/netdev/net-next/c/7196062b64ee
-
-You are awesome, thank you!
+diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
+index 39f58be32af5..194c6a33640b 100644
+--- a/drivers/leds/rgb/leds-group-multicolor.c
++++ b/drivers/leds/rgb/leds-group-multicolor.c
+@@ -69,7 +69,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
+ 	struct mc_subled *subled;
+ 	struct leds_multicolor *priv;
+ 	unsigned int max_brightness = 0;
+-	int i, ret, count = 0;
++	int i, ret, count, common_flags = 0;
+ 
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+@@ -91,6 +91,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
+ 		if (!priv->monochromatics)
+ 			return -ENOMEM;
+ 
++		common_flags |= led_cdev->flags;
+ 		priv->monochromatics[count] = led_cdev;
+ 
+ 		max_brightness = max(max_brightness, led_cdev->max_brightness);
+@@ -114,12 +115,15 @@ static int leds_gmc_probe(struct platform_device *pdev)
+ 
+ 	/* Initialise the multicolor's LED class device */
+ 	cdev = &priv->mc_cdev.led_cdev;
+-	cdev->flags = LED_CORE_SUSPENDRESUME;
+ 	cdev->brightness_set_blocking = leds_gmc_set;
+ 	cdev->max_brightness = max_brightness;
+ 	cdev->color = LED_COLOR_ID_MULTI;
+ 	priv->mc_cdev.num_colors = count;
+ 
++	/* we only need suspend/resume if a sub-led requests it */
++	if (common_flags & LED_CORE_SUSPENDRESUME)
++		cdev->flags = LED_CORE_SUSPENDRESUME;
++
+ 	init_data.fwnode = dev_fwnode(dev);
+ 	ret = devm_led_classdev_multicolor_register_ext(dev, &priv->mc_cdev, &init_data);
+ 	if (ret)
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
 
