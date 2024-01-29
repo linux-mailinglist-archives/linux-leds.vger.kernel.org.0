@@ -1,105 +1,187 @@
-Return-Path: <linux-leds+bounces-714-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-715-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8328403E2
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jan 2024 12:33:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0938406C6
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jan 2024 14:24:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DB4F1C22CAF
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jan 2024 11:33:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E51FB24222
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jan 2024 13:24:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DE565BAE2;
-	Mon, 29 Jan 2024 11:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB8FC63133;
+	Mon, 29 Jan 2024 13:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHP9hrLy"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lfn/I/mV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90055BACE;
-	Mon, 29 Jan 2024 11:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE06863127
+	for <linux-leds@vger.kernel.org>; Mon, 29 Jan 2024 13:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706527978; cv=none; b=PN902v2M6BwUnPOwql4alyumCT+sskgGZfdxQjDoa2vgjU3qvrltKlyonzbSHFIEs+zKhFVlxWYlxD5GmZ60f2xbD79CzuQ6DckDF9YEjHmEKcFjdZ6vxZca4jlYJZ/JEoX22hydJn8wjeP0gz0KPiT38sGFlXil2sDKSgkUmrc=
+	t=1706534683; cv=none; b=owNNFNMekfDIyF1RB3yaMiRbU30IQydKWYHk1kqDBK67Hv1+5u65c2ldmH1PVK7wlhNuHxj6jkOR7hd12Lc4Wqu3Nti1Q6pSF8wvjJnX9tzUdRi0VicDiYB3V/BjLLfWePMAp5aty9AjId14UUeynjRWKzvlGAJV4/Gm8+YeKzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706527978; c=relaxed/simple;
-	bh=YLKY955A/JuBqyPvFG1peKrngqXsksFgeD47JoB4+D4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e92z9kc083OWPoCwnsLE6WC1GAv15MJjo/blcHxIII2rBQZOo9PBeZM/TONs6tOtVDYmC+4IGscf/uw0EaDM5BlxL4mIxd94UxiI6J3iiqOAcqRls0coH0PPkGac8fksfAISjwp93SdOUp3wOTDPC0HaPP2eZX6pq1dGNQ7kpbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHP9hrLy; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2906855ac5fso971708a91.3;
-        Mon, 29 Jan 2024 03:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706527977; x=1707132777; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qrTzG2cu5Mo+HGm+c3GWSYVcYaCNljzOyJtpe55pkLs=;
-        b=CHP9hrLyPoFthzHrdEYcsfaeWaBTgCjY0FBWvq0A874C4YMTWo8y7uYmIEwLBLTxLu
-         Ebln3sJAgKifelZt+65U9xIX7sQ2WUQer3muRKBai5fnEV42pX5xDn3IAg75DTiqcEa4
-         mjNK9GlS0BqLcntnB+9wFDe+Y6UaztATuL1E0Ikpe8osoGLGJnYw+BU2XNqKoIqeWFEy
-         8N7SnhZvaMHJYg9PWUS8MbPdom7LTt4QNNZpCKsYB/2quRYYDHfhe3rqH4wyZiSPA0cw
-         ip/k7gfxsvChbqAiK+efr7cwuE7JeYb0mKuoEAOh40lhWRRFnUKp5x0ETCGIqWPI92EP
-         yPbQ==
+	s=arc-20240116; t=1706534683; c=relaxed/simple;
+	bh=XFRkpCkjwF0wDR3+g+hgQk3lmDL24IjFiHznsNLd29M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MW1fDl3zdK2JyN0eoBbaHfCBeTrnZlOWQNvZw5VNvjjk7EonTUAvUsQj/mzkQP+sXXlyZkuMpF4IF5aDGUmEZumMdVgOic4sQPqz7bBVmra/UcSElu0WLKTSa3FiVR1BJlhLk36+Ljq62njyoIa1XuaQGokXxDDKB2S0xMep2Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Lfn/I/mV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706534680;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BGlFJrp2hLINa9F8XlDW2FVIbAYnTd96Mns8ZAb4VDE=;
+	b=Lfn/I/mVpDpfPflUPKiMBQCx9MUSU4XkpQfS8wxV2VnQ8nhYJMJBqcxpL0fBtPq7X9d4Qh
+	79UXrg/ExZ7W9lv5aRQfL3K2I7sMZOWBb16XA/Rlyd7mO5Lwt3PleHXalZ4zNjAZtVb2ro
+	crz0B40gxW+ggz6aLYK4foAeho8kWOw=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-519-tGORlHK0Ony1-0_QC5vISA-1; Mon, 29 Jan 2024 08:24:39 -0500
+X-MC-Unique: tGORlHK0Ony1-0_QC5vISA-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-5110fdc81e0so889048e87.2
+        for <linux-leds@vger.kernel.org>; Mon, 29 Jan 2024 05:24:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706527977; x=1707132777;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qrTzG2cu5Mo+HGm+c3GWSYVcYaCNljzOyJtpe55pkLs=;
-        b=fDmrfo9ur4jE3NmAE97/zV40jh8xHPOKDXUqU4olPBk8TaV1Z7ENEARJbGFlagyy7k
-         nN4TeO5CCzg0aRb2bKPu3CBXZnBMxwGhSidd1FsSCLnZuqCUs8YDwLOAEgHP8qlZNszc
-         L7iA+ZFAUYrthgkwGfCk4j4R+avH1t77dbK2tv1d2/OafpiT0BGhZ/+k+TuN/6SJ6p5j
-         ged48c3iKjaVwaXWGYsmwifJrJb6Bo2QqCfmo+5ITa5La8oDndFkg9ejjnJ8PQFVgbj7
-         /E8OfOWE9OlrBNzqeQ5UhUUQ57i7Gk61RoOZo9F70SPP2x1spPqL6vA4U0+rI4lXJt7m
-         nkOw==
-X-Gm-Message-State: AOJu0Yw4aMNZlQXI7T0HvkidTWC/R2gtY76uQR7t+9ATqy+W5e/kkHWT
-	aelyhh4onaKS+DFKDyYIuFIzzybOlpXLbRQbsz+JRL1YJ6eM+GAUaWwQ/0lJWf3RP6T8doX7LN5
-	ANmPVt390BQhiAibH0Y/0Xc82CP4=
-X-Google-Smtp-Source: AGHT+IFr2oy7BJyHbKMib1KtaErds19XGCNIqMxdLPAnCLqySfbqz2X9H9mkY0mJD32A4PYbOiyCjAC78p3+KcZWVzs=
-X-Received: by 2002:a17:90b:24b:b0:290:92f5:69b8 with SMTP id
- fz11-20020a17090b024b00b0029092f569b8mr1646150pjb.10.1706527976702; Mon, 29
- Jan 2024 03:32:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706534678; x=1707139478;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BGlFJrp2hLINa9F8XlDW2FVIbAYnTd96Mns8ZAb4VDE=;
+        b=oDX1t+Wrl2pxB0f6+XytLhzQOx7h3PZROQkTEGnocT2aQG8ElPmbW9ZrnS/ldDiwJM
+         bNsDm5PPsMb7LmNL2s+74VQxXFe0JX9bMpAOB6MHlILiwi3QXd+A08+bavGG03vMJ8qG
+         QBgw+M3eF4x5HcCNOuSq7tCa68tmvmsMYJoc060k8T2QU3Ir8APw2hTPpv6yofLGlKxO
+         EPb9kw2aSNcf7/XjBzpM/b11b5h8EdTU1wcUYfUJ+R4BKja2Jb4e78p0PgkL7gQ4yfhj
+         +8EFmihkWV0u0OfKb8oQ58o8vjOxyAUr00RppHoyd8Tt7VF5MZa1H+6xfNwZvnBzv4xh
+         lC1A==
+X-Gm-Message-State: AOJu0YzQmx9eZ18dgLVs0qxPpJa4IhTvIGeVMr+1zxZTEXgzi7Fc+RUN
+	jK7JxlGJYsDx8j1mfjyIiFrQrxS/6b/7vGX0YqsFVdXsBYnqxZZaO3hAJbIJwr/Lmd4k+pJxiUq
+	/QnN03CIGmxhlAxrN0SWlVO6dKU4DpsVGcVOm36nvPT5bxYrAw2YoNahz4TA=
+X-Received: by 2002:a05:6512:2019:b0:510:d7e:4cbe with SMTP id a25-20020a056512201900b005100d7e4cbemr2856029lfb.63.1706534677940;
+        Mon, 29 Jan 2024 05:24:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH2N6aqVZGWGTsGYC6uZhJGvG/Rt9NH6BcQcbE2XifyO9LcSwUAWCUTThWz4kwbtJvSoGU7GA==
+X-Received: by 2002:a05:6512:2019:b0:510:d7e:4cbe with SMTP id a25-20020a056512201900b005100d7e4cbemr2856016lfb.63.1706534677633;
+        Mon, 29 Jan 2024 05:24:37 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id vg10-20020a170907d30a00b00a356c0fdd2csm2164303ejc.26.2024.01.29.05.24.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 05:24:37 -0800 (PST)
+Message-ID: <bf47614c-0270-462d-9cad-ff415a3a3d81@redhat.com>
+Date: Mon, 29 Jan 2024 14:24:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240116073421.395547-1-singh.amitesh@gmail.com> <20240125133007.GJ74950@google.com>
-In-Reply-To: <20240125133007.GJ74950@google.com>
-From: Amitesh Singh <singh.amitesh@gmail.com>
-Date: Mon, 29 Jan 2024 17:02:18 +0530
-Message-ID: <CABKcAmUOcOLq8=9Nhcf2phoDH9AU_zp+PNuUz2wJwOK2pHVtrw@mail.gmail.com>
-Subject: Re: [PATCH] leds/pca963x: implement power management
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@ucw.cz, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US, nl
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <ZarYSkzISyS+wuYR@duo.ucw.cz>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZarYSkzISyS+wuYR@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 25, 2024 at 7:00=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
->
-> On Tue, 16 Jan 2024, Amitesh Singh wrote:
->
-> > This implements power management in upstream driver
-> > for pca9633 which enables device sleep and resume
-> > on system-wide sleep/hibernation
-> >
-> > Signed-off-by: Amitesh Singh <singh.amitesh@gmail.com>
-> > ---
-> >  drivers/leds/leds-pca963x.c | 34 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
->
-> Same review comments as before.
->
+Hi,
 
-Thanks for reviewing it. I've updated the patch and sent it with v2 in
-the subject line.
+On 1/19/24 21:15, Pavel Machek wrote:
+> Hi!
+> 
+>>>> 2. Implement per-key keyboards as auxdisplay
+>>>>
+>>>>     - Pro:
+>>>>
+>>>>         - Already has a concept for led positions
+>>>>
+>>>>         - Is conceptually closer to "multiple leds forming a singular entity"
+>>>>
+>>>>     - Con:
+>>>>
+>>>>         - No preexisting UPower support
+>>>>
+>>>>         - No concept for special hardware lightning modes
+>>>>
+>>>>         - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
+>>>
+>>> Please do this one.
+>>
+>> Ok, so based on the discussion so far and Pavel's feedback lets try to
+>> design a custom userspace API for this. I do not believe that auxdisplay
+>> is a good fit because:
+> 
+> Ok, so lets call this a "display". These days, framebuffers and drm
+> handles displays. My proposal is to use similar API as other displays.
+> 
+>> So my proposal would be an ioctl interface (ioctl only no r/w)
+>> using /dev/rgbkbd0 /dev/rgbkdb1, etc. registered as a misc chardev.
+>>
+>> For per key controllable rgb LEDs we need to discuss a coordinate
+>> system. I propose using a fixed size of 16 rows of 64 keys,
+>> so 64x16 in standard WxH notation.
+>>
+>> And then storing RGB in separate bytes, so userspace will then
+>> always send a buffer of 192 bytes per line (64x3) x 14 rows
+>> = 3072 bytes. With the kernel driver ignoring parts of
+>> the buffer where there are no actual keys.
+> 
+> That's really really weird interface. If you are doing RGB888 64x14,
+> lets make it a ... display? :-).
+> 
+> ioctl always sending 3072 bytes is really a hack.
+> 
+> Small displays exist and are quite common, surely we'd handle this as
+> a display:
+> https://pajenicko.cz/displeje/graficky-oled-displej-0-66-64x48-i2c-bily-wemos-d1-mini
+> It is 64x48.
 
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+This is indeed a display and should use display APIs
+
+> And then there's this:
+> https://pajenicko.cz/displeje/maticovy-8x8-led-displej-s-radicem-max7219
+> and this:
+> https://pajenicko.cz/displeje/maticovy-8x32-led-displej-s-radicem-max7219
+>
+> One of them is 8x8.
+> 
+> Surely those should be displays, too?
+
+The 8x8 one not really, the other one could be used to scroll
+some text one but cannot display images, so not really displays
+IMHO.
+
+Anyways we are talking about keyboards here and those do not have
+a regular x-y grid like your example above, so they certainly do
+not count as displays. See the long discussion earlier in the thread.
+
+Regards,
+
+Hans
+
+
+
+
 
