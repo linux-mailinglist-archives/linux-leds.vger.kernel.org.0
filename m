@@ -1,79 +1,54 @@
-Return-Path: <linux-leds+bounces-720-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-721-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219A8842A86
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jan 2024 18:11:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2F6842B79
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jan 2024 19:10:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0A071F2622C
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jan 2024 17:11:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DC0A1C25013
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jan 2024 18:10:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 139DE128368;
-	Tue, 30 Jan 2024 17:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11A3E1552F6;
+	Tue, 30 Jan 2024 18:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e5tsN6ju"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="oXUr4SUt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A9276C6A
-	for <linux-leds@vger.kernel.org>; Tue, 30 Jan 2024 17:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02678612D;
+	Tue, 30 Jan 2024 18:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706634645; cv=none; b=VSQccM+XTBItKVzpzbpWpN2LizWx1JjiqilQB0/FtUiEbcm/3e2Li+RaFuD564XaazikX0z8Hc5QUxI9QO2fw/HjMsZ5Xu0QRKC5V0UCkxvllXJXHAa+6pv/3Wilo9sdxL11x2/RVAW1aqHTLCz02u+F9hq8hmKcotPwVk/TJm4=
+	t=1706638198; cv=none; b=I7atQSvj26W7S7RtgkvnyWDm+K0JolAzz4mdqJ89idd3kZdS8l21O7ctusCTmDw/4EAJMAyVuVyDp2Jy+CbNTdS98jT10zNso++Yxc7Q0nZpus8RzoEZ0yM2Qc5sFUWPKYxlNa4O4kS17Q8ySJvjwVqqQXrRTwfAI7XbB3/5IHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706634645; c=relaxed/simple;
-	bh=JLxYrutuVKpYNJ/n5oKzq7SWN+K1NQlYqv9quS1tWjg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MEk72RUT5kRN7gN5Shs3JsL54Ch/xqXB4Y/hOuV4tao+pZEKIoBm7RyP9oyWQHqC1OCB08sC9nWmxFpZ9fQXsusmm+xliAx7tYXsUvk7WjDJBCcIGCwXz0o7InNDMdVDKBpu2EJlsnjUeQZKulRIEP5vB9r/CymYaZARh/URO/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e5tsN6ju; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706634642;
+	s=arc-20240116; t=1706638198; c=relaxed/simple;
+	bh=m87LuxG5SlcKEZJiG44L5Eg1MueyoN2vTGz62/+gQhM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jfUiZbcwIFm25B3JijfkjBy/tw0NOUsgiahrKoo48KMEuGC7mmebBMGhwXkBtK7hl11NzYZr0PV+vKeP2bfgwRcw6lMfW/Dz8dnXJOqu6YEOzoSfbIuJpEvbr5SXG/BNIxlVt1SlcXjmUQfkMgdCZPkCefPEWEg+cAkxGdOakRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=oXUr4SUt; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 2AA442FC004A;
+	Tue, 30 Jan 2024 19:09:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1706638192;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A7mnjhDDFAF+47P6CQfnYXjaFDffSDVoorOUT8O3Ne4=;
-	b=e5tsN6juknBdiBXP2xzXlxFbtaQIiojORCFI7SXuRl3pjZssUWX6Iut8DchHZ8ozb4fbfj
-	KoudspU2s5qRimBQ5HFRbqCy2bcqAF9UpUyks/S/DnD3I3lomxblSIvffjLF+77KYoj8xR
-	1N49Y4Og/irKquf4/whLXqU7jqGxX9Y=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-ObhGb1L_OvKaolbQwVYTkA-1; Tue, 30 Jan 2024 12:10:40 -0500
-X-MC-Unique: ObhGb1L_OvKaolbQwVYTkA-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a3120029877so574386566b.1
-        for <linux-leds@vger.kernel.org>; Tue, 30 Jan 2024 09:10:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706634639; x=1707239439;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A7mnjhDDFAF+47P6CQfnYXjaFDffSDVoorOUT8O3Ne4=;
-        b=KIC3Sytw86TRlEkz+bvLP2ufVhr2lsetelLFc44pxHPMXTjW9vLWWTPYHkgm5WKSDv
-         D96VOF8UA85RhCCUvp/XR4rCXs79ZqtTbMSon1axQVcomI+EFFhD2DYOKsM3qBjMhDmY
-         nLow93GImsvRieN33abdNQbCEyWd5NYtQyFpiSCRGyLOAjlVOv6yajl1yZEkTmCT91N4
-         pBFV02EKNsjgbMV2q7/hfH8QkkzKiCoaDnMO9l5pyDo7/tJj6dZlkyDE1QRnPYoqGnQu
-         Sos9ciNuHq7AH/mJqdnwxWOGmf5VMKEwasLVr8Ae5yhw5Nj88JN84X/mDLzDhLLJ2h37
-         OznQ==
-X-Gm-Message-State: AOJu0Yy+Ria1Z+xZxr+YVrCZs2qTTDlpfMfh2YSEKx0hBSORie5DDxV8
-	j4hQBvKzs71hg59Cu5ru2q0ll9XxGDJBdDMgJIzEDrr2R2FGurZFYSHtLsDKwAcz6o7+xG3MUVJ
-	tAZmi1TjrA8i2ySRzgCo/DcFCE1V/od9hqT0Xlyofs5I9ABX4lWoAsjP6BuFOZhdxXjs=
-X-Received: by 2002:a17:907:8b9b:b0:a35:ae23:1588 with SMTP id tb27-20020a1709078b9b00b00a35ae231588mr2611293ejc.9.1706634639046;
-        Tue, 30 Jan 2024 09:10:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFPsEH8mqBeEqehY5GgAfPbwcwHYXjfVAwvoseEDJEt8zMb+fpWwFQYyadRjiPByrxOv/XYPA==
-X-Received: by 2002:a17:907:8b9b:b0:a35:ae23:1588 with SMTP id tb27-20020a1709078b9b00b00a35ae231588mr2611276ejc.9.1706634638732;
-        Tue, 30 Jan 2024 09:10:38 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id gy14-20020a170906f24e00b00a28f51adc39sm5284013ejb.61.2024.01.30.09.10.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 09:10:38 -0800 (PST)
-Message-ID: <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
-Date: Tue, 30 Jan 2024 18:10:37 +0100
+	bh=yt5XmcRwrc6b3h54Zz6Vh2inuJB9pyPk7T4/qPJrHe0=;
+	b=oXUr4SUtxCpBwyI+wvB3hhhVwpbRHVJlKIdgP9iwrS3sIV/8miYDVzgfiRh4TxnqK2Z6JK
+	HYx9o3mSmxmpVGnXN/ceoezdXa0FMUU6DXEcU5bz5cFFX1904+XV4T+2xsGWx7wg8Ixgay
+	i12V14VEKexLjH9vn3EHB50UkIdywas=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+Date: Tue, 30 Jan 2024 19:09:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -81,9 +56,9 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+From: Werner Sembach <wse@tuxedocomputers.com>
 Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Content-Language: en-US, nl
-To: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
  Jelle van der Waa <jelle@vdwaa.nl>,
  Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
@@ -104,128 +79,62 @@ References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
  <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
  <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
  <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+Content-Language: en-US, de-DE
+In-Reply-To: <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Werner,
+Hi Hans,
 
-On 1/30/24 12:12, Werner Sembach wrote:
-> Hi Hans,
-> 
-> Am 29.01.24 um 14:24 schrieb Hans de Goede:
+resend because Thunderbird htmlified the mail :/
+
+Am 30.01.24 um 18:10 schrieb Hans de Goede:
+> Hi Werner,
+>
+> On 1/30/24 12:12, Werner Sembach wrote:
+>> Hi Hans,
+>>
+>> Am 29.01.24 um 14:24 schrieb Hans de Goede:
+<snip>
+>> I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
+> IMHO it would be better to limit /dev/rgbledstring use to only
+> cases where direct userspace control is not possible and thus
+> have the cut be based on whether direct userspace control
+> (e.g. /dev/hidraw access) is possible or not.
+
+Ack
 
 <snip>
 
->> That sounds workable OTOH combined with your remarks about also supporting
->> lightbars. I'm starting to think that we need to just punt this to userspace.
->>
->> So basically change things from trying to present a standardized address
->> space where say the 'Q' key is always in the same place just model
->> a keyboard as a string of LEDs (1 dimensional / so an array) and leave
->> mapping which address in the array is which key to userspace, then userspace
->> can have json or whatever files for this per keyboard.
->>
->> This keeps the kernel interface much more KISS which I think is what
->> we need to strive for.
->>
->> So instead of having /dev/rgbkbd we get a /dev/rgbledstring and then
->> that can be used for rbb-kbds and also your lightbar example as well
->> as actual RGB LED strings, which depending on the controller may
->> also have zones / effects, etc. just like the keyboards.
+>> So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
+> Ah good point, no I think that a basic driver just for kbd backlight
+> brightness support which works with the standard desktop environment
+> controls for this makes sense.
+>
+> Combined with some mechanism for e.g. openrgb to fully take over
+> control as discussed. It is probably a good idea to file a separate
+> issue with the openrgb project to discuss the takeover API.
+
+I think the OpenRGB maintainers are pretty flexible at that point, after all 
+it's similar to enable commands a lot of rgb devices need anyway. I would 
+include it in a full api proposal.
+
+On this note: Any particular reason you suggested an ioctl interface instead of 
+a sysfs one? (Open question as, for example, I have no idea what performance 
+implications both have)
 
 <snip>
 
->> Right, so see above I think we need to push all these complications
->> into userspace. And simple come up for a kernel interface
->> for RGB LED strings with zones / effects / possibly individual
->> addressable LEDs.
->>
->> Also we should really only use whatever kernel interface we come up
->> with for devices which cannot be supported directly from userspace
->> through e.g. hidraw access. Looking at keyboards then the openrgb project:
->>
->> https://openrgb.org/devices_0.9.html
->>
->> Currently already supports 398 keyboard modes, we really do not want
->> to be adding support for all those to the kernel.
+>> I opened an issue regarding this:https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916
+> Great, thank you.
+First replies are in.
+> Regards,
+>
+> Hans
 
-> I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
+Kind regards,
 
-IMHO it would be better to limit /dev/rgbledstring use to only
-cases where direct userspace control is not possible and thus
-have the cut be based on whether direct userspace control
-(e.g. /dev/hidraw access) is possible or not.
-
-
->> Further down in the thread you mention Mice with RGB LEDs,
->> Mice are almost always HID devices and already have extensive support,
->> including for their LEDs in userspace through libratbag and the piper UI,
->> see the screenshots here (click on the camera icon):
->> https://linux.softpedia.com/get/Utilities/Piper-libratbag-104168.shtml
->>
->> Again we really don't want to be re-doing all this work in the kernel
->> only to end up conflicting with the existing userspace support.
->>
->> <snip>
->>
->>>> 5. A set_effect ioctl which takes a struct with the following members:
->>>>
->>>> {
->>>> long size; /* Size of passed in struct including the size member itself */
->>>> int effect_nr; /* enum value of the effect to enable, 0 for disable effect */
->>>> int zone;  /* zone to apply the effect to */
->>> Don't know if this is necessary, the keyboards I have seen so far apply firmware effects globally.
->>>> int speed; /* cycle speed of the effect in milli-hz */
->>> I would split this into speed and speed_max and don't specify an actual unit. The firmwares effects I have seen so far: If they have a speed value, it's some low number interpreted as a proportional x/n * the max speed of this effect, with n being some low number like 8 or 10.
->>>
->>> But i don't know if such clearly named properties are even sensefull, see below.
->>>
->>>> char color1[3]; /* effect dependend may be unused. */
->>>> char color2[3]; /* effect dependend may be unused. */
->>>> }
->>> We can not predetermine how many colors we might need in the future.
->>>
->>> Firmware effects can vary vastly in complexity, e.g. breathing can be a single bit switch that just varies the brightness of whatever color setting is currently applied. It could have an optional speed argument. It could have nth additional color arguments to cycle through, it could have an optional randomize bit that either randomizes the order of the defined colors or means that it is picking completely random color ignoring the color settings if set.
->>>
->>> Like this we could have a very fast explosion of the effects enum e.g.: breathing, breathing_2_colors, breathing_3_colors, ... breathing_n_colors, breathing_speed_controlled, breathing_speed_controlled_2_colors, ... breathing_speed_controlled_n_colors_random_bit, etc.
->>>
->>> Or we give up on generic names and just make something like: tongfang_breathing_1, tongfang_scan_1, tongfang_breathing_2, clevo_breathing_1
->>>
->>> Each with an own struct defined in a big .h file.
->>>
->>> Otherwise I think the config struct needs to be dynamically created out of information the driver gives to userspace.
->> Given that as mentioned above I believe that we should only use a kernel
->> driver where direct userspace access is impossible I believe that having
->> things like tongfang_breathing_1, tongfang_scan_1, tongfang_breathing_2,
->> clevo_breathing_1, etc. for the hopefully small set of devices which
->> needs an actual kernel driver to be reasonable.
-
-> So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
-
-Ah good point, no I think that a basic driver just for kbd backlight
-brightness support which works with the standard desktop environment
-controls for this makes sense.
-
-Combined with some mechanism for e.g. openrgb to fully take over
-control as discussed. It is probably a good idea to file a separate
-issue with the openrgb project to discuss the takeover API.
-
->> Talking about existing RGB LED support I believe that we should also
->> reach out to and get feedback on (or even an ack for) the new rgbledstring
->> API from the OpenRGB folks: https://openrgb.org
->>
->> Maybe they already have a nice abstraction to deal with different
->> kind of effects which we can copy for the kernel API ?
-> I opened an issue regarding this: https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916
-
-Great, thank you.
-
-Regards,
-
-Hans
-
-
+Werner
 
 
