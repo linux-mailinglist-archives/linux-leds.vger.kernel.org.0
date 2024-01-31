@@ -1,248 +1,190 @@
-Return-Path: <linux-leds+bounces-727-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-728-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5C2843A27
-	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 10:05:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B773843EA5
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 12:41:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BEA51F2F83A
-	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 09:05:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F4871C2AB46
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 11:41:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1966BB5F;
-	Wed, 31 Jan 2024 08:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67AF174E04;
+	Wed, 31 Jan 2024 11:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sjYAplxZ"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZxYtFrTD"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB596657DD;
-	Wed, 31 Jan 2024 08:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF0B762C3;
+	Wed, 31 Jan 2024 11:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706691530; cv=none; b=sTn9LYaJfLLX4pBBTDQvt4ehMSMxODfO05EC6zbZVZaYOmvAf6zPo9zytOpW21XLw8nal790Z9sVigjH59QAHwnyShUu0+vWghODE4XjeJPz6gWnhIVgO77MmJNRpAw5Q6SZ0ZW3WoS3NYwOtI/nDZiXm5eqS75fYHTCDmc1dUs=
+	t=1706701274; cv=none; b=Tmpknyo890UFmI/XGUZ3mpKmbD1uKuSReuHodz/yoNzHVbvE/1Vj+qLbuWtmHHmF9PKWkswvMEXZnc4SB1vPV7HgOi/35sY0Y3rxqilyBIBSIGQMdX59JjHqqFkHnTDsoKiX+iK+0PksPA2x/pJrm5r3ZvQxYhTSF2CLAnVt7rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706691530; c=relaxed/simple;
-	bh=UqpO+ZTsRWdC3QcNmOmOQIsAqQNQt/nfOlLpfSk+jHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hnlDxnHMe/5ofJLL7YmlUnXjgOudZ5OQhpJuSCk40cDFfLNX5mWf5vWM2qTpOqZ8b7wNkwAU3hh00wbGYhw83/9xOZoFhWAqw9s7SmlZSB12qFmihU2tLFBc53nsOjVE6+cpk14jzlYDfqfPBee+RlUtGzksczBmUJiT13Wmpfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sjYAplxZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0084BC433C7;
-	Wed, 31 Jan 2024 08:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706691529;
-	bh=UqpO+ZTsRWdC3QcNmOmOQIsAqQNQt/nfOlLpfSk+jHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sjYAplxZycro68aVGkGnlUXGB1CpvGk9JPfk7VmwOq/Y2DF4JGEdSYdHzYEgWYB4i
-	 jxBgPnIVQD2G6jRoXgQfY7k4zcu3iUxluP4XCCLsBqUCmPFbNVSOOUH7O9vL8JfbPe
-	 gd6sx91ioayc2L5qv0E+6oC5lAlMHiYJg7rfv0CEu/TY2hyX4HE9cmUfk3aTt9gL/l
-	 BnS4/yXPOvJQOqo1IvsBbJjoBHJh2cnOxuajl7dr7pwx50MDNV19ucyqi9P2sLM4oD
-	 6Jobsi4BfgxYq3sM2lv0wWYojAOGasxupa0R5XICEUNgvgrbV6EQhD/7LjMFvX0SMG
-	 AHAG3mRZX4JaA==
-Date: Wed, 31 Jan 2024 08:58:42 +0000
-From: Lee Jones <lee@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-	thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v8 3/7] soc: qcom: add QCOM PBS driver
-Message-ID: <20240131085842.GF8551@google.com>
-References: <20231221185838.28440-1-quic_amelende@quicinc.com>
- <20231221185838.28440-4-quic_amelende@quicinc.com>
- <ut6jbawqqdgfyoxmt76hm67rbnv67x54eho3nae2dd2szbejfb@7joy57g4i3qt>
+	s=arc-20240116; t=1706701274; c=relaxed/simple;
+	bh=Ysk1DXQQH8iuG3T6SLSADhPrd8JuNH55pHiq/6Vyz18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XqCQfzVHcOHwaf9/kYM6ZOftnT9Dfh/evLSuoHD9JgjI7BNx8STCh7FR5GPoQ0sDl3w5ULCnodXZZn2cmmfJF1HNYCgIrfUj8FwwoegsIkK+8gFio0Q5YRRLATp9kKhR80nCk59J0sCw9H9lJ1u35frMTZRuTzsmaQEQqtovpd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZxYtFrTD; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id A32332FC004A;
+	Wed, 31 Jan 2024 12:41:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1706701263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SsJehYO30sr02LgW1i3XyRegpdTntKLXnN2eAseYrk=;
+	b=ZxYtFrTDL35wTkktQPwdhDVYEOf8pW9ybpn7/klnIOy0ABz9s2wkDHJ500ZGK/X9L/hUNQ
+	12LVdbNj7C9QpSeFB0m7MXclVlvHmle5/ZCdjQe56Bjoq9VS8viJv6tDuZnGG9dDYJebuD
+	k0LFC/WFVpfDcbwzUp9vYywXrLB8dUM=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+Date: Wed, 31 Jan 2024 12:41:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Future handling of complex RGB devices on Linux
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ut6jbawqqdgfyoxmt76hm67rbnv67x54eho3nae2dd2szbejfb@7joy57g4i3qt>
 
-Intentional generic top-post reply.
+Hi,
 
-Please work quickly to resolve Bjorn's comments.
+so I combined Hans last draft, with the discussion since then and the comments 
+from the OpenRGB maintainers from here 
+https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916 and my own experience 
+and came up witrh this rough updated draft for the new uapi:
 
-I'm being hounded over a broken LEDs tree due to the missing headerfile.
+Future handling of complex RGB devices on Linux:
 
-/end
+Optional: Provide a basic leds-subsystem driver:
+     - The whole device is treated as a singular RGB led in the current leds uapi
+         - Backwards compatibility
+         - Have something work out-of-the-box and during boot time
+     - The driver also registers a misc device with a singluar sysfs attribute 
+select_uapi
+         - reading this gives back "[leds] none"
+         - the current active uapi can be selected by writing it to that attribute
+         - switching the uapi means deregistering the device from that entirely 
+and registering and initializing it with the new one froms scratch
+         - selecting none only does the deregistering
 
-On Tue, 30 Jan 2024, Bjorn Andersson wrote:
+If the device is already reachable by userspace directly, e.g. via hidraw, the 
+kernel will only offer this basic implementation and a more complex driver has 
+to be implemented in userspace.
+     - This driver has to use the select_uapi attribute first and select "none" 
+to avoid undefined behaviour caused by accessing the leds upai and hidraw to 
+control the lighting at the same time
+     - Question: How to best associate the select_uapi attribute to the 
+corresponding hidraw (or other) direct access channel? So that a userspace 
+driver can reliable check whether or not this has to be set.
 
-> On Thu, Dec 21, 2023 at 10:58:33AM -0800, Anjelique Melendez wrote:
-> > diff --git a/drivers/soc/qcom/qcom-pbs.c b/drivers/soc/qcom/qcom-pbs.c
-> [..]
-> > +static int qcom_pbs_wait_for_ack(struct pbs_dev *pbs, u8 bit_pos)
-> > +{
-> > +	int ret, retries = 2000, delay = 1100;
-> 
-> retries and delay are not variable, please use defines instead.
-> 
-> > +	unsigned int val;
-> > +
-> > +	ret = regmap_read_poll_timeout(pbs->regmap,  pbs->base + PBS_CLIENT_SCRATCH2,
-> > +					val, val & BIT(bit_pos), delay, delay * retries);
-> > +
-> > +	if (ret < 0) {
-> > +		dev_err(pbs->dev, "Timeout for PBS ACK/NACK for bit %u\n", bit_pos);
-> > +		return -ETIMEDOUT;
-> > +	}
-> > +
-> > +	if (val == PBS_CLIENT_SCRATCH2_ERROR) {
-> > +		ret = regmap_write(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH2, 0);
-> > +		dev_err(pbs->dev, "NACK from PBS for bit %u\n", bit_pos);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	dev_dbg(pbs->dev, "PBS sequence for bit %u executed!\n", bit_pos);
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * qcom_pbs_trigger_event() - Trigger the PBS RAM sequence
-> > + * @pbs: Pointer to PBS device
-> > + * @bitmap: bitmap
-> > + *
-> > + * This function is used to trigger the PBS RAM sequence to be
-> > + * executed by the client driver.
-> > + *
-> > + * The PBS trigger sequence involves
-> > + * 1. setting the PBS sequence bit in PBS_CLIENT_SCRATCH1
-> > + * 2. Initiating the SW PBS trigger
-> > + * 3. Checking the equivalent bit in PBS_CLIENT_SCRATCH2 for the
-> > + *    completion of the sequence.
-> > + * 4. If PBS_CLIENT_SCRATCH2 == 0xFF, the PBS sequence failed to execute
-> > + *
-> > + * Returns: 0 on success, < 0 on failure
-> 
-> Return: without the 's' is the appropriate form here.
-> 
-> > + */
-> > +int qcom_pbs_trigger_event(struct pbs_dev *pbs, u8 bitmap)
-> > +{
-> > +	unsigned int val;
-> > +	u16 bit_pos;
-> > +	int ret;
-> > +
-> > +	if (!bitmap) {
-> > +		dev_err(pbs->dev, "Invalid bitmap passed by client\n");
-> 
-> No one is going to spot that hidden in the kernel log, and if someone
-> sees it it does not give an indication to which client it is that's
-> broken (if there are multiple clients...)
-> 
-> Instead do:
-> 
-> 	if (WARN_ON(!bitmap))
-> 		return -EINVAL;
-> 
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (IS_ERR_OR_NULL(pbs))
-> > +		return -EINVAL;
-> > +
-> > +	mutex_lock(&pbs->lock);
-> > +	ret = regmap_read(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH2, &val);
-> > +	if (ret < 0)
-> > +		goto out;
-> > +
-> > +	if (val == PBS_CLIENT_SCRATCH2_ERROR) {
-> > +		/* PBS error - clear SCRATCH2 register */
-> > +		ret = regmap_write(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH2, 0);
-> > +		if (ret < 0)
-> > +			goto out;
-> > +	}
-> > +
-> > +	for (bit_pos = 0; bit_pos < 8; bit_pos++) {
-> > +		if (!(bitmap & BIT(bit_pos)))
-> > +			continue;
-> > +
-> > +		/* Clear the PBS sequence bit position */
-> > +		ret = regmap_update_bits(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH2,
-> > +					BIT(bit_pos), 0);
-> > +		if (ret < 0)
-> > +			goto error;
-> > +
-> > +		/* Set the PBS sequence bit position */
-> > +		ret = regmap_update_bits(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH1,
-> > +					BIT(bit_pos), BIT(bit_pos));
-> > +		if (ret < 0)
-> > +			goto error;
-> > +
-> > +		/* Initiate the SW trigger */
-> > +		ret = regmap_update_bits(pbs->regmap, pbs->base + PBS_CLIENT_TRIG_CTL,
-> > +					PBS_CLIENT_SW_TRIG_BIT, PBS_CLIENT_SW_TRIG_BIT);
-> > +		if (ret < 0)
-> > +			goto error;
-> > +
-> > +		ret = qcom_pbs_wait_for_ack(pbs, bit_pos);
-> > +		if (ret < 0)
-> > +			goto error;
-> 
-> In the case that this fails, you're jumping to error, which clears all
-> of SCRATCH1, but you're leaving SCRATCH2 untouched.
-> 
-> > +
-> > +		/* Clear the PBS sequence bit position */
-> > +		ret = regmap_update_bits(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH1,
-> > +					BIT(bit_pos), 0);
-> > +		if (ret < 0)
-> > +			goto error;
-> 
-> Does it make sense to handle this error by jumping to error and trying
-> to clear it once more - while leaving SCRATCH2?
-> 
-> Perhaps you should just ignore the errors from clearing SCRATCH1 and
-> SCRATCH2? You where able to trigger the PBS and you got your ack...
-> 
-> > +
-> > +		/* Clear the PBS sequence bit position */
-> > +		ret = regmap_update_bits(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH2,
-> > +					BIT(bit_pos), 0);
-> > +		if (ret < 0)
-> > +			goto error;
-> > +	}
-> > +
-> > +error:
-> 
-> We're passing "error" in the successful case as well, please name this
-> "out_clear_scratch1" (or something) instead, to not confuse the reader.
-> 
-> > +	/* Clear all the requested bitmap */
-> > +	ret = regmap_update_bits(pbs->regmap, pbs->base + PBS_CLIENT_SCRATCH1, bitmap, 0);
-> > +
-> > +out:
-> > +	mutex_unlock(&pbs->lock);
-> > +
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(qcom_pbs_trigger_event);
-> > +
-> > +/**
-> > + * get_pbs_client_device() - Get the PBS device used by client
-> > + * @dev: Client device
-> > + *
-> > + * This function is used to get the PBS device that is being
-> > + * used by the client.
-> > + *
-> > + * Returns: pbs_dev on success, ERR_PTR on failure
-> 
-> Return:
-> 
-> Regards,
-> Bjorn
+Devices not reachable by userspace directly, e.g. because they are controled via 
+a wmi interface, can also be implemented in the new rgbledstring-subsystem 
+(working title) for more complex control
+     - a rgbledstring device provides an ioctl interface (ioctl only no r/w) 
+using /dev/rgbledstring0, /dev/rgbledstring1, etc. registered as a misc chardev.
+         - get-device-info ioctl which returns in a single struct:
+             - char name[64]                     /* Device model name / 
+identifier, preferable human readable. For keyboards, if known to the driver, 
+physical layout (or even printed layout) should be separated here */
+             - enum device_type                  /* e.g. keyboard, mouse, 
+lightbar, etc. */
+             - char firmware_version_string[64]  /* if known to the driver, 
+empty otherwise */
+             - char serial_number[64]            /* if known to the driver, 
+empty otherwise */
+             - enum supported_modes[64]          /* modes supported by the 
+firmware e.g. static/direct, breathing, scan, raindrops, etc. */
+         - get-mode-info icotl, RFC here: Hans thinks it is better to have the 
+modes and their inputs staticly defined and have, if required, something like 
+breathing_clevo_1, breathing_clevo_2, breathing_tongfang_1 if the inputs vary 
+between vendors. I think a dynamic approach could be useful where userspace just 
+queries the struct required for each individual mode.
+             - input: a mode from the supported_modes extracted from get-device-info
+             - output: static information about the mode, e.g. 
+max_animation_speed, max_brightness, etc.
+             - output: the struct/a list of attributes and their types required 
+to configure the mode
+         - set-mode ioctl takes a single struct:
+             - enum mode                         /* from supported_modes */
+             - union data
+                 - char raw[3072]
+                 - <all structs returned by get-mode-info>
+         - The driver also registers a singluar sysfs attribute select_uapi
+             - reading this gives back "[leds] rgbledstring none" or 
+"[rgbledstring] none" respectifly
+             - Discussion question: should select_uapi instead be use_leds_uapi
+                 - if 1: use basic leds driver
+                 - if 0: if device is userspace accessible no kernel driver is 
+active, if device ist not userspace accessible register rgbledstring (aka 
+implicit separation between rgbledstring and none instead of explicit one)
 
--- 
-Lee Jones [李琼斯]
+Zone configuration would be seen as a subset of mode configuration, as I suspect 
+not every mode needs the zone configuration even on devices that offer it?
+
+The most simple mode would be static/direct and the set-mode struct would look 
+like this:
+{
+     enum mode, /* = static */
+     {
+         uint8 brightness, /* global brightness, some keyboards offer this */
+         uint8 color[<number_of_leds>*3]
+     }
+}
+
+Question: Are there modes that have a separate setup command that is only 
+required once and then a continuous stream of update information? If yes, should 
+we reflect that by splitting set-mode into set-mode-setup and set-mode-update 
+(with get-mode-info returning one struct for each)? Or should userspace just 
+always send setup and update information and it's up to the kernel driver to 
+only resend the setup command when something has changed? In the former case 
+set-mode-update might be a noop in most cases.
+
+Discussion on this might also happen here: 
+https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1751170108
+
+Regards,
+
+Werner
+
 
