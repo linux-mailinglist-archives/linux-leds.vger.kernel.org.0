@@ -1,196 +1,265 @@
-Return-Path: <linux-leds+bounces-730-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-731-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A778441ED
-	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 15:33:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F92844369
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 16:52:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4A741F25B85
-	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 14:33:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE7F81F2631D
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 15:52:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EC3A6025D;
-	Wed, 31 Jan 2024 14:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A129128369;
+	Wed, 31 Jan 2024 15:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6LPTqMz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGN10B/1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE9841AAB
-	for <linux-leds@vger.kernel.org>; Wed, 31 Jan 2024 14:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB9C433CB;
+	Wed, 31 Jan 2024 15:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706711592; cv=none; b=HOpvyd9OqThvxj4yl6GyhJsSYp7Tq/JQs6lkeTCMM009pMmCtdmwBXCW2PiNkPnst7Hx2l2B0YWrOLgcPG+nXuChDWVRQo5rjrs3hpQUNHychQkQ9V4mafLKoEmCc03Iw28Tqs+WxjwSqMA1YQ9cqADHV9o5HLScZaInVxh76PY=
+	t=1706716354; cv=none; b=nGt3mWcewYwn/t5S9MeJMc1eYcERZriEH0Jt2X9zuAk19FSxO7URPktWqLCJqj6Qh8k12ZFOPmRH0dLLZV8jS4KWid55iaYIcohXNIO3aoo0h5XQr2cx2/UMRSEeLo95VZzeR2bERFjR96Mis/L+cbIi/Iw7iMErSQOoJ5zJG+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706711592; c=relaxed/simple;
-	bh=GO+QLibzYm83+uiYMNxfuVGMv3iS1EPcP/eGq5tX3ks=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=HFKS4fcN6G39M7aCG060chqoR3iF4X/HbEpW/0Vadqpu2PpyCKMHd43h2Q0S1fCQO8SfUp5yMBePCHA/QN/BhmdJ64bXqeicoVquAXfpGAzs+BGNZhHs5urCqdeYSIZDN+mpNMa8EjIdtxatDNWXKplSdSz2Op4wsNi/TJqMviw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z6LPTqMz; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1706716354; c=relaxed/simple;
+	bh=gh7UgQTt1upM52DH9/brHa41xulwVb6hdMi49LlFaU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ICypWAs3r25YJdCC9IrU7jv0Oe7phJg7LKjPaY1oMMs+ahoL09NlVNyxQdqmMmzriE/CyFAN2RKmO41y5cRGVEgxg/aI6UvRTtP53NLjBFd0s17uGoehsS+4rhNidxs7zaxwEkcpxqnI2T5wyxzgQKER6HxKKPmh6FobbntZn8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGN10B/1; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a35e9161b8cso419684766b.3
-        for <linux-leds@vger.kernel.org>; Wed, 31 Jan 2024 06:33:10 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51124d43943so1218734e87.2;
+        Wed, 31 Jan 2024 07:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706711588; x=1707316388; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wti05TkZJBThH80GoMGTtqnfsj2P5rGLyYemFKuXAxM=;
-        b=Z6LPTqMzZZXWXG1cM4giBMEr6z4PSQp8kj47OvCcWks579Zys3gtL26hCYwlWibwo7
-         9TwZJa2xbnxZbZ3yQcAhMgQLavks+/f2FvL+jZATvLmGlDGupzanYaz6E6jb4kZwCJ4+
-         Bzlfoa573U2q0AFuW65q4JkhFFdP+eLXptLhD16aljQRfXmxY2jCZ4DSTFEMJZ6yrql8
-         lOQVventXbl57nlsdwThptTolJ0SyuEHq3oKCst61Eu+9LSdsWyscDtYLPvg4AgzpmFU
-         lXTEqtIzkPkG2RyaSbTQW1F4sW56avrgu2X7BCoupJEE8RK4VaPq84kKx0tcUwbZ4CPT
-         cPDA==
+        d=gmail.com; s=20230601; t=1706716350; x=1707321150; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OQX3o9OdnVWodXK7XnVqKIBMgmyYUG9SCf1DG/2FOUc=;
+        b=KGN10B/1Q2izJ7khreM+avVzPxttmnrQ0fWfhHKlJH37fb0c3IGfzA+Vhr8gTudMpR
+         Mm+UN2/Ew0y2ad4QbrJzkqhVQXj6koccU5ukHsXH1rydGRma1ylWaQc+TbB+ImEH0VC2
+         DLO8D1TIeYsWvNNjdzXZB6Cap31gg1O6WQrCiWvUavYlqfSmQnkaR2YsOcQ9XHVWiYq9
+         VxHTPR+PV7wjZ2VrAuoJkME/eUCucPA0dtSF6uOmLipkMbXvzfLGTemDW1PFplD2c5nq
+         NPrPSubPsk7oHXi94Fj9Y0Phb3EUxrIDa/q0CpxRBfbmxPqMAhgxaK+PP/P0HE3HHthx
+         FGFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706711588; x=1707316388;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wti05TkZJBThH80GoMGTtqnfsj2P5rGLyYemFKuXAxM=;
-        b=Pm7bMMxP66SJ7FR7OSRO+TS9D0Sjm/y4/LxVEaUe2lRvIgHP6XmGca29rVrJvrEuSn
-         UgY8MxCGoXqHHKprWUQm3NziudcD4bF0DA0NSV+NPDuVQyGzleAAio3gDItPesozsQOE
-         +jyGHHw1Y5Fa6gXpDyWMGEUMRDcVllR+3vPJnVs4mGlVn01LST7dufywPhzEiVvcveQ4
-         7hBjlPQNM8FM7vbtUXvkUNK9u8MKSZTewMGJY/60QzBYK1d7wHOfSvmuByvEo8qTn6mS
-         3qhiI4hknlO09VND1SVP48W9b5/Kuf4rmlQzqU5tw1VuGTTDHY+YxIud3t0bDqaRIdQ8
-         MAfA==
-X-Gm-Message-State: AOJu0Yy2+Q1hyyXOYz4e2YW3DimbBefi42tZprdq1G8PhW8nccLN/BD9
-	IbQqwRqpMccToS8vkdRxYmu9dDPi7wXnOmc4I9GrLWHyCzhZjmWd
-X-Google-Smtp-Source: AGHT+IFPjVl2fr6Nk+yhhsn8zoP9MIj/KisGobz0v83mH0HEw8QLdJuUrmNcuwSup4Ac/mC7DjaoKg==
-X-Received: by 2002:a17:906:aec4:b0:a36:1fa2:30b0 with SMTP id me4-20020a170906aec400b00a361fa230b0mr1141614ejb.40.1706711588157;
-        Wed, 31 Jan 2024 06:33:08 -0800 (PST)
-Received: from ?IPV6:2a01:c23:b988:d300:edee:b71e:7331:fed8? (dynamic-2a01-0c23-b988-d300-edee-b71e-7331-fed8.c23.pool.telefonica.de. [2a01:c23:b988:d300:edee:b71e:7331:fed8])
-        by smtp.googlemail.com with ESMTPSA id mc4-20020a170906eb4400b00a338fedb9ebsm6286692ejb.54.2024.01.31.06.33.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jan 2024 06:33:07 -0800 (PST)
-Message-ID: <d78eef6f-c18c-4546-b83e-6d1890849154@gmail.com>
-Date: Wed, 31 Jan 2024 15:33:08 +0100
+        d=1e100.net; s=20230601; t=1706716350; x=1707321150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OQX3o9OdnVWodXK7XnVqKIBMgmyYUG9SCf1DG/2FOUc=;
+        b=KqAwN9l4C3i/DZIlxvb06SKiUD9DwRLn48zVE6250ml48wCpcOdAFOt8e9GcbOWSQp
+         HkHrtp9neg6ijTQV4LXL5D6MRMd5bWIJFWCDEFfD7A4JILV7kS9O2tW5+RanAGwe1S6T
+         rczRzNHWn5eKE+OKMRy955jp9bWhqLuykGudFHWaNOtUoKB22gzKfxy289K6Uhjc0hfO
+         8h0/iO/ZAwYLLOcrptlt51Vh0xyplHmjEhL2RZdEBcLAa6LpcBvY5AcxSW2iy5mFFQnx
+         SqOpOHCxIm/v7G3y4liQZzu64WDqfX8XoZRpBYxMrEASuYieiml+SmtKfRHDmisONEXT
+         +rgg==
+X-Gm-Message-State: AOJu0Yx4sYe9BfuV+q0Cnd2e74wMIdytWxPerJlDRE8nkLdAqkFUO9jG
+	jZT+nWyQPoVYoQ6okVx4xhIP40YOn2lTcbs53vYUQkjkFl+3UHKwIDTSGF0OXDeNus4u85LV6s+
+	lgPrmD5y3ymusTg5R4VkMC1Ea5cw=
+X-Google-Smtp-Source: AGHT+IHGgRpeCu9yNBRtA4a5mdEUPe6rJOKy5MddfQNAEf49HG41vyeNWWjwuxEzNvIAJhfV9seBWUCZ2kKje+jEW6w=
+X-Received: by 2002:a05:651c:10c9:b0:2d0:4fbb:7bfd with SMTP id
+ l9-20020a05651c10c900b002d04fbb7bfdmr1431157ljn.10.1706716349820; Wed, 31 Jan
+ 2024 07:52:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: triggers: Add helper led_match_default_trigger
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz> <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com> <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com> <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz> <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com> <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com> <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com> <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com> <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+In-Reply-To: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Wed, 31 Jan 2024 07:52:17 -0800
+Message-ID: <CAEc3jaDsv0hv8gcqsMdcrMf4WK-Nq0LMgPcVHzv87x+J0M=V2Q@mail.gmail.com>
+Subject: Re: Future handling of complex RGB devices on Linux
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	jikos@kernel.org, linux-kernel@vger.kernel.org, 
+	Jelle van der Waa <jelle@vdwaa.nl>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org, 
+	ojeda@kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Avoid code duplication and factor out common functionality to new
-helper led_match_default_trigger().
+On Wed, Jan 31, 2024 at 3:42=E2=80=AFAM Werner Sembach <wse@tuxedocomputers=
+.com> wrote:
+>
+> Hi,
+>
+> so I combined Hans last draft, with the discussion since then and the com=
+ments
+> from the OpenRGB maintainers from here
+> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916 and my own exper=
+ience
+> and came up witrh this rough updated draft for the new uapi:
+>
+> Future handling of complex RGB devices on Linux:
+>
+> Optional: Provide a basic leds-subsystem driver:
+>      - The whole device is treated as a singular RGB led in the current l=
+eds uapi
+>          - Backwards compatibility
+>          - Have something work out-of-the-box and during boot time
+>      - The driver also registers a misc device with a singluar sysfs attr=
+ibute
+> select_uapi
+>          - reading this gives back "[leds] none"
+>          - the current active uapi can be selected by writing it to that =
+attribute
+>          - switching the uapi means deregistering the device from that en=
+tirely
+> and registering and initializing it with the new one froms scratch
+>          - selecting none only does the deregistering
+>
+> If the device is already reachable by userspace directly, e.g. via hidraw=
+, the
+> kernel will only offer this basic implementation and a more complex drive=
+r has
+> to be implemented in userspace.
+>      - This driver has to use the select_uapi attribute first and select =
+"none"
+> to avoid undefined behaviour caused by accessing the leds upai and hidraw=
+ to
+> control the lighting at the same time
+>      - Question: How to best associate the select_uapi attribute to the
+> corresponding hidraw (or other) direct access channel? So that a userspac=
+e
+> driver can reliable check whether or not this has to be set.
+>
+> Devices not reachable by userspace directly, e.g. because they are contro=
+led via
+> a wmi interface, can also be implemented in the new rgbledstring-subsyste=
+m
+> (working title) for more complex control
+>      - a rgbledstring device provides an ioctl interface (ioctl only no r=
+/w)
+> using /dev/rgbledstring0, /dev/rgbledstring1, etc. registered as a misc c=
+hardev.
+>          - get-device-info ioctl which returns in a single struct:
+>              - char name[64]                     /* Device model name /
+> identifier, preferable human readable. For keyboards, if known to the dri=
+ver,
+> physical layout (or even printed layout) should be separated here */
+>              - enum device_type                  /* e.g. keyboard, mouse,
+> lightbar, etc. */
+>              - char firmware_version_string[64]  /* if known to the drive=
+r,
+> empty otherwise */
+>              - char serial_number[64]            /* if known to the drive=
+r,
+> empty otherwise */
+>              - enum supported_modes[64]          /* modes supported by th=
+e
+> firmware e.g. static/direct, breathing, scan, raindrops, etc. */
+>          - get-mode-info icotl, RFC here: Hans thinks it is better to hav=
+e the
+> modes and their inputs staticly defined and have, if required, something =
+like
+> breathing_clevo_1, breathing_clevo_2, breathing_tongfang_1 if the inputs =
+vary
+> between vendors. I think a dynamic approach could be useful where userspa=
+ce just
+> queries the struct required for each individual mode.
+>              - input: a mode from the supported_modes extracted from get-=
+device-info
+>              - output: static information about the mode, e.g.
+> max_animation_speed, max_brightness, etc.
+>              - output: the struct/a list of attributes and their types re=
+quired
+> to configure the mode
+>          - set-mode ioctl takes a single struct:
+>              - enum mode                         /* from supported_modes =
+*/
+>              - union data
+>                  - char raw[3072]
+>                  - <all structs returned by get-mode-info>
+>          - The driver also registers a singluar sysfs attribute select_ua=
+pi
+>              - reading this gives back "[leds] rgbledstring none" or
+> "[rgbledstring] none" respectifly
+>              - Discussion question: should select_uapi instead be use_led=
+s_uapi
+>                  - if 1: use basic leds driver
+>                  - if 0: if device is userspace accessible no kernel driv=
+er is
+> active, if device ist not userspace accessible register rgbledstring (aka
+> implicit separation between rgbledstring and none instead of explicit one=
+)
+>
+> Zone configuration would be seen as a subset of mode configuration, as I =
+suspect
+> not every mode needs the zone configuration even on devices that offer it=
+?
+>
+> The most simple mode would be static/direct and the set-mode struct would=
+ look
+> like this:
+> {
+>      enum mode, /* =3D static */
+>      {
+>          uint8 brightness, /* global brightness, some keyboards offer thi=
+s */
+>          uint8 color[<number_of_leds>*3]
+>      }
+> }
+>
+> Question: Are there modes that have a separate setup command that is only
+> required once and then a continuous stream of update information? If yes,=
+ should
+> we reflect that by splitting set-mode into set-mode-setup and set-mode-up=
+date
+> (with get-mode-info returning one struct for each)? Or should userspace j=
+ust
+> always send setup and update information and it's up to the kernel driver=
+ to
+> only resend the setup command when something has changed? In the former c=
+ase
+> set-mode-update might be a noop in most cases.
+>
+> Discussion on this might also happen here:
+> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1751170108
+>
+> Regards,
+>
+> Werner
+>
+>
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
-applies on top of for-leds-next
----
- drivers/leds/led-triggers.c | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+Hi Werner,
 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 371000770..0f5ac3005 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -247,6 +247,19 @@ void led_trigger_remove(struct led_classdev *led_cdev)
- }
- EXPORT_SYMBOL_GPL(led_trigger_remove);
- 
-+static bool led_match_default_trigger(struct led_classdev *led_cdev,
-+				      struct led_trigger *trig)
-+{
-+	if (!strcmp(led_cdev->default_trigger, trig->name) &&
-+	    trigger_relevant(led_cdev, trig)) {
-+		led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
-+		led_trigger_set(led_cdev, trig);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- void led_trigger_set_default(struct led_classdev *led_cdev)
- {
- 	struct led_trigger *trig;
-@@ -258,13 +271,9 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
- 	down_read(&triggers_list_lock);
- 	down_write(&led_cdev->trigger_lock);
- 	list_for_each_entry(trig, &trigger_list, next_trig) {
--		if (!strcmp(led_cdev->default_trigger, trig->name) &&
--		    trigger_relevant(led_cdev, trig)) {
--			found = true;
--			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
--			led_trigger_set(led_cdev, trig);
-+		found = led_match_default_trigger(led_cdev, trig);
-+		if (found)
- 			break;
--		}
- 	}
- 	up_write(&led_cdev->trigger_lock);
- 	up_read(&triggers_list_lock);
-@@ -306,12 +315,8 @@ int led_trigger_register(struct led_trigger *trig)
- 	down_read(&leds_list_lock);
- 	list_for_each_entry(led_cdev, &leds_list, node) {
- 		down_write(&led_cdev->trigger_lock);
--		if (!led_cdev->trigger && led_cdev->default_trigger &&
--		    !strcmp(led_cdev->default_trigger, trig->name) &&
--		    trigger_relevant(led_cdev, trig)) {
--			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
--			led_trigger_set(led_cdev, trig);
--		}
-+		if (!led_cdev->trigger && led_cdev->default_trigger)
-+			led_match_default_trigger(led_cdev, trig);
- 		up_write(&led_cdev->trigger_lock);
- 	}
- 	up_read(&leds_list_lock);
--- 
-2.43.0
+I don't have a particular opinion as I don't know too much about RGB
+keyboards. I just want to provide some food for thought and provide
+some extra context of other devices. Just to challenge the discussion
+and make sure than any API is flexible enough as it is hard to change
+kernel interfaces later on.
 
+At Sony our PlayStation controllers historically had a variety of LEDs
+whether basic indicator ones (e.g. used to pick a player number) as
+well as RGB leds. The devices are all HID based, but we do custom
+parsing in hid-playstation to break out them out through LED framework
+(regular leds and leds-class-multicolor for RGB). They were a bit of a
+nightmare for applications to discover as crawling sysfs isn't fun (we
+wrote a lot of code for Android's input framework to do this for our
+own peripherals, but others too).
+
+I'm not entirely sure where your RGB proposal is headed, but if one of
+the higher goals is making dealing with LEDs and input devices easier,
+maybe this extra info helps some of the discussion.
+
+Thanks,
+Roderick Colenbrander
 
