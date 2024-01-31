@@ -1,54 +1,72 @@
-Return-Path: <linux-leds+bounces-728-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-729-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B773843EA5
-	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 12:41:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D850C8441E8
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 15:30:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F4871C2AB46
-	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 11:41:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08B151C2037A
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Jan 2024 14:30:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67AF174E04;
-	Wed, 31 Jan 2024 11:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBA1F29CA;
+	Wed, 31 Jan 2024 14:30:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZxYtFrTD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXbrQOFl"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF0B762C3;
-	Wed, 31 Jan 2024 11:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14438185E
+	for <linux-leds@vger.kernel.org>; Wed, 31 Jan 2024 14:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706701274; cv=none; b=Tmpknyo890UFmI/XGUZ3mpKmbD1uKuSReuHodz/yoNzHVbvE/1Vj+qLbuWtmHHmF9PKWkswvMEXZnc4SB1vPV7HgOi/35sY0Y3rxqilyBIBSIGQMdX59JjHqqFkHnTDsoKiX+iK+0PksPA2x/pJrm5r3ZvQxYhTSF2CLAnVt7rc=
+	t=1706711456; cv=none; b=ld/dFhL0XWvItdqUwWb+125jhq6MCXIZHZM2nZPDaCD/+meq4e2orE2+38bddQI0TIp8zQczw8IYzKslETpYcPguPVVbuL5YeQsqJSjqUfcBhjgMxzlIpcXTqW71g1QXPKnocXu/Vw1DrnvzsjpYSaVbArAOQ0txlxDKkWJqTlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706701274; c=relaxed/simple;
-	bh=Ysk1DXQQH8iuG3T6SLSADhPrd8JuNH55pHiq/6Vyz18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XqCQfzVHcOHwaf9/kYM6ZOftnT9Dfh/evLSuoHD9JgjI7BNx8STCh7FR5GPoQ0sDl3w5ULCnodXZZn2cmmfJF1HNYCgIrfUj8FwwoegsIkK+8gFio0Q5YRRLATp9kKhR80nCk59J0sCw9H9lJ1u35frMTZRuTzsmaQEQqtovpd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZxYtFrTD; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id A32332FC004A;
-	Wed, 31 Jan 2024 12:41:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1706701263;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2SsJehYO30sr02LgW1i3XyRegpdTntKLXnN2eAseYrk=;
-	b=ZxYtFrTDL35wTkktQPwdhDVYEOf8pW9ybpn7/klnIOy0ABz9s2wkDHJ500ZGK/X9L/hUNQ
-	12LVdbNj7C9QpSeFB0m7MXclVlvHmle5/ZCdjQe56Bjoq9VS8viJv6tDuZnGG9dDYJebuD
-	k0LFC/WFVpfDcbwzUp9vYywXrLB8dUM=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
-Date: Wed, 31 Jan 2024 12:41:02 +0100
+	s=arc-20240116; t=1706711456; c=relaxed/simple;
+	bh=sgnd2hMXWPnLmDhXLSZ0Q1r8f3x2ZZVeTnOdkzOlRpU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=J/3C0WwwFzJVKLqiS/8DoRS66MuwkFL1M65mqWjlizn8hjVk/EUOJM42BqGvzg56DKuYK4WUhdAeTXbnQnIAeWv3xOkDa/xArzFh54ChliA4GwiGIpFHDQf90vpRzqt/faetXgq1Xo7OYwp/EuSPZkLqbXCQT0jX1icI9nL5neQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXbrQOFl; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cf206e4d56so59816291fa.3
+        for <linux-leds@vger.kernel.org>; Wed, 31 Jan 2024 06:30:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706711453; x=1707316253; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IKZSnLDsiOLwnodm59pDZXE4IlIyhtKS6ys5WaZclqc=;
+        b=SXbrQOFlyHaEnWBj2djJQ4c0LocEN+IJ+nQ4cz/9Cv7Nxc5eN27DsRBh6K2vPGXpRH
+         wSRrt2njEmrzIzOdl4rVOi92lFTlokGzudp3NUjxwvcUhAzQZJ02vO6AvS7OprQA3U8L
+         crwQtefjKB7ySpJmeQHpn75bTxN/PvVi9QYbnOhDpxTe/G7D0mNlOaMAVoEzg8PBVWMt
+         9wjGI+zlQ5VusTFKamAXewvF0QyEo+3GsYfKG2Kj4UUfmsdpDJ7nS1iPsKDOOIwpqIaS
+         uRXgg9p4njVeIK0Is5C0Hh0cY+uUIeyZpMAyfPAjdcDodElJkP8KhV21IAFLwJC6pgFm
+         pOqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706711453; x=1707316253;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IKZSnLDsiOLwnodm59pDZXE4IlIyhtKS6ys5WaZclqc=;
+        b=AoVcrnt0y47P3b+yiXd6JJ1R8EJqqGX/OyYYTkN8pA9xAP0mn9mG84DbPawwfnvir2
+         zEvZoN56To0Qj9dxja+30accDab9wp7Aq3QhHcqYcaxbaXP4xo1jnt+e0rBldWRLV7O5
+         uQcmvUzgDkgvA5HSlt4OOnu2EWofP/eydRBugOgUWmx5302+LB5wJntDkxwfCyhnn5hI
+         GKYvUnMRQSsFGpA+V46nxbYAlgNrJ/2R8TJIg9P+n0Q4U+RJ6dasJYvMpsXuJo7TLl/M
+         8GoMxOWYyTh4dnx44yoEo4VWb7Q6HwjTYADteXWKt+dR7jguFBmFunq4p7aXj+VDJf5s
+         XsEQ==
+X-Gm-Message-State: AOJu0Yw6wBykmHQMGpfYrMCEuUMoC8DkIgjsOhah14agy4T8R4c3VTAu
+	GVZVSE83Y2g1G1bOi2PxUPV/8BttPQLkElRd7Xw63zBHGr8vQzJG
+X-Google-Smtp-Source: AGHT+IEkHX6EHfvY+5/i9BfL6N103YjB2wgpslk6h9UIgDDIJGogpzj6VOgq0I4qNRpgJE6EsKV1+w==
+X-Received: by 2002:a2e:b0e7:0:b0:2cd:7a4b:99f with SMTP id h7-20020a2eb0e7000000b002cd7a4b099fmr1258833ljl.48.1706711452656;
+        Wed, 31 Jan 2024 06:30:52 -0800 (PST)
+Received: from ?IPV6:2a01:c23:b988:d300:edee:b71e:7331:fed8? (dynamic-2a01-0c23-b988-d300-edee-b71e-7331-fed8.c23.pool.telefonica.de. [2a01:c23:b988:d300:edee:b71e:7331:fed8])
+        by smtp.googlemail.com with ESMTPSA id g13-20020aa7c84d000000b0055c1433be60sm6051796edt.50.2024.01.31.06.30.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jan 2024 06:30:52 -0800 (PST)
+Message-ID: <ca185fb1-3a66-46b9-920e-bfecbe39c6bf@gmail.com>
+Date: Wed, 31 Jan 2024 15:30:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -56,135 +74,97 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Future handling of complex RGB devices on Linux
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
 Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] leds: trigger: stop exporting trigger_list
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+682e98564ffb ("leds: trigger: panic: Simplify led_trigger_set_panic")
+removed the last external user of variable trigger_list. So stop
+exporting it.
+If in future a need should arise again to access this variable, I think
+we better add some accessor instead of exporting the variable directly.
 
-so I combined Hans last draft, with the discussion since then and the comments 
-from the OpenRGB maintainers from here 
-https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916 and my own experience 
-and came up witrh this rough updated draft for the new uapi:
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+applies on top of for-leds-next
+---
+ drivers/leds/led-triggers.c | 2 +-
+ drivers/leds/leds.h         | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-Future handling of complex RGB devices on Linux:
-
-Optional: Provide a basic leds-subsystem driver:
-     - The whole device is treated as a singular RGB led in the current leds uapi
-         - Backwards compatibility
-         - Have something work out-of-the-box and during boot time
-     - The driver also registers a misc device with a singluar sysfs attribute 
-select_uapi
-         - reading this gives back "[leds] none"
-         - the current active uapi can be selected by writing it to that attribute
-         - switching the uapi means deregistering the device from that entirely 
-and registering and initializing it with the new one froms scratch
-         - selecting none only does the deregistering
-
-If the device is already reachable by userspace directly, e.g. via hidraw, the 
-kernel will only offer this basic implementation and a more complex driver has 
-to be implemented in userspace.
-     - This driver has to use the select_uapi attribute first and select "none" 
-to avoid undefined behaviour caused by accessing the leds upai and hidraw to 
-control the lighting at the same time
-     - Question: How to best associate the select_uapi attribute to the 
-corresponding hidraw (or other) direct access channel? So that a userspace 
-driver can reliable check whether or not this has to be set.
-
-Devices not reachable by userspace directly, e.g. because they are controled via 
-a wmi interface, can also be implemented in the new rgbledstring-subsystem 
-(working title) for more complex control
-     - a rgbledstring device provides an ioctl interface (ioctl only no r/w) 
-using /dev/rgbledstring0, /dev/rgbledstring1, etc. registered as a misc chardev.
-         - get-device-info ioctl which returns in a single struct:
-             - char name[64]                     /* Device model name / 
-identifier, preferable human readable. For keyboards, if known to the driver, 
-physical layout (or even printed layout) should be separated here */
-             - enum device_type                  /* e.g. keyboard, mouse, 
-lightbar, etc. */
-             - char firmware_version_string[64]  /* if known to the driver, 
-empty otherwise */
-             - char serial_number[64]            /* if known to the driver, 
-empty otherwise */
-             - enum supported_modes[64]          /* modes supported by the 
-firmware e.g. static/direct, breathing, scan, raindrops, etc. */
-         - get-mode-info icotl, RFC here: Hans thinks it is better to have the 
-modes and their inputs staticly defined and have, if required, something like 
-breathing_clevo_1, breathing_clevo_2, breathing_tongfang_1 if the inputs vary 
-between vendors. I think a dynamic approach could be useful where userspace just 
-queries the struct required for each individual mode.
-             - input: a mode from the supported_modes extracted from get-device-info
-             - output: static information about the mode, e.g. 
-max_animation_speed, max_brightness, etc.
-             - output: the struct/a list of attributes and their types required 
-to configure the mode
-         - set-mode ioctl takes a single struct:
-             - enum mode                         /* from supported_modes */
-             - union data
-                 - char raw[3072]
-                 - <all structs returned by get-mode-info>
-         - The driver also registers a singluar sysfs attribute select_uapi
-             - reading this gives back "[leds] rgbledstring none" or 
-"[rgbledstring] none" respectifly
-             - Discussion question: should select_uapi instead be use_leds_uapi
-                 - if 1: use basic leds driver
-                 - if 0: if device is userspace accessible no kernel driver is 
-active, if device ist not userspace accessible register rgbledstring (aka 
-implicit separation between rgbledstring and none instead of explicit one)
-
-Zone configuration would be seen as a subset of mode configuration, as I suspect 
-not every mode needs the zone configuration even on devices that offer it?
-
-The most simple mode would be static/direct and the set-mode struct would look 
-like this:
-{
-     enum mode, /* = static */
-     {
-         uint8 brightness, /* global brightness, some keyboards offer this */
-         uint8 color[<number_of_leds>*3]
-     }
-}
-
-Question: Are there modes that have a separate setup command that is only 
-required once and then a continuous stream of update information? If yes, should 
-we reflect that by splitting set-mode into set-mode-setup and set-mode-update 
-(with get-mode-info returning one struct for each)? Or should userspace just 
-always send setup and update information and it's up to the kernel driver to 
-only resend the setup command when something has changed? In the former case 
-set-mode-update might be a noop in most cases.
-
-Discussion on this might also happen here: 
-https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1751170108
-
-Regards,
-
-Werner
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index 71cb0aee5..371000770 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -23,7 +23,7 @@
+  * Nests outside led_cdev->trigger_lock
+  */
+ static DECLARE_RWSEM(triggers_list_lock);
+-LIST_HEAD(trigger_list);
++static LIST_HEAD(trigger_list);
+ 
+  /* Used by LED Class */
+ 
+diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
+index 345062cca..1138e2ab8 100644
+--- a/drivers/leds/leds.h
++++ b/drivers/leds/leds.h
+@@ -30,7 +30,6 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+ 
+ extern struct rw_semaphore leds_list_lock;
+ extern struct list_head leds_list;
+-extern struct list_head trigger_list;
+ extern const char * const led_colors[LED_COLOR_ID_MAX];
+ 
+ #endif	/* __LEDS_H_INCLUDED */
+-- 
+2.43.0
 
 
