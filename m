@@ -1,95 +1,142 @@
-Return-Path: <linux-leds+bounces-739-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-740-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F298464C4
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 01:03:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00478846694
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 04:36:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E741DB22AF6
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 00:03:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9F8EB23497
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 03:36:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A6C5179;
-	Fri,  2 Feb 2024 00:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C00BED2F5;
+	Fri,  2 Feb 2024 03:36:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELiKg/sM"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="qc+xK9II"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0216105;
-	Fri,  2 Feb 2024 00:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB37D285;
+	Fri,  2 Feb 2024 03:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706832218; cv=none; b=C/JIsv6LUT05kIW8shxJHaAmM6rXrCXeFV41GBnQJDAaqXgu7RfWys/pnia1XpCsA7j5u+GyjrJUz4FDZ0zTSs9X01FBd8KzeNl4ZzS6II3W/WG7f88q1qja919iNfw+Jr5Lin26Uj1BAet5+j4408JHcCONs+8VIxXQsNY9PnM=
+	t=1706845008; cv=none; b=FV9tX0OoX8v4W9q6+eSEvGSB/UGOhLcAwPw+pIEKGHuwGmDj0DKdkA4ZM58pXiKAwha0ZSTQ5lO0zd2why+sPr9mmGHhwoAVNwYh4tmhzgruXl2XfLGCLB98aWJ76ZY2IvAFr/i/ksdqXhCQ12astKCGUnae3nT9cUbcjsrN8H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706832218; c=relaxed/simple;
-	bh=jRRF9WD0Ih34oFyn8QC1/CQx0uQoczFXftdu1/ViRb4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pRhuhU1ccUQjrMOHBkANABsfcBsiTmJy0sadE5rD7bp7x4TmJXfr87WJMggu1hjaCxAOI/K4d+Ae3ZoVOU3+vaZzqsujCtV3nlHgyOjmqXfQqPF4+CWKPWSgas7ErfbI2qZmcNvR35KTnV3U5gTu4ykty4CtF1FcTBcoUxxTY74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELiKg/sM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FDEC433F1;
-	Fri,  2 Feb 2024 00:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706832217;
-	bh=jRRF9WD0Ih34oFyn8QC1/CQx0uQoczFXftdu1/ViRb4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ELiKg/sM9oMYqNibGG/5LYhmgT0jM5x2oYprQxJqLmZyTZ2nRwppEdaTmQfAN69F0
-	 FgMCPdgBl39xnkRFNfkD64XX7idIYesPJH9e0LCtaYn0l7kT03k02+Gvip2XS/ZUc5
-	 vUohXNz4xvFOSgO2k2Mg4i6M4jctvhxOwyeyyuKfNbpCBtxMPpMfGsXJztnC4dgyCM
-	 PL2bGc116RDtZuavthS2bkDIucZg3tpOSBmkVqCoFYfCu4xbo2EIVfIvMPFxJuwE9Y
-	 VeVDtCneZvqEHmvu9QGRV+aYZPgoA4POxen9VfDyV2AjLlp1kHEvHSfHJIjLOKvkix
-	 kvy5Qtuf65rSQ==
-From: Bjorn Andersson <andersson@kernel.org>
-To: lee@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	agross@kernel.org,
-	Anjelique Melendez <quic_amelende@quicinc.com>
-Cc: konrad.dybcio@linaro.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 0/2] Add QCOM PBS driver
-Date: Thu,  1 Feb 2024 18:03:34 -0600
-Message-ID: <170683221107.260225.17408986886128551623.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240201204421.16992-2-quic_amelende@quicinc.com>
-References: <20240201204421.16992-2-quic_amelende@quicinc.com>
+	s=arc-20240116; t=1706845008; c=relaxed/simple;
+	bh=AynEEPuPpWIs7ScQwoOZ45YXBohERhFmG9PyoFEcG0Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=CyZJfXTjCO1z47ukbtNUF+UBWP7oj6EhMaNmbZf4Y1KKreRUHJ2IbkKpMWPKdCHkca5MvVYdrze3BUUeeF4OgiBDHwOyKkVcjiRe3a1tKOUo7j6Fn6ts6cxhLrEE9kcyM5AqzlmyPJP2pS4ptZ2AUVb9ClTm+JGw1+9CuJI18pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=qc+xK9II reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=tFXvmuxxXw0sz7U0iBAjQnQzBTOPkv2MU+eoltxFfmw=; b=q
+	c+xK9II9VBKevNLO333M1VJ/3NsWpMpIP6SsO5FWvEJYDQbE24LT/+6ZHAMM0jdQ
+	Pvak1lFq5DSL+zyedh48fKWuTcRd++7Y74v4LreiAgy2nVkQCqIoSe0C4eTFLem1
+	JxAFUhFOvBFYTv6o0Qvqi2D+dF3dAyzU1+1v9Y6rXo=
+Received: from xingtong_wu$163.com ( [36.112.108.23] ) by
+ ajax-webmail-wmsvr-40-124 (Coremail) ; Fri, 2 Feb 2024 11:35:53 +0800 (CST)
+Date: Fri, 2 Feb 2024 11:35:53 +0800 (CST)
+From: "xingtong.wu" <xingtong_wu@163.com>
+To: hdegoede@redhat.com, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, pavel@ucw.cz, lee@kernel.org
+Cc: xingtong.wu@siemens.com, tobias.schaffner@siemens.com, 
+	gerd.haeussler.ext@siemens.com, henning@hennsch.de
+Subject: Re:[PATCH 2/3] leds: simatic-ipc-leds-gpio: add support for module
+ BX-59A
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <20230731071833.4725-1-xingtong_wu@163.com>
+References: <20230731071424.4663-1-xingtong_wu@163.com>
+ <20230731071833.4725-1-xingtong_wu@163.com>
+X-NTES-SC: AL_Qu2bBPSfu0Eu5SKdYekfm0sRheY+XMGwvvgv34ZUN5t8jAvp1QALRXlFAXzE++KWMBijkh6RahRv6OlTZI1XZYAJe/ie1V+vr+xJUBz5x0KtMQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Message-ID: <58d93fe1.336d.18d67e31aaa.Coremail.xingtong_wu@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD3_5AZY7xlIIFCAA--.39350W
+X-CM-SenderInfo: p0lqw35rqjs4rx6rljoofrz/1tbiqAJt0GVOB3DEewAGsy
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-
-On Thu, 01 Feb 2024 12:44:20 -0800, Anjelique Melendez wrote:
-> Add the Qualcomm PBS (Programmable Boot Sequencer) driver. The QCOM PBS
-> driver supports configuring software PBS trigger events through PBS RAM
-> on Qualcomm Technologies, Inc (QTI) PMICs.
-> 
-> QCOM PBS driver is needed to support LUT PPG. This is a new series to
-> separate PBS patches from the applied LUT PPG patch. Original comments
-> can be found here:
-> https://lore.kernel.org/all/20231221185838.28440-1-quic_amelende@quicinc.com/T/#m7ab7af4c59c6e1019721d01cb3696cb5ed708bda
-> 
-> [...]
-
-Applied, thanks!
-
-[1/2] dt-bindings: soc: qcom: Add qcom,pbs bindings
-      commit: 641fde51bdb26c09ea8cdbd82084e93bd88d1fcb
-[2/2] soc: qcom: add QCOM PBS driver
-      commit: 5b2dd77be1d85ac3a8be3749f5605bf0830e2998
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+QXQgMjAyMy0wNy0zMSAxNToxODozMywgeGluZ3Rvbmdfd3VAMTYzLmNvbSB3cm90ZToKPkZyb206
+ICJ4aW5ndG9uZy53dSIgPHhpbmd0b25nLnd1QHNpZW1lbnMuY29tPgo+Cj5UaGlzIGlzIHVzZWQg
+Zm9yIHRoZSBTaWVtZW5zIFNpbWF0aWMgSVBDIEJYLTU5QSwgd2hpY2ggaGFzIGl0cyBMRURzCj5j
+b25uZWN0ZWQgdG8gR1BJT3MgcHJvdmlkZWQgYnkgdGhlIE51dm90b24gTkNUNjEyNkQKPgo+U2ln
+bmVkLW9mZi1ieTogeGluZ3Rvbmcud3UgPHhpbmd0b25nLnd1QHNpZW1lbnMuY29tPgo+LS0tCj4g
+Li4uL2xlZHMvc2ltcGxlL3NpbWF0aWMtaXBjLWxlZHMtZ3Bpby1jb3JlLmMgIHwgIDEgKwo+IC4u
+Li9zaW1wbGUvc2ltYXRpYy1pcGMtbGVkcy1ncGlvLWY3MTg4eC5jICAgICB8IDQyICsrKysrKysr
+KysrKysrKystLS0KPiAyIGZpbGVzIGNoYW5nZWQsIDM3IGluc2VydGlvbnMoKyksIDYgZGVsZXRp
+b25zKC0pCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2xlZHMvc2ltcGxlL3NpbWF0aWMtaXBjLWxl
+ZHMtZ3Bpby1jb3JlLmMgYi9kcml2ZXJzL2xlZHMvc2ltcGxlL3NpbWF0aWMtaXBjLWxlZHMtZ3Bp
+by1jb3JlLmMKPmluZGV4IGM1NTJlYTczZWQ5ZC4uMTBkY2EyMDhkOGNjIDEwMDY0NAo+LS0tIGEv
+ZHJpdmVycy9sZWRzL3NpbXBsZS9zaW1hdGljLWlwYy1sZWRzLWdwaW8tY29yZS5jCj4rKysgYi9k
+cml2ZXJzL2xlZHMvc2ltcGxlL3NpbWF0aWMtaXBjLWxlZHMtZ3Bpby1jb3JlLmMKPkBAIC01OCw2
+ICs1OCw3IEBAIGludCBzaW1hdGljX2lwY19sZWRzX2dwaW9fcHJvYmUoc3RydWN0IHBsYXRmb3Jt
+X2RldmljZSAqcGRldiwKPiAJY2FzZSBTSU1BVElDX0lQQ19ERVZJQ0VfMTI3RToKPiAJY2FzZSBT
+SU1BVElDX0lQQ19ERVZJQ0VfMjI3RzoKPiAJY2FzZSBTSU1BVElDX0lQQ19ERVZJQ0VfQlhfMjFB
+Ogo+KwljYXNlIFNJTUFUSUNfSVBDX0RFVklDRV9CWF81OUE6Cj4gCQlicmVhazsKPiAJZGVmYXVs
+dDoKPiAJCXJldHVybiAtRU5PREVWOwo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbGVkcy9zaW1wbGUv
+c2ltYXRpYy1pcGMtbGVkcy1ncGlvLWY3MTg4eC5jIGIvZHJpdmVycy9sZWRzL3NpbXBsZS9zaW1h
+dGljLWlwYy1sZWRzLWdwaW8tZjcxODh4LmMKPmluZGV4IDU4M2E2YjZjN2MyMi4uYTViNTQ0YjIw
+ODU3IDEwMDY0NAo+LS0tIGEvZHJpdmVycy9sZWRzL3NpbXBsZS9zaW1hdGljLWlwYy1sZWRzLWdw
+aW8tZjcxODh4LmMKPisrKyBiL2RyaXZlcnMvbGVkcy9zaW1wbGUvc2ltYXRpYy1pcGMtbGVkcy1n
+cGlvLWY3MTg4eC5jCj5AQCAtMTcsNyArMTcsMTAgQEAKPiAKPiAjaW5jbHVkZSAic2ltYXRpYy1p
+cGMtbGVkcy1ncGlvLmgiCj4gCj4tc3RhdGljIHN0cnVjdCBncGlvZF9sb29rdXBfdGFibGUgc2lt
+YXRpY19pcGNfbGVkX2dwaW9fdGFibGUgPSB7Cj4rc3RhdGljIHN0cnVjdCBncGlvZF9sb29rdXBf
+dGFibGUgKmxlZF9sb29rdXBfdGFibGU7Cj4rc3RhdGljIHN0cnVjdCBncGlvZF9sb29rdXBfdGFi
+bGUgKmxlZF9sb29rdXBfdGFibGVfZXh0cmE7Cj4rCj4rc3RhdGljIHN0cnVjdCBncGlvZF9sb29r
+dXBfdGFibGUgc2ltYXRpY19pcGNfbGVkX2dwaW9fdGFibGVfMjI3ZyA9IHsKPiAJLmRldl9pZCA9
+ICJsZWRzLWdwaW8iLAo+IAkudGFibGUgPSB7Cj4gCQlHUElPX0xPT0tVUF9JRFgoImdwaW8tZjcx
+ODh4LTIiLCAwLCBOVUxMLCAwLCBHUElPX0FDVElWRV9MT1cpLAo+QEAgLTMwLDcgKzMzLDcgQEAg
+c3RhdGljIHN0cnVjdCBncGlvZF9sb29rdXBfdGFibGUgc2ltYXRpY19pcGNfbGVkX2dwaW9fdGFi
+bGUgPSB7Cj4gCX0sCj4gfTsKPiAKPi1zdGF0aWMgc3RydWN0IGdwaW9kX2xvb2t1cF90YWJsZSBz
+aW1hdGljX2lwY19sZWRfZ3Bpb190YWJsZV9leHRyYSA9IHsKPitzdGF0aWMgc3RydWN0IGdwaW9k
+X2xvb2t1cF90YWJsZSBzaW1hdGljX2lwY19sZWRfZ3Bpb190YWJsZV9leHRyYV8yMjdnID0gewo+
+IAkuZGV2X2lkID0gTlVMTCwgLyogRmlsbGVkIGR1cmluZyBpbml0aWFsaXphdGlvbiAqLwo+IAku
+dGFibGUgPSB7Cj4gCQlHUElPX0xPT0tVUF9JRFgoImdwaW8tZjcxODh4LTMiLCA2LCBOVUxMLCA2
+LCBHUElPX0FDVElWRV9ISUdIKSwKPkBAIC0zOSwxNiArNDIsNDMgQEAgc3RhdGljIHN0cnVjdCBn
+cGlvZF9sb29rdXBfdGFibGUgc2ltYXRpY19pcGNfbGVkX2dwaW9fdGFibGVfZXh0cmEgPSB7Cj4g
+CX0sCj4gfTsKPiAKPitzdGF0aWMgc3RydWN0IGdwaW9kX2xvb2t1cF90YWJsZSBzaW1hdGljX2lw
+Y19sZWRfZ3Bpb190YWJsZV9ieF81OWEgPSB7Cj4rCS5kZXZfaWQgPSAibGVkcy1ncGlvIiwKPisJ
+LnRhYmxlID0gewo+KwkJR1BJT19MT09LVVBfSURYKCJncGlvLWY3MTg4eC0yIiwgMCwgTlVMTCwg
+MCwgR1BJT19BQ1RJVkVfTE9XKSwKPisJCUdQSU9fTE9PS1VQX0lEWCgiZ3Bpby1mNzE4OHgtMiIs
+IDMsIE5VTEwsIDEsIEdQSU9fQUNUSVZFX0xPVyksCj4rCQlHUElPX0xPT0tVUF9JRFgoImdwaW8t
+ZjcxODh4LTUiLCAzLCBOVUxMLCAyLCBHUElPX0FDVElWRV9MT1cpLAo+KwkJR1BJT19MT09LVVBf
+SURYKCJncGlvLWY3MTg4eC01IiwgMiwgTlVMTCwgMywgR1BJT19BQ1RJVkVfTE9XKSwKPisJCUdQ
+SU9fTE9PS1VQX0lEWCgiZ3Bpby1mNzE4OHgtNyIsIDcsIE5VTEwsIDQsIEdQSU9fQUNUSVZFX0xP
+VyksCj4rCQlHUElPX0xPT0tVUF9JRFgoImdwaW8tZjcxODh4LTciLCA0LCBOVUxMLCA1LCBHUElP
+X0FDVElWRV9MT1cpLAo+KwkJe30gLyogVGVybWluYXRpbmcgZW50cnkgKi8KPisJfQo+K307Cj4r
+Cj4gc3RhdGljIGludCBzaW1hdGljX2lwY19sZWRzX2dwaW9fZjcxODh4X3Byb2JlKHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gewo+LQlyZXR1cm4gc2ltYXRpY19pcGNfbGVkc19ncGlv
+X3Byb2JlKHBkZXYsICZzaW1hdGljX2lwY19sZWRfZ3Bpb190YWJsZSwKPi0JCQkJCSAgICZzaW1h
+dGljX2lwY19sZWRfZ3Bpb190YWJsZV9leHRyYSk7Cj4rCWNvbnN0IHN0cnVjdCBzaW1hdGljX2lw
+Y19wbGF0Zm9ybSAqcGxhdCA9IHBkZXYtPmRldi5wbGF0Zm9ybV9kYXRhOwo+Kwo+Kwlzd2l0Y2gg
+KHBsYXQtPmRldm1vZGUpIHsKPisJY2FzZSBTSU1BVElDX0lQQ19ERVZJQ0VfMjI3RzoKPisJCWxl
+ZF9sb29rdXBfdGFibGUgPSAmc2ltYXRpY19pcGNfbGVkX2dwaW9fdGFibGVfMjI3ZzsKPisJCWxl
+ZF9sb29rdXBfdGFibGVfZXh0cmEgPSAmc2ltYXRpY19pcGNfbGVkX2dwaW9fdGFibGVfZXh0cmFf
+MjI3ZzsKPisJCWJyZWFrOwo+KwljYXNlIFNJTUFUSUNfSVBDX0RFVklDRV9CWF81OUE6Cj4rCQls
+ZWRfbG9va3VwX3RhYmxlID0gJnNpbWF0aWNfaXBjX2xlZF9ncGlvX3RhYmxlX2J4XzU5YTsKPisJ
+CWJyZWFrOwo+KwlkZWZhdWx0Ogo+KwkJcmV0dXJuIC1FTk9ERVY7Cj4rCX0KPisKPisJcmV0dXJu
+IHNpbWF0aWNfaXBjX2xlZHNfZ3Bpb19wcm9iZShwZGV2LCBsZWRfbG9va3VwX3RhYmxlLAo+KwkJ
+CQkJICAgbGVkX2xvb2t1cF90YWJsZV9leHRyYSk7Cj4gfQo+IAo+IHN0YXRpYyBpbnQgc2ltYXRp
+Y19pcGNfbGVkc19ncGlvX2Y3MTg4eF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
+dikKPiB7Cj4tCXJldHVybiBzaW1hdGljX2lwY19sZWRzX2dwaW9fcmVtb3ZlKHBkZXYsICZzaW1h
+dGljX2lwY19sZWRfZ3Bpb190YWJsZSwKPi0JCQkJCSAgICAmc2ltYXRpY19pcGNfbGVkX2dwaW9f
+dGFibGVfZXh0cmEpOwo+KwlyZXR1cm4gc2ltYXRpY19pcGNfbGVkc19ncGlvX3JlbW92ZShwZGV2
+LCBsZWRfbG9va3VwX3RhYmxlLAo+KwkJCQkJICAgIGxlZF9sb29rdXBfdGFibGVfZXh0cmEpOwo+
+IH0KPiAKPiBzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBzaW1hdGljX2lwY19sZWRfZ3Bp
+b19kcml2ZXIgPSB7Cj4tLSAKPjIuMjUuMQoKSGkKCkFmdGVyIGVuZ2FnaW5nIGluIGEgdGhvcm91
+Z2ggZGlzY3Vzc2lvbiwgaXQgYXBwZWFycyB0aGF0IHdlIGhhdmUKcmVhY2hlZCBhIGNvbnNlbnN1
+cyB0byBtZXJnZSB0aGlzIHBhdGNoLiBDb25zaWRlcmluZyB0aGUgY29uc2lkZXJhYmxlCmR1cmF0
+aW9uIHRoYXQgaGFzIHBhc3NlZCwgSSBhbSBzZW5kaW5nIHRoaXMgZW1haWwgYXMgYSBnZW50bGUg
+cmVtaW5kZXIsCmluIGNhc2UgdGhlcmUgaXMgYSBwb3NzaWJpbGl0eSB0aGF0IGl0IG1heSBoYXZl
+IHNsaXBwZWQgeW91ciBtaW5kLgoKWGluZ1RvbmcK
 
