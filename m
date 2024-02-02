@@ -1,88 +1,95 @@
-Return-Path: <linux-leds+bounces-738-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-739-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3EE846469
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 00:28:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F298464C4
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 01:03:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FC611F25B6A
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Feb 2024 23:28:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E741DB22AF6
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 00:03:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B628B47F42;
-	Thu,  1 Feb 2024 23:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A6C5179;
+	Fri,  2 Feb 2024 00:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmIuxBzX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELiKg/sM"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED4E47F41;
-	Thu,  1 Feb 2024 23:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0216105;
+	Fri,  2 Feb 2024 00:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706830086; cv=none; b=AN3EX97xTvbstw5B9L+jmHT+OsG60FEdXL9u9bpuh9Mu37N9eEVYgr2m9GSn6OzQRUyA9kj9+WRkRdb8QawqOaXNmACg/+yp8HFjc2hN0OZG4zmqQtt3arBBSvg5AYyDdZ0fvCaOMKUAyJy8NFfM2/kI19DkN8Nz6LKd6Nmg7cc=
+	t=1706832218; cv=none; b=C/JIsv6LUT05kIW8shxJHaAmM6rXrCXeFV41GBnQJDAaqXgu7RfWys/pnia1XpCsA7j5u+GyjrJUz4FDZ0zTSs9X01FBd8KzeNl4ZzS6II3W/WG7f88q1qja919iNfw+Jr5Lin26Uj1BAet5+j4408JHcCONs+8VIxXQsNY9PnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706830086; c=relaxed/simple;
-	bh=payIiLg6forS04gjbDZWmNc0lv97aB/Ofx+IK/zqWkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZDi/kPvOTmrxLY7Tq97netlFrawEgFy46oGLhcrhjqgBUD3TopLfgvF++3sgVYaQbgKIVF72Twdq8ZGE4D4OlpkVKmfn9eO8bwC9e4kelCvQPX4jNBgGFT/PJ6Fo1pcgXesrPjPY5s9EDg3H+0D288Vm3hLdMRtJPLLsoWumljU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmIuxBzX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5612EC433C7;
-	Thu,  1 Feb 2024 23:28:04 +0000 (UTC)
+	s=arc-20240116; t=1706832218; c=relaxed/simple;
+	bh=jRRF9WD0Ih34oFyn8QC1/CQx0uQoczFXftdu1/ViRb4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pRhuhU1ccUQjrMOHBkANABsfcBsiTmJy0sadE5rD7bp7x4TmJXfr87WJMggu1hjaCxAOI/K4d+Ae3ZoVOU3+vaZzqsujCtV3nlHgyOjmqXfQqPF4+CWKPWSgas7ErfbI2qZmcNvR35KTnV3U5gTu4ykty4CtF1FcTBcoUxxTY74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELiKg/sM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FDEC433F1;
+	Fri,  2 Feb 2024 00:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706830085;
-	bh=payIiLg6forS04gjbDZWmNc0lv97aB/Ofx+IK/zqWkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JmIuxBzXFfJXUsgjJHiKUMHSqs2oGZ7MYZ4z0exkCOS0neM+zfxX+Iu/VPnTWc5B+
-	 puzE3QZ+G5iQn9+BmSUgonVnmgDr2qT7HQcUSAjzLgRRM26nOoNGMdSTV93B5ejHmI
-	 Zi3n7yX8iWX1x6cUkD1afB0Y+95Aechn4NePLcbGWHI7PPigXLHriRkkEgbmisGPhI
-	 HyOdQXlQy4xysoxWWmxwzyjmra70zEYyC9sSx62Izs7bGX4fDirCndntUI78Cbw8D6
-	 XOorupF4qVV6WoSnmpNSLBsXBtzM4g5PlMcMsXs9kCEjD7jy46Gj/x2zp784nUzZA9
-	 2DBL9vsjn3qDA==
-Date: Thu, 1 Feb 2024 17:28:02 -0600
+	s=k20201202; t=1706832217;
+	bh=jRRF9WD0Ih34oFyn8QC1/CQx0uQoczFXftdu1/ViRb4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ELiKg/sM9oMYqNibGG/5LYhmgT0jM5x2oYprQxJqLmZyTZ2nRwppEdaTmQfAN69F0
+	 FgMCPdgBl39xnkRFNfkD64XX7idIYesPJH9e0LCtaYn0l7kT03k02+Gvip2XS/ZUc5
+	 vUohXNz4xvFOSgO2k2Mg4i6M4jctvhxOwyeyyuKfNbpCBtxMPpMfGsXJztnC4dgyCM
+	 PL2bGc116RDtZuavthS2bkDIucZg3tpOSBmkVqCoFYfCu4xbo2EIVfIvMPFxJuwE9Y
+	 VeVDtCneZvqEHmvu9QGRV+aYZPgoA4POxen9VfDyV2AjLlp1kHEvHSfHJIjLOKvkix
+	 kvy5Qtuf65rSQ==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz, 
-	thierry.reding@gmail.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, agross@kernel.org, luca.weiss@fairphone.com, 
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de, quic_subbaram@quicinc.com, 
-	quic_gurus@quicinc.com, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: Re: [PATCH v8 3/7] soc: qcom: add QCOM PBS driver
-Message-ID: <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
-References: <20231221185838.28440-1-quic_amelende@quicinc.com>
- <20231221185838.28440-4-quic_amelende@quicinc.com>
- <ut6jbawqqdgfyoxmt76hm67rbnv67x54eho3nae2dd2szbejfb@7joy57g4i3qt>
- <20240131085842.GF8551@google.com>
+To: lee@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	agross@kernel.org,
+	Anjelique Melendez <quic_amelende@quicinc.com>
+Cc: konrad.dybcio@linaro.org,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add QCOM PBS driver
+Date: Thu,  1 Feb 2024 18:03:34 -0600
+Message-ID: <170683221107.260225.17408986886128551623.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240201204421.16992-2-quic_amelende@quicinc.com>
+References: <20240201204421.16992-2-quic_amelende@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240131085842.GF8551@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 31, 2024 at 08:58:42AM +0000, Lee Jones wrote:
-> Intentional generic top-post reply.
+
+On Thu, 01 Feb 2024 12:44:20 -0800, Anjelique Melendez wrote:
+> Add the Qualcomm PBS (Programmable Boot Sequencer) driver. The QCOM PBS
+> driver supports configuring software PBS trigger events through PBS RAM
+> on Qualcomm Technologies, Inc (QTI) PMICs.
 > 
-> Please work quickly to resolve Bjorn's comments.
+> QCOM PBS driver is needed to support LUT PPG. This is a new series to
+> separate PBS patches from the applied LUT PPG patch. Original comments
+> can be found here:
+> https://lore.kernel.org/all/20231221185838.28440-1-quic_amelende@quicinc.com/T/#m7ab7af4c59c6e1019721d01cb3696cb5ed708bda
 > 
-> I'm being hounded over a broken LEDs tree due to the missing headerfile.
-> 
+> [...]
 
-I've merged the updated patches into the qcom tree.
+Applied, thanks!
 
-I presume though that you'd like to have this build issue resolved in
-your tree as well. Please feel free to pull the branch:
+[1/2] dt-bindings: soc: qcom: Add qcom,pbs bindings
+      commit: 641fde51bdb26c09ea8cdbd82084e93bd88d1fcb
+[2/2] soc: qcom: add QCOM PBS driver
+      commit: 5b2dd77be1d85ac3a8be3749f5605bf0830e2998
 
-20240201204421.16992-2-quic_amelende@quicinc.com (5b2dd77be1d85ac3a8be3749f5605bf0830e2998)
-
-from https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
-
-Regards,
-Bjorn
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
