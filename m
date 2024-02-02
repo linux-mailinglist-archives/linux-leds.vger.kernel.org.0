@@ -1,59 +1,65 @@
-Return-Path: <linux-leds+bounces-743-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-744-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D64847081
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 13:42:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BC9847088
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 13:43:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2654F1C24904
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 12:42:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A0EF1C26D39
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 12:43:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53A315C4;
-	Fri,  2 Feb 2024 12:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C307D185A;
+	Fri,  2 Feb 2024 12:43:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMWZWDzU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="exJwTRay"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4BD15C3;
-	Fri,  2 Feb 2024 12:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0AF17E1;
+	Fri,  2 Feb 2024 12:43:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706877726; cv=none; b=jP7Rdm17LZlfBPd/IHTb+Fu8vJwMrwIIPFLFGVaq3GV5yrj8TRGyo2FCytxHODIYqE+ucJUC8wHJPtUPPC3r206DkvrEwOmDlfqeX5rDXlkkSuUwbk1jmL109niB3iUao05Y6hmwTvKXNY7ZcX+H2hv62Q/GiIdqWeRKurb0x14=
+	t=1706877801; cv=none; b=TfXQYYF+ddcvj11f3LpiH205Ca33ZpOBRqTB7kKcLobbxN1TkRlvHaqjQEqJaOw45ypsJlgQpHizNkAHGrKNdp8vGjSBsGIxDcVZNSG/rh/PfKp4DIQ877fcqg3G4PwmDMMWJcxmlSut1zOx3DZB+eQ78COm0+m5EffF2yGoOcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706877726; c=relaxed/simple;
-	bh=N9Gnq6soIeqbrsWD9myMLZqlJRlR1CNafdpXtCuLg9E=;
+	s=arc-20240116; t=1706877801; c=relaxed/simple;
+	bh=FxMD+SzcZbcxoJzxVHTVVUD+rGEixm5Ui8tDKJG2+PI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VVlpYc/Np8H5RVPxzeaLOFpHXDZFLRmUKXBHW6ySY/CTAmN8o9KJcvDS0Ljz75alvXcxiARsPu4M3+2wWrVnMDfnf1Hs6/SEpRyis2nlfKhAAt5vfRWcl8TKLzRkLNQJGWi/EOUtXqWcqG2WVk2YHLo70SJWnvCoKBT4qrDUtHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMWZWDzU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4454FC433C7;
-	Fri,  2 Feb 2024 12:42:04 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=SUsOiVSnGvvvwM6dGsA1SlyCNHt05x3k47O3Ot1buhB1EKy8OjlHRRNe/LlPV8FMRil2H3z2Csmh47L62kIKvcLLNZh0GDHZPukjWZN+2ygurNwMdoKkEXqbfW8PYmj2Ensc586t4TxTgGJ5RC+4abB4b77vmHiT6d+zJTyQkT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=exJwTRay; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAD9C433C7;
+	Fri,  2 Feb 2024 12:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706877726;
-	bh=N9Gnq6soIeqbrsWD9myMLZqlJRlR1CNafdpXtCuLg9E=;
+	s=k20201202; t=1706877801;
+	bh=FxMD+SzcZbcxoJzxVHTVVUD+rGEixm5Ui8tDKJG2+PI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VMWZWDzUwCZ7FSItV20S6xS2m7NmjioiaHchXA6pqFULzdRvCXAtMAbrlgj1LtajR
-	 kOXRSZ24bnXImJbZC+UteGA3rdkWiN+2KGqN5GojwXNhpUWGLHg9Egqj2+/nwpIzUU
-	 7wwiKa7jJi2B2oB8qL5AViM7XUbbOGAWV3q9nmdM6a/XP+OI+kkNT4jMe2TBQY/DE6
-	 r+y//tsfhuCltXal6BpUSUZuQAI8WlkeiEg/JizlalfvPz4E06LUKaMcKZq93SLbIi
-	 moh5SsYaRolKTG0cBE6V7w+62MXzsrbSnLrMJCLZJeXHR9az07By6fvZKbyPef7Jre
-	 uKzSPkxVDlWRQ==
-Date: Fri, 2 Feb 2024 12:42:01 +0000
+	b=exJwTRay0Nes53dtalL1y2sMLtxvzyhURVm6EmfwghTJH716UbskcT0OHWY0Ihp5n
+	 qS2jxO1phSrgmYkLNq9fMF1JJuYUheVyJsQywhD/VartAAt6U6dZLrfiXmPpJPnn+M
+	 lpbFThhZ0VopxB4tUU1L9vxSq6ZmsBeMgKJCMFZXspDWx+RZFepCwtjCo6q9FLSl4O
+	 QIjkFz/ibmltiLaGTzJJeD8G45egtVl9RJ6zzjpwXcB18WRBZ+bzRUlYZeL1RdDuOX
+	 4XPydusYae0rLw8XeFHPtem/JuAjVO4IBEF0PEDSjYg24WjVzGW2p2Zk2LLkpNj6dt
+	 fqWAcNbQeL50A==
+Date: Fri, 2 Feb 2024 12:43:14 +0000
 From: Lee Jones <lee@kernel.org>
-To: "xingtong.wu" <xingtong_wu@163.com>
-Cc: hdegoede@redhat.com, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, pavel@ucw.cz, xingtong.wu@siemens.com,
-	tobias.schaffner@siemens.com, gerd.haeussler.ext@siemens.com,
-	henning@hennsch.de
-Subject: Re: [PATCH 2/3] leds: simatic-ipc-leds-gpio: add support for module
- BX-59A
-Message-ID: <20240202124201.GC1379817@google.com>
-References: <20230731071424.4663-1-xingtong_wu@163.com>
- <20230731071833.4725-1-xingtong_wu@163.com>
- <58d93fe1.336d.18d67e31aaa.Coremail.xingtong_wu@163.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
+	thierry.reding@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	agross@kernel.org, luca.weiss@fairphone.com,
+	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
+	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: Re: Re: [PATCH v8 3/7] soc: qcom: add QCOM PBS driver
+Message-ID: <20240202124314.GD1379817@google.com>
+References: <20231221185838.28440-1-quic_amelende@quicinc.com>
+ <20231221185838.28440-4-quic_amelende@quicinc.com>
+ <ut6jbawqqdgfyoxmt76hm67rbnv67x54eho3nae2dd2szbejfb@7joy57g4i3qt>
+ <20240131085842.GF8551@google.com>
+ <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,122 +69,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <58d93fe1.336d.18d67e31aaa.Coremail.xingtong_wu@163.com>
+In-Reply-To: <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
 
-On Fri, 02 Feb 2024, xingtong.wu wrote:
+On Thu, 01 Feb 2024, Bjorn Andersson wrote:
 
-> At 2023-07-31 15:18:33, xingtong_wu@163.com wrote:
-> >From: "xingtong.wu" <xingtong.wu@siemens.com>
-> >
-> >This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
-> >connected to GPIOs provided by the Nuvoton NCT6126D
-> >
-> >Signed-off-by: xingtong.wu <xingtong.wu@siemens.com>
-> >---
-> > .../leds/simple/simatic-ipc-leds-gpio-core.c  |  1 +
-> > .../simple/simatic-ipc-leds-gpio-f7188x.c     | 42 ++++++++++++++++---
-> > 2 files changed, 37 insertions(+), 6 deletions(-)
-> >
-> >diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-> >index c552ea73ed9d..10dca208d8cc 100644
-> >--- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-> >+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-> >@@ -58,6 +58,7 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
-> > 	case SIMATIC_IPC_DEVICE_127E:
-> > 	case SIMATIC_IPC_DEVICE_227G:
-> > 	case SIMATIC_IPC_DEVICE_BX_21A:
-> >+	case SIMATIC_IPC_DEVICE_BX_59A:
-> > 		break;
-> > 	default:
-> > 		return -ENODEV;
-> >diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-> >index 583a6b6c7c22..a5b544b20857 100644
-> >--- a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-> >+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-> >@@ -17,7 +17,10 @@
+> On Wed, Jan 31, 2024 at 08:58:42AM +0000, Lee Jones wrote:
+> > Intentional generic top-post reply.
 > > 
-> > #include "simatic-ipc-leds-gpio.h"
+> > Please work quickly to resolve Bjorn's comments.
 > > 
-> >-static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-> >+static struct gpiod_lookup_table *led_lookup_table;
-> >+static struct gpiod_lookup_table *led_lookup_table_extra;
-> >+
-> >+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
-> > 	.dev_id = "leds-gpio",
-> > 	.table = {
-> > 		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-> >@@ -30,7 +33,7 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-> > 	},
-> > };
+> > I'm being hounded over a broken LEDs tree due to the missing headerfile.
 > > 
-> >-static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
-> >+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra_227g = {
-> > 	.dev_id = NULL, /* Filled during initialization */
-> > 	.table = {
-> > 		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
-> >@@ -39,16 +42,43 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
-> > 	},
-> > };
-> > 
-> >+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_bx_59a = {
-> >+	.dev_id = "leds-gpio",
-> >+	.table = {
-> >+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-> >+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 3, NULL, 1, GPIO_ACTIVE_LOW),
-> >+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 3, NULL, 2, GPIO_ACTIVE_LOW),
-> >+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 2, NULL, 3, GPIO_ACTIVE_LOW),
-> >+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 7, NULL, 4, GPIO_ACTIVE_LOW),
-> >+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 4, NULL, 5, GPIO_ACTIVE_LOW),
-> >+		{} /* Terminating entry */
-> >+	}
-> >+};
-> >+
-> > static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
-> > {
-> >-	return simatic_ipc_leds_gpio_probe(pdev, &simatic_ipc_led_gpio_table,
-> >-					   &simatic_ipc_led_gpio_table_extra);
-> >+	const struct simatic_ipc_platform *plat = pdev->dev.platform_data;
-> >+
-> >+	switch (plat->devmode) {
-> >+	case SIMATIC_IPC_DEVICE_227G:
-> >+		led_lookup_table = &simatic_ipc_led_gpio_table_227g;
-> >+		led_lookup_table_extra = &simatic_ipc_led_gpio_table_extra_227g;
-> >+		break;
-> >+	case SIMATIC_IPC_DEVICE_BX_59A:
-> >+		led_lookup_table = &simatic_ipc_led_gpio_table_bx_59a;
-> >+		break;
-> >+	default:
-> >+		return -ENODEV;
-> >+	}
-> >+
-> >+	return simatic_ipc_leds_gpio_probe(pdev, led_lookup_table,
-> >+					   led_lookup_table_extra);
-> > }
-> > 
-> > static int simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
-> > {
-> >-	return simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
-> >-					    &simatic_ipc_led_gpio_table_extra);
-> >+	return simatic_ipc_leds_gpio_remove(pdev, led_lookup_table,
-> >+					    led_lookup_table_extra);
-> > }
-> > 
-> > static struct platform_driver simatic_ipc_led_gpio_driver = {
-> >-- 
-> >2.25.1
 > 
-> Hi
+> I've merged the updated patches into the qcom tree.
 > 
-> After engaging in a thorough discussion, it appears that we have
-> reached a consensus to merge this patch.
+> I presume though that you'd like to have this build issue resolved in
+> your tree as well. Please feel free to pull the branch:
+> 
+> 20240201204421.16992-2-quic_amelende@quicinc.com (5b2dd77be1d85ac3a8be3749f5605bf0830e2998)
+> 
+> from https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
 
-I have no idea what you're referring to here.
-
-> Considering the considerable
-> duration that has passed, I am sending this email as a gentle reminder,
-> in case there is a possibility that it may have slipped your mind.
-
-Please resubmit all unmerged patches as a [RESEND].
+Great, thanks.
 
 -- 
 Lee Jones [李琼斯]
