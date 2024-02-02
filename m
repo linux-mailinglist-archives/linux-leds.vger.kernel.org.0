@@ -1,97 +1,125 @@
-Return-Path: <linux-leds+bounces-744-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-745-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BC9847088
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 13:43:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574878476A4
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 18:50:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A0EF1C26D39
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 12:43:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 33AB6B2BC98
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Feb 2024 17:49:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C307D185A;
-	Fri,  2 Feb 2024 12:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B6E414A4DB;
+	Fri,  2 Feb 2024 17:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="exJwTRay"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UxJu2BVf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0AF17E1;
-	Fri,  2 Feb 2024 12:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1D9168B9;
+	Fri,  2 Feb 2024 17:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706877801; cv=none; b=TfXQYYF+ddcvj11f3LpiH205Ca33ZpOBRqTB7kKcLobbxN1TkRlvHaqjQEqJaOw45ypsJlgQpHizNkAHGrKNdp8vGjSBsGIxDcVZNSG/rh/PfKp4DIQ877fcqg3G4PwmDMMWJcxmlSut1zOx3DZB+eQ78COm0+m5EffF2yGoOcI=
+	t=1706896178; cv=none; b=GAEO9/guA8TxnyAffTF7ikPxN+WdEm3YFWU/9gxf3vDsBY8GdH0ZXMOLP4DFtOFZyB4UI7W5V9Uh2YgDfeLpurVLhb6hwjaP7s0NBNM7gMzwI/8pIM1MoiBZJFTw3G8Vf6cKIrumjXAc2n4d9JWzuwQ4jpuN/x6Ih3Ah1PUHMnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706877801; c=relaxed/simple;
-	bh=FxMD+SzcZbcxoJzxVHTVVUD+rGEixm5Ui8tDKJG2+PI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SUsOiVSnGvvvwM6dGsA1SlyCNHt05x3k47O3Ot1buhB1EKy8OjlHRRNe/LlPV8FMRil2H3z2Csmh47L62kIKvcLLNZh0GDHZPukjWZN+2ygurNwMdoKkEXqbfW8PYmj2Ensc586t4TxTgGJ5RC+4abB4b77vmHiT6d+zJTyQkT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=exJwTRay; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAD9C433C7;
-	Fri,  2 Feb 2024 12:43:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706877801;
-	bh=FxMD+SzcZbcxoJzxVHTVVUD+rGEixm5Ui8tDKJG2+PI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=exJwTRay0Nes53dtalL1y2sMLtxvzyhURVm6EmfwghTJH716UbskcT0OHWY0Ihp5n
-	 qS2jxO1phSrgmYkLNq9fMF1JJuYUheVyJsQywhD/VartAAt6U6dZLrfiXmPpJPnn+M
-	 lpbFThhZ0VopxB4tUU1L9vxSq6ZmsBeMgKJCMFZXspDWx+RZFepCwtjCo6q9FLSl4O
-	 QIjkFz/ibmltiLaGTzJJeD8G45egtVl9RJ6zzjpwXcB18WRBZ+bzRUlYZeL1RdDuOX
-	 4XPydusYae0rLw8XeFHPtem/JuAjVO4IBEF0PEDSjYg24WjVzGW2p2Zk2LLkpNj6dt
-	 fqWAcNbQeL50A==
-Date: Fri, 2 Feb 2024 12:43:14 +0000
-From: Lee Jones <lee@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-	thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: Re: [PATCH v8 3/7] soc: qcom: add QCOM PBS driver
-Message-ID: <20240202124314.GD1379817@google.com>
-References: <20231221185838.28440-1-quic_amelende@quicinc.com>
- <20231221185838.28440-4-quic_amelende@quicinc.com>
- <ut6jbawqqdgfyoxmt76hm67rbnv67x54eho3nae2dd2szbejfb@7joy57g4i3qt>
- <20240131085842.GF8551@google.com>
- <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
+	s=arc-20240116; t=1706896178; c=relaxed/simple;
+	bh=ORUBZj9VbJrS+6YnsNZ+Hq1I3Z9kACZ53vfnC6z1j6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=naks1ljI9+daVPefYn33BRXN4Ik6eSFqFH3i0QUtB4eTkuVjMfnFnQQZ+4OKIx/v5WBJ2tHUJ1ZyPqyfQM/qogkhWBBoQtcxcAIdzcIBUAEfSQ2xPQJtQq6ISh3IR31sj1EooKcxgPl2VggnFzqAyiVfKajPNIUE6eTXoh5VOYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UxJu2BVf; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 412B5I9j003316;
+	Fri, 2 Feb 2024 17:49:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=oDjf0Uy4yNJyMguYyjd0ZF+yN77D94FizZdVWHnKdZ8=; b=Ux
+	Ju2BVf+IR5KBBoGt0+JaQALT4a2O7Xy0Vf/hm1XJfccC00RvoOTEmrXRSDhd3jCL
+	xWrVCY9BwcIupl9QlU/Ko+PICCcbRbjvfB/7k9sR+hoT2C9PKcMXZY6jzWdZyMgZ
+	0o7B5GmHg2OI60jOPrmtnUK0F6SBrW6s9ZUQZwzeuZWIED7TuapKDQBeEyXO1HTn
+	CY90RjN724QauLDBdC66lMGoN1Fy+pGg+H1K46eGVFz4FgfIQ2WkNXqvwCdDs0Tt
+	aGb/rh2OTtl2d6ydA6Fw15pYS66Ypn93hrVxrkZ90sQj8NyqisUvppfWZfUqw5fh
+	v2HCb908A0CHkHSp5utw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0pwc20h7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Feb 2024 17:49:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412HnWKs001766
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 2 Feb 2024 17:49:32 GMT
+Received: from [10.110.0.40] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 2 Feb
+ 2024 09:49:31 -0800
+Message-ID: <4a9b6d7b-70ab-cd18-770c-37993b0ccc63@quicinc.com>
+Date: Fri, 2 Feb 2024 09:49:21 -0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] dt-bindings: soc: qcom: Add qcom,pbs bindings
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <lee@kernel.org>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <agross@kernel.org>, <andersson@kernel.org>
+CC: <konrad.dybcio@linaro.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+References: <20240201204421.16992-2-quic_amelende@quicinc.com>
+ <20240201204421.16992-4-quic_amelende@quicinc.com>
+ <1de7cfbc-3507-459f-842e-c9349b2f05ac@linaro.org>
+From: Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <1de7cfbc-3507-459f-842e-c9349b2f05ac@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 1RG0hPmpTWbv0d2sxE46VFefcLvl8srb
+X-Proofpoint-ORIG-GUID: 1RG0hPmpTWbv0d2sxE46VFefcLvl8srb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_11,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=438 clxscore=1015
+ phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020128
 
-On Thu, 01 Feb 2024, Bjorn Andersson wrote:
 
-> On Wed, Jan 31, 2024 at 08:58:42AM +0000, Lee Jones wrote:
-> > Intentional generic top-post reply.
-> > 
-> > Please work quickly to resolve Bjorn's comments.
-> > 
-> > I'm being hounded over a broken LEDs tree due to the missing headerfile.
-> > 
-> 
-> I've merged the updated patches into the qcom tree.
-> 
-> I presume though that you'd like to have this build issue resolved in
-> your tree as well. Please feel free to pull the branch:
-> 
-> 20240201204421.16992-2-quic_amelende@quicinc.com (5b2dd77be1d85ac3a8be3749f5605bf0830e2998)
-> 
-> from https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
 
-Great, thanks.
+On 2/1/2024 11:29 PM, Krzysztof Kozlowski wrote:
+> On 01/02/2024 21:44, Anjelique Melendez wrote:
+>> Add binding for the Qualcomm Programmable Boot Sequencer device.
+>>
+>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> How is it possible? This is v1, not a resend, and I never give review
+> tags not in public.
+> 
+> Best regards,
+> Krzysztof
+> 
+Sorry for the confusion, this patch was originally in this series:
+https://lore.kernel.org/all/20231221185838.28440-2-quic_amelende@quicinc.com/,
+where you gave your reviewed by tag in v3:
+https://lore.kernel.org/all/102328fa-5699-4731-d639-079bce8863a5@linaro.org/.
+This was separated into a new series since half of the original
+patches were already applied. I mentioned this in the cover
+letter but in future should I keep version the same as the original
+series?
 
--- 
-Lee Jones [李琼斯]
+Thanks,
+Anjelique
 
