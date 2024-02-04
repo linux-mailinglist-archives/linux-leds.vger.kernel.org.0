@@ -1,87 +1,56 @@
-Return-Path: <linux-leds+bounces-750-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-751-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C548489CD
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 00:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4D2848C2C
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 09:31:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EA791C22181
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Feb 2024 23:54:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91D121C2247A
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 08:31:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3471713AF3;
-	Sat,  3 Feb 2024 23:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1A514295;
+	Sun,  4 Feb 2024 08:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="baKu5Kak"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="drVazA+j"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6251016436;
-	Sat,  3 Feb 2024 23:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CAFB14003;
+	Sun,  4 Feb 2024 08:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707004494; cv=none; b=Cri4WsqxcBQciDynv/+ZVj+ewvvvROG//5rd7NzW1c/+BtCrD/zXYJbeEXd57mONyV80aPFjMBgB8lCctK8Ml7L77slFoO6HE/W5YjbBEKyj+Aumqkn0d9Azr3or/SYyFJ4Jkv+Jjhz1H/7Ir5a4E6DTusrYWPCmi4wTy6gy8HQ=
+	t=1707035501; cv=none; b=lCdwemW/pIKRgGJK6Mf2H87nh93V+8m86qNZvcIAzhg7Y6P5kLalTv1Y19sEtSY13Wxd3jGaFpnChbjCj8l0PAMY9B5oiGASV6qUVipJ5z+pky6IFV/yG2GkJkBaWST4eBImsQPjBbIO5i0SSIV5toGjRmS+KQUA3YKksgWxa8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707004494; c=relaxed/simple;
-	bh=eQyjHYQAZ/iU45xmzwCXi10gQml0ia8HLSDyflfKzIc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MeERyoloxTYmtvWDBtwWvAEEH1pk6ON1DhGEo13MwaJ+H4okd05dEA4se3jEwI2qikFcvgRAbYcDbfGlmysYHjeOWTJZaiQk4MWEwfEIn9GgmV4WA4vTtc+MTXkBklayiyd5R7dDUgfaK0TMDYbDwWsTY4bXSclhzxifEeykrzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=baKu5Kak; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40ef64d8955so29803945e9.3;
-        Sat, 03 Feb 2024 15:54:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707004490; x=1707609290; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m2UMKoFcK4wh3ZcVjxqCTfGH8GhWg4G2rR6ZKhHXo4Y=;
-        b=baKu5Kakmq4JnhMTTAkA9xFwsIYUimmuDAVgincQCg4i7tNfnyKNX0BHYUsRq94K7H
-         eNVRmxVpdcdddjNu+mr2+OLCFkva71MzElmyGGSTQGKnudwlFmpJFQwX7LQYQ+e6WGPR
-         iRCsLOP+b/q9TbTYXieW6u1/BDWKG+adw6eU8pBnMlqOLMjijbCW5LbfjzlfZgCSlJYv
-         PNpIi53QLw3sPwXd+TBNp0OI/PF/Ci8QfojlvqgeVlx9Xd4vmTkKoF9saHM0aeXH2YVl
-         3dLUKtZcUSVkSKAJF8FRmqMl1mua6bWJ05uP4XVk5cakddeyP7U32a8UYVlE0jW5VmYJ
-         Q7Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707004490; x=1707609290;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m2UMKoFcK4wh3ZcVjxqCTfGH8GhWg4G2rR6ZKhHXo4Y=;
-        b=LvfOfElCRYzHqfHRAa/AS57sBvtIIdBPeVDmup12NMsCZsbrQJ8ydTt+xqbSZSSst7
-         qWdk3UPa1HaRJN7yw8bOB3ZuLhGal7GZ8lRXtryLE6itHsDZvve44qI7PRqLJyKP5gl0
-         fg/pXPqlP53xRE/XLDAiv7gGiGUJsauvjsugtr558HxtEOd9jaQUT7fnSOrXk/fDDEzc
-         nts1Xvc2rY+RgKJv/J0ODqzoxOkDMRMp/8lRvKmuIdgdng3xTQbr+A+AGKkuYPrCSrr7
-         B2JPxDZK/N1Uh0fJkv2XC+YK7Ukj5HQi3B2Tqo8ygqOR77EyLnnZ63ylp0wg141YVGsk
-         /78A==
-X-Gm-Message-State: AOJu0YxSShZNWuj0gIX10sy7Ggas+SC7w8+fprEgPdpk4K9YYD5EL+/s
-	JDJgzt4pWtv93Mt9V0p9SLxge8Mgw1IXRlxCSZj0fKknFisNYQYK
-X-Google-Smtp-Source: AGHT+IH8/8dQl8i3DvDOzAG1waxr9XwcgMTXpdlgsWwHdPY1U+MI5TwUQoQfMXx6OSI3ox9XNpr/gA==
-X-Received: by 2002:a05:600c:3594:b0:40e:a569:3555 with SMTP id p20-20020a05600c359400b0040ea5693555mr1815554wmq.35.1707004490421;
-        Sat, 03 Feb 2024 15:54:50 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWcLM6iuqsM7llfMG+jxZIMr/2tcxT71Wz2lUQgOSa8U7u3KjBDSxmX3m5oXtQc1a3lQgsNI1svoI9DQk1nAFXfANn5J7VcT9fm5tjliM5RLrKKQxkufl8k6971XOO/i83HKTgzcWa4BowQrXPscY1KoIjUuWvyzGpB9osHKog3TtFlDSR5ymax2WfECZnGstk9IJCwS1gqXwVMr4VUsrXdswY0/FlBdj49+Ax1y9wDly7h7Ty+bFCbmCd6g7o++sL7PA2UUtxR3pI3coXZoV5m0BHhHXGFlRtKxPUsm7pIiR6LaWJW013V7peQos+8E45W1zc2EBILQR5pDkRF88hunVnm6v/g
-Received: from localhost.localdomain (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.googlemail.com with ESMTPSA id g6-20020a05600c310600b0040fd1e2a773sm2659512wmo.47.2024.02.03.15.54.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 15:54:49 -0800 (PST)
-From: Christian Marangi <ansuelsmth@gmail.com>
+	s=arc-20240116; t=1707035501; c=relaxed/simple;
+	bh=u9+LHPfAZ13cth/hrwDBhd7Qz2h0oIqYNx0hTMM0Nko=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RFzEK0GaRZHThTlLELPgYmvdiVBbKMcnd5c+ZyHRCXbv2BGn3Yof3WxvYOMUj9YUBRVij0N1KPI1wofnn3RyqmMRV6Ov195Wz5VZlt70QY0EtPZaDawhDPgKpEzuVic7YiF625cPO7078nZGsPpRafuz2+UJnOnIQ9PgBlY7Z8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=drVazA+j; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=c7uxM
+	1jI1D1xIwEXNqg79GIf4v7VHzmWovvZMLD/Jg8=; b=drVazA+joUoTleI92XNTA
+	z927UDhi7DKUqvhlz8xK0ATiS+oY5Z84pX1YO6/O5TlVz4J4tcG5MVpTB68Cg7AI
+	Ah3o0DMlQBzlfXjsWWEVcmHWHAoxdi+ibsz7t9vcHzfNeVq09968XGToQBzO0xT0
+	zNkfZXYsbg2MdPNuiEOUrY=
+Received: from localhost.localdomain (unknown [39.144.137.116])
+	by gzga-smtp-mta-g1-0 (Coremail) with SMTP id _____wDnM2Y+S79lBerCAg--.45702S2;
+	Sun, 04 Feb 2024 16:30:56 +0800 (CST)
+From: Xing Tong Wu <xingtong_wu@163.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Li Zetao <lizetao1@huawei.com>,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH] leds: trigger: netdev: Fix kernel panic on interface rename trig notify
-Date: Sun,  4 Feb 2024 00:54:01 +0100
-Message-ID: <20240203235413.1146-1-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Xing Tong Wu <xingtong.wu@siemens.com>,
+	Tobias Schaffner <tobias.schaffner@siemens.com>,
+	Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+	Henning Schild <henning@hennsch.de>
+Subject: [PATCH RESEND 0/1] Patch Resent: Enabling LED Support for Siemens IPC BX-59A
+Date: Sun,  4 Feb 2024 16:30:47 +0800
+Message-Id: <20240204083048.2458-1-xingtong_wu@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -89,56 +58,27 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnM2Y+S79lBerCAg--.45702S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUzl19UUUUU
+X-CM-SenderInfo: p0lqw35rqjs4rx6rljoofrz/xtbB0gJ60GWXv4SRBwAAsl
 
-Commit d5e01266e7f5 ("leds: trigger: netdev: add additional specific link
-speed mode") in the various changes, reworked the way to set the LINKUP
-mode in commit cee4bd16c319 ("leds: trigger: netdev: Recheck
-NETDEV_LED_MODE_LINKUP on dev rename") and moved it to a generic function.
+From: Xing Tong Wu <xingtong.wu@siemens.com>
 
-This changed the logic where, in the previous implementation the dev
-from the trigger event was used to check if the carrier was ok, but in
-the new implementation with the generic function, the dev in
-trigger_data is used instead.
+This patch has been resent to incorporate the necessary changes for
+enabling LED control on the Siemens IPC BX-59A.
 
-This is problematic and cause a possible kernel panic due to the fact
-that the dev in the trigger_data still reference the old one as the
-new one (passed from the trigger event) still has to be hold and saved
-in the trigger_data struct (done in the NETDEV_REGISTER case).
+Based on:
+ eccc489ef68d70cfdd850ba24933f1febbf2893e
 
-On calling of get_device_state(), an invalid net_dev is used and this
-cause a kernel panic.
+Xing Tong Wu (1):
+  leds: simatic-ipc-leds-gpio: add support for module BX-59A
 
-To handle this correctly, move the call to get_device_state() after the
-new net_dev is correctly set in trigger_data (in the NETDEV_REGISTER
-case) and correctly parse the new dev.
+ .../leds/simple/simatic-ipc-leds-gpio-core.c  |  1 +
+ .../simple/simatic-ipc-leds-gpio-f7188x.c     | 42 ++++++++++++++++---
+ 2 files changed, 37 insertions(+), 6 deletions(-)
 
-Fixes: d5e01266e7f5 ("leds: trigger: netdev: add additional specific link speed mode")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- drivers/leds/trigger/ledtrig-netdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 8e5475819590..df1b1d8468e6 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -504,12 +504,12 @@ static int netdev_trig_notify(struct notifier_block *nb,
- 	trigger_data->duplex = DUPLEX_UNKNOWN;
- 	switch (evt) {
- 	case NETDEV_CHANGENAME:
--		get_device_state(trigger_data);
--		fallthrough;
- 	case NETDEV_REGISTER:
- 		dev_put(trigger_data->net_dev);
- 		dev_hold(dev);
- 		trigger_data->net_dev = dev;
-+		if (evt == NETDEV_CHANGENAME)
-+			get_device_state(trigger_data);
- 		break;
- 	case NETDEV_UNREGISTER:
- 		dev_put(trigger_data->net_dev);
 -- 
-2.43.0
+2.25.1
 
 
