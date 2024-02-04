@@ -1,59 +1,49 @@
-Return-Path: <linux-leds+bounces-752-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-754-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D1A848C2F
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 09:32:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC92848ED5
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 16:16:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9816281E89
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 08:32:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EF2C1F21B63
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 15:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E17F168D0;
-	Sun,  4 Feb 2024 08:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JaQRKEh9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3DA0224C6;
+	Sun,  4 Feb 2024 15:16:07 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA71715AE0;
-	Sun,  4 Feb 2024 08:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from alpha.404-net.de (alpha.404-net.de [193.26.159.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C616224E3
+	for <linux-leds@vger.kernel.org>; Sun,  4 Feb 2024 15:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.26.159.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707035505; cv=none; b=KSUI0KAR8spBUseVr7jNHIkJGOMBCsIREc41iOnxnv8GhF81xyVPrulNjpKlTRcThNAIHv8OkBtoAJmJv3jKzxkUGbFqGdni41mBpkbqD98E+kO2qlCO+TY4R2F5GhwZmtaROWDb/qdpo37jhTUlfcdaRurSb7mCbcoN03N6IAY=
+	t=1707059767; cv=none; b=CMReJLHkNawdC4OnS1I7c1CtqznAbbj4Jr6koAIT7zLpgM7nfAyYr9FT+X8SMG39oO8OXdn7jX03qZuIjbc/Cq1ajFhVBSd6ebp/YEt+zPF0ErwbTSdEClGZmGLL778kTtVSewSlUP807/DdphgGgDaDejSMEV73FCqQfnKS3vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707035505; c=relaxed/simple;
-	bh=zuZ16cXlvgwszlj4UY3oSjQsOuqVS9Gy8T9k3jLpus4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TCl551nN79dE9HGJhR2tik3t2NFYsoxZd84fcMa7T7YJ4FMw2JbCQ7HKNIFRFebLYtaOmjEbKdMVA39skGEun2c3MPUCBkK6NAxJXvu/qjus3Ij9aqnF39yyEkH1HFAwc40+QfGlAuTxuyPOLl+cUjyQmoIsrbSa3onC0mohOVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JaQRKEh9; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=14TOX
-	UYYbIa7nuVrv7wPD6Hm67H8jXpzC51fRcD2YDI=; b=JaQRKEh9BwNt7ESr+7YWP
-	16ewiOYq3OUnVLx+mE5ZgxGytIvGcvSaGohW+d0v75n7TKDyiKA5G5LQpC+XJFw/
-	MsuZJOyr9WMrAfJ/10S+WuSq++Lj0xnyG1AWoCIq5/S8FqZ/5Frc7cm5Gaq8W3aN
-	CYUGg3yjryAqEXnzGKHplc=
-Received: from localhost.localdomain (unknown [39.144.137.116])
-	by gzga-smtp-mta-g1-0 (Coremail) with SMTP id _____wDnM2Y+S79lBerCAg--.45702S3;
-	Sun, 04 Feb 2024 16:30:58 +0800 (CST)
-From: Xing Tong Wu <xingtong_wu@163.com>
-To: Pavel Machek <pavel@ucw.cz>,
+	s=arc-20240116; t=1707059767; c=relaxed/simple;
+	bh=s2QuvAjQ1a7LpB4lqJqaMhnT2yqN11n+k+pub6Q/bPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QRxvI7x5BfRi6yZEUZ4kzsJFUl9SL+GBvrbFBsc7KcHZP4bhOLsmZlLCoK7mVN+osggUrc2PlLXHwigVPTqH6+aBnGyECigeupxoi79Fxz8X6GTHrlZ8PY//UlTqJ67QGo/TrRKCkFYeUuvoXVBpUY9yNJ/mWhiofLQccPLkVp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stklcode.de; spf=pass smtp.mailfrom=stklcode.de; arc=none smtp.client-ip=193.26.159.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stklcode.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stklcode.de
+Received: from stklpc.intra.404-net.de (2001-4dd0-4f5d-1101-0-0-0-4eb.ipv6dyn.netcologne.de [IPv6:2001:4dd0:4f5d:1101::4eb])
+	by alpha.404-net.de (Postfix) with ESMTPSA id 9BAFD11FE8;
+	Sun,  4 Feb 2024 16:07:38 +0100 (CET)
+Authentication-Results: alpha.404-net.de;
+	spf=pass (sender IP is 2001:4dd0:4f5d:1101::4eb) smtp.mailfrom=stefan@stklcode.de smtp.helo=stklpc.intra.404-net.de
+Received-SPF: pass (alpha.404-net.de: connection is authenticated)
+From: Stefan Kalscheuer <stefan@stklcode.de>
+To: linux-leds@vger.kernel.org
+Cc: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Xing Tong Wu <xingtong.wu@siemens.com>,
-	Tobias Schaffner <tobias.schaffner@siemens.com>,
-	Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-	Henning Schild <henning@hennsch.de>
-Subject: [PATCH RESEND 1/1] leds: simatic-ipc-leds-gpio: add support for module BX-59A
-Date: Sun,  4 Feb 2024 16:30:48 +0800
-Message-Id: <20240204083048.2458-2-xingtong_wu@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240204083048.2458-1-xingtong_wu@163.com>
-References: <20240204083048.2458-1-xingtong_wu@163.com>
+	Christian Mauderer <oss@c-mauderer.de>,
+	Stefan Kalscheuer <stefan@stklcode.de>
+Subject: [PATCH] leds: spi-byte: use devm_led_classdev_register_ext()
+Date: Sun,  4 Feb 2024 16:07:26 +0100
+Message-ID: <20240204150726.29783-1-stefan@stklcode.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,110 +51,56 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnM2Y+S79lBerCAg--.45702S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr1kurWUJw15Xry7JFy7Jrb_yoWrXF1fpF
-	nrJ39YkFW5J3Zrtw13CFW7ZF93u3WxKr97tFZrGa90g3Wjvr10qF9rAFW3XFZ5J3ykuF17
-	GF1rtFyUur4DAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jqxRfUUUUU=
-X-CM-SenderInfo: p0lqw35rqjs4rx6rljoofrz/xtbBEAd60GVOCGzapQAAsN
 
-From: Xing Tong Wu <xingtong.wu@siemens.com>
+Use extended classdev registration to generate generic device names from
+color and function enums instead of reading only the label from the
+device tree.
 
-This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
-connected to GPIOs provided by the Nuvoton NCT6126D
-
-Signed-off-by: Xing Tong Wu <xingtong.wu@siemens.com>
+Signed-off-by: Stefan Kalscheuer <stefan@stklcode.de>
 ---
- .../leds/simple/simatic-ipc-leds-gpio-core.c  |  1 +
- .../simple/simatic-ipc-leds-gpio-f7188x.c     | 42 ++++++++++++++++---
- 2 files changed, 37 insertions(+), 6 deletions(-)
+ drivers/leds/leds-spi-byte.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-index 667ba1bc3a30..85003fd7f1aa 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-@@ -56,6 +56,7 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
- 	case SIMATIC_IPC_DEVICE_127E:
- 	case SIMATIC_IPC_DEVICE_227G:
- 	case SIMATIC_IPC_DEVICE_BX_21A:
-+	case SIMATIC_IPC_DEVICE_BX_59A:
- 		break;
- 	default:
- 		return -ENODEV;
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-index c7c3a1f986e6..783e74e9a805 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-@@ -17,7 +17,10 @@
+diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
+index 9d91f21842f2..96296db5f410 100644
+--- a/drivers/leds/leds-spi-byte.c
++++ b/drivers/leds/leds-spi-byte.c
+@@ -83,7 +83,7 @@ static int spi_byte_probe(struct spi_device *spi)
+ 	struct device_node *child;
+ 	struct device *dev = &spi->dev;
+ 	struct spi_byte_led *led;
+-	const char *name = "leds-spi-byte::";
++	struct led_init_data init_data = {};
+ 	const char *state;
+ 	int ret;
  
- #include "simatic-ipc-leds-gpio.h"
+@@ -97,12 +97,9 @@ static int spi_byte_probe(struct spi_device *spi)
+ 	if (!led)
+ 		return -ENOMEM;
  
--static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-+static struct gpiod_lookup_table *led_lookup_table;
-+static struct gpiod_lookup_table *led_lookup_table_extra;
+-	of_property_read_string(child, "label", &name);
+-	strscpy(led->name, name, sizeof(led->name));
+ 	led->spi = spi;
+ 	mutex_init(&led->mutex);
+ 	led->cdef = device_get_match_data(dev);
+-	led->ldev.name = led->name;
+ 	led->ldev.brightness = LED_OFF;
+ 	led->ldev.max_brightness = led->cdef->max_value - led->cdef->off_value;
+ 	led->ldev.brightness_set_blocking = spi_byte_brightness_set_blocking;
+@@ -120,7 +117,11 @@ static int spi_byte_probe(struct spi_device *spi)
+ 	spi_byte_brightness_set_blocking(&led->ldev,
+ 					 led->ldev.brightness);
+ 
+-	ret = devm_led_classdev_register(&spi->dev, &led->ldev);
++	init_data.fwnode = of_fwnode_handle(child);
++	init_data.devicename = "leds-spi-byte";
++	init_data.default_label = ":";
 +
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
- 	.dev_id = "leds-gpio",
- 	.table = {
- 		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-@@ -30,7 +33,7 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
- 	},
- };
- 
--static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra_227g = {
- 	.dev_id = NULL, /* Filled during initialization */
- 	.table = {
- 		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
-@@ -39,16 +42,43 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
- 	},
- };
- 
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_bx_59a = {
-+	.dev_id = "leds-gpio",
-+	.table = {
-+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 3, NULL, 1, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 3, NULL, 2, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 2, NULL, 3, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 7, NULL, 4, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 4, NULL, 5, GPIO_ACTIVE_LOW),
-+		{} /* Terminating entry */
-+	}
-+};
-+
- static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
- {
--	return simatic_ipc_leds_gpio_probe(pdev, &simatic_ipc_led_gpio_table,
--					   &simatic_ipc_led_gpio_table_extra);
-+	const struct simatic_ipc_platform *plat = pdev->dev.platform_data;
-+
-+	switch (plat->devmode) {
-+	case SIMATIC_IPC_DEVICE_227G:
-+		led_lookup_table = &simatic_ipc_led_gpio_table_227g;
-+		led_lookup_table_extra = &simatic_ipc_led_gpio_table_extra_227g;
-+		break;
-+	case SIMATIC_IPC_DEVICE_BX_59A:
-+		led_lookup_table = &simatic_ipc_led_gpio_table_bx_59a;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	return simatic_ipc_leds_gpio_probe(pdev, led_lookup_table,
-+					   led_lookup_table_extra);
- }
- 
- static void simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
- {
--	simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
--				     &simatic_ipc_led_gpio_table_extra);
-+	simatic_ipc_leds_gpio_remove(pdev, led_lookup_table,
-+				     led_lookup_table_extra);
- }
- 
- static struct platform_driver simatic_ipc_led_gpio_driver = {
++	ret = devm_led_classdev_register_ext(&spi->dev, &led->ldev, &init_data);
+ 	if (ret) {
+ 		mutex_destroy(&led->mutex);
+ 		return ret;
 -- 
-2.25.1
+2.43.0
 
 
