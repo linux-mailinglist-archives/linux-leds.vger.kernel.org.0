@@ -1,104 +1,127 @@
-Return-Path: <linux-leds+bounces-753-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-756-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8633E848ED2
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 16:15:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50471848FC3
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 18:32:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8AA61C21EA4
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 15:15:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 635941F231A7
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 17:32:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EBD4224C7;
-	Sun,  4 Feb 2024 15:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="zTL4Va8w"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D64062C68D;
+	Sun,  4 Feb 2024 17:32:07 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26A822301;
-	Sun,  4 Feb 2024 15:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1039E2C690
+	for <linux-leds@vger.kernel.org>; Sun,  4 Feb 2024 17:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.144.164.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707059723; cv=none; b=tXlSsvy4n1+SWN42Pmez0bowKg9YWScbBk1ZCxLmkpKXaNgX7+Pd08raGNw95tWNkDVAekzdXnH98tieLVnXftSRLqA0a4jeT4l3Oxe4fFDd3XbKOuEs/A/K4OEIKdVLYAPBeODGAKojgPNc7CUFt3Pp7t4l0OBbJTAeRV5Q7Qo=
+	t=1707067927; cv=none; b=SvVVs7gglySd+Q6fcbIhbvS84yyGCMpJQkF9kTvU8VKzn+BF2niXR1/hbJX9CY4TMAU1xvNB3f3oG/JLu7q9eZ8itfHX0LK1zoBl/mZ2mdDX7I0IWdC3EHYP0cuuIc9f2qgfmpP1Okn8iDFBdQSEeIq6VKAoXAUK32UB73nu4AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707059723; c=relaxed/simple;
-	bh=IeZfAJeIueCJI7tdAJKSyC4Jwez+pyH758ixVanQ578=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IfMhqeuHnn9G2ooXiO88JOITLGwkCe+dF++peMQT8Jt4+5vVLfu5Z8775LTUkw0sRA2XNEMH19OtOfS1mfS5hqU24PeMzP+I/IXd2B8WwGLKtD9oT9Ubkdiqw7V2rclw0lADJOHyi+ZuJK3yKlFMVW3bNzXEEnp50qA8Jdd93Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=zTL4Va8w; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=edYHnRAqz8+dv8WEmyxXjWpoGAiVxFe3ltzCGSM68NQ=; b=zTL4Va8wcoV/6G2DFrtpoPED7k
-	1Gd4ADSJt7S5piBmZKIaGfIT7mgq8co+nbQvDjwI68Uzn8hY/Z6tVt+IivT570WzbI5kQUQ/25aM3
-	6aBv0Gp3WzyByyqEl0ANbN+vbUh7Q+6r9Zgw1YKfr9r/bOVfuXVC51z5VZ5y9/2zC4kI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rWeD0-006xuU-Qj; Sun, 04 Feb 2024 16:15:02 +0100
-Date: Sun, 4 Feb 2024 16:15:02 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Li Zetao <lizetao1@huawei.com>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] leds: trigger: netdev: Fix kernel panic on interface
- rename trig notify
-Message-ID: <8d51f09b-e6d2-4ee1-9e7d-b545d561798a@lunn.ch>
-References: <20240203235413.1146-1-ansuelsmth@gmail.com>
+	s=arc-20240116; t=1707067927; c=relaxed/simple;
+	bh=bcNFXOXgVZBEkNCwZd1X9XvtwNPnxgf0ip+0KH9NcyE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BVoAnfKPL7BwAzgOf1DjZtHPrNSe3RUlIZyK9g7kM+ADX6YYFz6pHplUXvlV6SJHp88BTej3/j5gS5Vocf4WUInXZzuBvWcfe5wtOzaNGs6PPDNP2V4xCBoUtn9C1mVkDWwXkas4Edjg1YKYbnh3jDtvn5XQun2I8C7B7ilLs+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=somainline.org; spf=pass smtp.mailfrom=somainline.org; arc=none smtp.client-ip=5.144.164.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=somainline.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=somainline.org
+Received: from Marijn-Arch-Book.localdomain (2a02-a420-67-c93f-164f-8aff-fee4-5930.mobile6.kpn.net [IPv6:2a02:a420:67:c93f:164f:8aff:fee4:5930])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D639D3E74E;
+	Sun,  4 Feb 2024 18:24:31 +0100 (CET)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+Date: Sun, 04 Feb 2024 18:24:20 +0100
+Subject: [PATCH v5] leds: qcom-lpg: Add PM660L configuration and compatible
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240203235413.1146-1-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240204-pm660l-lpg-v5-1-2f54d1a0894b@somainline.org>
+X-B4-Tracking: v=1; b=H4sIAEPIv2UC/zXMTQ6CMBBA4auQWVsy/QELK+9hXFQdYAhtSYvGh
+ HB3GxOX3+K9HTIlpgx9tUOiN2eOoaA5VfCYXBhJ8LMYFCqDCo1YfdviIpZ1FINu7tZpp61BKMG
+ aaODPb3a9FQ8perFNidx/ofAsOyWlNbaWbaM7hUIK7xLPoc4vnjcKlxy947BwoDqmEY7jC0BOA
+ K6lAAAA
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org, 
+ Bjorn Andersson <andersson@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, 
+ Martin Botka <martin.botka@somainline.org>, 
+ Jami Kettunen <jami.kettunen@somainline.org>, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Bjorn Andersson <andersson@kernel.org>
+X-Mailer: b4 0.12.4
 
-On Sun, Feb 04, 2024 at 12:54:01AM +0100, Christian Marangi wrote:
-> Commit d5e01266e7f5 ("leds: trigger: netdev: add additional specific link
-> speed mode") in the various changes, reworked the way to set the LINKUP
-> mode in commit cee4bd16c319 ("leds: trigger: netdev: Recheck
-> NETDEV_LED_MODE_LINKUP on dev rename") and moved it to a generic function.
-> 
-> This changed the logic where, in the previous implementation the dev
-> from the trigger event was used to check if the carrier was ok, but in
-> the new implementation with the generic function, the dev in
-> trigger_data is used instead.
-> 
-> This is problematic and cause a possible kernel panic due to the fact
-> that the dev in the trigger_data still reference the old one as the
-> new one (passed from the trigger event) still has to be hold and saved
-> in the trigger_data struct (done in the NETDEV_REGISTER case).
-> 
-> On calling of get_device_state(), an invalid net_dev is used and this
-> cause a kernel panic.
-> 
-> To handle this correctly, move the call to get_device_state() after the
-> new net_dev is correctly set in trigger_data (in the NETDEV_REGISTER
-> case) and correctly parse the new dev.
-> 
-> Fixes: d5e01266e7f5 ("leds: trigger: netdev: add additional specific link speed mode")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Inherit PM660L PMIC LPG/triled block configuration from downstream
+drivers and DT sources, consisting of a triled block with automatic
+trickle charge control and source selection, three colored led channels
+belonging to the synchronized triled block and one loose PWM channel.
 
-This should have 'net' in the subject line, to indicate which tree its
-for.
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+Changes since v4:
 
-Otherwise:
+- Rebased on -next and resolve conflict with removed lpg_remove();
+- v4: https://lore.kernel.org/linux-leds/20220719211848.1653920-2-marijn.suijten@somainline.org/
+---
+ drivers/leds/rgb/leds-qcom-lpg.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index 156b73d1f4a2..ab298391f9e0 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -1360,6 +1360,23 @@ static int lpg_probe(struct platform_device *pdev)
+ 	return lpg_add_pwm(lpg);
+ }
+ 
++static const struct lpg_data pm660l_lpg_data = {
++	.lut_base = 0xb000,
++	.lut_size = 49,
++
++	.triled_base = 0xd000,
++	.triled_has_atc_ctl = true,
++	.triled_has_src_sel = true,
++
++	.num_channels = 4,
++	.channels = (const struct lpg_channel_data[]) {
++		{ .base = 0xb100, .triled_mask = BIT(5) },
++		{ .base = 0xb200, .triled_mask = BIT(6) },
++		{ .base = 0xb300, .triled_mask = BIT(7) },
++		{ .base = 0xb400 },
++	},
++};
++
+ static const struct lpg_data pm8916_pwm_data = {
+ 	.num_channels = 1,
+ 	.channels = (const struct lpg_channel_data[]) {
+@@ -1502,6 +1519,7 @@ static const struct lpg_data pmk8550_pwm_data = {
+ };
+ 
+ static const struct of_device_id lpg_of_table[] = {
++	{ .compatible = "qcom,pm660l-lpg", .data = &pm660l_lpg_data },
+ 	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
+ 	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
+ 	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
 
-    Andrew
+---
+base-commit: 01af33cc9894b4489fb68fa35c40e9fe85df63dc
+change-id: 20240204-pm660l-lpg-f35b8a3a3840
+
+Best regards,
+-- 
+Marijn Suijten <marijn.suijten@somainline.org>
+
 
