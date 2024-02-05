@@ -1,159 +1,239 @@
-Return-Path: <linux-leds+bounces-755-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-757-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0DA848FB9
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 18:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01A8849590
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 09:40:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18BD71C21494
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Feb 2024 17:29:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A1BB1C23103
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 08:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F20C22EF2;
-	Sun,  4 Feb 2024 17:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD0A1170E;
+	Mon,  5 Feb 2024 08:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O5mNz/L1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C8F24205;
-	Sun,  4 Feb 2024 17:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.144.164.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB6D12B6F
+	for <linux-leds@vger.kernel.org>; Mon,  5 Feb 2024 08:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707067790; cv=none; b=gDoTohjXrSCTrkD0KX0a7MWD4mgPMbjCe1BUyS5fmdzSQoZ28L6UvuWbNGg93Ki0DYGRlALNxL1jnN+8NbzFKzCXiJi9wAQpysSQmuxROnliD29d0bEg/GiXRuD48focEJly6jqEHuKm/tv+g3VboA0TccdtNFHebBC/jgM1oT4=
+	t=1707122407; cv=none; b=L3Xkbuzwamx/u6bS0xpQKvRQ13mcqTqBJEgzuWfVPSvL78TzQdydcEpiIaBOT1TSHPAhqZfO4AG6TKzjgCyXh3qOXnuRzLgo5+FYrrfMQDdKmcz26fu3VtPzPx2TF2M5cZK+47DD4DnSQKCYpERw2CvZiW3EENXA6cjSx7XVbho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707067790; c=relaxed/simple;
-	bh=lzSrv4+0HNUHwkpIOl2xT9ERzLM/rHgR5h5G3ipP+LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BhSlZWpW3IxAEFybWnKW//Ek8c/YrpaNjyYkVJ+0wX9gGkYLQF6SVVFIkKkleF7uFyZCdM9SnRJzreR/7pvFIh/YByxca20nfO9XAP1B0UUJHh7kfcl65+R7eN+6KBk6x5lXxzG57sdbW0VG6BU8DteyAQs9WBPYmsnFMYM/rKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=somainline.org; spf=pass smtp.mailfrom=somainline.org; arc=none smtp.client-ip=5.144.164.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=somainline.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=somainline.org
-Received: from SoMainline.org (2a02-a420-67-c93f-164f-8aff-fee4-5930.mobile6.kpn.net [IPv6:2a02:a420:67:c93f:164f:8aff:fee4:5930])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 348BA3EF26;
-	Sun,  4 Feb 2024 18:29:45 +0100 (CET)
-Date: Sun, 4 Feb 2024 18:29:43 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, phone-devel@vger.kernel.org, 
-	Pavel Machek <pavel@ucw.cz>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
-	~postmarketos/upstreaming@lists.sr.ht, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
-	Martin Botka <martin.botka@somainline.org>, Jami Kettunen <jami.kettunen@somainline.org>, 
-	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stephen Boyd <swboyd@chromium.org>, Satya Priya <quic_c_skakit@quicinc.com>
-Subject: Re: [PATCH v4 2/2] leds: qcom-lpg: Add PM660L configuration and
- compatible
-Message-ID: <vj7mlrrvn7y45fpavdy37eqfxrz3anq43qh4n2flktckuaoeo7@ynlw5rexyi27>
-References: <20220719211848.1653920-1-marijn.suijten@somainline.org>
- <20220719211848.1653920-2-marijn.suijten@somainline.org>
- <ZYFS04cznE5bhOeV@hovoldconsulting.com>
- <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
+	s=arc-20240116; t=1707122407; c=relaxed/simple;
+	bh=wpp/TUj6twPhR8eQks9mP3XVtJqAe58Io4jhmP85SgI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YrNiP8r9KRyrj5/DlOr4tSY2hHFfhOQzm06aNmkZEpXFRjpNimtDGZkn4v5fBTaa2epbokzrKGWXTNuaUBsN0Bp8sscbakEndBgIGcgd0FJovC3vIGAJkjoZjNOTUPfSimC6pqfsG1EzbG0KZOqpWwG1h0wnMl7spM35EbszWlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O5mNz/L1; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d0a0873404so16213371fa.2
+        for <linux-leds@vger.kernel.org>; Mon, 05 Feb 2024 00:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707122403; x=1707727203; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OCecjuEuZTL+9EIdIHfh/9h9vAfTHL1wm39kflQDAdI=;
+        b=O5mNz/L1PaRg4zU69QMQAZejf25stiAX0YkIcrHTmXkZX35KI/f69LrCWkbxWp11JN
+         Gl/ZDKYiUpnMQ6QNmPy+cj6uaVlI5jH10sNmFjvU4ZxEHWWLygsvbW0YUOd0/d0wBHgI
+         AgHDpdL3uZLT26xHEqQpFIZS8pE3bWE1yyNXQI5lBbUZVhpmAdCHdEWeNVz/tHMS01Qy
+         QmP3xw6cArpr3N2vXRV2Nd1VTS4v8Yi3qRYGrTEwehXYWFTIlnyD+gxNBcv8xrCQbZ8V
+         f+QMJrLP7TZClXHiuiONuT0Ocnuapbiu4OpFAGWkoW9Spwv7GOdbg8w12wXWIwYCp9nB
+         ngXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707122403; x=1707727203;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OCecjuEuZTL+9EIdIHfh/9h9vAfTHL1wm39kflQDAdI=;
+        b=XI3shJOr4ZPvw7Lgfqud20rkOb/LZB1wZY/vD1+hPHEzpft22AGKgqs4Ikd3RcdjNA
+         aFcsc2IplpMu27O6NaisEeSXFJz+oxMkjGpbQqWEGDLerQuz/Mmz/7INh/H/9oov12Wd
+         VBOM/O7jiqv6XyW6Z6CG1Q7nY87chDTNoBWwvJ2ULocpUt+6PL9MNH4VuwtFD3DZ4X7G
+         zUEUngCZQ71W+aL3ZDb4pLprsEriElspBlEQPv/g7aAgWJJWD3ELPFmIik/0fwlG6hOH
+         eOyhx0kQwCKH7+9Lc6dKk+uFom35MaXR75XST3s66HvE6dXMkV8wXh6zaysdrosnBXcu
+         ff9A==
+X-Gm-Message-State: AOJu0YwpEN2Ae5JhsvcyG3M9sWXFfst0Q3QvS/IgK5uMQQpt4COzJIQp
+	4/TvZ84PN6mBcSmE9Fk4aKDqdtD/BFndTv2NsaK4fqubdoVzORT2aH2mN3qsmo8=
+X-Google-Smtp-Source: AGHT+IHvIkLmoKMtoeG4prp2Xi4x4BoKH7EU1u7QssGMe36kEVMchFOfNJil5oAv3Pfurkqm/kl5Jg==
+X-Received: by 2002:a2e:9081:0:b0:2d0:643c:c2aa with SMTP id l1-20020a2e9081000000b002d0643cc2aamr5818509ljg.20.1707122402317;
+        Mon, 05 Feb 2024 00:40:02 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUKYtPIYBB27cxssLG0IVAZV5Hkfa5To2UebO23HFtPMTpXje9BP36zgBNpg1NQI/Too0K923iQFG+6mTWV9aowzkJZiZAGWU4STMA4B05WzuyiJgXyQBANyssIT/T40y9wfvjxDSNrVSco8EYLGcoM9OBxyOs9X/+vv9Sdomv92y2ss3/xgm2G7w3aj0iLt4+VmX/uNRsmEPZEZBgTCCLZbTjBpDzqvLF4Z2Y9FtxOjq5AaZvzpugqWeTquoU9bYv4sCQKPtgEN00VW7ACxGJjtOArjBrZ4dCUpWLTzyXK2jIZZQLospFAmXNemARYVgn6hfQDmrKY88i9M/2c+McOvPpgak6VwOnHwfqMF3qq54u7Dl+s3u85dCAFYqE+X6PnOmCYkBjr1cApDliMhe/rQTKNOuvz+LfFJOwqHeUwZkxPBfp0dt3/zgatGRiSSsasmbnv3TAe/vlKG7IlBqnpqcI1sGi789Gy4qPWKfmQB3TuYN2X
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id eo15-20020a056402530f00b00560651808a6sm864844edb.67.2024.02.05.00.40.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Feb 2024 00:40:01 -0800 (PST)
+Message-ID: <abe2930b-8fd0-4fa7-8abe-a036525a21ce@linaro.org>
+Date: Mon, 5 Feb 2024 09:39:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt: bindings: leds: Add NCP5623 multi-LED Controller
+Content-Language: en-US
+To: Abdel Alkuor <alkuor@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Alice Chen <alice_chen@richtek.com>, ChiaEn Wu <chiaen_wu@richtek.com>,
+ ChiYuan Huang <cy_huang@richtek.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240203175910.301099-1-alkuor@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240203175910.301099-1-alkuor@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2023-12-19 10:17:21, Marijn Suijten wrote:
-> Hi Johan and Lee,
+On 03/02/2024 18:58, Abdel Alkuor wrote:
+> NCP5623 is DC-DC multi-LED controller which can be used for
+> RGB illumination or backlight LCD display. NCP5623
+> provides 94% peak efficiency.
+
+Drop marketing.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching.
+
+It's dt-bindings.
+
 > 
-> On 2023-12-19 09:22:43, Johan Hovold wrote:
-> > Hi Marijn and Lee,
-> > 
-> > On Tue, Jul 19, 2022 at 11:18:48PM +0200, Marijn Suijten wrote:
-> > > Inherit PM660L PMIC LPG/triled block configuration from downstream
-> > > drivers and DT sources, consisting of a triled block with automatic
-> > > trickle charge control and source selection, three colored led channels
-> > > belonging to the synchronized triled block and one loose PWM channel.
-> > > 
-> > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > ---
-> > > 
-> > > Changes since v3:
-> > > - Rebased on -next;
-> > > - (series) dropped DTS patches that have been applied through the
-> > >   Qualcomm DTS tree, leaving only leds changes (driver and
-> > >   accompanying dt-bindings).
-> > 
-> > > diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> > > index 02f51cc61837..102ab0c33887 100644
-> > > --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> > > +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> > > @@ -1304,6 +1304,23 @@ static int lpg_remove(struct platform_device *pdev)
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +static const struct lpg_data pm660l_lpg_data = {
-> > > +	.lut_base = 0xb000,
-> > > +	.lut_size = 49,
-> > > +
-> > > +	.triled_base = 0xd000,
-> > > +	.triled_has_atc_ctl = true,
-> > > +	.triled_has_src_sel = true,
-> > > +
-> > > +	.num_channels = 4,
-> > > +	.channels = (const struct lpg_channel_data[]) {
-> > > +		{ .base = 0xb100, .triled_mask = BIT(5) },
-> > > +		{ .base = 0xb200, .triled_mask = BIT(6) },
-> > > +		{ .base = 0xb300, .triled_mask = BIT(7) },
-> > > +		{ .base = 0xb400 },
-> > > +	},
-> > > +};
-> > > +
-> > >  static const struct lpg_data pm8916_pwm_data = {
-> > >  	.num_channels = 1,
-> > >  	.channels = (const struct lpg_channel_data[]) {
-> > > @@ -1424,6 +1441,7 @@ static const struct lpg_data pm8350c_pwm_data = {
-> > >  };
-> > >  
-> > >  static const struct of_device_id lpg_of_table[] = {
-> > > +	{ .compatible = "qcom,pm660l-lpg", .data = &pm660l_lpg_data },
-> > >  	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
-> > >  	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
-> > >  	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
-> > 
-> > When reviewing the Qualcomm SPMI PMIC bindings I noticed that this patch
-> > was never picked up by the LEDs maintainer, while the binding and dtsi
-> > changes made it in:
-> > 
-> > 	https://lore.kernel.org/r/20220719211848.1653920-2-marijn.suijten@somainline.org
-> > 
-> > Looks like it may still apply cleanly, but otherwise, would you mind
-> > rebasing and resending so that Lee can pick this one up?
-> > 
-> > Johan
+> Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
+> ---
+>  .../bindings/leds/onnn,ncp5623.yaml           | 98 +++++++++++++++++++
+>  1 file changed, 98 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
 > 
-> Coincidentally I haven't touched this device/platform for months... until last
-> weekend where I noticed the same.  It does not apply cleanly and I had to solve
-> some conflicts:
-> 
-> https://github.com/SoMainline/linux/commit/8ec5d02eaffcec24fcab6a989ab117a5b72b96b6
-> 
-> I'll gladly resend this!
+> diff --git a/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml b/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
+> new file mode 100644
+> index 000000000000..696bc7d8c8f9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
+> @@ -0,0 +1,98 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/onnn,ncp5623.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ON Semiconductor NCP5623 multi-LED Driver
+> +
+> +maintainers:
+> +  - Abdel Alkuor <alkuor@gmail.com>
+> +
+> +description: |
 
-Apologies for taking more time than necessary.  According to b4 the patch should
-become available at:
+Do not need '|' unless you need to preserve formatting.
 
-https://lore.kernel.org/r/20240204-pm660l-lpg-v5-1-2f54d1a0894b@somainline.org
+> +  NCP5623 Triple Output I2C Controlled LED Driver.
+> +  https://www.onsemi.com/pdf/datasheet/ncp5623-d.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - onnn,ncp5623
+> +
+> +  reg:
+> +    enum:
 
-> Note that I have one more unmerged leds patch around, that hasn't been looked
-> at either.  Would it help to send this once again, perhaps with more reviewers/
-> testing (Johan, would you mind taking a look too)?
-> 
-> https://lore.kernel.org/linux-leds/20220719213034.1664056-1-marijn.suijten@somainline.org/
+Instead "const", or just maxItems: 1
 
-I'll continue looking into clarifying this patch before resending it.
 
-- Marijn
+> +      - 0x38
+> +
+> +  multi-led:
+> +    type: object
+> +    $ref: leds-class-multicolor.yaml#
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^led@[0-2]$":
+> +        type: object
+> +        $ref: common.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            description: Index of the LED.
+
+Drop description, it is obvious.
+
+> +            minimum: 0
+> +            maximum: 2
+> +
+> +        required:
+> +          - reg
+> +          - color
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+
+
+
+Best regards,
+Krzysztof
+
 
