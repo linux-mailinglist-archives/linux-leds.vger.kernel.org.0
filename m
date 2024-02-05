@@ -1,51 +1,77 @@
-Return-Path: <linux-leds+bounces-760-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-761-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4DC849C1B
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 14:42:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7DC849C43
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 14:54:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D6BC1C23B93
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 13:42:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D6CAB240E2
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 13:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3F0A1CD1D;
-	Mon,  5 Feb 2024 13:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F10210E6;
+	Mon,  5 Feb 2024 13:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gquqHcC/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ET41eN6M"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457E2249F7;
-	Mon,  5 Feb 2024 13:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AB022EE0;
+	Mon,  5 Feb 2024 13:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707140526; cv=none; b=t+Jp5EC6zGi0c3b4x47sCAFTkCkQhLzzmZr+QDHs6+z0p+cvFEZvKgwjxGfq+bDY3SOistTDtF5H4qYn5YRh/baqEMHM5Gs1fE5YKORhgt4cTpLHQjfPPGl+zTKpcRZgd47An6pr42wP5RYjlNgLShoZCHRb+H61bneYoY0u0yM=
+	t=1707141241; cv=none; b=PlGdfYRWJD1bMwdg4Wyq6k1GrjQjR6sBwVQlO78vQhtGsDficeuBzIObSPakyQeAP6ATpZGKSonDjyK5ox0u0SntQSuByz6LQos/FIouqopEKFy4xSY8yWWTFMjKeMoN6r8MveMDVXilvYKM+9BwaNyx0efKVpqylQvAqK7G7Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707140526; c=relaxed/simple;
-	bh=/wQMrpuzD8DLeB+dyVSLRlSrwYiBDeLVdQ7mpA9FdPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o40TH1XR2i3YgZgBhKFJ7OweUjxTPXM7kYg9dtD4eCfGKyQLu8zhkbSNrQZtiQqi/qfo+92Nr7X8izmQwGWQe9MoNUfYBhO7ShKBzxC3xOdjplSrOZZ0KONnnW7Ypkw0ZHSDcjHLZ5HX7QFiHmT05mOPCxITnTESYYuva5w+0PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gquqHcC/; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=uH4U9fvNVZDiK+h5rTo4LU81eBV5vhHy4QRdufhEcjc=; b=gquqHcC/HDgYFuP6KhxFqHtsw4
-	1doib5d7IYx7x3a3eXDwCoVrcwLy5kSDWZicdKg7rF6T/Drml9ZaYCRet/ZXyaVQyOsqsdmZ/7knA
-	f55+lhKm9BYgn/cngcIyEkol0wQ8agPYaioG11gwVxCEs0ku2/aVpnxYtvRkuoYJjsU8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rWzEI-0072Ct-4p; Mon, 05 Feb 2024 14:41:46 +0100
-Date: Mon, 5 Feb 2024 14:41:46 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Lee Jones <lee@kernel.org>
-Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	s=arc-20240116; t=1707141241; c=relaxed/simple;
+	bh=f648wEW8Rvm4NKQat1t4yGsYZI6+ObAURygqAcDOgF4=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RsGEJcnbVb6iyFU46XPVY7ifJiNN7LavqBx1/5gOQDFNGELXVUAVf1qVT2cMXHMWWOyDnaN7qOnskoPOaNAO5GLhRoCsdHApdZbJ73SJeiJtzv7CuTqKZLwElDsMVDJSKFAtrKtgJ4n/oT0NBfktWZKFomt2wYnCfEuaf4lyJII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ET41eN6M; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40fdcae97e7so6147165e9.1;
+        Mon, 05 Feb 2024 05:53:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707141237; x=1707746037; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=30yadIsDStHvOTrhktHdJDsPyIBrn+aKYbB/Yn8bu0M=;
+        b=ET41eN6M6WIY8u6KkLyeHCbMITBbPLFCXyAqy/HdomGlQ65oy17Dfrlb0yBrp7L8bd
+         SCLifYctnKpSGEw1iLQKDQ+AN/4xs9w4IjPSSH0U34Y3JP3QjhFMCAlpzhgAM9oJrNo4
+         7fjmNtceEFZrBuwmGMq7oCMXVs+p0TqTtqvt4B2sn8C41nGvVf99dQs/j/7dVt8ov0Vb
+         MxBkmXF3KasWYpDp7rOOyHPmV+b280TiZkC6VyoIIqvfWe8IufKWnXmR7XH5jcrbAs8X
+         YNMsEVRWwcotSxD+JYhG6trdLkFu+epzVEvWh9XeQazbdjvX24fI5eJpmQadwaSoFxL8
+         1pVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707141237; x=1707746037;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=30yadIsDStHvOTrhktHdJDsPyIBrn+aKYbB/Yn8bu0M=;
+        b=wulBVWVKj4ep5M6j/Xxw1fHeYOK4pf7m40ctVnyBGU7yiAJQbn6iGPudDHHcj8INJ2
+         zYlLk/koGsDI81Hj+3z4MV4adCaRJ2v7voPK6oC+YFBjTsXyjpgEx/y4dZ8tZDZKax9e
+         U9qhF5+A4dm16ypucYNMgXHMOm3tkSzUbtIp/pYPYd0L/BybY38A7trb4bflS+BwiuLi
+         KKRyXjmejCFV/KdRdEDpQPtSBq32ctZs3X4c6CFNJwMnL0PJCnTEVBWfBgwBckzj96ZR
+         4Rd7GoV2O/pjapGSapZjIJuX95uUfQEnv7RGuB4GH7bWxRrAxCbTJegBPi2HYcGmdgsW
+         gUDQ==
+X-Gm-Message-State: AOJu0Yz9MzHeHmOxUpoE8of9HseO5EpfQUsct8D6sccBITztoDfSswpi
+	KLjjSmN/z9KKGwlCB9kBolwo2AXCUSvaL5Is9pT+ESQ+KyQzArBo
+X-Google-Smtp-Source: AGHT+IFmgTvn6TSYIIQiJRsnUkPWETIb7bkywt067eIUtWA1QczsGaff9vPSvZm8aRGuuHrk6D0IMQ==
+X-Received: by 2002:adf:e242:0:b0:33b:24c:ace6 with SMTP id bl2-20020adfe242000000b0033b024cace6mr6842518wrb.11.1707141237328;
+        Mon, 05 Feb 2024 05:53:57 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUBy9InCGZO8lypAvB8CCJY5Ve7O6UknUG+AOmL8yj6r3jo1RufBWA3rtJcIuUpmljRqx3nOI968M0nDFGi32NN1CqpAUJbwpSpjlnBSN0KsKXCkE6PxuGePmiCoaR5Bj3SBXTK5n9YewH9ddG82nMXECYDK1tUCaFJ6XaynUgpHbjgTs9CHFgluk582mUiVWG42h2Jf7Hr5NdV+focdawPETFZkZGIRKEamEGyijuwuvQf4DT2a/GKOxPHvHJ2OlKqYr5jBoUaHSEd75dWy3k+2XI4cU4Q96FC8or5lFtD5AjQ8LC5h3kVgZe1eR9Gp/139FSIjl4=
+Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
+        by smtp.gmail.com with ESMTPSA id u7-20020adfa187000000b0033b421e651csm926538wru.37.2024.02.05.05.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 05:53:56 -0800 (PST)
+Message-ID: <65c0e874.df0a0220.257a.43b1@mx.google.com>
+X-Google-Original-Message-ID: <ZcDocaeTz8GCOYFi@Ansuel-xps.>
+Date: Mon, 5 Feb 2024 14:53:53 +0100
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
@@ -54,10 +80,10 @@ Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Subject: Re: [PATCH] leds: trigger: netdev: Fix kernel panic on interface
  rename trig notify
-Message-ID: <2cf84815-f9b6-4a0a-a3b4-d23628a89aa4@lunn.ch>
 References: <20240203235413.1146-1-ansuelsmth@gmail.com>
  <8d51f09b-e6d2-4ee1-9e7d-b545d561798a@lunn.ch>
  <20240205085007.GA19855@google.com>
+ <2cf84815-f9b6-4a0a-a3b4-d23628a89aa4@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,25 +92,40 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240205085007.GA19855@google.com>
+In-Reply-To: <2cf84815-f9b6-4a0a-a3b4-d23628a89aa4@lunn.ch>
 
-> > This should have 'net' in the subject line, to indicate which tree its
-> > for.
+On Mon, Feb 05, 2024 at 02:41:46PM +0100, Andrew Lunn wrote:
+> > > This should have 'net' in the subject line, to indicate which tree its
+> > > for.
+> > 
+> > No, it shouldn't.
+> > 
+> > Contributors aren't obliged to know anything about merging strategies.
 > 
-> No, it shouldn't.
+> With netdev, we tend to assume they do, or at least can contribute to
+> the discussion. They often know about any dependencies etc which could
+> influence the decision. When there are multiple subsystem maintainers
+> involved, i tend to use To: to indicate the maintainer i think should
+> merge the patch, and Cc: for the rest.
+>
+
+I'm always a bit confused when I have to send patch to mixed subsystem
+(not the case but for net trigger it's almost that). Sorry for the
+confusion/noise.
+
+> > Why does this need to go in via net?
 > 
-> Contributors aren't obliged to know anything about merging strategies.
+> It does not, as far as i'm aware. Christian, do you know of any
+> reason?
+> 
 
-With netdev, we tend to assume they do, or at least can contribute to
-the discussion. They often know about any dependencies etc which could
-influence the decision. When there are multiple subsystem maintainers
-involved, i tend to use To: to indicate the maintainer i think should
-merge the patch, and Cc: for the rest.
+This is strictly a fix, no dependency or anything like that. Maybe using
+net as target would make this faster to merge (since net is for fix only
+and this has to be backported) than using leds-next?
 
-> Why does this need to go in via net?
+Again if needed I can send v2 with the correct tag for net subsystem if
+better.
 
-It does not, as far as i'm aware. Christian, do you know of any
-reason?
-
-	Andrew
+-- 
+	Ansuel
 
