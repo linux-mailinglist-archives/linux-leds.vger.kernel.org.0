@@ -1,76 +1,49 @@
-Return-Path: <linux-leds+bounces-764-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-765-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BF5849D2E
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 15:38:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28097849DA7
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 16:04:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBA571C2220E
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 14:38:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA2531F21982
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 15:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D58D22C19C;
-	Mon,  5 Feb 2024 14:38:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 728092C190;
+	Mon,  5 Feb 2024 15:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqmbeD9B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePZvZO6H"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2942317572;
-	Mon,  5 Feb 2024 14:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CEE2C68C;
+	Mon,  5 Feb 2024 15:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707143904; cv=none; b=p72vhaiwj2xtwfBvoSmua0tPDY0IVgyhj6rXxBXsxcWS9fEfHDnBqAASsNb74Yf27gA/U1c9kjcFHpHj9WwH+mdMz/zUUvLUWDKnmckihVONMWqENK9cyjTQXDqk8b/YW5ywfiXLuA70NUaC9zzLux49a+uMPZUSnfgL07C+v5U=
+	t=1707145468; cv=none; b=i65Tlz6kTCWu8HkQcW2LD5YQDwsfCteDojHwSLvz6zW+Dv28r8ZpBMYlygm6rk6H5eDk+AjjSflYq7nyVfhjLYAoCzoXYQ6Dj7n0dldW+JJRnfRfKOIkbYtqdfQrG1OUyg5LsKAdXgni9KdZrrtRJmgnZKzP24S8KEA+j/iN5j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707143904; c=relaxed/simple;
-	bh=qLIPnSV3z29Njbcyu6Cx1/8YXz/E2I8INhSvjJrNl2k=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gjr0AKdLcSgrdMVXBrhElVdlnWX9wvZKJ4L5eX16Nyo/BmuSjiJbO0lIA0lm5dHTAD3YCYHl7GiXpXpLIRDPCWDYJdMcO8nKAKshWtW3WvaqR3vn6d+KsIwgpKZodBMtdRa7IZ5luX84p4Ldayn6gGkg51ex5/ZQdzybWepgx9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqmbeD9B; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33b1d7f736bso2349809f8f.3;
-        Mon, 05 Feb 2024 06:38:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707143901; x=1707748701; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=GnRPLB6mVKulmCMNCC1XGkAiblhvm2hmB10dmlVxsCc=;
-        b=jqmbeD9BkjEgbV3I535QohQqJ4hNPJ+LOWS3NBsSIWx4yffE1fKmttRpqDdvCSByaO
-         aa447cv+1hOIky13at+BOQnXsdBe4JxgzO/87AXO69nKLTPT5Mx/GwnYo8dALZgd4JIv
-         yTZvxhQZmfRF3JXaAOHhjXELYtzlNovsSbkrECnebuTEjPq6PECtmemNS4ZdtLhR6J2W
-         W8FS3HG1Zm1G0XQDuiJE6aVApie3F6ja4ecsAYZFxogLt8zCoVA0aW0OTIhzt4h/9qS7
-         T5liLq7sJ2rp0vp00HasmMbmVk587uKZHIvHzXiupsc0OyiM0syPFxlkBXxxAFqXsvwG
-         dMvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707143901; x=1707748701;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GnRPLB6mVKulmCMNCC1XGkAiblhvm2hmB10dmlVxsCc=;
-        b=NazSBoykxeuR5L+fcZzvtm593OoZ0a6kvOIt8OVRYflNZBkittjphuPnA5bSUwFfOy
-         Mt4BLUjJ2Vx+Hp91txeqXQXHsJ9kshH0H7gtZxR9wzGGJ3fLKrnAOAp7+9exmLxASEiy
-         i4igMIJDS9be0gUtbKMMvDVtainenvPhmMg8bni8Qetw0bXi9J6cMpKzIRz6cLgEQiXR
-         obTLYtbc4GTlaYr4j3uqUmUtWZxF8+9+AB8zqztjKTLLWv/3rOvs1/olYb6ny2Gty7KA
-         +PCGqEaS9YeCQf6DzRElBhje72Tsy92Kv+VtA6ustuQlXlLG0uHbBd4x5rGjb8uy8Rza
-         F1dw==
-X-Gm-Message-State: AOJu0YzDzSJRGptvV1Zoj/Zonjpl7gJcmW9+JIgUvEvGUrEQwgPmeFZw
-	mBMX5DG6d+Lcuz5wJnOgGwSKI7e5Rv3XxvZutN06SSNADNw2sKIr
-X-Google-Smtp-Source: AGHT+IHGCOT1Ti+/uMVOQRX8kYsQp3/4JfBw96NgAYmkBY985PIsqp6sVzoNi8UVkgbQn8Exs1VIAg==
-X-Received: by 2002:adf:e806:0:b0:337:c4be:7b9a with SMTP id o6-20020adfe806000000b00337c4be7b9amr8574938wrm.63.1707143901190;
-        Mon, 05 Feb 2024 06:38:21 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW+dhN14Um36x5pygjsMYrqN8wAdX28dPoX5JbKqRQkUqfNIv7G5QRg0inhsc2+Pkq7qKB37qiiEzJW5viPiZidAnOmNGINDo7hj6lWNEBJayKMNuoEgbcQcv2EuBlPn/kbOsiEwKzH4CFvKyfd0HVfTzi9joDalAVccwD7+Et1C5ttca6X2Xlx+mxkJb0fxa8P3jHh20deuoVw9KESOSNngJK/8tD6A9TY4aV8GX+ERs3A8XXuQ3J3L24T/FEpMeiYj/iHca+n6IU7ibEoegygInn/6tk1Eyxe/GZyQcNdr7bakaRbEJQcYSaGWpHXN1QvkEcaKjw=
-Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.gmail.com with ESMTPSA id g7-20020a05600c310700b0040fddb65d58sm1663662wmo.13.2024.02.05.06.38.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 06:38:20 -0800 (PST)
-Message-ID: <65c0f2dc.050a0220.63083.8524@mx.google.com>
-X-Google-Original-Message-ID: <ZcDy2T23lKZoiEsI@Ansuel-xps.>
-Date: Mon, 5 Feb 2024 15:38:17 +0100
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Lee Jones <lee@kernel.org>
+	s=arc-20240116; t=1707145468; c=relaxed/simple;
+	bh=0aZM96cjECYxM3U7ULUcl2ArQahZ2cd3SuFhh6THTnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9h694GObYnMVnDI5uhCbxICuyZ2vkjeevMZnosyhDlaHlJOE1Gkslh3e2MmmsLhNffL5DMGE7XtAAJ3YJ33rQg3fCZi6QfDa51A5v1A2YXQ5Pq9IZ3xveGQvuzc1B8jwqY771ilRllcbytiqfd04BD53OfVPAm0morgBPcS+ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePZvZO6H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8834BC433F1;
+	Mon,  5 Feb 2024 15:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707145467;
+	bh=0aZM96cjECYxM3U7ULUcl2ArQahZ2cd3SuFhh6THTnc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ePZvZO6HiVSMSEYiqMZFZYdIvJjPVsWrg2FPLETmzjKm46HtuRHhxVB2DyO2hhr+7
+	 0ams6lQXLe4rJ7rwr5PYf4QL5UcAFp0x3Oo8rj5a1q7tXRRPKtfLUOZ3VesLFj4IU9
+	 uPWJiSIkceSIrltOFXfrHbGW4GSMezflVbpc3Z60wzSKgKFlki0AkbDWG9URRXGEub
+	 LH5kWRSddT1ME4Me+3rliFQkbT1V4tMld4SLwPbmUgcDJ5QfT/CdtNQri0LLbwNKru
+	 CC9NSvuFhWBofZUZAcg86Yif0Mn9peeLsMvdnXXGkL8N8ylWm0dNZvQlvzDCpEBk3l
+	 yhCbzK8uZlsMw==
+Date: Mon, 5 Feb 2024 15:04:22 +0000
+From: Lee Jones <lee@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
 Cc: Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -80,82 +53,98 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Subject: Re: [PATCH] leds: trigger: netdev: Fix kernel panic on interface
  rename trig notify
+Message-ID: <20240205150422.GC53266@google.com>
 References: <20240203235413.1146-1-ansuelsmth@gmail.com>
  <8d51f09b-e6d2-4ee1-9e7d-b545d561798a@lunn.ch>
  <20240205085007.GA19855@google.com>
  <2cf84815-f9b6-4a0a-a3b4-d23628a89aa4@lunn.ch>
  <65c0e874.df0a0220.257a.43b1@mx.google.com>
  <20240205143359.GB53266@google.com>
+ <65c0f2dc.050a0220.63083.8524@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240205143359.GB53266@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <65c0f2dc.050a0220.63083.8524@mx.google.com>
 
-On Mon, Feb 05, 2024 at 02:33:59PM +0000, Lee Jones wrote:
-> On Mon, 05 Feb 2024, Christian Marangi wrote:
-> 
-> > On Mon, Feb 05, 2024 at 02:41:46PM +0100, Andrew Lunn wrote:
-> > > > > This should have 'net' in the subject line, to indicate which tree its
-> > > > > for.
-> > > > 
-> > > > No, it shouldn't.
-> > > > 
-> > > > Contributors aren't obliged to know anything about merging strategies.
-> > > 
-> > > With netdev, we tend to assume they do, or at least can contribute to
-> > > the discussion. They often know about any dependencies etc which could
-> > > influence the decision. When there are multiple subsystem maintainers
-> > > involved, i tend to use To: to indicate the maintainer i think should
-> > > merge the patch, and Cc: for the rest.
-> > >
+On Mon, 05 Feb 2024, Christian Marangi wrote:
+
+> On Mon, Feb 05, 2024 at 02:33:59PM +0000, Lee Jones wrote:
+> > On Mon, 05 Feb 2024, Christian Marangi wrote:
 > > 
-> > I'm always a bit confused when I have to send patch to mixed subsystem
-> > (not the case but for net trigger it's almost that). Sorry for the
-> > confusion/noise.
-> 
-> When you have a truly cross-subsystem patch, it's up to you.
-> 
->  - Mention both e.g. leds/net:
->  - Mention neither e.g. <device>:
->  - Mention the one that is most relevant
-> 
->  An example of the last option might be when the lion's share of the
->  changes occur in one subsystem and only header files are changed in the
->  other.
-> 
-> In an ideal world i.e. when there are no build-time/runtime deps between
-> them, changes should be separated out into their own commits.
->
-
-Thanks a lot for the explaination and the examples!
-
-> > > > Why does this need to go in via net?
+> > > On Mon, Feb 05, 2024 at 02:41:46PM +0100, Andrew Lunn wrote:
+> > > > > > This should have 'net' in the subject line, to indicate which tree its
+> > > > > > for.
+> > > > > 
+> > > > > No, it shouldn't.
+> > > > > 
+> > > > > Contributors aren't obliged to know anything about merging strategies.
+> > > > 
+> > > > With netdev, we tend to assume they do, or at least can contribute to
+> > > > the discussion. They often know about any dependencies etc which could
+> > > > influence the decision. When there are multiple subsystem maintainers
+> > > > involved, i tend to use To: to indicate the maintainer i think should
+> > > > merge the patch, and Cc: for the rest.
+> > > >
 > > > 
-> > > It does not, as far as i'm aware. Christian, do you know of any
-> > > reason?
-> > > 
+> > > I'm always a bit confused when I have to send patch to mixed subsystem
+> > > (not the case but for net trigger it's almost that). Sorry for the
+> > > confusion/noise.
 > > 
-> > This is strictly a fix, no dependency or anything like that. Maybe using
-> > net as target would make this faster to merge (since net is for fix only
-> > and this has to be backported) than using leds-next?
+> > When you have a truly cross-subsystem patch, it's up to you.
+> > 
+> >  - Mention both e.g. leds/net:
+> >  - Mention neither e.g. <device>:
+> >  - Mention the one that is most relevant
+> > 
+> >  An example of the last option might be when the lion's share of the
+> >  changes occur in one subsystem and only header files are changed in the
+> >  other.
+> > 
+> > In an ideal world i.e. when there are no build-time/runtime deps between
+> > them, changes should be separated out into their own commits.
+> >
 > 
-> We have leds-fixes for that.
->
+> Thanks a lot for the explaination and the examples!
+> 
+> > > > > Why does this need to go in via net?
+> > > > 
+> > > > It does not, as far as i'm aware. Christian, do you know of any
+> > > > reason?
+> > > > 
+> > > 
+> > > This is strictly a fix, no dependency or anything like that. Maybe using
+> > > net as target would make this faster to merge (since net is for fix only
+> > > and this has to be backported) than using leds-next?
+> > 
+> > We have leds-fixes for that.
+> >
+> 
+> Oh! No idea, should I add a tag to the patch to target that branch
+> specifically?
 
-Oh! No idea, should I add a tag to the patch to target that branch
-specifically?
+You don't need to do anything special.
 
-Anyway Since we have leds-fixes and this is leds related I think it's ok
-to use that and don't disturb net subsystem.
+The Fixes: tag is enough to let us know that this is a fix.
 
-(again IT IS a kernel panic but happens only on some specific situation
-so it's not that critical)
+If the commit mentioned in Fixes: was accepted as part of the last
+merge-window, it'll be sent to the -rcs in good time.  If it fixes a
+commit which was introduced in a previous cycle, it'll be submitted
+during the next merge-window.
+
+> Anyway Since we have leds-fixes and this is leds related I think it's ok
+> to use that and don't disturb net subsystem.
+
+There is no reason why this should be merged via netdev.
+
+> (again IT IS a kernel panic but happens only on some specific situation
+> so it's not that critical)
 
 -- 
-	Ansuel
+Lee Jones [李琼斯]
 
