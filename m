@@ -1,50 +1,50 @@
-Return-Path: <linux-leds+bounces-762-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-763-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E15849D04
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 15:27:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3CB849D1F
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 15:34:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EABF11C23EC5
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 14:27:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9413328222A
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Feb 2024 14:34:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEEFD28DD8;
-	Mon,  5 Feb 2024 14:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8060D2375B;
+	Mon,  5 Feb 2024 14:34:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Djc83Lpa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sJX3U8uv"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FAB1CA9E;
-	Mon,  5 Feb 2024 14:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5377D2C688;
+	Mon,  5 Feb 2024 14:34:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707143261; cv=none; b=JB6S8gA4L8TUapqHp1MTjZseVF9JuO0PdE7KevNzykefWGNIVod8fbDCfhVt10DLgKN1tT1qOTLGi3xBQW6avcShMYjlWiPNPiGVQpv4t5OjOWkpeSwj2PG0rb1C0BsqGTGaKWMPTo/NzqwfCKpJGvhLQMHBrxxfiXqMiSqMP08=
+	t=1707143645; cv=none; b=J8+8JYTnGyg/n+dfe8Z1T/YkdwAB/41yS8MF9CI89ji7XH4djvVTjXww1a7vHZALFD1nn0e3xMYTJ5AWKDDIRxb08M9MnbzhV8NQutsvkeRfV4eg2gRGnAImZDTaP24Yz7qvJpgI4DYbjwFLKLKwO57+3A803x6bUH4Pttj2LNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707143261; c=relaxed/simple;
-	bh=B8TpQw2Jaip2TPWJ9RND2ETvhmZ3Nd2W09imw/Jdy90=;
+	s=arc-20240116; t=1707143645; c=relaxed/simple;
+	bh=iBEoat+OSUZc6lnPLh2AanULhM+rpP8BzE4RZbNK5z8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m9ivVpKcfEblze7wqxGQ9WkzuPpErKmdt1crSXsedwtLT+gJWIGpF9g6lF2BJMJWWgHOU/bMrvgejtN/fgamITVljZPq61GHH5jtJ9TCXi1HRD8iOU0Fo0u3FaFJfA4F61Yrj3e8IXT6rnUzSU4QCNwBZKybgERgMdBe5nqNBfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Djc83Lpa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C70C433C7;
-	Mon,  5 Feb 2024 14:27:38 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksB1nhIbxyTMvCQQUYbePXpaAAeWHiSbbK++zDvWfu6a3F+DIbXZo8nwRyyhFX9jgmZxN4VRO7jKR2YEFxW5OKHthk24Tou7dybafvbFMcwkjpILayYst/w8oyCgATVUiEg34XhNisU2sudW9dFBFHB6Zl70bZUnWJR6/qTqvLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sJX3U8uv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DD81C433F1;
+	Mon,  5 Feb 2024 14:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707143261;
-	bh=B8TpQw2Jaip2TPWJ9RND2ETvhmZ3Nd2W09imw/Jdy90=;
+	s=k20201202; t=1707143644;
+	bh=iBEoat+OSUZc6lnPLh2AanULhM+rpP8BzE4RZbNK5z8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Djc83LpaFVG47BdcdzPc+EfjNgWxUFm2Hd4k/0dOoei9ttuoj9WKmAzsmgd+DaQf3
-	 VxEM7aL7O1qwXZx6Z5I/tBNtLjxjYSosvpGRosjGnAjI+slFnFxf9y20PswHxmDKGO
-	 VaROituVdfOKtXiXPObSuILx2DuKSHK5MavMDYU/z0NGrXoQP3XM2igV2uIK+upsv3
-	 OEgpLYH/f8BB+6qIuK1xWUR1UlajnVDGlq2AMy3ZGOb1AieO3VoVL7OS/Bz5L+teOr
-	 EjG0e1e4QY3DAGu25g25fKyFHgbvPwNUXw8IvQFTHcIz9AkM6XrRGHeqojj6KbadAZ
-	 Fo6RMCJtYg74Q==
-Date: Mon, 5 Feb 2024 14:27:35 +0000
+	b=sJX3U8uvH5HXjL4C/OEXRtNtDYD89dJ7oms9PFEVAaAn8XVtPBMXKQr5hvTm+y9Gy
+	 gfBL4Jcez1RpKXmz0LWF0lDwKf6ZS1AsPEIWK/KozH6g3X1cjz5EM4BwlUOAwHuqm6
+	 wf4ZGvcc/ZObkBLVKAT9yfIf9FLSBxOYC/zp0K231vnLs8ynig29DsqXzSlK92p6i4
+	 QX+BIjk0HV4/W2uuiOfeXlmte/RFV2UZdhJIdORjBwGKm6A6lt7n9OBepiLcwOCvna
+	 IKAp2QLORaRKAAd/mzaDhArRXFYo8MP6Bq+PUjLvNKW6uHakgeTMHHjbKgQ0LG7+Ak
+	 WosUh47y4XRig==
+Date: Mon, 5 Feb 2024 14:33:59 +0000
 From: Lee Jones <lee@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
@@ -53,11 +53,12 @@ Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Subject: Re: [PATCH] leds: trigger: netdev: Fix kernel panic on interface
  rename trig notify
-Message-ID: <20240205142735.GA53266@google.com>
+Message-ID: <20240205143359.GB53266@google.com>
 References: <20240203235413.1146-1-ansuelsmth@gmail.com>
  <8d51f09b-e6d2-4ee1-9e7d-b545d561798a@lunn.ch>
  <20240205085007.GA19855@google.com>
  <2cf84815-f9b6-4a0a-a3b4-d23628a89aa4@lunn.ch>
+ <65c0e874.df0a0220.257a.43b1@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,38 +68,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2cf84815-f9b6-4a0a-a3b4-d23628a89aa4@lunn.ch>
+In-Reply-To: <65c0e874.df0a0220.257a.43b1@mx.google.com>
 
-On Mon, 05 Feb 2024, Andrew Lunn wrote:
+On Mon, 05 Feb 2024, Christian Marangi wrote:
 
-> > > This should have 'net' in the subject line, to indicate which tree its
-> > > for.
+> On Mon, Feb 05, 2024 at 02:41:46PM +0100, Andrew Lunn wrote:
+> > > > This should have 'net' in the subject line, to indicate which tree its
+> > > > for.
+> > > 
+> > > No, it shouldn't.
+> > > 
+> > > Contributors aren't obliged to know anything about merging strategies.
 > > 
-> > No, it shouldn't.
+> > With netdev, we tend to assume they do, or at least can contribute to
+> > the discussion. They often know about any dependencies etc which could
+> > influence the decision. When there are multiple subsystem maintainers
+> > involved, i tend to use To: to indicate the maintainer i think should
+> > merge the patch, and Cc: for the rest.
+> >
+> 
+> I'm always a bit confused when I have to send patch to mixed subsystem
+> (not the case but for net trigger it's almost that). Sorry for the
+> confusion/noise.
+
+When you have a truly cross-subsystem patch, it's up to you.
+
+ - Mention both e.g. leds/net:
+ - Mention neither e.g. <device>:
+ - Mention the one that is most relevant
+
+ An example of the last option might be when the lion's share of the
+ changes occur in one subsystem and only header files are changed in the
+ other.
+
+In an ideal world i.e. when there are no build-time/runtime deps between
+them, changes should be separated out into their own commits.
+
+> > > Why does this need to go in via net?
 > > 
-> > Contributors aren't obliged to know anything about merging strategies.
+> > It does not, as far as i'm aware. Christian, do you know of any
+> > reason?
+> > 
 > 
-> With netdev, we tend to assume they do, or at least can contribute to
-> the discussion. They often know about any dependencies etc which could
-> influence the decision. When there are multiple subsystem maintainers
-> involved, i tend to use To: to indicate the maintainer i think should
-> merge the patch, and Cc: for the rest.
+> This is strictly a fix, no dependency or anything like that. Maybe using
+> net as target would make this faster to merge (since net is for fix only
+> and this has to be backported) than using leds-next?
 
-This isn't a netdev patch. :)
-
-We make no such stipulation for any of the subsystems I maintain.
-
-The subject line should indicate which subsystem the commit pertains to,
-not which maintainer will merge it or which tree it's merged via.  In
-this case, it's drivers/leds, so "leds: " is fine.
-
-> > Why does this need to go in via net?
-> 
-> It does not, as far as i'm aware. Christian, do you know of any
-> reason?
-
-It's pretty early in the cycle and there are no cross-subsystem deps
-yet, as far as I'm aware.
+We have leds-fixes for that.
 
 -- 
 Lee Jones [李琼斯]
