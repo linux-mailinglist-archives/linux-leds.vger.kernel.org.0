@@ -1,118 +1,89 @@
-Return-Path: <linux-leds+bounces-791-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-792-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01CC84E2B3
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 14:59:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A164084E2C5
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 15:04:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B97F293329
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 13:59:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D42D71C21785
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 14:04:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD2A768E9;
-	Thu,  8 Feb 2024 13:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02B676C79;
+	Thu,  8 Feb 2024 14:04:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHL6Pxb7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X7U4hszY"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517F9763E8;
-	Thu,  8 Feb 2024 13:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BCB7640A;
+	Thu,  8 Feb 2024 14:04:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707400765; cv=none; b=cvTjratomk9HrHtz3mQ/1SrFlySn7VAL+DjT7qkBnYin240qwKU2sSbKAlHisFwt7S5FR1gmcSe844edOOwyopvM+i8HyMC9YSkU2kKj7g7C6cb5Hdrpmzgx+SgHPBQBqNClgaxD1qT8HZ/4eUziZtEHJaefG/E6nnHyp/E+6JA=
+	t=1707401076; cv=none; b=J7qQKflWvqlrclfFBi4Jy8VLYF+RYTl1Cw+QincI2bVu00pWmHT4ZFTcPJeiieK0tP9dm4zi0Z7j331+v6RRqsO3WtqONxpIv1PjWeObexRxonxZzUtOVAcwOlAVZ35veL/o0/4QtT61QWibE9ufEKnFED362D6HhKBMzfrNK7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707400765; c=relaxed/simple;
-	bh=go3VhlXk6Fnh3yPxAQWPPFT8Rbt755seTs3WL9Bzo/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JtkUn8uxFmEiBFt0ZymloMlvNc/NDq8BU47PL84XoS0W2Zw/X+ikpTNKijNmh2UNe4nOwQu64GeTOE2pspa/5Q9Wd969FrRdrH0Mai3tRH6X8bQiO3MyA4nJgmSdGeR67xnd3xD5OcCHnaNMw1pf2rTI76BI9lggxnwC03h+hXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHL6Pxb7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18EECC433C7;
-	Thu,  8 Feb 2024 13:59:20 +0000 (UTC)
+	s=arc-20240116; t=1707401076; c=relaxed/simple;
+	bh=2hms3TPwr8f/X4oq2c4MaDQ1qmoGBSzkbH2R7hmgcsQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=n5bLHOPPitnZ3UahOx/vPTIpuHQf+bjnQtQmUQpOueIPaGrZd0bKbg2nhD8ajifPBmRbDA6w6lrK1B50iZ0zXCndOk51fa6YgPqOKxZzGEJmZKDET0miSxfxVjC4K4WMXtu+3aC9WCXJbCpl6uLpP57dLlTjEPhIH+InW6dAhv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X7U4hszY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD8CEC433F1;
+	Thu,  8 Feb 2024 14:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707400763;
-	bh=go3VhlXk6Fnh3yPxAQWPPFT8Rbt755seTs3WL9Bzo/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KHL6Pxb7RWXQABZTb2zfXe6Z5RP/2/5HU4UvBJ5fwNlhCcM7IDHBXvWzExYUOCEpx
-	 vHQGQvt3BNctGm408Y8OgrWlcwhfnrNb2wTRxw2GGWxxf6CFbgxMjnadqmKijKB67C
-	 1nyeYrZr3AEyeELypVSNDkNSPmwm0zknYaJN28mjInlVMZOo6awC/KZK2RFYjc51NC
-	 zzG/FPobvPqX2AhacXgI5aBCdrtiFQGPNmG2LeicAQs59Zj9nwmXkSoaxu8JV7w5qF
-	 CrxC5NYUVnU97YR/taok71AqcoXtypuFYuFBLsEq8tQNchI0/rmmGkaS0L9uaTTXbN
-	 PI5/07xvt9fBw==
-Date: Thu, 8 Feb 2024 13:59:18 +0000
+	s=k20201202; t=1707401076;
+	bh=2hms3TPwr8f/X4oq2c4MaDQ1qmoGBSzkbH2R7hmgcsQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=X7U4hszYYIGuPdTJiWEfdww+3wccTo4vUAcwy/kRbUjPmJRy8C0bAttEpTo66YDsI
+	 KcJtQufUqI6EGMANuhxHo2Hua1CbyXozK8VwL4Z4/z/aH/LiiEg65OS5TnUze4z4up
+	 3ufLPaHOuPFzVceNuQfWkApK2h0SAyKo7N0fuVtUdqHMT33kYXIwqC9EmqczjD0WNN
+	 acG19aft04xQdpM9z3b0C4ShtpWPqMQMU//1z4LDORfk75zMDbQefcaXtI9KmBv9dI
+	 6uSsvXPIoz8/NE+JbYAUrqyo6DEPAEY8EeXImy1klrWh93iu5AzvK8WY+w6cUUD0tY
+	 7Q/xtCg2c8Kwg==
 From: Lee Jones <lee@kernel.org>
-To: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Martin Kurbanov <mmkurbanov@salutedevices.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel@salutedevices.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/2] leds: aw200xx: support for hw pattern controllers
-Message-ID: <20240208135918.GQ689448@google.com>
-References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
- <20231207125938.175119-2-mmkurbanov@salutedevices.com>
- <20231221161011.GO10102@google.com>
- <ZbQ-jKD_zhonHOCa@ucw.cz>
- <20240129141927.4shshli37fb3cwen@CAB-WSD-L081021>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Jakub Kicinski <kuba@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Daniel Golle <daniel@makrotopia.org>, Li Zetao <lizetao1@huawei.com>, 
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Christian Marangi <ansuelsmth@gmail.com>
+Cc: stable@vger.kernel.org
+In-Reply-To: <20240203235413.1146-1-ansuelsmth@gmail.com>
+References: <20240203235413.1146-1-ansuelsmth@gmail.com>
+Subject: Re: (subset) [PATCH] leds: trigger: netdev: Fix kernel panic on
+ interface rename trig notify
+Message-Id: <170740107363.1051506.1320961736541911295.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 14:04:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240129141927.4shshli37fb3cwen@CAB-WSD-L081021>
+X-Mailer: b4 0.12.3
 
-On Mon, 29 Jan 2024, Dmitry Rokosov wrote:
-
-> Hello Pavel,
+On Sun, 04 Feb 2024 00:54:01 +0100, Christian Marangi wrote:
+> Commit d5e01266e7f5 ("leds: trigger: netdev: add additional specific link
+> speed mode") in the various changes, reworked the way to set the LINKUP
+> mode in commit cee4bd16c319 ("leds: trigger: netdev: Recheck
+> NETDEV_LED_MODE_LINKUP on dev rename") and moved it to a generic function.
 > 
-> On Sat, Jan 27, 2024 at 12:21:48AM +0100, Pavel Machek wrote:
-> > Hi!
-> > 
-> > > > This led-controller supports 3 pattern controllers for auto breathing or
-> > > > group dimming control. Each pattern controller can work in auto
-> > > > breathing or manual control mode. All breathing parameters including
-> > > > rising/falling slope, on/off time, repeat times, min/max brightness
-> > > > and so on are configurable.
-> > > > 
-> > > > Signed-off-by: Martin Kurbanov <mmkurbanov@salutedevices.com>
-> > > > ---
-> > > >  .../testing/sysfs-class-led-driver-aw200xx    | 108 +++
-> > > >  Documentation/leds/leds-aw200xx.rst           | 274 ++++++++
-> > > >  drivers/leds/leds-aw200xx.c                   | 649 ++++++++++++++++++
-> > > >  3 files changed, 1031 insertions(+)
-> > > >  create mode 100644 Documentation/leds/leds-aw200xx.rst
-> > > 
-> > > This interface is bananas.  Exposing an entire register interface to
-> > > sysfs does not sit will with me at all.  When we add support to a sysfs
-> > > class, we usually require it to be generic and work across all devices.
-> > > Adding device specific interfaces is generally decried and to be
-> > > avoided.  Don't forget, once we commit something to sysfs, it becomes
-> > > ABI and we have to support it forever.
-> > 
-> > If you do git grep hw_pattern, you should get pointers to qcom-lpg
-> > driver that solves similar problem, with interface that should be
-> > acceptable.
+> This changed the logic where, in the previous implementation the dev
+> from the trigger event was used to check if the carrier was ok, but in
+> the new implementation with the generic function, the dev in
+> trigger_data is used instead.
 > 
-> Thank you for pointing that out. Yes, it's a very similar situation to
-> ours.
-> 
-> But I haven't observed the merging of this driver. Was it encountering
-> similar issues with the sysfs interface?
+> [...]
 
-`git grep` kinda implies that it's merged.
+Applied, thanks!
 
--- 
+[1/1] leds: trigger: netdev: Fix kernel panic on interface rename trig notify
+      commit: db36d7d45d191879ec4dd1535fbf04ee4ac28711
+
+--
 Lee Jones [李琼斯]
+
 
