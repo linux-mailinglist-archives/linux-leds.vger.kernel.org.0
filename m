@@ -1,97 +1,77 @@
-Return-Path: <linux-leds+bounces-784-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-785-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C4E84DF6F
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 12:11:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD7584DFD3
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 12:36:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06DE628EB6C
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 11:10:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBFAF28AE4A
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Feb 2024 11:36:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB0C6E2B9;
-	Thu,  8 Feb 2024 11:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FEB26F079;
+	Thu,  8 Feb 2024 11:35:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7t8WJ1S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGTfgz7I"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1318F149E07;
-	Thu,  8 Feb 2024 11:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B20D6EB54;
+	Thu,  8 Feb 2024 11:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707390476; cv=none; b=bajKyLd1IORxZIOaX1SyhQ2+yqfPoIyP2e28/d/Iv2CSTIoeOWoS9MGXU9PFoVvZbGp4aUQCjfBhRIMf5PKSihlT9O5+mzPu2J+zr/uEBjNOkLyZNrJgSOJ4Eo7WcXCin01Cjen1nvBsb5+wf+hs1eF9Z9QjL/8IvtVGN7SMOb4=
+	t=1707392144; cv=none; b=WJzW6u5qoxtUu/5616U4TvIKtJ3xERk2/w8zAf2JUeC/avG7QP2OFG2tupV0BjnFgCiG6+6zB98+P9BQf15AvaekT88524/EzqDoGCUWxNkr7a42QWwggglud7p4jb18/6J0Jo19a8Od9oNaE8iVTb1H5AAvbmz1nvB9Lsg6lIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707390476; c=relaxed/simple;
-	bh=ujURS2neRaUd5ZKpRM1zlGv0v8GhWHc6x9dflCr5BnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oCedLmRPiACj0wcKAlMaQGO109AWmQtdjTKuyW9EweTPa1BqRZZ2VMTmZ1sJnn+IHpxc/diM5RVe/qgDGTQcnzJj+Xoh/QbC58pqqp4m7quT14d5L9gc9sRJVEKGK4H7t4zZwxL2HUWABzGnDjnrSL/FlW/JrLMPs0o9aWMw/SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7t8WJ1S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3004AC433F1;
-	Thu,  8 Feb 2024 11:07:52 +0000 (UTC)
+	s=arc-20240116; t=1707392144; c=relaxed/simple;
+	bh=dbEqbs2DlZ57eJRLbS3RnNuusT5JJtnYhLOjxPF5GXM=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=u5vQiWH1p7DZfCYBqhUTgd1aJnFH9qM7j+KZXzQXxLeTrDb6SRCYduCxDSsIEoSMeehuTXycsUlwMhvId5CnK8fbogxN2iGq68W082rZvPNMU/h1VJgqUOtOPEa0uI7dcKK1lTMP468nPyNTRPZxU7jywwxXOFgE+hTuBmsZ8m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGTfgz7I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A36C433F1;
+	Thu,  8 Feb 2024 11:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707390475;
-	bh=ujURS2neRaUd5ZKpRM1zlGv0v8GhWHc6x9dflCr5BnE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O7t8WJ1SVX8b/ErL8sGqgMl0NlOmUKdepTeR/WlNB/nUPv5Ehlv2fIX2IHn+Xn7P/
-	 HR92/QJcYuab6tDlooZ2RHYLBWHq+Y/9CjhfPmuPQTJe8/T4hE3HugdPi5GHWjoZrq
-	 Srq/bByKuWynWHiNuTybw+p9qhDw7SHKxGKro8SGXLLWhKawjRHExtDCec++Amhvyk
-	 JuvV5w/WHV5ZZ7nU/uggZet/5aptnQ3Q0M5foOeEC9ygRUipd+94K1scUDS8rOGrHg
-	 zr2+jYcEL/Wjqg+O5fLk3U8AocUbdY8qNchzieb6h4jlkhb6vJpykjc/EyipPi/cSs
-	 gr9nNECQiWjVg==
-Date: Thu, 8 Feb 2024 11:07:48 +0000
+	s=k20201202; t=1707392143;
+	bh=dbEqbs2DlZ57eJRLbS3RnNuusT5JJtnYhLOjxPF5GXM=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=CGTfgz7ILbunX8vMly1n7DggEg2KZdersB/jeWhDOVGS0RF4s82z8FXRj6uoWPjd/
+	 5SIT9NGjP3KLwJ+dNzdI/Ru5XX+atVja2zo4Ae+138guuExpZXdtUMce7/hh9Toj2n
+	 cu2wdFZ1Xcj5u7TpbscBXc7VPoNs2x+Anz16Eo9NwdYdUJELrXSKD5fML9h21LmfBq
+	 AbAVHNjeJVz++Tz4ujFaLJYxwgFqjipJoPR5AgtvV7fr3yTyP41Dh8Vd+JiL25GtVx
+	 HITW0EBenLbLky53aB/pDbIkG2EpnT7EI3Z1BNz8ORRtFg1fK+ZyeJFjr7bSIKsxIr
+	 0ctmFc4EO7DFg==
 From: Lee Jones <lee@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-	thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: Re: [PATCH v8 3/7] soc: qcom: add QCOM PBS driver
-Message-ID: <20240208110748.GJ689448@google.com>
-References: <20231221185838.28440-1-quic_amelende@quicinc.com>
- <20231221185838.28440-4-quic_amelende@quicinc.com>
- <ut6jbawqqdgfyoxmt76hm67rbnv67x54eho3nae2dd2szbejfb@7joy57g4i3qt>
- <20240131085842.GF8551@google.com>
- <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
+To: pavel@ucw.cz, lee@kernel.org, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Amitesh Singh <singh.amitesh@gmail.com>
+In-Reply-To: <20240203162524.343936-1-singh.amitesh@gmail.com>
+References: <20240203162524.343936-1-singh.amitesh@gmail.com>
+Subject: Re: (subset) [PATCH v3] leds: pca963x: Add power management
+ support
+Message-Id: <170739214246.950581.13917324551294999476.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 11:35:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <kfs2nkkrwsa2enz67vfb5nenv2obzuomekqjdzaksldd75lows@3mcfd2r55fc3>
+X-Mailer: b4 0.12.3
 
-On Thu, 01 Feb 2024, Bjorn Andersson wrote:
+On Sat, 03 Feb 2024 21:55:24 +0530, Amitesh Singh wrote:
+> This implements power management for pca9633 which enables
+> device sleep and resume on system-wide sleep/hibernation
+> 
+> 
 
-> On Wed, Jan 31, 2024 at 08:58:42AM +0000, Lee Jones wrote:
-> > Intentional generic top-post reply.
-> > 
-> > Please work quickly to resolve Bjorn's comments.
-> > 
-> > I'm being hounded over a broken LEDs tree due to the missing headerfile.
-> > 
-> 
-> I've merged the updated patches into the qcom tree.
-> 
-> I presume though that you'd like to have this build issue resolved in
-> your tree as well. Please feel free to pull the branch:
-> 
-> 20240201204421.16992-2-quic_amelende@quicinc.com (5b2dd77be1d85ac3a8be3749f5605bf0830e2998)
-> 
-> from https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
+Applied, thanks!
 
-Pulled, thanks.
+[1/1] leds: pca963x: Add power management support
+      commit: e684dcca3659a3f88945a2a5c6fe5a156d4b0178
 
--- 
+--
 Lee Jones [李琼斯]
+
 
