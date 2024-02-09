@@ -1,64 +1,62 @@
-Return-Path: <linux-leds+bounces-798-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-799-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DCB84FAC3
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Feb 2024 18:13:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D557B84FADA
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Feb 2024 18:18:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D913B244C1
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Feb 2024 17:13:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12D021C273D9
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Feb 2024 17:18:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1128674E33;
-	Fri,  9 Feb 2024 17:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E367BAF7;
+	Fri,  9 Feb 2024 17:18:08 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6274983CAA;
-	Fri,  9 Feb 2024 17:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B0369971;
+	Fri,  9 Feb 2024 17:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707498741; cv=none; b=S/251Gfp+XemIIxib0J/CnRSqHNMkEJR+vO6UvwvVpd74lfAXSn5h1uc55N2xqleenGFLe16+ASvzk0d92RWshGxqgzXJAtPQ3nQhB+I/YCuCu8YDy67oWjWx/0lC0KNxs/4ViNlNIq82sObWrQLcLj5eEd8rSWEoO0/YrQB6Lc=
+	t=1707499088; cv=none; b=Cty5Y383HA/O+1U6xGaifDMpJVyK+2xsFJDvJEKxC1NDvrSlTWC8w+7/hRceuw+j8PyoFva7bIeY81+2B/ktSpVQjJebb8J1ReqJ4ITAyz3AWKPA7xA+aPAjZJHe/zwIAQ5tET7IqXprhI6YSYXq2AgwaKVdEcO9HGzQxWVYrgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707498741; c=relaxed/simple;
-	bh=lsdWTSRPj487NZFyGU2JEB5etxJVaXSYuG6gjWqsrkk=;
+	s=arc-20240116; t=1707499088; c=relaxed/simple;
+	bh=Dy+JjMgljdiiiDHtwEIR3FHiqoWmfBZMsPQGD2TR9ao=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pLM4RGLpRMh4lDhCoG6Z91+ngBGBT0OXgrpYROuHsdsEhHnWXSijB9slfPbpPeISdpDl8yspzDbd5ZMFnVGXIOq5QJSgAN73aP0BBchsr2kq+LIpQFd+xiyVczfVftiF1PFvjQ9jMAcfw4lluVzvQ2uW/AIsUIfbv+t88ekIMDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=gzd+uJ8dO7AXBMh6btSLoB1+aSxxuC1i5uFIjF/cu9geY8Pzm0rj8DL0hc8KmYQLbF/JQy5VfjTSBETKyBbW8ZEBxXiNKmITdt7qYhq2hyEB6OtZvnzpKbZ/u7j6l29n5MiPLq86liV/yXmHk1Areemb0mniEPDFwmiWC0jFOQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5258945"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1364537"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="5258945"
+   d="scan'208";a="1364537"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:11:10 -0800
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:18:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="910768835"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="910769368"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="910768835"
+   d="scan'208";a="910769368"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:11:05 -0800
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:18:02 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.97)
 	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1rYUOz-00000003Cxy-3Zci;
-	Fri, 09 Feb 2024 19:11:01 +0200
-Date: Fri, 9 Feb 2024 19:11:01 +0200
+	id 1rYUVi-00000003D8J-2Oca;
+	Fri, 09 Feb 2024 19:17:58 +0200
+Date: Fri, 9 Feb 2024 19:17:58 +0200
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Lee Jones <lee@kernel.org>
-Cc: George Stark <gnstark@salutedevices.com>, pavel@ucw.cz,
-	vadimp@nvidia.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, hdegoede@redhat.com,
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com,
 	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
 	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
 	nikitos.tr@gmail.com, linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	kernel@salutedevices.com
 Subject: Re: [PATCH v4 00/10] devm_led_classdev_register() usage problem
-Message-ID: <ZcZcpUHygltD2ETa@smile.fi.intel.com>
+Message-ID: <ZcZeRmVjEPhVPW9-@smile.fi.intel.com>
 References: <20231214173614.2820929-1-gnstark@salutedevices.com>
- <20231221151111.GJ10102@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,37 +65,31 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231221151111.GJ10102@google.com>
+In-Reply-To: <20231214173614.2820929-1-gnstark@salutedevices.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Dec 21, 2023 at 03:11:11PM +0000, Lee Jones wrote:
-> On Thu, 14 Dec 2023, George Stark wrote:
+On Thu, Dec 14, 2023 at 08:36:04PM +0300, George Stark wrote:
+> This patch series fixes the problem of devm_led_classdev_register misusing.
 > 
-> > This patch series fixes the problem of devm_led_classdev_register misusing.
-> > 
-> > The basic problem is described in [1]. Shortly when devm_led_classdev_register()
-> > is used then led_classdev_unregister() called after driver's remove() callback.
-> > led_classdev_unregister() calls driver's brightness_set callback and that callback
-> > may use resources which were destroyed already in driver's remove().
-> > 
-> > After discussion with maintainers [2] [3] we decided:
-> > 1) don't touch led subsytem core code and don't remove led_set_brightness() from it
-> > but fix drivers
-> > 2) don't use devm_led_classdev_unregister
-> > 
-> > So the solution is to use devm wrappers for all resources
-> > driver's brightness_set() depends on. And introduce dedicated devm wrapper
-> > for mutex as it's often used resource.
-> > 
-> > [1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
-> > [2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
-> > [3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
+> The basic problem is described in [1]. Shortly when devm_led_classdev_register()
+> is used then led_classdev_unregister() called after driver's remove() callback.
+> led_classdev_unregister() calls driver's brightness_set callback and that callback
+> may use resources which were destroyed already in driver's remove().
+> 
+> After discussion with maintainers [2] [3] we decided:
+> 1) don't touch led subsytem core code and don't remove led_set_brightness() from it
+> but fix drivers
+> 2) don't use devm_led_classdev_unregister
+> 
+> So the solution is to use devm wrappers for all resources
+> driver's brightness_set() depends on. And introduce dedicated devm wrapper
+> for mutex as it's often used resource.
+> 
+> [1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
+> [2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
+> [3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
 
-...
-
-> FYI: I'll conduct my review once the locking side is settled.
-
-To reduce burden can you apply the first one? It's a fix.
+Are you going to send an updated version with the amended second patch?
 
 -- 
 With Best Regards,
