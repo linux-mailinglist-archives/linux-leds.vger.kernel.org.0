@@ -1,99 +1,103 @@
-Return-Path: <linux-leds+bounces-799-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-800-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D557B84FADA
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Feb 2024 18:18:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5AC85053D
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Feb 2024 17:34:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12D021C273D9
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Feb 2024 17:18:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47EEF283F70
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Feb 2024 16:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E367BAF7;
-	Fri,  9 Feb 2024 17:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F4055339B;
+	Sat, 10 Feb 2024 16:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GyPED/fA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B0369971;
-	Fri,  9 Feb 2024 17:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64322B9C2;
+	Sat, 10 Feb 2024 16:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707499088; cv=none; b=Cty5Y383HA/O+1U6xGaifDMpJVyK+2xsFJDvJEKxC1NDvrSlTWC8w+7/hRceuw+j8PyoFva7bIeY81+2B/ktSpVQjJebb8J1ReqJ4ITAyz3AWKPA7xA+aPAjZJHe/zwIAQ5tET7IqXprhI6YSYXq2AgwaKVdEcO9HGzQxWVYrgY=
+	t=1707582863; cv=none; b=dHVZ39w2wtvG1PJlQv/ZdK9W36ENF5aCjpxQ+GlygG1Vhg534Dcx8M+vvbdNElCbo9xTazaBM4bZjn8pS7slta8cGfW0WF4FU2ultThlP6GvBoPS+gfjpG4gf9jDFDx+UnkI7hA728SzKqKHexW3wvAkkwnTarHtk8VJxx2u0Uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707499088; c=relaxed/simple;
-	bh=Dy+JjMgljdiiiDHtwEIR3FHiqoWmfBZMsPQGD2TR9ao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gzd+uJ8dO7AXBMh6btSLoB1+aSxxuC1i5uFIjF/cu9geY8Pzm0rj8DL0hc8KmYQLbF/JQy5VfjTSBETKyBbW8ZEBxXiNKmITdt7qYhq2hyEB6OtZvnzpKbZ/u7j6l29n5MiPLq86liV/yXmHk1Areemb0mniEPDFwmiWC0jFOQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1364537"
-X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="1364537"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:18:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="910769368"
-X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="910769368"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:18:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1rYUVi-00000003D8J-2Oca;
-	Fri, 09 Feb 2024 19:17:58 +0200
-Date: Fri, 9 Feb 2024 19:17:58 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: George Stark <gnstark@salutedevices.com>
-Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com,
-	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
-	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
-	nikitos.tr@gmail.com, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	kernel@salutedevices.com
-Subject: Re: [PATCH v4 00/10] devm_led_classdev_register() usage problem
-Message-ID: <ZcZeRmVjEPhVPW9-@smile.fi.intel.com>
-References: <20231214173614.2820929-1-gnstark@salutedevices.com>
+	s=arc-20240116; t=1707582863; c=relaxed/simple;
+	bh=Ktc49ggsnwEr1xhQzDFAayYH39FRXOX1ED7Hxw0AhIE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bgQdwgIMb/jFPK0YVVazaVGPL2Tawj9ywECyLGHxBz7KV0bDlUd4+BxxS4B2l2S8cEQGoMPzgFFgmP1b4C6LGkmE/O3V4zHQHUoNJExE/Ph+e5z9cM0lXzZHT8r9kuceM4Z58MdsUYK2DWDJDigaOT79gNJNQ1UMoQ3YbScfg4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GyPED/fA; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-290b37bb7deso1431770a91.0;
+        Sat, 10 Feb 2024 08:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707582861; x=1708187661; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7lyJHFrg7zCWGym+YlMTg2RbWRQjPifpNEF3JissgL8=;
+        b=GyPED/fAKotky+pjwYKRtNKvjHVhVqzre0aKEBXxIW0zSXjLAGtFMkXdbjGC3SYrDP
+         ub4vnKzaM7F8AYtNd9VvE2LRvt1c+gMSeR0DdGXa0VXpYX9f9i2ZWlsFVunwpr2VpuKa
+         W/6hZmaSlmQHlC4xPgpS8UJrpGmLYXY8eU/6BnmzRbajNsjImeFqxDwbdHmoSGoi348m
+         WOs3cJLA1gKMdcNtSgXslAVsCExbwy93YfoM/w/MOro9X8ek+djkwNL68kx3oPURJ0fE
+         TfuUk96aNgIKDs7/nb4e9uW+pCS/hWiU84FGOreRj+N1HocwZ9kZ3NCpgh09cZBlyfhs
+         ecCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707582861; x=1708187661;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7lyJHFrg7zCWGym+YlMTg2RbWRQjPifpNEF3JissgL8=;
+        b=R7kEmn4FX+/pGklwk0pHtg/JxDfGPtxeNdxU6iH7wL/7cVyXPbj2rtJLdTqhSjpeyj
+         vLAKt74PkofwG6oXubQIRESlrzVzHf4V5O6Uu8LEjA8A8vUUr/8qKZwZ0SG9K9QYjArn
+         X3XTuLZHz6Gd8ZoPwuVrpYrYQb2CblggoJ1gMI6A1OtpHbwpaTOsPPAgaQJkgz9yz60A
+         43XRIq1O5qPiDzUKI3Iy8sEzmIP22INL4UYXzvFr8fB9rcYBcOJVqCSUKQPYo3aJU7N1
+         3xz+DiT+07q30/XvHMRCB0lXp84xcmBHZv4Y2/HmMI9//yPs0FsuX93i72iWBOARY9va
+         TqXg==
+X-Gm-Message-State: AOJu0YyvlGEUQoQY7BgwClsHtDhv/IcInE8Elw9VYxgwjs/TPQxNa4AE
+	4Hi365zKolklBqTb/XA1oXyGcc4uj20pkJXnMOUOTDVr986FZPcRqhBx2qZIcNdFp0Qahlc6IOR
+	wijVPu49IRxVfUS8xNe1/H/mZc0o=
+X-Google-Smtp-Source: AGHT+IFMWvYx8cuFwf+pqnbaAaxSl9M0MGFbQn+PShgZe3O3V43mko1Wr7UDySU/27keBm3fxQlixHx2rAJTKBh/OEw=
+X-Received: by 2002:a17:90a:7408:b0:296:bf9:dc69 with SMTP id
+ a8-20020a17090a740800b002960bf9dc69mr1848401pjg.20.1707582861060; Sat, 10 Feb
+ 2024 08:34:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231214173614.2820929-1-gnstark@salutedevices.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240203162524.343936-1-singh.amitesh@gmail.com> <170739214246.950581.13917324551294999476.b4-ty@kernel.org>
+In-Reply-To: <170739214246.950581.13917324551294999476.b4-ty@kernel.org>
+From: Amitesh Singh <singh.amitesh@gmail.com>
+Date: Sat, 10 Feb 2024 22:03:44 +0530
+Message-ID: <CABKcAmVsssKR8zCPwgODxcEuodCi_+m8GEdxzOVSJ5Gth095zQ@mail.gmail.com>
+Subject: Re: (subset) [PATCH v3] leds: pca963x: Add power management support
+To: Lee Jones <lee@kernel.org>
+Cc: pavel@ucw.cz, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 14, 2023 at 08:36:04PM +0300, George Stark wrote:
-> This patch series fixes the problem of devm_led_classdev_register misusing.
-> 
-> The basic problem is described in [1]. Shortly when devm_led_classdev_register()
-> is used then led_classdev_unregister() called after driver's remove() callback.
-> led_classdev_unregister() calls driver's brightness_set callback and that callback
-> may use resources which were destroyed already in driver's remove().
-> 
-> After discussion with maintainers [2] [3] we decided:
-> 1) don't touch led subsytem core code and don't remove led_set_brightness() from it
-> but fix drivers
-> 2) don't use devm_led_classdev_unregister
-> 
-> So the solution is to use devm wrappers for all resources
-> driver's brightness_set() depends on. And introduce dedicated devm wrapper
-> for mutex as it's often used resource.
-> 
-> [1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
-> [2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
-> [3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
+On Thu, Feb 8, 2024 at 5:05=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
+>
+> On Sat, 03 Feb 2024 21:55:24 +0530, Amitesh Singh wrote:
+> > This implements power management for pca9633 which enables
+> > device sleep and resume on system-wide sleep/hibernation
+> >
+> >
+>
+> Applied, thanks!
+>
 
-Are you going to send an updated version with the amended second patch?
+Thanks for reviewing.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> [1/1] leds: pca963x: Add power management support
+>       commit: e684dcca3659a3f88945a2a5c6fe5a156d4b0178
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+>
 
