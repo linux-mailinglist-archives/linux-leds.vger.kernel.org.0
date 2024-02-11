@@ -1,103 +1,148 @@
-Return-Path: <linux-leds+bounces-800-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-801-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5AC85053D
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Feb 2024 17:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9F28508F8
+	for <lists+linux-leds@lfdr.de>; Sun, 11 Feb 2024 13:30:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47EEF283F70
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Feb 2024 16:34:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A48D28117A
+	for <lists+linux-leds@lfdr.de>; Sun, 11 Feb 2024 12:30:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F4055339B;
-	Sat, 10 Feb 2024 16:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA2659B45;
+	Sun, 11 Feb 2024 12:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GyPED/fA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/wnW/73"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64322B9C2;
-	Sat, 10 Feb 2024 16:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B9B59B77;
+	Sun, 11 Feb 2024 12:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707582863; cv=none; b=dHVZ39w2wtvG1PJlQv/ZdK9W36ENF5aCjpxQ+GlygG1Vhg534Dcx8M+vvbdNElCbo9xTazaBM4bZjn8pS7slta8cGfW0WF4FU2ultThlP6GvBoPS+gfjpG4gf9jDFDx+UnkI7hA728SzKqKHexW3wvAkkwnTarHtk8VJxx2u0Uc=
+	t=1707654610; cv=none; b=lrvFcZEQB1U1w6TdqH76v7L22Xghcp0zBeaAV/qfEBl1LzDf7kRJfyvQqbqa4RlE45JmAfq0p8mBw4jQEzySkKn/ek0ipUHfrBnaN2wVY2RNz+ABKFlYYCXBNKZR+/1Hx4xYAndDrz3Zd1bKoq2wmGbpRAxrxy5l77Sr47wjI9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707582863; c=relaxed/simple;
-	bh=Ktc49ggsnwEr1xhQzDFAayYH39FRXOX1ED7Hxw0AhIE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bgQdwgIMb/jFPK0YVVazaVGPL2Tawj9ywECyLGHxBz7KV0bDlUd4+BxxS4B2l2S8cEQGoMPzgFFgmP1b4C6LGkmE/O3V4zHQHUoNJExE/Ph+e5z9cM0lXzZHT8r9kuceM4Z58MdsUYK2DWDJDigaOT79gNJNQ1UMoQ3YbScfg4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GyPED/fA; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1707654610; c=relaxed/simple;
+	bh=ky+RAWf8J8vXkQ6HF5HH603Fg0/+EkBj84w84UXqyY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lEXyUFUQOlVn/SzD96AGMLbWDLs8aP9Zab0qFMVPAbqlR5hwJSSEyxZIGdQ2JK9lO7PMNM+HxRlWBhGzeArBjP/knUvEtqmmHVAP8ZI7uLR186x78RvY6+qcHx27woS80rw1PVl3kkWwl/DCnwxw/e9hAC9EbSa7xzTHq0o6gsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/wnW/73; arc=none smtp.client-ip=209.85.167.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-290b37bb7deso1431770a91.0;
-        Sat, 10 Feb 2024 08:34:21 -0800 (PST)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bfdb84c0ebso1109101b6e.1;
+        Sun, 11 Feb 2024 04:30:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707582861; x=1708187661; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7lyJHFrg7zCWGym+YlMTg2RbWRQjPifpNEF3JissgL8=;
-        b=GyPED/fAKotky+pjwYKRtNKvjHVhVqzre0aKEBXxIW0zSXjLAGtFMkXdbjGC3SYrDP
-         ub4vnKzaM7F8AYtNd9VvE2LRvt1c+gMSeR0DdGXa0VXpYX9f9i2ZWlsFVunwpr2VpuKa
-         W/6hZmaSlmQHlC4xPgpS8UJrpGmLYXY8eU/6BnmzRbajNsjImeFqxDwbdHmoSGoi348m
-         WOs3cJLA1gKMdcNtSgXslAVsCExbwy93YfoM/w/MOro9X8ek+djkwNL68kx3oPURJ0fE
-         TfuUk96aNgIKDs7/nb4e9uW+pCS/hWiU84FGOreRj+N1HocwZ9kZ3NCpgh09cZBlyfhs
-         ecCg==
+        d=gmail.com; s=20230601; t=1707654607; x=1708259407; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yY1B5EOzgtD2gnfK4gYntuGm53FWM/Oxlr8jej3jl3g=;
+        b=P/wnW/73+i6FUruOE679x/7LB3UejkU92aLoXbcYLr2mjWEiBXyiSojDzM1YdsE2XV
+         +V9m3qdA4TvZIiaQ8lLIPs/otd4e0PZbM1CXTL0p1e0iCjpMpcR8znRv/oV+PhS7z5lp
+         3Fgbq3hgsvxvDa+SPoK6FHRyhVyiKXjAqyXd137GRhn9scMl2q/hwf/EJf2z9lyU0bDJ
+         IrJgyi+oEp06EDiCHtFdWtvaa6JrPLsaRnH1aSt5Vq5cAC2Hq5fndGpSVJwTbNCgXlFv
+         GjBzguLaROD35KMhq2cPR6aDMaJUxM2kOnnwnoAcsIUHnmvm0+11jib256fth2/R13ib
+         6igg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707582861; x=1708187661;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7lyJHFrg7zCWGym+YlMTg2RbWRQjPifpNEF3JissgL8=;
-        b=R7kEmn4FX+/pGklwk0pHtg/JxDfGPtxeNdxU6iH7wL/7cVyXPbj2rtJLdTqhSjpeyj
-         vLAKt74PkofwG6oXubQIRESlrzVzHf4V5O6Uu8LEjA8A8vUUr/8qKZwZ0SG9K9QYjArn
-         X3XTuLZHz6Gd8ZoPwuVrpYrYQb2CblggoJ1gMI6A1OtpHbwpaTOsPPAgaQJkgz9yz60A
-         43XRIq1O5qPiDzUKI3Iy8sEzmIP22INL4UYXzvFr8fB9rcYBcOJVqCSUKQPYo3aJU7N1
-         3xz+DiT+07q30/XvHMRCB0lXp84xcmBHZv4Y2/HmMI9//yPs0FsuX93i72iWBOARY9va
-         TqXg==
-X-Gm-Message-State: AOJu0YyvlGEUQoQY7BgwClsHtDhv/IcInE8Elw9VYxgwjs/TPQxNa4AE
-	4Hi365zKolklBqTb/XA1oXyGcc4uj20pkJXnMOUOTDVr986FZPcRqhBx2qZIcNdFp0Qahlc6IOR
-	wijVPu49IRxVfUS8xNe1/H/mZc0o=
-X-Google-Smtp-Source: AGHT+IFMWvYx8cuFwf+pqnbaAaxSl9M0MGFbQn+PShgZe3O3V43mko1Wr7UDySU/27keBm3fxQlixHx2rAJTKBh/OEw=
-X-Received: by 2002:a17:90a:7408:b0:296:bf9:dc69 with SMTP id
- a8-20020a17090a740800b002960bf9dc69mr1848401pjg.20.1707582861060; Sat, 10 Feb
- 2024 08:34:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707654607; x=1708259407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yY1B5EOzgtD2gnfK4gYntuGm53FWM/Oxlr8jej3jl3g=;
+        b=lgixtSQpdTitFJ4KnzKWo5lW8xxS5V45FTJyJJkmq+4dvE+gKqviAHXOsefVInp/eu
+         TbPQ6FdGCTn0mMbk27gItbiC2NYm/QYWGGkg6GVRd1f6OjLC/NuOHWIlf1hTxgszdQkU
+         rRYAYd4Q3Sh94F1FSt5SgfHDCgn7kBsPnGcU11PHSSvG7dHJ5gisY6Rl8786u5x2D0zW
+         nBJMNSfSEuZDUeOEltUq2CsW8p76zuTtyi7PMmhwzOGhD9gnsb2Dg7YMFpzOk2Xre6iv
+         Nffq1e10wju0f1Jlo8j7BNrEfa7tHGbbGAouddLvgzxHFCV9W3ukGHcCKvCSKyqC38fg
+         hGOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXm1UhGA9NBdpqmEOjo3QMlyppwm4ppjqfEwqDX3fL0ksX4B1qYtBEGyxTLlqVLXnt7kBBOIOgirE+Nj+LzmwdYQRP1KNbTi6spalRtPOr4Ce1PXInj+ZgbiUp+B0Tu/LzcBoaT8l4CLhXSSCItCEDgXcYOo3Lb8o13ksKVe1JAiPeHnwo=
+X-Gm-Message-State: AOJu0YwjRCWlv8lbBVTl8mb5g5MqrhybSKOhJ7TCn6jrorkGK+l2EAtN
+	BIeBnR1McEcvTgesv7Kt9PhRu8TIQbN4UnFjQdXGNNCivf0G/OSZ
+X-Google-Smtp-Source: AGHT+IF35wU7oQHIL1WAqzc2rw7d/zu+t9GZ4FvO8SQu/9DFopyNSSZKv+8ggBOG/7GT5mlted3Y9A==
+X-Received: by 2002:a05:6808:140d:b0:3bf:f233:faed with SMTP id w13-20020a056808140d00b003bff233faedmr4915160oiv.39.1707654607542;
+        Sun, 11 Feb 2024 04:30:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVGidnzGiLsb6tQWbD8jVvfID7bmIWxsQ7LOgUorrYLJEaiUrJv0xahtK6LablJrNmqpUrSXEnBalbh+qvMv3LF8MyasuPWlrR+/sxfTT3q1+tI0GyXxJ+F7VRvMRBR0QVpkcu4f4XjIh3xXzYbHaGJOF3iIJpt6QC10BAh/wq0+w0Q6LUKK/5SrRvUUfZRr5jXkW2j2ZfUiGmzdLeulJE6myhcW1jIY1cxrp2MtF3MN61TEXExikyVwXxKG58nXb2vdo9e6cDRsHfp9wudgSWy3yBGcRsId7OHh80dUEkYv/0esOS+VUwz27bjyrajRMZKMzn1gqwMvdATdxYIreljqMOSWYC2Ln4AVY9fykPdXY0dortluwrhM3bxQZG5pWFDJqqIy1l1uRxSGFYaoWH0JQWgVo+AbX+K7jpk7x5vJ0Vq0qOsMRmLcwfQEMo8unz+kTx8CwLEyd3AnyDMlMSZzfMMWjXo67+1DWDz6JKKVuHaB8VY
+Received: from primary ([174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id ch7-20020a0561300c8700b007d2eba3ad17sm653128uab.24.2024.02.11.04.30.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Feb 2024 04:30:06 -0800 (PST)
+Date: Sun, 11 Feb 2024 07:29:56 -0500
+From: Abdel Alkuor <alkuor@gmail.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Alice Chen <alice_chen@richtek.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: Add NCP5623 multi-led driver
+Message-ID: <Zci9xE5uHRJGMg5q@primary>
+References: <20240203175910.301099-1-alkuor@gmail.com>
+ <20240203175910.301099-2-alkuor@gmail.com>
+ <20240208130115.GM689448@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240203162524.343936-1-singh.amitesh@gmail.com> <170739214246.950581.13917324551294999476.b4-ty@kernel.org>
-In-Reply-To: <170739214246.950581.13917324551294999476.b4-ty@kernel.org>
-From: Amitesh Singh <singh.amitesh@gmail.com>
-Date: Sat, 10 Feb 2024 22:03:44 +0530
-Message-ID: <CABKcAmVsssKR8zCPwgODxcEuodCi_+m8GEdxzOVSJ5Gth095zQ@mail.gmail.com>
-Subject: Re: (subset) [PATCH v3] leds: pca963x: Add power management support
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@ucw.cz, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240208130115.GM689448@google.com>
 
-On Thu, Feb 8, 2024 at 5:05=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
+On Thu, Feb 08, 2024 at 01:01:15PM +0000, Lee Jones wrote:
+> On Sat, 03 Feb 2024, Abdel Alkuor wrote:
 >
-> On Sat, 03 Feb 2024 21:55:24 +0530, Amitesh Singh wrote:
-> > This implements power management for pca9633 which enables
-> > device sleep and resume on system-wide sleep/hibernation
-> >
-> >
->
-> Applied, thanks!
->
+Hi Lee,
 
-Thanks for reviewing.
+Please check the inline comment. All other comments will be addressed
+in v2.
 
-> [1/1] leds: pca963x: Add power management support
->       commit: e684dcca3659a3f88945a2a5c6fe5a156d4b0178
+> > +What:		/sys/class/leds/<led>/dim_step
+> 
+> The step principle seems a bit arbitrary.
+> 
+> Why not provide the time directly?
+> 
+> dim_step_delay?
+> 
+> I already see documentation for risetime and falltime.
+> 
+> Perhaps that will omit the need for both direction and step?
 >
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
->
+I'm going to drop off both and use risetime and falltime. That being
+said, the documented risetime and falltime for lm3533 use steps instead of
+entering the time directly. This is my first time doing this, should I document
+risetime/falltime in sysfs-class-led-multicolor-driver-ncp5623? or should
+I update risetime/falltime in sysfs-class-led-driver-lm3533 to reflect
+risetime/falltime for ncp5623?
+> > +Date:		Feb 2024
+> > +KernelVersion:	6.8
+> > +Contact:	Abdel Alkuor <alkuor@gmail.com>
+> > +Description:
+> > +		Set gradual dimming time.
+> > +
+> > +		==== ======== ==== ======== ==== ========
+> > +		Step Time(ms) Step Time(ms) Step Time(ms)
+> > +		0     0       11   88       22   176
+> > +		1     8       12   96       23   184
+> > +		2     16      13   104      24   192
+> > +		3     24      14   112      25   200
+> > +		4     32      15   120      26   208
+> > +		5     40      16   128      27   216
+> > +		6     48      17   136      28   224
+> > +		7     56      18   144      29   232
+> > +		8     64      19   152      30   240
+> > +		9     72      20   160      31   248
+> > +		10    80      21   168
+> > +		==== ======== ==== ======== ==== ========
+
+Thanks,
+Abdel
 
