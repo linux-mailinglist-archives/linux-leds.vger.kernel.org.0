@@ -1,132 +1,177 @@
-Return-Path: <linux-leds+bounces-808-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-809-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418BC851E60
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Feb 2024 21:06:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59094851E6A
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Feb 2024 21:07:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7537D1C22EEF
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Feb 2024 20:06:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F5A2286FE8
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Feb 2024 20:07:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35BB24DA10;
-	Mon, 12 Feb 2024 20:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A3D4879B;
+	Mon, 12 Feb 2024 20:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sNnau+QL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fjUwV0tV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sNnau+QL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fjUwV0tV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43604D9E9;
-	Mon, 12 Feb 2024 20:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83C648781;
+	Mon, 12 Feb 2024 20:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707768289; cv=none; b=KYdF9Zw8QpHzr+0dHTtVKY2GmvC3euMkGxCcZIq/AGnWB3C5KOdJ14HdBKRbVEhr8Ruoj8dJZWCa78uKRcrqrqXOQ14h6tjxn1TuflGiFF6GgUmQDGrMA2kOSCHxiOP7uSVM+y9VKiRN0aWxkMYH3Qi/DwctGpF/PVm4f0tXskc=
+	t=1707768420; cv=none; b=JnB5rfDVOK4OnNhxH2GHylnuRGyby1OwmQaMgGLcDflE/ug3Vb5GKBj8EE6j4BTYyqETQg/vowjd8G8bSNnxYAazqVCHSXaMG1kAq3xVuqTTXdBbpAWumwbno9K+B2BZpB3LapEjv6ecTdygwOqvrw5zCz5E9dctoELjW0d6aWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707768289; c=relaxed/simple;
-	bh=8oXLHu5mf6GCO+ZMr+tU6h6oKIscP7uIjmv7rxzg+zo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bkNO3HDTPNqfiW3IY/oyxMacCEOxXP3N7LhqVI9xhA34IUuSswr4xAUvyDq8TWpLr1gKDkPdbFAOD3dV4gFHqlvE7tCf6+63z/N3J+QH8Wzj/9fai4TrhyLCfPRa8EyXrW+FgOcrwm0AgOq+wuDBfeRa0uupoTSMY66wVmCQP4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 982CF83C56;
-	Mon, 12 Feb 2024 21:04:38 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Mon, 12 Feb 2024 21:03:26 +0100
-Subject: [PATCH 2/2] leds: expresswire: don't depend on NEW_LEDS
+	s=arc-20240116; t=1707768420; c=relaxed/simple;
+	bh=Nt88AUFglM06Jo2ul/GnPEOPNXHRfhtjV787XERwHBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ymqnfw51pTbhvATakzzSAYLjCJMsPARSXkkSjFekq1CQbgJIejorkkZBPQcmHXBRQ8BZT3v5ampcFcc29DEic0cqHwEqrECdwhEFPb9aVSlWnPJO4w3XiIMESqOcRJ9AaTBAHJSzOEV4Ov8dagzKrSqxkpVBSgc3Cs174xupb/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sNnau+QL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fjUwV0tV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sNnau+QL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fjUwV0tV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 916361F791;
+	Mon, 12 Feb 2024 20:06:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707768413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BvxGnr3h6gtXXF2GHQTlOkQhuNrBkAuMe0u4TbhQtvE=;
+	b=sNnau+QLS6x0g0AO/00pxh7CAH8HuLzpX0z1HnqJhx3Z0Y/xf/Bg0fm46D2N6eSbiM7bVV
+	VbTy4NHY+bTfPTXxxG4yWJzKF2MemnD5oPCS1Bd/oV31tpD9pfoukiF2gvSQGd0Li+exp4
+	fhB6nFFR4PkLQf/b3tB5nlHPjWzPRJU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707768413;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BvxGnr3h6gtXXF2GHQTlOkQhuNrBkAuMe0u4TbhQtvE=;
+	b=fjUwV0tVboYnJx9a0rzegEWfn7XR9pDkeIfgaCqmL59PmfSN8h4EtMZWdSeFZIpy5O8O9O
+	bvfUhkqFhHbqZeCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707768413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BvxGnr3h6gtXXF2GHQTlOkQhuNrBkAuMe0u4TbhQtvE=;
+	b=sNnau+QLS6x0g0AO/00pxh7CAH8HuLzpX0z1HnqJhx3Z0Y/xf/Bg0fm46D2N6eSbiM7bVV
+	VbTy4NHY+bTfPTXxxG4yWJzKF2MemnD5oPCS1Bd/oV31tpD9pfoukiF2gvSQGd0Li+exp4
+	fhB6nFFR4PkLQf/b3tB5nlHPjWzPRJU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707768413;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BvxGnr3h6gtXXF2GHQTlOkQhuNrBkAuMe0u4TbhQtvE=;
+	b=fjUwV0tVboYnJx9a0rzegEWfn7XR9pDkeIfgaCqmL59PmfSN8h4EtMZWdSeFZIpy5O8O9O
+	bvfUhkqFhHbqZeCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7FDC613404;
+	Mon, 12 Feb 2024 20:06:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3D3yF1x6ymWIJwAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Mon, 12 Feb 2024 20:06:52 +0000
+Date: Mon, 12 Feb 2024 21:06:46 +0100
+From: Jean Delvare <jdelvare@suse.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Anjelique
+ Melendez <quic_amelende@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: qcom-lpg: add QCOM_PBS dependency
+Message-ID: <20240212210646.7175bc84@endymion.delvare>
+In-Reply-To: <20240212111526.829122-1-arnd@kernel.org>
+References: <20240212111526.829122-1-arnd@kernel.org>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240212-expresswire-deps-v1-2-685ad10cd693@skole.hr>
-References: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
-In-Reply-To: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, Hans de Goede <hdegoede@redhat.com>, 
- Jianhua Lu <lujianhua000@gmail.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>, 
- Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-leds@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1760;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=8oXLHu5mf6GCO+ZMr+tU6h6oKIscP7uIjmv7rxzg+zo=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlynmgL8L0kP8ZVEOL1g3BmNLjNbTU+Q9Ykoclo
- JRlY2qTALGJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZcp5oAAKCRCaEZ6wQi2W
- 4ZkvD/9Tm0AdqRYDjoU8A+UDGagpNQJX5o2MxYzKRI15Kjuili8GVVflTvViVBi8H34/ML2TaNa
- jEeaHxyeQssz/2zcEpflayLn02Sq1FOwKnbvzp7VjdvltWyeAkIPn6Nx3gLszasLNrh3FisGZ+8
- pg4FlXvlkDpxnflQ7tu8hTKLCnPWnbzIX8dZqP2JDTTljWc0fqL8CvLXfOqz3W4kdj3JYmGpAB+
- NPcKfhUn+aP+MUzP3j0hxCUiaywhKiR5e0hvgIgyiXYY7KHcD/tfh6P5nefeV3x6nD/NsStw5eO
- sOkyzOe3hc0KlLT2sgdzGw7t1Zm5ytPX6LYjwfBwiBG9vvCC0Cxa6xbqpdr5cUPjmJL0wRFO3/Z
- E0baLz6BFlGEs64xGzWz1dTG+VMlG2V3Or2CKO4p4AIsx7QEio/Rjm6tGChAcqupljAZCeetnSA
- 4GcUqixr4W8gbqcFkylk86tIXZmqaI4YsTEyObgqQwmSFIHwUhnU8aV2pLH7JBtJQHABysUjUXz
- P97uJRkCfNs1CVOYbBgH3tYIKH3aSkzIuv4i+gf/8LPtge3BGEOEUHYXc8E4TvJJTnZ1tFP2Zh4
- qzDs5rdjQ6ZsABIz4sdsizTeQjIJytLO0ZIWgZGxjtXnH1U9iT5vCcdUe6qTMkpr20jL9/XqD28
- eOvZ3avwrFwS2jg==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sNnau+QL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fjUwV0tV
+X-Spamd-Result: default: False [-2.31 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 HAS_ORG_HEADER(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 916361F791
+X-Spam-Level: 
+X-Spam-Score: -2.31
+X-Spam-Flag: NO
 
-The ExpressWire library does not depend on NEW_LEDS and selecting it
-from a subsystem other than LEDs may cause Kconfig warnings:
+On Mon, 12 Feb 2024 12:15:02 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The lpg driver fails to link now when the pbs driver is in a loadable module:
+> 
+> x86_64-linux-ld: drivers/leds/rgb/leds-qcom-lpg.o: in function `lpg_brightness_set':
+> leds-qcom-lpg.c:(.text+0xe7f): undefined reference to `qcom_pbs_trigger_event'
+> x86_64-linux-ld: drivers/leds/rgb/leds-qcom-lpg.o: in function `lpg_probe':
+> leds-qcom-lpg.c:(.text+0x16a5): undefined reference to `get_pbs_client_device'
+> 
+> Add a dependency to avoid the broken configuration. Apparently there is still
+> a use for lpg with pbs disabled entirely for certain chips, so allow both
+> but not LEDS_QCOM_LPG=y with QCOM_PBS=m.
+> 
+> Fixes: 214110175679 ("leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/leds/rgb/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+> index e66bd21b9852..eaeafdd5eaae 100644
+> --- a/drivers/leds/rgb/Kconfig
+> +++ b/drivers/leds/rgb/Kconfig
+> @@ -41,6 +41,7 @@ config LEDS_QCOM_LPG
+>  	tristate "LED support for Qualcomm LPG"
+>  	depends on OF
+>  	depends on PWM
+> +	depends on QCOM_PBS || !QCOM_PBS
+>  	depends on SPMI
+>  	help
+>  	  This option enables support for the Light Pulse Generator found in a
 
-WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-  Depends on [n]: NEW_LEDS [=n] && GPIOLIB [=y]
-  Selected by [y]:
-  - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-Move it out of the "if NEW_LEDS" block to allow selection from other
-subsystems (in particular backlight) without raising this warning.
-
-Link: https://lore.kernel.org/20240212111819.936815-1-arnd@kernel.org
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
-Fixes: 25ae5f5f4168 ("leds: Introduce ExpressWire library")
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- drivers/leds/Kconfig | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 52328d295b4e..66998b938ed3 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -6,6 +6,12 @@ config LEDS_GPIO_REGISTER
- 	  As this function is used by arch code it must not be compiled as a
- 	  module.
- 
-+# This library does not depend on NEW_LEDS and must be independent so it can be
-+# selected from other subsystems (specifically backlight).
-+config LEDS_EXPRESSWIRE
-+	bool
-+	depends on GPIOLIB
-+
- menuconfig NEW_LEDS
- 	bool "LED Support"
- 	help
-@@ -186,10 +192,6 @@ config LEDS_EL15203000
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called leds-el15203000.
- 
--config LEDS_EXPRESSWIRE
--	bool
--	depends on GPIOLIB
--
- config LEDS_TURRIS_OMNIA
- 	tristate "LED support for CZ.NIC's Turris Omnia"
- 	depends on LEDS_CLASS_MULTICOLOR
-
+Thanks,
 -- 
-2.43.1
-
-
+Jean Delvare
+SUSE L3 Support
 
