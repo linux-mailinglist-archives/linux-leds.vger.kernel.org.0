@@ -1,61 +1,74 @@
-Return-Path: <linux-leds+bounces-810-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-811-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822078522FB
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 01:14:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3128529D6
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 08:30:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A67B01C2333A
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 00:14:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 235C5282D9E
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 07:30:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7300064F;
-	Tue, 13 Feb 2024 00:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12AF714A96;
+	Tue, 13 Feb 2024 07:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="NjP2e1V4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IVgPm00v"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A168628;
-	Tue, 13 Feb 2024 00:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6EB17566;
+	Tue, 13 Feb 2024 07:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707783289; cv=none; b=RN+QfWMPPGX9gRBtKEMwF1UarhS0+WGC6FKbP3/S/KRP/XFnja0H0BK6X+kYUb3c9jVpi3nN7JuHpWpaJY4akvgAtGtpeT84jZ5vSgo3a2tq0mQE634maMQ4gB3YCpfJ5s4Hx5LRzbBcXW9xt4sqBmUqiHDn2GE+zAqFJXJDX/g=
+	t=1707809434; cv=none; b=XBjlXlqdp/FMQ9JOEtQHbblcy3/bWXMF12jbG+Jv+HsyHzYhsFbumJLD4pOwhUGaiMhUdG33NcCIIqo6RL7LD+Xt8rgs4hIe4HGkk+9om5hlM65cHJQO4f6DzTKcGqqe5JBuHS8PGMAhMswgvNQX4flmWvVkYyyn4faMKXEzPZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707783289; c=relaxed/simple;
-	bh=aEawAT3wU7Rm0ZiO8fQ4ML+8Ogb/aFNPqB6Uumu421I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=oUPVaimz0gI1tkMHlyz6I0PB3FyW67uEEYhriHcnMo6DRm8g8g8/8u3EYfagZx5eeBUWsJpQI/BexR2Yb35wD5S+GRIs953L+VTyhz9yVqJD9fYyVd0rSU1pOu4V+ay/M//Sup0qA7xcFlatVeh4SAvXjSfKPVfyP1yjaoSuwiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=NjP2e1V4; arc=none smtp.client-ip=37.18.73.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id DA7FC100016;
-	Tue, 13 Feb 2024 03:14:36 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru DA7FC100016
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1707783276;
-	bh=4hkxeFa6wRCl0c/3++2QM2qUDLDDWcbbOLHqPT/4zyk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=NjP2e1V49ruuYRC6XM+6YfN1fe1hjFpar9MTcX/F1Ix6Yyxekzn66cEEwiB1nCDxJ
-	 UUl/uZmn0X9qF7HfZ8ObPiRZWmBfLG5MhsZd+WJmsbNJhsMegBt7sMQqPiZyTXf0uH
-	 OV5KqHdPuvhpwBS8vfxHhLZb2UDEEPua6NG55IetEldGh7OJxwTTQS8NzurrDzn1cR
-	 lCm6yOCBpfARxFcmCyjPXcHZjCgJa8msyhjLIYqdSWYEOqqFDH4dmzwxRa1Qvbz57D
-	 WI7aUcQg9LkBwEzRo/TDB2lc03SAdhwnNLw1NmTCMOLCIhf1eEonX/+PKWBw/QbT6C
-	 5vySnM7+uePxw==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Tue, 13 Feb 2024 03:14:36 +0300 (MSK)
-Received: from [172.28.64.40] (100.64.160.123) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 13 Feb 2024 03:14:36 +0300
-Message-ID: <ae5bf6bc-5f7f-4fe9-a833-c1bfa31ff534@salutedevices.com>
-Date: Tue, 13 Feb 2024 03:14:35 +0300
+	s=arc-20240116; t=1707809434; c=relaxed/simple;
+	bh=frvcFXXkFVHDbqMmYl179RvLgqm5ksSrWgB0qTmKjc4=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=hWkywEnNbWLT8up7m/zJuUEdQu9Qd2GCxNP60e7uvsYg8G1GnDCnUmGii7qj1yOXqKZkmvPmcXuN9sa37gK7w3c74i+uHBS1mfol0Sa6INU4YBkc2jGH174e4SxYsqBcZBcf1nfxUGWLrukClL3vaNJbJpBAsIsg/qLUpj9ruVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IVgPm00v; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-561f8b8c058so339801a12.0;
+        Mon, 12 Feb 2024 23:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707809430; x=1708414230; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:content-language:cc:to
+         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=oFUNwkqZ0w6dII497/f6Et0kIrHPyrjVVAYzErSbMo0=;
+        b=IVgPm00vz4qcpTJ51z/7pRLSd1CBg9mYuH0DT/k82y4TtZaNLrkIO5Jm3u0opDtHQw
+         nU4yA3MqpHJ1xlec9T/xTPJKWotTl9Ki6GfZmuZULDLc1VzEoA6pMqhGtPxkQ8CUAEkW
+         8hhnEaI5iIsqFU60W4QHZLZ+AmvmsBRPY5mKSqFF9eGmlyxsz1GgnqD1QubTRWgyGh2z
+         nR3/Wna0owbd1HLQ/oJuzPBQ9RPz+4H8K42f60W/AriNSEPe0xzQvGS0WrO5LR7rIxqc
+         IRxGo5th03MDd2VsdgIF93uJREScLwumfDug1W2UjvNb1q+lhOKlA9FnToPO4cBq+Ngb
+         PfWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707809430; x=1708414230;
+        h=content-transfer-encoding:autocrypt:subject:content-language:cc:to
+         :from:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oFUNwkqZ0w6dII497/f6Et0kIrHPyrjVVAYzErSbMo0=;
+        b=bogHgj2x6w2WeJCPcCQsGnZPF0beuNGq9K/OYRLpJltdc+JoGB0E0+pj1xXeSndRHP
+         9cnc1gm5sfv8EpQi6KtBJ13aK1nMfhB1J1V4ECKPCV2S6aBh+SKqoVUnH4OQUgoRJzdy
+         pPeoMZjTlCdah/1+Hh4/okKrRjCgrrhXqIe8GtNsMurmimockQnE4YUhIUOtcF0brwFJ
+         3FubTTULjSbqfg631jXw1bpwsbT0GxQ5sdiDpJhTHvATP1NPzw/cNLDNAi7/ktYHq0Tg
+         mAg+cdvZf2LA+WrV5jT9e6hYZdP+5ZZyjUNSBLsgbAqSzitaR3wgxkymohnDJALvBuoP
+         v9Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDxVsw8MQyytZfxC40bPCXCwK/tVaUj/3lFhHgwcgaP4+RnlBxLIkDPzQPI97NObnqIab1d1HmOqnL5L6tgQ3NNevCMWvfluo/LJtVjk0HJmJwWWjz/c+2x8x5fEWbzAzpJWhBhs+0XF4YuyF5hfCZa/lssJfUBz2ZWdcu8A1zzIYG9ig=
+X-Gm-Message-State: AOJu0YxDHGjrfkr7Hsbz93tp04jzOYja8LdzW2ZmqcltwCbDDzdkbI4H
+	y8lg9uBXGH0Er7Unm8x8pr01LmVViDhuQNIP/dn9MILT6IbhUF5L
+X-Google-Smtp-Source: AGHT+IH9GiA3EpInRnq01WoRzdVMmzhnZP487D9Aa/KTzHCSdkRooZNqexlpGAU72CZ8/L8QiPacxg==
+X-Received: by 2002:a17:906:c2cc:b0:a38:158b:bbbc with SMTP id ch12-20020a170906c2cc00b00a38158bbbbcmr1324222ejb.38.1707809430206;
+        Mon, 12 Feb 2024 23:30:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVUt9W0QAMT7py8xhpYB1rdImE5GGL88v2ZmmkR1v4vnoh/ojnuG6dk9LtEBM1h9v4GxVU0cZrRgHTuqkm28OWzvCYQaIsqPxaxHTrGCnDYwSPCou/yH77eDX+Wtwkup68OLFs9B4dHtX42grJtoN94VwPJXdMWT27g7umeUpRzCJoJlccYvGRhR76uQx/k2xG9gMRpz5KS9XIhoyeakvxW8NMgCzuAsK62AOv7OEUJkuaPxxekv0bUw3eZ7dd/Efuc9OeAKZzNM1K0CTb/H24QKRcDHqqdk8YK1yv/9Y2bowlEuoFXGMRCCto=
+Received: from ?IPV6:2a01:c23:bdaf:b200:457b:b235:98c6:f76b? (dynamic-2a01-0c23-bdaf-b200-457b-b235-98c6-f76b.c23.pool.telefonica.de. [2a01:c23:bdaf:b200:457b:b235:98c6:f76b])
+        by smtp.googlemail.com with ESMTPSA id vh2-20020a170907d38200b00a3d08f3283fsm251555ejc.104.2024.02.12.23.30.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Feb 2024 23:30:29 -0800 (PST)
+Message-ID: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+Date: Tue, 13 Feb 2024 08:30:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,114 +76,95 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DMARC error][SPF error] Re: [PATCH v4 00/10]
- devm_led_classdev_register() usage problem
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ linux-sound@vger.kernel.org,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ linux-mips@vger.kernel.org
 Content-Language: en-US
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: <pavel@ucw.cz>, <vadimp@nvidia.com>, <mpe@ellerman.id.au>,
-	<npiggin@gmail.com>, <christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
-	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
-	<nikitos.tr@gmail.com>, <linux-leds@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>, Lee Jones
-	<lee@kernel.org>, <kernel@salutedevices.com>, Waiman Long
-	<longman@redhat.com>, "peterz@infradead.org" <peterz@infradead.org>,
-	"boqun.feng@gmail.com" <boqun.feng@gmail.com>, "will@kernel.org"
-	<will@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>
-References: <20231214173614.2820929-1-gnstark@salutedevices.com>
- <20231221151111.GJ10102@google.com> <ZcZcpUHygltD2ETa@smile.fi.intel.com>
- <d844862e-1d1c-4c9a-b7fe-e0ac44f4126e@salutedevices.com>
- <CAHp75VfQd9e4fLAYkYrMajnJfPQqno6s_aiTarErPiqP-Z6ydg@mail.gmail.com>
-From: George Stark <gnstark@salutedevices.com>
-In-Reply-To: <CAHp75VfQd9e4fLAYkYrMajnJfPQqno6s_aiTarErPiqP-Z6ydg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 183376 [Feb 12 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_urls_end_caps}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;lore.kernel.org:7.1.1;smtp.sberdevices.ru:7.1.1,5.0.1;100.64.160.123:7.1.2;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/02/12 23:28:00
-X-KSMG-LinksScanning: Clean, bases: 2024/02/12 23:28:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/12 22:37:00 #23571721
-X-KSMG-AntiVirus-Status: Clean, skipped
+Subject: [PATCH 0/4] leds: trigger: Improve handling of led_trigger_event()
+ and simplify mute audio trigger
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello Andy
+If a simple trigger is assigned to a LED, then the LED may be off until
+the next led_trigger_event() call. This may be an issue for simple
+triggers with rare led_trigger_event() calls, e.g. power supply
+charging indicators (drivers/power/supply/power_supply_leds.c).
+Therefore persist the brightness value of the last led_trigger_event()
+call and use this value if the trigger is assigned to a LED.
+This change allows to use simple triggers in more cases.
+As a first use case simplify handling of the mute audio trigger.
 
-On 2/12/24 12:53, Andy Shevchenko wrote:
-> On Mon, Feb 12, 2024 at 1:52 AM George Stark <gnstark@salutedevices.com> wrote:
->> I haven't lose hope for the devm_mutex thing and keep pinging those guys
->> from time to time.
-> 
-> I don't understand. According to v4 thread Christophe proposed on how
-> the patch should look like. What you need is to incorporate an updated
-> version into your series. Am I wrong?
+This series touches few subsystems. I'd propose to handle it via
+the LED subsystem.
 
-We agreed that the effective way of implementing devm_mutex_init() is in 
-mutex.h using forward declaration of struct device.
-The only inconvenient thing is that in the mutex.h mutex_init() declared 
-after mutex_destroy() so we'll have to use condition #ifdef 
-CONFIG_DEBUG_MUTEXES twice. Waiman Long proposed great cleanup patch [1] 
-that eliminates the need of doubling #ifdef. That patch was reviewed a 
-bit but it's still unapplied (near 2 months). I'm still trying to 
-contact mutex.h guys but there're no any feedback yet.
+Heiner Kallweit (4):
+  leds: trigger: Store brightness set by led_trigger_event()
+  ALSA: control-led: Integrate mute led trigger
+  Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+  leds: trigger: audio: Remove this trigger
 
-[1] 
-https://lore.kernel.org/lkml/20231216013656.1382213-2-longman@redhat.com/T/#m795b230d662c1debb28463ad721ddba5b384340a
-
-
-> 
->> Sure I can single out the fix-only patch I'll do it tomorrow.
-> 
-> I believe it can be handled without issuing it separately. `b4` tool
-> is capable of selective choices. It was rather Q to Lee if he can/want
-> to apply it right away.
-
-Oh ok, that would be great.
-
-> 
->> On 2/9/24 20:11, Andy Shevchenko wrote:
->>> On Thu, Dec 21, 2023 at 03:11:11PM +0000, Lee Jones wrote:
->>>> On Thu, 14 Dec 2023, George Stark wrote:
->>>>
->>>>> This patch series fixes the problem of devm_led_classdev_register misusing.
->>>>>
->>>>> The basic problem is described in [1]. Shortly when devm_led_classdev_register()
->>>>> is used then led_classdev_unregister() called after driver's remove() callback.
->>>>> led_classdev_unregister() calls driver's brightness_set callback and that callback
->>>>> may use resources which were destroyed already in driver's remove().
->>>>>
->>>>> After discussion with maintainers [2] [3] we decided:
->>>>> 1) don't touch led subsytem core code and don't remove led_set_brightness() from it
->>>>> but fix drivers
->>>>> 2) don't use devm_led_classdev_unregister
->>>>>
->>>>> So the solution is to use devm wrappers for all resources
->>>>> driver's brightness_set() depends on. And introduce dedicated devm wrapper
->>>>> for mutex as it's often used resource.
->>>>>
->>>>> [1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
->>>>> [2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
->>>>> [3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
->>>
->>> ...
->>>
->>>> FYI: I'll conduct my review once the locking side is settled.
->>>
->>> To reduce burden can you apply the first one? It's a fix.
-> 
+ arch/mips/configs/ci20_defconfig     |  1 -
+ drivers/input/input-leds.c           |  8 +---
+ drivers/leds/led-triggers.c          |  6 ++-
+ drivers/leds/trigger/Kconfig         |  7 ---
+ drivers/leds/trigger/Makefile        |  1 -
+ drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
+ include/linux/leds.h                 | 29 ++++++------
+ sound/core/Kconfig                   |  1 -
+ sound/core/control_led.c             | 20 +++++++--
+ 9 files changed, 37 insertions(+), 103 deletions(-)
+ delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
 
 -- 
-Best regards
-George
+2.43.1
+
 
