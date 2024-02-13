@@ -1,111 +1,114 @@
-Return-Path: <linux-leds+bounces-819-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-820-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3846B8539A5
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 19:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABF6853C19
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 21:14:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9E78281CEE
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 18:13:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC01A286287
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 20:14:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8A73605AC;
-	Tue, 13 Feb 2024 18:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B299E60B85;
+	Tue, 13 Feb 2024 20:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rsySa6xI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0BE604D5;
-	Tue, 13 Feb 2024 18:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821C160EC3;
+	Tue, 13 Feb 2024 20:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707848014; cv=none; b=i2ABn8SUgS+B2REKUu4f8XmiK255RMuiTI7fvLJMCQiBZ5IHOYJrAxKg8zygDJTuiDL3f+KUFnw6SY+/J8B/kqDMqfNrI45K5+2gtlD4O7hDPShK9hLck/bDlo3l5UeLrNvuuiT3CEDfQ7fgXsm0zBWTcsMo+TA5J6phxL0WYRI=
+	t=1707855240; cv=none; b=p6n8bwb+bY8SIabZmUZo2afRJzas1K8WHfl3JlmwmzMkQij5DWYY7PlT+Wj12nv1yb6JRwdKUxW06+0pUDcmv9UKwk1FDj9knR1i9/LJH7aL1yreiMVFXsY6lwu06vunfEVR+WHhL4IRUYsrTQBGs8p9EIjLtPtzRBdytB5ZOxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707848014; c=relaxed/simple;
-	bh=U+6rlt5Ta8MmGgRR4Hf8eIhUKZgfMXsWUZk6oX3Js04=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dTzvMoq2ElXY+urZzLsVt8XeV5RmvxQCq7IjDdmmOU1uDVfV4dwtNtiQfRUgjbPZVnEhRE+rcLsIRqLhfi6s9V0x6ZPVbKhr7FBMfKgXkVoDMX8cCnGUAhOCQMd1u5R+aFg3mJhGocm0BX3WMISE6Rm2yQiVeU/oNSQ7jw8/SUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id CD1F9873CC;
-	Tue, 13 Feb 2024 19:13:27 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Tue, 13 Feb 2024 19:12:33 +0100
-Subject: [PATCH] backlight: ktd2801: depend on GPIOLIB
+	s=arc-20240116; t=1707855240; c=relaxed/simple;
+	bh=oJqi+TkCFTQfeAF3TAmEu+UcwKS0++cFDBDB9TAcdDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jEIpx/mpZuBP32DJcJmskZ9uQ8tGtJzuYKH50NE99NdgETtQnOBGaER3bIG51EwkVxMtu5StetpzvbS4cFescrxcJ1eWmO7Qf6TK3ye+haYJzrTUw8gNwGP4huXHh74Y/cG2R+w3RVbibO1xE4f+5iF8Ltf/rCfmBghiwtm2uoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rsySa6xI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DAF2C433C7;
+	Tue, 13 Feb 2024 20:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707855240;
+	bh=oJqi+TkCFTQfeAF3TAmEu+UcwKS0++cFDBDB9TAcdDA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rsySa6xIVALy8A8vdXWYBEIVuHAhI9HBVDZNQLg+JtlYjWUVfiVVJSG63o7py12SH
+	 jMCKONPxC1IaLaxVnQmfhbucetwhFWPSpUYWHenWfaj412Q5G53e016I7CP4Q3mZMF
+	 wYxSD4TlnfRKCa+3f2Yr4bMdrNNWQAQ2YKaZ4jljvHWeq1WEbvCBJlt4VK4/KCPsZX
+	 2glaNKmDJIuasE/s9o0XtMsVjZ7uEKaVqHZaHIXig6q+J1q9F4ZCFgf+bYVGQ/YR1w
+	 yUX4nhhRdlIw7BTSJ3iaJBLV+E6PU4mLbh8LOODVCb0IZsRKdVUjkUJGd4ltHzoT4q
+	 Hh64pW+l2EzRw==
+From: Conor Dooley <conor@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: conor@kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: leds: pwm-multicolour: re-allow active-low
+Date: Tue, 13 Feb 2024 20:13:41 +0000
+Message-ID: <20240213-verse-clinic-e6de06e1f18d@spud>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1565; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=EBDvz2f7L83vswny9H9PgyID1DoSZ6oLH7Vj9u17jOE=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDKmnz5ZKr2S5F3UlL+9BSMDiAx6plTP+ibWVRv5IWz/JZ Jld4umwjlIWBjEOBlkxRZbE230tUuv/uOxw7nkLM4eVCWQIAxenAEzkyGOGf0oc25gmJJauXLQ4 aLNKEvPUXyahsYz3RHq73eU8Jxz10GP4X8bZfdtzyZ9flk1bjIrsVptFn57Tkxvv8vtdQPPtqnm a7AA=
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
-X-B4-Tracking: v=1; b=H4sIABCxy2UC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDI0Nj3eySFCMLA0PdlNSCYl2DNFNzw2QDyyQLIxMloJaCotS0zAqwcdG
- xtbUAviWRL14AAAA=
-To: Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: Arnd Bergmann <arnd@kernel.org>, Karel Balej <balejk@matfyz.cz>, 
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=U+6rlt5Ta8MmGgRR4Hf8eIhUKZgfMXsWUZk6oX3Js04=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBly7ETl3iXiBasGYGxNzalU0t7/uTvFbWgKXkMI
- l0VLMuc26GJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZcuxEwAKCRCaEZ6wQi2W
- 4YkmEACKMl/X2GJUWXOA57RLxzb3s5i8nLgTWk9quyZcge6rleXOSuP7FUP/x7xOk0ifXg8CUgF
- mDSSa69nLnkdwGIMblSgBKk9qaJESt9J0AXUgkZrBC96+3Iqf5f3+GGQoir/dc1z8pOOpyTJUu4
- b1mUu6qSl0flypP0F03YWOz7v53vRW3guhkCkUxaOkLU6U2cvZhKdvEN9Cey15JsIe5C+C9GcjD
- VNVl6wA3ju8uloRRGjIUV6FUkkf574BSWJVhu8uZvZqStkoe+aHxx2X4YQOQLXC+YFhnZ0JPf0c
- ay8/tIhW9Kk5Cp1qNhow853GYIDb8GX6leqVr99yx/MKMA1WinkHCToGA9JzocQDqjkaMnUNwGk
- 6Zk2T0njowSWKEVfTcQ45xRVo7Ny+osaGcpFdXrWJB2hXn1Lte+CrgsXWJ5zLPjBrO4s7fYgRh2
- nnm6qt67d8+p9agbm8JtK1bMQ361ATNr26BS6u4TexyEizkDz27nzjdjuBCmvoRiRdIbbL6CuW6
- Hyrpw8LJOtY2XYmhSQeOHa2uuH9jn/kYkxOyq7ZBvNrRq2pjGZRKD3t9rti7vB62QenQqr2N22f
- 42CYcE97jPJlQJYsJQ+IcaywKBKHdkOpF04cSttg6YTIVYl+Hl9BbuNgBBzochXi2LIZjc+qaS2
- yjy3ToDWXhgUJAA==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 
-LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
+From: Conor Dooley <conor.dooley@microchip.com>
 
-WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-  Depends on [n]: NEW_LEDS [=y] && GPIOLIB [=n]
-  Selected by [m]:
-  - BACKLIGHT_KTD2801 [=m] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=m]
+active-low was lifted to the common schema for leds, but it went
+unnoticed that the leds-multicolour binding had "additionalProperties:
+false" where the other users had "unevaluatedProperties: false", thereby
+disallowing active-low for multicolour leds. Explicitly permit it again.
 
-Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+Fixes: c94d1783136e ("dt-bindings: net: phy: Make LED active-low property common")
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- drivers/video/backlight/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 230bca07b09d..8bd88017d945 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -185,6 +185,7 @@ config BACKLIGHT_KTD253
+I'm just assuming this is intentionally restrictive, if its not, we
+could easily just change this to uneval: false.
+
+CC: Pavel Machek <pavel@ucw.cz>
+CC: Lee Jones <lee@kernel.org>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+CC: Christian Marangi <ansuelsmth@gmail.com>
+CC: linux-leds@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+---
+ Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+index 5edfbe347341..a31a202afe5c 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+@@ -41,6 +41,8 @@ properties:
  
- config BACKLIGHT_KTD2801
- 	tristate "Backlight Driver for Kinetic KTD2801"
-+	depends on GPIOLIB
- 	select LEDS_EXPRESSWIRE
- 	help
- 	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
-
----
-base-commit: 46d4e2eb58e14c8935fa0e27d16d4c62ef82849a
-change-id: 20240213-ktd2801-deps-0f571c09b824
-
-Best regards,
+           pwm-names: true
+ 
++          active-low: true
++
+           color: true
+ 
+         required:
 -- 
-Duje Mihanović <duje.mihanovic@skole.hr>
-
+2.43.0
 
 
