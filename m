@@ -1,166 +1,498 @@
-Return-Path: <linux-leds+bounces-821-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-822-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6875854072
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Feb 2024 00:56:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E888545AE
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Feb 2024 10:35:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99C691C22EAE
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Feb 2024 23:56:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51B88B22A64
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Feb 2024 09:35:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76788633ED;
-	Tue, 13 Feb 2024 23:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="uuLW/pe3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D044711CA9;
+	Wed, 14 Feb 2024 09:34:31 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E796313C;
-	Tue, 13 Feb 2024 23:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772F1182A0
+	for <linux-leds@vger.kernel.org>; Wed, 14 Feb 2024 09:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707868604; cv=none; b=t2uLOov/8zczgF0FBWhz0XqPnQNCrmFgogdOG577PTbrGjUJbjWwbA6hgWetlm6IbuJ4LYO8n8oHlf8nz2FMNMVsKQNuhkkvNximKy0MWI0XmlY0zChBSGmdi47ZXUPxupjfijzmy81vkOmsrJXdhwxzC10GCwZYQ2HW28AEKz0=
+	t=1707903271; cv=none; b=DNaJ64xZvFjHKTIEwoYJWuETPlsh5++OMriBEudgx84paGYMaAEzN1tPT76/wz78nGnkd8h1HQwYa7htoS37OuugU44QyNJPd7k4qccNoeMSWcjaPbXNeC2lRy3mMZfRhbCWpETxdQ4JCT2VmQMFkn8JqFN4hMijktz9W6sH/1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707868604; c=relaxed/simple;
-	bh=LN/e+XNi9c8sQhCUTlnw/VEcZ2cKP2QyPdtHAqGYUOA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mBfJ2UOPQtH6GacWFT+UUdcBm94XC8UOt57mzoGmd+sSdI4W6K2EDp/OhBv/pXfc0LLEczpAIOKIRmuufJWRDMU0lSh83t5Hjp9/WZKpPMUQMKu75bzuWQLZq8JxV3gyHjuDrC0uU+ibfrSueLn3do+A+/4F8FBMYi+PvFvbRuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=uuLW/pe3; arc=none smtp.client-ip=37.18.73.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 74FC3100023;
-	Wed, 14 Feb 2024 02:56:37 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 74FC3100023
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1707868597;
-	bh=MneQ42GgAU5vgtOcPdxnj5Z60/emGjKe574AXsZSEg4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=uuLW/pe39MciOvtdWrCCCfvYcjKM1IMJVRlBFGZQ+2S33Z4NFLWjwgbaRD7+MOm5X
-	 8tF8dQMspP3kJGdJYhS+JxXPe576os0eALhtFs1wO7RLYA5jhcEbRDBHHzupAjBzy2
-	 CDK3UkIuaoTiIjymZyFCjiUTRwPR7gJy/HdzazgFBwdPlpegLkDMDeFfXvDBoHEQ0z
-	 VOiWbSAzsvSKC/39eO6bVSt0n5Un4mJqrqTGuRlGLeJ+D4l0rgmt4riPt8YXOv57Zz
-	 SIX+Gnqtx9tUlZd1Cg0gLj4U2PwCg+NrCWOqyiBQxYq1xezA40CZ2ImSXjtAi9yOIJ
-	 EC/+6L8chOBJA==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Wed, 14 Feb 2024 02:56:37 +0300 (MSK)
-Received: from [192.168.1.143] (100.64.160.123) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 14 Feb 2024 02:56:36 +0300
-Message-ID: <03dde247-44c1-4ba6-b5e8-bc9c68b7a294@salutedevices.com>
-Date: Wed, 14 Feb 2024 02:56:31 +0300
+	s=arc-20240116; t=1707903271; c=relaxed/simple;
+	bh=CNGsevl9ChWzSniQBjaArvHLd39E05H62NLiz3DIWx8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VVABtJn4Mn6ZBKjAH+hYywCV1RYHT2QegpeqW41ZQCjZ0mWN36GtNQem3HTTxPce5E6ePJxBNvMCPpy2weX/+Yv89Che7Lpu6/+IYmvXkapRVSVt4eySB8vyORsMxshfFdllIMumwRHrVE/lFFvAlzABWJ5bPQ51wmLb3a9NDZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBek-0004Mp-GU; Wed, 14 Feb 2024 10:34:18 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBej-000f6O-Ok; Wed, 14 Feb 2024 10:34:17 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBej-004XzU-27;
+	Wed, 14 Feb 2024 10:34:17 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: linux-pwm@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	James Clark <james.clark@arm.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Benson Leung <bleung@chromium.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Michael Walle <mwalle@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Kees Cook <keescook@chromium.org>,
+	Rob Herring <robh@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@pengutronix.de,
+	linux-doc@vger.kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-mips@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
+Date: Wed, 14 Feb 2024 10:30:47 +0100
+Message-ID: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [DMARC error][SPF error] Re: [PATCH v4 00/10]
- devm_led_classdev_register() usage problem
-Content-Language: en-US
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: <pavel@ucw.cz>, <vadimp@nvidia.com>, <mpe@ellerman.id.au>,
-	<npiggin@gmail.com>, <christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
-	<mazziesaccount@gmail.com>, <nikitos.tr@gmail.com>,
-	<linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, Lee Jones <lee@kernel.org>,
-	<kernel@salutedevices.com>, Waiman Long <longman@redhat.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "boqun.feng@gmail.com"
-	<boqun.feng@gmail.com>, "will@kernel.org" <will@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>
-References: <20231214173614.2820929-1-gnstark@salutedevices.com>
- <20231221151111.GJ10102@google.com> <ZcZcpUHygltD2ETa@smile.fi.intel.com>
- <d844862e-1d1c-4c9a-b7fe-e0ac44f4126e@salutedevices.com>
- <CAHp75VfQd9e4fLAYkYrMajnJfPQqno6s_aiTarErPiqP-Z6ydg@mail.gmail.com>
- <ae5bf6bc-5f7f-4fe9-a833-c1bfa31ff534@salutedevices.com>
- <CAHp75Vd1FRz9=Q7NRXsbkBu_K0+zRC6uf5nPM1Q+QnJum+74tg@mail.gmail.com>
-From: George Stark <gnstark@salutedevices.com>
-In-Reply-To: <CAHp75Vd1FRz9=Q7NRXsbkBu_K0+zRC6uf5nPM1Q+QnJum+74tg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18154; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=CNGsevl9ChWzSniQBjaArvHLd39E05H62NLiz3DIWx8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlzIhKJRx+A4qhMZUwqGztxruImTZ3uBdvqjamF FBPi1WKtnWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcyISgAKCRCPgPtYfRL+ TtlEB/0c/mjNEQL/08ZIteWRqppCG3//b5DlLDDtir/+ZOvPpIS2Bneq0yyKtwxVhnGfqLvcmKE vd7H2ucRljiA4C+JGLWtGhG0FC7e4QZVz7YhgUyerZIrr2zlx/GbWDZcJhFbMsqwc/tAKwTXoib IohkAa+CaOcYrsexxoNcZmTMFpHSySI2vH7MTmGmw0Vu+05nvPZvpA795ukWgC5jRaTsMunS4uE vEbhrf/xiYxq40U8/MdZkeOvNOVcGmEkXOmlgwc6+XIvzBnWQMgcP7ruq2ByKqWoqpPyA6MKqjY irweyasxqBWPP2d3ruiBIJFSin314rvzQC6yVjE9jFnOxdLo
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 183417 [Feb 14 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_urls_end_caps}, {Tracking_from_domain_doesnt_match_to}, 100.64.160.123:7.1.2;lore.kernel.org:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;smtp.sberdevices.ru:7.1.1,5.0.1;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/02/13 23:08:00
-X-KSMG-LinksScanning: Clean, bases: 2024/02/13 23:08:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/13 21:49:00 #23589640
-X-KSMG-AntiVirus-Status: Clean, skipped
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
-Hello Andy
+Hello,
 
-On 2/13/24 13:55, Andy Shevchenko wrote:
-> On Tue, Feb 13, 2024 at 2:14 AM George Stark <gnstark@salutedevices.com> wrote:
->>
->> Hello Andy
->>
->> On 2/12/24 12:53, Andy Shevchenko wrote:
->>> On Mon, Feb 12, 2024 at 1:52 AM George Stark <gnstark@salutedevices.com> wrote:
->>>> I haven't lose hope for the devm_mutex thing and keep pinging those guys
->>>> from time to time.
->>>
->>> I don't understand. According to v4 thread Christophe proposed on how
->>> the patch should look like. What you need is to incorporate an updated
->>> version into your series. Am I wrong?
->>
->> We agreed that the effective way of implementing devm_mutex_init() is in
->> mutex.h using forward declaration of struct device.
->> The only inconvenient thing is that in the mutex.h mutex_init() declared
->> after mutex_destroy() so we'll have to use condition #ifdef
->> CONFIG_DEBUG_MUTEXES twice. Waiman Long proposed great cleanup patch [1]
->> that eliminates the need of doubling #ifdef. That patch was reviewed a
->> bit but it's still unapplied (near 2 months). I'm still trying to
->> contact mutex.h guys but there're no any feedback yet.
-> 
-> So the roadmap (as I see it) is:
-> - convince Lee to take the first patch while waiting for the others
-> - incorporate the above mentioned patch into your series
-> - make an ultimatum in case there is no reaction to get it applied on
-> deadline, let's say within next cycle (if Lee is okay with a such, but
-> this is normal practice when some maintainers are non-responsive)
+this is v6 of the series introducing better lifetime tracking for
+pwmchips that addresses (for now theoretic) lifetime issues of pwm
+chips. Addressing these is a necessary precondition to introduce chardev
+support for PWMs.
 
-Well, it was interesting to know that there is such a practice.
+Locking got more complicated due to non-sleeping chips, so I dropped
+the character device patch because it got still more incomplete now.
+Also I'm not yet entirely sure about patches #162 and #163 and I expect
+them to change before they can go in. My plan for the next merge window
+is to get the patches in up to #160. After that the addition of chardev
+support (including correct locking) can continue without having to touch
+the lowlevel driver. So the idea of this series is to get the driver
+adaptions out of the way as this requires some cross-tree coordination.
 
-Waiman Long has just updated his patches with mutex.h cleanup [1] so I
-think we can wait for that series to be merged than I'll prepare may
-patchseries with or w\o the first patch.
+The patches that touch files outside of drivers/pwm include:
 
-[1] 
-https://lore.kernel.org/all/20240213031656.1375951-4-longman@redhat.com/T/
+ - gpio: mvebu: Make use of devm_pwmchip_alloc() function
+   It already has an Ack by Linus Walleij.
 
-> 
-> P.S. In case Lee doesn't want to take the first patch separately
-> (let's say this week), send a new version with amended patches
-> included.
+ - drm/bridge: ti-sn65dsi86: Make use of pwmchip_parent() accessor
+ - drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
+   The 2nd already has an Ack by Douglas Anderson which I tend to assume
+   good enough to merge this via my pwm tree, too. An Ack for the first
+   patch would be nice.
 
-Ok
+ - leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
+   Already has an Ack by Lee Jones.
 
-> 
->> [1]
->> https://lore.kernel.org/lkml/20231216013656.1382213-2-longman@redhat.com/T/#m795b230d662c1debb28463ad721ddba5b384340a
-> 
-> 
+ - staging: greybus: pwm: Change prototype of helpers to prepare further changes
+ - staging: greybus: pwm: Make use of pwmchip_parent() accessor
+ - staging: greybus: pwm: Rely on pwm framework to pass a valid hwpwm
+ - staging: greybus: pwm: Drop unused gb_connection_set_data()
+ - staging: greybus: pwm: Rework how the number of PWM lines is determined
+ - staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
+   The greybus patches already got an Ack by Greg Kroah-Hartman in an
+   earlier series, but I dropped it as the patches changed considerably.
 
--- 
+For the patches that already have an Ack by the respective maintainers
+I'll assume this is good enough to merge the patches via the pwm tree.
+Please object if you don't agree.  For the others an Ack with that
+semantic would be nice. If you want to merge via your tree, that would
+need some coordination. The adaptions depend on patches #1 - #3, so this
+would involve an immutable branch or waiting until these patches reached
+your tree via the mainline tree. The series rebases fine on today's
+next, so at least for now there are no conflicts that git cannot resolve
+automatically.
+
+The biggest changes compared to v5 are:
+
+ - Make pwmchip_parent's parameter const
+ - Use pwmchip_parent also in drivers/pwm/sysfs.c and drivers/pwm/core.c
+ - Several bug fixes in the conversions I found during the rework
+ - Provide a non-devm pwmchip_alloc() function earlier (for the greybus
+   pwm driver)
+ - Increase alignment of driver private data to ARCH_DMA_MINALIGN bytes
+ - Split several patches to make the easier reviewable
+
+The series is available via git at
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm-lifetime-tracking
+
+if you want to give it a test. I'll keep this branch updated for the
+feedback I get here.
+
 Best regards
-George
+Uwe
+
+Uwe Kleine-König (164):
+  pwm: Provide an inline function to get the parent device of a given
+    chip
+  pwm: Provide wrappers for storing and getting driver private data
+  pwm: Provide pwmchip_alloc() function and a devm variant of it
+  pwm: ab8500: Make use of pwmchip_parent() accessor
+  pwm: ab8500: Introduce a local pwm_chip variable in .probe()
+  pwm: ab8500: Make use of devm_pwmchip_alloc() function
+  pwm: apple: Make use of devm_pwmchip_alloc() function
+  pwm: atmel: Change prototype of a helper to prepare further changes
+  pwm: atmel: Make use of pwmchip_parent() accessor
+  pwm: atmel: Make use of devm_pwmchip_alloc() function
+  pwm: atmel-hlcdc: Prepare removing pwm_chip from driver data
+  pwm: atmel-hlcdc: Make use of devm_pwmchip_alloc() function
+  pwm: atmel-tcb: Make use of pwmchip_parent() accessor
+  pwm: atmel-tcb: Prepare removing pwm_chip from driver data
+  pwm: atmel-tcb: Make use of devm_pwmchip_alloc() function
+  pwm: bcm2835: Make use of devm_pwmchip_alloc() function
+  pwm: bcm-iproc: Make use of devm_pwmchip_alloc() function
+  pwm: bcm-kona: Make use of pwmchip_parent() accessor
+  pwm: bcm-kona: Make use of devm_pwmchip_alloc() function
+  pwm: berlin: Prepare removing pwm_chip from driver data
+  pwm: berlin: Make use of devm_pwmchip_alloc() function
+  pwm: brcmstb: Make use of devm_pwmchip_alloc() function
+  pwm: clk: Prepare removing pwm_chip from driver data
+  pwm: clk: Make use of devm_pwmchip_alloc() function
+  pwm: clps711x: Make use of devm_pwmchip_alloc() function
+  pwm: crc: Simplify code to determine the pwmchip's parent device
+  pwm: crc: Make use of pwmchip_parent() accessor
+  pwm: crc: Make use of devm_pwmchip_alloc() function
+  pwm: cros-ec: Change prototype of helpers to prepare further changes
+  pwm: cros-ec: Make use of pwmchip_parent() accessor
+  pwm: cros-ec: Make use of devm_pwmchip_alloc() function
+  pwm: dwc: Prepare removing pwm_chip from driver data
+  pwm: dwc: Make use of devm_pwmchip_alloc() function
+  pwm: dwc-core: Make use of pwmchip_parent() accessor
+  pwm: ep93xx: Make use of pwmchip_parent() accessor
+  pwm: ep93xx: Make use of devm_pwmchip_alloc() function
+  pwm: fsl-ftm: Change prototype of a helper to prepare further changes
+  pwm: fsl-ftm: Make use of pwmchip_parent() accessor
+  pwm: fsl-ftm: Prepare removing pwm_chip from driver data
+  pwm: fsl-ftm: Make use of devm_pwmchip_alloc() function
+  pwm: hibvt: Consistently name driver data hi_pwm_chip
+  pwm: hibvt: Make use of devm_pwmchip_alloc() function
+  pwm: img: Drop write-only variable from driver private data
+  pwm: img: Make use of pwmchip_parent() accessor
+  pwm: img: Prepare removing pwm_chip from driver data
+  pwm: img: Make use of devm_pwmchip_alloc() function
+  pwm: imx1: Make use of devm_pwmchip_alloc() function
+  pwm: imx27: Make use of pwmchip_parent() accessor
+  pwm: imx27: Make use of devm_pwmchip_alloc() function
+  pwm: imx-tpm: Make use of devm_pwmchip_alloc() function
+  pwm: intel-lgm: Make use of devm_pwmchip_alloc() function
+  pwm: iqs620a: Create a wrapper for converting a pwm_chip to driver
+    data
+  pwm: iqs620a: Prepare removing pwm_chip from driver data
+  pwm: iqs620a: Make use of devm_pwmchip_alloc() function
+  pwm: jz4740: Change prototype of a helper to prepare further changes
+  pwm: jz4740: Make use of pwmchip_parent() accessor
+  pwm: jz4740: Make use of devm_pwmchip_alloc() function
+  pwm: keembay: Make use of devm_pwmchip_alloc() function
+  pwm: lp3943: Make use of devm_pwmchip_alloc() function
+  pwm: lpc18xx-sct: Drop hardly used member from driver private data
+  pwm: lpc18xx-sct: Make use of pwmchip_parent() accessor
+  pwm: lpc18xx-sct: Prepare removing pwm_chip from driver data
+  pwm: lpc18xx-sct: Make use of devm_pwmchip_alloc() function
+  pwm: lpc32xx: Make use of devm_pwmchip_alloc() function
+  pwm: lpss: Make use of pwmchip_parent() accessor
+  pwm: lpss: Don't set driver data
+  pwm: lpss-*: Make use of devm_pwmchip_alloc() function
+  pwm: mediatek: Make use of pwmchip_parent() accessor
+  pwm: mediatek: Make use of devm_pwmchip_alloc() function
+  pwm: meson: Change prototype of a few helpers to prepare further
+    changes
+  pwm: meson: Make use of pwmchip_parent() accessor
+  pwm: meson: Make use of devm_pwmchip_alloc() function
+  pwm: microchip-core: Make use of devm_pwmchip_alloc() function
+  pwm: mtk-disp: Make use of pwmchip_parent() accessor
+  pwm: mtk-disp: Make use of devm_pwmchip_alloc() function
+  pwm: mxs: Make use of devm_pwmchip_alloc() function
+  pwm: ntxec: Make use of devm_pwmchip_alloc() function
+  pwm: omap-dmtimer: Make use of pwmchip_parent() accessor
+  pwm: omap-dmtimer: Prepare removing pwm_chip from driver data
+  pwm: omap-dmtimer: Make use of devm_pwmchip_alloc() function
+  pwm: pca9685: Prepare removing pwm_chip from driver data
+  pwm: pca9685: Make use of pwmchip_parent() accessor
+  pwm: pca9685: Make use of devm_pwmchip_alloc() function
+  pwm: pxa: Make use of devm_pwmchip_alloc() function
+  pwm: raspberrypi-poe: Make use of pwmchip_parent() accessor
+  pwm: raspberrypi-poe: Make use of devm_pwmchip_alloc() function
+  pwm: rcar: Make use of pwmchip_parent() accessor
+  pwm: rcar: Prepare removing pwm_chip from driver data
+  pwm: rcar: Make use of devm_pwmchip_alloc() function
+  pwm: renesas-tpu: Make use of devm_pwmchip_alloc() function
+  pwm: rochchip: Prepare removing pwm_chip from driver data
+  pwm: rockchip: Make use of devm_pwmchip_alloc() function
+  pwm: rz-mtu3: Make use of pwmchip_parent() accessor
+  pwm: rz-mtu3: Prepare removing pwm_chip from driver data
+  pwm: rz-mtu3: Make use of devm_pwmchip_alloc() function
+  pwm: samsung: Simplify code to determine the pwmchip's parent device
+  pwm: samsung: Change prototype of helpers to prepare further changes
+  pwm: samsung: Make use of pwmchip_parent() accessor
+  pwm: samsung: Simplify by using devm functions in probe
+  pwm: samsung: Simplify using dev_err_probe()
+  pwm: samsung: Make use of devm_pwmchip_alloc() function
+  pwm: sifive: Simplify code to determine the pwmchip's parent device
+  pwm: sifive: Prepare removing pwm_chip from driver data
+  pwm: sifive: Make use of pwmchip_parent() accessor
+  pwm: sifive: Make use of devm_pwmchip_alloc() function
+  pwm: sl28cpld: Make use of devm_pwmchip_alloc() function
+  pwm: spear: Make use of devm_pwmchip_alloc() function
+  pwm: sprd: Rework how the available channels are counted
+  pwm: sprd: Drop duplicated tracking of the parent device
+  pwm: sprd: Make use of devm_pwmchip_alloc() function
+  pwm: sti: Prepare removing pwm_chip from driver data
+  pwm: sti: Make use of devm_pwmchip_alloc() function
+  pwm: stm32: Simplify code to determine the pwmchip's parent device
+  pwm: stm32: Change prototype of a helper to prepare further changes
+  pwm: stm32: Prepare removing pwm_chip from driver data
+  pwm: stm32: Change prototype of helper that detects npwm to prepare
+    further changes
+  pwm: stm32: Make use of devm_pwmchip_alloc() function
+  pwm: stm32-lp: Simplify code to determine the pwmchip's parent device
+  pwm: stm32-lp: Prepare removing pwm_chip from driver data
+  pwm: stm32-lp: Make use of pwmchip_parent() accessor
+  pwm: stm32-lp: Make use of devm_pwmchip_alloc() function
+  pwm: stmpe: Make use of pwmchip_parent() accessor
+  pwm: stmpe: Make use of devm_pwmchip_alloc() function
+  pwm: sun4i: Make use of pwmchip_parent() accessor
+  pwm: sun4i: Prepare removing pwm_chip from driver data
+  pwm: sun4i: Consistently name driver data sun4ichip
+  pwm: sun4i: Make use of devm_pwmchip_alloc() function
+  pwm: sunplus: Make use of devm_pwmchip_alloc() function
+  pwm: tegra: Drop duplicated tracking of the parent device
+  pwm: tegra: Prepare removing pwm_chip from driver data
+  pwm: tegra: Make use of devm_pwmchip_alloc() function
+  pwm: tiecap: Simplify code to determine the pwmchip's parent device
+  pwm: tiecap: Change prototype of helpers to prepare further changes
+  pwm: tiecap: Make use of pwmchip_parent() accessor
+  pwm: tiecap: Make use of devm_pwmchip_alloc() function
+  pwm: tiehrpwm: Simplify code to determine the pwmchip's parent device
+  pwm: tiehrpwm: Change prototype of helpers to prepare further changes
+  pwm: tiehrpwm: Make use of pwmchip_parent() accessor
+  pwm: tiehrpwm: Make use of devm_pwmchip_alloc() function
+  pwm: twl: Make use of pwmchip_parent() accessor
+  pwm: twl: Make use of devm_pwmchip_alloc() function
+  pwm: twl-led: Make use of pwmchip_parent() accessor
+  pwm: twl-led: Make use of devm_pwmchip_alloc() function
+  pwm: visconti: Make use of devm_pwmchip_alloc() function
+  pwm: vt8500: Change prototype of a helper to prepare further changes
+  pwm: vt8500: Introduce a local pwm_chip variable in .probe()
+  pwm: vt8500: Make use of pwmchip_parent() accessor
+  pwm: vt8500: Make use of devm_pwmchip_alloc() function
+  pwm: xilinx: Prepare removing pwm_chip from driver data
+  pwm: xilinx: Make use of devm_pwmchip_alloc() function
+  gpio: mvebu: Make use of devm_pwmchip_alloc() function
+  drm/bridge: ti-sn65dsi86: Make use of pwmchip_parent() accessor
+  drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
+  leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
+  staging: greybus: pwm: Change prototype of helpers to prepare further
+    changes
+  staging: greybus: pwm: Make use of pwmchip_parent() accessor
+  staging: greybus: pwm: Rely on pwm framework to pass a valid hwpwm
+  staging: greybus: pwm: Drop unused gb_connection_set_data()
+  staging: greybus: pwm: Rework how the number of PWM lines is
+    determined
+  staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
+  pwm: Ensure that pwm_chips are allocated using pwmchip_alloc()
+  pwm: Ensure a struct pwm has the same lifetime as its pwm_chip
+  pwm: Ensure the memory backing a PWM chip isn't freed while used
+  pwm: Make pwmchip_[sg]et_drvdata() a wrapper around dev_set_drvdata()
+
+ .../driver-api/driver-model/devres.rst        |   1 +
+ Documentation/driver-api/pwm.rst              |  11 +-
+ drivers/gpio/gpio-mvebu.c                     |  18 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  31 +--
+ drivers/leds/rgb/leds-qcom-lpg.c              |  16 +-
+ drivers/pinctrl/intel/pinctrl-intel.c         |   6 +-
+ drivers/pwm/Kconfig                           |   4 -
+ drivers/pwm/Makefile                          |   3 +-
+ drivers/pwm/core.c                            | 184 +++++++++++++-----
+ drivers/pwm/pwm-ab8500.c                      |  36 ++--
+ drivers/pwm/pwm-apple.c                       |  18 +-
+ drivers/pwm/pwm-atmel-hlcdc.c                 |  37 ++--
+ drivers/pwm/pwm-atmel-tcb.c                   |  32 +--
+ drivers/pwm/pwm-atmel.c                       |  34 ++--
+ drivers/pwm/pwm-bcm-iproc.c                   |  19 +-
+ drivers/pwm/pwm-bcm-kona.c                    |  23 ++-
+ drivers/pwm/pwm-bcm2835.c                     |  19 +-
+ drivers/pwm/pwm-berlin.c                      |  29 +--
+ drivers/pwm/pwm-brcmstb.c                     |  17 +-
+ drivers/pwm/pwm-clk.c                         |  27 +--
+ drivers/pwm/pwm-clps711x.c                    |  17 +-
+ drivers/pwm/pwm-crc.c                         |  22 +--
+ drivers/pwm/pwm-cros-ec.c                     |  58 +++---
+ drivers/pwm/pwm-dwc-core.c                    |  26 +--
+ drivers/pwm/pwm-dwc.c                         |  17 +-
+ drivers/pwm/pwm-dwc.h                         |   9 +-
+ drivers/pwm/pwm-ep93xx.c                      |  21 +-
+ drivers/pwm/pwm-fsl-ftm.c                     |  49 ++---
+ drivers/pwm/pwm-hibvt.c                       |  70 ++++---
+ drivers/pwm/pwm-img.c                         |  60 +++---
+ drivers/pwm/pwm-imx-tpm.c                     |  34 ++--
+ drivers/pwm/pwm-imx1.c                        |  20 +-
+ drivers/pwm/pwm-imx27.c                       |  26 +--
+ drivers/pwm/pwm-intel-lgm.c                   |  17 +-
+ drivers/pwm/pwm-iqs620a.c                     |  30 +--
+ drivers/pwm/pwm-jz4740.c                      |  36 ++--
+ drivers/pwm/pwm-keembay.c                     |  17 +-
+ drivers/pwm/pwm-lp3943.c                      |  17 +-
+ drivers/pwm/pwm-lpc18xx-sct.c                 |  34 ++--
+ drivers/pwm/pwm-lpc32xx.c                     |  21 +-
+ drivers/pwm/pwm-lpss-pci.c                    |  10 +-
+ drivers/pwm/pwm-lpss-platform.c               |  10 +-
+ drivers/pwm/pwm-lpss.c                        |  34 ++--
+ drivers/pwm/pwm-lpss.h                        |   1 -
+ drivers/pwm/pwm-mediatek.c                    |  29 +--
+ drivers/pwm/pwm-meson.c                       |  57 +++---
+ drivers/pwm/pwm-microchip-core.c              |  17 +-
+ drivers/pwm/pwm-mtk-disp.c                    |  25 ++-
+ drivers/pwm/pwm-mxs.c                         |  32 +--
+ drivers/pwm/pwm-ntxec.c                       |  14 +-
+ drivers/pwm/pwm-omap-dmtimer.c                |  47 +++--
+ drivers/pwm/pwm-pca9685.c                     | 161 +++++++--------
+ drivers/pwm/pwm-pxa.c                         |  21 +-
+ drivers/pwm/pwm-raspberrypi-poe.c             |  20 +-
+ drivers/pwm/pwm-rcar.c                        |  27 ++-
+ drivers/pwm/pwm-renesas-tpu.c                 |  20 +-
+ drivers/pwm/pwm-rockchip.c                    |  24 +--
+ drivers/pwm/pwm-rz-mtu3.c                     |  60 +++---
+ drivers/pwm/pwm-samsung.c                     |  94 ++++-----
+ drivers/pwm/pwm-sifive.c                      |  30 +--
+ drivers/pwm/pwm-sl28cpld.c                    |  13 +-
+ drivers/pwm/pwm-spear.c                       |  18 +-
+ drivers/pwm/pwm-sprd.c                        |  58 +++---
+ drivers/pwm/pwm-sti.c                         |  61 +++---
+ drivers/pwm/pwm-stm32-lp.c                    |  31 ++-
+ drivers/pwm/pwm-stm32.c                       |  56 +++---
+ drivers/pwm/pwm-stmpe.c                       |  58 +++---
+ drivers/pwm/pwm-sun4i.c                       | 100 +++++-----
+ drivers/pwm/pwm-sunplus.c                     |  17 +-
+ drivers/pwm/pwm-tegra.c                       |  50 ++---
+ drivers/pwm/pwm-tiecap.c                      |  55 +++---
+ drivers/pwm/pwm-tiehrpwm.c                    |  72 +++----
+ drivers/pwm/pwm-twl-led.c                     |  55 +++---
+ drivers/pwm/pwm-twl.c                         |  50 +++--
+ drivers/pwm/pwm-visconti.c                    |  17 +-
+ drivers/pwm/pwm-vt8500.c                      |  43 ++--
+ drivers/pwm/pwm-xilinx.c                      |  34 ++--
+ drivers/pwm/sysfs.c                           |  45 +----
+ drivers/staging/greybus/pwm.c                 | 133 ++++++-------
+ include/linux/platform_data/x86/pwm-lpss.h    |   4 +-
+ include/linux/pwm.h                           |  56 ++++--
+ 81 files changed, 1502 insertions(+), 1423 deletions(-)
+
+
+base-commit: ab105bfee27776dd946f8003d1e895fbf7674a3f
+-- 
+2.43.0
+
 
