@@ -1,147 +1,147 @@
-Return-Path: <linux-leds+bounces-838-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-839-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB9A8565D0
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 15:21:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FD08565E3
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 15:24:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64E641C21333
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:21:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB4BE1F2215C
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:24:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B292C131E32;
-	Thu, 15 Feb 2024 14:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B54B131E36;
+	Thu, 15 Feb 2024 14:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1j4nByU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD547130ADA;
-	Thu, 15 Feb 2024 14:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4112131E2B;
+	Thu, 15 Feb 2024 14:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708006913; cv=none; b=lX3c8X1g8u+0d3Ear8EqSRsfJt1lSronWzUIWQQeux1JCBcerdSvR5laLxVVDbzA9aPUL+OPTHhQ85w7stqorEID1JC+oxT5ALS56xb2zqnsF9/dRDWH2b50lTF4Vwsk0cqOENT6Qc7zTfKDLLYGUdNMiLXn3n5+ue+Dlv9IUgY=
+	t=1708007080; cv=none; b=kNLbPsY4g4EMMVza3kTwwYwcAHQY3Y6lp6/8f3d6SktQXdEOW1LrJMovUKJmekVdFWsAHZFn74YaJGRIWFa3QK8rxfSJz1pRRL7h1QVKB6P5PKYWOsAfqpuAbfhSYxWaROxov+Kaa1Cx6/EcK+HIuhrQfCfJfFUEbSoHl+QL4zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708006913; c=relaxed/simple;
-	bh=ZdAF2Hedn11YRPJ8FW4xDYC4UE4K3UNWPgPTBjO3qUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MooCcGv6s5J0ZJLTYZ7PMrrUlwtkhIW7uL+9AjQDG/RD37jGYM5ljv54H5eR39FW8LWJn519zpzq91ImVpJdTZUZ+yvNEH3T8MvqtJSo3tpxBF7K1Pe9uoXYRTL6TUkmUteaZMkJ6g50g7LoSitvAb3OC81u6VZhsqVzlPPq4gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 2C97E92570;
-	Thu, 15 Feb 2024 15:21:45 +0100 (CET)
-From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Arnd Bergmann <arnd@kernel.org>, Karel Balej <balejk@matfyz.cz>,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
-Date: Thu, 15 Feb 2024 15:20:50 +0100
-Message-ID: <5772702.DvuYhMxLoT@radijator>
-In-Reply-To:
- <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
-References:
- <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
- <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
+	s=arc-20240116; t=1708007080; c=relaxed/simple;
+	bh=zYTCS8MpuiOCc+WScUKApIvP5bK8xDhtqdGf8yM6aZc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dXxIZKaeIspAfY7ZEvcRpv2LOANqwP27Z7oifH3rKYu5rm1ej9kMrvs7MOApqS108akC8nNZThSGv6GoeAdDT9SKUawFkZGxlpvzFCbQqvu9Gw43aI8d+AT5qQrnBw2I1fh4KHjs8Cljs9Vs4zErVNuOaNNI74irXThkbNpfGiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1j4nByU; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708007077; x=1739543077;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zYTCS8MpuiOCc+WScUKApIvP5bK8xDhtqdGf8yM6aZc=;
+  b=m1j4nByU+o8IyodoDzFtBqXxe6uKczMPF1BpT4N1I93NCmdMHQ/PlKy2
+   WzzpoehuQmZKRoREczcuzjvqAMcxpipPyRrKn3XA4ff6NynrSfcuL67Kq
+   n4Z7v7EQQXtpf/8kyoCbUbo3W9zCHfeMccvlNoUPLF95jNCB7iE+7eXp6
+   mtx4gbPVAXs9y+IO9oyJ9INBZkgpSqCJO7tXl9oNXP/+HCbgvUgAWPO7R
+   UMgrwMlcWXdINVZBLMPoVW6sAvAUYJyZqcrHaZMViRjdOFuzflZe1iGZI
+   qxHfwF63QNvc2Ujt4z8aHajUVrEcdAG2DrslpwBSKNirwdktiyf0BBjUP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="19514363"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="19514363"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 06:24:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="3701584"
+Received: from unknown (HELO mtkaczyk-devel.igk.intel.com) ([10.102.108.91])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 06:24:33 -0800
+From: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+To: linux-pci@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+	Lukas Wunner <lukas@wunner.de>, Keith Busch <kbusch@kernel.org>,
+	Marek Behun <marek.behun@nic.cz>, Pavel Machek <pavel@ucw.cz>,
+	Randy Dunlap <rdunlap@infradead.org>, Shevchenko@web.codeaurora.org,
+	Andriy <andriy.shevchenko@intel.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>
+Subject: [PATCH 0/2] Native PCIe Enclosure Management
+Date: Thu, 15 Feb 2024 15:23:43 +0100
+Message-Id: <20240215142345.6073-1-mariusz.tkaczyk@linux.intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr;
- keydata=
- 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
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thursday, February 15, 2024 2:31:37 PM CET Linus Walleij wrote:
-> On Tue, Feb 13, 2024 at 7:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanov=
-ic@skole.hr>=20
-wrote:
-> > LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
-> >=20
-> > WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-> >=20
-> >   Depends on [n]: NEW_LEDS [=3Dy] && GPIOLIB [=3Dn]
-> >   Selected by [m]:
-> >   - BACKLIGHT_KTD2801 [=3Dm] && HAS_IOMEM [=3Dy] && BACKLIGHT_CLASS_DEV=
-ICE=20
-[=3Dm]
-> >=20
-> > Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
-> > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
->=20
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
->=20
-> Technically you can also select GPIOLIB, because it is available on
-> all platforms, so it may be easier for users, but then you never know
-> which GPIOs you get in practice.
+In this patchset support of Native PCIe Enclosure Management is proposed.
+Stuart Hayes was working on this earlier. It is a new serie because it
+is NPEM only.
 
-Now that I think of it, wouldn't that be the better solution? I opted for=20
-"depends on" only because Arnd did the same in his KTD2692 patch, but if=20
-select is better (and it seems to be for users) then I'd go for that in bot=
-h=20
-patches.
+NPEM is pattern oriented standard, it tells which "pattern" should blink.
+It doesn't control physical LED or pattern visualization. It is described
+better in second patch.
 
-Regards,
-=2D-=20
-Duje
+Overall, driver is simple but it was not simple to fit it into interfaces
+we have in kernel (We considered leds and enclosure interfaces). It reuses
+leds interface, this approach seems to be the best because:
+- leds are actively maintained, no new interface added.
+- leds do not require any extensions, enclosure needs to be adjusted first.
+
+There are trade-offs:
+- "brightness" is the name of sysfs file to control led. It is not
+  natural to use brightness to set patterns, that is why multiple led
+  devices are created (one per pattern);
+- Update of one led may affect other leds, led triggers may not work
+  as expected.
+
+It doesn't provide ACPI _DSM support, it requires separate implementation
+outside drives/pci/ but NPEM is not registered if _DSM is available.
+
+This patchset was made in close collaboration with Lucas Wunner.
+
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Cc: Lukas Wunner <lukas@wunner.de>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Marek Behun <marek.behun@nic.cz>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Shevchenko, Andriy <andriy.shevchenko@intel.com>
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
+Link: https://lore.kernel.org/linux-pci/20201106194221.59353-1-stuart.w.hayes@gmail.com/
+Link: https://lore.kernel.org/linux-pci/20201110153735.58587-1-stuart.w.hayes@gmail.com/
+Link: https://lore.kernel.org/linux-pci/20210416192010.3197-1-stuart.w.hayes@gmail.com/
+Link: https://lore.kernel.org/linux-pci/20210601203820.3647-1-stuart.w.hayes@gmail.com/
+Link: https://lore.kernel.org/linux-pci/20210813213653.3760-1-stuart.w.hayes@gmail.com/
+Link: https://lore.kernel.org/linux-pci/cover.1642460765.git.stuart.w.hayes@gmail.com/
+Link: https://lore.kernel.org/linux-pci/cover.1643822289.git.stuart.w.hayes@gmail.com/
 
 
+Mariusz Tkaczyk (2):
+  leds: Init leds class earlier
+  PCI/NPEM: Add Native PCIe Enclosure Management support
+
+ drivers/leds/led-class.c      |   2 +-
+ drivers/pci/Kconfig           |   7 +
+ drivers/pci/Makefile          |   1 +
+ drivers/pci/bus.c             |   1 +
+ drivers/pci/npem.c            | 339 ++++++++++++++++++++++++++++++++++
+ drivers/pci/pci.h             |   8 +
+ drivers/pci/remove.c          |   1 +
+ include/linux/pci.h           |   4 +
+ include/uapi/linux/pci_regs.h |  34 ++++
+ 9 files changed, 396 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/pci/npem.c
+
+-- 
+2.35.3
 
 
