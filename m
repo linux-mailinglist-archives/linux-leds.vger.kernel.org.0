@@ -1,220 +1,147 @@
-Return-Path: <linux-leds+bounces-837-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-838-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC878564F4
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:54:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB9A8565D0
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 15:21:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C51241F28D5E
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:54:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64E641C21333
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E221332B9;
-	Thu, 15 Feb 2024 13:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGJ3CP/j"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B292C131E32;
+	Thu, 15 Feb 2024 14:21:53 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC195132467;
-	Thu, 15 Feb 2024 13:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD547130ADA;
+	Thu, 15 Feb 2024 14:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708005097; cv=none; b=VtuYk+6sz3c1Vg5iR6nnU+zS45VQBOqWaToy4iXiyO6Y25fLbzOAMShcTs0lRRnFh9L6LO7RYqKjCKTLgsMrtlPn66V/mdOITewWkyeV1PYG6lo5JQCwejm4OWil6Lb0Xxu/T2aygVmJYCoUN8Izm3q0XX/15zuOVCaWychAVYM=
+	t=1708006913; cv=none; b=lX3c8X1g8u+0d3Ear8EqSRsfJt1lSronWzUIWQQeux1JCBcerdSvR5laLxVVDbzA9aPUL+OPTHhQ85w7stqorEID1JC+oxT5ALS56xb2zqnsF9/dRDWH2b50lTF4Vwsk0cqOENT6Qc7zTfKDLLYGUdNMiLXn3n5+ue+Dlv9IUgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708005097; c=relaxed/simple;
-	bh=RzDVzAMbt/0O8rLENBgNMOIiu2ews2E1U5PQyx+Ji0k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=duthAThQ7ST3q+IY+RI12/l/pID7L0Nmhb/kMpJj1MT6zmByzVq7B5SDMxItlbgOcnxPCuti79DYQfuELHiISOzmgiKhs7y/wXpy7QpK36g0g8faMeSDsaTLkhxhBB5wvP2OHOcegKXZUBQke9WW5qKyMLtN8/I9b3PlSb4JNs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGJ3CP/j; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4121954d4c0so3306275e9.0;
-        Thu, 15 Feb 2024 05:51:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708005094; x=1708609894; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
-        b=RGJ3CP/ji8NihQLfupeAHxS66Q+QtNvy5PxhM0MX8ofwzKLRJ4l80YaI8VMzKOg5GP
-         yeV1NGk3aArey0SyQXCgwlhmrqAv0hfLYTCOTVNrDZEJbAwDzzPEbMIxlHFgEN/eIyA4
-         JOJHqs0eN5WIlUKrz4GYDIMhkRVHSzCOwoWPnt3UjIsE1SQwaAQHlXaIEzya8btY9RhB
-         wuZqzdmqbecDlvHn+CqurKcYmfpaAGDjBRIVrY16/qHeb+kbb6zeKQ/hblN/AJ84C8Xr
-         fh7a8ThSa6yPtEeAoxs6X0DLuESPX9UGFtD3KV4adDjf56EbJ3GYqp7CF7c/qMURYLis
-         C+4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708005094; x=1708609894;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
-        b=STzCClyhCCVnz8///Rm3CjUFmeNucHivQqgorFpEp20Jocw/x7NJ4wlLWmxHdkv5PV
-         crC+0FBafKGrbwB5jQ7VzAU+2WdHrLwRJhSyheqGAJvPUibYM64ER9guIQc6f+kKRLi3
-         WP4KExTIsuWrOcypRsidUtg9lZ29inrt9OTZ/oSQiXjNmhAQbz8TEL0g0gEhc1yLNmmU
-         lN4idUYRYl/FTGyrU4I194b1hgmuKVSEULUf0HAVzAY9pRWYPNVEhPOin8muKiYR775F
-         mGnd2+htdzUJ8/qCkNRDn+GovbhbbLLwLKdgjjVbW1fwNuf6coAfEjimWqhOrm30tcDP
-         XNTw==
-X-Forwarded-Encrypted: i=1; AJvYcCXmn5akH/NV/CbhvBGsR8nz7GQhjKNHju9HZgD8xo9MMEeRkwU8BqIz6HaHI8fb7ImsdP/pZ1qkG6wi1HuPNE4OWQrcTEbiEf20gTUTZv90TYYxxF/CffJYF7bCwpo9MuOAshlfMt2hXHXel4CMicUdhF35azYFBFitxt2dAt8mMN7YExbUdxiIW3Ov8DM2fUy5jxant0Dganp0yfTRydanq/M4xXotFwew6BapbvieN4w/168YdOWJul2TcuVHV6v9aB67pgERkpdO+MfzrlHvIKJ67T6zgfYBawbO4KRYRyCunvFq9Vs7w9i2kAQZmcwZQZU4620SE48THXmksUs+mtNRmAmrIs/hkfhxoprlHDxBILx50EAWELuRHZ4=
-X-Gm-Message-State: AOJu0Yzk2lHiFiO0I+VmZqZcdn1U8ickzALl9D9GO5DGMmNIjodxFatO
-	qJnbKMnlCoLDtwUgfeUb9zYMJU49BbV/4rw2oBK8kBvdAzeDwV5o
-X-Google-Smtp-Source: AGHT+IH7k9jN1LEPjklm49kSSJGmdKPhxpWNQecPQqPdKhvRMqEI/U195h3M4bWUY8DUrcLpEFVYaQ==
-X-Received: by 2002:a05:600c:3503:b0:412:7d0:d83 with SMTP id h3-20020a05600c350300b0041207d00d83mr1601111wmq.16.1708005093670;
-        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id i7-20020a05600c290700b00410add3af79sm5061337wmd.23.2024.02.15.05.51.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
-Message-ID: <63b248efcbd62a121610cbf37ea0339bd87c99e7.camel@gmail.com>
-Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
- devm variant of it
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Michael Walle
- <mwalle@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Paul Cercueil <paul@crapouillou.net>, 
- linux-tegra@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Thierry Reding <thierry.reding@gmail.com>, James Clark
- <james.clark@arm.com>, Pavel Machek <pavel@ucw.cz>,  Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Guenter Roeck
- <groeck@chromium.org>,  chrome-platform@lists.linux.dev, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, Fabio Estevam <festevam@gmail.com>, 
- linux-riscv@lists.infradead.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>, Samuel
- Holland <samuel@sholland.org>,  linux-samsung-soc@vger.kernel.org, Bjorn
- Andersson <quic_bjorande@quicinc.com>,  Florian Fainelli
- <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, Sean
- Anderson <sean.anderson@seco.com>, Benson Leung <bleung@chromium.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>,  Jonathan Hunter
- <jonathanh@nvidia.com>, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org,  Chen-Yu Tsai <wens@csie.org>, Michal
- Simek <michal.simek@amd.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-leds@vger.kernel.org, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-mips@vger.kernel.org,  linux-sunxi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org,  linux-pwm@vger.kernel.org, Kees Cook
- <keescook@chromium.org>, Sven Peter <sven@svenpeter.dev>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,  Ray Jui
- <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan
- =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy
- <vz@mleia.com>, Hans de Goede <hdegoede@redhat.com>, Mark Brown
- <broonie@kernel.org>,  linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org,  Baolin Wang
- <baolin.wang@linux.alibaba.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org, Orson Zhai <orsonzhai@gmail.com>, Mika
- Westerberg <mika.westerberg@linux.intel.com>,  kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,  Alexander Shiyan <shc_work@mail.ru>, Scott
- Branden <sbranden@broadcom.com>,  linux-gpio@vger.kernel.org, Daire
- McNamara <daire.mcnamara@microchip.com>,  Chunyan Zhang
- <zhang.lyra@gmail.com>, Hector Martin <marcan@marcan.st>, 
- linux-stm32@st-md-mailman.stormreply.com, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>,  Fabrice Gasnier
- <fabrice.gasnier@foss.st.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- asahi@lists.linux.dev,  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin
- Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,  Anjelique
- Melendez <quic_amelende@quicinc.com>
-Date: Thu, 15 Feb 2024 14:51:31 +0100
-In-Reply-To: <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-	 <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
-	 <Zcy21tsntcK80hef@smile.fi.intel.com>
-	 <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1708006913; c=relaxed/simple;
+	bh=ZdAF2Hedn11YRPJ8FW4xDYC4UE4K3UNWPgPTBjO3qUw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MooCcGv6s5J0ZJLTYZ7PMrrUlwtkhIW7uL+9AjQDG/RD37jGYM5ljv54H5eR39FW8LWJn519zpzq91ImVpJdTZUZ+yvNEH3T8MvqtJSo3tpxBF7K1Pe9uoXYRTL6TUkmUteaZMkJ6g50g7LoSitvAb3OC81u6VZhsqVzlPPq4gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 2C97E92570;
+	Thu, 15 Feb 2024 15:21:45 +0100 (CET)
+From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Arnd Bergmann <arnd@kernel.org>, Karel Balej <balejk@matfyz.cz>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
+Date: Thu, 15 Feb 2024 15:20:50 +0100
+Message-ID: <5772702.DvuYhMxLoT@radijator>
+In-Reply-To:
+ <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
+References:
+ <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
+ <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Autocrypt: addr=duje.mihanovic@skole.hr;
+ keydata=
+ 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
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 2024-02-15 at 13:01 +0100, Uwe Kleine-K=C3=B6nig wrote:
-> On Wed, Feb 14, 2024 at 02:49:26PM +0200, Andy Shevchenko wrote:
-> > On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > > This function allocates a struct pwm_chip and driver data. Compared t=
-o
-> > > the status quo the split into pwm_chip and driver data is new, otherw=
-ise
-> > > it doesn't change anything relevant (yet).
-> > >=20
-> > > The intention is that after all drivers are switched to use this
-> > > allocation function, its possible to add a struct device to struct
-> > > pwm_chip to properly track the latter's lifetime without touching all
-> > > drivers again. Proper lifetime tracking is a necessary precondition t=
-o
-> > > introduce character device support for PWMs (that implements atomic
-> > > setting and doesn't suffer from the sysfs overhead of the /sys/class/=
-pwm
-> > > userspace support).
-> > >=20
-> > > The new function pwmchip_priv() (obviously?) only works for chips
-> > > allocated with pwmchip_alloc().
+On Thursday, February 15, 2024 2:31:37 PM CET Linus Walleij wrote:
+> On Tue, Feb 13, 2024 at 7:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanov=
+ic@skole.hr>=20
+wrote:
+> > LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
 > >=20
-> > ...
+> > WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
 > >=20
-> > > +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
-> > > +
-> > > +static void *pwmchip_priv(struct pwm_chip *chip)
-> > > +{
-> > > +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
-> > > +}
+> >   Depends on [n]: NEW_LEDS [=3Dy] && GPIOLIB [=3Dn]
+> >   Selected by [m]:
+> >   - BACKLIGHT_KTD2801 [=3Dm] && HAS_IOMEM [=3Dy] && BACKLIGHT_CLASS_DEV=
+ICE=20
+[=3Dm]
 > >=20
-> > Why not use dma_get_cache_alignment() ?
+> > Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
+> > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
 >=20
-> Hmm, that function returns 1 if ARCH_HAS_DMA_MINALIGN isn't defined. The
-> idea of using ARCH_DMA_MINALIGN was to ensure that the priv data has the
-> same minimal alignment as kmalloc(). Took my inspriration from
-> https://lore.kernel.org/r/20240209-counter-align-fix-v2-1-5777ea0a2722@an=
-alog.com
-> . The implementation of dma_get_cache_alignment suggests that not all
-> archs provide ARCH_DMA_MINALIGN? Also there is ARCH_KMALLOC_MINALIGN.
-> Hmm, don't know yet what to do here.
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+>=20
+> Technically you can also select GPIOLIB, because it is available on
+> all platforms, so it may be easier for users, but then you never know
+> which GPIOs you get in practice.
 
-Here it goes my 2 cents... AFAIK, ARCH_DMA_MINALIGN gives you the same alig=
-nment
-guarantees than devm_kmalloc() for instance. In some archs it will effectiv=
-ely be the
-same as ARCH_KMALLOC_MINALIGN. Now, I think it only matters if the owners o=
-f private
-data intend to have a DMA safe buffer in their structs. If that is the case=
-, we need
-to ensure a proper alignment for that structure. In IIO for example, the co=
-nstruct is
-like this:
+Now that I think of it, wouldn't that be the better solution? I opted for=20
+"depends on" only because Arnd did the same in his KTD2692 patch, but if=20
+select is better (and it seems to be for users) then I'd go for that in bot=
+h=20
+patches.
 
-https://elixir.bootlin.com/linux/latest/source/drivers/iio/dac/ltc2688.c#L9=
-6
+Regards,
+=2D-=20
+Duje
 
-The buffers should come last in the struct so they are alone in the line. I=
-n IIO,
-Jonathan has a strict policy for this. Like, even if you just want to trans=
-fer 2/4
-bytes via spi, we need to make the buffer safe (apparently there are some c=
-ontrollers
-only doing DMA - even for small transfers).
 
-I would say that if unsure, go with ARCH_DMA_MINALIGN. You just might waste=
- some
-space in some archs. OTOH, if you think DMA is not really a thing for pwm c=
-hips, you
-might go ARCH_KMALLOC_MINALIGN. And since you already have your own PWMCHIP=
-_ALIGN, it
-should be easy to change the requirements down the road (if needed).
-
-That said, I'm not familiar with dma_get_cache_alignment().
-
-- Nuno S=C3=A1
 
 
