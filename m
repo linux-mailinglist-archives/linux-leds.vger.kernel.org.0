@@ -1,193 +1,150 @@
-Return-Path: <linux-leds+bounces-833-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-834-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33084856272
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:02:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE628562F7
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:19:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D996A1F215DF
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:02:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C06E41C21825
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:19:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23F9F12BEAC;
-	Thu, 15 Feb 2024 12:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19B0312BF0A;
+	Thu, 15 Feb 2024 12:18:56 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A292219E0
-	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 12:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507286A339;
+	Thu, 15 Feb 2024 12:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707998569; cv=none; b=Ky+6X1SuheJ76G61iBPUmkICoAsXVRj2FXfrm/wAwtEZ5JOXcBUiQieNVnI6w3qHCbslAS+pHP4OqnS372zD+07wSbcq/RIXRvXPvPAcUi1aHtZ16oV6sgRCjLozMcx1f4+hTzJc1TlGzQ0UWXn+4fxlH1wxTAbmLeIUO2u4v1Y=
+	t=1707999536; cv=none; b=ZRNNHeRhamgBEFOVUYYaQOduhdc6bAOHJH9N9CpWFN+Vdyh1K6JrbSsTG25FUjo3/K770gWQI/FhP+stbEdHQQ4NJNYHtba+qTdoHrLJLQYwlebdmdG6/n7ZVou6lwa0+VG+JIC/ckryBokeYm/FV76pfhSP7sCtIPbhDBl2GgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707998569; c=relaxed/simple;
-	bh=3jlg6YeJDDhpum/HJwBRurEn6l6PGW78sxf4+poXyDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CwKvXZ82IRG0u5Fra1CEkD01HbxZ08IUcOuW2nXWrXsAaiWvqYXnNBsy9hoiVWAMz/iYDZLhKCaz0ZeVcamlDsdjTjXgANOKQ1WwLSbgtKIVNNugMy8wiuxn2uk0SBvXHJ4AY8eiWuWzh4KttOuBOiJHrbODTb6JcBt5DgdZUx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1raaRB-0000Gm-6C; Thu, 15 Feb 2024 13:01:57 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1raaR5-000sKN-Ds; Thu, 15 Feb 2024 13:01:51 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1raaR5-005KpH-0o;
-	Thu, 15 Feb 2024 13:01:51 +0100
-Date: Thu, 15 Feb 2024 13:01:51 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Michael Walle <mwalle@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org, 
-	Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Paul Cercueil <paul@crapouillou.net>, linux-tegra@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	James Clark <james.clark@arm.com>, Pavel Machek <pavel@ucw.cz>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Fabio Estevam <festevam@gmail.com>, linux-riscv@lists.infradead.org, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-samsung-soc@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sean Anderson <sean.anderson@seco.com>, Benson Leung <bleung@chromium.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
-	Michal Simek <michal.simek@amd.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, Kees Cook <keescook@chromium.org>, 
-	Sven Peter <sven@svenpeter.dev>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>, 
-	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org, 
-	Orson Zhai <orsonzhai@gmail.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Alexander Shiyan <shc_work@mail.ru>, Scott Branden <sbranden@broadcom.com>, 
-	linux-gpio@vger.kernel.org, Daire McNamara <daire.mcnamara@microchip.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Hector Martin <marcan@marcan.st>, 
-	linux-stm32@st-md-mailman.stormreply.com, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, asahi@lists.linux.dev, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
- devm variant of it
-Message-ID: <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
- <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
- <Zcy21tsntcK80hef@smile.fi.intel.com>
+	s=arc-20240116; t=1707999536; c=relaxed/simple;
+	bh=4+/aoCWgI51JqdUlnAIQxUmlBR0cSHycpad6I6tv/7s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ktq56MkxX6mX5a6F4y3ZsWYtX1+kNNs9tKNoaJMPMcddKcQ+YW7ILRTDPkS83o8NmwKBBaeVuMaz9tNcnWMa4d+qyQu6iB9cAWz+vPHr5axGTafzST3pQyiWT9hBWB94sbK05llQ0finVFNc4uZKqu2Qugu7j5oV7Rkzt8NbnYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 793AB9190B;
+	Thu, 15 Feb 2024 13:18:43 +0100 (CET)
+From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Flavio Suligoi <f.suligoi@asem.it>, Hans de Goede <hdegoede@redhat.com>,
+ Jianhua Lu <lujianhua000@gmail.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: expresswire: don't depend on NEW_LEDS
+Date: Thu, 15 Feb 2024 13:17:48 +0100
+Message-ID: <12382376.O9o76ZdvQC@radijator>
+In-Reply-To: <20240215114831.GE9758@aspen.lan>
+References:
+ <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
+ <20240212-expresswire-deps-v1-2-685ad10cd693@skole.hr>
+ <20240215114831.GE9758@aspen.lan>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eo4pepuhkmuwjzg5"
-Content-Disposition: inline
-In-Reply-To: <Zcy21tsntcK80hef@smile.fi.intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-
-
---eo4pepuhkmuwjzg5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Autocrypt: addr=duje.mihanovic@skole.hr;
+ keydata=
+ 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
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 14, 2024 at 02:49:26PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-K=F6nig wrote:
-> > This function allocates a struct pwm_chip and driver data. Compared to
-> > the status quo the split into pwm_chip and driver data is new, otherwise
-> > it doesn't change anything relevant (yet).
-> >=20
-> > The intention is that after all drivers are switched to use this
-> > allocation function, its possible to add a struct device to struct
-> > pwm_chip to properly track the latter's lifetime without touching all
-> > drivers again. Proper lifetime tracking is a necessary precondition to
-> > introduce character device support for PWMs (that implements atomic
-> > setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-> > userspace support).
-> >=20
-> > The new function pwmchip_priv() (obviously?) only works for chips
-> > allocated with pwmchip_alloc().
+On Thursday, February 15, 2024 12:48:31 PM CET Daniel Thompson wrote:
+> On Mon, Feb 12, 2024 at 09:03:26PM +0100, Duje Mihanovi=C4=87 wrote:
+=2E..
+> > Link: https://lore.kernel.org/20240212111819.936815-1-arnd@kernel.org
+> > Reported-by: Arnd Bergmann <arnd@arndb.de>
+> > Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > Fixes: 25ae5f5f4168 ("leds: Introduce ExpressWire library")
+> > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
 >=20
-> ...
->=20
-> > +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
-> > +
-> > +static void *pwmchip_priv(struct pwm_chip *chip)
-> > +{
-> > +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
-> > +}
->=20
-> Why not use dma_get_cache_alignment() ?
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Hmm, that function returns 1 if ARCH_HAS_DMA_MINALIGN isn't defined. The
-idea of using ARCH_DMA_MINALIGN was to ensure that the priv data has the
-same minimal alignment as kmalloc(). Took my inspriration from
-https://lore.kernel.org/r/20240209-counter-align-fix-v2-1-5777ea0a2722@anal=
-og.com
-=2E The implementation of dma_get_cache_alignment suggests that not all
-archs provide ARCH_DMA_MINALIGN? Also there is ARCH_KMALLOC_MINALIGN.
-Hmm, don't know yet what to do here.
-
-> > +/* This is the counterpart to pwmchip_alloc */
->=20
-> pwmchip_alloc()
-
-Ack.
+I must note that checkpatch actually complains about this patch (I may have=
 =20
-> > +EXPORT_SYMBOL_GPL(pwmchip_put);
->=20
-> > +EXPORT_SYMBOL_GPL(pwmchip_alloc);
->=20
-> > +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
->=20
-> Are these exported via namespace? If no, can they be from day 1?
+hit send too early):
 
-I added that to my todo list for all pwm functions. Will address that
-separately.
+0002-leds-expresswire-don-t-depend-on-NEW_LEDS.patch
+=2D---------------------------------------------------
+WARNING: Reported-by: should be immediately followed by Closes: with a URL =
+to=20
+the report
+#21:=20
+Reported-by: Arnd Bergmann <arnd@arndb.de>
+Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Thanks for your feedback
-Uwe
+total: 0 errors, 1 warnings, 22 lines checked
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Could that Link: above be transformed into a Closes:?
 
---eo4pepuhkmuwjzg5
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+=2D-=20
+Duje
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXN/SUACgkQj4D7WH0S
-/k7Wcgf+PH/0QpqNNV4Y2/FkmhtRuwoboRFbLUmPSdsZXmpktX2oCcZmzsdo7ECA
-hWfFTUYhOspa5kHVcw+nxqCLWdGrQfQ4C0LtsPicyPjTXPVpP8W09vwdeatCiqVr
-GxgvULwRl/HxZXMUXZhJ5ToJRT/yuN1CLjpyjnINyIczC+jZFclxgx43quAbXMIf
-SCUAlxTR/Jm/mjCmH2N7Fftk64+hCNWB2gsjkaQsDUwtAelt3/J9u4h2He4NPzPi
-GaEZ3tfrkKkBWoolaCIhY1LqXtT3nU+qiP5t/bPD00DRDM2XtKsjvAk526Lx/OAu
-y+6AtGBx3n9HzXzyJ+bdew1oAMND9g==
-=44B0
------END PGP SIGNATURE-----
 
---eo4pepuhkmuwjzg5--
 
