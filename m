@@ -1,111 +1,196 @@
-Return-Path: <linux-leds+bounces-829-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-831-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571588561F9
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:45:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F3685621F
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:49:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E93151F26D91
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 11:45:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F00D28A3B8
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 11:49:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBE2412AAE9;
-	Thu, 15 Feb 2024 11:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yk7bxDLh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F4E12B151;
+	Thu, 15 Feb 2024 11:48:46 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B20012AAE5
-	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 11:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F54312BEB5
+	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 11:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707997518; cv=none; b=rvOQ+0lrGlUJpF6KNjCSF3ulHW3kTTQqHXH+yT3VK0lO9Ai2HkfAMebfyX90uzVm99kwLdx5ZWfFVp/jrDDdd0blZ9flGUmU4upD/sw0wvIds8vCyC+9GZH1LUxQ7i3e8Z5+eLn7nOF2nfIDgn8cZVvkt0lbWhyTOAWeS/jykcI=
+	t=1707997726; cv=none; b=bfzpFbHAe1NmUZpmIVkY0U+HILX3dkkAt3GbsxxPcHsFHONU/CSllv8PgNVC7pT5V4IOl4hk119XKeuRzzZJFNIeyygRhVS+uFUdIecdyNjCTcsdADuLwObWdJE9yUnRJWhYQ/E/r18SWlSl4jQNYB/ZRP49m+u9dXShRfIGtbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707997518; c=relaxed/simple;
-	bh=j7GNB4Q4AhYzbK2faRKG2Sks0J//rYWYKwaeX8FNhr0=;
+	s=arc-20240116; t=1707997726; c=relaxed/simple;
+	bh=8IGtjDC8lwX138mc9T3n6QxlYh/K434+nFH09sU4g/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M0ICY+c6ukwiwxAB7cjLMmhVee2jEzHfgQ7qMYtwKEEo6lxNM1ynB6fxjcAbspLEW1CccDUdAvO/tcbqg1Zo//syLx+grl3xR/BruSyJySxXilJeBXUJEj+WD9VnONz2l4qG2BTdAPnWhz8BdG6Uy2i2CRxQRm25Zly1YoxuDCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yk7bxDLh; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3394b892691so515416f8f.1
-        for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 03:45:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707997515; x=1708602315; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CAMbc/YPnpoMjMEiasdWUqQDRgzhyEzAGoC9QPe3Et4=;
-        b=yk7bxDLh+0aVntbj0opPwQqsNce2qiqr2rrVq/aF28sPBaiQ+dMsuvMuOdJMsoC7JQ
-         rgUBgEE0RxTL4YLfqs/NGC9jQKS5q66BdEvDaencMuWxfrEGO+SKt3dFBkMCgGjxqP2F
-         E/YzBmneiJCE0OyH0nVkcWmsfULEUjdYznN8881jsFSEFjbyaOluGe/TFueVh8FIos1q
-         XHLoeA3b+pt1ZXXvMIpDHlGI1sFeR9jT6iO6ffdKLt3XVSwm6nLjv316spUMo19Q+IT1
-         VXvbli9A6oe8jSar7Frt2DiQDkdaLyEyjA7ARscmHD2uXDT7nDb45RKGtxMtO6Miu+0M
-         nI7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707997515; x=1708602315;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CAMbc/YPnpoMjMEiasdWUqQDRgzhyEzAGoC9QPe3Et4=;
-        b=e1zL/xATjqbI0EA2wKMUMKexxSOryYO0YCRMxwBqW3cCIjzcP5WwkeG9pRu/RT8W38
-         wL+88LLbguPrVX98KScq9YZ/R3xaTaahUwdBP/mlcnR/qCFnvxEvUEiOApyrZ2Og4EYe
-         CXNTj6T8TfTgaQt4RIf/iVImAwNT+BHaZl5oq0WuMcyGTdwd4mxSPsj/nFitYIFB+qA9
-         cmjeejgC3tgDteAgJ4u6tb6Og9388iPaSfId8X9tq5Xc7Pwo3cBkCiowZACGdy7SkyM3
-         61XVBE3HsYFA2cGqRtHnDf1qQaEj8afVKoNHlliOJAfanRWpFaWlP1OfKLZ7+5qttecc
-         T5ow==
-X-Forwarded-Encrypted: i=1; AJvYcCXgRGmJO8ESB/3g0iY5eRYuZ4/VkY4HKiJO/xBuoVn7QUCYMw0bpCHpsQL+YZTynvIkO2SdrFSVoNnAcvNNMOxcJqsp5SuqIrpfGQ==
-X-Gm-Message-State: AOJu0Yx6kmLrvm9hKs4W3dt77d3VDJ+SZ/oMOHCT95phHQq6w6u1GN6H
-	44lM6sggOeEQi2L7j4sGPnxek8TgeWpaAZV6vv8YdxehB0KiWZ2vssIKnT7Kj0k=
-X-Google-Smtp-Source: AGHT+IEgp8vZ+7lAbMO2u7bbQBv282Nn/wkCHud0PkjZdrb0T2lOyr54bPl93Gxx9sDkVIqYAtM6Xg==
-X-Received: by 2002:a5d:4048:0:b0:33b:2138:623c with SMTP id w8-20020a5d4048000000b0033b2138623cmr4454343wrp.16.1707997515250;
-        Thu, 15 Feb 2024 03:45:15 -0800 (PST)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id f22-20020a7bcd16000000b00411d1ce4f9dsm4823998wmj.34.2024.02.15.03.45.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 03:45:14 -0800 (PST)
-Date: Thu, 15 Feb 2024 11:45:13 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Fenglin Wu <quic_fenglinw@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: ktd2692: add gpiolib dependency
-Message-ID: <20240215114513.GD9758@aspen.lan>
-References: <20240213165602.2230970-1-arnd@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dpeJaK5udXad1EYWpobGSlYOI6EXMHWHHRgTpiG9Y1ViPbi14q7yH28eoZxuG+uvRzqwBPz+lcn/tw2cTA1W2kvwoHiL3IRIQ8kb5RceytewJ3LZtRnOgIMSqdO41JBa1TN2cn7GBdtxAtlsm6OFFwCN/7WT52CjN399rwD1kmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCf-0007ES-Uk; Thu, 15 Feb 2024 12:46:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCW-000sHg-HB; Thu, 15 Feb 2024 12:46:48 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCW-005KD7-12;
+	Thu, 15 Feb 2024 12:46:48 +0100
+Date: Thu, 15 Feb 2024 12:46:48 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, James Clark <james.clark@arm.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Michael Walle <mwalle@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Robert Foss <rfoss@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, 
+	Lee Jones <lee@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Bjorn Andersson <quic_bjorande@quicinc.com>, Kees Cook <keescook@chromium.org>, Rob Herring <robh@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Douglas Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Guenter Roeck <groeck@chromium.org>, linux-riscv@lists.infradead.org, 
+	Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>, 
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-mips@vger.kernel.org, asahi@lists.linux.dev, 
+	kernel@pengutronix.de, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
+Message-ID: <frrn4vofjuskb67rxrgnwqrsqioonglp7nidoueumgw2hemhxq@6hrsnivgobuw>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t4o747itgdnx5oup"
 Content-Disposition: inline
-In-Reply-To: <20240213165602.2230970-1-arnd@kernel.org>
-
-On Tue, Feb 13, 2024 at 05:55:50PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The expresswire module requires gpiolib, so anything selecting it
-> also needs this dependency:
->
-> WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
->   Depends on [n]: NEW_LEDS [=y] && GPIOLIB [=n]
->   Selected by [y]:
->   - LEDS_KTD2692 [=y] && NEW_LEDS [=y] && LEDS_CLASS_FLASH [=y] && OF [=y]
->
-> Fixes: e59a15af7aa6 ("leds: ktd2692: Convert to use ExpressWire library")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
 
-Daniel.
+--t4o747itgdnx5oup
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Wed, Feb 14, 2024 at 10:30:47AM +0100, Uwe Kleine-K=F6nig wrote:
+> this is v6 of the series introducing better lifetime tracking for
+> pwmchips that addresses (for now theoretic) lifetime issues of pwm
+> chips. Addressing these is a necessary precondition to introduce chardev
+> support for PWMs.
+>=20
+> Locking got more complicated due to non-sleeping chips, so I dropped
+> the character device patch because it got still more incomplete now.
+> Also I'm not yet entirely sure about patches #162 and #163 and I expect
+> them to change before they can go in. My plan for the next merge window
+> is to get the patches in up to #160. After that the addition of chardev
+> support (including correct locking) can continue without having to touch
+> the lowlevel driver. So the idea of this series is to get the driver
+> adaptions out of the way as this requires some cross-tree coordination.
+>=20
+> The patches that touch files outside of drivers/pwm include:
+>=20
+>  - gpio: mvebu: Make use of devm_pwmchip_alloc() function
+>    It already has an Ack by Linus Walleij.
+>=20
+>  - drm/bridge: ti-sn65dsi86: Make use of pwmchip_parent() accessor
+>  - drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
+>    The 2nd already has an Ack by Douglas Anderson which I tend to assume
+>    good enough to merge this via my pwm tree, too. An Ack for the first
+>    patch would be nice.
+>=20
+>  - leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
+>    Already has an Ack by Lee Jones.
+>=20
+>  - staging: greybus: pwm: Change prototype of helpers to prepare further =
+changes
+>  - staging: greybus: pwm: Make use of pwmchip_parent() accessor
+>  - staging: greybus: pwm: Rely on pwm framework to pass a valid hwpwm
+>  - staging: greybus: pwm: Drop unused gb_connection_set_data()
+>  - staging: greybus: pwm: Rework how the number of PWM lines is determined
+>  - staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
+>    The greybus patches already got an Ack by Greg Kroah-Hartman in an
+>    earlier series, but I dropped it as the patches changed considerably.
+
+After getting the needed acks, I pushed out this series in
+
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
+next
+
+up to patch #161.
+
+(But don't let you stop looking at the changes, reviews are still
+welcome.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--t4o747itgdnx5oup
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXN+acACgkQj4D7WH0S
+/k6nrwf9Huw1P/RTRggrOHnHFRGpBXi+TWvCPbsOC65CPiHeI7iVxtq/vUtQ4A6L
+CNA0O2W96568TwCEnxxCI6Be+7t8/H/Xb+oTs0yb6hblYkDhxYrXz+wAtoCTWOM8
+MI6xhfufB/JvOhgeX0iVMIx/TOc7gDY0wnFCS7bE15PPxMTjb1yF9Uo3az97CIld
+AF8InyaA81p8dcTlhmHzMa59LEFqoPzmNoySKqTIII7UuHmQRXOqV1RuEmKxN9Ho
+yRvisZgaqoinb8K7tXdw6G8HErBcN1aHM4OQBkZWI0ufVRNzQ8gT1sfoaRlsilOv
+yc/xo9Wl8bLPEKrjcpb9Hv/C+LgzyQ==
+=hkRd
+-----END PGP SIGNATURE-----
+
+--t4o747itgdnx5oup--
 
