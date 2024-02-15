@@ -1,117 +1,193 @@
-Return-Path: <linux-leds+bounces-832-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-833-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B06856220
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:49:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33084856272
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:02:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30D871C21B23
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 11:49:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D996A1F215DF
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:02:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32B2A12B154;
-	Thu, 15 Feb 2024 11:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vKlbrH81"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23F9F12BEAC;
+	Thu, 15 Feb 2024 12:02:49 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BFE12AAD6
-	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 11:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A292219E0
+	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 12:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707997749; cv=none; b=Kt59H0c278rcbHaAYMUhSFf1yBpZScI563DkpizAiju4NHqQYuHqRVNuIBsRyAYX8OrnJpR+HLFH579WUw+gZL7E40BQcg28FeQkVVNVaB03D5aLuMqWl9aEgkA+hjRP1/xd4XIaPi38CZQVIDLaL8cQh4YxAXi4btVfrEdUJAw=
+	t=1707998569; cv=none; b=Ky+6X1SuheJ76G61iBPUmkICoAsXVRj2FXfrm/wAwtEZ5JOXcBUiQieNVnI6w3qHCbslAS+pHP4OqnS372zD+07wSbcq/RIXRvXPvPAcUi1aHtZ16oV6sgRCjLozMcx1f4+hTzJc1TlGzQ0UWXn+4fxlH1wxTAbmLeIUO2u4v1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707997749; c=relaxed/simple;
-	bh=PMdqF4BxnLzSwd0JYe63JOfvhqT8FaZryFeHRQWW11s=;
+	s=arc-20240116; t=1707998569; c=relaxed/simple;
+	bh=3jlg6YeJDDhpum/HJwBRurEn6l6PGW78sxf4+poXyDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zbl9mG2BKpHaeR/qPizwnS74dFZTvcXx0cZBxy04Okoyb0mZBqolpbvsgiqOshy0fMwcWqqIZ1xeut+Pyt8FbLWGfu/baDg4B/XtI0Ie1AzZ27m8Y79H/++woR9iDdrdXtT8KvwL1+9oWjgrQBw4UZq5fFBG2/TsBjfxgAVBXaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vKlbrH81; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4122acb7e56so949335e9.2
-        for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 03:49:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707997745; x=1708602545; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PMdqF4BxnLzSwd0JYe63JOfvhqT8FaZryFeHRQWW11s=;
-        b=vKlbrH81Q+fNYSZKaT93vsQazhllFw8PvlBaU03WUt0/++t49vHhlKe0JNGETVRW2s
-         kpR7EZ8M+YM02cLkCmX87qdi/NqoewiErV7xTEOalX5BATkMLfrM0dEAZxv84Rq6JYNW
-         JqPvkLSMR+re/+fyZT0LHags8GPH11gzWMPLz8UKwR/DG1MpTg7DItUfEaPQVEJR5U9a
-         ihYZFgbAHaOyID1M1P1C+ahOICc1r2hTWtyFU4UxyN1vMPocW7vm374UjYtCOXwc4wab
-         QQmFKHhUR1EJxyOOdakdtCLw66r6hysdLkxBne8cGhk4MuhUwL7o+lJY3PNlXBxmLqif
-         D+HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707997745; x=1708602545;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PMdqF4BxnLzSwd0JYe63JOfvhqT8FaZryFeHRQWW11s=;
-        b=wtENz29WSIMcoaJPxiMkCKtKKc9gbey8rFpp9WwB0MjXjhnhQobYGEPSarzBG7Vs6+
-         Ir4XE3QT6ZYGlzqPZu7tob0TYS1/fNEgj+jcPicyiSMRBw+BNLRs3dJwg/5HRV0Pplp5
-         U0JJhs01txgU8KK08uzOOjMKrkwb6U6S4q9FhFJ5BC1NYI2xp163jpcG/pVUNDcGI6YS
-         otints0dBeQfq3J1Ij6URUF+0o+VCRXdQ/TQGsrDKiSSzAv7kLGtGoThBzeP7dgMDUBn
-         gLsbeKFzn5J7sUwoXz431H/Zvzs7i6VGL60+P1mpcGg5xg+tGEOtRhUCgDLT5kqg2v0d
-         O8qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbJZVLl/kows54HN8NJNJPcHx521UGerbFZJ0/zcqquVNCms1o+EMCOlc1Xxq8pqgNVfN1TuzW4vq+1ZJF2aebCRs8iwG/T9ZCVw==
-X-Gm-Message-State: AOJu0YyBWW2USEH/nTeuolwe01utEmZSmZgI4tvXYwkytO4DyYmOm6Fk
-	PHEUZGvz5pZ8ZafXWfqDTwnDqB2OQnKuS0PKNe9UgW03kWTPv4LTVlkGlbxlKoM=
-X-Google-Smtp-Source: AGHT+IEPqfe0lQU32GGuFkM16RloqQWYNuLy7eiEqCzQNMdjhgJO3HI8g7e/KPfBuJeESwNfUgFUDQ==
-X-Received: by 2002:a05:600c:470b:b0:40e:a32c:988d with SMTP id v11-20020a05600c470b00b0040ea32c988dmr1202419wmo.4.1707997745749;
-        Thu, 15 Feb 2024 03:49:05 -0800 (PST)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id n15-20020a7bcbcf000000b0041076fc2a61sm4778156wmi.5.2024.02.15.03.49.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 03:49:05 -0800 (PST)
-Date: Thu, 15 Feb 2024 11:49:03 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, Flavio Suligoi <f.suligoi@asem.it>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jianhua Lu <lujianhua000@gmail.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>,
-	Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH 1/2] Revert "leds: Only descend into leds directory when
- CONFIG_NEW_LEDS is set"
-Message-ID: <20240215114903.GF9758@aspen.lan>
-References: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
- <20240212-expresswire-deps-v1-1-685ad10cd693@skole.hr>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwKvXZ82IRG0u5Fra1CEkD01HbxZ08IUcOuW2nXWrXsAaiWvqYXnNBsy9hoiVWAMz/iYDZLhKCaz0ZeVcamlDsdjTjXgANOKQ1WwLSbgtKIVNNugMy8wiuxn2uk0SBvXHJ4AY8eiWuWzh4KttOuBOiJHrbODTb6JcBt5DgdZUx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaRB-0000Gm-6C; Thu, 15 Feb 2024 13:01:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaR5-000sKN-Ds; Thu, 15 Feb 2024 13:01:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaR5-005KpH-0o;
+	Thu, 15 Feb 2024 13:01:51 +0100
+Date: Thu, 15 Feb 2024 13:01:51 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Michael Walle <mwalle@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Paul Cercueil <paul@crapouillou.net>, linux-tegra@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	James Clark <james.clark@arm.com>, Pavel Machek <pavel@ucw.cz>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Fabio Estevam <festevam@gmail.com>, linux-riscv@lists.infradead.org, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-samsung-soc@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Sean Anderson <sean.anderson@seco.com>, Benson Leung <bleung@chromium.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
+	Michal Simek <michal.simek@amd.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, Kees Cook <keescook@chromium.org>, 
+	Sven Peter <sven@svenpeter.dev>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>, 
+	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org, 
+	Orson Zhai <orsonzhai@gmail.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Alexander Shiyan <shc_work@mail.ru>, Scott Branden <sbranden@broadcom.com>, 
+	linux-gpio@vger.kernel.org, Daire McNamara <daire.mcnamara@microchip.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Hector Martin <marcan@marcan.st>, 
+	linux-stm32@st-md-mailman.stormreply.com, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, asahi@lists.linux.dev, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>
+Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
+ devm variant of it
+Message-ID: <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+ <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
+ <Zcy21tsntcK80hef@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eo4pepuhkmuwjzg5"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240212-expresswire-deps-v1-1-685ad10cd693@skole.hr>
-
-On Mon, Feb 12, 2024 at 09:03:25PM +0100, Duje Mihanović wrote:
-> This reverts commit b1ae40a5db6191c42e2e45d726407096f030ee08.
->
-> The ExpressWire library introduced in 25ae5f5f4168 ("leds: Introduce
-> ExpressWire library") does not depend on NEW_LEDS, but without this
-> revert it would never get compiled if NEW_LEDS is not enabled. Revert
-> this commit to allow the library to be compiled.
->
-> Link: https://lore.kernel.org/2cacd8dc-6150-4aa2-af9e-830a202fb0a8@app.fastmail.com
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
-
-Interesting that this could be a revert!
-
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+In-Reply-To: <Zcy21tsntcK80hef@smile.fi.intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
 
-Daniel.
+--eo4pepuhkmuwjzg5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Feb 14, 2024 at 02:49:26PM +0200, Andy Shevchenko wrote:
+> On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-K=F6nig wrote:
+> > This function allocates a struct pwm_chip and driver data. Compared to
+> > the status quo the split into pwm_chip and driver data is new, otherwise
+> > it doesn't change anything relevant (yet).
+> >=20
+> > The intention is that after all drivers are switched to use this
+> > allocation function, its possible to add a struct device to struct
+> > pwm_chip to properly track the latter's lifetime without touching all
+> > drivers again. Proper lifetime tracking is a necessary precondition to
+> > introduce character device support for PWMs (that implements atomic
+> > setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> > userspace support).
+> >=20
+> > The new function pwmchip_priv() (obviously?) only works for chips
+> > allocated with pwmchip_alloc().
+>=20
+> ...
+>=20
+> > +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
+> > +
+> > +static void *pwmchip_priv(struct pwm_chip *chip)
+> > +{
+> > +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
+> > +}
+>=20
+> Why not use dma_get_cache_alignment() ?
+
+Hmm, that function returns 1 if ARCH_HAS_DMA_MINALIGN isn't defined. The
+idea of using ARCH_DMA_MINALIGN was to ensure that the priv data has the
+same minimal alignment as kmalloc(). Took my inspriration from
+https://lore.kernel.org/r/20240209-counter-align-fix-v2-1-5777ea0a2722@anal=
+og.com
+=2E The implementation of dma_get_cache_alignment suggests that not all
+archs provide ARCH_DMA_MINALIGN? Also there is ARCH_KMALLOC_MINALIGN.
+Hmm, don't know yet what to do here.
+
+> > +/* This is the counterpart to pwmchip_alloc */
+>=20
+> pwmchip_alloc()
+
+Ack.
+=20
+> > +EXPORT_SYMBOL_GPL(pwmchip_put);
+>=20
+> > +EXPORT_SYMBOL_GPL(pwmchip_alloc);
+>=20
+> > +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
+>=20
+> Are these exported via namespace? If no, can they be from day 1?
+
+I added that to my todo list for all pwm functions. Will address that
+separately.
+
+Thanks for your feedback
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--eo4pepuhkmuwjzg5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXN/SUACgkQj4D7WH0S
+/k7Wcgf+PH/0QpqNNV4Y2/FkmhtRuwoboRFbLUmPSdsZXmpktX2oCcZmzsdo7ECA
+hWfFTUYhOspa5kHVcw+nxqCLWdGrQfQ4C0LtsPicyPjTXPVpP8W09vwdeatCiqVr
+GxgvULwRl/HxZXMUXZhJ5ToJRT/yuN1CLjpyjnINyIczC+jZFclxgx43quAbXMIf
+SCUAlxTR/Jm/mjCmH2N7Fftk64+hCNWB2gsjkaQsDUwtAelt3/J9u4h2He4NPzPi
+GaEZ3tfrkKkBWoolaCIhY1LqXtT3nU+qiP5t/bPD00DRDM2XtKsjvAk526Lx/OAu
+y+6AtGBx3n9HzXzyJ+bdew1oAMND9g==
+=44B0
+-----END PGP SIGNATURE-----
+
+--eo4pepuhkmuwjzg5--
 
