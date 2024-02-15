@@ -1,111 +1,220 @@
-Return-Path: <linux-leds+bounces-836-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-837-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0243385646B
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC878564F4
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:54:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 953B61F23798
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:31:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C51241F28D5E
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:54:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F12B130AD3;
-	Thu, 15 Feb 2024 13:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E221332B9;
+	Thu, 15 Feb 2024 13:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BqGCzj/G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGJ3CP/j"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C720612BF1E
-	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 13:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC195132467;
+	Thu, 15 Feb 2024 13:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708003911; cv=none; b=B8tnOgmuAOQSKaVOWoRY2ENUE6f0rJqUrR4/9Zr79+IGXo8886WDvVsg+gF8ZDFkr3vLYkb1ur/dK5zCrzu5cJI4WfXgw/cgH20XLggvHcDAXL4nd+9pIlD36iz0/AwwldJ9aFGrTx7hjpEjLiRwNIBPPg8GMycRI/pgSzE5rpM=
+	t=1708005097; cv=none; b=VtuYk+6sz3c1Vg5iR6nnU+zS45VQBOqWaToy4iXiyO6Y25fLbzOAMShcTs0lRRnFh9L6LO7RYqKjCKTLgsMrtlPn66V/mdOITewWkyeV1PYG6lo5JQCwejm4OWil6Lb0Xxu/T2aygVmJYCoUN8Izm3q0XX/15zuOVCaWychAVYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708003911; c=relaxed/simple;
-	bh=lUl0Pib7si2dQHCXFrZb+InEVOkZVwOiAw43kh+jhak=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dhCB6t2bezkuT8Rs3vHAWhw6Or8wJzqwqi9utx5sKDexguU9N92WXCzpP7geD8OGiQPc5+Xp/quRGOzscDmT4jBH62IPiLXccJGA2cWQkdNvwEv6Cj5BnpQDykQLOrrXtmMOC004ptvc6oFwpvGzubX3PNdeSB4lV9wrBgt3CJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BqGCzj/G; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-607bfa4c913so8327987b3.3
-        for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 05:31:49 -0800 (PST)
+	s=arc-20240116; t=1708005097; c=relaxed/simple;
+	bh=RzDVzAMbt/0O8rLENBgNMOIiu2ews2E1U5PQyx+Ji0k=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=duthAThQ7ST3q+IY+RI12/l/pID7L0Nmhb/kMpJj1MT6zmByzVq7B5SDMxItlbgOcnxPCuti79DYQfuELHiISOzmgiKhs7y/wXpy7QpK36g0g8faMeSDsaTLkhxhBB5wvP2OHOcegKXZUBQke9WW5qKyMLtN8/I9b3PlSb4JNs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGJ3CP/j; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4121954d4c0so3306275e9.0;
+        Thu, 15 Feb 2024 05:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708003909; x=1708608709; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yGh//nbX6ksAbjoH86pu+1OoxjeTYU/3tdUOfH2WwY4=;
-        b=BqGCzj/G9jhFSsh2Za755/LzU6uyT+nqeNHXOXWrVvZpkLqcH6kmzgf4tPtVkwkEU0
-         wyf4WLzEQMX1M5SRb9clyi+Wdlay+Rj3eHfkjDTKRJCeBQ5oJAaHdR739mCMQ0siELsY
-         pMJ4k9VWaGRJ5KWxpNJKYgc2ezLDBvP27pFM9/oAuXmwlEVFp9qUZnpYcCWRIHkcj3AB
-         vZ2lGqYF2zsUly9WRW5AgoT6GXIqqR4cK0IiLdb30LSDU5k9ul21dtva44MEhEtMEhsa
-         4JFzDwH3I9iI/ebxA/XSbuogUGtrJJo0jsA7Qcel1rqwY+WfQASMKFs9+z71WRRioqem
-         0bXA==
+        d=gmail.com; s=20230601; t=1708005094; x=1708609894; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
+        b=RGJ3CP/ji8NihQLfupeAHxS66Q+QtNvy5PxhM0MX8ofwzKLRJ4l80YaI8VMzKOg5GP
+         yeV1NGk3aArey0SyQXCgwlhmrqAv0hfLYTCOTVNrDZEJbAwDzzPEbMIxlHFgEN/eIyA4
+         JOJHqs0eN5WIlUKrz4GYDIMhkRVHSzCOwoWPnt3UjIsE1SQwaAQHlXaIEzya8btY9RhB
+         wuZqzdmqbecDlvHn+CqurKcYmfpaAGDjBRIVrY16/qHeb+kbb6zeKQ/hblN/AJ84C8Xr
+         fh7a8ThSa6yPtEeAoxs6X0DLuESPX9UGFtD3KV4adDjf56EbJ3GYqp7CF7c/qMURYLis
+         C+4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708003909; x=1708608709;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yGh//nbX6ksAbjoH86pu+1OoxjeTYU/3tdUOfH2WwY4=;
-        b=gnm5TldMMBi2dCj4EfihFFrFv9P+EmbhKNaRbgZfum10CBSlbCxMTy0+KzAJphlN7R
-         E7gXYUEPU4QBcOnJOdSW8aoWe3Vr6Ny3OQ/EN17PCEv7QDVXcZl4I9/VwKX8q2YRfkTE
-         bkg6zUEbfUwEeJyvo5q++8X8cdX3Ylmp632+fQ5G2JeTXyB0yXl9THGMnFHAWnMTLxpZ
-         CmM0hRC95NO3YzH+OFpE2nSyFOkSnEZCm1oQJaGOywFjWqrXjIzXeOoPWBGnlQ/cS2fr
-         5Sn7u7+Y2LDHqXk3C5dQNRPHH8U7FrxfNWYbLQU2m34m2KNfS4JLI1Hars9tV8YfaEaQ
-         Wi3A==
-X-Forwarded-Encrypted: i=1; AJvYcCW6z42W73vnj8Q+U2n/06Ba+B8GXYpXO/83sanXYiutobTuFovZ/Y6b36uqDU867+gY+ytfblEzd0+9gMiEbRtzLEruHYb8DsGYqg==
-X-Gm-Message-State: AOJu0YyibJYfqZicV+HgDD0yGNmSneLpkQJTm2mI2D9WPan48QEjO8Xl
-	846hVY/c/KmEWYO2lHcZv91y17T3HOe2yow5/UrqmiGE8e+nfJRFKYL6PVqSf6zVGD7vujjIvpv
-	X+dDGyLhNIWoQybyRqjQ9KfCf8TplqLQma4yOlQ==
-X-Google-Smtp-Source: AGHT+IHl3qgWvQCqRJMe39KHtu2wuTpCX4Lckf3lqFQQ+kVziMGrJ7Juv/tfm7isqbWZN8sE5IWX6zuYqEnZ+zYcRZE=
-X-Received: by 2002:a25:b949:0:b0:dcb:b41c:77ef with SMTP id
- s9-20020a25b949000000b00dcbb41c77efmr1387473ybm.24.1708003908799; Thu, 15 Feb
- 2024 05:31:48 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708005094; x=1708609894;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
+        b=STzCClyhCCVnz8///Rm3CjUFmeNucHivQqgorFpEp20Jocw/x7NJ4wlLWmxHdkv5PV
+         crC+0FBafKGrbwB5jQ7VzAU+2WdHrLwRJhSyheqGAJvPUibYM64ER9guIQc6f+kKRLi3
+         WP4KExTIsuWrOcypRsidUtg9lZ29inrt9OTZ/oSQiXjNmhAQbz8TEL0g0gEhc1yLNmmU
+         lN4idUYRYl/FTGyrU4I194b1hgmuKVSEULUf0HAVzAY9pRWYPNVEhPOin8muKiYR775F
+         mGnd2+htdzUJ8/qCkNRDn+GovbhbbLLwLKdgjjVbW1fwNuf6coAfEjimWqhOrm30tcDP
+         XNTw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmn5akH/NV/CbhvBGsR8nz7GQhjKNHju9HZgD8xo9MMEeRkwU8BqIz6HaHI8fb7ImsdP/pZ1qkG6wi1HuPNE4OWQrcTEbiEf20gTUTZv90TYYxxF/CffJYF7bCwpo9MuOAshlfMt2hXHXel4CMicUdhF35azYFBFitxt2dAt8mMN7YExbUdxiIW3Ov8DM2fUy5jxant0Dganp0yfTRydanq/M4xXotFwew6BapbvieN4w/168YdOWJul2TcuVHV6v9aB67pgERkpdO+MfzrlHvIKJ67T6zgfYBawbO4KRYRyCunvFq9Vs7w9i2kAQZmcwZQZU4620SE48THXmksUs+mtNRmAmrIs/hkfhxoprlHDxBILx50EAWELuRHZ4=
+X-Gm-Message-State: AOJu0Yzk2lHiFiO0I+VmZqZcdn1U8ickzALl9D9GO5DGMmNIjodxFatO
+	qJnbKMnlCoLDtwUgfeUb9zYMJU49BbV/4rw2oBK8kBvdAzeDwV5o
+X-Google-Smtp-Source: AGHT+IH7k9jN1LEPjklm49kSSJGmdKPhxpWNQecPQqPdKhvRMqEI/U195h3M4bWUY8DUrcLpEFVYaQ==
+X-Received: by 2002:a05:600c:3503:b0:412:7d0:d83 with SMTP id h3-20020a05600c350300b0041207d00d83mr1601111wmq.16.1708005093670;
+        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id i7-20020a05600c290700b00410add3af79sm5061337wmd.23.2024.02.15.05.51.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
+Message-ID: <63b248efcbd62a121610cbf37ea0339bd87c99e7.camel@gmail.com>
+Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
+ devm variant of it
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Michael Walle
+ <mwalle@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Paul Cercueil <paul@crapouillou.net>, 
+ linux-tegra@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, James Clark
+ <james.clark@arm.com>, Pavel Machek <pavel@ucw.cz>,  Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Guenter Roeck
+ <groeck@chromium.org>,  chrome-platform@lists.linux.dev, Nobuhiro Iwamatsu
+ <nobuhiro1.iwamatsu@toshiba.co.jp>, Fabio Estevam <festevam@gmail.com>, 
+ linux-riscv@lists.infradead.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>, Samuel
+ Holland <samuel@sholland.org>,  linux-samsung-soc@vger.kernel.org, Bjorn
+ Andersson <quic_bjorande@quicinc.com>,  Florian Fainelli
+ <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, Sean
+ Anderson <sean.anderson@seco.com>, Benson Leung <bleung@chromium.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>,  Jonathan Hunter
+ <jonathanh@nvidia.com>, Hammer Hsieh <hammerh0314@gmail.com>,
+ linux-rockchip@lists.infradead.org,  Chen-Yu Tsai <wens@csie.org>, Michal
+ Simek <michal.simek@amd.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-leds@vger.kernel.org, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-mips@vger.kernel.org,  linux-sunxi@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org,  linux-pwm@vger.kernel.org, Kees Cook
+ <keescook@chromium.org>, Sven Peter <sven@svenpeter.dev>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,  Ray Jui
+ <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan
+ =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy
+ <vz@mleia.com>, Hans de Goede <hdegoede@redhat.com>, Mark Brown
+ <broonie@kernel.org>,  linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org,  Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-amlogic@lists.infradead.org, Orson Zhai <orsonzhai@gmail.com>, Mika
+ Westerberg <mika.westerberg@linux.intel.com>,  kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,  Alexander Shiyan <shc_work@mail.ru>, Scott
+ Branden <sbranden@broadcom.com>,  linux-gpio@vger.kernel.org, Daire
+ McNamara <daire.mcnamara@microchip.com>,  Chunyan Zhang
+ <zhang.lyra@gmail.com>, Hector Martin <marcan@marcan.st>, 
+ linux-stm32@st-md-mailman.stormreply.com, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>,  Fabrice Gasnier
+ <fabrice.gasnier@foss.st.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ asahi@lists.linux.dev,  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin
+ Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,  Anjelique
+ Melendez <quic_amelende@quicinc.com>
+Date: Thu, 15 Feb 2024 14:51:31 +0100
+In-Reply-To: <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+	 <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
+	 <Zcy21tsntcK80hef@smile.fi.intel.com>
+	 <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
-In-Reply-To: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 15 Feb 2024 14:31:37 +0100
-Message-ID: <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
-Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
-To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@kernel.org>, 
-	Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
-	linux-leds@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 13, 2024 at 7:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic=
-@skole.hr> wrote:
+On Thu, 2024-02-15 at 13:01 +0100, Uwe Kleine-K=C3=B6nig wrote:
+> On Wed, Feb 14, 2024 at 02:49:26PM +0200, Andy Shevchenko wrote:
+> > On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> > > This function allocates a struct pwm_chip and driver data. Compared t=
+o
+> > > the status quo the split into pwm_chip and driver data is new, otherw=
+ise
+> > > it doesn't change anything relevant (yet).
+> > >=20
+> > > The intention is that after all drivers are switched to use this
+> > > allocation function, its possible to add a struct device to struct
+> > > pwm_chip to properly track the latter's lifetime without touching all
+> > > drivers again. Proper lifetime tracking is a necessary precondition t=
+o
+> > > introduce character device support for PWMs (that implements atomic
+> > > setting and doesn't suffer from the sysfs overhead of the /sys/class/=
+pwm
+> > > userspace support).
+> > >=20
+> > > The new function pwmchip_priv() (obviously?) only works for chips
+> > > allocated with pwmchip_alloc().
+> >=20
+> > ...
+> >=20
+> > > +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
+> > > +
+> > > +static void *pwmchip_priv(struct pwm_chip *chip)
+> > > +{
+> > > +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
+> > > +}
+> >=20
+> > Why not use dma_get_cache_alignment() ?
+>=20
+> Hmm, that function returns 1 if ARCH_HAS_DMA_MINALIGN isn't defined. The
+> idea of using ARCH_DMA_MINALIGN was to ensure that the priv data has the
+> same minimal alignment as kmalloc(). Took my inspriration from
+> https://lore.kernel.org/r/20240209-counter-align-fix-v2-1-5777ea0a2722@an=
+alog.com
+> . The implementation of dma_get_cache_alignment suggests that not all
+> archs provide ARCH_DMA_MINALIGN? Also there is ARCH_KMALLOC_MINALIGN.
+> Hmm, don't know yet what to do here.
 
-> LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
->
-> WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
->   Depends on [n]: NEW_LEDS [=3Dy] && GPIOLIB [=3Dn]
->   Selected by [m]:
->   - BACKLIGHT_KTD2801 [=3Dm] && HAS_IOMEM [=3Dy] && BACKLIGHT_CLASS_DEVIC=
-E [=3Dm]
->
-> Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
-> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+Here it goes my 2 cents... AFAIK, ARCH_DMA_MINALIGN gives you the same alig=
+nment
+guarantees than devm_kmalloc() for instance. In some archs it will effectiv=
+ely be the
+same as ARCH_KMALLOC_MINALIGN. Now, I think it only matters if the owners o=
+f private
+data intend to have a DMA safe buffer in their structs. If that is the case=
+, we need
+to ensure a proper alignment for that structure. In IIO for example, the co=
+nstruct is
+like this:
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+https://elixir.bootlin.com/linux/latest/source/drivers/iio/dac/ltc2688.c#L9=
+6
 
-Technically you can also select GPIOLIB, because it is available on
-all platforms, so it may be easier for users, but then you never know
-which GPIOs you get in practice.
+The buffers should come last in the struct so they are alone in the line. I=
+n IIO,
+Jonathan has a strict policy for this. Like, even if you just want to trans=
+fer 2/4
+bytes via spi, we need to make the buffer safe (apparently there are some c=
+ontrollers
+only doing DMA - even for small transfers).
 
-Yours,
-Linus Walleij
+I would say that if unsure, go with ARCH_DMA_MINALIGN. You just might waste=
+ some
+space in some archs. OTOH, if you think DMA is not really a thing for pwm c=
+hips, you
+might go ARCH_KMALLOC_MINALIGN. And since you already have your own PWMCHIP=
+_ALIGN, it
+should be easy to change the requirements down the road (if needed).
+
+That said, I'm not familiar with dma_get_cache_alignment().
+
+- Nuno S=C3=A1
+
 
