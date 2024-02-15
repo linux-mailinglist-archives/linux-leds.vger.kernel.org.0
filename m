@@ -1,173 +1,111 @@
-Return-Path: <linux-leds+bounces-835-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-836-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55E185632D
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:29:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0243385646B
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 14:31:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66C822857A8
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 12:29:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 953B61F23798
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Feb 2024 13:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CD812C548;
-	Thu, 15 Feb 2024 12:29:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F12B130AD3;
+	Thu, 15 Feb 2024 13:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LklKqVpM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p1DQAUh/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LklKqVpM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p1DQAUh/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BqGCzj/G"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D544A12C52A;
-	Thu, 15 Feb 2024 12:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C720612BF1E
+	for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 13:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708000170; cv=none; b=kemAninjwR7LY1q+4qKGHJ4FHdkz84LtxqcSlEG5epCpYJPF5S1DGp6pj+SHDFGASvtgrUA7HC1zpBFB0UBt6Ma4bIaFiE6pr7C19WoQqfqwJj9spQakum0e5+AvdqooWH63WTtpgNLkdkk+FsFhN8B/b6QgSUHulnYU20o8k1g=
+	t=1708003911; cv=none; b=B8tnOgmuAOQSKaVOWoRY2ENUE6f0rJqUrR4/9Zr79+IGXo8886WDvVsg+gF8ZDFkr3vLYkb1ur/dK5zCrzu5cJI4WfXgw/cgH20XLggvHcDAXL4nd+9pIlD36iz0/AwwldJ9aFGrTx7hjpEjLiRwNIBPPg8GMycRI/pgSzE5rpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708000170; c=relaxed/simple;
-	bh=pr05/woSUV6TNjaB6fjye3Wd7P0srA1HwHBQB4N5oZE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uv44RJaFqPEz4Mt/YcM3nd02PhMhqMfLsnMz2yE0WSPgi1HVCUHogdAi9PiQ3j+pqlP0YqdlBNRAle7G5Ia48e+h2ItTo/y2Z01hiiK4gcOjTmJb0BeVd4P52uJhQxvDglpRz7ckeY8o9xbgsAOjpMKf1qt3RSJI6PWlndUqJ4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LklKqVpM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p1DQAUh/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LklKqVpM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p1DQAUh/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1ADC822031;
-	Thu, 15 Feb 2024 12:29:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708000167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
-	b=LklKqVpMGF5+QPgxbPaKYyrShpRaoeo9KaUC2qBtK9+BVDLZX+UWHK8K77m3NkMbxbmkac
-	GKWM4f6diUNjnOxqKSwCU3aGeVjy8QDSJLEz+YPx9Xnf366bM7yrDIEEKcjqDbLgCz5yzd
-	WwnkzOMJl5wx/BaQrOzb+QrftxITYMY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708000167;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
-	b=p1DQAUh/ZdJ+Fr0O8/kq/lYmI7BC3YT+MoVamXbu2jdhQlgR5MbpLL+i9o/d4FU4EieQwj
-	nyinAQzKNNLASBAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708000167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
-	b=LklKqVpMGF5+QPgxbPaKYyrShpRaoeo9KaUC2qBtK9+BVDLZX+UWHK8K77m3NkMbxbmkac
-	GKWM4f6diUNjnOxqKSwCU3aGeVjy8QDSJLEz+YPx9Xnf366bM7yrDIEEKcjqDbLgCz5yzd
-	WwnkzOMJl5wx/BaQrOzb+QrftxITYMY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708000167;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
-	b=p1DQAUh/ZdJ+Fr0O8/kq/lYmI7BC3YT+MoVamXbu2jdhQlgR5MbpLL+i9o/d4FU4EieQwj
-	nyinAQzKNNLASBAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5D2413A82;
-	Thu, 15 Feb 2024 12:29:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +uSdKqYDzmXwRwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 15 Feb 2024 12:29:26 +0000
-Date: Thu, 15 Feb 2024 13:29:26 +0100
-Message-ID: <87zfw1ewrd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of led_trigger_event() and simplify mute audio trigger
-In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1708003911; c=relaxed/simple;
+	bh=lUl0Pib7si2dQHCXFrZb+InEVOkZVwOiAw43kh+jhak=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dhCB6t2bezkuT8Rs3vHAWhw6Or8wJzqwqi9utx5sKDexguU9N92WXCzpP7geD8OGiQPc5+Xp/quRGOzscDmT4jBH62IPiLXccJGA2cWQkdNvwEv6Cj5BnpQDykQLOrrXtmMOC004ptvc6oFwpvGzubX3PNdeSB4lV9wrBgt3CJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BqGCzj/G; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-607bfa4c913so8327987b3.3
+        for <linux-leds@vger.kernel.org>; Thu, 15 Feb 2024 05:31:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708003909; x=1708608709; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yGh//nbX6ksAbjoH86pu+1OoxjeTYU/3tdUOfH2WwY4=;
+        b=BqGCzj/G9jhFSsh2Za755/LzU6uyT+nqeNHXOXWrVvZpkLqcH6kmzgf4tPtVkwkEU0
+         wyf4WLzEQMX1M5SRb9clyi+Wdlay+Rj3eHfkjDTKRJCeBQ5oJAaHdR739mCMQ0siELsY
+         pMJ4k9VWaGRJ5KWxpNJKYgc2ezLDBvP27pFM9/oAuXmwlEVFp9qUZnpYcCWRIHkcj3AB
+         vZ2lGqYF2zsUly9WRW5AgoT6GXIqqR4cK0IiLdb30LSDU5k9ul21dtva44MEhEtMEhsa
+         4JFzDwH3I9iI/ebxA/XSbuogUGtrJJo0jsA7Qcel1rqwY+WfQASMKFs9+z71WRRioqem
+         0bXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708003909; x=1708608709;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yGh//nbX6ksAbjoH86pu+1OoxjeTYU/3tdUOfH2WwY4=;
+        b=gnm5TldMMBi2dCj4EfihFFrFv9P+EmbhKNaRbgZfum10CBSlbCxMTy0+KzAJphlN7R
+         E7gXYUEPU4QBcOnJOdSW8aoWe3Vr6Ny3OQ/EN17PCEv7QDVXcZl4I9/VwKX8q2YRfkTE
+         bkg6zUEbfUwEeJyvo5q++8X8cdX3Ylmp632+fQ5G2JeTXyB0yXl9THGMnFHAWnMTLxpZ
+         CmM0hRC95NO3YzH+OFpE2nSyFOkSnEZCm1oQJaGOywFjWqrXjIzXeOoPWBGnlQ/cS2fr
+         5Sn7u7+Y2LDHqXk3C5dQNRPHH8U7FrxfNWYbLQU2m34m2KNfS4JLI1Hars9tV8YfaEaQ
+         Wi3A==
+X-Forwarded-Encrypted: i=1; AJvYcCW6z42W73vnj8Q+U2n/06Ba+B8GXYpXO/83sanXYiutobTuFovZ/Y6b36uqDU867+gY+ytfblEzd0+9gMiEbRtzLEruHYb8DsGYqg==
+X-Gm-Message-State: AOJu0YyibJYfqZicV+HgDD0yGNmSneLpkQJTm2mI2D9WPan48QEjO8Xl
+	846hVY/c/KmEWYO2lHcZv91y17T3HOe2yow5/UrqmiGE8e+nfJRFKYL6PVqSf6zVGD7vujjIvpv
+	X+dDGyLhNIWoQybyRqjQ9KfCf8TplqLQma4yOlQ==
+X-Google-Smtp-Source: AGHT+IHl3qgWvQCqRJMe39KHtu2wuTpCX4Lckf3lqFQQ+kVziMGrJ7Juv/tfm7isqbWZN8sE5IWX6zuYqEnZ+zYcRZE=
+X-Received: by 2002:a25:b949:0:b0:dcb:b41c:77ef with SMTP id
+ s9-20020a25b949000000b00dcbb41c77efmr1387473ybm.24.1708003908799; Thu, 15 Feb
+ 2024 05:31:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [2.38 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_HAM(-0.02)[52.40%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[ucw.cz,kernel.org,perex.cz,suse.com,gmail.com,alpha.franken.de,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: **
-X-Spam-Score: 2.38
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
+In-Reply-To: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 15 Feb 2024 14:31:37 +0100
+Message-ID: <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
+Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
+To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@kernel.org>, 
+	Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 13 Feb 2024 08:30:30 +0100,
-Heiner Kallweit wrote:
-> 
-> If a simple trigger is assigned to a LED, then the LED may be off until
-> the next led_trigger_event() call. This may be an issue for simple
-> triggers with rare led_trigger_event() calls, e.g. power supply
-> charging indicators (drivers/power/supply/power_supply_leds.c).
-> Therefore persist the brightness value of the last led_trigger_event()
-> call and use this value if the trigger is assigned to a LED.
-> This change allows to use simple triggers in more cases.
-> As a first use case simplify handling of the mute audio trigger.
-> 
-> This series touches few subsystems. I'd propose to handle it via
-> the LED subsystem.
-> 
-> Heiner Kallweit (4):
->   leds: trigger: Store brightness set by led_trigger_event()
->   ALSA: control-led: Integrate mute led trigger
->   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
->   leds: trigger: audio: Remove this trigger
+On Tue, Feb 13, 2024 at 7:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic=
+@skole.hr> wrote:
 
-LGTM.
+> LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
+>
+> WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+>   Depends on [n]: NEW_LEDS [=3Dy] && GPIOLIB [=3Dn]
+>   Selected by [m]:
+>   - BACKLIGHT_KTD2801 [=3Dm] && HAS_IOMEM [=3Dy] && BACKLIGHT_CLASS_DEVIC=
+E [=3Dm]
+>
+> Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
+> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-One thing I'm not 100% sure is the movement from ledtrig:audio-mute
-and ledtrig:audio-micmute alias into snd-ctl-led module.  Who would
-use/process those aliases?  I don't think this would be a problem, but
-it might change the loading order.
+Technically you can also select GPIOLIB, because it is available on
+all platforms, so it may be easier for users, but then you never know
+which GPIOs you get in practice.
 
-
-Thanks!
-
-Takashi
+Yours,
+Linus Walleij
 
