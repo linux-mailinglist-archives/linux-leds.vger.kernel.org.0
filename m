@@ -1,175 +1,108 @@
-Return-Path: <linux-leds+bounces-847-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-849-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A31185821D
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Feb 2024 17:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205C18587D0
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Feb 2024 22:17:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59BFA1C2130A
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Feb 2024 16:06:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5336C1C20CD2
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Feb 2024 21:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4097A12F5AE;
-	Fri, 16 Feb 2024 16:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cd2Krt2F"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1B4A145B21;
+	Fri, 16 Feb 2024 21:16:57 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD6512BEBB
-	for <linux-leds@vger.kernel.org>; Fri, 16 Feb 2024 16:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FFF1419BF;
+	Fri, 16 Feb 2024 21:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708099572; cv=none; b=u131IghBSoza8HLIYQ+9zBmwoVRR+TBEh9gud87SEYjgQQOFhuy9HbvsL6hKOpzz2lJEEAxI78AxQWjYtHa/Mk9pdPsqNaCbLhRyzrZd+LbPbjk4ROMPEbdWMix6Gobt1MmPm6ARzOZCIwEHGUO9KDCtktJtBtEpRKPwE5DFwN0=
+	t=1708118217; cv=none; b=rMl7kEQ/uUAic6C6FDZcrrSP7rCfLyW6SQ5MbPfoE0r7qdSuji6NaZWmjk/+5giTpERj11nrsLJ0x3nSuKUzuCfjHEAFhgejKc0lVl/ZHD9gRUBTKHvNdORAQbahL6ofU7ROpdW+iJbSw0FQr2E9aOoaeFeSxIoo/8gCAVo9hA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708099572; c=relaxed/simple;
-	bh=yqKclV0NPqSLvxU0ArKUQB4rOtlkbw1Rme/pB/VKCho=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wlpl/kx4aqpjB49XdHmD+0h0lSuTJHceQOvLGIofu04U1DWp7QbGVS70Lm6mXT+tnxez5EnINvs3PEtrmhhyNMIDRQJwwBSekIHOALdkPQ2Ye/D1cbeTWY0Wymnut9mzjzdWsp6YhdbavySu8rOS7XTirDoruYjurFCB+m1V0o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cd2Krt2F; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708099569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gaj7roeARNSrWhk/9zy9SUlSFnO3r0EEzHAmXFwT4F4=;
-	b=cd2Krt2FW7pKVvgOsN0aQbQeK93T858ER3gelAqpAv2TP6bZZcVDOX1+/Tc8rCrBSKIJj3
-	1msCLXGPsuePBsoiUofZDd4CgH18BojN/hlJa1VeOHn4j4+/p4VTMlBbRavfoG/76G+4+y
-	5njzBeGHjG8tlk1JVOEYRuGDH8AOWik=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-198-VJkNpuCeMSOF8Vwa0EzvOQ-1; Fri, 16 Feb 2024 11:06:06 -0500
-X-MC-Unique: VJkNpuCeMSOF8Vwa0EzvOQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0AA285A58B;
-	Fri, 16 Feb 2024 16:06:05 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.108])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E4F90492BE5;
-	Fri, 16 Feb 2024 16:06:01 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v2 3/3] leds: rgb: leds-ktd202x: Skip regulator settings for Xiaomi pad2
-Date: Sat, 17 Feb 2024 00:05:26 +0800
-Message-ID: <20240216160526.235594-4-hpa@redhat.com>
-In-Reply-To: <20240216160526.235594-1-hpa@redhat.com>
-References: <20240216160526.235594-1-hpa@redhat.com>
+	s=arc-20240116; t=1708118217; c=relaxed/simple;
+	bh=vsUzdyJf3pTQ7iUhH2zrKBom94/d9kxFvZKujmQlDa8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=C47endjyJfvtxLwdkGL3+1z4KV31SIg5yumN+xQixIaIif88+oHxyS7awHNN9atRmtlV2YcjAk8cIUNAdfiIOP69j5Ne8b8lZ3Lawfn/l9oF9xqo/xWh5UXdhmxXoYhskPpKpLwi1tBYEIp2u4XyWWyqn6/o57N3D0qV/vQekHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id AA20687245;
+	Fri, 16 Feb 2024 22:16:45 +0100 (CET)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: [PATCH v2 0/2] leds: expresswire: Fix dependencies
+Date: Fri, 16 Feb 2024 22:15:42 +0100
+Message-Id: <20240216-expresswire-deps-v2-0-8be59c4a75f5@skole.hr>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+X-B4-Tracking: v=1; b=H4sIAH7Qz2UC/32NQQrCMBBFr1JmbSRJbUldeQ/pIjSjGZSmzEisl
+ Nzd2AO4fP/z399AkAkFzs0GjJmE0lzBHhqYop/vqChUBqvtSVtjFa4Lo8ibGFXARRS6oUMXvEP
+ fQp3V+kbrrryOlSPJK/Fnf8jml/6RZaO06l3ng9FT6If2Io/0xGNkGEspX9WBO7uvAAAA
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: Flavio Suligoi <f.suligoi@asem.it>, Hans de Goede <hdegoede@redhat.com>, 
+ Jianhua Lu <lujianhua000@gmail.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>, 
+ Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+ kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=846;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=vsUzdyJf3pTQ7iUhH2zrKBom94/d9kxFvZKujmQlDa8=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlz9CFR8jXTTpNjeM5Z13FI+8f8Uv4Ix9lAQpaT
+ Jn64esMzpWJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZc/QhQAKCRCaEZ6wQi2W
+ 4RfwEACDN/l5D7tzp7o766y36S3GhsHIEtzUEBCRk0smhUo5lpciXjTWgIQ6I+0jjopw+PcFgIG
+ keEipaCgUGqaHg5rT3DMbhUYiQlloAX+Il3q4dXGtQPa66bp5+LAkMSyLiiFJd5jYNYlDED3vg5
+ PDxTaXZxFKf437PJv0/9XwzMVhuDScudoKLp05K1rzil3WWxjqRnh9ljn/wlUDYZzKvnrYU73tb
+ 8utBDSnh7YF8/o7MLJrhH53zTya1Qd9LYXJiXcVMTG0fNaWWQLnse0LKnzjhMAL4nNiF32Uxi+h
+ te2BisSHEzflz04dBfXWT3VUQZzuz5nzUDJvfSz08Hm7E9yxBLPV/bg2yhUlXkrvt1qGX2oLxQA
+ iNOap3FLdazQfgl9sUPcVh6HazF9grJQ3Uo08ZQW/y00HdBgkOTtP3RIMLAt0qZIVdc3NSe0nRy
+ dGARsxhrs3BzXZqh9CpZdEDP2m1xEK1Ywx8zXksC8n0Dd1+MwymROLay2ut/6i1Qxm2XN0UWovi
+ HB0d+iE9JiFYKTmA9rsdpz0H8izcEbwrmonCYFiv0PywgcYqtgrzsdVeruX3qWCEu/8a9Im4Ker
+ hEoPoIWK3sSX4gXRUbNs6QGiw2E5xtTiU2ztPMyerPn7Rb5OSRVV1ChUEf0xbsq2TA4h1Z86dM1
+ duaZbd+56zSXTCg==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 
-The controller is already powered by BP25890RTWR on Xiaomi Pad2 so the
-regulator settings can be ignored.
+LEDS_EXPRESSWIRE does not depend on NEW_LEDS in practice but still does
+in Kconfig. Fix up its Kconfig entry to reflect this and fix a Kconfig
+warning.
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
- drivers/leds/rgb/leds-ktd202x.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Changes in v2:
+- Fix checkpatch errors
+- Pull Daniel's Reviewed-by
+- Link to v1: https://lore.kernel.org/r/20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr
 
-diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
-index 8eb79c342fb6..6fd0794988e9 100644
---- a/drivers/leds/rgb/leds-ktd202x.c
-+++ b/drivers/leds/rgb/leds-ktd202x.c
-@@ -14,7 +14,9 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/regmap.h>
-+#ifndef CONFIG_ACPI
- #include <linux/regulator/consumer.h>
-+#endif
- 
- #define KTD2026_NUM_LEDS 3
- #define KTD2027_NUM_LEDS 4
-@@ -105,18 +107,22 @@ struct ktd202x {
- 
- static int ktd202x_chip_disable(struct ktd202x *chip)
- {
-+#ifndef CONFIG_ACPI
- 	int ret;
-+#endif
- 
- 	if (!chip->enabled)
- 		return 0;
- 
- 	regmap_write(chip->regmap, KTD202X_REG_RESET_CONTROL, KTD202X_ENABLE_CTRL_SLEEP);
- 
-+#ifndef CONFIG_ACPI
- 	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators), chip->regulators);
- 	if (ret) {
- 		dev_err(chip->dev, "Failed to disable regulators: %d\n", ret);
- 		return ret;
- 	}
-+#endif
- 
- 	chip->enabled = false;
- 	return 0;
-@@ -129,11 +135,13 @@ static int ktd202x_chip_enable(struct ktd202x *chip)
- 	if (chip->enabled)
- 		return 0;
- 
-+#ifndef CONFIG_ACPI
- 	ret = regulator_bulk_enable(ARRAY_SIZE(chip->regulators), chip->regulators);
- 	if (ret) {
- 		dev_err(chip->dev, "Failed to enable regulators: %d\n", ret);
- 		return ret;
- 	}
-+#endif
- 	chip->enabled = true;
- 
- 	ret = regmap_write(chip->regmap, KTD202X_REG_RESET_CONTROL, KTD202X_ENABLE_CTRL_WAKE);
-@@ -560,6 +568,7 @@ static int ktd202x_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
-+#ifndef CONFIG_ACPI
- 	chip->regulators[0].supply = "vin";
- 	chip->regulators[1].supply = "vio";
- 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(chip->regulators), chip->regulators);
-@@ -573,10 +582,12 @@ static int ktd202x_probe(struct i2c_client *client)
- 		dev_err_probe(dev, ret, "Failed to enable regulators.\n");
- 		return ret;
- 	}
-+#endif
- 
- 	chip->num_leds = (int) (unsigned long)i2c_get_match_data(client);
- 
- 	ret = ktd202x_probe_dt(chip);
-+#ifndef CONFIG_ACPI
- 	if (ret < 0) {
- 		regulator_bulk_disable(ARRAY_SIZE(chip->regulators), chip->regulators);
- 		return ret;
-@@ -587,6 +598,10 @@ static int ktd202x_probe(struct i2c_client *client)
- 		dev_err_probe(dev, ret, "Failed to disable regulators.\n");
- 		return ret;
- 	}
-+#else
-+	if (ret < 0)
-+		return ret;
-+#endif
- 
- 	mutex_init(&chip->mutex);
- 
+---
+Duje Mihanović (2):
+      Revert "leds: Only descend into leds directory when CONFIG_NEW_LEDS is set"
+      leds: expresswire: don't depend on NEW_LEDS
+
+ drivers/Makefile     |  2 +-
+ drivers/leds/Kconfig | 10 ++++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+---
+base-commit: ae00c445390b349e070a64dc62f08aa878db7248
+change-id: 20240212-expresswire-deps-e895e8da8ea3
+
+Best regards,
 -- 
-2.43.1
+Duje Mihanović <duje.mihanovic@skole.hr>
+
 
 
