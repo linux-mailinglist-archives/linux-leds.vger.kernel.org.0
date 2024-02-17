@@ -1,96 +1,115 @@
-Return-Path: <linux-leds+bounces-851-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-852-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEE48591FB
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Feb 2024 20:11:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BE2859307
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Feb 2024 22:49:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 574591C22A20
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Feb 2024 19:11:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 24928282912
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Feb 2024 21:49:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60BD57E0EB;
-	Sat, 17 Feb 2024 19:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 391637F7E1;
+	Sat, 17 Feb 2024 21:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="Pv1oJgBe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCY0M1n7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0466DCF5;
-	Sat, 17 Feb 2024 19:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7117E782;
+	Sat, 17 Feb 2024 21:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708197099; cv=none; b=qufFA+7vXvQiFXtSLX7dzUcfdxpqcpdyIt4IavlU01N1fUzzMIIQgZ2BODy+kawROFuKqiQff2c85zKdpBBdGuI/QcHyeZ6+hJ2fyynlWYL9DwpkRpBx1GwRDx52+WUInR3TRxW5QA75HxpMnA+kn834nSadWTpOF1Ul8pClZnc=
+	t=1708206582; cv=none; b=LL+jTsFtUvbom1jzW0DPaDm6Pr/WKFk6rBuc+q731W1rasOat2HDHM1MGtVVnmrQXsuT9196Q9/JFxsUk0UHSnnlccOXfrWbkp7VeBmvNvpzYP7nmFIna2XT1OTW74S0M9Cl2uWJHew+yK2rwipYL/sXAo4EfvvfRAOXG3Vje98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708197099; c=relaxed/simple;
-	bh=GXGNf/8UKXSGI7yOkkdhqhIWE80JGkrZF+91e9t4620=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QI5KOXMFox1wI+gssot3XSO2WmFd3KRriAHHqMj6QqglHRMUdX2lxf0n+bg6+e+Jn51JRgG3gVfxjlvK0Y3HS1wIN0f+f7IYpa5qWkqz7YtF9TzxW3zzoWk6ZptSvHS/QxR2q6DUZ0FMJxslxC5Q3MoAWRchPfW1Z/zuNt5naVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=Pv1oJgBe; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708197094; bh=GXGNf/8UKXSGI7yOkkdhqhIWE80JGkrZF+91e9t4620=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Pv1oJgBex+u11cRTONnBTCfm4kJcvGpqNkMhXzkPIkxQkAcGruP2BAM9PW0W7wCCu
-	 GEmysxPg/OuZgVNd0aymo+T6JJNSOPfBBhYk7h5iCsCA0mP2HBkVmGotj5V7KlLUP+
-	 xgYVbODzu9UApAVV5TQF5ri08rtaVMCWcG4AHOUI=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-kernel@vger.kernel.org
-Cc: Ondrej Jirman <megi@xff.cz>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Raymond Hackley <raymondhackley@protonmail.com>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
-Subject: [PATCH] leds: sgm3140: Add missing timer cleanup and flash gpio control
-Date: Sat, 17 Feb 2024 20:11:30 +0100
-Message-ID: <20240217191133.1757553-1-megi@xff.cz>
+	s=arc-20240116; t=1708206582; c=relaxed/simple;
+	bh=wB7CDGUJaK3t8ceS2065mNEi6YkAIcqs94ldRZprQoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=InV1DJo01AR/MKidj83mRmONfK8vIbXf2HHlHFEUfgdrcGeuEfy3G85HruMoOvj3v5JLsOTEaEwS6fFHQBzd7TIoqLdP5J9chXy/zq40QQ/Ech47I3SmeSUvL1WfY1iglCI+1D44R++Xm+C+fQfRIihmEdH68oCqU7Y3W/d3GOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCY0M1n7; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7872ade6f0aso112831885a.1;
+        Sat, 17 Feb 2024 13:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708206579; x=1708811379; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yff5w2/dX+NyP9bba4N2dTBCRUtR6XFZyKeb2OHw1L8=;
+        b=gCY0M1n7tDqWL4iMPRg3fxKaZOVj9+ly2PBRYccWBwTqSdZLQcKCg4aU9tDoNHM5A9
+         qUD/eHNIqdrPKiXTa17ydJXy8qAi0xVq7rqI4jwPrhhWrHz7nsdcffIADahEDeg/fybt
+         qErae63HWHZUu9+BZdw+nnpeSUK+zUV0NO566/30U3ivbWoRS4rSdChk/xC/fIxzbgFK
+         ATGpvj1g2lEezqJzamT8PNfsqY4nDIZyNyrDjvO22yV51FGqyzmcvSM5rbIRUurNejiY
+         rmA2L4p+cnCVs+9ZsrKFXFduejWZVLu8CDG1xkiSaqP3qhDUKp5qAtSh2ixo7kq0BaCP
+         +vEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708206579; x=1708811379;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yff5w2/dX+NyP9bba4N2dTBCRUtR6XFZyKeb2OHw1L8=;
+        b=qi+dEyUgpl4q6TtyN+BNl+RisETtJOrlt0TLJOklbV6mv0JZSlJNfBW04ZKnts38Y0
+         5MEj5cVY0ErACkrPlHmbthfmLaEXMm9UDtOaEC5UDT+SQR1hEw3S7/Pkt6szHqE37w70
+         kKER2W++C7N3zCM04+ifUUVisc2xoRNAbcvKKUKSMgsEzmX61Au/WhSqwagkWL3KnDmi
+         r08wOzChVtBpWappURJ7UYZ1ScIEQRoBhmzFDkJj1beAytPImX7IvpDK9M5nyDx8OpWO
+         vCKzwfvDxF0bez+P6UFd6nLcRNw0JCqON+pg+lBsnmKzckN13EmQLM8b1fJ2US4oivnK
+         svxw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2b58GmSnC5BkT2uvvGm4HfbkHb+bHMXnog7078Y/+p5frkWTy9nXlE0jsEcheGI6iR9LWoqwDV0ylxsYQWaLbG5jVxj6qBbICB8feVZ1VPvnv/gZ6dsth5ZhiWP+kO6uFO8RkGTbLsplWg5htl9jA+w+nc7K7k7hRbfDT0cqxBZOTCHY=
+X-Gm-Message-State: AOJu0YxHTA51r7J/0ZguswvAAu4S4ZKDpXkKepL4mC0tgVOgKUU1zsA9
+	YMskp6cQC6E2eqv09utB258tlLESv9TXdyTO+oBmZCIaQeeyiNc0
+X-Google-Smtp-Source: AGHT+IEpJf8kG9va0jB/Qx0L+/bPcH/+drdkhi4V/gEWRNCpo4MV5hJi0SE++Qig9xyxcxd0+ndO9Q==
+X-Received: by 2002:a05:620a:468a:b0:787:3c10:f17f with SMTP id bq10-20020a05620a468a00b007873c10f17fmr9066402qkb.61.1708206579597;
+        Sat, 17 Feb 2024 13:49:39 -0800 (PST)
+Received: from abdel ([174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id h25-20020a05620a10b900b007873c8f1b7bsm1132854qkk.62.2024.02.17.13.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Feb 2024 13:49:39 -0800 (PST)
+Date: Sat, 17 Feb 2024 16:49:28 -0500
+From: Abdel Alkuor <alkuor@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: Add NCP5623 multi-led driver
+Message-ID: <ZdEp6LuUBI1oMf0z@abdel>
+References: <20240203175910.301099-1-alkuor@gmail.com>
+ <20240203175910.301099-2-alkuor@gmail.com>
+ <Zcsz7x1rXgYP3e7b@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zcsz7x1rXgYP3e7b@duo.ucw.cz>
 
-From: Ondrej Jirman <megi@xff.cz>
+On Tue, Feb 13, 2024 at 10:18:39AM +0100, Pavel Machek wrote:
+Hi Pavel,
+> > +What:		/sys/class/leds/<led>/dim_step
+> 
+> You are reinventing hardware_pattern trigger. NAK.
+> 
+> I suggest you add basic support first, then look at hardware pattern
+> trigger and add that support in separate patch.
+>
+This makes a lot of sense and simplifies the driver.
 
-Enabling strobe and then setting brightness to 0 causes the driver to enter
-invalid state after strobe end timer fires. We should cancel strobe mode
-resources when changing brightness (aka torch mode).
+I'd like to add the hardware pattern as part of this patch as it is already
+implemented previously but I needed to do some clean up :)
 
-Fixes: cef8ec8cbd21 ("leds: add sgm3140 driver")
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
----
-I also have a sense the driver has other issues, like running regulator_disable
-in atomic context, and lacking locking in general. But that's for another time.
+Thanks,
+Abdel
 
-I don't think this device is typically used from multiple threads/processes.
-But writing strobe = 1 and then brightness = 0 affects real usecases.
-
- drivers/leds/flash/leds-sgm3140.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/leds/flash/leds-sgm3140.c b/drivers/leds/flash/leds-sgm3140.c
-index eb648ff54b4e..db0ac6641954 100644
---- a/drivers/leds/flash/leds-sgm3140.c
-+++ b/drivers/leds/flash/leds-sgm3140.c
-@@ -114,8 +114,11 @@ static int sgm3140_brightness_set(struct led_classdev *led_cdev,
- 				"failed to enable regulator: %d\n", ret);
- 			return ret;
- 		}
-+		gpiod_set_value_cansleep(priv->flash_gpio, 0);
- 		gpiod_set_value_cansleep(priv->enable_gpio, 1);
- 	} else {
-+		del_timer_sync(&priv->powerdown_timer);
-+		gpiod_set_value_cansleep(priv->flash_gpio, 0);
- 		gpiod_set_value_cansleep(priv->enable_gpio, 0);
- 		ret = regulator_disable(priv->vin_regulator);
- 		if (ret) {
--- 
-2.43.0
 
 
