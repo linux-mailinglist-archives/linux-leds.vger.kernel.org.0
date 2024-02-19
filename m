@@ -1,54 +1,55 @@
-Return-Path: <linux-leds+bounces-861-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-862-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4997185A71F
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 16:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE06785A775
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 16:35:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08DF31F20FF1
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 15:13:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93CC21F219B8
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 15:35:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 415AB38F80;
-	Mon, 19 Feb 2024 15:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF8138DD4;
+	Mon, 19 Feb 2024 15:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tDAZdOuO"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="QhbFq6B3"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D0838DF1;
-	Mon, 19 Feb 2024 15:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EB638398;
+	Mon, 19 Feb 2024 15:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708355617; cv=none; b=rJB/Hw6B73LhWY3DqKWdm9yfFBxCxfTaAjcvvJ1LmoIU3/rC/ZUgn/YxMJ30QRPXmScglQoL4uGN2VM3AUOywZh0ULMvq2qT6tQvsQz0ZKdPeQjflSBpGpXYJqHxxO6EyNMNnaXJs4Suj0OV11aUEZv7i1BYrBV99nKJyQsXALc=
+	t=1708356903; cv=none; b=IQrkQppQiwRzlQSKamiginByLZTqz/lxMR9wlXGDO6LIs+5iKMfgvYfFvkBm20iK5jxi9pZtR2nI7Cml1M7drXO3d65THuQGQ7aLoUxn8VbGXM/ItA4mjpx8f4k0tXItMYFjE9/lz7kPrUC5M3P3OCJkCtEzWiv1G69/JdjvvM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708355617; c=relaxed/simple;
-	bh=219zpRrF+2txenauOR7oz9BE36nHaUCy6d2FitoCx2g=;
+	s=arc-20240116; t=1708356903; c=relaxed/simple;
+	bh=aqXyVlW3d+HoF9uReR/+Utxa70z7YXA2kyd8nwe/nkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Un33/SIfdJgxYca46ex/BQk/l8xVkL3dEaQ4Cm25+7l0pf8X3yYBNjeD02xdc3jSmSDxv/TH2q0qbjdnhm75sw1NplPR5b86ujeHQFsloIbJhQSLnoZ3SCbQdnrKrBNsd9ZxvaD7acngQBdS45lYygE+OsbRKG85yrPyJcou4OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tDAZdOuO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736E5C433F1;
-	Mon, 19 Feb 2024 15:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708355616;
-	bh=219zpRrF+2txenauOR7oz9BE36nHaUCy6d2FitoCx2g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tDAZdOuOzQIXrMYvVzMiSwZnj/SSGXgZlyHXJanaGcX21G/YeZcUyGlI7YMlPRBtl
-	 NQjnemVKek/RrRiTZJKpp//I5w31ZtqYpzk56LJ55uYxZWUrQz/1SzVkPvhC6ve9Eo
-	 9dyH6cP1uqO1g3P7NsLI2302ABSS7ZEnK3rNMtAz5KPaiKMCXc/Lnd/pyLPse+6mFq
-	 JGcMNTDVNvuAoGRYlUrSQz1AMnzRn1X7axI/8cyxsJBQ7I0NBuL7wYrDkHvR4a5wil
-	 sOOrvhQHIJwdjXA5iuCRqt5gnP5GZtbXI3EYP/y3/rgpM6qKjRRTF+1Hbl8IDSTPgc
-	 Nh1nlMtQee6fg==
-Date: Mon, 19 Feb 2024 15:13:32 +0000
-From: Lee Jones <lee@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IjVRYQx5UeWUdLNIng5vd0LbnytZqzaRm0+MqxOwyWIWmkKJ7cYxddaqb/2U2BUpLWZQG0U9548U8uTNA5MSnxhe+dfMchRoPRu2XK8u3TRxmmiVQ/IlqDmDGpv/9jXwq//DS/MXsnCSxUcOsLrEQKQG5FVaE81m72rFqffGQHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=QhbFq6B3; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id A78651C0071; Mon, 19 Feb 2024 16:34:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1708356891;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XGkPyHRZGdXnHCCK4TUPor1qkxga/sNFfj4wWfPCLlE=;
+	b=QhbFq6B3Topv1qBT0xYd/ix9Em4Ub9RSJr+dwV5KWiSEbuprYBVo640m+4DoiBnbFCwhPU
+	saQ4g26CApXHkDeM6jZRY8HzfUTinelTFjQCFsLMgHDQWs35RPfyi8P2kb3GLZAO9w2Hk9
+	gX5Uc1K6BXVy0OHAhKtxlCefSpRrDXg=
+Date: Mon, 19 Feb 2024 16:34:51 +0100
+From: Pavel Machek <pavel@ucw.cz>
 To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: Pavel Machek <pavel@ucw.cz>,
+Cc: "lee@kernel.org" <lee@kernel.org>,
 	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: Linux support for a 7 segment LED display
-Message-ID: <20240219151332.GC10170@google.com>
+Message-ID: <ZdN1G6PfCK9/vUol@duo.ucw.cz>
 References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -56,31 +57,48 @@ List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yPb17zyHgF1OuMIw"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
 
-On Sun, 11 Feb 2024, Chris Packham wrote:
 
-> Hi Blinkenlight enthusiasts,
-> 
-> I'm looking for something that I figured must exists but maybe it's so 
+--yPb17zyHgF1OuMIw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> I'm looking for something that I figured must exists but maybe it's so=20
 > niche that no-one has bothered to upstream a driver for it.
-> 
-> I have a requirement to support a 7-segment LED display[1] (one that can 
-> display a single digit from 0-9). Hardware wise it's just a bunch of 
-> individual GPIOs connected to each segment (plus an extra one for a 
-> dot). I can't see anything obvious in drivers/leds but maybe I'm looking 
-> in the wrong place. Or maybe it's the kind of thing on PC hardware that 
+>=20
+> I have a requirement to support a 7-segment LED display[1] (one that can=
+=20
+> display a single digit from 0-9). Hardware wise it's just a bunch of=20
+> individual GPIOs connected to each segment (plus an extra one for a=20
+> dot). I can't see anything obvious in drivers/leds but maybe I'm looking=
+=20
+> in the wrong place. Or maybe it's the kind of thing on PC hardware that=
+=20
 > is just driven by the BIOS without the operating system knowing about it.
-> 
-> Is there an existing in-kernel driver for such a thing?
 
-Why would LEDs connected to a bunch of GPIOs in a specific fashion
-require a hardware driver?  Doesn't drivers/leds/leds-gpio.c already
-provide all the support you need?
+Look at drivers/auxdisplay. I believe we have segment displays there.
 
--- 
-Lee Jones [李琼斯]
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--yPb17zyHgF1OuMIw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZdN1GwAKCRAw5/Bqldv6
+8qdXAJ9M+scNVUZ8g1U6IPdv+E7AK/PlMACfTgZ/uvO9npw3kAX/VIEJtyVy/Bk=
+=vVrC
+-----END PGP SIGNATURE-----
+
+--yPb17zyHgF1OuMIw--
 
