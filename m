@@ -1,182 +1,197 @@
-Return-Path: <linux-leds+bounces-856-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-857-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7783B8594FE
-	for <lists+linux-leds@lfdr.de>; Sun, 18 Feb 2024 07:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA6585A4A0
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 14:28:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA7111C21041
-	for <lists+linux-leds@lfdr.de>; Sun, 18 Feb 2024 06:29:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C30321C210EC
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 13:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805E15695;
-	Sun, 18 Feb 2024 06:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 791FE3612D;
+	Mon, 19 Feb 2024 13:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ASlvnVdl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irElZST3"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12AE75394;
-	Sun, 18 Feb 2024 06:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA12282E2;
+	Mon, 19 Feb 2024 13:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708237751; cv=none; b=AInXRKrwc8E7hR1F2XYtgweiUlGAxDS81ll4Q/T0V/Lu+hEPDou2sDhSTbk7l5VdAtMGB1Y3B1pcuqlTcbZCVE/WJvhANpzMioqUQLuaSHZ3S5DMrN7U05N6ew/3Mh3YoLoZj3b9mikZj7BrBZWhWt1tV6jubBQotjVqr1RZUhw=
+	t=1708349317; cv=none; b=G211NzVZwKajjm+DszqD06WZTTQ+Nk/M56+sb7FzTqCQBNBptthKi6SQTEz8FtaYpCk4Cw0aED0OAFMFBxHyHnOZlfxtH6BCHfYEACTGtm4PO2dj7Vo9Aiij2/MwPHNaKId1zVbtKWL25D+hbmIGtgEbtui7zq+sBqp8dpvuNzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708237751; c=relaxed/simple;
-	bh=RFrTruxCePpCvvUZ9JG4MkT85f7C9D0dY59j2MbiQ3A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LqS5ej56ZlJDse8xRz+HS2LbudVqk2MfYY53v06PNeFCXW1r6afbinn4FFlWRgvyg6W5hRQ3593+jc6RSaKhR2jBQctQHMyigvPiSiw8RN9Pd8Y/I27Gyta2G+C7ebThJT5i4Mhsy2EFgxuyk0+5GFv6OUMH/VqnQcJ8qT6UMng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ASlvnVdl; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=649G+
-	c2moUST3OyqTYL+YtM4w/uIcFil9PTAbL3lI2s=; b=ASlvnVdlWCbBWDsr44RhW
-	OLhDzL8kXxTPD3XsxOZUVNLE7QYTgdiRxuGY/kNlLzCXyb36WrOgbvBCspRviDdE
-	jK8a07B+0uJx+U+tMVO8VinC3W7dXqIJ9Ja2Ze5h6Eu9VssMI+7lFhxxZ9+XGkJ9
-	gxTewDgNiz0gTsLLlYXMI4=
-Received: from localhost.localdomain (unknown [39.144.138.207])
-	by gzga-smtp-mta-g1-4 (Coremail) with SMTP id _____wD3X1V3o9FlTGBpCw--.34987S3;
-	Sun, 18 Feb 2024 14:28:12 +0800 (CST)
-From: Xing Tong Wu <xingtong_wu@163.com>
-To: lee@kernel.org
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-	Xing Tong Wu <xingtong.wu@siemens.com>,
-	Tobias Schaffner <tobias.schaffner@siemens.com>,
-	Henning Schild <henning@hennsch.de>
-Subject: [RESEND PATCH v2 1/1] leds: simatic-ipc-leds-gpio: add support for module BX-59A
-Date: Sun, 18 Feb 2024 14:28:06 +0800
-Message-Id: <20240218062806.3932-2-xingtong_wu@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240218062806.3932-1-xingtong_wu@163.com>
-References: <20240208120901.GL689448@google.com>
- <20240218062806.3932-1-xingtong_wu@163.com>
+	s=arc-20240116; t=1708349317; c=relaxed/simple;
+	bh=U6Xoimujhng8rp0yjcYZ+VvvasGvGK0MjKdjcM/FtUI=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=IXqxc6Zc2o92gEVIoBtUIL0VNcJhLfHgApGf3V10IbkqXEoc/Ej8LXFgAoLF8AjoR+YjTNp7+HqJoU9nTPYmxRmeOpDx9foTyzN8lXV1Aj2RVrty6+TxNXVLCR62wAZaHHibHke9M6gvDedcL2w7pR658eAsOE72/zm69s4zB2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irElZST3; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708349316; x=1739885316;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=U6Xoimujhng8rp0yjcYZ+VvvasGvGK0MjKdjcM/FtUI=;
+  b=irElZST366Iq/fXRDYzJHXiaiH2hoJywhnGTqpbf0YIwE+Ky6T1LxUZo
+   kri/3odaQ/kBJo9ntSxtNhWaqtmMWg6MSb6Gcl8pQ4jzbZRa6SayAsckG
+   jIZifseUMDGLVBI9cS7gVkpYIuI+ZJ4Rh7Fz+oQm+0X0sW50wWDDYlrka
+   DwuEaXfXY5GJg6DDwni59DrRE2+KYAMp9x/KkzUma38570OobgPDFQV9F
+   VeNUDK2/r4oHi9lrsnMJXQzzAW9DCHTQ+lKv6DGj1FfalR3hfHCMHqzgS
+   qbSYfhRZVsEdBmNyWp0sbvWBFh1H0vozND3zUI1hNqEbbhw6tpJ7kvOp9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2551589"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="2551589"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 05:28:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="35517724"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.246.48.18])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 05:28:32 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 19 Feb 2024 15:28:24 +0200 (EET)
+To: Kate Hsuan <hpa@redhat.com>
+cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+    linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+    Hans de Goede <hdegoede@redhat.com>, 
+    =?ISO-8859-15?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>
+Subject: Re: [PATCH v2 3/3] leds: rgb: leds-ktd202x: Skip regulator settings
+ for Xiaomi pad2
+In-Reply-To: <20240216160526.235594-4-hpa@redhat.com>
+Message-ID: <9f2d02ff-5a8a-4c11-a1a3-bea43d7b6454@linux.intel.com>
+References: <20240216160526.235594-1-hpa@redhat.com> <20240216160526.235594-4-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3X1V3o9FlTGBpCw--.34987S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr1kurWUJw15Xryrur4DArb_yoWrZr4xpF
-	nxJa9YkFW5Xr1Dtr13GFW7Zas3uw4xKr97trZrGa90g3Wjvr10gFnrAFW3XFZ5J3yDuFnx
-	GF1rtFyj9r4kAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j7fHUUUUUU=
-X-CM-SenderInfo: p0lqw35rqjs4rx6rljoofrz/xtbB0h2I0GWXwEKJ6gAAsE
+Content-Type: text/plain; charset=US-ASCII
 
-From: Xing Tong Wu <xingtong.wu@siemens.com>
+On Sat, 17 Feb 2024, Kate Hsuan wrote:
 
-This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
-connected to GPIOs provided by the Nuvoton NCT6126D
+> The controller is already powered by BP25890RTWR on Xiaomi Pad2 so the
+> regulator settings can be ignored.
+> 
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  drivers/leds/rgb/leds-ktd202x.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
+> index 8eb79c342fb6..6fd0794988e9 100644
+> --- a/drivers/leds/rgb/leds-ktd202x.c
+> +++ b/drivers/leds/rgb/leds-ktd202x.c
+> @@ -14,7 +14,9 @@
+>  #include <linux/of.h>
+>  #include <linux/of_device.h>
+>  #include <linux/regmap.h>
+> +#ifndef CONFIG_ACPI
+>  #include <linux/regulator/consumer.h>
+> +#endif
 
-Signed-off-by: Xing Tong Wu <xingtong.wu@siemens.com>
----
- .../leds/simple/simatic-ipc-leds-gpio-core.c  |  1 +
- .../simple/simatic-ipc-leds-gpio-f7188x.c     | 53 ++++++++++++++++---
- 2 files changed, 48 insertions(+), 6 deletions(-)
+Why you need #ifndef here?
+  
+>  #define KTD2026_NUM_LEDS 3
+>  #define KTD2027_NUM_LEDS 4
+> @@ -105,18 +107,22 @@ struct ktd202x {
+>  
+>  static int ktd202x_chip_disable(struct ktd202x *chip)
+>  {
+> +#ifndef CONFIG_ACPI
+>  	int ret;
+> +#endif
+>  
+>  	if (!chip->enabled)
+>  		return 0;
+>  
+>  	regmap_write(chip->regmap, KTD202X_REG_RESET_CONTROL, KTD202X_ENABLE_CTRL_SLEEP);
+>  
+> +#ifndef CONFIG_ACPI
+>  	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators), chip->regulators);
+>  	if (ret) {
+>  		dev_err(chip->dev, "Failed to disable regulators: %d\n", ret);
+>  		return ret;
+>  	}
+> +#endif
+>  
+>  	chip->enabled = false;
+>  	return 0;
+> @@ -129,11 +135,13 @@ static int ktd202x_chip_enable(struct ktd202x *chip)
+>  	if (chip->enabled)
+>  		return 0;
+>  
+> +#ifndef CONFIG_ACPI
+>  	ret = regulator_bulk_enable(ARRAY_SIZE(chip->regulators), chip->regulators);
+>  	if (ret) {
+>  		dev_err(chip->dev, "Failed to enable regulators: %d\n", ret);
+>  		return ret;
+>  	}
+> +#endif
+>  	chip->enabled = true;
+>  
+>  	ret = regmap_write(chip->regmap, KTD202X_REG_RESET_CONTROL, KTD202X_ENABLE_CTRL_WAKE);
+> @@ -560,6 +568,7 @@ static int ktd202x_probe(struct i2c_client *client)
+>  		return ret;
+>  	}
+>  
+> +#ifndef CONFIG_ACPI
+>  	chip->regulators[0].supply = "vin";
+>  	chip->regulators[1].supply = "vio";
+>  	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(chip->regulators), chip->regulators);
+> @@ -573,10 +582,12 @@ static int ktd202x_probe(struct i2c_client *client)
+>  		dev_err_probe(dev, ret, "Failed to enable regulators.\n");
+>  		return ret;
+>  	}
+> +#endif
+>  
+>  	chip->num_leds = (int) (unsigned long)i2c_get_match_data(client);
+>  
+>  	ret = ktd202x_probe_dt(chip);
+> +#ifndef CONFIG_ACPI
+>  	if (ret < 0) {
+>  		regulator_bulk_disable(ARRAY_SIZE(chip->regulators), chip->regulators);
+>  		return ret;
+> @@ -587,6 +598,10 @@ static int ktd202x_probe(struct i2c_client *client)
+>  		dev_err_probe(dev, ret, "Failed to disable regulators.\n");
+>  		return ret;
+>  	}
+> +#else
+> +	if (ret < 0)
+> +		return ret;
+> +#endif
+>  
+>  	mutex_init(&chip->mutex);
 
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-index 667ba1bc3a30..85003fd7f1aa 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-@@ -56,6 +56,7 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
- 	case SIMATIC_IPC_DEVICE_127E:
- 	case SIMATIC_IPC_DEVICE_227G:
- 	case SIMATIC_IPC_DEVICE_BX_21A:
-+	case SIMATIC_IPC_DEVICE_BX_59A:
- 		break;
- 	default:
- 		return -ENODEV;
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-index c7c3a1f986e6..2d6910328769 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-@@ -17,7 +17,12 @@
- 
- #include "simatic-ipc-leds-gpio.h"
- 
--static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-+struct simatic_ipc_led_tables {
-+	struct gpiod_lookup_table *led_lookup_table;
-+	struct gpiod_lookup_table *led_lookup_table_extra;
-+};
-+
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
- 	.dev_id = "leds-gpio",
- 	.table = {
- 		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-@@ -30,7 +35,7 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
- 	},
- };
- 
--static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra_227g = {
- 	.dev_id = NULL, /* Filled during initialization */
- 	.table = {
- 		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
-@@ -39,16 +44,52 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
- 	},
- };
- 
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_bx_59a = {
-+	.dev_id = "leds-gpio",
-+	.table = {
-+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 3, NULL, 1, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 3, NULL, 2, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 2, NULL, 3, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 7, NULL, 4, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 4, NULL, 5, GPIO_ACTIVE_LOW),
-+		{} /* Terminating entry */
-+	}
-+};
-+
- static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
- {
--	return simatic_ipc_leds_gpio_probe(pdev, &simatic_ipc_led_gpio_table,
--					   &simatic_ipc_led_gpio_table_extra);
-+	const struct simatic_ipc_platform *plat = pdev->dev.platform_data;
-+	struct simatic_ipc_led_tables *led_tables;
-+
-+	led_tables = devm_kzalloc(&pdev->dev, sizeof(*led_tables), GFP_KERNEL);
-+	if (!led_tables)
-+		return -ENOMEM;
-+
-+	switch (plat->devmode) {
-+	case SIMATIC_IPC_DEVICE_227G:
-+		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_227g;
-+		led_tables->led_lookup_table_extra = &simatic_ipc_led_gpio_table_extra_227g;
-+		break;
-+	case SIMATIC_IPC_DEVICE_BX_59A:
-+		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_bx_59a;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	dev_set_drvdata(&pdev->dev, led_tables);
-+	return simatic_ipc_leds_gpio_probe(pdev, led_tables->led_lookup_table,
-+					   led_tables->led_lookup_table_extra);
- }
- 
- static void simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
- {
--	simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
--				     &simatic_ipc_led_gpio_table_extra);
-+	struct simatic_ipc_led_tables *led_tables;
-+
-+	led_tables = dev_get_drvdata(&pdev->dev);
-+	simatic_ipc_leds_gpio_remove(pdev, led_tables->led_lookup_table,
-+				     led_tables->led_lookup_table_extra);
- }
- 
- static struct platform_driver simatic_ipc_led_gpio_driver = {
+To me this entire approach looks quite ugly. It would be much cleaner to 
+have something along these lines:
+
+#ifndef CONFIG_ACPI
+static int ktd202x_regulators_disable(struct ktd202x *chip)
+{
+	int ret;
+
+	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators), chip->regulators);
+	if (ret)
+		dev_err(chip->dev, "Failed to disable regulators: %d\n", ret);
+
+	return ret;
+}
+...
+#else
+static inline int ktd202x_regulators_disable(struct ktd202x *chip) { return 0; }
+...
+#endif
+
+And call that function without any #ifdefs from the other code.
+
 -- 
-2.25.1
+ i.
 
 
