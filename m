@@ -1,104 +1,108 @@
-Return-Path: <linux-leds+bounces-862-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-863-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE06785A775
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 16:35:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B6C85ACCA
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 21:08:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93CC21F219B8
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 15:35:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 019B3B22232
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Feb 2024 20:08:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF8138DD4;
-	Mon, 19 Feb 2024 15:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BA3851C5F;
+	Mon, 19 Feb 2024 20:08:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="QhbFq6B3"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="d7rrEy4f"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EB638398;
-	Mon, 19 Feb 2024 15:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1B051C52
+	for <linux-leds@vger.kernel.org>; Mon, 19 Feb 2024 20:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708356903; cv=none; b=IQrkQppQiwRzlQSKamiginByLZTqz/lxMR9wlXGDO6LIs+5iKMfgvYfFvkBm20iK5jxi9pZtR2nI7Cml1M7drXO3d65THuQGQ7aLoUxn8VbGXM/ItA4mjpx8f4k0tXItMYFjE9/lz7kPrUC5M3P3OCJkCtEzWiv1G69/JdjvvM0=
+	t=1708373313; cv=none; b=ZjkkZTnFWwBgKBdLVZ3pSm9eVntvCvcO935KbHWf4TQi7QavH+1K1Hj5FesTkdbPFTvrW/L/vqoJUxpbKasNZECtvihUXiUWBO7h+hvQ+c8VYLH36oE8WBmlekwNhMC1DLNpNwn2VXOiOTIaNI3oso7SV6v1EJw/uE/ARzI0PUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708356903; c=relaxed/simple;
-	bh=aqXyVlW3d+HoF9uReR/+Utxa70z7YXA2kyd8nwe/nkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IjVRYQx5UeWUdLNIng5vd0LbnytZqzaRm0+MqxOwyWIWmkKJ7cYxddaqb/2U2BUpLWZQG0U9548U8uTNA5MSnxhe+dfMchRoPRu2XK8u3TRxmmiVQ/IlqDmDGpv/9jXwq//DS/MXsnCSxUcOsLrEQKQG5FVaE81m72rFqffGQHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=QhbFq6B3; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id A78651C0071; Mon, 19 Feb 2024 16:34:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1708356891;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XGkPyHRZGdXnHCCK4TUPor1qkxga/sNFfj4wWfPCLlE=;
-	b=QhbFq6B3Topv1qBT0xYd/ix9Em4Ub9RSJr+dwV5KWiSEbuprYBVo640m+4DoiBnbFCwhPU
-	saQ4g26CApXHkDeM6jZRY8HzfUTinelTFjQCFsLMgHDQWs35RPfyi8P2kb3GLZAO9w2Hk9
-	gX5Uc1K6BXVy0OHAhKtxlCefSpRrDXg=
-Date: Mon, 19 Feb 2024 16:34:51 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: "lee@kernel.org" <lee@kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1708373313; c=relaxed/simple;
+	bh=81oK5AvAbNIDN7cCUseasX8iGPbSF2LlWxBKfIONdIQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=g+ZyDd5Yu3Iz+2/cWN9e7DWYkvLQ0dngyldfMeOhnC6Ykr2anBpEeoaxvQwQroE3rlr4UnWGv2T+pTY9tRxJroeLMPUC66zSJoo8GNMJ3zRL2s8KAvESMjBRITUXagDhYEz5PTBburz4gznd+dVSJ4qoQOXKVDbg1L6qkt3rx4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=d7rrEy4f; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 95A032C03CF;
+	Tue, 20 Feb 2024 09:08:27 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1708373307;
+	bh=81oK5AvAbNIDN7cCUseasX8iGPbSF2LlWxBKfIONdIQ=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=d7rrEy4fHkNTXD3D8cc58tShkSIS4TzJF26NC7DYF/zb5cyveeUzy/SictLffnhtb
+	 hSKmKKqiPWf6OmqBdMFInkabNECwkq4adhF2hS1aJd4jrmNtT697NCS5Mb6R1xxDl4
+	 hRzn5lFMfOYX0MfcP2X6u78Xmy70buMpfjNJCGCzfdSeAHgoL2LMt9lXEv86fyLHuJ
+	 LmSkR7BsJsFD4vo/i4/HWEV9P1FS8TK/zRe8o1Nf07R90wJ9IlzxsryB6J8XoSrC0f
+	 0t1isop7nKMwkXbmsC5DHKatHSxO9tG2zu23c4hl1WqG7geOFb7hnhbC567+EnSSMf
+	 bqEhzC3uGWfUQ==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65d3b53b0001>; Tue, 20 Feb 2024 09:08:27 +1300
+Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.1118.40; Tue, 20 Feb 2024 09:08:27 +1300
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
+ svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
+ SMTP Server (TLS) id 15.0.1497.48; Tue, 20 Feb 2024 09:08:27 +1300
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1118.040; Tue, 20 Feb 2024 09:08:27 +1300
+From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To: Pavel Machek <pavel@ucw.cz>
+CC: "lee@kernel.org" <lee@kernel.org>, "linux-leds@vger.kernel.org"
+	<linux-leds@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
 Subject: Re: Linux support for a 7 segment LED display
-Message-ID: <ZdN1G6PfCK9/vUol@duo.ucw.cz>
+Thread-Topic: Linux support for a 7 segment LED display
+Thread-Index: AQHaXStZfYl8Vw6dm0yz1EAjpP4fVbEQ/haAgABMcAA=
+Date: Mon, 19 Feb 2024 20:08:27 +0000
+Message-ID: <344e00f9-a175-41d5-97dc-f60e771fea8d@alliedtelesis.co.nz>
 References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
+ <ZdN1G6PfCK9/vUol@duo.ucw.cz>
+In-Reply-To: <ZdN1G6PfCK9/vUol@duo.ucw.cz>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <621EC9190373AF4A84CB0C8E756C9831@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yPb17zyHgF1OuMIw"
-Content-Disposition: inline
-In-Reply-To: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65d3b53b a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=yxPRVJ__m6dQz3HKPZUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-SEG-SpamProfiler-Score: 0
 
-
---yPb17zyHgF1OuMIw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> I'm looking for something that I figured must exists but maybe it's so=20
-> niche that no-one has bothered to upstream a driver for it.
->=20
-> I have a requirement to support a 7-segment LED display[1] (one that can=
-=20
-> display a single digit from 0-9). Hardware wise it's just a bunch of=20
-> individual GPIOs connected to each segment (plus an extra one for a=20
-> dot). I can't see anything obvious in drivers/leds but maybe I'm looking=
-=20
-> in the wrong place. Or maybe it's the kind of thing on PC hardware that=
-=20
-> is just driven by the BIOS without the operating system knowing about it.
-
-Look at drivers/auxdisplay. I believe we have segment displays there.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---yPb17zyHgF1OuMIw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZdN1GwAKCRAw5/Bqldv6
-8qdXAJ9M+scNVUZ8g1U6IPdv+E7AK/PlMACfTgZ/uvO9npw3kAX/VIEJtyVy/Bk=
-=vVrC
------END PGP SIGNATURE-----
-
---yPb17zyHgF1OuMIw--
+DQpPbiAyMC8wMi8yNCAwNDozNCwgUGF2ZWwgTWFjaGVrIHdyb3RlOg0KPiBIaSENCj4NCj4+IEkn
+bSBsb29raW5nIGZvciBzb21ldGhpbmcgdGhhdCBJIGZpZ3VyZWQgbXVzdCBleGlzdHMgYnV0IG1h
+eWJlIGl0J3Mgc28NCj4+IG5pY2hlIHRoYXQgbm8tb25lIGhhcyBib3RoZXJlZCB0byB1cHN0cmVh
+bSBhIGRyaXZlciBmb3IgaXQuDQo+Pg0KPj4gSSBoYXZlIGEgcmVxdWlyZW1lbnQgdG8gc3VwcG9y
+dCBhIDctc2VnbWVudCBMRUQgZGlzcGxheVsxXSAob25lIHRoYXQgY2FuDQo+PiBkaXNwbGF5IGEg
+c2luZ2xlIGRpZ2l0IGZyb20gMC05KS4gSGFyZHdhcmUgd2lzZSBpdCdzIGp1c3QgYSBidW5jaCBv
+Zg0KPj4gaW5kaXZpZHVhbCBHUElPcyBjb25uZWN0ZWQgdG8gZWFjaCBzZWdtZW50IChwbHVzIGFu
+IGV4dHJhIG9uZSBmb3IgYQ0KPj4gZG90KS4gSSBjYW4ndCBzZWUgYW55dGhpbmcgb2J2aW91cyBp
+biBkcml2ZXJzL2xlZHMgYnV0IG1heWJlIEknbSBsb29raW5nDQo+PiBpbiB0aGUgd3JvbmcgcGxh
+Y2UuIE9yIG1heWJlIGl0J3MgdGhlIGtpbmQgb2YgdGhpbmcgb24gUEMgaGFyZHdhcmUgdGhhdA0K
+Pj4gaXMganVzdCBkcml2ZW4gYnkgdGhlIEJJT1Mgd2l0aG91dCB0aGUgb3BlcmF0aW5nIHN5c3Rl
+bSBrbm93aW5nIGFib3V0IGl0Lg0KPiBMb29rIGF0IGRyaXZlcnMvYXV4ZGlzcGxheS4gSSBiZWxp
+ZXZlIHdlIGhhdmUgc2VnbWVudCBkaXNwbGF5cyB0aGVyZS4NCg0KVGhhbmtzIGZvciB0aGUgcG9p
+bnRlci4gSSBmb3VuZCBodDE2azMzLmMgKGFuZCANCmRyaXZlcnMvaW5wdXQvbWlzYy95ZWFsaW5r
+LmMpIHdoaWNoIGhhdmUgc3VwcG9ydCBmb3IgNyBzZWdtZW50IGRpc3BsYXlzLiANClN0aWxsIG5v
+dCBxdWl0ZSB3aGF0IEknZCBuZWVkIHRvIGdsdWUgaXQgdG9nZXRoZXIgd2l0aCBHUElPcyBidXQg
+SSBjYW4gDQpzZWUgdGhlIGRpcmVjdGlvbiBvbmUgbWlnaHQgaGVhZC4NCg==
 
