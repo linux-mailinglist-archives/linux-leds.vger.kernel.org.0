@@ -1,100 +1,154 @@
-Return-Path: <linux-leds+bounces-868-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-869-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88AE85B4C7
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Feb 2024 09:18:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76CD85B882
+	for <lists+linux-leds@lfdr.de>; Tue, 20 Feb 2024 11:05:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 074611C22320
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Feb 2024 08:18:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EBBDCB219D0
+	for <lists+linux-leds@lfdr.de>; Tue, 20 Feb 2024 10:03:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8268D5C8E3;
-	Tue, 20 Feb 2024 08:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39AAC60BBB;
+	Tue, 20 Feb 2024 10:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VETVhiUG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pb7JZOqN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CEA5C61E;
-	Tue, 20 Feb 2024 08:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F5760861
+	for <linux-leds@vger.kernel.org>; Tue, 20 Feb 2024 10:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708417127; cv=none; b=Fzs+LPCUaWowqzeZ05vQHWKuvV+WLSQOChCfpWBxP6ngkX8YPWtzR4ZeFtQouFqY6GEeskPxdVIsdiyUddIjhNOZALGOlYsgUN/hbxr98sRsRop3RCFyCt/H/9FB1DYRM//Jy5CicbwTckrGS0reN7KMlb5qR5HpGjZCGgOrpdE=
+	t=1708423418; cv=none; b=QldQbl61QU2Vx6FI3cd3N9cLkc6agD4e8ZD2gACbUB0kBuD9Reqbpko5v0xLP0wLwfsKMdcdbEd7XVFMtDnDepiz8ORmgg4924l95Q1L52oElNlb8Hvg/5BWjQzhTJvG+VZZpoKvZ5HPWri9AI1yeW8iTJK8FCFq2IbIMRl3ycQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708417127; c=relaxed/simple;
-	bh=UNLQOif7fmJJax3E38KDrW05Mmzsmh0eEm1H+yPRIs8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BwiSsw1Kk42QAjnP1MYhf4BI4gzDZldrbPFgHZoTb1+8zoZQgEY/EUr8ffMynxv5CwQohhefaPVrPdw1hi7WaCREtPU84Fsg3R7H6OmBjjGGKKAMf76DHufNKDRDfiZnx+eCgURqBci8Mwk+Bah+r3tmcxNjEE1EIoV+1OU8SZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VETVhiUG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8EC3C43394;
-	Tue, 20 Feb 2024 08:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708417126;
-	bh=UNLQOif7fmJJax3E38KDrW05Mmzsmh0eEm1H+yPRIs8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VETVhiUGk0LAIW8FX4/ARlQCdMTKPauZb6sd6xroDdUJiMZ5owDNy6DvLy0DlYnRC
-	 XtWovxU3+Ad1/CaShkFWqIdIJjXEUH18YTvsXhFm8P9eVcb5Kze4odIY8GsqWTDAt8
-	 p0PsBSrBxaO1ZiQFJZtM3pf0AzOsc1g1TGrFUX5O227tlDFuJvc6Aup9SeTUeP36Nf
-	 W1N4+xW3gv9Kos5MDs2e0Q+nsbr8uo5Oi614+OgcWYV1vN3zET2mhQWFCy2ei0/ao3
-	 +evBV35HQ98qvFdWCV0Ubcn4pvxOzmcTMGqwGoOaNJgckKw77Brjov4ZTaHjiHi5oe
-	 AQvRd9Y1pQ6/Q==
-Date: Tue, 20 Feb 2024 08:18:42 +0000
-From: Lee Jones <lee@kernel.org>
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Linux support for a 7 segment LED display
-Message-ID: <20240220081842.GF10170@google.com>
-References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
- <20240219151332.GC10170@google.com>
- <a70425d3-95be-4360-9828-d5403404e803@alliedtelesis.co.nz>
+	s=arc-20240116; t=1708423418; c=relaxed/simple;
+	bh=fCVM9fIx+QlZSaT2+jH9KFDPXgF5LsvTXo9cBJsA8E0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HTHM0ayl94l6Msq6GnxNGE3Ct9ZO5ayTAgn94nVFEYve+88DO17chL5IOpSfzfO7XFfJgQ6ElXzn5+jLAwV2oKOiUCyhlgkAwFtVZQpjlTIl5dcUUSz/xbXTPFv6eFOOkEveJ1XqhTpSlnOAtzATl0GqDz6YziK7muA3+4lzLP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pb7JZOqN; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d1094b549cso76907871fa.3
+        for <linux-leds@vger.kernel.org>; Tue, 20 Feb 2024 02:03:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708423414; x=1709028214; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tPnQexsRXJiNv+6Xh39SXpzjoFxV7a2HocmDFObIvII=;
+        b=Pb7JZOqNa+pJ6vsEO8h9GCP0FzOaqg61z74o0UvCeWgd3cWv2SW2eqPhrS1IifrU+s
+         8MMTV0+L3+nMUeSrx3D2xLoG+FQZbq2/CUXS53NxayX69NSaualUv36kSmWBcUt3Yt2/
+         PoNIv3KEJEOQiJ+3viXGCSmiMInK6bllWc2sQbY9qdWPwekb5tLG+NleW7ZAXgF1k3Js
+         AuZGCJsu8PAIR6fZ92AEVjQeZ6hr5agKwSwbT5NNvKlAh9oxkGQmqKYyFVhgrTwtSsCb
+         SZC0cXDmorLcq5++Kc0UU9tRjwZXL6VrDQrJjUR0d+wvWcx/I4jVKC7YP7nvn9LEvxJb
+         Gtdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708423414; x=1709028214;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tPnQexsRXJiNv+6Xh39SXpzjoFxV7a2HocmDFObIvII=;
+        b=HyTHBGGdAb6li/rsIdDJDMOmWQK+79Cd8DVHsjJBvayEHgd1lxZCZCVqn2wZgQAwmS
+         JOvba0PQu4uqLBaXE/1+ND1aq0byN45j9q2Qpwgz3Ox7JxRj2exZUHzJtPsvvI5UFbaB
+         0ppH0mU1QHgueHLa6aS3OVclHUir36dtyazqTOrWlJzP3PBSH0909TLgDo0USjBlw5y3
+         Tn0ExRhAkTSjMNX7bnl6R72/+mgTHJytMyfMZrH4HQ7XbKMTnHE1WjptW7qfvrcaUXsg
+         2dMuA+jQONbrCQpLxV1wEnBUPUnlJ7MF96quyl+Djc7RRVMuSS70bArwgxj/NksxmWPN
+         yKJg==
+X-Forwarded-Encrypted: i=1; AJvYcCViYDvXmY9JIYNhEJ7cJXPfiLfsgik9gmAQaWUwpUHNeDP10YsU47rZPWz/mK69zyiZ9lXnga2L1KMuIpVEwBLNQZe8c6vB6pjfNg==
+X-Gm-Message-State: AOJu0YyeP7DGKJtnAkXdRmEboFFyD1wJrbM0LRDHCmBiw3G99t8G8N0Z
+	Tnr4a031NG3eeWh1Q3Phn4Q1ehIQ+qr1ejghh7XbWtSYYq5Av7u4oRP/qLgKzzY=
+X-Google-Smtp-Source: AGHT+IEPY4diBzcZEzsnFr0+2CA8TYPIUOfHX7OUpwZ6ThGMdcjalTAKRrYBdcY2wLvk0txXManmkw==
+X-Received: by 2002:a05:651c:b2b:b0:2d2:2fb3:38f9 with SMTP id b43-20020a05651c0b2b00b002d22fb338f9mr6147863ljr.13.1708423414559;
+        Tue, 20 Feb 2024 02:03:34 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id az19-20020adfe193000000b0033d6ff7f9edsm839756wrb.95.2024.02.20.02.03.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 02:03:34 -0800 (PST)
+Message-ID: <466c26b0-e7e0-4feb-bf37-be2af7136300@linaro.org>
+Date: Tue, 20 Feb 2024 11:03:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a70425d3-95be-4360-9828-d5403404e803@alliedtelesis.co.nz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Add NCP5623 multi-LED
+ Controller
+Content-Language: en-US
+To: Abdel Alkuor <alkuor@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ ChiYuan Huang <cy_huang@richtek.com>, Lukas Bulwahn
+ <lukas.bulwahn@gmail.com>, Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc: ChiaEn Wu <chiaen_wu@richtek.com>, Alice Chen <alice_chen@richtek.com>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240217230956.630522-1-alkuor@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240217230956.630522-1-alkuor@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 19 Feb 2024, Chris Packham wrote:
-
-> Hi Lee,
+On 18/02/2024 00:09, Abdel Alkuor wrote:
+> NCP5623 is DC-DC multi-LED controller which can be used for RGB
+> illumination or backlight LCD display.
 > 
-> On 20/02/24 04:13, Lee Jones wrote:
-> > On Sun, 11 Feb 2024, Chris Packham wrote:
-> >
-> >> Hi Blinkenlight enthusiasts,
-> >>
-> >> I'm looking for something that I figured must exists but maybe it's so
-> >> niche that no-one has bothered to upstream a driver for it.
-> >>
-> >> I have a requirement to support a 7-segment LED display[1] (one that can
-> >> display a single digit from 0-9). Hardware wise it's just a bunch of
-> >> individual GPIOs connected to each segment (plus an extra one for a
-> >> dot). I can't see anything obvious in drivers/leds but maybe I'm looking
-> >> in the wrong place. Or maybe it's the kind of thing on PC hardware that
-> >> is just driven by the BIOS without the operating system knowing about it.
-> >>
-> >> Is there an existing in-kernel driver for such a thing?
-> > Why would LEDs connected to a bunch of GPIOs in a specific fashion
-> > require a hardware driver?  Doesn't drivers/leds/leds-gpio.c already
-> > provide all the support you need?
-> Yes I could expose the individual segments as gpio-ledsbut it would be 
-> nicer if they worked in a more co-ordinated fashion so I didn't have to 
-> care about the individual segments and could just say "display 7" or 
-> "display 0".
+> Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
+> ---
 
-Still not sure this sort of thing should be kernel-side.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Sounds more like the role of a library or middle-layer.
+Best regards,
+Krzysztof
 
--- 
-Lee Jones [李琼斯]
 
