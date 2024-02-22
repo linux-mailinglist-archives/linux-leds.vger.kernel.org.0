@@ -1,113 +1,123 @@
-Return-Path: <linux-leds+bounces-912-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-913-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B588604E5
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:36:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D778604F8
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:40:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 086651C2342D
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 21:36:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 348B11C23212
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 21:40:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B0A137902;
-	Thu, 22 Feb 2024 21:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="TaAJMXd1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85EB873F3D;
+	Thu, 22 Feb 2024 21:40:38 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D1012D1E0;
-	Thu, 22 Feb 2024 21:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CC773F17
+	for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 21:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708637775; cv=none; b=ODZP+9uY9vVCbDjF3UrMekDa3MxO+ZuiewycR20/M2v/739Ws9cwatY0OJpUGrmvSiOSzdBwloxdvDPVXDV/ansT5jF3qDB5RPGq0uURqdhAoCNrr9TTexikuelS6GM6nSZ3diUdemCu1DEo3LMq3SxZJkfcWOWZUIT2uaI4fh0=
+	t=1708638038; cv=none; b=k2zd0DrX8/c7tQm0wv1Vdz3DtyeWPOcbRiBlYKfj0xQIiqjcXetRV/xyT1anxRc4RnNy02EeaMK2MuzWLmLob7u/96EnBu/6vgekTvCIearteMmRkiWJfMJ2tiVKMgTmMIzkTgJiorZGfnb3uiSxNtsd2Hi3VqxQVV+gAybT+94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708637775; c=relaxed/simple;
-	bh=vuAaEiJCLJK2cNsjl/qEqbIOLPfcmVtss6kY5sClwbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aZCLtbHokrdZ2IyYxTu47Mq5dktNzOv+2eUEN92XcgJkchyV/OVrTKN59fO9YKfY5GkT5wTSdCfzLHuWTANXtrI22yPIxUXui+kIg8wEPWgrXburh8aTlQkC0/2Si5bFSlaOMbA6RJvMmaXJKUiiv1KU4XQWmx2d3tYELB9Nn58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=TaAJMXd1; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 806131C0080; Thu, 22 Feb 2024 22:36:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1708637770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RiAbSOg1V4wsQMn+whZ+yfkXiKtN4HGpCsJmgM0ywIs=;
-	b=TaAJMXd1bifnIX5lis8dv/SDuYGIau9YOv3Xh+piopnkSZZt1WL5XCRf/JAWXe4jkEMG0h
-	KQkR4ZKHf++Gllq+AJ4b4JyhlKV4+oE4JyaL0lXffi7xd4VAcLKUdKZunBCmhMRnU9wglL
-	bxhj+A63hDeYxHE+zJQYjUJWyqc5/5g=
-Date: Thu, 22 Feb 2024 22:36:09 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Aren Moynihan <aren@peacevolution.org>
-Cc: linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>,
-	linux-sunxi@lists.linux.dev, Lee Jones <lee@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Miles Alan <m@milesalan.com>, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v2 1/4] leds: rgb: leds-group-multicolor: allow leds to
- stay on in suspend
-Message-ID: <Zde+Sce+PAuC1U6g@duo.ucw.cz>
-References: <20240206185400.596979-1-aren@peacevolution.org>
+	s=arc-20240116; t=1708638038; c=relaxed/simple;
+	bh=FskGyQM0hnrRbCG067LMBsXVFuEu0IODjENfPSTN1Xc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tVj1cmjAy+pTJa8Vuc/KSvn4KQTzz1MmXxtMooF7EKLoHvyQs+2tWY8k8++kIqASHN1MIVgLsTleVP6MqFiGUhPpf7j7hSwYGPGPfSqkXbOWkXX4QDT2yfByD5eGLiR7UMAXBchIkREtlzcS8/DrNQib8n5OZvrkaGKb1YREcm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-26-217.elisa-laajakaista.fi [88.113.26.217])
+	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
+	id fe9fe7f5-d1ca-11ee-abf4-005056bdd08f;
+	Thu, 22 Feb 2024 23:40:28 +0200 (EET)
+From: andy.shevchenko@gmail.com
+Date: Thu, 22 Feb 2024 23:40:27 +0200
+To: Xing Tong Wu <xingtong_wu@163.com>
+Cc: lee@kernel.org, Pavel Machek <pavel@ucw.cz>,
+	Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+	Xing Tong Wu <xingtong.wu@siemens.com>,
+	Tobias Schaffner <tobias.schaffner@siemens.com>,
+	Henning Schild <henning@hennsch.de>
+Subject: Re: [RESEND PATCH v2 1/1] leds: simatic-ipc-leds-gpio: add support
+ for module BX-59A
+Message-ID: <Zde_S6X8OdEDyxDy@surfacebook.localdomain>
+References: <20240208120901.GL689448@google.com>
+ <20240218062806.3932-1-xingtong_wu@163.com>
+ <20240218062806.3932-2-xingtong_wu@163.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="B4lkKzSJHCjhcEG2"
-Content-Disposition: inline
-In-Reply-To: <20240206185400.596979-1-aren@peacevolution.org>
-
-
---B4lkKzSJHCjhcEG2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240218062806.3932-2-xingtong_wu@163.com>
 
-Hi!
+Sun, Feb 18, 2024 at 02:28:06PM +0800, Xing Tong Wu kirjoitti:
+> From: Xing Tong Wu <xingtong.wu@siemens.com>
+> 
+> This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
+> connected to GPIOs provided by the Nuvoton NCT6126D
 
-> If none of the managed leds enable LED_CORE_SUSPENDRESUME, then we
-> shouldn't need to set it here. This makes it possible to use multicolor
-> groups with gpio leds that enable retain-state-suspended in the device
-> tree.
->=20
-> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+MIssing period at the end of the sentence.
 
-Thanks for the series.
+...
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+>  static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
+>  {
+> +	const struct simatic_ipc_platform *plat = pdev->dev.platform_data;
 
-Note this will change userland API and maybe break the LED for code
-expecting old setup and hardcoding paths. I guess we should not
-backport this to stable. But we should do this, because it is really
-one LED and not three.
+dev_get_platdata()
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+> +	struct simatic_ipc_led_tables *led_tables;
+> +
+> +	led_tables = devm_kzalloc(&pdev->dev, sizeof(*led_tables), GFP_KERNEL);
+> +	if (!led_tables)
+> +		return -ENOMEM;
+> +
+> +	switch (plat->devmode) {
+> +	case SIMATIC_IPC_DEVICE_227G:
+> +		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_227g;
+> +		led_tables->led_lookup_table_extra = &simatic_ipc_led_gpio_table_extra_227g;
+> +		break;
+> +	case SIMATIC_IPC_DEVICE_BX_59A:
+> +		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_bx_59a;
+> +		break;
+> +	default:
+> +		return -ENODEV;
+> +	}
+> +
+> +	dev_set_drvdata(&pdev->dev, led_tables);
 
---B4lkKzSJHCjhcEG2
-Content-Type: application/pgp-signature; name="signature.asc"
+platform_set_drvdata()
 
------BEGIN PGP SIGNATURE-----
+> +	return simatic_ipc_leds_gpio_probe(pdev, led_tables->led_lookup_table,
+> +					   led_tables->led_lookup_table_extra);
+>  }
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZde+SQAKCRAw5/Bqldv6
-8owvAKC5O0usOAHO4lNiUtD+OQPqk9DWqACfTanRh5WRYGfqZMAbzMJdVj8NVpQ=
-=rcWe
------END PGP SIGNATURE-----
+...
 
---B4lkKzSJHCjhcEG2--
+>  static void simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
+>  {
+> +	struct simatic_ipc_led_tables *led_tables;
+
+> +	led_tables = dev_get_drvdata(&pdev->dev);
+
+platform_get_drvdata()
+
+> +	simatic_ipc_leds_gpio_remove(pdev, led_tables->led_lookup_table,
+> +				     led_tables->led_lookup_table_extra);
+>  }
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
