@@ -1,153 +1,184 @@
-Return-Path: <linux-leds+bounces-917-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-918-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B8B86056E
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 23:08:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E2D86057A
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 23:14:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C42C1B218AA
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:08:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C92E71C25497
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:14:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2EA612D212;
-	Thu, 22 Feb 2024 22:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE9112D21B;
+	Thu, 22 Feb 2024 22:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="Oxo74ydO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N8WmRuVQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E4B12D206
-	for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 22:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92F012D218;
+	Thu, 22 Feb 2024 22:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708639720; cv=none; b=i2vo22TGxZCb/Z4FjRdjEF0NRq+wVOWWeEC6Dgy11nSW7eszmMFM7YZT8c5GpEOeYOgTgUwQF09Tz2O9xuEFRKY8Qo+J/HKTRzkoFcBdmg8vjyP50oE3u+gMCQINARdSJ1NEKYIlcEznDf68YeWQa23D0Xbr2d8znk+xreV2g5M=
+	t=1708640067; cv=none; b=tR8ZK1WUodXQNUxSarLh1KWRHM8IA5GeMByZHf2PQOV1BdZj0j8HLnQjOkP/BEQ9pjYW/zcHtzYmqQOLKVx6T1ch5uSGHWbxr5mkM2FhiTPbdOD8RhTYUK6G/xodfEwJISe9esGCRP7d4+t2dBP2dCsljs6M/JPAen/QwoK9iYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708639720; c=relaxed/simple;
-	bh=Tx8RCMPEpa9lmNVucWuuXOs8ydZRP2sri7PPKIHVxuY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CnsFHKTFjq45eBw0dms3lelJ/zm9gabaUWRf/Cgl8UF5X4h2zeIfPlQIwc+lh6rLFNmGHXeiX3hhL67V0EvblFPgx0usPqWGyJ7FruPtobcYzf5lSchkm3q3HLRtdxK8ouRwkyXBEI4hDJXg2XDnfleJ5nS9RoP8g8lVdnZtkbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=Oxo74ydO; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 242AF2C05EA;
-	Fri, 23 Feb 2024 11:08:36 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1708639716;
-	bh=Tx8RCMPEpa9lmNVucWuuXOs8ydZRP2sri7PPKIHVxuY=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=Oxo74ydOfgc3tycmKaw0+TxQwJ0kqT/tjyJrbqbqGMx1TybuWCyrwt7eJddsITWx7
-	 kvodz7ILxVcwUCuBPXG3TSW+6p0v49PIJL4Fr4+zkbo4zYeTrjYb39VVlwCS4DGwF2
-	 iyG+HAs6jMmRBOCGGP37o9JQR2GCsg/hjY0kDPEuqkSvKQ8HcpCV4KTAjuESRkKK00
-	 ATG+gGZ6Vj3cue5eSf6hjIGaevarsPh1CWuLtxKDXY5vVRUReaZ3ZoHAMPGFVIGbA6
-	 9a0mN+j4tPcJwm753wTrVwetK08UNxGEvoRzR0PT//M674S3aRTlZS2kSadtF46Qo3
-	 2akTb+rDNJQ0w==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65d7c5e40000>; Fri, 23 Feb 2024 11:08:36 +1300
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1118.40; Fri, 23 Feb 2024 11:08:35 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
- SMTP Server (TLS) id 15.0.1497.48; Fri, 23 Feb 2024 11:08:35 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1118.040; Fri, 23 Feb 2024 11:08:35 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>, Geert Uytterhoeven
-	<geert@linux-m68k.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>
-CC: Pavel Machek <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Linux support for a 7 segment LED display
-Thread-Topic: Linux support for a 7 segment LED display
-Thread-Index: AQHaXStZfYl8Vw6dm0yz1EAjpP4fVbEWGZeAgAAFVoCAAAGlAIAAAoWA
-Date: Thu, 22 Feb 2024 22:08:35 +0000
-Message-ID: <9d00e1b1-120b-4c2b-89c5-0ac736bf6441@alliedtelesis.co.nz>
-References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
- <Zde966nsJ76QOuzm@surfacebook.localdomain>
- <f5e74774-226a-4678-a6f9-b4f17250ad91@alliedtelesis.co.nz>
- <CAHp75Vfq3Pc+Eo3Z5mhORZwwuKF+Y7_47dTO8qARcfba4nmj2w@mail.gmail.com>
-In-Reply-To: <CAHp75Vfq3Pc+Eo3Z5mhORZwwuKF+Y7_47dTO8qARcfba4nmj2w@mail.gmail.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3C48A7FB9DB3C444A0FF566E32D76E71@atlnz.lc>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1708640067; c=relaxed/simple;
+	bh=filPK0hW9sEluA5e/J32dWICU2fqEy2+asFrOlW3po4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Cz/JJSuC0zlplT02mAKKpDTY2yj4238MdV+4itrBdx58taQmR7SsNJ4fiDBY9yzoJVshaMlXJIH7tY/Bfsmgq/2fyNIxXbtxphHJQ8K4vroN5alhClwNadbzfrLMlzCiQ/6y5B576peeDJWTQKTG9jFNJ76Jyx/MYHk+71PfjfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N8WmRuVQ; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5649c25369aso145752a12.2;
+        Thu, 22 Feb 2024 14:14:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708640064; x=1709244864; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bS8XuNs9Y5my5ivjgr100IJoKR3ZSqRXyi3h5KnP/KI=;
+        b=N8WmRuVQKWKrI3KNBEbwNDINNdZSFVaLDbNmuhnfS0/THSUpSZ2II8W5MRbKo6d5WR
+         QgS8rFBKiy3QDiyOUbDW/HAXlb2Ogy7DRsnrFUc4RFitg5M+PhPESrrwrewoYJY7DeqA
+         jDNG00fjWnMnigONPHBWQ7hz1rwPAMXQ9S86uOzWId9wQvR+Fh81RByixldefhrCzdK4
+         aNo7YmJjexfkXIj3mGFytbRrfb/BKPzCqp8iNQMH7ysSpMse4U+dP6FmU2NuOhJ138hG
+         bTrVsND+VLlr+Siy/aGMAC70AcGsKGz2nCz2dPcW75DthaobqTYiaemp7hP2V5AXGMRD
+         2zLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708640064; x=1709244864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bS8XuNs9Y5my5ivjgr100IJoKR3ZSqRXyi3h5KnP/KI=;
+        b=RIBZCBaqJDSdeO8FIMCfEIsUCmK9OjAazhWecBNmOhrW8nBkqlf1anE8d3A70ZrUvd
+         Vrly1lHocbPonUGpkzVC+RcDF8/cc6bhncZJa+HCFTf1bjURSGmZrzGvRvkacgRaa09u
+         h96U1p7gL7ky+039kBRP7QKwoDBOy/rDiO38Yw05l4Dt/8CHcNxTIVlGs2AZpkog6pkF
+         pYjf/nDvMMqmDec5nudxrB8IbRJbFiWPR5OnxLgS5BDDA0JkkXbFUJFwCqzdHHBW5+E3
+         aFB/GPVsJTBJ5wELtnzmEbwMod6eZV4xwQZxBb+yBUie7sBRTonO3wdic/O6nLwI5TO1
+         qfiA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLHKKyXgLCJ7ED2UhtP24Wb9w3dNtRVJ2Y2tAPU1nc5PlvHvQO5wCP+mDawFZ1fOgh0y66m4DfnvonhFnwKIb3Y4xxZWNixS0JRiPWLAlN5bHe/GJgQRNMPQEdMf9MkRyVkbJVWRT/SA==
+X-Gm-Message-State: AOJu0YyQyQVdp2f+PtOyUxVykld4eS2QDcRTjqBB+WZyWyqAgP4UJTJU
+	vMHhgm+Nt9WomnBWd/xn9dn+n7rwQ+NSL2lwQ67w6wmvchMOD3Fdh881z5prmBsM9BDUoQ+4bBW
+	e+PUDVRZvU+qm4qxJkS8AwDD5+OI=
+X-Google-Smtp-Source: AGHT+IEk72eRjdWU6OGClnZibRF8XqeL8yZeZipoHY4DOTpTBKjtMNck5AsaCjWZ1Q0ZHavd9KwBnr4+AKV0MREnQmk=
+X-Received: by 2002:a17:906:e0c8:b0:a3c:f016:22a4 with SMTP id
+ gl8-20020a170906e0c800b00a3cf01622a4mr75745ejb.37.1708640063865; Thu, 22 Feb
+ 2024 14:14:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65d7c5e4 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=pGLkceISAAAA:8 a=BwnNMnuW0JF0vIrjb1gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=t7wjxaoyUiyY0pDiBwSR:22
-X-SEG-SpamProfiler-Score: 0
+References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
+ <Zde966nsJ76QOuzm@surfacebook.localdomain> <f5e74774-226a-4678-a6f9-b4f17250ad91@alliedtelesis.co.nz>
+ <CAHp75Vfq3Pc+Eo3Z5mhORZwwuKF+Y7_47dTO8qARcfba4nmj2w@mail.gmail.com> <9d00e1b1-120b-4c2b-89c5-0ac736bf6441@alliedtelesis.co.nz>
+In-Reply-To: <9d00e1b1-120b-4c2b-89c5-0ac736bf6441@alliedtelesis.co.nz>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 23 Feb 2024 00:13:47 +0200
+Message-ID: <CAHp75VdnXtVwrLrcGjnYMfNx7roBvQm9DMr6_ndjZeAbRDbs_Q@mail.gmail.com>
+Subject: Re: Linux support for a 7 segment LED display
+To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Pavel Machek <pavel@ucw.cz>, 
+	"lee@kernel.org" <lee@kernel.org>, "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQpPbiAyMy8wMi8yNCAxMDo1OSwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPiBPbiBUaHUsIEZl
-YiAyMiwgMjAyNCBhdCAxMTo1M+KAr1BNIENocmlzIFBhY2toYW0NCj4gPENocmlzLlBhY2toYW1A
-YWxsaWVkdGVsZXNpcy5jby5uej4gd3JvdGU6DQo+PiBPbiAyMy8wMi8yNCAxMDozNCwgYW5keS5z
-aGV2Y2hlbmtvQGdtYWlsLmNvbSB3cm90ZToNCj4+PiBTdW4sIEZlYiAxMSwgMjAyNCBhdCAwODo0
-NjoxMlBNICswMDAwLCBDaHJpcyBQYWNraGFtIGtpcmpvaXR0aToNCj4+Pj4gSGkgQmxpbmtlbmxp
-Z2h0IGVudGh1c2lhc3RzLA0KPj4+Pg0KPj4+PiBJJ20gbG9va2luZyBmb3Igc29tZXRoaW5nIHRo
-YXQgSSBmaWd1cmVkIG11c3QgZXhpc3RzIGJ1dCBtYXliZSBpdCdzIHNvDQo+Pj4+IG5pY2hlIHRo
-YXQgbm8tb25lIGhhcyBib3RoZXJlZCB0byB1cHN0cmVhbSBhIGRyaXZlciBmb3IgaXQuDQo+Pj4+
-DQo+Pj4+IEkgaGF2ZSBhIHJlcXVpcmVtZW50IHRvIHN1cHBvcnQgYSA3LXNlZ21lbnQgTEVEIGRp
-c3BsYXlbMV0gKG9uZSB0aGF0IGNhbg0KPj4+PiBkaXNwbGF5IGEgc2luZ2xlIGRpZ2l0IGZyb20g
-MC05KS4gSGFyZHdhcmUgd2lzZSBpdCdzIGp1c3QgYSBidW5jaCBvZg0KPj4+PiBpbmRpdmlkdWFs
-IEdQSU9zIGNvbm5lY3RlZCB0byBlYWNoIHNlZ21lbnQgKHBsdXMgYW4gZXh0cmEgb25lIGZvciBh
-DQo+Pj4+IGRvdCkuIEkgY2FuJ3Qgc2VlIGFueXRoaW5nIG9idmlvdXMgaW4gZHJpdmVycy9sZWRz
-IGJ1dCBtYXliZSBJJ20gbG9va2luZw0KPj4+PiBpbiB0aGUgd3JvbmcgcGxhY2UuIE9yIG1heWJl
-IGl0J3MgdGhlIGtpbmQgb2YgdGhpbmcgb24gUEMgaGFyZHdhcmUgdGhhdA0KPj4+PiBpcyBqdXN0
-IGRyaXZlbiBieSB0aGUgQklPUyB3aXRob3V0IHRoZSBvcGVyYXRpbmcgc3lzdGVtIGtub3dpbmcg
-YWJvdXQgaXQuDQo+Pj4+DQo+Pj4+IElzIHRoZXJlIGFuIGV4aXN0aW5nIGluLWtlcm5lbCBkcml2
-ZXIgZm9yIHN1Y2ggYSB0aGluZz8NCj4+PiBObywgYW5kIGNhbid0IGJlLiBIZXJlIGlzIGp1c3Qg
-YSBtYXBwaW5nIHRhYmxlIGFuZCBvdGhlciBkcml2ZXJzIHRoYXQgdXNlDQo+Pj4gNy1zZWdtZW50
-IExFRCBkaXNwbGF5cyB0byBiZSBjb25uZWN0ZWQgdG8uDQo+Pj4NCj4+PiBXaGF0IHlvdSBuZWVk
-IGlzIHNvbWV0aGluZyBlbHNlLCBpLmUuIHNwZWNpYWwgY2FzZSBvZiBsZWRzLWdwaW8gKHdoaWNo
-IHNob3VsZA0KPj4+IGJlIHNvbWV3aGVyZSBlbHNlKSB0aGF0IGRvZXMgc29tZXRoaW5nIGxpa2Ug
-dGhpcy4gVG8gbWUgaXQgc291bmRzIGxpa2UgYQ0KPj4+IG1peHR1cmUgYmV0d2VlbiBsaW5lLWRp
-c3BsYXkuaCAoZnJvbSBhdXhkaXNwbGF5KSBhbmQgZ3Bpby1hZ2dyZWdhdG9yLg0KPj4+DQo+Pj4g
-SG93IG1hbnkgZGlnaXRzIGRvIHlvdSB3YW50IHRvIGNvbm5lY3Q/IEhvdyBhcmUgdGhleSBnb2lu
-ZyB0byBiZSBjb25uZWN0ZWQNCj4+PiAoc3RhdGljIGRpc3BsYXksIG9yIGR5bmFtaWMgd2hlbiB5
-b3UgbmVlZCB0byByZWZyZXNoIGluIGNlcnRhaW4gcGVyaW9kcyBvZg0KPj4+IHRpbWUpPyBEZXBl
-bmRpbmcgb24gdGhlIGFuc3dlciBpdCBtaWdodCB0YWtlIG9uZSBvciBhbm90aGVyIGFwcHJvYWNo
-Lg0KPj4gSXQgc291bmRzIGxpa2UgYSBhdXhkaXNwbGF5IGRyaXZlciBtaWdodCBiZSB0aGUgd2F5
-IHRvIGdvLiBNeSBoYXJkd2FyZQ0KPj4gaGFwcGVucyB0byBoYXZlIGEgc2luZ2xlIDdzZWcgYmxv
-Y2sgYnV0IHRoZXJlJ3Mgbm8gcmVhc29uIHRoZSBkcml2ZXINCj4+IG5lZWRzIHRvIGJlIHJlc3Ry
-aWN0ZWQgdG8gdGhhdC4gQXQgc29tZSBwb2ludCBpdCBvYnZpb3VzbHkgYmVjb21lcw0KPj4gYmV0
-dGVyIHRvIGZpdCBzb21ldGhpbmcgbGlrZSB0aGUgaHQxNmszMyB0byBvZmZsb2FkIHRoZSBjaGFy
-YWN0ZXINCj4+IGRpc3BsYXkgYnV0IGZvciBvbmUgb3IgMiBkaWdpdHMgYSBQQ0E5NTN4IHBsdXMg
-dGhlIExFRCBibG9jayB3b3VsZCBkbw0KPj4ganVzdCBmaW5lLg0KPiBJIGhhdmUgaGM1OTUgKFNQ
-SSBHUElPKSBjb25uZWN0ZWQgdG8gYSBzaW5nbGUgZGlnaXQgNy1zZWdtZW50IExFRC4NCj4gU2lu
-Y2UgaXQgY2FuIGJlIGFsc28gc2VyaWFsaXplZCwgbGluZSBkaXNwbGF5IEFQSXMgc2VlbSBwbGF1
-c2libGUgdG8NCj4gZml0LiBXaGF0IHdlIG5lZWQgaXMgYSBwcm94eSBiZXR3ZWVuIHRoZSB0d28u
-IEFuZCBJIHRoaW5rDQo+IGdwaW8tYWdncmVnYXRvciBpcyB0aGUgYmVzdCBmb3IgdGhhdC4gSXQg
-bmVlZHMgYW4gYWRkaXRpb25hbA0KPiBjb21wYXRpYmxlIHN0cmluZyBhbmQgdGhlIHJlZ2lzdHJh
-dGlvbiBmb3IgbGluZSBkaXNwbGF5IChvdmVyYWxsDQo+IHNvbWV0aGluZyBsaWtlIDUwIExvQ3Mp
-LiBXZSBjYW4gZXZlbiBjYWxsIHRoYXQgaGFyZHdhcmUgY29tcGF0aWJsZSBhcw0KPiBsaW5lLWRp
-c3BsYXktZ3BpbyAob3Igc28pLg0KPg0KPiBDYzogR2VlcnQgYW5kIEtyenlzenRvZiAoZm9yIHRo
-ZSBjb21tZW50cyBvbiB0aGUgaWRlYSBhYm92ZSkuDQoNCldvdWxkIHRoZSBncGlvLWFnZ3JlZ2F0
-b3IgYmUgbmVjZXNzYXJ5PyBJIHdhcyB0aGlua2luZyBzb21ldGhpbmcgbGlrZSANCnRoaXMgaW4g
-dGhlIGRldmljZXRyZWUNCg0KXHsNCiDCoMKgwqAgbGVkLTdzZWcgew0KIMKgwqDCoCDCoMKgwqAg
-Y29tcGF0aWJsZSA9ICJraW5nYnJpZ2h0LHNhMzYiOw0KIMKgwqDCoMKgwqDCoMKgIHNlZy1ncGlv
-cyA9IDwmZ3Bpb04gMCBHUElPX0FDVElWRV9ISUdIPiwNCiDCoMKgwqAgwqDCoMKgIMKgwqDCoCA8
-JmdwaW9OIDEgR1BJT19BQ1RJVkVfSElHSD4sDQogwqDCoMKgIMKgwqDCoCDCoMKgwqAgPCZncGlv
-TiAyIEdQSU9fQUNUSVZFX0hJR0g+LA0KIMKgwqDCoCDCoMKgwqAgwqDCoMKgIDwmZ3Bpb04gMyBH
-UElPX0FDVElWRV9ISUdIPiwNCiDCoMKgwqAgwqDCoMKgIMKgwqDCoCA8JmdwaW9OIDQgR1BJT19B
-Q1RJVkVfSElHSD4sDQogwqDCoMKgIMKgwqDCoCDCoMKgwqAgPCZncGlvTiA1IEdQSU9fQUNUSVZF
-X0hJR0g+LA0KIMKgwqDCoCDCoMKgwqAgwqDCoMKgIDwmZ3Bpb04gNiBHUElPX0FDVElWRV9ISUdI
-PjsNCiDCoMKgwqAgfTsNCn07DQoNCj4NCj4+IFRoZSBpbmZvcm1hdGlvbiB3ZSB3YW50IHRvIGRp
-c3BsYXkgaXMgbW9zdGx5IHN0YXRpYyAoYmFzaWNhbGx5IGEgbnVtZXJpYw0KPj4gdW5pdCBpZGVu
-dGlmaWVyKSBidXQgdGhlcmUgYXJlIGNhc2VzIHdoZXJlIHdlIG1heSB3YW50IHRvIGFsdGVybmF0
-ZQ0KPj4gYmV0d2VlbiB0aGlzIGFuZCAiRiIgdG8gaW5kaWNhdGUgc29tZSBmYXVsdCBjb25kaXRp
-b24uDQo+
+On Fri, Feb 23, 2024 at 12:08=E2=80=AFAM Chris Packham
+<Chris.Packham@alliedtelesis.co.nz> wrote:
+> On 23/02/24 10:59, Andy Shevchenko wrote:
+> > On Thu, Feb 22, 2024 at 11:53=E2=80=AFPM Chris Packham
+> > <Chris.Packham@alliedtelesis.co.nz> wrote:
+> >> On 23/02/24 10:34, andy.shevchenko@gmail.com wrote:
+> >>> Sun, Feb 11, 2024 at 08:46:12PM +0000, Chris Packham kirjoitti:
+> >>>> Hi Blinkenlight enthusiasts,
+> >>>>
+> >>>> I'm looking for something that I figured must exists but maybe it's =
+so
+> >>>> niche that no-one has bothered to upstream a driver for it.
+> >>>>
+> >>>> I have a requirement to support a 7-segment LED display[1] (one that=
+ can
+> >>>> display a single digit from 0-9). Hardware wise it's just a bunch of
+> >>>> individual GPIOs connected to each segment (plus an extra one for a
+> >>>> dot). I can't see anything obvious in drivers/leds but maybe I'm loo=
+king
+> >>>> in the wrong place. Or maybe it's the kind of thing on PC hardware t=
+hat
+> >>>> is just driven by the BIOS without the operating system knowing abou=
+t it.
+> >>>>
+> >>>> Is there an existing in-kernel driver for such a thing?
+> >>> No, and can't be. Here is just a mapping table and other drivers that=
+ use
+> >>> 7-segment LED displays to be connected to.
+> >>>
+> >>> What you need is something else, i.e. special case of leds-gpio (whic=
+h should
+> >>> be somewhere else) that does something like this. To me it sounds lik=
+e a
+> >>> mixture between line-display.h (from auxdisplay) and gpio-aggregator.
+> >>>
+> >>> How many digits do you want to connect? How are they going to be conn=
+ected
+> >>> (static display, or dynamic when you need to refresh in certain perio=
+ds of
+> >>> time)? Depending on the answer it might take one or another approach.
+> >> It sounds like a auxdisplay driver might be the way to go. My hardware
+> >> happens to have a single 7seg block but there's no reason the driver
+> >> needs to be restricted to that. At some point it obviously becomes
+> >> better to fit something like the ht16k33 to offload the character
+> >> display but for one or 2 digits a PCA953x plus the LED block would do
+> >> just fine.
+> > I have hc595 (SPI GPIO) connected to a single digit 7-segment LED.
+> > Since it can be also serialized, line display APIs seem plausible to
+> > fit. What we need is a proxy between the two. And I think
+> > gpio-aggregator is the best for that. It needs an additional
+> > compatible string and the registration for line display (overall
+> > something like 50 LoCs). We can even call that hardware compatible as
+> > line-display-gpio (or so).
+> >
+> > Cc: Geert and Krzysztof (for the comments on the idea above).
+>
+> Would the gpio-aggregator be necessary?
+
+Probably not. we just need to consume GPIOs, no need to provide...
+
+> I was thinking something like
+> this in the devicetree
+>
+> \{
+>      led-7seg {
+>          compatible =3D "kingbright,sa36";
+>          seg-gpios =3D <&gpioN 0 GPIO_ACTIVE_HIGH>,
+>              <&gpioN 1 GPIO_ACTIVE_HIGH>,
+>              <&gpioN 2 GPIO_ACTIVE_HIGH>,
+>              <&gpioN 3 GPIO_ACTIVE_HIGH>,
+>              <&gpioN 4 GPIO_ACTIVE_HIGH>,
+>              <&gpioN 5 GPIO_ACTIVE_HIGH>,
+>              <&gpioN 6 GPIO_ACTIVE_HIGH>;
+>      };
+> };
+
+Right, but also with some additional properties, like
+- type of the indicator (7, 14, etc segments, for now we have only
+these two supported)
+- use-dot (+1 led per each digit)
+- characters (how many digits we have, so we need respective amount of GPIO=
+s)
+
+With this it's indeed belongs directly to auxdisplay as we have almost
+everything is done already there.
+
+> >> The information we want to display is mostly static (basically a numer=
+ic
+> >> unit identifier) but there are cases where we may want to alternate
+> >> between this and "F" to indicate some fault condition
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
