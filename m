@@ -1,88 +1,113 @@
-Return-Path: <linux-leds+bounces-911-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-912-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E978604DC
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:34:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B588604E5
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:36:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 578F5B213A1
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 21:34:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 086651C2342D
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 21:36:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A92A73F33;
-	Thu, 22 Feb 2024 21:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B0A137902;
+	Thu, 22 Feb 2024 21:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="TaAJMXd1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9920D71738
-	for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 21:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D1012D1E0;
+	Thu, 22 Feb 2024 21:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708637686; cv=none; b=YpkpgzB2lHI6YcMlN3NmP3o+Pfa//iXX1GVMFsnweS/cXOdmnWjbsbXGWOd3WAqwcfimGOlhL3ic2WXvftVaKaw4OtOf/Pi9lcjSH6AYrvv/TH9EsRSvI73P1eT0deGDmJpwzCXoSkFWxuxg/OW55sWfZDSVgiW/FgUnwmjO5IM=
+	t=1708637775; cv=none; b=ODZP+9uY9vVCbDjF3UrMekDa3MxO+ZuiewycR20/M2v/739Ws9cwatY0OJpUGrmvSiOSzdBwloxdvDPVXDV/ansT5jF3qDB5RPGq0uURqdhAoCNrr9TTexikuelS6GM6nSZ3diUdemCu1DEo3LMq3SxZJkfcWOWZUIT2uaI4fh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708637686; c=relaxed/simple;
-	bh=tVO/2wuamC42MHKdIDybSKJStcN68xMdf6hl3eu6sWo=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVC5TmCiUwslI7aiFVHeWJuIIHFnVgPIgmnBKvFeUNH9liGQ4fHe2zkZ7TrvWvjmG2AWmg3AAIqsZmxMZeloQLg+r7wRIJUqhydI5H3iYw7FRBe4NTttSs2NolmWgNKwLpx5tHM7BuIaSLvgu/99HDKtqvu30yFGTAA0S+BF65M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (88-113-26-217.elisa-laajakaista.fi [88.113.26.217])
-	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
-	id 2cbcaad4-d1ca-11ee-a9de-005056bdf889;
-	Thu, 22 Feb 2024 23:34:36 +0200 (EET)
-From: andy.shevchenko@gmail.com
-Date: Thu, 22 Feb 2024 23:34:35 +0200
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: Pavel Machek <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Linux support for a 7 segment LED display
-Message-ID: <Zde966nsJ76QOuzm@surfacebook.localdomain>
-References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
+	s=arc-20240116; t=1708637775; c=relaxed/simple;
+	bh=vuAaEiJCLJK2cNsjl/qEqbIOLPfcmVtss6kY5sClwbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aZCLtbHokrdZ2IyYxTu47Mq5dktNzOv+2eUEN92XcgJkchyV/OVrTKN59fO9YKfY5GkT5wTSdCfzLHuWTANXtrI22yPIxUXui+kIg8wEPWgrXburh8aTlQkC0/2Si5bFSlaOMbA6RJvMmaXJKUiiv1KU4XQWmx2d3tYELB9Nn58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=TaAJMXd1; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 806131C0080; Thu, 22 Feb 2024 22:36:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1708637770;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RiAbSOg1V4wsQMn+whZ+yfkXiKtN4HGpCsJmgM0ywIs=;
+	b=TaAJMXd1bifnIX5lis8dv/SDuYGIau9YOv3Xh+piopnkSZZt1WL5XCRf/JAWXe4jkEMG0h
+	KQkR4ZKHf++Gllq+AJ4b4JyhlKV4+oE4JyaL0lXffi7xd4VAcLKUdKZunBCmhMRnU9wglL
+	bxhj+A63hDeYxHE+zJQYjUJWyqc5/5g=
+Date: Thu, 22 Feb 2024 22:36:09 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Aren Moynihan <aren@peacevolution.org>
+Cc: linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>,
+	linux-sunxi@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Miles Alan <m@milesalan.com>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 1/4] leds: rgb: leds-group-multicolor: allow leds to
+ stay on in suspend
+Message-ID: <Zde+Sce+PAuC1U6g@duo.ucw.cz>
+References: <20240206185400.596979-1-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="B4lkKzSJHCjhcEG2"
+Content-Disposition: inline
+In-Reply-To: <20240206185400.596979-1-aren@peacevolution.org>
+
+
+--B4lkKzSJHCjhcEG2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
+Content-Transfer-Encoding: quoted-printable
 
-Sun, Feb 11, 2024 at 08:46:12PM +0000, Chris Packham kirjoitti:
-> Hi Blinkenlight enthusiasts,
-> 
-> I'm looking for something that I figured must exists but maybe it's so 
-> niche that no-one has bothered to upstream a driver for it.
-> 
-> I have a requirement to support a 7-segment LED display[1] (one that can 
-> display a single digit from 0-9). Hardware wise it's just a bunch of 
-> individual GPIOs connected to each segment (plus an extra one for a 
-> dot). I can't see anything obvious in drivers/leds but maybe I'm looking 
-> in the wrong place. Or maybe it's the kind of thing on PC hardware that 
-> is just driven by the BIOS without the operating system knowing about it.
-> 
-> Is there an existing in-kernel driver for such a thing?
+Hi!
 
-No, and can't be. Here is just a mapping table and other drivers that use
-7-segment LED displays to be connected to.
+> If none of the managed leds enable LED_CORE_SUSPENDRESUME, then we
+> shouldn't need to set it here. This makes it possible to use multicolor
+> groups with gpio leds that enable retain-state-suspended in the device
+> tree.
+>=20
+> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
 
-What you need is something else, i.e. special case of leds-gpio (which should
-be somewhere else) that does something like this. To me it sounds like a
-mixture between line-display.h (from auxdisplay) and gpio-aggregator.
+Thanks for the series.
 
-How many digits do you want to connect? How are they going to be connected
-(static display, or dynamic when you need to refresh in certain periods of
-time)? Depending on the answer it might take one or another approach.
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
-> [1] - https://www.kingbrightusa.com/images/catalog/SPEC/SA36-11GWA.pdf
+Note this will change userland API and maybe break the LED for code
+expecting old setup and hardcoding paths. I guess we should not
+backport this to stable. But we should do this, because it is really
+one LED and not three.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
+--B4lkKzSJHCjhcEG2
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZde+SQAKCRAw5/Bqldv6
+8owvAKC5O0usOAHO4lNiUtD+OQPqk9DWqACfTanRh5WRYGfqZMAbzMJdVj8NVpQ=
+=rcWe
+-----END PGP SIGNATURE-----
+
+--B4lkKzSJHCjhcEG2--
 
