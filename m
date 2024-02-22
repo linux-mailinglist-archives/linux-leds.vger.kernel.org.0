@@ -1,120 +1,192 @@
-Return-Path: <linux-leds+bounces-908-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-909-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE9D86001B
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 18:52:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BEA8601B1
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 19:41:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C88E71F21DFF
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 17:52:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DCD5AB2903B
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 18:41:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABD1715531B;
-	Thu, 22 Feb 2024 17:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1306C1448E0;
+	Thu, 22 Feb 2024 18:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="ZzVGYOK7"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g83gJR89"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B30154BE3;
-	Thu, 22 Feb 2024 17:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D921448E3
+	for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 18:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708624365; cv=none; b=eIBUQEdbWxs7dOpR/pjMxc2r7Wx6j4sbiPDnCioybjB9u+DuTbKiteKi1RiQgYQs79LeBpT8nkjrzVsLsdb1kPu8jdT5iX+1wO3uWTtsUmLuJrkXx9lUv3RFHqUkkJ5ZF2u8d5yRIgCMs1Ie0eFVPer9Faac25KCGLdMei0f3/k=
+	t=1708626803; cv=none; b=YjN8ynp1eg3qyYaJno/yBVQs2KR4nV3tT1Ot/noEakwK9A1HIeONPEfpkwto1C1Lg1vm9pN0/p6/YzRsqQxH9XtpB95IxUuE3ft10TxEUUpO7pBxbfrMYhEYHMbxcPfp0Owj2fc59mR51gzz1RkyQNZAv/Y/1iMOvD/xFcmiaIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708624365; c=relaxed/simple;
-	bh=NaTf6aZ2x1S1ath2Dexnlx72zrc073aoKOZ2c8EsLK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OM0sTT/xU99ahJjerlcyJTjzjCklEANK6QsspCEw0a6i9euuvRzH7WG9MQDfBcIN1+/F+fETI6ypTYSTT/bMApQgET/gNmYgdzweMorzZKTARYO+49IDaLrwKHHL7yvKZ67m9myCX295YAcSaRLJZU+RT5Eg3ZkZcCIbfPXP5D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=ZzVGYOK7; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 4D55D1C0080; Thu, 22 Feb 2024 18:52:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1708624361;
+	s=arc-20240116; t=1708626803; c=relaxed/simple;
+	bh=XSQAUK/U55m0KLayh5Wo5le7Vj1aHM53DbCd9IqoMdU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=teXSBf7iuVOEwbTEghPwiU5xPAeBKQ5UeRzOCfOSBHrDT/QO5OUzrIg0fZtBllo9OJEjt4dWGgw9tpLG4cI0skDqu1P2HgDUh4+CnHP3Vtn4+RY62/9pgDO6EDGqayGqTEJv6JsBj6i6XmlRu4049H3BzS6OYNHHohKbPida+8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g83gJR89; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708626800;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rgaZB3SZMoEm9PLi7mMzZRU1B6wqFrPod6EkwKRjRo4=;
-	b=ZzVGYOK7E/NNZ7Y0k17U6riqoM67HDxzV6hUt95CBUqilcDuL8/LIdy0M3gvhhO2kGe8Bl
-	YT/zJJ0l9B2K87MNHPT2zkbavTw5pVb71w4Ri5CX3CUYflVZZzDgXIrNfoe6zFeqCLVqNo
-	w7wZNZ9nYdDmnQmv3llexMrpOtxwMSw=
-Date: Thu, 22 Feb 2024 18:52:40 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Gregor Riepl <onitake@gmail.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Lee Jones <lee@kernel.org>, jikos@kernel.org,
-	linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: Future handling of complex RGB devices on Linux v2
-Message-ID: <ZdeJ6OV6iXTLSfzt@duo.ucw.cz>
-References: <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+	bh=IDF5rof44gEIb9jX4TIDVAFNvDzRBoYmWa48QZ9r6nQ=;
+	b=g83gJR897ZwJ8rUK8X1YTLxVGhoTuOhG56I2tSszT+J9GWM2FdvaR++WIq28LNW0Hy2egM
+	kaGysJ/uG6CthGSsm8gZUa4h8CJyi+sFVtoPDIiZsyRZGNXX3kSvJBtPE4aaUj3CYTVTDe
+	ji2b+4QZJvKMaFNGY4HLkK3kUzHtaog=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-638-3RgPNrrnNLubGLwSHlvQog-1; Thu, 22 Feb 2024 13:33:18 -0500
+X-MC-Unique: 3RgPNrrnNLubGLwSHlvQog-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a3f07bcba8cso908966b.3
+        for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 10:33:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708626797; x=1709231597;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IDF5rof44gEIb9jX4TIDVAFNvDzRBoYmWa48QZ9r6nQ=;
+        b=sfPfvyXDQIYWdb3V9p4TFUez4whxj7EqMDq9ZutlXqWCwk5EGNVdsXf4r/cIVMpaTQ
+         2GqCW8OCQo4WICXXuZBjg0bUCChW6BDLCnP5w+LodTzuR3LFXKTcj6Pex2SibeFOf1A2
+         QJgX8Za/b4n7EI7jxtcwOiBMQaRG1iKN2KYXSKuAhXZaaMegtudy8DWqzRw0JtbptgHQ
+         Xx8emkXFLzFiSznrOsQfwqyMTU/b0HL4jB44Yc4OUPBG5NXOECMThJ7kmNWGT3niyu0r
+         YEw++y+o+5rGUIUyi+5kUHftbdWJw+IxolxlS5uEkz9ND4wVdNknRo2a+nnm11dWB8QQ
+         ZorQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/fOwfCLnZzdqLPkgTpOdEtGa0v3IiQ+foleI6uaU+1OUO+rK7COs7W1SHcuPg5AcuQ/IJEICOC3oO31+ffHVGsEaEO1OlIF7YyQ==
+X-Gm-Message-State: AOJu0YxbAgJdz/98LaYWIcC1AjrmZWIk+i7PuWLN4bQHWEPOgqJ2BdXD
+	tBPJ6QnmIdZalTaXU0vkG+17SSzAx8Qq16yX4mmg1Sp45ytPdUzQPIcfaJSvBqEWt8CFFwHO1ru
+	j21ljqNv5ROcZf6RPEM7dkzKOTfr0Va8bpltEcULSkRl0LLePpzfIXHYzSGM=
+X-Received: by 2002:a17:906:3b52:b0:a3f:1ec7:8765 with SMTP id h18-20020a1709063b5200b00a3f1ec78765mr4781452ejf.8.1708626797705;
+        Thu, 22 Feb 2024 10:33:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHy6MVM+yU0ergPm1eOLv+jCkZxkYnKmu7DqTz49UohXBGjHmSJ/pKffRukeXLaaXuaiUR+Cg==
+X-Received: by 2002:a17:906:3b52:b0:a3f:1ec7:8765 with SMTP id h18-20020a1709063b5200b00a3f1ec78765mr4781437ejf.8.1708626797348;
+        Thu, 22 Feb 2024 10:33:17 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id lu16-20020a170906fad000b00a3d5efc65e0sm4854658ejb.91.2024.02.22.10.33.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Feb 2024 10:33:16 -0800 (PST)
+Message-ID: <7013bf9e-2663-4613-ae61-61872e81355b@redhat.com>
+Date: Thu, 22 Feb 2024 19:33:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cyyKuWjF0GZgvTwP"
-Content-Disposition: inline
-In-Reply-To: <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] devm-helpers: Add resource managed version of mutex
+ init
+To: Matthew Auld <matthew.auld@intel.com>, =?UTF-8?Q?Marek_Beh=C3=BAn?=
+ <kabel@kernel.org>, linux-kernel@vger.kernel.org,
+ Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Aleksandr Mezin <mezin.alexander@gmail.com>, Jean Delvare
+ <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-gpio@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240222145838.12916-1-kabel@kernel.org>
+ <03e62bcf-137c-4947-8f34-0cbfcba92a30@intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <03e62bcf-137c-4947-8f34-0cbfcba92a30@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+On 2/22/24 17:44, Matthew Auld wrote:
+> On 22/02/2024 14:58, Marek Behún wrote:
+>> A few drivers are doing resource-managed mutex initialization by
+>> implementing ad-hoc one-liner mutex dropping functions and using them
+>> with devm_add_action_or_reset(). Help drivers avoid these repeated
+>> one-liners by adding managed version of mutex initialization.
+
+<snip>
+
+>> index 74891802200d..70640fb96117 100644
+>> --- a/include/linux/devm-helpers.h
+>> +++ b/include/linux/devm-helpers.h
+>> @@ -24,6 +24,8 @@
+>>    */
+>>     #include <linux/device.h>
+>> +#include <linux/kconfig.h>
+>> +#include <linux/mutex.h>
+>>   #include <linux/workqueue.h>
+>>     static inline void devm_delayed_work_drop(void *res)
+>> @@ -76,4 +78,34 @@ static inline int devm_work_autocancel(struct device *dev,
+>>       return devm_add_action(dev, devm_work_drop, w);
+>>   }
+>>   +static inline void devm_mutex_drop(void *res)
+>> +{
+>> +    mutex_destroy(res);
+>> +}
+>> +
+>> +/**
+>> + * devm_mutex_init - Resource managed mutex initialization
+>> + * @dev:    Device which lifetime mutex is bound to
+>> + * @lock:    Mutex to be initialized (and automatically destroyed)
+>> + *
+>> + * Initialize mutex which is automatically destroyed when driver is detached.
+>> + * A few drivers initialize mutexes which they want destroyed before driver is
+>> + * detached, for debugging purposes.
+>> + * devm_mutex_init() can be used to omit the explicit mutex_destroy() call when
+>> + * driver is detached.
+>> + */
+>> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
+>> +{
+>> +    mutex_init(lock);
+> 
+> Do you know if this this needs __always_inline? The static lockdep key in mutex_init() should be
+> different for each caller class. See c21f11d182c2 ("drm: fix drmm_mutex_init()").
+
+That is a very good point. I believe that this should mirror mutex_init() and
+the actual static inline function should be __devm_mutex_init() which takes
+the key as extra argument (and calls __mutex_init()) and then make
+devm_mutex_init() itself a macro mirroring the mutex_init() macro.
+
+Regards,
+
+Hans
 
 
---cyyKuWjF0GZgvTwP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
 
-> For all these reasons the display analogy really is a bit fit for these k=
-eyboards
-> we tried to come up with a universal coordinate system for these at the b=
-eginning
-> of the thread and we failed ...
 
-I quite liked the coordinate system proposal. I can propose this:
 
-Vendor maps the keyboard lights to a grid. That would be something
-16x8 for thinkpad X220. Then we provide functionality to query "is a
-working pixel there" and "what kind of key is at this pixel" -- I
-guess we can use input keycodes for that. Multiple pixels can map to
-one keycode.
+> 
+>> +
+>> +    /*
+>> +     * mutex_destroy() is an empty function if CONFIG_DEBUG_MUTEXES is
+>> +     * disabled. No need to allocate an action in that case.
+>> +     */
+>> +    if (IS_ENABLED(CONFIG_DEBUG_MUTEXES))
+>> +        return devm_add_action_or_reset(dev, devm_mutex_drop, lock);
+>> +    else
+>> +        return 0;
+>> +}
+>> +
+>>   #endif
+> 
 
-(And then we make best effort to map normal keyboards into similar
-grids).
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---cyyKuWjF0GZgvTwP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZdeJ6AAKCRAw5/Bqldv6
-8swPAJ0eTXg7THv3YqztC+ECLpHU9tSEOQCghojVjFEBaej133t9yKUV1+jTrdE=
-=g5GA
------END PGP SIGNATURE-----
-
---cyyKuWjF0GZgvTwP--
 
