@@ -1,119 +1,147 @@
-Return-Path: <linux-leds+bounces-913-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-914-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D778604F8
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:40:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A290F8604FE
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 22:42:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 348B11C23212
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 21:40:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CAD4B23DFD
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Feb 2024 21:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85EB873F3D;
-	Thu, 22 Feb 2024 21:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199C812D1EF;
+	Thu, 22 Feb 2024 21:42:24 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CC773F17
-	for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 21:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF9D73F38
+	for <linux-leds@vger.kernel.org>; Thu, 22 Feb 2024 21:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708638038; cv=none; b=k2zd0DrX8/c7tQm0wv1Vdz3DtyeWPOcbRiBlYKfj0xQIiqjcXetRV/xyT1anxRc4RnNy02EeaMK2MuzWLmLob7u/96EnBu/6vgekTvCIearteMmRkiWJfMJ2tiVKMgTmMIzkTgJiorZGfnb3uiSxNtsd2Hi3VqxQVV+gAybT+94=
+	t=1708638144; cv=none; b=WOBsrG4A4U8CphoMxhLLT1rTASSnLTjJDnc19fYBvqG+b8tO5Ul/xlu8Q58YBCkFQu7VTLUcvIsYnVRV0I4wRtBv1Ad2o4WnN2iFpBQ2OmqobJaElBa8s21ftYYGVCR6QnbttMF5GLFeN7SEqUQibRkbt9UbLCm9ehGwTXE07sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708638038; c=relaxed/simple;
-	bh=FskGyQM0hnrRbCG067LMBsXVFuEu0IODjENfPSTN1Xc=;
+	s=arc-20240116; t=1708638144; c=relaxed/simple;
+	bh=3qH6a911hvLZnHJF5DoZ8K6rR8//RgNHgPFdiHBY9tk=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVj1cmjAy+pTJa8Vuc/KSvn4KQTzz1MmXxtMooF7EKLoHvyQs+2tWY8k8++kIqASHN1MIVgLsTleVP6MqFiGUhPpf7j7hSwYGPGPfSqkXbOWkXX4QDT2yfByD5eGLiR7UMAXBchIkREtlzcS8/DrNQib8n5OZvrkaGKb1YREcm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5XRgWHe4lZsUOYrgyRJt6C6nPR2X11+70Iqt5rbVYK1KszTUPGyV5jk3S5D5soom4LGSFcbfa5P352tPAbndu45/aLtlQOWf4plVkUVYyAZwEyczqcgnSF5VOWMuveAkzR/GL1uly7ApbTQPY3S54Il0QDP2D7b68k/AkR90CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-26-217.elisa-laajakaista.fi [88.113.26.217])
-	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-	id fe9fe7f5-d1ca-11ee-abf4-005056bdd08f;
-	Thu, 22 Feb 2024 23:40:28 +0200 (EET)
+	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+	id 3c868ecd-d1cb-11ee-b3cf-005056bd6ce9;
+	Thu, 22 Feb 2024 23:42:13 +0200 (EET)
 From: andy.shevchenko@gmail.com
-Date: Thu, 22 Feb 2024 23:40:27 +0200
-To: Xing Tong Wu <xingtong_wu@163.com>
-Cc: lee@kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-	Xing Tong Wu <xingtong.wu@siemens.com>,
-	Tobias Schaffner <tobias.schaffner@siemens.com>,
-	Henning Schild <henning@hennsch.de>
-Subject: Re: [RESEND PATCH v2 1/1] leds: simatic-ipc-leds-gpio: add support
- for module BX-59A
-Message-ID: <Zde_S6X8OdEDyxDy@surfacebook.localdomain>
-References: <20240208120901.GL689448@google.com>
- <20240218062806.3932-1-xingtong_wu@163.com>
- <20240218062806.3932-2-xingtong_wu@163.com>
+Date: Thu, 22 Feb 2024 23:42:11 +0200
+To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Aleksandr Mezin <mezin.alexander@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-gpio@vger.kernel.org, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	George Stark <gnstark@salutedevices.com>
+Subject: Re: [PATCH 1/2] devm-helpers: Add resource managed version of mutex
+ init
+Message-ID: <Zde_s8iecR2ArKjC@surfacebook.localdomain>
+References: <20240222145838.12916-1-kabel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240218062806.3932-2-xingtong_wu@163.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240222145838.12916-1-kabel@kernel.org>
 
-Sun, Feb 18, 2024 at 02:28:06PM +0800, Xing Tong Wu kirjoitti:
-> From: Xing Tong Wu <xingtong.wu@siemens.com>
+Thu, Feb 22, 2024 at 03:58:37PM +0100, Marek Behún kirjoitti:
+> A few drivers are doing resource-managed mutex initialization by
+> implementing ad-hoc one-liner mutex dropping functions and using them
+> with devm_add_action_or_reset(). Help drivers avoid these repeated
+> one-liners by adding managed version of mutex initialization.
 > 
-> This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
-> connected to GPIOs provided by the Nuvoton NCT6126D
+> Use the new function devm_mutex_init() in the following drivers:
+>   drivers/gpio/gpio-pisosr.c
+>   drivers/gpio/gpio-sim.c
+>   drivers/gpu/drm/xe/xe_hwmon.c
+>   drivers/hwmon/nzxt-smart2.c
+>   drivers/leds/leds-is31fl319x.c
+>   drivers/power/supply/mt6370-charger.c
+>   drivers/power/supply/rt9467-charger.c
 
-MIssing period at the end of the sentence.
+Pardon me, but why?
 
-...
+https://lore.kernel.org/linux-leds/20231214173614.2820929-1-gnstark@salutedevices.com/
 
->  static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
->  {
-> +	const struct simatic_ipc_platform *plat = pdev->dev.platform_data;
+Can you cooperate, folks, instead of doing something independently?
 
-dev_get_platdata()
 
-> +	struct simatic_ipc_led_tables *led_tables;
-> +
-> +	led_tables = devm_kzalloc(&pdev->dev, sizeof(*led_tables), GFP_KERNEL);
-> +	if (!led_tables)
-> +		return -ENOMEM;
-> +
-> +	switch (plat->devmode) {
-> +	case SIMATIC_IPC_DEVICE_227G:
-> +		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_227g;
-> +		led_tables->led_lookup_table_extra = &simatic_ipc_led_gpio_table_extra_227g;
-> +		break;
-> +	case SIMATIC_IPC_DEVICE_BX_59A:
-> +		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_bx_59a;
-> +		break;
-> +	default:
-> +		return -ENODEV;
-> +	}
-> +
-> +	dev_set_drvdata(&pdev->dev, led_tables);
-
-platform_set_drvdata()
-
-> +	return simatic_ipc_leds_gpio_probe(pdev, led_tables->led_lookup_table,
-> +					   led_tables->led_lookup_table_extra);
+> --- a/include/linux/devm-helpers.h
+> +++ b/include/linux/devm-helpers.h
+> @@ -24,6 +24,8 @@
+>   */
+>  
+>  #include <linux/device.h>
+> +#include <linux/kconfig.h>
+> +#include <linux/mutex.h>
+>  #include <linux/workqueue.h>
+>  
+>  static inline void devm_delayed_work_drop(void *res)
+> @@ -76,4 +78,34 @@ static inline int devm_work_autocancel(struct device *dev,
+>  	return devm_add_action(dev, devm_work_drop, w);
 >  }
+>  
+> +static inline void devm_mutex_drop(void *res)
+> +{
+> +	mutex_destroy(res);
+> +}
+> +
+> +/**
+> + * devm_mutex_init - Resource managed mutex initialization
+> + * @dev:	Device which lifetime mutex is bound to
+> + * @lock:	Mutex to be initialized (and automatically destroyed)
+> + *
+> + * Initialize mutex which is automatically destroyed when driver is detached.
+> + * A few drivers initialize mutexes which they want destroyed before driver is
+> + * detached, for debugging purposes.
+> + * devm_mutex_init() can be used to omit the explicit mutex_destroy() call when
+> + * driver is detached.
+> + */
+> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
+> +{
+> +	mutex_init(lock);
+> +
+> +	/*
+> +	 * mutex_destroy() is an empty function if CONFIG_DEBUG_MUTEXES is
+> +	 * disabled. No need to allocate an action in that case.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_DEBUG_MUTEXES))
+> +		return devm_add_action_or_reset(dev, devm_mutex_drop, lock);
+> +	else
+> +		return 0;
+> +}
 
-...
-
->  static void simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
->  {
-> +	struct simatic_ipc_led_tables *led_tables;
-
-> +	led_tables = dev_get_drvdata(&pdev->dev);
-
-platform_get_drvdata()
-
-> +	simatic_ipc_leds_gpio_remove(pdev, led_tables->led_lookup_table,
-> +				     led_tables->led_lookup_table_extra);
->  }
+Cc: George Stark <gnstark@salutedevices.com>
 
 -- 
 With Best Regards,
