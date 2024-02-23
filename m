@@ -1,60 +1,61 @@
-Return-Path: <linux-leds+bounces-947-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-948-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8B3861619
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:43:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA1486162D
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:46:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EAD0228444E
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:43:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCD4C1C23FD4
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:46:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65AA98287A;
-	Fri, 23 Feb 2024 15:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B60782D77;
+	Fri, 23 Feb 2024 15:46:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQjwj/f4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxBRfAoy"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A30282863;
-	Fri, 23 Feb 2024 15:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5DD82D66;
+	Fri, 23 Feb 2024 15:46:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708702990; cv=none; b=m1SpQYXmfsxfGjMgtmMYLiPlBCRjiwfp/IbYr9J/2zSNS8b3X+gOGdSmcsnBLNs3vDnT0k6Oo0O5lTDWKcw7mCzBgSHwIEiwswTPBy1xuAI1qzid4MGlCflgqw9qzN5A6HJqBoEBil5Zc8iMseJo/qoZZuyzl7pR67opZJM4ApU=
+	t=1708703165; cv=none; b=VBdOMBaPcqM7TC2NyfhlO6SbtYV/A/WxT14JyMJtqp/YXQ/vxmd+9El/ZgkyLk4/PU/XV1r8WLtEEYIJdsDjUZEFvX9yOcxTLRGi5/Vw9l5NThHqyDQ9+SOTnq/h+orJkpbsMjhxy9BdqTTA8aBeFs9d2CfCtZPZXx2BV3DtHfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708702990; c=relaxed/simple;
-	bh=VulX/bEzC0bjQkYNIhonnatB3A8d1Ksmk/boghxkEaw=;
+	s=arc-20240116; t=1708703165; c=relaxed/simple;
+	bh=lbsgBK2Ozez/f96f+DKOLPPFisW/G9PWWa6YYGbHsMc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSgNEn7kBgDQMyPrdTaxucjLWoY0BLMjfF9Dfn2ksYldzk2PcpUvMifThWnhDHOKAmc06aBR/scqwvtCp63EWvPCWM9c0AJmDI2f3JuqGfJzB+OlTwuzPLVT3mUELMQyxRDVxxbvzHtWHapvu6TF1KA+Ddqt9/fH5DqxC25Ex4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQjwj/f4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A83AC433F1;
-	Fri, 23 Feb 2024 15:43:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=g3B7cr+iYj2LfEg6P/wxkHrotx5JJPTveH2qlAie8GIB0dxchQmq8Th+ht0LrTiuWcCMwNgS6VXrTJzTbNe8PLyod7VBakx1v/Q1+c0Usa6nyH1ZMAx9a5p4qXhbdQG1Duo+lHhFhD/Zj8GRUitWpE3l70g123t0qjYQ7MV0/cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxBRfAoy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C74C43394;
+	Fri, 23 Feb 2024 15:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708702989;
-	bh=VulX/bEzC0bjQkYNIhonnatB3A8d1Ksmk/boghxkEaw=;
+	s=k20201202; t=1708703164;
+	bh=lbsgBK2Ozez/f96f+DKOLPPFisW/G9PWWa6YYGbHsMc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fQjwj/f4dQ98xd0fo1xB7lPKHDUxOPTz4UCfTpUlcO3fbM2pMRC5mbsn5wYzc6rDD
-	 51uWyKM+IuiVDK2E6sGleOjE4ZsaOJOa3vbCbt6v/wVzWTs31RQzHI/sTkgUqgFYb+
-	 ZshFgXTcKhqqO79Bhqa8Ew3u7kv6xoTNcOI5ZyZlow+rl9FMGi/jQ2s9WopDWz6zLu
-	 Minrw3mN+v7mOtl6EYUxzqQdocc5rHQ/+oxAX7R1qJQ6SMpOfdevtUD6Mtk6NrBwz4
-	 JWRddU8W+MjeIH/6+bO+lCksqNglGMD34q1Vywql1Zj4a+UcKPQbhG1ycypNEQhhwf
-	 mKz5ecVg3Su8Q==
-Date: Fri, 23 Feb 2024 15:43:04 +0000
+	b=HxBRfAoyr0HdM1/QBR+TLrT3+FZnlv66BuT2jyUJARdCuvd7fE/hWONLe5TSJKP4v
+	 hPnkOYPrVeVW8Itxo8HmUGs61G8Mffuxg7pTT1DQOxe8YwnhNJrCwgJTKIHV4nGYqm
+	 tiBx932v/1NHL1kWajIixDVamA1ESznOwsENqz57iY2/kiDWYZ4XOid9z4QFXf08FQ
+	 03K8/mUHNh5hGropWQ32NWFJlZ/dM/5bZY+BaMhOrjVpE++6RDHLGEWZtAKnvZ0G5i
+	 RVC7Y3xz43ovHw9koIQ5gqlNg67tSe0NJVoiNqWcOxPR5E5Rr0diRiRs3bjigrsnTZ
+	 ffLkGmU198h8g==
+Date: Fri, 23 Feb 2024 15:45:59 +0000
 From: Lee Jones <lee@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: pwm-multicolour: re-allow active-low
-Message-ID: <20240223154304.GE1666215@google.com>
-References: <20240213-verse-clinic-e6de06e1f18d@spud>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+Message-ID: <20240223154559.GF1666215@google.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,104 +65,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240213-verse-clinic-e6de06e1f18d@spud>
+In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 
-On Tue, 13 Feb 2024, Conor Dooley wrote:
+On Tue, 13 Feb 2024, Heiner Kallweit wrote:
 
-> From: Conor Dooley <conor.dooley@microchip.com>
+> If a simple trigger is assigned to a LED, then the LED may be off until
+> the next led_trigger_event() call. This may be an issue for simple
+> triggers with rare led_trigger_event() calls, e.g. power supply
+> charging indicators (drivers/power/supply/power_supply_leds.c).
+> Therefore persist the brightness value of the last led_trigger_event()
+> call and use this value if the trigger is assigned to a LED.
+> This change allows to use simple triggers in more cases.
+> As a first use case simplify handling of the mute audio trigger.
 > 
-> active-low was lifted to the common schema for leds, but it went
-> unnoticed that the leds-multicolour binding had "additionalProperties:
-> false" where the other users had "unevaluatedProperties: false", thereby
-> disallowing active-low for multicolour leds. Explicitly permit it again.
+> This series touches few subsystems. I'd propose to handle it via
+> the LED subsystem.
 > 
-> Fixes: c94d1783136e ("dt-bindings: net: phy: Make LED active-low property common")
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
+> Heiner Kallweit (4):
+>   leds: trigger: Store brightness set by led_trigger_event()
+>   ALSA: control-led: Integrate mute led trigger
+>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+>   leds: trigger: audio: Remove this trigger
 > 
-> I'm just assuming this is intentionally restrictive, if its not, we
-> could easily just change this to uneval: false.
-> 
-> CC: Pavel Machek <pavel@ucw.cz>
-> CC: Lee Jones <lee@kernel.org>
-> CC: Rob Herring <robh@kernel.org>
-> CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> CC: Conor Dooley <conor+dt@kernel.org>
-> CC: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-> CC: Christian Marangi <ansuelsmth@gmail.com>
-> CC: linux-leds@vger.kernel.org
-> CC: devicetree@vger.kernel.org
-> CC: linux-kernel@vger.kernel.org
-> ---
->  Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> index 5edfbe347341..a31a202afe5c 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> @@ -41,6 +41,8 @@ properties:
->  
->            pwm-names: true
->  
-> +          active-low: true
-> +
->            color: true
->  
->          required:
-> -- 
-> 2.43.0
+>  arch/mips/configs/ci20_defconfig     |  1 -
+>  drivers/input/input-leds.c           |  8 +---
+>  drivers/leds/led-triggers.c          |  6 ++-
+>  drivers/leds/trigger/Kconfig         |  7 ---
+>  drivers/leds/trigger/Makefile        |  1 -
+>  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
+>  include/linux/leds.h                 | 29 ++++++------
+>  sound/core/Kconfig                   |  1 -
+>  sound/core/control_led.c             | 20 +++++++--
+>  9 files changed, 37 insertions(+), 103 deletions(-)
+>  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
 
-Neither checkpatch.pl or Git appear to be happy with this:
-
-ERROR: Does not appear to be a unified-diff format patch
-
-total: 1 errors, 0 warnings, 0 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-"[PATCH] dt-bindings: leds: pwm-multicolour: re-allow active-low" has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-WARNING: Missing commit description - Add an appropriate one
-
-ERROR: Missing Signed-off-by: line(s)
-
-total: 1 errors, 1 warnings, 8 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-Your patch has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-
-Check the results (hit return to continue or Ctrl+c to exit)
-
-
-Applying patch(es)
-Applying: dt-bindings: leds: pwm-multicolour: re-allow active-low
-Using index info to reconstruct a base tree...
-M	Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-/home/joneslee/projects/linux/kernel/.git/worktrees/for-led-next/rebase-apply/patch:28: indent with spaces.
-          active-low: true
-Checking patch Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml...
-Applied patch Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml cleanly.
-warning: 1 line adds whitespace errors.
-Falling back to patching base and 3-way merge...
-error: Your local changes to the following files would be overwritten by merge:
-	Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-Please commit your changes or stash them before you merge.
-Aborting
-error: Failed to merge in the changes.
-Patch failed at 0001 dt-bindings: leds: pwm-multicolour: re-allow active-low
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+Are the sound maintainers on-board with this?
 
 -- 
 Lee Jones [李琼斯]
