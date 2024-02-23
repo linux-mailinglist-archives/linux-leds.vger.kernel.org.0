@@ -1,82 +1,132 @@
-Return-Path: <linux-leds+bounces-956-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-957-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A086F861757
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 17:14:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC7C8617A6
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 17:21:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B71D28D13B
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:14:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 691032897D8
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF03A86635;
-	Fri, 23 Feb 2024 16:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B6AD84A39;
+	Fri, 23 Feb 2024 16:20:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2uV+eDd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oyrEMY/q"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC5A8562E;
-	Fri, 23 Feb 2024 16:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C34823CD;
+	Fri, 23 Feb 2024 16:20:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708704837; cv=none; b=Mxch4dpj5a7Dl7aQFOqbE6BsaXmyvDZlk5x6599OEH5gugrkjA7Gimwjach4psiQSzkG3q+/gCPM6mF0KTKykzFL0sUcWIqBhBGaAhmtb3e4KgDDONHBDOa8zvrw8GuvPIoby2JYc0JaKy1834NpssLBNjDLh2Fbn348lvUxg0c=
+	t=1708705249; cv=none; b=YJXn8IUNYKupj/Cv5sKuJ1iage8NMq/T5Y+LnY9pNBv9FHsjJPi3vtcgNBU+3gfrg/93+NRcVAYz06EmRtQkrZrltlmqSeMj5UrONxtpal/G2QGeS3Sce1qliJ3T/gpGYfi1kz69qhVAJqsY0fYg1ID5FeZhVl7wUmrpMPi/AmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708704837; c=relaxed/simple;
-	bh=u7uC2Lv5Wh7Eg5arLbl/WySIY4U6vAGqpGlwxxOfo5c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TTzVUUqXSe+OhU/KvJOvGyXEb5e308rqD+Oac34lSqor6zZ4zx7i08nel3gGnfP5ZIStYwNVrm/msR+LhD/L9Fu9ftDoVosOjUIpHQ3MSH4aFya9NefBpxUOK/eg1+JdlahLyrZqfroH5taKO8rbV1VkkGTeAulHLEe4jhkl2ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2uV+eDd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93387C433F1;
-	Fri, 23 Feb 2024 16:13:54 +0000 (UTC)
+	s=arc-20240116; t=1708705249; c=relaxed/simple;
+	bh=DvHi85np8LJsYVNCrsC1Bq/l80CI1t1Izc/jC68GZYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hrIfzWVWEzNhfxEseyUFgZcuxZ+6Ll5UJIjzjtryfCObKXdIRTjdAkFokBxEnUSF/EJTrFT4PllEeFZ6RQ2B8n8/Isnvjh1Vx8q092HoV+tEUx7ETZzvj/xhzmpi431TYgJtLzmIjKKyVTpmxjHq5ae7V8CiqRQkaj2bwFHXZJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oyrEMY/q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A2FEC433C7;
+	Fri, 23 Feb 2024 16:20:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708704836;
-	bh=u7uC2Lv5Wh7Eg5arLbl/WySIY4U6vAGqpGlwxxOfo5c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=e2uV+eDdq5qpWNjm5ThB2Bg74MMCU8vge71SGWXCj8ULyKT5H1uNw5+UxOiGNq5kc
-	 kF+uMZEIL6t1wU8buwvF2Ttn7Q7zu7PqvepdViZy1pyQSbbbm8gGgda9MoWOohzDOr
-	 e+ZGYms985zf47bSO1uOTTzhjfDL/RH/b0QC/EoMWPKFnkmS/fJ21FWvYUJPoGNki/
-	 3KPhsca0rTTIiupqpdwu41U6RchezfkaiktPxBj94Rp85yBzWhvZL6GBPcFRJ1YgfR
-	 Iod2fF+oefjbS+XAF12MnjwS6ESdEIU//GVPHZbwCWc04fdZRtMhZeOvUEwINrSaGb
-	 ngPRdOvDS9T1g==
+	s=k20201202; t=1708705248;
+	bh=DvHi85np8LJsYVNCrsC1Bq/l80CI1t1Izc/jC68GZYU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oyrEMY/q2KXxiHjwpBsZslqiSCdGA4M8rLjHS9oFmAHdlnUjkZy8rvdp+2+xlbGC/
+	 C2fHeAmo3GIgtmldsoO7eP/iomz1AMugjd4lOkyns4BijjrahB3FMF8ZUxHGlVrHy+
+	 ZsXB1r2ZpqlwaXqwvymMvtya/2iJ64YM3WhjxxvTJL9TDIB6i1L2qvxYJtIbJrg3Nc
+	 wBchIquEAp5aGg8Gy1oOvs0+ePkLkyHgqzkAOYuvxVp1PsW+um/FIqmAP5/hizC+r7
+	 l2GOmb4BNcbq3FDWCg4wMaW1r12G6mlRHQcnboWUWemq7VfnvA9Fm9hEZLERJJOk+6
+	 81ws+TUWKesLg==
+Date: Fri, 23 Feb 2024 16:20:42 +0000
 From: Lee Jones <lee@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Raymond Hackley <raymondhackley@protonmail.com>, 
- Luca Weiss <luca@z3ntu.xyz>, linux-leds@vger.kernel.org
-In-Reply-To: <20240217191133.1757553-1-megi@xff.cz>
-References: <20240217191133.1757553-1-megi@xff.cz>
-Subject: Re: (subset) [PATCH] leds: sgm3140: Add missing timer cleanup and
- flash gpio control
-Message-Id: <170870483433.1732693.11627947942452126304.b4-ty@kernel.org>
-Date: Fri, 23 Feb 2024 16:13:54 +0000
+To: Abdel Alkuor <alkuor@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Alice Chen <alice_chen@richtek.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: Add NCP5623 multi-led driver
+Message-ID: <20240223162042.GJ1666215@google.com>
+References: <20240203175910.301099-1-alkuor@gmail.com>
+ <20240203175910.301099-2-alkuor@gmail.com>
+ <20240208130115.GM689448@google.com>
+ <Zci9xE5uHRJGMg5q@primary>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.4
+In-Reply-To: <Zci9xE5uHRJGMg5q@primary>
 
-On Sat, 17 Feb 2024 20:11:30 +0100, Ondřej Jirman wrote:
-> Enabling strobe and then setting brightness to 0 causes the driver to enter
-> invalid state after strobe end timer fires. We should cancel strobe mode
-> resources when changing brightness (aka torch mode).
+On Sun, 11 Feb 2024, Abdel Alkuor wrote:
+
+> On Thu, Feb 08, 2024 at 01:01:15PM +0000, Lee Jones wrote:
+> > On Sat, 03 Feb 2024, Abdel Alkuor wrote:
+> >
+> Hi Lee,
 > 
+> Please check the inline comment. All other comments will be addressed
+> in v2.
 > 
+> > > +What:		/sys/class/leds/<led>/dim_step
+> > 
+> > The step principle seems a bit arbitrary.
+> > 
+> > Why not provide the time directly?
+> > 
+> > dim_step_delay?
+> > 
+> > I already see documentation for risetime and falltime.
+> > 
+> > Perhaps that will omit the need for both direction and step?
+> >
+> I'm going to drop off both and use risetime and falltime. That being
+> said, the documented risetime and falltime for lm3533 use steps instead of
+> entering the time directly. This is my first time doing this, should I document
+> risetime/falltime in sysfs-class-led-multicolor-driver-ncp5623? or should
+> I update risetime/falltime in sysfs-class-led-driver-lm3533 to reflect
+> risetime/falltime for ncp5623?
 
-Applied, thanks!
+Keep them separate please.
 
-[1/1] leds: sgm3140: Add missing timer cleanup and flash gpio control
-      commit: 3e7b2b9309cd3eb1b82121b8a978d2dd19301924
+> > > +Date:		Feb 2024
+> > > +KernelVersion:	6.8
+> > > +Contact:	Abdel Alkuor <alkuor@gmail.com>
+> > > +Description:
+> > > +		Set gradual dimming time.
+> > > +
+> > > +		==== ======== ==== ======== ==== ========
+> > > +		Step Time(ms) Step Time(ms) Step Time(ms)
+> > > +		0     0       11   88       22   176
+> > > +		1     8       12   96       23   184
+> > > +		2     16      13   104      24   192
+> > > +		3     24      14   112      25   200
+> > > +		4     32      15   120      26   208
+> > > +		5     40      16   128      27   216
+> > > +		6     48      17   136      28   224
+> > > +		7     56      18   144      29   232
+> > > +		8     64      19   152      30   240
+> > > +		9     72      20   160      31   248
+> > > +		10    80      21   168
+> > > +		==== ======== ==== ======== ==== ========
+> 
+> Thanks,
+> Abdel
 
---
+-- 
 Lee Jones [李琼斯]
-
 
