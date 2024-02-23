@@ -1,87 +1,73 @@
-Return-Path: <linux-leds+bounces-935-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-936-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E468861042
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 12:22:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F94F861172
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 13:26:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D0401F231C3
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 11:22:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A5461F21B29
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 12:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61E27657A3;
-	Fri, 23 Feb 2024 11:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929C17BAE1;
+	Fri, 23 Feb 2024 12:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZzAaElrm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZSQ/HTX"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A37A5D47A;
-	Fri, 23 Feb 2024 11:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7FE7AE78;
+	Fri, 23 Feb 2024 12:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708687361; cv=none; b=P2AdVud30w04aUWSIxnHnnGesgDvtQbba4ewZl2lJwDLOQskB7w0/SC8o8sc5oMK6w0x2UWgsyfHn0Gk/Iu7DSDGI3Ydzx1j11+OtU14BSzDah+qP6zrZF4c1pPUlZ1IO/fG4aM8SL6LDQsdQjgEspMRmm/RzeWfTggrLE1b35A=
+	t=1708691213; cv=none; b=OdrTM2kuD2TxOriE+0KUooVEZoTh59RjIDk+IGLQcP9eIXzfyWuY4yUuXLEakiGuzUr+wTWzqAaGnCRiSV7TmfmsZFZukSIwLfq48DEJsdxlYPu0Og0AAMMh+NUW9uXoG5hHTC6G1/QzwNfERVlC7bhGQoWVD719r/brFM4edNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708687361; c=relaxed/simple;
-	bh=7UvKRmG7swJfDdVxCMKMXceTL0sGIOI++hM+zeNhxp8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jeKMs0MvClxqMoTvC6gcrhoBmjzu1+z4N3ZOGXtiEXNlEuJyiX+tBjRPbfgocpDIAreNxOlI6yNJ03I421W8dD14PiOxT+3ZHGJGsMt7f/Wo0nHZws0AMoMHhG5paAA9oacn1FwjxJsaBF5dN/3jOjJiTcs34q9/2hFES32xQWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZzAaElrm; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-563c403719cso743979a12.2;
-        Fri, 23 Feb 2024 03:22:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708687358; x=1709292158; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UkDOlwqdJKpgBN8ZxM5dkFMSj6BTyDau6P8LZmuFdvk=;
-        b=ZzAaElrmn6VXvmqW+Mh9/JNXjD4EsUhGLoEjxI/6qmtZV4Cej7aq+ywteOPdFzbNOJ
-         nEBqpJZFluWJEWs3Dpyxew3/ex9ZtBw1JvpY0Xga+laQ5Iy07ux2AvKDVFjf9qS4Bh8F
-         HPaPk40jhak32bXucr/iDgEJ88KB/YlPZvcaH43qic/TGxmrZvpsu7/pGSJ3xHQASOCi
-         iAcbKVVPbKz2GVJ+780K79yabmdJIovDEYzCEG/goHndFlywICPqgrS7ZAWiTEDy4E8n
-         vJnl8TLBWcED1D7XX/KyDeBtrDaoF03IzL1ckyCiEfKqhgcUv5/pXn1ERLF8TYqpXkZ5
-         GEBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708687358; x=1709292158;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UkDOlwqdJKpgBN8ZxM5dkFMSj6BTyDau6P8LZmuFdvk=;
-        b=erk4eG+of11IsXnwht97rL0B2xalgqEG2gi43HX9Rr5uo4inTQMF0ESRS22RzBXRRH
-         31OEP+lHir3HiXzeaFyPnZcOQxdBdSJbAz3D6vrMZV5Cvzihl/IePSksOT9Rpq6QSwpl
-         jv2jx4p5xo8vCByLhPSDljD5k8ZgGJqPxmvBwZrzfoRrMCu9N7BNh68TdT/yLxINQg3X
-         CEPbSzdRyiX+Y8dVlm1OFBOG2QhfbqASt8phMuwRHh9TSX1jrOqDimGVzKBdio2m5pds
-         xe4UHVCr4UYOqLUd70zd3xYjBFvlDoQqdL8tX7uEE9DN4RlJWX/yZS5miX4AG/JQBguD
-         mLJA==
-X-Forwarded-Encrypted: i=1; AJvYcCVANrWhMz1NUg884ApRvOJIPGRt5a5OTqwu1oyKWy4VSvqeFgboo+ELc6LiEjV/NeNLyyAZNeKcWrKxpUmqnl5WUWOWP4yM3Z5ZHPko5nPODIeTngkX9WPZ7QidWAYrsfpXOMhAi12/j16e8xV8iSd5NEKAsDFavKlXawoTeXOBQwuy7co=
-X-Gm-Message-State: AOJu0Yz5aY/QMIiga3bsxzb/1jt0wO5RM2ig2ZmOmFGEBqh30t4Pnuck
-	5UDyBZsIiY9EL3hAlA4YfBPt2IwltFdEz/MTbuU1dpYQJ4CkrJY3
-X-Google-Smtp-Source: AGHT+IFZW7dV98KKwCf84FGK0/EQszkPfkxlwIa3iHUC9ZlPt9zPVQjeD12dAL2y7Blnw8IOmLtBfA==
-X-Received: by 2002:aa7:d958:0:b0:564:5227:972 with SMTP id l24-20020aa7d958000000b0056452270972mr1045362eds.33.1708687357745;
-        Fri, 23 Feb 2024 03:22:37 -0800 (PST)
-Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
-        by smtp.gmail.com with ESMTPSA id f23-20020a50a6d7000000b0056392b7d85fsm6776984edc.9.2024.02.23.03.22.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 03:22:35 -0800 (PST)
-From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH] dt-bindings: leds: Add LED_FUNCTION_WAN_ONLINE for Internet access
-Date: Fri, 23 Feb 2024 12:22:23 +0100
-Message-Id: <20240223112223.1368-1-zajec5@gmail.com>
-X-Mailer: git-send-email 2.35.3
+	s=arc-20240116; t=1708691213; c=relaxed/simple;
+	bh=m//cWAePIv4cTZDYri/URPe8qx3PAjrr8Fa4bEJ/jYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tDvMr1CYg2iRmhgQQJpJsM7baarWswrpTbR6W3u+K6Wacdi2TzHaVghlyC9Z1/HfeS9LHCAthrqIyHcLbUmaqe/SgimNuz5CkyF/7axPgoN7gJag7W6F9365gyE8+q9yvVxL/23TJ3WEYVjJgJt0jmkjNeO6NzRjjJxIlWTpWIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZSQ/HTX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB87C433C7;
+	Fri, 23 Feb 2024 12:26:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708691212;
+	bh=m//cWAePIv4cTZDYri/URPe8qx3PAjrr8Fa4bEJ/jYw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=iZSQ/HTX2hNdNLIy3vkQ2Mhcy7B3AcZ4GJzTIslwj7FQ9QGqb8MtlDta23N9Vwe3y
+	 lrts2nTwptGS/hOtaF7+eA6l3i8xvLLu6d2mb9F1zdiv+n1cHntDc/nedbnOWYAeuB
+	 01Ncv/gZk50JdISyyt5DYanwA69wt70ASDNE7D21By/0wkVq8FBhYVnPDaioShYGTT
+	 ln5E16eNjwSVj0tLN6ftkdewOjFQZiPXKGfRPY3lmXnP/RZL27ltagxjwOgUiJUg0D
+	 SOg1MY5nYbXlOq/NQKd0Zr7V5psWedQv0i0fHhCIfcRvzKR9DryEmp+ZWCkAftnTkP
+	 jlPDUqkd21I/w==
+Date: Fri, 23 Feb 2024 13:26:41 +0100
+From: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To: andy.shevchenko@gmail.com, George Stark <gnstark@salutedevices.com>
+Cc: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, Matti
+ Vaittinen <mazziesaccount@gmail.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Aleksandr Mezin
+ <mezin.alexander@gmail.com>, Jean Delvare <jdelvare@suse.com>, Guenter
+ Roeck <linux@roeck-us.net>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+ <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, linux-gpio@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/2] devm-helpers: Add resource managed version of mutex
+ init
+Message-ID: <20240223132641.3e2ba16c@dellmb>
+In-Reply-To: <Zde_s8iecR2ArKjC@surfacebook.localdomain>
+References: <20240222145838.12916-1-kabel@kernel.org>
+	<Zde_s8iecR2ArKjC@surfacebook.localdomain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.39; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -89,36 +75,36 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Rafał Miłecki <rafal@milecki.pl>
+On Thu, 22 Feb 2024 23:42:11 +0200
+andy.shevchenko@gmail.com wrote:
 
-It's common for routers to have LED indicating link on the WAN port.
+> Thu, Feb 22, 2024 at 03:58:37PM +0100, Marek Beh=C3=BAn kirjoitti:
+> > A few drivers are doing resource-managed mutex initialization by
+> > implementing ad-hoc one-liner mutex dropping functions and using them
+> > with devm_add_action_or_reset(). Help drivers avoid these repeated
+> > one-liners by adding managed version of mutex initialization.
+> >=20
+> > Use the new function devm_mutex_init() in the following drivers:
+> >   drivers/gpio/gpio-pisosr.c
+> >   drivers/gpio/gpio-sim.c
+> >   drivers/gpu/drm/xe/xe_hwmon.c
+> >   drivers/hwmon/nzxt-smart2.c
+> >   drivers/leds/leds-is31fl319x.c
+> >   drivers/power/supply/mt6370-charger.c
+> >   drivers/power/supply/rt9467-charger.c =20
+>=20
+> Pardon me, but why?
+>=20
+> https://lore.kernel.org/linux-leds/20231214173614.2820929-1-gnstark@salut=
+edevices.com/
+>=20
+> Can you cooperate, folks, instead of doing something independently?
 
-Some devices however have an extra LED that's meant to be used if WAN
-connection is actually "online" (there is Internet access available).
+Thanks Andy for pointing to George's patch series.
 
-It was suggested to add #define for such use case.
+I can drop the mutex_init() part and add just the debugfs part.
 
-Link: https://lore.kernel.org/linux-devicetree/80e92209-5578-44e7-bd4b-603a29053ddf@collabora.com/T/#u
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
----
- include/dt-bindings/leds/common.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-index c56785bb9c9c..ecea167930d9 100644
---- a/include/dt-bindings/leds/common.h
-+++ b/include/dt-bindings/leds/common.h
-@@ -100,6 +100,7 @@
- #define LED_FUNCTION_TX "tx"
- #define LED_FUNCTION_USB "usb"
- #define LED_FUNCTION_WAN "wan"
-+#define LED_FUNCTION_WAN_ONLINE "wan-online"
- #define LED_FUNCTION_WLAN "wlan"
- #define LED_FUNCTION_WLAN_2GHZ "wlan-2ghz"
- #define LED_FUNCTION_WLAN_5GHZ "wlan-5ghz"
--- 
-2.35.3
-
+Marek
 
