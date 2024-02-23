@@ -1,121 +1,132 @@
-Return-Path: <linux-leds+bounces-938-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-939-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0B586122C
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 14:02:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7178613E5
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:22:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CED921F232DC
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 13:02:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CD831C20BBB
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 14:22:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E847E79D;
-	Fri, 23 Feb 2024 13:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD667EEEF;
+	Fri, 23 Feb 2024 14:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9H59djv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AE47E773;
-	Fri, 23 Feb 2024 13:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084FE78B57;
+	Fri, 23 Feb 2024 14:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708693309; cv=none; b=eFPRJMobK54U5o51IvHX8k7Il58mWLor4oQI0kpxWfVO0wbNpOarPv+kOYY5GRtzGFH6E6hDRV0lmRnlKtSn5Ac02aWlAGLhj4SDBT8taMrlNhsCYjPHuOfQu5c4MTlU8HxYwKc/1dYl1pPchmpo5FGuBcDImNE+cBH6w/ChCLo=
+	t=1708698143; cv=none; b=Yor93XOqhfVeqBwrwc0vvBphxdYSfIhb5XIn2EDAOZWqt9sJ7aXysquYmc7HZbxIUqYDAT6bmG7RAG6+fPogMdYGMGj1iHDDuvki5CJ1a27Th7AqFaO4oVopvl0kOW4Sea4Um8cwtllBzKpW798eT+9zHuAGo/HrH/Q0ePtnK8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708693309; c=relaxed/simple;
-	bh=sTvoAXmMJdiXC9GDbXtcxaiXLut+VjyJMSnX7MgcxnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rLN0EwBhRPi07CPF3WG1wSTdmB0WvtkpUOJgMaS2TNLv66JUuu2TY6UtUJZ9Ej2SNV+R8bRY7d+ARgQxE7wYDnw68Se9k1n5L+K0LQfgRwj6k6xPFqjwOtzggUQUbTowL9Fri/WEewShrtjaQhD7iHY7xzYe0pTEUxpiwYWSd+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-608aada6268so3393047b3.0;
-        Fri, 23 Feb 2024 05:01:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708693305; x=1709298105;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cZMyJrVh4sq2TK8cMQd96IQouFxqqsuFp3MH8PBAJXY=;
-        b=cShMqzrTaLJqESnnygjRzKltRTaYkoN4Ao4fHoR+pDWSgI6GVJkvKu2hXJghcmZ68T
-         HvlaVeCJWQrTqXm2RKgtMQr8wpu0UkVR4jLj+NmDQq86RwR16sQ8hmw77RUTDZcbOfnS
-         a0dChbL3WzdXeDBmU5eWfafZfqHCglvkwzcycvIGd3VllFdP66b/2fTDmcDzlhGcI3rs
-         8hVhSTOx+8QDZ7R5gt9htPa72jXbFr21q873taR5lPpVGXgMsdrWinLnSqMTSVhAeEFy
-         BJlelY0yYHqqcBiahTFPfn6ulJmCQRrmGzCq93IynOcPwpdT6am/VTon5XsiWY4MHZZw
-         KXhA==
-X-Forwarded-Encrypted: i=1; AJvYcCVwBuVPiTKhNPCpfqZGbkHBOewHvOvmpanH6FRj9gYZN8mx/3NNEiqT+l1DhFG16vB2rU2pg+PwHGCjIHk6V8B446I1jvlhezj+N3kadzF3Ph6jAlNl+mHKyJB3tN+gDGjpWTc2HbP7gQ==
-X-Gm-Message-State: AOJu0YzaylxW7Qo9UtI/eNEU0mzIffsRVTqYwkp3wSr7sl78mwuDxc3b
-	Ze9WqsQiuWJ+5SzdkKIQjiA7HbH3vj33BOGmtMDp3XuWMIQG3vVqg1o5cEFwaq0=
-X-Google-Smtp-Source: AGHT+IGubM3X8/MtHL24FMVDSgYBW+Q7FKL6e5h7W8tovYW4MVd8DNuSrqY4CG5LzPHAJCrS6rC/Pw==
-X-Received: by 2002:a81:e301:0:b0:608:eb0:5efb with SMTP id q1-20020a81e301000000b006080eb05efbmr1792750ywl.46.1708693305608;
-        Fri, 23 Feb 2024 05:01:45 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id x11-20020a814a0b000000b006085e262414sm1876778ywa.81.2024.02.23.05.01.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Feb 2024 05:01:45 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6089ee871ccso3169597b3.1;
-        Fri, 23 Feb 2024 05:01:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXqdVrTSOPUELHUK2o2r0UOaPGDsozVXeZZDdtkNZZE3cPCNf8wRnH3VJewOuNArd2sKwsaxpKTb9a1jh6+8ELqTG+B2cF15bcT3jo6iZS+yNeO9WIb+yEVt8G3gPSJKzZya4fGF19Vuw==
-X-Received: by 2002:a5b:ec5:0:b0:dc7:4859:6f1 with SMTP id a5-20020a5b0ec5000000b00dc7485906f1mr1854312ybs.33.1708693305208;
- Fri, 23 Feb 2024 05:01:45 -0800 (PST)
+	s=arc-20240116; t=1708698143; c=relaxed/simple;
+	bh=VxpccfonnRW7IPLZiMVnUbAMDQVPguZSl5ozwgM5NkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y8FsrjdygIe6tw3+Rw6P0CpT3d0clE+EmM0covaskF9R7zwVF4rE0Y1RvhY9a+TDrgi48tqE3xFypuLJKyyv7crBWwedDyuszvqsfUk/QY2AJ0rh1uqoZk+Md/4Otme2m5QM8J+8y+mf3L4wr5vOqpPZ7Pz/mRAjSHkyvFud5IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9H59djv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00BBEC433C7;
+	Fri, 23 Feb 2024 14:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708698142;
+	bh=VxpccfonnRW7IPLZiMVnUbAMDQVPguZSl5ozwgM5NkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R9H59djv+xdj9IMpiTO2kiHy8ruKsmdNsaXe8aBecR1fc21Lj7r+uRmdCOGOTdQFh
+	 Hke0UzbdOV9HhvDHB4GqsOLfF8+TFp49qgq0IL8BBm+/9YYGpd3nPhcbIGlwDykLZN
+	 556lwzBGz4mHKiK3yfwJ//5P5mww+ge+oZDp6m3F9P1T+DAYNm90BKFeNfD0HSxGY/
+	 isxufZAjD0IWY9nNhSPkpGpFy2ybPxM80O/naJ2PCBOi4EuiPTb/viqS9A7XePqEpQ
+	 mRKhJtzkgMagjfg35+gZLXzBYloC78y/wcapN644tpq82lRV06m9I1uE0IzjXh0msJ
+	 38uTU3DnbEHPA==
+Date: Fri, 23 Feb 2024 14:22:18 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Juergen Borleis <jbe@pengutronix.de>, linux-leds@vger.kernel.org,
+	Pavel Machek <pavel@ucw.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] leds: trigger/tty: Use led_set_brightness() to support
+ all use cases
+Message-ID: <20240223142218.GA1666215@google.com>
+References: <20210503092542.14497-1-jbe@pengutronix.de>
+ <20230109084320.nj7erwh3eu4jlw7y@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
- <Zde966nsJ76QOuzm@surfacebook.localdomain> <f5e74774-226a-4678-a6f9-b4f17250ad91@alliedtelesis.co.nz>
- <CAHp75Vfq3Pc+Eo3Z5mhORZwwuKF+Y7_47dTO8qARcfba4nmj2w@mail.gmail.com>
- <9d00e1b1-120b-4c2b-89c5-0ac736bf6441@alliedtelesis.co.nz>
- <CAHp75VdnXtVwrLrcGjnYMfNx7roBvQm9DMr6_ndjZeAbRDbs_Q@mail.gmail.com>
- <2a8d19ee-b18b-4b7c-869f-7d601cea30b6@alliedtelesis.co.nz>
- <CAMuHMdUFW7iTdhQtW4eDnU50zRqsdWsLnTD74UQo8tBU66-dCA@mail.gmail.com> <CAHp75Veyvw75jc4LFpW2EQQ=wSYmn_VdsPBWVG03b+P0QvyGaQ@mail.gmail.com>
-In-Reply-To: <CAHp75Veyvw75jc4LFpW2EQQ=wSYmn_VdsPBWVG03b+P0QvyGaQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 Feb 2024 14:01:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX0CYWGn8OSQ3sXGyZTSqjTK5n1aj2-BOudfEejp980Tg@mail.gmail.com>
-Message-ID: <CAMuHMdX0CYWGn8OSQ3sXGyZTSqjTK5n1aj2-BOudfEejp980Tg@mail.gmail.com>
-Subject: Re: Linux support for a 7 segment LED display
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Chris Packham <Chris.Packham@alliedtelesis.co.nz>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Pavel Machek <pavel@ucw.cz>, 
-	"lee@kernel.org" <lee@kernel.org>, "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230109084320.nj7erwh3eu4jlw7y@pengutronix.de>
 
-Hi Andy,
+On Mon, 09 Jan 2023, Uwe Kleine-König wrote:
 
-On Fri, Feb 23, 2024 at 1:36=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Fri, Feb 23, 2024 at 9:52=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > Note that most larger displays are not individual LEDs, but matrices
-> > of LEDs. Do we want to drive/scan them from software, using a
-> > gpio-7seg-matrix driver?
->
-> LED matrices are the displays (like tinyDRM is for).
+> Hello Jürgen,
+> 
+> On Mon, May 03, 2021 at 11:25:42AM +0200, Juergen Borleis wrote:
+> > Using led_set_brightness_sync() only works for LEDs which are connected
+> > via some kind of external bus like I²C or SPI. But it doesn't work for
+> > the simple use case of directly connected LEDs via GPIOs.
+> > Because this function only honors the led_classdev::brightness_set_blocking
+> > callback. But the LED-GPIO driver registers the
+> > led_classdev::brightness_set member if the GPIO can be modified directly
+> > and thus, TTY triggers fail silently with -ENOTSUPP.
+> > 
+> > With the previously used led_set_brightness() it works for both use cases.
+> > This function first checks for the simple case where the GPIO can be changed
+> > without additional overhead, and if it fails, does the modification via a
+> > workqueue.
+> > 
+> > Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
+> > ---
+> >  drivers/leds/trigger/ledtrig-tty.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+> > index f62db7e..af61281 100644
+> > --- a/drivers/leds/trigger/ledtrig-tty.c
+> > +++ b/drivers/leds/trigger/ledtrig-tty.c
+> > @@ -122,12 +122,12 @@ static void ledtrig_tty_work(struct work_struct *work)
+> >  
+> >  	if (icount.rx != trigger_data->rx ||
+> >  	    icount.tx != trigger_data->tx) {
+> > -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+> > +		led_set_brightness(trigger_data->led_cdev, LED_ON);
+> >  
+> >  		trigger_data->rx = icount.rx;
+> >  		trigger_data->tx = icount.tx;
+> >  	} else {
+> > -		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
+> > +		led_set_brightness(trigger_data->led_cdev, LED_OFF);
+> >  	}
+> 
+> This problem still exists, right?
+> 
+> I think the right thing here is to call led_set_brightness_nosleep()
+> however.
+> 
+> Having said that, I think there are too many variants of
+> led_set_brightness which makes it difficult to pick the right one.
+> 
+> (I'm aware of
+>  - led_set_brightness_nosleep
+>  - led_set_brightness_nopm
+>  - led_set_brightness_sync
+>  - led_set_brightness
+> 
+> and there are a few more static variants in led-core.c
+> (__led_set_brightness, __led_set_brightness_blocking,
+> set_brightness_delayed).)
 
-TinyDRM is for rectangular matrices.
+This patch (and this response) was never sent to me.
 
-Multiple 7-segment displays are usually multiplexed using a matrix,
-using 7 (or 8) lines shared by the corresponding segments of all
-displays, and one common line per display.
-https://embedded-lab.com/blog/wp-content/uploads/2011/03/Lab11_Circuit_Seve=
-nSegmentMultiplexing.jpg
+Not a great deal I can do if I'm not aware of it.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Lee Jones [李琼斯]
 
