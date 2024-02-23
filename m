@@ -1,84 +1,167 @@
-Return-Path: <linux-leds+bounces-943-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-944-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B48861536
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:08:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 047378615C8
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:29:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 074D8B2390A
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:08:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACDD71F218D6
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 543C581ACB;
-	Fri, 23 Feb 2024 15:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1066D823C1;
+	Fri, 23 Feb 2024 15:29:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IKcDUuWF"
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="BU34EUMB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A52C20B02;
-	Fri, 23 Feb 2024 15:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4112C10A3E;
+	Fri, 23 Feb 2024 15:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708700872; cv=none; b=c/fej5enJNsOsQBuOEoE04D+WhLK/WhfJISdRGzuB6Wk3VZ9lGmME8L+hDUm+XTxOJLs1Hp/rfyASRgw/DuHbSz97ivL7SjGNaKcumCWoD1ZhRvm8EEcvJ+art+ZojRJZ4gq2cDwZYuEfdDF3CKnBca8DXPH1LVaWIWg6kFsNzY=
+	t=1708702143; cv=none; b=d++wb8kO1fBJZS4DRlxcBwpRN5pNUX5FskHyLq3YrANuv9pk/m2CClJ6fiiD3bC0lcAKN3zs5jGjcPGExwPgnBFhkaUhiJOgJn2fTmAz4N9Bi8SOQLBd0/bBd50J6nR+gABvTcnmJmz6Vhms/KprKk017ic9ehbIrBbbJtFljvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708700872; c=relaxed/simple;
-	bh=46B9fXDJG233uKQHkYve91+ux45hfkkJQhoIKZSUOkU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LSvG4gsaOC38HdZqHthX5yqpRgMgBl4VD9B+6J1jbQcvAf9NAa/Zjd1K/fcmc7BOoc5mbGgopkb9HKJfZe+cQrK/RhY3TP+y6kzvV/fOR1Yyj6OGdlpL0kAdUd4QwEFzF5L9WZrLnvUPXF/a383oTK8az/NwpGvkAY0CEP/1Xgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IKcDUuWF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEADCC43394;
-	Fri, 23 Feb 2024 15:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708700871;
-	bh=46B9fXDJG233uKQHkYve91+ux45hfkkJQhoIKZSUOkU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IKcDUuWFMbW8KAoY3FoYKiWWzPiQPmZ7eygPygHSRAhGZ64alNTOjpExJ5nkH4wZ8
-	 HDcm+9JCBoCqBjVIZ1nh36/lKxpcrJk66Gualzc0E39SZ5zRhjG25lqF3t/qeSuidx
-	 10hkukveSd0UTZWmjmsPCSgdsZIpDiUbr/qEdYrwk1++unyfjtHgzoR6wzE57AzHa5
-	 cGGyoIZom4siyK6vfbkLh07+h9xDcO5XENldpCJYg/ruTavwximHkzbJaPYqWCUtMG
-	 OIy/Zpak+lX2e7qqNVwUtOsD5+y3vINVFT0dbkI8c5Tsqf4Cq4eBIzRwNhz1TvZzNq
-	 GOIEYUCLy2v/A==
-From: Lee Jones <lee@kernel.org>
-To: andy.shevchenko@gmail.com, pavel@ucw.cz, lee@kernel.org, 
- vadimp@nvidia.com, mpe@ellerman.id.au, npiggin@gmail.com, 
- christophe.leroy@csgroup.eu, hdegoede@redhat.com, mazziesaccount@gmail.com, 
- peterz@infradead.org, mingo@redhat.com, will@kernel.org, longman@redhat.com, 
- boqun.feng@gmail.com, nikitos.tr@gmail.com, 
- George Stark <gnstark@salutedevices.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, kernel@salutedevices.com
-In-Reply-To: <20231214173614.2820929-2-gnstark@salutedevices.com>
-References: <20231214173614.2820929-1-gnstark@salutedevices.com>
- <20231214173614.2820929-2-gnstark@salutedevices.com>
-Subject: Re: (subset) [PATCH v4 01/10] leds: aw2013: unlock mutex before
- destroying it
-Message-Id: <170870086764.1691019.14397200556333161730.b4-ty@kernel.org>
-Date: Fri, 23 Feb 2024 15:07:47 +0000
+	s=arc-20240116; t=1708702143; c=relaxed/simple;
+	bh=25P7JcxoGTkRa2dDDX/BuiwaEg9vmsf9zGtQolf4VMo=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WhowyCPTbwQVW8dtIL2jho4sIQ4pG9mGqdo84sFp1lH28z6zUTlkvSkHD1VA3joa4ub6PIGaH3OtD+umdbsPd2ms7fa43uixti/mlNAsJb4JakoKG79CSW9uIdhpq4WKlNvl14v313jM5hwbiv1kmZTjSpnVQLWpptkfMVStCXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=BU34EUMB; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 46802401E9;
+	Fri, 23 Feb 2024 15:22:38 +0000 (UTC)
+Date: Fri, 23 Feb 2024 10:22:36 -0500
+From: Aren <aren@peacevolution.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: sun50i-a64-pinephone: add multicolor
+ led node
+Message-ID: <5hqfabcolgqcu22hs3xnaimojwuz26tzi63px3rvbsgxa6kjss@ik42w7k26see>
+References: <20240206185400.596979-1-aren@peacevolution.org>
+ <20240206185400.596979-3-aren@peacevolution.org>
+ <sixgkkllo7medcjwjnmbkpqkgfvnmrtlhlwarwuxid5oqwrht5@gl65b6fetq2b>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.4
+In-Reply-To: <sixgkkllo7medcjwjnmbkpqkgfvnmrtlhlwarwuxid5oqwrht5@gl65b6fetq2b>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1708701759;
+	h=from:subject:date:message-id:to:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
+	bh=/xPGKWu8KokBiTM1Ns88qRxeRkPSchgepjKoxnDo5og=;
+	b=BU34EUMBKkMZj9cFgixCr6e8kpnC8CmyEaBxEXatlZ2lG+RNvZsrr/0A4pL7+pm6xSWq+Q
+	hOCt2IrL/F7WJ5gastagvM/VAtEtUP5tI4RV7wNQSsFi4M2uBQR51LvKarznrxWXngCX+x
+	ZaHL352QGXXAhOgqBatwFmIpHh816mM=
 
-On Thu, 14 Dec 2023 20:36:05 +0300, George Stark wrote:
-> In the probe() callback in case of error mutex is destroyed being locked
-> which is not allowed so unlock the mutex before destroying.
+On Fri, Feb 23, 2024 at 09:46:25AM +0100, Ondřej Jirman wrote:
+> Hello Aren,
 > 
+> On Tue, Feb 06, 2024 at 01:13:19PM -0500, Aren Moynihan wrote:
+> > The red, green, and blue leds currently in the device tree represent a
+> > single rgb led on the front of the PinePhone.
+> > 
+> > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> > ---
+> > 
+> > Changes in v2:
+> >  - remove function property from individual led nodes
+> > 
+> >  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++------
+> >  1 file changed, 10 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > index ad2476ee01e4..e53e0d4579a7 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > @@ -39,28 +39,32 @@ chosen {
+> >  	leds {
+> >  		compatible = "gpio-leds";
+> >  
+> > -		led-0 {
+> > -			function = LED_FUNCTION_INDICATOR;
 > 
+> This looks like a needless change that will just break people's current scripts
+> and setup. It does mine, and there sure are others that will be surprised, too.
+> 
+> This leads to a change in sysfs path from:
+> 
+>   /sys/class/leds/blue:indicator
+> 
+> to
+> 
+>   /sys/class/leds/blue:
+> 
+> which is 1) a weird name and 2) a backwards compatibility break for seemingly
+> no apparent reason. Any reaons for the change?
 
-Applied, thanks!
+Leds-group-multicolor will make those read-only, so that will break when
+it's enabled either way. Removing the function property makes it less
+likely that programs attempting to discover leds will use the wrong
+path.
 
-[01/10] leds: aw2013: unlock mutex before destroying it
-        commit: eb0f0a751c8e26b212f78fe7325fa2506c5cbb4b
+I left these in v1 of this patch, but was recommended to remove them.
+https://lore.kernel.org/lkml/k26bellccok4tj3kz2nrtp2vth2rnsiea677e2kzm56m767wjx@pnkqiz5hmiyb/
 
---
-Lee Jones [李琼斯]
+Thanks for taking a look at this
+ - Aren
 
+> People normally hardcode these paths in eg. /etc/tmpfiles.d to apply LED triggers
+> to particular LEDs.
+> 
+> Kind regards,
+> 	o.
+> 
+> > +		led0: led-0 {
+> >  			color = <LED_COLOR_ID_BLUE>;
+> >  			gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
+> >  			retain-state-suspended;
+> >  		};
+> >  
+> > -		led-1 {
+> > -			function = LED_FUNCTION_INDICATOR;
+> > +		led1: led-1 {
+> >  			color = <LED_COLOR_ID_GREEN>;
+> >  			gpios = <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
+> >  			retain-state-suspended;
+> >  		};
+> >  
+> > -		led-2 {
+> > -			function = LED_FUNCTION_INDICATOR;
+> > +		led2: led-2 {
+> >  			color = <LED_COLOR_ID_RED>;
+> >  			gpios = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
+> >  			retain-state-suspended;
+> >  		};
+> >  	};
+> >  
+> > +	multi-led {
+> > +		compatible = "leds-group-multicolor";
+> > +		color = <LED_COLOR_ID_RGB>;
+> > +		function = LED_FUNCTION_INDICATOR;
+> > +		leds = <&led0>, <&led1>, <&led2>;
+> > +	};
+> > +
+> >  	reg_ps: ps-regulator {
+> >  		compatible = "regulator-fixed";
+> >  		regulator-name = "ps";
+> > -- 
+> > 2.43.0
+> > 
 
