@@ -1,202 +1,582 @@
-Return-Path: <linux-leds+bounces-920-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-921-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B6186097D
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 04:46:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777D98609DF
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 05:31:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C040E284BAE
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 03:46:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 529BE1C24F2B
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 04:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8EB0BE68;
-	Fri, 23 Feb 2024 03:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2FE111198;
+	Fri, 23 Feb 2024 04:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="t1Uc0QMn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6mDywoh"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE979CA73
-	for <linux-leds@vger.kernel.org>; Fri, 23 Feb 2024 03:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C14125A5;
+	Fri, 23 Feb 2024 04:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708659980; cv=none; b=d4XQbP7m+RQwiAknG3fCjwan2Er9T+d3/lQnM5U+bJvVar+bEjwK6Evmf35LyfW6xQjbw/x2fo0YsdaDiCOcVArOgCMNYMSB46njOySqb3LYJpNQ7flJ9xymT/X+CR1oRkJThI1qXMe/gcR1JqVg2Dqq71xFtU5U9QGgVOTK9+w=
+	t=1708662636; cv=none; b=CC22AQA2hs1iKQOj9jAlImffCSdVgenORm60M8Me7TLRaey4V5gIIz2oiTRwgHKaEar8UU8Mhwu8t0Uz0t3ys5gcXhRFMfciJLg3JELD8eHYa3zoAhmx5wT2tkafQa8NGP0Z+WBUoubu48LPHBW7t9ISSia3MOnIFMTffmQRLvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708659980; c=relaxed/simple;
-	bh=JeUMcuY6OS4o6R38cZxtMwI/98jBmcn8NXw3zVTkR/8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GQkFc6OoYjiB8eSXfqIOnQJmfnfwzGjavFLXB7oBR9RwU6jjN/Oil+6nQVPBByyrmy1tnkrcKf4mZah+nwZEX5N4TRTDoOjh9EVR1rVuc8z3PW+/oxXdUyKZzihcLM+lb2zXDs0I7HuuVl94Zs1Fh2DEU1fpzF/KupRQ/V8b1sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=t1Uc0QMn; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 7E91A2C06C7;
-	Fri, 23 Feb 2024 16:46:15 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1708659975;
-	bh=JeUMcuY6OS4o6R38cZxtMwI/98jBmcn8NXw3zVTkR/8=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=t1Uc0QMnKo3+qEdJQ/HtxUiO0xC7Albkj3SBPbhn1sknd9EcnCAbDWSBD/hlQtqxy
-	 STXQcDufjSaa/Wt1kY40VOBJEprGNFCGNilmByhcaoa+8fw3/tRuX0xvi8gd2vnG8/
-	 28esr1p0erw51WfIK/PK08XZ4ivexTog9HdrAaEmSjr2Y/TBnLN3JVofIs5nPUFDY2
-	 sLPlpfDETx79wSijmIvb7lA5aVWOi8k8nfkRPWny7ULkmcch4kOv5UzKf8Af9Pkzjm
-	 4hvfq2ENEhK40/EnH7xy3lsxtFeGtBQIUZD+ZXiAs1Pv503kIHI3uOy1suKuYCIBEH
-	 qXyNhJ2jt1iLQ==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65d815070001>; Fri, 23 Feb 2024 16:46:15 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 23 Feb 2024 16:46:15 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1118.040; Fri, 23 Feb 2024 16:46:15 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-	"lee@kernel.org" <lee@kernel.org>, "linux-leds@vger.kernel.org"
-	<linux-leds@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: Linux support for a 7 segment LED display
-Thread-Topic: Linux support for a 7 segment LED display
-Thread-Index: AQHaXStZfYl8Vw6dm0yz1EAjpP4fVbEWGZeAgAAFVoCAAAGlAIAAAoWAgAABdICAAFziAA==
-Date: Fri, 23 Feb 2024 03:46:15 +0000
-Message-ID: <2a8d19ee-b18b-4b7c-869f-7d601cea30b6@alliedtelesis.co.nz>
-References: <1f598a72-dd9f-4c6c-af7f-29751f84bd23@alliedtelesis.co.nz>
- <Zde966nsJ76QOuzm@surfacebook.localdomain>
- <f5e74774-226a-4678-a6f9-b4f17250ad91@alliedtelesis.co.nz>
- <CAHp75Vfq3Pc+Eo3Z5mhORZwwuKF+Y7_47dTO8qARcfba4nmj2w@mail.gmail.com>
- <9d00e1b1-120b-4c2b-89c5-0ac736bf6441@alliedtelesis.co.nz>
- <CAHp75VdnXtVwrLrcGjnYMfNx7roBvQm9DMr6_ndjZeAbRDbs_Q@mail.gmail.com>
-In-Reply-To: <CAHp75VdnXtVwrLrcGjnYMfNx7roBvQm9DMr6_ndjZeAbRDbs_Q@mail.gmail.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DB52996EED63AC46A2ACE8145E6C7297@atlnz.lc>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1708662636; c=relaxed/simple;
+	bh=JFJTUQsLK/JS1syi1du6VA2zlnoAxwlqEIk/++cp37c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ntczOIQrcHmOWak555oq9k9rSzABO27PUCnv60D7qcCOHQB3X3/KTrDvkZP1y+aLPbfcmD+SA5H4WWQcIRrKAjHfHQcIybcxQCPtDMMIG7pHxqk6ELwcmmJPp+3N8alXrKMv15LggOT3J6g3bkC+Z268+MrARkFVPBU+uruDlDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6mDywoh; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708662633; x=1740198633;
+  h=date:from:to:cc:subject:message-id;
+  bh=JFJTUQsLK/JS1syi1du6VA2zlnoAxwlqEIk/++cp37c=;
+  b=A6mDywoh+DyHa1lj/Jy/ChA96mptsv68ivhtjGtRxFtyKZAUZQ4tt1Pz
+   jbfPofPil2k6oEc8X+e14+PpSAo/rBZEl9w7U1B1PfAg3xCBkNZqkMJpt
+   RCjo50NhQgYoRjIP/xwJnrKRFoPawDYMowLM1P/BSWdgpj939TuXqDKks
+   PJkrLzD/C/6qfccvlP2qAuvmmdNbjSf3k4Wu8mXfpTbJ+Fu06osrnFGGy
+   d0eVf1HxGBo2h/lAypXuk0ZFWfSAZ4tC9t7Y6K51ee3uH3UxxkIcymeU2
+   tzR95xXxdsFxb99YizT9QCLHms3/bycpdk4JlbuBQcNY8uyxTVvJaFL9i
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="14387338"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="14387338"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 20:30:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="36801015"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Feb 2024 20:30:28 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rdNBy-000746-0r;
+	Fri, 23 Feb 2024 04:29:46 +0000
+Date: Fri, 23 Feb 2024 12:29:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-sound@vger.kernel.org, mhi@lists.linux.dev,
+ nouveau@lists.freedesktop.org, ntfs3@lists.linux.dev
+Subject: [linux-next:master] BUILD REGRESSION
+ e31185ce00a96232308300008db193416ceb9769
+Message-ID: <202402231222.DVB9DC74-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65d81507 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=pGLkceISAAAA:8 a=TBtA2B8CxjsteUArTA4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-SEG-SpamProfiler-Score: 0
 
-DQpPbiAyMy8wMi8yNCAxMToxMywgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPiBPbiBGcmksIEZl
-YiAyMywgMjAyNCBhdCAxMjowOOKAr0FNIENocmlzIFBhY2toYW0NCj4gPENocmlzLlBhY2toYW1A
-YWxsaWVkdGVsZXNpcy5jby5uej4gd3JvdGU6DQo+PiBPbiAyMy8wMi8yNCAxMDo1OSwgQW5keSBT
-aGV2Y2hlbmtvIHdyb3RlOg0KPj4+IE9uIFRodSwgRmViIDIyLCAyMDI0IGF0IDExOjUz4oCvUE0g
-Q2hyaXMgUGFja2hhbQ0KPj4+IDxDaHJpcy5QYWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+IHdy
-b3RlOg0KPj4+PiBPbiAyMy8wMi8yNCAxMDozNCwgYW5keS5zaGV2Y2hlbmtvQGdtYWlsLmNvbSB3
-cm90ZToNCj4+Pj4+IFN1biwgRmViIDExLCAyMDI0IGF0IDA4OjQ2OjEyUE0gKzAwMDAsIENocmlz
-IFBhY2toYW0ga2lyam9pdHRpOg0KPj4+Pj4+IEhpIEJsaW5rZW5saWdodCBlbnRodXNpYXN0cywN
-Cj4+Pj4+Pg0KPj4+Pj4+IEknbSBsb29raW5nIGZvciBzb21ldGhpbmcgdGhhdCBJIGZpZ3VyZWQg
-bXVzdCBleGlzdHMgYnV0IG1heWJlIGl0J3Mgc28NCj4+Pj4+PiBuaWNoZSB0aGF0IG5vLW9uZSBo
-YXMgYm90aGVyZWQgdG8gdXBzdHJlYW0gYSBkcml2ZXIgZm9yIGl0Lg0KPj4+Pj4+DQo+Pj4+Pj4g
-SSBoYXZlIGEgcmVxdWlyZW1lbnQgdG8gc3VwcG9ydCBhIDctc2VnbWVudCBMRUQgZGlzcGxheVsx
-XSAob25lIHRoYXQgY2FuDQo+Pj4+Pj4gZGlzcGxheSBhIHNpbmdsZSBkaWdpdCBmcm9tIDAtOSku
-IEhhcmR3YXJlIHdpc2UgaXQncyBqdXN0IGEgYnVuY2ggb2YNCj4+Pj4+PiBpbmRpdmlkdWFsIEdQ
-SU9zIGNvbm5lY3RlZCB0byBlYWNoIHNlZ21lbnQgKHBsdXMgYW4gZXh0cmEgb25lIGZvciBhDQo+
-Pj4+Pj4gZG90KS4gSSBjYW4ndCBzZWUgYW55dGhpbmcgb2J2aW91cyBpbiBkcml2ZXJzL2xlZHMg
-YnV0IG1heWJlIEknbSBsb29raW5nDQo+Pj4+Pj4gaW4gdGhlIHdyb25nIHBsYWNlLiBPciBtYXli
-ZSBpdCdzIHRoZSBraW5kIG9mIHRoaW5nIG9uIFBDIGhhcmR3YXJlIHRoYXQNCj4+Pj4+PiBpcyBq
-dXN0IGRyaXZlbiBieSB0aGUgQklPUyB3aXRob3V0IHRoZSBvcGVyYXRpbmcgc3lzdGVtIGtub3dp
-bmcgYWJvdXQgaXQuDQo+Pj4+Pj4NCj4+Pj4+PiBJcyB0aGVyZSBhbiBleGlzdGluZyBpbi1rZXJu
-ZWwgZHJpdmVyIGZvciBzdWNoIGEgdGhpbmc/DQo+Pj4+PiBObywgYW5kIGNhbid0IGJlLiBIZXJl
-IGlzIGp1c3QgYSBtYXBwaW5nIHRhYmxlIGFuZCBvdGhlciBkcml2ZXJzIHRoYXQgdXNlDQo+Pj4+
-PiA3LXNlZ21lbnQgTEVEIGRpc3BsYXlzIHRvIGJlIGNvbm5lY3RlZCB0by4NCj4+Pj4+DQo+Pj4+
-PiBXaGF0IHlvdSBuZWVkIGlzIHNvbWV0aGluZyBlbHNlLCBpLmUuIHNwZWNpYWwgY2FzZSBvZiBs
-ZWRzLWdwaW8gKHdoaWNoIHNob3VsZA0KPj4+Pj4gYmUgc29tZXdoZXJlIGVsc2UpIHRoYXQgZG9l
-cyBzb21ldGhpbmcgbGlrZSB0aGlzLiBUbyBtZSBpdCBzb3VuZHMgbGlrZSBhDQo+Pj4+PiBtaXh0
-dXJlIGJldHdlZW4gbGluZS1kaXNwbGF5LmggKGZyb20gYXV4ZGlzcGxheSkgYW5kIGdwaW8tYWdn
-cmVnYXRvci4NCj4+Pj4+DQo+Pj4+PiBIb3cgbWFueSBkaWdpdHMgZG8geW91IHdhbnQgdG8gY29u
-bmVjdD8gSG93IGFyZSB0aGV5IGdvaW5nIHRvIGJlIGNvbm5lY3RlZA0KPj4+Pj4gKHN0YXRpYyBk
-aXNwbGF5LCBvciBkeW5hbWljIHdoZW4geW91IG5lZWQgdG8gcmVmcmVzaCBpbiBjZXJ0YWluIHBl
-cmlvZHMgb2YNCj4+Pj4+IHRpbWUpPyBEZXBlbmRpbmcgb24gdGhlIGFuc3dlciBpdCBtaWdodCB0
-YWtlIG9uZSBvciBhbm90aGVyIGFwcHJvYWNoLg0KPj4+PiBJdCBzb3VuZHMgbGlrZSBhIGF1eGRp
-c3BsYXkgZHJpdmVyIG1pZ2h0IGJlIHRoZSB3YXkgdG8gZ28uIE15IGhhcmR3YXJlDQo+Pj4+IGhh
-cHBlbnMgdG8gaGF2ZSBhIHNpbmdsZSA3c2VnIGJsb2NrIGJ1dCB0aGVyZSdzIG5vIHJlYXNvbiB0
-aGUgZHJpdmVyDQo+Pj4+IG5lZWRzIHRvIGJlIHJlc3RyaWN0ZWQgdG8gdGhhdC4gQXQgc29tZSBw
-b2ludCBpdCBvYnZpb3VzbHkgYmVjb21lcw0KPj4+PiBiZXR0ZXIgdG8gZml0IHNvbWV0aGluZyBs
-aWtlIHRoZSBodDE2azMzIHRvIG9mZmxvYWQgdGhlIGNoYXJhY3Rlcg0KPj4+PiBkaXNwbGF5IGJ1
-dCBmb3Igb25lIG9yIDIgZGlnaXRzIGEgUENBOTUzeCBwbHVzIHRoZSBMRUQgYmxvY2sgd291bGQg
-ZG8NCj4+Pj4ganVzdCBmaW5lLg0KPj4+IEkgaGF2ZSBoYzU5NSAoU1BJIEdQSU8pIGNvbm5lY3Rl
-ZCB0byBhIHNpbmdsZSBkaWdpdCA3LXNlZ21lbnQgTEVELg0KPj4+IFNpbmNlIGl0IGNhbiBiZSBh
-bHNvIHNlcmlhbGl6ZWQsIGxpbmUgZGlzcGxheSBBUElzIHNlZW0gcGxhdXNpYmxlIHRvDQo+Pj4g
-Zml0LiBXaGF0IHdlIG5lZWQgaXMgYSBwcm94eSBiZXR3ZWVuIHRoZSB0d28uIEFuZCBJIHRoaW5r
-DQo+Pj4gZ3Bpby1hZ2dyZWdhdG9yIGlzIHRoZSBiZXN0IGZvciB0aGF0LiBJdCBuZWVkcyBhbiBh
-ZGRpdGlvbmFsDQo+Pj4gY29tcGF0aWJsZSBzdHJpbmcgYW5kIHRoZSByZWdpc3RyYXRpb24gZm9y
-IGxpbmUgZGlzcGxheSAob3ZlcmFsbA0KPj4+IHNvbWV0aGluZyBsaWtlIDUwIExvQ3MpLiBXZSBj
-YW4gZXZlbiBjYWxsIHRoYXQgaGFyZHdhcmUgY29tcGF0aWJsZSBhcw0KPj4+IGxpbmUtZGlzcGxh
-eS1ncGlvIChvciBzbykuDQo+Pj4NCj4+PiBDYzogR2VlcnQgYW5kIEtyenlzenRvZiAoZm9yIHRo
-ZSBjb21tZW50cyBvbiB0aGUgaWRlYSBhYm92ZSkuDQo+PiBXb3VsZCB0aGUgZ3Bpby1hZ2dyZWdh
-dG9yIGJlIG5lY2Vzc2FyeT8NCj4gUHJvYmFibHkgbm90LiB3ZSBqdXN0IG5lZWQgdG8gY29uc3Vt
-ZSBHUElPcywgbm8gbmVlZCB0byBwcm92aWRlLi4uDQo+DQo+PiBJIHdhcyB0aGlua2luZyBzb21l
-dGhpbmcgbGlrZQ0KPj4gdGhpcyBpbiB0aGUgZGV2aWNldHJlZQ0KPj4NCj4+IFx7DQo+PiAgICAg
-ICBsZWQtN3NlZyB7DQo+PiAgICAgICAgICAgY29tcGF0aWJsZSA9ICJraW5nYnJpZ2h0LHNhMzYi
-Ow0KPj4gICAgICAgICAgIHNlZy1ncGlvcyA9IDwmZ3Bpb04gMCBHUElPX0FDVElWRV9ISUdIPiwN
-Cj4+ICAgICAgICAgICAgICAgPCZncGlvTiAxIEdQSU9fQUNUSVZFX0hJR0g+LA0KPj4gICAgICAg
-ICAgICAgICA8JmdwaW9OIDIgR1BJT19BQ1RJVkVfSElHSD4sDQo+PiAgICAgICAgICAgICAgIDwm
-Z3Bpb04gMyBHUElPX0FDVElWRV9ISUdIPiwNCj4+ICAgICAgICAgICAgICAgPCZncGlvTiA0IEdQ
-SU9fQUNUSVZFX0hJR0g+LA0KPj4gICAgICAgICAgICAgICA8JmdwaW9OIDUgR1BJT19BQ1RJVkVf
-SElHSD4sDQo+PiAgICAgICAgICAgICAgIDwmZ3Bpb04gNiBHUElPX0FDVElWRV9ISUdIPjsNCj4+
-ICAgICAgIH07DQo+PiB9Ow0KPiBSaWdodCwgYnV0IGFsc28gd2l0aCBzb21lIGFkZGl0aW9uYWwg
-cHJvcGVydGllcywgbGlrZQ0KPiAtIHR5cGUgb2YgdGhlIGluZGljYXRvciAoNywgMTQsIGV0YyBz
-ZWdtZW50cywgZm9yIG5vdyB3ZSBoYXZlIG9ubHkNCj4gdGhlc2UgdHdvIHN1cHBvcnRlZCkNCj4g
-LSB1c2UtZG90ICgrMSBsZWQgcGVyIGVhY2ggZGlnaXQpDQo+IC0gY2hhcmFjdGVycyAoaG93IG1h
-bnkgZGlnaXRzIHdlIGhhdmUsIHNvIHdlIG5lZWQgcmVzcGVjdGl2ZSBhbW91bnQgb2YgR1BJT3Mp
-DQo+DQo+IFdpdGggdGhpcyBpdCdzIGluZGVlZCBiZWxvbmdzIGRpcmVjdGx5IHRvIGF1eGRpc3Bs
-YXkgYXMgd2UgaGF2ZSBhbG1vc3QNCj4gZXZlcnl0aGluZyBpcyBkb25lIGFscmVhZHkgdGhlcmUu
-DQoNCkkndmUgYmVlbiBwbGF5aW5nIGFib3V0IHdpdGggdGhpcy4gSSd2ZSBnb3QgYW4gYXV4ZGlz
-cGxheSBkcml2ZXIgdGhhdCdzIA0KYmFzaWNhbGx5IHdvcmtpbmcgKEkgd29uJ3QgYm90aGVyIHNw
-YW1taW5nIGxpc3Qgd2l0aCBpdCB5ZXQpLiBCdXQgSSdtIA0Kd29uZGVyaW5nIGhvdyBJJ2QgcmVw
-cmVzZW50IG11bHRpcGxlIGNoYXJhY3RlcnMuIEkga2luZCBvZiBmZWVsIHRoZSANCm5hdHVyYWwg
-cmVwcmVzZW50YXRpb24gd291bGQgYmUgc29tZXRoaW5nIGxpa2UuDQoNCiDCoMKgwqDCoMKgwqDC
-oCBsZWQtN3NlZyB7DQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbXBhdGlibGUg
-PSAiZ2VuZXJpYyw3LXNlZ21lbnQtb24tZ3BpbyI7DQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGNoYXItMCB7DQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIMKgwqDCoCBz
-ZWdtZW50LWdwaW9zID0gPCZncGlvIDAgR1BJT19BQ1RJVkVfTE9XDQogwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoCDCoCDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZn
-cGlvIDEgR1BJT19BQ1RJVkVfTE9XDQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCDCoMKgIMKgIMKgwqDCoMKgwqDCoMKgICZncGlvIDIgR1BJT19BQ1RJVkVf
-TE9XDQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIMKgwqAgwqAgwqDCoMKgICZncGlvIDMgR1BJT19BQ1RJVkVfTE9XDQogwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoCDC
-oCAmZ3BpbyA0IEdQSU9fQUNUSVZFX0xPVw0KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoMKgICZncGlvIDUgR1BJT19B
-Q1RJVkVfTE9XDQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgwqDCoCDCoCAmZ3BpbyA2IEdQSU9fQUNUSVZFX0xPVz47DQogwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH07DQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGNoYXItMSB7DQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIMKgwqDCoCBz
-ZWdtZW50LWdwaW9zID0gPCZncGlvIDggR1BJT19BQ1RJVkVfTE9XDQogwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoCDCoCDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZn
-cGlvIDkgR1BJT19BQ1RJVkVfTE9XDQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCDCoMKgIMKgIMKgwqDCoMKgwqDCoMKgICZncGlvIDEwIEdQSU9fQUNUSVZF
-X0xPVw0KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCDCoMKgIMKgIMKgwqDCoCAmZ3BpbyAxMSBHUElPX0FDVElWRV9MT1cNCiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCDCoMKg
-IMKgICZncGlvIDEyIEdQSU9fQUNUSVZFX0xPVw0KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoMKgICZncGlvIDEzIEdQ
-SU9fQUNUSVZFX0xPVw0KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIMKgwqAgwqAgJmdwaW8gMTQgR1BJT19BQ1RJVkVfTE9XPjsN
-CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfTsNCiDCoMKgwqDCoMKgwqDCoCB9Ow0K
-DQpCdXQgaGF2aW5nIHRob3NlIHN1Yi1ub2RlcyBtZWFucyBJIGNhbid0IGp1c3QgdXNlIGRldm1f
-Z3Bpb2RfZ2V0X2FycmF5KCkgDQppbnN0ZWFkIEknZCBoYXZlIHRvIHVzZSBkZXZpY2VfZm9yX2Vh
-Y2hfY2hpbGRfbm9kZSgpIGFuZCANCmRldm1fZndub2RlX2dwaW9kX2dldF9pbmRleCgpLiBBbSBJ
-IG1pc3Npbmcgc29tZXRoaW5nPyBJIGNvdWxkIGRvIGF3YXkgDQp3aXRoIHRoZSBzdWItbm9kZXMg
-YW5kIGhhdmUgcHJvcGVydGllcyBsaWtlICJzZWdtZW50LTAtZ3Bpb3MiLCANCiJzZWdtZW50LTEt
-Z3Bpb3MiIGJ1dCB0aGF0IGZlZWxzIGF3a3dhcmQuDQoNCj4NCj4+Pj4gVGhlIGluZm9ybWF0aW9u
-IHdlIHdhbnQgdG8gZGlzcGxheSBpcyBtb3N0bHkgc3RhdGljIChiYXNpY2FsbHkgYSBudW1lcmlj
-DQo+Pj4+IHVuaXQgaWRlbnRpZmllcikgYnV0IHRoZXJlIGFyZSBjYXNlcyB3aGVyZSB3ZSBtYXkg
-d2FudCB0byBhbHRlcm5hdGUNCj4+Pj4gYmV0d2VlbiB0aGlzIGFuZCAiRiIgdG8gaW5kaWNhdGUg
-c29tZSBmYXVsdCBjb25kaXRpb24=
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: e31185ce00a96232308300008db193416ceb9769  Add linux-next specific files for 20240222
+
+Error/Warning reports:
+
+https://lore.kernel.org/oe-kbuild-all/202402222223.h9rFmYj4-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402222314.J6A7eb4B-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402230537.2s6Nhfsn-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+arch/arm/boot/compressed/misc.c:157:6: warning: no previous prototype for function '__fortify_panic' [-Wmissing-prototypes]
+arch/arm/boot/compressed/misc.h:13:36: error: macro "fortify_panic" requires 2 arguments, but only 1 given
+arch/sh/boot/compressed/../../../../lib/decompress_unxz.c:350:(.text+0x20b4): undefined reference to `__ubsan_handle_out_of_bounds'
+sh4-linux-ld: arch/sh/boot/compressed/../../../../lib/xz/xz_dec_lzma2.c:751:(.text+0x904): undefined reference to `__ubsan_handle_out_of_bounds'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arc-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arc-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arc-randconfig-002-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arc-randconfig-r122-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- arc-randconfig-r133-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|   |-- sound-core-sound_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-snd_pcm_format_t-usertype-format-got-int
+|   `-- sound-core-sound_kunit.c:sparse:sparse:restricted-snd_pcm_format_t-degrades-to-integer
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm-aspeed_g5_defconfig
+|   `-- arch-arm-boot-compressed-misc.h:error:macro-fortify_panic-requires-arguments-but-only-given
+|-- arm-multi_v7_defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm-tegra_defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm64-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-randconfig-001-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-randconfig-002-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-buildonly-randconfig-006-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-randconfig-003-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-randconfig-013-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-061-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- i386-randconfig-062-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- i386-randconfig-063-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   `-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|-- i386-randconfig-141-20240222
+|   |-- drivers-bluetooth-btintel.c-btintel_read_version()-warn:passing-zero-to-PTR_ERR
+|   `-- mm-page_owner.c-stack_print()-warn:unsigned-nr_entries-is-never-less-than-zero.
+|-- loongarch-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- loongarch-randconfig-001-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- microblaze-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- microblaze-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- microblaze-randconfig-r111-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- mips-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- nios2-randconfig-r054-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- openrisc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc64-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-randconfig-r113-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   |-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-em_perf_state-table-got-struct-em_perf_state-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-kref-kref-got-struct-kref-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-objp-got-struct-em_perf_table-noderef-__rcu-assigned-em_table
+|   `-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-em_perf_state-new_ps-got-struct-em_perf_state-noderef-__rcu
+|-- powerpc64-randconfig-r123-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- riscv-randconfig-r112-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- s390-randconfig-r123-20240222
+|   |-- lib-string_helpers.c:sparse:sparse:incompatible-types-for-operation-(-):
+|   `-- lib-string_helpers.c:sparse:sparse:incompatible-types-in-conditional-expression-(different-types):
+|-- sh-buildonly-randconfig-r002-20230612
+|   |-- arch-sh-boot-compressed-..-..-..-..-lib-decompress_unxz.c:(.text):undefined-reference-to-__ubsan_handle_out_of_bounds
+|   `-- sh4-linux-ld:arch-sh-boot-compressed-..-..-..-..-lib-xz-xz_dec_lzma2.c:(.text):undefined-reference-to-__ubsan_handle_out_of_bounds
+|-- sh-randconfig-002-20240222
+|   |-- standard-input:Error:unknown-pseudo-op:l142
+|   |-- standard-input:Warning:overflow-in-branch-to-.L90-converted-into-longer-instruction-sequence
+|   `-- standard-input:Warning:overflow-in-branch-to-.L99-converted-into-longer-instruction-sequence
+|-- sparc-allmodconfig
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc-randconfig-001-20240222
+|   `-- (.head.text):relocation-truncated-to-fit:R_SPARC_WDISP22-against-init.text
+|-- sparc-randconfig-002-20240222
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc-randconfig-r053-20240222
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc64-allmodconfig
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc64-allyesconfig
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc64-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- sparc64-randconfig-r121-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- um-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- um-randconfig-r132-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- x86_64-randconfig-005-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-randconfig-006-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-014-20240222
+|   `-- include-kunit-test.h:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-074-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-075-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-076-20240222
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   `-- include-kunit-test.h:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-123-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   |-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-em_perf_state-table-got-struct-em_perf_state-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-kref-kref-got-struct-kref-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-objp-got-struct-em_perf_table-noderef-__rcu-assigned-em_table
+|   `-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-em_perf_state-new_ps-got-struct-em_perf_state-noderef-__rcu
+`-- x86_64-randconfig-161-20240222
+    |-- mm-page_owner.c-stack_print()-warn:unsigned-nr_entries-is-never-less-than-zero.
+    `-- mm-userfaultfd.c-uffd_move_lock()-error:we-previously-assumed-src_vmap-could-be-null-(see-line-)
+clang_recent_errors
+|-- arm-defconfig
+|   |-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm-randconfig-003-20240222
+|   `-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|-- arm-randconfig-004-20240222
+|   `-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|-- arm-realview_defconfig
+|   `-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|-- arm64-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- hexagon-randconfig-002-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-buildonly-randconfig-002-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-buildonly-randconfig-005-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-004-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-012-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-randconfig-053-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- powerpc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-randconfig-002-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-randconfig-003-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc64-randconfig-001-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- s390-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-buildonly-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-buildonly-randconfig-004-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-002-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-randconfig-013-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-randconfig-103-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-121-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+`-- x86_64-randconfig-122-20240223
+    |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+    |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+    |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+    |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+    |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-em_perf_state-table-got-struct-em_perf_state-noderef-__rcu
+    |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-kref-kref-got-struct-kref-noderef-__rcu
+    |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-objp-got-struct-em_perf_table-noderef-__rcu-assigned-em_table
+    `-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-em_perf_state-new_ps-got-struct-em_perf_state-noderef-__rcu
+
+elapsed time: 922m
+
+configs tested: 179
+configs skipped: 4
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240222   gcc  
+arc                   randconfig-002-20240222   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                     am200epdkit_defconfig   gcc  
+arm                                 defconfig   clang
+arm                        multi_v7_defconfig   gcc  
+arm                       omap2plus_defconfig   gcc  
+arm                   randconfig-001-20240222   gcc  
+arm                   randconfig-002-20240222   gcc  
+arm                   randconfig-003-20240222   clang
+arm                   randconfig-004-20240222   clang
+arm                        realview_defconfig   clang
+arm                           tegra_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240222   clang
+arm64                 randconfig-002-20240222   gcc  
+arm64                 randconfig-003-20240222   clang
+arm64                 randconfig-004-20240222   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240222   gcc  
+csky                  randconfig-002-20240222   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240222   clang
+hexagon               randconfig-002-20240222   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240222   gcc  
+i386         buildonly-randconfig-002-20240222   clang
+i386         buildonly-randconfig-003-20240222   clang
+i386         buildonly-randconfig-004-20240222   gcc  
+i386         buildonly-randconfig-005-20240222   clang
+i386         buildonly-randconfig-006-20240222   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240222   clang
+i386                  randconfig-002-20240222   clang
+i386                  randconfig-003-20240222   gcc  
+i386                  randconfig-004-20240222   clang
+i386                  randconfig-005-20240222   gcc  
+i386                  randconfig-006-20240222   clang
+i386                  randconfig-011-20240222   gcc  
+i386                  randconfig-012-20240222   clang
+i386                  randconfig-013-20240222   gcc  
+i386                  randconfig-014-20240222   gcc  
+i386                  randconfig-015-20240222   clang
+i386                  randconfig-016-20240222   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240222   gcc  
+loongarch             randconfig-002-20240222   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          multi_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       alldefconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           gcw0_defconfig   clang
+mips                            gpr_defconfig   clang
+mips                      pic32mzda_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240222   gcc  
+nios2                 randconfig-002-20240222   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240222   gcc  
+parisc                randconfig-002-20240222   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        cell_defconfig   gcc  
+powerpc               randconfig-001-20240222   clang
+powerpc               randconfig-002-20240222   clang
+powerpc               randconfig-003-20240222   clang
+powerpc64             randconfig-001-20240222   clang
+powerpc64             randconfig-002-20240222   clang
+powerpc64             randconfig-003-20240222   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                    nommu_k210_defconfig   clang
+riscv                 randconfig-001-20240222   clang
+riscv                 randconfig-002-20240222   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240222   gcc  
+s390                  randconfig-002-20240222   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240222   gcc  
+sh                    randconfig-002-20240222   gcc  
+sh                          rsk7264_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240222   gcc  
+sparc64               randconfig-002-20240222   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240222   clang
+um                    randconfig-002-20240222   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240222   clang
+x86_64       buildonly-randconfig-002-20240222   clang
+x86_64       buildonly-randconfig-003-20240222   gcc  
+x86_64       buildonly-randconfig-004-20240222   clang
+x86_64       buildonly-randconfig-005-20240222   gcc  
+x86_64       buildonly-randconfig-006-20240222   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240222   clang
+x86_64                randconfig-002-20240222   clang
+x86_64                randconfig-003-20240222   clang
+x86_64                randconfig-004-20240222   clang
+x86_64                randconfig-005-20240222   gcc  
+x86_64                randconfig-006-20240222   gcc  
+x86_64                randconfig-011-20240222   clang
+x86_64                randconfig-012-20240222   gcc  
+x86_64                randconfig-013-20240222   clang
+x86_64                randconfig-014-20240222   gcc  
+x86_64                randconfig-015-20240222   clang
+x86_64                randconfig-016-20240222   clang
+x86_64                randconfig-071-20240222   clang
+x86_64                randconfig-072-20240222   clang
+x86_64                randconfig-073-20240222   clang
+x86_64                randconfig-074-20240222   gcc  
+x86_64                randconfig-075-20240222   gcc  
+x86_64                randconfig-076-20240222   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240222   gcc  
+xtensa                randconfig-002-20240222   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
