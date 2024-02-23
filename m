@@ -1,54 +1,55 @@
-Return-Path: <linux-leds+bounces-933-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-934-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BF3860FF9
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 12:01:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AFC860FFE
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 12:01:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C810A28142B
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 11:01:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C922AB22A22
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 11:01:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9021D533;
-	Fri, 23 Feb 2024 11:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31D05C8FB;
+	Fri, 23 Feb 2024 11:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3fjZTfL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XnOztFFx"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8839C14B835;
-	Fri, 23 Feb 2024 11:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBBF22067;
+	Fri, 23 Feb 2024 11:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708686064; cv=none; b=HwtqxxJZihB3HTD6wwDYI/aW72MIoetLdCs6nKGXy8i/IufOSnknl4WeWrixut/F7HeJYFNtL1Yh908LM2L3f4aPIbnl3VUlZxqhPUpWRI10cSjdbhEDhXxOQXdya1mkJoDNLHXoBmGXxysZjrbCKqmTKMKjDAWdyRHfdMx/Gj8=
+	t=1708686111; cv=none; b=moXIUGEJwDVR8jEUd7W3q8P5x2RNaPCPcU2n4ZtjJ/KUP1rwJe5kYtYLapKXHBmm7i81f9D2XdCGDUErow/Sxz7apVzpgVYHLgAH+GQOX35mWs9Mx5pcSAgUCT1S4o11NebaHOP9dmIZ9umifhMDCGPzt1WQF9hT0MkHCAhCBwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708686064; c=relaxed/simple;
-	bh=yrtQyWnsvLC95TkaPvjMnBeQTZ/b6mzcf4JclqRkn9I=;
+	s=arc-20240116; t=1708686111; c=relaxed/simple;
+	bh=2wPi7tVov++EwHSBSYcPIxajIvKxESE+Wf+/xZ0glfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PI6RU+fovqPoQAj6TvLWsPhzhrv1q9qOEqCSZNPkKOQlfhcFJFwr+/kiqw2N5sVzMTk5v3/1sZnfCSCEKV07ZLr5Mhp5niqvzE3h/p4B91bvgTfCPBWc54bhSt4WPiNtgZeIN5CV0h4esm9lL1/WmvbKjAAqnIzM7xzX2tt9kDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3fjZTfL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01EE7C433C7;
-	Fri, 23 Feb 2024 11:01:02 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxvozFiz4mur05mOMH/5KLYIGb/IQ8jcL0OJPxIEDVIKdj+5na/m0J7ZiZeBHhRRQGkLNv4fVZDVwFgVKCVuPlNHPcGTQKdvQlvxWdepeRzgLnIyqpwn/L2TrYPhYqdESBjl64DMDozeyEVJRIaxk16S5/38oZsoPYi6yHxKDxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XnOztFFx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A8D8C433F1;
+	Fri, 23 Feb 2024 11:01:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708686064;
-	bh=yrtQyWnsvLC95TkaPvjMnBeQTZ/b6mzcf4JclqRkn9I=;
+	s=k20201202; t=1708686111;
+	bh=2wPi7tVov++EwHSBSYcPIxajIvKxESE+Wf+/xZ0glfs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e3fjZTfLCKzt3Y8pPziqzb5Hcmsw76U9966vEHbNXjaaJshFZVlCE73WxLvQitWGh
-	 V3bOT1rCDM/ajdMRc7UUdjVVNDs7aR3gNoutKpnUo7kEzqLhUVHjevYtPKMtVFYHCx
-	 Gw4jRZ612dsYD7rx4x8r3O0Snwy28rdDGqO4tlSjDoFCN4wJPwP/POxE+WSEz2d+cd
-	 lRn/8kuqinmQH0uteAi4PO9vYyELqg+K32oxQppR6+mrjoGlUjBmUo+b+nEmGePI0d
-	 1RMUGGK+nrwFD6JH18hh/bYvdg3KazTziroi6QUE9oWAolodgsteuJXPT75IuzPbPs
-	 5m5+4xCa07gNw==
-Date: Fri, 23 Feb 2024 11:01:00 +0000
+	b=XnOztFFxOk7u9hifZnMNcODFeK3RHDGByqdt3YctKPvlCQ2D4lQP/Ah9i8YzcpYsy
+	 uFgAdjYuiHpQtobYaI0ciFZR+y67RytWOCXtCUnMPtksDwnjgIju2RTT+c2Glvqyjh
+	 O4qVVchAxue8WUQuBixYfdocl80U32dQx1UWHEBRN6aDdTaAWEkgzoiNEuiYR7QGRc
+	 CMwYkpNGOAK/qZGD3BPbE3hugFaUyukJlrb4mWimtxSIaaCXi2gLtVM6Z/rWj4YC3U
+	 Vs+JkEdz7w6Fb1NnnFlB78GWuefrAZL8CeHHaRRqZ4Rd3XncvOxK+6arp/7z6zu8eW
+	 IqCRYyDCqwHzw==
+Date: Fri, 23 Feb 2024 11:01:47 +0000
 From: Lee Jones <lee@kernel.org>
 To: Randy Dunlap <rdunlap@infradead.org>
 Cc: linux-kernel@vger.kernel.org, Vadim Pasternak <vadimp@nvidia.com>,
 	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
 Subject: Re: [PATCH] leds: mlxreg: fix a kernel-doc warning
-Message-ID: <20240223110100.GU10170@google.com>
+Message-ID: <20240223110147.GV10170@google.com>
 References: <20240221060153.3924-1-rdunlap@infradead.org>
+ <20240223110100.GU10170@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -58,42 +59,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240221060153.3924-1-rdunlap@infradead.org>
+In-Reply-To: <20240223110100.GU10170@google.com>
 
-On Tue, 20 Feb 2024, Randy Dunlap wrote:
+On Fri, 23 Feb 2024, Lee Jones wrote:
 
-Would you mind being more descriptive in your subject lines please?
-
-It's common for people (me included) to find subject lines a reliable
-way to search through Git history and these types of descriptions are
-likely to cause duplication.
-
-Thanks.
-
-> Drop one struct description to fix a kernel-doc warning:
+> On Tue, 20 Feb 2024, Randy Dunlap wrote:
 > 
-> drivers/leds/leds-mlxreg.c:42: warning: Excess struct member 'led_data' description in 'mlxreg_led_data'
+> Would you mind being more descriptive in your subject lines please?
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Vadim Pasternak <vadimp@nvidia.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: linux-leds@vger.kernel.org
-> ---
->  drivers/leds/leds-mlxreg.c |    1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff -- a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
-> --- a/drivers/leds/leds-mlxreg.c
-> +++ b/drivers/leds/leds-mlxreg.c
-> @@ -29,7 +29,6 @@
->   * @data: led configuration data;
->   * @led_cdev: led class data;
->   * @base_color: base led color (other colors have constant offset from base);
-> - * @led_data: led data;
->   * @data_parent: pointer to private device control data of parent;
->   * @led_cdev_name: class device name
->   */
+> It's common for people (me included) to find subject lines a reliable
+> way to search through Git history and these types of descriptions are
+> likely to cause duplication.
+
+Also if you push them in a set, they're easier to apply.
 
 -- 
 Lee Jones [李琼斯]
