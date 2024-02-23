@@ -1,136 +1,157 @@
-Return-Path: <linux-leds+bounces-925-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-926-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A7A860CF0
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 09:36:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC6A860D21
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 09:46:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83D071C20A2C
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 08:36:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFE631C21A48
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 08:46:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B94E2868D;
-	Fri, 23 Feb 2024 08:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F4A318E2E;
+	Fri, 23 Feb 2024 08:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="uiGUC3PN"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="tYDKGXyT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A3A1946C;
-	Fri, 23 Feb 2024 08:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BF618E1E;
+	Fri, 23 Feb 2024 08:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708677232; cv=none; b=swkSu06jotNYeuUzksfOQuoU5rzVa2cDYhZrrI0jDDXx8/CARBTSMJP/HaPg7KT+eNkO+ko+QR+WrhvhskT9rwn7Q2jGXIlSnG5zy2sPDznHGNTDHCzQ/mN7PPqbihUl8po7z6+1+J/TIcg1ykLQSRBWLVLVeHKa9hnt7jZX0ik=
+	t=1708677990; cv=none; b=FaISb6QcpKcFTTwF6ZX5w6M6DOkWKKdeUo6zC0XpxEBqq6arBhD3OZW0sWOuZh1RO15G1cHCmg8YZMkcnMFdSmJLZEc8lAUVdbswY4tHA3oOWq24ckXBrJ0mHujWgmwfkLwbTEYq2nSxxWYdp9/9pxKceU3qt/K8EL7/SezcHGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708677232; c=relaxed/simple;
-	bh=5c0V9iUcpSHiDMvTejGO6cBy5XVestFd+FPyt7ByrNg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b/+5yM1KMqsSvWlhHUU2jI9nhZC70514CeRkVEVYwulbNSXNKWFf27/sTij46rBYFh6JmKLJZ7i4JoJiqc1CFrIp3en1AGfiYEcRmuXgf3TqcRdH3G4BEF3IKEAwsPljNinoXtcBUCH9xi6nbR+VqlWO+s5KIJox2i828V5WUxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=uiGUC3PN; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D55A92FC0048;
-	Fri, 23 Feb 2024 09:33:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1708677222;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hyg/6mIbbTS+jgvBpDapIOM2QZ8XaLynxTsM3xRcdr0=;
-	b=uiGUC3PNuqR8MRaR8BM4zMwX+uJOlh79kFVIufcDk4kXGjhe/w44A2tFFVubAtH+YXlD8i
-	WXoK/JYaw9BqwItu0YEa6blEf3H8bn1cudUoBjecz7Jf1hTD/YVRKmZG8ur14Sx+onhp71
-	Nxa8LUFPzUedZJHyTXFiJZi76cLcdTc=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <38b6998a-eb5c-44b6-95c9-260bd84046af@tuxedocomputers.com>
-Date: Fri, 23 Feb 2024 09:33:41 +0100
+	s=arc-20240116; t=1708677990; c=relaxed/simple;
+	bh=EZZPQchlQbMRgMLdaZSVRfWs5DMx2XOakjV6Hz3uCjc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u6OUgxfN3J5gF/LyvAacZ4JoQLif2LdTxzPzKVVvgDXFbDG9mYHyT2LHItRGOtHtcVV5FC0IpsdazK9ilHuR5BmDai+pPGfIiOhINZ2ADJzZkHZpAnWhGN3mqdisTSkw6anfSbEO5pDELO8HBV5qHP8sUJ+RAEBlHrtbN4jleqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=tYDKGXyT; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708677986; bh=EZZPQchlQbMRgMLdaZSVRfWs5DMx2XOakjV6Hz3uCjc=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=tYDKGXyTUFx45Cfn4MxTIQ4wjmFHD/P+5LQ8Tv8lWgD9lkdtT3FOkBhEEyWWts15p
+	 NdK0gVmh6eiX1XcL39WrYugf7CrmeaVPEU3mcpfmHMTbimF+jrF2xM5GtbVsDSDBHq
+	 a3IKS0Xu+eifTUatSjo6DXYkh12/fb+JEgtO842c=
+Date: Fri, 23 Feb 2024 09:46:25 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Aren Moynihan <aren@peacevolution.org>
+Cc: linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: sun50i-a64-pinephone: add multicolor
+ led node
+Message-ID: <sixgkkllo7medcjwjnmbkpqkgfvnmrtlhlwarwuxid5oqwrht5@gl65b6fetq2b>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Aren Moynihan <aren@peacevolution.org>, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
+	Samuel Holland <samuel@sholland.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240206185400.596979-1-aren@peacevolution.org>
+ <20240206185400.596979-3-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v2
-Content-Language: en-US
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
- jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240206185400.596979-3-aren@peacevolution.org>
 
-Hi,
+Hello Aren,
 
-Am 21.02.24 um 23:17 schrieb Pavel Machek:
-> Hi!
->
->> so after more feedback from the OpenRGB maintainers I came up with an even
->> more generic proposal:
->> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1753072869
->>> evaluate-set-command ioctl taking:
->>> {
->>>      enum command                /* one of supported_commands */
->>>      union data
->>>      {
->>>          char raw[3072],
->>>          {
->>>              <input struct for command 0>
->>>          },
-> Yeah, so ... this is not a interface. This is a backdoor to pass
-> arbitrary data. That's not going to fly.
->
-> For keyboards, we don't need complete new interface; we reasonable
-> extensions over existing display APIs -- keyboards are clearly 2D.
+On Tue, Feb 06, 2024 at 01:13:19PM -0500, Aren Moynihan wrote:
+> The red, green, and blue leds currently in the device tree represent a
+> single rgb led on the front of the PinePhone.
+> 
+> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> ---
+> 
+> Changes in v2:
+>  - remove function property from individual led nodes
+> 
+>  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> index ad2476ee01e4..e53e0d4579a7 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> @@ -39,28 +39,32 @@ chosen {
+>  	leds {
+>  		compatible = "gpio-leds";
+>  
+> -		led-0 {
+> -			function = LED_FUNCTION_INDICATOR;
 
-Maybe we should look on this from a users perspective: Running custom Animation 
-(i.e. where treating it as a display would be helpfull) is only >one< of the 
-ways a user might want to use the keyboard backlight.
+This looks like a needless change that will just break people's current scripts
+and setup. It does mine, and there sure are others that will be surprised, too.
 
-Equally viable are for example:
-- Having it mono colored.
-- Playing a hardware effect
-- Playing a hardware effect on one side of the keyboard while having the other 
-side of the keyboard playing a custom animation (As I learned from the OpenRGB 
-maintainers: There are keyboards which allow this)
+This leads to a change in sysfs path from:
 
-There is no reason to define a custom animation as the default and then just 
-bolt the other options on top as it might not even be possible for some devices 
-where the firmware is plainly to slow for custom animations.
+  /sys/class/leds/blue:indicator
 
-Also I still think a 2*2, 1*3 or even 1*1 matrix is not a display, coming back 
-aground to the earlier point where I want to implement this for keyboard first, 
-but this discussion is also thought to find a way that works for all complex RGB 
-devices. And I don't think it is a good idea find a way that works for keyboards 
-and then introduce again something completely new for other device categories.
+to
 
->
-> Best regards,
-> 								Pavel
+  /sys/class/leds/blue:
 
-Best regards,
+which is 1) a weird name and 2) a backwards compatibility break for seemingly
+no apparent reason. Any reaons for the change?
 
-Werner
+People normally hardcode these paths in eg. /etc/tmpfiles.d to apply LED triggers
+to particular LEDs.
 
+Kind regards,
+	o.
+
+> +		led0: led-0 {
+>  			color = <LED_COLOR_ID_BLUE>;
+>  			gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
+>  			retain-state-suspended;
+>  		};
+>  
+> -		led-1 {
+> -			function = LED_FUNCTION_INDICATOR;
+> +		led1: led-1 {
+>  			color = <LED_COLOR_ID_GREEN>;
+>  			gpios = <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
+>  			retain-state-suspended;
+>  		};
+>  
+> -		led-2 {
+> -			function = LED_FUNCTION_INDICATOR;
+> +		led2: led-2 {
+>  			color = <LED_COLOR_ID_RED>;
+>  			gpios = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
+>  			retain-state-suspended;
+>  		};
+>  	};
+>  
+> +	multi-led {
+> +		compatible = "leds-group-multicolor";
+> +		color = <LED_COLOR_ID_RGB>;
+> +		function = LED_FUNCTION_INDICATOR;
+> +		leds = <&led0>, <&led1>, <&led2>;
+> +	};
+> +
+>  	reg_ps: ps-regulator {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "ps";
+> -- 
+> 2.43.0
+> 
 
