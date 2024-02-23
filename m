@@ -1,113 +1,193 @@
-Return-Path: <linux-leds+bounces-949-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-950-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A516861634
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:46:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC0186163B
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 16:47:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A3C2B218BE
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:46:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7787E1F25A03
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Feb 2024 15:47:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7890682C94;
-	Fri, 23 Feb 2024 15:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B1D82C94;
+	Fri, 23 Feb 2024 15:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uIirtlHU"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LIvapF4v";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="19IzzYiQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cbazDP/v";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OJZGHVrC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365446E600;
-	Fri, 23 Feb 2024 15:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF83823DF;
+	Fri, 23 Feb 2024 15:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708703202; cv=none; b=bXhDMWpubyJMVoF4wjT75AWKZzGu3ZwISgIE1U1uxpiX0KVk/rqPA/euxO1rXIwtiFcv/FmQ5WwdMVMzivqr5WIE5/OPUI3MmFGrLflNKNt5UNJrdtTXoL9IrhDszaIuWr3Pkvwd+7O8hl30TAe1Se3XqAAH8OX1mawQ9dZNN6I=
+	t=1708703265; cv=none; b=lgX4lw/D1pi2BJdk3GIwrTI7ozZbPa7oNSR8pnFZpEkHRAIVv8X4fVcypsgKjITQkRHZrW9GImDKNUHYJvB2V4I5Fp66Fzhd7BGdEiRTfES4n41omYnbigKC+jhSg2cH6R9e1RA2IaVp+CywUKu2I0WDfU9dlN9hCkT2TXWnDgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708703202; c=relaxed/simple;
-	bh=3K1YElhmGqBFBiWcDwhwhoj2GW63wMKrK52rUUQ+rtM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ais88D4/D6ESPC/ARkp3VnTcRBfWdmm3bEjutozWYpNZQfGf+fqd45FLvcDfz3bJ9GmkxEW8ClqoiQT+Ozdoa9yOWioakgswptj4VnL/woKgeZ9g5Sd1updZ1o8P+diw/8+E7kNeynDUonx4+HlPelyI+eag2V5G6AQR24+JtjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uIirtlHU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B61CC433F1;
-	Fri, 23 Feb 2024 15:46:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708703201;
-	bh=3K1YElhmGqBFBiWcDwhwhoj2GW63wMKrK52rUUQ+rtM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=uIirtlHUpC1FGughklquX9RfUKvNSJRmLfGw1z6KEj84g2kNdfMf0OHxDtvMYlRpc
-	 jpCHdbxXBGrv7CNMzN2Pic348dI8sAkJ6cvSJ+G353tThgHm/WNhaS914LXko7/3TG
-	 CtYyjFrH3MQN0YMDAs1xk/NR8jYopK86es26QS4ut9XvudOIUQcFfBbf2nbfgO4pav
-	 QEOyyt5BKwN0fn0mON21uiGer6nB4Kt54Vg1qv3eKHZpU1FsED3euVNchv4nbZs014
-	 dchJL+OVNuKY+58W/itQGCUXYuUMf3UoGk2ge41JIuP4vW5A102AdbStULbdkKbjxW
-	 U7S1sJP8HwoWg==
-Date: Fri, 23 Feb 2024 07:46:40 -0800
-From: Kees Cook <kees@kernel.org>
-To: kernel test robot <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-sound@vger.kernel.org, mhi@lists.linux.dev,
- nouveau@lists.freedesktop.org, ntfs3@lists.linux.dev,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: =?US-ASCII?Q?Re=3A_=5Blinux-next=3Amaster=5D_BUILD_REGRESSION?= =?US-ASCII?Q?_e31185ce00a96232308300008db193416ceb9769?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <202402231222.DVB9DC74-lkp@intel.com>
-References: <202402231222.DVB9DC74-lkp@intel.com>
-Message-ID: <3532AACB-176A-4C48-9855-CCD6C97FDE91@kernel.org>
+	s=arc-20240116; t=1708703265; c=relaxed/simple;
+	bh=pviszrvrxVooRDXZC7JsnpLYVRn17s/W863VwimbX8U=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Z6syMVWi9oW8fGDwu5b1+zIuBfCNZ9OMvg3j1j7MceWI4+w7rouYNe5gy0KuUycj4Y/1D1yk5fn3ahpbh+vuhAf+OwqyNonbg2OjRCCXdi3fNWo+jFd2GAlk/kHZJHIGGrp/Ks0Hk5Ud0DOJ7IfhWxp8A4JG42RNwNil7xUhqVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LIvapF4v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=19IzzYiQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cbazDP/v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OJZGHVrC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D3B2321F20;
+	Fri, 23 Feb 2024 15:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708703262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3QlUICJRs2maa/NQNk9hAYFx5fEK151u6biOpKRxTI=;
+	b=LIvapF4vWOtt1Z8Fgquuk262wsFkDfHheTsQSh4kbsFzA4VmV+2DIlAa+zbFD+JHRSWWQ0
+	w2J4B0HCXN26It1Kimwxw7Re3cU5l1sDxyUE3WVeIRQ2CdxEI73QgklYZHgiBExslTWFf6
+	wJHTW8ZrKMgjLDKlQ3aYD9wUzl6uuxQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708703262;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3QlUICJRs2maa/NQNk9hAYFx5fEK151u6biOpKRxTI=;
+	b=19IzzYiQcWFTiCIvLtP9au/JRRbdqV45dK9xnp/CnTJeivHZboavz7PCCat5xBpZRedMQv
+	5dCxqwtgvVmB7ADg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708703261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3QlUICJRs2maa/NQNk9hAYFx5fEK151u6biOpKRxTI=;
+	b=cbazDP/vK5XqGKKjJGuzH2yJODLigdji9pDuVD0CUesPgj00p28VRCsfDirKlKpgzSdaun
+	I/U59Mc7Rl6g2wdWQnQIdB1qzOFmloQC/wc6xFgZ63scVq10YHWTl4HTXIEPpm0julUjHA
+	hmPwmEjv32lmiqP3dk5VdvgwHAMsDiM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708703261;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3QlUICJRs2maa/NQNk9hAYFx5fEK151u6biOpKRxTI=;
+	b=OJZGHVrC3ligBdkDQG/MUqO2hDL+Xx8BS2E1UZF83r18Kvz6/F8bxwUp9Re0vsxJHfB3Wu
+	DeJFD9Lm8vwjJwDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 87DF0132C7;
+	Fri, 23 Feb 2024 15:47:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sTTMHx2+2GVQJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 15:47:41 +0000
+Date: Fri, 23 Feb 2024 16:47:41 +0100
+Message-ID: <87cysn2ndu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Lee Jones <lee@kernel.org>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of led_trigger_event() and simplify mute audio trigger
+In-Reply-To: <20240223154559.GF1666215@google.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+	<20240223154559.GF1666215@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="cbazDP/v";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OJZGHVrC
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.01 / 50.00];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[11];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[35.17%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[gmail.com,ucw.cz,perex.cz,suse.com,alpha.franken.de,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: -1.01
+X-Rspamd-Queue-Id: D3B2321F20
+X-Spam-Flag: NO
+
+On Fri, 23 Feb 2024 16:45:59 +0100,
+Lee Jones wrote:
+> 
+> On Tue, 13 Feb 2024, Heiner Kallweit wrote:
+> 
+> > If a simple trigger is assigned to a LED, then the LED may be off until
+> > the next led_trigger_event() call. This may be an issue for simple
+> > triggers with rare led_trigger_event() calls, e.g. power supply
+> > charging indicators (drivers/power/supply/power_supply_leds.c).
+> > Therefore persist the brightness value of the last led_trigger_event()
+> > call and use this value if the trigger is assigned to a LED.
+> > This change allows to use simple triggers in more cases.
+> > As a first use case simplify handling of the mute audio trigger.
+> > 
+> > This series touches few subsystems. I'd propose to handle it via
+> > the LED subsystem.
+> > 
+> > Heiner Kallweit (4):
+> >   leds: trigger: Store brightness set by led_trigger_event()
+> >   ALSA: control-led: Integrate mute led trigger
+> >   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+> >   leds: trigger: audio: Remove this trigger
+> > 
+> >  arch/mips/configs/ci20_defconfig     |  1 -
+> >  drivers/input/input-leds.c           |  8 +---
+> >  drivers/leds/led-triggers.c          |  6 ++-
+> >  drivers/leds/trigger/Kconfig         |  7 ---
+> >  drivers/leds/trigger/Makefile        |  1 -
+> >  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
+> >  include/linux/leds.h                 | 29 ++++++------
+> >  sound/core/Kconfig                   |  1 -
+> >  sound/core/control_led.c             | 20 +++++++--
+> >  9 files changed, 37 insertions(+), 103 deletions(-)
+> >  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
+> 
+> Are the sound maintainers on-board with this?
+
+See
+  https://lore.kernel.org/r/87zfw1ewrd.wl-tiwai@suse.de
 
 
+thanks,
 
-On February 22, 2024 8:29:28 PM PST, kernel test robot <lkp@intel=2Ecom> w=
-rote:
->tree/branch: https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/next/lin=
-ux-next=2Egit master
->branch HEAD: e31185ce00a96232308300008db193416ceb9769  Add linux-next spe=
-cific files for 20240222
->
->Error/Warning reports:
->
->https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402222223=2Eh9rFmYj4-lkp@int=
-el=2Ecom
->https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402222314=2EJ6A7eb4B-lkp@int=
-el=2Ecom
->https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402230537=2E2s6Nhfsn-lkp@int=
-el=2Ecom
->
->Error/Warning: (recently discovered and may have been fixed)
->
->arch/arm/boot/compressed/misc=2Ec:157:6: warning: no previous prototype f=
-or function '__fortify_panic' [-Wmissing-prototypes]
->arch/arm/boot/compressed/misc=2Eh:13:36: error: macro "fortify_panic" req=
-uires 2 arguments, but only 1 given
-
-This is fixed for the subsequent -next tree=2E
-
->arch/sh/boot/compressed/=2E=2E/=2E=2E/=2E=2E/=2E=2E/lib/decompress_unxz=
-=2Ec:350:(=2Etext+0x20b4): undefined reference to `__ubsan_handle_out_of_bo=
-unds'
->sh4-linux-ld: arch/sh/boot/compressed/=2E=2E/=2E=2E/=2E=2E/=2E=2E/lib/xz/=
-xz_dec_lzma2=2Ec:751:(=2Etext+0x904): undefined reference to `__ubsan_handl=
-e_out_of_bounds'
-
-This is fixed here and is waiting to land:
-https://lore=2Ekernel=2Eorg/linux-hardening/20240130232717=2Ework=2E088-ke=
-es@kernel=2Eorg/
-
--Kees
-
---=20
-Kees Cook
+Takashi
 
