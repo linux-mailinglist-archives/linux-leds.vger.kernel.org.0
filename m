@@ -1,39 +1,39 @@
-Return-Path: <linux-leds+bounces-971-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-972-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE41A8625D3
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Feb 2024 16:40:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF848625F6
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Feb 2024 17:12:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9AE01C20CEA
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Feb 2024 15:40:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C664F2827A6
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Feb 2024 16:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4A5E45BEB;
-	Sat, 24 Feb 2024 15:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99FE047A73;
+	Sat, 24 Feb 2024 16:12:39 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AC44502D;
-	Sat, 24 Feb 2024 15:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BB147A6C;
+	Sat, 24 Feb 2024 16:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708789208; cv=none; b=OR8fkuziGL3IqsRv7djaWp7w6R8R/u3DfomVBQWXwZA1ud/4jUGTK6WWhFSiwGNy2Nlo0qdNHbz2lSzJnBRPthvOEvuKKKPsLkF1mabH8E9vqXLGEZaDWuXjPh/x+lhSOXSf9KpwDorNVh5Mx88nbPLuAfLrSnT3lEOX2Gqyvf8=
+	t=1708791159; cv=none; b=cE10vyVg2g3JOyR3+l7VTA1OMjnVbWgnB/5Rn65ywLTkZJqerE7UxaH6vLjm8sE4X7MPyKntgYO6PwEP2amizquVupsPSJExVqKqN51CApEXFkk7tEGGB5iQ89kFX0o9ap1TuppLZoWq3LWxW+dhF0DIcSowamvy43NRUT4bSZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708789208; c=relaxed/simple;
-	bh=2QsB1KpBd61cgHOYRP5jSDlOoH+9ldqZeWNm3QRlRKk=;
+	s=arc-20240116; t=1708791159; c=relaxed/simple;
+	bh=ipX0egL61XZQJmFm0IoITVXsPrRfywKFWzinkfQKy+4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RRcZTUM13P6KvawKr2Gvl3Ib0F/JxsRXPR1O7FIsBpfdGsqoGysIt7jMzdVjnmSxBHCiM6mjU0Qxymmlj/3JRAwytY24hh0tvWz9D8RJ7Tcn3Unxf/QVoSdrQx6Ss6IVwwOY4z6Zk301ZOW8C4gM7YkJf3pdvBTeTrZJNnGN5Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.185
+	 In-Reply-To:Content-Type; b=YfJSsEjps69vmtfmlDPdySeGSXIdiy0C0zE+6We3LV67JanD+R1UjnzFNJ8k4ThtSRYcm6TuyZ7OQCoXVqBFSH+oImNGlnZjks8hD0mtMThFIQNOb4SmGqfGYSOQiPy0YYtMP69W1RG8Hjs/3dZtcvJ+4/EQLeBpRBQhr5/zIWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 7F40582ECB;
-	Sat, 24 Feb 2024 16:31:14 +0100 (CET)
-Message-ID: <499911fc-71fb-4ee6-a121-c8698daf31e3@skole.hr>
-Date: Sat, 24 Feb 2024 16:31:12 +0100
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 1F018842CF;
+	Sat, 24 Feb 2024 17:02:42 +0100 (CET)
+Message-ID: <e4173a45-61ca-4427-85aa-1733406a5f39@skole.hr>
+Date: Sat, 24 Feb 2024 17:02:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -42,33 +42,27 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/1] leds: expresswire: Don't use "proxy" headers
-To: Pavel Machek <pavel@ucw.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lee Jones <lee@kernel.org>
-References: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
- <ZdkGmE2HFxXpIonR@duo.ucw.cz>
 Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+References: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
 From: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-In-Reply-To: <ZdkGmE2HFxXpIonR@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2/23/2024 9:56 PM, Pavel Machek wrote:
->> -#include <linux/gpio/consumer.h>
->> +#include <linux/types.h>
->> +
->> +struct gpio_desc;
+On 2/23/2024 9:30 PM, Andy Shevchenko wrote:
+> Update header inclusions to follow IWYU (Include What You Use)
+> principle.
 > 
-> If include tweak means you need to declare struct, is it ian
-> improvement?
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> v2: added one more missing header
+>  drivers/leds/leds-expresswire.c  | 4 ++++
+>  include/linux/leds-expresswire.h | 4 +++-
+>  2 files changed, 7 insertions(+), 1 deletion(-)
 
-In this case I'd say yes, the header in question has numerous other 
-declarations (which are not used in leds-expresswire.h) and itself 
-declares gpio_desc like this anyway.
-
-Regards,
---
-Duje
+Reviewed-by: Duje Mihanović <duje.mihanovic@skole.hr>
 
 
