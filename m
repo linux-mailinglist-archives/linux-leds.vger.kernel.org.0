@@ -1,127 +1,124 @@
-Return-Path: <linux-leds+bounces-975-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-979-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B2186280D
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Feb 2024 23:50:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EC4862D34
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Feb 2024 22:35:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26F501F21A1E
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Feb 2024 22:50:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 49A64B20B62
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Feb 2024 21:35:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5377F4E1CF;
-	Sat, 24 Feb 2024 22:50:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 752801BC4D;
+	Sun, 25 Feb 2024 21:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a87XncPO"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="Ag6eyl5z"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4C34D11B;
-	Sat, 24 Feb 2024 22:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF851B959
+	for <linux-leds@vger.kernel.org>; Sun, 25 Feb 2024 21:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708815011; cv=none; b=mAo86svu2Plre85IRVR9Xz3l5pKMDDEdkYLRVTLanG3uq5WBQaGw1r3wXLoajskFurI7OfzhL8oj/P9ZuizL5kOhiGdid2aSIsU67ZnEmxewLs951/n0DovJH9nL6oHnIBo5TxrwTDLSzvAHkNwdR1VqkmIgrjtZNN8I2AVZBIA=
+	t=1708896887; cv=none; b=R9zCuko6UEk5iF7ZrqnTlt1BR2x1/PT0lSPrIFMevOsFNMN2k/cwI6ze5yj5kpDMoQNRAdOJofJQxZMHgXhypUGPKV2q3aR/IM9fnMHdalfXGmykd3VPdjj1bldpuYZ/xvSDZRyBD+jkqIwFK9U9nRC/9S059ahIeLryAKDiCmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708815011; c=relaxed/simple;
-	bh=31a5GEP8D1PpwdN5PyjwuEtq748f/aUOFXdtpk75vgo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hVQeDHBjm3Ix8P4SmgOMwXR7jPNta7f5RYESRQb+hCG2uJGoz4dIoAPQo/LnV+ZBr3RUEEX0Do95wksrIOH+RnuAOGT0M3W38bRsaD3RhVMeywGfHZe1y9YOgPyTiHQ1ItFm+xg41o2pq0FOEvwGS7FrIx44s+2hGhbhYQERm7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a87XncPO; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-512ab55fde6so2124567e87.2;
-        Sat, 24 Feb 2024 14:50:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708815008; x=1709419808; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CyUeNBz/6EL4JMqPMkzQBEjM7Nv00R+NzMPMSoNI1/U=;
-        b=a87XncPOeIjS02wB1SfpkarJoHcWvJWzmLVBNaCFTwrjNLXbEAKsrJ3Udqrd4SBDov
-         aMLC3cAkOjQkE62NxQjonMO1hRyIvV0o+yRqpANZ5Dg6kQVrFefQXG1OWVLHkjGXOr9D
-         jg1H8IFOfy6n+wx/Z4mSgOV2h8qmxQu/EYbkgsPXlZ/ubDXlqC4SqHdILSFq/kPD4ncw
-         W5dSWZzckEmP4rO/cJ/q2ZtwzLWZnT24NijVNva6+wmTkO6FrxgHVSX8sZDVPifxnbSI
-         C2+gajytSLgn36mcJnC+lnYoIBeALHu98V8KkzQhZ4eT1cpv9BN7onDXCfHOi9TT3BGT
-         PnjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708815008; x=1709419808;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CyUeNBz/6EL4JMqPMkzQBEjM7Nv00R+NzMPMSoNI1/U=;
-        b=v3P1n5Yv2AnkmG2QBY5UVCq7eUklR8o1TMris58x7NjOdsXMyCqYmiPp7kLArCo+Nd
-         XrVMDIGlo2NCXY/ZvQ49BugiksBc55y41srVwrsO7/SBNwI1SmMOivhXAflkjPo+dnAf
-         GcGtPxQV0m/A50vfe0zl3HorttfzNGrCnPXGo7wBVdkzq/lwLzgFa9acErBvc19WQdUc
-         nu1vDfoXhABFOKbaYp1p6fLHJ3kkbaCljOUU7ABeYOwrctlxsOsXtBTGeZbASyapCq/N
-         dxXuDR7Vn3pWG9K7fkSiGZKddwijG81Oe1VEUVKjrlNjrult9keyEJTCtCprS2kOKXYh
-         aKVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUz/sWyle/YdrifmFHuqgsChcYcqJb9N7nQKOWiYSYtwYSlDAnhr1SELVM+oKeYOsIZNBweJlqbYYiPvSJYxERvvXyDP5irCgU+MRr8f9TwbS0o9UE0uMAOrxZMeIUd6cq2kXS05js/AiWsPzfIQVUuZ3LyKaJ7rb2xO2nGcbSz7PW3tHIyDZrYsy019aw6ue9iGrIBNsY3hd6SVn07+QptCThQ
-X-Gm-Message-State: AOJu0YyuWs395pK9M/9C64l2vNFN7IimUX0dqCrcoPbnU02XgUWkFhUc
-	aYdpCSZvEpBv1s+McXuBpZqCTJ629QhRCHs8r1+7Vah5EeLhU093
-X-Google-Smtp-Source: AGHT+IHBzJLfQOY8i0MtTP644KdtkaI5a50DFXrhplfFOgTK/AsvwDWJYYu79HZD5D/Y98ywV4OcGA==
-X-Received: by 2002:a05:6512:2210:b0:512:d81f:c22e with SMTP id h16-20020a056512221000b00512d81fc22emr2323567lfu.59.1708815007566;
-        Sat, 24 Feb 2024 14:50:07 -0800 (PST)
-Received: from unknown.netbird.cloud ([37.161.229.181])
-        by smtp.googlemail.com with ESMTPSA id ti6-20020a170907c20600b00a431cc4bd3dsm145672ejc.182.2024.02.24.14.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Feb 2024 14:50:07 -0800 (PST)
-From: Gianluca Boiano <morf3089@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1708896887; c=relaxed/simple;
+	bh=rBkQQG9txA6R1c7Mv2Avk/c9RrmlA7X0BzGB2IgLlPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f/+fudCfe5WD6R+Gc6LVgJ2GU/JfD7c+H6qodMKbWgDNOHn09D0Oj1/2sN7+JyeeI/Q7fCNujCfrVLw8ZO+qfMkEPx+qJ1i8bCDEwpnlcyeeP44wZiaGgjSpM6dNsrWGHwr8Q5LLcvFkSnFvcX4YWjMzx7yMoAwq5csFfi5FXuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=Ag6eyl5z; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id CC9C42C0271;
+	Mon, 26 Feb 2024 10:34:35 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1708896875;
+	bh=dYKwYg9jFPCTvhHfnHRuamLyYbyHrNi847yiy9x7npg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ag6eyl5z+oYCkDn07RZHWIrsq+RJoFXQ4DnFWtqvGivt2F6Lssg+kLb4GFQ2htr/m
+	 6LIr3JJlfK4ysLIZAn5DB+QzCT0bcNxPCxMKAnjwLWN0R+DHemijzQPVoHOaku8wKD
+	 za3x8FjVFuDa3q2UeOozYkJ1vgdU9xhjvJUt2QRljkslkVkN/IL+9m18VF+yEv0jWB
+	 qOBuCmiwWrvFndDA0+05vpKgSavhnsSYaS7ykRRgNEn549t6TiYJdIzfg+ivo8biqN
+	 I7yr9O6cK1o5aXfZZGXBhsCKXuoCJlCToU40/RgkeVaVYRWbQXrZEytkYDcg9DUDJz
+	 5Eu/5yHMN20IA==
+Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65dbb26b0000>; Mon, 26 Feb 2024 10:34:35 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
+	by pat.atlnz.lc (Postfix) with ESMTP id 9B26113EDA8;
+	Mon, 26 Feb 2024 10:34:35 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+	id 935FF280808; Mon, 26 Feb 2024 10:34:35 +1300 (NZDT)
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+To: ojeda@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	andrew@lunn.ch,
+	gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com,
+	andy.shevchenko@gmail.com,
+	geert@linux-m68k.org,
+	pavel@ucw.cz,
+	lee@kernel.org
+Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Cc: Gianluca Boiano <morf3089@gmail.com>
-Subject: [PATCH 3/3] arm64: dts: qcom: pmi8950: add pwm node
-Date: Sat, 24 Feb 2024 23:49:51 +0100
-Message-ID: <20240224224951.1357644-3-morf3089@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240224224951.1357644-1-morf3089@gmail.com>
-References: <20240224224951.1357644-1-morf3089@gmail.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH 0/3] auxdisplay: 7 segment LED display
+Date: Mon, 26 Feb 2024 10:34:20 +1300
+Message-ID: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65dbb26b a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=k7vzHIieQBIA:10 a=VwQbUJbxAAAA:8 a=BcuUNpNrl9xOKT-QDWIA:9 a=3ZKOabzyN94A:10 a=AjGcO6oz07-iQ99wixmX:22
+X-SEG-SpamProfiler-Score: 0
+x-atlnz-ls: pat
 
-This node is actually found on some msm8953 devices (xiaomi-mido) and
-allows irled enablement
+This series adds a driver for a 7 segment LED display.
 
-Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
----
- arch/arm64/boot/dts/qcom/pmi8950.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I'd like to get some feedback on how this could be extended to support >1
+character. The driver as presented is sufficient for my hardware which on=
+ly has
+a single character display but I can see that for this to be generically =
+useful
+supporting more characters would be desireable.
 
-diff --git a/arch/arm64/boot/dts/qcom/pmi8950.dtsi b/arch/arm64/boot/dts/qcom/pmi8950.dtsi
-index 1029f3b1bb9a..b4822cb17a37 100644
---- a/arch/arm64/boot/dts/qcom/pmi8950.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pmi8950.dtsi
-@@ -84,6 +84,14 @@ pmic@3 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
-+		pmi8950_pwm: pwm@b000 {
-+			compatible = "qcom,pmi8950-pwm";
-+			reg = <0xb000 0x100>;
-+			#pwm-cells = <2>;
-+
-+			status = "disabled";
-+		};
-+
- 		pmi8950_wled: leds@d800 {
- 			compatible = "qcom,pmi8950-wled";
- 			reg = <0xd800>, <0xd900>;
--- 
-2.44.0
+Earlier I posted an idea that the characters could be represended by
+sub-nodes[1] but there doesn't seem to be a way of having that and keepin=
+g the
+convenience of using devm_gpiod_get_array() (unless I've missed something=
+).
+
+[1] - https://lore.kernel.org/lkml/2a8d19ee-b18b-4b7c-869f-7d601cea30b6@a=
+lliedtelesis.co.nz/
+
+Chris Packham (3):
+  auxdisplay: Add 7 segment LED display driver
+  dt-bindings: auxdisplay: Add bindings for generic 7 segment LED
+  ARM: dts: marvell: Add 7 segment LED display on x530
+
+ .../auxdisplay/generic,gpio-7seg.yaml         |  40 +++++
+ .../boot/dts/marvell/armada-385-atl-x530.dts  |  13 +-
+ drivers/auxdisplay/Kconfig                    |   7 +
+ drivers/auxdisplay/Makefile                   |   1 +
+ drivers/auxdisplay/seg-led.c                  | 152 ++++++++++++++++++
+ 5 files changed, 212 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/auxdisplay/generic,=
+gpio-7seg.yaml
+ create mode 100644 drivers/auxdisplay/seg-led.c
+
+--=20
+2.43.2
 
 
