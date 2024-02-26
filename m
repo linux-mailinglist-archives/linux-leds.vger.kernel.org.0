@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-992-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-993-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD03867261
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 11:59:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1225867265
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 11:59:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD2461C2836A
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 10:59:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D04AA1C285A5
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 10:59:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B281D526;
-	Mon, 26 Feb 2024 10:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0442CCD5;
+	Mon, 26 Feb 2024 10:58:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVJ7rE4m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W2x3oXBw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90901CD08;
-	Mon, 26 Feb 2024 10:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94D71F95F;
+	Mon, 26 Feb 2024 10:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708945102; cv=none; b=ZuXTAgj8UsqU483tb9oOOWFNSnafSEyU+YqYo6Ne/5FrmcTbvGEhkTEHjHRFS1UJJMigKRwKa9cE/jRlt2887gzR1gVZlfDUtyuWjWcu80+5n2g7gdWcNurSbZXgh/PSmxTEVDZ3XiJmhtIsJ1N0B9ddZwD870mIDfnp97YlfwY=
+	t=1708945105; cv=none; b=kdz1MVQjDFAEIsGY9N6BArP/YZhbGzv1H8VXhscQgeqc5xTc9/1HPjpN44JOa53jVclbvkjxhO4qPbxV7kmfEBP/gX7VteBjoKsT5TUrvzDzDNP8XXnDE1SfFUuKWZFqzpm6ai/Krgv16mMeXClC/XQzaujHWGwWuUOnbCG1x8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708945102; c=relaxed/simple;
-	bh=31a5GEP8D1PpwdN5PyjwuEtq748f/aUOFXdtpk75vgo=;
+	s=arc-20240116; t=1708945105; c=relaxed/simple;
+	bh=syIKjrq+WfVbdCOG9H5+mA0Dtw4SFgTRKx0qyz1gHOY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YgLNh2IeiWHPtKpOKjGFLMaUK7d9ztTXEDdfyxmqFa7ppqd7M8Ca6T9HrG85sYdGZ8hQQGTiQ2DlXIxY7jEQb0Ygsz1XyTXCtUltfrSboChnbZAjXpzk8/lJK2xOhyzdDPc0oARpikce7B3VUhPn89eS/DhoN0xUUkKHEHlinEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVJ7rE4m; arc=none smtp.client-ip=209.85.208.46
+	 MIME-Version; b=i7zl0Z93+DqZjIJmVmfXEktmUuVQOWq7AfRWvKxNg4Qgo1tsOl832uSGVCdeZUhQLzSSqyTxgf4OsRdX1l5fF4NzQU7cBQLUtLjivGJSvsayi7rnp9jA1CNouAqt1qqp+Kt2N1DAR2Ysl0jX1qhQ8WUHAjM52SzdRi++ef04y08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W2x3oXBw; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-563c0f13cabso3691154a12.3;
-        Mon, 26 Feb 2024 02:58:20 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-563cb3ba9daso2823622a12.3;
+        Mon, 26 Feb 2024 02:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708945099; x=1709549899; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1708945102; x=1709549902; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CyUeNBz/6EL4JMqPMkzQBEjM7Nv00R+NzMPMSoNI1/U=;
-        b=ZVJ7rE4mNVo6NjFAJ9mUqSSeDTKwjDKhZFwMleepIFJ0wqwpVA6mAe/72zRtpU5vI2
-         SEtgl6yA/PcTcO7Sj3FwwjtHwq/BLDoxVI8kju9sULKYfdxtC1mlpSYKaEBoDVq/fKu9
-         OvD8gVFXqqBgsl6iG9XSCtimRfPX1AvjKDbKkS2FLvvIhrQbRsq8b4HhsSuXRVxl270U
-         GOtPSI3yirmcurj3nVtuAg6D/IEsRZk+EoHiWpDKYl6PHA+DwUSsRMG/iftH/37O2iUv
-         mGUD8b3rQbWpR1diLZbE75g1tyDiiKLI7+rlzgPRgI31Kx+Mjw15XeQOqTW2rxUMFHsZ
-         ut7Q==
+        bh=XBDj39VHM+FDO/ilMiBO91UzViz/2NlYW/IEBlun9BA=;
+        b=W2x3oXBw6hESK6Kr9e6eHbhd7/tVYYYVLV0O00LBUY7hL5nA7PONDX7fQMJ1S1t6Dk
+         MKd/htzWOy2QkvIK+2T5g33jJzPl2OBBMrJi7UWMj76o7W0XKpcyyKc5UsJpkINuFXz1
+         GaUTJa4LsICIldNYFM36sEOrSeujZ0LX7KQF0JN8X4a90XnxIeE5gyimCyhurm0NqHMF
+         1WmW5EprmTFbPfK0Uqu86ZQ1XubTcb2SbA+oSQE41WMQDLZysP7CKRzGHPFhjxXsFdVx
+         Ml7svCmJ6cr7GBzttFRXzlmMzUfHWewNIIny2Y0gB5+qF8kV0+yQYajZLb01Xy4pFkVc
+         duGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708945099; x=1709549899;
+        d=1e100.net; s=20230601; t=1708945102; x=1709549902;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CyUeNBz/6EL4JMqPMkzQBEjM7Nv00R+NzMPMSoNI1/U=;
-        b=TCicjiXfgT8bR8UpoOxkY+XV4d0Biztr7XD4spBT3U3qcJe+qg1jgK1DiimLI7jHi2
-         xS5F35TDu3zOO/sd6hccYTwPtfW+p1nROrmZg+AU8VSl8gpZZPRm7o1k9TeQH1l04RTO
-         QqNUVdhRp7Wa/apg+I0q7CaRm7zgOevPrRm9Uzqd30nq2R1iDQI1QDRU/hJ7HXqyo+F2
-         7uVrTELJuho9vSY9j/cABmfOsQnN4IT5tvbwALK/Up78VGtGUuKAzVXH9/9q6Z7KjUow
-         dcglvYPgLZGWzI9yfuztyMSme315pUCzhcwdLRP2O+cXklaiTSdoSnMWUEY21x2wOMyE
-         KRog==
-X-Forwarded-Encrypted: i=1; AJvYcCX7434+wfmFqRUF42R9Zr3E/KwjokmRqxmKXOlnakPcY6Xsw5MiOskSk8LRvp6Z5FvodmHkmEEV7y4eU18OfazOf17xkZ/0Kf0QKHemvOhYUNfQxIEipDXrn5lH79LcqMAAodEnVPHf9cyHjI01oPKTi3Qels/d/pleUUPdLgUAZkgwSkSmJacWZ0x2y2SGyUPiKc43VLYlMtcre1iDjnOY/4Pi
-X-Gm-Message-State: AOJu0YzhlD9sAs8ge2CLoAwQtK1dWrx8LF+f8JZEVj6gXXNlT2y+Bw7A
-	8X9achQAVC4j7zeIdfvEjIJxoE/1LrgKwz1/H8QvRyOSaSzTwPA7
-X-Google-Smtp-Source: AGHT+IGzqOtHqjLiDsEl8WzUqKK2zSVWIx6yPNJ87ooYwr8b50Gw9cKmXCgF/K8pSI/yEBZgak3vHg==
-X-Received: by 2002:a17:906:3cd:b0:a43:68b:6a3a with SMTP id c13-20020a17090603cd00b00a43068b6a3amr2822093eja.65.1708945099057;
-        Mon, 26 Feb 2024 02:58:19 -0800 (PST)
+        bh=XBDj39VHM+FDO/ilMiBO91UzViz/2NlYW/IEBlun9BA=;
+        b=RfqlGEIScqooqoUSzqsd1LxbTfYrhF0Z4wsN+J6i5O6SvfELmgXZCUI0cArzda3V5h
+         Grl9SFH5Ghk1C9DFVc8+JXWZXBrSTNI3d0Zp1NjLClwSf/FeY44+WlCUGCsTlYEAfdLB
+         s9g0jnzioBkPse3Z6qi01SeseddUolbxha7C3W+QBKrG9hy50S8HF24Y1F74aHRWWm1Y
+         hqz1EDriaXC/mQoI8u1FdceB2pWq5zSA7d1RNvgQWEzdmG5iH/0KurTeRbztmvBojVlH
+         KjjRD/dUj/Ww+ldwihBA5bbHejU4jO+VhEGEwRvC78M/DijzekW/Kqw6TfE4c2cUrCbX
+         m3WA==
+X-Forwarded-Encrypted: i=1; AJvYcCViQn6fCcLCGQ2Gkj5G51+jtfdztSGqAt8wfhG/akkDubP0zHqHAoSjmNP1LrFYP4i20XhmeXUrLJMMlsAyTo6bWuxb/v7qD2qhHCydWy+Q/uvb/l0CwyqIRRgk9mwofEaRMR2Mvz0e0JQmRKOLUnZ4PFOvPQNya3yHJcnsafy/aebep+pLElT2mhE7b0QWb32G4iUSUZBTbNjvQkoiv/ZDuxMs
+X-Gm-Message-State: AOJu0Yzj1y/igwSqbhCiwsWX7OqUFrp+OxfvcCR8KzhOpmEQBFlpL9s0
+	D8NE3MWnWO3YwUl3gXSFjlYUpNN3tg8pS3sX5C1VibMUW5hZC5xM
+X-Google-Smtp-Source: AGHT+IE/y1ci9MXRfiPgQnFC6LdOJVkxE6PHyMV7TApmLIy0YhG+GXnU7uQVslHHQrluXFFjBZvrPg==
+X-Received: by 2002:a17:906:150b:b0:a3f:d742:f353 with SMTP id b11-20020a170906150b00b00a3fd742f353mr4359261ejd.57.1708945102074;
+        Mon, 26 Feb 2024 02:58:22 -0800 (PST)
 Received: from unknown.netbird.cloud (net-93-65-126-20.cust.vodafonedsl.it. [93.65.126.20])
-        by smtp.googlemail.com with ESMTPSA id f19-20020a170906085300b00a3fce8c0f99sm2315769ejd.191.2024.02.26.02.58.17
+        by smtp.googlemail.com with ESMTPSA id f19-20020a170906085300b00a3fce8c0f99sm2315769ejd.191.2024.02.26.02.58.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 02:58:18 -0800 (PST)
+        Mon, 26 Feb 2024 02:58:21 -0800 (PST)
 From: Gianluca Boiano <morf3089@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -80,9 +80,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
 Cc: Gianluca Boiano <morf3089@gmail.com>
-Subject: [PATCH 2/3] arm64: dts: qcom: pmi8950: add pwm node
-Date: Mon, 26 Feb 2024 11:57:46 +0100
-Message-ID: <20240226105747.3547856-2-morf3089@gmail.com>
+Subject: [PATCH 3/3] dt-bindings: leds: leds-qcom-lpg: Add support for PMI8950 PWM
+Date: Mon, 26 Feb 2024 11:57:47 +0100
+Message-ID: <20240226105747.3547856-3-morf3089@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240226105747.3547856-1-morf3089@gmail.com>
 References: <d17121a0-ca14-41fd-9802-bb4118629e34@linaro.org>
@@ -95,33 +95,37 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This node is actually found on some msm8953 devices (xiaomi-mido) and
-allows irled enablement
+Update leds-qcom-lpg binding to support PMI8950 PWM.
 
 Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/pmi8950.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Changes:
+- Add missing entry for if
+- Rebase on top of https://lore.kernel.org/linux-devicetree/20240226073713.19045-1-krzysztof.kozlowski@linaro.org/T/#t
+---
+ Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/pmi8950.dtsi b/arch/arm64/boot/dts/qcom/pmi8950.dtsi
-index 1029f3b1bb9a..b4822cb17a37 100644
---- a/arch/arm64/boot/dts/qcom/pmi8950.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pmi8950.dtsi
-@@ -84,6 +84,14 @@ pmic@3 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
-+		pmi8950_pwm: pwm@b000 {
-+			compatible = "qcom,pmi8950-pwm";
-+			reg = <0xb000 0x100>;
-+			#pwm-cells = <2>;
-+
-+			status = "disabled";
-+		};
-+
- 		pmi8950_wled: leds@d800 {
- 			compatible = "qcom,pmi8950-wled";
- 			reg = <0xd800>, <0xd900>;
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+index 6649ca2ec805..e93e9b30660b 100644
+--- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -27,6 +27,7 @@ properties:
+           - qcom,pm8994-lpg
+           - qcom,pmc8180c-lpg
+           - qcom,pmi632-lpg
++          - qcom,pmi8950-pwm
+           - qcom,pmi8994-lpg
+           - qcom,pmi8998-lpg
+           - qcom,pmk8550-pwm
+@@ -148,6 +149,7 @@ allOf:
+             enum:
+               - qcom,pm8350c-pwm
+               - qcom,pm8550-pwm
++              - qcom,pmi8950-pwm
+     then:
+       properties:
+         nvmem:
 -- 
 2.44.0
 
