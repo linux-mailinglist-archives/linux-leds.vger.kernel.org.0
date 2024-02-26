@@ -1,152 +1,122 @@
-Return-Path: <linux-leds+bounces-983-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-984-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FC4866856
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 03:50:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6070C866B1F
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 08:41:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B222DB21102
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 02:50:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 616DB1C2241E
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 07:41:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D7BF4E2;
-	Mon, 26 Feb 2024 02:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D6AE208A7;
+	Mon, 26 Feb 2024 07:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ld+7pNoO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TSBoM3jT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC0B1798A;
-	Mon, 26 Feb 2024 02:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC762032A
+	for <linux-leds@vger.kernel.org>; Mon, 26 Feb 2024 07:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708915797; cv=none; b=W+IQxJg45Z6agU+QnAN9sipVSSEaDRBHTeooqp3+x+ie7AeH8OVMcQ+v6kS4bC+ApA8xFtJL1Knba3iFf/8YOMBvIuMrpyVEDXea1ve0/woYegcHZiqoMWk7SEKDfYKzbZB+sBXEveCHSQ9CvNg2kBuJnkS4WMhOuuiM1b5hNHw=
+	t=1708933041; cv=none; b=M4kRBqAOAe2iCq8awLXzMwvayzrU9T9d1Hs36Q+VScRUQk8aGDH8uhM31gSf/CziwtadQpI2uMqqWK4NR+8VbMJRt0RaVcw5ljxIVYKL+9UZaVNoL+o5PsGoAelL6GQ88tKptAQLL6YgCBQrm7Zn45nveHhLTB4GvRWZwizZF/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708915797; c=relaxed/simple;
-	bh=DcMacE/T1H711vYK5u4ErqYTR46rEQvC6GPq8x7rzXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sbwFIY9tqH1T+j4CA5IMAdqKTGdByrLYGwWBjRpNNdLYou8ORVho7qt9aWZrrscyhvi/ma0UCyGbz8152lxnMPcIQpw2J81+dM+E0BReYj/GW/yWBExEhyFxUr8DLGYv1uWkgxh8Gl4k3fDmlGaWhaBGlCziO1qTygBitpLRqUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ld+7pNoO; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=MhQaDMhNf1pMBewPwvsaNlydCejp+LUoROz0d2JINCQ=; b=Ld+7pNoOZnggeiHJnCxAAGqS8S
-	nITJ2hDxhbJ0+rZtQpiwec2j3cMW13cc7zMApsEmpBxQkzOi3PbXeFGzpqujFvhZ+bmzdo29dKYu+
-	vAdQDEYgL0hB9okrXxK/W+wjETKtabIrt7nvmvitPjSMTFJGWKZPwW1LVlJIBo2kgtpxxHjR+DaNq
-	kNSJ07KvX7//wxEKNGTF6roo6S0RxqI6JrxMwcYvQq8XYf/jMmmnGKLOooSNxA8UhsPu3/bIZGrNn
-	yIU3a/N7QJbm9wxupceEDLel0DA6xGhESb4J90rhFq/XDHCspRIaZE4DBCHLNMUa/klSruoURJX5+
-	Atf8Ok5A==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reR3v-0000000GCxT-0C2G;
-	Mon, 26 Feb 2024 02:49:51 +0000
-Message-ID: <7ef941f5-fd2f-4893-81e1-94f5aabf6ac3@infradead.org>
-Date: Sun, 25 Feb 2024 18:49:50 -0800
+	s=arc-20240116; t=1708933041; c=relaxed/simple;
+	bh=+CPBBu9WyqTLEESsUyBowQXqNEsqLAta+C9KRApRjH8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tR/Ukafvn7CYT6RPWE2o7+kgDRJsPvZwqiqT9q8g0WKkk9pX/vQZIgTEFsJu1XVh28uJ9uwXD21i3JEufy3TXAcNY2Mf62ThDI8hbOpQlJG7Ns0quQJL4iIOqtzBKxX2K3Ugp9JUBqtBP06IOVpuL3R6pUiF59+oj2yVw/6E76M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TSBoM3jT; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a3d5e77cfbeso480074066b.0
+        for <linux-leds@vger.kernel.org>; Sun, 25 Feb 2024 23:37:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708933038; x=1709537838; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f93rFz5E3AeU8cJwJga/R66WIzynOr8vsYGsktU0xqw=;
+        b=TSBoM3jTIjO2dAEvEyGbji+B0VdHDuXUNxxtL3scDftfpm0xdqiTiGkHE2G0HGEHi9
+         zVQlaBquclIqrM1QXmQvA+Zo8QnDTrwwXDYl5yOeDZg7ByU87/FgINj91zSlZhxhC9bf
+         pcdntgdIkk8w3w0CZvhXpW3U1FqBvjc2wqFEUtN1e8OX9Kdasf5LIruwUo1EH4DvhgLS
+         U830juSl7dUdPveTO311aq2Nc/7jBgY9dEHf7Rh0lMrLoe9WK4YTZtEK3JZv3pRqCYIt
+         lo1NvtKP8nthCDS/87mVNt1piq3kU/NcjSKBktAupN1CWdeTzU6UfJ+K+FI+VBxTEbQd
+         pkpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708933038; x=1709537838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f93rFz5E3AeU8cJwJga/R66WIzynOr8vsYGsktU0xqw=;
+        b=s5XOaQ4pqpV+KUiLCmYKHD4HWyO7B0/31qbx+es5CdL8zhjXT0dxz7TkbP9vqwMIUj
+         b5vAKfNinFP/xhdZc8D01ri0//eoly+YxTmbC31PFIc4n3CB4EWiXZ/LP6I9oV7SDd57
+         UtwxR40kdjwyl8m4A1uNi/xML03RijOFqnfdIbFl2A3Z7rc35hhQpwcHaLQqeDfxe5ZI
+         nNiRbrSXmad/FTqZLtFUh9nQSd+FNpVukOXasGoU6qcwTtwPsj6aL6qira767Ru2v2kX
+         QwAq+x/A5DbobsyvRUJR/pXDhGVMesymsQMfkJV0TepiYwSD1pHB7gs1deE6YA+MuNZA
+         /9Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCUk4/DG+FjBgWXFZrTSWDJi+moSYZkVIBMOnozGvgKdmmDhUZEr0JXEUSwt9dmXdyfUlA5H9oSaPtjhZMpKIsCHcAuf9E+PlIrLqg==
+X-Gm-Message-State: AOJu0YxGmxNOAs5OPBcT6Z4b8QfYQpMMc615FRS8CyZM+ZtQV5NGt2nV
+	u9y6UU+0RtIjzifCJNGmMIE53e6ksvDZ2oBR6+CtRlOgmrNXmzPGK3GBJ7P6daw=
+X-Google-Smtp-Source: AGHT+IH8BkFJeP/UC99e0jX4wZGL1PJeUfLlzAWh6qlnYrXXQUFlZiCkpfV2Ek5S15L9cROt8UR4IQ==
+X-Received: by 2002:a17:907:1701:b0:a3f:365:2276 with SMTP id le1-20020a170907170100b00a3f03652276mr5277748ejc.34.1708933037889;
+        Sun, 25 Feb 2024 23:37:17 -0800 (PST)
+Received: from krzk-bin.. ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id y8-20020a170906558800b00a3e8c3fc3ffsm2187425ejp.10.2024.02.25.23.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Feb 2024 23:37:17 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] dt-bindings: leds: qcom-lpg: Drop redundant qcom,pm8550-pwm in if:then:
+Date: Mon, 26 Feb 2024 08:37:12 +0100
+Message-Id: <20240226073713.19045-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] auxdisplay: Add 7 segment LED display driver
-Content-Language: en-US
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>, ojeda@kernel.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- andrew@lunn.ch, gregory.clement@bootlin.com,
- sebastian.hesselbarth@gmail.com, andy.shevchenko@gmail.com,
- geert@linux-m68k.org, pavel@ucw.cz, lee@kernel.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
-References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
- <20240225213423.690561-2-chris.packham@alliedtelesis.co.nz>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240225213423.690561-2-chris.packham@alliedtelesis.co.nz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi--
+"qcom,pm8550-pwm" is compatible with "qcom,pm8350c-pwm" (latter used as
+fallback), thus it is enough for the "if:then:" clause to check for the
+presence of the fallback "qcom,pm8350c-pwm".
 
-On 2/25/24 13:34, Chris Packham wrote:
-> Add a driver for a 7 segment LED display. At the moment only one
-> character is supported but it should be possible to expand this to
-> support more characters and/or 14 segment displays in the future.
-> 
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> ---
->  drivers/auxdisplay/Kconfig   |   7 ++
->  drivers/auxdisplay/Makefile  |   1 +
->  drivers/auxdisplay/seg-led.c | 152 +++++++++++++++++++++++++++++++++++
->  3 files changed, 160 insertions(+)
->  create mode 100644 drivers/auxdisplay/seg-led.c
-> 
-> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-> index d944d5298eca..e826b5b15881 100644
-> --- a/drivers/auxdisplay/Kconfig
-> +++ b/drivers/auxdisplay/Kconfig
-> @@ -197,6 +197,13 @@ config ARM_CHARLCD
->  	  line and the Linux version on the second line, but that's
->  	  still useful.
->  
-> +config SEG_LED
-> +	bool "Generic 7 segment LED display"
-> +	select LINEDISP
-> +	help
-> +	  This driver supports a generic 7 segment LED display made up
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	                                 7-segment
-
-> +	  of GPIO pins connected to the individual segments.
-> +
->  menuconfig PARPORT_PANEL
->  	tristate "Parallel port LCD/Keypad Panel support"
->  	depends on PARPORT
-> diff --git a/drivers/auxdisplay/Makefile b/drivers/auxdisplay/Makefile
-> index 6968ed4d3f0a..808fdf156bd5 100644
-> --- a/drivers/auxdisplay/Makefile
-> +++ b/drivers/auxdisplay/Makefile
-> @@ -14,3 +14,4 @@ obj-$(CONFIG_HT16K33)		+= ht16k33.o
->  obj-$(CONFIG_PARPORT_PANEL)	+= panel.o
->  obj-$(CONFIG_LCD2S)		+= lcd2s.o
->  obj-$(CONFIG_LINEDISP)		+= line-display.o
-> +obj-$(CONFIG_SEG_LED)		+= seg-led.o
-> diff --git a/drivers/auxdisplay/seg-led.c b/drivers/auxdisplay/seg-led.c
-> new file mode 100644
-> index 000000000000..c0b302a09cbb
-> --- /dev/null
-> +++ b/drivers/auxdisplay/seg-led.c
-> @@ -0,0 +1,152 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver for a 7 segment LED display
-> + *
-> + * The GPIOs are wired to the 7 segments in a clock wise fashion starting from
-> + * the top.
-> + *
-> + *      -a-
-> + *     |   |
-> + *     f   b
-> + *     |   |
-> + *      -g-
-> + *     |   |
-> + *     e   c
-> + *     |   |
-> + *      -d-
-> + *
-> + * The decimal point LED presnet on some devices is currently not
-
-                            present
-
-> + * supported.
-> + *
-> + * Copyright (C) Allied Telesis Labs
-> + */
-
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+index 6649ca2ec805..699db7995dd5 100644
+--- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -141,13 +141,13 @@ allOf:
+           maxItems: 1
+         nvmem-names:
+           maxItems: 1
++
+   - if:
+       properties:
+         compatible:
+           contains:
+             enum:
+               - qcom,pm8350c-pwm
+-              - qcom,pm8550-pwm
+     then:
+       properties:
+         nvmem:
 -- 
-#Randy
+2.34.1
+
 
