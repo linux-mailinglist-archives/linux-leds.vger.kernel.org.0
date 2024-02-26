@@ -1,132 +1,97 @@
-Return-Path: <linux-leds+bounces-993-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-994-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1225867265
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 11:59:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5868674DF
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 13:28:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D04AA1C285A5
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 10:59:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE292282955
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 12:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0442CCD5;
-	Mon, 26 Feb 2024 10:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1F4604DE;
+	Mon, 26 Feb 2024 12:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W2x3oXBw"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BdrbsL+f"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94D71F95F;
-	Mon, 26 Feb 2024 10:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD645FDC9;
+	Mon, 26 Feb 2024 12:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708945105; cv=none; b=kdz1MVQjDFAEIsGY9N6BArP/YZhbGzv1H8VXhscQgeqc5xTc9/1HPjpN44JOa53jVclbvkjxhO4qPbxV7kmfEBP/gX7VteBjoKsT5TUrvzDzDNP8XXnDE1SfFUuKWZFqzpm6ai/Krgv16mMeXClC/XQzaujHWGwWuUOnbCG1x8k=
+	t=1708950504; cv=none; b=OdnScvArGbGDh2l7qrC/bP4wWlcAe69/UJrc9zPgiAinAa/TjfoZ1+EEEvDcccnrqeeqvH5RFjJiBOdw4oi1WmcasdJxbUJ4kcFDmRgIjNarf6w7gz3kYOq0KNjUyhII6xlHzIfehOQUagttsUve7hpTh0r71jbmsT1JYCALjbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708945105; c=relaxed/simple;
-	bh=syIKjrq+WfVbdCOG9H5+mA0Dtw4SFgTRKx0qyz1gHOY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i7zl0Z93+DqZjIJmVmfXEktmUuVQOWq7AfRWvKxNg4Qgo1tsOl832uSGVCdeZUhQLzSSqyTxgf4OsRdX1l5fF4NzQU7cBQLUtLjivGJSvsayi7rnp9jA1CNouAqt1qqp+Kt2N1DAR2Ysl0jX1qhQ8WUHAjM52SzdRi++ef04y08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W2x3oXBw; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-563cb3ba9daso2823622a12.3;
-        Mon, 26 Feb 2024 02:58:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708945102; x=1709549902; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XBDj39VHM+FDO/ilMiBO91UzViz/2NlYW/IEBlun9BA=;
-        b=W2x3oXBw6hESK6Kr9e6eHbhd7/tVYYYVLV0O00LBUY7hL5nA7PONDX7fQMJ1S1t6Dk
-         MKd/htzWOy2QkvIK+2T5g33jJzPl2OBBMrJi7UWMj76o7W0XKpcyyKc5UsJpkINuFXz1
-         GaUTJa4LsICIldNYFM36sEOrSeujZ0LX7KQF0JN8X4a90XnxIeE5gyimCyhurm0NqHMF
-         1WmW5EprmTFbPfK0Uqu86ZQ1XubTcb2SbA+oSQE41WMQDLZysP7CKRzGHPFhjxXsFdVx
-         Ml7svCmJ6cr7GBzttFRXzlmMzUfHWewNIIny2Y0gB5+qF8kV0+yQYajZLb01Xy4pFkVc
-         duGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708945102; x=1709549902;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XBDj39VHM+FDO/ilMiBO91UzViz/2NlYW/IEBlun9BA=;
-        b=RfqlGEIScqooqoUSzqsd1LxbTfYrhF0Z4wsN+J6i5O6SvfELmgXZCUI0cArzda3V5h
-         Grl9SFH5Ghk1C9DFVc8+JXWZXBrSTNI3d0Zp1NjLClwSf/FeY44+WlCUGCsTlYEAfdLB
-         s9g0jnzioBkPse3Z6qi01SeseddUolbxha7C3W+QBKrG9hy50S8HF24Y1F74aHRWWm1Y
-         hqz1EDriaXC/mQoI8u1FdceB2pWq5zSA7d1RNvgQWEzdmG5iH/0KurTeRbztmvBojVlH
-         KjjRD/dUj/Ww+ldwihBA5bbHejU4jO+VhEGEwRvC78M/DijzekW/Kqw6TfE4c2cUrCbX
-         m3WA==
-X-Forwarded-Encrypted: i=1; AJvYcCViQn6fCcLCGQ2Gkj5G51+jtfdztSGqAt8wfhG/akkDubP0zHqHAoSjmNP1LrFYP4i20XhmeXUrLJMMlsAyTo6bWuxb/v7qD2qhHCydWy+Q/uvb/l0CwyqIRRgk9mwofEaRMR2Mvz0e0JQmRKOLUnZ4PFOvPQNya3yHJcnsafy/aebep+pLElT2mhE7b0QWb32G4iUSUZBTbNjvQkoiv/ZDuxMs
-X-Gm-Message-State: AOJu0Yzj1y/igwSqbhCiwsWX7OqUFrp+OxfvcCR8KzhOpmEQBFlpL9s0
-	D8NE3MWnWO3YwUl3gXSFjlYUpNN3tg8pS3sX5C1VibMUW5hZC5xM
-X-Google-Smtp-Source: AGHT+IE/y1ci9MXRfiPgQnFC6LdOJVkxE6PHyMV7TApmLIy0YhG+GXnU7uQVslHHQrluXFFjBZvrPg==
-X-Received: by 2002:a17:906:150b:b0:a3f:d742:f353 with SMTP id b11-20020a170906150b00b00a3fd742f353mr4359261ejd.57.1708945102074;
-        Mon, 26 Feb 2024 02:58:22 -0800 (PST)
-Received: from unknown.netbird.cloud (net-93-65-126-20.cust.vodafonedsl.it. [93.65.126.20])
-        by smtp.googlemail.com with ESMTPSA id f19-20020a170906085300b00a3fce8c0f99sm2315769ejd.191.2024.02.26.02.58.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 02:58:21 -0800 (PST)
-From: Gianluca Boiano <morf3089@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Cc: Gianluca Boiano <morf3089@gmail.com>
-Subject: [PATCH 3/3] dt-bindings: leds: leds-qcom-lpg: Add support for PMI8950 PWM
-Date: Mon, 26 Feb 2024 11:57:47 +0100
-Message-ID: <20240226105747.3547856-3-morf3089@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240226105747.3547856-1-morf3089@gmail.com>
-References: <d17121a0-ca14-41fd-9802-bb4118629e34@linaro.org>
- <20240226105747.3547856-1-morf3089@gmail.com>
+	s=arc-20240116; t=1708950504; c=relaxed/simple;
+	bh=0Wd0sKNO7tP2RqySG2jQChiUIciUjhQMEGc7f9XIo5k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MpEmCryoqRdLjdWfdTxFzCtssdJqHHK47V60Z1nOtpiAZ9xR+SjeUuaWgNaGi3njrcPUKl7Nh3bpWXEtmodx74QE/3LQr1VpYgLrz/oJM9+OSfHUPZ1sotM11h/krRX+xNik3kRp83AfWwqXwqVgki1RtHOcfVtWxAeWDF4JWi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BdrbsL+f; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708950501;
+	bh=0Wd0sKNO7tP2RqySG2jQChiUIciUjhQMEGc7f9XIo5k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BdrbsL+fURkkEt+RFYfL883Z7DqkhNSW6PazwFDXk8Bcfefd+wUchjmpl05PC0G/z
+	 Vl5G9crrnjX1YDTq6xZqg2UiTMpaz6Xcz8ukVDf5/jUtCR+qm953bTjUbOCo4r6Vzr
+	 6IKEuDjCvQ/yF4MkHB2oy3P+6i9oJwN3KlIVLfaVhAZIATkSJ1JHzhMvaCOKyw4ySk
+	 0w5cbw0dz9Rc8aSr5qwlASm3EnuI3vGlaaTVGm5N6gAdQy53vcnM3Z8arw/inhR6Qq
+	 BGzf6JFf6+t76xYCcbSQamVUfliaEd3+3y/jUSgWHLrLKNx2mbnynXV3N59AiiDe5s
+	 KaDsUUYpx/TFg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EE39C37803EE;
+	Mon, 26 Feb 2024 12:28:20 +0000 (UTC)
+Message-ID: <3756ad5e-7c05-4502-9a6a-ffb58c76390e@collabora.com>
+Date: Mon, 26 Feb 2024 13:28:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: leds: Add LED_FUNCTION_WAN_ONLINE for
+ Internet access
+Content-Language: en-US
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>
+References: <20240223112223.1368-1-zajec5@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240223112223.1368-1-zajec5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Update leds-qcom-lpg binding to support PMI8950 PWM.
+Il 23/02/24 12:22, Rafał Miłecki ha scritto:
+> From: Rafał Miłecki <rafal@milecki.pl>
+> 
+> It's common for routers to have LED indicating link on the WAN port.
+> 
+> Some devices however have an extra LED that's meant to be used if WAN
+> connection is actually "online" (there is Internet access available).
+> 
+> It was suggested to add #define for such use case.
 
-Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
----
-Changes:
-- Add missing entry for if
-- Rebase on top of https://lore.kernel.org/linux-devicetree/20240226073713.19045-1-krzysztof.kozlowski@linaro.org/T/#t
----
- Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+In this case, you can use the Suggested-by tag, but I'm not picky anyway :-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-index 6649ca2ec805..e93e9b30660b 100644
---- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-@@ -27,6 +27,7 @@ properties:
-           - qcom,pm8994-lpg
-           - qcom,pmc8180c-lpg
-           - qcom,pmi632-lpg
-+          - qcom,pmi8950-pwm
-           - qcom,pmi8994-lpg
-           - qcom,pmi8998-lpg
-           - qcom,pmk8550-pwm
-@@ -148,6 +149,7 @@ allOf:
-             enum:
-               - qcom,pm8350c-pwm
-               - qcom,pm8550-pwm
-+              - qcom,pmi8950-pwm
-     then:
-       properties:
-         nvmem:
--- 
-2.44.0
+> 
+> Link: https://lore.kernel.org/linux-devicetree/80e92209-5578-44e7-bd4b-603a29053ddf@collabora.com/T/#u
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
 
