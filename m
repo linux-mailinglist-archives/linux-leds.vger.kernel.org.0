@@ -1,92 +1,125 @@
-Return-Path: <linux-leds+bounces-980-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-981-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0F08667A8
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 02:50:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F93B86681C
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 03:24:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BACC3B20B26
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 01:50:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7D481C20E2C
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 02:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00C0FD502;
-	Mon, 26 Feb 2024 01:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A984DF4D;
+	Mon, 26 Feb 2024 02:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VUJE5BP2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RThGUQnS"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA33D2F0;
-	Mon, 26 Feb 2024 01:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643F13233;
+	Mon, 26 Feb 2024 02:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708912204; cv=none; b=DZ8iwwUyFrxlPHkwu0cBLhfp+RxRrl3EEGyypOb4Wm9Q3an2Y47sKIaUuWU6pY55rZ2w6YZdn4D6dfsPfBbz1jB37NZa3jcYvhhDVnKjRIUBO8bmtkfqg7I0jsDH4N9+gs3nr1SiBDYwlpB4APVMCiydmfRBYqdiaEOw7/DwRE0=
+	t=1708914235; cv=none; b=JLBkdl+/a4PIMaN6BrbqkxK5gMPbhDwrGhRb2JcbT4C/5sAOLQ6REX0x0OCtJWWTTKJ/wihNGzaZn4Yy4Lj1sYPllaA2M2pOceXDL/EYyT1rVaTR2k3SiZxvKvV/GgoPlnGfcaZWLBz5WmVsoFFy3BDydxhm+pyTm3kJyOiveLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708912204; c=relaxed/simple;
-	bh=riJ/GsyB2kHXSe5xGEE9x/odTHS3y7VkDnqzOo3vTE8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r+c83NjJhz7lpVenLzQevdMzeYk0ycdn1dd1H/oJngqzxydUZ74L8ve5At15VpS/5OXV3Y5uCWCKhDM1mMa0gCT7KVPaulI9ro+KJt0XCM++Vlkbj1V2bVb0qVRtyu8DTfwbWrlfNkba9VlogKxp9o/vLHyicrruiR5aXMXn4Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VUJE5BP2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=5jVHeEn8AsDcLaezQpnELxCv34JvUs44XBdvMVQ8MaY=; b=VUJE5BP2nMCYcXO5P7OMxAEKPd
-	yl/MU8a7oiLhuezoHljTZQS5PMBzEgdhjC9zDBaPsZQuVgeQK/kqXTgZizTMfyzqoHsvh+fqLn/Gr
-	2I7xNZmGSXm+JdQ5XsCulJplKjIDLRym4e014ayW6u1X53mboKkShn2yJkgKp8qqEZyp5aqePFs6X
-	CoxwXif58jo6wNA5fWVyWH95k5aQ7cM1Q/VQZ6Zplz9EAe+9MyLc4gG4nemi+iEL/0AmhDUVJNazs
-	NZ2V2rJBEqp6Sac6E+C2RBTMeYNvBxVgEQs+LPWH2rNvpQj2Z+8H6p2T3IMixSxv3SEGl0ObDYxOx
-	Ex4wfhoQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reQ80-0000000G6qS-3zJd;
-	Mon, 26 Feb 2024 01:50:01 +0000
-Message-ID: <0b5edafc-ac6c-4ef0-8bc3-a2979f30a9d9@infradead.org>
-Date: Sun, 25 Feb 2024 17:49:53 -0800
+	s=arc-20240116; t=1708914235; c=relaxed/simple;
+	bh=WRNR2Yde+eM1MDT0PjmQe6YBmq8+6bOG11aatMwggeQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l9BOI7ddKJrTgqwTeWCCoHucgmgWStdQOF4kcipC1C6nDc6f5n5qDsv0511Se8STWFbOyPqk+hClQBkFjRgztxiNmvtoWptnjpCuT4gHvzUYY/38CA28UKue5tu88of45OItldzPylH0+SWKZQP8cBR+gQiQdQPISqWgMpSUJdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RThGUQnS; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a26fa294e56so445380266b.0;
+        Sun, 25 Feb 2024 18:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708914232; x=1709519032; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WRNR2Yde+eM1MDT0PjmQe6YBmq8+6bOG11aatMwggeQ=;
+        b=RThGUQnSObw1HgwnOAT1PXWlnJk1QN9XPg2tIwZIPwWykwgUd68tHIHP2plpa0tE7B
+         7WZe1cpoGsRXzt+eQtJQZBrV5nGoAZR3YeRlEEfGZxKWF1c6vCDBXNSdYjDg88LougIT
+         JFHbpA827r5S+3/GE/8YRRJGOzlI9Yfyh+uFhB/94GQJmlKBis5gzExneODuyND4WBd6
+         JCrBjJa1y825JF25uTBqgkyVS6biyuzk+kJZPfA3s+x5Nlmzg450mg9yOqEny+WQ14vs
+         VIeVWNpZ89vCvcquU3ZDyxTfT0iW/zvjzDg9q/5xUPjg3tSLzAuVgcfUUDv7w6oZ9373
+         HHqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708914232; x=1709519032;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WRNR2Yde+eM1MDT0PjmQe6YBmq8+6bOG11aatMwggeQ=;
+        b=AZe/6uMlETpRmA1zMty43DpMwDVDn+MMY2AvF8pp6vnFxy75ev/ZbR47h7TW96/Eas
+         5WCKvr3pihyxS+95yjM1G0jCQIx7aHb0/EUlnLXdTY5ItVN5ropSITxTca+E0sXNTWmo
+         UvdvpNeYxAIphtQmGgELyW0tVuYitgG8FbrQdSJ1gKzv43MwccKjCIIZqTmy3xkdr4Hf
+         tat1CiKpz4d4nHft/Nzr0IFidiLCeY1rUp/tdiIbtsf2+YeYBTGVcaLm2bQAwfWu75e8
+         wlYR8mgdlRSGVABa2AZpvPiZN/Wab/AzOC8ZdOU1Haaf4h1kajqR1NAwCnpoaIDpxzdG
+         QzFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPbhhIb2ttt6UE0T/SUfJlGiXON8MD0KJqWIZOqfy/3zYvzRvIBtzKIH38fdKN0UCwRzCnTGQuDiFC2vVizbjvjj+OWL9lXFcD4tIXgeaUxL4QFUvJzvjHKSRJ/JCTqT7GJxBdcXs6qWXiAexAI8OE6H2mp/oqyCn8w9q8L3dYQsaBG5s=
+X-Gm-Message-State: AOJu0Yy+wcDAKeCU5JQV/SAdQ/evKf61rHKU59PvZu0C7YMjVY0k5aq2
+	SCM9cZAFPpNnLzdINR4hmWniaWDfXYGh4lcn4BzlvyqNqf6JVQYfvUzZ2qyIPLDa5CSTkgKtdWi
+	BGmdb2SP+6W/Odz6FjXXcVMvlGb0=
+X-Google-Smtp-Source: AGHT+IF1LO8GFispgremVVqbGf6oZjhb/+i4rsMZg2vxLPqRMyLjKiB/rkSWNNcmVULSYlt8LOTOEKMK167ekpSbAVo=
+X-Received: by 2002:a17:906:688a:b0:a43:4ac2:f16b with SMTP id
+ n10-20020a170906688a00b00a434ac2f16bmr895377ejr.13.1708914231478; Sun, 25 Feb
+ 2024 18:23:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: mlxreg: fix a kernel-doc warning
-Content-Language: en-US
-To: Lee Jones <lee@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Vadim Pasternak <vadimp@nvidia.com>,
- Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-References: <20240221060153.3924-1-rdunlap@infradead.org>
- <20240223110100.GU10170@google.com> <20240223110147.GV10170@google.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240223110147.GV10170@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 26 Feb 2024 04:23:15 +0200
+Message-ID: <CAHp75Vc9OBtxdKSmk9Uu9G3j+mfN8+9prTEVx3LyUcdBYFEqwg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: ojeda@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com, 
+	sebastian.hesselbarth@gmail.com, geert@linux-m68k.org, pavel@ucw.cz, 
+	lee@kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Sun, Feb 25, 2024 at 11:34=E2=80=AFPM Chris Packham
+<chris.packham@alliedtelesis.co.nz> wrote:
+>
+> This series adds a driver for a 7 segment LED display.
+>
+> I'd like to get some feedback on how this could be extended to support >1
+> character. The driver as presented is sufficient for my hardware which on=
+ly has
+> a single character display but I can see that for this to be generically =
+useful
+> supporting more characters would be desireable.
+>
+> Earlier I posted an idea that the characters could be represended by
+> sub-nodes[1] but there doesn't seem to be a way of having that and keepin=
+g the
+> convenience of using devm_gpiod_get_array() (unless I've missed something=
+).
 
-On 2/23/24 03:01, Lee Jones wrote:
-> On Fri, 23 Feb 2024, Lee Jones wrote:
-> 
->> On Tue, 20 Feb 2024, Randy Dunlap wrote:
->>
->> Would you mind being more descriptive in your subject lines please?
+It seems you didn't know that the tree for auxdisplay has been changed.
+Can you rebase your stuff on top of
+https://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git/l=
+og/?h=3Dfor-next?
+It will reduce your code base by ~50%.
 
-Will do.
+WRT subnodes, you can go with device_for_each_child_node() and
+retrieve gpio array per digit. It means you will have an array of
+arrays of GPIOs.
 
->> It's common for people (me included) to find subject lines a reliable
->> way to search through Git history and these types of descriptions are
->> likely to cause duplication.
-> 
-> Also if you push them in a set, they're easier to apply.
+> [1] - https://lore.kernel.org/lkml/2a8d19ee-b18b-4b7c-869f-7d601cea30b6@a=
+lliedtelesis.co.nz/
 
-Do you mean a git tree or a patch series?
-I'll be glad to change the 3 patches to a patch series.
 
-Thanks.
--- 
-#Randy
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
