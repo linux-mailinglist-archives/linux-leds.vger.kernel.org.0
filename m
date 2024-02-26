@@ -1,97 +1,118 @@
-Return-Path: <linux-leds+bounces-998-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-999-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2AF8678B1
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 15:36:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89429867B1C
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 17:05:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 426841F273BA
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 14:36:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BAAF91C267F2
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Feb 2024 16:05:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 309C112C531;
-	Mon, 26 Feb 2024 14:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D7B12C800;
+	Mon, 26 Feb 2024 16:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ziw/p1Vd"
+	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="Bb8irr0I"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mail.thorsis.com (mail.thorsis.com [92.198.35.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BFF12CDA6;
-	Mon, 26 Feb 2024 14:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A96F12C547;
+	Mon, 26 Feb 2024 16:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.198.35.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708958081; cv=none; b=Rg0w2XaRMdjwPYCQmtk7Y26oHpja4o62P9A0KckX5r1+emS/w6nP4USmI4Wv1r52tFhYJGpj1SRrBDsSfIsEoxDdWBF1Nm0K7XkpS+3L2E2JWQdJYrHjGdFp7bRXw8aGaMcHvhDgJSKrhofL2RA2gmxePAlx6GFBNdokXk5gT3w=
+	t=1708963510; cv=none; b=kCOQyWlemhCzCK0h2HyPaB0oCQe+uhPUorBBufjiEVREQ0WF0dDvvRyM/fm1pgZyr/VLFrMyq81IjhnK8k5HPojNlWoIasWKEBpEyevb1MLKbj4u0bzFicxzZlhnRynwWqhXDaj9dk0G2j/0DXTMPGO4GrmXaw0oSq0bamGLu4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708958081; c=relaxed/simple;
-	bh=bu+OkSthqFeI7rclWT8FvUzq5JjBdXYPuxeDAoSBvDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Txvp8huXIdMG82Bv7vy6HWnr3SMSZvEcSqIPEE1Yj4UTVzIfcp87gjN5LQ1KBftuQjhCvbjMgUvLJVpJDkQqxCkmZZGXztTbnF4M25or+qpvsZuq/hJMTK5yypm13UWmzqt3jGQOev2UhpuVQVxCBOAQWlZCvEOIhHiRrIv74I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ziw/p1Vd; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708958079; x=1740494079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=bu+OkSthqFeI7rclWT8FvUzq5JjBdXYPuxeDAoSBvDE=;
-  b=Ziw/p1VdMhvWvWeSwuWoa0Oo/pM/mgp5XDrL3PtRU7/Uj5Qoxq4TvQh4
-   GBHW4ST36SJtNhTqnvs4fCYOacPbER5GYxrm8MPIdZ6BgOv7ZQVZzSxec
-   Pywx4FtmHsMVDD0hqndSLLjIWLXMO+UkDWou3NgEScQlkuWHW8b3g8mhK
-   mU4AGV1Gj97AyhTtwqdXNI+IGYkjqe3HO9aLYW6/cw6QfFX2RyTHkQDUR
-   K+VVYpAoy76sQiIUUBRVwikUCIBdHpi6FMzG4fmV6CAeAlQNMcwuzt8PC
-   jqyO34fZMT3+G7M3BWvdOIX+8CoOyoCbURzCEN2JRV8fXFeDpZwHZtwqA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14679755"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="14679755"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:34:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="913873383"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="913873383"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:34:37 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rec3u-00000007hiT-2RWd;
-	Mon, 26 Feb 2024 16:34:34 +0200
-Date: Mon, 26 Feb 2024 16:34:34 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v2 1/1] leds: expresswire: Don't use "proxy" headers
-Message-ID: <ZdyhepOL7YIwPGKJ@smile.fi.intel.com>
-References: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
- <e4173a45-61ca-4427-85aa-1733406a5f39@skole.hr>
+	s=arc-20240116; t=1708963510; c=relaxed/simple;
+	bh=thP/qrj7uMkjSVxts1RK1BXictk3p7xFgucV+Uip45c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To; b=OH2Yfw1vNepo3JLFpPop9jZuK0/nZJDMZtvlewS5RWtuZ1TCiX1O+LoFoRo4nOk4AhrrssIovDh2Y8mvWXNbx+UUH5QHr7w/bG5Lr+69kQMR0frxaGSYA16dQLCLyal53YqjNt/I7VllkuK6NzkWu+iFszlBUB5UC7bq0DW9U9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=Bb8irr0I; arc=none smtp.client-ip=92.198.35.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
+Date: Mon, 26 Feb 2024 17:04:58 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=default;
+	t=1708963503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+	 references:references; bh=my0PEDa0k0ziVwc0VTyV85bWDxYwPP0Y8LGXCUo7Iso=;
+	b=Bb8irr0ITsejK7apGvbacbNwF6sCnh+Zu4m/PDjvzCZECMKNxf2qzIvxOq1MCFYvG/C7vo
+	cFRjQW/9/ntfcPtyqHC0gW3v6ETFOIjpl0RFbaktjPvQTsH0AhBp3DiJaI82ygnJx4Bzb6
+	F9IgnYjBN9BSU4yhfDtllQe40XtdBCUFaim3eYDdz2l8oLHvCvekZTbTJSO8PMpJsEaE5G
+	4ZYqXKzBwykjAY7raDXsSgfyStwmZxupMmeSELrZzp28Bxo52lPu9uM4vz/bvOnfs5rSU1
+	tr6ukVSFgwfnTcevHeZNizN6GAetOQnyLG5ggNX8Y0MVVbrJFbsbYW2VJlokVg==
+From: Alexander Dahl <ada@thorsis.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: ojeda@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com, andy.shevchenko@gmail.com,
+	geert@linux-m68k.org, pavel@ucw.cz, lee@kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
+Message-ID: <20240226-scabby-fiber-87d5d6e45028@thorsis.com>
+Mail-Followup-To: Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	ojeda@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	andrew@lunn.ch, gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com, andy.shevchenko@gmail.com,
+	geert@linux-m68k.org, pavel@ucw.cz, lee@kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e4173a45-61ca-4427-85aa-1733406a5f39@skole.hr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, Feb 24, 2024 at 05:02:40PM +0100, Duje Mihanović wrote:
-> On 2/23/2024 9:30 PM, Andy Shevchenko wrote:
-> > Update header inclusions to follow IWYU (Include What You Use)
-> > principle.
+Hello Chris,
 
-> Reviewed-by: Duje Mihanović <duje.mihanovic@skole.hr>
+Am Mon, Feb 26, 2024 at 10:34:20AM +1300 schrieb Chris Packham:
+> This series adds a driver for a 7 segment LED display.
+> 
+> I'd like to get some feedback on how this could be extended to support >1
+> character. The driver as presented is sufficient for my hardware which only has
+> a single character display but I can see that for this to be generically useful
+> supporting more characters would be desireable.
+> 
+> Earlier I posted an idea that the characters could be represended by
+> sub-nodes[1] but there doesn't seem to be a way of having that and keeping the
+> convenience of using devm_gpiod_get_array() (unless I've missed something).
+> 
+> [1] - https://lore.kernel.org/lkml/2a8d19ee-b18b-4b7c-869f-7d601cea30b6@alliedtelesis.co.nz/
 
-Thank you!
+Read that thread out of curiosity and I'm sorry if I'm late to the
+party, but I wondered why this is limited to LEDs connected to GPIOs?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Would it be possible to somehow stack this on top of some existing
+LEDs?  I mean you could wire a 7 segment device to almost any LED
+driver IC with enough channels, couldn't you?
 
+Greets
+Alex
 
+> 
+> Chris Packham (3):
+>   auxdisplay: Add 7 segment LED display driver
+>   dt-bindings: auxdisplay: Add bindings for generic 7 segment LED
+>   ARM: dts: marvell: Add 7 segment LED display on x530
+> 
+>  .../auxdisplay/generic,gpio-7seg.yaml         |  40 +++++
+>  .../boot/dts/marvell/armada-385-atl-x530.dts  |  13 +-
+>  drivers/auxdisplay/Kconfig                    |   7 +
+>  drivers/auxdisplay/Makefile                   |   1 +
+>  drivers/auxdisplay/seg-led.c                  | 152 ++++++++++++++++++
+>  5 files changed, 212 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/auxdisplay/generic,gpio-7seg.yaml
+>  create mode 100644 drivers/auxdisplay/seg-led.c
+> 
+> -- 
+> 2.43.2
+> 
+> 
 
