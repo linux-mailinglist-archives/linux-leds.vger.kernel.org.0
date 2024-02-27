@@ -1,173 +1,107 @@
-Return-Path: <linux-leds+bounces-1023-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1024-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82A386912D
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 14:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C893869145
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 14:04:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 611EA1F221FA
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 13:01:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A511F2843E
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 13:04:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D5A213AA2A;
-	Tue, 27 Feb 2024 13:01:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADFAA13AA41;
+	Tue, 27 Feb 2024 13:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WmB6Myd9"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="EZwN2HjQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE2C2F2D;
-	Tue, 27 Feb 2024 13:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BA313AA2C;
+	Tue, 27 Feb 2024 13:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709038898; cv=none; b=EI8EV8h4L8Xh/nuOgyWq7El0sujSj2Vo3vf7dJuBx4xLOI1U0pI+2GJj/1Svj408BD5bwj+UwWZ/3WVLm16Fco6wCz8UCyGkeR9rjBSadmD6TedwDYiXIAQTYIwbwDZlHJjy/xQsck/pJ/8sdMUHAdn9ex8ZHkUXGPYySe2sOpc=
+	t=1709039080; cv=none; b=EbSq1EfqCr5ccBaBwFdqHiMwwpFlRGAj77HJi42Sk2wFX82Fqrh0V7hm/XCSCwmP9l9rtV48cBJOFIqKWz90MTfrEv/aRvasBhe/pMxF6Kkl/QfVkkvf9gKBcnn44913wAGpUvgqTDzwWTGIAXBCXmN/gdKjwIngewhMDDPGlI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709038898; c=relaxed/simple;
-	bh=hVPtSdJtYddAG+EIclbX7xD+HPT6FRQSRfWO26yzzGA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=eTeQU7zY0XQj2YkzFxUR0qOOq1cHSHTSg4ArrQFgVzFGXNDg8gxsQlxbi2WjEk4V1kX5ih+qNPIjk6oRfE31ev+18zaDTKYHqtxiftuSA4268WVK0Qpj6LE387mQFJa2ZmjfOAHum+DXEJ8L6d13JJJo1XTAdo1U7xJwhf9s9uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WmB6Myd9; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3f893ad5f4so603076166b.2;
-        Tue, 27 Feb 2024 05:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709038895; x=1709643695; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UikzpkujjXwCtreWrXfmmEcvmx/a1ETRiTxhijrjC1Y=;
-        b=WmB6Myd9gQ+wtlgDVse3Rtv19VyY9RF9oPksLHlmw44u9wke31zPi63wJYnwg2X6IM
-         aPxac8Im3X7UnmZB71cqjvsH8g8JS6vPT1QPJ3LcZ4Cdk8ydxzL+/72QFY3fXKEqCBul
-         IIj6n5jQLvXAn82+o69mCtW47QUMlKnxGVY+7PP4rkJlU9Ek6Rscxj0nIXkeXQ56bUzl
-         I3crMTTKa5++qWuePOwEknlN2p+rk0Hk6C38L5Z6UjiPdCGsxUZ4Yd18a1KF+GRRpSkA
-         MvHaLs43MvBpLnuxF0RnveJUwtmbdgOtfipsDRQXEOLyHtBiEfjzxeqsvXiHuyqna/AS
-         ZaXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709038895; x=1709643695;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UikzpkujjXwCtreWrXfmmEcvmx/a1ETRiTxhijrjC1Y=;
-        b=NKvzdGC+xHDxsxeVkz6bMP+ce1CskrPQOb8dDkZ3uBsFyJtK3AZd3r8vjFm+ivdQz0
-         d49Uwfde+euqR9OlryejXaJjdZuoh8Hm5cz8J1f4JQUyoqMowxhBMRLVzObqpSawlfc7
-         QRVK5iRzWgnB7xMXyNW/QRD/+zMPpGDmuEUUW/blEAh6pb83ArmPqn7Fdc7N0Vz8ZErL
-         Kbx2cwcYhyuuMurPSHhm5b3OrcGX31BsQpMw8YWKXTrK9xeZnTkDUjyWsk6TjJZ5Kq81
-         MdydKoiVVr/IQcWIfvI4pokEMkThn27A/GZZlyz0WEMo93WAtxDej6xFuvmu8hwHGpyg
-         FskQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoRU9F1Le0Dq2n/6RIGQUQECCZociqVyJpzP2+HO2IVyLpZy4WcBAuQvT2pKGcBUadoh2RsDTgKHtdyz9YSeqMDycWKRAaErt59H+CUdnrTKBghR3eEIwFWwjbYRM1ToWfXoJ40vUD+sO58iDGEAZNejKqAFMZe2cAcpi754lSrxzcJ10=
-X-Gm-Message-State: AOJu0YzJwMBEtajklC7qnwEN6gHQnnP7dV8e4lQb9GVXuFiOejyZPg/R
-	sP8tZbvCSsaVMb0WbDHzISOFmAo6Db2Z3OSFuuvP27Qg5H0fMcSA37ryjl1QdqK83tfc3Fnu36G
-	jIugmtzHKhOnSDo90d3Zq3CChpS0=
-X-Google-Smtp-Source: AGHT+IHb++aO+WH0LPzz8cPRkyvMXG9JIS7JDxPe6iL2Dh7/MmMI+nRWcQtgev94gQgJ4/smhdGR0UO1XtOlfDYiQRk=
-X-Received: by 2002:a17:906:1b43:b0:a3f:1c10:5a63 with SMTP id
- p3-20020a1709061b4300b00a3f1c105a63mr6925228ejg.38.1709038894414; Tue, 27 Feb
- 2024 05:01:34 -0800 (PST)
+	s=arc-20240116; t=1709039080; c=relaxed/simple;
+	bh=ByX9FRD14N/u6UP+YU5f3XxMnaKnVAmtyMFVkSQRsq0=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C1+e0pn2Czwf8zz7cFyzQeu+232F8/5MWzsHPTyX8UiV3VxFWqb/TcHp9sWBFS/ptsTLTPTAUHI8i2ukSk7/RUnKj0f1642QatQw22Zea/WON0yMRGkqUT0XfDEpkCzx0/0GOO6AKw/CSX749Zkv11sjcNwiI+fvzOdRrO/IHNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=EZwN2HjQ; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 9E6841C0087; Tue, 27 Feb 2024 14:04:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1709039068;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UauDaphtC8+Vo9nKhOjiJL+JyVwJz9PyRLIvvQKfEpo=;
+	b=EZwN2HjQSo/AUO1oIznJYBgAJr7vV975WEGLD+ymFTxEMCb3m3slP48d9hcgdJQ339deby
+	03izs3WB0jGjTgrU1Je3hfuhEnaHQ8IM2Uvll4wTILmTFYg6Q+Blr8k5+V3CvS4r6gbqau
+	76Y134ixWa3KXPpHgmkQIDX6934xvbc=
+Date: Tue, 27 Feb 2024 14:04:28 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>,
+	"ojeda@kernel.org" <ojeda@kernel.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"andrew@lunn.ch" <andrew@lunn.ch>,
+	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
+	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
+	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+	"geert@linux-m68k.org" <geert@linux-m68k.org>,
+	"lee@kernel.org" <lee@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
+Message-ID: <Zd3d3C+VA3Vqkc2u@duo.ucw.cz>
+References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
+ <20240226-scabby-fiber-87d5d6e45028@thorsis.com>
+ <fd1c8657-62e6-449c-b47f-a2c3223b405c@alliedtelesis.co.nz>
+ <20240227-married-amulet-da532c0a70d3@thorsis.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
- <20240226-scabby-fiber-87d5d6e45028@thorsis.com> <fd1c8657-62e6-449c-b47f-a2c3223b405c@alliedtelesis.co.nz>
- <20240227-married-amulet-da532c0a70d3@thorsis.com>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="2tufHoKG79+LqpZb"
+Content-Disposition: inline
 In-Reply-To: <20240227-married-amulet-da532c0a70d3@thorsis.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 27 Feb 2024 15:00:58 +0200
-Message-ID: <CAHp75Vd3aza1192YpRHvi6y7oEsrAoYA3+Qcja7Fw22c9+xhRQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>, 
-	"ojeda@kernel.org" <ojeda@kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>, 
-	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>, 
-	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>, 
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>, "geert@linux-m68k.org" <geert@linux-m68k.org>, 
-	"pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+
+
+--2tufHoKG79+LqpZb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 10:43=E2=80=AFAM Alexander Dahl <ada@thorsis.com> w=
-rote:
-> Am Mon, Feb 26, 2024 at 08:10:07PM +0000 schrieb Chris Packham:
-> > On 27/02/24 05:04, Alexander Dahl wrote:
-> > > Am Mon, Feb 26, 2024 at 10:34:20AM +1300 schrieb Chris Packham:
-> > >> This series adds a driver for a 7 segment LED display.
-> > >>
-> > >> I'd like to get some feedback on how this could be extended to suppo=
-rt >1
-> > >> character. The driver as presented is sufficient for my hardware whi=
-ch only has
-> > >> a single character display but I can see that for this to be generic=
-ally useful
-> > >> supporting more characters would be desireable.
-> > >>
-> > >> Earlier I posted an idea that the characters could be represended by
-> > >> sub-nodes[1] but there doesn't seem to be a way of having that and k=
-eeping the
-> > >> convenience of using devm_gpiod_get_array() (unless I've missed some=
-thing).
-> > >>
-> > >> [1] - https://scanmail.trustwave.com/?c=3D20988&d=3Dtrbc5eARVo-5gepR=
-nwbAKbQmiGk1bOSpqZDQx9bx7w&u=3Dhttps%3a%2f%2flore%2ekernel%2eorg%2flkml%2f2=
-a8d19ee-b18b-4b7c-869f-7d601cea30b6%40alliedtelesis%2eco%2enz%2f
-> > > Read that thread out of curiosity and I'm sorry if I'm late to the
-> > > party, but I wondered why this is limited to LEDs connected to GPIOs?
-> > >
-> > > Would it be possible to somehow stack this on top of some existing
-> > > LEDs?  I mean you could wire a 7 segment device to almost any LED
-> > > driver IC with enough channels, couldn't you?
-> >
-> > Mainly because the GPIO version is the hardware I have. I do wonder how
-> > this might work with something like the pca9551 which really is just a
-> > fancy version of the pca9554 on my board. A naive implementation would
-> > be to configure all the pca9551 pins as GPIOs and use what I have as-is=
-.
->
+Hi!
+
 > My idea was to do it on top of the LED abstraction, not on top of the
-> GPIO abstraction.  Currently you are using the GPIO consumer interface
-> and group 7 gpios which are supplied by that pca9554 in your case, but
-> could also be coming from a SoC or a 74hc595 etc.
->
-> Why not put it a level of abstraction higher, and let it consume LEDs
-> instead of GPIOs?  Your usecase would still be possible then.
->
-> As far as I could see the concept of a LED consumer can be done, the
-> leds-group-multicolor driver in
-> drivers/leds/rgb/leds-group-multicolor.c does that, introduced with
-> kernel v6.6 not so long ago.  It sets the sysfs entries of the LEDs
-> part of the group to readonly so they are not usable on their own
-> anymore and one would not disturb the grouped multicolor LED.
->
-> This would allow to use LEDs as a 7 segment group driven by any LED
-> driver including leds-gpio.
+> GPIO abstraction.  Currently you are using the GPIO consumer
+> interface
 
-7-segment LEDs are not just a bunch of leds, they have explicit
-meaning and using LED infrastructure is an obscuration of what's going
-on (too many unrelated details are exposed, too hard to achieve what
-user needs). In the auxdisplay we have already the concept of "line
-display" with a 7-segment, or 14 (that are two main standards) with
-respective character mapping in case somebody wants to print more than
-hexadecimal digits on them. If I am mistaken, I would like to see the
-concept in the example here on how user space will take care of
-displaying (an arbitrary) data. Can you provide a draft of (user-side)
-documentation before we even start going this direction?
-
-> > Making a line display out of LED triggers might be another way of doing
-> > it but not something I really want to pursue.
->
-> Fair enough.  I just wanted to share my idea.  Didn't want to pressure
-> you in any direction. :-)
-
-
+Let's not do that.
+								Pavel
 --=20
-With Best Regards,
-Andy Shevchenko
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--2tufHoKG79+LqpZb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZd3d3AAKCRAw5/Bqldv6
+8piBAJwKteYF/6cxyFkA9kvaHSmoWQaZVgCfUYH4qm99px2JCgn7R9COL1aD/eA=
+=E6We
+-----END PGP SIGNATURE-----
+
+--2tufHoKG79+LqpZb--
 
