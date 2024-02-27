@@ -1,131 +1,102 @@
-Return-Path: <linux-leds+bounces-1030-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1033-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3296A86A185
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 22:23:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D10FF86A23E
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 23:14:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2F9628E219
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 21:23:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 393C82885CB
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 22:14:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B5714F998;
-	Tue, 27 Feb 2024 21:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCFD1534F4;
+	Tue, 27 Feb 2024 22:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="VT8BiIwW"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GSoLZex2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E91F14F96B
-	for <linux-leds@vger.kernel.org>; Tue, 27 Feb 2024 21:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE58F145356;
+	Tue, 27 Feb 2024 22:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709068972; cv=none; b=Zu8Bn/EbF+f+KpWU3NOuzL8jrFMO6sJ1aQM28vuGWDKujvJtqiMKynaUmLs2oCNH2Kn6pKwYrPDRr6gshoPY2U2qGFxdYYnUXts2vPS4Evnftqnkl7Bo6yEwKielBFaUIBTSRhWl9xQOP0iJRnIu0TMRyhSziZrgCbS6xR6lk+M=
+	t=1709072024; cv=none; b=Ho3w544ycquccXHUZcrPcnnG3C16V2fcxzcWTfrN1w8sVHJvzI+wjxtr1zmD2vJwPcEXI941JNaP3p+nLc6vJu2GTq9Rk3d0oYddBBxNukdmcXLp4qkk9wrGL1tN1bDD3ZZhIyKjOen5LmATxfUIbaWE0F5WxaOMBrD/w98O5X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709068972; c=relaxed/simple;
-	bh=VZaJSLBAvjIIjiBkUk207ZF5DNLe5yVrF+Vh/8Da/yU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RGg28jhvheBDciCE/+iiirpuj6KjNWAc2c6N057xeJy85iYelOnot9xsequZ4dGFfoCMYJ66PrxgDnG3Yu29lYvO0qSHYmz68FErJHSflHfF5Xaq7oCazM8BEYUlzoSssgWq55SVeyhaXLzLwhneee/HllqzPg5N7lCuwAQcizI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=VT8BiIwW; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id E72852C05E7;
-	Wed, 28 Feb 2024 10:22:46 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1709068966;
-	bh=3gVimorvGq76t5HgY8x6KoiKr8dAvSvtX0ygiIDP6To=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VT8BiIwWMqGHBPBvp7nGS5j8sIWMEtYSUijWWSDfg+LjY6N2ul8KQnVS1Lh4EEqzQ
-	 v06ALVAHcWXBwyuYmOnH3SN00os7rZrlnDYGY4YdKo22rxUzOl/35Jfdfthp7e2qj7
-	 QZLgNsmQ4ZV6l448JAsQfhkm80IJphryAjzHATsmUYw3fCQpdM1Cy6IDBR6oXaDVpB
-	 w++cThZC1uTq3GxetQndkAtrfNfNbf3WnJs5RFnLY8vaWdgAVWL4R4FriTTDGgPVwL
-	 C3kj1pXRFoHRDvrtcc+kbrby0IK9tY56kNdEQx/BJjkTuKPvhrFWAGYJXHxb56pVcF
-	 CE6OSCKDOYG1Q==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65de52a60004>; Wed, 28 Feb 2024 10:22:46 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id 6DEE713EDA8;
-	Wed, 28 Feb 2024 10:22:46 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id 6B9E0280AFE; Wed, 28 Feb 2024 10:22:46 +1300 (NZDT)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: andy@kernel.org,
-	geert@linux-m68k.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	andrew@lunn.ch,
-	gregory.clement@bootlin.com,
-	sebastian.hesselbarth@gmail.com,
-	ojeda@kernel.org,
-	tzimmermann@suse.de,
-	javierm@redhat.com,
-	robin@protonic.nl,
-	lee@kernel.org,
-	pavel@ucw.cz
-Cc: devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v2 4/4] ARM: dts: marvell: Indicate USB activity on x530
-Date: Wed, 28 Feb 2024 10:22:44 +1300
-Message-ID: <20240227212244.262710-5-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
-References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
+	s=arc-20240116; t=1709072024; c=relaxed/simple;
+	bh=j8LfYVouX4k2vRN1QgUanbEePwX2K7J8uWDxmEyKdDE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DtetK+1/2qQ7n6YBXeMOKeEe77lBSaUsJBEjMFBhnP0dxCbsqarSrPof1KUpcLlSHokHQiFaNUiJ9orSCDzhGBC2LvaPTpNzRwYTFm64vhtIiNlHD9QMEYTMT5w3aL/PZqNSHipcHpRkeoOjWqfUKFa2qUJJPLEevGc7dPbztdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GSoLZex2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=b36HH6QrFanQlF+vf1qyLlG8Z5HxvOBibGB+wGgOjjs=; b=GSoLZex2HDFRN7EDrII+1mE3V+
+	RkVBl6Tg0shOEdj1c9ObrYHrjQ9lNw5a7mS3CUD4GoRUvuwvIEvGZFYeWQ/sW7b3vsST/5/07LFy0
+	lictBUnSgvVHCoALi0B0AbnD276ZqAXcv+3OUtAKYvSBG2H+Z0QO9l/VLjuS5nD456DL8lR7T3bnV
+	NZknCRgPuZ1JCXM+OAXi/+kIjZ1kPegu0rbeAhDogdWxS2oCPeL4bsYEQ4rF9CzQ7jEade0pzFCYI
+	aMmNGcYPFfLj9U7TRlb+S21mWEetprmn7gzbjAjfeOej/BQtbjUYQoXAuiTqb4kt1b5tqEvRePMIY
+	+R+tDEVg==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rf5hf-000000072QM-0soH;
+	Tue, 27 Feb 2024 22:13:35 +0000
+Message-ID: <9c00ac32-020e-4fc4-9ca3-df4ca77033f7@infradead.org>
+Date: Tue, 27 Feb 2024 14:13:32 -0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65de52a6 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=k7vzHIieQBIA:10 a=f9q4IQp7et2z0Ui1RocA:9 a=3ZKOabzyN94A:10 a=zZCYzV9kfG8A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] auxdisplay: Add 7 segment LED display driver
+Content-Language: en-US
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, andy@kernel.org,
+ geert@linux-m68k.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com,
+ sebastian.hesselbarth@gmail.com, ojeda@kernel.org, tzimmermann@suse.de,
+ javierm@redhat.com, robin@protonic.nl, lee@kernel.org, pavel@ucw.cz
+Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
+ <20240227212244.262710-2-chris.packham@alliedtelesis.co.nz>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240227212244.262710-2-chris.packham@alliedtelesis.co.nz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use the dot on the 7 segment LED block to indicate USB access on the
-x530.
+Hi--
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
+On 2/27/24 13:22, Chris Packham wrote:
+> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+> index d4be0a3695ce..52a245ca0c8d 100644
+> --- a/drivers/auxdisplay/Kconfig
+> +++ b/drivers/auxdisplay/Kconfig
+> @@ -211,6 +211,16 @@ config ARM_CHARLCD
+>  	  line and the Linux version on the second line, but that's
+>  	  still useful.
+>  
+> +config SEG_LED
+> +	tristate "Generic 7 segment LED display"
 
-Notes:
-    Change in v2:
-    - New
+	                  7-segment
 
- arch/arm/boot/dts/marvell/armada-385-atl-x530.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> +	select LINEDISP
+> +	help
+> +	  This driver supports a generic 7 segment LED display made up
 
-diff --git a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts b/arch/arm=
-/boot/dts/marvell/armada-385-atl-x530.dts
-index f55a3dc6b6de..94ae9f4ebe1c 100644
---- a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-+++ b/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-@@ -54,6 +54,15 @@ &led_7seg_gpio 4 GPIO_ACTIVE_LOW
- 				 &led_7seg_gpio 5 GPIO_ACTIVE_LOW
- 				 &led_7seg_gpio 6 GPIO_ACTIVE_LOW>;
- 	};
-+
-+	leds {
-+		compatible =3D "gpio-leds";
-+		led-0 {
-+			label =3D "usb";
-+			gpios =3D  <&led_7seg_gpio 7 GPIO_ACTIVE_LOW>;
-+			linux,default-trigger =3D "usb-host";
-+		};
-+	};
- };
-=20
- &pciec {
---=20
-2.43.2
+	                                 7-segment
 
+> +	  of GPIO pins connected to the individual segments.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called seg-led.
+
+-- 
+#Randy
 
