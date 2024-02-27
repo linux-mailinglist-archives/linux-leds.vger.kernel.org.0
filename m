@@ -1,124 +1,213 @@
-Return-Path: <linux-leds+bounces-1021-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1022-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE27868E42
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 12:01:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43035868FAC
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 13:06:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5C8EB28211
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 11:01:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BE691C2105B
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 12:06:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DC4D1386CA;
-	Tue, 27 Feb 2024 11:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A5B13A869;
+	Tue, 27 Feb 2024 12:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="r+VjwLIs"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GxtuEB2o"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297DC2A8C1;
-	Tue, 27 Feb 2024 11:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D899813A274;
+	Tue, 27 Feb 2024 12:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709031696; cv=none; b=G9X9dsUfRi0YV8KMrqcAxcCufNsap/DGEVRh7EfH8rBoa1C7FUl+vPyJ608px502+xwUx2hvfMLj1htNSRauThfm2cTWHzdkXTV9V80r18AyIDkyP807ccdpq7KNLce4nBBc9s6f354m8Y/QoFNZZcZZc+fyZ2ORn+719aOYaqY=
+	t=1709035586; cv=none; b=L+xWtN6kRvtP0YJONcjyMhwqlwvUMR+EGVwHbhQD4TGU6vt3CAY3jMRurxDRkFDmAzelTpNwCV372U3jeF2nwWVSjq8yhYengKXv6ubOkxiLoTNGU+qU87DRH2e8P+7VCzBGCBqKpVYSDn75U1mWgcDEJugWjyZlK99rAGUN9S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709031696; c=relaxed/simple;
-	bh=ZTyUOOdI9D1cGi850Kq0719pmJ7x8j7pILQUq+KdEs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NxRhjiqQ18YR/TRu5acbQ5ar3Ygig9Eg6so+JveEnT3DeVlcuiuKlFWq3ZwXBmbm3tZXZLZKy+pR2BJwCKTEmkgH9Mm1axOFeJ6PqG5IlLcw+UVDqFoUgHZelZDySsG6dN0rCZD3qS/iR5V3gYXAghkXYeRaEc7MIxEq4auSgdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=r+VjwLIs; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+DaaHFV+R3CLw59EEXA62uKFGD7Wf52WpiZ2P8WI0uY=; b=r+VjwLIsY/7RMcdO/5MqVjxj66
-	bqMv285lAJ0GkQpN0DxrfTNOm94RquYl6/8BdSas6kacDXR7lmNPmhiAWqgZwjxwXSsDRFtdpkgTc
-	ZuwHQE/EWwEX2o8KdRqD45D9x7oSVy5lelN9gBnvAJCZ2zYrKSodBZOLNrtqmfln4FFjrfPt2obnU
-	YtWyepUT1BT5DaG4kVoIbBnl6TaWswn5lzKjlzZAwkyr+8d7ImMpbXY0KJ+/f0N/aQFqGmMtld9xT
-	bUJ/0Li63j25PPkeLuvC6pFIhCWjUtYP/20Rx/p/MH33kd6SC/HsmodCvEzLtcIFSjeifVPzvhCLp
-	eO9qw+DQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:48690)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1revD4-0007th-1A;
-	Tue, 27 Feb 2024 11:01:18 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1revD2-0007LK-9g; Tue, 27 Feb 2024 11:01:16 +0000
-Date: Tue, 27 Feb 2024 11:01:16 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
-	christophercordahi@nanometrics.ca
-Subject: Re: [PATCH v2 6/6] net: phy: DP83640: Add fiber mode
- enabling/disabling from device tree
-Message-ID: <Zd3A/OzmfLRWDtjg@shell.armlinux.org.uk>
-References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
- <20240227093945.21525-7-bastien.curutchet@bootlin.com>
+	s=arc-20240116; t=1709035586; c=relaxed/simple;
+	bh=WvJArsUTJXRJiZdUCPnafcBXTHqHKXd8uQhLhgKJhZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ln26wItKYUGOml/8MWkBT2SoQ3wlQj8hNKVWAhaLnwa5K9S0Ujso9SWOW0why8yAYWqn/eAgN1PdFwyyNvA8Zl/eeTmxvAjea2q9mOHqu4KpsGgOrj/D9WB2nq4kWkOdLfbE0TceYBpdtLjg3nyjCPVGQ9prCJW5AKq1Mg9oXOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GxtuEB2o; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 777041C0004;
+	Tue, 27 Feb 2024 12:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709035581;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WIrYh61CXichMQDwM9T6CmacuZVLBIfhKTVUXwxZYBE=;
+	b=GxtuEB2ovjmpeD6CflqWcUa6WGVUI2jNXi4BkBFeRvhBoV52Q91DF7Vx4d8ebxUKPU/oxO
+	z9UKoSQFWPY4fCYkX3S0feEQFA14hZe8CQ830J8X8U/NW48Z7Mn8+njjk2ckQWyhIIXLyb
+	Adcby25xzXXQHD0UFwysY2zvjuprwAte95k06679TJMAt1QfKflmwwGAm9bw2I2K3Ou38a
+	WYKVjW8RQiQAHWX0/3kcRJbAAMGLm/BI10lHarq9TeLWBCi1GKxLbosbyh7iIIHtMPDGxS
+	sugb7JzWflHYVJKYwvMOtI5HfbIzO9gXcb5dEApWhnxYOO0aavauleBks362eg==
+Date: Tue, 27 Feb 2024 13:06:19 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Saravana Kannan <saravanak@google.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
+ <linus.walleij@linaro.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+ <lee@kernel.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Android Kernel Team
+ <kernel-team@android.com>
+Subject: Re: [PATCH RESEND 0/2] leds: gpio: Add devlink between the
+ leds-gpio device and the gpio used.
+Message-ID: <20240227130619.4b47d409@bootlin.com>
+In-Reply-To: <CAGETcx_=g1dCH=YMUkc7VquUmLs=bNZMspUxH+V49uhcV0Bx2w@mail.gmail.com>
+References: <20240220133950.138452-1-herve.codina@bootlin.com>
+	<CAMRc=MfWPEOHeNvAwra-JxHZBFMrQbP+273zbFLDZfxi7fx8Yg@mail.gmail.com>
+	<20240220155347.693e46e1@bootlin.com>
+	<CAMRc=MeSgCOLZvFOXF4eQOp=bTz38K5Krzuy9r569-jnDx1zFA@mail.gmail.com>
+	<20240220164730.03412479@bootlin.com>
+	<CAGETcx_=g1dCH=YMUkc7VquUmLs=bNZMspUxH+V49uhcV0Bx2w@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227093945.21525-7-bastien.curutchet@bootlin.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: herve.codina@bootlin.com
 
-On Tue, Feb 27, 2024 at 10:39:45AM +0100, Bastien Curutchet wrote:
-> @@ -1141,6 +1147,17 @@ static int dp83640_config_init(struct phy_device *phydev)
->  	val = phy_read(phydev, PCFCR) & ~PCF_EN;
->  	phy_write(phydev, PCFCR, val);
->  
-> +	if (dp83640->fiber != FIBER_MODE_DEFAULT) {
-> +		val = phy_read(phydev, PCSR) & ~FX_EN;
-> +		if (dp83640->fiber == FIBER_MODE_ENABLE)
-> +			val |= FX_EN;
-> +		phy_write(phydev, PCSR, val);
+Hi Saravana,
 
-		val = 0;
-		if (dp83640->fiber == FIBER_MODE_ENABLE)
-			val = FX_EN;
+On Tue, 20 Feb 2024 19:28:17 -0800
+Saravana Kannan <saravanak@google.com> wrote:
 
-		phy_modify(phydev, PCSR, FX_EN, val);
+> On Tue, Feb 20, 2024 at 7:47 AM Herve Codina <herve.codina@bootlin.com> wrote:
+> >
+> > Hi Bartosz,
+> >
+> > On Tue, 20 Feb 2024 16:30:11 +0100
+> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> >  
+> > > On Tue, Feb 20, 2024 at 3:53 PM Herve Codina <herve.codina@bootlin.com> wrote:  
+> > > >
+> > > > On Tue, 20 Feb 2024 15:19:57 +0100
+> > > > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> > > >  
+> > > > > On Tue, Feb 20, 2024 at 2:39 PM Herve Codina <herve.codina@bootlin.com> wrote:  
+> > > > > >
+> > > > > > Hi,
+> > > > > >
+> > > > > > Note: Resent this series with Saravana added in Cc.
+> > > > > >
+> > > > > > When a gpio used by the leds-gpio device is removed, the leds-gpio
+> > > > > > device continues to use this gpio. Also, when the gpio is back, the
+> > > > > > leds-gpio still uses the old removed gpio.
+> > > > > >
+> > > > > > A consumer/supplier relationship is missing between the leds-gpio device
+> > > > > > (consumer) and the gpio used (supplier).
+> > > > > >
+> > > > > > This series adds an addionnal devlink between this two device.
+> > > > > > With this link when the gpio is removed, the leds-gpio device is also
+> > > > > > removed.
+> > > > > >
+> > > > > > Best regards,
+> > > > > > Hervé Codina
+> > > > > >
+> > > > > > Herve Codina (2):
+> > > > > >   gpiolib: Introduce gpiod_device_add_link()
+> > > > > >   leds: gpio: Add devlinks between the gpio consumed and the gpio leds
+> > > > > >     device
+> > > > > >
+> > > > > >  drivers/gpio/gpiolib.c        | 32 ++++++++++++++++++++++++++++++++
+> > > > > >  drivers/leds/leds-gpio.c      | 15 +++++++++++++++
+> > > > > >  include/linux/gpio/consumer.h |  5 +++++
+> > > > > >  3 files changed, 52 insertions(+)
+> > > > > >
+> > > > > > --
+> > > > > > 2.43.0
+> > > > > >  
+> > > > >
+> > > > > Can you add some more context here in the form of DT snippets that
+> > > > > lead to this being needed?  
+> > > >
+> > > > / {
+> > > >         leds-dock {
+> > > >                 compatible = "gpio-leds";
+> > > >
+> > > >                 led-5 {
+> > > >                         label = "dock:alarm:red";
+> > > >                         gpios = <&tca6424_dock_2 12 GPIO_ACTIVE_HIGH>;
+> > > >                 };  
+> > >
+> > > Do I understand correctly that the devlink is created between "led-5"
+> > > and "tca6424_dock_2" but actually should also be created between
+> > > "leds-dock" and "tca6424_dock_2"?
+> > >  
+> >
+> > Yes, that's my understanding too.  
+> 
+> I'm replying here instead of the RESEND because here's where the
+> context and example are provided.
+> 
+> I quickly poked into the gpio-leds driver. Please correct me if I'm
+> misunderstanding anything.
+> 
+> It looks like led-5 will be added as a class device. But the
+> dev->fwnode is not set before it's added because it uses
+> device_create_with_groups(). So, fw_devlink doesn't create a link
+> between led-5 and tca6424_dock_2 unless tca6424_dock_2 is added after
+> led-5. Which coincidentally seems to be the case here. Might want to
+> explicitly create the device in gpio-leds driver.
+> 
+> The issue you are trying to fix is a generic issue that I'd like to
+> fix in a generic fashion. It's one of my TODOs which I've mentioned
+> before in conferences/emails to LKML: device links framework has a
+> bunch of gaps when it comes to class devices. I've been thinking about
+> it for a while, but it needs a lot more work and testing. I'll roll in
+> this case when I deal with it in a generic fashion. But here's the
+> general idea of things that need to be addressed:
+> 
+> 1. "Managed" device links allow having a class device as a supplier,
+> but that'll mean the consumer will never probe.
+> 2. What if a class device is a consumer and the supplier isn't ready.
+> What does it mean for the class device to be added? Is it available
+> for use? Probably not. Can we do something here that'll be useful for
+> the class implementation?
+> 3. What if the supplier and consumer are class devices, when does the
+> consumer class device become "available" (do we check the suppliers of
+> the supplier?)?
+> 4. What happens if the supplier of a class device gets removed? Do we
+> notify the class so it can do the right thing? Do we force unbind the
+> first ancestor that's on a bus? (your case).
+> 5. What if a supplier class device is removed, should we unbind the
+> consumer (if it's a bus device)?
+> 
+> I'm currently working on a patch to break dependency cycles. Once
+> that's in, the next TODO item I work on is going to be this or clock
+> framework sync_state() support.
+> 
+> So, I'd recommend waiting this out if it's not urgent.
+> 
+> Heh, here's my commit on my local repo from a year ago when I touched
+> on this and realised the scope of the work.
+> 
+> commit 7dcaad52e569209104408f3e472fde4ef8cd5585 (class-devlinks-v1)
+> Author: Saravana Kannan <saravanak@google.com>
+> Date:   Mon Feb 13 13:40:43 2023 -0800
+> 
+>     add class support to device links
+> 
 
-> +
-> +		/* Write SOFT_RESET bit to ensure configuration */
-> +		val = phy_read(phydev, PHYCR2) | SOFT_RESET;
-> +		phy_write(phydev, PHYCR2, val);
+Well, on one side we have this current patch that fixes the current issue in
+the gpio-led use case.
 
-		phy_set_bits(phydev, PHYCR2, SOFT_RESET);
+On the other side, I have a commit hash from your local repo which is one
+year old and some more work is needed on it.
 
-...
-> +#else
-> +static int dp83640_of_init(struct phy_device *phydev)
-> +{
-> +	dp83640->fiber = FIBER_MODE_DEFAULT;
+Maybe my patch is not fully correct but it fixes the issue.
 
-This hasn't been build tested - dp83640 won't exist here.
+Do you have any idea about when your work on that topic will be available?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Best regards,
+Hervé
 
