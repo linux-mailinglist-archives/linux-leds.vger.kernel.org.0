@@ -1,107 +1,108 @@
-Return-Path: <linux-leds+bounces-1024-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1025-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C893869145
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 14:04:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E32869B80
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 17:03:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A511F2843E
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 13:04:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74FB41C219BD
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 16:03:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADFAA13AA41;
-	Tue, 27 Feb 2024 13:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C50F21482F3;
+	Tue, 27 Feb 2024 16:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="EZwN2HjQ"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="AWKWZeel"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BA313AA2C;
-	Tue, 27 Feb 2024 13:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06ED2146E8A;
+	Tue, 27 Feb 2024 16:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709039080; cv=none; b=EbSq1EfqCr5ccBaBwFdqHiMwwpFlRGAj77HJi42Sk2wFX82Fqrh0V7hm/XCSCwmP9l9rtV48cBJOFIqKWz90MTfrEv/aRvasBhe/pMxF6Kkl/QfVkkvf9gKBcnn44913wAGpUvgqTDzwWTGIAXBCXmN/gdKjwIngewhMDDPGlI0=
+	t=1709049789; cv=none; b=FMo5ecoUCPKF8H7A3qZKNCd7kVcg5ELoY/5nDb8orjFOvRDfkzDxL7J/EhlWoPkG62Y17JlDb6pJqsk5CCJmjAsY9mmPFpUM4wjSvYtaH+5AThTkRc1RcUES1vebp3fM+OerOAIzrkHDYA66x3dU8X6p4w2WipXM38PRMFeoFJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709039080; c=relaxed/simple;
-	bh=ByX9FRD14N/u6UP+YU5f3XxMnaKnVAmtyMFVkSQRsq0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1+e0pn2Czwf8zz7cFyzQeu+232F8/5MWzsHPTyX8UiV3VxFWqb/TcHp9sWBFS/ptsTLTPTAUHI8i2ukSk7/RUnKj0f1642QatQw22Zea/WON0yMRGkqUT0XfDEpkCzx0/0GOO6AKw/CSX749Zkv11sjcNwiI+fvzOdRrO/IHNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=EZwN2HjQ; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 9E6841C0087; Tue, 27 Feb 2024 14:04:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1709039068;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UauDaphtC8+Vo9nKhOjiJL+JyVwJz9PyRLIvvQKfEpo=;
-	b=EZwN2HjQSo/AUO1oIznJYBgAJr7vV975WEGLD+ymFTxEMCb3m3slP48d9hcgdJQ339deby
-	03izs3WB0jGjTgrU1Je3hfuhEnaHQ8IM2Uvll4wTILmTFYg6Q+Blr8k5+V3CvS4r6gbqau
-	76Y134ixWa3KXPpHgmkQIDX6934xvbc=
-Date: Tue, 27 Feb 2024 14:04:28 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>,
-	"ojeda@kernel.org" <ojeda@kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"andrew@lunn.ch" <andrew@lunn.ch>,
-	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
-	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	"geert@linux-m68k.org" <geert@linux-m68k.org>,
-	"lee@kernel.org" <lee@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
-Message-ID: <Zd3d3C+VA3Vqkc2u@duo.ucw.cz>
-References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
- <20240226-scabby-fiber-87d5d6e45028@thorsis.com>
- <fd1c8657-62e6-449c-b47f-a2c3223b405c@alliedtelesis.co.nz>
- <20240227-married-amulet-da532c0a70d3@thorsis.com>
+	s=arc-20240116; t=1709049789; c=relaxed/simple;
+	bh=D8fuIEf8rJNQDmLdQLIRRJcmZttD10RcRN0fcSH1sLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JcBo1KwjhCJlRe+yiZiTp2PCt9flFqpr0PSMvEGbiyl3Kj+lgTBrMcAanLGZjttRs0KsAVhldFAfXRDFs+HxHoDJat+CMlq/DxywwNsWHtzNk4hIbiJ6dcLt5XWakvjXDyzwCNOvsASI7JFkIX/A8NymfLpNtYV6sZ3h8EXH/Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=AWKWZeel; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=IY2/g60Mhri+J9MAbXvnzzlU9k4+0F6po+5bYJBis5k=; b=AWKWZeelA7RQNAtpeq50GWuqhH
+	DndOuu8VHbgWp+B/i079vkiufoHy0dbHP1X+nqUIoz+fUWJr/qDw0yWUsahEdbLkfWCLsIuo6s5Db
+	vkgCtxwoBUuiwFZztZd6rzFaDIC5PSvRzxyYUTzJiw/Yaq4ioKNtZhEP16eKCKTqrbTM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rezvG-008rpE-4l; Tue, 27 Feb 2024 17:03:14 +0100
+Date: Tue, 27 Feb 2024 17:03:14 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
+	christophercordahi@nanometrics.ca
+Subject: Re: [PATCH v2 2/6] leds: trigger: Create a new LED netdev trigger
+ for collision
+Message-ID: <e6351d0c-15e2-47a9-be6c-6f21aee9ae90@lunn.ch>
+References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
+ <20240227093945.21525-3-bastien.curutchet@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2tufHoKG79+LqpZb"
-Content-Disposition: inline
-In-Reply-To: <20240227-married-amulet-da532c0a70d3@thorsis.com>
-
-
---2tufHoKG79+LqpZb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240227093945.21525-3-bastien.curutchet@bootlin.com>
 
-Hi!
+On Tue, Feb 27, 2024 at 10:39:41AM +0100, Bastien Curutchet wrote:
+> Collisions on link does not fit into one of the existing netdev triggers.
+> 
+> Add TRIGGER_NETDEV_COLLISION in the enum led_trigger_netdev_modes.
+> Add its definition in Documentation.
+> Add its handling in ledtrig-netdev, it can only be supported by hardware
+> so no software fallback is implemented.
 
-> My idea was to do it on top of the LED abstraction, not on top of the
-> GPIO abstraction.  Currently you are using the GPIO consumer
-> interface
+How useful is collision? How did you test this? How did you cause
+collisions to see if the LED actually worked?
 
-Let's not do that.
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+As far as i can see, this is just a normal 100Base-T PHY. Everybody
+uses that point-to-point nowadays. If it was an 100Base-T1, with a
+shared medium, good old CSMA/CD then collision might actually be
+useful.
 
---2tufHoKG79+LqpZb
-Content-Type: application/pgp-signature; name="signature.asc"
+I also disagree with not having software fallback:
 
------BEGIN PGP SIGNATURE-----
+ip -s link show eth0
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 80:ee:73:83:60:27 brd ff:ff:ff:ff:ff:ff
+    RX:     bytes    packets errors dropped  missed   mcast           
+    4382213540983 2947876747      0       0       0  154890 
+    TX:     bytes    packets errors dropped carrier collsns           
+      18742773651  197507119      0       0       0       0
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZd3d3AAKCRAw5/Bqldv6
-8piBAJwKteYF/6cxyFkA9kvaHSmoWQaZVgCfUYH4qm99px2JCgn7R9COL1aD/eA=
-=E6We
------END PGP SIGNATURE-----
+collsns = 0. The information is there in a standard format. However,
+when did you last see it not 0?
 
---2tufHoKG79+LqpZb--
+	Andrew
 
