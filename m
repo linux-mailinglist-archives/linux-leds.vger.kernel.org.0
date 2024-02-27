@@ -1,102 +1,112 @@
-Return-Path: <linux-leds+bounces-1033-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1034-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10FF86A23E
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 23:14:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 382D586A24D
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 23:19:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 393C82885CB
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 22:14:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 690131C24DA1
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 22:19:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCFD1534F4;
-	Tue, 27 Feb 2024 22:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E2E150990;
+	Tue, 27 Feb 2024 22:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GSoLZex2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KS8VmaMB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE58F145356;
-	Tue, 27 Feb 2024 22:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EBA14F961;
+	Tue, 27 Feb 2024 22:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709072024; cv=none; b=Ho3w544ycquccXHUZcrPcnnG3C16V2fcxzcWTfrN1w8sVHJvzI+wjxtr1zmD2vJwPcEXI941JNaP3p+nLc6vJu2GTq9Rk3d0oYddBBxNukdmcXLp4qkk9wrGL1tN1bDD3ZZhIyKjOen5LmATxfUIbaWE0F5WxaOMBrD/w98O5X8=
+	t=1709072363; cv=none; b=SsWeVMYvPfPecbkyey+gyeKsla2Jcm696BuotiN/MLx+OOWXefXwc0DsboNJsqHG3ymfgq+XAXK+8LYovWNj9d34h4/NMCwVulqe9EaPExMaKhC0ShGckDgv5WarG7hKxa7vR3Nw8zz591PYn5Ve1W8mHeYgPsEHxFYD2EuKRHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709072024; c=relaxed/simple;
-	bh=j8LfYVouX4k2vRN1QgUanbEePwX2K7J8uWDxmEyKdDE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DtetK+1/2qQ7n6YBXeMOKeEe77lBSaUsJBEjMFBhnP0dxCbsqarSrPof1KUpcLlSHokHQiFaNUiJ9orSCDzhGBC2LvaPTpNzRwYTFm64vhtIiNlHD9QMEYTMT5w3aL/PZqNSHipcHpRkeoOjWqfUKFa2qUJJPLEevGc7dPbztdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GSoLZex2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=b36HH6QrFanQlF+vf1qyLlG8Z5HxvOBibGB+wGgOjjs=; b=GSoLZex2HDFRN7EDrII+1mE3V+
-	RkVBl6Tg0shOEdj1c9ObrYHrjQ9lNw5a7mS3CUD4GoRUvuwvIEvGZFYeWQ/sW7b3vsST/5/07LFy0
-	lictBUnSgvVHCoALi0B0AbnD276ZqAXcv+3OUtAKYvSBG2H+Z0QO9l/VLjuS5nD456DL8lR7T3bnV
-	NZknCRgPuZ1JCXM+OAXi/+kIjZ1kPegu0rbeAhDogdWxS2oCPeL4bsYEQ4rF9CzQ7jEade0pzFCYI
-	aMmNGcYPFfLj9U7TRlb+S21mWEetprmn7gzbjAjfeOej/BQtbjUYQoXAuiTqb4kt1b5tqEvRePMIY
-	+R+tDEVg==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rf5hf-000000072QM-0soH;
-	Tue, 27 Feb 2024 22:13:35 +0000
-Message-ID: <9c00ac32-020e-4fc4-9ca3-df4ca77033f7@infradead.org>
-Date: Tue, 27 Feb 2024 14:13:32 -0800
+	s=arc-20240116; t=1709072363; c=relaxed/simple;
+	bh=o9svJsP9nzZVOUnXBU3iRQDLYitUEw+4EwfW5E0njzo=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=P1B6P+39UhsTCV9suG5fm38HmlkOo5fE8/XNb6mZGCXOX6j3/wZl0VzsnRycYQ+hC6cdTYlWrHIfrMGWC+JupLe2chgN+hlzCwYhWc1m0aUFuE0aj4oAqbXIB42K2ARppzIJUcqW4plVVP+ERs/w7yWluCNYww9MWlQa+ZmD6c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KS8VmaMB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C97C433C7;
+	Tue, 27 Feb 2024 22:19:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709072362;
+	bh=o9svJsP9nzZVOUnXBU3iRQDLYitUEw+4EwfW5E0njzo=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=KS8VmaMBkpXv9qmsgAQsQ5t6hh1qpU7R7Hl6HsLUvFVI5Qi8zQvw+shX26X6EzRhY
+	 5M8oeuGQBQ31mzlfrPnQY9yCmXylxGyA6cg4ofniswej5i2KkwVF21bfLLlkWJNw1y
+	 IeibV7Y5A3vcDOAa0JuXoLPCLVg99HB9dWUrFQbmfOxHRBVTqlfvegK60GDSlEyn4n
+	 2Uu2cf1K1QFSImx88D2lNPVw7W8LXeJRLUunB7TqWPHszC6kYZxemtj+a63egyuBGn
+	 af2kzpJhzS9wYKCswKu1r9kHFx++IQkGlU5EA1dXRc7U1OfacFHXfOe3gSXdkCCmFf
+	 bDwH4CLyOKCfQ==
+Date: Tue, 27 Feb 2024 16:19:21 -0600
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] auxdisplay: Add 7 segment LED display driver
-Content-Language: en-US
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>, andy@kernel.org,
- geert@linux-m68k.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com,
- sebastian.hesselbarth@gmail.com, ojeda@kernel.org, tzimmermann@suse.de,
- javierm@redhat.com, robin@protonic.nl, lee@kernel.org, pavel@ucw.cz
-Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+From: Rob Herring <robh@kernel.org>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: pavel@ucw.cz, linux-kernel@vger.kernel.org, lee@kernel.org, 
+ robh+dt@kernel.org, gregory.clement@bootlin.com, conor+dt@kernel.org, 
+ ojeda@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org, 
+ javierm@redhat.com, krzysztof.kozlowski+dt@linaro.org, 
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ geert@linux-m68k.org, andrew@lunn.ch, andy@kernel.org, 
+ sebastian.hesselbarth@gmail.com, robin@protonic.nl
+In-Reply-To: <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
 References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
- <20240227212244.262710-2-chris.packham@alliedtelesis.co.nz>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240227212244.262710-2-chris.packham@alliedtelesis.co.nz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
+Message-Id: <170907236007.645402.4701945428447873129.robh@kernel.org>
+Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for
+ generic 7 segment LED
 
-Hi--
 
-On 2/27/24 13:22, Chris Packham wrote:
-> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-> index d4be0a3695ce..52a245ca0c8d 100644
-> --- a/drivers/auxdisplay/Kconfig
-> +++ b/drivers/auxdisplay/Kconfig
-> @@ -211,6 +211,16 @@ config ARM_CHARLCD
->  	  line and the Linux version on the second line, but that's
->  	  still useful.
->  
-> +config SEG_LED
-> +	tristate "Generic 7 segment LED display"
+On Wed, 28 Feb 2024 10:22:42 +1300, Chris Packham wrote:
+> Add bindings for a generic 7 segment LED display using GPIOs.
+> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> ---
+> 
+> Notes:
+>     Changes in v2:
+>     - Use compatible = "generic-gpio-7seg" to keep checkpatch.pl happy
+> 
+>  .../auxdisplay/generic-gpio-7seg.yaml         | 40 +++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/auxdisplay/generic-gpio-7seg.yaml
+> 
 
-	                  7-segment
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> +	select LINEDISP
-> +	help
-> +	  This driver supports a generic 7 segment LED display made up
+yamllint warnings/errors:
 
-	                                 7-segment
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/auxdisplay/generic-gpio-7seg.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+ 	 $id: http://devicetree.org/schemas/auxdisplay/generic,gpio-7seg.yaml
+ 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/auxdisplay/generic-gpio-7seg.yaml
 
-> +	  of GPIO pins connected to the individual segments.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called seg-led.
+doc reference errors (make refcheckdocs):
 
--- 
-#Randy
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240227212244.262710-3-chris.packham@alliedtelesis.co.nz
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
