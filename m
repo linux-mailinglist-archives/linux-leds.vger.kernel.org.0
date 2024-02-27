@@ -1,153 +1,113 @@
-Return-Path: <linux-leds+bounces-1019-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1020-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C85868CF2
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 11:08:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15972868DF9
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 11:50:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B488F285DCE
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 10:08:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5823286198
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 10:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BED4137C52;
-	Tue, 27 Feb 2024 10:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C443413957E;
+	Tue, 27 Feb 2024 10:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Sm0n5pQF"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="F6H4VZvC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B02613699F;
-	Tue, 27 Feb 2024 10:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B877D1386B3;
+	Tue, 27 Feb 2024 10:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709028496; cv=none; b=CBPpsfNSWs0+NhfviOIpkV9GgXsV8f26lFxEF2/yQpxq6ZL2drl8ZWqXfboeowkt9/DNuatFuvIgLJxHi9NV+NUEEtT2tNp/5zNJWukCCuldV9MMTzRqqpOA/caDNXHvBojju0GJ3c7lfsAmDPJ1LpwXZXJPIlT5LeHZsx3YNKs=
+	t=1709031030; cv=none; b=UroDivX9mOU2CtXG6nJneiHW97ltpuvLmPHxYZVWWzmrWnlS6IdJlK5FGgs/5zkKL16y9eU9n+Ez+YRgBal05q8oyFn5ZadLg1INPdFUe3zVR3wfPGfdx6GdUNVudFsPwQHQYNe9PRo0fNzM+a+iYNJcsG1LLjkU6huHI5cUV6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709028496; c=relaxed/simple;
-	bh=gayX3MThRtKAbxiT63s1KOxQeJc59MH4mNLhm21wvus=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H+VKAqoM62FmadKG8l7GM4+ymUCYjuhNDhRSQGtatYEw9oNH1OdlEpRByzM7aDEykKc5OZps2xH+HIfIkrV7JQGlqlWXwOFvxxZdjXU8nNt0d58hK92BODU8nL6Z/lZ0Yrgw5ER4okXPpoRMrKhYqS1e8zoPZl3aYU6I8K5nq+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Sm0n5pQF; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B79C240008;
-	Tue, 27 Feb 2024 10:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709028486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xvLaYo71E/i5pWv7T61eLjy9zgmIF4EWr3dIPInc76E=;
-	b=Sm0n5pQFxXJLkiaB1TAaCuo0oEs+Mv9KG/JGBjQ91ZO5oPkAegydRj38YtkVb6gEQ8TBGh
-	Obumgxy9ZP2JClMj0wIprCxMKrLtD29lZbBFNu28M5SXXAIA7WmTQlSepiTjtAQLUjuVGS
-	o2Xadk0RaiA/446C7RrtFdY6k1bGuhNfDT2LnpRmSZhKlfWR4Awkf1q7LGu3R31kltysjQ
-	j9H7+dpJUj6qS67T7BAy03eSeUkLRY8t9H3mK2smKAzwQJrbW1hNhgsYHhAZe8QEr7Sl7x
-	hQ9dJnLSqTGkOzOQaCofynCSP9bfxCY6/ZtUXDA8dN/3eMNMvsJqwL7nEM0uKg==
-Date: Tue, 27 Feb 2024 11:08:02 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Richard Cochran
- <richardcochran@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-leds@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-Subject: Re: [PATCH v2 5/6] net: phy: DP83640: Explicitly disabling PHY
- Control Frames
-Message-ID: <20240227110802.552bff55@device-28.home>
-In-Reply-To: <20240227093945.21525-6-bastien.curutchet@bootlin.com>
+	s=arc-20240116; t=1709031030; c=relaxed/simple;
+	bh=VwY8x8Vlvy0pr005Hz3YAUwOJLUuvB336WB7fyepl4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Br/4bazBGuKmmPH62UmFXL/Vtc7+mnGyVx2xQVCGJV8kc+TytoI27X0xYyfXJB7eyjRjif1ePhik1W6SG3jzHS8PiG7tIv1Owe3SB6z7hOowrEKSRcPNUKteZBlO7wAhyv1xnY6xLP3XhpSXuPy6iY2Tx6dL6o3auz+/F16VxxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=F6H4VZvC; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=B0GwNKyxnzYc2XZeJrd2Jp5upk3uHbpBLhel/j4Yu/g=; b=F6H4VZvCxh+oko+L1U7idHXzpv
+	5mSBTveOKOzNSpLbTrR+M7PYwoYlRjJNbNJkCyGeFxVJJMJs090VrFzcmWtj4pGL9Uv6AhSaW9mlV
+	dzaqys+fCiPY+JqY2P9CAOUQXu5F9xCtPDEXjET14bImYYxdsYd2VLVrlDRIQV1C6+fGvJnmigDV1
+	mgk5RGtRBACg8tVs6lac+SzGvN5EbM3Ia4/gUJTMP1iRS5+SVCnrsFIclhgJVuRSwUp4kRSpQtNlj
+	AmRrmwbmzATOnVzCqoDVnAdBtUIU1gDVZSz9YdYkSf5+NeVe9i6Ss3IBn4uZD9838OvLAo+098h4V
+	5La3mY+Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36540)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rev2J-0007rZ-0M;
+	Tue, 27 Feb 2024 10:50:11 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rev2G-0007L7-6v; Tue, 27 Feb 2024 10:50:08 +0000
+Date: Tue, 27 Feb 2024 10:50:07 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	herve.codina@bootlin.com, christophercordahi@nanometrics.ca
+Subject: Re: [PATCH v2 3/6] net: phy: DP83640: Add LED handling
+Message-ID: <Zd2+XwM7hIpycjVO@shell.armlinux.org.uk>
 References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
-	<20240227093945.21525-6-bastien.curutchet@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+ <20240227093945.21525-4-bastien.curutchet@bootlin.com>
+ <20240227105806.7201b34a@device-28.home>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240227105806.7201b34a@device-28.home>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Bastien,
+On Tue, Feb 27, 2024 at 10:58:06AM +0100, Maxime Chevallier wrote:
+> > +		val = phy_read(phydev, PHYCR) & ~(LED_CNFG_1 | LED_CNFG_0);
+> > +		switch (mode) {
+> > +		case DP83640_LED_MODE_1:
+> > +			val |= LED_CNFG_0;
+> > +		break;
+> > +		case DP83640_LED_MODE_2:
+> > +			/* Keeping LED_CNFG_1 and LED_CNFG_0 unset */
+> > +			break;
+> > +		case DP83640_LED_MODE_3:
+> > +			val |= LED_CNFG_1;
+> > +			break;
+> > +		default:
+> > +			return -EINVAL;
+> > +		}
+> > +		phy_write(phydev, PHYCR, val);
 
-On Tue, 27 Feb 2024 10:39:44 +0100
-Bastien Curutchet <bastien.curutchet@bootlin.com> wrote:
+This should also be phy_modify() as well. Any read-modify-write sequence
+is open to race conditions if it is open coded because the bus lock will
+be dropped after the read and regained on the write.
 
-> The PHY offers a PHY control frame feature that allows to access PHY
-> registers through the MAC transmit data interface. This functionality
-> is not handled by the driver but can be enabled via hardware strap or
-> register access.
-> 
-> Disable the feature in config_init() to save some latency on MII packets.
-> 
-> Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
-> ---
->  drivers/net/phy/dp83640.c     | 6 ++++++
->  drivers/net/phy/dp83640_reg.h | 4 ++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/net/phy/dp83640.c b/drivers/net/phy/dp83640.c
-> index 16c9fda50b19..b371dea23937 100644
-> --- a/drivers/net/phy/dp83640.c
-> +++ b/drivers/net/phy/dp83640.c
-> @@ -1120,6 +1120,7 @@ static int dp83640_config_init(struct phy_device *phydev)
->  {
->  	struct dp83640_private *dp83640 = phydev->priv;
->  	struct dp83640_clock *clock = dp83640->clock;
-> +	int val;
->  
->  	if (clock->chosen && !list_empty(&clock->phylist))
->  		recalibrate(clock);
-> @@ -1135,6 +1136,11 @@ static int dp83640_config_init(struct phy_device *phydev)
->  	ext_write(0, phydev, PAGE4, PTP_CTL, PTP_ENABLE);
->  	mutex_unlock(&clock->extreg_lock);
->  
-> +	/* Disable unused PHY control frames */
-> +	phy_write(phydev, PAGESEL, 0);
-> +	val = phy_read(phydev, PCFCR) & ~PCF_EN;
-> +	phy_write(phydev, PCFCR, val);
-
-Use phy_modify instead, and you might also want to look at the paging.
-The ext_write before apparently does some page-management itself through
-the clock struct (?).
-
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/net/phy/dp83640_reg.h b/drivers/net/phy/dp83640_reg.h
-> index bf34d422d91e..b5adb8958c08 100644
-> --- a/drivers/net/phy/dp83640_reg.h
-> +++ b/drivers/net/phy/dp83640_reg.h
-> @@ -10,6 +10,7 @@
->  #define PHYCR                     0x0019 /* PHY Control Register */
->  #define PHYCR2                    0x001c /* PHY Control Register 2 */
->  #define EDCR                      0x001D /* Energy Detect Control Register */
-> +#define PCFCR                     0x001F /* PHY Control Frames Control Register */
->  
->  #define PAGE4                     0x0004
->  #define PTP_CTL                   0x0014 /* PTP Control Register */
-> @@ -68,6 +69,9 @@
->  /* Bit definitions for the EDCR register */
->  #define ED_EN		          BIT(15) /* Enable Energy Detect Mode */
->  
-> +/* Bit definitions for the PCFCR register */
-> +#define PCF_EN                    BIT(0)  /* Enable PHY Control Frames */
-> +
->  /* Bit definitions for the PTP_CTL register */
->  #define TRIG_SEL_SHIFT            (10)    /* PTP Trigger Select */
->  #define TRIG_SEL_MASK             (0x7)
-
-Thanks,
-
-Maxime
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
