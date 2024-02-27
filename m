@@ -1,131 +1,153 @@
-Return-Path: <linux-leds+bounces-1005-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1006-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D18F86853A
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 01:52:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF3586855C
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 01:59:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53E3F285BF9
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 00:52:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B94831F229AF
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 00:59:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 250A11FA6;
-	Tue, 27 Feb 2024 00:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F5051FBB;
+	Tue, 27 Feb 2024 00:59:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="l+5WlXwQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6iYQapj"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6D61848
-	for <linux-leds@vger.kernel.org>; Tue, 27 Feb 2024 00:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B9D1847;
+	Tue, 27 Feb 2024 00:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708995161; cv=none; b=jItYi+d6ZrXFCQYywkr+QQ2I5hSjL8ZHACErjEUJseJ6nIFKvDoqzWf0dnbVbCayfZJmGjXQWB3uYNmxE3fHs9E1+Jva8xh2tQav0+liV57ahtvGQl5hJIHskmeBaZfE/PROBvod68CZLgnyAnQUwfKAng3Ql4W0Cqi/J1uXoGY=
+	t=1708995544; cv=none; b=GAy7TUk688FxO6d8DWPRiKNsRAU5hbsB7SnMMcAQ0qsZnREtla5QjbB2BAjygwyFlqo/bD4BC0jYdcUusUxwJW7TOBuZ8jOAB++SjCboJ8ZCNHk2Y0qa/9rfm9sb0l1S1tWroiMaoCh4hJWuN4BN6cXgbbDQqZVtv1T6EeIs4A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708995161; c=relaxed/simple;
-	bh=xqvZPX41mc0xu6d3eepwLQoId1v2MVWMK9mSHF/PNeA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=n42xOOBCh8o/dd7ZUBgHvTLf/MFA2GGMVo2A5wYl5XUbxxDe4KtSgXw5yCg0IdiwMKaX/m/x5lTp+C7wWIPRbRlJHL/vyPJyqnVum62tT9dkZ3WOhaD23DNQjOmpht/bo7aO7YrsCwSl6cfUjw0a/mM1ZbSkWf3FCNOXdWHkdeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=l+5WlXwQ; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id D3B1A2C0546;
-	Tue, 27 Feb 2024 13:52:30 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1708995150;
-	bh=xqvZPX41mc0xu6d3eepwLQoId1v2MVWMK9mSHF/PNeA=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=l+5WlXwQ4EHSZCmxyRoXvfZS6bllBcSy338/QHedSExwU8RAcTqmC63qGr7AONOxl
-	 tEGdphs1wUXq6/zVjFlv/8/2wnyApibYNlU8l4CleBwKlvTh6a9yuFoPuKlPKyYabk
-	 8Zp0IWu37nMCk7ey8ed3W7JU9qjO2SWOKGc5mDPJU7/h7xQKvw5bfFSVkEGpvlZigM
-	 PLBWhUV9BSlnEIFn/sLWn8PcK0K/cYok6Oyk/4yNTAkspFcoDJ2M+dgrYca6+gTwb9
-	 vTnFHYnsYHJbmPK72L+35tf5SkWUOLywc/Sa4zMH6T546UlAR79HshOd966GA85LuK
-	 aQOnWO8N904Lg==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65dd324e0001>; Tue, 27 Feb 2024 13:52:30 +1300
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1118.40; Tue, 27 Feb 2024 13:52:30 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) with Microsoft SMTP Server
- (TLS) id 15.0.1497.48; Tue, 27 Feb 2024 13:52:30 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1118.040; Tue, 27 Feb 2024 13:52:30 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: "ojeda@kernel.org" <ojeda@kernel.org>, "robh+dt@kernel.org"
-	<robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>,
-	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
-	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
-	"geert@linux-m68k.org" <geert@linux-m68k.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
-	"lee@kernel.org" <lee@kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-leds@vger.kernel.org"
-	<linux-leds@vger.kernel.org>
-Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
-Thread-Topic: [PATCH 0/3] auxdisplay: 7 segment LED display
-Thread-Index: AQHaaDJtdshPwhTk10iKhi7EmCZrNrEbCy6AgAF4+YA=
-Date: Tue, 27 Feb 2024 00:52:30 +0000
-Message-ID: <584172eb-4eda-40d1-9ee5-99d0ef944481@alliedtelesis.co.nz>
-References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
- <CAHp75Vc9OBtxdKSmk9Uu9G3j+mfN8+9prTEVx3LyUcdBYFEqwg@mail.gmail.com>
-In-Reply-To: <CAHp75Vc9OBtxdKSmk9Uu9G3j+mfN8+9prTEVx3LyUcdBYFEqwg@mail.gmail.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D07B55D1697EBB48B5F19332387FD09F@atlnz.lc>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1708995544; c=relaxed/simple;
+	bh=iNi7oNCxJajUUM96pw0C24QuzhG1/xkoRAzNVqrY0oU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FjF9FSpNDIEixmTqRfGs4t32tN2N+Y7Y6HXyrPY8i7MC08IHBIRRJlrAAcCwV3mULWuodbOPYfpgL3/gxS2XEtDqjQASqIKjrU61jF031v2MfM19SYSnYOooJK4De9m0eC/QEH6PG84v0J/RamuMb5QnmeFFYoBDFzzQ1JDkaSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6iYQapj; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a431324e84cso216022566b.1;
+        Mon, 26 Feb 2024 16:59:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708995541; x=1709600341; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DOwaET2RQuuUT4UyNMk06oCZiWMp4ZIYJaKx0CPKHVI=;
+        b=L6iYQapjj8hvRVromqQ0dtStNswo4/Wd0Ib5jxBAdEEdCkqbZ5ANOlc/eplEMg267F
+         R5KcmCz7I+vzcc1ZdBpvskrPo+YAM+kPZYTn0xj680BCoEjmt0VNGlnuEPNsafx4iAaj
+         quoJdDGyCc9ci9CIjGut+gkfJ/tUbNmTMmyTiJsS3FapUr5uU066VUCo3r/g9+KLZJF5
+         FkzrxfBdkKkliUa7faESvmTKkGrvEDx4+v8F6YLuW0aUfY2jaS+F5Ojwz/kqfLvsOKFm
+         3atfD6IUzdC6VzCoe2ADPPlGGpPd8uaRTIXsvQblyWs7kWTApksIfolW2ZUYL5W0zu5+
+         HVWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708995541; x=1709600341;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DOwaET2RQuuUT4UyNMk06oCZiWMp4ZIYJaKx0CPKHVI=;
+        b=XjI7rfFyZkObNXGbdVdaDv54tyPPXZ3OScVt54xuy/PHZ8XF35dKZJucEvIOI0ppKo
+         4EG8u8j3GsMCzfngqaffyJnz0PWua433BS8UnJrXxZmFtB90VJ7isftE7l4fs/2gppOj
+         LkaecwNdwmkHWnYdKY0jRykNARwfzxdkb1QbczTFcovhRq5i9QTMdh2UU1ulUPXgZcmO
+         A7Ix5mAUPwnL6uaEO11VNvdWAzB8QXyXrGy7fOlpSFunYAGzPNtEOpbqVkF8+oy3nfVv
+         l0Qa3V/+e0+YDh+jh6Nmh/nOIsbaR+1XWGHg2JKQq6XrEcELFT1NSXEgWKDGheSVVO6K
+         c2sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqzvg/tTLi4o1sfTAiVdsTLeakKyMvnpOIb+Aq6h0h2TnpZdOufXdbXp02L00hPxWkT2YvBs8JphJpm82hjDn0hFK034D5CPBAA9ZkxC9sjx3P5QTtwe1WKi52MMJg5YZLMiLJ8kBvXcH7hmVbvSGn4UlwLB24DhcKsBlR9MG5jbPw1iY=
+X-Gm-Message-State: AOJu0YyoF8x3KZcFu7VpBiVIJ2Q4mnIxfAUR+IVhK4p2i4wfh9WF1cnt
+	y+xeb3R3yamOzmouP+39+EW3r9maEXc87aGRvjjMWWBZmTL8ASHF4QmkqjcUlcswiT0PlpUYV9C
+	wka/m0iU2jyGIFHwQmavij6w+d+o=
+X-Google-Smtp-Source: AGHT+IGRjjrKCdZCbkwC5KtHDkM2hhrCRhK8651/GdZ7OeoHO23Wi6OTpPZlDDxREygrGBNdzN1mdNi0B5m7uEp6Dro=
+X-Received: by 2002:a17:906:f1ce:b0:a43:a221:81ec with SMTP id
+ gx14-20020a170906f1ce00b00a43a22181ecmr376996ejb.3.1708995540581; Mon, 26 Feb
+ 2024 16:59:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65dd324e a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=62ntRvTiAAAA:8 a=VwQbUJbxAAAA:8 a=ur-VQpc8FRseSrnZ0GYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pToNdpNmrtiFLRE6bQ9Z:22 a=AjGcO6oz07-iQ99wixmX:22
-X-SEG-SpamProfiler-Score: 0
+References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
+ <CAHp75Vc9OBtxdKSmk9Uu9G3j+mfN8+9prTEVx3LyUcdBYFEqwg@mail.gmail.com> <584172eb-4eda-40d1-9ee5-99d0ef944481@alliedtelesis.co.nz>
+In-Reply-To: <584172eb-4eda-40d1-9ee5-99d0ef944481@alliedtelesis.co.nz>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 27 Feb 2024 02:58:23 +0200
+Message-ID: <CAHp75Vc3NFULXByhAv=1bq0aPsbH+_zVypQwaDGNrtafj+xGaw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
+To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+Cc: "ojeda@kernel.org" <ojeda@kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>, 
+	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>, 
+	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>, 
+	"geert@linux-m68k.org" <geert@linux-m68k.org>, "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQpPbiAyNi8wMi8yNCAxNToyMywgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPiBPbiBTdW4sIEZl
-YiAyNSwgMjAyNCBhdCAxMTozNOKAr1BNIENocmlzIFBhY2toYW0NCj4gPGNocmlzLnBhY2toYW1A
-YWxsaWVkdGVsZXNpcy5jby5uej4gd3JvdGU6DQo+PiBUaGlzIHNlcmllcyBhZGRzIGEgZHJpdmVy
-IGZvciBhIDcgc2VnbWVudCBMRUQgZGlzcGxheS4NCj4+DQo+PiBJJ2QgbGlrZSB0byBnZXQgc29t
-ZSBmZWVkYmFjayBvbiBob3cgdGhpcyBjb3VsZCBiZSBleHRlbmRlZCB0byBzdXBwb3J0ID4xDQo+
-PiBjaGFyYWN0ZXIuIFRoZSBkcml2ZXIgYXMgcHJlc2VudGVkIGlzIHN1ZmZpY2llbnQgZm9yIG15
-IGhhcmR3YXJlIHdoaWNoIG9ubHkgaGFzDQo+PiBhIHNpbmdsZSBjaGFyYWN0ZXIgZGlzcGxheSBi
-dXQgSSBjYW4gc2VlIHRoYXQgZm9yIHRoaXMgdG8gYmUgZ2VuZXJpY2FsbHkgdXNlZnVsDQo+PiBz
-dXBwb3J0aW5nIG1vcmUgY2hhcmFjdGVycyB3b3VsZCBiZSBkZXNpcmVhYmxlLg0KPj4NCj4+IEVh
-cmxpZXIgSSBwb3N0ZWQgYW4gaWRlYSB0aGF0IHRoZSBjaGFyYWN0ZXJzIGNvdWxkIGJlIHJlcHJl
-c2VuZGVkIGJ5DQo+PiBzdWItbm9kZXNbMV0gYnV0IHRoZXJlIGRvZXNuJ3Qgc2VlbSB0byBiZSBh
-IHdheSBvZiBoYXZpbmcgdGhhdCBhbmQga2VlcGluZyB0aGUNCj4+IGNvbnZlbmllbmNlIG9mIHVz
-aW5nIGRldm1fZ3Bpb2RfZ2V0X2FycmF5KCkgKHVubGVzcyBJJ3ZlIG1pc3NlZCBzb21ldGhpbmcp
-Lg0KPiBJdCBzZWVtcyB5b3UgZGlkbid0IGtub3cgdGhhdCB0aGUgdHJlZSBmb3IgYXV4ZGlzcGxh
-eSBoYXMgYmVlbiBjaGFuZ2VkLg0KPiBDYW4geW91IHJlYmFzZSB5b3VyIHN0dWZmIG9uIHRvcCBv
-Zg0KPiBodHRwczovL3NjYW5tYWlsLnRydXN0d2F2ZS5jb20vP2M9MjA5ODgmZD12ZmJiNWZuVTU5
-a3ZJUkVmZEQtMjFQYWIzMGJwTXB1VE0ySXB2Mjhub3cmdT1odHRwcyUzYSUyZiUyZmdpdCUyZWtl
-cm5lbCUyZW9yZyUyZnB1YiUyZnNjbSUyZmxpbnV4JTJma2VybmVsJTJmZ2l0JTJmYW5keSUyZmxp
-bnV4LWF1eGRpc3BsYXklMmVnaXQlMmZsb2clMmYlM2ZoJTNkZm9yLW5leHQlM2YNCj4gSXQgd2ls
-bCByZWR1Y2UgeW91ciBjb2RlIGJhc2UgYnkgfjUwJS4NCj4NCj4gV1JUIHN1Ym5vZGVzLCB5b3Ug
-Y2FuIGdvIHdpdGggZGV2aWNlX2Zvcl9lYWNoX2NoaWxkX25vZGUoKSBhbmQNCj4gcmV0cmlldmUg
-Z3BpbyBhcnJheSBwZXIgZGlnaXQuIEl0IG1lYW5zIHlvdSB3aWxsIGhhdmUgYW4gYXJyYXkgb2YN
-Cj4gYXJyYXlzIG9mIEdQSU9zLg0KDQpTbyB3b3VsZCB0aGUgZm9sbG93aW5nIHdvcms/DQoNCiDC
-oMKgwqAgY291bnQgPSBkZXZpY2VfZ2V0X2NoaWxkX25vZGVfY291bnQoZGV2KTsNCiDCoMKgwqAg
-c3RydWN0IGdwaW9fZGVzY3MgKipjaGFyc8KgID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpj
-aGFycykgKiANCmNvdW50LCBHRlBfS0VSTkVMKTsNCg0KIMKgwqDCoCBpID0gMDsNCiDCoMKgwqAg
-ZGV2aWNlX2Zvcl9lYWNoX2NoaWxkX25vZGUoZGV2LCBjaGlsZCkgew0KIMKgwqDCoCDCoMKgwqAg
-Y2hhcnNbaV0gPSBkZXZtX2dwaW9kX2dldF9hcnJheShkZXYsICJzZWdtZW50IiwgR1BJT0RfT1VU
-X0xPVyk7DQogwqDCoMKgIH0NCg0KSSBoYXZlbid0IHVzZWQgdGhlIGNoaWxkLiBUaGUgZGV2bV9n
-cGlvZF9nZXRfYXJyYXkoKSB3aWxsIGJlIGxvb2tpbmcgYXQgDQp0aGUgZndub2RlIG9mIHRoZSBw
-YXJlbnQuDQoNCg==
+On Tue, Feb 27, 2024 at 2:52=E2=80=AFAM Chris Packham
+<Chris.Packham@alliedtelesis.co.nz> wrote:
+> On 26/02/24 15:23, Andy Shevchenko wrote:
+> > On Sun, Feb 25, 2024 at 11:34=E2=80=AFPM Chris Packham
+> > <chris.packham@alliedtelesis.co.nz> wrote:
+> >> This series adds a driver for a 7 segment LED display.
+> >>
+> >> I'd like to get some feedback on how this could be extended to support=
+ >1
+> >> character. The driver as presented is sufficient for my hardware which=
+ only has
+> >> a single character display but I can see that for this to be generical=
+ly useful
+> >> supporting more characters would be desireable.
+> >>
+> >> Earlier I posted an idea that the characters could be represended by
+> >> sub-nodes[1] but there doesn't seem to be a way of having that and kee=
+ping the
+> >> convenience of using devm_gpiod_get_array() (unless I've missed someth=
+ing).
+> > It seems you didn't know that the tree for auxdisplay has been changed.
+> > Can you rebase your stuff on top of
+> > https://scanmail.trustwave.com/?c=3D20988&d=3Dvfbb5fnU59kvIREfdD-21Pab3=
+0bpMpuTM2Ipv28now&u=3Dhttps%3a%2f%2fgit%2ekernel%2eorg%2fpub%2fscm%2flinux%=
+2fkernel%2fgit%2fandy%2flinux-auxdisplay%2egit%2flog%2f%3fh%3dfor-next%3f
+> > It will reduce your code base by ~50%.
+> >
+> > WRT subnodes, you can go with device_for_each_child_node() and
+> > retrieve gpio array per digit. It means you will have an array of
+> > arrays of GPIOs.
+>
+> So would the following work?
+>
+>      count =3D device_get_child_node_count(dev);
+>      struct gpio_descs **chars  =3D devm_kzalloc(dev, sizeof(*chars) *
+> count, GFP_KERNEL);
+>
+>      i =3D 0;
+>      device_for_each_child_node(dev, child) {
+>          chars[i] =3D devm_gpiod_get_array(dev, "segment", GPIOD_OUT_LOW)=
+;
+
+I see what you meant earlier.
+This should be devm_fwnode_gpiod_get_index(), but we lack the _array
+variant of it...
+
+Dunno what to do, maybe adding the _array variant is the good move,
+maybe something else.
+
+>      }
+>
+> I haven't used the child. The devm_gpiod_get_array() will be looking at
+> the fwnode of the parent.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
