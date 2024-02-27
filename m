@@ -1,173 +1,121 @@
-Return-Path: <linux-leds+bounces-1009-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1010-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5661C868B08
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 09:43:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A028868C6B
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 10:40:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B6FE281ACE
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 08:43:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BABF1C22E93
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 09:40:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9ED613340B;
-	Tue, 27 Feb 2024 08:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A6461369A5;
+	Tue, 27 Feb 2024 09:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="JG/j0ufq"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TxJJHgRB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.thorsis.com (mail.thorsis.com [92.198.35.195])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4311130E5E;
-	Tue, 27 Feb 2024 08:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.198.35.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C565513699A;
+	Tue, 27 Feb 2024 09:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709023412; cv=none; b=QyK/RG7YQcbasJey3krQqw4TVFyKr+wf21VrFyGor9b0CvtcLRUcCUtl7D8xwba5OYzl+QB8qmwxrqRL31Iiv8rtc7qGFtCZ4x1nAqkJCdDQ9/Eaf+FNUfz1/XogjWk7EqCcFhRSkcS15pEglcW9yFUxg3A8i5lcyz/yk5Yt4v4=
+	t=1709026812; cv=none; b=kE7p7+sex8DLj5DNbPYLwvZTbkLEb/5v8df2g5AAjnkztPWmw/T19nq8naD5HWHHigKJVs8RtIfHkOVFSF71yYEj4j3QB9In8jyTtJjlGMunBRKvnebP40F3LykM+9REkctzqcGmBzxSu8cTVPum4yIUweujyWQW9YQrUYWywEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709023412; c=relaxed/simple;
-	bh=1/iQrDsBBDPO1b2f0P8e798iamlgABu/lKjolSbaom8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bv7ZDk0H4M2CWe0iX85ECFxlZV4ajNxrQvs0yaqJSM/ocv4CuwngoR7BOf7kVbhgzX3Hk5nwLV1/Q2jfgIQJgzzBK01qMb7g6U0uidq3B/rO0InJm5e3zwC6CHTyPHo7Yr2u1DgUSChUKZyACxgFhnhM0SU+3BKYXzgXtfeogV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=JG/j0ufq; arc=none smtp.client-ip=92.198.35.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
-Date: Tue, 27 Feb 2024 09:43:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=default;
-	t=1709023406;
+	s=arc-20240116; t=1709026812; c=relaxed/simple;
+	bh=8r24iKPhibOS40zxMGUMNspSc4hHZnzNSAnmzkFnOuQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5wupXkC8BC1x4zgsJl/LkEHziJWfIt889GUNw6ZVROqogDNYlHDkF6WP/CQaglQdH893uv1IoN6PmqS2Sgq0bKyXSB4MV+HkaeqTdeXTFdEdqymuHKZVG4wUf/LUJCyfurOolMbfrB1qHfXx0rSqpod/1tEJvkG6fsbWBV6hTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TxJJHgRB; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPA id 2F16A1BF20D;
+	Tue, 27 Feb 2024 09:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709026801;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
-	 references:references; bh=7Uk/Em1Wy/YrWxfP2kn7d3C/wN3DVXEFAdRTzDjTwXc=;
-	b=JG/j0ufqnHwU7/XALdJ3171jsbweSsWPBgCpD8kmJzNbwcvakttsjBBM1F3YYX+6kPeT1v
-	iR+KPHfROPNRuszMhXYa5fWEuzcfziCVYAzH+sJOhKSaGiSR0zwrctBkdjbEZLgtaTHb0X
-	DyYTwlB08s9bWoOosUnBD+RF6VWP8ok1FnAxwMieXrL9z1WAqq9OLL8nejg7WnQjJ/Op+B
-	8OwaLeIuNI+Yplx5mw1VNXNYe70yUkCHIlx2pa9tJcePvBdbgJpP1rjMU6dnh6J3X/oR8A
-	+L1I+5BnyZ9Sl7rm1uNl5KETeEFnys5kJf+z5D3WJArhPrRLgcS7NQK2cASBxQ==
-From: Alexander Dahl <ada@thorsis.com>
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: "ojeda@kernel.org" <ojeda@kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"andrew@lunn.ch" <andrew@lunn.ch>,
-	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
-	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	"geert@linux-m68k.org" <geert@linux-m68k.org>,
-	"pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH 0/3] auxdisplay: 7 segment LED display
-Message-ID: <20240227-married-amulet-da532c0a70d3@thorsis.com>
-Mail-Followup-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>,
-	"ojeda@kernel.org" <ojeda@kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"andrew@lunn.ch" <andrew@lunn.ch>,
-	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
-	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	"geert@linux-m68k.org" <geert@linux-m68k.org>,
-	"pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <20240225213423.690561-1-chris.packham@alliedtelesis.co.nz>
- <20240226-scabby-fiber-87d5d6e45028@thorsis.com>
- <fd1c8657-62e6-449c-b47f-a2c3223b405c@alliedtelesis.co.nz>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fd1c8657-62e6-449c-b47f-a2c3223b405c@alliedtelesis.co.nz>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6AJf+zzN7UHsiDVB1kdGMfmPws28cjDW3HCy8ItyxK8=;
+	b=TxJJHgRBlziCllHZOJT4RWWHW7gaP3x6pfe/Ui3GaJsL45Xar59xbK+U5IWRw5W6t1GCid
+	AWjoJB8O5pXFF4NIjfuHb78p/K/JgkOXAufKjW49BLNuqZh1GQ2wikgW6rNTmxI38A8JaY
+	ZqYTfx5rN4nrh4g/g0URnJ0majjlVNsVROBWVtca43tea+0oTmnuZSZ5JGQYFs2+jWYJGy
+	fCxZpLdrQq1IshfWDlv/xP3ZDKNM8TZAhVmiDgZobjyMehuPRfb6I0ySq7bCSOffyDnaWM
+	rQBbkukWN3Fi3ElTonkCO4jDt6Ng1pELeivZsBhXiptLzCW1Fxno7sHuy6aghA==
+From: Bastien Curutchet <bastien.curutchet@bootlin.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	herve.codina@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	christophercordahi@nanometrics.ca
+Subject: [PATCH v2 0/6] net: phy: Add TI's DP83640 device tree binding
+Date: Tue, 27 Feb 2024 10:39:39 +0100
+Message-ID: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: bastien.curutchet@bootlin.com
 
-Hello Chris,
+Hi everyone,
 
-Am Mon, Feb 26, 2024 at 08:10:07PM +0000 schrieb Chris Packham:
-> Hi Alex,
-> 
-> On 27/02/24 05:04, Alexander Dahl wrote:
-> > Hello Chris,
-> >
-> > Am Mon, Feb 26, 2024 at 10:34:20AM +1300 schrieb Chris Packham:
-> >> This series adds a driver for a 7 segment LED display.
-> >>
-> >> I'd like to get some feedback on how this could be extended to support >1
-> >> character. The driver as presented is sufficient for my hardware which only has
-> >> a single character display but I can see that for this to be generically useful
-> >> supporting more characters would be desireable.
-> >>
-> >> Earlier I posted an idea that the characters could be represended by
-> >> sub-nodes[1] but there doesn't seem to be a way of having that and keeping the
-> >> convenience of using devm_gpiod_get_array() (unless I've missed something).
-> >>
-> >> [1] - https://scanmail.trustwave.com/?c=20988&d=trbc5eARVo-5gepRnwbAKbQmiGk1bOSpqZDQx9bx7w&u=https%3a%2f%2flore%2ekernel%2eorg%2flkml%2f2a8d19ee-b18b-4b7c-869f-7d601cea30b6%40alliedtelesis%2eco%2enz%2f
-> > Read that thread out of curiosity and I'm sorry if I'm late to the
-> > party, but I wondered why this is limited to LEDs connected to GPIOs?
-> >
-> > Would it be possible to somehow stack this on top of some existing
-> > LEDs?  I mean you could wire a 7 segment device to almost any LED
-> > driver IC with enough channels, couldn't you?
-> 
-> Mainly because the GPIO version is the hardware I have. I do wonder how 
-> this might work with something like the pca9551 which really is just a 
-> fancy version of the pca9554 on my board. A naive implementation would 
-> be to configure all the pca9551 pins as GPIOs and use what I have as-is. 
+This patch series adds small features to the TI PHY DP83640 :
+  - Add LED handling through /sys/class/leds to use the three
+    configuration modes offered by PHY.
+  - Add Energy Detect Mode handling through ethtool's
+    {get/set}_phy_tunable()
+  - Add a device tree attribute to be able to override the hardware
+    strap configuration if needed. This attribute allows to
+    enable/disable fiber mode.
 
-My idea was to do it on top of the LED abstraction, not on top of the
-GPIO abstraction.  Currently you are using the GPIO consumer interface
-and group 7 gpios which are supplied by that pca9554 in your case, but
-could also be coming from a SoC or a 74hc595 etc.
+Change log v1 -> v2 :
+  - LED Configuration is now done through /sys/class/leds insted of DT
+  - Energy Detect Mode is done from {set/get}_phy_tunable() instead of DT
+  - The DT property to enable/disable PHY control frames is dropped,
+    the feature is disabled directly in driver as it is not handled
+    anyway.
+  - The CLK_OUT pin handling has been dropped.
 
-Why not put it a level of abstraction higher, and let it consume LEDs
-instead of GPIOs?  Your usecase would still be possible then.
+Bastien Curutchet (6):
+  dt-bindings: net: Add bindings for PHY DP83640
+  leds: trigger: Create a new LED netdev trigger for collision
+  net: phy: DP83640: Add LED handling
+  net: phy: DP83640: Add EDPD management
+  net: phy: DP83640: Explicitly disabling PHY Control Frames
+  net: phy: DP83640: Add fiber mode enabling/disabling from device tree
 
-As far as I could see the concept of a LED consumer can be done, the
-leds-group-multicolor driver in
-drivers/leds/rgb/leds-group-multicolor.c does that, introduced with
-kernel v6.6 not so long ago.  It sets the sysfs entries of the LEDs
-part of the group to readonly so they are not usable on their own
-anymore and one would not disturb the grouped multicolor LED.
+ .../testing/sysfs-class-led-trigger-netdev    |  11 +
+ .../devicetree/bindings/net/ti,dp83640.yaml   |  77 +++++
+ drivers/leds/trigger/ledtrig-netdev.c         |   4 +
+ drivers/net/phy/dp83640.c                     | 299 ++++++++++++++++++
+ drivers/net/phy/dp83640_reg.h                 |  24 ++
+ include/linux/leds.h                          |   1 +
+ 6 files changed, 416 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/ti,dp83640.yaml
 
-This would allow to use LEDs as a 7 segment group driven by any LED
-driver including leds-gpio.
+-- 
+2.43.0
 
-> Making a line display out of LED triggers might be another way of doing 
-> it but not something I really want to pursue.
-
-Fair enough.  I just wanted to share my idea.  Didn't want to pressure
-you in any direction. :-)
-
-Greets
-Alex
-
-> 
-> >
-> > Greets
-> > Alex
-> >
-> >> Chris Packham (3):
-> >>    auxdisplay: Add 7 segment LED display driver
-> >>    dt-bindings: auxdisplay: Add bindings for generic 7 segment LED
-> >>    ARM: dts: marvell: Add 7 segment LED display on x530
-> >>
-> >>   .../auxdisplay/generic,gpio-7seg.yaml         |  40 +++++
-> >>   .../boot/dts/marvell/armada-385-atl-x530.dts  |  13 +-
-> >>   drivers/auxdisplay/Kconfig                    |   7 +
-> >>   drivers/auxdisplay/Makefile                   |   1 +
-> >>   drivers/auxdisplay/seg-led.c                  | 152 ++++++++++++++++++
-> >>   5 files changed, 212 insertions(+), 1 deletion(-)
-> >>   create mode 100644 Documentation/devicetree/bindings/auxdisplay/generic,gpio-7seg.yaml
-> >>   create mode 100644 drivers/auxdisplay/seg-led.c
-> >>
-> >> -- 
-> >> 2.43.2
-> >>
-> >>
 
