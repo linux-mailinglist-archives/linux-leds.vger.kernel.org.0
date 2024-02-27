@@ -1,51 +1,51 @@
-Return-Path: <linux-leds+bounces-1018-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1019-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED2A868CD2
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 11:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C85868CF2
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 11:08:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6133E283F51
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 10:02:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B488F285DCE
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 10:08:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FE70137C34;
-	Tue, 27 Feb 2024 10:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BED4137C52;
+	Tue, 27 Feb 2024 10:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="X8jHwrl1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Sm0n5pQF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F4D56458;
-	Tue, 27 Feb 2024 10:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B02613699F;
+	Tue, 27 Feb 2024 10:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709028136; cv=none; b=trKWuy9deZC7HbQPxFy+Kmm8i1iOOH16r6CKtFVj2EAA6BwTE3PHDNblqKBqxD6DQXbJUnf1W23dKXv/Iy5wgV+1rNjauBtvhCMP2FTAt1+/atC/LDviLqnOJsLWe1K5JPhWA6LmKhWkpgEvt2ZxFu+4st1Kn80z+Z9ZK2AH+eQ=
+	t=1709028496; cv=none; b=CBPpsfNSWs0+NhfviOIpkV9GgXsV8f26lFxEF2/yQpxq6ZL2drl8ZWqXfboeowkt9/DNuatFuvIgLJxHi9NV+NUEEtT2tNp/5zNJWukCCuldV9MMTzRqqpOA/caDNXHvBojju0GJ3c7lfsAmDPJ1LpwXZXJPIlT5LeHZsx3YNKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709028136; c=relaxed/simple;
-	bh=7nIAExb27VzZd+ZMdEZs3B/W61mFpex3pInwkyXMyFI=;
+	s=arc-20240116; t=1709028496; c=relaxed/simple;
+	bh=gayX3MThRtKAbxiT63s1KOxQeJc59MH4mNLhm21wvus=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oDX1CU+sX8XXAWf/gqk4Pd9WTmQpO1YF9aZx92CPF4/SRPNruFBGPeGirNLZF52aPXM8A7Jl6KoCFaCiJS1FqyXZOhgSNq/WJ3jGK0ljcIyJ1dU6BwDibGB81RsNMNIulPOTOolUt8PWsvKv/ABktlGovg4+KvCkC2OoGDGJBuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=X8jHwrl1; arc=none smtp.client-ip=217.70.183.194
+	 MIME-Version:Content-Type; b=H+VKAqoM62FmadKG8l7GM4+ymUCYjuhNDhRSQGtatYEw9oNH1OdlEpRByzM7aDEykKc5OZps2xH+HIfIkrV7JQGlqlWXwOFvxxZdjXU8nNt0d58hK92BODU8nL6Z/lZ0Yrgw5ER4okXPpoRMrKhYqS1e8zoPZl3aYU6I8K5nq+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Sm0n5pQF; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4C7554000D;
-	Tue, 27 Feb 2024 10:02:10 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B79C240008;
+	Tue, 27 Feb 2024 10:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709028131;
+	t=1709028486;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=toC0BLcNzV5oaad0xCRwQL4Yuij9ac2JxP6Ca2Pe4d8=;
-	b=X8jHwrl1Qu/t9BdDhQ4UYrFg7RaYU5vpKIBpeDWLx6PMySBpPLD7cBmF4x+yYZeU//VXzy
-	WgHyqEPbwaV7OZDo0nAVF2yRJM7/fiBCjHVczG0HMFWz9agRDGZxYSEv7wmXLUcfGtFAQ1
-	/Phwrg9hf7ifgBOhz0MWzUUPQpbTK/MDMrrCyVwnnM/E+Tri7f6Y8wkr07bnJxr/3UoTo4
-	WVauUecxk4Lq11X61Kix+6HI4y3aLbVBqjPPc/RaRqmRvSetZtguO85zmzVhdNfg1ypX7y
-	tr1RUnX3xI8rmwT7WBIX195bwAI8nD1yzDuwg9Vv8ucD/Bav88J/KWSWQk5KIg==
-Date: Tue, 27 Feb 2024 11:02:09 +0100
+	bh=xvLaYo71E/i5pWv7T61eLjy9zgmIF4EWr3dIPInc76E=;
+	b=Sm0n5pQFxXJLkiaB1TAaCuo0oEs+Mv9KG/JGBjQ91ZO5oPkAegydRj38YtkVb6gEQ8TBGh
+	Obumgxy9ZP2JClMj0wIprCxMKrLtD29lZbBFNu28M5SXXAIA7WmTQlSepiTjtAQLUjuVGS
+	o2Xadk0RaiA/446C7RrtFdY6k1bGuhNfDT2LnpRmSZhKlfWR4Awkf1q7LGu3R31kltysjQ
+	j9H7+dpJUj6qS67T7BAy03eSeUkLRY8t9H3mK2smKAzwQJrbW1hNhgsYHhAZe8QEr7Sl7x
+	hQ9dJnLSqTGkOzOQaCofynCSP9bfxCY6/ZtUXDA8dN/3eMNMvsJqwL7nEM0uKg==
+Date: Tue, 27 Feb 2024 11:08:02 +0100
 From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 To: Bastien Curutchet <bastien.curutchet@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
@@ -59,11 +59,12 @@ Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
  devicetree@vger.kernel.org, linux-leds@vger.kernel.org, Thomas Petazzoni
  <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
  christophercordahi@nanometrics.ca
-Subject: Re: [PATCH v2 4/6] net: phy: DP83640: Add EDPD management
-Message-ID: <20240227110209.552ba4ed@device-28.home>
-In-Reply-To: <20240227093945.21525-5-bastien.curutchet@bootlin.com>
+Subject: Re: [PATCH v2 5/6] net: phy: DP83640: Explicitly disabling PHY
+ Control Frames
+Message-ID: <20240227110802.552bff55@device-28.home>
+In-Reply-To: <20240227093945.21525-6-bastien.curutchet@bootlin.com>
 References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
-	<20240227093945.21525-5-bastien.curutchet@bootlin.com>
+	<20240227093945.21525-6-bastien.curutchet@bootlin.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
@@ -76,132 +77,71 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-GND-Sasl: maxime.chevallier@bootlin.com
 
-Hello Bastien,
+Hi Bastien,
 
-On Tue, 27 Feb 2024 10:39:43 +0100
+On Tue, 27 Feb 2024 10:39:44 +0100
 Bastien Curutchet <bastien.curutchet@bootlin.com> wrote:
 
-> The driver does not support enabling/disabling Energy Detect Power Down
-> (EDPD).
-> The PHY itself support EDPD.
+> The PHY offers a PHY control frame feature that allows to access PHY
+> registers through the MAC transmit data interface. This functionality
+> is not handled by the driver but can be enabled via hardware strap or
+> register access.
 > 
-> Add missing part in the driver in order to have this support based on
-> ethtool {set,get}_phy_tunable functions.
+> Disable the feature in config_init() to save some latency on MII packets.
 > 
 > Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
 > ---
->  drivers/net/phy/dp83640.c     | 62 +++++++++++++++++++++++++++++++++++
->  drivers/net/phy/dp83640_reg.h |  4 +++
->  2 files changed, 66 insertions(+)
+>  drivers/net/phy/dp83640.c     | 6 ++++++
+>  drivers/net/phy/dp83640_reg.h | 4 ++++
+>  2 files changed, 10 insertions(+)
 > 
 > diff --git a/drivers/net/phy/dp83640.c b/drivers/net/phy/dp83640.c
-> index c46c81ef0ad0..16c9fda50b19 100644
+> index 16c9fda50b19..b371dea23937 100644
 > --- a/drivers/net/phy/dp83640.c
 > +++ b/drivers/net/phy/dp83640.c
-> @@ -1531,6 +1531,66 @@ static void dp83640_remove(struct phy_device *phydev)
->  	kfree(dp83640);
+> @@ -1120,6 +1120,7 @@ static int dp83640_config_init(struct phy_device *phydev)
+>  {
+>  	struct dp83640_private *dp83640 = phydev->priv;
+>  	struct dp83640_clock *clock = dp83640->clock;
+> +	int val;
+>  
+>  	if (clock->chosen && !list_empty(&clock->phylist))
+>  		recalibrate(clock);
+> @@ -1135,6 +1136,11 @@ static int dp83640_config_init(struct phy_device *phydev)
+>  	ext_write(0, phydev, PAGE4, PTP_CTL, PTP_ENABLE);
+>  	mutex_unlock(&clock->extreg_lock);
+>  
+> +	/* Disable unused PHY control frames */
+> +	phy_write(phydev, PAGESEL, 0);
+> +	val = phy_read(phydev, PCFCR) & ~PCF_EN;
+> +	phy_write(phydev, PCFCR, val);
+
+Use phy_modify instead, and you might also want to look at the paging.
+The ext_write before apparently does some page-management itself through
+the clock struct (?).
+
+> +
+>  	return 0;
 >  }
 >  
-> +static int dp83640_get_edpd(struct phy_device *phydev, u16 *edpd)
-> +{
-> +	int val;
-> +
-> +	phy_write(phydev, PAGESEL, 0);
-
-Same comment as the previous patch on paged accesses
-
-> +	val = phy_read(phydev, EDCR);
-> +	if (val & ED_EN)
-> +		*edpd = 2000; /* 2 seconds */
-> +	else
-> +		*edpd = ETHTOOL_PHY_EDPD_DISABLE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp83640_set_edpd(struct phy_device *phydev, u16 edpd)
-> +{
-> +	int val;
-> +
-> +	phy_write(phydev, PAGESEL, 0);
-
-ditto
-
-> +	val = phy_read(phydev, EDCR);
-> +
-> +	switch (edpd) {
-> +	case ETHTOOL_PHY_EDPD_DFLT_TX_MSECS:
-> +	case 2000: /* 2 seconds */
-> +		val |= ED_EN;
-> +		break;
-> +	case ETHTOOL_PHY_EDPD_DISABLE:
-> +		val &= ~ED_EN;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	phy_write(phydev, EDCR, val);
-
-Here you could use phy_clear_bits / phy_set_bits, which are flavors of
-the phy_modify accessors.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp83640_get_tunable(struct phy_device *phydev,
-> +			       struct ethtool_tunable *tuna, void *data)
-> +{
-> +	switch (tuna->id) {
-> +	case ETHTOOL_PHY_EDPD:
-> +		return dp83640_get_edpd(phydev, data);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static int dp83640_set_tunable(struct phy_device *phydev,
-> +			       struct ethtool_tunable *tuna, const void *data)
-> +{
-> +	switch (tuna->id) {
-> +	case ETHTOOL_PHY_EDPD:
-> +		return dp83640_set_edpd(phydev, *(u16 *)data);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
->  static int dp83640_led_brightness_set(struct phy_device *phydev, u8 index,
->  				      enum led_brightness brightness)
->  {
-> @@ -1692,6 +1752,8 @@ static struct phy_driver dp83640_driver = {
->  	.name		= "NatSemi DP83640",
->  	/* PHY_BASIC_FEATURES */
->  	.probe		= dp83640_probe,
-> +	.get_tunable    = dp83640_get_tunable,
-> +	.set_tunable    = dp83640_set_tunable,
->  	.remove		= dp83640_remove,
->  	.soft_reset	= dp83640_soft_reset,
->  	.config_init	= dp83640_config_init,
 > diff --git a/drivers/net/phy/dp83640_reg.h b/drivers/net/phy/dp83640_reg.h
-> index 09dd2d2527c7..bf34d422d91e 100644
+> index bf34d422d91e..b5adb8958c08 100644
 > --- a/drivers/net/phy/dp83640_reg.h
 > +++ b/drivers/net/phy/dp83640_reg.h
-> @@ -9,6 +9,7 @@
->  #define LEDCR                     0x0018 /* PHY Control Register */
+> @@ -10,6 +10,7 @@
 >  #define PHYCR                     0x0019 /* PHY Control Register */
 >  #define PHYCR2                    0x001c /* PHY Control Register 2 */
-> +#define EDCR                      0x001D /* Energy Detect Control Register */
+>  #define EDCR                      0x001D /* Energy Detect Control Register */
+> +#define PCFCR                     0x001F /* PHY Control Frames Control Register */
 >  
 >  #define PAGE4                     0x0004
 >  #define PTP_CTL                   0x0014 /* PTP Control Register */
-> @@ -64,6 +65,9 @@
->  /* Bit definitions for the PHYCR2 register */
->  #define BC_WRITE                  (1<<11) /* Broadcast Write Enable */
+> @@ -68,6 +69,9 @@
+>  /* Bit definitions for the EDCR register */
+>  #define ED_EN		          BIT(15) /* Enable Energy Detect Mode */
 >  
-> +/* Bit definitions for the EDCR register */
-> +#define ED_EN		          BIT(15) /* Enable Energy Detect Mode */
+> +/* Bit definitions for the PCFCR register */
+> +#define PCF_EN                    BIT(0)  /* Enable PHY Control Frames */
 > +
 >  /* Bit definitions for the PTP_CTL register */
 >  #define TRIG_SEL_SHIFT            (10)    /* PTP Trigger Select */
