@@ -1,113 +1,104 @@
-Return-Path: <linux-leds+bounces-1047-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1048-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3B586B282
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 15:58:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9EF86B295
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 16:04:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D25761C25610
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 14:58:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2AF4282161
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 15:04:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3094115B0FD;
-	Wed, 28 Feb 2024 14:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BAD415B10F;
+	Wed, 28 Feb 2024 15:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zjh0SRi4"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bTUZz3v4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8622273531;
-	Wed, 28 Feb 2024 14:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E224B39;
+	Wed, 28 Feb 2024 15:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709132303; cv=none; b=F14WRnX3A6VtOxPr759TJC+HWQW1WKsN5kq/A+jXLCCun83snA2QwJSWCg1HDWk3re6PLTvfE40K+vuAakfn4qbjOher2srv3rrcL+mIiU7dugWavjM2r+wc5vEbpU+G5R8bCn4+PIdDqW7oMnytxv6zTk3qZaCVNDU9hFWnitQ=
+	t=1709132658; cv=none; b=Rl3otR9/UF6Of4xCJQgPwkR6u4nMqz4TvBd3kINcxbtICgeQCX5RNOgc84czynPmxg9Jx1mAVWmQIfStL1uoaUeeD0lqB9fxLQdTJATsYLhgoTU5lV2np0zsyPfSTEGq0AJ4W0Q5WYLVfpZPdhHAWjYJ3QQjGtm/BGmnux0csc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709132303; c=relaxed/simple;
-	bh=D0mxBNIYaM/LvyCACLqGR6ej8KvkbeUqHMXZmcDYbD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JfML8tCMaKi0Vu+3zbm3FVykBjbhbtgQ9x7+LZjs1u2uRXauR1M5kCiIHiErUb4hckEpjVV9zv68Il76FLMnC2cTXGZ6ATAJcRSn3V95u3TkI+w0w4rdBwmEDz1XTPxGo9UOIqs1OE6DS7Qr5wsvtToYYy50VHBKyquAXVJ2O9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zjh0SRi4; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-55a8fd60af0so7758447a12.1;
-        Wed, 28 Feb 2024 06:58:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709132300; x=1709737100; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TQb0JnJ+sgplpcUuC4pN4ac3IxkeDfhPVjjzotONsYA=;
-        b=Zjh0SRi4Oeds13svzg5jn4zqXfUVbjEYxIRX0QtV4cQb0jyFToNg6xwXtM97S9WjsQ
-         Uf/I1E5aG5gG/aFHAdkq0w4lWmKcrRqbDBmUam3Y8xGJIehSU+SR5T3wUlmZAH6kpr6u
-         IbGmaiDgJOK2yVby3OqPO/LZxfkPD+Lb7IRKTWRZsijoCeUdQsKBed5sS7TMDcYLWsP6
-         NFaxMze4ypW9mma6kNjYL8P9YQfKmLRKPqrDSrmN0n9+pl/asArC3iIS7fSIjukAIpjo
-         mr3PmIxJefBYHyof8KidWrcqAGcw1WSBAG5MjSVi1jyYsVqJlZSQfacPR0FeREE3Ly2D
-         WdpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709132300; x=1709737100;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TQb0JnJ+sgplpcUuC4pN4ac3IxkeDfhPVjjzotONsYA=;
-        b=AGdsxARQlmPucgU6/Dizu8DxydAJDh0MLhmRaCpBiZGqjXKc7QCnYVYFspf2tTwD5r
-         3SzL8+IadywutQs3bPy7tmphDgchzWRQJvKkit+9W6GxElmufFb87rp/S2FERqO7leDw
-         RgfaGJ/IGkrQmu77HlGPHYwEwRhTjdn2C7J+lPRZgCT3XS6StLZB/mUjxhOyrW5MF7wl
-         M70oAox3j7QKLbjQPkvVIH6VsqGTt1WjdAa1NmECOtvSjoqMP5NNDuXT5Mx9618fN8oy
-         Zjz1YPm5rFF1Fn+oqgpEYFKptMDWLeM3HUh36ICUytZ+1x/4lZ0cEUdsnwUQGOWhS8C3
-         R1cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCTwY7k8j1GPxmuAufU15SqWBE7JPy7Dn7hjLF/YXfScmP+5C1IwoslH1pjhfzkAaUmWLEjhMgkEy6yeNqw9FArtn7axTKQfV0b0HptdjQTTcO7vTgNV37HKSG13p5YSp9/KyJ7dPZYuvAmdhTNQWFtjsuVGZXuvXqV5W/CnkrMMDS1Es=
-X-Gm-Message-State: AOJu0Yyypdcv2KVLflMjjqbgvBqP+/hDhGDNJrNLEVhgijqP4G2QKwyd
-	oU2X2AiUNckDZvfknzIxE7HF8gsnNswQWlaLR4omtWYcKY/4Njh/Gy9Rfv5TrpDkIL535SdTnsI
-	WpNAXEL11lHbP+vNSgoL2CCCS4WU=
-X-Google-Smtp-Source: AGHT+IHbUi80zT/GDNSOM62vj6itxNrIGGGPlRo9mbQuyAjdAlxxHCTGE9XVvRXPzk9pIjfFUK/K2RvzZlnWYUOiUpo=
-X-Received: by 2002:a17:906:6dcf:b0:a3e:b3e6:5b71 with SMTP id
- j15-20020a1709066dcf00b00a3eb3e65b71mr9147554ejt.62.1709132299649; Wed, 28
- Feb 2024 06:58:19 -0800 (PST)
+	s=arc-20240116; t=1709132658; c=relaxed/simple;
+	bh=t9muqhfNN7i4XP7gG3jCRjrTS9ve2WB+DxxVMTVNZA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZLkIYbq8+C8Ls3AiwU/URcwv0t20XN4ewV/guflYmq+Ot0mVkFtFJ8PKf4l1lEHz23xSVGbJGDP5w4S6J1AEav/UznGYLf6rgvC09ljSQRuP2LA1P7ISbYaujtGLcqu4EvSnQTI0ysmsBVl2FKOMZkMu2d3BlhlMtNS9p1kPCF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=bTUZz3v4; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=dOocNfIFOpPF6lqMWSXAW9AMnznAJXSj9KJvDupMxYg=; b=bTUZz3v4hxXRRqqLkvtLScD7qZ
+	/WpJG7GUplG1kh3IxUbHuJznV7aCXbWselztd5/1OrNEIjX4DPWCAT3nwjZus2EnfKmMELkcf/8IJ
+	J4b7cgWKvuKSxI+sC5x58oWQ0WEsz0TGSxx/d5ZvgMMy8WpyRjH7+YsKq1ZugZII140Q=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rfLTn-008xT3-DF; Wed, 28 Feb 2024 16:04:19 +0100
+Date: Wed, 28 Feb 2024 16:04:19 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
+	christophercordahi@nanometrics.ca
+Subject: Re: [PATCH v2 3/6] net: phy: DP83640: Add LED handling
+Message-ID: <9b06003c-afc9-419a-af36-7b81aab8517e@lunn.ch>
+References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
+ <20240227093945.21525-4-bastien.curutchet@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
- <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz> <20240228140423.GA3307293-robh@kernel.org>
-In-Reply-To: <20240228140423.GA3307293-robh@kernel.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 28 Feb 2024 16:57:42 +0200
-Message-ID: <CAHp75VfW0Q7At+JnyWGXP3d=2dfWADRiQ-Z97B2JcZio3A_tyw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
- 7 segment LED
-To: Rob Herring <robh@kernel.org>
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, andy@kernel.org, 
-	geert@linux-m68k.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	andrew@lunn.ch, gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, 
-	ojeda@kernel.org, tzimmermann@suse.de, javierm@redhat.com, robin@protonic.nl, 
-	lee@kernel.org, pavel@ucw.cz, devicetree@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240227093945.21525-4-bastien.curutchet@bootlin.com>
 
-On Wed, Feb 28, 2024 at 4:04=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
-> On Wed, Feb 28, 2024 at 10:22:42AM +1300, Chris Packham wrote:
+> +static int dp83640_led_brightness_set(struct phy_device *phydev, u8 index,
+> +				      enum led_brightness brightness)
+> +{
+> +	int val;
+> +
+> +	if (index > DP83640_SPDLED_IDX)
+> +		return -EINVAL;
+> +
+> +	phy_write(phydev, PAGESEL, 0);
+> +
+> +	val = phy_read(phydev, LEDCR) & ~DP83640_LED_DIS(index);
+> +	val |= DP83640_LED_DRV(index);
+> +	if (brightness)
+> +		val |= DP83640_LED_VAL(index);
+> +	else
+> +		val &= ~DP83640_LED_VAL(index);
+> +	phy_write(phydev, LEDCR, val);
 
-...
+I don't understand this driver too well, but should this be using
+ext_read() and ext_write().
 
-> > +  segment-gpios:
-> > +    description:
-> > +      An array of GPIOs one per segment.
-> > +    minItems: 7
->
-> How does one know which GPIO is which segment?
+I'm also woundering if it would be good to implement the .read_page
+and .write_page members in phy_driver and then use phy_write_paged()
+and phy_write_paged() and phy_modify_paged(), which should do better
+locking.
 
-I believe we need just to agree on this. Since anybody can shuffle
-GPIOs in the DT, there is no need to support arbitrary orders. And
-naturally 'a' is bit 0, 'g' is bit 6, 'dp' bit 7 if present.
-
---=20
-With Best Regards,
-Andy Shevchenko
+	Andrew
 
