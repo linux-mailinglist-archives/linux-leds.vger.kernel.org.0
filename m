@@ -1,82 +1,82 @@
-Return-Path: <linux-leds+bounces-1037-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1038-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A6986A43B
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 01:06:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B735986A44C
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 01:10:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD6BA1F23FEF
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 00:06:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7298C289E33
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 00:10:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0F36184;
-	Wed, 28 Feb 2024 00:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE6236B;
+	Wed, 28 Feb 2024 00:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QIX4445j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BQEwLO0a"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF884652;
-	Wed, 28 Feb 2024 00:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176E210D;
+	Wed, 28 Feb 2024 00:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709078758; cv=none; b=nqf9s383K2I4uH0FuRFxtv0FzsVDRwShDKLYrww1U2z40fK/DQUgSVzxF55DJUDoQl0fzkY6llR4BiVmY6rw03E9g23+nqb1e8QsXZ8CsqB2bw1ltZmkxIiZgHFA7L5GU/emsp4gGOw9Jxm2sKMbNiotccT5uwZXytgDCbrvZ1I=
+	t=1709079024; cv=none; b=ofSDZVG98PpVdzLtRiyewNbMGBvJEqSC6pNE9zJWr45LzHkUdAQyMSH3F3oTDkm83W1iPPLDf/4LgINwGF2BJO5LH/VQ63KFH5VdNTXGYdnwuAHlMhhhMVRdF4Kzypeo69NX1H+Bdg2AeRqHmfk5WJJ+YtVZk6M2RGqCHRnOhQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709078758; c=relaxed/simple;
-	bh=fQrjpUiO/b0V8LS4BOg2HTg+U5iCNUhX7oh7UIby5Ec=;
+	s=arc-20240116; t=1709079024; c=relaxed/simple;
+	bh=vC8mwnT09idBziDtRBLEFES+hUh7Klq/2GI8cfJmNc8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mzninHzlYCKPZvoaFM02BHz2y8itHJzxaAJKc0irFal8IZ2erJ1g6UXnwGjPn8Cuw3lXtcRq6WAg4WhhPOfa35nEF7BvKn9VBbaDiB3c2YY/CrFOeCOdb2DUxYfYoVOGaL1+wMDs6Tzb++IqxJ7ts7/T/TTIasnsHz/5y6Y+FNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QIX4445j; arc=none smtp.client-ip=209.85.218.48
+	 To:Cc:Content-Type; b=ZDFSI0hF2LJgQUu1d5mlBcY4u0oaxaRwYxe02bTvs+lqUfMsFhTeX2mp5UF+Vhi/av1oBXtxbqjQx/GGSzVe8nRXtOujahGXzQg08giJMViiUVoZB7Em7o27FTDz49ZhxdSUyuX6yBLStKCstsyaB4fuxTFHL/jfeDzFs7+zets=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BQEwLO0a; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a3ddc13bbb3so54965166b.0;
-        Tue, 27 Feb 2024 16:05:56 -0800 (PST)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a43fc42e697so3583266b.1;
+        Tue, 27 Feb 2024 16:10:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709078755; x=1709683555; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709079021; x=1709683821; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fQrjpUiO/b0V8LS4BOg2HTg+U5iCNUhX7oh7UIby5Ec=;
-        b=QIX4445jqCh0QH+FrefHYMVevNigabWsDHibDW4njs4mcwRqjAg8nqAHP1wsluYRJ4
-         nchOKsqSc+637Z4+kHSGMFt3xQlOAbsoMjyzE5psj3zPc9UofTAXeX5xk4qExEJIGlxI
-         OhThv0J/CxRq92tHNpIfVkheCaFfWBDqCtI80XpOtxIXy1ll1Z/a3SOH6zJyiSbfYm6P
-         CX/jy9QA5lzRuawE26PxuQNhtwhZu6QDt7c3P/usC2OX4nBasMQRRe2g8119MR99r8a4
-         tP2TQDYxxu+GEEOFJIAJD7U4mF9DEFjXeVPf8qF2p9NsGIOi2Brl4jWZbTtzqWDJIMkz
-         +LSA==
+        bh=vC8mwnT09idBziDtRBLEFES+hUh7Klq/2GI8cfJmNc8=;
+        b=BQEwLO0awnRQMTnbRFlU97Z9BHubmSIfX+Io2pXZezR+n8jx7WeMq92Chyb72ckY+D
+         I2cuzvm8hcw5xIxdmrF1a8wPKHgnXSPENoZInUpH5d8ZmEglSsxxMse1QNX5loiPV+ZD
+         v2nP2F9a6LmdXcAXWEFImtiF7ISkmyshB+sXwcFIYFDwkyR96m8I2yT1apopFuLUU2Nf
+         1BeNTxlo5tY7arJohOW3ON3hYG4kmlOmcFcP5+32DYi9r4fIcbsZUcH937zRAelD/fMS
+         xImzeV3doy4/+gcyeCF0PFu7zOZzqxOCfKFf1dJNu1hi3DBYOAXsqrNAOemBdk9WbJc0
+         XoMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709078755; x=1709683555;
+        d=1e100.net; s=20230601; t=1709079021; x=1709683821;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fQrjpUiO/b0V8LS4BOg2HTg+U5iCNUhX7oh7UIby5Ec=;
-        b=L0B+KHdr+V8Pqe4xYMDAYInVBMVlrva1pXWLZR3p8+ByMwit5ir60Ds92edhLp1a9u
-         D3xwvEstY9Gm2SzpCO1HvLTzyklT6u5cubR5HoH7iBRLirAdlHJJvI6irweZlpzUECqt
-         HCLPMqPKQl6TTIWveRHvGK0KvGVL3taf+klKndFBQoH+T+HzKICJ+RnPEbCY/4h+vMLF
-         N6R7BkYdJVBF5v5v3MVAsZe3Vo3uA30yl9t0PaO1HyfdZylHcEtSwO9WOlZ+UGFwVJ3a
-         S1dzQQ0krq+cyBxCj//VAUtBfzU0YhzZd6fmjC44tzyD1wZRpRznyYslnGkCyYpCmR9D
-         CXmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsI7COYan74QG6n3ui0Xqw2QiQq6u+WmFs/Vn8I8nBfsf38fWONtP1Nb4EpQTeJ91TrQonhU7X/x2/zBeVII5T0Nms3K8ClfyGpsQ3+06zYGvQye0UA93aldFratZOPFaU1YjGv4HysJj9KSa9K3rGNNrUpR7eJLMlIXoLzv6pO6LJr48=
-X-Gm-Message-State: AOJu0YxRCIUwyXbLAx+BOrlTcbaJmoQgW53J26rT00VEK9bxpDqxZpBA
-	9D5WxpJMTzoVPwlpYmQsaM/T6j3Gx+5SLjz25NySNHUW8d1JIMxusdAQoSrqsb2H7o4EODzVXRs
-	98LZKu7nsn7cmGD/ZHKq9Ie3pPIk=
-X-Google-Smtp-Source: AGHT+IHk5a22uZjA3SffOzOTnftl0o3zL9rERV2evtzEqXlumrTLFMUgGFDqnttKp++T73Jo9gpKMv6R8xJttZFrZ38=
-X-Received: by 2002:a17:907:7d86:b0:a3f:f8a7:e1f7 with SMTP id
- oz6-20020a1709077d8600b00a3ff8a7e1f7mr852395ejc.5.1709078755219; Tue, 27 Feb
- 2024 16:05:55 -0800 (PST)
+        bh=vC8mwnT09idBziDtRBLEFES+hUh7Klq/2GI8cfJmNc8=;
+        b=emdZYc6UuP0M6JDNIKtKqmV8uZcZWGSYYfWCJRSpHQuve3STx64iadyYlpBBSTuSZ3
+         /6OXxYYq4+G/NKtMv4f7JKYoBu+YlZsVsGKSsuJ2xut5XndW2l+Lj6J/ai0RCRHXeyZj
+         tv+iyFrex2b5PSyUexEgwNlsytwjaJMAAdqzKt01K9fmy0igK4z9SiUJ737TCoYsIoOD
+         /t6SZBA6t4y636yK1GT4vwxUISkGHd6sDm11AdBQ5mVttBIU5nTrcnYXSwP3m5/SaKxy
+         zkMg8puJ7JCVO0FQe89pPp8X7aXJGYMWQ7O3FSGqTquDQhQoZbVfRNHZlltLtH6TRN7b
+         Sk5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWFkaY5S7BmFGn0nt5vNkLD2syaFnepXc03Eg3ZrACkXBLJ+ba4j4ndkMqM9H5BTg3XOezw7vMcUo/52v59V5UG4YvoYps/++6wPUV8iViErxqt/SdHPTAPlVBu90nuqCDS1z7koBEvQ0flWw+7oscBcNFYTLpJUfb9gn8HIBsYIZW2kFM=
+X-Gm-Message-State: AOJu0YwMBcoF4uOAzpzXf6bQAQ6VgAnT51WEU0gwnWaxHaFuvfiskvam
+	HGhnPD95cQMfay2fqYDE3eWZFwLDa9JqU4AtjFJP7MDQ9D92b1f6kVKfIPu8rF3SvjpmL8Q5ukQ
+	XdOvPFsoQqlA/Omo2aI5jni/eYcg=
+X-Google-Smtp-Source: AGHT+IGZVfpkm2DfaATxYbW8sDqLo8UC0/8E2KdJmuFtszeZYC4T0I7y8hVv1MitHOhz6CX/UlDN9ItKNp7imqphW1c=
+X-Received: by 2002:a17:907:118e:b0:a41:38a3:2a2c with SMTP id
+ uz14-20020a170907118e00b00a4138a32a2cmr7858643ejb.12.1709079021161; Tue, 27
+ Feb 2024 16:10:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
-In-Reply-To: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
+References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz> <20240227212244.262710-5-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20240227212244.262710-5-chris.packham@alliedtelesis.co.nz>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 28 Feb 2024 02:05:19 +0200
-Message-ID: <CAHp75Vc7yFX6TLhc0ADx+76_+2Li=WgQiSqpcwkFSpP3pPdC5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] auxdisplay: 7 segment LED display
+Date: Wed, 28 Feb 2024 02:09:45 +0200
+Message-ID: <CAHp75VfGfwxh_VVa8N_rYb-MK9AsufqtLRXvquuJwBGnEqh+gw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] ARM: dts: marvell: Indicate USB activity on x530
 To: Chris Packham <chris.packham@alliedtelesis.co.nz>
 Cc: andy@kernel.org, geert@linux-m68k.org, robh+dt@kernel.org, 
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, andrew@lunn.ch, 
@@ -91,14 +91,15 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Feb 27, 2024 at 11:22=E2=80=AFPM Chris Packham
 <chris.packham@alliedtelesis.co.nz> wrote:
 >
-> This series adds a driver for a 7 segment LED display.
->
-> At this point I've decided not to pursue supporting >1 character. I had
-> a look at what would be required to add a devm_fwnode_gpiod_get_array()
-> and got bogged down in OF and ACPI code for counting GPIOs.
+> Use the dot on the 7 segment LED block to indicate USB access on the
+> x530.
 
-Out of curiosity, why did it happen? gpiod_count() works in an agnostic way=
-.
+Not sure if it's a good idea. I have some plans for the compressed
+format, i.e. use DP for dots (or compatible pieces) so we may print up
+to double characters with that (e.g., '6.4.5.3.' as a single string on
+a 4-digit display).
+
+That said, I would like to defer this for a while.
 
 --=20
 With Best Regards,
