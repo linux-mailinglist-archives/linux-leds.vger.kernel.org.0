@@ -1,104 +1,140 @@
-Return-Path: <linux-leds+bounces-1048-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1049-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9EF86B295
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 16:04:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C5186B5D4
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 18:22:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2AF4282161
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 15:04:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 239E4B280E8
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 17:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BAD415B10F;
-	Wed, 28 Feb 2024 15:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bTUZz3v4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942763FBA2;
+	Wed, 28 Feb 2024 17:22:37 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E224B39;
-	Wed, 28 Feb 2024 15:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F347A6EF01;
+	Wed, 28 Feb 2024 17:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709132658; cv=none; b=Rl3otR9/UF6Of4xCJQgPwkR6u4nMqz4TvBd3kINcxbtICgeQCX5RNOgc84czynPmxg9Jx1mAVWmQIfStL1uoaUeeD0lqB9fxLQdTJATsYLhgoTU5lV2np0zsyPfSTEGq0AJ4W0Q5WYLVfpZPdhHAWjYJ3QQjGtm/BGmnux0csc8=
+	t=1709140957; cv=none; b=myVhRlZIsc6NkRltcfNg86aoIydomgWd5Vplg+4bKlpUGZ6r/Lj2yXqw2Y6c2hM+S+WHoOvh63hE7QmRtP6i0BshkHkDtsmzvQIP06LZvPp9FRU7axmH1RVeEKuz8A4et6pVrBmor6Jx/DwsofvskK5PBkLbhf11ugaXi9cafNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709132658; c=relaxed/simple;
-	bh=t9muqhfNN7i4XP7gG3jCRjrTS9ve2WB+DxxVMTVNZA8=;
+	s=arc-20240116; t=1709140957; c=relaxed/simple;
+	bh=SFvOWcPRYo2Lp/S4Uk1XoDCn8ACB3qkyl4DrAo0XEaE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZLkIYbq8+C8Ls3AiwU/URcwv0t20XN4ewV/guflYmq+Ot0mVkFtFJ8PKf4l1lEHz23xSVGbJGDP5w4S6J1AEav/UznGYLf6rgvC09ljSQRuP2LA1P7ISbYaujtGLcqu4EvSnQTI0ysmsBVl2FKOMZkMu2d3BlhlMtNS9p1kPCF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=bTUZz3v4; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=dOocNfIFOpPF6lqMWSXAW9AMnznAJXSj9KJvDupMxYg=; b=bTUZz3v4hxXRRqqLkvtLScD7qZ
-	/WpJG7GUplG1kh3IxUbHuJznV7aCXbWselztd5/1OrNEIjX4DPWCAT3nwjZus2EnfKmMELkcf/8IJ
-	J4b7cgWKvuKSxI+sC5x58oWQ0WEsz0TGSxx/d5ZvgMMy8WpyRjH7+YsKq1ZugZII140Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rfLTn-008xT3-DF; Wed, 28 Feb 2024 16:04:19 +0100
-Date: Wed, 28 Feb 2024 16:04:19 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
-	christophercordahi@nanometrics.ca
-Subject: Re: [PATCH v2 3/6] net: phy: DP83640: Add LED handling
-Message-ID: <9b06003c-afc9-419a-af36-7b81aab8517e@lunn.ch>
-References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
- <20240227093945.21525-4-bastien.curutchet@bootlin.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SD1uOH7yxNcngFkdYagbhQGRiJcfoPXXsrcXIESUkmmYan1T72CCTccF+E4G2HBnopoEVXaeC6qEZmSfgrEPawismiX/E7W4rWBjRyiHEsKAe5q6ctxVQlSyFZ2QPb+ITjngI5FcVaf7l8yDO3McJjAQjHvkOe1errN6ViZSxaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3719070"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="3719070"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 09:22:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="913956076"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="913956076"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 09:22:30 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1rfNdS-00000008HWT-3mFq;
+	Wed, 28 Feb 2024 19:22:26 +0200
+Date: Wed, 28 Feb 2024 19:22:26 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+Cc: "geert@linux-m68k.org" <geert@linux-m68k.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"andrew@lunn.ch" <andrew@lunn.ch>,
+	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
+	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
+	"ojeda@kernel.org" <ojeda@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"javierm@redhat.com" <javierm@redhat.com>,
+	"robin@protonic.nl" <robin@protonic.nl>,
+	"lee@kernel.org" <lee@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
+ 7 segment LED
+Message-ID: <Zd9r0lcnSuKFEsZF@smile.fi.intel.com>
+References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
+ <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
+ <CAHp75Vdi2c=s_z9wwxWzVcL+4tx5ZnXymbiN4O1FS+D3kz5vqw@mail.gmail.com>
+ <34b89a56-ab43-4d44-86f3-604e5be29db3@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240227093945.21525-4-bastien.curutchet@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34b89a56-ab43-4d44-86f3-604e5be29db3@alliedtelesis.co.nz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-> +static int dp83640_led_brightness_set(struct phy_device *phydev, u8 index,
-> +				      enum led_brightness brightness)
-> +{
-> +	int val;
-> +
-> +	if (index > DP83640_SPDLED_IDX)
-> +		return -EINVAL;
-> +
-> +	phy_write(phydev, PAGESEL, 0);
-> +
-> +	val = phy_read(phydev, LEDCR) & ~DP83640_LED_DIS(index);
-> +	val |= DP83640_LED_DRV(index);
-> +	if (brightness)
-> +		val |= DP83640_LED_VAL(index);
-> +	else
-> +		val &= ~DP83640_LED_VAL(index);
-> +	phy_write(phydev, LEDCR, val);
+On Wed, Feb 28, 2024 at 01:53:08AM +0000, Chris Packham wrote:
+> On 28/02/24 13:03, Andy Shevchenko wrote:
+> > On Tue, Feb 27, 2024 at 11:22 PM Chris Packham
+> > <chris.packham@alliedtelesis.co.nz> wrote:
 
-I don't understand this driver too well, but should this be using
-ext_read() and ext_write().
+...
 
-I'm also woundering if it would be good to implement the .read_page
-and .write_page members in phy_driver and then use phy_write_paged()
-and phy_write_paged() and phy_modify_paged(), which should do better
-locking.
+> >> +  segment-gpios:
+> >> +    description:
+> >> +      An array of GPIOs one per segment.
+> > This is a vague description. Please explain the order (e.g., LSB =
+> > 'a', MSB = 'g'), use of DP (optional?), etc.
+> >
+> >> +    minItems: 7
+> > maxItems?
 
-	Andrew
+> I plan on saying maxItems: 7 (more discussion below)
+
+...
+
+> >> +    led-7seg {
+> > Probably it should be more human readable. DT people might suggest
+> > something better.
+> >
+> >> +        compatible = "generic-gpio-7seg";
+> >> +        segment-gpios = <&gpio 0 GPIO_ACTIVE_LOW
+> >> +                         &gpio 1 GPIO_ACTIVE_LOW
+> >> +                         &gpio 2 GPIO_ACTIVE_LOW
+> >> +                         &gpio 3 GPIO_ACTIVE_LOW
+> >> +                         &gpio 4 GPIO_ACTIVE_LOW
+> >> +                         &gpio 5 GPIO_ACTIVE_LOW
+> >> +                         &gpio 6 GPIO_ACTIVE_LOW>;
+> > Dunno how to handle DP. Either we always expect it to be here (as
+> > placeholder) or with additional property.
+> 
+> My current plan was to ignore it. As you see it my later patch I'm 
+> (ab)using DP as a discrete gpio-led with a different function.
+
+FWIW, I have _no_ indicator _without_ DP. So, my statistics is towards enabling
+DP as a part of 7-segment displays.
+
+> We could either a separate dp-gpios property or set maxItems to 8. Right 
+> now the driver won't do anything with either option.To actually do 
+> something in the linedisp driver we'd need to have a new character map 
+> that includes the extra LED.
+
+Yeah, we can leave it open for now.
+
+> >> +    };
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
