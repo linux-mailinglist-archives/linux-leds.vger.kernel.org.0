@@ -1,82 +1,83 @@
-Return-Path: <linux-leds+bounces-1035-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1036-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FD086A416
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 00:58:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA0D86A435
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 01:04:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 25CCFB28DC7
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Feb 2024 23:57:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B21461C236F8
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 00:04:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 476C656751;
-	Tue, 27 Feb 2024 23:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05B81C10;
+	Wed, 28 Feb 2024 00:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6BwNu7o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTf+tThp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DB256479;
-	Tue, 27 Feb 2024 23:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8D3184F;
+	Wed, 28 Feb 2024 00:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709078257; cv=none; b=DIp43NPNcmM64pHouMYKv/sQWWmeT0SBy9Hn7HBJVdZGgzF3aXNiiLT50DMZv4HUvKPTPN42mWZwvjhZpr+mtzmEhy2Cr5yuvhfRWW7dx3v9iGI/gCBBmINjnuYLa8Y0crOUPznoz5cwZPOcJh0tRIbMeZ75JBNwWLLphLi0ySI=
+	t=1709078679; cv=none; b=PHM9AIsdRoxqgrpfGognPHelrmWXKJqGEpxyd4zHi1564EUcQIdJ0zNSr0nrDjfnHF3F64fqeJUrbxBvZeZnEUDIseDWVgQQS+HyS8iqXeZIUk0Z9mkL7F5JxsrMDVmWPE9dfKRcsv9r8ZFi+40iLiWDR6vykgfSHfqV76hXS3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709078257; c=relaxed/simple;
-	bh=i4eunqPzv1mPGKjyyB1oGKp6BBHF0yAXIJoIMrqLUkQ=;
+	s=arc-20240116; t=1709078679; c=relaxed/simple;
+	bh=JGUgWS4grQla5O7HdEiyj3k63HrCOx5ncAUPSxH5+bY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TeKynsjc2AA4fI4ZI0B34A7I0TvfBV9rzIF51X2r9zHGLLVktOnJyupd4Qzpios89/M6OCESiS/th0q5JF+DiUN6qJgvq6SLKQ+NrqMA0cwJpb7S6yqjckCkjsGBeehZ4xkD/CJJIhECw4vZJYmcqgpTymOCdO3LRuaNmT6pnBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E6BwNu7o; arc=none smtp.client-ip=209.85.218.49
+	 To:Cc:Content-Type; b=Kk2CGH86guxc8LTgxJ43wrgoGDQdzztL23Xy1B4SIUr8IbfwBvHp+V2ftFZ41xqWRC/smE5FceW5sil+l/c/QoSUR/uiza43a9DtayTRV/5o7zmGenGlXNS5Yy0tqg7TjBT0sh71x/HDTNFAWBUYOqgq0/xNr7MnuJa0a6u4E8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTf+tThp; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a36126ee41eso597980066b.2;
-        Tue, 27 Feb 2024 15:57:35 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a437a2a46b1so275921566b.2;
+        Tue, 27 Feb 2024 16:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709078254; x=1709683054; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709078676; x=1709683476; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jw/2eTH8icUybOg0B2mojfpsRBh1ZcHTu30XFAlRte0=;
-        b=E6BwNu7owCV70FS+DrdTE61AUGVxUsJM+m7/bynmiQq+VS7LpO+F0dZFlkzVoWbfNq
-         zbAXj57VGV9ikrhBk1M7NhsPZoO4dvYYNYyMdqNy7z53JRihSVG59AZtEyMeXUjrFzj/
-         wDrvqZk+W/XpAYtNf7zztKkrGxxqotaTFUdsBSdM4PNvT/vy0lIPq7UMW3ELhj+pAwSz
-         gdTUYXkrcwla9ig0MnzFDZmztIqRyeR86fDFIKSNI6mkyBg330H9zuamAOHbOXY6Ok7L
-         8I7vSJ5yd1x8irbuIeVIqgmuUSfDRTXatEoHbamO/iE2XMtSyEj6kyN3tl7apg3vku/h
-         qhTA==
+        bh=CGAsf5cgvi4hUcPvX6gI5YnLh72rWWc63kIQDyDiu9Q=;
+        b=MTf+tThpVGrJdwGtpMVfoBVNq9uH+eiSbu4c0aoxaO6nqvxKVaUZqazzwgbUI5S4vB
+         kdNmwBecgiUWQctuIUnrIPV1aG1WP7uJLk4UAnOUdtxLXqKLu0i/BmUyKKWR5spunF6k
+         lJk0bDYedqnuiOvpO0a4gPl1wqIyI1KB9X4+KmN8DIaXZnWBNHg3gdfFbvvmQE/Z2E3q
+         WIbLNmE6bOord8Cz6sEYlcsRbscYhzj2VQf7QdkjY6bc4SnT8RWrXzqepyhsNSuxOBd9
+         2faGP24LtEd42fvZ5w/Ydj2MFDcylvKp7MIveS0GziMSuOv+4n/J3VSefMt1zcvosrGy
+         QaoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709078254; x=1709683054;
+        d=1e100.net; s=20230601; t=1709078676; x=1709683476;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jw/2eTH8icUybOg0B2mojfpsRBh1ZcHTu30XFAlRte0=;
-        b=K2LQwTVEeOEWm3/6tAxMfA2J0phVZQwvPMNIg3DlgEzOk1ojfEgZmINAnjfTqdusss
-         3FXy2XgMC4JkGlWUlJgBGBHb4HFdk0Vv52G4SeNEJff8TdxQH9uEBEwDq3mOC2Jm6tTv
-         SxTcYWSiA7FMtU8l/VTxKh8+sPwbKznOsNjKY8sk6NsF3s08DSgPM4U9fnAmPC8uHxpW
-         MQC1UzM84ofJ1SaiyckoWKJh8X3YVEiomOeWAxK31PnYvvPrdXy82WPHk0w/KNgG/fP+
-         41iBOKnud/aJs/VhUG/lSGQ6Jpw0Jn+D5OzzBondNhKFd8978iDun2aBTWR43VHCczFd
-         t37Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXRxVTwnaCJLl5gBFN9cEu0MpZ2osMG2Az9l5ZnZxpMoBGRJyTTXY6FTh4ojZGn9olN3jbtRiP6j77zwch6JCZQIzMKU7AiErACCApNfNNJmfruXor1jz0w/Nm0FQIHZtwLBKmUdOPmdjRk9I9u+6UcXFhU5SFHO7espqmmg2kRE7QB+qk=
-X-Gm-Message-State: AOJu0YxQKmcOQlKTmGpJYknlZ3OuZ+1B1VjQJnyhL6XGWWGpDC2Pls3u
-	aARSY3r6n6L1dZL1cl70rysxOdqRIXc1RuBcGqwUOpb1ZueMk64aR+udFYDWPyUwHmU3zVY0DIt
-	ENnmrDHCyOGcthRL0+VyzgMlZcOQ=
-X-Google-Smtp-Source: AGHT+IGzgELteKOwRkF+kGHOFsCKs4ffEQ8yQMPYg/MYVyXRjfTkx0bQ5Dop1HHtqsPco9RRDsOyOUwCOjr/c/A2Iuo=
-X-Received: by 2002:a17:906:b2ca:b0:a43:18a0:a1ab with SMTP id
- cf10-20020a170906b2ca00b00a4318a0a1abmr5315944ejb.7.1709078253580; Tue, 27
- Feb 2024 15:57:33 -0800 (PST)
+        bh=CGAsf5cgvi4hUcPvX6gI5YnLh72rWWc63kIQDyDiu9Q=;
+        b=fFm8k6G5H+Px9p+bkhcEPQW+RHS7IEJ53KZWI4iLBXLHbOlhVe0REWKRv4+bR1gsUL
+         284lT+gC92uNoPPE569HsqB1nfLl5HBDLAkoN/fXVoL3+8SRugl3n4npdF+UYwAvdvrg
+         ji7+05vwShEQ1WSfJz83Qzpde58LE7afp8+m+anUZLhV+JXnLonjKCBRcHlqz8LezCYC
+         erdKnIp4UQhCOYAA+YMbVr7wPmblujaRhL5LvDfF/G8WGO1L+m1CvbcZ75iXjw16oMce
+         TlEM1clxY7ymJTyo1N2sLg0ziL51FsL0dc23orAG/AKiqTs5kep99wsxf9feB+xBey2T
+         iIlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXu7WV4w7ucdq06LIODGa0wkiijC2IPZ1S2BSoaf3rB0hB7QOJcyMufyeaA9w5s7hfqMx2a76SdSfJiMRpH7NnZIW4YlvgyE+I/UBxOT85iPKJ6XfJMOO7Dn1hgqMU2ooiKVsSq1WEVMKKKRpLpA6eWPWqaDBjXSoR29ES2rpkISRiDutY=
+X-Gm-Message-State: AOJu0YyQosQsVGy/SxmGgrxIjxhnwChZJkKrY8x/jM3R29LggjS5nZUr
+	8POr/rLHxCuY7J75bNOFU957gEDqK46iOmBD/QjiTDJKSzei9RNGR02zJi6OmddGkHaxEsJT2L1
+	FgoFALB6AD8exoOTQkYl/RWPc9iY=
+X-Google-Smtp-Source: AGHT+IGXLgvtICyW0r81gWFgD3HrWKOjnkobiDubKg4V9DdmTC/M0dtG3PZq8BTs+ZginsAuk4xm9JsdwYJtrkb5tpo=
+X-Received: by 2002:a17:906:1cd4:b0:a3e:5993:96e9 with SMTP id
+ i20-20020a1709061cd400b00a3e599396e9mr6993567ejh.42.1709078676009; Tue, 27
+ Feb 2024 16:04:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz> <20240227212244.262710-2-chris.packham@alliedtelesis.co.nz>
-In-Reply-To: <20240227212244.262710-2-chris.packham@alliedtelesis.co.nz>
+References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz> <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 28 Feb 2024 01:56:56 +0200
-Message-ID: <CAHp75Ve-zKDgBXhe8fzvW0GY2nB7=ZTfhsJX6OHBH8EQWaWG-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] auxdisplay: Add 7 segment LED display driver
+Date: Wed, 28 Feb 2024 02:03:59 +0200
+Message-ID: <CAHp75Vdi2c=s_z9wwxWzVcL+4tx5ZnXymbiN4O1FS+D3kz5vqw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
+ 7 segment LED
 To: Chris Packham <chris.packham@alliedtelesis.co.nz>
 Cc: andy@kernel.org, geert@linux-m68k.org, robh+dt@kernel.org, 
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, andrew@lunn.ch, 
@@ -90,101 +91,40 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Feb 27, 2024 at 11:22=E2=80=AFPM Chris Packham
 <chris.packham@alliedtelesis.co.nz> wrote:
->
-> Add a driver for a 7 segment LED display. At the moment only one
-> character is supported but it should be possible to expand this to
-> support more characters and/or 14 segment displays in the future.
-
-As Randy already pointed out
-7-segment (everywhere)
-14-segment (also everywhere)
 
 ...
 
->  drivers/auxdisplay/seg-led.c | 119 +++++++++++++++++++++++++++++++++++
+> +  segment-gpios:
+> +    description:
+> +      An array of GPIOs one per segment.
 
-I believe we want to have a 'gpio' part in the file name and in the Kconfig=
-.
+This is a vague description. Please explain the order (e.g., LSB =3D
+'a', MSB =3D 'g'), use of DP (optional?), etc.
 
+> +    minItems: 7
 
-> +config SEG_LED
-> +       tristate "Generic 7 segment LED display"
-> +       select LINEDISP
-> +       help
-> +         This driver supports a generic 7 segment LED display made up
-> +         of GPIO pins connected to the individual segments.
-> +
-> +         This driver can also be built as a module. If so, the module
-> +         will be called seg-led.
+maxItems?
 
 ...
 
-> +#include <linux/container_of.h>
-> +#include <linux/errno.h>
-> +#include <linux/gpio/consumer.h>
+> +    led-7seg {
 
-> +#include <linux/kernel.h>
+Probably it should be more human readable. DT people might suggest
+something better.
 
-Please, avoid proxy headers. I do not believe kernel.h is anyhow used here.
+> +        compatible =3D "generic-gpio-7seg";
+> +        segment-gpios =3D <&gpio 0 GPIO_ACTIVE_LOW
+> +                         &gpio 1 GPIO_ACTIVE_LOW
+> +                         &gpio 2 GPIO_ACTIVE_LOW
+> +                         &gpio 3 GPIO_ACTIVE_LOW
+> +                         &gpio 4 GPIO_ACTIVE_LOW
+> +                         &gpio 5 GPIO_ACTIVE_LOW
+> +                         &gpio 6 GPIO_ACTIVE_LOW>;
 
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/types.h>
-> +#include <linux/workqueue.h>
+Dunno how to handle DP. Either we always expect it to be here (as
+placeholder) or with additional property.
 
-...
-
-> +struct seg_led_priv {
-> +       struct gpio_descs *segment_gpios;
-> +       struct delayed_work work;
-
-> +       struct linedisp linedisp;
-
-Make it the first member, so container_of() will be noop for this.
-
-> +};
-
-...
-
-> +static void seg_led_update(struct work_struct *work)
-> +{
-> +       struct seg_led_priv *priv =3D container_of(work, struct seg_led_p=
-riv, work.work);
-> +       struct linedisp_map *map =3D priv->linedisp.map;
-> +       DECLARE_BITMAP(values, 8);
-
-> +       values[0] =3D map_to_seg7(&map->map.seg7, priv->linedisp.buf[0]);
-
-While it works in this case, it's bad code. You need to use
-bitmap_set_value8(). And basically that's the API in a for-loop to be
-used in case we have more than one digit. This will require another
-header to be included.
-
-> +       gpiod_set_array_value_cansleep(priv->segment_gpios->ndescs, priv-=
->segment_gpios->desc,
-> +                                      priv->segment_gpios->info, values)=
-;
-> +}
-
-...
-
-> +static const struct of_device_id seg_led_of_match[] =3D {
-> +       { .compatible =3D "generic-gpio-7seg"},
-> +       {}
-> +};
-> +MODULE_DEVICE_TABLE(of, seg_led_of_match);
-
-Move this part closer to its user, i.e. struct platform_driver below.
-
-...
-
-> +       INIT_DELAYED_WORK(&priv->work, seg_led_update);
-
-Move this to ->get_map_type() as other drivers do. Yes, I agree that
-->get_map_type() is not the best name currently. You can rename it to
-->init_and_get_map_type() if you wish (patches are welcome!) or any
-other better name.
+> +    };
 
 --=20
 With Best Regards,
