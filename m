@@ -1,116 +1,142 @@
-Return-Path: <linux-leds+bounces-1051-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1052-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C99086B785
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 19:45:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E6C86B8B7
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 21:01:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E07E1C266B5
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 18:45:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96EC71C227DB
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Feb 2024 20:01:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E07671EB9;
-	Wed, 28 Feb 2024 18:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E486F5E076;
+	Wed, 28 Feb 2024 20:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="vChQXobm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E98371EAE;
-	Wed, 28 Feb 2024 18:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3DE5E084
+	for <linux-leds@vger.kernel.org>; Wed, 28 Feb 2024 20:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709145937; cv=none; b=N0QBRyArXmfss/UChefwQuw5YwBtzG84+ONr5RJVDP7xDyuPoG/zCfFjM0keo2syppgt/TvQ7jDFwuHRc3VdRSl8GvGxejZHt44GuwrE/+v0sBvAXbmLb5SWoJwpLUdG8jQWnB0tVylWgB5pnKS9XHJD/1o7BtY1I3Q4UF5ANdo=
+	t=1709150494; cv=none; b=TAPJr8+axNFipy7Qsx5namnYEEm+VcXQSFDC1VFgJLuZElJiH4MTFQr7Vm89PIjRY4RqajejEzYR7tAoj36vU+SMxaJmcKGzRf6tWGSm0U6vPLwdUSm4E9sgpVCq3IKhQIOy3Mhv58AwIEaNs2kPryGsa91uck26+azcXDYsY/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709145937; c=relaxed/simple;
-	bh=PuptU9qCfYeOwL5IH0ZHMjo0cCz+Qt/qZLM54d12CD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cN0LmdxngE9MxTCqIFzW2WacGZDmhpoHjO8O+M7Cjgd5KQY8FSIRf82c/6I6NRb2/aaxfrqvaHKjwW1x591m+B5f48YuZbX4Mh1LEk7SK2pGL/BIK0hc6vfekYmZmJ1hojq1+pUL67kbR3Z9ec7Vz3TKcj6Qi3sQ96Eb++t/lQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="21023886"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="21023886"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 10:45:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="913958033"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="913958033"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 10:45:25 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1rfOvh-00000008Ir4-2XPh;
-	Wed, 28 Feb 2024 20:45:21 +0200
-Date: Wed, 28 Feb 2024 20:45:21 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: "geert@linux-m68k.org" <geert@linux-m68k.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"andrew@lunn.ch" <andrew@lunn.ch>,
+	s=arc-20240116; t=1709150494; c=relaxed/simple;
+	bh=CYJRnX0LX9ltSDiucl861SMbveP4RK1Ry49h0GXLEh8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=f8qiGLTIgM6KofNoWBfoEEowuZFCmgR2OIwYjv7d1Tjg6Tyy3F2XurexyDPBFk+0TD4o/VSYRuDqAczYXJqhhyHIuFAkiIrsUBueMFIjXylokecTp6AYRRk1O+3QqK+oKzIbfqTT1Tkal7xJi+LIYvgqV8EcHsDC8VxOm5gWAI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=vChQXobm; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id BA1742C0D33;
+	Thu, 29 Feb 2024 09:01:29 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1709150489;
+	bh=CYJRnX0LX9ltSDiucl861SMbveP4RK1Ry49h0GXLEh8=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=vChQXobm+IF8kqkGePewfAvbntcEoGzdOa3v3nr9Pyh5ctBrHqAH3QETyKQCH6X3R
+	 CbSdXaf80Pm9HPbIpF2/VJ5KjlAGZcCGk3WvgiQwBb+Xj5sF8a79upEhzEuDyo3Xef
+	 +X79p83/sYWTWHIe3mSIjR6GSvM/DX9btemu54Pknv6WNd6PeJ4QanHrwOLf182F9w
+	 X5HkAxt+jo+4jMS6/wyvHTVEEDmR4uZWsFM4ubrbponEycCHzN26OtBXTH90bPlRC4
+	 gMT4nT1KqXOe7mxUeLVWsTFv6Q1xOxqocpNZukHbrDDkxolRTxiLnboh3B0LjBBwnZ
+	 mGoa91xe/E3tA==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65df91190001>; Thu, 29 Feb 2024 09:01:29 +1300
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 29 Feb 2024 09:01:29 +1300
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1118.040; Thu, 29 Feb 2024 09:01:29 +1300
+From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To: Rob Herring <robh@kernel.org>
+CC: "andy@kernel.org" <andy@kernel.org>, "geert@linux-m68k.org"
+	<geert@linux-m68k.org>, "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>,
 	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
 	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
-	"ojeda@kernel.org" <ojeda@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"javierm@redhat.com" <javierm@redhat.com>,
-	"robin@protonic.nl" <robin@protonic.nl>,
-	"lee@kernel.org" <lee@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 0/4] auxdisplay: 7 segment LED display
-Message-ID: <Zd9_Qc0fVD6OjbKi@smile.fi.intel.com>
+	"ojeda@kernel.org" <ojeda@kernel.org>, "tzimmermann@suse.de"
+	<tzimmermann@suse.de>, "javierm@redhat.com" <javierm@redhat.com>,
+	"robin@protonic.nl" <robin@protonic.nl>, "lee@kernel.org" <lee@kernel.org>,
+	"pavel@ucw.cz" <pavel@ucw.cz>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-leds@vger.kernel.org"
+	<linux-leds@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
+ 7 segment LED
+Thread-Topic: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
+ 7 segment LED
+Thread-Index: AQHaacMcPIjrgF/Em0WhkdYBGa6MPrEe8JuAgABjxQA=
+Date: Wed, 28 Feb 2024 20:01:29 +0000
+Message-ID: <d666668b-f371-47e0-846e-6e8a56b4bb2f@alliedtelesis.co.nz>
 References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
- <CAHp75Vc7yFX6TLhc0ADx+76_+2Li=WgQiSqpcwkFSpP3pPdC5Q@mail.gmail.com>
- <2ad735ed-963c-4e75-b83e-687ea2c0aef5@alliedtelesis.co.nz>
+ <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
+ <20240228140423.GA3307293-robh@kernel.org>
+In-Reply-To: <20240228140423.GA3307293-robh@kernel.org>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <941A10E010CE7B4F94E49388093D5DA1@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ad735ed-963c-4e75-b83e-687ea2c0aef5@alliedtelesis.co.nz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65df9119 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=62ntRvTiAAAA:8 a=UDFYyeKIAAAA:8 a=gEfo2CItAAAA:8 a=ZkCM13O6FiSmS0rTvWEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pToNdpNmrtiFLRE6bQ9Z:22 a=ItlKd2BftxWApCZtRiMt:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-SEG-SpamProfiler-Score: 0
 
-On Wed, Feb 28, 2024 at 12:25:30AM +0000, Chris Packham wrote:
-> 
-> On 28/02/24 13:05, Andy Shevchenko wrote:
-> > On Tue, Feb 27, 2024 at 11:22 PM Chris Packham
-> > <chris.packham@alliedtelesis.co.nz> wrote:
-> >> This series adds a driver for a 7 segment LED display.
-> >>
-> >> At this point I've decided not to pursue supporting >1 character. I had
-> >> a look at what would be required to add a devm_fwnode_gpiod_get_array()
-> >> and got bogged down in OF and ACPI code for counting GPIOs.
-> > Out of curiosity, why did it happen? gpiod_count() works in an agnostic way.
-> >
-> At first I though I could create a fwnode_gpiod_count() out of the body 
-> of gpiod_count(). But both of_gpio_get_count() and acpi_gpio_count() 
-> take the dev not the fwnode. It looks like gpiod_count() (and 
-> of_gpio_spi_cs_get_count()) could probably be re-written (or abstracted) 
-> to take the device_node instead of the device. I started looking at 
-> acpi_gpio_count() but I couldn't quite see how I could adapt this.
-> 
-> I'm definitely not saying it can't be done. Just that you probably don't 
-> want an occasional contributor like me messing with some of these core 
-> device abstractions.
-
-I just sent a series. With it you may split gpiod_count() to
-fwnode_gpio_count() and gpiod_count() that uses the former.
-I believe you may do that easily as it won't require any special
-knowledge.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+DQpPbiAyOS8wMi8yNCAwMzowNCwgUm9iIEhlcnJpbmcgd3JvdGU6DQo+IE9uIFdlZCwgRmViIDI4
+LCAyMDI0IGF0IDEwOjIyOjQyQU0gKzEzMDAsIENocmlzIFBhY2toYW0gd3JvdGU6DQo+PiBBZGQg
+YmluZGluZ3MgZm9yIGEgZ2VuZXJpYyA3IHNlZ21lbnQgTEVEIGRpc3BsYXkgdXNpbmcgR1BJT3Mu
+DQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxp
+ZWR0ZWxlc2lzLmNvLm56Pg0KPj4gLS0tDQo+Pg0KPj4gTm90ZXM6DQo+PiAgICAgIENoYW5nZXMg
+aW4gdjI6DQo+PiAgICAgIC0gVXNlIGNvbXBhdGlibGUgPSAiZ2VuZXJpYy1ncGlvLTdzZWciIHRv
+IGtlZXAgaHR0cDovL3NjYW5tYWlsLnRydXN0d2F2ZS5jb20vP2M9MjA5ODgmZD03YjNmNWZVSkd0
+WS1LYWxhNVpPT3hhT1ZZdDJCd04tWkxza1lpM2hXRFEmdT1odHRwJTNhJTJmJTJmY2hlY2twYXRj
+aCUyZXBsIGhhcHB5DQo+Pg0KPj4gICAuLi4vYXV4ZGlzcGxheS9nZW5lcmljLWdwaW8tN3NlZy55
+YW1sICAgICAgICAgfCA0MCArKysrKysrKysrKysrKysrKysrDQo+PiAgIDEgZmlsZSBjaGFuZ2Vk
+LCA0MCBpbnNlcnRpb25zKCspDQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvYXV4ZGlzcGxheS9nZW5lcmljLWdwaW8tN3NlZy55YW1sDQo+
+Pg0KPj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hdXhk
+aXNwbGF5L2dlbmVyaWMtZ3Bpby03c2VnLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvYXV4ZGlzcGxheS9nZW5lcmljLWdwaW8tN3NlZy55YW1sDQo+PiBuZXcgZmlsZSBt
+b2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMDAwMDAwLi40NmQ1M2ViZGY0MTMNCj4+IC0tLSAv
+ZGV2L251bGwNCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hdXhk
+aXNwbGF5L2dlbmVyaWMtZ3Bpby03c2VnLnlhbWwNCj4+IEBAIC0wLDAgKzEsNDAgQEANCj4+ICsj
+IFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkN
+Cj4+ICslWUFNTCAxLjINCj4+ICstLS0NCj4+ICskaWQ6IGh0dHA6Ly9zY2FubWFpbC50cnVzdHdh
+dmUuY29tLz9jPTIwOTg4JmQ9N2IzZjVmVUpHdFktS2FsYTVaT094YU9WWXQyQndOLVpMc1lkaENR
+QVdRJnU9aHR0cCUzYSUyZiUyZmRldmljZXRyZWUlMmVvcmclMmZzY2hlbWFzJTJmYXV4ZGlzcGxh
+eSUyZmdlbmVyaWMlMmNncGlvLTdzZWclMmV5YW1sJTIzDQo+PiArJHNjaGVtYTogaHR0cDovL3Nj
+YW5tYWlsLnRydXN0d2F2ZS5jb20vP2M9MjA5ODgmZD03YjNmNWZVSkd0WS1LYWxhNVpPT3hhT1ZZ
+dDJCd04tWkxzWVkwWDlXRGcmdT1odHRwJTNhJTJmJTJmZGV2aWNldHJlZSUyZW9yZyUyZm1ldGEt
+c2NoZW1hcyUyZmNvcmUlMmV5YW1sJTIzDQo+PiArDQo+PiArdGl0bGU6IEdQSU8gYmFzZWQgTEVE
+IHNlZ21lbnQgZGlzcGxheQ0KPj4gKw0KPj4gK21haW50YWluZXJzOg0KPj4gKyAgLSBDaHJpcyBQ
+YWNraGFtIDxjaHJpcy5wYWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+DQo+PiArDQo+PiArcHJv
+cGVydGllczoNCj4+ICsgIGNvbXBhdGlibGU6DQo+PiArICAgIGNvbnN0OiBnZW5lcmljLWdwaW8t
+N3NlZw0KPiAnZ2VuZXJpYycgZG9lc24ndCBhZGQgYW55dGhpbmcgb2YgdmFsdWUuIDdzZWcgaXMg
+a2luZCBvZiB2YWd1ZS4gU28sDQo+IGdwaW8tNy1zZWdtZW50Pw0KDQpBY2suDQoNCj4+ICsNCj4+
+ICsgIHNlZ21lbnQtZ3Bpb3M6DQo+PiArICAgIGRlc2NyaXB0aW9uOg0KPj4gKyAgICAgIEFuIGFy
+cmF5IG9mIEdQSU9zIG9uZSBwZXIgc2VnbWVudC4NCj4+ICsgICAgbWluSXRlbXM6IDcNCj4gSG93
+IGRvZXMgb25lIGtub3cgd2hpY2ggR1BJTyBpcyB3aGljaCBzZWdtZW50Pw0KDQpJJ3ZlIGV4cGFu
+ZGVkIHRoZSBkZXNjcmlwdGlvbiBpbiB2My4NCg0KKyBBbiBhcnJheSBvZiBHUElPcyBvbmUgcGVy
+IHNlZ21lbnQuIFRoZSBmaXJzdCBHUElPIGNvcnJlc3BvbmRzIHRvIHRoZSBBDQorIHNlZ21lbnQg
+dGhlIGxhc3QgR1BJTyBjb3JyZXNwb25kcyB0byB0aGUgRyBzZWdtZW50Lg0KDQpEbyB5b3UgdGhp
+bmsgdGhhdCdzIHN1ZmZpY2llbnQgb3IgZG8gSSBuZWVkIHRvIGFkZCBtb3JlPyBJbiB0aGUgZHJp
+dmVyIA0KaXRzZWxmIEkndmUgcHV0IGEgbGl0dGxlIGFzY2lpIGFydCBkaWFncmFtIG9mIHRoZSBz
+ZWdtZW50cy4NCg==
 
