@@ -1,79 +1,114 @@
-Return-Path: <linux-leds+bounces-1070-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1071-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF7686D06F
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 18:22:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565C286D090
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 18:27:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54E331C21211
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 17:22:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CD1A1C224FD
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 17:27:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D487D6CBF4;
-	Thu, 29 Feb 2024 17:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45CD06CC04;
+	Thu, 29 Feb 2024 17:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhshOMrs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFlmFR5V"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1326CBF0;
-	Thu, 29 Feb 2024 17:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE844AECD;
+	Thu, 29 Feb 2024 17:26:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709227367; cv=none; b=ZxRKDzSObjuRJ7HMvKABxmFS9KmDsu/+IE/WydvVRxevnIh1JFNEQSXvjORHtHfRoDCI1NziJbW5TUzMcI3CxxZDBXbN9EQgua6iTkVjn0LgnqTk8Q6cqxZsSNmq1patJQnEf12Rs9vFzSJIeeurGgzbE+dz0V9vd5FgO/IJFEs=
+	t=1709227619; cv=none; b=X9JO3aFMiL2wN5hlOtbTPLpL2YrcHC14FHsL5PE67a46ymXsYeYeOTyYNOHi3DqjWgEZoJ2sTe48MUVPl+DQ1RPvx+UxRQ1cE/U2O/1xyklvfmlSWAMMHdKbFGLBvITo5kNSYbQ8uFWKZTg0CXQRNffuXp3ViDkvgLAD88yRcgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709227367; c=relaxed/simple;
-	bh=yyqZG85T18TQP8MsfNm4Di81wpJ8qtJqUxC8H8S0suQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=psqkW2uOCPciH2mEYP3svUeUCgqn6/atKx8I1WTPEm5ghbMmPmDK2YK3D5zlryrp3l6H80qPuWx8pCq4bCK0vxBw9ZWuziKGP/RBqaOJ2tZ/qFzyixjerUTG/BhqepKzKWNRPmFQMdmgxu1n1JaROf+64f00KPlVm9nsboaW/wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhshOMrs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE8CC43390;
-	Thu, 29 Feb 2024 17:22:46 +0000 (UTC)
+	s=arc-20240116; t=1709227619; c=relaxed/simple;
+	bh=/+vxeGoa9JMmFeA7U/NM1GhP4jJ2AQtTVmh5PXJiVqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qvyk1ym2veOiBwpzl3OC/8FkMEdloUiTb8LvadJ6aQA43Wf3cCP4ldABstDqzxD8livl9Q8xvKs/alC3j6gxYkXGRL2Zw61YaVmsxW8HjKq4Or8j8eGC/IcvmTEyqTpkSOKd6fCQFWxpRDf5TFCMPY9RTd+dQO1SZHVlPI3rEc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFlmFR5V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDC9C433C7;
+	Thu, 29 Feb 2024 17:26:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709227367;
-	bh=yyqZG85T18TQP8MsfNm4Di81wpJ8qtJqUxC8H8S0suQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IhshOMrsNVYqzYZh9W2peOb1LTys/ugpeqXND7C9Q7EENpo8v8IQzgTZ4jdoDznk+
-	 YF1zgOOFNvbDZVJvhujhr/WEFgienq0Ay74Yh0SqRtYqVQf7G0nc9/vtQpPHUOyVDz
-	 kbTWrSVhWOQSr4yzC2Jx67Bq/B03usgNnpQui6/RGvuUE/56wPMjKqrDBhfB+ve4x6
-	 AjzhriCaRzMPCIPFijGB0llXm4z44Ao+DpcQy/yAoqCAL0KR5T9e8DiPjye/VC6al3
-	 XshPUARJ2rXu+X9PUQesHgNeX6Guy72mdgHNpE5BnDO74Uw7Twy5dwXhV/pV5MDdJi
-	 qwWYOql2uWLYQ==
+	s=k20201202; t=1709227618;
+	bh=/+vxeGoa9JMmFeA7U/NM1GhP4jJ2AQtTVmh5PXJiVqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PFlmFR5Vtjnu0AEZnfm0sc9VeVNGqeqknxsqd9UsGfod5t11c0gunlUylOXrI4HT0
+	 ouhWQztuyEBNMb5SolghaMHCKAdf0eQEw1CLFpxaRCb82xV9Z1T0NyAGjz0vO5n0iG
+	 TwKGbnRn0z3kb55lQ68XQN4ejnHSEMUWsR5wh+oJeBWEdiTX3LHt9ZlcRgO8s7yGUF
+	 3yOyiveO7SW2CJYqqs32wPWfmg8q/hhgc9c4tdLFX657+BYFF4IraSelnXcBXt6bRI
+	 PFZKmIkv3xA1Igsy4ajYV4aaEZ59TToY4+UwvyroGH3858RByLknscA/wG3b2H93D4
+	 XcoTOY0UaT5eA==
+Date: Thu, 29 Feb 2024 17:26:53 +0000
 From: Lee Jones <lee@kernel.org>
-To: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-In-Reply-To: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
-References: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: (subset) [PATCH v2 1/1] leds: expresswire: Don't use "proxy"
- headers
-Message-Id: <170922736619.1614411.13819632437202296097.b4-ty@kernel.org>
-Date: Thu, 29 Feb 2024 17:22:46 +0000
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+Message-ID: <20240229172653.GB1209090@google.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.4
+In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 
-On Fri, 23 Feb 2024 22:30:00 +0200, Andy Shevchenko wrote:
-> Update header inclusions to follow IWYU (Include What You Use)
-> principle.
+On Tue, 13 Feb 2024, Heiner Kallweit wrote:
+
+> If a simple trigger is assigned to a LED, then the LED may be off until
+> the next led_trigger_event() call. This may be an issue for simple
+> triggers with rare led_trigger_event() calls, e.g. power supply
+> charging indicators (drivers/power/supply/power_supply_leds.c).
+> Therefore persist the brightness value of the last led_trigger_event()
+> call and use this value if the trigger is assigned to a LED.
+> This change allows to use simple triggers in more cases.
+> As a first use case simplify handling of the mute audio trigger.
 > 
+> This series touches few subsystems. I'd propose to handle it via
+> the LED subsystem.
+> 
+> Heiner Kallweit (4):
+>   leds: trigger: Store brightness set by led_trigger_event()
+>   ALSA: control-led: Integrate mute led trigger
+>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+>   leds: trigger: audio: Remove this trigger
+> 
+>  arch/mips/configs/ci20_defconfig     |  1 -
+
+>  drivers/input/input-leds.c           |  8 +---
+
+This does not apply.
+
+Please rebase onto v6.8-rc1.
+
+>  drivers/leds/led-triggers.c          |  6 ++-
+>  drivers/leds/trigger/Kconfig         |  7 ---
+>  drivers/leds/trigger/Makefile        |  1 -
+>  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
+>  include/linux/leds.h                 | 29 ++++++------
+>  sound/core/Kconfig                   |  1 -
+>  sound/core/control_led.c             | 20 +++++++--
+>  9 files changed, 37 insertions(+), 103 deletions(-)
+>  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
+> 
+> -- 
+> 2.43.1
 > 
 
-Applied, thanks!
-
-[1/1] leds: expresswire: Don't use "proxy" headers
-      commit: 8471d8737e3b4915ba0802985427364cd286ca5b
-
---
+-- 
 Lee Jones [李琼斯]
-
 
