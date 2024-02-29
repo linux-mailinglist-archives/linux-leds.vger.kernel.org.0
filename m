@@ -1,107 +1,125 @@
-Return-Path: <linux-leds+bounces-1061-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1062-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA9386C293
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 08:32:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0472D86C4ED
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 10:23:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA2192861BE
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 07:32:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28C021C222BE
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 09:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB1C45C04;
-	Thu, 29 Feb 2024 07:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VBmtnGys"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13FBA5A105;
+	Thu, 29 Feb 2024 09:23:33 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661E844C8C;
-	Thu, 29 Feb 2024 07:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D525A0FA;
+	Thu, 29 Feb 2024 09:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709191923; cv=none; b=r8TfFrcvEYtlIm9zV5NhUm/kbsCrkVLyt3kVCbK/cNcwSVK3YrbJ3OE3SwcI2WMGwvHJTZuVRL3C11R+yFC/1B86+tCs6kXy0vHz2WmcZH3tJ63sq923FT8ukK1GZF8Mey44atyvyNogDdqF4TXSa/lkjzx5F72D1o0iiawuZsk=
+	t=1709198613; cv=none; b=ZFxhmwoK5zRBTSOKurfDXCb6fXYYRXBF/i5vmhtdYXoQWAiZuu5tDwrSgaQUdyPCLb3DEeBqktsBPpU+T3VfQR3Uhdml87D31hg6k+Z3xpwVSs1mjiWtE/PmC0E7Xl2DFdjpnZFsOXkEKJA3VwnULqyRHTovouLHyTasEF/kA9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709191923; c=relaxed/simple;
-	bh=EHPwMRslysMH/6pBpniolRdwostS5lFMS+gutCk9a6M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NoznthfpiGt/8R3zZayGnNuspEk93gZOki+ubPl4mJYgplMs/2IV3mzSPcjt0UEql5kIyGPL+iV1lHDDfX0QtYwPJOM+yziTq9a1cmOF9NfYllnQG5ebQo2UZkq5CKJ/lZFa5x6Vpe9sSleFrn4lcRcMqp4oKVxJhV2iKnlcRvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VBmtnGys; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 19AC5E0002;
-	Thu, 29 Feb 2024 07:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709191918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zp3g25JeuYR2V66Ei5s5q+BW/ugjiuni4LeJDlsxyMQ=;
-	b=VBmtnGyszrpBELAenQD0+WWuLUQQIyvFJ2vrZ6e6QFxRbvA3fQKzuL1A06oTATq+i3m0B1
-	inCMvJTCp1osw/oOxYQAHwqRfCoakwhl3RFwU2Ajk+lfr426gwgdddW09hfH1QvyGgUvJY
-	PUQXhcgSlhv4vb1rxiG2c91hV7yU89QMezJXnNPaQfd1cAvCFuXiXVHINi+XvlNhgeKlQe
-	VpuqeWZCE0hZQzXS+wvPXS3LXy3f2ii2n87bHpZ5zD/y0Wnz+7q3TLQYeBDADBxDvWPCOV
-	cKxY2jLeD7YSd53+9nAZUld+Gcrh/8CJXjkixiV/tvKito3FsEJuv7rNbC2pDA==
-Message-ID: <c1b17410-b403-4c3a-9c00-de8f2b2b2fa7@bootlin.com>
-Date: Thu, 29 Feb 2024 08:31:55 +0100
+	s=arc-20240116; t=1709198613; c=relaxed/simple;
+	bh=1XU1cs7VALNZKx8vt8v+2D2SZJDuWIN8jcuP7QRWL+0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=np4buvEanZHEdRFINyiPA7xKqA5YfLxQYSChM2s52DLCVR59kHiTwuoHHefdMoBgJ7LKbnLPgkuUITGx0ZScHbAeMBjGaCv8RcwYpwIoVA/Q6Ai3nm86woOS8ySxCLglfRCe+ml7YfU4uEkx7auwcnqiQkIda75xuREmxPbqgiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-607f8894550so4780917b3.1;
+        Thu, 29 Feb 2024 01:23:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709198608; x=1709803408;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OiC0kBtF19WK+LeOA4CJH8Hju+1dSIg0bD9jOGn2HI4=;
+        b=duHaSaSeyQBC6A/vEY2iPLI2tr85QyqIIH1AH6nWGMR50sXCDMtp5CD4UGVg5r+v6e
+         gtHYU+stNe6mo86+GNcQLfubLWqO6RAtvz4kAf6D6WBG/6MGMKUgDzIEafk9lIDlOBjv
+         ta6GHL1aeHC5byJXT+1SmQQYnaxUIAU7dy6HiuS5QwGCg62A/RcE2hQ1R0ErROf2XyOM
+         wVJrOw5oXKRT/1t6PpGvAb0iuZJJdF6X/av47UZQwK4fyyURWiqVi3J32xoehzoDFIlD
+         hWyHFUCLk8LkhStmjeHvuw0Kci0VWGAZ2MplG7Qsfu1+KpVAxue/rsZr5cEGuSx2YmKK
+         Qp3g==
+X-Forwarded-Encrypted: i=1; AJvYcCU5+H4nziWIF50Ce893L7qK/i80aNROXHYscSKqPThpZp+bskgkJga8ovjc0Gq6ZbTrmZNstTWHAKU0OR3aPF0Dzu0647vHF07w90TKXgwO0QA1rw+XpNwK8yAgi32qKsfI1AmguTY4QStg8PFiZdaeMES9d5FZQl9fHdsUVAkkzXT5Jas=
+X-Gm-Message-State: AOJu0YzbY8AlHDTZ1XC0YHjqrZcSEKbETAaWFgid1k8BmWdHgkR7LNm6
+	Efqhx4Ce946C62FPVxSEc7n27Z67XyUfjXi/9Nn1YNDCuKiotSjBfQIHgTxqhTc=
+X-Google-Smtp-Source: AGHT+IGvXpeYNw7meFiNlQliBLjcWukM3ve37TtSWhkfayEvg/75caWbmHFytSgCpxjWvbbIGoQbjA==
+X-Received: by 2002:a05:690c:dcd:b0:607:ca2e:f23e with SMTP id db13-20020a05690c0dcd00b00607ca2ef23emr1985495ywb.30.1709198608135;
+        Thu, 29 Feb 2024 01:23:28 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id fr2-20020a05690c358200b006079f55766bsm258909ywb.68.2024.02.29.01.23.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Feb 2024 01:23:27 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso755284276.1;
+        Thu, 29 Feb 2024 01:23:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVd4N9ZxHM2NGYE/jajMl9VA4HhvWHlSnnilVGCiqOW/14KuADINTJT8yuL1QM2SzmfZHHBHFN6nCH+DVyoFFZ1oWYgaVeacFRCOC7Y/LvJPXz3IoC+BaauO5w/tJwgwwQzbq2pqGbLNLbHkh8YWmiIBZkIjGAf7MWMQTHwvcTp5usyQ4c=
+X-Received: by 2002:a25:2903:0:b0:dc7:1ab6:6aca with SMTP id
+ p3-20020a252903000000b00dc71ab66acamr1586095ybp.63.1709198606631; Thu, 29 Feb
+ 2024 01:23:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] net: phy: DP83640: Add fiber mode
- enabling/disabling from device tree
-Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Richard Cochran <richardcochran@gmail.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-leds@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
- <20240227093945.21525-7-bastien.curutchet@bootlin.com>
- <a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-In-Reply-To: <a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
+References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
+ <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
+ <20240228140423.GA3307293-robh@kernel.org> <CAHp75VfW0Q7At+JnyWGXP3d=2dfWADRiQ-Z97B2JcZio3A_tyw@mail.gmail.com>
+In-Reply-To: <CAHp75VfW0Q7At+JnyWGXP3d=2dfWADRiQ-Z97B2JcZio3A_tyw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 29 Feb 2024 10:23:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWgytkANQ19=pSfG7Jpddo7Htgp2P=p7EAVmpWYuGPmCg@mail.gmail.com>
+Message-ID: <CAMuHMdWgytkANQ19=pSfG7Jpddo7Htgp2P=p7EAVmpWYuGPmCg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
+ 7 segment LED
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Chris Packham <chris.packham@alliedtelesis.co.nz>, andy@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, andrew@lunn.ch, 
+	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, 
+	ojeda@kernel.org, tzimmermann@suse.de, javierm@redhat.com, robin@protonic.nl, 
+	lee@kernel.org, pavel@ucw.cz, devicetree@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrew,
+Hi Andy,
 
-On 2/27/24 17:18, Andrew Lunn wrote:
-> On Tue, Feb 27, 2024 at 10:39:45AM +0100, Bastien Curutchet wrote:
->> The PHY is able to use copper or fiber. The fiber mode can be enabled or
->> disabled by hardware strap. If hardware strap is incorrect, PHY can't
->> establish link.
->>
->> Add a DT attribute 'ti,fiber-mode' that can be use to override the
->> hardware strap configuration. If the property is not present, hardware
->> strap configuration is left as is.
-> How have you tested this? Do you have a RDK with it connected to an
-> SFP cage?
+On Wed, Feb 28, 2024 at 3:58=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Wed, Feb 28, 2024 at 4:04=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> > On Wed, Feb 28, 2024 at 10:22:42AM +1300, Chris Packham wrote:
+>
+> ...
+>
+> > > +  segment-gpios:
+> > > +    description:
+> > > +      An array of GPIOs one per segment.
+> > > +    minItems: 7
+> >
+> > How does one know which GPIO is which segment?
+>
+> I believe we need just to agree on this. Since anybody can shuffle
+> GPIOs in the DT, there is no need to support arbitrary orders. And
+> naturally 'a' is bit 0, 'g' is bit 6, 'dp' bit 7 if present.
 
-I did not test fiber mode as my board uses copper.
+Note that there are no bits involved at this level, only GPIO specifiers.
 
-My use case is that I need to explicitly disable the fiber mode because 
-the strap hardware is
-misconfigured and could possibly enable fiber mode from time to time.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Best regards,
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Bastien
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
