@@ -1,131 +1,108 @@
-Return-Path: <linux-leds+bounces-1063-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1064-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E81F86C4F3
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 10:24:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A8286C721
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 11:43:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8A8228CAEE
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 09:24:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46C3428659D
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 10:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB3D5A105;
-	Thu, 29 Feb 2024 09:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6F6479DBD;
+	Thu, 29 Feb 2024 10:42:59 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE5456B9F;
-	Thu, 29 Feb 2024 09:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D65B65194;
+	Thu, 29 Feb 2024 10:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709198688; cv=none; b=fws37/9A14DFDZl01nJV7YXmKrsTH1+6Oi476BeJA/kGOEjhpHUjYZR0MdndKlkAV01EyGUWOlpRGAD68dDOUzACEuW3vGyAUuF85Fh0Fhu7Tee1iQyWGV4Tiwp17zLId/HmJxuC398mGx8/czSsIaPAp4T8hxwSLTg9qhtUBZM=
+	t=1709203379; cv=none; b=LXUJkXc7qNpf27hOvsMcRgaIYaSNSjTlBo/FM9RLw3HoOTmx1ck7nIDMHC75Dyq2iVt8CLj5d0LsHRdTzohfZlmHuNVUuv+LutH140bdc8sFboqbiraq3UswW2xf9NHI6Pa4DGRz+J+w+adZ3hYd67pSAqj9SvKW6gvocSqVUds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709198688; c=relaxed/simple;
-	bh=0kHQ0GejVWut6mUdfhxw4ufNnN0JQttO2gwB+cW5IhU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hGtIirLEvZm5xBVm/fUXfRDCyUC3R/YhCVdfoToPgqoIKzDiUYxiHUf6/lD8ukqApY0Q8KzgX14ncYzTC32/COAsXthEmju6Z6U2o1r+jcUNZtPSx01f2V0tOYTkLXWrcy7md6snOFK16eoygxweWe/jj/YSmsoDFAY7ca+mg0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-607e54b6cf5so4751727b3.0;
-        Thu, 29 Feb 2024 01:24:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709198685; x=1709803485;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7icNGafOYUKFBdEjkxyTnGxldpNssuhfMdqNKkUf55w=;
-        b=lboMUtyMRJXbJFSYCpxCd6v6JbCluEt8kNP5wHJPNQid/zCkZOY93++1H2KQ5Gz7pQ
-         j07kdckBhfF/NwNzFb+5dFtr5zRET+d2PMV8/JSRGwmgKG35cTQ41cEG3LC2tzml/3En
-         qFVe6eoWllN9B91+juPB0JMulq2+wo20J55IwqPU4pYtWpOBFhRfHN+RN4X3deSkujqi
-         OZXwKinNEUym3x71nok+YD0aqjr+2cZXL6J882gRBopJQ0+xdmRm0EW4kGIOwRk9sSqs
-         lKrWu9QCLwe59Esa1+bjdrbpfOC34EOTbGCSvAM71x5FTntzns5F+deKH9MdlUA+iolR
-         zFjA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZWxk+pUwaDdClE0QI49P2PGFdJ6gWLafs3z39zn3kl5NyVnnEi41lBtu/rWe7BxoWNxjlk8Dlo8J8IhJuwfuvbksBnPW3QvjwPFiq9m4y5vBgUipdfTk/RH8S/dE4G14ETEzVoPyrxBgPZ23fSJWq4eIcQUshqKtaziMQ2J0dXwJbuN4=
-X-Gm-Message-State: AOJu0YyYeHc4P5ItyVyoffH9KYYsj/F4uPl8fjT4buSEzK3AMeiE3CcK
-	kjq1ZMOgjkp2VOys+MURwz1IsuQ/DBQwxPE6TkoVOS4Am7Pui6CT1fUBemiL+AM=
-X-Google-Smtp-Source: AGHT+IGDNzCIR8pnj5In+3RsVgXYCKKILxBuH4FNWYKYDo5z3jcQ72B362S5fYe5TntZMjb80PcsMA==
-X-Received: by 2002:a81:7102:0:b0:609:2a04:fa64 with SMTP id m2-20020a817102000000b006092a04fa64mr838504ywc.18.1709198685274;
-        Thu, 29 Feb 2024 01:24:45 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id s5-20020a81c445000000b0060755a31c0bsm260899ywj.100.2024.02.29.01.24.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 01:24:45 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc6cbe1ac75so512043276.1;
-        Thu, 29 Feb 2024 01:24:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXiFcVDTBolPlaSWjtpLD6luMY4ZZ4YGnoq2sKhPgZRSNCvZ6sU6gAE0+SWlXXgvLBvFT+6YWAVZCYvwvkz2n1LBmTp3lKlq6rK0OKeQ48l4TPbpGa6UosUsUijh1awt4I30aiuf5RypFVh4gqjXq5hUky+IFOoETQHSuZpyhj66Qtjn28=
-X-Received: by 2002:a5b:d08:0:b0:dcd:c909:334d with SMTP id
- y8-20020a5b0d08000000b00dcdc909334dmr851170ybp.12.1709198684812; Thu, 29 Feb
- 2024 01:24:44 -0800 (PST)
+	s=arc-20240116; t=1709203379; c=relaxed/simple;
+	bh=JNouPdoVTEuTE81LBouWmA9FUxL2uN52fZs47yUEGEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EGn2UY/gtaHCkpwbIp4oPcEupt4CVqipqsA4guwLa0I/rZdM3SqDNZLXxP7LSvAhEdZiUTFhTNckBmpRZlXSH6WmdZmxfGAdJchxhQ1HFNC+5sJomd4+VlPWZVsblJdBiOGX/61vEvLEa2TTQJ6AylP1CdIq5l2cWXImUeeJxmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="21121092"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="21121092"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:42:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="913978666"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="913978666"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:42:53 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1rfdsH-00000008dzn-2oMr;
+	Thu, 29 Feb 2024 12:42:49 +0200
+Date: Thu, 29 Feb 2024 12:42:49 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	andrew@lunn.ch, gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com, ojeda@kernel.org,
+	tzimmermann@suse.de, javierm@redhat.com, robin@protonic.nl,
+	lee@kernel.org, pavel@ucw.cz, devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
+ 7 segment LED
+Message-ID: <ZeBfqTKVLp1YsJJG@smile.fi.intel.com>
+References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
+ <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
+ <20240228140423.GA3307293-robh@kernel.org>
+ <CAHp75VfW0Q7At+JnyWGXP3d=2dfWADRiQ-Z97B2JcZio3A_tyw@mail.gmail.com>
+ <CAMuHMdWgytkANQ19=pSfG7Jpddo7Htgp2P=p7EAVmpWYuGPmCg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227212244.262710-1-chris.packham@alliedtelesis.co.nz>
- <20240227212244.262710-3-chris.packham@alliedtelesis.co.nz>
- <20240228140423.GA3307293-robh@kernel.org> <d666668b-f371-47e0-846e-6e8a56b4bb2f@alliedtelesis.co.nz>
-In-Reply-To: <d666668b-f371-47e0-846e-6e8a56b4bb2f@alliedtelesis.co.nz>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 29 Feb 2024 10:24:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXJT5THun7XG8ig746Bh+paAP5uSMg33aa=Csui4Dkb4g@mail.gmail.com>
-Message-ID: <CAMuHMdXJT5THun7XG8ig746Bh+paAP5uSMg33aa=Csui4Dkb4g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: auxdisplay: Add bindings for generic
- 7 segment LED
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: Rob Herring <robh@kernel.org>, "andy@kernel.org" <andy@kernel.org>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>, 
-	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>, 
-	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>, "ojeda@kernel.org" <ojeda@kernel.org>, 
-	"tzimmermann@suse.de" <tzimmermann@suse.de>, "javierm@redhat.com" <javierm@redhat.com>, 
-	"robin@protonic.nl" <robin@protonic.nl>, "lee@kernel.org" <lee@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWgytkANQ19=pSfG7Jpddo7Htgp2P=p7EAVmpWYuGPmCg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Chris,
+On Thu, Feb 29, 2024 at 10:23:15AM +0100, Geert Uytterhoeven wrote:
+> On Wed, Feb 28, 2024 at 3:58 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Wed, Feb 28, 2024 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
+> > > On Wed, Feb 28, 2024 at 10:22:42AM +1300, Chris Packham wrote:
 
-On Wed, Feb 28, 2024 at 9:02=E2=80=AFPM Chris Packham
-<Chris.Packham@alliedtelesis.co.nz> wrote:
-> On 29/02/24 03:04, Rob Herring wrote:
-> > On Wed, Feb 28, 2024 at 10:22:42AM +1300, Chris Packham wrote:
-> >> +  segment-gpios:
-> >> +    description:
-> >> +      An array of GPIOs one per segment.
-> >> +    minItems: 7
-> > How does one know which GPIO is which segment?
->
-> I've expanded the description in v3.
->
-> + An array of GPIOs one per segment. The first GPIO corresponds to the A
-> + segment the last GPIO corresponds to the G segment.
->
-> Do you think that's sufficient or do I need to add more? In the driver
-> itself I've put a little ascii art diagram of the segments.
+...
 
-Given users are reading the bindings rather than the driver source,
-I would move the diagram to the bindings.
+> > > > +  segment-gpios:
+> > > > +    description:
+> > > > +      An array of GPIOs one per segment.
+> > > > +    minItems: 7
+> > >
+> > > How does one know which GPIO is which segment?
+> >
+> > I believe we need just to agree on this. Since anybody can shuffle
+> > GPIOs in the DT, there is no need to support arbitrary orders. And
+> > naturally 'a' is bit 0, 'g' is bit 6, 'dp' bit 7 if present.
+> 
+> Note that there are no bits involved at this level, only GPIO specifiers.
 
-Thanks!
+Right, I meant the sequence in the array of GPIOs in the DT.
+I implied that it maps 1:1 to the real bits in HW (in some cases).
 
-Gr{oetje,eeting}s,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-                        Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
