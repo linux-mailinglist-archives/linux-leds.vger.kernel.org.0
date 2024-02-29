@@ -1,34 +1,34 @@
-Return-Path: <linux-leds+bounces-1066-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1067-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8EE86CCB1
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 16:17:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B508A86CCCE
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 16:24:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E01C21F230A5
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 15:17:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45E74B229E7
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 15:24:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B3EF145326;
-	Thu, 29 Feb 2024 15:17:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A6F145B0B;
+	Thu, 29 Feb 2024 15:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="XSu+wV/o"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="criRIg0d"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FFE137753;
-	Thu, 29 Feb 2024 15:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565F913774E;
+	Thu, 29 Feb 2024 15:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709219861; cv=none; b=EUt/Kdzcj+tx8zkchWMbtCy8SmWX2ak74DBfwq2ZaS9BvQnJ5kOST8lNjowgYE4n7xQIxKF4sWJ7ukr43jr7vGM69zIR0TSm4TS1JNFL1uVfGg/yCx8NAxGJa3nQeGjSspCfYDRZwUsyc+shENx2M1JWoPHVYRTA1D8UsGVr+qM=
+	t=1709220232; cv=none; b=uLsKZqZDOfR2v0S45dzfp+71xFdjMozAfjjc3xbRELm1vTXPiIoTg/mgNkZGlUYYiZuzzduq6AGblY2OOtLGiHq3kfxVir7QsCv9/yZuV5FYot7CZ55af+nlcvFsjPjdda24g68az5p6pWmbRA8cKlXrGGlX/+x7/Lma6+SymoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709219861; c=relaxed/simple;
-	bh=br/HWN6lmANGcA8lXtzi6rpYYGeQsWi3eahucRslWvM=;
+	s=arc-20240116; t=1709220232; c=relaxed/simple;
+	bh=VR3w9qMQENCkQog/l/A9YqEp7V7m/a1O1eceAfQHDV8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMyULDPc+mxwlmB1X8yIulhrDpB9ChyALM4kPFiJFu/ugXAWxq3OZ8JJ0H7Cexg6bI6bJaGE+BMLQKdWPbbnNPQsc/AEMsh8EKkhDY/rr28JasSChqu6lGxmhCBpND5V+919SSbSP6coy/W08zY9ETbQiRqtZHki+4tvWzw5V4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=XSu+wV/o; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=JiJ3bl9KmuLAFCrjt7CDlv28tr/ZwofocIpiaqmKYnhCGmaGJYemGLhYF6zTV6lC/pQT//w+XQMQpHT/QgZIkw8gaNPYGNOiuQz64uQhcHUrgC+3C6CGPZhNH/4OHRfiCiBjV94z3x3DyeO6XGo3vZKWW8mlgKa+dGhvW3M883w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=criRIg0d; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=+c7Vmm6KMU5zSvglgfqufPHeSuGV1yw9KPRb+vUHbSs=; b=XSu+wV/oCNilQemLKrLXtUYJun
-	ZFsAIYQS4CPzcvXULpppRYMnMQAOaPDTBOQp4Fi0W33U9liiMEbP4aNMLs9Uom5a3ibtYmpr3Rxaf
-	Is3E4P5BVtL/4LPvUhWtCVpzV4TPKJ+aj8EJCpuSkF/AKfVbnwVkDlRKpXa4h+PFJb9Q=;
+	bh=fpeGkSY3A7dXRsptcNnoUKHKhLiXr1DwW0RmJgm1X0Y=; b=criRIg0dtEXQf6tdodfSJg5wWp
+	sxJ7KokXv5tBurmJM4/okCh+eo2kWmM+bwf9A3ePMS5J9SiRALkz1FPVjGWDqnfRePCVEiXUZjjSs
+	24wfIEdBNh+OtS4QQXnEm32Sf2MykHIKqwoVHy7y0EsvIHMk9KzMwSUmx6zXc/YSTtLg=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1rfiAN-0093D1-J5; Thu, 29 Feb 2024 16:17:47 +0100
-Date: Thu, 29 Feb 2024 16:17:47 +0100
+	id 1rfiGN-0093GS-LT; Thu, 29 Feb 2024 16:23:59 +0100
+Date: Thu, 29 Feb 2024 16:23:59 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Bastien Curutchet <bastien.curutchet@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -60,13 +60,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
 	christophercordahi@nanometrics.ca
-Subject: Re: [PATCH v2 2/6] leds: trigger: Create a new LED netdev trigger
- for collision
-Message-ID: <9dd1b2d0-4ba5-4d34-a892-a6cc8c01df28@lunn.ch>
+Subject: Re: [PATCH v2 6/6] net: phy: DP83640: Add fiber mode
+ enabling/disabling from device tree
+Message-ID: <c6840f8f-7d9c-49e8-b689-2af04605b99c@lunn.ch>
 References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
- <20240227093945.21525-3-bastien.curutchet@bootlin.com>
- <e6351d0c-15e2-47a9-be6c-6f21aee9ae90@lunn.ch>
- <e1936774-14bf-4ae5-9754-e21f5a0c59b3@bootlin.com>
+ <20240227093945.21525-7-bastien.curutchet@bootlin.com>
+ <a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
+ <c1b17410-b403-4c3a-9c00-de8f2b2b2fa7@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -75,58 +75,38 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e1936774-14bf-4ae5-9754-e21f5a0c59b3@bootlin.com>
+In-Reply-To: <c1b17410-b403-4c3a-9c00-de8f2b2b2fa7@bootlin.com>
 
-> > How useful is collision? How did you test this? How did you cause
-> > collisions to see if the LED actually worked?
-> Indeed I am not able to generate collision on my setup so I did not test
-> this
-> collision part.
-> My use case is that the hardware strap configuration that selects the LED
-> output mode
-> can not be trusted so I have to force configuration with software. I added
-> this collision
-> part because I wanted to cover all the LED configuration modes offered by
-> the PHY.
-
-There are a few things i want to avoid here:
-
-1) Vendor SDK mentality. The hardware can do this, lets add a knob to
-make use of it. We end up with 100 of configuration knobs which nobody
-ever uses. Do you actually have a board where the strapping is wrong?
-Are you going to submit a .dts file making use of this option?
-
-2) LEDs are the wild west, because it is not part of 802.3. Every
-vendor does it differently, and has their own special blinking
-patterns. My preference is to keep it simple to what people actually
-use. You cannot actually generate a collision, the developer who wants
-to add support for collision. I have to ask, is collision actually
-useful?
-
-> > As far as i can see, this is just a normal 100Base-T PHY. Everybody
-> > uses that point-to-point nowadays. If it was an 100Base-T1, with a
-> > shared medium, good old CSMA/CD then collision might actually be
-> > useful.
-> > 
-> > I also disagree with not having software fallback:
-> > 
-> > ip -s link show eth0
-> > 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
-> >      link/ether 80:ee:73:83:60:27 brd ff:ff:ff:ff:ff:ff
-> >      RX:     bytes    packets errors dropped  missed   mcast
-> >      4382213540983 2947876747      0       0       0  154890
-> >      TX:     bytes    packets errors dropped carrier collsns
-> >        18742773651  197507119      0       0       0       0
-> > 
-> > collsns = 0. The information is there in a standard format. However,
-> > when did you last see it not 0?
+On Thu, Feb 29, 2024 at 08:31:55AM +0100, Bastien Curutchet wrote:
+> Hi Andrew,
 > 
-> Ok, I could add the software callback but I will not be able to test it ...
+> On 2/27/24 17:18, Andrew Lunn wrote:
+> > On Tue, Feb 27, 2024 at 10:39:45AM +0100, Bastien Curutchet wrote:
+> > > The PHY is able to use copper or fiber. The fiber mode can be enabled or
+> > > disabled by hardware strap. If hardware strap is incorrect, PHY can't
+> > > establish link.
+> > > 
+> > > Add a DT attribute 'ti,fiber-mode' that can be use to override the
+> > > hardware strap configuration. If the property is not present, hardware
+> > > strap configuration is left as is.
+> > How have you tested this? Do you have a RDK with it connected to an
+> > SFP cage?
+> 
+> I did not test fiber mode as my board uses copper.
+> 
+> My use case is that I need to explicitly disable the fiber mode because the
+> strap hardware is
+> misconfigured and could possibly enable fiber mode from time to time.
 
-My personal experience is, anything not tested is broken...
+O.K. So lets refocus this is little. Rather than support fibre mode,
+just support disabling fibre mode. But leave a clear path for somebody
+to add fibre support sometime in the future.
 
-Think about what Russell actually said. That should give you a clue
-how to cause collisions. If not, go study history books about CSMA/CD.
+Looking at the current code, do you think fibre mode actually works
+today? If you think it cannot actually work today in fibre mode, one
+option would be to hard code it to copper mode. Leave the
+configuration between fibre and copper mode to the future when
+somebody actually implements fibre mode.
 
    Andrew
 
