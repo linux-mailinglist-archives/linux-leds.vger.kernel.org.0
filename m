@@ -1,62 +1,57 @@
-Return-Path: <linux-leds+bounces-1069-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1070-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53C686D058
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 18:18:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF7686D06F
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 18:22:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52121B217C4
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 17:18:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54E331C21211
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 17:22:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AC8E6CBE8;
-	Thu, 29 Feb 2024 17:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D487D6CBF4;
+	Thu, 29 Feb 2024 17:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C30cjscs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhshOMrs"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFBE4AED8;
-	Thu, 29 Feb 2024 17:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1326CBF0;
+	Thu, 29 Feb 2024 17:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709227108; cv=none; b=WQudx63kkEPlP8HIPKeA8dUk7xk5/+WpUR+Lm8e0Uobde7esXJ/zqvh1Eh3mj+mB9cdqI0eyo4JxBm4Ghe08XPymTNkvDW4XBb1aIxd4gkceM1mwUbY2OD4D76GjlrLtjFq06sH9o2nR5hEtFbP8UHiAEGbR8gH0IH1a+hv9JoA=
+	t=1709227367; cv=none; b=ZxRKDzSObjuRJ7HMvKABxmFS9KmDsu/+IE/WydvVRxevnIh1JFNEQSXvjORHtHfRoDCI1NziJbW5TUzMcI3CxxZDBXbN9EQgua6iTkVjn0LgnqTk8Q6cqxZsSNmq1patJQnEf12Rs9vFzSJIeeurGgzbE+dz0V9vd5FgO/IJFEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709227108; c=relaxed/simple;
-	bh=+ZMo9iEMsSfz6V8Ou27C1FUbJqgrktdBSS/LmjvzYAo=;
+	s=arc-20240116; t=1709227367; c=relaxed/simple;
+	bh=yyqZG85T18TQP8MsfNm4Di81wpJ8qtJqUxC8H8S0suQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lK7/kiCF1WRURLM6ux4IfVEzhmBK/YcvyxmJXxZZDg7RR977uVgBKOC6lUHwO5vVM/cKqqudSGhYUQi0n1RjmHqXWYd7GGyKMBD13EyOw90xw5DUFRh8vuSB2p2kTFmq6m/BwNl7K8qqQdLpmgFtiwys98O7K3/2E7aPrNQWd8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C30cjscs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA16C433F1;
-	Thu, 29 Feb 2024 17:18:25 +0000 (UTC)
+	 MIME-Version:Content-Type; b=psqkW2uOCPciH2mEYP3svUeUCgqn6/atKx8I1WTPEm5ghbMmPmDK2YK3D5zlryrp3l6H80qPuWx8pCq4bCK0vxBw9ZWuziKGP/RBqaOJ2tZ/qFzyixjerUTG/BhqepKzKWNRPmFQMdmgxu1n1JaROf+64f00KPlVm9nsboaW/wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhshOMrs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE8CC43390;
+	Thu, 29 Feb 2024 17:22:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709227107;
-	bh=+ZMo9iEMsSfz6V8Ou27C1FUbJqgrktdBSS/LmjvzYAo=;
+	s=k20201202; t=1709227367;
+	bh=yyqZG85T18TQP8MsfNm4Di81wpJ8qtJqUxC8H8S0suQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=C30cjscst84mSSST8nBsirG+OfbAQON5hFMVORfzIaT1fNwG5X2+Eo6SpO4rI7iJs
-	 xpe9SXUxPA2WiVTbFKr2YOw6Ocub3AxcAqNwQHOa+qt7b7nUrT3YhZjbiQWmY18Y6X
-	 b4/yNIMexku+SIWin/2r1UxmIxA0+JQx+h0NgWyYexKVW4RaSLmbHm58ngpsnbfnR3
-	 Erb/sTy3XbNfAbA5gQzsjrBkZgTIDiOtKUSK7+qkGdSyxF71kv+Z3xwia2VpVlLCvG
-	 sHVznouwYKssgYFofqxmogJ4JYHg5WPCPWPrxuRFj2aF/UcO5oI3G7tRwps0B5YiwP
-	 rGqIFLAUDa7KA==
+	b=IhshOMrsNVYqzYZh9W2peOb1LTys/ugpeqXND7C9Q7EENpo8v8IQzgTZ4jdoDznk+
+	 YF1zgOOFNvbDZVJvhujhr/WEFgienq0Ay74Yh0SqRtYqVQf7G0nc9/vtQpPHUOyVDz
+	 kbTWrSVhWOQSr4yzC2Jx67Bq/B03usgNnpQui6/RGvuUE/56wPMjKqrDBhfB+ve4x6
+	 AjzhriCaRzMPCIPFijGB0llXm4z44Ao+DpcQy/yAoqCAL0KR5T9e8DiPjye/VC6al3
+	 XshPUARJ2rXu+X9PUQesHgNeX6Guy72mdgHNpE5BnDO74Uw7Twy5dwXhV/pV5MDdJi
+	 qwWYOql2uWLYQ==
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
-In-Reply-To: <20240223112223.1368-1-zajec5@gmail.com>
-References: <20240223112223.1368-1-zajec5@gmail.com>
-Subject: Re: (subset) [PATCH] dt-bindings: leds: Add
- LED_FUNCTION_WAN_ONLINE for Internet access
-Message-Id: <170922710524.1611805.15418765168874516395.b4-ty@kernel.org>
-Date: Thu, 29 Feb 2024 17:18:25 +0000
+To: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+In-Reply-To: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
+References: <20240223203010.881065-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: (subset) [PATCH v2 1/1] leds: expresswire: Don't use "proxy"
+ headers
+Message-Id: <170922736619.1614411.13819632437202296097.b4-ty@kernel.org>
+Date: Thu, 29 Feb 2024 17:22:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,20 +62,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.4
 
-On Fri, 23 Feb 2024 12:22:23 +0100, Rafał Miłecki wrote:
-> It's common for routers to have LED indicating link on the WAN port.
+On Fri, 23 Feb 2024 22:30:00 +0200, Andy Shevchenko wrote:
+> Update header inclusions to follow IWYU (Include What You Use)
+> principle.
 > 
-> Some devices however have an extra LED that's meant to be used if WAN
-> connection is actually "online" (there is Internet access available).
 > 
-> It was suggested to add #define for such use case.
-> 
-> [...]
 
 Applied, thanks!
 
-[1/1] dt-bindings: leds: Add LED_FUNCTION_WAN_ONLINE for Internet access
-      commit: c0ef9799df8756968c236720658e492fbe636064
+[1/1] leds: expresswire: Don't use "proxy" headers
+      commit: 8471d8737e3b4915ba0802985427364cd286ca5b
 
 --
 Lee Jones [李琼斯]
