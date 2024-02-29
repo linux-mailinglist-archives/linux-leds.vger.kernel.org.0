@@ -1,52 +1,52 @@
-Return-Path: <linux-leds+bounces-1060-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1061-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0F886C27D
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 08:29:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA9386C293
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 08:32:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D5B11C22A55
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 07:29:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA2192861BE
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Feb 2024 07:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D046B44375;
-	Thu, 29 Feb 2024 07:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB1C45C04;
+	Thu, 29 Feb 2024 07:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mfuTIlIr"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VBmtnGys"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE88D13D31F;
-	Thu, 29 Feb 2024 07:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661E844C8C;
+	Thu, 29 Feb 2024 07:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709191737; cv=none; b=VXGkASdW4o4EtFYhXTzwIDB79rKP0vYY1QEBKXjZOhVPR17yxlalCqdaoGeXWiUWwHnm62djkcGm7AKygFLIKyJ+3/k8twmQRtkuh0DwIWsIQU0sY7oT4oqCNA/InR7YMzOSezI/BysduJhWZFH5BWwI8FocBblOBGBow0vK+YE=
+	t=1709191923; cv=none; b=r8TfFrcvEYtlIm9zV5NhUm/kbsCrkVLyt3kVCbK/cNcwSVK3YrbJ3OE3SwcI2WMGwvHJTZuVRL3C11R+yFC/1B86+tCs6kXy0vHz2WmcZH3tJ63sq923FT8ukK1GZF8Mey44atyvyNogDdqF4TXSa/lkjzx5F72D1o0iiawuZsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709191737; c=relaxed/simple;
-	bh=BNbUtZKAY9WIJQ+LXoEoIqpg2tgwfPuz7uDBz6FAzlk=;
+	s=arc-20240116; t=1709191923; c=relaxed/simple;
+	bh=EHPwMRslysMH/6pBpniolRdwostS5lFMS+gutCk9a6M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JRtq9MFjYhfmrjwUDpBkUsUIdaBIJa2fEpQVRkKHA4MjtAww/Eg09G+gXI44aHTSFwmxspyLYjY25egY9/8RJJHmXMjw38zbKbyZHlh8zm8Tc5vvQGgzekxF902iyjGQLCMn4FtdpV4jZ+2Vx3LdO3OSD3bVYou8rFwDQCIfUPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mfuTIlIr; arc=none smtp.client-ip=217.70.183.195
+	 In-Reply-To:Content-Type; b=NoznthfpiGt/8R3zZayGnNuspEk93gZOki+ubPl4mJYgplMs/2IV3mzSPcjt0UEql5kIyGPL+iV1lHDDfX0QtYwPJOM+yziTq9a1cmOF9NfYllnQG5ebQo2UZkq5CKJ/lZFa5x6Vpe9sSleFrn4lcRcMqp4oKVxJhV2iKnlcRvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VBmtnGys; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 51BED60004;
-	Thu, 29 Feb 2024 07:28:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 19AC5E0002;
+	Thu, 29 Feb 2024 07:31:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709191733;
+	t=1709191918;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSmjHPU1m34PxGjrak0OtXcvXk2Aj1aj+/aArU74NH8=;
-	b=mfuTIlIrHoeLGjhtkzROtLXolPCsYl8Q6pj+XBnVlwTcPyoXhAYzh1V3caitDiGZKdP8kL
-	hnquzy/52h9Rt7yeApOntnQhl9gtmQGdIFd5LhAm/eLVwiV3pgB5yRd9lI5OtRYw58CYiM
-	YF/a+WsWjvBJXPZrg/I4goMIZJv2umuED+b4NARHs/1prFjIK0VsMfba9s3SOULe2mlRIv
-	8YwdI2rXk2GTfV83E0SUPWlOIVmH9Tjt+Cz7/ENi4Pa8DEQbfYjg/C1ZcAaBTykut4bDnn
-	1HQPuwQ+E9vclCYzqEVSNRQCacw50/MjJdWcFNEmHjaANefgOXNwytZyfQyj0g==
-Message-ID: <1a6df254-a6fa-46bd-b28c-1c123e9689c4@bootlin.com>
-Date: Thu, 29 Feb 2024 08:28:51 +0100
+	bh=zp3g25JeuYR2V66Ei5s5q+BW/ugjiuni4LeJDlsxyMQ=;
+	b=VBmtnGyszrpBELAenQD0+WWuLUQQIyvFJ2vrZ6e6QFxRbvA3fQKzuL1A06oTATq+i3m0B1
+	inCMvJTCp1osw/oOxYQAHwqRfCoakwhl3RFwU2Ajk+lfr426gwgdddW09hfH1QvyGgUvJY
+	PUQXhcgSlhv4vb1rxiG2c91hV7yU89QMezJXnNPaQfd1cAvCFuXiXVHINi+XvlNhgeKlQe
+	VpuqeWZCE0hZQzXS+wvPXS3LXy3f2ii2n87bHpZ5zD/y0Wnz+7q3TLQYeBDADBxDvWPCOV
+	cKxY2jLeD7YSd53+9nAZUld+Gcrh/8CJXjkixiV/tvKito3FsEJuv7rNbC2pDA==
+Message-ID: <c1b17410-b403-4c3a-9c00-de8f2b2b2fa7@bootlin.com>
+Date: Thu, 29 Feb 2024 08:31:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -54,7 +54,8 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] net: phy: DP83640: Add LED handling
+Subject: Re: [PATCH v2 6/6] net: phy: DP83640: Add fiber mode
+ enabling/disabling from device tree
 Content-Language: en-US
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -70,47 +71,33 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  herve.codina@bootlin.com, maxime.chevallier@bootlin.com,
  christophercordahi@nanometrics.ca
 References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
- <20240227093945.21525-4-bastien.curutchet@bootlin.com>
- <9b06003c-afc9-419a-af36-7b81aab8517e@lunn.ch>
+ <20240227093945.21525-7-bastien.curutchet@bootlin.com>
+ <a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
 From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-In-Reply-To: <9b06003c-afc9-419a-af36-7b81aab8517e@lunn.ch>
+In-Reply-To: <a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-GND-Sasl: bastien.curutchet@bootlin.com
 
-Hi
+Hi Andrew,
 
-On 2/28/24 16:04, Andrew Lunn wrote:
->> +static int dp83640_led_brightness_set(struct phy_device *phydev, u8 index,
->> +				      enum led_brightness brightness)
->> +{
->> +	int val;
->> +
->> +	if (index > DP83640_SPDLED_IDX)
->> +		return -EINVAL;
->> +
->> +	phy_write(phydev, PAGESEL, 0);
->> +
->> +	val = phy_read(phydev, LEDCR) & ~DP83640_LED_DIS(index);
->> +	val |= DP83640_LED_DRV(index);
->> +	if (brightness)
->> +		val |= DP83640_LED_VAL(index);
->> +	else
->> +		val &= ~DP83640_LED_VAL(index);
->> +	phy_write(phydev, LEDCR, val);
-> I don't understand this driver too well, but should this be using
-> ext_read() and ext_write().
->
-> I'm also woundering if it would be good to implement the .read_page
-> and .write_page members in phy_driver and then use phy_write_paged()
-> and phy_write_paged() and phy_modify_paged(), which should do better
-> locking.
-I don't feel comfortable implementing .read_page and write_page members 
-as I have
-only one PHY on my board so I'll not be able to test all the broadcast 
-thing.
+On 2/27/24 17:18, Andrew Lunn wrote:
+> On Tue, Feb 27, 2024 at 10:39:45AM +0100, Bastien Curutchet wrote:
+>> The PHY is able to use copper or fiber. The fiber mode can be enabled or
+>> disabled by hardware strap. If hardware strap is incorrect, PHY can't
+>> establish link.
+>>
+>> Add a DT attribute 'ti,fiber-mode' that can be use to override the
+>> hardware strap configuration. If the property is not present, hardware
+>> strap configuration is left as is.
+> How have you tested this? Do you have a RDK with it connected to an
+> SFP cage?
 
-If that's OK with you, I'll use the ext_read() and ext_write()
+I did not test fiber mode as my board uses copper.
+
+My use case is that I need to explicitly disable the fiber mode because 
+the strap hardware is
+misconfigured and could possibly enable fiber mode from time to time.
 
 
 Best regards,
