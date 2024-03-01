@@ -1,425 +1,142 @@
-Return-Path: <linux-leds+bounces-1086-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1087-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8A186DD8E
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 09:51:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFF986DF4C
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 11:37:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE541B292F6
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 08:51:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889A01F2588A
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 10:37:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9566A037;
-	Fri,  1 Mar 2024 08:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9ED5FEE3;
+	Fri,  1 Mar 2024 10:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="snVJHIQX"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="glQ0TZE6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBE269E0A;
-	Fri,  1 Mar 2024 08:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF72339B1;
+	Fri,  1 Mar 2024 10:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709283052; cv=none; b=KahDowTUq1ivl3KqhVpWw9MlsxvJEToEdsy8HvOBfsu/tvuB5Wb64bBhgBzmyYh3g3TmGJFdDWbrYRWTGz3FeHWrkazlPctliW8SuLDYOuzzJPQ3CJV0X9Ox9GlRApLXbgRZ2AUh3BMV6JUWQm/W/XxV4gY32iy9aLLZgdsZUKo=
+	t=1709289438; cv=none; b=MFvli8ksd4cJOOHkURPw8x6bIx+KEJIA5s2hFq4xsX78SvuWG2bAqqantm38W8dONeRHB6I0WGNn9yumkvNJ4D6UAvo+aqp447IAN7e9bHQ/AfPVntIxUFtdDXJx0F4GrFcgUARm1h1TBEROMGLlQ6eoeFUawRYRlNJL0VMvQ38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709283052; c=relaxed/simple;
-	bh=aZJaxULNASLuq7YBLNxOmz9gR49kB2f7WbnPFWl71m4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qPbx5dlGXUZOu8gHO4AB2hxOL8XAy2EC+7nFJNlsS111NpPDpynaHRIITrxGYuJ/vbafkFYNboywk6GjtfHONT4eBZDwFc8In+5wIOqH16u4XjgOGrsWEW+1OapiGzJSLQGi1SNWKQFmkKemWI75XVEqslD4s46jhI7fuGj3BHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=snVJHIQX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50A89C43394;
-	Fri,  1 Mar 2024 08:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709283052;
-	bh=aZJaxULNASLuq7YBLNxOmz9gR49kB2f7WbnPFWl71m4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=snVJHIQXdwbGd/MiA8okiLVhV1ooIZPTYyDF5GpLwyn1S9ipNMxRnS4lhCsH3iKXT
-	 xUwVD/6k7M1UKpQj9CuUlgXibD8xOszeM7L3KBYhYTPtNJsnEAKbk+vvFAuTeeWHdv
-	 F4K/sCCIrO86GwSFlfv7AsRr+11a93iX6C2wZnat1oEq5wBq1Y7Z1mCxncPgwGaoO9
-	 EjUiO7YczaeNT7RYaT9vHZrqtPV4NsIp8y/1ypGFEA3ZHz1g071quVODq072kE3Rzk
-	 zISFcxbngCHie4E6eba9+ilFyV7rtThV1YgNrL7L3X5G9X66PqWOM3iGkielleyd/d
-	 ZMMSN8YEyyxEg==
-Date: Fri, 1 Mar 2024 08:50:46 +0000
-From: Lee Jones <lee@kernel.org>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alice Chen <alice_chen@richtek.com>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] leds: Add NCP5623 multi-led driver
-Message-ID: <20240301085046.GE1209090@google.com>
-References: <20240217230956.630522-1-alkuor@gmail.com>
- <20240217230956.630522-2-alkuor@gmail.com>
+	s=arc-20240116; t=1709289438; c=relaxed/simple;
+	bh=kj0GX5JufiTvFSbGnjmfOxouxBSD5J1fiq7Z+9gQtfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SvY0+XcFq/eH923wiX4kn1gkRgb0Qrfgh6ce/sVrSfKGu2iI02XayaWQ3YymruzWcVQQTycPBIL4qOg/Duqxusmdazr1PeJsf86UioIIMYofkB4dknhW7IBoajE1p8H6weyXEfiYYbnSrLhTC+5hqnNYEifn6H/F/6eUv8d5Hfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=glQ0TZE6; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B01660003;
+	Fri,  1 Mar 2024 10:37:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709289427;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qZXbs8FJ1qVx7PbdKrlgZ1XNtd19xUWerbxWOLhwuM0=;
+	b=glQ0TZE6LDyKscIZPFD/F5LAelaLJlBUHfnT3OffYX0JJcO2E5GvADW4hECiweYiGAqQyi
+	FYSrBk/Eo+deS7wUAQ14J6OWmE/tIScxkmKtJVYYh6fROC26mn+qkvf7pc2lru5N4g4+bZ
+	Y3joigwZSh52q4dD7inLW2TCAPKWllF5lj9pn86gxUvpDsorhSsUr0gLHYEAJevIp64QRn
+	lY5rb611L2WOTFCm5W4bkaQWvsY5S8IGJXICo5JYGFiDk/lDdBOTBt8h/UOogKkO5WXQsh
+	siefTxO9I2nQiRKpv8knknePhM/GmF2HdjwRjQGf7meP2FHLmpq0e0GRSOa0WQ==
+Date: Fri, 1 Mar 2024 11:37:03 +0100
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Richard Cochran
+ <richardcochran@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Russell
+ King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-leds@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
+ christophercordahi@nanometrics.ca
+Subject: Re: [PATCH v2 6/6] net: phy: DP83640: Add fiber mode
+ enabling/disabling from device tree
+Message-ID: <20240301113703.102bbad0@device-28.home>
+In-Reply-To: <c6840f8f-7d9c-49e8-b689-2af04605b99c@lunn.ch>
+References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
+	<20240227093945.21525-7-bastien.curutchet@bootlin.com>
+	<a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
+	<c1b17410-b403-4c3a-9c00-de8f2b2b2fa7@bootlin.com>
+	<c6840f8f-7d9c-49e8-b689-2af04605b99c@lunn.ch>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240217230956.630522-2-alkuor@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-On Sat, 17 Feb 2024, Abdel Alkuor wrote:
+Hi Bastien, Andrew,
 
-> NCP5623 is DC-DC multi-LEDs driver which has three PWMs that can be
-> programmed up to 32 steps giving 32768 colors hue.
+On Thu, 29 Feb 2024 16:23:59 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
+
+> On Thu, Feb 29, 2024 at 08:31:55AM +0100, Bastien Curutchet wrote:
+> > Hi Andrew,
+> > 
+> > On 2/27/24 17:18, Andrew Lunn wrote:  
+> > > On Tue, Feb 27, 2024 at 10:39:45AM +0100, Bastien Curutchet wrote:  
+> > > > The PHY is able to use copper or fiber. The fiber mode can be enabled or
+> > > > disabled by hardware strap. If hardware strap is incorrect, PHY can't
+> > > > establish link.
+> > > > 
+> > > > Add a DT attribute 'ti,fiber-mode' that can be use to override the
+> > > > hardware strap configuration. If the property is not present, hardware
+> > > > strap configuration is left as is.  
+> > > How have you tested this? Do you have a RDK with it connected to an
+> > > SFP cage?  
+> > 
+> > I did not test fiber mode as my board uses copper.
+> > 
+> > My use case is that I need to explicitly disable the fiber mode because the
+> > strap hardware is
+> > misconfigured and could possibly enable fiber mode from time to time.  
 > 
-> NCP5623 driver supports gradual dimming upward/downward with programmable
-> delays. Also, the driver supports driving a single LED or multi-LED
-> like RGB.
+> O.K. So lets refocus this is little. Rather than support fibre mode,
+> just support disabling fibre mode. But leave a clear path for somebody
+> to add fibre support sometime in the future.
 > 
-> Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
-> ---
-> Changes in v2:
->  - Remove all custom attributes and use hw pattern instead
->  - Remove filename from the driver description
->  - Fix coding style
->  - Destroy the muttex in shutdown callback
->  - Register mcled device using none devm version as unregistering mcled device
->    calls ncp5632_set_led which uses mutex hence we need to make sure the
->    mutex is still available during the unregistering process.
->  - Link to v1: https://lore.kernel.org/linux-kernel/20240208130115.GM689448@google.com/T/
-> 
->  drivers/leds/rgb/Kconfig        |  11 ++
->  drivers/leds/rgb/Makefile       |   1 +
->  drivers/leds/rgb/leds-ncp5623.c | 257 ++++++++++++++++++++++++++++++++
->  3 files changed, 269 insertions(+)
->  create mode 100644 drivers/leds/rgb/leds-ncp5623.c
-> 
-> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-> index a6a21f564673..81ab6a526a78 100644
-> --- a/drivers/leds/rgb/Kconfig
-> +++ b/drivers/leds/rgb/Kconfig
-> @@ -27,6 +27,17 @@ config LEDS_KTD202X
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called leds-ktd202x.
->  
-> +config LEDS_NCP5623
-> +	tristate "LED support for NCP5623"
-> +	depends on I2C
-> +	depends on OF
-> +	help
-> +	  This option enables support for ON semiconductor NCP5623
-> +	  Triple Output I2C Controlled RGB LED Driver.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called leds-ncp5623.
-> +
->  config LEDS_PWM_MULTICOLOR
->  	tristate "PWM driven multi-color LED Support"
->  	depends on PWM
-> diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-> index 243f31e4d70d..a501fd27f179 100644
-> --- a/drivers/leds/rgb/Makefile
-> +++ b/drivers/leds/rgb/Makefile
-> @@ -2,6 +2,7 @@
->  
->  obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
->  obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
-> +obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
->  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
->  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
->  obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> new file mode 100644
-> index 000000000000..5a5c770bb61e
-> --- /dev/null
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -0,0 +1,257 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * NCP5623 Multi-LED Driver
-> + *
-> + * Author: Abdel Alkuor <alkuor@gmail.com>
-> + * Datasheet: https://www.onsemi.com/pdf/datasheet/ncp5623-d.pdf
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +
-> +#include <linux/led-class-multicolor.h>
-> +
-> +#define NCP5623_REG(x)			((x) << 0x5)
+> Looking at the current code, do you think fibre mode actually works
+> today? If you think it cannot actually work today in fibre mode, one
+> option would be to hard code it to copper mode. Leave the
+> configuration between fibre and copper mode to the future when
+> somebody actually implements fibre mode.
 
-What's 0x5?  Probably worth defining.
+Looking at the driver and the datasheet, it's hard to say that the
+fiber mode can't work in the current state. It's configured either
+through straps or an overriding register, and it's enough to get the
+scrambler/descrambler automatically setup according to that single
+strap. 
 
-> +#define NCP5623_SHUTDOWN_REG		NCP5623_REG(0x0)
-> +#define NCP5623_ILED_REG		NCP5623_REG(0x1)
-> +#define NCP5623_PWM_REG(index)		NCP5623_REG(0x2 + (index))
-> +#define NCP5623_UPWARD_STEP_REG		NCP5623_REG(0x5)
-> +#define NCP5623_DOWNWARD_STEP_REG	NCP5623_REG(0x6)
-> +#define NCP5623_DIMMING_TIME_REG	NCP5623_REG(0x7)
-> +
-> +#define NCP5623_MAX_BRIGHTNESS		0x1f
-> +
-> +struct ncp5623 {
-> +	struct i2c_client *client;
-> +	struct led_classdev_mc mc_dev;
-> +	struct mutex lock;
-> +
-> +	int old_brightness;
-> +	unsigned long delay;
-> +};
-> +
-> +static int ncp5623_write(struct i2c_client *client, u8 reg, u8 data)
-> +{
-> +	return i2c_smbus_write_byte_data(client, reg | data, 0);
-> +}
-> +
-> +static int ncp5623_brightness_set(struct led_classdev *cdev,
-> +				  enum led_brightness brightness)
-> +{
-> +	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-> +	struct ncp5623 *ncp = container_of(mc_cdev, struct ncp5623, mc_dev);
-> +	int ret;
-> +
-> +	guard(mutex)(&ncp->lock);
+So it's hard to say that defaulting to copper won't break anything :(
 
-Are these self-unlocking?
+OTOH there's no SFP support in this PHY, in terms of register config,
+some aneg modes won't work in 100BaseFX, which the driver doesn't account for,
+So nothing would indicate that the fiber mode was ever used.
 
-> +	if (ncp->delay && time_is_after_jiffies(ncp->delay))
-> +		return -EBUSY;
-> +
-> +	ncp->delay = 0;
-> +
-> +	for (int i = 0; i < mc_cdev->num_colors; i++) {
-> +		ret = ncp5623_write(ncp->client,
-> +				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
-> +				    min(mc_cdev->subled_info[i].intensity,
-> +					NCP5623_MAX_BRIGHTNESS));
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	ret = ncp5623_write(ncp->client, NCP5623_DIMMING_TIME_REG, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ncp5623_write(ncp->client, NCP5623_ILED_REG, brightness);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ncp->old_brightness = brightness;
+There's the DP83822 driver that can accept the "ti,fiber-mode"
+property, so adding that would at least be coherent with other DP83xxx
+PHYs but it has the opposite logic we want, so doesn't prevent any
+possible regression for existing fiber users.
 
-The nomenclature is confusing here.
+All in all, do you think that defaulting to copper and leaving users an
+option to implement "ti,fiber-mode" is an acceptable risk to take ?
 
-For the most part, this will carry the present value, no?
+Maxime
 
-> +	return 0;
-> +}
-> +
-> +static int ncp5623_pattern_set(struct led_classdev *cdev,
-> +			       struct led_pattern *pattern,
-> +			       u32 len, int repeat)
-> +{
-> +	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-> +	struct ncp5623 *ncp = container_of(mc_cdev, struct ncp5623, mc_dev);
-> +	int brightness_diff;
-> +	u8 reg;
-> +	int ret;
-> +
-> +	guard(mutex)(&ncp->lock);
-> +
-> +	if (ncp->delay && time_is_after_jiffies(ncp->delay))
-> +		return -EBUSY;
-> +
-> +	ncp->delay = 0;
-> +
-> +	if (pattern[0].delta_t > 240 || (pattern[0].delta_t % 8) != 0)
-> +		return -EINVAL;
-> +
-> +	brightness_diff = pattern[0].brightness - ncp->old_brightness;
-> +
-> +	if (brightness_diff == 0)
-> +		return 0;
-> +
-> +	if (pattern[0].delta_t) {
-> +		if (brightness_diff > 0)
-> +			reg = NCP5623_UPWARD_STEP_REG;
-> +		else
-> +			reg = NCP5623_DOWNWARD_STEP_REG;
-> +	} else {
-> +		reg = NCP5623_ILED_REG;
-> +	}
-> +
-> +	ret = ncp5623_write(ncp->client, reg,
-> +			    min(pattern[0].brightness, NCP5623_MAX_BRIGHTNESS));
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ncp5623_write(ncp->client,
-> +			    NCP5623_DIMMING_TIME_REG, pattern[0].delta_t / 8);
-
-Why 8?  Magic numbers should be replaced with #defines.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (abs(brightness_diff) == 1)
-> +		ncp->delay = NCP5623_MAX_BRIGHTNESS + brightness_diff;
-> +	else
-> +		ncp->delay = abs(brightness_diff);
-
-Please comment these lines.
-
-> +	ncp->delay = msecs_to_jiffies(ncp->delay * pattern[0].delta_t) + jiffies;
-> +
-> +	ncp->old_brightness = pattern[0].brightness;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ncp5623_pattern_clear(struct led_classdev *led_cdev)
-> +{
-> +	return 0;
-> +}
-
-Not sure I see the point in this.
-
-Is the .pattern_clear() compulsorily?
-
-> +static int ncp5623_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct fwnode_handle *mc_node, *led_node;
-> +	struct led_init_data init_data = { };
-> +	int num_subleds = 0;
-> +	struct ncp5623 *ncp;
-> +	struct mc_subled *subled_info;
-> +	u32 color_index;
-> +	u32 reg;
-> +	int ret;
-> +
-> +	ncp = devm_kzalloc(dev, sizeof(*ncp), GFP_KERNEL);
-> +	if (!ncp)
-> +		return -ENOMEM;
-> +
-> +	ncp->client = client;
-> +
-> +	mc_node = device_get_named_child_node(dev, "multi-led");
-> +	if (!mc_node)
-> +		return -EINVAL;
-> +
-> +	fwnode_for_each_child_node(mc_node, led_node)
-> +		num_subleds++;
-> +
-> +	subled_info = devm_kcalloc(dev, num_subleds,
-> +				   sizeof(*subled_info), GFP_KERNEL);
-
-No need to wrap here.  Checkpatch won't complain.
-
-> +	if (!subled_info) {
-> +		ret = -ENOMEM;
-> +		goto release_mc_node;
-> +	}
-> +
-> +	fwnode_for_each_available_child_node(mc_node, led_node) {
-> +		ret = fwnode_property_read_u32(led_node, "color", &color_index);
-> +		if (ret) {
-> +			fwnode_handle_put(led_node);
-> +			goto release_mc_node;
-> +		}
-> +
-> +		ret = fwnode_property_read_u32(led_node, "reg", &reg);
-> +		if (ret) {
-> +			fwnode_handle_put(led_node);
-> +			goto release_mc_node;
-> +		}
-> +
-> +		subled_info[ncp->mc_dev.num_colors].channel = reg;
-> +		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
-> +	}
-> +
-> +	init_data.fwnode = mc_node;
-> +
-> +	ncp->mc_dev.led_cdev.max_brightness = NCP5623_MAX_BRIGHTNESS;
-> +	ncp->mc_dev.subled_info = subled_info;
-> +	ncp->mc_dev.led_cdev.brightness_set_blocking = ncp5623_brightness_set;
-> +	ncp->mc_dev.led_cdev.pattern_set = ncp5623_pattern_set;
-> +	ncp->mc_dev.led_cdev.pattern_clear = ncp5623_pattern_clear;
-> +	ncp->mc_dev.led_cdev.default_trigger = "pattern";
-> +
-> +	mutex_init(&ncp->lock);
-> +	i2c_set_clientdata(client, ncp);
-> +
-> +	ret = led_classdev_multicolor_register_ext(dev, &ncp->mc_dev, &init_data);
-> +	if (ret)
-> +		goto destroy_lock;
-> +
-> +	fwnode_handle_put(mc_node);
-
-Didn't you just store this ~16 lines up?
-
-> +	return 0;
-> +
-> +destroy_lock:
-> +	mutex_destroy(&ncp->lock);
-> +
-> +release_mc_node:
-> +	fwnode_handle_put(mc_node);
-> +
-> +	return ret;
-> +}
-> +
-> +static void ncp5623_remove(struct i2c_client *client)
-> +{
-> +	struct ncp5623 *ncp = i2c_get_clientdata(client);
-> +
-> +	mutex_lock(&ncp->lock);
-> +	ncp->delay = 0;
-> +	mutex_unlock(&ncp->lock);
-> +
-> +	ncp5623_write(client, NCP5623_DIMMING_TIME_REG, 0);
-> +	led_classdev_multicolor_unregister(&ncp->mc_dev);
-> +	mutex_destroy(&ncp->lock);
-> +}
-> +
-> +static void ncp5623_shutdown(struct i2c_client *client)
-> +{
-> +	struct ncp5623 *ncp = i2c_get_clientdata(client);
-> +
-> +	if (!(ncp->mc_dev.led_cdev.flags & LED_RETAIN_AT_SHUTDOWN))
-> +		ncp5623_write(client, NCP5623_SHUTDOWN_REG, 0);
-> +
-> +	mutex_destroy(&ncp->lock);
-> +}
-> +
-> +static const struct of_device_id ncp5623_id[] = {
-> +	{ .compatible = "onnn,ncp5623" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ncp5623_id);
-> +
-> +static struct i2c_driver ncp5623_i2c_driver = {
-> +	.driver	= {
-> +		.name = "ncp5623",
-> +		.of_match_table = ncp5623_id,
-> +	},
-> +	.probe = ncp5623_probe,
-> +	.remove = ncp5623_remove,
-> +	.shutdown = ncp5623_shutdown,
-> +};
-> +
-> +module_i2c_driver(ncp5623_i2c_driver);
-> +
-> +MODULE_AUTHOR("Abdel Alkuor <alkuor@gmail.com>");
-> +MODULE_DESCRIPTION("NCP5623 Multi-LED driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.34.1
-> 
-
--- 
-Lee Jones [李琼斯]
 
