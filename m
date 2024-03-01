@@ -1,129 +1,111 @@
-Return-Path: <linux-leds+bounces-1081-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1082-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E3586D911
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 02:42:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3723B86DA38
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 04:39:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA8D91F23C06
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 01:42:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6975280F6C
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 03:39:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44671381B9;
-	Fri,  1 Mar 2024 01:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD2746433;
+	Fri,  1 Mar 2024 03:36:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="2wusa/eb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QayqyHA0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F09E2CCA4
-	for <linux-leds@vger.kernel.org>; Fri,  1 Mar 2024 01:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745004655F
+	for <linux-leds@vger.kernel.org>; Fri,  1 Mar 2024 03:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709257336; cv=none; b=FyiKNpnj8fGWI0LKJ0+ZF62AXD6CWIz/PuoAxT50poD4puv1sTxenYYZljab5HogY53kdQdA7O2sNTA0x1I3JzevuwWc4ANKbeJ4XzYkKaSr4MlLAyBKmgC8T5KvlishZAuN9oeJKzlysBGStR7ke1P9qlt27iLkF81EXm9Efis=
+	t=1709264211; cv=none; b=au0VYo7ubfY7TRAoZCqpN150KxINedGbuQK7fQ17EGEvms3OQdM0GU6GKsrOeaqXD7y2S0wkinuFB7QXG4wWF9jTb1FUn9Tbw/XF67hN8mihJrYRxdSKqkBWSHvH88IwknDt2gnPwwL1XCZIy7PuwKAnzRUTCxds1OhkS+Pl7jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709257336; c=relaxed/simple;
-	bh=T3tc55CjSPYJyIAovpoXkdcFIV0zyYFo6IMzOwHWL8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uem42vLF0apPMII9Q+jAVV4X3+7IuPuBrE17tOK+YTHytjKinxCX4hpKfBHbXOwmOLZV0Sjgvs4J6sqzhWo9k/BeVsatnbHD+KoDyuyanRMlDDw6ILQMb8erPX9szlfDzH0Lyx4Uukk1sMPmJFQv6J4bdXTQtgTZ3rxP4qDP7xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=2wusa/eb; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	s=arc-20240116; t=1709264211; c=relaxed/simple;
+	bh=+0HWL37XmaBELqr1Y5osV08VTnMz7DcvLvGP1oceLHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U8r2mmrEzvZokPooZ8gPHwyvliteUO0TyKe43z5MINgGHLt0ELsPsq1t1ot4wWf9ss8QmEZppgo3kNVNCPC3qvTjzXPEzrBoOHfBqxXNpk9G4kixfTUxHIzfxG3Z9x/59fR8L9wD3pTSunvhDftfNyoqhHj2rBX0JuKG7ylQ9Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QayqyHA0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1709264208;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cujA/aqlYoJlFQNLpUGlHmZhSDTZ/CBl5llEOGsmWQw=;
+	b=QayqyHA0ku1z0u6jNPZq/jUWhV5LDZ48i5yNYPEHs106Ei4FKRlK10cKt2dkdnyAvwunJu
+	W8VAWs2OzJ0ha0HcV1exHy9NiMwsTkXhZusCP4J2Qp1oRm7th39FeEg1V1In+mDeA4PGyT
+	lapXpiAF2NusecacIdGRVxOa7/lDXus=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-82et7fLhN4uBI5soMReEDQ-1; Thu, 29 Feb 2024 22:36:44 -0500
+X-MC-Unique: 82et7fLhN4uBI5soMReEDQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 798782C072D;
-	Fri,  1 Mar 2024 14:42:10 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1709257330;
-	bh=vRjZk3VBvyhAZ+OC2mXTW8QEEJfhOQc/xglfRGmeFco=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=2wusa/ebssKuW+lliQHpTr0usxdeNBmkOeXeHg6sBrG/Ub7VZA1ZnvUE4xjTrUrT6
-	 S2Qg4HDcbvM+z74ERWKjjC19KtKOHCb6CnmIMuk4RGlWHKpp1XuszHnWNhas0I9Y+8
-	 gIV30TOToLZDXNo2cM+l0PGirEoQ8QarHGIbbFC73EAK/iRktN4PbWYNa1w1Nrj+fo
-	 VG5Zg5XpSGATbsX9UkOTIOkZqc6g3CI1t+igS4x6T8y9TX3IjjQHluulnoTiZrY/3f
-	 2tbDos/CgdmuPXPVayOA/JgBYNsvEFgTQN1kSgW3z3VFlObrIV3/Eh5fvnl0MdZiBa
-	 /GtZvHJjNW2bQ==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65e132720004>; Fri, 01 Mar 2024 14:42:10 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id 1D5D113EE85;
-	Fri,  1 Mar 2024 14:42:10 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id 18EC72807C4; Fri,  1 Mar 2024 14:42:10 +1300 (NZDT)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: andy@kernel.org,
-	geert@linux-m68k.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	andrew@lunn.ch,
-	gregory.clement@bootlin.com,
-	sebastian.hesselbarth@gmail.com,
-	pavel@ucw.cz,
-	lee@kernel.org
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v3 4/4] ARM: dts: marvell: Indicate USB activity on x530
-Date: Fri,  1 Mar 2024 14:42:03 +1300
-Message-ID: <20240301014203.2033844-5-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240301014203.2033844-1-chris.packham@alliedtelesis.co.nz>
-References: <20240301014203.2033844-1-chris.packham@alliedtelesis.co.nz>
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 743F389F9EC;
+	Fri,  1 Mar 2024 03:36:43 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.31])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E9049C03488;
+	Fri,  1 Mar 2024 03:36:38 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v3 0/2] KTD2026 indicator LED for X86 Xiaomi Pad2
+Date: Fri,  1 Mar 2024 11:36:10 +0800
+Message-ID: <20240301033612.11826-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e13272 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=syfxfRYH0sAgbFgdTt0A:9 a=3ZKOabzyN94A:10 a=zZCYzV9kfG8A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-Use the dot on the 7-segment LED block to indicate USB access on the
-x530.
+This patch added the support for Xiaomi Pad2 indicator LED. This work
+included two parts.
+1. Added the KTD2026 swnode description to describe the LED controller.
+2. Migrated the original driver to fwnode to support x86 platform.
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
+Moreover, the LED trigger is set to bq27520-0-charging for Xiaomi Pad2
+so the LED will be turned on when charging.
 
-Notes:
-    Changes in v3:
-    - None
-    Changes in v2:
-    - New
+--
+Changes in v3:
+1. Drop the patch "leds-ktd202x: Skip regulator settings for Xiaomi
+   pad2"
 
- arch/arm/boot/dts/marvell/armada-385-atl-x530.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Changes in v2:
+1. Typo and style fixes.
+2. The patch 0003 skips all the regulator setup for Xiaomi pad2 since
+   KTD2026 on Xiaomi pad2 is already powered by BP25890RTWR. So, the
+   sleep can be removed when removing the module.
 
-diff --git a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts b/arch/arm=
-/boot/dts/marvell/armada-385-atl-x530.dts
-index 60c2abf572b6..a53dd17d11b4 100644
---- a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-+++ b/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-@@ -54,6 +54,15 @@ &led_7seg_gpio 4 GPIO_ACTIVE_LOW
- 				 &led_7seg_gpio 5 GPIO_ACTIVE_LOW
- 				 &led_7seg_gpio 6 GPIO_ACTIVE_LOW>;
- 	};
-+
-+	leds {
-+		compatible =3D "gpio-leds";
-+		led-0 {
-+			label =3D "usb";
-+			gpios =3D  <&led_7seg_gpio 7 GPIO_ACTIVE_LOW>;
-+			linux,default-trigger =3D "usb-host";
-+		};
-+	};
- };
-=20
- &pciec {
---=20
+Kate Hsuan (2):
+  platform: x86-android-tablets: other: Add swnode for Xiaomi pad2
+    indicator LED
+  leds: rgb: leds-ktd202x: Get device properties through fwnode to
+    support ACPI
+
+ drivers/leds/rgb/Kconfig                      |  1 -
+ drivers/leds/rgb/leds-ktd202x.c               | 58 ++++++++-----
+ .../platform/x86/x86-android-tablets/other.c  | 85 +++++++++++++++++++
+ .../x86/x86-android-tablets/shared-psy-info.h |  2 +
+ 4 files changed, 126 insertions(+), 20 deletions(-)
+
+-- 
 2.43.2
 
 
