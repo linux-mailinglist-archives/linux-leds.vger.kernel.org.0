@@ -1,74 +1,62 @@
-Return-Path: <linux-leds+bounces-1089-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1090-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3F986E2E1
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 15:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9DB86E829
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 19:20:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D695B286EB9
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 14:00:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 148F728232E
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Mar 2024 18:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D35E6EB69;
-	Fri,  1 Mar 2024 14:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="VEsMCUKB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 871653B29D;
+	Fri,  1 Mar 2024 18:18:47 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB765F84C;
-	Fri,  1 Mar 2024 14:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC823BB4E;
+	Fri,  1 Mar 2024 18:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709301619; cv=none; b=HDXnAXBHMPghVPaXnPaFR2qmc0Z9acSWPhh5FBsZVUumPPakh7gEfA/gbo3fwmkyVKGorScUMDe2xViIqSVLGbUn26cJJRs3/T1T3VBFRw8WbVMaJIe8IE78i5JO0hjKDmcJ1qS5wc9fv5MlaeWu8SB2GO45c/qWW3/SB0zSr6Y=
+	t=1709317127; cv=none; b=hfQvhmSVvTIuW2a5ZWgUdG1ajjuHywuYj9bp8gMlyZf1Ceb31akImaGNqVZe6dIi0s9ImOmHt8vDbm3S1pZS5M85bZl7FAd78rTH0RsPapk2I8KJvfGeRdJAROrcp9PKVSwg4Xb6hZ2e29sCZlejshTRcYoXNcZCZAZrgGAn7MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709301619; c=relaxed/simple;
-	bh=Uwm4z9If+tkCUKr8I6N3lywyOJRH6O9UKwPft2Dlxs0=;
+	s=arc-20240116; t=1709317127; c=relaxed/simple;
+	bh=q/ftgULoZU14gjYyOUW8zk8XyZYRKnHrhnJsjauO4KA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iwmd8loJ1F06dRDhlAGbCNdRv9cmnFi6BKSJbPk30kw5I3rxmfesGu48n9Leptavgs4TjfN3xmU1oLr4RH/rACC79ut5lh5/cdVfY7KDCtUIl4q+Ne0KWP+HSYpk8EaVdi7l6LG/w5e+fbzLrdMFFVE3AzR3Xf18kKVj/fart9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=VEsMCUKB; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=lt7udYsocuVhKxHFS4ifPlstkCMspm0P7cqn/fPP8AU=; b=VEsMCUKB+WhD2pxB/+erGT/mHN
-	IvTI5J2+LH0v2cRGGXVk3E051GWncATp6v5s1ZgNynJhqXaclaud3WIfIXV3KToDE+hUv85jfqDVB
-	02zFW4w4eQX7GMzCAufwskR/ZUX5OruKoN96GbOzTrJx3nW5b2acVijbV6uBqpzLgBU4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rg3R0-0098kj-Tr; Fri, 01 Mar 2024 15:00:22 +0100
-Date: Fri, 1 Mar 2024 15:00:22 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com, christophercordahi@nanometrics.ca
-Subject: Re: [PATCH v2 6/6] net: phy: DP83640: Add fiber mode
- enabling/disabling from device tree
-Message-ID: <7d70e512-ce6f-43ca-b297-fd3397469276@lunn.ch>
-References: <20240227093945.21525-1-bastien.curutchet@bootlin.com>
- <20240227093945.21525-7-bastien.curutchet@bootlin.com>
- <a9c2144a-f26b-4a71-b808-ce3a94f1264d@lunn.ch>
- <c1b17410-b403-4c3a-9c00-de8f2b2b2fa7@bootlin.com>
- <c6840f8f-7d9c-49e8-b689-2af04605b99c@lunn.ch>
- <20240301113703.102bbad0@device-28.home>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hnH55WU1GteO1+2xrhkc3RhWSsFi+wVcUChit9jVfILIPPWH0iv8wIOefutlhugMRWkNJrY1kNT7sIsmsbzi/ilplrrN1HTFzLbAmAsPQgwjm3qCaey6IS+bLoADV2dvGS8rcYZwlHLNGlHrBPK9115cN7CnDBEqwYfIQmFk/6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="14571913"
+X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
+   d="scan'208";a="14571913"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 10:18:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="914022095"
+X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
+   d="scan'208";a="914022095"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 10:18:41 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1rg7Sw-000000091jN-07sS;
+	Fri, 01 Mar 2024 20:18:38 +0200
+Date: Fri, 1 Mar 2024 20:18:37 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: geert@linux-m68k.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	andrew@lunn.ch, gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com, pavel@ucw.cz, lee@kernel.org,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/4] auxdisplay: Add 7-segment LED display driver
+Message-ID: <ZeIb_TaKK1DE6l6U@smile.fi.intel.com>
+References: <20240301014203.2033844-1-chris.packham@alliedtelesis.co.nz>
+ <20240301014203.2033844-2-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -77,13 +65,78 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240301113703.102bbad0@device-28.home>
+In-Reply-To: <20240301014203.2033844-2-chris.packham@alliedtelesis.co.nz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-> All in all, do you think that defaulting to copper and leaving users an
-> option to implement "ti,fiber-mode" is an acceptable risk to take ?
+On Fri, Mar 01, 2024 at 02:42:00PM +1300, Chris Packham wrote:
+> Add a driver for a 7-segment LED display. At the moment only one
+> character is supported but it should be possible to expand this to
+> support more characters and/or 14-segment displays in the future.
 
-Yes, lets do that. But try to make it easy to revert the change if
-anybody complains about a regression.
+...
 
-	Andrew
+> + * Driver for a 7 segment LED display
+
+7-segment
+
+...
+
+> + * The GPIOs are wired to the 7 segments in a clockwise fashion starting from
+> + * the top.
+
+Not exactly. They can wire them as they wish, we just need to agree on the
+sequence of the segments in DT to be mapped to the 7-segment diagram.
+
+...
+
+> + *      -a-
+> + *     |   |
+> + *     f   b
+> + *     |   |
+> + *      -g-
+> + *     |   |
+> + *     e   c
+> + *     |   |
+> + *      -d-
+
+I would drop this as it's available in UAPI header...
+
+...
+
+> +#include <linux/bitmap.h>
+> +#include <linux/container_of.h>
+> +#include <linux/errno.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/types.h>
+> +#include <linux/workqueue.h>
+
+...which you forgot to include here.
+
+...
+
+> +static void seg_led_update(struct work_struct *work)
+> +{
+> +	struct seg_led_priv *priv = container_of(work, struct seg_led_priv, work.work);
+> +	struct linedisp *linedisp = &priv->linedisp;
+> +	struct linedisp_map *map = linedisp->map;
+> +	DECLARE_BITMAP(values, 8);
+
+> +	bitmap_zero(values, 8);
+
+Why do you need this zeroing?
+
+> +	bitmap_set_value8(values, map_to_seg7(&map->map.seg7, linedisp->buf[0]), 0);
+> +
+> +	gpiod_set_array_value_cansleep(priv->segment_gpios->ndescs, priv->segment_gpios->desc,
+> +				       priv->segment_gpios->info, values);
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
