@@ -1,128 +1,112 @@
-Return-Path: <linux-leds+bounces-1098-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1099-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0261086F433
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 10:48:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 466B386F6D8
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 20:41:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B820B283B83
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 09:48:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF5DE1F210FF
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 19:41:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D4DAD5A;
-	Sun,  3 Mar 2024 09:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5EB1EB37;
+	Sun,  3 Mar 2024 19:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pDabq1Fo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB09AD4C;
-	Sun,  3 Mar 2024 09:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7261A1E508
+	for <linux-leds@vger.kernel.org>; Sun,  3 Mar 2024 19:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709459333; cv=none; b=U8RMRZ7QLORiT2QbPV5Y/Zz4yYJ7Yh7N9AD8dR9KsgUfs2nqUjM/dEXnPMQtmzDVnGyV9k/PJnmeKDITsG113KWFPdAS15fBvnKmcB4hKSByKXf+kFYk0M67zpFUDbnlBi6/Xg+3KF5YPcySU+ALddi03VmWiwlAQWEw/32PLsw=
+	t=1709494899; cv=none; b=U5dAHskGXGp5euRGkG6oO+PRlXl1qSeMIIdexYTSagmkrbBJfmYSG2PUbzjcX9uiSX0evl5RvuuL+eCJue+YGH7fvs7AaCkrr6gsf+3QKRjhqgwxRggo/fFjaTS7Smd8+jrmu6XA+vwyFls8a9TkDeNrAQAE7hSKan2pqItL6w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709459333; c=relaxed/simple;
-	bh=bjK/QpzZZjmi5O8zqPA7HxcV0JNdTcW4PUAupyqpja0=;
+	s=arc-20240116; t=1709494899; c=relaxed/simple;
+	bh=yH8Iyl/clwz7ah3TSa82CMm2zdGUdQJuFN+sjwh1jTU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QqhVLtbXtlrCDBogEBwp3XMVd6NlMEAyUz/7t+IB8bo/V7vnmd621F3yfAzDUGzm1jAr5OuVcw6PijDts4dVSr5Pd3ckX+a9Pwa5ahmjwWEnMuH+zbHmR/euodXj7ObWAVJHBMB9+aQItQzo7zO/bTow3Bf4kjTmOLXuMaHmbkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6098bf69909so13179067b3.1;
-        Sun, 03 Mar 2024 01:48:51 -0800 (PST)
+	 To:Cc:Content-Type; b=o5AH4AWcVo8YfzxvLMN6NZ+6mY/7ExhURbRaMNiV9a+IzkOt9aTBRFvKE4acZ/f91KgrIFITErIs7q4VPH+nNr93bmi6TDHQ/lW5FK4LLBJMy7+P+m6TLbRUeOj/rI39Sogkelq2skSi7+d97kWHwqtGKT6OSNu2YOzJIeIMGng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pDabq1Fo; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so3542652276.1
+        for <linux-leds@vger.kernel.org>; Sun, 03 Mar 2024 11:41:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709494896; x=1710099696; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yH8Iyl/clwz7ah3TSa82CMm2zdGUdQJuFN+sjwh1jTU=;
+        b=pDabq1Fo/E/uxjkEV8Ab4n1p8htShtGbdpCEQpAZ4qWBViqsPV4MLX4pa5O5WwEzPj
+         UntQzmeeJRL0ZidY/8TjHrrSHK61norratjQHq7pFdSN+4ZkEZaKZ5vuAEBaVXMbQreP
+         tZrY5xrxymzDdUUiDk40Z4NAmLo4ftk82iz5I7qlIa3E3K9QtbcPu+Lpb18uoQVFAO8J
+         IHJ7ZTogFFjFQgBRwPKSsSmQmrOjUdACHEL22mtbOKgSVHvd4EGpPnROhqYN71+6Sapz
+         7pHRHs4j8+rHIgHrocvKl/PZ4cwN1eYpyPITfk6auMTznadsej7bb03FuQzOzTfLynDM
+         Jr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709459329; x=1710064129;
+        d=1e100.net; s=20230601; t=1709494896; x=1710099696;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EDfgszw4BmF3vxq2jfZyuRkGTM2CQmFgMgyb+UG5yqk=;
-        b=Or7dz3PbbmePczUFECf5hPYpgt89fJmRA5ugWhCcIndHyh/xbk/hvdy2f3Px4/3jVd
-         HX6XsmgvycNHV0wpa42Bf5GE+rUaWMfrbJ6ChLHM5pdqiuB6jshzxf1uXPBT2qjjlvUy
-         zz8P/9dYchNJc/bTaW1kBdC3DWTBDrfbAIGv83B/5NvgLh744CP0NMyLjy6s6aqKsQGo
-         REmFDeINZoz5vaqnCkPi3SOCMUsc1I2LfkHxm2vpPYD5SpU6ECBkwE8fAR9NKCDpo+vO
-         DQKoLEdauPLU1REcrApJTug8OtTYi+6MsGBgIR7XAGmANxJ8H8EPFMAt2sIdp2BeOE/h
-         p6dg==
-X-Forwarded-Encrypted: i=1; AJvYcCV/Coc3EryfPPaBH0fWI1bMap3bUfgatlj1Gt6df24T1iTVjjVREhmJBhq2NHB8hUVBXIKg7xJDb5LJiYUOm76nzrAOM0vCkzVOnWQ78TNr4N38twhem/EhfxnLu3edFSvXu/IHItUNNiWSz653eWeDTTgIm31/D+gio6F7dgX5Oc1KZ54=
-X-Gm-Message-State: AOJu0Yy2eVfoinZvp0fHjcgaNujYOswZJTdB80Wv3u0gE2TAuVeoHjpI
-	1UrqTbHVZE138DYXqV9LkU2x0PJ3QWyLoDW+YV7QCHGoBIqcCESxhwPX2NEk/sI=
-X-Google-Smtp-Source: AGHT+IG8V5hUPDxaLY0W7edk8QCeOsetzRPwBli4qomB6GBeOBqnFE7vQ0HwriFQwxsF96zDuSFNbg==
-X-Received: by 2002:a0d:d746:0:b0:608:cc10:f4f4 with SMTP id z67-20020a0dd746000000b00608cc10f4f4mr4225764ywd.16.1709459329501;
-        Sun, 03 Mar 2024 01:48:49 -0800 (PST)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id t19-20020a81b513000000b0060894d466ffsm1973001ywh.121.2024.03.03.01.48.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Mar 2024 01:48:49 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dbed179f0faso3189625276.1;
-        Sun, 03 Mar 2024 01:48:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUC8fVvFQ00B6Owx/lxfZbA8iZLQBjzMgMEjF62IzjpBLoMJalqKCwku842dMhRZAmSE19QhEz3b/A9erg0tZyIWRdFQ3gfjXK0xC4QIopIzJ0qiUeyCYFbK2L0VzQq3wH2vkuD3zjxCQ2NhQWq0GR95Zgknyl/qBxoJKedxW5KQSsgAJo=
-X-Received: by 2002:a25:8301:0:b0:dc6:ab85:ba89 with SMTP id
- s1-20020a258301000000b00dc6ab85ba89mr3783078ybk.25.1709459328258; Sun, 03 Mar
- 2024 01:48:48 -0800 (PST)
+        bh=yH8Iyl/clwz7ah3TSa82CMm2zdGUdQJuFN+sjwh1jTU=;
+        b=akAlH8n+chzzccAH6IF419p8c1/SaDuPKbaUNMd153F6s13FuY4/nKOOqkyWyDxcY5
+         dkwZrrSS9InZfaKaYZOJsDvyVvKW/qe1Az3lzvejWW3kE+pb5FDeopmNTGY5dO34r1Br
+         8qwJl7/U3gbDEj6Dlum7LKVKgplq3lve2mTfxymVZaCgaLF7Xt+zu794SfUDmmyo8Bba
+         X1LIRVKht9YHqrEFKnqFL5RY2MinF8NAoGU6zZGEZTg4ymkK6VKtzNtQWjL2rUbslO7+
+         qS8ko+x6WKbGtgiO0FfoWEGInTJ05i2/CaBYHhEByz088pAgwosKmh+vgy0JuMlH1SAN
+         2AcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcq6xvmh0qSykywwKez61ut43VdosLeMm+WGzEoBKs2MecC8HxEY0GurPHJRF8TyeYG2yqgambBvWEbtxec3CtxBeP3OOQatktoA==
+X-Gm-Message-State: AOJu0Yw6vcrnxGmh/tKtbNHwlFuJRYOdf66nTrqMOmxKkej7g5R/kf9u
+	tWHmtX14RGvwjs/hrK7Fv8MQfU+HBqE/UgaWL3fKx49t/iCVgDeXxnSdqEPAF8DC9QosHQrpviG
+	XtNKNgM9LaJMRMZqC47UIdifLprERDyLnVfaCcg==
+X-Google-Smtp-Source: AGHT+IHW0/nslv9u7HI0yXnFPSD2Ds4CD4VUyxbU3QrHmEzNEYwVNoNeNJMBdXZvU06WqbJKs8wj2rVhJ6JRSfpVQwA=
+X-Received: by 2002:a25:824a:0:b0:d80:68d1:b826 with SMTP id
+ d10-20020a25824a000000b00d8068d1b826mr4576752ybn.6.1709494896554; Sun, 03 Mar
+ 2024 11:41:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240301014203.2033844-1-chris.packham@alliedtelesis.co.nz>
- <20240301014203.2033844-5-chris.packham@alliedtelesis.co.nz> <ZeIdXIx5zYjKQiSO@smile.fi.intel.com>
-In-Reply-To: <ZeIdXIx5zYjKQiSO@smile.fi.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 3 Mar 2024 10:48:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVJiWtB4MSGHXXz=OAEvu-+b9Xp-jQ_NXWck+hwKGK4TQ@mail.gmail.com>
-Message-ID: <CAMuHMdVJiWtB4MSGHXXz=OAEvu-+b9Xp-jQ_NXWck+hwKGK4TQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] ARM: dts: marvell: Indicate USB activity on x530
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, andrew@lunn.ch, 
-	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, pavel@ucw.cz, 
-	lee@kernel.org, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240223112223.1368-1-zajec5@gmail.com>
+In-Reply-To: <20240223112223.1368-1-zajec5@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 3 Mar 2024 20:41:25 +0100
+Message-ID: <CACRpkdbAjJQbAnB3E5HYkd-Bmb3NhBR_p5K=BHtRy+DhRFa6Pw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: Add LED_FUNCTION_WAN_ONLINE for
+ Internet access
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
+On Fri, Feb 23, 2024 at 12:22=E2=80=AFPM Rafa=C5=82 Mi=C5=82ecki <zajec5@gm=
+ail.com> wrote:
 
-On Fri, Mar 1, 2024 at 7:24=E2=80=AFPM Andy Shevchenko <andy@kernel.org> wr=
-ote:
-> On Fri, Mar 01, 2024 at 02:42:03PM +1300, Chris Packham wrote:
-> > Use the dot on the 7-segment LED block to indicate USB access on the
-> > x530.
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
 >
-> As I said, I'm not going to apply this even with Acks.
+> It's common for routers to have LED indicating link on the WAN port.
+>
+> Some devices however have an extra LED that's meant to be used if WAN
+> connection is actually "online" (there is Internet access available).
+>
+> It was suggested to add #define for such use case.
+>
+> Link: https://lore.kernel.org/linux-devicetree/80e92209-5578-44e7-bd4b-60=
+3a29053ddf@collabora.com/T/#u
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
 
-I guess you should not apply any of the dts patches to the
-auxdisplay tree anyway?
+That looks helpful.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> The problem here as I see it is the future decision on how DP should
-> behave like.  If you put this into DT, we will to support this to the end
-> of the platform.
-
-As there exist 7-seg displays (and wirings) with and without DP,
-the 7-seg driver and DT bindings should handle both cases.  How to
-wire/use the DP LED is up to the hardware designer / DTS writer.
-
-I agree it's a thin boundary between hardware description and software
-policy, though.  Is that your main concern?
-
-> So, drop this from the next version. You may try afterwards to apply it v=
-ia
-> different routes (will be not my problem :-).
-
-Exactly ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
 
