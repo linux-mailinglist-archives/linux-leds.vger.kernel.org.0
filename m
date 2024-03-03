@@ -1,112 +1,116 @@
-Return-Path: <linux-leds+bounces-1099-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1100-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466B386F6D8
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 20:41:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A608486F6F0
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 20:58:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF5DE1F210FF
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 19:41:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C57828141F
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Mar 2024 19:58:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5EB1EB37;
-	Sun,  3 Mar 2024 19:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17D279DB1;
+	Sun,  3 Mar 2024 19:58:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pDabq1Fo"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="TxVP0ht0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7261A1E508
-	for <linux-leds@vger.kernel.org>; Sun,  3 Mar 2024 19:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467C867C4B
+	for <linux-leds@vger.kernel.org>; Sun,  3 Mar 2024 19:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709494899; cv=none; b=U5dAHskGXGp5euRGkG6oO+PRlXl1qSeMIIdexYTSagmkrbBJfmYSG2PUbzjcX9uiSX0evl5RvuuL+eCJue+YGH7fvs7AaCkrr6gsf+3QKRjhqgwxRggo/fFjaTS7Smd8+jrmu6XA+vwyFls8a9TkDeNrAQAE7hSKan2pqItL6w4=
+	t=1709495897; cv=none; b=eJSe0pzGhAaH14dbD6S48wVJJ2gm2xFQt4f/ONiP7JDP6tAytfhLaAw+XeH/XzyMuCi24KQaRj7VawZYpFo2bU5AVnfPEL3EFQh2YKD4nSEqjJi95s0bR2iVWatD5WzefCaGfg7SSaq199cUuoHkMcO6PISu8yOevyTTCr1rM2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709494899; c=relaxed/simple;
-	bh=yH8Iyl/clwz7ah3TSa82CMm2zdGUdQJuFN+sjwh1jTU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5AH4AWcVo8YfzxvLMN6NZ+6mY/7ExhURbRaMNiV9a+IzkOt9aTBRFvKE4acZ/f91KgrIFITErIs7q4VPH+nNr93bmi6TDHQ/lW5FK4LLBJMy7+P+m6TLbRUeOj/rI39Sogkelq2skSi7+d97kWHwqtGKT6OSNu2YOzJIeIMGng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pDabq1Fo; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so3542652276.1
-        for <linux-leds@vger.kernel.org>; Sun, 03 Mar 2024 11:41:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709494896; x=1710099696; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yH8Iyl/clwz7ah3TSa82CMm2zdGUdQJuFN+sjwh1jTU=;
-        b=pDabq1Fo/E/uxjkEV8Ab4n1p8htShtGbdpCEQpAZ4qWBViqsPV4MLX4pa5O5WwEzPj
-         UntQzmeeJRL0ZidY/8TjHrrSHK61norratjQHq7pFdSN+4ZkEZaKZ5vuAEBaVXMbQreP
-         tZrY5xrxymzDdUUiDk40Z4NAmLo4ftk82iz5I7qlIa3E3K9QtbcPu+Lpb18uoQVFAO8J
-         IHJ7ZTogFFjFQgBRwPKSsSmQmrOjUdACHEL22mtbOKgSVHvd4EGpPnROhqYN71+6Sapz
-         7pHRHs4j8+rHIgHrocvKl/PZ4cwN1eYpyPITfk6auMTznadsej7bb03FuQzOzTfLynDM
-         Jr8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709494896; x=1710099696;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yH8Iyl/clwz7ah3TSa82CMm2zdGUdQJuFN+sjwh1jTU=;
-        b=akAlH8n+chzzccAH6IF419p8c1/SaDuPKbaUNMd153F6s13FuY4/nKOOqkyWyDxcY5
-         dkwZrrSS9InZfaKaYZOJsDvyVvKW/qe1Az3lzvejWW3kE+pb5FDeopmNTGY5dO34r1Br
-         8qwJl7/U3gbDEj6Dlum7LKVKgplq3lve2mTfxymVZaCgaLF7Xt+zu794SfUDmmyo8Bba
-         X1LIRVKht9YHqrEFKnqFL5RY2MinF8NAoGU6zZGEZTg4ymkK6VKtzNtQWjL2rUbslO7+
-         qS8ko+x6WKbGtgiO0FfoWEGInTJ05i2/CaBYHhEByz088pAgwosKmh+vgy0JuMlH1SAN
-         2AcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcq6xvmh0qSykywwKez61ut43VdosLeMm+WGzEoBKs2MecC8HxEY0GurPHJRF8TyeYG2yqgambBvWEbtxec3CtxBeP3OOQatktoA==
-X-Gm-Message-State: AOJu0Yw6vcrnxGmh/tKtbNHwlFuJRYOdf66nTrqMOmxKkej7g5R/kf9u
-	tWHmtX14RGvwjs/hrK7Fv8MQfU+HBqE/UgaWL3fKx49t/iCVgDeXxnSdqEPAF8DC9QosHQrpviG
-	XtNKNgM9LaJMRMZqC47UIdifLprERDyLnVfaCcg==
-X-Google-Smtp-Source: AGHT+IHW0/nslv9u7HI0yXnFPSD2Ds4CD4VUyxbU3QrHmEzNEYwVNoNeNJMBdXZvU06WqbJKs8wj2rVhJ6JRSfpVQwA=
-X-Received: by 2002:a25:824a:0:b0:d80:68d1:b826 with SMTP id
- d10-20020a25824a000000b00d8068d1b826mr4576752ybn.6.1709494896554; Sun, 03 Mar
- 2024 11:41:36 -0800 (PST)
+	s=arc-20240116; t=1709495897; c=relaxed/simple;
+	bh=YMjGJq4umtyd/ClNiZa0elGCMycPIwJQx4Epcs2kpG8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=It5VemH2DGwG7vo/NvWzZIRlNu+drNyewbg7EeBIJ3e3mDdATMj16YPvWgftID4NX0egsaKWf4+bM9eStdEoLCupy437xyPDS9bOeueQ33IMDg2doaIjk9qAK2JxOjez+Mr8BHWAMrCxRCGutxHgVwQYt9aEhAjiKxxuyhkMqn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=TxVP0ht0; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 600AB2C05EA;
+	Mon,  4 Mar 2024 08:58:07 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1709495887;
+	bh=YMjGJq4umtyd/ClNiZa0elGCMycPIwJQx4Epcs2kpG8=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=TxVP0ht0zTq714jFvRsf2+3s8wz6BZjd/L1eUYztGSU7sdy8uMIdw2nS4U4FERJUL
+	 GyUkkW9mjgwhTpaCZx5FzIXEyEEn3bRMnW/VFtzaZJSL6oCOA9qFYVxEJVu3aoutkQ
+	 sT84aToNkip9w1slWzHAX9/K5OS3rvfQMpTEeSeN9YHHgcG77wOTz/vLxFroHRUd6z
+	 wfF6TdgVVthiZCEwxRJ0yJziF9mnsNCLhFiUA9WbpVIqj4BcASZXF762zMrkizAqnK
+	 CyhKdFM4tfxm0aL1iSXrYSwhNZS4sfkt2hfkPFfuSIbungxxQ2ENLn1Zj+gZPB25xX
+	 XfzHV+MziUyZQ==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65e4d64f0001>; Mon, 04 Mar 2024 08:58:07 +1300
+Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.1118.40; Mon, 4 Mar 2024 08:58:07 +1300
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
+ svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
+ SMTP Server (TLS) id 15.0.1497.48; Mon, 4 Mar 2024 08:58:06 +1300
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1118.040; Mon, 4 Mar 2024 08:58:06 +1300
+From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To: Andy Shevchenko <andy@kernel.org>
+CC: "geert@linux-m68k.org" <geert@linux-m68k.org>, "robh+dt@kernel.org"
+	<robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>,
+	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
+	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
+	"pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3 1/4] auxdisplay: Add 7-segment LED display driver
+Thread-Topic: [PATCH v3 1/4] auxdisplay: Add 7-segment LED display driver
+Thread-Index: AQHaa3mtvfhJncEIXkulWlzHVNRh9LEiWOCAgANAdQA=
+Date: Sun, 3 Mar 2024 19:58:06 +0000
+Message-ID: <f17adc70-be85-4be2-bbe2-336866907d68@alliedtelesis.co.nz>
+References: <20240301014203.2033844-1-chris.packham@alliedtelesis.co.nz>
+ <20240301014203.2033844-2-chris.packham@alliedtelesis.co.nz>
+ <ZeIb_TaKK1DE6l6U@smile.fi.intel.com>
+In-Reply-To: <ZeIb_TaKK1DE6l6U@smile.fi.intel.com>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EB777336AFC8B84A8882CF208885582F@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223112223.1368-1-zajec5@gmail.com>
-In-Reply-To: <20240223112223.1368-1-zajec5@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 3 Mar 2024 20:41:25 +0100
-Message-ID: <CACRpkdbAjJQbAnB3E5HYkd-Bmb3NhBR_p5K=BHtRy+DhRFa6Pw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: Add LED_FUNCTION_WAN_ONLINE for
- Internet access
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e4d64f a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=K6JAEmCyrfEA:10 a=62ntRvTiAAAA:8 a=1LykzZ4aAAAA:8 a=_24Lg-2B7_NxD4znq2UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pToNdpNmrtiFLRE6bQ9Z:22 a=bH51_Tnmb_xWNYlIng18:22
+X-SEG-SpamProfiler-Score: 0
 
-On Fri, Feb 23, 2024 at 12:22=E2=80=AFPM Rafa=C5=82 Mi=C5=82ecki <zajec5@gm=
-ail.com> wrote:
-
-> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->
-> It's common for routers to have LED indicating link on the WAN port.
->
-> Some devices however have an extra LED that's meant to be used if WAN
-> connection is actually "online" (there is Internet access available).
->
-> It was suggested to add #define for such use case.
->
-> Link: https://lore.kernel.org/linux-devicetree/80e92209-5578-44e7-bd4b-60=
-3a29053ddf@collabora.com/T/#u
-> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-
-That looks helpful.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+DQpPbiAyLzAzLzI0IDA3OjE4LCBBbmR5IFNoZXZjaGVua28gd3JvdGU6DQo+PiArc3RhdGljIHZv
+aWQgc2VnX2xlZF91cGRhdGUoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQ0KPj4gK3sNCj4+ICsJ
+c3RydWN0IHNlZ19sZWRfcHJpdiAqcHJpdiA9IGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3Qgc2Vn
+X2xlZF9wcml2LGh0dHA6Ly9zY2FubWFpbC50cnVzdHdhdmUuY29tLz9jPTIwOTg4JmQ9aVp6aTVi
+M1MtVFFDZnQ5aUVYREU2OVU5VXRZMC03R0FOazl0MVdrQ3hnJnU9aHR0cCUzYSUyZiUyZndvcmsl
+MmV3b3JrJTI5JTNiDQo+PiArCXN0cnVjdCBsaW5lZGlzcCAqbGluZWRpc3AgPSAmcHJpdi0+bGlu
+ZWRpc3A7DQo+PiArCXN0cnVjdCBsaW5lZGlzcF9tYXAgKm1hcCA9IGxpbmVkaXNwLT5tYXA7DQo+
+PiArCURFQ0xBUkVfQklUTUFQKHZhbHVlcywgOCk7DQo+PiArCWJpdG1hcF96ZXJvKHZhbHVlcywg
+OCk7DQo+IFdoeSBkbyB5b3UgbmVlZCB0aGlzIHplcm9pbmc/DQo+DQo+PiArCWJpdG1hcF9zZXRf
+dmFsdWU4KHZhbHVlcywgbWFwX3RvX3NlZzcoJm1hcC0+bWFwLnNlZzcsIGxpbmVkaXNwLT5idWZb
+MF0pLCAwKTsNCj4+ICsNCldpdGhvdXQgdGhlIHplcm9pbmcgYWJvdmUgR0NDIGNvbXBsYWlucyBh
+Ym91dCB1c2XCoCBvZiBhIHBvdGVudGlhbGx5IA0KdW5pbml0aWFsaXplZCB2YXJpYWJsZSBoZXJl
+LiBJIHRoaW5rIGJlY2F1c2UgYml0bWFwX3NldF92YWx1ZTgoKSBkb2VzICY9IA0KYW5kIHw9Lg0K
+Pj4gKwlncGlvZF9zZXRfYXJyYXlfdmFsdWVfY2Fuc2xlZXAocHJpdi0+c2VnbWVudF9ncGlvcy0+
+bmRlc2NzLCBwcml2LT5zZWdtZW50X2dwaW9zLT5kZXNjLA0KPj4gKwkJCQkgICAgICAgcHJpdi0+
+c2VnbWVudF9ncGlvcy0+aW5mbywgdmFsdWVzKTsNCj4+ICt9
 
