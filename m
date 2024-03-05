@@ -1,182 +1,95 @@
-Return-Path: <linux-leds+bounces-1136-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1137-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19AB871E65
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 12:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0F7871E98
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 13:08:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F15F1F24364
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 11:59:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DC641F22822
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 12:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD15D59146;
-	Tue,  5 Mar 2024 11:59:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFF8859B77;
+	Tue,  5 Mar 2024 12:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MKXRo6WF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5I1GYoa"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8A858AC3;
-	Tue,  5 Mar 2024 11:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDCA59B44;
+	Tue,  5 Mar 2024 12:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709639948; cv=none; b=TmlDRq3FIkMWjdQVAbESXu6ZnoiLZmgxiRKyAUzl6cHh8iJfkHv+Zjz4jeSdtRu+AVXGKHG91RJgFqc/bMuBVz/gPAoqUnHWzOcBLqOs2x60rzXo1/P4UpRUADK2fBJ3/ZlAeeNPNZxMd5gtRjXVCeW9+MGncL3wjplnasq9dRk=
+	t=1709640524; cv=none; b=tKghJS+af2auMHhIh9SE/7qt4UCfJnzh/DUWtPvTtLZ4b3HiKubsIJhI4nJCGdnDOOUuOUCs8ZM+RygvtoLO/KMBEeZmfuWe9yKD6hZcaX+3BdG7M7xTf2j17wme16DMu/filJl5efCejLO1rfrgdo2sePBLYt/ORQJgcDxNKIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709639948; c=relaxed/simple;
-	bh=ZuHKS4WAfQy4zt4fPmW1MgMJAVVJ8fjt3YlL0SdUHfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sM4UaSaLN2Q7wDPk9fsRbeobdWS8rNnrZeGhJpT2Zlhs14ysxSw7zrgABegfk1et68bvFBZR2TSIJTS7xYUCItwtbr5Wg59LpJkulUT2C1AEwAPHmi6/EGXdijtIioX7Jc0gujm19lZv2Ngk2nbPt5B92eB0vYsRXri2O2O5R+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MKXRo6WF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7B1C433F1;
-	Tue,  5 Mar 2024 11:59:03 +0000 (UTC)
+	s=arc-20240116; t=1709640524; c=relaxed/simple;
+	bh=G0QbItLjj+JulZ/XRXWAziWDn1yIFNbJ42oiTXqzUoc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=LF1miywnXUEeGyOLdj3M2Ts6QrVTj5Qb+zZ19dywhaj9tvnjQCE7ODrFhj27inKvq9SVHhIBTkyEM07Sae+lHDVAnjMzmrZ+etDJSV9U9zN8OpyUJX6CLhSrVmKmTaHjApZ91lfHa+vToXrSmhDLykqcPePAWw89CmYL5C3QBeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5I1GYoa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0700C433F1;
+	Tue,  5 Mar 2024 12:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709639947;
-	bh=ZuHKS4WAfQy4zt4fPmW1MgMJAVVJ8fjt3YlL0SdUHfI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MKXRo6WFJlbuF0hc8/AmsuglcuJS9koXJ3sPvTx+zLcBRVxmvf4vG0EtTQnHsCziK
-	 Yxpcj4okjhli/Q7pm+66sgXKWdTJ0PvkUk4Gvn7PmKKLKRBWC2j2X686CDz45r3gZE
-	 0NiZk2sZo8CkPVbCSxLqBeigoGXXm7DnObJozyXLKxhrAhGAPekzN9BGacR5twv1nl
-	 urIXbUrL8NECZqsJ9l67JYti/JtWE8gIrp2OH8k+cjdw8XLbcbnE6Qtsjuu/mxIvZH
-	 jIufYlgl2O7GCcft1UPfvnwTuZmjp2RCXBuA4ITjVG7OsldnVsqSq8CJWtUS52ZdYG
-	 IrC8VCO3toD5w==
-Date: Tue, 5 Mar 2024 11:59:00 +0000
+	s=k20201202; t=1709640524;
+	bh=G0QbItLjj+JulZ/XRXWAziWDn1yIFNbJ42oiTXqzUoc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=P5I1GYoajb2CYoDEbvH5RJ6Dqs56dW0NCZkEsCCWyRWpQfX7aOwjRKUWua6W9EG6N
+	 FckEuSP6MAzzjebtX3EIzaDp+1hvRyk1UJ0J3kaBIINnk6iS0a7m1+I+wa0OTxBZLd
+	 5w/ITTA0Je2GDDIqLFs4R6cF4nz4zDkxyJTa/WxmBbSGEDwglCEdn1RZgk0TLtvVOm
+	 0WWLrqevoa1qK2NBkLkmIn5gc2c/gSjFkwG7QMKrUC+1Ft667SJ8ko8w+8mFwOMLnM
+	 p79N/bU3pZTgTAcxmwx2W/ofQqN9o+pYvnEE8XRImrImLRoppM5xiaYsr8ruGZ+Stm
+	 3Jfi15g5P2Kiw==
 From: Lee Jones <lee@kernel.org>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alice Chen <alice_chen@richtek.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] leds: Add NCP5623 multi-led driver
-Message-ID: <20240305115900.GC86322@google.com>
-References: <20240305042049.1533279-1-alkuor@gmail.com>
- <20240305042049.1533279-2-alkuor@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org, 
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+ linux-mips@vger.kernel.org
+In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+Message-Id: <170964052149.128456.2500353687868869381.b4-ty@kernel.org>
+Date: Tue, 05 Mar 2024 12:08:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240305042049.1533279-2-alkuor@gmail.com>
+X-Mailer: b4 0.12.4
 
-On Mon, 04 Mar 2024, Abdel Alkuor wrote:
-
-> NCP5623 is DC-DC multi-LEDs driver which has three PWMs that can be
-> programmed up to 32 steps giving 32768 colors hue.
+On Tue, 13 Feb 2024 08:30:30 +0100, Heiner Kallweit wrote:
+> If a simple trigger is assigned to a LED, then the LED may be off until
+> the next led_trigger_event() call. This may be an issue for simple
+> triggers with rare led_trigger_event() calls, e.g. power supply
+> charging indicators (drivers/power/supply/power_supply_leds.c).
+> Therefore persist the brightness value of the last led_trigger_event()
+> call and use this value if the trigger is assigned to a LED.
+> This change allows to use simple triggers in more cases.
+> As a first use case simplify handling of the mute audio trigger.
 > 
-> NCP5623 driver supports gradual dimming upward/downward with programmable
-> delays. Also, the driver supports driving a single LED or multi-LED
-> like RGB.
-> 
-> Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
-> ---
-> Changes in v3:
->  - Add defines for magic numbers
->  - Fix code style
->  - Add a comment how ncp->delay is calculated
->  - Don't free mc_node when probe is successful
->  - Link to v2: https://lore.kernel.org/all/20240217230956.630522-2-alkuor@gmail.com/
-> 
-> Changes in v2:
->  - Remove all custom attributes and use hw pattern instead
->  - Remove filename from the driver description
->  - Fix coding style
->  - Destroy the muttex in shutdown callback
->  - Register mcled device using none devm version as unregistering mcled device
->    calls ncp5632_set_led which uses mutex hence we need to make sure the
->    mutex is still available during the unregistering process.
->  - Link to v1: https://lore.kernel.org/linux-kernel/20240208130115.GM689448@google.com/T/
->  drivers/leds/rgb/Kconfig        |  11 ++
->  drivers/leds/rgb/Makefile       |   1 +
->  drivers/leds/rgb/leds-ncp5623.c | 271 ++++++++++++++++++++++++++++++++
->  3 files changed, 283 insertions(+)
->  create mode 100644 drivers/leds/rgb/leds-ncp5623.c
-> 
-> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-> index a6a21f564673..81ab6a526a78 100644
-> --- a/drivers/leds/rgb/Kconfig
-> +++ b/drivers/leds/rgb/Kconfig
-> @@ -27,6 +27,17 @@ config LEDS_KTD202X
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called leds-ktd202x.
->  
-> +config LEDS_NCP5623
-> +	tristate "LED support for NCP5623"
-> +	depends on I2C
-> +	depends on OF
-> +	help
-> +	  This option enables support for ON semiconductor NCP5623
-> +	  Triple Output I2C Controlled RGB LED Driver.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called leds-ncp5623.
-> +
->  config LEDS_PWM_MULTICOLOR
->  	tristate "PWM driven multi-color LED Support"
->  	depends on PWM
-> diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-> index 243f31e4d70d..a501fd27f179 100644
-> --- a/drivers/leds/rgb/Makefile
-> +++ b/drivers/leds/rgb/Makefile
-> @@ -2,6 +2,7 @@
->  
->  obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
->  obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
-> +obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
->  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
->  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
->  obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> new file mode 100644
-> index 000000000000..b669c55c5483
-> --- /dev/null
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -0,0 +1,271 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * NCP5623 Multi-LED Driver
-> + *
-> + * Author: Abdel Alkuor <alkuor@gmail.com>
-> + * Datasheet: https://www.onsemi.com/pdf/datasheet/ncp5623-d.pdf
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +
-> +#include <linux/led-class-multicolor.h>
-> +
-> +#define NCP5623_FUNCTION_OFFSET		0x5
-> +#define NCP5623_REG(x)			((x) << NCP5623_FUNCTION_OFFSET)
-> +
-> +#define NCP5623_SHUTDOWN_REG		NCP5623_REG(0x0)
-> +#define NCP5623_ILED_REG		NCP5623_REG(0x1)
-> +#define NCP5623_PWM_REG(index)		NCP5623_REG(0x2 + (index))
-> +#define NCP5623_UPWARD_STEP_REG		NCP5623_REG(0x5)
-> +#define NCP5623_DOWNWARD_STEP_REG	NCP5623_REG(0x6)
-> +#define NCP5623_DIMMING_TIME_REG	NCP5623_REG(0x7)
-> +
-> +#define NCP5623_MAX_BRIGHTNESS		0x1f
-> +#define NCP5623_MAX_DIM_TIME		240 /* ms */
-> +#define NCP5623_DIM_STEP		8   /* ms */
+> [...]
 
-Patch applied, however ...
+Applied, thanks!
 
-Please follow-up with the following changes:
+[1/4] leds: trigger: Store brightness set by led_trigger_event()
+      commit: 575129855dee0e364af7df84a77ab5cca54b1442
+[2/4] ALSA: control-led: Integrate mute led trigger
+      commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
+[3/4] Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+      (no commit info)
+[4/4] leds: trigger: audio: Remove this trigger
+      (no commit info)
 
-#define NCP5623_MAX_DIM_TIME_MS		240
-#define NCP5623_DIM_STEP_MS		8
-
--- 
+--
 Lee Jones [李琼斯]
+
 
