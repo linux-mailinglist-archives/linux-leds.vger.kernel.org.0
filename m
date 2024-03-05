@@ -1,58 +1,59 @@
-Return-Path: <linux-leds+bounces-1119-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1122-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D782387147D
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 04:59:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FD8871483
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 04:59:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9485F283DF3
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 03:59:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF6B21F22213
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 03:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994F83D39A;
-	Tue,  5 Mar 2024 03:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6103343ACE;
+	Tue,  5 Mar 2024 03:59:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="qla71323"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="GSO/dPTp"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEFB405FF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A473FE2A
 	for <linux-leds@vger.kernel.org>; Tue,  5 Mar 2024 03:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709611143; cv=none; b=LIPd1cwlnE5oO21TM+1DVJClzV20pYuSMpnG5d7meHyOFxX7enCk9NYVrPS/AuOoRyo4zdAAcoTyz80cHIhszihcqvGuYRO4lEd8Vj+ogVaK6CA8JnDAKgOVjUFdL3xVqniQ1THVZe1CDRNYO1PVX644g58SnjW0hnQ7D8LdpT8=
+	t=1709611144; cv=none; b=Q9JhBSOF9kzaNzPJ0wGUVFy7atNO7JEAIJKA/JwwnOC5CtmbcsezOC6TIdYBWD+hd2Uwb+U/C3wApoD3AIvcx6JKLzQR9aaHUUcU17q/eyLVuvvlVX0G0JNGP6lny6lYsVjgCYKzH3F4d+XCnRBTdbX+IKijkZDbalN0E8RfgNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709611143; c=relaxed/simple;
-	bh=bXAGuUxRBCgObUsqSXoOe+c0gDtKh1q3nZ/KUl5RdvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EVIodqR3ANEi9Ff66jAxnhebmZRqetCUF00Ba/6PVUGyKsMHjolb7MDptYc2QqqXhWxE5UyUo3pMiB86oQ7xaf0Aqy/CBUAeYWZ0zj95bNyMuS/MpEMVtx5sdKwB0qlE8iAaw6+xKBOZO9z4C4+hJjqp2n22BChS8srrRqtmosM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=qla71323; arc=none smtp.client-ip=202.36.163.20
+	s=arc-20240116; t=1709611144; c=relaxed/simple;
+	bh=Sj7U4W3Ba/4+V/i/FY3RRY6GACcDJt/3KeVFEHs2sfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pLp/mFWe0fVoKkY2bEFg2u5CMqsuz2rQycOTC1mRJlyKaYc0Wk9ABaft8ejxl8faFwrVEsp1v7Xa9lizr/DfX0sEDLo9fhVKGsKLpA3ZmZ4rkKyV6whG3JwzZiq9hlt/IlxrMYmfG5poGGgdudzEhyf4Culk8NNBE9JD3MqL8Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=GSO/dPTp; arc=none smtp.client-ip=202.36.163.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
 Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id F3EAC2C04EC;
-	Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 10ABE2C060F;
+	Tue,  5 Mar 2024 16:58:58 +1300 (NZDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
 	s=mail181024; t=1709611138;
-	bh=DHrpp2tA0LcOHes0WuPnCXMuY2OQGO2ESTJzGh+hfXk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=qla71323Yv55yancZ8ARlNncFdOPNxSE3/+wva5OdKINFOjcGxxsWAzwKL0ukbgrB
-	 jwGkIP7vksKP2pORvu+6WvjUyUw0GB2wEJaSbne4wwFWODYAvshW93n735KULTC9wq
-	 kfAgujJvACHWmEHD1k90Q4IPkbejZI7W/ErgLxNpbGpQO67I1ZAsncD9/k4+yan/0q
-	 Wkl/HQQH25wZO27Dz9P6tBbF+JTRt+eqIN+vSkCUH3Ihkp9o9H1LPIq7yiYq/plisX
-	 njNGRoREaL7a/iVeB2nsVfCpdy+sahn7VzXuxlNcnxrFk3zRXeTc/RrJMeI8HwegdZ
-	 WaiFQScB9hjYg==
+	bh=0BoqyozTHZaWo8C3MXXbuh2Lzve8Gtn7awG7ouEY9X4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GSO/dPTptTMjCMcbWMUbtjOFEC07r1xh+1TCG1zanjQlGAoCLurczYvvJ+oEbRYXD
+	 4ZWmV5X4Qf+xot40pHdpZ12COJIsKprK6Sw1VLoqJBfIxfTbyoFArv+DRbQT3a3ilT
+	 F3nXD3VXjevvpjpxl/td/o+aDfyRbO+WDB7d4Nt+73uJ5T/Lt/x0KW4smTIo6YTpv8
+	 k9HwzMJJxLGHM4LWGqmuDFEZ/ozveyG2e2V/Lr12vQf5CSM3gdiiEF4qh2UWP1dINq
+	 89anH9OHpW4hGT8PhUOzcSg0UD/Mx3PPAUZUAGE6vHSl7i9gFd6N83IVfZq5mOBHlL
+	 8zafOxW3Vupgw==
 Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65e698810000>; Tue, 05 Mar 2024 16:58:57 +1300
+	id <B65e698810001>; Tue, 05 Mar 2024 16:58:57 +1300
 Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id A8F8813ED56;
+	by pat.atlnz.lc (Postfix) with ESMTP id ABB9113EE6D;
 	Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
 Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id A1D8928084D; Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
+	id A52C12804F0; Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
 From: Chris Packham <chris.packham@alliedtelesis.co.nz>
 To: andy@kernel.org,
 	geert@linux-m68k.org,
@@ -68,10 +69,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-leds@vger.kernel.org,
 	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v4 0/3] auxdisplay: 7-segment LED display
-Date: Tue,  5 Mar 2024 16:58:49 +1300
-Message-ID: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH v4 1/3] auxdisplay: Add 7-segment LED display driver
+Date: Tue,  5 Mar 2024 16:58:50 +1300
+Message-ID: <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
+References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -79,33 +82,195 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e69881 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=vR_gaf37D5lytMZdZ5IA:9 a=3ZKOabzyN94A:10
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e69881 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=U_IlPVK5r1qgVbMESHIA:9 a=3ZKOabzyN94A:10
 X-SEG-SpamProfiler-Score: 0
 x-atlnz-ls: pat
 
-This series adds a driver for a 7-segment LED display.
+Add a driver for a 7-segment LED display. At the moment only one
+character is supported but it should be possible to expand this to
+support more characters and/or 14-segment displays in the future.
 
-I think I've addressed all of Andy's feedback in this round. I haven't
-heard from the ARM maintainers on any of the previous rounds. At Andy's
-request I've dropped the USB LED change as it's not related. I can
-submit the dts change separately if required, I've mostly been including
-it so there is an in-tree user of the driver I'm adding.
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+---
 
-Chris Packham (3):
-  auxdisplay: Add 7-segment LED display driver
-  dt-bindings: auxdisplay: Add bindings for generic 7-segment LED
-  ARM: dts: marvell: Add 7-segment LED display on x530
+Notes:
+    Changes in v4:
+    - Fix one more usage of 7 segment
+    - Move ASCII art diagram to DT binding
+    - Include map_to_7segment.h for map_to_seg7()
+    - Use initialiser for values in seg_led_update
+    Changes in v3:
+    - "7 segment" -> "7-Segment" in Kconfig help text
+    - Update after feedback from Andy
+    - Use compatible =3D "gpio-7-segment" as suggested by Rob
+    Changes in v2:
+    - Rebased on top of auxdisplay/for-next dropping unnecessary code for=
+ 7
+      segment maps.
+    - Update for new linedisp_register() API
+    - Include headers based on actual usage
+    - Allow building as module
+    - Use compatible =3D "generic-gpio-7seg" to keep checkpatch.pl happy
 
- .../bindings/auxdisplay/gpio-7-segment.yaml   |  54 +++++++++
- .../boot/dts/marvell/armada-385-atl-x530.dts  |  13 ++-
- drivers/auxdisplay/Kconfig                    |  10 ++
- drivers/auxdisplay/Makefile                   |   1 +
- drivers/auxdisplay/seg-led-gpio.c             | 109 ++++++++++++++++++
- 5 files changed, 186 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/auxdisplay/gpio-7-s=
-egment.yaml
+ drivers/auxdisplay/Kconfig        |  10 +++
+ drivers/auxdisplay/Makefile       |   1 +
+ drivers/auxdisplay/seg-led-gpio.c | 109 ++++++++++++++++++++++++++++++
+ 3 files changed, 120 insertions(+)
  create mode 100644 drivers/auxdisplay/seg-led-gpio.c
 
+diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+index d4be0a3695ce..898ecfb34ed7 100644
+--- a/drivers/auxdisplay/Kconfig
++++ b/drivers/auxdisplay/Kconfig
+@@ -211,6 +211,16 @@ config ARM_CHARLCD
+ 	  line and the Linux version on the second line, but that's
+ 	  still useful.
+=20
++config SEG_LED_GPIO
++	tristate "Generic 7-segment LED display"
++	select LINEDISP
++	help
++	  This driver supports a generic 7-segment LED display made up
++	  of GPIO pins connected to the individual segments.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called seg-led-gpio.
++
+ menuconfig PARPORT_PANEL
+ 	tristate "Parallel port LCD/Keypad Panel support"
+ 	depends on PARPORT
+diff --git a/drivers/auxdisplay/Makefile b/drivers/auxdisplay/Makefile
+index a725010ca651..4a8ea41b0550 100644
+--- a/drivers/auxdisplay/Makefile
++++ b/drivers/auxdisplay/Makefile
+@@ -15,3 +15,4 @@ obj-$(CONFIG_PARPORT_PANEL)	+=3D panel.o
+ obj-$(CONFIG_LCD2S)		+=3D lcd2s.o
+ obj-$(CONFIG_LINEDISP)		+=3D line-display.o
+ obj-$(CONFIG_MAX6959)		+=3D max6959.o
++obj-$(CONFIG_SEG_LED_GPIO)	+=3D seg-led-gpio.o
+diff --git a/drivers/auxdisplay/seg-led-gpio.c b/drivers/auxdisplay/seg-l=
+ed-gpio.c
+new file mode 100644
+index 000000000000..6c97c068f4c1
+--- /dev/null
++++ b/drivers/auxdisplay/seg-led-gpio.c
+@@ -0,0 +1,109 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Driver for a 7-segment LED display
++ *
++ * The decimal point LED present on some devices is currently not
++ * supported.
++ *
++ * Copyright (C) Allied Telesis Labs
++ */
++
++#include <linux/bitmap.h>
++#include <linux/container_of.h>
++#include <linux/errno.h>
++#include <linux/gpio/consumer.h>
++#include <linux/map_to_7segment.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/types.h>
++#include <linux/workqueue.h>
++
++#include "line-display.h"
++
++struct seg_led_priv {
++	struct linedisp linedisp;
++	struct delayed_work work;
++	struct gpio_descs *segment_gpios;
++};
++
++static void seg_led_update(struct work_struct *work)
++{
++	struct seg_led_priv *priv =3D container_of(work, struct seg_led_priv, w=
+ork.work);
++	struct linedisp *linedisp =3D &priv->linedisp;
++	struct linedisp_map *map =3D linedisp->map;
++	DECLARE_BITMAP(values, 8) =3D { 0 };
++
++	bitmap_set_value8(values, map_to_seg7(&map->map.seg7, linedisp->buf[0])=
+, 0);
++
++	gpiod_set_array_value_cansleep(priv->segment_gpios->ndescs, priv->segme=
+nt_gpios->desc,
++				       priv->segment_gpios->info, values);
++}
++
++static int seg_led_linedisp_get_map_type(struct linedisp *linedisp)
++{
++	struct seg_led_priv *priv =3D container_of(linedisp, struct seg_led_pri=
+v, linedisp);
++
++	INIT_DELAYED_WORK(&priv->work, seg_led_update);
++	return LINEDISP_MAP_SEG7;
++}
++
++static void seg_led_linedisp_update(struct linedisp *linedisp)
++{
++	struct seg_led_priv *priv =3D container_of(linedisp, struct seg_led_pri=
+v, linedisp);
++
++	schedule_delayed_work(&priv->work, 0);
++}
++
++static const struct linedisp_ops seg_led_linedisp_ops =3D {
++	.get_map_type =3D seg_led_linedisp_get_map_type,
++	.update =3D seg_led_linedisp_update,
++};
++
++static int seg_led_probe(struct platform_device *pdev)
++{
++	struct seg_led_priv *priv;
++	struct device *dev =3D &pdev->dev;
++
++	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, priv);
++
++	priv->segment_gpios =3D devm_gpiod_get_array(dev, "segment", GPIOD_OUT_=
+LOW);
++	if (IS_ERR(priv->segment_gpios))
++		return PTR_ERR(priv->segment_gpios);
++
++	return linedisp_register(&priv->linedisp, dev, 1, &seg_led_linedisp_ops=
+);
++}
++
++static int seg_led_remove(struct platform_device *pdev)
++{
++	struct seg_led_priv *priv =3D platform_get_drvdata(pdev);
++
++	cancel_delayed_work_sync(&priv->work);
++	linedisp_unregister(&priv->linedisp);
++
++	return 0;
++}
++
++static const struct of_device_id seg_led_of_match[] =3D {
++	{ .compatible =3D "gpio-7-segment"},
++	{}
++};
++MODULE_DEVICE_TABLE(of, seg_led_of_match);
++
++static struct platform_driver seg_led_driver =3D {
++	.probe =3D seg_led_probe,
++	.remove =3D seg_led_remove,
++	.driver =3D {
++		.name =3D "seg-led-gpio",
++		.of_match_table =3D seg_led_of_match,
++	},
++};
++module_platform_driver(seg_led_driver);
++
++MODULE_AUTHOR("Chris Packham <chris.packham@alliedtelesis.co.nz>");
++MODULE_DESCRIPTION("7 segment LED driver");
++MODULE_LICENSE("GPL");
 --=20
 2.43.2
 
