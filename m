@@ -1,174 +1,112 @@
-Return-Path: <linux-leds+bounces-1118-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1119-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C42871445
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 04:29:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D782387147D
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 04:59:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C7F5284368
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 03:29:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9485F283DF3
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 03:59:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10D2129D08;
-	Tue,  5 Mar 2024 03:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994F83D39A;
+	Tue,  5 Mar 2024 03:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ko1aSzn5"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="qla71323"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693F029CE9;
-	Tue,  5 Mar 2024 03:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEFB405FF
+	for <linux-leds@vger.kernel.org>; Tue,  5 Mar 2024 03:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709609387; cv=none; b=U3bH+IUUI4MWbGA+Pxnu42+zLB0Z8Lci44QDiZlH51A0bFbv7EcFPnsCnTIuuieOkVAqmy5OSSQxfkwV2wx4rlnWQc7Do3jl1q/FFyeOpDn4JjoACbT0e1Iy5dJP3TXBHMcTbELicUc6NR5vgd98+kjm4ZKnhW6j+Q9rk6YGjbo=
+	t=1709611143; cv=none; b=LIPd1cwlnE5oO21TM+1DVJClzV20pYuSMpnG5d7meHyOFxX7enCk9NYVrPS/AuOoRyo4zdAAcoTyz80cHIhszihcqvGuYRO4lEd8Vj+ogVaK6CA8JnDAKgOVjUFdL3xVqniQ1THVZe1CDRNYO1PVX644g58SnjW0hnQ7D8LdpT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709609387; c=relaxed/simple;
-	bh=DjAO2u7PVrXzRcnJJKgnPLvebnRRPbpCp1OkVSCAaR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1d4w8TWvdW6JnSJIdnNvuds1hTvyGHSfm4QjQgfg+8+xBMDADabewsHr0x8/rcxujXohpeYBScKarmW5gZR7Q/TUCCW4aVBMlCZvAqQDmVmz7noQjj8bTJqHPCCa08WqA1sm/AC+DU58FEmcf5X0RCtqmFsDE0R9n8+0cf344Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ko1aSzn5; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6900f479e3cso2673676d6.0;
-        Mon, 04 Mar 2024 19:29:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709609384; x=1710214184; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzlmmvRCQh1bj1Yx5DjGSZCSGlxLY62tQPxGASsPEGE=;
-        b=ko1aSzn5jqz3m+qoHIr6xUhvzSg9785j6yBy9AFYyXuxO+DvYSUCptnndG8Ph1pLWp
-         0FWPl+E9EluIPkNO7YY27afR/vdDmZhfvGVNBuPOgbkUnasIRCzQpXO2fTtEVI8Nzt4N
-         /WR7p4Ugttlw4NmmvD9iiUu/07nb2gjdw+KtPMt6aQHk12qgi6IWG8x4GQfU9oqDKq7x
-         yN7/g1gV0XPGzq+YZnlvbwfkYSmjaqbkke5N8379LkITWTKVuFOZ7keP5a8PNTZBQ2XO
-         ZxSdWXXdE+KrNQPcF8cMrwuWorkq3rlSsj5kZ04ei0ypd4pZQoRsKmlNP3sxagsTM3S+
-         BOBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709609384; x=1710214184;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qzlmmvRCQh1bj1Yx5DjGSZCSGlxLY62tQPxGASsPEGE=;
-        b=Ef7GCI++FjTVfcxjAWPd31W5RA3pxKRZthHCsgw2bVI/0emk4wibVhXE6PiTUa5Lcd
-         QJpNw7qC/kME2IDL6etCYQRUMRuyLZSjjG7A8xQ5Vq1bwu+3a7o4Pny4+89ftbtoq+P/
-         UdXOdMsgCmwgTuNRfUccQEEbvhE1gOIuhpy3LuuaCdqt6QJYlkaAMn0S79GLf9mvdidY
-         5ek7Jz9apRABfal7FdwmIlaA22ctdO+KyggTDBKERx+zQe3mJ7UNuq1H08r/9NFlSG0w
-         YUyx5oZNQmOVNk6zkEzGgrRm3Gr5fM/oHcOd7ZG+BIC18lPoMf0HVyN0PpkfEA2gpP9Z
-         TKKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWA03q97Rg1f5trsOoAXsFY90QC3o62SiiFOa1AyqlCJRjkx1os8l9FZThd1VrS5gNPIsu3kSqTuWFa8ovJT8N8wIP9qTvFoB4/lmqbh49LiaQBIZYVItGQWr44iwhtMqZLHnWTWqd9blO496R1t47lnZAIWNCGOEQbca4a+zGoZrmDvpY=
-X-Gm-Message-State: AOJu0Yx4CK2lUKqXbLYMJBoH8ZtZlSXGSiuAI/BAd0gw2Y1XWcN5eNeM
-	WRhPzolDSAo/RL5EvnNNGnoTRQUpLQojnzwM+TasvCDNUrZmG77/
-X-Google-Smtp-Source: AGHT+IH9Grpqit8z8R2A1IFxSlj+wq4+2oeE2rI91HMqqs0J2/3mmQWiESJwp3qDzuP2g3Doh8FIyw==
-X-Received: by 2002:a0c:e0cd:0:b0:68f:30a1:4bea with SMTP id x13-20020a0ce0cd000000b0068f30a14beamr723384qvk.33.1709609384122;
-        Mon, 04 Mar 2024 19:29:44 -0800 (PST)
-Received: from abdel (bras-base-ktnron0692w-grc-13-174-95-13-129.dsl.bell.ca. [174.95.13.129])
-        by smtp.gmail.com with ESMTPSA id mu18-20020a056214329200b0068fddcdc381sm5845758qvb.18.2024.03.04.19.29.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 19:29:43 -0800 (PST)
-Date: Mon, 4 Mar 2024 22:29:41 -0500
-From: Abdel Alkuor <alkuor@gmail.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alice Chen <alice_chen@richtek.com>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] leds: Add NCP5623 multi-led driver
-Message-ID: <ZeaRpSrkeFKAXIlq@abdel>
-References: <20240217230956.630522-1-alkuor@gmail.com>
- <20240217230956.630522-2-alkuor@gmail.com>
- <20240301085046.GE1209090@google.com>
+	s=arc-20240116; t=1709611143; c=relaxed/simple;
+	bh=bXAGuUxRBCgObUsqSXoOe+c0gDtKh1q3nZ/KUl5RdvM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EVIodqR3ANEi9Ff66jAxnhebmZRqetCUF00Ba/6PVUGyKsMHjolb7MDptYc2QqqXhWxE5UyUo3pMiB86oQ7xaf0Aqy/CBUAeYWZ0zj95bNyMuS/MpEMVtx5sdKwB0qlE8iAaw6+xKBOZO9z4C4+hJjqp2n22BChS8srrRqtmosM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=qla71323; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id F3EAC2C04EC;
+	Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1709611138;
+	bh=DHrpp2tA0LcOHes0WuPnCXMuY2OQGO2ESTJzGh+hfXk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qla71323Yv55yancZ8ARlNncFdOPNxSE3/+wva5OdKINFOjcGxxsWAzwKL0ukbgrB
+	 jwGkIP7vksKP2pORvu+6WvjUyUw0GB2wEJaSbne4wwFWODYAvshW93n735KULTC9wq
+	 kfAgujJvACHWmEHD1k90Q4IPkbejZI7W/ErgLxNpbGpQO67I1ZAsncD9/k4+yan/0q
+	 Wkl/HQQH25wZO27Dz9P6tBbF+JTRt+eqIN+vSkCUH3Ihkp9o9H1LPIq7yiYq/plisX
+	 njNGRoREaL7a/iVeB2nsVfCpdy+sahn7VzXuxlNcnxrFk3zRXeTc/RrJMeI8HwegdZ
+	 WaiFQScB9hjYg==
+Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65e698810000>; Tue, 05 Mar 2024 16:58:57 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
+	by pat.atlnz.lc (Postfix) with ESMTP id A8F8813ED56;
+	Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+	id A1D8928084D; Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+To: andy@kernel.org,
+	geert@linux-m68k.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	andrew@lunn.ch,
+	gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com,
+	lee@kernel.org
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH v4 0/3] auxdisplay: 7-segment LED display
+Date: Tue,  5 Mar 2024 16:58:49 +1300
+Message-ID: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240301085046.GE1209090@google.com>
+Content-Transfer-Encoding: quoted-printable
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e69881 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=vR_gaf37D5lytMZdZ5IA:9 a=3ZKOabzyN94A:10
+X-SEG-SpamProfiler-Score: 0
+x-atlnz-ls: pat
 
-On Fri, Mar 01, 2024 at 08:50:46AM +0000, Lee Jones wrote:
+This series adds a driver for a 7-segment LED display.
 
-Hi Lee,
-> > +#define NCP5623_REG(x)			((x) << 0x5)
-> 
-> What's 0x5?  Probably worth defining.
-This is a function offset. I'll add a define.
+I think I've addressed all of Andy's feedback in this round. I haven't
+heard from the ARM maintainers on any of the previous rounds. At Andy's
+request I've dropped the USB LED change as it's not related. I can
+submit the dts change separately if required, I've mostly been including
+it so there is an in-tree user of the driver I'm adding.
 
-> 
-> > +	guard(mutex)(&ncp->lock);
-> 
-> Are these self-unlocking?
-Correct. Here is a short introduction about it
-https://www.marcusfolkesson.se/blog/mutex-guards-in-the-linux-kernel/
-> 
-> > +	ncp->old_brightness = brightness;
-> 
-> The nomenclature is confusing here.
-> 
-> For the most part, this will carry the present value, no?
->
-Yes, I'll change it to current_brightness instead
+Chris Packham (3):
+  auxdisplay: Add 7-segment LED display driver
+  dt-bindings: auxdisplay: Add bindings for generic 7-segment LED
+  ARM: dts: marvell: Add 7-segment LED display on x530
 
-> > +	ret = ncp5623_write(ncp->client,
-> > +			    NCP5623_DIMMING_TIME_REG, pattern[0].delta_t / 8);
-> 
-> Why 8?  Magic numbers should be replaced with #defines.
-> 
-This is dim step in ms. I'll add a define for it.
+ .../bindings/auxdisplay/gpio-7-segment.yaml   |  54 +++++++++
+ .../boot/dts/marvell/armada-385-atl-x530.dts  |  13 ++-
+ drivers/auxdisplay/Kconfig                    |  10 ++
+ drivers/auxdisplay/Makefile                   |   1 +
+ drivers/auxdisplay/seg-led-gpio.c             | 109 ++++++++++++++++++
+ 5 files changed, 186 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/auxdisplay/gpio-7-s=
+egment.yaml
+ create mode 100644 drivers/auxdisplay/seg-led-gpio.c
 
-> > +static int ncp5623_pattern_clear(struct led_classdev *led_cdev)
-> > +{
-> > +	return 0;
-> > +}
-> 
-> Not sure I see the point in this.
-> 
-> Is the .pattern_clear() compulsorily?
->
-Unfortunately, it is. For example, in pattern_trig_store_patterns, when
-hw pattern is used, it is expected to have pattern_clear implemented.
+--=20
+2.43.2
 
-static ssize_t pattern_trig_store_patterns(struct led_classdev *led_cdev,
-                                            const char *buf, const u32 *buf_int,
-                                            size_t count, bool hw_pattern)
-{
-	...
-         if (data->is_hw_pattern)
-                 led_cdev->pattern_clear(led_cdev);
- 	...
-}
-
-> > +	init_data.fwnode = mc_node;
-> > +
-> > +	ncp->mc_dev.led_cdev.max_brightness = NCP5623_MAX_BRIGHTNESS;
-> > +	ncp->mc_dev.subled_info = subled_info;
-> > +	ncp->mc_dev.led_cdev.brightness_set_blocking = ncp5623_brightness_set;
-> > +	ncp->mc_dev.led_cdev.pattern_set = ncp5623_pattern_set;
-> > +	ncp->mc_dev.led_cdev.pattern_clear = ncp5623_pattern_clear;
-> > +	ncp->mc_dev.led_cdev.default_trigger = "pattern";
-> > +
-> > +	mutex_init(&ncp->lock);
-> > +	i2c_set_clientdata(client, ncp);
-> > +
-> > +	ret = led_classdev_multicolor_register_ext(dev, &ncp->mc_dev, &init_data);
-> > +	if (ret)
-> > +		goto destroy_lock;
-> > +
-> > +	fwnode_handle_put(mc_node);
-> 
-> Didn't you just store this ~16 lines up?
-> 
-Ops! I'll remove it.
-
-Thanks,
-Abdel
 
