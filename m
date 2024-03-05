@@ -1,139 +1,167 @@
-Return-Path: <linux-leds+bounces-1129-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1130-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF9E8718EB
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 10:05:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0AC871912
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 10:08:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BEEF2B23DC1
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:05:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EC89B24C8A
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B64E4F211;
-	Tue,  5 Mar 2024 09:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEB9B50A60;
+	Tue,  5 Mar 2024 09:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uza/fbAK"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JzeleGA+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QfUKBmxO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JzeleGA+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QfUKBmxO"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F64F897;
-	Tue,  5 Mar 2024 09:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5075A535BE;
+	Tue,  5 Mar 2024 09:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709629476; cv=none; b=t2QeYxh5mgnrn5+Jm9fKXGRuhNAxJhmv/AowwKX7I9dCMHNo9mNt2Ku6f4nuV87myGc4kWFj10Je7bCIRWStL0rQJUr57selaLhQBAi+IYImQMC0e0QTnLNPfdAg9qDBq/UEdnMP4m6DsQXVfr3DKcwND2w1mz+k9ZiGnDQiWxY=
+	t=1709629702; cv=none; b=EOwbByKaK83c2PiRCikuK4a6Pak7ZEyiqM6iSc3k6A55Y8SlVHi5Tdz9bvPgMpEHzQdLexuF+Zj81KPZajhJkYr6N80FA4mlsK4E9gmAh+dYs51Qv6ExQHkqhNBg0f3ekUVVmkn84G1ZuviEsygt+9UAfqvH3ruJdZQO4sRhuvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709629476; c=relaxed/simple;
-	bh=7N8xIeprPgoxERgGFCpdp1nknqUERpb0vZx8jiEzfgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ncrww3tZz0SF+ZeEqHSxcjT+jh+GfPQQPfc9H4qD5ctnzW8eqNFM/kugaQDSWUVee3N8MxewC/VdLonXMsn+IOAAqLWQll+8s3/G743lBQFj7u3SjaH2nj6ZOvr8zbX1J6wBy71qeUEKi/5kV4pmOU88o0+nvl0UUdZhdr2+nVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uza/fbAK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C3EC433C7;
-	Tue,  5 Mar 2024 09:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709629475;
-	bh=7N8xIeprPgoxERgGFCpdp1nknqUERpb0vZx8jiEzfgA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uza/fbAKpCubQp8iG3HBv+LL8E3D/7aueYJ+iTIJG6tiVEJmzBvrqhY+9771y6ipv
-	 B+pmMhjWf1hoBTzgtDqAQ76ALA/VSHK0ntL9eQODNYiBu+xwH9rt49wrnP4/eaOykG
-	 q92SYEGgQAbRd35X4Nx5pZeZwX5pWrnsOJwfRTVoBLLdzSjGh7b4AKQDcRTiSOoT7w
-	 sPhQA/LeK78Xfid+BO3WoMnRYlk6FZLaGez7m68sT9mJ+dfEBT8p41HcN8GOY165vB
-	 XJcwudR1eIJnA0VrOGc/o6Vt7+qwvpQU6saiZ1nrUO4J2HUVgRM1cnPk2/FDxBB/88
-	 dQo+a/y58+pDw==
-Date: Tue, 5 Mar 2024 09:04:29 +0000
-From: Lee Jones <lee@kernel.org>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alice Chen <alice_chen@richtek.com>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] leds: Add NCP5623 multi-led driver
-Message-ID: <20240305090429.GA5206@google.com>
-References: <20240217230956.630522-1-alkuor@gmail.com>
- <20240217230956.630522-2-alkuor@gmail.com>
- <20240301085046.GE1209090@google.com>
- <ZeaRpSrkeFKAXIlq@abdel>
+	s=arc-20240116; t=1709629702; c=relaxed/simple;
+	bh=dJJ8xB6XXnRbWBIQhylTIEHXutcBPu2XQojDf3ZKT4E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=shqVeaxEYFtUem83V/BE87io68An+pq487O9IXBoXErCCm8F0wQYJNSEIi4PKLS1otA1UN1Bj99u1LoO13wH6KhDAcFgy7XUdV2DFiJjd3FZvPhKUjgG6MMYrNvZOzXR4tyfwefhxLYOeUtY5oQCxvxOPGXA6dTaC8fq/lTgpAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JzeleGA+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QfUKBmxO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JzeleGA+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QfUKBmxO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F9BB76642;
+	Tue,  5 Mar 2024 09:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709629699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3grdCOzoZL6gib2IBBQ/ruwCobMgyq9Af3iW3E6AvE0=;
+	b=JzeleGA+KWZdtPWaWzBmhH7rWMkAk0CTjEWGpe4fYvmhrVeqkP537ktyaT/me8QGyCuu55
+	cTLQHUv8bwxhmDVE/y/tm6BNj4Tr6HmXknoD02rCxRglBtzWI058xx3b2uOMhV1t2t8SiW
+	vd9nFe2KuptNF/LaGnDUiLePn1GxmdU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709629699;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3grdCOzoZL6gib2IBBQ/ruwCobMgyq9Af3iW3E6AvE0=;
+	b=QfUKBmxOFcHom0Q2rJb9evsTsM9uiosVNT68nF7dc8vIGSC/lU2z9aEDy4AvAK7ZlpuRm2
+	oV6rxKeuiIvq3qAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709629699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3grdCOzoZL6gib2IBBQ/ruwCobMgyq9Af3iW3E6AvE0=;
+	b=JzeleGA+KWZdtPWaWzBmhH7rWMkAk0CTjEWGpe4fYvmhrVeqkP537ktyaT/me8QGyCuu55
+	cTLQHUv8bwxhmDVE/y/tm6BNj4Tr6HmXknoD02rCxRglBtzWI058xx3b2uOMhV1t2t8SiW
+	vd9nFe2KuptNF/LaGnDUiLePn1GxmdU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709629699;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3grdCOzoZL6gib2IBBQ/ruwCobMgyq9Af3iW3E6AvE0=;
+	b=QfUKBmxOFcHom0Q2rJb9evsTsM9uiosVNT68nF7dc8vIGSC/lU2z9aEDy4AvAK7ZlpuRm2
+	oV6rxKeuiIvq3qAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5880F13A5B;
+	Tue,  5 Mar 2024 09:08:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id G3SuEgPh5mUyAwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 05 Mar 2024 09:08:19 +0000
+Date: Tue, 05 Mar 2024 10:08:18 +0100
+Message-ID: <87v861gi65.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of led_trigger_event() and simplify mute audio trigger
+In-Reply-To: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZeaRpSrkeFKAXIlq@abdel>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -0.33
+X-Spamd-Result: default: False [-0.33 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.03)[55.14%]
+X-Spam-Flag: NO
 
-On Mon, 04 Mar 2024, Abdel Alkuor wrote:
-
-> On Fri, Mar 01, 2024 at 08:50:46AM +0000, Lee Jones wrote:
+On Mon, 04 Mar 2024 21:56:29 +0100,
+Heiner Kallweit wrote:
 > 
-> Hi Lee,
-> > > +#define NCP5623_REG(x)			((x) << 0x5)
-> > 
-> > What's 0x5?  Probably worth defining.
-> This is a function offset. I'll add a define.
+> If a simple trigger is assigned to a LED, then the LED may be off until
+> the next led_trigger_event() call. This may be an issue for simple
+> triggers with rare led_trigger_event() calls, e.g. power supply
+> charging indicators (drivers/power/supply/power_supply_leds.c).
+> Therefore persist the brightness value of the last led_trigger_event()
+> call and use this value if the trigger is assigned to a LED.
+> This change allows to use simple triggers in more cases.
+> As a first use case simplify handling of the mute audio trigger.
 > 
-> > 
-> > > +	guard(mutex)(&ncp->lock);
-> > 
-> > Are these self-unlocking?
-> Correct. Here is a short introduction about it
-> https://www.marcusfolkesson.se/blog/mutex-guards-in-the-linux-kernel/
-
-Neat.
-
-> > > +	ncp->old_brightness = brightness;
-> > 
-> > The nomenclature is confusing here.
-> > 
-> > For the most part, this will carry the present value, no?
-> >
-> Yes, I'll change it to current_brightness instead
-
-Just 'brightness' will be fine.
-
-> > > +	ret = ncp5623_write(ncp->client,
-> > > +			    NCP5623_DIMMING_TIME_REG, pattern[0].delta_t / 8);
-> > 
-> > Why 8?  Magic numbers should be replaced with #defines.
-> > 
-> This is dim step in ms. I'll add a define for it.
+> This series touches few subsystems. I'd propose to handle it via
+> the LED subsystem.
 > 
-> > > +static int ncp5623_pattern_clear(struct led_classdev *led_cdev)
-> > > +{
-> > > +	return 0;
-> > > +}
-> > 
-> > Not sure I see the point in this.
-> > 
-> > Is the .pattern_clear() compulsorily?
-> >
-> Unfortunately, it is. For example, in pattern_trig_store_patterns, when
-> hw pattern is used, it is expected to have pattern_clear implemented.
+> v2:
+> - Split out patch 3 from series and apply it separately via Input tree
+> - Improve bisectability and ensure that audio mute trigger can't be
+>   built twice between patches 2 and 4.
 > 
-> static ssize_t pattern_trig_store_patterns(struct led_classdev *led_cdev,
->                                             const char *buf, const u32 *buf_int,
->                                             size_t count, bool hw_pattern)
-> {
-> 	...
->          if (data->is_hw_pattern)
->                  led_cdev->pattern_clear(led_cdev);
->  	...
-> }
+> Heiner Kallweit (3):
+>   leds: trigger: Store brightness set by led_trigger_event()
+>   ALSA: control-led: Integrate mute led trigger
+>   leds: trigger: audio: Remove this trigger
 
-Something's not right then.  If this is required, are you sure you're
-not meant to do something here?  If there are times when this is not
-required, it should be possible to omit it.
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
--- 
-Lee Jones [李琼斯]
+
+thanks,
+
+Takashi
 
