@@ -1,131 +1,88 @@
-Return-Path: <linux-leds+bounces-1140-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1141-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90899872063
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 14:38:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F2E8721FE
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 15:52:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 494BC28622E
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 13:38:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03C871C20B09
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 14:52:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741D95821B;
-	Tue,  5 Mar 2024 13:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451F885928;
+	Tue,  5 Mar 2024 14:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NPPHXapv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdV9JVb5"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0A885920;
-	Tue,  5 Mar 2024 13:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E116127;
+	Tue,  5 Mar 2024 14:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709645929; cv=none; b=SRoqkTMXcRWX9ha3KLmHwq4Sg6a+OKCPptvWBwNOczMxxUZOXqv/a+DSn6uLN3lPqA8A0eia1iXWIIjocNVyJ7uUCsW1IDc/XaX/HMopJyq4yC304KNIiYemJsFX2lub/WbnlhzBxKDZ3p9pneVLzNA1TyxN7SXNvbPGmmXtdoQ=
+	t=1709650374; cv=none; b=cZWe0tBrC2XKNh3L0H3m/uffQgYA33qjqt6Y95D5US6t2KFPJ1p3Yf3Yz6v8ajxOYB/FoywhvTEJvqObX/jnZuWM+kMCHB8lZhQu/+DS187uEdBXXPO+JFx+2KaenXViUtea9cX0okN7kc6z30cxzi0B2txLUs571cUCooVMtBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709645929; c=relaxed/simple;
-	bh=viXBDIqZFNOIsn5ae6yYM5O580OYMBch4pTlVqzBYyA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t02T92AY4NQL2bkuFXhGHyqhmwHFBrIGs5uK0qEtENB2tb2ravaq+N+cWQppuQnBpfPPD2LCX9CT7cEZYUOW4rZHcxLp1d4bwBdL15p3FPhTbirC6n4QE+4JGxW5canAUVGaHihUjZBDwU2ybqgv5+npu541/knrJqXwQNMO2pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NPPHXapv; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6098a20ab22so35039227b3.2;
-        Tue, 05 Mar 2024 05:38:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709645927; x=1710250727; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nlldgESxqJCrJbyy2hwlc9rmU3P83nYDEwvz0WXxepU=;
-        b=NPPHXapvirD9FW0pX0MDCrkI8JqimP+qzJQdwqdmlGa6iHckBTWM0NRD51/Dt5HHkS
-         mZjNaUM/XDZS046DOdCU8cNTnY6IDxx8GKGH0qqoL6P7SZ1izAMYqXokzGWy2tii1Jv0
-         aP2byR+ToRmU9mBt9feBe4WUn3GWgfdjS0M7Q597gdhzhGYA2GV4qqdod3jFnNc28/s5
-         ScctfotkfNyMyLJyBkH6q6AIr3e209RTS5SnwK4FGFlj48bQQnxAh6m7IdihdL+yqpnI
-         rJHeMe0T4mN4SW0fZGNp3rDvMlJLBrikpdKwNsTsW7EOGQNcengj7K4TNnfX/PuQXD8q
-         QcdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709645927; x=1710250727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nlldgESxqJCrJbyy2hwlc9rmU3P83nYDEwvz0WXxepU=;
-        b=JdZkPorRUP693eRG5uSSsusF6W0I/EC832DTNWavgzYCujdlyCo+w9091h4s3hiPge
-         b2HM0ARW1tc7adUaGF8PTk0Dj5u8xdy79Fhcgi3I+GUo9+rA5NmHW3pobj05DHVnDTdK
-         zp5yL9xphDx0BUcUefKIbjZWzwNhnYHEmHUZvTnClmCEm8M9KZul9NHRC8SOwVQb1jet
-         sNeHj1d0kvWlW7LO6PcVh7bviBERK/GaBgFPWJ1ERorvKJTaJ9vA2t3dFMlv81t0PE9A
-         toXLulX2nqHOUTV849QcQV5rNtwasNjjAABi7A3lnSs57KGkBP612QQtFR5qqFtUzWse
-         5rpg==
-X-Forwarded-Encrypted: i=1; AJvYcCWPkSAdrrr6BZE/e6d2Fo+UFrMZtD9WZvYCaGnPzxwTCHkUd5EJwEte7tO12d0pQ1LkMzpppLcecYFi6Pl1gT3uBNRc0sVTX6zg9bl0
-X-Gm-Message-State: AOJu0YyDJVGHSCfDW3dZnblAUp0MR2IsiVcQqzz7OTlV5m9fln49ngcW
-	Fw0U9v/y/+XsGhUQym85NazZKlRgVUzzEyyLLaIc+oXJEBoYXvRs
-X-Google-Smtp-Source: AGHT+IGSNrtJRZhOzk9LQh+cnbTbqUjzM5uy3WTGTE/Me+dnfzS6CDMmxzKroB3zKChJKvELYULcQg==
-X-Received: by 2002:a0d:eb52:0:b0:609:15e2:1e2c with SMTP id u79-20020a0deb52000000b0060915e21e2cmr12563901ywe.27.1709645926875;
-        Tue, 05 Mar 2024 05:38:46 -0800 (PST)
-Received: from localhost.localdomain ([174.95.13.129])
-        by smtp.gmail.com with ESMTPSA id u11-20020ac8050b000000b0042dfa55a3d5sm5343796qtg.25.2024.03.05.05.38.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 05:38:46 -0800 (PST)
-From: Abdel Alkuor <alkuor@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Abdel Alkuor <alkuor@gmail.com>
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: ncp5623: Add MS suffix to time defines
-Date: Tue,  5 Mar 2024 08:38:17 -0500
-Message-Id: <20240305133824.1551809-1-alkuor@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1709650374; c=relaxed/simple;
+	bh=nBqnTHfOl1CIZ0Th9P7dzJT1Db+T9rYlxuWK4sXXDec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLIvQN1rhMThui0utLMPRpWTtphbRJ+GxJoCc4mEpdeev6UTIF2f+rTg+oBTmAxkd9Rr2V7XdHkMpZEe1IPV0i/udQaQqhxcwpzybCk/1/axXmkcOc3HQPQf7dTavAONrJQmDTmp1dNc13endljNnxKhsD0ojq2CCrnITgBuYW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdV9JVb5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FED2C433F1;
+	Tue,  5 Mar 2024 14:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709650373;
+	bh=nBqnTHfOl1CIZ0Th9P7dzJT1Db+T9rYlxuWK4sXXDec=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PdV9JVb5LDuJ/1PeYUCh1neM/UlOJKteVQ1O75nz94rIkmcW7mAFot6JneOF4gK4t
+	 gX+kw1/SSW8X/sRDfUQObVMzEL0fH+QY2fJoLKkM7QA0wymlGu+7x8/dV9Swc+itFq
+	 jqOuylW6M0QJZoEoFch1F8tcRlWX6N8s1KZu1GRidvM4PQelRg4BkE2+Cd/PpjS+w2
+	 DbrMOxIYOZ57I+QAJERZCpFIvd6hqFtTEtk8NEw9AAU8HcNhrmNQlTb6P4LKEGaya9
+	 B59Tmnm+CxPshjTpJAaKaJ6c0qAKXm2pdgAnRGKTjZidAn0+NCw/ML9izNhtMb/hkZ
+	 e/tUgwid1Lrhg==
+Date: Tue, 5 Mar 2024 08:52:51 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Matt Ranostay <mranostay@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	devicetree@vger.kernel.org, Peter Meerwald <pmeerw@pmeerw.net>,
+	linux-leds@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Ricardo Ribalda <ribalda@kernel.org>,
+	Anders Darander <anders@chargestorm.se>
+Subject: Re: [PATCH] dt-bindings: leds: pca963x: Convert text bindings to YAML
+Message-ID: <170965037070.3336464.11666013116412320889.robh@kernel.org>
+References: <20240305004501.849-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240305004501.849-1-laurent.pinchart@ideasonboard.com>
 
-To make the time macro defines clearer, add MS as a suffix.
 
-Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
----
- drivers/leds/rgb/leds-ncp5623.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Tue, 05 Mar 2024 02:45:01 +0200, Laurent Pinchart wrote:
+> Convert the pca963x DT bindings to YAML schema. The existing properties
+> are kept without modification, but the example is adapted to the latest
+> common bindings for LEDs.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> If someone wants to volunteer as a maintainer, by all means, please
+> replace me :-)
+> ---
+>  .../devicetree/bindings/leds/nxp,pca963x.yaml | 140 ++++++++++++++++++
+>  .../devicetree/bindings/leds/pca963x.txt      |  52 -------
+>  2 files changed, 140 insertions(+), 52 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/nxp,pca963x.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/pca963x.txt
+> 
 
-diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-index b669c55c5483..2be4ff918516 100644
---- a/drivers/leds/rgb/leds-ncp5623.c
-+++ b/drivers/leds/rgb/leds-ncp5623.c
-@@ -22,8 +22,8 @@
- #define NCP5623_DIMMING_TIME_REG	NCP5623_REG(0x7)
- 
- #define NCP5623_MAX_BRIGHTNESS		0x1f
--#define NCP5623_MAX_DIM_TIME		240 /* ms */
--#define NCP5623_DIM_STEP		8   /* ms */
-+#define NCP5623_MAX_DIM_TIME_MS		240
-+#define NCP5623_DIM_STEP_MS		8
- 
- struct ncp5623 {
- 	struct i2c_client *client;
-@@ -92,8 +92,8 @@ static int ncp5623_pattern_set(struct led_classdev *cdev,
- 
- 	ncp->delay = 0;
- 
--	if (pattern[0].delta_t > NCP5623_MAX_DIM_TIME ||
--	   (pattern[0].delta_t % NCP5623_DIM_STEP) != 0)
-+	if (pattern[0].delta_t > NCP5623_MAX_DIM_TIME_MS ||
-+	   (pattern[0].delta_t % NCP5623_DIM_STEP_MS) != 0)
- 		return -EINVAL;
- 
- 	brightness_diff = pattern[0].brightness - ncp->current_brightness;
-@@ -117,7 +117,7 @@ static int ncp5623_pattern_set(struct led_classdev *cdev,
- 
- 	ret = ncp5623_write(ncp->client,
- 			    NCP5623_DIMMING_TIME_REG,
--			    pattern[0].delta_t / NCP5623_DIM_STEP);
-+			    pattern[0].delta_t / NCP5623_DIM_STEP_MS);
- 	if (ret)
- 		return ret;
- 
--- 
-2.34.1
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 
