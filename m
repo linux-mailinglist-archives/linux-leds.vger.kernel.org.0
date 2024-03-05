@@ -1,78 +1,77 @@
-Return-Path: <linux-leds+bounces-1127-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1128-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BC7871819
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:21:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 112FC871826
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:23:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61DD91F21BA3
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 08:21:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4339D1C20B75
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 08:23:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E47427FBAB;
-	Tue,  5 Mar 2024 08:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE06C7EF18;
+	Tue,  5 Mar 2024 08:23:22 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9737F7EF;
-	Tue,  5 Mar 2024 08:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6049C7E567;
+	Tue,  5 Mar 2024 08:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709626799; cv=none; b=sX20eKsrS72cHSP9/yOX9kQRWvfiegZFjMo8GylrFU35NESmW56JWjxEl6oeOamhzoHvny22rlwSUTQC6PA94+dhVdLjKMMjykkW6C9G2HFadLJm947ponLC2u9LKLZKpAm3qlcpBi2EzH1lSdAhh/f9Ju9lvbia8nWE7ncYEHo=
+	t=1709627002; cv=none; b=d9ayCoVzh71zvDnVQpuHz+IVAou6/SJzUJELFGfoyv0LkonGeC6RHw+bq5JfQcDJac46XjanaX95Zf9PM/leS6EoF0IEtWSvg9MlwHDPfIFejcWHb40ky4B1Gkm7nsgCSABYQAGIXYMWJFmS9HIwyBTymaOEUhr4zn9y+5+txa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709626799; c=relaxed/simple;
-	bh=t6XchAICiSHWdKVGv/WGYM7YeyQcxFEXLVVRKxNtMGA=;
+	s=arc-20240116; t=1709627002; c=relaxed/simple;
+	bh=CbVPR2QHJ5QJ4GDfn5v6V7p1OPdCrT5jCuJ1e6nCBaU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q3MFDI3KnwW/b0n5dDZJCBptrt1mSmvN+UoxFwzJFjKAUm16GL+isD0rMzthAfSJlsBf3bc20dgONXQK2tKX6AuLj8+fAhbHfZNrLnd5lsTzfFS3RhBtWBstQ7b2DH9gZJu8FyFCc7GlwLc0uNYzRQDQheGfcueOXGMmAaLARgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
+	 To:Cc:Content-Type; b=Sfs0tkDotf1Iu6eZiBkA6omVSbJWyXr8L5TGnJMo5U6ZvNRDT2gKVU1CfycLRKpH6KZ4WJ2TL8qlflPkpwviky3DG91lSdDfwCDtOIOo0sY0dIliiqT5XCFm3hHZCtQFm/3+QAQ2gwD0CgOdEz1bxQMiWwAS1JCRlgNGx7cYShE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-60925d20af0so54905777b3.2;
-        Tue, 05 Mar 2024 00:19:57 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6098a20ab22so32153417b3.2;
+        Tue, 05 Mar 2024 00:23:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709626795; x=1710231595;
+        d=1e100.net; s=20230601; t=1709627000; x=1710231800;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WZEUhB5dRg0BtcsxeiTUemjtMJD5muiFM6LlHEKnvOw=;
-        b=Ug6HHy3AzDcu3uoEUATjx3axDXiy0Twx9oU/d41U6PtO10gJka7DqWhNMNbhJhu0FW
-         z14M2lm+kE2YHvqGT2XlaYTI/0zbe5QzWExZwyRaSzgPSiXQR2/f3D2WUmgIBA5HNNlp
-         b1QGlg+fTOQIH01x7/z2jj2uEka+TD2iLOzJqFhFFGbP+L8acl/SeQ3y318cMOvNJlsv
-         Cpxq0ztrvKawWUtx1BeFy5mcIvylb/spcfopE7atV7y0qh9xCIjf6MvIStrjDDUSpenm
-         ClILUJ7ep2z5ePUv/ba831wdJB/07DANzAJW6r4KBv5HDJ8GyD0mAxP5VG6mxpGjV1VT
-         Kimg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4eeY8+8YTTtO29eXQwkczf6CJXKTSxNBsCLtk8SFL//q7FUFonYEyxGJq5zwDnbGJJbf+p07ibEH7zSiSCs3rQBJkxAnd7OuxZ7N1f4C6aBXwqxl1L94STxJdrM6uC7y+OKKFwJXz5xyD7rb2qqFHp4tG42Za7gi2ck2pLMNVDd/mtTE=
-X-Gm-Message-State: AOJu0Yyy47JBHdHl6rGrSl6O3QhGSVJeyeKJYuHfdjK/jc0QezW2HbQ1
-	hF/ODDCCzp51YzZYBXe33AQ0zLcMcDwaUYoSp0hoLCyd9/P1a6rHg7ddLuupVk0=
-X-Google-Smtp-Source: AGHT+IGtumgYEaXukERvwQ2+EowBtnDS3CxHvLyAdJblTOhF0H9x8BNhLdpe3XpSjQZzYRUtvyp1pQ==
-X-Received: by 2002:a0d:c303:0:b0:609:b412:41f7 with SMTP id f3-20020a0dc303000000b00609b41241f7mr4565961ywd.45.1709626795619;
-        Tue, 05 Mar 2024 00:19:55 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id w81-20020a814954000000b006079b97c437sm3048957ywa.98.2024.03.05.00.19.54
+        bh=JK8R63Wb4mcVyO26iwlrTXo/1vZKzjuEZvuH8WXk/8g=;
+        b=e8Mn8PNn4t1BHc0F+YE0mlnaXAgIAIqwrBTQ5onHZvAZgRwk3PWhOqSsk7rmyQBLxB
+         21wr77kH5AS2S92o2hYWp5TRiUKdJRGD4hEiZVHnEIQhgTyUWiUFeQUVPLvLXjn5qACl
+         zN/KrWBAxcSq9NNxHK16yeDTbZNGg2hGrMEzSmLuppjqrWSsItCCZzblj6l8tcg9BaHY
+         tvHffG8+DoguxoUpX3IynVLMyhSMQa3sHy0s6vRGLYg07tiVPZK7/KWg/UKSrMGu3bLX
+         PUUEi4+8APKZlXkvvLvKz3wdo0CJ/ey41LN7eCrEHZvx68VBKVNQlJ4acllaHMMl3Mvb
+         rtZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXZLTEnfUWTsW813JOkhVT1levDI7DmI1lJ3GeWMeKT4+v99KSxrAC5ulVmgzS3eopPjUOaHIFLYV3HwMtaCCH+ZSpzwbZg0IVspOl0W4Y4vtjcp6zshJ3daqGZtIhFRIAn7IWKX6snJczvwHtsF9OxC7SZAmPhXqXrUQIdPsNS3u+ah4=
+X-Gm-Message-State: AOJu0Yxj0GKBGt8lHJi6s5/6aiEbKmDaDVSFHWzGIWt1T156xyI0SHBw
+	Sdenw0HExknaj5NQZ5SABYFqkBcN62ibutRTNLXNEJumZ0C0mFkqsTq1Om0P74o=
+X-Google-Smtp-Source: AGHT+IG6zXeTV/eR2uLzcRDW0bfoB2HCabMj3C6+G1+YLhAtkz2hp2VJV93lljae6jC+kQXyh5Z23Q==
+X-Received: by 2002:a81:9194:0:b0:609:80ff:ea5c with SMTP id i142-20020a819194000000b0060980ffea5cmr12012630ywg.12.1709626999689;
+        Tue, 05 Mar 2024 00:23:19 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id y17-20020a81a111000000b00607a42af275sm3063483ywg.48.2024.03.05.00.23.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Mar 2024 00:19:54 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-60943ad307fso49429057b3.1;
-        Tue, 05 Mar 2024 00:19:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUpJzl8UJr51SUGjJMVd8owK0Ao4ZGXgDV7j6ADCv7bGQ0ExvzZtcPhUR4QvwpcgIyOPfJtXk3Vu8GoJIiojRacG39YwBPFjyXnCqs2xXM6rJzeGQYlSqJskLPphPnOSsYj3ewKY9K47NMPSexHbUyzn5EluImj+S8AgqLvs+OQb6aKmKY=
-X-Received: by 2002:a81:4e45:0:b0:609:c5ca:8b0d with SMTP id
- c66-20020a814e45000000b00609c5ca8b0dmr1984380ywb.12.1709626794525; Tue, 05
- Mar 2024 00:19:54 -0800 (PST)
+        Tue, 05 Mar 2024 00:23:19 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcc73148611so5654375276.3;
+        Tue, 05 Mar 2024 00:23:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVTD6bUTmPqMHDeZ6DpowFbXuXIp8Lx/QGxF4Wi11HMmQhNLY8MKnCByvj+0eHQz9XW/f8q/OuRNKeTCdqEKo2uD+iaUXW4pz8myOxF4PmDKbj8IatsQPeW/jh13OwklFrha1eSlnSeRYU3Nd3ASML9L4qKStqCBa28tIQR+X++MfRcdM4=
+X-Received: by 2002:a25:aa8b:0:b0:dcd:5bdb:4aa4 with SMTP id
+ t11-20020a25aa8b000000b00dcd5bdb4aa4mr8894973ybi.51.1709626999323; Tue, 05
+ Mar 2024 00:23:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz> <20240305035853.916430-3-chris.packham@alliedtelesis.co.nz>
-In-Reply-To: <20240305035853.916430-3-chris.packham@alliedtelesis.co.nz>
+References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz> <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Mar 2024 09:19:42 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVjx6rMbqKiG-9pt+y4c4nVZ-MQk8Miv3HB7jgTd=Pdcg@mail.gmail.com>
-Message-ID: <CAMuHMdVjx6rMbqKiG-9pt+y4c4nVZ-MQk8Miv3HB7jgTd=Pdcg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] dt-bindings: auxdisplay: Add bindings for generic
- 7-segment LED
+Date: Tue, 5 Mar 2024 09:23:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXF+12PHa5A7WeyPMfvsGcJN13WaPuCbTmJU52Huq=osA@mail.gmail.com>
+Message-ID: <CAMuHMdXF+12PHa5A7WeyPMfvsGcJN13WaPuCbTmJU52Huq=osA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] auxdisplay: Add 7-segment LED display driver
 To: Chris Packham <chris.packham@alliedtelesis.co.nz>
 Cc: andy@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
 	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com, 
@@ -86,102 +85,64 @@ Hi Chris,
 
 On Tue, Mar 5, 2024 at 4:59=E2=80=AFAM Chris Packham
 <chris.packham@alliedtelesis.co.nz> wrote:
-> Add bindings for a generic 7-segment LED display using GPIOs.
+> Add a driver for a 7-segment LED display. At the moment only one
+> character is supported but it should be possible to expand this to
+> support more characters and/or 14-segment displays in the future.
 >
 > Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> ---
->
-> Notes:
->     Changes in v4:
->     - Add ASCII art diagram showing arrangement of segments
 
-Thanks for the update!
+Sorry, I spoke too soon...
 
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/auxdisplay/gpio-7-segment.yaml
-> @@ -0,0 +1,54 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/auxdisplay/gpio-7-segment.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: GPIO based LED segment display
-> +
-> +maintainers:
-> +  - Chris Packham <chris.packham@alliedtelesis.co.nz>
-> +
-> +properties:
-> +  compatible:
-> +    const: gpio-7-segment
-> +
-> +  segment-gpios:
-> +    description:
+> +++ b/drivers/auxdisplay/seg-led-gpio.c
 
-Please add "|", as you want to preserve the formatting of the diagram.
-
-> +      An array of GPIOs one per segment. The first GPIO corresponds to t=
-he A
-> +      segment the last GPIO corresponds to the G segment. Some LED block=
-s also
-
-... segment, the ...
-
-
-> +      have a decimal point (currently ignored).
+> +static void seg_led_update(struct work_struct *work)
+> +{
+> +       struct seg_led_priv *priv =3D container_of(work, struct seg_led_p=
+riv, work.work);
+> +       struct linedisp *linedisp =3D &priv->linedisp;
+> +       struct linedisp_map *map =3D linedisp->map;
+> +       DECLARE_BITMAP(values, 8) =3D { 0 };
 > +
-> +               -a-
-> +              |   |
-> +              f   b
-> +              |   |
-> +               -g-
-> +              |   |
-> +              e   c
-> +              |   |
-> +               -d-  dp
+> +       bitmap_set_value8(values, map_to_seg7(&map->map.seg7, linedisp->b=
+uf[0]), 0);
 > +
-> +    minItems: 7
-> +    maxItems: 7
+> +       gpiod_set_array_value_cansleep(priv->segment_gpios->ndescs, priv-=
+>segment_gpios->desc,
+> +                                      priv->segment_gpios->info, values)=
+;
+> +}
 
-I guess it doesn't hurt to have "maxItems: 8", so people don't have
-to update their DTS later when support for the DP is added?
-That would need an update to the description above, as the last segment
-would then be either G or DP.
+> +static int seg_led_probe(struct platform_device *pdev)
+> +{
+> +       struct seg_led_priv *priv;
+> +       struct device *dev =3D &pdev->dev;
+> +
+> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       priv->segment_gpios =3D devm_gpiod_get_array(dev, "segment", GPIO=
+D_OUT_LOW);
+> +       if (IS_ERR(priv->segment_gpios))
+> +               return PTR_ERR(priv->segment_gpios);
+
+This needs some validation of priv->segment_gpios->ndescs, else the
+call to gpiod_set_array_value_cansleep() in seg_led_update() may
+trigger an out-of-bounds access of the values bitmap.
 
 > +
-> +required:
-> +  - segment-gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    led-7seg {
-> +        compatible =3D "gpio-7-segment";
-> +        segment-gpios =3D <&gpio 0 GPIO_ACTIVE_LOW
-> +                         &gpio 1 GPIO_ACTIVE_LOW
-> +                         &gpio 2 GPIO_ACTIVE_LOW
-> +                         &gpio 3 GPIO_ACTIVE_LOW
-> +                         &gpio 4 GPIO_ACTIVE_LOW
-> +                         &gpio 5 GPIO_ACTIVE_LOW
-> +                         &gpio 6 GPIO_ACTIVE_LOW>;
-
-Please group GPIO specifiers using angular brackets:
-
-    segment-gpios =3D <&gpio 0 GPIO_ACTIVE_LOW>,
-                     <&gpio 1 GPIO_ACTIVE_LOW>,
-                     ...
-
-> +    };
+> +       return linedisp_register(&priv->linedisp, dev, 1, &seg_led_linedi=
+sp_ops);
+> +}
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
