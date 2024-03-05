@@ -1,133 +1,131 @@
-Return-Path: <linux-leds+bounces-1125-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1126-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E4E8715A4
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 07:08:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D61AA8717CD
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:15:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72FC61C210B8
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 06:08:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91956281F85
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 08:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2744C3C087;
-	Tue,  5 Mar 2024 06:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BW9dlqIR"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0918E7F483;
+	Tue,  5 Mar 2024 08:14:18 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2916FC1C
-	for <linux-leds@vger.kernel.org>; Tue,  5 Mar 2024 06:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E6C7EEFD;
+	Tue,  5 Mar 2024 08:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709618895; cv=none; b=mLpddf0NH+t8HwNoxfBTQEfb0ggc8h7m/GmxSJP6Oq2YotGmEGuKlMwOgk000+RgsOqX7zPeGCFNVGHgHEnYp1OcMbD8TCmxZ3q6fBbgXFXcN9v1AB4YbNcIrCm/yT7oLniZ9q0mO4I1+Hnw39yAsfFXzpO+19u69SeD0P0sH9M=
+	t=1709626457; cv=none; b=Rxs85vaZN0Oh/M32++kRYCQiDIfIhKhpVnNf216tG7V0ihK3H5iThGpjEgEynkf/fT0OaBfoWm5uLVjaIAJcvvoLBEclHEzolzB0CmccMRuIRWobpz+JHY+77YWUEQ3vmsPqqvU6PpFJa9TZPwHE30Jj10T0GXbvMJWetG5iyqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709618895; c=relaxed/simple;
-	bh=dM4D7w9DD8d0wbriRkCoArYw4jGDzuzqEoVoQw02gzU=;
+	s=arc-20240116; t=1709626457; c=relaxed/simple;
+	bh=sdkbL0j1WDTfzOeFdax57xNB3etUtS+GxE2k2CRgZs4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=esUZGLtvgS+90q8vHH4tsWqYJmXQg2ese7JW7SXGHhHr+ZU3j5cey884KWymfMk7u/yHJbbsAD2TcWcdAya+ORuHR5ML79e4qyW3ILfdH5pQ2GDuJwrEkNnQyk2pZxWQkS9GA/ssxDZDd4YAkXIWSwVbEgBXcGnnYF6RiqjO5Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BW9dlqIR; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709618891;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zoFo0I1fzWwGEu4UQgAN2SUdp7pXe6Pyro6e3fwhw64=;
-	b=BW9dlqIRheS6t6PiJ9tgobqHvFQ1NJfUEfw529dRC2ShLxY/qKKZNGy/Le5FOmKNwx5kev
-	Smt97w46zBju96erup/Lq8ullqvvuoxzXMFX7VrbpbC2AIPvsys9a5JsQu/vPtK3dRclRv
-	I1idADwDOFv6pmjpJTgC5dVvAXzut40=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-94-MSn7Nqa0NWqQY9cREJrokw-1; Tue, 05 Mar 2024 01:08:10 -0500
-X-MC-Unique: MSn7Nqa0NWqQY9cREJrokw-1
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-29935047600so4330389a91.0
-        for <linux-leds@vger.kernel.org>; Mon, 04 Mar 2024 22:08:09 -0800 (PST)
+	 To:Cc:Content-Type; b=GDwZ2KQkpq3L0DuIYxhEoHmTTfy7zNi+/5gFw78vh2fw0vKbgz2U3vagMxcFDPodSWFVIQNFMR1itYZYfVEyB9YnqTcPE0+9XR6rcyeTmJdxRoPahaZIybpkJ//fVAdysU/lnFqLpGYwVSVkCNGzqYWc2aNkXxIOUVqHTaWEZkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6098bf69909so30344937b3.1;
+        Tue, 05 Mar 2024 00:14:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709618889; x=1710223689;
+        d=1e100.net; s=20230601; t=1709626454; x=1710231254;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zoFo0I1fzWwGEu4UQgAN2SUdp7pXe6Pyro6e3fwhw64=;
-        b=FZDUgkDZNtoVsrWGCIhSXRyNG0EvdA44yo800LZ/k4Yml+xTrfVGri8Ir4ydr1RLL+
-         r9rfvzdIw2o2tETY496GxNEy8BJrq4x2U50mJxspiPgn3zKrZyW8YouaMzmG4ReEzXQh
-         GSLh03FM1xUiyhcyFwTrTGEVeeVwBbDyyTXmAM+e2kpxsCFyC306emzZJeo7ayFN3U2D
-         Amk01KhhzfLjnEMgkxjA7a5kVFNxnXyGorhhm06nHjClJpu4qsawKeam+B97xCtjrF6/
-         yHEK1oFiXE5HZG6cUzLvM9f/CeBEgJiHErGaF5RieixE/3Ou/viwOKEq4IOPvkj+2oDP
-         GmQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGjASPRp+Of7fRdoZZl4QTDtDZtwty9G/OW1dyRzJiFegVz4D0yCdNidoOyPhc5VKJrVTcRbN+85ZcWmufdxeLognLqpeHaVc0Uw==
-X-Gm-Message-State: AOJu0YzZ7HTiq/M5Ob4JaIBUeZTXOs0A4DftooiQXqA4ETKzRyDDxBik
-	92zU0+mIhrv1ZGMwFLeAu5/rX/6MR74NOO3EygjfdlSgRx8gziRH9GwGeqVatuMdf5qNqLwk3QT
-	IflvtlV+cyn2FLiyh74JZjd7mLrz8EKwYEstjLFyZhRVz0z5YKnyCpN2ijATbzwkBQt5A+Li9wi
-	LnjNX5zkKT4TRIK0kY+VaDGgv9qJUgrypUFg==
-X-Received: by 2002:a17:90a:fb81:b0:29a:1708:9878 with SMTP id cp1-20020a17090afb8100b0029a17089878mr10204703pjb.38.1709618889026;
-        Mon, 04 Mar 2024 22:08:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHd+3bX2cQVrVff7vEVTyByHc1KRVzVm4ben3RVNkqLHuCs0o7H2AoV3FE+2l+eivntYagUvGxVF64lMe0rlf0=
-X-Received: by 2002:a17:90a:fb81:b0:29a:1708:9878 with SMTP id
- cp1-20020a17090afb8100b0029a17089878mr10204693pjb.38.1709618888724; Mon, 04
- Mar 2024 22:08:08 -0800 (PST)
+        bh=C/PGxtgAIaNlRumVOAqmpGsRhzvUMbZ5jyQA7IZ7SLc=;
+        b=ismwGYkxuWSJcLLu4/7t30aAh8HyCBPRoJ3E4XKy7qYlDjwEkXs06EMkuYgcex1svG
+         AKg9r/8ENgH0WrWsRJOMUJoG5NG3P2VRT1Vy1bQf7Nos4kCcm0dCb58uSppdCd30/SB+
+         sYB2Rp1MIVUrKpcoSoruLHT9+eQd0GjeG78lh3Gl46ZQz+jB8TCcKOGa5Cu26tOvpO+L
+         yfFKt6u1Eg/BlXFnh0BLZq4z7EEuIrJEIwFDpWA39XXNug/hpbK701gt0FNjJXb2oIcY
+         GsZc16jz1VxE0cmQqiEEYjCBbYUWoPJKbaivE3mfyaJhE13Ms5A3gWftQZuQXhVD4GEH
+         jtjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTmwD6gSADtWpvKDbgLGvRCRVyzqR1TpureCv7GWNCe1BRa64EIwAmV7ZqgVYZVqfQMm5MR6YdJ9+RRY96yHsxCkG4D5UoRSewoweJa84qYeaNOuJEstABF+Z1xu5mAYzmnJVnfs5AGqKH6/I0uPuUC/9WCMitnA+4C+o1HTDvmrR32/E=
+X-Gm-Message-State: AOJu0Yy7GArQ1bPkt7vhSUKYyvL3WK5Xq8bvkGAASQEh+C9rBUXF+y0E
+	7886buCzvNDz9iFVj/sJ9rb5b9bpElT8pV6PAoWQl8XhnVa1+WWjSOEC8oiWEes=
+X-Google-Smtp-Source: AGHT+IEPMjVoeyDtKFnxJjQxc3RlnLtRTMv8Uy1TA+pBy3lUFDY8++Si8Wgu0iT6vUYDqjYyWZbqgw==
+X-Received: by 2002:a0d:cac9:0:b0:609:892e:b944 with SMTP id m192-20020a0dcac9000000b00609892eb944mr1388875ywd.4.1709626454054;
+        Tue, 05 Mar 2024 00:14:14 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id r12-20020a81e40c000000b00607c3904416sm2977288ywl.40.2024.03.05.00.14.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Mar 2024 00:14:12 -0800 (PST)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so6051907276.0;
+        Tue, 05 Mar 2024 00:14:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVgK8caQANrK8oebiAEEtj597THcsbm+hLRHX/kpokKHmZAzzJPA0eaucpoWoBWAfF+Cm5FU2N6kDgu4iOpFHZb4HpNZEPuPJHlNdCZZoBg7paQmn7wP0fgO8sNDz/KZ85sTgBILk8ULOKplZC2OUtk3sL3BpwGhIpIb0cJ4yb/bI3NjQo=
+X-Received: by 2002:a05:6902:248f:b0:dc2:271a:3799 with SMTP id
+ ds15-20020a056902248f00b00dc2271a3799mr1604789ybb.23.1709626452674; Tue, 05
+ Mar 2024 00:14:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240301033612.11826-1-hpa@redhat.com> <20240301033612.11826-3-hpa@redhat.com>
- <7dc47181-af26-6d46-d34f-57be0fdc8421@linux.intel.com>
-In-Reply-To: <7dc47181-af26-6d46-d34f-57be0fdc8421@linux.intel.com>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Tue, 5 Mar 2024 14:07:57 +0800
-Message-ID: <CAEth8oGEB8rhEhGu2ws8UnmpmsOV3VFnGtO98cf=1m4h=REh=A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] leds: rgb: leds-ktd202x: Get device properties
- through fwnode to support ACPI
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz> <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 5 Mar 2024 09:14:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUYuucVQDor3na-iT+Jmsktr+vCVjQXGUA6vXd6-mXxmA@mail.gmail.com>
+Message-ID: <CAMuHMdUYuucVQDor3na-iT+Jmsktr+vCVjQXGUA6vXd6-mXxmA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] auxdisplay: Add 7-segment LED display driver
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: andy@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com, 
+	sebastian.hesselbarth@gmail.com, lee@kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-leds@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Chris,
 
-On Fri, Mar 1, 2024 at 6:59=E2=80=AFPM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
+On Tue, Mar 5, 2024 at 4:59=E2=80=AFAM Chris Packham
+<chris.packham@alliedtelesis.co.nz> wrote:
+> Add a driver for a 7-segment LED display. At the moment only one
+> character is supported but it should be possible to expand this to
+> support more characters and/or 14-segment displays in the future.
 >
-> On Fri, 1 Mar 2024, Kate Hsuan wrote:
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> ---
 >
-> > This LED controller also installed on a Xiaomi pad2 and it is a x86
-> > platform. The original driver is based on device tree and can't be
-> > used for this ACPI based system. This patch migrated the driver to
-> > use fwnode to access the properties. Moreover, the fwnode API
-> > supports device tree so this work won't effect the original
-> > implementations.
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
->
-> > @@ -568,6 +574,8 @@ static int ktd202x_probe(struct i2c_client *client)
-> >               return ret;
-> >       }
-> >
-> > +     chip->num_leds =3D (int) (unsigned long)i2c_get_match_data(client=
-);
->
-> Casting twice.
->
+> Notes:
+>     Changes in v4:
+>     - Fix one more usage of 7 segment
+>     - Move ASCII art diagram to DT binding
+>     - Include map_to_7segment.h for map_to_seg7()
+>     - Use initialiser for values in seg_led_update
 
-Thank you for reviewing it.
-I'll fix it and propose the v4 patch.
+Thanks for the update!
 
-> --
->  i.
+> --- a/drivers/auxdisplay/Kconfig
+> +++ b/drivers/auxdisplay/Kconfig
+> @@ -211,6 +211,16 @@ config ARM_CHARLCD
+>           line and the Linux version on the second line, but that's
+>           still useful.
 >
+> +config SEG_LED_GPIO
+> +       tristate "Generic 7-segment LED display"
 
+"depends on GPIOLIB || COMPILE_TEST"?
+
+The rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --=20
-BR,
-Kate
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
