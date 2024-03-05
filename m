@@ -1,142 +1,223 @@
-Return-Path: <linux-leds+bounces-1121-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1123-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FC2871480
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 04:59:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AA18714A7
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 05:21:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C01C1F21B2C
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 03:59:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF018284CC9
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 04:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F1E3FE24;
-	Tue,  5 Mar 2024 03:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1B63D39A;
+	Tue,  5 Mar 2024 04:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="JZ+sQf8I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duQdcEw0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7FA40BE6
-	for <linux-leds@vger.kernel.org>; Tue,  5 Mar 2024 03:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EC46FB5;
+	Tue,  5 Mar 2024 04:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709611143; cv=none; b=hxd7Q9CzB1FPehhSeYSNZenqNe02cTAivFsyhGBXgXsBCqwf7QihiHnHNa2QvSrDYvmzss5OmiPPuNaikXYwmVyBzWoLMHSrCiddxU+i2jaJlmvpWstTmBx4gdZGgfa5YUcdWUYmvvLsL/09B9E79n05gyunbmoGQYLP3yz4UmY=
+	t=1709612494; cv=none; b=bXmc3XmRUpwafB12kWGq+5Hp9VGFMuUInvlVriRIyUjiK2rPnYOf80lT/TqBr7M1rNI09eOCQJdBs1JGLTKN4gjC5oM2r2prYqm+B6Tfof8yTiu6RALHl6YrdnqreftRB15iVeawiTulF8TvdOifO8DW6Bq3tgZLwJeWSvzi/uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709611143; c=relaxed/simple;
-	bh=+cOgSZtXjjMtnKVw1LPuAiZ6Mn8UevCnRyLJXg+DB5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jq2Eqw0aoTxF0z47beXDukIVCyPUNaeZlWxVgZ340v4I17IsbVZMWkD+9tdR3YGYtRxTCp2tiBq/7onee2gTwA8cre/Tv81jUTJ/ZYf+6mejU3BESSasW2ncEbGT32PBnLdgKt2IKpedgW6BSMcgwiIcteU/VXpv4TntQiwiqtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=JZ+sQf8I; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id EBFB12C0191;
-	Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1709611137;
-	bh=jv/qZKUBNtFx0wjDYe7udNJ1VJ7C8qUMETi24rpmi5U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JZ+sQf8IkMImYFNUjBSxpyFSJcv5YsSMABU8wqRukBTLo+A6R0N1YlLEzmIxXMH+w
-	 ibkIgUjRV9QwgjlrZ9kce/UECwwt6pz9X7GZsbaPu1wcPBLa49r+c+3G9VhkfJ77Q8
-	 uHeyQqJMoW/qmILnVhpChGuYmNMocXQcbHgOIyy16vRkZnz12RHIve3Go6mBVFaheS
-	 ktLaXlxNPOUCbuetk0L/UMWh1g2xsMvLpgvbTXEfttv+aCl5J0LQb53akg3okF5i28
-	 OVhzlw6YPRcO47qHgM1I2vkPRNRzzzaQKdLjtWBMcPlE6iqoBFQLyZ518SK66ik7DM
-	 +U1FEKQQta5zw==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65e698810003>; Tue, 05 Mar 2024 16:58:57 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id B376513EE85;
-	Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id AFB3728084D; Tue,  5 Mar 2024 16:58:57 +1300 (NZDT)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: andy@kernel.org,
-	geert@linux-m68k.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	andrew@lunn.ch,
-	gregory.clement@bootlin.com,
-	sebastian.hesselbarth@gmail.com,
-	lee@kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1709612494; c=relaxed/simple;
+	bh=XNcc3M2gGhOadQxYGKri3cOK2NzoGVpParFwUbKckJU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nop9iUD3UCNaEg0m84HrxdbRpKTFl0HixNJgGgNw2nDTe1hLDbC23J9t/jgQyQ58WLHjlbAqN7oZsmDRYzqT+0JJ11RQFZ2qoQ2ZaB1YTbpfljn1+WmVH6rP3mjdSn5T9XzU6Hxhdch+upimUFdmFCuvvlq1zDjbSxyQP+Y7/LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duQdcEw0; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-7daf957595bso1381659241.1;
+        Mon, 04 Mar 2024 20:21:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709612490; x=1710217290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bRPUWl1psjiYGTL8rKAK4A/7PYD7OjCJB+XkBQBD0Ao=;
+        b=duQdcEw0IZ6Q4ACahJ+xFvQKlToUAnICFl0oDScz+ctO6pstKkwJb3Vmwuz2B30p9s
+         RLHgJ77PtCF/A8aIOk2oerV/x+IO9P2rsAgg466aPtvbpqZcQ95wFM1ho8mByjWTz5fx
+         feVrWgAvDI7oDtw4OYrw6gh4dGRLaaJgaQC7Cuz0Sq+b43h+9EXWHDdtRYTpNZ4XdL1G
+         vq0th5Mx1yNqnmdydxsTrnOyPjJ9RhJn1MRvUHhbPEPtpZVGJ4z3WL0ApsA3WTFsuwUi
+         gtKrzQZtQrzNW15phZ8m9XOQhKC1/gHh8C9IOS6Q5QCJ/eXPwHHXoUO6R08sPF+fbNDE
+         k1cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709612490; x=1710217290;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bRPUWl1psjiYGTL8rKAK4A/7PYD7OjCJB+XkBQBD0Ao=;
+        b=iLy2xQykWJUbomCctelAxoct0gsG7d0pL6B/6m8+ggnWRfvrYrI2h1y4UPAx5/bgwm
+         gMq5DMKPz5uNVV9umZGQXoHjZGqR1sjMwoscsfTbZhlzieBuPRp0loQj6e5DOD6rhNZi
+         OfeJ125ieMfw9z1hICWOwd/E5BubDiN9tP4Llzs+YQqI7wlea1McZfLdMZqwyBaAs1C/
+         yoaMuoPrhe1LFcaDAd3UJ2VvWgQyApNviHWUaj6SY7UObuwTW/u/tPypTb+NYA/XVXKb
+         NOFoO6AXNgGKNwLCn8+g0sLCdEodCBqsUYHA5MiWiwHlg/j6JXUgT/lPB9+lQTJ5IorS
+         Vj1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX89ECZB8kOz5vZQ0xW1s3vceWzy1sGqv2AVVl105/wS3vBuoqks97GuV+sudvcNQ7Y7wChPUT0HzQxPuiK0r89N6OkT3dHidd0yorCaoAaz8yezvIKFg5Vw7gleUXCelZZ8DUgo6yk6rfQwl8mKaDskJmIGXDHD62U0TDUSpwOh3PFSHg=
+X-Gm-Message-State: AOJu0YwrrfjWXR0HTdPK/qOpNJ787xp5c0YRQBD4rcX7C02B5KW/MPqY
+	6fN7tS/uuyHNesvwtTPOqHZ7gb3k5qtJjvD0ms7/OCfCazhoV7wsqVVRZXcqr4M=
+X-Google-Smtp-Source: AGHT+IFT32809+aJZO3E4JHk/VYRjiitNr4MylvuX+RDM7mwKLtk9hToxZj2tWsABLbxlaWVvO9jcQ==
+X-Received: by 2002:a05:6122:311d:b0:4d3:49db:6dd2 with SMTP id cg29-20020a056122311d00b004d349db6dd2mr873366vkb.9.1709612490375;
+        Mon, 04 Mar 2024 20:21:30 -0800 (PST)
+Received: from localhost.localdomain ([174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id mw10-20020a05621433ca00b0068f2b1d9415sm5796018qvb.23.2024.03.04.20.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 20:21:29 -0800 (PST)
+From: Abdel Alkuor <alkuor@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Abdel Alkuor <alkuor@gmail.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Alice Chen <alice_chen@richtek.com>,
 	linux-leds@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v4 3/3] ARM: dts: marvell: Add 7-segment LED display on x530
-Date: Tue,  5 Mar 2024 16:58:52 +1300
-Message-ID: <20240305035853.916430-4-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
-References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] dt-bindings: leds: Add NCP5623 multi-LED Controller
+Date: Mon,  4 Mar 2024 23:20:28 -0500
+Message-Id: <20240305042049.1533279-1-alkuor@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e69881 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=Eze4_Z_RUzIZFoL9sA8A:9 a=3ZKOabzyN94A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+Content-Transfer-Encoding: 8bit
 
-The Allied Telesis x530 products have a 7-segment LED display which is
-used for node identification when the devices are stacked. Represent
-this as a gpio-7-segment device.
+NCP5623 is DC-DC multi-LED controller which can be used for RGB
+illumination or backlight LCD display.
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
+Changes in v3:
+ - Add Reviewed-by tag
+ - Link to v2: https://lore.kernel.org/all/20240217230956.630522-1-alkuor@gmail.com/
 
-Notes:
-    Changes in v4:
-    - Use correct compatible name in commit message
-    Changes in v3:
-    - Use compatible =3D "gpio-7-segment" as suggested by Rob
-    Changes in v2:
-    - Use compatible =3D "generic-gpio-7seg" to keep checkpatch.pl happy
+Changes in v2:
+ - Fix commit subject prefix
+ - drop | from the main description
+ - Use const in address reg
+ - Remove LEDs reg description
+ - Link to v1: https://lore.kernel.org/linux-kernel/20240208130115.GM689448@google.com/T/
+ .../bindings/leds/onnn,ncp5623.yaml           | 96 +++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
 
- arch/arm/boot/dts/marvell/armada-385-atl-x530.dts | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts b/arch/arm=
-/boot/dts/marvell/armada-385-atl-x530.dts
-index 5a9ab8410b7b..60c2abf572b6 100644
---- a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-+++ b/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-@@ -43,6 +43,17 @@ uart0: serial@12000 {
- 			};
- 		};
- 	};
+diff --git a/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml b/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
+new file mode 100644
+index 000000000000..9c9f3a682ba2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/onnn,ncp5623.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	led-7seg {
-+		compatible =3D "gpio-7-segment";
-+		segment-gpios =3D <&led_7seg_gpio 0 GPIO_ACTIVE_LOW
-+				 &led_7seg_gpio 1 GPIO_ACTIVE_LOW
-+				 &led_7seg_gpio 2 GPIO_ACTIVE_LOW
-+				 &led_7seg_gpio 3 GPIO_ACTIVE_LOW
-+				 &led_7seg_gpio 4 GPIO_ACTIVE_LOW
-+				 &led_7seg_gpio 5 GPIO_ACTIVE_LOW
-+				 &led_7seg_gpio 6 GPIO_ACTIVE_LOW>;
-+	};
- };
-=20
- &pciec {
-@@ -149,7 +160,7 @@ i2c@3 {
- 			#size-cells =3D <0>;
- 			reg =3D <3>;
-=20
--			gpio@20 {
-+			led_7seg_gpio: gpio@20 {
- 				compatible =3D "nxp,pca9554";
- 				gpio-controller;
- 				#gpio-cells =3D <2>;
---=20
-2.43.2
++title: ON Semiconductor NCP5623 multi-LED Driver
++
++maintainers:
++  - Abdel Alkuor <alkuor@gmail.com>
++
++description:
++  NCP5623 Triple Output I2C Controlled LED Driver.
++  https://www.onsemi.com/pdf/datasheet/ncp5623-d.pdf
++
++properties:
++  compatible:
++    enum:
++      - onnn,ncp5623
++
++  reg:
++    const: 0x38
++
++  multi-led:
++    type: object
++    $ref: leds-class-multicolor.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++    patternProperties:
++      "^led@[0-2]$":
++        type: object
++        $ref: common.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          reg:
++            minimum: 0
++            maximum: 2
++
++        required:
++          - reg
++          - color
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++
++required:
++  - compatible
++  - reg
++  - multi-led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@38 {
++            compatible = "onnn,ncp5623";
++            reg = <0x38>;
++
++            multi-led {
++                color = <LED_COLOR_ID_RGB>;
++
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                led@0 {
++                    reg = <0>;
++                    color = <LED_COLOR_ID_RED>;
++                };
++
++                led@1 {
++                    reg = <1>;
++                    color = <LED_COLOR_ID_GREEN>;
++                };
++
++                led@2 {
++                    reg = <2>;
++                    color = <LED_COLOR_ID_BLUE>;
++                };
++            };
++        };
++    };
+-- 
+2.34.1
 
 
