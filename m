@@ -1,154 +1,139 @@
-Return-Path: <linux-leds+bounces-1128-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1129-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112FC871826
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:23:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF9E8718EB
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 10:05:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4339D1C20B75
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 08:23:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BEEF2B23DC1
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Mar 2024 09:05:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE06C7EF18;
-	Tue,  5 Mar 2024 08:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B64E4F211;
+	Tue,  5 Mar 2024 09:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uza/fbAK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6049C7E567;
-	Tue,  5 Mar 2024 08:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F64F897;
+	Tue,  5 Mar 2024 09:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709627002; cv=none; b=d9ayCoVzh71zvDnVQpuHz+IVAou6/SJzUJELFGfoyv0LkonGeC6RHw+bq5JfQcDJac46XjanaX95Zf9PM/leS6EoF0IEtWSvg9MlwHDPfIFejcWHb40ky4B1Gkm7nsgCSABYQAGIXYMWJFmS9HIwyBTymaOEUhr4zn9y+5+txa4=
+	t=1709629476; cv=none; b=t2QeYxh5mgnrn5+Jm9fKXGRuhNAxJhmv/AowwKX7I9dCMHNo9mNt2Ku6f4nuV87myGc4kWFj10Je7bCIRWStL0rQJUr57selaLhQBAi+IYImQMC0e0QTnLNPfdAg9qDBq/UEdnMP4m6DsQXVfr3DKcwND2w1mz+k9ZiGnDQiWxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709627002; c=relaxed/simple;
-	bh=CbVPR2QHJ5QJ4GDfn5v6V7p1OPdCrT5jCuJ1e6nCBaU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sfs0tkDotf1Iu6eZiBkA6omVSbJWyXr8L5TGnJMo5U6ZvNRDT2gKVU1CfycLRKpH6KZ4WJ2TL8qlflPkpwviky3DG91lSdDfwCDtOIOo0sY0dIliiqT5XCFm3hHZCtQFm/3+QAQ2gwD0CgOdEz1bxQMiWwAS1JCRlgNGx7cYShE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6098a20ab22so32153417b3.2;
-        Tue, 05 Mar 2024 00:23:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709627000; x=1710231800;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JK8R63Wb4mcVyO26iwlrTXo/1vZKzjuEZvuH8WXk/8g=;
-        b=e8Mn8PNn4t1BHc0F+YE0mlnaXAgIAIqwrBTQ5onHZvAZgRwk3PWhOqSsk7rmyQBLxB
-         21wr77kH5AS2S92o2hYWp5TRiUKdJRGD4hEiZVHnEIQhgTyUWiUFeQUVPLvLXjn5qACl
-         zN/KrWBAxcSq9NNxHK16yeDTbZNGg2hGrMEzSmLuppjqrWSsItCCZzblj6l8tcg9BaHY
-         tvHffG8+DoguxoUpX3IynVLMyhSMQa3sHy0s6vRGLYg07tiVPZK7/KWg/UKSrMGu3bLX
-         PUUEi4+8APKZlXkvvLvKz3wdo0CJ/ey41LN7eCrEHZvx68VBKVNQlJ4acllaHMMl3Mvb
-         rtZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXZLTEnfUWTsW813JOkhVT1levDI7DmI1lJ3GeWMeKT4+v99KSxrAC5ulVmgzS3eopPjUOaHIFLYV3HwMtaCCH+ZSpzwbZg0IVspOl0W4Y4vtjcp6zshJ3daqGZtIhFRIAn7IWKX6snJczvwHtsF9OxC7SZAmPhXqXrUQIdPsNS3u+ah4=
-X-Gm-Message-State: AOJu0Yxj0GKBGt8lHJi6s5/6aiEbKmDaDVSFHWzGIWt1T156xyI0SHBw
-	Sdenw0HExknaj5NQZ5SABYFqkBcN62ibutRTNLXNEJumZ0C0mFkqsTq1Om0P74o=
-X-Google-Smtp-Source: AGHT+IG6zXeTV/eR2uLzcRDW0bfoB2HCabMj3C6+G1+YLhAtkz2hp2VJV93lljae6jC+kQXyh5Z23Q==
-X-Received: by 2002:a81:9194:0:b0:609:80ff:ea5c with SMTP id i142-20020a819194000000b0060980ffea5cmr12012630ywg.12.1709626999689;
-        Tue, 05 Mar 2024 00:23:19 -0800 (PST)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id y17-20020a81a111000000b00607a42af275sm3063483ywg.48.2024.03.05.00.23.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Mar 2024 00:23:19 -0800 (PST)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcc73148611so5654375276.3;
-        Tue, 05 Mar 2024 00:23:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVTD6bUTmPqMHDeZ6DpowFbXuXIp8Lx/QGxF4Wi11HMmQhNLY8MKnCByvj+0eHQz9XW/f8q/OuRNKeTCdqEKo2uD+iaUXW4pz8myOxF4PmDKbj8IatsQPeW/jh13OwklFrha1eSlnSeRYU3Nd3ASML9L4qKStqCBa28tIQR+X++MfRcdM4=
-X-Received: by 2002:a25:aa8b:0:b0:dcd:5bdb:4aa4 with SMTP id
- t11-20020a25aa8b000000b00dcd5bdb4aa4mr8894973ybi.51.1709626999323; Tue, 05
- Mar 2024 00:23:19 -0800 (PST)
+	s=arc-20240116; t=1709629476; c=relaxed/simple;
+	bh=7N8xIeprPgoxERgGFCpdp1nknqUERpb0vZx8jiEzfgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ncrww3tZz0SF+ZeEqHSxcjT+jh+GfPQQPfc9H4qD5ctnzW8eqNFM/kugaQDSWUVee3N8MxewC/VdLonXMsn+IOAAqLWQll+8s3/G743lBQFj7u3SjaH2nj6ZOvr8zbX1J6wBy71qeUEKi/5kV4pmOU88o0+nvl0UUdZhdr2+nVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uza/fbAK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C3EC433C7;
+	Tue,  5 Mar 2024 09:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709629475;
+	bh=7N8xIeprPgoxERgGFCpdp1nknqUERpb0vZx8jiEzfgA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uza/fbAKpCubQp8iG3HBv+LL8E3D/7aueYJ+iTIJG6tiVEJmzBvrqhY+9771y6ipv
+	 B+pmMhjWf1hoBTzgtDqAQ76ALA/VSHK0ntL9eQODNYiBu+xwH9rt49wrnP4/eaOykG
+	 q92SYEGgQAbRd35X4Nx5pZeZwX5pWrnsOJwfRTVoBLLdzSjGh7b4AKQDcRTiSOoT7w
+	 sPhQA/LeK78Xfid+BO3WoMnRYlk6FZLaGez7m68sT9mJ+dfEBT8p41HcN8GOY165vB
+	 XJcwudR1eIJnA0VrOGc/o6Vt7+qwvpQU6saiZ1nrUO4J2HUVgRM1cnPk2/FDxBB/88
+	 dQo+a/y58+pDw==
+Date: Tue, 5 Mar 2024 09:04:29 +0000
+From: Lee Jones <lee@kernel.org>
+To: Abdel Alkuor <alkuor@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alice Chen <alice_chen@richtek.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] leds: Add NCP5623 multi-led driver
+Message-ID: <20240305090429.GA5206@google.com>
+References: <20240217230956.630522-1-alkuor@gmail.com>
+ <20240217230956.630522-2-alkuor@gmail.com>
+ <20240301085046.GE1209090@google.com>
+ <ZeaRpSrkeFKAXIlq@abdel>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz> <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
-In-Reply-To: <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Mar 2024 09:23:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXF+12PHa5A7WeyPMfvsGcJN13WaPuCbTmJU52Huq=osA@mail.gmail.com>
-Message-ID: <CAMuHMdXF+12PHa5A7WeyPMfvsGcJN13WaPuCbTmJU52Huq=osA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] auxdisplay: Add 7-segment LED display driver
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: andy@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com, 
-	sebastian.hesselbarth@gmail.com, lee@kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZeaRpSrkeFKAXIlq@abdel>
 
-Hi Chris,
+On Mon, 04 Mar 2024, Abdel Alkuor wrote:
 
-On Tue, Mar 5, 2024 at 4:59=E2=80=AFAM Chris Packham
-<chris.packham@alliedtelesis.co.nz> wrote:
-> Add a driver for a 7-segment LED display. At the moment only one
-> character is supported but it should be possible to expand this to
-> support more characters and/or 14-segment displays in the future.
->
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> On Fri, Mar 01, 2024 at 08:50:46AM +0000, Lee Jones wrote:
+> 
+> Hi Lee,
+> > > +#define NCP5623_REG(x)			((x) << 0x5)
+> > 
+> > What's 0x5?  Probably worth defining.
+> This is a function offset. I'll add a define.
+> 
+> > 
+> > > +	guard(mutex)(&ncp->lock);
+> > 
+> > Are these self-unlocking?
+> Correct. Here is a short introduction about it
+> https://www.marcusfolkesson.se/blog/mutex-guards-in-the-linux-kernel/
 
-Sorry, I spoke too soon...
+Neat.
 
-> --- /dev/null
-> +++ b/drivers/auxdisplay/seg-led-gpio.c
+> > > +	ncp->old_brightness = brightness;
+> > 
+> > The nomenclature is confusing here.
+> > 
+> > For the most part, this will carry the present value, no?
+> >
+> Yes, I'll change it to current_brightness instead
 
-> +static void seg_led_update(struct work_struct *work)
-> +{
-> +       struct seg_led_priv *priv =3D container_of(work, struct seg_led_p=
-riv, work.work);
-> +       struct linedisp *linedisp =3D &priv->linedisp;
-> +       struct linedisp_map *map =3D linedisp->map;
-> +       DECLARE_BITMAP(values, 8) =3D { 0 };
-> +
-> +       bitmap_set_value8(values, map_to_seg7(&map->map.seg7, linedisp->b=
-uf[0]), 0);
-> +
-> +       gpiod_set_array_value_cansleep(priv->segment_gpios->ndescs, priv-=
->segment_gpios->desc,
-> +                                      priv->segment_gpios->info, values)=
-;
-> +}
+Just 'brightness' will be fine.
 
-> +static int seg_led_probe(struct platform_device *pdev)
-> +{
-> +       struct seg_led_priv *priv;
-> +       struct device *dev =3D &pdev->dev;
-> +
-> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +       if (!priv)
-> +               return -ENOMEM;
-> +
-> +       platform_set_drvdata(pdev, priv);
-> +
-> +       priv->segment_gpios =3D devm_gpiod_get_array(dev, "segment", GPIO=
-D_OUT_LOW);
-> +       if (IS_ERR(priv->segment_gpios))
-> +               return PTR_ERR(priv->segment_gpios);
+> > > +	ret = ncp5623_write(ncp->client,
+> > > +			    NCP5623_DIMMING_TIME_REG, pattern[0].delta_t / 8);
+> > 
+> > Why 8?  Magic numbers should be replaced with #defines.
+> > 
+> This is dim step in ms. I'll add a define for it.
+> 
+> > > +static int ncp5623_pattern_clear(struct led_classdev *led_cdev)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > 
+> > Not sure I see the point in this.
+> > 
+> > Is the .pattern_clear() compulsorily?
+> >
+> Unfortunately, it is. For example, in pattern_trig_store_patterns, when
+> hw pattern is used, it is expected to have pattern_clear implemented.
+> 
+> static ssize_t pattern_trig_store_patterns(struct led_classdev *led_cdev,
+>                                             const char *buf, const u32 *buf_int,
+>                                             size_t count, bool hw_pattern)
+> {
+> 	...
+>          if (data->is_hw_pattern)
+>                  led_cdev->pattern_clear(led_cdev);
+>  	...
+> }
 
-This needs some validation of priv->segment_gpios->ndescs, else the
-call to gpiod_set_array_value_cansleep() in seg_led_update() may
-trigger an out-of-bounds access of the values bitmap.
+Something's not right then.  If this is required, are you sure you're
+not meant to do something here?  If there are times when this is not
+required, it should be possible to omit it.
 
-> +
-> +       return linedisp_register(&priv->linedisp, dev, 1, &seg_led_linedi=
-sp_ops);
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Lee Jones [李琼斯]
 
