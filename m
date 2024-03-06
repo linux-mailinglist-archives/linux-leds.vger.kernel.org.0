@@ -1,239 +1,166 @@
-Return-Path: <linux-leds+bounces-1153-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1154-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A389C872F63
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 08:16:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB4B873082
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 09:18:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 366BBB24014
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 07:16:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70CD81C209A8
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 08:18:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54AB55BAF8;
-	Wed,  6 Mar 2024 07:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NznZ8WXQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A82F25D72D;
+	Wed,  6 Mar 2024 08:18:14 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F331AAC4
-	for <linux-leds@vger.kernel.org>; Wed,  6 Mar 2024 07:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0825CDC2
+	for <linux-leds@vger.kernel.org>; Wed,  6 Mar 2024 08:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709709377; cv=none; b=gz+CAc3C76maJyOw/g7s1IOe4XQltO0mhsnnqC7NNaA/u0DefPdxzM0vRRPkithMmQcgNlf8NlaxN4t3CWCR9BsUXGICEKwHMaAeGJ2kEKu+U+/L/kQZREnb+A4Ayje2n+Tpw9WjK9R+zRHZJIzbf3vGWk1Z0R3oG/oCReDAPvo=
+	t=1709713094; cv=none; b=OEkn+gIk/g7z6FywNue2glBdhYaltBzgJDgivJHr3aJ5f+Qpnmcw/ZKlE2RdM4XLGtgD2PUyVvFYnvy0H66mVivr1NvczXmWvl/fIxzedycQsVL+n8NaeZSRTyut5cC31bSHosWQbnNzgj3bLEcpf6PgMToFw5SLi9tX4jihY5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709709377; c=relaxed/simple;
-	bh=ag8h2mXRJcubZPS/rr8BfNaV8C5iDdyXnn+kGqarv5U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i9rUlJDrU45ZocL8TV8yq3ynztipik0uhnFCTbjKQXsPWq3oQleIQpOYjtyNATZZk627zhShqC+ui8HGRQV1GsXuWawdHTRDlHarRBYIKfvzNiZGn5oCl7gzj+Ju7GNOg0b3C3c8kDHqCMJvgwkP7GYfHIYeCQmueC6q617MAcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NznZ8WXQ; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709709375; x=1741245375;
-  h=date:from:to:cc:subject:message-id;
-  bh=ag8h2mXRJcubZPS/rr8BfNaV8C5iDdyXnn+kGqarv5U=;
-  b=NznZ8WXQ1Z6n+6bRhJbxoylw62kolJY2ka5TbGUl+/hG59q7Mpm+1mUJ
-   mQDQZ+k3ZWXM4zh2/btZ74n0yfxot7TXj5y/Rj/GIYW8mKxJH+q/xkmv9
-   vA9P0pG7h4cg3X3JM6yU4JvWcslaEcH+ip4zGBoFzsLQyVutzXxkXLOYT
-   QEUfajHXXKuzTatr19YeOeEyjaMHzLgZmABgi6py/Glx9EMEeGCfA81w9
-   zz8se7Eo64DwjyemJDLjqK5B07MRLgOKKTuHe+sDukCObAqeVaaC4thTf
-   1zAv88vPHC/ZIDdBcZteNYzrpObzi4okGpV+nLX5M1QKDVBM36siA/ITT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8111962"
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="8111962"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 23:16:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9738896"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 23:16:12 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rhlVa-00040b-1k;
-	Wed, 06 Mar 2024 07:16:10 +0000
-Date: Wed, 06 Mar 2024 15:15:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 535a2262514d7d4016411707c9f8ac106062615f
-Message-ID: <202403061545.9eKo1Ul8-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1709713094; c=relaxed/simple;
+	bh=WT212ElBVLEGsEDoYgYczVwqs72WXv8FPxECFA7pKQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F1FXS16FyBU9pwObKPDpeSpPFXAvtmZH/EtQyKfujN97CsFsiZYMd/gErTX7DSUoGDmfu3lejRm1BLSpzbTRhzLnj9sTFa/ymVknRqkJ0zVD/sQgCtk3XUBHC7Xqe3R0DnfpImRXi2qWYuo7lv+TSn7HAli1iRcsq17kt1+QeF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhmTV-0001Ip-JG; Wed, 06 Mar 2024 09:18:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhmTV-004i1B-13; Wed, 06 Mar 2024 09:18:05 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhmTU-000Y8G-33;
+	Wed, 06 Mar 2024 09:18:04 +0100
+Date: Wed, 6 Mar 2024 09:18:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [regression] stm32mp1xx based targets stopped entering suspend
+ if pwm-leds exist
+Message-ID: <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
+References: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iyqdb55itbghrjyl"
+Content-Disposition: inline
+In-Reply-To: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 535a2262514d7d4016411707c9f8ac106062615f  leds: Add NCP5623 multi-led driver
 
-elapsed time: 1111m
+--iyqdb55itbghrjyl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 150
-configs skipped: 3
+Hello,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+On Wed, Mar 06, 2024 at 08:05:15AM +0100, Linux regression tracking (Thorst=
+en Leemhuis) wrote:
+> Hi, Thorsten here, the Linux kernel's regression tracker.
+>=20
+> Uwe, I noticed a report about a regression in bugzilla.kernel.org that
+> apparently is caused by a change of yours. As many (most?) kernel
+> developers don't keep an eye on it, I decided to forward it by mail.
+>=20
+> Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
+> not CCed them in mails like this.
+>=20
+> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=3D218559 :
+>=20
+> > Commit 76fe464c8e64e71b2e4af11edeef0e5d85eeb6aa ("leds: pwm: Don't
+> > disable the PWM when the LED should be off") prevents stm32mp1xx based
+> > targets from entering suspend if pwm-leds exist, as the stm32 PWM driver
+> > refuses to enter suspend if any PWM channels are still active ("PWM 0
+> > still in use by consumer" see stm32_pwm_suspend in drivers/pwm/stm32-pw=
+m.c).
+> >=20
+> > Reverting the mentioned commit fixes this behaviour but I'm not
+> > certain if this is a problem with stm32-pwm or pwm-leds (what is the
+> > usual behaviour for suspend with active PWM channels?).
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240306   gcc  
-arc                   randconfig-002-20240306   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240306   gcc  
-arm                           tegra_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240306   gcc  
-arm64                 randconfig-003-20240306   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240306   gcc  
-csky                  randconfig-002-20240306   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             alldefconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240306   clang
-i386         buildonly-randconfig-002-20240306   clang
-i386         buildonly-randconfig-004-20240306   clang
-i386         buildonly-randconfig-005-20240306   clang
-i386                                defconfig   clang
-i386                  randconfig-002-20240306   clang
-i386                  randconfig-003-20240306   clang
-i386                  randconfig-004-20240306   clang
-i386                  randconfig-006-20240306   clang
-i386                  randconfig-011-20240306   clang
-i386                  randconfig-012-20240306   clang
-i386                  randconfig-015-20240306   clang
-i386                  randconfig-016-20240306   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240306   gcc  
-loongarch             randconfig-002-20240306   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5275evb_defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240306   gcc  
-nios2                 randconfig-002-20240306   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc                randconfig-001-20240306   gcc  
-parisc                randconfig-002-20240306   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240306   gcc  
-powerpc               randconfig-002-20240306   gcc  
-powerpc64             randconfig-001-20240306   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-002-20240306   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-002-20240306   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        dreamcast_defconfig   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                    randconfig-001-20240306   gcc  
-sh                    randconfig-002-20240306   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240306   gcc  
-sparc64               randconfig-002-20240306   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240306   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240306   clang
-x86_64       buildonly-randconfig-002-20240306   clang
-x86_64       buildonly-randconfig-003-20240306   clang
-x86_64       buildonly-randconfig-004-20240306   clang
-x86_64       buildonly-randconfig-006-20240306   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240306   clang
-x86_64                randconfig-002-20240306   clang
-x86_64                randconfig-005-20240306   clang
-x86_64                randconfig-006-20240306   clang
-x86_64                randconfig-011-20240306   clang
-x86_64                randconfig-012-20240306   clang
-x86_64                randconfig-013-20240306   clang
-x86_64                randconfig-015-20240306   clang
-x86_64                randconfig-071-20240306   clang
-x86_64                randconfig-072-20240306   clang
-x86_64                randconfig-073-20240306   clang
-x86_64                randconfig-074-20240306   clang
-x86_64                randconfig-075-20240306   clang
-x86_64                randconfig-076-20240306   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240306   gcc  
-xtensa                randconfig-002-20240306   gcc  
+I'd assume the following patch fixes this report. I didn't test it
+though.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+Uwe
+
+---->8----
+=46rom: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
+
+On stm32mp1xx based machines (and others) a PWM consumer has to disable
+the PWM because an enabled PWM refuses to suspend. So check the
+LED_SUSPENDED flag and depending on that set the .enabled property.
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218559
+Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED should =
+be off")
+Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+---
+ drivers/leds/leds-pwm.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index 4e3936a39d0e..e1b414b40353 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -53,7 +53,13 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+ 		duty =3D led_dat->pwmstate.period - duty;
+=20
+ 	led_dat->pwmstate.duty_cycle =3D duty;
+-	led_dat->pwmstate.enabled =3D true;
++	/*
++	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
++	 * So keep it on. Only for suspending the PWM should be disabled because
++	 * otherwise it refuses to suspend. The possible downside is that the
++	 * LED might stay (or even go) on.
++	 */
++	led_dat->pwmstate.enabled =3D !(led_cdev->flags & LED_SUSPENDED);
+ 	return pwm_apply_might_sleep(led_dat->pwm, &led_dat->pwmstate);
+ }
+
+base-commit: 15facbd7bd3dbfa04721cb71e69954eb4686cb9e
+---->8----
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--iyqdb55itbghrjyl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXoJrsACgkQj4D7WH0S
+/k4dpAf/S1rWn4jV3PACJnwgcKd7Slhc18YY7FMyqrmXXVScL6Geh1ua+HD/rMiE
+dAfgvBPgnpuggzm3K8AkyzNmY3ZRIf1poCPiGUhcG1+G1WxqBaqWsY+dnsbh1pFD
+eoBKrZW1ssk7n1njzCZGspmI2samHJFHyUR6LVzhqsJZpKlW1fgknJQ4OhoSvDHf
+iE3W6I1r9g7960HEFP7q9BrRLFymEo49Qpi+bnpLqGApZx8IA25aA0GTzyvRUBGk
+yPd6mTo6heCLL6kbsK2juH5sigLJGEDLUXVYWQA0y15zNb8xgnlMJy+bE5B2vv1b
+fHWuQd1kDchYrNeMiAGHytbXM/jQ5g==
+=Aflk
+-----END PGP SIGNATURE-----
+
+--iyqdb55itbghrjyl--
 
