@@ -1,166 +1,128 @@
-Return-Path: <linux-leds+bounces-1154-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1155-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB4B873082
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 09:18:30 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B602873547
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 12:03:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70CD81C209A8
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 08:18:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7DD1B26557
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 10:59:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A82F25D72D;
-	Wed,  6 Mar 2024 08:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DC9260EF9;
+	Wed,  6 Mar 2024 10:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLNoQeRd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0825CDC2
-	for <linux-leds@vger.kernel.org>; Wed,  6 Mar 2024 08:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904DE6089A;
+	Wed,  6 Mar 2024 10:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709713094; cv=none; b=OEkn+gIk/g7z6FywNue2glBdhYaltBzgJDgivJHr3aJ5f+Qpnmcw/ZKlE2RdM4XLGtgD2PUyVvFYnvy0H66mVivr1NvczXmWvl/fIxzedycQsVL+n8NaeZSRTyut5cC31bSHosWQbnNzgj3bLEcpf6PgMToFw5SLi9tX4jihY5s=
+	t=1709722744; cv=none; b=c3R6CYVT+/WlUndbwYRpuM5v6/1QIt6XWbTY0axOgQkz8OrLrtWe4rTGd5ls+InLu3mtRNUzrTdqKCdAH51649ZyDN0h+ROl7lNrJj9/dRejIGPjyjWsj/9o/MgnpTCn6oHNdJc4h/fsgnBuH9TyODr51sWnScbajenFXQmFGvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709713094; c=relaxed/simple;
-	bh=WT212ElBVLEGsEDoYgYczVwqs72WXv8FPxECFA7pKQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1FXS16FyBU9pwObKPDpeSpPFXAvtmZH/EtQyKfujN97CsFsiZYMd/gErTX7DSUoGDmfu3lejRm1BLSpzbTRhzLnj9sTFa/ymVknRqkJ0zVD/sQgCtk3XUBHC7Xqe3R0DnfpImRXi2qWYuo7lv+TSn7HAli1iRcsq17kt1+QeF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhmTV-0001Ip-JG; Wed, 06 Mar 2024 09:18:05 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhmTV-004i1B-13; Wed, 06 Mar 2024 09:18:05 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhmTU-000Y8G-33;
-	Wed, 06 Mar 2024 09:18:04 +0100
-Date: Wed, 6 Mar 2024 09:18:04 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [regression] stm32mp1xx based targets stopped entering suspend
- if pwm-leds exist
-Message-ID: <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
-References: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
+	s=arc-20240116; t=1709722744; c=relaxed/simple;
+	bh=9irRIG0KFERmL3sNKB1GcQ9JLqgiQH8nptVh6vPu5mg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VliGbM4R5bT6kmJCKDGBFN9zRmNdu1Yqhqk6Nx9aBLG9QJDlYT32/zn14V/HzNvDuBbpZlgo3t4wK68eSAr+aRXI6kCAcKf8AbzrBAuTxMU2zhIzrCKOwe0EH3zHqYNSNhXvXCn7FYI1Uujh9By4j1sgRjnZ42Yx04rB7KQtKno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLNoQeRd; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a45c006ab82so48093266b.3;
+        Wed, 06 Mar 2024 02:59:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709722741; x=1710327541; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e5Z0N03v/ohpTjWPfQRgP/mEBY6xf/mkdG3hCpH/bMQ=;
+        b=OLNoQeRdmYFCi95vmYODy9EeMtLhKh0hrbhqiLnsRjh2hLjXjak/QSF719cR1lKRdk
+         tsSHBcKiLOjjpxLB6ZzNfEA8mzVvDsjojSW5/qb6LiUgwxrXR8zubekDPJH3k97hxlGi
+         i1d2l1p+u9h+8ydVAxPPWM2lSGXmKUxmeYOXI+PcmhqR75HeC55qSV4wfjDKqIVRu/9L
+         e/ISVoOd8Jq9J60xa+XUHAS0LXD/2ZVXdcJCxwtXltt4oFGUUeE2YR1WcqOPSEkZfLrs
+         L6H8zEMkP32OrKmTe10FlO896R/9TVPD6Mkx8grxndR13SXpOV/AsDerLtEhksXQvmzo
+         aEng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709722741; x=1710327541;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e5Z0N03v/ohpTjWPfQRgP/mEBY6xf/mkdG3hCpH/bMQ=;
+        b=nEF++5i84TkhByeDUxp7jJyyp+Ustq+bp7bNoIDGIaugWvsATdv5DEyVr5QzKNyzAP
+         X+wH3uFxBheeYjYKSFmp0iTgCfUt9e8YXNyp50J1W4pp4+4AHfW2cO1GjTfNc+4hRJt6
+         whnzM/n/czQZaqrkrDhJWdaWPPz+n7U0+yegBmelQbbQElyo6Ni2BzxENI1jfeNS/T0t
+         5I/TlN07MxaT44CKHP1w7K3dkmYscGtygaOGcQYmhDyKo2FwWWeC55TI3lNl6+Bgbz/l
+         Ans4aHOnXylX4svykQc1lxgURSdqqx9GxI4YPq+W8IhrPjO+EGuMLyROLGaiaubYjQEp
+         08/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWF4rqL9eNRaFhc75g9Wke9kSkA+l65bvtCy1FhCfNjjcJ6P5zzLXNIlfBesmdS4//BVGZ7wwTXFHnibu3sFKBcoYjFkl2l1uAaGBdVDWPS6OBcywWFLLzFwKh3tpGS0pKJg77nQDO1rHz9rk2w9kLl3X4Fbo1EfSO2R1Bwz9fRxd0NlQQ=
+X-Gm-Message-State: AOJu0YxI6P/JbQCHcGd6CnDBetaZu2d0Aq4UGmJJHotAK9pUPo5PPtX4
+	ujM6m93VlIRf5hlyomoHXLmQQQR4ODygn9gOUfGRhKGu7wqTvzycmZD3yicGZe3sJW8sguqLTNm
+	odM0LjDSIoIZM4oRxvEh35TPGZyo=
+X-Google-Smtp-Source: AGHT+IFR/RKGlCn3Fh34/aH2tzfQC9FgfHtJe362qDydqHz8e5ZEJGTvks01Qy+NFLTjVu8vZdi1vIdnJoYGzqQGu6I=
+X-Received: by 2002:a17:907:20b9:b0:a43:6cd2:7a27 with SMTP id
+ pw25-20020a17090720b900b00a436cd27a27mr9255436ejb.19.1709722740894; Wed, 06
+ Mar 2024 02:59:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iyqdb55itbghrjyl"
-Content-Disposition: inline
-In-Reply-To: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-
-
---iyqdb55itbghrjyl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20240305035853.916430-1-chris.packham@alliedtelesis.co.nz>
+ <20240305035853.916430-2-chris.packham@alliedtelesis.co.nz>
+ <CAMuHMdXF+12PHa5A7WeyPMfvsGcJN13WaPuCbTmJU52Huq=osA@mail.gmail.com>
+ <Zecy1RsSfpmH-cvG@smile.fi.intel.com> <216eb75d-5384-4654-9e86-4a9856494ad0@alliedtelesis.co.nz>
+In-Reply-To: <216eb75d-5384-4654-9e86-4a9856494ad0@alliedtelesis.co.nz>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 6 Mar 2024 12:58:24 +0200
+Message-ID: <CAHp75Vdi8K2mf2JSCG=e4vX+18CuNyaH-U5Q8-NGvihhyrJBJg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] auxdisplay: Add 7-segment LED display driver
+To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+Cc: Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	"robh+dt@kernel.org" <robh+dt@kernel.org>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "andrew@lunn.ch" <andrew@lunn.ch>, 
+	"gregory.clement@bootlin.com" <gregory.clement@bootlin.com>, 
+	"sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>, "lee@kernel.org" <lee@kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Wed, Mar 6, 2024 at 12:34=E2=80=AFAM Chris Packham
+<Chris.Packham@alliedtelesis.co.nz> wrote:
+> On 6/03/24 03:57, Andy Shevchenko wrote:
+> > On Tue, Mar 05, 2024 at 09:23:07AM +0100, Geert Uytterhoeven wrote:
+> >> On Tue, Mar 5, 2024 at 4:59=E2=80=AFAM Chris Packham
+> >> <chris.packham@alliedtelesis.co.nz> wrote:
 
-On Wed, Mar 06, 2024 at 08:05:15AM +0100, Linux regression tracking (Thorst=
-en Leemhuis) wrote:
-> Hi, Thorsten here, the Linux kernel's regression tracker.
->=20
-> Uwe, I noticed a report about a regression in bugzilla.kernel.org that
-> apparently is caused by a change of yours. As many (most?) kernel
-> developers don't keep an eye on it, I decided to forward it by mail.
->=20
-> Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
-> not CCed them in mails like this.
->=20
-> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=3D218559 :
->=20
-> > Commit 76fe464c8e64e71b2e4af11edeef0e5d85eeb6aa ("leds: pwm: Don't
-> > disable the PWM when the LED should be off") prevents stm32mp1xx based
-> > targets from entering suspend if pwm-leds exist, as the stm32 PWM driver
-> > refuses to enter suspend if any PWM channels are still active ("PWM 0
-> > still in use by consumer" see stm32_pwm_suspend in drivers/pwm/stm32-pw=
-m.c).
-> >=20
-> > Reverting the mentioned commit fixes this behaviour but I'm not
-> > certain if this is a problem with stm32-pwm or pwm-leds (what is the
-> > usual behaviour for suspend with active PWM channels?).
+...
 
-I'd assume the following patch fixes this report. I didn't test it
-though.
+> >>> +       priv->segment_gpios =3D devm_gpiod_get_array(dev, "segment", =
+GPIOD_OUT_LOW);
+> >>> +       if (IS_ERR(priv->segment_gpios))
+> >>> +               return PTR_ERR(priv->segment_gpios);
+> >> This needs some validation of priv->segment_gpios->ndescs, else the
+> >> call to gpiod_set_array_value_cansleep() in seg_led_update() may
+> >> trigger an out-of-bounds access of the values bitmap.
+> > Alternatively we can call gpiod_count() beforehand and check its result=
+.
+> Unless there are any objections I think I'll go with the ndescs check as
+> it'll be easier to update to the subnode style in the future.
 
-Best regards
-Uwe
+Either works for me.
 
----->8----
-=46rom: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
+> It does
+> mean there will be some extra allocations/frees (handled via the devm_
+> APIs) in the error case.
 
-On stm32mp1xx based machines (and others) a PWM consumer has to disable
-the PWM because an enabled PWM refuses to suspend. So check the
-LED_SUSPENDED flag and depending on that set the .enabled property.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218559
-Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED should =
-be off")
-Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/leds-pwm.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 4e3936a39d0e..e1b414b40353 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -53,7 +53,13 @@ static int led_pwm_set(struct led_classdev *led_cdev,
- 		duty =3D led_dat->pwmstate.period - duty;
-=20
- 	led_dat->pwmstate.duty_cycle =3D duty;
--	led_dat->pwmstate.enabled =3D true;
-+	/*
-+	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
-+	 * So keep it on. Only for suspending the PWM should be disabled because
-+	 * otherwise it refuses to suspend. The possible downside is that the
-+	 * LED might stay (or even go) on.
-+	 */
-+	led_dat->pwmstate.enabled =3D !(led_cdev->flags & LED_SUSPENDED);
- 	return pwm_apply_might_sleep(led_dat->pwm, &led_dat->pwmstate);
- }
-
-base-commit: 15facbd7bd3dbfa04721cb71e69954eb4686cb9e
----->8----
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---iyqdb55itbghrjyl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXoJrsACgkQj4D7WH0S
-/k4dpAf/S1rWn4jV3PACJnwgcKd7Slhc18YY7FMyqrmXXVScL6Geh1ua+HD/rMiE
-dAfgvBPgnpuggzm3K8AkyzNmY3ZRIf1poCPiGUhcG1+G1WxqBaqWsY+dnsbh1pFD
-eoBKrZW1ssk7n1njzCZGspmI2samHJFHyUR6LVzhqsJZpKlW1fgknJQ4OhoSvDHf
-iE3W6I1r9g7960HEFP7q9BrRLFymEo49Qpi+bnpLqGApZx8IA25aA0GTzyvRUBGk
-yPd6mTo6heCLL6kbsK2juH5sigLJGEDLUXVYWQA0y15zNb8xgnlMJy+bE5B2vv1b
-fHWuQd1kDchYrNeMiAGHytbXM/jQ5g==
-=Aflk
------END PGP SIGNATURE-----
-
---iyqdb55itbghrjyl--
+With Best Regards,
+Andy Shevchenko
 
