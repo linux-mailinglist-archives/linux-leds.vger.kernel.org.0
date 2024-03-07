@@ -1,245 +1,111 @@
-Return-Path: <linux-leds+bounces-1188-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1190-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55225875466
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 17:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D9E87577C
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 20:51:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B02128482A
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 16:44:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62B8528281D
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 19:51:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E944612FB1B;
-	Thu,  7 Mar 2024 16:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03157137C30;
+	Thu,  7 Mar 2024 19:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b="HB2lzJd8"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="0Yxn+aHB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.nic.cz (mail.nic.cz [217.31.204.67])
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FFB161;
-	Thu,  7 Mar 2024 16:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.31.204.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AC91369B9
+	for <linux-leds@vger.kernel.org>; Thu,  7 Mar 2024 19:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709829866; cv=none; b=WxbFCWHjntcIFgCzvf5ZHsQWrotCU7jjMBCprn1NmQyWKIvKnjNjpeDFZeudZPPB0BZaeexnvxz8hObxFMqVrHtF6kVPcsHNu/0g1GyAsjv45nogBB/eNFzI7iSU7abDIFPEV65CrxqmoIRk/2XNlOARYD5N6LjF0NNWLFVbLgs=
+	t=1709841061; cv=none; b=d7+qUAo0ksOkrZn3aqjNBNQjC7sd9EnP2XZE+wznG9LJ0jJlXYSG22T+KJpk4gtfeKMo9WsqJH8jpddVNzqzRriAPPUfUnhmQd0NViiaCMp8/1KpUbC4uyL0qZyvMXLdJ1QDx3XUTKlmkSamhHmZ8Nq6vR3QaKsW5s3pRsgAqck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709829866; c=relaxed/simple;
-	bh=Eas23TLQr46xZHt7gYs24YdP69SZOXFeMT3pAmuT6DA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g1Tx6iP7aUWYysvGSP4EwvzS30hXG4zvAcCP6BdSQF4MFw8390qJwteuUVjLXIj+HWOmPe47ptTpayyNAFmDQi96WL/QnsI7x4pW3T6Y7MQITjeYdSSArsQzpdGVUd2YUZUro/upbrkT347aC2a0kgniuIIoUWEFzliECHE7NEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz; spf=pass smtp.mailfrom=nic.cz; dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b=HB2lzJd8; arc=none smtp.client-ip=217.31.204.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nic.cz
-Received: from dellmb (unknown [IPv6:2001:1488:fffe:6:8747:7254:5571:3010])
-	by mail.nic.cz (Postfix) with ESMTPSA id A47281C0343;
-	Thu,  7 Mar 2024 17:44:15 +0100 (CET)
-Authentication-Results: mail.nic.cz;
-	auth=pass smtp.auth=marek.behun@nic.cz smtp.mailfrom=marek.behun@nic.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-	t=1709829857; bh=Eas23TLQr46xZHt7gYs24YdP69SZOXFeMT3pAmuT6DA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From:Reply-To:
-	 Subject:To:Cc;
-	b=HB2lzJd8YaauT0cp2xxF7qnSe160360ygc3/6mKcJ6jsvmOsiTLbnAxeyrs9YjbEP
-	 OwAWP919IXltZucSQtWWo0tE8W7jlC/dnh4Lzj+z7/LdLyKZe45dImbmU5XdR9De3e
-	 yqDV2Ltcib7negRha3QKDE+cvoHBAWz+YSLpUeiM=
-Date: Thu, 7 Mar 2024 17:44:14 +0100
-From: Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
-To: Waiman Long <longman@redhat.com>
-Cc: George Stark <gnstark@salutedevices.com>, andy.shevchenko@gmail.com,
- pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com,
- mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
- will@kernel.org, boqun.feng@gmail.com, nikitos.tr@gmail.com,
- kabel@kernel.org, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kernel@salutedevices.com
-Subject: Re: [PATCH v5 02/10] locking/mutex: introduce devm_mutex_init
-Message-ID: <20240307174414.4059d7ee@dellmb>
-In-Reply-To: <3d95ab40-2df5-4988-87be-568a628a0561@redhat.com>
-References: <20240307024034.1548605-1-gnstark@salutedevices.com>
-	<20240307024034.1548605-3-gnstark@salutedevices.com>
-	<20240307095639.b6utkbzr36liuu3p@kandell>
-	<3d95ab40-2df5-4988-87be-568a628a0561@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.39; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709841061; c=relaxed/simple;
+	bh=cQnFoidiV8SbY3NpmvYiYVvmuFmU0SCpFFwSZGGyC14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YRRjiWe/OUH+woSV6FHEkCMBM7s5HodIydIe7Oht+sm/B3KrZDQKZzr1PPWTfBc52GTWGBFCMLwvsmTz2hq0LlDRQOW3gCICzxBKExGZhWiss2/rGOwp2rJjK7J76UZMuG5Ou/tv0sGrlhpkG1xawn01Wb+9Pq/UYl3XtjBSccc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=0Yxn+aHB; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 2648A2C0230;
+	Fri,  8 Mar 2024 08:50:56 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1709841056;
+	bh=/CsoqBaF4QQmh/yhUXEg5ykrKNTZyl8O9XO+0F9DFoY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=0Yxn+aHBLhLVI4vQsytuVBOhyY7scTIrYQ6EqWoMMNi3GilElsy7wiB6CdixmjwBk
+	 celZTr7+VcTAyWTkWEzUR/8yX+u+M9h270eU6dkMf/d2oNjT05MgiJilyMyevnQtkE
+	 qowDnuaYO4B0ko4XZSUbJtDVcnoNDZOvhmXp1fBD/lszQo0CRgnCugUmg+Rk3V1ur4
+	 9Sf2YN6Ibrgmgim1n1YPqwqFJcf53rpbJb40sF1L+q6IAReMRNRhaiRIetLFnbu2bR
+	 Az3tZBWiO9/Kuk0rcsO73BmBlZxygN2HFWDv1BbcZKZTZpCtPHJGj6PQNViwPgzy36
+	 jgTyiMMlg6vAQ==
+Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65ea1a9f0001>; Fri, 08 Mar 2024 08:50:55 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
+	by pat.atlnz.lc (Postfix) with ESMTP id BEC2A13ED8D;
+	Fri,  8 Mar 2024 08:50:55 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+	id B69382808A5; Fri,  8 Mar 2024 08:50:55 +1300 (NZDT)
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+To: andy@kernel.org,
+	geert@linux-m68k.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	andrew@lunn.ch,
+	gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com,
+	lee@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH v6 0/3] auxdisplay: 7-segment LED display
+Date: Fri,  8 Mar 2024 08:50:50 +1300
+Message-ID: <20240307195053.1320538-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.103.10 at mail
-X-Virus-Status: Clean
-X-Rspamd-Queue-Id: A47281C0343
-X-Spamd-Bar: /
-X-Spamd-Result: default: False [-0.10 / 20.00];
-	MIME_GOOD(-0.10)[text/plain];
-	ASN(0.00)[asn:25192, ipnet:2001:1488::/32, country:CZ];
-	WHITELISTED_IP(0.00)[2001:1488:fffe:6:8747:7254:5571:3010];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com]
-X-Rspamd-Pre-Result: action=no action;
-	module=multimap;
-	Matched map: WHITELISTED_IP
-X-Rspamd-Action: no action
-X-Rspamd-Server: mail
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65ea1a9f a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=B6tuhtDmE4Oz97erSUUA:9 a=3ZKOabzyN94A:10
+X-SEG-SpamProfiler-Score: 0
+x-atlnz-ls: pat
 
-On Thu, 7 Mar 2024 08:39:46 -0500
-Waiman Long <longman@redhat.com> wrote:
+This series adds a driver for a 7-segment LED display.
 
-> On 3/7/24 04:56, Marek Beh=C3=BAn wrote:
-> > On Thu, Mar 07, 2024 at 05:40:26AM +0300, George Stark wrote: =20
-> >> Using of devm API leads to a certain order of releasing resources.
-> >> So all dependent resources which are not devm-wrapped should be deleted
-> >> with respect to devm-release order. Mutex is one of such objects that
-> >> often is bound to other resources and has no own devm wrapping.
-> >> Since mutex_destroy() actually does nothing in non-debug builds
-> >> frequently calling mutex_destroy() is just ignored which is safe for n=
-ow
-> >> but wrong formally and can lead to a problem if mutex_destroy() will be
-> >> extended so introduce devm_mutex_init()
-> >>
-> >> Signed-off-by: George Stark <gnstark@salutedevices.com>
-> >> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> >> ---
-> >>   Hello Christophe. Hope you don't mind I put you SoB tag because you =
-helped alot
-> >>   to make this patch happen.
-> >>
-> >>   include/linux/mutex.h        | 13 +++++++++++++
-> >>   kernel/locking/mutex-debug.c | 22 ++++++++++++++++++++++
-> >>   2 files changed, 35 insertions(+)
-> >>
-> >> diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-> >> index f7611c092db7..9bcf72cb941a 100644
-> >> --- a/include/linux/mutex.h
-> >> +++ b/include/linux/mutex.h
-> >> @@ -22,6 +22,8 @@
-> >>   #include <linux/cleanup.h>
-> >>   #include <linux/mutex_types.h>
-> >>
-> >> +struct device;
-> >> +
-> >>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
-> >>   # define __DEP_MAP_MUTEX_INITIALIZER(lockname)			\
-> >>   		, .dep_map =3D {					\
-> >> @@ -115,10 +117,21 @@ do {							\
-> >>
-> >>   #ifdef CONFIG_DEBUG_MUTEXES
-> >>
-> >> +int devm_mutex_init(struct device *dev, struct mutex *lock);
-> >>   void mutex_destroy(struct mutex *lock);
-> >>
-> >>   #else
-> >>
-> >> +static inline int devm_mutex_init(struct device *dev, struct mutex *l=
-ock)
-> >> +{
-> >> +	/*
-> >> +	 * since mutex_destroy is nop actually there's no need to register it
-> >> +	 * in devm subsystem.
-> >> +	 */
-> >> +	mutex_init(lock);
-> >> +	return 0;
-> >> +}
-> >> +
-> >>   static inline void mutex_destroy(struct mutex *lock) {}
-> >>
-> >>   #endif
-> >> diff --git a/kernel/locking/mutex-debug.c b/kernel/locking/mutex-debug=
-.c
-> >> index bc8abb8549d2..c9efab1a8026 100644
-> >> --- a/kernel/locking/mutex-debug.c
-> >> +++ b/kernel/locking/mutex-debug.c
-> >> @@ -19,6 +19,7 @@
-> >>   #include <linux/kallsyms.h>
-> >>   #include <linux/interrupt.h>
-> >>   #include <linux/debug_locks.h>
-> >> +#include <linux/device.h>
-> >>
-> >>   #include "mutex.h"
-> >>
-> >> @@ -104,3 +105,24 @@ void mutex_destroy(struct mutex *lock)
-> >>   }
-> >>
-> >>   EXPORT_SYMBOL_GPL(mutex_destroy);
-> >> +
-> >> +static void devm_mutex_release(void *res)
-> >> +{
-> >> +	mutex_destroy(res);
-> >> +}
-> >> +
-> >> +/**
-> >> + * devm_mutex_init - Resource-managed mutex initialization
-> >> + * @dev:	Device which lifetime mutex is bound to
-> >> + * @lock:	Pointer to a mutex
-> >> + *
-> >> + * Initialize mutex which is automatically destroyed when the driver =
-is detached.
-> >> + *
-> >> + * Returns: 0 on success or a negative error code on failure.
-> >> + */
-> >> +int devm_mutex_init(struct device *dev, struct mutex *lock)
-> >> +{
-> >> +	mutex_init(lock);
-> >> +	return devm_add_action_or_reset(dev, devm_mutex_release, lock);
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(devm_mutex_init); =20
-> > Hi George,
-> >
-> > look at
-> > https://lore.kernel.org/lkml/7013bf9e-2663-4613-ae61-61872e81355b@redha=
-t.com/
-> > where Matthew and Hans explain that devm_mutex_init needs to be a macro
-> > because of the static lockdep key.
-> >
-> > so this should be something like:
-> >
-> > static inline int __devm_mutex_init(struct device *dev, struct mutex *m=
-utex,
-> > 				    const char *name,
-> > 				    struct lock_class_key *key)
-> > {
-> > 	__mutex_init(mutex, name, key);
-> > 	return devm_add_action_or_reset(dev, devm_mutex_release, mutex);
-> > }
-> >
-> > #define devm_mutex_init(dev, mutex)				\
-> > do {								\
-> > 	static struct lock_class_key __key;			\
-> > 								\
-> > 	__devm_mutex_init(dev, (mutex), #mutex, &__key);	\
-> > } while (0);
-> >
-> >
-> > Marek =20
->=20
-> Making devm_mutex_init() a function will make all the devm_mutex share=20
-> the same lockdep key. Making it a macro will make each caller of=20
-> devm_mutex_init() have a distinct lockdep key. It all depends on whether=
-=20
-> all the devm_mutexes have the same lock usage pattern or not and whether=
-=20
-> it is possible for one devm_mutex to be nested inside another. So either=
-=20
-> way can be fine depending on the mutex usage pattern. My suggestion is=20
-> to use a function, if possible, unless it will cause a false positive=20
-> lockdep splat as there is a limit on the maximum # of lockdep keys that=20
-> can be used.
+I think I've addressed all of Andy's feedback in this round. I haven't
+heard from the ARM maintainers on any of the previous rounds. I can
+submit the dts change separately if required, I've mostly been including
+it so there is an in-tree user of the driver I'm adding.
 
-devm_mutex_init() should behave like other similar function
-initializing stuff with resource management. I.e. it should behave like
-mutex_init(), but with resource management.
+Chris Packham (3):
+  auxdisplay: Add 7-segment LED display driver
+  dt-bindings: auxdisplay: Add bindings for generic 7-segment LED
+  ARM: dts: marvell: Add 7-segment LED display on x530
 
-mutex_init() is a macro generating static lockdep key for each instance,
-so devm_mutex_init() should also generate static lockdep key for each
-instance.
+ .../bindings/auxdisplay/gpio-7-segment.yaml   |  55 +++++++++
+ .../boot/dts/marvell/armada-385-atl-x530.dts  |  13 +-
+ drivers/auxdisplay/Kconfig                    |  11 ++
+ drivers/auxdisplay/Makefile                   |   1 +
+ drivers/auxdisplay/seg-led-gpio.c             | 112 ++++++++++++++++++
+ 5 files changed, 191 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/auxdisplay/gpio-7-s=
+egment.yaml
+ create mode 100644 drivers/auxdisplay/seg-led-gpio.c
 
-Marek
+--=20
+2.43.2
+
 
