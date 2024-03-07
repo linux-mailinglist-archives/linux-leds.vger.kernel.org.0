@@ -1,93 +1,96 @@
-Return-Path: <linux-leds+bounces-1178-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1179-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68134874BF3
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 11:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA709874C7A
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 11:35:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA0F31F214B3
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 10:09:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6845E1F239B4
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 10:35:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D94F84FCF;
-	Thu,  7 Mar 2024 10:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E181485268;
+	Thu,  7 Mar 2024 10:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b="U0oRVyb/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GORjDS90"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.nic.cz (mail.nic.cz [217.31.204.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004F184FCD;
-	Thu,  7 Mar 2024 10:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.31.204.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFA784FD3;
+	Thu,  7 Mar 2024 10:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709806012; cv=none; b=frdj3+6OP4Lrs4drnbU/enbnoOXvcqRnvMN2ZNwZpL/m61pqqMSCnW4iBwlPfm4i+C6BKZC+fEqX4SHckzBMfx8UbLyS5Z1hK5gdXC/x9LcwghWFlOFZ2rXdFc+5pztIA7Utvhn0eE0PbJ1BmHVXhNPrquk99uLfHTQy9LXvg3M=
+	t=1709807735; cv=none; b=WmNP+JX1sY8oaNssNR0OfZ1ceYASlnQD6drjp8RfdGufmhF4ZjnfMtNM9CriGyOzXtq4WiVdG3oDK22xIdSKWxc0+AcxxDFEBiFFE8+MIGCIojYaszUiKM/i8521/yz/0WoCzlCoox/01ulAvN+biOegjz8W42njh1R+aB3V99I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709806012; c=relaxed/simple;
-	bh=76Jo3UVwHUPVJ1Mxh3dPGM0nxOmpEeJydflFioZTAPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6XtNifx1zOqSpGtzOpY2x7msCV/0e6XlXGxoi59zmDy6pgQ2Cs9ATXePtUUHn465yAIe+iTK4vnx3/NDdjcjPhPQugX/mjm4ZH2hjw1WMvVQc2CN6sM8phKdtaiu5nHmLHEQdSlvzME5kvuhl9xjQz8hYOm6AvMD+U4jgjI87I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz; spf=pass smtp.mailfrom=nic.cz; dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b=U0oRVyb/; arc=none smtp.client-ip=217.31.204.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nic.cz
-Received: from kandell (unknown [172.20.6.140])
-	by mail.nic.cz (Postfix) with ESMTPS id A3B251C035F;
-	Thu,  7 Mar 2024 10:56:58 +0100 (CET)
-Authentication-Results: mail.nic.cz;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-	t=1709805421; bh=76Jo3UVwHUPVJ1Mxh3dPGM0nxOmpEeJydflFioZTAPQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Reply-To:
-	 Subject:To:Cc;
-	b=U0oRVyb/byvyZefng+g9v35ujBi7vq6aYkmzvkKCrDxKkrm4GdejErIA4KhO0xVnT
-	 WUqRgmcFvpZBesK2q11bJeZP+NENK/F4uNa1T0zLPva3uD4Ifw484KchmjTu7f5Ttu
-	 hIwK7zAsQ5g2CzFLPtjyTUvjxJV5Q6v7IBTxzfwg=
-Date: Thu, 7 Mar 2024 10:56:58 +0100
-From: Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
-To: George Stark <gnstark@salutedevices.com>
-Cc: andy.shevchenko@gmail.com, pavel@ucw.cz, lee@kernel.org,
-	vadimp@nvidia.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, hdegoede@redhat.com,
-	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
-	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
-	nikitos.tr@gmail.com, kabel@kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	kernel@salutedevices.com
-Subject: Re: [PATCH v5 02/10] locking/mutex: introduce devm_mutex_init
-Message-ID: <20240307095639.b6utkbzr36liuu3p@kandell>
-References: <20240307024034.1548605-1-gnstark@salutedevices.com>
- <20240307024034.1548605-3-gnstark@salutedevices.com>
+	s=arc-20240116; t=1709807735; c=relaxed/simple;
+	bh=/TeQvUKlWImP1Pf7JVs9M4/raK0rsygDoJ49zfJikGE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kWeWCARI7xpm5qVPs3uuTL6c5kdrQIBe9Zng5c2M1GNaOfSc+rhA8w8lBzrFwpz1Xl3rTAkVUPBeiutc2ASqxfTUQReE4/kwic7RP9nwf67J+T3+sElHxbH7CJfpf5prHxSleQtrOc/aSQQsKwoPH1o0AMYPyfpZgqi4fPFBr8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GORjDS90; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a293f2280c7so123165266b.1;
+        Thu, 07 Mar 2024 02:35:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709807732; x=1710412532; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LktdwCr7E2g4+9C9lRYb0fZ1kq1OEB07GM3xOk1omb4=;
+        b=GORjDS90G2Z4/9veb1PddSshLS77camuyKsvg1pFmISNd0F7CmOMVMDQMgsSaIQ5Hp
+         B9gcbCN8PjZ1Sggj9HPs/dU9AlzUb5DSdM8zvJMrXkJyO3wf+lurcL6/UuQ/8dCPItgm
+         UDA0u/5Ev5d+HqjufsUG6VAuIkeyPSd/dP8RXlp/sOz300whpVLg+Me/OcFOqwAGsbSa
+         H/2zMbEqa0vHOZPHHsVjRQxvJPSzBMr++6js6vQr/jRPsOyZ46JWMHRgWLyE9ESYXXWi
+         p8ne9fJrpTC+ivp7YmfDnJ/YJDLtFlX3tZ4ZER51CPrj3PRMuqut8oGeGIQ8G3qLG/ng
+         muUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709807732; x=1710412532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LktdwCr7E2g4+9C9lRYb0fZ1kq1OEB07GM3xOk1omb4=;
+        b=MAXmdF8R5bbjBUvIXVGhR1pbyjcE4lIf2BB9Bov1ZAO0Q72s/IUBMCkIoe6QbT9r4a
+         DeHjHnENlt8SV1H7eq58p3977WQVMgUYhr2BqJeUMIkyM5aHDEN1d9XXlcjpzJGBktf2
+         IGqDsopLDv8AAkXpyH8YnSCztmY6SNE64vD7/A1u76OwoLZCxBy40xMIMPb0Ixdt2IVF
+         GfLEehMKi+BtbcrAqaQyBOt8OfeG6gOuz9nXjlFlxlOkCk7RghIwmjFBR1/dwQzQr9GC
+         K7LqeoDofU9ZNforx/td0fOWyuy8Yv/OwQnIAMqnMbIUJHCyqbkdR2xXj2pkYgPmSDtF
+         7IqA==
+X-Forwarded-Encrypted: i=1; AJvYcCW4KpD8H27cximGVO/rqWEhGubVfVuHAQx3hS/TvSd3MEyZDUdriCH8r6eutMj75QlDLk6rSJtJ6aeeGLJoy/4MzmL8KgQoxz7J857wDYsH+ZNLfvhvRCfc/v7XZysim1RXP8XCNqauSQ==
+X-Gm-Message-State: AOJu0Yx+DMpXIcEdw8RuNBpTmiug0GuI8o56zEweZG9zeVH5H+eR9CCg
+	2hD2yKkmnamP+NS9/fFI7ubcIgSl0kziY8h5RsxJf0ktOWvHcAevaRiC+x1tL5KpDQRKMBVo29k
+	ETDDebYnNceSHCZefhCkjm9txxljqikjCQbw=
+X-Google-Smtp-Source: AGHT+IG7MolBiSHVr/INkdjHQrA8QhTieyub8IO8rqNdLDpucjeMceusqvRWtjt+QmkAY6qqVrGrYIH/KY4d3qBfxhQ=
+X-Received: by 2002:a17:906:b2cf:b0:a45:b273:17c2 with SMTP id
+ cf15-20020a170906b2cf00b00a45b27317c2mr2858740ejb.2.1709807731966; Thu, 07
+ Mar 2024 02:35:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240307024034.1548605-1-gnstark@salutedevices.com> <20240307024034.1548605-3-gnstark@salutedevices.com>
 In-Reply-To: <20240307024034.1548605-3-gnstark@salutedevices.com>
-X-Virus-Scanned: clamav-milter 0.103.10 at mail
-X-Virus-Status: Clean
-X-Rspamd-Queue-Id: A3B251C035F
-X-Rspamd-Pre-Result: action=no action;
-	module=multimap;
-	Matched map: WHITELISTED_IP
-X-Spamd-Result: default: False [-0.10 / 20.00];
-	MIME_GOOD(-0.10)[text/plain];
-	WHITELISTED_IP(0.00)[172.20.6.140];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com]
-X-Rspamd-Action: no action
-X-Spamd-Bar: /
-X-Rspamd-Server: mail
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 7 Mar 2024 12:34:55 +0200
+Message-ID: <CAHp75VfkTxRtMc_SpXoyoVjiWxm=c6_1VjeiRFUo4C7kH4HmUA@mail.gmail.com>
+Subject: Re: [PATCH v5 02/10] locking/mutex: introduce devm_mutex_init
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au, 
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com, 
+	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com, 
+	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com, 
+	nikitos.tr@gmail.com, kabel@kernel.org, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	kernel@salutedevices.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 07, 2024 at 05:40:26AM +0300, George Stark wrote:
+On Thu, Mar 7, 2024 at 4:40=E2=80=AFAM George Stark <gnstark@salutedevices.=
+com> wrote:
+>
 > Using of devm API leads to a certain order of releasing resources.
 > So all dependent resources which are not devm-wrapped should be deleted
 > with respect to devm-release order. Mutex is one of such objects that
@@ -96,114 +99,19 @@ On Thu, Mar 07, 2024 at 05:40:26AM +0300, George Stark wrote:
 > frequently calling mutex_destroy() is just ignored which is safe for now
 > but wrong formally and can lead to a problem if mutex_destroy() will be
 > extended so introduce devm_mutex_init()
-> 
+>
 > Signed-off-by: George Stark <gnstark@salutedevices.com>
 > Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
->  Hello Christophe. Hope you don't mind I put you SoB tag because you helped alot
+
+>  Hello Christophe. Hope you don't mind I put you SoB tag because you help=
+ed alot
 >  to make this patch happen.
-> 
->  include/linux/mutex.h        | 13 +++++++++++++
->  kernel/locking/mutex-debug.c | 22 ++++++++++++++++++++++
->  2 files changed, 35 insertions(+)
-> 
-> diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-> index f7611c092db7..9bcf72cb941a 100644
-> --- a/include/linux/mutex.h
-> +++ b/include/linux/mutex.h
-> @@ -22,6 +22,8 @@
->  #include <linux/cleanup.h>
->  #include <linux/mutex_types.h>
-> 
-> +struct device;
-> +
->  #ifdef CONFIG_DEBUG_LOCK_ALLOC
->  # define __DEP_MAP_MUTEX_INITIALIZER(lockname)			\
->  		, .dep_map = {					\
-> @@ -115,10 +117,21 @@ do {							\
-> 
->  #ifdef CONFIG_DEBUG_MUTEXES
-> 
-> +int devm_mutex_init(struct device *dev, struct mutex *lock);
->  void mutex_destroy(struct mutex *lock);
-> 
->  #else
-> 
-> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
-> +{
-> +	/*
-> +	 * since mutex_destroy is nop actually there's no need to register it
-> +	 * in devm subsystem.
-> +	 */
-> +	mutex_init(lock);
-> +	return 0;
-> +}
-> +
->  static inline void mutex_destroy(struct mutex *lock) {}
-> 
->  #endif
-> diff --git a/kernel/locking/mutex-debug.c b/kernel/locking/mutex-debug.c
-> index bc8abb8549d2..c9efab1a8026 100644
-> --- a/kernel/locking/mutex-debug.c
-> +++ b/kernel/locking/mutex-debug.c
-> @@ -19,6 +19,7 @@
->  #include <linux/kallsyms.h>
->  #include <linux/interrupt.h>
->  #include <linux/debug_locks.h>
-> +#include <linux/device.h>
-> 
->  #include "mutex.h"
-> 
-> @@ -104,3 +105,24 @@ void mutex_destroy(struct mutex *lock)
->  }
-> 
->  EXPORT_SYMBOL_GPL(mutex_destroy);
-> +
-> +static void devm_mutex_release(void *res)
-> +{
-> +	mutex_destroy(res);
-> +}
-> +
-> +/**
-> + * devm_mutex_init - Resource-managed mutex initialization
-> + * @dev:	Device which lifetime mutex is bound to
-> + * @lock:	Pointer to a mutex
-> + *
-> + * Initialize mutex which is automatically destroyed when the driver is detached.
-> + *
-> + * Returns: 0 on success or a negative error code on failure.
-> + */
-> +int devm_mutex_init(struct device *dev, struct mutex *lock)
-> +{
-> +	mutex_init(lock);
-> +	return devm_add_action_or_reset(dev, devm_mutex_release, lock);
-> +}
-> +EXPORT_SYMBOL_GPL(devm_mutex_init);
 
-Hi George,
+You also need to figure out who should be the author of the patch and
+probably add a (missing) Co-developed-by. After all you should also
+follow the correct order of SoBs.
 
-look at
-https://lore.kernel.org/lkml/7013bf9e-2663-4613-ae61-61872e81355b@redhat.com/
-where Matthew and Hans explain that devm_mutex_init needs to be a macro
-because of the static lockdep key. 
-
-so this should be something like:
-
-static inline int __devm_mutex_init(struct device *dev, struct mutex *mutex,
-				    const char *name,
-				    struct lock_class_key *key)
-{
-	__mutex_init(mutex, name, key);
-	return devm_add_action_or_reset(dev, devm_mutex_release, mutex);
-}
-
-#define devm_mutex_init(dev, mutex)				\
-do {								\
-	static struct lock_class_key __key;			\
-								\
-	__devm_mutex_init(dev, (mutex), #mutex, &__key);	\
-} while (0);
-
-
-Marek
+--=20
+With Best Regards,
+Andy Shevchenko
 
