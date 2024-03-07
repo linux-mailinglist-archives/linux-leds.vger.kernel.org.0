@@ -1,169 +1,209 @@
-Return-Path: <linux-leds+bounces-1171-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1178-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC9287462B
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 03:41:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68134874BF3
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 11:09:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEA951F23EA3
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 02:41:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA0F31F214B3
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 10:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C08F98F6B;
-	Thu,  7 Mar 2024 02:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D94F84FCF;
+	Thu,  7 Mar 2024 10:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="Z25DoIxn"
+	dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b="U0oRVyb/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from mail.nic.cz (mail.nic.cz [217.31.204.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634D763C7;
-	Thu,  7 Mar 2024 02:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004F184FCD;
+	Thu,  7 Mar 2024 10:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.31.204.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709779256; cv=none; b=oMUp6qaT9Ntkra3KdftDfKlv06kA/LZfqBOWHKYDdHCYcYeH+adnI9zkMDHJRbbBoTTBYtC7TeRMXIUNJaoL9AsIKCFiFD4TLToqstdp6rvyuT3zfNah9fxWbpDb3JkCw0h6zDUTPvYY4Gf7MsPJRoJb680iiJWi4JHEtGTgdVg=
+	t=1709806012; cv=none; b=frdj3+6OP4Lrs4drnbU/enbnoOXvcqRnvMN2ZNwZpL/m61pqqMSCnW4iBwlPfm4i+C6BKZC+fEqX4SHckzBMfx8UbLyS5Z1hK5gdXC/x9LcwghWFlOFZ2rXdFc+5pztIA7Utvhn0eE0PbJ1BmHVXhNPrquk99uLfHTQy9LXvg3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709779256; c=relaxed/simple;
-	bh=vUFUEsCwm/+WnjI8Fz9CnNUsoSwU+TtLeBEcKA5W7mk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uf6eImjb58M9LVJXcTrvgmwFnvSVkeMPJ8fhRC0ezx5ShiR1vji3cQk5CabU238sakjW8k+vMHIRygTHYKrAfbNGjtRdG13yyQo76Fr6Unm210Qde26IE6B1o0AYjKXhy209NPIJl1fhMM/yHa/YCGbyzhPqjlZ3LuWtvWjoV7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=Z25DoIxn; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 4CF4A12002D;
-	Thu,  7 Mar 2024 05:40:47 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 4CF4A12002D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1709779247;
-	bh=kK6WfysHnoHnPx6m7g6/YcvxmY15e9MkbOzMlx2Ecms=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=Z25DoIxny13RFVUaWLPegVkGvGzrEAl2oayVtnHl8IGIpzQgatP+OrgyJ2/iyW+PW
-	 Yrc8IUWTpYeqFybrXKwZf+rDXAhpxEwlTRYHB662QqsmRUgDu1PjNroNJHu1HkDeMt
-	 wIxXqOTzX45R65eOe2Pnf82rZERDDGAhYycUZkolfZac3Dg5nC9MAXGcZlYSfk63ZL
-	 OlULeEgZe1iHIptHjLtq3kNAYyPAYwgEoamIDNvHUsP2PdTNxBBGVmA5//lINbGdrg
-	 m06/W2iHiC9OzgERgaIjNCWsF1RqOwdyHGWLdy/HuWagLHbmL31fn49drod0MvH/18
-	 OdYWvxX3kFPCQ==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Thu,  7 Mar 2024 05:40:47 +0300 (MSK)
-Received: from localhost.localdomain (100.125.24.169) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 7 Mar 2024 05:40:46 +0300
-From: George Stark <gnstark@salutedevices.com>
-To: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
-	<vadimp@nvidia.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
-	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
-	<nikitos.tr@gmail.com>, <kabel@kernel.org>
-CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <kernel@salutedevices.com>, George Stark
-	<gnstark@salutedevices.com>
-Subject: [PATCH v5 10/10] leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
-Date: Thu, 7 Mar 2024 05:40:34 +0300
-Message-ID: <20240307024034.1548605-11-gnstark@salutedevices.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240307024034.1548605-1-gnstark@salutedevices.com>
+	s=arc-20240116; t=1709806012; c=relaxed/simple;
+	bh=76Jo3UVwHUPVJ1Mxh3dPGM0nxOmpEeJydflFioZTAPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D6XtNifx1zOqSpGtzOpY2x7msCV/0e6XlXGxoi59zmDy6pgQ2Cs9ATXePtUUHn465yAIe+iTK4vnx3/NDdjcjPhPQugX/mjm4ZH2hjw1WMvVQc2CN6sM8phKdtaiu5nHmLHEQdSlvzME5kvuhl9xjQz8hYOm6AvMD+U4jgjI87I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz; spf=pass smtp.mailfrom=nic.cz; dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b=U0oRVyb/; arc=none smtp.client-ip=217.31.204.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nic.cz
+Received: from kandell (unknown [172.20.6.140])
+	by mail.nic.cz (Postfix) with ESMTPS id A3B251C035F;
+	Thu,  7 Mar 2024 10:56:58 +0100 (CET)
+Authentication-Results: mail.nic.cz;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+	t=1709805421; bh=76Jo3UVwHUPVJ1Mxh3dPGM0nxOmpEeJydflFioZTAPQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Reply-To:
+	 Subject:To:Cc;
+	b=U0oRVyb/byvyZefng+g9v35ujBi7vq6aYkmzvkKCrDxKkrm4GdejErIA4KhO0xVnT
+	 WUqRgmcFvpZBesK2q11bJeZP+NENK/F4uNa1T0zLPva3uD4Ifw484KchmjTu7f5Ttu
+	 hIwK7zAsQ5g2CzFLPtjyTUvjxJV5Q6v7IBTxzfwg=
+Date: Thu, 7 Mar 2024 10:56:58 +0100
+From: Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
+To: George Stark <gnstark@salutedevices.com>
+Cc: andy.shevchenko@gmail.com, pavel@ucw.cz, lee@kernel.org,
+	vadimp@nvidia.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	christophe.leroy@csgroup.eu, hdegoede@redhat.com,
+	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
+	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
+	nikitos.tr@gmail.com, kabel@kernel.org, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	kernel@salutedevices.com
+Subject: Re: [PATCH v5 02/10] locking/mutex: introduce devm_mutex_init
+Message-ID: <20240307095639.b6utkbzr36liuu3p@kandell>
 References: <20240307024034.1548605-1-gnstark@salutedevices.com>
+ <20240307024034.1548605-3-gnstark@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: p-i-exch-a-m1.sberdevices.ru (172.24.196.116) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s, ApMailHostAddress: 100.125.24.169
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240307024034.1548605-3-gnstark@salutedevices.com>
+X-Virus-Scanned: clamav-milter 0.103.10 at mail
+X-Virus-Status: Clean
+X-Rspamd-Queue-Id: A3B251C035F
+X-Rspamd-Pre-Result: action=no action;
+	module=multimap;
+	Matched map: WHITELISTED_IP
+X-Spamd-Result: default: False [-0.10 / 20.00];
+	MIME_GOOD(-0.10)[text/plain];
+	WHITELISTED_IP(0.00)[172.20.6.140];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com]
+X-Rspamd-Action: no action
+X-Spamd-Bar: /
+X-Rspamd-Server: mail
 
-This driver wants to keep its LEDs state after module is removed
-and implemented it in its own way. LED subsystem supports dedicated
-flag LED_RETAIN_AT_SHUTDOWN for the same purpose so use the flag
-instead of custom implementation.
+On Thu, Mar 07, 2024 at 05:40:26AM +0300, George Stark wrote:
+> Using of devm API leads to a certain order of releasing resources.
+> So all dependent resources which are not devm-wrapped should be deleted
+> with respect to devm-release order. Mutex is one of such objects that
+> often is bound to other resources and has no own devm wrapping.
+> Since mutex_destroy() actually does nothing in non-debug builds
+> frequently calling mutex_destroy() is just ignored which is safe for now
+> but wrong formally and can lead to a problem if mutex_destroy() will be
+> extended so introduce devm_mutex_init()
+> 
+> Signed-off-by: George Stark <gnstark@salutedevices.com>
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> ---
+>  Hello Christophe. Hope you don't mind I put you SoB tag because you helped alot
+>  to make this patch happen.
+> 
+>  include/linux/mutex.h        | 13 +++++++++++++
+>  kernel/locking/mutex-debug.c | 22 ++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+> index f7611c092db7..9bcf72cb941a 100644
+> --- a/include/linux/mutex.h
+> +++ b/include/linux/mutex.h
+> @@ -22,6 +22,8 @@
+>  #include <linux/cleanup.h>
+>  #include <linux/mutex_types.h>
+> 
+> +struct device;
+> +
+>  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>  # define __DEP_MAP_MUTEX_INITIALIZER(lockname)			\
+>  		, .dep_map = {					\
+> @@ -115,10 +117,21 @@ do {							\
+> 
+>  #ifdef CONFIG_DEBUG_MUTEXES
+> 
+> +int devm_mutex_init(struct device *dev, struct mutex *lock);
+>  void mutex_destroy(struct mutex *lock);
+> 
+>  #else
+> 
+> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
+> +{
+> +	/*
+> +	 * since mutex_destroy is nop actually there's no need to register it
+> +	 * in devm subsystem.
+> +	 */
+> +	mutex_init(lock);
+> +	return 0;
+> +}
+> +
+>  static inline void mutex_destroy(struct mutex *lock) {}
+> 
+>  #endif
+> diff --git a/kernel/locking/mutex-debug.c b/kernel/locking/mutex-debug.c
+> index bc8abb8549d2..c9efab1a8026 100644
+> --- a/kernel/locking/mutex-debug.c
+> +++ b/kernel/locking/mutex-debug.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/kallsyms.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/debug_locks.h>
+> +#include <linux/device.h>
+> 
+>  #include "mutex.h"
+> 
+> @@ -104,3 +105,24 @@ void mutex_destroy(struct mutex *lock)
+>  }
+> 
+>  EXPORT_SYMBOL_GPL(mutex_destroy);
+> +
+> +static void devm_mutex_release(void *res)
+> +{
+> +	mutex_destroy(res);
+> +}
+> +
+> +/**
+> + * devm_mutex_init - Resource-managed mutex initialization
+> + * @dev:	Device which lifetime mutex is bound to
+> + * @lock:	Pointer to a mutex
+> + *
+> + * Initialize mutex which is automatically destroyed when the driver is detached.
+> + *
+> + * Returns: 0 on success or a negative error code on failure.
+> + */
+> +int devm_mutex_init(struct device *dev, struct mutex *lock)
+> +{
+> +	mutex_init(lock);
+> +	return devm_add_action_or_reset(dev, devm_mutex_release, lock);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_mutex_init);
 
-Signed-off-by: George Stark <gnstark@salutedevices.com>
----
- drivers/leds/leds-powernv.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+Hi George,
 
-diff --git a/drivers/leds/leds-powernv.c b/drivers/leds/leds-powernv.c
-index 4f01acb75727..9c6fb7d6e0e7 100644
---- a/drivers/leds/leds-powernv.c
-+++ b/drivers/leds/leds-powernv.c
-@@ -30,15 +30,6 @@ static const struct led_type_map led_type_map[] = {
- };
- 
- struct powernv_led_common {
--	/*
--	 * By default unload path resets all the LEDs. But on PowerNV
--	 * platform we want to retain LED state across reboot as these
--	 * are controlled by firmware. Also service processor can modify
--	 * the LEDs independent of OS. Hence avoid resetting LEDs in
--	 * unload path.
--	 */
--	bool		led_disabled;
--
- 	/* Max supported LED type */
- 	__be64		max_led_type;
- 
-@@ -178,10 +169,6 @@ static int powernv_brightness_set(struct led_classdev *led_cdev,
- 	struct powernv_led_common *powernv_led_common = powernv_led->common;
- 	int rc;
- 
--	/* Do not modify LED in unload path */
--	if (powernv_led_common->led_disabled)
--		return 0;
--
- 	mutex_lock(&powernv_led_common->lock);
- 	rc = powernv_led_set(powernv_led, value);
- 	mutex_unlock(&powernv_led_common->lock);
-@@ -225,6 +212,14 @@ static int powernv_led_create(struct device *dev,
- 
- 	powernv_led->cdev.brightness_set_blocking = powernv_brightness_set;
- 	powernv_led->cdev.brightness_get = powernv_brightness_get;
-+	/*
-+	 * By default unload path resets all the LEDs. But on PowerNV
-+	 * platform we want to retain LED state across reboot as these
-+	 * are controlled by firmware. Also service processor can modify
-+	 * the LEDs independent of OS. Hence avoid resetting LEDs in
-+	 * unload path.
-+	 */
-+	powernv_led->cdev.flags = LED_RETAIN_AT_SHUTDOWN;
- 	powernv_led->cdev.brightness = LED_OFF;
- 	powernv_led->cdev.max_brightness = LED_FULL;
- 
-@@ -313,9 +308,7 @@ static void powernv_led_remove(struct platform_device *pdev)
- {
- 	struct powernv_led_common *powernv_led_common;
- 
--	/* Disable LED operation */
- 	powernv_led_common = platform_get_drvdata(pdev);
--	powernv_led_common->led_disabled = true;
- 
- 	/* Destroy lock */
- 	mutex_destroy(&powernv_led_common->lock);
--- 
-2.25.1
+look at
+https://lore.kernel.org/lkml/7013bf9e-2663-4613-ae61-61872e81355b@redhat.com/
+where Matthew and Hans explain that devm_mutex_init needs to be a macro
+because of the static lockdep key. 
 
+so this should be something like:
+
+static inline int __devm_mutex_init(struct device *dev, struct mutex *mutex,
+				    const char *name,
+				    struct lock_class_key *key)
+{
+	__mutex_init(mutex, name, key);
+	return devm_add_action_or_reset(dev, devm_mutex_release, mutex);
+}
+
+#define devm_mutex_init(dev, mutex)				\
+do {								\
+	static struct lock_class_key __key;			\
+								\
+	__devm_mutex_init(dev, (mutex), #mutex, &__key);	\
+} while (0);
+
+
+Marek
 
