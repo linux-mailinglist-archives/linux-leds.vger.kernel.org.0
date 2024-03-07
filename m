@@ -1,144 +1,217 @@
-Return-Path: <linux-leds+bounces-1165-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1170-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DEC8744B7
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 00:50:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F113D87462C
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 03:41:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F699284241
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Mar 2024 23:50:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 686B9B2228B
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 02:41:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF711CD21;
-	Wed,  6 Mar 2024 23:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5B137492;
+	Thu,  7 Mar 2024 02:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="pKRsTPww"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="EJoHJad7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A71CA83
-	for <linux-leds@vger.kernel.org>; Wed,  6 Mar 2024 23:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6843E3D71;
+	Thu,  7 Mar 2024 02:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709769036; cv=none; b=lZ+/k2C/Gg81fEkg5snYCyvqU+WxzG0lCAicjzAu/CxBT72SMV5vr7/3f2xffzKMKnbhJDmmvvglLu60G2+9fODlhcxWidvgy1FJv83MoK9DTjO5/B7u2Q6v2Q//33lLPTOqI4Hy0n83bEa8SVObFhQ5OMNV2O0ekO18KiUBsRE=
+	t=1709779256; cv=none; b=rfQP4T2uhisxUc47EMS/YHWRC5T1butdsoRpKf7wJwMLcAkNzocfR4ISW2FA9/1NEtDPQHd6tqOhg5pq6CjpRVGdXBFIoZaqdF1HqV5Nsg3n3+m4TMl1P3ecwoiJhFVSLINUNivEVypXaGoVcaVG8Mb31fi6G/iSEWMRiZFgVQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709769036; c=relaxed/simple;
-	bh=U+D/K8p4oppEdsGsoshGKHE1AK3NIrOT3Q8TDbUIqts=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DnglHFB0+IhFE4ibvLqETk9xVfR/rTMEBb382e3Y4WFJC4qt531vGIX5yhHtuc/avjCG9nn4ptpmcD2YP09ZPGLEHEbtKELeV5AdKp8CMb2fOrJ1sL6YKyGe5Ot2EsR7sL5fSZhEIRVzpd7krckDgCLB4xiKBQhRoItWWcbe7wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=pKRsTPww; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id D3EEB2C02A7;
-	Thu,  7 Mar 2024 12:50:25 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1709769025;
-	bh=hEo6KY4W7nBtXqY6R2q5MzGe77wJMePNpigq9T0aJNo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pKRsTPww1ig7X3A3xybGBb8ThKNywhmJG3Id8AYlCo1RI48WusHqiPauBUWy9k4hQ
-	 dnKukgmXlQUApW6+O0cma2s0bFG0wAByeu8PgJajcpmVJT+N5GS2GLn4FY1LBMz4cI
-	 QrLL6W2jH5THvt+x0sKGxHn4bo0iLEIXOLWbbng8Gx7AKB1EYQB48Ky9TAGoE/klwj
-	 BXcuwSpVL9e059w+7w6rZmaJGV81uCTCXLwdVtCrupF/qUcBYHWtX5NMNA4+ckrIFp
-	 J1plG3bhFaAQHuURmI6nzrs0jOBgZPdDQgGtzT7nH2pgpQRWKpLc9/S8OTXLu0ZoN8
-	 A0KV/ere64gLQ==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65e901410003>; Thu, 07 Mar 2024 12:50:25 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id 8A33513EE8E;
-	Thu,  7 Mar 2024 12:50:25 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id 873F1280B6D; Thu,  7 Mar 2024 12:50:25 +1300 (NZDT)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: andy@kernel.org,
-	geert@linux-m68k.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	andrew@lunn.ch,
-	gregory.clement@bootlin.com,
-	sebastian.hesselbarth@gmail.com,
-	lee@kernel.org
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on x530
-Date: Thu,  7 Mar 2024 12:50:21 +1300
-Message-ID: <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
-References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
+	s=arc-20240116; t=1709779256; c=relaxed/simple;
+	bh=tk03ESdaCLwe0SKYbUDfAaJtOBTkMyi8LurzwxtYpSU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B9flnptbTzA0WbyMtX501wUsKlfwVdoz1nO1uZHOz7eN0Nx3k+H4pBm5AYpkIyX63+TDC1gjWouE+i5CWkzGQtwm+Bu6yP7EKtQK/Tw9ZUPAVBL5Jh1QiIHr1qAOVjBW5ROMGv9kdWvalb+F+2MYQpT4vbvZPW2EvwbwlwPBjjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=EJoHJad7; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id C62B410000B;
+	Thu,  7 Mar 2024 05:40:44 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru C62B410000B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1709779244;
+	bh=UeNmy3U2L3ZKGxtCqmcJ4OPlsyPvCww7Mr3cs0QeK+U=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=EJoHJad7g+MuYBUHgDUkUojZ4E4Mb2hJI+XCn0cIQBabbrxWGDD/aEGN70nqJvekj
+	 wT08b8S7QbsThcsRqfKb35D8MYtOYnInlazPA0KMdreWes9+aTlpN4QCJlEA7LOwMQ
+	 lmXsfbSY90huLjlKa/pVkQRF946MQkyTj8VH0GzF0OxUnyMx0Rd9/e3xr3iZy6y+o5
+	 nBinH11FX5I/7f6bfJJJ0fd0ind5xEUU2m1/dpyT9DZEGByeW1gZHgp8Xc9+v54Pdn
+	 k+h2aQ349zCHIcixidkmvRRnqYJ2FE3xmC+uU1t9088tVIJBd+0uBAH/l6+PeRD+C4
+	 GHlU8SnmgNLHA==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Thu,  7 Mar 2024 05:40:44 +0300 (MSK)
+Received: from localhost.localdomain (100.125.24.169) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 7 Mar 2024 05:40:44 +0300
+From: George Stark <gnstark@salutedevices.com>
+To: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
+	<vadimp@nvidia.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
+	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
+	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
+	<nikitos.tr@gmail.com>, <kabel@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <kernel@salutedevices.com>, George Stark
+	<gnstark@salutedevices.com>
+Subject: [PATCH v5 00/10] devm_led_classdev_register() usage problem
+Date: Thu, 7 Mar 2024 05:40:24 +0300
+Message-ID: <20240307024034.1548605-1-gnstark@salutedevices.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e90141 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=K6JAEmCyrfEA:10 a=Eze4_Z_RUzIZFoL9sA8A:9 a=3ZKOabzyN94A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-a-m1.sberdevices.ru (172.24.196.116) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.3
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_urls_end_caps}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s, ApMailHostAddress: 100.125.24.169
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/02/29 16:52:00
+X-KSMG-LinksScanning: Clean, bases: 2024/02/29 16:52:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-The Allied Telesis x530 products have a 7-segment LED display which is
-used for node identification when the devices are stacked. Represent
-this as a gpio-7-segment device.
+This patch series fixes the problem of devm_led_classdev_register misusing.
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
+The basic problem is described in [1]. Shortly when devm_led_classdev_register()
+is used then led_classdev_unregister() called after driver's remove() callback.
+led_classdev_unregister() calls driver's brightness_set callback and that callback
+may use resources which were destroyed already in driver's remove().
 
-Notes:
-    Changes in v5:
-    - group GPIO specifiers
-    Changes in v4:
-    - Use correct compatible name in commit message
-    Changes in v3:
-    - Use compatible =3D "gpio-7-segment" as suggested by Rob
-    Changes in v2:
-    - Use compatible =3D "generic-gpio-7seg" to keep checkpatch.pl happy
+After discussion with maintainers [2] [3] we decided:
+1) don't touch led subsytem core code and don't remove led_set_brightness() from it
+but fix drivers
+2) don't use devm_led_classdev_unregister
 
- arch/arm/boot/dts/marvell/armada-385-atl-x530.dts | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+So the solution is to use devm wrappers for all resources
+driver's brightness_set() depends on. And introduce dedicated devm wrapper
+for mutex as it's often used resource.
 
-diff --git a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts b/arch/arm=
-/boot/dts/marvell/armada-385-atl-x530.dts
-index 5a9ab8410b7b..2fb7304039be 100644
---- a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-+++ b/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-@@ -43,6 +43,17 @@ uart0: serial@12000 {
- 			};
- 		};
- 	};
-+
-+	led-7seg {
-+		compatible =3D "gpio-7-segment";
-+		segment-gpios =3D <&led_7seg_gpio 0 GPIO_ACTIVE_LOW>,
-+				<&led_7seg_gpio 1 GPIO_ACTIVE_LOW>,
-+				<&led_7seg_gpio 2 GPIO_ACTIVE_LOW>,
-+				<&led_7seg_gpio 3 GPIO_ACTIVE_LOW>,
-+				<&led_7seg_gpio 4 GPIO_ACTIVE_LOW>,
-+				<&led_7seg_gpio 5 GPIO_ACTIVE_LOW>,
-+				<&led_7seg_gpio 6 GPIO_ACTIVE_LOW>;
-+	};
- };
-=20
- &pciec {
-@@ -149,7 +160,7 @@ i2c@3 {
- 			#size-cells =3D <0>;
- 			reg =3D <3>;
-=20
--			gpio@20 {
-+			led_7seg_gpio: gpio@20 {
- 				compatible =3D "nxp,pca9554";
- 				gpio-controller;
- 				#gpio-cells =3D <2>;
---=20
-2.43.2
+[1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
+[2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
+[3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
+
+Changelog:
+v1->v2:
+	revise patch series completely
+
+v2->v3:
+locking: add define if mutex_destroy() is not an empty function
+	new patch, discussed here [8]
+
+devm-helpers: introduce devm_mutex_init
+	previous version [4]
+	- revise code based on mutex_destroy define
+	- update commit message
+	- update devm_mutex_init()'s description
+
+leds: aw2013: unlock mutex before destroying it
+	previous version [5]
+	- make this patch first in the series
+	- add tags Fixes and RvB by Andy
+
+leds: aw2013: use devm API to cleanup module's resources
+	previous version [6]
+	- make aw2013_chip_disable_action()'s body oneline
+	- don't shadow devm_mutex_init() return code
+
+leds: aw200xx: use devm API to cleanup module's resources
+	previous version [7]
+	- make aw200xx_*_action()'s bodies oneline
+	- don't shadow devm_mutex_init() return code
+
+leds: lm3532: use devm API to cleanup module's resources
+leds: nic78bx: use devm API to cleanup module's resources
+leds: mlxreg: use devm_mutex_init for mutex initializtion
+leds: an30259a: use devm_mutext_init for mutext initialization
+leds: powernv: add LED_RETAIN_AT_SHUTDOWN flag for leds
+	- those pathes were planned but not sent in the series #2 due to mail server
+	problem on my side. I revised them according to the comments.
+
+v3->v4:
+locking: introduce devm_mutex_init
+	new patch
+	- move devm_mutex_init implementation completely from devm-helpers.h to mutex.h
+
+locking: add define if mutex_destroy() is not an empty function
+	drop the patch [9]
+
+devm-helpers: introduce devm_mutex_init
+	drop the patch [10]
+
+leds: aw2013: use devm API to cleanup module's resources
+	- add tag Tested-by: Nikita Travkin <nikita@trvn.ru>
+
+v4->v5:
+leds: aw2013: unlock mutex before destroying it
+	merged separately and removed from the series
+
+locking/mutex: move mutex_destroy() definition lower
+	introduce optional refactoring patch
+
+locking/mutex: introduce devm_mutex_init
+	leave only one devm_mutex_init definition
+	add tag Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+
+leds* patches
+	remove #include <linux/devm-helpers.h> due to devm_mutext_init in mutex.h now
+
+[4] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mf500af0eda2a9ffc95594607dbe4cb64f2e3c9a8
+[5] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mc92df4fb4f7d4187fb01cc1144acfa5fb5230dd2
+[6] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m300df89710c43cc2ab598baa16c68dd0a0d7d681
+[7] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m8e5c65e0c6b137c91fa00bb9320ad581164d1d0b
+[8] https://lore.kernel.org/lkml/377e4437-7051-4d88-ae68-1460bcd692e1@redhat.com/T/#m5f84a4a2f387d49678783e652b9e658e02c27450
+[9] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m19ad1fc04c560012c1e27418e3156d0c9306dd84
+[10] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m63126025f5d1bdcef69bcad50f2e58274d42e2d
+
+George Stark (10):
+  locking/mutex: move mutex_destroy() definition lower
+  locking/mutex: introduce devm_mutex_init
+  leds: aw2013: use devm API to cleanup module's resources
+  leds: aw200xx: use devm API to cleanup module's resources
+  leds: lp3952: use devm API to cleanup module's resources
+  leds: lm3532: use devm API to cleanup module's resources
+  leds: nic78bx: use devm API to cleanup module's resources
+  leds: mlxreg: use devm_mutex_init for mutex initializtion
+  leds: an30259a: use devm_mutext_init for mutext initialization
+  leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
+
+ drivers/leds/leds-an30259a.c | 14 ++++----------
+ drivers/leds/leds-aw200xx.c  | 32 +++++++++++++++++++++-----------
+ drivers/leds/leds-aw2013.c   | 25 +++++++++++++------------
+ drivers/leds/leds-lm3532.c   | 29 +++++++++++++++++------------
+ drivers/leds/leds-lp3952.c   | 21 +++++++++++----------
+ drivers/leds/leds-mlxreg.c   | 14 +++++---------
+ drivers/leds/leds-nic78bx.c  | 23 +++++++++++++----------
+ drivers/leds/leds-powernv.c  | 23 ++++++++---------------
+ include/linux/mutex.h        | 27 +++++++++++++++++++++++----
+ kernel/locking/mutex-debug.c | 22 ++++++++++++++++++++++
+ 10 files changed, 137 insertions(+), 93 deletions(-)
+
+--
+2.25.1
 
 
