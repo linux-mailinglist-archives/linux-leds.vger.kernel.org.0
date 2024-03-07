@@ -1,61 +1,55 @@
-Return-Path: <linux-leds+bounces-1180-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1181-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AD2874E9C
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 13:07:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EED7C874EF5
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 13:25:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78FB21C20B50
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 12:07:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C9441C21501
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Mar 2024 12:25:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1D38129A75;
-	Thu,  7 Mar 2024 12:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CC4C12A154;
+	Thu,  7 Mar 2024 12:25:55 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E813233;
-	Thu,  7 Mar 2024 12:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC4E85295;
+	Thu,  7 Mar 2024 12:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709813262; cv=none; b=tgPmyok/egrUl9UwUEqLcMzrtSSiF4/Nn5C5ucX48zcaEOspaNzgEIt6DB5yTnLmpjYQevzLTBy70ruIMLsTxPAqkFj7gKTKzvYv87hxciqWAdWfYxBQYqT3gfEa88qW/uFOAfR+ykdcfrBqW4Dl83SPJlLqP+ZAUmd7hrIx4M8=
+	t=1709814354; cv=none; b=Sb12sBRu/452HFx090TNB51WpKNYyIZxsLb8BFT7oiax7S6PxsAJRQZgqcoXJdTFnk0e3zlKgSQft0RrfwLQ6lTd8ReV7jyj2p+NiPMRY5pQrhPvxKooAQaANtujxzBvSTtz4syJ1er7XgpfHl5exYpYFhO/QeXVVIKsBLgPEMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709813262; c=relaxed/simple;
-	bh=QMIfzGcY3K+mHYmT4fNfZyE3xXCFUNGyqDsOWla87Ug=;
+	s=arc-20240116; t=1709814354; c=relaxed/simple;
+	bh=2sQ6QNZ2K1G2r3QDWhMiXqkpedXGZVYgJ0ezD0rSlJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6Kv2f+f8oCrNX8OQhAHSji3W7OQF6UNtmCtw2ZOh3t07tJZdmqEwIAocdguc5H3XOmYmQzcZGY2TIOyNqUhph20jxrfsCT6u/VGCFN3zxrjvQF0aVhXCPnLOr9ife1rKDiKiUkoRXLU5MDBO6JioQ/a7/9fgnRaSulT4LiCO4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4341743"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="4341743"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 04:07:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="914212665"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="914212665"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 04:07:37 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy@kernel.org>)
-	id 1riCX8-0000000AYR2-1Pve;
-	Thu, 07 Mar 2024 14:07:34 +0200
-Date: Thu, 7 Mar 2024 14:07:34 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: geert@linux-m68k.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	andrew@lunn.ch, gregory.clement@bootlin.com,
-	sebastian.hesselbarth@gmail.com, lee@kernel.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 0/3] auxdisplay: 7-segment LED display
-Message-ID: <ZemuBvyP24kNH0ZK@smile.fi.intel.com>
-References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gqV0sICF+dJHuOATG9XOpsufR47Dmxz+uyzSnuy2SjrHOBLqTfYRKxrEdcgQ3Pi4YGvzi1l9oDYbiCiWsVFbJ58MlM5LC+ae9u81LL2ImzimYL1XUwMI/WXCATM7jsfCnpu8xDBZwfNB9CFOrUbNUChgIo/okisc95PGNETjzQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.78.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout2.hostsharing.net (Postfix) with ESMTPS id AFBE62800BDAF;
+	Thu,  7 Mar 2024 13:25:42 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 86BC5415D5D; Thu,  7 Mar 2024 13:25:42 +0100 (CET)
+Date: Thu, 7 Mar 2024 13:25:42 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-leds@vger.kernel.org,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
+ support
+Message-ID: <ZemyRj63v07Rj4Vu@wunner.de>
+References: <20240215142345.6073-3-mariusz.tkaczyk@linux.intel.com>
+ <20240306224008.GA554220@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,25 +58,50 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240306224008.GA554220@bhelgaas>
 
-On Thu, Mar 07, 2024 at 12:50:18PM +1300, Chris Packham wrote:
-> This series adds a driver for a 7-segment LED display.
+On Wed, Mar 06, 2024 at 04:40:08PM -0600, Bjorn Helgaas wrote:
+> On Thu, Feb 15, 2024 at 03:23:45PM +0100, Mariusz Tkaczyk wrote:
+> > The interface is ready to support enclosures where patterns are not
+> > mutually exclusive, driver may clear other LEDs if they cannot be enabled
+> > together.
 > 
-> I think I've addressed all of Andy's feedback in this round. I haven't
-> heard from the ARM maintainers on any of the previous rounds. At Andy's
-> request I've dropped the USB LED change as it's not related. I can
-> submit the dts change separately if required, I've mostly been including
-> it so there is an in-tree user of the driver I'm adding.
+> I don't think this code does anything like "clearing other LEDs," does
+> it?  I agree that this code doesn't impose any constraints about
+> indications being mutually exclusive, etc.  It merely sets or clears
+> indication bits, and the hardware implementation is free to interpret
+> that as it sees fit.
 
-All LGTM, I need a Geert's Ack/Rb on the first one and DT maintainer on
-the second. The third one I have no clue by heart who, but somebody related
-should also give a tag.
+I guess the paragraph needs to be rephrased.  The point is that
+if this NPEM driver sets bit A and another bit B is already set,
+and the hardware is incapable of lighting up whatever is controlled
+by these two bits *simultaneously*, the hardware might clear bit B
+when setting bit A.  The driver can cope with that because
+npem_set() reads back the register contents with npem_read_reg()
+after calling npem_set_active_patterns().
 
--- 
-With Best Regards,
-Andy Shevchenko
 
+> > +	/*
+> > +	 * For the case where a NPEM command has not completed immediately,
+> > +	 * it is recommended that software not continuously ???spin??? on polling
+> > +	 * the status register, but rather poll under interrupt at a reduced
+> > +	 * rate; for example at 10 ms intervals.
+> > +	 *
+> > +	 * PCIe r6.1 sec 6.28 "Implementation Note: Software Polling of NPEM
+> > +	 * Command Completed"
+> 
+> The implementation note also recommends reversing the order, i.e.,
+> polling for completion of previous command and then writing a new
+> command, but it looks like we don't use that strategy?
 
+I think the leds subsystem expects the LED to be lit up by the time
+the ->brightness_set_blocking() callback returns.  If the driver waited
+for command completion *before* setting a bit instead of afterwards,
+it could happen that npem_set() (the ->brightness_set_blocking() callback)
+returns even though the command hasn't completed yet and the LED thus
+isn't lit up yet.
+
+Thanks,
+
+Lukas
 
