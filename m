@@ -1,113 +1,115 @@
-Return-Path: <linux-leds+bounces-1195-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1196-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87E0875F3E
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 09:18:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 860BB876163
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 10:56:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 744032823B9
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 08:18:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 230081F22416
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 09:56:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B326364C6;
-	Fri,  8 Mar 2024 08:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0C2537FC;
+	Fri,  8 Mar 2024 09:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VmIoS585"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A01E2C85C;
-	Fri,  8 Mar 2024 08:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB68C535BA;
+	Fri,  8 Mar 2024 09:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709885879; cv=none; b=Z8s12nn/mAE8KuA6QPzVk4kSkkHLsp7waApoiawhBN9j31ClesN6zYRmBBYxvVxY+vzPRmkUa1rjr9q7s/WHsvFhLSHZMXs5TyI6t5ZpW9W9Ffpu7UonBphVzwE+hWXHzBRDNUkjkDrTlZ1dgNJOqB7FftAN0LeQtFaaIAeWMEI=
+	t=1709891809; cv=none; b=FCvv4HmZ2IBhR4nx73Nf873Alm7phE4PBlCmm8s9+fizh4zgW6zQA9ZvnbaZ9R1KM40DQSCl+nGhOqLQlbVjFaQyAsCiPJwn2j5KvCSWgmf+Yr+IB7mgOO1zOdjYMIqL711Jt9E33sG8fmylqnaZIkSVtSRgmo5wFPnULO4yVc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709885879; c=relaxed/simple;
-	bh=T7iublfK+ZPIwjrzAGmCfYEsCsxVNUG2x0R+fC7UVD0=;
+	s=arc-20240116; t=1709891809; c=relaxed/simple;
+	bh=55ZsZsM23dDpjtV/FwUzKlyNeM4KZjQdEa/eD7xqQ1s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=te6L1BkAyxdkCiUWtGA5DxDomnOPAvkHa/+NesdB9ysvUQ7jN8npWpUW7IWQHKNLXgkxFA7j0k+1GbOfPrnjDtEZJC2UVVKBZHLtVRGnlqxB69hGv65Ydp4tLAgeIYGWVii8MxqmeBI2Dmsvci10CoOFmEUm/Za5Ul7MT6wxe4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=Mr3g8CWSAvcKL2e/wjPRFKpmYdrUftwYtNBY25hW5bBK/baWQWxCRfltsbfH6DvMRABi10EOFuyVX2z5atet0KNYpDED6YyMAjFmcW/K4zX+f1LyAuRGKRSsX2i8/JsCK+kMn6GEv6wCbr4SHbXWhOm1JXcrtEU8EQKHxmRteMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VmIoS585; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso1820558276.1;
-        Fri, 08 Mar 2024 00:17:56 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5683093ffbbso386798a12.1;
+        Fri, 08 Mar 2024 01:56:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709891806; x=1710496606; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=55ZsZsM23dDpjtV/FwUzKlyNeM4KZjQdEa/eD7xqQ1s=;
+        b=VmIoS5850U2l1YXcE15Bthw0XNfQBCNAlskUSOQ7xJT4/hK94Oo185ol694Tpv/CZH
+         3sMDLpezp4OYjTRG17KAqmoUsPrHF3JbZOlwk+KX7PcSz7nFcGkKSsjxAL/dCEq5GHeW
+         WOaLIvWCo0Dwk1h5njl5MneoVlJ0fNXlpyxEfjY9Q0Keb3ExZV/EBSSnn8Dq+NUDGIQC
+         hpBUxpF/XbeUk20tjJLAGlX6eAI9OxyyFLCkQIZebpDDeOWCSz2e9x+UhuErsDTUenwp
+         wLwqk92e72MF1aU7QT9ICUO1jRQpCt+40qyiNW6TrtvF4vzFqfVSxZ7/86X+YmhPHx1A
+         OTDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709885875; x=1710490675;
+        d=1e100.net; s=20230601; t=1709891806; x=1710496606;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8/IkhyCdM4H5HfWEwIeyhRcVXKn1ukDp4iKJkf4mNGA=;
-        b=NDycTDIY1yCPGQNB5V28BJH0RbIXc0URL4POjUvNUYTkA6DrpTKBUssO/IfYSzbCn0
-         cL4FX0bEjLhUaAu0LEnLMUIoMlTPrURf/4rkzfxT1KZ2XvLCbTbvLbMfNUK7eoK52eBz
-         UOEKEsoHYZTcS35BYv+C757/8S/svJZ/oauEHdRKAanRN80hk+y4WhcN/HsS4U/yCOPk
-         b30noLs4UMUKDrQnJwhSVA9xpU9g8dsX9RKkXEvM7u9h2IDu35GQf7MHwPw3sjIl01TD
-         RScO6LqIBOaXpE5UcU1h3MPrfMsw8u8Km5HRlh5L+fTYFfSsz/OIsUCYjW7lvqPlh6zM
-         daig==
-X-Forwarded-Encrypted: i=1; AJvYcCVjGBRmFeLCePYSpq7Eydw9Z3eooM09YMIQTI3b054CETzD0rGzfytG64YnQtqytMsORvn6CvHp7HI+Yor5/u59pz63EVxUNbEikkm9D1IwUYWMCLaezGEprrX0M2VlqrVn517XWNQ4gvsQUmyRvxzLnHrvfxwYjTz1zN2o/8BgNZYTtoI=
-X-Gm-Message-State: AOJu0YxEZrR4WV2Thi+ydNJ4Rva1v7dEjpQb2FSBaMkrDOsXbiEBfQyq
-	VFka5vroDggTQa+wH+tSWtSNLb5pI4hQu4U1k7ubnWvFJ4I7Fo45tm79+mMys5U=
-X-Google-Smtp-Source: AGHT+IEKMt7G5aS4iy5Q3WxlP8Jd0vN1xTpEQGoYNCKx8QP5UOLMrdqA13fuwwWLveT2QklPvnSeMA==
-X-Received: by 2002:a25:cec6:0:b0:dc7:5a73:184e with SMTP id x189-20020a25cec6000000b00dc75a73184emr19778154ybe.14.1709885874790;
-        Fri, 08 Mar 2024 00:17:54 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id l2-20020a5b0582000000b00dcd56356c80sm3712557ybp.47.2024.03.08.00.17.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Mar 2024 00:17:54 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-609408d4b31so18758987b3.0;
-        Fri, 08 Mar 2024 00:17:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU+3vr2D0j1sqMM0zQNtjRgefxX2TXZ8eAqoNNdun02qXsxN3vsslwuKLxRDRaxMIFGwp5Q4yGgpAKgS90ryI8kN/eKPIJNg/uM8REvLiAYI5NZ26/TE4zEHI7n1J53R1KnVSsN8locwOZU/zTgrL7NQVC6wpf0SwLz98ejEsm6CQYEQwU=
-X-Received: by 2002:a81:48ce:0:b0:609:fe55:20a1 with SMTP id
- v197-20020a8148ce000000b00609fe5520a1mr2739599ywa.44.1709885873954; Fri, 08
- Mar 2024 00:17:53 -0800 (PST)
+        bh=55ZsZsM23dDpjtV/FwUzKlyNeM4KZjQdEa/eD7xqQ1s=;
+        b=F/GG0ZIDERyj8F+LcZGRC3FZ+RDCrLT3WpSlNs1p3eKmjYepy8GyVJC5YEwPBuNdmE
+         z0/wBt8eEpLIUBwbXnY8GHtBgdplWr7e2tC1tQmMXh5cPhDpPThVDKJdzQa0oAlxRg7v
+         qnF3gjn9zWjcdx7Y8P5gxR/OivqlFN1l9OtwdzaHwtXcYXu2cpygFolQExEgm36jEej8
+         TRmffNDE3ukXsFlYRyEnwmQRwgPRBjrLOvVz427KzZuQa3Qtqc4q0Ibs7jhHHTWQnj9n
+         xksP6hRubD9ODMzBznA33s+c6TB/UZd1RJBtJ0DOQ2RMURgSriBDJZKpq8/TtWBf07KG
+         4x7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVBHzBeCFWMGsHQIl1Ekorb7YwzCwaxhnQjtM/s1FMIU29NNW/pCGW/5eRTnCZcgDJUShcntCGYlkG7qSKTus1VX6OUyKQByTZNfh9i0bCDN8ocst9iMjqUxlwjFCJAH9E64jrB3SEnOOnsn9Q/hkwRFSXvp64wNQZ+WLtznq9INr7bJpI=
+X-Gm-Message-State: AOJu0YzVEJqL1fLncu+uGRW6sys5d5JFIXQXzfVrq2HOIq89NhDMmh38
+	BgbYrwe3vKYTg5OHlR9W0I6kjqkb7xbrUCKQEYHx2wG5a7yDpfWrcd6/+Ioc4Nn64R0odb8Xef8
+	kz+LQ/26ZHcDqv276KRptHmTwg9U=
+X-Google-Smtp-Source: AGHT+IFxrb/Hq8yGxAFksIU8xvoZYxKDmP4t21NJlafgwJOZ5O729ZO1fWabxK/Qr2q+/DyOC/+KljCWh48RD29qoIE=
+X-Received: by 2002:a17:907:8b8b:b0:a45:f5e0:a539 with SMTP id
+ tb11-20020a1709078b8b00b00a45f5e0a539mr250323ejc.25.1709891805926; Fri, 08
+ Mar 2024 01:56:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240307195053.1320538-1-chris.packham@alliedtelesis.co.nz> <20240307195053.1320538-2-chris.packham@alliedtelesis.co.nz>
-In-Reply-To: <20240307195053.1320538-2-chris.packham@alliedtelesis.co.nz>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 Mar 2024 09:17:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV_L0GpD1y4X7UqJQyZQ-L0rnSF0OVHaVA=ZsC1YhYphQ@mail.gmail.com>
-Message-ID: <CAMuHMdV_L0GpD1y4X7UqJQyZQ-L0rnSF0OVHaVA=ZsC1YhYphQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] auxdisplay: Add 7-segment LED display driver
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: andy@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com, 
-	sebastian.hesselbarth@gmail.com, lee@kernel.org, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
+References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
+ <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz> <87edclgoon.fsf@BL-laptop>
+In-Reply-To: <87edclgoon.fsf@BL-laptop>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 8 Mar 2024 11:56:09 +0200
+Message-ID: <CAHp75VfmSWH3FWEHU+bGYDuo-nt1DJhY5Fvs83A-RGrtrsgWTw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on x530
+To: Gregory CLEMENT <gregory.clement@bootlin.com>, Arnd Bergmann <arnd@kernel.org>
+Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, andy@kernel.org, 
+	geert@linux-m68k.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, andrew@lunn.ch, sebastian.hesselbarth@gmail.com, 
+	lee@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 7, 2024 at 8:51=E2=80=AFPM Chris Packham
-<chris.packham@alliedtelesis.co.nz> wrote:
-> Add a driver for a 7-segment LED display. At the moment only one
-> character is supported but it should be possible to expand this to
-> support more characters and/or 14-segment displays in the future.
+On Fri, Mar 8, 2024 at 9:36=E2=80=AFAM Gregory CLEMENT
+<gregory.clement@bootlin.com> wrote:
 >
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> ---
+> Chris Packham <chris.packham@alliedtelesis.co.nz> writes:
 >
-> Notes:
->     Changes in v6:
->     - Enforce maximum number of GPIOs
->     - Drop unnecessary 0 in initialiser
+> > The Allied Telesis x530 products have a 7-segment LED display which is
+> > used for node identification when the devices are stacked. Represent
+> > this as a gpio-7-segment device.
+> >
+> > Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+>
+> Acked-by: Gregory CLEMENT <gregory.clement@bootlin.com>
+>
+> Normally, this patch should be taken in mvebu and then merged by
+> arm-soc. However, I haven't seen any other patch touching this file (so
+> no risk of merge conflict) and I think it's too late for me to make a
+> new pull request to arm-soc. So I'm not against it being taken with the
+> rest of the patches. However, I think it would be a good idea to see
+> what Arnd thinks about it.
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Arnd wasn't Cc'ed, now I added him.
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+With Best Regards,
+Andy Shevchenko
 
