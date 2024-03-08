@@ -1,144 +1,113 @@
-Return-Path: <linux-leds+bounces-1194-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1195-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B58875E9E
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 08:36:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B87E0875F3E
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 09:18:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85A341C2164F
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 07:36:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 744032823B9
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Mar 2024 08:18:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E66C94F206;
-	Fri,  8 Mar 2024 07:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DqWmuoxK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B326364C6;
+	Fri,  8 Mar 2024 08:17:59 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970B74EB49;
-	Fri,  8 Mar 2024 07:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A01E2C85C;
+	Fri,  8 Mar 2024 08:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709883407; cv=none; b=oP+A6Vl+Gd6ReM36ZPkRLyV2AuHqsAcHLPdOitJSPpx/3r+FKIGHLpm3ApDKebTzhR6EaWK/UfLg4OneNV/58YGSGGGE6n/ctD2G2i9aq3kQ0J5RPvgqdK0Tkm2NH5/rBguWpifM9/fPjqFrjbyXdNtoeIae8v3SG4eUGGW1NSY=
+	t=1709885879; cv=none; b=Z8s12nn/mAE8KuA6QPzVk4kSkkHLsp7waApoiawhBN9j31ClesN6zYRmBBYxvVxY+vzPRmkUa1rjr9q7s/WHsvFhLSHZMXs5TyI6t5ZpW9W9Ffpu7UonBphVzwE+hWXHzBRDNUkjkDrTlZ1dgNJOqB7FftAN0LeQtFaaIAeWMEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709883407; c=relaxed/simple;
-	bh=ZiDn02LUfgV+/6Ykmt+R1wh4EgqPqJ+M2GikjKwMG+4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=l2p+v2f8kTxz1NFHEnC3aiELsm64SlkuxiUKO/NYAvwT5GmfwRDR1r9Va9vlJ6jNVibrU74ClXLb1faMnrzoH7xhLlA4j4275knL1x44wGZGBRoe1tGYN/MnrLADfG+JMgaVrmVUp5b024zKaQZYX/uDnR1+sUIIwLLMMBfNkNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DqWmuoxK; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 07F1920007;
-	Fri,  8 Mar 2024 07:36:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709883401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGSqe7AdSDq/rJELatqXvjh2l9o5p+96qyY9cUtuWlw=;
-	b=DqWmuoxK2s2FgZggo+7Fb+2aCTBDGG26G0JrfQh4B+IpyGom4N8b/iHlAFgV0XvbuXPgS2
-	A/nThYrBp2kX2h3tcTQ3iBXWi1EjXh3f/Quu9oKQGC2EXlptBTaZo3Sg/hPzzxA+K7EH48
-	ZwOgvj/m9z87BaLl2ySAxP45teiKUEbKgBGnojsdEKJw7wofXlUaUbyuNx2Tknv97J02uC
-	XLa421ACTtXtvuCAL9Fa7kuzijn6vGxHhXb9innAJFDOYeyVz8N7V/a79gK7MTgfaq3kKQ
-	p1Z11i73iycAH4WmBFFUhhspQSAfmAW6ryMHpC1F5b+64G3CKFdzJTxSpP5CUA==
-From: Gregory CLEMENT <gregory.clement@bootlin.com>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>, andy@kernel.org,
- geert@linux-m68k.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, andrew@lunn.ch,
- sebastian.hesselbarth@gmail.com, lee@kernel.org
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Chris
- Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on
- x530
-In-Reply-To: <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz>
-References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
- <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz>
-Date: Fri, 08 Mar 2024 08:36:40 +0100
-Message-ID: <87edclgoon.fsf@BL-laptop>
+	s=arc-20240116; t=1709885879; c=relaxed/simple;
+	bh=T7iublfK+ZPIwjrzAGmCfYEsCsxVNUG2x0R+fC7UVD0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=te6L1BkAyxdkCiUWtGA5DxDomnOPAvkHa/+NesdB9ysvUQ7jN8npWpUW7IWQHKNLXgkxFA7j0k+1GbOfPrnjDtEZJC2UVVKBZHLtVRGnlqxB69hGv65Ydp4tLAgeIYGWVii8MxqmeBI2Dmsvci10CoOFmEUm/Za5Ul7MT6wxe4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso1820558276.1;
+        Fri, 08 Mar 2024 00:17:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709885875; x=1710490675;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8/IkhyCdM4H5HfWEwIeyhRcVXKn1ukDp4iKJkf4mNGA=;
+        b=NDycTDIY1yCPGQNB5V28BJH0RbIXc0URL4POjUvNUYTkA6DrpTKBUssO/IfYSzbCn0
+         cL4FX0bEjLhUaAu0LEnLMUIoMlTPrURf/4rkzfxT1KZ2XvLCbTbvLbMfNUK7eoK52eBz
+         UOEKEsoHYZTcS35BYv+C757/8S/svJZ/oauEHdRKAanRN80hk+y4WhcN/HsS4U/yCOPk
+         b30noLs4UMUKDrQnJwhSVA9xpU9g8dsX9RKkXEvM7u9h2IDu35GQf7MHwPw3sjIl01TD
+         RScO6LqIBOaXpE5UcU1h3MPrfMsw8u8Km5HRlh5L+fTYFfSsz/OIsUCYjW7lvqPlh6zM
+         daig==
+X-Forwarded-Encrypted: i=1; AJvYcCVjGBRmFeLCePYSpq7Eydw9Z3eooM09YMIQTI3b054CETzD0rGzfytG64YnQtqytMsORvn6CvHp7HI+Yor5/u59pz63EVxUNbEikkm9D1IwUYWMCLaezGEprrX0M2VlqrVn517XWNQ4gvsQUmyRvxzLnHrvfxwYjTz1zN2o/8BgNZYTtoI=
+X-Gm-Message-State: AOJu0YxEZrR4WV2Thi+ydNJ4Rva1v7dEjpQb2FSBaMkrDOsXbiEBfQyq
+	VFka5vroDggTQa+wH+tSWtSNLb5pI4hQu4U1k7ubnWvFJ4I7Fo45tm79+mMys5U=
+X-Google-Smtp-Source: AGHT+IEKMt7G5aS4iy5Q3WxlP8Jd0vN1xTpEQGoYNCKx8QP5UOLMrdqA13fuwwWLveT2QklPvnSeMA==
+X-Received: by 2002:a25:cec6:0:b0:dc7:5a73:184e with SMTP id x189-20020a25cec6000000b00dc75a73184emr19778154ybe.14.1709885874790;
+        Fri, 08 Mar 2024 00:17:54 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id l2-20020a5b0582000000b00dcd56356c80sm3712557ybp.47.2024.03.08.00.17.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Mar 2024 00:17:54 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-609408d4b31so18758987b3.0;
+        Fri, 08 Mar 2024 00:17:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+3vr2D0j1sqMM0zQNtjRgefxX2TXZ8eAqoNNdun02qXsxN3vsslwuKLxRDRaxMIFGwp5Q4yGgpAKgS90ryI8kN/eKPIJNg/uM8REvLiAYI5NZ26/TE4zEHI7n1J53R1KnVSsN8locwOZU/zTgrL7NQVC6wpf0SwLz98ejEsm6CQYEQwU=
+X-Received: by 2002:a81:48ce:0:b0:609:fe55:20a1 with SMTP id
+ v197-20020a8148ce000000b00609fe5520a1mr2739599ywa.44.1709885873954; Fri, 08
+ Mar 2024 00:17:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-GND-Sasl: gregory.clement@bootlin.com
+References: <20240307195053.1320538-1-chris.packham@alliedtelesis.co.nz> <20240307195053.1320538-2-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20240307195053.1320538-2-chris.packham@alliedtelesis.co.nz>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 8 Mar 2024 09:17:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV_L0GpD1y4X7UqJQyZQ-L0rnSF0OVHaVA=ZsC1YhYphQ@mail.gmail.com>
+Message-ID: <CAMuHMdV_L0GpD1y4X7UqJQyZQ-L0rnSF0OVHaVA=ZsC1YhYphQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] auxdisplay: Add 7-segment LED display driver
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: andy@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, andrew@lunn.ch, gregory.clement@bootlin.com, 
+	sebastian.hesselbarth@gmail.com, lee@kernel.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Chris Packham <chris.packham@alliedtelesis.co.nz> writes:
-
-> The Allied Telesis x530 products have a 7-segment LED display which is
-> used for node identification when the devices are stacked. Represent
-> this as a gpio-7-segment device.
+On Thu, Mar 7, 2024 at 8:51=E2=80=AFPM Chris Packham
+<chris.packham@alliedtelesis.co.nz> wrote:
+> Add a driver for a 7-segment LED display. At the moment only one
+> character is supported but it should be possible to expand this to
+> support more characters and/or 14-segment displays in the future.
 >
 > Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-
-Acked-by: Gregory CLEMENT <gregory.clement@bootlin.com>
-
-Normally, this patch should be taken in mvebu and then merged by
-arm-soc. However, I haven't seen any other patch touching this file (so
-no risk of merge conflict) and I think it's too late for me to make a
-new pull request to arm-soc. So I'm not against it being taken with the
-rest of the patches. However, I think it would be a good idea to see
-what Arnd thinks about it.
-
-Gregory
-
 > ---
 >
 > Notes:
->     Changes in v5:
->     - group GPIO specifiers
->     Changes in v4:
->     - Use correct compatible name in commit message
->     Changes in v3:
->     - Use compatible = "gpio-7-segment" as suggested by Rob
->     Changes in v2:
->     - Use compatible = "generic-gpio-7seg" to keep checkpatch.pl happy
->
->  arch/arm/boot/dts/marvell/armada-385-atl-x530.dts | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts b/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-> index 5a9ab8410b7b..2fb7304039be 100644
-> --- a/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-> +++ b/arch/arm/boot/dts/marvell/armada-385-atl-x530.dts
-> @@ -43,6 +43,17 @@ uart0: serial@12000 {
->  			};
->  		};
->  	};
-> +
-> +	led-7seg {
-> +		compatible = "gpio-7-segment";
-> +		segment-gpios = <&led_7seg_gpio 0 GPIO_ACTIVE_LOW>,
-> +				<&led_7seg_gpio 1 GPIO_ACTIVE_LOW>,
-> +				<&led_7seg_gpio 2 GPIO_ACTIVE_LOW>,
-> +				<&led_7seg_gpio 3 GPIO_ACTIVE_LOW>,
-> +				<&led_7seg_gpio 4 GPIO_ACTIVE_LOW>,
-> +				<&led_7seg_gpio 5 GPIO_ACTIVE_LOW>,
-> +				<&led_7seg_gpio 6 GPIO_ACTIVE_LOW>;
-> +	};
->  };
->  
->  &pciec {
-> @@ -149,7 +160,7 @@ i2c@3 {
->  			#size-cells = <0>;
->  			reg = <3>;
->  
-> -			gpio@20 {
-> +			led_7seg_gpio: gpio@20 {
->  				compatible = "nxp,pca9554";
->  				gpio-controller;
->  				#gpio-cells = <2>;
-> -- 
-> 2.43.2
->
+>     Changes in v6:
+>     - Enforce maximum number of GPIOs
+>     - Drop unnecessary 0 in initialiser
 
--- 
-Gregory Clement, Bootlin
-Embedded Linux and Kernel engineering
-http://bootlin.com
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
