@@ -1,139 +1,130 @@
-Return-Path: <linux-leds+bounces-1208-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1209-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE8D877ACE
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 07:03:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 526B3877D32
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 10:48:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C5D31F2237D
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 06:03:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D98881F21045
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 09:48:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15F2C2E6;
-	Mon, 11 Mar 2024 06:03:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D16182D2;
+	Mon, 11 Mar 2024 09:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQUBZumc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTUloVOK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C09AB65E;
-	Mon, 11 Mar 2024 06:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C796C12B83;
+	Mon, 11 Mar 2024 09:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710136988; cv=none; b=jr+Cp9tJasHQCAZFAiCNJOdBXT4RRx0dk64PEkZQBwhAz/Ru8YZYL2QKKBaWTZ3cKzySdbp71Lg7WctWcmC5T8IUUanstzO/KlQtmvs7DA+PuUJBjp1h95mk8kA1idPscLVzG9EBgQFRposjAXGAUOmiPJyP9H3a7jdW8xj6Wec=
+	t=1710150479; cv=none; b=aY9Oi7YxktOYgZlud0sVrFaWyccT0yYBnTS+djpUCslJTk400If+5aj4aBeAA8k7vCPyxKPv7Hx8rUlB3KwwxtK7dZvyKwuvOnnR2h3CD6tO9oXGpo/sJZ4Z+n0phTwG36azGA6QElDSVo1yZRlYRl1Xz5uXCqdtzkW5Hl/BEJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710136988; c=relaxed/simple;
-	bh=rHKHOs/CfioDRsDzlTyobjWIyq8en/YqyDBEXhad4Bs=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=gMJfcRngDL/9qzGHvILD3G3qabrjUbE/Cvt3ckFDRgsh82QgqLlt5mdbMCx2wUWKWXA/0Syit/OYgW5l3NAlhY9XeQv9z92szFFpYGM1majDti4JMqRQeZsEAn6rZqlJgX1uCHqwk477aN/VRwINxPi4/zez2UAGehNkxsPD9u4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQUBZumc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62EE4C43394;
-	Mon, 11 Mar 2024 06:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710136987;
-	bh=rHKHOs/CfioDRsDzlTyobjWIyq8en/YqyDBEXhad4Bs=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-	b=fQUBZumcdZeGJOZxYogFlDP8CxOy2NzhsptKPGEe9ceUUUZwKS5BSN0XRnqdv+mqK
-	 FabhdP15mjigTh0eXo6u3lylbMuxPlA6gj1nPa/jX3Sc+FF95rkIvFwy1XHDuSt528
-	 8zBU4+PN4cPg2bIq6lSJKN2QXu6ySluw0i64yKJ8N2wKlPA31pjRNPzMNGOn0Wlvm2
-	 hOfPVHDcKXnAawrwqrtTyNEdybuVY3U1JY2h48ck8DOpZAEcoWmhFIEZPKg7ivJIqh
-	 MzsFP34o2ZmjSiwo5Wi+eOfWyF/kUPYVrxZw81VGYwdGXiM+ITzkaWq7Czbdc5AAqu
-	 S5aG3hDHULSkQ==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfauth.nyi.internal (Postfix) with ESMTP id 514311200043;
-	Mon, 11 Mar 2024 02:03:06 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 11 Mar 2024 02:03:06 -0400
-X-ME-Sender: <xms:mZ7uZTwhUKDoB3VvZpa1UHC5O9fNcVHw4GVHq20D6zOHHoPgk0dvIQ>
-    <xme:mZ7uZbQqQDNYN6vaTIm2yGUB29_sR0kbzHOBjIuvCJv7P7hmtIQ8MdtDsvPf8YzJQ
-    amta3JmMs90PbMTsgw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedtgdeludcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
-    grthhtvghrnhepvddttdffjeefgeeggfelfefggefhheeffefftefggfelgeduveevtefh
-    feejveeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedt
-    vdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrd
-    guvg
-X-ME-Proxy: <xmx:mZ7uZdU-AObKIuhhe9Uq4vZYd51S8os2D0kXu_POqxBSXouEnPPA-g>
-    <xmx:mZ7uZdiKzQ3RJdJ6KwIQE9y5W0JZuUmZgUHbfBJPHYG1NOvsb1Lf_g>
-    <xmx:mZ7uZVDypRaLIrBcqqlhf0wOaKoJc4pobTimAtyHAFIUHAnX1uF4hQ>
-    <xmx:mp7uZdxl7jTfP9FPqWJRNdwPGicZ32KZg-G6VHqqtLMMTAOBGbP-I9B0xq0>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A32BCB6008D; Mon, 11 Mar 2024 02:03:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
+	s=arc-20240116; t=1710150479; c=relaxed/simple;
+	bh=/M5HorfKRc1SIfbG7LnNy3nth3uReSi8QKtg2tI+UoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c7/UzP+7qG2R4AV1Rhad1/36w/yFOGtYl1V9NIY40EBDJA9sa5RInGHCH7Tvn6QzeI85Fn9H7+HsJEZDg0EvX33lraB0bFBIw2b5AmBkQLrMXVpFdBUe5mav3zMawH7XWwXGgMoO3sqG0AK5UrHZWd/PSg/u7fCG5bWAGYNOPaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hTUloVOK; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710150478; x=1741686478;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/M5HorfKRc1SIfbG7LnNy3nth3uReSi8QKtg2tI+UoM=;
+  b=hTUloVOK9Nl5jVtYv0bh/bjTI5qfQ7JsEjrAQUERK7UaMeFdsCvCa4WI
+   Qk+62lzj9P0x7lHf8v0zJlDZQv8skoQ4RSxIOsuhZu3+qu07AgQHDmLQ7
+   WMKG16+SuO3D//x3Yn5OYX73reLn8wf1X55P984MttJsk20h5tIJoALB2
+   Xtk2MC/j7ceFXf3S0YPpTlhK1b+HAHySpCDUsferRnH2EYLtSUZN+BSXg
+   i4+YY+DZ04es8boFYqkCilCDAyys8DVZMmPs5kyN1b2GKrA5EC3RjU80d
+   4axH93stlrxGzCeLB6IW+qbWk4H0MGDdYSE/SLANpZzmaSQ3LOg9PYw6X
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4660415"
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="4660415"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 02:47:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="15765345"
+Received: from mtkaczyk-mobl.ger.corp.intel.com (HELO localhost) ([10.237.142.118])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 02:47:56 -0700
+Date: Mon, 11 Mar 2024 10:47:50 +0100
+From: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: linux-pci@vger.kernel.org, linux-leds@vger.kernel.org, Lukas Wunner
+ <lukas@wunner.de>, Stuart Hayes <stuart.w.hayes@gmail.com>
+Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
+ support
+Message-ID: <20240311104750.00000c24@linux.intel.com>
+In-Reply-To: <20240306224008.GA554220@bhelgaas>
+References: <20240215142345.6073-3-mariusz.tkaczyk@linux.intel.com>
+ <20240306224008.GA554220@bhelgaas>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <e90c2e69-17ea-4875-bb36-8a6d846f05e6@app.fastmail.com>
-In-Reply-To: <6c3451ed-6346-45e2-940e-851cb99a1b63@alliedtelesis.co.nz>
-References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
- <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz>
- <87edclgoon.fsf@BL-laptop>
- <CAHp75VfmSWH3FWEHU+bGYDuo-nt1DJhY5Fvs83A-RGrtrsgWTw@mail.gmail.com>
- <8177b94d-82c9-42b6-85eb-728dec762162@app.fastmail.com>
- <CAHp75VfiaWFricM4Or771P0LJVoFoEmQtoJo1hySo=BRS-59DQ@mail.gmail.com>
- <6c3451ed-6346-45e2-940e-851cb99a1b63@alliedtelesis.co.nz>
-Date: Mon, 11 Mar 2024 07:02:35 +0100
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "Chris Packham" <Chris.Packham@alliedtelesis.co.nz>,
- "Andy Shevchenko" <andy.shevchenko@gmail.com>
-Cc: "Gregory Clement" <gregory.clement@bootlin.com>,
- "Andy Shevchenko" <andy@kernel.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Rob Herring" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Andrew Lunn" <andrew@lunn.ch>,
- "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
- "Lee Jones" <lee@kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on x530
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Mar 10, 2024, at 21:22, Chris Packham wrote:
-> On 8/03/24 23:34, Andy Shevchenko wrote:
->> On Fri, Mar 8, 2024 at 12:19=E2=80=AFPM Arnd Bergmann <arnd@kernel.or=
-g> wrote:
->>> On Fri, Mar 8, 2024, at 10:56, Andy Shevchenko wrote:
->>>> On Fri, Mar 8, 2024 at 9:36=E2=80=AFAM Gregory CLEMENT <gregory.cle=
-ment@bootlin.com> wrote:
->>>>>
->>>>> Normally, this patch should be taken in mvebu and then merged by
->>>>> arm-soc. However, I haven't seen any other patch touching this fil=
-e (so
->>>>> no risk of merge conflict) and I think it's too late for me to mak=
-e a
->>>>> new pull request to arm-soc. So I'm not against it being taken wit=
-h the
->>>>> rest of the patches. However, I think it would be a good idea to s=
-ee
->>>>> what Arnd thinks about it.
->
-> FYI ./scripts/get_maintainer.pl -f arch/arm/boot/dts/marvell isn't=20
-> picking up Arnd should it?
+On Wed, 6 Mar 2024 16:40:08 -0600
+Bjorn Helgaas <helgaas@kernel.org> wrote:
+ 
+> > +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_NPEM);
+> > +	if (pos == 0)
+> > +		return;
+> > +
+> > +	if (pci_read_config_dword(dev, pos + PCI_NPEM_CAP, &cap) != 0 ||
+> > +	    (cap & PCI_NPEM_CAPABLE) == 0)
+> > +		return;
+> > +
+> > +	/*
+> > +	 * OS should use the DSM for LED control if it is available
+> > +	 * PCI Firmware Spec r3.3 sec 4.7.
+> > +	 */
+> > +	if (npem_has_dsm(dev))
+> > +		return;  
+> 
+> Does Linux have support for this _DSM?  I don't see any, and I guess
+> this check means that if we have a device that supports NPEM on a
+> platform that supplies this _DSM, we can't use NPEM.
 
-No, as Gregory writes, the intended way for platform specific
-patches is to go through the maintainer for that platform,
-in this case him, who then sends pull requests to me.
+No, Linux doesn't support _DSM. It was proposed in previous iterations by Stuart
+but I dropped it. We decided that it need to be strongly rebuild because
+"pci/pcie" is not right place for ACPI code so we cannot register _DSM
+driver instead of NPEM as it was proposed and I don't have _DSM capable
+hardware to test it.
 
-Since it was late in the merge window, he suggested skipping
-this step as an exception, which is something we can always do
-if there is an important reason, just like you skip can all
-maintainers and go directly to Linus if necessary, but the
-maintainers file only documents the normal case.
+> 
+> The stated intent of the _DSM (from the Feb 12, 2020 ECN at
+> https://members.pcisig.com/wg/PCI-SIG/document/14025) is to provide
+> NPEM-like functionality via an abstraction layer on top of NPEM, SES,
+> or other implementations.
+> 
+> The _DSM also gives the platform a chance to intercept and change or
+> reject indications requested by OSPM, although that isn't mentioned as
+> part of the intent.
+> 
+> I'm interested in your thoughts about this.  One possibility would be
+> to omit this check for now and add it back when the _DSM is supported,
+> so we could use NPEM directly when advertised by a device.  Or we
+> could keep this as-is and prohibit use of NPEM if the _DSM exists,
+> even though we know how to operate it.
 
-     Arnd
+I decided to implement it 2nd way because I don't know if I can use NPEM if
+_DSM is implemented, I mean that hardware may do not response on NPEM requests.
+I choose safer approach, I have no opinion.
+
+I will follow community voice.
+
+Thanks,
+Mariusz
 
