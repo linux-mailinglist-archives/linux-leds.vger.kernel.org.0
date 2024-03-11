@@ -1,40 +1,40 @@
-Return-Path: <linux-leds+bounces-1216-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1217-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AA2878AD9
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 23:43:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24848878B5D
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Mar 2024 00:05:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0466B2821F0
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 22:43:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7CA828187A
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 23:05:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D2058120;
-	Mon, 11 Mar 2024 22:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6B3158235;
+	Mon, 11 Mar 2024 23:05:44 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1D7433CC
-	for <linux-leds@vger.kernel.org>; Mon, 11 Mar 2024 22:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322E658229
+	for <linux-leds@vger.kernel.org>; Mon, 11 Mar 2024 23:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710196976; cv=none; b=evD/KiKXHssf9C2D2038ZBnYLGdtZex566t3i5FJ50pcIkBkRO+z94VwzZxb0rtTYahnCjjduCmdPSHGv3rsGxrt0EBeggTNL8A2L42WCE2iGc2GOfOKmxJO8iHP5x5EP1J2IL/wWAHCZetgSlCkhVf7AKW8CGkLzkFJjd10fp8=
+	t=1710198344; cv=none; b=qCfJ8wpOm9m4T4fWQ8D3ZCSgbjYEFjzy/GvBqJvca3MkF1PqT/7J+5M0Y58vB/3moLDVFy0XE3Re4SDghc2hdNJyZlXCm1IX4LHnvQ65VTL7APnuAXw0ZsvXBgFnkiBw2p615jKIvPIoQd4QuaCMushUlHebFdFoDZRj4Rv1oEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710196976; c=relaxed/simple;
-	bh=+sZIqcnM2l7CrSRowV74v420SAwJuaeLZJ7Ypv/JKp8=;
+	s=arc-20240116; t=1710198344; c=relaxed/simple;
+	bh=D28VkHywendSNSCG6I4rhALl2afA4LvcbwFoYAoHrL0=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WP/zCW17qjtNIUnzKtHNTdvD0qTslAxgkdObn5l9JeikHuKwO+Uj0O1RiPev0MvJOokZy5D0R4d2F/LP+zmOI3o95Nvk9K5AOVdcSVfWgeubPvCOMl3oVnBeylKViQ5gJ5dwZj3kKPbDiLoewC23vAYxUKyCj24prEwMsmmz2IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/NeYL3X4o5qCe9J6Kqus0q71l6w83SJUoq/0xFBzEIJEZwrPpUIMViC5H5ksuMrIpJxtpogfFJiUZqf0UItwvGF0k6KfATxet2lAftA6lEdH5xC+yW7YICZlUg7wBqtnRSI8LVpx0qgj67EOMIGZjOGynVKcDg58J8LT2rr2Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-26-217.elisa-laajakaista.fi [88.113.26.217])
-	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
-	id b165ae91-dff8-11ee-a9de-005056bdf889;
-	Tue, 12 Mar 2024 00:42:52 +0200 (EET)
+	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+	id b8425178-dffb-11ee-b3cf-005056bd6ce9;
+	Tue, 12 Mar 2024 01:04:32 +0200 (EET)
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 12 Mar 2024 00:42:51 +0200
+Date: Tue, 12 Mar 2024 01:04:31 +0200
 To: Kate Hsuan <hpa@redhat.com>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
@@ -42,11 +42,11 @@ Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] platform: x86-android-tablets: other: Add swnode
- for Xiaomi pad2 indicator LED
-Message-ID: <Ze-I63bNzaMkHfgg@surfacebook.localdomain>
+Subject: Re: [PATCH v4 2/2] leds: rgb: leds-ktd202x: Get device properties
+ through fwnode to support ACPI
+Message-ID: <Ze-N_y5Tbjc93aRp@surfacebook.localdomain>
 References: <20240306025801.8814-1-hpa@redhat.com>
- <20240306025801.8814-2-hpa@redhat.com>
+ <20240306025801.8814-3-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -55,95 +55,151 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240306025801.8814-2-hpa@redhat.com>
+In-Reply-To: <20240306025801.8814-3-hpa@redhat.com>
 
-Wed, Mar 06, 2024 at 10:58:00AM +0800, Kate Hsuan kirjoitti:
-> There is a KTD2026 LED controller to manage the indicator LED for Xiaomi
-> pad2. The ACPI for it is not properly made so the kernel can't get
-> a correct description of it.
-> 
-> This work add a description for this RGB LED controller and also set a
-> trigger to indicate the chaging event (bq27520-0-charging). When it is
-> charging, the indicator LED will be turn on.
-
-Ilpo, Kate, please consider the following remarks.
+Wed, Mar 06, 2024 at 10:58:01AM +0800, Kate Hsuan kirjoitti:
+> This LED controller also installed on a Xiaomi pad2 and it is a x86
+> platform. The original driver is based on device tree and can't be
+> used for this ACPI based system. This patch migrated the driver to
+> use fwnode to access the properties. Moreover, the fwnode API
+> supports device tree so this work won't effect the original
+> implementations.
 
 ...
 
->  #include <linux/gpio/machine.h>
->  #include <linux/input.h>
->  #include <linux/platform_device.h>
+> +	fwnode_for_each_available_child_node(np, child) {
 
-+ Blank line?
+Please, rename np to fwnode to avoid confusion.
 
-> +#include <dt-bindings/leds/common.h>
-
-Not sure where to place this, some drivers put it the first, some after linux/*.
+> +		num_channels++;
+> +	}
 
 ...
 
-> +/* main fwnode for ktd2026 */
-> +static const struct software_node ktd2026_node = {
+> -	for_each_available_child_of_node(np, child) {
+> +	fwnode_for_each_available_child_node(np, child) {
+>  		u32 mono_color;
+>  		u32 reg;
+>  		int ret;
+>  
+> -		ret = of_property_read_u32(child, "reg", &reg);
+> +		ret = fwnode_property_read_u32(child, "reg", &reg);
+>  		if (ret != 0 || reg >= chip->num_leds) {
+>  			dev_err(chip->dev, "invalid 'reg' of %pOFn\n", child);
 
-No name?
+Must be %pfw now.
 
-> +};
-> +
-> +static const struct property_entry ktd2026_rgb_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 0),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
-> +	PROPERTY_ENTRY_STRING("function", "indicator"),
+> -			of_node_put(child);
+> +			fwnode_handle_put(child);
 
-> +	PROPERTY_ENTRY_STRING("linux,default-trigger",
-> +			      "bq27520-0-charging"),
+>  			return -EINVAL;
 
-It's less than 80, why not on a single line?
+Side note: This shouldn't shadow error code when ret != 0.
 
-> +
+>  		}
+
+...
+
+> -		ret = of_property_read_u32(child, "color", &mono_color);
+> +		ret = fwnode_property_read_u32(child, "color", &mono_color);
+>  		if (ret < 0 && ret != -EINVAL) {
+>  			dev_err(chip->dev, "failed to parse 'color' of %pOF\n", child);
+
+Must be %pfw now.
+
+> -			of_node_put(child);
+> +			fwnode_handle_put(child);
+>  			return ret;
+>  		}
+
+...
+
+> -	ret = of_property_read_u32(np, "reg", &reg);
+> +	ret = fwnode_property_read_u32(np, "reg", &reg);
+>  	if (ret != 0 || reg >= chip->num_leds) {
+>  		dev_err(chip->dev, "invalid 'reg' of %pOFn\n", np);
+
+Must be %pfw now.
+
+>  		return -EINVAL;
+
+>  	/* Color property is optional in single color case */
+> -	ret = of_property_read_u32(np, "color", &color);
+> +	ret = fwnode_property_read_u32(np, "color", &color);
+>  	if (ret < 0 && ret != -EINVAL) {
+>  		dev_err(chip->dev, "failed to parse 'color' of %pOF\n", np);
+
+Must be %pfw now.
+
+>  		return ret;
+>  	}
+
+...
+
+> +	struct fwnode_handle *child, *np;
+
+Do not use np for sturct fwnode_handle. It will be quite confusing.
+
+...
+
+> -	chip->num_leds = (int)(unsigned long)of_device_get_match_data(chip->dev);
+> +	count = device_get_child_node_count(dev);
+
+>  
 
 Redundant blank line.
 
-> +	{ }
-> +};
+> -	count = of_get_available_child_count(np);
+>  	if (!count || count > chip->num_leds)
+>  		return -EINVAL;
 
 ...
 
-> +/* B */
+> +	chip->num_leds = (unsigned long)i2c_get_match_data(client);
 
-B for red?!
-
-> +static const struct property_entry ktd2026_red_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 0),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_BLUE),
-> +	{ }
-> +};
+No warnings during compilation?
 
 ...
 
-> +/* R */
+> +static const struct i2c_device_id ktd202x_id[] = {
+> +	{"ktd2026", KTD2026_NUM_LEDS},
+> +	{"ktd2027", KTD2027_NUM_LEDS},
+> +	{},
 
-R for blue?!
+N ocomma for the terminator entry.
 
-> +static const struct property_entry ktd2026_blue_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 2),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RED),
-> +	{ }
 > +};
+> +MODULE_DEVICE_TABLE(i2c, ktd202x_id);
 
 ...
 
-> +static int __init xiaomi_mipad2_init(void)
-> +{
-> +	return software_node_register_node_group(ktd2026_node_group);
-> +}
-> +
-> +static void xiaomi_mipad2_exit(void)
+> +#ifndef CONFIG_ACPI
 
-Don't you want to have __exit here?
+Please, no. Drop them.
 
-> +{
-> +	software_node_unregister_node_group(ktd2026_node_group);
-> +}
+>  static const struct of_device_id ktd202x_match_table[] = {
+>  	{ .compatible = "kinetic,ktd2026", .data = (void *)KTD2026_NUM_LEDS },
+>  	{ .compatible = "kinetic,ktd2027", .data = (void *)KTD2027_NUM_LEDS },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, ktd202x_match_table);
+> +#endif
+>  
+>  static struct i2c_driver ktd202x_driver = {
+>  	.driver = {
+>  		.name = "leds-ktd202x",
+> +#ifndef CONFIG_ACPI
+>  		.of_match_table = ktd202x_match_table,
+> +#endif
+
+This is quite unusual besides being ugly.
+
+>  	},
+>  	.probe = ktd202x_probe,
+>  	.remove = ktd202x_remove,
+>  	.shutdown = ktd202x_shutdown,
+> +	.id_table = ktd202x_id,
+>  };
 
 -- 
 With Best Regards,
