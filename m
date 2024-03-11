@@ -1,133 +1,128 @@
-Return-Path: <linux-leds+bounces-1214-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1215-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DDE878923
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 20:54:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0950878A99
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 23:13:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 685FD281C28
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 19:54:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 909381F21212
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 22:13:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BA456443;
-	Mon, 11 Mar 2024 19:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AEB25730E;
+	Mon, 11 Mar 2024 22:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="ouCT6rfu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EW6u1sT/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1324255E43
-	for <linux-leds@vger.kernel.org>; Mon, 11 Mar 2024 19:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D044206B;
+	Mon, 11 Mar 2024 22:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710186862; cv=none; b=iy9UDYOk3Mp8M60Ek1pwObvfD17SSSx575PiiezexoitGqdjynbdrjj2eY11qvOG3hnd+QWcAF/jYZiITeCa6j+/XCxQLBv/fzNbbNJAV8alhadHV/83jAcwbIxghK+uS/mbdst9GQvHFGvSff45+yZNFXVmHMxlJ4xs5uDZr3U=
+	t=1710195220; cv=none; b=Vuq7BwzB8KdE2hJqhzt2NfN+Ej0HwrZjHue5/vAX/WIiaJCrUJpuyjW8rdi03YwjJk8kE+ZXzfxfLdLmXqsAi603/WohgHWapMRmnsvk4+cQAFonZGH1yKPZC3ZI5YnUCoL76VwD3jdSxi4jeuyx1hX7HDlBui5P8u7v/YCfZwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710186862; c=relaxed/simple;
-	bh=I80kmniNaJNpW7w8bqB75g71TWFOq8gFFWvyljKYL0I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ul0QEixjWlOzN54EoQr+ojG/gkJc6piv5ZUk6Tjq9M+Y4xcO1VCOo6k82um48jwQ+T3+mTqrRA1/g5bnkV5vMgWeBCFXnzLSC5AFPCovm16xb/qo4dyieSW399KFN6sF+hgcvQwGr4aJiCiWqtFU/ti7vH8nt8WlXRL5jP3mfeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=ouCT6rfu; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 66BD72C0480;
-	Tue, 12 Mar 2024 08:54:17 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1710186857;
-	bh=I80kmniNaJNpW7w8bqB75g71TWFOq8gFFWvyljKYL0I=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=ouCT6rfuhAwy46/GC7cuoDbMuhNBhadJQtzGc0L+Uv5Qt7OmnrbgaD6eFH2LpWvYK
-	 YviBS17oura5382vXkY2/LRpwiOaT7R7oad7PhB/yZuUzPBUc6bIS/U9h6xc7bS85w
-	 FSza3SN0sj7tNNKomJc3nfDsfVcBGG9u3vUW0PqHafyqdD32Zs4ZMwh+R5tpxjHXaD
-	 XdvlIE78oQq+Eb9LvsXThsalXxTtuz7tvJgOCi8SQlfneGo2tqsponyNI388N5nlZa
-	 Vgwhvu5UZ+iSFJPmiCxILuSpaC7MbrkLwZonr/ETt8Nj89OYPYonWcBN4eeCUfng9q
-	 EI2Qo4UvGB7Fg==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65ef61690001>; Tue, 12 Mar 2024 08:54:17 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 12 Mar 2024 08:54:16 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1118.040; Tue, 12 Mar 2024 08:54:16 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Arnd Bergmann <arnd@kernel.org>, Andy Shevchenko
-	<andy.shevchenko@gmail.com>
-CC: Gregory Clement <gregory.clement@bootlin.com>, Andy Shevchenko
-	<andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Rob Herring
-	<robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth
-	<sebastian.hesselbarth@gmail.com>, Lee Jones <lee@kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on
- x530
-Thread-Topic: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on
- x530
-Thread-Index: AQHacCEP50uDUqyXjk+YznxFpDHUm7EsnIcAgAAm+YCAAAZbAIAABFUAgAPI1gCAAKI2gIAA6F8A
-Date: Mon, 11 Mar 2024 19:54:16 +0000
-Message-ID: <df9e5c40-7b82-4038-93cc-3c454bf75b7a@alliedtelesis.co.nz>
-References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
- <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz>
- <87edclgoon.fsf@BL-laptop>
- <CAHp75VfmSWH3FWEHU+bGYDuo-nt1DJhY5Fvs83A-RGrtrsgWTw@mail.gmail.com>
- <8177b94d-82c9-42b6-85eb-728dec762162@app.fastmail.com>
- <CAHp75VfiaWFricM4Or771P0LJVoFoEmQtoJo1hySo=BRS-59DQ@mail.gmail.com>
- <6c3451ed-6346-45e2-940e-851cb99a1b63@alliedtelesis.co.nz>
- <e90c2e69-17ea-4875-bb36-8a6d846f05e6@app.fastmail.com>
-In-Reply-To: <e90c2e69-17ea-4875-bb36-8a6d846f05e6@app.fastmail.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A9ED38D725C7F444854F1D2D79C8E5E0@atlnz.lc>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1710195220; c=relaxed/simple;
+	bh=wyNMcjJsj+gtID9qrHH+Nva1VMmxIw4E18MjM2eWoOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IGxFohrdBnMfzSZvaUFGs4NLEZoO9a8v/1oTHunu5r2cnjJ8m2z/zlJRx7M4fT9SaDCFkaqG5pgjvXFbJ5HQSOTvoeW3OcQQfuo+G0B6yjgL6c1xaZ6bNKcqf3u9kyfdADjE64QaQa1owDJ+PqQSjBGjsAy/SnrKQ/pq6J85wDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EW6u1sT/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59979C433C7;
+	Mon, 11 Mar 2024 22:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710195219;
+	bh=wyNMcjJsj+gtID9qrHH+Nva1VMmxIw4E18MjM2eWoOQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=EW6u1sT/Othn2NJqcELmkKbqXS7m5AyMi55MTNLBsU85Bs8LgKfT4zPPxGxlcQf3K
+	 4Y1vW0z/11Bu2ISrdWtdysTn/guoLZQzBPke3Z2tlbWCSQU5nnmAGhHq5qC5zqqs1c
+	 ueNO1ngGPcfOPgg+zVFyegRoO0D9t/EF74OAugN1s5uhQFk5yYaUQalTi/AkWLd3kJ
+	 MxnFQIorLx+1ka8BiikJ4CBs/k5D/CD0lkuOB2Yksvso7pwoQsLK3WYnvvbEzOdiCi
+	 8V3BS0OW5qEVToMWnM8866WPzKO3T44sGeITtsk4c3OGhjnUPITErcuiSJWbgsZ2Tb
+	 gFGz3g2NaloMg==
+Date: Mon, 11 Mar 2024 17:13:37 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+Cc: linux-pci@vger.kernel.org, linux-leds@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>
+Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
+ support
+Message-ID: <20240311221337.GA819923@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65ef6169 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=K6JAEmCyrfEA:10 a=VwQbUJbxAAAA:8 a=P-IC7800AAAA:8 a=_VaukpeC9nYuBFLc3MMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240311104750.00000c24@linux.intel.com>
 
-DQpPbiAxMS8wMy8yNCAxOTowMiwgQXJuZCBCZXJnbWFubiB3cm90ZToNCj4gT24gU3VuLCBNYXIg
-MTAsIDIwMjQsIGF0IDIxOjIyLCBDaHJpcyBQYWNraGFtIHdyb3RlOg0KPj4gT24gOC8wMy8yNCAy
-MzozNCwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPj4+IE9uIEZyaSwgTWFyIDgsIDIwMjQgYXQg
-MTI6MTnigK9QTSBBcm5kIEJlcmdtYW5uIDxhcm5kQGtlcm5lbC5vcmc+IHdyb3RlOg0KPj4+PiBP
-biBGcmksIE1hciA4LCAyMDI0LCBhdCAxMDo1NiwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPj4+
-Pj4gT24gRnJpLCBNYXIgOCwgMjAyNCBhdCA5OjM24oCvQU0gR3JlZ29yeSBDTEVNRU5UIDxncmVn
-b3J5LmNsZW1lbnRAYm9vdGxpbi5jb20+IHdyb3RlOg0KPj4+Pj4+IE5vcm1hbGx5LCB0aGlzIHBh
-dGNoIHNob3VsZCBiZSB0YWtlbiBpbiBtdmVidSBhbmQgdGhlbiBtZXJnZWQgYnkNCj4+Pj4+PiBh
-cm0tc29jLiBIb3dldmVyLCBJIGhhdmVuJ3Qgc2VlbiBhbnkgb3RoZXIgcGF0Y2ggdG91Y2hpbmcg
-dGhpcyBmaWxlIChzbw0KPj4+Pj4+IG5vIHJpc2sgb2YgbWVyZ2UgY29uZmxpY3QpIGFuZCBJIHRo
-aW5rIGl0J3MgdG9vIGxhdGUgZm9yIG1lIHRvIG1ha2UgYQ0KPj4+Pj4+IG5ldyBwdWxsIHJlcXVl
-c3QgdG8gYXJtLXNvYy4gU28gSSdtIG5vdCBhZ2FpbnN0IGl0IGJlaW5nIHRha2VuIHdpdGggdGhl
-DQo+Pj4+Pj4gcmVzdCBvZiB0aGUgcGF0Y2hlcy4gSG93ZXZlciwgSSB0aGluayBpdCB3b3VsZCBi
-ZSBhIGdvb2QgaWRlYSB0byBzZWUNCj4+Pj4+PiB3aGF0IEFybmQgdGhpbmtzIGFib3V0IGl0Lg0K
-Pj4gRllJIC4vc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5wbCAtZiBhcmNoL2FybS9ib290L2R0cy9t
-YXJ2ZWxsIGlzbid0DQo+PiBwaWNraW5nIHVwIEFybmQgc2hvdWxkIGl0Pw0KPiBObywgYXMgR3Jl
-Z29yeSB3cml0ZXMsIHRoZSBpbnRlbmRlZCB3YXkgZm9yIHBsYXRmb3JtIHNwZWNpZmljDQo+IHBh
-dGNoZXMgaXMgdG8gZ28gdGhyb3VnaCB0aGUgbWFpbnRhaW5lciBmb3IgdGhhdCBwbGF0Zm9ybSwN
-Cj4gaW4gdGhpcyBjYXNlIGhpbSwgd2hvIHRoZW4gc2VuZHMgcHVsbCByZXF1ZXN0cyB0byBtZS4N
-Cj4NCj4gU2luY2UgaXQgd2FzIGxhdGUgaW4gdGhlIG1lcmdlIHdpbmRvdywgaGUgc3VnZ2VzdGVk
-IHNraXBwaW5nDQo+IHRoaXMgc3RlcCBhcyBhbiBleGNlcHRpb24sIHdoaWNoIGlzIHNvbWV0aGlu
-ZyB3ZSBjYW4gYWx3YXlzIGRvDQo+IGlmIHRoZXJlIGlzIGFuIGltcG9ydGFudCByZWFzb24sIGp1
-c3QgbGlrZSB5b3Ugc2tpcCBjYW4gYWxsDQo+IG1haW50YWluZXJzIGFuZCBnbyBkaXJlY3RseSB0
-byBMaW51cyBpZiBuZWNlc3NhcnksIGJ1dCB0aGUNCj4gbWFpbnRhaW5lcnMgZmlsZSBvbmx5IGRv
-Y3VtZW50cyB0aGUgbm9ybWFsIGNhc2UuDQoNCk9LIHRoYW5rcyBmb3IgdGhlIGNsYXJpZmljYXRp
-b24uDQoNCkkgZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYW55IHJlYXNvbiB0byBydXNoIHRoaXMuIEkn
-bGwgc2VuZCBhIG5ldyBzZXJpZXMgDQpmb3IgdGhpcyBEVFMgY2hhbmdlIGFuZCBvbmUgb3RoZXIg
-dGhhdCBJIGhhdmUgZm9yIHRoZSB4NTMwIHZpYSBHcmVnb3J5IA0KYW5kIGl0IGNhbiBjb21lIHRo
-cm91Z2ggZm9yIGVpdGhlciA2Ljkgb3IgNi4xMC4NCg==
+On Mon, Mar 11, 2024 at 10:47:50AM +0100, Mariusz Tkaczyk wrote:
+> On Wed, 6 Mar 2024 16:40:08 -0600
+> Bjorn Helgaas <helgaas@kernel.org> wrote:
+>  
+> > > +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_NPEM);
+> > > +	if (pos == 0)
+> > > +		return;
+> > > +
+> > > +	if (pci_read_config_dword(dev, pos + PCI_NPEM_CAP, &cap) != 0 ||
+> > > +	    (cap & PCI_NPEM_CAPABLE) == 0)
+> > > +		return;
+> > > +
+> > > +	/*
+> > > +	 * OS should use the DSM for LED control if it is available
+> > > +	 * PCI Firmware Spec r3.3 sec 4.7.
+> > > +	 */
+> > > +	if (npem_has_dsm(dev))
+> > > +		return;  
+> > 
+> > Does Linux have support for this _DSM?  I don't see any, and I guess
+> > this check means that if we have a device that supports NPEM on a
+> > platform that supplies this _DSM, we can't use NPEM.
+> 
+> No, Linux doesn't support _DSM. It was proposed in previous
+> iterations by Stuart but I dropped it. We decided that it need to be
+> strongly rebuild because "pci/pcie" is not right place for ACPI code
+> so we cannot register _DSM driver instead of NPEM as it was proposed
+> and I don't have _DSM capable hardware to test it.
+> 
+> > The stated intent of the _DSM (from the Feb 12, 2020 ECN at
+> > https://members.pcisig.com/wg/PCI-SIG/document/14025) is to provide
+> > NPEM-like functionality via an abstraction layer on top of NPEM, SES,
+> > or other implementations.
+> > 
+> > The _DSM also gives the platform a chance to intercept and change or
+> > reject indications requested by OSPM, although that isn't mentioned as
+> > part of the intent.
+> > 
+> > I'm interested in your thoughts about this.  One possibility would be
+> > to omit this check for now and add it back when the _DSM is supported,
+> > so we could use NPEM directly when advertised by a device.  Or we
+> > could keep this as-is and prohibit use of NPEM if the _DSM exists,
+> > even though we know how to operate it.
+> 
+> I decided to implement it 2nd way because I don't know if I can use
+> NPEM if _DSM is implemented, I mean that hardware may do not
+> response on NPEM requests.  I choose safer approach, I have no
+> opinion.
+
+I think your point is that if the _DSM is supported, the platform
+itself might be using NPEM internally, and maybe that would conflict
+with an OS that uses NPEM directly, which is a good question.
+
+There is no ownership negotiation, e.g., via _OSC, so my assumption is
+that the OS owns NPEM by default, and the platform should not touch a
+PCI device to operate NPEM after booting the OS.  I guess the platform
+must take ownership of the NPEM Capability if the OS uses the _DSM,
+although the spec isn't very explicit about this.
+
+One concern here is that if the OS avoids use of NPEM when the _DSM is
+present, NPEM will work on the OS we ship today (with NPEM but no _DSM
+support), but it will break as soon as a new platform or new firmware
+release adds the _DSM, and users will have no way to fix it.
+
+Bjorn
 
