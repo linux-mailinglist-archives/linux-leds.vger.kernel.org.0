@@ -1,78 +1,133 @@
-Return-Path: <linux-leds+bounces-1213-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1214-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB6087890F
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 20:43:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DDE878923
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 20:54:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C7131C21272
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 19:43:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 685FD281C28
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 19:54:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935DC535AF;
-	Mon, 11 Mar 2024 19:43:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BA456443;
+	Mon, 11 Mar 2024 19:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="ouCT6rfu"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtprelay01.ispgateway.de (smtprelay01.ispgateway.de [80.67.18.43])
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F15B56B63;
-	Mon, 11 Mar 2024 19:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.18.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1324255E43
+	for <linux-leds@vger.kernel.org>; Mon, 11 Mar 2024 19:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710186231; cv=none; b=ipF1ZaxPLyFJDbGAvYno43UfZcUF1Ivvt6BoIpqN+nASART87uelXig1yEaHXKCkT5LnXEmzrqQgn6K6NMcfWLzZ4HuhqDJkUgJ0g8gY8nxxc0/9SHNJ1E2C0MqTMEc5XmiHUkjpdo7BaUMUfb9VCVfhprE54ylN9aA543qMBdY=
+	t=1710186862; cv=none; b=iy9UDYOk3Mp8M60Ek1pwObvfD17SSSx575PiiezexoitGqdjynbdrjj2eY11qvOG3hnd+QWcAF/jYZiITeCa6j+/XCxQLBv/fzNbbNJAV8alhadHV/83jAcwbIxghK+uS/mbdst9GQvHFGvSff45+yZNFXVmHMxlJ4xs5uDZr3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710186231; c=relaxed/simple;
-	bh=KKQyo51bc/AIZ0093isHt1glyMS5E+CYMY5cLg6WvrE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ib8JcMCEUKawlCBM8GB3Dh2MLBGtjyP9QYKFXolaI1tr+ttWHASvUmC51uC9s37UAFhW3ThDavSWtS15a6ygsZNU2W56xMYhyTueZkaOSczcOXaQqI6qZGik5yN79Zz+UKtq8xaXOLiIeFC251/A/xDlhG2Z1WWWhHQnmDDw/Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.18.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-Received: from [92.206.191.65] (helo=note-book.lan)
-	by smtprelay01.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <git@apitzsch.eu>)
-	id 1rjkh9-000000002Z2-1Jfe;
-	Mon, 11 Mar 2024 19:48:19 +0100
-Message-ID: <a6d43f8cad8323ab59f44a2c7b0fd5a35cbc86d0.camel@apitzsch.eu>
-Subject: Re: [PATCH v4 2/2] leds: rgb: leds-ktd202x: Get device properties
- through fwnode to support ACPI
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, Hans de
- Goede <hdegoede@redhat.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, linux-kernel@vger.kernel.org
-Date: Mon, 11 Mar 2024 19:48:17 +0100
-In-Reply-To: <20240306025801.8814-3-hpa@redhat.com>
-References: <20240306025801.8814-1-hpa@redhat.com>
-	 <20240306025801.8814-3-hpa@redhat.com>
-Autocrypt: addr=git@apitzsch.eu; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 
+	s=arc-20240116; t=1710186862; c=relaxed/simple;
+	bh=I80kmniNaJNpW7w8bqB75g71TWFOq8gFFWvyljKYL0I=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ul0QEixjWlOzN54EoQr+ojG/gkJc6piv5ZUk6Tjq9M+Y4xcO1VCOo6k82um48jwQ+T3+mTqrRA1/g5bnkV5vMgWeBCFXnzLSC5AFPCovm16xb/qo4dyieSW399KFN6sF+hgcvQwGr4aJiCiWqtFU/ti7vH8nt8WlXRL5jP3mfeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=ouCT6rfu; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 66BD72C0480;
+	Tue, 12 Mar 2024 08:54:17 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1710186857;
+	bh=I80kmniNaJNpW7w8bqB75g71TWFOq8gFFWvyljKYL0I=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=ouCT6rfuhAwy46/GC7cuoDbMuhNBhadJQtzGc0L+Uv5Qt7OmnrbgaD6eFH2LpWvYK
+	 YviBS17oura5382vXkY2/LRpwiOaT7R7oad7PhB/yZuUzPBUc6bIS/U9h6xc7bS85w
+	 FSza3SN0sj7tNNKomJc3nfDsfVcBGG9u3vUW0PqHafyqdD32Zs4ZMwh+R5tpxjHXaD
+	 XdvlIE78oQq+Eb9LvsXThsalXxTtuz7tvJgOCi8SQlfneGo2tqsponyNI388N5nlZa
+	 Vgwhvu5UZ+iSFJPmiCxILuSpaC7MbrkLwZonr/ETt8Nj89OYPYonWcBN4eeCUfng9q
+	 EI2Qo4UvGB7Fg==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65ef61690001>; Tue, 12 Mar 2024 08:54:17 +1300
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 12 Mar 2024 08:54:16 +1300
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1118.040; Tue, 12 Mar 2024 08:54:16 +1300
+From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To: Arnd Bergmann <arnd@kernel.org>, Andy Shevchenko
+	<andy.shevchenko@gmail.com>
+CC: Gregory Clement <gregory.clement@bootlin.com>, Andy Shevchenko
+	<andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Rob Herring
+	<robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth
+	<sebastian.hesselbarth@gmail.com>, Lee Jones <lee@kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on
+ x530
+Thread-Topic: [PATCH v5 3/3] ARM: dts: marvell: Add 7-segment LED display on
+ x530
+Thread-Index: AQHacCEP50uDUqyXjk+YznxFpDHUm7EsnIcAgAAm+YCAAAZbAIAABFUAgAPI1gCAAKI2gIAA6F8A
+Date: Mon, 11 Mar 2024 19:54:16 +0000
+Message-ID: <df9e5c40-7b82-4038-93cc-3c454bf75b7a@alliedtelesis.co.nz>
+References: <20240306235021.976083-1-chris.packham@alliedtelesis.co.nz>
+ <20240306235021.976083-4-chris.packham@alliedtelesis.co.nz>
+ <87edclgoon.fsf@BL-laptop>
+ <CAHp75VfmSWH3FWEHU+bGYDuo-nt1DJhY5Fvs83A-RGrtrsgWTw@mail.gmail.com>
+ <8177b94d-82c9-42b6-85eb-728dec762162@app.fastmail.com>
+ <CAHp75VfiaWFricM4Or771P0LJVoFoEmQtoJo1hySo=BRS-59DQ@mail.gmail.com>
+ <6c3451ed-6346-45e2-940e-851cb99a1b63@alliedtelesis.co.nz>
+ <e90c2e69-17ea-4875-bb36-8a6d846f05e6@app.fastmail.com>
+In-Reply-To: <e90c2e69-17ea-4875-bb36-8a6d846f05e6@app.fastmail.com>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A9ED38D725C7F444854F1D2D79C8E5E0@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65ef6169 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=K6JAEmCyrfEA:10 a=VwQbUJbxAAAA:8 a=P-IC7800AAAA:8 a=_VaukpeC9nYuBFLc3MMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=d3PnA9EDa4IxuAV0gXij:22
+X-SEG-SpamProfiler-Score: 0
 
-Am Mittwoch, dem 06.03.2024 um 10:58 +0800 schrieb Kate Hsuan:
-> This LED controller also installed on a Xiaomi pad2 and it is a x86
-> platform. The original driver is based on device tree and can't be
-> used for this ACPI based system. This patch migrated the driver to
-> use fwnode to access the properties. Moreover, the fwnode API
-> supports device tree so this work won't effect the original
-> implementations.
->=20
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
-
-Tested-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu> # on BQ Aquaris M5
+DQpPbiAxMS8wMy8yNCAxOTowMiwgQXJuZCBCZXJnbWFubiB3cm90ZToNCj4gT24gU3VuLCBNYXIg
+MTAsIDIwMjQsIGF0IDIxOjIyLCBDaHJpcyBQYWNraGFtIHdyb3RlOg0KPj4gT24gOC8wMy8yNCAy
+MzozNCwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPj4+IE9uIEZyaSwgTWFyIDgsIDIwMjQgYXQg
+MTI6MTnigK9QTSBBcm5kIEJlcmdtYW5uIDxhcm5kQGtlcm5lbC5vcmc+IHdyb3RlOg0KPj4+PiBP
+biBGcmksIE1hciA4LCAyMDI0LCBhdCAxMDo1NiwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOg0KPj4+
+Pj4gT24gRnJpLCBNYXIgOCwgMjAyNCBhdCA5OjM24oCvQU0gR3JlZ29yeSBDTEVNRU5UIDxncmVn
+b3J5LmNsZW1lbnRAYm9vdGxpbi5jb20+IHdyb3RlOg0KPj4+Pj4+IE5vcm1hbGx5LCB0aGlzIHBh
+dGNoIHNob3VsZCBiZSB0YWtlbiBpbiBtdmVidSBhbmQgdGhlbiBtZXJnZWQgYnkNCj4+Pj4+PiBh
+cm0tc29jLiBIb3dldmVyLCBJIGhhdmVuJ3Qgc2VlbiBhbnkgb3RoZXIgcGF0Y2ggdG91Y2hpbmcg
+dGhpcyBmaWxlIChzbw0KPj4+Pj4+IG5vIHJpc2sgb2YgbWVyZ2UgY29uZmxpY3QpIGFuZCBJIHRo
+aW5rIGl0J3MgdG9vIGxhdGUgZm9yIG1lIHRvIG1ha2UgYQ0KPj4+Pj4+IG5ldyBwdWxsIHJlcXVl
+c3QgdG8gYXJtLXNvYy4gU28gSSdtIG5vdCBhZ2FpbnN0IGl0IGJlaW5nIHRha2VuIHdpdGggdGhl
+DQo+Pj4+Pj4gcmVzdCBvZiB0aGUgcGF0Y2hlcy4gSG93ZXZlciwgSSB0aGluayBpdCB3b3VsZCBi
+ZSBhIGdvb2QgaWRlYSB0byBzZWUNCj4+Pj4+PiB3aGF0IEFybmQgdGhpbmtzIGFib3V0IGl0Lg0K
+Pj4gRllJIC4vc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5wbCAtZiBhcmNoL2FybS9ib290L2R0cy9t
+YXJ2ZWxsIGlzbid0DQo+PiBwaWNraW5nIHVwIEFybmQgc2hvdWxkIGl0Pw0KPiBObywgYXMgR3Jl
+Z29yeSB3cml0ZXMsIHRoZSBpbnRlbmRlZCB3YXkgZm9yIHBsYXRmb3JtIHNwZWNpZmljDQo+IHBh
+dGNoZXMgaXMgdG8gZ28gdGhyb3VnaCB0aGUgbWFpbnRhaW5lciBmb3IgdGhhdCBwbGF0Zm9ybSwN
+Cj4gaW4gdGhpcyBjYXNlIGhpbSwgd2hvIHRoZW4gc2VuZHMgcHVsbCByZXF1ZXN0cyB0byBtZS4N
+Cj4NCj4gU2luY2UgaXQgd2FzIGxhdGUgaW4gdGhlIG1lcmdlIHdpbmRvdywgaGUgc3VnZ2VzdGVk
+IHNraXBwaW5nDQo+IHRoaXMgc3RlcCBhcyBhbiBleGNlcHRpb24sIHdoaWNoIGlzIHNvbWV0aGlu
+ZyB3ZSBjYW4gYWx3YXlzIGRvDQo+IGlmIHRoZXJlIGlzIGFuIGltcG9ydGFudCByZWFzb24sIGp1
+c3QgbGlrZSB5b3Ugc2tpcCBjYW4gYWxsDQo+IG1haW50YWluZXJzIGFuZCBnbyBkaXJlY3RseSB0
+byBMaW51cyBpZiBuZWNlc3NhcnksIGJ1dCB0aGUNCj4gbWFpbnRhaW5lcnMgZmlsZSBvbmx5IGRv
+Y3VtZW50cyB0aGUgbm9ybWFsIGNhc2UuDQoNCk9LIHRoYW5rcyBmb3IgdGhlIGNsYXJpZmljYXRp
+b24uDQoNCkkgZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYW55IHJlYXNvbiB0byBydXNoIHRoaXMuIEkn
+bGwgc2VuZCBhIG5ldyBzZXJpZXMgDQpmb3IgdGhpcyBEVFMgY2hhbmdlIGFuZCBvbmUgb3RoZXIg
+dGhhdCBJIGhhdmUgZm9yIHRoZSB4NTMwIHZpYSBHcmVnb3J5IA0KYW5kIGl0IGNhbiBjb21lIHRo
+cm91Z2ggZm9yIGVpdGhlciA2Ljkgb3IgNi4xMC4NCg==
 
