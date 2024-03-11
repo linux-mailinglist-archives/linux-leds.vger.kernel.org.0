@@ -1,117 +1,78 @@
-Return-Path: <linux-leds+bounces-1212-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1213-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81608877F93
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 13:05:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB6087890F
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 20:43:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37DA11F22887
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 12:05:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C7131C21272
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Mar 2024 19:43:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1198C3BBF2;
-	Mon, 11 Mar 2024 12:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EiLNERKX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935DC535AF;
+	Mon, 11 Mar 2024 19:43:51 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtprelay01.ispgateway.de (smtprelay01.ispgateway.de [80.67.18.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F183B7AC;
-	Mon, 11 Mar 2024 12:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F15B56B63;
+	Mon, 11 Mar 2024 19:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.18.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710158738; cv=none; b=pWLwCfenJErBdbn8Sv5dsCZSOL/xhmpUQrMLgqbI/6qp07QMEKrSrGTiOKZuN1MYBbyaa8wrUW3RDhuML7pG/7pDkFC7jMPBVuoPmNSaXtsc4QsZFqXbM8Fh4ppy8NDps6DIUO2FKSAvuSDY8HSkBWBfb9Vba+yrvGjc05FkiVQ=
+	t=1710186231; cv=none; b=ipF1ZaxPLyFJDbGAvYno43UfZcUF1Ivvt6BoIpqN+nASART87uelXig1yEaHXKCkT5LnXEmzrqQgn6K6NMcfWLzZ4HuhqDJkUgJ0g8gY8nxxc0/9SHNJ1E2C0MqTMEc5XmiHUkjpdo7BaUMUfb9VCVfhprE54ylN9aA543qMBdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710158738; c=relaxed/simple;
-	bh=uSTCg+F+kw498x2HNia8q+5D0uqMlyFbtWRaerhDL/w=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=LYBfh6nQ/lInGziR6DHXjj7rTqEwOJlwkw8NS/4kTnyaK/fzzVIqRDYsQVcKs68jzfVZ8GNLGhUs12yC2jyVI+iWXkFh6JHnQJMc+RIPDuqnGlAeI2FulPWk8efqtvZEKt0pjJ5o5+CGm06JtfIJH76Dnysr1wz4wvcrN4j0L2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EiLNERKX; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710158738; x=1741694738;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=uSTCg+F+kw498x2HNia8q+5D0uqMlyFbtWRaerhDL/w=;
-  b=EiLNERKXltHQZnbVXng9aQkk0LPnyVX3fBDmh307bsL7qLuwWE9ZoMbh
-   v5cpNOXHda121wgmsJ1KwpXPlO/ka9PdzIQwtJHlNV87GeAj/lBFRkUS1
-   lJIy5HlyGMFCU5tH4kV2trURDibbQeU90P1R17WEF1EXu8AbHl+fjMNDN
-   ZGXSQrzLUG5jL+wJFp5FN+Czuu/Vy1M6S3PbFjBl7d+djB01v48g+Ukn+
-   g/r4yvOpFGUjzrGXz27GmhkBUwjaXiPzBkPy9zsVWNfg+SByc01ZmEXY7
-   5Qw9VP6yf95Lfj/EGXfqoO7EkTElF1quXfpUJZCbCHr9fFVT9ZHW31S0H
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="4659508"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="4659508"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 05:05:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="11719654"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.201])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 05:05:33 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 11 Mar 2024 14:05:29 +0200 (EET)
+	s=arc-20240116; t=1710186231; c=relaxed/simple;
+	bh=KKQyo51bc/AIZ0093isHt1glyMS5E+CYMY5cLg6WvrE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ib8JcMCEUKawlCBM8GB3Dh2MLBGtjyP9QYKFXolaI1tr+ttWHASvUmC51uC9s37UAFhW3ThDavSWtS15a6ygsZNU2W56xMYhyTueZkaOSczcOXaQqI6qZGik5yN79Zz+UKtq8xaXOLiIeFC251/A/xDlhG2Z1WWWhHQnmDDw/Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.18.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+Received: from [92.206.191.65] (helo=note-book.lan)
+	by smtprelay01.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <git@apitzsch.eu>)
+	id 1rjkh9-000000002Z2-1Jfe;
+	Mon, 11 Mar 2024 19:48:19 +0100
+Message-ID: <a6d43f8cad8323ab59f44a2c7b0fd5a35cbc86d0.camel@apitzsch.eu>
+Subject: Re: [PATCH v4 2/2] leds: rgb: leds-ktd202x: Get device properties
+ through fwnode to support ACPI
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
 To: Kate Hsuan <hpa@redhat.com>
-cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-    linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    Hans de Goede <hdegoede@redhat.com>, 
-    =?ISO-8859-15?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>, 
-    LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 0/2] KTD2026 indicator LED for X86 Xiaomi Pad2
-In-Reply-To: <20240306025801.8814-1-hpa@redhat.com>
-Message-ID: <fc522d02-d1e9-22e8-6cbd-8a8d66e3ba77@linux.intel.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, Hans de
+ Goede <hdegoede@redhat.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, linux-kernel@vger.kernel.org
+Date: Mon, 11 Mar 2024 19:48:17 +0100
+In-Reply-To: <20240306025801.8814-3-hpa@redhat.com>
 References: <20240306025801.8814-1-hpa@redhat.com>
+	 <20240306025801.8814-3-hpa@redhat.com>
+Autocrypt: addr=git@apitzsch.eu; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
 
-On Wed, 6 Mar 2024, Kate Hsuan wrote:
+Am Mittwoch, dem 06.03.2024 um 10:58 +0800 schrieb Kate Hsuan:
+> This LED controller also installed on a Xiaomi pad2 and it is a x86
+> platform. The original driver is based on device tree and can't be
+> used for this ACPI based system. This patch migrated the driver to
+> use fwnode to access the properties. Moreover, the fwnode API
+> supports device tree so this work won't effect the original
+> implementations.
+>=20
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
 
-> This patch added the support for Xiaomi Pad2 indicator LED. This work
-> included two parts.
-> 1. Added the KTD2026 swnode description to describe the LED controller.
-> 2. Migrated the original driver to fwnode to support x86 platform.
-> 
-> Moreover, the LED trigger is set to bq27520-0-charging for Xiaomi Pad2
-> so the LED will be turned on when charging.
-> 
-> --
-> Changes in v4:
-> 1. Fix double casting.
-> 2. Since force casting a pointer value to int will trigger a compiler
->    warning, the type of num_leds was changed to unsigned long. 
-> 
-> Changes in v3:
-> 1. Drop the patch "leds-ktd202x: Skip regulator settings for Xiaomi
->    pad2"
-> 
-> Changes in v2:
-> 1. Typo and style fixes.
-> 2. The patch 0003 skips all the regulator setup for Xiaomi pad2 since
->    KTD2026 on Xiaomi pad2 is already powered by BP25890RTWR. So, the
->    sleep can be removed when removing the module.
-> 
-> Kate Hsuan (2):
->   platform: x86-android-tablets: other: Add swnode for Xiaomi pad2
->     indicator LED
->   leds: rgb: leds-ktd202x: Get device properties through fwnode to
->     support ACPI
-
-Hi,
-
-I took the patch 1/2 now into pdx86/review-ilpo where it will propagate 
-into pdx86/for-next.
-
--- 
- i.
-
+Tested-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu> # on BQ Aquaris M5
 
