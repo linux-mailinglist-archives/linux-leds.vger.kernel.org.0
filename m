@@ -1,73 +1,72 @@
-Return-Path: <linux-leds+bounces-1226-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1227-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97978879061
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Mar 2024 10:08:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19EF087923A
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Mar 2024 11:36:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23406284FC6
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Mar 2024 09:08:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BD191C20CCD
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Mar 2024 10:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A85177F1D;
-	Tue, 12 Mar 2024 09:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C607158AD6;
+	Tue, 12 Mar 2024 10:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/TpW1HD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJkPSNeC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C777A03;
-	Tue, 12 Mar 2024 09:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAFD41C89;
+	Tue, 12 Mar 2024 10:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710234505; cv=none; b=UhB0S+3rxJapWGT8lKyEi1kJv0MXQKXtPoJ3qnZ0oUp5WwjCeeCuLiObz2C6H9H6gJEtY62kEVdUNRw0cd6Odylc3AasEMqHSD1lcDp32MuB1cUj03uXP0/jOv8lkwLttqUIZGOaWtPA3uSDMWhWxE4G9rZBwGIIB8tDVks5nC4=
+	t=1710239747; cv=none; b=HqJGFvWQYSqhpZajF4LsgC1W3+jxEiMqQcn8ONLnDox4VUdcVdJoyKW1JITI/tE0YKGf/mryxCf/vuDvWZwmq3d/jUZ7Ou9xXFZ6JwwQKtTUDZaz83VRSjYpdC3tFFjAiT3vXSj4lfCH++Il7C8AWKDLmurZq997t0PzP0MMgRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710234505; c=relaxed/simple;
-	bh=Hovp2SpFqNAcSQbRYkflVVphrfZ4KQbQv0e1t94NEC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Og3ofUJiHBKHbBd2QCkAu77mSuZdRSED7bwpLatCd9I/jKJh3Oy4tAtvxdj3Aug7oZ7zjV2VWav+hWSssDvDphM2pqJq02YNymar1Fkx06xs0MS6GGyUqwUe6wrsAt2Yhauoub/ouECEdWiTQBB86vCz2KTNazUQYggUUCB1b6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/TpW1HD; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1710239747; c=relaxed/simple;
+	bh=QDB+v8Xy4M7nLhPofhtwM2OqHObbpVpZmD9JZ7L7PmI=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hP+kw8cfQKz7JogaBaWn2tzwUnxROFmWYNxS+3P7h8mk99uNlL1DuV9ZrQt4LeGS/qOM9nH2u2DyrbRdouwGvhSzB1/Dw743/llaxvTAhANVghb42M6A83+x5M2ig4Xe9MAbHrT9j2VNI5zJd68XVGVvE7WrJq/bNmTQhgPse5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJkPSNeC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710234504; x=1741770504;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Hovp2SpFqNAcSQbRYkflVVphrfZ4KQbQv0e1t94NEC0=;
-  b=U/TpW1HDb/0KQmZcGQTbeQvhCuupM+LSuHWhTu3vc142D8TX6g7Ysetw
-   9bJzz80968XNoSfKDdeXHMICWAn2I368dZLdrojNJpmUpFNekSFpVKIdA
-   a/U7O6OH1M18LbMzUZx25LI1ujeVvgI2BKPlotyewcfFwD/nSTt0OgVmh
-   BfcbUShVMXmriPA8QCpbulXk+HO7DzPv499oMk+fzfuEdcT1mFi9Oju4Z
-   dytCvQMEeFQkC/3MvYWjitEnR/L+w9QD+p9CpGLlkJJ21pp2+0pQL8EBq
-   +IGe9lRytGgXkqQuPU+ZMdxi/5k7SWkcWaDLaz5ITV1QFMYoksnuNLZdj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4789521"
+  t=1710239747; x=1741775747;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=QDB+v8Xy4M7nLhPofhtwM2OqHObbpVpZmD9JZ7L7PmI=;
+  b=OJkPSNeCJD8umcFOAfubxRY8TfXNdAWd0yCdsSqf2xP62Y79OVrydINB
+   Dc7PMdiOnrtyEKGdWLfKRjOFhBVv3/y2OTn8GxKR36gRwacMyRQMi7Q4P
+   rvomFnlFfZRsqH8BDvqsx4vrOA25QJbFwsF9Nq6XB/AAIAMGlmW9q67UK
+   3zqXuQncxzeXWGikhmdzCUwlJVdDzLHwNSJB9ANrR5h6KGS85uIdG7Rzf
+   iZ7tIRey/L9/LE4+GJqA93UcGjMt1vUcHxt7/jjQYpcf9kapQvQ6UJ2lM
+   TN1k7A9YqWcAjF0jt1Qou43mWtMdzZ1wzNaGzedtFM2sHJFyUgXK24Urx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4798576"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4789521"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 02:08:23 -0700
+   d="scan'208";a="4798576"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:35:46 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="11925428"
-Received: from mtkaczyk-mobl.ger.corp.intel.com (HELO localhost) ([10.245.98.108])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 02:08:20 -0700
-Date: Tue, 12 Mar 2024 10:08:16 +0100
-From: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
-To: Stuart Hayes <stuart.w.hayes@gmail.com>, Dan Williams
- <dan.j.williams@intel.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
- linux-leds@vger.kernel.org, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
- support
-Message-ID: <20240312100816.000071ec@linux.intel.com>
-In-Reply-To: <CAL5oW00nSZV=oAjWPbYTwVGZ9OS1hW9hyZ5C0yzWbMjAstAA2g@mail.gmail.com>
-References: <20240311104750.00000c24@linux.intel.com>
-	<20240311221337.GA819923@bhelgaas>
-	<CAL5oW00nSZV=oAjWPbYTwVGZ9OS1hW9hyZ5C0yzWbMjAstAA2g@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+   d="scan'208";a="11412344"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.6])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:35:42 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 12 Mar 2024 12:35:38 +0200 (EET)
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+cc: Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>, 
+    Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+    =?ISO-8859-15?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>, 
+    LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] platform: x86-android-tablets: other: Add swnode
+ for Xiaomi pad2 indicator LED
+In-Reply-To: <Ze-I63bNzaMkHfgg@surfacebook.localdomain>
+Message-ID: <18ef7e97-db6e-2dc4-5728-5a539ae4c9bb@linux.intel.com>
+References: <20240306025801.8814-1-hpa@redhat.com> <20240306025801.8814-2-hpa@redhat.com> <Ze-I63bNzaMkHfgg@surfacebook.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -75,33 +74,91 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 11 Mar 2024 17:30:06 -0500
-Stuart Hayes <stuart.w.hayes@gmail.com> wrote:
+On Tue, 12 Mar 2024, Andy Shevchenko wrote:
 
-> > > No, Linux doesn't support _DSM. It was proposed in previous
-> > > iterations by Stuart but I dropped it. We decided that it need to be
-> > > strongly rebuild because "pci/pcie" is not right place for ACPI code
-> > > so we cannot register _DSM driver instead of NPEM as it was proposed
-> > > and I don't have _DSM capable hardware to test it.  
-> >  
+> Wed, Mar 06, 2024 at 10:58:00AM +0800, Kate Hsuan kirjoitti:
+> > There is a KTD2026 LED controller to manage the indicator LED for Xiaomi
+> > pad2. The ACPI for it is not properly made so the kernel can't get
+> > a correct description of it.
+> > 
+> > This work add a description for this RGB LED controller and also set a
+> > trigger to indicate the chaging event (bq27520-0-charging). When it is
+> > charging, the indicator LED will be turn on.
 > 
-> I'm not sure I understand why pci/pcie isn't the right place for ACPI code--
-> there are other _DSMs used in PCI code already, and this _DSM is defined
-> in a PCI ECN.
+> Ilpo, Kate, please consider the following remarks.
+> 
+> ...
+> 
+> >  #include <linux/gpio/machine.h>
+> >  #include <linux/input.h>
+> >  #include <linux/platform_device.h>
+> 
+> + Blank line?
+> 
+> > +#include <dt-bindings/leds/common.h>
+> 
+> Not sure where to place this, some drivers put it the first, some after linux/*.
+> 
+> ...
+> 
+> > +/* main fwnode for ktd2026 */
+> > +static const struct software_node ktd2026_node = {
+> 
+> No name?
+> 
+> > +};
+> > +
+> > +static const struct property_entry ktd2026_rgb_led_props[] = {
+> > +	PROPERTY_ENTRY_U32("reg", 0),
+> > +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
+> > +	PROPERTY_ENTRY_STRING("function", "indicator"),
+> 
+> > +	PROPERTY_ENTRY_STRING("linux,default-trigger",
+> > +			      "bq27520-0-charging"),
+> 
+> It's less than 80, why not on a single line?
+> 
+> > +
+> 
+> Redundant blank line.
+> 
+> > +	{ }
+> > +};
+> 
+> ...
+> 
+> > +/* B */
+> 
+> B for red?!
+> 
+> > +static const struct property_entry ktd2026_red_led_props[] = {
+> > +	PROPERTY_ENTRY_U32("reg", 0),
+> > +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_BLUE),
+> > +	{ }
+> > +};
 
-I looked into internal review history and I found out that I dropped it after
-discussion with Dan Williams:
+The name with "red" and LED_COLOR_ID_BLUE are also inconsistent.
 
-> After review and discussion with Dan _DSM extension is dropped.
+> ...
+> 
+> > +/* R */
+> 
+> R for blue?!
+> 
+> > +static const struct property_entry ktd2026_blue_led_props[] = {
+> > +	PROPERTY_ENTRY_U32("reg", 2),
+> > +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RED),
+> > +	{ }
+> > +};
 
-Unfortunately, I don't remember what exactly he suggested, I just remembered
-conclusion that it needs to be reworked and I decided to drop it.
-Maybe, I didn't understand him correctly.
+Here as well.
 
-Dan, could you take a look? Do you remember something?
+I think it's better I drop this patch (it's only in review-ilpo) and wait 
+for v5 version as there's some much still to correct.
 
-Thanks,
-Mariusz
+
+-- 
+ i.
+
 
