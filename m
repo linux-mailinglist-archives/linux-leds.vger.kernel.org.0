@@ -1,56 +1,71 @@
-Return-Path: <linux-leds+bounces-1239-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1240-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841F487B840
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 08:06:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EAF287B980
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 09:46:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E7FC1F2183C
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 07:06:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C29A31C21186
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 08:46:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 384C6101DA;
-	Thu, 14 Mar 2024 07:05:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F426BFAF;
+	Thu, 14 Mar 2024 08:46:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="YtKa+NbV"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="v1rPizqg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00D60DDDA;
-	Thu, 14 Mar 2024 07:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6736BB48;
+	Thu, 14 Mar 2024 08:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710399948; cv=none; b=VgbakND8kgnMwiLgtxihCzu5AYZsJYTfxuk5/91yDsKZU0FNgwzUER21Bqd7KwJGguETq9DQCMXv0ETBnDKRkXOxIZUokjYxlT3gLr29JmWwgCUBvgaDlbHQJO+Y840oufCaRXeLQQgswDqO2UsPL5rY0r/3zK6YbUvSqLniJso=
+	t=1710405979; cv=none; b=R8idPQbV5dE/C4eH8xGokstd3HWh5pfi9RY6s6rmru0y0CdVqIRn+HNLwVviHphF6isq+NXkUYBVyNvaVMri3uoRfVRWjFnIKpR3wDDgX+o9anb6FHL/rW/7NpR9wuosca/0ZedZ3xplzKJNMdnDcYgg36niYgNitFVEyRElkRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710399948; c=relaxed/simple;
-	bh=meFm6gJ6rQcS7XbiCaLAxoeO97GuJjt8lePHrnWPmmc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tmQ5AbZXiE9ifTKEqSrp1b8SnEeXKq0o1mLzWS/2d+YUk5j05dnDJ2Z9mpTi/WQ/BlbWoFNB+EIe+lnNvdrd3/vQNvaXgZ1KvoMQl0p6zXXPkNznFUgtEEWn9lh+Z4tQQFeI1Bnq0LyNNci6rPdyq9rJHTnO2MGwU7QN9FHJpLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=YtKa+NbV; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=xyteW
-	+zBpUUReYWHop0fBBorjNE1ZTTbK5LsFrcqirw=; b=YtKa+NbVIVOFSedf1MUmQ
-	8lvdZb/txODALcnKLxl0eZYYKM4oKl7yDXWDrlrlk8YDIbWtVktUNm8pi8uxfZO3
-	VXZXx7raPj376jiwIt4UYs+U+kNdoQOc92ycN+DQNruqAy++LDW7y3s4ZbCcndsj
-	i6DLcCQEUCF/W1bKFRsKCg=
-Received: from localhost.localdomain (unknown [39.144.138.226])
-	by gzga-smtp-mta-g1-2 (Coremail) with SMTP id _____wDn1yihofJlvcF6AA--.24464S2;
-	Thu, 14 Mar 2024 15:05:06 +0800 (CST)
-From: Xing Tong Wu <xingtong_wu@163.com>
-To: andy.shevchenko@gmail.com,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Xing Tong Wu <xingtong.wu@siemens.com>,
-	Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-	Tobias Schaffner <tobias.schaffner@siemens.com>,
-	Henning Schild <henning@hennsch.de>
-Subject: [PATCH v4] leds: simatic-ipc-leds-gpio: add support for module BX-59A
-Date: Thu, 14 Mar 2024 15:05:06 +0800
-Message-Id: <20240314070506.2384-1-xingtong_wu@163.com>
+	s=arc-20240116; t=1710405979; c=relaxed/simple;
+	bh=I+sIqzgYXsPsKcQtO8F/QCG3scZclVgrXnFdX0Ulacs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CMj3MqTeys2dgzEludIorhBfq5sj/5bibGvTDTiy4zVUYcmwrWXy9kaaFpt72dbR3/UtilYYtlWcODCRnChKajT8/uFKohxH8p3KeGE3XZovl1HFq6wOKlkjILSMPOFD3umTwiFAdMQPVCE5vSOOX0gZ/6YP4Dn+nJAOMt4TXHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=v1rPizqg; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 63B7D100014;
+	Thu, 14 Mar 2024 11:46:07 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 63B7D100014
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1710405967;
+	bh=0dng4LZgF8VdbCVVEka661RpoMAwXLn7fFDnBMpRVD0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=v1rPizqgSuqE/0oBzI+HKOr+KWPAG8FMm62rPgG67YvUo/jfXR5IjRbTvXuJl6t4D
+	 WRY4bQa/ct8yyI8TxD6g1yznytJf2KRQqoZoLPyRZ9BN9/TDPYiTf2lVVDMvSRmZH6
+	 t2EePVtsLZ79ZYE1OdJwo4giNjvpx1oqFrO2DqLlB/C8/HzYSP7dk0AFzg1PZ0bDCQ
+	 HGDeisik6s9II/hcIdE4Fg0FSH/3OGFzC42eg58X4MLa0XClFoKaDdqIEvI1lVE3Dk
+	 +O7M8Tw9w6Uw1DqK7fgi12Pm5CkUYS1N7fmjOhq9LccsVGm4gV+6RGah8KK3QEwuDg
+	 hfueCvWMvLZDw==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Thu, 14 Mar 2024 11:46:07 +0300 (MSK)
+Received: from localhost.localdomain (100.64.160.123) by
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 14 Mar 2024 11:46:06 +0300
+From: George Stark <gnstark@salutedevices.com>
+To: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
+	<vadimp@nvidia.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
+	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
+	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
+	<nikitos.tr@gmail.com>, <marek.behun@nic.cz>, <kabel@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <kernel@salutedevices.com>, George Stark
+	<gnstark@salutedevices.com>
+Subject: [PATCH v6 0/9] devm_led_classdev_register() usage problem
+Date: Thu, 14 Mar 2024 11:45:22 +0300
+Message-ID: <20240314084531.1935545-1-gnstark@salutedevices.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -59,131 +74,154 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDn1yihofJlvcF6AA--.24464S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr1kurWUJw15Xr18JF1kZrb_yoWrKry7pF
-	9xJa9YkFW5XF1Dtr13GFW7Zas3uw4xKr97trZxGayYg3Wjvr10gFy7AFW3XFZ5J3ykuFnx
-	GF4rtFyj9r4kAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jb0edUUUUU=
-X-CM-SenderInfo: p0lqw35rqjs4rx6rljoofrz/xtbB0geh0GWXwizc1QAAsx
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.3
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_urls_end_caps}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/02/29 16:52:00
+X-KSMG-LinksScanning: Clean, bases: 2024/02/29 16:52:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-From: Xing Tong Wu <xingtong.wu@siemens.com>
+This patch series fixes the problem of devm_led_classdev_register misusing.
 
-This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
-connected to GPIOs provided by the Nuvoton NCT6126D.
+The basic problem is described in [1]. Shortly when devm_led_classdev_register()
+is used then led_classdev_unregister() called after driver's remove() callback.
+led_classdev_unregister() calls driver's brightness_set callback and that callback
+may use resources which were destroyed already in driver's remove().
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Xing Tong Wu <xingtong.wu@siemens.com>
----
-changes since v3:
- - Consolidate repetitive code into a single line.
+After discussion with maintainers [2] [3] we decided:
+1) don't touch led subsytem core code and don't remove led_set_brightness() from it
+but fix drivers
+2) don't use devm_led_classdev_unregister
 
-changes since v2:
- - Add a period to the end of the commit message.
- - Use specialized interfaces to get platform data and drvdata.
+So the solution is to use devm wrappers for all resources
+driver's brightness_set() depends on. And introduce dedicated devm wrapper
+for mutex as it's often used resource.
 
-changes since v1:
- - Creat a resource dynamically within the .probe() function to eliminate the use of global variables.
+[1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
+[2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
+[3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
 
- .../leds/simple/simatic-ipc-leds-gpio-core.c  |  1 +
- .../simple/simatic-ipc-leds-gpio-f7188x.c     | 52 ++++++++++++++++---
- 2 files changed, 47 insertions(+), 6 deletions(-)
+Changelog:
+v1->v2:
+	revise patch series completely
 
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-index 667ba1bc3a30..85003fd7f1aa 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-@@ -56,6 +56,7 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
- 	case SIMATIC_IPC_DEVICE_127E:
- 	case SIMATIC_IPC_DEVICE_227G:
- 	case SIMATIC_IPC_DEVICE_BX_21A:
-+	case SIMATIC_IPC_DEVICE_BX_59A:
- 		break;
- 	default:
- 		return -ENODEV;
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-index c7c3a1f986e6..7a5018639aaf 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
-@@ -17,7 +17,12 @@
- 
- #include "simatic-ipc-leds-gpio.h"
- 
--static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-+struct simatic_ipc_led_tables {
-+	struct gpiod_lookup_table *led_lookup_table;
-+	struct gpiod_lookup_table *led_lookup_table_extra;
-+};
-+
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
- 	.dev_id = "leds-gpio",
- 	.table = {
- 		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-@@ -30,7 +35,7 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
- 	},
- };
- 
--static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra_227g = {
- 	.dev_id = NULL, /* Filled during initialization */
- 	.table = {
- 		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
-@@ -39,16 +44,51 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_extra = {
- 	},
- };
- 
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table_bx_59a = {
-+	.dev_id = "leds-gpio",
-+	.table = {
-+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-2", 3, NULL, 1, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 3, NULL, 2, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-5", 2, NULL, 3, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 7, NULL, 4, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("gpio-f7188x-7", 4, NULL, 5, GPIO_ACTIVE_LOW),
-+		{} /* Terminating entry */
-+	}
-+};
-+
- static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
- {
--	return simatic_ipc_leds_gpio_probe(pdev, &simatic_ipc_led_gpio_table,
--					   &simatic_ipc_led_gpio_table_extra);
-+	const struct simatic_ipc_platform *plat = dev_get_platdata(&pdev->dev);
-+	struct simatic_ipc_led_tables *led_tables;
-+
-+	led_tables = devm_kzalloc(&pdev->dev, sizeof(*led_tables), GFP_KERNEL);
-+	if (!led_tables)
-+		return -ENOMEM;
-+
-+	switch (plat->devmode) {
-+	case SIMATIC_IPC_DEVICE_227G:
-+		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_227g;
-+		led_tables->led_lookup_table_extra = &simatic_ipc_led_gpio_table_extra_227g;
-+		break;
-+	case SIMATIC_IPC_DEVICE_BX_59A:
-+		led_tables->led_lookup_table = &simatic_ipc_led_gpio_table_bx_59a;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	platform_set_drvdata(pdev, led_tables);
-+	return simatic_ipc_leds_gpio_probe(pdev, led_tables->led_lookup_table,
-+					   led_tables->led_lookup_table_extra);
- }
- 
- static void simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
- {
--	simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
--				     &simatic_ipc_led_gpio_table_extra);
-+	struct simatic_ipc_led_tables *led_tables = platform_get_drvdata(pdev);
-+
-+	simatic_ipc_leds_gpio_remove(pdev, led_tables->led_lookup_table,
-+				     led_tables->led_lookup_table_extra);
- }
- 
- static struct platform_driver simatic_ipc_led_gpio_driver = {
--- 
+v2->v3:
+locking: add define if mutex_destroy() is not an empty function
+	new patch, discussed here [8]
+
+devm-helpers: introduce devm_mutex_init
+	previous version [4]
+	- revise code based on mutex_destroy define
+	- update commit message
+	- update devm_mutex_init()'s description
+
+leds: aw2013: unlock mutex before destroying it
+	previous version [5]
+	- make this patch first in the series
+	- add tags Fixes and RvB by Andy
+
+leds: aw2013: use devm API to cleanup module's resources
+	previous version [6]
+	- make aw2013_chip_disable_action()'s body oneline
+	- don't shadow devm_mutex_init() return code
+
+leds: aw200xx: use devm API to cleanup module's resources
+	previous version [7]
+	- make aw200xx_*_action()'s bodies oneline
+	- don't shadow devm_mutex_init() return code
+
+leds: lm3532: use devm API to cleanup module's resources
+leds: nic78bx: use devm API to cleanup module's resources
+leds: mlxreg: use devm_mutex_init for mutex initializtion
+leds: an30259a: use devm_mutext_init for mutext initialization
+leds: powernv: add LED_RETAIN_AT_SHUTDOWN flag for leds
+	- those pathes were planned but not sent in the series #2 due to mail server
+	problem on my side. I revised them according to the comments.
+
+v3->v4:
+locking: introduce devm_mutex_init
+	new patch
+	- move devm_mutex_init implementation completely from devm-helpers.h to mutex.h
+
+locking: add define if mutex_destroy() is not an empty function
+	drop the patch [9]
+
+devm-helpers: introduce devm_mutex_init
+	drop the patch [10]
+
+leds: aw2013: use devm API to cleanup module's resources
+	- add tag Tested-by: Nikita Travkin <nikita@trvn.ru>
+
+v4->v5:
+leds: aw2013: unlock mutex before destroying it
+	merged separately and removed from the series
+
+locking/mutex: move mutex_destroy() definition lower
+	introduce optional refactoring patch
+
+locking/mutex: introduce devm_mutex_init
+	leave only one devm_mutex_init definition
+	add tag Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+
+leds* patches
+	remove #include <linux/devm-helpers.h> due to devm_mutext_init in mutex.h now
+
+v5->v6:
+locking/mutex: move mutex_destroy() definition lower [11]
+	drop the patch due to devm_mutex_init block is big enough to be declared standalone.
+
+locking/mutex: introduce devm_mutex_init
+	redesign devm_mutex_init function to macro to keep lockdep feature working
+	use typeof to redeclare mutex var in macro body (thanks to checkpatch)
+	previous version [12]
+
+[4] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mf500af0eda2a9ffc95594607dbe4cb64f2e3c9a8
+[5] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mc92df4fb4f7d4187fb01cc1144acfa5fb5230dd2
+[6] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m300df89710c43cc2ab598baa16c68dd0a0d7d681
+[7] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m8e5c65e0c6b137c91fa00bb9320ad581164d1d0b
+[8] https://lore.kernel.org/lkml/377e4437-7051-4d88-ae68-1460bcd692e1@redhat.com/T/#m5f84a4a2f387d49678783e652b9e658e02c27450
+[9] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m19ad1fc04c560012c1e27418e3156d0c9306dd84
+[10] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m63126025f5d1bdcef69bcad50f2e58274d42e2d
+[11] https://lore.kernel.org/lkml/20240307024034.1548605-2-gnstark@salutedevices.com/
+[12] https://lore.kernel.org/lkml/20240307024034.1548605-3-gnstark@salutedevices.com/
+
+George Stark (9):
+  locking/mutex: introduce devm_mutex_init
+  leds: aw2013: use devm API to cleanup module's resources
+  leds: aw200xx: use devm API to cleanup module's resources
+  leds: lp3952: use devm API to cleanup module's resources
+  leds: lm3532: use devm API to cleanup module's resources
+  leds: nic78bx: use devm API to cleanup module's resources
+  leds: mlxreg: use devm_mutex_init for mutex initializtion
+  leds: an30259a: use devm_mutext_init for mutext initialization
+  leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
+
+ drivers/leds/leds-an30259a.c | 14 ++++----------
+ drivers/leds/leds-aw200xx.c  | 32 +++++++++++++++++++++-----------
+ drivers/leds/leds-aw2013.c   | 25 +++++++++++++------------
+ drivers/leds/leds-lm3532.c   | 29 +++++++++++++++++------------
+ drivers/leds/leds-lp3952.c   | 21 +++++++++++----------
+ drivers/leds/leds-mlxreg.c   | 14 +++++---------
+ drivers/leds/leds-nic78bx.c  | 23 +++++++++++++----------
+ drivers/leds/leds-powernv.c  | 23 ++++++++---------------
+ include/linux/mutex.h        | 27 +++++++++++++++++++++++++++
+ kernel/locking/mutex-debug.c | 11 +++++++++++
+ 10 files changed, 130 insertions(+), 89 deletions(-)
+
+--
 2.25.1
 
 
