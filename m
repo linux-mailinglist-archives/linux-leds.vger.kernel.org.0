@@ -1,179 +1,250 @@
-Return-Path: <linux-leds+bounces-1255-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1261-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF80287BDC1
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 14:33:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0E187C424
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 21:19:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0B321C20A31
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 13:33:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3C5828151F
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 20:19:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99DD759168;
-	Thu, 14 Mar 2024 13:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C8F762FC;
+	Thu, 14 Mar 2024 20:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EjzACeo/"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="PxjI9h21"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551C433AD
-	for <linux-leds@vger.kernel.org>; Thu, 14 Mar 2024 13:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040DD76053;
+	Thu, 14 Mar 2024 20:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710423180; cv=none; b=sdn/O8JZAI4iW44I1razYicotyEUXS7m6OWLJ4kJrLHmihDQVLMB0Hb7ot1Oyvjljr8l5D8IYyM1nUPybf7x6MJfKPHNIXmfIa73erbYxjkWY3/UrD5QxBcPvIBhHD1N627x22w1CXjKWJ514ka4y3iq4ccXzM6muQgysH4qiWw=
+	t=1710447564; cv=none; b=GhxfNMA2V8nuT83gmsvLfLGU2iFtlurlffykdUOCLigqChYm125R4+LUw2RMTI/OJ/v+KS7VwHv1Clsp1G9a8c2+ejVqnWvIissKeOie4c+DJ8/K7hOa2qSaFk7ZjcI0T9TF8RSaz4FFd6/ECb9BKxsKOSzx6joJ1qriQIyvFYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710423180; c=relaxed/simple;
-	bh=rzVcn+UtgjN+mg3nAmtva02Br7Ga9tlrYTgPWQgIvSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X36UEsjwnj6P0kzhboGuJ4NQoWNQ/C07mC5TQGV15prPylSSOU2i6co08PKa2hTwVk9vPb5ubzh9thOCMUw9kB3kH8IWZvaH8CPE8ZjBnaGoHFgTQcjHx4ccIyzx9dsipWWDp/fB0r+fhDafGpQt5+h2B/M9ES7IkfmIRQCke98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EjzACeo/; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710423176;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7W6VhUuT1IYXtZxvs3JZ1xOnzXyykRUh8w8oxA4GA0I=;
-	b=EjzACeo/vlRs8VBA30fqSX6r4g1HuUOeYdVPgp941pxBVQ8PQI/0gyard0J7dFiES4v8Mg
-	kA9bslMtuDD4wLnuQwXqfa898IuiqOgb4QkzcNlCDB3a+uLFRPSn9iFZu33hX0gd4NPw2O
-	bVjWDB1/D39ZSWZ9AW2uFsDBnQ12INs=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-468-06n3wqtbNFSas5BYEGQpiw-1; Thu,
- 14 Mar 2024 09:32:54 -0400
-X-MC-Unique: 06n3wqtbNFSas5BYEGQpiw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	s=arc-20240116; t=1710447564; c=relaxed/simple;
+	bh=Zu8ZkIHTHljYg5u7isWwTbyb70s/0aIVEDUbtKWGA04=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qpPuXlN2zmJinTaIjzyE2uCiIkZ+JoDoUbpaH6LxmiYG8czEJ8hchnESYgrY3S8hblD//2QxpmwZ3Za0z5VF66y75tVX2BhDT1fBcCw5HnZs8uUvYJQEo3V1FKRsBpJQpXJEIAEPmklOvIoXFA2HkeecV9lieywdlqocx8IWvjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=PxjI9h21; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 7DBBD100007;
+	Thu, 14 Mar 2024 23:19:16 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 7DBBD100007
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1710447556;
+	bh=dZdE+su+h5MKSFhh1dYfaXULWdu4MR7WBdUhtZlwabo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=PxjI9h21h3MmvmkXg9Tb2oXLm7Dvga2806qCQnh5yXzhzC6DYKL0VhfLwyBFSIBP4
+	 ErQB4eqSKKDHp7LH3vKwoofzmVEZfi8GFbV46ICdcqjchOKNZwVGB13NrjAeucqppe
+	 bU007sG0T4Q/aiDEZ4JfGmq8onqQ7BMByu21EI/KTT4JWhybGCcJLQCxPfspUnrU7l
+	 FjUEwEPjr4v5aN3pfNErdcoEKnNMFJAbNNmRA4JdyHeF80jkKhDIXGMylKhAXO5ySB
+	 ZDNao1OF7NzWaduZ11Wfss5UB3PX0GdZjRhcSfDLGjWfmtr1JbN1oV5mWT5ipkuMfW
+	 GZ/NUMzehjIjQ==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 725BC1C5454A;
-	Thu, 14 Mar 2024 13:32:50 +0000 (UTC)
-Received: from [10.22.16.244] (unknown [10.22.16.244])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 41D38492BC6;
-	Thu, 14 Mar 2024 13:32:48 +0000 (UTC)
-Message-ID: <9fe2eaef-0407-4a96-b603-e7f6579110b6@redhat.com>
-Date: Thu, 14 Mar 2024 09:32:48 -0400
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Thu, 14 Mar 2024 23:19:16 +0300 (MSK)
+Received: from work.sberdevices.ru (100.64.160.123) by
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 14 Mar 2024 23:19:15 +0300
+From: George Stark <gnstark@salutedevices.com>
+To: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
+	<vadimp@nvidia.com>, <christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
+	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
+	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
+	<nikitos.tr@gmail.com>, <marek.behun@nic.cz>, <kabel@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<kernel@salutedevices.com>, George Stark <gnstark@salutedevices.com>
+Subject: [PATCH v7 0/8] devm_led_classdev_register() usage problem
+Date: Thu, 14 Mar 2024 23:18:48 +0300
+Message-ID: <20240314201856.1991899-1-gnstark@salutedevices.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/9] locking/mutex: introduce devm_mutex_init
-Content-Language: en-US
-To: George Stark <gnstark@salutedevices.com>, andy.shevchenko@gmail.com,
- pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com,
- mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
- will@kernel.org, boqun.feng@gmail.com, nikitos.tr@gmail.com,
- marek.behun@nic.cz, kabel@kernel.org
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kernel@salutedevices.com
-References: <20240314084531.1935545-1-gnstark@salutedevices.com>
- <20240314084531.1935545-2-gnstark@salutedevices.com>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20240314084531.1935545-2-gnstark@salutedevices.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.3
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_urls_end_caps}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/02/29 16:52:00
+X-KSMG-LinksScanning: Clean, bases: 2024/02/29 16:52:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
+X-KSMG-AntiVirus-Status: Clean, skipped
 
+This patch series fixes the problem of devm_led_classdev_register misusing.
 
-On 3/14/24 04:45, George Stark wrote:
-> Using of devm API leads to a certain order of releasing resources.
-> So all dependent resources which are not devm-wrapped should be deleted
-> with respect to devm-release order. Mutex is one of such objects that
-> often is bound to other resources and has no own devm wrapping.
-> Since mutex_destroy() actually does nothing in non-debug builds
-> frequently calling mutex_destroy() is just ignored which is safe for now
-> but wrong formally and can lead to a problem if mutex_destroy() will be
-> extended so introduce devm_mutex_init()
->
-> Signed-off-by: George Stark <gnstark@salutedevices.com>
-> Suggested by-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
->   include/linux/mutex.h        | 27 +++++++++++++++++++++++++++
->   kernel/locking/mutex-debug.c | 11 +++++++++++
->   2 files changed, 38 insertions(+)
->
-> diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-> index 67edc4ca2bee..f57e005ded24 100644
-> --- a/include/linux/mutex.h
-> +++ b/include/linux/mutex.h
-> @@ -22,6 +22,8 @@
->   #include <linux/cleanup.h>
->   #include <linux/mutex_types.h>
->   
-> +struct device;
-> +
->   #ifdef CONFIG_DEBUG_LOCK_ALLOC
->   # define __DEP_MAP_MUTEX_INITIALIZER(lockname)			\
->   		, .dep_map = {					\
-> @@ -117,6 +119,31 @@ do {							\
->   } while (0)
->   #endif /* CONFIG_PREEMPT_RT */
->   
-> +#ifdef CONFIG_DEBUG_MUTEXES
-> +
-> +int __devm_mutex_init(struct device *dev, struct mutex *lock);
-> +
-> +#else
-> +
-> +static inline int __devm_mutex_init(struct device *dev, struct mutex *lock)
-> +{
-> +	/*
-> +	 * When CONFIG_DEBUG_MUTEXES is off mutex_destroy is just a nop so
-> +	 * no really need to register it in devm subsystem.
-> +	 */
-> +	return 0;
-> +}
-> +
-> +#endif
-> +
-> +#define devm_mutex_init(dev, mutex)			\
-> +({							\
-> +	typeof(mutex) mutex_ = (mutex);			\
-> +							\
-> +	mutex_init(mutex_);				\
-> +	__devm_mutex_init(dev, mutex_);			\
-> +})
-> +
->   /*
->    * See kernel/locking/mutex.c for detailed documentation of these APIs.
->    * Also see Documentation/locking/mutex-design.rst.
-> diff --git a/kernel/locking/mutex-debug.c b/kernel/locking/mutex-debug.c
-> index bc8abb8549d2..6aa77e3dc82e 100644
-> --- a/kernel/locking/mutex-debug.c
-> +++ b/kernel/locking/mutex-debug.c
-> @@ -19,6 +19,7 @@
->   #include <linux/kallsyms.h>
->   #include <linux/interrupt.h>
->   #include <linux/debug_locks.h>
-> +#include <linux/device.h>
->   
->   #include "mutex.h"
->   
-> @@ -89,6 +90,16 @@ void debug_mutex_init(struct mutex *lock, const char *name,
->   	lock->magic = lock;
->   }
->   
-> +static void devm_mutex_release(void *res)
-> +{
-> +	mutex_destroy(res);
-> +}
-> +
-> +int __devm_mutex_init(struct device *dev, struct mutex *lock)
-> +{
-> +	return devm_add_action_or_reset(dev, devm_mutex_release, lock);
-> +}
-> +
->   /***
->    * mutex_destroy - mark a mutex unusable
->    * @lock: the mutex to be destroyed
-Acked-by: Waiman Long <longman@redhat.com>
+The basic problem is described in [1]. Shortly when devm_led_classdev_register()
+is used then led_classdev_unregister() called after driver's remove() callback.
+led_classdev_unregister() calls driver's brightness_set callback and that callback
+may use resources which were destroyed already in driver's remove().
+
+After discussion with maintainers [2] [3] we decided:
+1) don't touch led subsystem core code and don't remove led_set_brightness() from it
+but fix drivers
+2) don't use devm_led_classdev_unregister
+
+So the solution is to use devm wrappers for all resources
+driver's brightness_set() depends on. And introduce dedicated devm wrapper
+for mutex as it's often used resource.
+
+[1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
+[2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
+[3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
+
+Changelog:
+v1->v2:
+	revise patch series completely
+
+v2->v3:
+locking: add define if mutex_destroy() is not an empty function
+	new patch, discussed here [8]
+
+devm-helpers: introduce devm_mutex_init
+	previous version [4]
+	- revise code based on mutex_destroy define
+	- update commit message
+	- update devm_mutex_init()'s description
+
+leds: aw2013: unlock mutex before destroying it
+	previous version [5]
+	- make this patch first in the series
+	- add tags Fixes and RvB by Andy
+
+leds: aw2013: use devm API to cleanup module's resources
+	previous version [6]
+	- make aw2013_chip_disable_action()'s body one line
+	- don't shadow devm_mutex_init() return code
+
+leds: aw200xx: use devm API to cleanup module's resources
+	previous version [7]
+	- make aw200xx_*_action()'s bodies one line
+	- don't shadow devm_mutex_init() return code
+
+leds: lm3532: use devm API to cleanup module's resources
+leds: nic78bx: use devm API to cleanup module's resources
+leds: mlxreg: use devm_mutex_init for mutex initialization
+leds: an30259a: use devm_mutext_init for mutext initialization
+leds: powernv: add LED_RETAIN_AT_SHUTDOWN flag for leds
+	- those patches were planned but not sent in the series #2 due to mail server
+	problem on my side. I revised them according to the comments.
+
+v3->v4:
+locking: introduce devm_mutex_init
+	new patch
+	- move devm_mutex_init implementation completely from devm-helpers.h to mutex.h
+
+locking: add define if mutex_destroy() is not an empty function
+	drop the patch [9]
+
+devm-helpers: introduce devm_mutex_init
+	drop the patch [10]
+
+leds: aw2013: use devm API to cleanup module's resources
+	- add tag Tested-by: Nikita Travkin <nikita@trvn.ru>
+
+v4->v5:
+leds: aw2013: unlock mutex before destroying it
+	merged separately and removed from the series
+
+locking/mutex: move mutex_destroy() definition lower
+	introduce optional refactoring patch
+
+locking/mutex: introduce devm_mutex_init
+	leave only one devm_mutex_init definition
+	add tag Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+
+leds* patches
+	remove #include <linux/devm-helpers.h> due to devm_mutex_init() in mutex.h now
+
+v5->v6:
+locking/mutex: move mutex_destroy() definition lower [11]
+	drop the patch due to devm_mutex_init block is big enough to be declared standalone.
+
+locking/mutex: introduce devm_mutex_init
+	redesign devm_mutex_init function to macro to keep lockdep feature working
+	use typeof to redeclare mutex var in macro body (thanks to checkpatch)
+	previous version [12]
+
+v6->v7:
+locking/mutex: introduce devm_mutex_init
+	fix comment at __devm_mutex_init
+	move #include <linux/device.h> upper
+	commit message: change devm_mutex_init -> devm_mutex_init(), add point in the end
+	fix and move up tag Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+	add tags (in the order received):
+	Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+	Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+	Reviewed-by: Marek Behún <kabel@kernel.org>
+	Acked-by: Waiman Long <longman@redhat.com>
+
+leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
+	remove the patch from this series to send it separately
+
+leds: mlxreg: use devm_mutex_init() for mutex initialization
+leds: an30259a: use devm_mutex_init() for mutex initialization
+	commit message: change devm_mutex_init -> devm_mutex_init()
+	add tag Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+leds: aw2013: use devm API to cleanup module's resources
+leds: aw200xx: use devm API to cleanup module's resources
+leds: lp3952: use devm API to cleanup module's resources
+leds: lm3532: use devm API to cleanup module's resources
+leds: nic78bx: use devm API to cleanup module's resources
+	add tag Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+[4] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mf500af0eda2a9ffc95594607dbe4cb64f2e3c9a8
+[5] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mc92df4fb4f7d4187fb01cc1144acfa5fb5230dd2
+[6] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m300df89710c43cc2ab598baa16c68dd0a0d7d681
+[7] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m8e5c65e0c6b137c91fa00bb9320ad581164d1d0b
+[8] https://lore.kernel.org/lkml/377e4437-7051-4d88-ae68-1460bcd692e1@redhat.com/T/#m5f84a4a2f387d49678783e652b9e658e02c27450
+[9] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m19ad1fc04c560012c1e27418e3156d0c9306dd84
+[10] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m63126025f5d1bdcef69bcad50f2e58274d42e2d
+[11] https://lore.kernel.org/lkml/20240307024034.1548605-2-gnstark@salutedevices.com/
+[12] https://lore.kernel.org/lkml/20240307024034.1548605-3-gnstark@salutedevices.com/
+
+George Stark (8):
+  locking/mutex: introduce devm_mutex_init()
+  leds: aw2013: use devm API to cleanup module's resources
+  leds: aw200xx: use devm API to cleanup module's resources
+  leds: lp3952: use devm API to cleanup module's resources
+  leds: lm3532: use devm API to cleanup module's resources
+  leds: nic78bx: use devm API to cleanup module's resources
+  leds: mlxreg: use devm_mutex_init() for mutex initialization
+  leds: an30259a: use devm_mutex_init() for mutex initialization
+
+ drivers/leds/leds-an30259a.c | 14 ++++----------
+ drivers/leds/leds-aw200xx.c  | 32 +++++++++++++++++++++-----------
+ drivers/leds/leds-aw2013.c   | 25 +++++++++++++------------
+ drivers/leds/leds-lm3532.c   | 29 +++++++++++++++++------------
+ drivers/leds/leds-lp3952.c   | 21 +++++++++++----------
+ drivers/leds/leds-mlxreg.c   | 14 +++++---------
+ drivers/leds/leds-nic78bx.c  | 23 +++++++++++++----------
+ include/linux/mutex.h        | 27 +++++++++++++++++++++++++++
+ kernel/locking/mutex-debug.c | 11 +++++++++++
+ 9 files changed, 122 insertions(+), 74 deletions(-)
+
+--
+2.25.1
 
 
