@@ -1,82 +1,82 @@
-Return-Path: <linux-leds+bounces-1251-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1252-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373C187BB53
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 11:34:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D35D87BB5C
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 11:35:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0E941F22658
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 10:34:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D8B41F21BB7
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 10:35:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BCCF6EB4A;
-	Thu, 14 Mar 2024 10:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A88F85A109;
+	Thu, 14 Mar 2024 10:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IV1LJ3Gi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="avKzZCgq"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33741347C1;
-	Thu, 14 Mar 2024 10:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDED3347C1;
+	Thu, 14 Mar 2024 10:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710412429; cv=none; b=PoJt8cOGpeZPXj6NhieQ9I3El2+m/if4D5puaw8xe5i0HiKup0tTLn48UkQAiLjQjAyCHKs6LTkkoRSbwWAvUru7oR1JwazTlZZRyKDRYovaby/TF0bQGvV15s8vStp9LsRHZUMdjKjpr5xJS5ux0s/o26iTWy9IrNO5O/IZKWc=
+	t=1710412533; cv=none; b=h3MGvGtwmbmK2KADknLb/V64TN7YiGtXb7BLmCzobRcKc8KFjCiyOz0XHtXvRQ8ZIVJ0SFREbNKv+5m+ORwAWN8jiKQWo6FV53oZhu64CyTdAEtlMVdhxVrN5DHXIn2RQCpLwgSGr3Z6BbU+e7OcU4qBmUuVaKuYRXx1i6sAKZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710412429; c=relaxed/simple;
-	bh=iZDy04kALp0HO9vpw+exKughW0nV83r8fp9t6svxXyc=;
+	s=arc-20240116; t=1710412533; c=relaxed/simple;
+	bh=xUT+z5aPzLoK1XBR0CtD7lRZ7iP+OijvRC1vgfB2c3M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gh/OZlsJRyN8HZdCreaobwsmojDwrlMWSnWwBrZCTvBkv3VaIxLMtN/RKmYxcOGsfBj61JK9PDB+DuPIZA68h/OLXtRaU6m8rVEsNZPc3JDDP2T/6gnILwMEvDn6BFivKnZs+L+u7iPwJPb1wskxxSaGxCpS22ZzGKiekieJ660=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IV1LJ3Gi; arc=none smtp.client-ip=209.85.218.54
+	 To:Cc:Content-Type; b=WN+oVyaf/9BlNoNLIlx7zAU6+6t9KbPaRJg5lq4rvRpwQllwlvkXAp3SbM7B0wKvqlwT0EkB+IM4qx1GJg08lGCFPp42E5Y3LHC9oKM3ojXW/c818UDDwo3KTItszSgh+MgZlXNx2FBg2FQA8OfyteWbUWoG3oUSD0dtT9GtC0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=avKzZCgq; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a450bedffdfso84418166b.3;
-        Thu, 14 Mar 2024 03:33:47 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a466a256726so146374566b.1;
+        Thu, 14 Mar 2024 03:35:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710412426; x=1711017226; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1710412530; x=1711017330; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jue9nUfRRiSlNQWu5LcHhmk+uFTWQIyCfZh4ap/Abso=;
-        b=IV1LJ3GihvXKYAysjrRNN812n2VHu6P4gAxZCVosMBx3NFbJXxAubv1LB3EZkQkNbQ
-         HzZvtwpQAvN5Om5AbS65xCg42qgRTncW2icvdsFwGhwu3q9JxP06GUL0rakASNyu5t5V
-         vKlDrMMbmaoTavAUdX6i1PWaAmuiKvco6upFTsyG29UbKFFc2/wpZSp0Ctu3nA35NfB8
-         wC+Ss9A+SI5+WWMpFClu4r1Y/G8bk81SBStYMzL8SBerLlqVI13qc0POgrQdSvfbBs/z
-         nxtiY5DSYKmwPkBjqwpJm8eJ7pu7LH1NAXcrMppjr+VgcFk+1QUfD/hfpz71rCBikly+
-         msDg==
+        bh=xUT+z5aPzLoK1XBR0CtD7lRZ7iP+OijvRC1vgfB2c3M=;
+        b=avKzZCgq3uWI40OvufjlPKyjvxzt70i0JvtttZ19X3jxcMZ/au8oouj/f52xUN1ru9
+         wfAJkvbfR6wHIPBFhWXNrRGnAwvv+pDl/xkvNZGQFgtymep56H+tt0Jr/gT26u86KIYY
+         Ar+eFZfHLek3Im7nQqzGU9sh8tcgJgnMeUfmIE8rT3cyRR+mKGa/7mt63sSUkvszDC1c
+         lOw98ZH8ZLjva/mofUwNzAAM7vEEIYa5LltbU6H2Hv7ZC6BJSIK9hO8gU7uWmrnnaRyX
+         gZVBD1sa0oy+GRyg9dwxHk+bZM4BQPKB0uoAORN/x4ufCKZjVWGGODbMkbT7MljoNNPa
+         4+Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710412426; x=1711017226;
+        d=1e100.net; s=20230601; t=1710412530; x=1711017330;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jue9nUfRRiSlNQWu5LcHhmk+uFTWQIyCfZh4ap/Abso=;
-        b=YEOiq71JkhlJPSSrh2gvAd6izWic/wT77Idx3rkoM6QrJWGqLGtuA0PbsxpS5/vl8n
-         2fR9xEFmcl8hsX4s6H198147VXkHXUmiuy4CpFClswpukH0bE6gac4QBfIdhMkr0KN4E
-         +/WQ0+nmU1Ixq9GcomTKMkUCP5BX6TEEnkPdAksb60gnsHXvvarmDV6vSJ471O3rSKR5
-         krjtuA9gNcbDJ6HNg+XNE77IFPwpuMidvIRioCDKgIaCZjbEaK8Z7Fd06qdTJP+NhQiV
-         B0qsNsCq3YGZ1QoLHAJw20HlKjflqd0kLCTv6Y3mECPVUZeajlWbb1k/KBEAYBpuT9SU
-         0l/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXYR5gocCfB7479BRJ7OaDxRg5ssZ7Ssu0Kc8YrcxmwVO5gseYOzSFt24Tu3FIsGRnWEIKLmkHe/mikE9VeaI6iclF14DLEagA1wWncP5LJ0ouZcXPphdlHTLEraqUV0WaEDyZtAbDNhA==
-X-Gm-Message-State: AOJu0Yy1Yb9aomsCoiz7a9tvmkNbO/KT/BAw6+JcJmILJs9Bk/K6iVZa
-	yLSicyF+VLS3e+A73VQEXTC35RQvgpUKhwA9N5zK8oNDF3E3m7jnxTO8gNyYmfTrDoT+134WYw1
-	OLtexhr+WrTcyAkLe9VBVPLA65O8=
-X-Google-Smtp-Source: AGHT+IH8HWWnhtzc44YalKwroFKYB1nvrYJZ4DjNqdGPigNqIr2X3HYd15E33bbNFvnnosUzFyxAXDmeUagTjt+Dz5g=
-X-Received: by 2002:a17:906:3752:b0:a44:8fa9:d36f with SMTP id
- e18-20020a170906375200b00a448fa9d36fmr927863ejc.41.1710412426337; Thu, 14 Mar
- 2024 03:33:46 -0700 (PDT)
+        bh=xUT+z5aPzLoK1XBR0CtD7lRZ7iP+OijvRC1vgfB2c3M=;
+        b=AQsk7jMJ0R2glxPngvp8aUr/scK26XT9LPiWsPPEWSu+Et7KvQmymXoKTq+YY4Pa4O
+         Q1SektZhfbIf87nVAr/3hN3YxLcHKu2yYWbdZcSPBB7nmeq8J1J7pruKF2Yhi0kt5Wvm
+         byWgN3bYFq1voObmF3xvn5NIpjvcsBGqkq60WwPg33la+x472U/xZP8zu9eime3xIP5G
+         Fg+e9A2Ir2BPtt5/H2RhYQOs3LkExL6zE+DBE7M3PE30mMqfSpKNdO9VebCSB3a+H1F6
+         7LPgWSK2LqvxltzO4/UV89qnmWo+jIHIfWWmeD0op7e8wUz20eRvnBAU50cYC18OIf/k
+         tU3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUQQMZYnPBtJ2F/gHT1m/BIFo1kOVjNO+3Rbt/uEA0+PZ4R04mRCvHpOx6Es2Gu9LsQsqVo2/OOzSe/Y+9qN31KX7KTEQF5FNfCzXoLh8w9xgOsn++6pddhXjftX+XejtEqVLABLpQyag==
+X-Gm-Message-State: AOJu0Yx9rm9T0GFCiLbxWVItkLU2x+1Fs86SSlKMfVGeKIEXQvUsbATs
+	00pvG5aZ/vN+kHrXu0pialFFoAWax3An2UUk+CpYzOyeVw20PhCxd4xCHNOeAzvw9AC/AvHXJly
+	mOEB5hhCl4Ghk68jRHophkmAfZsg=
+X-Google-Smtp-Source: AGHT+IFnq0Pgx23scikKTP17lOnZUwgeSw196b+FB/RuP2T0OiI6iGiC9TdnME85WIwCtzKA0WA7uZJMZKfaiv1Soro=
+X-Received: by 2002:a17:906:5acf:b0:a46:1cbd:c2c4 with SMTP id
+ x15-20020a1709065acf00b00a461cbdc2c4mr1170808ejs.26.1710412530221; Thu, 14
+ Mar 2024 03:35:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240314084531.1935545-1-gnstark@salutedevices.com> <20240314084531.1935545-2-gnstark@salutedevices.com>
-In-Reply-To: <20240314084531.1935545-2-gnstark@salutedevices.com>
+References: <20240314084531.1935545-1-gnstark@salutedevices.com> <20240314084531.1935545-10-gnstark@salutedevices.com>
+In-Reply-To: <20240314084531.1935545-10-gnstark@salutedevices.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 14 Mar 2024 12:33:09 +0200
-Message-ID: <CAHp75VeHsSvs5eUC2eUTCLJLKNcoPShXoH3fmA0J4GUQTMV1LA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/9] locking/mutex: introduce devm_mutex_init
+Date: Thu, 14 Mar 2024 12:34:54 +0200
+Message-ID: <CAHp75VfGRNo4hvKV7caQE6i2rHVncOjxDv3-b9oGrpK-uDEBRw@mail.gmail.com>
+Subject: Re: [PATCH v6 9/9] leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
 To: George Stark <gnstark@salutedevices.com>
 Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au, 
 	npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com, 
@@ -91,57 +91,12 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Mar 14, 2024 at 10:46=E2=80=AFAM George Stark <gnstark@salutedevice=
 s.com> wrote:
 >
-> Using of devm API leads to a certain order of releasing resources.
-> So all dependent resources which are not devm-wrapped should be deleted
-> with respect to devm-release order. Mutex is one of such objects that
-> often is bound to other resources and has no own devm wrapping.
-> Since mutex_destroy() actually does nothing in non-debug builds
-> frequently calling mutex_destroy() is just ignored which is safe for now
-> but wrong formally and can lead to a problem if mutex_destroy() will be
-> extended so introduce devm_mutex_init()
+> This driver wants to keep its LEDs state after module is removed
+> and implemented it in its own way. LED subsystem supports dedicated
+> flag LED_RETAIN_AT_SHUTDOWN for the same purpose so use the flag
+> instead of custom implementation.
 
-Missing period at the end.
-
-....
-
-> Suggested by-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-Needs properly spelled tag.
-
-...
-
-> +static inline int __devm_mutex_init(struct device *dev, struct mutex *lo=
-ck)
-> +{
-> +       /*
-> +        * When CONFIG_DEBUG_MUTEXES is off mutex_destroy is just a nop s=
-o
-
-mutex_destroy()
-
-> +        * no really need to register it in devm subsystem.
-
-in the devm
-
-> +        */
-> +       return 0;
-> +}
-
-...
-
-> @@ -19,6 +19,7 @@
->  #include <linux/kallsyms.h>
->  #include <linux/interrupt.h>
->  #include <linux/debug_locks.h>
-> +#include <linux/device.h>
-
-Without seeing much context can't say if there is a better (more
-ordered) place to squeeze a new header to. Please, check.
-
-...
-
-After addressing the above comments
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+So, this change is not related to the main purpose of the series...
 
 --=20
 With Best Regards,
