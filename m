@@ -1,155 +1,114 @@
-Return-Path: <linux-leds+bounces-1264-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1265-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9F287C42B
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 21:20:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F063E87C679
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Mar 2024 00:37:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 444181C20FE0
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 20:19:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB53B282E0B
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 23:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660C77641E;
-	Thu, 14 Mar 2024 20:19:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5409314AA8;
+	Thu, 14 Mar 2024 23:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="GujYeqoH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UgrDhKWy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044F77605D;
-	Thu, 14 Mar 2024 20:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9414714A81;
+	Thu, 14 Mar 2024 23:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710447565; cv=none; b=IXr1/MRWKxEyG3xEoDvvPwXYidwJPUnC73JHADClGqBqNsVei3ReGBgTTk5o+1bHH3HFd59PkQN+o/rahAKHhEG+qNImbEwkgn4wutn6T+JIN/lHHuL87JTdMZ+CLam+tkUv07XyOno4lcse6VA1dg+WLwCfP3BezUffcqoWnnY=
+	t=1710459239; cv=none; b=WbUxa8mN0RJfFRZcIS8ItAsyoeY7ZjQsez/0QL4XsmInY2cTALp656/wcQHrF4dVoXNAa0RGF4yJxDKfFMRksxWeZSplrQ5w0dsQI1B1FUjNa6NplLGge0KBKStS41PGqNQSLBUcTyRjeYYjTTVO530bKXVPgVoKYt7LpzULgEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710447565; c=relaxed/simple;
-	bh=YrFUXpKFZjIrDFt23to5aJksa5NkAaPagqMfCoJao4o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cE6zyQRHv2L7cBP1/OzgrgJQiEcmS74+dAYVH/JZySXw783KmMHUp0r1EDQPm2+gkXdWZu5iBtfwD+qFRUqD4Gwo3PyV1wUc3gmbZhoZ5Tz02m5FVAsYpwMEs73hlRZcqUDQ1gNhHgCr5i8AS6o3OPDlh6vJ+EPzbu37IaC1WHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=GujYeqoH; arc=none smtp.client-ip=37.18.73.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 4DEC0100012;
-	Thu, 14 Mar 2024 23:19:18 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 4DEC0100012
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1710447558;
-	bh=Gg4VD7krOgd1nsrFz5L0eWRpEbtXVfyqyU7Jkdx9Zzk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=GujYeqoHbocPsddJnA9t/neUWH3yhTC8z6QYsmSAzce10D8Eca2K54Lg26MEcWcnX
-	 5oZoljEXAcf50iS5OSGuYwjSPjX9kchI+k8neCOOraj5aoAnspNOwUIcBzqWQ857Mj
-	 fw1qHUYWMlrY/yptMB/BBUB+71ayUIN4zwChJHb22A/wEvyIJsJdY6j9wHWSvWq3ac
-	 eqfrLX/1KQ3N/uDzr7XpXBHtplQ7+UlMrKcDsk3i3S7tvFiEjWgBlECbAkdBs1X1I9
-	 VaHvtGk8AARYNhdSjzLb5jIrg4LHWZepKw6c+na4+sLRzBimEKucD8nmgT9N2LQq3h
-	 XjScsff/8wPZA==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Thu, 14 Mar 2024 23:19:18 +0300 (MSK)
-Received: from work.sberdevices.ru (100.64.160.123) by
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 14 Mar 2024 23:19:17 +0300
-From: George Stark <gnstark@salutedevices.com>
-To: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
-	<vadimp@nvidia.com>, <christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
-	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
-	<nikitos.tr@gmail.com>, <marek.behun@nic.cz>, <kabel@kernel.org>
-CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<kernel@salutedevices.com>, George Stark <gnstark@salutedevices.com>
-Subject: [PATCH v7 8/8] leds: an30259a: use devm_mutex_init() for mutex initialization
-Date: Thu, 14 Mar 2024 23:18:56 +0300
-Message-ID: <20240314201856.1991899-9-gnstark@salutedevices.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240314201856.1991899-1-gnstark@salutedevices.com>
-References: <20240314201856.1991899-1-gnstark@salutedevices.com>
+	s=arc-20240116; t=1710459239; c=relaxed/simple;
+	bh=5cD+Utc3WZAxdjmYk1QQU76mBRdqBdbJ5yIsDLbC17g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LamkA9QTfTNEWDYkKdLZBhUuz9VhqwRb2ovrMyldBqYXFMmHGebBbiNpRVON34A+xUtLyq+u7w9qT+/NS2wj9/jINPq/38QlIW8RzaWa+tuNuWvjzOxgrRetjv1pV6lT3i/rmTH86DZWT7xT/Q8mmU+YzKu2ztiftGDr7TYySg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UgrDhKWy; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a44f2d894b7so160924166b.1;
+        Thu, 14 Mar 2024 16:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710459236; x=1711064036; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9/n7FNd6KF/52kgUyrLcID4ELpWfz14+WSwkN1SHe18=;
+        b=UgrDhKWyrH6B5y5oCd7dl2R7JOVkrp+96seSLJuHH7H+w64GnPbEAHvS0rUGlflhVW
+         nyClZyR5Oixzq23uT+YwU09W4L4o2OkW391KNU3gqRYEfKUTURHhmTItd/baMqbVBKpZ
+         xPRHpI5exFsNAjHOLKA/G26XcDLaDxuX6a253KIKixHCfC3GbO+CSXYOxGv/BI/HT1C7
+         ard4/tZ+7PuFTfMnojVZ2MNsM+huYE9DGsSTHuc6IjDYkU+MZ+EEtlX9c40/Le83VxwH
+         RbZjqE0szemiN58bvZlZcnLpkqlLbAQcU6V6HrhR/Wl6Hpef1toGV5gaLZuVGD8qOVTk
+         nsXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710459236; x=1711064036;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9/n7FNd6KF/52kgUyrLcID4ELpWfz14+WSwkN1SHe18=;
+        b=CheE/z8Zxp90PXqUHozlDlvRfcYgFkiGLbJrso91wIn9Y9uuVPL2wsGW2ZGjuCZLWW
+         k06kTbzzU+VxCMUQXgRDhjNkL9Ozp3lSlX7PlsZD92hy8H0GQ0zh0KaVR8phbah5z6wx
+         RUuIyv0mqCghYWqsppTqSGL5TzIAvnoEIPdTK70uVAVxKmYyEBKWCe/9GFGvMi9NBQrL
+         FlsvOg8px4lLQMEUrLLzk8dxdQzDStRVK3AARHaq0WnekViLKU5quarjJEr00U3GWjr+
+         D79heBe7H2N/MxQLPH9mQiKJMN096MBT1wo2p3Y0z+hod4G9nMnP8w/pGGS2MdrqqNCj
+         qDZw==
+X-Forwarded-Encrypted: i=1; AJvYcCWn6NUayyVMeHW5iO8B5yNjTMv8ab5Pd3O+jvlXwI0v/YkRgLmp3ksMzdjoInwFnjOY7JcQWY2roYGsXfzi+S72cCLk2kDS9NNGciVklDLhRgvaIIbgQyZ1dJ93QbI7HsEgiFsKXihnEw==
+X-Gm-Message-State: AOJu0YwccX4qRh/sGeblorfJb4qHw3+yI/E2B+B1RtrPkGdrv2+TC5Lk
+	hExCLbsdXCowP6dVrO9KTxCgIOLJdspYt9Jc3XX+uhuXS3RkgfWQhAcojB+aAZlXAOqDZ2L45lf
+	QwdqsiPGSEZBdYd5A/I0MggbHqlU=
+X-Google-Smtp-Source: AGHT+IFG1MsEa8rzFDkEffr39S8L8cz1+zz9I3sgFp2+e3nVoirQ1GwR2OUdsfFfYV8sRDT8uaZ7U9fqTwyPnLm+qME=
+X-Received: by 2002:a17:907:c313:b0:a46:58b4:a34a with SMTP id
+ tl19-20020a170907c31300b00a4658b4a34amr2815716ejc.47.1710459235740; Thu, 14
+ Mar 2024 16:33:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
-X-KSMG-AntiVirus-Status: Clean, skipped
+References: <20240314201856.1991899-1-gnstark@salutedevices.com> <20240314201856.1991899-2-gnstark@salutedevices.com>
+In-Reply-To: <20240314201856.1991899-2-gnstark@salutedevices.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 15 Mar 2024 01:33:18 +0200
+Message-ID: <CAHp75Vd+UUY76K1Z0F4L=hqAfpAy=K8L26fqvh9-xeTHq3nf-A@mail.gmail.com>
+Subject: Re: [PATCH v7 1/8] locking/mutex: introduce devm_mutex_init()
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, 
+	christophe.leroy@csgroup.eu, hdegoede@redhat.com, mazziesaccount@gmail.com, 
+	peterz@infradead.org, mingo@redhat.com, will@kernel.org, longman@redhat.com, 
+	boqun.feng@gmail.com, nikitos.tr@gmail.com, marek.behun@nic.cz, 
+	kabel@kernel.org, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel@salutedevices.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In this driver LEDs are registered using devm_led_classdev_register()
-so they are automatically unregistered after module's remove() is done.
-led_classdev_unregister() calls module's led_set_brightness() to turn off
-the LEDs and that callback uses mutex which was destroyed already
-in module's remove() so use devm API instead.
+On Thu, Mar 14, 2024 at 10:19=E2=80=AFPM George Stark <gnstark@salutedevice=
+s.com> wrote:
+>
+> Using of devm API leads to a certain order of releasing resources.
+> So all dependent resources which are not devm-wrapped should be deleted
+> with respect to devm-release order. Mutex is one of such objects that
+> often is bound to other resources and has no own devm wrapping.
+> Since mutex_destroy() actually does nothing in non-debug builds
+> frequently calling mutex_destroy() is just ignored which is safe for now
+> but wrong formally and can lead to a problem if mutex_destroy() will be
+> extended so introduce devm_mutex_init().
 
-Signed-off-by: George Stark <gnstark@salutedevices.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/leds/leds-an30259a.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+...
 
-diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
-index 0216afed3b6e..decfca447d8a 100644
---- a/drivers/leds/leds-an30259a.c
-+++ b/drivers/leds/leds-an30259a.c
-@@ -283,7 +283,10 @@ static int an30259a_probe(struct i2c_client *client)
- 	if (err < 0)
- 		return err;
- 
--	mutex_init(&chip->mutex);
-+	err = devm_mutex_init(&client->dev, &chip->mutex);
-+	if (err)
-+		return err;
-+
- 	chip->client = client;
- 	i2c_set_clientdata(client, chip);
- 
-@@ -317,17 +320,9 @@ static int an30259a_probe(struct i2c_client *client)
- 	return 0;
- 
- exit:
--	mutex_destroy(&chip->mutex);
- 	return err;
- }
- 
--static void an30259a_remove(struct i2c_client *client)
--{
--	struct an30259a *chip = i2c_get_clientdata(client);
--
--	mutex_destroy(&chip->mutex);
--}
--
- static const struct of_device_id an30259a_match_table[] = {
- 	{ .compatible = "panasonic,an30259a", },
- 	{ /* sentinel */ },
-@@ -347,7 +342,6 @@ static struct i2c_driver an30259a_driver = {
- 		.of_match_table = an30259a_match_table,
- 	},
- 	.probe = an30259a_probe,
--	.remove = an30259a_remove,
- 	.id_table = an30259a_id,
- };
- 
--- 
-2.25.1
+>  /***
 
+Unrelated to your patch, but there are too many asterisks :-)
+
+>   * mutex_destroy - mark a mutex unusable
+>   * @lock: the mutex to be destroyed
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
