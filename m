@@ -1,82 +1,82 @@
-Return-Path: <linux-leds+bounces-1252-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1253-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D35D87BB5C
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 11:35:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA5E87BB6B
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 11:37:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D8B41F21BB7
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 10:35:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDC221C2095E
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 10:37:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A88F85A109;
-	Thu, 14 Mar 2024 10:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F4A59B6C;
+	Thu, 14 Mar 2024 10:37:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="avKzZCgq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STny6/aL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDED3347C1;
-	Thu, 14 Mar 2024 10:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B8F1A38FC;
+	Thu, 14 Mar 2024 10:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710412533; cv=none; b=h3MGvGtwmbmK2KADknLb/V64TN7YiGtXb7BLmCzobRcKc8KFjCiyOz0XHtXvRQ8ZIVJ0SFREbNKv+5m+ORwAWN8jiKQWo6FV53oZhu64CyTdAEtlMVdhxVrN5DHXIn2RQCpLwgSGr3Z6BbU+e7OcU4qBmUuVaKuYRXx1i6sAKZ8=
+	t=1710412673; cv=none; b=ZAAeDC2jC0eBETaA/pCXKNdqrHvSqfapIN1f/LdSUT9OiA4yb+bTwEETff5RqFOp0mOmbjgHh1rgaNU08nXCay4ResCoKwxUNr39lSDyxe2kiUGdjk+oobNufrSMUPS7itBJcR6ug+fVOdjGcDmBK8wReibyqHmpI9qO/xhXTxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710412533; c=relaxed/simple;
-	bh=xUT+z5aPzLoK1XBR0CtD7lRZ7iP+OijvRC1vgfB2c3M=;
+	s=arc-20240116; t=1710412673; c=relaxed/simple;
+	bh=vzCmVzgk1A2WbwK3W/30teVzlmAUHDmYtHZ6Lsqwgus=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WN+oVyaf/9BlNoNLIlx7zAU6+6t9KbPaRJg5lq4rvRpwQllwlvkXAp3SbM7B0wKvqlwT0EkB+IM4qx1GJg08lGCFPp42E5Y3LHC9oKM3ojXW/c818UDDwo3KTItszSgh+MgZlXNx2FBg2FQA8OfyteWbUWoG3oUSD0dtT9GtC0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=avKzZCgq; arc=none smtp.client-ip=209.85.218.46
+	 To:Cc:Content-Type; b=ngl/mKJ8mlCS0ar4AEMaJ2j7hOMe2/71GMoLhJvpBLEremgcGFp33kQNlDHEohbzv672QgNpKOk/4jk5fm3jGZjLFNAWx8tmKZvsy9GrxxOMC/pF0uVgON7TvPsuPV2/mV7b98X3nyS/xuOfCiM/QtitJNydUQDgdBryo+9EBNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STny6/aL; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a466a256726so146374566b.1;
-        Thu, 14 Mar 2024 03:35:31 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a44f2d894b7so75867566b.1;
+        Thu, 14 Mar 2024 03:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710412530; x=1711017330; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1710412670; x=1711017470; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xUT+z5aPzLoK1XBR0CtD7lRZ7iP+OijvRC1vgfB2c3M=;
-        b=avKzZCgq3uWI40OvufjlPKyjvxzt70i0JvtttZ19X3jxcMZ/au8oouj/f52xUN1ru9
-         wfAJkvbfR6wHIPBFhWXNrRGnAwvv+pDl/xkvNZGQFgtymep56H+tt0Jr/gT26u86KIYY
-         Ar+eFZfHLek3Im7nQqzGU9sh8tcgJgnMeUfmIE8rT3cyRR+mKGa/7mt63sSUkvszDC1c
-         lOw98ZH8ZLjva/mofUwNzAAM7vEEIYa5LltbU6H2Hv7ZC6BJSIK9hO8gU7uWmrnnaRyX
-         gZVBD1sa0oy+GRyg9dwxHk+bZM4BQPKB0uoAORN/x4ufCKZjVWGGODbMkbT7MljoNNPa
-         4+Ig==
+        bh=vzCmVzgk1A2WbwK3W/30teVzlmAUHDmYtHZ6Lsqwgus=;
+        b=STny6/aLVovMkFh8CXRIQiuhDHZXeqT5mWtcEljggGUSCWlerOfF3Jbg9a6K5dBJKE
+         OYpYCrip3uTNFiDCzdWgiXN3sQ4n9RVfHgdB7XC7Yn/VNIxj58s2smG48+x3R7KEA/LA
+         5RW0AD9L0CaiqP1TOWijbCtCqkpW9ty24EHiaS6c62jOp+zeyeynUMM9x8ksOK14qu6Q
+         5b/7BUv7a4aYg179YBHWErA8MoJwbLoSf8KLFaWZx/eosSotLPaV+kq20Jc8X3JiFD0z
+         OvYZibli2HWJLx7A0US3bLSiCeOLkLrUXvaHDfK2PeMMdBDfWjt+rzyDPjx/ArGa/74J
+         mGMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710412530; x=1711017330;
+        d=1e100.net; s=20230601; t=1710412670; x=1711017470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xUT+z5aPzLoK1XBR0CtD7lRZ7iP+OijvRC1vgfB2c3M=;
-        b=AQsk7jMJ0R2glxPngvp8aUr/scK26XT9LPiWsPPEWSu+Et7KvQmymXoKTq+YY4Pa4O
-         Q1SektZhfbIf87nVAr/3hN3YxLcHKu2yYWbdZcSPBB7nmeq8J1J7pruKF2Yhi0kt5Wvm
-         byWgN3bYFq1voObmF3xvn5NIpjvcsBGqkq60WwPg33la+x472U/xZP8zu9eime3xIP5G
-         Fg+e9A2Ir2BPtt5/H2RhYQOs3LkExL6zE+DBE7M3PE30mMqfSpKNdO9VebCSB3a+H1F6
-         7LPgWSK2LqvxltzO4/UV89qnmWo+jIHIfWWmeD0op7e8wUz20eRvnBAU50cYC18OIf/k
-         tU3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUQQMZYnPBtJ2F/gHT1m/BIFo1kOVjNO+3Rbt/uEA0+PZ4R04mRCvHpOx6Es2Gu9LsQsqVo2/OOzSe/Y+9qN31KX7KTEQF5FNfCzXoLh8w9xgOsn++6pddhXjftX+XejtEqVLABLpQyag==
-X-Gm-Message-State: AOJu0Yx9rm9T0GFCiLbxWVItkLU2x+1Fs86SSlKMfVGeKIEXQvUsbATs
-	00pvG5aZ/vN+kHrXu0pialFFoAWax3An2UUk+CpYzOyeVw20PhCxd4xCHNOeAzvw9AC/AvHXJly
-	mOEB5hhCl4Ghk68jRHophkmAfZsg=
-X-Google-Smtp-Source: AGHT+IFnq0Pgx23scikKTP17lOnZUwgeSw196b+FB/RuP2T0OiI6iGiC9TdnME85WIwCtzKA0WA7uZJMZKfaiv1Soro=
-X-Received: by 2002:a17:906:5acf:b0:a46:1cbd:c2c4 with SMTP id
- x15-20020a1709065acf00b00a461cbdc2c4mr1170808ejs.26.1710412530221; Thu, 14
- Mar 2024 03:35:30 -0700 (PDT)
+        bh=vzCmVzgk1A2WbwK3W/30teVzlmAUHDmYtHZ6Lsqwgus=;
+        b=mziI605Gc/bQH8+2iKmfle3P85Q/h1tSAP8ZWiUf7PHE/FvXDlJxtJKtpymSzc6yno
+         i5PvS6uTPMPt8dmhXI5OF6XhANFDaMjIuR7QcwqFETHHZfKE7uPNOhEhnHCk0oQz0i2J
+         jBG1iBFwf2PtZz5cKCZAAqsPP+2h3sus9Y2URbiMV4WhbCTAaPtzxL0Lp/+9qi5/JSyN
+         0evwPGmNpLFyProOcTTIfcP6l9EZEPh+9I8aGxHTPwW2JokX2BfD/ELWNDbwmbqvXM2V
+         hnZUBfvuxTmX8hfJXiuOuWbMp3Up6oTvzjyAW3YtB2nFJ8CHAuuTP/F0KhywugDaAvQV
+         wHew==
+X-Forwarded-Encrypted: i=1; AJvYcCWyXIysNQqRwMm6YXCqBTuE/dDKllHPJ7MFMcWtYZswC/BaQkCFME4yk36HL7bH7DHdjM0nGA6LDJNArkt91YyFvi22QPchymQ/JdNf0NlIRBvb1lPUf/d5N3SrRPkPfoQKRoKg7fFdjA==
+X-Gm-Message-State: AOJu0Yw1SoQ1DWsFqYCTpqxdx0DBZ1X+watcIcODx2t5/FiQ4SKSKqIM
+	kk0bBEN4S5hSIhYj/UKVl/+9scGXRj0MWZiIj1SRy0UKHzvEdiCt1y4jPojpre+BnyeWo5HJ1r1
+	I0WBxQBQy8/bANxPlrsrL6QL1DGg=
+X-Google-Smtp-Source: AGHT+IHAgDyqVH7oGwixukT7CSGFbdDnW4TvuHEXAOyVQ/qRpBYbBxUZXwiLPNDdK50Y8a0SeFDblV5Sbfrs/AuuR+0=
+X-Received: by 2002:a17:906:5801:b0:a46:614f:f2be with SMTP id
+ m1-20020a170906580100b00a46614ff2bemr899128ejq.28.1710412670199; Thu, 14 Mar
+ 2024 03:37:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240314084531.1935545-1-gnstark@salutedevices.com> <20240314084531.1935545-10-gnstark@salutedevices.com>
-In-Reply-To: <20240314084531.1935545-10-gnstark@salutedevices.com>
+References: <20240314084531.1935545-1-gnstark@salutedevices.com>
+In-Reply-To: <20240314084531.1935545-1-gnstark@salutedevices.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 14 Mar 2024 12:34:54 +0200
-Message-ID: <CAHp75VfGRNo4hvKV7caQE6i2rHVncOjxDv3-b9oGrpK-uDEBRw@mail.gmail.com>
-Subject: Re: [PATCH v6 9/9] leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
+Date: Thu, 14 Mar 2024 12:37:13 +0200
+Message-ID: <CAHp75VdM9GkogkeffY+0rwU3r2iWeTZ8-aj901MLteUmRfcLOA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/9] devm_led_classdev_register() usage problem
 To: George Stark <gnstark@salutedevices.com>
 Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au, 
 	npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com, 
@@ -91,12 +91,41 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Mar 14, 2024 at 10:46=E2=80=AFAM George Stark <gnstark@salutedevice=
 s.com> wrote:
 >
-> This driver wants to keep its LEDs state after module is removed
-> and implemented it in its own way. LED subsystem supports dedicated
-> flag LED_RETAIN_AT_SHUTDOWN for the same purpose so use the flag
-> instead of custom implementation.
+> This patch series fixes the problem of devm_led_classdev_register misusin=
+g.
+>
+> The basic problem is described in [1]. Shortly when devm_led_classdev_reg=
+ister()
+> is used then led_classdev_unregister() called after driver's remove() cal=
+lback.
+> led_classdev_unregister() calls driver's brightness_set callback and that=
+ callback
+> may use resources which were destroyed already in driver's remove().
+>
+> After discussion with maintainers [2] [3] we decided:
+> 1) don't touch led subsytem core code and don't remove led_set_brightness=
+() from it
 
-So, this change is not related to the main purpose of the series...
+subsystem
+
+> but fix drivers
+> 2) don't use devm_led_classdev_unregister
+>
+> So the solution is to use devm wrappers for all resources
+> driver's brightness_set() depends on. And introduce dedicated devm wrappe=
+r
+> for mutex as it's often used resource.
+
+The leds related changes (except the last one) LGTM, hence FWIW,
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+(for patches 2-8)
+
+> [1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@sal=
+utedevices.com/T/
+> [2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@sal=
+utedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
+> [3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@sal=
+utedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
 
 --=20
 With Best Regards,
