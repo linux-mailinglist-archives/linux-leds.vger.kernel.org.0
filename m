@@ -1,117 +1,193 @@
-Return-Path: <linux-leds+bounces-1266-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1267-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9EF87C67D
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Mar 2024 00:38:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 648EA87E84D
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Mar 2024 12:12:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08D911C21741
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Mar 2024 23:38:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B4612839E7
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Mar 2024 11:12:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B97111A2;
-	Thu, 14 Mar 2024 23:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD58E374C4;
+	Mon, 18 Mar 2024 11:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMrGkmHI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hlmdLOVi"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A17210798;
-	Thu, 14 Mar 2024 23:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E947E374D2
+	for <linux-leds@vger.kernel.org>; Mon, 18 Mar 2024 11:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710459456; cv=none; b=PUBDnMDy8xM8PvMJjbH//eiq9QJFUdE8R22f0gK9XSPxE+Pj/+sxfZg9nARB7+Y0CDcR9FEQOD+A0kp49EGfKDWA/0JwSJ5nFqJpcBotvmoEBDWBqIP3uQD0hkfX6qEUny+ge9ILlK7O06ZdlMJwCC46uIUXHXOCPaooLG6M07Y=
+	t=1710760306; cv=none; b=lgh7U4R6z7uLCdCBSaDYIYWa8bbzaYPAlFmHyIdRIb8sb1tFqo2pvf+nEiyccieMD1PXjkalJXWBJsAHSuAVWC8zkggyUMrNKFOZkGgwpyaRhuDeIReQ8PUBzzW9yxLWL+NsJIJKduPHkjxWAFe8+SQYH4r+lnpohwlgOKiYWqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710459456; c=relaxed/simple;
-	bh=jlyAYfa5ICpKXn+qyd19xMm4fefKCgeCjNzVQ2M59sw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WhJHJ6y6Lp0Eic/MMWoXOB4xrq7BDFiUJrelM9EbhbY28gPN23pWST/+T0J0+/s6l1n9QlPH6fwzdjRNFtiHsU21acw4iF+pxpRro5///IUTkkR9Y0a2j/CAaQLL1GRqV5EY8kHPNhGaAAZPhe5wJx9//fHNeTl1ch/IPhO8oo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMrGkmHI; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5649c25369aso1999760a12.2;
-        Thu, 14 Mar 2024 16:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710459453; x=1711064253; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZmpupRoQTR98i+0BALoB9IZnxDmgxkFF3hs7MfwHtOw=;
-        b=TMrGkmHIfrhiiiSqqFVmR7s6VFBE6sriW0UMu7SvPkI5VWLsBoMmwK0OblLj7eCzT9
-         DADkUdq39XFYouw0/WuMPg6kAvGXrk0Sf2xJifFBxFgzXQkvj+nxi35LCq2GHIfXD4eJ
-         ETWCDyIyk8PE0slAgUMOEQqMm411tSCiATC8b7+W7yAolWIUkv8b4f77Cet+VkS0RIF9
-         8YO3hzx3clrrPr3Ce1MhKjaG9bLeka+oTtGavEys4ykWvTeod5g8pBC8Dyp0N3GHe0Yo
-         gu92mssnpM+MGbEYc+8uXtZtlPHu0/uHWV5mtLmahf76YV0n4cDXfSsi5zUNaoSeGFS2
-         BJWQ==
+	s=arc-20240116; t=1710760306; c=relaxed/simple;
+	bh=vpxP2TC2qbkVtFFP21jKsCrf2Cm91PVj9H+H8hFENmI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dAzdHtgxZvP8G6cX8wgmYVIz41264oka7kjOKJ+QXvPUcLcGBMWo2xMHX/f22ERVUvJRJIWxwP1HuaziNYypHmY/jdpy691nqsbDTxPUC3chED7s3c5g3DI09VCZ12CevHqq+jRGKmaJccouwkg3QztIbrWkLTTorhnjeoTcfjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hlmdLOVi; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710760303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KCRrLRgzcFtsj04jmn2kcF48w7FCWYzPNjCCNXWwhN8=;
+	b=hlmdLOViuolPGWd/IsZNI5nzakY4Fi3Y2G+b6SaUceH75tR5wurCCV+choVAGk2kY3q4Vy
+	PYljugOfsrMBbfrj6S6+/s6S90tOIZ4x2vWFqRtPAytyMQJ+yRQc8ldSyK6wG9BVFw+uCP
+	GnhGj0REFXbI/bxvFiRj7zJZFj16Vqo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-493-yTD2o1fIMNik47o0oG_mNQ-1; Mon, 18 Mar 2024 07:11:42 -0400
+X-MC-Unique: yTD2o1fIMNik47o0oG_mNQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a46ce528bf7so25377866b.0
+        for <linux-leds@vger.kernel.org>; Mon, 18 Mar 2024 04:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710459453; x=1711064253;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZmpupRoQTR98i+0BALoB9IZnxDmgxkFF3hs7MfwHtOw=;
-        b=C7iCW0OQcdpLbFaytrkez0xOj+6upbUlmGtapHlhO91zUP+oqQm9ixBs4/t1Hc9eA7
-         ipKp+IewD0zQN6ZYMP6sHh0iHENwi6ZLzXKRAZTlmFr+5UdsfaxovYTxWfD/QNVRVEim
-         yuQwen7nXipouRQFokXoK3n34JmCaKNC6jruz8xf4g/w8YMZe/sd3977+IWewsrg5pmU
-         F9TFa7llhGRcXNXfO8Tkdc6CNTQ14eFxwW+wKwkounHHriURMebcCXhKFpZqP7ZqhpFw
-         VeEAWB0L239Mp/OH29dPJ4U81IXirrvlfWXRkoIX4nRSBRX//0o3BVS5qAvvUhCezrTZ
-         NcFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVP2BtO414hqgfuFL7JNLMo0qtdIu8N8cOBCJNIwNA6TIjJ0UxcCztB4BruVF7lPoQQPHaajUj1B/P5/jkzNUAnvvW0mMtfCbmSGFGe1vcNFOJyQ4RVmS+Fr/YMk6Dg6hPDrx0uujiuMQ==
-X-Gm-Message-State: AOJu0YyzhEuJ8ijuJtrUPG49BMV4NYwJ5Vbq13uHQ/dEOaHDxCjSFTf+
-	UQV4b6YGCwyzskA1znmUlYrg6dV96Kl4JnTgrL8OfrAmVtx1oZ9d5e2LP4+eIyhBlvgg92GoMd+
-	sEHvSsPhAnY5N4qVsmEiqG+fYQkE=
-X-Google-Smtp-Source: AGHT+IGpyWDl685GIipAYVhXMHr+oQMKtT2p4/TqCny7ksyf4QQagKsC7ndsVHI0Is+HDoff6n8WB/EwsSoR+PE943k=
-X-Received: by 2002:a17:906:9c8c:b0:a46:7734:1f12 with SMTP id
- fj12-20020a1709069c8c00b00a4677341f12mr1913901ejc.47.1710459453424; Thu, 14
- Mar 2024 16:37:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710760301; x=1711365101;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KCRrLRgzcFtsj04jmn2kcF48w7FCWYzPNjCCNXWwhN8=;
+        b=Qa4epE4cJtdmusuk1uvRwdj5iNHmit8QIhq91ORQlt9ynU+HNVV6QzfF721Tbtl8Lk
+         jO77GnScg6GaIrdkUwMmrPs9WYwoz6IgcDOV3sTFfJSD4i4JVxpmealhEbXQaxhHEUmx
+         2FOr0cl2QFNKJn3bDtmftSYajDOaNYYmqMPT5rMrZPmZ5CVaQGJjrsiZdq15z8Jh4xn8
+         62F4BUnljMpiz7muurCADo/Brc66cOuM4syltUyJZce0Jpk4ZifyZkoFsaJLodlh7mUU
+         1G1MmdC9DCwPVsohhM3TT91eR9NOkLp7XEIUtKadsb7Gf5cqHzVqRN9RKzguCVxRLWBN
+         Ii8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUkNiHEnr+SY0Zl8Xfii0Lyq9DrGZPX2jVEJGqdFOtMW3jHM3P2zx/X/RDXTFdlmavuKlivqdJcVqF2j26dch1xYSaWl3ozU/i0qA==
+X-Gm-Message-State: AOJu0YyCu0391tie/hba2CFqtK8qCxJAHRoT2H03ZWouE1nIEJaeJHvT
+	SzZi2IfzWriQKxndCiIHKozXnU1v10dW+D1VdIaykybTWnRzpdVnYrpCqgPQtpTNyXwyAM9lZVc
+	8PyzqBIAyKehc2yHWl3k+fgA5rrC/WK06Uy5rJWjKB8FNHHZWT39RS3hp7zHwdPNNMwM=
+X-Received: by 2002:a17:906:ddb:b0:a46:a1f7:156d with SMTP id p27-20020a1709060ddb00b00a46a1f7156dmr4019164eji.2.1710760301084;
+        Mon, 18 Mar 2024 04:11:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEknhYpk/UoBbIXiSyWkooZJA3/ywR9QXOka5TQQi9XFr2kwrDhiLCZltxYyDrNnVlq8/TlEA==
+X-Received: by 2002:a17:906:ddb:b0:a46:a1f7:156d with SMTP id p27-20020a1709060ddb00b00a46a1f7156dmr4019152eji.2.1710760300703;
+        Mon, 18 Mar 2024 04:11:40 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id sd9-20020a170906ce2900b00a4628cacad4sm4722437ejb.195.2024.03.18.04.11.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 04:11:40 -0700 (PDT)
+Message-ID: <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
+Date: Mon, 18 Mar 2024 12:11:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240314201856.1991899-1-gnstark@salutedevices.com> <20240314201856.1991899-5-gnstark@salutedevices.com>
-In-Reply-To: <20240314201856.1991899-5-gnstark@salutedevices.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 15 Mar 2024 01:36:57 +0200
-Message-ID: <CAHp75VeNijg6sXyW_frwD4siJ-LWBLBfVCmMDug8jYAVVg9Bmw@mail.gmail.com>
-Subject: Re: [PATCH v7 4/8] leds: lp3952: use devm API to cleanup module's resources
-To: George Stark <gnstark@salutedevices.com>
-Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, 
-	christophe.leroy@csgroup.eu, hdegoede@redhat.com, mazziesaccount@gmail.com, 
-	peterz@infradead.org, mingo@redhat.com, will@kernel.org, longman@redhat.com, 
-	boqun.feng@gmail.com, nikitos.tr@gmail.com, marek.behun@nic.cz, 
-	kabel@kernel.org, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel@salutedevices.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Future handling of complex RGB devices on Linux v3
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+ <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+ <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 14, 2024 at 10:19=E2=80=AFPM George Stark <gnstark@salutedevice=
-s.com> wrote:
->
-> In this driver LEDs are registered using devm_led_classdev_register()
-> so they are automatically unregistered after module's remove() is done.
-> led_classdev_unregister() calls module's led_set_brightness() to turn off
-> the LEDs and that callback uses resources which were destroyed already
-> in module's remove() so use devm API instead of remove().
-> Also drop explicit turning LEDs off from remove() due to they will be off
-> anyway by led_classdev_unregister().
+Hi Werner,
 
-...
+Sorry for the late reply.
 
-> +static void gpio_set_low_action(void *data)
-> +{
-> +       struct lp3952_led_array *priv =3D (struct lp3952_led_array *)data=
-;
+On 2/22/24 2:14 PM, Werner Sembach wrote:
+> Hi,
+> 
+> Thanks everyone for the exhaustive feedback. And at least this thread is a good comprehesive reference for the future ^^.
+> 
+> To recap the hopefully final UAPI for complex RGB lighting devices:
+> 
+> - By default there is a singular /sys/class/leds/* entry that treats the device as if it was a single zone RGB keyboard backlight with no special effects.
 
-In case of new series, drop these castings in patches 4-6.
+Ack this sounds good.
 
-> +       gpiod_set_value(priv->enable_gpio, 0);
-> +}
+> 
+> - There is an accompanying misc device with the sysfs attributes "name", "device_type",  "firmware_version_string", "serial_number" for device identification and "use_leds_uapi" that defaults to 1.
+
+You don't need a char misc device here, you can just make this sysfs attributes on the LED class device's parent device by using device_driver.dev_groups. Please don't use a char misc device just to attach sysfs attributes to it.
+
+Also I'm a bit unsure about most of these attributes, "use_leds_uapi" was discussed before
+and makes sense. But at least for HID devices the rest of this info is already available
+in sysfs attributes on the HID devices (things like vendor and product id) and since the
+userspace code needs per device code to drive the kbd anyways it can also have device
+specific code to retrieve all this info, so the other sysfs attributes just feel like
+duplicating information. Also there already are a ton of existing hidraw userspace rgbkbd
+drivers which already get this info from other places.
+
+>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should keep the last state the backlight was in active if possible.
+> 
+>     - If set 1 it appears again. The driver should bring it back to a static 1 zone setting while avoiding flicker if possible.
+
+Ack, if this finds it way into some documentation (which it should) please make it
+clear that this is about the "use_leds_uapi" sysfs attribute.
+
+> - If the device is not controllable by for example hidraw, the misc device might also implement additional ioctls or sysfs attributes to allow a more complex low level control for the keyboard backlight. This is will be a highly vendor specific UAPI.
+
+IMHO this is the only case where actually using a misc device makes sense, so that
+you have a chardev to do the ioctls on. misc-device-s should really only be used
+when you need a chardev under /dev . Since you don't need the chardev for the e.g.
+hidraw case you should not use a miscdev there IMHO.
+
+> 
+>     - The actual logic interacting with this low level UAPI is implemented by a userspace driver
+> 
+> Implementation wise: For the creation of the misc device with the use_leds_uapi switch a helper function/macro might be useful? Wonder if it should go into leds.h, led-class-multicolor.h, or a new header file?
+
+See above, I don't think we want the misc device for the hidraw case, at which
+point I think the helper becomes unnecessary since just a single sysfs write
+callback is necessary.
+
+Also for adding new sysfs attributes it is strongly encouraged to use
+device_driver.dev_groups so that the device core handled registering /
+unregistering the sysfs attributes which fixes a bunch of races; and
+using device_driver.dev_groups does not mix well with a helper as you've
+suggested.
+
+> 
+> - Out of my head it would look something like this:
+> 
+> led_classdev_add_optional_misc_control(
+>     struct led_classdev *led_cdev,
+>     char* name,
+>     char* device_type,
+>     char* firmware_version_string,
+>     char* serial_number,
+>     void (*deregister_led)(struct led_classdev *led_cdev),
+>     void (*reregister_led)(struct led_classdev *led_cdev))
+> 
+> Let me know your thoughts and hopefully I can start implementing it soon for one of our devices.
+
+I think overall the plan sounds good, with my main suggested change
+being to not use an unnecessary misc device for the hid-raw case.
+
+Regards,
+
+Hans
 
 
---=20
-With Best Regards,
-Andy Shevchenko
 
