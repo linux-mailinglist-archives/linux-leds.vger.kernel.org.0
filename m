@@ -1,54 +1,54 @@
-Return-Path: <linux-leds+bounces-1269-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1270-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8DA880087
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Mar 2024 16:26:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5958810BD
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Mar 2024 12:17:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 12D091F23248
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Mar 2024 15:26:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D68C1C217E5
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Mar 2024 11:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A82D3651BD;
-	Tue, 19 Mar 2024 15:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B2CC4084D;
+	Wed, 20 Mar 2024 11:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="TmXklku9"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="NTznYoqz"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5517024B33;
-	Tue, 19 Mar 2024 15:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A853FB93;
+	Wed, 20 Mar 2024 11:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710861995; cv=none; b=uIBV9Zvs3FHpikLBsTaqY6OWH9CbRKEOJz6f2kGQZ7nzKYRXba3/gUBZ4hHN20pG+Q/1EKaBqksgv3qqOwzGo20wYyStyRuD2ZTUD8yxPzyfrmVFPGZkfN8hfT2gpZKr9gMg2cmJDvJsas7IQfbvw96QZ3htNui/PN0sG7xdoUc=
+	t=1710933408; cv=none; b=cHI4JnrVbheUOlRxhHnbcbcl4I7FSFXUA2e6edNH7OZTSq5cflpP1P6O8G3OXoOIkyV6RVsohXELONDT+0/vU88g3J/jOJWeqmAsPtwKUoolkwIBlp2NXOlC4GxO0dnpyMBj+aHfFi1Pd362b6rLjAH2O7v3HAj9Dzd06U+JNWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710861995; c=relaxed/simple;
-	bh=yNuXDV24kN5Tq58Ff6lS2FO83vxVjbX+X+J+Juwqd4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E6Fs4rAAGvVN6T+SJQQrEkwVylz4I7Idlp8XnyqYUH7GMNv4HhbycXjYi0jfOFFVq/9N6B0GNj+WihZt6ykLU8cwR4vwsi3vHpZHLXr9wTxgL2ThLF3zIvlZWzGm/hycL4g8iu26wwsYe0x7hmjg61y9ts3PCDUt9UQ4QOazDDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=TmXklku9; arc=none smtp.client-ip=157.90.84.7
+	s=arc-20240116; t=1710933408; c=relaxed/simple;
+	bh=jZITW5F1LPSEX35Sne0hsGdLz3H++JJ4tnzWy/SgkTg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=s0Ha10noQrFlDb/AWQ89gOAAVhRQB9ocjam9yjXblrN2OMffgVoP0gHqT9NlhBHLEH0BByLiD2caED26D/YvHxIb2mr5QK7tdS5dFOWsZm0kuJZMFc8JZ56wcB5agz/W9lsuZyPGKL3rkfHqsyAtM8p0WY8JENgvt3cL1sXZDt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=NTznYoqz; arc=none smtp.client-ip=157.90.84.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 873592FC010D;
-	Tue, 19 Mar 2024 16:18:41 +0100 (CET)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 00EFF2FC0057;
+	Wed, 20 Mar 2024 12:16:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1710861522;
+	s=default; t=1710933401;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OLYrKqHUM/IS0ZPTvZGbAWfjnkzw3USLCJuf00OnxW8=;
-	b=TmXklku9GoSmsAqKgvFjAdvKArNOxe6Ng926gjBEtTf3XVHFd/jpvZ05aFiBmld1CLguCq
-	muxHUNdiSvwyaj1HS4SM2wSgyiAPBU5Dxil0wx0FqvM6OC6irM8F8Sz1HUvSQibYPNc+iL
-	4yi62HVK0MqzxvgZENWETG1QP4z7yRg=
+	bh=+4zpNEIVjjhVbRfRyLCxzzJG4yUwU/PAPb8l9mzJcKI=;
+	b=NTznYoqzURRGHcbjAz6JNcN5eRJt3vLTjWwpy2AXYT5bl8Pz40YzpjhtiaIE1T7PiS1Bsk
+	spa6NzUOryF8o76qC74LsyrHfzYvd7ffScqzi7bVzJoCAnBj9itHKwKRoyEIwR7TYaxTuv
+	WS5n+eUeyBOgHcHd0tyrrKX/yZFKCvI=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <93d70ac3-bb18-4732-abb4-134750a5b50c@tuxedocomputers.com>
-Date: Tue, 19 Mar 2024 16:18:40 +0100
+Message-ID: <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+Date: Wed, 20 Mar 2024 12:16:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -57,6 +57,8 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Future handling of complex RGB devices on Linux v3
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
  linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
@@ -79,99 +81,102 @@ References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
  <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
  <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
  <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
+In-Reply-To: <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Hi Hans and the others,
 
-Am 18.03.24 um 12:11 schrieb Hans de Goede:
-> Hi Werner,
+Am 22.02.24 um 14:14 schrieb Werner Sembach:
+> Hi,
 >
-> Sorry for the late reply.
-np
+> Thanks everyone for the exhaustive feedback. And at least this thread is a 
+> good comprehesive reference for the future ^^.
 >
-> On 2/22/24 2:14 PM, Werner Sembach wrote:
->> Hi,
->>
->> Thanks everyone for the exhaustive feedback. And at least this thread is a good comprehesive reference for the future ^^.
->>
->> To recap the hopefully final UAPI for complex RGB lighting devices:
->>
->> - By default there is a singular /sys/class/leds/* entry that treats the device as if it was a single zone RGB keyboard backlight with no special effects.
-> Ack this sounds good.
+> To recap the hopefully final UAPI for complex RGB lighting devices:
 >
->> - There is an accompanying misc device with the sysfs attributes "name", "device_type",  "firmware_version_string", "serial_number" for device identification and "use_leds_uapi" that defaults to 1.
-> You don't need a char misc device here, you can just make this sysfs attributes on the LED class device's parent device by using device_driver.dev_groups. Please don't use a char misc device just to attach sysfs attributes to it.
+> - By default there is a singular /sys/class/leds/* entry that treats the 
+> device as if it was a single zone RGB keyboard backlight with no special effects.
 >
-> Also I'm a bit unsure about most of these attributes, "use_leds_uapi" was discussed before
-> and makes sense. But at least for HID devices the rest of this info is already available
-> in sysfs attributes on the HID devices (things like vendor and product id) and since the
-> userspace code needs per device code to drive the kbd anyways it can also have device
-> specific code to retrieve all this info, so the other sysfs attributes just feel like
-> duplicating information. Also there already are a ton of existing hidraw userspace rgbkbd
-> drivers which already get this info from other places.
-The parent device can be a hid device, a wmi device, a platform device etc. so I 
-thought it would be nice to have some unified way for identification.
+> - There is an accompanying misc device with the sysfs attributes "name", 
+> "device_type",  "firmware_version_string", "serial_number" for device 
+> identification and "use_leds_uapi" that defaults to 1.
 >
->>      - If set to 0 the /sys/class/leds/* entry disappears. The driver should keep the last state the backlight was in active if possible.
->>
->>      - If set 1 it appears again. The driver should bring it back to a static 1 zone setting while avoiding flicker if possible.
-> Ack, if this finds it way into some documentation (which it should) please make it
-> clear that this is about the "use_leds_uapi" sysfs attribute.
-Ack
+>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should 
+> keep the last state the backlight was in active if possible.
 >
->> - If the device is not controllable by for example hidraw, the misc device might also implement additional ioctls or sysfs attributes to allow a more complex low level control for the keyboard backlight. This is will be a highly vendor specific UAPI.
-> IMHO this is the only case where actually using a misc device makes sense, so that
-> you have a chardev to do the ioctls on. misc-device-s should really only be used
-> when you need a chardev under /dev . Since you don't need the chardev for the e.g.
-> hidraw case you should not use a miscdev there IMHO.
+>     - If set 1 it appears again. The driver should bring it back to a static 1 
+> zone setting while avoiding flicker if possible.
+>
+> - If the device is not controllable by for example hidraw, the misc device 
+> might also implement additional ioctls or sysfs attributes to allow a more 
+> complex low level control for the keyboard backlight. This is will be a highly 
+> vendor specific UAPI.
+So in the OpenRGB issue thread 
+https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices 
+aka HID LampArray was mentioned. I did dismiss it because I thought that is only 
+relevant for firmware, but I now stumbled upon the Virtual HID Framework (VHF) 
+https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/virtual-hid-framework--vhf- 
+and now I wonder if an equivalent exists for Linux? A quick search did not yield 
+any results for me.
 
-My train of thought was that it would be nice to have the use_leds_uapi at a 
-somewhat unified location in sysfs. The parent device can be of any kind, like I 
-mentioned above, and while for deactivating it can easily be found via 
-/sys/class/leds/*/device/. For reactivating, the leds entry doesn't exist.
+If a virtual HID device is possible and the WMI interface can reasonably be 
+mapped to the LampArray API this might be the best starting point:
 
->
->>      - The actual logic interacting with this low level UAPI is implemented by a userspace driver
->>
->> Implementation wise: For the creation of the misc device with the use_leds_uapi switch a helper function/macro might be useful? Wonder if it should go into leds.h, led-class-multicolor.h, or a new header file?
-> See above, I don't think we want the misc device for the hidraw case, at which
-> point I think the helper becomes unnecessary since just a single sysfs write
-> callback is necessary.
->
-> Also for adding new sysfs attributes it is strongly encouraged to use
-> device_driver.dev_groups so that the device core handled registering /
-> unregistering the sysfs attributes which fixes a bunch of races; and
-> using device_driver.dev_groups does not mix well with a helper as you've
-> suggested.
-Ok, I will see when I start implementing.
->
->> - Out of my head it would look something like this:
->>
->> led_classdev_add_optional_misc_control(
->>      struct led_classdev *led_cdev,
->>      char* name,
->>      char* device_type,
->>      char* firmware_version_string,
->>      char* serial_number,
->>      void (*deregister_led)(struct led_classdev *led_cdev),
->>      void (*reregister_led)(struct led_classdev *led_cdev))
->>
->> Let me know your thoughts and hopefully I can start implementing it soon for one of our devices.
-> I think overall the plan sounds good, with my main suggested change
-> being to not use an unnecessary misc device for the hid-raw case.
->
-> Regards,
->
-> Hans
->
->
-Thanks for the feedback,
+- Implement a Virtual HID device with LampArray
+
+- Implement LampArray in OpenRGB
+
+- (Optional) Implement a generic LampArray leds subsystem driver that maps to 
+the single zone control and ads the use_leds_uapi sysfs switch to the virtual 
+HID device
+
+- (Optional) Implement vendor specific controls for 
+AutonomousMode/built-in-firmware-effects via custom HID commands
+
+- (Optional) Implement Virtual HID devices for actual HID devices that don't 
+support LampArray in firmware (Open question: How to prevent userspace/OpenRGB 
+from interacting with original HID when the virtual HID device is not in 
+AutonomousMode? How to associate the original and virtual HID device to each 
+other that userspace can easily recognize this relation? Or is it possible to 
+add virtual HID commands on top of a real HID device, making it look exactly 
+like the pure virtual devices for userspace?)
+
+The LampArray API hereby is made with the intention to be used for multi leds 
+devices, like per-key-backlight keyboards, unlike the leds UAPI. And it is 
+coming anyway with new RGB devices soon. So it would not conflict with a "don't 
+introduce unnecessary UAPI interfaces" principle. Are there any plans already of 
+Wrapping LampArray in some kind ioctl/sysfs API? Or just have it used via 
+hidraw? Or was there no discussion about it till now?
+
+Regards,
 
 Werner
 
+>
+>     - The actual logic interacting with this low level UAPI is implemented by 
+> a userspace driver
+>
+> Implementation wise: For the creation of the misc device with the 
+> use_leds_uapi switch a helper function/macro might be useful? Wonder if it 
+> should go into leds.h, led-class-multicolor.h, or a new header file?
+>
+> - Out of my head it would look something like this:
+>
+> led_classdev_add_optional_misc_control(
+>     struct led_classdev *led_cdev,
+>     char* name,
+>     char* device_type,
+>     char* firmware_version_string,
+>     char* serial_number,
+>     void (*deregister_led)(struct led_classdev *led_cdev),
+>     void (*reregister_led)(struct led_classdev *led_cdev))
+>
+> Let me know your thoughts and hopefully I can start implementing it soon for 
+> one of our devices.
+>
+> Kind regards,
+>
+> Werner Sembach
+>
 
