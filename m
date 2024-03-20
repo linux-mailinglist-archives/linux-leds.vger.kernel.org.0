@@ -1,188 +1,104 @@
-Return-Path: <linux-leds+bounces-1271-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1272-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831D988110B
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Mar 2024 12:33:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC178811D3
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Mar 2024 13:47:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAEC51F216AE
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Mar 2024 11:33:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB425285DE3
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Mar 2024 12:47:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEDF63D995;
-	Wed, 20 Mar 2024 11:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0EE23FE2C;
+	Wed, 20 Mar 2024 12:46:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="GBeuoGZo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elDQzjL5"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D0B3DB89;
-	Wed, 20 Mar 2024 11:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797D940873;
+	Wed, 20 Mar 2024 12:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710934430; cv=none; b=M1xQ6iImkM6t3Hmjm0sAkqMw1kLcqy0HRmok32qgpmDA2APk403LpDQKlUmo9ruWYOTDTHcrKtpMogHVH2f62n4dfnWZ5B51Ceg4YdVuP7b6T8iSZFvPV97gvxQUXyEl08iDPOybRXmoi+btxfW8DdBC3ALMOuP4HVUDKOHr3Dc=
+	t=1710938818; cv=none; b=bMoMf2O4tAYOISsa6133eTPCZ/B29OmYviizSoIR1MIhNeIvC33e+zEOF5s03Z9dUblPfh2ST1N5Meo9kEwINV4BOTtWvOQzKF6VnQ5nPVK3C6oq6o8g+TbjS+NVoeBTND5D0XNVh1gWPFN2As4+fBYL/hm0UPotHJM9e+1dXM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710934430; c=relaxed/simple;
-	bh=oMWnQ2SESjJbZXeBZQTOup2CZqHkOUYEQRf3P6TiP3A=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=VfUm6HFYdUmqgU8WmunxufS77A6ExNnG0kmH0qgZk/cF33vxuOnADhNvDQJ7QCMlKdDj06mxyqV5OxEnzqc3YofEUPpyyZxN79g923o/nKu4DwT0E6h53njn+9mj86uOp977ItuUB2yIuJuyPNjz65BfqkXG6JvvHqSXJI+SRSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=GBeuoGZo; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 29F7D2FC0057;
-	Wed, 20 Mar 2024 12:33:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1710934424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fpsIRaxkRtpsNKIj80iHrtJRRYfSGLnU/jmamQVBuq0=;
-	b=GBeuoGZoF+IsUpEuBHqZMM5Su8+WmPe8NT/o+OZWxkFbbSRmV4JkB1U/+xr9baohGZsd6T
-	3H3AGyVECbfxDGg3PbTm+8bqndzmL8OT1qXk8hg88V/qRKbCoi3g6tbL81M2bNKZY/2ntr
-	/iz5bt+JzkE2F+bZ7YeHsUGmXxH5Myc=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <31bbac5f-a1fc-41dd-b614-f9039763084d@tuxedocomputers.com>
-Date: Wed, 20 Mar 2024 12:33:44 +0100
+	s=arc-20240116; t=1710938818; c=relaxed/simple;
+	bh=qG8vU2VNbKP5oWa019GPK79bBq9y97fVA9aDgoKPkbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAeGO6VEizePmcmMGRBtxhLzF4diQDvJ5Hux/QvCtW4B81eToE9sT6J3c3yXbETgidFAaofuz/Ui7xGbcmxNe5NjB0bwybxbJeYNN6W8HJJGMp+pta9w6ze0mQsPX/o3OhaT6RIS3s1lyJ/ob65vDDqQABPmke9OAIhM5W/TtmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elDQzjL5; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e04ac4209eso14968205ad.1;
+        Wed, 20 Mar 2024 05:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710938817; x=1711543617; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gSN+FDXXyYc0p+FXZb4g9T/TuLHmj5IB4QRgcl+NvwM=;
+        b=elDQzjL528QB/K8rig1yfGrw/Uv9MNBjZX8/tH25ynCNklf+hlvIRReFQQ6lbTs9MN
+         /cyeL1AZF3ifTdCgdZqLZ+KnALE94flw0G+XzHYGVdm3bk9FjXvjrkuysp7NIj092h4O
+         GnVrONVJmLq2en1rU+UGR9INh2O1RAsHg8QpDLVHNwWTNA6jrNttDAAJ62rsnbUc8TXj
+         13/jThCsVzMSZm/MCzlf7Crryo7e+DGemPaOBb/OEj4PavAp/gJZ4R/aQdXrBw0qkdnT
+         tvDIAjeVueJCwe7QbgtMYhAp9HKUjPfE+z0cBwfXHDch2Krmm8JMUWJ2Po/7uorteAVo
+         J5/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710938817; x=1711543617;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gSN+FDXXyYc0p+FXZb4g9T/TuLHmj5IB4QRgcl+NvwM=;
+        b=VT7CxjTdYH9B3NApLmLcG84NsO5DDRS1ZZYrDbHjU5tLTEzfPfN329kg14vN73wObP
+         5NCku0Hkq/c9Yf9McC+VsBSeMvt+B985E/PJYXX6Ry/9fhfPSVIgRtmrlRMDibmI0NHk
+         AICIQij9n/T4DLGWwoNv1VkxQprw38kt2aJXtmUPpQPfBoSJBSzzWBWUHsVGpf1lJNdE
+         6IS1O0ZEUHzGX3Egq0FqaoqFGpOEnnkikXJaiPsCvRgsHIpPIiTQ7+pJxMFXptmtY9SC
+         1RkCNIReHLo8V0u9Amyi7c0wiZ692zoUkzDqerwsGdLQsR2CBe5CsJYpaeFYyOD3PwLY
+         jpSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4MjhcX7DE5NJ/twuw3mwPRM1lrtUOnDg8JbS9TyHtX6qxx8kPepY62DdKa6LkwlO0VjfLKbawag0ckwiU4ZgmlJ0jXJsPx4AImXnnghG+tzGKTxMb38DF2X0OWl4NXPUMfG8m4igIAA==
+X-Gm-Message-State: AOJu0YxSooOwae+CVNmj/RIe3BvyFtt7HBSX3BMJAXDgl8/23oGT0gwv
+	+CeyW5IWVu4ceoRVhzFn4GEM94qOi9wzvb/1etlHxsY0NNBgN+4q
+X-Google-Smtp-Source: AGHT+IGBSLCxUJjMvyQEMyZhLnm6rU96mG5p6AlorUhB5IfhmOkGeiS+w67cbCMG3pv6iors13f0Bw==
+X-Received: by 2002:a17:902:cccd:b0:1e0:2a4b:e51b with SMTP id z13-20020a170902cccd00b001e02a4be51bmr10253211ple.32.1710938816881;
+        Wed, 20 Mar 2024 05:46:56 -0700 (PDT)
+Received: from localhost.localdomain (FL1-125-193-23-126.chb.mesh.ad.jp. [125.193.23.126])
+        by smtp.gmail.com with ESMTPSA id s14-20020a170902ea0e00b001dda32430b3sm13441004plg.89.2024.03.20.05.46.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Mar 2024 05:46:56 -0700 (PDT)
+From: INAGAKI Hiroshi <musashino.open@gmail.com>
+To: pavel@ucw.cz,
+	lee@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	INAGAKI Hiroshi <musashino.open@gmail.com>
+Subject: [PATCH 0/2] dt-bindings: leds: add LED_FUNCTION_* mainly for router devices
+Date: Wed, 20 Mar 2024 21:43:15 +0900
+Message-ID: <20240320124431.221-1-musashino.open@gmail.com>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v3
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
-Content-Language: en-US
-In-Reply-To: <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+This patch series adds some LED_FUNCTION_* definitions mainly for router
+devices.
+Those definitions are useful for OpenWrt or something.
 
-Am 20.03.24 um 12:16 schrieb Werner Sembach:
-> Hi Hans and the others,
->
-> Am 22.02.24 um 14:14 schrieb Werner Sembach:
->> Hi,
->>
->> Thanks everyone for the exhaustive feedback. And at least this thread is a 
->> good comprehesive reference for the future ^^.
->>
->> To recap the hopefully final UAPI for complex RGB lighting devices:
->>
->> - By default there is a singular /sys/class/leds/* entry that treats the 
->> device as if it was a single zone RGB keyboard backlight with no special 
->> effects.
->>
->> - There is an accompanying misc device with the sysfs attributes "name", 
->> "device_type",  "firmware_version_string", "serial_number" for device 
->> identification and "use_leds_uapi" that defaults to 1.
->>
->>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should 
->> keep the last state the backlight was in active if possible.
->>
->>     - If set 1 it appears again. The driver should bring it back to a static 
->> 1 zone setting while avoiding flicker if possible.
->>
->> - If the device is not controllable by for example hidraw, the misc device 
->> might also implement additional ioctls or sysfs attributes to allow a more 
->> complex low level control for the keyboard backlight. This is will be a 
->> highly vendor specific UAPI.
-> So in the OpenRGB issue thread 
-> https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices 
-> aka HID LampArray was mentioned. I did dismiss it because I thought that is 
-> only relevant for firmware, but I now stumbled upon the Virtual HID Framework 
-> (VHF) 
-> https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/virtual-hid-framework--vhf- 
-> and now I wonder if an equivalent exists for Linux? A quick search did not 
-> yield any results for me.
-Is this what I have been searching for? https://docs.kernel.org/usb/gadget_hid.html
->
-> If a virtual HID device is possible and the WMI interface can reasonably be 
-> mapped to the LampArray API this might be the best starting point:
->
-> - Implement a Virtual HID device with LampArray
->
-> - Implement LampArray in OpenRGB
->
-> - (Optional) Implement a generic LampArray leds subsystem driver that maps to 
-> the single zone control and ads the use_leds_uapi sysfs switch to the virtual 
-> HID device
->
-> - (Optional) Implement vendor specific controls for 
-> AutonomousMode/built-in-firmware-effects via custom HID commands
->
-> - (Optional) Implement Virtual HID devices for actual HID devices that don't 
-> support LampArray in firmware (Open question: How to prevent userspace/OpenRGB 
-> from interacting with original HID when the virtual HID device is not in 
-> AutonomousMode? How to associate the original and virtual HID device to each 
-> other that userspace can easily recognize this relation? Or is it possible to 
-> add virtual HID commands on top of a real HID device, making it look exactly 
-> like the pure virtual devices for userspace?)
->
-> The LampArray API hereby is made with the intention to be used for multi leds 
-> devices, like per-key-backlight keyboards, unlike the leds UAPI. And it is 
-> coming anyway with new RGB devices soon. So it would not conflict with a 
-> "don't introduce unnecessary UAPI interfaces" principle. Are there any plans 
-> already of Wrapping LampArray in some kind ioctl/sysfs API? Or just have it 
-> used via hidraw? Or was there no discussion about it till now?
->
-> Regards,
->
-> Werner
->
->>
->>     - The actual logic interacting with this low level UAPI is implemented by 
->> a userspace driver
->>
->> Implementation wise: For the creation of the misc device with the 
->> use_leds_uapi switch a helper function/macro might be useful? Wonder if it 
->> should go into leds.h, led-class-multicolor.h, or a new header file?
->>
->> - Out of my head it would look something like this:
->>
->> led_classdev_add_optional_misc_control(
->>     struct led_classdev *led_cdev,
->>     char* name,
->>     char* device_type,
->>     char* firmware_version_string,
->>     char* serial_number,
->>     void (*deregister_led)(struct led_classdev *led_cdev),
->>     void (*reregister_led)(struct led_classdev *led_cdev))
->>
->> Let me know your thoughts and hopefully I can start implementing it soon for 
->> one of our devices.
->>
->> Kind regards,
->>
->> Werner Sembach
->>
+INAGAKI Hiroshi (2):
+  dt-bindings: leds: add LED_FUNCTION_MOBILE for mobile network
+  dt-bindings: leds: add LED_FUNCTION_SPEED_* for link speed on LAN/WAN
+
+ include/dt-bindings/leds/common.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+2.25.1
+
 
