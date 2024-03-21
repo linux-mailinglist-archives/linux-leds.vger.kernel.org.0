@@ -1,60 +1,61 @@
-Return-Path: <linux-leds+bounces-1279-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1280-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29600885B43
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Mar 2024 16:00:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5209C88600C
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Mar 2024 18:49:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE4541F219A0
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Mar 2024 15:00:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BCBF286599
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Mar 2024 17:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3218A85958;
-	Thu, 21 Mar 2024 14:59:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7261C130E54;
+	Thu, 21 Mar 2024 17:49:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ve8saih7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fqXmvWG+"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F393984FC5;
-	Thu, 21 Mar 2024 14:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492D2224D7;
+	Thu, 21 Mar 2024 17:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711033197; cv=none; b=flJ93Wy03UhurcAo7dcBNbkMMZvFfwt0KX15ERSfJznkaxBIkk5DHRfqF7KNSmWZCq+Zi1Iac4JcEHjHN4RwC7waRj0Tg/0hNlJvhiMfzDHo6bZLVfvSv0HLHM1odcxHyz+dHUqN1oVj/VrCrgisr6iNZi9tEWkMDSjrJHi2Q7Y=
+	t=1711043344; cv=none; b=X1xXUgZHA8gUx8i7hZYZFBO+scQjzip3NP4MORbNR3//ZJ71uz1BpnaB7FnUA4bnLkvxQE1ZHw0rNMC+CDZ9Fqc4JcqXscWHNNsBUm9bgz20D0MsRB7uib623ARDqLocBln0aMgWk/jGvH7xknJIphwVNOqyrTF9sE8muOs2elE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711033197; c=relaxed/simple;
-	bh=QfTBa6Jq2tL0XdM9ma6XrXl+buIzJ1XE881t6neWUEY=;
+	s=arc-20240116; t=1711043344; c=relaxed/simple;
+	bh=giBCJwrUkuQp6cs98rqZmR8x+6CYDC+Tv2EgE/bACow=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bGOIJRWRXguMKQBrevwTRWsxfyvsD/ita3e6Cs2sV6p4dzL95hooIcSs/7E/PExKF3oSOSGFv+sOQTqh9FdPVExbYYVCiJ4J0sfzSCS7MqRkGOFYDDC0pG2ZAhzQ5uSVW3nmWfoNYVHpv38TpfB+MCU59MkJMGqJp1CexC76BmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ve8saih7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 483A6C433C7;
-	Thu, 21 Mar 2024 14:59:54 +0000 (UTC)
+	 MIME-Version:Content-Type; b=duPETzm9iEdBhT/Ovz8wxGzPn4/pMAF7FHJUW5iuJPIdY9fUfO1AL9OURs9at6upt9EhIb7JZsqbKDBReggfQwlDUiQXgiBUIReuYw70GMQP/Pc/kteOAmD7i9+6/N9tdeP1zM0/IlU7Shbw/qU2b6UYQ7t0SB6ufiP2BgJkybs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fqXmvWG+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BB7C433C7;
+	Thu, 21 Mar 2024 17:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711033196;
-	bh=QfTBa6Jq2tL0XdM9ma6XrXl+buIzJ1XE881t6neWUEY=;
+	s=k20201202; t=1711043342;
+	bh=giBCJwrUkuQp6cs98rqZmR8x+6CYDC+Tv2EgE/bACow=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ve8saih7JF2Ck7mMTozEdnAsTkBhx/DjJOEvy8dePW3U2UEnL6nPtUt1BI+BCCSAJ
-	 r380KZuY6z9PgkxpzlzGWTQiWfXgqL3JgvkXdHRePgpaDBPXp4zM7U5msdZQhNX2kl
-	 OL8IxAV/RRJKdurYGEUOCMXZM0jich4tu7WZbD3TOJxWHiyh0/LnML0wWMviGZ0qEY
-	 OWgOTmHVdW7Uj/Qz4Zc/FcUdhXq1mmoO6Ph/HF6Wyu7NdJl8XFnGmkXHSoOpF7cUqv
-	 SBeX1IJRac0hprRk4a8J3ayzzfFZ5/kZv6D3oO0je7IElxyWleOHWStUrltZ36wCsp
-	 LEuxFNqKCXO/w==
+	b=fqXmvWG+zMk0i82vT6ojt2EQOALh+vHgy2tHP8phBKvo2XdKGB2N6MG3nk9nbR25X
+	 Zlwwyhg51SQLnjcxeQlFtnXE9hyIhXrMLy8Bb4I5aXytBwH2JgQHXD27MiBGCI3kJH
+	 kwQNASpds8l3AT/tA3H5iYu+tY978RrbzfHIYalgxZhCBshkXJYo/T94YuCWJHBWDe
+	 W3JJ6Jk5dHh4mTQ9qDeDZZ0s0lxMFKns5uZfNKY764nKtfH6yzGvfNFVI+mLxjzjjo
+	 hnBMwQY4E8/uApq5Diy7IHn7amF+FbM4+1H6qflikoG8lJxbwAp82MfsZ5P8A3ZlKZ
+	 k4t4D3MOUz/AQ==
 From: Lee Jones <lee@kernel.org>
-To: pavel@ucw.cz, lee@kernel.org, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- andersson@kernel.org, konrad.dybcio@linaro.org, 
- Danila Tikhonov <danila@jiaxyga.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20240306172710.59780-2-danila@jiaxyga.com>
-References: <20240306172710.59780-1-danila@jiaxyga.com>
- <20240306172710.59780-2-danila@jiaxyga.com>
-Subject: Re: (subset) [PATCH 1/2] dt-bindings: leds: qcom-lpg: Document
- PM6150L compatible
-Message-Id: <171103319402.47386.15024571125365763928.b4-ty@kernel.org>
-Date: Thu, 21 Mar 2024 14:59:54 +0000
+To: andy.shevchenko@gmail.com, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Xing Tong Wu <xingtong_wu@163.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, 
+ Xing Tong Wu <xingtong.wu@siemens.com>, 
+ Gerd Haeussler <gerd.haeussler.ext@siemens.com>, 
+ Tobias Schaffner <tobias.schaffner@siemens.com>, 
+ Henning Schild <henning@hennsch.de>
+In-Reply-To: <20240314070506.2384-1-xingtong_wu@163.com>
+References: <20240314070506.2384-1-xingtong_wu@163.com>
+Subject: Re: (subset) [PATCH v4] leds: simatic-ipc-leds-gpio: add support
+ for module BX-59A
+Message-Id: <171104334055.133767.17062777596741822181.b4-ty@kernel.org>
+Date: Thu, 21 Mar 2024 17:49:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,16 +66,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.4
 
-On Wed, 06 Mar 2024 20:27:09 +0300, Danila Tikhonov wrote:
-> The PM6150L LPG modules are compatible with the PM8150L LPG modules,
-> document the PM6150L LPG compatible as fallback for the PM8150L LPG.
+On Thu, 14 Mar 2024 15:05:06 +0800, Xing Tong Wu wrote:
+> This is used for the Siemens Simatic IPC BX-59A, which has its LEDs
+> connected to GPIOs provided by the Nuvoton NCT6126D.
 > 
 > 
 
 Applied, thanks!
 
-[1/2] dt-bindings: leds: qcom-lpg: Document PM6150L compatible
-      commit: 385019bc6f0d57917282b634b80d3e359ab50163
+[1/1] leds: simatic-ipc-leds-gpio: add support for module BX-59A
+      commit: ca66b10a11da3c445c9c0ca1184f549bbe9061f2
 
 --
 Lee Jones [李琼斯]
