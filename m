@@ -1,111 +1,97 @@
-Return-Path: <linux-leds+bounces-1303-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1304-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB7C88702F
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 17:02:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 730F4887408
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 20:56:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A719286AF3
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 16:02:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2ADAB28228F
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 19:56:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D665917D;
-	Fri, 22 Mar 2024 16:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307337F484;
+	Fri, 22 Mar 2024 19:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqcIEBaI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XjEscHMZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842BE59176;
-	Fri, 22 Mar 2024 16:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05ABD7F46B;
+	Fri, 22 Mar 2024 19:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711123342; cv=none; b=l0vkPbK8cW/ss8xszssYgtOGk7G8H8O4xyEuBC11aGnBxwRX08ezEcRuzgusV5ptXGenQQGunaeb2vcklzbj9bQMUomhtJ3q/cLc05+npohu0XyBVLwx0I/gftiziqVRBt+lFbo8cUn45G7+iL4/mmFEwvgd3Quy77o7z6YYm+0=
+	t=1711137375; cv=none; b=O170sPOJCu+r7bcDc/ZkYQzqxlNkyBe9B/H/CPg+O07IRYssR3OBGoBspQ58R7nVcEJ9VEbkrshL4nlW5ZDKRzBwC/qS3yLOgS91alA+LUJUxKPBVZmoApAv4zkCA4upAa9Md7/vOZ9CWkWogaMvOqjq6z3xUugCJjMHWWaS4yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711123342; c=relaxed/simple;
-	bh=Fh1WVlXUCaDzE+2uvloKq2wmWpHmUcExpGG+lPA3Nz4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZlG8RZK11FJXZ4+q7e2FxfJ70uzKd+KAuu7NhgGMfERwgO9CuuP1wjGEY2lyid9l5ZRHOstUjrptUbDv2SSwH0c1Ah27wqFlU4Kxdlkuo5LKRWukpKgGdhuwBtuFyTBgovt6yY78xUdK7//BDIdtgshkBkcTKmC2TyshtnVJAPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqcIEBaI; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a46f97b8a1bso308978766b.0;
-        Fri, 22 Mar 2024 09:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711123339; x=1711728139; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OPqoca3+E6LNWJ9WbqjZz0KE97nzXeTI6WO+9c+3l6A=;
-        b=OqcIEBaIGZMzKwinb4pCyYvxnGviIpvc9qV9ukjKfDSDE9qUPGWrBah8B0i1SdYZ1j
-         yTgzru1IDqPoxatyPTbWW8c0M/oXXSkKEP4MBx1V9bgkn2GSjgA3KufhAU259yfvkIl7
-         pas3E4iJhAfYn2D+v6e4UqgKUkY2PqUAEkVtixrqn33UiZH1N19GwusAmfwhTzFrK15n
-         qUGVVrbQv/yx2SCSsLmrT4LKBiRRMmHYiPR+gpAH3VfLaXylR+NPmVoTBnjkHj21cNjq
-         /jvl1nNFEi+gH4HNpIJio06LgU9L4sJdxpA1DsT7Cv9uV8fgHOZK5lc9BAhs3bHUk4Zc
-         X6gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711123339; x=1711728139;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OPqoca3+E6LNWJ9WbqjZz0KE97nzXeTI6WO+9c+3l6A=;
-        b=Hf9CcldVi852Uv7Y6Fax7Fi680uQkhxcU3lJ0ynxxgcg9nVAphFQ9GeCP/tU7k/hxq
-         7Vfa0uxK7pOZMRyHsD/k8JwWRJhbc+UfNfQarmlb7TIVX9Mv2PqMUlkJNGU45rbBfdaz
-         6L2/scevu3/fSIjFSgrm1g2f07c4tvXFOhGhoq3LNmb+d6+iWHsc1mUtvU+3TXdQ60rd
-         oh2H0dToEpK3r2Sai8p7vHu9FVd0/8ALCwyOpVw7RPKEIVXGfAGLboS/vAaKt/2voMft
-         VoEHOn50tmMdxMrMk6qSCxYeuYVeqKiyb+NZlJ2LQVXawF85posseEz5OeOlJ5cl0dIG
-         q7pw==
-X-Forwarded-Encrypted: i=1; AJvYcCWbyEL6/YNt2acXKH6YkFsVgrD5Bon1C7M3cL7ZjFAzGRFvtT+Uhvxysn7G0EaJ5XN8r6mrcD1AZthgdRoU7UhS1F0czRN6cjt0wkVNcRs4ZriOH3nQLllTpYJUAHIw7W2Lkbc5RpUq5GwmVSAWqxhmhuwuP8R69nTsz0Xt8FrtFmsRfKqAUZ7dUaB87LE=
-X-Gm-Message-State: AOJu0YzzWXYlc1TCllg4DwOABwuBoYGan4cJVONOFkEAvTiUbNcSQbFJ
-	r3ao1N/wxeYVNQ0hxbPspQE0RiUWdO7lnDiWvOomH77YVFfYCEn53vmYiigxH/CMccJODrvBu6f
-	129cXtU8vVa4N8Vq5u6NzWBhAAq/TPtC84KE=
-X-Google-Smtp-Source: AGHT+IHrqPd014UhVB5COl0nfeju4prpHRPxz6aAstoqTW/frcw+zEFJRprsD9GE7c4ZfoZuZEXUC0gYmH0ur9J/ccM=
-X-Received: by 2002:a17:906:a3d6:b0:a46:fc33:9f3a with SMTP id
- ca22-20020a170906a3d600b00a46fc339f3amr113539ejb.26.1711123338499; Fri, 22
- Mar 2024 09:02:18 -0700 (PDT)
+	s=arc-20240116; t=1711137375; c=relaxed/simple;
+	bh=aJpcLvTHfsXX8ar5QTyJ9XLwXZCvmzpClHR69xGufx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=bHTAOo4QwLByIDWA7rUIUhUsJ45AAHQYQcmi2PtnTnhKibaZGR5ySXznEGUOhHfiVuDP9ep4xpQPpMWpvKfIX7NqyoGkk+g+AMWcod8cpHuL+jhc6UxZH/zUir2w9v6T+g0AHm+05iLJKftlGvoGS0hsn3b3h86HRwZhCHxXkss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XjEscHMZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D7AC433C7;
+	Fri, 22 Mar 2024 19:56:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711137374;
+	bh=aJpcLvTHfsXX8ar5QTyJ9XLwXZCvmzpClHR69xGufx4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=XjEscHMZnQCObYxovuq/iwu7Jk0iYji0tcGL9kdl+++c+Ptcen2iCQ2OtYHlBCW/1
+	 bD+9YHrMgqUYIYxol4ZltczzavtxLW7a3QTPJ4n6HXr78zD0r7PLLhYrp4uxt9UCo0
+	 k8TpCc3P9zrFbyip6kAH+1GOlDOKcJt2m9mVbSq5Ab+iSWXsJoLxWAkqmbnXMrbS69
+	 t9Gyb4OZsg8N2YenSJQhrpeluNbr6e55kb6i+JgkV/IIgLwcGB23mVvvk/OdiJnvZb
+	 PFqXVFXPpeADGRwc/6qZfEBPC8G5VeV1510qOI6MSwBmdDaMqfCl7rUU5Bcnqr/7Yw
+	 /r8lPrTipI4+w==
+Date: Fri, 22 Mar 2024 14:56:12 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-pci@vger.kernel.org,
+	linux-leds@vger.kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
+ support
+Message-ID: <20240322195612.GA1372991@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240306025801.8814-1-hpa@redhat.com> <20240306025801.8814-3-hpa@redhat.com>
- <Ze-N_y5Tbjc93aRp@surfacebook.localdomain> <CAEth8oEdzomdn5avXf44HXpoMFDfGpOjjxPFtaGkh0EhfZsPMQ@mail.gmail.com>
-In-Reply-To: <CAEth8oEdzomdn5avXf44HXpoMFDfGpOjjxPFtaGkh0EhfZsPMQ@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 22 Mar 2024 18:01:42 +0200
-Message-ID: <CAHp75VeoZ7p=7e9CgZftT5hThf-uMaUrqZBv=+tNYiUOevUOnw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] leds: rgb: leds-ktd202x: Get device properties
- through fwnode to support ACPI
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240312100816.000071ec@linux.intel.com>
 
-On Fri, Mar 22, 2024 at 7:45=E2=80=AFAM Kate Hsuan <hpa@redhat.com> wrote:
-> On Tue, Mar 12, 2024 at 7:04=E2=80=AFAM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
+On Tue, Mar 12, 2024 at 10:08:16AM +0100, Mariusz Tkaczyk wrote:
+> On Mon, 11 Mar 2024 17:30:06 -0500
+> Stuart Hayes <stuart.w.hayes@gmail.com> wrote:
+> 
+> > > > No, Linux doesn't support _DSM. It was proposed in previous
+> > > > iterations by Stuart but I dropped it. We decided that it need to be
+> > > > strongly rebuild because "pci/pcie" is not right place for ACPI code
+> > > > so we cannot register _DSM driver instead of NPEM as it was proposed
+> > > > and I don't have _DSM capable hardware to test it.  
+> > 
+> > I'm not sure I understand why pci/pcie isn't the right place for ACPI code--
+> > there are other _DSMs used in PCI code already, and this _DSM is defined
+> > in a PCI ECN.
+> 
+> I looked into internal review history and I found out that I dropped it after
+> discussion with Dan Williams:
+> 
+> > After review and discussion with Dan _DSM extension is dropped.
+> 
+> Unfortunately, I don't remember what exactly he suggested, I just remembered
+> conclusion that it needs to be reworked and I decided to drop it.
+> Maybe, I didn't understand him correctly.
+> 
+> Dan, could you take a look? Do you remember something?
 
-...
+Straw man proposal:
 
-> > > +     chip->num_leds =3D (unsigned long)i2c_get_match_data(client);
-> >
-> > No warnings during compilation?
-> Yes, the compiler doesn't complain about it.
+  - Update this patch so we use NPEM if the device advertises it.
 
-And for 32-bit mode as well?
+  - If/when Linux support for the _DSM is added, we use the _DSM when
+    present.  If a device advertises NPEM but no _DSM applies to it,
+    we use native NPEM for it.
 
-...
-
-P.S. You have commented only on the two comments. What about the rest?
-
---=20
-With Best Regards,
-Andy Shevchenko
+Bjorn
 
