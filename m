@@ -1,129 +1,116 @@
-Return-Path: <linux-leds+bounces-1296-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1297-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D97886A98
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 11:43:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DE2886E02
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 15:08:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F1C7B210AB
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 10:43:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CE061F22486
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 14:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 632FE3B2A4;
-	Fri, 22 Mar 2024 10:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E9F46542;
+	Fri, 22 Mar 2024 14:08:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jlZfA/Ok"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FSZWBTrB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392C27E6;
-	Fri, 22 Mar 2024 10:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0D746521;
+	Fri, 22 Mar 2024 14:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711104191; cv=none; b=ME3zBfCJ2a350Uc4X11U0QxFk89WmRjm2hoynV0tN2+vLO8NsEgSsGWhlCr8QlriWqkYzLhz9CUS67pSoegYwuS0KWzk8CJ5r8Q7ca/UDKJD6TVScFcvfg/iNU+/NDIaI14bbSVLr8xh6p9oIr3i8qQrtUteLRLrgOoGEuue3yQ=
+	t=1711116522; cv=none; b=pJXxub+2WNA8SnSE/7ieR8lHkMD0x5znuxxRYsmd0qcZX7/WApOWvY5WM/vNbVqn2lksk5/wh28D5TZNUOYlr59xSZRSMtPzLiz/uFms2Fv8u3kYNWy7zq5vx1KBhlmgtGEMGwrFSys3B5GkmBRg44oPVDQZxTfXGM78R9+9+6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711104191; c=relaxed/simple;
-	bh=gIU75Sab8N34yflwxn9vXeXb4fy5IFzZtVW946fjV4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbdSWWF1ce1g4cdU9VQYfL2oMyB8fxypXAR8G9siSCe/+Xc6dC7jskRlPEL7iYiagdkN3luuoP7i8od1/qLIkNg6cYx6qTq3rNsao8CpmOQns38szsMF811oaTXPzNyn1uIgRZ6IeSajbb92yHzV9LhoMFfje9iEzXlV7tSD+H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jlZfA/Ok; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48BBAC433F1;
-	Fri, 22 Mar 2024 10:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711104190;
-	bh=gIU75Sab8N34yflwxn9vXeXb4fy5IFzZtVW946fjV4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jlZfA/OkY6f1wSYV+TNcTlqIoHFpyJwc8UgryNf7aK3HaVV91TyS6q6yL7bcz50Rs
-	 atf9f+wwMjib97Ei3jG13Y2HSOLhhh4lUAvkVeQU9E/y9LhM1qoSstkFGMWE9W1qf8
-	 XmXUxlbpjjiFC/FeFs9io/i1X18M9KyqWydRV3zWU1DXeB2yi5BrcWwSarY71HyOde
-	 HivAY11FODDdvLE1OYem89cDax2GcqPvmuDcFyAQ+wdKRctNbq+rzXTGc1z0kq27Kz
-	 x2IqJZ+oYb/KLjZGbtmVxR0tRD2actyFdDkMI1T6SdjdrL8+M+maBDWQ+h9wUilJwP
-	 aMG5F6CDgbFaA==
-Date: Fri, 22 Mar 2024 10:43:03 +0000
-From: Lee Jones <lee@kernel.org>
-To: George Stark <gnstark@salutedevices.com>
-Cc: andy.shevchenko@gmail.com, pavel@ucw.cz, vadimp@nvidia.com,
-	christophe.leroy@csgroup.eu, hdegoede@redhat.com,
-	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com,
-	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
-	nikitos.tr@gmail.com, marek.behun@nic.cz, kabel@kernel.org,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@salutedevices.com
-Subject: Re: [PATCH v7 0/8] devm_led_classdev_register() usage problem
-Message-ID: <20240322104303.GN13211@google.com>
-References: <20240314201856.1991899-1-gnstark@salutedevices.com>
- <20240321181133.GG13211@google.com>
- <9bfd0ccc-a5d8-446c-a08c-bbc36a4d66eb@salutedevices.com>
+	s=arc-20240116; t=1711116522; c=relaxed/simple;
+	bh=3KafjWtibLc3D6ji/Ov/mDWNEAagGDYV6htJE964lvQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SVSg8kk+IyHY+qV9wt/Nd23NomhNDe6CxoPv/QUg90PeRBW0QSlr1wiqrISDuKk7kyoiJEaall+J07prCYoifpA6bg9N+Y9cHeuf5tiN0Iw6x60VqGTBoOK2ASN+/pkOaLceOkwiPONqWR5bC3Is2uif9a3b2Hk1aMfeBSEjrjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FSZWBTrB; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-69664c7f716so8318246d6.0;
+        Fri, 22 Mar 2024 07:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711116519; x=1711721319; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sIa/GtogvqA0DYtww6Wk70bFxOMoH//TtEWfa7kprrI=;
+        b=FSZWBTrBlAfjEN8SuLop9SApKGAkBHvdtFyd5fuKmriSifGO0wh5dyh5yKhonUM6Tm
+         InY94BQt1mjnlK0qNtfHYTHZQ2AEFNUktXIrJ8+45cYf7D3mYcCj8N0mXk6eZTQcpXKJ
+         rGyf5Gg5lIl6kC0K/c4ne8ORqe2MxqTC4llI/qfB3tBoor9oqNVooWmgIzLJkiPYhEII
+         rVBweyYT21MwzT+63XSLJ9ZfEwps8QB2fk8Jye9QMfGMt/ULnkzHrHh0E2Ly3xgC9StM
+         NM6brjkbsiARKKVslw9nOBqfE6243O9sXlADbUboy9tk184zUXeg7E61juO57iYmFDBl
+         4sew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711116519; x=1711721319;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sIa/GtogvqA0DYtww6Wk70bFxOMoH//TtEWfa7kprrI=;
+        b=C0Bir1QsowYEEjhcV9CQqrcj18sosLDss+OzvuW4xVXkiI6NJI3yhXp2/zWyGv1nEN
+         MSCHIzdYZbn5Ywpw8kBpV5v3kqjcikh22K3JTxNtoSWqPuGuE4R7aS8H9atEMVZZzt9w
+         VeEf0pUgQeBYUDeS7sNp85et4Jlxb/ORAqDkZJtzuzNB1YK7SymTfUloVGkJjqyRvS9T
+         eVmla6HtTE7dVSG2o4uZd9kfMJnjs+z+85QEFcaIjpxZPjyWsIzkhx62U9EvX0GM8UuA
+         suKUEDwzE9aOyY51ArbWRjXzP59wMnSXF2bHPAul9aiXA0iKBWDvc6sDRm06HKzC8I2w
+         +DUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcdCiG63fVsO5wILCznGVptP6aY3NJyke9zvf5DbM/fRyin3cJoOXTX3xMKTwDzBkKwSes+kHNknImbfJQCNAUymopWdf7bCDGpC50CZsniT7hNeuuAgMMr2JAe7zNII91SGg4NGEWEkuYg0kjKW56AOANLltowrAPOFJ0yQ==
+X-Gm-Message-State: AOJu0YzcJz6R8HaiQcMeF1Gh2jphvhWipD7Yla5PQjXZed+r0w35Nm0d
+	NXFUStf0IoJewzta/Z94M5OZDGrsSeds3WujhfPPHilCWYOJehno
+X-Google-Smtp-Source: AGHT+IHXlyybG5SFFQUKWVXy3PNjEVOg2EmpACAo0xiAohjUBSVml7qpuRl1THA+QIj4TZc4MT91aA==
+X-Received: by 2002:ad4:5aac:0:b0:696:755f:c0cb with SMTP id u12-20020ad45aac000000b00696755fc0cbmr226217qvg.8.1711116519287;
+        Fri, 22 Mar 2024 07:08:39 -0700 (PDT)
+Received: from l1441l.thefacebook.com ([2620:10d:c091:600::1:b4ee])
+        by smtp.gmail.com with ESMTPSA id kc22-20020a056214411600b0069124fff14esm1099508qvb.138.2024.03.22.07.08.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 07:08:39 -0700 (PDT)
+From: Daniel Hodges <hodges.daniel.scott@gmail.com>
+To: ast@kernel.org,
+	pavel@ucw.cz,
+	lee@kernel.org,
+	linux-leds@vger.kernel.org,
+	daniel@iogearbox.net,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Daniel Hodges <hodges.daniel.scott@gmail.com>
+Subject: [PATCH 0/3] leds: trigger: Add led trigger for bpf
+Date: Fri, 22 Mar 2024 10:08:13 -0400
+Message-ID: <cover.1711113657.git.hodges.daniel.scott@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9bfd0ccc-a5d8-446c-a08c-bbc36a4d66eb@salutedevices.com>
 
-On Fri, 22 Mar 2024, George Stark wrote:
+This patch set adds a new led trigger that uses the bpf subsystem for
+triggering leds. It is designed to be used in conjunction with a bpf
+program(s) that can modify led state through the use of bpf kfuncs. This
+is useful for providing a physical indication that a some event has
+occurred. In the context of bpf this could range from handling a packet
+to hitting a tracepoint.
 
-> Hello Lee
-> 
-> On 3/21/24 21:11, Lee Jones wrote:
-> > On Thu, 14 Mar 2024, George Stark wrote:
-> > 
-> > > This patch series fixes the problem of devm_led_classdev_register misusing.
-> > > 
-> > > The basic problem is described in [1]. Shortly when devm_led_classdev_register()
-> > > is used then led_classdev_unregister() called after driver's remove() callback.
-> > > led_classdev_unregister() calls driver's brightness_set callback and that callback
-> > > may use resources which were destroyed already in driver's remove().
-> > > 
-> > > After discussion with maintainers [2] [3] we decided:
-> > > 1) don't touch led subsystem core code and don't remove led_set_brightness() from it
-> > > but fix drivers
-> > > 2) don't use devm_led_classdev_unregister
-> > > 
-> > > So the solution is to use devm wrappers for all resources
-> > > driver's brightness_set() depends on. And introduce dedicated devm wrapper
-> > > for mutex as it's often used resource.
-> 
-> ...
-> 
-> > >    locking/mutex: introduce devm_mutex_init()
-> > >    leds: aw2013: use devm API to cleanup module's resources
-> > >    leds: aw200xx: use devm API to cleanup module's resources
-> > >    leds: lp3952: use devm API to cleanup module's resources
-> > >    leds: lm3532: use devm API to cleanup module's resources
-> > >    leds: nic78bx: use devm API to cleanup module's resources
-> > >    leds: mlxreg: use devm_mutex_init() for mutex initialization
-> > >    leds: an30259a: use devm_mutex_init() for mutex initialization
-> > > 
-> > >   drivers/leds/leds-an30259a.c | 14 ++++----------
-> > >   drivers/leds/leds-aw200xx.c  | 32 +++++++++++++++++++++-----------
-> > >   drivers/leds/leds-aw2013.c   | 25 +++++++++++++------------
-> > >   drivers/leds/leds-lm3532.c   | 29 +++++++++++++++++------------
-> > >   drivers/leds/leds-lp3952.c   | 21 +++++++++++----------
-> > >   drivers/leds/leds-mlxreg.c   | 14 +++++---------
-> > >   drivers/leds/leds-nic78bx.c  | 23 +++++++++++++----------
-> > >   include/linux/mutex.h        | 27 +++++++++++++++++++++++++++
-> > >   kernel/locking/mutex-debug.c | 11 +++++++++++
-> > >   9 files changed, 122 insertions(+), 74 deletions(-)
-> > 
-> > Doesn't apply to v6.8.
-> > 
-> > What base was used for this?
-> 
-> I've just pulled git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> and v7 was applied cleanly. linux-next is ok too.
-> 
-> v6.8 is lack of recent patch 6969d0a2ba1adc9ba6a49b9805f24080896c255c
-> v7's patch #2 depends on it
+Daniel Hodges (3):
+  leds: trigger: legtrig-bpf: Add ledtrig-bpf module
+  selftests/bpf: Add selftests for bpf led programs
+  leds: trigger: Add documentation for ledtrig-bpf
 
-No problem.  I'll wait for v6.9-rc1.
+ Documentation/leds/index.rst                  |  1 +
+ Documentation/leds/ledtrig-bpf.rst            | 13 ++++
+ drivers/leds/trigger/Kconfig                  | 10 +++
+ drivers/leds/trigger/Makefile                 |  1 +
+ drivers/leds/trigger/ledtrig-bpf.c            | 72 +++++++++++++++++++
+ tools/testing/selftests/bpf/config            |  1 +
+ .../testing/selftests/bpf/progs/ledtrig_bpf.c | 28 ++++++++
+ 7 files changed, 126 insertions(+)
+ create mode 100644 Documentation/leds/ledtrig-bpf.rst
+ create mode 100644 drivers/leds/trigger/ledtrig-bpf.c
+ create mode 100644 tools/testing/selftests/bpf/progs/ledtrig_bpf.c
 
 -- 
-Lee Jones [李琼斯]
+2.43.0
+
 
