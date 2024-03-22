@@ -1,271 +1,248 @@
-Return-Path: <linux-leds+bounces-1293-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1294-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F52F886660
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 06:45:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7482886994
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 10:45:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA37EB2247F
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 05:45:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB8E31C21468
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 09:45:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3AC3D2FF;
-	Fri, 22 Mar 2024 05:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C1F922606;
+	Fri, 22 Mar 2024 09:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DFdLleV3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dF+Vsg+6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DC0BA27
-	for <linux-leds@vger.kernel.org>; Fri, 22 Mar 2024 05:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD8E224F2
+	for <linux-leds@vger.kernel.org>; Fri, 22 Mar 2024 09:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711086319; cv=none; b=ZyGo74Wvi4Vxem/6eTDgW1Nsa8QLFYhL62mtkkhtO9XJyNbvpesHlpuj1nfsWD3wCBny3//m/Poh0zYZmdubAsPVjAsvGTDM6onPd/6EOlLxsqW9Gpcr4LXcSYbw4FHB3yJLVFaIIf1T9/a9xtcJuSXPHTZlHPhFhh5tbfpvDao=
+	t=1711100665; cv=none; b=T63aCaHKJj+hcoFOet6eig4ska+EjsgGe9pYDqHCKCTm//Ilcu+Tank1bgRbBSqFBB7+3EONFilVDka85AG5wwX4wstkbaTgF27Y/TiXxZ8bXmhm8BBte4Mp8WuwLD1JSQId6I9Y8bD5yRGWiSyPpnkRNPPc8Rs95qPvsOWJxHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711086319; c=relaxed/simple;
-	bh=b4UeU92r62bIY8HhL/ow3jMfrvwN8JSL7OEhfPL5vDo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fNqvUX/2TfQi58Ohv8yAbolumcoy+HLb+xTHVFn4O22KU1sWs+Ka+nM/vnpgY0FdmYD6u28uI4yC1uU8CHtmzbRvvOWkTHfROdBX7cLxZcAX32b9F7spNGmx7X2YZzN5xveLdBzDvWA5zVlxKJH0J1kWo4TOhYDXRBoZ4sivjDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DFdLleV3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711086310;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2v9+xfia68QeoWpLPgvZTLinBR+rs9FvXTVbndoolI0=;
-	b=DFdLleV3OgTTdRYemq+FzjriHIlnzJQAt4NTgpEm2lwDW1IMiI6LtNIRp8j9ghGpFGwyIW
-	0mmvk/pChkoeMv6n0I4hWtb7QtDEAUOUbuMmW5sEXm0bJdw3p1ZiO9ioJNZcz7yM8dp5Yq
-	iXtdAdW7kyNXHitU2cJskqzwyMXj9e8=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-156-Fzs-GNB5NbWCa-eOwqnalA-1; Fri, 22 Mar 2024 01:45:07 -0400
-X-MC-Unique: Fzs-GNB5NbWCa-eOwqnalA-1
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-3c23bee4027so1730854b6e.3
-        for <linux-leds@vger.kernel.org>; Thu, 21 Mar 2024 22:45:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711086306; x=1711691106;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2v9+xfia68QeoWpLPgvZTLinBR+rs9FvXTVbndoolI0=;
-        b=ShCwjEX9qkQ4duM1BYFrZ1E1ouJMpcWOVqh0/o38ISHAoHpl+RbfL9OxmlxLZcuIcB
-         zloNJebpmFNmJ1bPl6COWUyRVMhvnxam6Uj3ZdEYJIGV18GoT/wWljHsvGmsQ6Fbb5NI
-         txuQd8vaPTAIkN4U9aT5ewlz3BthOeeCas4XI2tArvrIGxkVFbrA8gxeLPMA2Do2PRdE
-         hesHD4evOoAUaGrt4nP7Uzj/LlDvsgomImBc4YkCnllSYf6D/M+BHRWisLUPbxCDlzWG
-         Nzw5C8hheyibi8G/ZqSYn9yRrrBtbSTiv/wq3UrcsDg5KKKTC2c0lC9Ze/ufWgM12O3/
-         tqmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFFTCrzA+aHFRnpEllaAYXXB3LY4vHxWJx4Xj/uWRHJn871ckiX0ybxpaVFPRN3TbT+dycw75xYr9UvURWSwBadOzsg4IJwSWD8A==
-X-Gm-Message-State: AOJu0Yz3lw9lhnXNVH3M93RTjsMrSvmj9RZJfAru9VGPOuU2ujFTy6wP
-	Mj8ijYtdKzYx5hN8X1EQF09K/ISLy5BKaxfMZ9ffkF5YOdxp4sypSqyitlIfGKtt5/6P99lFQOG
-	EtCoHnt6yofYA0n2f+Cq5l5fB/Gq4SM1HkPDzq7wHDYvuOkFuj33xOXYt6ZAjfPgzyGK5qwXKAu
-	ApNxidpPvo7hYoAOc9Xxj4sXxMD0GHsOX7lQ==
-X-Received: by 2002:a05:6808:16a2:b0:3c1:7eac:a8a8 with SMTP id bb34-20020a05680816a200b003c17eaca8a8mr1460919oib.26.1711086306411;
-        Thu, 21 Mar 2024 22:45:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGjP042aRQsdUdB9ehHITlv37xk5alHFWxpQm2MqNv8pk9MTzqxxtDhf60Pr2uz0kgKfHbuG+XxWZGNk/DWcmk=
-X-Received: by 2002:a05:6808:16a2:b0:3c1:7eac:a8a8 with SMTP id
- bb34-20020a05680816a200b003c17eaca8a8mr1460912oib.26.1711086306145; Thu, 21
- Mar 2024 22:45:06 -0700 (PDT)
+	s=arc-20240116; t=1711100665; c=relaxed/simple;
+	bh=k3GfKaM+IF0toPHCxzE1Mp4l57GVNt8VNtZk/sMfyhE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qwf065vCW9Yu0CwBYsDDXhvMbAtQiuO2IP1L2fYTrqpnnTbenLjztpQfbAMmjoLLpROTxQAg767yf8r/oMRcyPUxQnVXO7Oku4dYkAT/65lz5QRgUCaTjizY+tIZedQSvmGKFy8u28XklMA3noynPawVt32rqeHCsNopmqgE4X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dF+Vsg+6; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711100663; x=1742636663;
+  h=date:from:to:cc:subject:message-id;
+  bh=k3GfKaM+IF0toPHCxzE1Mp4l57GVNt8VNtZk/sMfyhE=;
+  b=dF+Vsg+6OwsRnFS8curFBvWhnEDXEXGnvBBeq4ULMoAeMXdYv94P9IDz
+   OMLgJ6CEGjx1oBjwX9cXYpQ5e7DZ5CodsH9cNdivx+BzTZmaaeVtllggG
+   7duzQO5IOMbm9MgX61pGesVScZT9N3IoLHLgFcRk6d/588SnKu+Ymo5j4
+   T5+65zuzNgjJ04MG9qZRzKySnLrqeMwH+JJcF8bAYAISjAexZm4+hM1US
+   ucdnS36eRo7YavBhPyAr0Kvr0EQMCgs71vEoTozHPu+X4qVNT72siHwnd
+   3jcrA62xfskQBMsOlSNNW/Ie8k6kDSeFwht2+WbHOl5LXI1Btcsfq4u6X
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6748446"
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="6748446"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 02:44:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="19322736"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 22 Mar 2024 02:44:22 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rnbRg-000KDJ-1F;
+	Fri, 22 Mar 2024 09:44:16 +0000
+Date: Fri, 22 Mar 2024 17:43:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next-next] BUILD SUCCESS
+ ca66b10a11da3c445c9c0ca1184f549bbe9061f2
+Message-ID: <202403221739.Vq98KN5X-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240306025801.8814-1-hpa@redhat.com> <20240306025801.8814-3-hpa@redhat.com>
- <Ze-N_y5Tbjc93aRp@surfacebook.localdomain>
-In-Reply-To: <Ze-N_y5Tbjc93aRp@surfacebook.localdomain>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Fri, 22 Mar 2024 13:44:54 +0800
-Message-ID: <CAEth8oEdzomdn5avXf44HXpoMFDfGpOjjxPFtaGkh0EhfZsPMQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] leds: rgb: leds-ktd202x: Get device properties
- through fwnode to support ACPI
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next-next
+branch HEAD: ca66b10a11da3c445c9c0ca1184f549bbe9061f2  leds: simatic-ipc-leds-gpio: Add support for module BX-59A
 
-Thank you for reviewing.
+elapsed time: 919m
 
-On Tue, Mar 12, 2024 at 7:04=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> Wed, Mar 06, 2024 at 10:58:01AM +0800, Kate Hsuan kirjoitti:
-> > This LED controller also installed on a Xiaomi pad2 and it is a x86
-> > platform. The original driver is based on device tree and can't be
-> > used for this ACPI based system. This patch migrated the driver to
-> > use fwnode to access the properties. Moreover, the fwnode API
-> > supports device tree so this work won't effect the original
-> > implementations.
->
-> ...
->
-> > +     fwnode_for_each_available_child_node(np, child) {
->
-> Please, rename np to fwnode to avoid confusion.
->
-> > +             num_channels++;
-> > +     }
->
-> ...
->
-> > -     for_each_available_child_of_node(np, child) {
-> > +     fwnode_for_each_available_child_node(np, child) {
-> >               u32 mono_color;
-> >               u32 reg;
-> >               int ret;
-> >
-> > -             ret =3D of_property_read_u32(child, "reg", &reg);
-> > +             ret =3D fwnode_property_read_u32(child, "reg", &reg);
-> >               if (ret !=3D 0 || reg >=3D chip->num_leds) {
-> >                       dev_err(chip->dev, "invalid 'reg' of %pOFn\n", ch=
-ild);
->
-> Must be %pfw now.
->
-> > -                     of_node_put(child);
-> > +                     fwnode_handle_put(child);
->
-> >                       return -EINVAL;
->
-> Side note: This shouldn't shadow error code when ret !=3D 0.
->
-> >               }
->
-> ...
->
-> > -             ret =3D of_property_read_u32(child, "color", &mono_color)=
-;
-> > +             ret =3D fwnode_property_read_u32(child, "color", &mono_co=
-lor);
-> >               if (ret < 0 && ret !=3D -EINVAL) {
-> >                       dev_err(chip->dev, "failed to parse 'color' of %p=
-OF\n", child);
->
-> Must be %pfw now.
->
-> > -                     of_node_put(child);
-> > +                     fwnode_handle_put(child);
-> >                       return ret;
-> >               }
->
-> ...
->
-> > -     ret =3D of_property_read_u32(np, "reg", &reg);
-> > +     ret =3D fwnode_property_read_u32(np, "reg", &reg);
-> >       if (ret !=3D 0 || reg >=3D chip->num_leds) {
-> >               dev_err(chip->dev, "invalid 'reg' of %pOFn\n", np);
->
-> Must be %pfw now.
->
-> >               return -EINVAL;
->
-> >       /* Color property is optional in single color case */
-> > -     ret =3D of_property_read_u32(np, "color", &color);
-> > +     ret =3D fwnode_property_read_u32(np, "color", &color);
-> >       if (ret < 0 && ret !=3D -EINVAL) {
-> >               dev_err(chip->dev, "failed to parse 'color' of %pOF\n", n=
-p);
->
-> Must be %pfw now.
->
-> >               return ret;
-> >       }
->
-> ...
->
-> > +     struct fwnode_handle *child, *np;
->
-> Do not use np for sturct fwnode_handle. It will be quite confusing.
->
-> ...
->
-> > -     chip->num_leds =3D (int)(unsigned long)of_device_get_match_data(c=
-hip->dev);
-> > +     count =3D device_get_child_node_count(dev);
->
-> >
->
-> Redundant blank line.
->
-> > -     count =3D of_get_available_child_count(np);
-> >       if (!count || count > chip->num_leds)
-> >               return -EINVAL;
->
-> ...
->
-> > +     chip->num_leds =3D (unsigned long)i2c_get_match_data(client);
->
-> No warnings during compilation?
-Yes, the compiler doesn't complain about it.
+configs tested: 159
+configs skipped: 4
 
->
-> ...
->
-> > +static const struct i2c_device_id ktd202x_id[] =3D {
-> > +     {"ktd2026", KTD2026_NUM_LEDS},
-> > +     {"ktd2027", KTD2027_NUM_LEDS},
-> > +     {},
->
-> N ocomma for the terminator entry.
->
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, ktd202x_id);
->
-> ...
->
-> > +#ifndef CONFIG_ACPI
->
-> Please, no. Drop them.
-Okay, I've dropped them in v5 patch.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->
-> >  static const struct of_device_id ktd202x_match_table[] =3D {
-> >       { .compatible =3D "kinetic,ktd2026", .data =3D (void *)KTD2026_NU=
-M_LEDS },
-> >       { .compatible =3D "kinetic,ktd2027", .data =3D (void *)KTD2027_NU=
-M_LEDS },
-> >       {},
-> >  };
-> >  MODULE_DEVICE_TABLE(of, ktd202x_match_table);
-> > +#endif
-> >
-> >  static struct i2c_driver ktd202x_driver =3D {
-> >       .driver =3D {
-> >               .name =3D "leds-ktd202x",
-> > +#ifndef CONFIG_ACPI
-> >               .of_match_table =3D ktd202x_match_table,
-> > +#endif
->
-> This is quite unusual besides being ugly.
->
-> >       },
-> >       .probe =3D ktd202x_probe,
-> >       .remove =3D ktd202x_remove,
-> >       .shutdown =3D ktd202x_shutdown,
-> > +     .id_table =3D ktd202x_id,
-> >  };
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                      axs103_smp_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240322   gcc  
+arc                   randconfig-002-20240322   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                         axm55xx_defconfig   clang
+arm                                 defconfig   clang
+arm                   milbeaut_m10v_defconfig   clang
+arm                          moxart_defconfig   gcc  
+arm                   randconfig-001-20240322   gcc  
+arm                   randconfig-004-20240322   gcc  
+arm                         s3c6400_defconfig   gcc  
+arm                           sama5_defconfig   gcc  
+arm                        shmobile_defconfig   gcc  
+arm                           u8500_defconfig   gcc  
+arm                         wpcm450_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-002-20240322   gcc  
+arm64                 randconfig-003-20240322   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240322   gcc  
+csky                  randconfig-002-20240322   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240322   gcc  
+i386         buildonly-randconfig-002-20240322   gcc  
+i386         buildonly-randconfig-003-20240322   clang
+i386         buildonly-randconfig-004-20240322   clang
+i386         buildonly-randconfig-005-20240322   gcc  
+i386         buildonly-randconfig-006-20240322   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240322   clang
+i386                  randconfig-002-20240322   clang
+i386                  randconfig-003-20240322   gcc  
+i386                  randconfig-004-20240322   gcc  
+i386                  randconfig-005-20240322   clang
+i386                  randconfig-006-20240322   clang
+i386                  randconfig-011-20240322   gcc  
+i386                  randconfig-012-20240322   clang
+i386                  randconfig-013-20240322   clang
+i386                  randconfig-014-20240322   clang
+i386                  randconfig-015-20240322   gcc  
+i386                  randconfig-016-20240322   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240322   gcc  
+loongarch             randconfig-002-20240322   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                         amcore_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                           sun3_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         cobalt_defconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                           ip27_defconfig   gcc  
+mips                    maltaup_xpa_defconfig   gcc  
+mips                         rt305x_defconfig   clang
+nios2                         10m50_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240322   gcc  
+nios2                 randconfig-002-20240322   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                       virt_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240322   gcc  
+parisc                randconfig-002-20240322   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      arches_defconfig   gcc  
+powerpc                     asp8347_defconfig   clang
+powerpc               randconfig-002-20240322   gcc  
+powerpc64             randconfig-002-20240322   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240322   gcc  
+riscv                 randconfig-002-20240322   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240322   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240322   gcc  
+sh                    randconfig-002-20240322   gcc  
+sh                          rsk7201_defconfig   gcc  
+sh                          rsk7269_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                           se7721_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                           se7724_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sh                            shmin_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240322   gcc  
+sparc64               randconfig-002-20240322   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240322   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240322   gcc  
+xtensa                randconfig-002-20240322   gcc  
+xtensa                         virt_defconfig   gcc  
 
-
---=20
-BR,
-Kate
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
