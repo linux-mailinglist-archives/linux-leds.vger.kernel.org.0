@@ -1,137 +1,89 @@
-Return-Path: <linux-leds+bounces-1300-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1301-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE8C886E0D
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 15:09:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D34886F1D
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 15:54:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEAF71C21374
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 14:09:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5AF51C22000
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 14:54:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA234AED1;
-	Fri, 22 Mar 2024 14:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63B6B482C1;
+	Fri, 22 Mar 2024 14:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMzFM8U1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W+mHBCAJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F237D481DD;
-	Fri, 22 Mar 2024 14:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F264779E;
+	Fri, 22 Mar 2024 14:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711116529; cv=none; b=k0zMR5uCH84k+IuouqcY/SwMFf9GjqPwJe/i5DZ0133FrzypQ1Fdm5nOna+qpSfX2sdFgO6foYTFdm+bSdQjYnwVXTIRMozSAR3OukjLn5kf6jjCRNVAT54tqgM1YxNU/OTXYXigrKGEG47tVS5OiNPzmahUWSppsBJypws5ATg=
+	t=1711119280; cv=none; b=gOda1HcuE4y9NlJdQDV6d9ousvVYkVGThZ5CKoFlq9TLDcb+swyTdbFaErydq9zf/+N5WbWmw0ElV6Tt9qP3Lf+GvzMMuLSREmpPnr5qwVFyfp5a1FSljEN/ft/YpY8rpBeVRkPt1VPG91gdC/S6UgMTcz6NIXzNFwGZ5Syhe3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711116529; c=relaxed/simple;
-	bh=turmBzRmql7+31PREK5QaeIbLQ1mPenOQjp2Kh63vRo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YsMyxMvmiEdr+8OPwsL0lskyk1eQKkGyfSteR5iDaBqqLFdBXNWaQUirzT5ZDWXcZxQSasN45+S24TybBeTx9iy74NFMKCEnrqYFjTYJTquERMtau0MXfiWfFxT2i8zYkU62B4gR6xWqUGOOrRWd0ZmgoNnX5cBPBBuiUg6Vl/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMzFM8U1; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-69629b4ae2bso18566306d6.3;
-        Fri, 22 Mar 2024 07:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711116527; x=1711721327; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FossVTVmjL68nyfPQZCKYx8qjMlzIsUJgOQrUcYnW2w=;
-        b=hMzFM8U1kCyaTQ7g/z7ZI6NoAaySvmkBHudEV628nJxorupMhF+s3g4V7XLFxX7lCd
-         FVB3S1dXXfTZtb8j4QoES03aH3jVA5DRsh1N9W+UJ9Teii/+q4JBX16m7NfKf2D3f61p
-         WN38Sezr2nqB/cWDlAfEcBVbslqLPtToeMSnZdThlKYZTkQheB9zZFEI4tUOIprNhEyJ
-         XSBXnPpF720a370lhC6TU4fJhZKv2JTf/MbFMbNinvidwCeOn283ibulhNXRaGpuax91
-         a87/ibJ0jRINLy3OPYLi0d/wUVvTDZY6ZnXcpgAc16Z+vTPnZ6UywrskSqgqeF7XPxkB
-         Q2YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711116527; x=1711721327;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FossVTVmjL68nyfPQZCKYx8qjMlzIsUJgOQrUcYnW2w=;
-        b=cBmmoYS/cNewDZLS57HXUQU7QXIviZkGbcrbdcW0kIdrEfiSGPGuDTE/N2D34+oYd/
-         wzqPfkNTK3vqr/nsillL/d9kibzhgHlBFAkPIchy1Xgk2jqGNTPU/2/Zod5pwVRrQtn6
-         xaT8CUpaYRM/Z8rp0Fi9evjf2qyEcMLSohG2bKW8KKw1DU6msNgTETlvJRPdSxnfFoN3
-         nKW5J8ErMPPecOT34qd9C6UHYSqlYOTG5Ra/efPggMgpf3YCmIc4eu4PXEtrK7JouIHJ
-         nsA0eOry6BQTAaTVRtR2l4ai+pYv6/Qgm8v7HS/Krh/lHJd/7mBdsqK5ROfTBo7sbdrg
-         axgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXS4WItrFALmty8qciGjWFSVaGe7bTXOdjsJ9fo65KhhX7KzH5ZKFsEEXUoU4Y4pUhCaMnZD6mPFsRN/5Q0KRbFVwlQxmkymOEjxbXZrVVWS1uk4WUjgj5I9BQVv2Wp0yeVZmd1tFkLD5zReVWghPnSFOMd4HGzSNn1bwgb8g==
-X-Gm-Message-State: AOJu0YzfvxMrjMqDBE5wE8vBVjpLi8iUFTmmNKGN+5bSREg8zrHK5nrN
-	4owPrudjLdZFGSGbuVdMGVDFFvcbd0fvw9kQYPv/22ax1G/dYpM9
-X-Google-Smtp-Source: AGHT+IF2PYsxGINwGFey4BHK+Lz1mbILhIHEQY+3mK6bFTwve5jKVSRS6g1orEAM5Pr0SPDD6o/IYQ==
-X-Received: by 2002:a05:6214:234e:b0:691:43bd:f3ed with SMTP id hu14-20020a056214234e00b0069143bdf3edmr2703921qvb.57.1711116526826;
-        Fri, 22 Mar 2024 07:08:46 -0700 (PDT)
-Received: from l1441l.thefacebook.com ([2620:10d:c091:600::1:b4ee])
-        by smtp.gmail.com with ESMTPSA id kc22-20020a056214411600b0069124fff14esm1099508qvb.138.2024.03.22.07.08.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 07:08:46 -0700 (PDT)
-From: Daniel Hodges <hodges.daniel.scott@gmail.com>
-To: ast@kernel.org,
-	pavel@ucw.cz,
-	lee@kernel.org,
-	linux-leds@vger.kernel.org,
-	daniel@iogearbox.net,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Daniel Hodges <hodges.daniel.scott@gmail.com>
-Subject: [PATCH 3/3] leds: trigger: Add documentation for ledtrig-bpf
-Date: Fri, 22 Mar 2024 10:08:16 -0400
-Message-ID: <3ce269887c51319b2428a75e7fd008abc6fd6638.1711113657.git.hodges.daniel.scott@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1711113657.git.hodges.daniel.scott@gmail.com>
-References: <cover.1711113657.git.hodges.daniel.scott@gmail.com>
+	s=arc-20240116; t=1711119280; c=relaxed/simple;
+	bh=NAzmBK4W7ut3ePVFamFE0yUIy8iW7ofJ062itP751+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NDzyWZ0l6D6F0BM/4CekqRAOh+4LPBlRzo0TUv8qyS9Tv2O7g8UugBOOBYTqsyODxoiDCS7ECOGQFU/9xa5LnNWw1u/3iIYu/+5EMJ16X7/clw6YGU9eG87IbHF1YEoKZhr7SiJrGRU60L6bwLPReo5faD/F9hcCEw9pPnCMMqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W+mHBCAJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7583BC433C7;
+	Fri, 22 Mar 2024 14:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711119279;
+	bh=NAzmBK4W7ut3ePVFamFE0yUIy8iW7ofJ062itP751+4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W+mHBCAJAnE4kdCrnzH1xerDDfQPHKQIWBW74W8/BF6clSqt2cH/EXg1VEI2cTp+W
+	 65+SFkR43Z+YBUnLhw0ejCrZ5m56LysOz1dCz7BFcDYnVsgCNcIKjvXl2v9te4qUxM
+	 +8ze3eVPYLJMQf1SRmjD9BoxIF8Zoua4rumJGUlf1bNZxW8aK86sNAVKmge71R1odV
+	 NGHIjSYpAIJmbJCJ1SAy1HJL5gtkEsWYlongCOUIk2E0/7GF8Zxg3WJfGjhU2SH9qk
+	 HQywpx3wxwgtTR6bXoREAn/Ud139VXpG56MVgJBT4x1jFpsiGIgphX0vpw4N2A+hOX
+	 lIQYXyxrBPl4Q==
+Date: Fri, 22 Mar 2024 09:54:37 -0500
+From: Rob Herring <robh@kernel.org>
+To: INAGAKI Hiroshi <musashino.open@gmail.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	lee@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	linux-leds@vger.kernel.org, pavel@ucw.cz, conor+dt@kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: leds: add LED_FUNCTION_SPEED_* for link
+ speed on LAN/WAN
+Message-ID: <171111927468.885822.4599184890388891198.robh@kernel.org>
+References: <20240320124431.221-1-musashino.open@gmail.com>
+ <20240320124431.221-3-musashino.open@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240320124431.221-3-musashino.open@gmail.com>
 
-Update the documentation for led triggers to include the BPF LED
-trigger.
 
-Signed-off-by: Daniel Hodges <hodges.daniel.scott@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/ledtrig-bpf.rst | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
- create mode 100644 Documentation/leds/ledtrig-bpf.rst
+On Wed, 20 Mar 2024 21:43:17 +0900, INAGAKI Hiroshi wrote:
+> Add LED_FUNCTION_SPEED_LAN and LED_FUNCTION_SPEED_WAN for LEDs that
+> indicate link speed of ethernet ports on LAN/WAN. This is useful to
+> distinguish those LEDs from LEDs that indicate link status (up/down).
+> 
+> example:
+> 
+> Fortinet FortiGate 30E/50E have LEDs that indicate link speed on each
+> of the ethernet ports in addition to LEDs that indicate link status
+> (up/down).
+> 
+> - 1000 Mbps: green:speed-(lan|wan)-N
+> -  100 Mbps: amber:speed-(lan|wan)-N
+> -   10 Mbps: (none, turned off)
+> 
+> Signed-off-by: INAGAKI Hiroshi <musashino.open@gmail.com>
+> ---
+>  include/dt-bindings/leds/common.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 3ade16c18328..2af52a19d6bb 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -10,6 +10,7 @@ LEDs
-    leds-class
-    leds-class-flash
-    leds-class-multicolor
-+   ledtrig-bpf
-    ledtrig-oneshot
-    ledtrig-transient
-    ledtrig-usbport
-diff --git a/Documentation/leds/ledtrig-bpf.rst b/Documentation/leds/ledtrig-bpf.rst
-new file mode 100644
-index 000000000000..391a305f69d1
---- /dev/null
-+++ b/Documentation/leds/ledtrig-bpf.rst
-@@ -0,0 +1,13 @@
-+====================
-+BPF LED Trigger
-+====================
-+
-+This LED trigger is useful for triggering LEDs from the BPF subsystem.  This
-+trigger is designed to be used in combination with a BPF program that interacts
-+with the trigger via a kfunc.  The exported kfuncs will have BTF names that
-+start with "bpf_ledtrig_".
-+
-+The trigger can be activated from user space on led class devices as shown
-+below::
-+
-+  echo bpf > trigger
--- 
-2.43.0
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 
