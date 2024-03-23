@@ -1,119 +1,83 @@
-Return-Path: <linux-leds+bounces-1308-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1309-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D9F8874A3
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 22:53:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C67887718
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 06:09:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE9E91F222BA
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Mar 2024 21:53:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35F0F1C20B6A
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 05:09:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6860681204;
-	Fri, 22 Mar 2024 21:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="bF9zTDAy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C9AB3D9E;
+	Sat, 23 Mar 2024 05:09:25 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4310580632;
-	Fri, 22 Mar 2024 21:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B7A3212;
+	Sat, 23 Mar 2024 05:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711144357; cv=none; b=QGQpIsWkQzg0OIj0zasWG2edbHNB6iL6d7hpdiMf9o9XdxBT9fnWUCVt5eo97F5aC5xJkEN+vgah6vl9NGDekU8MddrkfkkXEC3xNSSUoXQYfKDzookBFy41+WM3yypU/O5JKdx4g67RO2VqVnA/vn7ECGB5sczMDyo6GKGBMio=
+	t=1711170565; cv=none; b=MovkC4AnAZrebs91YFZL++cqLWhz3ONXExmOwXsUGXVvG09FhVT93NFI6j8EJRARuQBhwFUJwJGPgqLC/+ZcDxggz+4f2HNlOXTMAohd+WsemHF0x48XfGqlrj0AvFgJ1Gh3faKJWKGx1C4tr1GrY+nArPcbXDO2xqcU8OdczE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711144357; c=relaxed/simple;
-	bh=9AVEqpvegcwayQLsYLiqrLsqGvbY35k/BMs7cZ5TrFo=;
+	s=arc-20240116; t=1711170565; c=relaxed/simple;
+	bh=Bz+BwAwF9/MUn2JT3vMXmq5s1XW6WopM8fpAwngl7Iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uAGIuq1UXoQdj1X1KItgFl/umVpzDMmn1zdc7SLkWwxxrGq91Kj9/3MrhcjXlWdJga9fqZc6xqe8NDxIIzU71Jjs8fl8SGxHUbXqaXZ82E1z+75OHnUdC1zEGLgJHFYytdzeYuSLn4g1oJ3rf00e5YKE/GvBLpZzEtRaNFJtHYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=bF9zTDAy; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id DE4701C0071; Fri, 22 Mar 2024 22:52:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1711144349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTYypDyCpf7WWdaBFqdyDpLRaW+o0sjezjr9PtcZ8PU=;
-	b=bF9zTDAy8OH5OZCMJs9NAvRnSONbY5mJB74n8Dl0YNGE05PCpu/FshPiTkTu6X7K9N+9my
-	gdfVC0G2Y532MDuFTAKm7SHwoAZoUxLQ0tAlnrxZTtc3cArcUIWDqzNCzWAGR0nNcqgvYV
-	UnsF6K95sfvUB8CBeb/yAfFbNjPH9Tk=
-Date: Fri, 22 Mar 2024 22:52:29 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Daniel Hodges <hodges.daniel.scott@gmail.com>
-Cc: ast@kernel.org, lee@kernel.org, linux-leds@vger.kernel.org,
-	daniel@iogearbox.net, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] leds: trigger: legtrig-bpf: Add ledtrig-bpf module
-Message-ID: <Zf39nYJVOH9/J8cs@duo.ucw.cz>
-References: <cover.1711113657.git.hodges.daniel.scott@gmail.com>
- <ac8e77881212e18d117059a698affd6afc2607af.1711113657.git.hodges.daniel.scott@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iKtA1EFS9BhCPUm94IqR40M2vlC9O88IxCD+WFBZzV/FMsL6YMTHK6PwE40q8ypq0vEA7hiRX96t7B9cpb+DDoEacsM9YshKi+lkgsO3TNNxi7FwmCXqzr9XlS5zQy49a8Pf7OU2ng1pqUNtR4J5f5fn7U7puBuMw4xuqKgORnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.78.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout2.hostsharing.net (Postfix) with ESMTPS id 9E2932800BB2D;
+	Sat, 23 Mar 2024 06:09:13 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 82B9251FE31; Sat, 23 Mar 2024 06:09:13 +0100 (CET)
+Date: Sat, 23 Mar 2024 06:09:13 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-pci@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
+ support
+Message-ID: <Zf5j-bi9tjk5NclI@wunner.de>
+References: <20240312100816.000071ec@linux.intel.com>
+ <20240322195612.GA1372991@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="N4DJvJWOynbcHMAs"
-Content-Disposition: inline
-In-Reply-To: <ac8e77881212e18d117059a698affd6afc2607af.1711113657.git.hodges.daniel.scott@gmail.com>
-
-
---N4DJvJWOynbcHMAs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240322195612.GA1372991@bhelgaas>
 
-Hi!
+On Fri, Mar 22, 2024 at 02:56:12PM -0500, Bjorn Helgaas wrote:
+> Straw man proposal:
+> 
+>   - Update this patch so we use NPEM if the device advertises it.
+> 
+>   - If/when Linux support for the _DSM is added, we use the _DSM when
+>     present.  If a device advertises NPEM but no _DSM applies to it,
+>     we use native NPEM for it.
 
-> This patch adds a led trigger that interfaces with the bpf subsystem. It
-> allows for BPF programs to control LED activity through calling bpf
-> kfuncs. This functionality is useful in giving users a physical
-> indication that a BPF program has performed an operation such as
-> handling a packet or probe point.
->=20
-> Signed-off-by: Daniel Hodges <hodges.daniel.scott@gmail.com>
+I've recommended to Mariusz to go the extra mile and add _DSM support
+(through an npem_ops abstraction layer for register access, with _DSM
+support simply consisting of an additional npem_ops declaration that
+gets used if the _DSM is present).  He's currently busy implementing it.
 
-> +static int init_bpf(void)
-> +{
-> +	int ret;
-> +
-> +	ret =3D register_btf_kfunc_id_set(BPF_PROG_TYPE_UNSPEC,
-> +			&ledtrig_bpf_kfunc_set);
-> +	ret =3D register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
-> +			&ledtrig_bpf_kfunc_set);
+So that forthcoming version of the series should give Stuart something
+to test and hopefully settle the discussion. :)
 
-Should have ret ?: here, too?
+Thanks,
 
-> +static int ledtrig_bpf_init(void)
-> +{
-> +	led_trigger_register_simple("bpf", &ledtrig_bpf);
-> +
-> +	return init_bpf();
-> +}
-
-Is it somehow possible to have multiple LEDs hooked to bpf
-functionality? I guess someone will want that...
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---N4DJvJWOynbcHMAs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZf39nQAKCRAw5/Bqldv6
-8s0/AJ4ggTuHhsWQVEaesd844GKZQZ9mwgCgvsVcXdfViLuzhTNkVoM55R3JpwE=
-=JQmB
------END PGP SIGNATURE-----
-
---N4DJvJWOynbcHMAs--
+Lukas
 
