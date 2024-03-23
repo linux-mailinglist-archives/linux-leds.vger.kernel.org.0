@@ -1,83 +1,109 @@
-Return-Path: <linux-leds+bounces-1309-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1310-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C67887718
-	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 06:09:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D19887772
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 08:44:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35F0F1C20B6A
-	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 05:09:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C8481C20C67
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 07:44:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C9AB3D9E;
-	Sat, 23 Mar 2024 05:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2ACFC129;
+	Sat, 23 Mar 2024 07:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m65fT+9W"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B7A3212;
-	Sat, 23 Mar 2024 05:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711D56107;
+	Sat, 23 Mar 2024 07:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711170565; cv=none; b=MovkC4AnAZrebs91YFZL++cqLWhz3ONXExmOwXsUGXVvG09FhVT93NFI6j8EJRARuQBhwFUJwJGPgqLC/+ZcDxggz+4f2HNlOXTMAohd+WsemHF0x48XfGqlrj0AvFgJ1Gh3faKJWKGx1C4tr1GrY+nArPcbXDO2xqcU8OdczE8=
+	t=1711179872; cv=none; b=Fpd8MxdQD762HzuwF29Fs9+q9jOvANaFyMoqeF4pUJyfRH9SSrgbydxKOhFxStynk9WrgNUxC1qLvt14NN/aJINzpDndQ9YTPMfGdx2jQVyFlFlldNpvWUGbrh5Z9mnzgABrtM4Uyw3AoRQEIPsuaxZM15KERZpVmEfwyQgYXfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711170565; c=relaxed/simple;
-	bh=Bz+BwAwF9/MUn2JT3vMXmq5s1XW6WopM8fpAwngl7Iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iKtA1EFS9BhCPUm94IqR40M2vlC9O88IxCD+WFBZzV/FMsL6YMTHK6PwE40q8ypq0vEA7hiRX96t7B9cpb+DDoEacsM9YshKi+lkgsO3TNNxi7FwmCXqzr9XlS5zQy49a8Pf7OU2ng1pqUNtR4J5f5fn7U7puBuMw4xuqKgORnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.78.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout2.hostsharing.net (Postfix) with ESMTPS id 9E2932800BB2D;
-	Sat, 23 Mar 2024 06:09:13 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 82B9251FE31; Sat, 23 Mar 2024 06:09:13 +0100 (CET)
-Date: Sat, 23 Mar 2024 06:09:13 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-pci@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH 2/2] PCI/NPEM: Add Native PCIe Enclosure Management
- support
-Message-ID: <Zf5j-bi9tjk5NclI@wunner.de>
-References: <20240312100816.000071ec@linux.intel.com>
- <20240322195612.GA1372991@bhelgaas>
+	s=arc-20240116; t=1711179872; c=relaxed/simple;
+	bh=vG2ixD67oI7pZv/388uv2qcvWouiFsZXmP0odTodtpc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=evzWQbVv+XKtvM6g6iKjKqPwHSjpj1zPKO+h3fFS5WDyhMLNLIYEj1R1ImjOc7ds8Wyta2enPLsgZxojrN93vDcLVH6KRrmFx2tZwvJ7Gi1sZOVqX6+MbLNSxCjE9Ku4UXKSagxuU1VvHdJ/W2CoYHYxLFH5ouCgwwXvnVGz5Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m65fT+9W; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e08512cd8dso15886335ad.2;
+        Sat, 23 Mar 2024 00:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711179871; x=1711784671; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pFIHxUfDhEjmdeRNyvzrzBdHaOdyGF17bN8Se5iKpPk=;
+        b=m65fT+9W0pxnmLbXRWx9sEntCLHjtqOluhcfs/POCXAPQwkQT82KqtWz/y6wqvyTFy
+         9aPD3mwSRml9RbwyQuMCcmz+zEpZ+KF6OSbLnfdpCPQq89CyZfm7r7QIVGZrPr1aeZeN
+         T51VqvYrP52rO/EOUMrpabemQS+/myb7m/vCSM3VZ55hdB8fsHtyu0uBPLgJk0qMBkA8
+         4J1GBJKZ3dIrkgIxR4hHSRlTuKC0T3DqZa3IOcmmy4ctw6VYZvcFFGK9UCxhjh/d7iQE
+         QuAhbhyIc7NAz9A91cNRnYB6xxpRCwMtN1/GpDCCbjZIer7wE95EV4AFgfB3spoKsRUF
+         JQDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711179871; x=1711784671;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pFIHxUfDhEjmdeRNyvzrzBdHaOdyGF17bN8Se5iKpPk=;
+        b=iCNy29OwkbIVwyycCwzXA1++yJ82sNxxAb8dE4/f1dd9PkZtXB5w+P4icbiTqspBUi
+         q2yTRqhTTpv0N71WUn/4/Kee3Aceo4+CEBfSKFLCoVl+8XqtvgV7BTq8heGbfKGH2aTc
+         X1GgbWFh121RCiDsX5lLsBM9xs7/g1tMWQt+KmjmGmJolDpzQOl5D1QjFNqvtQp1Ml5/
+         DWgxcGMIsSV9s2iX4k0zbUAiNP8lBFQiZZAjkpnqROqsuBpEfgGk1QXLWH9gpK7YCInG
+         O2nRCSVYR/a2gre7hVrfjfyqjJv6QfwT+iOSUseUxap1bbnRaNGcOMgepHYgoUx4RzQv
+         Bwlw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3AUo8iTOcM3BnRGSdKKwD6UfPUec+KO+iLEUum1IvAyHNh9cDjvJe7IHTl+uhH0CW+wg7nHyRowt5cSfQ/RZWKRKPhKN/1Bw7hliZygIdkS6AYTOSwuTDjGInI3XAqlYYEu5IhZCbAA==
+X-Gm-Message-State: AOJu0YzrbHDhbS0M+kpuFXc/nvVim/t6GlZzVyv2eOgczW9Sgc+sE9gk
+	rwRxUvhuJrTNAc+uT4Uka1rnzm5zENQ9ljvUoMAvbDe9TmDfwcOw
+X-Google-Smtp-Source: AGHT+IEj30C0v+2g9xEMtQMRIUC41VW6iffGnxv5pvPvgNMX+B7jKGvVtvW5+QBJZ7LipLK/kLtSmw==
+X-Received: by 2002:a05:6a20:a919:b0:1a1:4df8:1ec4 with SMTP id cd25-20020a056a20a91900b001a14df81ec4mr1394890pzb.19.1711179870652;
+        Sat, 23 Mar 2024 00:44:30 -0700 (PDT)
+Received: from localhost.localdomain (FL1-125-193-23-126.chb.mesh.ad.jp. [125.193.23.126])
+        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001e0410bfccasm976825pll.126.2024.03.23.00.44.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Mar 2024 00:44:30 -0700 (PDT)
+From: INAGAKI Hiroshi <musashino.open@gmail.com>
+To: pavel@ucw.cz,
+	lee@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	INAGAKI Hiroshi <musashino.open@gmail.com>
+Subject: [PATCH v2 0/2] dt-bindings: leds: add LED_FUNCTION_* mainly for router devices
+Date: Sat, 23 Mar 2024 16:36:08 +0900
+Message-ID: <20240323074326.1428-1-musashino.open@gmail.com>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240322195612.GA1372991@bhelgaas>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 22, 2024 at 02:56:12PM -0500, Bjorn Helgaas wrote:
-> Straw man proposal:
-> 
->   - Update this patch so we use NPEM if the device advertises it.
-> 
->   - If/when Linux support for the _DSM is added, we use the _DSM when
->     present.  If a device advertises NPEM but no _DSM applies to it,
->     we use native NPEM for it.
+This patch series adds some LED_FUNCTION_* definitions mainly for router
+devices.
+Those definitions are useful for OpenWrt or something.
 
-I've recommended to Mariusz to go the extra mile and add _DSM support
-(through an npem_ops abstraction layer for register access, with _DSM
-support simply consisting of an additional npem_ops declaration that
-gets used if the _DSM is present).  He's currently busy implementing it.
+v1 -> v2
 
-So that forthcoming version of the series should give Stuart something
-to test and hopefully settle the discussion. :)
+- fix sort order of LED_FUNCTION_MOBILE
+- improve the commit description of the first commit
 
-Thanks,
+INAGAKI Hiroshi (2):
+  dt-bindings: leds: add LED_FUNCTION_MOBILE for mobile network
+  dt-bindings: leds: add LED_FUNCTION_SPEED_* for link speed on LAN/WAN
 
-Lukas
+ include/dt-bindings/leds/common.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+2.25.1
+
 
