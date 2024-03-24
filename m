@@ -1,109 +1,118 @@
-Return-Path: <linux-leds+bounces-1327-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1328-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C57887D61
-	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 16:03:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E54887E39
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 19:13:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 845F91C20A01
-	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 15:03:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E2662813B4
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 18:13:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F25D91862F;
-	Sun, 24 Mar 2024 15:02:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4FC31B5B1;
+	Sun, 24 Mar 2024 18:13:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FsF6zAzS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4dzoluR"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7991946C
-	for <linux-leds@vger.kernel.org>; Sun, 24 Mar 2024 15:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CD61B26E;
+	Sun, 24 Mar 2024 18:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711292572; cv=none; b=Z3TEfWEy2fRUDYZz25UYSsSvZExMhUnu5haW8yDDa+NSSEM9RzN7cCcnNHpc432189xdvh2H9SJvmuoUK/UNjQEiLMJ3lH7Yy4MjawX0sChhTgt6FHGx+X/yx28NVqFPCs4HAqO4QfjOl/pfzAG88cVlEJNkuAJox9e+U1uC83s=
+	t=1711303993; cv=none; b=QQjPt4ZPauFSVtY0FYJoROXZgmmw0KZZvzdoQY0gtzv0VbCMyFmOK62dhqXn3QsFkiDcBMIYr+VHgWrnVfHohl8WMReniCseyYylHGRV3tO7dLCPZy0XuEFcLbwkTEAl2xACsBTLOdPlMKhvwK8aKseASZGb/YyObVwx9x/5/qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711292572; c=relaxed/simple;
-	bh=iSR4eVTv9vBjTyoy0u2zQ1BJB3q/2JhCssOVrTNtf8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SWkSNWSSgXzQ5LBjY3dLPB800OUlPwop0ss2EM2W/KPIyksWvaJybncb06PAhBUSVCbU0jy7G2r32vleYAqBZZpJ4fPdoLHwt+IpTd/50KBEaFxbDGqhOC9+D3Jk2ETNJV3C99guak0Kr7zLHSLXr0X3zHjMo/TV25Lg/wMgmII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FsF6zAzS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711292570;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y5liH5XREjRdtzIi3oVOZVrr4OfiHuxXZ9yg0sczK48=;
-	b=FsF6zAzSRC31IS16/tHqHNvs+TJQ/tdlI1xjRdXm7cIuP8AWmSQzMdcs5JUMo9PRgBwTfJ
-	H5bma3aS2Nxj0fxQTt0f60YL2yJtS8ItsBaKQGYxvwjiOSugi0SdhbKztvvMqJwiLv7+TF
-	2+Wbr3hsoPJWxFN/eJ1z11JhFL7XJhY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-113-uNinFOgkNkGnMUXaPTkbPQ-1; Sun, 24 Mar 2024 11:02:45 -0400
-X-MC-Unique: uNinFOgkNkGnMUXaPTkbPQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86BD980F7E3;
-	Sun, 24 Mar 2024 15:02:44 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.75])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E9B2E40C6DAE;
-	Sun, 24 Mar 2024 15:02:38 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	s=arc-20240116; t=1711303993; c=relaxed/simple;
+	bh=XgbBGGwGXULlxO4TSzA3FNjrXTBCw9cKpRq1y707mIA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K9cXp4ho0DhmUUWF0Be6XEIj+TMq81cnEZMGtkJHL+oZmFN8PRlWKiSGcfEB4vsOmBvz0MlJvBl6MDvFRD7wFMR5YqIYFKMGlkZVd+CbnlFu8FKqYpIniRp9dXx9fazrV+YJJba4XTMyZb0Z+ao2D2wL4WgUiURVkbBrxDaOxRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4dzoluR; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a4a387ff7acso2152366b.2;
+        Sun, 24 Mar 2024 11:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711303990; x=1711908790; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dy7ZVUlfRPULLcIJsQocCw5EkeSKRhtzYUsef6lkqKw=;
+        b=i4dzoluRABZNKAdgcyvbm2vYc3o/sHQ1eEKxrwLDwpQKqMdNb1Gtb5UeGer2soiWIN
+         vXhU7eAExLP4Wo83MFszYfmUubC4ooeXwOiPz1E/9a4Jbo4mNXA4dol/t7smW/uGfjV6
+         Mlds6tyhxWymyrf3yODuT6SD2BWZV5vg4njGaFZEwXuAYLb1DP/cOKRZm0FxtYDiYMDz
+         v7aPVblaYZu8Ur9tf7hivhtYbap/CGWE44X34vsVyO3TzzGvvZhyEZZKc4WVVjnznRBS
+         ixxtZ7dKQLWR4J+fDJHf5Zsw+391gDIUqL+cFzoIW7zWmFBFY9mQ3bw/GE0iAx8nJvG7
+         VC0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711303990; x=1711908790;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dy7ZVUlfRPULLcIJsQocCw5EkeSKRhtzYUsef6lkqKw=;
+        b=wfkF8CT4uaPYzZAbw5fKuz2Z+/2zD0qaOH7RPwICB9GMRqWQSgQ4uBbTXvPz4pVEh1
+         Ku1v9I4U/2CryHxsTlMlRk2fc28ej8rd+7MlplMTThfoJAZRmblnckswgMHHe69QpMc/
+         wRvz5SKAYF9Nu0Ng7NuPExh1VHHgV+4D0TcyBOwrMv3Wt6K0ozaYmU9W4kZIqTv4H678
+         kqSBzVUp1kcE79fP29ag1ETMbjYRScxuTRmjVktlchakXVcxqS8E7krTJqCfwCJkVnyI
+         aZ2chwJnPzvrEfCVY7PxcmRwEzrJJSVzyLYLV2D+s8vHU13F6YZNRzcievHUe6lMqy/Q
+         Od2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXa+BW5UUyWgna9fFL56V60GWv5i7ZuKcnycFR5pViXk8C6fJmHzKzne2ysRbNNbGm/p0q+epkJGmPZNkLrj9e9AeJS9LEyUCLHn16TsFn/KRvFm+cCGA2DFHYxfq941vLpgpSP8hcOg2+yXGBfcZ0F80byPbKfTXT/IhTvJCnr56bd0z+HZZ+5qvjt3MexkGH6/izBRPEv9MPxyJIf8TYAf5p6A0O+UDlwfA==
+X-Gm-Message-State: AOJu0Yz1xmAdrOTBbZpfZKRnH1WWlmqylQUjRJfntBEmcBoJ6KfvNWjE
+	2WSFOOqhc80u5r+4UoT0QZa2p557WcZdPoGZ/ZvGFUsBb2yDw35Z
+X-Google-Smtp-Source: AGHT+IHE2HZWu5qzpR+jX0UnZmejEC9L7cDk5g1U+zY+WqgnUfkf6nBAjxJl/3cYZwLBW8r1BvDgZQ==
+X-Received: by 2002:a17:906:d0d7:b0:a47:5265:9aac with SMTP id bq23-20020a170906d0d700b00a4752659aacmr1227914ejb.55.1711303989992;
+        Sun, 24 Mar 2024 11:13:09 -0700 (PDT)
+Received: from localhost.localdomain ([94.120.85.57])
+        by smtp.gmail.com with ESMTPSA id lb13-20020a170906adcd00b00a4750131edasm1085504ejb.206.2024.03.24.11.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Mar 2024 11:13:09 -0700 (PDT)
+From: mustafa <mustafa.eskieksi@gmail.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	pavel@ucw.cz,
+	lee@kernel.org,
+	mustafa.eskieksi@gmail.com,
 	linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	linux-pm@vger.kernel.org
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v5 RESEND 6/6] platform: x86-android-tablets: others: Set the LED trigger to charging_red_full_green for Xiaomi pad2
-Date: Sun, 24 Mar 2024 23:01:07 +0800
-Message-ID: <20240324150107.976025-7-hpa@redhat.com>
-In-Reply-To: <20240324150107.976025-1-hpa@redhat.com>
-References: <20240324150107.976025-1-hpa@redhat.com>
+	platform-driver-x86@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: [PATCH v5 0/1] platform/x86: Add wmi driver for Casper Excalibur laptops
+Date: Sun, 24 Mar 2024 21:12:00 +0300
+Message-ID: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-Set the default trigger to bq27520-0-charging-red-full-green. The LED
-will show red when the battery is charging. The LED will show green
-when the battery status is full.
+From: Mustafa Ekşi <mustafa.eskieksi@gmail.com>
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- drivers/platform/x86/x86-android-tablets/other.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
+I want to note that moving mutex_init to the bottom of the function
+crashes the driver when mutex_lock is called. I didn't investigate it
+further but I wanted to say that since Ai Chao also did it like that.
 
-diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/platform/x86/x86-android-tablets/other.c
-index 1012a158f7b7..eccfea7b01c0 100644
---- a/drivers/platform/x86/x86-android-tablets/other.c
-+++ b/drivers/platform/x86/x86-android-tablets/other.c
-@@ -610,7 +610,7 @@ static const struct property_entry ktd2026_rgb_led_props[] = {
- 	PROPERTY_ENTRY_U32("reg", 0),
- 	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
- 	PROPERTY_ENTRY_STRING("function", "indicator"),
--	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging"),
-+	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging-red-full-green"),
- 	{ }
- };
- 
+Driver sets all leds to white on start. Before that, when a led's
+brightness is changed, that led's color gets set to white but others
+keep their old colors which creates a bad user experience (at least for
+me). Please inform me if this is a bad approach.
+Also, this driver still lacks support for changing modes and I seek
+advise for that.
+
+Mustafa Ekşi (1):
+  platform/x86: Add wmi driver for Casper Excalibur laptops
+
+ MAINTAINERS                       |   6 +
+ drivers/platform/x86/Kconfig      |  14 +
+ drivers/platform/x86/Makefile     |   1 +
+ drivers/platform/x86/casper-wmi.c | 641 ++++++++++++++++++++++++++++++
+ 4 files changed, 662 insertions(+)
+ create mode 100644 drivers/platform/x86/casper-wmi.c
+
 -- 
 2.44.0
 
