@@ -1,60 +1,60 @@
-Return-Path: <linux-leds+bounces-1325-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1326-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC18887D57
-	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 16:03:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DF7887D5D
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 16:03:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89011B20E33
-	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 15:03:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F7D11F212E2
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 15:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C311B7F8;
-	Sun, 24 Mar 2024 15:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5CBE18654;
+	Sun, 24 Mar 2024 15:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jdo8joB5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AMgtzQxW"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB3619BA2
-	for <linux-leds@vger.kernel.org>; Sun, 24 Mar 2024 15:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1644A18AE0
+	for <linux-leds@vger.kernel.org>; Sun, 24 Mar 2024 15:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711292555; cv=none; b=GQJoNZgUp0IbRlLNMaMQf0KKG7lMnlg7BaWp+JpyKRIOE01iYpmM8luWQjdSKZ+/6ZVYh617KHJ1bMJEGjC9KiF7ouFmApq7HSVxu7id8nGEmW31wzC7rPLTiXg02P/ncR48M1i3Af1wqxeKWdith32PLZzmbspo6fVbYUZnvng=
+	t=1711292562; cv=none; b=DJJTKfBPLAlNHavUCMWmkUcn+ZU5sPG3dmuSNgi9YKFFvoE1QSCxcdJ26AML6kU/ekVaCKiRQ1MexpvzlQGMLZFe4w4X3xGFpBcE+HoDTeoubYh0ap5QhYBu3QA8PxVdXJqxoTB8y77V4ZFO0202z82SovBDTHenar8GbqKf+aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711292555; c=relaxed/simple;
-	bh=f5/bJ67Sv0EFeJIOjhY7goPpZbgR8OLgYaO4aKMajrg=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gvwY6SOGshzv1f+jIQ5eUFg7rH37a85mqteR9cvqh1Rbhfh1wVZWcnCIKtEwOHigqmgp8teMkHf8flulQVHjjUXKA3G3G4SbY+osUFjxFInrBZhi2hRkk40jvy85pZp28TUr6Tu6q/AQs1NfZUs6Qt2L4y+9BPWE7zX+9c8Ahyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jdo8joB5; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1711292562; c=relaxed/simple;
+	bh=dIniFlLXgncFuChWdqCQcamcoShrJUnDq2s6kqoi4Gg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OpBl4eq0U44MPGgViXmsxBh60TiEuvQOFKUb0Cmog2Nx4ks0zq2oUqnKMzqBenBkVdisjKVr5GT16jgu+AfEadRWS5sGmSWSG++mJoUbpIBoqnqieVvtTWRQS+zGNdK9KQRtn2Dici6cjPpA6rGnZ9JfWvLyg3uEc68H6PGBfcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AMgtzQxW; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711292552;
+	s=mimecast20190719; t=1711292560;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aaThFgoqCnVkRdxTondZNkroyy7Kv7fQbcUMkGLhXZA=;
-	b=Jdo8joB5wB2P3sJp9YQJz7UlkAwT0wK4RdQnva2culmyyDE0Zcs8axIbP7a2s8TPcH2hNZ
-	oRERK+AKQJEz/H9i7fwjvUCzYNlyD/UZIj6VMNcs2QsDv6l0tYU+T3IB0I/jpGM7N6sIao
-	HVcHjPCHwgrKzUoD5pBDXYKQjMkPq7I=
+	bh=SFRC3KFOBfrVw1UPcts1Uq3y+FPq0+2ryL6PXXYRdMY=;
+	b=AMgtzQxWzXPKaXg3aUOlobcnehwOOk8FvcogV04YsXE9KyVlaCjKsLX0B1nlvkSutU6GgM
+	JQWk+FDEeJlTHf0Llj93i/spqDl16G2OoeuFpj68JWoynupQpDQaIGyCXSuC15e+fRUjpK
+	s1glFBwwjIFwmXdoPH4mWwU5IyScrQ8=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-119-8dT4ycs1P9-VDhyW7_Runw-1; Sun,
- 24 Mar 2024 11:02:29 -0400
-X-MC-Unique: 8dT4ycs1P9-VDhyW7_Runw-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-187-ao9NaOONMYmSTpYQoLWiqg-1; Sun,
+ 24 Mar 2024 11:02:36 -0400
+X-MC-Unique: ao9NaOONMYmSTpYQoLWiqg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50FB9380008B;
-	Sun, 24 Mar 2024 15:02:28 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28BA63C000A9;
+	Sun, 24 Mar 2024 15:02:36 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.39.192.75])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3EF9C40C6DAE;
-	Sun, 24 Mar 2024 15:02:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4955C40C6DAE;
+	Sun, 24 Mar 2024 15:02:29 +0000 (UTC)
 From: Kate Hsuan <hpa@redhat.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -67,9 +67,10 @@ To: Pavel Machek <pavel@ucw.cz>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>,
 	Sebastian Reichel <sre@kernel.org>,
 	linux-pm@vger.kernel.org
-Subject: [PATCH v5 RESEND 4/6] leds: trigger: Add led_mc_trigger_event() function
-Date: Sun, 24 Mar 2024 23:01:05 +0800
-Message-ID: <20240324150107.976025-5-hpa@redhat.com>
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v5 RESEND 5/6] power: supply: power-supply-leds: Add charging_red_full_green trigger for RGB LED
+Date: Sun, 24 Mar 2024 23:01:06 +0800
+Message-ID: <20240324150107.976025-6-hpa@redhat.com>
 In-Reply-To: <20240324150107.976025-1-hpa@redhat.com>
 References: <20240324150107.976025-1-hpa@redhat.com>
 Precedence: bulk
@@ -81,72 +82,115 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-From: Hans de Goede <hdegoede@redhat.com>
+Add a charging_red_full_green LED trigger and the trigger is based on
+led_mc_trigger_event() which can set an RGB LED when the trigger is
+triggered. The LED will show red when the battery status is charging.
+The LED will show green when the battery status is full.
 
-Add a new led_mc_trigger_event() function for triggers which want to
-change the color of a multi-color LED based on their trigger conditions.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://lore.kernel.org/linux-leds/f40a0b1a-ceac-e269-c2dd-0158c5b4a1ad@gmail.com/T/#t
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- drivers/leds/led-triggers.c | 20 ++++++++++++++++++++
- include/linux/leds.h        |  6 ++++++
- 2 files changed, 26 insertions(+)
+ drivers/power/supply/power_supply_leds.c | 25 ++++++++++++++++++++++++
+ include/linux/power_supply.h             |  2 ++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index bd59a14a4a90..fcc4e7a7b12b 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -380,6 +380,26 @@ void led_trigger_event(struct led_trigger *trig,
- }
- EXPORT_SYMBOL_GPL(led_trigger_event);
+diff --git a/drivers/power/supply/power_supply_leds.c b/drivers/power/supply/power_supply_leds.c
+index c7db29d5fcb8..bd9c8fec5870 100644
+--- a/drivers/power/supply/power_supply_leds.c
++++ b/drivers/power/supply/power_supply_leds.c
+@@ -22,6 +22,8 @@
+ static void power_supply_update_bat_leds(struct power_supply *psy)
+ {
+ 	union power_supply_propval status;
++	unsigned int intensity_green[3] = {255, 0, 0};
++	unsigned int intensity_red[3] = {0, 0, 255};
  
-+void led_mc_trigger_event(struct led_trigger *trig,
-+			  unsigned int *intensity_value, unsigned int num_colors,
-+			  enum led_brightness brightness)
-+{
-+	struct led_classdev *led_cdev;
+ 	if (power_supply_get_property(psy, POWER_SUPPLY_PROP_STATUS, &status))
+ 		return;
+@@ -36,12 +38,20 @@ static void power_supply_update_bat_leds(struct power_supply *psy)
+ 		/* Going from blink to LED on requires a LED_OFF event to stop blink */
+ 		led_trigger_event(psy->charging_blink_full_solid_trig, LED_OFF);
+ 		led_trigger_event(psy->charging_blink_full_solid_trig, LED_FULL);
++		led_mc_trigger_event(psy->charging_red_full_green_trig,
++				     intensity_green,
++				     3,
++				     LED_FULL);
+ 		break;
+ 	case POWER_SUPPLY_STATUS_CHARGING:
+ 		led_trigger_event(psy->charging_full_trig, LED_FULL);
+ 		led_trigger_event(psy->charging_trig, LED_FULL);
+ 		led_trigger_event(psy->full_trig, LED_OFF);
+ 		led_trigger_blink(psy->charging_blink_full_solid_trig, 0, 0);
++		led_mc_trigger_event(psy->charging_red_full_green_trig,
++				     intensity_red,
++				     3,
++				     LED_FULL);
+ 		break;
+ 	default:
+ 		led_trigger_event(psy->charging_full_trig, LED_OFF);
+@@ -49,6 +59,10 @@ static void power_supply_update_bat_leds(struct power_supply *psy)
+ 		led_trigger_event(psy->full_trig, LED_OFF);
+ 		led_trigger_event(psy->charging_blink_full_solid_trig,
+ 			LED_OFF);
++		led_mc_trigger_event(psy->charging_red_full_green_trig,
++				     intensity_red,
++				     3,
++				     LED_OFF);
+ 		break;
+ 	}
+ }
+@@ -74,6 +88,11 @@ static int power_supply_create_bat_triggers(struct power_supply *psy)
+ 	if (!psy->charging_blink_full_solid_trig_name)
+ 		goto charging_blink_full_solid_failed;
+ 
++	psy->charging_red_full_green_trig_name = kasprintf(GFP_KERNEL,
++		"%s-charging-red-full-green", psy->desc->name);
++	if (!psy->charging_red_full_green_trig_name)
++		goto charging_red_full_green_failed;
 +
-+	if (!trig)
-+		return;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
-+		if (!(led_cdev->flags & LED_MULTI_COLOR))
-+			continue;
-+
-+		led_mc_set_brightness(led_cdev, intensity_value, num_colors, brightness);
-+	}
-+	rcu_read_unlock();
-+}
-+EXPORT_SYMBOL_GPL(led_mc_trigger_event);
-+
- static void led_trigger_blink_setup(struct led_trigger *trig,
- 			     unsigned long delay_on,
- 			     unsigned long delay_off,
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index fed88eb9e170..5378e4cd03ff 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -526,6 +526,9 @@ void led_trigger_register_simple(const char *name,
- 				struct led_trigger **trigger);
- void led_trigger_unregister_simple(struct led_trigger *trigger);
- void led_trigger_event(struct led_trigger *trigger,  enum led_brightness event);
-+void led_mc_trigger_event(struct led_trigger *trig,
-+			  unsigned int *intensity_value, unsigned int num_colors,
-+			  enum led_brightness brightness);
- void led_trigger_blink(struct led_trigger *trigger, unsigned long delay_on,
- 		       unsigned long delay_off);
- void led_trigger_blink_oneshot(struct led_trigger *trigger,
-@@ -562,6 +565,9 @@ static inline void led_trigger_register_simple(const char *name,
- static inline void led_trigger_unregister_simple(struct led_trigger *trigger) {}
- static inline void led_trigger_event(struct led_trigger *trigger,
- 				enum led_brightness event) {}
-+static inline void led_mc_trigger_event(struct led_trigger *trig,
-+				unsigned int *intensity_value, unsigned int num_colors,
-+				enum led_brightness brightness) {}
- static inline void led_trigger_blink(struct led_trigger *trigger,
- 				      unsigned long delay_on,
- 				      unsigned long delay_off) {}
+ 	led_trigger_register_simple(psy->charging_full_trig_name,
+ 				    &psy->charging_full_trig);
+ 	led_trigger_register_simple(psy->charging_trig_name,
+@@ -82,9 +101,13 @@ static int power_supply_create_bat_triggers(struct power_supply *psy)
+ 				    &psy->full_trig);
+ 	led_trigger_register_simple(psy->charging_blink_full_solid_trig_name,
+ 				    &psy->charging_blink_full_solid_trig);
++	led_trigger_register_simple(psy->charging_red_full_green_trig_name,
++				    &psy->charging_red_full_green_trig);
+ 
+ 	return 0;
+ 
++charging_red_full_green_failed:
++	kfree(psy->charging_blink_full_solid_trig_name);
+ charging_blink_full_solid_failed:
+ 	kfree(psy->full_trig_name);
+ full_failed:
+@@ -101,10 +124,12 @@ static void power_supply_remove_bat_triggers(struct power_supply *psy)
+ 	led_trigger_unregister_simple(psy->charging_trig);
+ 	led_trigger_unregister_simple(psy->full_trig);
+ 	led_trigger_unregister_simple(psy->charging_blink_full_solid_trig);
++	led_trigger_unregister_simple(psy->charging_red_full_green_trig);
+ 	kfree(psy->charging_blink_full_solid_trig_name);
+ 	kfree(psy->full_trig_name);
+ 	kfree(psy->charging_trig_name);
+ 	kfree(psy->charging_full_trig_name);
++	kfree(psy->charging_red_full_green_trig_name);
+ }
+ 
+ /* Generated power specific LEDs triggers. */
+diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+index c0992a77feea..1d7c0b43070f 100644
+--- a/include/linux/power_supply.h
++++ b/include/linux/power_supply.h
+@@ -318,6 +318,8 @@ struct power_supply {
+ 	char *online_trig_name;
+ 	struct led_trigger *charging_blink_full_solid_trig;
+ 	char *charging_blink_full_solid_trig_name;
++	struct led_trigger *charging_red_full_green_trig;
++	char *charging_red_full_green_trig_name;
+ #endif
+ };
+ 
 -- 
 2.44.0
 
