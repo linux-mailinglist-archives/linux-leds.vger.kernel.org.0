@@ -1,83 +1,121 @@
-Return-Path: <linux-leds+bounces-1317-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1318-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABF8887A98
-	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 23:25:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15580887B6A
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 03:18:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B5E31C20AAD
-	for <lists+linux-leds@lfdr.de>; Sat, 23 Mar 2024 22:25:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FF75282336
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Mar 2024 02:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D61015A7B4;
-	Sat, 23 Mar 2024 22:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B71A617F3;
+	Sun, 24 Mar 2024 02:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZpKczV2m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWEnTBrL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E218A5A4C6;
-	Sat, 23 Mar 2024 22:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3750181E;
+	Sun, 24 Mar 2024 02:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711232751; cv=none; b=Z/9fQz7f1YL4Fryb3iZ+j81GJD3PJMMkk9H/MAHLy6GbzBmFEEhUj+ypK2q7qpyQmKk0qcpYJ/H0Ld1osI5j2pWDd0s7pwX2g2ZUgCH5DW9Y5fd4ZexBb44Cyj8k/s9PfcXyxM4qxwrK8rO861oqDmwYtQHmIri4f+dUGHMZFjk=
+	t=1711246697; cv=none; b=Ke2KTxSdPWQnnoejH5Ni2Eo28/sXoXfbBH0/XYI01JLqmIuv7L8pocA0lHnDefK6ET8FNNnjuYFIc08jb4lgm7Z8/E9D/cDXaO6yWuW+NTj51vp0ocvMGttNSqgP3lmOytM409lKC/LhRTJj2bkeoZN+cfLpj65pM1zVIm0Sz+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711232751; c=relaxed/simple;
-	bh=5ywmwSOANCwvmN60cHoKWbVHRtpgvPfzhKz4OyO0kz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOXh9VGQkQg+lz0wR5OSs7UmkAHfc2HOq7rUKczlCsCMzC/vL5E5rT8oNze0sL3d5wd+hipaZ3sOPol/6oylAmPadERRxF/b173/AfTKHhQ5XXmzxRB7eAXXlldKjS6qGU53uL8S2nCr6WLX3H8TPk/EU6FDUw7fMIsHmTA3uS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZpKczV2m; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=S9qKN3rr+FvnUj2R5c4tNQZmaB108poPnd4hRyAjl10=; b=ZpKczV2m/VB39yMBjAqTJcrUvJ
-	C56/29nH+DoG/tTV3FC8bWOVOeyUX+kI4rwjp8g5+NdBf1nBBBqW/0YwHa00OrHiuoPwGXLbuMXkH
-	NWlhxQandRmtoRS1b5E8Y7ej+fW+h6aK0DFiAlGtd7MYvWUXYt+PKkXPqiOFpMU79M9o=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1ro9o6-00B4TF-7t; Sat, 23 Mar 2024 23:25:42 +0100
-Date: Sat, 23 Mar 2024 23:25:42 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Daniel Hodges <hodges.daniel.scott@gmail.com>,
-	netfilter-devel <netfilter-devel@vger.kernel.org>,
-	Network Development <netdev@vger.kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>, bpf <bpf@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1711246697; c=relaxed/simple;
+	bh=yg2Hm/IVogTNhzTU6kYBtYGgvcIfGxbzMCVal4KJTBE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kGSCj5NiIE+nlC+/C/o4l+msEpKttEnm2B5v1INS4lfpBhnvd0Joltm6luzp7O0/9+16Cu1zF+xg5NLGDW2BLp3mwXumhQSn7Vu4++lo67NJMmpjL/FRybDTw4hRxJRZGAN02KpwiEZhj+EUHcVAzwyR0vTKQkuTrOuomqnfvL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NWEnTBrL; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-42f52226f9bso14309921cf.3;
+        Sat, 23 Mar 2024 19:18:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711246695; x=1711851495; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jCmO03+9RwSrIzYMZH8CI854XN/NKy5dCm9nFGp2TmQ=;
+        b=NWEnTBrL4GE44uG5IZM46qwETZqc2cMPOyeBvXaX3SibRgKtP/W21lkapksc21p6iL
+         BO1BAW/B1Csz/td5htpoBeE3R00XF+gL9fTPTxL/pev5ZFLNc0KbygdNU/iIpWJ0EHtA
+         eIWyTl+0o9sjhUh+sCZv3KBIGB4FnwjaE93L7xZTjrvn5X+dCsn6NlGJ/ESzticoAaJE
+         jqT5gw8SzoDho/zfAWC6g34Gdk/mNH9KoG0u2EVHV7VmaQ4g1bmtL1yuF5q5Z10a/zQu
+         4USbST/bej0bljKmgcK4ZDvCwSwhyLf5lCZgJ1dBWY/sLTVtz0OpToaXTU50A4JvgbVK
+         WbHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711246695; x=1711851495;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jCmO03+9RwSrIzYMZH8CI854XN/NKy5dCm9nFGp2TmQ=;
+        b=qSGE56Zyc9ZLHJ7gXR+PW7Zyhu6x+JVqBRfvJzfVv4jE8yDue6ZVepwyFkCy2mKKTB
+         j5Brs+FpZySv/IU6JwqIq7+dwVBinH/dCrWfzJ6rfLdtx7rQfw+6MP5ZqGPXh0C2KHmH
+         yVJDWDchHzyOfBwiuPP1G/uX7hW7jepTtIFKF0HRgvEfKpxN9sSfsV3orM8yt73eRUM+
+         CA/SeWRAc+idNhpHzvNjO3Di7kuvyk3MEHlRmwE8QWj1/dMxELQhAWMpu6UB3Ep5L2ad
+         z2dcu6K5akC2BdUZT4/V840TtA5xJs0dvuQItMYlPfJ/MhYvTFkGkBDHqBMTkhtut6+l
+         YT2A==
+X-Forwarded-Encrypted: i=1; AJvYcCV8q7H8jsB675kYUSd/5T1VTLqlTZAK2dTAhEfUOJgFg+pjlbW5C0/H7gMdV/fOGYZm4O/uJBrFG3a1sGTwHPEtD0RXj/WfLrcwxhjNDBu97EVMy0KjudMF4ce+AyJkya66NFKlpgYpGpOnwhpkVXq05t0X7czZmHyfR83ReA==
+X-Gm-Message-State: AOJu0YwumM5NZ11hduNeNWJIQuD/HzRlB460To42JEJqBPbP7ebsD1+b
+	OFH8g5xfxCN9BOs3eZdIQJrna/2r03geM/tgx/IK4RqJtbyQ6kfF
+X-Google-Smtp-Source: AGHT+IGh/jWvNaLRJjSPNs9Rwcwu8fSVukUF2Zz0KdTMlUOdm3xrgN6zskrs7VdYu1qupJisaB0fPw==
+X-Received: by 2002:a05:622a:14d1:b0:431:1b29:58e9 with SMTP id u17-20020a05622a14d100b004311b2958e9mr5189035qtx.68.1711246694960;
+        Sat, 23 Mar 2024 19:18:14 -0700 (PDT)
+Received: from l1441l.lan0.xorvpn.com (pool-98-116-41-146.nycmny.fios.verizon.net. [98.116.41.146])
+        by smtp.gmail.com with ESMTPSA id bc13-20020a05622a1ccd00b004309b22265asm1266241qtb.75.2024.03.23.19.18.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Mar 2024 19:18:14 -0700 (PDT)
+From: Daniel Hodges <hodges.daniel.scott@gmail.com>
+To: andrew@lunn.ch
+Cc: ast@kernel.org,
+	bpf@vger.kernel.org,
+	daniel@iogearbox.net,
+	hodges.daniel.scott@gmail.com,
+	lee@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	pavel@ucw.cz
 Subject: Re: [PATCH 1/3] leds: trigger: legtrig-bpf: Add ledtrig-bpf module
-Message-ID: <ceeefde3-68a6-4fc9-87a0-401206037855@lunn.ch>
-References: <cover.1711113657.git.hodges.daniel.scott@gmail.com>
- <ac8e77881212e18d117059a698affd6afc2607af.1711113657.git.hodges.daniel.scott@gmail.com>
- <CAADnVQ+BsBcp5osqiG46gjtLViQjHStVnPsySffHsybaz7OYEw@mail.gmail.com>
+Date: Sat, 23 Mar 2024 22:15:01 -0400
+Message-ID: <20240324021811.20794-1-hodges.daniel.scott@gmail.com>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <a9662071-8050-46b7-8416-d440d45bbb52@lunn.ch>
+References: <a9662071-8050-46b7-8416-d440d45bbb52@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAADnVQ+BsBcp5osqiG46gjtLViQjHStVnPsySffHsybaz7OYEw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-> A new kernel module just to call this helper?
-> Feels like overkill. Can it be a part of generic led bits?
-> btw, have you looked at net/netfilter/xt_LED.c ?
-> netfilter had the ability to blink led for a long time.
-> I'm curious whether folks found it useful.
 
-This might become more useful now that we have support for PHY & MAC
-LEDs. You can use the netdev trigger for the usual things an RJ45 LED
-shows: link, rx/tx activity, link speed etc. But they are just Linux
-LEDs, you can also use them for heartbeat, disc IO, tty IO, or xt_LED.
-xt_LED would actually make sense for an LED in a RJ45 socket.
+> On Fri, Mar 22, 2024 at 10:08:14AM -0400, Daniel Hodges wrote:
+> > This patch adds a led trigger that interfaces with the bpf subsystem. It
+> > allows for BPF programs to control LED activity through calling bpf
+> > kfuncs. This functionality is useful in giving users a physical
+> > indication that a BPF program has performed an operation such as
+> > handling a packet or probe point.
+>
+> Don't you want a mechanism to say which LED it should blink? Say you
+> have a BPF IR receiver, a BPF kernel scheduler and a BPF firewall. All
+> sharing the same LED is probably not what you want. Each probably
+> wants its own LED.
+>
+>       Andrew
 
-       Andrew
+Yeah, I think that makes sense. I guess the idea with this patch set was
+more or less to show the simple implementation. Since there can be
+multiple devices the trigger probably needs a registry of the active
+led_classdev names or other id. Alexei mentioned the xt_led which looks
+like it is rather similar as well. I can give this another shot, but I
+didn't want to go too far down the rabbit hole without getting some
+signal on the idea in general.
+
+PS Sorry to folks if I've directly replied to your comments. I'm still in the
+process of setting up my email workflow.
+
+- Daniel
 
