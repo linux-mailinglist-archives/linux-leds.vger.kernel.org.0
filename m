@@ -1,133 +1,125 @@
-Return-Path: <linux-leds+bounces-1346-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1347-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E3088B61A
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Mar 2024 01:31:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 651AE88B6A3
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Mar 2024 02:14:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15F32B654B5
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Mar 2024 20:11:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 045C21F614CF
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Mar 2024 01:14:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A0F84D9EA;
-	Mon, 25 Mar 2024 20:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F0791CA95;
+	Tue, 26 Mar 2024 01:14:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="KDCS/0zr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jsL9gQ9W"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08BD45033;
-	Mon, 25 Mar 2024 20:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFBC1CA81;
+	Tue, 26 Mar 2024 01:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711397458; cv=none; b=cj05Qs/7s3Eb1iaoMwmFHF4KY85M3ZwtR8tm36Y1b0NEhA/2pEdtxKp+Wj4qSHykQVsmJlAS6OlUCsnG4OIg8Y+0huclQoPLzlxPcSYvBj+Boj/LozM0sXrjUFJx1jSlxjyMUE8xwO3N24LvLTvAxCISlwz1vAuX3TSHS2mhSYE=
+	t=1711415688; cv=none; b=VUq+mmZHrCoCYtZ5NIxjrsgD9e/Gkzm/sHzizNqaBa8oxX8EDBqhWl+4aYuHrw5wYOq9h/s/qBwyGq5BXUm6tJpRi2jQvpwF07OnuIEflNtNXzAGTC4to36udThk/XtQsP0IT08ocyjz4/vXjy8awcgZuyNPXzdIjP3fgpXMetA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711397458; c=relaxed/simple;
-	bh=1hS5NcLSFnVm2dCXuWF1CcXyaqi1PIrZM8H+m08BW8U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=pxVDIcnDKiK/g0BTOB/p0rk85iYNQMGUqiHgGxdryChjhz9t42oJH0mVoX3fAibmBpUT3F9gj0pxo3Pxunxfej9sQYznXTDkMnvLadtx8Uq2lq7z6vgdtklxEMz/UpeRL/nIIETZOmDAB2GOGbjylMgEEJ2EkauaNunIWK6/0Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=KDCS/0zr; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1711397427; x=1712002227; i=w_armin@gmx.de;
-	bh=k5GImjZ67YtdbUkAgxVbsS2XJfKlz1HCv891Pa0K9js=;
-	h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
-	b=KDCS/0zrDTxyxdvF/Hy3PacpYWCo72HItPKTv98QWlJz+1cQEWS4RTyxpj2FWDT9
-	 drdwdLQO9c/jsd2fkEnYMBMQwT4Qq4Fhm5Ek2/rZUQxJToOocIp5C+QklPgpUifdN
-	 6JxEpTQWfEDUNdb7rzKYjHxSqVNwOOX6QYAfZiog5h+FJAS0cF5kZaKCFqPDpicrN
-	 Udynh2HboSvaCvRkufE3Ke1QLWK/EOcUAU/DWr7J1FZqAE6RHr9pklp8GqgNgFTpA
-	 2rxGsE0j4Z1lKyrOW2cIk9cdlX4YogkgXblJzWbQoBGc2YifkyqEoK1iN9DmPnQqX
-	 FsXg4jOwFPFv5xu9mA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N4QwW-1spvPx0OQw-011Tra; Mon, 25
- Mar 2024 21:10:27 +0100
-Message-ID: <19661160-76d4-43ed-987f-dbf183e891ba@gmx.de>
-Date: Mon, 25 Mar 2024 21:10:25 +0100
+	s=arc-20240116; t=1711415688; c=relaxed/simple;
+	bh=LLQxCz98l1HU/C5oc6qGP8SS9cYXAQ4/0d3AcJ3xSNc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rzAXhFxrcEKIoAOE3hKfjJh7Nx5hvjvIRSglEEAHi+O0NQHbPQFUodpiHXs4wFAR/F38Q7V11My6/zSaPQ4+gorrWh/R6tO+uuhYz69gsMQK3UeDYHg348GNxHwJ8/5hTWL3DBKx/rPs8o2/+3gFRBqPIrN6S9X/Rfzf8gQ8BX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jsL9gQ9W; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dd045349d42so4371607276.2;
+        Mon, 25 Mar 2024 18:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711415686; x=1712020486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dfZ+cFkGGCKMx3euXyT4Jc1q9tHjn2niWtHTG/CydvY=;
+        b=jsL9gQ9WiKA5l3/WMwLuVw2GwCdeuOe0sn5QUTbeSjQChLqXRLiX8k97s/f2wUnkjn
+         G44xJ743QtM7t3ubiZq2KM8x0JyxlLhgPt00yCVI9GZ3EzeiKqZl5lUDuQxgH7hB2bp7
+         nbOLxAh0Y2EunGTMy5hbYWjsVyz2m+/H5D0KxI+sC7/d5wyYXJlPt2vhT59GGqFSaX7s
+         9DXoqvU29l1XWZ9yW6KrnOa0qpq00j4NoeteEnc8cxKCFEhrN4u5iNiviAPzHrUA9MaI
+         Y6A5nFtbfKypcKFdywMHaAuemTr+WskmvFynSpyeCF1m5x8Bq5E3ZM4/fpCzTh4K9Qww
+         qixw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711415686; x=1712020486;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dfZ+cFkGGCKMx3euXyT4Jc1q9tHjn2niWtHTG/CydvY=;
+        b=tQ1Bk2ZWTJgYYSZepK3fMaaZF7wh+r+Ai18Tm326lvj9/6u3ci6/iDbitSZgDzrQiU
+         qNG28U9NqEAyZq0eq9L7e5tWbqnAfXHXC2mjq8sxW6xZYzP54gE6nU64MfoCAoLUoXRo
+         ZCXSgGnI2DDUlNq56jKAbigE6vwMiMDQNVzxr0YxQbU3cZFlYsvHkWtJHQyAG21r9LRE
+         AUpx8KgQjr/WhRh+qre2QGhoslrzp+KPUVki5nodfLv2nqxUG4jxdii6C0sNIlo900lO
+         s8j+hePBzBq6ZtBupIO7U8HdMYG4QL+bTjhfuK8zb3jgt2Sb99bJrVABzEBw4r2dVVUu
+         rdlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTITrWEYbWRlLQOi3fGCIWyAdlRuyLrEEaKwzq9OE6UKXu6HflzpLUDhlwH+1foLpWgJJFkPexSbRAJk8ej3+hvixZN/zZMG3ORuO4HzpLd6imW7OquYoytDRqo1qbZmeZ/YWkvDqOCLyXngFOWC79JEA0mf6ugZqtflrdgQ==
+X-Gm-Message-State: AOJu0YwMPDbuoLj7srVRiM7LZQLe6Qspbn9WXMqOM4V7iho3umXM/r2O
+	LpYw4PdEXmA/5ZwIN3sQuy5elI9KtheSpMALOr58vpU3UdgHkeTh
+X-Google-Smtp-Source: AGHT+IH82aTqIQFxcCRU5qkkrUKNlOFqXtLXkvAZSnYXUskFSa/RL43K1QGW0T1mKy82fq8UH0DSIA==
+X-Received: by 2002:a5b:c45:0:b0:dcc:84ae:9469 with SMTP id d5-20020a5b0c45000000b00dcc84ae9469mr6483905ybr.64.1711415685933;
+        Mon, 25 Mar 2024 18:14:45 -0700 (PDT)
+Received: from l1441l.lan0.xorvpn.com (pool-98-116-41-146.nycmny.fios.verizon.net. [98.116.41.146])
+        by smtp.gmail.com with ESMTPSA id c5-20020a056214224500b006968d8f1c05sm1697208qvc.26.2024.03.25.18.14.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 18:14:45 -0700 (PDT)
+From: Daniel Hodges <hodges.daniel.scott@gmail.com>
+To: hodges.daniel.scott@gmail.com
+Cc: ast@kernel.org,
+	bpf@vger.kernel.org,
+	daniel@iogearbox.net,
+	lee@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	pavel@ucw.cz
+Subject: [PATCH v2 0/3] leds: trigger: legtrig-bpf: Add ledtrig-bpf trigger
+Date: Mon, 25 Mar 2024 21:14:44 -0400
+Message-ID: <cover.1711415233.git.hodges.daniel.scott@gmail.com>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <ac8e77881212e18d117059a698affd6afc2607af.1711113657.git.hodges.daniel.scott@gmail.com>
+References: <ac8e77881212e18d117059a698affd6afc2607af.1711113657.git.hodges.daniel.scott@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/1] platform/x86: Add wmi driver for Casper Excalibur
- laptops
-To: mustafa <mustafa.eskieksi@gmail.com>, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, jdelvare@suse.com, linux@roeck-us.net,
- pavel@ucw.cz, lee@kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MzAOenI/8ST5bPq1ExjXTewiulUgJsw+eKvNeLMu9b/QqFXI+HZ
- DDi/1ZBInrf9MDaHj+0zRFBJsC+ua38+dOLRn523wjSiDyxrkQVDsIYh/wieCdbjvFCxy2e
- hQan7SNyErbcAZwEcUF9cudypMEch+wSOJG25OSM8PqSSAT1yBXZqBcZdy+nOJD0meWazAA
- TCWWVyHGmNWCrujxWENyg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4Q7DKlFfmFE=;1gutw6nxLW14lkJsyKYuM4sLje8
- z/GVi1B240WDw392PqTI8PmIGLBIaP6em5iITJ+UL7Q+rIYiJevgcuBJ2cu0uFjwUrcoYGyXs
- s/zKD4WK7gRXFWfWmvd3t4nGLT8p3bijTGAk3STO5TDxGfjU8vK9x/sEjcVmA5M2AwrAIgVzR
- BNxJmpqbWStWlkBuTuJxjrSZ3PT6Izl42brBi4/z6kNBLrFXzu3E3oXLQc8MIvHFSYWb+spCC
- XZb+yXWnZc2XSTnuRsFdqA/5g8x2vDLMxyBkqrfZ7yn4IZQoL46n/dsdVgEikTB068zmGl0/o
- KQ3PrJ4jb+VvOd4Ohs5fzkMJlA1QpN7T5oLQgj0McqNMMhdfz1GnMWNm63jHiQNkKL5UOMP6h
- WFacbdwoLlJNFcKcFHOHUtp8TutqM/YRAD5v+Nc07bIjelQBV+SMokkst+l7VSqoL7/f36szu
- kvBeL2vw286XGsMWOwv0oMrnyQggLdHdVhse9NaK5PFiHCNMLAUg6ba5XcDs1TR3MbiyO+pXX
- gq3YGulqT4AnsvN9O93y/HZIQshKjEeclZJ8WzCSImYHXBXY6b8DhRWI2hqTlbvskXRjQYbnP
- Nj0J0HFCMyz7xdRwYu+ht/lRbn9WEBr46eWI94dtDidmFu7/YUUQqt7YncO7ZATaax4nC8/nz
- OcU1IYjBo9+XIFba9EdJxqBZOMJWKDv1GdI1CgyVdzEyniUDtTyXyn4O+F7Vw/NegtDr6rAOJ
- TCjfULJos8hMDcNteij1eMjoqN4mccnxAF3Ml6tyyPMnbyXnZsb42ed/Ne0+QYEooslCF+8aw
- d5+zTZpHGYt/N4+6u2FKNQrd1/F3taRwYzruGb54CmmKU=
+Content-Transfer-Encoding: 8bit
 
-Am 24.03.24 um 19:12 schrieb mustafa:
+This patch set adds a led trigger that interfaces with the bpf
+subsystem. It allows for BPF programs to control LED activity using bpf
+kfuncs. This functionality is useful in giving users a physical
+indication that a BPF program has performed an operation such as
+handling a packet or probe point.
 
-> From: Mustafa Ek=C5=9Fi <mustafa.eskieksi@gmail.com>
->
-> Hi,
-> I want to note that moving mutex_init to the bottom of the function
-> crashes the driver when mutex_lock is called. I didn't investigate it
-> further but I wanted to say that since Ai Chao also did it like that.
+V1: https://lore.kernel.org/bpf/cover.1711113657.git.hodges.daniel.scott@gmail.com/
+Changes in V2:
+- Change kfunc to trigger based on LED name.
+- Fix kfunc registration of BPF_PROG_TYPE_UNSPEC.
+- Use new kfunc helpers off bpf-next branch.
 
-You mean like the lenovo-wmi-camera driver? In this case, the driver was
-only using the mutex inside the WMI notify callback, which can only run
-once the driver has finished probing.
+Daniel Hodges (3):
+  leds: trigger: legtrig-bpf: Add ledtrig-bpf trigger
+  selftests/bpf: Add selftests for bpf led programs
+  leds: trigger: Add documentation for ledtrig-bpf
 
-In your case however, the mutex can already be used while the driver is st=
-ill
-probing, because it registers callbacks with other subsystems.
-The subsystem (maybe led?) assumes that the device is already fully operat=
-ional
-and will begin calling the callbacks immediately, causing a crash.
+ Documentation/leds/index.rst                  |  1 +
+ Documentation/leds/ledtrig-bpf.rst            | 13 ++++
+ drivers/leds/trigger/Kconfig                  | 10 +++
+ drivers/leds/trigger/Makefile                 |  1 +
+ drivers/leds/trigger/ledtrig-bpf.c            | 73 +++++++++++++++++++
+ tools/testing/selftests/bpf/config            |  1 +
+ .../testing/selftests/bpf/progs/ledtrig_bpf.c | 32 ++++++++
+ 7 files changed, 131 insertions(+)
+ create mode 100644 Documentation/leds/ledtrig-bpf.rst
+ create mode 100644 drivers/leds/trigger/ledtrig-bpf.c
+ create mode 100644 tools/testing/selftests/bpf/progs/ledtrig_bpf.c
 
-Looking at the code, it seems that you are not calling mutex_destroy() in
-casper_wmi_remove(). I suggest to use devm_add_action_or_reset() for handl=
-ing this.
+-- 
+2.43.2
 
-Thanks,
-Armin Wolf
-
-> Driver sets all leds to white on start. Before that, when a led's
-> brightness is changed, that led's color gets set to white but others
-> keep their old colors which creates a bad user experience (at least for
-> me). Please inform me if this is a bad approach.
-> Also, this driver still lacks support for changing modes and I seek
-> advise for that.
->
-> Mustafa Ek=C5=9Fi (1):
->    platform/x86: Add wmi driver for Casper Excalibur laptops
->
->   MAINTAINERS                       |   6 +
->   drivers/platform/x86/Kconfig      |  14 +
->   drivers/platform/x86/Makefile     |   1 +
->   drivers/platform/x86/casper-wmi.c | 641 ++++++++++++++++++++++++++++++
->   4 files changed, 662 insertions(+)
->   create mode 100644 drivers/platform/x86/casper-wmi.c
->
 
