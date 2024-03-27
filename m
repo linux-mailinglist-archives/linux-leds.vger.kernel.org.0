@@ -1,263 +1,154 @@
-Return-Path: <linux-leds+bounces-1360-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1361-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0174488DBE4
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 12:04:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DDD88DC02
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 12:06:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 746331F2CA38
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 11:03:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F5FF1C28183
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 11:06:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8997152F9D;
-	Wed, 27 Mar 2024 11:03:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04B7554760;
+	Wed, 27 Mar 2024 11:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ss2PaF00"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/TXKLmF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6C952F96;
-	Wed, 27 Mar 2024 11:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA9B1CA87;
+	Wed, 27 Mar 2024 11:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711537435; cv=none; b=hifdS1cZeQKIG+OutQ06/3/51ZLRV75099hynnWphJY0B7YXPosoG2rKJYIJKLaw4za9nTgoPtbTg5KmR6JV89d0by7LAQMZS9KhRaBytaUVeBg/BSTxihyGWcWdStyO4YTQpr2VSXMkfL8tLGG2kIomhOZqOG4jPVHFGq9f8xI=
+	t=1711537585; cv=none; b=YIp9S30TKe9Yz8+bAZurZtyQPX2LLJu+PbAr4dAo0MPm8efwvneY+owAKG98ATTMWlT2fusuC4/xkSEb+7MhIKW4N5PirrW51SdKu2RFBovZyDBeKTXBanF1qNKO3H57paICvKO2rlDTaY3Nokgmypz2WYcKrSYTNTMnSLJBV5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711537435; c=relaxed/simple;
-	bh=075CAxFyshcdITi7Eob2VV8YtmjSSujhs+tXkhV1Hfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EqAdAadiDjczldiNLL4jLX/5F90EtqL45pz5AJPmdsdJPBHqZK7zL2f420qf1+L6jmUUSXtJwc6QarwlrTw6R7rTZ4BtnNHM5cLaoIGs9/tdzPVAXrhm3eQXXTcTfDOqc/aqSuG6hIVOQCRRA9zy6FhoziV93jlqKcte5y2J1QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ss2PaF00; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C4BC433F1;
-	Wed, 27 Mar 2024 11:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711537434;
-	bh=075CAxFyshcdITi7Eob2VV8YtmjSSujhs+tXkhV1Hfo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ss2PaF001uFUEoxURWx+us8kMC5n1eirUmOoys0zLyxA+s8OYoz7gcyB+09uPVj2t
-	 5L5X1qTH0PHxMmcIm9ffKng7EinyOmRt9OrP5txDF/inld19QMjCO3zDFa6G9ldt4V
-	 buab9lv+onmusRZdOV6wNuSyagZxS7DOvmv5j2sHeEup5cxit4fn9508SAq01s5gOn
-	 0CU2o/783Uaw9rZ54J7sSGZs/iPUvD/XH2NlcOP3/isuCt5kG/lxAyxVekkAC+Aqq8
-	 wxrcGQgZ4xXC/Bfz2+TJqS05DoZ0BGzNuql2CoeJJqWYl1Q7ikN3HOgUL5MKBT36om
-	 MZ6rp+NDXChAg==
-Date: Wed, 27 Mar 2024 12:03:49 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>, 
-	jikos@kernel.org, linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org, ojeda@kernel.org, 
-	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex
- RGB devices on Linux v3)
-Message-ID: <qsfdhmss6tyk6momjh65rwpqdoxhdi3l4takqy6u5c4iactcuf@gecjc364qmsn>
-References: <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
- <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
- <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
- <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
- <9b5151f9-4d1c-401e-abb5-540097749b76@tuxedocomputers.com>
+	s=arc-20240116; t=1711537585; c=relaxed/simple;
+	bh=q3gcyXoKhRYf2fa69N6NdBZzbRfzKOTZ8xEHtHAX8IU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M5p+2X7MIDSIjm64B2fro56lSneYrfpMt3ZIzw480H9MF3rb+KRIy37+Afd2mSYOs4QHprGNOCkfHV2viZKqG6yYs0OgIHGqkIi1AxxPVI6Mbq3oxVXgyrI9EiqDf5q4FGnfazDRDwPqdVW8BwY0x84I35ubZHYqYz6cUME+04I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/TXKLmF; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-513da1c1f26so8189100e87.3;
+        Wed, 27 Mar 2024 04:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711537582; x=1712142382; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ayI6BKXEd9WeONlek9wdLp9tj6kKhJtPOmCx1zPxi9Y=;
+        b=k/TXKLmFi41IFRjM3qn5T1INI/8CgASOWtpdJjoZxrGL1omHZzd6DTgaD6jomsqWbv
+         t8fciV7t8NO9c21jhna8pmkXLFetJLeRQi6OjvlIk6m6Y81eCupau+zP2IaDVZgnXlrk
+         jg6hCPx5YzW6jNY5UKYTGWOyqcRGX+/7x93UZ5Qy/NhPgiMhP3hSkZGtoO86kjjHjEfj
+         wYfMFzfQcx6VBBnWjXSTzznTDCMAF+1IwZk3Ovvw25Z1YWKD57OY5z0SQGh2KYnlfBqt
+         mTrNaMphQaBUqunricz0UnXsHT7dClh2Iry2fvali3KJKnkCXnq78ziz1DHZebiKUHMh
+         cb9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711537582; x=1712142382;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ayI6BKXEd9WeONlek9wdLp9tj6kKhJtPOmCx1zPxi9Y=;
+        b=YOhglBs3VBXAufvziOTopxYfiscEXO5SeNOmlVFSKRNX3d6sIzkKsr0oWbeQDN7jfC
+         1kESEJe8sxi47RN5rKNuTkf+TrMDxZ1KMDk4LXfKtPrcVUTmcbXuS78U4l+J9kNtNfHA
+         R7WykV7EhN50Shllwg6alTyjjiPUwFg9IkX26q8eg5emYXb9ioZHUqvxwuY9pmaFYZ7t
+         pRfhk/jOaJS+r83KWkBArcU8g2XLisHGcBcZNY003aBTYLaKfc6LFGykbnV014I5MI8i
+         r4JpN7h+nf6J8JY52tplpfDF7oNa+pDNTemqTcMjlN8EVsEDezNqjerzMUqtmZSS9OLY
+         6wAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOYxc40I3lsj5NmHjSBgRC536dqaWcFfPzHMZiQm8qbYXOCp+omr6Ie/H0WDWDdOuZ+MGE0pat/bWRvb7+J0xm1u9Kgmhd056ZZkzM4MgnWgAJxXRj59o2dioOzvGhnW8P+kT6gQe6x1wQ/99VYH+NkxOOZRVbZjB21kNZItxXHel9L2Qim8U5qI9v5XYZyU2bJ2oBBkNNEQRkjto9sEbg/J/ldAQ56A==
+X-Gm-Message-State: AOJu0YwYxX5/iZFj9XtgFagu922FKtKW9eAsm2KEFObIJdypzEOEC3sI
+	0JoHfBVCle0p2zvGm4sH6AQgW25xlOT4kh3mjIMUnUWS47CewhBelUH+5azcuSrlgxnXJWDyGzh
+	xKQpo85X3JKHU9Z2Ew8ekSXcHGl/91MK+n7I=
+X-Google-Smtp-Source: AGHT+IFnYy+AySgWrpXBEZGt4xGMs0W5jejiOVEiyuTICA6bnE05GDy9uSYbdCvYonGwLXIiFkEPLNwKn6JkxI2YreM=
+X-Received: by 2002:ac2:5f91:0:b0:513:184a:ff5f with SMTP id
+ r17-20020ac25f91000000b00513184aff5fmr2552363lfe.50.1711537582050; Wed, 27
+ Mar 2024 04:06:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b5151f9-4d1c-401e-abb5-540097749b76@tuxedocomputers.com>
+References: <20240324150107.976025-1-hpa@redhat.com> <20240324150107.976025-2-hpa@redhat.com>
+ <CAHp75Ve5201KNdjvDZYq_unHTKp9wZXPWZXDgStP8y+XjtnWWg@mail.gmail.com> <CAEth8oG7_qFuUrL+kX3ezNatWqKPqT-qiaO5NGY-N3F3ufQL9w@mail.gmail.com>
+In-Reply-To: <CAEth8oG7_qFuUrL+kX3ezNatWqKPqT-qiaO5NGY-N3F3ufQL9w@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 27 Mar 2024 13:05:45 +0200
+Message-ID: <CAHp75VdQtmT0G1dFhdY7TrcBj2W6GhOaVv90_T1e3MdEtiduQQ@mail.gmail.com>
+Subject: Re: [PATCH v5 RESEND 1/6] platform: x86-android-tablets: other: Add
+ swnode for Xiaomi pad2 indicator LED
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mar 26 2024, Werner Sembach wrote:
-> Hi all,
-> 
-> Am 26.03.24 um 16:39 schrieb Benjamin Tissoires:
-> > On Mar 26 2024, Werner Sembach wrote:
-> > > Hi all,
-> > > 
-> > > Am 25.03.24 um 19:30 schrieb Hans de Goede:
-> > > 
-> > > [snip]
-> > > > > > If the kernel already handles the custom protocol into generic HID, the
-> > > > > > work for userspace is not too hard because they can deal with a known
-> > > > > > protocol and can be cross-platform in their implementation.
-> > > > > > 
-> > > > > > I'm mentioning that cross-platform because SDL used to rely on the
-> > > > > > input, LEDs, and other Linux peculiarities and eventually fell back on
-> > > > > > using hidraw only because it's way more easier that way.
-> > > > > > 
-> > > > > > The other advantage of LampArray is that according to Microsoft's
-> > > > > > document, new devices are going to support it out of the box, so they'll
-> > > > > > be supported out of the box directly.
-> > > > > > 
-> > > > > > Most of the time my stance is "do not add new kernel API, you'll regret
-> > > > > > it later". So in that case, given that we have a formally approved
-> > > > > > standard, I would suggest to use it, and consider it your API.
-> > > > > The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
-> > I have my reserves with such a kill switch (see below).
-> > 
-> > > > Actually we don't even need that. Typically there is a single HID
-> > > > driver handling both keys and the backlight, so userspace cannot
-> > > > just unbind the HID driver since then the keys stop working.
-> > I don't think Werner meant unbinding the HID driver, just a toggle to
-> > enable/disable the basic HID core processing of LampArray.
-> > 
-> > > > But with a virtual LampArray HID device the only functionality
-> > > > for an in kernel HID driver would be to export a basic keyboard
-> > > > backlight control interface for simple non per key backlight control
-> > > > to integrate nicely with e.g. GNOME's backlight control.
-> > > Don't forget that in the future there will be devices that natively support
-> > > LampArray in their firmware, so for them it is the same device.
-> > Yeah, the generic LampArray support will not be able to differentiate
-> > "emulated" devices from native ones.
-> > 
-> > > Regards,
-> > > 
-> > > Werner
-> > > 
-> > > > And then when OpenRGB wants to take over it can just unbind the HID
-> > > > driver from the HID device using existing mechanisms for that.
-> > Again no, it'll be too unpredicted.
-> > 
-> > > > Hmm, I wonder if that will not also kill hidraw support though ...
-> > > > I guess getting hidraw support back might require then also manually
-> > > > binding the default HID input driver.  Bentiss any input on this?
-> > To be able to talk over hidraw you need a driver to be bound, yes. But I
-> > had the impression that LampArray would be supported by default in
-> > hid-input.c, thus making this hard to remove. Having a separate driver
-> > will work, but as soon as the LampArray device will also export a
-> > multitouch touchpad, we are screwed and will have to make a choice
-> > between LampArray and touch...
-> > 
-> > > > Background info: as discussed earlier in the thread Werner would like
-> > > > to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
-> > > > device, since those are automatically supported by GNOME (and others)
-> > > > and will give basic kbd backlight brightness control in the desktop
-> > > > environment. This could be a simple HID driver for
-> > > > the hid_allocate_device()-ed virtual HID device, but userspace needs
-> > > > to be able to move that out of the way when it wants to take over
-> > > > full control of the per key lighting.
-> > Do we really need to entirely unregister the led class device? Can't we
-> > snoop on the commands and get some "mean value"?
-> > 
-> > > > Regards,
-> > > > 
-> > > > Hans
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > > The control flow for the whole system would look something like this:
-> > > > > 
-> > > > > - System boots
-> > > > > 
-> > > > >       - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
-> > > > > 
-> > > > >       - systemd-backlight restores last keyboard backlight brightness
-> > > > > 
-> > > > >       - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
-> > > > > 
-> > > > > - If the user wants more control they (auto-)start OpenRGB
-> > > > > 
-> > > > >       - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
-> > > > > 
-> > > > >       - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
-> > > > > 
-> > > > >       - When OpenRGB closes it should reenable the sysfs leds entry
-> > That's where your plan falls short: if OpenRGB crashes, or is killed it
-> > will not reset that bit.
-> > 
-> > Next question: is OpenRGB supposed to keep the hidraw node opened all
-> > the time or not?
-> TBH I didn't look at the OpenRGB code yet and LampArray there is currently
-> only planned. I somewhat hope that until the kernel driver is ready someone
-> else already picked up implementing LampArray in OpenRGB.
-> > 
-> > If it has to keep it open, we should be able to come up with a somewhat
-> > similar hack that we have with hid-steam: when the hidraw node is
-> > opened, we disable the kernel processing of LampArray. When the node is
-> > closed, we re-enable it.
-> > 
-> > But that also means we have to distinguish steam/SDL from OpenRGB...
-> 
-> My first thought here also: What is if something else is reading hidraw devices?
-> 
-> Especially for hidraw devices that are not just LampArray.
-> 
-> > 
-> > I just carefully read the LampArray spec. And it's simpler than what
-> > I expected. But the thing that caught my attention was that it's
-> > mentioned that there is no way for the host to query the current
-> > color/illumination of the LEDs when the mode is set to
-> > AutonomousMode=false. Which means that the kernel should be able to
-> > snoop into any commands sent from OpenRGB to the device, compute a mean
-> > value and update its internal state.
-> > 
-> > Basically all we need is the "toggle" to put the led class in read-only
-> > mode while OpenRGB kicks in. Maybe given that we are about to snoop on
-> > the commands sent, we can detect that there is a LampArray command
-> > emitted, attach this information to the struct file * in hidraw, and
-> > then re-enable rw when that user closes the hidraw node.
-> 
-> I think a read-only mode is not part of the current led class UAPI. Also I
-> don't want to associate AutonomousMode=true with led class is used.
-> AutonomousMode=true could for example mean that it is controlled via
-> keyboard shortcuts that are directly handled in the keyboard firmware, aka a
-> case where you want neither OpenRGB nor led class make any writes to the
-> keyboard.
-> 
-> Or AutonomousMode=true could mean that on a device that implements both a
-> LampArray interface as well as a proprietary legacy interface is currently
-> controlled via the proprietary legacy interface (a lot of which are
-> supported by OpenRGB).
+On Wed, Mar 27, 2024 at 9:58=E2=80=AFAM Kate Hsuan <hpa@redhat.com> wrote:
+> On Mon, Mar 25, 2024 at 3:30=E2=80=AFAM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Sun, Mar 24, 2024 at 5:02=E2=80=AFPM Kate Hsuan <hpa@redhat.com> wro=
+te:
 
-Then how is the kernel supposed to handle LampArrays?
+...
 
-If you need the kernel to use a ledclass, the kernel will have to set
-the device into AutonomousMode=false. When the kernel is done
-configuring the leds, it can not switch back to AutonomousMode=true or
-its config will likely be dumped by the device.
+> > > +/* main fwnode for ktd2026 */
+> > > +static const struct software_node ktd2026_node =3D {
+> > > +       .name =3D "ktd2026"
+> >
+> > Leave a comma, this is not a terminator.
+> >
+> > > +};
+> >
+> > When I asked about the name I relied on the fact that you have an idea
+> > how it works. So, assuming my understanding is correct, this platform
+> > may not have more than a single LED of this type. Dunno if we need a
+> > comment about this.
+>
+> I'll make a comment to describe the configuration.
+> This LED controller can be configured to an RGB LED like this. Also,
+> it can be configured as three single-color (RGB) LEDs to show red,
+> green, and blue only.
+> I think the name can be "ktd2026-multi-color". Is it good for you?
 
-OpenRGB can open the device, switch it to AutonomousMode=false and we
-can rely on it to do the right things as long as it is alive. But I do
-not see how the kernel could do the same.
+My point here is that the name is static and if you have more than one
+LED in the system, the second one won't be registered due to sysfs
+name collisions. Question here is how many of these types of LEDs are
+possible on the platform? If more than one, the name has to be
+dropped. Writing this I think a comment would be good to have in any
+case.
 
-FWIW, I also have a couple of crazy ideas currently boiling in my head
-to "solve" that but I'd rather have a consensus on the high level side
-of things before we go too deep into the technical workaround.
+...
 
-Cheers,
-Benjamin
+> > > +static int __init xiaomi_mipad2_init(void)
+> > > +{
+> > > +       return software_node_register_node_group(ktd2026_node_group);
+> > > +}
+> > > +
+> > > +static void xiaomi_mipad2_exit(void)
+> >
+> > __exit ?
+> No need.
+> x86-andriod-tablet is based on platform_driver and platform_device so
+> it doesn't need __exit.
+>
+> I put __exit and the compiler complained about the warning.
+> =3D=3D=3D
+> WARNING: modpost:
+> drivers/platform/x86/x86-android-tablets/x86-android-tablets: section
+> mismatch in reference: xiaomi_mipad2_info+0x50 (section: .init.rodata)
+> -> xiaomi_mipad2_exit (section: .exit.text)
+> =3D=3D=3D
 
-> 
-> Regards,
-> 
-> Werner
-> 
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> > > > > - System shutdown
-> > > > > 
-> > > > >       - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
-> > > > > 
-> > > > > Regards,
-> > > > > 
-> > > > > Werner
-> > > > > 
-> > > > > > Side note to self: I really need to resurrect the hidraw revoke series
-> > > > > > so we could export those hidraw node to userspace with uaccess through
-> > > > > > logind...
-> > > > > > 
-> > > > > > Cheers,
-> > > > > > Benjamin
+This is interesting. Why then do we call them symmetrically?
+
+Hans, do we need to have anything here been amended?
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
