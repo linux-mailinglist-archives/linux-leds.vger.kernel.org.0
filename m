@@ -1,171 +1,160 @@
-Return-Path: <linux-leds+bounces-1366-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1367-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08E188E6A4
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 15:41:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224E088EFED
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 21:09:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89E752C6EC9
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 14:40:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FA9AB28145
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 20:09:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CE9139579;
-	Wed, 27 Mar 2024 13:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF539152DFB;
+	Wed, 27 Mar 2024 20:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QE8ecp20"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QKLZAxmj"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A73D12CD98;
-	Wed, 27 Mar 2024 13:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E16913B59C
+	for <linux-leds@vger.kernel.org>; Wed, 27 Mar 2024 20:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711545247; cv=none; b=YyHlqRMjLs+zgxD3TwJTQpITe3sFQAdFHiRUpNCSLyWjskPRAFGNkYs7iKWs4p14SLrf70PQ0ZsOiCcA7MfOwdmuc6HaXsALzHnPvIuH3ZE44qmvj3Q8Fxa4a28P+CGsWjZZqX3Hzzkrzn+DW718rwxWAGETwrgTeQTfCoYx2PA=
+	t=1711570124; cv=none; b=EMHOcbDXxQjwdCPOO7uK0NiNxmd1ojzhuosEgC3wGzyOht6LSB8bcEXvYmbqULVjgiiI8CWIKl6WB6nQobnvVqz0APE5Dzwqr+w8m0xqcyXr3ifCt4LT3CTp6aWhXlz/jaDOgLGBXeEojt+BWDmQ5RCx8Bjq9DMNal2HWDF8bX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711545247; c=relaxed/simple;
-	bh=aPOuPtfFZvuUS61teESlTOGy3EScaFITJd6zIkdxh9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SzsEBDg+DUV1Ibu/mGTR8T7McDwRg09854+Zlk6zjSjVn6bEudNstt8Z1HJia9TaWfhc89ZSxWEJb7HMXM+/qhc/u+Hz/wikdgF7mvxUFEHp2noGWi0jYYoYtv/8pGHleWcLPs/ef6cAMApQxbNrKk33Q17h56/UAYnsq1VD9yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QE8ecp20; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71DF2C433C7;
-	Wed, 27 Mar 2024 13:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711545247;
-	bh=aPOuPtfFZvuUS61teESlTOGy3EScaFITJd6zIkdxh9E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QE8ecp20wx1JqOfnBKrNrQ1A7il/EPdx7Qb2bU3tEQFAtdxchTsOko14YmIhTc65e
-	 0erb/xIg+6dFfPAs+oSBwJgWmwAEVWH9jcL4J987Qqj/IxyFEnRxHpTlftkEsoAcPI
-	 rHgpIj4isH57zbCSTvhbiZTT1f+uGS73wliYdL2sK2R/RX+FgDwxEC1gNQLiUp2svC
-	 4YuUkVTn9LYjuOz2FylQazVFjSrgANcIAeI0GKo4wsgMuz6M/8vbqKgl8MIVhdo+Il
-	 c9LCzVA++7q5ANbZro2hu+oLAbcmclN8aL7Rfs1tthIILl+9w4VZkFS1j/7Lt8jXPo
-	 GT+PFYbgVwa+A==
-Date: Wed, 27 Mar 2024 13:14:02 +0000
-From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-leds@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240327131402.GQ13211@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com>
- <20240305145454.GG86322@google.com>
- <f2e7d244-62f4-4dde-bffc-8d96e5a4bac1@gmail.com>
- <20240305160626.GH86322@google.com>
- <f18bb686-5e7c-446b-877c-b92a1dc70145@gmail.com>
+	s=arc-20240116; t=1711570124; c=relaxed/simple;
+	bh=30+SMF3Q4cLn9iLwhMHMGXF2lJwt/e/uG876R4xdZDU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b9l2Dtj6hCq+0aObGgslBUNa6jRXlW9CoN5iK8ZHeDy+Oz9oFRi6/wt4caxj4FXq36lwnGFqjG8RioHjkrPaW7KEjrmgEucGd1XDDm5+aWU6gmhcSuyajQD8rjyYI+jb3W31PMYKPbLQi31KWy6GWkRaVsZtIO/Nk+zQ8WdSHlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QKLZAxmj; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711570122;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u+rbOO6Xjs4/MSVYHbBLn8VkYr1ofXwAfF7JXAClqYE=;
+	b=QKLZAxmjpaQY97V6LVADqg4B6oSr4ooD0/5ksMbLY2wPzkQfVEg/LslrXDm/Ad3NHb16cI
+	HsQbQbvJYAEpuuQNMSmZEKzxscWokWFfa35JliG/sYFu4BmZvNPcaQEGVs0L8WzhaG1P8o
+	FgF38EpF4uJNpn4QoEAyuv4GxrPcq2k=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-219-HKsCYaPOPDyBBfkDXT7NIg-1; Wed, 27 Mar 2024 16:08:40 -0400
+X-MC-Unique: HKsCYaPOPDyBBfkDXT7NIg-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a4751b21400so23490266b.1
+        for <linux-leds@vger.kernel.org>; Wed, 27 Mar 2024 13:08:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711570119; x=1712174919;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u+rbOO6Xjs4/MSVYHbBLn8VkYr1ofXwAfF7JXAClqYE=;
+        b=wIqzItcRshEi1haogXXSTKO71gr+IwaWjAkOTv0SsmzisJPIs9GQHO1y0jeRvxMcmA
+         ctVZAy0WxC89EcZ/9YkIn8RaLz3vc9r/IlUUjiyMr9EnaaLSz2dDD5iVSe7o0zRYZUY5
+         HXGFUCO3beH0BewOZzT/0Vtjt1bicAH51xIb8OUEmCYyC9TPErLKiUYXsjcZ45Yz74sA
+         VdjPCkB2kwvgpYBuQLc5gJX0+E2GAGnnyXF+12QjxwhzE6UJsm7JIoUDo1Ioig2Xshge
+         aQT2ip0pKD1gchm4mpcrxvbdBlsL8f9fBe85v5EsoDfH+CokDgZuKS9DZHI2G1U/z6Om
+         slbw==
+X-Forwarded-Encrypted: i=1; AJvYcCVsXfqeRexUz17cb5ioxoup7DcTFBeB/Q1eE5F9414dPGjWT2eKM2d/S8xL/GuLfzbPyyzOTjZn0r1YHOwHmQMDRG3y3Ie14tsJyg==
+X-Gm-Message-State: AOJu0YxvetrXGhxVI/Qf4K/m+pwU5b8cyRJzVHVAF8x0XnJfnX5MOMj/
+	7Tkfcwl+78I9HU/vmO7pAu6UXIr/1z/fleWtazD7jACuUhuMEZxbZtswfP7mzWCAMBTQ7lnbNz1
+	g+Hw0G+9gEb7o02tOkwAo+RvLRkgRd5BtJmdNVc3OvcFyn1g4KzEs0Y7HLmU=
+X-Received: by 2002:a17:906:bcda:b0:a46:ebe6:742e with SMTP id lw26-20020a170906bcda00b00a46ebe6742emr306738ejb.23.1711570119689;
+        Wed, 27 Mar 2024 13:08:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRPseT862/dYHMWEZUySiGhxw6iMcjeUjM2enE0KH2m9DZecWpuyWTRPHl2YQ5pmnSH+a0zw==
+X-Received: by 2002:a17:906:bcda:b0:a46:ebe6:742e with SMTP id lw26-20020a170906bcda00b00a46ebe6742emr306716ejb.23.1711570119373;
+        Wed, 27 Mar 2024 13:08:39 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id hj13-20020a170906874d00b00a474ef94fddsm4790814ejb.70.2024.03.27.13.08.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Mar 2024 13:08:39 -0700 (PDT)
+Message-ID: <adc4d0b8-412b-42b0-94fb-96bd6c23bb83@redhat.com>
+Date: Wed, 27 Mar 2024 21:08:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/6] platform: x86-android-tablets: other: Add swnode
+ for Xiaomi pad2 indicator LED
+Content-Language: en-US, nl
+To: Kate Hsuan <hpa@redhat.com>, Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ linux-pm@vger.kernel.org
+References: <20240322033736.9344-1-hpa@redhat.com>
+ <20240322033736.9344-2-hpa@redhat.com>
+ <bb7536be-9bed-4557-b111-6409ebfe48f4@redhat.com>
+ <ZgGm7eDBQtwH37ya@smile.fi.intel.com>
+ <CAEth8oEps=T3JGJiCEH_SknjkcGaTXv+ekBQLgVRm+Nc7qfa1g@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAEth8oEps=T3JGJiCEH_SknjkcGaTXv+ekBQLgVRm+Nc7qfa1g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f18bb686-5e7c-446b-877c-b92a1dc70145@gmail.com>
 
-On Wed, 27 Mar 2024, Heiner Kallweit wrote:
+Hi,
 
-> On 05.03.2024 17:06, Lee Jones wrote:
-> > On Tue, 05 Mar 2024, Heiner Kallweit wrote:
-> > 
-> >> On 05.03.2024 15:54, Lee Jones wrote:
-> >>> On Tue, 05 Mar 2024, Lee Jones wrote:
-> >>>
-> >>>> On Tue, 05 Mar 2024, Lee Jones wrote:
-> >>>>
-> >>>>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> >>>>>> If a simple trigger is assigned to a LED, then the LED may be off until
-> >>>>>> the next led_trigger_event() call. This may be an issue for simple
-> >>>>>> triggers with rare led_trigger_event() calls, e.g. power supply
-> >>>>>> charging indicators (drivers/power/supply/power_supply_leds.c).
-> >>>>>> Therefore persist the brightness value of the last led_trigger_event()
-> >>>>>> call and use this value if the trigger is assigned to a LED.
-> >>>>>> This change allows to use simple triggers in more cases.
-> >>>>>> As a first use case simplify handling of the mute audio trigger.
-> >>>>>>
-> >>>>>> [...]
-> >>>>>
-> >>>>> Applied, thanks!
-> >>>>>
-> >>>>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
-> >>>>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> >>>>> [2/3] ALSA: control-led: Integrate mute led trigger
-> >>>>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> >>>>> [3/3] leds: trigger: audio: Remove this trigger
-> >>>>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
-> >>>>
-> >>>> Submitted for build testing.
-> >>>>
-> >>>> Once succeeded, a PR will follow for other maintainers to pull from.
-> >>>
-> >>> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' allmodconfig
-> >>> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc'
-> >>> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vclock_gettime-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
-> >>> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vgetcpu-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
-> >>> /builds/linux/drivers/platform/x86/dell/dell-laptop.c: In function 'dell_init':
-> >>> /builds/linux/drivers/platform/x86/dell/dell-laptop.c:2255:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>    micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >>>                                  ^~~~~~~~~~~~~~~~~
-> >>>                                  led_trigger_set
-> >>> cc1: all warnings being treated as errors
-> >>> make[7]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/dell/dell-laptop.o] Error 1
-> >>> make[7]: Target 'drivers/platform/x86/dell/' not remade because of errors.
-> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:481: drivers/platform/x86/dell] Error 2
-> >>> /builds/linux/drivers/platform/x86/huawei-wmi.c: In function 'huawei_wmi_leds_setup':
-> >>> /builds/linux/drivers/platform/x86/huawei-wmi.c:313:28: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>   huawei->cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >>>                             ^~~~~~~~~~~~~~~~~
-> >>>                             led_trigger_set
-> >>> cc1: all warnings being treated as errors
-> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/huawei-wmi.o] Error 1
-> >>> /builds/linux/drivers/platform/x86/asus-wmi.c: In function 'asus_wmi_led_init':
-> >>> /builds/linux/drivers/platform/x86/asus-wmi.c:1623:34: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>    asus->micmute_led.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >>>                                   ^~~~~~~~~~~~~~~~~
-> >>>                                   led_trigger_set
-> >>> cc1: all warnings being treated as errors
-> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/asus-wmi.o] Error 1
-> >>> /builds/linux/drivers/platform/x86/thinkpad_acpi.c: In function 'mute_led_init':
-> >>> /builds/linux/drivers/platform/x86/thinkpad_acpi.c:9288:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>    mute_led_cdev[i].brightness = ledtrig_audio_get(i);
-> >>>                                  ^~~~~~~~~~~~~~~~~
-> >>>                                  led_trigger_set
-> >>>
-> >>> ############################3
-> >>>
-> >>> Errors were caused
-> >>>  
-> >>> [v6.8-rc1] ib-leds-mips-sound-6.9 2c61168294d0e ("leds: trigger: audio: Remove this trigger")
-> >>>
-> >>>  x86_64 allmodconfig gcc-8
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtQpYDimIIpMqO0Qm4AMAAPU/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhvxgZA6moBZmToTavyY4Eita/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9 
-> >>>
-> >>>  x86_64 allmodconfig gcc-9
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtYCYEqxnUFmoH73iKlcEIV8/ 	Pass (0 errors - 0 warnings) : v6.8-rc1
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw2i4B539YZXCoSN2LSRvsW8/ 	Fail (7 errors - 0 warnings) : ib-leds-mips-sound-6.9 
-> >>>
-> >>>  x86_64 allyesconfig gcc-8
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtTzCsCxRpl9loRyfPrD1uhR/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw1WQ2BIpJRoyK7ruVCtihSN/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9
-> >>>
-> >>
-> >> Right, I forgot, there are patches applied via a different tree end of January,
-> >> that this series depends on. I assume this means that the series can be applied
-> >> only after the merge window.
-> > 
-> > Yes, unless there is a succinct immutable branch I can pull from.
-> > 
-> Now that 6.9-rc1 is out, can this series be applied?
+On 3/27/24 7:09 AM, Kate Hsuan wrote:
+> Hi Hans,
+> 
+> On Tue, Mar 26, 2024 at 12:32 AM Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+>>
+>> On Mon, Mar 25, 2024 at 04:02:54PM +0100, Hans de Goede wrote:
+>>> On 3/22/24 4:37 AM, Kate Hsuan wrote:
+>>>> There is a KTD2026 LED controller to manage the indicator LED for Xiaomi
+>>>> pad2. The ACPI for it is not properly made so the kernel can't get
+>>>> a correct description of it.
+>>>>
+>>>> This work add a description for this RGB LED controller and also set a
+>>>> trigger to indicate the chaging event (bq27520-0-charging). When it is
+>>>> charging, the indicator LED will be turn on.
+>>>>
+>>>> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+>>>
+>>> Thank you for your patch, I've applied this patch to my review-hans
+>>> branch:
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+>>>
+>>> I will also merge [PATCH v5 6/6] platform: x86-android-tablets:
+>>> others: Set the LED trigger to charging_red_full_green for Xiaomi pad2"
+>>>
+>>> Once the new power_supply trigger patch this relies on has been
+>>> accepted.
+>>>
+>>> Once I've run some tests on this branch the patches there will be
+>>> added to the platform-drivers-x86/for-next branch and eventually
+>>> will be included in the pdx86 pull-request to Linus for the next
+>>> merge-window.
+>>
+>> I believe I have commented on the "RESEND" version.
 
-Catching up with upstream reviews in on my TODO list.
+Right, sorry. Since there were just a few trivial comments
+I've fixed them up in my review-hans branch now, thank you
+for the review.
 
--- 
-Lee Jones [李琼斯]
+> Thank you for your reviewing.
+> Please review the RESEND patch and I'll fix them according to Andy's comments.
+
+No need to do a new version I've squashed fixed for Andy's remarks +
+Andy's commit msg remarks into the version in my review-hans branch.
+
+Note I'm going offline for a long weekend and I won't be
+replying to emails until next week Tuesday.
+
+Regards,
+
+Hans
+
+
 
