@@ -1,102 +1,88 @@
-Return-Path: <linux-leds+bounces-1375-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1376-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7139988FD48
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Mar 2024 11:42:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BAF88FE6E
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Mar 2024 12:57:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C11E1C285DD
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Mar 2024 10:42:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 331F81C25349
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Mar 2024 11:57:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 960E87C09F;
-	Thu, 28 Mar 2024 10:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6241D7E57F;
+	Thu, 28 Mar 2024 11:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZGk4Ooz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bW9WXA0V"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A50C52F6F;
-	Thu, 28 Mar 2024 10:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3862C43ABE;
+	Thu, 28 Mar 2024 11:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711622557; cv=none; b=jFhn9osDjUbZqQ4ll9ED+RpH82XLivHli+fal81zSb6vON38oAVPuRyW335zieAvCYrskrQsfrcXyxXYC3iPEv5I5U1FLI8BcXm9oXlH2twy+sYoztI9sQv4vV0fseRRRWzoUw4aLQd7ss2sJDnwBbS6jAmnnG+YXjQp7kwNBao=
+	t=1711627052; cv=none; b=oitU3ssk5x0Wvsm2Wslqc9wtpoHivd7ugE1ixbikyLfG8agRvH6SD1Fqvlfl43jdrcj0DKQDAJN4qzabqBljiiGmOX/+turgK6rUnBD93zwZDExobmhGuSVxyCQpstnPYzvsOWEtvK3Vm3fdzMvqmzGyoJygFUEJ3yezPzneFbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711622557; c=relaxed/simple;
-	bh=TLwY36m+qZUIug2QETpHdrHJjSCnPwwXo3SwxpZsk4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFrUp9p4phFzxIwpmSbrhKCGWYP2QxnllFnh7h/tNTJy3ryLpSL9SXnbNjX81KdaUXHmAFaBtVD/RPNsmNL6MDHHK1AEa7sG3VM/NtlSJqVN/UR69WHcvo7znFIzC3EDdMytoStCAUISqJzziDYYkIwB2J/e/EdERxiYC85jf9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZGk4Ooz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EED4C433C7;
-	Thu, 28 Mar 2024 10:42:34 +0000 (UTC)
+	s=arc-20240116; t=1711627052; c=relaxed/simple;
+	bh=64P0HBrfHBSQY4VcXPfTyJICSzTfeEDo2oupPZJVBMc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cYWYYJlXQpcDmDvEfdt+DqjKhngQZd76iNozIe6CEfLfI594P3z5nEHIrY2s+SQHdce+EiFsmMEo+MCrBh+NfDZGP7cNJxTMCGzZsFgldgrDesPrkk7FM03BQ+zRP6dEJt//ZR4hfBGaGYDJp7j5EpmsZ6xy8+JEJVOquf69800=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bW9WXA0V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02FFFC433C7;
+	Thu, 28 Mar 2024 11:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711622556;
-	bh=TLwY36m+qZUIug2QETpHdrHJjSCnPwwXo3SwxpZsk4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FZGk4OozBnsgiNryIE1NMlmvrHq9TidF1DKxZYUPUfNgEbPkRpqR0jxSthUT7HDh+
-	 xyCAPDkvZmVAiZ3cfmzOWwfSvmUnNcLfIsCf25sJ7Lt8Zng2zHJZwCnJoNc9IL1XQR
-	 Y/wSvNwwFH+2WcCt8/9lRTOzCw8lKEIbkpURnMT7SxdXwhpuzuqrcwIM514QHfJbnB
-	 5RSbDKSM3CA8pSXP+8tod/PRbWfQESIykxYIgqCc4z7qDwON5IRrfdWMnwcjOWhhkp
-	 TV2H1uZbWCv3pwWQA0U9BwkjBrTcw18/BLPd3M0d1clGkM/pDLYLcmfpSS9gMCpWrS
-	 +bf7iSDaNIA9g==
-Date: Thu, 28 Mar 2024 10:42:32 +0000
+	s=k20201202; t=1711627051;
+	bh=64P0HBrfHBSQY4VcXPfTyJICSzTfeEDo2oupPZJVBMc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=bW9WXA0VaLxoVYD59peOxcjrvOk81J3xzXZzEq4JxLGRFHV5cG62nrpQkKa4wpaKC
+	 cMmjH20c8vo6mJpsSqYwaxP7mtV2eD/o5tGrvdFI3qaX59pt1+EHg1B1HWcqEQNdBA
+	 lS4J0sFtjloKxg/iBcRH39H9bXgDTy4XABHf5xYwQX7q1hHa/q8XKckjrSa+u+uR+q
+	 DAkpWpL3jo4elrjB7ZGw3e9qYqG9G8JeXwTcuMSgSX2jyBUAQyxTt47nd4skXlwOV3
+	 1e3tAs1HkZphKIqL+OHX2niONakBMmSYqeSmjj8VTgUFU/ERnULN5tXw12D8VBWnNB
+	 873olkhN1fJwQ==
 From: Lee Jones <lee@kernel.org>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240328104232.GZ13211@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com>
+To: pavel@ucw.cz, lee@kernel.org, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ INAGAKI Hiroshi <musashino.open@gmail.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240323074326.1428-1-musashino.open@gmail.com>
+References: <20240323074326.1428-1-musashino.open@gmail.com>
+Subject: Re: [PATCH v2 0/2] dt-bindings: leds: add LED_FUNCTION_* mainly
+ for router devices
+Message-Id: <171162704973.1976766.8383604452247666252.b4-ty@kernel.org>
+Date: Thu, 28 Mar 2024 11:57:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240305120947.GD86322@google.com>
+X-Mailer: b4 0.12.4
 
-On Tue, 05 Mar 2024, Lee Jones wrote:
-
-> On Tue, 05 Mar 2024, Lee Jones wrote:
+On Sat, 23 Mar 2024 16:36:08 +0900, INAGAKI Hiroshi wrote:
+> This patch series adds some LED_FUNCTION_* definitions mainly for router
+> devices.
+> Those definitions are useful for OpenWrt or something.
 > 
-> > On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> > > If a simple trigger is assigned to a LED, then the LED may be off until
-> > > the next led_trigger_event() call. This may be an issue for simple
-> > > triggers with rare led_trigger_event() calls, e.g. power supply
-> > > charging indicators (drivers/power/supply/power_supply_leds.c).
-> > > Therefore persist the brightness value of the last led_trigger_event()
-> > > call and use this value if the trigger is assigned to a LED.
-> > > This change allows to use simple triggers in more cases.
-> > > As a first use case simplify handling of the mute audio trigger.
-> > > 
-> > > [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [1/3] leds: trigger: Store brightness set by led_trigger_event()
-> >       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> > [2/3] ALSA: control-led: Integrate mute led trigger
-> >       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> > [3/3] leds: trigger: audio: Remove this trigger
-> >       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
+> v1 -> v2
 > 
-> Submitted for build testing.
+> - fix sort order of LED_FUNCTION_MOBILE
+> - improve the commit description of the first commit
 > 
-> Once succeeded, a PR will follow for other maintainers to pull from.
+> [...]
 
-Rebased onto v6.9-rc1 and resubmitted for build testing.
+Applied, thanks!
 
--- 
+[1/2] dt-bindings: leds: add LED_FUNCTION_MOBILE for mobile network
+      commit: c332f0450f33c123a538a8fcc69fa8e4e5aedfbb
+[2/2] dt-bindings: leds: add LED_FUNCTION_SPEED_* for link speed on LAN/WAN
+      commit: 2588a5d98532244a7faf4514f79dc684fddf4c14
+
+--
 Lee Jones [李琼斯]
+
 
