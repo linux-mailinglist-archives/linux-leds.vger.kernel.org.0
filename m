@@ -1,144 +1,109 @@
-Return-Path: <linux-leds+bounces-1370-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1372-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BCA88F249
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 23:57:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 068FA88F3C8
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Mar 2024 01:44:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3408A29CDF0
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Mar 2024 22:57:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36C291C2D554
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Mar 2024 00:44:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE5FD154444;
-	Wed, 27 Mar 2024 22:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9C717BA4;
+	Thu, 28 Mar 2024 00:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="crrbfUFt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0b3NUmw"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ED15B04F;
-	Wed, 27 Mar 2024 22:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5692CEEB3;
+	Thu, 28 Mar 2024 00:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711580238; cv=none; b=lanwdxgms/r2m1O2Zh8KmFvq6XZ6JBi9M7Ca0D2Fpk0tK5gxeL8yYjFFD8ftsy0lsYLmNBDSY/cEI859cLKpCLCpGYoyto6pevdkB0hMUW6n9BsSO5u9vSMO1K9KPL7taulf08eJFQOxfa7+J3ba4ojKs7MPLYvYNB6Xijw4N3g=
+	t=1711586650; cv=none; b=rL9m9vaW33ZEhNJRHg4ZIxD+mx6K/Q+iFOxZ6JrtnJ4KFS6zKk8CYwzqCZJgJTXNvpL7AI6mk8urHXrcBPCjlYiv7nXTWxk0O4SwG8rjJn/SUJkQDa5s2xGGMgitpFQ5D4gPev4UI65Cfe/eBnPCYxQ/5f1ileQarbskxyDjg1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711580238; c=relaxed/simple;
-	bh=npQsuKJCSjPU1CmK2mJzpdJDvL/vcRiQ7VqJraBwVjk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TtbAsnuRl/BEWN2ig7h1lyjaqYX/mxHupA/sewnm6euowBugsNfr39zz8yjrMp359bITEZvc3/B3jewa6lf7PDH2JIwvFk76HKMZtmas8nvdQ/Sh7lFp2C50VHwn4fTCy9MXdLgc9/SBi0xVM5WpoV5Ajndg5pDSssX0t8J3sz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=crrbfUFt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 56FC3C433B2;
-	Wed, 27 Mar 2024 22:57:18 +0000 (UTC)
+	s=arc-20240116; t=1711586650; c=relaxed/simple;
+	bh=9yBedKDcPA/JWXoQD3zRnrUUup+kGC60mJSL3m/qRBk=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=maywRB2hHy8yKa1HI+iVYH15CJ6KKoFWL3nK1ii8dfSP6utGvZtmeShLUODjkvWtaTjZAh5XLDjulTqLHLwHCWUjv8oLbuE6p8Ny8MOlrUNW7k/T84xflTC6JiSUpa6W+E8sZ/EcVI1OVPSsDV6IJUR2bTEAnyLhLviy1ITPnTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0b3NUmw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A50CFC433C7;
+	Thu, 28 Mar 2024 00:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711580238;
-	bh=npQsuKJCSjPU1CmK2mJzpdJDvL/vcRiQ7VqJraBwVjk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=crrbfUFt4FnQpyZ4+QjsvTDSGKm8EyB46er3u95Nn6HudZB4npbee5M0eCrznZUXg
-	 A+ViTPMzInZZqT/3ThzU52pulk/9nH7JflMaxOIm08nFQYW35bL5aVBaeJHEff4+d9
-	 uLzVdQlsd8e4v/lDtDI6gZQRItXH5RIRq58oM/B3BpiKPLHPQHY+8ucAYDaB1ek1EN
-	 3dh0xAtkmp5wnyovWi/fv44Wmgzo675wKp2RIRzgVf78mDbVtJRxOl6AebdRAYzQRL
-	 3I/Vo9CN2dz6+LEgPYrKxBajo0+sr+OUFp8J6kTR3yySGf5hxZaPRhH1bEy9KCEq3T
-	 fb3MGp8jJR8UA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 496B7C47DD9;
-	Wed, 27 Mar 2024 22:57:18 +0000 (UTC)
-From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Wed, 27 Mar 2024 23:51:35 +0100
-Subject: [PATCH 3/3] arm64: dts: qcom: msm8939-longcheer-l9100: Add rear
- flash
+	s=k20201202; t=1711586649;
+	bh=9yBedKDcPA/JWXoQD3zRnrUUup+kGC60mJSL3m/qRBk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=k0b3NUmwq+BnFLFWIWucjZhg1KprqU86RePM+BsI/9FyN+FBiUsZuK6HehUrkbIhv
+	 XohkKQOGoXrHYLuepDj1R0vTMDtLU677RDtPsknUc7SxRraqNgE1EXR167ZH6RwBEv
+	 A84LVABMYGlRr+CNhffxt+QOswxv+vM/9tPMiUMD5Q4pXbzIScv+HaWNABkHKUeNuz
+	 BDUZOo0Qx+8KnEwdhwAMu3hMOR+rUWig3hQPa23fOh/OA1qVYFFd4wexX1Vb2kJAnM
+	 VxMFsxOXWMiypFy/VCSVVMI3afEsrhHzDChA0TagPRMlBsu0AKORQqBnZWl5lrD6bd
+	 reGtYhI+NZnIQ==
+Date: Wed, 27 Mar 2024 19:44:08 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240327-sy7802-v1-3-db74ab32faaf@apitzsch.eu>
-References: <20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu>
-In-Reply-To: <20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Rob Herring <robh@kernel.org>, 
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org, 
+ Kees Cook <keescook@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ Lee Jones <lee@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Pavel Machek <pavel@ucw.cz>, linux-hardening@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711580236; l=1408;
- i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=nJ8Y+0v6j8LoIOHmDYBEGHd/SEM9XgaMCtxGw6/naMk=;
- b=7YhV4IWxeA0uTjafhzehr06WhwClOrLv0Z9w//XgT1anNQEKbXAToFkwKreQMKxwJmYDP48oP
- 4E2F9vOI8xRAc/0N4ULPU7CxQP3nKCjp4dHJID8mzbmDZ+EOCvkaXce
-X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
- pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
-X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
- auth_id=142
-X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Reply-To: git@apitzsch.eu
+ Bjorn Andersson <andersson@kernel.org>, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+In-Reply-To: <20240327-sy7802-v1-1-db74ab32faaf@apitzsch.eu>
+References: <20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu>
+ <20240327-sy7802-v1-1-db74ab32faaf@apitzsch.eu>
+Message-Id: <171158664689.823785.11147473547097630411.robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: leds: Add Silergy SY7802 flash LED
 
-From: André Apitzsch <git@apitzsch.eu>
 
-The phone has a Silergy SY7802 flash LED controller.
+On Wed, 27 Mar 2024 23:51:33 +0100, André Apitzsch wrote:
+> Document Silergy SY7802 flash LED driver devicetree bindings.
+> 
+> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> ---
+>  .../devicetree/bindings/leds/silergy,sy7802.yaml   | 96 ++++++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+> 
 
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
----
- .../boot/dts/qcom/msm8939-longcheer-l9100.dts      | 26 ++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-index e3404c4455cf..528737929274 100644
---- a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-@@ -159,6 +159,25 @@ led@2 {
- 			};
- 		};
- 	};
-+
-+	flash-led-controller@53 {
-+		compatible = "silergy,sy7802";
-+		reg = <0x53>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		enable-gpios = <&tlmm 16 GPIO_ACTIVE_HIGH>;
-+
-+		pinctrl-0 = <&camera_rear_flash_default>;
-+		pinctrl-names = "default";
-+
-+		led@0 {
-+			reg = <0>;
-+			function = LED_FUNCTION_FLASH;
-+			color = <LED_COLOR_ID_WHITE>;
-+			led-sources = <0>, <1>;
-+		};
-+	};
- };
- 
- &blsp_i2c3 {
-@@ -318,6 +337,13 @@ camera_front_flash_default: camera-front-flash-default-state {
- 		bias-disable;
- 	};
- 
-+	camera_rear_flash_default: camera-rear-flash-default-state {
-+		pins = "gpio9", "gpio16", "gpio51";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
- 	gpio_hall_sensor_default: gpio-hall-sensor-default-state {
- 		pins = "gpio20";
- 		function = "gpio";
+yamllint warnings/errors:
 
--- 
-2.44.0
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/leds/silergy,sy7802.example.dts:23.13-26: Warning (reg_format): /example-0/flash-led-controller@53:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
+Documentation/devicetree/bindings/leds/silergy,sy7802.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/silergy,sy7802.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/silergy,sy7802.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/silergy,sy7802.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/silergy,sy7802.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
 
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240327-sy7802-v1-1-db74ab32faaf@apitzsch.eu
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
