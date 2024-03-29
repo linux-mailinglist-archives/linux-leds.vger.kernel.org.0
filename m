@@ -1,169 +1,233 @@
-Return-Path: <linux-leds+bounces-1379-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1380-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B5B891F9E
-	for <lists+linux-leds@lfdr.de>; Fri, 29 Mar 2024 16:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DD4892191
+	for <lists+linux-leds@lfdr.de>; Fri, 29 Mar 2024 17:24:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 52C161F2D035
-	for <lists+linux-leds@lfdr.de>; Fri, 29 Mar 2024 15:08:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B26591F25394
+	for <lists+linux-leds@lfdr.de>; Fri, 29 Mar 2024 16:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B46C14534E;
-	Fri, 29 Mar 2024 13:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8F3C12A144;
+	Fri, 29 Mar 2024 16:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="MaV42J9f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VqjEwkC4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5A8145B09;
-	Fri, 29 Mar 2024 13:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6989785298;
+	Fri, 29 Mar 2024 16:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711719796; cv=none; b=CSd2+zUMVeeuEeoSCSrMEu2BEhMKy0VW+aAHWL9BsoJRczK5ZLfwm0/d1kGK16MAh+qOZXmpwmnOfPVhKImvLl6V0DWxy3dQGrYoyspBWmtqYfZGteVybvhqLqrnI9L72bUS/Zf/5eIdHPVfp7nA60XulTYocRLvVB9GHET39M0=
+	t=1711729431; cv=none; b=OJcgGNGKWIgIoLdr2fkB+jw9uZN+t/VXLPeK51DWJetKcKL1kgCxw8gUQiUiOdWE/CjVV5bUNaG7kbHmmvuqh+1FcEla9W63khlnOEAeBVlkG8eU3i4OCKEb9G5CHAy5uQH5fcMXs2lzEtmMMuaSwKMSQSccHzRWH6FkXSBTu0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711719796; c=relaxed/simple;
-	bh=h81a1m2NkW5/zAPghZR/y5SKAK6WtQ8z99+H0hj6MTY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=W9/oSXnUnoi2qcGy9jYXiFWFc1qXJ1pChJz1xW3ZOzLkKhgItP3qDC9lVAmO2mQzNTry2YWK+dwbLKwSYkdQect5eOCO1n5ZgxTUm7u2iKfgu0MhFkk6z26CmEVJ2H9vQ+0mEBXGvCYKrmprJj5JayfaJbSCc/vSGCXbytGuzT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=MaV42J9f; arc=none smtp.client-ip=37.18.73.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 8244E100002;
-	Fri, 29 Mar 2024 16:43:07 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 8244E100002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1711719787;
-	bh=AWZ20JCgG2ZRP4j+v3n45Ghi9I6tUW7Yb4IWURfOEcY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type:From;
-	b=MaV42J9f80560NYlsDhOUQKhB6gCc2f2t0yjK14ALI8WUHf78ZrMD+95b52BOClyX
-	 svojJ461RjpSEG2xzy+fDJD5N2dgNQXyl/lSZh6u6TUzupU9zZoA2Lh7tOgy5zOYm+
-	 4eb7/Eafmm4zCLMy3/JWky4o6Xpb25RZPEaqeMQ+2hhpvFAzi+0QICLUa08QkdSV/0
-	 53NA4T2mvvPdEqOGUz+ZSGA0WXwE6HD8GfPysFM3pZE/jnADs//RbRLO4W3p/A9ULE
-	 LDnvwHgy0suQG37reS5BRo2K01B1fznKbF0v52Ptx8bFUqXI4JjLoaXO4Hrk4QG6Ka
-	 UYcLygKUJeC+g==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Fri, 29 Mar 2024 16:43:07 +0300 (MSK)
-Received: from [172.28.131.133] (100.64.160.123) by
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 29 Mar 2024 16:43:07 +0300
-Message-ID: <e3dd3ed1-02dc-447c-9fdd-9d8193a25e5f@salutedevices.com>
-Date: Fri, 29 Mar 2024 16:43:06 +0300
+	s=arc-20240116; t=1711729431; c=relaxed/simple;
+	bh=xAIheBzeDFe9gAy7K03pZGAgl2K/WDJn0EzGeK10nsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQQeVFogo9kBlOF3ZeZGxbGSiQ0L1z56tmdtu+o4xUVqK6MrWWzswS9I2sbTv74XFg8jDCGBV3+lC9cE4fBjIX1Hw3InV18AOfuo1hujGmuKrftzgrFaTK7IyXuGhnh74tUlCCwrmcHfuRinR+jne33xxzL3gReUMRpC2JqFyJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VqjEwkC4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C4EC433F1;
+	Fri, 29 Mar 2024 16:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711729431;
+	bh=xAIheBzeDFe9gAy7K03pZGAgl2K/WDJn0EzGeK10nsU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VqjEwkC4s+9WKiWWBrbzPJwZvUjPGr1GsJssTW2nTPBB3UJHunb82vNyDdMrSnZDx
+	 mVoAOuStXGPM9OMW57nu9ZkN8BS6nlBVoXr7ERJh4sA+KF5d7Gq0b8jkAzxveCIsSH
+	 7Le0wZvz6aKeYK3oqEAZFrmrYl1DEIRdOCQB/RGtcjB6qeWSsz5o5Ifod8dRN34rrX
+	 gzpU0La+Tj5I3RlQOdpsNBrHtfl9RsWyACCvr0UC2WAveSaNR3T+Biacmij3GE19/S
+	 SSn/mIKegVbQeQqMbrPJTdlJDDmEJj6KXygFvmkmx4X3ychBnMPt9KhePJLQMGJ1ag
+	 vQEGNuyN8hnQQ==
+Received: by mercury (Postfix, from userid 1000)
+	id 5A97510608D9; Fri, 29 Mar 2024 17:23:48 +0100 (CET)
+Date: Fri, 29 Mar 2024 17:23:48 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, linux-kernel@vger.kernel.org, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v5 RESEND 5/6] power: supply: power-supply-leds: Add
+ charging_red_full_green trigger for RGB LED
+Message-ID: <nakbogrilul6skiab5opfsqhhqfotfgmb47wyd3xbgbpf6hurc@6xshfz3obj7m>
+References: <20240324150107.976025-1-hpa@redhat.com>
+ <20240324150107.976025-6-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: George Stark <gnstark@salutedevices.com>
-Subject: Re: [PATCH v7 0/8] devm_led_classdev_register() usage problem
-To: Lee Jones <lee@kernel.org>
-CC: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <vadimp@nvidia.com>,
-	<christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
-	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
-	<nikitos.tr@gmail.com>, <marek.behun@nic.cz>, <kabel@kernel.org>,
-	<linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240314201856.1991899-1-gnstark@salutedevices.com>
- <20240321181133.GG13211@google.com>
- <9bfd0ccc-a5d8-446c-a08c-bbc36a4d66eb@salutedevices.com>
- <20240322104303.GN13211@google.com>
-Content-Language: en-US
-In-Reply-To: <20240322104303.GN13211@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 184492 [Mar 29 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 14 0.3.14 5a0c43d8a1c3c0e5b0916cc02a90d4b950c01f96, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:5.0.1,7.1.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1;100.64.160.123:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/03/29 06:35:00 #24505095
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bnl5eqiu4mggmjza"
+Content-Disposition: inline
+In-Reply-To: <20240324150107.976025-6-hpa@redhat.com>
 
-Hello Lee
 
-On 3/22/24 13:43, Lee Jones wrote:
-> On Fri, 22 Mar 2024, George Stark wrote:
-> 
->> Hello Lee
->>
->> On 3/21/24 21:11, Lee Jones wrote:
->>> On Thu, 14 Mar 2024, George Stark wrote:
->>>
->>>> This patch series fixes the problem of devm_led_classdev_register misusing.
->>>>
->>>> The basic problem is described in [1]. Shortly when devm_led_classdev_register()
->>>> is used then led_classdev_unregister() called after driver's remove() callback.
->>>> led_classdev_unregister() calls driver's brightness_set callback and that callback
->>>> may use resources which were destroyed already in driver's remove().
->>>>
->>>> After discussion with maintainers [2] [3] we decided:
->>>> 1) don't touch led subsystem core code and don't remove led_set_brightness() from it
->>>> but fix drivers
->>>> 2) don't use devm_led_classdev_unregister
->>>>
->>>> So the solution is to use devm wrappers for all resources
->>>> driver's brightness_set() depends on. And introduce dedicated devm wrapper
->>>> for mutex as it's often used resource.
->>
->> ...
->>
->>>>     locking/mutex: introduce devm_mutex_init()
->>>>     leds: aw2013: use devm API to cleanup module's resources
->>>>     leds: aw200xx: use devm API to cleanup module's resources
->>>>     leds: lp3952: use devm API to cleanup module's resources
->>>>     leds: lm3532: use devm API to cleanup module's resources
->>>>     leds: nic78bx: use devm API to cleanup module's resources
->>>>     leds: mlxreg: use devm_mutex_init() for mutex initialization
->>>>     leds: an30259a: use devm_mutex_init() for mutex initialization
->>>>
->>>>    drivers/leds/leds-an30259a.c | 14 ++++----------
->>>>    drivers/leds/leds-aw200xx.c  | 32 +++++++++++++++++++++-----------
->>>>    drivers/leds/leds-aw2013.c   | 25 +++++++++++++------------
->>>>    drivers/leds/leds-lm3532.c   | 29 +++++++++++++++++------------
->>>>    drivers/leds/leds-lp3952.c   | 21 +++++++++++----------
->>>>    drivers/leds/leds-mlxreg.c   | 14 +++++---------
->>>>    drivers/leds/leds-nic78bx.c  | 23 +++++++++++++----------
->>>>    include/linux/mutex.h        | 27 +++++++++++++++++++++++++++
->>>>    kernel/locking/mutex-debug.c | 11 +++++++++++
->>>>    9 files changed, 122 insertions(+), 74 deletions(-)
->>>
->>> Doesn't apply to v6.8.
->>>
->>> What base was used for this?
->>
->> I've just pulled git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->> and v7 was applied cleanly. linux-next is ok too.
->>
->> v6.8 is lack of recent patch 6969d0a2ba1adc9ba6a49b9805f24080896c255c
->> v7's patch #2 depends on it
-> 
-> No problem.  I'll wait for v6.9-rc1.
-> 
+--bnl5eqiu4mggmjza
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Just checked the v7 patch series on released 6.9-rc1 and it's applied
-cleanly. If anything i can help please let me know.
+Hello Kate,
 
--- 
-Best regards
-George
+On Sun, Mar 24, 2024 at 11:01:06PM +0800, Kate Hsuan wrote:
+> Add a charging_red_full_green LED trigger and the trigger is based on
+> led_mc_trigger_event() which can set an RGB LED when the trigger is
+> triggered. The LED will show red when the battery status is charging.
+> The LED will show green when the battery status is full.
+>=20
+> Link: https://lore.kernel.org/linux-leds/f40a0b1a-ceac-e269-c2dd-0158c5b4=
+a1ad@gmail.com/T/#t
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+
+Have you considered using orange instead of red? Using orange as
+charging indicator seems to be more common nowadays and allows
+
+green  =3D battery full
+orange =3D battery charging
+red    =3D battery empty / battery dead / error
+
+Greetings,
+
+-- Sebastian
+
+>  drivers/power/supply/power_supply_leds.c | 25 ++++++++++++++++++++++++
+>  include/linux/power_supply.h             |  2 ++
+>  2 files changed, 27 insertions(+)
+>=20
+> diff --git a/drivers/power/supply/power_supply_leds.c b/drivers/power/sup=
+ply/power_supply_leds.c
+> index c7db29d5fcb8..bd9c8fec5870 100644
+> --- a/drivers/power/supply/power_supply_leds.c
+> +++ b/drivers/power/supply/power_supply_leds.c
+> @@ -22,6 +22,8 @@
+>  static void power_supply_update_bat_leds(struct power_supply *psy)
+>  {
+>  	union power_supply_propval status;
+> +	unsigned int intensity_green[3] =3D {255, 0, 0};
+> +	unsigned int intensity_red[3] =3D {0, 0, 255};
+> =20
+>  	if (power_supply_get_property(psy, POWER_SUPPLY_PROP_STATUS, &status))
+>  		return;
+> @@ -36,12 +38,20 @@ static void power_supply_update_bat_leds(struct power=
+_supply *psy)
+>  		/* Going from blink to LED on requires a LED_OFF event to stop blink */
+>  		led_trigger_event(psy->charging_blink_full_solid_trig, LED_OFF);
+>  		led_trigger_event(psy->charging_blink_full_solid_trig, LED_FULL);
+> +		led_mc_trigger_event(psy->charging_red_full_green_trig,
+> +				     intensity_green,
+> +				     3,
+> +				     LED_FULL);
+>  		break;
+>  	case POWER_SUPPLY_STATUS_CHARGING:
+>  		led_trigger_event(psy->charging_full_trig, LED_FULL);
+>  		led_trigger_event(psy->charging_trig, LED_FULL);
+>  		led_trigger_event(psy->full_trig, LED_OFF);
+>  		led_trigger_blink(psy->charging_blink_full_solid_trig, 0, 0);
+> +		led_mc_trigger_event(psy->charging_red_full_green_trig,
+> +				     intensity_red,
+> +				     3,
+> +				     LED_FULL);
+>  		break;
+>  	default:
+>  		led_trigger_event(psy->charging_full_trig, LED_OFF);
+> @@ -49,6 +59,10 @@ static void power_supply_update_bat_leds(struct power_=
+supply *psy)
+>  		led_trigger_event(psy->full_trig, LED_OFF);
+>  		led_trigger_event(psy->charging_blink_full_solid_trig,
+>  			LED_OFF);
+> +		led_mc_trigger_event(psy->charging_red_full_green_trig,
+> +				     intensity_red,
+> +				     3,
+> +				     LED_OFF);
+>  		break;
+>  	}
+>  }
+> @@ -74,6 +88,11 @@ static int power_supply_create_bat_triggers(struct pow=
+er_supply *psy)
+>  	if (!psy->charging_blink_full_solid_trig_name)
+>  		goto charging_blink_full_solid_failed;
+> =20
+> +	psy->charging_red_full_green_trig_name =3D kasprintf(GFP_KERNEL,
+> +		"%s-charging-red-full-green", psy->desc->name);
+> +	if (!psy->charging_red_full_green_trig_name)
+> +		goto charging_red_full_green_failed;
+> +
+>  	led_trigger_register_simple(psy->charging_full_trig_name,
+>  				    &psy->charging_full_trig);
+>  	led_trigger_register_simple(psy->charging_trig_name,
+> @@ -82,9 +101,13 @@ static int power_supply_create_bat_triggers(struct po=
+wer_supply *psy)
+>  				    &psy->full_trig);
+>  	led_trigger_register_simple(psy->charging_blink_full_solid_trig_name,
+>  				    &psy->charging_blink_full_solid_trig);
+> +	led_trigger_register_simple(psy->charging_red_full_green_trig_name,
+> +				    &psy->charging_red_full_green_trig);
+> =20
+>  	return 0;
+> =20
+> +charging_red_full_green_failed:
+> +	kfree(psy->charging_blink_full_solid_trig_name);
+>  charging_blink_full_solid_failed:
+>  	kfree(psy->full_trig_name);
+>  full_failed:
+> @@ -101,10 +124,12 @@ static void power_supply_remove_bat_triggers(struct=
+ power_supply *psy)
+>  	led_trigger_unregister_simple(psy->charging_trig);
+>  	led_trigger_unregister_simple(psy->full_trig);
+>  	led_trigger_unregister_simple(psy->charging_blink_full_solid_trig);
+> +	led_trigger_unregister_simple(psy->charging_red_full_green_trig);
+>  	kfree(psy->charging_blink_full_solid_trig_name);
+>  	kfree(psy->full_trig_name);
+>  	kfree(psy->charging_trig_name);
+>  	kfree(psy->charging_full_trig_name);
+> +	kfree(psy->charging_red_full_green_trig_name);
+>  }
+> =20
+>  /* Generated power specific LEDs triggers. */
+> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+> index c0992a77feea..1d7c0b43070f 100644
+> --- a/include/linux/power_supply.h
+> +++ b/include/linux/power_supply.h
+> @@ -318,6 +318,8 @@ struct power_supply {
+>  	char *online_trig_name;
+>  	struct led_trigger *charging_blink_full_solid_trig;
+>  	char *charging_blink_full_solid_trig_name;
+> +	struct led_trigger *charging_red_full_green_trig;
+> +	char *charging_red_full_green_trig_name;
+>  #endif
+>  };
+> =20
+> --=20
+> 2.44.0
+>=20
+>=20
+
+--bnl5eqiu4mggmjza
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmYG6woACgkQ2O7X88g7
++pphVQ/6A1+OXzjPuauzgsq0RMlPlWxqIS4j3Cg7r3vvo1ZxFjb2sMFGGzgBPAwP
+n+zwP462szCeWuqdZCL62h9JSQvB4eUx0HdNqiLb6Z3GCJmCjdLjtUwnsgVPT3ny
+6OPra4jyw1y+1UcwVePwhz23jphH+8CDk5VF7uZu4PUgNryyS2owID7CAKQgNdPp
+56Mz/FRgJXPRb6iAEOqKFe0eveYeRDYWbve/GBZ9XkBObeJAQ+qb8ko8oL99BrlD
+bubkvSRGXtaldkk7oUfhhMutZYowK86Gmc4zUkFFjMLIXVACUE1aR8zq0lPVIxfL
+9FFP6kNwa47+hTU9/GyNRmF5bhukcaSQIdhucW2/vUFeu651V/Gou/z3NAe48PM+
+40owjIPXLfMuvX08e/OKAOzvrwuVee7sg9K51L0s8r3xQ6xUzwRKXuLVuxa6nV61
+OnLG6Rfblg3qaerClMk1v2vFdAsHZGhnN0oxoJDAndT8rJZ+ywGWiyehX0P91JwC
+7PkBvOUXdf+QJn7S4Wy5yT5uwTMJm9x1GRYhzSUVVqq8UUVFXnFHioaqI+nLXewa
+uqy59GzObqGnZuDAD6NNyRb+N8NVHMtqWG88PxxhGNq3Ep4+Vc92+M6cN55icG3X
+TfZRlxBzsilyuq7Rte8YW0URiZIRY5zDfg/ib8UmPdyFHkMW4Bg=
+=F8cp
+-----END PGP SIGNATURE-----
+
+--bnl5eqiu4mggmjza--
 
