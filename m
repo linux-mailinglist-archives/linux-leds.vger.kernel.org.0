@@ -1,488 +1,261 @@
-Return-Path: <linux-leds+bounces-1382-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1384-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65936892BC5
-	for <lists+linux-leds@lfdr.de>; Sat, 30 Mar 2024 16:19:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0C78936C0
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 03:40:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C509AB21483
-	for <lists+linux-leds@lfdr.de>; Sat, 30 Mar 2024 15:19:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D1CAB2128A
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 01:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B53381C9;
-	Sat, 30 Mar 2024 15:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E11C17FD;
+	Mon,  1 Apr 2024 01:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="WS2FelSU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="WS2FelSU"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UyFOkA0n"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx104.easyname.com (mx104.easyname.com [77.244.243.90])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87581C0DEF;
-	Sat, 30 Mar 2024 15:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.244.243.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64E5EC2
+	for <linux-leds@vger.kernel.org>; Mon,  1 Apr 2024 01:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711811981; cv=none; b=SCmPVFfHeSiKUPNOAUWZa9X2Sd1CvnlbfEkai1qlU7X1vKslq+EZycZ7c2SrOAY48m/sgDZRaWVBzYVtgd6tnANaCg+oCmEKj95TInRhJZwj8ipev5tz8U/RaoPoqvwJ8m4x5CeeIf0xIyo+MvTRMrAbiz4iS2d8xIe9tPeRVVQ=
+	t=1711935616; cv=none; b=LaHP8lL/m/EwDRb19FwbAL4H30vXim8vqy8cHCPzgbkjQpckE76gmUKUAcmDA86ebPBBmyDD1lI2pkd/dgrVla/nRIg9dyyxUPNLX4/V0YMQtc1hs6bCNxmu4NGh9/Y9/C+4a5BRnyROUXDag+tS4UcJfsKKd+NPLx+1r1zH/ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711811981; c=relaxed/simple;
-	bh=T6BNvRK2/qKQ44MhwAdR61PguKYEhe6BMmvj57cClck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sNi5JGt4xuTTSQOEaYjxQC3zHLMUusdlbIMjBI6TscMbYUvxusUb/Y+MA+0nKmCKxTVTIqQfzjrjy6RxHPsELQjc/WLuXjneTf4kZM1TXWgJa+yQo+di33ux8sybQDFeY06ifDCdFi1yXJsb2fHoZ5raaZQlnjgk6JJG+5qMXQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=paroga.com; spf=pass smtp.mailfrom=paroga.com; dkim=pass (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b=WS2FelSU; dkim=pass (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b=WS2FelSU; arc=none smtp.client-ip=77.244.243.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=paroga.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paroga.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com;
-	 s=easyname; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=ZvjVCv6tx6IWR0JEWMMNFqOIGJ1YPrQjwnbxKPpcxE0=; b=WS2FelSUA4u3/d0BLllAWXpp9/
-	W7CZqLMsya8CJoEnCHXmiTIYsyWai7MAy4EJ79UyzjV1Obf9X19Gm75De+tVrtZex9oNduvknWAcY
-	aH7wcBir86YAPeImeNt6hzDGi9XqHSrl0BBcNTNETy8QCJ77xry+IsPFdf/0kG0qao2ZhD/DB/OC0
-	SpIF0dDWmnbxHKfPuHXUhcn7TrGTLE1YD+bst+t2vZ66hjAuR4McrXiAMbZtfYtLNaTjcmOpPD3K0
-	qIgk5aivkE+1bFDJt9ZtuWfGRS9YMvlj0ob8U819EyclkxeNYEeOq9BwY7bVrSc9LbNMyCIpCy8TV
-	PUXfrbHA==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com;
-	 s=easyname; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=ZvjVCv6tx6IWR0JEWMMNFqOIGJ1YPrQjwnbxKPpcxE0=; b=WS2FelSUA4u3/d0BLllAWXpp9/
-	W7CZqLMsya8CJoEnCHXmiTIYsyWai7MAy4EJ79UyzjV1Obf9X19Gm75De+tVrtZex9oNduvknWAcY
-	aH7wcBir86YAPeImeNt6hzDGi9XqHSrl0BBcNTNETy8QCJ77xry+IsPFdf/0kG0qao2ZhD/DB/OC0
-	SpIF0dDWmnbxHKfPuHXUhcn7TrGTLE1YD+bst+t2vZ66hjAuR4McrXiAMbZtfYtLNaTjcmOpPD3K0
-	qIgk5aivkE+1bFDJt9ZtuWfGRS9YMvlj0ob8U819EyclkxeNYEeOq9BwY7bVrSc9LbNMyCIpCy8TV
-	PUXfrbHA==;
-Received: from 84-115-225-203.cable.dynamic.surfer.at ([84.115.225.203] helo=localhost.localdomain)
-	by mx.easyname.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <paroga@paroga.com>)
-	id 1rqaBv-0002RN-58; Sat, 30 Mar 2024 15:00:23 +0000
-From: Patrick Gansterer <paroga@paroga.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Cc: Patrick Gansterer <paroga@paroga.com>,
-	Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v5 2/2] backlight: Add new lm3509 backlight driver
-Date: Sat, 30 Mar 2024 15:59:25 +0100
-Message-ID: <20240330145931.729116-3-paroga@paroga.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240330145931.729116-1-paroga@paroga.com>
-References: <20240330145931.729116-1-paroga@paroga.com>
+	s=arc-20240116; t=1711935616; c=relaxed/simple;
+	bh=CVvjRkKEQ1K8GZwwAs6XND1VVBqZ3gscg8qbSw1O88Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vDyrSqjDIFQmaN8C1dtI6FvoQYqtrMpaLMNnHbw/N9FNp83rz+XZYLAyNzosGeiUtnInIMulC65XgIdwV0geltU+MAmOLkW9RXzfhM/LjaINY2ybtXBpVU7SMxSsDkqTe8pHcERlgvKi31ACQABF2xu6bNznsfpj77BPWL64FaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UyFOkA0n; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711935613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IBzwZVE6/XZJhG9lhNuBo21FIhFKpdiDUdcBLxSjjtE=;
+	b=UyFOkA0nLKjU4Pxr6LprSsmMqO276xw0Qt7acLnHns87fUU7KIJ+yi+LTDUsO7WUHwYYQQ
+	+a0XY+YegOEir7XREWO8gW+l/sbIJ9wnfAQKCx82CsMJF1a8M5BUmfL3a0cUtHJ2G6SQlB
+	eQ2SlgbSCus5meCImu1NxqDZ55p5rTI=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-690-MRk_LaWwPOayBfGUESEk2g-1; Sun, 31 Mar 2024 21:40:11 -0400
+X-MC-Unique: MRk_LaWwPOayBfGUESEk2g-1
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-1e0b3a4c2e4so17890855ad.0
+        for <linux-leds@vger.kernel.org>; Sun, 31 Mar 2024 18:40:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711935610; x=1712540410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IBzwZVE6/XZJhG9lhNuBo21FIhFKpdiDUdcBLxSjjtE=;
+        b=bEOu0Bkhw/I+Cr2O6M2BcYSWjRkU+xQKd77zM1hlF+Ag+VBzMvcTILoQS1n9SIdmDm
+         P7f77LH3iCbtvhT+UXI4D/gzIFyylq5wCfoQKVqhh+yI7c4j9rkTmUfgV+0MK3y2Dwvl
+         mRqZ1tTBEVSU/H0vw1CrOKjIUq93F0t1H2xmb/fpgNtk60n8efnCwpV+PiXcQXMiHG46
+         iAOm9sIovu5Sc5niRGzZyRijc0Z5dSzbelWOhMBValLcoJx+lBgKjnIeA2ZLVM9HSrFU
+         xlruuVqQdj8li0lajGGi29dFPKGBMzrzHALkh3+j2q+sv6j8Ab3dKdE/vxdVRUuNIC5S
+         A6CA==
+X-Forwarded-Encrypted: i=1; AJvYcCU44FxWt+MgEUypZVsaTsl83JBfrCEe8rF8CebTo3+0IYKbt9opLqJMoqvfjd82UCkniVb30vlkewQWT1eG2aiQQGcXIGAB+el/Yw==
+X-Gm-Message-State: AOJu0Yyi0HzYXjVYpEKUUL5y50w9eV+EO526HaIF/tGUgckrIvul7pPY
+	BNT5e27Cazjh/D9IVZQmLc2Uej+An17s7R2Lr0UVFXobMN4m89ZB2GyqvDHcLp7YgTV4AL1gyL6
+	VaHnK6p8A5kvg1oO2NuEfNmXmeDXMvco7bb8n/vu9rBPTR0GXaK9IT0dN97kBOlB63VGuZSDeix
+	Pe7QfsyhdyYiHaBZG1kI/VTw+fM952fpGPhg==
+X-Received: by 2002:a17:902:7005:b0:1e0:a3dd:82df with SMTP id y5-20020a170902700500b001e0a3dd82dfmr6524530plk.38.1711935610177;
+        Sun, 31 Mar 2024 18:40:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEOam+CBLcJgkKx62NYgxq8ze9IbSjrgmvGMm3dvSXCb5VwSU29/cplx6cbZS3eX9jokod62DqaTZD9RRyNze8=
+X-Received: by 2002:a17:902:7005:b0:1e0:a3dd:82df with SMTP id
+ y5-20020a170902700500b001e0a3dd82dfmr6524516plk.38.1711935609797; Sun, 31 Mar
+ 2024 18:40:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Easy-Autoreply: EN
+References: <20240324150107.976025-1-hpa@redhat.com> <20240324150107.976025-6-hpa@redhat.com>
+ <nakbogrilul6skiab5opfsqhhqfotfgmb47wyd3xbgbpf6hurc@6xshfz3obj7m>
+In-Reply-To: <nakbogrilul6skiab5opfsqhhqfotfgmb47wyd3xbgbpf6hurc@6xshfz3obj7m>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Mon, 1 Apr 2024 09:39:51 +0800
+Message-ID: <CAEth8oE21tdcEgb9K_d7cY=nBaazkVvcBg2piQeALwRiB2eY+w@mail.gmail.com>
+Subject: Re: [PATCH v5 RESEND 5/6] power: supply: power-supply-leds: Add
+ charging_red_full_green trigger for RGB LED
+To: Sebastian Reichel <sre@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	linux-kernel@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is a general driver for LM3509 backlight chip of TI.
-LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
-Dual Current Sinks. This driver supports OLED/White LED select, brightness
-control and sub/main control.
-The datasheet can be found at http://www.ti.com/product/lm3509.
+Hi
 
-Signed-off-by: Patrick Gansterer <paroga@paroga.com>
----
- drivers/video/backlight/Kconfig     |   7 +
- drivers/video/backlight/Makefile    |   1 +
- drivers/video/backlight/lm3509_bl.c | 340 ++++++++++++++++++++++++++++
- 3 files changed, 348 insertions(+)
- create mode 100644 drivers/video/backlight/lm3509_bl.c
+On Sat, Mar 30, 2024 at 12:24=E2=80=AFAM Sebastian Reichel <sre@kernel.org>=
+ wrote:
+>
+> Hello Kate,
+>
+> On Sun, Mar 24, 2024 at 11:01:06PM +0800, Kate Hsuan wrote:
+> > Add a charging_red_full_green LED trigger and the trigger is based on
+> > led_mc_trigger_event() which can set an RGB LED when the trigger is
+> > triggered. The LED will show red when the battery status is charging.
+> > The LED will show green when the battery status is full.
+> >
+> > Link: https://lore.kernel.org/linux-leds/f40a0b1a-ceac-e269-c2dd-0158c5=
+b4a1ad@gmail.com/T/#t
+> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > ---
+>
+> Have you considered using orange instead of red? Using orange as
+> charging indicator seems to be more common nowadays and allows
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 230bca07b09d..3614a5d29c71 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -373,6 +373,13 @@ config BACKLIGHT_AAT2870
- 	  If you have a AnalogicTech AAT2870 say Y to enable the
- 	  backlight driver.
- 
-+config BACKLIGHT_LM3509
-+	tristate "Backlight Driver for LM3509"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  This supports TI LM3509 Backlight Driver
-+
- config BACKLIGHT_LM3630A
- 	tristate "Backlight Driver for LM3630A"
- 	depends on I2C && PWM
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 8d2cb252042d..8fc98f760a8a 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
-+obj-$(CONFIG_BACKLIGHT_LM3509)		+= lm3509_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
-new file mode 100644
-index 000000000000..ab57f79ffe23
---- /dev/null
-+++ b/drivers/video/backlight/lm3509_bl.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#define LM3509_NAME "lm3509_bl"
-+
-+#define LM3509_SINK_MAIN 0
-+#define LM3509_SINK_SUB 1
-+#define LM3509_NUM_SINKS 2
-+
-+#define LM3509_DEF_BRIGHTNESS 0x12
-+#define LM3509_MAX_BRIGHTNESS 0x1F
-+
-+#define REG_GP 0x10
-+#define REG_BMAIN 0xA0
-+#define REG_BSUB 0xB0
-+#define REG_MAX 0xFF
-+
-+enum {
-+	REG_GP_ENM_BIT = 0,
-+	REG_GP_ENS_BIT,
-+	REG_GP_UNI_BIT,
-+	REG_GP_RMP0_BIT,
-+	REG_GP_RMP1_BIT,
-+	REG_GP_OLED_BIT,
-+};
-+
-+struct lm3509_bl {
-+	struct regmap *regmap;
-+	struct backlight_device *bl_main;
-+	struct backlight_device *bl_sub;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+struct lm3509_bl_led_data {
-+	const char *label;
-+	int led_sources;
-+	u32 brightness;
-+	u32 max_brightness;
-+};
-+
-+static void lm3509_reset(struct lm3509_bl *data)
-+{
-+	if (data->reset_gpio) {
-+		gpiod_set_value(data->reset_gpio, 1);
-+		udelay(1);
-+		gpiod_set_value(data->reset_gpio, 0);
-+		udelay(10);
-+	}
-+}
-+
-+static int lm3509_update_status(struct backlight_device *bl,
-+				unsigned int en_mask, unsigned int br_reg)
-+{
-+	struct lm3509_bl *data = bl_get_data(bl);
-+	int ret;
-+	bool en;
-+
-+	ret = regmap_write(data->regmap, br_reg, backlight_get_brightness(bl));
-+	if (ret < 0)
-+		return ret;
-+
-+	en = !backlight_is_blank(bl);
-+	return regmap_update_bits(data->regmap, REG_GP, en_mask,
-+				  en ? en_mask : 0);
-+}
-+
-+static int lm3509_main_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENM_BIT), REG_BMAIN);
-+}
-+
-+static const struct backlight_ops lm3509_main_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_main_update_status,
-+};
-+
-+static int lm3509_sub_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENS_BIT), REG_BSUB);
-+}
-+
-+static const struct backlight_ops lm3509_sub_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_sub_update_status,
-+};
-+
-+static struct backlight_device *
-+lm3509_backlight_register(struct device *dev, const char *name_suffix,
-+			  struct lm3509_bl *data,
-+			  const struct backlight_ops *ops,
-+			  const struct lm3509_bl_led_data *led_data)
-+
-+{
-+	struct backlight_device *bd;
-+	struct backlight_properties props;
-+	const char *label = led_data->label;
-+	char name[64];
-+
-+	memset(&props, 0, sizeof(props));
-+	props.type = BACKLIGHT_RAW;
-+	props.brightness = led_data->brightness;
-+	props.max_brightness = led_data->max_brightness;
-+	props.scale = BACKLIGHT_SCALE_NON_LINEAR;
-+
-+	if (!label) {
-+		snprintf(name, sizeof(name), "lm3509-%s-%s", dev_name(dev),
-+			 name_suffix);
-+		label = name;
-+	}
-+
-+	bd = devm_backlight_device_register(dev, label, dev, data, ops, &props);
-+	if (bd)
-+		backlight_update_status(bd);
-+
-+	return bd;
-+}
-+
-+static const struct regmap_config lm3509_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = REG_MAX,
-+};
-+
-+static int lm3509_parse_led_sources(struct device_node *node,
-+				    int default_led_sources)
-+{
-+	u32 sources[LM3509_NUM_SINKS];
-+	int ret, num_sources, i;
-+
-+	num_sources = of_property_count_u32_elems(node, "led-sources");
-+	if (num_sources < 0)
-+		return default_led_sources;
-+	else if (num_sources > ARRAY_SIZE(sources))
-+		return -EINVAL;
-+
-+	ret = of_property_read_u32_array(node, "led-sources", sources,
-+					 num_sources);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < num_sources; i++) {
-+		if (sources[i] >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+
-+		ret |= BIT(sources[i]);
-+	}
-+
-+	return ret;
-+}
-+
-+static int lm3509_parse_dt_node(struct device *dev,
-+				struct lm3509_bl_led_data *led_data)
-+{
-+	struct device_node *child;
-+	int seen_led_sources = 0;
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		struct lm3509_bl_led_data *ld;
-+		int ret;
-+		u32 reg;
-+		int valid_led_sources;
-+
-+		ret = of_property_read_u32(child, "reg", &reg);
-+		if (ret < 0)
-+			return ret;
-+		if (reg >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+		ld = &led_data[reg];
-+
-+		ld->led_sources = lm3509_parse_led_sources(child, BIT(reg));
-+		if (ld->led_sources < 0)
-+			return ld->led_sources;
-+
-+		if (reg == 0)
-+			valid_led_sources = BIT(LM3509_SINK_MAIN) |
-+					    BIT(LM3509_SINK_SUB);
-+		else
-+			valid_led_sources = BIT(LM3509_SINK_SUB);
-+
-+		if (ld->led_sources != (ld->led_sources & valid_led_sources))
-+			return -EINVAL;
-+
-+		if (seen_led_sources & ld->led_sources)
-+			return -EINVAL;
-+
-+		seen_led_sources |= ld->led_sources;
-+
-+		ld->label = NULL;
-+		of_property_read_string(child, "label", &ld->label);
-+
-+		ld->max_brightness = LM3509_MAX_BRIGHTNESS;
-+		of_property_read_u32(child, "max-brightness",
-+				     &ld->max_brightness);
-+		ld->max_brightness =
-+			min_t(u32, ld->max_brightness, LM3509_MAX_BRIGHTNESS);
-+
-+		ld->brightness = LM3509_DEF_BRIGHTNESS;
-+		of_property_read_u32(child, "default-brightness",
-+				     &ld->brightness);
-+		ld->brightness = min_t(u32, ld->brightness, ld->max_brightness);
-+	}
-+
-+	return 0;
-+}
-+
-+static int lm3509_probe(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data;
-+	struct device *dev = &client->dev;
-+	int ret;
-+	bool oled_mode = false;
-+	unsigned int reg_gp_val = 0;
-+	struct lm3509_bl_led_data led_data[LM3509_NUM_SINKS];
-+	u32 rate_of_change = 0;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "i2c functionality check failed\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	data = devm_kzalloc(dev, sizeof(struct lm3509_bl), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &lm3509_regmap);
-+	if (IS_ERR(data->regmap))
-+		return PTR_ERR(data->regmap);
-+	i2c_set_clientdata(client, data);
-+
-+	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(data->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-+				     "Failed to get 'reset' gpio\n");
-+
-+	lm3509_reset(data);
-+
-+	memset(led_data, 0, sizeof(led_data));
-+	ret = lm3509_parse_dt_node(dev, led_data);
-+	if (ret)
-+		return ret;
-+
-+	oled_mode = of_property_read_bool(dev->of_node, "ti,oled-mode");
-+
-+	if (!of_property_read_u32(dev->of_node,
-+				  "ti,brightness-rate-of-change-us",
-+				  &rate_of_change)) {
-+		switch (rate_of_change) {
-+		case 51:
-+			reg_gp_val = 0;
-+			break;
-+		case 13000:
-+			reg_gp_val = BIT(REG_GP_RMP1_BIT);
-+			break;
-+		case 26000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT);
-+			break;
-+		case 52000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT) |
-+				     BIT(REG_GP_RMP1_BIT);
-+			break;
-+		default:
-+			dev_warn(dev, "invalid rate of change %u\n",
-+				 rate_of_change);
-+			break;
-+		}
-+	}
-+
-+	if (led_data[0].led_sources ==
-+	    (BIT(LM3509_SINK_MAIN) | BIT(LM3509_SINK_SUB)))
-+		reg_gp_val |= BIT(REG_GP_UNI_BIT);
-+	if (oled_mode)
-+		reg_gp_val |= BIT(REG_GP_OLED_BIT);
-+
-+	ret = regmap_write(data->regmap, REG_GP, reg_gp_val);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to write register\n");
-+
-+	if (led_data[0].led_sources) {
-+		data->bl_main = lm3509_backlight_register(
-+			dev, "main", data, &lm3509_main_ops, &led_data[0]);
-+		if (IS_ERR(data->bl_main)) {
-+			return dev_err_probe(
-+				dev, PTR_ERR(data->bl_main),
-+				"failed to register main backlight\n");
-+		}
-+	}
-+
-+	if (led_data[1].led_sources) {
-+		data->bl_sub = lm3509_backlight_register(
-+			dev, "sub", data, &lm3509_sub_ops, &led_data[1]);
-+		if (IS_ERR(data->bl_sub)) {
-+			return dev_err_probe(
-+				dev, PTR_ERR(data->bl_sub),
-+				"failed to register secondary backlight\n");
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void lm3509_remove(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data = i2c_get_clientdata(client);
-+
-+	regmap_write(data->regmap, REG_GP, 0x00);
-+}
-+
-+static const struct i2c_device_id lm3509_id[] = { { LM3509_NAME, 0 }, {} };
-+
-+MODULE_DEVICE_TABLE(i2c, lm3509_id);
-+
-+static const struct of_device_id lm3509_match_table[] = {
-+	{
-+		.compatible = "ti,lm3509",
-+	},
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(of, lm3509_match_table);
-+
-+static struct i2c_driver lm3509_i2c_driver = {
-+	.driver = {
-+		.name = LM3509_NAME,
-+		.of_match_table = lm3509_match_table,
-+	},
-+	.probe = lm3509_probe,
-+	.remove = lm3509_remove,
-+	.id_table = lm3509_id,
-+};
-+
-+module_i2c_driver(lm3509_i2c_driver);
-+
-+MODULE_DESCRIPTION("Texas Instruments Backlight driver for LM3509");
-+MODULE_AUTHOR("Patrick Gansterer <paroga@paroga.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.44.0
+Sounds good.
+I'll change the color for them.
+
+Thank you
+
+>
+> green  =3D battery full
+> orange =3D battery charging
+> red    =3D battery empty / battery dead / error
+>
+> Greetings,
+>
+> -- Sebastian
+>
+> >  drivers/power/supply/power_supply_leds.c | 25 ++++++++++++++++++++++++
+> >  include/linux/power_supply.h             |  2 ++
+> >  2 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/power/supply/power_supply_leds.c b/drivers/power/s=
+upply/power_supply_leds.c
+> > index c7db29d5fcb8..bd9c8fec5870 100644
+> > --- a/drivers/power/supply/power_supply_leds.c
+> > +++ b/drivers/power/supply/power_supply_leds.c
+> > @@ -22,6 +22,8 @@
+> >  static void power_supply_update_bat_leds(struct power_supply *psy)
+> >  {
+> >       union power_supply_propval status;
+> > +     unsigned int intensity_green[3] =3D {255, 0, 0};
+> > +     unsigned int intensity_red[3] =3D {0, 0, 255};
+> >
+> >       if (power_supply_get_property(psy, POWER_SUPPLY_PROP_STATUS, &sta=
+tus))
+> >               return;
+> > @@ -36,12 +38,20 @@ static void power_supply_update_bat_leds(struct pow=
+er_supply *psy)
+> >               /* Going from blink to LED on requires a LED_OFF event to=
+ stop blink */
+> >               led_trigger_event(psy->charging_blink_full_solid_trig, LE=
+D_OFF);
+> >               led_trigger_event(psy->charging_blink_full_solid_trig, LE=
+D_FULL);
+> > +             led_mc_trigger_event(psy->charging_red_full_green_trig,
+> > +                                  intensity_green,
+> > +                                  3,
+> > +                                  LED_FULL);
+> >               break;
+> >       case POWER_SUPPLY_STATUS_CHARGING:
+> >               led_trigger_event(psy->charging_full_trig, LED_FULL);
+> >               led_trigger_event(psy->charging_trig, LED_FULL);
+> >               led_trigger_event(psy->full_trig, LED_OFF);
+> >               led_trigger_blink(psy->charging_blink_full_solid_trig, 0,=
+ 0);
+> > +             led_mc_trigger_event(psy->charging_red_full_green_trig,
+> > +                                  intensity_red,
+> > +                                  3,
+> > +                                  LED_FULL);
+> >               break;
+> >       default:
+> >               led_trigger_event(psy->charging_full_trig, LED_OFF);
+> > @@ -49,6 +59,10 @@ static void power_supply_update_bat_leds(struct powe=
+r_supply *psy)
+> >               led_trigger_event(psy->full_trig, LED_OFF);
+> >               led_trigger_event(psy->charging_blink_full_solid_trig,
+> >                       LED_OFF);
+> > +             led_mc_trigger_event(psy->charging_red_full_green_trig,
+> > +                                  intensity_red,
+> > +                                  3,
+> > +                                  LED_OFF);
+> >               break;
+> >       }
+> >  }
+> > @@ -74,6 +88,11 @@ static int power_supply_create_bat_triggers(struct p=
+ower_supply *psy)
+> >       if (!psy->charging_blink_full_solid_trig_name)
+> >               goto charging_blink_full_solid_failed;
+> >
+> > +     psy->charging_red_full_green_trig_name =3D kasprintf(GFP_KERNEL,
+> > +             "%s-charging-red-full-green", psy->desc->name);
+> > +     if (!psy->charging_red_full_green_trig_name)
+> > +             goto charging_red_full_green_failed;
+> > +
+> >       led_trigger_register_simple(psy->charging_full_trig_name,
+> >                                   &psy->charging_full_trig);
+> >       led_trigger_register_simple(psy->charging_trig_name,
+> > @@ -82,9 +101,13 @@ static int power_supply_create_bat_triggers(struct =
+power_supply *psy)
+> >                                   &psy->full_trig);
+> >       led_trigger_register_simple(psy->charging_blink_full_solid_trig_n=
+ame,
+> >                                   &psy->charging_blink_full_solid_trig)=
+;
+> > +     led_trigger_register_simple(psy->charging_red_full_green_trig_nam=
+e,
+> > +                                 &psy->charging_red_full_green_trig);
+> >
+> >       return 0;
+> >
+> > +charging_red_full_green_failed:
+> > +     kfree(psy->charging_blink_full_solid_trig_name);
+> >  charging_blink_full_solid_failed:
+> >       kfree(psy->full_trig_name);
+> >  full_failed:
+> > @@ -101,10 +124,12 @@ static void power_supply_remove_bat_triggers(stru=
+ct power_supply *psy)
+> >       led_trigger_unregister_simple(psy->charging_trig);
+> >       led_trigger_unregister_simple(psy->full_trig);
+> >       led_trigger_unregister_simple(psy->charging_blink_full_solid_trig=
+);
+> > +     led_trigger_unregister_simple(psy->charging_red_full_green_trig);
+> >       kfree(psy->charging_blink_full_solid_trig_name);
+> >       kfree(psy->full_trig_name);
+> >       kfree(psy->charging_trig_name);
+> >       kfree(psy->charging_full_trig_name);
+> > +     kfree(psy->charging_red_full_green_trig_name);
+> >  }
+> >
+> >  /* Generated power specific LEDs triggers. */
+> > diff --git a/include/linux/power_supply.h b/include/linux/power_supply.=
+h
+> > index c0992a77feea..1d7c0b43070f 100644
+> > --- a/include/linux/power_supply.h
+> > +++ b/include/linux/power_supply.h
+> > @@ -318,6 +318,8 @@ struct power_supply {
+> >       char *online_trig_name;
+> >       struct led_trigger *charging_blink_full_solid_trig;
+> >       char *charging_blink_full_solid_trig_name;
+> > +     struct led_trigger *charging_red_full_green_trig;
+> > +     char *charging_red_full_green_trig_name;
+> >  #endif
+> >  };
+> >
+> > --
+> > 2.44.0
+> >
+> >
+
+
+
+--=20
+BR,
+Kate
 
 
