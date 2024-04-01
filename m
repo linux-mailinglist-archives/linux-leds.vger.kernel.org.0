@@ -1,162 +1,123 @@
-Return-Path: <linux-leds+bounces-1385-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1387-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82033893B2D
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 15:03:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD80289468A
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 23:24:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17D481F21F4E
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 13:03:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E437B23B42
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 21:24:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C6E43E495;
-	Mon,  1 Apr 2024 13:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EEFF55E4F;
+	Mon,  1 Apr 2024 21:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t9tDxF+B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EpC6pCTP"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B8C1E888;
-	Mon,  1 Apr 2024 13:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E1654FAC;
+	Mon,  1 Apr 2024 21:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711976630; cv=none; b=efrPEvKDrnglGvmhYf0rmq1tKwf/SbKb7zMjDo5C68QfVKD3R0yBaWPfpA0EAzgeZZwzF62Hysmzmursy/a8YlN9VAGMCOVAUp7IOetpjEXXh4LgmmqegPFq5XSKetphAP70b8y0e6G2uvaC+lFEE+1s7/GHTWa3ZIVM/tTN+eg=
+	t=1712006655; cv=none; b=gnL0fpOR5tslnqjhxQbAdBJU+jGm+4I6n4lzW0vOkeczvIAsdPs/jjIz1sCWKXi0cxRMO5lVntBFpS06FV9E6KN96crg6bnjw7qRmOG51o8Tg9DsGFFZ0PrIlcguCfnZje3nSe42tNEQ/PYwPISHgcPrv1yb7YIT/3YmaLT1Io8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711976630; c=relaxed/simple;
-	bh=6IX8cDFUlSsk6IxtbhcF68yxgznuBZCAUSinqNSI60Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TL2whoBUq9rL4IQyYOEjNJ9s8cLnvFwJMvl0v+OSvQ2V3IpgOpGRGmxZFB6KjxMz0mVrex/cMx+hvt9OJ4jR6ygcfZLPJXzdFGk1r3htJ7L24qneeWTAv7KKH5t31glw6+t8c43KZFF2spw5x6qa/s/Nnt+tDI9Q2Q0cJzwHw4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t9tDxF+B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91F3AC43390;
-	Mon,  1 Apr 2024 13:03:49 +0000 (UTC)
+	s=arc-20240116; t=1712006655; c=relaxed/simple;
+	bh=JvZ9DjATerhrdZXHJcR5iNqmcuYJoWGExgpd7+c6UhM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ovJE1wQgLQ8roWTbiq4ANJuKooTxfU9QqYymUHodRdCctST6BDYn2E4jvK0ZQjy71gmoEvYcxe7wPKwVmItkyh4jGirWqi/WG1giRmTzIhe5fxBvGr26WsArYobxOuSmJfvEPTd9hQRmIMLVgJwdiGujYeIHIjg4U2bGw4np9EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EpC6pCTP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A7D01C433F1;
+	Mon,  1 Apr 2024 21:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711976629;
-	bh=6IX8cDFUlSsk6IxtbhcF68yxgznuBZCAUSinqNSI60Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t9tDxF+B/kICX01tgWTInIvIoSP9ORRRD9KOxwP84iHOUi0SKK/Ie42RUnp7t63FN
-	 HVqjkZ5KlC6r9xKWCl/PeAJMG/KIh5KXuih4+kiHghdkd8/st153SMr/ZNhz+ZL23p
-	 D6EuKGrsL+Ai1zBEWIcpOvcddijki3UnjLotM8odP4gXTf7VBLo8n3OihiTeVz6O/V
-	 93Vr1FFFPxCnRAvBkZ9v758Qjjkohp6VSPznDAbcnaGecnpbMEcO5WLl7vGxIXqsxs
-	 CUw4xRe+JpxokeW//OF/xQU0Z3nndTfOdl9EVWPpGm58X/UdaltgtXdup/n47CR6ru
-	 8Mu87fvXgThzg==
-Date: Mon, 1 Apr 2024 08:03:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: Patrick Gansterer <paroga@paroga.com>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v5 1/2] dt-bindings: backlight: Add Texas Instruments
- LM3509
-Message-ID: <20240401130347.GA274540-robh@kernel.org>
-References: <20240330145931.729116-1-paroga@paroga.com>
- <20240330145931.729116-2-paroga@paroga.com>
+	s=k20201202; t=1712006654;
+	bh=JvZ9DjATerhrdZXHJcR5iNqmcuYJoWGExgpd7+c6UhM=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=EpC6pCTP/4yn8SsPctg6qvbKEvmTz3dFwiMhjTjvZ0FiEqFF4zeoyxn4tmhJ6O6Ro
+	 YXHkYqTs+PuzgL4ZZfv7ipdnVnBnJeMxTXbiJ4UF6a44M7KUAe8Hmb4prTKU8nmHUo
+	 U9oBRSDeILQgnCZJNFkJAqYXPRzzYjUL4cL+3rqp7mKyrZqcEcLHNpJzkzRztWYO5C
+	 MEwoKc/IEx4VsGjL+8m24mJDmmZ5EgFeTW8Jpnr3yvpqt3/8LPgdECVEaDYdbtVlLN
+	 LjfNAZRyQKur93gwm8YWCBIgb+dwCZWjtYoRjXG6IwAZryBBba5nIBDAvjXo9G4KRB
+	 gQx3jY7P9i62A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91971CD1294;
+	Mon,  1 Apr 2024 21:24:14 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH v2 0/3] Add sy7802 flash led driver
+Date: Mon, 01 Apr 2024 23:23:54 +0200
+Message-Id: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240330145931.729116-2-paroga@paroga.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOolC2YC/zXMQQ6DIBCF4auYWZcGR9Cmq96jcYEIZTZqGEtqD
+ XcvNXH5v7x8O7CL5Bju1Q7RJWKapxJ4qcAGM72coLE0oEQlG9SCt+4mUXglvW29bjVqKOclOk+
+ fA3r2pQPxOsftcFP9X0+iO4lUCynGoVNmaNAb4x9mofXLNlzdG/qc8w897YTOngAAAA==
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ phone-devel@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712006653; l=1363;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=JvZ9DjATerhrdZXHJcR5iNqmcuYJoWGExgpd7+c6UhM=;
+ b=CsSah5WnQVUtjNjrlw5gu4Gao8S8QY2nMFQ6MIhCxS6uoASsfJ8db1HQdi0pBimstKMB/Wsz7
+ BYz4yP8sITnBiqcqs5eQgZrY8IR7yz9VdSWr2xW2mJX2gL5YTJP3gay
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-On Sat, Mar 30, 2024 at 03:59:24PM +0100, Patrick Gansterer wrote:
-> Add Device Tree bindings for Texas Instruments LM3509 - a
-> High Efficiency Boost for White LED's and/or OLED Displays
-> 
-> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> ---
->  .../bindings/leds/backlight/ti,lm3509.yaml    | 139 ++++++++++++++++++
->  1 file changed, 139 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> new file mode 100644
-> index 000000000000..b67f67648852
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> @@ -0,0 +1,139 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/ti,lm3509.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI LM3509 High Efficiency Boost for White LED's and/or OLED Displays
-> +
-> +maintainers:
-> +  - Patrick Gansterer <paroga@paroga.com>
-> +
-> +description:
-> +  The LM3509 current mode boost converter offers two separate outputs.
-> +  https://www.ti.com/product/LM3509
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,lm3509
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  ti,brightness-rate-of-change-us:
-> +    description: Brightness Rate of Change in microseconds.
-> +    enum: [51, 13000, 26000, 52000]
-> +
-> +  ti,oled-mode:
-> +    description: Enable OLED mode.
-> +    type: boolean
-> +
-> +patternProperties:
-> +  "^led@[01]$":
-> +    type: object
-> +    description: Properties for a string of connected LEDs.
-> +
-> +    allOf:
+This series introduces a driver for the Silergy SY7802 charge pump used
+in the BQ Aquaris M5 and X5 smartphones.
 
-You don't need allOf here.
+The implementation is based on information extracted from downstream as
+the datasheet provided by a distributor of the hardware didn't include
+any information about the i2c register description.
 
-> +      - $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        description:
-> +          The control register that is used to program the two current sinks.
-> +          The LM3509 has two registers (BMAIN and BSUB) and are represented
-> +          as 0 or 1 in this property. The two current sinks can be controlled
-> +          independently with both registers, or register BMAIN can be
-> +          configured to control both sinks with the led-sources property.
-> +        minimum: 0
-> +        maximum: 1
-> +
-> +      label: true
-> +
-> +      led-sources:
-> +        allOf:
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Changes in v2:
+- bindings: remove unneeded allOf
+- bindings: example: move flash-led-controller under i2c node to fix
+  check error
+- Cc to phone-devel
+- Link to v1: https://lore.kernel.org/r/20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu
 
-Or here.
+---
+André Apitzsch (3):
+      dt-bindings: leds: Add Silergy SY7802 flash LED
+      leds: sy7802: Add support for Silergy SY7802 flash LED controller
+      arm64: dts: qcom: msm8939-longcheer-l9100: Add rear flash
 
-> +          - minItems: 1
-> +            maxItems: 2
-> +            items:
-> +              minimum: 0
-> +              maximum: 1
+ .../devicetree/bindings/leds/silergy,sy7802.yaml   | 100 ++++
+ .../boot/dts/qcom/msm8939-longcheer-l9100.dts      |  26 +
+ drivers/leds/flash/Kconfig                         |  11 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-sy7802.c                   | 532 +++++++++++++++++++++
+ 5 files changed, 670 insertions(+)
+---
+base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+change-id: 20240325-sy7802-f40fc6f56525
+
+Best regards,
+-- 
+André Apitzsch <git@apitzsch.eu>
+
+
 
