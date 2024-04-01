@@ -1,147 +1,129 @@
-Return-Path: <linux-leds+bounces-1390-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1391-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47998946AE
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 23:45:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D4D894729
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 00:12:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4BB68B20D16
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 21:45:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 648DE282176
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Apr 2024 22:12:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4086A54FA3;
-	Mon,  1 Apr 2024 21:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pf/wscw7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCDB955E73;
+	Mon,  1 Apr 2024 22:11:55 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtprelay06.ispgateway.de (smtprelay06.ispgateway.de [80.67.31.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6AD1C2E;
-	Mon,  1 Apr 2024 21:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D6F4683;
+	Mon,  1 Apr 2024 22:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.31.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712007947; cv=none; b=lsFs2qvAZNy6iBBK5VBECK5Zqhv7gOJCC7QrnQQfZQmatKqhL5nQ//Je7dFmjubgzS3ZaqQi8Kxig8BP5lxcGm405oSeInGDemeDNVzzIofw9fgAAZ304sllVwZnWsK7uUgmReTEnM4pO+VSWdviKhYlfnXMlCqM1atm0jdEct8=
+	t=1712009515; cv=none; b=jqaYBC7D91jE1wcuCj47ph2v+tyg+s/Xn3pefJy4QMML6L1ess+d6/Qrx+HHF8aNYtM6drQYJkTIASIqn7E6ShrNdFRiQzy5TF4+sKmY6RSPMd1aIZgm8P3eoRNB3oqZmY++gicUET5rJsOWZxgvQVSQ3VIzUVnh8ooFwwd2Gic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712007947; c=relaxed/simple;
-	bh=fw9nSS+KqpQoVSXzolIRX0HVefPTBF3v8b1a0MzDFc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Hoik+GePvSiXpVjtzuB29gdB1oeht+BY0qW0xuP5oLwhzm1BKHtzHQyoKB8VzWs+RHi9j14bUp+nadEgDlrEqLNKN9+uHTVzqOo7cdxFP38ZtR0zqGPchK3XYQPpKaP9L6Mw7D3SYPar0+nErVqz5X8ao4yTsuDz8GGeUucc6do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pf/wscw7; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 431K8wsN004624;
-	Mon, 1 Apr 2024 21:45:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=g4gn72bbP7RfJOxqSqqUfglFc1LSGdxRE8H+zis9tY4=; b=pf
-	/wscw7mAq0p6VKupyaCVJmxthInylo2SUNMrHYD8uODi/Wm3KesLkiGuX5Hm4gRF
-	fJaaESlIUFuWOnhIWv5uMwGpUZOeE6T8q2vTyGYcR0HjhBih+l9shHjJRVsdxcDA
-	zNtbndPKAgkj5eU1BmwoIv6vs1tX+6SefSlfJ4hDzkvDwaALDP5gKa+RJA0d5ISE
-	Q1HSRkIRGZHYj2Sm5f7rIw4QGeF4wrWgyHYRqdyRVFC2spKbbY+oC02FUTuSiYWv
-	f0SLgV7r0qpjoLRL5s7tIvWR4ztkLLiidMpphy9m9udtIjV2640ykrqzsW0yUdzu
-	3ms84RJOV3sgKc2pHFZQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x7u7f9dpn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Apr 2024 21:45:32 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 431LjVWF030793
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 1 Apr 2024 21:45:31 GMT
-Received: from [10.110.91.214] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 1 Apr
- 2024 14:45:31 -0700
-Message-ID: <d2de0a0e-6cbe-3472-0a84-797f827ac635@quicinc.com>
-Date: Mon, 1 Apr 2024 14:45:29 -0700
+	s=arc-20240116; t=1712009515; c=relaxed/simple;
+	bh=gZIvbC9QcJ+z4erMfxk2BKLYyhXqYUfIhZMoeDsxtTk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fkB88N5Cd6ccW24DHzmPtYsqPtjznrs2hSX14hvFBvH8WxTaAi8Ry8irCpo7yFYwtTdiZYvds2NWGKBdwHXTNp0MGmIrMR9bBy58ZPzL0P42fwPYDaubFpp8VQeXkDBlR7INGnZRNuEMNQ6rgGfcfpoUg9b2Od/CuPeqtsch+kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.31.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+Received: from [92.206.191.65] (helo=note-book.lan)
+	by smtprelay06.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <git@apitzsch.eu>)
+	id 1rrPsV-000000008VN-0dPK;
+	Tue, 02 Apr 2024 00:11:43 +0200
+Message-ID: <e842cda99206852bce7f7acc99d5dd360e313639.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 0/3] Add sy7802 flash led driver
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Trilok Soni <quic_tsoni@quicinc.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+  Conor Dooley <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-leds@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-hardening@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,  ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+Date: Tue, 02 Apr 2024 00:11:41 +0200
+In-Reply-To: <d2de0a0e-6cbe-3472-0a84-797f827ac635@quicinc.com>
+References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
+	 <d2de0a0e-6cbe-3472-0a84-797f827ac635@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 0/3] Add sy7802 flash led driver
-Content-Language: en-US
-To: <git@apitzsch.eu>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones
-	<lee@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Kees
- Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>
-CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
-From: Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: B9aze7xX-EqVG7YmnwtSzvROMKSXS7ki
-X-Proofpoint-ORIG-GUID: B9aze7xX-EqVG7YmnwtSzvROMKSXS7ki
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-01_15,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- adultscore=0 spamscore=0 clxscore=1011 suspectscore=0 priorityscore=1501
- malwarescore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
- mlxlogscore=993 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2404010153
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
 
-On 4/1/2024 2:23 PM, André Apitzsch via B4 Relay wrote:
-> This series introduces a driver for the Silergy SY7802 charge pump used
-> in the BQ Aquaris M5 and X5 smartphones.
-> 
-> The implementation is based on information extracted from downstream as
-> the datasheet provided by a distributor of the hardware didn't include
-> any information about the i2c register description.
-> 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+Am Montag, dem 01.04.2024 um 14:45 -0700 schrieb Trilok Soni:
+> On 4/1/2024 2:23 PM, Andr=C3=A9 Apitzsch via B4 Relay wrote:
+> > This series introduces a driver for the Silergy SY7802 charge pump
+> > used
+> > in the BQ Aquaris M5 and X5 smartphones.
+> >=20
+> > The implementation is based on information extracted from
+> > downstream as
+> > the datasheet provided by a distributor of the hardware didn't
+> > include
+> > any information about the i2c register description.
+> >=20
+> > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+>=20
+>=20
+> Is this the right email address? "From" shows
+> devnull+git.apitzsch.eu@kernel.org.=20
+>=20
+This was created by b4 using the web submission endpoint.
 
+Andr=C3=A9
 
-Is this the right email address? "From" shows devnull+git.apitzsch.eu@kernel.org. 
-
-> ---
-> Changes in v2:
-> - bindings: remove unneeded allOf
-> - bindings: example: move flash-led-controller under i2c node to fix
->   check error
-> - Cc to phone-devel
-> - Link to v1: https://lore.kernel.org/r/20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu
-> 
-> ---
-> André Apitzsch (3):
->       dt-bindings: leds: Add Silergy SY7802 flash LED
->       leds: sy7802: Add support for Silergy SY7802 flash LED controller
->       arm64: dts: qcom: msm8939-longcheer-l9100: Add rear flash
-> 
->  .../devicetree/bindings/leds/silergy,sy7802.yaml   | 100 ++++
->  .../boot/dts/qcom/msm8939-longcheer-l9100.dts      |  26 +
->  drivers/leds/flash/Kconfig                         |  11 +
->  drivers/leds/flash/Makefile                        |   1 +
->  drivers/leds/flash/leds-sy7802.c                   | 532 +++++++++++++++++++++
->  5 files changed, 670 insertions(+)
-> ---
-> base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
-> change-id: 20240325-sy7802-f40fc6f56525
-> 
-> Best regards,
--- 
----Trilok Soni
+> > ---
+> > Changes in v2:
+> > - bindings: remove unneeded allOf
+> > - bindings: example: move flash-led-controller under i2c node to
+> > fix
+> > =C2=A0 check error
+> > - Cc to phone-devel
+> > - Link to v1:
+> > https://lore.kernel.org/r/20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu
+> >=20
+> > ---
+> > Andr=C3=A9 Apitzsch (3):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dt-bindings: leds: Add Silergy SY7802 fl=
+ash LED
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 leds: sy7802: Add support for Silergy SY=
+7802 flash LED
+> > controller
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arm64: dts: qcom: msm8939-longcheer-l910=
+0: Add rear flash
+> >=20
+> > =C2=A0.../devicetree/bindings/leds/silergy,sy7802.yaml=C2=A0=C2=A0 | 10=
+0 ++++
+> > =C2=A0.../boot/dts/qcom/msm8939-longcheer-l9100.dts=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 26 +
+> > =C2=A0drivers/leds/flash/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 11 +
+> > =C2=A0drivers/leds/flash/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0drivers/leds/flash/leds-sy7802.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 532
+> > +++++++++++++++++++++
+> > =C2=A05 files changed, 670 insertions(+)
+> > ---
+> > base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+> > change-id: 20240325-sy7802-f40fc6f56525
+> >=20
+> > Best regards,
 
 
