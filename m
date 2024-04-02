@@ -1,84 +1,96 @@
-Return-Path: <linux-leds+bounces-1403-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1404-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68E3895998
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 18:22:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0043B895B30
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 19:55:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D87961C21504
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 16:22:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93E9F1F21F67
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 17:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0398514AD34;
-	Tue,  2 Apr 2024 16:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEABB15AABE;
+	Tue,  2 Apr 2024 17:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkQzNcao"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDX0oPfr"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF5D7A724;
-	Tue,  2 Apr 2024 16:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA9715AAA9;
+	Tue,  2 Apr 2024 17:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712074965; cv=none; b=as3lIYekEBzfDUxAXXo+vHAWH3lPqTgz1o49uiPyySV2mseN582U3K+HpSedrxvuXvuKHGQypra09KCYVR3JPs0LpQvoJ8aNMgUCkmEM8A82AqEJNQYp8bcKGFRd7p1GN1UPoBAID4M78vAW8p2HTjwEOdrd/rDn/EEMeoHidKE=
+	t=1712080473; cv=none; b=JzqSAOCpXeAGRHId64YL8BpcZkROmDurTtGYKHVGfDZhpvZWcr1k9DY4JX4zpytXncOT8qS+H2rIuVM43AkCJaNXHN3gISN3gYiVX8H+Vi7MNpvqo4sGZG8u6aJlpCrpJMvlp97sBZBxC/5HOScpKxF0HS3dall4zptBqXF5UwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712074965; c=relaxed/simple;
-	bh=TTK9Ecf0wm/vTr19oRkExfQrntAv/w6u+rTBVzSrC0A=;
+	s=arc-20240116; t=1712080473; c=relaxed/simple;
+	bh=y6fRRYnxL7nsasyFfqUuJZOEN/f8bLiORoy3Ds2BY20=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iokVEWeo8AqFlWVPmyOa5HOJwDcR/HBnbzOphLsgm/7cKejL01NQot3uJbuj5lU4m5IH56qQiCpcbFNClsxaA650/GhVSAvduMVK0H+DeuPCJDayIDAigJFD/G/jvP6mtHohQ7bZwtmcuH1LdfhFMGWc97MCb5x7TcbMGrIAGXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkQzNcao; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011B0C433F1;
-	Tue,  2 Apr 2024 16:22:44 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXpqnup6uhsxJYJ9BbEIbPMz1Pt8gN9/4tL94yFxH+3Y1DhvWl/yYYUPDwUC63GkJtrpH7I46W5KZYhP9tDREDsm63KGuOG5PyaaN6P3hGiZ8W4zTr3fNh6dU/7Ycqiqm81csE1LUSJaKbnzajixvDNiZRCyzslkozfLvL6RGEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDX0oPfr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148D4C433F1;
+	Tue,  2 Apr 2024 17:54:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712074965;
-	bh=TTK9Ecf0wm/vTr19oRkExfQrntAv/w6u+rTBVzSrC0A=;
+	s=k20201202; t=1712080473;
+	bh=y6fRRYnxL7nsasyFfqUuJZOEN/f8bLiORoy3Ds2BY20=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jkQzNcaoCwevoUeoCLg4BigA8IMxCym7HiDT863zs7+Pii441q8F35tDtduy0ntgy
-	 OR3v9fQ2dWUHIO6KDEaXsVRIq4tB+k89JgOa4cvaeKsHPsvMn+CRYv2xSIpTTYXqdM
-	 PCfraHV8VszI12uB8TzuR+1mgJY2ZaYcm+1jzCihNBCc4h3PAHCKcUqdeJvH7l3oTg
-	 d2Ui3/vaHlSo010byYBDrGruOgLSKbKZXXo2aWgg6B+1OrX9LQJjM9nbQ73/Ljew62
-	 mCeOWqsU2ePllVu3Xf2ABoO9bwdcC8B03yzuxUQU+9m3QhbELg1VI58BjrKi5zxxhz
-	 ghOi+Qlloj8YA==
-Date: Tue, 2 Apr 2024 11:22:42 -0500
-From: Rob Herring <robh@kernel.org>
-To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Cc: phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-leds@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	b=bDX0oPfryasl5drGmVbt8Lj1fFa1ZavbkG35+L+RgXCJ+5cWrIRwe7cJPAqmvnWL+
+	 1+uoVKgIGXbY2bc3NfI/wapLbYKlukLQ/bsAkW6RYPyTEzXAw+msxBfYpAuLArzksP
+	 ZnrzFMHLFe6tTtdCWvD+U3WjiaefP7ryrfnfIHgj5MHmd67sTeExtcoGtSBDR+bw4Q
+	 CajDT7192jWEGyX07oiwVgbJeIed93P2mcXXw8uIZbPQnb8drWhaEjZM8LjKVCVh/h
+	 OTpz2NlC4pyV5+cKuOrGYbzBsWHGNiqYIhRblGd1MW3mI49j+sA848cq+F5jPN+1y3
+	 0mqWkGNskAA4Q==
+Date: Tue, 2 Apr 2024 18:54:28 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Gianluca Boiano <morf3089@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v2 1/3] dt-bindings: leds: Add Silergy SY7802 flash LED
-Message-ID: <171207496054.248936.15074257911967114651.robh@kernel.org>
-References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
- <20240401-sy7802-v2-1-1138190a7448@apitzsch.eu>
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: leds: leds-qcom-lpg: Add support for
+ PMI8950 PWM
+Message-ID: <20240402-dropbox-emcee-277e03a7d44d@spud>
+References: <20240402-pmi8950-pwm-support-v1-0-1a66899eeeb3@gmail.com>
+ <20240402-pmi8950-pwm-support-v1-3-1a66899eeeb3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="hdudIysQAOBteYw2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240401-sy7802-v2-1-1138190a7448@apitzsch.eu>
+In-Reply-To: <20240402-pmi8950-pwm-support-v1-3-1a66899eeeb3@gmail.com>
 
 
-On Mon, 01 Apr 2024 23:23:55 +0200, André Apitzsch wrote:
-> Document Silergy SY7802 flash LED driver devicetree bindings.
-> 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> ---
->  .../devicetree/bindings/leds/silergy,sy7802.yaml   | 100 +++++++++++++++++++++
->  1 file changed, 100 insertions(+)
-> 
+--hdudIysQAOBteYw2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Tue, Apr 02, 2024 at 02:35:44PM +0200, Gianluca Boiano wrote:
+> Update leds-qcom-lpg binding to support PMI8950 PWM.
+>=20
+> Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
 
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--hdudIysQAOBteYw2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgxGVAAKCRB4tDGHoIJi
+0mBlAQDBomjeWwP7a3lq5ocJkqBNTRStYWv9cLG3q1DkzVPuEAD+PhadSr4eRb0M
+nut7sQOgM4T1e+wkLYDhCBTRWYsTrQs=
+=A5DT
+-----END PGP SIGNATURE-----
+
+--hdudIysQAOBteYw2--
 
