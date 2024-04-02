@@ -1,89 +1,84 @@
-Return-Path: <linux-leds+bounces-1402-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1403-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED7A89570E
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 16:39:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68E3895998
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 18:22:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E2AA1F2169C
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 14:39:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D87961C21504
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Apr 2024 16:22:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CAD613329D;
-	Tue,  2 Apr 2024 14:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0398514AD34;
+	Tue,  2 Apr 2024 16:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkQzNcao"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B24B12C52C;
-	Tue,  2 Apr 2024 14:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF5D7A724;
+	Tue,  2 Apr 2024 16:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712068590; cv=none; b=jyTcjDXSy5z2AAYaheKBtqNduP6oYei0VTWMPBcXp9HFS349sBMO53m3XqB6Uw34If3/WXrgi/Au7fegLzGdq+2NQZKmZlnKxQbySU63NQYv4V2Dm/nnMKPP6ixEexBPx2DwRz6sxkpc5Ap0rSX+o148BZ9eVlZzhba0wTPl/n8=
+	t=1712074965; cv=none; b=as3lIYekEBzfDUxAXXo+vHAWH3lPqTgz1o49uiPyySV2mseN582U3K+HpSedrxvuXvuKHGQypra09KCYVR3JPs0LpQvoJ8aNMgUCkmEM8A82AqEJNQYp8bcKGFRd7p1GN1UPoBAID4M78vAW8p2HTjwEOdrd/rDn/EEMeoHidKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712068590; c=relaxed/simple;
-	bh=VyO/g5EMsSMNooFA+4a16rpT6xImDeimmmSJAcH6rQ4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=c+pqciUm1WdXAxr45dD9V6Z8EWxf51GCV0gx/uHPycuIAQRnECpag791h1Z4Pr+ObGnDOiCDJLyb8v7ZNE7NMVkl7Faml7w5a5K1D1lsp8NifJyrL4fHAWTLfQQrCJJFTKYyx1KauHvgy4UEbZ0VgKSyhSnw5+TwHoERwVrIsFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b69867.dsl.pool.telekom.hu [::ffff:81.182.152.103])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000064F1F.00000000660C17E8.00252CB9; Tue, 02 Apr 2024 16:36:24 +0200
-Message-ID: <5864594aa47ecfeb23d5d05a3afc02393f84b44e.camel@irl.hu>
-Subject: Re: [PATCH 1/3] dt-bindings: leds: add LED_FUNCTION_FNLOCK
-From: Gergo Koteles <soyer@irl.hu>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-  Ike Panhc <ike.pan@canonical.com>,
-  Hans de Goede <hdegoede@redhat.com>,
-  Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-  Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-  Rob Herring <robh@kernel.org>,
-  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-  Conor Dooley <conor+dt@kernel.org>
-Cc: platform-driver-x86@vger.kernel.org,
-  linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-  devicetree@vger.kernel.org
-Date: Tue, 02 Apr 2024 16:36:24 +0200
-In-Reply-To: <6b47886e-09ac-4cb9-ab53-ca64f5320005@linaro.org>
-References: <cover.1712063200.git.soyer@irl.hu>
-	 <8ac95e85a53dc0b8cce1e27fc1cab6d19221543b.1712063200.git.soyer@irl.hu>
-	 <6b47886e-09ac-4cb9-ab53-ca64f5320005@linaro.org>
-Autocrypt: addr=soyer@irl.hu; prefer-encrypt=mutual;
- keydata=mDMEZgeDQBYJKwYBBAHaRw8BAQdAD5oxV6MHkjzSfQL2O8VsPW3rSUeCHfbx/a6Yfj3NUnS0HEdlcmdvIEtvdGVsZXMgPHNveWVyQGlybC5odT6ImQQTFgoAQRYhBLSYvEYEgjzzEMQCqgtEJzXf/1IRBQJmB4NAAhsDBQkFo5qABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEAtEJzXf/1IRmdYA/0bE1BX7zOGKBgCa1DwzH2UHXawSKLpptADvI/ao6OOtAP4+wYgpR0kWR28lhmkRTpzG/+8GiMWsT60SV2bz9B7sCbg4BGYHg0ASCisGAQQBl1UBBQEBB0CPo8ow/E97WYtaek9EsLXvsvwpBsjWLq5mMOgJL/ukCwMBCAeIfgQYFgoAJhYhBLSYvEYEgjzzEMQCqgtEJzXf/1IRBQJmB4NAAhsMBQkFo5qAAAoJEAtEJzXf/1IRklEA/ipTfAI/onzNwZIp9sCdnt0bLhR5Oz8RD/FpbrJV1v7eAP0c/C6NQPDPWbQpobBR0pf1eTjWXjjr1fj2jxSvWbMRCw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1712074965; c=relaxed/simple;
+	bh=TTK9Ecf0wm/vTr19oRkExfQrntAv/w6u+rTBVzSrC0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iokVEWeo8AqFlWVPmyOa5HOJwDcR/HBnbzOphLsgm/7cKejL01NQot3uJbuj5lU4m5IH56qQiCpcbFNClsxaA650/GhVSAvduMVK0H+DeuPCJDayIDAigJFD/G/jvP6mtHohQ7bZwtmcuH1LdfhFMGWc97MCb5x7TcbMGrIAGXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkQzNcao; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011B0C433F1;
+	Tue,  2 Apr 2024 16:22:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712074965;
+	bh=TTK9Ecf0wm/vTr19oRkExfQrntAv/w6u+rTBVzSrC0A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jkQzNcaoCwevoUeoCLg4BigA8IMxCym7HiDT863zs7+Pii441q8F35tDtduy0ntgy
+	 OR3v9fQ2dWUHIO6KDEaXsVRIq4tB+k89JgOa4cvaeKsHPsvMn+CRYv2xSIpTTYXqdM
+	 PCfraHV8VszI12uB8TzuR+1mgJY2ZaYcm+1jzCihNBCc4h3PAHCKcUqdeJvH7l3oTg
+	 d2Ui3/vaHlSo010byYBDrGruOgLSKbKZXXo2aWgg6B+1OrX9LQJjM9nbQ73/Ljew62
+	 mCeOWqsU2ePllVu3Xf2ABoO9bwdcC8B03yzuxUQU+9m3QhbELg1VI58BjrKi5zxxhz
+	 ghOi+Qlloj8YA==
+Date: Tue, 2 Apr 2024 11:22:42 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+Cc: phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-leds@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v2 1/3] dt-bindings: leds: Add Silergy SY7802 flash LED
+Message-ID: <171207496054.248936.15074257911967114651.robh@kernel.org>
+References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
+ <20240401-sy7802-v2-1-1138190a7448@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240401-sy7802-v2-1-1138190a7448@apitzsch.eu>
 
-Hi Krzysztof,
 
-On Tue, 2024-04-02 at 15:55 +0200, Krzysztof Kozlowski wrote:
->=20
-> Do we really need to define all these possible LED functions? Please
-> link to DTS user for this.
->=20
+On Mon, 01 Apr 2024 23:23:55 +0200, André Apitzsch wrote:
+> Document Silergy SY7802 flash LED driver devicetree bindings.
+> 
+> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> ---
+>  .../devicetree/bindings/leds/silergy,sy7802.yaml   | 100 +++++++++++++++++++++
+>  1 file changed, 100 insertions(+)
+> 
 
-I think for userspace it's easier to support an LED with a specified
-name than to use various sysfs attributes. LED devices are easy to find
-because they available are in the /sys/class/leds/ directory.
-So I think it's a good thing to define LED names somewhere.
-
-J Luke missed this LED from /sys/class/leds/, that's where the idea
-came from. The scrollock, numlock, capslock and kbd_backlight LEDs are
-already exported.
-
-https://github.com/tomsom/yoga-linux/issues/58#issuecomment-2029926094
-
-Best regards,
-Gergo
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 
