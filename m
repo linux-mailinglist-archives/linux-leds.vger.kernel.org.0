@@ -1,75 +1,80 @@
-Return-Path: <linux-leds+bounces-1413-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1414-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478E6896969
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Apr 2024 10:47:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BBA89698D
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Apr 2024 10:51:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B17BA1F2C6A9
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Apr 2024 08:47:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8274D1C25EB7
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Apr 2024 08:51:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51DF77351A;
-	Wed,  3 Apr 2024 08:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB5F5C61A;
+	Wed,  3 Apr 2024 08:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gtvMuu1q"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aFjr2V9x"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAFC6E5F6
-	for <linux-leds@vger.kernel.org>; Wed,  3 Apr 2024 08:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5487E6EB53
+	for <linux-leds@vger.kernel.org>; Wed,  3 Apr 2024 08:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712133971; cv=none; b=FgZaFHCxwBtNPRqgTCXBfeFfRIoDxWkuNvo1UB8KdxfMarRagzkXuoeBsJ+aJiSVeQp1SrqGynKXxHYjlLATmjx5Xi1QXcfwJUX/tbdsLhVngKb6FsnJ2hK6u0o1HNPrpcrN+rV7qpebqGGuv5GjRbWpBSvq3ZZUKhdbPFluPnE=
+	t=1712134269; cv=none; b=mhaYVcGtnbL0A4qjxZ/zDq1Y2TRucKWleST6fUIJkLO6z3vcsdMadugn3hQLL4T2+A81vfJrCTkQrFOCFKWN9fYFCUwbX9RKr+rIaQbptpJUnX4yCEs+o0e32Z9EEMmAGS385J81p/vNzYoKpPslt997FQ36GHiaRijiq9QS8bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712133971; c=relaxed/simple;
-	bh=uALJs2fW5aCmUwKExr5plMae4PhdqTYTzXwAOBEagq8=;
+	s=arc-20240116; t=1712134269; c=relaxed/simple;
+	bh=yNeV4z/PWJVyzzzivGAxNQiXug1KMK16UfKr4VpFu10=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hW9gDSj+/52GDDrY8wbmLnn/NZvvwTkmtHNxlpzr3qPcOqKIyyjdJGwucF3e4Asw1bduLtY8OxXp2BEIsMKOa55fneFBM57wdmZLI4vDOi7fiKGZjffp8eCeltVhOiPcmFIo2s91bAO7pce/5gojQZTpr7J0wDe30rs1Kx/kBfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gtvMuu1q; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-513e6777af4so10054177e87.2
-        for <linux-leds@vger.kernel.org>; Wed, 03 Apr 2024 01:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712133967; x=1712738767; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=WzpyWD37GIueedXS91b6H3un1NtFZn6PufsmH3W5E98=;
-        b=gtvMuu1qJsyAqG5PeAxHzQSJL8tBnsWLaFXIeyonX+4omD+SkPzt69z3ePezZiVSUj
-         tTMSSDNaghscKNL6e8q6FR6PDTAaRFBx0lj5ZrhVbEeAiAW3Kv5x264UWEbSXhh6DqCL
-         m39wgXFHThoKPclxt5LE/7+Q6tEGC4b/LopOYHw2SAiRMAFVlK0hBLL4OFmAmb0ASZW3
-         RRO5LDXEg0icMZgCFxLHsKUiCvKpEXF9D89o4bFl88tZTlNgUVL5IwtBPAoARwpcAWYz
-         +Vd/v1kLWQmWDI/etjBF6nuQazg/4HYt2cCSiHOxPfvPAF7occTnL0+ESr/bgivPuyqZ
-         +4pw==
+	 In-Reply-To:Content-Type; b=ILillPJxvQ35iDWDmwNGOOpccgsnPZ+0SmEwwQuY9CEnDrwAPntUXjjCjThJ42cjEiVGhcoc9UrGjzq+kZHgta4RCHY/VZRuzHUzcReEc8yEjqFjky1FPUWx3HBJ+ly1LCXqkuHGJEf5zR5MtKqFX+r4ojzIaEsRIHeRVNY8b8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aFjr2V9x; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712134267;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ftwTQ4DomVP4vKswlA/sGzSPQmPFYykxxeMk1bR9OoQ=;
+	b=aFjr2V9xAoYygLImlXWr5gCTolJoAbPXCaLr6V0rCAZxumBzjgdxJMNAK76JsbzpBRFSJ3
+	eYaiZOhstz2qNKt4j15PqECpYg1Vxr4sY2i6rxmNsMj8dSxZA9mnEKYHkZWInXrRVV9zGu
+	sWGO6fCaqPDyS2KyQZB3Fos7eSKMGMg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-457-mNSEYbTDN9uY38yDAjGLKw-1; Wed, 03 Apr 2024 04:51:05 -0400
+X-MC-Unique: mNSEYbTDN9uY38yDAjGLKw-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a4dfdbdaf06so349018866b.3
+        for <linux-leds@vger.kernel.org>; Wed, 03 Apr 2024 01:51:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712133967; x=1712738767;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WzpyWD37GIueedXS91b6H3un1NtFZn6PufsmH3W5E98=;
-        b=E+QdPWCQtrxKB3SN+85kcuXC9NHge2GERnuG8Ot5MeBjPLOFLtkI1EYyv1TQpfJpS4
-         DuQZQtOr1E4vv8v5ldKhYIjZU7EZzONSscH6oTvc+Yk3M9+7GrSjTu+qPi45DgH24DJY
-         3Vg0t94kt9nnRd1lZghBL0QEcviCMJyc3oJpKminq/13L8Y9L7TU7xa7+NEPQr8omDkV
-         iGZc5fRHCZgQm8UZKRonasPmmfmz5qrjX/eKYWSR9z59ETqTB2DwXc0+lBVX8iTdbvZ/
-         4Ffjc8VjZuCusLMj2tWLO80mMxgDVeJw8S+4xTvLj9vgZNLFNDJiskKl5fWXTUO+YEhq
-         a2Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXwJ7sSAoCW+dFvkpmRZ6K5xhQG0h9ZvWvNGEcrlyOJEwZfgFwvqUd5CditzF2neBgwVx4qZp+DO3lcq0WwBQkAC/KNKBudHvUx7w==
-X-Gm-Message-State: AOJu0YwsEmLHSfWkTtOvYcEyQblTfuoVDlR+SmCYiPV4cbIUOv07H0HW
-	gZCoVMz76HXdqiyZBHpeSmHwg0AcFtNp5NjgLGCG4sGek/5SzPJqMtxGsbj/l9g=
-X-Google-Smtp-Source: AGHT+IHHRrHC9q6+MILcKCm6lmtVLyW7n0+jKwCHWkoIFn72x5mKqh6egGchEYhlqDfms40Zpm881w==
-X-Received: by 2002:ac2:4e11:0:b0:516:9792:773c with SMTP id e17-20020ac24e11000000b005169792773cmr4060635lfr.48.1712133967488;
-        Wed, 03 Apr 2024 01:46:07 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id b22-20020a170906d11600b00a46f95f5849sm7484833ejz.106.2024.04.03.01.46.06
+        d=1e100.net; s=20230601; t=1712134265; x=1712739065;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ftwTQ4DomVP4vKswlA/sGzSPQmPFYykxxeMk1bR9OoQ=;
+        b=bzUM6lB3u6KOgdlVYApzSl8ky/M9uD24fO0HuR11gC1DUzeSdm2VOm6/yc/4U4lktb
+         9BowYiBeEXJ8lC5jogYhrRwQkWKAeWn9tzeofhzfqeKtz6Qt4kwIrLfoqQybh8fdslDd
+         AeL4clacgWtOg7RrV9oJO0PhwkUx7momT2lsHlD5Va4FBFvNqM75KO2A2IxirfkOdYQn
+         crXRZ2Qyju1o15yJdYXf8M62BxeodCRqeI2+PJRZedsuFRkfPoc/EIzcOleTvHPzR3Wn
+         R7TRbHjUqe0GZeU2NYH2p7O3LC1clKIw1jgQgyVtsQl8mzUOTZVjakyTRvY8WgwtTJts
+         QFsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8kD/4zxkerkWlL6jyscWQt7vCzadMjjxglQKTLcEVMbL7SA9rxbTPRqweHjJqopFKgzISbzb5n1cg4P6xOXz5RN17NbmvMFL+SQ==
+X-Gm-Message-State: AOJu0YwET8ApMY+bgavqMD7UYHK8/pL7/nSYcS8srsbMKCtfVupBREnt
+	8rdTzrPb2kNOUatI3qDf2M8uZbdjvwjZ7eXdq2ZeNpPqRgPl1TQbImdOMs4XWUzUEuKnKm3FrB+
+	/cERG/+eiVM074N1pXX9fHleR3WrIwWQY9VMJRHmKDkUHYuMU3Et5ulIHA7M=
+X-Received: by 2002:a50:9550:0:b0:56d:f375:29a8 with SMTP id v16-20020a509550000000b0056df37529a8mr2256043eda.36.1712134264874;
+        Wed, 03 Apr 2024 01:51:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEwT6tT+kScrk/JwtM/C4YQ4Oeghtzd6zvvvgwsKFGDFynobYE/66/6Tw6MA36U5g1BHNJNXA==
+X-Received: by 2002:a50:9550:0:b0:56d:f375:29a8 with SMTP id v16-20020a509550000000b0056df37529a8mr2256031eda.36.1712134264599;
+        Wed, 03 Apr 2024 01:51:04 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id i23-20020a05640200d700b0056ddc4415eesm2723204edu.14.2024.04.03.01.51.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 01:46:07 -0700 (PDT)
-Message-ID: <17a700a7-44f0-4e46-9a0c-4c2da44c9e27@linaro.org>
-Date: Wed, 3 Apr 2024 10:46:04 +0200
+        Wed, 03 Apr 2024 01:51:04 -0700 (PDT)
+Message-ID: <98229bf5-791f-4914-82de-7cee15bc41ce@redhat.com>
+Date: Wed, 3 Apr 2024 10:51:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -78,8 +83,8 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] dt-bindings: leds: add LED_FUNCTION_FNLOCK
-To: Hans de Goede <hdegoede@redhat.com>, Gergo Koteles <soyer@irl.hu>,
- Ike Panhc <ike.pan@canonical.com>,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Gergo Koteles <soyer@irl.hu>, Ike Panhc <ike.pan@canonical.com>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
  Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
  Rob Herring <robh@kernel.org>,
@@ -93,80 +98,48 @@ References: <cover.1712063200.git.soyer@irl.hu>
  <39acb3b9-a69f-4654-9749-a9af42fea39e@redhat.com>
  <368e9817-0000-4f69-9f09-568827466121@linaro.org>
  <4956933c-49c4-49ab-a91a-7e0efcc211d5@redhat.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <4956933c-49c4-49ab-a91a-7e0efcc211d5@redhat.com>
+ <17a700a7-44f0-4e46-9a0c-4c2da44c9e27@linaro.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <17a700a7-44f0-4e46-9a0c-4c2da44c9e27@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2024 10:39, Hans de Goede wrote:
+Hi,
+
+On 4/3/24 10:46 AM, Krzysztof Kozlowski wrote:
+> On 03/04/2024 10:39, Hans de Goede wrote:
+>>>>
+>>>> must have a dts user before being approved too ? Since
+>>>> that file is included from include/dt-bindings/input/input.h ?
 >>>
->>> must have a dts user before being approved too ? Since
->>> that file is included from include/dt-bindings/input/input.h ?
->>
->> Wait, that's UAPI :) and we just share the constants. That's kind of
->> special case, but I get what you mean.
->>
+>>> Wait, that's UAPI :) and we just share the constants. That's kind of
+>>> special case, but I get what you mean.
 >>>
->>> TL;DR: not only is this patch fine, this is actually
->>> the correct place to add such a define according to
->>> the docs in Documentation/leds/leds-class.rst :
+>>>>
+>>>> TL;DR: not only is this patch fine, this is actually
+>>>> the correct place to add such a define according to
+>>>> the docs in Documentation/leds/leds-class.rst :
+>>>>
+>>>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 >>>
->>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Thanks. Is it ok for me to merge this through the pdx86
+>> tree (once I've reviewed the other 2 patches) ?
 > 
-> Thanks. Is it ok for me to merge this through the pdx86
-> tree (once I've reviewed the other 2 patches) ?
+> You need to sync (ack) with LED folks, because by default this should go
+> via LED subsystem.
 
-You need to sync (ack) with LED folks, because by default this should go
-via LED subsystem.
+Ok, will do.
 
-Best regards,
-Krzysztof
+Pavel, Lee can you give me an ack for merging this through the pdx86 tree?
+
+Regards,
+
+Hans
+
+
+
 
 
