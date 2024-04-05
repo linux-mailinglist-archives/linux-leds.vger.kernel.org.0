@@ -1,75 +1,72 @@
-Return-Path: <linux-leds+bounces-1416-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1417-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728FF89995A
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 11:23:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A07A89A5D9
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 22:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB2B9B2280B
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 09:23:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBB0B282FDC
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 20:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BBC615FCE1;
-	Fri,  5 Apr 2024 09:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D3C172BBF;
+	Fri,  5 Apr 2024 20:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDqRjjxG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGb716Zu"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA83715FA9A;
-	Fri,  5 Apr 2024 09:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4B1172766
+	for <linux-leds@vger.kernel.org>; Fri,  5 Apr 2024 20:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712308982; cv=none; b=PViiWr+rfWKWf+cSJah3ffvOEy5lx3NNP3v1hFUfzNaYNUqSwXdyiDANLBuuz8Dzc9D3cCfc1gOOCVny98IfRwTPZQRYIyVvLMOQqol9A+JC6BiFGvZaOJgdVBVektzi9HCrNkkMjgNJGatUlhrm+sltZfJyy/BFpI9OPjaoWJE=
+	t=1712350392; cv=none; b=aPZCpibt3DQiw6l4fzbUAU3F/DKYNr376Pgj2sJREL7Aa+8rT+ABLBizVMJIzPYxpt02I602wzE75MAA5kuvb03c6T0vnNIB2VkdbuETxw6Tn1M6W/ydfVSPUZUTHqQjY5H/4HhNoN8zf89NQqxDbhs9rCciR1OztXWdD88/JHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712308982; c=relaxed/simple;
-	bh=3ZuskFzn33/aCK7Jkdn1rVWi3XVf1KzYd4iZcT97pNM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tL76eOOrDFGoHRYVqOEiL1MD5J5BIbEhDxPrrxXUOAkDMeVzYRjdAc7lzDXFjMcAUElOEQ/76WJLPLr33fAfAJCxKIEmFh1yMRCvzJ64BnU5eqI08QfhA9pxV8CD7z9lwK5ROEBBbFEunHqPRP/6BCA5UpDcpBnECl/TSAurnHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDqRjjxG; arc=none smtp.client-ip=209.85.218.41
+	s=arc-20240116; t=1712350392; c=relaxed/simple;
+	bh=ZHtJw4O/OcfcmAT7SVssjm77ZuozvRvCyzYnyQzNxwc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=bMFCASgQhPFoot9qI3g++OFlTTP9QBIR5zlccXu+52jjFGyfat8dAVqxOKw17b0X2Nnhda0uFkrWHfq8oW45+ci8sCriOQYBuHsKaY+AD0cxKOyLHLeOw6pxQvc+F4YKiY7Pz2KfiCn2cy/kDqOCFYvrC2snlb7+92LP5Y6IZJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGb716Zu; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a4702457ccbso265059766b.3;
-        Fri, 05 Apr 2024 02:23:00 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-565c6cf4819so6473341a12.1
+        for <linux-leds@vger.kernel.org>; Fri, 05 Apr 2024 13:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712308979; x=1712913779; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=noqD/5X0c5Dn8ZuUFAcFbdLma+HUeke+SMpKeYbbirA=;
-        b=aDqRjjxGE9jaaWNn4o0jnifT37U1zs7cncw4O1sJ1qw0kkXLEzelGRIJhWds92/g6K
-         kAypMpDAvFvMtryQQHtXCc+/yKFtsc/Jnd3svWJNIfNJw4syY34mOWOY4q0AX5spKVir
-         NI36MPZnKolDfvxg5D5pgCAoT6iPjQi/1b1WcTJUHAfcVJkYA1E+Oy7L/UqpoCCZMP8Y
-         MObTm8Pptb5zEjVUIkLQb+tubJFX9ozHSggzdGEmRk/2sgMGcn9ec+aheVQPmrcgzANo
-         h6lgq/e5n9QygavjNQgWiuVFUls/fDWXxcJJAiPfn3p2cUEoMETeakdSUG9wuc2+qnoE
-         kCwA==
+        d=gmail.com; s=20230601; t=1712350389; x=1712955189; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PTqeqoNIlbi68ICGYQ0O84/JiX1ipYLCjq/fPeB1Xa8=;
+        b=NGb716Zuq1p1cbBMWzDYHbkFlwjkUjNR0Zh8eRlmSxj/VMrPeASY8hb1AEHzq3NGJ6
+         MvYlilU7hBt3Ht5P4JrP58KdU7pydZ/2YOdNm8mxyQ3ZxCo9Cp6cPUgS1CfM23uJOs+r
+         TBUQm7EZIY/Bnys9MO16S76qMLhe3yIJl8HsITi7huLk+I/uviLCzQWmEJWztvqNQTPv
+         ph9s/8hmNd6VZMIo9qO2v4F7lTaw+6FnIWXDuzIG2S5OAkUATzhzJqN+6jPk3CzzyHqr
+         1GEkQpmQgP4w6jkrlV2SPXYgbxR1UXAl+9q3GROWNi71quq8/MKc0ML+JekyKc7S1LQq
+         2LAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712308979; x=1712913779;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=noqD/5X0c5Dn8ZuUFAcFbdLma+HUeke+SMpKeYbbirA=;
-        b=wynY5pqj14rqLVMC9vy+qDTuzbSfAVdT6qcPZeKGd4hjAzD9zPLZDxPAzNRFrXGtgG
-         WBOnTl4YFx36ALbGbHuTG/3N8PJXJq97MAtLbNm1okPg5VwdGlnmxEJ2wkvj+NIDd75z
-         8Z6NcRYT8X965Cm+ii+ZOcB5kqrAxGshKMll0I9uIP9eyra8lF4/Lm+PfiVB10wDtJa9
-         UVAXdWnTsh2JTG9PW6pzSR4qlHNCvOu3g2qMR+Qo6S13Foe3UPGuQUXYfHtYEXxRnrQs
-         MWPVX37Cxn81qGRovJo0YLSuFrhmf2lKmO6FcJEduDY2VYhueHDIkfiDQBTezVp6Q4Po
-         f/cg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6lgcy4UUy00PPdI7oPsbTk4NjSqFuh1+ObOSVBiPBZ9dTPTVuSXrdsv6moTEWgUznGjgnOijuhSv2/jEEuDEeCG+dXh0SGk4pyyt6xLMfRJmcZH6xh7T/hRa9ijN88tKy82dIHxF9
-X-Gm-Message-State: AOJu0Yy5mTuA958WEgFEzDXLWbAQWnD0pJMzXvQV38jFTf1eZwMJWaVr
-	M5zTg7+O++6QZM2BfdC9ndlDG2Qr2XFvsqzr1UJuY+2EFEJB/GDB
-X-Google-Smtp-Source: AGHT+IEgQddVqn3eIR/IcjcljU5/pt9BT7UF8+EoQj9V2Nd3SGUgkdY1anII0v6MlQwyQYIjUksQuQ==
-X-Received: by 2002:a17:906:7c54:b0:a51:962d:e06b with SMTP id g20-20020a1709067c5400b00a51962de06bmr617313ejp.55.1712308978893;
-        Fri, 05 Apr 2024 02:22:58 -0700 (PDT)
-Received: from ?IPV6:2a01:c22:72bb:b200:3c73:5b9d:154b:3af6? (dynamic-2a01-0c22-72bb-b200-3c73-5b9d-154b-3af6.c22.pool.telefonica.de. [2a01:c22:72bb:b200:3c73:5b9d:154b:3af6])
-        by smtp.googlemail.com with ESMTPSA id jg29-20020a170907971d00b00a518bcb41c1sm609593ejc.126.2024.04.05.02.22.57
+        d=1e100.net; s=20230601; t=1712350389; x=1712955189;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PTqeqoNIlbi68ICGYQ0O84/JiX1ipYLCjq/fPeB1Xa8=;
+        b=P1kg3UOz2nPUnLvg4Ob/sPMcYq46DA+vrps3Zzwu/1tNJXpzqLxgqbaFMmsj1htneI
+         Q0mJxrh64uDEvlZMZE44PoU6W2drJUFgPVTt46nzEtGpaBqHwpbFKzknl+1/jI3aHGDJ
+         CxFwiUQdUOXu3kLJ405Mll6729wwXbE40Z/gZGRzpotZFvL1Yk66o0wk95j7XDg+4rrM
+         bnSx9IIUOMpXngiKbHWKPE18D5cC9lkbLEOzhiJ8UQCm8fGWuegMjafROduJTY45KqF4
+         +NUT7ealn7V6mwuRRBJsdmKZoD95v9CQDVvOcMbblvVQCNJthQqRqNlmG5SiqmfTO/bz
+         wWog==
+X-Gm-Message-State: AOJu0Ywl1fAlv2iQghRW2k39OaEc9x5WOT0fXl+Dn9ZaTFHSGPCVVF6a
+	CnMRf+kKhpfNWN3m5dDKy4Zc4sVlmLV3rif8VhPp2v1wHm2VxfNY
+X-Google-Smtp-Source: AGHT+IFIQ4MACBVIxDcwuKS/lOvNs6w/eh038yUZJ4g160L57hBBBpCX1XG6/NVxfzb0fcTQrT5hMA==
+X-Received: by 2002:a17:906:f20d:b0:a4e:df0:e9e with SMTP id gt13-20020a170906f20d00b00a4e0df00e9emr2426771ejb.24.1712350389239;
+        Fri, 05 Apr 2024 13:53:09 -0700 (PDT)
+Received: from ?IPV6:2a01:c22:72bb:b200:e0e0:cd27:7a04:5c79? (dynamic-2a01-0c22-72bb-b200-e0e0-cd27-7a04-5c79.c22.pool.telefonica.de. [2a01:c22:72bb:b200:e0e0:cd27:7a04:5c79])
+        by smtp.googlemail.com with ESMTPSA id dr20-20020a170907721400b00a518c69c4e3sm1219229ejc.23.2024.04.05.13.53.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Apr 2024 02:22:58 -0700 (PDT)
-Message-ID: <6c0a1792-50a2-4208-8f6e-fbf0295110c0@gmail.com>
-Date: Fri, 5 Apr 2024 11:22:58 +0200
+        Fri, 05 Apr 2024 13:53:08 -0700 (PDT)
+Message-ID: <8dc929e7-8e14-4c85-aa28-9c5fe2620f52@gmail.com>
+Date: Fri, 5 Apr 2024 22:53:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -77,18 +74,12 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-mips@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- Pavel Machek <pavel@ucw.cz>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com> <20240328104232.GZ13211@google.com>
 Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] leds: trigger: netdev: Remove not needed call to
+ led_set_brightness in deactivate
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -132,42 +123,32 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-In-Reply-To: <20240328104232.GZ13211@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28.03.2024 11:42, Lee Jones wrote:
-> On Tue, 05 Mar 2024, Lee Jones wrote:
-> 
->> On Tue, 05 Mar 2024, Lee Jones wrote:
->>
->>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
->>>> If a simple trigger is assigned to a LED, then the LED may be off until
->>>> the next led_trigger_event() call. This may be an issue for simple
->>>> triggers with rare led_trigger_event() calls, e.g. power supply
->>>> charging indicators (drivers/power/supply/power_supply_leds.c).
->>>> Therefore persist the brightness value of the last led_trigger_event()
->>>> call and use this value if the trigger is assigned to a LED.
->>>> This change allows to use simple triggers in more cases.
->>>> As a first use case simplify handling of the mute audio trigger.
->>>>
->>>> [...]
->>>
->>> Applied, thanks!
->>>
->>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
->>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
->>> [2/3] ALSA: control-led: Integrate mute led trigger
->>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
->>> [3/3] leds: trigger: audio: Remove this trigger
->>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
->>
->> Submitted for build testing.
->>
->> Once succeeded, a PR will follow for other maintainers to pull from.
-> 
-> Rebased onto v6.9-rc1 and resubmitted for build testing.
-> 
-Can the series be expected soon in linux-next for broader testing?
+led_trigger_set() is the only caller of the deactivate() callback,
+and it calls led_set_brightness(LED_OFF) anyway after deactivate().
+So we can remove the call here.
+
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/leds/trigger/ledtrig-netdev.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index ea00f6c70..22bba8e97 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -724,8 +724,6 @@ static void netdev_trig_deactivate(struct led_classdev *led_cdev)
+ 
+ 	cancel_delayed_work_sync(&trigger_data->work);
+ 
+-	led_set_brightness(led_cdev, LED_OFF);
+-
+ 	dev_put(trigger_data->net_dev);
+ 
+ 	kfree(trigger_data);
+-- 
+2.44.0
 
 
