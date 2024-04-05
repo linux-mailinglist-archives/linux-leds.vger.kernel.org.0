@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-1417-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1418-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A07A89A5D9
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 22:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3126889A5DF
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 22:58:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBB0B282FDC
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 20:53:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D116328145E
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Apr 2024 20:58:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D3C172BBF;
-	Fri,  5 Apr 2024 20:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB7B1172BBF;
+	Fri,  5 Apr 2024 20:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGb716Zu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="avqmxLiO"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4B1172766
-	for <linux-leds@vger.kernel.org>; Fri,  5 Apr 2024 20:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155C7171640
+	for <linux-leds@vger.kernel.org>; Fri,  5 Apr 2024 20:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712350392; cv=none; b=aPZCpibt3DQiw6l4fzbUAU3F/DKYNr376Pgj2sJREL7Aa+8rT+ABLBizVMJIzPYxpt02I602wzE75MAA5kuvb03c6T0vnNIB2VkdbuETxw6Tn1M6W/ydfVSPUZUTHqQjY5H/4HhNoN8zf89NQqxDbhs9rCciR1OztXWdD88/JHA=
+	t=1712350730; cv=none; b=mLGVFoh9enkl7sytb6DRp2XHz4XGgNLW7V88R9gB+eYpzbIG8v5a0pPh2pYlj+7CnWBRVpXmv407Q8j4CAnQFfBNKkl3cUSl2UZQU6NzW9vzSwCn7CBQixynXF6NtCQNwc4uRz/G+cb5VlLnub6rnwu6fKr7j9/kbbP4Vd8tc5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712350392; c=relaxed/simple;
-	bh=ZHtJw4O/OcfcmAT7SVssjm77ZuozvRvCyzYnyQzNxwc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=bMFCASgQhPFoot9qI3g++OFlTTP9QBIR5zlccXu+52jjFGyfat8dAVqxOKw17b0X2Nnhda0uFkrWHfq8oW45+ci8sCriOQYBuHsKaY+AD0cxKOyLHLeOw6pxQvc+F4YKiY7Pz2KfiCn2cy/kDqOCFYvrC2snlb7+92LP5Y6IZJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGb716Zu; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1712350730; c=relaxed/simple;
+	bh=9Ncq6gyVqY1Ve/n4g1Po3LoblM7Onl4qiURggoqzYjc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=H2C56ShUQ9NlsbbBAh4ZpsG59NMzuRyJG8ufuYjZW4OWYwDEcQ64b3KICiBzgk81RiVnlMrD5AzP8ddKzBu1Xe+Mf/8K1ZX4fPRKdeR9LSyZyqimPfKjg6ReXlV29/3F59sbIvVy9yhTtqKZBaaaxupqtRmDod2Mj1yjY72R+bM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=avqmxLiO; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-565c6cf4819so6473341a12.1
-        for <linux-leds@vger.kernel.org>; Fri, 05 Apr 2024 13:53:10 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a44f2d894b7so330001966b.1
+        for <linux-leds@vger.kernel.org>; Fri, 05 Apr 2024 13:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712350389; x=1712955189; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1712350727; x=1712955527; darn=vger.kernel.org;
         h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PTqeqoNIlbi68ICGYQ0O84/JiX1ipYLCjq/fPeB1Xa8=;
-        b=NGb716Zuq1p1cbBMWzDYHbkFlwjkUjNR0Zh8eRlmSxj/VMrPeASY8hb1AEHzq3NGJ6
-         MvYlilU7hBt3Ht5P4JrP58KdU7pydZ/2YOdNm8mxyQ3ZxCo9Cp6cPUgS1CfM23uJOs+r
-         TBUQm7EZIY/Bnys9MO16S76qMLhe3yIJl8HsITi7huLk+I/uviLCzQWmEJWztvqNQTPv
-         ph9s/8hmNd6VZMIo9qO2v4F7lTaw+6FnIWXDuzIG2S5OAkUATzhzJqN+6jPk3CzzyHqr
-         1GEkQpmQgP4w6jkrlV2SPXYgbxR1UXAl+9q3GROWNi71quq8/MKc0ML+JekyKc7S1LQq
-         2LAw==
+        bh=seXR3kauT39YZno+sQJlsFZf0CjzZDZenxtjwo/arTE=;
+        b=avqmxLiOspZlis9ewO559hPQ6V+suryW84AsoWIyLTW1Ox7hqglmr/AcXRFC4vKc7o
+         SurXsuSgOOUPQHtCtp5UHDy1+ZQImZQIbPuoBA4Q8GR0X8UZObOYtr1X7FZ1UGf5nCKG
+         Rrgq4KNHbjCW9x3YjjpDEAHH0d/KzZ0L3PiiK/PSt2uXSrsJUas7d1Fj/gvVZKfXpRgo
+         lGYAePOlZNW5dxRZU7dhXijQoZxyfLQF0bM+RcztXwsb14Ov7qHsAs+2Kd5QzZU9k4gV
+         DxLehgKsriSMAOmUDRr8WlxG+N6pHHafyT+Vg669HAh6WrhVbpsBnxXyiiCvBLxJ71uK
+         FYtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712350389; x=1712955189;
+        d=1e100.net; s=20230601; t=1712350727; x=1712955527;
         h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTqeqoNIlbi68ICGYQ0O84/JiX1ipYLCjq/fPeB1Xa8=;
-        b=P1kg3UOz2nPUnLvg4Ob/sPMcYq46DA+vrps3Zzwu/1tNJXpzqLxgqbaFMmsj1htneI
-         Q0mJxrh64uDEvlZMZE44PoU6W2drJUFgPVTt46nzEtGpaBqHwpbFKzknl+1/jI3aHGDJ
-         CxFwiUQdUOXu3kLJ405Mll6729wwXbE40Z/gZGRzpotZFvL1Yk66o0wk95j7XDg+4rrM
-         bnSx9IIUOMpXngiKbHWKPE18D5cC9lkbLEOzhiJ8UQCm8fGWuegMjafROduJTY45KqF4
-         +NUT7ealn7V6mwuRRBJsdmKZoD95v9CQDVvOcMbblvVQCNJthQqRqNlmG5SiqmfTO/bz
-         wWog==
-X-Gm-Message-State: AOJu0Ywl1fAlv2iQghRW2k39OaEc9x5WOT0fXl+Dn9ZaTFHSGPCVVF6a
-	CnMRf+kKhpfNWN3m5dDKy4Zc4sVlmLV3rif8VhPp2v1wHm2VxfNY
-X-Google-Smtp-Source: AGHT+IFIQ4MACBVIxDcwuKS/lOvNs6w/eh038yUZJ4g160L57hBBBpCX1XG6/NVxfzb0fcTQrT5hMA==
-X-Received: by 2002:a17:906:f20d:b0:a4e:df0:e9e with SMTP id gt13-20020a170906f20d00b00a4e0df00e9emr2426771ejb.24.1712350389239;
-        Fri, 05 Apr 2024 13:53:09 -0700 (PDT)
+        bh=seXR3kauT39YZno+sQJlsFZf0CjzZDZenxtjwo/arTE=;
+        b=ILG8dPyo3d2OBdA+wNCU/blFn3aAu1zENUDrQ936Jz3RFh9bh50K90bQ//4yhdkzg6
+         Nf9132sMpe1ghy9nmJWmhAtS02A+dLfcKXa6cuZUtcdVHxRA5wpmrN92edl6BCP6zfU5
+         YXwZ2aFSCMFRMhCTqy7jq+xdHJbm3H2i9aBu00kr5oToVfBYU6Yj4/gT1MHfp9dVbPkC
+         srKFijCG7yhunsYQHJdP7bnkIWGLLNWXLCRoc7KiV7o0NCAmPFi6Z56d6gTv6bFKKYPt
+         WAD65AUtqUFxkpnFEJtZe34mmK7ZNa8N2GEiq38kTxLGT2tKqRjYc4LF7ZlAh7tjqmPe
+         37bg==
+X-Gm-Message-State: AOJu0YyTAD+bvO/vXo6IfwEMhWs9eoB5Yo6Vlr8iEwkxLK5MzaBT2Iuf
+	YWffREooOzaz77YKYbXoU33R3WeFASSCQWoroLSWn75v8wBkNYE5TP0iEF+i
+X-Google-Smtp-Source: AGHT+IGvWb97CEOv+0d+NdUWMK87lry3duuldTQPIF/M6JGT8XoVAEqq1BYFOITZ3n1L4ZsWA+JPaA==
+X-Received: by 2002:a17:906:169a:b0:a51:b383:f582 with SMTP id s26-20020a170906169a00b00a51b383f582mr450176ejd.11.1712350727272;
+        Fri, 05 Apr 2024 13:58:47 -0700 (PDT)
 Received: from ?IPV6:2a01:c22:72bb:b200:e0e0:cd27:7a04:5c79? (dynamic-2a01-0c22-72bb-b200-e0e0-cd27-7a04-5c79.c22.pool.telefonica.de. [2a01:c22:72bb:b200:e0e0:cd27:7a04:5c79])
-        by smtp.googlemail.com with ESMTPSA id dr20-20020a170907721400b00a518c69c4e3sm1219229ejc.23.2024.04.05.13.53.08
+        by smtp.googlemail.com with ESMTPSA id re9-20020a170906d8c900b00a4e6750a358sm1211028ejb.187.2024.04.05.13.58.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Apr 2024 13:53:08 -0700 (PDT)
-Message-ID: <8dc929e7-8e14-4c85-aa28-9c5fe2620f52@gmail.com>
-Date: Fri, 5 Apr 2024 22:53:08 +0200
+        Fri, 05 Apr 2024 13:58:46 -0700 (PDT)
+Message-ID: <44177e37-9512-4044-8991-bb23b184bf37@gmail.com>
+Date: Fri, 5 Apr 2024 22:58:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -78,8 +78,8 @@ Content-Language: en-US
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
 Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: trigger: netdev: Remove not needed call to
- led_set_brightness in deactivate
+Subject: [PATCH] leds: core: Omit set_brightness error message for a LED
+ supporting hw trigger only
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -126,28 +126,30 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-led_trigger_set() is the only caller of the deactivate() callback,
-and it calls led_set_brightness(LED_OFF) anyway after deactivate().
-So we can remove the call here.
+If both set_brightness functions return -ENOTSUPP, then the LED doesn't
+support setting a fixed brightness value, and the error message isn't
+helpful. This can be the case e.g. for LEDs supporting a specific hw
+trigger only.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-netdev.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/leds/led-core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index ea00f6c70..22bba8e97 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -724,8 +724,6 @@ static void netdev_trig_deactivate(struct led_classdev *led_cdev)
- 
- 	cancel_delayed_work_sync(&trigger_data->work);
- 
--	led_set_brightness(led_cdev, LED_OFF);
--
- 	dev_put(trigger_data->net_dev);
- 
- 	kfree(trigger_data);
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index 89c9806cc..9485f799f 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -127,7 +127,8 @@ static void set_brightness_delayed_set_brightness(struct led_classdev *led_cdev,
+ 	ret = __led_set_brightness(led_cdev, value);
+ 	if (ret == -ENOTSUPP)
+ 		ret = __led_set_brightness_blocking(led_cdev, value);
+-	if (ret < 0 &&
++	/* Don't emit error message if LED supports a hw trigger like netdev only */
++	if (ret < 0 && ret != -ENOTSUPP &&
+ 	    /* LED HW might have been unplugged, therefore don't warn */
+ 	    !(ret == -ENODEV && (led_cdev->flags & LED_UNREGISTERING) &&
+ 	    (led_cdev->flags & LED_HW_PLUGGABLE)))
 -- 
 2.44.0
 
