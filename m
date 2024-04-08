@@ -1,170 +1,294 @@
-Return-Path: <linux-leds+bounces-1420-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1421-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B856589ADCD
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Apr 2024 03:08:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAE289BC88
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 12:01:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E31751C20A87
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Apr 2024 01:08:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 668D41F2294B
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 10:01:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27DF4A3D;
-	Sun,  7 Apr 2024 01:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3397D52F8C;
+	Mon,  8 Apr 2024 10:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gnuweeb.org header.i=@gnuweeb.org header.b="tT7beCP5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UxZXjuFj"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F5F81F;
-	Sun,  7 Apr 2024 01:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.211.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFF052F85
+	for <linux-leds@vger.kernel.org>; Mon,  8 Apr 2024 10:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712452124; cv=none; b=FeZLYsjV4kTFoOCA+tu/x6cmmTNaGmKC994CFTpIfQXEnL7XffsuQgKeaoiR7A28f0e7+qko/3oeOHAI1PxSzevHbdCwCsOJ5OO920//JMwbqWR+bIMq/X9E0fUvV3/WGpbCHlCjo3uaX2Epv6taH0z+qo5OzQX7V3Q/Qxypq/A=
+	t=1712570487; cv=none; b=LzFVy2lwIgHc24me2s78q279aSWuqTEGa64YHDI2Db7riem2fo6cX8TdmTL0/AJYzuOAWgONqe0TpOquf9ZcFH7VqzW5+vuKQCBxp/CTuTne+gWYomBWPYlGSyxrUoWGpVZ9kq4FUrmdhl8/0upx4cO6c4VAzBGTYCXLjqrtGGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712452124; c=relaxed/simple;
-	bh=CcOjLI0GWZofIXrmTkh1+TI42ZiuHGsX7W4wxX6Rbrk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nzf8CR81WqRnbCsyy4AqtlltfX6hUgUi/80Ew2gsAII+TEO4qmOCt3uffjw88a4Da/7CETaguZOPxXHq8EBLc74UPPUZaFUh+nhZ08N0O9Sy5n2Ds0jx7iAV2Rds60na6Ts78ijnjyX/lNTTo5p9yf4DEESEw8KbLfIk0t9Z1+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gnuweeb.org; spf=pass smtp.mailfrom=gnuweeb.org; dkim=pass (2048-bit key) header.d=gnuweeb.org header.i=@gnuweeb.org header.b=tT7beCP5; arc=none smtp.client-ip=51.81.211.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gnuweeb.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gnuweeb.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-	s=default; t=1712451480;
-	bh=CcOjLI0GWZofIXrmTkh1+TI42ZiuHGsX7W4wxX6Rbrk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=tT7beCP5uJdNDAwo2F8QzZhPOGKlTtYflRA0eOsZ99OWIL80ZtEK2BCjPVu7KSh1H
-	 kUgRk4SILVRQdGSP9MWM+PB5bX3u1/kRrGR8azZWzjwm3Hj+bdmYnhYO5CweG0gJ4l
-	 GEZIYaaqoCLOyLO5a9M96k3jaZMV7U3EUrmkZ+ZdCIuJCx2OksHM/IQMh3juIBeLgF
-	 9cYXFmXP3sTAMoy+T0Wv+6Uv/2UU1btEJ7kKDh1comW6jUpmwKMdHT9jXtMDNf/khv
-	 19btnxYuTXjf0pSo4FHfjfICrZPkm2fW6oqLO/3NBvMvvVQ6g646gQ21wcBK1I80Hz
-	 d7ll5nKyHfkLg==
-Received: from bloom.tail0d56f.ts.net (unknown [88.235.219.169])
-	by gnuweeb.org (Postfix) with ESMTPSA id 6ABA824AA7D;
-	Sun,  7 Apr 2024 07:57:56 +0700 (WIB)
-From: Stella Bloom <windowz414@gnuweeb.org>
-To: mustafa <mustafa.eskieksi@gmail.com>
-Cc: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	jdelvare@suse.com,
-	lee@kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux@roeck-us.net,
-	pavel@ucw.cz,
-	platform-driver-x86@vger.kernel.org,
-	Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	Stella Bloom <stelbl@elrant.team>,
-	Bedirhan KURT <bedirhan_kurt22@erdogan.edu.tr>
-Subject: [PATCH v5 0/1] platform/x86: Add wmi driver for Casper Excalibur laptops
-Date: Sun,  7 Apr 2024 03:57:44 +0300
-Message-ID: <20240407005746.412603-1-windowz414@gnuweeb.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
-References: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
+	s=arc-20240116; t=1712570487; c=relaxed/simple;
+	bh=97BBqua945E7I7h9dPaSB+3yDevWYdgThmAUaHtvckM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=uWYhwCDCCsf849LoKL4hZTkRpY+SdcZtMSBYOMdfhpDnUB4I5GJPmIWJZmjLh7KK2QNBc5/v0U9yhtvi7DdLHTfvxjHstzTvc1PVCgxkmGxYLeTtxe3OnKvcZ6g00JCryVXy/nPK/T35/MHICxj8/Vl6K/FwArmCVcEuEVDo8XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UxZXjuFj; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712570484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e1tArHT8gYtPjVKK3ePWLbDj56SEHA/79gDe5Lr/X4E=;
+	b=UxZXjuFjSdAbm2gE0uK5ybP/AXevR/2enEP+SBhEubCBWUyrJUrsSLmlmN9fPcYEglx4SN
+	NmByv939av2iI2ExNNkCk39DKdNN3LdVa1+P5RTDOmyzA063k8hV+MVoxahhzmNVHFa/Zo
+	J9NwZIJoN7wW9xAhFKIw/0kasGDbCWQ=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-152-OpTKN8PRO467CHgYMd1tRg-1; Mon, 08 Apr 2024 06:01:23 -0400
+X-MC-Unique: OpTKN8PRO467CHgYMd1tRg-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a4455ae71fcso290050766b.3
+        for <linux-leds@vger.kernel.org>; Mon, 08 Apr 2024 03:01:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712570482; x=1713175282;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e1tArHT8gYtPjVKK3ePWLbDj56SEHA/79gDe5Lr/X4E=;
+        b=L/m4cz0j1m8Ydjtj4xHg/qUdUhjTfbcZz74/acElasbUcsnEneseU/frPV5aqrHUuK
+         5bqeJXSqPbrgAcOHZxlb9MkPq621J0GpJfjOkfS+lVGK0PAaa76lRVg1WabY7lIoNVD+
+         wCH/UeWT5YVswLtAi+dw9TVOK1uVWtH5JEnC05Uft+1UJJ/+8IiiU3B/fJvDumzKFbLl
+         u1+ybHF/IYW93/OaPc1XhOqJw1zg8dkwEde5nwu3ynKEIBzDp3sNbi+2hFLtWiqHhkWo
+         142rkG3BcQJ28r4xjoMZCB5gOpYBktKbTO48/EcDZ+Q3CDbUVmcZkNdiQNtcb4YpPLjw
+         q57w==
+X-Forwarded-Encrypted: i=1; AJvYcCUhKEELiGFU32iAcC/xd9A2Advpu8j/sDfZmQk2pVVHVbtyX3nx9OUiMqW6Ji7NCfrxQnhqGF0NlXu/Oqtylqm2x+wllnBpotw9ZQ==
+X-Gm-Message-State: AOJu0YzWwS3XG+2/T54JbKfnVzyBuwkkRRsMPLswCMvYRl9j7sXd5fzZ
+	Y8N6VQZr1bOph5rQ4qxXOHaJPDOqDJLqAIApaeHYaogV7uu3bG6/YxnUXLjFq+/67C4ex4liU+e
+	4dCyjy42MeazzTiFUw+b0nhkC2dYsVFcymik6hKTMjEiHwjPpJKc7+mcVHeE=
+X-Received: by 2002:a17:907:6d06:b0:a50:7cdd:348f with SMTP id sa6-20020a1709076d0600b00a507cdd348fmr8252647ejc.46.1712570481826;
+        Mon, 08 Apr 2024 03:01:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTaN8Hrybbalkqub+RKPj1AmESZNp2DM0qv8jo5jnREEZ8ZG9J8Wh6+ltK3/J2nMwAbaLuiA==
+X-Received: by 2002:a17:907:6d06:b0:a50:7cdd:348f with SMTP id sa6-20020a1709076d0600b00a507cdd348fmr8252214ejc.46.1712570473452;
+        Mon, 08 Apr 2024 03:01:13 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id qt28-20020a170906ecfc00b00a4e8991cfbfsm4195312ejb.127.2024.04.08.03.01.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Apr 2024 03:01:13 -0700 (PDT)
+Message-ID: <0a5ea42f-cc57-492a-b0a9-18fe5045b5ee@redhat.com>
+Date: Mon, 8 Apr 2024 12:01:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/1] platform/x86: Add wmi driver for Casper Excalibur
+ laptops
+To: mustafa <mustafa.eskieksi@gmail.com>, ilpo.jarvinen@linux.intel.com,
+ jdelvare@suse.com, linux@roeck-us.net, pavel@ucw.cz, lee@kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
+ Werner Sembach <wse@tuxedocomputers.com>
+References: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
+ <20240324181201.87882-2-mustafa.eskieksi@gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240324181201.87882-2-mustafa.eskieksi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Hi Mustafa,
+
+On 3/24/24 7:12 PM, mustafa wrote:
 > From: Mustafa Ekşi <mustafa.eskieksi@gmail.com>
->
-> Hi,
-> I want to note that moving mutex_init to the bottom of the function
-> crashes the driver when mutex_lock is called. I didn't investigate it
-> further but I wanted to say that since Ai Chao also did it like that.
->
-> Driver sets all leds to white on start. Before that, when a led's
-> brightness is changed, that led's color gets set to white but others
-> keep their old colors which creates a bad user experience (at least for
-> me). Please inform me if this is a bad approach.
-> Also, this driver still lacks support for changing modes and I seek
-> advise for that.
->
-> Mustafa Ekşi (1):
->    platform/x86: Add wmi driver for Casper Excalibur laptops
->
->   MAINTAINERS                       |   6 +
->   drivers/platform/x86/Kconfig      |  14 +
->   drivers/platform/x86/Makefile     |   1 +
->   drivers/platform/x86/casper-wmi.c | 641 ++++++++++++++++++++++++++++++
->   4 files changed, 662 insertions(+)
->   create mode 100644 drivers/platform/x86/casper-wmi.c
->
+> 
+> This wmi driver supports Casper Excalibur laptops' changing keyboard
+> backlight, reading fan speeds and changing power profiles. Multicolor
+> led device is used for backlight, platform_profile for power management
+> and hwmon for fan speeds. It supports both old (10th gen or older) and
+> new (11th gen or newer) laptops. It uses x86_match_cpu to check if the
+> laptop is old or new.
+> This driver's Multicolor keyboard backlight API is very similar to Rishit
+> Bansal's proposed API.
+> 
+> Signed-off-by: Mustafa Ekşi <mustafa.eskieksi@gmail.com>
 
-Hi there,
+Thank you for your patch.
 
-I just wanted to pitch in by testing the driver on the kernel I use
-on my Arch install on an Excalibur G770.1245, namely xdevs23's
-linux-nitrous (https://gitlab.com/xdevs23/linux-nitrous), but trying to
-compile the driver using LLVM, which is the default compilation behavior
-in this kernel's AUR package, spits out the following error;
-```
-drivers/platform/x86/casper-wmi.c:633:3: error: field designator 'no_singleton' does not refer to any field in type 'struct wmi_driver'
-  633 |         .no_singleton = true,
-      |         ~^~~~~~~~~~~~~~~~~~~
-1 error generated.
-make[5]: *** [scripts/Makefile.build:243: drivers/platform/x86/casper-wmi.o] Error 1
-make[4]: *** [scripts/Makefile.build:481: drivers/platform/x86] Error 2
-make[3]: *** [scripts/Makefile.build:481: drivers/platform] Error 2
-make[2]: *** [scripts/Makefile.build:481: drivers] Error 2
-make[1]: *** [/home/stella/.cache/yay/linux-nitrous/src/linux-nitrous/Makefile:1919: .] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
-```
+Overall this looks pretty good I have one important remark
+about the LED names and some small remarks inline.
 
-I want to help debug this somehow, but I'm more of an Android custom
-ROM developer than a Linux kernel maintainer, so my knowledge on the
-programming and build system languages other than Java, Makefile, Bash,
-etc is pretty much limited if not outright non-existent.
+After those are addressed I believe this is ready for merging.
 
-I would *love* to see this driver actually hit mainline repos, and
-eventually the upcoming kernel releases, given how much I need to use
-this laptop of mine as a computer engineering student.
+<snip>
 
-Asking just for the case I manage to get this driver up and going on
-my end somehow: Is there a tool made for controlling the LED colors yet?
-I can still use CLI tools much like on ASUS ROG series laptops, but it
-would be much easier and more appreciated to have a GUI provided
-Excalibur series laptops' LED lights can virtually take any color in
-the RGB space - At least that's how I interpreted with the
-configurations I used to do on mine using Excalibur Control Center
-on Windows 10/11.
+> +#define CASPER_LED_COUNT 4
+> +
+> +static const char * const zone_names[CASPER_LED_COUNT] = {
+> +	"casper::kbd_zoned_backlight-right",
+> +	"casper::kbd_zoned_backlight-middle",
+> +	"casper::kbd_zoned_backlight-left",
+> +	"casper::kbd_zoned_backlight-corners",
+> +};
 
-And as for the profiles, let me make sure we're talking about the same
-thing in this term: You're talking about the "Office", "Gaming" and
-"High Performance" modes as seen in Excalibur Control Center, right?
-If so, can this be somehow integrated into `power-profiles-daemon`
-SystemD service for easier controlling with GNOME and other DEs that
-use it? It's fine if it can't be, this was just a thought struck on my
-mind for whatever reason.
+So these names should be:
 
-Please do CC me and the people I've added to the CC list with this email
-of mine on the upcoming revisions, if any. We would love to keep track
-of this driver and I personally would love to contribute into testing
-as a power user.
+static const char * const zone_names[CASPER_LED_COUNT] = {
+	"casper:rgb:kbd_zoned_backlight-right",
+	"casper:rgb:kbd_zoned_backlight-middle",
+	"casper:rgb:kbd_zoned_backlight-left",
+	"casper:rgb:kbd_zoned_backlight-corners",
+};
 
-Cc: Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
-Cc: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Cc: GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+with that change I think this is fine, but we really need
+to get an ack for this from the LED subsys maintainers.
 
-Also adding my organizational and school email addresses to the CC list
-so I can still be notified while I stay offline on this email address.
-GNOME Evolution doesn't run in the background and periodically check
-for emails sadly, and I switch ROMs every now and then on my phone as a
-source maintainer of 3 different custom ROMs. :/
+Please add a second patch to this patch-serieas adding some
+documentation about the use of these names for zoned RGB backlit
+kbds in a new paragraph / subsection of the "LED Device Naming"
+section of:
 
-Cc: Stella Bloom <stelbl@elrant.team>
-Cc: Bedirhan KURT <bedirhan_kurt22@erdogan.edu.tr>
+Documentation/leds/leds-class.rst 
 
---
-Stella Bloom
+It seems there are 2 possible sets which we should
+probably document in one go:
+
+The set of 4 zones from this patch:
+
+:rgb:kbd_zoned_backlight-right
+:rgb:kbd_zoned_backlight-middle
+:rgb:kbd_zoned_backlight-left
+:rgb:kbd_zoned_backlight-corners
+
+As well as:
+
+:rgb:kbd_zoned_backlight-main
+:rgb:kbd_zoned_backlight-wasd
+:rgb:kbd_zoned_backlight-cursor
+:rgb:kbd_zoned_backlight-numpad
+
+Maybe with a comment that in the future different
+zone names are possible if keyboards with
+a different zoning scheme show up.
+
+> +static int casper_set(struct casper_drv *drv, u16 a1, u8 led_id, u32 data)
+> +{
+> +	acpi_status ret = 0;
+> +	struct casper_wmi_args wmi_args;
+> +	struct acpi_buffer input;
+
+Please use a separate acpi_status and ret variables here
+with the correct types:
+
+	struct casper_wmi_args wmi_args;
+	struct acpi_buffer input;
+	acpi_status status;
+	int ret = 0;
+
+
+> +
+> +	wmi_args = (struct casper_wmi_args) {
+> +		.a0 = CASPER_WRITE,
+> +		.a1 = a1,
+> +		.a2 = led_id,
+> +		.a3 = data
+> +	};
+> +
+> +	input = (struct acpi_buffer) {
+> +		(acpi_size) sizeof(struct casper_wmi_args),
+> +		&wmi_args
+> +	};
+> +
+> +	mutex_lock(&drv->casper_mutex);
+> +
+
+And then here:
+
+	status = wmidev_block_set(drv->wdev, 0, &input);
+	if (ACPI_FAILURE(status))
+		ret = -EIO;
+
+> +
+> +	mutex_unlock(&drv->casper_mutex);
+> +	return ret;
+> +}
+> +
+> +static int casper_query(struct casper_drv *drv, u16 a1,
+> +			struct casper_wmi_args *out)
+> +{
+
+Same here, also please sort variable declarations
+in reverse christmas tree order, so longest lines first:
+
+
+	struct casper_wmi_args wmi_args;
+	struct acpi_buffer input;
+	union acpi_object *obj;
+	acpi_status status;
+	int ret = 0;
+
+
+> +	wmi_args = (struct casper_wmi_args) {
+> +		.a0 = CASPER_READ,
+> +		.a1 = a1
+> +	};
+> +	input = (struct acpi_buffer) {
+> +		(acpi_size) sizeof(struct casper_wmi_args),
+> +		&wmi_args
+> +	};
+> +
+> +	mutex_lock(&drv->casper_mutex);
+> +
+
+And use status here to store the acpi_status type
+returned by wmidev_block_set().
+
+> +	ret = wmidev_block_set(drv->wdev, 0, &input);
+> +	if (ACPI_FAILURE(ret)) {
+> +		ret = -EIO;
+> +		goto unlock;
+> +	}
+> +
+> +	obj = wmidev_block_query(drv->wdev, 0);
+> +	if (!obj) {
+> +		ret = -EIO;
+> +		goto unlock;
+> +	}
+> +
+> +	if (obj->type != ACPI_TYPE_BUFFER) { // obj will be 0x10 on failure
+> +		ret = -EINVAL;
+> +		goto freeobj;
+> +	}
+> +	if (obj->buffer.length != sizeof(struct casper_wmi_args)) {
+> +		ret = -EIO;
+> +		goto freeobj;
+> +	}
+> +
+> +	memcpy(out, obj->buffer.pointer, sizeof(struct casper_wmi_args));
+> +
+> +freeobj:
+> +	kfree(obj);
+> +unlock:
+> +	mutex_unlock(&drv->casper_mutex);
+> +	return ret;
+> +}
+
+<snip>
+
+The MODULE_DEVICE_TABLE() line should be directly below the declaration of
+the table like this:
+
+
+static const struct wmi_device_id casper_wmi_id_table[] = {
+	{ CASPER_WMI_GUID, NULL },
+	{ }
+};
+MODULE_DEVICE_TABLE(wmi, casper_wmi_id_table);
+
+Regards,
+
+Hans
+
+
+
 
