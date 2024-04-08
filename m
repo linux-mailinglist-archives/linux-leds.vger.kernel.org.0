@@ -1,74 +1,80 @@
-Return-Path: <linux-leds+bounces-1424-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1425-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D99B89C825
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 17:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6EF89C8BA
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 17:49:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A24D81C21FB3
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 15:23:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2F041C24365
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 15:49:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74618140397;
-	Mon,  8 Apr 2024 15:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE701420DD;
+	Mon,  8 Apr 2024 15:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bINt+vVT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="huI1xGg7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6151F14036F;
-	Mon,  8 Apr 2024 15:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129241420C6
+	for <linux-leds@vger.kernel.org>; Mon,  8 Apr 2024 15:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712589803; cv=none; b=pg33elQWafXWYLmqxe+QxBn1f/U9IVInzaZt23hHvNEdXzhqiMNMBJpaPYQrVRLvsi2tErgTxDMNbLvNB6W8kDBrZ1pLhWYFPi1cNtvD+l1lKsxyyoUThb/lC6ju2j9nQaTPvM0uydJWmGl/3GUYXYHvdVwLZXBKJ+SyLq2JXcM=
+	t=1712591373; cv=none; b=aTCB46BMIvM8cIzQEpABtqvQZ1T2tut6iupgjIT8qPELobRWFfqeQVIi3DPwlxlMr1oyFRhVlqbX0Etbz/u9wSxpO9Tr4Bjg4Jkoqkgjcx65YQkLm5OF47zvk87fMatPItHivcgGv5K//HqIthjYCSbfef0EHcgyLRjl6mKHteM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712589803; c=relaxed/simple;
-	bh=aWmOwBMxnBPrBPIX7HbRjPzOo9yySi2pZ/rTpMbx3kU=;
+	s=arc-20240116; t=1712591373; c=relaxed/simple;
+	bh=yaW1o3dLTxU+nHyknfl9oRDoDgjL4H+DmUrxrfBpyVU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jDJQzWAJIPJs333BPsxD8zObG+1TwqJV+buwOngpImk2faqPU1GVvhk9DCJRznET/IcV845hRC/EA+2BMTieKjRbMYU+VNqMCtoikqoM37Z32MTrfcDjT76lpK1LvxU3zSSueOm7fRQpMblu8vsUaklwivmqKIpKKkINppvIUyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bINt+vVT; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-516b6e75dc3so5681834e87.3;
-        Mon, 08 Apr 2024 08:23:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712589799; x=1713194599; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5aJBY+lZMBOzeDlvQBcDc5wZfXjkZJi9SVA77e0QYTY=;
-        b=bINt+vVT/kQ1PcYsAtgZFZhSpRyJp9bs7NPSWSQ1S5hzUGzUNdwq6irgLJl/SgrnhB
-         tQIOHZOQRaMycnTJoMo2CCRdiloCNwYsqCWbMo68e3s+tIl0VZvqV4qqXbwJIWpAEYhe
-         QzqGbyBfJgcvIN6YRUn99jjdVdHE7grZpvOsSHK6hsGo7O1S5GZant0ceCFtnwOGt0/r
-         I0pjHFol+M4hXarBhmY4NQp/+M7vPGUjcSJI35PnJAek0nOuFsV7AvE7yXSsANAS6ucg
-         fxQzDx8FRmm2wNWVjpBoXKwwZo2w12pMR6JSMmCxXzjo4vXaem+bgjn2fWxluNVcruLU
-         d3tQ==
+	 In-Reply-To:Content-Type; b=R/CyypM3O3GA1JsDU9sJn0+xGeWILl4/oa/iTMAPFxprA7AzZ75hFvjLjqOEy/HxblgHBGUZctT4g8l2xybYF5NNkHiRdUw4bAmQHhvTx7U9GFlYRYk81WVrm/FHTZ3oj4IYny6F9mMtP4qFQr9j1xfUJ10P+bgC2lKdJs5Tz4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=huI1xGg7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712591370;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aq+x4xqLq4pAAg/k33LQ1RhKelaF9ovPxyd7As4pxGA=;
+	b=huI1xGg7NfkQwAm3vhNN3CDJFJsgGPlksucljeT5sLKahNvRVQU+DxoRJrSnFQaQBC8/eD
+	2Wtmaw0R3+cVWKyu52xv8JsRi4KzI5KcCMTcdighDIbEyrEfYUU0c9yGHjpJsI+uKy7dVi
+	c0DJl010SOVglCkoi+pOQODN5hK045w=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-552-UZVfSKrSOOG4XHO6XhLuIg-1; Mon, 08 Apr 2024 11:49:28 -0400
+X-MC-Unique: UZVfSKrSOOG4XHO6XhLuIg-1
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2d89e90d717so1673321fa.3
+        for <linux-leds@vger.kernel.org>; Mon, 08 Apr 2024 08:49:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712589799; x=1713194599;
+        d=1e100.net; s=20230601; t=1712591367; x=1713196167;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5aJBY+lZMBOzeDlvQBcDc5wZfXjkZJi9SVA77e0QYTY=;
-        b=FJprU7A5Vgkv4Kkh5lclgw0n94W3qicZtCx5invhGwdlLDZb1tTn3cecEwAQOv75aO
-         HN97QMfqorCp2/U76kk6Db/Uq1zMVAVvZ7HHxBuyFCp282lZUJK2UeiUPvf4xarnlNDy
-         hHt4B7yCiHgxtvrodlOpZLfasncppSzw+J+2biNjtWrSz2LUf/xIwr0Gs8ine+0UOQ0T
-         nvC96hbGbhPrNjgUqGdhpfIXCFQWpl7u8q6wVY7q+y/2hDteosWMJ9IHTS2+V3X49kXX
-         +Lul+TDMNtQ6+Pz+9ME1lg/eb9j0BerETp9RqH9JBZxTcgK9O/QMt8vUm06aY5t2oujR
-         LBHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUA1PJw/djglZQWwNSD7idzCA96f8biRK4DNgL4mJKrnnH6IAoMWbm05wgqNVSow3pg9ni7yqslxyC2MQGiTflFkx5kv1p4TJWs6NWqAsVF0NoF/8FQeMP7oko9r7EQyxo38K+h4nT4EjaxzS55zuu5NF7cLNCpkZbVfsSTzUBD/0WUWasZ0+Hjfh08S81sunIn6qXdL6jKfmzL8GByQlpic3PEQo3YocdALA==
-X-Gm-Message-State: AOJu0YwZo/elvB97QfX2lFFTCpUPpLGG8FWEDOOB/ZW5rnwDvrtPx6x6
-	+LTWsdMo7jnwCO7mOH2e4L4FW8e6D2qD2/HdoflFDiHQji3eZmRc
-X-Google-Smtp-Source: AGHT+IH4FQk+olUPye5/qT5UhgYxtR0ctIYPXKb7ahlfpoh73KZ4aTrWe59dHaOVw+Ua31BF9351Lw==
-X-Received: by 2002:a19:914b:0:b0:516:be09:4b5e with SMTP id y11-20020a19914b000000b00516be094b5emr5477888lfj.46.1712589796719;
-        Mon, 08 Apr 2024 08:23:16 -0700 (PDT)
-Received: from [192.168.1.105] ([94.120.83.72])
-        by smtp.gmail.com with ESMTPSA id a23-20020a1709062b1700b00a51dd26f6dcsm922980ejg.51.2024.04.08.08.23.14
+        bh=aq+x4xqLq4pAAg/k33LQ1RhKelaF9ovPxyd7As4pxGA=;
+        b=nZ4eTM/MsJlo6QbLvT120eExLbSOgxG/3V0HFWTpOSG61cXCcyuFkiND4EWLeamEYT
+         UlbxEQeC6XbCwU+TqSQuplKPWyf44Rq9jjqgjKvQrtv1D8aTFm2paKB+vXuFcrCY4eXK
+         U/1AvNpE80see+Jyn+4hKyTNsARQyv2i0lFNx7QAuKxTRe0xYQIUpv5jHvLBkZHDm96R
+         tK3M/NoWSYYz4VdIrzoJskgfjbW1AfOSttmdY42jE2DXR4lldh3R3QYBJDbBDXAo0o+W
+         M6Eksjbum8bcKkSUCm0unxjX4gXl1Ar0qj6TmexsI6r2/zVj+v9K5z2CyzwKPuk+u6Cz
+         eaMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUU+lq4LvGbK7XVMQ/8ufc69WpiqyyWwYKU18/X4HN5l22C3LQk3GvgEQjw+2K3SdpKTpXHqKW0TgB0vU1XQ98f0Ra1LFnLoUEIIg==
+X-Gm-Message-State: AOJu0YyfTKXKWz5t/wM7iDVJpjPPhrSvNRL8jX0KRXUJl7FOqyYq+t9Z
+	dUm4lj2EGag6USzAcyGvrtr7sVzQ2TLzSXygkReijmQJj1CbH4EUThe33yoVUywt5Va1+mAOBGq
+	PaVBbyEPQzZ8fA6k7f73aQk6oWaQfSTDg+9kXXXwoCN288Vg+uqUXhXKUo2IY8QC95302Jg==
+X-Received: by 2002:a2e:b0ca:0:b0:2d8:6fc4:d0b5 with SMTP id g10-20020a2eb0ca000000b002d86fc4d0b5mr7101169ljl.8.1712591367076;
+        Mon, 08 Apr 2024 08:49:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEXwz5nOfjCVtaG9Npl7SydKOwcqPra8+T0XksBaETEIabLaQ2cUX81joO7uiYU7q/cbcdT8g==
+X-Received: by 2002:a2e:b0ca:0:b0:2d8:6fc4:d0b5 with SMTP id g10-20020a2eb0ca000000b002d86fc4d0b5mr7101148ljl.8.1712591366713;
+        Mon, 08 Apr 2024 08:49:26 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id gu24-20020a170906f29800b00a51a018f318sm4572875ejb.55.2024.04.08.08.49.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Apr 2024 08:23:16 -0700 (PDT)
-Message-ID: <15fdc072-9329-4675-8d9e-189862d88351@gmail.com>
-Date: Mon, 8 Apr 2024 18:23:13 +0300
+        Mon, 08 Apr 2024 08:49:26 -0700 (PDT)
+Message-ID: <94ba758b-b1c3-425e-a9ed-78e364fdb6f0@redhat.com>
+Date: Mon, 8 Apr 2024 17:49:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -76,132 +82,115 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/1] platform/x86: Add wmi driver for Casper Excalibur
- laptops
-To: Stella Bloom <windowz414@gnuweeb.org>
-Cc: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, jdelvare@suse.com,
- lee@kernel.org, linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux@roeck-us.net, pavel@ucw.cz,
- platform-driver-x86@vger.kernel.org,
- Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>,
- Ammar Faizi <ammarfaizi2@gnuweeb.org>,
- GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
- Stella Bloom <stelbl@elrant.team>,
- Bedirhan KURT <bedirhan_kurt22@erdogan.edu.tr>
-References: <20240324181201.87882-1-mustafa.eskieksi@gmail.com>
- <20240407005746.412603-1-windowz414@gnuweeb.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Mustafa_Ek=C5=9Fi?= <mustafa.eskieksi@gmail.com>
-In-Reply-To: <20240407005746.412603-1-windowz414@gnuweeb.org>
+Subject: Re: [PATCH 2/3] platform/x86: ideapad-laptop: add fn_lock_get/set
+ functions
+To: Gergo Koteles <soyer@irl.hu>, Ike Panhc <ike.pan@canonical.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+References: <cover.1712063200.git.soyer@irl.hu>
+ <dfd3a62a2b71339bbddf01e8a2ccd5ca92ce7202.1712063200.git.soyer@irl.hu>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <dfd3a62a2b71339bbddf01e8a2ccd5ca92ce7202.1712063200.git.soyer@irl.hu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 7.04.2024 03:57, Stella Bloom wrote:
->> From: Mustafa Ekşi <mustafa.eskieksi@gmail.com>
->>
->> Hi,
->> I want to note that moving mutex_init to the bottom of the function
->> crashes the driver when mutex_lock is called. I didn't investigate it
->> further but I wanted to say that since Ai Chao also did it like that.
->>
->> Driver sets all leds to white on start. Before that, when a led's
->> brightness is changed, that led's color gets set to white but others
->> keep their old colors which creates a bad user experience (at least for
->> me). Please inform me if this is a bad approach.
->> Also, this driver still lacks support for changing modes and I seek
->> advise for that.
->>
->> Mustafa Ekşi (1):
->>    platform/x86: Add wmi driver for Casper Excalibur laptops
->>
->>   MAINTAINERS                       |   6 +
->>   drivers/platform/x86/Kconfig      |  14 +
->>   drivers/platform/x86/Makefile     |   1 +
->>   drivers/platform/x86/casper-wmi.c | 641 ++++++++++++++++++++++++++++++
->>   4 files changed, 662 insertions(+)
->>   create mode 100644 drivers/platform/x86/casper-wmi.c
->>
-> Hi there,
->
-> I just wanted to pitch in by testing the driver on the kernel I use
-> on my Arch install on an Excalibur G770.1245, namely xdevs23's
-> linux-nitrous (https://gitlab.com/xdevs23/linux-nitrous), but trying to
-> compile the driver using LLVM, which is the default compilation behavior
-> in this kernel's AUR package, spits out the following error;
-> ```
-> drivers/platform/x86/casper-wmi.c:633:3: error: field designator 'no_singleton' does not refer to any field in type 'struct wmi_driver'
->   633 |         .no_singleton = true,
->       |         ~^~~~~~~~~~~~~~~~~~~
-> 1 error generated.
-> make[5]: *** [scripts/Makefile.build:243: drivers/platform/x86/casper-wmi.o] Error 1
-> make[4]: *** [scripts/Makefile.build:481: drivers/platform/x86] Error 2
-> make[3]: *** [scripts/Makefile.build:481: drivers/platform] Error 2
-> make[2]: *** [scripts/Makefile.build:481: drivers] Error 2
-> make[1]: *** [/home/stella/.cache/yay/linux-nitrous/src/linux-nitrous/Makefile:1919: .] Error 2
-> make: *** [Makefile:240: __sub-make] Error 2
-> ```
->
-> I want to help debug this somehow, but I'm more of an Android custom
-> ROM developer than a Linux kernel maintainer, so my knowledge on the
-> programming and build system languages other than Java, Makefile, Bash,
-> etc is pretty much limited if not outright non-existent.
 Hi,
-This is because of a newly merged patch from Armin Wolf:
-https://lore.kernel.org/platform-driver-x86/20240226193557.2888-2-W_Armin@gmx.de/
-You can comment that line or apply that patch to your tree to make it
-compile. Also, you'll probablyneed to change the call to wmidev_block_set in
-casper_query function with wmi_set_block (which is now deprecated).
-> I would *love* to see this driver actually hit mainline repos, and
-> eventually the upcoming kernel releases, given how much I need to use
-> this laptop of mine as a computer engineering student.
->
-> Asking just for the case I manage to get this driver up and going on
-> my end somehow: Is there a tool made for controlling the LED colors yet?
-> I can still use CLI tools much like on ASUS ROG series laptops, but it
-> would be much easier and more appreciated to have a GUI provided
-> Excalibur series laptops' LED lights can virtually take any color in
-> the RGB space - At least that's how I interpreted with the
-> configurations I used to do on mine using Excalibur Control Center
-> on Windows 10/11.
-No, there isn't a tool yet but controlling leds via sysfs ispretty easy.
-For example, if you wanted to change the left led zone's color to red:
-```
-# echo 0xff0000 > /sys/class/leds/casper\:\:kbd_zoned_backlight-left/multi_intensity
-```
-And don't forget that all leds' initial brightnesses are 0.
-Also, I'm planning to add support for this API in OpenRGB.
-> And as for the profiles, let me make sure we're talking about the same
-> thing in this term: You're talking about the "Office", "Gaming" and
-> "High Performance" modes as seen in Excalibur Control Center, right?
-For laptops with 11th gen processors or newer: yes.
-For laptops with 10th gen processors or older: no, there are 4 power
-profiles for these laptops (High Performance, Gaming, Text Mode andPower
-save).
-> If so, can this be somehow integrated into `power-profiles-daemon`
-> SystemD service for easier controlling with GNOME and other DEs that
-> use it? It's fine if it can't be, this was just a thought struck on my
-> mind for whatever reason.
-Yes, power-profiles-daemon is already integrated with platform_profile.
-> Please do CC me and the people I've added to the CC list with this email
-> of mine on the upcoming revisions, if any. We would love to keep track
-> of this driver and I personally would love to contribute into testing
-> as a power user.
->
-> Cc: Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
-> Cc: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-> Cc: GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
->
-> Also adding my organizational and school email addresses to the CC list
-> so I can still be notified while I stay offline on this email address.
-> GNOME Evolution doesn't run in the background and periodically check
-> for emails sadly, and I switch ROMs every now and then on my phone as a
-> source maintainer of 3 different custom ROMs. :/
->
-> Cc: Stella Bloom <stelbl@elrant.team>
-> Cc: Bedirhan KURT <bedirhan_kurt22@erdogan.edu.tr>
->
-> --
-> Stella Bloom
-Thanks for your interest,
-Mustafa Ekşi
+
+On 4/2/24 3:21 PM, Gergo Koteles wrote:
+> The FnLock is retrieved and set in several places in the code.
+> 
+> Move details into ideapad_fn_lock_get and ideapad_fn_lock_set functions.
+> 
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+
+> ---
+>  drivers/platform/x86/ideapad-laptop.c | 38 +++++++++++++++++++--------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+> index 901849810ce2..529df08af548 100644
+> --- a/drivers/platform/x86/ideapad-laptop.c
+> +++ b/drivers/platform/x86/ideapad-laptop.c
+> @@ -513,11 +513,8 @@ static ssize_t fan_mode_store(struct device *dev,
+>  
+>  static DEVICE_ATTR_RW(fan_mode);
+>  
+> -static ssize_t fn_lock_show(struct device *dev,
+> -			    struct device_attribute *attr,
+> -			    char *buf)
+> +static int ideapad_fn_lock_get(struct ideapad_private *priv)
+>  {
+> -	struct ideapad_private *priv = dev_get_drvdata(dev);
+>  	unsigned long hals;
+>  	int err;
+>  
+> @@ -525,7 +522,27 @@ static ssize_t fn_lock_show(struct device *dev,
+>  	if (err)
+>  		return err;
+>  
+> -	return sysfs_emit(buf, "%d\n", !!test_bit(HALS_FNLOCK_STATE_BIT, &hals));
+> +	return !!test_bit(HALS_FNLOCK_STATE_BIT, &hals);
+> +}
+> +
+> +static int ideapad_fn_lock_set(struct ideapad_private *priv, bool state)
+> +{
+> +	return exec_sals(priv->adev->handle,
+> +		state ? SALS_FNLOCK_ON : SALS_FNLOCK_OFF);
+> +}
+> +
+> +static ssize_t fn_lock_show(struct device *dev,
+> +			    struct device_attribute *attr,
+> +			    char *buf)
+> +{
+> +	struct ideapad_private *priv = dev_get_drvdata(dev);
+> +	int brightness;
+> +
+> +	brightness = ideapad_fn_lock_get(priv);
+> +	if (brightness < 0)
+> +		return brightness;
+> +
+> +	return sysfs_emit(buf, "%d\n", brightness);
+>  }
+>  
+>  static ssize_t fn_lock_store(struct device *dev,
+> @@ -540,7 +557,7 @@ static ssize_t fn_lock_store(struct device *dev,
+>  	if (err)
+>  		return err;
+>  
+> -	err = exec_sals(priv->adev->handle, state ? SALS_FNLOCK_ON : SALS_FNLOCK_OFF);
+> +	err = ideapad_fn_lock_set(priv, state);
+>  	if (err)
+>  		return err;
+>  
+> @@ -1709,7 +1726,6 @@ static void ideapad_wmi_notify(struct wmi_device *wdev, union acpi_object *data)
+>  {
+>  	struct ideapad_wmi_private *wpriv = dev_get_drvdata(&wdev->dev);
+>  	struct ideapad_private *priv;
+> -	unsigned long result;
+>  
+>  	mutex_lock(&ideapad_shared_mutex);
+>  
+> @@ -1722,11 +1738,11 @@ static void ideapad_wmi_notify(struct wmi_device *wdev, union acpi_object *data)
+>  		ideapad_input_report(priv, 128);
+>  		break;
+>  	case IDEAPAD_WMI_EVENT_FN_KEYS:
+> -		if (priv->features.set_fn_lock_led &&
+> -		    !eval_hals(priv->adev->handle, &result)) {
+> -			bool state = test_bit(HALS_FNLOCK_STATE_BIT, &result);
+> +		if (priv->features.set_fn_lock_led) {
+> +			int brightness = ideapad_fn_lock_get(priv);
+>  
+> -			exec_sals(priv->adev->handle, state ? SALS_FNLOCK_ON : SALS_FNLOCK_OFF);
+> +			if (brightness >= 0)
+> +				ideapad_fn_lock_set(priv, brightness);
+>  		}
+>  
+>  		if (data->type != ACPI_TYPE_INTEGER) {
+
 
