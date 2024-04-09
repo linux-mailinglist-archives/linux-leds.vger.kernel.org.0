@@ -1,113 +1,117 @@
-Return-Path: <linux-leds+bounces-1435-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1436-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B1289CD23
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 22:58:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6279689D4D1
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 10:47:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C67121F225E3
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Apr 2024 20:57:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93B4E1C2136D
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 08:47:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C337146D6C;
-	Mon,  8 Apr 2024 20:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE575B1E3;
+	Tue,  9 Apr 2024 08:47:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W0uuhNIB";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IFtxMwuM"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="nYgd725y"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF21F43AAD;
-	Mon,  8 Apr 2024 20:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75DC1EA6E;
+	Tue,  9 Apr 2024 08:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712609876; cv=none; b=RTMCWkm6NLxcGEx1s7KfJ5Lf6BSqD+KgOcXPSo92e74BlZX/1jjfepeBmQMXBPaa+ffA3giG2+jXRG7ANAmkn8D0M4DgM86fGb741uC0Vt7h3hexvhTU9p8vWa4nG+jFEYCHKZCawciFBJb4a4CU71idTUHj9MXfONFhigP5G30=
+	t=1712652459; cv=none; b=PBABZiOrpm/ahJ/aTX0Oy+xIsCofcXrwkqO+TKJ7Ji6L7WqMFziK7rPad+NMW6Scf6QEzP49h5ctKFAo6dGnBGJ6Ox2s+QGIvNErY2/YUBcmobzuCXU2vwd1qU8m6PiYsGoguu8FKli1ijXA9BdKZG9HZFPKne87hG7lX4eKWxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712609876; c=relaxed/simple;
-	bh=67gTuXdpNGQK5571aAIhNAvLohYoHM4XJBB0HFk8gv8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kKWDOMMks0Yi+tU1uCh805pRvzm8nfnJkBETQSBLhXiCb3dYNBNKaTiSaP/rajvTF02v/CK/TvSwV/uztlY6kun5SursaU8fHokmoQJvQ2JuN3gVnjqonm3jzmbdPyiY9ripB6dePl+FkuvEQM1CXF1n1vBlbAE2GsoKnV2X6g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=W0uuhNIB; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IFtxMwuM; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1712609873;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=67gTuXdpNGQK5571aAIhNAvLohYoHM4XJBB0HFk8gv8=;
-	b=W0uuhNIBDOPqaJwoxUBWZ3IAGkt5Vl7lUEZbTiPDQOZee+JlrOQMXi83qC3JgUJ/A3JVnl
-	X2dOzeMNWS3ERZ9GySQXSAhlGXNSK1jZ/uE2gKRwKhoPneufJx/lrH5GgbuNyGz7vHG/ln
-	dCNzbjnzi247bPx0k6GNvYl5c//BvSjIKnfmYmYyyIH9FxuYt3EPFahGJ0JyMWggtvy6Eg
-	wJ8WDFGNby80HtSVml8Uq53KJCKGtPdqbnqm6MLGpc0SEQKOjFEHmbeb66nj9lfwBy2Nq0
-	2fNPktYUtmi5uyYLcelOySx7bfuNma8jimsDhEZ76QJtgk+1/JA3VxSTqoYp1g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1712609873;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=67gTuXdpNGQK5571aAIhNAvLohYoHM4XJBB0HFk8gv8=;
-	b=IFtxMwuMH15gaoSCdTXU55z019DP0SPWbOCtuLMh9tClrF9yEEN8EIDwM4Ox4Wl5FnE857
-	ObbppXYbdZHD7xAA==
-To: Andrew Lunn <andrew@lunn.ch>, Marek =?utf-8?Q?Marczykowski-G=C3=B3reck?=
- =?utf-8?Q?i?=
- <marmarek@invisiblethingslab.com>
-Cc: netdev@vger.kernel.org, linux-leds@vger.kernel.org,
- regressions@lists.linux.dev
-Subject: Re: 6.9-rc2: Deadlock on unbinding network device from a driver
- (regression)
-In-Reply-To: <bad26563-33b1-47d2-a62e-723bbb77690b@lunn.ch>
-References: <ZhRD3cOtz5i-61PB@mail-itl>
- <bad26563-33b1-47d2-a62e-723bbb77690b@lunn.ch>
-Date: Mon, 08 Apr 2024 22:57:51 +0200
-Message-ID: <878r1nlghc.fsf@kurt.kurt.home>
+	s=arc-20240116; t=1712652459; c=relaxed/simple;
+	bh=toTafaLbEIkQZDdlb3VP4CE1biVwrTMD83oodJzhGeg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=l+RLS2NSmzdHhN5rTy2maquEX+EycLxzFSYjP6llRm0zlYiDM6MJ0bDmQxVb+0nbpVuuE0unWWV5bPix5HTJ5S1R6hj/ckQM6izAUfON4eUaKkvbZrbK8RJLmvh7aHbODWL8dVVNZl51kA0pO/TUE3Zii2DBfhdAT6WXTr/t/kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=nYgd725y; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:To:Subject:Reply-To:MIME-Version:Date:Message-ID:
+	From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=H/07XNt3AU4Wqk/vGpIEoTskvG7+O+ExSifSn/hGscA=; t=1712652457;
+	x=1713084457; b=nYgd725y9emv12j4zO39g43lWDcxZrinOqnxYXg1Ff84u0+0iXxY8uIBZP6+p
+	MyH3YacK4KJ2KNCrSBrx7h2TluehNWwG0bQfLNb1Bpg+LlVUnmaYp8edpVaIjtjnBZtPqr+c9e5nP
+	5ALuMAv6lN0H/GgbrC+t71eEQEV2j+k9W64lyAWphQBhksgQ00BVSRHpe+SSs3pCheLyw1ykxjf1+
+	nKIOjnQCAIB/fu3amwT85vVmofBktT+UbNZDi7F/FnlbCJar5Wqjt8X/h3zd3bffDZ0+26d0SCIEX
+	yZu7la4irFstrN63nuME0+6+mckW4wIHXuPjECrSKLdyHL1Wkw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1ru78g-0005TG-M8; Tue, 09 Apr 2024 10:47:34 +0200
+Message-ID: <93494f0b-ad05-4566-b454-fa36a7dac248@leemhuis.info>
+Date: Tue, 9 Apr 2024 10:47:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+User-Agent: Mozilla Thunderbird
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
+To: Johannes Berg <johannes@sipsolutions.net>,
+ Ben Greear <greearb@candelatech.com>, LKML <linux-kernel@vger.kernel.org>,
+ linux-leds@vger.kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
+ <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
+ <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
+ <05545ecdd2b05223b9204131b0ce9ba33460f44c.camel@sipsolutions.net>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <05545ecdd2b05223b9204131b0ce9ba33460f44c.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1712652457;e048850d;
+X-HE-SMSGID: 1ru78g-0005TG-M8
 
---=-=-=
-Content-Type: text/plain
+On 08.04.24 18:35, Johannes Berg wrote:
+> On Wed, 2024-04-03 at 12:35 -0700, Ben Greear wrote:
+>>>
+>>> So, deadlock I guess....
+>>>
+>>>   INFO: task kworker/5:13:648 blocked for more than 180 seconds.
+>>>        Not tainted 6.9.0-rc2+ #23
+>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>>> task:kworker/5:13    state:D stack:0     pid:648   tgid:648   ppid:2      flags:0x00004000
+>>> Workqueue: events deferred_probe_timeout_work_func
+>>> Call Trace:
+>>>   <TASK>
+>>>   __schedule+0x43d/0xe20
+>>>   schedule+0x31/0x130
+>>>   schedule_timeout+0x1b9/0x1d0
+>>>   ? mark_held_locks+0x49/0x70
+>>>   ? lockdep_hardirqs_on_prepare+0xd6/0x170
+>>>   __wait_for_common+0xb9/0x1d0
+>>>   ? usleep_range_state+0xb0/0xb0
+>>>   ? __flush_work+0x1ff/0x460
+>>>   __flush_work+0x287/0x460
+>>>   ? flush_workqueue_prep_pwqs+0x120/0x120
+>>>   deferred_probe_timeout_work_func+0x2b/0xa0
+> 
+> This seems ... complex.
+> 
+> Does changing iwlwifi's request_module() to request_module_nowait() in
+> iwl_req_fw_callback() (only) fix it? I think we can do that, we don't
+> really care at that point, and the issue here seems to be waiting for it
+> while also other modules are loading and due to the hashing in
+> idempotent() (kernel/module/main.c) it can't make progress.
 
-Hi Andrew,
+Not my area of expertise, so listening to me my send you off-track.
 
-On Mon Apr 08 2024, Andrew Lunn wrote:
-> Hi Kurt
->
-> Heiner just fixed a similar problem with Realtek driver. You might
-> need the same fix here.
+Might this be related to the issue discussed here:
+https://lore.kernel.org/all/ZhRD3cOtz5i-61PB@mail-itl/
 
-thanks, I'm aware of that. The igc driver requires a fix as well.
+See also:
+https://lore.kernel.org/all/2695e9db-a5a0-4564-9812-a50b91fb1b46@gmail.com/
 
-Thanks,
-Kurt
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmYUWlATHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzgmL+D/9M6HU09O0fkVNb8G5aywOA+jRiIXHK
-ZpcLASGq+yUXQCuTeCmjgrE6C1nCouI0QMolbDHUsFc20Cx7iBwehu4mXu7dVDwf
-gin9ymMcPwCd0Fp1eGtgD3No1RqP3d2NnYAJ1emmGt03VyCad7P2hn0ZdMU7V4cP
-hiCDrFXjFRY0mN1phtNfOH6umcfNbCq9k+RMzM3LyLlFUdjj9qN0X/oHMf94Glmu
-7+mimZyH2ebhRjpJnwMkT8opO8fKoirI0y3yNihP1EOXEGGOXU9quA15oLuuCtFX
-DsNdNiTYTBaIkd8BLO0J44aPFVIb4KDRNaXXLdeuj4YbzNij9wJOJESsYIBGW/a0
-MVXT8/mOPfwd5gmOtCKRU4MHuUO4Al0zqOmS7qqVbsmA8AxmGnKdWfSRcaBTWIys
-wJcA2IBUjnn2tS2jfopR1+Xb6Q+RIMewaW3sNSjE3h8ftExntQJkdr+Jc16DU5G2
-bgS5UdKg2O9udz1C6O8f6PRJyfdhL//fj+lljgU0uN9aCXP1QpySEY6FhwXFfJQQ
-yjRtWT6jRj+la/niqmlBO7y2JD2YLv5mb/eNBa8Al1XWN9xLnCEgTG86mu28zOQp
-uJLnwWzxyCqd8ADvJ0m48s3oAUOapR4pE0GxRNF5jab3f0HNcux85by+4/GRoK0p
-WE4Oc9iwmxoATA==
-=ueAZ
------END PGP SIGNATURE-----
---=-=-=--
+Ciao, Thorsten
 
