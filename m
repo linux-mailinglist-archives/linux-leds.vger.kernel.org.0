@@ -1,123 +1,109 @@
-Return-Path: <linux-leds+bounces-1438-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1439-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E3989D85C
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 13:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B2689DA65
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 15:37:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4C2EB25581
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 11:45:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D2FEB2511B
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 13:37:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18EA0129E80;
-	Tue,  9 Apr 2024 11:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="w3c2kQFO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E6412F5A7;
+	Tue,  9 Apr 2024 13:33:14 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681A486AF4;
-	Tue,  9 Apr 2024 11:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7423412EBF7;
+	Tue,  9 Apr 2024 13:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712663146; cv=none; b=Dxzcw0zeBQc6+sOuGZwSiyGxangfBNuPmeY9ctrh3PAZlkzw+r4JFzLCTS97bEcLICCPg3UvrgQxBWbmqeMzLKSSsXE7kVxtxRaZXJtszO7mMy7Wun5ZYZYMTz6ZxAIj8Hika9EGmuDCbOSuOd/KLL7frT8R61yKxu3Z5/wKde4=
+	t=1712669594; cv=none; b=QC3Yr2v0hp85a0OOkvVDpsRcmtPWG0VZYrwK4exsxNespWyAGLXJfwIVpPjPQ4IGNoSNX8Oee39Oo/SQOHhfpTuvm3hWudceTVkfYc6zJXBxpJ962LCamvKF+n8jdqi9uEJSaj68Q0OAMv+rHd/MBF6sclIw5y+kcvTOUzDc5wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712663146; c=relaxed/simple;
-	bh=lC4EWcyFhRfCmq02OzOhjC6dK5sQhjYXtXyu0Z/pVO8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y849mvezmQqkhDebljdhPA6nqjUhGyDeU4I16abCo8HRJ806v7Z+r0cciYZXGWYkak5OsFEKKqhJJ927kpl9iyGpvvHpAXUlrHfqIWyou9qUDJfZFv+xxTaic+N4vHy28kvVrPK0XB5GDsbsooT2bx4GrilK+y4X1ThYdKc7So4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=w3c2kQFO; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712663142;
-	bh=lC4EWcyFhRfCmq02OzOhjC6dK5sQhjYXtXyu0Z/pVO8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=w3c2kQFOB9CvuYyVBDEo7ncdVlz3Zt9JgxPdIIBosC8qcLaa0fP2yD2eKN4eGtn0J
-	 Uiu5m97KAjMcXiRPcc1XSZU9gtEdOpf2lACGTOibkpHatkd7aH0LOn914CkjBpm30M
-	 /VPO9c6ORB8uqvHl27IOmsB55KdiiH12cgbfZ2GYL2Ag6WDsck244+j+pmCQAjAn1H
-	 rWX02LNgggpNu9ExU7PMayxgB2nZh+1yujFm/W/VX2s3yYVyetuRVnd2l8au+MMCc3
-	 ioJTAjRb/nGm5yulnao+dR9u1V+URfC+eCL11sGhJt4f64X9pUlr8jJbWnkIqX3hz8
-	 RV4QuRAowgY7w==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DDAEB37820F5;
-	Tue,  9 Apr 2024 11:45:41 +0000 (UTC)
-Message-ID: <c98ea7c9-6c9b-466d-bc49-ec76874ac6da@collabora.com>
-Date: Tue, 9 Apr 2024 13:45:41 +0200
+	s=arc-20240116; t=1712669594; c=relaxed/simple;
+	bh=dIMLKmF8QMvsWVI+FEoCYWgHq7jZ/1UVqaTJ39fpZHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A66wcOSPuDyW2jJRXGBY1Heq5YN/ziu94NYPCjOxOiOOlo9xtLf3Ple7M738uafkaM23Vh0WKIQ1CqM2wmVyorETmPPYzqXfMF8KeAeD7nZ0LaUYUBU428RCTT9GuBhYnElYcaBLlEPFSsquTJaQ6+lUv8DSrqGwmsBRdDRCQQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: DHXifDb1StaVzDuwMDjTAg==
+X-CSE-MsgGUID: qT7JqERoS+CCJ8vil5uI4g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="25424037"
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="25424037"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:33:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="915399959"
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="915399959"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:33:08 -0700
+Received: from andy by smile with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1ruBaz-00000002od9-1FNV;
+	Tue, 09 Apr 2024 16:33:05 +0300
+Date: Tue, 9 Apr 2024 16:33:05 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+	Jelle van der Waa <jelle@vdwaa.nl>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	linux-input@vger.kernel.org, ojeda@kernel.org,
+	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+	Gregor Riepl <onitake@gmail.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: In kernel virtual HID devices (was Future handling of complex
+ RGB devices on Linux v3)
+Message-ID: <ZhVDkf0P6vRLy-Ql@smile.fi.intel.com>
+References: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+ <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+ <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+ <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
+ <CANiq72kPXsTjzptK7tSC=RygEpWHJHz1-QXuZv8qPHfGLyzrDw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: mt6360: Fix the second LED can not enable torch
- mode by V4L2
-To: ChiaEn Wu <chiaen_wu@richtek.com>, pavel@ucw.cz, lee@kernel.org,
- matthias.bgg@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- peterwu.pub@gmail.com, cy_huang@richtek.com
-References: <d1d1419bb322e2b0f40d34edd3a66979015b668c.1712657386.git.chiaen_wu@richtek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <d1d1419bb322e2b0f40d34edd3a66979015b668c.1712657386.git.chiaen_wu@richtek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72kPXsTjzptK7tSC=RygEpWHJHz1-QXuZv8qPHfGLyzrDw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Il 09/04/24 12:21, ChiaEn Wu ha scritto:
-> V4L2 will disable strobe mode of the LED device when enable torch mode,
-> but this logic will conflict with the "priv->fled_torch_used"
-> in "mt6360_strobe_set()". So after enabling torch mode of the first
-> LED, the second LED will not be able to enable torch mode correctly.
+On Mon, Mar 25, 2024 at 07:38:46PM +0100, Miguel Ojeda wrote:
+> On Mon, Mar 25, 2024 at 3:25 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >
+> > +Cc: Bentiss, Jiri
 > 
-> Therefore, at the beginning of "mt6360_strobe_set()", check whether the
-> state of the upcoming change and the current LED device state are the
-> same, so as to avoid the above problem.
-> 
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> ---
->   drivers/leds/flash/leds-mt6360.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/flash/leds-mt6360.c b/drivers/leds/flash/leds-mt6360.c
-> index a90de82f4568..1b75b4d36834 100644
-> --- a/drivers/leds/flash/leds-mt6360.c
-> +++ b/drivers/leds/flash/leds-mt6360.c
-> @@ -241,10 +241,20 @@ static int mt6360_strobe_set(struct led_classdev_flash *fl_cdev, bool state)
->   	u32 enable_mask = MT6360_STROBEN_MASK | MT6360_FLCSEN_MASK(led->led_no);
->   	u32 val = state ? MT6360_FLCSEN_MASK(led->led_no) : 0;
->   	u32 prev = priv->fled_strobe_used, curr;
-> -	int ret;
-> +	int ret = 0;
+> Cc'ing Andy and Geert as well who recently became the
+> maintainers/reviewers of auxdisplay, in case they are interested in
+> these threads (one of the initial solutions discussed in a past thread
+> a while ago was to extend auxdisplay).
 
-I prefer that you leave ret uninitialized here, and...
+Without diving into this, just sharing my view on auxdisplay subsystem:
+I consider it _mostly_ (like lim->100% mathematically speaking) as for
+7-segment and alike displays, not any comples RGB or so devices. If
+those devices are capable of representing characters/digits in similar
+way, we may export linedisp library for them to utilise.
 
->   
->   	mutex_lock(&priv->lock);
->   
-> +	/*
-> +	 * If the state of the upcoming change is the same as the current LED
-> +	 * device state, then skip the subsequent code to avoid conflict
-> +	 * with the flow of turning on LED torch mode in V4L2.
-> +	 */
-> +	if (state == !!(BIT(led->led_no) & prev)) {
-> +		dev_info(lcdev->dev, "No change in strobe state [0x%x]\n", prev);
-
-...that you do here, instead
-
-		ret = 0;
-		goto unlock;
-
-With that addressed,
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collaobra.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
 
