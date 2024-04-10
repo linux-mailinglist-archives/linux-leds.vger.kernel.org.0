@@ -1,109 +1,136 @@
-Return-Path: <linux-leds+bounces-1439-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1440-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B2689DA65
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 15:37:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC2689ECFF
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Apr 2024 10:02:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D2FEB2511B
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Apr 2024 13:37:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0DFE1F225F2
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Apr 2024 08:02:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E6412F5A7;
-	Tue,  9 Apr 2024 13:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67B3313D606;
+	Wed, 10 Apr 2024 08:02:37 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7423412EBF7;
-	Tue,  9 Apr 2024 13:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136613D505;
+	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712669594; cv=none; b=QC3Yr2v0hp85a0OOkvVDpsRcmtPWG0VZYrwK4exsxNespWyAGLXJfwIVpPjPQ4IGNoSNX8Oee39Oo/SQOHhfpTuvm3hWudceTVkfYc6zJXBxpJ962LCamvKF+n8jdqi9uEJSaj68Q0OAMv+rHd/MBF6sclIw5y+kcvTOUzDc5wQ=
+	t=1712736157; cv=none; b=nj/+XoOjnt/sStNX6gfPlRLy8FTwBCskCz30eSIsVqUodK36V209VjYYOJi5V2aZ6Zj9dQtWPi+X3Ja6/aJDWJWci3Id2lZkkUrr0XpNx1CbblCfphl+dhgBfkzTZ3lfCQOr3hTTA9hf372bgjVMkEX/rizVMYq3g1EvhPUutvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712669594; c=relaxed/simple;
-	bh=dIMLKmF8QMvsWVI+FEoCYWgHq7jZ/1UVqaTJ39fpZHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A66wcOSPuDyW2jJRXGBY1Heq5YN/ziu94NYPCjOxOiOOlo9xtLf3Ple7M738uafkaM23Vh0WKIQ1CqM2wmVyorETmPPYzqXfMF8KeAeD7nZ0LaUYUBU428RCTT9GuBhYnElYcaBLlEPFSsquTJaQ6+lUv8DSrqGwmsBRdDRCQQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: DHXifDb1StaVzDuwMDjTAg==
-X-CSE-MsgGUID: qT7JqERoS+CCJ8vil5uI4g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="25424037"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="25424037"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:33:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="915399959"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="915399959"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:33:08 -0700
-Received: from andy by smile with local (Exim 4.97)
-	(envelope-from <andy@kernel.org>)
-	id 1ruBaz-00000002od9-1FNV;
-	Tue, 09 Apr 2024 16:33:05 +0300
-Date: Tue, 9 Apr 2024 16:33:05 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-	Jelle van der Waa <jelle@vdwaa.nl>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Gregor Riepl <onitake@gmail.com>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex
- RGB devices on Linux v3)
-Message-ID: <ZhVDkf0P6vRLy-Ql@smile.fi.intel.com>
-References: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <CANiq72kPXsTjzptK7tSC=RygEpWHJHz1-QXuZv8qPHfGLyzrDw@mail.gmail.com>
+	s=arc-20240116; t=1712736157; c=relaxed/simple;
+	bh=KElYbch9PwjyMMyu6DqQ19Q1q06S1GdiKB4kYIvJsOA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bBAtC04DaDVwHEUOOiFSRuslrl4QmXJkNwIxlynnpCJTLQoVrWUVTlO89Clpnhd/aF12w6oTjHuxnvrJymhY+Q8tm+0OxOvE8XUv/x2Dczi3ELoLd/y8qIsK+MyeonrFwSjZ3eR5Bs0oaVVpccWwZSXhKQxXPM80iFWgxUzQYEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDFDC43390;
+	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 324081063262; Wed, 10 Apr 2024 10:02:32 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
+ Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
+ Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Xiang Chen <chenxiang66@hisilicon.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Kees Cook <keescook@chromium.org>, 
+ Trond Myklebust <trond.myklebust@hammerspace.com>, 
+ Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, 
+ openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+ linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
+Message-Id: <171273615213.1094883.18382201508159771859.b4-ty@collabora.com>
+Date: Wed, 10 Apr 2024 10:02:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72kPXsTjzptK7tSC=RygEpWHJHz1-QXuZv8qPHfGLyzrDw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Mon, Mar 25, 2024 at 07:38:46PM +0100, Miguel Ojeda wrote:
-> On Mon, Mar 25, 2024 at 3:25 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > +Cc: Bentiss, Jiri
+
+On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Cc'ing Andy and Geert as well who recently became the
-> maintainers/reviewers of auxdisplay, in case they are interested in
-> these threads (one of the initial solutions discussed in a past thread
-> a while ago was to extend auxdisplay).
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
+> 
+> [...]
 
-Without diving into this, just sharing my view on auxdisplay subsystem:
-I consider it _mostly_ (like lim->100% mathematically speaking) as for
-7-segment and alike displays, not any comples RGB or so devices. If
-those devices are capable of representing characters/digits in similar
-way, we may export linedisp library for them to utilise.
+Applied, thanks!
 
+[09/34] power: rt9455: hide unused rt9455_boost_voltage_values
+        commit: 452d8950db3e839aba1bb13bc5378f4bac11fa04
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
 
