@@ -1,58 +1,57 @@
-Return-Path: <linux-leds+bounces-1459-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1460-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FC78A1B1F
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 19:22:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C7D8A1B39
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 19:25:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0095D1C210E7
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 17:22:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C414EB2F423
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 17:22:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F28D1773D;
-	Thu, 11 Apr 2024 15:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 424F125742;
+	Thu, 11 Apr 2024 15:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1hBSZP8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUq10IaI"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D0B4F88B;
-	Thu, 11 Apr 2024 15:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1905724A04;
+	Thu, 11 Apr 2024 15:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712850662; cv=none; b=FEdh04yPlbPHXQ652M9fdBZADjCfgh+kGHLAFBkuKEqZIAasTLpf/3aJYeUqjWEzqFyxNaQ/4+/ZYzoUdjU7g1hbuNMolwJswBeTk7y7JcBrmRXoOcLhXgB2zD8YVXagFAww48ayqc8CFiaAsUwk8VdqVukFkg4VGikRakCwg4o=
+	t=1712850664; cv=none; b=ah/Ic5LKpw4XW+oR3Bho9m5H+pugnAhjE2cBgjAnzVBnCuboLsxk4jhYiW1532+4sx1ykcLv598L2ACmWEPdr1BznRxkBDUVPoSbvb0TVY2+E4v/LhvdFQGF8o2vARP2BwzYk+pbW1EE7r4H2QjVj4rCXeCXfYI+p2wyOUUgA+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712850662; c=relaxed/simple;
-	bh=5a8Ggj/Vj9rXkUXznIAW7aZ3v6ArcbbuVb8Q07FRUYY=;
+	s=arc-20240116; t=1712850664; c=relaxed/simple;
+	bh=1YmahG86pkXWt+wHdmPokf2CV2VkjHARgkggfWFuN0Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=su7b/hNK8qht0mM/9DpviR7HFc1PtP/1hXAIt1KECmr5EWvooehjJtWErlTs66ZS1PVAenIW9uCyYVvdLgxNeq49tt2O9TlumsoiyEtVJjfuSPlhQGOUCoQdJoyTNETJGd75Clake2QEOFhzdC665NDxOEbSuKD8YlgpLx98Sq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1hBSZP8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C893C072AA;
-	Thu, 11 Apr 2024 15:51:00 +0000 (UTC)
+	 MIME-Version:Content-Type; b=HcjcmkN6RzLmCei7BZw7bG+xVOZZGltoel3nLTVrrs+1ybnSOQ4RfdR4GMw1ASlcmgq0KzbxHnfh2pE6hKijCHlvjJo/GiY1c1BaMyp67XcOZ/O2uNdi+lOvbCfUssy2rn2vUInBsv1xTdTjUao2JDSbsixa5Xix7Oz6vV8qSX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUq10IaI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6927CC2BBFC;
+	Thu, 11 Apr 2024 15:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712850662;
-	bh=5a8Ggj/Vj9rXkUXznIAW7aZ3v6ArcbbuVb8Q07FRUYY=;
+	s=k20201202; t=1712850663;
+	bh=1YmahG86pkXWt+wHdmPokf2CV2VkjHARgkggfWFuN0Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=G1hBSZP8EM+NU9CyuGee2kekCmUlWdJupViFdAChfuBSInRE9tcvlE4zzI/EkhxN4
-	 CkW0HFRsHFcXMbJHEhlq9GFrNtyfoAstDbFSlE5j6rTiizcDiyFTIjtL036n5Crf48
-	 enuI5kfPQp6anq87UYZmk4Dk8TwU2ER+jxoRsYuTLk0dbfP8dvI1zCSy5bzD/C+MWi
-	 0XKN3vY/mQSFGFzXMyDwFKF8SGzX7iGtcFwj9Bq0doJmv3CqD4VC+SDkOK7J1C7y1J
-	 5KHn444sz0hZaRZXvUkgpwu4qJBbn/LUxV3h+vU7cxRjWxbaCrfazRSkkhzZFOA4i1
-	 MJEbe918jqxhQ==
+	b=QUq10IaI+64mhh0l8TDQ4SYzkPd4f1A0OHcaMQeANtRr4nUEv3ZQszKBG5JQeWE+O
+	 urCWndZGnjM71L4rSBEXTBd+RTzEae6td5NwsFT3zKf6CgBz1lNIuW3Zughr7hPVQJ
+	 38N7wasCxE+FpLGVjqZR+n0EyadAbqYhS4Yla+GexfyZCvAJwfdPkBThKKymBJwM/h
+	 IT622nWHV0rC5Wg1hDGEpxCKFwE3IvtLHka8BJ4C8gExJp+qX/CTADFKMMHtZYk7xq
+	 BqaKoDibodzLyBiwHA7TP5bqYSAsgDEgp14JfTBRb+dIoW7FmQPzXXWxbJZwS7ZMAw
+	 mf0e/jqDYc35A==
 From: Lee Jones <lee@kernel.org>
-To: pavel@ucw.cz, lee@kernel.org, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- INAGAKI Hiroshi <musashino.open@gmail.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240323074326.1428-1-musashino.open@gmail.com>
-References: <20240323074326.1428-1-musashino.open@gmail.com>
-Subject: Re: [PATCH v2 0/2] dt-bindings: leds: add LED_FUNCTION_* mainly
- for router devices
-Message-Id: <171285065997.2464516.13537165356997238017.b4-ty@kernel.org>
-Date: Thu, 11 Apr 2024 16:50:59 +0100
+To: linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, 
+ Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-leds@vger.kernel.org
+In-Reply-To: <20240403080702.3509288-16-arnd@kernel.org>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+ <20240403080702.3509288-16-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 15/34] leds: apu: remove duplicate DMI lookup
+ data
+Message-Id: <171285066216.2464516.4448595917392110976.b4-ty@kernel.org>
+Date: Thu, 11 Apr 2024 16:51:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,24 +62,22 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.4
 
-On Sat, 23 Mar 2024 16:36:08 +0900, INAGAKI Hiroshi wrote:
-> This patch series adds some LED_FUNCTION_* definitions mainly for router
-> devices.
-> Those definitions are useful for OpenWrt or something.
+On Wed, 03 Apr 2024 10:06:33 +0200, Arnd Bergmann wrote:
+> Building with W=1 shows a warning about an unused dmi_system_id table:
 > 
-> v1 -> v2
+> drivers/leds/leds-apu.c:85:35: error: 'apu_led_dmi_table' defined but not used [-Werror=unused-const-variable=]
+>    85 | static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
 > 
-> - fix sort order of LED_FUNCTION_MOBILE
-> - improve the commit description of the first commit
+> Since the current version doesn't even do anything about the different
+> implementations but only checks the type of system, just drop the
+> custom lookup logic and call dmi_check_system() using the table itself.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] dt-bindings: leds: add LED_FUNCTION_MOBILE for mobile network
-      commit: b65a10938791d90c88ef4f3ecddee22b9fc23b2e
-[2/2] dt-bindings: leds: add LED_FUNCTION_SPEED_* for link speed on LAN/WAN
-      commit: 03075af4c95133dfa14f434dab3b7b97e6cb9b56
+[15/34] leds: apu: remove duplicate DMI lookup data
+        commit: 6e37e66058d9c0bfa13d32e2c6ff14439d5e62f9
 
 --
 Lee Jones [李琼斯]
