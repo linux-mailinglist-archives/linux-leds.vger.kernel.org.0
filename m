@@ -1,60 +1,58 @@
-Return-Path: <linux-leds+bounces-1470-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1471-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441648A1D0F
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 20:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C688A1D22
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 20:03:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D9A61C2264E
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 18:02:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EC591C22A7C
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 18:03:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F8C1C822D;
-	Thu, 11 Apr 2024 16:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE2351C9ED6;
+	Thu, 11 Apr 2024 16:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MskWJphU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRw9gbg3"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FAA17597;
-	Thu, 11 Apr 2024 16:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B911CAE62;
+	Thu, 11 Apr 2024 16:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712854013; cv=none; b=Suuiz4WmTR0cZZrzy5bI/FBRSbTk3NkkJsie30tN//S4PvKu1f+ETR5bBSbra/8hBlCgYndgfFDKOF0PX+IPdvj/0dQZESlh/yoBKXrC+uYciyU7raQVxeCC49zuOP+Ir6nqLcAG2DBtDSHcSFVke8F1XmzYAM0WjEoGLkg2iQc=
+	t=1712854120; cv=none; b=DwxNgK7JCTBOJH+D78ifVNfManuj2CVtaXkcG1KzQoZZ+TtKldRPEFs0WB7/wj0JFQ5TrMw1P8Tti3haOly/1f8CpHPi5HVf+sxeFqTCsRWbToVRsvk/CP40uS2vB2SWq069pMMr52CQT8rhvq6E+8fiV8uPsZMss35Lr144WKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712854013; c=relaxed/simple;
-	bh=iqgAjrhpdfo1ZrrUFTj02mkEqrpLz3bUdqwwQOLPe+8=;
+	s=arc-20240116; t=1712854120; c=relaxed/simple;
+	bh=LWlrTCJGqYKdS9PYJSR2H64H7PQGjxik5FHnH+YFRek=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BwZbzucoGzgWf6HjfB0iSauvlhOnXR10h4f4aBiTG5fznnQiVWMvTZENulCpcSjnGCkpR/XPEopRV+Mx6p2h7isuCkhWyHV5kXWVsDtXoFX1jS/MtF6FfANO3DJhB7ZUMQlMB205AV7udMfEIoW7L+fbe2oS7Dtqx8hI/5Z9uWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MskWJphU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF05C113CD;
-	Thu, 11 Apr 2024 16:46:50 +0000 (UTC)
+	 MIME-Version:Content-Type; b=b4lghRai251c1Q5i7kqeWDYa1bgsyzRAOjWRGQx1PS6QEbpplD73QKvrN45NcfJtzPGANI8qYw60DPA6mRb8byAQU4I3wFcCJjlv+HEQzXNF+dWzjy2YVG1XENuAOedOEujy+bLXKySDXB9j3m9v038O0+j5obhvP12tYOkWsX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRw9gbg3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11011C072AA;
+	Thu, 11 Apr 2024 16:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712854013;
-	bh=iqgAjrhpdfo1ZrrUFTj02mkEqrpLz3bUdqwwQOLPe+8=;
+	s=k20201202; t=1712854120;
+	bh=LWlrTCJGqYKdS9PYJSR2H64H7PQGjxik5FHnH+YFRek=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MskWJphUxfWv7FR14JCojqva5rU4CLn4jyrJi2Llb6nxfrhSBfhG6dav/LD6+rRzX
-	 zN+UrwTlUuGNfqMnJAp+wkbgbEVkzr6aJjlqX1gZuxhjUNsXEEyGF+j0eo/RUzPxr9
-	 51H5s0zPJsUfsz8uCnkDmrA3uU5FTEcVSzu9/5EfP5YZzrr+s4027Gu1iWdyzQFTM6
-	 EVT7YNV+JgwOkW8sgH4pAG358oV+gfdfULuSuCyulF17XSNU2xCk2mx6KHg7+PeqhH
-	 KhDeTidPIVMwr3hb9nqt28ibYXa8/4oSBuFbcB6bxS4xOr65qVtaZXDAR027BNrR4y
-	 hPYXqxXCD6gUA==
+	b=SRw9gbg3ILr9SlXTXTQ+BUnw1oNfqMDP46YMiFKH2ywD5rU1P0dEI+ifC98brtzT3
+	 sK/T8pTySfw5lZUKqDGe0eomeXbvOgcJM/BmFRtMyceO9GX3DEYpYSdTMuatLQPJxf
+	 nLplnjGvyUcQBu8NuzBliq2HTBtzk1/Fcj/fZKzNGAXhRQHB2JVF12XTExdynCf9t8
+	 iSd6+nVzTg9fkeIUENqsjt2GH2BlY0YH44BpSEAJyqvHQScjw5PfyNprZUfnH0d4xT
+	 8scaN3SbJU5zDwE2FhccU4BjirKFtM2vAR5V2+KZcKZ+bIF59FTLnEtNBJBPHycIyy
+	 /Ptqgg7AuvOGA==
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Gianluca Boiano <morf3089@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20240402-pmi8950-pwm-support-v1-0-1a66899eeeb3@gmail.com>
-References: <20240402-pmi8950-pwm-support-v1-0-1a66899eeeb3@gmail.com>
-Subject: Re: (subset) [PATCH 0/3] This patch series introduces support for
- PMI8950 PWM in leds-qcom-lpg.
-Message-Id: <171285401081.2497730.16156090653409135470.b4-ty@kernel.org>
-Date: Thu, 11 Apr 2024 17:46:50 +0100
+To: pavel@ucw.cz, lee@kernel.org, matthias.bgg@gmail.com, 
+ angelogioacchino.delregno@collabora.com, ChiaEn Wu <chiaen_wu@richtek.com>
+Cc: linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ peterwu.pub@gmail.com, cy_huang@richtek.com
+In-Reply-To: <28FE6F1712799128000.chiaen_wu@richtek.com>
+References: <28FE6F1712799128000.chiaen_wu@richtek.com>
+Subject: Re: (subset) [PATCH] leds: mt6360: Fix the second LED can not
+ enable torch mode by V4L2
+Message-Id: <171285411780.2498946.3824215880975158305.b4-ty@kernel.org>
+Date: Thu, 11 Apr 2024 17:48:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,23 +63,22 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.4
 
-On Tue, 02 Apr 2024 14:35:41 +0200, Gianluca Boiano wrote:
-> The first patch updates the device tree bindings for leds-qcom-lpg to
-> include support for PMI8950 PWM.
+On Tue, 09 Apr 2024 18:21:54 +0800, ChiaEn Wu wrote:
+> V4L2 will disable strobe mode of the LED device when enable torch mode,
+> but this logic will conflict with the "priv->fled_torch_used"
+> in "mt6360_strobe_set()". So after enabling torch mode of the first
+> LED, the second LED will not be able to enable torch mode correctly.
 > 
-> The second patch adds a pwm node to the device tree for the PMI8950. This
-> node is found on some msm8953 devices, such as the Xiaomi Mido, and its
-> inclusion in the device tree will enable infrared LED functionality on
-> these devices.
+> Therefore, at the beginning of "mt6360_strobe_set()", check whether the
+> state of the upcoming change and the current LED device state are the
+> same, so as to avoid the above problem.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/3] leds: qcom-lpg: Add support for PMI8950 PWM
-      commit: 945d4f9fc2123ce2ca4f72fd83b61842bc0191fe
-[3/3] dt-bindings: leds: leds-qcom-lpg: Add support for PMI8950 PWM
-      commit: 4bac069633d433a8626b0c80a3f191800086e77f
+[1/1] leds: mt6360: Fix the second LED can not enable torch mode by V4L2
+      commit: 0dcd0488a7a5b8762256b393a8bd0c21e5e4e0fb
 
 --
 Lee Jones [李琼斯]
