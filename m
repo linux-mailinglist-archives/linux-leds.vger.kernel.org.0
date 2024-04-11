@@ -1,56 +1,58 @@
-Return-Path: <linux-leds+bounces-1457-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1458-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CE78A1722
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 16:28:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C30B8A1B11
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 19:21:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 730691C21FC4
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 14:28:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7D401F28103
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 17:21:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAF9D14EC4F;
-	Thu, 11 Apr 2024 14:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A188205E10;
+	Thu, 11 Apr 2024 15:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3MEbMSL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbZ8w1WN"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C777214F103
-	for <linux-leds@vger.kernel.org>; Thu, 11 Apr 2024 14:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4070205E11;
+	Thu, 11 Apr 2024 15:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712845652; cv=none; b=gKAlNTo7eGvHfNstGuOJBg1Rr8Bzdj0tTIWTe6H2urUdL55CzGIgvFEMX6eQwfTacayFVSR12djfTCocksY8c2I5zOklcCfA4hmnNgZrIXGGo/PYOLKFY2cW7syWzNDrtIUtDYrIQJXCnLEXJbkO70XGbSIteiqMdg79MsFXmUo=
+	t=1712850258; cv=none; b=QIkOX68C4DAFoHovVL86I0mXGYN8eDJG3zp0b9ihBQG3IzScZFVRKbjhBaia+w+21mOVcaWy7cquRGjjvCGWAeymo2i2HkWTnGVGXKVs8xMsMwf4eLAtjDDCah/155zhSUFyG4CNGL4tfMuyqsbzZuBFsohJ1MK+OTWzcs91Tsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712845652; c=relaxed/simple;
-	bh=exRRTpELMAURnLVpz23F2ZXMXXRsqNqb0Foej6zhNBQ=;
+	s=arc-20240116; t=1712850258; c=relaxed/simple;
+	bh=e1dvSCg1omiFQogVZpulW6Xvv0upb7nj/qFDuBgjDAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q/p9+3/HILx5SZaVPcythF83cd1MX0yHLADaS/UFKEifbuOZPfGcA7bgrncPjeZxGv0nN5v6SVKiNTwH+OhA/K94mcOolWa+NepINO+4RjltZDz6+IqBqMN4l/oaWWP+84E8j9Ju037CC804M0rrj0XA0DakPCVsQxrDYNHsxgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3MEbMSL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FF8CC113CD;
-	Thu, 11 Apr 2024 14:27:31 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=nWrRl3B2rRNU1Y7LVc5zrR8/8gJwluEXarCLKljvtjcdDdd0f4xUSoeKOg0M5CNMYd9M4zhbQUndu5QeeJV+I9qpdF23WxEICOk3c+oMePYYLvejmjUzo7gEYeNuFOeOLl7TdZpkGFqv8n/GEfdotQPHMgkxzsexWOcjFufssio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbZ8w1WN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC88C072AA;
+	Thu, 11 Apr 2024 15:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712845652;
-	bh=exRRTpELMAURnLVpz23F2ZXMXXRsqNqb0Foej6zhNBQ=;
+	s=k20201202; t=1712850257;
+	bh=e1dvSCg1omiFQogVZpulW6Xvv0upb7nj/qFDuBgjDAM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y3MEbMSLORUjJcm661K7zAW0RQIch3o+hLnXPv9N1sQvqpWsCLq8L1tSQdK6MldEH
-	 eXK9LWyUqjphi2dM1dl/1dxliMgm1C40dsN0XC7aHGQufn4n46mQzxbbmEhSsEi4sy
-	 qs8Ez1v8xZZHDYYcTY94gEWv9ILfRqlQa/g7FUz4ZDIWzPq78H2e/+2uOwENfatadr
-	 /VAR0VUvM+qjR4wOZO+MrCBRARIVKiHxs+NC7B1IwvWddFMXHYAfjZgE0J/w3LnuhM
-	 w5dCQCnoiqFNgvN6AmO7kRq/45lXUnFPbiCfs/VUbeG3dD8ChbooujViNkmIGa+goZ
-	 usi1F3a65KCPw==
-Date: Thu, 11 Apr 2024 15:27:28 +0100
+	b=kbZ8w1WNmdaJATT3ZsRE6gEYKmsANWdKfvQFyHYcLQbngKRMqNHZyGVn44Ritnne5
+	 RrrIdNFBqXjPCvN8l4I19ujQkKrwbzfnWAaTjtPueu5BF0VmSM+5gtHV1ScRFUFpLE
+	 7UI+8sD6a9xT5L+Cttqa9TEFUFSjxh7/9+JpZ95pEAdedHiyIahKHj1GieC9vX+Rp0
+	 zc9Z1N9wilo5RsgYoUr8tZdcqbY7QbE+H26rXHrhfUT+bWD6oJ+T7HFvCFzCNV4UzF
+	 ug/lnkVqJaJsyv1SOeGFqGrtGWSfE83PEk8GhMcf+B80O3/bLxMJ5eU8AegsUUeaCT
+	 PcWZxVVtdqUxQ==
+Date: Thu, 11 Apr 2024 16:44:13 +0100
 From: Lee Jones <lee@kernel.org>
 To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH] leds: core: Omit set_brightness error message for a LED
- supporting hw trigger only
-Message-ID: <20240411142728.GC2399047@google.com>
-References: <44177e37-9512-4044-8991-bb23b184bf37@gmail.com>
- <20240411142628.GB2399047@google.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
+Subject: [GIT PULL] Immutable branch between MFD, MIPS and Sound due for the
+ v6.10 merge window
+Message-ID: <20240411154413.GG2399047@google.com>
+References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -60,63 +62,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240411142628.GB2399047@google.com>
+In-Reply-To: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
 
-On Thu, 11 Apr 2024, Lee Jones wrote:
+Enjoy!
 
-> On Fri, 05 Apr 2024, Heiner Kallweit wrote:
-> 
-> > If both set_brightness functions return -ENOTSUPP, then the LED doesn't
-> > support setting a fixed brightness value, and the error message isn't
-> > helpful. This can be the case e.g. for LEDs supporting a specific hw
-> > trigger only.
-> > 
-> > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> > ---
-> >  drivers/leds/led-core.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> > index 89c9806cc..9485f799f 100644
-> > --- a/drivers/leds/led-core.c
-> > +++ b/drivers/leds/led-core.c
-> > @@ -127,7 +127,8 @@ static void set_brightness_delayed_set_brightness(struct led_classdev *led_cdev,
-> >  	ret = __led_set_brightness(led_cdev, value);
-> >  	if (ret == -ENOTSUPP)
-> >  		ret = __led_set_brightness_blocking(led_cdev, value);
-> > -	if (ret < 0 &&
-> > +	/* Don't emit error message if LED supports a hw trigger like netdev only */
-> > +	if (ret < 0 && ret != -ENOTSUPP &&
-> >  	    /* LED HW might have been unplugged, therefore don't warn */
-> >  	    !(ret == -ENODEV && (led_cdev->flags & LED_UNREGISTERING) &&
-> >  	    (led_cdev->flags & LED_HW_PLUGGABLE)))
-> 
-> This function is already pretty messy.
-> 
-> How about something like:
-> 
-> static void set_brightness_delayed_set_brightness(struct led_classdev *led_cdev,
->                                                   unsigned int value)
-> {
->         int ret;
-> 
->         ret = __led_set_brightness(led_cdev, value);
->         if (ret == -ENOTSUPP) {
->                 ret = __led_set_brightness_blocking(led_cdev, value);
->                 if (ret == -ENOTSUPP)
->                         /* No back-end support to set a fixed brightness value */
->                         return;
->         }
-> 
->         if (ret == -ENODEV && (led_cdev->flags & LED_UNREGISTERING))
->                 /* LED HW might have been unplugged, therefore don't warn */
->                 return;
-> 
->         if (ret < 0 && led_cdev->flags & LED_HW_PLUGGABLE)
->                 dev_err(led_cdev->dev, "Setting an LED's brightness failed (%d)\n", ret);
->  }
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-If it looks reasonable to you, I'd e happy to submit it as a patch.
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-mips-sound-v6.10
+
+for you to fetch changes up to ab2ab9e69ef9734b875ce6d43fe3f9f90135daae:
+
+  leds: trigger: audio: Remove this trigger (2024-03-28 10:40:24 +0000)
+
+----------------------------------------------------------------
+Immutable branch between MFD, MIPS and Sound due for the v6.10 merge window
+
+----------------------------------------------------------------
+Heiner Kallweit (3):
+      leds: trigger: Store brightness set by led_trigger_event()
+      ALSA: control-led: Integrate mute led trigger
+      leds: trigger: audio: Remove this trigger
+
+ arch/mips/configs/ci20_defconfig     |  1 -
+ drivers/leds/led-triggers.c          |  6 ++--
+ drivers/leds/trigger/Kconfig         |  7 ----
+ drivers/leds/trigger/Makefile        |  1 -
+ drivers/leds/trigger/ledtrig-audio.c | 67 ------------------------------------
+ include/linux/leds.h                 | 29 ++++++++--------
+ sound/core/Kconfig                   |  1 -
+ sound/core/control_led.c             | 20 +++++++++--
+ 8 files changed, 36 insertions(+), 96 deletions(-)
+ delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
 
 -- 
 Lee Jones [李琼斯]
