@@ -1,105 +1,124 @@
-Return-Path: <linux-leds+bounces-1442-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1444-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4495689FF84
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Apr 2024 20:15:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6C88A08E2
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 08:55:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F02C01F22749
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Apr 2024 18:15:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 579B32885B3
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 06:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754601802A2;
-	Wed, 10 Apr 2024 18:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDCE642044;
+	Thu, 11 Apr 2024 06:55:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EADTuXU9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvNxYyjs"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CFF17F36E
-	for <linux-leds@vger.kernel.org>; Wed, 10 Apr 2024 18:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62A063D;
+	Thu, 11 Apr 2024 06:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712772904; cv=none; b=pVgD4z+R2ZD8nHoPgRcM13WhItH/DtHd5HdJyqv68x0p2T69ezjctefiCl+8xTPvy5tnuX4HesSHOPCRa0+RHreft3ohRQepK5vUvQxAIEw/WhZiCeBLWZfNlBcCOfrpSPuEuGXonc8spwwl3GSQGCE/wc0IHuTB41d6VG+tSl4=
+	t=1712818516; cv=none; b=aapPD4F7sH2+26H+pmEjPGOwMeWc511JkC5wsk2ZTMz0G/jmcz1eIwYEEzIrLJ9NDonJ3lgIh0OMvjhwr8oQ1Mj5zOOmoD4wr+mTOu2IogYZZOax+gkiNZCMZ1LyxuqwszVxfkv/aE0MSkY5xyd7maCSxm4tDiLT7PZEMP44Ifk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712772904; c=relaxed/simple;
-	bh=bgxBc5QL1EgrGNz1Nh0tisNL2vyofmodpiuIjwYsJhE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P9pgQ+hmvnenA0SvKI+0UgaEzXnrRGQ0vC3QshxKD0JONh55y9vMDvn/k7djGF1YjK5rOWausIRBsMk8eCADKiClEgOpuSPS0AqshBr4NLh3aFkb6ODHqjHiCF+n4bUrGSHeUxG7cBTLi6MW7B7W1SWIIev70BXn84ydgGlJOzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EADTuXU9; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-516ab4b3251so8001196e87.0
-        for <linux-leds@vger.kernel.org>; Wed, 10 Apr 2024 11:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712772901; x=1713377701; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5mElfgPubZ0c/8Pokd0nDZ//CRbTWxbvbOos9Zm32WI=;
-        b=EADTuXU9LCDxn80s/DTc32NwUDCtZPjHalHbwK4eOl5wJ2EFUXfft/8N3VgxHT61af
-         aI0xio9ys+iFOQUOueg6NiwHaYpw4JUm220DdLshcKOHY3kNTuOqJPLX5LhLJEMWN/Mu
-         BfAcez8NFHX/sySDEj3ZcIoS1BKFBfYBsvNmcZF7qOfsTWlNQtgGRCWx+rdi/NwYe1dw
-         nWy50PxeijJLym5pMECb1WQYo4TfV0+mJEbv0pfiZzNf0C4iW0n6VUUjuHDgLYN6fc/i
-         tAUlV7HJTBx3RcwAUNBKUYdedghRGDr4u+5FVDpWkEZNWdmF0lvH8SlyLRgOBIC0XI8+
-         AP1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712772901; x=1713377701;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mElfgPubZ0c/8Pokd0nDZ//CRbTWxbvbOos9Zm32WI=;
-        b=ALjlkL5fpdK3Aj3Vw1kBOeIWJ2qPjysP0pXtpHMEHhvw6Slvb7KYicl5avyjtq4vAU
-         k3SZz31in8G04nfm8rAKwzwx+XSHc40UdNKGyxk2acBivj/eu+2JBCMXCo2QGH6+Vr0+
-         VE4En+o/Bu1++UnVRb6lCnz97+6JIjtkAswwNlsjPH5S7j0i7Qmj/TD2LzvtLMHM71l+
-         dO2QMadOE68wPtLrUuiHUYexYvdKGAoB6z4rrwEQeX/7Tffd5mhT2vx6VW8CYwuOfdph
-         5BG0tjmwJ9sQNIMXXipb2F5/k9atWcff6+RyIR09q/KM5/JclxmBhmFFceaKgxolSbXM
-         vjeQ==
-X-Gm-Message-State: AOJu0YyZ9khAbMxUcNJqXbFobn5md8YKuUJkjRgYv1rO15m1BN927ldg
-	drJ83VOSiOzKf03NU1RW0rptTZd8pkE/6rE9YDnJlQ39n7ExNa6k6dYU2EXZ6Ro=
-X-Google-Smtp-Source: AGHT+IEx+N42sULyWh0hFoGahD+v4vOuxraHP+O8zMLn+GdI27fRh0rSrMwRe1q9w/Amti/YHcM56w==
-X-Received: by 2002:ac2:4289:0:b0:513:cf5e:f2ad with SMTP id m9-20020ac24289000000b00513cf5ef2admr2477386lfh.60.1712772900853;
-        Wed, 10 Apr 2024 11:15:00 -0700 (PDT)
-Received: from [172.30.205.26] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id c27-20020ac25f7b000000b00515ce9f4a2bsm1912642lfc.35.2024.04.10.11.14.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 11:15:00 -0700 (PDT)
-Message-ID: <3b457615-533d-40b6-a637-770eb9af8956@linaro.org>
-Date: Wed, 10 Apr 2024 20:14:59 +0200
+	s=arc-20240116; t=1712818516; c=relaxed/simple;
+	bh=g5uFzpLBD5mMvoeBx8hAdujf+J4m8llZ6LvgrHfw/qs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aq0Qop138Q7x/7X0ILv2SYOypie2nFIJy5hC2j0qHfZwdtM4go/3BB0BZ6U0rh1bTdO/bCPWyt+Hjcch07tOLdUsplQmcgjMaOQBgvm/f9ZHEaioeIoBlGaFYUFGrHbLYCdSuTkuh68IZyNMbiH9/ipXZQH0tpwjw/Ygp2krH1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvNxYyjs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27F3AC433C7;
+	Thu, 11 Apr 2024 06:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712818516;
+	bh=g5uFzpLBD5mMvoeBx8hAdujf+J4m8llZ6LvgrHfw/qs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BvNxYyjsAvCfq31BNCEVkvEyXMKqXg17zoo7EoJSAq2MhkmyRtqBo2DG+2Ssxh0TN
+	 0mtKRf7SNGnt4dwLynbgqlfJ2dgqXrwu52VMW6bXvShCdH7WF89v9WoNW3hj0nIzba
+	 jffDoK1d5Fp3YmDVOciJfQQlJ7HDJTgcCy4GQEHNv6vh9TR9kBTl3ngPRT5G69VI85
+	 MXgiWEZTCbnWSyzbZzKDdGh/+g/HuUsPq6nz2DqeYu2PtRF7nf5GCpJGY6aUJJGuUN
+	 QU9Fww/Ln77Q3okVcn7v0WKeIXxi5fKU2aDYHErN5KaEOfszOylPhdAl1U8b3PPGjD
+	 72xWSWZmp3Wig==
+Date: Thu, 11 Apr 2024 07:55:11 +0100
+From: Lee Jones <lee@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: ChiaEn Wu <chiaen_wu@richtek.com>, pavel@ucw.cz, matthias.bgg@gmail.com,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, peterwu.pub@gmail.com,
+	cy_huang@richtek.com
+Subject: Re: [PATCH] leds: mt6360: Fix the second LED can not enable torch
+ mode by V4L2
+Message-ID: <20240411065511.GB6194@google.com>
+References: <d1d1419bb322e2b0f40d34edd3a66979015b668c.1712657386.git.chiaen_wu@richtek.com>
+ <c98ea7c9-6c9b-466d-bc49-ec76874ac6da@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] arm64: dts: qcom: pmi8950: add pwm node
-To: Gianluca Boiano <morf3089@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240402-pmi8950-pwm-support-v1-0-1a66899eeeb3@gmail.com>
- <20240402-pmi8950-pwm-support-v1-2-1a66899eeeb3@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240402-pmi8950-pwm-support-v1-2-1a66899eeeb3@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c98ea7c9-6c9b-466d-bc49-ec76874ac6da@collabora.com>
 
+On Tue, 09 Apr 2024, AngeloGioacchino Del Regno wrote:
 
+Not sure why, but this mail was sent unthreaded from the original.
 
-On 4/2/24 14:35, Gianluca Boiano wrote:
-> This node is actually found on some msm8953 devices (xiaomi-mido) and
-> allows irled enablement
+> Il 09/04/24 12:21, ChiaEn Wu ha scritto:
+> > V4L2 will disable strobe mode of the LED device when enable torch mode,
+> > but this logic will conflict with the "priv->fled_torch_used"
+> > in "mt6360_strobe_set()". So after enabling torch mode of the first
+> > LED, the second LED will not be able to enable torch mode correctly.
+> > 
+> > Therefore, at the beginning of "mt6360_strobe_set()", check whether the
+> > state of the upcoming change and the current LED device state are the
+> > same, so as to avoid the above problem.
+> > 
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > ---
+> >   drivers/leds/flash/leds-mt6360.c | 12 +++++++++++-
+> >   1 file changed, 11 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/leds/flash/leds-mt6360.c b/drivers/leds/flash/leds-mt6360.c
+> > index a90de82f4568..1b75b4d36834 100644
+> > --- a/drivers/leds/flash/leds-mt6360.c
+> > +++ b/drivers/leds/flash/leds-mt6360.c
+> > @@ -241,10 +241,20 @@ static int mt6360_strobe_set(struct led_classdev_flash *fl_cdev, bool state)
+> >   	u32 enable_mask = MT6360_STROBEN_MASK | MT6360_FLCSEN_MASK(led->led_no);
+> >   	u32 val = state ? MT6360_FLCSEN_MASK(led->led_no) : 0;
+> >   	u32 prev = priv->fled_strobe_used, curr;
+> > -	int ret;
+> > +	int ret = 0;
 > 
-> Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
-> ---
+> I prefer that you leave ret uninitialized here, and...
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+What's the reason for this?
 
-Konrad
+> >   	mutex_lock(&priv->lock);
+> > +	/*
+> > +	 * If the state of the upcoming change is the same as the current LED
+> > +	 * device state, then skip the subsequent code to avoid conflict
+> > +	 * with the flow of turning on LED torch mode in V4L2.
+> > +	 */
+> > +	if (state == !!(BIT(led->led_no) & prev)) {
+> > +		dev_info(lcdev->dev, "No change in strobe state [0x%x]\n", prev);
+> 
+> ...that you do here, instead
+> 
+> 		ret = 0;
+> 		goto unlock;
+> 
+> With that addressed,
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collaobra.com>
+> 
+> 
+
+-- 
+Lee Jones [李琼斯]
 
