@@ -1,103 +1,88 @@
-Return-Path: <linux-leds+bounces-1458-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1459-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C30B8A1B11
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 19:21:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FC78A1B1F
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 19:22:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7D401F28103
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 17:21:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0095D1C210E7
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Apr 2024 17:22:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A188205E10;
-	Thu, 11 Apr 2024 15:44:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F28D1773D;
+	Thu, 11 Apr 2024 15:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbZ8w1WN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1hBSZP8"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4070205E11;
-	Thu, 11 Apr 2024 15:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D0B4F88B;
+	Thu, 11 Apr 2024 15:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712850258; cv=none; b=QIkOX68C4DAFoHovVL86I0mXGYN8eDJG3zp0b9ihBQG3IzScZFVRKbjhBaia+w+21mOVcaWy7cquRGjjvCGWAeymo2i2HkWTnGVGXKVs8xMsMwf4eLAtjDDCah/155zhSUFyG4CNGL4tfMuyqsbzZuBFsohJ1MK+OTWzcs91Tsc=
+	t=1712850662; cv=none; b=FEdh04yPlbPHXQ652M9fdBZADjCfgh+kGHLAFBkuKEqZIAasTLpf/3aJYeUqjWEzqFyxNaQ/4+/ZYzoUdjU7g1hbuNMolwJswBeTk7y7JcBrmRXoOcLhXgB2zD8YVXagFAww48ayqc8CFiaAsUwk8VdqVukFkg4VGikRakCwg4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712850258; c=relaxed/simple;
-	bh=e1dvSCg1omiFQogVZpulW6Xvv0upb7nj/qFDuBgjDAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWrRl3B2rRNU1Y7LVc5zrR8/8gJwluEXarCLKljvtjcdDdd0f4xUSoeKOg0M5CNMYd9M4zhbQUndu5QeeJV+I9qpdF23WxEICOk3c+oMePYYLvejmjUzo7gEYeNuFOeOLl7TdZpkGFqv8n/GEfdotQPHMgkxzsexWOcjFufssio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbZ8w1WN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC88C072AA;
-	Thu, 11 Apr 2024 15:44:15 +0000 (UTC)
+	s=arc-20240116; t=1712850662; c=relaxed/simple;
+	bh=5a8Ggj/Vj9rXkUXznIAW7aZ3v6ArcbbuVb8Q07FRUYY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=su7b/hNK8qht0mM/9DpviR7HFc1PtP/1hXAIt1KECmr5EWvooehjJtWErlTs66ZS1PVAenIW9uCyYVvdLgxNeq49tt2O9TlumsoiyEtVJjfuSPlhQGOUCoQdJoyTNETJGd75Clake2QEOFhzdC665NDxOEbSuKD8YlgpLx98Sq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1hBSZP8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C893C072AA;
+	Thu, 11 Apr 2024 15:51:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712850257;
-	bh=e1dvSCg1omiFQogVZpulW6Xvv0upb7nj/qFDuBgjDAM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kbZ8w1WNmdaJATT3ZsRE6gEYKmsANWdKfvQFyHYcLQbngKRMqNHZyGVn44Ritnne5
-	 RrrIdNFBqXjPCvN8l4I19ujQkKrwbzfnWAaTjtPueu5BF0VmSM+5gtHV1ScRFUFpLE
-	 7UI+8sD6a9xT5L+Cttqa9TEFUFSjxh7/9+JpZ95pEAdedHiyIahKHj1GieC9vX+Rp0
-	 zc9Z1N9wilo5RsgYoUr8tZdcqbY7QbE+H26rXHrhfUT+bWD6oJ+T7HFvCFzCNV4UzF
-	 ug/lnkVqJaJsyv1SOeGFqGrtGWSfE83PEk8GhMcf+B80O3/bLxMJ5eU8AegsUUeaCT
-	 PcWZxVVtdqUxQ==
-Date: Thu, 11 Apr 2024 16:44:13 +0100
+	s=k20201202; t=1712850662;
+	bh=5a8Ggj/Vj9rXkUXznIAW7aZ3v6ArcbbuVb8Q07FRUYY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=G1hBSZP8EM+NU9CyuGee2kekCmUlWdJupViFdAChfuBSInRE9tcvlE4zzI/EkhxN4
+	 CkW0HFRsHFcXMbJHEhlq9GFrNtyfoAstDbFSlE5j6rTiizcDiyFTIjtL036n5Crf48
+	 enuI5kfPQp6anq87UYZmk4Dk8TwU2ER+jxoRsYuTLk0dbfP8dvI1zCSy5bzD/C+MWi
+	 0XKN3vY/mQSFGFzXMyDwFKF8SGzX7iGtcFwj9Bq0doJmv3CqD4VC+SDkOK7J1C7y1J
+	 5KHn444sz0hZaRZXvUkgpwu4qJBbn/LUxV3h+vU7cxRjWxbaCrfazRSkkhzZFOA4i1
+	 MJEbe918jqxhQ==
 From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: [GIT PULL] Immutable branch between MFD, MIPS and Sound due for the
- v6.10 merge window
-Message-ID: <20240411154413.GG2399047@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+To: pavel@ucw.cz, lee@kernel.org, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ INAGAKI Hiroshi <musashino.open@gmail.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240323074326.1428-1-musashino.open@gmail.com>
+References: <20240323074326.1428-1-musashino.open@gmail.com>
+Subject: Re: [PATCH v2 0/2] dt-bindings: leds: add LED_FUNCTION_* mainly
+ for router devices
+Message-Id: <171285065997.2464516.13537165356997238017.b4-ty@kernel.org>
+Date: Thu, 11 Apr 2024 16:50:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+X-Mailer: b4 0.12.4
 
-Enjoy!
+On Sat, 23 Mar 2024 16:36:08 +0900, INAGAKI Hiroshi wrote:
+> This patch series adds some LED_FUNCTION_* definitions mainly for router
+> devices.
+> Those definitions are useful for OpenWrt or something.
+> 
+> v1 -> v2
+> 
+> - fix sort order of LED_FUNCTION_MOBILE
+> - improve the commit description of the first commit
+> 
+> [...]
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+Applied, thanks!
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+[1/2] dt-bindings: leds: add LED_FUNCTION_MOBILE for mobile network
+      commit: b65a10938791d90c88ef4f3ecddee22b9fc23b2e
+[2/2] dt-bindings: leds: add LED_FUNCTION_SPEED_* for link speed on LAN/WAN
+      commit: 03075af4c95133dfa14f434dab3b7b97e6cb9b56
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-mips-sound-v6.10
-
-for you to fetch changes up to ab2ab9e69ef9734b875ce6d43fe3f9f90135daae:
-
-  leds: trigger: audio: Remove this trigger (2024-03-28 10:40:24 +0000)
-
-----------------------------------------------------------------
-Immutable branch between MFD, MIPS and Sound due for the v6.10 merge window
-
-----------------------------------------------------------------
-Heiner Kallweit (3):
-      leds: trigger: Store brightness set by led_trigger_event()
-      ALSA: control-led: Integrate mute led trigger
-      leds: trigger: audio: Remove this trigger
-
- arch/mips/configs/ci20_defconfig     |  1 -
- drivers/leds/led-triggers.c          |  6 ++--
- drivers/leds/trigger/Kconfig         |  7 ----
- drivers/leds/trigger/Makefile        |  1 -
- drivers/leds/trigger/ledtrig-audio.c | 67 ------------------------------------
- include/linux/leds.h                 | 29 ++++++++--------
- sound/core/Kconfig                   |  1 -
- sound/core/control_led.c             | 20 +++++++++--
- 8 files changed, 36 insertions(+), 96 deletions(-)
- delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
-
--- 
+--
 Lee Jones [李琼斯]
+
 
