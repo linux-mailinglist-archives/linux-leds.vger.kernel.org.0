@@ -1,84 +1,149 @@
-Return-Path: <linux-leds+bounces-1484-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1485-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39608A63AA
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 08:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55D28A6615
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 10:28:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E436281A34
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 06:21:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49371284D12
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 08:28:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B0BC40850;
-	Tue, 16 Apr 2024 06:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1AC136E28;
+	Tue, 16 Apr 2024 08:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="iqnfddhq"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="LGd4MOuT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5113FE2A;
-	Tue, 16 Apr 2024 06:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0EB3B78D;
+	Tue, 16 Apr 2024 08:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713248276; cv=none; b=Dgjbdtqgy0QUww+IBxrw257jT8OrCq/l0XP/S28swAhLu+zkMIAAdJpOw3As/+/WJYaBpRHD9peHlewVYbDGKiHrkqAYDh+McxoJKeJGQLuzaNSLL3qE/XnLdMgO9n/mo4H2UC8pS285+2MmQ8ila4EUcKkU60ajwgwvmVCaA5c=
+	t=1713256121; cv=none; b=ro+WRFmsTCPzJPjXCzIpxEW1vLjlcd82GYNAn8bcnKMk5WyOvwOAOfaXTF+MT3NpeGAdKX4IqYImTUdBsAouP1kQTQ0sMAqlRAd72psvi0uC6EhM5/86syIilvPoSA69T0pcZcszIkrwu483v8xgRds7VFadOMhbjrms9NzgfcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713248276; c=relaxed/simple;
-	bh=X+Jdad5MYJjeowNK7WUDKVcmRB0TARMUthcNAdaLKNM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BP4TfK/iOb2FeqNHHZNn/9sC70uqwjGeIIuJhBlRhGMcIYga/kySc/hj7RCfaOjodT/KlKG/a696EtuYjQHC9R/HssMtzmJBrM4EubruV9GpiUVjs20NjBQ1QPQIk2Hl3+Wx14Q9+dEkZuj6RHlAxQVMJa5/RjruVg1/6OgIrB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=iqnfddhq; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1713256121; c=relaxed/simple;
+	bh=4fVG0hgGeE2MEJ2IjJFjK+zjyRc2WZJcMXDmHG2OPTM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nqdaJkHbpigRffR6dgDxvTkhmLhI1+o5Q/RN28VxzfvZpj5Z1Mj4JGRACEmLQki8yctxm/3qULIizqgllrzBqJEy0V0u+h07+QhYpf9KLseSq1uQUPeHvUOsMR3evjyMAa0XhBbcfE0ca6uyGbd5uYAzfnfasGsM4672KgFjezQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=LGd4MOuT; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=X+Jdad5MYJjeowNK7WUDKVcmRB0TARMUthcNAdaLKNM=;
-	t=1713248272; x=1714457872; b=iqnfddhq+BIoXRz8UfEtqJkRjHEt0E2RA+XCftyLlyJYvB0
-	QhOrGA40g/55FfITLJ6Nb+r8jjXJUHJwWpNas5zzVtmbspOLB4rwjtqUEokfmjVjzlk4L36t7Q7SE
-	b5OR/8heF20ATIkWhiT4OcIym4z3J79BdvA+jItlnTSdFI82vi9y9D4OZiyjzS/YaYMhW2vmzgzzM
-	VXcL1zfJ4+xjp6ImwuVn1aVWccMK0nhfaLXr/5jz+sgELb3xqXqolvTJpzskaiAdt7B4XmvFH6TlA
-	XJ0RiDIpG+k6iNxiLkl+qAFvW0mMunsPAwrpEsXAf05uqwqjZdMAMlSXPZVoCJgw==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.97)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1rwc8b-00000009AgD-0tJh;
-	Tue, 16 Apr 2024 08:17:49 +0200
-Message-ID: <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
-Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Ben Greear <greearb@candelatech.com>, Lee Jones <lee@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org
-Date: Tue, 16 Apr 2024 08:17:48 +0200
-In-Reply-To: <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
-References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
-	 <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
-	 <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
-	 <20240411070718.GD6194@google.com>
-	 <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=vzFrt8UEjfFC2LhFGHg/hPX6/YCtSpcnbyd4WgxC8mQ=;
+	t=1713256119; x=1713688119; b=LGd4MOuTk4ddDXKzQ8sqmAmUIxZGaYJYz93V8ans7Q/fgUY
+	n2F86+GwCih63j7mZ6rOdsBUN2zvbAF0jlxDGytapbLtemmgb6vPhi3m7a186p/rcfjScIWXX8BMX
+	9rcelsdV6I/G0wrj5Y3vsD7hm626rEVL58JqGzRwYhH2DUoGrV9jAwqbeeGC3+jQEI34fd6o2NuUb
+	CoTvVkH6Sx0vUOfCSv6drGjYwUiPZpn/+X2bI2QnA26QUrI6wyJqFkbyh8KPraP0G7GrdynvJBkPt
+	RmBdbELUsmF3R+bsQx3fxXCfiWDJHa5TEQGyVEjyhTRHL/ORlBs0l0epS1cCXp6g==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rweBB-0002LJ-72; Tue, 16 Apr 2024 10:28:37 +0200
+Message-ID: <256e3d3c-d43f-4bd6-9a7b-50fc870e75e4@leemhuis.info>
+Date: Tue, 16 Apr 2024 10:28:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+User-Agent: Mozilla Thunderbird
+Subject: Re: [regression] stm32mp1xx based targets stopped entering suspend if
+ pwm-leds exist
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+ linux-pwm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+References: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
+ <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1713256119;bcf7860a;
+X-HE-SMSGID: 1rweBB-0002LJ-72
 
-On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
->=20
-> Johannes, you had another suggestion: changing iwlwifi's request_module()=
- to request_module_nowait() in
-> iwl_req_fw_callback()
->=20
-> Is that still best thing to try in your opinion?
->=20
+On 06.03.24 09:18, Uwe Kleine-König wrote:
+> On Wed, Mar 06, 2024 at 08:05:15AM +0100, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>
+>> Uwe, I noticed a report about a regression in bugzilla.kernel.org that
+>> apparently is caused by a change of yours. As many (most?) kernel
+>> developers don't keep an eye on it, I decided to forward it by mail.
+>>
+>> Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
+>> not CCed them in mails like this.
+>>
+>> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=218559 :
+>>
+>>> Commit 76fe464c8e64e71b2e4af11edeef0e5d85eeb6aa ("leds: pwm: Don't
+>>> disable the PWM when the LED should be off") prevents stm32mp1xx based
+>>> targets from entering suspend if pwm-leds exist, as the stm32 PWM driver
+>>> refuses to enter suspend if any PWM channels are still active ("PWM 0
+>>> still in use by consumer" see stm32_pwm_suspend in drivers/pwm/stm32-pwm.c).
+>>>
+>>> Reverting the mentioned commit fixes this behaviour but I'm not
+>>> certain if this is a problem with stm32-pwm or pwm-leds (what is the
+>>> usual behaviour for suspend with active PWM channels?).
+> 
+> I'd assume the following patch fixes this report. I didn't test it
+> though.
 
-I guess so, I don't have any better ideas so far anyway ...
+Jakob confirmed it helped in the bugzilla ticket. But the patch since
+then didn't make any progress afaics -- or did it and I just missed it
+in my search?
 
-johannes
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
+
+> ---->8----
+> From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
+> 
+> On stm32mp1xx based machines (and others) a PWM consumer has to disable
+> the PWM because an enabled PWM refuses to suspend. So check the
+> LED_SUSPENDED flag and depending on that set the .enabled property.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=218559
+> Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED should be off")
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/leds/leds-pwm.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+> index 4e3936a39d0e..e1b414b40353 100644
+> --- a/drivers/leds/leds-pwm.c
+> +++ b/drivers/leds/leds-pwm.c
+> @@ -53,7 +53,13 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+>  		duty = led_dat->pwmstate.period - duty;
+>  
+>  	led_dat->pwmstate.duty_cycle = duty;
+> -	led_dat->pwmstate.enabled = true;
+> +	/*
+> +	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
+> +	 * So keep it on. Only for suspending the PWM should be disabled because
+> +	 * otherwise it refuses to suspend. The possible downside is that the
+> +	 * LED might stay (or even go) on.
+> +	 */
+> +	led_dat->pwmstate.enabled = !(led_cdev->flags & LED_SUSPENDED);
+>  	return pwm_apply_might_sleep(led_dat->pwm, &led_dat->pwmstate);
+>  }
+> 
+> base-commit: 15facbd7bd3dbfa04721cb71e69954eb4686cb9e
+> ---->8----
+> 
 
