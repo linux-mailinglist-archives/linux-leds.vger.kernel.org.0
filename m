@@ -1,58 +1,58 @@
-Return-Path: <linux-leds+bounces-1486-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1487-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318EE8A6A7B
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 14:15:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B0B8A6AB2
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 14:20:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B24BDB20EBD
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 12:15:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D70F51C20AFC
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 12:20:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7FA12AACC;
-	Tue, 16 Apr 2024 12:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2125F12BEAB;
+	Tue, 16 Apr 2024 12:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAL+717C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgfRWkUm"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D1C12AACA;
-	Tue, 16 Apr 2024 12:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8B484A5F;
+	Tue, 16 Apr 2024 12:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713269723; cv=none; b=UrFm/NOTVNse0HQL22Ft0JHkaa+dj69J6kiPDO9UCGpQPY/urYTUFeJIA094UjB4cWsNLWbLomzrHis3ffIbQawqHRA1JE6KGcH3hIT4rGzTuS70F2Lq3+LjGpmKWGVc321yL2EyYrLN4ZnjTS9UoEcSCrjdH2CMQCIZptFOP3Y=
+	t=1713269954; cv=none; b=Cyt3fbhsNNBRGEHlMx4hHoNsi0XEX5eLJ4wr/GLW/Gdu0Ow0RClNgQe72TR8O29XZrfHfXYKTGT/ppU1AxSaZNQS0Qs/6jqYHeML+XI1HEe0pIgMZnbw0omUBQPYawNMQkvRiY6Kb/B0zS3vn9898IC9i85CzdraCKgGUo0FUw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713269723; c=relaxed/simple;
-	bh=Pn2alMweH9AQ/4nJwvXEDdpqKLi+Ur2nCRL4Qlf1KC0=;
+	s=arc-20240116; t=1713269954; c=relaxed/simple;
+	bh=Kytz+UD5dTwK2Cv6gkJ/t5JrQQBUJsCTbZJPyt6gz1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i2Msh5JmTfhLuK53D8m1CrYD8L4XE0YV0boINHhi2ZygMTaNhTRdEKYMDGp/o+/PKpWGjJAYKe2G/nfUxnpRk+3LDjCW/emnBEBf9aBuQUMNckp7DqqZVyhqBZ3p1tuVBVz1gHjnYgZnihsHL+BLiZSGLEa8cx++ZA3Rr/R5D18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAL+717C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8351C113CE;
-	Tue, 16 Apr 2024 12:15:21 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKy0EOFfANUkKM61wQmSGvD/ctPXS2ieZ4bvRDH38lwYQKVJhx91T3nq8HHUfXvDIQUpfUkY9kH5n2ovF1SKfMgalCBFI0qsankzJHPH9IE9GM6vb+Hxhr53VchD/JU8aQQHUQmmFa+upH7g13SSj+R+5o8q2BPVEayutWLhKK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgfRWkUm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B90FEC2BD10;
+	Tue, 16 Apr 2024 12:19:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713269723;
-	bh=Pn2alMweH9AQ/4nJwvXEDdpqKLi+Ur2nCRL4Qlf1KC0=;
+	s=k20201202; t=1713269953;
+	bh=Kytz+UD5dTwK2Cv6gkJ/t5JrQQBUJsCTbZJPyt6gz1w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fAL+717Cp96qKDTmVR1p8gTgJLTXDR+pZ7qM9UmfwPrP9qjDZhfocycKBAc0HzXbv
-	 ZJrGRocKM5Gk2VdTrhCjKTS9TqVbRwEwCnXLMMWXQ4nE6bR/D5FeadFUb7wOHplYAW
-	 ed/QFXjaArF/gjiZ/iWNYhfmXkEj9OQeHkOql7tntP/TXeUNn4c1kVtx/2PQA50yfX
-	 sTk4jNZ2cKhK0EJQnEji/o7w3ww8hgzOu3o3O4KjfYadow93fD4EziL/EOVMK1Eajs
-	 +6KiWWNkX0qqjSn5gLifarM/nazrJ/zovC3l5BEBkFa1f47ShMyHoi0CtQXTtbBbre
-	 gJ+K9bfV5NLMw==
-Date: Tue, 16 Apr 2024 13:15:19 +0100
+	b=TgfRWkUm04+Oe+cJmh3pJcySnutmqfJD5WwdEGv3DxScDd9WncSfwQfo2g0W0Wlbp
+	 WrSdvkzjmB1dpfMGcJRL67+ze9o26VkVTSK2uJ4vcGNYnpaEQirSzxKibTgzY9ZLOg
+	 q2l1E3Xb7Fj3HoKc8YIOc0RHZnnhwo9TSnZm5/jpkeZbLmRyJc1EOfDm4mS6chZ0CR
+	 gZfzpXqYXjBOzoRgTe9F6HjLRL2EYhVVQeOp1TCoOLLMdjLT3oc/1gNSPpsNevQ8cx
+	 3POspS4Y/dsZ9h3OxrcAtcnY8y7ATFZTs8SAvx0wBb954Mv7cy7WD0F+BZyter8wO+
+	 eF09JssL8N++A==
+Date: Tue, 16 Apr 2024 13:19:09 +0100
 From: Lee Jones <lee@kernel.org>
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [regression] stm32mp1xx based targets stopped entering suspend
- if pwm-leds exist
-Message-ID: <20240416121519.GS2399047@google.com>
-References: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
- <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
- <256e3d3c-d43f-4bd6-9a7b-50fc870e75e4@leemhuis.info>
+To: Ben Greear <greearb@candelatech.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+	Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
+Message-ID: <20240416121909.GU2399047@google.com>
+References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
+ <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
+ <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
+ <20240411070718.GD6194@google.com>
+ <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,79 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <256e3d3c-d43f-4bd6-9a7b-50fc870e75e4@leemhuis.info>
+In-Reply-To: <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
 
-On Tue, 16 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
+On Mon, 15 Apr 2024, Ben Greear wrote:
 
-> On 06.03.24 09:18, Uwe Kleine-König wrote:
-> > On Wed, Mar 06, 2024 at 08:05:15AM +0100, Linux regression tracking (Thorsten Leemhuis) wrote:
-> >>
-> >> Uwe, I noticed a report about a regression in bugzilla.kernel.org that
-> >> apparently is caused by a change of yours. As many (most?) kernel
-> >> developers don't keep an eye on it, I decided to forward it by mail.
-> >>
-> >> Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
-> >> not CCed them in mails like this.
-> >>
-> >> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=218559 :
-> >>
-> >>> Commit 76fe464c8e64e71b2e4af11edeef0e5d85eeb6aa ("leds: pwm: Don't
-> >>> disable the PWM when the LED should be off") prevents stm32mp1xx based
-> >>> targets from entering suspend if pwm-leds exist, as the stm32 PWM driver
-> >>> refuses to enter suspend if any PWM channels are still active ("PWM 0
-> >>> still in use by consumer" see stm32_pwm_suspend in drivers/pwm/stm32-pwm.c).
-> >>>
-> >>> Reverting the mentioned commit fixes this behaviour but I'm not
-> >>> certain if this is a problem with stm32-pwm or pwm-leds (what is the
-> >>> usual behaviour for suspend with active PWM channels?).
+> On 4/11/24 00:07, Lee Jones wrote:
+> > On Wed, 03 Apr 2024, Ben Greear wrote:
 > > 
-> > I'd assume the following patch fixes this report. I didn't test it
-> > though.
+> > > On 4/2/24 10:38, Ben Greear wrote:
+> > > > On 4/2/24 09:37, Ben Greear wrote:
+> > > > > Hello,
+> > > > > 
+> > > > > Sometime between rc1 and today's rc2, my system quit booting.
+> > > > > I'm not seeing any splats, it just stops.  Evidently before
+> > > > > sysrq is enabled.
+> > > > > 
+> > > > > [  OK  ] Started Flush Journal to Persistent Storage.
+> > > > > [  OK  ] Started udev Coldplug all Devices.
+> > > > >            Starting udev Wait for Complete Device Initialization...
+> > > > > [  OK  ] Listening on Load/Save RF …itch Status /dev/rfkill Watch.
+> > > > > [  OK  ] Created slice system-lvm2\x2dpvscan.slice.
+> > > > >            Starting LVM2 PV scan on device 8:19...
+> > > > >            Starting LVM2 PV scan on device 8:3...
+> > > > > [  OK  ] Started Device-mapper event daemon.
+> > > > > iwlwifi 0000:04:00.0: WRT: Invalid buffer destination: 0
+> > > > > sysrq: This sysrq operation is disabled.
+> > > > > 
+> > > > > I can start a bisect, but in case anyone knows the answer already, please let me know.
+> > > > > 
+> > > > > Thanks,
+> > > > > Ben
+> > > > > 
+> > > > 
+> > > > So, deadlock I guess....
+> > 
+> > Does this help you in any way?
+> > 
+> > https://lore.kernel.org/all/bbcdbc1b-44bc-4cf8-86ef-6e6af2b009c3@gmail.com/
+> > 
+> Hello Lee,
 > 
-> Jakob confirmed it helped in the bugzilla ticket. But the patch since
-> then didn't make any progress afaics -- or did it and I just missed it
-> in my search?
+> I cannot see how that patch above would fix my issues since I am not using that driver,
+> but possibly some similar change needs to be made to iwlwifi.
+> 
+> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
+> iwl_req_fw_callback()
+> 
+> Is that still best thing to try in your opinion?
 
-[...] 
+I mean the general principle, rather than the exact patch.
 
-> > ---->8----
-> > From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
-> > 
-> > On stm32mp1xx based machines (and others) a PWM consumer has to disable
-> > the PWM because an enabled PWM refuses to suspend. So check the
-> > LED_SUSPENDED flag and depending on that set the .enabled property.
-> > 
-> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=218559
-> > Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED should be off")
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > ---
-> >  drivers/leds/leds-pwm.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-> > index 4e3936a39d0e..e1b414b40353 100644
-> > --- a/drivers/leds/leds-pwm.c
-> > +++ b/drivers/leds/leds-pwm.c
-> > @@ -53,7 +53,13 @@ static int led_pwm_set(struct led_classdev *led_cdev,
-> >  		duty = led_dat->pwmstate.period - duty;
-> >  
-> >  	led_dat->pwmstate.duty_cycle = duty;
-> > -	led_dat->pwmstate.enabled = true;
-> > +	/*
-> > +	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
-> > +	 * So keep it on. Only for suspending the PWM should be disabled because
-> > +	 * otherwise it refuses to suspend. The possible downside is that the
-> > +	 * LED might stay (or even go) on.
-> > +	 */
-> > +	led_dat->pwmstate.enabled = !(led_cdev->flags & LED_SUSPENDED);
-> >  	return pwm_apply_might_sleep(led_dat->pwm, &led_dat->pwmstate);
-> >  }
-> > 
-> > base-commit: 15facbd7bd3dbfa04721cb71e69954eb4686cb9e
-> > ---->8----
-
-Did you submit this?  I don't see it in LORE or in my inbox.
+Yes, you would need to apply it to your own use-case.
 
 -- 
 Lee Jones [李琼斯]
