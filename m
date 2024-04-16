@@ -1,83 +1,83 @@
-Return-Path: <linux-leds+bounces-1491-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1492-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D738A725A
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 19:30:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A27E8A7268
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 19:32:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98C781F234A2
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 17:30:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B4621C21263
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 17:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D631332BE;
-	Tue, 16 Apr 2024 17:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CF61132C1F;
+	Tue, 16 Apr 2024 17:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tm7yarSz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4C1FZxI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CA010A22;
-	Tue, 16 Apr 2024 17:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12C8F4E7;
+	Tue, 16 Apr 2024 17:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713288585; cv=none; b=EO5cvI97u2f33n2fHjnuhvMry9u0PQo7DqIBkYzHy/yFFzUyDfUbI5ZcKNMrc+Z1Vj24LV5fUbKG2hM7zXelPYxH59PUbjw4sHD5iotxPet/Ju+8t24B2GUJZ5gJ7AxwZ4TQni4QwNbcTLxzOxhwFDiGJpm1MB0Xlmwn1LFiNAI=
+	t=1713288758; cv=none; b=PwU0E6fGOxeRh3kD8YVEuqa//uJ6jmWYZvz6W2vog/jQUjcb0gC/2CMNNFlyeqlcvlXMdrVaxaYzv05QLPkUYcV5HqzjFec+MNZMhDy0E/fWkh5Vg1e1TU0mBS/urXRtgtkRAApqqqh9PXxGjeoyN61I5HZhKZzJoY3xkOQeNT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713288585; c=relaxed/simple;
-	bh=u4a+StXvoc7WZc5sUtyqx0k9GiGrDUHS6kRfh3byeo8=;
+	s=arc-20240116; t=1713288758; c=relaxed/simple;
+	bh=7VKV1EUsD87ldi+cT0aXudqS/r014jvpTOraAVsjgJI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z7+tsYaXPJSUdF+if0EENAUujDbyDrptqpkqXYOE2Vmk+NTRcFizezzfvTmItTe+vdQIzP/3HWLPH5/SI5gKfuprhejNtcKCc8/rTecsEfxW9v7lJltVz249XCJdaw1sbv/Y5lMzOr+EqY5oV+MZ6+zdQOs3f2klzSGNHfn0sI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tm7yarSz; arc=none smtp.client-ip=209.85.218.43
+	 To:Cc:Content-Type; b=M+/UVpZcjBYRqKcy/Nd6ToRg0m3NOUC34DUWaP3t7AcfKbcq8Z6owp3G9/5kbmnIUCLE5fATIopRnmNh/YkFs4KDcXoDYUIdjCVXXjmyn3WDtxGFcI14HdgVUy5Y0PXE3+DFjGCLCfCOc1yzvZlMmgWfUE3sF7qekgWOJ6fFyQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4C1FZxI; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a53f131d9deso288670166b.3;
-        Tue, 16 Apr 2024 10:29:43 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-343cfa6faf0so3984818f8f.0;
+        Tue, 16 Apr 2024 10:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713288582; x=1713893382; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713288755; x=1713893555; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZP0IzBwvbXB7gkSUghvhzzGvmfIuLQzpi5ckhJzdidI=;
-        b=Tm7yarSzgLpPWOLjyUyNjlw2Z/hbjtIpnMx5JTnz6U4e4kU7t2X7zQAGiIAt2sr4ga
-         LpBnJkxur9hDOM/gZGtKx8jPmHlesH84CStERlojGPV1xSfPAYWjqyDYhRbn0eXZRKRQ
-         U9I9y0sZRQZek6kRT00Mkn9DmP67BbmPI37m5UPhYPwNU2LHFbwb/KSUkWJbKyEDynK1
-         R1gJCCvj98DykH6oVhyFDtMO0/FNMPo2p6MEu7K+3exwqiCsGp4k1Jiv8peDTmOaLITU
-         Rz2QlTySmx2245KyhOVAd3NhJZlHOufBxXCvMTvStOgmHEL/oobHu95kLgJj6fmIKbps
-         HUAw==
+        bh=0IO+hOuqEkrsrUsRHeAcDDvHavwu6kyd/enzsNdg3aQ=;
+        b=G4C1FZxIulua8SaYrMChOcR2wM+amxqPUDes+dg1H56JlKo1qSw8yvU9nuTQ2DCQeS
+         ni0AbsCkXFxy0zZXeaqI6Wr9/5YeXYewj04yEtBGPx6a0Zb9ORrUwz9quwbu+OqYl7IP
+         OrqmAEgYjHrV8KovgFXVKDraIQOA+yDb97p6twFhcZza78Iq6qS4NJ2Qhxc7sYlAeidF
+         5XykUx5cl26OBdbAYDOtmDxIrpNUsfgkwue7ON6kvrd/MBSuuKH7osvvIoDT7gA2FIH+
+         RzTxTMQ/waRke455Xbq2ALQwCprqUc2PYI0Bpoxy/tJkii8+nwknOGqt+kea4tZW5pS+
+         jZVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713288582; x=1713893382;
+        d=1e100.net; s=20230601; t=1713288755; x=1713893555;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZP0IzBwvbXB7gkSUghvhzzGvmfIuLQzpi5ckhJzdidI=;
-        b=JqKoLA1p0GJGMmvadSajEeyKf2bFoaLV8RAotJ64S+8ObsS7pKoilYQ2akprk9s7Yx
-         rVUD/e5N80MbyzkLVfB4I0Ct0EGXGMbRrlhROGo6ug/bW/CQPgs3O+PaKpeuB4yekhJK
-         XCP5U4zhitLSzhjc5NzRte9ghDf0Uxv7RwADeBS89RDj2yGJH/wjFm3DMdFEEfrROWGK
-         8SEI/YLtBnbBlALS73E1TXuNelwT+lrmzBVB/dWIDshUGijYpECS84YdZzLLE+MamuSY
-         B5AONRz+RUV3/omZXBpoiwQ0fvNImvqV68PdYIlQhcsarNRou6rgjWFPLfYvZqmSPxRk
-         3wKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVgVHHscM0PFStqJpLr7Q+rOSsF0NuoDX0sfPKggPvq9Sw5s9A8HIG+5SFyYHBFbOP/TtaKZj2IGKbSuvseRPdLMOTIp0FvzK4KMWXFH9nSK3Xks80gfJCxSo4mXqiSfjY4lShYL7/sSWM0lsL/haOKBOomgyMq5n6+wLEe+hEwwkbhNdF3x4EpLhQzpOY5CbQTG1PPbVHCQr9/ns7vHiVC1E9GL1lHA==
-X-Gm-Message-State: AOJu0Yz7phvj0jpSWP8d2GXZUJUdbjho77aM/9UTWx7IbkDIqBdiCytB
-	54jm8j1Qzh7Xr+HbLjqgWTS6jA5sr+tLei9DrToKclJ486E2ky/vXe0ZL6N80vQXA3STLc9GgFD
-	FSG9AlmFRsp3Mw5fy1mgHwURTMPmTwWrX
-X-Google-Smtp-Source: AGHT+IGCWdqkd/mwwc21XqeYTFY6CEqZUxRw4U6LgrWgKvfvcMlwntLhuogiSWo4ZNwPxC6TWjiuSC76CYM2vJHDCx0=
-X-Received: by 2002:a17:907:724b:b0:a52:5a04:fb0d with SMTP id
- ds11-20020a170907724b00b00a525a04fb0dmr5603113ejc.3.1713288581874; Tue, 16
- Apr 2024 10:29:41 -0700 (PDT)
+        bh=0IO+hOuqEkrsrUsRHeAcDDvHavwu6kyd/enzsNdg3aQ=;
+        b=Wm1SlByESCfr10/QdhjqQpr9btdde4WDB4GDLlsCvZc6KpzebPiJMXHhl20NDKU6wu
+         epHs87vQlfyj+VDDJczaBVOE/Gq+3ajy+vb9XHbe8v/V5YwBPwxwHegr+rORAvlOyLJU
+         rjsPXRKTVfWwxk6D/hU2VOW20pnF1xF8djR+cN8zjkBqXV3uHfL1NIRKALUputVs93c8
+         pmh/mhLF9ueHgtXrR2647JbAgdfZlzqejZ2kubC3aaLi+DEjztvbagZIzSG7PAwt3Irn
+         vH+Yk4Wbav/KHYNunujCSBJboqe3hk24mLF8CqUUT+iicPr/v1rpA7t/55jLcG4g4S20
+         Pplw==
+X-Forwarded-Encrypted: i=1; AJvYcCXsMFXKWyYrkj7th37bi0+Wy1muaix5anZgsGuOio9yBEVb+ItmRI3jjoFCEpfDzG+mgnqbDFkh1I4v1Fsi86r2oBalYWtvdqYVJzbqMMBz6JwGH55cyjrRZDEKH9jHhbRmhSen1AEtuk3tovD1NTtnpKjE+o//99E8O6gkdSKojSwg4eXsziMHZLaMz1270Wu0o8WZO13b1cSjiYHLXmQXOz/+/rvGKQ==
+X-Gm-Message-State: AOJu0YyDJc1anWzLs/KBOfqbH2Y3kaiQc2nedE9QtJ+9vWR3r9lC4Mqr
+	6b/HGWFjuCkgETM+gkVtOVnKiCko92zdz2P71jBlC74JfGyniM8TKbYoG6Kwxuu29/c1X5JxdTV
+	64AiXRZxIYuWyTHjfy4noiFCOxE8=
+X-Google-Smtp-Source: AGHT+IHhkCf/2ZnzY6pNeLJbq60C0fBWHz8dbjiDAKTwhyZmVWd1gblADeMUbMwbc7myH0QHmC/VGj3aVOrkIOZb5sY=
+X-Received: by 2002:a05:6000:d47:b0:343:734e:73d1 with SMTP id
+ du7-20020a0560000d4700b00343734e73d1mr10848248wrb.37.1713288754926; Tue, 16
+ Apr 2024 10:32:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240416053909.256319-1-hpa@redhat.com> <20240416053909.256319-3-hpa@redhat.com>
-In-Reply-To: <20240416053909.256319-3-hpa@redhat.com>
+References: <20240416053909.256319-1-hpa@redhat.com> <20240416053909.256319-4-hpa@redhat.com>
+In-Reply-To: <20240416053909.256319-4-hpa@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 16 Apr 2024 20:29:05 +0300
-Message-ID: <CAHp75Vdw6gCN=45iRdKcm=qT07Z90+z6Cw=inYR+C6+5gML+_Q@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] leds: rgb: leds-ktd202x: Get device properties
- through fwnode to support ACPI
+Date: Tue, 16 Apr 2024 20:31:59 +0300
+Message-ID: <CAHp75VdRgBqaX4NNvABS-90O34OtRf5t85JOjpG=tOw2SHr_tw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/5] leds: rgb: leds-ktd202x: I2C ID tables for KTD2026
+ and 2027
 To: Kate Hsuan <hpa@redhat.com>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
 	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
@@ -87,72 +87,39 @@ Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.ker
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 16, 2024 at 8:39=E2=80=AFAM Kate Hsuan <hpa@redhat.com> wrote:
+On Tue, Apr 16, 2024 at 8:40=E2=80=AFAM Kate Hsuan <hpa@redhat.com> wrote:
 >
-> This LED controller is installed on a Xiaomi pad2 and it is an x86
-> platform. The original driver is based on the device tree and can't be
-> used for this ACPI based system. This patch migrated the driver to use
-> fwnode to access the properties. Moreover, the fwnode API supports the
-> device tree so this work won't affect the original implementations.
+> This table shows the maximum support LED channel for KTD2026 and KTD-2027=
+.
+> The 3-channel LED controller KTD2026 controls R/G/B three LEDs. The
+> 4-channel LED controller KTD2027 controls R/G/B and a flashing LEDs.
+
+and flashing
 
 ...
 
-> -       int num_channels;
-> +       int num_channels =3D 0;
+> Link: https://www.kinet-ic.com/uploads/KTD2026-7-04h.pdf
 
-Split this assignment, so...
+Make it Datasheet: tag
 
->         int i =3D 0;
+>
 
-> -       num_channels =3D of_get_available_child_count(np);
+and drop this blank line (to ensure the Datasheet will be recognised as a t=
+ag).
 
-...it become
-
-  num_channels =3D 0;
-
-here.
-
-> +       fwnode_for_each_available_child_node(fwnode, child)
-> +               num_channels++;
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
 
 ...
 
-> -static int ktd202x_add_led(struct ktd202x *chip, struct device_node *np,=
- unsigned int index)
-> +static int ktd202x_add_led(struct ktd202x *chip,
-> +                          struct fwnode_handle *fwnode,
-> +                          unsigned int index)
+> -       .shutdown =3D ktd202x_shutdown
+> +       .shutdown =3D ktd202x_shutdown,
+> +       .id_table =3D ktd202x_id
 
-Why split over 3 lines? I believe it can be still two or one
-(depending if you use a relaxed limit).
-
-...
-
->  static int ktd202x_probe_dt(struct ktd202x *chip)
-
-Perhaps you want to rename this to something like ktd202x_probe_fw().
-
-...
-
-> +       fwnode =3D dev_fwnode(dev);
-
-Will be no use if the bellow applied, right?
-
-...
-
-> -       for_each_available_child_of_node(np, child) {
-> +       fwnode_for_each_available_child_node(fwnode, child) {
-
-Use device_for_each_child_node() instead.
-
->         }
-
-...
-
-> -       .shutdown =3D ktd202x_shutdown,
-> +       .shutdown =3D ktd202x_shutdown
-
-Stray change.
+Exactly good example to show what the difference is between
+"terminator entry" and "last field in the initialiser" and why in the
+latter it's better to keep a trailing comma. And hence why the stray
+change in the previous patch. So, id_table also should keep a trailing
+comma.
 
 --=20
 With Best Regards,
