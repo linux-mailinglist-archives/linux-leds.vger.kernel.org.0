@@ -1,119 +1,147 @@
-Return-Path: <linux-leds+bounces-1487-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1488-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B0B8A6AB2
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 14:20:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C38648A6C00
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 15:18:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D70F51C20AFC
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 12:20:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80518281973
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 13:18:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2125F12BEAB;
-	Tue, 16 Apr 2024 12:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgfRWkUm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D639412A16E;
+	Tue, 16 Apr 2024 13:18:33 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8B484A5F;
-	Tue, 16 Apr 2024 12:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AAB12BF1D
+	for <linux-leds@vger.kernel.org>; Tue, 16 Apr 2024 13:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713269954; cv=none; b=Cyt3fbhsNNBRGEHlMx4hHoNsi0XEX5eLJ4wr/GLW/Gdu0Ow0RClNgQe72TR8O29XZrfHfXYKTGT/ppU1AxSaZNQS0Qs/6jqYHeML+XI1HEe0pIgMZnbw0omUBQPYawNMQkvRiY6Kb/B0zS3vn9898IC9i85CzdraCKgGUo0FUw4=
+	t=1713273513; cv=none; b=Xbcp2ErFYRk8iW1B3rWgPQUYx4lrQvVRim0fJKCzPU4M4LYoxHreURL0ZIHkzNwdwIR7uj2TBEFvl2Vu771UVmv3j9B/rTjAmV42r6GaQVfmLg9rpEhsZ+EO35sLr8spPzL0RhSv700DoogcIo/JtL7UUf4dd7NrZWE++DgFYNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713269954; c=relaxed/simple;
-	bh=Kytz+UD5dTwK2Cv6gkJ/t5JrQQBUJsCTbZJPyt6gz1w=;
+	s=arc-20240116; t=1713273513; c=relaxed/simple;
+	bh=u3r3BNHWn0VNuX0IDcCiM+gYMJzoSCvGaQ+eZeZOnUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tKy0EOFfANUkKM61wQmSGvD/ctPXS2ieZ4bvRDH38lwYQKVJhx91T3nq8HHUfXvDIQUpfUkY9kH5n2ovF1SKfMgalCBFI0qsankzJHPH9IE9GM6vb+Hxhr53VchD/JU8aQQHUQmmFa+upH7g13SSj+R+5o8q2BPVEayutWLhKK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgfRWkUm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B90FEC2BD10;
-	Tue, 16 Apr 2024 12:19:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713269953;
-	bh=Kytz+UD5dTwK2Cv6gkJ/t5JrQQBUJsCTbZJPyt6gz1w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TgfRWkUm04+Oe+cJmh3pJcySnutmqfJD5WwdEGv3DxScDd9WncSfwQfo2g0W0Wlbp
-	 WrSdvkzjmB1dpfMGcJRL67+ze9o26VkVTSK2uJ4vcGNYnpaEQirSzxKibTgzY9ZLOg
-	 q2l1E3Xb7Fj3HoKc8YIOc0RHZnnhwo9TSnZm5/jpkeZbLmRyJc1EOfDm4mS6chZ0CR
-	 gZfzpXqYXjBOzoRgTe9F6HjLRL2EYhVVQeOp1TCoOLLMdjLT3oc/1gNSPpsNevQ8cx
-	 3POspS4Y/dsZ9h3OxrcAtcnY8y7ATFZTs8SAvx0wBb954Mv7cy7WD0F+BZyter8wO+
-	 eF09JssL8N++A==
-Date: Tue, 16 Apr 2024 13:19:09 +0100
-From: Lee Jones <lee@kernel.org>
-To: Ben Greear <greearb@candelatech.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
-	Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-Message-ID: <20240416121909.GU2399047@google.com>
-References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
- <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
- <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
- <20240411070718.GD6194@google.com>
- <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fm++x2b1HuJmms7usAXDulaaNNch/UvZpfyN0yOBzQ4unZPMKycg03V55LSTwR3rvZw9FpJmKkF+Cr7keb4RqULxmhtFrcV7f0oOJRV0S3tzTHiXMaVNVMAuV+L/gfjs37Q7VVihmhubzb6sHEnnArJrttXW1lgsQzz2wpCprqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rwihY-0005sO-EE; Tue, 16 Apr 2024 15:18:20 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rwihX-00CcPG-Ut; Tue, 16 Apr 2024 15:18:19 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rwihX-002BWp-2p;
+	Tue, 16 Apr 2024 15:18:19 +0200
+Date: Tue, 16 Apr 2024 15:18:19 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee@kernel.org>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>, 
+	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [regression] stm32mp1xx based targets stopped entering suspend
+ if pwm-leds exist
+Message-ID: <dqibafuvizvltkblfizxvgrl3744lpxbwgdjid5ekxsju7gmxm@fys22ievmgz5>
+References: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
+ <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
+ <256e3d3c-d43f-4bd6-9a7b-50fc870e75e4@leemhuis.info>
+ <20240416121519.GS2399047@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mgrsmbcc7mtyc46w"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
+In-Reply-To: <20240416121519.GS2399047@google.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
-On Mon, 15 Apr 2024, Ben Greear wrote:
 
-> On 4/11/24 00:07, Lee Jones wrote:
-> > On Wed, 03 Apr 2024, Ben Greear wrote:
-> > 
-> > > On 4/2/24 10:38, Ben Greear wrote:
-> > > > On 4/2/24 09:37, Ben Greear wrote:
-> > > > > Hello,
-> > > > > 
-> > > > > Sometime between rc1 and today's rc2, my system quit booting.
-> > > > > I'm not seeing any splats, it just stops.  Evidently before
-> > > > > sysrq is enabled.
-> > > > > 
-> > > > > [  OK  ] Started Flush Journal to Persistent Storage.
-> > > > > [  OK  ] Started udev Coldplug all Devices.
-> > > > >            Starting udev Wait for Complete Device Initialization...
-> > > > > [  OK  ] Listening on Load/Save RF …itch Status /dev/rfkill Watch.
-> > > > > [  OK  ] Created slice system-lvm2\x2dpvscan.slice.
-> > > > >            Starting LVM2 PV scan on device 8:19...
-> > > > >            Starting LVM2 PV scan on device 8:3...
-> > > > > [  OK  ] Started Device-mapper event daemon.
-> > > > > iwlwifi 0000:04:00.0: WRT: Invalid buffer destination: 0
-> > > > > sysrq: This sysrq operation is disabled.
-> > > > > 
-> > > > > I can start a bisect, but in case anyone knows the answer already, please let me know.
-> > > > > 
-> > > > > Thanks,
-> > > > > Ben
-> > > > > 
-> > > > 
-> > > > So, deadlock I guess....
-> > 
-> > Does this help you in any way?
-> > 
-> > https://lore.kernel.org/all/bbcdbc1b-44bc-4cf8-86ef-6e6af2b009c3@gmail.com/
-> > 
-> Hello Lee,
-> 
-> I cannot see how that patch above would fix my issues since I am not using that driver,
-> but possibly some similar change needs to be made to iwlwifi.
-> 
-> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
-> iwl_req_fw_callback()
-> 
-> Is that still best thing to try in your opinion?
+--mgrsmbcc7mtyc46w
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I mean the general principle, rather than the exact patch.
+Hey Lee,
 
-Yes, you would need to apply it to your own use-case.
+On Tue, Apr 16, 2024 at 01:15:19PM +0100, Lee Jones wrote:
+> On Tue, 16 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
+>=20
+> > On 06.03.24 09:18, Uwe Kleine-K=F6nig wrote:
+> > > On Wed, Mar 06, 2024 at 08:05:15AM +0100, Linux regression tracking (=
+Thorsten Leemhuis) wrote:
+> > > > [...]
+> >=20
+> > Jakob confirmed it helped in the bugzilla ticket. But the patch since
+> > then didn't make any progress afaics -- or did it and I just missed it
+> > in my search?
+>=20
+> [...]=20
+>=20
+> > > ---->8----
+> > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
+> > >=20
+> > > On stm32mp1xx based machines (and others) a PWM consumer has to disab=
+le
+> > > the PWM because an enabled PWM refuses to suspend. So check the
+> > > LED_SUSPENDED flag and depending on that set the .enabled property.
+> > >=20
+> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218559
+> > > Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED s=
+hould be off")
+> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > > [...]
+> > > ---->8----
+>=20
+> Did you submit this?  I don't see it in LORE or in my inbox.
 
--- 
-Lee Jones [李琼斯]
+Yeah sure, apply it using:
+
+	curl -s https://lore.kernel.org/all/2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg=
+6bxobtdlekt4@mazicwtgf4qb/raw | git am --scissors -s
+
+:-)
+
+If you don't consider that suitable, I can create a patch that is easier
+to pick up.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--mgrsmbcc7mtyc46w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYeepoACgkQj4D7WH0S
+/k5gugf/bpVGAeUjhxmd3eLjzH0HtU2qSxWQG4LFIRegk08Ex4wJNhpopT1kQOhN
+SMdNDgjcgSxvo9tqfH9cBTltJF0Baedv3dWGb4G/pJEfJRmUrk0+mkC/ZIoL/fTE
+VT0zY6pg3+zAXij2/W73VzFMGIf04A1CWrbOdxaODWlNVX/hb/MlS7TbbATp2PSZ
+DDDZhQe8kYQ9FPVvqM3HJRlZH5BJA/uLLHz+EK2H8QiMzqL6V/tCaY/ewjv+ZoO1
+20RPRH45JQA5LEALCkdAJ8+0OCHjxuQd14SHagxVW85U+vwA8CmTdDOwZFFnUTfw
+82MlSpgXg2z+D+tOpuqNd/HVKvO7sA==
+=NwBy
+-----END PGP SIGNATURE-----
+
+--mgrsmbcc7mtyc46w--
 
