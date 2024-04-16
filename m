@@ -1,131 +1,154 @@
-Return-Path: <linux-leds+bounces-1477-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1478-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9091A8A5C49
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Apr 2024 22:38:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 192B78A6314
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 07:39:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4615E2829BC
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Apr 2024 20:38:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCECC1F21E0D
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 05:39:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF425B1E4;
-	Mon, 15 Apr 2024 20:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9683A268;
+	Tue, 16 Apr 2024 05:39:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b="jNvNQZ51"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ym3MFEHL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com [67.231.154.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EC741C77;
-	Mon, 15 Apr 2024 20:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.154.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2314D3A1C9
+	for <linux-leds@vger.kernel.org>; Tue, 16 Apr 2024 05:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713213480; cv=none; b=pJqjwhG8hT5FPQA99kxzlLYNvhlKSw2/0c3l6lkx3IAP8PgaGNpIbXl/qS0PsBpLHno6deBcPUpndnjqm2n5KCr657xdWNCr3FqtPWfx1RVVsZrnyZr8BOv5v72p8TJtccB5EHm8T8tzULwEXNq6Z+PEhfxuujV47bDQUkuJriM=
+	t=1713245979; cv=none; b=C7VpKw6y+tcEUVVSkgAup5F63mIpxip7YDoQLaSrueq/TR6tlBcPYEjGGpO/CvTEwQpxRBHFUxdBIfmnSdrYkZv8Nvx1hm2Lrec3Csnmq0dKL/D0rRdyyvN2fNICYskCYRKlpTxEHAW/qFYdTZpSHPw8yJ8EwTasFn5WqOIfJU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713213480; c=relaxed/simple;
-	bh=Hx4NPSUILjcZmhJJEAyf+8xHw9GGsTlNvKFacX5G+uA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RJrrZwBIZTRBt51nWRQtQe3W4gM/WmXn4K6kT9InVGafgoEEoZryvR46wRliJmyR780wEcNwXkQCt17X5aw/wTPCklcEii6/g/GHVBcFCXE7oJSxGqMAoTeCIBskb2HBS8kHC+M+r8dGC/PnkxeeWvizVHClDBruIdspoTu8xG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com; spf=pass smtp.mailfrom=candelatech.com; dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b=jNvNQZ51; arc=none smtp.client-ip=67.231.154.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=candelatech.com
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mail3.candelatech.com (mail2.candelatech.com [208.74.158.173])
-	by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 24140980073;
-	Mon, 15 Apr 2024 20:37:55 +0000 (UTC)
-Received: from [192.168.100.159] (unknown [50.251.239.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	s=arc-20240116; t=1713245979; c=relaxed/simple;
+	bh=K8CWsGrSvjlor4XOvpsr5xcvDhGAFvw/vbJ8MGvqIds=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TpINR6HnRo2NnQnwkN2Nzu/pNAblqkR9ofxAJtr0TATr9k3fUhQuJwB1vUFTv43LTKg7NFSfM+VYinzwtDPDthh3pb9asavLOHPadmGFVJTm5UkZB6xSry4hw9WMb+y6BZID6YDmudXcmaAo8McUMZ9wMaAwZi7q6n44hN31rbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ym3MFEHL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713245977;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0+Hc2p+jT5Q4vVgv9O18REk/mQYHW8ZTSMxALLmVm0w=;
+	b=Ym3MFEHL+IbCd3cXMTHFbyrhLqLxYynZajnG19suSutIxckUb7mfr8txmX8KO0N8SJ8wQX
+	jNPIi+as+Y20lm2HM0S4hI50sNh1XI3JLOKTZDRNNAeH0QGZ92DDRXsgDjnEtMfk+v7OKz
+	GfUnFYql0lVJdQ6QeIsHwiIHyiK2Pqo=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-299-JAle0uHGO3-I45bfo7nj6A-1; Tue,
+ 16 Apr 2024 01:39:33 -0400
+X-MC-Unique: JAle0uHGO3-I45bfo7nj6A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail3.candelatech.com (Postfix) with ESMTPSA id 53E9813C2B0;
-	Mon, 15 Apr 2024 13:37:54 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com 53E9813C2B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
-	s=default; t=1713213474;
-	bh=Hx4NPSUILjcZmhJJEAyf+8xHw9GGsTlNvKFacX5G+uA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jNvNQZ51Lpm5HGBs+4LLyCVu20Mvvkh60ZSRvTd4cl1w7df+wRDeNoiQkg+3+hXZ5
-	 30VK0cmDwdKda2QVe/xp5O4leL92235uZ4QgYkRsT5NMqh0sZA2RJWGVcOtazslUw2
-	 1WHWZtlXFxAfOBTqoVC0RXkFc3zWNxD9ZcuCS5Fw=
-Message-ID: <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
-Date: Mon, 15 Apr 2024 13:37:54 -0700
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4547929AA3B7;
+	Tue, 16 Apr 2024 05:39:33 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.2])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 67FCC51EF;
+	Tue, 16 Apr 2024 05:39:26 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	linux-pm@vger.kernel.org
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v6 0/5] KTD2026 indicator LED for X86 Xiaomi Pad2
+Date: Tue, 16 Apr 2024 13:39:04 +0800
+Message-ID: <20240416053909.256319-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-Content-Language: en-US
-To: Lee Jones <lee@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
- Johannes Berg <johannes@sipsolutions.net>
-References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
- <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
- <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
- <20240411070718.GD6194@google.com>
-From: Ben Greear <greearb@candelatech.com>
-Organization: Candela Technologies
-In-Reply-To: <20240411070718.GD6194@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MDID: 1713213476-wf32vBeEnvC9
-X-MDID-O:
- us5;at1;1713213476;wf32vBeEnvC9;<greearb@candelatech.com>;6d567af444ed5ba21bec93fef576b8bb
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-On 4/11/24 00:07, Lee Jones wrote:
-> On Wed, 03 Apr 2024, Ben Greear wrote:
-> 
->> On 4/2/24 10:38, Ben Greear wrote:
->>> On 4/2/24 09:37, Ben Greear wrote:
->>>> Hello,
->>>>
->>>> Sometime between rc1 and today's rc2, my system quit booting.
->>>> I'm not seeing any splats, it just stops.  Evidently before
->>>> sysrq is enabled.
->>>>
->>>> [  OK  ] Started Flush Journal to Persistent Storage.
->>>> [  OK  ] Started udev Coldplug all Devices.
->>>>            Starting udev Wait for Complete Device Initialization...
->>>> [  OK  ] Listening on Load/Save RF …itch Status /dev/rfkill Watch.
->>>> [  OK  ] Created slice system-lvm2\x2dpvscan.slice.
->>>>            Starting LVM2 PV scan on device 8:19...
->>>>            Starting LVM2 PV scan on device 8:3...
->>>> [  OK  ] Started Device-mapper event daemon.
->>>> iwlwifi 0000:04:00.0: WRT: Invalid buffer destination: 0
->>>> sysrq: This sysrq operation is disabled.
->>>>
->>>> I can start a bisect, but in case anyone knows the answer already, please let me know.
->>>>
->>>> Thanks,
->>>> Ben
->>>>
->>>
->>> So, deadlock I guess....
-> 
-> Does this help you in any way?
-> 
-> https://lore.kernel.org/all/bbcdbc1b-44bc-4cf8-86ef-6e6af2b009c3@gmail.com/
-> 
-Hello Lee,
+This patch added the support for Xiaomi Pad2 indicator LED. This work
+included:
+1. Added the KTD2026 swnode description to describe the LED controller.
+2. Migrated the original driver to fwnode to support x86 platform.
+3. Support for multi-color LED trigger event.
+4. The LED shows orange  when charging and the LED shows green when the
+   battery is full.
 
-I cannot see how that patch above would fix my issues since I am not using that driver,
-but possibly some similar change needs to be made to iwlwifi.
+Moreover, the LED trigger is set to the new trigger, called
+"bq27520-0-charging-orange-full-green" for Xiaomi Pad2 so the LED shows
+orange when charging and the LED shows green when the battery is full.
 
-Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
-iwl_req_fw_callback()
+The new LED API led_mc_trigger_event() can be found in the following
+URL.
+https://lore.kernel.org/linux-leds/f40a0b1a-ceac-e269-c2dd-0158c5b4a1ad@gmail.com/
 
-Is that still best thing to try in your opinion?
+--
+Changes in v6:
+1. The I2C ID table was moved to a separate patch.
+2. The LED shows orange when charging.
+3. The trigger name was renamed to charging-orange-full-green.
+4. The default trigger of Xiaomi Pad2 is
+   "bq27520-0-charging-orange-full-green".
 
-Thanks,
-Ben
+Changes in v5:
+1. Fix swnode LED color settings.
+2. Improve the driver based on the comments.
+3. Introduce a LED new API- led_mc_trigger_event() to make the LED
+   color can be changed according to the trigger.
+4. Introduced a new trigger "charging-red-full-green". The LED will be
+   red when charging and the the LED will be green when the battery is
+   full.
+5. Set the default trigger to "bq27520-0-charging-red-full-green" for
+   Xiaomi Pad2.
+
+Changes in v4:
+1. Fix double casting.
+2. Since force casting a pointer value to int will trigger a compiler
+   warning, the type of num_leds was changed to unsigned long.
+
+Changes in v3:
+1. Drop the patch "leds-ktd202x: Skip regulator settings for Xiaomi
+   pad2"
+
+Changes in v2:
+1. Typo and style fixes.
+2. The patch 0003 skips all the regulator setup for Xiaomi pad2 since
+   KTD2026 on Xiaomi pad2 is already powered by BP25890RTWR. So, the
+   sleep can be removed when removing the module.
+
+
+Kate Hsuan (5):
+  platform: x86-android-tablets: other: Add swnode for Xiaomi pad2
+    indicator LED
+  leds: rgb: leds-ktd202x: Get device properties through fwnode to
+    support ACPI
+  leds: rgb: leds-ktd202x: I2C ID tables for KTD2026 and 2027
+  power: supply: power-supply-leds: Add charging_orange_full_green
+    trigger for RGB LED
+  platform: x86-android-tablets: others: Set the LED trigger to
+    charging_orange_full_green for Xiaomi pad2
+
+ drivers/leds/rgb/Kconfig                      |  1 -
+ drivers/leds/rgb/leds-ktd202x.c               | 73 ++++++++++-------
+ .../platform/x86/x86-android-tablets/other.c  | 82 +++++++++++++++++++
+ .../x86/x86-android-tablets/shared-psy-info.h |  2 +
+ drivers/power/supply/power_supply_leds.c      | 26 ++++++
+ include/linux/power_supply.h                  |  2 +
+ 6 files changed, 156 insertions(+), 30 deletions(-)
 
 -- 
-Ben Greear <greearb@candelatech.com>
-Candela Technologies Inc  http://www.candelatech.com
-
+2.44.0
 
 
