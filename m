@@ -1,147 +1,128 @@
-Return-Path: <linux-leds+bounces-1488-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1489-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38648A6C00
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 15:18:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0138A6CC0
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 15:46:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80518281973
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 13:18:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 472701F21C75
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Apr 2024 13:46:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D639412A16E;
-	Tue, 16 Apr 2024 13:18:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F91E12C52E;
+	Tue, 16 Apr 2024 13:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5ihT5E0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AAB12BF1D
-	for <linux-leds@vger.kernel.org>; Tue, 16 Apr 2024 13:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8513E128385;
+	Tue, 16 Apr 2024 13:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713273513; cv=none; b=Xbcp2ErFYRk8iW1B3rWgPQUYx4lrQvVRim0fJKCzPU4M4LYoxHreURL0ZIHkzNwdwIR7uj2TBEFvl2Vu771UVmv3j9B/rTjAmV42r6GaQVfmLg9rpEhsZ+EO35sLr8spPzL0RhSv700DoogcIo/JtL7UUf4dd7NrZWE++DgFYNk=
+	t=1713275167; cv=none; b=AGbP6gVdM/YPcv7FWOOfTqhqDFrk5sb6rSowpOg6ljU4L512dxTfnJXUizEWctXLAQkpPJK5x5yTxmQk1bZrW3nYvFIDeU3Z+BfW6NEuutDOOvCOCnPZIA1WNAWrDJv4I1FQOfXranmgFXktLF7/IyoX8CDN06LeQa3pUdy9Xh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713273513; c=relaxed/simple;
-	bh=u3r3BNHWn0VNuX0IDcCiM+gYMJzoSCvGaQ+eZeZOnUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fm++x2b1HuJmms7usAXDulaaNNch/UvZpfyN0yOBzQ4unZPMKycg03V55LSTwR3rvZw9FpJmKkF+Cr7keb4RqULxmhtFrcV7f0oOJRV0S3tzTHiXMaVNVMAuV+L/gfjs37Q7VVihmhubzb6sHEnnArJrttXW1lgsQzz2wpCprqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rwihY-0005sO-EE; Tue, 16 Apr 2024 15:18:20 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rwihX-00CcPG-Ut; Tue, 16 Apr 2024 15:18:19 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rwihX-002BWp-2p;
-	Tue, 16 Apr 2024 15:18:19 +0200
-Date: Tue, 16 Apr 2024 15:18:19 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>, 
-	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [regression] stm32mp1xx based targets stopped entering suspend
- if pwm-leds exist
-Message-ID: <dqibafuvizvltkblfizxvgrl3744lpxbwgdjid5ekxsju7gmxm@fys22ievmgz5>
-References: <5da6cf8a-4250-42f6-8b39-13bff7fcdd9c@leemhuis.info>
- <2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg6bxobtdlekt4@mazicwtgf4qb>
- <256e3d3c-d43f-4bd6-9a7b-50fc870e75e4@leemhuis.info>
- <20240416121519.GS2399047@google.com>
+	s=arc-20240116; t=1713275167; c=relaxed/simple;
+	bh=1s5jT77kXAEOB64Hgh8ttGaCyhNYzlNL1lVHCpRhEl0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q9zW5KdU0gIhLeu6jBn4Nb7/GSYV9D6TLCATnTtAr3mKv9ogXi+1V7r4Unx9o5B5pVwYSfAF9rFj9j0P1V1kxx8eu1TFRpv9hkpGHHq9DmNGvx5lC89nhxG8FC88xKKRaIQ1zGj74hvrLRKh5WfEmGJNK84FbOs7FNtYa8qjhUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5ihT5E0; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a5269c3f9c7so286107566b.2;
+        Tue, 16 Apr 2024 06:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713275164; x=1713879964; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0ln2bOghlbnxTvN3MGwjWqt27D8bIt92GVeqcGNHglE=;
+        b=B5ihT5E0lcAH5DR2+f210i2xNlRd4B/qErfwnUhh7H8j3Vy/XWQypFWnvmT6TQbzv3
+         o1sTky2e3WeooeeiYuHQ1iEAnticHuvSve5nD7aT9VVsLPEAxyIebnsMNBAAsyTNiUjB
+         jbQuXPkQ4KXJhnH+yKhwbMvn6FfCbF2mZpCXIf5eAtZll2I65lQg2YAH5q5V6EGlfWme
+         NsqdPQXYWFiJJ205Rb0f9+2Bs6Z16KbuBqjcPX7GozpRW54tFJWgryyFisJ/N9TMVqJh
+         JCT328x8jwrcl9hRToQeidLLuEdWhuHS51onTSU0y3TuPSfXilOTH11JRnbeNHAdxBAp
+         EfxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713275164; x=1713879964;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0ln2bOghlbnxTvN3MGwjWqt27D8bIt92GVeqcGNHglE=;
+        b=jZ44QD16wA07U3MH1B3WscezaK6NdqxtSKWtKgc5ndwk7TYXQ602e/ubKk2ek8JGOZ
+         4UpvkgsdENoC2zBDQoKtC3vtgC5lMjDodlTpyu762B0rAS0y4O3dTF+HT9LT9AlfvctU
+         zs09trwN5XWq9eiPEw7qoFmU7MBD8uCwcZq8GugNad8SHi2nCwuYWrdpuIXeVFiFy5vC
+         L6VqUwUEuHgeCbSZRQ1xOgDBMLArogFJsLgGcYwanVzehxK1dfSd6YVxeanhaIVmRzEs
+         ZGNSz72LolxXXDieZo17X+8CGlVluyg/ROdSEGG/v2mvo2psCh48YWHRFApuMoV6mv2y
+         ICMw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFuEJYJpmmDWonnAMq2KYJ9zTU9+Ce13Zt+NDVl6/+O/b3z8FDvHIr99WAVoATl2ZbvKFlBqsywBG0d0IYILMvx8BxQmnhj1mbdNbOBPeXPBrK0ZeUFpStp03gxPuaaoJbgpZ9neqUqn1g1GcoGIa7yC1MZhDEwd5vsxE+EHdEPvzeJ3zH55y7ZmT2RUYqy3tRq1pmxTpFvmwEMBGR2lT4m4VFjMJa/A==
+X-Gm-Message-State: AOJu0Yxzx1zNtf7mHyu1sIU4FxRsItmeOWGhMMH0fRmAPIXbyils/05y
+	iwzsDoLg8ykBAd9LMAAiH3FFa3ppxAT4PfPhI4ztm9wdIK9V8juF9DwEuvEyQ2tk2Ls5SIpNyVW
+	TjMFEy+uqJRkAKFTuI+X/GaFYojhmVjwS
+X-Google-Smtp-Source: AGHT+IHXlF76z7XD64K1AlyyNhTwiWKMjybMPhhN3Rvx3Sl3nSv06AAKnIQzBr2Egavtr8Nb9A9A3elrw2UNdVUhpFY=
+X-Received: by 2002:a17:906:31cc:b0:a52:3ecb:ad83 with SMTP id
+ f12-20020a17090631cc00b00a523ecbad83mr5868329ejf.38.1713275163625; Tue, 16
+ Apr 2024 06:46:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mgrsmbcc7mtyc46w"
-Content-Disposition: inline
-In-Reply-To: <20240416121519.GS2399047@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-
-
---mgrsmbcc7mtyc46w
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20240416053909.256319-1-hpa@redhat.com> <20240416053909.256319-2-hpa@redhat.com>
+In-Reply-To: <20240416053909.256319-2-hpa@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 16 Apr 2024 16:45:27 +0300
+Message-ID: <CAHp75VeuXuD7USd=bS1X=HCtKRPYWZ7r1NApPfDFZ4RRCUSRLg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] platform: x86-android-tablets: other: Add swnode
+ for Xiaomi pad2 indicator LED
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hey Lee,
+On Tue, Apr 16, 2024 at 8:39=E2=80=AFAM Kate Hsuan <hpa@redhat.com> wrote:
+>
+> KTD2026 LED controller manages the indicator LED for Xiaomi pad2. The ACP=
+I
+> for it is not properly made so the kernel can't get a correct description=
+.
+>
+> This work adds a description for this RGB LED controller and also sets a
+> trigger to indicate the changing event (bq27520-0-charging). When it is
+> charging, the indicator LED will be turned on.
 
-On Tue, Apr 16, 2024 at 01:15:19PM +0100, Lee Jones wrote:
-> On Tue, 16 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
->=20
-> > On 06.03.24 09:18, Uwe Kleine-K=F6nig wrote:
-> > > On Wed, Mar 06, 2024 at 08:05:15AM +0100, Linux regression tracking (=
-Thorsten Leemhuis) wrote:
-> > > > [...]
-> >=20
-> > Jakob confirmed it helped in the bugzilla ticket. But the patch since
-> > then didn't make any progress afaics -- or did it and I just missed it
-> > in my search?
->=20
-> [...]=20
->=20
-> > > ---->8----
-> > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > > Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
-> > >=20
-> > > On stm32mp1xx based machines (and others) a PWM consumer has to disab=
-le
-> > > the PWM because an enabled PWM refuses to suspend. So check the
-> > > LED_SUSPENDED flag and depending on that set the .enabled property.
-> > >=20
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218559
-> > > Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED s=
-hould be off")
-> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > > ---
-> > > [...]
-> > > ---->8----
->=20
-> Did you submit this?  I don't see it in LORE or in my inbox.
+...
 
-Yeah sure, apply it using:
+> +/*
+> + * The fwnode for ktd2026 on Xaomi pad2. It composed of a RGB LED node
 
-	curl -s https://lore.kernel.org/all/2vbwacjy25z5vekylle3ehwi3be4urm6bssrbg=
-6bxobtdlekt4@mazicwtgf4qb/raw | git am --scissors -s
+is composed
 
-:-)
+> + * with three subnodes for each color. The RGB LED node is named
+> + * "multi-led" to align with the name in the device tree.
+> + */
 
-If you don't consider that suitable, I can create a patch that is easier
-to pick up.
+...
 
-Best regards
-Uwe
+> +static const struct software_node ktd2026_node =3D {
+> +       .name =3D "ktd2026"
+
+Please, leave a trailing comma as it's not a termination entry.
+
+> +};
+
+(TBH I'm still unsure that having a name is a good idea even if it's
+supposed to be only a single device on the platform, but it's up to
+Hans who has an experience with those.)
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---mgrsmbcc7mtyc46w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYeepoACgkQj4D7WH0S
-/k5gugf/bpVGAeUjhxmd3eLjzH0HtU2qSxWQG4LFIRegk08Ex4wJNhpopT1kQOhN
-SMdNDgjcgSxvo9tqfH9cBTltJF0Baedv3dWGb4G/pJEfJRmUrk0+mkC/ZIoL/fTE
-VT0zY6pg3+zAXij2/W73VzFMGIf04A1CWrbOdxaODWlNVX/hb/MlS7TbbATp2PSZ
-DDDZhQe8kYQ9FPVvqM3HJRlZH5BJA/uLLHz+EK2H8QiMzqL6V/tCaY/ewjv+ZoO1
-20RPRH45JQA5LEALCkdAJ8+0OCHjxuQd14SHagxVW85U+vwA8CmTdDOwZFFnUTfw
-82MlSpgXg2z+D+tOpuqNd/HVKvO7sA==
-=NwBy
------END PGP SIGNATURE-----
-
---mgrsmbcc7mtyc46w--
+With Best Regards,
+Andy Shevchenko
 
