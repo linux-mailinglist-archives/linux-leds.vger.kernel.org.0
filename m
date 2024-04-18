@@ -1,123 +1,138 @@
-Return-Path: <linux-leds+bounces-1497-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1498-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585EA8A87EB
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Apr 2024 17:41:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A77888A9341
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Apr 2024 08:40:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12917288815
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Apr 2024 15:41:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37603B21764
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Apr 2024 06:40:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13F0814BF97;
-	Wed, 17 Apr 2024 15:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE9D21103;
+	Thu, 18 Apr 2024 06:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V9pML5H1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2DC1487F3
-	for <linux-leds@vger.kernel.org>; Wed, 17 Apr 2024 15:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0178925777
+	for <linux-leds@vger.kernel.org>; Thu, 18 Apr 2024 06:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713368346; cv=none; b=aX4+6vVxH1MzTN2H0uKg//uHFgAtqoiboCvr5m+RqIuXQzgV25jhavYL9ASZfoTMZbENKE3vY8fxqFo7KJcbGk1bmOJ5e4XjgQ8VNFGzW3LAUUiYk8C8lWDMRQH5CtrC/VcN/k/snQCEiruKCUGw1/CJTczHNG13LyfT1ZBUCmQ=
+	t=1713422423; cv=none; b=f1nBY3/sqScyTxaoopcV9yUjTRAq9CoRkCvU8rHjWU28pqkC1v7NSTwZjSgl3Lx69UijUovpxgCRVRFEwbkR6+cokn0qMzktPWC4Q8qA4sBBPkhHgETmdwgPenDtrZJlb69s2wHTiDv2TkHMPwEyg/fHOBz12YniKJJO78r7hPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713368346; c=relaxed/simple;
-	bh=qyfmY3tuy2fDo/5DK9wtBA0/okqOTXICerBpuVZMPmM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bb/9Z658fVjTdoZIxY3+Zj5Xujdoo9N2dXeUBPWsNySW5JOh+EJSwLRi+ZKtKjVuI5bcrpAryTz9Ws6ERLYVQeUS9KncuMqSVZ0VUQ9Lr66Jha4PM7tdy9EDCZWxgJzOrLIV3RihethAxsGPACZ8eXTRdtp0tIvksDLxxEWUJYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rx7NB-00075N-33; Wed, 17 Apr 2024 17:38:57 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rx7NA-00CokT-Gw; Wed, 17 Apr 2024 17:38:56 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rx7NA-002v0k-1O;
-	Wed, 17 Apr 2024 17:38:56 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
-	linux-leds@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel@pengutronix.de
-Subject: [PATCH] leds: pwm: Disable PWM when going to suspend
-Date: Wed, 17 Apr 2024 17:38:47 +0200
-Message-ID: <20240417153846.271751-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240417144943.GA2399047@google.com>
-References: <20240417144943.GA2399047@google.com>
+	s=arc-20240116; t=1713422423; c=relaxed/simple;
+	bh=EH03m7eOfHhtp/BcJ5vnIqquDs8mG7Y94m4YaqVAYs4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yi97x7NKhbg9pDrz9VlyG4UMhRXwIuWN0EvvzSccmMurVM6yN5WGDWeSIhDSWkxUzPmcm5tqKGLMJfUqxhmLlF0ClSTONjsD2IM9CwxUJHuDqwgX2ZYM8YortaKdrQVMcbhyc6R3DZ7rSA6DHylO7Iw2mhe+uL5D4EhMEWLh36U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V9pML5H1; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713422421;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lNvjTCc6FwOgFUSAbxLYa6iTeIgRgSjn22Bb0lwJRLg=;
+	b=V9pML5H1to4SQmlXIRkId9OtvnmkTpc99lX8L7oCmIiTtvpPdsxnG01E5AZJP4mLWhpSt2
+	7g5M8s0RUnzYah0dIlYdGF5pFcyQRxL+wwuKcRxiVCABYKRji3PjfwNuOw7aBMrFqr2mis
+	5mcj14bp6IOpz3CP5LhzhUjd3p2z4Xs=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-365-HYoNPyi-PbqfMzFiMesH7g-1; Thu, 18 Apr 2024 02:40:19 -0400
+X-MC-Unique: HYoNPyi-PbqfMzFiMesH7g-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2a482a2360aso1468549a91.0
+        for <linux-leds@vger.kernel.org>; Wed, 17 Apr 2024 23:40:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713422418; x=1714027218;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lNvjTCc6FwOgFUSAbxLYa6iTeIgRgSjn22Bb0lwJRLg=;
+        b=WR0RIm/FENi+gMqFP9U86Ldntxw4k0+xPGaT/+A7Cog3s4dr1OELGe2BpBGpf9HEWo
+         6iGVF8ftP7rbnQDiKD+uXuA2Dbozhs6MDHVD3c2E4g/81vvqvxn8a/40SP2wAM4I3STg
+         B4H9gVqBliBkr6z8iu5Nijy9BEuGY1u7sf0ZTg0GyUVzcr6A2cH/8aRPsb/3KXHkbr6U
+         Lp3h4O6jpcWKSv8dzm2sPwwNLnASl6SMfnkFWi4QkzvKLAMN6FQ5Bd/b1yKNrduA1QwX
+         VeVoet3ALfPxSFa/5poqy87qPOvCA2+TOK67vbu9EA4q8n6LFNJ7zaUMhmHwuG5stS2a
+         NTrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJwV5RNOYCPAUJK2Xd3x81eTxbZ8fmG9keD06q6sq6lAh/hU0pUDOreAvKd17xyh+5Zss8sxnkctI2EVnhn5q7QtDicqD6DxcsSA==
+X-Gm-Message-State: AOJu0Yzaq2HgcR8eI7+Syc13WALMPiNw7l0mA1m8Cz+K+Haco/A7Y1G9
+	Kt6WuLehqLdIgkTDkoPImcwEyVH9FedR6Bzjrh3iRDt2UT2MrzFw06ZBUSaH1ERiQtf1tmTS7+x
+	79xANi07EYY2MdaR5OII6Qai3FOIlOw76VZJgSQJS+DfP8DsTkEiLCjKvsAPE6bBUNbDF179A4V
+	vJR5E7/6cANeFSKgMLU9UZNYb+iGYKz326Og==
+X-Received: by 2002:a17:90a:f298:b0:2a4:6ce7:37ad with SMTP id fs24-20020a17090af29800b002a46ce737admr2168447pjb.5.1713422417933;
+        Wed, 17 Apr 2024 23:40:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG8Nqu/T3TcMgalwb0fgZz/LJ+EbTdQaBlb847ZkHwH6OthK4zjz68lfXhfvPUEvk2KNoUUWyOlK+WujobCKuY=
+X-Received: by 2002:a17:90a:f298:b0:2a4:6ce7:37ad with SMTP id
+ fs24-20020a17090af29800b002a46ce737admr2168419pjb.5.1713422417577; Wed, 17
+ Apr 2024 23:40:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1658; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=qyfmY3tuy2fDo/5DK9wtBA0/okqOTXICerBpuVZMPmM=; b=owGbwMvMwMXY3/A7olbonx/jabUkhjT5t2x2gSvWxT6OUPWVELcyTMg/+5I1mz9ks+LOhwayE TXf2Ys6GY1ZGBi5GGTFFFnsG9dkWlXJRXau/XcZZhArE8gUBi5OAZjIui3s/2yeL68wc2r//tA0 21x3348vmWnzdy88wOpqPynQkV2ouU/x6ZYlDDV5Nhvlv19JF/h6LP3EmpzzQofyTqz9KqCQ4up RfunmknwxjbKzHPYB5dcDoi6vtGDUrz0fk1ZscFt8UpXtu19lHCtaolnsrZadZ3OdfERtdUJ8qI t5h2fq7PIcw6N8z+YHX+r7eHE7d+2u21YNC9+xT0nOOfJAe+UpKZsDh4rLr3xiY77tE3ZIpLwoa WOc34fLgbknVduDNs5ZtG5W4Olzkxbu2TLpafuOulj5L4vWK/BOrtSJ/rsylLGjZELpgnWJDTrs odZdlfblbfxRZkcVw9QeOkSZi2V5TzzQrlluNOlC7pEAAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+References: <20240416053909.256319-5-hpa@redhat.com> <202404170023.1zEGO9ja-lkp@intel.com>
+ <CAHp75VeKCGSZTb5bGU4YNr9r-z+gXmk4GC5HOZCFcoRQRN37CA@mail.gmail.com>
+In-Reply-To: <CAHp75VeKCGSZTb5bGU4YNr9r-z+gXmk4GC5HOZCFcoRQRN37CA@mail.gmail.com>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Thu, 18 Apr 2024 14:40:06 +0800
+Message-ID: <CAEth8oF8rXABQqhM89QH4dR=Gqjv-ZkwPHWMEfy434jN6eOtbg@mail.gmail.com>
+Subject: Re: [PATCH v6 4/5] power: supply: power-supply-leds: Add
+ charging_orange_full_green trigger for RGB LED
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On stm32mp1xx based machines (and others) a PWM consumer has to disable
-the PWM because an enabled PWM refuses to suspend. So check the
-LED_SUSPENDED flag and depending on that set the .enabled property.
+Hi,
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218559
-Fixes: 76fe464c8e64 ("leds: pwm: Don't disable the PWM when the LED should be off")
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+On Wed, Apr 17, 2024 at 1:34=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Tue, Apr 16, 2024 at 8:03=E2=80=AFPM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > Hi Kate,
+> >
+> > kernel test robot noticed the following build errors:
+>
+> > All errors (new ones prefixed by >>):
+> >
+> >    drivers/power/supply/power_supply_leds.c: In function 'power_supply_=
+update_bat_leds':
+> > >> drivers/power/supply/power_supply_leds.c:42:17: error: implicit decl=
+aration of function 'led_mc_trigger_event'; did you mean 'led_trigger_event=
+'? [-Werror=3Dimplicit-function-declaration]
+> >       42 |                 led_mc_trigger_event(psy->charging_orange_fu=
+ll_green_trig,
+> >          |                 ^~~~~~~~~~~~~~~~~~~~
+> >          |                 led_trigger_event
+> >    cc1: some warnings being treated as errors
+>
+> Probably you need a new dependency or so.
 
-On Wed, Apr 17, 2024 at 03:49:43PM +0100, Lee Jones wrote:
-> On Tue, 16 Apr 2024, Uwe Kleine-König wrote:
-> > If you don't consider that suitable, I can create a patch that is easier
-> > to pick up.
-> 
-> Yes, please submit it properly.
+I will include Hans' two patches for led_mc_trigger_event() in v7 patch.
 
-Here it comes.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
 
-Best regards
-Uwe
 
- drivers/leds/leds-pwm.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 4e3936a39d0e..e1b414b40353 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -53,7 +53,13 @@ static int led_pwm_set(struct led_classdev *led_cdev,
- 		duty = led_dat->pwmstate.period - duty;
- 
- 	led_dat->pwmstate.duty_cycle = duty;
--	led_dat->pwmstate.enabled = true;
-+	/*
-+	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
-+	 * So keep it on. Only for suspending the PWM should be disabled because
-+	 * otherwise it refuses to suspend. The possible downside is that the
-+	 * LED might stay (or even go) on.
-+	 */
-+	led_dat->pwmstate.enabled = !(led_cdev->flags & LED_SUSPENDED);
- 	return pwm_apply_might_sleep(led_dat->pwm, &led_dat->pwmstate);
- }
- 
-
-base-commit: 4eab358930711bbeb85bf5ee267d0d42d3394c2c
--- 
-2.43.0
+--=20
+BR,
+Kate
 
 
