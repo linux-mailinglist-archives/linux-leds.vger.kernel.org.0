@@ -1,260 +1,235 @@
-Return-Path: <linux-leds+bounces-1502-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1503-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103EE8A9569
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Apr 2024 10:55:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A983E8A99EA
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Apr 2024 14:34:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA679281B7A
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Apr 2024 08:55:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB29B1C20B23
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Apr 2024 12:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3489215AAC2;
-	Thu, 18 Apr 2024 08:55:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67DD1182C5;
+	Thu, 18 Apr 2024 12:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hWAcdUwG"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HaYZpKgd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADF215AAB5
-	for <linux-leds@vger.kernel.org>; Thu, 18 Apr 2024 08:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9749E6FC3;
+	Thu, 18 Apr 2024 12:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713430529; cv=none; b=AtR8WTS/22PRTMsjWN1Yth/1QpYFKfb4Rjfk8EizUUk8TmXle3TXW+LR0gu/picgXg5wFcJCjt32pRGxXefcr0XF3Psj23IQS/OI08MkAAeQjYVnX7f2KBwlc5PlUXGgJbDh0zN1iJVZZHN1VEIqXLGRpU2XdJEdqV8G3MoyBkw=
+	t=1713443662; cv=none; b=AdE1l3rcdUcBnSwkTs/yHVNbtP4Fc/T6CxVmaOeXJbn/obKd+dCDJzrKwYX+CXPHbL4JZ8ObVzk4Lx2F9iuRTKklvbZhak3KYwkIblf9AFSZAa074nxBVQDHx8dyRDAo36ueiueXtVySKX/QdOcLG25K0HqYR32gmhljCMzzSeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713430529; c=relaxed/simple;
-	bh=rg1Htv+lB6hxsvVaFwD5Nffj1OIzHqszQvu3GxaKkIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=rrgS2eGzfbSwP2zo9nuf2NL6QBWkSAShXkdJM5Gk5LsSKS7qeagfaHkhf/HR8bLmUVWqd3DlxS6UZBXx8J1BsdPlXQaW2PtmnWYlomxc9+08SloTVRS1u+AchU/wCd2knuOkKcwUKbN5jPky7r+NabMxB6UKvRLgMTNxp/t+pJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hWAcdUwG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713430526;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a3ijnHOr2lMizZp28dkk/a8tpj5sBpid4ALmXZbWPA8=;
-	b=hWAcdUwG5KfDuu41xabzY+J2CbrUK/M/HO9BtcGh3Ow+4cD4QNPDxOLR5rJF0GmZSQeok1
-	BTd8MDZG4mZdYtp71UcykwWxfUDdjugKhnpffmJxFJQ4nctb86HBDYKpDdLlkhgvUpkP0M
-	OSSyVoOWxL6WkgSxouXLpR3hWCGKrbY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-213-eJ4-m-0mN4ikcznl87-_QA-1; Thu, 18 Apr 2024 04:55:24 -0400
-X-MC-Unique: eJ4-m-0mN4ikcznl87-_QA-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a556121c01aso32721966b.2
-        for <linux-leds@vger.kernel.org>; Thu, 18 Apr 2024 01:55:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713430522; x=1714035322;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a3ijnHOr2lMizZp28dkk/a8tpj5sBpid4ALmXZbWPA8=;
-        b=WCv6HxNJcHlXfg4S5kbYT588QzZuNbif3LMU65/HPeLKXuCU4OnfAl/RwaoCMrmclQ
-         VBicNxkSXCQxAsBv0pc4BrUcfd8dVivXqQQ01eSWHeWwLxmxp3+r3GBey+798xUDOiqh
-         iO5mfvnvJeI3rAK/2Nf1NZPvg/Q9GqzgAJWxe0uG7ONQNLR7Cc5nsIgrNJ48D9ZOwOS0
-         H5Q0Fydxj0SXvKYv2+mgLIOe3HR2Fi0Rdy0WZG+zha0k/OWqBO470JqfFBBPC6AgBa78
-         Vnxb770JF5bgW4JTsRMsJRTCtvljBzb6eBx/QkkF/NpLwO/SpDKGX+FAbpyY9AVh2DMk
-         4Y3w==
-X-Forwarded-Encrypted: i=1; AJvYcCV9/HFcrPrHK90UiqEolpEXYWR6oNBd6wPFDDgpHtycWiexSL8QaOePXUUbHlV8EdasJJiNJNLjCYAMUb1VB1Ms/Hlb+wSEokStew==
-X-Gm-Message-State: AOJu0YxfzQJS2X5JMVQ2OV33rjn5oAmmuzYRoCK1yrKA2wqMv5NfofxN
-	Sv+9tYicfhsHytr2CaRT5Xkb2UMBrSfXQHUfoBmDSzLpxTiyv8RHO4aMLT59A27hHV5ipprl69A
-	cf3gVdgZ5S936GUF4h2iMAdSC7VOAClI5fvtOJNjrJI7ugGExtVM31D9p8ik=
-X-Received: by 2002:a17:907:76a9:b0:a55:59e8:b780 with SMTP id jw9-20020a17090776a900b00a5559e8b780mr1277603ejc.4.1713430522283;
-        Thu, 18 Apr 2024 01:55:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGKfvYq8xxFx0WBymZMPuQA2LKlM895k5PHfbu+ObgkMs+Rqx5cC1+8yukvqXz4+PJX9lUPTw==
-X-Received: by 2002:a17:907:76a9:b0:a55:59e8:b780 with SMTP id jw9-20020a17090776a900b00a5559e8b780mr1277588ejc.4.1713430521889;
-        Thu, 18 Apr 2024 01:55:21 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id t7-20020a1709066bc700b00a5556cd0fd5sm598453ejs.183.2024.04.18.01.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 01:55:21 -0700 (PDT)
-Message-ID: <218ad508-88bf-451a-a4cc-8246c3d02535@redhat.com>
-Date: Thu, 18 Apr 2024 10:55:20 +0200
+	s=arc-20240116; t=1713443662; c=relaxed/simple;
+	bh=9nrO80FRTuJXMuwoaTwMR7mzXbtEaRk4icXUo6sWJXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oL+o4Crf+3GKHCYu6pND2K2P+LwjrFpFmhPtQqiu6XEblcajSWcxmKtlLr913diJdinM5JfK+/SXqNfPkq0uIWWCmlGF77D1Dqk/X/OiFCYDqeSBMqaRpxPMtA6FW73S7QE4yceRxDWwzysrWO/Nfu32xBPsAh30VuYNePNHDMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HaYZpKgd; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1713443655;
+	bh=9nrO80FRTuJXMuwoaTwMR7mzXbtEaRk4icXUo6sWJXM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HaYZpKgdNFUdHkfAcsARDN6AXW4gxCFkHK6jY2fTv8nDN53OqOyhSjzpAHXORAVJ3
+	 lddss/S96/oRtugpzT0eEUkMnOwv6hB64H+/UuUtYLltujwMWlqpO0Dl/9Bz+3+tk7
+	 tQ9vroTmxaCya/ZCHLdrFd1qU1tPWLNjqa70tGyPvHjjPqaktDJMZ0V8gZzy9VpeKt
+	 eygdvspEX9yI52Gf1aY2ZhT0wYABhcPPoHCo+y0oxG53TZJNsNi45UavBH7s5zytuR
+	 m5GgUTSDWoWev3XQrBjN7fdV1J7Uv+ip7bH/HT/1hrVwF/JXoUHkrTbFLHh51yDEQn
+	 j1kB16xP5U5ZQ==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 238373781116;
+	Thu, 18 Apr 2024 12:34:15 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id C3714106071D; Thu, 18 Apr 2024 14:34:14 +0200 (CEST)
+Date: Thu, 18 Apr 2024 14:34:14 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, linux-kernel@vger.kernel.org, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v6 4/5] power: supply: power-supply-leds: Add
+ charging_orange_full_green trigger for RGB LED
+Message-ID: <sjhe7jvzvrlthf42lipnsnooh3z7vczdcruupsbstmpiujprze@jxwc3lquzvki>
+References: <20240416053909.256319-1-hpa@redhat.com>
+ <20240416053909.256319-5-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] platform: x86-android-tablets: other: Add swnode
- for Xiaomi pad2 indicator LED
-To: Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- linux-kernel@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
-References: <20240416053909.256319-1-hpa@redhat.com>
- <20240416053909.256319-2-hpa@redhat.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240416053909.256319-2-hpa@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rjak7nyqoe7bx2om"
+Content-Disposition: inline
+In-Reply-To: <20240416053909.256319-5-hpa@redhat.com>
 
-Hi Kate,
 
-On 4/16/24 7:39 AM, Kate Hsuan wrote:
-> KTD2026 LED controller manages the indicator LED for Xiaomi pad2. The ACPI
-> for it is not properly made so the kernel can't get a correct description.
-> 
-> This work adds a description for this RGB LED controller and also sets a
-> trigger to indicate the changing event (bq27520-0-charging). When it is
-> charging, the indicator LED will be turned on.
-> 
+--rjak7nyqoe7bx2om
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Tue, Apr 16, 2024 at 01:39:08PM +0800, Kate Hsuan wrote:
+> Add a charging_orange_full_green LED trigger and the trigger is based on
+> led_mc_trigger_event() which can set an RGB LED when the trigger is
+> triggered. The LED will show orange when the battery status is charging.
+> The LED will show green when the battery status is full.
+>=20
+> Link: https://lore.kernel.org/linux-leds/f40a0b1a-ceac-e269-c2dd-0158c5b4=
+a1ad@gmail.com/
+>=20
 > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-
-Since this patch is more or less done and since which fwnodes there should
-be and with which contents is prescribed by the existing devicetree
-bindings which are not being changes I have already merged this patch
-into pdx86/for-next:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?h=for-next&id=fcc6220ddc7e54d8442287273d0cb8c415ada022
-
-So there is no reason to resend this. Please drop this patch from v7
-of the patch-set.
-
-Regards,
-
-Hans
-
-
-
-
 > ---
->  .../platform/x86/x86-android-tablets/other.c  | 82 +++++++++++++++++++
->  .../x86/x86-android-tablets/shared-psy-info.h |  2 +
->  2 files changed, 84 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/platform/x86/x86-android-tablets/other.c
-> index bc6bbf7ec6ea..c77d56454f2d 100644
-> --- a/drivers/platform/x86/x86-android-tablets/other.c
-> +++ b/drivers/platform/x86/x86-android-tablets/other.c
-> @@ -13,6 +13,8 @@
->  #include <linux/input.h>
->  #include <linux/platform_device.h>
->  
-> +#include <dt-bindings/leds/common.h>
-> +
->  #include "shared-psy-info.h"
->  #include "x86-android-tablets.h"
->  
-> @@ -593,6 +595,83 @@ const struct x86_dev_info whitelabel_tm800a550l_info __initconst = {
->  	.gpiod_lookup_tables = whitelabel_tm800a550l_gpios,
->  };
->  
-> +/*
-> + * The fwnode for ktd2026 on Xaomi pad2. It composed of a RGB LED node
-> + * with three subnodes for each color. The RGB LED node is named
-> + * "multi-led" to align with the name in the device tree.
-> + */
-> +
-> +/* main fwnode for ktd2026 */
-> +static const struct software_node ktd2026_node = {
-> +	.name = "ktd2026"
-> +};
-> +
-> +static const struct property_entry ktd2026_rgb_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 0),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
-> +	PROPERTY_ENTRY_STRING("function", "indicator"),
-> +	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging"),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_rgb_led_node = {
-> +	.name = "multi-led",
-> +	.properties = ktd2026_rgb_led_props,
-> +	.parent = &ktd2026_node,
-> +};
-> +
-> +static const struct property_entry ktd2026_blue_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 0),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_BLUE),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_blue_led_node = {
-> +	.properties = ktd2026_blue_led_props,
-> +	.parent = &ktd2026_rgb_led_node,
-> +};
-> +
-> +static const struct property_entry ktd2026_green_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 1),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_GREEN),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_green_led_node = {
-> +	.properties = ktd2026_green_led_props,
-> +	.parent = &ktd2026_rgb_led_node,
-> +};
-> +
-> +static const struct property_entry ktd2026_red_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 2),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RED),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_red_led_node = {
-> +	.properties = ktd2026_red_led_props,
-> +	.parent = &ktd2026_rgb_led_node,
-> +};
-> +
-> +static const struct software_node *ktd2026_node_group[] = {
-> +	&ktd2026_node,
-> +	&ktd2026_rgb_led_node,
-> +	&ktd2026_green_led_node,
-> +	&ktd2026_blue_led_node,
-> +	&ktd2026_red_led_node,
-> +	NULL
-> +};
-> +
-> +static int __init xiaomi_mipad2_init(void)
-> +{
-> +	return software_node_register_node_group(ktd2026_node_group);
-> +}
-> +
-> +static void xiaomi_mipad2_exit(void)
-> +{
-> +	software_node_unregister_node_group(ktd2026_node_group);
-> +}
-> +
->  /*
->   * If the EFI bootloader is not Xiaomi's own signed Android loader, then the
->   * Xiaomi Mi Pad 2 X86 tablet sets OSID in the DSDT to 1 (Windows), causing
-> @@ -616,6 +695,7 @@ static const struct x86_i2c_client_info xiaomi_mipad2_i2c_clients[] __initconst
->  			.type = "ktd2026",
->  			.addr = 0x30,
->  			.dev_name = "ktd2026",
-> +			.swnode = &ktd2026_node,
->  		},
->  		.adapter_path = "\\_SB_.PCI0.I2C3",
->  	},
-> @@ -624,4 +704,6 @@ static const struct x86_i2c_client_info xiaomi_mipad2_i2c_clients[] __initconst
->  const struct x86_dev_info xiaomi_mipad2_info __initconst = {
->  	.i2c_client_info = xiaomi_mipad2_i2c_clients,
->  	.i2c_client_count = ARRAY_SIZE(xiaomi_mipad2_i2c_clients),
-> +	.init = xiaomi_mipad2_init,
-> +	.exit = xiaomi_mipad2_exit,
->  };
-> diff --git a/drivers/platform/x86/x86-android-tablets/shared-psy-info.h b/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-> index c2d2968cddc2..8c33ec47ee12 100644
-> --- a/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-> +++ b/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-> @@ -29,4 +29,6 @@ extern const char * const bq24190_modules[];
->  extern const struct platform_device_info int3496_pdevs[];
->  extern struct gpiod_lookup_table int3496_reference_gpios;
->  
-> +extern const struct software_node ktd2026_leds_node;
-> +
->  #endif
 
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>  drivers/power/supply/power_supply_leds.c | 26 ++++++++++++++++++++++++
+>  include/linux/power_supply.h             |  2 ++
+>  2 files changed, 28 insertions(+)
+>=20
+> diff --git a/drivers/power/supply/power_supply_leds.c b/drivers/power/sup=
+ply/power_supply_leds.c
+> index c7db29d5fcb8..8dd99199c65b 100644
+> --- a/drivers/power/supply/power_supply_leds.c
+> +++ b/drivers/power/supply/power_supply_leds.c
+> @@ -22,6 +22,9 @@
+>  static void power_supply_update_bat_leds(struct power_supply *psy)
+>  {
+>  	union power_supply_propval status;
+> +	unsigned int intensity_green[3] =3D {255, 0, 0};
+> +	unsigned int intensity_orange[3] =3D {128, 0, 255};
+> +	unsigned int intensity_red[3] =3D {0, 0, 255};
+> =20
+>  	if (power_supply_get_property(psy, POWER_SUPPLY_PROP_STATUS, &status))
+>  		return;
+> @@ -36,12 +39,20 @@ static void power_supply_update_bat_leds(struct power=
+_supply *psy)
+>  		/* Going from blink to LED on requires a LED_OFF event to stop blink */
+>  		led_trigger_event(psy->charging_blink_full_solid_trig, LED_OFF);
+>  		led_trigger_event(psy->charging_blink_full_solid_trig, LED_FULL);
+> +		led_mc_trigger_event(psy->charging_orange_full_green_trig,
+> +				     intensity_green,
+> +				     ARRAY_SIZE(intensity_green),
+> +				     LED_FULL);
+>  		break;
+>  	case POWER_SUPPLY_STATUS_CHARGING:
+>  		led_trigger_event(psy->charging_full_trig, LED_FULL);
+>  		led_trigger_event(psy->charging_trig, LED_FULL);
+>  		led_trigger_event(psy->full_trig, LED_OFF);
+>  		led_trigger_blink(psy->charging_blink_full_solid_trig, 0, 0);
+> +		led_mc_trigger_event(psy->charging_orange_full_green_trig,
+> +				     intensity_orange,
+> +				     ARRAY_SIZE(intensity_orange),
+> +				     LED_FULL);
+>  		break;
+>  	default:
+>  		led_trigger_event(psy->charging_full_trig, LED_OFF);
+> @@ -49,6 +60,10 @@ static void power_supply_update_bat_leds(struct power_=
+supply *psy)
+>  		led_trigger_event(psy->full_trig, LED_OFF);
+>  		led_trigger_event(psy->charging_blink_full_solid_trig,
+>  			LED_OFF);
+> +		led_mc_trigger_event(psy->charging_orange_full_green_trig,
+> +				     intensity_red,
+> +				     ARRAY_SIZE(intensity_red),
+> +				     LED_OFF);
+>  		break;
+>  	}
+>  }
+> @@ -74,6 +89,11 @@ static int power_supply_create_bat_triggers(struct pow=
+er_supply *psy)
+>  	if (!psy->charging_blink_full_solid_trig_name)
+>  		goto charging_blink_full_solid_failed;
+> =20
+> +	psy->charging_orange_full_green_trig_name =3D kasprintf(GFP_KERNEL,
+> +		"%s-charging-orange-full-green", psy->desc->name);
+> +	if (!psy->charging_orange_full_green_trig_name)
+> +		goto charging_red_full_green_failed;
+> +
+>  	led_trigger_register_simple(psy->charging_full_trig_name,
+>  				    &psy->charging_full_trig);
+>  	led_trigger_register_simple(psy->charging_trig_name,
+> @@ -82,9 +102,13 @@ static int power_supply_create_bat_triggers(struct po=
+wer_supply *psy)
+>  				    &psy->full_trig);
+>  	led_trigger_register_simple(psy->charging_blink_full_solid_trig_name,
+>  				    &psy->charging_blink_full_solid_trig);
+> +	led_trigger_register_simple(psy->charging_orange_full_green_trig_name,
+> +				    &psy->charging_orange_full_green_trig);
+> =20
+>  	return 0;
+> =20
+> +charging_red_full_green_failed:
+> +	kfree(psy->charging_blink_full_solid_trig_name);
+>  charging_blink_full_solid_failed:
+>  	kfree(psy->full_trig_name);
+>  full_failed:
+> @@ -101,10 +125,12 @@ static void power_supply_remove_bat_triggers(struct=
+ power_supply *psy)
+>  	led_trigger_unregister_simple(psy->charging_trig);
+>  	led_trigger_unregister_simple(psy->full_trig);
+>  	led_trigger_unregister_simple(psy->charging_blink_full_solid_trig);
+> +	led_trigger_unregister_simple(psy->charging_orange_full_green_trig);
+>  	kfree(psy->charging_blink_full_solid_trig_name);
+>  	kfree(psy->full_trig_name);
+>  	kfree(psy->charging_trig_name);
+>  	kfree(psy->charging_full_trig_name);
+> +	kfree(psy->charging_orange_full_green_trig_name);
+>  }
+> =20
+>  /* Generated power specific LEDs triggers. */
+> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+> index c0992a77feea..9b6898085224 100644
+> --- a/include/linux/power_supply.h
+> +++ b/include/linux/power_supply.h
+> @@ -318,6 +318,8 @@ struct power_supply {
+>  	char *online_trig_name;
+>  	struct led_trigger *charging_blink_full_solid_trig;
+>  	char *charging_blink_full_solid_trig_name;
+> +	struct led_trigger *charging_orange_full_green_trig;
+> +	char *charging_orange_full_green_trig_name;
+>  #endif
+>  };
+> =20
+> --=20
+> 2.44.0
+>=20
+>=20
+
+--rjak7nyqoe7bx2om
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmYhEzsACgkQ2O7X88g7
++prC0Q//Rb0bzJmGZkOxFWmxv+IBe9q++qbxCWIjBwwb4XT6VSj0i9LdMdJ5NKr3
+nwqUL2LT7NZ7xjQJ7tq60AwEvmCB/okPOGDmB6zdwHcgWDtVV/vJjjWvtv0G9goz
+2szdOTQfPx7B8RcM+2TEe1YX+N4aVvx+OOY7eWiZlvf6Oec8UcnstUU9Oei/BHod
+WL5Hvy1fbf2TZdIOW/HuXFgORaiC1JJ3uPjNI4DfH7vuHUiMSHxHHuAhvAGl7Vst
+LlLLXIHgEgrFsAnlWa750e6VqvWLcK0INRuh/N7BzDz8kNuJe8PX4TDsdwOZgYTO
+1EleCSYoElW4C/CDTeJeYu1g9810F09jsnM4DEAwnWhWsg1hrb3cfdhnViunDpVU
+eJt/6iwHCVtBx10hJAQEaKCY5GIZ3UKUCGa37DkndO23Bv0LOy7AKmbwefaE1FCf
+lp8NPFXM1Wvlwfh4fr+casBzwKem5e6JTsy+DXnm9ogfBgUxldzw5um8+DEBc+Jl
+LDVQqsSGPlIxb7N/GUSzimWj86GTJwsIhFcqedmi5t0nI68kDNYXBlEYccgm6JiA
+wOJZ0Km2yVEa+NYkUGxTxEW453G2ycZTRVB3494Tt379JwW161woDC+ko5eMEbXA
+McOywM0Z+Yciiinx/G9RnAkdge/bL/hZiaMBwUdEkm8kD/X3tFs=
+=En/T
+-----END PGP SIGNATURE-----
+
+--rjak7nyqoe7bx2om--
 
