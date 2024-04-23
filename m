@@ -1,145 +1,104 @@
-Return-Path: <linux-leds+bounces-1507-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1508-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE798AC6AB
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Apr 2024 10:19:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6088AE07B
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Apr 2024 11:01:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3383B28355C
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Apr 2024 08:19:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 799D1B20F2A
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Apr 2024 09:01:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FCC537FF;
-	Mon, 22 Apr 2024 08:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D935812B;
+	Tue, 23 Apr 2024 09:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="pi8Lz4FM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7E8502B6;
-	Mon, 22 Apr 2024 08:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B925647F;
+	Tue, 23 Apr 2024 09:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713773930; cv=none; b=KTm7pF/s+L1x4s93exkltT3gtWTwvsrb5ODXQhDqV1rnnAEQ3cC/R1o07e8mV5kWKUt9/m0P52Y/SpCWQmj49+zfMhBkfvGYS8rXuoFDEqNLwia2T6OS19rsiHEZugkH98ZHKaimpuWC36p45qdtEJ9VWGvZGdRVj/5IXH1HAes=
+	t=1713862854; cv=none; b=BbCgyHKZdadeOCTP1x9Ysiegc9nPFDPxsE0g95MZuwwl7/t9Tz1VtXkI9xHv4aHM4BmKaB55Zc38wuqI2pos1ZYaj5zAmbprbee+pXtxESSlL73XfNUa/uNKpSmsTPWhe2KWAyTQUXa4uxleta9phx/G5lKLEg+kBODbcWXjPtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713773930; c=relaxed/simple;
-	bh=1R0QdiqBkh2lDI1KZWlD4yhHxXvFKtuxtuwBOw/ITOE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=a+EoWro1vSYv/ZNn5sKp0LrXGEJL9PtjzaARAm/t9y97X+8es7AW8AXSONV2Xlw2Idw0f5RRs3eFRU0usNcj/3jgG7LtGO7qZ0wpNGQ6XH/onCZ8zFLmgWDArikSSFqCwco1GtxsJ9hEpRRlWDQsvNe7S4QvMQlAie6SNuX1T30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VNJ6g0Nzdz4x1R;
-	Mon, 22 Apr 2024 18:18:35 +1000 (AEST)
-From: Michael Ellerman <patch-notifications@ellerman.id.au>
-To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	John Allen <john.allen@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Moritz Fischer <mdf@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>, Kalle Valo <kvalo@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Mark Brown <broonie@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Xiang Chen <chenxiang66@hisilicon.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Jacky Huang <ychuang3@nuvoton.com>, Helge Deller <deller@gmx.de>,
-	Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormr,
-	eply.com@web.codeaurora.org, linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	iommu@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-References: <20240403080702.3509288-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
-Message-Id: <171377378377.1025456.1313405994816400451.b4-ty@ellerman.id.au>
-Date: Mon, 22 Apr 2024 18:16:23 +1000
+	s=arc-20240116; t=1713862854; c=relaxed/simple;
+	bh=DVL/W006mq7B8XRru41g4X8LQ/QFyfpjIosJSHzQt7s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nlPqQFmvOge6I09bCjyAoLNY7im3lfYO8Ic+5qUnF/KkYh14bXMCVrUtqII3RVzWM4CE/M3/aAxFX27Ydg66brfxzT9mNeC0+ke73HbHa6xPdE3s0GtbOJCT8XA5pt//t26Z3VPOTixTT8lQj6BwSa4rBpduJymTqzBl9pAneN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=pi8Lz4FM; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:Reply-To:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=rZoO7ltG3psc+RMtbCywngv1xFSki99rx9Qg2yUYeDY=;
+	t=1713862849; x=1714294849; b=pi8Lz4FMeS88/pL4t/BZI+mzwR1XURZ3pWX3VQziH/aUDMH
+	IJQOY96L4PJKa3PZgsi657gii2u7Gg4sPkxUTXIJ2ZCapLRwb3pejurux4JvugNiFZFjuJPxbt4L4
+	9SCVYvs67jHxwISBk4VUah6KCcjz968u8+VNB8MX5msrHg4YSDN7SDcCrlPcVsktiumwA0huLMowO
+	Wgl1O0zzBj/GkkEPJHABiIamBOqXYxiwlxNHMXz0EAZyYavYoqiglhdX9HI0JvRhmAwLmy5cKbMdw
+	RrEdTij+/x23UvpvNLEdpJYL+4IqdZF3VDPSdxjAJbmSBf/bIruuCdvIn0l6Notg==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rzC15-0000B6-B2; Tue, 23 Apr 2024 11:00:43 +0200
+Message-ID: <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
+Date: Tue, 23 Apr 2024 11:00:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
+To: Johannes Berg <johannes@sipsolutions.net>,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+ Ben Greear <greearb@candelatech.com>, Lee Jones <lee@kernel.org>
+References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
+ <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
+ <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
+ <20240411070718.GD6194@google.com>
+ <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
+ <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1713862849;391881e7;
+X-HE-SMSGID: 1rzC15-0000B6-B2
 
-On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
+On 16.04.24 08:17, Johannes Berg wrote:
+> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
+>>
+>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
+>> iwl_req_fw_callback()
+>>
+>> Is that still best thing to try in your opinion?
 > 
-> In W=1 builds, we get warnings only static const variables in C
-> files, but not in headers, which is a good compromise, but this still
-> produces warning output in at least 30 files. These warnings are
-> almost all harmless, but also trivial to fix, and there is no
-> good reason to warn only about the non-const variables being unused.
-> 
-> [...]
+> I guess so, I don't have any better ideas so far anyway ...
 
-Applied to powerpc/next.
+[adding the iwlwifi maintainer; thread starts here:
+https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
 
-[01/34] powerpc/fsl-soc: hide unused const variable
-        https://git.kernel.org/powerpc/c/01acaf3aa75e1641442cc23d8fe0a7bb4226efb1
+]
 
-cheers
+Johannes, Miri, what's the status wrt to this regression? From here
+things look somewhat stalled -- but maybe there was progress and I just
+missed it.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
 
