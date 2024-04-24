@@ -1,110 +1,158 @@
-Return-Path: <linux-leds+bounces-1517-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1518-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9366B8B0299
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Apr 2024 08:56:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 923388B10FB
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Apr 2024 19:27:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 510702856EC
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Apr 2024 06:56:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51BCC1F211D2
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Apr 2024 17:27:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E98F158200;
-	Wed, 24 Apr 2024 06:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B8816D4E0;
+	Wed, 24 Apr 2024 17:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JZqdOihi"
+	dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b="rL2hf2iA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com [67.231.154.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28146157A7D
-	for <linux-leds@vger.kernel.org>; Wed, 24 Apr 2024 06:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B74B16D338;
+	Wed, 24 Apr 2024 17:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.154.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713941647; cv=none; b=O6uQFLPKtckqqelyHYwyTOunIw+VbE+km1k6CyARQw1Ue7g8vKVsHx+nDbuZgN2uuJf02iwIx8wbzscD9KBnKFfpFBnvCJ+vs6WLi6t6F9YK2QiIzoLzuUjNuc55/jRDQyoRTdJa6exegffou/hkzkl1cSeSwhXBTA51lYINbJw=
+	t=1713979585; cv=none; b=mOaI7dRRmehTggEvg3UhmIB0JGkiN9Zj0FYCquY1nAQvEMqtzWKj7dKom0V/7JhIioLxKm0vDpyZaj6q4Wjwnc/FCosNFaswLyKb1276sFDy6NIGeDnx97SAuuLmkMdtXD33nRYxbpzaZPERtvXLrrw907T60mVm0UJIEIzWkiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713941647; c=relaxed/simple;
-	bh=p7Qf/Wv2gRIQXdGwm+8FyGDK8jF8gAk1WduxuCaLuAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=chPmZGqvp5BYGLfSmkhO/gUH2Wyi8RBMFcME2xpfcppVjf7zZBpFvdEBLWVCjwQagrayMLzj8Jx0gwU+05nFjmLHIyNDhvFSkNhywe8O8ZdGSqmm1BnOmc+q36tfVhkDddefWS5xtWc1fgrJ6O/scHTKwTq7yqKQJd4GcUwOiV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JZqdOihi; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713941645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oCFCbOFCL4zzLvTeJtHwSPF85SA+R3VeJ49a5BsSC8o=;
-	b=JZqdOihi5ZO2FI4GHs0iB+nczAIRfugc288ZpkF4j8Y8PLqBKvCLxo0p4vJ/BCDBI3smNw
-	a6OOpb9BIXRvSy5MSq0vXUdpK0RG1lrcnVe21DIr0sO41p6e6lcHMUriBJ6nQu+zdwuwFg
-	kKFRhhf0zvuXGUhSzgLJtCkW4456O+g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-610-Lb7JrbX_OaKHTGL8L_60Jw-1; Wed, 24 Apr 2024 02:54:01 -0400
-X-MC-Unique: Lb7JrbX_OaKHTGL8L_60Jw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	s=arc-20240116; t=1713979585; c=relaxed/simple;
+	bh=d3O6GKUqu6OUvUeJOd060p3Y2QLwo5uZRyG+P9OO/zs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pBDWesmCEwn7ueQW+jU86M6yVWOGdlm7IfdHBAPhROXTKQ1Lf3EEA8QhupE+ZwRExc4kzOiD8mD3+80l42qf+RsBslxrVODyXdhC8Jw/D1qR59x6ZGeODAq6K5rDhvluEFVrv666pJkgFiYqmsnD+q1MZ7aDkdADr0BywW2GjT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com; spf=pass smtp.mailfrom=candelatech.com; dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b=rL2hf2iA; arc=none smtp.client-ip=67.231.154.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=candelatech.com
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from mail3.candelatech.com (mail2.candelatech.com [208.74.158.173])
+	by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 912D22C0079;
+	Wed, 24 Apr 2024 17:26:14 +0000 (UTC)
+Received: from [192.168.100.159] (unknown [50.251.239.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BD0D804C61;
-	Wed, 24 Apr 2024 06:54:01 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.193.73])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8E6FAC01595;
-	Wed, 24 Apr 2024 06:53:55 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	linux-pm@vger.kernel.org
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v7 6/6] platform: x86-android-tablets: others: Set the LED trigger to charging_orange_full_green for Xiaomi pad2
-Date: Wed, 24 Apr 2024 14:52:12 +0800
-Message-ID: <20240424065212.263784-7-hpa@redhat.com>
-In-Reply-To: <20240424065212.263784-1-hpa@redhat.com>
-References: <20240424065212.263784-1-hpa@redhat.com>
+	by mail3.candelatech.com (Postfix) with ESMTPSA id DC9BC13C2B0;
+	Wed, 24 Apr 2024 10:26:13 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com DC9BC13C2B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
+	s=default; t=1713979574;
+	bh=d3O6GKUqu6OUvUeJOd060p3Y2QLwo5uZRyG+P9OO/zs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rL2hf2iAE5wFYMtov1SzEYtVLCBMODa89Jwabm7q1rJSeK7uQ+MVHGGANIlfAZV4o
+	 WgXXOpMQFASQ9/71/aX/ajVi7geGjh8cujqIwP/ea+9XdUgAROp+EflgFwMBAVzyqd
+	 UV5FcPttMF1MkTVps1CHstbGWKGRAmFWl3KnAVHA=
+Message-ID: <6eba2967-e2de-d9f1-3794-01cf4e88c56c@candelatech.com>
+Date: Wed, 24 Apr 2024 10:26:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
+Content-Language: en-US
+To: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Lee Jones <lee@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>
+References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
+ <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
+ <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
+ <20240411070718.GD6194@google.com>
+ <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
+ <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
+ <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
+ <8ab88be5de30bcbd0d1cac3cfde6b2085dcfc8fb.camel@sipsolutions.net>
+ <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
+From: Ben Greear <greearb@candelatech.com>
+Organization: Candela Technologies
+In-Reply-To: <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MDID: 1713979576-bliQDCpf6f_C
+X-MDID-O:
+ us5;at1;1713979576;bliQDCpf6f_C;<greearb@candelatech.com>;d71741af030859b5073d777f43f1a679
 
-Set the default trigger to bq27520-0-charging-orange-full-green. The LED
-will show orange when the battery is charging. The LED will show green
-when the battery status is full.
+On 4/23/24 02:29, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 23.04.24 11:06, Johannes Berg wrote:
+>> On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking (Thorsten
+>> Leemhuis) wrote:
+>>> On 16.04.24 08:17, Johannes Berg wrote:
+>>>> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
+>>>>>
+>>>>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
+>>>>> iwl_req_fw_callback()
+>>>>>
+>>>>> Is that still best thing to try in your opinion?
+>>>>
+>>>> I guess so, I don't have any better ideas so far anyway ...
+>>>
+>>> [adding the iwlwifi maintainer; thread starts here:
+>>> https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
+>>>
+>>> ]
+>>>
+>>> Johannes, Miri, what's the status wrt to this regression? From here
+>>> things look somewhat stalled -- but maybe there was progress and I just
+>>> missed it.
+>>
+>> What do you want? It got bisected to an LED merge, but you ping _us_?
+>> Way to go ...
+> 
+> Sorry, to me it sounded a bit like you had an idea for a fix and were
+> going to give it a try -- similar to how the maintainers for a r8169
+> driver and the igc driver provided fixes for bugs recent LED changes
+> exposed.
+> 
+> But sure, you are right, in the end some LED change seems to have cause
+> this, so the duty to fix it lies in that field. Therefore:
+> 
+> Lee, what's the status here to get this fixed before the final?
+> 
+> Ciao, Thorsten
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- drivers/platform/x86/x86-android-tablets/other.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Johannes,
 
-diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/platform/x86/x86-android-tablets/other.c
-index c77d56454f2d..52032a874b7f 100644
---- a/drivers/platform/x86/x86-android-tablets/other.c
-+++ b/drivers/platform/x86/x86-android-tablets/other.c
-@@ -610,7 +610,7 @@ static const struct property_entry ktd2026_rgb_led_props[] = {
- 	PROPERTY_ENTRY_U32("reg", 0),
- 	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
- 	PROPERTY_ENTRY_STRING("function", "indicator"),
--	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging"),
-+	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging-orange-full-green"),
- 	{ }
- };
- 
+This patch makes the problem go away in my testbed with 24 Intel
+iwlwifi radios.  My guess is that it is just papering over the problem, but
+maybe good enough?  Would you like me to submit as official
+patch to linux-wireless?
+
+$ git diff
+diff --git a/drivers/net/wireless/intel/iwlwifi/iwl-drv.c b/drivers/net/wireless/intel/iwlwifi/iwl-drv.c
+index 4696d73c8971..993177e1de27 100644
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-drv.c
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-drv.c
+@@ -1744,7 +1744,7 @@ static void iwl_req_fw_callback(const struct firmware *ucode_raw, void *context)
+          * or hangs loading.
+          */
+         if (load_module)
+-               request_module("%s", op->name);
++               request_module_nowait("%s", op->name);
+         failure = false;
+         goto free;
+
+
+Thanks,
+Ben
+
+> 
+> 
+> 
+
 -- 
-2.44.0
+Ben Greear <greearb@candelatech.com>
+Candela Technologies Inc  http://www.candelatech.com
+
 
 
