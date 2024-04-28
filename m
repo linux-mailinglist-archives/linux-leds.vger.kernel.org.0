@@ -1,128 +1,101 @@
-Return-Path: <linux-leds+bounces-1526-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1527-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358458B3CE6
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Apr 2024 18:33:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D6C8B4C67
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Apr 2024 17:36:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 666891C222BC
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Apr 2024 16:33:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 111BD1C2096E
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Apr 2024 15:36:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61FD045037;
-	Fri, 26 Apr 2024 16:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C9306EB75;
+	Sun, 28 Apr 2024 15:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IH7Ns+tZ"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="IXWH8xfg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A468248D;
-	Fri, 26 Apr 2024 16:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C700A6EB7A;
+	Sun, 28 Apr 2024 15:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714149199; cv=none; b=j/pL5GNSj6zPehvWvnSLbGF8nXwW3lyAiqtGyYyjkv0PzqO3gRD7LNDYTb4b66/S2Kd/UIviHRyPg3c9O9Suillrco6Gon4YUJR9p5+IURnSgBB4+iFh59D/diiFjbUTcK2xUS0P62F9nnncrj/gtstoL5Mpmvgtq0KqFar9lK4=
+	t=1714318581; cv=none; b=nvcsnfOX6UTk8RU2IpnXuQcrjZFxpA9ezD8/qTveY9vf05UYwwhZ8WAvURJ+gPZtweIZy3t+HlmdcjMkPI3cT/cfSCUrFqiI5INV2vXDRVLtihf4xaaTfna+misAVc90sSBIz+W1rF2hQN4kfty9cVQgYuw5Q0IUAU5xUhB1Zdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714149199; c=relaxed/simple;
-	bh=5wObAx7pU4rmk/jDQAZhcRGAbFX+y+N7wcbVVWc1/3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLMBxzOXudS1IVqNmJ6mFrMFFl2hBQXmOOeAn98AKW6jjHOYwzL+GaZoztHApBDa8A0+u+gPRhBoV1M/QbWXn+SK3UC6WNhEXj9hYnNl1HDPQTkgD+PGlBo1mRPm6aosPIXTOQnmE2+jW1qjUVNr0Lvx5lcvNPoPFXdiEIcZoNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IH7Ns+tZ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714149198; x=1745685198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5wObAx7pU4rmk/jDQAZhcRGAbFX+y+N7wcbVVWc1/3U=;
-  b=IH7Ns+tZz+NoqNpLWMCL78NqBPVyv33qDPXlrth233acrEk90zArqTY+
-   PK7mmF+Zt82Rl1KGsyykrGiKiMj51p60wqBb2sJ+cfqAaV41Yk3wRH0y9
-   rEK1LXMmAYQTl4BNLjNwO4klKWlhTAqBfMcBQrX41OEZpSMDeFB0NcuEU
-   7GVWi0gfB+pc/h0Qzz0NFj1zjqcvhvNJw1mhYvAcT/zKczT+fDjngsm1W
-   Pog/dm54BQESIdzqOlgY22evmTD7vhgk0I6jPlnPlPn9UH5ZlDkq/H5PI
-   o7tKtUMSDm1SBgLB6WlDbpXZTlWXEtSugnc7DGc0ck14b5NnzkkPSUwd+
-   g==;
-X-CSE-ConnectionGUID: AimtCasHReq1hl9FmwSQiQ==
-X-CSE-MsgGUID: mXzcWK/tTM6XpDaDXjWxQg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21299055"
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="21299055"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 09:33:17 -0700
-X-CSE-ConnectionGUID: GrHn9nksTE+kgmSKxHHj+Q==
-X-CSE-MsgGUID: oqLZWI5HQyK6FZgPEVDJWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="25470044"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 09:33:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s0OVT-00000001OBZ-2UXq;
-	Fri, 26 Apr 2024 19:33:03 +0300
-Date: Fri, 26 Apr 2024 19:33:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to
- simplify the code
-Message-ID: <ZivXP-tdrLXriHOE@smile.fi.intel.com>
-References: <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
- <3557566.iIbC2pHGDl@jernej-laptop>
- <ZivMCljzog7z_SgZ@smile.fi.intel.com>
- <8403927.NyiUUSuA9g@jernej-laptop>
+	s=arc-20240116; t=1714318581; c=relaxed/simple;
+	bh=pH+9W97o7UGH4h29CTm7rSwQNCI2Ku73u5Nn6wkcv30=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L8B1wIxTzkta93SOu2GhYVwv84Om1ixYHBmjDb29kbM/DRwQp8KG/5FBUaArkjkozUhKCmTMq6XA14CiPcJ6Sih1gC25bRtggavgA3MfOEpwIfdk+HS07PpHx6fQLbaqpaihQdyxD8+0hnoarRJ7Js8K+L+1CFttcql+Dx6Z3dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=IXWH8xfg; arc=none smtp.client-ip=80.12.242.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from localhost.localdomain ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id 16YWsTQrFuPiV16YWsibQ8; Sun, 28 Apr 2024 17:35:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1714318509;
+	bh=1gpd5ELJC1zLelEncmtXMoj1+Hn1p8lojfAwRP5/fus=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=IXWH8xfgTVGRyT2DCFddqdTlble52UnCPNXRABtgChyIVcuQJhTmLp43uwO3SZCKn
+	 0alesarNZUfWo71w8tt0s2iCENFjr7BKWhAbWKhqsOcNpXegvOgI0H5eUDdK2+1nK2
+	 LEr1umYSwvtaRV3iSOF5VWa6a+asGtJEui5MWnTVhR6Os63TU8diWZZO5cW9QSRHqv
+	 78jwoK2rb2jGRxn/VGBwgT3GpzeHG/l5WLf4ffN8/BNRAf/U1lWxyRb34rCwNka8vP
+	 G4U2u5Mpbv/WIq/V5zw5+44Gg5YzU5jE6uBOrKnapCJ4kAOhVt/U6tDwyPQ6cSmZb5
+	 DaiB4PDsDMZuQ==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 28 Apr 2024 17:35:09 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-leds@vger.kernel.org
+Subject: [PATCH] leds: aat1290: Remove an unused field in struct aat1290_led
+Date: Sun, 28 Apr 2024 17:34:55 +0200
+Message-ID: <f7c8c22242544b11e95d9a77d7d0ea17f5a24fd5.1714318454.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8403927.NyiUUSuA9g@jernej-laptop>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Apr 26, 2024 at 05:55:22PM +0200, Jernej Škrabec wrote:
-> Dne petek, 26. april 2024 ob 17:45:14 GMT +2 je Andy Shevchenko napisal(a):
-> > On Fri, Apr 26, 2024 at 05:37:42PM +0200, Jernej Škrabec wrote:
-> > > Dne petek, 26. april 2024 ob 17:25:15 GMT +2 je Andy Shevchenko napisal(a):
+In "struct aat1290_led", the 'torch_brightness' field is unused.
+Remove it.
 
-...
+Found with cppcheck, unusedStructMember.
 
-> > > > +		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
-> > > 
-> > > I know that old code used dev_err_probe() without reason, but could you change
-> > > it to ordinary dev_err()?
-> > 
-> > First of all, it's out of scope of _this_ patch.
-> > 
-> > > dev_err_probe() is useful only when return code could be -EPROBE_DEFER.
-> > 
-> > This is simply not true. We are trying to have a uniform output in ->probe()
-> > and even documentation for dev_err_probe() was changed long time ago to
-> > encourage using it for non deferred probe cases.
-> > 
-> > > This is clearly not the case here.
-> > 
-> > Is it a problem?
-> 
-> Sorry, I missed added note for non -EPROBE_DEFER cases.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested only.
 
-No problem.
+It was added added in commit 49c34b8e0f43 ("leds: Add driver for AAT1290
+flash LED controller") and its only user was removed in commit 269e92da8b07
+("leds: aat1290: Remove work queue").
+---
+ drivers/leds/flash/leds-aat1290.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Thank you for the review!
-
+diff --git a/drivers/leds/flash/leds-aat1290.c b/drivers/leds/flash/leds-aat1290.c
+index 0195935a7c99..e8f9dd293592 100644
+--- a/drivers/leds/flash/leds-aat1290.c
++++ b/drivers/leds/flash/leds-aat1290.c
+@@ -77,8 +77,6 @@ struct aat1290_led {
+ 	int *mm_current_scale;
+ 	/* device mode */
+ 	bool movie_mode;
+-	/* brightness cache */
+-	unsigned int torch_brightness;
+ };
+ 
+ static struct aat1290_led *fled_cdev_to_led(
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.44.0
 
 
