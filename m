@@ -1,114 +1,117 @@
-Return-Path: <linux-leds+bounces-1538-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1539-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE9F8B6123
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2024 20:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB488B8041
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Apr 2024 21:03:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 124411C20D68
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2024 18:33:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC5071C224F5
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Apr 2024 19:03:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6072112A142;
-	Mon, 29 Apr 2024 18:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA1D919066F;
+	Tue, 30 Apr 2024 19:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="amzwYIlz"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="FqFvg2W7"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FB683CBA;
-	Mon, 29 Apr 2024 18:32:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A535D1BC59;
+	Tue, 30 Apr 2024 19:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714415577; cv=none; b=s5TKqHFJh0MoNh2GkNeXPm4qv7saVxUj2RG0/LQHj8TA27/3dzejdj+XaiheW0JLv74xkEDzBuVqvdCQp1yKvTqFs6ZBTRNmklRn5l4nzI+Vp1dVD8HrEbCzGek9IlASfhthLqVWwD2n/SxH3wJHd/dmCT+TGsN2iIj0QyXNEPs=
+	t=1714503804; cv=none; b=YuKUypEYMbtnWZ9hULOP+xrHLwBhDOX7pYdtN1DbGonB6wZ8nGRj4a0ujHnLuMf+KLQScXGkWdC2WBPXMC5WzqH+9oFbN9Klhhw92i17l8fmSKkQ/eiGWMmb884xACBtBpPt111wb1QR5HSjfaH7b9mud0bHHAtOy4HUV97xayw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714415577; c=relaxed/simple;
-	bh=km++YSXFjLJWolJR5xpxNqeUcqNq1cJFCz/rYworjU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AAw0SRRp/lJ/4TsrOkmpbjXMdCBO6UptcWnHrGgmAK53DlB4O2bq7hqdDG+/VmdNK5lyeaWa60YD7biVfcwgXdyqcK7vxQowx4t8j8rbqs8VvarZsHeZOJGdTatACHlHWX4auFS9urTivU3OKQY9362YjtluLyEa4j+AK7saCPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=amzwYIlz; arc=none smtp.client-ip=80.12.242.20
+	s=arc-20240116; t=1714503804; c=relaxed/simple;
+	bh=A/3jgo7B0Ak18AEd05J73EHmxvmTkgnPJzFGXe2ZTuQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ij0h22QLUfAz8PJDEpNDFtCSAXIHP5DLnyg/IFcQ7Jx31YKjBtkIyMgcvu/R0NK3f96EgrjlnebAt4oL2Er+vdUIOploG8jbymSsOGRCL57hKTM8Nc3QVpe3rnNn6WT3kz8KXYVDv4h6Zf2eI3oFjoZj66VmyNye6WkBkXoppWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=FqFvg2W7; arc=none smtp.client-ip=80.12.242.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([86.243.17.157])
+Received: from localhost.localdomain ([86.243.17.157])
 	by smtp.orange.fr with ESMTPA
-	id 1VmksUnBSiGtU1VmlsQI2r; Mon, 29 Apr 2024 20:31:32 +0200
+	id 1skxsYnM1PWAk1skxsYEec; Tue, 30 Apr 2024 21:03:14 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1714415492;
-	bh=2kpOLjd1RsRGoMgjZcS9EsszKwG0ZQhgAo+c26was84=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=amzwYIlzPbcKaAQJXOdD545sUIppqdGaR/8v1JITt97n7KazHFyAzCgHaFyuN7LWe
-	 iOxrYE7qhUuW20IWvMWtioSxORH+y48F7Q3yy2cc5F8Ql6FpEHY36vMboQ7ufkO/3L
-	 y5wn2hGZUXQFKtjaxzi9v+1LQWJ0BJMiS4rtAlQV0lV+PtY2Y2gC2albLo0NqR9qTL
-	 a7xYq7aH5nQyi17j1wkrFAaJM6Ji3qPAjctofHLJqOOn5Nv78NuwmeoEpzOTULElV4
-	 lWsBbCy/xzDvcn0ZjBZdOpSXbi3nLsrYiyD4aSiW9unMNxET/z90DHbWfn96WEgGvk
-	 IZJdstbFJyloQ==
-X-ME-Helo: [192.168.1.37]
+	s=t20230301; t=1714503794;
+	bh=VEKXdsrN4FCUT2d2eWfWEpHgGeD3ZeJqsDSnHgARRQc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=FqFvg2W7mwZwu3pd8aMBdiabZL+lLxGETx8aDFjgfSAYIVqZeJHGXaWc5IHQVTnP2
+	 9BNFKKRrxu+4nCH4x7IFk3lBu+89i3N4xdVVP0hWqGqGMclO5VUTOOZM5BNeyKeTI/
+	 ZI8Hkh57B0qnHXFLbgBctIaeTYxnQuQOHV7Cpwg2OP4IU+Ya1Nri8gY4Luai/nnydL
+	 Uhj0o4DfaBcEmH5Oy+FaQ08CALqKpbQF8uXCtbpc1xIvmua8aU7Irb5X3D5y96GV3J
+	 JEtgV6xojiG/ya/AJHoq1EQyU/ZYS/Qy94vaMh5z2sPJ/yOlmoylaqq46AHZat3XRW
+	 8UZ6OXjSVQ6dA==
+X-ME-Helo: localhost.localdomain
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 29 Apr 2024 20:31:32 +0200
+X-ME-Date: Tue, 30 Apr 2024 21:03:14 +0200
 X-ME-IP: 86.243.17.157
-Message-ID: <d526b169-0385-4f23-8806-17bc73c2507b@wanadoo.fr>
-Date: Mon, 29 Apr 2024 20:31:30 +0200
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Alice Chen <alice_chen@richtek.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v2] leds: mt6370: Remove an unused field in struct mt6370_priv
+Date: Tue, 30 Apr 2024 21:02:22 +0200
+Message-ID: <22704991f7acca6c2e687ff4bec7822087e1305a.1714503647.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: mt6370: Remove an unused field in struct
- mt6370_priv
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <e389be5e1012dc05fc2641123883ca3b0747525a.1714328839.git.christophe.jaillet@wanadoo.fr>
- <16df315e-8a05-49a4-ac07-d1ed150c9317@collabora.com>
-Content-Language: en-MW
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <16df315e-8a05-49a4-ac07-d1ed150c9317@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 29/04/2024 à 10:13, AngeloGioacchino Del Regno a écrit :
-> Il 28/04/24 20:27, Christophe JAILLET ha scritto:
->> In "struct mt6370_priv", the 'reg_cfgs' field is unused.
->>
->> Moreover the "struct reg_cfg" is defined nowhere. Neither in this 
->> file, nor
->> in a global .h file, so it is completely pointless.
->>
->> Remove it.
-> 
-> Sure
-> 
->>
->> Found with cppcheck, unusedStructMember.
->>
->> So, remove it.
-> 
-> Again?! :-P
+In "struct mt6370_priv", the 'reg_cfgs' field is unused.
 
-Yes. This way we safe twice the memory space :).
+Moreover the "struct reg_cfg" is defined nowhere. Neither in this file, nor
+in a global .h file, so it is completely pointless.
 
-> 
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> 
-> 
-> Anyway, this commit misses a Fixes tag; please add the relevant one, 
-> after which,
+So, remove it.
 
-Will do, but this patch does not fix anything.
-It is just a clean-up.
+Found with cppcheck, unusedStructMember.
 
-CJ
+Fixes: 5c38376ef5b4 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+Compile tested only.
 
-> 
-> Reviewed-by: AngeloGioacchino Del Regno 
-> <angelogioacchino.delregno@collabora.com>
+Changes in v2:
+  - Tweak the commit message   [AngeloGioacchino Del Regno]
+  - Add a Fixes: tag   [AngeloGioacchino Del Regno]
+  - Add a R-b: tag
+
+v1: https://lore.kernel.org/all/e389be5e1012dc05fc2641123883ca3b0747525a.1714328839.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/leds/rgb/leds-mt6370-rgb.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
+index 448d0da11848..359ef00498b4 100644
+--- a/drivers/leds/rgb/leds-mt6370-rgb.c
++++ b/drivers/leds/rgb/leds-mt6370-rgb.c
+@@ -149,7 +149,6 @@ struct mt6370_priv {
+ 	struct regmap_field *fields[F_MAX_FIELDS];
+ 	const struct reg_field *reg_fields;
+ 	const struct linear_range *ranges;
+-	struct reg_cfg *reg_cfgs;
+ 	const struct mt6370_pdata *pdata;
+ 	unsigned int leds_count;
+ 	unsigned int leds_active;
+-- 
+2.44.0
 
 
