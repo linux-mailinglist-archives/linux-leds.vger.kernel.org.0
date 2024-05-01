@@ -1,117 +1,186 @@
-Return-Path: <linux-leds+bounces-1539-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1540-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB488B8041
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Apr 2024 21:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA82D8B8C66
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2024 17:01:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC5071C224F5
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Apr 2024 19:03:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC64A1C2191C
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2024 15:01:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA1D919066F;
-	Tue, 30 Apr 2024 19:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="FqFvg2W7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1745B12F385;
+	Wed,  1 May 2024 15:01:36 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay03.ispgateway.de (smtprelay03.ispgateway.de [80.67.29.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A535D1BC59;
-	Tue, 30 Apr 2024 19:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2382A5FBB1;
+	Wed,  1 May 2024 15:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.29.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714503804; cv=none; b=YuKUypEYMbtnWZ9hULOP+xrHLwBhDOX7pYdtN1DbGonB6wZ8nGRj4a0ujHnLuMf+KLQScXGkWdC2WBPXMC5WzqH+9oFbN9Klhhw92i17l8fmSKkQ/eiGWMmb884xACBtBpPt111wb1QR5HSjfaH7b9mud0bHHAtOy4HUV97xayw=
+	t=1714575696; cv=none; b=lSQXEbJf2RDY0jyneU+bkO08P4YmLzu/F0mJcsO3RXVjOadtW/wezVJs/EoKpHOMTbBNOzd+6oFEZi43fNBEd8g0QC5KYh78wkrXkHV7cHxn7SDEfwT+chrip19KRd7lu96kOgzifnlHNTd3nQcDBuJwNzeD9ZrxEQag2BKsBZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714503804; c=relaxed/simple;
-	bh=A/3jgo7B0Ak18AEd05J73EHmxvmTkgnPJzFGXe2ZTuQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ij0h22QLUfAz8PJDEpNDFtCSAXIHP5DLnyg/IFcQ7Jx31YKjBtkIyMgcvu/R0NK3f96EgrjlnebAt4oL2Er+vdUIOploG8jbymSsOGRCL57hKTM8Nc3QVpe3rnNn6WT3kz8KXYVDv4h6Zf2eI3oFjoZj66VmyNye6WkBkXoppWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=FqFvg2W7; arc=none smtp.client-ip=80.12.242.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from localhost.localdomain ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id 1skxsYnM1PWAk1skxsYEec; Tue, 30 Apr 2024 21:03:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1714503794;
-	bh=VEKXdsrN4FCUT2d2eWfWEpHgGeD3ZeJqsDSnHgARRQc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=FqFvg2W7mwZwu3pd8aMBdiabZL+lLxGETx8aDFjgfSAYIVqZeJHGXaWc5IHQVTnP2
-	 9BNFKKRrxu+4nCH4x7IFk3lBu+89i3N4xdVVP0hWqGqGMclO5VUTOOZM5BNeyKeTI/
-	 ZI8Hkh57B0qnHXFLbgBctIaeTYxnQuQOHV7Cpwg2OP4IU+Ya1Nri8gY4Luai/nnydL
-	 Uhj0o4DfaBcEmH5Oy+FaQ08CALqKpbQF8uXCtbpc1xIvmua8aU7Irb5X3D5y96GV3J
-	 JEtgV6xojiG/ya/AJHoq1EQyU/ZYS/Qy94vaMh5z2sPJ/yOlmoylaqq46AHZat3XRW
-	 8UZ6OXjSVQ6dA==
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 30 Apr 2024 21:03:14 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Alice Chen <alice_chen@richtek.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] leds: mt6370: Remove an unused field in struct mt6370_priv
-Date: Tue, 30 Apr 2024 21:02:22 +0200
-Message-ID: <22704991f7acca6c2e687ff4bec7822087e1305a.1714503647.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1714575696; c=relaxed/simple;
+	bh=NvCi5JvUW+/oPdxAzW+ciyt2Sx1QV/dEnicrPhl7NDg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=t2BlLAdFAWQO09n5ePpsE8dakZRvR+pvDXC0OKZik9QrLRiGZgSztyY0Tk4672Y1PukUugc4kOM31SZSW7ueminl9L5PShwUkOmk1izIvA5Zh0/oGNTulL7bqA8NlUd/sbqNxqyMtyM5WOf8Z8aZHE+2gP8Xbgz8pT2HgW2VsYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.29.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+Received: from [92.206.191.65] (helo=framework.lan)
+	by smtprelay03.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <git@apitzsch.eu>)
+	id 1s2BQb-000000002oW-10Po;
+	Wed, 01 May 2024 16:59:25 +0200
+Message-ID: <c5e5f49295350ada2cdb280a77b1c877058d4d64.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 2/3] leds: sy7802: Add support for Silergy SY7802
+ flash LED controller
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,  Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Date: Wed, 01 May 2024 16:59:34 +0200
+In-Reply-To: <20240411124855.GJ1980182@google.com>
+References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
+	 <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
+	 <20240411124855.GJ1980182@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
 
-In "struct mt6370_priv", the 'reg_cfgs' field is unused.
+Hi Lee Jones,
 
-Moreover the "struct reg_cfg" is defined nowhere. Neither in this file, nor
-in a global .h file, so it is completely pointless.
+thanks for the feedback. I will address your comments in the next
+version. I have a few comments/questions though, see below.
 
-So, remove it.
+Best regards,
+Andr=C3=A9
 
-Found with cppcheck, unusedStructMember.
+Am Donnerstag, dem 11.04.2024 um 13:48 +0100 schrieb Lee Jones:
+> On Mon, 01 Apr 2024, Andr=C3=A9 Apitzsch via B4 Relay wrote:
+> >=20
+> > [..]
+> > +
+> > +#define SY7802_TIMEOUT_DEFAULT_US	512000U
+> > +#define SY7802_TIMEOUT_MIN_US		32000U
+> > +#define SY7802_TIMEOUT_MAX_US		1024000U
+> > +#define SY7802_TIMEOUT_STEPSIZE_US	32000U
+> > +
+> > +#define SY7802_TORCH_BRIGHTNESS_MAX 8
+> > +
+> > +#define SY7802_FLASH_BRIGHTNESS_DEFAULT	14
+> > +#define SY7802_FLASH_BRIGHTNESS_MIN	0
+> > +#define SY7802_FLASH_BRIGHTNESS_MAX	15
+> > +#define SY7802_FLASH_BRIGHTNESS_STEP	1
+>=20
+> Much nicer to read if everything was aligned.
 
-Fixes: 5c38376ef5b4 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-Compile tested only.
+Using tab size 8, SY7802_FLASH_BRIGHTNESS_* look aligned to me. Do you
+refer to SY7802_TORCH_BRIGHTNESS_MAX here?=20
 
-Changes in v2:
-  - Tweak the commit message   [AngeloGioacchino Del Regno]
-  - Add a Fixes: tag   [AngeloGioacchino Del Regno]
-  - Add a R-b: tag
+>=20
+> > [..]
+> > +
+> > +	/*
+> > +	 * There is only one set of flash control logic, and this
+> > flag is used to check if 'strobe'
+>=20
+> The ',' before 'and' is superfluous.
+>=20
+> > +	 * is currently being used.
+> > +	 */
+>=20
+> Doesn't the variable name kind of imply this?
+>=20
+> > +	if (chip->fled_strobe_used) {
+> > +		dev_warn(chip->dev, "Please disable strobe first
+> > [%d]\n", chip->fled_strobe_used);
+>=20
+> "Cannot set torch brightness whilst strobe is enabled"
 
-v1: https://lore.kernel.org/all/e389be5e1012dc05fc2641123883ca3b0747525a.1714328839.git.christophe.jaillet@wanadoo.fr/
----
- drivers/leds/rgb/leds-mt6370-rgb.c | 1 -
- 1 file changed, 1 deletion(-)
+The comment and the warn message are taken from 'leds-mt6370-flash.c'.
+But I think using the warn message you suggested the comment can be
+removed.
 
-diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
-index 448d0da11848..359ef00498b4 100644
---- a/drivers/leds/rgb/leds-mt6370-rgb.c
-+++ b/drivers/leds/rgb/leds-mt6370-rgb.c
-@@ -149,7 +149,6 @@ struct mt6370_priv {
- 	struct regmap_field *fields[F_MAX_FIELDS];
- 	const struct reg_field *reg_fields;
- 	const struct linear_range *ranges;
--	struct reg_cfg *reg_cfgs;
- 	const struct mt6370_pdata *pdata;
- 	unsigned int leds_count;
- 	unsigned int leds_active;
--- 
-2.44.0
+>=20
+> > +		ret =3D -EBUSY;
+> > +		goto unlock;
+> > +	}
+> > +
+> > +	if (level)
+> > +		curr =3D chip->fled_torch_used | BIT(led->led_no);
+> > +	else
+> > +		curr =3D chip->fled_torch_used & ~BIT(led->led_no);
+> > +
+> > +	if (curr)
+> > +		val |=3D SY7802_MODE_TORCH;
+> > +
+> > +	/* Torch needs to be disabled first to apply new
+> > brightness */
+>=20
+> "Disable touch to apply brightness"
+>=20
+> > +	ret =3D regmap_update_bits(chip->regmap, SY7802_REG_ENABLE,
+> > SY7802_MODE_MASK,
+> > +				 SY7802_MODE_OFF);
+> > +	if (ret)
+> > +		goto unlock;
+> > +
+> > +	mask =3D led->led_no =3D=3D SY7802_LED_JOINT ?
+> > SY7802_TORCH_CURRENT_MASK_ALL :
+>=20
+> Why not just use led->led_no in place of mask?
 
+I might be missing something, but I don't know how to use led->led_no
+in place of mask, when
+led->led_no is in {0,1,2} and
+mask is in {0x07, 0x38, 0x3f}.
+
+>=20
+> Easier to read if you drop SY7802_TORCH_CURRENT_MASK_ALL to its own
+> line.
+>=20
+> > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SY7802_TORCH_CURRENT_MASK(led->l=
+ed_no);
+> > +
+> > [..]
+> > +
+> > +static int sy7802_probe(struct i2c_client *client)
+> > +{
+> > +	struct device *dev =3D &client->dev;
+> > +	struct sy7802 *chip;
+> > +	size_t count;
+> > +	int ret;
+> > +
+> > +	count =3D device_get_child_node_count(dev);
+> > +	if (!count || count > SY7802_MAX_LEDS)
+> > +		return dev_err_probe(dev, -EINVAL,
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "No child node or node count ov=
+er max led
+> > number %zu\n", count);
+>=20
+> Split them up and report on them individually or combine the error
+> message:
+>=20
+> "Invalid amount of LED nodes"
+
+This snippet was also taken from 'leds-mt6370-flash.c'.
+
+>=20
 
