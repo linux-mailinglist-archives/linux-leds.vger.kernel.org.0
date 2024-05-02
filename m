@@ -1,120 +1,177 @@
-Return-Path: <linux-leds+bounces-1556-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1558-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AAA8BA16F
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 22:13:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 383488BA1FD
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 23:14:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3DFA8B22D88
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 20:13:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E706D280D03
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 21:14:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC2EB180A96;
-	Thu,  2 May 2024 20:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACACD1635DB;
+	Thu,  2 May 2024 21:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="HH7Akq59"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MO8V1UpS"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC41158845;
-	Thu,  2 May 2024 20:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B61181313
+	for <linux-leds@vger.kernel.org>; Thu,  2 May 2024 21:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714680797; cv=none; b=BWrvYxKZ8Z/ah2SQ2Mrpr+V+1THyiUEUzX1ZBJfiV2+iswfbs42kwONckQNlHEQkEBUUzWSKZ5Kh6qHWqC/qQPeF2rIirL11QrtLv9XPFkdnhjbeRtggAIWS+57tlbBEApJsxWwq/1flaba9YtrU+9jYWEXk350Ey8ZmtxULDwM=
+	t=1714684476; cv=none; b=OVFpCVqq//YOqGhYdklu9z1rn7aaVJvwfc3foyrw9fJYqgaCLLEJgLpzropNSjqLwlCnT+LsQAwYXOuYHtcf6hmj9pHTpVhGKaulUJaCr0b3r0ljRoQB53rakqnfus+X6UbJZjiVlQ5bAjWYPWiZzJa/j09vMoXUGsDWbpOdLB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714680797; c=relaxed/simple;
-	bh=qFIP7k9Gs4vwTcVje7q6elE+MmAusYXcHMvSEBBntAU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CuOQLWBAyGfkSHgsQDhE32oTK3a86ffyiJ8Pugh/zhtX77Lc4dneNFOmfcuAdrxoTc11AHvMU/h58qWPYXecEuWlWiRLt9C334t1u38xg7jvJ42IBSbxO2BCaZrDncpdluV9X6Qirfjxr70zeMQjY0BPeU5vmeiypO3eqwwpiqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=HH7Akq59; arc=none smtp.client-ip=80.12.242.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id 2cngsZkixUMqY2cngsWQgT; Thu, 02 May 2024 22:13:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1714680786;
-	bh=4hGjswma74ozpI6l2DVvyyn31CrL8ZkyXTaEf2lOVKU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=HH7Akq59Ise5EXDVdE64IqVsm/TLFHUnEWfNQuWaAiDnQobOhuhdZJe705bfi08qb
-	 IHUW6uaodfGEeDngh+D1goA7Kzzdknjt9MQ0G5RMyV6ergnVVDM4FnxuDhXbY4bBUL
-	 4OrsqJacDu67Gn2+ijqPM42G9H3LMC3YN64cPEA3XrL7g+Tn2Gkmfn/9UZ+1M5kjd6
-	 lc52oGB7Pv8/CFDnV4c8vZ+7GpC8dnx6kTVMg+iD4sVkkp/IYVD+ywNT+ZA9o/4rd1
-	 sOW7PYrOpivBJZuPEaGjqqjONA6q2m1auX7WP+0+c3wNiUXbMOqtWr+pgfeA4kqCTl
-	 aLweBxWQddaAg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 02 May 2024 22:13:06 +0200
-X-ME-IP: 86.243.17.157
-Message-ID: <1f42371c-2fc9-46e5-b27b-3167e026e772@wanadoo.fr>
-Date: Thu, 2 May 2024 22:13:04 +0200
+	s=arc-20240116; t=1714684476; c=relaxed/simple;
+	bh=rgKiuxp0KFmYpUzNhIDlxHrx2g/X1BRfNqkEpVlSA/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CqA3ApR1+dciZulaO9PCOEwvwC+Sf2wXDeu/Q4Y6jMJVS5BUxVhK3hKiiUYCTwCHyQTGw6XWos1ZpRLVGzxLqgDhWc6wKGyyn8U33mwhy8SPVLBwpc4Ss6eoIo20ix2SEcfuisDBSjCyPROuyCgERDh7ZjN2aJQ9E2ajwmMBLwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MO8V1UpS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714684474;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+yb74sCZBPhPPjmzE+BoPdK3yuptgNQ0UnjwumtB9W0=;
+	b=MO8V1UpSNqzXg98OQjIx+5IB0WZjW1mRg/qKhFrrryyuMEnRd9Uf124vUFOYHMaiR0vznZ
+	WxaL3PbNMpi1NYyGLTrdPk4xKCtzh6Jm6ymYu1c0XkAornBKOAs/FkpfwIHbBlNSeALVDm
+	ktu5M8GygxN74wmJ+1uCHT0t2w40UOo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-474-5ZquhIAeNCSNTSyryoojlw-1; Thu, 02 May 2024 17:14:28 -0400
+X-MC-Unique: 5ZquhIAeNCSNTSyryoojlw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9171D81F469;
+	Thu,  2 May 2024 21:14:27 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.33])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 38098477F82;
+	Thu,  2 May 2024 21:14:26 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	Sebastian Reichel <sre@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v8 0/7] KTD2026 indicator LED for X86 Xiaomi Pad2
+Date: Thu,  2 May 2024 23:14:18 +0200
+Message-ID: <20240502211425.8678-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] leds: sy7802: Add support for Silergy SY7802 flash
- LED controller
-To: git@apitzsch.eu, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
-References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
- <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
-Content-Language: en-MW
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-Le 01/04/2024 à 23:23, André Apitzsch via B4 Relay a écrit :
-> From: André Apitzsch <git@apitzsch.eu>
-> 
-> Add support for SY7802 flash LED controller. It can support up to 1.8A
-> flash current.
-> 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> ---
->   drivers/leds/flash/Kconfig       |  11 +
->   drivers/leds/flash/Makefile      |   1 +
->   drivers/leds/flash/leds-sy7802.c | 532 +++++++++++++++++++++++++++++++++++++++
->   3 files changed, 544 insertions(+)
+Hi All,
 
-...
+Here is v8 of Kate's series to add support for Xiaomi Pad2 indicator LED.
 
-> +static int sy7802_led_register(struct device *dev, struct sy7802_led *led,
-> +			       struct device_node *np)
-> +{
-> +	struct led_init_data init_data = {};
-> +	int ret;
-> +
-> +	init_data.fwnode = of_fwnode_handle(np);
-> +
-> +	ret = devm_led_classdev_flash_register_ext(dev, &led->flash, &init_data);
-> +	if (ret) {
-> +		dev_err(dev, "Couldn't register flash %d\n", led->led_no);
-> +		return ret;
-> +	}
-> +
-> +	return ret;
+I believe this is ready for merging now. Patch 6/7 has an Acked-by from
+Sebastien for merging this patch through the leds tree since it depends
+on the earlier patches. LEDs tree maintainers please merge patches 1-6,
+then patch 7 can be merged through the pdx86 tree indepdently.
 
-Hi,
+This work includes:
+1. Added the KTD2026 swnode description to describe the LED controller.
+2. Migrated the original driver to fwnode to support x86 platform.
+3. Support for multi-color LED trigger event.
+4. The LED shows orange  when charging and the LED shows green when the
+   battery is full.
 
-Nitpick: return 0;
+Moreover, the LED trigger is set to the new trigger, called
+"bq27520-0-charging-orange-full-green" for Xiaomi Pad2 so the LED shows
+orange when charging and the LED shows green when the battery is full.
 
-CJ
+--
+Changes in v8:
+1. New bugfix: "leds: rgb: leds-ktd202x: Initialize mutex earlier"
+2. Make charging_orange_full_green triggers set the colors in RGB order
+3. Modify the Pad2 ktd202x fwnode to have the colors in RGB order
 
-> +}
+Changes in v7:
+1. Platform: x86-android-tablets: other: Add swnode for Xiaomi pad2
+   indicator LED was included in Hans' branch.
+2. Included the tags from the previous version in the commit message.
+3. Fixed the comma issue for the structure initialiser.
+
+Changes in v6:
+1. The I2C ID table was moved to a separate patch.
+2. The LED shows orange when charging.
+3. The trigger name was renamed to charging-orange-full-green.
+4. The default trigger of Xiaomi Pad2 is
+   "bq27520-0-charging-orange-full-green".
+
+Changes in v5:
+1. Fix swnode LED color settings.
+2. Improve the driver based on the comments.
+3. Introduce a LED new API- led_mc_trigger_event() to make the LED
+   color can be changed according to the trigger.
+4. Introduced a new trigger "charging-red-full-green". The LED will be
+   red when charging and the LED will be green when the battery is full.
+5. Set the default trigger to "bq27520-0-charging-red-full-green" for
+   Xiaomi Pad2.
+
+Changes in v4:
+1. Fix double casting.
+2. Since force casting a pointer value to int will trigger a compiler
+   warning, the type of num_leds was changed to unsigned long.
+
+Changes in v3:
+1. Drop the patch "leds-ktd202x: Skip regulator settings for Xiaomi
+   pad2"
+
+Changes in v2:
+1. Typo and style fixes.
+2. The patch 0003 skips all the regulator setup for Xiaomi pad2 since
+   KTD2026 on Xiaomi pad2 is already powered by BP25890RTWR. So, the
+   sleep can be removed when removing the module.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (3):
+  leds: rgb: leds-ktd202x: Initialize mutex earlier
+  leds: core: Add led_mc_set_brightness() function
+  leds: trigger: Add led_mc_trigger_event() function
+
+Kate Hsuan (4):
+  leds: rgb: leds-ktd202x: Get device properties through fwnode to
+    support ACPI
+  leds: rgb: leds-ktd202x: I2C ID tables for KTD2026 and 2027
+  power: supply: power-supply-leds: Add charging_orange_full_green
+    trigger for RGB LED
+  platform: x86-android-tablets: Xiaomi pad2 RGB LED fwnode updates
+
+ drivers/leds/led-class-multicolor.c           |  1 +
+ drivers/leds/led-core.c                       | 31 +++++++
+ drivers/leds/led-triggers.c                   | 20 +++++
+ drivers/leds/rgb/Kconfig                      |  1 -
+ drivers/leds/rgb/leds-ktd202x.c               | 84 +++++++++++--------
+ .../platform/x86/x86-android-tablets/other.c  |  6 +-
+ drivers/power/supply/power_supply_leds.c      | 23 +++++
+ include/linux/leds.h                          | 26 ++++++
+ include/linux/power_supply.h                  |  2 +
+ 9 files changed, 156 insertions(+), 38 deletions(-)
+
+-- 
+2.44.0
 
 
