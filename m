@@ -1,56 +1,66 @@
-Return-Path: <linux-leds+bounces-1541-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1542-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAE98B9523
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 09:19:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 274B58B9671
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 10:30:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E04F22820F3
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 07:19:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB5061F23EAD
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 08:30:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F36F219E0;
-	Thu,  2 May 2024 07:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F9804654D;
+	Thu,  2 May 2024 08:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DtQGw/LL"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="zMOd6jbZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0649B1CD31;
-	Thu,  2 May 2024 07:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274B5168DA;
+	Thu,  2 May 2024 08:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714634354; cv=none; b=Z2n7fuDzeEsFDRGCUoue8LRQZSqoCzylp5hxsPOcP98/oLlkN3CVr74JtzBupDxla2l/5Ir2JSadrVGfOVZ44Pz5IS6waeXSds0+OY/PqqzndAkMsszEEaJ8p6JdfAPbwKNXc9B6uLVYSLzm9dyx+wbCGZEakC8u1+s2LsxwmFo=
+	t=1714638616; cv=none; b=TJCZaNeUrbijlZUf5SPTct2fmPR6pQhE5GCC9C6xpNJ9pU/pqbPZXKtAHtTUO+5mzyBBthP4qA7x0hDbEeZG1H6ntEQyFowd/uJrPYjoNrY6opEAf0BB/2I3duE+LiVxyJMgfCMKGrvlG3Pupl+6ASyYrWMIs0M52POi7O9pi9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714634354; c=relaxed/simple;
-	bh=zALCxj2dHl0R1ke1uEMhAsdh4MJrggXSzHoN73Ahv2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnzmExubvKwW4E2Lk3036mixYKTa+MHiSvBgFapWgzZwIzluMh+JuXJV7+nDdoYdOrY6mnx0I1wKNE5KubEkLf735MZCl/AepidhZtFpQ9Kc9YHU10t8RzNUZKmCLHhvF1MnmJClNG3KlsRLPaZZbEQ0oTws1KazzzAW5VkZ9TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DtQGw/LL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4720C113CC;
-	Thu,  2 May 2024 07:19:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714634353;
-	bh=zALCxj2dHl0R1ke1uEMhAsdh4MJrggXSzHoN73Ahv2k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DtQGw/LL6N92zholDO0yvdVLq9E/E8yKefM8ynrnE43UROhtlCKWbayZHrcn9PLT3
-	 UYY8170XWK752rJh8QdjoSTx5FMzlDI7Sdsz/AMhdyyEvGcGKW8vS5IF0XIbASds5Y
-	 aXK8dF9sJpjftkpNuSaA+W2Ev6BkI6+vjXO9Sg09qhf3n6KbVGQB3kHETuYjTrwYe3
-	 g4xNknVopV4U8x/MavnAu6OJRRPC8yuMx4bnE/AfjKUIYkCLJXluVpM8tKDaI1/2VO
-	 bDhNJn/9YfUkSImCxu0o56YHT0pS/ZZSI79EQ0QlG6Ay/CEuXh5DnV5l2SQFeKhAxt
-	 sf6mPD9TmephQ==
-Date: Thu, 2 May 2024 08:19:08 +0100
-From: Lee Jones <lee@kernel.org>
-To: "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
-Cc: Ben Greear <greearb@candelatech.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Linux regressions mailing list <regressions@lists.linux.dev>
+	s=arc-20240116; t=1714638616; c=relaxed/simple;
+	bh=vOI/nXtB8szATT9cPSG35cgjUhx0wO9nDdrM+dagnXk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWqrC7C+wYQDhagcso5XYHirhHIgZ5wtHkfTexLcQagXyG6IeoNEBaCl1N/j6jCtFNY8VcSlLar5jUFgxANheAlkcIQQfzDa+DUGEW0Eg2kZoqm6DYT3+Kcq7q2+UN9seTP1Tb89Id63A9YBwDBZB3LK9HGzafDDQMrE8m+tNQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=zMOd6jbZ; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=9m0sQbYRngeahD4E6m4UZ+bEYxjvjKNj0Unh9KoUYJo=;
+	t=1714638614; x=1715070614; b=zMOd6jbZCuPnlwSRUb925IXnmtirdv5FmwabyI1VMqpQzMQ
+	X6QPJ8LiTm0vYOIAowHvN7cGrf8UNn7YIqO1PVgxt1PVgf5UzpMNkQWetiwj5UBvcqk+1p9s/At3Y
+	+U8DrU/2z4/iA8anMQE7EBk1VZqg20pAlwidpIEiTScDXFyn+Wl7RNIkdcteSv30tsT/60y091nPx
+	8Fad77VVv/EPzAT8uH2xCNV6/ZdzcSlhpDJEmG7Dv77JeYYvY4ZbVaTUJ/nBhUcFZZbjll9yXEdP7
+	SJaounw1Od5F+ldzMqvA9vrZN/S8F/CfiDz2Hs0yLemyCdO5P5GrlVd59ZWj6uiQ==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1s2RpS-00006M-NL; Thu, 02 May 2024 10:30:10 +0200
+Message-ID: <935b4630-5100-4be6-ae96-4d043b0d5ae4@leemhuis.info>
+Date: Thu, 2 May 2024 10:30:10 +0200
+Precedence: bulk
+X-Mailing-List: linux-leds@vger.kernel.org
+List-Id: <linux-leds.vger.kernel.org>
+List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-Message-ID: <20240502071908.GB5338@google.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Ben Greear <greearb@candelatech.com>, LKML
+ <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
 References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
  <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
  <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
@@ -60,56 +70,66 @@ References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
  <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
  <8ab88be5de30bcbd0d1cac3cfde6b2085dcfc8fb.camel@sipsolutions.net>
  <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
-Precedence: bulk
-X-Mailing-List: linux-leds@vger.kernel.org
-List-Id: <linux-leds.vger.kernel.org>
-List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
+ <20240502071908.GB5338@google.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <20240502071908.GB5338@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1714638614;e18d2da4;
+X-HE-SMSGID: 1s2RpS-00006M-NL
 
-On Tue, 23 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
-
-> On 23.04.24 11:06, Johannes Berg wrote:
-> > On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking (Thorsten
-> > Leemhuis) wrote:
-> >> On 16.04.24 08:17, Johannes Berg wrote:
-> >>> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
-> >>>>
-> >>>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
-> >>>> iwl_req_fw_callback()
-> >>>>
-> >>>> Is that still best thing to try in your opinion?
-> >>>
-> >>> I guess so, I don't have any better ideas so far anyway ...
-> >>
-> >> [adding the iwlwifi maintainer; thread starts here:
-> >> https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
-> >>
-> >> ]
-> >>
-> >> Johannes, Miri, what's the status wrt to this regression? From here
-> >> things look somewhat stalled -- but maybe there was progress and I just
-> >> missed it.
-> > 
-> > What do you want? It got bisected to an LED merge, but you ping _us_?
-> > Way to go ...
+On 02.05.24 09:19, Lee Jones wrote:
+> On Tue, 23 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
 > 
-> Sorry, to me it sounded a bit like you had an idea for a fix and were
-> going to give it a try -- similar to how the maintainers for a r8169
-> driver and the igc driver provided fixes for bugs recent LED changes
-> exposed.
+>> On 23.04.24 11:06, Johannes Berg wrote:
+>>> On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking (Thorsten
+>>> Leemhuis) wrote:
+>>>> On 16.04.24 08:17, Johannes Berg wrote:
+>>>>> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
+>>>>>>
+>>>>>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
+>>>>>> iwl_req_fw_callback()
+>>>>>>
+>>>>>> Is that still best thing to try in your opinion?
+>>>>>
+>>>>> I guess so, I don't have any better ideas so far anyway ...
+>>>>
+>>>> [adding the iwlwifi maintainer; thread starts here:
+>>>> https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
+>>>> ]
+>>>>
+>>>> Johannes, Miri, what's the status wrt to this regression? From here
+>>>> things look somewhat stalled -- but maybe there was progress and I just
+>>>> missed it.
+>>>
+>>> What do you want? It got bisected to an LED merge, but you ping _us_?
+>>> Way to go ...
+>>
+>> Sorry, to me it sounded a bit like you had an idea for a fix and were
+>> going to give it a try -- similar to how the maintainers for a r8169
+>> driver and the igc driver provided fixes for bugs recent LED changes
+>> exposed.
+>>
+>> But sure, you are right, in the end some LED change seems to have cause
+>> this, so the duty to fix it lies in that field. Therefore:
+>>
+>> Lee, what's the status here to get this fixed before the final?
 > 
-> But sure, you are right, in the end some LED change seems to have cause
-> this, so the duty to fix it lies in that field. Therefore:
-> 
-> Lee, what's the status here to get this fixed before the final?
+> No idea.  Did you send a fix?
 
-No idea.  Did you send a fix?
+I'm just here to help Linus keeping an eye on regression to ensure they
+are handled like he wants them to be handled.
 
--- 
-Lee Jones [李琼斯]
+But Ben Greear sent a patch to work around the problem:
+
+https://lore.kernel.org/all/20240430234212.2132958-1-greearb@candelatech.com/
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
