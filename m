@@ -1,186 +1,115 @@
-Return-Path: <linux-leds+bounces-1540-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1541-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA82D8B8C66
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2024 17:01:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAE98B9523
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 09:19:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC64A1C2191C
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2024 15:01:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E04F22820F3
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 07:19:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1745B12F385;
-	Wed,  1 May 2024 15:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F36F219E0;
+	Thu,  2 May 2024 07:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DtQGw/LL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtprelay03.ispgateway.de (smtprelay03.ispgateway.de [80.67.29.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2382A5FBB1;
-	Wed,  1 May 2024 15:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.29.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0649B1CD31;
+	Thu,  2 May 2024 07:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714575696; cv=none; b=lSQXEbJf2RDY0jyneU+bkO08P4YmLzu/F0mJcsO3RXVjOadtW/wezVJs/EoKpHOMTbBNOzd+6oFEZi43fNBEd8g0QC5KYh78wkrXkHV7cHxn7SDEfwT+chrip19KRd7lu96kOgzifnlHNTd3nQcDBuJwNzeD9ZrxEQag2BKsBZk=
+	t=1714634354; cv=none; b=Z2n7fuDzeEsFDRGCUoue8LRQZSqoCzylp5hxsPOcP98/oLlkN3CVr74JtzBupDxla2l/5Ir2JSadrVGfOVZ44Pz5IS6waeXSds0+OY/PqqzndAkMsszEEaJ8p6JdfAPbwKNXc9B6uLVYSLzm9dyx+wbCGZEakC8u1+s2LsxwmFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714575696; c=relaxed/simple;
-	bh=NvCi5JvUW+/oPdxAzW+ciyt2Sx1QV/dEnicrPhl7NDg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t2BlLAdFAWQO09n5ePpsE8dakZRvR+pvDXC0OKZik9QrLRiGZgSztyY0Tk4672Y1PukUugc4kOM31SZSW7ueminl9L5PShwUkOmk1izIvA5Zh0/oGNTulL7bqA8NlUd/sbqNxqyMtyM5WOf8Z8aZHE+2gP8Xbgz8pT2HgW2VsYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.29.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-Received: from [92.206.191.65] (helo=framework.lan)
-	by smtprelay03.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <git@apitzsch.eu>)
-	id 1s2BQb-000000002oW-10Po;
-	Wed, 01 May 2024 16:59:25 +0200
-Message-ID: <c5e5f49295350ada2cdb280a77b1c877058d4d64.camel@apitzsch.eu>
-Subject: Re: [PATCH v2 2/3] leds: sy7802: Add support for Silergy SY7802
- flash LED controller
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Date: Wed, 01 May 2024 16:59:34 +0200
-In-Reply-To: <20240411124855.GJ1980182@google.com>
-References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
-	 <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
-	 <20240411124855.GJ1980182@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 
+	s=arc-20240116; t=1714634354; c=relaxed/simple;
+	bh=zALCxj2dHl0R1ke1uEMhAsdh4MJrggXSzHoN73Ahv2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SnzmExubvKwW4E2Lk3036mixYKTa+MHiSvBgFapWgzZwIzluMh+JuXJV7+nDdoYdOrY6mnx0I1wKNE5KubEkLf735MZCl/AepidhZtFpQ9Kc9YHU10t8RzNUZKmCLHhvF1MnmJClNG3KlsRLPaZZbEQ0oTws1KazzzAW5VkZ9TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DtQGw/LL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4720C113CC;
+	Thu,  2 May 2024 07:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714634353;
+	bh=zALCxj2dHl0R1ke1uEMhAsdh4MJrggXSzHoN73Ahv2k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DtQGw/LL6N92zholDO0yvdVLq9E/E8yKefM8ynrnE43UROhtlCKWbayZHrcn9PLT3
+	 UYY8170XWK752rJh8QdjoSTx5FMzlDI7Sdsz/AMhdyyEvGcGKW8vS5IF0XIbASds5Y
+	 aXK8dF9sJpjftkpNuSaA+W2Ev6BkI6+vjXO9Sg09qhf3n6KbVGQB3kHETuYjTrwYe3
+	 g4xNknVopV4U8x/MavnAu6OJRRPC8yuMx4bnE/AfjKUIYkCLJXluVpM8tKDaI1/2VO
+	 bDhNJn/9YfUkSImCxu0o56YHT0pS/ZZSI79EQ0QlG6Ay/CEuXh5DnV5l2SQFeKhAxt
+	 sf6mPD9TmephQ==
+Date: Thu, 2 May 2024 08:19:08 +0100
+From: Lee Jones <lee@kernel.org>
+To: "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
+Cc: Ben Greear <greearb@candelatech.com>,
+	LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
+Message-ID: <20240502071908.GB5338@google.com>
+References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
+ <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
+ <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
+ <20240411070718.GD6194@google.com>
+ <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
+ <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
+ <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
+ <8ab88be5de30bcbd0d1cac3cfde6b2085dcfc8fb.camel@sipsolutions.net>
+ <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
 
-Hi Lee Jones,
+On Tue, 23 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
 
-thanks for the feedback. I will address your comments in the next
-version. I have a few comments/questions though, see below.
+> On 23.04.24 11:06, Johannes Berg wrote:
+> > On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking (Thorsten
+> > Leemhuis) wrote:
+> >> On 16.04.24 08:17, Johannes Berg wrote:
+> >>> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
+> >>>>
+> >>>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
+> >>>> iwl_req_fw_callback()
+> >>>>
+> >>>> Is that still best thing to try in your opinion?
+> >>>
+> >>> I guess so, I don't have any better ideas so far anyway ...
+> >>
+> >> [adding the iwlwifi maintainer; thread starts here:
+> >> https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
+> >>
+> >> ]
+> >>
+> >> Johannes, Miri, what's the status wrt to this regression? From here
+> >> things look somewhat stalled -- but maybe there was progress and I just
+> >> missed it.
+> > 
+> > What do you want? It got bisected to an LED merge, but you ping _us_?
+> > Way to go ...
+> 
+> Sorry, to me it sounded a bit like you had an idea for a fix and were
+> going to give it a try -- similar to how the maintainers for a r8169
+> driver and the igc driver provided fixes for bugs recent LED changes
+> exposed.
+> 
+> But sure, you are right, in the end some LED change seems to have cause
+> this, so the duty to fix it lies in that field. Therefore:
+> 
+> Lee, what's the status here to get this fixed before the final?
 
-Best regards,
-Andr=C3=A9
+No idea.  Did you send a fix?
 
-Am Donnerstag, dem 11.04.2024 um 13:48 +0100 schrieb Lee Jones:
-> On Mon, 01 Apr 2024, Andr=C3=A9 Apitzsch via B4 Relay wrote:
-> >=20
-> > [..]
-> > +
-> > +#define SY7802_TIMEOUT_DEFAULT_US	512000U
-> > +#define SY7802_TIMEOUT_MIN_US		32000U
-> > +#define SY7802_TIMEOUT_MAX_US		1024000U
-> > +#define SY7802_TIMEOUT_STEPSIZE_US	32000U
-> > +
-> > +#define SY7802_TORCH_BRIGHTNESS_MAX 8
-> > +
-> > +#define SY7802_FLASH_BRIGHTNESS_DEFAULT	14
-> > +#define SY7802_FLASH_BRIGHTNESS_MIN	0
-> > +#define SY7802_FLASH_BRIGHTNESS_MAX	15
-> > +#define SY7802_FLASH_BRIGHTNESS_STEP	1
->=20
-> Much nicer to read if everything was aligned.
-
-Using tab size 8, SY7802_FLASH_BRIGHTNESS_* look aligned to me. Do you
-refer to SY7802_TORCH_BRIGHTNESS_MAX here?=20
-
->=20
-> > [..]
-> > +
-> > +	/*
-> > +	 * There is only one set of flash control logic, and this
-> > flag is used to check if 'strobe'
->=20
-> The ',' before 'and' is superfluous.
->=20
-> > +	 * is currently being used.
-> > +	 */
->=20
-> Doesn't the variable name kind of imply this?
->=20
-> > +	if (chip->fled_strobe_used) {
-> > +		dev_warn(chip->dev, "Please disable strobe first
-> > [%d]\n", chip->fled_strobe_used);
->=20
-> "Cannot set torch brightness whilst strobe is enabled"
-
-The comment and the warn message are taken from 'leds-mt6370-flash.c'.
-But I think using the warn message you suggested the comment can be
-removed.
-
->=20
-> > +		ret =3D -EBUSY;
-> > +		goto unlock;
-> > +	}
-> > +
-> > +	if (level)
-> > +		curr =3D chip->fled_torch_used | BIT(led->led_no);
-> > +	else
-> > +		curr =3D chip->fled_torch_used & ~BIT(led->led_no);
-> > +
-> > +	if (curr)
-> > +		val |=3D SY7802_MODE_TORCH;
-> > +
-> > +	/* Torch needs to be disabled first to apply new
-> > brightness */
->=20
-> "Disable touch to apply brightness"
->=20
-> > +	ret =3D regmap_update_bits(chip->regmap, SY7802_REG_ENABLE,
-> > SY7802_MODE_MASK,
-> > +				 SY7802_MODE_OFF);
-> > +	if (ret)
-> > +		goto unlock;
-> > +
-> > +	mask =3D led->led_no =3D=3D SY7802_LED_JOINT ?
-> > SY7802_TORCH_CURRENT_MASK_ALL :
->=20
-> Why not just use led->led_no in place of mask?
-
-I might be missing something, but I don't know how to use led->led_no
-in place of mask, when
-led->led_no is in {0,1,2} and
-mask is in {0x07, 0x38, 0x3f}.
-
->=20
-> Easier to read if you drop SY7802_TORCH_CURRENT_MASK_ALL to its own
-> line.
->=20
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SY7802_TORCH_CURRENT_MASK(led->l=
-ed_no);
-> > +
-> > [..]
-> > +
-> > +static int sy7802_probe(struct i2c_client *client)
-> > +{
-> > +	struct device *dev =3D &client->dev;
-> > +	struct sy7802 *chip;
-> > +	size_t count;
-> > +	int ret;
-> > +
-> > +	count =3D device_get_child_node_count(dev);
-> > +	if (!count || count > SY7802_MAX_LEDS)
-> > +		return dev_err_probe(dev, -EINVAL,
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "No child node or node count ov=
-er max led
-> > number %zu\n", count);
->=20
-> Split them up and report on them individually or combine the error
-> message:
->=20
-> "Invalid amount of LED nodes"
-
-This snippet was also taken from 'leds-mt6370-flash.c'.
-
->=20
+-- 
+Lee Jones [李琼斯]
 
