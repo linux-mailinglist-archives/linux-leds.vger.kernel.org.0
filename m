@@ -1,98 +1,130 @@
-Return-Path: <linux-leds+bounces-1553-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1554-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC3C8B9F51
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 19:15:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 447788BA103
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 21:19:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 010301F2196C
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 17:15:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8D9C1F21B74
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 19:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EB1F16FF27;
-	Thu,  2 May 2024 17:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/YGbibJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C228817BB1E;
+	Thu,  2 May 2024 19:19:54 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtprelay04.ispgateway.de (smtprelay04.ispgateway.de [80.67.31.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032BC15E7F4;
-	Thu,  2 May 2024 17:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448341DDE9;
+	Thu,  2 May 2024 19:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.31.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714670096; cv=none; b=qnNxsW12F/lUFg+4ZwGHmcJHOjUb2mfjWqWGPCdPCCw7F8+LMCBtxuFvCvnGZGHP2fjozFhenMkmyOAWX4e2Lz3d+Cry89VIuwJ9f+7mdzTKLCXwXBuWTygg09nyHo8k976AsSoeG2zQqrZhYyJxlQPwgVVHGL6i6G+0mlQ9uk4=
+	t=1714677594; cv=none; b=etXM6TLUux7ekR63Vc8oepAiibgfSjaEDjpBPEhiDPRmyc6/RZuwFSkY6It24hH/W5/BsaXQgifmMd3Szog/J4+jxp4n0nh0kSrdzaNgoAtX/xajnfbESY0M/2GexIL9/lgQmAwS3u6ZfUb3MeanjZXDLSQ6wuoN1Z1wXhXYQN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714670096; c=relaxed/simple;
-	bh=N5HHrMygWqjBvhvqTPXKIRh02+LNnMgHkw3e9eLY0ew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D0YfPSndBxG4lp1Ec+E526TlAFvtWaykP82dBSBJWnsjxPIqOKi6/tC15osf/vPHVC1fJK4gKaGZHbW8kEj6fbUfTWaJKoig+Gr+ceGvMSiGFQ9bJofju6W03X1RkKtxXIlJrSsw7MPy0KhlaVAxZH5MRyE4MZVST0Mi6JCdUno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/YGbibJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABF56C116B1;
-	Thu,  2 May 2024 17:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714670095;
-	bh=N5HHrMygWqjBvhvqTPXKIRh02+LNnMgHkw3e9eLY0ew=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m/YGbibJzsWR0UG2me+jlP7N6NbtsfyxLPs94dUbAHBdUosFWZ3fAbXfTudpooG5q
-	 Ou4W/VP8l/jtDiya8wSkyrYLgbLWid4J2VMgBoX2JsBvXVcjHQ3CeE2xFjkX6BoOG/
-	 InKwP3CAB+6vC8c3g+hkcGAjQGOihD7y05OIHD9dYo9LeXIT5Du260ncYPhvibd0NW
-	 7n6RFjWUXJ6r4wX00sG/puIqaOvx23EBX59y8xyp04Y7R1+T+YVcHAKrkHvqY9Kx9H
-	 sHj8kgTXofB2P1/Pfxe+yxImR09iGrQF4B1qoVlGVt886zcdLlK9nJyHGmr590YuCH
-	 O7uGRlvkCb3DA==
-Date: Thu, 2 May 2024 18:14:51 +0100
-From: Lee Jones <lee@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] leds: mt6370: Remove an unused field in struct
- mt6370_priv
-Message-ID: <20240502171451.GE1200070@google.com>
-References: <e389be5e1012dc05fc2641123883ca3b0747525a.1714328839.git.christophe.jaillet@wanadoo.fr>
- <16df315e-8a05-49a4-ac07-d1ed150c9317@collabora.com>
- <d526b169-0385-4f23-8806-17bc73c2507b@wanadoo.fr>
+	s=arc-20240116; t=1714677594; c=relaxed/simple;
+	bh=cMv9nLPugJbMDvj5g8lAQwCGg7iV1EJ33oheAeccbpA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=l4fzcCAdyEoENs2xo7PXsgSLqOFxfrU51/ZM+bOAkiZdsiy4rDN78pttx69bgpqL5sM+/qNcq6hvxlav9glhtld0ODUrIHTShpo+kAQ4oThpBHVDmi8zNbK2PhKB82X6TPBc0F4lwRQb2kvJyF1IEOk39H+ZdRO59rLTl5Tmqv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.31.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+Received: from [92.206.191.65] (helo=framework.lan)
+	by smtprelay04.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <git@apitzsch.eu>)
+	id 1s2bxV-000000007N8-1Lcs;
+	Thu, 02 May 2024 21:19:09 +0200
+Message-ID: <9bb6ef63e19bf079fd881a3b78b71d7a00e4a3bb.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 2/3] leds: sy7802: Add support for Silergy SY7802
+ flash LED controller
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,  Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Date: Thu, 02 May 2024 21:19:13 +0200
+In-Reply-To: <20240502091017.GF5338@google.com>
+References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
+	 <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
+	 <20240411124855.GJ1980182@google.com>
+	 <c5e5f49295350ada2cdb280a77b1c877058d4d64.camel@apitzsch.eu>
+	 <20240502091017.GF5338@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d526b169-0385-4f23-8806-17bc73c2507b@wanadoo.fr>
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
 
-On Mon, 29 Apr 2024, Christophe JAILLET wrote:
+Am Donnerstag, dem 02.05.2024 um 10:10 +0100 schrieb Lee Jones:
+> On Wed, 01 May 2024, Andr=C3=A9 Apitzsch wrote:
+>=20
+> > > > +		ret =3D -EBUSY;
+> > > > +		goto unlock;
+> > > > +	}
+> > > > +
+> > > > +	if (level)
+> > > > +		curr =3D chip->fled_torch_used | BIT(led-
+> > > > >led_no);
+> > > > +	else
+> > > > +		curr =3D chip->fled_torch_used & ~BIT(led-
+> > > > >led_no);
+> > > > +
+> > > > +	if (curr)
+> > > > +		val |=3D SY7802_MODE_TORCH;
+> > > > +
+> > > > +	/* Torch needs to be disabled first to apply new
+> > > > brightness */
+> > >=20
+> > > "Disable touch to apply brightness"
+> > >=20
+> > > > +	ret =3D regmap_update_bits(chip->regmap,
+> > > > SY7802_REG_ENABLE,
+> > > > SY7802_MODE_MASK,
+> > > > +				 SY7802_MODE_OFF);
+> > > > +	if (ret)
+> > > > +		goto unlock;
+> > > > +
+> > > > +	mask =3D led->led_no =3D=3D SY7802_LED_JOINT ?
+> > > > SY7802_TORCH_CURRENT_MASK_ALL :
+> > >=20
+> > > Why not just use led->led_no in place of mask?
+> >=20
+> > I might be missing something, but I don't know how to use led-
+> > >led_no
+> > in place of mask, when
+> > led->led_no is in {0,1,2} and
+> > mask is in {0x07, 0x38, 0x3f}.
+>=20
+> This doesn't make much sense.
+>=20
+> I guess you mean that led_no is a u8 and mask is a u32.
+>=20
+> What happens if you cast led_no to u32 in the call to
+> regmap_update_bits()?
 
-> Le 29/04/2024 à 10:13, AngeloGioacchino Del Regno a écrit :
-> > Il 28/04/24 20:27, Christophe JAILLET ha scritto:
-> > > In "struct mt6370_priv", the 'reg_cfgs' field is unused.
-> > > 
-> > > Moreover the "struct reg_cfg" is defined nowhere. Neither in this
-> > > file, nor
-> > > in a global .h file, so it is completely pointless.
-> > > 
-> > > Remove it.
-> > 
-> > Sure
-> > 
-> > > 
-> > > Found with cppcheck, unusedStructMember.
-> > > 
-> > > So, remove it.
-> > 
-> > Again?! :-P
-> 
-> Yes. This way we safe twice the memory space :).
+Sorry, I'm still confused. Could you elaborate your original question?
 
-I changed all of the commit messages in this disjointed set to flow a
-little better.  No need for a Fixes tag either I feel.
+>=20
+> > > Easier to read if you drop SY7802_TORCH_CURRENT_MASK_ALL to its
+> > > own
+> > > line.
+> > >=20
+> > > > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SY7802_TORCH_CURRENT_MASK(le=
+d->led_no);
+> > > > +
+> > > > [..]
+> > > >=20
+>=20
 
--- 
-Lee Jones [李琼斯]
 
