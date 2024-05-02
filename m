@@ -1,130 +1,108 @@
-Return-Path: <linux-leds+bounces-1554-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1555-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447788BA103
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 21:19:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC0A8BA16A
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 22:12:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8D9C1F21B74
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 19:19:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F98A28805D
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2024 20:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C228817BB1E;
-	Thu,  2 May 2024 19:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11FE61802C4;
+	Thu,  2 May 2024 20:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ge2W1nD5"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtprelay04.ispgateway.de (smtprelay04.ispgateway.de [80.67.31.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448341DDE9;
-	Thu,  2 May 2024 19:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.31.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA773158845;
+	Thu,  2 May 2024 20:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714677594; cv=none; b=etXM6TLUux7ekR63Vc8oepAiibgfSjaEDjpBPEhiDPRmyc6/RZuwFSkY6It24hH/W5/BsaXQgifmMd3Szog/J4+jxp4n0nh0kSrdzaNgoAtX/xajnfbESY0M/2GexIL9/lgQmAwS3u6ZfUb3MeanjZXDLSQ6wuoN1Z1wXhXYQN4=
+	t=1714680750; cv=none; b=XhCRHhFjs84sfkwawz0n8uLB12TQmLWEOpI1m6/C5yLVzdlqae5XnhphDOmQ+UVnWHqbxwgLyxtS5B2DURV515CSvOi0BB9g7XjutWWbL/b6pHsFphyS53/8PGWp9ZfxHldpLUjNpV1mVZuOi6EdQ7UmWz/0PsCqus90zlvZa3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714677594; c=relaxed/simple;
-	bh=cMv9nLPugJbMDvj5g8lAQwCGg7iV1EJ33oheAeccbpA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=l4fzcCAdyEoENs2xo7PXsgSLqOFxfrU51/ZM+bOAkiZdsiy4rDN78pttx69bgpqL5sM+/qNcq6hvxlav9glhtld0ODUrIHTShpo+kAQ4oThpBHVDmi8zNbK2PhKB82X6TPBc0F4lwRQb2kvJyF1IEOk39H+ZdRO59rLTl5Tmqv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.31.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-Received: from [92.206.191.65] (helo=framework.lan)
-	by smtprelay04.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <git@apitzsch.eu>)
-	id 1s2bxV-000000007N8-1Lcs;
-	Thu, 02 May 2024 21:19:09 +0200
-Message-ID: <9bb6ef63e19bf079fd881a3b78b71d7a00e4a3bb.camel@apitzsch.eu>
-Subject: Re: [PATCH v2 2/3] leds: sy7802: Add support for Silergy SY7802
- flash LED controller
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Date: Thu, 02 May 2024 21:19:13 +0200
-In-Reply-To: <20240502091017.GF5338@google.com>
-References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
-	 <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
-	 <20240411124855.GJ1980182@google.com>
-	 <c5e5f49295350ada2cdb280a77b1c877058d4d64.camel@apitzsch.eu>
-	 <20240502091017.GF5338@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 
+	s=arc-20240116; t=1714680750; c=relaxed/simple;
+	bh=m2RT8PC4x1UCnE8lG23iBCFVaGRGa4zOXUVtHgndTQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OLsefs2xNQb20FRi08FEETe5Av8pPP80F5Gz12TJUHqfEfMA6E6OM7bWde+pKA6NBB+97woyoPAmtd+EYAqxHlBvAuoh9M3FSIBNa8gAUEcAVJdCv0MkKLJ4knufnO7rspSu2e+QgyxntnysOPjdinAB2ZPNiL37dGw3VfLQMkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ge2W1nD5; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f44b390d5fso23653b3a.3;
+        Thu, 02 May 2024 13:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714680747; x=1715285547; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6meDpwIFn6POwM0GTM589VI6wgTQh6ljoPgnNTkMk6k=;
+        b=ge2W1nD5TdeklGBzFFoI0zcQEingoFhN2BdeS75r+QyfIFedSal+b+zYkC3ddjHrdg
+         +BSZg+DYtPZJ31lsgSMXfg10hiJPFxTBNSDgEo3TQwG75cEks87ydVr8bX+mLnfISWDN
+         wLzObveYakL0LM0x1ge95ML8W4f8OcuVGPEZri9o1q/slyEwFT7VnczTvLzahr61Izw4
+         DkM1ELFCw6IV9OL4X41wH1glcgO1u0dHn4kIfgXqh+18Pn4gd2Ki49sIerztgHFAS1AM
+         zfXO54FExQ1hF26XvYxwdPy47fvJPw2hBMygFke2kph/HkgtxxuI9u2wX3KHcebKPpm3
+         Mofw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714680747; x=1715285547;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6meDpwIFn6POwM0GTM589VI6wgTQh6ljoPgnNTkMk6k=;
+        b=muGUPWBIdek1TYfGUK7ppc0onSskbJll9dPPOAAjOGgL8L7iuGa+WwXM8LJtRMlHVr
+         sKBmx+lamLiPzRU1Zz6esQxOHC15wq8e5LlMMvSixt073NH37WkGkPx03xbKzno7VuPk
+         CN38pwEvGHZUakZHQxlohDWWE+v+rpfOY1JfpwZDxv8QVPVQWk5x0Cua7SodCoBtoQz6
+         iid26/LG/5GSJO2QoJcSfgAEL9p21ixedyT1vfzNAue0jUVwehflmjeqMS2AYUmhbTAV
+         gaeGw0a7ijzgmiPZfk0TUjMe7SnAN0sYteUAOxgnFLNT/fARZjy2M0RWR4iQlvadSxyy
+         ElpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXU7Y05rFJi9ar9AVrrJzC5XQViL4iZ+6bYKTV+7ro53JoIMXCRBO76Q+wURcoybFk2Ekt7kEp1L2bmAvbI8d/LXbzH0OW2t1bSVKh4zlv4Jiw7m0dZ/stb3sgV4MYs0Qygaic/+bZ4
+X-Gm-Message-State: AOJu0YwQJ5ua5cygl6pSyZ+jPeqoy6vRTqphZg1Xf0ZK0wVHsibOx9gc
+	fMaNbWcvkKw4FxAOqpGqAFIpeJihypJkB66yhSAMI5n1pIM9yrPMObcW6m+H
+X-Google-Smtp-Source: AGHT+IEkeV0ZW1vAReZH/O25DndzDOP7OdAvbWnDjw0Mc3J2E3onwOJi72SjnZxcb1iqBZb/Ax44sA==
+X-Received: by 2002:a05:6a00:2290:b0:6f0:b53c:dfb4 with SMTP id f16-20020a056a00229000b006f0b53cdfb4mr736947pfe.22.1714680747237;
+        Thu, 02 May 2024 13:12:27 -0700 (PDT)
+Received: from localhost ([115.96.207.161])
+        by smtp.gmail.com with ESMTPSA id k1-20020a632401000000b0061ca8fac008sm84332pgk.22.2024.05.02.13.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 13:12:26 -0700 (PDT)
+Date: Fri, 3 May 2024 01:41:21 +0530
+From: Aryabhatta Dey <aryabhattadey35@gmail.com>
+To: linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
+Subject: [PATCH] Fix typo
+Message-ID: <y5bqy3p7deaemny5sczd33zy2dwtbqvucgrq6wxqs7ibf4omwb@kpd2gwfve2ax>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am Donnerstag, dem 02.05.2024 um 10:10 +0100 schrieb Lee Jones:
-> On Wed, 01 May 2024, Andr=C3=A9 Apitzsch wrote:
->=20
-> > > > +		ret =3D -EBUSY;
-> > > > +		goto unlock;
-> > > > +	}
-> > > > +
-> > > > +	if (level)
-> > > > +		curr =3D chip->fled_torch_used | BIT(led-
-> > > > >led_no);
-> > > > +	else
-> > > > +		curr =3D chip->fled_torch_used & ~BIT(led-
-> > > > >led_no);
-> > > > +
-> > > > +	if (curr)
-> > > > +		val |=3D SY7802_MODE_TORCH;
-> > > > +
-> > > > +	/* Torch needs to be disabled first to apply new
-> > > > brightness */
-> > >=20
-> > > "Disable touch to apply brightness"
-> > >=20
-> > > > +	ret =3D regmap_update_bits(chip->regmap,
-> > > > SY7802_REG_ENABLE,
-> > > > SY7802_MODE_MASK,
-> > > > +				 SY7802_MODE_OFF);
-> > > > +	if (ret)
-> > > > +		goto unlock;
-> > > > +
-> > > > +	mask =3D led->led_no =3D=3D SY7802_LED_JOINT ?
-> > > > SY7802_TORCH_CURRENT_MASK_ALL :
-> > >=20
-> > > Why not just use led->led_no in place of mask?
-> >=20
-> > I might be missing something, but I don't know how to use led-
-> > >led_no
-> > in place of mask, when
-> > led->led_no is in {0,1,2} and
-> > mask is in {0x07, 0x38, 0x3f}.
->=20
-> This doesn't make much sense.
->=20
-> I guess you mean that led_no is a u8 and mask is a u32.
->=20
-> What happens if you cast led_no to u32 in the call to
-> regmap_update_bits()?
+Change 'dasy-chain' to 'daisy-chain'.
 
-Sorry, I'm still confused. Could you elaborate your original question?
+Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
+---
+ Documentation/leds/leds-blinkm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->=20
-> > > Easier to read if you drop SY7802_TORCH_CURRENT_MASK_ALL to its
-> > > own
-> > > line.
-> > >=20
-> > > > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SY7802_TORCH_CURRENT_MASK(le=
-d->led_no);
-> > > > +
-> > > > [..]
-> > > >=20
->=20
+diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-blinkm.rst
+index c74b5bc877b1..2d3c226a371a 100644
+--- a/Documentation/leds/leds-blinkm.rst
++++ b/Documentation/leds/leds-blinkm.rst
+@@ -7,7 +7,7 @@ The leds-blinkm driver supports the devices of the BlinkM family.
+ They are RGB-LED modules driven by a (AT)tiny microcontroller and
+ communicate through I2C. The default address of these modules is
+ 0x09 but this can be changed through a command. By this you could
+-dasy-chain up to 127 BlinkMs on an I2C bus.
++daisy-chain up to 127 BlinkMs on an I2C bus.
+ 
+ The device accepts RGB and HSB color values through separate commands.
+ Also you can store blinking sequences as "scripts" in
+-- 
+2.44.0
 
 
