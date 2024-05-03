@@ -1,125 +1,131 @@
-Return-Path: <linux-leds+bounces-1568-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1569-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CF88BA5EA
-	for <lists+linux-leds@lfdr.de>; Fri,  3 May 2024 06:13:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 313E38BA73F
+	for <lists+linux-leds@lfdr.de>; Fri,  3 May 2024 08:54:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBF7C28161B
-	for <lists+linux-leds@lfdr.de>; Fri,  3 May 2024 04:13:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD0252829F8
+	for <lists+linux-leds@lfdr.de>; Fri,  3 May 2024 06:54:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D0E020B0F;
-	Fri,  3 May 2024 04:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92C7E1465A8;
+	Fri,  3 May 2024 06:53:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZL+nVtRf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R3zjWUJZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FCF1F951;
-	Fri,  3 May 2024 04:12:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F9D14658F
+	for <linux-leds@vger.kernel.org>; Fri,  3 May 2024 06:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714709579; cv=none; b=hh1CWGDcryEiRyN0nE02OKo4MG9TNN+5yw5rl3DHk7bsM+QlzpQlBgcg6oY+3Au6V5sLQ3Ut9QJGDL2a+P0ZsVw3aS3b96fFUxd7y3WSJTECul/47TA7CP1n0Ma3Anqyoct05lZcQL+0sOTOrjQ1Hlw3QqJHGD4Tqeru0qZh28M=
+	t=1714719235; cv=none; b=KyDQPrUn5+xibgnoK7mRk3bV0GVPViYLMQfrclBxxGHY06s0fvZ5W9/nsjrLPQzLKy6BG0D5qwbyMXkKXo0wRJt8PS3CxkJx4rs8sN28wfjw34w2VtsbKq6eDW4NDDAVcO8zCP90BjSrS2OpoYOOIrg74UaVIriIceOFITLyh08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714709579; c=relaxed/simple;
-	bh=3Ui4WPqD5BgRE7SgeV1kkk/d7gn4oNLSxqpNlox57TQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Suu4fNxxdNQNq8i1Cm06itkUXpsnMTsof1IoiegRuI2In1rV/QRh5w9u5D8Yj/eWkk6886dsrzjUlWpLgFJGHnCXbkF4weK7DwuT8JX2uDxrQkKgU4l/9lX5aR24i2aBrdXhxIoP8Fi2kgwzSnfSUxhLkMsWTAmMb9wTRuytzoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZL+nVtRf; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e1fa824504so17143671fa.0;
-        Thu, 02 May 2024 21:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714709576; x=1715314376; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AFxy0pLNhUuKLCOuJHfi23FeiTbHtiBwSm5DQpbJAF0=;
-        b=ZL+nVtRfewr6Ss0ZMJMo0Jf4zwzn9EpDr4oNexrfL2eVWDFtYnH+k+mug+dBcrut+q
-         svghUFKyMrCCNw7Z0xxDvhVsnB7xqHrZusLosyIIM/rso51PCv9FCMpK6dGvAluQjXp+
-         WLUXxpH814VtYB4KR9/wLjoBt2vWXCirVaL9KKolRVbmH3nJUGKWqJyx5m+lrqBYNI0y
-         fnCtrKiqC6IRoi23XZRFSB2K/15sdk3Xm0jaO2pEWrDhDwcBGZcU9UtRdNaJ1tCSY65h
-         Y6d3R0mQLDc+D5MnYfu8UYQbjbzOgxu1fgiejwvLDZhp5wY5WWNSBa3f+Ur4JG0pHYrQ
-         Th/Q==
+	s=arc-20240116; t=1714719235; c=relaxed/simple;
+	bh=9r0WUT9EYmthZ0Px23pMVTicuoR4qkYxZY61kpxHnEU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=crporFxMZ9owpN8y0jzQQGNB+kPw+ftAv2pkerTn08VOVecx8EJonxExqV0T7ZNE1Q3gZHZlsWfdXnuaBseVjOTtrXKMBotEA1Fj0muTyzUOcHDqo3RjXm1QDk0xGT1MN+NOclEBKNLv9P7ScsN+alUbE1jVGlLmEg1UUT0HX1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R3zjWUJZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714719232;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i7SMs5qrwgQw+h/Z3nYiDsUtQBYzsBB4vdOGUtUdAGo=;
+	b=R3zjWUJZP67mFh0YduRo4nF+Jj+2O9iYCWX0dvKw/Ce2mSDciSzRBUPIecETvOe009KH09
+	lVjcX43hZggQX0AgANMU5LkCZ3VBNkAVc8+xMjg1TRzCsexkW3nqZ51NEFlUALQGH5P5xX
+	n+mbN4gb4ggJ44yQnqMC6uSP4WXFujA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-10-lmyJ3r_6MIKowznQNY32IQ-1; Fri, 03 May 2024 02:53:51 -0400
+X-MC-Unique: lmyJ3r_6MIKowznQNY32IQ-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a5966e85bf6so130217166b.0
+        for <linux-leds@vger.kernel.org>; Thu, 02 May 2024 23:53:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714709576; x=1715314376;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AFxy0pLNhUuKLCOuJHfi23FeiTbHtiBwSm5DQpbJAF0=;
-        b=vzhNGBOO6vogjVa7vvVEU64zyQXqV7iQTFJX7swj/oz+Rapa6pWifOFGQDpqXbCtQD
-         Y1jl71+vCPb79vL3QjS/kDsm9nuNgPSMMsPaizSa2kbs3PPOsvKY0WMAo5QoObR2TZ8s
-         2WPBCNfCUMuEFqW1rn71Xd8bcyqNFrqZ1asH3huKVU49WfUOY0L2uQPL5jT1X37BFh9K
-         DH6AshbZgbsELdvKXKNS/skmWM5LCyupppjXcHLuIv5VsXqqmkj2ZLoLdeTgs5mQ+Lcm
-         DD5FdpgC6YJqPXp3ViVhYWd6PSwQvcDGI8CK0bvy/kAHpzFUYILDub3+zofv3ua5pmaQ
-         HBKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVr4DEtqUP0WCw9CK4DGOLg5OPGX4qJNiFf3vtKDu2F3CTh0kuNrKhfApwnfceP4yAEoPuQJ9e+6zwyPrX2FEfIcq4EFxgkNzXfTPBCGOk4C7ogc+D4HWvHYF/qP2dzKMcLu048ro2v5hJJ/GLyHSQeQfQl3wR7kZWzA+hdY18uVzd3I72eOTqVKA==
-X-Gm-Message-State: AOJu0YwqCFJYHRipBkz6RGHvfkDik0/+yoHYZ6abWGb5k7ajNdj0cwth
-	ILav3VtwwTMEjDm/mDVN3rWSuhAHVai5Fgvyy2JqDbSESYqb0MJVF5fgUHyrsrXYZETFExpRipe
-	UtrDRZaZZl0dCjmKOux6fOiDVbGQ=
-X-Google-Smtp-Source: AGHT+IFqaAxMekfCF51hBaajl97VovKtZBxyj6z8XPSv6aroB6t+62riovpZ580IiLe5Zz3uFysGEoAJKPwk+B85JR8=
-X-Received: by 2002:ac2:515a:0:b0:51b:6d63:e0e4 with SMTP id
- q26-20020ac2515a000000b0051b6d63e0e4mr941723lfd.29.1714709575744; Thu, 02 May
- 2024 21:12:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714719230; x=1715324030;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i7SMs5qrwgQw+h/Z3nYiDsUtQBYzsBB4vdOGUtUdAGo=;
+        b=wDL3eVBbdwFJm6aCdfWJucnLiQmh8wTztF6syJ4bc46EnYwdMqgejJW5pai57Kdsq5
+         XSClOd5PXd4QD1F8lFfYofzlqBWmfUQo+csWcdPEuCRJJq+UAupiswlNjwxAjaKO3+fw
+         OuDL6ReoLD05IlyDkRldPXWDZl67APjyp+XiU5UMtgAFxV3rtByHL8m89NyL0AlhWNjk
+         aR8GoD4jCOAeUEipL4PnCUDfRBrbP5nQC2i0iafZXpMN/bendo9ygz8E+CpfacXXqgkh
+         a6+2TbZKOQy//kkdXKPo+9gUnD7p6IJRbn+c+PvZFYrNg6RqZkNQT4So3U1NniKH0eVl
+         tljg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLj5QW67x1yAxrjGWhRVAyu6s6q/I08dVZz0tsL/q3pGAC/+detb07IDLFpo1WKo6KJMxku1qUjzV9N0l0Acps71Fecyi6wZEyqQ==
+X-Gm-Message-State: AOJu0YwYixYfymFwpEUYf8BT8MiQ/5fvF0QA5RkjvsOnXaE9gkeS/lk3
+	wwKwUnGG8XXXzlhzhRchBW16xwPfdaFdUK6PTXhcxgK+c6pfWpY5UQsMR4lBfW0VvJgyn8Uo2yf
+	hrt7teKu2LOjfSxEg9QcdLl9SnVBGPDzfSTFxi3VqrEeFjFKI/+acb0c7oF4=
+X-Received: by 2002:a50:8ad6:0:b0:571:da40:22d9 with SMTP id k22-20020a508ad6000000b00571da4022d9mr3705824edk.10.1714719230179;
+        Thu, 02 May 2024 23:53:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHXvymi6HhUa9dnkw6/DSrJwRZ6pkNNf/zpRR/XL1c+d+x3RTZiDl6u19pvNSxYQYRTujaEJw==
+X-Received: by 2002:a50:8ad6:0:b0:571:da40:22d9 with SMTP id k22-20020a508ad6000000b00571da4022d9mr3705800edk.10.1714719229715;
+        Thu, 02 May 2024 23:53:49 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id g21-20020aa7c595000000b005729337f955sm1327341edq.97.2024.05.02.23.53.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 May 2024 23:53:49 -0700 (PDT)
+Message-ID: <88d18069-3327-463e-afa6-b80645dfbb7f@redhat.com>
+Date: Fri, 3 May 2024 08:53:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/7] leds: rgb: leds-ktd202x: Initialize mutex earlier
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Sebastian Reichel <sre@kernel.org>, platform-driver-x86@vger.kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
 References: <20240502211425.8678-1-hdegoede@redhat.com>
-In-Reply-To: <20240502211425.8678-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 3 May 2024 07:12:19 +0300
-Message-ID: <CAHp75VfLYyni8iS2TsB7jkoU8KNUnRxp8Zn6qoqGUmaHUTqxQA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/7] KTD2026 indicator LED for X86 Xiaomi Pad2
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Kate Hsuan <hpa@redhat.com>, Sebastian Reichel <sre@kernel.org>, platform-driver-x86@vger.kernel.org, 
-	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, linux-leds@vger.kernel.org, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240502211425.8678-4-hdegoede@redhat.com>
+ <CAHp75VdSHGXuvGtPBuQSeDLTg0FjPNStcgG3-p07cfVLi_D_YA@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VdSHGXuvGtPBuQSeDLTg0FjPNStcgG3-p07cfVLi_D_YA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 3, 2024 at 12:14=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Hi All,
->
-> Here is v8 of Kate's series to add support for Xiaomi Pad2 indicator LED.
->
-> I believe this is ready for merging now. Patch 6/7 has an Acked-by from
-> Sebastien for merging this patch through the leds tree since it depends
-> on the earlier patches. LEDs tree maintainers please merge patches 1-6,
-> then patch 7 can be merged through the pdx86 tree indepdently.
+Hi,
 
-independently
+On 5/3/24 5:43 AM, Andy Shevchenko wrote:
+> On Fri, May 3, 2024 at 12:14 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> The mutex must be initialized before the LED class device is registered
+>> otherwise there is a race where it may get used before it is initialized:
+>>
+>>  DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+>>  WARNING: CPU: 2 PID: 2045 at kernel/locking/mutex.c:587 __mutex_lock
+>>  ...
+>>  RIP: 0010:__mutex_lock+0x7db/0xc10
+>>  ...
+>>  set_brightness_delayed_set_brightness.part.0+0x17/0x60
+>>  set_brightness_delayed+0xf1/0x100
+>>  process_one_work+0x222/0x5a0
+> 
+> ...
+> 
+>> +       mutex_init(&chip->mutex);
+> 
+> devm_mutex_init() ?
 
->
-> This work includes:
-> 1. Added the KTD2026 swnode description to describe the LED controller.
-> 2. Migrated the original driver to fwnode to support x86 platform.
-> 3. Support for multi-color LED trigger event.
+That is not in Torvald's tree yet.
 
-for a / events
+Regards,
 
-> 4. The LED shows orange  when charging and the LED shows green when the
->    battery is full.
->
-> Moreover, the LED trigger is set to the new trigger, called
-> "bq27520-0-charging-orange-full-green" for Xiaomi Pad2 so the LED shows
-> orange when charging and the LED shows green when the battery is full.
+Hans
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-
-One comment regarding use of devm_mutex_init() instead.
-
---=20
-With Best Regards,
-Andy Shevchenko
 
