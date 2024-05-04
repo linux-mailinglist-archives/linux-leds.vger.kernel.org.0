@@ -1,137 +1,115 @@
-Return-Path: <linux-leds+bounces-1577-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1578-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086D38BB83B
-	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2024 01:27:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 054E28BBD14
+	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2024 18:25:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD0522862E0
-	for <lists+linux-leds@lfdr.de>; Fri,  3 May 2024 23:27:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A821B2107A
+	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2024 16:25:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E35F83CC4;
-	Fri,  3 May 2024 23:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A2D4174C;
+	Sat,  4 May 2024 16:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jVAD6IxZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bRgM6il2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB45283CCA;
-	Fri,  3 May 2024 23:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279C13D38E
+	for <linux-leds@vger.kernel.org>; Sat,  4 May 2024 16:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714778814; cv=none; b=JKyPCOW4GDhhLN6bn1CsbXd2qYDpL7vftwMj99kx0kJFVcH3Bs3bjNoFJVsWqA6kuvWQJpQmv+vpcSIR324kxEICCI9DZbezoC+u+aSFLiBnO5LYhLV3dgwtDOM7MEKlMziuZhByj5m6qntAO2w2Jo/TwAJqoAdAQLtF0dWa014=
+	t=1714839949; cv=none; b=sM/+BFHFion9NAKYkW8cBZpdLaotf1oLoVS9lRaUNelfj/S/zroz+ksvauyViVl+EuLHKlL7MkYM67L90tDKb9smmolkyZoI+9CfrP4fTfPT/vZDmp+TZhniJnTNZrky6sFujnmrDYycu1icj1/hRhakel3xYu8Rr+qvZQTDf7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714778814; c=relaxed/simple;
-	bh=DtSz6oXpCD9XJHdXPqlOjmNGsLAe4fdZHUy5O8ZxcWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EvJyKF3T6ilcr4wFa+XhViB7aU8UGFUjRO/atzFRIiXeffDBGX4sJhLgQEG37u2RPPKrox8JK52re6eX5YOdH5a9r9iTPYBu8VuS9Gax/7o+qkb/pz71xpRzaTJW8atHVGX69LkACgLqfJ9Us8hsal+ndaol+nuN1fAQ9cVNGyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jVAD6IxZ; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4VWRlQ3FdKz9sd1;
-	Sat,  4 May 2024 01:26:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1714778802;
+	s=arc-20240116; t=1714839949; c=relaxed/simple;
+	bh=8+GKjmfqDGJKWGT7xGywBnxVLLfeT74ArP1DSCSV2Hg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HqEpARVIF0a775Y/xXZqSNeBHwzy9EYLFVd1UTvvbzubx4brO3ccU0n1Hk0WRa5CcPIbmm6hxY5C/EssU1RSVlHER85aI9L6dDx/DMGkJMIyzl6e7UfKSIOXOQYFnfx8tMmI4VhKl0Zu5gkePlyHA6/VPeYLv39GqPmCL9aoFNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bRgM6il2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714839946;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UfM+VCsFRWtZjY0B0g6Ouv8v2sljQiEdfPUlD4nTLDY=;
-	b=jVAD6IxZlLv4j/0tQ/9pj/MfZ4sdVUAlWNcy9zZcoBS4giUe0dviIRMw3TXXeLrTuRWyYL
-	X/RwFOy7dqGTV8lIcGFxbLVQhuABqCZYvcaqdzeTGeCxsyYI+CCWfSjlG+Fv+Sh4Gx+f6f
-	FmD0t/+Gmw8c0/TN6SVmUABN9oR8VD6aT8LTTr9lnorbLSwHBCOzfQzTmdX6EK/5GlJAK7
-	Euvdm4GB3rnXAAYYnCcYIOcU/Gl44xJUuAWTdX36nKcZJT+A+ujoJoI9KlwepYdJVZ/WcS
-	l8dvl5zP37/TfNfTnJb7dmiapGX6QFxm3LKqe/WM97o+jh/5xw67qnG0txV5Zg==
-Date: Fri, 3 May 2024 18:26:36 -0500
-From: Joseph Strauss <jstrauss@mailbox.org>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] Add multicolor support to BlinkM LED driver
-Message-ID: <20240503232636.kbygwgo6h2c5evqc@libretux>
-References: <20240428162309.32111-1-jstrauss@mailbox.org>
- <20240503085724.GL1227636@google.com>
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=z2Bbi6RcCL1bdRTooi87rYIm0ifzy0GZ6CeudVhr9mM=;
+	b=bRgM6il2Z7MxpxQ3pSDkMRhLZvi9nM2ZjOa2iawKoeJnZhKTa1eOcbg9lhVDhD4ZIfk3Xh
+	LEBQ3X6q2zjJ7G8YMrtfdxSNkbbLPlE+j2tSf5eoqyhW7O1RzZTRpAGYd2TR3epuagHqKn
+	vZYFX+9b5/qVp9q1jqWjOdKENqObdKk=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-438-nnFnBEWXPU-BJvPRWmcAcQ-1; Sat,
+ 04 May 2024 12:25:41 -0400
+X-MC-Unique: nnFnBEWXPU-BJvPRWmcAcQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BB3B3C02748;
+	Sat,  4 May 2024 16:25:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.41])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 49BCD492BC6;
+	Sat,  4 May 2024 16:25:39 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-leds@vger.kernel.org,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH] leds: trigger: Unregister sysfs attributes before calling deactivate()
+Date: Sat,  4 May 2024 18:25:33 +0200
+Message-ID: <20240504162533.76780-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240503085724.GL1227636@google.com>
-X-MBO-RS-META: 8b4q1ry5wmhfeq83dd7t5yoo1i38fe3x
-X-MBO-RS-ID: 1856478396176a39a9c
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-On 24/05/03 09:57AM, Lee Jones wrote:
-> On Sun, 28 Apr 2024, Joseph Strauss wrote:
-> 
-> > Add multicolor support to the BlinkM driver, making it easier to control
-> > from userspace. The BlinkM LED is a programmable RGB LED. The driver
-> > currently supports only the regular LED sysfs class, resulting in the
-> > creation of three distinct classes, one for red, green, and blue. The
-> > user then has to input three values into the three seperate brightness
-> > files within those classes. The multicolor LED framework makes the
-> > device easier to control with the multi_intensity file: the user can
-> > input three values at once to form a color, while still controlling the
-> > lightness with the brightness file.
-> > 
-> > The main struct blinkm_led has changed slightly. The struct led_classdev
-> > for the regular sysfs classes remain. The blinkm_probe function checks
-> > CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
-> > sysfs classes or the single multicolor one, but never both. The
-> > blinkm_set_mc_brightness() function had to be added to calculate the
-> > three color components and then set the fields of the blinkm_data
-> > structure accordingly.
-> > 
-> > Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
-> > ---
-> > Changes in v2:
-> > - Replaced instances of the constant 3 with NUM_LEDS, where applicable
-> > - Fixed formatting errors
-> > - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
-> >   statements
-> > - Changed id of multicolor class from 4 to 3
-> > - Replaced call to devm_kmalloc_array() with devm_kcalloc()
-> > Changes in v3:
-> > - Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
-> >   funcitonality
-> > - Extend well-known-leds.txt to include standard names for RGB and indicator
-> >   LEDS
-> > - Change name of Blinkm sysfs class according to well-known-leds.txt
-> > - Simplify struct blinkm_led and struct blinkm_data
-> > - Remove magic numbers
-> > - Fix formatting errors
-> > - Remove unrelated changes
-> > Changes in v4:
-> > - Fix indentation
-> > - Add default case to switch statement
-> > Changes in v5:
-> > - Fix warnings related to snprintf on s390 architecture, reported by
-> >   0-DAY CI Kernel Test Service
-> > Changes in v6:
-> > - Refactored struct blinkm_led to use a union
-> > - Refactored blinkm_probe()
-> > - Clarified documentation
-> > 
-> >  Documentation/leds/leds-blinkm.rst     |  31 +++-
-> >  Documentation/leds/well-known-leds.txt |   8 +
-> >  drivers/leds/Kconfig                   |   8 +
-> >  drivers/leds/leds-blinkm.c             | 223 +++++++++++++++++--------
-> >  4 files changed, 198 insertions(+), 72 deletions(-)
-> 
-> Just tried to apply this, but checkpatch.pl has some complaints.
-> 
-> Please fix them and resubmit, thanks.
-> 
-> -- 
-> Lee Jones [李琼斯]
-I fixed the errors and warnings that resulted from my patch, but am I correct in assuming I am not responsible for fixing the warnings from other parts of the file? It would make the patch messier is my concern.
+Triggers which have trigger specific sysfs attributes typically store
+related data in trigger-data allocated by the activate() callback and
+freed by the deactivate() callback.
+
+Calling device_remove_groups() after calling deactivate() leaves a window
+where the sysfs attributes show/store functions could be called after
+deactivation and then operate on the just freed trigger-data.
+
+Move the device_remove_groups() call to before deactivate() to close
+this race window.
+
+This also makes the deactivation path properly do things in reverse order
+of the activation path which calls the activate() callback before calling
+device_add_groups().
+
+Fixes: a7e7a3156300 ("leds: triggers: add device attribute support")
+Cc: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/leds/led-triggers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index d72c42f38bd4..6d535a7fd075 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -179,9 +179,9 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ 
+ 		cancel_work_sync(&led_cdev->set_brightness_work);
+ 		led_stop_software_blink(led_cdev);
++		device_remove_groups(led_cdev->dev, led_cdev->trigger->groups);
+ 		if (led_cdev->trigger->deactivate)
+ 			led_cdev->trigger->deactivate(led_cdev);
+-		device_remove_groups(led_cdev->dev, led_cdev->trigger->groups);
+ 		led_cdev->trigger = NULL;
+ 		led_cdev->trigger_data = NULL;
+ 		led_cdev->activated = false;
+-- 
+2.44.0
+
 
