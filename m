@@ -1,50 +1,52 @@
-Return-Path: <linux-leds+bounces-1594-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1598-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086AD8BC298
-	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 18:52:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A32DC8BC2AB
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 18:53:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A83C1C20DEF
-	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 16:52:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2429A1F21A88
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 16:53:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AA2054903;
-	Sun,  5 May 2024 16:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08D66BFB1;
+	Sun,  5 May 2024 16:52:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailerdienst.de header.i=@mailerdienst.de header.b="UW/d8YIV"
+	dkim=pass (1024-bit key) header.d=mailerdienst.de header.i=@mailerdienst.de header.b="t3cwjSYg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mxout2.routing.net (mxout2.routing.net [134.0.28.12])
+Received: from mxout4.routing.net (mxout4.routing.net [134.0.28.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CAD40848;
-	Sun,  5 May 2024 16:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.0.28.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CECD5FDA5;
+	Sun,  5 May 2024 16:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.0.28.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714927944; cv=none; b=qjk+9dXx1WXtjQOd4muCardofM5ohpMDN/Kis1SAZROyfE9uvW+pq1/oSxxPqDikmdnmhg+m6WsMkxVtGi9swMXlB7+bGj5TGGkxmGTQkaZ/Mp8Skn2GINIg9AqUrdT1JcK0PW5pByXjQdUbPHNA1QX/GCkIPUHN3+urBy3xQbg=
+	t=1714927973; cv=none; b=dJn3e5+X97ClGhbTW2/3zZ2g0CKtXPXtSvjWSEaqzUCxK4w40J+7G+7tGPeMAnmTV9E2/itp7CFdKuuMZwVnVX6HqQbH4qo/5/eL6Hy+bVgmpWwgY+wOvk+SpfIIJKRgni/C5uw4a6nPXMRoDZZa0yHPaTQAQQJ6IlHMhPoR4fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714927944; c=relaxed/simple;
-	bh=uBdD4j/qcVqfiTQc3aMSaCW0q+TOLKg73rRJRcTG9kA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fc9cZ2Je0qsF6LFQSqbjLWgQUiwxNGQism2p+M+WeQwqP6wi0SVkD+EhxiX3GtqHVr8aSW2g8eX0hAJAZ3B6O4BtYC2g8GQrPBTjazHol8U7HHmEIwff3PzePbkasq4lcYtmokRjyLQnm3HxeYEPfWr3VFjH6TpA5W38vkg+wCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fw-web.de; spf=pass smtp.mailfrom=fw-web.de; dkim=pass (1024-bit key) header.d=mailerdienst.de header.i=@mailerdienst.de header.b=UW/d8YIV; arc=none smtp.client-ip=134.0.28.12
+	s=arc-20240116; t=1714927973; c=relaxed/simple;
+	bh=QgQcNi0VoUZ9/gVnBoTyFVE0KPU3pf74Zt+RD3W/KVA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lJh3QtUN3vXkQyWCPDc9O0Ho2RGjgoVFmSNAWb6wtrgzpN1hFgF6egXMkdyvhLvq5G3jiotk6BebzvthSjcvq3zqUFI9A+DHeCWcTJy/tbaerFSX8woiGJM51m87y3Q/OOECIoCcmH61qYfvdgOfclqRYDNIrD8KM+U7FXOmAq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fw-web.de; spf=pass smtp.mailfrom=fw-web.de; dkim=pass (1024-bit key) header.d=mailerdienst.de header.i=@mailerdienst.de header.b=t3cwjSYg; arc=none smtp.client-ip=134.0.28.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fw-web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fw-web.de
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
-	by mxout2.routing.net (Postfix) with ESMTP id 0AA035FC1F;
+	by mxout4.routing.net (Postfix) with ESMTP id D22291001BB;
 	Sun,  5 May 2024 16:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-	s=20200217; t=1714927559;
+	s=20200217; t=1714927560;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RLH3io7UNKePw3EyOdFULg9Ms10FSzoi3dnG86S1EXo=;
-	b=UW/d8YIV0QSPsg1hKTYKgbmMNM6nLY1veCdqtdo63qaDl3Q45beJJ0NPCWmk1DPpjOWU4B
-	VYx69bxiAHIN61XNZNmP0839JzRASQof9+HWa29txjKLwatn44c4aydyTB/LbTOKapJIix
-	uPYbf/vKvZlf6Yc8quEJocQ2tKzNpOo=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zu3t1qGKiCHdEeShUHBMRSBx5w0/UYs7wrInBMlDHyw=;
+	b=t3cwjSYgbuK+d9TwB9w1UPmClSlr65BlMdK3z0HgTDwICHF8su+pk0o+C76fKi9lSjiGa3
+	b9AaN8KwNaYViltpoWnBWVwrptCNgV4ZlDUd4yuY19FYyOKYzDuyI/nkDgdaHfz7SIzeO/
+	wTqcZmqMBWrE1hNH6sn92/Bsc7/5Mgc=
 Received: from frank-G5.. (fttx-pool-217.61.153.24.bambit.de [217.61.153.24])
-	by mxbox3.masterlogin.de (Postfix) with ESMTPSA id CAC4E360233;
-	Sun,  5 May 2024 16:45:57 +0000 (UTC)
+	by mxbox3.masterlogin.de (Postfix) with ESMTPSA id ECA573604D6;
+	Sun,  5 May 2024 16:45:58 +0000 (UTC)
 From: Frank Wunderlich <linux@fw-web.de>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -69,10 +71,12 @@ Cc: Frank Wunderlich <frank-w@public-files.de>,
 	netdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [RFC v1 0/5] Add Bananapi R3 Mini
-Date: Sun,  5 May 2024 18:45:44 +0200
-Message-Id: <20240505164549.65644-1-linux@fw-web.de>
+Subject: [RFC v1 1/5] dt-bindings: leds: add led trigger netdev
+Date: Sun,  5 May 2024 18:45:45 +0200
+Message-Id: <20240505164549.65644-2-linux@fw-web.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240505164549.65644-1-linux@fw-web.de>
+References: <20240505164549.65644-1-linux@fw-web.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -80,29 +84,31 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mail-ID: 4acaa28b-d825-4c5f-b59f-9ec20eb5ead6
+X-Mail-ID: 52850480-9ab4-47cd-8ce0-2b51c8b97ef7
 
 From: Frank Wunderlich <frank-w@public-files.de>
 
-Add mt7986 based BananaPi R3 Mini SBC and fix some related binding errors.
+Add led trigger implemented with config-symbol LEDS_TRIGGER_NETDEV to
+binding.
 
-Frank Wunderlich (5):
-  dt-bindings: leds: add led trigger netdev
-  dt-bindings: clock: mediatek: add address-cells and size-cells to
-    ethsys
-  dt-bindings: net: mediatek,net: add reset-cells
-  dt-bindings: arm64: dts: mediatek: add BananaPi R3 Mini
-  arm64: dts: mediatek: Add  mt7986 based Bananapi R3 Mini
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+---
+ Documentation/devicetree/bindings/leds/common.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../devicetree/bindings/arm/mediatek.yaml     |   1 +
- .../bindings/clock/mediatek,ethsys.yaml       |   6 +
- .../devicetree/bindings/leds/common.yaml      |   2 +
- .../devicetree/bindings/net/mediatek,net.yaml |   3 +
- arch/arm64/boot/dts/mediatek/Makefile         |   1 +
- .../mediatek/mt7986a-bananapi-bpi-r3-mini.dts | 486 ++++++++++++++++++
- 6 files changed, 499 insertions(+)
- create mode 100644 arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dts
-
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index 8a3c2398b10c..bf9a101e4d42 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -113,6 +113,8 @@ properties:
+             # LED indicates NAND memory activity (deprecated),
+             # in new implementations use "mtd"
+           - nand-disk
++            # LED indicates network activity
++          - netdev
+             # No trigger assigned to the LED. This is the default mode
+             # if trigger is absent
+           - none
 -- 
 2.34.1
 
