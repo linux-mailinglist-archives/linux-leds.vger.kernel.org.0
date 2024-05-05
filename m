@@ -1,147 +1,114 @@
-Return-Path: <linux-leds+bounces-1588-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1589-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C118BBF62
-	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 07:48:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C24048BBF8F
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 09:03:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 179131C20AC9
-	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 05:48:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8268B281220
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 07:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EEAA23B0;
-	Sun,  5 May 2024 05:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E542567F;
+	Sun,  5 May 2024 07:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b="jpj+ZZHf"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="VtxyHnJG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com [67.231.154.164])
+Received: from msa.smtpout.orange.fr (smtp-73.smtpout.orange.fr [80.12.242.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0EC1C36;
-	Sun,  5 May 2024 05:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.154.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDB263A5;
+	Sun,  5 May 2024 07:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714888095; cv=none; b=uPH0oXL7uLRaMcbQLHUxgfB7lPFlIevycEuErvuAeKB7MYIOF9qdqHzMnp0AyMy0+gXvmkdzHGAkqxaT21/w/LBFIr+WCSTabR8ygcEGafRVWRqgtpkHfpi8uTY/pcOw7vuLtFPQe4E/AI7MsS2ISxRM9RtPLd1Jhgth3tDki3Y=
+	t=1714892634; cv=none; b=AN0A3jiCB6I1Ew3LSSOG5cFNDWg/H+4bi79ACAvZfuaAKlztuFaHHxnauAh1PiGlOVySm4BWe8haO6qkk6VYmQM55ikl82ldLg2vgioOdce583PTRQ2iWd6UfDyHx4rPEeBCbsv2mqAYd3j8+rOnEVnvV+5aqbSmkUpH+anNABg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714888095; c=relaxed/simple;
-	bh=Ed8HsUbSumQ8fSGK08zare9btHAsdVUl3Gt9W/0+ruA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fkhbDrJQiKCKZjM52UcHagym0xoKx5zeLaBmrytdo4UVUphvigF4yxkRuW78r5Ox2CHOdIUn+sDRXPG10dubxqIbM1B553Jip060n066EUEk/ykJK/H+pvpGzQCkNbSLpDqTVjtLJdWWCadvDOtxogTeXwN9kEqdRF/XT2AXlZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com; spf=pass smtp.mailfrom=candelatech.com; dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b=jpj+ZZHf; arc=none smtp.client-ip=67.231.154.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=candelatech.com
-Received: from dispatch1-us1.ppe-hosted.com (ip6-localhost [127.0.0.1])
-	by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id CF778500FDF;
-	Sun,  5 May 2024 05:48:12 +0000 (UTC)
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mail3.candelatech.com (mail.candelatech.com [208.74.158.173])
-	by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id DE2F26C0067;
-	Sun,  5 May 2024 05:48:04 +0000 (UTC)
-Received: from [192.168.2.14] (80-61-14-254.fixed.kpn.net [80.61.14.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail3.candelatech.com (Postfix) with ESMTPSA id 4EB6813C2B0;
-	Sat,  4 May 2024 22:48:02 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com 4EB6813C2B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
-	s=default; t=1714888084;
-	bh=Ed8HsUbSumQ8fSGK08zare9btHAsdVUl3Gt9W/0+ruA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jpj+ZZHf3xR+PkEOFdSiCzFanG6MfPIfptoRe0FsNRl/kVouyLaDw5lHtlgmFbkJv
-	 rDKoFAEJ7pPw6FJqe8FWo0JvqUoBdaSLVR45EZF50DXxUM0o/eo+QFjijGP8VAVKdL
-	 Cl5OS3nMCG+gqZaN4szg1GXU4/J1wwWXNH5ouINI=
-Message-ID: <8054cc9c-fbfe-a08d-5968-57b90a25af65@candelatech.com>
-Date: Sat, 4 May 2024 22:48:01 -0700
+	s=arc-20240116; t=1714892634; c=relaxed/simple;
+	bh=f/q3nMrO7XMwlLCGTSws8gHkh4NhAd0ArKeiJmSJAQM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aUaHXVvoISL5wMvNdC+3Z+xFRWkJRDQSS5SU6YGelCVeOUbmHMLpNnCt4isJ1oi2U254oD15CW75v6fVjYssUyfWYlYWU61YpVjUhusPVfBW5T0AJ0wv+K6o4wmwsugELXame0CHGMZYybSSWYO6WqmXfVQc7jnHhOogKAP/D5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=VtxyHnJG; arc=none smtp.client-ip=80.12.242.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from localhost.localdomain ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id 3VuNsRaqlrs7M3VuNs9A6s; Sun, 05 May 2024 09:03:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1714892623;
+	bh=DBQKhsJ4mDyVp3IvupeuQ5SJkA9A1uQpu4XWLEOftUw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=VtxyHnJGWGr3j8fB3UR8kqOOrgCuE3V6JuhSjgtXTc14Mz7o+9p4tkmSeJTAnMqkw
+	 kD02vNCyo3vtFwja0JsGNQ5GQocOxIFDoK4TwM59FD+o/3UMsRy8kYBfRA5crpxam4
+	 u0u8/2SM/6afGWWcCqpxoaRcdB0iIahCaNOinE0Gtjqga7y+I+i6h439I5RwqfUAO2
+	 qQWcPi1UXuhwmkkHfjdj9t4z9zS+GY7Amnf+ec3D4wRzvmi/JjYzN0LiFQC8z9RO6o
+	 NNKpxSp1pGtKcN4uqMoEkeAIhPUolss/Qbf5fsAcPzGFoE+SCLlr85EJtbdLNxbH08
+	 0Gqk7e2SmbgDA==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 05 May 2024 09:03:43 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-leds@vger.kernel.org
+Subject: [PATCH] leds: is31fl319x: Constify struct regmap_config
+Date: Sun,  5 May 2024 09:03:32 +0200
+Message-ID: <82a5cb26ff8af1865a790286bdbc3c4a2bd149f1.1714892598.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-Content-Language: en-MW
-To: Lee Jones <lee@kernel.org>,
- "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
- Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Linux regressions mailing list <regressions@lists.linux.dev>
-References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
- <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
- <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
- <20240411070718.GD6194@google.com>
- <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
- <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
- <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
- <8ab88be5de30bcbd0d1cac3cfde6b2085dcfc8fb.camel@sipsolutions.net>
- <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
- <20240502071908.GB5338@google.com>
-From: Ben Greear <greearb@candelatech.com>
-Organization: Candela Technologies
-In-Reply-To: <20240502071908.GB5338@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MDID: 1714888086-kOSWpmmwirJ5
-X-MDID-O:
- us5;at1;1714888086;kOSWpmmwirJ5;<greearb@candelatech.com>;c63a44cdfc35f48c78127675e18807b4
+Content-Transfer-Encoding: 8bit
 
-On 5/2/24 00:19, Lee Jones wrote:
-> On Tue, 23 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
-> 
->> On 23.04.24 11:06, Johannes Berg wrote:
->>> On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking (Thorsten
->>> Leemhuis) wrote:
->>>> On 16.04.24 08:17, Johannes Berg wrote:
->>>>> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
->>>>>>
->>>>>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
->>>>>> iwl_req_fw_callback()
->>>>>>
->>>>>> Is that still best thing to try in your opinion?
->>>>>
->>>>> I guess so, I don't have any better ideas so far anyway ...
->>>>
->>>> [adding the iwlwifi maintainer; thread starts here:
->>>> https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
->>>>
->>>> ]
->>>>
->>>> Johannes, Miri, what's the status wrt to this regression? From here
->>>> things look somewhat stalled -- but maybe there was progress and I just
->>>> missed it.
->>>
->>> What do you want? It got bisected to an LED merge, but you ping _us_?
->>> Way to go ...
->>
->> Sorry, to me it sounded a bit like you had an idea for a fix and were
->> going to give it a try -- similar to how the maintainers for a r8169
->> driver and the igc driver provided fixes for bugs recent LED changes
->> exposed.
->>
->> But sure, you are right, in the end some LED change seems to have cause
->> this, so the duty to fix it lies in that field. Therefore:
->>
->> Lee, what's the status here to get this fixed before the final?
-> 
-> No idea.  Did you send a fix?
+'is31fl3190_regmap_config' and 'is31fl3196_regmap_config' are not modified
+in this diver and are only used as a const struct regmap_config.
 
-I sent what is probably just a work-around.  I also spent time bisecting and testing.
-The problem appears to have come in with the LED related merge.  I think it is fair
-to ask the LED folks to at least take a look at the lockdep debugging I posted.  It is
-not fair to expect anyone that manages to find or track a bug to also fix it.
+Constifying these structures moves some data to a read-only section, so
+increase overall security.
 
-If someone has a different suggested fix than the hack I posted, I will be happy to
-test.  On my system with lots of radios, it is 100% reproducible.
-Maybe email me directly as I don't keep close watch on LKML.
+On a x86_64, with allmodconfig:
+Before:
+   text	   data	    bss	    dec	    hex	filename
+  13827	   2002	     32	  15861	   3df5	drivers/leds/leds-is31fl319x.o
 
-Thanks,
-Ben
+After:
+   text	   data	    bss	    dec	    hex	filename
+  14467	   1370	     32	  15869	   3dfd	drivers/leds/leds-is31fl319x.o
 
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/leds/leds-is31fl319x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319x.c
+index 66c65741202e..5e1a4d39a107 100644
+--- a/drivers/leds/leds-is31fl319x.c
++++ b/drivers/leds/leds-is31fl319x.c
+@@ -140,7 +140,7 @@ static const struct reg_default is31fl3190_reg_defaults[] = {
+ 	{ IS31FL3190_PWM(2), 0x00 },
+ };
+ 
+-static struct regmap_config is31fl3190_regmap_config = {
++static const struct regmap_config is31fl3190_regmap_config = {
+ 	.reg_bits = 8,
+ 	.val_bits = 8,
+ 	.max_register = IS31FL3190_RESET,
+@@ -178,7 +178,7 @@ static const struct reg_default is31fl3196_reg_defaults[] = {
+ 	{ IS31FL3196_PWM(8), 0x00 },
+ };
+ 
+-static struct regmap_config is31fl3196_regmap_config = {
++static const struct regmap_config is31fl3196_regmap_config = {
+ 	.reg_bits = 8,
+ 	.val_bits = 8,
+ 	.max_register = IS31FL3196_REG_CNT,
 -- 
-Ben Greear <greearb@candelatech.com>
-Candela Technologies Inc  http://www.candelatech.com
+2.45.0
+
 
