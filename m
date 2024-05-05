@@ -1,260 +1,147 @@
-Return-Path: <linux-leds+bounces-1587-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1588-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6858BBDA1
-	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2024 20:28:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C118BBF62
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 07:48:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21C92281EF4
-	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2024 18:28:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 179131C20AC9
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2024 05:48:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DF2D745D9;
-	Sat,  4 May 2024 18:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EEAA23B0;
+	Sun,  5 May 2024 05:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b="jpj+ZZHf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtprelay02.ispgateway.de (smtprelay02.ispgateway.de [80.67.31.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com [67.231.154.164])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524C86EB68;
-	Sat,  4 May 2024 18:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.31.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0EC1C36;
+	Sun,  5 May 2024 05:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.154.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714847276; cv=none; b=IDLEJTGIRJpnQ7OfEmbX0HPXz2ztJ39/lkt0ubgC1ZTxIQ0GGJ9N7HC/Xcf1g7/aBwjrHbtoqyRufi4CZEE7UlubfU3u/4iMYeMpfmmqnqjw1Ba3kzvm9FhskeN5ROhXW7/l6ng+cyUsaS+EPDC8mUcix5aAqrySBK/DRxdVY3M=
+	t=1714888095; cv=none; b=uPH0oXL7uLRaMcbQLHUxgfB7lPFlIevycEuErvuAeKB7MYIOF9qdqHzMnp0AyMy0+gXvmkdzHGAkqxaT21/w/LBFIr+WCSTabR8ygcEGafRVWRqgtpkHfpi8uTY/pcOw7vuLtFPQe4E/AI7MsS2ISxRM9RtPLd1Jhgth3tDki3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714847276; c=relaxed/simple;
-	bh=xFJ6dbahCUZbUAhjcrhX4bh6Ij+UbOLcDakcsigJlvI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Zk3caJerawX8ieILrAJwK+V0t1TzN36q7iMtksjmJGM8oid4MBMyTitwfRibguB4hOvvdk7xlhhcwEFfM1XcFTBthfGOH9eew9epptT33kraUd7vCSU7lXHKWdCZthVWH7fkTUvLDXhebEUjGMN6/YO+l31dWGsB71AFrGEIVys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.31.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-Received: from [92.206.191.65] (helo=framework.lan)
-	by smtprelay02.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <git@apitzsch.eu>)
-	id 1s3K6A-00000000348-3Dby;
-	Sat, 04 May 2024 20:27:02 +0200
-Message-ID: <3309a9f1f5848681d0acf3bfdf9b6525fc88e1bc.camel@apitzsch.eu>
-Subject: Re: [PATCH v2 2/3] leds: sy7802: Add support for Silergy SY7802
- flash LED controller
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Kees Cook <keescook@chromium.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Date: Sat, 04 May 2024 20:27:11 +0200
-In-Reply-To: <20240503071953.GD1227636@google.com>
-References: <20240401-sy7802-v2-0-1138190a7448@apitzsch.eu>
-	 <20240401-sy7802-v2-2-1138190a7448@apitzsch.eu>
-	 <20240411124855.GJ1980182@google.com> <20240503071953.GD1227636@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 
+	s=arc-20240116; t=1714888095; c=relaxed/simple;
+	bh=Ed8HsUbSumQ8fSGK08zare9btHAsdVUl3Gt9W/0+ruA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fkhbDrJQiKCKZjM52UcHagym0xoKx5zeLaBmrytdo4UVUphvigF4yxkRuW78r5Ox2CHOdIUn+sDRXPG10dubxqIbM1B553Jip060n066EUEk/ykJK/H+pvpGzQCkNbSLpDqTVjtLJdWWCadvDOtxogTeXwN9kEqdRF/XT2AXlZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com; spf=pass smtp.mailfrom=candelatech.com; dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b=jpj+ZZHf; arc=none smtp.client-ip=67.231.154.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=candelatech.com
+Received: from dispatch1-us1.ppe-hosted.com (ip6-localhost [127.0.0.1])
+	by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id CF778500FDF;
+	Sun,  5 May 2024 05:48:12 +0000 (UTC)
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from mail3.candelatech.com (mail.candelatech.com [208.74.158.173])
+	by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id DE2F26C0067;
+	Sun,  5 May 2024 05:48:04 +0000 (UTC)
+Received: from [192.168.2.14] (80-61-14-254.fixed.kpn.net [80.61.14.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail3.candelatech.com (Postfix) with ESMTPSA id 4EB6813C2B0;
+	Sat,  4 May 2024 22:48:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com 4EB6813C2B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
+	s=default; t=1714888084;
+	bh=Ed8HsUbSumQ8fSGK08zare9btHAsdVUl3Gt9W/0+ruA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jpj+ZZHf3xR+PkEOFdSiCzFanG6MfPIfptoRe0FsNRl/kVouyLaDw5lHtlgmFbkJv
+	 rDKoFAEJ7pPw6FJqe8FWo0JvqUoBdaSLVR45EZF50DXxUM0o/eo+QFjijGP8VAVKdL
+	 Cl5OS3nMCG+gqZaN4szg1GXU4/J1wwWXNH5ouINI=
+Message-ID: <8054cc9c-fbfe-a08d-5968-57b90a25af65@candelatech.com>
+Date: Sat, 4 May 2024 22:48:01 -0700
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
+Content-Language: en-MW
+To: Lee Jones <lee@kernel.org>,
+ "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
+ <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
+ <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
+ <20240411070718.GD6194@google.com>
+ <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
+ <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
+ <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
+ <8ab88be5de30bcbd0d1cac3cfde6b2085dcfc8fb.camel@sipsolutions.net>
+ <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
+ <20240502071908.GB5338@google.com>
+From: Ben Greear <greearb@candelatech.com>
+Organization: Candela Technologies
+In-Reply-To: <20240502071908.GB5338@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MDID: 1714888086-kOSWpmmwirJ5
+X-MDID-O:
+ us5;at1;1714888086;kOSWpmmwirJ5;<greearb@candelatech.com>;c63a44cdfc35f48c78127675e18807b4
 
-Am Freitag, dem 03.05.2024 um 08:19 +0100 schrieb Lee Jones:
-> On Thu, 11 Apr 2024, Lee Jones wrote:
->=20
-> > On Mon, 01 Apr 2024, Andr=C3=A9 Apitzsch via B4 Relay wrote:
-> >=20
-> > > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > >=20
-> > > Add support for SY7802 flash LED controller. It can support up to
-> > > 1.8A
-> > > flash current.
-> >=20
-> > This is a very small commit message for a 500+ line change!
-> >=20
-> > Please, tell us more.
-> >=20
-> > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > > ---
-> > > =C2=A0drivers/leds/flash/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 11 +
-> > > =C2=A0drivers/leds/flash/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 1 +
-> > > =C2=A0drivers/leds/flash/leds-sy7802.c | 532
-> > > +++++++++++++++++++++++++++++++++++++++
-> > > =C2=A03 files changed, 544 insertions(+)
-> > >=20
-> > > diff --git a/drivers/leds/flash/Kconfig
-> > > b/drivers/leds/flash/Kconfig
-> > > index 809b6d98bb3e..f39f0bfe6eef 100644
-> > > --- a/drivers/leds/flash/Kconfig
-> > > +++ b/drivers/leds/flash/Kconfig
-> > > @@ -121,4 +121,15 @@ config LEDS_SGM3140
-> > > =C2=A0	=C2=A0 This option enables support for the SGM3140 500mA
-> > > Buck/Boost Charge
-> > > =C2=A0	=C2=A0 Pump LED Driver.
-> > > =C2=A0
-> > > +config LEDS_SY7802
-> > > +	tristate "LED support for the Silergy SY7802"
-> > > +	depends on I2C && OF
-> > > +	depends on GPIOLIB
-> > > +	select REGMAP_I2C
-> > > +	help
-> > > +	=C2=A0 This option enables support for the SY7802 flash LED
-> > > controller.
-> > > +	=C2=A0 SY7802 includes torch and flash functions with
-> > > programmable current.
-> > > +
-> > > +	=C2=A0 This driver can be built as a module, it will be
-> > > called "leds-sy7802".
-> > > +
-> > > =C2=A0endif # LEDS_CLASS_FLASH
-> > > diff --git a/drivers/leds/flash/Makefile
-> > > b/drivers/leds/flash/Makefile
-> > > index 91d60a4b7952..48860eeced79 100644
-> > > --- a/drivers/leds/flash/Makefile
-> > > +++ b/drivers/leds/flash/Makefile
-> > > @@ -11,3 +11,4 @@ obj-$(CONFIG_LEDS_QCOM_FLASH)	+=3D leds-qcom-
-> > > flash.o
-> > > =C2=A0obj-$(CONFIG_LEDS_RT4505)	+=3D leds-rt4505.o
-> > > =C2=A0obj-$(CONFIG_LEDS_RT8515)	+=3D leds-rt8515.o
-> > > =C2=A0obj-$(CONFIG_LEDS_SGM3140)	+=3D leds-sgm3140.o
-> > > +obj-$(CONFIG_LEDS_SY7802)	+=3D leds-sy7802.o
-> > > diff --git a/drivers/leds/flash/leds-sy7802.c
-> > > b/drivers/leds/flash/leds-sy7802.c
-> > > new file mode 100644
-> > > index 000000000000..c03a571b0e08
-> > > --- /dev/null
-> > > +++ b/drivers/leds/flash/leds-sy7802.c
-> > > @@ -0,0 +1,532 @@
->=20
-> [...]
->=20
-> > > +static int sy7802_torch_brightness_set(struct led_classdev
-> > > *lcdev, enum led_brightness level)
-> >=20
-> > s/level/brightness/
-> >=20
-> > > +{
-> > > +	struct sy7802_led *led =3D container_of(lcdev, struct
-> > > sy7802_led, flash.led_cdev);
-> > > +	u32 led_enable_mask =3D led->led_no =3D=3D SY7802_LED_JOINT ?
-> > > SY7802_LEDS_MASK_ALL :
-> > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SY7802_LEDS_MASK(led->led_no);
-> >=20
-> > Do all of the fancy multi-line assignment outside of the
-> > declaration block.
-> >=20
-> > > +	u32 enable_mask =3D SY7802_MODE_MASK | led_enable_mask;
-> > > +	u32 val =3D level ? led_enable_mask : SY7802_MODE_OFF;
-> > > +	struct sy7802 *chip =3D led->chip;
-> > > +	u32 curr;
-> >=20
-> > This is a temporary placeholder for fled_torch_used, right?
-> >=20
-> > fled_torch_used_tmp?=C2=A0 Sometimes abbreviated to tmp.
-> >=20
-> > > +	u32 mask;
-> >=20
-> > That's a lot of masks.=C2=A0 Which one is this?
-> >=20
-> > > +	int ret;
-> > > +
-> > > +	mutex_lock(&chip->mutex);
-> > > +
-> > > +	/*
-> > > +	 * There is only one set of flash control logic, and
-> > > this flag is used to check if 'strobe'
-> >=20
-> > The ',' before 'and' is superfluous.
-> >=20
-> > > +	 * is currently being used.
-> > > +	 */
-> >=20
-> > Doesn't the variable name kind of imply this?
-> >=20
-> > > +	if (chip->fled_strobe_used) {
-> > > +		dev_warn(chip->dev, "Please disable strobe first
-> > > [%d]\n", chip->fled_strobe_used);
-> >=20
-> > "Cannot set torch brightness whilst strobe is enabled"
-> >=20
-> > > +		ret =3D -EBUSY;
-> > > +		goto unlock;
-> > > +	}
-> > > +
-> > > +	if (level)
-> > > +		curr =3D chip->fled_torch_used | BIT(led->led_no);
-> > > +	else
-> > > +		curr =3D chip->fled_torch_used & ~BIT(led-
-> > > >led_no);
-> > > +
-> > > +	if (curr)
-> > > +		val |=3D SY7802_MODE_TORCH;
-> > > +
-> > > +	/* Torch needs to be disabled first to apply new
-> > > brightness */
-> >=20
-> > "Disable touch to apply brightness"
-> >=20
-> > > +	ret =3D regmap_update_bits(chip->regmap,
-> > > SY7802_REG_ENABLE, SY7802_MODE_MASK,
-> > > +				 SY7802_MODE_OFF);
-> > > +	if (ret)
-> > > +		goto unlock;
-> > > +
-> > > +	mask =3D led->led_no =3D=3D SY7802_LED_JOINT ?
-> > > SY7802_TORCH_CURRENT_MASK_ALL :
-> >=20
-> > Why not just use led->led_no in place of mask?
->=20
-> mask and led->led_no are assigned the same value from this point on.
+On 5/2/24 00:19, Lee Jones wrote:
+> On Tue, 23 Apr 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
+> 
+>> On 23.04.24 11:06, Johannes Berg wrote:
+>>> On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking (Thorsten
+>>> Leemhuis) wrote:
+>>>> On 16.04.24 08:17, Johannes Berg wrote:
+>>>>> On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
+>>>>>>
+>>>>>> Johannes, you had another suggestion: changing iwlwifi's request_module() to request_module_nowait() in
+>>>>>> iwl_req_fw_callback()
+>>>>>>
+>>>>>> Is that still best thing to try in your opinion?
+>>>>>
+>>>>> I guess so, I don't have any better ideas so far anyway ...
+>>>>
+>>>> [adding the iwlwifi maintainer; thread starts here:
+>>>> https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
+>>>>
+>>>> ]
+>>>>
+>>>> Johannes, Miri, what's the status wrt to this regression? From here
+>>>> things look somewhat stalled -- but maybe there was progress and I just
+>>>> missed it.
+>>>
+>>> What do you want? It got bisected to an LED merge, but you ping _us_?
+>>> Way to go ...
+>>
+>> Sorry, to me it sounded a bit like you had an idea for a fix and were
+>> going to give it a try -- similar to how the maintainers for a r8169
+>> driver and the igc driver provided fixes for bugs recent LED changes
+>> exposed.
+>>
+>> But sure, you are right, in the end some LED change seems to have cause
+>> this, so the duty to fix it lies in that field. Therefore:
+>>
+>> Lee, what's the status here to get this fixed before the final?
+> 
+> No idea.  Did you send a fix?
 
-Thanks for the clarification.
-How to you come to the conclusion that mask and led->led_no are
-assigned the same value from this point on?
+I sent what is probably just a work-around.  I also spent time bisecting and testing.
+The problem appears to have come in with the LED related merge.  I think it is fair
+to ask the LED folks to at least take a look at the lockdep debugging I posted.  It is
+not fair to expect anyone that manages to find or track a bug to also fix it.
 
-The value of led->led_no is used here only as part of the if condition
-(led->led_no =3D=3D SY7802_LED_JOINT) and not assigned to mask.
->=20
-> > Easier to read if you drop SY7802_TORCH_CURRENT_MASK_ALL to its own
-> > line.
-> >=20
-> > > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SY7802_TORCH_CURRENT_MASK(led-=
->led_no);
-> > > +
-> > > +	/* Register expects brightness between 0 and
-> > > MAX_BRIGHTNESS - 1 */
-> > > +	if (level)
-> > > +		level -=3D 1;
-> > > +
-> > > +	level |=3D (level << SY7802_TORCH_CURRENT_SHIFT);
-> > > +
-> > > +	ret =3D regmap_update_bits(chip->regmap,
-> > > SY7802_REG_TORCH_BRIGHTNESS, mask, level);
->=20
-> So why not kill the single-use 'mask' variable and use a cast version
-> of led->led_no here instead?
->=20
-> > > +	if (ret)
-> > > +		goto unlock;
-> > > +
-> > > +	ret =3D regmap_update_bits(chip->regmap,
-> > > SY7802_REG_ENABLE, enable_mask, val);
-> > > +	if (ret)
-> > > +		goto unlock;
-> > > +
-> > > +	chip->fled_torch_used =3D curr;
-> > > +
-> > > +unlock:
-> > > +	mutex_unlock(&chip->mutex);
-> > > +	return ret;
-> > > +}
->=20
+If someone has a different suggested fix than the hack I posted, I will be happy to
+test.  On my system with lots of radios, it is 100% reproducible.
+Maybe email me directly as I don't keep close watch on LKML.
 
+Thanks,
+Ben
+
+
+-- 
+Ben Greear <greearb@candelatech.com>
+Candela Technologies Inc  http://www.candelatech.com
 
