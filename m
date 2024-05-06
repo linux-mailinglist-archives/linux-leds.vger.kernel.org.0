@@ -1,576 +1,130 @@
-Return-Path: <linux-leds+bounces-1615-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1616-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B16E8BD61C
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2024 22:20:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2BE8BD655
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2024 22:40:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C41A1F22753
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2024 20:20:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D8D01C20FB4
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2024 20:40:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA88815AD95;
-	Mon,  6 May 2024 20:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F00AF15B57A;
+	Mon,  6 May 2024 20:40:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="V4DSmylK";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="N1SaSS7t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOI6ctcL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40F756B76;
-	Mon,  6 May 2024 20:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED3015B56E;
+	Mon,  6 May 2024 20:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715026845; cv=none; b=bIhEHCPTw38hkUsSGVLMl8rjMRu4kxEsUlEe5L5e1dd7dIBq9PRXS7WmxhkJGakhCfG8AAPDFYnuf+ALT1RVfcvU8hbt6Kw+wxvdTGPVT8YZbht0BsL6b9wfb1aompuWGd/S2B73c0AIg9gh9ecHDVibmNU8mYE7QhtDe14bVo8=
+	t=1715028027; cv=none; b=EtOENF0tGUR3OC8D83Rc3QDlNmdSghJqlW3jMtqeD9A6BUP1PVHQFJh4cH3gIBdFW9+8JccitBVEZyynXnPQlOIZthF36eHz+6tYLYLrFJaBtOrhzGq/SKywPVq7Hyp8AitM74SKU8CXn5Vw2T9+bTY/1HuDzSpRbk2wTadKnis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715026845; c=relaxed/simple;
-	bh=Noh92JhSUdTs1CHOwrughpmiI+yz2l6k2P7cZodH5s8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=sHXcyW1chOfBVogM8XPNi+2mm/CF97MvAJHqNZ/bVTs0vV9yCCSxl4ips/GcL1YkqmXW29TgotnK6FzHOnn3SlLkB1OxhUwNEkW6kEL8aG7qoJmiePQg8OVuJdiyEGQFhOUH64GrzShNgdDv6ea2BKJT5iYsSUOEpEB1VxCcrP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=V4DSmylK; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=N1SaSS7t; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4VYCTN3WYlz9stv;
-	Mon,  6 May 2024 22:20:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1715026840;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gbzXWFG8xPoDNwkpUA6kDcfpnEeMhtGc1A1un+RFXTo=;
-	b=V4DSmylKemMkVkj/j7DdkH0hX8zspDO1vgsRLbnUy5SxfVIh5aR3qx5g/VwrTmvPt2ZwHI
-	I50faHzKd5wDDIhFk81hxAEnup2UOxEpZuwz3rrCBlNhPtIYTx+JipkpPQGjWb5QGpj7s3
-	Jd/D/LeNqZd7nIzwB/LK3mWcInjy7gnQ/c5sHXJjYxCuVPjgfdlqPLra/qq4cuLOUN0s58
-	tUqNGoBFEjMRDok0A81UPt5RTR1xe7TbOnUP39JI6Y1hDSjdH3Zeee1AcgAKyBIZP2fWoL
-	KhoAwhkRBEWjL+Hji9qSknxiUX2uwfvvOov4buwA88E7hoZtscqU1M0aI+HBgw==
-From: Joseph Strauss <jstrauss@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1715026838;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gbzXWFG8xPoDNwkpUA6kDcfpnEeMhtGc1A1un+RFXTo=;
-	b=N1SaSS7tagnTn4uflpQPq1t4rRieNwpFn+N0FAb0sfYcr5Fa4xXttdJgdEG0I3QGp9xzIu
-	2MsjE0cPkMSzGyCNTnMd/hNE8HSNBz0hRg1JbPIBjL6JVbhb0ZiYh4ogEpEGhP3NwAIUcL
-	SLY9qkwK/XK3JfD5PtYlsG3LOHkls/yzj+92tnVcobAXN891SQ/51JHqaZEUfwA3A6cbtH
-	8PdfbyfreCG77U6F0zARUY91UdraVvThJmBMSJQPE3Ds5mjKeoVgfPn7nG9yOu0qvIcDNc
-	3uoA/7zhizgxK+u3E6JrdfrjghKaqX/SWQUBJbyRFCDLgm07Uz04uEdw54cNGg==
-To: lee@kernel.org
-Cc: pavel@ucw.cz,
-	jansimon.moeller@gmx.de,
-	conor@kernel.org,
-	christophe.jaillet@wanadoo.fr,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Joseph Strauss <jstrauss@mailbox.org>
-Subject: [PATCH v7] Add multicolor support to BlinkM LED driver
-Date: Mon,  6 May 2024 15:19:05 -0500
-Message-Id: <20240506201905.789376-1-jstrauss@mailbox.org>
+	s=arc-20240116; t=1715028027; c=relaxed/simple;
+	bh=gp0Hiz0fY4V+2j9w+5I7W4FxOvOzlKPG4eD+czuDYLI=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=Pkf8Sco/sgKXuQqbBFY0P6ryL6IKSvrc0WfBwejNiiETkkcb6BPYkNcbx2qUYsmNk1Dl/PNuWj1xpxs3Drp93W5emfD3Pf2lOlLDMa0SW95//Wwbi3BZIGes59Iz/RNd/UydxKNkIh+lLrU1keM13TReSrjgqcAQ710y+HyK4LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOI6ctcL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B8C5C116B1;
+	Mon,  6 May 2024 20:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715028027;
+	bh=gp0Hiz0fY4V+2j9w+5I7W4FxOvOzlKPG4eD+czuDYLI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=oOI6ctcL+acwEojD8kAo5S6uwfr6y9MY8/6M1Yy9hP/VbjR3b6w/oo3ezOyID5h3d
+	 dTOg4LZRshKJ1WlLvnD3pWknyeH8JRv0vpBzQsbIeGmdHWrT2sB/Vv/P2g2ArIyCKL
+	 neVt5rxD+ApxK5lg2MYRbgn7+gGNHB52MsDcSpLJkuwYjfvHAnrR0zMjYgz63fT9hs
+	 OHiVDP/Jr/yMjTLGmeAr0MNuNQkjdKXoBoS9oBlW8JHZwA1315kywLzADP80SUIWIp
+	 cRHN9qQJZ7cahrpryaNeZPognEcuQN7YHlxuFjkRrTtSWkDzkV/tHHjPFZLxj8QggL
+	 KXdVY87dg3Zjw==
+Date: Mon, 06 May 2024 15:40:25 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 13acb30378527976b2f
-X-MBO-RS-META: mwrik6on14pcch3nzi9btse1o8q6fkp8
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Frank Wunderlich <linux@fw-web.de>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+ Tianling Shen <cnsztl@immortalwrt.org>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ linux-clk@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, 
+ linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>, 
+ linux-mediatek@lists.infradead.org, linux-leds@vger.kernel.org, 
+ "David S. Miller" <davem@davemloft.net>, Lee Jones <lee@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Frank Wunderlich <frank-w@public-files.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
+ Eric Woudstra <ericwouds@gmail.com>
+In-Reply-To: <20240505164549.65644-1-linux@fw-web.de>
+References: <20240505164549.65644-1-linux@fw-web.de>
+Message-Id: <171502764339.89536.5670988761224031139.robh@kernel.org>
+Subject: Re: [RFC v1 0/5] Add Bananapi R3 Mini
 
-Add multicolor support to the BlinkM driver, making it easier to control
-from userspace. The BlinkM LED is a programmable RGB LED. The driver
-currently supports only the regular LED sysfs class, resulting in the
-creation of three distinct classes, one for red, green, and blue. The
-user then has to input three values into the three seperate brightness
-files within those classes. The multicolor LED framework makes the
-device easier to control with the multi_intensity file: the user can
-input three values at once to form a color, while still controlling the
-lightness with the brightness file.
 
-The main struct blinkm_led has changed slightly. The struct led_classdev
-for the regular sysfs classes remain. The blinkm_probe function checks
-CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
-sysfs classes or the single multicolor one, but never both. The
-blinkm_set_mc_brightness() function had to be added to calculate the
-three color components and then set the fields of the blinkm_data
-structure accordingly.
+On Sun, 05 May 2024 18:45:44 +0200, Frank Wunderlich wrote:
+> From: Frank Wunderlich <frank-w@public-files.de>
+> 
+> Add mt7986 based BananaPi R3 Mini SBC and fix some related binding errors.
+> 
+> Frank Wunderlich (5):
+>   dt-bindings: leds: add led trigger netdev
+>   dt-bindings: clock: mediatek: add address-cells and size-cells to
+>     ethsys
+>   dt-bindings: net: mediatek,net: add reset-cells
+>   dt-bindings: arm64: dts: mediatek: add BananaPi R3 Mini
+>   arm64: dts: mediatek: Add  mt7986 based Bananapi R3 Mini
+> 
+>  .../devicetree/bindings/arm/mediatek.yaml     |   1 +
+>  .../bindings/clock/mediatek,ethsys.yaml       |   6 +
+>  .../devicetree/bindings/leds/common.yaml      |   2 +
+>  .../devicetree/bindings/net/mediatek,net.yaml |   3 +
+>  arch/arm64/boot/dts/mediatek/Makefile         |   1 +
+>  .../mediatek/mt7986a-bananapi-bpi-r3-mini.dts | 486 ++++++++++++++++++
+>  6 files changed, 499 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dts
+> 
+> --
+> 2.34.1
+> 
+> 
+> 
 
-Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
----
-Changes in v2:
-- Replaced instances of the constant 3 with NUM_LEDS, where applicable
-- Fixed formatting errors
-- Replaced loop inside of blinkm_set_mc_brightness() with equivalent
-  statements
-- Changed id of multicolor class from 4 to 3
-- Replaced call to devm_kmalloc_array() with devm_kcalloc()
-Changes in v3:
-- Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
-  funcitonality
-- Extend well-known-leds.txt to include standard names for RGB and indicator
-  LEDS
-- Change name of Blinkm sysfs class according to well-known-leds.txt
-- Simplify struct blinkm_led and struct blinkm_data
-- Remove magic numbers
-- Fix formatting errors
-- Remove unrelated changes
-Changes in v4:
-- Fix indentation
-- Add default case to switch statement
-Changes in v5:
-- Fix warnings related to snprintf on s390 architecture, reported by
-  0-DAY CI Kernel Test Service
-Changes in v6:
-- Refactored struct blinkm_led to use a union
-- Refactored blinkm_probe()
-- Clarified documentation
-Changes in v7:
-- Fix formatting and spelling errors
 
- Documentation/leds/leds-blinkm.rst     |  31 +++-
- Documentation/leds/well-known-leds.txt |   8 +
- drivers/leds/Kconfig                   |   8 +
- drivers/leds/leds-blinkm.c             | 224 +++++++++++++++++--------
- 4 files changed, 199 insertions(+), 72 deletions(-)
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-blinkm.rst
-index c74b5bc877b1..5eb3a174ae18 100644
---- a/Documentation/leds/leds-blinkm.rst
-+++ b/Documentation/leds/leds-blinkm.rst
-@@ -13,9 +13,31 @@ The device accepts RGB and HSB color values through separate commands.
- Also you can store blinking sequences as "scripts" in
- the controller and run them. Also fading is an option.
- 
--The interface this driver provides is 2-fold:
-+The interface this driver provides is 3-fold:
- 
--a) LED class interface for use with triggers
-+a) LED multicolor class interface for use with triggers
-+#######################################################
-+
-+The registration follows the scheme::
-+
-+  blinkm-<i2c-bus-nr>-<i2c-device-nr>:rgb:indicator
-+
-+  $ ls -h /sys/class/leds/blinkm-1-9:rgb:indicator
-+  brightness  device  max_brightness  multi_index  multi_intensity  power  subsystem  trigger  uevent
-+
-+Hue is controlled by the multi_intensity file and lightness is controlled by
-+the brightness file.
-+
-+The order in which to write the intensity values can be found in multi_index.
-+Exactly three values between 0 and 255 must be written to multi_intensity to
-+change the color::
-+
-+  $ echo 255 100 50 > multi_intensity
-+
-+The overall lightness be changed by writing a value between 0 and 255 to the
-+brightness file.
-+
-+b) LED class interface for use with triggers
- ############################################
- 
- The registration follows the scheme::
-@@ -50,7 +72,7 @@ E.g.::
-   $
- 
- 
--b) Sysfs group to control rgb, fade, hsb, scripts ...
-+c) Sysfs group to control rgb, fade, hsb, scripts ...
- #####################################################
- 
- This extended interface is available as folder blinkm
-@@ -79,6 +101,7 @@ E.g.::
- 
- 
- 
--as of 6/2012
-+as of 01/2024
- 
- dl9pf <at> gmx <dot> de
-+jstrauss <at> mailbox <dot> org
-diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
-index 2160382c86be..2ac4eaed1454 100644
---- a/Documentation/leds/well-known-leds.txt
-+++ b/Documentation/leds/well-known-leds.txt
-@@ -70,3 +70,11 @@ Good: "platform:*:charging" (allwinner sun50i)
- * Screen
- 
- Good: ":backlight" (Motorola Droid 4)
-+
-+* Indicators
-+
-+Good: ":indicator" (Blinkm)
-+
-+* RGB
-+
-+Good: ":rgb" (Blinkm)
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 499d0f215a8b..f38d786f9a89 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -736,6 +736,14 @@ config LEDS_BLINKM
- 	  This option enables support for the BlinkM RGB LED connected
- 	  through I2C. Say Y to enable support for the BlinkM LED.
- 
-+config LEDS_BLINKM_MULTICOLOR
-+	bool "Enable multicolor support for BlinkM I2C RGB LED"
-+	depends on LEDS_BLINKM
-+	depends on LEDS_CLASS_MULTICOLOR
-+	help
-+	  This option enables multicolor sysfs class support for BlinkM LED and
-+	  disables the older, separated sysfs interface
-+
- config LEDS_POWERNV
- 	tristate "LED support for PowerNV Platform"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
-index e19cc8a7b7ca..94e522fde93c 100644
---- a/drivers/leds/leds-blinkm.c
-+++ b/drivers/leds/leds-blinkm.c
-@@ -2,6 +2,7 @@
- /*
-  *  leds-blinkm.c
-  *  (c) Jan-Simon Möller (dl9pf@gmx.de)
-+ *  (c) Joseph Strauss (jstrauss@mailbox.org)
-  */
- 
- #include <linux/module.h>
-@@ -15,6 +16,10 @@
- #include <linux/pm_runtime.h>
- #include <linux/leds.h>
- #include <linux/delay.h>
-+#include <linux/led-class-multicolor.h>
-+#include <linux/kconfig.h>
-+
-+#define NUM_LEDS 3
- 
- /* Addresses to scan - BlinkM is on 0x09 by default*/
- static const unsigned short normal_i2c[] = { 0x09, I2C_CLIENT_END };
-@@ -22,19 +27,26 @@ static const unsigned short normal_i2c[] = { 0x09, I2C_CLIENT_END };
- static int blinkm_transfer_hw(struct i2c_client *client, int cmd);
- static int blinkm_test_run(struct i2c_client *client);
- 
-+/* Contains structs for both the color-separated sysfs classes, and the new multicolor class */
- struct blinkm_led {
- 	struct i2c_client *i2c_client;
--	struct led_classdev led_cdev;
-+	union {
-+		/* used when multicolor support is disabled */
-+		struct led_classdev led_cdev;
-+		struct led_classdev_mc mcled_cdev;
-+	} cdev;
- 	int id;
- };
- 
--#define cdev_to_blmled(c)          container_of(c, struct blinkm_led, led_cdev)
-+#define led_cdev_to_blmled(c)			container_of(c, struct blinkm_led, cdev.led_cdev)
-+#define mcled_cdev_to_led(c)			container_of(c, struct blinkm_led, cdev.mcled_cdev)
- 
- struct blinkm_data {
- 	struct i2c_client *i2c_client;
- 	struct mutex update_lock;
- 	/* used for led class interface */
--	struct blinkm_led blinkm_leds[3];
-+	struct blinkm_led blinkm_leds[NUM_LEDS];
-+
- 	/* used for "blinkm" sysfs interface */
- 	u8 red;			/* color red */
- 	u8 green;		/* color green */
-@@ -419,11 +431,29 @@ static int blinkm_transfer_hw(struct i2c_client *client, int cmd)
- 	return 0;
- }
- 
-+static int blinkm_set_mc_brightness(struct led_classdev *led_cdev,
-+				 enum led_brightness value)
-+{
-+	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
-+	struct blinkm_led *led = mcled_cdev_to_led(mcled_cdev);
-+	struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
-+
-+	led_mc_calc_color_components(mcled_cdev, value);
-+
-+	data->next_red = (u8) mcled_cdev->subled_info[RED].brightness;
-+	data->next_green = (u8) mcled_cdev->subled_info[GREEN].brightness;
-+	data->next_blue = (u8) mcled_cdev->subled_info[BLUE].brightness;
-+
-+	blinkm_transfer_hw(led->i2c_client, BLM_GO_RGB);
-+
-+	return 0;
-+}
-+
- static int blinkm_led_common_set(struct led_classdev *led_cdev,
- 				 enum led_brightness value, int color)
- {
- 	/* led_brightness is 0, 127 or 255 - we just use it here as-is */
--	struct blinkm_led *led = cdev_to_blmled(led_cdev);
-+	struct blinkm_led *led = led_cdev_to_blmled(led_cdev);
- 	struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
- 
- 	switch (color) {
-@@ -565,118 +595,176 @@ static int blinkm_detect(struct i2c_client *client, struct i2c_board_info *info)
- 	return 0;
- }
- 
--static int blinkm_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int register_separate_colors(struct i2c_client *client, struct blinkm_data *data)
- {
--	struct blinkm_data *data;
--	struct blinkm_led *led[3];
--	int err, i;
-+	/* 3 separate classes for red, green, and blue respectively */
-+	struct blinkm_led *leds[NUM_LEDS];
-+	int err;
- 	char blinkm_led_name[28];
--
--	data = devm_kzalloc(&client->dev,
--			sizeof(struct blinkm_data), GFP_KERNEL);
--	if (!data) {
--		err = -ENOMEM;
--		goto exit;
--	}
--
--	data->i2c_addr = 0x08;
--	/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
--	data->fw_ver = 0xfe;
--	/* firmware version - use fake until we read real value
--	 * (currently broken - BlinkM confused!) */
--	data->script_id = 0x01;
--	data->i2c_client = client;
--
--	i2c_set_clientdata(client, data);
--	mutex_init(&data->update_lock);
--
--	/* Register sysfs hooks */
--	err = sysfs_create_group(&client->dev.kobj, &blinkm_group);
--	if (err < 0) {
--		dev_err(&client->dev, "couldn't register sysfs group\n");
--		goto exit;
--	}
--
--	for (i = 0; i < 3; i++) {
-+	/* Register red, green, and blue sysfs classes */
-+	for (int i = 0; i < NUM_LEDS; i++) {
- 		/* RED = 0, GREEN = 1, BLUE = 2 */
--		led[i] = &data->blinkm_leds[i];
--		led[i]->i2c_client = client;
--		led[i]->id = i;
--		led[i]->led_cdev.max_brightness = 255;
--		led[i]->led_cdev.flags = LED_CORE_SUSPENDRESUME;
-+		leds[i] = &data->blinkm_leds[i];
-+		leds[i]->i2c_client = client;
-+		leds[i]->id = i;
-+		leds[i]->cdev.led_cdev.max_brightness = 255;
-+		leds[i]->cdev.led_cdev.flags = LED_CORE_SUSPENDRESUME;
- 		switch (i) {
- 		case RED:
--			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-+			scnprintf(blinkm_led_name, sizeof(blinkm_led_name),
- 					 "blinkm-%d-%d-red",
- 					 client->adapter->nr,
- 					 client->addr);
--			led[i]->led_cdev.name = blinkm_led_name;
--			led[i]->led_cdev.brightness_set_blocking =
-+			leds[i]->cdev.led_cdev.name = blinkm_led_name;
-+			leds[i]->cdev.led_cdev.brightness_set_blocking =
- 							blinkm_led_red_set;
- 			err = led_classdev_register(&client->dev,
--						    &led[i]->led_cdev);
-+							&leds[i]->cdev.led_cdev);
- 			if (err < 0) {
- 				dev_err(&client->dev,
- 					"couldn't register LED %s\n",
--					led[i]->led_cdev.name);
-+					leds[i]->cdev.led_cdev.name);
- 				goto failred;
- 			}
- 			break;
- 		case GREEN:
--			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-+			scnprintf(blinkm_led_name, sizeof(blinkm_led_name),
- 					 "blinkm-%d-%d-green",
- 					 client->adapter->nr,
- 					 client->addr);
--			led[i]->led_cdev.name = blinkm_led_name;
--			led[i]->led_cdev.brightness_set_blocking =
-+			leds[i]->cdev.led_cdev.name = blinkm_led_name;
-+			leds[i]->cdev.led_cdev.brightness_set_blocking =
- 							blinkm_led_green_set;
- 			err = led_classdev_register(&client->dev,
--						    &led[i]->led_cdev);
-+						&leds[i]->cdev.led_cdev);
- 			if (err < 0) {
- 				dev_err(&client->dev,
- 					"couldn't register LED %s\n",
--					led[i]->led_cdev.name);
-+					leds[i]->cdev.led_cdev.name);
- 				goto failgreen;
- 			}
- 			break;
- 		case BLUE:
--			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-+			scnprintf(blinkm_led_name, sizeof(blinkm_led_name),
- 					 "blinkm-%d-%d-blue",
- 					 client->adapter->nr,
- 					 client->addr);
--			led[i]->led_cdev.name = blinkm_led_name;
--			led[i]->led_cdev.brightness_set_blocking =
-+			leds[i]->cdev.led_cdev.name = blinkm_led_name;
-+			leds[i]->cdev.led_cdev.brightness_set_blocking =
- 							blinkm_led_blue_set;
- 			err = led_classdev_register(&client->dev,
--						    &led[i]->led_cdev);
-+							&leds[i]->cdev.led_cdev);
- 			if (err < 0) {
- 				dev_err(&client->dev,
- 					"couldn't register LED %s\n",
--					led[i]->led_cdev.name);
-+					leds[i]->cdev.led_cdev.name);
- 				goto failblue;
- 			}
- 			break;
-+		default:
-+			break;
- 		}		/* end switch */
- 	}			/* end for */
--
--	/* Initialize the blinkm */
--	blinkm_init_hw(client);
--
- 	return 0;
- 
- failblue:
--	led_classdev_unregister(&led[GREEN]->led_cdev);
--
-+	led_classdev_unregister(&leds[GREEN]->cdev.led_cdev);
- failgreen:
--	led_classdev_unregister(&led[RED]->led_cdev);
--
-+	led_classdev_unregister(&leds[RED]->cdev.led_cdev);
- failred:
- 	sysfs_remove_group(&client->dev.kobj, &blinkm_group);
--exit:
-+
- 	return err;
- }
- 
-+static int register_multicolor(struct i2c_client *client, struct blinkm_data *data)
-+{
-+	struct blinkm_led *mc_led;
-+	struct mc_subled *mc_led_info;
-+	char blinkm_led_name[28];
-+	int err;
-+
-+	/* Register multicolor sysfs class */
-+	/* The first element of leds is used for multicolor facilities */
-+	mc_led = &data->blinkm_leds[RED];
-+	mc_led->i2c_client = client;
-+
-+	mc_led_info = devm_kcalloc(&client->dev, NUM_LEDS, sizeof(*mc_led_info),
-+					GFP_KERNEL);
-+	if (!mc_led_info)
-+		return -ENOMEM;
-+
-+	mc_led_info[RED].color_index = LED_COLOR_ID_RED;
-+	mc_led_info[GREEN].color_index = LED_COLOR_ID_GREEN;
-+	mc_led_info[BLUE].color_index = LED_COLOR_ID_BLUE;
-+
-+	mc_led->cdev.mcled_cdev.subled_info = mc_led_info;
-+	mc_led->cdev.mcled_cdev.num_colors = NUM_LEDS;
-+	mc_led->cdev.mcled_cdev.led_cdev.brightness = 255;
-+	mc_led->cdev.mcled_cdev.led_cdev.max_brightness = 255;
-+	mc_led->cdev.mcled_cdev.led_cdev.flags = LED_CORE_SUSPENDRESUME;
-+
-+	scnprintf(blinkm_led_name, sizeof(blinkm_led_name),
-+		 "blinkm-%d-%d:rgb:indicator",
-+		 client->adapter->nr,
-+		 client->addr);
-+	mc_led->cdev.mcled_cdev.led_cdev.name = blinkm_led_name;
-+	mc_led->cdev.mcled_cdev.led_cdev.brightness_set_blocking = blinkm_set_mc_brightness;
-+
-+	err = led_classdev_multicolor_register(&client->dev, &mc_led->cdev.mcled_cdev);
-+	if (err < 0) {
-+		dev_err(&client->dev, "couldn't register LED %s\n",
-+				mc_led->cdev.led_cdev.name);
-+		sysfs_remove_group(&client->dev.kobj, &blinkm_group);
-+	}
-+	return 0;
-+}
-+
-+
-+static int blinkm_probe(struct i2c_client *client, const struct i2c_device_id *id)
-+{
-+	struct blinkm_data *data;
-+	int err;
-+
-+	data = devm_kzalloc(&client->dev,
-+			sizeof(struct blinkm_data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->i2c_addr = 0x08;
-+	/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
-+	data->fw_ver = 0xfe;
-+	/* firmware version - use fake until we read real value
-+	 * (currently broken - BlinkM confused!)
-+	 */
-+	data->script_id = 0x01;
-+	data->i2c_client = client;
-+
-+	i2c_set_clientdata(client, data);
-+	mutex_init(&data->update_lock);
-+
-+	/* Register sysfs hooks */
-+	err = sysfs_create_group(&client->dev.kobj, &blinkm_group);
-+	if (err < 0) {
-+		dev_err(&client->dev, "couldn't register sysfs group\n");
-+		return err;
-+	}
-+
-+	if (!IS_ENABLED(CONFIG_LEDS_BLINKM_MULTICOLOR)) {
-+		err = register_separate_colors(client, data);
-+		if (err < 0)
-+			return err;
-+	} else {
-+		err = register_multicolor(client, data);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	blinkm_init_hw(client);
-+
-+	return 0;
-+}
-+
- static void blinkm_remove(struct i2c_client *client)
- {
- 	struct blinkm_data *data = i2c_get_clientdata(client);
-@@ -684,8 +772,8 @@ static void blinkm_remove(struct i2c_client *client)
- 	int i;
- 
- 	/* make sure no workqueue entries are pending */
--	for (i = 0; i < 3; i++)
--		led_classdev_unregister(&data->blinkm_leds[i].led_cdev);
-+	for (i = 0; i < NUM_LEDS; i++)
-+		led_classdev_unregister(&data->blinkm_leds[i].cdev.led_cdev);
- 
- 	/* reset rgb */
- 	data->next_red = 0x00;
-@@ -741,6 +829,6 @@ static struct i2c_driver blinkm_driver = {
- module_i2c_driver(blinkm_driver);
- 
- MODULE_AUTHOR("Jan-Simon Moeller <dl9pf@gmx.de>");
-+MODULE_AUTHOR("Joseph Strauss <jstrauss@mailbox.org>");
- MODULE_DESCRIPTION("BlinkM RGB LED driver");
- MODULE_LICENSE("GPL");
--
--- 
-2.39.2
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y mediatek/mt7986a-bananapi-bpi-r3-mini.dtb' for 20240505164549.65644-1-linux@fw-web.de:
+
+arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+
+
+
+
 
 
