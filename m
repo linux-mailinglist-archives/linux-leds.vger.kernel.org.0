@@ -1,66 +1,55 @@
-Return-Path: <linux-leds+bounces-1621-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1622-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042558BDD10
-	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2024 10:23:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E88798BDD37
+	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2024 10:37:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9802A1F231D3
-	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2024 08:23:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A525C2849ED
+	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2024 08:37:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8289913C906;
-	Tue,  7 May 2024 08:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A36F713C9A2;
+	Tue,  7 May 2024 08:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euYnEslD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F4hpFepO"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5438913C8FE;
-	Tue,  7 May 2024 08:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1EE197;
+	Tue,  7 May 2024 08:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715070200; cv=none; b=DMgm0krMtD93CDCJpghr/i/gVDDBzgRlLmDNn6G6KtMY05jpHyBLg6BY4pCm79dotdhf3Dn0PS/qqu5cvkf7n/hrPElea6YLEEIJUMBPQeV/4vkzrgP3XMWaR0Xq/vtox50d7kKyGEgh7FruT6kopQj469X6yCUcdsnHQYvLUpM=
+	t=1715071059; cv=none; b=h7Yz8k85OokL0wP66LPl3GZjKwzJ4PrdU0sMSiLKS4CDaOeWVO/QoxGV2IzHJqGWpU93UYp1PLHy98gOUsrO6Fg4hCE2hwWEgiHjgrA0Bly5SCwm4Zkt2FnTozdh3QBFwhVs8dQvCboxiod3SJIdhCAcJXDodgHL/XJ//idqfng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715070200; c=relaxed/simple;
-	bh=QxX4b7q5XOeUTB4IiEc4dG0x64/1OCYe/75fyaZndHU=;
+	s=arc-20240116; t=1715071059; c=relaxed/simple;
+	bh=vi9YOV5qG9HXcW2k/I0KiZGqA7SE9VSwft0G8L/iFhc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hXcXsrZmWYgrLRTJE8ftImt9Tbc76/qHlcKrYv3lCxzFX+tey6RfHmDn0B3v5CG9Rjx7MdGQXI84vpbL7BC8KU8bTvLEWPTTOmiONUdEpi5q41JqT+6RAKa3DnfjB2W/Be3j8S0lczv1kqUwVP3lQiEEQhFO5t+H2zPcHhqXb0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euYnEslD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD19C2BBFC;
-	Tue,  7 May 2024 08:23:18 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMzcgGUIGDje8Z+DQqogPYWd+t6rhdYFkdFdAa+/Aohqu6aJhFNzvRx54tKXfT/TuRRGGE5SMXCH43R0YgPCEVgNBj5zOeCIJAWFtMHSFE3bNJPz2D6KSu8rzqYjAaVpBN41BgKhG2D3eHzW8XqTLmqwE6K5q1ed0B1HAmToHSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F4hpFepO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFDCC2BBFC;
+	Tue,  7 May 2024 08:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715070199;
-	bh=QxX4b7q5XOeUTB4IiEc4dG0x64/1OCYe/75fyaZndHU=;
+	s=k20201202; t=1715071059;
+	bh=vi9YOV5qG9HXcW2k/I0KiZGqA7SE9VSwft0G8L/iFhc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=euYnEslDreQIgjsExv5pQhTSYbvEKH0VOQM+I60M3KW8WozW+xl0WPGbFOaTLAoAb
-	 /V/l5Sd0Kip9+SG1+lwlsqE6EzQ2QDTtH1JcQRl9SR+sYfrbTIhujenn2HjtkUmgoB
-	 8JkhC7UDf2kHcQZFtTKw7GLOxtgRwgiFgPl7o+WtMTCHDNQRrbMZerM6Wxlh8+daVy
-	 K5fCxgZyqWPf4Ul8hJ+9+zGkJ2bkKQCaQQTRUbyEKLMBmwK5lc8ioBoqaIRNzVLddE
-	 cJHawYtzqZOSCfMVfGcM9Tfj/khOJBJ+h/1BxdtGbwX7bhlv4bkCTMMgoXWE6ze8R/
-	 PvnCf1OOYTHzw==
-Date: Tue, 7 May 2024 09:23:15 +0100
+	b=F4hpFepOraGCAv2dQXic6FYIBIztIKWbS33m4jm/h7+ftAUojUVY3FXg6D9ajjXyg
+	 V6IagW7AoMAGy6wlnSuEp703/u8OIm8YV3bRVhu0h7W/Bz50u7+GCAlOh94QM3ED+9
+	 uJLGgLbAXXUWF5znr/cI3DCYNM1B98tJlSitXD0TjyvXCJ05y0x5t/n0Xf71bY6DnJ
+	 ktn4PpGouvMP0m5RJ78J0gevZ/0A1EwErQYOgT90Na9oollfL0mkx4lr/K/YglqjUY
+	 jNWTNcsEXlH2d2PbkEWua99UK/A21+9Q29B7zD0ul0MGq1xwJR4GU6XvJehSe7TRRh
+	 7tM5Z7Q+vKbaQ==
+Date: Tue, 7 May 2024 09:37:35 +0100
 From: Lee Jones <lee@kernel.org>
-To: Ben Greear <greearb@candelatech.com>
-Cc: "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
-	LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-Message-ID: <20240507082315.GS1227636@google.com>
-References: <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
- <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
- <20240411070718.GD6194@google.com>
- <de43c7e1-7e8c-bdbe-f59e-7632c21da24a@candelatech.com>
- <8736ebc8881e1e0cabfbbf033725a3123a5e8e90.camel@sipsolutions.net>
- <bc420f3a-5809-4c4a-80ad-ccd8a46853b6@leemhuis.info>
- <8ab88be5de30bcbd0d1cac3cfde6b2085dcfc8fb.camel@sipsolutions.net>
- <0197efe8-828b-43ae-85c9-5d521913a289@leemhuis.info>
- <20240502071908.GB5338@google.com>
- <8054cc9c-fbfe-a08d-5968-57b90a25af65@candelatech.com>
+To: Joseph Strauss <jstrauss@mailbox.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] Add multicolor support to BlinkM LED driver
+Message-ID: <20240507083735.GV1227636@google.com>
+References: <20240428162309.32111-1-jstrauss@mailbox.org>
+ <20240503085724.GL1227636@google.com>
+ <20240503232636.kbygwgo6h2c5evqc@libretux>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -70,65 +59,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8054cc9c-fbfe-a08d-5968-57b90a25af65@candelatech.com>
+In-Reply-To: <20240503232636.kbygwgo6h2c5evqc@libretux>
 
-On Sat, 04 May 2024, Ben Greear wrote:
+On Fri, 03 May 2024, Joseph Strauss wrote:
 
-> On 5/2/24 00:19, Lee Jones wrote:
-> > On Tue, 23 Apr 2024, Linux regression tracking (Thorsten Leemhuis)
-> > wrote:
+> On 24/05/03 09:57AM, Lee Jones wrote:
+> > On Sun, 28 Apr 2024, Joseph Strauss wrote:
 > > 
-> > > On 23.04.24 11:06, Johannes Berg wrote:
-> > > > On Tue, 2024-04-23 at 11:00 +0200, Linux regression tracking
-> > > > (Thorsten Leemhuis) wrote:
-> > > > > On 16.04.24 08:17, Johannes Berg wrote:
-> > > > > > On Mon, 2024-04-15 at 13:37 -0700, Ben Greear wrote:
-> > > > > > > 
-> > > > > > > Johannes, you had another suggestion: changing iwlwifi's
-> > > > > > > request_module() to request_module_nowait() in
-> > > > > > > iwl_req_fw_callback()
-> > > > > > > 
-> > > > > > > Is that still best thing to try in your opinion?
-> > > > > > 
-> > > > > > I guess so, I don't have any better ideas so far anyway ...
-> > > > > 
-> > > > > [adding the iwlwifi maintainer; thread starts here:
-> > > > > https://lore.kernel.org/lkml/30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com/
-> > > > > 
-> > > > > ]
-> > > > > 
-> > > > > Johannes, Miri, what's the status wrt to this regression? From
-> > > > > here things look somewhat stalled -- but maybe there was
-> > > > > progress and I just missed it.
-> > > > 
-> > > > What do you want? It got bisected to an LED merge, but you ping
-> > > > _us_? Way to go ...
+> > > Add multicolor support to the BlinkM driver, making it easier to control
+> > > from userspace. The BlinkM LED is a programmable RGB LED. The driver
+> > > currently supports only the regular LED sysfs class, resulting in the
+> > > creation of three distinct classes, one for red, green, and blue. The
+> > > user then has to input three values into the three seperate brightness
+> > > files within those classes. The multicolor LED framework makes the
+> > > device easier to control with the multi_intensity file: the user can
+> > > input three values at once to form a color, while still controlling the
+> > > lightness with the brightness file.
 > > > 
-> > > Sorry, to me it sounded a bit like you had an idea for a fix and
-> > > were going to give it a try -- similar to how the maintainers for
-> > > a r8169 driver and the igc driver provided fixes for bugs recent
-> > > LED changes exposed.
+> > > The main struct blinkm_led has changed slightly. The struct led_classdev
+> > > for the regular sysfs classes remain. The blinkm_probe function checks
+> > > CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
+> > > sysfs classes or the single multicolor one, but never both. The
+> > > blinkm_set_mc_brightness() function had to be added to calculate the
+> > > three color components and then set the fields of the blinkm_data
+> > > structure accordingly.
 > > > 
-> > > But sure, you are right, in the end some LED change seems to have
-> > > cause this, so the duty to fix it lies in that field. Therefore:
+> > > Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
+> > > ---
+> > > Changes in v2:
+> > > - Replaced instances of the constant 3 with NUM_LEDS, where applicable
+> > > - Fixed formatting errors
+> > > - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
+> > >   statements
+> > > - Changed id of multicolor class from 4 to 3
+> > > - Replaced call to devm_kmalloc_array() with devm_kcalloc()
+> > > Changes in v3:
+> > > - Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
+> > >   funcitonality
+> > > - Extend well-known-leds.txt to include standard names for RGB and indicator
+> > >   LEDS
+> > > - Change name of Blinkm sysfs class according to well-known-leds.txt
+> > > - Simplify struct blinkm_led and struct blinkm_data
+> > > - Remove magic numbers
+> > > - Fix formatting errors
+> > > - Remove unrelated changes
+> > > Changes in v4:
+> > > - Fix indentation
+> > > - Add default case to switch statement
+> > > Changes in v5:
+> > > - Fix warnings related to snprintf on s390 architecture, reported by
+> > >   0-DAY CI Kernel Test Service
+> > > Changes in v6:
+> > > - Refactored struct blinkm_led to use a union
+> > > - Refactored blinkm_probe()
+> > > - Clarified documentation
 > > > 
-> > > Lee, what's the status here to get this fixed before the final?
+> > >  Documentation/leds/leds-blinkm.rst     |  31 +++-
+> > >  Documentation/leds/well-known-leds.txt |   8 +
+> > >  drivers/leds/Kconfig                   |   8 +
+> > >  drivers/leds/leds-blinkm.c             | 223 +++++++++++++++++--------
+> > >  4 files changed, 198 insertions(+), 72 deletions(-)
 > > 
-> > No idea.  Did you send a fix?
-> 
-> I sent what is probably just a work-around.  I also spent time
-> bisecting and testing. The problem appears to have come in with the
-> LED related merge.  I think it is fair to ask the LED folks to at
-> least take a look at the lockdep debugging I posted.
+> > Just tried to apply this, but checkpatch.pl has some complaints.
+> > 
+> > Please fix them and resubmit, thanks.
+> > 
+> > -- 
+> > Lee Jones [李琼斯]
+> I fixed the errors and warnings that resulted from my patch, but am I correct in assuming I am not responsible for fixing the warnings from other parts of the file? It would make the patch messier is my concern.
 
-I can't speak for Pavel, but I personally have no way of debugging or
-reproducing this.  The only usefulness I can provide is to review and
-apply fixes as and when they appear.
+[line wrap?]
 
-> It is not fair to expect anyone that manages to find or track a bug to
-> also fix it.
-
-No such expectation has been felt or communicated.
+Yes, you are correct.  It's not on you to fix existing issues.
 
 -- 
 Lee Jones [李琼斯]
