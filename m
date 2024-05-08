@@ -1,654 +1,220 @@
-Return-Path: <linux-leds+bounces-1633-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1634-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B508BF5BE
-	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2024 07:51:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB9E8C0447
+	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2024 20:26:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FB65285DEB
-	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2024 05:51:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12CB528662B
+	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2024 18:26:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C050B1758E;
-	Wed,  8 May 2024 05:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3192C12CD8E;
+	Wed,  8 May 2024 18:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cNWZjpY1"
+	dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b="YWqiOAZW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1115315E88;
-	Wed,  8 May 2024 05:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ADE12BE9E;
+	Wed,  8 May 2024 18:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715147489; cv=none; b=mN4J1WwxaMulDg2TW/79DUMkSrWwak4efK5G7E1emVyopIjYJ+vqUGLv9tvA81nyeu8l7s6xed58eFnwZ9U3oldu2E4Ce71hJgxJQvF1T+jh/3S71Jdsf5NSQrlvP/OBbxVGWtz9TutN1BPyx/OUaeGaXX1GFEoaI600/yYElrc=
+	t=1715192770; cv=none; b=nmAAYEj8UWZZrguFZcpM0r6AIeZqIo6rjyrViv0/6f1ncsLTn2NQtMxhRLZdW+JSHSKHSVMeswrKRe5kVzNrDmGCO9mZVDt0gkBiLzg+MI9CInPGWbDzl7UUM0sfQqPbNsew9xYYEL7o0DEYSjZji0KmbIX8kQ9kCDlGfs7geEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715147489; c=relaxed/simple;
-	bh=iWPagUAm4VNsZ38IuT8xXS2yvUsTneuEjLbgHTgY/Ag=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ku70xcCw2mZvYBTjF53zhz0/rnqcJS84mqmyuKi9MeqUMRkPBSzFfWKUNyQ5ImUocbwFT8EGpFujdtcB4/1+aj2EF9XCDHHGRhpIMqnmygJstq/qSix5GFLkD2ccF4wxGfkY+3ct8qjiGVlkIvbo0s606F/7FyQelzxTQO3Fles=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cNWZjpY1; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a59a8f0d941so1030538666b.2;
-        Tue, 07 May 2024 22:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715147485; x=1715752285; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2Ps4qNuwJYWwfO0fukm/1HXCdeg2ckmVxXIim82bA8=;
-        b=cNWZjpY1NoFDFua5ruHNZZ2Gkjdcr57AyrgI+i/r99cSQw/WJiihQbBL9qzLemQ7j8
-         NwnjUJftziWsYK7sqcfgo0Cbkfe2bUaBo9Fh3y2UNfyeyhItnqae6DQRaFOFOtKOqv1v
-         AXfPACGkuCqCalFaKk1mFqr95P/gsLVvEkySiCAYdmykrs86ZSIKASVMg9tsIHDmuscS
-         w+hoVa9a+TYPOpwPpmeVZ+EP52Oq3pkyGWBDkZoh3LwKvUF2rAH6T1mhSrL0p/Dne47H
-         7R+CLDG0IwrC35kBGcE8HBWdPxoz4NDYc3o35Lee0DcTV4c8WyE6dhTDo8QynIR7jN5j
-         svDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715147485; x=1715752285;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g2Ps4qNuwJYWwfO0fukm/1HXCdeg2ckmVxXIim82bA8=;
-        b=bFH/aUwHnTu2vZJZFRrovpapXlOaX/KpJJs9Pr0OcEffuY0VjPn0dtJlh6MF3fSu3E
-         nmnRNuEtMmSnmGowWRn+QcFKTzARib+0OIvIciYLTPz/r6GlmS/stidqQI2viVNk8yr/
-         XcOnqnNNH44cyiTkjDLfy5dcpVFOFkKvTXTYHYDfxRFrj0NrplwvQfh84rtaaeEUchfx
-         kLIuKxnFlaKbxNWwMAPcAJUlV+zTM+ljEd6/fVrI9hjyVe0zNJPj7mJKZMowPJ+8mmbk
-         9impYbHMO2btk0WFaPGTY7zzll3sGLcpeF6pBGUPsYjMFzUdX9xsXSW9+E/Db8uw6AUO
-         cCYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUz8QOlvae/Cks8V+8MyCHlg5GSP9nzBcLtnkGOh7lTyNyzX9TsK2MEFGH6sZ3l8Wallz3tfJ6d9qghlFyLWkEtL1cfYKruT7uUMAwJtuugQB/IIDJOBddXYog5xz8Bqlcm+xIpqz4UNg==
-X-Gm-Message-State: AOJu0YyavejhD0O7IaTW7BGoS4+A7HloCBYf8btgRapSDI+61MhpHOyt
-	y0X4QA0RH4qBaVVpstS08+VyVN40vCYONRMYdwg1qog/kqFTKg6/
-X-Google-Smtp-Source: AGHT+IH1kjYoIBvBZjZ9CB3mQ1lAM9WUfk8uWQBQehZA57ZJGBXNusDf9m8/BeAGhmFORml+O+CBBw==
-X-Received: by 2002:a17:906:44d:b0:a59:ca33:6840 with SMTP id a640c23a62f3a-a59fb96c03emr82953466b.44.1715147485099;
-        Tue, 07 May 2024 22:51:25 -0700 (PDT)
-Received: from ?IPV6:2a01:c23:c5ec:1600:f15f:edb4:9cd5:3c38? (dynamic-2a01-0c23-c5ec-1600-f15f-edb4-9cd5-3c38.c23.pool.telefonica.de. [2a01:c23:c5ec:1600:f15f:edb4:9cd5:3c38])
-        by smtp.googlemail.com with ESMTPSA id d5-20020a17090648c500b00a59a85053c3sm5171430ejt.16.2024.05.07.22.51.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 22:51:24 -0700 (PDT)
-Message-ID: <ba3e743f-c754-4539-b022-0e69ea2e3b27@gmail.com>
-Date: Wed, 8 May 2024 07:51:26 +0200
+	s=arc-20240116; t=1715192770; c=relaxed/simple;
+	bh=JP8VpdG+xqhGXpnZXCPTnLRTVXJ49yvvJJoskFFST1Q=;
+	h=MIME-Version:Message-ID:From:To:Cc:Subject:Content-Type:Date:
+	 In-Reply-To:References; b=QJRiaNUefN/s9ys4m7gsxOfJbOxn4DNj4Qy4RiiohFPnks1Z3TgrluO+jXU1eAfwZFDja+3YpLBc4N3qnZdjwT2GfOrK3pOicNWUEhOQfkOl4ka1s7VXW+ZGsoJrsxfzsk8KAZ1t17Ob4GTFgFJiPuW91CDgD02W4/vBz2OpxYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b=YWqiOAZW; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
+	s=s31663417; t=1715192732; x=1715797532; i=frank-w@public-files.de;
+	bh=8wpwOVnWMbAEATDi6P7jxqoYe5/Zc9mCOeyjYqVImqI=;
+	h=X-UI-Sender-Class:MIME-Version:Message-ID:From:To:Cc:Subject:
+	 Content-Type:Date:In-Reply-To:References:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=YWqiOAZWPMaeNYhFjc7Dl91wHa3AoK/8ndnZhRXkks2a7xnBfaEL9mEFdBx2ZHvj
+	 JF/BZvyGwnIQMqn/egivRa0xiSszgIhV9GVlTtXZlayE/ynpiAiEMqmiCktvL0IuP
+	 QsWt5iYLDWIJ6OfXkJBkBLTYIHiiW9txd4oHJC8tdiqalLyJEmVcZxLBEs3PbiorY
+	 nesZV3RKHBG0l3sYb/XQ0sB0BqqPsELRfKJ1giH+40euQ6PB2ABrGD6wEYxhNfod4
+	 qX4oQj6baDxpCoH5L2Ak5WdLKfvuqWmsTcW+uIO4i14Yef4QcPssu08ibZaLuec7O
+	 3va0pl4li7gEnTjbJw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [217.61.153.232] ([217.61.153.232]) by web-mail.gmx.net
+ (3c-app-gmx-bs02.server.lan [172.19.170.51]) (via HTTP); Wed, 8 May 2024
+ 20:25:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: 6.9.0-rc2+ kernel hangs on boot (bisected, maybe LED related)
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: Ben Greear <greearb@candelatech.com>, LKML
- <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
- Lee Jones <lee@kernel.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-References: <30f757e3-73c5-5473-c1f8-328bab98fd7d@candelatech.com>
- <30819e01-43ce-638f-0cc6-067d6a8d03c7@candelatech.com>
- <89a9eec3-337f-3c9f-6bbe-00a26a15287c@candelatech.com>
- <a248e142-36b3-472a-bd3e-6271a08f177f@web.de>
- <a8a70099-e0e2-4e35-b1b0-d0117bcbfc52@candelatech.com>
- <089ba0c0-a19b-4728-bacf-476072ce7678@gmail.com>
- <d16cfffd-6a35-46eb-a15d-88e76293667d@gmail.com>
-Content-Language: en-US
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <d16cfffd-6a35-46eb-a15d-88e76293667d@gmail.com>
+Message-ID: <trinity-2158d675-7049-4432-b925-6ace44401aa0-1715192732273@3c-app-gmx-bs02>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Frank Wunderlich <linux@fw-web.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+ <lee@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Matthias Brugger <matthias.bgg@gmail.com>, Eric
+ Woudstra <ericwouds@gmail.com>, Tianling Shen <cnsztl@immortalwrt.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Tianling Shen <cnsztl@gmail.com>
+Subject: Aw: Re: [RFC v1 5/5] arm64: dts: mediatek: Add mt7986 based
+ Bananapi R3 Mini
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 8 May 2024 20:25:32 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <a18a10e5-42e1-4302-b9f3-43c6174e2cf9@collabora.com>
+References: <20240505164549.65644-1-linux@fw-web.de>
+ <20240505164549.65644-6-linux@fw-web.de>
+ <a4099612-a4ae-4211-9674-c7053d2a995a@collabora.com>
+ <3E013BA7-0264-4AC3-B677-BDD16B1F8D90@public-files.de>
+ <a18a10e5-42e1-4302-b9f3-43c6174e2cf9@collabora.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:/xOfloKHQgJmPgkc9fdvkCETd9KNf9I5dIewtuJxvNKD4cUM1xpAut+kcghfLa+0aHrjb
+ kbd8cMSSRy0luf9H6RS1ic2JJEi1PO8E7Dr5edqyFkNa20wM8C45JFfO8Y8qo7SIUkz8f9AIEKmO
+ ixvdAAYadRvtf7kdI4G8IwXZhdrkvHMskTAkpJgRhNYwipdg1o7tMuOU+Xmo1HllZVjaMrCIm0MV
+ UYIX+aSs2gQhZBVYmubf2wb4EoTzURk6Y+M/otxM51V11Oq2shRoJIrGIqB4CyocCLik6bUloCIO
+ j4=
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mmBOuEib9cM=;Tw4zuQm8GkQB3y9mHlDqvBj6pZx
+ 21YW6gdUBoTUn9pWWZZ1pRw91UVMm77D/oLRkUpmSeRXRE8322PK8anAOxv7S4R0zBYi4RSWJ
+ fTFXpWp6shuJz9gxq9KuTxjCq5MSks9pt8g+UeSgRtdlgDRYDgmxdJbLfNZ3MNq6NCUkTZPxU
+ zWF+dxgjiQDwk0n977Bmgnop0lI0rUC1KrAU2niFS+beo+Z7cESKsgqz4u195ShcMrmfdTtgW
+ H47rdF6L3yhNBhvvWMwF0iQ5Kv+3WJixLJJV9i0kZRsaxhoq5QTJf+rwqEpuM7C2qChkLb07i
+ twW0intWb6XaWKjiLvnUr7aehXKtFOguXka7AfoRauEc9RAdz5IJWbRqVjlvA8ZuK2jcPXroc
+ H6fhT2rNPIneL91LAPJyEpAHVMiQ3esC2lLsAP4fngyBfDN8We+c8zWtJHUdBOncI3uPBhVzU
+ aEupQ5h91DCJkhT+tm8F6XMqTQSWDtV////+OFAjJQTDCd+Xt2EVG5XvNoQoy4Ds7g8IukGuh
+ YvdEuPLFbIDxt6wJkKM14BzC7gdjgO+H62Ggm72xx2owuTBllQ66/PXE2LcSp3jA1fNfq7Y47
+ MxBmNg3Si9CZarNcAZYG5/+C9Ut8JsgxVLBmp7DABj9qwS9qfgITzQ3Z0Iq1PuoZkRYrY+Zql
+ kNwtgPDDiy3/VKQCAQnEDqokNILxAzhb91Hykr2LfJFnKvXccMW8NBKKH8DHUqs=
+Content-Transfer-Encoding: quoted-printable
 
-On 07.05.2024 12:58, Heiner Kallweit wrote:
-> On 07.05.2024 08:27, Heiner Kallweit wrote:
->> On 07.05.2024 06:20, Ben Greear wrote:
->>> On 5/6/24 13:00, Heiner Kallweit wrote:
->>>> On 03.04.2024 21:35, Ben Greear wrote:
->>>>> On 4/2/24 10:38, Ben Greear wrote:
->>>>>> On 4/2/24 09:37, Ben Greear wrote:
->>>>>>> Hello,
->>>>>>>
->>>>>>> Sometime between rc1 and today's rc2, my system quit booting.
->>>>>>> I'm not seeing any splats, it just stops.  Evidently before
->>>>>>> sysrq is enabled.
->>>>>>>
->>>>
->>>> For my understanding:
->>>> You say 6.9-rc1 was ok, but 6.9-rc2 is not?
->>>>
->>>> If I look at the diff then I see no LED subsystem changes,
->>>> but iwlwifi changes. It's not clear to me why your bisect
->>>> points to something outside the diff.
->>>
->>> I was incorrect in my early assessment about exactly where
->>> the error came in.  I later ran a full bisect to find the commit
->>> that showed the error.  The problem only seems to happen when there
->>> are lots of iwlwifi (in my case) radios in a system, so that added
->>> to my initial confusion on the bug.
->>>
->>> It is almost certainly LED related, as my initial hack to make the problem
->>> go away was to just comment out the led registration logic in iwlwifi.
->>>
->> The bisect points to a merge commit, what makes root cause analysis cumbersome.
->> Could you bisect based on the following? Between for-leds-fixes and leds-next-6.9
->> Then the bisect result should point to the individual commit.
->>
->> git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/log/?h=leds-next-6.9
->>
-> The issue seems to be somewhat related to module loading. So a trace of module
-> loading activity may help. Could you please enable module activity tracing
-> and provide the resulting trace file?
-> 
-> /sys/kernel/debug/tracing/events/module/enable
-> 
+Hi
 
-So far the only change that seems to be related is adding the following
-module loading. Eventhough I don't see anything wrong with it, could you
-please test whether removing it makes a difference?
+> Gesendet: Dienstag, 07. Mai 2024 um 15:35 Uhr
+> Von: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.c=
+om>
+>
+> Il 06/05/24 18:00, Frank Wunderlich ha scritto:
 
+> >>> +	fan: pwm-fan {
+> >>> +		compatible =3D "pwm-fan";
+> >>> +		#cooling-cells =3D <2>;
+> >>> +		/* cooling level (0, 1, 2) - pwm inverted */
+> >>> +		cooling-levels =3D <255 96 0>;
+> >>
+> >> Did you try to actually invert the PWM?
+> >>
+> >> Look for PWM_POLARITY_INVERTED ;-)
+> >
+> > Mtk pwm driver does not support it
+> >
+> > https://elixir.bootlin.com/linux/latest/source/drivers/pwm/pwm-mediate=
+k.c#L211
+> >
+>
+> You're right, sorry - I confused the general purpose PWM controller with=
+ the
+> rather specific DISP_PWM controller (which does support polarity inversi=
+on).
+>
+> It's good - but I'd appreciate if you can please add a comment stating t=
+hat
+> the PWM values are inverted in SW because the controller does *not* supp=
+ort
+> polarity inversion... so that next time someone looks at this will immed=
+iately
+> understand what's going on and why :-)
 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index b1b323b19..6e45d9c61 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -282,8 +282,8 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
- 	 * If default trigger wasn't found, maybe trigger module isn't loaded yet.
- 	 * Once loaded it will re-probe with all led_cdev's.
- 	 */
--	if (!found)
--		request_module_nowait("ledtrig:%s", led_cdev->default_trigger);
-+//	if (!found)
-+//		request_module_nowait("ledtrig:%s", led_cdev->default_trigger);
- }
- EXPORT_SYMBOL_GPL(led_trigger_set_default);
- 
--- 
+so i would change comment like this:
 
+		/* cooling level (0, 1, 2)
+		 * signal is inverted on board
+		 * mtk pwm driver does not support
+		 * PWM_POLARITY_INVERTED */
 
->>> Johanne's solution also makes the problem go away.
->>>
->>> Thanks,
->>> Ben
->>>
->>>>
->>>>
->>>>>>> [  OK  ] Started Flush Journal to Persistent Storage.
->>>>>>> [  OK  ] Started udev Coldplug all Devices.
->>>>>>>            Starting udev Wait for Complete Device Initialization...
->>>>>>> [  OK  ] Listening on Load/Save RF …itch Status /dev/rfkill Watch.
->>>>>>> [  OK  ] Created slice system-lvm2\x2dpvscan.slice.
->>>>>>>            Starting LVM2 PV scan on device 8:19...
->>>>>>>            Starting LVM2 PV scan on device 8:3...
->>>>>>> [  OK  ] Started Device-mapper event daemon.
->>>>>>> iwlwifi 0000:04:00.0: WRT: Invalid buffer destination: 0
->>>>>>> sysrq: This sysrq operation is disabled.
->>>>>>>
->>>>>>> I can start a bisect, but in case anyone knows the answer already, please let me know.
->>>>>>>
->>>>>>> Thanks,
->>>>>>> Ben
->>>>>>>
->>>>>>
->>>>>> So, deadlock I guess....
->>>>>>
->>>>>>    INFO: task kworker/5:13:648 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:kworker/5:13    state:D stack:0     pid:648   tgid:648   ppid:2      flags:0x00004000
->>>>>> Workqueue: events deferred_probe_timeout_work_func
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? mark_held_locks+0x49/0x70
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    ? __flush_work+0x1ff/0x460
->>>>>>    __flush_work+0x287/0x460
->>>>>>    ? flush_workqueue_prep_pwqs+0x120/0x120
->>>>>>    deferred_probe_timeout_work_func+0x2b/0xa0
->>>>>>    process_one_work+0x212/0x710
->>>>>>    ? lock_is_held_type+0xa5/0x110
->>>>>>    worker_thread+0x188/0x340
->>>>>>    ? rescuer_thread+0x380/0x380
->>>>>>    kthread+0xd7/0x110
->>>>>>    ? kthread_complete_and_exit+0x20/0x20
->>>>>>    ret_from_fork+0x28/0x40
->>>>>>    ? kthread_complete_and_exit+0x20/0x20
->>>>>>    ret_from_fork_asm+0x11/0x20
->>>>>>    </TASK>
->>>>>> INFO: task udevadm:763 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:udevadm         state:D stack:0     pid:763   tgid:763   ppid:1      flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    ? __flush_work+0x1ff/0x460
->>>>>>    __flush_work+0x287/0x460
->>>>>>    ? flush_workqueue_prep_pwqs+0x120/0x120
->>>>>>    fsnotify_destroy_group+0x66/0xf0
->>>>>>    inotify_release+0x12/0x40
->>>>>>    __fput+0xa6/0x2d0
->>>>>>    __x64_sys_close+0x33/0x70
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7f744d5bc878
->>>>>> RSP: 002b:00007ffcef12f8d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
->>>>>> RAX: ffffffffffffffda RBX: 00007f744cd048c0 RCX: 00007f744d5bc878
->>>>>> RDX: ffffffffffffff80 RSI: 0000000000000000 RDI: 0000000000000003
->>>>>> RBP: 0000000000000003 R08: 000055f9ce349fb0 R09: 0000000000000000
->>>>>> R10: 00007ffcef12f8f0 R11: 0000000000000246 R12: 0000000000000002
->>>>>> R13: 0000000007270e00 R14: 000055f99670c9b8 R15: 0000000000000002
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:968 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:968   tgid:968   ppid:65     flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7fde25530ddd
->>>>>> RSP: 002b:00007fffac078518 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 0000558758e28ef0 RCX: 00007fde25530ddd
->>>>>> RDX: 0000000000000000 RSI: 000055873cebf358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 000055873cebf358
->>>>>> R13: 0000000000000000 R14: 0000558758e29020 R15: 0000558758e28ef0
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:969 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:969   tgid:969   ppid:93     flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7f338d516ddd
->>>>>> RSP: 002b:00007ffd155cd1e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 000056092cb0def0 RCX: 00007f338d516ddd
->>>>>> RDX: 0000000000000000 RSI: 00005608ecb4a358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 00005608ecb4a358
->>>>>> R13: 0000000000000000 R14: 000056092cb0e020 R15: 000056092cb0def0
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:1044 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:1044  tgid:1044  ppid:10     flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7f7637b30ddd
->>>>>> RSP: 002b:00007ffe6251da78 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 000055b889cb3ef0 RCX: 00007f7637b30ddd
->>>>>> RDX: 0000000000000000 RSI: 000055b854eea358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 000055b854eea358
->>>>>> R13: 0000000000000000 R14: 000055b889cb4020 R15: 000055b889cb3ef0
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:1047 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:1047  tgid:1047  ppid:113    flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7f3907130ddd
->>>>>> RSP: 002b:00007ffc36e4eb08 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 000056100a856ef0 RCX: 00007f3907130ddd
->>>>>> RDX: 0000000000000000 RSI: 0000560fff0ec358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 0000560fff0ec358
->>>>>> R13: 0000000000000000 R14: 000056100a857020 R15: 000056100a856ef0
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:1056 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:1056  tgid:1056  ppid:1045   flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7fcb1e730ddd
->>>>>> RSP: 002b:00007ffc692d0ad8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 000055f8d8828ef0 RCX: 00007fcb1e730ddd
->>>>>> RDX: 0000000000000000 RSI: 000055f8bff36358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 000055f8bff36358
->>>>>> R13: 0000000000000000 R14: 000055f8d8829020 R15: 000055f8d8828ef0
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:1058 blocked for more than 180 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:1058  tgid:1058  ppid:1051   flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7f0a17b30ddd
->>>>>> RSP: 002b:00007fff56d619e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 000055abd6741ef0 RCX: 00007f0a17b30ddd
->>>>>> RDX: 0000000000000000 RSI: 000055abc6586358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 000055abc6586358
->>>>>> R13: 0000000000000000 R14: 000055abd6742020 R15: 000055abd6741ef0
->>>>>>    </TASK>
->>>>>> INFO: task modprobe:1060 blocked for more than 181 seconds.
->>>>>>         Not tainted 6.9.0-rc2+ #23
->>>>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>>>> task:modprobe        state:D stack:0     pid:1060  tgid:1060  ppid:1057   flags:0x00000000
->>>>>> Call Trace:
->>>>>>    <TASK>
->>>>>>    __schedule+0x43d/0xe20
->>>>>>    schedule+0x31/0x130
->>>>>>    schedule_timeout+0x1b9/0x1d0
->>>>>>    ? __wait_for_common+0xb0/0x1d0
->>>>>>    ? lock_release+0xc6/0x290
->>>>>>    ? lockdep_hardirqs_on_prepare+0xd6/0x170
->>>>>>    __wait_for_common+0xb9/0x1d0
->>>>>>    ? usleep_range_state+0xb0/0xb0
->>>>>>    idempotent_init_module+0x1ae/0x290
->>>>>>    __x64_sys_finit_module+0x55/0xb0
->>>>>>    do_syscall_64+0x6c/0x170
->>>>>>    entry_SYSCALL_64_after_hwframe+0x46/0x4e
->>>>>> RIP: 0033:0x7f12c0130ddd
->>>>>> RSP: 002b:00007ffccdef0488 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
->>>>>> RAX: ffffffffffffffda RBX: 000056249db40ef0 RCX: 00007f12c0130ddd
->>>>>> RDX: 0000000000000000 RSI: 0000562471e4d358 RDI: 0000000000000001
->>>>>> RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
->>>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 0000562471e4d358
->>>>>> R13: 0000000000000000 R14: 000056249db41020 R15: 000056249db40ef0
->>>>>>    </TASK>
->>>>>>
->>>>>> Showing all locks held in the system:
->>>>>> 2 locks held by systemd/1:
->>>>>>    #0: ffff88812a7a10a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x1f/0x50
->>>>>>    #1: ffff88812a7a1130 (&tty->atomic_write_lock){+.+.}-{4:4}, at: file_tty_write.constprop.0+0xab/0x330
->>>>>> 2 locks held by kworker/0:1/9:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900000afe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:0/10:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900000b7e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/3:0/37:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900001cbe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/7:0/61:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc9000029be50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:1/65:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900002bfe50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 1 lock held by khungtaskd/66:
->>>>>>    #0: ffffffff8296e760 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x32/0x1c0
->>>>>> 2 locks held by kworker/1:1/79:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc9000032fe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:2/93:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900003d3e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/6:1/94:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900003dbe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/3:1/96:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900003ebe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/1:2/102:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000eabe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:3/107:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000ed3e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:4/113:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000f03e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/6:2/189:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000e0fe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/6:5/196:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000f13e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/6:6/197:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000f23e50 ((work_completion)(&(&hda->probe_work)->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/6:8/199:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90000f53e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/7:2/296:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc9000105be50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/7:3/297:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90001043e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/7:4/298:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90001063e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/7:5/320:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90001003e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/2:2/371:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc9000104be50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/5:13/648:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc9000198fe50 ((deferred_probe_timeout_work).work){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/5:14/649:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90001997e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/5:15/650:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc9000199fe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/5:16/651:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900019a7e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/4:3/722:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90001a27e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/1:4/768:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900010d7e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/1:5/769:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc900010dfe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/0:2/849:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90001353e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by lvm/860:
->>>>>>    #0: ffff8881323c19a8 (&md->type_lock){+.+.}-{4:4}, at: table_load+0xc9/0x400
->>>>>>    #1: ffff88813200c3b8 (&mddev->reconfig_mutex){+.+.}-{4:4}, at: raid_ctr+0x13b3/0x2860 [dm_raid]
->>>>>> 2 locks held by modprobe/1019:
->>>>>>    #0: ffffffffa0ca7b68 (iwlwifi_opmode_table_mtx){+.+.}-{4:4}, at: iwl_opmode_register+0x27/0xd0 [iwlwifi]
->>>>>>    #1: ffff888139f88270 (&led_cdev->led_access){+.+.}-{4:4}, at: led_classdev_register_ext+0x195/0x450
->>>>>> 2 locks held by kworker/u32:5/1045:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90004367e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:6/1051:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90004703e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/u32:7/1057:
->>>>>>    #0: ffff888120070948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90004a97e50 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/3:3/1111:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90005bafe50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>> 2 locks held by kworker/3:4/1132:
->>>>>>    #0: ffff88812006c548 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x41e/0x710
->>>>>>    #1: ffffc90005e13e50 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x1d1/0x710
->>>>>>
->>>>>> =============================================
->>>>>>
->>>>>>
->>>>>
->>>>> I ran a bisect on this.  The tagged bad commit is a LED related merge, but commit
->>>>> shows no code changes when I look at it in git.  I double checked that the
->>>>> merge is bad by manually going to it again at the end of the bisect and
->>>>> indeed it fails.
->>>>>
->>>>>  From looking at lockdep, this below may be interesting.  I do have 24 intel be200 radios
->>>>> in this system, so maybe lots of iwlwifi radios help trigger the problem?
->>>>>
->>>>>> 2 locks held by modprobe/1019:
->>>>>>     #0: ffffffffa0ca7b68 (iwlwifi_opmode_table_mtx){+.+.}-{4:4}, at: iwl_opmode_register+0x27/0xd0 [iwlwifi]
->>>>>>     #1: ffff888139f88270 (&led_cdev->led_access){+.+.}-{4:4}, at: led_classdev_register_ext+0x195/0x450
->>>>>
->>>>> Please let me know if you have any suggestions for how to debug this further.
->>>>>
->>>>> [greearb@ben-dt5 linux-2.6]$ git bisect log
->>>>> git bisect start
->>>>> # status: waiting for both good and bad commits
->>>>> # good: [e8f897f4afef0031fe618a8e94127a0934896aba] Linux 6.8
->>>>> git bisect good e8f897f4afef0031fe618a8e94127a0934896aba
->>>>> # status: waiting for bad commit, 1 good commit known
->>>>> # bad: [4cece764965020c22cff7665b18a012006359095] Linux 6.9-rc1
->>>>> git bisect bad 4cece764965020c22cff7665b18a012006359095
->>>>> # good: [e5e038b7ae9da96b93974bf072ca1876899a01a3] Merge tag 'fs_for_v6.9-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs
->>>>> git bisect good e5e038b7ae9da96b93974bf072ca1876899a01a3
->>>>> # bad: [32a50540c3d26341698505998dfca5b0e8fb4fd4] Merge tag 'bcachefs-2024-03-13' of https://evilpiepirate.org/git/bcachefs
->>>>> git bisect bad 32a50540c3d26341698505998dfca5b0e8fb4fd4
->>>>> # good: [a3df5d5422b4edfcfe658d5057e7e059571e32ce] Merge tag 'pinctrl-v6.9-1' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
->>>>> git bisect good a3df5d5422b4edfcfe658d5057e7e059571e32ce
->>>>> # bad: [c0a614e82ece41d15b7a66f43ee79f4dbdbc925a] Merge tag 'lsm-pr-20240314' of git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm
->>>>> git bisect bad c0a614e82ece41d15b7a66f43ee79f4dbdbc925a
->>>>> # bad: [705c1da8fa4816fb0159b5602fef1df5946a3ee2] Merge tag 'pci-v6.9-changes' of git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci
->>>>> git bisect bad 705c1da8fa4816fb0159b5602fef1df5946a3ee2
->>>>> # bad: [f5c31bcf604db54470868f3118a60dc4a9ba8813] Merge tag 'leds-next-6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds
->>>>> git bisect bad f5c31bcf604db54470868f3118a60dc4a9ba8813
->>>>> # good: [8403ce70be339d462892a2b935ae30ee52416f92] Merge tag 'mfd-next-6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd
->>>>> git bisect good 8403ce70be339d462892a2b935ae30ee52416f92
->>>>> # good: [2cd0d1db31e78a63553876f8e6a4c9dcc1f9c061] leds: expresswire: Don't depend on NEW_LEDS
->>>>> git bisect good 2cd0d1db31e78a63553876f8e6a4c9dcc1f9c061
->>>>> # good: [23749cf3dfff5dcd706183ade1d27198a37b3881] backlight: gpio: Simplify with dev_err_probe()
->>>>> git bisect good 23749cf3dfff5dcd706183ade1d27198a37b3881
->>>>> # good: [2c7c70f54f791ece44541a9254c1a73790fd4595] dt-bindings: leds: Add NCP5623 multi-LED Controller
->>>>> git bisect good 2c7c70f54f791ece44541a9254c1a73790fd4595
->>>>> # good: [c9128ed7b9edeb2b6f1faec06d96b2fd5bc72cb8] backlight: lm3630a_bl: Simplify probe return on gpio request error
->>>>> git bisect good c9128ed7b9edeb2b6f1faec06d96b2fd5bc72cb8
->>>>> # good: [45066c4bbe8ca25f9f282245b84568116c783f1d] leds: ncp5623: Add MS suffix to time defines
->>>>> git bisect good 45066c4bbe8ca25f9f282245b84568116c783f1d
->>>>> # good: [f3d8f29d1f59230b8c2a09e6dee7db7bd295e42c] Merge tag 'backlight-next-6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight
->>>>> git bisect good f3d8f29d1f59230b8c2a09e6dee7db7bd295e42c
->>>>> # first bad commit: [f5c31bcf604db54470868f3118a60dc4a9ba8813] Merge tag 'leds-next-6.9' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds
->>>>> [greearb@ben-dt5 linux-2.6]$
->>>>>
->>>>> Thanks,
->>>>> Ben
->>>>>
->>>>
->>>
->>>
->>
-> 
+> >>> +		pwms =3D <&pwm 0 10000>;
+> >>> +		status =3D "okay";
+> >>> +	};
+> >>> +
+> >>> +	phy14: ethernet-phy@14 {
+...
+> >>> +		interrupts-extended =3D <&pio 48 IRQ_TYPE_EDGE_FALLING>;
+> >>> +		reset-gpios =3D <&pio 49 GPIO_ACTIVE_LOW>;
+> >>> +		reset-assert-us =3D <10000>;
+> >>> +		reset-deassert-us =3D <20000>;
+> >>> +		phy-mode =3D "2500base-x";
+> >>> +		full-duplex;
+> >>> +		pause;
+> >>> +		airoha,pnswap-rx;
+> >>> +
+> >>> +		leds {
+> >>> +			#address-cells =3D <1>;
+> >>> +			#size-cells =3D <0>;
+> >>> +
+> >>> +			led@0 { /* en8811_a_gpio5 */
+> >>> +				reg =3D <0>;
+> >>> +				color =3D <LED_COLOR_ID_YELLOW>;
+> >>> +				function =3D LED_FUNCTION_LAN;
+> >>> +				function-enumerator =3D <1>;
+> >>
+> >> Why aren't you simply using a label?
+> >
+> > You mean the comment? I can add it of course like for regulators.
+> >
+>
+> I mean in place of the function-enumerator... that's practically used to
+> distinguish between instances, it's not too common to see it, and usuall=
+y
+> "label" replaces exactly that - just that, instead of a different number=
+,
+> it gets a different name with no (usually) meaningless numbers :-)
 
+as far as i understand using label also makes "function" property useless,=
+ after discussing
+this with eric i would drop both on all 4 places by labels like these:
+
+label =3D "yellow-lan";
+label =3D "green-lan";
+...
+
+not sure if we should drop color property too...
+
+> >>> +				default-state =3D "keep";
+> >>> +				linux,default-trigger =3D "netdev";
+> >>> +			};
+> >>> +			led@1 { /* en8811_a_gpio4 */
+> >>> +				reg =3D <1>;
+> >>> +				color =3D <LED_COLOR_ID_GREEN>;
+> >>> +				function =3D LED_FUNCTION_LAN;
+> >>> +				function-enumerator =3D <2>;
+> >>> +				default-state =3D "keep";
+> >>> +				linux,default-trigger =3D "netdev";
+> >>> +			};
+> >>> +		};
+> >>> +	};
+> >>> +
+> >>> +	phy15: ethernet-phy@15 {
+> >>> +		reg =3D <15>;
+> >>
+> >> Same here.
+> >>
+> >> Cheers,
+> >> Angelo
+
+regards Frank
 
