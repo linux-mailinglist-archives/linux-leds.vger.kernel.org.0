@@ -1,221 +1,416 @@
-Return-Path: <linux-leds+bounces-1680-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1681-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FBC8C8DBB
-	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2024 23:34:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4638C9130
+	for <lists+linux-leds@lfdr.de>; Sat, 18 May 2024 14:51:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC63E1F235DC
-	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2024 21:34:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD005B21168
+	for <lists+linux-leds@lfdr.de>; Sat, 18 May 2024 12:51:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 707CB1411F0;
-	Fri, 17 May 2024 21:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF7A73AC0F;
+	Sat, 18 May 2024 12:47:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="EWrwkhLy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNFswWBp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC59113E020
-	for <linux-leds@vger.kernel.org>; Fri, 17 May 2024 21:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21948376E1;
+	Sat, 18 May 2024 12:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715981647; cv=none; b=TVC1LykjXK7NEmJjZQuuO5n+SsjIvJna86vB3BhnRNDWrLmL6VRMMl6pHLy0fwowBAu+IW5O85NGRFs0xN4kH+FLMgZhN+bDqlQrNwZ2xE+Oaa+V7OD75xCTbaiZ9YbK2i32QeSCoNliEx2gZLdHQ+Jt1qgo8P/yfGVh+Xl59vo=
+	t=1716036436; cv=none; b=Kqmh+Xu+3wMsvkEHPYd0WZvkAdoAJqEkhslxukpfhLCQ5ozbxuFRhooMSnyjWNPUR6ARTVhfF2O68tZZarJCE/WTbZXWBnU5mEhvHObnpI+wyMT1LdMdkB+XSAfUDOmbMMYUn/+CjxTve4WZ9etJGtd5yd7iGeheuNzt108t8oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715981647; c=relaxed/simple;
-	bh=uXVsxh8AUBKhNeS+inQ0jNeRBxedyLUJHo7lrIGcPMA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bWAEh4qfPbV5DW3+Avx33UqpLWkQNOtGOx1+I+0zEu7ZbB1KhwUBKt8GzZ4G5ySj9Vw4FfC2sGI1D2+5hmtWSaN61GltaDv8Igd/vlPzwKQLEhd964mfDAtYnP+WgXq10XRJqdZOf38ddU3Nhc46Tro+4Uz5sjyx8Mg0SP4HSdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=EWrwkhLy; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1eeb1a4c10aso21890865ad.3
-        for <linux-leds@vger.kernel.org>; Fri, 17 May 2024 14:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1715981644; x=1716586444; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gSgxmmt9ACp+ggjdn/+Mt5HmYyflWpHiExFHn9h/6+A=;
-        b=EWrwkhLy58GObT4CLi9nv0ceF3AFn48SjEuXotwhMnidM2yEgw20g62BBxKo3T7bwd
-         fOu5VJD3lpE5jbp86fLucMDLmmw0S6yoWbWT7CSONCBGhuCO/bfvAOtHH/NryfU7mTgS
-         g7Uuzzu+t+cvZBlf/gb99URkk1ST9FDi5I5eE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715981644; x=1716586444;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gSgxmmt9ACp+ggjdn/+Mt5HmYyflWpHiExFHn9h/6+A=;
-        b=o1AEV+nwDSJRkydE0S9YM7EtrISsXsIDFv0D3ntVIOkZgPkGtu/ohBNc1Ly5B5Qh5L
-         hJWPuSA6wQPAah6tnp9iZXhvz0B4kEQeSYKrfp84WXozNxjCwN8DK3i14BIJcmjjXqPr
-         T4gimThqOU+PNm5rToYzQAOuZ2UCr3Ta7cRwvmsxG9ap4AWj71597301evIytpMsSHep
-         /kJNeh0hycS5/c9Cr1x4HNl9r+P1f8gS1gx2GtvvcC/6RXveIsDPNis115Ro0qy47r32
-         Jy867qlpsbQpagIFMhdx1E5XD/wOX96F7DE56RImgrZfLeGcIz4aiaqyBgbtw+lGiovp
-         Vr5A==
-X-Gm-Message-State: AOJu0YxCLZZyf6kcReI5ogovlFTD1j+hpqKfG/EtnDd9/2gEipl6IObU
-	RiGr9Sx+8kuerICADewCzFAGkdmc0yiR41A1r0WexnGEri0JuLxx4tGnj/0CKQ==
-X-Google-Smtp-Source: AGHT+IGmRqij4JI/EufCMqUlwDCmHxqDotEGW8BZdrpGMTKEXnEmqf0tRmekfCQ3U4TzjorcHcj9sg==
-X-Received: by 2002:a17:902:da8e:b0:1e4:48a6:968b with SMTP id d9443c01a7336-1ef43c0cf05mr267232295ad.13.1715981643986;
-        Fri, 17 May 2024 14:34:03 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0badb959sm161800585ad.85.2024.05.17.14.34.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 14:34:02 -0700 (PDT)
-Message-ID: <8c590697-15fb-486a-9623-b9fc145aa96a@broadcom.com>
-Date: Fri, 17 May 2024 14:33:59 -0700
+	s=arc-20240116; t=1716036436; c=relaxed/simple;
+	bh=xuz41WZVIrvTI8jLUziuMNmX+Hum6+huPnqQtG6dkyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXmVun+cvjD7jIb2zxTgJcS1LbyF1sC8e0HJl85zBxHU5iKYPiS5lgZ1fgtQDpOLfeKGPFaanPNzWu4eMM8uGTGPTBKe/caJcEiWgnMlku0x7PHqEU32GjWzzvi0+ckdgoBjwY0XOgCOPLOve7KVTDFigxbMCnkwS9dpsdcjyGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNFswWBp; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716036435; x=1747572435;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xuz41WZVIrvTI8jLUziuMNmX+Hum6+huPnqQtG6dkyY=;
+  b=mNFswWBp5XEyXEvYe540h80MfMqESEkpZV5RsQId6Icze/krTYQlhtjV
+   mXTint/nUdPiRUxrb9XtDHYQDqK0TQGjSdf/DVja1sp/UZaRtSvMKW53v
+   pDNJjZ2qOlaV5Sl9hGOOoTGL5/2cXJDg1Q0/n14dw0xDJGdqywQtfCheS
+   ope9vOSCTJ9fOeArh7kko3eUnT4qWafR9HpeHMyzsIAUluVjn0VD1q6tH
+   i7WcHfNSSUHSgAYDKxl2y7yZGfIJVMMv5iaLxEGY50HqlYFsWu/lHkupj
+   iRwDjpM0gcng0DR0GANfMWMCsNzTT1j0hbgpZ1aT2EPCzgjNmJjPY2I1n
+   A==;
+X-CSE-ConnectionGUID: JbG4O1RYTcq7biy7VX4Ygg==
+X-CSE-MsgGUID: +MJ9eiMxQsmOk5tGQX7dBw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12327492"
+X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
+   d="scan'208";a="12327492"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 05:47:14 -0700
+X-CSE-ConnectionGUID: Ve0APK95TRi/NxP2mzGFxg==
+X-CSE-MsgGUID: UcIFWc++TYWmflmWB2VY3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
+   d="scan'208";a="36978443"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 18 May 2024 05:47:10 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s8JSu-0002CY-0T;
+	Sat, 18 May 2024 12:47:08 +0000
+Date: Sat, 18 May 2024 20:46:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Christian Marangi <ansuelsmth@gmail.com>
+Subject: Re: [PATCH 3/3] leds: leds-lp5569: Add support for Texas Instruments
+ LP5569
+Message-ID: <202405182007.uyC8NXfY-lkp@intel.com>
+References: <20240515143129.31557-3-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: bcm63138: add MODULE_DESCRIPTION()
-To: Jeff Johnson <quic_jjohnson@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, William Zhang <william.zhang@broadcom.com>,
- Anand Gore <anand.gore@broadcom.com>, Kursad Oney
- <kursad.oney@broadcom.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <rafal@milecki.pl>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20240517-md-leds-bcm63138-v1-1-247b7302edb6@quicinc.com>
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240517-md-leds-bcm63138-v1-1-247b7302edb6@quicinc.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000005ba0e90618ad1cd0"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240515143129.31557-3-ansuelsmth@gmail.com>
 
---0000000000005ba0e90618ad1cd0
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Christian,
 
-On 5/17/24 12:30, Jeff Johnson wrote:
-> Fix the 'make W=1" issue:
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
-> 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+kernel test robot noticed the following build errors:
 
-Acked-by: Florian Fainelli <florian.fainelli@broadcom.com>
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on robh/for-next linus/master v6.9 next-20240517]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-leds-lp55xx-Add-new-ti-lp5569-compatible/20240515-223434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20240515143129.31557-3-ansuelsmth%40gmail.com
+patch subject: [PATCH 3/3] leds: leds-lp5569: Add support for Texas Instruments LP5569
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240518/202405182007.uyC8NXfY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d3455f4ddd16811401fa153298fadd2f59f6914e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405182007.uyC8NXfY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405182007.uyC8NXfY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/leds/leds-lp5569.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/leds/leds-lp5569.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/leds/leds-lp5569.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/leds/leds-lp5569.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/leds/leds-lp5569.c:169:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     169 |         val |= FIELD_PREP(LP5569_CP_MODE_MASK, chip->pdata->charge_pump_mode);
+         |                ^
+>> drivers/leds/leds-lp5569.c:195:8: error: call to undeclared function 'FIELD_PREP_CONST'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     195 |         val = LP5569_MODE_LOAD_ENG << LP5569_MODE_ENGn_SHIFT(idx);
+         |               ^
+   drivers/leds/leds-lp5569.c:41:33: note: expanded from macro 'LP5569_MODE_LOAD_ENG'
+      41 | #define   LP5569_MODE_LOAD_ENG          FIELD_PREP_CONST(LP5569_MODE_ENG_MASK, 0x1)
+         |                                         ^
+   drivers/leds/leds-lp5569.c:262:40: error: call to undeclared function 'FIELD_PREP_CONST'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     262 |                 if (LP5569_MODE_ENGn_GET(i, mode) != LP5569_MODE_LOAD_ENG)
+         |                                                      ^
+   drivers/leds/leds-lp5569.c:41:33: note: expanded from macro 'LP5569_MODE_LOAD_ENG'
+      41 | #define   LP5569_MODE_LOAD_ENG          FIELD_PREP_CONST(LP5569_MODE_ENG_MASK, 0x1)
+         |                                         ^
+>> drivers/leds/leds-lp5569.c:321:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     321 |         status = FIELD_GET(LP5569_ENG_STATUS_MASK, status);
+         |                  ^
+   drivers/leds/leds-lp5569.c:601:6: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     601 |                                  FIELD_PREP(LP5569_CP_MODE_MASK, LP55XX_CP_BOOST),
+         |                                  ^
+   drivers/leds/leds-lp5569.c:696:6: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     696 |                                  FIELD_PREP(LP5569_CP_MODE_MASK, LP55XX_CP_BYPASS),
+         |                                  ^
+   drivers/leds/leds-lp5569.c:903:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     903 |                 val = FIELD_PREP(LP5569_FADER_MAPPING_MASK, val);
+         |                       ^
+>> drivers/leds/leds-lp5569.c:904:13: error: call to undeclared function 'FIELD_MAX'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     904 |                 if (val > FIELD_MAX(LP5569_FADER_MAPPING_MASK)) {
+         |                           ^
+   drivers/leds/leds-lp5569.c:932:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     932 |                         val = FIELD_PREP(LP5569_FADER_MAPPING_MASK, buf[i] - '0');
+         |                               ^
+   7 warnings and 9 errors generated.
+
+
+vim +/FIELD_PREP +169 drivers/leds/leds-lp5569.c
+
+   155	
+   156	static int lp5569_post_init_device(struct lp55xx_chip *chip)
+   157	{
+   158		int ret;
+   159		int val;
+   160	
+   161		ret = lp55xx_write(chip, LP5569_REG_ENABLE, LP5569_ENABLE);
+   162		if (ret)
+   163			return ret;
+   164	
+   165		/* Chip startup time is 500 us, 1 - 2 ms gives some margin */
+   166		usleep_range(1000, 2000);
+   167	
+   168		val = LP5569_DEFAULT_CONFIG;
+ > 169		val |= FIELD_PREP(LP5569_CP_MODE_MASK, chip->pdata->charge_pump_mode);
+   170	
+   171		if (chip->pdata->clock_mode == LP55XX_CLOCK_INT)
+   172			val |= LP5569_INTERNAL_CLK;
+   173	
+   174		ret = lp55xx_write(chip, LP5569_REG_MISC, val);
+   175		if (ret)
+   176			return ret;
+   177	
+   178		if (chip->pdata->clock_mode == LP55XX_CLOCK_INT) {
+   179			ret = lp55xx_update_bits(chip, LP5569_REG_IO_CONTROL,
+   180						 LP5569_CLK_OUTPUT,
+   181						 LP5569_CLK_OUTPUT);
+   182			if (ret)
+   183				return ret;
+   184		}
+   185	
+   186		return lp5569_init_program_engine(chip);
+   187	}
+   188	
+   189	static void lp5569_load_engine(struct lp55xx_chip *chip)
+   190	{
+   191		enum lp55xx_engine_index idx = chip->engine_idx;
+   192		u8 mask, val;
+   193	
+   194		mask = LP5569_MODE_ENGn_MASK(idx);
+ > 195		val = LP5569_MODE_LOAD_ENG << LP5569_MODE_ENGn_SHIFT(idx);
+   196	
+   197		lp55xx_update_bits(chip, LP5569_REG_OP_MODE, mask, val);
+   198	
+   199		lp5569_wait_opmode_done();
+   200	}
+   201	
+   202	static void lp5569_load_engine_and_select_page(struct lp55xx_chip *chip)
+   203	{
+   204		enum lp55xx_engine_index idx = chip->engine_idx;
+   205	
+   206		lp5569_load_engine(chip);
+   207	
+   208		lp55xx_write(chip, LP5569_REG_PROG_PAGE_SEL, LP5569_PAGE_ENG(idx));
+   209	}
+   210	
+   211	static void lp5569_stop_all_engines(struct lp55xx_chip *chip)
+   212	{
+   213		lp55xx_write(chip, LP5569_REG_OP_MODE, 0);
+   214		lp5569_wait_opmode_done();
+   215	}
+   216	
+   217	static void lp5569_stop_engine(struct lp55xx_chip *chip)
+   218	{
+   219		enum lp55xx_engine_index idx = chip->engine_idx;
+   220	
+   221		lp55xx_update_bits(chip, LP5569_REG_OP_MODE, LP5569_MODE_ENGn_MASK(idx), 0);
+   222	
+   223		lp5569_wait_opmode_done();
+   224	}
+   225	
+   226	static void lp5569_turn_off_channels(struct lp55xx_chip *chip)
+   227	{
+   228		int i;
+   229	
+   230		for (i = 0; i < LP5569_MAX_LEDS; i++)
+   231			lp55xx_write(chip, LP5569_REG_LED_PWM_BASE + i, 0);
+   232	}
+   233	
+   234	static void lp5569_run_engine(struct lp55xx_chip *chip, bool start)
+   235	{
+   236		int i, ret;
+   237		u8 mode;
+   238		u8 exec;
+   239	
+   240		/* stop engine */
+   241		if (!start) {
+   242			lp5569_stop_engine(chip);
+   243			lp5569_turn_off_channels(chip);
+   244			return;
+   245		}
+   246	
+   247		/*
+   248		 * To run the engine,
+   249		 * operation mode and enable register should updated at the same time
+   250		 */
+   251	
+   252		ret = lp55xx_read(chip, LP5569_REG_OP_MODE, &mode);
+   253		if (ret)
+   254			return;
+   255	
+   256		ret = lp55xx_read(chip, LP5569_REG_EXEC_CTRL, &exec);
+   257		if (ret)
+   258			return;
+   259	
+   260		/* change operation mode to RUN only when each engine is loading */
+   261		for (i = LP55XX_ENGINE_1; i <= LP55XX_ENGINE_3; i++) {
+   262			if (LP5569_MODE_ENGn_GET(i, mode) != LP5569_MODE_LOAD_ENG)
+   263				continue;
+   264	
+   265			mode &= ~LP5569_MODE_ENGn_MASK(i);
+   266			mode |= LP5569_MODE_RUN_ENG << LP5569_MODE_ENGn_SHIFT(i);
+   267			exec &= ~LP5569_EXEC_ENGn_MASK(i);
+   268			exec |= LP5569_EXEC_RUN_ENG << LP5569_EXEC_ENGn_SHIFT(i);
+   269		}
+   270	
+   271		lp55xx_write(chip, LP5569_REG_OP_MODE, mode);
+   272		lp5569_wait_opmode_done();
+   273	
+   274		lp55xx_write(chip, LP5569_REG_EXEC_CTRL, exec);
+   275	}
+   276	
+   277	static int lp5569_init_program_engine(struct lp55xx_chip *chip)
+   278	{
+   279		int i;
+   280		int j;
+   281		int ret;
+   282		u8 status;
+   283		/* one pattern per engine setting LED MUX start and stop addresses */
+   284		static const u8 pattern[][LP5569_PROGRAM_LENGTH] =  {
+   285			{ 0x9c, LP5569_ENG1_MUX_ADDR, 0x9c, 0xb0, 0x9d, 0x80, 0xd8, 0x00, 0},
+   286			{ 0x9c, LP5569_ENG2_MUX_ADDR, 0x9c, 0xc0, 0x9d, 0x80, 0xd8, 0x00, 0},
+   287			{ 0x9c, LP5569_ENG3_MUX_ADDR, 0x9c, 0xd0, 0x9d, 0x80, 0xd8, 0x00, 0},
+   288		};
+   289	
+   290		/* hardcode 32 bytes of memory for each engine from program memory */
+   291		ret = lp55xx_write(chip, LP5569_REG_CH1_PROG_START, LP5569_ENG1_PROG_ADDR);
+   292		if (ret)
+   293			return ret;
+   294	
+   295		ret = lp55xx_write(chip, LP5569_REG_CH2_PROG_START, LP5569_ENG2_PROG_ADDR);
+   296		if (ret)
+   297			return ret;
+   298	
+   299		ret = lp55xx_write(chip, LP5569_REG_CH3_PROG_START, LP5569_ENG3_PROG_ADDR);
+   300		if (ret)
+   301			return ret;
+   302	
+   303		/* write LED MUX address space for each engine */
+   304		for (i = LP55XX_ENGINE_1; i <= LP55XX_ENGINE_3; i++) {
+   305			chip->engine_idx = i;
+   306			lp5569_load_engine_and_select_page(chip);
+   307	
+   308			for (j = 0; j < LP5569_PROGRAM_LENGTH; j++) {
+   309				ret = lp55xx_write(chip, LP5569_REG_PROG_MEM + j,
+   310						   pattern[i - 1][j]);
+   311				if (ret)
+   312					goto out;
+   313			}
+   314		}
+   315	
+   316		lp5569_run_engine(chip, true);
+   317	
+   318		/* Let the programs run for couple of ms and check the engine status */
+   319		usleep_range(3000, 6000);
+   320		lp55xx_read(chip, LP5569_REG_STATUS, &status);
+ > 321		status = FIELD_GET(LP5569_ENG_STATUS_MASK, status);
+   322	
+   323		if (status != LP5569_ENG_STATUS_MASK) {
+   324			dev_err(&chip->cl->dev,
+   325				"could not configure LED engine, status = 0x%.2x\n",
+   326				status);
+   327			ret = -1;
+   328		}
+   329	
+   330	out:
+   331		lp5569_stop_all_engines(chip);
+   332		return ret;
+   333	}
+   334	
+
 -- 
-Florian
-
-
---0000000000005ba0e90618ad1cd0
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
-9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
-UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
-KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
-nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
-Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
-VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
-ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
-CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
-MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
-d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
-hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
-bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
-BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
-KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
-kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
-2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
-3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
-NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
-AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
-LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIA6+qFQEKhIO1kSc
-5756oOWY/eGmbgKiekpyolX9RQFEMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDUxNzIxMzQwNFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
-AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQABasKu26X5wOExfMj/fGK2sH2P9P9yqC+M
-pAqcTbQ5wYLTjjjix7Y/X5f3NpCpAjaNsTbCKjR/beh8P5Iofe8zLo/Zy75x0PMObj158xEozrIW
-STAcQoGaB90F+09Fn6V3pVeKYvykLnK9oATI+gSRthW3HvMViWZg51izYyucgSt32mEwq+QU8Ieg
-PgTnqZsByoHUbFJlGjJ2RxQohH5IXSb6mQ9pWjt3uY5ANlb+QgVBrV+GcMqktncQz0mdyIupL9Nu
-BqKyhATbQTk30cQl5uH8A39nsfoM/seewy2NQiDalHRAxpcc32fXrsHhm2PUzLUauXe4+Eid1+to
-EAxf
---0000000000005ba0e90618ad1cd0--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
