@@ -1,112 +1,127 @@
-Return-Path: <linux-leds+bounces-1700-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1701-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD758CF559
-	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2024 20:18:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FB58CFD6A
+	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 11:47:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 503421F211A5
-	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2024 18:18:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 012111C20C06
+	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 09:47:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D30512BEB7;
-	Sun, 26 May 2024 18:18:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD42F13A40C;
+	Mon, 27 May 2024 09:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="KL1kKobG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efm13NHb"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B6312BF20;
-	Sun, 26 May 2024 18:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFEC13A86E;
+	Mon, 27 May 2024 09:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716747515; cv=none; b=bgItauGA5m50jNTEDf94wHo4+G2OfxQZvvUXLtEJAJUlyOWc/hqDl8KpS3S8CnaID6RiJNzDcmntmR1D51JuT2+666e6/rmwXXNsUn1pTiChWRErHeU9MSiV54nnuDl6Lou3BDE8No2hnx4hidnQUfemWw7dE3PmrzJrKYbzliY=
+	t=1716803268; cv=none; b=lH+JP6AUcIBRpWfznk5BUvTMqk1sbpfsVeam/ErmcfcN2K0lyydHv8YPMjh/k+W0v+hxzg/FtWDitD5oFrYbMuLQP7YxZ66tOln2lq8DzQ/fFBR8Aqh5NHoffECEX0wnEuV1PKEw1ipUjmEs8AK6XG437W93KeAo3xnPMa2aolU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716747515; c=relaxed/simple;
-	bh=5whg+Ib6ob2V3Udbi5NwANP2fRI1+wV3sVY7NRxurO4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EHUZ/2yaV85cR3WJP/bqyTmKkRHrlW10sWrFI0AwyxMFbc0VGfRBPTg+rew53frBxv7Cw26jBRrujjvdnHXzcIx0UZ/ZAAvK4ocsM5zxl/bBI+7LRcMLsUcSYnbSqaUnYaf9s28ioLhePirs5aSEbXs4/T4RbD02uaylJatLXoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=KL1kKobG; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1716747502;
-	bh=5whg+Ib6ob2V3Udbi5NwANP2fRI1+wV3sVY7NRxurO4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KL1kKobG/hIYRlUHO/aN9r5j6u5ar31U6e6NwIAWUTis6Mu23S2xAYV7d0FutK1Ap
-	 wcWViMqCzNb6VITpUxLnQ7EkAN02woSxH5x0invTB9EPZ2FVscFInw+VUWXu+Hsp0z
-	 5wITDrLolfQK3eXLS8+Bwv4mcHDqbYKW/E2wZk2c=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 26 May 2024 20:17:18 +0200
-Subject: [PATCH v3 4/4] mfd: cros_ec: Register keyboard backlight subdevice
+	s=arc-20240116; t=1716803268; c=relaxed/simple;
+	bh=zmlEeR9fqWoZOWgKSIAR0BnYHc5xX8dghAkYYfuCWLQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qU/W5hzeT53763mwRQNPNqusj8ZhztRG0MQ5GX8Ih1cSW3n4shzKdHchPLgPUXLwLDD9WWpwxzGgN4otoUkqr2lA/k3pqy1SuBBG2mRQcFXPZTlo7OD4hF3yTvndIxNFXY/yCALooim2dRnxhj4+sVT4FzVN9GtQhRx6FbprKXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efm13NHb; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-529b22aabc1so535163e87.2;
+        Mon, 27 May 2024 02:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716803265; x=1717408065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FqbOftymuJZXxV4IxHBqDJd32xD2wTJjXnpBj9fmizg=;
+        b=efm13NHbxJp2/XPWLrG6oQD2n2wueCQE/pUquhCWdjcjiuigICxxuqN0zR67t1JTOo
+         R+ghmggrnsGpAK2zDphh11oZS9teZvOrWOsPcyeCGjGmzznLNZEvaWOahQVu6D2TtDbe
+         ZYUfURpDyJmI18f4sZW8RDE8vPC8e3v46FWWsWyvzmgjjfJbG6DTsHoSg9+Y8aW/Gq7C
+         /y5H+khufKqfMJ+NuLSepX7/CxVia1E7cFrTGgc4m1eW9FqacdzkhK1JJqPKxj6IQqF0
+         CO6QnYModqABWEzdfEwV8B2AeMemB4pkKLTgif2Sx59S3XtVYkSGberDEJhchbJkt2XR
+         va3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716803265; x=1717408065;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FqbOftymuJZXxV4IxHBqDJd32xD2wTJjXnpBj9fmizg=;
+        b=ZdXrIIa7dJUo3H323bNUGQcdkmf7kYiIJgD6QfqgrjLt893AahITAaiSU4MUdi35BD
+         mGDsRdjD039fMGEFADZZHs+MQHqTxHph8kNg4qWwJFkwz3BXoDymRbLdJg/1XyoECRz0
+         L8utQ+Rm8taepjbZVC/6XiNAYLgwO1lPT8R1et4oadAFHMuZ+wHZh126BIg6riH0b7wy
+         U2XhVVpmqSUN2sOEWRpwQDQAxbeo+IEdhvzGsEn8RQ2ix3L/WAw0YZcj3zhBozMeSaij
+         4QgMliMfCxG6fn5efQrVomeX370rXysDxoem+V6h7CpNrmxHbMVxHv4C3zigzkGHAxw5
+         L+Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUElwC3xADM1LYytYXqnMAp/IaKye2JQwCzpLENROoZq2zePq8/2VGGbygMPsuObRILY6zPwkdYFNgbv0xBVgiwLMnHDO4XXlEGpSMPgVP3DL1EkIudZy0P+JFOJI9OgtQn7ZhwGK6im5QVFwTUu2Af6/NuqdymK6a8X1cIZcydHcmRqlE=
+X-Gm-Message-State: AOJu0YwuN+ahSPikKs+QCHEgvt7f+WnS/DlYwTgavBA0Ta75/VyV34ac
+	7C9kTAGKCio1EVwJN0dR6xHVfANKCJt7wzwDi2C1Lqqpy0wFQ1kxVcr5Zw==
+X-Google-Smtp-Source: AGHT+IEUKp2XxLj7Tf/e2aZ31Wxs02KBx/sE/wWtaF87IkxQYhkU6JqH2MtlFGmr8zCA0WUgkvvc1Q==
+X-Received: by 2002:a05:6512:287:b0:523:5602:7438 with SMTP id 2adb3069b0e04-529646df120mr4787786e87.26.1716803264975;
+        Mon, 27 May 2024 02:47:44 -0700 (PDT)
+Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-420fd37c1d2sm156356915e9.1.2024.05.27.02.47.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 May 2024 02:47:44 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Marangi <ansuelsmth@gmail.com>
+Subject: [PATCH v3 1/3] dt-bindings: leds-lp55xx: limit pwr-sel property to ti,lp8501
+Date: Mon, 27 May 2024 11:47:32 +0200
+Message-ID: <20240527094737.13354-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240526-cros_ec-kbd-led-framework-v3-4-ee577415a521@weissschuh.net>
-References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
-In-Reply-To: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
-To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Pavel Machek <pavel@ucw.cz>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Dustin Howett <dustin@howett.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, linux-leds@vger.kernel.org, 
- Rajas Paranjpe <paranjperajas@gmail.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716747501; l=1230;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=5whg+Ib6ob2V3Udbi5NwANP2fRI1+wV3sVY7NRxurO4=;
- b=GzSekRHu7tiKgLifZlJdqItMDKzgvxrVirOKDe4ub8Gvkg5zgOqeYeH6/rcwblmhcT0tnPzbI
- 0k8y9tjv79JCca4RPruCGc6G/qbD+ycMqjJmERAxFeVKLLDbBdFtKZw
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Load cros_kbd_led_backlight when the EC reports EC_FEATURE_PWM_KEYB.
-This makes cros_kbd_led_backlight work on machines without specific
-ACPI or OF support for the keyboard backlight.
+pwr-sel property is specific to ti,lp8501, make it conditional of the
+related compatible.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- drivers/mfd/cros_ec_dev.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+v3:
+- Add ACK tag
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index a52d59cc2b1e..4444b361aeae 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
- 	{ .name = "cros-ec-wdt", }
- };
+ .../devicetree/bindings/leds/leds-lp55xx.yaml          | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+index e9d4514d0166..77828dedbb9f 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+@@ -151,6 +151,16 @@ patternProperties:
+         $ref: /schemas/types.yaml#/definitions/string
+         description: name of channel
  
-+static const struct mfd_cell cros_ec_keyboard_leds_cells[] = {
-+	{ .name = "cros-keyboard-leds", },
-+};
++if:
++  not:
++    properties:
++      compatible:
++        contains:
++          const: ti,lp8501
++then:
++  properties:
++    pwr-sel: false
 +
- static const struct cros_feature_to_cells cros_subdevices[] = {
- 	{
- 		.id		= EC_FEATURE_CEC,
-@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_wdt_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
- 	},
-+	{
-+		.id		= EC_FEATURE_PWM_KEYB,
-+		.mfd_cells	= cros_ec_keyboard_leds_cells,
-+		.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
-+	},
- };
- 
- static const struct mfd_cell cros_ec_platform_cells[] = {
-
+ required:
+   - compatible
+   - reg
 -- 
-2.45.1
+2.43.0
 
 
