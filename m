@@ -1,102 +1,127 @@
-Return-Path: <linux-leds+bounces-1707-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1708-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D51C8D00E9
-	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 15:04:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAD28D016C
+	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 15:27:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FFA41F228DB
-	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 13:04:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BA211F24962
+	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 13:27:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BC3715FD11;
-	Mon, 27 May 2024 12:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2C915EFAE;
+	Mon, 27 May 2024 13:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Olyl4fuc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8B7pcjp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F8D15FA97;
-	Mon, 27 May 2024 12:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2BE15ECFD;
+	Mon, 27 May 2024 13:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716814791; cv=none; b=i0YyLymkG8eln94tnhST4Pl2ibEMhkygMFCBc6PRPA1yBP75tnZob9uYlYs+WwCwGTnn0IjyvL+n80BU4NQekREDJ3acRkwmv+JhqSmumXYDqMcfZKjM3HX1E8L8QFZHnqCkOtyqiWXuxoIRJKTCjPyRrZVEeT31+XUd/Vv9lVc=
+	t=1716816436; cv=none; b=B+0lG6r+XZqPj2fZ/ZfmJZ46sn1sFPEjnDNPYFLvOgt0GG8JvybMJpjkVr1H1dkETiP0QSo8rBftfN0aAFsmkO6Eq2uZxr2BjSfkLTh7ica2NnMztN7d/9kOUcwsKOpPp2LvuwP5vSJJ+MSGK1gEGreZBGhoV7Lw13A8Kh1veDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716814791; c=relaxed/simple;
-	bh=NUoe4mDdPN9W0IzNYWtLfDFheFSeywtuilNg5JQ/k5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bo6dZWfdRF4rGFQDn2oUxgM5tvmtRz90jTKTmWaJ3XfDrLMxZznlrqdDbz+3FiuFMG+zdgEO8gJGp3u3LbN87vxJ/RtOHUTek+r4pzkymmUgnsZLvqWvPgyVsZkmrHH2CLJ/IORzgtdqIHzpXHEtgQMXMN+JVVLChwnHtL29cLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Olyl4fuc; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPA id 67BED1C0002;
-	Mon, 27 May 2024 12:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1716814787;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uuejyrShmDWp6N9DabjjRWMGIOVtRON+WOq46a8Kctc=;
-	b=Olyl4fucwY1KvFrTY6et05Q/eLkJaaw30i9SV9uCqwqqo4wUi3PSmf9QA9I560FuHsgcVl
-	amQDYSTr2jQwKaCILQHSD/27zD9lFsTMVpQJ2dAJRY2rfu6s89biBPIX0vtRy3pnLLyQvU
-	dy8HLq04SL56v4uCD38eSlq1U9BD61O5nyRg0+QcKagjAoRC4864dYqg0HyzdXTHqo1ANt
-	Rwn6OAtptkW9vZHhySEoCcJXpTRr947p0OrGw7tPqzfSXZs89p4f0rQMxtFEERWE//rnQM
-	hqT9JZy0lehlHJDIBmKT/+S0/hftO9TYth2DRZiPfqELhidCY5DQKL1Y0l2rbg==
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-To: Riku Voipio <riku.voipio@iki.fi>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com,
-	christophercordahi@nanometrics.ca,
-	Bastien Curutchet <bastien.curutchet@bootlin.com>
-Subject: [PATCH 3/3] leds: pca9532: Change default blinking frequency to 1Hz
-Date: Mon, 27 May 2024 14:59:40 +0200
-Message-ID: <20240527125940.155260-4-bastien.curutchet@bootlin.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240527125940.155260-1-bastien.curutchet@bootlin.com>
-References: <20240527125940.155260-1-bastien.curutchet@bootlin.com>
+	s=arc-20240116; t=1716816436; c=relaxed/simple;
+	bh=wvKfF7CTGkILCYXaRxLo0BRYhRmTr1qU9enaps1pCtI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=l1qjkTjE1WY3ETsYMSBANzDwNMF/sFat3/5oFiPPmfvjjC8iaRY5SxElZr8AEZVJSykrvnafLd2V/khlSZk00jADq6Sif13Du6MYSfg6LMuqzRy5uiIQtsm7HGSSfrFrctIE1HSK+g3QgiDTdigXQ48GBb6ZaoBml9aZ4xbaUmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8B7pcjp; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716816435; x=1748352435;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wvKfF7CTGkILCYXaRxLo0BRYhRmTr1qU9enaps1pCtI=;
+  b=S8B7pcjpn/vYnLpnbZpyta0K6D1GEvMUuLZ5q7FHtyHWCN/g4LwzU8jT
+   I8XiFRRuFx7tcTc8Z/AArcnIyEwC2Lu45R9K6vvH9zoZHEmEh31q4GXyH
+   rYvL19AWULEpSeqwlW3dFKm73cc9KnU4ZfnXCUy50XMa+H56qvntOCb/W
+   0NeOpCfnk203brSmBw88DXCsZuG7Uo8qkmmaCf4ZyRPgXhPbn149OA2WV
+   B/inU7fUzAk/OQzYbPgHDEPBRoNey+sNouTlM0tngq2ke8dnp/2x8CThq
+   EMHAcmencl4D/of/85NtYcKUZX2LuhfwfX+DG/NK7Aojsc5tECJM+8Fn3
+   Q==;
+X-CSE-ConnectionGUID: 9VjXVEgHTxycoXmeR3L1HA==
+X-CSE-MsgGUID: wQekaMZDS26Q6ONroRgW1w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="13360158"
+X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
+   d="scan'208";a="13360158"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 06:27:14 -0700
+X-CSE-ConnectionGUID: /os+K9DuQBOnhPvFbYJ2mw==
+X-CSE-MsgGUID: 4kE1KxpaTKW4Su4ifoDNdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
+   d="scan'208";a="39558544"
+Received: from unknown (HELO localhost) ([10.245.247.140])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 06:27:11 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Dave Hansen <dave@sr71.net>,
+	Richard Purdie <rpurdie@linux.intel.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/1] leds: ss4200: Convert PCIBIOS_* return codes to errnos
+Date: Mon, 27 May 2024 16:27:00 +0300
+Message-Id: <20240527132700.14260-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
 
-Default blinking period is set to 2s. This is too long to be handled by
-the hardware (maximum is 1.69s).
+ich7_lpc_probe() uses pci_read_config_dword() that returns PCIBIOS_*
+codes. The error handling code assumes incorrectly it's a normal errno
+and checks for < 0. The return code is returned from the probe function
+as is but probe functions should return normal errnos.
 
-Set the default blinking period to 1s to match what is done in the
-other led drivers.
+Remove < 0 from the check and convert PCIBIOS_* returns code using
+pcibios_err_to_errno() into normal errno before returning it.
 
-Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Fixes: a328e95b82c1 ("leds: LED driver for Intel NAS SS4200 series (v5)")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/leds/leds-pca9532.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/leds/leds-ss4200.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 356b71a4b7ac..5fefcaae7006 100644
---- a/drivers/leds/leds-pca9532.c
-+++ b/drivers/leds/leds-pca9532.c
-@@ -240,8 +240,8 @@ static int pca9532_set_blink(struct led_classdev *led_cdev,
+diff --git a/drivers/leds/leds-ss4200.c b/drivers/leds/leds-ss4200.c
+index fcaa34706b6c..2ef9fc7371bd 100644
+--- a/drivers/leds/leds-ss4200.c
++++ b/drivers/leds/leds-ss4200.c
+@@ -356,8 +356,10 @@ static int ich7_lpc_probe(struct pci_dev *dev,
  
- 	if (*delay_on == 0 && *delay_off == 0) {
- 		/* led subsystem ask us for a blink rate */
--		*delay_on = 1000;
--		*delay_off = 1000;
-+		*delay_on = 500;
-+		*delay_off = 500;
+ 	nas_gpio_pci_dev = dev;
+ 	status = pci_read_config_dword(dev, PMBASE, &g_pm_io_base);
+-	if (status)
++	if (status) {
++		status = pcibios_err_to_errno(status);
+ 		goto out;
++	}
+ 	g_pm_io_base &= 0x00000ff80;
+ 
+ 	status = pci_read_config_dword(dev, GPIO_CTRL, &gc);
+@@ -369,8 +371,9 @@ static int ich7_lpc_probe(struct pci_dev *dev,
  	}
  
- 	led->state = PCA9532_PWM1;
+ 	status = pci_read_config_dword(dev, GPIO_BASE, &nas_gpio_io_base);
+-	if (0 > status) {
++	if (status) {
+ 		dev_info(&dev->dev, "Unable to read GPIOBASE.\n");
++		status = pcibios_err_to_errno(status);
+ 		goto out;
+ 	}
+ 	dev_dbg(&dev->dev, ": GPIOBASE = 0x%08x\n", nas_gpio_io_base);
 -- 
-2.44.0
+2.39.2
 
 
