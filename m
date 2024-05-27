@@ -1,127 +1,121 @@
-Return-Path: <linux-leds+bounces-1708-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1709-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAD28D016C
-	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 15:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5046A8D0F9E
+	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 23:37:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BA211F24962
-	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 13:27:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3FC51F220FF
+	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2024 21:37:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2C915EFAE;
-	Mon, 27 May 2024 13:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2140156455;
+	Mon, 27 May 2024 21:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8B7pcjp"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nnTBKl8M"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2BE15ECFD;
-	Mon, 27 May 2024 13:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E1317BA7;
+	Mon, 27 May 2024 21:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716816436; cv=none; b=B+0lG6r+XZqPj2fZ/ZfmJZ46sn1sFPEjnDNPYFLvOgt0GG8JvybMJpjkVr1H1dkETiP0QSo8rBftfN0aAFsmkO6Eq2uZxr2BjSfkLTh7ica2NnMztN7d/9kOUcwsKOpPp2LvuwP5vSJJ+MSGK1gEGreZBGhoV7Lw13A8Kh1veDY=
+	t=1716845827; cv=none; b=E7wupaJQKSfG7InIeK64/NZRwqezKUjZO5jkuAKEpg8FZqzS8qNok8QklN5QUciAen3YYOJFy45FVJ8ahIojGb9za7PmQyPca2jxXbjd1ppGXIIPbiqCV+keDMCaw3QFpUdH8BENIM4gOhpw0mm0voEwnKbOCEar7WasuXO7lcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716816436; c=relaxed/simple;
-	bh=wvKfF7CTGkILCYXaRxLo0BRYhRmTr1qU9enaps1pCtI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=l1qjkTjE1WY3ETsYMSBANzDwNMF/sFat3/5oFiPPmfvjjC8iaRY5SxElZr8AEZVJSykrvnafLd2V/khlSZk00jADq6Sif13Du6MYSfg6LMuqzRy5uiIQtsm7HGSSfrFrctIE1HSK+g3QgiDTdigXQ48GBb6ZaoBml9aZ4xbaUmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8B7pcjp; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716816435; x=1748352435;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wvKfF7CTGkILCYXaRxLo0BRYhRmTr1qU9enaps1pCtI=;
-  b=S8B7pcjpn/vYnLpnbZpyta0K6D1GEvMUuLZ5q7FHtyHWCN/g4LwzU8jT
-   I8XiFRRuFx7tcTc8Z/AArcnIyEwC2Lu45R9K6vvH9zoZHEmEh31q4GXyH
-   rYvL19AWULEpSeqwlW3dFKm73cc9KnU4ZfnXCUy50XMa+H56qvntOCb/W
-   0NeOpCfnk203brSmBw88DXCsZuG7Uo8qkmmaCf4ZyRPgXhPbn149OA2WV
-   B/inU7fUzAk/OQzYbPgHDEPBRoNey+sNouTlM0tngq2ke8dnp/2x8CThq
-   EMHAcmencl4D/of/85NtYcKUZX2LuhfwfX+DG/NK7Aojsc5tECJM+8Fn3
-   Q==;
-X-CSE-ConnectionGUID: 9VjXVEgHTxycoXmeR3L1HA==
-X-CSE-MsgGUID: wQekaMZDS26Q6ONroRgW1w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="13360158"
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="13360158"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 06:27:14 -0700
-X-CSE-ConnectionGUID: /os+K9DuQBOnhPvFbYJ2mw==
-X-CSE-MsgGUID: 4kE1KxpaTKW4Su4ifoDNdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="39558544"
-Received: from unknown (HELO localhost) ([10.245.247.140])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 06:27:11 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Dave Hansen <dave@sr71.net>,
-	Richard Purdie <rpurdie@linux.intel.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/1] leds: ss4200: Convert PCIBIOS_* return codes to errnos
-Date: Mon, 27 May 2024 16:27:00 +0300
-Message-Id: <20240527132700.14260-1-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1716845827; c=relaxed/simple;
+	bh=ZzymRwiag4vNy1Ln3C5qFthv78Z+ynceuh6OsQPfIQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLfE+RDiNbIWomlevWpsepoW727twyZ3so5HjuIY+mUbzPzC2xBbkPaH15EkOiKzBP7v+2LH8bPcza6xVeI114sHG0Jnr8488AIYOGPxzgtaeTd4vfS3wju6IsNUHk+PlPNQxs3fGecHS9Rsh3xMwQlxaIF/vOiczvgoHm0enb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nnTBKl8M; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716845823;
+	bh=ZzymRwiag4vNy1Ln3C5qFthv78Z+ynceuh6OsQPfIQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nnTBKl8M7Y4tz//0JHIUhjwi9s08B65Fl64ebhW7/naw6b9ddp2QNsz0Bf8rUl6Nl
+	 5W/z4oIDPaBw19//FUeR9uuZFzFJPrDDyXiiT+UgkVU3Fyb+9YgDyBuPtB6K2qtasp
+	 +WKFdruT12BdxrnafLPjvulTP5HPpu8Uy4jVQZMQdV4E8UZrc8m0KFxawXsFVTytks
+	 j3KUoXHzTa9x/hTIBah6IZxQ0yYifLUA+AvyHui1+hA2simpfJItvvdOseAcGR7ZWQ
+	 v/KXlzFn+jyF3Sa9SVx5ooDbbkHzIHq0mc65Be0VEs7gHJNXdScPAzKGJD87tCO1nF
+	 RyUsr8q+IHauA==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A68003780480;
+	Mon, 27 May 2024 21:37:03 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 2CF3E10612B3; Mon, 27 May 2024 23:37:03 +0200 (CEST)
+Date: Mon, 27 May 2024 23:37:03 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Kate Hsuan <hpa@redhat.com>, platform-driver-x86@vger.kernel.org, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 0/3] power: supply: power-supply-leds: Add activate()
+ callback to triggers
+Message-ID: <zkdtnbeidvlswrchxpwwpqhun2smx4575gzfpi4r35qowjoycm@e53yblr2ytjz>
+References: <20240510194012.138192-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cpji5p6yjwsnbo2w"
+Content-Disposition: inline
+In-Reply-To: <20240510194012.138192-1-hdegoede@redhat.com>
 
-ich7_lpc_probe() uses pci_read_config_dword() that returns PCIBIOS_*
-codes. The error handling code assumes incorrectly it's a normal errno
-and checks for < 0. The return code is returned from the probe function
-as is but probe functions should return normal errnos.
 
-Remove < 0 from the check and convert PCIBIOS_* returns code using
-pcibios_err_to_errno() into normal errno before returning it.
+--cpji5p6yjwsnbo2w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: a328e95b82c1 ("leds: LED driver for Intel NAS SS4200 series (v5)")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/leds/leds-ss4200.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/drivers/leds/leds-ss4200.c b/drivers/leds/leds-ss4200.c
-index fcaa34706b6c..2ef9fc7371bd 100644
---- a/drivers/leds/leds-ss4200.c
-+++ b/drivers/leds/leds-ss4200.c
-@@ -356,8 +356,10 @@ static int ich7_lpc_probe(struct pci_dev *dev,
- 
- 	nas_gpio_pci_dev = dev;
- 	status = pci_read_config_dword(dev, PMBASE, &g_pm_io_base);
--	if (status)
-+	if (status) {
-+		status = pcibios_err_to_errno(status);
- 		goto out;
-+	}
- 	g_pm_io_base &= 0x00000ff80;
- 
- 	status = pci_read_config_dword(dev, GPIO_CTRL, &gc);
-@@ -369,8 +371,9 @@ static int ich7_lpc_probe(struct pci_dev *dev,
- 	}
- 
- 	status = pci_read_config_dword(dev, GPIO_BASE, &nas_gpio_io_base);
--	if (0 > status) {
-+	if (status) {
- 		dev_info(&dev->dev, "Unable to read GPIOBASE.\n");
-+		status = pcibios_err_to_errno(status);
- 		goto out;
- 	}
- 	dev_dbg(&dev->dev, ": GPIOBASE = 0x%08x\n", nas_gpio_io_base);
--- 
-2.39.2
+On Fri, May 10, 2024 at 09:40:09PM +0200, Hans de Goede wrote:
+> This series adds an activate callback to the power-supply LED triggers to
+> ensure that power-supply LEDs get the correct initial value when the LED
+> gets registered after the power_supply has been registered.
+>=20
+> Patches 1-2 do some refactoring / prep work and patch 3 adds the actual
+> activate callback.
+>=20
+> This series applies on top of "[PATCH v9 6/7] power: supply: power-supply=
+-leds:
+> Add charging_orange_full_green trigger for RGB LED":
+> https://lore.kernel.org/all/20240504164105.114017-7-hdegoede@redhat.com/
 
+Apart from Andy's comments LGTM.
+
+-- Sebastian
+
+--cpji5p6yjwsnbo2w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZU/PsACgkQ2O7X88g7
++ppBJw/6AvFN8+Mf82SILotJgidN4q3el5SRQuRk5X1+EPKLeWuw3o+JJ5lJ9N3H
+dnCnlrib2727BqYUiXJ8UNjQevjsrIQxWDVacVphTWP8HJ5uP3F8CE2NTkdeRll8
+wb6OlJOdWpR2tlu/oAclhBngd61Yc4qDnk/H3X5HDkfI7dSPQKTb8sFcmC1PY7Lp
+FwjAcXp4yTNw3wxuzPvXcfuCBrkjZU497geQVJpwOVhj/L3JgVW6VtMxavWc3kib
+es04kNSNYoHUxUfBhGE0Elj2iQ5uSMR8wtwq6N2JA6tFVLurSDNH5903ROehiy8I
+A9r+TSSv/0Y8T5SZT978KbH5bA1NPA2l4MvKB4K+Wuj3uvxCDRj0Kob0eL5iLIN8
+gAdP26EXHOFphqg8nhWl03YDRyuyPoKnn/s0s2+R823JgCwKzhlTxhNH6420SHXs
+HXRh1QvARXXs9Ze5kARQevmJBN38JRLRzfUUDNKTsTP2yioyz9xmi2PWvzGr9M+8
+oEitS41DREVzE/7C7XNyINO2uxLTTWj9sl3dTsopciizM9KcD2bA68WZIVJUDf2X
+rfrvD+SrUotbzQXoDfwuMrts5n522Ss8s6haIatEXtCdSqYZsApzFx6Ocp4JVOql
+bzPt0l/eeBGFY3RkYgsUYHa7XSzOGy9V/Jar/wRgVoPXG29sZAY=
+=7OpP
+-----END PGP SIGNATURE-----
+
+--cpji5p6yjwsnbo2w--
 
