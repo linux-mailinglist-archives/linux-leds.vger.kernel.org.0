@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-1782-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1783-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA458D66FC
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 18:35:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D41628D66FD
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 18:36:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72D5F1F23E89
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 16:35:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10CF21C22704
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 16:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 021EC17E47E;
-	Fri, 31 May 2024 16:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0173C17F515;
+	Fri, 31 May 2024 16:33:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="MzeN/PzW"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="edq95LqL"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827C317D890;
-	Fri, 31 May 2024 16:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEEF16FF26;
+	Fri, 31 May 2024 16:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717173225; cv=none; b=uxsykYe+Ak4I4PfyrhlDfrG0oGqU78nY4N3cIkUcw6asXuGh9xOBRSfiRMwaOaz1/6eN5jRd5aW5CAj9e3t7O0hOtwMt3jtD255Q+VI/99mJRL5rNKq1cEHdO1Sb76xv3v23+Ss8jsq0YagiIJhU8pra7N3gilhkdFt+f0zEbGo=
+	t=1717173226; cv=none; b=FdnKwI5aAjkKZVPc7y3wUmNY3dgxT+N6MatVmSPE9O0tSTXsbkdYlhGkI8KAmB13OVOIuvqJX0YDxIsnTi8iFgbdOKBp8n4aDUa8EZ2gQ2M+T18ngm0QiDnViYnxNomjil2b9RWxJWPE3kJz+mNi+U4XZVy5lz0gEeTZR0pqaQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717173225; c=relaxed/simple;
-	bh=HufEwWkbpTxiiXisn3yy7UxETsQlWGuLUyx1Km4hSeE=;
+	s=arc-20240116; t=1717173226; c=relaxed/simple;
+	bh=n2u4OD+7kEm8RZjvbkONoagB9zqSR2+KV+RE7i+Xr9s=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cxxW44JTFZaqELq7Xg/ZuvN0ysVWgoNox61or7pq+CZF2z4mEv8NLMTT3xzAg0pUSS1tCLWfoyrFmDi9kuX8B8WiIA29A3EAQqRO4VRr+LwRJ+0OWfrXlaGxMTUfe2kOmHaakCqkarlqfdCSKXahB5bq5KuZYAZd5T8CnSNSnN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=MzeN/PzW; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=Q+N27n3p42w1GmptDxLlplTZlOt4gGJGy84d8enKyYBKlQhwTX1CPuvgHWcotgYd6QJxedqc9cWTvyRzXvAiWQsmoiZQdQSVmRqsEkBjpHbScJpZzp6qiAjwvnhsy/Yf8mkyRVHr43aj5bmuEb0DcXcGiGX1OY9OFNGOw5mpPQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=edq95LqL; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1717173219;
-	bh=HufEwWkbpTxiiXisn3yy7UxETsQlWGuLUyx1Km4hSeE=;
+	s=mail; t=1717173220;
+	bh=n2u4OD+7kEm8RZjvbkONoagB9zqSR2+KV+RE7i+Xr9s=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MzeN/PzWqHzcqp6svbZnkDt9BLPM66TExUYl88xQXZm6LfZ1mtKOFbpw/kG17p3rK
-	 VJQgweGUCd0KGJrvLrDJGOiwlk1r4OXJ2RjbsLjzhb1iCuLBIWZnTbqJC+3lFETaTS
-	 wOUQmCBn88GN5wx1xWYBf8wj05LfNK+CRAnqOTKc=
+	b=edq95LqLrPPm2YXFqMAs0HpHQgNVFSonfwL9wXPPbVQ074XCiuGUa0NiSDDslO0GH
+	 0rCyOsnLt8samykQCfP7MgQBRzcZWl9vnZ621bZuH6H5g/cPQlEztRf5KXQGQoFFnk
+	 yQIiuLP8B3pi2UK/Saojsmp9/j3ZBy0fvqT+jFJo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Fri, 31 May 2024 18:33:34 +0200
-Subject: [PATCH v2 4/5] leds: Add ChromeOS EC driver
+Date: Fri, 31 May 2024 18:33:35 +0200
+Subject: [PATCH v2 5/5] mfd: cros_ec: Register LED subdevice
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240531-cros_ec-led-v2-4-6cc34408b40d@weissschuh.net>
+Message-Id: <20240531-cros_ec-led-v2-5-6cc34408b40d@weissschuh.net>
 References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
 In-Reply-To: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
@@ -61,388 +61,48 @@ Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  Mario Limonciello <mario.limonciello@amd.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717173219; l=11102;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717173219; l=1053;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=HufEwWkbpTxiiXisn3yy7UxETsQlWGuLUyx1Km4hSeE=;
- b=7/Wq4ptLpJtLBlXAG2nbtG9IwS2WLo2umkLCme2rlW+68pWV5VhiYFiKVJ3uol4ju+OyTKxHT
- atPl5ya69IvBFILS/FxNhhMZ/g1FbEvC5TAtjyU72CdZLAin++2wR+v
+ bh=n2u4OD+7kEm8RZjvbkONoagB9zqSR2+KV+RE7i+Xr9s=;
+ b=aJcIWhKSLFoYPkxa+/8iXSsj6IdWqycbussAt1FOAY7KA6y7tuFQkETdYl+xMXuWXzskLpUpb
+ EEcOxT3ntu2AbSQOerKUA83fH4xvFy0BiwwrZ7wPR67AmumBGeRoKyd
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The ChromeOS Embedded Controller exposes an LED control command.
-Expose its functionality through the leds subsystem.
-
-The LEDs are exposed as multicolor devices.
-A hardware trigger, which is active by default, is provided to let the
-EC itself take over control over the LED.
-
-The driver is designed to be probed via the cros_ec mfd device.
+Add ChromeOS EC-based LED control as EC subdevice.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- MAINTAINERS                 |   5 +
- drivers/leds/Kconfig        |  15 +++
- drivers/leds/Makefile       |   1 +
- drivers/leds/leds-cros_ec.c | 297 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 318 insertions(+)
+ drivers/mfd/cros_ec_dev.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d6c90161c7bf..003118d088f0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5135,6 +5135,11 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
- F:	sound/soc/codecs/cros_ec_codec.*
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index a52d59cc2b1e..d8408054ba15 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -99,6 +99,10 @@ static const struct mfd_cell cros_ec_wdt_cells[] = {
+ 	{ .name = "cros-ec-wdt", }
+ };
  
-+CHROMEOS EC LED DRIVER
-+M:	Thomas Weißschuh <thomas@weissschuh.net>
-+S:	Maintained
-+F:	drivers/leds/leds-cros_ec.c
++static const struct mfd_cell cros_ec_led_cells[] = {
++	{ .name = "cros-ec-led", },
++};
 +
- CHROMEOS EC SUBDRIVERS
- M:	Benson Leung <bleung@chromium.org>
- R:	Guenter Roeck <groeck@chromium.org>
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 05e6af88b88c..aa2fec9a34ed 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -179,6 +179,21 @@ config LEDS_CR0014114
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called leds-cr0014114.
+ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 	{
+ 		.id		= EC_FEATURE_CEC,
+@@ -125,6 +129,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 		.mfd_cells	= cros_ec_wdt_cells,
+ 		.num_cells	= ARRAY_SIZE(cros_ec_wdt_cells),
+ 	},
++	{
++		.id		= EC_FEATURE_LED,
++		.mfd_cells	= cros_ec_led_cells,
++		.num_cells	= ARRAY_SIZE(cros_ec_led_cells),
++	},
+ };
  
-+config LEDS_CROS_EC
-+	tristate "LED Support for ChromeOS EC"
-+	depends on MFD_CROS_EC_DEV
-+	depends on LEDS_CLASS_MULTICOLOR
-+	select LEDS_TRIGGERS
-+	default MFD_CROS_EC_DEV
-+	help
-+	  This option enables support for LEDs managed by ChromeOS ECs.
-+	  All LEDs exposed by the EC are supported in multicolor mode.
-+	  A hardware trigger to switch back to the automatic behaviour is
-+	  provided.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-cros_ec.
-+
- config LEDS_EL15203000
- 	tristate "LED Support for Crane EL15203000"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index effdfc6f1e95..3491904e13f7 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
- obj-$(CONFIG_LEDS_COBALT_QUBE)		+= leds-cobalt-qube.o
- obj-$(CONFIG_LEDS_COBALT_RAQ)		+= leds-cobalt-raq.o
- obj-$(CONFIG_LEDS_CPCAP)		+= leds-cpcap.o
-+obj-$(CONFIG_LEDS_CROS_EC)		+= leds-cros_ec.o
- obj-$(CONFIG_LEDS_DA903X)		+= leds-da903x.o
- obj-$(CONFIG_LEDS_DA9052)		+= leds-da9052.o
- obj-$(CONFIG_LEDS_GPIO)			+= leds-gpio.o
-diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
-new file mode 100644
-index 000000000000..193a09a9e78a
---- /dev/null
-+++ b/drivers/leds/leds-cros_ec.c
-@@ -0,0 +1,297 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  ChromeOS EC LED Driver
-+ *
-+ *  Copyright (C) 2024 Thomas Weißschuh <linux@weissschuh.net>
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/leds.h>
-+#include <linux/led-class-multicolor.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+
-+#define DRV_NAME	"cros-ec-led"
-+
-+static const char * const cros_ec_led_functions[] = {
-+	[EC_LED_ID_BATTERY_LED]            = LED_FUNCTION_CHARGING,
-+	[EC_LED_ID_POWER_LED]              = LED_FUNCTION_POWER,
-+	[EC_LED_ID_ADAPTER_LED]            = "adapter",
-+	[EC_LED_ID_LEFT_LED]               = "left",
-+	[EC_LED_ID_RIGHT_LED]              = "right",
-+	[EC_LED_ID_RECOVERY_HW_REINIT_LED] = "recovery-hw-reinit",
-+	[EC_LED_ID_SYSRQ_DEBUG_LED]        = "sysrq-debug",
-+};
-+
-+static_assert(ARRAY_SIZE(cros_ec_led_functions) == EC_LED_ID_COUNT);
-+
-+static const int cros_ec_led_to_linux_id[] = {
-+	[EC_LED_COLOR_RED]    = LED_COLOR_ID_RED,
-+	[EC_LED_COLOR_GREEN]  = LED_COLOR_ID_GREEN,
-+	[EC_LED_COLOR_BLUE]   = LED_COLOR_ID_BLUE,
-+	[EC_LED_COLOR_YELLOW] = LED_COLOR_ID_YELLOW,
-+	[EC_LED_COLOR_WHITE]  = LED_COLOR_ID_WHITE,
-+	[EC_LED_COLOR_AMBER]  = LED_COLOR_ID_AMBER,
-+};
-+
-+static_assert(ARRAY_SIZE(cros_ec_led_to_linux_id) == EC_LED_COLOR_COUNT);
-+
-+static const int cros_ec_linux_to_ec_id[] = {
-+	[LED_COLOR_ID_RED]    = EC_LED_COLOR_RED,
-+	[LED_COLOR_ID_GREEN]  = EC_LED_COLOR_GREEN,
-+	[LED_COLOR_ID_BLUE]   = EC_LED_COLOR_BLUE,
-+	[LED_COLOR_ID_YELLOW] = EC_LED_COLOR_YELLOW,
-+	[LED_COLOR_ID_WHITE]  = EC_LED_COLOR_WHITE,
-+	[LED_COLOR_ID_AMBER]  = EC_LED_COLOR_AMBER,
-+};
-+
-+struct cros_ec_led_priv {
-+	struct led_classdev_mc led_mc_cdev;
-+	struct cros_ec_device *cros_ec;
-+	enum ec_led_id led_id;
-+};
-+
-+static inline struct cros_ec_led_priv *cros_ec_led_cdev_to_priv(struct led_classdev *led_cdev)
-+{
-+	return container_of(lcdev_to_mccdev(led_cdev), struct cros_ec_led_priv, led_mc_cdev);
-+}
-+
-+union cros_ec_led_cmd_data {
-+	struct ec_params_led_control req;
-+	struct ec_response_led_control resp;
-+} __packed;
-+
-+static int cros_ec_led_send_cmd(struct cros_ec_device *cros_ec,
-+				union cros_ec_led_cmd_data *arg)
-+{
-+	int ret;
-+	struct {
-+		struct cros_ec_command msg;
-+		union cros_ec_led_cmd_data data;
-+	} __packed buf = {
-+		.msg = {
-+			.version = 1,
-+			.command = EC_CMD_LED_CONTROL,
-+			.insize  = sizeof(arg->resp),
-+			.outsize = sizeof(arg->req),
-+		},
-+		.data.req = arg->req
-+	};
-+
-+	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-+	if (ret < 0)
-+		return ret;
-+
-+	arg->resp = buf.data.resp;
-+
-+	return 0;
-+}
-+
-+static int cros_ec_led_trigger_activate(struct led_classdev *led_cdev)
-+{
-+	struct cros_ec_led_priv *priv = cros_ec_led_cdev_to_priv(led_cdev);
-+	union cros_ec_led_cmd_data arg = {};
-+
-+	arg.req.led_id = priv->led_id;
-+	arg.req.flags = EC_LED_FLAGS_AUTO;
-+
-+	return cros_ec_led_send_cmd(priv->cros_ec, &arg);
-+}
-+
-+static struct led_hw_trigger_type cros_ec_led_trigger_type;
-+
-+static struct led_trigger cros_ec_led_trigger = {
-+	.name = "chromeos-auto",
-+	.trigger_type = &cros_ec_led_trigger_type,
-+	.activate = cros_ec_led_trigger_activate,
-+};
-+
-+static int cros_ec_led_brightness_set_blocking(struct led_classdev *led_cdev,
-+					       enum led_brightness brightness)
-+{
-+	struct cros_ec_led_priv *priv = cros_ec_led_cdev_to_priv(led_cdev);
-+	union cros_ec_led_cmd_data arg = {};
-+	enum ec_led_colors led_color;
-+	struct mc_subled *subled;
-+	size_t i;
-+
-+	led_mc_calc_color_components(&priv->led_mc_cdev, brightness);
-+
-+	arg.req.led_id = priv->led_id;
-+
-+	for (i = 0; i < priv->led_mc_cdev.num_colors; i++) {
-+		subled = &priv->led_mc_cdev.subled_info[i];
-+		led_color = cros_ec_linux_to_ec_id[subled->color_index];
-+		arg.req.brightness[led_color] = subled->brightness;
-+	}
-+
-+	return cros_ec_led_send_cmd(priv->cros_ec, &arg);
-+}
-+
-+static int cros_ec_led_count_subleds(struct device *dev,
-+				     struct ec_response_led_control *resp,
-+				     unsigned int *max_brightness)
-+{
-+	unsigned int range, common_range = 0;
-+	int num_subleds = 0;
-+	size_t i;
-+
-+	for (i = 0; i < EC_LED_COLOR_COUNT; i++) {
-+		range = resp->brightness_range[i];
-+
-+		if (!range)
-+			continue;
-+
-+		num_subleds++;
-+
-+		if (!common_range)
-+			common_range = range;
-+
-+		if (common_range != range) {
-+			/* The multicolor LED API expects a uniform max_brightness */
-+			dev_warn(dev, "Inconsistent LED brightness values\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (!num_subleds)
-+		return -EINVAL;
-+
-+	*max_brightness = common_range;
-+	return num_subleds;
-+}
-+
-+static const char *cros_ec_led_get_color_name(struct led_classdev_mc *led_mc_cdev)
-+{
-+	int color;
-+
-+	if (led_mc_cdev->num_colors == 1)
-+		color = led_mc_cdev->subled_info[0].color_index;
-+	else
-+		color = LED_COLOR_ID_MULTI;
-+
-+	return led_get_color_name(color);
-+}
-+
-+static int cros_ec_led_probe_led(struct device *dev, struct cros_ec_device *cros_ec,
-+				 enum ec_led_id id)
-+{
-+	union cros_ec_led_cmd_data arg = {};
-+	struct cros_ec_led_priv *priv;
-+	struct led_classdev *led_cdev;
-+	struct mc_subled *subleds;
-+	int ret, num_subleds;
-+	size_t i, subled;
-+
-+	arg.req.led_id = id;
-+	arg.req.flags = EC_LED_FLAGS_QUERY;
-+	ret = cros_ec_led_send_cmd(cros_ec, &arg);
-+	/* Unknown LED, skip */
-+	if (ret == -EINVAL)
-+		return 0;
-+	if (ret == -EOPNOTSUPP)
-+		return -ENODEV;
-+	if (ret < 0)
-+		return ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	num_subleds = cros_ec_led_count_subleds(dev, &arg.resp,
-+						&priv->led_mc_cdev.led_cdev.max_brightness);
-+	if (num_subleds < 0)
-+		return num_subleds;
-+
-+	priv->cros_ec = cros_ec;
-+	priv->led_id = id;
-+
-+	subleds = devm_kcalloc(dev, num_subleds, sizeof(*subleds), GFP_KERNEL);
-+	if (!subleds)
-+		return -ENOMEM;
-+
-+	subled = 0;
-+	for (i = 0; i < EC_LED_COLOR_COUNT; i++) {
-+		if (!arg.resp.brightness_range[i])
-+			continue;
-+
-+		subleds[subled].color_index = cros_ec_led_to_linux_id[i];
-+		subleds[subled].intensity = 100;
-+		subled++;
-+	}
-+
-+	priv->led_mc_cdev.subled_info = subleds;
-+	priv->led_mc_cdev.num_colors = num_subleds;
-+
-+	led_cdev = &priv->led_mc_cdev.led_cdev;
-+	led_cdev->brightness_set_blocking = cros_ec_led_brightness_set_blocking;
-+	led_cdev->trigger_type = &cros_ec_led_trigger_type;
-+	led_cdev->hw_control_trigger = cros_ec_led_trigger.name;
-+
-+	led_cdev->name = devm_kasprintf(dev, GFP_KERNEL, "chromeos:%s:%s",
-+					cros_ec_led_get_color_name(&priv->led_mc_cdev),
-+					cros_ec_led_functions[id]);
-+	if (!led_cdev->name)
-+		return -ENOMEM;
-+
-+	return devm_led_classdev_multicolor_register(dev, &priv->led_mc_cdev);
-+}
-+
-+static int cros_ec_led_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
-+	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
-+	int ret = 0;
-+	size_t i;
-+
-+	for (i = 0; i < EC_LED_ID_COUNT; i++) {
-+		ret = cros_ec_led_probe_led(dev, cros_ec, i);
-+		if (ret)
-+			break;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct platform_device_id cros_ec_led_id[] = {
-+	{ DRV_NAME, 0 },
-+	{}
-+};
-+
-+static struct platform_driver cros_ec_led_driver = {
-+	.driver.name	= DRV_NAME,
-+	.probe		= cros_ec_led_probe,
-+	.id_table	= cros_ec_led_id,
-+};
-+
-+static int __init cros_ec_led_init(void)
-+{
-+	int ret;
-+
-+	ret = led_trigger_register(&cros_ec_led_trigger);
-+	if (ret)
-+		return ret;
-+
-+	ret = platform_driver_register(&cros_ec_led_driver);
-+	if (ret)
-+		led_trigger_unregister(&cros_ec_led_trigger);
-+
-+	return ret;
-+};
-+module_init(cros_ec_led_init);
-+
-+static void __exit cros_ec_led_exit(void)
-+{
-+	platform_driver_unregister(&cros_ec_led_driver);
-+	led_trigger_unregister(&cros_ec_led_trigger);
-+};
-+module_exit(cros_ec_led_exit);
-+
-+MODULE_DEVICE_TABLE(platform, cros_ec_led_id);
-+MODULE_DESCRIPTION("ChromeOS EC LED Driver");
-+MODULE_AUTHOR("Thomas Weißschuh <linux@weissschuh.net");
-+MODULE_LICENSE("GPL");
+ static const struct mfd_cell cros_ec_platform_cells[] = {
 
 -- 
 2.45.1
