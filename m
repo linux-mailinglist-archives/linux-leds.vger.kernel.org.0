@@ -1,186 +1,373 @@
-Return-Path: <linux-leds+bounces-1746-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1747-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70708D61AA
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 14:25:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E388D61ED
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 14:39:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 586F32840AF
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 12:25:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 999241C247D6
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 12:39:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E24E158866;
-	Fri, 31 May 2024 12:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D53158847;
+	Fri, 31 May 2024 12:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M+oidtya"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEwSf3aA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6B7158851
-	for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 12:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E87B1F95A
+	for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 12:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717158323; cv=none; b=ktCASx4sWxR8iNkonOBgvqEZf68lcLq627JNDrndjRO9me5bxbbHSsEtudlnXu6pfp+1yfJ53LQHRwshlzdZ5h1TnxVmfqICb1LUMKGu5sYMyEUMhxL+NEF3Yaivi6ASKcRpuvIm27zg/U97arH1BfMYfQwnS71yGi8vXxBNV7A=
+	t=1717158991; cv=none; b=YsgdtmKeF4dJvmjKxUS2JtEBHA38SaAqD5bWlEm81Aq3roFrVT16f4oRpErOzXliARS6a6Qrm/SwxeJ+InIRb6lJ5htDQ6YTccmMaN5AeiG/crH6z0j1HRMSaXXh0Ut8Cg0JbBCBkCjr3I93HP9BqnY0xhtRluUZJ5gMbB7Oo1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717158323; c=relaxed/simple;
-	bh=529H4seeYbvq1uFn776ChzJIAtVLr8Fs7W9zkeFaNSo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gCOYCzPjlKAUjkXff88xzDSzPE1IQueCpXxuqRGG7aKWtI3MGF3yOaUCS4uqAInrdd5bPOgZZVFHRobSO6Kz/I42G1q82wa/wUFZxRX84fYyKACyTTPCvwRk8roSfHXLKboRwDpjw3ANtGQvw2jVyqyhsdOGSKr87rcz1t4/GOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M+oidtya; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717158320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7f/MkaaHIZ/0UQbdKRkwJXei2osLqgSgM+3SS6lRxnE=;
-	b=M+oidtyaU0tyNFFr2mrWvMWUNcPpsfKTb6NxoZRp7OQBaN8n8nMsE1SjC36VD/tNcDxp72
-	1hq+/1etBJYV6xJJtch4BMjzkDHIG8tnPDZECBmzcw4wkI3vlt4UWAaN8pBnBdzb5effH0
-	PDu74TnZhUA1mkUISD6vFbZw1nJBcYk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-d95hNbbSOQOdEbyC_PwA4Q-1; Fri, 31 May 2024 08:25:18 -0400
-X-MC-Unique: d95hNbbSOQOdEbyC_PwA4Q-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a6840dde124so62978066b.1
-        for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 05:25:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717158317; x=1717763117;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7f/MkaaHIZ/0UQbdKRkwJXei2osLqgSgM+3SS6lRxnE=;
-        b=idjrkrGdau6eOMewZLdChTKe6YkY2OPaFMZH8mpCISt1h5gzoFtM8nMgNkwfrzHtuy
-         1Bl2TPUggMPBKzW5UaFGO+YcxRieWhzyIB0r1GQIHCoRSWjiFVBJnzXtVxMymZ4p4o42
-         P4mv/rLISLIqmKW8+P6ZTrBaeDc7YzotqonLPXyN5ipds71cYZ4ZDS1Kj+nqhdn/Huvp
-         fFlRF/w2W0O3lYS1K7AzyLJwEPwMYH6n7odl5LA+nDs8rNJMePAB5mo5Nh8RiLFuZ/2p
-         RSno11hXxF9NpOKbcizcqlZMTScwSXIh0XZ/u4Vy8VvizGmHCnL+/aOEMtbwwaN1bcDQ
-         4jBg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7ikpZRgUaDlNa0q73MgrrhkFmljpNYKsCIgDZHnFv60B5kWrhrIHPvVEQt963oEuYl7yCXaofKlOy7jiM/O99S6SrKzgy7ONP/w==
-X-Gm-Message-State: AOJu0YxnOMEtuoCIo0lavbLj2LkfpoaZj1Sg28D9/PRCxXDCyP0X46Bn
-	DHcU8JVjVqk8XBjGcKMRzgjN70HHdY4vk0Xc/H4yxTbQrVK7LM10l6QxICOQVsj8DHyIcdUNTWg
-	GYe7pFqM5NPU7EqyTpH69R4X+cyRVp43oRim5M01Su/uV7RQDRKjiI5Kii0k=
-X-Received: by 2002:a17:906:a15a:b0:a5a:89a8:49c5 with SMTP id a640c23a62f3a-a681ad5f82amr142183466b.33.1717158317151;
-        Fri, 31 May 2024 05:25:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IExfS1dkDGEGudj90bkTUvQMUyLMW0+Kw0G5nFA1ynYxXnH/uibl5HIooxlqKX2HCbVWFGoiA==
-X-Received: by 2002:a17:906:a15a:b0:a5a:89a8:49c5 with SMTP id a640c23a62f3a-a681ad5f82amr142180966b.33.1717158316663;
-        Fri, 31 May 2024 05:25:16 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67eac7a340sm81192466b.159.2024.05.31.05.25.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 05:25:16 -0700 (PDT)
-Message-ID: <f38782d7-84c4-44c2-9f62-0c75aa5e511d@redhat.com>
-Date: Fri, 31 May 2024 14:25:15 +0200
+	s=arc-20240116; t=1717158991; c=relaxed/simple;
+	bh=7fId81CK7A41mzt/jYV1ZkNRwyKgvJv8XnEx3INupgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uv5zYUhgqQ52UfIRQvBZ9/rralGeCpSImbGueK9/Xv19hp8PRnJNAydkRyb+xWEi+Ic/Vxx/uMFwSuTDeVrk6Pw9KWFzK2R65vktgBtcjNTZXX3osbiOsjPn4iqvpo37Zcwk8nzUhC7aRuJfN+eit2uDwbO3F97busxC+bzP9kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEwSf3aA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD286C116B1;
+	Fri, 31 May 2024 12:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717158990;
+	bh=7fId81CK7A41mzt/jYV1ZkNRwyKgvJv8XnEx3INupgs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CEwSf3aA0fpKk0jZUgnY+agWl/qQZSFah0hj7KhC2ldFIyXaVFO9JlUjLGgLHaJAh
+	 WCC8feeEx7ddqN713woM6uOQMWWkhvr8j+hKtc4mbStUkhgAP87p8vKB4ZZy0hUuww
+	 GZmje2JJT+lRpGWG4T5/ha4udnou/rmfqKCe8HOfvjBM5aplIFushM63cznPdvuOrW
+	 m+51Gb5SBJWOMxw6CFxwDh18MrHzqV8R8m+vMABUCHHAxtgsnC1xLEitARZ7pYlWaX
+	 PLkXMenb7MQiPSFWrlPz92GsdV5k1qRXVEsmpAmkJqfAqmr11sZ5a0HwYDkKKB73pi
+	 TxkmALgIVWNRw==
+Date: Fri, 31 May 2024 13:36:27 +0100
+From: Lee Jones <lee@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Kate Hsuan <hpa@redhat.com>,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] leds: trigger: Add new LED Input events trigger
+Message-ID: <20240531123627.GH1005600@google.com>
+References: <20240509141107.63512-1-hdegoede@redhat.com>
+ <20240509141107.63512-2-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] power: supply: power-supply-leds: Add
- power_supply_[un]register_led_trigger()
-To: Andy Shevchenko <andy@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Kate Hsuan <hpa@redhat.com>, Sebastian Reichel <sre@kernel.org>,
- platform-driver-x86@vger.kernel.org, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-References: <20240510194012.138192-1-hdegoede@redhat.com>
- <20240510194012.138192-2-hdegoede@redhat.com>
- <Zj59zito2FILn9qD@smile.fi.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Zj59zito2FILn9qD@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240509141107.63512-2-hdegoede@redhat.com>
 
-Hi Andy,
+On Thu, 09 May 2024, Hans de Goede wrote:
 
-Thank you for the review.
-
-On 5/10/24 10:04 PM, Andy Shevchenko wrote:
-> On Fri, May 10, 2024 at 09:40:10PM +0200, Hans de Goede wrote:
->> Add power_supply_[un]register_led_trigger() helper functions.
->>
->> The primary goal of this is as a preparation patch for adding an activate
->> callback to the power-supply LED triggers to ensure that power-supply
->> LEDs get the correct initial value when the LED gets registered after
->> the power_supply has been registered (this will use the psy back pointer).
->>
->> There also is quite a lot of code duplication in the existing LED trigger
->> registration in the form of the kasprintf() for the name-template for each
->> trigger + related error handling. This duplication is removed by these
->> new helpers.
+> Add a new trigger which turns LEDs on when there is input
+> (/dev/input/event*) activity and turns them back off again after there has
+> been no activity for 5 seconds.
 > 
-> ...
+> This is primarily intended to control LED devices which are a backlight for
+> capacitive touch-buttons, such as e.g. the menu / home / back buttons found
+> on the bottom bezel of many somewhat older smartphones and tablets.
 > 
->> +	err = led_trigger_register(&psy_trig->trig);
->> +	if (err)
->> +		goto err_free_name;
+> This can also be used to turn on the keyboard backlight LED on input
+> events and turn the keyboard backlight off again when idle.
 > 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v2:
+> - Add MODULE_ALIAS() for module auto-loading
+> - Stop using the led-trigger.c private trigger->led_cdevs list
+> ---
+>  drivers/leds/trigger/Kconfig                |  16 ++
+>  drivers/leds/trigger/Makefile               |   1 +
+>  drivers/leds/trigger/ledtrig-input-events.c | 233 ++++++++++++++++++++
+>  3 files changed, 250 insertions(+)
+>  create mode 100644 drivers/leds/trigger/ledtrig-input-events.c
+
+Looks good to me.  Just one tiny nit, then it'll be good to go.
+
+> diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+> index d11d80176fc0..809ffba0cd6a 100644
+> --- a/drivers/leds/trigger/Kconfig
+> +++ b/drivers/leds/trigger/Kconfig
+> @@ -152,4 +152,20 @@ config LEDS_TRIGGER_TTY
+>  
+>  	  When build as a module this driver will be called ledtrig-tty.
+>  
+> +config LEDS_TRIGGER_INPUT_EVENTS
+> +	tristate "LED Input events trigger"
+> +	depends on INPUT
+> +	help
+> +	  Turn LEDs on when there is input (/dev/input/event*) activity and turn
+> +	  them back off again after there has been no activity for 5 seconds.
+> +
+> +	  This is primarily intended to control LEDs which are a backlight for
+> +	  capacitive touch-buttons, such as e.g. the menu / home / back buttons
+> +	  found on the bottom bezel of many older smartphones and tablets.
+> +
+> +	  This can also be used to turn on the keyboard backlight LED on
+> +	  input events and turn the keyboard backlight off again when idle.
+> +
+> +	  When build as a module this driver will be called ledtrig-input-events.
+> +
+>  endif # LEDS_TRIGGERS
+> diff --git a/drivers/leds/trigger/Makefile b/drivers/leds/trigger/Makefile
+> index 25c4db97cdd4..f78a3077efc7 100644
+> --- a/drivers/leds/trigger/Makefile
+> +++ b/drivers/leds/trigger/Makefile
+> @@ -16,3 +16,4 @@ obj-$(CONFIG_LEDS_TRIGGER_NETDEV)	+= ledtrig-netdev.o
+>  obj-$(CONFIG_LEDS_TRIGGER_PATTERN)	+= ledtrig-pattern.o
+>  obj-$(CONFIG_LEDS_TRIGGER_AUDIO)	+= ledtrig-audio.o
+>  obj-$(CONFIG_LEDS_TRIGGER_TTY)		+= ledtrig-tty.o
+> +obj-$(CONFIG_LEDS_TRIGGER_INPUT_EVENTS)	+= ledtrig-input-events.o
+> diff --git a/drivers/leds/trigger/ledtrig-input-events.c b/drivers/leds/trigger/ledtrig-input-events.c
+> new file mode 100644
+> index 000000000000..f076476bbb77
+> --- /dev/null
+> +++ b/drivers/leds/trigger/ledtrig-input-events.c
+> @@ -0,0 +1,233 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Input Events LED trigger
+> + *
+> + * Copyright (C) 2024 Hans de Goede <hansg@kernel.org>
+> + * Partially based on Atsushi Nemoto's ledtrig-heartbeat.c.
+> + */
+> +
+> +#include <linux/input.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/workqueue.h>
+> +#include "../leds.h"
+> +
+> +#define DEFAULT_LED_OFF_DELAY_MS			5000
+> +
+> +struct input_events_data {
+> +	struct input_handler handler;
+> +	struct delayed_work work;
+> +	spinlock_t lock;
+> +	struct led_classdev *led_cdev;
+> +	int led_cdev_saved_flags;
+> +	/* To avoid repeatedly setting the brightness while there are events */
+> +	bool led_on;
+> +	unsigned long led_off_time;
+> +	unsigned long led_off_delay;
+> +};
+> +
+> +static void led_input_events_work(struct work_struct *work)
+> +{
+> +	struct input_events_data *data =
+> +		container_of(work, struct input_events_data, work.work);
+> +
+> +	spin_lock_irq(&data->lock);
+> +
+> +	/*
+> +	 * This time_after_eq() check avoids a race where this work starts
+> +	 * running before a new event pushed led_off_time back.
+> +	 */
+> +	if (time_after_eq(jiffies, data->led_off_time)) {
+> +		led_set_brightness_nosleep(data->led_cdev, LED_OFF);
+> +		data->led_on = false;
+> +	}
+> +
+> +	spin_unlock_irq(&data->lock);
+> +}
+> +
+> +static ssize_t delay_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	struct input_events_data *input_events_data = led_trigger_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%lu\n", input_events_data->led_off_delay);
+> +}
+> +
+> +static ssize_t delay_store(struct device *dev, struct device_attribute *attr,
+> +			   const char *buf, size_t size)
+> +{
+> +	struct input_events_data *input_events_data = led_trigger_get_drvdata(dev);
+> +	unsigned long delay;
+> +	int ret;
+> +
+> +	ret = kstrtoul(buf, 0, &delay);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Clamp between 0.5 and 1000 seconds */
+> +	delay = clamp_val(delay, 500UL, 1000000UL);
+> +	input_events_data->led_off_delay = msecs_to_jiffies(delay);
+> +
+> +	return size;
+> +}
+> +
+> +static DEVICE_ATTR_RW(delay);
+> +
+> +static struct attribute *input_events_led_attrs[] = {
+> +	&dev_attr_delay.attr,
+> +	NULL
+> +};
+> +ATTRIBUTE_GROUPS(input_events_led);
+> +
+> +static void input_events_event(struct input_handle *handle, unsigned int type,
+> +			       unsigned int code, int val)
+> +{
+> +	struct input_events_data *data =
+> +		container_of(handle->handler, struct input_events_data, handler);
+> +	unsigned long led_off_delay = READ_ONCE(data->led_off_delay);
+> +	struct led_classdev *led_cdev = data->led_cdev;
+> +	unsigned long flags;
+> +
+> +	if (test_and_clear_bit(LED_BLINK_BRIGHTNESS_CHANGE, &led_cdev->work_flags))
+> +		led_cdev->blink_brightness = led_cdev->new_blink_brightness;
+> +
+> +	spin_lock_irqsave(&data->lock, flags);
+> +
+> +	if (!data->led_on) {
+> +		led_set_brightness_nosleep(led_cdev, led_cdev->blink_brightness);
+> +		data->led_on = true;
+> +	}
+> +	data->led_off_time = jiffies + led_off_delay;
+> +
+> +	spin_unlock_irqrestore(&data->lock, flags);
+> +
+> +	mod_delayed_work(system_wq, &data->work, led_off_delay);
+> +}
+> +
+> +static int input_events_connect(struct input_handler *handler, struct input_dev *dev,
+> +				const struct input_device_id *id)
+> +{
+> +	struct input_handle *handle;
+> +	int ret;
+> +
+> +	handle = kzalloc(sizeof(struct input_handle), GFP_KERNEL);
+
+Nit: sizeof(*handle)?
+
+> +	if (!handle)
+> +		return -ENOMEM;
+> +
+> +	handle->dev = dev;
+> +	handle->handler = handler;
+> +	handle->name = "input-events";
+> +
+> +	ret = input_register_handle(handle);
+> +	if (ret)
+> +		goto err_free_handle;
+> +
+> +	ret = input_open_device(handle);
+> +	if (ret)
+> +		goto err_unregister_handle;
+> +
+> +	return 0;
+> +
+> +err_unregister_handle:
+> +	input_unregister_handle(handle);
+> +err_free_handle:
+> +	kfree(handle);
+> +	return ret;
+> +}
+> +
+> +static void input_events_disconnect(struct input_handle *handle)
+> +{
+> +	input_close_device(handle);
+> +	input_unregister_handle(handle);
+> +	kfree(handle);
+> +}
+> +
+> +static const struct input_device_id input_events_ids[] = {
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> +		.evbit = { BIT_MASK(EV_KEY) },
+> +	},
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> +		.evbit = { BIT_MASK(EV_REL) },
+> +	},
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> +		.evbit = { BIT_MASK(EV_ABS) },
+> +	},
+> +	{ }
+> +};
+> +
+> +static int input_events_activate(struct led_classdev *led_cdev)
+> +{
+> +	struct input_events_data *data;
+> +	int ret;
+> +
+> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->handler.name = "input-events";
+> +	data->handler.event = input_events_event;
+> +	data->handler.connect = input_events_connect;
+> +	data->handler.disconnect = input_events_disconnect;
+> +	data->handler.id_table = input_events_ids;
+> +
+> +	INIT_DELAYED_WORK(&data->work, led_input_events_work);
+> +	spin_lock_init(&data->lock);
+> +
+> +	data->led_cdev = led_cdev;
+> +	data->led_cdev_saved_flags = led_cdev->flags;
+> +	data->led_off_delay = msecs_to_jiffies(DEFAULT_LED_OFF_DELAY_MS);
+> +
+> +	/*
+> +	 * Use led_cdev->blink_brightness + LED_BLINK_SW flag so that sysfs
+> +	 * brightness writes will change led_cdev->new_blink_brightness for
+> +	 * configuring the on state brightness (like ledtrig-heartbeat).
+> +	 */
+> +	if (!led_cdev->blink_brightness)
+> +		led_cdev->blink_brightness = led_cdev->max_brightness;
+> +
+> +	/* Start with LED off */
+> +	led_set_brightness_nosleep(data->led_cdev, LED_OFF);
+> +
+> +	ret = input_register_handler(&data->handler);
+> +	if (ret) {
+> +		kfree(data);
+> +		return ret;
+> +	}
+> +
+> +	set_bit(LED_BLINK_SW, &led_cdev->work_flags);
+> +
+> +	/* Turn LED off during suspend, original flags are restored on deactivate() */
+> +	led_cdev->flags |= LED_CORE_SUSPENDRESUME;
+> +
+> +	led_set_trigger_data(led_cdev, data);
+> +	return 0;
+> +}
+> +
+> +static void input_events_deactivate(struct led_classdev *led_cdev)
+> +{
+> +	struct input_events_data *data = led_get_trigger_data(led_cdev);
+> +
+> +	led_cdev->flags = data->led_cdev_saved_flags;
+> +	clear_bit(LED_BLINK_SW, &led_cdev->work_flags);
+> +	input_unregister_handler(&data->handler);
+> +	cancel_delayed_work_sync(&data->work);
+> +	kfree(data);
+> +}
+> +
+> +static struct led_trigger input_events_led_trigger = {
+> +	.name       = "input-events",
+> +	.activate   = input_events_activate,
+> +	.deactivate = input_events_deactivate,
+> +	.groups     = input_events_led_groups,
+> +};
+> +module_led_trigger(input_events_led_trigger);
+> +
+> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+> +MODULE_DESCRIPTION("Input Events LED trigger");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("ledtrig:input-events");
+> -- 
+> 2.44.0
 > 
->> +err_free_name:
->> +	kfree(psy_trig->trig.name);
->> +err_free_trigger:
->> +	kfree(psy_trig);
->> +	return -ENOMEM;
-> 
-> Why not ret?
 
-Fixed for v2.
-
-
-> ...
-> 
->> +static int power_supply_create_bat_triggers(struct power_supply *psy)
->> +{
->> +	int err = 0;
->> +
->> +	err |= power_supply_register_led_trigger(psy, "%s-charging-or-full",
->> +						 &psy->charging_full_trig);
->> +	err |= power_supply_register_led_trigger(psy, "%s-charging",
->> +						 &psy->charging_trig);
->> +	err |= power_supply_register_led_trigger(psy, "%s-full",
->> +						 &psy->full_trig);
->> +	err |= power_supply_register_led_trigger(psy, "%s-charging-blink-full-solid",
->> +						 &psy->charging_blink_full_solid_trig);
->> +	err |= power_supply_register_led_trigger(psy, "%s-charging-orange-full-green",
->> +						 &psy->charging_orange_full_green_trig);
-> 
-> Why not using the similar approach as you have done in v4l2 CCI?
-
-That is a good idea I've done that for v2.
-
->> +	if (err) {
->> +		power_supply_remove_bat_triggers(psy);
->> +		/*
->> +		 * led_trigger_register() may also return -EEXIST but that should
->> +		 * never happen with the dynamically generated psy trigger names.
->> +		 */
-> 
-> Maybe this comment should be above and here just return err; (but see above remark).
-
-With the err propagation approach from v4l2 CCI this can now simply return err
-since that now correctly reflects the first error (and any following calls
-are made no-ops).
-
-Regards,
-
-Hans
-
-
-
-> 
->> +		return -ENOMEM;
->> +	}
->> +
->> +	return 0;
->>  }
-> 
-
+-- 
+Lee Jones [李琼斯]
 
