@@ -1,124 +1,88 @@
-Return-Path: <linux-leds+bounces-1768-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1769-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9898D640A
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 16:09:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 863E78D6423
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 16:13:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7937B217E7
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 14:09:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B78471C27043
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 14:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F5615B574;
-	Fri, 31 May 2024 14:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FCA915D5AA;
+	Fri, 31 May 2024 14:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZY5mKrW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNHR+J8B"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813B97F482;
-	Fri, 31 May 2024 14:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40020176193;
+	Fri, 31 May 2024 14:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717164550; cv=none; b=UEJefSLC778fKWJCoJPf046h+oow/PBYv37ETqvh9a0yV6o62FqX9CMuylSTLRg+UyOfaF6pzkrlWTmgaCTH3V7mzQrloLbGqfTxs97ebIjVGiHjDcje9RjcgkbhduAXpY2mQMhh8mv+Qoox0pwo+F4FJqR7SOaLXGu2k6ITk6U=
+	t=1717164745; cv=none; b=lyRWQJFMzJ82QlC+ebj8Y22j2ziDBaWqY25xDx023MXDFnBNlMl6eAEiNRA7h9fVBeVBwKs7nGJVV4jqm+nZ7b6ZO6pJpfRPpMz5F1oVql0+B9JJHRnT7+3EYoWZT47ad2IhCmve9tLCxSxLZErZaOljfOZj2B+isgAD3pwVw2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717164550; c=relaxed/simple;
-	bh=aFM2Jb8qdAj72Lk9TgS5888lrrIM6OyLs2/SIXp3HIQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NFoGikK/84uru3k3qnwUWnYTsjf8gd00iagbPG1XV2j1jsjcq9XeSv1pwnI0sAe5+RJPfaFtqMnjzr93UZFt3CvVV4l8h5rZ0852wHvRc37/joFDJ8ay+67F/VBa01Fm0+hjp28EMPP//AL9QRuSF+lMDXODTspm9r4rY+CK3qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZY5mKrW; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57a1fe639a5so1998433a12.1;
-        Fri, 31 May 2024 07:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717164547; x=1717769347; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aFM2Jb8qdAj72Lk9TgS5888lrrIM6OyLs2/SIXp3HIQ=;
-        b=mZY5mKrWV2nAhtRkrsiu2sBN/Q9x7fMCl4B/9D8SwVwbuVgZuiiTBQw/fT1y4G2BLx
-         2ogdfJRbaXRz1w6bVSX/1D0jJ8/APL0YiwOdRnre88SDanM/d8p2smHmWyGIARPrdLi8
-         HyAXo1bRueqFpvQfSFbx7ytnQajoS5icygl5oV1+5WEqzDnR6P092uf9GahJPhF9q1Og
-         g0SsTG/M1wcVFpHrFjRNPdnuSP8TbA7aug0enZaN8fw8shjZrF4ppO6sNeo3bKalnlID
-         TCA9z3pdhZ6Vc63z5sQkoF+NFCiMjFHxSd3kJrXfdjSrnIc6EMkUiQl70/U4vASCAcMx
-         jV/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717164547; x=1717769347;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aFM2Jb8qdAj72Lk9TgS5888lrrIM6OyLs2/SIXp3HIQ=;
-        b=EmswDLaXuhbvr93aO5+qOPlwoLSmYumoy3nKi9F+dlqi2RMGOqGogoerHqlkY9N9WE
-         PThdfra8vYdMpfvPEqvFi2F1CZqGBeCGMed1pRnwaWO9JGNpF+xGEsW4mWmOPcbpbFJD
-         irbgCzbzWIM2KIu1kB89u6NGdhjoRQltAmXuawfLLIahIawITEYEi5l52avbbYsdz65O
-         6rUL9RVfd+tiXS/TXGnAPvxCCrhSnGNwT19TI7VSQwZ246/BCFIM2oEY3CRp1fPD/V01
-         h3Pvs3Ba87QdhovlrJh+9Ag/PXi7x/v1kaFPmsAN2w2XhZQMSLyd7cgON9PAslH1U+K1
-         egRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdiYG6GmKOVlwP1JCdQhYwxdQip8Gti23BqVdmtqk2mKgA3i60ZskXDiS8PSd2oovyVml920jKKKpTaGlZfAr52190sOu6ft/O9P1Bfm/kTEcqAV0Zll1fJtMFBshnzxxsAPRNgUPPS6iuhdZSMLpySyBvCpsohaq6XswVK9tcl8sRd/AATmYe7w==
-X-Gm-Message-State: AOJu0Yw+ho0xWYVPac/5C6vhaoZjlSIq8F47618QNISHkf0silvnZpCX
-	qVyiLlH/xFftNKlDvzDMzs/j76sN5wQ4jRxflgx/uSAmvKcpyvsgPhwVLI3eAykzxeqVY2pNmpq
-	kpGfUgQY2vX0wbmk0PTqF+lm4/DI=
-X-Google-Smtp-Source: AGHT+IF/zD6rw31aq7BZQFiY06MXYewfjYHfoi8wRsf/nUrmxds3d4Q9sx7MBmk449rVHvOdWE0hYp4fQhjOlBiApvI=
-X-Received: by 2002:a17:906:6046:b0:a64:3518:f904 with SMTP id
- a640c23a62f3a-a681fe4e25emr140122566b.7.1717164546538; Fri, 31 May 2024
- 07:09:06 -0700 (PDT)
+	s=arc-20240116; t=1717164745; c=relaxed/simple;
+	bh=nE28feJXr8MPuJwuEZRSEsHxpTmzh4iG2yFFSYfyIBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZTrnSBkg1ytHLlZUZ98B9rptZSaLPZhAhGktyJMAssK3FGkaHDGkg6F46HDbEAhnNLY4Tem7KntWkKb/W1Vqz1kmJHIEZM9AU2+6yXvTA8IccSAtexLShu10VB2XCvnq4qrU4F631HNV/A/n2BDSPlwmRVkjfEVOBOyvD8KAjfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNHR+J8B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2049EC4AF08;
+	Fri, 31 May 2024 14:12:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717164744;
+	bh=nE28feJXr8MPuJwuEZRSEsHxpTmzh4iG2yFFSYfyIBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DNHR+J8BC5mW9id4WWWHd7JyQ+k4VIq8JWrWB1y4icmwRs26+ZlCFFDBI9SUREwac
+	 RUNKB7A6lF5higO8ga1VVxKf4p3OLjycx28XoEINCg/0Fp5ysq2QBj1TSQ/yedIT8z
+	 xuShXtCgyrYgelRbnb+4Q2tdfZKEwUS058HByGfRvvHrP1B4yBdmPzmoU8RHfOnTZC
+	 g5pGpKiuX7Z6aWYyjOyfWKfQVI4bGIxmlRrUAaUEpIMmDHic5v13kiIHWhNHr5YXDR
+	 4PFagZxclHfaMeHC1BzS1vDQXyBzzml8MeSJd2kbcNJRCFBNp/CG0nOcVRFNEJS85d
+	 UPJI01ya2jm6Q==
+From: Lee Jones <lee@kernel.org>
+To: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, Patrick Gansterer <paroga@paroga.com>
+Cc: Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ Sam Ravnborg <sam@ravnborg.org>
+In-Reply-To: <20240526105136.721529-1-paroga@paroga.com>
+References: <20240526105136.721529-1-paroga@paroga.com>
+Subject: Re: [PATCH v6 0/2] backlight: Add new lm3509 backlight driver
+Message-Id: <171716474187.1122706.14204003162391534648.b4-ty@kernel.org>
+Date: Fri, 31 May 2024 15:12:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531134702.166145-1-hdegoede@redhat.com>
-In-Reply-To: <20240531134702.166145-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 31 May 2024 17:08:29 +0300
-Message-ID: <CAHp75VeNxnLcZwq+WOh3huf09ou929Vgt50q=7HR-ruMuULuhg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] power: supply: power-supply-leds: Add activate()
- callback to triggers
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Kate Hsuan <hpa@redhat.com>, Sebastian Reichel <sre@kernel.org>, platform-driver-x86@vger.kernel.org, 
-	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 
-On Fri, May 31, 2024 at 4:47=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Hi All,
->
-> This series adds an activate callback to the power-supply LED triggers to
-> ensure that power-supply LEDs get the correct initial value when the LED
-> gets registered after the power_supply has been registered.
->
-> Note that in 6.10-rc1 commit 822c91e72eac ("leds: trigger: Store brightne=
-ss
-> set by led_trigger_event()") already solves this for the case were
-> the trigger only changes only the brightness. Since the power-supply
-> triggers can also set blinking and colors of mc LEDs that is not enough.
->
-> Patches 1-2 do some refactoring / prep work and patch 3 adds the actual
-> activate callback.
->
-> This series applies on top of 6.10-rc1 + "[PATCH v10 0/6] KTD2026 indicat=
-or
-> LED for X86 Xiaomi Pad2" that series should show up in
-> https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/
->
-> soon, since this is also LED related I guess this could be merged
-> through the LED tree too. Or Lee could provide an IB branch for
-> Sebastian to merge that branch + this series through the psy tree.
-> Sebastian, what has your preference ?
+On Sun, 26 May 2024 12:51:28 +0200, Patrick Gansterer wrote:
+> This is a general driver for LM3509 backlight chip of TI.
+> LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
+> Dual Current Sinks. This driver supports OLED/White LED select, brightness
+> control and sub/main control.
+> The datasheet can be found at http://www.ti.com/product/lm3509.
+> 
 
-FWIW, LGTM,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Applied, thanks!
 
---=20
-With Best Regards,
-Andy Shevchenko
+[1/2] dt-bindings: backlight: Add Texas Instruments LM3509
+      commit: 0aaee23d49a614b573ca51ab7758e77fcc3d7d14
+[2/2] backlight: Add new lm3509 backlight driver
+      commit: b72755f5b577357cac661cbf9048cad704eb4ad8
+
+--
+Lee Jones [李琼斯]
+
 
