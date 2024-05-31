@@ -1,55 +1,55 @@
-Return-Path: <linux-leds+bounces-1731-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1732-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A886B8D5FD3
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 12:38:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C115B8D5FE9
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 12:46:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA1611C22D4E
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 10:38:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1CD41C20349
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 10:46:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99D7C156223;
-	Fri, 31 May 2024 10:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7B9B15625A;
+	Fri, 31 May 2024 10:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I26DnSIc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gi3azm0/"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729B9155CB4;
-	Fri, 31 May 2024 10:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8488F15624D
+	for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 10:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717151925; cv=none; b=R2HLgqY91SgFqqGH7oYlMiSMXYJgFDOGU+Iyd7v2d2rxyDlPEf8ZosAS1KTsCDFrZUtydt7obJvWkp9wUr2+TgLo0FZ0rY05s7QI9sgd2n02ju8l3xiCCShNTVSqcZOOMIRPmYtZYdTWaQkRMWmxdFM3Bp6KhiUe4WLqFj6PFoE=
+	t=1717152395; cv=none; b=YBFii+xCLRE8qMr8+RCd30yt4FmIobFkhjBhX+8vuJ6sdfn07IHX7n+QcXL/0Z96OCe4Aj1eDLUT2rJs/9/G3BLTb1AR1MYeED86Hj/12CFQq3fr4UDV7nGhtZDQ9jRwgfqnzJOKyemPKyhtcYukgmm+CR+o1v+qQCcQmviQ8Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717151925; c=relaxed/simple;
-	bh=h/2sOB9x1IUImpZzBBj2jDaXq1nmHaIGab6FBR+GwAo=;
+	s=arc-20240116; t=1717152395; c=relaxed/simple;
+	bh=u7XPzgwstgP0Go+cevzExQcxxKv8alkjB23NPqLdc+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qlt8I68xZ4Iq8nbUMUZk10zaMujwd3o5Cl/34adJUFLzemCflGwnNZWUM+IolVtRWyBRaB6ZtJ8mHdyx4U7ntDROWJG9TOhPE/QrK6EG4FelCfOSt4Ibd60X+zZ0hMgCGCG71idjQn9KdzsL6xhMUsNv7b2E3J9UdHgQ59HWCLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I26DnSIc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38167C116B1;
-	Fri, 31 May 2024 10:38:43 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=O9dWiCXqIo67kJBeVy06Q4m1t6LSVM5BsqBm3g6Mj8OnuQ+lXLq71K4/vevS0G/RrSgM7LBv7IU4GPoeMkeKCVdhqusSqb/+fXPfjpe+4sZH4GU6Kmc5BDh6ksDWGZ3/EuDU6xNbN1RSSthpGQV6qi3Dy5rBsXckOaLVdeuaBLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gi3azm0/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB4AAC116B1;
+	Fri, 31 May 2024 10:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717151925;
-	bh=h/2sOB9x1IUImpZzBBj2jDaXq1nmHaIGab6FBR+GwAo=;
+	s=k20201202; t=1717152395;
+	bh=u7XPzgwstgP0Go+cevzExQcxxKv8alkjB23NPqLdc+k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I26DnSIcFGef+qsXDEWbQkVxxktWUDIDKCPzFYgx7pK4mCFk5Xv0LonIfoQzFbfyH
-	 J/acrbKpqHQHwuf3yQ9aP4VUJC1isRCeUXRCM40FMcfNY6dXIMAJbIRtSGj59d495V
-	 1g0M9/ijeVnYV90NIy57eCnGJTE5YTvgGjVjqB7KjAcziP6B8fS5gBby/h2LUHZ2zS
-	 EEouwQESdZ+/muMhtpUKPQ6OBFTQPX5yr0tpgSIu/jxP4FyasNCoB7JvL4J0xK1kA/
-	 G7DpYbOrz2LPpEAw0MYuxKc5EhXNxOEro/VbXL+20rIXuD9GaHR5XLPYaCV2fQ3tY7
-	 xcOmo35hWcQ8g==
-Date: Fri, 31 May 2024 11:38:40 +0100
+	b=gi3azm0/4JqoT8r7bhKV8kwo2frES72evr7asusHIHnJmAA0R/WqAh8BUf1rR9Q1Q
+	 w4rATIOacEpsl3/2Qn5KnpH1l+9+DY+fl3NnlOtsRSatriq+1NywcdruIng81qOFZt
+	 dYFYvCfiNBs2Tf4x59fADe7+8rKPwaKfVQf3a426wzcUwbHZf7SAduMyazSUVkzwPE
+	 9lx2FaYBGy8H5v26D25XldjFLmg3Ryzgah3oTKKgg/pdAC8U6RO7UGtnhyNMRFynK2
+	 PxSrXkLIGfQ/d0YkfLwZcQ65kJ/waVy27zuF5gq1aSoFCyLq+nFI8xjsx7rAVr9+hh
+	 dsDaqOVXHpp4Q==
+Date: Fri, 31 May 2024 11:46:31 +0100
 From: Lee Jones <lee@kernel.org>
-To: Joseph Strauss <jstrauss@mailbox.org>
-Cc: pavel@ucw.cz, jansimon.moeller@gmx.de, conor@kernel.org,
-	christophe.jaillet@wanadoo.fr, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7] Add multicolor support to BlinkM LED driver
-Message-ID: <20240531103840.GC1005600@google.com>
-References: <20240506201905.789376-1-jstrauss@mailbox.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Kate Hsuan <hpa@redhat.com>,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: Call synchronize_rcu() before calling
+ trig->activate()
+Message-ID: <20240531104631.GD1005600@google.com>
+References: <20240507095111.27109-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -59,90 +59,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240506201905.789376-1-jstrauss@mailbox.org>
+In-Reply-To: <20240507095111.27109-1-hdegoede@redhat.com>
 
-On Mon, 06 May 2024, Joseph Strauss wrote:
+On Tue, 07 May 2024, Hans de Goede wrote:
 
-> Add multicolor support to the BlinkM driver, making it easier to control
-> from userspace. The BlinkM LED is a programmable RGB LED. The driver
-> currently supports only the regular LED sysfs class, resulting in the
-> creation of three distinct classes, one for red, green, and blue. The
-> user then has to input three values into the three seperate brightness
-> files within those classes. The multicolor LED framework makes the
-> device easier to control with the multi_intensity file: the user can
-> input three values at once to form a color, while still controlling the
-> lightness with the brightness file.
+> Some triggers call led_trigger_event() from their activate() callback
+> to initialize the brightness of the LED for which the trigger is being
+> activated.
 > 
-> The main struct blinkm_led has changed slightly. The struct led_classdev
-> for the regular sysfs classes remain. The blinkm_probe function checks
-> CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
-> sysfs classes or the single multicolor one, but never both. The
-> blinkm_set_mc_brightness() function had to be added to calculate the
-> three color components and then set the fields of the blinkm_data
-> structure accordingly.
+> In order for the LEDs initial state to be set correctly this requires that
+> the led_trigger_event() call uses the new version of trigger->led_cdevs,
+> which has the new LED.
 > 
-> Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
+> AFAICT led_trigger_event() will always use the new version when it is
+> running on the same CPU as where the list_add_tail_rcu() call was made,
+> which is why the missing synchronize_rcu() has not lead to bug reports.
+> But if activate() is pre-empted, sleeps or uses a worker then
+> the led_trigger_event() call may run on another CPU which may still use
+> the old trigger->led_cdevs list.
+> 
+> Add a synchronize_rcu() call to ensure that any led_trigger_event() calls
+> done from activate() always use the new list.
+> 
+> Triggers using led_trigger_event() from their activate() callback are:
+> net/bluetooth/leds.c, net/rfkill/core.c and drivers/tty/vt/keyboard.c.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
-> Changes in v2:
-> - Replaced instances of the constant 3 with NUM_LEDS, where applicable
-> - Fixed formatting errors
-> - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
->   statements
-> - Changed id of multicolor class from 4 to 3
-> - Replaced call to devm_kmalloc_array() with devm_kcalloc()
-> Changes in v3:
-> - Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
->   funcitonality
-> - Extend well-known-leds.txt to include standard names for RGB and indicator
->   LEDS
-> - Change name of Blinkm sysfs class according to well-known-leds.txt
-> - Simplify struct blinkm_led and struct blinkm_data
-> - Remove magic numbers
-> - Fix formatting errors
-> - Remove unrelated changes
-> Changes in v4:
-> - Fix indentation
-> - Add default case to switch statement
-> Changes in v5:
-> - Fix warnings related to snprintf on s390 architecture, reported by
->   0-DAY CI Kernel Test Service
-> Changes in v6:
-> - Refactored struct blinkm_led to use a union
-> - Refactored blinkm_probe()
-> - Clarified documentation
-> Changes in v7:
-> - Fix formatting and spelling errors
-> 
->  Documentation/leds/leds-blinkm.rst     |  31 +++-
->  Documentation/leds/well-known-leds.txt |   8 +
->  drivers/leds/Kconfig                   |   8 +
->  drivers/leds/leds-blinkm.c             | 224 +++++++++++++++++--------
->  4 files changed, 199 insertions(+), 72 deletions(-)
+>  drivers/leds/led-triggers.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Applying patch(es)
-Applying: Add multicolor support to BlinkM LED driver
-Using index info to reconstruct a base tree...
-M	Documentation/leds/well-known-leds.txt
-M	drivers/leds/Kconfig
-M	drivers/leds/leds-blinkm.c
-Checking patch Documentation/leds/leds-blinkm.rst...
-Checking patch Documentation/leds/well-known-leds.txt...
-Checking patch drivers/leds/Kconfig...
-Checking patch drivers/leds/leds-blinkm.c...
-Applied patch Documentation/leds/leds-blinkm.rst cleanly.
-Applied patch Documentation/leds/well-known-leds.txt cleanly.
-Applied patch drivers/leds/Kconfig cleanly.
-Applied patch drivers/leds/leds-blinkm.c cleanly.
-Falling back to patching base and 3-way merge...
-error: Your local changes to the following files would be overwritten by merge:
-	Documentation/leds/leds-blinkm.rst
-	Documentation/leds/well-known-leds.txt
-	drivers/leds/Kconfig
-	drivers/leds/leds-blinkm.c
-Please commit your changes or stash them before you merge.
-Aborting
-error: Failed to merge in the changes.
-Patch failed at 0001 Add multicolor support to BlinkM LED driver
+Looks like there have been a few changes to led_trigger_set() since this
+was authored.  Please rebase and resubmit.  Thanks.
 
 -- 
 Lee Jones [李琼斯]
