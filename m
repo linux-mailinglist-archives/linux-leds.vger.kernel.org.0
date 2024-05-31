@@ -1,56 +1,56 @@
-Return-Path: <linux-leds+bounces-1749-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1750-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813F38D6208
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 14:41:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCAA8D6209
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 14:41:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B785F1C24866
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 12:41:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E31AD1F285CD
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 12:41:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5716E1586C9;
-	Fri, 31 May 2024 12:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B7E1586F4;
+	Fri, 31 May 2024 12:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bCiwrggC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+/yTQ+d"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B911586F4
-	for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 12:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9650D1586CF
+	for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 12:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717159255; cv=none; b=WZU0eOsCV1XAXHb/wx9xe2o1Y5eKZK7BfrVgvWg5JMwdgw09HQGk2xnSU5XLinuslreP4oMNFm8Ojwq4262lreuf707RSj0J6yvNgbYaKy8bu0BvR+5e197k7bu6mLwwJZU37FELrn48NSX0ko/GJLKHVpCoFCvIR+oC8HuAJto=
+	t=1717159256; cv=none; b=ipJzsJ8EgONLuqk7g2VyWFsG+chswkqppbWIz47LIp9pOZZRYHU37K0AoWn8vVVfVO8mLns0E/3NpoQhRS/U25ngG38CqxgCEfkz5gKXskaCAwiTzxncHzYyrhIavVVrS+ag24KO07D1KAuucjpHH12hj2x157iQQ9uzwlDPxU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717159255; c=relaxed/simple;
-	bh=GO0XAFePsx0JDFYEt0vDbY5BemCIE7BQqgwsz1bq0ZM=;
+	s=arc-20240116; t=1717159256; c=relaxed/simple;
+	bh=kG1GVQaKIypOUMZQ/sffNnsZ5//YIYCn6kWV9URvtAY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=X4a+z/pI/NbRgTsw53VaG+GiZjDFtV3boRkNLZQujihog9sUg/KGYiaavfj7WBAySgW+swD2ca1aXw4QXYz4HqN8iIc2aZjLkqKpUlLKbfOP7vb7x85GhaKKFN/z0+LU0DM/tmULPTFIRku7YLu/duzos8LCrHPO8RNQLB2eAbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bCiwrggC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE29AC32781;
-	Fri, 31 May 2024 12:40:53 +0000 (UTC)
+	 MIME-Version:Content-Type; b=qX+Lhe2Ac33CZqt3szKCbYO01rpNzmx1nBVDHqOakSi94ZYhCl435rCXrjnOycshboCt9Y3M/oyACJAYJi4FbQaG2pX1EkZgL7b/QrydJ9bKHUjkNpFQj32/nxGvceEp7r5MsNxxb1ZAm+clrsjo4O3BTHxUTNr1Gl6+0eE96QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r+/yTQ+d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D5A3C4AF07;
+	Fri, 31 May 2024 12:40:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717159254;
-	bh=GO0XAFePsx0JDFYEt0vDbY5BemCIE7BQqgwsz1bq0ZM=;
+	s=k20201202; t=1717159256;
+	bh=kG1GVQaKIypOUMZQ/sffNnsZ5//YIYCn6kWV9URvtAY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bCiwrggCcBwdYaJX3FMzN4tGZm2L5/tPd5bbmya2tpBDjGsO4M5wEPk0uzSTM0pyf
-	 xdFcDccAZ3b+pF+IyUaJq6JzprFzo0dx8hJzuYfvy91zixAuIaVLVeK30Daf805jc0
-	 GeBkLfAlbcRpJHosdESylR4z4Mg4yzNwK16IoVWDE1xSdX90dUHmibtV8KJKKI0ZD+
-	 ppq18/9k0UO2Qv+2zyOnlOnDWCguRBckIlt9/a4guqzvei8RWJJok1J9T0/vKwljGE
-	 BPdqoJ+92jKRZJ91VOXHuQ6UOFtLZOcWvYV8dLWd2XDs3GGGfkOFAEpAf9aB3yIBNn
-	 Do72vtB0PLcew==
+	b=r+/yTQ+d7AgUGMi9SyWPAfNAw+YijjDo5yN+gDemaPUNNq3yFofoKVdonWmsWkvic
+	 aLvdahSsIcBUAiWs6TnL/ZYICVUUI0wWcbj0GnaCMsL6eaVEuPhD32ZP2prnp1SAbO
+	 U4aj7LV3AL9g32s2N7w5uFHIW3cC6PVYSggvzPAZFK346PV8F+EfL11dJRG4LL8YS6
+	 BxfF9Iz+FoNdKPLgumyW5gqnVkQ4jd9st/GeIAgqAbMCh7d5c8T8qV45z3biMA63f0
+	 fR75CxKRCqzeTFX1z/iOwyCmUHH7Zup+7scH3BYc5EUlF1u9ZL9zH+RKhfTc5mJYW9
+	 1RiR28r9TL1Og==
 From: Lee Jones <lee@kernel.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Hans de Goede <hdegoede@redhat.com>
-Cc: Kate Hsuan <hpa@redhat.com>, linux-leds@vger.kernel.org
-In-Reply-To: <20240507095111.27109-1-hdegoede@redhat.com>
-References: <20240507095111.27109-1-hdegoede@redhat.com>
-Subject: Re: (subset) [PATCH] leds: trigger: Call synchronize_rcu() before
- calling trig->activate()
-Message-Id: <171715925344.1069447.6433771300014046410.b4-ty@kernel.org>
-Date: Fri, 31 May 2024 13:40:53 +0100
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-leds@vger.kernel.org, kernel@pengutronix.de
+In-Reply-To: <20240522165358.62238-2-u.kleine-koenig@pengutronix.de>
+References: <20240522165358.62238-2-u.kleine-koenig@pengutronix.de>
+Subject: Re: (subset) [PATCH] leds: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+Message-Id: <171715925492.1069447.2160724002738095628.b4-ty@kernel.org>
+Date: Fri, 31 May 2024 13:40:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,21 +61,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.4
 
-On Tue, 07 May 2024 11:51:11 +0200, Hans de Goede wrote:
-> Some triggers call led_trigger_event() from their activate() callback
-> to initialize the brightness of the LED for which the trigger is being
-> activated.
+On Wed, 22 May 2024 18:53:59 +0200, Uwe Kleine-König wrote:
+> These drivers don't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
 > 
-> In order for the LEDs initial state to be set correctly this requires that
-> the led_trigger_event() call uses the new version of trigger->led_cdevs,
-> which has the new LED.
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: trigger: Call synchronize_rcu() before calling trig->activate()
-      commit: 47b8a4059f8a8b2407ab22fad8775842c54e59c6
+[1/1] leds: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+      commit: 4e84d53d7bf0fc35978fd41605d6d377c17a369b
 
 --
 Lee Jones [李琼斯]
