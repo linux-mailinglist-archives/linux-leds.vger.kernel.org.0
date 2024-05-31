@@ -1,194 +1,126 @@
-Return-Path: <linux-leds+bounces-1784-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1787-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7058D6713
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 18:44:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8168D67BB
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 19:09:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F01EB2A4BD
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 16:44:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52551283A61
+	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 17:09:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAEA2171E43;
-	Fri, 31 May 2024 16:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79D4317C7B7;
+	Fri, 31 May 2024 17:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjkbaIIo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ct+rfWXx"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E6916FF26;
-	Fri, 31 May 2024 16:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E007817C233;
+	Fri, 31 May 2024 17:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717173850; cv=none; b=t/DwsC61Ettelwu9HTH+s0l7NN2yWLF9HqsuYWjdG7rF3LuzvH00Uayq19WSjVvhSxwq/Zq9A++S1y0uBCtApzwndjXgv1LLmtE6j99dS2ohOi+5vfysJ6MFR/HaNqhW0esM9+qW6Ah1SRVo589s1Ud9rZcM0S3Il2zoahj+wCY=
+	t=1717175336; cv=none; b=MqwJZVJWvtGbmpHs++KAqWMFpmkKMqC71dhnKV5yMSFnQ8xfOlJue2tgIjOddIRp38gH3rg5yf72CwYPUiulHV9qEik2k+he1Sqb9FXePYy+ju/XK2ruehu1nIsehYmaC3S+sI2xwyep+zUfTxI3EyBP7uQGjwaqjW7Q9zeT+n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717173850; c=relaxed/simple;
-	bh=gjNaygJxEmGVOCosMiMdTQrI3y7aaBzzVSVlr1yu1jQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QWwa3hAhbCvZILgejBCenmx5i4SueZi9b4Xf4nk1k2YQoBfZ1Wyggxd+DoI7X0DK75F5GGrPE9C6QALYushJYna/nMFk+ERsYQ/clX+BgvMICWxlSPfGoPuODNdQAL0UuMq0/7uHuMAdpqodOw9CUjjf5uK5mvlCKxECiXle4M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjkbaIIo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35664C32786;
-	Fri, 31 May 2024 16:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717173850;
-	bh=gjNaygJxEmGVOCosMiMdTQrI3y7aaBzzVSVlr1yu1jQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IjkbaIIooYDH8y6nOdbyewI+UXwTb5Nfq4KqnfU2FPVRJA02NNCv0JdHkgXnq7tqK
-	 X1lN4otqKMIhbjpgKtq5ftcAirF7PWO0e/isWzEN/+JC8R7EbgrVLmtdOiTsQhqzvJ
-	 Yftmtcf4zFkQI8vkim1i+nYIIcGu+VlsP/XFBFRoSWfSb3dlDLshKKSbs80SRrm3fu
-	 xmw3w0Vm43wBcT1pz9POYb1EYVAoH2Y/seEOrbFdJWJYdmMpc1jhygDB1YfdHaMlft
-	 KOkHfQhuRRZ0NqBm1LqATpCTbjSGYhyhwmInq31JB81lASlrNH4uqTa1nEy1ee9C6t
-	 ZCKqHyGtMwIoA==
-Date: Fri, 31 May 2024 17:44:05 +0100
-From: Lee Jones <lee@kernel.org>
-To: MarileneGarcia <marilene.agarcia@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 linux-next] leds: powernv: replace of_node_put to
- __free
-Message-ID: <20240531164405.GV1005600@google.com>
-References: <20240529200233.1188228-1-marilene.agarcia@gmail.com>
+	s=arc-20240116; t=1717175336; c=relaxed/simple;
+	bh=9mMdk1jEo+cYqxnq/VHuXt+Kvb7Vs6u4w3HGCp0rzwE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=izd+gPhrO7ZlgENTwgrIvmb8puzMqsEBgvvqCkFzmqht8a/DsumKzYtF48i4BGRjYqFucai6NZe262K6cR22X1dwc/jYZuCne8cl4zL6pVuVboPaRk1PS05kCK852Tri909z4MUBiHe0vquCfsBngli1eXDKt0qM3Q4qqVDztL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ct+rfWXx; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717175335; x=1748711335;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9mMdk1jEo+cYqxnq/VHuXt+Kvb7Vs6u4w3HGCp0rzwE=;
+  b=ct+rfWXxEkk/BqcaeW21XXZQCaRBvlsSf5KkAeoNT1rzfKunJfhwMjKN
+   IHkCVZv0ccEpzqW3JIKbKkWqSR1lpzGz02k4PHztL5Ymwxh6Fo66kPysE
+   CxUJZS8t1l+NZrFvtpma7/M5zDSfVqeNRTmzWooOEKVnZipQmiMjEvYRT
+   8IYao+pdfA2C7WE+nCbuNDlrJPZa2sc4kxbuY0O2PKZoLeECpWso1XVTF
+   36PmQ9o5kK9uLcgkuL8F6Q0zQ9Aoi7i+YfjEIjSSMjCJGYUXPlg6fjjOM
+   58Nvs54WdE7FBsYrWjwGGpkfdIpg8TQaW/OuwCSxJvhW6loJvSYUyFSBP
+   Q==;
+X-CSE-ConnectionGUID: IuBeEx8ESgCFghNjri9z+A==
+X-CSE-MsgGUID: HFWJwV4ZRbG6FVy4SqBCfQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="25131930"
+X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
+   d="scan'208";a="25131930"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:08:52 -0700
+X-CSE-ConnectionGUID: k3q6XVXASyyTwoSwZ8TqMQ==
+X-CSE-MsgGUID: Jpe2YRQZT92NRTtY+XEJTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
+   d="scan'208";a="36147847"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa007.fm.intel.com with ESMTP; 31 May 2024 10:08:47 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 6E01B228; Fri, 31 May 2024 20:08:46 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lee Jones <lee@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Johan Hovold <jhovold@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v1 0/4] lm3533: Remove the outdated drivers
+Date: Fri, 31 May 2024 19:56:12 +0300
+Message-ID: <20240531170844.1595468-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240529200233.1188228-1-marilene.agarcia@gmail.com>
 
-On Wed, 29 May 2024, MarileneGarcia wrote:
+Driver is quite outdated from the Linux kernel internal APIs
+perspective. In particular GPIO code is using legacy calls,
+that started being replaced by a new API ca. 2014, i.e. ten
+years ago.
 
-> Use __free for device_node values, and thus drop calls to
-> of_node_put.
-> 
-> The variable attribute __free adds a scope based cleanup to
-> the device node. The goal is to reduce memory management issues
-> in the kernel code.
-> 
-> The of_node_put calls were removed, and the
-> for_each_available_child_of_node was replaced to the equivalent
-> for_each_available_child_of_node_scoped which use the __free.
-> 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: MarileneGarcia <marilene.agarcia@gmail.com>
-> ---
-> Changes v2:
-> It was missing a blank line.
-> 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: MarileneGarcia <marilene.agarcia@gmail.com>
-> ---
->  drivers/leds/leds-powernv.c | 28 +++++++++-------------------
->  1 file changed, 9 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-powernv.c b/drivers/leds/leds-powernv.c
-> index 4f01acb75727..8f94d2efed9f 100644
-> --- a/drivers/leds/leds-powernv.c
-> +++ b/drivers/leds/leds-powernv.c
-> @@ -246,29 +246,25 @@ static int powernv_led_classdev(struct platform_device *pdev,
->  	const char *cur = NULL;
->  	int rc = -1;
->  	struct property *p;
-> -	struct device_node *np;
->  	struct powernv_led_data *powernv_led;
->  	struct device *dev = &pdev->dev;
->  
-> -	for_each_available_child_of_node(led_node, np) {
-> +	for_each_available_child_of_node_scoped(led_node, np) {
->  		p = of_find_property(np, "led-types", NULL);
->  
->  		while ((cur = of_prop_next_string(p, cur)) != NULL) {
->  			powernv_led = devm_kzalloc(dev, sizeof(*powernv_led),
->  						   GFP_KERNEL);
-> -			if (!powernv_led) {
-> -				of_node_put(np);
-> +			if (!powernv_led)
->  				return -ENOMEM;
-> -			}
->  
->  			powernv_led->common = powernv_led_common;
->  			powernv_led->loc_code = (char *)np->name;
->  
->  			rc = powernv_led_create(dev, powernv_led, cur);
-> -			if (rc) {
-> -				of_node_put(np);
-> +			if (rc)
->  				return rc;
-> -			}
-> +
->  		} /* while end */
->  	}
->  
-> @@ -278,12 +274,11 @@ static int powernv_led_classdev(struct platform_device *pdev,
->  /* Platform driver probe */
->  static int powernv_led_probe(struct platform_device *pdev)
->  {
-> -	struct device_node *led_node;
->  	struct powernv_led_common *powernv_led_common;
->  	struct device *dev = &pdev->dev;
-> -	int rc;
-> +	struct device_node *led_node __free(device_node) =
-> +							of_find_node_by_path("/ibm,opal/leds");
+Suggested-by: Linus Walleij <linus.walleij@linaro.org>
 
-This is not a good line-break strategy.
+Andy Shevchenko (4):
+  backlight: lm3533_bl: Remove the driver
+  iio: light: lm3533-als: Remove the driver
+  leds: lm3533: Remove the driver
+  mfd: lm3533: Remove the driver
 
-	struct device_node *led_node
-		__free(device_node) = of_find_node_by_path("/ibm,opal/leds");
-
-	struct device_node *led_node __free(device_node) =
-		of_find_node_by_path("/ibm,opal/leds");
-
-Please choose one of these instead.
-
-I suggest the top one might read a little easier.
-
-> -	led_node = of_find_node_by_path("/ibm,opal/leds");
-
-Does the __free() have to be combined with an allocation?
-
->  	if (!led_node) {
->  		dev_err(dev, "%s: LED parent device node not found\n",
->  			__func__);
-> @@ -292,20 +287,15 @@ static int powernv_led_probe(struct platform_device *pdev)
->  
->  	powernv_led_common = devm_kzalloc(dev, sizeof(*powernv_led_common),
->  					  GFP_KERNEL);
-> -	if (!powernv_led_common) {
-> -		rc = -ENOMEM;
-> -		goto out;
-> -	}
-> +	if (!powernv_led_common)
-> +		return -ENOMEM;
->  
->  	mutex_init(&powernv_led_common->lock);
->  	powernv_led_common->max_led_type = cpu_to_be64(OPAL_SLOT_LED_TYPE_MAX);
->  
->  	platform_set_drvdata(pdev, powernv_led_common);
->  
-> -	rc = powernv_led_classdev(pdev, led_node, powernv_led_common);
-> -out:
-> -	of_node_put(led_node);
-> -	return rc;
-> +	return powernv_led_classdev(pdev, led_node, powernv_led_common);
->  }
->  
->  /* Platform driver remove */
-> -- 
-> 2.34.1
-> 
+ drivers/iio/light/Kconfig           |  17 -
+ drivers/iio/light/Makefile          |   1 -
+ drivers/iio/light/lm3533-als.c      | 922 ----------------------------
+ drivers/leds/Kconfig                |  13 -
+ drivers/leds/Makefile               |   1 -
+ drivers/leds/leds-lm3533.c          | 755 -----------------------
+ drivers/mfd/lm3533-core.c           | 645 -------------------
+ drivers/video/backlight/Kconfig     |  11 -
+ drivers/video/backlight/Makefile    |   1 -
+ drivers/video/backlight/lm3533_bl.c | 399 ------------
+ include/linux/mfd/lm3533.h          | 100 ---
+ 11 files changed, 2865 deletions(-)
+ delete mode 100644 drivers/iio/light/lm3533-als.c
+ delete mode 100644 drivers/leds/leds-lm3533.c
+ delete mode 100644 drivers/mfd/lm3533-core.c
+ delete mode 100644 drivers/video/backlight/lm3533_bl.c
+ delete mode 100644 include/linux/mfd/lm3533.h
 
 -- 
-Lee Jones [李琼斯]
+2.43.0.rc1.1336.g36b5255a03ac
+
 
