@@ -1,66 +1,70 @@
-Return-Path: <linux-leds+bounces-1804-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1805-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C578D71B9
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D958D71BA
 	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 21:55:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A97DD1F217AF
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 998732824E5
 	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 19:55:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7DD154BF3;
-	Sat,  1 Jun 2024 19:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D179C154C08;
+	Sat,  1 Jun 2024 19:55:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XOFkn+af"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="U+EiNaKe"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA71514E2EF
-	for <linux-leds@vger.kernel.org>; Sat,  1 Jun 2024 19:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFD614E2EF
+	for <linux-leds@vger.kernel.org>; Sat,  1 Jun 2024 19:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717271742; cv=none; b=dEnI6ywbTva2NZgYWoqXtb2I8WJq6jhYbvPtpNA4U0lCiqjQ6omGyoR2Q1HYxp/r9P81nj57I6KuoehUMEqBQUVnG7jn4itrWyFX5GLt2bXHQ71S3THqkvgjlYX/ZJ62Fy0nW7WAEDZr45G0i3PGqZWCWokN1QouVI7CWD6Gp0s=
+	t=1717271744; cv=none; b=kO470KAuTu4Z4ze2mGrmyu25K0FAoLfAWizEP1kTIBB9BRKAMfbk6w5cDrhzuVwi+m+1gjsk7gv+vLKyXGkLk+ydzW18tTMwJgk3hiIfk18y+SQoj2CJzjHzP0M0xpsKRaAF2Hq/xfYX/+GhOxiXcHMbRCobcE7b03r7G2pwKnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717271742; c=relaxed/simple;
-	bh=iRxTTqZQ/Ww/iSI/KRWovicP98HoKUzH9baahuF9xNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aOUpk4FL0FwaAPPy+nH5rJFbZ34rPEewd2C1CZo2INeWuwb5bwhnrs2WrP9jWNpQlWFQN1XrxjYiskHpJIppiimiodaqFQl+lI+IZLI3IfUlAJqG5lcupMsW5RpGgBUn2kytOJ3McShP4PwP1w5wWnZY2i2sWxgerboABxM7Ezg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XOFkn+af; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1717271744; c=relaxed/simple;
+	bh=6bNuYJhpsT9xIOMc+ZWFw6EYER1/ZusUMyZwz00y894=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ETCWzTIGhGxT0+zK2+UqoQJ3VZEyCWuouqllSmyltuMnFlKIWtFl6tKHeVZq/Rzkr6TbdCe23ZV5ni5kk6B07+jqfKauUZ0A3K7WpPIvCLdAQGlZs0oBppv28McEvxNTwPV99CFN+A/JQiHKB6a/Y16xFzdgbcZPGkCGDZk1+m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=U+EiNaKe; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717271739;
+	s=mimecast20190719; t=1717271742;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Q+rUfVMlzWwY+cqiUNbek2HWCLE4SZUy9WlZitvOklA=;
-	b=XOFkn+afyFsWVdsiM6tmThhHHNCThPQNr7KBD5C1KOH+FfVM/4OMSuvaE/FPl0Hey2VXaI
-	ER1zWEz9OCXo0Q8OWyemYW4GlCEFpqZnUq9KSHBvK0zKIdJ1Z2N8vJhgiI7l9Eg1ItJQWs
-	poYHVUm37TiSQNuZNoFOY9m1HIzLKgo=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kIGIGAD7ayWRcyHPJFKvCC3jpjGwjQ230x866mYBRqY=;
+	b=U+EiNaKefJb/4kiv79iekEeLPfXEzhCAB+5FfsqvNZW7348hD7NtqeMjonFEmCXjQpCId0
+	5eDFmtwCJ6X8ASGWLhoBodjn6amAnC7dkoZ7m4RLXBw/NFB/5UUO2sUx2jTZUgqARloYxq
+	6CpVWot/p3yEj1qvq1V2gDvIzfjoh3o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-428-mSXPUnMnPkauFMtXSQFtjA-1; Sat, 01 Jun 2024 15:55:37 -0400
-X-MC-Unique: mSXPUnMnPkauFMtXSQFtjA-1
+ us-mta-301-Kt_IZ59PMLG37qQI4t5Jmg-1; Sat, 01 Jun 2024 15:55:38 -0400
+X-MC-Unique: Kt_IZ59PMLG37qQI4t5Jmg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 68A398008A4;
-	Sat,  1 Jun 2024 19:55:37 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39BAC101A525;
+	Sat,  1 Jun 2024 19:55:38 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.42])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BDF9B1C00A97;
-	Sat,  1 Jun 2024 19:55:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 969821C0D100;
+	Sat,  1 Jun 2024 19:55:37 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-leds@vger.kernel.org
-Subject: [RFC 0/2] leds: trigger: input-events: Fix locking issues of input_lock vs led-trigger locks
-Date: Sat,  1 Jun 2024 21:55:26 +0200
-Message-ID: <20240601195528.48308-1-hdegoede@redhat.com>
+Subject: [RFC 1/2] leds: trigger: input-events: Replace led_on with a flags field
+Date: Sat,  1 Jun 2024 21:55:27 +0200
+Message-ID: <20240601195528.48308-2-hdegoede@redhat.com>
+In-Reply-To: <20240601195528.48308-1-hdegoede@redhat.com>
+References: <20240601195528.48308-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -70,44 +74,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-Hi Lee, et. al.,
+Replace the led_on boolean with a flags field, using bit 0 for FL_LED_ON,
+this is a preparation patch for adding further flags.
 
-So approx. 24 hours after you merged my input-events trigger I have found
-a rather nasty locking issue with it after plugging a USB keyboard into
-a tablet which uses this new trigger. Sorry about the bad timing.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/leds/trigger/ledtrig-input-events.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Patch 2/2 of this series tries to fix this and it fixes my reproducer.
-But I was worried about the deactivate path, so I gave that a try with
-the patch in place and this resulted in a new lockdep warning
-(now on deactivate).
-
-So I need a different approach. I have a plan how to fix this differently
-and I plan to write a patch on top of for-leds-next in the next couple of
-days. But I guess you could also drop the "leds: trigger: Add new LED Input
-events trigger" from for-leds-next for now.
-
-I thought it would be still good to post this patch as it shows the complex
-problem of LEDs or LED triggers getting registered by subsystems while
-holding a global lock from that subsystem vs the activate / deactivate
-method of the trigger calling functions of that same subsystem which
-require that same global lock.  Basically this is the same LED trigger
-problem as this 6.9+ regression:
-
-https://lore.kernel.org/regressions/42d498fc-c95b-4441-b81a-aee4237d1c0d@leemhuis.info/
-
-Regards,
-
-Hans
-
-
-Hans de Goede (2):
-  leds: trigger: input-events: Replace led_on with a flags field
-  leds: trigger: input-events: Fix locking issues of input_lock vs
-    led-trigger locks
-
- drivers/leds/trigger/ledtrig-input-events.c | 53 ++++++++++++++-------
- 1 file changed, 35 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/leds/trigger/ledtrig-input-events.c b/drivers/leds/trigger/ledtrig-input-events.c
+index 1de0176799f9..94d5580ea093 100644
+--- a/drivers/leds/trigger/ledtrig-input-events.c
++++ b/drivers/leds/trigger/ledtrig-input-events.c
+@@ -17,14 +17,16 @@
+ 
+ #define DEFAULT_LED_OFF_DELAY_MS			5000
+ 
++/* To avoid repeatedly setting the brightness while there are events */
++#define FL_LED_ON					0
++
+ struct input_events_data {
+ 	struct input_handler handler;
+ 	struct delayed_work work;
+ 	spinlock_t lock;
+ 	struct led_classdev *led_cdev;
+ 	int led_cdev_saved_flags;
+-	/* To avoid repeatedly setting the brightness while there are events */
+-	bool led_on;
++	unsigned long flags;
+ 	unsigned long led_off_time;
+ 	unsigned long led_off_delay;
+ };
+@@ -42,7 +44,7 @@ static void led_input_events_work(struct work_struct *work)
+ 	 */
+ 	if (time_after_eq(jiffies, data->led_off_time)) {
+ 		led_set_brightness_nosleep(data->led_cdev, LED_OFF);
+-		data->led_on = false;
++		clear_bit(FL_LED_ON, &data->flags);
+ 	}
+ 
+ 	spin_unlock_irq(&data->lock);
+@@ -95,10 +97,9 @@ static void input_events_event(struct input_handle *handle, unsigned int type,
+ 
+ 	spin_lock_irqsave(&data->lock, flags);
+ 
+-	if (!data->led_on) {
++	if (!test_and_set_bit(FL_LED_ON, &data->flags))
+ 		led_set_brightness_nosleep(led_cdev, led_cdev->blink_brightness);
+-		data->led_on = true;
+-	}
++
+ 	data->led_off_time = jiffies + led_off_delay;
+ 
+ 	spin_unlock_irqrestore(&data->lock, flags);
 -- 
 2.45.1
 
