@@ -1,205 +1,286 @@
-Return-Path: <linux-leds+bounces-1799-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1800-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424078D6DA8
-	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 05:18:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2FB8D6F7C
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 13:32:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF1931F2369C
-	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 03:18:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E8D21C210BF
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 11:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BB53C3C;
-	Sat,  1 Jun 2024 03:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE87A335A7;
+	Sat,  1 Jun 2024 11:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAGATq3+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kclhaGYX"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9DFE545;
-	Sat,  1 Jun 2024 03:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C856C846C
+	for <linux-leds@vger.kernel.org>; Sat,  1 Jun 2024 11:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717211880; cv=none; b=lsWzG/OQ6zHEEvc7PCLLvU5POFtZt2w38ucEIr/KqcQHro30GLLPdhZlLSUzmKGNSGYmx8PoftRacpNGfEw2x87EfxBrX6cLFz+83ZORGZVNwB8Qd1luh0jYdj2mt5u+m3PKOmlw4g3Vi4f77mc/nE1hh8j3T4saiusKed05KU0=
+	t=1717241542; cv=none; b=MLUZEHS9Es3dOFKCBYFIAQmCQISysuT0sE1jN8Myc8OlYv5uBys0wQbUNUsl8sOEPZcG1agtek0V2dF+1l2aOfeRxpl85X3dWpEvJ+V9dSWM0Ii24PP9c5Gyi3AS4WyQwdQ2PcUl8txl+eUw3vN5ICVqvxz7TpsGJplozVBL6w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717211880; c=relaxed/simple;
-	bh=f7UienCm53Hpa9ZLxEj8dSMCv3Z3599mtPNWhvbU5jk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nsWHrT4CD/sD2Kkb4ReYzwALANBn+aaDrFb+SkQxqQbi7oypVrfhumj6gkhQBgZF7UzoVcXTZV8GGvQk0ljPlBulFb6DcgnCf8Gh4jjmS9S9c9k5G/RKaTl8ELBaxW7wa00PzVlGluMW6Z30WEmG3S9+yW5/ChH79r45rh/MfWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAGATq3+; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f4a0050b9aso14015235ad.2;
-        Fri, 31 May 2024 20:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717211878; x=1717816678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dJ7GhnPCcc9gG/fPcfKm9hLymSev1LXbQ1e2VPy6a/o=;
-        b=JAGATq3+yuF+GtEOPa0BMxiN0LxcPhwNUN+GDyv6JEfhUjRuIfhcwClbazER8SiDbi
-         knkdKMq5Tdgy0fhyZkBrjiEzHNaPRl0ocqga1G4IJHf5/y/IWZlom+9i4CI2A6CQ7oxs
-         P/DJjOtahGG8yaKPenm78St+cmtmRbEqSsXQu2EXUgfW3MN4huWB7/AjZNKhgyd1aG7Q
-         AmE57yifleyHlgI6LR6xXN1z8e1XXsh4kMN7SXYSUg/DV+Bmb1DlI2l5MYcCKyW6tNnB
-         EAFkPNkNCWMr0G8EZvv/3SdiEPJ7X4WByiJmaRS0r6VUqbCzJKYbPXF1ZkMxVxLZyvab
-         px9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717211878; x=1717816678;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dJ7GhnPCcc9gG/fPcfKm9hLymSev1LXbQ1e2VPy6a/o=;
-        b=hpJ6RavG2vNHgNrrYMU3kBbEpulPKg57GgxmsQjuj60HFt0UerneWzfN0b7dm+66w/
-         bw/dh8qGAvkinDItCO7ljBjDUFK/Rw6QOqX6p04ziJL+yltZk717lhuHvth7KE23SDvm
-         tbhc8waWt2B3UZjAjoEBxipERgB9kG/fwsweFakrPMy+w7TUDQrCCvF0AeR1cPjN5HLU
-         K8jy+xZ6yy5/I71mHPX4H6j6p+Fz5I9s7TLswRTIcQCFYvtluUDqFvhW3/trQ3l9mue5
-         7WthLIu6rxS6kv1y0qX3A6R4GOQvy0pARBi7ebr99afGv7Zzs9Wv91XhOx/gYWpriC+3
-         +veg==
-X-Forwarded-Encrypted: i=1; AJvYcCXc/rXdrn9m5kdzoX6246VzFMUfzLEm8q4h0wpVo0flBMZXpg4qnPYq2MYP1FOGT4x6adqEDhDAhT/DCuoSggHZQa75U67qneRe2B1daM47Qo6fb3g/LlD3VMSoD66FWoqALpwS8d4pRw==
-X-Gm-Message-State: AOJu0YxN+e0OGC+9QVPuxlEsrDp9MM6qhI9JlJHTO2QLltOYZ+lF3HHQ
-	ZDj1Ag8FRm9I5BchmD7vW6t9kDBsL+0R8lZextmObu9RDPMAZixE
-X-Google-Smtp-Source: AGHT+IG5jigN++TXRW2Q8TJE0q8aUmrnSUVxfazFZCGbU4Se+asZ6b1Uehd1zrHky24bXUiclsr+ZA==
-X-Received: by 2002:a17:902:cec4:b0:1f3:1ca5:9166 with SMTP id d9443c01a7336-1f6370ad6aamr39927445ad.61.1717211877781;
-        Fri, 31 May 2024 20:17:57 -0700 (PDT)
-Received: from mari.. ([2804:431:cfd2:68a4:85cb:da60:5688:b292])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323e18c7sm23531825ad.177.2024.05.31.20.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 May 2024 20:17:57 -0700 (PDT)
-From: MarileneGarcia <marilene.agarcia@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Julia Lawall <julia.lawall@inria.fr>
-Cc: MarileneGarcia <marilene.agarcia@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-leds@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 linux-next] leds: powernv: replace of_node_put to __free
-Date: Sat,  1 Jun 2024 00:17:13 -0300
-Message-Id: <20240601031713.1307859-1-marilene.agarcia@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1717241542; c=relaxed/simple;
+	bh=g7MPAIHVddnJyq8v6lIWcJBYkxciSx64hdQuY4UsJmM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OdidcAVF1OELpS2Zur/mCdnfNEUTFcxV81zdXiTnUjb+XrpHqXcZ0qCGlHMYNhN4ee3EU7FYQe5zWCiGFT4SVu38OKWl80veuPcdLkAm/ITGsj6CksSBwkJmh8GhC3gx9eMCOEKBM71eRxcqeZ78v89923+SjT096VWB+TSqkG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kclhaGYX; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717241541; x=1748777541;
+  h=date:from:to:cc:subject:message-id;
+  bh=g7MPAIHVddnJyq8v6lIWcJBYkxciSx64hdQuY4UsJmM=;
+  b=kclhaGYXetD6ga0kCz41Jh3HOYkzZ4/tyFbYHPOPcvF/CRnmLNn+BVhI
+   r5geoDAtVs3XyIgPraxJaHr2Yk3leYhLubuinZVnjTuUirLOS094HA7ey
+   X9px7pcF6w2xmp8bcQa4UpNfb3oVHl0ugbhv1au92KNuihIUUONn2U26F
+   lr5tYnNz76NJLb0TaEtzO8Efsw9Vg9Rg4+QQmHWFehTLm5CykT9Nl+Ws7
+   vkeRRmTz9CMG/k9mIq+UktuCkrGfqdIzff6FOgQPBwudM06gwS2KAkjHq
+   gr1sq1V2B9gPgudtO64lyyJ5aRPO9CwqlvfwPHuuyuwPKRgtD2ZX9dmKn
+   Q==;
+X-CSE-ConnectionGUID: N6MhYYwGQte59CMYy56Erg==
+X-CSE-MsgGUID: Lp2Ri8DdTAWzXd5NQhtNLA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13634663"
+X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
+   d="scan'208";a="13634663"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 04:32:20 -0700
+X-CSE-ConnectionGUID: nDSSDjr2SIqdiANatQnclQ==
+X-CSE-MsgGUID: iOk+6t6dQaOqrR1d5AAjNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
+   d="scan'208";a="37005182"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 01 Jun 2024 04:32:19 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sDMy8-000Imt-1V;
+	Sat, 01 Jun 2024 11:32:16 +0000
+Date: Sat, 01 Jun 2024 19:31:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:ib-leds-platform-power-6.11] BUILD SUCCESS
+ 9af12f57f1f9785f231d31a7365ad244c656b7ff
+Message-ID: <202406011941.Ep2rCwOU-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Use __free for device_node values, and thus drop calls to
-of_node_put.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-platform-power-6.11
+branch HEAD: 9af12f57f1f9785f231d31a7365ad244c656b7ff  power: supply: power-supply-leds: Add charging_orange_full_green trigger for RGB LED
 
-The variable attribute __free adds a scope based cleanup to
-the device node. The goal is to reduce memory management issues
-in the kernel code.
+elapsed time: 1227m
 
-The of_node_put calls were removed, and the
-for_each_available_child_of_node was replaced to the equivalent
-for_each_available_child_of_node_scoped which use the __free.
+configs tested: 193
+configs skipped: 3
 
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: MarileneGarcia <marilene.agarcia@gmail.com>
----
-Hello, 
-Thank you for the feedback.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-The line-break strategy was fixed, and now it is according to
-the top one suggested.
+tested configs:
+alpha                            alldefconfig   gcc  
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240601   gcc  
+arc                   randconfig-002-20240601   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                     am200epdkit_defconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240601   clang
+arm                   randconfig-002-20240601   clang
+arm                   randconfig-003-20240601   gcc  
+arm                   randconfig-004-20240601   gcc  
+arm                           u8500_defconfig   gcc  
+arm                       versatile_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240601   gcc  
+arm64                 randconfig-002-20240601   clang
+arm64                 randconfig-003-20240601   clang
+arm64                 randconfig-004-20240601   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240601   gcc  
+csky                  randconfig-002-20240601   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240601   clang
+hexagon               randconfig-002-20240601   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240601   clang
+i386         buildonly-randconfig-002-20240601   gcc  
+i386         buildonly-randconfig-003-20240601   gcc  
+i386         buildonly-randconfig-004-20240601   gcc  
+i386         buildonly-randconfig-005-20240601   gcc  
+i386         buildonly-randconfig-006-20240601   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240601   clang
+i386                  randconfig-002-20240601   gcc  
+i386                  randconfig-003-20240601   clang
+i386                  randconfig-004-20240601   gcc  
+i386                  randconfig-005-20240601   clang
+i386                  randconfig-006-20240601   gcc  
+i386                  randconfig-011-20240601   gcc  
+i386                  randconfig-012-20240601   gcc  
+i386                  randconfig-013-20240601   gcc  
+i386                  randconfig-014-20240601   gcc  
+i386                  randconfig-015-20240601   clang
+i386                  randconfig-016-20240601   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240601   gcc  
+loongarch             randconfig-002-20240601   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                       m5475evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                  cavium_octeon_defconfig   gcc  
+mips                         cobalt_defconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                          eyeq5_defconfig   gcc  
+mips                           ip22_defconfig   gcc  
+mips                     loongson1c_defconfig   gcc  
+mips                  maltasmvp_eva_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240601   gcc  
+nios2                 randconfig-002-20240601   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-32bit_defconfig   gcc  
+parisc                randconfig-001-20240601   gcc  
+parisc                randconfig-002-20240601   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                    klondike_defconfig   gcc  
+powerpc                     rainier_defconfig   gcc  
+powerpc               randconfig-001-20240601   gcc  
+powerpc               randconfig-002-20240601   gcc  
+powerpc               randconfig-003-20240601   gcc  
+powerpc64             randconfig-001-20240601   clang
+powerpc64             randconfig-002-20240601   clang
+powerpc64             randconfig-003-20240601   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240601   clang
+riscv                 randconfig-002-20240601   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240601   gcc  
+s390                  randconfig-002-20240601   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                             espt_defconfig   gcc  
+sh                          r7785rp_defconfig   gcc  
+sh                    randconfig-001-20240601   gcc  
+sh                    randconfig-002-20240601   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                             sh03_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240601   gcc  
+sparc64               randconfig-002-20240601   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240601   gcc  
+um                    randconfig-002-20240601   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240601   clang
+x86_64       buildonly-randconfig-002-20240601   clang
+x86_64       buildonly-randconfig-003-20240601   gcc  
+x86_64       buildonly-randconfig-004-20240601   gcc  
+x86_64       buildonly-randconfig-005-20240601   clang
+x86_64       buildonly-randconfig-006-20240601   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   clang
+x86_64                randconfig-001-20240601   gcc  
+x86_64                randconfig-002-20240601   clang
+x86_64                randconfig-003-20240601   clang
+x86_64                randconfig-004-20240601   clang
+x86_64                randconfig-005-20240601   gcc  
+x86_64                randconfig-006-20240601   clang
+x86_64                randconfig-011-20240601   clang
+x86_64                randconfig-012-20240601   clang
+x86_64                randconfig-013-20240601   clang
+x86_64                randconfig-014-20240601   gcc  
+x86_64                randconfig-015-20240601   gcc  
+x86_64                randconfig-016-20240601   gcc  
+x86_64                randconfig-071-20240601   clang
+x86_64                randconfig-072-20240601   gcc  
+x86_64                randconfig-073-20240601   clang
+x86_64                randconfig-074-20240601   gcc  
+x86_64                randconfig-075-20240601   clang
+x86_64                randconfig-076-20240601   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                  audio_kc705_defconfig   gcc  
+xtensa                  cadence_csp_defconfig   gcc  
+xtensa                randconfig-001-20240601   gcc  
+xtensa                randconfig-002-20240601   gcc  
 
-The __free is a wrapper to __attribute__((__cleanup__())) so 
-the variavel definition is needed. And according to Julia, it 
-is preferred to combine the declaration and the allocation to 
-ensure that there is no return that can occur after the declaration, 
-but before the allocation (or more precisely the initialization).  
-If there is no other option for the initialization of the variable, 
-then it should be NULL.
-
- drivers/leds/leds-powernv.c | 28 +++++++++-------------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/leds/leds-powernv.c b/drivers/leds/leds-powernv.c
-index 4f01acb75727..49ab8c9a3f29 100644
---- a/drivers/leds/leds-powernv.c
-+++ b/drivers/leds/leds-powernv.c
-@@ -246,29 +246,25 @@ static int powernv_led_classdev(struct platform_device *pdev,
- 	const char *cur = NULL;
- 	int rc = -1;
- 	struct property *p;
--	struct device_node *np;
- 	struct powernv_led_data *powernv_led;
- 	struct device *dev = &pdev->dev;
- 
--	for_each_available_child_of_node(led_node, np) {
-+	for_each_available_child_of_node_scoped(led_node, np) {
- 		p = of_find_property(np, "led-types", NULL);
- 
- 		while ((cur = of_prop_next_string(p, cur)) != NULL) {
- 			powernv_led = devm_kzalloc(dev, sizeof(*powernv_led),
- 						   GFP_KERNEL);
--			if (!powernv_led) {
--				of_node_put(np);
-+			if (!powernv_led)
- 				return -ENOMEM;
--			}
- 
- 			powernv_led->common = powernv_led_common;
- 			powernv_led->loc_code = (char *)np->name;
- 
- 			rc = powernv_led_create(dev, powernv_led, cur);
--			if (rc) {
--				of_node_put(np);
-+			if (rc)
- 				return rc;
--			}
-+
- 		} /* while end */
- 	}
- 
-@@ -278,12 +274,11 @@ static int powernv_led_classdev(struct platform_device *pdev,
- /* Platform driver probe */
- static int powernv_led_probe(struct platform_device *pdev)
- {
--	struct device_node *led_node;
- 	struct powernv_led_common *powernv_led_common;
- 	struct device *dev = &pdev->dev;
--	int rc;
-+	struct device_node *led_node
-+		__free(device_node) = of_find_node_by_path("/ibm,opal/leds");
- 
--	led_node = of_find_node_by_path("/ibm,opal/leds");
- 	if (!led_node) {
- 		dev_err(dev, "%s: LED parent device node not found\n",
- 			__func__);
-@@ -292,20 +287,15 @@ static int powernv_led_probe(struct platform_device *pdev)
- 
- 	powernv_led_common = devm_kzalloc(dev, sizeof(*powernv_led_common),
- 					  GFP_KERNEL);
--	if (!powernv_led_common) {
--		rc = -ENOMEM;
--		goto out;
--	}
-+	if (!powernv_led_common)
-+		return -ENOMEM;
- 
- 	mutex_init(&powernv_led_common->lock);
- 	powernv_led_common->max_led_type = cpu_to_be64(OPAL_SLOT_LED_TYPE_MAX);
- 
- 	platform_set_drvdata(pdev, powernv_led_common);
- 
--	rc = powernv_led_classdev(pdev, led_node, powernv_led_common);
--out:
--	of_node_put(led_node);
--	return rc;
-+	return powernv_led_classdev(pdev, led_node, powernv_led_common);
- }
- 
- /* Platform driver remove */
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
