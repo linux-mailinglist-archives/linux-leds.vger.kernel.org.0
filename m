@@ -1,168 +1,133 @@
-Return-Path: <linux-leds+bounces-1796-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1797-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4FB8D6CD0
-	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 01:20:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A13708D6D25
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 02:27:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07F60B20B8D
-	for <lists+linux-leds@lfdr.de>; Fri, 31 May 2024 23:20:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C8A9286A2C
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Jun 2024 00:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17EDA80032;
-	Fri, 31 May 2024 23:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8991217C2;
+	Sat,  1 Jun 2024 00:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vhWKp5wO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UpxAf4vx"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568708C06
-	for <linux-leds@vger.kernel.org>; Fri, 31 May 2024 23:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B550CEDC;
+	Sat,  1 Jun 2024 00:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717197650; cv=none; b=tQZ6SSORFnPsG1h2DxAfDLfynDOtk5rJcpYQ6G4liZ9ShulgIMp4WEaYL3K/IEDQUwOWgPHsJTNv6ODv2u9TN40ULE652a4Hun0sbX1ZjkJb6Gs1q5e46jzecA9EJ5EU/6fQW+xLCEdQWPMZyAxN10mEoJJ6sR8QloKV+OpWkNY=
+	t=1717201659; cv=none; b=l1PQjcLuz/8ftiA3HppW76ujN9MtAgLWYepROVGIp1vj/k65bJJix1eD/yrLV0JnY3k9nRFnNcxkDkBKc1hW09z7GDW5taSh/ZecrpiNe5EOfvLTfqTLBTz+pNsW2LD0GrBwB8+FJpoPgcjx3TI0rCidAvjJ3BiIjs9XrjvGKQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717197650; c=relaxed/simple;
-	bh=QM2xc2d4GuVLVUyWO8sKv4Mof/dZ63yGpWwVNW4kQow=;
+	s=arc-20240116; t=1717201659; c=relaxed/simple;
+	bh=pzkQzkll9BnxvY6yoADX3c1dvUwawuIjZ6ByCbhdF+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XDrxhZ3ptA/E4E9zP6o/rQ20vl0EOhYP2culUi5R+ozSMaXwoBE5h68F1/rAo/Ur8axfGQiC5ShJOf9xQj9SWTGXR2JlF0MgOvAfcqAqJLTW497SRI344vG83N4m9D7i+zSIsqDdtPV5v2N2SWZT44T2HF8MvbRJmBq5Bb2Rdh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vhWKp5wO; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4VrfHS0Mn5z9scV;
-	Sat,  1 Jun 2024 01:20:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1717197636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A8Ant7/X6GwAG4+7U4wspkLXR8+I3V11VX/H6x/AvhY=;
-	b=vhWKp5wOYSC+kUvN4RPTAZdr2ww9XdMrs4NT9ZywyUt0+VAPiV+M94pSsJX0fYND6xjliQ
-	YC1qga5S1ijb7OlHU7XT0bA/YFGjP44t/0KT5mvocRLkgD2u5C/aGXPcuIKz2HaFMhZeFC
-	Ek5rjMAMOhHDTx8PpGPOxLuFizpKSOquTFzT8VDSCGdWtvE0jmJfpvVhwxAvi9xpHzwd1h
-	tjWokwV79aguksG5X0wvFHaU7zNrj4xoTySZ9wJlQ7hwjW6w2Dk+gsWHrA2WI/ubOmFCxO
-	3j+Q/1I2cMiJA4tcJQ+WyUI5ui9kdRAg0gtm1McOw1+xM8CvVy2HtPynoCb1RA==
-Date: Fri, 31 May 2024 18:20:31 -0500
-From: Joseph Strauss <jstrauss@mailbox.org>
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@ucw.cz, jansimon.moeller@gmx.de, conor@kernel.org,
-	christophe.jaillet@wanadoo.fr, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v7] Add multicolor support to BlinkM LED driver
-Message-ID: <20240531232031.u5mphuqrwin533rj@libretux>
-References: <20240506201905.789376-1-jstrauss@mailbox.org>
- <20240531103840.GC1005600@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=B6NtPY89KzUDoPRhLqU/OSkk+pWJ0yJT5y1gba7UIVzWkciswPooaQkbGrMdBO1JAKr7/GucGdNtExZNMOnf0+BrJCurhzHMI7M50eAMhCq18IoJWOFfXdCTyNvsadv4QvG356Y3qCKVTXwQQBM4Vku6XV0NhpJ9q3wm3dGe2K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UpxAf4vx; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717201657; x=1748737657;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pzkQzkll9BnxvY6yoADX3c1dvUwawuIjZ6ByCbhdF+o=;
+  b=UpxAf4vxRPcg/VEKmNSYgkGyZx9MGhHRCjgsZUCXoQOQIUKIglDpMnYt
+   JKhDzAxJIZxYQuU1IcPxEcTzaTXqm4N1R8Xnj9z5pWmqbT5ar3FnLXaQc
+   PqpOo1J8yHyNGuxK0pt6njKqo0tuam7hVSpwT9bp8WwejXrC8Y8N2ttu6
+   xQsv7q7fNLh+NR90KJB4vdIKJHS31kk5iG4vu6ZZAXOic/vup+Iqjx4dV
+   AhPyQ/3TnPGLQReimkZ9+9IP1MovGFUiRr3kSGGvFenKgd8U37LPAMt8J
+   Va2eoLcNpn1id5YnX3IZjIhMvrAurUsljzclpweLrC6vhM7vCg53W/U2q
+   A==;
+X-CSE-ConnectionGUID: BYs/wzKbS8qsK2BEoEnYSw==
+X-CSE-MsgGUID: MaY0U9VGR/u7hs2uJl9OAg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="36299249"
+X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
+   d="scan'208";a="36299249"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 17:27:36 -0700
+X-CSE-ConnectionGUID: ZHnSF2voQwq5GZgRwjZgUQ==
+X-CSE-MsgGUID: IIS8T1viRr6mGLi6evRQjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
+   d="scan'208";a="36237179"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 31 May 2024 17:27:33 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sDCao-000I23-1E;
+	Sat, 01 Jun 2024 00:27:30 +0000
+Date: Sat, 1 Jun 2024 08:27:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
+	Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Johan Hovold <jhovold@gmail.com>
+Subject: Re: [PATCH v1 4/4] mfd: lm3533: Remove the driver
+Message-ID: <202406010822.oVBEReGC-lkp@intel.com>
+References: <20240531170844.1595468-5-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240531103840.GC1005600@google.com>
-X-MBO-RS-META: i7qsdox5896i1tk4dmtycoqpckkuz3op
-X-MBO-RS-ID: 2c5e2976e6d9e1db543
+In-Reply-To: <20240531170844.1595468-5-andriy.shevchenko@linux.intel.com>
 
-On 24/05/31 11:38AM, Lee Jones wrote:
-> On Mon, 06 May 2024, Joseph Strauss wrote:
-> 
-> > Add multicolor support to the BlinkM driver, making it easier to control
-> > from userspace. The BlinkM LED is a programmable RGB LED. The driver
-> > currently supports only the regular LED sysfs class, resulting in the
-> > creation of three distinct classes, one for red, green, and blue. The
-> > user then has to input three values into the three seperate brightness
-> > files within those classes. The multicolor LED framework makes the
-> > device easier to control with the multi_intensity file: the user can
-> > input three values at once to form a color, while still controlling the
-> > lightness with the brightness file.
-> > 
-> > The main struct blinkm_led has changed slightly. The struct led_classdev
-> > for the regular sysfs classes remain. The blinkm_probe function checks
-> > CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
-> > sysfs classes or the single multicolor one, but never both. The
-> > blinkm_set_mc_brightness() function had to be added to calculate the
-> > three color components and then set the fields of the blinkm_data
-> > structure accordingly.
-> > 
-> > Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
-> > ---
-> > Changes in v2:
-> > - Replaced instances of the constant 3 with NUM_LEDS, where applicable
-> > - Fixed formatting errors
-> > - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
-> >   statements
-> > - Changed id of multicolor class from 4 to 3
-> > - Replaced call to devm_kmalloc_array() with devm_kcalloc()
-> > Changes in v3:
-> > - Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
-> >   funcitonality
-> > - Extend well-known-leds.txt to include standard names for RGB and indicator
-> >   LEDS
-> > - Change name of Blinkm sysfs class according to well-known-leds.txt
-> > - Simplify struct blinkm_led and struct blinkm_data
-> > - Remove magic numbers
-> > - Fix formatting errors
-> > - Remove unrelated changes
-> > Changes in v4:
-> > - Fix indentation
-> > - Add default case to switch statement
-> > Changes in v5:
-> > - Fix warnings related to snprintf on s390 architecture, reported by
-> >   0-DAY CI Kernel Test Service
-> > Changes in v6:
-> > - Refactored struct blinkm_led to use a union
-> > - Refactored blinkm_probe()
-> > - Clarified documentation
-> > Changes in v7:
-> > - Fix formatting and spelling errors
-> > 
-> >  Documentation/leds/leds-blinkm.rst     |  31 +++-
-> >  Documentation/leds/well-known-leds.txt |   8 +
-> >  drivers/leds/Kconfig                   |   8 +
-> >  drivers/leds/leds-blinkm.c             | 224 +++++++++++++++++--------
-> >  4 files changed, 199 insertions(+), 72 deletions(-)
-> 
-> Applying patch(es)
-> Applying: Add multicolor support to BlinkM LED driver
-> Using index info to reconstruct a base tree...
-> M	Documentation/leds/well-known-leds.txt
-> M	drivers/leds/Kconfig
-> M	drivers/leds/leds-blinkm.c
-> Checking patch Documentation/leds/leds-blinkm.rst...
-> Checking patch Documentation/leds/well-known-leds.txt...
-> Checking patch drivers/leds/Kconfig...
-> Checking patch drivers/leds/leds-blinkm.c...
-> Applied patch Documentation/leds/leds-blinkm.rst cleanly.
-> Applied patch Documentation/leds/well-known-leds.txt cleanly.
-> Applied patch drivers/leds/Kconfig cleanly.
-> Applied patch drivers/leds/leds-blinkm.c cleanly.
-> Falling back to patching base and 3-way merge...
-> error: Your local changes to the following files would be overwritten by merge:
-> 	Documentation/leds/leds-blinkm.rst
-> 	Documentation/leds/well-known-leds.txt
-> 	drivers/leds/Kconfig
-> 	drivers/leds/leds-blinkm.c
-> Please commit your changes or stash them before you merge.
-> Aborting
-> error: Failed to merge in the changes.
-> Patch failed at 0001 Add multicolor support to BlinkM LED driver
-> 
-> -- 
-> Lee Jones [李琼斯]
-Hi,
-I am having trouble recreating this issue. Maybe I am misunderstanding
-the maintainer workflow. I am working on the for-next branch of
-pavel/linux-leds.git. When I apply my generated patch file on a
-freshly cloned repository with `git am`, I don't get any errors. Any
-help is appreciated.
+Hi Andy,
 
-Joe Strauss
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on lee-backlight/for-backlight-fixes linus/master v6.10-rc1 next-20240531]
+[cannot apply to lee-backlight/for-backlight-next pavel-leds/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/backlight-lm3533_bl-Remove-the-driver/20240601-011153
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240531170844.1595468-5-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 4/4] mfd: lm3533: Remove the driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240601/202406010822.oVBEReGC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406010822.oVBEReGC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406010822.oVBEReGC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/mfd/lm3533-ctrlbank.c:13:10: fatal error: linux/mfd/lm3533.h: No such file or directory
+      13 | #include <linux/mfd/lm3533.h>
+         |          ^~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +13 drivers/mfd/lm3533-ctrlbank.c
+
+16c5c023aac862 Johan Hovold 2012-05-03  12  
+16c5c023aac862 Johan Hovold 2012-05-03 @13  #include <linux/mfd/lm3533.h>
+16c5c023aac862 Johan Hovold 2012-05-03  14  
+16c5c023aac862 Johan Hovold 2012-05-03  15  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
