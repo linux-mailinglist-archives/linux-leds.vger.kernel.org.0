@@ -1,138 +1,85 @@
-Return-Path: <linux-leds+bounces-1840-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1841-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1125F8FD0D8
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2024 16:31:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CD88FD934
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2024 23:38:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2351A1C22ACB
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2024 14:30:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 056AC1F2330B
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2024 21:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B41C132;
-	Wed,  5 Jun 2024 14:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="LzNxukSl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB3B615FD01;
+	Wed,  5 Jun 2024 21:38:12 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D9E19D8B0;
-	Wed,  5 Jun 2024 14:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCAC15FA9F;
+	Wed,  5 Jun 2024 21:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717597856; cv=none; b=HLOyloTnKkLkfUg0XHngCq1dlJUA/PWnXwYReiejS/oK0ckR2ZhlQV/G4aA3qjPnO8eIBJKXku1PA/9m9/wRjC0+f1Gno3Fw0W1norbtTxY9Rj6wdrKQCzh8BZDO/IcHCnSPAkRr0Ypjh9sRVq4ieY1qgLGiMChGXRYoerSWKX0=
+	t=1717623492; cv=none; b=f8CaPxXEzcom2ZH6qucwPjyh3Ka0sXxyt8FKxhBR0f2cF9uAAOMODKTHUCgStmEugHguUHWpp5Ydis14Q0BNCq1/M+jwYl2ESrAlSXoRL6GD/eE/aYcP/OlelAa2jUbPNEE7n+ZfmadVOnmDURmZM6ry2pqup36PmkSnTTjMUt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717597856; c=relaxed/simple;
-	bh=JOpsxfJ0G6PRdrpIjTZPfHtk3rGETkC0ilV8uhYpliQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Rr1823mdu/G/CYASyhIg0c64hyxPwPK/gzH4bBlB4Elpp2xvY0U/Nd99/o6Q9Nogzr4uZcpFROhQ/YYHZLA8y9+H+aDvPqN/VbIcFT05v/KF3UX+G/PrPE8aIxv+6awXAsmeBjt+2gV1phY9M2RpflRlmkNcSVs1jPsVvqoCGAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=LzNxukSl; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1717597833; x=1718202633; i=markus.elfring@web.de;
-	bh=DguutoWpY2WySE798EOMwqpqzeLAlf2dBu3Ds8nfwBc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=LzNxukSlI60/8bgRUOtU8D+9/hbz8oJ6w6xS+57Y2susjQDPlrHlaStgYLGBunqD
-	 0gdZ78CUAFI+W4JffnsgHRzxkORo8IbMcaPYoGX3t2ngsM3JFFBZ720TYFbealckA
-	 ymXLKmq+fF+xkXYzdC0h5Jx9pWVWZJ8XSwjmQcyg1y/Ux8fF5KE5puFaAT7BdTGeD
-	 vpgDHaNvjCecXPHa/2NW5fesnXf+hgOYUZIxTyjBdqA9Row6JHLjac0e1+Z/pCzl7
-	 ulbhwvy11zmlxlJRSOKfTSIcMt2z4QJyd0m0SeAGQaz8R4w5Vsv9qUvoGBgBg8MlQ
-	 ROCEggsB/20qqi/r8Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MsaS7-1sZZ2J49ut-00zl1P; Wed, 05
- Jun 2024 16:30:33 +0200
-Message-ID: <5faec5de-fc36-4b38-abcb-c61954a824cd@web.de>
-Date: Wed, 5 Jun 2024 16:30:30 +0200
+	s=arc-20240116; t=1717623492; c=relaxed/simple;
+	bh=H9YKIzKCyjmiBNNds+3kSke/ux9vGLZhkZhtB9WXAyo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gwDyo7WmKMNf6pZ5w4VDsNOOuS6HT2k+y3xbYyGAViACExMJKJVDaMNbmwG/DNjn7CabfklsiM6g3P+BBxwQ0KA9EPLsTLXIi4SbwOrs0cv4O/Dqr3QrsRK5l+X4EyymvHfr9phMVRiVXcMKuESf7amZ5fmD2LJ7+mG59U0ojl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3423FC32786;
+	Wed,  5 Jun 2024 21:38:12 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id EB1861060501; Wed, 05 Jun 2024 23:38:07 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+ Lee Jones <lee@kernel.org>, Kate Hsuan <hpa@redhat.com>, 
+ Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+Cc: platform-driver-x86@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, linux-leds@vger.kernel.org, 
+ linux-pm@vger.kernel.org
+In-Reply-To: <20240531134702.166145-1-hdegoede@redhat.com>
+References: <20240531134702.166145-1-hdegoede@redhat.com>
+Subject: Re: [PATCH v2 0/3] power: supply: power-supply-leds: Add
+ activate() callback to triggers
+Message-Id: <171762348792.363491.16499283764662908340.b4-ty@collabora.com>
+Date: Wed, 05 Jun 2024 23:38:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-leds@vger.kernel.org, Abdel Alkuor <alkuor@gmail.com>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] leds: ncp5623: Use common error handling code in
- ncp5623_probe()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:e1+zSS4wCoISuWGaAP+d+ZLAcyOksWJ4oMLJzX0TPpZZnhH1sO4
- LpDiymvvmh5fczrDXFJrtfoZHoJfk90Rdq+GXiXIXGCLbCA9N/l1YzQwlc3W16fNoq7fdMt
- WlQmTW1t0lT+XI7iUfEj5Ws84xlDVaTaTZSubFhMmjzKDgcojYYpP6vDd3w4rkeb6N+YSop
- 691Xu9AEMcyz1GzyaTLsQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:AdsUg9cqJ0o=;KHrT9osVuRknSYLeFse7SxoDWM5
- 3Qwwwf9wx+xLZ+Vw1C1hJ4zYyAk4RXIgAZ75UMLQXl7GWOm0r2P38yoo7I747tnKDSl2MKwDe
- rq5Ex8mnOht5lqpFiLE1B/+bS5AAo/A1XaNEsDmD21oLXPbWs9VsLQmJc1nb+xeFSnUE9ChUH
- QjAviQ1Kiy83++eFGGNwa+fjRThsrtHf3/AtYu+QVwx9/u/KIyu/wZyQ931H/6V2tgyZhGKPK
- svLXshr2oeC3Dia70rCzo18vJug0dbgY7RBhGkgbqre+FqLRdqn1Q3RgNtH1Pw4HIA82q2ZpY
- I198t5XcS4bQdIDzdB/ay+EZbIr6+GpSCCdEr38wI7WZmh6tvWo7Wwlk45iv2KEgUI7hYX09f
- +aeDG6bE5se3mq7UoxdZgdgaMTGAYoc1+SDKUxCgIC4ibRoNv60WWeSX6qFnHIo6Vql168lv/
- tGX6BtSdB1z5UZHryVTJ+VqC+h1urIGu1oq+bm8DsRLk5X2uqa3NNaRybY7hfPKbgvCFJxJKd
- Zji75ESHeTlf/t14OGZG4YxInxClexGAhAVUwSFa/AZjFbwa0xkMVQnVFhIEJNnjAvpyUoiZc
- AI3973Ixqh8vqHzacYo2rxPDj+bqJAO50PBZsO0n/jj7N5DqW7R++8cBTu9jtDUJ6inaRrid0
- 9CuvqTlb+5sFRXEzzgPegoCLSYWZKFLvb12Ge/sUWE8XptYaBVUcD0JSrn73uKc5xQ78Dwvkl
- j8fGwdd+eZTxOuO3pV1elxdpZywrvvwQzug3cDiTk52OQojrostspg0HPuuCHCe34vG+Qp0cu
- VDQUQ/RLlSIRDqki9+1QN371F8p1YXsguuY+PgTDf77DA=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Wed, 5 Jun 2024 16:19:26 +0200
 
-Add a label so that a bit of exception handling can be better reused
-at the end of this function implementation.
+On Fri, 31 May 2024 15:46:59 +0200, Hans de Goede wrote:
+> This series adds an activate callback to the power-supply LED triggers to
+> ensure that power-supply LEDs get the correct initial value when the LED
+> gets registered after the power_supply has been registered.
+> 
+> Note that in 6.10-rc1 commit 822c91e72eac ("leds: trigger: Store brightness
+> set by led_trigger_event()") already solves this for the case were
+> the trigger only changes only the brightness. Since the power-supply
+> triggers can also set blinking and colors of mc LEDs that is not enough.
+> 
+> [...]
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/leds/rgb/leds-ncp5623.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp56=
-23.c
-index 2be4ff918516..f18156683375 100644
-=2D-- a/drivers/leds/rgb/leds-ncp5623.c
-+++ b/drivers/leds/rgb/leds-ncp5623.c
-@@ -183,16 +183,12 @@ static int ncp5623_probe(struct i2c_client *client)
+[1/3] power: supply: power-supply-leds: Add power_supply_[un]register_led_trigger()
+      commit: 964a504b1261b641797d93cdbf79b68ff7d85720
+[2/3] power: supply: power-supply-leds: Share trig pointer for online and charging_full
+      commit: 6c951a84dab9c0e051aec54d7497f25e910a4953
+[3/3] power: supply: power-supply-leds: Add activate() callback to triggers
+      commit: 8179b068d5cb182a2c61f2f8365837a37f140feb
 
- 	fwnode_for_each_available_child_node(mc_node, led_node) {
- 		ret =3D fwnode_property_read_u32(led_node, "color", &color_index);
--		if (ret) {
--			fwnode_handle_put(led_node);
--			goto release_mc_node;
--		}
-+		if (ret)
-+			goto release_led_node;
-
- 		ret =3D fwnode_property_read_u32(led_node, "reg", &reg);
--		if (ret) {
--			fwnode_handle_put(led_node);
--			goto release_mc_node;
--		}
-+		if (ret)
-+			goto release_led_node;
-
- 		subled_info[ncp->mc_dev.num_colors].channel =3D reg;
- 		subled_info[ncp->mc_dev.num_colors++].color_index =3D color_index;
-@@ -223,6 +219,10 @@ static int ncp5623_probe(struct i2c_client *client)
- 	fwnode_handle_put(mc_node);
-
- 	return ret;
-+
-+release_led_node:
-+	fwnode_handle_put(led_node);
-+	goto release_mc_node;
- }
-
- static void ncp5623_remove(struct i2c_client *client)
-=2D-
-2.45.1
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
 
