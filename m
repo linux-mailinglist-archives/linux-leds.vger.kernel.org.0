@@ -1,208 +1,371 @@
-Return-Path: <linux-leds+bounces-1845-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1846-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438BC8FEF70
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2024 16:52:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78358FEFC7
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2024 17:02:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0773B2A349
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2024 14:52:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83259B2D01A
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2024 14:59:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B14B197A89;
-	Thu,  6 Jun 2024 14:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5839B196DB0;
+	Thu,  6 Jun 2024 14:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="gBXE4GSm";
-	dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b="PXeQp2Zc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agUjwZGg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9A9196434;
-	Thu,  6 Jun 2024 14:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=72.84.236.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717683960; cv=fail; b=U6oV3x38fnr4ThP37cJ756B9FY3zLCrU4bpG2IN9pilBJao+05mlbF1Gu0cWwvy0bzqRz7f7amh0BAWDM46pSCEKoyAU0Rxb79BFb5VlC2YzRkCRK4IEaln3pCCGNt1vZG7jnzM0BuaWEmk1J+hiakqZYaxvmjJoplnyBIJdkMc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717683960; c=relaxed/simple;
-	bh=mC5zzZnXp2icJU9R1Ck47Zcb5SXm4+9y/G4oy4zw/4o=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iOfnxiUahlx7EltkrT9zVud5JykEyYY+pPaJQzSa2xRX4/r3EofizAPPdNXliHYe74YoAVjous4THUbbbz0/arepYSBBAqNEPyrLK5vURSPrYoU4yufKc7QB/QHhss/Srup6Ln5uPrQh89E3ISbWdzPqzA9+B6Rkm9aawoUrv4s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com; spf=pass smtp.mailfrom=sapience.com; dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b=gBXE4GSm; dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b=PXeQp2Zc; arc=fail smtp.client-ip=72.84.236.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sapience.com
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
-   signature) header.d=sapience.com header.i=@sapience.com 
-   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
-   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by s1.sapience.com (Postfix) with ESMTPS id B5F954809ED;
-	Thu, 06 Jun 2024 10:25:50 -0400 (EDT)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1717683950;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=rVcMiogOXnpri50rMG2S8WWLl7pdPRC8qsfAqNvpxeI=;
- b=gBXE4GSmtTnOlS1wQResZR16bqNMNofUVdIKy0cA015CUEl7vykJxVY9zZ/vBcwDLf1SK
- JlJZ5+LvlfYFDFRDA==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1717683950;
-	cv=none; b=jax5C4gXTO68gBl3s40G8JD+wDJ8CzyTh3YnFkYB0Ll3PGH7FuSydEK6h9x5S1cr/YFlkNjg6PT9B5xnOd58ey8US0SPtO8QyVBGoyd1jQDcVNdwtwpq1avp6IvqarTPRkFBJWsOZJvik4fwVJajqJp3y0rcaltNbTjRQs9ESkyxRx/rtsZ1JcCQS7G8NE0D0Gb7ImOAYkg9x/Z2TONTv17aMU34AQwDCuBD8iAc3JXqr2x5TLolm7pDtC0QUBZN51JbkUwDN5IZm/c3cM8CNHTlRb0od1iVktm9LWA6PHe6l3bwn+2IKo8wv7GN7y/mrSz7vVv2194Yq73fnXpp6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
-	t=1717683950; c=relaxed/simple;
-	bh=mC5zzZnXp2icJU9R1Ck47Zcb5SXm4+9y/G4oy4zw/4o=;
-	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
-	 MIME-Version; b=JGvqGmU9asc8J8lwdIzlh9/zMm0yAnEpf8ctF/tqNcTcoYbdWOJczGJ1fHytycmDIask/pyBtXJOFSdoZrU8Un+bYFwuP1OaHggwBEYTZIOtM9aXHqJMwyksO53vLPMBM9bJ8w8wqVutoSYAkwtgUfisFZPLKBaxIpgj4LcfJlM6T/oJmwXFzgoHFiuxh/HFMZOXF1tnf4J9PwrE0OewGrTxtGpzEATSPAAl+lcsK2UrjJCojaJfUPjb+h9lyfn36ZggzjZZHDhY6b3S0oebXohmtUgApMlXd2G6e8k0wZ9OcIElah7ZfUIdF/qiFbO/WZgkd9gQuUhFkMQAC4M82A==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1717683950;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=rVcMiogOXnpri50rMG2S8WWLl7pdPRC8qsfAqNvpxeI=;
- b=PXeQp2ZcP6zC6Lmhh7bHKNRDdASx4o0610zv96A9sXId+Z0wqg8mt6uRp3351jLNZ4Myr
- Apz1NRg6KjIFOfiJxiWUpgUgDmDxpMQEbtcRmenSEhbWGNqko4+F9v00c6yEGfNTdcSqxdh
- uoU/IhGCnm2vYWN9Jw3v6LxCUEY+iO+MKQoHdvROhVlDIpaNULEeBkjW6L5Ma9COR+NRFg0
- KIUvqxK+IzETZrKidd811TYV8a0sGvdIhzFJxiMb9AYiuRNDuu3Vnm1dq/OdqPR+C144kTK
- 0yoWjat66uXlMUGZy/v2M3GlCFLcUgD90pvd17UOEAUQJAx9bAMaiMdRsSLw==
-Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by srv8.sapience.com (Postfix) with ESMTPS id 8C747280074;
-	Thu, 06 Jun 2024 10:25:50 -0400 (EDT)
-Message-ID: <d47dcc8b4e429c676db7ad6daf8024a97f725582.camel@sapience.com>
-Subject: Re: Hung tasks due to a AB-BA deadlock between the leds_list_lock
- rwsem and the rtnl mutex
-From: Genes Lists <lists@sapience.com>
-To: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Hans de
- Goede <hdegoede@redhat.com>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Pavel
- Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Linux LEDs
- <linux-leds@vger.kernel.org>,  Heiner Kallweit <hkallweit1@gmail.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, davem@davemloft.net, 
- edumazet@google.com, pabeni@redhat.com, johanneswueller@gmail.com, "Russell
- King (Oracle)" <linux@armlinux.org.uk>
-Date: Thu, 06 Jun 2024 10:25:49 -0400
-In-Reply-To: <20240606063902.776794d4@kernel.org>
-References: <9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.com>
-	 <15a0bbd24cd01bd0b60b7047958a2e3ab556ea6f.camel@sapience.com>
-	 <ZliHhebSGQYZ/0S0@shell.armlinux.org.uk>
-	 <42d498fc-c95b-4441-b81a-aee4237d1c0d@leemhuis.info>
-	 <618601d8-f82a-402f-bf7f-831671d3d83f@redhat.com>
-	 <01fc2e30-eafe-495c-a62d-402903fd3e2a@lunn.ch>
-	 <9d821cea-507f-4674-809c-a4640119c435@redhat.com>
-	 <c912d1f7-7039-4f55-91ac-028a906c1387@lunn.ch>
-	 <20240606063902.776794d4@kernel.org>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
-	protocol="application/pgp-signature"; boundary="=-dCYAK6fKUZBbP2EluySH"
-User-Agent: Evolution 3.52.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9FA38D;
+	Thu,  6 Jun 2024 14:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717684581; cv=none; b=Rk4g/4yo3OaYtziJWvSaEIBIfb0xXaR4RkuUq8Av3mmp/4Ac6k9GqW89OcUGCCkzOMFxmSTUUOOExKffQuh4G7NRAXrYmqUTmo3y59svuTcraKVfEJQ1q7d8SwvDMrD4NwYASmfoJ+/ckwXKyfizZwdvVtIGGI/yKcI7WrE7ceA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717684581; c=relaxed/simple;
+	bh=KN8F1nt8AD3aqoQabFOV4no+F/B2FV8No4AUyjiOzbk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Hy4n2DxztOmkaOSWk4J7pkMpwxj9bmJoZul8aFaWyYovcE7JBsPManqCigu0AF7On5n8nNGC1Tee0kK/T5hak55EXg0rvNxQSYDA35/3NRH8Q+ku1LEJlSjNtzv7ZXzmYVVxR4umKbcsl3PfwMvdAuHiGZ6BF4YrTZiE+vMeRJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agUjwZGg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A2A28C2BD10;
+	Thu,  6 Jun 2024 14:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717684580;
+	bh=KN8F1nt8AD3aqoQabFOV4no+F/B2FV8No4AUyjiOzbk=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=agUjwZGggb6WMDsnFsk4D6QWN/3VW8eDzvHXaQcaHcd5bQAGbyMtMm1Nvuzo1ZZDX
+	 mMY7F3+h+Vdm9u8ufJ7k1w60v9DziThbHXAF8Z7MLSFpHRKy3rIURbrh5Uw44gpBRx
+	 bau4dQEkBqm4QR8riSf6v7TE+f0UcRt/RJsXBzV4mxbO8g4pFejNNzMHwZSntTXmLq
+	 tWEmRRI1ih6vvYIW2R94pDb3leJ8DatOGEvJxPuqIZWlwTi95JGHV53KhHcsORdkav
+	 g8oohS+ogkSz6J/UQRMmOL2qn1WZga6+TLqNjS06XChOS1oFZktS+fLlZRO5K2khOX
+	 +ruzr0eaZrXtw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA76C25B75;
+	Thu,  6 Jun 2024 14:36:20 +0000 (UTC)
+From: Fenglin Wu via B4 Relay <devnull+quic_fenglinw.quicinc.com@kernel.org>
+Date: Thu, 06 Jun 2024 22:36:15 +0800
+Subject: [PATCH v3] leds: flash: leds-qcom-flash: limit LED current based
+ on thermal condition
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240606-qcom_flash_thermal_derating-v3-1-fa426776868e@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAF7JYWYC/33NSwqDMBCA4auUrJuSxEdsV71HKRKT0QxorImVF
+ vHujUKh3cis/oH5ZiYBPEIgl8NMPEwYsHcxkuOBaKtcAxRNbCKYSFnGJB1035V1q4ItRwu+U21
+ pwKsRXUNFzipeJ1pmUpMoPDzU+Nr02z22xTD2/r09m/i6/brnXXfiNI7JIC8gM5Lr6/BEjU6f4
+ hFZ5Un8aDzZ10TUIOWKScOgKpJ/bVmWD++ol6oWAQAA
+To: kernel@quicinc.com, linux-arm-msm@vger.kernel.org, 
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ David Collins <quic_collinsd@quicinc.com>, 
+ Subbaraman Narayanamurthy <quic_subbaram@quicinc.com>, 
+ Fenglin Wu <quic_fenglinw@quicinc.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717684579; l=9512;
+ i=quic_fenglinw@quicinc.com; s=20240327; h=from:subject:message-id;
+ bh=P531IQymhBnENfovGdmHl6NdnzEbocY5fbBmjL2TIwc=;
+ b=yT/xyG7L/3Uh9vixfusHvZIJxbdRRkx0q9hf4F5lqTEHy47hhiTnvGkz+FKx9qxgrC27u2Uov
+ OL4Anca5D5nBJlnGulOJ84sesQnQDGQ6+IRlaJS5D/FskzNokNpZKUq
+X-Developer-Key: i=quic_fenglinw@quicinc.com; a=ed25519;
+ pk=BF8SA4IVDk8/EBCwlBehKtn2hp6kipuuAuDAHh9s+K4=
+X-Endpoint-Received: by B4 Relay for quic_fenglinw@quicinc.com/20240327
+ with auth_id=146
+X-Original-From: Fenglin Wu <quic_fenglinw@quicinc.com>
+Reply-To: quic_fenglinw@quicinc.com
+
+From: Fenglin Wu <quic_fenglinw@quicinc.com>
+
+The flash module has status bits to indicate different thermal
+conditions which are called as OTSTx. For each OTSTx status,
+there is a recommended total flash current for all channels to
+prevent the flash module entering into higher thermal level.
+For example, the total flash current should be limited to 1000mA/500mA
+respectively when the HW reaches the OTST1/OTST2 thermal level.
+
+Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+---
+Changes in v3:
+- Fix coding style issues to address review comments in v2.
+- Link to v2: https://lore.kernel.org/r/20240513-qcom_flash_thermal_derating-v2-1-e41a07d0eb83@quicinc.com
+
+Changes in v2:
+- Update thermal threshold level 2 register definition for mvflash_4ch_regs.
+    Mvflash_4ch module thermal threshold level 2 configuration register
+    offset is 0x78, not succeeding from thermal threshold level 1 register 0x7a.
+    Hence it is not appropriate to use REG_FIELD_ID to define thermal threshold
+    register fileds like mvflash_3ch. Update to use REG_FIELD instead.
+- Link to v1: https://lore.kernel.org/r/20240509-qcom_flash_thermal_derating-v1-1-1d5e68e5d71c@quicinc.com
+---
+ drivers/leds/flash/leds-qcom-flash.c | 163 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 162 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+index 7c99a3039171..aa22686fafe0 100644
+--- a/drivers/leds/flash/leds-qcom-flash.c
++++ b/drivers/leds/flash/leds-qcom-flash.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2022, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+  */
+ 
+ #include <linux/bitfield.h>
+@@ -14,6 +14,9 @@
+ #include <media/v4l2-flash-led-class.h>
+ 
+ /* registers definitions */
++#define FLASH_REVISION_REG		0x00
++#define FLASH_4CH_REVISION_V0P1		0x01
++
+ #define FLASH_TYPE_REG			0x04
+ #define FLASH_TYPE_VAL			0x18
+ 
+@@ -73,6 +76,16 @@
+ 
+ #define UA_PER_MA			1000
+ 
++/* thermal threshold constants */
++#define OTST_3CH_MIN_VAL		3
++#define OTST1_4CH_MIN_VAL		0
++#define OTST1_4CH_V0P1_MIN_VAL		3
++#define OTST2_4CH_MIN_VAL		0
++
++#define OTST1_MAX_CURRENT_MA		1000
++#define OTST2_MAX_CURRENT_MA		500
++#define OTST3_MAX_CURRENT_MA		200
++
+ enum hw_type {
+ 	QCOM_MVFLASH_3CH,
+ 	QCOM_MVFLASH_4CH,
+@@ -98,6 +111,9 @@ enum {
+ 	REG_IRESOLUTION,
+ 	REG_CHAN_STROBE,
+ 	REG_CHAN_EN,
++	REG_THERM_THRSH1,
++	REG_THERM_THRSH2,
++	REG_THERM_THRSH3,
+ 	REG_MAX_COUNT,
+ };
+ 
+@@ -111,6 +127,9 @@ static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x47, 0, 5),                  /* iresolution	*/
+ 	REG_FIELD_ID(0x49, 0, 2, 3, 1),         /* chan_strobe	*/
+ 	REG_FIELD(0x4c, 0, 2),                  /* chan_en	*/
++	REG_FIELD(0x56, 0, 2),			/* therm_thrsh1 */
++	REG_FIELD(0x57, 0, 2),			/* therm_thrsh2 */
++	REG_FIELD(0x58, 0, 2),			/* therm_thrsh3 */
+ };
+ 
+ static struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
+@@ -123,6 +142,8 @@ static struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x49, 0, 3),			/* iresolution	*/
+ 	REG_FIELD_ID(0x4a, 0, 6, 4, 1),		/* chan_strobe	*/
+ 	REG_FIELD(0x4e, 0, 3),			/* chan_en	*/
++	REG_FIELD(0x7a, 0, 2),			/* therm_thrsh1 */
++	REG_FIELD(0x78, 0, 2),			/* therm_thrsh2 */
+ };
+ 
+ struct qcom_flash_data {
+@@ -130,9 +151,11 @@ struct qcom_flash_data {
+ 	struct regmap_field     *r_fields[REG_MAX_COUNT];
+ 	struct mutex		lock;
+ 	enum hw_type		hw_type;
++	u32			total_ma;
+ 	u8			leds_count;
+ 	u8			max_channels;
+ 	u8			chan_en_bits;
++	u8			revision;
+ };
+ 
+ struct qcom_flash_led {
+@@ -143,6 +166,7 @@ struct qcom_flash_led {
+ 	u32				max_timeout_ms;
+ 	u32				flash_current_ma;
+ 	u32				flash_timeout_ms;
++	u32				current_in_use_ma;
+ 	u8				*chan_id;
+ 	u8				chan_count;
+ 	bool				enabled;
+@@ -172,6 +196,127 @@ static int set_flash_module_en(struct qcom_flash_led *led, bool en)
+ 	return rc;
+ }
+ 
++static int update_allowed_flash_current(struct qcom_flash_led *led, u32 *current_ma, bool strobe)
++{
++	struct qcom_flash_data *flash_data = led->flash_data;
++	u32 therm_ma, avail_ma, thrsh[3], min_thrsh, sts;
++	int rc = 0;
++
++	mutex_lock(&flash_data->lock);
++	/*
++	 * Put previously allocated current into allowed budget in either of these two cases:
++	 * 1) LED is disabled;
++	 * 2) LED is enabled repeatedly
++	 */
++	if (!strobe || led->current_in_use_ma != 0) {
++		if (flash_data->total_ma >= led->current_in_use_ma)
++			flash_data->total_ma -= led->current_in_use_ma;
++		else
++			flash_data->total_ma = 0;
++
++		led->current_in_use_ma = 0;
++		if (!strobe)
++			goto unlock;
++	}
++
++	/*
++	 * Cache the default thermal threshold settings, and set them to the lowest levels before
++	 * reading over-temp real time status. If over-temp has been triggered at the lowest
++	 * threshold, it's very likely that it would be triggered at a higher (default) threshold
++	 * when more flash current is requested. Prevent device from triggering over-temp condition
++	 * by limiting the flash current for the new request.
++	 */
++	rc = regmap_field_read(flash_data->r_fields[REG_THERM_THRSH1], &thrsh[0]);
++	if (rc < 0)
++		goto unlock;
++
++	rc = regmap_field_read(flash_data->r_fields[REG_THERM_THRSH2], &thrsh[1]);
++	if (rc < 0)
++		goto unlock;
++
++	if (flash_data->hw_type == QCOM_MVFLASH_3CH) {
++		rc = regmap_field_read(flash_data->r_fields[REG_THERM_THRSH3], &thrsh[2]);
++		if (rc < 0)
++			goto unlock;
++	}
++
++	min_thrsh = OTST_3CH_MIN_VAL;
++	if (flash_data->hw_type == QCOM_MVFLASH_4CH)
++		min_thrsh = (flash_data->revision == FLASH_4CH_REVISION_V0P1) ?
++			OTST1_4CH_V0P1_MIN_VAL : OTST1_4CH_MIN_VAL;
++
++	rc = regmap_field_write(flash_data->r_fields[REG_THERM_THRSH1], min_thrsh);
++	if (rc < 0)
++		goto unlock;
++
++	if (flash_data->hw_type == QCOM_MVFLASH_4CH)
++		min_thrsh = OTST2_4CH_MIN_VAL;
++
++	/*
++	 * The default thermal threshold settings have been updated hence
++	 * restore them if any fault happens starting from here.
++	 */
++	rc = regmap_field_write(flash_data->r_fields[REG_THERM_THRSH2], min_thrsh);
++	if (rc < 0)
++		goto restore;
++
++	if (flash_data->hw_type == QCOM_MVFLASH_3CH) {
++		rc = regmap_field_write(flash_data->r_fields[REG_THERM_THRSH3], min_thrsh);
++		if (rc < 0)
++			goto restore;
++	}
++
++	/* Read thermal level status to get corresponding derating flash current */
++	rc = regmap_field_read(flash_data->r_fields[REG_STATUS2], &sts);
++	if (rc)
++		goto restore;
++
++	therm_ma = FLASH_TOTAL_CURRENT_MAX_UA / 1000;
++	if (flash_data->hw_type == QCOM_MVFLASH_3CH) {
++		if (sts & FLASH_STS_3CH_OTST3)
++			therm_ma = OTST3_MAX_CURRENT_MA;
++		else if (sts & FLASH_STS_3CH_OTST2)
++			therm_ma = OTST2_MAX_CURRENT_MA;
++		else if (sts & FLASH_STS_3CH_OTST1)
++			therm_ma = OTST1_MAX_CURRENT_MA;
++	} else {
++		if (sts & FLASH_STS_4CH_OTST2)
++			therm_ma = OTST2_MAX_CURRENT_MA;
++		else if (sts & FLASH_STS_4CH_OTST1)
++			therm_ma = OTST1_MAX_CURRENT_MA;
++	}
++
++	/* Calculate the allowed flash current for the request */
++	if (therm_ma <= flash_data->total_ma)
++		avail_ma = 0;
++	else
++		avail_ma = therm_ma - flash_data->total_ma;
++
++	*current_ma = min_t(u32, *current_ma, avail_ma);
++	led->current_in_use_ma = *current_ma;
++	flash_data->total_ma += led->current_in_use_ma;
++
++	dev_dbg(led->flash.led_cdev.dev, "allowed flash current: %dmA, total current: %dmA\n",
++					led->current_in_use_ma, flash_data->total_ma);
++
++restore:
++	/* Restore to default thermal threshold settings */
++	rc = regmap_field_write(flash_data->r_fields[REG_THERM_THRSH1], thrsh[0]);
++	if (rc < 0)
++		goto unlock;
++
++	rc = regmap_field_write(flash_data->r_fields[REG_THERM_THRSH2], thrsh[1]);
++	if (rc < 0)
++		goto unlock;
++
++	if (flash_data->hw_type == QCOM_MVFLASH_3CH)
++		rc = regmap_field_write(flash_data->r_fields[REG_THERM_THRSH3], thrsh[2]);
++
++unlock:
++	mutex_unlock(&flash_data->lock);
++	return rc;
++}
++
+ static int set_flash_current(struct qcom_flash_led *led, u32 current_ma, enum led_mode mode)
+ {
+ 	struct qcom_flash_data *flash_data = led->flash_data;
+@@ -313,6 +458,10 @@ static int qcom_flash_strobe_set(struct led_classdev_flash *fled_cdev, bool stat
+ 	if (rc)
+ 		return rc;
+ 
++	rc = update_allowed_flash_current(led, &led->flash_current_ma, state);
++	if (rc < 0)
++		return rc;
++
+ 	rc = set_flash_current(led, led->flash_current_ma, FLASH_MODE);
+ 	if (rc)
+ 		return rc;
+@@ -429,6 +578,10 @@ static int qcom_flash_led_brightness_set(struct led_classdev *led_cdev,
+ 	if (rc)
+ 		return rc;
+ 
++	rc = update_allowed_flash_current(led, &current_ma, enable);
++	if (rc < 0)
++		return rc;
++
+ 	rc = set_flash_current(led, current_ma, TORCH_MODE);
+ 	if (rc)
+ 		return rc;
+@@ -703,6 +856,14 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 		flash_data->hw_type = QCOM_MVFLASH_4CH;
+ 		flash_data->max_channels = 4;
+ 		regs = mvflash_4ch_regs;
++
++		rc = regmap_read(regmap, reg_base + FLASH_REVISION_REG, &val);
++		if (rc < 0) {
++			dev_err(dev, "Failed to read flash LED module revision, rc=%d\n", rc);
++			return rc;
++		}
++
++		flash_data->revision = val;
+ 	} else {
+ 		dev_err(dev, "flash LED subtype %#x is not yet supported\n", val);
+ 		return -ENODEV;
+
+---
+base-commit: ca66b10a11da3c445c9c0ca1184f549bbe9061f2
+change-id: 20240507-qcom_flash_thermal_derating-260b1f3c757c
+
+Best regards,
+-- 
+Fenglin Wu <quic_fenglinw@quicinc.com>
 
 
---=-dCYAK6fKUZBbP2EluySH
-Content-Type: multipart/alternative; boundary="=-4jp6JUlsMS0E8HXI4hn3"
-
---=-4jp6JUlsMS0E8HXI4hn3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 2024-06-06 at 06:39 -0700, Jakub Kicinski wrote:
-> On Thu, 6 Jun 2024 15:12:54 +0200 Andrew Lunn wrote:
-> > > So it has been almost a week and no reply from Heiner. Since this
-> > > is
-> > > causing real issues for users out there I think a revert of
-> > > 66601a29bb23
-> > > should be submitted to Linus and then backported to the stable
-> > > kernels.
-> > > to fix the immediate issue at hand.=C2=A0=20
-> >=20
-> > Agreed.
->=20
-> Please submit..
-
-I assume this deadlock is unrelated to the filesystem stalls reported
-here:
-
-=C2=A0
-=C2=A0https://lore.kernel.org/lkml/da8710eddca32677cf3c195000416121045eb811=
-.camel@sapience.com/
-
-but thought it best to ask.
-
-thank you.
-
---=20
-Gene
-
-
---=-4jp6JUlsMS0E8HXI4hn3
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div>On Thu, 2024-06-06 at 06:39 -0700, Jakub Kicinski=
- wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-l=
-eft:2px #729fcf solid;padding-left:1ex"><div>On Thu, 6 Jun 2024 15:12:54 +0=
-200 Andrew Lunn wrote:<br></div><blockquote type=3D"cite" style=3D"margin:0=
- 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><blockquote type=
-=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
--left:1ex"><div>So it has been almost a week and no reply from Heiner. Sinc=
-e this is<br></div><div>causing real issues for users out there I think a r=
-evert of 66601a29bb23<br></div><div>should be submitted to Linus and then b=
-ackported to the stable kernels.<br></div><div>to fix the immediate issue a=
-t hand.&nbsp; <br></div></blockquote><div><br></div><div>Agreed.<br></div><=
-/blockquote><div><br></div><div>Please submit..<br></div></blockquote><div>=
-<br></div><div>I assume this deadlock is unrelated to the filesystem stalls=
- reported here:</div><div><br></div><div>&nbsp; &nbsp;<a href=3D"https://lo=
-re.kernel.org/lkml/da8710eddca32677cf3c195000416121045eb811.camel@sapience.=
-com/">https://lore.kernel.org/lkml/da8710eddca32677cf3c195000416121045eb811=
-.camel@sapience.com/</a></div><div><br></div><div>but thought it best to as=
-k.</div><div><br></div><div>thank you.</div><div><br></div><div><span><pre>=
--- <br></pre><div><span style=3D"background-color: inherit;">Gene</span></d=
-iv><div><br></div></span></div></body></html>
-
---=-4jp6JUlsMS0E8HXI4hn3--
-
---=-dCYAK6fKUZBbP2EluySH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZmHG7QAKCRA5BdB0L6Ze
-25htAP0UvLjW80ObvibjGLL4OKpLvqrtJkkWUoyEsPV7K9YkCQD9FsS4R5lHcbRQ
-YKutNthSR6D0eGBP41WSQeY4zXTntQs=
-=y8qy
------END PGP SIGNATURE-----
-
---=-dCYAK6fKUZBbP2EluySH--
 
