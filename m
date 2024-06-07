@@ -1,151 +1,101 @@
-Return-Path: <linux-leds+bounces-1862-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1863-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE319002BF
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 13:55:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E61C9002F3
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 14:04:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBC3B2842E2
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 11:55:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3F37282C01
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 12:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594C81847;
-	Fri,  7 Jun 2024 11:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC7318F2C9;
+	Fri,  7 Jun 2024 12:03:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WR1CkN3d"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1fmq3d+v"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4D215A4A2
-	for <linux-leds@vger.kernel.org>; Fri,  7 Jun 2024 11:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66C21847;
+	Fri,  7 Jun 2024 12:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717761322; cv=none; b=ElMzAVRdHMjzCVJKITfTtpXwp2Ot86nM0CcfjUBtkxUBwnDzw8d5PLE13a8V6K8lML/RDOupqMRS/S7DS5oucpuB6rZZzPyhpR0VeBT/zzD93rSeRL3W5IjnW3dRBQJ3RcRo2XOEliW+y6A2jnf4uCq9Q8AmS4HHPnNdU5aRYgc=
+	t=1717761835; cv=none; b=IV9SqIK150jmO5lIwztl7W17BqV1hVQrQKk6aqKSl0M2EE/3ngaYFs0suIEd3SL2tqBe82kWEfFFerT5Q6BPB3kprPldcrBHAvAs8k7sK2J0Yu3eSowEdcs6z/fIpJRfgZLc26RxfwmHCl+MDbaDnAc7vNUCnhlzZJM1X5Kiomg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717761322; c=relaxed/simple;
-	bh=WnMWdtBFTyx8UVC9VEwmi4gKVXZmsQitGSiHRvjEblQ=;
+	s=arc-20240116; t=1717761835; c=relaxed/simple;
+	bh=8RXWDjhK3t1FOsHs4nQJKMEJJnFPojVt1t45K4Yfx+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CX5+FMpyZp2tYet/OvLxWdYXWFnRJzT3HZQW36ZNJwZOds+NfK0y6U3YdS1jXqlnYcBMSsSuSVJIMOonpChiVVtnEfUKZ1RdDQGtyFuxEMzoYFRBkHjB+WcYNRk/TBoelK3Cr/cfL4+M6XnCh4iJNX2pXRy4ujteBFnCp2CuaZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WR1CkN3d; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52bd48cf36bso5440e87.3
-        for <linux-leds@vger.kernel.org>; Fri, 07 Jun 2024 04:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717761319; x=1718366119; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rtyZHfNHLIEk1etQ5taXU35Apq3XiT3tieFHZcsuRNc=;
-        b=WR1CkN3dQ9f9QKMF8eDG297MzzoS1XruPsezqIPuO3VFE91Nxxcne319IonTzl8C5P
-         P8J+6zmsRwQd3jNTwjEPV8r0SY81kRuUwEofq+fSpV0YW6KjVhDIImqQwZvaqmAhDrw4
-         APEmI3sdToLTUBjkd2cQsVzKAXag+beQ0MbgXOXRu32lOvFbGlDABVB/Cvh7I1hc4MPO
-         UH7O0pIh3Fi8yCSHC4rRsBwf9rJ2UF2rHX4sHEYDQ4YdfpYfEuTbl34grvitRGfCEcul
-         XO6rvJm/UrEUOzbkE3tckiIrFij3y5a0J1Z0AOE0lMi7jb1SXpvsvmWMYIfkKl9dG4P2
-         7fXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717761319; x=1718366119;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rtyZHfNHLIEk1etQ5taXU35Apq3XiT3tieFHZcsuRNc=;
-        b=XsAG754XqbiTF68GVilM150NlUN2jbuYZOcmSfJWEkBpnKqnoBjlY2Q8UToIveX1Rt
-         jswUSkVmHUUnj91DueZrgr3I8mYAAq8G8hNzsCl2NIaD6RW6BAdl0oWLvh8MrmPBIHQA
-         QI7MvAO3j1PBzo4Kuf5dmX5EZ157AkLiU6VlCiEn/vu3wA8xotEddEtiaJR/fxNJLwsr
-         Li/7p7vAs+1GiH0MgG+elQg4Osw+4IsCLsSvNEKhF2Tq/v+PYv/UaYMI7Ut8wpUOzWU7
-         WWAyK0ILRiJKbMEn59fEt4elVPGFDNCGzqJx8O/94k+RZqgD57CzNhlCk5qKXorQcVT3
-         vtSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVt2DdUxZJyI6yT8kmscf3mIwOgQsmo65o4lkpWjfypch68Jv5PKciO4H0cIv2UroSYc8ErNGqJl5vT7O+4MifY6/qBjHLmazWgTg==
-X-Gm-Message-State: AOJu0YwJXeTyUGMi+MepjqbFfT2miu6pZlahbXZkdt8ie9AWzuG8YJe1
-	HqH4JwgJIsKr2UkXNCSRQKSNg/Zc9pVL/ThC/AabCkCLa+1v1aGUcwzYijUGMiU=
-X-Google-Smtp-Source: AGHT+IFZryRxC0BhWiOquj5KZSfTn9zk4hCxFBMrnAoLuegJZAi4WsqPCpzpO29RHzmBaAP1zbsjYQ==
-X-Received: by 2002:ac2:55a2:0:b0:52a:feb2:72ea with SMTP id 2adb3069b0e04-52bb9fcc344mr1550402e87.55.1717761318824;
-        Fri, 07 Jun 2024 04:55:18 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb423d51dsm511157e87.199.2024.06.07.04.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 04:55:18 -0700 (PDT)
-Date: Fri, 7 Jun 2024 14:55:16 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Anjelique Melendez <quic_amelende@quicinc.com>
-Cc: pavel@ucw.cz, lee@kernel.org, robh@kernel.org, andersson@kernel.org, 
-	u.kleine-koenig@pengutronix.de, marijn.suijten@somainline.org, kees@kernel.org, 
-	morf3089@gmail.com, quic_gurus@quicinc.com, quic_subbaram@quicinc.com, 
-	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] leds: rgb: leds-qcom-lpg: Fix line wrapping style
- issues
-Message-ID: <75npm63xd4pf2l3olin36xal4ctyh56vpjhy3xeegurez3gnp3@kt7tmgm3osyr>
-References: <20240607005250.4047135-1-quic_amelende@quicinc.com>
- <20240607005250.4047135-2-quic_amelende@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kyjfWRdoOCt8y401zW9mx4+fGy2GaA49ZOV0byQUWXyiMrLh2512s0Fufj1npPnEum9YKVfVXiH3d3jeQR5EWNGyTyK976/N/LibogOy7zYUxBQb4q7o8jYD2HCRxTldDlEF9r2I3YzGfCet1hYOFW6Ts+ONHohH9f3wsTwiEA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=1fmq3d+v; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=UispkbW6TtP1txrIUy9EHkoFg+mrkMRv4JCZa8iHpGY=; b=1f
+	mq3d+vqgjfQm+rKJAprJxKkYpK1ffuwCq9Ac7DixlRuJpaH4sq4uOj5Xlm9dS2NMcq9hbTyVUU3ym
+	qnZR4DAv80vmqD9m0H/q2ET4YfLcMr1l9nu2BOiUqp+oeqS9YNED8Ru6C7Ii9i09mjcTACjn0RK9v
+	z7k+Oc8+NVyRIR4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sFYJv-00H7Qi-DJ; Fri, 07 Jun 2024 14:03:47 +0200
+Date: Fri, 7 Jun 2024 14:03:47 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>, regressions@lists.linux.dev,
+	linux-leds@vger.kernel.org, Genes Lists <lists@sapience.com>,
+	Johannes =?iso-8859-1?Q?W=FCller?= <johanneswueller@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] leds: class: Revert: "If no default trigger is given,
+ make hw_control trigger the default trigger"
+Message-ID: <6ebdcaca-c95a-48bc-b1ca-51cc1d7a86a5@lunn.ch>
+References: <20240607101847.23037-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240607005250.4047135-2-quic_amelende@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240607101847.23037-1-hdegoede@redhat.com>
 
-On Thu, Jun 06, 2024 at 05:52:52PM -0700, Anjelique Melendez wrote:
-> Fix line wrapping style issues introduced in previous patches.
-
-I'd say this reduces readability of the patch.
-
+On Fri, Jun 07, 2024 at 12:18:47PM +0200, Hans de Goede wrote:
+> Commit 66601a29bb23 ("leds: class: If no default trigger is given, make
+> hw_control trigger the default trigger") causes ledtrig-netdev to get
+> set as default trigger on various network LEDs.
 > 
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
+> This causes users to hit a pre-existing AB-BA deadlock issue in
+> ledtrig-netdev between the LED-trigger locks and the rtnl mutex,
+> resulting in hung tasks in kernels >= 6.9.
 > 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index e74b2ceed1c2..7c35b3ba09a3 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -620,6 +620,7 @@ static void lpg_sdam_apply_lut_control(struct lpg_channel *chan)
->  	u8 val = 0, conf = 0, lut_offset = 0;
->  	unsigned int hi_pause, lo_pause;
->  	struct lpg *lpg = chan->lpg;
-> +	u16 addr;
->  
->  	if (!chan->ramp_enabled || chan->pattern_lo_idx == chan->pattern_hi_idx)
->  		return;
-> @@ -640,17 +641,23 @@ static void lpg_sdam_apply_lut_control(struct lpg_channel *chan)
->  		lo_idx += lut_offset;
->  	}
->  
-> -	nvmem_device_write(lpg_chan_sdam, SDAM_PBS_SCRATCH_LUT_COUNTER_OFFSET + chan->sdam_offset, 1, &val);
-> -	nvmem_device_write(lpg_chan_sdam, SDAM_PATTERN_CONFIG_OFFSET + chan->sdam_offset, 1, &conf);
-> -	nvmem_device_write(lpg_chan_sdam, SDAM_END_INDEX_OFFSET + chan->sdam_offset, 1, &hi_idx);
-> -	nvmem_device_write(lpg_chan_sdam, SDAM_START_INDEX_OFFSET + chan->sdam_offset, 1, &lo_idx);
-> +	addr = SDAM_PBS_SCRATCH_LUT_COUNTER_OFFSET + chan->sdam_offset;
-> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &val);
-> +	addr = SDAM_PATTERN_CONFIG_OFFSET + chan->sdam_offset;
-> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &conf);
-> +	addr = SDAM_END_INDEX_OFFSET + chan->sdam_offset;
-> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &hi_idx);
-> +	addr = SDAM_START_INDEX_OFFSET + chan->sdam_offset;
-> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &lo_idx);
->  
->  	val = RAMP_STEP_DURATION(chan->ramp_tick_ms);
->  	nvmem_device_write(lpg_chan_sdam, SDAM_REG_RAMP_STEP_DURATION, 1, &val);
->  
->  	if (lpg->lut_sdam) {
-> -		nvmem_device_write(lpg_chan_sdam, SDAM_PAUSE_HI_MULTIPLIER_OFFSET + chan->sdam_offset, 1, &hi_pause);
-> -		nvmem_device_write(lpg_chan_sdam, SDAM_PAUSE_LO_MULTIPLIER_OFFSET + chan->sdam_offset, 1, &lo_pause);
-> +		addr = SDAM_PAUSE_HI_MULTIPLIER_OFFSET + chan->sdam_offset;
-> +		nvmem_device_write(lpg_chan_sdam, addr, 1, &hi_pause);
-> +		addr = SDAM_PAUSE_LO_MULTIPLIER_OFFSET + chan->sdam_offset;
-> +		nvmem_device_write(lpg_chan_sdam, addr, 1, &lo_pause);
->  	}
->  
->  }
-> -- 
-> 2.34.1
+> Solving the deadlock is non trivial, so for now revert the change to
+> set the hw_control trigger as default trigger, so that ledtrig-netdev
+> no longer gets activated automatically for various network LEDs.
 > 
+> The netdev trigger is not needed because the network LEDs are usually under
+> hw-control and the netdev trigger tries to leave things that way so setting
+> it as the active trigger for the LED class device is a no-op.
+> 
+> Fixes: 66601a29bb23 ("leds: class: If no default trigger is given, make hw_control trigger the default trigger")
+> Reported-by: Genes Lists <lists@sapience.com>
+> Closes: https://lore.kernel.org/all/9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.com/
+> Reported-by: "Johannes Wüller" <johanneswueller@gmail.com>
+> Closes: https://lore.kernel.org/lkml/e441605c-eaf2-4c2d-872b-d8e541f4cf60@gmail.com/
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
--- 
-With best wishes
-Dmitry
+I'm not sure i agree with the Closes: All this does is make it less
+likely to deadlock. The deadlock is still there. But:
+
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
 
