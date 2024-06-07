@@ -1,212 +1,230 @@
-Return-Path: <linux-leds+bounces-1860-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1861-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41032900215
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 13:25:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2691990021E
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 13:28:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A460A2893C7
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 11:25:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C1301F22FFF
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 11:28:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AA411862B8;
-	Fri,  7 Jun 2024 11:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0B9A18734D;
+	Fri,  7 Jun 2024 11:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wv/dh0Q1"
+	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="22HMwv2Z";
+	dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b="ZWSVITiv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37146D1B9;
-	Fri,  7 Jun 2024 11:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717759548; cv=none; b=PsPt90fRLRQctu48LoGNn2aIyZoZ56cpn36suRI6dVizdMbzSRuiaiUx7CwNB37Kfr42eXob6cYhHUyBjbDEMIK353itIFRp6svCpG6J+ypwusu3SUFC8mAe4Nk0GPZX8sq/8fAfFc2j3eQqCbFyY4yfbd50cdbyYM4f00azgV0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717759548; c=relaxed/simple;
-	bh=CqTYXoVNra5Cl7LYvRYd0RXHEHobM+FtL0XVsDRSOto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WSgCJE+OlkCCz0BxIETtcr8k/kVrpKblRx5/3EUtECCUyFAvDAVb4JZczV+6H3NW4MNvTy9gc/rWA7uxIpdx0t4VNFvpsMZI1xyeiXgWnElJij2ozZWPdNT4hsI0hB7QgVi5iBdpTwfE0yoMWxdrf/AJwGoH0uxZqcMKmMYyjgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wv/dh0Q1; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f6559668e1so17605755ad.3;
-        Fri, 07 Jun 2024 04:25:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717759545; x=1718364345; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AL2peTkLtP/iuUU0Wor02p7UZI/DaudYxquldAAWqLY=;
-        b=Wv/dh0Q1zZ8RfuFuQJt9R2KvFwbb8UAXWnrV5QgPJk2YT0TS5B9SV5127W+Mk33Ir0
-         ++jv1G0kbgl9A1kWD6T1fw5WxwQEYTj+hhmJGJX9dCizSfTXzn1HV7edCftMYK8Mn7BX
-         by+Pq8GYaeL3OpwWHrwIH4kOi4L8UJzZZBGx08pBELxaejBMhKFKTSAyZqQ8ZiNxUf6P
-         ddA2+cA+iGDp06ypQBqi/uSivcn1lPiND+bZgzJj6fBvAA4cw8zPvQYmgi8qm90zgUjq
-         TYBqjGSEbxaeNz33Lms0WCXMgWoX/gQqgKHS/kPUZWTR+wKW9/frj9XpGGm23iQsRPfW
-         8psQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717759545; x=1718364345;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AL2peTkLtP/iuUU0Wor02p7UZI/DaudYxquldAAWqLY=;
-        b=GEXn+pPWqyQS3mjw9aEC316klesLfNyqO8nNEU0z1apFaMVNra+kZsbAoNLbWDBurj
-         FAdoH1URIq34fLZdyvFRfSTpD618Hsp78A4ZhRHaZyNC5gdbUz/dlIlvdJ7s7o/43FYx
-         vcIhPKtsL3hGi/tWB3/D48i+obhgdFo8H2ybfrFpELPrOI6kGSMYcUjoRjLhP4x21ue1
-         v1AstdvRHdodLuxFfxaEF1YkQgYDkVehe54XlGkkgDlV+svpNLlXSQHyxnn1i+kqBwP1
-         sIimf22bAPEvep+EsJPKJUuQVQY5czxKa1pvuUl5B3m2xAeSivYGZgCKVNEvqhqQaSUx
-         2ihQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX4MzgjvgwCKQ4MpaddFV2SaXJAOLi7AHFh9VjAx6Pau8XgAerWwP02vVowsKJUnnnyD+akWHvDzjDekAEejTjxIiKOuNIJRYTDH0rxmqNVp7hjlJZ56gTl8dNeZNhNofWfCnof5zx9bw==
-X-Gm-Message-State: AOJu0YxdGLI00P39bU6nM4y6D5BaahkBB4AW0pR/lquwPXEGcnhrybzg
-	3wVFR/HXsZOStk5uoubQwbfgggZy00A6MCac+IyonuoyWjPKc6I7
-X-Google-Smtp-Source: AGHT+IFOT8iHEEUZhPIDkDJbUx2BKhUqXB05g0I/13p7fXXmVD1Oc6aBBY7OKTHpeTkGO3Q1/ojkCA==
-X-Received: by 2002:a17:902:d4c4:b0:1f6:857b:b5c with SMTP id d9443c01a7336-1f6d02fdd2emr27360715ad.32.1717759544944;
-        Fri, 07 Jun 2024 04:25:44 -0700 (PDT)
-Received: from ?IPV6:2804:431:cfd3:42f5:5119:119d:e1d9:57b4? ([2804:431:cfd3:42f5:5119:119d:e1d9:57b4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd75ef93sm32034235ad.3.2024.06.07.04.25.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jun 2024 04:25:44 -0700 (PDT)
-Message-ID: <98a5e808-68b5-42d0-8572-78b724b7078d@gmail.com>
-Date: Fri, 7 Jun 2024 08:25:38 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C1B188CA3;
+	Fri,  7 Jun 2024 11:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=72.84.236.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717759682; cv=fail; b=b9JIdWtdCTjgjIqdEtF9h7ApREs7793aIkvow3GPdNMtYiP5wmYgRAD2QNwGTwsELXG0wY2wRWcB6k5nDwdUhHZWbEt6B/uYj9nXo4JqzJ1xcSB04haRVlx06ZtJ2uUvpc5qtYfe+Pml8D26VY27CgUQ/7GTvwxb606CN1qDahE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717759682; c=relaxed/simple;
+	bh=dblTa42IpvIitENUZN1OtllmqNragMIUFkjFKngjdJw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=njfB0pEHtpCga8KAdYPYkratJ1w8g65upngEOfBE/8hpAflyTrrbnyZiXmjpNduJpmMkxw9f7LGI+uEBk/gA8ZTUJ9SFc9XJIxeqDjcY/aHZ9N1AtLvdFosLmZc81hc4VikhqsZQGf4EKLCrokQPoPk+jUaGUeW+XApge1Q0jGU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com; spf=pass smtp.mailfrom=sapience.com; dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b=22HMwv2Z; dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b=ZWSVITiv; arc=fail smtp.client-ip=72.84.236.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sapience.com
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by s1.sapience.com (Postfix) with ESMTPS id C0BF84809FC;
+	Fri, 07 Jun 2024 07:27:59 -0400 (EDT)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1717759679;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=dtKkTMu2YNJ6SulUcAidCrEhbZlElQTGzjsPqxwR8OM=;
+ b=22HMwv2ZL4xIuzqF57wghSJZVnyvXN3ElD1nKVLZfx+8W39gUV7HsxczWMo/PMJTkb+Nc
+ eT8YSR+A4FUoyvkCA==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1717759679;
+	cv=none; b=Sf99og6UuUcfz35Ve2/nRPMuDiUfv4XvQiHejCkiBot6inS9l4AfhlRRE61Jv7Z2nS482qLcJh3ehfGkwH8Al7bSIfjXwr8dSTnw/DOwAEG8IQ9qXxQb+cxqvYJsOss/GqROwcPZk1EiwCbfqr2mYjzBGDw+/PoOVuSOtLrxb+zF+9l0/OQ2ectqWVsWJGToira1Y4Wn80RHf6PIMKEUx5jotZ8nBZB/URaU54sXWGPe9d11tH2+pvXrVnmn2uv/P9t0O54NNYLkKrTDaCGktscHgE1QwtjqnWeCdVYgkcFPKmuhKLSTvBwRaqlImHrc+IPjFow950spv6WSlYgcIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1717759679; c=relaxed/simple;
+	bh=dblTa42IpvIitENUZN1OtllmqNragMIUFkjFKngjdJw=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+	 MIME-Version; b=fwTmNMSHxmTqBhMipqczrFKZCiLfb2z+75UpqJUNajT/MnIhRkD20chGAKYbL+QHox0Xfplpox8LQKzO1ZyMh8MJ6iByxdRJ/g+HSC5pax87PHeF5kaFtwGCtC+cT2Ijne57WVRozG30c09NqM5gHmI/1pB60zD5SyHLVLAKch3EOTHnnf08TfLqrOpSLX/m68nzqjlwK66jt9R8oOsiiclVHxeFHnVcBiAPbF7H5qz5k7A99VedZsjMehGRb1viFYjmz5f+EiMe+Z3YcN7ovy2MTNokFEYY128y1va8YWIiYR5jVZuv/uJh7iHJm2+g+sd/ULGRNlWw0robuOQU/w==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1717759679;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=dtKkTMu2YNJ6SulUcAidCrEhbZlElQTGzjsPqxwR8OM=;
+ b=ZWSVITivfNPC/BYgdMRxk5sK+/mObojyf6bExfFhsxhN+Efs5jb8IDlPl8qXpeud06gd1
+ ZGHQig3fw08+Wj5qQB2xsLai+Y/mpLkN7qXlzO1swbO64pjxyQMzxBj1A/QVXdEsssjE92j
+ VVQV+35KJ7BrI5j3qSS6W60eoB2z8VOHwwtYM8FocqjGSFwBnU1X/tQJKVAGDaPgyr4bCH3
+ /8C8soWWUuDDR/HPpIHoYl86UiM2kVAN1HNqa2Hfh3oAEbxAxPUHuiOTBqaSJkdHNfMiHyS
+ S2V87yta9FDnwFCdtkgE4ngTMhODgThDmd89TqEufKePOdPvcH0IsqKvzGUA==
+Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by srv8.sapience.com (Postfix) with ESMTPS id 8331128001B;
+	Fri, 07 Jun 2024 07:27:59 -0400 (EDT)
+Message-ID: <71291bd2c1f84bba5c982e8dd43f7ef9788d47da.camel@sapience.com>
+Subject: Re: Hung tasks due to a AB-BA deadlock between the leds_list_lock
+ rwsem and the rtnl mutex
+From: Genes Lists <lists@sapience.com>
+To: Hans de Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Andrew Lunn <andrew@lunn.ch>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Pavel
+ Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Linux LEDs
+ <linux-leds@vger.kernel.org>,  Heiner Kallweit <hkallweit1@gmail.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, davem@davemloft.net, 
+ edumazet@google.com, pabeni@redhat.com, johanneswueller@gmail.com, "Russell
+ King (Oracle)" <linux@armlinux.org.uk>
+Date: Fri, 07 Jun 2024 07:27:58 -0400
+In-Reply-To: <dfb48278-8b7b-401d-ae8e-579d80e3c258@redhat.com>
+References: <9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.com>
+	 <15a0bbd24cd01bd0b60b7047958a2e3ab556ea6f.camel@sapience.com>
+	 <ZliHhebSGQYZ/0S0@shell.armlinux.org.uk>
+	 <42d498fc-c95b-4441-b81a-aee4237d1c0d@leemhuis.info>
+	 <618601d8-f82a-402f-bf7f-831671d3d83f@redhat.com>
+	 <01fc2e30-eafe-495c-a62d-402903fd3e2a@lunn.ch>
+	 <9d821cea-507f-4674-809c-a4640119c435@redhat.com>
+	 <c912d1f7-7039-4f55-91ac-028a906c1387@lunn.ch>
+	 <20240606063902.776794d4@kernel.org>
+	 <d47dcc8b4e429c676db7ad6daf8024a97f725582.camel@sapience.com>
+	 <dfb48278-8b7b-401d-ae8e-579d80e3c258@redhat.com>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+	protocol="application/pgp-signature"; boundary="=-a3IqHdecIs3K0XjA7nu8"
+User-Agent: Evolution 3.52.2 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 linux-next] leds: powernv: replace of_node_put to
- __free
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Julia Lawall <julia.lawall@inria.fr>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20240601031713.1307859-1-marilene.agarcia@gmail.com>
-Content-Language: en-US
-From: Marilene Andrade Garcia <marilene.agarcia@gmail.com>
-In-Reply-To: <20240601031713.1307859-1-marilene.agarcia@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 01/06/2024 00:17, MarileneGarcia wrote:
-> Use __free for device_node values, and thus drop calls to
-> of_node_put.
-> 
-> The variable attribute __free adds a scope based cleanup to
-> the device node. The goal is to reduce memory management issues
-> in the kernel code.
-> 
-> The of_node_put calls were removed, and the
-> for_each_available_child_of_node was replaced to the equivalent
-> for_each_available_child_of_node_scoped which use the __free.
-> 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: MarileneGarcia <marilene.agarcia@gmail.com>
-> ---
-> Hello,
-> Thank you for the feedback.
-> 
-> The line-break strategy was fixed, and now it is according to
-> the top one suggested.
-> 
-> The __free is a wrapper to __attribute__((__cleanup__())) so
-> the variavel definition is needed. And according to Julia, it
-> is preferred to combine the declaration and the allocation to
-> ensure that there is no return that can occur after the declaration,
-> but before the allocation (or more precisely the initialization).
-> If there is no other option for the initialization of the variable,
-> then it should be NULL.
-> 
->   drivers/leds/leds-powernv.c | 28 +++++++++-------------------
->   1 file changed, 9 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-powernv.c b/drivers/leds/leds-powernv.c
-> index 4f01acb75727..49ab8c9a3f29 100644
-> --- a/drivers/leds/leds-powernv.c
-> +++ b/drivers/leds/leds-powernv.c
-> @@ -246,29 +246,25 @@ static int powernv_led_classdev(struct platform_device *pdev,
->   	const char *cur = NULL;
->   	int rc = -1;
->   	struct property *p;
-> -	struct device_node *np;
->   	struct powernv_led_data *powernv_led;
->   	struct device *dev = &pdev->dev;
->   
-> -	for_each_available_child_of_node(led_node, np) {
-> +	for_each_available_child_of_node_scoped(led_node, np) {
->   		p = of_find_property(np, "led-types", NULL);
->   
->   		while ((cur = of_prop_next_string(p, cur)) != NULL) {
->   			powernv_led = devm_kzalloc(dev, sizeof(*powernv_led),
->   						   GFP_KERNEL);
-> -			if (!powernv_led) {
-> -				of_node_put(np);
-> +			if (!powernv_led)
->   				return -ENOMEM;
-> -			}
->   
->   			powernv_led->common = powernv_led_common;
->   			powernv_led->loc_code = (char *)np->name;
->   
->   			rc = powernv_led_create(dev, powernv_led, cur);
-> -			if (rc) {
-> -				of_node_put(np);
-> +			if (rc)
->   				return rc;
-> -			}
-> +
->   		} /* while end */
->   	}
->   
-> @@ -278,12 +274,11 @@ static int powernv_led_classdev(struct platform_device *pdev,
->   /* Platform driver probe */
->   static int powernv_led_probe(struct platform_device *pdev)
->   {
-> -	struct device_node *led_node;
->   	struct powernv_led_common *powernv_led_common;
->   	struct device *dev = &pdev->dev;
-> -	int rc;
-> +	struct device_node *led_node
-> +		__free(device_node) = of_find_node_by_path("/ibm,opal/leds");
->   
-> -	led_node = of_find_node_by_path("/ibm,opal/leds");
->   	if (!led_node) {
->   		dev_err(dev, "%s: LED parent device node not found\n",
->   			__func__);
-> @@ -292,20 +287,15 @@ static int powernv_led_probe(struct platform_device *pdev)
->   
->   	powernv_led_common = devm_kzalloc(dev, sizeof(*powernv_led_common),
->   					  GFP_KERNEL);
-> -	if (!powernv_led_common) {
-> -		rc = -ENOMEM;
-> -		goto out;
-> -	}
-> +	if (!powernv_led_common)
-> +		return -ENOMEM;
->   
->   	mutex_init(&powernv_led_common->lock);
->   	powernv_led_common->max_led_type = cpu_to_be64(OPAL_SLOT_LED_TYPE_MAX);
->   
->   	platform_set_drvdata(pdev, powernv_led_common);
->   
-> -	rc = powernv_led_classdev(pdev, led_node, powernv_led_common);
-> -out:
-> -	of_node_put(led_node);
-> -	return rc;
-> +	return powernv_led_classdev(pdev, led_node, powernv_led_common);
->   }
->   
->   /* Platform driver remove */
 
-Hello,
-Did you have a chance to look at the patch after the requested change?
+--=-a3IqHdecIs3K0XjA7nu8
+Content-Type: multipart/alternative; boundary="=-TaTTrkvOW/DIEU0kB5mr"
 
-Thank you,
-Marilene
+--=-TaTTrkvOW/DIEU0kB5mr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2024-06-07 at 12:22 +0200, Hans de Goede wrote:
+> Hi Gene,
+
+...
+
+> >=20
+> > =C2=A0
+> > =C2=A0https://lore.kernel.org/lkml/da8710eddca32677cf3c195000416121045e=
+b811.camel@sapience.com/
+> > =C2=A0<
+> > https://lore.kernel.org/lkml/da8710eddca32677cf3c195000416121045eb811.c=
+amel@sapience.com/
+> > >
+>=20
+> Right that one is unrelated, but the revert which I just submitted
+> should
+> fix your other report:
+>=20
+> https://lore.kernel.org/all/9d189ec329cfe68ed68699f314e191a10d4b5eda.came=
+l@sapience.com/
+
+Very much appreciated thank you.
+
+>=20
+> I believe you have already worked around that one by blacklisting
+> the ledtrig-netdev module.
+
+Correct.
+
+>=20
+
+Thank you very much.
+
+
+
+
+--=20
+Gene
+
+
+--=-TaTTrkvOW/DIEU0kB5mr
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>On Fri, 2024-06-07 at 12:22 +0200, Hans de Goede =
+wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-le=
+ft:2px #729fcf solid;padding-left:1ex"><div>Hi Gene,</div></blockquote><div=
+><br></div><div>...</div><div><br></div><blockquote type=3D"cite" style=3D"=
+margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><blockqu=
+ote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid=
+;padding-left:1ex"><div><br></div><div>&nbsp; &nbsp;<a href=3D"https://lore=
+.kernel.org/lkml/da8710eddca32677cf3c195000416121045eb811.camel@sapience.co=
+m/">https://lore.kernel.org/lkml/da8710eddca32677cf3c195000416121045eb811.c=
+amel@sapience.com/</a>&nbsp;&lt;<a href=3D"https://lore.kernel.org/lkml/da8=
+710eddca32677cf3c195000416121045eb811.camel@sapience.com/">https://lore.ker=
+nel.org/lkml/da8710eddca32677cf3c195000416121045eb811.camel@sapience.com/</=
+a>&gt;<br></div></blockquote><div><br></div><div>Right that one is unrelate=
+d, but the revert which I just submitted should<br></div><div>fix your othe=
+r report:<br></div><div><br></div><div><a href=3D"https://lore.kernel.org/a=
+ll/9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.com/">https://lo=
+re.kernel.org/all/9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.c=
+om/</a><br></div></blockquote><div><br></div><div><div>Very much appreciate=
+d thank you.</div></div><div><br></div><blockquote type=3D"cite" style=3D"m=
+argin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div><br>=
+</div><div>I believe you have already worked around that one by blacklistin=
+g<br></div><div>the ledtrig-netdev module.<br></div></blockquote><div><br><=
+/div><div>Correct.</div><div><br></div><blockquote type=3D"cite" style=3D"m=
+argin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div><br>=
+</div></blockquote><div><br></div><div>Thank you very much.</div><div><br><=
+/div><div><br></div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; b=
+order-left:2px #729fcf solid;padding-left:1ex"></blockquote><div><br></div>=
+<div><span><pre>-- <br></pre><div><span style=3D"background-color: inherit;=
+">Gene</span></div><div><br></div></span></div></body></html>
+
+--=-TaTTrkvOW/DIEU0kB5mr--
+
+--=-a3IqHdecIs3K0XjA7nu8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZmLuvgAKCRA5BdB0L6Ze
+22s0AQCqSuX6runmqFR2UrYKTI9hxgqERghwlmSQSF3i7Bo9rAEAttms+bDx9oEw
+Xzir1YPVCMN5ynSvijRjr1Znn8pA6AE=
+=dp6J
+-----END PGP SIGNATURE-----
+
+--=-a3IqHdecIs3K0XjA7nu8--
 
