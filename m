@@ -1,95 +1,139 @@
-Return-Path: <linux-leds+bounces-1854-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1855-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53A18FF423
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2024 19:54:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6124D8FF96E
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 02:58:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52EC72894E3
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2024 17:54:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71E641C224D8
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 00:58:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEBA71991BD;
-	Thu,  6 Jun 2024 17:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48CB3DDD4;
+	Fri,  7 Jun 2024 00:53:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KvGPwprp"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fMf4ErAw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332252AD33;
-	Thu,  6 Jun 2024 17:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E88D2FF;
+	Fri,  7 Jun 2024 00:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717696466; cv=none; b=JJVf/AoizMNirJCNeu8LfmDxo4ZTYWXIDYjcnwlARgYbn6U5AbRG4bjpC5vJWXmIIbonYUa8o1hwsh1iQ9eOcuD8jLbWCBhX3jF5t6UGiyvcL4Baz8JNYo74HeMqh1JrdNrPYq11pYq6D88/ZSnP5UarXJ7U7F/FO9aErSvPMFs=
+	t=1717721621; cv=none; b=E+5GDsQI5/9/96YKzfr0rGomNyLhe5/J1TxqvKmCzV2nfmPObgftuQJqfYza/H4F4yIhOGTdxF91aKIs0VevotYlj44Il2K5Ip+DoP4hsv3Wb2LYUpmbLrVlZ3OYrvTU0pQabdOdON+We0z33bcygaQWzZdHFrGtnEl8/4GtnNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717696466; c=relaxed/simple;
-	bh=YQIiTGoH/7xsWc3WunGC30RQOf4K846Ne+BcGMXwERY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hp4zS6++gqwrCTnwJ3ffX/XLsZdrW2j4vbwbvbRvytSyVeIybm2noN7UDFr6+rBcxMAx5Iv9zBOU4rjJcbgO9xL5nm2DcH75Agpd+JRkhzK0aMWdwpX93FZ8unJG8EW8uEZxxxX9pCX4mW0kluRzHLl7fVCpdgUZ5IXLbniRLqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KvGPwprp; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717696465; x=1749232465;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YQIiTGoH/7xsWc3WunGC30RQOf4K846Ne+BcGMXwERY=;
-  b=KvGPwprpWQdFuDKhl0f0xTU67f8krTWeMK+BizjFHLVP6UVaXEGZpr4c
-   ohAP3ReAkrJma1qFDCkSbfRXpeXowMpZWCwYmWT+7KpBZkffkQ/1kIn72
-   sdojPP1FBhvpJdmXFPbHXKkY49QALNJBrHfs/tYDn7ZsRAfsbMBU343xi
-   YiB1bAtOeeSOFv7a1SnQgT1NCD/l1xAR/yVtK4+4dUlZFNLS+fnFgzSwu
-   xQ+g6CngO60G7Y4X4Pmd3uhG2LPLqQp69BXzD7IzH3j+I2L7UeCsaE8AE
-   WB1m0MEiP5kcfWL23QMgPGUrhpxwcUC/PoN+V9+t7/6m1HncZi5weHn+K
-   w==;
-X-CSE-ConnectionGUID: sWzi7nAQTICMG9qLBNgFmQ==
-X-CSE-MsgGUID: X9EisFG0QmiWUmaYVvzFgg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="24960470"
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="24960470"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 10:54:20 -0700
-X-CSE-ConnectionGUID: AmF52hkXQXKaxGk+y+i4sA==
-X-CSE-MsgGUID: 67DuAJyvT8WVcW3OJS89Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="38496504"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 10:54:17 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sFHJW-0000000EGdc-1Dv7;
-	Thu, 06 Jun 2024 20:54:14 +0300
-Date: Thu, 6 Jun 2024 20:54:14 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v1 1/6] leds: spi-byte: call of_node_put() on error path
-Message-ID: <ZmH3xicOvz2G-wRb@smile.fi.intel.com>
-References: <20240606173037.3091598-1-andriy.shevchenko@linux.intel.com>
- <20240606173037.3091598-2-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1717721621; c=relaxed/simple;
+	bh=whxTm1m9+FDgqmbBh3+6J3Hp3yp5syfTVkjTM/AiZtY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=StX9MIIeTq5iugdPykMkQcFOKKheIxF0zxe3Dc4v24a6Tq8dg1kIh3bj8smGdXLzuYkL+bJPOeDNKUFGrl/POZ5PKY/Tri1kfGTiFipFcLr+ORnNDcOrZVMgQWHJhA91EPL/V1YifGwU15MJT/y4GMXwVDYI7LHXk8ctsuxp1Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fMf4ErAw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 456McuDV010965;
+	Fri, 7 Jun 2024 00:53:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=GR6l+MtUgvHhjzAP/hYqmb
+	mV38riRQ6sN23ytTC2cvw=; b=fMf4ErAw1m+aqyEzIROSYWNdhRqwq7NvEuY5Bq
+	qFGtnzrtmULZbhmRyxAsfN6ErZN9IiRdzGiY/T+wO1GppFzOcQRCeYACwgPxXuZe
+	N7cPFeTOG2bzsxcrs78iTYirgP1jFFM2OVWSutyJjTzUpRZxdZdk69txvBC9ugKK
+	LnlsXwZX3ExEBSCm9vnas+Tl2yuIEAsK1SVm1LG9cplwSUAWTjNgASfmDAb+1dMf
+	PlqpI3QgPxgel8S6zgnZaOk2BQUPdrDQ6HRg3SB8XQvNN3zqp2heakkC8wnXn5ko
+	8aacGdGGbxiKWfH/Fb4qjH9cEqgIm4YYFGIcy8zpVDsjf/Jw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjhw0w8qs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Jun 2024 00:53:27 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4570rQq4025333
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 7 Jun 2024 00:53:26 GMT
+Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 6 Jun 2024 17:53:25 -0700
+From: Anjelique Melendez <quic_amelende@quicinc.com>
+To: <pavel@ucw.cz>, <lee@kernel.org>, <robh@kernel.org>,
+        <andersson@kernel.org>, <quic_amelende@quicinc.com>
+CC: <u.kleine-koenig@pengutronix.de>, <marijn.suijten@somainline.org>,
+        <kees@kernel.org>, <morf3089@gmail.com>, <quic_gurus@quicinc.com>,
+        <quic_subbaram@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] leds: rgb: leds-qcom-lpg: Add PPG check for setting/clearing PBS triggers
+Date: Thu, 6 Jun 2024 17:52:50 -0700
+Message-ID: <20240607005250.4047135-1-quic_amelende@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240606173037.3091598-2-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: igZFFnN0w5yzpdAvyttdv1JaqUUEIdv_
+X-Proofpoint-GUID: igZFFnN0w5yzpdAvyttdv1JaqUUEIdv_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-06_20,2024-06-06_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=776
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406070005
 
-On Thu, Jun 06, 2024 at 08:29:18PM +0300, Andy Shevchenko wrote:
-> Add a missing call to of_node_put(np) on error.
+Currently, all LED LPG devices will call lpg_{set,clear}_pbs_trigger()
+when setting brightness regardless of if they support PPG and have PBS
+triggers. Check if device supports PPG before setting/clearing PBS
+triggers.
 
-Oh, yeah, this might need the Fixes tag. depending if you want to backport
-this fix or no hurry.
+Fixes: 6ab1f766a80a ("leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM")
+Fixes: 5e9ff626861a ("leds: rgb: leds-qcom-lpg: Include support for PPG with dedicated LUT SDAM")
+Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+---
+ drivers/leds/rgb/leds-qcom-lpg.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index 9467c796bd04..e74b2ceed1c2 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -2,7 +2,7 @@
+ /*
+  * Copyright (c) 2017-2022 Linaro Ltd
+  * Copyright (c) 2010-2012, The Linux Foundation. All rights reserved.
+- * Copyright (c) 2023, Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2023-2024, Qualcomm Innovation Center, Inc. All rights reserved.
+  */
+ #include <linux/bits.h>
+ #include <linux/bitfield.h>
+@@ -254,6 +254,9 @@ static int lpg_clear_pbs_trigger(struct lpg *lpg, unsigned int lut_mask)
+ 	u8 val = 0;
+ 	int rc;
+ 
++	if (!lpg->lpg_chan_sdam)
++		return 0;
++
+ 	lpg->pbs_en_bitmap &= (~lut_mask);
+ 	if (!lpg->pbs_en_bitmap) {
+ 		rc = nvmem_device_write(lpg->lpg_chan_sdam, SDAM_REG_PBS_SEQ_EN, 1, &val);
+@@ -276,6 +279,9 @@ static int lpg_set_pbs_trigger(struct lpg *lpg, unsigned int lut_mask)
+ 	u8 val = PBS_SW_TRIG_BIT;
+ 	int rc;
+ 
++	if (!lpg->lpg_chan_sdam)
++		return 0;
++
+ 	if (!lpg->pbs_en_bitmap) {
+ 		rc = nvmem_device_write(lpg->lpg_chan_sdam, SDAM_REG_PBS_SEQ_EN, 1, &val);
+ 		if (rc < 0)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
 
