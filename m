@@ -1,155 +1,126 @@
-Return-Path: <linux-leds+bounces-1864-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1865-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7847C9008CF
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 17:27:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE412900C28
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 20:57:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 919051C218F9
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 15:27:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF2801C2184C
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2024 18:57:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92746195808;
-	Fri,  7 Jun 2024 15:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5CE51482F9;
+	Fri,  7 Jun 2024 18:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YCRwHKr+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpvV00kS"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD11A182D8
-	for <linux-leds@vger.kernel.org>; Fri,  7 Jun 2024 15:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B1210A24;
+	Fri,  7 Jun 2024 18:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717774016; cv=none; b=KaCnSnhL51Lp9u1GfYrAjUY7ZskTyItUbk2El5OVnW5FPBXMv8b5DHBv5Cxu8bhdF+5HiQVTEtkxOaqyNDoN5EeW3d/swBckFzgqo6/TdrRH+dNYS0nY7p0ksHwHTG6aLRJZNKdW9NvqIkNIR9r0VDoW1EASivuXyl+vdIH6944=
+	t=1717786611; cv=none; b=EXuoYGBQPKbCcxiAv4FGzcmQONcMfqI/jm76v2YZO4yuagNHDhsg1YR5FVUyyRtTBaYYxBafYn8bBs5HJ+S0fGuJThNLwuOQ0bcz8qELJJn54mO/CoD6ZoG7Riozk3pws5voj8qZo6bUToDIKSdQ0+qsXcLXvj+nZ5MB3+wTTrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717774016; c=relaxed/simple;
-	bh=rOfg24Dcz8QAnnEvfYvkHk1NUSiHhQLDhQ0iBZ8jknA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VixyA3X6qTjxgdR1/u3fRksReRnihzjGAHpYBeTdY0lD2lXJPDV6OXFxmyeU5mxZ4Y3fIClziWD77sZ5vn5k3bzUEY3gBRMwBhOTTOHLSfJFmzDbE6M/A1hL9BZNGAX/nmjDnfEfFDHkxR7CMPdqnwIuBb98ivB2lmYjsrV0Xa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YCRwHKr+; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717774013;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9D/A+3bwK+p1bXr6ecFnn0y362Acz3/hUX82Z0aoQCc=;
-	b=YCRwHKr+KpwEZEayUa8fxs8eJcUkuYitWKE10wC+x1inhzucKNXtSzu4hAIJBLB8oajPxB
-	gl++dAMCbLvd/qI4OgZ5FnrDcJ8PmlcqNrYbPEwITaw3v65HWw/d6iltH7Icg/M1J59LbZ
-	rRSFjgFCVWDEsKDEvKvZBx1ItjXd3xY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-477-vOrSp6GrMx2rbfUGptgeuQ-1; Fri, 07 Jun 2024 11:26:52 -0400
-X-MC-Unique: vOrSp6GrMx2rbfUGptgeuQ-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-57a1c680aa8so883652a12.0
-        for <linux-leds@vger.kernel.org>; Fri, 07 Jun 2024 08:26:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717774011; x=1718378811;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9D/A+3bwK+p1bXr6ecFnn0y362Acz3/hUX82Z0aoQCc=;
-        b=ql53DkhClumyZFaP+oQ+gNVWamdOsuYKE5UTmK3AQn9L7qQ4NWFXpNsvcXAxH1ubWh
-         Ck1U8S8nEbRxkEEDiMhF6sNEMRp0jpZgAzQ72ueIo9EGV5PjGouFvp2SV5QyITvFVWdl
-         rzn08smZ+tzyC41wX0uObtI0Nhp3AU8agju2cYipW1igKw05rXEXvPV7MuDq2GUPKefW
-         /hoGcb+FXKGP86o+Mw97NdrlUfKpOlsOrr7L1xlu/r+I1RVRs3fdVl2X6W8TUzGhu1Db
-         xlw7jJUvJy7YumBQdLgPwy+2QD0cxfTiQKeamgazjCpWqNaUYr/GhOdl6Ezsl4nu/EVC
-         kxJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXyInHCjYbQGs0mwYCSwhBa2HSM0oXkVPFrjG7wNO4Amj8PNnHNPXyIZtPKzUtMOuKoKh0LKqCcmG5F0z0RglFS95YaiOUp/CqcQ==
-X-Gm-Message-State: AOJu0YzuZwLW8NvZdpFFC9ubU8HET3xJpQOEJjPiJ382AxIELRN4rqWp
-	8rqsHFwXSpqPhahDj697ksQ4URiTvmuHTGMdOGMq4jl+5JXUSqEFgJNqbCtExyYVVmPKbLurE00
-	R7XO5vfj+uAIp3oUgnkxRPzv1q2NYJj+K6fSWxPi7lYF9ICpOjzuPf3idYTA=
-X-Received: by 2002:a50:d69b:0:b0:57c:6234:e95b with SMTP id 4fb4d7f45d1cf-57c6234e9acmr471791a12.5.1717774011356;
-        Fri, 07 Jun 2024 08:26:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE0/6f7Ed+Q3P9FkVIMtn8/uS5MhDHOHU8/MO14CZu0SSWzQQpCvt+kzKfAK1hlK24ChuIRgQ==
-X-Received: by 2002:a50:d69b:0:b0:57c:6234:e95b with SMTP id 4fb4d7f45d1cf-57c6234e9acmr471784a12.5.1717774010889;
-        Fri, 07 Jun 2024 08:26:50 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aadfa3c47sm2925666a12.16.2024.06.07.08.26.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jun 2024 08:26:50 -0700 (PDT)
-Message-ID: <7a73693e-87b4-4161-a058-4e36f50e1376@redhat.com>
-Date: Fri, 7 Jun 2024 17:26:49 +0200
+	s=arc-20240116; t=1717786611; c=relaxed/simple;
+	bh=41IstQhdcJ/CO6qLA0Pt3uJNJsWcjN/+4QzXDnL5O5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j/4iwNfS4UzHCCkhZtRxprGif8cA4oeAHH2Lj96PWZlbgeIUf8A82ym/xpIvRt0rgmPdgdcth2X3RV+IMAady9aM8/Pr2ULGSkJ32JC02YLnFBf9FlDcTbKv9SDF0ABiRO0kHcV3PPikO/JP0WS4vnFrkQxsumeizGCnoLQ5BtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpvV00kS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36941C2BBFC;
+	Fri,  7 Jun 2024 18:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717786611;
+	bh=41IstQhdcJ/CO6qLA0Pt3uJNJsWcjN/+4QzXDnL5O5o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HpvV00kSl8s9vfARlmVxjxrgpaEHv60+3J6UWUibhgMNVrqp2C5sTpK45qL1nNkfz
+	 Vys2ef5PLRuKw3YTU6SlJg9YGbkZjhRBfszBCoG797zVVV2bn6lHu8j6gksma1XqXJ
+	 dDlwWXeIW7lumMaeQ+EmZDx9W3wSWPTmw861x0+UlP95BGXJYosJX+ak2XH3vsY0GX
+	 t8HqM2YeCLUTjyKk9IxpD4+4kdPwsVdVYIxmhjF4msOqbscf7eGI16XkmPamrQnkon
+	 Xh78tAkmv8KEc+JBVJYr9RlW2J/RKJd052x62m4h63LSNsT8J45t8j3EX3kbOKuRpo
+	 rrOJ6RMEnSPxQ==
+Date: Fri, 7 Jun 2024 13:56:48 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Anjelique Melendez <quic_amelende@quicinc.com>
+Cc: pavel@ucw.cz, lee@kernel.org, robh@kernel.org, 
+	u.kleine-koenig@pengutronix.de, marijn.suijten@somainline.org, kees@kernel.org, 
+	morf3089@gmail.com, quic_gurus@quicinc.com, quic_subbaram@quicinc.com, 
+	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: rgb: leds-qcom-lpg: Fix line wrapping style
+ issues
+Message-ID: <mummt6hl5c4iih6dvc5qcg6uijkluareqmjbxcfyfyzvhadpcd@oswmwaecv5ic>
+References: <20240607005250.4047135-1-quic_amelende@quicinc.com>
+ <20240607005250.4047135-2-quic_amelende@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: class: Revert: "If no default trigger is given,
- make hw_control trigger the default trigger"
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- regressions@lists.linux.dev, linux-leds@vger.kernel.org,
- Genes Lists <lists@sapience.com>, =?UTF-8?Q?Johannes_W=C3=BCller?=
- <johanneswueller@gmail.com>, stable@vger.kernel.org
-References: <20240607101847.23037-1-hdegoede@redhat.com>
- <6ebdcaca-c95a-48bc-b1ca-51cc1d7a86a5@lunn.ch>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <6ebdcaca-c95a-48bc-b1ca-51cc1d7a86a5@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240607005250.4047135-2-quic_amelende@quicinc.com>
 
-Hi Andrew,
+On Thu, Jun 06, 2024 at 05:52:52PM GMT, Anjelique Melendez wrote:
+> Fix line wrapping style issues introduced in previous patches.
 
-On 6/7/24 2:03 PM, Andrew Lunn wrote:
-> On Fri, Jun 07, 2024 at 12:18:47PM +0200, Hans de Goede wrote:
->> Commit 66601a29bb23 ("leds: class: If no default trigger is given, make
->> hw_control trigger the default trigger") causes ledtrig-netdev to get
->> set as default trigger on various network LEDs.
->>
->> This causes users to hit a pre-existing AB-BA deadlock issue in
->> ledtrig-netdev between the LED-trigger locks and the rtnl mutex,
->> resulting in hung tasks in kernels >= 6.9.
->>
->> Solving the deadlock is non trivial, so for now revert the change to
->> set the hw_control trigger as default trigger, so that ledtrig-netdev
->> no longer gets activated automatically for various network LEDs.
->>
->> The netdev trigger is not needed because the network LEDs are usually under
->> hw-control and the netdev trigger tries to leave things that way so setting
->> it as the active trigger for the LED class device is a no-op.
->>
->> Fixes: 66601a29bb23 ("leds: class: If no default trigger is given, make hw_control trigger the default trigger")
->> Reported-by: Genes Lists <lists@sapience.com>
->> Closes: https://lore.kernel.org/all/9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.com/
->> Reported-by: "Johannes Wüller" <johanneswueller@gmail.com>
->> Closes: https://lore.kernel.org/lkml/e441605c-eaf2-4c2d-872b-d8e541f4cf60@gmail.com/
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> I'm not sure i agree with the Closes: All this does is make it less
-> likely to deadlock. The deadlock is still there.
-
-I agree that the deadlock which is the root-cause is still there. But
-with this revert ledtrig-netdev will no longer get activated by default.
-
-So now the only way to actually get the code-paths which may deadlock
-to run is by the user or some script explicitly activating the netdev
-trigger by writing "netdev" to the trigger sysfs file for a LED classdev.
-So most users will now no longer hit this, including the reporters of
-these bugs.
-
-The auto-activating of the netdev trigger is what is causing these
-reports when users are running kernels >= 6.9 .
-
-> But:
-> 
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-
-Thank you.
+Bending the line length guidelines is okay when it results in easier to
+read code. I find the existing code easier to read...
 
 Regards,
+Bjorn
 
-Hans
-
-
+> 
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+>  drivers/leds/rgb/leds-qcom-lpg.c | 19 +++++++++++++------
+>  1 file changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index e74b2ceed1c2..7c35b3ba09a3 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -620,6 +620,7 @@ static void lpg_sdam_apply_lut_control(struct lpg_channel *chan)
+>  	u8 val = 0, conf = 0, lut_offset = 0;
+>  	unsigned int hi_pause, lo_pause;
+>  	struct lpg *lpg = chan->lpg;
+> +	u16 addr;
+>  
+>  	if (!chan->ramp_enabled || chan->pattern_lo_idx == chan->pattern_hi_idx)
+>  		return;
+> @@ -640,17 +641,23 @@ static void lpg_sdam_apply_lut_control(struct lpg_channel *chan)
+>  		lo_idx += lut_offset;
+>  	}
+>  
+> -	nvmem_device_write(lpg_chan_sdam, SDAM_PBS_SCRATCH_LUT_COUNTER_OFFSET + chan->sdam_offset, 1, &val);
+> -	nvmem_device_write(lpg_chan_sdam, SDAM_PATTERN_CONFIG_OFFSET + chan->sdam_offset, 1, &conf);
+> -	nvmem_device_write(lpg_chan_sdam, SDAM_END_INDEX_OFFSET + chan->sdam_offset, 1, &hi_idx);
+> -	nvmem_device_write(lpg_chan_sdam, SDAM_START_INDEX_OFFSET + chan->sdam_offset, 1, &lo_idx);
+> +	addr = SDAM_PBS_SCRATCH_LUT_COUNTER_OFFSET + chan->sdam_offset;
+> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &val);
+> +	addr = SDAM_PATTERN_CONFIG_OFFSET + chan->sdam_offset;
+> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &conf);
+> +	addr = SDAM_END_INDEX_OFFSET + chan->sdam_offset;
+> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &hi_idx);
+> +	addr = SDAM_START_INDEX_OFFSET + chan->sdam_offset;
+> +	nvmem_device_write(lpg_chan_sdam, addr, 1, &lo_idx);
+>  
+>  	val = RAMP_STEP_DURATION(chan->ramp_tick_ms);
+>  	nvmem_device_write(lpg_chan_sdam, SDAM_REG_RAMP_STEP_DURATION, 1, &val);
+>  
+>  	if (lpg->lut_sdam) {
+> -		nvmem_device_write(lpg_chan_sdam, SDAM_PAUSE_HI_MULTIPLIER_OFFSET + chan->sdam_offset, 1, &hi_pause);
+> -		nvmem_device_write(lpg_chan_sdam, SDAM_PAUSE_LO_MULTIPLIER_OFFSET + chan->sdam_offset, 1, &lo_pause);
+> +		addr = SDAM_PAUSE_HI_MULTIPLIER_OFFSET + chan->sdam_offset;
+> +		nvmem_device_write(lpg_chan_sdam, addr, 1, &hi_pause);
+> +		addr = SDAM_PAUSE_LO_MULTIPLIER_OFFSET + chan->sdam_offset;
+> +		nvmem_device_write(lpg_chan_sdam, addr, 1, &lo_pause);
+>  	}
+>  
+>  }
+> -- 
+> 2.34.1
+> 
 
