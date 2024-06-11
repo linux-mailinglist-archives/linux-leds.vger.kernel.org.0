@@ -1,155 +1,169 @@
-Return-Path: <linux-leds+bounces-1868-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1869-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CB4902BD6
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 00:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2AA902D7A
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 02:18:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 940AD282524
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Jun 2024 22:40:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EA85283C64
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 00:18:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52B261509A4;
-	Mon, 10 Jun 2024 22:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215E764C;
+	Tue, 11 Jun 2024 00:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GvmvFSCU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFY/djF6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A545466B;
-	Mon, 10 Jun 2024 22:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35C5816;
+	Tue, 11 Jun 2024 00:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718059233; cv=none; b=ix2ZnRgFEzb5Ku0/t+XRzzCl/I+jJaSjQuc24eqZzqEoBkQW3wBb0jWGMvFc9kKwzOc8jcJ+2buWTH5FjOWO3lQGW3roYLXZpl8rQ1BgG4p8Cj59w/J9VpbotePERJALkaq+LpwHQGfutNNjXavJW9Xy2lictv2GV+6Pbt5A/f4=
+	t=1718065109; cv=none; b=PDkL6gYph2la4IG/gM+N8T/qjdRTxVU4f/JeMEI9YmbDwe3h3gYMW4ROZ81QrG07L+/djsszCU8zq8oTdXVrN6R/Pc6BqpyaTlefM8wTOK906FsaiCJe+EsPHTRA//06kAysd1Lisf/jsR8GfsY7zXRlzp+opAtGdmWY4er3Od4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718059233; c=relaxed/simple;
-	bh=g10dlOBGYYkPLn3+3Cuj4VRZAJwM6Vn3EQdE5kpHkMY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DtLqYNqL+mt4rX8x4qkiArci6zjwmDOaauE7toHoFpGTRP6Gb/BSB4+EA7u3krKBl8OgAthxb35RBuUTWSuCx81UvFGlRFmzsILI8EvPKMdYVFq6Y6p4aFJotRDkXE5RrZ+RnHzgIlhKoWuYqoTUVUOoFjnmy51Bst7ERfGlm7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GvmvFSCU; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1718065109; c=relaxed/simple;
+	bh=nMrmdxH2krB9TNtdBkPh3f0n33LvkwFYa6vLckHWB6g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DoAHpU9xABVdG9/advCF80VZNUT153Yd17escALdZjdInaUmwq5jWgcvMAghU12evf5CRrX20OTRRgOuc6/3afiFxBtpVX9PvJEYwGTvrxqJBwuCT++wbT6JxBok8qDi0Ikndn5/3mmRXPBChOL63y04GtSvIeDE1aouAJs/AxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFY/djF6; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-35f0d6255bdso2755791f8f.1;
-        Mon, 10 Jun 2024 15:40:30 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c2c9199568so2749315a91.0;
+        Mon, 10 Jun 2024 17:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718059229; x=1718664029; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gpPyXWTVTerEIWhQ6o8wHto+dQPxy/WMM7tzpvoV1CQ=;
-        b=GvmvFSCULRcafeNEh/wYJb3jCoXJ7i/o5lKlpfZ9QwxmpSRn3QyKoJnw+PuNmD9XTm
-         fF2v+Wg7qJakweGkXDvYTqJpeXPGgjhfFlscLSfZ/YN2Oq85UU1OFKgfMDgdZ04rd3+1
-         oqxpptgVDY1Kw5BqrQBkGqLAu7QlcLVyCurdzH7lff2ows3XQFlsUu13YihyeAfJ0AxH
-         nV++COgTNyXofDmwB133xxsH/fQa+V5iirG4lMikWv2G2gOiBS8gIjoYdAgGE+Gky+kV
-         bIYbr3dqLdK3lM46Gk0Ne8UBcWsDP2ymUUMyFjPWCkv4I691O/G47ViRSeS7gMinlIwV
-         HhpQ==
+        d=gmail.com; s=20230601; t=1718065107; x=1718669907; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7fSYaAf9r3FBONbZVYpTG+GGCmR1/EAf+YALJ9whtTk=;
+        b=HFY/djF69zWZmKEPs877Gzh2aPa1g/nBLVr/dXPKsN6jRUnHB3LMTBF0h5Iwodhr7c
+         PLWWVToS3lLJ/l1ZH2bu1q6gaTNABP6OPM08L6eZxu0Ki0fzIblKUJROT3GqsCoPuB10
+         iapKjEPgQpys3WpBXaVLO2FR43iZrT+OM8NHEtyv+gojQuzDfINYWsRx/m+BHqoZqgOw
+         SFHz80dxkzsocqddR5vWOTw7mV8THru2Lc9uufEUU8H0LYfksnjqi545VF56qlgrAgAQ
+         MIRypYYFtwzjp3eSDQp+X8fb0p/mUzVx0PTi5yAHRbcl2yY3TWxtJaDQDafBqtPF7YNa
+         yJLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718059229; x=1718664029;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1718065107; x=1718669907;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gpPyXWTVTerEIWhQ6o8wHto+dQPxy/WMM7tzpvoV1CQ=;
-        b=J433hfblN4NlEzzQWdWwEGXkrys0fTLsCMul9F9K8cJE2k2z90hyt52Af0QXQNZ3k8
-         baEuAEczRvxnMNQNV8GJKGCAjlVoT3Qr8kufXDIsl+UfCBaENHaKitUXwChRUzFPrnlN
-         rgzjHg8lto+GgxvNDnOY8QR6o4pq8HvflH2kB3ij1e/OextdnRO8FbCk1MiCTuO/G4CI
-         oJaodf455KskuUwUyUmNRStc0WFnMItdyvu/vaZ1nEz5xShkUK1o/oD2YP2za8Gpe799
-         G24ZXwNeRV5aQ0pFZBprNXRYxU/2tZPJX+vVsMILm/ho9PyauvDcOM0dDLOOuwzEvwF0
-         g+lA==
-X-Forwarded-Encrypted: i=1; AJvYcCVQB51HIS6TYO4jTbv9RU+rtPEhf8NqAcFyTaGin2U/dKjVW8aBu1FzaqIwjKGwt+0kjGR07K2ychXhv7YUm3GZ0/yMtGtDJ1ngqV89RX2+6vHZuDH+VULhSJz6NnooVYyRJ4Bq
-X-Gm-Message-State: AOJu0YwuL0PNv3BubVyQRBnAnQJKGXO5lfqECMA3XA6FWeGCjKmCq6hq
-	/lYL6r6OT/6V/ZBWuHP/2SejPbyWr+2wAmUNrcUT2c4u2kRaXJXK
-X-Google-Smtp-Source: AGHT+IH4nQiCT9WMClPt604ZYVbJsCXhC4V56JFsZoe2WZyh2Jw0qDjY9RyNp0aFPn3YwnD54yHR8Q==
-X-Received: by 2002:a5d:5f8f:0:b0:354:ddba:303a with SMTP id ffacd0b85a97d-35efedd7dbfmr8382883f8f.54.1718059229080;
-        Mon, 10 Jun 2024 15:40:29 -0700 (PDT)
-Received: from [127.0.1.1] (194-208-201-054.tele.net. [194.208.201.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d6990csm12131971f8f.58.2024.06.10.15.40.27
+        bh=7fSYaAf9r3FBONbZVYpTG+GGCmR1/EAf+YALJ9whtTk=;
+        b=Fulhr+QXef75D3LBt6G16B3RnfVD0YIAM+kQGB1sUi8CFQBWtnrHQOeOQ0vjXV3PKV
+         LQI6e2sNPoHikquYp/CFA8zDIyZ0PcZFyTLBAPGAXslHWOXMASuiVSBfQdSvrdUjinlO
+         RVZRf8jT+4oT9UdJaQEZijtHqOSx45SOcYvKf5pJU9G1k3tPo82H3HIC3c5ldblmc0d0
+         Fig7VJUeHwWh6uehe2wnEshWjNEsjrdgPTRVxvv4vwn7WQXuEcHBYVMb1o2axJxavg3k
+         K2mJyQFaqEDwRyf+ihJFKk2rA1EDBd71LgQAmFIH3GAj5A5fkWugEXvj6vpG8YB0e6A8
+         lVHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUIJGwP6XpbE4R66n99N/MsenQ5Y+hnqZ1ZFtEn15wDuDT6vkjC2x/Xz5qheE2PbI7a442/8gWfaiq07UnuAlzNclQLktaAEvfZ7gapAe0pZSwb9Hq9mCK3/ePadSiqji8QssRq9Lnuw==
+X-Gm-Message-State: AOJu0YxoFOQNByEFbKkbdl7e+gAQtxBWzIzFvTGyxRRE66UvduXZkJBE
+	cqRp1RLknHogbN/7iAiS38BEOHRF9fUGCkGHtfh46PdAs5ygJXBT
+X-Google-Smtp-Source: AGHT+IFrBqNcje/3jAquFBaQ9JR15hWOcJpeEYREpF3zM173bx+0pTRw68iouNl4w0H0l0uNQC3leg==
+X-Received: by 2002:a17:90a:688d:b0:2c3:725:a376 with SMTP id 98e67ed59e1d1-2c30725a46emr3950743a91.11.1718065106725;
+        Mon, 10 Jun 2024 17:18:26 -0700 (PDT)
+Received: from mari.. ([2804:431:cfd3:42f5:c7f2:2bf:5df8:1d46])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c2e638edfesm5141526a91.26.2024.06.10.17.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 15:40:28 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Tue, 11 Jun 2024 00:40:26 +0200
-Subject: [PATCH] leds: mt6360: fix memory leak in
- mt6360_init_isnk_properties()
+        Mon, 10 Jun 2024 17:18:26 -0700 (PDT)
+From: Marilene A Garcia <marilene.agarcia@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Julia Lawall <julia.lawall@inria.fr>
+Cc: Marilene A Garcia <marilene.agarcia@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH linux-next] leds: tlc591xx: Replace of_node_put to __free
+Date: Mon, 10 Jun 2024 21:17:40 -0300
+Message-Id: <20240611001740.10490-1-marilene.agarcia@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240611-leds-mt6360-memleak-v1-1-93642eb5011e@gmail.com>
-X-B4-Tracking: v=1; b=H4sIANmAZ2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDM0MD3ZzUlGLd3BIzYzMD3dzU3JzUxGxdc4u0xDTjVBNj0yQDJaDOgqL
- UtMwKsKnRsbW1ACiVgOllAAAA
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- stable@vger.kernel.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718059227; l=1877;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=g10dlOBGYYkPLn3+3Cuj4VRZAJwM6Vn3EQdE5kpHkMY=;
- b=cR0LfOzpw4hwGKrOjdhmiXFbXriHLO5gLjMX4rHeP62PmE4NBWzxHdshrumFnOnhMhbrKZA4G
- Kka9SVk2V8DCemwIhzDYLmjD5RxVyuNqg306XZuey5g6snUaJ2g7f2B
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+Content-Transfer-Encoding: 8bit
 
-The fwnode_for_each_child_node() loop requires manual intervention to
-decrement the child refcount in case of an early return.
+Use __free() for device_node values, and thus drop calls to
+of_node_put().
 
-Add the missing calls to fwnode_handle_put(child) to avoid memory leaks
-in the error paths.
+The variable attribute __free() adds a scope based cleanup to
+the device node. The goal is to reduce memory management issues
+in the kernel code.
 
-Cc: stable@vger.kernel.org
-Fixes: 679f8652064b ("leds: Add mt6360 driver")
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+The for_each_available_child_of_node() was replaced to the equivalent 
+for_each_available_child_of_node_scoped() which uses the __free().
+
+Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: Marilene A Garcia <marilene.agarcia@gmail.com>
 ---
-This bug was found while analyzing the code and I have no real hardware
-to validate the fix beyond compilation and static analysis. But given
-that the child node is only used to retrieve some properties within the
-fwnode_for_each_child_node(), and it is not used outside the loop, the
-fix is straightforward.
+Hello,
+These are the changes related to adding the new __free cleanup 
+in the tlc591xx led driver.
 
-Nevertheless, any tests to catch regressions with real hardware are
-always welcome.
+Thank you.
 
-The bug has been around since the driver was added.
----
- drivers/leds/flash/leds-mt6360.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/leds/leds-tlc591xx.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/leds/flash/leds-mt6360.c b/drivers/leds/flash/leds-mt6360.c
-index 1b75b4d36834..4c74f1cf01f0 100644
---- a/drivers/leds/flash/leds-mt6360.c
-+++ b/drivers/leds/flash/leds-mt6360.c
-@@ -643,14 +643,17 @@ static int mt6360_init_isnk_properties(struct mt6360_led *led,
+diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
+index 945e831ef4ac..6605e08a042a 100644
+--- a/drivers/leds/leds-tlc591xx.c
++++ b/drivers/leds/leds-tlc591xx.c
+@@ -146,7 +146,7 @@ MODULE_DEVICE_TABLE(of, of_tlc591xx_leds_match);
+ static int
+ tlc591xx_probe(struct i2c_client *client)
+ {
+-	struct device_node *np, *child;
++	struct device_node *np;
+ 	struct device *dev = &client->dev;
+ 	const struct tlc591xx *tlc591xx;
+ 	struct tlc591xx_priv *priv;
+@@ -182,22 +182,20 @@ tlc591xx_probe(struct i2c_client *client)
+ 	if (err < 0)
+ 		return err;
  
- 			ret = fwnode_property_read_u32(child, "reg", &reg);
- 			if (ret || reg > MT6360_LED_ISNK3 ||
--			    priv->leds_active & BIT(reg))
-+			    priv->leds_active & BIT(reg)) {
-+				fwnode_handle_put(child);
- 				return -EINVAL;
-+			}
+-	for_each_available_child_of_node(np, child) {
++	for_each_available_child_of_node_scoped(np, child) {
+ 		struct tlc591xx_led *led;
+ 		struct led_init_data init_data = {};
  
- 			ret = fwnode_property_read_u32(child, "color", &color);
- 			if (ret) {
- 				dev_err(priv->dev,
- 					"led %d, no color specified\n",
- 					led->led_no);
-+				fwnode_handle_put(child);
- 				return ret;
- 			}
+ 		init_data.fwnode = of_fwnode_handle(child);
  
-
----
-base-commit: d35b2284e966c0bef3e2182a5c5ea02177dd32e4
-change-id: 20240610-leds-mt6360-memleak-78faf3e435b0
-
-Best regards,
+ 		err = of_property_read_u32(child, "reg", &reg);
+-		if (err) {
+-			of_node_put(child);
++		if (err)
+ 			return err;
+-		}
++
+ 		if (reg < 0 || reg >= tlc591xx->max_leds ||
+-		    priv->leds[reg].active) {
+-			of_node_put(child);
++		    priv->leds[reg].active)
+ 			return -EINVAL;
+-		}
++
+ 		led = &priv->leds[reg];
+ 
+ 		led->active = true;
+@@ -207,12 +205,10 @@ tlc591xx_probe(struct i2c_client *client)
+ 		led->ldev.max_brightness = TLC591XX_MAX_BRIGHTNESS;
+ 		err = devm_led_classdev_register_ext(dev, &led->ldev,
+ 						     &init_data);
+-		if (err < 0) {
+-			of_node_put(child);
++		if (err < 0)
+ 			return dev_err_probe(dev, err,
+ 					     "couldn't register LED %s\n",
+ 					     led->ldev.name);
+-		}
+ 	}
+ 	return 0;
+ }
 -- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+2.34.1
 
 
