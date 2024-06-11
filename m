@@ -1,83 +1,70 @@
-Return-Path: <linux-leds+bounces-1869-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1872-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2AA902D7A
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 02:18:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9516903731
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 10:55:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EA85283C64
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 00:18:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08F9E1C21B16
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2024 08:55:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215E764C;
-	Tue, 11 Jun 2024 00:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBBC17B510;
+	Tue, 11 Jun 2024 08:53:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFY/djF6"
+	dkim=pass (2048-bit key) header.d=monolithicpower.com header.i=@monolithicpower.com header.b="S/e4JJWB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-002bf204.pphosted.com (mx0b-002bf204.pphosted.com [205.220.172.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35C5816;
-	Tue, 11 Jun 2024 00:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1872217B41F;
+	Tue, 11 Jun 2024 08:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.172.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718065109; cv=none; b=PDkL6gYph2la4IG/gM+N8T/qjdRTxVU4f/JeMEI9YmbDwe3h3gYMW4ROZ81QrG07L+/djsszCU8zq8oTdXVrN6R/Pc6BqpyaTlefM8wTOK906FsaiCJe+EsPHTRA//06kAysd1Lisf/jsR8GfsY7zXRlzp+opAtGdmWY4er3Od4=
+	t=1718096002; cv=none; b=Xt1ahky/vAOaiIZwwgdvmJmkYbb1BFAXiWTPIv9fIht9sk/3+875JXUTT7M6WF314eFaDUpcmF6kgx4FY93+4vc7h7AyS8anLuwoVk8xZGzJRdflAgPnKHgg5n9PCCAMfDyclTXpM6NaUt6Zyco+kOOQ1m+rnUPdHAeH1+tb3EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718065109; c=relaxed/simple;
-	bh=nMrmdxH2krB9TNtdBkPh3f0n33LvkwFYa6vLckHWB6g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DoAHpU9xABVdG9/advCF80VZNUT153Yd17escALdZjdInaUmwq5jWgcvMAghU12evf5CRrX20OTRRgOuc6/3afiFxBtpVX9PvJEYwGTvrxqJBwuCT++wbT6JxBok8qDi0Ikndn5/3mmRXPBChOL63y04GtSvIeDE1aouAJs/AxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFY/djF6; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c2c9199568so2749315a91.0;
-        Mon, 10 Jun 2024 17:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718065107; x=1718669907; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7fSYaAf9r3FBONbZVYpTG+GGCmR1/EAf+YALJ9whtTk=;
-        b=HFY/djF69zWZmKEPs877Gzh2aPa1g/nBLVr/dXPKsN6jRUnHB3LMTBF0h5Iwodhr7c
-         PLWWVToS3lLJ/l1ZH2bu1q6gaTNABP6OPM08L6eZxu0Ki0fzIblKUJROT3GqsCoPuB10
-         iapKjEPgQpys3WpBXaVLO2FR43iZrT+OM8NHEtyv+gojQuzDfINYWsRx/m+BHqoZqgOw
-         SFHz80dxkzsocqddR5vWOTw7mV8THru2Lc9uufEUU8H0LYfksnjqi545VF56qlgrAgAQ
-         MIRypYYFtwzjp3eSDQp+X8fb0p/mUzVx0PTi5yAHRbcl2yY3TWxtJaDQDafBqtPF7YNa
-         yJLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718065107; x=1718669907;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7fSYaAf9r3FBONbZVYpTG+GGCmR1/EAf+YALJ9whtTk=;
-        b=Fulhr+QXef75D3LBt6G16B3RnfVD0YIAM+kQGB1sUi8CFQBWtnrHQOeOQ0vjXV3PKV
-         LQI6e2sNPoHikquYp/CFA8zDIyZ0PcZFyTLBAPGAXslHWOXMASuiVSBfQdSvrdUjinlO
-         RVZRf8jT+4oT9UdJaQEZijtHqOSx45SOcYvKf5pJU9G1k3tPo82H3HIC3c5ldblmc0d0
-         Fig7VJUeHwWh6uehe2wnEshWjNEsjrdgPTRVxvv4vwn7WQXuEcHBYVMb1o2axJxavg3k
-         K2mJyQFaqEDwRyf+ihJFKk2rA1EDBd71LgQAmFIH3GAj5A5fkWugEXvj6vpG8YB0e6A8
-         lVHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUIJGwP6XpbE4R66n99N/MsenQ5Y+hnqZ1ZFtEn15wDuDT6vkjC2x/Xz5qheE2PbI7a442/8gWfaiq07UnuAlzNclQLktaAEvfZ7gapAe0pZSwb9Hq9mCK3/ePadSiqji8QssRq9Lnuw==
-X-Gm-Message-State: AOJu0YxoFOQNByEFbKkbdl7e+gAQtxBWzIzFvTGyxRRE66UvduXZkJBE
-	cqRp1RLknHogbN/7iAiS38BEOHRF9fUGCkGHtfh46PdAs5ygJXBT
-X-Google-Smtp-Source: AGHT+IFrBqNcje/3jAquFBaQ9JR15hWOcJpeEYREpF3zM173bx+0pTRw68iouNl4w0H0l0uNQC3leg==
-X-Received: by 2002:a17:90a:688d:b0:2c3:725:a376 with SMTP id 98e67ed59e1d1-2c30725a46emr3950743a91.11.1718065106725;
-        Mon, 10 Jun 2024 17:18:26 -0700 (PDT)
-Received: from mari.. ([2804:431:cfd3:42f5:c7f2:2bf:5df8:1d46])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c2e638edfesm5141526a91.26.2024.06.10.17.18.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 17:18:26 -0700 (PDT)
-From: Marilene A Garcia <marilene.agarcia@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Julia Lawall <julia.lawall@inria.fr>
-Cc: Marilene A Garcia <marilene.agarcia@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH linux-next] leds: tlc591xx: Replace of_node_put to __free
-Date: Mon, 10 Jun 2024 21:17:40 -0300
-Message-Id: <20240611001740.10490-1-marilene.agarcia@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1718096002; c=relaxed/simple;
+	bh=W3BHzlZ6gBSB7UmPWv3NX/0dDwzclZnZK9/Bh3qSoE8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QHQ1Kwyn5UBcn/BKgcg5YDUZTvm6AYaiznARboah6TQGyEVNjMijYwRG/b2UuiUcTDJU3d6n0TvV09E9/V/SSLKz8eQXF29UjjDMtuWbR0IWmrd7kjZAHpQzeFITMrF9X3SqbUsbR78t2RnKA4Q6Q38c+LWJ+uvOgrCSfM63/Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com; spf=pass smtp.mailfrom=monolithicpower.com; dkim=pass (2048-bit key) header.d=monolithicpower.com header.i=@monolithicpower.com header.b=S/e4JJWB; arc=none smtp.client-ip=205.220.172.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monolithicpower.com
+Received: from pps.filterd (m0207525.ppops.net [127.0.0.1])
+	by mx0a-002bf204.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45B6Zrdk002210;
+	Tue, 11 Jun 2024 01:34:31 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	monolithicpower.com; h=cc:content-transfer-encoding:content-type
+	:date:from:message-id:mime-version:subject:to; s=pps1; bh=bpFueT
+	IZ2r0KqeKAGmGnZxhpFCdSSLVE7SrrqSSaKYA=; b=S/e4JJWB9DshMzNhCaNhT1
+	AdZhzXBPrBKyD3IdDu8u0dFl2VYySkmLhi2G9kEfIx0Z+Xb5Q6g1A7sG580x8iqO
+	93rBEvfqXSd5yESrTDYxpr4+jBlOW3o22PJGoTiBR+zKRXZrTpupzNMXp+4x4ADZ
+	tBT/KhRhGIdVAJPoDf7rW0iHp0m1pzQ+vf7OuMWq6FgVj4Lo7LQ4UMmLAXWfyE04
+	65VgcDbLuAUMEdnEFM6RZbtn0QB24iKsuf6CQZs4vQFyaC4DJW3RFO3AEYmzq2zC
+	HKgDGBv4E3bK3zPJ3TGH8ah+i/8NK1bqTdTT0oaIrFpA5HXmUjTzSjmdxFxs9u5A
+	==
+Received: from webmail.monolithicpower.com (mps-vpn.monolithicpower.com [12.33.0.20] (may be forged))
+	by mx0a-002bf204.pphosted.com (PPS) with ESMTPS id 3ymm00mx39-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 11 Jun 2024 01:34:17 -0700 (PDT)
+Received: from CD-MSH04.monolithicpower.com (10.10.70.213) by
+ MPS-MSH04.monolithicpower.com (10.10.10.206) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 11 Jun 2024 01:32:59 -0700
+Received: from smtp.gmail.com (10.10.86.102) by CD-MSH04.monolithicpower.com
+ (10.10.70.213) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 11 Jun
+ 2024 16:32:57 +0800
+From: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+To: <Yuxi.Wang@monolithicpower.com>, <pavel@ucw.cz>, <lee@kernel.org>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <wyx137120466@gmail.com>
+CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH V2 0/2] leds: Add a driver for MP3326
+Date: Tue, 11 Jun 2024 16:32:33 +0800
+Message-ID: <20240611083236.1609-1-Yuxi.Wang@monolithicpower.com>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -85,85 +72,41 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CD-MSLBN02.monolithicpower.com (192.168.86.32) To
+ CD-MSH04.monolithicpower.com (10.10.70.213)
+X-Proofpoint-ORIG-GUID: TROeet2erSYo9aZOB4Xn2vns07dkxTId
+X-Proofpoint-GUID: TROeet2erSYo9aZOB4Xn2vns07dkxTId
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-11_04,2024-06-11_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 phishscore=0 mlxlogscore=685
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406110064
 
-Use __free() for device_node values, and thus drop calls to
-of_node_put().
+Add the binding description and the corresponding driver for
+the MPS MP3326.
 
-The variable attribute __free() adds a scope based cleanup to
-the device node. The goal is to reduce memory management issues
-in the kernel code.
+Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
 
-The for_each_available_child_of_node() was replaced to the equivalent 
-for_each_available_child_of_node_scoped() which uses the __free().
+Changes in V2:
+  - Fix patch format error
 
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Marilene A Garcia <marilene.agarcia@gmail.com>
----
-Hello,
-These are the changes related to adding the new __free cleanup 
-in the tlc591xx led driver.
+Yuxi Wang (2):
+  dt-bindings: leds: add mps mp3326 LED
+  leds: add mp3326 driver
 
-Thank you.
+ .../devicetree/bindings/leds/mps,mp3326.yaml  | 146 ++++
+ drivers/leds/Kconfig                          |   9 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-mp3326.c                    | 697 ++++++++++++++++++
+ 4 files changed, 853 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/mps,mp3326.yaml
+ create mode 100644 drivers/leds/leds-mp3326.c
 
- drivers/leds/leds-tlc591xx.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 945e831ef4ac..6605e08a042a 100644
---- a/drivers/leds/leds-tlc591xx.c
-+++ b/drivers/leds/leds-tlc591xx.c
-@@ -146,7 +146,7 @@ MODULE_DEVICE_TABLE(of, of_tlc591xx_leds_match);
- static int
- tlc591xx_probe(struct i2c_client *client)
- {
--	struct device_node *np, *child;
-+	struct device_node *np;
- 	struct device *dev = &client->dev;
- 	const struct tlc591xx *tlc591xx;
- 	struct tlc591xx_priv *priv;
-@@ -182,22 +182,20 @@ tlc591xx_probe(struct i2c_client *client)
- 	if (err < 0)
- 		return err;
- 
--	for_each_available_child_of_node(np, child) {
-+	for_each_available_child_of_node_scoped(np, child) {
- 		struct tlc591xx_led *led;
- 		struct led_init_data init_data = {};
- 
- 		init_data.fwnode = of_fwnode_handle(child);
- 
- 		err = of_property_read_u32(child, "reg", &reg);
--		if (err) {
--			of_node_put(child);
-+		if (err)
- 			return err;
--		}
-+
- 		if (reg < 0 || reg >= tlc591xx->max_leds ||
--		    priv->leds[reg].active) {
--			of_node_put(child);
-+		    priv->leds[reg].active)
- 			return -EINVAL;
--		}
-+
- 		led = &priv->leds[reg];
- 
- 		led->active = true;
-@@ -207,12 +205,10 @@ tlc591xx_probe(struct i2c_client *client)
- 		led->ldev.max_brightness = TLC591XX_MAX_BRIGHTNESS;
- 		err = devm_led_classdev_register_ext(dev, &led->ldev,
- 						     &init_data);
--		if (err < 0) {
--			of_node_put(child);
-+		if (err < 0)
- 			return dev_err_probe(dev, err,
- 					     "couldn't register LED %s\n",
- 					     led->ldev.name);
--		}
- 	}
- 	return 0;
- }
 -- 
-2.34.1
+2.39.2
 
 
