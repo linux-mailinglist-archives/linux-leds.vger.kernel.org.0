@@ -1,74 +1,74 @@
-Return-Path: <linux-leds+bounces-1880-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1881-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88EE904B61
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2024 08:12:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3E3904B6C
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2024 08:14:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E2BE284DDC
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2024 06:12:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7751E28506F
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2024 06:14:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD5513CAA4;
-	Wed, 12 Jun 2024 06:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3FDA13CFB6;
+	Wed, 12 Jun 2024 06:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CoGld2Vr"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h/e2MtQW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11AA208A4
-	for <linux-leds@vger.kernel.org>; Wed, 12 Jun 2024 06:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F16155340
+	for <linux-leds@vger.kernel.org>; Wed, 12 Jun 2024 06:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718172771; cv=none; b=SDzyypfzkop3vWfAhTGoT4L529y45ANB84zhLPhKmgPZNvlg3yS9fhz5TJ74l84rJhpGAKB9ycUbF6YGFfR27ESS5TK7nAtihlETrzgP/+FmqZWBLeEcUoxcUx9wxI2Rb6BRzziIsRAS7+EQCqvQ1jtl2LCniF8tOxDcCtNd7yI=
+	t=1718172787; cv=none; b=Ih8qHRYt9ojv6tyMVOd/yMaBPz++JyOx1HZlHwX1iUbq7TGnJR5ZllH/ePPAmmiOukFicO+NTrtI4UcX179kQJk40FQYPrDBZFnwo5xACUtxxJGJlGecsQBFyMCmC174IrYDOzMyx/JLk4HvLhvR0DI719NFizqAMQuMaCzYBe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718172771; c=relaxed/simple;
-	bh=bMHNn5K5SdcsmFeGjk+EH0zYqXn/MYJ+ePkN09KC/PI=;
+	s=arc-20240116; t=1718172787; c=relaxed/simple;
+	bh=eSLvOmalzdcJlCBTYgSLmcvJpyhgU8wN7sUtelwJmB0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IxH7SIJLSzLg0KRD88M3hQV2RFSLseyZSavny9TMey0AsjetVM2EbMGO7hmjGriBLz0PL4AenfZi5l8680utBScICkZitquN25YAnXNnivMCqmHa2b/XpTC+hhWi7QwlA9/jQcAVsFdrzrWm+a31ekhWGBsleCy4OIDuaaZkbDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CoGld2Vr; arc=none smtp.client-ip=209.85.208.47
+	 In-Reply-To:Content-Type; b=KdLXgs1eRdwERHKi7t/ULfyVSYk4wkr6/+sCzzdWOC3MEXH7ZvzO1oa87eiVY8VulUgXJWzwI7HW3/4KWq+8SyPOTXzGQJJvX21nHUfYQI5WGqHe9oh3Bg5IOFLLd+7r4mbrjJgOy0bpG+7EqA5B1DRQiRVXTZOJia8mHIpC5+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h/e2MtQW; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57c68c3f8adso2330849a12.1
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jun 2024 23:12:49 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a68b41ef3f6so729318066b.1
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jun 2024 23:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718172768; x=1718777568; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=g5h7rK0sr+2BxDz/k9zC8M7ipcnnpqL/bNRXKRcGg18=;
-        b=CoGld2VrgUUzAEX4FisL2Ee2H1ekfSLcYRELx3FhQjRi0ZEVTAgDKns1CetdNhffQd
-         pzs6t++8a65/d0RrFLLjpm2EKWNzqKczGPDek+zSmyzC0Ulx39G0B2SwGtp+OyzRn7jl
-         MSuKrX8H7sYfLHQTi/9XFHskPYDnD5mKv115+ULTV+epvgfuNKGURrLGaa2k0JHCzyI6
-         j2VuSPZjcuwVWlu5m/F5LtVtC2H64Wvd+XcM8oXZ/gFsyG1hSG9OLLWHL6PKm10dVAku
-         rCSu4GDMqXifn4hlLmrlkGU6ZmM5xilqgE693HGAlRYCSyAI7j2FoojLy9fUaCAKHAlD
-         5UkQ==
+        d=linaro.org; s=google; t=1718172784; x=1718777584; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=H+0nSB8ZtcBhQ3V/YzOcmbm9Frlqarxiqy6OjKZhljQ=;
+        b=h/e2MtQWB9W814xMflzTB/gL3AcBYWTEOdYg0Jf+3gNuNLjzQBD9QwpnppiL75+M+j
+         XeNDAagqxHkQDwfI17rt+eCS0lev/1b+JKEc3YNY5unh+E7F2bwOcaQn/cfOTdeVlbW6
+         OMweAquf6FafiEshyVItZYfUmVMH37MoYeCQYxXYB7SaxnTJWlRPSK0MkTsmVDT2Vx3G
+         whoarU30hRfTyKiuaK6QJJyw5RRI3+XnIqy4UbbglsAmFN4r0szovpOaDDXRxK0PwmA7
+         FTB53Yt/cxC807hCAXwfwhNlEo/2D9TcV+QGsHtxC6YipfRiKV0wiml4gwIdLafDdhRj
+         Qu6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718172768; x=1718777568;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g5h7rK0sr+2BxDz/k9zC8M7ipcnnpqL/bNRXKRcGg18=;
-        b=IuwTFQ/RdsF/UTTSfyKorQ/jCGXN39SWtj+8HqWr1VCENqEIVutyZYoMJjwBWr0/KR
-         QQbLbA2Q7Aslz0tNnrfs3JdAk/GcSQHW6Xmg32EY4/ME//QFXqgiHC40LbMQYhDrQO52
-         Bf8mYVzppxVwVoyoW+f+dnxTFqA46XvslXa1YaJ1IRI3GnXJwIlL9m4DOawAFAye3a2m
-         87z/dfi96kiA+bgjh5W/ChBCosOYC0UswEGQ8hIBKs/0DH/XZ5Yk5uJUZvzXauSzECBO
-         eTAK82His5yBiY0Bh0dbY+ZqLHtHKH2+LgO2cx0vs9gdMOSorOhjkIvMYznv5E0NVWpi
-         uP3w==
-X-Gm-Message-State: AOJu0YysoaOZzqArB4p64x1PUt4wAK+ARWFINLhCcrrIEjg8/ybaGkKk
-	dJ5ICevMw7fC36OGnW3gINSKpislzK5hY9BG+WRX7sNVPa2pGwOSVnywkglqOaQ=
-X-Google-Smtp-Source: AGHT+IHN7OLZJUykbo/Z/aU26XIBCzrO1SYvoeEqCSDfm2b0Ciy65f+R7CfT6NO0SIhfkE7duxBVzA==
-X-Received: by 2002:a50:d494:0:b0:57c:ad11:e759 with SMTP id 4fb4d7f45d1cf-57cad11f283mr293326a12.28.1718172767944;
-        Tue, 11 Jun 2024 23:12:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718172784; x=1718777584;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H+0nSB8ZtcBhQ3V/YzOcmbm9Frlqarxiqy6OjKZhljQ=;
+        b=lt/BGHgvjLzyipbrP6qeMn8IFMDUoqrvoty+KsBhBu7WdtmPVDjVyQ/p8ealz8kl6E
+         Fb+prFkKvRT7rKoWKGQZDepJ/eL82/NB+O5e7l9ODEb59EUCfxWi0LlBCeKBkbAujOSS
+         rKtK+xoGmQpPoVp/8Xwsc9Y2/F0Cp04EgFfDO7BCKfBq8gj5b6VlL5WjVjDQzl5/s3um
+         IRSVy/JBC4RpNQ6+pk3ILwVQ/Rb2ri5bNngmw68yQIRJwDeU5SRo3XxjB7SToWO57P/o
+         kKfCe89WYs5zODQpyeot5BTBYhfXd7u9n0QZdNkNAREOgeue+z02nJ49NzRjh45PnyKy
+         H/6A==
+X-Gm-Message-State: AOJu0YzzLbT2BekiXp8AeJCV+HzWTypbVAPAop1pHa97PuYW1Aa5DzMY
+	pU+QylvYmvd2BDGwPP9y6ytKKLIYAewFSR6B8QHnbgNe6jBVXZmfT7+gtBeIICY=
+X-Google-Smtp-Source: AGHT+IGLmBCp9E+RgQKpYewKejbd5sntmqSWXLiE4LchETy2v6Ls6ZOIR6j/wWm4RHGRwX4C0RtyAQ==
+X-Received: by 2002:a17:906:b2d5:b0:a6f:27e2:812c with SMTP id a640c23a62f3a-a6f47d524abmr40862266b.22.1718172784413;
+        Tue, 11 Jun 2024 23:13:04 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c55d8aca8sm8664613a12.97.2024.06.11.23.12.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f000a11c0sm546716966b.66.2024.06.11.23.13.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 23:12:47 -0700 (PDT)
-Message-ID: <c99d8df2-84ce-4b26-941e-b8a1413b8156@linaro.org>
-Date: Wed, 12 Jun 2024 08:12:44 +0200
+        Tue, 11 Jun 2024 23:13:03 -0700 (PDT)
+Message-ID: <e7052800-d787-4b7f-a3f6-fc85359ab763@linaro.org>
+Date: Wed, 12 Jun 2024 08:13:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -76,7 +76,7 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 2/2] leds: add mp3326 driver
+Subject: Re: [PATCH V2 0/2] leds: Add a driver for MP3326
 To: "Yuxi (Yuxi) Wang" <Yuxi.Wang@monolithicpower.com>,
  "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
  "robh+dt@kernel.org" <robh+dt@kernel.org>,
@@ -87,11 +87,10 @@ Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <20240611083236.1609-1-Yuxi.Wang@monolithicpower.com>
- <20240611083236.1609-3-Yuxi.Wang@monolithicpower.com>
- <c510fd3f-a55a-4ac9-bbc1-d2392027724c@linaro.org>
- <SN4PR13MB53103D139D9F816E5F4930EAF6C02@SN4PR13MB5310.namprd13.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <170c14c9-e1c7-4252-a550-4f9a8cef3a27@linaro.org>
+ <SN4PR13MB53105EE4DEB0E5EE42160627F6C02@SN4PR13MB5310.namprd13.prod.outlook.com>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -136,118 +135,37 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <SN4PR13MB53103D139D9F816E5F4930EAF6C02@SN4PR13MB5310.namprd13.prod.outlook.com>
+In-Reply-To: <SN4PR13MB53105EE4DEB0E5EE42160627F6C02@SN4PR13MB5310.namprd13.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/06/2024 04:23, Yuxi (Yuxi) Wang wrote:
->>
->>> +/*
->>> + * PWM in the range of [0 255]
->>> + */
->>> +static int led_pwm_store(struct device *dev, struct device_attribute *attr,
->>> +			     const char *buf, size_t count)
->>
->> Nope.
-> Hi Krzysztof,
+On 12/06/2024 04:26, Yuxi (Yuxi) Wang wrote:
 > 
-> What do you mean this Nope?
-> Is it  format or function?
-
-As sorry, you are reimplementing kernel interfaces, so that's a no.
-> 
+>> On 11/06/2024 10:32, Yuxi Wang wrote:
+>>> Add the binding description and the corresponding driver for
+>>> the MPS MP3326.
+>>>
+>>> Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+>>>
+>>> Changes in V2:
+>>>   - Fix patch format error
 >>
->> ...
+>> Only this? So all other feedback - like 10 comments - were ignored?
 >>
->>> +	}
->>> +	r_val = r_val * 255 / 4095 + (r_val * 255 % 4095) / (4095 / 2);
->>> +	g_val = g_val * 255 / 4095 + (g_val * 255 % 4095) / (4095 / 2);
->>> +	b_val = b_val * 255 / 4095 + (b_val * 255 % 4095) / (4095 / 2);
->>> +	if (led->num_colors == 1)
->>> +		return sysfs_emit(buf, "0x%x\n", r_val);
->>> +	else
->>> +		return sysfs_emit(buf, "0x%x 0x%x 0x%x\n", r_val, g_val, b_val);
->>> +}
->>> +
->>> +static int led_enable_store(struct device *dev,
->>> +				struct device_attribute *attr, const char *buf,
->>> +				size_t count)
+>> Sorry, please go to previous discussion and implement entire feedback.
+>> Then document in changelog what did you do.
 >>
->> Eeeee? store to enable LED? Really?
-> Yes. The users need this function and we provide it.
-
-NAK, I don't care about your users. You re-implemented existing ABI.
-Without any ABI docs that's just pure duplication.
-
-> 
-> 
->>
->> ...
->>
->>> +{
->>> +	struct led_classdev *lcdev = dev_get_drvdata(dev);
->>> +	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
->>> +	struct mp3326 *chip = led->private_data;
->>> +	int ret;
->>> +	uint val, i;
->>
->>
->>> +
->>> +static DEVICE_ATTR_RW(led_pwm);
->>> +static DEVICE_ATTR_RW(led_enable);
->>> +static DEVICE_ATTR_RO(led_short_fault);
->>> +static DEVICE_ATTR_RO(led_open_fault);
->>
->> No, for multiple reasons:
->> 1. Where ABI documentation?
->> 2. There is a standard sysfs interface. No need for most of that. Please
->> explain why standard interface does not fit your needs - for each new
->> interface.
+>> Best regards,
+>> Krzysztof
 > Hi krzysztof,
 > 
-> 1. Where ABI documentation?
-> A: 
-> Sorry, the abi is insufficient.
+> I think previous discussions can be summarized by this log.
 
-Which one is insufficient?
+No, it cannot. It tells me nothing.
 
 > 
-> Can I add it as comment above the function?
-> 
-> 2. There is a standard sysfs interface. No need for most of that. Please
-> explain why standard interface does not fit your needs - for each new
->  interface.
-> A:
-> Leds has two ways to light dim. One is analog dimming, another pwm dimming.
-> They are different in practice. 
-> 
-> In RGB module, pwm dimming can control color and analog dimming can control intensity.
-> 
-> Mp3326 supports the two ways which can operate contemporary.
-> 
-> In practice, I have needs below.
-> 1. Operate rgb color and intensity.
-> 2. enable/disable some channel
-> 3. short/open fault notice.
-> 
-> However, The standard interface only has three functions below, they are not fit my needs.
-> 1. multi_index
-> 2. multi_intensity(only can dim using one way, so I use it as analog dimming)
-> 3. led_mc_calc_color
-> 
+> Ok,  I will write all my changes in the next version.
 
-Please point to which ABI is not sufficient.
-
-> 
-> In order to fit my needs, I add the interface below.
-> led_pwm       
-> led_enable
-
-Because especially this one sounds like you are mocking us.
-
-> led_short_fault
-> led_open_fault
-> 
 
 
 Best regards,
