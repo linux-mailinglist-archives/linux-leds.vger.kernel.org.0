@@ -1,124 +1,129 @@
-Return-Path: <linux-leds+bounces-1899-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1900-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7738D907590
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:47:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 092AE90759E
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:49:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6294D1C23CA2
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:47:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1ACB31C23C56
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:49:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B6C7E76D;
-	Thu, 13 Jun 2024 14:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A3591411D6;
+	Thu, 13 Jun 2024 14:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2lu45o+"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="V6ueiE8Z"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD7512C528;
-	Thu, 13 Jun 2024 14:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB50139CFE;
+	Thu, 13 Jun 2024 14:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718290027; cv=none; b=a//e2RUNG4dbT45MUbI1tUNy5aWeNtktebvXTCafVFZrP+a2XVQoM5RILDyWGpjvQVnQBrFrJUaWdMQJzt8NP3lnTd1sfC0eCZZ99ZmV0jfEh+pp6noKjyW4kpWPvJGRSr9IBCFEHDmzg6LV5mi/Yg5AwpRlIi87tAklOojekho=
+	t=1718290130; cv=none; b=gozpOzTbGHz3u/elN1zJ61tX8CdubzFfEa1d8LeN6M2fxMeS8D9akP8a1ACQAjYAnIL/rW1IC8Ud59lv3wJ68rwaJeQibQsh/D8ha/j+dnIlIrSRXnjTJDXhTcuwPGSPxh5CI+rEJVOTCZrfuyKUCCOZ42L3WfyCZEamU1SKRis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718290027; c=relaxed/simple;
-	bh=jK2gdUjoj+cRxhdeg1jZhUoCifthBXqPUWejNjj10lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVX8M0CPxldZ92nGgA4AchC9sD7rinW5LhVk+MdPL6uWVdh9DMi1MwpX39bklSYeJuCtXGWIB4+IM4RYL4zwnucZUZ/jUU7kqSxAmGxJyl3Yirb2z/ft26DL28dqRrNZ4OujQC9wnEJmP1ucayrmCWH4PB9+BEDNF3KIhAdkcFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2lu45o+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AC4C2BBFC;
-	Thu, 13 Jun 2024 14:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718290027;
-	bh=jK2gdUjoj+cRxhdeg1jZhUoCifthBXqPUWejNjj10lo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d2lu45o+Ydw/jwlGxUhNdagLzTCqMGvgZd941PPMvvteZ/RajSIUxk7FJmLFDObr3
-	 qbZ9QyJtSMHJPIchfTnzuXBhgtArPmUK0cQJMJt4RdTNVDAktbNW7PmL0zUzmTVeoT
-	 oe8A9WQgjwavflaTb0RXNfK+1/qYAJMx6DSd4zBED+fHvqdgExsQBTVX9Pgy38ynNm
-	 FaADpUWVNR6cChGRf/XQSjgZc0sQeX2xw/jcxl2+v8ITNjVOmiAZ+vGzbIJs57TJRc
-	 gcJsOFiIbKHmpORDouMn93VI1TFlDO6et+ruxgKor2SEpgY4h/0LLT74SNUiO+65oG
-	 X7yCt2z4yfymg==
-Date: Thu, 13 Jun 2024 15:47:03 +0100
-From: Lee Jones <lee@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-leds@vger.kernel.org, Abdel Alkuor <alkuor@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] leds: ncp5623: Use common error handling code in
- ncp5623_probe()
-Message-ID: <20240613144703.GH2561462@google.com>
-References: <5faec5de-fc36-4b38-abcb-c61954a824cd@web.de>
+	s=arc-20240116; t=1718290130; c=relaxed/simple;
+	bh=vj3/g8xi/rqsVBNNGGFadxLIBohU3ZNx5pprWK/Fs70=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mYiTykbJhn+ZiG7oHoBAQpRpATW87EINqi+tb/a1ncr6u4FCSUK+0/7oWBCyBqDAO7ElztOjtvRl4+VhE5QtCVYGoHLpzzs9/cTpajnemE/RhjUvFrahuVq0YcAYqF/pXLKv021SeVcI0WZgIlhzu6p0yythd+P2FyU0u3OQQNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=V6ueiE8Z; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1718290120;
+	bh=vj3/g8xi/rqsVBNNGGFadxLIBohU3ZNx5pprWK/Fs70=;
+	h=From:Subject:Date:To:Cc:From;
+	b=V6ueiE8ZnYjEcsZDV//CL73SC7OXpdUlk+xQ2PVw6lC7dvp5jt7po+hOPdYSOTCpQ
+	 lP+4qsahJtPDNG4aQzXXnkZJCCYgYT4ashJgFHcqKXiZzvgpytmgzSm3Tz32gKzOQb
+	 DRmRVZ/M8sWXwnqDbnq4sO5ydynTOzuH7UzXPhYg=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v3 0/5] ChromeOS Embedded Controller LED driver
+Date: Thu, 13 Jun 2024 16:48:35 +0200
+Message-Id: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5faec5de-fc36-4b38-abcb-c61954a824cd@web.de>
+X-B4-Tracking: v=1; b=H4sIAMMGa2YC/2XN3QqCQBCG4VuRPW5j/xTtqPuICBvHdiBUdmwrx
+ HtvlQ6SDt8P5plJMAZCFodsEgEjMfVdCrvLBPi6u6GkJrUwyjiV60pC6PmCIO/YSIttbRzaqtI
+ o0sUQsKXXqp3OqT3x2If3ike9rF/HqI0TtVTSqaJsIYf0pT4+kZgZ/MPvOxzFgkXzA1i9BUwCC
+ gDrnCqvTjV/wDzPHz+ZYx/sAAAA
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718290119; l=2145;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=vj3/g8xi/rqsVBNNGGFadxLIBohU3ZNx5pprWK/Fs70=;
+ b=JZaCj+2EKSUjqtG09d0GNhSypb4H14/noMrvE7EiLXUeUzYjRkV4dGQ5xp5WfM8fZqtLsK8mS
+ RgosXfYio7cCz+JgiSZJk53itTMlWgOf47EH+kN/zrzMbomRIBInS5k
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Wed, 05 Jun 2024, Markus Elfring wrote:
+Add a LED driver that supports the LED devices exposed by the
+ChromeOS Embedded Controller.
 
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Wed, 5 Jun 2024 16:19:26 +0200
-> 
-> Add a label so that a bit of exception handling can be better reused
-> at the end of this function implementation.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
->  drivers/leds/rgb/leds-ncp5623.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> index 2be4ff918516..f18156683375 100644
-> --- a/drivers/leds/rgb/leds-ncp5623.c
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -183,16 +183,12 @@ static int ncp5623_probe(struct i2c_client *client)
-> 
->  	fwnode_for_each_available_child_node(mc_node, led_node) {
->  		ret = fwnode_property_read_u32(led_node, "color", &color_index);
-> -		if (ret) {
-> -			fwnode_handle_put(led_node);
-> -			goto release_mc_node;
-> -		}
-> +		if (ret)
-> +			goto release_led_node;
-> 
->  		ret = fwnode_property_read_u32(led_node, "reg", &reg);
-> -		if (ret) {
-> -			fwnode_handle_put(led_node);
-> -			goto release_mc_node;
-> -		}
-> +		if (ret)
-> +			goto release_led_node;
-> 
->  		subled_info[ncp->mc_dev.num_colors].channel = reg;
->  		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
-> @@ -223,6 +219,10 @@ static int ncp5623_probe(struct i2c_client *client)
->  	fwnode_handle_put(mc_node);
-> 
->  	return ret;
-> +
-> +release_led_node:
-> +	fwnode_handle_put(led_node);
-> +	goto release_mc_node;
+Patch 1-3 add a utility function to the led subsystem.
+Patch 4 introduces the actual driver.
+Patch 5 registers the driver through the cros_ec mfd devices.
 
-No, we're not bouncing around the function like that.
+Currently the driver introduces some non-standard LED functions.
+(See "cros_ec_led_functions")
 
-Only use gotos to skip _down_ to error handling code please.
+Tested on a Framework 13 AMD, Firmware 3.05.
 
->  }
-> 
->  static void ncp5623_remove(struct i2c_client *client)
-> --
-> 2.45.1
-> 
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v3:
+- Set default_trigger explicitly as the LED core doesn't do this anymore
+- Only set intensity for first subled by default
+- Link to v2: https://lore.kernel.org/r/20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net
 
+Changes in v2:
+- Cosmetic cleanups (Tzung-Bi)
+- Add trailing comma to MFD cell array
+- Rename LEDs and trigger to "chromeos" prefix, to align with kbd
+  backlight driver
+- Don't use type "rgb" anymore, they are only "multicolor"
+- Align commit messages and subject to subsystem standards (Lee)
+- Rename led_color_name() to led_get_color_name()
+- The same for cros_ec_led_color_name()
+- Link to v1: https://lore.kernel.org/r/20240520-cros_ec-led-v1-0-4068fc5c051a@weissschuh.net
+
+---
+Thomas Weißschuh (5):
+      leds: core: Introduce led_get_color_name() function
+      leds: multicolor: Use led_get_color_name() function
+      leds: core: Unexport led_colors[] array
+      leds: Add ChromeOS EC driver
+      mfd: cros_ec: Register LED subdevice
+
+ MAINTAINERS                         |   5 +
+ drivers/leds/Kconfig                |  15 ++
+ drivers/leds/Makefile               |   1 +
+ drivers/leds/led-class-multicolor.c |   2 +-
+ drivers/leds/led-core.c             |  12 +-
+ drivers/leds/leds-cros_ec.c         | 299 ++++++++++++++++++++++++++++++++++++
+ drivers/leds/leds.h                 |   1 -
+ drivers/mfd/cros_ec_dev.c           |   9 ++
+ include/linux/leds.h                |  10 ++
+ 9 files changed, 350 insertions(+), 4 deletions(-)
+---
+base-commit: 2ccbdf43d5e758f8493a95252073cf9078a5fea5
+change-id: 20240519-cros_ec-led-3efa24e3991e
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
+Thomas Weißschuh <linux@weissschuh.net>
+
 
