@@ -1,108 +1,132 @@
-Return-Path: <linux-leds+bounces-1894-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1895-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7CF907468
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 15:53:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC0F907480
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:02:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83A131C24876
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 13:53:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9CAF28165B
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:02:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7117722092;
-	Thu, 13 Jun 2024 13:53:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6338273FC;
+	Thu, 13 Jun 2024 14:02:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="Q8NwPbyB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkXvFmC+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0741448DD
-	for <linux-leds@vger.kernel.org>; Thu, 13 Jun 2024 13:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FE4C8C7
+	for <linux-leds@vger.kernel.org>; Thu, 13 Jun 2024 14:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718286833; cv=none; b=he00NSiIYlsV1/YBftdKVUk/eO2WD3s2OXPHorr28CzkkJhcZeidAE6wQjCFGBAw/l8BHmVJWEgPPNw+r3eHQYVzRfxPupbUbfg961XXFpFKksWye4x87IGn0j9RMnK1eCGTF8LeNdB/Dez1DbSv/mwzZ4gt769wBMGWVJA/+Eg=
+	t=1718287323; cv=none; b=C775+u4VuKPLggzf1tep0eX/hRf+GecfvyOruuODEQPjMKzMA/y5Gs6MaT3XI2q4URkeFAcwZ8Uqg/tjB+N3IT+S+Bt0Jy/GOc7hBRbxxWqu8F+w4WrkQiqXhfJkUt33jYa86ftgZ98CI+HeDoVbj9EEDL8bQ3YxBzd8dFe26ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718286833; c=relaxed/simple;
-	bh=L0MCTgUDAIzpKQqDRTFw+JeC+PiijJMhtazs05XMgFw=;
+	s=arc-20240116; t=1718287323; c=relaxed/simple;
+	bh=4kWri0Hbcwh5byTTiW1BMVCPQOSUZ1vJUenp+9AeVJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M6+3bQuf5/0WgRkn8EhMS2z2EJzkvu1sjUEXoeYcvkeloDz+rE4Mx5XYQRQlv66ZjlswgT7vX5aDnUOs0SQrYMfwh/aTdXLypX2rFq+q+j/Odmo8fg6ik8l/3gwWljC5WaXmQW6YLdbtyFDKITtz3ieyETdjpaM3qNq5KpE1vak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=Q8NwPbyB; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id C3BFF1C009C; Thu, 13 Jun 2024 15:53:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1718286828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QniCRfRtnYLs7YiTiysw5MWjqf6aDhy/9YpW05z3r2c=;
-	b=Q8NwPbyBEZaBoUH88KXpa2lg9RGrRu9e9Q0w47DyGJH7F/YaYBdyCXOr4BFcJAQSsRUn1S
-	VRjrv+mtMYA3leKuo9sbO36ygDgIdqOkZgP5y0Zwx2mz0aGjCqqHS015r78YZrPc5pWo4D
-	Ud5ceOOiEShPglTW+eMSwptY2FvqEY0=
-Date: Thu, 13 Jun 2024 15:53:48 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Lee Jones <lee@kernel.org>
-Cc: Joseph Strauss <jstrauss@mailbox.org>, jansimon.moeller@gmx.de,
-	conor@kernel.org, christophe.jaillet@wanadoo.fr,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v7] Add multicolor support to BlinkM LED driver
-Message-ID: <Zmr57Iyd9UHWUYy9@duo.ucw.cz>
-References: <20240506201905.789376-1-jstrauss@mailbox.org>
- <20240531103840.GC1005600@google.com>
- <20240531232031.u5mphuqrwin533rj@libretux>
- <20240613134933.GC2561462@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCRaUkAuOnkYEkhj9NmKZnpNHcYTXvbzuzZywMZ7Bg8eKpnwsubwzPXXuix4hc92H+nxFcO89H4fA5RVAugoohpmhZB6BR3W71P2CsG/d+lrk1fbyy1eHC4SjRPDvosCQVTYY5exJ61uYyOO+r2ZgQgFOtfY26ONrvZ9BqK5tuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkXvFmC+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C57AC2BBFC;
+	Thu, 13 Jun 2024 14:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718287323;
+	bh=4kWri0Hbcwh5byTTiW1BMVCPQOSUZ1vJUenp+9AeVJ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OkXvFmC+gDj3BhZS9nyDEjnDB0d4WqidKZ8cd702eOOfo0uML0qtOqu2MCHRAogKa
+	 ErouRjgcVoIzNsYMrir3EI8N/Iw7OKHMGxN3pgryjCqKWu3H1bjUCgWeBR3hO+D31P
+	 RUo0DPURZx//RWMiwOf2uwrCWWYOJyO6ziUpYrfWLLlE1fOzyuVttwV+wSvD0btKk1
+	 VcHv6n1XUQuXLqzzhcExp1pP+stRodK56ZqTcF7EKO/u/VunlV9091KZBWqOiZck6V
+	 KlU4aub0KMM/uK4tZhBWkx07YJlUrQh1aQTBLLt2DifK+RytM2UEpaofTNvUcuaebl
+	 ExsAdRNSvGchQ==
+Date: Thu, 13 Jun 2024 15:01:59 +0100
+From: Lee Jones <lee@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Subject: Re: [RFC 1/2] leds: trigger: input-events: Replace led_on with a
+ flags field
+Message-ID: <20240613140159.GD2561462@google.com>
+References: <20240601195528.48308-1-hdegoede@redhat.com>
+ <20240601195528.48308-2-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Cl1ui5TmjAwn4fK2"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240613134933.GC2561462@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240601195528.48308-2-hdegoede@redhat.com>
 
+On Sat, 01 Jun 2024, Hans de Goede wrote:
 
---Cl1ui5TmjAwn4fK2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Replace the led_on boolean with a flags field, using bit 0 for FL_LED_ON,
+> this is a preparation patch for adding further flags.
 
-Hi!
+I'm generally okay with the principle.
 
-> Pavel's for-next branch is 18 months old.
->=20
-> Use Linux -next.
->=20
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/leds/trigger/ledtrig-input-events.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-input-events.c b/drivers/leds/trigger/ledtrig-input-events.c
+> index 1de0176799f9..94d5580ea093 100644
+> --- a/drivers/leds/trigger/ledtrig-input-events.c
+> +++ b/drivers/leds/trigger/ledtrig-input-events.c
+> @@ -17,14 +17,16 @@
+>  
+>  #define DEFAULT_LED_OFF_DELAY_MS			5000
+>  
+> +/* To avoid repeatedly setting the brightness while there are events */
+> +#define FL_LED_ON					0
 
-LED SUBSYSTEM
-M:      Pavel Machek <pavel@ucw.cz>
-M:      Lee Jones <lee@kernel.org>
-L:      linux-leds@vger.kernel.org
-S:      Maintained
-T:      git git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.=
-git
+FL is non-obvious.
 
-I guess we should get the MAINTAINERS entry updated.
+FLAGS_LED_ON?
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+> +
+>  struct input_events_data {
+>  	struct input_handler handler;
+>  	struct delayed_work work;
+>  	spinlock_t lock;
+>  	struct led_classdev *led_cdev;
+>  	int led_cdev_saved_flags;
+> -	/* To avoid repeatedly setting the brightness while there are events */
+> -	bool led_on;
+> +	unsigned long flags;
+>  	unsigned long led_off_time;
+>  	unsigned long led_off_delay;
+>  };
+> @@ -42,7 +44,7 @@ static void led_input_events_work(struct work_struct *work)
+>  	 */
+>  	if (time_after_eq(jiffies, data->led_off_time)) {
+>  		led_set_brightness_nosleep(data->led_cdev, LED_OFF);
+> -		data->led_on = false;
+> +		clear_bit(FL_LED_ON, &data->flags);
+>  	}
+>  
+>  	spin_unlock_irq(&data->lock);
+> @@ -95,10 +97,9 @@ static void input_events_event(struct input_handle *handle, unsigned int type,
+>  
+>  	spin_lock_irqsave(&data->lock, flags);
+>  
+> -	if (!data->led_on) {
+> +	if (!test_and_set_bit(FL_LED_ON, &data->flags))
+>  		led_set_brightness_nosleep(led_cdev, led_cdev->blink_brightness);
+> -		data->led_on = true;
+> -	}
+> +
+>  	data->led_off_time = jiffies + led_off_delay;
+>  
+>  	spin_unlock_irqrestore(&data->lock, flags);
+> -- 
+> 2.45.1
+> 
 
---Cl1ui5TmjAwn4fK2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZmr57AAKCRAw5/Bqldv6
-8srbAJ9l4vEqYOVAALnanlT2sHB2YRZb9ACeNVip1HgbmwpeZkyXxUdo9Fq6wgg=
-=aOwy
------END PGP SIGNATURE-----
-
---Cl1ui5TmjAwn4fK2--
+-- 
+Lee Jones [李琼斯]
 
