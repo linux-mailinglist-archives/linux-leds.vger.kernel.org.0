@@ -1,60 +1,55 @@
-Return-Path: <linux-leds+bounces-1898-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1899-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BF390757C
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:42:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7738D907590
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:47:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CAE51F23910
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:42:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6294D1C23CA2
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:47:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA71F145FE5;
-	Thu, 13 Jun 2024 14:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B6C7E76D;
+	Thu, 13 Jun 2024 14:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6yADqQa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2lu45o+"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0B4145A02;
-	Thu, 13 Jun 2024 14:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD7512C528;
+	Thu, 13 Jun 2024 14:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718289702; cv=none; b=JMkEjKKonIvjP7WCtVFN5FviDxCCIH9WT/1LFr2MGnP8ZgRUZ73HNNCM1+6Pgk6pvHAy5foKqxJo8FDeu9OHtaFnRdWRlNoybeY1Ry/XwXJton4RGF1hzzODuDz9qDys7hacZnaKl4/NIp8Ah0OF7GZejyxQtuLa+M22gDAS7DE=
+	t=1718290027; cv=none; b=a//e2RUNG4dbT45MUbI1tUNy5aWeNtktebvXTCafVFZrP+a2XVQoM5RILDyWGpjvQVnQBrFrJUaWdMQJzt8NP3lnTd1sfC0eCZZ99ZmV0jfEh+pp6noKjyW4kpWPvJGRSr9IBCFEHDmzg6LV5mi/Yg5AwpRlIi87tAklOojekho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718289702; c=relaxed/simple;
-	bh=Y1nxcwMSb+zTs1BaeXHDgxqyBzVPA1iJTb7yBxsR4gw=;
+	s=arc-20240116; t=1718290027; c=relaxed/simple;
+	bh=jK2gdUjoj+cRxhdeg1jZhUoCifthBXqPUWejNjj10lo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e01pVjp+R/v17Z5wYlI+snFcB24l4qJclPelHH3t477KdUzVHexY4Zq6pQrW5KsblxDwZfh0ruKQExnAh1O9NkledCD6R4JI3jH7w0NoCQFJ66e9mZt+u8f/btbsD9WF5HqEHcjE6Ts72m9vJ6vU6zB+t8BJs4kUPByucnN2cj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6yADqQa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D208C2BBFC;
-	Thu, 13 Jun 2024 14:41:40 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=CVX8M0CPxldZ92nGgA4AchC9sD7rinW5LhVk+MdPL6uWVdh9DMi1MwpX39bklSYeJuCtXGWIB4+IM4RYL4zwnucZUZ/jUU7kqSxAmGxJyl3Yirb2z/ft26DL28dqRrNZ4OujQC9wnEJmP1ucayrmCWH4PB9+BEDNF3KIhAdkcFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2lu45o+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AC4C2BBFC;
+	Thu, 13 Jun 2024 14:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718289702;
-	bh=Y1nxcwMSb+zTs1BaeXHDgxqyBzVPA1iJTb7yBxsR4gw=;
+	s=k20201202; t=1718290027;
+	bh=jK2gdUjoj+cRxhdeg1jZhUoCifthBXqPUWejNjj10lo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N6yADqQa/bBRMUtbfHabAB0TtXRZRfVHI5RqyYkEDB3OzODghkwDfLsUXFXpkKnIJ
-	 GLu55tuDvw1qbkzaMxcpMBOnb5zr9Tq7YCYB1csGtyGQyNLJJG+bvK6X7Shqva2Tdo
-	 t4hfYXDWb2Z+IKIDC+tTSMsBV/ZVCeE04afmCxtBa39bOts6sOjG/5CPnsiVQSL1S1
-	 xJxIMEtf9sXkRvFkKmMiN2yfqD1ipHVQ+6Jd9BlZ/6dpUZDGvZZ/84INmS7fpMCU9L
-	 A7qkgE6N5OqeS8vzaiSJX3MDGJfpjLfkFOMgsNYVF54BJdfEY5UAxleSV7ROfqIJf8
-	 g+7kI28dnb0EA==
-Date: Thu, 13 Jun 2024 15:41:37 +0100
+	b=d2lu45o+Ydw/jwlGxUhNdagLzTCqMGvgZd941PPMvvteZ/RajSIUxk7FJmLFDObr3
+	 qbZ9QyJtSMHJPIchfTnzuXBhgtArPmUK0cQJMJt4RdTNVDAktbNW7PmL0zUzmTVeoT
+	 oe8A9WQgjwavflaTb0RXNfK+1/qYAJMx6DSd4zBED+fHvqdgExsQBTVX9Pgy38ynNm
+	 FaADpUWVNR6cChGRf/XQSjgZc0sQeX2xw/jcxl2+v8ITNjVOmiAZ+vGzbIJs57TJRc
+	 gcJsOFiIbKHmpORDouMn93VI1TFlDO6et+ruxgKor2SEpgY4h/0LLT74SNUiO+65oG
+	 X7yCt2z4yfymg==
+Date: Thu, 13 Jun 2024 15:47:03 +0100
 From: Lee Jones <lee@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Dustin Howett <dustin@howett.net>, Pavel Machek <pavel@ucw.cz>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
-Message-ID: <20240613144137.GG2561462@google.com>
-References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
- <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
- <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-leds@vger.kernel.org, Abdel Alkuor <alkuor@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] leds: ncp5623: Use common error handling code in
+ ncp5623_probe()
+Message-ID: <20240613144703.GH2561462@google.com>
+References: <5faec5de-fc36-4b38-abcb-c61954a824cd@web.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,32 +59,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
+In-Reply-To: <5faec5de-fc36-4b38-abcb-c61954a824cd@web.de>
 
-On Mon, 03 Jun 2024, Thomas Weißschuh wrote:
+On Wed, 05 Jun 2024, Markus Elfring wrote:
 
-> On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
-> > On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > >
-> > > Add a LED driver that supports the LED devices exposed by the
-> > > ChromeOS Embedded Controller.
-> > 
-> > I've tested this out on the Framework Laptop 13, 11th gen intel core
-> > and AMD Ryzen 7040 editions.
-> > 
-> > It works fairly well! I found a couple minor issues in day-to-day use:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Wed, 5 Jun 2024 16:19:26 +0200
 > 
-> Thanks!
+> Add a label so that a bit of exception handling can be better reused
+> at the end of this function implementation.
 > 
-> > - Restoring the trigger to chromeos-auto does not always put the EC
-> > back in control, e.g. the side lights no longer return to reporting
-> > charge status.
-> >   I believe this happens when you move from any trigger except "none"
-> > to chromeos-auto, without first setting "none".
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> ---
+>  drivers/leds/rgb/leds-ncp5623.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> Thanks for the report, I'll investigate that.
+> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
+> index 2be4ff918516..f18156683375 100644
+> --- a/drivers/leds/rgb/leds-ncp5623.c
+> +++ b/drivers/leds/rgb/leds-ncp5623.c
+> @@ -183,16 +183,12 @@ static int ncp5623_probe(struct i2c_client *client)
+> 
+>  	fwnode_for_each_available_child_node(mc_node, led_node) {
+>  		ret = fwnode_property_read_u32(led_node, "color", &color_index);
+> -		if (ret) {
+> -			fwnode_handle_put(led_node);
+> -			goto release_mc_node;
+> -		}
+> +		if (ret)
+> +			goto release_led_node;
+> 
+>  		ret = fwnode_property_read_u32(led_node, "reg", &reg);
+> -		if (ret) {
+> -			fwnode_handle_put(led_node);
+> -			goto release_mc_node;
+> -		}
+> +		if (ret)
+> +			goto release_led_node;
+> 
+>  		subled_info[ncp->mc_dev.num_colors].channel = reg;
+>  		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
+> @@ -223,6 +219,10 @@ static int ncp5623_probe(struct i2c_client *client)
+>  	fwnode_handle_put(mc_node);
+> 
+>  	return ret;
+> +
+> +release_led_node:
+> +	fwnode_handle_put(led_node);
+> +	goto release_mc_node;
 
-So am I reviewing this set or waiting for the next version?
+No, we're not bouncing around the function like that.
+
+Only use gotos to skip _down_ to error handling code please.
+
+>  }
+> 
+>  static void ncp5623_remove(struct i2c_client *client)
+> --
+> 2.45.1
+> 
 
 -- 
 Lee Jones [李琼斯]
