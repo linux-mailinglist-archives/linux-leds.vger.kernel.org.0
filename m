@@ -1,147 +1,114 @@
-Return-Path: <linux-leds+bounces-1889-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1890-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C00905D59
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2024 23:03:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972B09063B1
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 08:01:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 036AAB21E0D
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2024 21:03:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FADC1F22A50
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 06:01:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D4D01272A7;
-	Wed, 12 Jun 2024 21:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58CB41304B7;
+	Thu, 13 Jun 2024 06:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6KJOXj4"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="BhYfJ2RQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4312684FCC;
-	Wed, 12 Jun 2024 21:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3700437C;
+	Thu, 13 Jun 2024 06:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718226169; cv=none; b=ta+9Cbfm1pytyEfI2wrYhc0NJhqoHYDyCb4Qj/P0RYqTcOhiX8NEnE+5dnx9rv2jwD/fwyuetN6u9W5tmYpLghKgCsJx2gVr/aV/soK/KNI0muwS1kq1dqlEvZ/kzlYpheJUd2vKSXPVMX+ZhGQdu24ZyQNjEwh/LH5XvWshxRo=
+	t=1718258506; cv=none; b=sj3XIXDCnjI4haFpmlMob6kK3/3I16j2X0QKvbLdONF8brSHfDpfIv95QqTIyr8juiGKcJq3wY+c4tbeX3sInNXQPMtpQJ/73T+yD86mx7Y0cH1uve4MDDqO1a5kBHKYLSEwU+y+H9BkxeWWWKuDazj5KNiotpSEf0+WjOnYCwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718226169; c=relaxed/simple;
-	bh=2/D3y84MWExMUe/+ohdAcL5JtZ0TFzz2ZC4d4ub2oGU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j+f5QRnxkaMMnyUD6Wc4jyI4f4NEdGmfLvDWoaJ4sruU7bEsWBpkhZ+gdvGtz2ZnuTWhW5r/NuSMxX/KPnh9Kfg9qvXUP/6040TM2HZygdndmo5ORPY05QhoaC1s4BwaI9YsE6ia7DEepQUetISwUM/kAV6VZ1oIDl6+mu71XkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6KJOXj4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AA3F4C4AF51;
-	Wed, 12 Jun 2024 21:02:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718226168;
-	bh=2/D3y84MWExMUe/+ohdAcL5JtZ0TFzz2ZC4d4ub2oGU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=b6KJOXj44xtQmKnjosF7WiA8Mx0I6uSl5rGZ96gvgVk3wW8IHBH5ywNNh20vRmu7k
-	 pZ5c3FuyB9I/Fp/gxSYtB9qfI2RqwhXR5gnf6ZaxIzzZGjEws/VH2ijmYCxFLNA+F7
-	 iR7ZcVsoDSRhCsPXEsBCvohhbIlScl/eYSxpxjQxrjUknRL+HhO/CVuBUAqRvlYO72
-	 cnweTXjpJFq0mZPH6OGMOf5O+Iw+BfegwIwITzdyU+NIPLW4Fsiavxy5LPrd64Evh3
-	 bVg+pqbJ9VqHZl6ZNuhZrrdDm3BkBV1FZhnNLY/abq9FAVsfqATaSblAK6GLX+Djc3
-	 g2EYppCk+FylQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A4FCC27C53;
-	Wed, 12 Jun 2024 21:02:48 +0000 (UTC)
-From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Wed, 12 Jun 2024 23:01:34 +0200
-Subject: [PATCH v3 3/3] arm64: dts: qcom: msm8939-longcheer-l9100: Add rear
- flash
+	s=arc-20240116; t=1718258506; c=relaxed/simple;
+	bh=VDyY0lmwRe0rWjIOr32imsF5aAyZwpJKRIGVp3Fq27k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=up9sZ4nhgISrbl/OF76XWkOpwmtt0m0XxcRTOHCT7iqOrf/9aMXzxrrQ/JyVBdGF9cBdU1kIqmtLSDAxniXl4Ta0aFxq/qkqIOMxoIqkIlF0taFg2xvXEIvii4NDQ9ydRDnBSdxgxfJQrVBiq5uy6p3tATha5k8iG3I9SoZVTrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=BhYfJ2RQ; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=DjAortrBMsooQvo+oS5HLqOjhjZQ6sHhlWU7CDiPpck=;
+	t=1718258504; x=1718690504; b=BhYfJ2RQf+cct7yglQ95/xf1cPzkp2jP/w9pk9M0AZqIeiu
+	CnGK9z2OjBa/s1/usQTo58TGLV+14Nu1Jzrj5joszPlAdDAsKxr3aebwD43HMq0AmtukPXjb3bNy3
+	slvxLgQNWeYpRyq0FRIxnOKv2I+fwTpWVaIbaV6oQiJQFLzLzaghyuKI5dYi6K0LKQ8Ia6C8TTr26
+	SjhhpW8UzAdMG6sc+Ns0BI9G9h25b/3ng+lDZB/p0tssINVUIupUH6DNd6G2K277KhwM9bjkHHooc
+	eC929vXzQsixKKyKHSxuHrThSAZKNmOtgjFzNlXoUzJHSlUq9uHrqxWpm4kfgctQ==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1sHdWn-00027V-An; Thu, 13 Jun 2024 08:01:41 +0200
+Message-ID: <1ae0cbc0-c87f-409b-abe2-13c76414f5ba@leemhuis.info>
+Date: Thu, 13 Jun 2024 08:01:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240612-sy7802-v3-3-1e9cc1c79b79@apitzsch.eu>
-References: <20240612-sy7802-v3-0-1e9cc1c79b79@apitzsch.eu>
-In-Reply-To: <20240612-sy7802-v3-0-1e9cc1c79b79@apitzsch.eu>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- Trilok Soni <quic_tsoni@quicinc.com>, Kees Cook <kees@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718226168; l=1408;
- i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=5PZFGehTShxKe3OFkYq1lO6OPdXhGy4wNq5owjXoJG0=;
- b=U4zL09R/h6bvbX1wqNtjXFrsRAogqI/mEldeu7GYtmhwqNQ0lSLQI9IJwXLRIg/1sidABnw3A
- S7qNrUqcDqQAyHwDaPa2lZ4ksDuzggAlN+sL4Ot0Dts7pLb/UZRs02z
-X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
- pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
-X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
- auth_id=142
-X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Reply-To: git@apitzsch.eu
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: class: Revert: "If no default trigger is given,
+ make hw_control trigger the default trigger"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Pavel Machek <pavel@ucw.cz>, Jakub Kicinski <kuba@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, linux-leds@vger.kernel.org,
+ Genes Lists <lists@sapience.com>, =?UTF-8?Q?Johannes_W=C3=BCller?=
+ <johanneswueller@gmail.com>, stable@vger.kernel.org,
+ Andrew Lunn <andrew@lunn.ch>, Hans de Goede <hdegoede@redhat.com>,
+ Lee Jones <lee@kernel.org>
+References: <20240607101847.23037-1-hdegoede@redhat.com>
+ <6ebdcaca-c95a-48bc-b1ca-51cc1d7a86a5@lunn.ch>
+ <7a73693e-87b4-4161-a058-4e36f50e1376@redhat.com>
+ <5e93d4ea-0247-4803-9c0e-215d009fb9d3@leemhuis.info>
+ <0cdc9042-2cad-48d4-8eb6-0732cf9e7dfa@redhat.com>
+ <20240612152635.GF1504919@google.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <20240612152635.GF1504919@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1718258504;5627492e;
+X-HE-SMSGID: 1sHdWn-00027V-An
 
-From: André Apitzsch <git@apitzsch.eu>
+On 12.06.24 17:26, Lee Jones wrote:
+> On Wed, 12 Jun 2024, Hans de Goede wrote:
+>> On 6/12/24 4:58 PM, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>
+>>> Hans, from your point of view, how fast should we try to mainline this
+>>> revert? I got the impression that you want it merged there rather sooner
+>>> than later -- and that sounds appropriate to me.
+>>
+>> There are at least 2 separate bug reports from 6.9 users who are gettinhg
+>> stuck tasks which should be fixed by this, so yes this should go upstream
+>> soon.
+>>
+>>> So should we maybe ask
+>>> Linus on Friday to pick this up from here? Ideally of course with an ACK
+>>> from Pavel or Lee.
+>>
+>> Indeed having an ack from Lee or Pavel here would be great!
+> 
+> Acked-by: Lee Jones <lee@kernel.org>
 
-The phone has a Silergy SY7802 flash LED controller.
+Thx everyone. In that case: why wait till Friday. :-D
 
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
----
- .../boot/dts/qcom/msm8939-longcheer-l9100.dts      | 26 ++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Linus, could you please pick the revert up this thread is about? You can
+find it here at the start of this thread, which is:
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-index e3404c4455cf..528737929274 100644
---- a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-@@ -159,6 +159,25 @@ led@2 {
- 			};
- 		};
- 	};
-+
-+	flash-led-controller@53 {
-+		compatible = "silergy,sy7802";
-+		reg = <0x53>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		enable-gpios = <&tlmm 16 GPIO_ACTIVE_HIGH>;
-+
-+		pinctrl-0 = <&camera_rear_flash_default>;
-+		pinctrl-names = "default";
-+
-+		led@0 {
-+			reg = <0>;
-+			function = LED_FUNCTION_FLASH;
-+			color = <LED_COLOR_ID_WHITE>;
-+			led-sources = <0>, <1>;
-+		};
-+	};
- };
- 
- &blsp_i2c3 {
-@@ -318,6 +337,13 @@ camera_front_flash_default: camera-front-flash-default-state {
- 		bias-disable;
- 	};
- 
-+	camera_rear_flash_default: camera-rear-flash-default-state {
-+		pins = "gpio9", "gpio16", "gpio51";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
- 	gpio_hall_sensor_default: gpio-hall-sensor-default-state {
- 		pins = "gpio20";
- 		function = "gpio";
+https://lore.kernel.org/all/20240607101847.23037-1-hdegoede@redhat.com/
 
--- 
-2.45.2
+You can see the Ack from Lee above and there is a Reviewed-by: from
+Andrew in the first reply as well.
 
-
+Tia! Ciao, Thorsten
 
