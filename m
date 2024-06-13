@@ -1,56 +1,57 @@
-Return-Path: <linux-leds+bounces-1905-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1907-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B0F9075A8
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:49:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5199075F2
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 17:03:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B3A41F24A45
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:49:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E6926B2397B
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 15:02:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAAF61448ED;
-	Thu, 13 Jun 2024 14:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3AA61494A2;
+	Thu, 13 Jun 2024 15:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="N+i5Cizh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZ0i2pg+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51971474AE;
-	Thu, 13 Jun 2024 14:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADC114900F;
+	Thu, 13 Jun 2024 15:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718290133; cv=none; b=NMfYX0pCG6RFZMjl3xbp5eoCDOKxann2oSJRgGar5pY6Dw2yPRAgsmIzHL/2hItVRKZRs8cV1rKinDh6MxEOn9y+fi4kIpDGOdw8LiraKH5BFydJselPOtRm4YsA0H8KY50Xiq2r+fBiYzYfYAyon5NKGICn676tOwIMhBfZKw0=
+	t=1718290970; cv=none; b=ZnbhlLEKlRQ61h8LOdi5d8XQo7gpPBHC7cOWaJevg1u4B2xIK7mn864C71KQh0n21CWacfFiPhJF9ShRqkejqR8W9z9gv5uGww0RnF83vkwqV1nbEUrlMR7JvNrVBHx/7wK6X5R31+VDY14lxKYRwP3oKaFen8PcvQ4jKmVKPg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718290133; c=relaxed/simple;
-	bh=MA4hVdM8atN+j9fTv+dOnzF4lW0zwLF6ZQX3fFVdEoY=;
+	s=arc-20240116; t=1718290970; c=relaxed/simple;
+	bh=V+fe5XWMSFww4qgqdxA2gm8RTgqpG9cYDlZuGZBpm6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEZoO2vgRPo0ac5m87WtsSXRnZvkt6Jm6iLTcSru8LXyXjlpGt4tD+KgWkR3xJkwOvJ70uZdquzKdg99zMuo84yU35DkCSb25j1jCXsd1eOSisYk9KeGk28+zuxxnSLqR+srCbLkhhbkHZf5jhwQ6/I+QOcp9wNexfCopbwQx5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=N+i5Cizh; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1718290122;
-	bh=MA4hVdM8atN+j9fTv+dOnzF4lW0zwLF6ZQX3fFVdEoY=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=HEJEgUm8TEV8YsYvDua+3u8eL9CeQ0Qk8Rjcp39jc2S0p8eTxiD4nNcU5p1+NFG+U+zOVvD/9f8orcZnPZvNF5uYNwjl9MA9jGJd+dKru+dTfeO30vro20QH+xdDqYs+r+z83aO158gONIqhc0kohXi9FxpIfmpsmC0U76YCxrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZ0i2pg+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060D6C4AF1C;
+	Thu, 13 Jun 2024 15:02:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718290970;
+	bh=V+fe5XWMSFww4qgqdxA2gm8RTgqpG9cYDlZuGZBpm6Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N+i5CizhFa78NONukRepZGRBPa6iITSIJLCaE6M3M9auIqYe4ceXgiNuaoGCYd7lA
-	 vSoXizT3mJiSqwvdeHv3tIZWeyaBo6I89ycdTLdGNAqZ30jEZiHyBk1kOYQYPmzWNp
-	 8kj/dJY9kj+beGlmxYvIytCy3ogUjK2c9KvRR+pc=
-Date: Thu, 13 Jun 2024 16:48:41 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Lee Jones <lee@kernel.org>
-Cc: Dustin Howett <dustin@howett.net>, Pavel Machek <pavel@ucw.cz>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
-Message-ID: <d0189349-8101-414c-bed7-94573f66b40d@t-8ch.de>
-References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
- <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
- <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
- <20240613144137.GG2561462@google.com>
+	b=JZ0i2pg+nV3+QOCvt7vH2GCl59/M9Fjl4GZ3z/n4vB81JNpgmmTbqhdK26Q1k5Tfg
+	 GFTz3X0TAIz3jwQL3mEZ7xRh9uycEknDSpPyKk7LiJtd8/YLAa3Aqp32L37JtUNs8r
+	 JQKOC6nqkWNgsLB1C+nZIPoNFXGjg0qigBrHK9uNBOoTIkSFbiFWy1JxX4o6VxwA44
+	 EoBpurwB3aTenl5tttvexEoY4SoEIYM92GXgvo4UIM4UlK2e8QxabZmRyUgYNjHGqb
+	 EOJF+cBbzMrbdxNS6ZsFwKeAzcRcQDv6KmlxqMU1V4jqX69FrhQmM5AmS3Hu2ayOFJ
+	 XLbI0oASwiSMg==
+Date: Thu, 13 Jun 2024 16:02:46 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dustin Howett <dustin@howett.net>
+Subject: Re: [PATCH] leds: triggers: flush pending brightness before
+ activating trigger
+Message-ID: <20240613150246.GI2561462@google.com>
+References: <20240603-led-trigger-flush-v1-1-c904c6e2fb34@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -60,41 +61,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240613144137.GG2561462@google.com>
+In-Reply-To: <20240603-led-trigger-flush-v1-1-c904c6e2fb34@weissschuh.net>
 
-On 2024-06-13 15:41:37+0000, Lee Jones wrote:
-> On Mon, 03 Jun 2024, Thomas Weißschuh wrote:
+On Mon, 03 Jun 2024, Thomas Weißschuh wrote:
+
+> The race fixed in timer_trig_activate() between a blocking
+> set_brightness() call and trigger->activate() can affect any trigger.
+> So move the call to flush_work() into led_trigger_set() where it can
+> avoid the race for all triggers.
 > 
-> > On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
-> > > On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > > >
-> > > > Add a LED driver that supports the LED devices exposed by the
-> > > > ChromeOS Embedded Controller.
-> > > 
-> > > I've tested this out on the Framework Laptop 13, 11th gen intel core
-> > > and AMD Ryzen 7040 editions.
-> > > 
-> > > It works fairly well! I found a couple minor issues in day-to-day use:
-> > 
-> > Thanks!
-> > 
-> > > - Restoring the trigger to chromeos-auto does not always put the EC
-> > > back in control, e.g. the side lights no longer return to reporting
-> > > charge status.
-> > >   I believe this happens when you move from any trigger except "none"
-> > > to chromeos-auto, without first setting "none".
-> > 
-> > Thanks for the report, I'll investigate that.
-> 
-> So am I reviewing this set or waiting for the next version?
+> Fixes: 0db37915d912 ("leds: avoid races with workqueue")
+> Fixes: 8c0f693c6eff ("leds: avoid flush_work in atomic context")
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+> Dustin, could you validate that this fixes the issue you encountered in
+> the cros_ec led driver?
+> ---
+>  drivers/leds/led-triggers.c          | 10 ++++++++--
+>  drivers/leds/trigger/ledtrig-timer.c |  5 -----
+>  2 files changed, 8 insertions(+), 7 deletions(-)
 
-This specific bug is fixed by [0], which should be in your inbox.
+This patch clashes with:
 
-I just sent v3 of the series, with only two tiny changes.
-One more cosmetic and one for the coming revert to avoid the LED
-hardware trigger deadlock.
+  https://lore.kernel.org/all/20240531120124.75662-1-hdegoede@redhat.com/
 
-Thanks for the review!
+Please rebase and ensure that your solution doesn't conflict.
 
-[0] https://lore.kernel.org/lkml/20240603-led-trigger-flush-v1-1-c904c6e2fb34@weissschuh.net/
+-- 
+Lee Jones [李琼斯]
 
