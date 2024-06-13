@@ -1,114 +1,116 @@
-Return-Path: <linux-leds+bounces-1890-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1891-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972B09063B1
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 08:01:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D431A9065FC
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 09:59:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FADC1F22A50
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 06:01:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0BBE1C20B81
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 07:59:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58CB41304B7;
-	Thu, 13 Jun 2024 06:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 140DE13CF84;
+	Thu, 13 Jun 2024 07:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="BhYfJ2RQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9vskcV0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3700437C;
-	Thu, 13 Jun 2024 06:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A1C13D285;
+	Thu, 13 Jun 2024 07:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718258506; cv=none; b=sj3XIXDCnjI4haFpmlMob6kK3/3I16j2X0QKvbLdONF8brSHfDpfIv95QqTIyr8juiGKcJq3wY+c4tbeX3sInNXQPMtpQJ/73T+yD86mx7Y0cH1uve4MDDqO1a5kBHKYLSEwU+y+H9BkxeWWWKuDazj5KNiotpSEf0+WjOnYCwI=
+	t=1718265442; cv=none; b=LtTT/9UvVYnG4nobAUxFUKZlJqZHY0Ti9Eoqw2DGsLNqlpc3ADAFOMsIoh2imvndNm8KG5Dh+4N+N7uxzvoUGXh+XNuVch5sK8oUgI5D+/1J/gVUqrUgiWJL851n14v8l1eAsqxWHILkkGSudCw9rad0TOAagP1S1ktdV7wYofY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718258506; c=relaxed/simple;
-	bh=VDyY0lmwRe0rWjIOr32imsF5aAyZwpJKRIGVp3Fq27k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=up9sZ4nhgISrbl/OF76XWkOpwmtt0m0XxcRTOHCT7iqOrf/9aMXzxrrQ/JyVBdGF9cBdU1kIqmtLSDAxniXl4Ta0aFxq/qkqIOMxoIqkIlF0taFg2xvXEIvii4NDQ9ydRDnBSdxgxfJQrVBiq5uy6p3tATha5k8iG3I9SoZVTrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=BhYfJ2RQ; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=DjAortrBMsooQvo+oS5HLqOjhjZQ6sHhlWU7CDiPpck=;
-	t=1718258504; x=1718690504; b=BhYfJ2RQf+cct7yglQ95/xf1cPzkp2jP/w9pk9M0AZqIeiu
-	CnGK9z2OjBa/s1/usQTo58TGLV+14Nu1Jzrj5joszPlAdDAsKxr3aebwD43HMq0AmtukPXjb3bNy3
-	slvxLgQNWeYpRyq0FRIxnOKv2I+fwTpWVaIbaV6oQiJQFLzLzaghyuKI5dYi6K0LKQ8Ia6C8TTr26
-	SjhhpW8UzAdMG6sc+Ns0BI9G9h25b/3ng+lDZB/p0tssINVUIupUH6DNd6G2K277KhwM9bjkHHooc
-	eC929vXzQsixKKyKHSxuHrThSAZKNmOtgjFzNlXoUzJHSlUq9uHrqxWpm4kfgctQ==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1sHdWn-00027V-An; Thu, 13 Jun 2024 08:01:41 +0200
-Message-ID: <1ae0cbc0-c87f-409b-abe2-13c76414f5ba@leemhuis.info>
-Date: Thu, 13 Jun 2024 08:01:40 +0200
+	s=arc-20240116; t=1718265442; c=relaxed/simple;
+	bh=OCtOhYu837Sd/8HvLhR6dWGgEllOhuY4C03+r2+NBgA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GLUm89tVXpOB5kpMmlDLSIST751zvBK+3dItNMSkIVFHGOVk+pkQtVOnK5F6MOqg/q/mxII/baobuvj3wgeWDpO8v9XXm1GIUdjBTQg1fLu/dmF3DfdUs9onQP4X1Kv/znKoUZhq37Oo3Gl5EUlnM8YTRS8oBY6/kVQDSNuPd5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9vskcV0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868EBC3277B;
+	Thu, 13 Jun 2024 07:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718265441;
+	bh=OCtOhYu837Sd/8HvLhR6dWGgEllOhuY4C03+r2+NBgA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=p9vskcV0vyail7cHf+/fmUO0erG6vuNWyLfmjRjk4LM6OIoPAiynBFddj5BStR2xm
+	 BdB6vizMAMHuus1sAZGaq0bb39PRkVdFTfkUZ5I6x2v5p6RbAjngD717JNNZRuof4n
+	 Sh0I7qKvRM7onR1M6FUTMmqlbY76frVWWtPTIBZbSKrYo13wJ/WmjCphcJ5Qmeu0tC
+	 Lfx4Tc90QDDnmqwfA5J29XUbQUX6mfeurq7jMFFiAHh0b/52jSelp75R3jkbhDAufi
+	 5umZcQ/LhIKFvRsn34zphv6l4fkgIafiEbiAIrMiPol8giwCr0N/mE87wUjWihRpNl
+	 uE2nv2myztqXA==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH 1/1] leds: core: Omit set_brightness error message for a LED supporting hw trigger only
+Date: Thu, 13 Jun 2024 08:57:12 +0100
+Message-ID: <20240613075712.2479669-1-lee@kernel.org>
+X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: class: Revert: "If no default trigger is given,
- make hw_control trigger the default trigger"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Pavel Machek <pavel@ucw.cz>, Jakub Kicinski <kuba@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, linux-leds@vger.kernel.org,
- Genes Lists <lists@sapience.com>, =?UTF-8?Q?Johannes_W=C3=BCller?=
- <johanneswueller@gmail.com>, stable@vger.kernel.org,
- Andrew Lunn <andrew@lunn.ch>, Hans de Goede <hdegoede@redhat.com>,
- Lee Jones <lee@kernel.org>
-References: <20240607101847.23037-1-hdegoede@redhat.com>
- <6ebdcaca-c95a-48bc-b1ca-51cc1d7a86a5@lunn.ch>
- <7a73693e-87b4-4161-a058-4e36f50e1376@redhat.com>
- <5e93d4ea-0247-4803-9c0e-215d009fb9d3@leemhuis.info>
- <0cdc9042-2cad-48d4-8eb6-0732cf9e7dfa@redhat.com>
- <20240612152635.GF1504919@google.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20240612152635.GF1504919@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1718258504;5627492e;
-X-HE-SMSGID: 1sHdWn-00027V-An
+Content-Transfer-Encoding: 8bit
 
-On 12.06.24 17:26, Lee Jones wrote:
-> On Wed, 12 Jun 2024, Hans de Goede wrote:
->> On 6/12/24 4:58 PM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>
->>> Hans, from your point of view, how fast should we try to mainline this
->>> revert? I got the impression that you want it merged there rather sooner
->>> than later -- and that sounds appropriate to me.
->>
->> There are at least 2 separate bug reports from 6.9 users who are gettinhg
->> stuck tasks which should be fixed by this, so yes this should go upstream
->> soon.
->>
->>> So should we maybe ask
->>> Linus on Friday to pick this up from here? Ideally of course with an ACK
->>> from Pavel or Lee.
->>
->> Indeed having an ack from Lee or Pavel here would be great!
-> 
-> Acked-by: Lee Jones <lee@kernel.org>
+If both set_brightness functions return -ENOTSUPP, then the LED doesn't
+support setting a fixed brightness value, and the error message isn't
+helpful. This can be the case e.g. for LEDs supporting a specific hw
+trigger only.
 
-Thx everyone. In that case: why wait till Friday. :-D
+Pinched the subject line and commit message from Heiner:
+Link: https://lore.kernel.org/all/44177e37-9512-4044-8991-bb23b184bf37@gmail.com/
 
-Linus, could you please pick the revert up this thread is about? You can
-find it here at the start of this thread, which is:
+Reworked the function to provide Heiner's required semantics whilst
+simultaneously increasing readability and flow.
 
-https://lore.kernel.org/all/20240607101847.23037-1-hdegoede@redhat.com/
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: linux-leds@vger.kernel.org
+Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ drivers/leds/led-core.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-You can see the Ack from Lee above and there is a Reviewed-by: from
-Andrew in the first reply as well.
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index ef7d1c6767ca..3b4db39f2326 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -123,15 +123,22 @@ static void led_timer_function(struct timer_list *t)
+ static void set_brightness_delayed_set_brightness(struct led_classdev *led_cdev,
+ 						  unsigned int value)
+ {
+-	int ret = 0;
++	int ret;
+ 
+ 	ret = __led_set_brightness(led_cdev, value);
+-	if (ret == -ENOTSUPP)
++	if (ret == -ENOTSUPP) {
+ 		ret = __led_set_brightness_blocking(led_cdev, value);
+-	if (ret < 0 &&
+-	    /* LED HW might have been unplugged, therefore don't warn */
+-	    !(ret == -ENODEV && (led_cdev->flags & LED_UNREGISTERING) &&
+-	    (led_cdev->flags & LED_HW_PLUGGABLE)))
++		if (ret == -ENOTSUPP)
++			/* No back-end support to set a fixed brightness value */
++			return;
++	}
++
++	/* LED HW might have been unplugged, therefore don't warn */
++	if (ret == -ENODEV && led_cdev->flags & LED_UNREGISTERING &&
++	    led_cdev->flags & LED_HW_PLUGGABLE)
++		return;
++
++	if (ret < 0)
+ 		dev_err(led_cdev->dev,
+ 			"Setting an LED's brightness failed (%d)\n", ret);
+ }
+-- 
+2.45.2.505.gda0bf45e8d-goog
 
-Tia! Ciao, Thorsten
 
