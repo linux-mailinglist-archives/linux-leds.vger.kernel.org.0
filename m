@@ -1,63 +1,60 @@
-Return-Path: <linux-leds+bounces-1897-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1898-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1997990753E
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:35:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BF390757C
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 16:42:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01EBE1C21B23
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:35:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CAE51F23910
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 14:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6087F145A11;
-	Thu, 13 Jun 2024 14:34:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA71F145FE5;
+	Thu, 13 Jun 2024 14:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="epnrX2KU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6yADqQa"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346A6145A04;
-	Thu, 13 Jun 2024 14:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0B4145A02;
+	Thu, 13 Jun 2024 14:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718289297; cv=none; b=sITwinf6zU7afAYklEav/4PHzIHQtqqMj5cIlQmpUDByZI49qgqy0WZeLwJrJch3ewDhxAYGDrBRapj/RCQLYdbeTxzYOTP+5fGOKxLLuu1cuJUJq/MvWjl4IN6kvZxTdJhDP8T4GxQGFsHicaBV/jNy3IsZmix1CnfBEXDZAck=
+	t=1718289702; cv=none; b=JMkEjKKonIvjP7WCtVFN5FviDxCCIH9WT/1LFr2MGnP8ZgRUZ73HNNCM1+6Pgk6pvHAy5foKqxJo8FDeu9OHtaFnRdWRlNoybeY1Ry/XwXJton4RGF1hzzODuDz9qDys7hacZnaKl4/NIp8Ah0OF7GZejyxQtuLa+M22gDAS7DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718289297; c=relaxed/simple;
-	bh=MdM3a6B4+l2qcSrHcAmmwfPHGPsUG5JqDPDvr1IT3LQ=;
+	s=arc-20240116; t=1718289702; c=relaxed/simple;
+	bh=Y1nxcwMSb+zTs1BaeXHDgxqyBzVPA1iJTb7yBxsR4gw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TmGOsrIdiQ2NV2TobUpx1RR4opJdmtMZ92QVtgDr8vXyikHByIBJdEhTMp/MjBFPd9eneh1tJ2nQXxr7RVYMSQ+RByTNUkBHDGRn/vv+Hm+o3ATTCG6hzOIPFfYisij5b6YZaKLyoKCFrPDdjZOMRzXYsJOIr7wt3/HtnKfgC3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=epnrX2KU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D45EC32789;
-	Thu, 13 Jun 2024 14:34:54 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=e01pVjp+R/v17Z5wYlI+snFcB24l4qJclPelHH3t477KdUzVHexY4Zq6pQrW5KsblxDwZfh0ruKQExnAh1O9NkledCD6R4JI3jH7w0NoCQFJ66e9mZt+u8f/btbsD9WF5HqEHcjE6Ts72m9vJ6vU6zB+t8BJs4kUPByucnN2cj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6yADqQa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D208C2BBFC;
+	Thu, 13 Jun 2024 14:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718289296;
-	bh=MdM3a6B4+l2qcSrHcAmmwfPHGPsUG5JqDPDvr1IT3LQ=;
+	s=k20201202; t=1718289702;
+	bh=Y1nxcwMSb+zTs1BaeXHDgxqyBzVPA1iJTb7yBxsR4gw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=epnrX2KUjJkKb18onmCfdfb58vrBTjalSFG4FpziJxfKUzhkjH6fKGvLTjNO8LYxv
-	 tuC9AE86IRXfuy41fKp8UasotChIiSzDIXf5cyukLW2/nhdtdKGKMyd+1YJ6XEPHXO
-	 QmfchMYtXFu9+MSCag4IWfqSEZVn8vjseobeSbxXiBE/NnA63dNSWHUPlXPc0MKEpZ
-	 2WuYUSStlGBHxvrzVfp4KMDmut/TuiJwJJWZhVdnGJTbhXW1wgeBFniwBWBYQctR8Y
-	 qleNrFBnHPrCIb9PiTG+BuuNRNoft1nlvdlmxcq6zjQ5ri63hhjgFnHdaI93cg2/li
-	 ZVNwalbaLrPeg==
-Date: Thu, 13 Jun 2024 15:34:51 +0100
+	b=N6yADqQa/bBRMUtbfHabAB0TtXRZRfVHI5RqyYkEDB3OzODghkwDfLsUXFXpkKnIJ
+	 GLu55tuDvw1qbkzaMxcpMBOnb5zr9Tq7YCYB1csGtyGQyNLJJG+bvK6X7Shqva2Tdo
+	 t4hfYXDWb2Z+IKIDC+tTSMsBV/ZVCeE04afmCxtBa39bOts6sOjG/5CPnsiVQSL1S1
+	 xJxIMEtf9sXkRvFkKmMiN2yfqD1ipHVQ+6Jd9BlZ/6dpUZDGvZZ/84INmS7fpMCU9L
+	 A7qkgE6N5OqeS8vzaiSJX3MDGJfpjLfkFOMgsNYVF54BJdfEY5UAxleSV7ROfqIJf8
+	 g+7kI28dnb0EA==
+Date: Thu, 13 Jun 2024 15:41:37 +0100
 From: Lee Jones <lee@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Dustin Howett <dustin@howett.net>, Pavel Machek <pavel@ucw.cz>,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Pavel Machek <pavel@ucw.cz>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	linux-leds@vger.kernel.org,
-	Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: Re: [PATCH v3 3/4] platform/chrome: cros_kbd_led_backlight: allow
- binding through mfd device
-Message-ID: <20240613143451.GF2561462@google.com>
-References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
- <20240526-cros_ec-kbd-led-framework-v3-3-ee577415a521@weissschuh.net>
- <Zl0jIZbIKV6mG12I@google.com>
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 0/5] ChromeOS Embedded Controller LED driver
+Message-ID: <20240613144137.GG2561462@google.com>
+References: <20240531-cros_ec-led-v2-0-6cc34408b40d@weissschuh.net>
+ <CA+BfgNJf1Av7fRVUjpU3r6aRw6DWTHfkCuOYXP2ykhPzGTVzfw@mail.gmail.com>
+ <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,28 +64,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zl0jIZbIKV6mG12I@google.com>
+In-Reply-To: <264dd508-93c5-48d6-ac69-27458acd29c5@t-8ch.de>
 
-On Mon, 03 Jun 2024, Tzung-Bi Shih wrote:
+On Mon, 03 Jun 2024, Thomas Weißschuh wrote:
 
-> On Sun, May 26, 2024 at 08:17:17PM +0200, Thomas Weißschuh wrote:
-> > The ChromeOS EC used in Framework laptops supports the standard CrOS EC
-> > keyboard backlight protocol.
-> > However the firmware on these laptops doesn't implement the ACPI ID
-> > GOOG0002 that is recognized by cros_kbd_led_backlight and they also
-> > don't use device tree.
+> On 2024-06-02 18:30:06+0000, Dustin Howett wrote:
+> > On Fri, May 31, 2024 at 11:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > >
+> > > Add a LED driver that supports the LED devices exposed by the
+> > > ChromeOS Embedded Controller.
 > > 
-> > Prepare the existing cros_kbd_led_backlight driver to be probed through
-> > the CrOS EC mfd device which works without ACPI or OF support.
+> > I've tested this out on the Framework Laptop 13, 11th gen intel core
+> > and AMD Ryzen 7040 editions.
 > > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > It works fairly well! I found a couple minor issues in day-to-day use:
 > 
-> The patch overall looks good to me but it depends on previous patch in the
-> series (for LED_REJECT_NAME_CONFLICT).  Let's wait for review.
+> Thanks!
+> 
+> > - Restoring the trigger to chromeos-auto does not always put the EC
+> > back in control, e.g. the side lights no longer return to reporting
+> > charge status.
+> >   I believe this happens when you move from any trigger except "none"
+> > to chromeos-auto, without first setting "none".
+> 
+> Thanks for the report, I'll investigate that.
 
-I plan to take this via MFD.
-
-Is someone going to Ack this patch?
+So am I reviewing this set or waiting for the next version?
 
 -- 
 Lee Jones [李琼斯]
