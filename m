@@ -1,58 +1,59 @@
-Return-Path: <linux-leds+bounces-1915-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1916-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68036907985
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 19:15:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63295907994
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 19:19:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B81D1C21E3C
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 17:15:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1FC0283561
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jun 2024 17:19:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4355E1304BF;
-	Thu, 13 Jun 2024 17:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37C2D14A091;
+	Thu, 13 Jun 2024 17:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5FEFsN2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPMe2W5q"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0712EBE9;
-	Thu, 13 Jun 2024 17:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DBC12D76D;
+	Thu, 13 Jun 2024 17:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718298953; cv=none; b=Srm8+DolDPdyz3wUUk73KHWfiRZUV1Hm+Z1swksaGBljQYp1hy7EplKpMXDtirwfDSnTBwGsICX/qxrq3welVVqwEAs/p4IZe33q4v/sFOp0MiczbF1yCCMG5uIBRDt2Z+Vy79YKBM2+MgUmDr72kR+a9UtSo60oqAHoYZcFgoU=
+	t=1718299141; cv=none; b=XoCYcwZNvLtYv3fz4QUuG0MG+pKOWMqa8fTteWShVG/F+12w5yhhibgE8J8X9TMI9mjdpsiO6FQX8IpvsKxgS97Ud04bMuXsKHqxE1P9Y+44PJiez1G8c5LPCJA6me6BA4RLpfmXZOf4jBMXmoZ4GXupJ7v90Lk98+KENdGXBj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718298953; c=relaxed/simple;
-	bh=AKgUZWTneAiK4fPUdfiAf7GhaKqL6NLz/YozloQMn/Q=;
+	s=arc-20240116; t=1718299141; c=relaxed/simple;
+	bh=/FRqBJ2+W9oi2BU9wQ0dzEOCrTnN9o8UYQjQ6KKGegg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ASWcjQMDTIQSpAyrFMpOZmfA+TpQ86IE4K2gNSFfaLMmiXtRiObQndITA9KarDcO9XsHi14Hj3OoNVJ2O32x1172UGP8R0iHxMdv8MdVm3y35eDgYR9Na8/feeNpKSUTI48CoMQy5TSjdLVVN8T+IJB8jyd8f+B3Dj/Tw7vku2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5FEFsN2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551FFC2BBFC;
-	Thu, 13 Jun 2024 17:15:51 +0000 (UTC)
+	 MIME-Version:Content-Type; b=BraO1iE34dENe+TcYwNIZreSgStr8/GDIigQyXiz0mguWVGMBfqfYxzR/YAiPj8Pw8h/3W3fO4Ic+mq7qeBLQfWedYMBHXzpM5Nib4mYPSxwkhtuJ5wFNn1ehKsG1Eu0K6gbBxOMLDpKRIiNILomBeQKL9zRaw4Cs/wfWwFwA3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPMe2W5q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB0AC2BBFC;
+	Thu, 13 Jun 2024 17:18:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718298952;
-	bh=AKgUZWTneAiK4fPUdfiAf7GhaKqL6NLz/YozloQMn/Q=;
+	s=k20201202; t=1718299140;
+	bh=/FRqBJ2+W9oi2BU9wQ0dzEOCrTnN9o8UYQjQ6KKGegg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=U5FEFsN2KrLkAoR7D3TVrsdjdzmMZzPryoAbN6bET5++qg4qy2YPfYW9hSKAByqro
-	 kHHBVyr2eg1b+S/XRFbvwpPDTQPAFhZTmHz/nmMOZj6NX+s2U5wQ5S90DlpW67Bun0
-	 i5x2O9KGlaRqE6W+JZwOY7I/EPWijn4mftJrdCdTWmJC2vMMHMTNvayMJo2KNxH/1c
-	 2+Ulxr+i3ftXyifqGCsSnHhHw4+trlHVUXs2ZHcRRuCscs2O1fBlHjrbMQ4veMS0I7
-	 h409+7g3bd5k6D7NzdBqEvI8lMc7nRlOmK/XbrkgVioTLgOoLujFtv67FLAyTm3A4h
-	 b0epjAtf5rIHw==
+	b=QPMe2W5qRO49VpynzkQuyjHER7fJc/OxSZSqr+1Xx9xtGDumzv7UBy9TSDnOdKKub
+	 bD6ldak9xEoJTTwfRO3is+ngcveTbe2DdZy9aVkjit7bJAl3+NBuRImqcEiTan15Yd
+	 /c4j47b5mVPzW33yO5C92LsJm5yr1qxX8pAuYzhR2zSVx+sBnjiPoojsjiV0uyJJMa
+	 8lht12SgN+ELZgs8SWoHMuCkyVuucbl01YMwvjuAfYYK1mnfaF/wFM/PX16tayzNWK
+	 MwyDu2XWxMYD8jE3545aYxKhyRtIIboV//Do5w4qXTJCLqXUCqo8+6f2gDFPrhyX83
+	 SoNs6J7D7g89Q==
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Julia Lawall <julia.lawall@inria.fr>, 
- Marilene A Garcia <marilene.agarcia@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240611001740.10490-1-marilene.agarcia@gmail.com>
-References: <20240611001740.10490-1-marilene.agarcia@gmail.com>
-Subject: Re: (subset) [PATCH linux-next] leds: tlc591xx: Replace
- of_node_put to __free
-Message-Id: <171829895106.2728913.15291317258101925669.b4-ty@kernel.org>
-Date: Thu, 13 Jun 2024 18:15:51 +0100
+To: Pavel Machek <pavel@ucw.cz>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20240611-leds-mt6360-memleak-v1-1-93642eb5011e@gmail.com>
+References: <20240611-leds-mt6360-memleak-v1-1-93642eb5011e@gmail.com>
+Subject: Re: (subset) [PATCH] leds: mt6360: fix memory leak in
+ mt6360_init_isnk_properties()
+Message-Id: <171829913865.2730656.15082928550080844498.b4-ty@kernel.org>
+Date: Thu, 13 Jun 2024 18:18:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,20 +64,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.13.0
 
-On Mon, 10 Jun 2024 21:17:40 -0300, Marilene A Garcia wrote:
-> Use __free() for device_node values, and thus drop calls to
-> of_node_put().
+On Tue, 11 Jun 2024 00:40:26 +0200, Javier Carrasco wrote:
+> The fwnode_for_each_child_node() loop requires manual intervention to
+> decrement the child refcount in case of an early return.
 > 
-> The variable attribute __free() adds a scope based cleanup to
-> the device node. The goal is to reduce memory management issues
-> in the kernel code.
+> Add the missing calls to fwnode_handle_put(child) to avoid memory leaks
+> in the error paths.
+> 
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: tlc591xx: Replace of_node_put to __free
-      commit: 5e6bc823b5c152b2a7854c61ec2054b0223ad2dd
+[1/1] leds: mt6360: fix memory leak in mt6360_init_isnk_properties()
+      commit: 6e0b2281085191fbf34fb24ef272cb44a82de4f0
 
 --
 Lee Jones [李琼斯]
