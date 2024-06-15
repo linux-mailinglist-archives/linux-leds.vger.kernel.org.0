@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-1943-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1944-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4589909A7D
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Jun 2024 01:15:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95335909A80
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Jun 2024 01:15:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C80171C210A0
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Jun 2024 23:15:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C8FE282788
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Jun 2024 23:15:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC67C13A875;
-	Sat, 15 Jun 2024 23:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9F6349651;
+	Sat, 15 Jun 2024 23:13:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CiQz/KFH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItZa8Svw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA533139D05;
-	Sat, 15 Jun 2024 23:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA3B13A3E7;
+	Sat, 15 Jun 2024 23:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718493185; cv=none; b=rEdLL0WSptWZxb+Q8GjEJjBvkRFpJwVP3CEu8SKM01oWmWyau5Y0pj9CnQ1TK7iCVklbiU9i5l8cPtUDOnHNiwujd8TuGZM1QqasEed05dCO3oDs/aWYN/oHoSxbiH4TESH4MKI/Vhf/feQZFvaxhywVPGPklk9wAhApoF109xM=
+	t=1718493186; cv=none; b=ZmH2BKpaehR2Vjh6Vs4H5HJWDhEkO3zm8SgDElhxNZz772FVi+HKo3BIROUJmAnWhImsQFPHH0MIb05nLQkza7iqYZrsJj8ocTQRq+MdxkhbqtYT2tsE/ZOzG4k0abAtO+DxXi7ULVps1nIUB387BEYw6ZKptJSROmpO8Y9JYz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718493185; c=relaxed/simple;
-	bh=jrUwrkPYp4hCHlkd6P6OYbxXe4swsLYG9zbBf4AA20s=;
+	s=arc-20240116; t=1718493186; c=relaxed/simple;
+	bh=+7IjSR/kqGIvv4H3fDY0x3wGXGdPGipVLZxe/zr7DoQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mph8baFKeIAKqbGwob6OWlUZjKneh4Jjyd9XXCJ/obmRovCk/i2K/gEPyqM8nAiv2ez3uY9/J0Fsxop0up/UK7C5+QDJpMTTT1m/lHgdRim3cCpvmJUtIMzrLS5PdSDT2Qc3rpIDR2jyi1PFy+q3BCcbThbdXl9Xl2Ts7urt/4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CiQz/KFH; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=NUA5KWggTIKXyR3Wj+PljK4qHUDhwpFoUk7SyZKs4tcdD3vB9Ml+EEmp/+qxqziGm7gei/PdnHp9x/pqj5LfSfuhtznf6XuxUa56ESdCa/ouQlBu41hwDAFDFp7BcqO1nszUfqbFgwBVRy2GQ5xyEJVgUvlfzLuyWiNJlE73Hks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItZa8Svw; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-35f2c0b7701so1878081f8f.0;
-        Sat, 15 Jun 2024 16:13:03 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-35dc1d8867eso2683096f8f.0;
+        Sat, 15 Jun 2024 16:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718493182; x=1719097982; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718493183; x=1719097983; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TJT+GSRKfcK8dGlTgwx48L15a3Q2jtdAFK5lJ52goD4=;
-        b=CiQz/KFHpvhE2kjEiJcNdSKXlqAS3l1iMWdfX+9t0k00luF3bC2Bu3BhBeBJ78JBdo
-         F+g4BIgnGNuBXe41B6VaIOG7tsB69DImW+gjoJWB7x/eBnhr9Jt6BcfRgJnNOqtDMEYF
-         Jg7GntwciGaCAD1Tey9n8W/KYa+gLY12aNM1hZ0noavzWb8zgPfUXnAx16B9G+7g1wt9
-         5lA93yJ1yQdLrdF/J19N9TuWdddZWH6/EFqpFIp8PO+yYpCHCpZYWDI4ydXWbEQ7/Hbb
-         MtNVgP8HBdu0Gdg1I96WMEG/tEnAB22NHe2iMnoE2+HyzOASL4HnkGk7HgAzcYL/WtVl
-         GYTQ==
+        bh=YPWkWTvKJqfRuDQmtB8UvlJrzwDG/2gWSmvAtvh8RdA=;
+        b=ItZa8SvwwM13qZUpX627ZMTT36I8tgALS6JIkxLOg4tUd0sxklN0hbkjSoxuUPBDwx
+         LvZNXFUiW24fqElIiGxMvSh2EROoGIEG7ebpFRPSjcc5ga0cbq9WKjkn959CV8xlfLim
+         qeN4anmG/ssx7RUYn715sRG7MowV/DMhs+Ku0tKTN8v436ygZ+EtJw7KtxXwroJvJmnO
+         T9Cl7WqJd1sfsDbAfT5TGKmvPERn1M0NYyKXAUJH/+I2WVBkqmLjkwLhQqSU3+8I57Xc
+         acT17dn6UZzeQujIXVOjXOhfsIt2WI5d+GMfNYEsozL385OhCJE0YNNZEWgUb3nhxwSS
+         TtIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718493182; x=1719097982;
+        d=1e100.net; s=20230601; t=1718493183; x=1719097983;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TJT+GSRKfcK8dGlTgwx48L15a3Q2jtdAFK5lJ52goD4=;
-        b=aikZR5yWcCXls/BfvpQnVyQnRzjdaRHdeLEs/R4f1F/DljJpCqOs7ctI2VS0qB7C0H
-         KKshST/FMSPwqDt2jDxYwAQGwERGYv7hHKVavFfNjsIVEh5lJAIeBoMVQ2DTWUYee3wa
-         gski0yk8rA/gjO1NWVotAOOYQtyjnxgBX1z+IL9aNVWjxIZn8RizfF9WdmJW24MaAMwr
-         IZqj76pq71KX/dGECJ7Geobajl2Ixm9vxRZbjNVOgAlX2LIeZCWFUx+ewoQIqK+9E6Mp
-         xOIhzJzWu7PePv+t6wXlxM7Ms7foqfCmVacGeFSt6nwy1K9qMSWabgg6nZcmvPvXO/gu
-         dTMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWe1bcSUzIOTIKsGV1DMDrA6r86D5a61Oy19dwLP/CM39gy2Q3581tL9IsafJNa4VZvD4G2szYHigqTYfsH9CNX0CFdjAcaMTi83AiEq5q0JS+kt/PeiD3scpPXXbTwQOc5a32P5+QqrydeA1O9dYN6TBwoFiDLKJ+Z/fjEKPn0xhXqa14=
-X-Gm-Message-State: AOJu0YyR/He5xf6rmfZyzooGOXl608EGzQuWU+F4Y5ajjWYnQ4eB/vTR
-	oOJFBEnsrXu6A8LL1X0PkL73yI/ev3MzY92k91zqqUFISd+9QQy1
-X-Google-Smtp-Source: AGHT+IHOACnByiXh6AMFMUrwSyBl501NtFDMCPKG6jaIGE0uKoJkcJqd3dkgs0PM0w/ZFFMSL0rzHg==
-X-Received: by 2002:adf:f14a:0:b0:360:8d70:d368 with SMTP id ffacd0b85a97d-3608d70d391mr2482228f8f.29.1718493182241;
-        Sat, 15 Jun 2024 16:13:02 -0700 (PDT)
+        bh=YPWkWTvKJqfRuDQmtB8UvlJrzwDG/2gWSmvAtvh8RdA=;
+        b=mS7KeNsZM1qfh9vCeKz0nlRjK84WUxTp3KMqxxvGxcPdo++XrH/OXtr/1bjNhM6iMH
+         pqR8ImSGuGGLCq+mrPgyGcmwgV0uaEBEQ8vg6aD/Hjq3K9E2/x1BQLrkAs+A4nKTWqWo
+         YF7ek8zjBdJuj+vE5ANYEmk00MGnWCA3QN00msM6u3uaX+zgUkfsE9N6P+yoJES6xz5X
+         XBkR/+HeOwfuk7Rj+fqA/ZNBX6fgPES68lvWK5rdm9381h93TjU78pzqJMhWomtbpf56
+         pNVsTnddHU+4RCZT8rFO8ugMVCSk2Rgg/Evme4C6Fx2Zn7ydLyo4p4WENbOzU9hU9wxU
+         mduw==
+X-Forwarded-Encrypted: i=1; AJvYcCXztPklq0z+RAYHdNBOyFUTOeQb1uyaKDrwtDmAfkrv79JBIgw4wGRWHkmfpjrOfSgF+rbBTtXYxH3wenqUsnjqwMXpiG+OCQvojBLWmsj9AKyeX+LDIgmRteUn/PusTEhHNqkXGZvZSGktvRjCPJ+A+rnqY6tsfaAwqpJTDRhFROMsWCE=
+X-Gm-Message-State: AOJu0YyK2QwCwbC0ODKlA0gQjd18gBYyeahsdh0mQXtZcHwacl2Gno+D
+	+IerdN2fApTEyp3e5SJIOfGO/DJVSkyKtgmbCXj0Cv2zOgUhUWgUEf0Lgw==
+X-Google-Smtp-Source: AGHT+IHd8c7kQFNa8jP9GcXZWb7yTpIbNIGJIZkLgnAd58fzdHo9dXUcoPjoEe4jb+UFwN1on0QIQg==
+X-Received: by 2002:a05:6000:5:b0:35f:2614:4be7 with SMTP id ffacd0b85a97d-3607a76b77emr3729352f8f.37.1718493183152;
+        Sat, 15 Jun 2024 16:13:03 -0700 (PDT)
 Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3607509355dsm8145532f8f.13.2024.06.15.16.13.01
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3607509355dsm8145532f8f.13.2024.06.15.16.13.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jun 2024 16:13:01 -0700 (PDT)
+        Sat, 15 Jun 2024 16:13:02 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -78,9 +78,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Christian Marangi <ansuelsmth@gmail.com>
-Subject: [PATCH v5 13/20] leds: leds-lp55xx: generalize turn_off_channels function
-Date: Sun, 16 Jun 2024 01:11:43 +0200
-Message-ID: <20240615231152.28201-14-ansuelsmth@gmail.com>
+Subject: [PATCH v5 14/20] leds: leds-lp55xx: generalize stop_engine function
+Date: Sun, 16 Jun 2024 01:11:44 +0200
+Message-ID: <20240615231152.28201-15-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240615231152.28201-1-ansuelsmth@gmail.com>
 References: <20240615231152.28201-1-ansuelsmth@gmail.com>
@@ -92,102 +92,145 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Generalize turn_off_channels function as the implementation is the same for
+Generalize stop_engine function as the implementation is the same for
 most of the lp55xx based LED driver.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/leds/leds-lp5523.c        | 10 +---------
- drivers/leds/leds-lp55xx-common.c | 10 ++++++++++
+ drivers/leds/leds-lp5521.c        | 20 +++-----------------
+ drivers/leds/leds-lp5523.c        | 20 +++-----------------
+ drivers/leds/leds-lp55xx-common.c | 13 +++++++++++++
  drivers/leds/leds-lp55xx-common.h |  1 +
- drivers/leds/leds-lp8501.c        | 10 +---------
- 4 files changed, 13 insertions(+), 18 deletions(-)
+ 4 files changed, 20 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 3030a4495808..4a4463cb44a4 100644
---- a/drivers/leds/leds-lp5523.c
-+++ b/drivers/leds/leds-lp5523.c
-@@ -167,20 +167,12 @@ static void lp5523_stop_engine(struct lp55xx_chip *chip)
- 	lp5523_wait_opmode_done();
+diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
+index a1a3bf0ff703..4afae0c70d19 100644
+--- a/drivers/leds/leds-lp5521.c
++++ b/drivers/leds/leds-lp5521.c
+@@ -108,27 +108,13 @@ static inline void lp5521_wait_enable_done(void)
+ 	usleep_range(500, 600);
  }
  
--static void lp5523_turn_off_channels(struct lp55xx_chip *chip)
+-static void lp5521_stop_engine(struct lp55xx_chip *chip)
 -{
--	int i;
+-	enum lp55xx_engine_index idx = chip->engine_idx;
+-	static const u8 mask[] = {
+-		[LP55XX_ENGINE_1] = LP5521_MODE_R_M,
+-		[LP55XX_ENGINE_2] = LP5521_MODE_G_M,
+-		[LP55XX_ENGINE_3] = LP5521_MODE_B_M,
+-	};
 -
--	for (i = 0; i < LP5523_MAX_LEDS; i++)
--		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0);
+-	lp55xx_update_bits(chip, LP5521_REG_OP_MODE, mask[idx], 0);
+-
+-	lp5521_wait_opmode_done();
+-}
+-
+ static void lp5521_run_engine(struct lp55xx_chip *chip, bool start)
+ {
+ 	int ret;
+ 
+ 	/* stop engine */
+ 	if (!start) {
+-		lp5521_stop_engine(chip);
++		lp55xx_stop_engine(chip);
+ 		lp55xx_write(chip, LP5521_REG_OP_MODE, LP5521_CMD_DIRECT);
+ 		lp5521_wait_opmode_done();
+ 		return;
+@@ -253,11 +239,11 @@ static ssize_t store_engine_mode(struct device *dev,
+ 		lp5521_run_engine(chip, true);
+ 		engine->mode = LP55XX_ENGINE_RUN;
+ 	} else if (!strncmp(buf, "load", 4)) {
+-		lp5521_stop_engine(chip);
++		lp55xx_stop_engine(chip);
+ 		lp55xx_load_engine(chip);
+ 		engine->mode = LP55XX_ENGINE_LOAD;
+ 	} else if (!strncmp(buf, "disabled", 8)) {
+-		lp5521_stop_engine(chip);
++		lp55xx_stop_engine(chip);
+ 		engine->mode = LP55XX_ENGINE_DISABLED;
+ 	}
+ 
+diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+index 4a4463cb44a4..1dd909a0fff5 100644
+--- a/drivers/leds/leds-lp5523.c
++++ b/drivers/leds/leds-lp5523.c
+@@ -153,25 +153,11 @@ static int lp5523_post_init_device(struct lp55xx_chip *chip)
+ 	return lp5523_init_program_engine(chip);
+ }
+ 
+-static void lp5523_stop_engine(struct lp55xx_chip *chip)
+-{
+-	enum lp55xx_engine_index idx = chip->engine_idx;
+-	static const u8 mask[] = {
+-		[LP55XX_ENGINE_1] = LP5523_MODE_ENG1_M,
+-		[LP55XX_ENGINE_2] = LP5523_MODE_ENG2_M,
+-		[LP55XX_ENGINE_3] = LP5523_MODE_ENG3_M,
+-	};
+-
+-	lp55xx_update_bits(chip, LP5523_REG_OP_MODE, mask[idx], 0);
+-
+-	lp5523_wait_opmode_done();
 -}
 -
  static void lp5523_run_engine(struct lp55xx_chip *chip, bool start)
  {
  	/* stop engine */
  	if (!start) {
- 		lp5523_stop_engine(chip);
--		lp5523_turn_off_channels(chip);
-+		lp55xx_turn_off_channels(chip);
+-		lp5523_stop_engine(chip);
++		lp55xx_stop_engine(chip);
+ 		lp55xx_turn_off_channels(chip);
  		return;
+ 	}
+@@ -277,11 +263,11 @@ static ssize_t store_engine_mode(struct device *dev,
+ 		lp5523_run_engine(chip, true);
+ 		engine->mode = LP55XX_ENGINE_RUN;
+ 	} else if (!strncmp(buf, "load", 4)) {
+-		lp5523_stop_engine(chip);
++		lp55xx_stop_engine(chip);
+ 		lp55xx_load_engine(chip);
+ 		engine->mode = LP55XX_ENGINE_LOAD;
+ 	} else if (!strncmp(buf, "disabled", 8)) {
+-		lp5523_stop_engine(chip);
++		lp55xx_stop_engine(chip);
+ 		engine->mode = LP55XX_ENGINE_DISABLED;
  	}
  
 diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index 0d9c2990c335..028a485d3561 100644
+index 028a485d3561..46b1eb1ce775 100644
 --- a/drivers/leds/leds-lp55xx-common.c
 +++ b/drivers/leds/leds-lp55xx-common.c
-@@ -288,6 +288,16 @@ void lp55xx_set_led_current(struct lp55xx_led *led, u8 led_current)
+@@ -298,6 +298,19 @@ void lp55xx_turn_off_channels(struct lp55xx_chip *chip)
  }
- EXPORT_SYMBOL_GPL(lp55xx_set_led_current);
+ EXPORT_SYMBOL_GPL(lp55xx_turn_off_channels);
  
-+void lp55xx_turn_off_channels(struct lp55xx_chip *chip)
++void lp55xx_stop_engine(struct lp55xx_chip *chip)
 +{
++	enum lp55xx_engine_index idx = chip->engine_idx;
 +	const struct lp55xx_device_config *cfg = chip->cfg;
-+	int i;
++	u8 mask;
 +
-+	for (i = 0; i < cfg->max_channel; i++)
-+		lp55xx_write(chip, cfg->reg_led_pwm_base.addr + i, 0);
++	mask = LP55xx_MODE_ENGn_MASK(idx, cfg->reg_op_mode.shift);
++	lp55xx_update_bits(chip, cfg->reg_op_mode.addr, mask, 0);
++
++	lp55xx_wait_opmode_done(chip);
 +}
-+EXPORT_SYMBOL_GPL(lp55xx_turn_off_channels);
++EXPORT_SYMBOL_GPL(lp55xx_stop_engine);
 +
  static void lp55xx_reset_device(struct lp55xx_chip *chip)
  {
  	const struct lp55xx_device_config *cfg = chip->cfg;
 diff --git a/drivers/leds/leds-lp55xx-common.h b/drivers/leds/leds-lp55xx-common.h
-index e638049d9297..531fbb0acb2e 100644
+index 531fbb0acb2e..0aba6955a3af 100644
 --- a/drivers/leds/leds-lp55xx-common.h
 +++ b/drivers/leds/leds-lp55xx-common.h
-@@ -220,6 +220,7 @@ extern void lp55xx_firmware_loaded_cb(struct lp55xx_chip *chip);
- extern int lp55xx_led_brightness(struct lp55xx_led *led);
+@@ -221,6 +221,7 @@ extern int lp55xx_led_brightness(struct lp55xx_led *led);
  extern int lp55xx_multicolor_brightness(struct lp55xx_led *led);
  extern void lp55xx_set_led_current(struct lp55xx_led *led, u8 led_current);
-+extern void lp55xx_turn_off_channels(struct lp55xx_chip *chip);
+ extern void lp55xx_turn_off_channels(struct lp55xx_chip *chip);
++extern void lp55xx_stop_engine(struct lp55xx_chip *chip);
  
  /* common probe/remove function */
  extern int lp55xx_probe(struct i2c_client *client);
-diff --git a/drivers/leds/leds-lp8501.c b/drivers/leds/leds-lp8501.c
-index d924572e4533..1fb876f64cb7 100644
---- a/drivers/leds/leds-lp8501.c
-+++ b/drivers/leds/leds-lp8501.c
-@@ -110,20 +110,12 @@ static int lp8501_post_init_device(struct lp55xx_chip *chip)
- 				LP8501_PWR_CONFIG_M, chip->pdata->pwr_sel);
- }
- 
--static void lp8501_turn_off_channels(struct lp55xx_chip *chip)
--{
--	int i;
--
--	for (i = 0; i < LP8501_MAX_LEDS; i++)
--		lp55xx_write(chip, LP8501_REG_LED_PWM_BASE + i, 0);
--}
--
- static void lp8501_run_engine(struct lp55xx_chip *chip, bool start)
- {
- 	/* stop engine */
- 	if (!start) {
- 		lp55xx_stop_all_engine(chip);
--		lp8501_turn_off_channels(chip);
-+		lp55xx_turn_off_channels(chip);
- 		return;
- 	}
- 
 -- 
 2.43.0
 
