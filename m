@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-1937-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1938-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238B1909A6A
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Jun 2024 01:14:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34632909A6E
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Jun 2024 01:14:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A0621C20DA7
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Jun 2024 23:14:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A25B9282851
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Jun 2024 23:14:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58D977A13A;
-	Sat, 15 Jun 2024 23:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9EAC12B143;
+	Sat, 15 Jun 2024 23:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duLbg0Hb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vn15l0Iv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5616649651;
-	Sat, 15 Jun 2024 23:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E43757F0;
+	Sat, 15 Jun 2024 23:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718493180; cv=none; b=CYQLgxh84Pa+YXf+VRvUN0mrBkeFO8hbQ2ZyLUf8Y8+RNfIxkBXnaPzWiVay7qvrfmLTDIil+lNJPAx6+JOeSqHKDQ530dWCJyT/xJnoETkKDFwbZKdE+4HGKeG+FGjdq8/IZLx0ItN/7dXwVOCqCQo/m81bTUIFHRch8vhjZ9A=
+	t=1718493181; cv=none; b=DKNPqmHyTJxELc/TiGVQJorQLzZDyQtbvTEeFh2ZJbvn9t3k6012esvjFVaE7jATRpIPyfXs20z/hBZxrMTnpEXzGM47jVfUwDkrbMgntlMGhycQs9OBbYc5yLDNz6sh04DaxiP1aLu32ND25oZmIQkpQafBq1VL/wAURfN438E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718493180; c=relaxed/simple;
-	bh=wBbxrLnkfNyobL87UuOQj2jlt6y5twjfk2owp+xVlEg=;
+	s=arc-20240116; t=1718493181; c=relaxed/simple;
+	bh=jpvVBinjL8elz0QeGVnppBN3OzVoAOQIVXhAfL4l4Ps=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LOOlN4irmmuoK7es/0BHJ4Cm7i6qk7Bgyhmb+gmi3AS+JoNOPXMJTblPQh10HjexQkGx6DFx/Nrd0NmUTQ4q615HWgdowOy3J5G57c3zUb/VKUYBQrJcQB4cSgORNknpoitSRIeE7T4GHYlLGc0UIaMMk6I8xQUng3OC5zJbTBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duLbg0Hb; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=gW9T682rIamn3X2awHyOcZqkRhCYXm+v9wgvQphuR1gqAIuQudkLpQdPK3srec2OKwIw3JnTtxUGTSu/2neZpaPz0SMC4sFgdRIpRYlz9bwj67RayPFvFE5loV/XgO5JnaN6u0uT80Kkvm+aYezYL069XyX8NnHWLrjcijOy0DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vn15l0Iv; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35dc1d8867eso2683062f8f.0;
-        Sat, 15 Jun 2024 16:12:58 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-35f27eed98aso2722433f8f.2;
+        Sat, 15 Jun 2024 16:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718493177; x=1719097977; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718493178; x=1719097978; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=01Yp5Oo+fAXFWYQsh1sHng/98wv/JHqgWnDMLUMpVTA=;
-        b=duLbg0HbN1f7zM02xKQJsVyYSlU/B2EXc5IoC2eVnwHaNVEWFohE4on+CHRJV6/5EQ
-         OigG2OlgATg4Bneqfe1k/jo4MgLPL+PjnVqbfflhFrx8RZ55KlOx6SJ52oSVPypqeYl6
-         7P4E8TngDqL/6tjH+UvH+W7fR/OO62PJLI2vS7/un8LL2bMe7xxPkxLQwgvwCnOqxvmQ
-         x1FTWB74FhMU9GnwpDyS99lajzPfCZy/oBwpxljc/+3/Qlk3Gr4ppYXRaTGTURGUkxUy
-         ISjNs3pGIb3v7HuLOSE7NEknbn845rm2Lo8h/q/+OvalFN6fNNuGxjqxP7aXtjkQcdDE
-         u2NA==
+        bh=vMFwm7/QZL9Sy2AQL6wNOzbSx3Ekmm89kZ4tXsz7YGs=;
+        b=Vn15l0Iv+u/vO0NbhEdWDdpxNM5lPEgMjFu4dtxNQ9CXOiNROfOmyIHK13vRBbgf4H
+         q0P8HIjUdz0ylCc08gcgi7zj8wtOafuhjsYuffg/8SM4h8Y78bNOm09sFYT0U+96ageB
+         RJsO2BoLm0yUVhQu9wKUEBhqOslo+lPl5wBdD4miChAe9qx4edZz6LLQ8VSXimezI5Nm
+         3zSKMOLLy208sTjo3zTo//ajVi1R1KWzwuA3D4aTOSv2i9nyITxXx+3pFx39UCq8hf2a
+         VhlPIB+QMYj+ScX3UnpFvudoeadaxIheYeB1Fh3W2UPoZPEJOlvYyucr20miDPyOgY4q
+         pCvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718493177; x=1719097977;
+        d=1e100.net; s=20230601; t=1718493178; x=1719097978;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=01Yp5Oo+fAXFWYQsh1sHng/98wv/JHqgWnDMLUMpVTA=;
-        b=t+4GWryXMOPOnfQ+PVn05OCIIPBPmuXlpaFeMWT8IM5odn0kM5me/EkjxCCiurFH+x
-         KZ4ywLf1y/k8cTnBDHv7WfcY/eiA0BU37rltrFCK7TJEkM+f7CXC8f2MylGXjg1HJNmd
-         AkdhlMPMADBJBgRRdn1kTBuxZKYy31lUslhKsjlJUXgQKoqx49qfLKkiFagjz0Rq6dMt
-         fmpPwkKXC0+z3Uber5uZx4iUPaCDTyNCD71iJiG9vyVUCgzx05jdUMLEnVMqTtUt1IZU
-         qhLP67u/7Q4xTvwSjECRv1LIAJH2IlmyrK0e9GlzUQGW6TtXLfIPUyXxG/n62UjmvYm3
-         Qmig==
-X-Forwarded-Encrypted: i=1; AJvYcCWDyy9O4sdLlyD3UzDntehhxSsqZIj9oMMqDpCLD0Zxq2KGMG/gzlcZ9ckey7PiYlbINLM2dNWO4UYYhtUKJEkwf4ESXTFfvSjnBkHZjbLZfMtrOP+j3HpJD9hRXJSX2QLP1ojFH0+Yi2yd/PKaiptTwkRUVNfJP+0k4/Mp15dVlb/G/bc=
-X-Gm-Message-State: AOJu0YwO0vQ/HKuLvilZ5/5fpRN8MNM5MCjVCFo9GoNgBKk5W1ESbAYn
-	odNde2T+O6Q1+CLuNyLDQKGoiiOG5FTMKWBWT9Oo+sVx4qGB5X5V
-X-Google-Smtp-Source: AGHT+IHGOXmwdXsv0JmO350tR/IRub9s6kG5HfX4x8NT92ixLql//Ji4UrU4XfGFtDIKhwoaNftmbA==
-X-Received: by 2002:a5d:4e42:0:b0:35f:1c34:adfc with SMTP id ffacd0b85a97d-3607a78db97mr4320898f8f.67.1718493176722;
-        Sat, 15 Jun 2024 16:12:56 -0700 (PDT)
+        bh=vMFwm7/QZL9Sy2AQL6wNOzbSx3Ekmm89kZ4tXsz7YGs=;
+        b=eno2UswUO1J5aLNMi+RvLSQEm0+s+2gFxw32SYINIheIA/vRVH5MBtyyJLziZM5JwQ
+         QoSV+cyO2nLd5AbrrjbDAXmJwrFQsxAdh7iHoLjKNY6OS4PyHvhTi8Z90l8DFiOi/SoE
+         0rkl9DVwxvW97nWwVVMACGQ1qSd4ECAMRfKYAOT3Q1+vGf9GuhbPhoPXYTCd+jZxjuxv
+         gcJCA7WjYxggU30Iv6xghzFI1mUsLFWRHk05q0x7/hddJ3OELw2Smj/atQn4/DGkqnpi
+         rDxUSaEF+xFTL+px0SqZ4DDuMWjzh38wxA5OPLHI2fqfAAbYCpaIp3yJxW4MO+av+cL7
+         8R0g==
+X-Forwarded-Encrypted: i=1; AJvYcCV2V/oEtpzji4G+CWNCf1Czjprs5+0Hlm1tLmPZNhBMfK10kvuvQhpl6buL6xb+imNvtMh/IGBEbylN97fxAGVqbU1NYc2AzvDsg3gLr2IkOxvjZQ8l0eP0gdMl+Qr1GyKbrBUknLWTxl7eQ+tghGyJljMrAMVdKplmxODso2eqbnwZPqQ=
+X-Gm-Message-State: AOJu0Yxxx60gVlPlISaS/3rMELxU0dHk3aXjd1/dNVsUpNG9ouwZXs3i
+	2eZtgCV9Zj5VvhJ1MQdDlHJTts1CJTpVGXyt9EUPCsYlwl2eEG/u
+X-Google-Smtp-Source: AGHT+IEd3fJu/LlQEoPSSPQFqcWODjkaR43WHJ+V4HOU1ONSOFkHGm/XUFcw85oxFMIjG9YOObLu6A==
+X-Received: by 2002:a05:6000:188d:b0:360:82c7:f07f with SMTP id ffacd0b85a97d-36082c7f5dbmr3254125f8f.57.1718493177610;
+        Sat, 15 Jun 2024 16:12:57 -0700 (PDT)
 Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3607509355dsm8145532f8f.13.2024.06.15.16.12.55
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3607509355dsm8145532f8f.13.2024.06.15.16.12.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jun 2024 16:12:56 -0700 (PDT)
+        Sat, 15 Jun 2024 16:12:57 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -78,9 +78,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Christian Marangi <ansuelsmth@gmail.com>
-Subject: [PATCH v5 07/20] leds: leds-lp55xx: generalize run_engine function
-Date: Sun, 16 Jun 2024 01:11:37 +0200
-Message-ID: <20240615231152.28201-8-ansuelsmth@gmail.com>
+Subject: [PATCH v5 08/20] leds: leds-lp55xx: generalize update_program_memory function
+Date: Sun, 16 Jun 2024 01:11:38 +0200
+Message-ID: <20240615231152.28201-9-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240615231152.28201-1-ansuelsmth@gmail.com>
 References: <20240615231152.28201-1-ansuelsmth@gmail.com>
@@ -92,371 +92,463 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Generalize run_engine function for lp55xx based LED driver. The logic is
-similar to every LED driver, rework it with more macro magic and account
-for LED model that might have OP MODE and EXEC at base offset in the
-reg.
+LED Driver based on lp55xx all use the same logic to write memory in
+SMEM. The only difference is that legacy chip doesn't support pages and
+have the engine regs one after another.
 
-Update any lp55xx based LED driver to use this generalized function and
-declare required bits.
+To handle this apply the same logic used for load_engine also for
+update_program_memory.
+
+Introduce a new config in device_config, base_prog. For LED chip
+that doesn't support pages, offset this values of 32 for each engine.
+
+Update all lp55xx based LED driver to use this new function and define
+all the required bits.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/leds/leds-lp5521.c        | 42 +++++-------------------------
- drivers/leds/leds-lp5523.c        | 41 +++--------------------------
- drivers/leds/leds-lp5562.c        | 42 +++++-------------------------
- drivers/leds/leds-lp55xx-common.c | 43 +++++++++++++++++++++++++++++++
- drivers/leds/leds-lp55xx-common.h |  2 ++
- drivers/leds/leds-lp8501.c        | 41 +++--------------------------
- 6 files changed, 65 insertions(+), 146 deletions(-)
+ drivers/leds/leds-lp5521.c        | 56 +++--------------------------
+ drivers/leds/leds-lp5523.c        | 50 +++-----------------------
+ drivers/leds/leds-lp5562.c        | 58 +++----------------------------
+ drivers/leds/leds-lp55xx-common.c | 57 ++++++++++++++++++++++++++++++
+ drivers/leds/leds-lp55xx-common.h |  4 +++
+ drivers/leds/leds-lp8501.c        | 52 +++------------------------
+ 6 files changed, 79 insertions(+), 198 deletions(-)
 
 diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
-index 08db470fff6c..0b9f99f4fff2 100644
+index 0b9f99f4fff2..7ea3e5715f59 100644
 --- a/drivers/leds/leds-lp5521.c
 +++ b/drivers/leds/leds-lp5521.c
-@@ -132,8 +132,6 @@ static void lp5521_stop_engine(struct lp55xx_chip *chip)
- static void lp5521_run_engine(struct lp55xx_chip *chip, bool start)
- {
- 	int ret;
--	u8 mode;
--	u8 exec;
- 
- 	/* stop engine */
- 	if (!start) {
-@@ -143,40 +141,9 @@ static void lp5521_run_engine(struct lp55xx_chip *chip, bool start)
- 		return;
- 	}
- 
--	/*
--	 * To run the engine,
--	 * operation mode and enable register should updated at the same time
--	 */
--
--	ret = lp55xx_read(chip, LP5521_REG_OP_MODE, &mode);
--	if (ret)
--		return;
--
--	ret = lp55xx_read(chip, LP5521_REG_ENABLE, &exec);
--	if (ret)
--		return;
--
--	/* change operation mode to RUN only when each engine is loading */
--	if (LP5521_R_IS_LOADING(mode)) {
--		mode = (mode & ~LP5521_MODE_R_M) | LP5521_RUN_R;
--		exec = (exec & ~LP5521_EXEC_R_M) | LP5521_RUN_R;
--	}
--
--	if (LP5521_G_IS_LOADING(mode)) {
--		mode = (mode & ~LP5521_MODE_G_M) | LP5521_RUN_G;
--		exec = (exec & ~LP5521_EXEC_G_M) | LP5521_RUN_G;
--	}
--
--	if (LP5521_B_IS_LOADING(mode)) {
--		mode = (mode & ~LP5521_MODE_B_M) | LP5521_RUN_B;
--		exec = (exec & ~LP5521_EXEC_B_M) | LP5521_RUN_B;
--	}
--
--	lp55xx_write(chip, LP5521_REG_OP_MODE, mode);
--	lp5521_wait_opmode_done();
--
--	lp55xx_update_bits(chip, LP5521_REG_ENABLE, LP5521_EXEC_M, exec);
--	lp5521_wait_enable_done();
-+	ret = lp55xx_run_engine_common(chip);
-+	if (!ret)
-+		lp5521_wait_enable_done();
+@@ -146,55 +146,6 @@ static void lp5521_run_engine(struct lp55xx_chip *chip, bool start)
+ 		lp5521_wait_enable_done();
  }
  
- static int lp5521_update_program_memory(struct lp55xx_chip *chip,
-@@ -476,6 +443,9 @@ static struct lp55xx_device_config lp5521_cfg = {
- 	.reg_op_mode = {
- 		.addr = LP5521_REG_OP_MODE,
+-static int lp5521_update_program_memory(struct lp55xx_chip *chip,
+-					const u8 *data, size_t size)
+-{
+-	enum lp55xx_engine_index idx = chip->engine_idx;
+-	u8 pattern[LP5521_PROGRAM_LENGTH] = {0};
+-	static const u8 addr[] = {
+-		[LP55XX_ENGINE_1] = LP5521_REG_R_PROG_MEM,
+-		[LP55XX_ENGINE_2] = LP5521_REG_G_PROG_MEM,
+-		[LP55XX_ENGINE_3] = LP5521_REG_B_PROG_MEM,
+-	};
+-	unsigned cmd;
+-	char c[3];
+-	int nrchars;
+-	int ret;
+-	int offset = 0;
+-	int i = 0;
+-
+-	while ((offset < size - 1) && (i < LP5521_PROGRAM_LENGTH)) {
+-		/* separate sscanfs because length is working only for %s */
+-		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
+-		if (ret != 1)
+-			goto err;
+-
+-		ret = sscanf(c, "%2x", &cmd);
+-		if (ret != 1)
+-			goto err;
+-
+-		pattern[i] = (u8)cmd;
+-		offset += nrchars;
+-		i++;
+-	}
+-
+-	/* Each instruction is 16bit long. Check that length is even */
+-	if (i % 2)
+-		goto err;
+-
+-	for (i = 0; i < LP5521_PROGRAM_LENGTH; i++) {
+-		ret = lp55xx_write(chip, addr[idx] + i, pattern[i]);
+-		if (ret)
+-			return -EINVAL;
+-	}
+-
+-	return size;
+-
+-err:
+-	dev_err(&chip->cl->dev, "wrong pattern format\n");
+-	return -EINVAL;
+-}
+-
+ static void lp5521_firmware_loaded(struct lp55xx_chip *chip)
+ {
+ 	const struct firmware *fw = chip->fw;
+@@ -212,7 +163,7 @@ static void lp5521_firmware_loaded(struct lp55xx_chip *chip)
+ 	 */
+ 
+ 	lp55xx_load_engine(chip);
+-	lp5521_update_program_memory(chip, fw->data, fw->size);
++	lp55xx_update_program_memory(chip, fw->data, fw->size);
+ }
+ 
+ static int lp5521_post_init_device(struct lp55xx_chip *chip)
+@@ -389,7 +340,7 @@ static ssize_t store_engine_load(struct device *dev,
+ 
+ 	chip->engine_idx = nr;
+ 	lp55xx_load_engine(chip);
+-	ret = lp5521_update_program_memory(chip, buf, len);
++	ret = lp55xx_update_program_memory(chip, buf, len);
+ 
+ 	mutex_unlock(&chip->lock);
+ 
+@@ -454,6 +405,9 @@ static struct lp55xx_device_config lp5521_cfg = {
+ 		.addr = LP5521_REG_ENABLE,
+ 		.val  = LP5521_ENABLE_DEFAULT,
  	},
-+	.reg_exec = {
-+		.addr = LP5521_REG_ENABLE,
++	.prog_mem_base = {
++		.addr = LP5521_REG_R_PROG_MEM,
 +	},
- 	.reset = {
- 		.addr = LP5521_REG_RESET,
- 		.val  = LP5521_RESET,
+ 	.max_channel  = LP5521_MAX_LEDS,
+ 	.post_init_device   = lp5521_post_init_device,
+ 	.brightness_fn      = lp5521_led_brightness,
 diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 8dabd5814110..b28955b72189 100644
+index b28955b72189..395c57330484 100644
 --- a/drivers/leds/leds-lp5523.c
 +++ b/drivers/leds/leds-lp5523.c
-@@ -184,10 +184,6 @@ static void lp5523_turn_off_channels(struct lp55xx_chip *chip)
- 
- static void lp5523_run_engine(struct lp55xx_chip *chip, bool start)
- {
--	int ret;
--	u8 mode;
--	u8 exec;
--
- 	/* stop engine */
- 	if (!start) {
- 		lp5523_stop_engine(chip);
-@@ -195,39 +191,7 @@ static void lp5523_run_engine(struct lp55xx_chip *chip, bool start)
- 		return;
- 	}
- 
--	/*
--	 * To run the engine,
--	 * operation mode and enable register should updated at the same time
--	 */
--
--	ret = lp55xx_read(chip, LP5523_REG_OP_MODE, &mode);
--	if (ret)
--		return;
--
--	ret = lp55xx_read(chip, LP5523_REG_ENABLE, &exec);
--	if (ret)
--		return;
--
--	/* change operation mode to RUN only when each engine is loading */
--	if (LP5523_ENG1_IS_LOADING(mode)) {
--		mode = (mode & ~LP5523_MODE_ENG1_M) | LP5523_RUN_ENG1;
--		exec = (exec & ~LP5523_EXEC_ENG1_M) | LP5523_RUN_ENG1;
--	}
--
--	if (LP5523_ENG2_IS_LOADING(mode)) {
--		mode = (mode & ~LP5523_MODE_ENG2_M) | LP5523_RUN_ENG2;
--		exec = (exec & ~LP5523_EXEC_ENG2_M) | LP5523_RUN_ENG2;
--	}
--
--	if (LP5523_ENG3_IS_LOADING(mode)) {
--		mode = (mode & ~LP5523_MODE_ENG3_M) | LP5523_RUN_ENG3;
--		exec = (exec & ~LP5523_EXEC_ENG3_M) | LP5523_RUN_ENG3;
--	}
--
--	lp55xx_write(chip, LP5523_REG_OP_MODE, mode);
--	lp5523_wait_opmode_done();
--
--	lp55xx_update_bits(chip, LP5523_REG_ENABLE, LP5523_EXEC_M, exec);
-+	lp55xx_run_engine_common(chip);
+@@ -254,49 +254,6 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
+ 	return ret;
  }
  
- static int lp5523_init_program_engine(struct lp55xx_chip *chip)
-@@ -840,6 +804,9 @@ static struct lp55xx_device_config lp5523_cfg = {
- 	.reg_op_mode = {
- 		.addr = LP5523_REG_OP_MODE,
+-static int lp5523_update_program_memory(struct lp55xx_chip *chip,
+-					const u8 *data, size_t size)
+-{
+-	u8 pattern[LP5523_PROGRAM_LENGTH] = {0};
+-	unsigned int cmd;
+-	char c[3];
+-	int nrchars;
+-	int ret;
+-	int offset = 0;
+-	int i = 0;
+-
+-	while ((offset < size - 1) && (i < LP5523_PROGRAM_LENGTH)) {
+-		/* separate sscanfs because length is working only for %s */
+-		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
+-		if (ret != 1)
+-			goto err;
+-
+-		ret = sscanf(c, "%2x", &cmd);
+-		if (ret != 1)
+-			goto err;
+-
+-		pattern[i] = (u8)cmd;
+-		offset += nrchars;
+-		i++;
+-	}
+-
+-	/* Each instruction is 16bit long. Check that length is even */
+-	if (i % 2)
+-		goto err;
+-
+-	for (i = 0; i < LP5523_PROGRAM_LENGTH; i++) {
+-		ret = lp55xx_write(chip, LP5523_REG_PROG_MEM + i, pattern[i]);
+-		if (ret)
+-			return -EINVAL;
+-	}
+-
+-	return size;
+-
+-err:
+-	dev_err(&chip->cl->dev, "wrong pattern format\n");
+-	return -EINVAL;
+-}
+-
+ static void lp5523_firmware_loaded(struct lp55xx_chip *chip)
+ {
+ 	const struct firmware *fw = chip->fw;
+@@ -314,7 +271,7 @@ static void lp5523_firmware_loaded(struct lp55xx_chip *chip)
+ 	 */
+ 
+ 	lp55xx_load_engine(chip);
+-	lp5523_update_program_memory(chip, fw->data, fw->size);
++	lp55xx_update_program_memory(chip, fw->data, fw->size);
+ }
+ 
+ static ssize_t show_engine_mode(struct device *dev,
+@@ -496,7 +453,7 @@ static ssize_t store_engine_load(struct device *dev,
+ 
+ 	chip->engine_idx = nr;
+ 	lp55xx_load_engine(chip);
+-	ret = lp5523_update_program_memory(chip, buf, len);
++	ret = lp55xx_update_program_memory(chip, buf, len);
+ 
+ 	mutex_unlock(&chip->lock);
+ 
+@@ -819,6 +776,9 @@ static struct lp55xx_device_config lp5523_cfg = {
+ 		.addr = LP5523_REG_ENABLE,
+ 		.val  = LP5523_ENABLE,
  	},
-+	.reg_exec = {
-+		.addr = LP5523_REG_ENABLE,
++	.prog_mem_base = {
++		.addr = LP5523_REG_PROG_MEM,
 +	},
- 	.engine_busy = {
- 		.addr = LP5523_REG_STATUS,
- 		.mask  = LP5523_ENGINE_BUSY,
+ 	.pages_per_engine   = LP5523_PAGES_PER_ENGINE,
+ 	.max_channel  = LP5523_MAX_LEDS,
+ 	.post_init_device   = lp5523_post_init_device,
 diff --git a/drivers/leds/leds-lp5562.c b/drivers/leds/leds-lp5562.c
-index 5e26a52f534f..fb05439576c3 100644
+index fb05439576c3..7f3733fc446e 100644
 --- a/drivers/leds/leds-lp5562.c
 +++ b/drivers/leds/leds-lp5562.c
-@@ -127,8 +127,6 @@ static void lp5562_set_led_current(struct lp55xx_led *led, u8 led_current)
- static void lp5562_run_engine(struct lp55xx_chip *chip, bool start)
- {
- 	int ret;
--	u8 mode;
--	u8 exec;
- 
- 	/* stop engine */
- 	if (!start) {
-@@ -141,40 +139,9 @@ static void lp5562_run_engine(struct lp55xx_chip *chip, bool start)
- 		return;
- 	}
- 
--	/*
--	 * To run the engine,
--	 * operation mode and enable register should updated at the same time
--	 */
--
--	ret = lp55xx_read(chip, LP5562_REG_OP_MODE, &mode);
--	if (ret)
--		return;
--
--	ret = lp55xx_read(chip, LP5562_REG_ENABLE, &exec);
--	if (ret)
--		return;
--
--	/* change operation mode to RUN only when each engine is loading */
--	if (LP5562_ENG1_IS_LOADING(mode)) {
--		mode = (mode & ~LP5562_MODE_ENG1_M) | LP5562_RUN_ENG1;
--		exec = (exec & ~LP5562_EXEC_ENG1_M) | LP5562_RUN_ENG1;
--	}
--
--	if (LP5562_ENG2_IS_LOADING(mode)) {
--		mode = (mode & ~LP5562_MODE_ENG2_M) | LP5562_RUN_ENG2;
--		exec = (exec & ~LP5562_EXEC_ENG2_M) | LP5562_RUN_ENG2;
--	}
--
--	if (LP5562_ENG3_IS_LOADING(mode)) {
--		mode = (mode & ~LP5562_MODE_ENG3_M) | LP5562_RUN_ENG3;
--		exec = (exec & ~LP5562_EXEC_ENG3_M) | LP5562_RUN_ENG3;
--	}
--
--	lp55xx_write(chip, LP5562_REG_OP_MODE, mode);
--	lp5562_wait_opmode_done();
--
--	lp55xx_update_bits(chip, LP5562_REG_ENABLE, LP5562_EXEC_M, exec);
--	lp5562_wait_enable_done();
-+	ret = lp55xx_run_engine_common(chip);
-+	if (!ret)
-+		lp5562_wait_enable_done();
+@@ -144,59 +144,6 @@ static void lp5562_run_engine(struct lp55xx_chip *chip, bool start)
+ 		lp5562_wait_enable_done();
  }
  
- static int lp5562_update_firmware(struct lp55xx_chip *chip,
-@@ -472,6 +439,9 @@ static struct lp55xx_device_config lp5562_cfg = {
- 	.reg_op_mode = {
- 		.addr = LP5562_REG_OP_MODE,
+-static int lp5562_update_firmware(struct lp55xx_chip *chip,
+-					const u8 *data, size_t size)
+-{
+-	enum lp55xx_engine_index idx = chip->engine_idx;
+-	u8 pattern[LP5562_PROGRAM_LENGTH] = {0};
+-	static const u8 addr[] = {
+-		[LP55XX_ENGINE_1] = LP5562_REG_PROG_MEM_ENG1,
+-		[LP55XX_ENGINE_2] = LP5562_REG_PROG_MEM_ENG2,
+-		[LP55XX_ENGINE_3] = LP5562_REG_PROG_MEM_ENG3,
+-	};
+-	unsigned cmd;
+-	char c[3];
+-	int program_size;
+-	int nrchars;
+-	int offset = 0;
+-	int ret;
+-	int i;
+-
+-	/* clear program memory before updating */
+-	for (i = 0; i < LP5562_PROGRAM_LENGTH; i++)
+-		lp55xx_write(chip, addr[idx] + i, 0);
+-
+-	i = 0;
+-	while ((offset < size - 1) && (i < LP5562_PROGRAM_LENGTH)) {
+-		/* separate sscanfs because length is working only for %s */
+-		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
+-		if (ret != 1)
+-			goto err;
+-
+-		ret = sscanf(c, "%2x", &cmd);
+-		if (ret != 1)
+-			goto err;
+-
+-		pattern[i] = (u8)cmd;
+-		offset += nrchars;
+-		i++;
+-	}
+-
+-	/* Each instruction is 16bit long. Check that length is even */
+-	if (i % 2)
+-		goto err;
+-
+-	program_size = i;
+-	for (i = 0; i < program_size; i++)
+-		lp55xx_write(chip, addr[idx] + i, pattern[i]);
+-
+-	return 0;
+-
+-err:
+-	dev_err(&chip->cl->dev, "wrong pattern format\n");
+-	return -EINVAL;
+-}
+-
+ static void lp5562_firmware_loaded(struct lp55xx_chip *chip)
+ {
+ 	const struct firmware *fw = chip->fw;
+@@ -218,7 +165,7 @@ static void lp5562_firmware_loaded(struct lp55xx_chip *chip)
+ 	 */
+ 
+ 	lp55xx_load_engine(chip);
+-	lp5562_update_firmware(chip, fw->data, fw->size);
++	lp55xx_update_program_memory(chip, fw->data, fw->size);
+ }
+ 
+ static int lp5562_post_init_device(struct lp55xx_chip *chip)
+@@ -450,6 +397,9 @@ static struct lp55xx_device_config lp5562_cfg = {
+ 		.addr = LP5562_REG_ENABLE,
+ 		.val  = LP5562_ENABLE_DEFAULT,
  	},
-+	.reg_exec = {
-+		.addr = LP5562_REG_ENABLE,
++	.prog_mem_base = {
++		.addr = LP5562_REG_PROG_MEM_ENG1,
 +	},
- 	.reset = {
- 		.addr = LP5562_REG_RESET,
- 		.val  = LP5562_RESET,
+ 	.post_init_device   = lp5562_post_init_device,
+ 	.set_led_current    = lp5562_set_led_current,
+ 	.brightness_fn      = lp5562_led_brightness,
 diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index 636e3ca0bb87..9c2e3b2c72fb 100644
+index 9c2e3b2c72fb..9f060b412435 100644
 --- a/drivers/leds/leds-lp55xx-common.c
 +++ b/drivers/leds/leds-lp55xx-common.c
-@@ -45,6 +45,15 @@
- #define   LP55xx_MODE_ENGn_GET(n, mode, shift)        \
- 	(((mode) >> LP55xx_MODE_ENGn_SHIFT(n, shift)) & LP55xx_MODE_ENG_MASK)
+@@ -26,6 +26,8 @@
+ /* OP MODE require at least 153 us to clear regs */
+ #define LP55XX_CMD_SLEEP		200
  
-+#define   LP55xx_EXEC_ENG_MASK         GENMASK(1, 0)
-+#define   LP55xx_EXEC_HOLD_ENG         FIELD_PREP_CONST(LP55xx_EXEC_ENG_MASK, 0x0)
-+#define   LP55xx_EXEC_STEP_ENG         FIELD_PREP_CONST(LP55xx_EXEC_ENG_MASK, 0x1)
-+#define   LP55xx_EXEC_RUN_ENG          FIELD_PREP_CONST(LP55xx_EXEC_ENG_MASK, 0x2)
-+#define   LP55xx_EXEC_ONCE_ENG         FIELD_PREP_CONST(LP55xx_EXEC_ENG_MASK, 0x3)
++#define LP55xx_PROGRAM_LENGTH		32
 +
-+#define   LP55xx_EXEC_ENGn_SHIFT(n, shift)    ((shift) + (2 * (3 - (n))))
-+#define   LP55xx_EXEC_ENGn_MASK(n, shift)     (LP55xx_EXEC_ENG_MASK << LP55xx_EXEC_ENGn_SHIFT(n, shift))
-+
- /* Memory Page Selection */
- #define LP55xx_REG_PROG_PAGE_SEL	0x4f
- /* If supported, each ENGINE have an equal amount of pages offset from page 0 */
-@@ -117,6 +126,40 @@ void lp55xx_load_engine(struct lp55xx_chip *chip)
+ /*
+  * Program Memory Operations
+  * Same Mask for each engine for both mode and exec
+@@ -160,6 +162,61 @@ int lp55xx_run_engine_common(struct lp55xx_chip *chip)
  }
- EXPORT_SYMBOL_GPL(lp55xx_load_engine);
+ EXPORT_SYMBOL_GPL(lp55xx_run_engine_common);
  
-+int lp55xx_run_engine_common(struct lp55xx_chip *chip)
++int lp55xx_update_program_memory(struct lp55xx_chip *chip,
++				 const u8 *data, size_t size)
 +{
++	enum lp55xx_engine_index idx = chip->engine_idx;
 +	const struct lp55xx_device_config *cfg = chip->cfg;
-+	u8 mode, exec;
-+	int i, ret;
++	u8 pattern[LP55xx_PROGRAM_LENGTH] = { };
++	u8 start_addr = cfg->prog_mem_base.addr;
++	int i = 0, offset = 0;
++	int ret;
 +
-+	/* To run the engine, both OP MODE and EXEC needs to be put in RUN mode */
-+	ret = lp55xx_read(chip, cfg->reg_op_mode.addr, &mode);
-+	if (ret)
-+		return ret;
++	while ((offset < size - 1) && (i < LP55xx_PROGRAM_LENGTH)) {
++		unsigned int cmd;
++		int nrchars;
++		char c[3];
 +
-+	ret = lp55xx_read(chip, cfg->reg_exec.addr, &exec);
-+	if (ret)
-+		return ret;
++		/* separate sscanfs because length is working only for %s */
++		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
++		if (ret != 1)
++			goto err;
 +
-+	/* Switch to RUN only for engine that were put in LOAD previously */
-+	for (i = LP55XX_ENGINE_1; i <= LP55XX_ENGINE_3; i++) {
-+		if (LP55xx_MODE_ENGn_GET(i, mode, cfg->reg_op_mode.shift) != LP55xx_MODE_LOAD_ENG)
-+			continue;
++		ret = sscanf(c, "%2x", &cmd);
++		if (ret != 1)
++			goto err;
 +
-+		mode &= ~LP55xx_MODE_ENGn_MASK(i, cfg->reg_op_mode.shift);
-+		mode |= LP55xx_MODE_RUN_ENG << LP55xx_MODE_ENGn_SHIFT(i, cfg->reg_op_mode.shift);
-+		exec &= ~LP55xx_EXEC_ENGn_MASK(i, cfg->reg_exec.shift);
-+		exec |= LP55xx_EXEC_RUN_ENG << LP55xx_EXEC_ENGn_SHIFT(i, cfg->reg_exec.shift);
++		pattern[i] = (u8)cmd;
++		offset += nrchars;
++		i++;
 +	}
 +
-+	lp55xx_write(chip, cfg->reg_op_mode.addr, mode);
-+	lp55xx_wait_opmode_done(chip);
-+	lp55xx_write(chip, cfg->reg_exec.addr, exec);
++	/* Each instruction is 16bit long. Check that length is even */
++	if (i % 2)
++		goto err;
 +
-+	return 0;
++	/*
++	 * For legacy LED chip with no page support, engine base address are
++	 * one after another at offset of 32.
++	 * For LED chip that support page, PAGE is already set in load_engine.
++	 */
++	if (!cfg->pages_per_engine)
++		start_addr += LP55xx_PROGRAM_LENGTH * idx;
++
++	for (i = 0; i < LP55xx_PROGRAM_LENGTH; i++) {
++		ret = lp55xx_write(chip, start_addr + i, pattern[i]);
++		if (ret)
++			return -EINVAL;
++	}
++
++	return size;
++
++err:
++	dev_err(&chip->cl->dev, "wrong pattern format\n");
++	return -EINVAL;
 +}
-+EXPORT_SYMBOL_GPL(lp55xx_run_engine_common);
++EXPORT_SYMBOL_GPL(lp55xx_update_program_memory);
 +
  static void lp55xx_reset_device(struct lp55xx_chip *chip)
  {
  	const struct lp55xx_device_config *cfg = chip->cfg;
 diff --git a/drivers/leds/leds-lp55xx-common.h b/drivers/leds/leds-lp55xx-common.h
-index 015ac2ef4e4d..dd74b214ec74 100644
+index dd74b214ec74..f0bbd41fdab3 100644
 --- a/drivers/leds/leds-lp55xx-common.h
 +++ b/drivers/leds/leds-lp55xx-common.h
-@@ -112,6 +112,7 @@ struct lp55xx_reg {
-  */
- struct lp55xx_device_config {
- 	const struct lp55xx_reg reg_op_mode; /* addr, shift */
-+	const struct lp55xx_reg reg_exec; /* addr, shift */
+@@ -99,6 +99,7 @@ struct lp55xx_reg {
+  *			 (if not supported 153 us sleep)
+  * @reset              : Chip specific reset command
+  * @enable             : Chip specific enable command
++ * @prog_mem_base      : Chip specific base reg address for chip SMEM programming
+  * @pages_per_engine   : Assigned pages for each engine
+  *                       (if not set chip doesn't support pages)
+  * @max_channel        : Maximum number of channels
+@@ -116,6 +117,7 @@ struct lp55xx_device_config {
  	const struct lp55xx_reg engine_busy; /* addr, mask */
  	const struct lp55xx_reg reset;
  	const struct lp55xx_reg enable;
-@@ -206,6 +207,7 @@ extern bool lp55xx_is_extclk_used(struct lp55xx_chip *chip);
- /* common chip functions */
++	const struct lp55xx_reg prog_mem_base;
+ 	const int pages_per_engine;
+ 	const int max_channel;
+ 
+@@ -208,6 +210,8 @@ extern bool lp55xx_is_extclk_used(struct lp55xx_chip *chip);
  extern void lp55xx_stop_all_engine(struct lp55xx_chip *chip);
  extern void lp55xx_load_engine(struct lp55xx_chip *chip);
-+extern int lp55xx_run_engine_common(struct lp55xx_chip *chip);
+ extern int lp55xx_run_engine_common(struct lp55xx_chip *chip);
++extern int lp55xx_update_program_memory(struct lp55xx_chip *chip,
++					const u8 *data, size_t size);
  
  /* common probe/remove function */
  extern int lp55xx_probe(struct i2c_client *client);
 diff --git a/drivers/leds/leds-lp8501.c b/drivers/leds/leds-lp8501.c
-index abe2c4b213d7..47b30e9d04a2 100644
+index 47b30e9d04a2..d4094d20bdc1 100644
 --- a/drivers/leds/leds-lp8501.c
 +++ b/drivers/leds/leds-lp8501.c
-@@ -127,10 +127,6 @@ static void lp8501_turn_off_channels(struct lp55xx_chip *chip)
- 
- static void lp8501_run_engine(struct lp55xx_chip *chip, bool start)
- {
--	int ret;
--	u8 mode;
--	u8 exec;
--
- 	/* stop engine */
- 	if (!start) {
- 		lp55xx_stop_all_engine(chip);
-@@ -138,39 +134,7 @@ static void lp8501_run_engine(struct lp55xx_chip *chip, bool start)
- 		return;
- 	}
- 
--	/*
--	 * To run the engine,
--	 * operation mode and enable register should updated at the same time
--	 */
--
--	ret = lp55xx_read(chip, LP8501_REG_OP_MODE, &mode);
--	if (ret)
--		return;
--
--	ret = lp55xx_read(chip, LP8501_REG_ENABLE, &exec);
--	if (ret)
--		return;
--
--	/* change operation mode to RUN only when each engine is loading */
--	if (LP8501_ENG1_IS_LOADING(mode)) {
--		mode = (mode & ~LP8501_MODE_ENG1_M) | LP8501_RUN_ENG1;
--		exec = (exec & ~LP8501_EXEC_ENG1_M) | LP8501_RUN_ENG1;
--	}
--
--	if (LP8501_ENG2_IS_LOADING(mode)) {
--		mode = (mode & ~LP8501_MODE_ENG2_M) | LP8501_RUN_ENG2;
--		exec = (exec & ~LP8501_EXEC_ENG2_M) | LP8501_RUN_ENG2;
--	}
--
--	if (LP8501_ENG3_IS_LOADING(mode)) {
--		mode = (mode & ~LP8501_MODE_ENG3_M) | LP8501_RUN_ENG3;
--		exec = (exec & ~LP8501_EXEC_ENG3_M) | LP8501_RUN_ENG3;
--	}
--
--	lp55xx_write(chip, LP8501_REG_OP_MODE, mode);
--	lp8501_wait_opmode_done();
--
--	lp55xx_update_bits(chip, LP8501_REG_ENABLE, LP8501_EXEC_M, exec);
-+	lp55xx_run_engine_common(chip);
+@@ -137,53 +137,6 @@ static void lp8501_run_engine(struct lp55xx_chip *chip, bool start)
+ 	lp55xx_run_engine_common(chip);
  }
  
- static int lp8501_update_program_memory(struct lp55xx_chip *chip,
-@@ -258,6 +222,9 @@ static struct lp55xx_device_config lp8501_cfg = {
- 	.reg_op_mode = {
- 		.addr = LP8501_REG_OP_MODE,
+-static int lp8501_update_program_memory(struct lp55xx_chip *chip,
+-					const u8 *data, size_t size)
+-{
+-	u8 pattern[LP8501_PROGRAM_LENGTH] = {0};
+-	unsigned cmd;
+-	char c[3];
+-	int update_size;
+-	int nrchars;
+-	int offset = 0;
+-	int ret;
+-	int i;
+-
+-	/* clear program memory before updating */
+-	for (i = 0; i < LP8501_PROGRAM_LENGTH; i++)
+-		lp55xx_write(chip, LP8501_REG_PROG_MEM + i, 0);
+-
+-	i = 0;
+-	while ((offset < size - 1) && (i < LP8501_PROGRAM_LENGTH)) {
+-		/* separate sscanfs because length is working only for %s */
+-		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
+-		if (ret != 1)
+-			goto err;
+-
+-		ret = sscanf(c, "%2x", &cmd);
+-		if (ret != 1)
+-			goto err;
+-
+-		pattern[i] = (u8)cmd;
+-		offset += nrchars;
+-		i++;
+-	}
+-
+-	/* Each instruction is 16bit long. Check that length is even */
+-	if (i % 2)
+-		goto err;
+-
+-	update_size = i;
+-	for (i = 0; i < update_size; i++)
+-		lp55xx_write(chip, LP8501_REG_PROG_MEM + i, pattern[i]);
+-
+-	return 0;
+-
+-err:
+-	dev_err(&chip->cl->dev, "wrong pattern format\n");
+-	return -EINVAL;
+-}
+-
+ static void lp8501_firmware_loaded(struct lp55xx_chip *chip)
+ {
+ 	const struct firmware *fw = chip->fw;
+@@ -201,7 +154,7 @@ static void lp8501_firmware_loaded(struct lp55xx_chip *chip)
+ 	 */
+ 
+ 	lp55xx_load_engine(chip);
+-	lp8501_update_program_memory(chip, fw->data, fw->size);
++	lp55xx_update_program_memory(chip, fw->data, fw->size);
+ }
+ 
+ static int lp8501_led_brightness(struct lp55xx_led *led)
+@@ -237,6 +190,9 @@ static struct lp55xx_device_config lp8501_cfg = {
+ 		.addr = LP8501_REG_ENABLE,
+ 		.val  = LP8501_ENABLE,
  	},
-+	.reg_exec = {
-+		.addr = LP8501_REG_ENABLE,
++	.prog_mem_base = {
++		.addr = LP8501_REG_PROG_MEM,
 +	},
- 	.engine_busy = {
- 		.addr = LP8501_REG_STATUS,
- 		.mask = LP8501_ENGINE_BUSY,
+ 	.pages_per_engine   = LP8501_PAGES_PER_ENGINE,
+ 	.max_channel  = LP8501_MAX_LEDS,
+ 	.post_init_device   = lp8501_post_init_device,
 -- 
 2.43.0
 
