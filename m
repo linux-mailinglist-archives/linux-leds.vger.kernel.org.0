@@ -1,137 +1,117 @@
-Return-Path: <linux-leds+bounces-1981-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1982-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAB490AA63
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Jun 2024 11:57:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8AC90AAE6
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Jun 2024 12:18:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8FD528887F
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Jun 2024 09:57:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 104151F237E8
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Jun 2024 10:18:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE881953A0;
-	Mon, 17 Jun 2024 09:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C511119049D;
+	Mon, 17 Jun 2024 10:18:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="efkYAPVD"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="f1SVGucv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7733194C85;
-	Mon, 17 Jun 2024 09:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2140317FAA4;
+	Mon, 17 Jun 2024 10:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718618038; cv=none; b=OdZPEoZjqYX2htd4AIWn/9aVl1/JrOr1KH7xE9uyTQXhzoRz1B7QACS+98A17Y5pyTdDWVig6MN6ae0HkRay0jkWwAXBmffegNCeZl7pHT12o68X1PILj+hI4VMqqwMJ4fxstWMHHHiqXvNtyar+r7/ntv4xMvn8adldBKksCBI=
+	t=1718619514; cv=none; b=qXP1LvRkBR+P61MW3c9f1TN8Ryt14a8NLd3GvgrhvS0Hg2+MkbDOEBkCp1Elj3gvEPtAmTbjuHAfE7Z5tmcmkrpblvoNonEAR8X5214+v6qB/9fjdIyJq/kpxI+PMc+jwukG+2hJ4NfqCtYEb0rvnFxJpfSX47meuydI2/znP4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718618038; c=relaxed/simple;
-	bh=2t93KGC+WHDHD2dzUnsESmYw0sowfv7/mIZhe/xKaF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cXPxeY0FDe1KdatcP2J+tGpvZfX7lG+DfPy5fnJQqTpmVhX0+DZlGcGZX1VMI3WQEbQWySV5rMl/TAxKWsQy2rUhcMp54zyoo2kCGrHTaYwJ9epm7uaJaii385PKohTBlyU1s2MIKJQ4fRyuiyVZ4gX6O2bxt4ITrPwVZhhT7LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=efkYAPVD; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id E99221C0082; Mon, 17 Jun 2024 11:53:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1718618033;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Q4fEkBwXf4E5OngX0G/fLCfqgIJ33gO1Jy982FJLE4=;
-	b=efkYAPVD8AVNqgdiF1LI8f5RqDMeQDVYlG0votbXRNNArhhq4VKUSnlc8pqLeONTq7BCRo
-	QpkcWaX/+xMtnNJtJplsB1PE3NgID0mQBMiC4VEMMhBsETLLsW0OOOJ/zrgzARbZB6UsU+
-	0v1asgAc5dhCVS5R1o0EqJRS0iRT9fE=
-Date: Mon, 17 Jun 2024 11:53:53 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	linux-leds@vger.kernel.org, phone-devel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Bjorn Andersson <andersson@kernel.org>,
-	Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Lee Jones <lee@kernel.org>, Trilok Soni <quic_tsoni@quicinc.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] leds: sy7802: Add support for Silergy SY7802
- flash LED controller
-Message-ID: <ZnAHsRn3N4mwPL7q@duo.ucw.cz>
-References: <20240616-sy7802-v4-2-789994180e05@apitzsch.eu>
- <5701d3e7-f67b-4189-a5fd-8a992b9155fb@web.de>
+	s=arc-20240116; t=1718619514; c=relaxed/simple;
+	bh=gs8nsYiINFMYuTq1/6bicsbu3Ap1eDqXcnW2kJfLN2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BH7/6vX/ttrDdzj3czwVitElSl8licj1zrwZRYzakYt6KG5V0jd9SieyjVmNhIPdb2AoS48rsWEIYsyC6cu+iNlUP7sWS1RjBHidUAH95OzgHhDTECw3HVLCUgvYdMFHXcl6b8MuouKVhr296OAyij1+wjKZThQUEyjtALPd53k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=f1SVGucv; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718619493; x=1719224293; i=markus.elfring@web.de;
+	bh=gs8nsYiINFMYuTq1/6bicsbu3Ap1eDqXcnW2kJfLN2M=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=f1SVGucvJNeRunLW3wYC/+MjB1yhJpxPszMnL1auqXiWjXigo8aGxEGl6qIvmSeo
+	 mhTAqephXrUK+c9Y5XuUTJpyFnArk5wUIW/FCX850i5YuucExD71TwSx951yZkc3w
+	 Pw7jbD1V8QskKhDJgdimGyK+GRZswEwP4r7eSHIR0qxp4b0EdvRiaNFCUqfzKo2XS
+	 BDmiSoUl59dpYoUyQOrsq4qcsE325fKkIgK3KL86l/1yUMnIq0K18LXZ6PeqaFEca
+	 GKsjpWp6dfIu7crQ9tPEDXmxIpJVo8bVMTm9o7g8efLlDuMyF0pc2lD/0emYRLuC1
+	 qjWJ6BIskahAb8M3Ww==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mvslx-1scsVu1d4x-013Z2f; Mon, 17
+ Jun 2024 12:18:13 +0200
+Message-ID: <e9fd75aa-3bd8-4227-ac07-fc762e558ea6@web.de>
+Date: Mon, 17 Jun 2024 12:18:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Z8tJo+UJnXupDnOj"
-Content-Disposition: inline
-In-Reply-To: <5701d3e7-f67b-4189-a5fd-8a992b9155fb@web.de>
-
-
---Z8tJo+UJnXupDnOj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v4 2/3] leds: sy7802: Add support for Silergy SY7802 flash LED
+ controller
+To: Pavel Machek <pavel@ucw.cz>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, linux-leds@vger.kernel.org, phone-devel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
+ Conor Dooley <conor+dt@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Lee Jones <lee@kernel.org>, Trilok Soni <quic_tsoni@quicinc.com>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <20240616-sy7802-v4-2-789994180e05@apitzsch.eu>
+ <5701d3e7-f67b-4189-a5fd-8a992b9155fb@web.de> <ZnAHsRn3N4mwPL7q@duo.ucw.cz>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <ZnAHsRn3N4mwPL7q@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GWDefmdWbG1KH9MY7c/q/UMZhu3vmaXaelD2g/jpUO59SEwLjKD
+ xcQ2x2fBFoVcLhHLeByPN/a81Cc0RBoF0sDdroNflR+uEd1hZJ74gu9sBrOmpMNfs2zKYN+
+ Jgz5RHxUZx5vvhJBcO5Gp9iAXmFHMMP0Q+nzm3OgVsT78C35oW529L97I2m46lVWJRj9ocC
+ kHLtZ2shmBYruuQ16m6pw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:tQIynLLMl3Q=;wMNAskpkgNs3uqcrvyMtr7x6ALO
+ RDAQ4X3uObUkU75GWXX00dyDkp5yJorSmA5BtT6y9Zpywlhb1+AlOCthnCM43e6dH1ETuYWjF
+ SUkvQgH4QhQGie1HlDwxXvr7VhS4nsLNf0olVoBJWAcLhD2w+c2kVgix1XgBCmzLok2xfWYKq
+ pBWwt+91lq+t1Gmq/NKHV8TGb8TMLGs3u0hFFm47PHfdXtwmDwMUvsSTSFfBe2OPEjKo3VumQ
+ 7MNDQKbggCDbzt5CqzlNCMX6Bszb0BrMpFko6WgdYuzzlCzkCanWAQusQL8EVD3RvjGFQ2z5X
+ CzK1S8D4rdAQHdlbk46uVFl/J+34tfhdgAtR/5+Cb3cvfAkJSl+H6IkuaZWvsccAEwcUDN45e
+ SkHPtB3InkOQGfDwqfV7jKSGXDPRlrfYvyTFkValmPcq8nvCjGz8kk4i3VYxhFn1idYCtBTNb
+ gb4KSSjQ74cO4Gw6afPmSgl0iB/E7aeV0GStZRTfDjMaEsYRb6pnzSjsKP9Qqnamzfi/R702z
+ YBE538dl4FJGq2ddyimNTI15eGCU0G3/xJpZImpC/9lDq5hXsjGpFDefxiOQA/WhC9frfGTtC
+ vi4smpj7ccGUITiABz8jsSPH3Yj1K5G3wE1L8wrIBtP+jOiNZadwYykp8656SYN9HvLpzKe+a
+ A+GcRBEUU/HGRgmGNYvgWLJce3/7V+1CbDW8bUWH0UCfTNi1/l/wa1+QsCi0u8gkeko+riTS8
+ oJOEibGA+ZoZ+cUSE8x8VgSzqNVYn0B5W54SqS8N7HLcaxSbWBGbZZqPdRRs8qnGFO0k9seMo
+ m5sCfzph+EKhrD1TlWaTtbH+NbZ3RZY8j80nODPhwvx1c=
 
-On Sun 2024-06-16 20:55:41, Markus Elfring wrote:
-> > The SY7802 is a current-regulated charge pump which can regulate two
-> > current levels for Flash and Torch modes.
-> >
-> > It is a high-current synchronous boost converter with 2-channel high
-> > side current sources. Each channel is able to deliver 900mA current.
->=20
-> Would you like to improve such a change description with imperative wordi=
-ngs?
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
-ocumentation/process/submitting-patches.rst?h=3Dv6.10-rc3#n94
->=20
+>> Would you become interested to apply a statement like =E2=80=9Cguard(mu=
+tex)(&chip->mutex);=E2=80=9D?
+>> https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h=
+#L196
+>
+> This does not look like real improvement for code this trivial.
 
-Feel free to ignore this.
+Various source code places can be updated also according to referenced
+programming interfaces.
+https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h#=
+L8
 
-> =E2=80=A6
-> > +++ b/drivers/leds/flash/leds-sy7802.c
-> > @@ -0,0 +1,542 @@
-> =E2=80=A6
-> > +static int sy7802_strobe_get(struct led_classdev_flash *fl_cdev, bool =
-*state)
-> > +{
-> =E2=80=A6
-> > +	mutex_lock(&chip->mutex);
-> > +	*state =3D !!(chip->fled_strobe_used & BIT(led->led_id));
-> > +	mutex_unlock(&chip->mutex);
-> > +
-> > +	return 0;
-> > +}
-> =E2=80=A6
->=20
-> Would you become interested to apply a statement like =E2=80=9Cguard(mute=
-x)(&chip->mutex);=E2=80=9D?
-> https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h#L=
-196
+Will corresponding collateral evolution become better supported?
 
-This does not look like real improvement for code this trivial.
-
-BR,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---Z8tJo+UJnXupDnOj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZnAHsQAKCRAw5/Bqldv6
-8qbrAJ9qDHzPErtCXlGzup2F35utxL0xhwCfb6zzKIF9JU4U0/EmT41iKsN7fUk=
-=SYHf
------END PGP SIGNATURE-----
-
---Z8tJo+UJnXupDnOj--
+Regards,
+Markus
 
