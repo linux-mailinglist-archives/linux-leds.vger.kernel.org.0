@@ -1,300 +1,189 @@
-Return-Path: <linux-leds+bounces-2075-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2076-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EDE9112E0
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 22:15:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7B69114D9
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 23:41:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD1301C20D56
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 20:15:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 840FF1F239BA
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 21:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289DB1BA09C;
-	Thu, 20 Jun 2024 20:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75C568248B;
+	Thu, 20 Jun 2024 21:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K3Q5hlmF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YVtejsEA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBC01B9AC7;
-	Thu, 20 Jun 2024 20:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0377711C;
+	Thu, 20 Jun 2024 21:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718914514; cv=none; b=cq+Y4XTgzkx7/lfMPb0lnMQhHhKT+CcVrr9BtLR0SiR7DLMt+eFZyDI4MGsvoX/RON/hlvhWV9iMtrWlmvTADJYVxrEmaI7TK+Mw8kGwPOU5sK5XmnJzwGESpRUi8gZOCJalElQMTpJsTyYWDHY7D7FHvL8QJfuK5DJsHwZ//4s=
+	t=1718919697; cv=none; b=pOB8/Pd2A06X2KOAfOKPuTYtgRsppNNCUQNqUWKi3t20jEZ+KD0jmeVu4bs/eMIsPwL4yKKApvKc9rRf3/duY5ZXa2v54xCXX2oW/6AUUFqNq+0pTxw3Pmj0myZ1sbPWHUV+l27pmjAAM+85/1mjvJhlqywqjdG62dhtIkNnGpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718914514; c=relaxed/simple;
-	bh=dx88qbfA3v0QDgtBAfkX2p+KZ894xqWOi1spAiEK79Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Af1zBzOILsRT342BYc8pOqu58eZzLRPucJ2hy4qpUAjwBgLyg+Q152fSU1v+SeVVGp/anlP8bErqF5pRaxb7By4Z8Dl0SOPLUlBYguzLA8RSDELdMUyyWLFny044WCNEgm/u6asLO7AK3iA0xEODUST4kdNLDq6pjF8JE58bQ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K3Q5hlmF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3088C2BD10;
-	Thu, 20 Jun 2024 20:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718914513;
-	bh=dx88qbfA3v0QDgtBAfkX2p+KZ894xqWOi1spAiEK79Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K3Q5hlmFTV2StGeAqV1ad3ALvO+at6HlmCfy/QXw80XBHI+CtCSJkAB6T0ljm1Cla
-	 h1FXTkMlJVy3YH8tdyanjrUGrMb+VoRevwm6fnqvKUM57OyG/H15yfbdSIVTdZCLh3
-	 37/vSJq/jpQHMF3G47KlhSq+OSUt8sc0+DmRekUGL9Bje93H8KLMY/PBtbK1Sh5Uks
-	 mrnDLEAMdFXzxRAKsxZtF13sVSaXwSWqY3ZjjuVcQ0QzyFwy2lQCNQLs4U6Y5wLWZ6
-	 YcyobmsG93CE3GImMYQqPd3ezOFin5JLavDjJQF6mCPAWzDHNK11PoA1fh2iITVrMb
-	 s0XuW0DNn177w==
-Message-ID: <dafab4dc-34ef-4abd-9f3f-1dee675a1a56@kernel.org>
-Date: Thu, 20 Jun 2024 22:14:59 +0200
+	s=arc-20240116; t=1718919697; c=relaxed/simple;
+	bh=vbAkHPyxQJKvrZOpd0V6g/xS2jek6xR7ZCrWT2d2z2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ErYGhsdfTO/Z/ZOD7O/+AX+sY+9EVAMVUAL/YgnJ4WCIo6LPOfP4CKowkkZ1uRWYNVJa+xHWZhXPvxSnan+tUGMymTaA41N6JtjUMEeplqKMA/onJJD+inX+B+0eGnV8ljYhYLnqC6y8wqoQVO87tJOR0a78rcyeJlsORlxrtCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YVtejsEA; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42172ed3597so8484725e9.0;
+        Thu, 20 Jun 2024 14:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718919694; x=1719524494; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7lsrrw77oxpiIkWcss0CP9IPfmUQTvp1O3LL2rk/XGQ=;
+        b=YVtejsEAgOO2jWbso+yh/lWjMvgFSmXrFZG01qrgBt2OUCus72dvS9te/Kpe86eBU3
+         hZrq0oWbdK20WN6D8pk0+D/1tPd4WunoJ3LTew9X5B/Ldc7XY12oJ0ChjZrUHNUjA3tO
+         YZ3HmX7oRY/EnsG4NQS/O9MZHUWoV1RlFfDRy20ox1Nz1/pL19ub9U1N6xbhox8f4e6r
+         5P10xF9SiHiM3DKzcIsZbbOTwnUZ9Owp3dDl5u4dkgYpd2Gpm4MqLDqo/hWU/G9dqyMq
+         /rgbdRdHvT+RpNSOdjjKOLqUAcmFlOrjziElky/+nEv/Owo01IgOwCkGSpHFh/XtYUMx
+         H9tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718919694; x=1719524494;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7lsrrw77oxpiIkWcss0CP9IPfmUQTvp1O3LL2rk/XGQ=;
+        b=e/HWGZPx3ZOc05gYzWj/X483DVhl7slB0l5b1Md6e0lyIo0l94e8kUcnG2ngflyWy7
+         hDKW6n4zESdtaJHq9thWXC45p5+axnv1gRNtO+sHl2pkXUeAdD2OWEoHV8qMxNtG2pzr
+         1QiwhPSD/zyJX3fD0lcsw83IiQbAwpOjf3Tk3CTYDImFk9OQx7GFpCYLGGe6YAzs8EWk
+         nCcwzwXqFmGWS420Km9S8Oiz52ENzPdkKbYjtSwH93AFN5F/FBELW+zYfR2Q4kgVoQtN
+         l6GLmsVUJnHTMMFTMW8C2FP5oiQBy9i0m9Ly81PJKnXnlNTURfkyP+bhqKguwM9ZolFx
+         y0pw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXOJUYi37eUu+GLdmNE+lrwLkKzZRI/TOut6X6xWbh2JegEU5nrmcbRtWz2gj5YvHEVrba4IU9XIdh/Ky5Z5FOsF5vmlvbAw5uO8hfpoLgn2zpukk0HXB7dfAZAQrRLqDLNtu9BRaUTasjjj4NJPbg9iAbinE0pexcH3E2VfJpZGTdBIY=
+X-Gm-Message-State: AOJu0YwjBA0Isgw3YLImFvI09IVtyLZW2jtAM0zWzarebn/32J+8tPGr
+	T3xMcW7SgZc60H7NEhsHqiztNIqRZwI5r/C9Eo7Dmk2TRnw7EEKRPDL8oQ==
+X-Google-Smtp-Source: AGHT+IExNYfgD0NQCIlp8a2ElvIm67e6OhmMMfWX1lbDwM8oYXeHQJdCcakaUWHsRZXj7OXtwWlLLw==
+X-Received: by 2002:a05:600c:3587:b0:421:661d:89d6 with SMTP id 5b1f17b1804b1-42474d34551mr68935215e9.14.1718919693565;
+        Thu, 20 Jun 2024 14:41:33 -0700 (PDT)
+Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366383f68acsm48866f8f.2.2024.06.20.14.41.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 14:41:32 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Marangi <ansuelsmth@gmail.com>
+Subject: [PATCH v7 00/20] leds: leds-lp55xx: overhaul driver
+Date: Thu, 20 Jun 2024 23:03:16 +0200
+Message-ID: <20240620210401.22053-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/23] leds: max77705: Add LEDs support
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-16-e3f6662017ac@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-16-e3f6662017ac@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> This adds basic support for LEDs for the max77705 PMIC.
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> ---
->  MAINTAINERS                  |   1 +
->  drivers/leds/Kconfig         |   6 ++
->  drivers/leds/Makefile        |   1 +
->  drivers/leds/leds-max77705.c | 166 +++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 174 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f66f08825db9..f3c245d432d9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13691,6 +13691,7 @@ F:	drivers/*/max14577*.c
->  F:	drivers/*/max77686*.c
->  F:	drivers/*/max77693*.c
->  F:	drivers/*/max77705*.c
-> +F:	drivers/leds/leds-max77705.c
->  F:	drivers/clk/clk-max77686.c
->  F:	drivers/extcon/extcon-max14577.c
->  F:	drivers/extcon/extcon-max77693.c
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 05e6af88b88c..14d483011308 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -728,6 +728,12 @@ config LEDS_MAX77650
->  	help
->  	  LEDs driver for MAX77650 family of PMICs from Maxim Integrated.
->  
-> +config LEDS_MAX77705
-> +	tristate "LED support for Maxim MAX77705 RGB"
-> +	depends on MFD_MAX77705 && LEDS_CLASS && I2C
-> +	help
-> +	  LED driver for MAX77705 MFD chip from Maxim Integrated.
-> +
->  config LEDS_MAX8997
->  	tristate "LED support for MAX8997 PMIC"
->  	depends on LEDS_CLASS && MFD_MAX8997
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index effdfc6f1e95..be064e3d678e 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -58,6 +58,7 @@ obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
->  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
->  obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
->  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
-> +obj-$(CONFIG_LEDS_MAX77705)		+= leds-max77705.o
->  obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
->  obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
->  obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
-> diff --git a/drivers/leds/leds-max77705.c b/drivers/leds/leds-max77705.c
-> new file mode 100644
-> index 000000000000..f91c0e41056c
-> --- /dev/null
-> +++ b/drivers/leds/leds-max77705.c
-> @@ -0,0 +1,166 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Based on leds-max77650 driver:
-> + *		Copyright (C) 2018 BayLibre SAS
-> + *		Author: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> + *
-> + * LED driver for MAXIM 77705 MFD.
-> + * Copyright (C) 2024 Dzmitry Sankouski <dsankouski@gmail.org>
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/leds.h>
-> +#include <linux/mfd/max77705.h>
-> +#include <linux/mfd/max77705-private.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define MAX77705_LED_NUM_LEDS		4
-> +#define MAX77705_LED_EN_MASK		GENMASK(1, 0)
-> +#define MAX77705_LED_MAX_BRIGHTNESS	0xff
-> +
-> +#define LEDBLNK_ON(time)	((time < 100) ? 0 :			\
-> +				(time < 500) ? time/100-1 :		\
-> +				(time < 3250) ? (time-500)/250+4 : 15)
-> +
-> +#define LEDBLNK_OFF(time)	((time < 1) ? 0x00 :			\
-> +				(time < 500) ? 0x01 :			\
-> +				(time < 5000) ? time/500 :		\
-> +				(time < 8000) ? (time-5000)/1000+10 :	 \
-> +				(time < 12000) ? (time-8000)/2000+13 : 15)
+This long series is (as requested) a big overhaul of the lp55xx based
+LED driver.
 
-Make both static functions, if really needed, but these appear only in
-one place, so maybe just code it directly.
+As notice for these kind of LED chip there was the bad habit of copy
+the old driver and just modify it enough to make it work with the new
+model. Till v4 I was also doing the same by following the pattern and
+the code format of previous driver.
 
+Since Lee didn't like this, here is the BIG series that generalize
+pretty much anything in the 4 model currently supported.
 
-> +
-> +struct max77705_led {
-> +	struct led_classdev cdev;
-> +	struct regmap *regmap;
-> +	unsigned int en_shift;
-> +	unsigned int reg_brightness;
-> +	unsigned int regB;
+Indeed, although the LED chip have fundamental difference (page
+support), things can be generalized and produce slimmer drivers by
+putting everything in the lp55xx-common shared module.
 
-noCamelCase.
+This result in the new model lp5569 being very small with only the
+selftest portion to be custom.
 
-> +};
-> +
-> +static struct max77705_led *max77705_to_led(struct led_classdev *cdev)
-> +{
-> +	return container_of(cdev, struct max77705_led, cdev);
-> +}
-> +
+Lee also wasn't clear by the meaning of ENGINE in these LED driver,
+so here some simple explaination. This is very common on these TI LED
+chip. The ENGINE (there are always 3) is just some kind of processor
+that execute a program (precompiled code ASM like) loaded in the SRAM.
+Sysfs is used to load the pattern, and to start and stop the engine.
 
+These pattern can do all kind of complex thing with LEDs. Old LED chip
+had 32bytes of space for the pattern but newer one (like lp5569) have
+pages and if correctly configured can have massive pattern.
+These pattern can do all kind of magic like loops that make the LED
+pulse, change color and all kind of stuff.
 
-> +		led = &leds[reg];
-> +		led->regmap = map;
-> +		led->reg_brightness = MAX77705_RGBLED_REG_LED0BRT + reg;
-> +		led->en_shift = 2 * reg;
-> +		led->cdev.brightness_set_blocking = max77705_led_brightness_set;
-> +		led->cdev.blink_set = max77705_rgb_blink;
-> +		led->cdev.max_brightness = MAX77705_LED_MAX_BRIGHTNESS;
-> +
-> +		init_data.fwnode = child;
-> +		init_data.devicename = "max77705";
-> +		/* for backwards compatibility if `label` is not present */
-> +		init_data.default_label = ":";
+(For Lee, sorry if you will have to repeat some review that I might
+ have missed in the lp5569 driver)
 
-There is no backwards compatibility - it's fresh driver.
+Changes v7:
+- Add Suggested-by tag
+- Fix checkpatch error for complex macro (rework define)
+- Add missing values for fader conversion
+- Align some function with redundant new line
+- Capitalize every commit title
+Changes v6:
+- Fix compilation warning for ret unused in read_poll_timeout
+  (no idea why this is flagged only on some particular arch...)
+- Fix missing bitfield.h in lp55x-common.c (again it seems this
+  header gets included in the flow if the arch use them or not...)
+Changes v5:
+- Big generalization patch
+- Rework lp5569 driver with new generalized functions
+- Drop all copyright header in lp5569 as the driver got reworked
+  entirely and it's not based on previous one anymore.
+Changes v4:
+- Fix reported buffer overflow due to a copypaste error
+- Add comments to describe fw size logic
+Changes v3:
+- Add ACK tag to DT patch
+- Enlarge and support program size up to 128bytes
+Changes v2:
+- Add ACK tag to DT patch
+- Fix compilation error with target that doesn't
+  include bitfield.h
 
-> +
-> +		rv = devm_led_classdev_register_ext(dev, &led->cdev,
-> +							&init_data);
-> +		if (rv)
-> +			goto err_node_put;
-> +
-> +		rv = max77705_led_brightness_set(&led->cdev, LED_OFF);
-> +		if (rv)
-> +			goto err_node_put;
-> +	}
-> +
-> +	return 0;
-> +err_node_put:
-> +	fwnode_handle_put(child);
-> +	return rv;
-> +}
-> +
-> +static const struct of_device_id max77705_led_of_match[] = {
-> +	{ .compatible = "maxim,max77705-led" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, max77705_led_of_match);
-> +
-> +static struct platform_driver max77705_led_driver = {
-> +	.driver = {
-> +		.name = "max77705-led",
-> +		.of_match_table = max77705_led_of_match,
-> +	},
-> +	.probe = max77705_led_probe,
-> +};
-> +module_platform_driver(max77705_led_driver);
-> +
-> +MODULE_DESCRIPTION("MAXIM 77705 LED driver");
-> +MODULE_AUTHOR("Bartosz Golaszewski <bgolaszewski@baylibre.com>");
-> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:max77705-led");
+Christian Marangi (20):
+  dt-bindings: leds-lp55xx: Limit pwr-sel property to ti,lp8501
+  dt-bindings: leds-lp55xx: Add new ti,lp5569 compatible
+  leds: leds-lp55xx: Generalize stop_all_engine OP
+  leds: leds-lp55xx: Generalize probe/remove functions
+  leds: leds-lp55xx: Generalize load_engine function
+  leds: leds-lp55xx: Generalize load_engine_and_select_page function
+  leds: leds-lp55xx: Generalize run_engine function
+  leds: leds-lp55xx: Generalize update_program_memory function
+  leds: leds-lp55xx: Generalize firmware_loaded function
+  leds: leds-lp55xx: Generalize led_brightness function
+  leds: leds-lp55xx: Generalize multicolor_brightness function
+  leds: leds-lp55xx: Generalize set_led_current function
+  leds: leds-lp55xx: Generalize turn_off_channels function
+  leds: leds-lp55xx: Generalize stop_engine function
+  leds: leds-lp55xx: Generalize sysfs engine_load and engine_mode
+  leds: leds-lp55xx: Generalize sysfs engine_leds
+  leds: leds-lp55xx: Generalize sysfs master_fader
+  leds: leds-lp55xx: Support ENGINE program up to 128 bytes
+  leds: leds-lp55xx: Drop deprecated defines
+  leds: leds-lp5569: Add support for Texas Instruments LP5569
 
-You should not need MODULE_ALIAS() in normal cases. If you need it,
-usually it means your device ID table is wrong (e.g. misses either
-entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
-for incomplete ID table.
+ .../devicetree/bindings/leds/leds-lp55xx.yaml |  11 +
+ drivers/leds/Kconfig                          |  16 +-
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-lp5521.c                    | 405 +---------
+ drivers/leds/leds-lp5523.c                    | 734 ++---------------
+ drivers/leds/leds-lp5562.c                    | 261 +-----
+ drivers/leds/leds-lp5569.c                    | 544 +++++++++++++
+ drivers/leds/leds-lp55xx-common.c             | 743 +++++++++++++++++-
+ drivers/leds/leds-lp55xx-common.h             | 163 ++--
+ drivers/leds/leds-lp8501.c                    | 313 +-------
+ 10 files changed, 1540 insertions(+), 1651 deletions(-)
+ create mode 100644 drivers/leds/leds-lp5569.c
 
-
-Best regards,
-Krzysztof
+-- 
+2.45.1
 
 
