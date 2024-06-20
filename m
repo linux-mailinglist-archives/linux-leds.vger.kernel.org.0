@@ -1,159 +1,300 @@
-Return-Path: <linux-leds+bounces-2066-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2056-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF0A910DA3
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 18:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64DE910B08
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 18:05:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E3A81C23D2D
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 16:53:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8E0E1C2407F
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 16:05:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A131B29CC;
-	Thu, 20 Jun 2024 16:53:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7151B1412;
+	Thu, 20 Jun 2024 16:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cO4GBObt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyuA3tv9"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2639C1B29C3;
-	Thu, 20 Jun 2024 16:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D201AED4A;
+	Thu, 20 Jun 2024 16:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718902431; cv=none; b=E7lyfzaQQai6Yop3fHH+WCiPO8IOf6Zp+yGtZFZqjWOdVP1SuMjT5mfC8kBRfV4vlzYhN3mjQ/I0HNEOYJV8f8EQU+tSXlj123fbU7MYhcLupHXeT1WcOB7MsuxXv4bII9cYCcmBubNL4qG/RiIpshOExx03hF3+bbcIeqIvan8=
+	t=1718899511; cv=none; b=Mra56sfM6+DB9h1QrTn01BonYW49HUQgk+RiUAxYfo6a6xscw4tGWgzMomWg2ky42q1wdMoS9zFBT9CHUIYG6Weo6pdyQq3uzUdLMr+CSsMv5mfa7afCyp8uqfYe8b68qf2lcoNETpITtOpoHDJnGZkWGTbal4K2dMWIxe3udo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718902431; c=relaxed/simple;
-	bh=xDu6nf8ci4QkjfA1n/XlGyTpBjij84y5HwadxfVXaVs=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mWC+Zl/wBmWnmXx3wHJ8JWt99cVowtrFE+D+cZfdm/C4IcCS1+MbvJuwKWjyg+/VROTlvgYaBbVc0rcX8vxNc3HYu1tQD1IhFVKA5gwIejX9luo/fH1w4ukRI99J0J/Ll7nZSbFz2A3xFbPzv35dkEcAe7eGcvm7eM6SXTGdKA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cO4GBObt; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-421f4d1c057so10993435e9.3;
-        Thu, 20 Jun 2024 09:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718902428; x=1719507228; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Z2+47l+SiK70HxZhNHp7aI9H3v+48mNDDXc2JjqLFDw=;
-        b=cO4GBObtnQr92sMvhvNErl7Ek60B2qQkb54dVup2z40eg7BXrMkB+lhPC6hB7yOTzt
-         C1sxpSUyvtmkIwjIKVa7h+3McX+AElS1Eq4tNBPrW3N3VQHcKIKPnvaTgHrKfchaLgtK
-         igZ7/qQGr0/gTh9ZAuYAHq6w38oyTqNBhkX1gRGsXErHcAI4Quw5xhz7867t9CSbXCWe
-         Pk3WK65Y27WKMCFCNmuu4XNrV3/FENAehXvl5AK3eYOoLIz4hzK7gjp6r2daGtYtvfIs
-         wGStqhQ8uCIZAQoObMstBmut/XhNPir6Cz99yvXVOMInKan0rgpOkyErxrol4PwwfY7G
-         Jx4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718902428; x=1719507228;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z2+47l+SiK70HxZhNHp7aI9H3v+48mNDDXc2JjqLFDw=;
-        b=jRFZNdlObkmlFnAhJGHHW7PyGu9f21mOGt8QtC3fJjtHN6u8zykPZ/Dnx00uJ1Nizr
-         rlc124hiXtx1R7CoXfTR9vscfq0yxuTCysxFrDtOyrjgK9CRmbhwg6e7CtqT11z0zJlU
-         rrFdrgcGOxKC1Vh+7BovP2u/PfCTMJ6SnIA17jg+h+kNTfFCEz06bjtL0VQ1Ig3LA/uF
-         iQcYuClJ9xxY0kTxTlhH9/B0Q4qjpyxiSHUKhHllfcpLCR01NvqSEfkO+X58PrfGK2Du
-         tKr7jsnF92/McdCUD0yYL3DCXSazY7XiafMgL0N5MxcuBPf/sS6DDnZKt4hSWDdVp/QN
-         X72Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUTbbMGMZvB6FrWyKFuv0uljqhIQzRwZbhYpDlXqj60Mbj0WkSEwInqrCg/oFS9qPwy869BpZgDhYDC+vgwKIUN205x5EVntLzyJpoxzyPG9LnKPAvhA97ntI3KvlEBMEdXdSc3UU3L/m4BhC98UuLesw/2rELjnaK94Jes11IlopNJYL4=
-X-Gm-Message-State: AOJu0YxfjrjDppeI7gnSX9OdlQSWKmMJDXuz6pejw69FG55ZFHJuCoOY
-	kd7QzfAUgaKts2BhybXzdxsMYPTORRLP+2uQ34swV2YAEsLOuU9F
-X-Google-Smtp-Source: AGHT+IEhQc/ylcurdd/6IEDOuPK9KgguMxvGLh2XA4wtboP+mlDcIBQRJO8SspzV77CcTZtx/U/d8Q==
-X-Received: by 2002:a5d:4a90:0:b0:360:74c0:e546 with SMTP id ffacd0b85a97d-363175b806dmr4079573f8f.23.1718902428239;
-        Thu, 20 Jun 2024 09:53:48 -0700 (PDT)
-Received: from Ansuel-XPS. (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3648e8c4e18sm2556956f8f.76.2024.06.20.09.53.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 09:53:47 -0700 (PDT)
-Message-ID: <66745e9b.df0a0220.41e53.a3af@mx.google.com>
-X-Google-Original-Message-ID: <ZnRRWFrixDYs_Ndk@Ansuel-XPS.>
-Date: Thu, 20 Jun 2024 17:57:12 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/20] leds: leds-lp55xx: overhaul driver
-References: <20240616215226.2112-1-ansuelsmth@gmail.com>
- <171890216265.1289520.18025885103780443097.b4-ty@kernel.org>
+	s=arc-20240116; t=1718899511; c=relaxed/simple;
+	bh=VxwxD9NlRx02IyNbc/jHsn3Pas/lBfmDoifITi881bg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YQoPN7N/y+E/2it5M29JzC8R7iNkFhlvmU1nn2PbD8SuMVT+/Qg+ZuZ88AJJ3LzHxysgsc3c9iLdc1imS+c3HEc8K8VU0MgMMuIMY47g5HHgwNxJhi4vrBIRMY+jAi4sGhKO8/FJfp8JRquBRaMRYkglvYjB7pTTdlljkSSnkb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyuA3tv9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815E2C2BD10;
+	Thu, 20 Jun 2024 16:04:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718899511;
+	bh=VxwxD9NlRx02IyNbc/jHsn3Pas/lBfmDoifITi881bg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uyuA3tv9HEGJ0cbi+XB62kPlv8bBvRWLA1xMi447pWjJl+MwiU9oRbgaGaqbAjiJm
+	 0uaW8CxfqAw5ujZj+iLTxPMLxjqoVI14D4KLfAGDCjfnGPDjKnKULYfREWZu6L13qh
+	 uoxKbtqfUE6NxpenmMBzvHw5P82UTD72luGvTOa1LBXGJo2VjX+8lxdnaFSgbxQUTo
+	 MIcU7Vxgo+h79ekBibAC/3Z2kPXJDwOkoYOM9vIz+6a/PoLRpoZa2RYLD3QsfTxhAi
+	 XECwf0XuI67epGZOHyA/sRtACxfM3MU1AWzpMB1p8raEkr3fh937YuY6+mcCCcx0C0
+	 +JI+q1MIvIkfQ==
+Message-ID: <da34df13-bc57-4142-b558-88a6628d8b81@kernel.org>
+Date: Thu, 20 Jun 2024 18:04:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <171890216265.1289520.18025885103780443097.b4-ty@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 13/23] input: add max77705 haptic driver
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-13-e3f6662017ac@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-13-e3f6662017ac@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 20, 2024 at 05:49:22PM +0100, Lee Jones wrote:
-> On Sun, 16 Jun 2024 23:51:59 +0200, Christian Marangi wrote:
-> > This long series is (as requested) a big overhaul of the lp55xx based
-> > LED driver.
-> > 
-> > As notice for these kind of LED chip there was the bad habit of copy
-> > the old driver and just modify it enough to make it work with the new
-> > model. Till v4 I was also doing the same by following the pattern and
-> > the code format of previous driver.
-> > 
-> > [...]
+On 18/06/2024 15:59, Dzmitry Sankouski wrote:
+> Add support for haptic controller on MAX77705 Multifunction
+> device.
 > 
-> Applied, thanks!
+> This driver supports external pwm and LRA (Linear Resonant Actuator) motor.
+> User can control the haptic device via force feedback framework.
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
 
-Mh? What happen? I'm preparing v7 with the changes requested :(
+> +static int max77705_haptic_bias(struct max77705_haptic *haptic, bool on)
+> +{
+> +	int error;
+> +
+> +	error = regmap_update_bits(haptic->regmap_haptic,
+> +							   MAX77705_PMIC_REG_MAINCTRL1,
+> +							   MAX77705_MAINCTRL1_BIASEN_MASK,
+> +							   on << MAX77705_MAINCTRL1_BIASEN_SHIFT);
+> +
+> +	if (error) {
+> +		dev_err(haptic->dev, "failed to %s bias: %d\n",
+> +			on ? "enable" : "disable", error);
+> +		return error;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int max77705_haptic_configure(struct max77705_haptic *haptic,
+> +				     bool enable)
+> +{
+> +	unsigned int value, config_reg;
+> +	int error;
+> +
+> +	value = ((haptic->type << MAX77705_CONFIG2_MODE_SHIFT) |
+> +		(enable << MAX77705_CONFIG2_MEN_SHIFT) |
+> +		(haptic->mode << MAX77705_CONFIG2_HTYP_SHIFT) |
+> +		MAX77705_HAPTIC_PWM_DIVISOR_128);
+> +	config_reg = MAX77705_PMIC_REG_MCONFIG;
+> +
+> +	error = regmap_write(haptic->regmap_haptic,
+> +			     config_reg, value);
+> +	if (error) {
+> +		dev_err(haptic->dev,
+> +			"failed to update haptic config: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void max77705_haptic_enable(struct max77705_haptic *haptic)
+> +{
+> +	int error;
+> +
+> +	if (haptic->enabled)
+> +		return;
+> +
+> +	error = pwm_enable(haptic->pwm_dev);
+> +	if (error) {
+> +		dev_err(haptic->dev,
+> +			"failed to enable haptic pwm device: %d\n", error);
+> +		return;
+> +	}
+> +
+> +	error = max77705_haptic_configure(haptic, true);
+> +	if (error)
+> +		goto err_enable_config;
+> +
+> +	haptic->enabled = true;
+> +
+> +	return;
+> +
+> +err_enable_config:
+> +	pwm_disable(haptic->pwm_dev);
+> +}
+> +
+> +static void max77705_haptic_disable(struct max77705_haptic *haptic)
+> +{
+> +	int error;
+> +
+> +	if (!haptic->enabled)
+> +		return;
+> +
+> +	error = max77705_haptic_configure(haptic, false);
+> +	if (error)
+> +		return;
+> +
+> +	pwm_disable(haptic->pwm_dev);
+> +	haptic->enabled = false;
+> +}
+> +
+> +static void max77705_haptic_play_work(struct work_struct *work)
+> +{
+> +	struct max77705_haptic *haptic =
+> +			container_of(work, struct max77705_haptic, work);
+> +	int error;
+> +
+> +	error = max77705_haptic_set_duty_cycle(haptic);
+> +	if (error) {
+> +		dev_err(haptic->dev, "failed to set duty cycle: %d\n", error);
+> +		return;
+> +	}
+> +
+> +	if (haptic->magnitude)
+> +		max77705_haptic_enable(haptic);
+> +	else
+> +		max77705_haptic_disable(haptic);
+> +}
+> +
+> +static int max77705_haptic_play_effect(struct input_dev *dev, void *data,
+> +				       struct ff_effect *effect)
+> +{
+> +	struct max77705_haptic *haptic = input_get_drvdata(dev);
+> +	struct pwm_args pargs;
+> +	u64 period_mag_multi;
+> +
+> +	haptic->magnitude = effect->u.rumble.strong_magnitude;
+> +	if (!haptic->magnitude)
+> +		haptic->magnitude = effect->u.rumble.weak_magnitude;
+> +
+> +	/*
+> +	 * The magnitude comes from force-feedback interface.
+> +	 * The formula to convert magnitude to pwm_duty as follows:
+> +	 * - pwm_duty = (magnitude * pwm_period) / MAX_MAGNITUDE(0xFFFF)
+> +	 */
+> +	pr_info("magnitude: %d(%x)", haptic->magnitude, haptic->magnitude);
 
-> 
-> [01/20] dt-bindings: leds-lp55xx: limit pwr-sel property to ti,lp8501
->         commit: 08a9d2e79140ea1b40c107ea4c025bb8b71aa4b5
-> [02/20] dt-bindings: leds-lp55xx: Add new ti,lp5569 compatible
->         commit: 75e28e4b32dda36c4a015cf2f9c4955d9024234a
-> [03/20] leds: leds-lp55xx: generalize stop_all_engine OP
->         commit: e2176c637856cd206bf06b5bbba89b2cf45f7dca
-> [04/20] leds: leds-lp55xx: generalize probe/remove functions
->         (no commit info)
-> [05/20] leds: leds-lp55xx: generalize load_engine function
->         (no commit info)
-> [06/20] leds: leds-lp55xx: generalize load_engine_and_select_page function
->         (no commit info)
-> [07/20] leds: leds-lp55xx: generalize run_engine function
->         (no commit info)
-> [08/20] leds: leds-lp55xx: generalize update_program_memory function
->         (no commit info)
-> [09/20] leds: leds-lp55xx: generalize firmware_loaded function
->         (no commit info)
-> [10/20] leds: leds-lp55xx: generalize led_brightness function
->         (no commit info)
-> [11/20] leds: leds-lp55xx: generalize multicolor_brightness function
->         (no commit info)
-> [12/20] leds: leds-lp55xx: generalize set_led_current function
->         (no commit info)
-> [13/20] leds: leds-lp55xx: generalize turn_off_channels function
->         (no commit info)
-> [14/20] leds: leds-lp55xx: generalize stop_engine function
->         (no commit info)
-> [15/20] leds: leds-lp55xx: generalize sysfs engine_load and engine_mode
->         (no commit info)
-> [16/20] leds: leds-lp55xx: generalize sysfs engine_leds
->         (no commit info)
-> [17/20] leds: leds-lp55xx: generalize sysfs master_fader
->         (no commit info)
-> [18/20] leds: leds-lp55xx: support ENGINE program up to 128 bytes
->         (no commit info)
-> [19/20] leds: leds-lp55xx: drop deprecated defines
->         (no commit info)
-> [20/20] leds: leds-lp5569: Add support for Texas Instruments LP5569
->         (no commit info)
-> 
-> --
-> Lee Jones [李琼斯]
-> 
+Do not use pr_xxx in your drivers. That's a generic comment so please
+apply it everywhere. Anyway driver should be silent.
 
--- 
-	Ansuel
+
+> +	pwm_get_args(haptic->pwm_dev, &pargs);
+> +	period_mag_multi = (u64)pargs.period * haptic->magnitude;
+> +	haptic->pwm_duty = (unsigned int)(period_mag_multi >>
+> +						MAX_MAGNITUDE_SHIFT);
+> +
+> +	schedule_work(&haptic->work);
+> +
+> +	return 0;
+> +}
+
+
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(max77705_haptic_pm_ops,
+> +				max77705_haptic_suspend,
+> +				max77705_haptic_resume);
+> +
+> +static const struct of_device_id of_max77705_haptic_dt_match[] = {
+> +	{ .compatible = "maxim,max77705-haptic", },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, of_max77705_haptic_dt_match);
+> +
+> +static struct platform_driver max77705_haptic_driver = {
+> +	.driver		= {
+> +		.name	= "max77705-haptic",
+> +		.pm	= pm_sleep_ptr(&max77705_haptic_pm_ops),
+> +		.of_match_table = of_max77705_haptic_dt_match,
+> +	},
+> +	.probe		= max77705_haptic_probe,
+> +	.remove_new	= max77705_haptic_remove,
+> +};
+> +module_platform_driver(max77705_haptic_driver);
+> +
+> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
+> +MODULE_AUTHOR("Jaewon Kim <jaewon02.kim@samsung.com>");
+> +MODULE_AUTHOR("Krzysztof Kozlowski <krzk@kernel.org>");
+
+I doubt that this driver is needed. Everything is copy of max777693.
+
+
+Best regards,
+Krzysztof
+
 
