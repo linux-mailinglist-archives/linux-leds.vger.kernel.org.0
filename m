@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-2092-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2093-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7702911508
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 23:45:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DA3911510
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 23:46:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8FD71C2262C
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 21:45:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D68DB24B19
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 21:46:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3969158DC1;
-	Thu, 20 Jun 2024 21:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EAD15AAD1;
+	Thu, 20 Jun 2024 21:41:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PGreFVkK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q46KRl+2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0A9155C8B;
-	Thu, 20 Jun 2024 21:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB7B156881;
+	Thu, 20 Jun 2024 21:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718919714; cv=none; b=I+OHiRI0q5jJvvrzKN5jKVPAqbdnpQ06dscZAy5f4G/8xaAptMzdYV+WbKqUjhfb8on6qAZuqbExWfWOrXaNDM7CGgfnZdqE2RdIDlEPnEQbeKXCYqjaw/0dWGu4UzHtTtAFK8QeC1Cyo7G7FGRMcayRo6lD5mOOhK78RgoKS4k=
+	t=1718919715; cv=none; b=L13Ukln97xpmX9U43cgbJFPcspuHSoPgowHcSvRIrGFLakGOnKMtWts2V8IRLvlnMr2KoLCXQ1GJS97x755qy+y6jb0dXvitjfr2ifPOjW4bTS3XEPsWyvQ2B4e0cZW/z2uhYJMUi56hCzO3dVYTwRP0hTt+mRkf7Vv418I5mcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718919714; c=relaxed/simple;
-	bh=oQTkijkig+TTMGeA52/UiQnffzMmX+MMJCK7FJjxfjw=;
+	s=arc-20240116; t=1718919715; c=relaxed/simple;
+	bh=3bxi4xkVgRCvQWcLRemgpCSBNvRxdHNqfr0Vs3j/pwE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kOl9iQajCZO/IFVl1GngshuJNm4u4QLHoSHzPQvetw3R8qA1isG4qjreqQ6WczeiD9K1EPXivq+uXYSwVyX5qq3tRpmqGsuXbm/4u7z+OtQitDgTSjAVXBwdBsxCqiJTeXmSLFnHCC2AIwq25Q2MOHbOJ0fhboAu+W7NBQPGTSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PGreFVkK; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version; b=sh3hGy21M/dZjMqvWEHk2mvgOthWghdvvSBRucOwdBZygDWHkgGcgOh+sPeLXi1/5P0AYTR9bZY+PUW9OG+YdJXIk0PIAmvEih7Gl/AUpGUG/ICvG+NXsOkX973LWwRiyhNnCWXxOgJaQHOarZtRu+zG9UHHbfKtWaSCar0+B3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q46KRl+2; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-36532d177a0so694733f8f.2;
-        Thu, 20 Jun 2024 14:41:52 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-356c4e926a3so1348255f8f.1;
+        Thu, 20 Jun 2024 14:41:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718919711; x=1719524511; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718919712; x=1719524512; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zkzn+tBnOJfYBqIIubPBDn9JQ0osj8n0lCkRhH87/uc=;
-        b=PGreFVkKPiNvgDzf2wGercGtny1kRO+ITPsJI2HVdJcwvtR+CATt5xaYq6+x/48HMf
-         3aHthIr0/XsQG8TeK86h7VsSwVJJj6hs6MKsRc8jMeydxPb+NhA08/cRRKWcpn1/8xb4
-         ZOO7kIkQNmGfjmoOUxQvG1k8S385yoVCuPuJsimjQ4toI2gmqnuuK7MdduNjJnV0deDO
-         9jPh1wq+Gqs8BqsFMYh4fBICWDFWwxXTb6HQUqWfWj6n/3MciKM3OHOvgh4Jjl8ztWZe
-         PoHXrMZ5jHU9ydL1OHBn32JU3V37wEjW6K4smqzQ84uMIz6kY5cNfLwzXmCZFd5artyi
-         EAMg==
+        bh=t+4e8cF7k4UIhR54Dq5vhlEbflgX0teWBDZHJEHCUVk=;
+        b=Q46KRl+2zkv59QaG09Cgl0ghT5kNOir30utOWMak3Y41t4cFd5dBv+Io1dy7sYhXz1
+         tShwkTORUGcUkQmjUPyIvOuDlVIIKEATya0OlckPBrX/JZ5hb39RQCkZDdva64h83s1A
+         j7F2pYrVxGQqRf5XH11jgv4ct22VRbb1PsXjNgH9sMSo0Gzrgms3HCQvuOrUBeVV2ICY
+         V+wtIMwNGaVAnWp/Nr6vflcCGnuL7RChjwkBEaqfK0D6/P0E9Ggn2Todhmk3Eemoxd58
+         Nx8AtsZudWaYlWIk0wEA2DlPCI1VhDmTA2kGbcso7MLahXuuErHtL6pFOqw/Uy7hfxjq
+         OspQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718919711; x=1719524511;
+        d=1e100.net; s=20230601; t=1718919712; x=1719524512;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zkzn+tBnOJfYBqIIubPBDn9JQ0osj8n0lCkRhH87/uc=;
-        b=lD2sEnuIxPi1q0OwBob8CF7e2Qdp0Ge6MGu11SAYnGjkHbZIiyA+UWRc7X21TrJpM4
-         SZA1+w6pqvPrpFOhSHBFapBGM7A6OOouFn/vBTwbaXRg7IdKKDIv3iwwaEIMrDPNzb4B
-         m1oyVK/XmHAmHEKEu065QHDop3SHaW7bXOE848JjhsAA8oJKrTwRPd43fWuFD0cXG4kQ
-         HmpvLs9f0l07IYV6egsjJ3ZsIeGRUSnFZ5KxHQBbFMkuDFBTrrz4lt9P5yVVhHTKh3f8
-         6YQWFRszEPl033jMVBP4ku2AFUnwvj7HNSzVDVfPprpM7CvOx/f1+tfhF1NNWPZpUePQ
-         9FIA==
-X-Forwarded-Encrypted: i=1; AJvYcCWseYwcJgEHXPa6ST6b2l/oJZWLgJ2CBu2Fqxr2EyG7OQhp1ulgCRtzg8SPnJTArYs4ZdF1L/nKIVfhOwQvZ2Zk3xU+w4oiBu46Wp3Kkwtl1kMZS9YoKwOwd91Kmb5sWC67JTSUkUtQWZHi1+3/W3Cm/COVxeKUxtZQqpgvaeRaZeW6+3Y=
-X-Gm-Message-State: AOJu0YyUGnuWQC7VOKAVFLyZnMcvc5o8Pq6PUbq4cMMf9Xrzj5Q/0kip
-	zprWdiVu+6/1uJmm+E/ki/m5BiqXxklnVhIOaNdtgsgLpKC6iyO/
-X-Google-Smtp-Source: AGHT+IGZo5QC0yd+XO10iyD96v8flgjMViHGOzXne7J8H4hSPiXUTukXgwTXxgm1z44esHTdlU7xJQ==
-X-Received: by 2002:a5d:464a:0:b0:361:1ef2:a273 with SMTP id ffacd0b85a97d-363171e2bfdmr4819067f8f.13.1718919710958;
-        Thu, 20 Jun 2024 14:41:50 -0700 (PDT)
+        bh=t+4e8cF7k4UIhR54Dq5vhlEbflgX0teWBDZHJEHCUVk=;
+        b=KpCRmuBWk2yMxhcz5szByq9eJtXSHFmRtFsbtYhP5o1GGZ1nFaOlz/jkF+GomJvSOc
+         KRMqAFPijeUsyBGUTAjvtLdXJ+ZnGxSsNIwcVakBTHgrc1OTuVuErl4At4ad+HrXm9zI
+         pbUXAAvUzKZXDjFtz9fRT07yLz+iUK63WLYtgZqo32cx7qcHdf5sy9gY9+gLOgntedhy
+         KWKSaobAEX+o5K8Bn75bo3Em7KtbcrGR8okQpW/BJ+qlONDN1Bd/GjbGviQYatRSzgoo
+         a3Lo4VYKtPCMZO60VHsz9FB1NjiDgQSRsmyVNFene9AME0WoPQjIpd5jE3XyxJRzHOxT
+         6Pcg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOopL5vuMOkKCkt5o13SQmfXQehG0JEDg4ZDYr0WNZj712x3Yct7JiqdKIUGDCnd4eCBiXLhVaHwfT485k3kx2ow3N3L+0v85Dk7KBlB+woX5gXXNa8U4z40LNClwsiFXirA/z9F76I3OV4u0xucb6ABluF5LYAVdclrzYXgEthSPV8i0=
+X-Gm-Message-State: AOJu0Yx1nCAGUgU4bsZnxPU8rdCAg116ecYPQeW79knoUsmWNmgyAfUh
+	AhkfCImzblN9fDDjlBTBsA6Jh762zYD/jXEbfvCD7sYDGyVLpExI
+X-Google-Smtp-Source: AGHT+IE89vtUqykSfwG4/UqU/41QvI1+DU0/USmG3j4zV4xuiwT3UBISKEkD8Si2axwErmNGev2GzQ==
+X-Received: by 2002:adf:ecc9:0:b0:362:b5d7:8116 with SMTP id ffacd0b85a97d-363176ad7a0mr4974790f8f.28.1718919712031;
+        Thu, 20 Jun 2024 14:41:52 -0700 (PDT)
 Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366383f68acsm48866f8f.2.2024.06.20.14.41.50
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366383f68acsm48866f8f.2.2024.06.20.14.41.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 14:41:50 -0700 (PDT)
+        Thu, 20 Jun 2024 14:41:51 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -78,9 +78,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Christian Marangi <ansuelsmth@gmail.com>
-Subject: [PATCH v7 16/20] leds: leds-lp55xx: Generalize sysfs engine_leds
-Date: Thu, 20 Jun 2024 23:03:32 +0200
-Message-ID: <20240620210401.22053-17-ansuelsmth@gmail.com>
+Subject: [PATCH v7 17/20] leds: leds-lp55xx: Generalize sysfs master_fader
+Date: Thu, 20 Jun 2024 23:03:33 +0200
+Message-ID: <20240620210401.22053-18-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240620210401.22053-1-ansuelsmth@gmail.com>
 References: <20240620210401.22053-1-ansuelsmth@gmail.com>
@@ -92,332 +92,384 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Generalize sysfs engine_leds since their implementation is the same across
+Generalize sysfs master_fader since their implementation is the same across
 some lp55xx based LED driver.
-
-While at it simplify the implementation for show_engine_leds.
 
 Suggested-by: Lee Jones <lee@kernel.org>
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/leds/leds-lp5523.c        | 119 +-----------------------------
- drivers/leds/leds-lp55xx-common.c | 109 +++++++++++++++++++++++++++
- drivers/leds/leds-lp55xx-common.h |  32 ++++----
- 3 files changed, 131 insertions(+), 129 deletions(-)
+ drivers/leds/leds-lp5523.c        | 150 +++---------------------------
+ drivers/leds/leds-lp55xx-common.c | 113 ++++++++++++++++++++++
+ drivers/leds/leds-lp55xx-common.h |  32 +++++++
+ 3 files changed, 156 insertions(+), 139 deletions(-)
 
 diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 19b119a2b256..9d91c2c5a3eb 100644
+index 9d91c2c5a3eb..1b3ffdc3dfa3 100644
 --- a/drivers/leds/leds-lp5523.c
 +++ b/drivers/leds/leds-lp5523.c
-@@ -225,119 +225,6 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
- 	return ret;
+@@ -315,137 +315,6 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 	return pos;
  }
  
--static int lp5523_mux_parse(const char *buf, u16 *mux, size_t len)
--{
--	u16 tmp_mux = 0;
--	int i;
--
--	len = min_t(int, len, LP5523_MAX_LEDS);
--
--	for (i = 0; i < len; i++) {
--		switch (buf[i]) {
--		case '1':
--			tmp_mux |= (1 << i);
--			break;
--		case '0':
--			break;
--		case '\n':
--			i = len;
--			break;
--		default:
--			return -1;
--		}
--	}
--	*mux = tmp_mux;
--
--	return 0;
+-#define show_fader(nr)						\
+-static ssize_t show_master_fader##nr(struct device *dev,	\
+-			    struct device_attribute *attr,	\
+-			    char *buf)				\
+-{								\
+-	return show_master_fader(dev, attr, buf, nr);		\
 -}
 -
--static void lp5523_mux_to_array(u16 led_mux, char *array)
--{
--	int i, pos = 0;
--
--	for (i = 0; i < LP5523_MAX_LEDS; i++)
--		pos += sprintf(array + pos, "%x", LED_ACTIVE(led_mux, i));
--
--	array[pos] = '\0';
+-#define store_fader(nr)						\
+-static ssize_t store_master_fader##nr(struct device *dev,	\
+-			     struct device_attribute *attr,	\
+-			     const char *buf, size_t len)	\
+-{								\
+-	return store_master_fader(dev, attr, buf, len, nr);	\
 -}
 -
--static ssize_t show_engine_leds(struct device *dev,
--			    struct device_attribute *attr,
--			    char *buf, int nr)
+-static ssize_t show_master_fader(struct device *dev,
+-				 struct device_attribute *attr,
+-				 char *buf, int nr)
 -{
 -	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
 -	struct lp55xx_chip *chip = led->chip;
--	char mux[LP5523_MAX_LEDS + 1];
--
--	lp5523_mux_to_array(chip->engines[nr - 1].led_mux, mux);
--
--	return sprintf(buf, "%s\n", mux);
--}
--show_leds(1)
--show_leds(2)
--show_leds(3)
--
--static int lp5523_load_mux(struct lp55xx_chip *chip, u16 mux, int nr)
--{
--	struct lp55xx_engine *engine = &chip->engines[nr - 1];
 -	int ret;
--	static const u8 mux_page[] = {
--		[LP55XX_ENGINE_1] = LP5523_PAGE_MUX1,
--		[LP55XX_ENGINE_2] = LP5523_PAGE_MUX2,
--		[LP55XX_ENGINE_3] = LP5523_PAGE_MUX3,
--	};
+-	u8 val;
 -
--	lp55xx_load_engine(chip);
+-	mutex_lock(&chip->lock);
+-	ret = lp55xx_read(chip, LP5523_REG_MASTER_FADER_BASE + nr - 1, &val);
+-	mutex_unlock(&chip->lock);
 -
--	ret = lp55xx_write(chip, LP5523_REG_PROG_PAGE_SEL, mux_page[nr]);
--	if (ret)
--		return ret;
+-	if (ret == 0)
+-		ret = sprintf(buf, "%u\n", val);
 -
--	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM, (u8)(mux >> 8));
--	if (ret)
--		return ret;
--
--	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM + 1, (u8)(mux));
--	if (ret)
--		return ret;
--
--	engine->led_mux = mux;
--	return 0;
+-	return ret;
 -}
+-show_fader(1)
+-show_fader(2)
+-show_fader(3)
 -
--static ssize_t store_engine_leds(struct device *dev,
--			     struct device_attribute *attr,
--			     const char *buf, size_t len, int nr)
+-static ssize_t store_master_fader(struct device *dev,
+-				  struct device_attribute *attr,
+-				  const char *buf, size_t len, int nr)
 -{
 -	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
 -	struct lp55xx_chip *chip = led->chip;
--	struct lp55xx_engine *engine = &chip->engines[nr - 1];
--	u16 mux = 0;
--	ssize_t ret;
+-	int ret;
+-	unsigned long val;
 -
--	if (lp5523_mux_parse(buf, &mux, len))
+-	if (kstrtoul(buf, 0, &val))
+-		return -EINVAL;
+-
+-	if (val > 0xff)
 -		return -EINVAL;
 -
 -	mutex_lock(&chip->lock);
+-	ret = lp55xx_write(chip, LP5523_REG_MASTER_FADER_BASE + nr - 1,
+-			   (u8)val);
+-	mutex_unlock(&chip->lock);
 -
--	chip->engine_idx = nr;
--	ret = -EINVAL;
+-	if (ret == 0)
+-		ret = len;
 -
--	if (engine->mode != LP55XX_ENGINE_LOAD)
--		goto leave;
+-	return ret;
+-}
+-store_fader(1)
+-store_fader(2)
+-store_fader(3)
 -
--	if (lp5523_load_mux(chip, mux, nr))
--		goto leave;
+-static ssize_t show_master_fader_leds(struct device *dev,
+-				      struct device_attribute *attr,
+-				      char *buf)
+-{
+-	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
+-	struct lp55xx_chip *chip = led->chip;
+-	int i, ret, pos = 0;
+-	u8 val;
 -
+-	mutex_lock(&chip->lock);
+-
+-	for (i = 0; i < LP5523_MAX_LEDS; i++) {
+-		ret = lp55xx_read(chip, LP5523_REG_LED_CTRL_BASE + i, &val);
+-		if (ret)
+-			goto leave;
+-
+-		val = (val & LP5523_FADER_MAPPING_MASK)
+-			>> LP5523_FADER_MAPPING_SHIFT;
+-		if (val > 3) {
+-			ret = -EINVAL;
+-			goto leave;
+-		}
+-		buf[pos++] = val + '0';
+-	}
+-	buf[pos++] = '\n';
+-	ret = pos;
+-leave:
+-	mutex_unlock(&chip->lock);
+-	return ret;
+-}
+-
+-static ssize_t store_master_fader_leds(struct device *dev,
+-				       struct device_attribute *attr,
+-				       const char *buf, size_t len)
+-{
+-	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
+-	struct lp55xx_chip *chip = led->chip;
+-	int i, n, ret;
+-	u8 val;
+-
+-	n = min_t(int, len, LP5523_MAX_LEDS);
+-
+-	mutex_lock(&chip->lock);
+-
+-	for (i = 0; i < n; i++) {
+-		if (buf[i] >= '0' && buf[i] <= '3') {
+-			val = (buf[i] - '0') << LP5523_FADER_MAPPING_SHIFT;
+-			ret = lp55xx_update_bits(chip,
+-						 LP5523_REG_LED_CTRL_BASE + i,
+-						 LP5523_FADER_MAPPING_MASK,
+-						 val);
+-			if (ret)
+-				goto leave;
+-		} else {
+-			ret = -EINVAL;
+-			goto leave;
+-		}
+-	}
 -	ret = len;
 -leave:
 -	mutex_unlock(&chip->lock);
 -	return ret;
 -}
--store_leds(1)
--store_leds(2)
--store_leds(3)
 -
- static ssize_t lp5523_selftest(struct device *dev,
- 			       struct device_attribute *attr,
- 			       char *buf)
-@@ -562,9 +449,9 @@ static ssize_t store_master_fader_leds(struct device *dev,
  LP55XX_DEV_ATTR_ENGINE_MODE(1);
  LP55XX_DEV_ATTR_ENGINE_MODE(2);
  LP55XX_DEV_ATTR_ENGINE_MODE(3);
--static LP55XX_DEV_ATTR_RW(engine1_leds, show_engine1_leds, store_engine1_leds);
--static LP55XX_DEV_ATTR_RW(engine2_leds, show_engine2_leds, store_engine2_leds);
--static LP55XX_DEV_ATTR_RW(engine3_leds, show_engine3_leds, store_engine3_leds);
-+LP55XX_DEV_ATTR_ENGINE_LEDS(1);
-+LP55XX_DEV_ATTR_ENGINE_LEDS(2);
-+LP55XX_DEV_ATTR_ENGINE_LEDS(3);
- LP55XX_DEV_ATTR_ENGINE_LOAD(1);
+@@ -456,14 +325,11 @@ LP55XX_DEV_ATTR_ENGINE_LOAD(1);
  LP55XX_DEV_ATTR_ENGINE_LOAD(2);
  LP55XX_DEV_ATTR_ENGINE_LOAD(3);
+ static LP55XX_DEV_ATTR_RO(selftest, lp5523_selftest);
+-static LP55XX_DEV_ATTR_RW(master_fader1, show_master_fader1,
+-			  store_master_fader1);
+-static LP55XX_DEV_ATTR_RW(master_fader2, show_master_fader2,
+-			  store_master_fader2);
+-static LP55XX_DEV_ATTR_RW(master_fader3, show_master_fader3,
+-			  store_master_fader3);
+-static LP55XX_DEV_ATTR_RW(master_fader_leds, show_master_fader_leds,
+-			  store_master_fader_leds);
++LP55XX_DEV_ATTR_MASTER_FADER(1);
++LP55XX_DEV_ATTR_MASTER_FADER(2);
++LP55XX_DEV_ATTR_MASTER_FADER(3);
++static LP55XX_DEV_ATTR_RW(master_fader_leds, lp55xx_show_master_fader_leds,
++			  lp55xx_store_master_fader_leds);
+ 
+ static struct attribute *lp5523_attributes[] = {
+ 	&dev_attr_engine1_mode.attr,
+@@ -516,6 +382,12 @@ static struct lp55xx_device_config lp5523_cfg = {
+ 	.reg_led_current_base = {
+ 		.addr = LP5523_REG_LED_CURRENT_BASE,
+ 	},
++	.reg_master_fader_base = {
++		.addr = LP5523_REG_MASTER_FADER_BASE,
++	},
++	.reg_led_ctrl_base = {
++		.addr = LP5523_REG_LED_CTRL_BASE,
++	},
+ 	.pages_per_engine   = LP5523_PAGES_PER_ENGINE,
+ 	.max_channel  = LP5523_MAX_LEDS,
+ 	.post_init_device   = lp5523_post_init_device,
 diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index 0974488780c0..f0b673c61396 100644
+index f0b673c61396..dd7630aaa438 100644
 --- a/drivers/leds/leds-lp55xx-common.c
 +++ b/drivers/leds/leds-lp55xx-common.c
-@@ -62,6 +62,8 @@
- /* If supported, each ENGINE have an equal amount of pages offset from page 0 */
- #define LP55xx_PAGE_OFFSET(n, pages)	(((n) - 1) * (pages))
+@@ -64,6 +64,9 @@
  
-+#define LED_ACTIVE(mux, led)		(!!((mux) & (0x0001 << (led))))
+ #define LED_ACTIVE(mux, led)		(!!((mux) & (0x0001 << (led))))
+ 
++/* MASTER FADER common property */
++#define LP55xx_FADER_MAPPING_MASK	GENMASK(7, 6)
 +
  /* External clock rate */
  #define LP55XX_CLK_32K			32768
  
-@@ -691,6 +693,113 @@ ssize_t lp55xx_store_engine_load(struct device *dev,
+@@ -800,6 +803,116 @@ ssize_t lp55xx_store_engine_leds(struct device *dev,
  }
- EXPORT_SYMBOL_GPL(lp55xx_store_engine_load);
+ EXPORT_SYMBOL_GPL(lp55xx_store_engine_leds);
  
-+static int lp55xx_mux_parse(struct lp55xx_chip *chip, const char *buf,
-+			    u16 *mux, size_t len)
-+{
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	u16 tmp_mux = 0;
-+	int i;
-+
-+	len = min_t(int, len, cfg->max_channel);
-+
-+	for (i = 0; i < len; i++) {
-+		switch (buf[i]) {
-+		case '1':
-+			tmp_mux |= (1 << i);
-+			break;
-+		case '0':
-+			break;
-+		case '\n':
-+			i = len;
-+			break;
-+		default:
-+			return -1;
-+		}
-+	}
-+	*mux = tmp_mux;
-+
-+	return 0;
-+}
-+
-+ssize_t lp55xx_show_engine_leds(struct device *dev,
-+				struct device_attribute *attr,
-+				char *buf, int nr)
-+{
-+	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
-+	struct lp55xx_chip *chip = led->chip;
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	unsigned int led_active;
-+	int i, pos = 0;
-+
-+	for (i = 0; i < cfg->max_channel; i++) {
-+		led_active = LED_ACTIVE(chip->engines[nr - 1].led_mux, i);
-+		pos += sysfs_emit_at(buf, pos, "%x", led_active);
-+	}
-+
-+	pos += sysfs_emit_at(buf, pos, "\n");
-+
-+	return pos;
-+}
-+EXPORT_SYMBOL_GPL(lp55xx_show_engine_leds);
-+
-+static int lp55xx_load_mux(struct lp55xx_chip *chip, u16 mux, int nr)
-+{
-+	struct lp55xx_engine *engine = &chip->engines[nr - 1];
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	u8 mux_page;
-+	int ret;
-+
-+	lp55xx_load_engine(chip);
-+
-+	/* Derive the MUX page offset by starting at the end of the ENGINE pages */
-+	mux_page = cfg->pages_per_engine * LP55XX_ENGINE_MAX + (nr - 1);
-+	ret = lp55xx_write(chip, LP55xx_REG_PROG_PAGE_SEL, mux_page);
-+	if (ret)
-+		return ret;
-+
-+	ret = lp55xx_write(chip, cfg->prog_mem_base.addr, (u8)(mux >> 8));
-+	if (ret)
-+		return ret;
-+
-+	ret = lp55xx_write(chip, cfg->prog_mem_base.addr + 1, (u8)(mux));
-+	if (ret)
-+		return ret;
-+
-+	engine->led_mux = mux;
-+	return 0;
-+}
-+
-+ssize_t lp55xx_store_engine_leds(struct device *dev,
++ssize_t lp55xx_show_master_fader(struct device *dev,
 +				 struct device_attribute *attr,
-+				 const char *buf, size_t len, int nr)
++				 char *buf, int nr)
 +{
 +	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
 +	struct lp55xx_chip *chip = led->chip;
-+	struct lp55xx_engine *engine = &chip->engines[nr - 1];
-+	u16 mux = 0;
-+	ssize_t ret;
++	const struct lp55xx_device_config *cfg = chip->cfg;
++	int ret;
++	u8 val;
 +
-+	if (lp55xx_mux_parse(chip, buf, &mux, len))
++	mutex_lock(&chip->lock);
++	ret = lp55xx_read(chip, cfg->reg_master_fader_base.addr + nr - 1, &val);
++	mutex_unlock(&chip->lock);
++
++	return ret ? ret : sysfs_emit(buf, "%u\n", val);
++}
++EXPORT_SYMBOL_GPL(lp55xx_show_master_fader);
++
++ssize_t lp55xx_store_master_fader(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *buf, size_t len, int nr)
++{
++	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
++	struct lp55xx_chip *chip = led->chip;
++	const struct lp55xx_device_config *cfg = chip->cfg;
++	int ret;
++	unsigned long val;
++
++	if (kstrtoul(buf, 0, &val))
++		return -EINVAL;
++
++	if (val > 0xff)
 +		return -EINVAL;
 +
 +	mutex_lock(&chip->lock);
++	ret = lp55xx_write(chip, cfg->reg_master_fader_base.addr + nr - 1,
++			   (u8)val);
++	mutex_unlock(&chip->lock);
 +
-+	chip->engine_idx = nr;
-+	ret = -EINVAL;
++	return ret ? ret : len;
++}
++EXPORT_SYMBOL_GPL(lp55xx_store_master_fader);
 +
-+	if (engine->mode != LP55XX_ENGINE_LOAD)
-+		goto leave;
++ssize_t lp55xx_show_master_fader_leds(struct device *dev,
++				      struct device_attribute *attr,
++				      char *buf)
++{
++	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
++	struct lp55xx_chip *chip = led->chip;
++	const struct lp55xx_device_config *cfg = chip->cfg;
++	int i, ret, pos = 0;
++	u8 val;
 +
-+	if (lp55xx_load_mux(chip, mux, nr))
-+		goto leave;
++	mutex_lock(&chip->lock);
 +
++	for (i = 0; i < cfg->max_channel; i++) {
++		ret = lp55xx_read(chip, cfg->reg_led_ctrl_base.addr + i, &val);
++		if (ret)
++			goto leave;
++
++		val = FIELD_GET(LP55xx_FADER_MAPPING_MASK, val);
++		if (val > FIELD_MAX(LP55xx_FADER_MAPPING_MASK)) {
++			ret = -EINVAL;
++			goto leave;
++		}
++		buf[pos++] = val + '0';
++	}
++	buf[pos++] = '\n';
++	ret = pos;
++leave:
++	mutex_unlock(&chip->lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(lp55xx_show_master_fader_leds);
++
++ssize_t lp55xx_store_master_fader_leds(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t len)
++{
++	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
++	struct lp55xx_chip *chip = led->chip;
++	const struct lp55xx_device_config *cfg = chip->cfg;
++	int i, n, ret;
++	u8 val;
++
++	n = min_t(int, len, cfg->max_channel);
++
++	mutex_lock(&chip->lock);
++
++	for (i = 0; i < n; i++) {
++		if (buf[i] >= '0' && buf[i] <= '3') {
++			val = (buf[i] - '0') << __bf_shf(LP55xx_FADER_MAPPING_MASK);
++			ret = lp55xx_update_bits(chip,
++						 cfg->reg_led_ctrl_base.addr + i,
++						 LP55xx_FADER_MAPPING_MASK,
++						 val);
++			if (ret)
++				goto leave;
++		} else {
++			ret = -EINVAL;
++			goto leave;
++		}
++	}
 +	ret = len;
 +leave:
 +	mutex_unlock(&chip->lock);
 +	return ret;
 +}
-+EXPORT_SYMBOL_GPL(lp55xx_store_engine_leds);
++EXPORT_SYMBOL_GPL(lp55xx_store_master_fader_leds);
 +
  static struct attribute *lp55xx_engine_attributes[] = {
  	&dev_attr_select_engine.attr,
  	&dev_attr_run_engine.attr,
 diff --git a/drivers/leds/leds-lp55xx-common.h b/drivers/leds/leds-lp55xx-common.h
-index 5b3e9473cadc..5f2394a6de15 100644
+index 5f2394a6de15..6dcffa0db647 100644
 --- a/drivers/leds/leds-lp55xx-common.h
 +++ b/drivers/leds/leds-lp55xx-common.h
-@@ -51,21 +51,21 @@ static ssize_t store_engine##nr##_mode(struct device *dev,		\
- static LP55XX_DEV_ATTR_RW(engine##nr##_mode, show_engine##nr##_mode,	\
- 			  store_engine##nr##_mode)
+@@ -76,6 +76,22 @@ static ssize_t store_engine##nr##_load(struct device *dev,		\
+ }									\
+ static LP55XX_DEV_ATTR_WO(engine##nr##_load, store_engine##nr##_load)
  
--#define show_leds(nr)							\
-+#define LP55XX_DEV_ATTR_ENGINE_LEDS(nr)					\
- static ssize_t show_engine##nr##_leds(struct device *dev,		\
--			    struct device_attribute *attr,		\
--			    char *buf)					\
-+				      struct device_attribute *attr,	\
-+				      char *buf)			\
- {									\
--	return show_engine_leds(dev, attr, buf, nr);			\
--}
--
--#define store_leds(nr)						\
--static ssize_t store_engine##nr##_leds(struct device *dev,	\
--			     struct device_attribute *attr,	\
--			     const char *buf, size_t len)	\
--{								\
--	return store_engine_leds(dev, attr, buf, len, nr);	\
--}
-+	return lp55xx_show_engine_leds(dev, attr, buf, nr);		\
-+}									\
-+static ssize_t store_engine##nr##_leds(struct device *dev,		\
-+				       struct device_attribute *attr,	\
-+				       const char *buf, size_t len)	\
++#define LP55XX_DEV_ATTR_MASTER_FADER(nr)				\
++static ssize_t show_master_fader##nr(struct device *dev,		\
++				     struct device_attribute *attr,	\
++				     char *buf)				\
 +{									\
-+	return lp55xx_store_engine_leds(dev, attr, buf, len, nr);	\
++	return lp55xx_show_master_fader(dev, attr, buf, nr);		\
 +}									\
-+static LP55XX_DEV_ATTR_RW(engine##nr##_leds, show_engine##nr##_leds,	\
-+			  store_engine##nr##_leds)
++static ssize_t store_master_fader##nr(struct device *dev,		\
++				      struct device_attribute *attr,	\
++				      const char *buf, size_t len)	\
++{									\
++	return lp55xx_store_master_fader(dev, attr, buf, len, nr);	\
++}									\
++static LP55XX_DEV_ATTR_RW(master_fader##nr, show_master_fader##nr,	\
++			  store_master_fader##nr)
++
+ struct lp55xx_led;
+ struct lp55xx_chip;
  
- #define LP55XX_DEV_ATTR_ENGINE_LOAD(nr)					\
- static ssize_t store_engine##nr##_load(struct device *dev,		\
-@@ -238,5 +238,11 @@ extern ssize_t lp55xx_store_engine_mode(struct device *dev,
- extern ssize_t lp55xx_store_engine_load(struct device *dev,
+@@ -103,6 +119,8 @@ struct lp55xx_reg {
+  * @prog_mem_base      : Chip specific base reg address for chip SMEM programming
+  * @reg_led_pwm_base   : Chip specific base reg address for LED PWM conf
+  * @reg_led_current_base : Chip specific base reg address for LED current conf
++ * @reg_master_fader_base : Chip specific base reg address for master fader base
++ * @reg_led_ctrl_base  : Chip specific base reg address for LED ctrl base
+  * @pages_per_engine   : Assigned pages for each engine
+  *                       (if not set chip doesn't support pages)
+  * @max_channel        : Maximum number of channels
+@@ -123,6 +141,8 @@ struct lp55xx_device_config {
+ 	const struct lp55xx_reg prog_mem_base;
+ 	const struct lp55xx_reg reg_led_pwm_base;
+ 	const struct lp55xx_reg reg_led_current_base;
++	const struct lp55xx_reg reg_master_fader_base;
++	const struct lp55xx_reg reg_led_ctrl_base;
+ 	const int pages_per_engine;
+ 	const int max_channel;
+ 
+@@ -244,5 +264,17 @@ extern ssize_t lp55xx_show_engine_leds(struct device *dev,
+ extern ssize_t lp55xx_store_engine_leds(struct device *dev,
  					struct device_attribute *attr,
  					const char *buf, size_t len, int nr);
-+extern ssize_t lp55xx_show_engine_leds(struct device *dev,
-+				       struct device_attribute *attr,
-+				       char *buf, int nr);
-+extern ssize_t lp55xx_store_engine_leds(struct device *dev,
++extern ssize_t lp55xx_show_master_fader(struct device *dev,
 +					struct device_attribute *attr,
-+					const char *buf, size_t len, int nr);
++					char *buf, int nr);
++extern ssize_t lp55xx_store_master_fader(struct device *dev,
++					 struct device_attribute *attr,
++					 const char *buf, size_t len, int nr);
++extern ssize_t lp55xx_show_master_fader_leds(struct device *dev,
++					     struct device_attribute *attr,
++					     char *buf);
++extern ssize_t lp55xx_store_master_fader_leds(struct device *dev,
++					      struct device_attribute *attr,
++					      const char *buf, size_t len);
  
  #endif /* _LEDS_LP55XX_COMMON_H */
 -- 
