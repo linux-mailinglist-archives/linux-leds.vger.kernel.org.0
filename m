@@ -1,59 +1,53 @@
-Return-Path: <linux-leds+bounces-2043-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2044-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B639100C4
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 11:49:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6AC910137
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 12:13:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD1BC2841A4
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 09:49:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5DB7B219E5
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Jun 2024 10:13:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F8E1A4F13;
-	Thu, 20 Jun 2024 09:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5F81A8C15;
+	Thu, 20 Jun 2024 10:13:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4e83XS0"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="EDibbRVA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50532433BB;
-	Thu, 20 Jun 2024 09:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6017E58C;
+	Thu, 20 Jun 2024 10:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718876974; cv=none; b=V02bzFBhKyydZ08I2mJPyzyxADIna9sXLRVmxHD6c27w6nD7M30UDLq9tgLP89A81EW5VC9Mi36wYibNj6Q7Pe73QVRYcWCVw/kARt09ZJ4NLS9VOvrw0nizOcZmOkorxqbCWmA17SYmEAc5VfDwbtyBvRETqQbc98gZZzKQiOM=
+	t=1718878389; cv=none; b=QwyGCONQr0MYJy7LiBi7sT25hqryMNuMnJIQoJe3Wblgj85RBRgA1yfJjZqOoMvJtIp6kHifNEqub2hwUVs4EIqoWJR/rrFiBfa8fTsIKZHS/RAz+DC2mv8xMP5z+4TF5+WOcqbeUGJN7hB6vjCbBXbx0ZQOkeTyJ+1u4zMlIIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718876974; c=relaxed/simple;
-	bh=ElOitkQAXYYrGqSAaLi85lpCU0nQejASepHcMkfYcos=;
+	s=arc-20240116; t=1718878389; c=relaxed/simple;
+	bh=/BY01FytTrtayCSk8i5W8i0ED5sRVgxQCNoZYwJSR4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ifvrZZ/L8gk07L4tW9rUw15v5/vHln7Q3DxGvgTxhdsTLC4HCI5U7Oz+mZXMpaNiZK42oGAopBX1fWUk3CFeKi6JQyD939E3zTz/Rg88QdhuHzsSmWrfXZ/PiymREX9FKm78+iZpgci24WhkC+i6O4MaMaByLcO2Q22865mp6lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4e83XS0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA077C2BD10;
-	Thu, 20 Jun 2024 09:49:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718876973;
-	bh=ElOitkQAXYYrGqSAaLi85lpCU0nQejASepHcMkfYcos=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=XII6dm0z9sjaSRoP9U0ipO3T2EjNW8nxldnemu+pE+IFpYnws+p+/ckJ3bgAhJdSOFJ2CoA8nHnf3RmUWSnU3Nf1J0cKnnyAOEh5xU/BU9RyPEqpjNY8fWqZCDWSrp1XwX5juK4W5grZIpdtwtEF3xQeTWwjYShE5KExQV93gUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=EDibbRVA; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1718878375;
+	bh=/BY01FytTrtayCSk8i5W8i0ED5sRVgxQCNoZYwJSR4A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V4e83XS0p3A60BOw7Kb8mtpIG7ZAGO5JnEV+/Q4JQrU5jEFbc/MmoEApmzeOTvH8d
-	 FNRL0WZuNJDXI6zdPVB582pNKzJo0f7htbHnLyB0PvwmQ8LcvFXK+VXhmPP7VzfzMn
-	 3lURf+K36z2Aa+8ZJvbOZefQNOfGn+DU/vvxrPGywRiMTHe2ll17R0Vl0CUnIsgTjE
-	 DoGuKX4mqxUhk3t0KQRj+Gw5NVV4LHDy+XA94fFrRv57TuOCLhtsRGN9+6XQay8FE3
-	 lzvLjX4/TL4PC0h6LVUSLMZreq+9G1BHqeQUHDZ0SHPrQ3HEkHY7LvzV8+q5FxUMi1
-	 qXIKatHNRgv/g==
-Date: Thu, 20 Jun 2024 10:49:29 +0100
-From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>, regressions@lists.linux.dev,
-	linux-leds@vger.kernel.org, Genes Lists <lists@sapience.com>,
-	Johannes =?iso-8859-1?Q?W=FCller?= <johanneswueller@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] leds: class: Revert: "If no default trigger is given,
- make hw_control trigger the default trigger"
-Message-ID: <20240620094929.GK3029315@google.com>
-References: <20240607101847.23037-1-hdegoede@redhat.com>
- <171887679701.1126294.11039062848140573919.b4-ty@kernel.org>
+	b=EDibbRVApG0As5Eh3wXK3dE9Kx95CONejYNp2cpin5fqMtXUjjgl3jdcP+7Mpe+S7
+	 EqmHkKa6K2J0Nmg20qu7/FElie49yph88gi26QI4eplhr8HsBvRN4CfBsStxYESVeM
+	 3/CbxMm2gisxeGps4rKGAaT+j4UpwI7EbjwLuWXI=
+Date: Thu, 20 Jun 2024 12:12:55 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: cros_ec: Implement review comments from Lee
+Message-ID: <5708f5c6-65fe-4bf9-8d08-6dbb77e21a9d@t-8ch.de>
+References: <20240614-cros_ec-led-review-v1-1-946f2549fac2@weissschuh.net>
+ <20240620093114.GH3029315@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,30 +57,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <171887679701.1126294.11039062848140573919.b4-ty@kernel.org>
+In-Reply-To: <20240620093114.GH3029315@google.com>
 
-On Thu, 20 Jun 2024, Lee Jones wrote:
+Hi Lee,
 
-> On Fri, 07 Jun 2024 12:18:47 +0200, Hans de Goede wrote:
-> > Commit 66601a29bb23 ("leds: class: If no default trigger is given, make
-> > hw_control trigger the default trigger") causes ledtrig-netdev to get
-> > set as default trigger on various network LEDs.
+On 2024-06-20 10:31:14+0000, Lee Jones wrote:
+> Definitely not seen a commit message like that before
+
+I assumed that this patch would be squashed into the original commit.
+
+My question in which form you wanted the changes should have included
+"incremental series".
+
+> > Implement review comments from Lee as requested in [0] for
+> > "leds: Add ChromeOS EC driver".
 > > 
-> > This causes users to hit a pre-existing AB-BA deadlock issue in
-> > ledtrig-netdev between the LED-trigger locks and the rtnl mutex,
-> > resulting in hung tasks in kernels >= 6.9.
+> > Changes:
+> > * Inline DRV_NAME string constant.
+> > * Use dev_err() instead of dev_warn() to report errors.
+> > * Rename cros_ec_led_probe_led() to cros_ec_led_probe_one().
+> > * Make loop variable "int" where they belong.
+> > * Move "Unknown LED" comment to where it belongs.
+> > * Register trigger during _probe().
+> > * Use module_platform_driver() and drop all the custom boilerplate.
+> 
+> If you're fixing many things, then I would expect to receive many
+> patches.  One patch for functional change please.  If you can reasonably
+> group fixes of similar elk, then please do.  However one patch that does
+> a bunch of different things is a no-go from me, sorry.
+
+Absolutely, if these changes are to end up as actual commits then they
+need to look different.
+I'll resend them as proper series.
+
+> > [0] https://lore.kernel.org/lkml/20240614093445.GF3029315@google.com/T/#m8750abdef6a968ace765645189170814196c9ce9
 > > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [1/1] leds: class: Revert: "If no default trigger is given, make hw_control trigger the default trigger"
->       commit: 3acc45f2ceb0609812522e45aec4cb9516e1c586
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> >  drivers/leds/leds-cros_ec.c | 50 +++++++++++++--------------------------------
+> >  1 file changed, 14 insertions(+), 36 deletions(-)
 
-Cancel.
+<snip>
 
-It looks as though Linus did end up picking this up, just silently.
-
--- 
-Lee Jones [李琼斯]
+Sorry for the confusion,
+Thomas
 
