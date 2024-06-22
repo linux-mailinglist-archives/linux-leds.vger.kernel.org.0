@@ -1,109 +1,225 @@
-Return-Path: <linux-leds+bounces-2100-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2101-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9570F9122CD
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Jun 2024 12:50:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5266D913397
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Jun 2024 13:58:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 486701F22873
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Jun 2024 10:50:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1159D284487
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Jun 2024 11:58:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A61D171E45;
-	Fri, 21 Jun 2024 10:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f5OohLDO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F7AB15531A;
+	Sat, 22 Jun 2024 11:57:55 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtprelay01.ispgateway.de (smtprelay01.ispgateway.de [80.67.18.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5273C16DEC9;
-	Fri, 21 Jun 2024 10:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B2814C591;
+	Sat, 22 Jun 2024 11:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.18.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718967033; cv=none; b=X7/LBoLKxdxIyyYjJ0DZKZFmuBfANYYLlY95hzxRpeOCEYk+WZvNzcDxIc5/MbqErh79aCFd6azBnBVd7b7vj2dO7BxLXl+8+aRAY7jQ0sC/NX1AkKg9tHwrWf224u+xXMn43DfgkQf1BOkFba+pmvq6lySeiosyDuPVDkNjZ0Y=
+	t=1719057475; cv=none; b=Rtc7zUCmiMKIKKrQkqXzyzkDUEm2NqkoGgtjI54Ore7E0hra2AaSJ5+ZNGTBqsXOxwdmi/oHCfg3S5sNtPCTkcibgpW0jv4ovPuG4vB+ePai3Y0JeuZ450vieutnatp75p+SO7Jc2XklR1fvIonurSdsXFFhqGZ3ooqJkNxi4bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718967033; c=relaxed/simple;
-	bh=Ln8MyAJWRJjptYur48wslT3ztlJphKnLLSWFVYX0roM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ScXFT2SI1sVrROjr65CztiA0y52jCVyTbAReEySLi4ZjWJ+74bhDMsaijewV4s0wkNaTbdMIUAdvnI5ZKomilDqga3aescnpv3QoKGu1U3diRzjM5rYvGDp9XLjxTNC++1ybBw7dMOnKoX7EGix62i55WbhvYF5GYIkrRKNJzkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f5OohLDO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82571C2BBFC;
-	Fri, 21 Jun 2024 10:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718967032;
-	bh=Ln8MyAJWRJjptYur48wslT3ztlJphKnLLSWFVYX0roM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f5OohLDO6TTY7DUQNYpPw0pRZN9qPTMb0x6AiYXo3c9xhrxzct72y1FDgmRRkzTom
-	 j0cg9xSYfkRwfGY1kQdG+wvoO+xWC/kU8CIZgLcfFbbEPZaf6zWQMLH9iAuPX2kZfC
-	 hX8ev6bNZOYi2rwD55wXYHeN2KKljoI4xHUG7DPVmSGknD3x9hKhFyBioONT7wawFk
-	 vpTcDrvRMnYFlnonXCAtklfWNeJTgJykhAd1QhgrEmRpacP4YkFH0B3x5zamJYKOkA
-	 Vg0bxDuvDwuSolhWkjnWRu2wXxUKf5GS5zNPFzuq7gXStbu+fusftDf3l1LFiEC14v
-	 goaVSMYqlYNlA==
-Date: Fri, 21 Jun 2024 11:50:27 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [GIT PULL] Immutable branch between LEDS and MFD due for the v6.11
- merge window
-Message-ID: <20240621105027.GM1318296@google.com>
-References: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+	s=arc-20240116; t=1719057475; c=relaxed/simple;
+	bh=4nNz2jv+VOICXuXw2R1uGsao3nWrsCy0ZjQNa4eOHH0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZOrnFbti2DBaOVcbTgrLbp/8xqK4QWxhl8oOyTth0UpeAoq60e50hgJ5WI6LbV9QQYWdNQ4EsBkbd/jqKG3uq6n2RfH/GEOYM5zUJk9OApJXB1zvR6TB/FDqMXLPFziWNhZh3BMp4bKmaQgwgVMhYz871sxmbBL3QvO/rcSA63M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; arc=none smtp.client-ip=80.67.18.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+Received: from [92.206.190.41] (helo=framework.lan)
+	by smtprelay01.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <git@apitzsch.eu>)
+	id 1sKzKz-000000005fV-1pf2;
+	Sat, 22 Jun 2024 13:55:21 +0200
+Message-ID: <86f8110e8edc24d0df035b77a1aa68422e48bde1.camel@apitzsch.eu>
+Subject: Re: [PATCH v4 2/3] leds: sy7802: Add support for Silergy SY7802
+ flash LED controller
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,  Trilok Soni
+ <quic_tsoni@quicinc.com>, Kees Cook <kees@kernel.org>,
+ linux-leds@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-hardening@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,  ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+Date: Sat, 22 Jun 2024 13:55:25 +0200
+In-Reply-To: <20240621102656.GK1318296@google.com>
+References: <20240616-sy7802-v4-0-789994180e05@apitzsch.eu>
+	 <20240616-sy7802-v4-2-789994180e05@apitzsch.eu>
+	 <20240621102656.GK1318296@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240613-cros_ec-led-v3-0-500b50f41e0f@weissschuh.net>
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
 
-Enjoy!
+Hello Lee,
 
-The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
+Am Freitag, dem 21.06.2024 um 11:26 +0100 schrieb Lee Jones:
+> On Sun, 16 Jun 2024, Andr=C3=A9 Apitzsch via B4 Relay wrote:
+>=20
+> > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> >=20
+> > The SY7802 is a current-regulated charge pump which can regulate
+> > two
+> > current levels for Flash and Torch modes.
+> >=20
+> > It is a high-current synchronous boost converter with 2-channel
+> > high
+> > side current sources. Each channel is able to deliver 900mA
+> > current.
+> >=20
+> > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > ---
+> > =C2=A0drivers/leds/flash/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 11 +
+> > =C2=A0drivers/leds/flash/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 1 +
+> > =C2=A0drivers/leds/flash/leds-sy7802.c | 542
+> > +++++++++++++++++++++++++++++++++++++++
+> > =C2=A03 files changed, 554 insertions(+)
+>=20
+> Generally very nice.
+>=20
+> Just a couple of teensy nits to fix then add my and resubmit please.
+>=20
+> Acked-by: Lee Jones <lee@kernel.org>
+>=20
+> > [...]
+> > diff --git a/drivers/leds/flash/leds-sy7802.c
+> > b/drivers/leds/flash/leds-sy7802.c
+> > new file mode 100644
+> > index 000000000000..c4bea55a62d0
+> > --- /dev/null
+> > +++ b/drivers/leds/flash/leds-sy7802.c
+> > @@ -0,0 +1,542 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Silergy SY7802 flash LED driver with I2C interface
+>=20
+> "an I2C interface"
+>=20
+> Or
+>=20
+> "I2C interfaces"
+>=20
+> > + * Copyright 2024 Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > + */
+> > +
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/led-class-flash.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/regulator/consumer.h>
+> > +
+> > +#define SY7802_MAX_LEDS 2
+> > +#define SY7802_LED_JOINT 2
+> > +
+> > +#define SY7802_REG_ENABLE		0x10
+> > +#define SY7802_REG_TORCH_BRIGHTNESS	0xa0
+> > +#define SY7802_REG_FLASH_BRIGHTNESS	0xb0
+> > +#define SY7802_REG_FLASH_DURATION	0xc0
+> > +#define SY7802_REG_FLAGS		0xd0
+> > +#define SY7802_REG_CONFIG_1		0xe0
+> > +#define SY7802_REG_CONFIG_2		0xf0
+> > +#define SY7802_REG_VIN_MONITOR		0x80
+> > +#define SY7802_REG_LAST_FLASH		0x81
+> > +#define SY7802_REG_VLED_MONITOR		0x30
+> > +#define SY7802_REG_ADC_DELAY		0x31
+> > +#define SY7802_REG_DEV_ID		0xff
+> > +
+> > +#define SY7802_MODE_OFF		0
+> > +#define SY7802_MODE_TORCH	2
+> > +#define SY7802_MODE_FLASH	3
+> > +#define SY7802_MODE_MASK	GENMASK(1, 0)
+> > +
+> > +#define SY7802_LEDS_SHIFT	3
+> > +#define SY7802_LEDS_MASK(_id)	(BIT(_id) << SY7802_LEDS_SHIFT)
+> > +#define SY7802_LEDS_MASK_ALL	(SY7802_LEDS_MASK(0) |
+> > SY7802_LEDS_MASK(1))
+> > +
+> > +#define SY7802_TORCH_CURRENT_SHIFT	3
+> > +#define SY7802_TORCH_CURRENT_MASK(_id) \
+> > +	(GENMASK(2, 0) << (SY7802_TORCH_CURRENT_SHIFT * (_id)))
+> > +#define SY7802_TORCH_CURRENT_MASK_ALL \
+> > +	(SY7802_TORCH_CURRENT_MASK(0) |
+> > SY7802_TORCH_CURRENT_MASK(1))
+> > +
+> > +#define SY7802_FLASH_CURRENT_SHIFT	4
+> > +#define SY7802_FLASH_CURRENT_MASK(_id) \
+> > +	(GENMASK(3, 0) << (SY7802_FLASH_CURRENT_SHIFT * (_id)))
+> > +#define SY7802_FLASH_CURRENT_MASK_ALL \
+> > +	(SY7802_FLASH_CURRENT_MASK(0) |
+> > SY7802_FLASH_CURRENT_MASK(1))
+> > +
+> > +#define SY7802_TIMEOUT_DEFAULT_US	512000U
+> > +#define SY7802_TIMEOUT_MIN_US		32000U
+> > +#define SY7802_TIMEOUT_MAX_US		1024000U
+> > +#define SY7802_TIMEOUT_STEPSIZE_US	32000U
+> > +
+> > +#define SY7802_TORCH_BRIGHTNESS_MAX 8
+> > +
+> > +#define SY7802_FLASH_BRIGHTNESS_DEFAULT	14
+> > +#define SY7802_FLASH_BRIGHTNESS_MIN	0
+> > +#define SY7802_FLASH_BRIGHTNESS_MAX	15
+> > +#define SY7802_FLASH_BRIGHTNESS_STEP	1
+> > +
+> > +#define SY7802_FLAG_TIMEOUT			BIT(0)
+> > +#define SY7802_FLAG_THERMAL_SHUTDOWN		BIT(1)
+> > +#define SY7802_FLAG_LED_FAULT			BIT(2)
+> > +#define SY7802_FLAG_TX1_INTERRUPT		BIT(3)
+> > +#define SY7802_FLAG_TX2_INTERRUPT		BIT(4)
+> > +#define SY7802_FLAG_LED_THERMAL_FAULT		BIT(5)
+> > +#define SY7802_FLAG_FLASH_INPUT_VOLTAGE_LOW	BIT(6)
+> > +#define SY7802_FLAG_INPUT_VOLTAGE_LOW		BIT(7)
+> > +
+> > +#define SY7802_CHIP_ID	0x51
+> > +
+> > +static const struct reg_default sy7802_regmap_defs[] =3D {
+> > +	{ SY7802_REG_ENABLE, SY7802_LEDS_MASK_ALL },
+> > +	{ SY7802_REG_TORCH_BRIGHTNESS, 0x92 },
+> > +	{ SY7802_REG_FLASH_BRIGHTNESS,
+> > SY7802_FLASH_BRIGHTNESS_DEFAULT |
+> > +		SY7802_FLASH_BRIGHTNESS_DEFAULT <<
+> > SY7802_FLASH_CURRENT_SHIFT },
+> > +	{ SY7802_REG_FLASH_DURATION, 0x6f },
+> > +	{ SY7802_REG_FLAGS, 0x0 },
+> > +	{ SY7802_REG_CONFIG_1, 0x68 },
+> > +	{ SY7802_REG_CONFIG_2, 0xf0 },
+>=20
+> Not your fault, but this interface is frustrating since we have no
+> idea
+> what these register values mean.=C2=A0 IMHO, they should be defined and
+> ORed
+> together in some human readable way.
+>=20
+> I say that it's not your fault because I see that this is the most
+> common usage.
+>=20
 
-  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+I don't know how to interpret some bits of the default values. I don't
+have the documentation and changing the bits and observing the behavior
+of the device also didn't help.
 
-are available in the Git repository at:
+Should I remove the entries from sy7802_regmap_defs, which have values
+that we don't fully understand?
 
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/leds.git tags/ib-leds-mfd-v6.11
-
-for you to fetch changes up to b107093f433c3afb83a46af43c830e578e2ba54d:
-
-  mfd: cros_ec: Register LED subdevice (2024-06-21 11:41:51 +0100)
-
-----------------------------------------------------------------
-Immutable branch between LEDS and MFD due for the v6.11 merge window
-
-----------------------------------------------------------------
-Thomas Weißschuh (5):
-      leds: core: Introduce led_get_color_name() function
-      leds: multicolor: Use led_get_color_name() function
-      leds: core: Unexport led_colors[] array
-      leds: Add ChromeOS EC driver
-      mfd: cros_ec: Register LED subdevice
-
- MAINTAINERS                         |   5 +
- drivers/leds/Kconfig                |  15 ++
- drivers/leds/Makefile               |   1 +
- drivers/leds/led-class-multicolor.c |   2 +-
- drivers/leds/led-core.c             |  12 +-
- drivers/leds/leds-cros_ec.c         | 277 ++++++++++++++++++++++++++++++++++++
- drivers/leds/leds.h                 |   1 -
- drivers/mfd/cros_ec_dev.c           |   9 ++
- include/linux/leds.h                |  10 ++
- 9 files changed, 328 insertions(+), 4 deletions(-)
- create mode 100644 drivers/leds/leds-cros_ec.c
-
--- 
-Lee Jones [李琼斯]
+Regards,
+Andr=C3=A9
 
