@@ -1,162 +1,160 @@
-Return-Path: <linux-leds+bounces-2110-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2111-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7D59157E0
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 22:20:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F25999158D5
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 23:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4942EB22E5F
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 20:20:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A512528643E
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 21:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5D21A072C;
-	Mon, 24 Jun 2024 20:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E1B61A08DA;
+	Mon, 24 Jun 2024 21:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jGnHGt9F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5LHMfmA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DAD1A070A;
-	Mon, 24 Jun 2024 20:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359EB23746;
+	Mon, 24 Jun 2024 21:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719260430; cv=none; b=W8cBQBBdDXc06RSSO5qJ6LO87ktJBM/bW0cb6/eOh8RR57iFE6O0pCmCTPIYMIZA4G3UQM7uySN8aNaJMq6+4SB8W6OWulhOyDxux4MgUQ3Nq7+TPCzk4x5F3QsHTNhqOtCcJjqS/gOOen4csN57DSHlrOV+NBU/0V2yWcrhIFg=
+	t=1719264307; cv=none; b=BZu6xG9ynX7FLzOqaSITEPLPyT1apm/dvJffwvt7d0VmW0nO26ygictq8+TFPdlOxW0Q/GRkJuuWDT2pwZkaOiz2Q49KTVemZhsnhNCFdMhYiOHchLAh34XA7Tf6Pm2uVHgTmUp8ffx4pyyksvDBPvv+sHvIQgbK/9BK0NPT1SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719260430; c=relaxed/simple;
-	bh=nMF+0Qtz3H5aceofx0LBLmcNh/Eg6jZEP2NiKglb0yc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=srO3q4eO7BXht2rqietenl4yDJCqjNOTfvXHx4L4cVoGQSwhWu+7Om8C+2EfUQaFCnMrUngnddjUJRal7KRlIfUm9EK0+sQcK+14VFRcvIUZtM4BEUYtVSZeTbeh68M47Db0V9iPmnw2neLVRzqn1TYzogL+alj2P17d71qJ0/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jGnHGt9F; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a62ef52e837so577880866b.3;
-        Mon, 24 Jun 2024 13:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719260427; x=1719865227; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=7rsqJbWR3EwJq15ksdjT+Zgev1iG+0iWaJX+2TtuE24=;
-        b=jGnHGt9FUVULULwjQh83b/X8pUzixqG2lN4CRyJnYkDuws7VdUST4xHhGDMCewhVtU
-         NW8y+9JUf33hwGKph+nIo2C3uHZQ/fMCRi2MahFryqg+od2QDe2/uBRWjM7ake+TYl6Z
-         FKLzZnKA0rTnj4ZV+CTC0E92+za7jQLPJIg2+KzEw8S/XGSztYZQRgL9LHGMt0PgGp7M
-         SH2e9dZUD5SC5x53DK3X6ppktpnU5FcFPFpuE+zEP5yw9EycJhSE1Fc6hzTVhDBDa4Tg
-         XLaNvBLhPFLR1El4WKcqPJl2nR410ZiKmXzfFZRj4AeBhqzG9m15SDBsZwcjczhCRBac
-         DOPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719260427; x=1719865227;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7rsqJbWR3EwJq15ksdjT+Zgev1iG+0iWaJX+2TtuE24=;
-        b=Jtv5B3RImOg1pjyYrxnsSKw7/QHh2XidjOzCwjdPfYozJ7cIhY2ll7482y1QYkvjK8
-         P/Y8Fk5wC5qM5Gi+eeVsJT5La4m8nX7ezMbYJB4sCrNUV63VJk/fea/2BDlelGHY0Z9r
-         eN/YEIVXB/SZZbY/NDA/M32jWN0M+Yn0obql0wWANnW4AYlDawFFfSXqn4njBtyC2S/s
-         SnDK24MQNCi+Y76xVT0/VwjTpjrStUnvKLxXu3e6JZKcjXQRmikYjuYxQ8XPyW7KCglz
-         qywoCcSDHBlvXQ2aeMKwwGmnMBkKFJI1nLbMm2vIfAJ9tCGMP+QSEjyaHHdODi6d4uNy
-         oD0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVgWyk3NU87aFYqs99o639p3vGk4WPakywHz5orObHFK0jsuenS/pWDyCF4hPa8XGNcCgDi9911YDNV6+F6vGwcsChYGyXZNkYnXksr3w7Mlj60Nz9UVoEwlJ5uFhgTMENq7O2NpLiWxQ==
-X-Gm-Message-State: AOJu0YyR1eUvK6VWK1hNeu4QRXM9Bvf/Wz+YBPwmwdLVD0OJk+qLL+Wi
-	9K5wipb9hwJXq/C/lhegsRiITVreFX2m/QiTx9BMd9BvySTE/Qrb
-X-Google-Smtp-Source: AGHT+IEIEPMkxGdBDl69NdaTaa+1rxBT8vbooZLgAhUobaLPeSAZK9ZcLOtD8dT34AN4vTkNsaw85A==
-X-Received: by 2002:a17:907:9116:b0:a6f:b41d:237b with SMTP id a640c23a62f3a-a7242c3f5f3mr377468466b.32.1719260427069;
-        Mon, 24 Jun 2024 13:20:27 -0700 (PDT)
-Received: from ?IPV6:2a01:c23:c07d:2d00:ad78:a407:846a:969b? (dynamic-2a01-0c23-c07d-2d00-ad78-a407-846a-969b.c23.pool.telefonica.de. [2a01:c23:c07d:2d00:ad78:a407:846a:969b])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a6fcf5602a4sm451068066b.145.2024.06.24.13.20.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 13:20:26 -0700 (PDT)
-Message-ID: <778ec5c9-9ec2-4496-a458-b323d8904b0d@gmail.com>
-Date: Mon, 24 Jun 2024 22:21:18 +0200
+	s=arc-20240116; t=1719264307; c=relaxed/simple;
+	bh=zQ98WnpG0JS8Dssh65NBCz5MYdX4mFaEXFHE8wBH70U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=er17C1ATKhwGXrAz9AwTdaAjvvaRbkd7bj9wzQR7tEe0S4OOr7bWUHUXrIRnKDg9VzJelBPYjAUrK1KhJM1bAyrphMQtoEobvs+SWYP46pIo0KFWeyAyNpR0htkemMSKl65S/iMJpsG1bzE1P9mafycaTCl0A6roM0gco3W5Ot8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5LHMfmA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B0AF7C2BBFC;
+	Mon, 24 Jun 2024 21:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719264306;
+	bh=zQ98WnpG0JS8Dssh65NBCz5MYdX4mFaEXFHE8wBH70U=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=W5LHMfmAbb54N3+rA9HhNNQCbgbe4c2VlnFuZdpebeF/Z4XiHJwQiyj0OIQ+xT7YM
+	 ySzjenFMmkouhkLnXb3lidwXhifOg4oRLfaViivoVVk5y65oTrrP7DY0a4XLiMzk2o
+	 KIpzI8KnRhUQpUu/N8C0CD6B2lbdCI+hv+WEpI1JZyonX0YchBoNiEhYbVXEPLTYcQ
+	 5AtBnDfK/ZV/C0uHaz35ZwC8jqtsy0b/wnuv2qEJyIRUqPJfNRMXZDlOakCEAqm5eK
+	 oCXCT6TgnsLZ57MF4UNMlujVj4mU/wn//uwcU201SUnlL9/omO3mTbSPJtdIhenJ7P
+	 nd2ttZ3XBrRUg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB49C2BD09;
+	Mon, 24 Jun 2024 21:25:06 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH v5 0/3] Add sy7802 flash led driver
+Date: Mon, 24 Jun 2024 23:25:11 +0200
+Message-Id: <20240624-sy7802-v5-0-7abc9d96bfa6@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] leds: core: Omit set_brightness error message for a
- LED supporting hw trigger only
-To: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-References: <20240613075712.2479669-1-lee@kernel.org>
- <20240620090932.GD3029315@google.com>
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <20240620090932.GD3029315@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADfkeWYC/2XMz47CIBDH8VcxnBczMwwFPO17GA8UYctFTXEb/
+ 6TvLm3SuhuPv8l8vk9RYp9jEbvNU/RxyCWfT3Xor40InT/9RJmPdQsCYlCkZbkbCyQTQwpN0o0
+ mLerzpY8p3+bQ/lB3l8v13N/n7oDTdUmYJTGgBHlsDftWUfI+fftLvj5K6LbxV0yRgd6QAVdIF
+ SIqiw68YbafUL1hg7RCNcHoQsBgXGvcJ+S/sFkhV2isc47RQgT9H47j+ALY5ftgSQEAAA==
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Trilok Soni <quic_tsoni@quicinc.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Kees Cook <kees@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ phone-devel@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719264313; l=2726;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=zQ98WnpG0JS8Dssh65NBCz5MYdX4mFaEXFHE8wBH70U=;
+ b=YEw1M0JRz0f27X+0u33DsvNyHech4TZDlKYbKcpUp+07ESglivJXbiYsX99pSELo5eu29iArZ
+ WxHtlDSi1wvCLi3s3SmH8aMq+1bPTLbhL3zXy4N+p60QjmyiERm4cRu
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-On 20.06.2024 11:09, Lee Jones wrote:
-> On Thu, 13 Jun 2024, Lee Jones wrote:
-> 
->> If both set_brightness functions return -ENOTSUPP, then the LED doesn't
->> support setting a fixed brightness value, and the error message isn't
->> helpful. This can be the case e.g. for LEDs supporting a specific hw
->> trigger only.
->>
->> Pinched the subject line and commit message from Heiner:
->> Link: https://lore.kernel.org/all/44177e37-9512-4044-8991-bb23b184bf37@gmail.com/
->>
->> Reworked the function to provide Heiner's required semantics whilst
->> simultaneously increasing readability and flow.
->>
->> Cc: Pavel Machek <pavel@ucw.cz>
->> Cc: linux-leds@vger.kernel.org
->> Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
-> 
-> Heiner, you good with this solution?
-> 
-> A Tested-by or Reviewed-by would be good if you have the time.
-> 
->> Signed-off-by: Lee Jones <lee@kernel.org>
+This series introduces a driver for the Silergy SY7802 charge pump used
+in the BQ Aquaris M5 and X5 smartphones.
 
-Reviewed-by: Heiner Kallweit <hkallweit1@gmail.com>
+The implementation is based on information extracted from downstream as
+the datasheet provided by a distributor of the hardware didn't include
+any information about the i2c register description.
+
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Changes in v5:
+- Fix language in driver description comment
+- Unwrap function arguments
+- Remove unnecessary empty lines
+- Add Acked-by tag to second patch
+- Link to v4: https://lore.kernel.org/r/20240616-sy7802-v4-0-789994180e05@apitzsch.eu
+
+Changes in v4:
+- Use for_each_available_child_of_node_scoped() to simplify code
+- Use dev_err_probe() to be consistent with the other code in
+  sy7802_probe()
+- Split devm_add_action() into 2 devm_add_action_or_reset() to simplify
+  code and balance regulator_enable()
+- Link to v3: https://lore.kernel.org/r/20240612-sy7802-v3-0-1e9cc1c79b79@apitzsch.eu
+
+Changes in v3:
+- Add R-b tag to first patch
+- Extend driver commit message
+- Improve readability of defines by using BIT()
+- Rename some variables/parameters
+  * led_no -> led_id
+  * level -> brightness
+  * curr -> fled_{strobe,torch}_used_tmp
+  * mask -> {flash,torch}_mask
+  * i -> child_num
+- Restructure structs ("Place th big stuff at the top")
+- Declare 'child' on a separate line
+- Move multi-line assignments out of declaration block
+- Update warning/error messages and comments
+- Use gotos to handle error path
+- Use devm API to cleanup module's resources
+- Init mutex before LED class device is registered to avoid race
+  condition
+- Link to v2: https://lore.kernel.org/r/20240401-sy7802-v2-0-1138190a7448@apitzsch.eu
+
+Changes in v2:
+- bindings: remove unneeded allOf
+- bindings: example: move flash-led-controller under i2c node to fix
+  check error
+- Cc to phone-devel
+- Link to v1: https://lore.kernel.org/r/20240327-sy7802-v1-0-db74ab32faaf@apitzsch.eu
+
+---
+André Apitzsch (3):
+      dt-bindings: leds: Add Silergy SY7802 flash LED
+      leds: sy7802: Add support for Silergy SY7802 flash LED controller
+      arm64: dts: qcom: msm8939-longcheer-l9100: Add rear flash
+
+ .../devicetree/bindings/leds/silergy,sy7802.yaml   | 100 ++++
+ .../boot/dts/qcom/msm8939-longcheer-l9100.dts      |  26 +
+ drivers/leds/flash/Kconfig                         |  11 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-sy7802.c                   | 539 +++++++++++++++++++++
+ 5 files changed, 677 insertions(+)
+---
+base-commit: 6a03b35e4395eb2d6e89a38aca00a9fe9cb39ba1
+change-id: 20240325-sy7802-f40fc6f56525
+
+Best regards,
+-- 
+André Apitzsch <git@apitzsch.eu>
 
 
 
