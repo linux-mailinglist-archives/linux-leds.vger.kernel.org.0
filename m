@@ -1,75 +1,75 @@
-Return-Path: <linux-leds+bounces-2109-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2110-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA98915773
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 21:56:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7D59157E0
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 22:20:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E3861F2423F
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 19:56:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4942EB22E5F
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2024 20:20:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB03C1A01D9;
-	Mon, 24 Jun 2024 19:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5D21A072C;
+	Mon, 24 Jun 2024 20:20:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CjDFYfie"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jGnHGt9F"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142BB19FA75;
-	Mon, 24 Jun 2024 19:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DAD1A070A;
+	Mon, 24 Jun 2024 20:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719259009; cv=none; b=pnuu6BiIi+fzdrZEsBqwy5LhoyTYObzMS9dYypIk/EfINWBxlHUXbXco3ul1s8y4VSDyE6epgTZDAa6m8y17TnhOrWFHqMLpUr9A4ABdG21CU3vzgGRLtUQcM5/DX1ilxJt6rtf6y8BjoBmaZk2Xef2MQJco21j5Tb8CedAdriw=
+	t=1719260430; cv=none; b=W8cBQBBdDXc06RSSO5qJ6LO87ktJBM/bW0cb6/eOh8RR57iFE6O0pCmCTPIYMIZA4G3UQM7uySN8aNaJMq6+4SB8W6OWulhOyDxux4MgUQ3Nq7+TPCzk4x5F3QsHTNhqOtCcJjqS/gOOen4csN57DSHlrOV+NBU/0V2yWcrhIFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719259009; c=relaxed/simple;
-	bh=wfH4VLTZwqhNocG3xUbj2r3Te7N435LjMt4Lh3GT9Ug=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wx652vNqHCrGuacVjqKToQToErbiEZGIGD6GNJrMegLY52kUdhuXMbi43tcJm+xoT0rcGNDrZqPTgNwRdI7fAhe69VvZ6/yk087grKwXpyY6wBESr38SmAUPUyLOTU7cOXQ05EzqUT8I0Qe0iekF6WITvRDX3cj03p4wl1LBboA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CjDFYfie; arc=none smtp.client-ip=209.85.167.45
+	s=arc-20240116; t=1719260430; c=relaxed/simple;
+	bh=nMF+0Qtz3H5aceofx0LBLmcNh/Eg6jZEP2NiKglb0yc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=srO3q4eO7BXht2rqietenl4yDJCqjNOTfvXHx4L4cVoGQSwhWu+7Om8C+2EfUQaFCnMrUngnddjUJRal7KRlIfUm9EK0+sQcK+14VFRcvIUZtM4BEUYtVSZeTbeh68M47Db0V9iPmnw2neLVRzqn1TYzogL+alj2P17d71qJ0/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jGnHGt9F; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52cd717ec07so3762507e87.0;
-        Mon, 24 Jun 2024 12:56:47 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a62ef52e837so577880866b.3;
+        Mon, 24 Jun 2024 13:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719259006; x=1719863806; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719260427; x=1719865227; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=EeV/maekjPb/g21RQUWiF3q3foi+u70EVe41HOf7KOI=;
-        b=CjDFYfieKviYQ9RAqNQXi73wxeeousLTMgGNw7NW1DqyMYOCH/PqQN6sMtk4Mz0unB
-         y8KqJn34c8/JDQ1krROsHRUK/82oMQdDWdJpUbY+scBs8SLihCTDvU184/5z9t3jvCm/
-         nX5MQ/SUGEgkOI7erqjpoIjKjcOtHcAb5NE5DV97iMQQPGGVvP8gDdudB5OtQT2nSAOJ
-         Tqmu8gc96+jfLcJh3NYlYF/IHd1u+rUHfY77aWClXKrLU9XKJ5u2u9T46pJ54z6nJNcg
-         my2FYkbftmh8QVNqodR+7zHBVT1Sg+bSTsGZc5NXOfDaSuSAfTyj6IOOWPYLPC9rSG0k
-         cLrQ==
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=7rsqJbWR3EwJq15ksdjT+Zgev1iG+0iWaJX+2TtuE24=;
+        b=jGnHGt9FUVULULwjQh83b/X8pUzixqG2lN4CRyJnYkDuws7VdUST4xHhGDMCewhVtU
+         NW8y+9JUf33hwGKph+nIo2C3uHZQ/fMCRi2MahFryqg+od2QDe2/uBRWjM7ake+TYl6Z
+         FKLzZnKA0rTnj4ZV+CTC0E92+za7jQLPJIg2+KzEw8S/XGSztYZQRgL9LHGMt0PgGp7M
+         SH2e9dZUD5SC5x53DK3X6ppktpnU5FcFPFpuE+zEP5yw9EycJhSE1Fc6hzTVhDBDa4Tg
+         XLaNvBLhPFLR1El4WKcqPJl2nR410ZiKmXzfFZRj4AeBhqzG9m15SDBsZwcjczhCRBac
+         DOPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719259006; x=1719863806;
+        d=1e100.net; s=20230601; t=1719260427; x=1719865227;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EeV/maekjPb/g21RQUWiF3q3foi+u70EVe41HOf7KOI=;
-        b=S4IEm6o/acnbYg97D/ZXCPXBnu/05WjvLgUrjKDQXwh2gGgQvjF2NaDQR6V7qabWnL
-         S+NZYWq/+IiHRxAuTVxRdrXbpWh20WPKfXTWdg2ZjMvFwF+9vyueFFQvUHu4kjp+FrEY
-         UaImGnTRiRXEtO3WL1wR6fZ5TZVfHFh6iTeuqaQdCCTKReFxi6NMXxcsapTpV+mmoFgn
-         54ItXPup6MXyi5HPdBBau0665+ffoKiFYFLNA3GupIQ+ANViQUsGhe7aYPIMHDX2pY52
-         PI49hqC4EO9l4ApSsq1vnkthEWCQi9iLuSZq1oyGLwQ/ZZUyFcx8kBKlpRZf4dVB1zOZ
-         vx0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUgkSb62WmIVK5caYhGY/HKeiN0bwFjvQ8LXaErzK7PAwQUzOA0AV0saKkn6HQiUeA2rDAe2EM0YaVdZ/BWwWX0rTaQMlIz+0IuWMAni/Z+pyU/7AwL3NG0G/bSjm0oKSVeriVLTgdTzIeffwoVdnYqZ/UodYblaBEAcjJgFHEILw==
-X-Gm-Message-State: AOJu0Yx5wH354cxOE3vYT9rmMc1K4tB3mApUtwv43SsiyIryGPuw5wuT
-	+8dqRxOVVJmAfzw1t2g/0EDYz62S+uSAIgfjVxu3WzvGlw/ryPFE
-X-Google-Smtp-Source: AGHT+IF/Vj2cmEC/NaXSYrMy4Wxa3BHDV8iEcUl3ZXHdHpc8JIxOFMRZehsxBTO6IVO/0vBypRDPkQ==
-X-Received: by 2002:a05:6512:ba1:b0:52c:dd38:f3a3 with SMTP id 2adb3069b0e04-52ce185cf4amr4028544e87.46.1719259005615;
-        Mon, 24 Jun 2024 12:56:45 -0700 (PDT)
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7rsqJbWR3EwJq15ksdjT+Zgev1iG+0iWaJX+2TtuE24=;
+        b=Jtv5B3RImOg1pjyYrxnsSKw7/QHh2XidjOzCwjdPfYozJ7cIhY2ll7482y1QYkvjK8
+         P/Y8Fk5wC5qM5Gi+eeVsJT5La4m8nX7ezMbYJB4sCrNUV63VJk/fea/2BDlelGHY0Z9r
+         eN/YEIVXB/SZZbY/NDA/M32jWN0M+Yn0obql0wWANnW4AYlDawFFfSXqn4njBtyC2S/s
+         SnDK24MQNCi+Y76xVT0/VwjTpjrStUnvKLxXu3e6JZKcjXQRmikYjuYxQ8XPyW7KCglz
+         qywoCcSDHBlvXQ2aeMKwwGmnMBkKFJI1nLbMm2vIfAJ9tCGMP+QSEjyaHHdODi6d4uNy
+         oD0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVgWyk3NU87aFYqs99o639p3vGk4WPakywHz5orObHFK0jsuenS/pWDyCF4hPa8XGNcCgDi9911YDNV6+F6vGwcsChYGyXZNkYnXksr3w7Mlj60Nz9UVoEwlJ5uFhgTMENq7O2NpLiWxQ==
+X-Gm-Message-State: AOJu0YyR1eUvK6VWK1hNeu4QRXM9Bvf/Wz+YBPwmwdLVD0OJk+qLL+Wi
+	9K5wipb9hwJXq/C/lhegsRiITVreFX2m/QiTx9BMd9BvySTE/Qrb
+X-Google-Smtp-Source: AGHT+IEIEPMkxGdBDl69NdaTaa+1rxBT8vbooZLgAhUobaLPeSAZK9ZcLOtD8dT34AN4vTkNsaw85A==
+X-Received: by 2002:a17:907:9116:b0:a6f:b41d:237b with SMTP id a640c23a62f3a-a7242c3f5f3mr377468466b.32.1719260427069;
+        Mon, 24 Jun 2024 13:20:27 -0700 (PDT)
 Received: from ?IPV6:2a01:c23:c07d:2d00:ad78:a407:846a:969b? (dynamic-2a01-0c23-c07d-2d00-ad78-a407-846a-969b.c23.pool.telefonica.de. [2a01:c23:c07d:2d00:ad78:a407:846a:969b])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a724b3a5a04sm201040866b.51.2024.06.24.12.56.44
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a6fcf5602a4sm451068066b.145.2024.06.24.13.20.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 12:56:45 -0700 (PDT)
-Message-ID: <7003f6f3-a90f-4423-982b-7862bb9a1489@gmail.com>
-Date: Mon, 24 Jun 2024 21:57:36 +0200
+        Mon, 24 Jun 2024 13:20:26 -0700 (PDT)
+Message-ID: <778ec5c9-9ec2-4496-a458-b323d8904b0d@gmail.com>
+Date: Mon, 24 Jun 2024 22:21:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -77,22 +77,12 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Hung tasks due to a AB-BA deadlock between the leds_list_lock
- rwsem and the rtnl mutex
-To: Andrew Lunn <andrew@lunn.ch>, Hans de Goede <hdegoede@redhat.com>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Linux LEDs <linux-leds@vger.kernel.org>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, johanneswueller@gmail.com,
- "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Genes Lists <lists@sapience.com>
-References: <9d189ec329cfe68ed68699f314e191a10d4b5eda.camel@sapience.com>
- <15a0bbd24cd01bd0b60b7047958a2e3ab556ea6f.camel@sapience.com>
- <ZliHhebSGQYZ/0S0@shell.armlinux.org.uk>
- <42d498fc-c95b-4441-b81a-aee4237d1c0d@leemhuis.info>
- <618601d8-f82a-402f-bf7f-831671d3d83f@redhat.com>
- <01fc2e30-eafe-495c-a62d-402903fd3e2a@lunn.ch>
+Subject: Re: [PATCH 1/1] leds: core: Omit set_brightness error message for a
+ LED supporting hw trigger only
+To: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+References: <20240613075712.2479669-1-lee@kernel.org>
+ <20240620090932.GD3029315@google.com>
 Content-Language: en-US
 From: Heiner Kallweit <hkallweit1@gmail.com>
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
@@ -138,61 +128,35 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-In-Reply-To: <01fc2e30-eafe-495c-a62d-402903fd3e2a@lunn.ch>
+In-Reply-To: <20240620090932.GD3029315@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 31.05.2024 14:54, Andrew Lunn wrote:
->> I actually have been looking at a ledtrig-netdev lockdep warning yesterday
->> which I believe is the same thing. I'll include the lockdep trace below.
+On 20.06.2024 11:09, Lee Jones wrote:
+> On Thu, 13 Jun 2024, Lee Jones wrote:
+> 
+>> If both set_brightness functions return -ENOTSUPP, then the LED doesn't
+>> support setting a fixed brightness value, and the error message isn't
+>> helpful. This can be the case e.g. for LEDs supporting a specific hw
+>> trigger only.
 >>
->> According to lockdep there indeed is a ABBA (ish) cyclic deadlock with
->> the rtnl mutex vs led-triggers related locks. I believe that this problem
->> may be a pre-existing problem but this now actually gets hit in kernels >=
->> 6.9 because of commit 66601a29bb23 ("leds: class: If no default trigger is
->> given, make hw_control trigger the default trigger"). Before that commit
->> the "netdev" trigger would not be bound / set as phy LEDs trigger by default.
+>> Pinched the subject line and commit message from Heiner:
+>> Link: https://lore.kernel.org/all/44177e37-9512-4044-8991-bb23b184bf37@gmail.com/
 >>
->> +Cc Heiner Kallweit who authored that commit.
+>> Reworked the function to provide Heiner's required semantics whilst
+>> simultaneously increasing readability and flow.
 >>
->> The netdev trigger typically is not needed because the PHY LEDs are typically
->> under hw-control and the netdev trigger even tries to leave things that way
->> so setting it as the active trigger for the LED class device is basically
->> a no-op. I guess the goal of that commit is correctly have the triggers
->> file content reflect that the LED is controlled by a netdev and to allow
->> changing the hw-control mode without the user first needing to set netdev
->> as trigger before being able to change the mode.
+>> Cc: Pavel Machek <pavel@ucw.cz>
+>> Cc: linux-leds@vger.kernel.org
+>> Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
 > 
-> It was not the intention that this triggers is loaded for all
-> systems. It should only be those that actually have LEDs which can be
-> controlled:
+> Heiner, you good with this solution?
 > 
-> drivers/net/ethernet/realtek/r8169_leds.c:	led_cdev->hw_control_trigger = "netdev";
-> drivers/net/ethernet/realtek/r8169_leds.c:	led_cdev->hw_control_trigger = "netdev";
-> drivers/net/ethernet/intel/igc/igc_leds.c:	led_cdev->hw_control_trigger = "netdev";
-> drivers/net/dsa/qca/qca8k-leds.c:		port_led->cdev.hw_control_trigger = "netdev";
-> drivers/net/phy/phy_device.c:		cdev->hw_control_trigger = "netdev";
+> A Tested-by or Reviewed-by would be good if you have the time.
 > 
-> Reverting this patch does seem like a good way forward, but i would
-> also like to give Heiner a little bit of time to see if he has a quick
-> real fix.
-> 
-Sorry, I was on vacation and can reply only now.
-I agree that a revert is appropriate because the actual issue that this change revealed
-seems to be non-trivial to fix.
-Drawback is that now a user who wants to control LEDs has to know that he first has to
-manually load the netdev trigger module and set the netdev trigger.
+>> Signed-off-by: Lee Jones <lee@kernel.org>
 
-That the netdev trigger module is now loaded by default on systems with r8169 I don't
-really see as an issue. I think it's normal that this is opt-out.
-If a user has a problem with this for whatever reason he has several options to
-prevent this:
-- disable R8169 LED support in kernel config
-- disable netdev trigger in kernel config
-- remove netdev trigger module
-- blacklist netdev trigger module
+Reviewed-by: Heiner Kallweit <hkallweit1@gmail.com>
 
->      Andrew
 
-Heiner
 
