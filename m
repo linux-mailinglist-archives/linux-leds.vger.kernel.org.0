@@ -1,155 +1,188 @@
-Return-Path: <linux-leds+bounces-2119-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2120-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC8491616E
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Jun 2024 10:36:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 815099173AE
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jun 2024 23:51:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 075BE1F247C8
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Jun 2024 08:36:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A326C1C20EC3
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jun 2024 21:50:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464651494C2;
-	Tue, 25 Jun 2024 08:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 549DD17D8A5;
+	Tue, 25 Jun 2024 21:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oRTfm4FJ"
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="nQ1t/J16"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA8E1494CF;
-	Tue, 25 Jun 2024 08:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475AB143C49
+	for <linux-leds@vger.kernel.org>; Tue, 25 Jun 2024 21:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719304490; cv=none; b=IkMlWRNuEuKXlM/dSlKwDBWWlJ341W1mwDbZxi3Kr94yTXFVMFF3GuLsspAbNb1UF4E57TRMzBWnQ1nlNQ60O7FFVwaEmJUOBPN6XrfHH0BX+efCbEhAPfMTHoGv7D2wKG+UB2aoo6iZugA5Qze2FhUCKKGr5XI/IROQB6x4hRo=
+	t=1719352256; cv=none; b=Z+dwmFiKTxYPnsFkSeqdPCECndYBFgIl65uviXezTcK3fRmh9lafQ9x01IO0McL8pc/CLaC0GpAGmM9la4eAoTD5HTbJIjpmSujXdaAknSqbes3apJefvFwGguT2KynEwNhdv1FcFxgt7Ge6Sq8y0vMlmzM0FNNShGeuy77qtFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719304490; c=relaxed/simple;
-	bh=2DrgvTFh1Y8ZBhAo2bGZlrCNTrt/32SfYiX9Ov/4Dtc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LS1FEWi6JmX/5de0vkj/vId6vATTTQ5wymYgS5/Nss4BwCCDEqsP0piSfr1M3KDq38CVYApM8vDmdbI0krcxqMyWpRWoLMqwQQjC94BGfXhigPYrZG8JnjNQBayEXgLhtj4EQ7ZF73UIWHuoBhaH1l6MwrVYNpZDCVxHq5VjjfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oRTfm4FJ; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6A00F60006;
-	Tue, 25 Jun 2024 08:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719304486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TBmCVBHWFHxT12SEsWkRlk2XPtdKv1K+6AK5GF/8j/A=;
-	b=oRTfm4FJmcuLCm98NAnXX2V2+6CxC4YdhTNbFffE7pf1i/kvK1gf3W6vMNiyDmnRlxwAZi
-	qz8XwxiQJRE3ZaZsZT8U1WkOQeRiwqMf/nWe9PtpmLOglDKWWgqICQKbWnMYumBGx5SLNz
-	i7Jb+rMhkzNZdZG2PH9h8GghP+OzMKE6KReRc7NXEGokCyTM1Zdq0jqbvRh48UntzvgdYZ
-	Sndsp8x2OqHPMTTNMDwxTXDaH0zhqaUEbfmMSeAAiWa+mh4l5BD+mqCekcUPKiakljIjhz
-	UX9ZECkzxTCv8iB+vQEyBMWZ0+gNn162g9i/tpbHCu1G5jX0EY4H9f7eAyAVOg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 25 Jun 2024 10:34:38 +0200
-Subject: [PATCH v2] Revert "leds: led-core: Fix refcount leak in
- of_led_get()"
+	s=arc-20240116; t=1719352256; c=relaxed/simple;
+	bh=3/XvbT/HbryRxG7MEP98/VDP+yLdCmmDfJC0sUbuR4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBTgzHUVg5kSeOZL9AFyq+20EbevLCTaOvPH99DFwssdlI2SE/9cAiIL/9WRi75843mT7T5AIRVT6CWV+E8cE4x0rr6XWXriHJhcApq3MgKHQB9j/1WOYHVlVKcWRQ6R+qiElPflxkA0X9HwqFr4VNyCrHOe8S5CuYvplPBnkoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=nQ1t/J16; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-57cc1c00b97so6004678a12.0
+        for <linux-leds@vger.kernel.org>; Tue, 25 Jun 2024 14:50:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1719352253; x=1719957053; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=A7X+HmsNznUN/58VRWo3e8OS/8Tej2Ru2PNKKOq5qu4=;
+        b=nQ1t/J16jDNF4GaoXUOKnI496lamvNwi1cBvKx8nsZY3ixeOGbECX7FK6VtetmsPoW
+         ojdIomxanPnxM/GiGDZ+ulvcelUq3KG8VDTJkY4kJWPWKhatTTm7+So/Evz/QZztil6u
+         1q76SpsKvQVjvD6ytRJU0LyegFDpDs750DwTUMIMNcmWBbneM8FRJI5koeFn45hqzCeg
+         vjIhLhzkBv/UuGjGfeZokDSChhjKDMdAv407y/Rntq0fhFGcQsqf17hs95C3JcI+nTiX
+         Wit8bwTz6SClZWLl4eFZRUBpDgQwTXycIZ4ybl/8ePuhs6s8CdSZU1fFRJkbvXPpFAo3
+         +jQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719352253; x=1719957053;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A7X+HmsNznUN/58VRWo3e8OS/8Tej2Ru2PNKKOq5qu4=;
+        b=ZnoW+ZSK4yX/y9SEMbT92l6Sa/A+Teha6miNP0X/Gj3hffgyKL+6tX+HdUVK9NdmZh
+         OQJWVWB6wnZy/KsbZ6IqEAu80aoJ54rFpudGJ4AERFX8bGd5S/190faKDLn1hmR5P/pU
+         WD3nAqz4qDupMXZXx9Pqc2AtRoUfgzX2tDYpHiz7LzEf3DEFL85Ajw+fu6l4UKbGii6x
+         aLZzRIJ2iyaM9VA6d5X5Q0PI4UhOE7hKA3seo14QThFD1ehEMn63ANsQ9M/hTDy6qYjd
+         oaEM/XJiLuOxayaT7dQlyLx8TwXUqpBWEwWhR16QrKV7Qjt94z0nyRfrXfM+BIVohXev
+         I9cA==
+X-Forwarded-Encrypted: i=1; AJvYcCWr0CjK7QODC/XijK/tRXgO478tV96i2eAfpkIGFaH7FddhOJRqxZfhzzG5nGEoPhJKuf6rc89/OUR8ZVJ5QOQeVJ8+9eJsGz4EcQ==
+X-Gm-Message-State: AOJu0YxT++ihW1YhC4BoWZRy5KugwdJaeIXQDplUAANtZ5vqxAJH/0hX
+	BpL4n0DBXiodF4ry1TUyZ2bnhuqtBbK+dg255y/aJ8TU6R8sG9Q2QjCyI4aNzxIWvNSgCDE+aJ/
+	jZEPl//8Sc+8XssHo1SHE3js9BmEBJ5w0DSApTMJKjn/t+4as47d0yvixFam4U+JzshEIFfndWc
+	1/JrJeyPoYLoYPTwb1qhyBsgGp
+X-Google-Smtp-Source: AGHT+IEewJnFaL2EuN3g+pF3mFt2pFH6EUEyuFJFQdYyjTABQB0Ee7+84vIfcwFv8vuIggTCmhKCRA==
+X-Received: by 2002:a17:907:8dcf:b0:a72:6416:5cba with SMTP id a640c23a62f3a-a7264165f7amr316479266b.19.1719352252507;
+        Tue, 25 Jun 2024 14:50:52 -0700 (PDT)
+Received: from admins-Air ([2a02:810d:aec0:2a54:f136:1973:486:27b7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7246f08016sm338147566b.162.2024.06.25.14.50.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 14:50:52 -0700 (PDT)
+Date: Tue, 25 Jun 2024 23:50:46 +0200
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: pavel@ucw.cz, lee@kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Cc: pavel@ucw.cz, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] leds: Add LED1202 I2C driver
+Message-ID: <Zns7tih4M2y3SX6B@admins-Air>
+References: <ZnGMAK9bd3pZjWmG@admins-Air>
+ <20240620175543.GC1318296@google.com>
+ <ZnmDUNgwu_1LYMzw@admins-Air>
+ <20240625071610.GW1318296@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240625-led-class-device-leak-v2-1-75fdccf47421@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAB2BemYC/4WNTQ6CMBBGr0Jm7Rg6YEFW3sOwKO0oE5GaljQaw
- t2tXMDle/l+VogchCN0xQqBk0TxcwY6FGBHM98ZxWUGKqkuNZ1wYod2MjGiy3HLWZgHal01hlp
- Sumkhd1+Bb/Led6995lHi4sNnv0nqZ/8tJoUKzzzUdaUrVVq6DN4vk8xH65/Qb9v2BYGTnMm8A
- AAA
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Miaoqian Lin <linmq006@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-leds@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
+In-Reply-To: <20240625071610.GW1318296@google.com>
 
-This reverts commit da1afe8e6099980fe1e2fd7436dca284af9d3f29.
+On Tue, Jun 25, 2024 at 08:16:10AM +0100, Lee Jones wrote:
+> No idea.  I use NeoVim (with kickstart.nvim).
+> 
+> https://dev.to/lico/set-up-neovim-with-kickstartnvim-on-mac-as-a-vimginner-53f5
 
-Commit 699a8c7c4bd3 ("leds: Add of_led_get() and led_put()"), introduced in
-5.5, added of_led_get() and led_put() but missed a put_device() in
-led_put(), thus creating a leak in case the consumer device is removed.
+Thanks for the pointer.
 
-Arguably device removal was not very popular, so this went apparently
-unnoticed until 2022. In January 2023 two different patches got merged to
-fix the same bug:
+> 
+> Please strip out review comments that you agree with.
+Hopefully like I did for the rest of comments?
 
- - commit da1afe8e6099 ("leds: led-core: Fix refcount leak in of_led_get()")
- - commit 445110941eb9 ("leds: led-class: Add missing put_device() to led_put()")
+> 
+> Numbers should be easily identifiable/readable by humans.
+Ok, will do my best 
 
-They fix the bug in two different ways, which creates no patch conflicts,
-and both were merged in v6.2. The result is that now there is one more
-put_device() than get_device()s, instead of one less.
+> > I reused some naming. Should it be led1202_ for all?
+> 
+> st1202_?
+st1202 will be in v3
 
-Arguably device removal is not very popular yet, so this apparently hasn't
-been noticed as well up to now. But it blew up here while I'm working with
-device tree overlay insertion and removal. The symptom is an apparently
-unrelated list of oopses on device removal, with reasons:
-
-  kernfs: can not remove 'uevent', no directory
-  kernfs: can not remove 'brightness', no directory
-  kernfs: can not remove 'max_brightness', no directory
-  ...
-
-Here sysfs fails removing attribute files, which is because the device name
-changed and so the sysfs path. This is because the device name string got
-corrupted, which is because it got freed too early and its memory reused.
-
-Different symptoms could appear in different use cases.
-
-Fix by removing one of the two fixes.
-
-The choice was to remove commit da1afe8e6099 because:
-
- * it is calling put_device() inside of_led_get() just after getting the
-   device, thus it is basically not refcounting the LED device at all
-   during its entire lifetime
- * it does not add a corresponding put_device() in led_get(), so it fixes
-   only the OF case
-
-The other fix (445110941eb9) is adding the put_device() in led_put() so it
-covers the entire lifetime, and it works even in the non-DT case.
-
-Fixes: da1afe8e6099 ("leds: led-core: Fix refcount leak in of_led_get()")
-Co-developed-by: Hervé Codina <herve.codina@bootlin.com>
-Signed-off-by: Hervé Codina <herve.codina@bootlin.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
-Changes in v2:
-- Add missing SoB line for co-developer
-- Link to v1: https://lore.kernel.org/r/20240625-led-class-device-leak-v1-1-9eb4436310c2@bootlin.com
----
-
-Changed in v2:
- - add missing SoM line for Hervé
----
- drivers/leds/led-class.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 24fcff682b24..b23d2138cd83 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -258,7 +258,6 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
  
- 	led_dev = class_find_device_by_of_node(&leds_class, led_node);
- 	of_node_put(led_node);
--	put_device(led_dev);
+> > If this is not appropiate or custom practice I can redo it, but I need some pointers
+> > on where to look as "good" examples.
+> 
+> Google: "Linux Error Codes"
+> 
+> `git grep "return " -- drivers`
+My concern was mostly with how I'm extracting the channel(LED number).
+ll1202_get_channel is called inside functions where only struct device is available.
+So, I extract the device_node to have access to the device tree "label".
+I'm char compairing label value and dev->kobj.name, and if they're the same, I use the
+"reg" value property from the device tree to get the LED number.
+
+For most if not all of the functions I did see some similar setup in other drivers files,
+but I might be doing something the wrong way...
  
- 	return led_module_get(led_dev);
- }
 
----
-base-commit: 28ef3e64d0a22f6a29a1ea489293715a29623e52
-change-id: 20240625-led-class-device-leak-6637a2821678
 
-Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+ 
+> > A dump of all the registers with their values. I didn't add show/get functions for
+> > all the registers.
+> > Remove it?
+> 
+> How often are people going to need that after initial authorship, really?
+>
+No idea. I'll just remove it.
+ 
+> > > 
+> > > Space out the code properly - this is really tough to read.
+> > > 
+> > Ok.. with or without the help of the IDE, it shall be done
+> 
+> I mean new lines between functional groups.
+>
+Understood.
+ 
+> > > > +}
+> > > > +
+> > > > +static int ll1202_channel_activate(struct ll1202_led *led)
+> > > > +{
+> > > > +	struct ll1202_chip *chip;
+> > > > +	uint8_t reg_chan_low, reg_chan_high;
+> > > > +	int ret = 0;
+> > > > +
+> > > > +	chip = led->chip;
+> > > > +	if (led->is_active) {
+> > > 
+> > > Reverse this logic and unindent this block.
+> > > 
+> > Sorry, I need some more details on what I need to do here.
+> 
+> 	if (!led->is_active)
+> 		return ret;
+> 
+
+Thanks for explaining this.
+
+> > > 
+> > > We already have global helpers for this type of thing.
+> > > 
+> > Ok, could you please point me to the file/link?
+> 
+> I suggest you pull as much of this out to another _normal_ function as
+> you can, then have the fewest lines possible inside the macro instead.
+>
+Ok. Will do.
+
+ 
+> -- 
+> Lee Jones [李琼斯]
+Thanks Lee.
+
+May I now push a v3?
 
 
