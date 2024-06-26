@@ -1,59 +1,58 @@
-Return-Path: <linux-leds+bounces-2151-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2152-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93751918752
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 18:27:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA07B9186F0
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 18:12:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09965B241FF
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 16:11:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 941602810A3
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 16:12:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856C918FC82;
-	Wed, 26 Jun 2024 16:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 815EE18FDDC;
+	Wed, 26 Jun 2024 16:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5kgtc94"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MhlNy5lc"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585CA18EFD4;
-	Wed, 26 Jun 2024 16:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DCF18FDD5;
+	Wed, 26 Jun 2024 16:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719418123; cv=none; b=lMnqiDFeW7GJRSgHvfktToVCuTHRiUHtf623KQ6BnEI0bwjQmGeSeHp8uPHyZ0phJdWM1RFAsAGwz1bAmE6Mx3N01r24JWXPIhrdQQcr+Sv7JSsuNdSSweL7L8shr3xG2x6MT2bSQUnHHXbwWgOww4/aydE0diArsPCTJdh49Wo=
+	t=1719418125; cv=none; b=XbTFPKIRYPjYVsD5anPKrUhp4mulJao9NUNXmPFyALzZ4TqblfsGU9QvEQcroE6OhiKr2+coEGAWgSu3EIxiimbk5hkSF3IRga9n4Bq2ied2Fg5ztqQ67osJAwijD2qWj1YldqSZ4c2avHyyAwsNrhmgGZ17lZ585iE+JMEXN40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719418123; c=relaxed/simple;
-	bh=WZwsFv8ugBAItIsIyreIZWoVdpFoYhHVtcN66PqlRtU=;
+	s=arc-20240116; t=1719418125; c=relaxed/simple;
+	bh=K8GPWaRo22t47jtcUUzGs4LSuBj4VURWjO3QytmzkM4=;
 	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GoiwkyS3JGKbGVIe02YtcBBy409oF/Ilen1zEJlwQ7lSbsKN1tO1RP2JZw7s5XrznvdYlFnFz7fQ/Xn5ieUV6ZyczGV34MxXxAJeDRfYIHdAvlJ9rAScX+Mk+yfXzra5ajTOx+CrP6pNjB9StL6W0cx4nbDZR15t+z2TaXd7rnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5kgtc94; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11ECEC116B1;
-	Wed, 26 Jun 2024 16:08:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=mTYpTHacWvV2O5X8po7+WDqVHVp1KnD0DcVDOr+TwygjUzzYR4vY7wVu9J/i4Hc77ea0oh+RFPqgwuhO32RxSYk5Ir05VUUSQWvNgzvsq6MzHPP6tbX+AIMQJN15ohNMZ3VO8oCSvULxRzma6TnS+uapKqWWocpv4izBFLoKeWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MhlNy5lc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A306C4AF07;
+	Wed, 26 Jun 2024 16:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719418122;
-	bh=WZwsFv8ugBAItIsIyreIZWoVdpFoYhHVtcN66PqlRtU=;
+	s=k20201202; t=1719418125;
+	bh=K8GPWaRo22t47jtcUUzGs4LSuBj4VURWjO3QytmzkM4=;
 	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=Y5kgtc94gySCSI0lXtqwvrP0lI7rfenXwX4NbvvXH79W/jIRontEKbPuz+xmP3xUb
-	 YfouB65GVWCEoi9vrzag7zUNUx7sgR8+5wl2zSPH0zMlSUP7kRBXnsQSpYimqw+NwH
-	 PfOrj2aLSkKJbU7bkfr9j53ABLoaSytsytgiaIrqQZ9b2eus7CLlgeykrkpOcQj2b4
-	 USmM/QrHNLxMajrZitnxCT7b39om+egLGCDhQci1rYG/gJziA/ypVS22+FXegMreXU
-	 WcnJ5rurQSduxmfkU+Trvu0ckzZTLTvUEjTPYpFbatgc2w9AV/6NUOaPFOswS5bGEa
-	 PktFRVWeD7iVg==
+	b=MhlNy5lcZdRfj0RT33ZpNR7keqYYzgf7n1xVnDk1vyT1gYbWJjCBrQXtJ0Og1Z25z
+	 j82UpFRZ70z0+bSLic4+VPMe4doI4yAzmGOKxtcxVt2BCKS6rN2/318n1WRZtX8njX
+	 LLPO9avgIGFTSW7X2N6a9n98k2tkqenl0+/Cv6up+b9fsGRPk71geVBmUTmNwbUs/X
+	 hofarhV+bs5IQvI3uhtNxc+Tps0lBDlb8w3jh2ew7/pZXMrOra6eblaobeOn5emAEj
+	 +y5nl/HlYqsO3hTM0dBHjsqftiFzIRNCZ1ZmzOLvFmX29UpsLfL4u60S/hCnYIQ8H+
+	 z4x/YdWa2x4kA==
 From: Lee Jones <lee@kernel.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-leds@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Christian Marangi <ansuelsmth@gmail.com>
-In-Reply-To: <20240620210401.22053-1-ansuelsmth@gmail.com>
-References: <20240620210401.22053-1-ansuelsmth@gmail.com>
-Subject: Re: [PATCH v7 00/20] leds: leds-lp55xx: overhaul driver
-Message-Id: <171941812083.2542017.2881884570638704894.b4-ty@kernel.org>
-Date: Wed, 26 Jun 2024 17:08:40 +0100
+In-Reply-To: <20240626160027.19703-1-ansuelsmth@gmail.com>
+References: <20240626160027.19703-1-ansuelsmth@gmail.com>
+Subject: Re: [PATCH v8 00/20] leds: leds-lp55xx: overhaul driver
+Message-Id: <171941812315.2542017.2142891856682487960.b4-ty@kernel.org>
+Date: Wed, 26 Jun 2024 17:08:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,7 +63,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.13.0
 
-On Thu, 20 Jun 2024 23:03:16 +0200, Christian Marangi wrote:
+On Wed, 26 Jun 2024 18:00:05 +0200, Christian Marangi wrote:
 > This long series is (as requested) a big overhaul of the lp55xx based
 > LED driver.
 > 
