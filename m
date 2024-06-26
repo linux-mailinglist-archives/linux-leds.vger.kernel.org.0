@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-2145-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2146-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B929186B5
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 18:06:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8209186C0
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 18:07:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92EC6B284F1
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 16:04:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46C5EB274AF
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 16:04:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8152A1922EB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5CA71922F8;
 	Wed, 26 Jun 2024 16:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbjV9XuF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cyJ5eLiv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832721922C4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015ED18EFE4;
 	Wed, 26 Jun 2024 16:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719417653; cv=none; b=uvllivE1oGzI/rVJg6UWHfiGUfG6ikooEmxlhLjlO5eql19+fYsLSFzWJW6wC6KoJDfTx2DPKX8SVqXFvFB8ZY58aQBAjRR6jE15f0/SUZntzyRo9pMF+8aBUbDnNvAfjcxrQtv+hKCrEikVhbdniBaHz4ZFij2wVhbisXsfTfY=
+	t=1719417653; cv=none; b=lqMlQVP4r0waXBYAttC2NYxraEKvCREHLyyRDKFOVnqrEiLw5WbjxQcbLM00q3PVHJVIuTKApy6MWEB7VXDgy0opwvvREZN5Ay4e238rmzgfpmEOCOjCVOtl9wdt7Idy703P3LPibq9h1OLbxPjj5Zx0xfpcFlDHGqAiWcnr9B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719417653; c=relaxed/simple;
-	bh=om+AGcMqGqbbvVEm3jP/AcMHWRQ189MNta7RWJNBdAE=;
+	bh=nA6S+D3r9en9RPR0VVUrNP1Uukp9Qu5XclTQ7m4h5G0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mYFQHuBbq+PFUqcwtXrbOtt0lat9xxuuzya4fzUn6VWy3wr8V9o5tCL7IdJ/WXHBBVPQGYyLSnKiEnIvK02F4b6+CzUha4gxvHs6kuW7UBSzwhuzPXchRkJG/35sjFEaZGbeT9NDFiizCSi9qZR6t1IkdmYXE5evBerR0E9M6aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbjV9XuF; arc=none smtp.client-ip=209.85.167.52
+	 MIME-Version; b=s8XBRYkLlnz0Ph0QRVl8hIfYrSCe8FeZk5GisNynXjZDrv5Ws8yqn3Wx3qRTTY6Xud77X5hBPI46djtxtvAJWIzlFRgNAQBCNHe0YPmzFVs7dDlr2mC9zBgQRunr4rjXTrecmkKzgtCECnLkvGtTbEk4dFokLFcEMhXCm6Coszk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cyJ5eLiv; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52cf4ca8904so2313936e87.3;
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-365663f51adso5013961f8f.1;
         Wed, 26 Jun 2024 09:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1719417650; x=1720022450; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o1OuxhTObrcU5gxabuse02Wd0S4fCa29l4HMpyoKad4=;
-        b=BbjV9XuFKfbHZGUSNFaLYx9ci17ex9OQbRZ1AVqdYC4oafygmJsR+If/R+QGWs/J2+
-         KTe2dgYjw40bR6UFelzRFXTi9vzKyuqukutHkwUr4Jn3EoWIslA77sUKLMx8vexTm97G
-         4YA9hkqzDEjio/QZWdDKBDsuLWNTnuMKZmKpAA7UKot3QwqTIcVUsW3jwrCBi7L9v7su
-         atDdVWdRMroNaFmPppkMpwCpUfsQFR7EmUgdsv+xIrcEh68A2n5ZA66GJaBhvopq+sND
-         gZ9iIkdnsx0bSeRJeG8gfcqWH1tsux5imzOOnZotW7aDFHE/IC7g+Wr9DtEgmgN6tMwd
-         yCCA==
+        bh=DddTKLoW+PPYUSvSFIuzDD8SGvM2v8GitD/QPej7SSQ=;
+        b=cyJ5eLivCcI6guuZyg2p/VIJXQfIj+/hQ0NYEl7d54+OfgVDKDWE2bIq+S1STN/bFn
+         BQuKPhZRmX8pwHW4UeQHz1HoHZCB+X7o9C3Xs+YLj427ARB3hK6DLs8HN2udibeSd6Ip
+         1NwiGUYNa4Y1sx8qbuyPk11xn8sFw7m18DjlJh3HAGHcArD11vA1NcGXQWoyrzUs8U3R
+         RgqBdu0wb+RPRyUoZZmqvHkjJSCqavhRgWKa/OVWJLzzdH4W6YzCR31nGjjhZ2ujYEQ1
+         tEjXWbq8h26s1IYRg2x1u4UmqR1DsCMLFpYTA11yVaDM2VhjpR4Q5oWrM+cobdMy1bjl
+         ATSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1719417650; x=1720022450;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o1OuxhTObrcU5gxabuse02Wd0S4fCa29l4HMpyoKad4=;
-        b=d0obkhH17w6Uf/YCNnbVvwQ/KjdJWEspqYFbp8DCqxN1yblHPbF2zRrB4PWTU6NflM
-         Pe4FhINwkBD2PBeEVG9e190XCKw8hCKOoUHSaQ6zBbgdJrROAV2HttWlbZZnlcEAv2nd
-         rafn3vqZ4wV4eXdBgKUSbRDuFXrhV5VfPwY1IRUFHqXT58teUKQyDrRAy3W+byMmCty4
-         TIbafcUeJJtd76050U2hp4HAmr5SoDRaYD/U8YYp7xPy2pXqZhXH6OfwjPfwPeuNAVev
-         3dJvljrfxeNqnx4BwKiwiWOW6dy7iGQAanebr7mzztmo9xHEER+W+mUqV/aMhfnV1vaZ
-         OTKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdify/k8MgdmWRI8A07E/5HElxygganHVplbJrkJfG6/nd5EVsQDrruvcpKXsBJ2hc/OfVUSEYlbNnMlzpcz7LzeJgczJFg8eY3SP14a3JX+Pbbbgzx+a2OJgmeu2VTtfJeQsT0jycuKI0iuMCJntVQykeIQqEDw1z9ddxiwyHMFttwJA=
-X-Gm-Message-State: AOJu0YzjoeB9hrqkzYejMX9Ph0HAHRZcEhWobSy3/jZe42FzOJ4KGrjy
-	ZKp+Tp5j2mk2wLfDUT0SgJVVPmjNme7+KRndQepcQJX+lhkxOczO
-X-Google-Smtp-Source: AGHT+IE6tk4395pRdXcQaupLCKIPMQAaZJc7FOSlaqybZ6YzV5xfs1PKqdDjefjyC/w9Yw3IQKDIOQ==
-X-Received: by 2002:a05:6512:5cf:b0:52c:cb8d:6381 with SMTP id 2adb3069b0e04-52ce063e3f0mr7132251e87.13.1719417649291;
-        Wed, 26 Jun 2024 09:00:49 -0700 (PDT)
+        bh=DddTKLoW+PPYUSvSFIuzDD8SGvM2v8GitD/QPej7SSQ=;
+        b=Zuwt51NskDEovNuVWewo0Gel1Zs47RL3eW5eCY2s1DJCubhew2jFydEv6gLAT6dXDe
+         zS2G+QoverrV9tcXr8d2vO//arYOzDbfzMjvcCYkaHQex5ZhqqpcHjodOdqmSR7t+vHD
+         8n1BEApg/jJRnlfi+FwhUDShC+jdcjCnr6aQAxZ9i3rR/FJDU1ouw8MvAYarUmc7OUrn
+         4rvQk9u+waKTso2VWUj04e9vNK3UxMZB669kux6ITz6GpD5A+8zJc7yxeOzXN2Kg4onL
+         EnkvOUzHxQDuDvoFN/hH6EP0Qn2jeKO/HLpQozEtVD6uKm0IsORkW31KDiRGLIXH683G
+         X9xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0JPxehtpmF8VdMAkenD3+TiUk5+JHsTwSQbUjtgdnkb1ojrrQEJM1Z/3BjmXjs/43JyQ0T5KuQ8XcLlBVMuFB7CBeJMEBcFyASS8DhBKI6K7PGBig8t8Wtq2XXJn8TXxzd3K94KGMG/IToEdWcYRQ+jCzHCUP31G/2uLDDrvv4bRo7Jg=
+X-Gm-Message-State: AOJu0YxTjJ/wkoWubiXLzp7f+siEYWVQMa/8mbk5AjlCiVb8i+pvQiSI
+	IhOC8SwESfuW6ysvb/c6XkVR57iQS4ApMiiEoyqP87wb0N6PNbKc
+X-Google-Smtp-Source: AGHT+IFFFFL8mwhqpa87z58xmNPmxmNU7IvC2mkgj44t5JcdkISvcG8WSkXCCBpshu5qh8VrEV3/4g==
+X-Received: by 2002:a05:6000:22f:b0:35f:276c:ac5f with SMTP id ffacd0b85a97d-366e4ede0f1mr6036235f8f.40.1719417650226;
+        Wed, 26 Jun 2024 09:00:50 -0700 (PDT)
 Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366389b88easm16180589f8f.39.2024.06.26.09.00.48
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366389b88easm16180589f8f.39.2024.06.26.09.00.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 09:00:48 -0700 (PDT)
+        Wed, 26 Jun 2024 09:00:49 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -78,9 +78,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Christian Marangi <ansuelsmth@gmail.com>
-Subject: [PATCH v8 18/20] leds: leds-lp55xx: Support ENGINE program up to 128 bytes
-Date: Wed, 26 Jun 2024 18:00:23 +0200
-Message-ID: <20240626160027.19703-19-ansuelsmth@gmail.com>
+Subject: [PATCH v8 19/20] leds: leds-lp55xx: Drop deprecated defines
+Date: Wed, 26 Jun 2024 18:00:24 +0200
+Message-ID: <20240626160027.19703-20-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240626160027.19703-1-ansuelsmth@gmail.com>
 References: <20240626160027.19703-1-ansuelsmth@gmail.com>
@@ -92,198 +92,203 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some LED chip supports up to 16 pages and with some magic they can be
-divided in 4 page for each ENGINE + 1 for each MUX. Following this we
-can support bigger programs up to 128 bytes.
-
-Rework the update_program_memory function to support program of multiple
-pages instead of hardcoding it to one page per programs.
+Drop deprecated defines not used anymore as the related function got
+moved to lp55xx-common.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/leds/leds-lp5523.c        |  5 ++-
- drivers/leds/leds-lp5562.c        |  7 ++--
- drivers/leds/leds-lp55xx-common.c | 54 ++++++++++++++++++++++++-------
- drivers/leds/leds-lp55xx-common.h |  2 ++
- 4 files changed, 49 insertions(+), 19 deletions(-)
+ drivers/leds/leds-lp5521.c | 24 --------------------
+ drivers/leds/leds-lp5523.c | 46 --------------------------------------
+ drivers/leds/leds-lp5562.c | 15 -------------
+ drivers/leds/leds-lp8501.c | 31 -------------------------
+ 4 files changed, 116 deletions(-)
 
-diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 1b3ffdc3dfa3..54ead09488a5 100644
---- a/drivers/leds/leds-lp5523.c
-+++ b/drivers/leds/leds-lp5523.c
+diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
+index 519e7627ac22..de0f8ea48eba 100644
+--- a/drivers/leds/leds-lp5521.c
++++ b/drivers/leds/leds-lp5521.c
 @@ -21,7 +21,6 @@
  
  #include "leds-lp55xx-common.h"
  
--#define LP5523_PROGRAM_LENGTH		32	/* bytes */
- /* Memory is used like this:
-  * 0x00 engine 1 program
-  * 0x10 engine 2 program
-@@ -172,7 +171,7 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
- 	int ret;
- 	u8 status;
- 	/* one pattern per engine setting LED MUX start and stop addresses */
--	static const u8 pattern[][LP5523_PROGRAM_LENGTH] =  {
-+	static const u8 pattern[][LP55xx_BYTES_PER_PAGE] =  {
- 		{ 0x9c, 0x30, 0x9c, 0xb0, 0x9d, 0x80, 0xd8, 0x00, 0},
- 		{ 0x9c, 0x40, 0x9c, 0xc0, 0x9d, 0x80, 0xd8, 0x00, 0},
- 		{ 0x9c, 0x50, 0x9c, 0xd0, 0x9d, 0x80, 0xd8, 0x00, 0},
-@@ -196,7 +195,7 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
- 		chip->engine_idx = i;
- 		lp55xx_load_engine(chip);
+-#define LP5521_PROGRAM_LENGTH		32
+ #define LP5521_MAX_LEDS			3
+ #define LP5521_CMD_DIRECT		0x3F
  
--		for (j = 0; j < LP5523_PROGRAM_LENGTH; j++) {
-+		for (j = 0; j < LP55xx_BYTES_PER_PAGE; j++) {
- 			ret = lp55xx_write(chip, LP5523_REG_PROG_MEM + j,
- 					pattern[i - 1][j]);
- 			if (ret)
+@@ -73,29 +72,6 @@
+ /* Reset register value */
+ #define LP5521_RESET			0xFF
+ 
+-/* Program Memory Operations */
+-#define LP5521_MODE_R_M			0x30	/* Operation Mode Register */
+-#define LP5521_MODE_G_M			0x0C
+-#define LP5521_MODE_B_M			0x03
+-#define LP5521_LOAD_R			0x10
+-#define LP5521_LOAD_G			0x04
+-#define LP5521_LOAD_B			0x01
+-
+-#define LP5521_R_IS_LOADING(mode)	\
+-	((mode & LP5521_MODE_R_M) == LP5521_LOAD_R)
+-#define LP5521_G_IS_LOADING(mode)	\
+-	((mode & LP5521_MODE_G_M) == LP5521_LOAD_G)
+-#define LP5521_B_IS_LOADING(mode)	\
+-	((mode & LP5521_MODE_B_M) == LP5521_LOAD_B)
+-
+-#define LP5521_EXEC_R_M			0x30	/* Enable Register */
+-#define LP5521_EXEC_G_M			0x0C
+-#define LP5521_EXEC_B_M			0x03
+-#define LP5521_EXEC_M			0x3F
+-#define LP5521_RUN_R			0x20
+-#define LP5521_RUN_G			0x08
+-#define LP5521_RUN_B			0x02
+-
+ static inline void lp5521_wait_opmode_done(void)
+ {
+ 	/* operation mode change needs to be longer than 153 us */
+diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+index 54ead09488a5..57df920192d2 100644
+--- a/drivers/leds/leds-lp5523.c
++++ b/drivers/leds/leds-lp5523.c
+@@ -73,54 +73,8 @@
+ #define LP5523_EXT_CLK_USED		0x08
+ #define LP5523_ENG_STATUS_MASK		0x07
+ 
+-#define LP5523_FADER_MAPPING_MASK	0xC0
+-#define LP5523_FADER_MAPPING_SHIFT	6
+-
+-/* Memory Page Selection */
+-#define LP5523_PAGE_ENG1		0
+-#define LP5523_PAGE_ENG2		1
+-#define LP5523_PAGE_ENG3		2
+-#define LP5523_PAGE_MUX1		3
+-#define LP5523_PAGE_MUX2		4
+-#define LP5523_PAGE_MUX3		5
+-
+-/* Program Memory Operations */
+-#define LP5523_MODE_ENG1_M		0x30	/* Operation Mode Register */
+-#define LP5523_MODE_ENG2_M		0x0C
+-#define LP5523_MODE_ENG3_M		0x03
+-#define LP5523_LOAD_ENG1		0x10
+-#define LP5523_LOAD_ENG2		0x04
+-#define LP5523_LOAD_ENG3		0x01
+-
+-#define LP5523_ENG1_IS_LOADING(mode)	\
+-	((mode & LP5523_MODE_ENG1_M) == LP5523_LOAD_ENG1)
+-#define LP5523_ENG2_IS_LOADING(mode)	\
+-	((mode & LP5523_MODE_ENG2_M) == LP5523_LOAD_ENG2)
+-#define LP5523_ENG3_IS_LOADING(mode)	\
+-	((mode & LP5523_MODE_ENG3_M) == LP5523_LOAD_ENG3)
+-
+-#define LP5523_EXEC_ENG1_M		0x30	/* Enable Register */
+-#define LP5523_EXEC_ENG2_M		0x0C
+-#define LP5523_EXEC_ENG3_M		0x03
+-#define LP5523_EXEC_M			0x3F
+-#define LP5523_RUN_ENG1			0x20
+-#define LP5523_RUN_ENG2			0x08
+-#define LP5523_RUN_ENG3			0x02
+-
+-#define LED_ACTIVE(mux, led)		(!!(mux & (0x0001 << led)))
+-
+-enum lp5523_chip_id {
+-	LP5523,
+-	LP55231,
+-};
+-
+ static int lp5523_init_program_engine(struct lp55xx_chip *chip);
+ 
+-static inline void lp5523_wait_opmode_done(void)
+-{
+-	usleep_range(1000, 2000);
+-}
+-
+ static int lp5523_post_init_device(struct lp55xx_chip *chip)
+ {
+ 	int ret;
 diff --git a/drivers/leds/leds-lp5562.c b/drivers/leds/leds-lp5562.c
-index e50b68c9ccf3..109162f1720f 100644
+index 109162f1720f..6ba5dbb9cace 100644
 --- a/drivers/leds/leds-lp5562.c
 +++ b/drivers/leds/leds-lp5562.c
-@@ -19,7 +19,6 @@
+@@ -37,21 +37,6 @@
+ 
+ /* OPMODE Register 01h */
+ #define LP5562_REG_OP_MODE		0x01
+-#define LP5562_MODE_ENG1_M		0x30
+-#define LP5562_MODE_ENG2_M		0x0C
+-#define LP5562_MODE_ENG3_M		0x03
+-#define LP5562_LOAD_ENG1		0x10
+-#define LP5562_LOAD_ENG2		0x04
+-#define LP5562_LOAD_ENG3		0x01
+-#define LP5562_RUN_ENG1			0x20
+-#define LP5562_RUN_ENG2			0x08
+-#define LP5562_RUN_ENG3			0x02
+-#define LP5562_ENG1_IS_LOADING(mode)	\
+-	((mode & LP5562_MODE_ENG1_M) == LP5562_LOAD_ENG1)
+-#define LP5562_ENG2_IS_LOADING(mode)	\
+-	((mode & LP5562_MODE_ENG2_M) == LP5562_LOAD_ENG2)
+-#define LP5562_ENG3_IS_LOADING(mode)	\
+-	((mode & LP5562_MODE_ENG3_M) == LP5562_LOAD_ENG3)
+ 
+ /* BRIGHTNESS Registers */
+ #define LP5562_REG_R_PWM		0x04
+diff --git a/drivers/leds/leds-lp8501.c b/drivers/leds/leds-lp8501.c
+index 1fb876f64cb7..ee4ff4586bc0 100644
+--- a/drivers/leds/leds-lp8501.c
++++ b/drivers/leds/leds-lp8501.c
+@@ -20,28 +20,14 @@
  
  #include "leds-lp55xx-common.h"
  
--#define LP5562_PROGRAM_LENGTH		32
- #define LP5562_MAX_LEDS			4
+-#define LP8501_PROGRAM_LENGTH		32
+ #define LP8501_PAGES_PER_ENGINE		1
+ #define LP8501_MAX_LEDS			9
  
- /* ENABLE Register 00h */
-@@ -212,9 +211,9 @@ static void lp5562_write_program_memory(struct lp55xx_chip *chip,
- /* check the size of program count */
- static inline bool _is_pc_overflow(struct lp55xx_predef_pattern *ptn)
+ /* Registers */
+ #define LP8501_REG_ENABLE		0x00
+ #define LP8501_ENABLE			BIT(6)
+-#define LP8501_EXEC_M			0x3F
+-#define LP8501_EXEC_ENG1_M		0x30
+-#define LP8501_EXEC_ENG2_M		0x0C
+-#define LP8501_EXEC_ENG3_M		0x03
+-#define LP8501_RUN_ENG1			0x20
+-#define LP8501_RUN_ENG2			0x08
+-#define LP8501_RUN_ENG3			0x02
+ 
+ #define LP8501_REG_OP_MODE		0x01
+-#define LP8501_MODE_ENG1_M		0x30
+-#define LP8501_MODE_ENG2_M		0x0C
+-#define LP8501_MODE_ENG3_M		0x03
+-#define LP8501_LOAD_ENG1		0x10
+-#define LP8501_LOAD_ENG2		0x04
+-#define LP8501_LOAD_ENG3		0x01
+ 
+ #define LP8501_REG_PWR_CONFIG		0x05
+ #define LP8501_PWR_CONFIG_M		0x03
+@@ -65,25 +51,8 @@
+ #define LP8501_REG_RESET		0x3D
+ #define LP8501_RESET			0xFF
+ 
+-#define LP8501_REG_PROG_PAGE_SEL	0x4F
+-#define LP8501_PAGE_ENG1		0
+-#define LP8501_PAGE_ENG2		1
+-#define LP8501_PAGE_ENG3		2
+-
+ #define LP8501_REG_PROG_MEM		0x50
+ 
+-#define LP8501_ENG1_IS_LOADING(mode)	\
+-	((mode & LP8501_MODE_ENG1_M) == LP8501_LOAD_ENG1)
+-#define LP8501_ENG2_IS_LOADING(mode)	\
+-	((mode & LP8501_MODE_ENG2_M) == LP8501_LOAD_ENG2)
+-#define LP8501_ENG3_IS_LOADING(mode)	\
+-	((mode & LP8501_MODE_ENG3_M) == LP8501_LOAD_ENG3)
+-
+-static inline void lp8501_wait_opmode_done(void)
+-{
+-	usleep_range(1000, 2000);
+-}
+-
+ static int lp8501_post_init_device(struct lp55xx_chip *chip)
  {
--	return ptn->size_r >= LP5562_PROGRAM_LENGTH ||
--	       ptn->size_g >= LP5562_PROGRAM_LENGTH ||
--	       ptn->size_b >= LP5562_PROGRAM_LENGTH;
-+	return ptn->size_r >= LP55xx_BYTES_PER_PAGE ||
-+	       ptn->size_g >= LP55xx_BYTES_PER_PAGE ||
-+	       ptn->size_b >= LP55xx_BYTES_PER_PAGE;
- }
- 
- static int lp5562_run_predef_led_pattern(struct lp55xx_chip *chip, int mode)
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index dd7630aaa438..1b71f512206d 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -27,7 +27,8 @@
- /* OP MODE require at least 153 us to clear regs */
- #define LP55XX_CMD_SLEEP		200
- 
--#define LP55xx_PROGRAM_LENGTH		32
-+#define LP55xx_PROGRAM_PAGES		16
-+#define LP55xx_MAX_PROGRAM_LENGTH	(LP55xx_BYTES_PER_PAGE * 4) /* 128 bytes (4 pages) */
- 
- /*
-  * Program Memory Operations
-@@ -172,12 +173,16 @@ int lp55xx_update_program_memory(struct lp55xx_chip *chip,
- {
- 	enum lp55xx_engine_index idx = chip->engine_idx;
- 	const struct lp55xx_device_config *cfg = chip->cfg;
--	u8 pattern[LP55xx_PROGRAM_LENGTH] = { };
-+	u8 pattern[LP55xx_MAX_PROGRAM_LENGTH] = { };
- 	u8 start_addr = cfg->prog_mem_base.addr;
--	int i = 0, offset = 0;
--	int ret;
-+	int page, i = 0, offset = 0;
-+	int program_length, ret;
-+
-+	program_length = LP55xx_BYTES_PER_PAGE;
-+	if (cfg->pages_per_engine)
-+		program_length *= cfg->pages_per_engine;
- 
--	while ((offset < size - 1) && (i < LP55xx_PROGRAM_LENGTH)) {
-+	while ((offset < size - 1) && (i < program_length)) {
- 		unsigned int cmd;
- 		int nrchars;
- 		char c[3];
-@@ -206,12 +211,20 @@ int lp55xx_update_program_memory(struct lp55xx_chip *chip,
- 	 * For LED chip that support page, PAGE is already set in load_engine.
- 	 */
- 	if (!cfg->pages_per_engine)
--		start_addr += LP55xx_PROGRAM_LENGTH * idx;
-+		start_addr += LP55xx_BYTES_PER_PAGE * idx;
- 
--	for (i = 0; i < LP55xx_PROGRAM_LENGTH; i++) {
--		ret = lp55xx_write(chip, start_addr + i, pattern[i]);
--		if (ret)
--			return -EINVAL;
-+	for (page = 0; page < program_length / LP55xx_BYTES_PER_PAGE; page++) {
-+		/* Write to the next page each 32 bytes (if supported) */
-+		if (cfg->pages_per_engine)
-+			lp55xx_write(chip, LP55xx_REG_PROG_PAGE_SEL,
-+				     LP55xx_PAGE_OFFSET(idx, cfg->pages_per_engine) + page);
-+
-+		for (i = 0; i < LP55xx_BYTES_PER_PAGE; i++) {
-+			ret = lp55xx_write(chip, start_addr + i,
-+					   pattern[i + (page * LP55xx_BYTES_PER_PAGE)]);
-+			if (ret)
-+				return -EINVAL;
-+		}
- 	}
- 
- 	return size;
-@@ -224,13 +237,19 @@ EXPORT_SYMBOL_GPL(lp55xx_update_program_memory);
- 
- void lp55xx_firmware_loaded_cb(struct lp55xx_chip *chip)
- {
-+	const struct lp55xx_device_config *cfg = chip->cfg;
- 	const struct firmware *fw = chip->fw;
-+	int program_length;
-+
-+	program_length = LP55xx_BYTES_PER_PAGE;
-+	if (cfg->pages_per_engine)
-+		program_length *= cfg->pages_per_engine;
- 
- 	/*
- 	 * the firmware is encoded in ascii hex character, with 2 chars
- 	 * per byte
- 	 */
--	if (fw->size > LP55xx_PROGRAM_LENGTH * 2) {
-+	if (fw->size > program_length * 2) {
- 		dev_err(&chip->cl->dev, "firmware data size overflow: %zu\n",
- 			fw->size);
- 		return;
-@@ -1276,7 +1295,7 @@ static struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
- int lp55xx_probe(struct i2c_client *client)
- {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
--	int ret;
-+	int program_length, ret;
- 	struct lp55xx_chip *chip;
- 	struct lp55xx_led *led;
- 	struct lp55xx_platform_data *pdata = dev_get_platdata(&client->dev);
-@@ -1300,6 +1319,17 @@ int lp55xx_probe(struct i2c_client *client)
- 		}
- 	}
- 
-+	/* Validate max program page */
-+	program_length = LP55xx_BYTES_PER_PAGE;
-+	if (chip->cfg->pages_per_engine)
-+		program_length *= chip->cfg->pages_per_engine;
-+
-+	/* support a max of 128bytes */
-+	if (program_length > LP55xx_MAX_PROGRAM_LENGTH) {
-+		dev_err(&client->dev, "invalid pages_per_engine configured\n");
-+		return -EINVAL;
-+	}
-+
- 	led = devm_kcalloc(&client->dev,
- 			   pdata->num_channels, sizeof(*led), GFP_KERNEL);
- 	if (!led)
-diff --git a/drivers/leds/leds-lp55xx-common.h b/drivers/leds/leds-lp55xx-common.h
-index 6dcffa0db647..1bb7c559662c 100644
---- a/drivers/leds/leds-lp55xx-common.h
-+++ b/drivers/leds/leds-lp55xx-common.h
-@@ -14,6 +14,8 @@
- 
- #include <linux/led-class-multicolor.h>
- 
-+#define LP55xx_BYTES_PER_PAGE		32      /* bytes */
-+
- enum lp55xx_engine_index {
- 	LP55XX_ENGINE_INVALID,
- 	LP55XX_ENGINE_1,
+ 	int ret;
 -- 
 2.45.1
 
