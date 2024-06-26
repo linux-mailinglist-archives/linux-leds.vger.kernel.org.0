@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-2144-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2145-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3249186A8
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 18:04:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B929186B5
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 18:06:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35D3D1F215AC
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 16:04:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92EC6B284F1
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2024 16:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 583071922D3;
-	Wed, 26 Jun 2024 16:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8152A1922EB;
+	Wed, 26 Jun 2024 16:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpDox2c9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbjV9XuF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B4A191477;
-	Wed, 26 Jun 2024 16:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832721922C4;
+	Wed, 26 Jun 2024 16:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719417652; cv=none; b=RIYbKmF1zE/gyqNMBa2FHzxI1omO5PCpMfFQIea4v1bXcRPw0pJK7DGBkFr/blMBb4ivvrpDN5BArqCgFbLhDeY5AVUELvHADUUruEg9s9HppscsB5Qk9iYADcBDEMvD0TNCvi0ElEmnFJ8KlLRDQaBIlCaGw2uQwJdx4xuMmgA=
+	t=1719417653; cv=none; b=uvllivE1oGzI/rVJg6UWHfiGUfG6ikooEmxlhLjlO5eql19+fYsLSFzWJW6wC6KoJDfTx2DPKX8SVqXFvFB8ZY58aQBAjRR6jE15f0/SUZntzyRo9pMF+8aBUbDnNvAfjcxrQtv+hKCrEikVhbdniBaHz4ZFij2wVhbisXsfTfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719417652; c=relaxed/simple;
-	bh=3bxi4xkVgRCvQWcLRemgpCSBNvRxdHNqfr0Vs3j/pwE=;
+	s=arc-20240116; t=1719417653; c=relaxed/simple;
+	bh=om+AGcMqGqbbvVEm3jP/AcMHWRQ189MNta7RWJNBdAE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xq4cxCPflKN5jR28j4sYJFZdNKvkoPr+mr7DICSqOnaaDXaITBwnDtjl9illJ4bFQxyb/z+jugz1l2tzrVQoLlwoyYWSC0lfnj7Xgv0uiT3H0fZJd0GKMKi1HiRWzenLhX6eY10gWAbG0W3zZIK/ufU0YkTjjG1N0y9wZLk5yPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpDox2c9; arc=none smtp.client-ip=209.85.167.44
+	 MIME-Version; b=mYFQHuBbq+PFUqcwtXrbOtt0lat9xxuuzya4fzUn6VWy3wr8V9o5tCL7IdJ/WXHBBVPQGYyLSnKiEnIvK02F4b6+CzUha4gxvHs6kuW7UBSzwhuzPXchRkJG/35sjFEaZGbeT9NDFiizCSi9qZR6t1IkdmYXE5evBerR0E9M6aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbjV9XuF; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52cdc4d221eso5415633e87.3;
-        Wed, 26 Jun 2024 09:00:50 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52cf4ca8904so2313936e87.3;
+        Wed, 26 Jun 2024 09:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719417648; x=1720022448; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719417650; x=1720022450; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t+4e8cF7k4UIhR54Dq5vhlEbflgX0teWBDZHJEHCUVk=;
-        b=BpDox2c9NLNfunsvcBfb3ewytydKG4bsH03mJvANxpY1+KAkTA3FTkxcM/rFzN8DIu
-         3lHzrsVB9BGrZ+IrreyXwRY5Y2mUFzMDBhElBLc0g7gQnSaZ2uIztefu/Fvmo7fWC4Z8
-         b4a+Y0PqeUddEm4xZ2FT5/WNrfaPlmKgWo5u83/hBCzraPdYtE0l6YQSjAgFIqcuRFbr
-         Mcg2wP6mrhd4jE50/dIM/r8t1xDvaXEzZv1JUgrQSzSE0JG8urfyWF6xH5a4m9K5QFfD
-         qcGPECJz92jtyPCKp/JSGMpcURy4crbM6w0ilQx5aE8kJAbOyrd8dtuF3RwtQzjt3pf6
-         B9PQ==
+        bh=o1OuxhTObrcU5gxabuse02Wd0S4fCa29l4HMpyoKad4=;
+        b=BbjV9XuFKfbHZGUSNFaLYx9ci17ex9OQbRZ1AVqdYC4oafygmJsR+If/R+QGWs/J2+
+         KTe2dgYjw40bR6UFelzRFXTi9vzKyuqukutHkwUr4Jn3EoWIslA77sUKLMx8vexTm97G
+         4YA9hkqzDEjio/QZWdDKBDsuLWNTnuMKZmKpAA7UKot3QwqTIcVUsW3jwrCBi7L9v7su
+         atDdVWdRMroNaFmPppkMpwCpUfsQFR7EmUgdsv+xIrcEh68A2n5ZA66GJaBhvopq+sND
+         gZ9iIkdnsx0bSeRJeG8gfcqWH1tsux5imzOOnZotW7aDFHE/IC7g+Wr9DtEgmgN6tMwd
+         yCCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719417648; x=1720022448;
+        d=1e100.net; s=20230601; t=1719417650; x=1720022450;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t+4e8cF7k4UIhR54Dq5vhlEbflgX0teWBDZHJEHCUVk=;
-        b=byhle80Aiu0hTRyYp5t9X5HY30WN686H/oZ9DWu59pXhlYueIrX2jlQdVh4ZEw07dd
-         OJpN/EaTz9WmlWBs3cFiVj5l121DJsur9viQAlSU9biPpNzIvOMSUUWJypdFZ2Tyxq7E
-         5c4a7JDV2WxptBy8vapNykMweu9ERfogY9aT8UIj3Bt15huwOLO0f5NNzK80L7wLlfdO
-         VuVHBbMqSOOXGSGcsz6XzOLHOxVvf8sXh5+IV6Lb4BsR0wNDb3x43LZaA0Q0RzKM0Y4N
-         zpz28zkr8SztSeOUAEM+ENtTI8Wvyv+zvX+JTFtWOuayymoyOzqZzoDk003NzYhiHsIq
-         6gSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPgKIUnLeOF7HCHnXipxns4MOa6yCciQD6a2kLAJ0nUUIR9eSMzXf3V8ox6bxaXoDLO2TZ2ToBSJk3urFe0YrldgctVbQzOV/IVMaaSTM/YCA8LqffoIf1dm7FS+9svVF8RrCOUNV5KqZoZX76rrLwe/Ml4OdHWJwEJhea/ydpGmGLMxY=
-X-Gm-Message-State: AOJu0YzEOpaOO/jc+yWT8ZxhItfB/wWTX1WBjx7OslYTt189iKvHSGyb
-	GeGDGPFDaSI3btQhbkw3bvWxGtZ8U+FZAfhh8U1VL0/ZS0nN9G/d
-X-Google-Smtp-Source: AGHT+IHB2Lb1q37tlItuhWaaWx/mUKWgDidi9jwKsT+v+el28XVvvVU3GNMvWt25Z1Vc3TmA3xxgPQ==
-X-Received: by 2002:a05:6512:3b22:b0:52d:259f:d6c with SMTP id 2adb3069b0e04-52d259f1106mr3034152e87.26.1719417648320;
-        Wed, 26 Jun 2024 09:00:48 -0700 (PDT)
+        bh=o1OuxhTObrcU5gxabuse02Wd0S4fCa29l4HMpyoKad4=;
+        b=d0obkhH17w6Uf/YCNnbVvwQ/KjdJWEspqYFbp8DCqxN1yblHPbF2zRrB4PWTU6NflM
+         Pe4FhINwkBD2PBeEVG9e190XCKw8hCKOoUHSaQ6zBbgdJrROAV2HttWlbZZnlcEAv2nd
+         rafn3vqZ4wV4eXdBgKUSbRDuFXrhV5VfPwY1IRUFHqXT58teUKQyDrRAy3W+byMmCty4
+         TIbafcUeJJtd76050U2hp4HAmr5SoDRaYD/U8YYp7xPy2pXqZhXH6OfwjPfwPeuNAVev
+         3dJvljrfxeNqnx4BwKiwiWOW6dy7iGQAanebr7mzztmo9xHEER+W+mUqV/aMhfnV1vaZ
+         OTKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdify/k8MgdmWRI8A07E/5HElxygganHVplbJrkJfG6/nd5EVsQDrruvcpKXsBJ2hc/OfVUSEYlbNnMlzpcz7LzeJgczJFg8eY3SP14a3JX+Pbbbgzx+a2OJgmeu2VTtfJeQsT0jycuKI0iuMCJntVQykeIQqEDw1z9ddxiwyHMFttwJA=
+X-Gm-Message-State: AOJu0YzjoeB9hrqkzYejMX9Ph0HAHRZcEhWobSy3/jZe42FzOJ4KGrjy
+	ZKp+Tp5j2mk2wLfDUT0SgJVVPmjNme7+KRndQepcQJX+lhkxOczO
+X-Google-Smtp-Source: AGHT+IE6tk4395pRdXcQaupLCKIPMQAaZJc7FOSlaqybZ6YzV5xfs1PKqdDjefjyC/w9Yw3IQKDIOQ==
+X-Received: by 2002:a05:6512:5cf:b0:52c:cb8d:6381 with SMTP id 2adb3069b0e04-52ce063e3f0mr7132251e87.13.1719417649291;
+        Wed, 26 Jun 2024 09:00:49 -0700 (PDT)
 Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366389b88easm16180589f8f.39.2024.06.26.09.00.47
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-366389b88easm16180589f8f.39.2024.06.26.09.00.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 09:00:47 -0700 (PDT)
+        Wed, 26 Jun 2024 09:00:48 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -78,9 +78,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Christian Marangi <ansuelsmth@gmail.com>
-Subject: [PATCH v8 17/20] leds: leds-lp55xx: Generalize sysfs master_fader
-Date: Wed, 26 Jun 2024 18:00:22 +0200
-Message-ID: <20240626160027.19703-18-ansuelsmth@gmail.com>
+Subject: [PATCH v8 18/20] leds: leds-lp55xx: Support ENGINE program up to 128 bytes
+Date: Wed, 26 Jun 2024 18:00:23 +0200
+Message-ID: <20240626160027.19703-19-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240626160027.19703-1-ansuelsmth@gmail.com>
 References: <20240626160027.19703-1-ansuelsmth@gmail.com>
@@ -92,386 +92,198 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Generalize sysfs master_fader since their implementation is the same across
-some lp55xx based LED driver.
+Some LED chip supports up to 16 pages and with some magic they can be
+divided in 4 page for each ENGINE + 1 for each MUX. Following this we
+can support bigger programs up to 128 bytes.
 
-Suggested-by: Lee Jones <lee@kernel.org>
+Rework the update_program_memory function to support program of multiple
+pages instead of hardcoding it to one page per programs.
+
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/leds/leds-lp5523.c        | 150 +++---------------------------
- drivers/leds/leds-lp55xx-common.c | 113 ++++++++++++++++++++++
- drivers/leds/leds-lp55xx-common.h |  32 +++++++
- 3 files changed, 156 insertions(+), 139 deletions(-)
+ drivers/leds/leds-lp5523.c        |  5 ++-
+ drivers/leds/leds-lp5562.c        |  7 ++--
+ drivers/leds/leds-lp55xx-common.c | 54 ++++++++++++++++++++++++-------
+ drivers/leds/leds-lp55xx-common.h |  2 ++
+ 4 files changed, 49 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 9d91c2c5a3eb..1b3ffdc3dfa3 100644
+index 1b3ffdc3dfa3..54ead09488a5 100644
 --- a/drivers/leds/leds-lp5523.c
 +++ b/drivers/leds/leds-lp5523.c
-@@ -315,137 +315,6 @@ static ssize_t lp5523_selftest(struct device *dev,
- 	return pos;
+@@ -21,7 +21,6 @@
+ 
+ #include "leds-lp55xx-common.h"
+ 
+-#define LP5523_PROGRAM_LENGTH		32	/* bytes */
+ /* Memory is used like this:
+  * 0x00 engine 1 program
+  * 0x10 engine 2 program
+@@ -172,7 +171,7 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
+ 	int ret;
+ 	u8 status;
+ 	/* one pattern per engine setting LED MUX start and stop addresses */
+-	static const u8 pattern[][LP5523_PROGRAM_LENGTH] =  {
++	static const u8 pattern[][LP55xx_BYTES_PER_PAGE] =  {
+ 		{ 0x9c, 0x30, 0x9c, 0xb0, 0x9d, 0x80, 0xd8, 0x00, 0},
+ 		{ 0x9c, 0x40, 0x9c, 0xc0, 0x9d, 0x80, 0xd8, 0x00, 0},
+ 		{ 0x9c, 0x50, 0x9c, 0xd0, 0x9d, 0x80, 0xd8, 0x00, 0},
+@@ -196,7 +195,7 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
+ 		chip->engine_idx = i;
+ 		lp55xx_load_engine(chip);
+ 
+-		for (j = 0; j < LP5523_PROGRAM_LENGTH; j++) {
++		for (j = 0; j < LP55xx_BYTES_PER_PAGE; j++) {
+ 			ret = lp55xx_write(chip, LP5523_REG_PROG_MEM + j,
+ 					pattern[i - 1][j]);
+ 			if (ret)
+diff --git a/drivers/leds/leds-lp5562.c b/drivers/leds/leds-lp5562.c
+index e50b68c9ccf3..109162f1720f 100644
+--- a/drivers/leds/leds-lp5562.c
++++ b/drivers/leds/leds-lp5562.c
+@@ -19,7 +19,6 @@
+ 
+ #include "leds-lp55xx-common.h"
+ 
+-#define LP5562_PROGRAM_LENGTH		32
+ #define LP5562_MAX_LEDS			4
+ 
+ /* ENABLE Register 00h */
+@@ -212,9 +211,9 @@ static void lp5562_write_program_memory(struct lp55xx_chip *chip,
+ /* check the size of program count */
+ static inline bool _is_pc_overflow(struct lp55xx_predef_pattern *ptn)
+ {
+-	return ptn->size_r >= LP5562_PROGRAM_LENGTH ||
+-	       ptn->size_g >= LP5562_PROGRAM_LENGTH ||
+-	       ptn->size_b >= LP5562_PROGRAM_LENGTH;
++	return ptn->size_r >= LP55xx_BYTES_PER_PAGE ||
++	       ptn->size_g >= LP55xx_BYTES_PER_PAGE ||
++	       ptn->size_b >= LP55xx_BYTES_PER_PAGE;
  }
  
--#define show_fader(nr)						\
--static ssize_t show_master_fader##nr(struct device *dev,	\
--			    struct device_attribute *attr,	\
--			    char *buf)				\
--{								\
--	return show_master_fader(dev, attr, buf, nr);		\
--}
--
--#define store_fader(nr)						\
--static ssize_t store_master_fader##nr(struct device *dev,	\
--			     struct device_attribute *attr,	\
--			     const char *buf, size_t len)	\
--{								\
--	return store_master_fader(dev, attr, buf, len, nr);	\
--}
--
--static ssize_t show_master_fader(struct device *dev,
--				 struct device_attribute *attr,
--				 char *buf, int nr)
--{
--	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
--	struct lp55xx_chip *chip = led->chip;
--	int ret;
--	u8 val;
--
--	mutex_lock(&chip->lock);
--	ret = lp55xx_read(chip, LP5523_REG_MASTER_FADER_BASE + nr - 1, &val);
--	mutex_unlock(&chip->lock);
--
--	if (ret == 0)
--		ret = sprintf(buf, "%u\n", val);
--
--	return ret;
--}
--show_fader(1)
--show_fader(2)
--show_fader(3)
--
--static ssize_t store_master_fader(struct device *dev,
--				  struct device_attribute *attr,
--				  const char *buf, size_t len, int nr)
--{
--	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
--	struct lp55xx_chip *chip = led->chip;
--	int ret;
--	unsigned long val;
--
--	if (kstrtoul(buf, 0, &val))
--		return -EINVAL;
--
--	if (val > 0xff)
--		return -EINVAL;
--
--	mutex_lock(&chip->lock);
--	ret = lp55xx_write(chip, LP5523_REG_MASTER_FADER_BASE + nr - 1,
--			   (u8)val);
--	mutex_unlock(&chip->lock);
--
--	if (ret == 0)
--		ret = len;
--
--	return ret;
--}
--store_fader(1)
--store_fader(2)
--store_fader(3)
--
--static ssize_t show_master_fader_leds(struct device *dev,
--				      struct device_attribute *attr,
--				      char *buf)
--{
--	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
--	struct lp55xx_chip *chip = led->chip;
--	int i, ret, pos = 0;
--	u8 val;
--
--	mutex_lock(&chip->lock);
--
--	for (i = 0; i < LP5523_MAX_LEDS; i++) {
--		ret = lp55xx_read(chip, LP5523_REG_LED_CTRL_BASE + i, &val);
--		if (ret)
--			goto leave;
--
--		val = (val & LP5523_FADER_MAPPING_MASK)
--			>> LP5523_FADER_MAPPING_SHIFT;
--		if (val > 3) {
--			ret = -EINVAL;
--			goto leave;
--		}
--		buf[pos++] = val + '0';
--	}
--	buf[pos++] = '\n';
--	ret = pos;
--leave:
--	mutex_unlock(&chip->lock);
--	return ret;
--}
--
--static ssize_t store_master_fader_leds(struct device *dev,
--				       struct device_attribute *attr,
--				       const char *buf, size_t len)
--{
--	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
--	struct lp55xx_chip *chip = led->chip;
--	int i, n, ret;
--	u8 val;
--
--	n = min_t(int, len, LP5523_MAX_LEDS);
--
--	mutex_lock(&chip->lock);
--
--	for (i = 0; i < n; i++) {
--		if (buf[i] >= '0' && buf[i] <= '3') {
--			val = (buf[i] - '0') << LP5523_FADER_MAPPING_SHIFT;
--			ret = lp55xx_update_bits(chip,
--						 LP5523_REG_LED_CTRL_BASE + i,
--						 LP5523_FADER_MAPPING_MASK,
--						 val);
--			if (ret)
--				goto leave;
--		} else {
--			ret = -EINVAL;
--			goto leave;
--		}
--	}
--	ret = len;
--leave:
--	mutex_unlock(&chip->lock);
--	return ret;
--}
--
- LP55XX_DEV_ATTR_ENGINE_MODE(1);
- LP55XX_DEV_ATTR_ENGINE_MODE(2);
- LP55XX_DEV_ATTR_ENGINE_MODE(3);
-@@ -456,14 +325,11 @@ LP55XX_DEV_ATTR_ENGINE_LOAD(1);
- LP55XX_DEV_ATTR_ENGINE_LOAD(2);
- LP55XX_DEV_ATTR_ENGINE_LOAD(3);
- static LP55XX_DEV_ATTR_RO(selftest, lp5523_selftest);
--static LP55XX_DEV_ATTR_RW(master_fader1, show_master_fader1,
--			  store_master_fader1);
--static LP55XX_DEV_ATTR_RW(master_fader2, show_master_fader2,
--			  store_master_fader2);
--static LP55XX_DEV_ATTR_RW(master_fader3, show_master_fader3,
--			  store_master_fader3);
--static LP55XX_DEV_ATTR_RW(master_fader_leds, show_master_fader_leds,
--			  store_master_fader_leds);
-+LP55XX_DEV_ATTR_MASTER_FADER(1);
-+LP55XX_DEV_ATTR_MASTER_FADER(2);
-+LP55XX_DEV_ATTR_MASTER_FADER(3);
-+static LP55XX_DEV_ATTR_RW(master_fader_leds, lp55xx_show_master_fader_leds,
-+			  lp55xx_store_master_fader_leds);
- 
- static struct attribute *lp5523_attributes[] = {
- 	&dev_attr_engine1_mode.attr,
-@@ -516,6 +382,12 @@ static struct lp55xx_device_config lp5523_cfg = {
- 	.reg_led_current_base = {
- 		.addr = LP5523_REG_LED_CURRENT_BASE,
- 	},
-+	.reg_master_fader_base = {
-+		.addr = LP5523_REG_MASTER_FADER_BASE,
-+	},
-+	.reg_led_ctrl_base = {
-+		.addr = LP5523_REG_LED_CTRL_BASE,
-+	},
- 	.pages_per_engine   = LP5523_PAGES_PER_ENGINE,
- 	.max_channel  = LP5523_MAX_LEDS,
- 	.post_init_device   = lp5523_post_init_device,
+ static int lp5562_run_predef_led_pattern(struct lp55xx_chip *chip, int mode)
 diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index f0b673c61396..dd7630aaa438 100644
+index dd7630aaa438..1b71f512206d 100644
 --- a/drivers/leds/leds-lp55xx-common.c
 +++ b/drivers/leds/leds-lp55xx-common.c
-@@ -64,6 +64,9 @@
+@@ -27,7 +27,8 @@
+ /* OP MODE require at least 153 us to clear regs */
+ #define LP55XX_CMD_SLEEP		200
  
- #define LED_ACTIVE(mux, led)		(!!((mux) & (0x0001 << (led))))
+-#define LP55xx_PROGRAM_LENGTH		32
++#define LP55xx_PROGRAM_PAGES		16
++#define LP55xx_MAX_PROGRAM_LENGTH	(LP55xx_BYTES_PER_PAGE * 4) /* 128 bytes (4 pages) */
  
-+/* MASTER FADER common property */
-+#define LP55xx_FADER_MAPPING_MASK	GENMASK(7, 6)
+ /*
+  * Program Memory Operations
+@@ -172,12 +173,16 @@ int lp55xx_update_program_memory(struct lp55xx_chip *chip,
+ {
+ 	enum lp55xx_engine_index idx = chip->engine_idx;
+ 	const struct lp55xx_device_config *cfg = chip->cfg;
+-	u8 pattern[LP55xx_PROGRAM_LENGTH] = { };
++	u8 pattern[LP55xx_MAX_PROGRAM_LENGTH] = { };
+ 	u8 start_addr = cfg->prog_mem_base.addr;
+-	int i = 0, offset = 0;
+-	int ret;
++	int page, i = 0, offset = 0;
++	int program_length, ret;
 +
- /* External clock rate */
- #define LP55XX_CLK_32K			32768
++	program_length = LP55xx_BYTES_PER_PAGE;
++	if (cfg->pages_per_engine)
++		program_length *= cfg->pages_per_engine;
  
-@@ -800,6 +803,116 @@ ssize_t lp55xx_store_engine_leds(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(lp55xx_store_engine_leds);
+-	while ((offset < size - 1) && (i < LP55xx_PROGRAM_LENGTH)) {
++	while ((offset < size - 1) && (i < program_length)) {
+ 		unsigned int cmd;
+ 		int nrchars;
+ 		char c[3];
+@@ -206,12 +211,20 @@ int lp55xx_update_program_memory(struct lp55xx_chip *chip,
+ 	 * For LED chip that support page, PAGE is already set in load_engine.
+ 	 */
+ 	if (!cfg->pages_per_engine)
+-		start_addr += LP55xx_PROGRAM_LENGTH * idx;
++		start_addr += LP55xx_BYTES_PER_PAGE * idx;
  
-+ssize_t lp55xx_show_master_fader(struct device *dev,
-+				 struct device_attribute *attr,
-+				 char *buf, int nr)
-+{
-+	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
-+	struct lp55xx_chip *chip = led->chip;
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	int ret;
-+	u8 val;
+-	for (i = 0; i < LP55xx_PROGRAM_LENGTH; i++) {
+-		ret = lp55xx_write(chip, start_addr + i, pattern[i]);
+-		if (ret)
+-			return -EINVAL;
++	for (page = 0; page < program_length / LP55xx_BYTES_PER_PAGE; page++) {
++		/* Write to the next page each 32 bytes (if supported) */
++		if (cfg->pages_per_engine)
++			lp55xx_write(chip, LP55xx_REG_PROG_PAGE_SEL,
++				     LP55xx_PAGE_OFFSET(idx, cfg->pages_per_engine) + page);
 +
-+	mutex_lock(&chip->lock);
-+	ret = lp55xx_read(chip, cfg->reg_master_fader_base.addr + nr - 1, &val);
-+	mutex_unlock(&chip->lock);
-+
-+	return ret ? ret : sysfs_emit(buf, "%u\n", val);
-+}
-+EXPORT_SYMBOL_GPL(lp55xx_show_master_fader);
-+
-+ssize_t lp55xx_store_master_fader(struct device *dev,
-+				  struct device_attribute *attr,
-+				  const char *buf, size_t len, int nr)
-+{
-+	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
-+	struct lp55xx_chip *chip = led->chip;
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	int ret;
-+	unsigned long val;
-+
-+	if (kstrtoul(buf, 0, &val))
-+		return -EINVAL;
-+
-+	if (val > 0xff)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->lock);
-+	ret = lp55xx_write(chip, cfg->reg_master_fader_base.addr + nr - 1,
-+			   (u8)val);
-+	mutex_unlock(&chip->lock);
-+
-+	return ret ? ret : len;
-+}
-+EXPORT_SYMBOL_GPL(lp55xx_store_master_fader);
-+
-+ssize_t lp55xx_show_master_fader_leds(struct device *dev,
-+				      struct device_attribute *attr,
-+				      char *buf)
-+{
-+	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
-+	struct lp55xx_chip *chip = led->chip;
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	int i, ret, pos = 0;
-+	u8 val;
-+
-+	mutex_lock(&chip->lock);
-+
-+	for (i = 0; i < cfg->max_channel; i++) {
-+		ret = lp55xx_read(chip, cfg->reg_led_ctrl_base.addr + i, &val);
-+		if (ret)
-+			goto leave;
-+
-+		val = FIELD_GET(LP55xx_FADER_MAPPING_MASK, val);
-+		if (val > FIELD_MAX(LP55xx_FADER_MAPPING_MASK)) {
-+			ret = -EINVAL;
-+			goto leave;
-+		}
-+		buf[pos++] = val + '0';
-+	}
-+	buf[pos++] = '\n';
-+	ret = pos;
-+leave:
-+	mutex_unlock(&chip->lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(lp55xx_show_master_fader_leds);
-+
-+ssize_t lp55xx_store_master_fader_leds(struct device *dev,
-+				       struct device_attribute *attr,
-+				       const char *buf, size_t len)
-+{
-+	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
-+	struct lp55xx_chip *chip = led->chip;
-+	const struct lp55xx_device_config *cfg = chip->cfg;
-+	int i, n, ret;
-+	u8 val;
-+
-+	n = min_t(int, len, cfg->max_channel);
-+
-+	mutex_lock(&chip->lock);
-+
-+	for (i = 0; i < n; i++) {
-+		if (buf[i] >= '0' && buf[i] <= '3') {
-+			val = (buf[i] - '0') << __bf_shf(LP55xx_FADER_MAPPING_MASK);
-+			ret = lp55xx_update_bits(chip,
-+						 cfg->reg_led_ctrl_base.addr + i,
-+						 LP55xx_FADER_MAPPING_MASK,
-+						 val);
++		for (i = 0; i < LP55xx_BYTES_PER_PAGE; i++) {
++			ret = lp55xx_write(chip, start_addr + i,
++					   pattern[i + (page * LP55xx_BYTES_PER_PAGE)]);
 +			if (ret)
-+				goto leave;
-+		} else {
-+			ret = -EINVAL;
-+			goto leave;
++				return -EINVAL;
 +		}
-+	}
-+	ret = len;
-+leave:
-+	mutex_unlock(&chip->lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(lp55xx_store_master_fader_leds);
+ 	}
+ 
+ 	return size;
+@@ -224,13 +237,19 @@ EXPORT_SYMBOL_GPL(lp55xx_update_program_memory);
+ 
+ void lp55xx_firmware_loaded_cb(struct lp55xx_chip *chip)
+ {
++	const struct lp55xx_device_config *cfg = chip->cfg;
+ 	const struct firmware *fw = chip->fw;
++	int program_length;
 +
- static struct attribute *lp55xx_engine_attributes[] = {
- 	&dev_attr_select_engine.attr,
- 	&dev_attr_run_engine.attr,
++	program_length = LP55xx_BYTES_PER_PAGE;
++	if (cfg->pages_per_engine)
++		program_length *= cfg->pages_per_engine;
+ 
+ 	/*
+ 	 * the firmware is encoded in ascii hex character, with 2 chars
+ 	 * per byte
+ 	 */
+-	if (fw->size > LP55xx_PROGRAM_LENGTH * 2) {
++	if (fw->size > program_length * 2) {
+ 		dev_err(&chip->cl->dev, "firmware data size overflow: %zu\n",
+ 			fw->size);
+ 		return;
+@@ -1276,7 +1295,7 @@ static struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+ int lp55xx_probe(struct i2c_client *client)
+ {
+ 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+-	int ret;
++	int program_length, ret;
+ 	struct lp55xx_chip *chip;
+ 	struct lp55xx_led *led;
+ 	struct lp55xx_platform_data *pdata = dev_get_platdata(&client->dev);
+@@ -1300,6 +1319,17 @@ int lp55xx_probe(struct i2c_client *client)
+ 		}
+ 	}
+ 
++	/* Validate max program page */
++	program_length = LP55xx_BYTES_PER_PAGE;
++	if (chip->cfg->pages_per_engine)
++		program_length *= chip->cfg->pages_per_engine;
++
++	/* support a max of 128bytes */
++	if (program_length > LP55xx_MAX_PROGRAM_LENGTH) {
++		dev_err(&client->dev, "invalid pages_per_engine configured\n");
++		return -EINVAL;
++	}
++
+ 	led = devm_kcalloc(&client->dev,
+ 			   pdata->num_channels, sizeof(*led), GFP_KERNEL);
+ 	if (!led)
 diff --git a/drivers/leds/leds-lp55xx-common.h b/drivers/leds/leds-lp55xx-common.h
-index 5f2394a6de15..6dcffa0db647 100644
+index 6dcffa0db647..1bb7c559662c 100644
 --- a/drivers/leds/leds-lp55xx-common.h
 +++ b/drivers/leds/leds-lp55xx-common.h
-@@ -76,6 +76,22 @@ static ssize_t store_engine##nr##_load(struct device *dev,		\
- }									\
- static LP55XX_DEV_ATTR_WO(engine##nr##_load, store_engine##nr##_load)
+@@ -14,6 +14,8 @@
  
-+#define LP55XX_DEV_ATTR_MASTER_FADER(nr)				\
-+static ssize_t show_master_fader##nr(struct device *dev,		\
-+				     struct device_attribute *attr,	\
-+				     char *buf)				\
-+{									\
-+	return lp55xx_show_master_fader(dev, attr, buf, nr);		\
-+}									\
-+static ssize_t store_master_fader##nr(struct device *dev,		\
-+				      struct device_attribute *attr,	\
-+				      const char *buf, size_t len)	\
-+{									\
-+	return lp55xx_store_master_fader(dev, attr, buf, len, nr);	\
-+}									\
-+static LP55XX_DEV_ATTR_RW(master_fader##nr, show_master_fader##nr,	\
-+			  store_master_fader##nr)
+ #include <linux/led-class-multicolor.h>
+ 
++#define LP55xx_BYTES_PER_PAGE		32      /* bytes */
 +
- struct lp55xx_led;
- struct lp55xx_chip;
- 
-@@ -103,6 +119,8 @@ struct lp55xx_reg {
-  * @prog_mem_base      : Chip specific base reg address for chip SMEM programming
-  * @reg_led_pwm_base   : Chip specific base reg address for LED PWM conf
-  * @reg_led_current_base : Chip specific base reg address for LED current conf
-+ * @reg_master_fader_base : Chip specific base reg address for master fader base
-+ * @reg_led_ctrl_base  : Chip specific base reg address for LED ctrl base
-  * @pages_per_engine   : Assigned pages for each engine
-  *                       (if not set chip doesn't support pages)
-  * @max_channel        : Maximum number of channels
-@@ -123,6 +141,8 @@ struct lp55xx_device_config {
- 	const struct lp55xx_reg prog_mem_base;
- 	const struct lp55xx_reg reg_led_pwm_base;
- 	const struct lp55xx_reg reg_led_current_base;
-+	const struct lp55xx_reg reg_master_fader_base;
-+	const struct lp55xx_reg reg_led_ctrl_base;
- 	const int pages_per_engine;
- 	const int max_channel;
- 
-@@ -244,5 +264,17 @@ extern ssize_t lp55xx_show_engine_leds(struct device *dev,
- extern ssize_t lp55xx_store_engine_leds(struct device *dev,
- 					struct device_attribute *attr,
- 					const char *buf, size_t len, int nr);
-+extern ssize_t lp55xx_show_master_fader(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf, int nr);
-+extern ssize_t lp55xx_store_master_fader(struct device *dev,
-+					 struct device_attribute *attr,
-+					 const char *buf, size_t len, int nr);
-+extern ssize_t lp55xx_show_master_fader_leds(struct device *dev,
-+					     struct device_attribute *attr,
-+					     char *buf);
-+extern ssize_t lp55xx_store_master_fader_leds(struct device *dev,
-+					      struct device_attribute *attr,
-+					      const char *buf, size_t len);
- 
- #endif /* _LEDS_LP55XX_COMMON_H */
+ enum lp55xx_engine_index {
+ 	LP55XX_ENGINE_INVALID,
+ 	LP55XX_ENGINE_1,
 -- 
 2.45.1
 
