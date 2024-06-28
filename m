@@ -1,99 +1,236 @@
-Return-Path: <linux-leds+bounces-2170-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2171-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5531991C89B
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jun 2024 23:54:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B9F91C959
+	for <lists+linux-leds@lfdr.de>; Sat, 29 Jun 2024 00:56:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A721284943
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jun 2024 21:54:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3F252859EE
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Jun 2024 22:56:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7671E80611;
-	Fri, 28 Jun 2024 21:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76174824A1;
+	Fri, 28 Jun 2024 22:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FtN5dCO2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nipEa4aN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3550978C9D;
-	Fri, 28 Jun 2024 21:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69478002A;
+	Fri, 28 Jun 2024 22:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719611634; cv=none; b=YC9NaDRiRr9TOELir8EnlAFckQWIczAcDkNQFd6ebOhWrDaX2vJMVRrkVGpm3dH/GFL2qDtqS3N5nYqANbiDCp1cM3TnA7mSzA1mkXXAJkTtnZvpN1S3K0e3segMg48hqqf3I8wmt6l6KkiEo+I9Cxfue3HrjFK1Eh1pQHM56+4=
+	t=1719615378; cv=none; b=RBwei/aVOedlYQpe0TI8eNTUFBr7Q+OEmEpTURMCmvGgGYOGDQALuxe77k11cVa3OrVLyZ6dkZpWGeuy7ZBviYUMGORJyKymNEPO3S3utE1ur4UBwJJSZIasvKwJ6634iIMVdDTMhLFjL3xAN8A7cs6brZSKoIa2Ua4AhHR45ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719611634; c=relaxed/simple;
-	bh=WcshtjSqHHVhmIBO76+DfRQx30aQY4R3HPwLd14k22E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGXKDr6gmYeWl3Imf9WdoiMF19g+qDl6Do0UlzUaoUPRmrcNE/nqam3KdD+x++gExXkpRQl9LC5QjISAR4pxRWT3asE5z8rpnGctu+mOt2BdmF8IubNo2o9QT8p3ozhbCK9vYaeWFNQD/5/cpCko4uzA+T7fK74Q50rPvhz2EXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FtN5dCO2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F2BC116B1;
-	Fri, 28 Jun 2024 21:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719611633;
-	bh=WcshtjSqHHVhmIBO76+DfRQx30aQY4R3HPwLd14k22E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FtN5dCO2I35JCVc1GH9W+SlqlKfkmWFQygB8uqBD3iyYwQt/O/Neb9C6D37IBdANa
-	 4SSmVf2GraKNQfMlSJdWAhry+2YIdJLKDQpzIB+UzWoPlduqjSY660NKkcSSTYVcz3
-	 LaeuNi3gRNuQiEWwP8yWC1UPqO0PugY+DM/vai+WiFovnvsta1ApISRoBQL7O0U/xn
-	 YDoxNfQYaVc+bTUzUyjuUmAyL3gzP/8PZPsEvu/JVYH6sHh1yLnfKpz0NG7/FE8MQ5
-	 j5b4JgHIods4YJNlUqc+d/PJdd2tc7Mm84/FpgBurw2MWifZ/uvVzWM08U5/dQZ7fM
-	 pQEb5I1EuTYBQ==
-Date: Fri, 28 Jun 2024 15:53:50 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rahul Tanwar <rtanwar@maxlinear.com>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: intel,lgm: drop inactive maintainers from
- intel
-Message-ID: <20240628215350.GA267712-robh@kernel.org>
-References: <20240626101809.25227-1-krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1719615378; c=relaxed/simple;
+	bh=jqYFSUT/a2n7uSZLnvdv9HsDOXaAO27gYxryHNzeCEI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Fj26knmwE/kz3l4rEnLmFl5sEprsT2lKNmxFgHxjuZJMsF7qz/mfe2LTqkY455FT3PkU+EC1Sll9Q8RdV/cwdunp7lJ2vNQ7m/s2Vc0nPNySrTPGYIu7xaY2Ojwgvkw/BIZFWK7abbGgIeni9u5K7VNIuhzvm5rsJdXlIoQ97Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nipEa4aN; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7180308e90bso795686a12.1;
+        Fri, 28 Jun 2024 15:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719615376; x=1720220176; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xUcQS852IggxOCmKXqE3YJJNYXGvn0FPbNBN8y1e0Sc=;
+        b=nipEa4aN5/DRpNre/mZ2R3kmiAOak4l0cFdUZCyJPXH/8FWqZUlREizPRDky/YM4GT
+         moL+8cnhvVEEN/MoWb0UceOvZ7S2erjY35Gr8L5tStFaA6FdBTIXNv5pwSGjkLLV8mKb
+         sWYsed9upcfWBGGYHe/O+P527djykRFA6rVpVyq/LlLt1ltw+uPPuoV6AcXcglhVhceX
+         MGT7Cci2zGsOIcKJ21pbAB5CW48PE6KDoLyKje6L9JfQI7QZK8uxfa03r77KAm/efmZy
+         S64Lq+O0Qm/8+medi6OE4AAsOGbXgofJPQOWYXmCcCkP0QiuziIKpIgX18YWPY2RGjhk
+         UY1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719615376; x=1720220176;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xUcQS852IggxOCmKXqE3YJJNYXGvn0FPbNBN8y1e0Sc=;
+        b=vKLMkS81V2GQRBuvxlzWXSRzuNcHMfdvKG08tFUPvHuIFpDHpEzTSMSU2Ng4BmD4ES
+         C0B8rKKU0LNDPyhGq5oX3/C7Wlj0IY50mg59bg2uaI2jo5uZs0379wHfdcVsH9XrF+AO
+         NAhADk/9X5hte8nzavw0a/okpcCMPF5Wlor+qIOphAszB53ZPy1oJxSMqnvCnOzzGUR4
+         0HjE2CI+WjO8EyLwFO64zJrp6y/Y2Ewbbg7Z7iNm9MwYQiyHeDBLXMUfNNVVB0IjhquL
+         n3Kt8BvQeZrg1TO8pkiPyPuDVGxHj8Y0MWD0dHHQD/cN2fBu6X3ep7NYaGZ96xX0oPIr
+         4VNA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDZ7Z1LQoxXG1txwEhBAxJgHQsYmZbmEHzKcKSvzmYBEGVq0AR97rrL1A4MpUtbc5AVp7WpnO1eXKwqXY2NtypSSxncSSBIAOgCy4SsvYlemCCBpdiuonJ/R6oXoamg/PqeZUUv1YJgg==
+X-Gm-Message-State: AOJu0Yx5YaqqV8Wdrb2VO/X/2gcMIKgXGRkiQhYAsgQKw/iZn+thxmT8
+	cJIiMu7OEtbpJ+d0ksgrYhQTT+9S3fxrCoN70qhJR8St7/iFe1cf
+X-Google-Smtp-Source: AGHT+IEZnjxDA5OCNYz7pbDMXf6iKykKThrzOkcD/z8qiGIfTDi72Ed5E+eRlHQkwB0H36m+T2fExA==
+X-Received: by 2002:a05:6a20:c123:b0:1bd:2994:b5bc with SMTP id adf61e73a8af0-1bd2994b984mr9724732637.58.1719615376114;
+        Fri, 28 Jun 2024 15:56:16 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.39.94])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c91ce17a5fsm2176711a91.3.2024.06.28.15.56.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 15:56:15 -0700 (PDT)
+From: Lucca fachinetti <luccafachinetti@gmail.com>
+To: pavel@ucw.cz,
+	dmurphy@ti.com,
+	robh+dt@kernel.org,
+	lee@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	g.luiztrevisan@gmail.com,
+	Lucca Fachinetti <luccafachinetti@gmail.com>
+Subject: [PATCH 1/1] dt-bindings: leds: max77650: convert the binding document to yaml
+Date: Fri, 28 Jun 2024 19:55:51 -0300
+Message-Id: <20240628225551.107833-1-luccafachinetti@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240626101809.25227-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 26, 2024 at 12:18:09PM +0200, Krzysztof Kozlowski wrote:
-> Emails to chuanhua.lei@intel.com, mallikarjunax.reddy@intel.com,
-> yixin.zhu@intel.com and vadivel.muruganx.ramuthevar@linux.intel.com
-> bounce with the same message:
-> 
->   Your message wasn't delivered to Yixin.zhu@intel.com because the
->   address couldn't be found or is unable to receive email.
-> 
-> The Intel LGM SoC was apparently part of Home Gateway division which was
-> acquired by Maxlinear, so switch maintenance of affected bindings to the
-> only known non-bouncing Maxlinear address: Rahul Tanwar.
-> 
-> I do not know if Rahul Tanwar or Maxlinear want to maintain the
-> bindings, so regardless of this change we should consider bindings
-> abandoned and probably drop soon.
+From: Lucca Fachinetti <luccafachinetti@gmail.com>
 
-No bounces on this? According to this[1], Rahul is not with Maxlinear 
-any more. Maybe an address in that thread will work. But seems like it 
-is abandoned.
+Convert the binding document for max77650 LED module to yaml.
 
-Rob
+Signed-off-by: Lucca Fachinetti <luccafachinetti@gmail.com>
+---
+ .../bindings/leds/leds-is31fl32xx.txt         | 52 --------------
+ .../bindings/leds/leds-is31fl32xx.yaml        | 67 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 52 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl32xx.yaml
 
-[1] https://lore.kernel.org/all/20230519044555.3750-2-yzhu@maxlinear.com/
+diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+deleted file mode 100644
+index 926c2117942c..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
++++ /dev/null
+@@ -1,52 +0,0 @@
+-Binding for ISSI IS31FL32xx and Si-En SN32xx LED Drivers
+-
+-The IS31FL32xx/SN32xx family of LED drivers are I2C devices with multiple
+-constant-current channels, each with independent 256-level PWM control.
+-Each LED is represented as a sub-node of the device.
+-
+-Required properties:
+-- compatible: one of
+-	issi,is31fl3236
+-	issi,is31fl3235
+-	issi,is31fl3218
+-	issi,is31fl3216
+-	si-en,sn3218
+-	si-en,sn3216
+-- reg: I2C slave address
+-- address-cells : must be 1
+-- size-cells : must be 0
+-
+-LED sub-node properties:
+-- reg : LED channel number (1..N)
+-- label :  (optional)
+-  see Documentation/devicetree/bindings/leds/common.txt
+-- linux,default-trigger :  (optional)
+-  see Documentation/devicetree/bindings/leds/common.txt
+-
+-
+-Example:
+-
+-is31fl3236: led-controller@3c {
+-	compatible = "issi,is31fl3236";
+-	reg = <0x3c>;
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-
+-	led@1 {
+-		reg = <1>;
+-		label = "EB:blue:usr0";
+-	};
+-	led@2 {
+-		reg = <2>;
+-		label = "EB:blue:usr1";
+-	};
+-	...
+-	led@36 {
+-		reg = <36>;
+-		label = "EB:blue:usr35";
+-	};
+-};
+-
+-For more product information please see the links below:
+-http://www.issi.com/US/product-analog-fxled-driver.shtml
+-http://www.si-en.com/product.asp?parentid=890
+diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.yaml b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.yaml
+new file mode 100644
+index 000000000000..0f4c7c3440c6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.yaml
+@@ -0,0 +1,67 @@
++ # SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-is31fl32xx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LED driver for is31fl32xx and Si-En SN32xx.
++
++maintainers:
++  - Pavel Machek <pavel@ucw.cz>
++  - Lee Jones <lee@kernel.org>
++
++description: |
++  Binding for ISSI is31fl32xx and Si-En SN32xx LED Drivers
++
++  The is31fl32xx/SN32xx family of LED drivers are I2C devices with multiple
++  constant-current channels, each with independent 256-level PWM control.
++  Each LED is represented as a sub-node of the device.
++
++properties:
++  compatible:
++    enum:
++      - issi,is31fl3236
++      - issi,is31fl3235
++      - issi,is31fl3218
++      - issi,is31fl3216
++      - si-en,sn3218
++      - si-en,sn3216
++
++  reg:
++    maxItems: 1
++    description:
++      I2C slave address
++
++  '#address-cells':
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^led@[1-9][0-9]*$":
++    type: object
++    description: |
++      Properties for a single subnode LED.
++    additionalProperties: false
++
++    properties:
++      reg:
++        minItems: 1
++        description:
++          LED channel number (1..N)
++
++      label: true
++
++      linux,default-trigger: true
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++  - "#size-cells"
++  - "#address-cells"
++
++additionalProperties: false
+-- 
+2.34.1
+
 
