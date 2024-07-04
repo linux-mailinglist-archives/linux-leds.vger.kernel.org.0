@@ -1,154 +1,129 @@
-Return-Path: <linux-leds+bounces-2184-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2185-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BCE926D40
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 03:56:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9599279DB
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 17:19:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2B131C215D8
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 01:56:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 703681F24C51
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 15:19:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 553A0134B2;
-	Thu,  4 Jul 2024 01:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0821F1B11E1;
+	Thu,  4 Jul 2024 15:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPTvgmjt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xQMDHXhm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF01FDDC3;
-	Thu,  4 Jul 2024 01:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646B01B0122
+	for <linux-leds@vger.kernel.org>; Thu,  4 Jul 2024 15:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720058158; cv=none; b=JBAyZI+r++crjH5PHCjOOogTPxCF9caq7sSbc9bqMki8hyVf3iBPiX5FaEtb/1WEASBPGr3lnfI3+Crb2c6dJXXZuyhS09hvsNq5sK2XWdlrcQhzARXnLxyIXK2zoZlId0H2XHM8GUj/tK67bHwcVEziIt4+kJbP9l1w3HIbYBA=
+	t=1720106377; cv=none; b=XDytyaePHlXNdIpo9+ZVttB7x9vTYNjLSAhgTipAVKodrUfDMWIJbU8k/1Zkb9lA9sgx5DABmIKFAEd1D/hSq+WHYoq220xwvTGIu/Q0B7wU7b1oBXvQ8bOPOkVaC6LjlrkLF6KAaNS4sN5PKeWAogU2repWqPehKa+pCL4Af/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720058158; c=relaxed/simple;
-	bh=PVIcFfRyp6Fo5QfIoi6j67kPrYrGKJv9M1gOZ26CZq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s8oCdLWJEYdcbxQ4LRbDkxNGHnW7xErhufXgud+3yMWLKWtTFkhBYlrIS4E7MekHkJlYXnBZaLkSjMyrF5BIkWQY98JN65HGg1BlF69wLIDO/VHPlFVH2iWWMRTLQucXNlEGfMj+pNSyEgK4zLQsXWvY3qaxDOJAnBlyh4C1fEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPTvgmjt; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-361785bfa71so87107f8f.2;
-        Wed, 03 Jul 2024 18:55:56 -0700 (PDT)
+	s=arc-20240116; t=1720106377; c=relaxed/simple;
+	bh=NLb6Q+ANHQ06rpfkujhFNjqrqimEb0WH08jhVQZ/wu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IKONBU2rTUsyL4H7PVSLYCcbixWjV95XLMi+w0F+IAHIH7lLOKOHbpP40GegOl7gn5/aNOgVbIr0jOWO2A4dsbTYn8beh4ZbyKl2AYk6lNzfwFzZnSYs9PWHcds1r3goAPi6AtlSt04jG7RV/YxCQn94mGAr80o3nu+o+/34ARE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xQMDHXhm; arc=none smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-70211abf4cbso487477a34.3
+        for <linux-leds@vger.kernel.org>; Thu, 04 Jul 2024 08:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720058155; x=1720662955; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WzSl+/8bcfevQM/tI1jY7SZHL5qkQp688IL5xX3oJ64=;
-        b=XPTvgmjtr6R4NhvP2dRKFiEdA6cqEVtIR5fxNP8PagpJV18tmoNQSl+rjyQbizVPod
-         ZgUK9LAXuyemfk3IBnm+WRL/fb/zmez+JComGkmFU8pOhcQq3Y58D0LoRgimKq2HwgnX
-         GxEkbt8Qk4+Ur40leFYnH4WYSoXO8ehJLQ4exPta59r50P2EcAyp7Raz2kCFaLAaQjhY
-         18/l5nePyuDLxp5Ro7XLuA8AzjmWyyOYzSA52NOfVYiy0APRj4fMrThi3AXnDLjsL3Xm
-         WPuNvTsC3FElXu/VWaODUZK8AG/ESar1/uj7HEz5lhHgoV8wHCMRy65ajINHqip+Kkd4
-         oL0A==
+        d=linaro.org; s=google; t=1720106375; x=1720711175; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SBnMvG37dKuOC06S9766u4IZ2Y8qnimBTz3yQ0fqYFs=;
+        b=xQMDHXhm0ZN/5JPM6OySB8Vz5K6qNztm+FpCV9WPEkfP5xlUqig4JNkIAuxFMMziIu
+         igdjOGhw297xPnix49EX00tgvf9rpZyNC8Ioap+9kAuemFA0HPYqZXaCfiM13MI2iaaz
+         uzUSIwsJltogYSPWxoa4z5VSgm2PyYFEmhZQE5yNNaZOT9dgZiGi20ow89dMl0YH8PLy
+         zSdwRPAW1ZRPjAbz9LI1/5AYO6/dhei0nBFT4Bmfd1N/ZwADncLlQdEbcADt9SVjUOvA
+         SmwOjjFCfQTgAlTLnkTMhwSOXLE6S/kJGiX7WVDVOzB72IHNs/g+30aG0j2NyYy5J3ik
+         /lnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720058155; x=1720662955;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WzSl+/8bcfevQM/tI1jY7SZHL5qkQp688IL5xX3oJ64=;
-        b=U8tiDyJx5V5mQutDwwB5kLbkWrkXVYl+vW5PWzUIXgxqTbD+MKzAIx+rFIpUzTiw8H
-         tM2UtdTyUKLE/UTOAU55ETOzt7+nXpv/EB7WUF48DVNUyG5pCv1nZXA85E/aAVvDm+2E
-         bNvojEwNQOfWZTjzqo+OGgos5bGHy7bCNa6u0nYdL0D7lNhIwJ/FTGJN95y7crHk9AMe
-         ULHczeb5tAfttZ8PWKPmVQypXk9/wLQVws/0fQmqLDQzhieDzDpusrUVJkL3D/BrsMbs
-         kx5qvwoT22ugQ1mHgyfVqlZlPMi0GRpMpkCGrVMkJUH/PEokwELpr0E9lKmx4Kw7rX0w
-         t92A==
-X-Forwarded-Encrypted: i=1; AJvYcCUIqUX82jLftB1DbaLY+kW3JQpzYqduBv78YcvpCJKDlEVJNvSl53XmH+X2v+fEH+dcelcvoAycCBprV85X82iQ3JeuF+ywx8PMQw0ApbhUYQe5eA8nnrLLS2bRALdUByvRgVH/nV1fIg==
-X-Gm-Message-State: AOJu0YxHgSQzN8bHD6HcGcV2/z+cqnslUfdj6duW3XRsrqiQiwsxhFnu
-	yiN3WJTbZQvG8MjWmYLRq7XQ9PlVZ9w6gOwLi+qSbRfKNMVC1sKg
-X-Google-Smtp-Source: AGHT+IExz4O0d2+Hb3+0Nto2FFEgQVCxJcUBa9Pg27WAiQVYDApybURSUX4ZI/at5dqFFbdl2I6gRA==
-X-Received: by 2002:a05:6000:231:b0:367:8f98:c503 with SMTP id ffacd0b85a97d-3679dd1028fmr178452f8f.1.1720058154822;
-        Wed, 03 Jul 2024 18:55:54 -0700 (PDT)
-Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3679744be1fsm1976329f8f.2.2024.07.03.18.55.54
+        d=1e100.net; s=20230601; t=1720106375; x=1720711175;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SBnMvG37dKuOC06S9766u4IZ2Y8qnimBTz3yQ0fqYFs=;
+        b=EquAsy9p/i3j4eQnY7cOLcIZaYB1IxvjfojkmwMfbDRV9iIab9Axjxv+s6ZNuXibxN
+         oB3juXKo6sxANcHiKC1I4uTJqdroMSXwmypDI8RMcIL8EBwZKTPUQXe0yWjwKBQuXGxH
+         mjzB4R1IhZNxLa5Amexu5FZbMuDyUcVmFczlbpc0A6INmYbSINFdh039HcA2nipTH4XG
+         zkcGsBLamLzpLfo0d1zLFFu6KOW7dBtaZsygoL/eHs9uYz00SD+IPPb2RBKhwUHLBcPW
+         OAalDJtoug/WzOga7myWmx8oOCYIGXKSdS+xIOKCi6Nn/FJS81wI65LdJiAuzz0sdMDK
+         4RNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVG+24Ib6txP8g77ikxWfhE3PSR4+wDkQIiSvSXgwvm8YuhqYE4mPrtR5ErgJgJaWReNqdIQNOy5f+S4SRyI9nVKNawC7cliNDpKQ==
+X-Gm-Message-State: AOJu0YzfyPImr1X7C9fcZJZ9GFP955rgn7SYaVShXGcUCNdqQE8tzi8m
+	OwWjVTLw8DjD8NNl1kNcOm2k4TMaOrGqJD6nU1vl5zh/zujJ59VqTwxBniNNNj8=
+X-Google-Smtp-Source: AGHT+IGELc1XlTyU7hBE3KqfD3MGbDcxlgY/gdOmWK9vwGIPWbgvvPgc53z9nomGTso73+WzVnHE1Q==
+X-Received: by 2002:a9d:684b:0:b0:700:cf81:3d75 with SMTP id 46e09a7af769-7034a737ef9mr2275095a34.4.1720106375459;
+        Thu, 04 Jul 2024 08:19:35 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:96a0:e6e9:112e:f4c])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7ad93c4sm2426120a34.46.2024.07.04.08.19.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 18:55:54 -0700 (PDT)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Christian Marangi <ansuelsmth@gmail.com>
-Subject: [PATCH 3/3] leds: leds-lp5569: Enable chip after chip configuration
-Date: Thu,  4 Jul 2024 03:55:42 +0200
-Message-ID: <20240704015543.14495-3-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240704015543.14495-1-ansuelsmth@gmail.com>
-References: <20240704015543.14495-1-ansuelsmth@gmail.com>
+        Thu, 04 Jul 2024 08:19:34 -0700 (PDT)
+Date: Thu, 4 Jul 2024 10:19:32 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Pavel Machek <pavel@ucw.cz>, Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] leds: flash: leds-qcom-flash: Test the correct variable in
+ init
+Message-ID: <ZoWJS_epjIMCYITg@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-Documentation say that clock internal config needs to be set BEFORE chip
-is enabled. Align code to this and move the CHIP enable after the CHIP
-is configured.
+This code was passing the incorrect pointer to PTR_ERR_OR_ZERO() so it
+always returned success.  It should have been checking the array element
+instead of the array itself.
 
-While at it also make use of STATUS reg and check when STARTUP is
-completed instead of sleep for 1-2 ms.
-
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/leds/leds-lp5569.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ drivers/leds/flash/leds-qcom-flash.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/leds/leds-lp5569.c b/drivers/leds/leds-lp5569.c
-index 2b4f358bc63a..cd1a189c542f 100644
---- a/drivers/leds/leds-lp5569.c
-+++ b/drivers/leds/leds-lp5569.c
-@@ -7,6 +7,7 @@
- #include <linux/delay.h>
- #include <linux/firmware.h>
- #include <linux/i2c.h>
-+#include <linux/iopoll.h>
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-@@ -91,6 +92,8 @@
- #define LP5569_ENG2_MUX_ADDR		0xd0
- #define LP5569_ENG3_MUX_ADDR		0xe0
+diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+index 7c99a3039171..bf70bf6fb0d5 100644
+--- a/drivers/leds/flash/leds-qcom-flash.c
++++ b/drivers/leds/flash/leds-qcom-flash.c
+@@ -505,6 +505,7 @@ qcom_flash_v4l2_init(struct device *dev, struct qcom_flash_led *led, struct fwno
+ 	struct qcom_flash_data *flash_data = led->flash_data;
+ 	struct v4l2_flash_config v4l2_cfg = { 0 };
+ 	struct led_flash_setting *intensity = &v4l2_cfg.intensity;
++	struct v4l2_flash *v4l2_flash;
  
-+#define LP5569_STARTUP_SLEEP		500
+ 	if (!(led->flash.led_cdev.flags & LED_DEV_CAP_FLASH))
+ 		return 0;
+@@ -523,9 +524,12 @@ qcom_flash_v4l2_init(struct device *dev, struct qcom_flash_led *led, struct fwno
+ 				LED_FAULT_OVER_TEMPERATURE |
+ 				LED_FAULT_TIMEOUT;
+ 
+-	flash_data->v4l2_flash[flash_data->leds_count] =
+-		v4l2_flash_init(dev, fwnode, &led->flash, &qcom_v4l2_flash_ops, &v4l2_cfg);
+-	return PTR_ERR_OR_ZERO(flash_data->v4l2_flash);
++	v4l2_flash = v4l2_flash_init(dev, fwnode, &led->flash, &qcom_v4l2_flash_ops, &v4l2_cfg);
++	if (IS_ERR(v4l2_flash))
++		return PTR_ERR(v4l2_flash);
 +
- #define LEDn_STATUS_FAULT(n, status)	((status) >> (n) & BIT(0))
- 
- #define LP5569_DEFAULT_CONFIG \
-@@ -170,13 +173,6 @@ static int lp5569_post_init_device(struct lp55xx_chip *chip)
- 	int ret;
- 	int val;
- 
--	ret = lp55xx_write(chip, LP5569_REG_ENABLE, LP5569_ENABLE);
--	if (ret)
--		return ret;
--
--	/* Chip startup time is 500 us, 1 - 2 ms gives some margin */
--	usleep_range(1000, 2000);
--
- 	val = LP5569_DEFAULT_CONFIG;
- 	val |= FIELD_PREP(LP5569_CP_MODE_MASK, chip->pdata->charge_pump_mode);
- 	ret = lp55xx_write(chip, LP5569_REG_MISC, val);
-@@ -198,6 +194,13 @@ static int lp5569_post_init_device(struct lp55xx_chip *chip)
- 			return ret;
- 	}
- 
-+	ret = lp55xx_write(chip, LP5569_REG_ENABLE, LP5569_ENABLE);
-+	if (ret)
-+		return ret;
-+
-+	read_poll_timeout(lp55xx_read, ret, !(val & LP5569_STARTUP_BUSY),
-+			  LP5569_STARTUP_SLEEP, LP5569_STARTUP_SLEEP * 10, false,
-+			  chip, LP5569_REG_STATUS, &val);
- 
- 	return lp5569_init_program_engine(chip);
++	flash_data->v4l2_flash[flash_data->leds_count] = v4l2_flash;
++	return 0;
  }
+ # else
+ static int
 -- 
-2.45.2
+2.43.0
 
 
