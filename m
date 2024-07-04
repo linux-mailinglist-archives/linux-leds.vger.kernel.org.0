@@ -1,193 +1,140 @@
-Return-Path: <linux-leds+bounces-2189-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2190-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BCA927CA3
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 19:55:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FF1927D73
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 21:02:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 495731C233A4
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 17:55:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 386381F24CBD
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jul 2024 19:02:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CBF239FC1;
-	Thu,  4 Jul 2024 17:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6B6E136E1B;
+	Thu,  4 Jul 2024 19:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xrc12jRs"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VUZ12dwo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A894085D
-	for <linux-leds@vger.kernel.org>; Thu,  4 Jul 2024 17:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F15213AD03
+	for <linux-leds@vger.kernel.org>; Thu,  4 Jul 2024 19:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720115591; cv=none; b=F6Bjpp0qIhIKKl/HgnHryvmTl093D7zfqEo/dfChtOaCF9QnAKKhjMa1HB5df5FtWScSS00fkkT+sEuz8WyMs61iRDF/X+/LKriiDqQTCTFtHKsdHyg7//b9vJMI1xmYx9gg38PzZ7sKuge3dLd2xrIlWlq5/Ux7gERNE+oXYQ0=
+	t=1720119722; cv=none; b=MFDNqkdDsilGLq7L3nbvYXNxfHQy+jLnIvzU/XpropfPfgGcB8LmAaQqP1tGDrEXTT5YN6u2te9QEdAqik68GFVryYWp3gL74ck5OkEW8VGkVLxeGALiE7M1uSu362MebIDWk6vx53ztQCrYFSDtGWH28DNRj7lDui/iXHBiL30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720115591; c=relaxed/simple;
-	bh=CvifkHUdGRKSvx1UjB6MK+FRqd4uOB5IU7coWKdD97s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V6vb8J3pWm4yBLBU8to19j0BmXoKbnDBNILdO84ACmENs1OHyLhgclPYIs7kSEmq1jEPSYzJnMAd3GUgjAg5YuY/Z6PmB2RGHieYT9+SrqVIyMjedA9nvqkot4bX3zOEXs8Eo7lXPtl5ca1SO4D8QaJF4ATkCB9hcUvgPu9OaNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xrc12jRs; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1720119722; c=relaxed/simple;
+	bh=2UKYq5bhPsPv12mO8kx6pTkKpzG9k1rkOi+Jc8rQ//g=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=FkNlm4E2e+VlcXF+xBX+nqN08Vqjf/tAFmp1I4n80NmYvaLqpJc/jIflMEjR6V6DtCzRLiRP/kfXirgmxrESx+zhHGagiZnNpbs7w78PZ7jOT5AjwAEKLYDXY3cssYIT2BIRnJbz+hs6GG2NwJPg4PNAAYylNXaGbUmL3PgejUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--zenghuchen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VUZ12dwo; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57cb9a370ddso1197145a12.1
-        for <linux-leds@vger.kernel.org>; Thu, 04 Jul 2024 10:53:09 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--zenghuchen.bounces.google.com
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e039b77a040so1453159276.2
+        for <linux-leds@vger.kernel.org>; Thu, 04 Jul 2024 12:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720115588; x=1720720388; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GorGvo3dqH3oj9ZZZsXyRZ+VMILEjEKT1veO1qV13kI=;
-        b=xrc12jRsh+tY4QuLQOKy62B4XRsGR1HcWF12Hl4K4uV+fYCr9/CoWb24mLt6BDqPmc
-         qJa3QVa3xViTWuXRPA4zuOP9BbSSxJsvlNg1iA1KhF9cVBjzGl7r9OPncuPtBSKX5+s8
-         cyL2drRn9BsD5z66HkcnrOEC7siavkJ8dh5BAzmhKMUr7Vqg65j+I4mhptlx8i3mnLHN
-         vtXQzCmQgfJm4alAPC+gAshUrTw0b/W5cuLkPQxE1t8q11xoA+Ln1SUxURriqeFiOJNY
-         hJbGlEOOnD193wpaCDvl/5XCuJv2DrfKvHOD+wXXuBVeC8UZt/xibY+wIHquBPzh8nno
-         FG+A==
+        d=google.com; s=20230601; t=1720119720; x=1720724520; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=o9G8g66vcUfsbATIp2mXIZzia2L3xSDwYH8ppQZgSmM=;
+        b=VUZ12dwo+udhtJLAc4eY17apeKP3vP4W3sxqs0/CGQ5L12AmNEUgG/eF/1jeoKw4cy
+         i6Nbf7+v7o+ou37PtDaj+eCQ9s3rSI+MwzaqTQIY2ghIZX8vV4EMrQd1rdWdH7/eFPuL
+         thxaz1RFXaTnCJ+ZsZts1sfBSw/n5o8riQKFggonFpGgJS/AdtQrg8I+oC8rMmTe8vK/
+         /979bwBy22beXy/ThaAE1+DAk0TxlDhZnRu3VFFneyrVc58CC5vMTimanap3aCDe5p/U
+         eGWez35PWt8nYBmzSRX6Bz7E6rkHY8kCPCu3gzdyzQWPbGeVCgjYfxUY3sT44Wa9NJSJ
+         CIOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720115588; x=1720720388;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GorGvo3dqH3oj9ZZZsXyRZ+VMILEjEKT1veO1qV13kI=;
-        b=lJ2E5DoenIg8YU8XvOe3lXiDF8GIMtDytu6dXDqGU38yyp2tAJLbGOjSMhF1GLhQ1u
-         aZEOv7jSrtvhIiiaRZYCEGdPqxYHaB1FgKMsg32lz83fzPQ25tDuqetYgtBluOK4tKDR
-         UyWOA/XxbmYoTzyz3ebNeDZG7756lbiZzsCIkHHU7/9HAHZwHFvxcGV1C/50Wadqu8L8
-         KVUQG/IR5YLtdQMmzT6Be9SWM9Qbff98qCbv2tufO7ey/KHYp26i7o5In7eQ/+qCrSDO
-         zV4uikZTef3/bpGxEv6OaisNUJFO/yKGGt3zDi96BFmaI7Y/aZhrzJObIKslZ4w+xwLf
-         8fYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWPy5nqOZ4Fuu7687/6+4Q2bPVorwSORgDqfCa76vwA1qjbvWkgSrDCMaaju9BeNaQnsX2Sk/90+SQi3j7OU2EaM9gH5c1uWoxjRA==
-X-Gm-Message-State: AOJu0Yw6M3oGqK05yHKthA5H+UaYR5ZhZ1HCp2d70GehPxEsQmCuQ8W/
-	SR/+NpL1c13eYpZDso956H3/2ga30U2sntpxjE0jv6OJSq6U7XTHTTYEYCDi8PZjewyCTWWdrL2
-	vM9zyfSRKCACOYJ9cgncLU6aVmxPVeDXEQTVR
-X-Google-Smtp-Source: AGHT+IF4AuPS7UKCOENONhcvXkRgVR3N6FHFHaIQR/6qkRUomCZ6PNDgZ3xDtrCJN3vH/nfmSRkEFjtG+LczGMIVq2k=
-X-Received: by 2002:a17:907:97c8:b0:a77:a58f:7f6a with SMTP id
- a640c23a62f3a-a77ba70e417mr242751466b.38.1720115587430; Thu, 04 Jul 2024
- 10:53:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720119720; x=1720724520;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o9G8g66vcUfsbATIp2mXIZzia2L3xSDwYH8ppQZgSmM=;
+        b=prg65qX1GAWfqyQt7VxTKzVRetQUjRpp53R7MNQOgi+HMjiTvbBQkW/poekj1kzBJS
+         6LNCsGoN+Owqy9aWhvnFUNPRyrqKzTEiUjeZ4Q//yMaiEIaOdtztM+f84yWDCJpwCoYG
+         VIMnanGu+1o8MflU6BEj+D/jvlF6d/Ejii0x3QjTFgx+XNT7+xSZDj27UK2B9y3g9e5Y
+         6/lQPIcwxzh85JuEQIPE2DTUlbqbJqQHCBln+YD0H260NEuRlAFcAdf8DyCYJutmZR3g
+         kvKH+RamxZAFS16zCu0wHGch6pu6BgQuUE83uZfUG+YZYVzeq7UEDXw3/NOk/aKNRqJ8
+         sRaA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNsyLcBmlDVrsHvSiSTi/FZ3WibpVDw+5O7c0mADSX1NJLW2WcOhPLPQ3/RaPtooAFfxoDe+RlqByqOwxN+ToXdQ12q3jY+xKaYg==
+X-Gm-Message-State: AOJu0YxrlNDSy4lnO7f9Yl/U7NKuGDts63zVlKVyWtpjDpLOHv0GEsnN
+	424Z/aEEvF8d9knCNmm46Z/nVS/8hQFlkmUcGVWa4plM0DVyahm+mbH0GBCSPLkWJKtCFs2mAvH
+	dFz7aihHBEQddJC41Yg==
+X-Google-Smtp-Source: AGHT+IGKlUQ0UPyTqub9i9vt+OGJA5Ys/6xr3OtS7RcyTnEAky7OPp/BWLiMwIAdNqU90IW4m6vBjJ5IWXeUaDHs
+X-Received: from zenghuchen.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:2448])
+ (user=zenghuchen job=sendgmr) by 2002:a25:6941:0:b0:e03:5050:acc5 with SMTP
+ id 3f1490d57ef6-e03c19b030bmr51437276.7.1720119720128; Thu, 04 Jul 2024
+ 12:02:00 -0700 (PDT)
+Date: Thu,  4 Jul 2024 15:01:57 -0400
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240703164635.221203-1-zenghuchen@google.com> <20240704165000.GA501857@google.com>
-In-Reply-To: <20240704165000.GA501857@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
+Message-ID: <20240704190157.712590-1-zenghuchen@google.com>
+Subject: [PATCH] leds: lm3601x: Calculate max_brightness and brightness properly
 From: Jack Chen <zenghuchen@google.com>
-Date: Thu, 4 Jul 2024 13:52:54 -0400
-Message-ID: <CALvyBcV8b_AiKK-QBRU1sphrWjgATecTyd7c27Y-gNtJv1hV8A@mail.gmail.com>
-Subject: Re: [PATCH] leds:lm3601x:calculate max_brightness and brightness properly
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Mark Brown <broonie@kernel.org>, 
-	Vadim Pasternak <vadimp@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Vadim Pasternak <vadimp@nvidia.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jack Chen <zenghuchen@google.com>, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Many thanks to Lee for the quick response. I will submit a V2 patch later.
-> > -     ret =3D regmap_write(led->regmap, LM3601X_LED_TORCH_REG, brightne=
-ss);
-> > +     ret =3D regmap_write(led->regmap, LM3601X_LED_TORCH_REG, brightne=
-ss - 1);
+The torch_current_max should be checked not exceeding the upper bound.
+If it does, throw a warning message and set to LM3601X_MAX_TORCH_I_UA.
 
-> Why is there now a need to start adding/subtracting 1s to make the maths =
-work?
-This is because lm3601x torch brightness register takes 0 as the
-minimum output current (2.4mA). But led_brightness uses 0 as LED_OFF.
-So we need to add -1 offset to avoid blocking users who want to set
-the torch output minimum.
+LM3601x torch brigthness register (LM3601X_LED_TORCH_REG) takes 0 as the
+minimum output (2.4 mA). However, 0 of led_brightness means LED_OFF.
+Adding a -1 offset to brightness before writing to brightness
+register, so when users write minimum brightness (1), it sets lm3601x
+output the minimum.
 
+Signed-off-by: Jack Chen <zenghuchen@google.com>
+---
+ drivers/leds/flash/leds-lm3601x.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-On Thu, Jul 4, 2024 at 12:50=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
->
-> Subject line needs fixing.
->
-> `git log --oneline -- drivers/<subsystem>` is your friend.
->
-> > 1) check the range of torch_current_max,
-> > 2) calcualtes max_brightness precisely,
-> > 3) lm3601x torch brightness register starts from 0 (2.4 mA).
->
-> Please write this out as a proper paragraph.
->
-> This isn't really a numbered list type situation.
->
-> > Tested: tested with a lm36011 and it can set its brightness to lowest
-> > value (2.4 mA)
->
-> What is the Tested: trailer?  Again, please write this out properly.
->
-> > Signed-off-by: Jack Chen <zenghuchen@google.com>
-> > ---
-> >  drivers/leds/flash/leds-lm3601x.c | 15 ++++++++++++---
-> >  1 file changed, 12 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/leds/flash/leds-lm3601x.c b/drivers/leds/flash/led=
-s-lm3601x.c
-> > index 7e93c447fec5..fc4df904ea90 100644
-> > --- a/drivers/leds/flash/leds-lm3601x.c
-> > +++ b/drivers/leds/flash/leds-lm3601x.c
-> > @@ -190,7 +190,7 @@ static int lm3601x_brightness_set(struct led_classd=
-ev *cdev,
-> >               goto out;
-> >       }
-> >
-> > -     ret =3D regmap_write(led->regmap, LM3601X_LED_TORCH_REG, brightne=
-ss);
-> > +     ret =3D regmap_write(led->regmap, LM3601X_LED_TORCH_REG, brightne=
-ss - 1);
->
-> Why is there now a need to start adding/subtracting 1s to make the maths =
-work?
->
-> >       if (ret < 0)
-> >               goto out;
-> >
-> > @@ -341,8 +341,9 @@ static int lm3601x_register_leds(struct lm3601x_led=
- *led,
-> >
-> >       led_cdev =3D &led->fled_cdev.led_cdev;
-> >       led_cdev->brightness_set_blocking =3D lm3601x_brightness_set;
-> > -     led_cdev->max_brightness =3D DIV_ROUND_UP(led->torch_current_max,
-> > -                                             LM3601X_TORCH_REG_DIV);
-> > +     led_cdev->max_brightness =3D DIV_ROUND_UP(
->
-> This is no place to break a line.
->
-> Break after the '=3D' and wrap at 100-chars instead.
->
-> > +                     led->torch_current_max - LM3601X_MIN_TORCH_I_UA +=
- 1,
-> > +                     LM3601X_TORCH_REG_DIV);
-> >       led_cdev->flags |=3D LED_DEV_CAP_FLASH;
-> >
-> >       init_data.fwnode =3D fwnode;
-> > @@ -386,6 +387,14 @@ static int lm3601x_parse_node(struct lm3601x_led *=
-led,
-> >               goto out_err;
-> >       }
-> >
-> > +     if (led->torch_current_max > LM3601X_MAX_TORCH_I_UA) {
-> > +             dev_warn(&led->client->dev,
-> > +                      "led-max-microamp cannot be higher than %d\n",
-> > +                      LM3601X_MAX_TORCH_I_UA);
->
-> "Max torch current set too high (%d vs %d)"
->
-> > +             led->torch_current_max =3D LM3601X_MAX_TORCH_I_UA;
-> > +     }
-> > +
-> > +
->
-> 2 lines?
->
-> >       ret =3D fwnode_property_read_u32(child, "flash-max-microamp",
-> >                               &led->flash_current_max);
-> >       if (ret) {
-> > --
-> > 2.45.2.803.g4e1b14247a-goog
-> >
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+diff --git a/drivers/leds/flash/leds-lm3601x.c b/drivers/leds/flash/leds-lm3601x.c
+index 7e93c447fec5..fc4df904ea90 100644
+--- a/drivers/leds/flash/leds-lm3601x.c
++++ b/drivers/leds/flash/leds-lm3601x.c
+@@ -190,7 +190,7 @@ static int lm3601x_brightness_set(struct led_classdev *cdev,
+ 		goto out;
+ 	}
+ 
+-	ret = regmap_write(led->regmap, LM3601X_LED_TORCH_REG, brightness);
++	ret = regmap_write(led->regmap, LM3601X_LED_TORCH_REG, brightness - 1);
+ 	if (ret < 0)
+ 		goto out;
+ 
+@@ -341,8 +341,9 @@ static int lm3601x_register_leds(struct lm3601x_led *led,
+ 
+ 	led_cdev = &led->fled_cdev.led_cdev;
+ 	led_cdev->brightness_set_blocking = lm3601x_brightness_set;
+-	led_cdev->max_brightness = DIV_ROUND_UP(led->torch_current_max,
+-						LM3601X_TORCH_REG_DIV);
++	led_cdev->max_brightness = DIV_ROUND_UP(
++			led->torch_current_max - LM3601X_MIN_TORCH_I_UA + 1,
++			LM3601X_TORCH_REG_DIV);
+ 	led_cdev->flags |= LED_DEV_CAP_FLASH;
+ 
+ 	init_data.fwnode = fwnode;
+@@ -386,6 +387,14 @@ static int lm3601x_parse_node(struct lm3601x_led *led,
+ 		goto out_err;
+ 	}
+ 
++	if (led->torch_current_max > LM3601X_MAX_TORCH_I_UA) {
++		dev_warn(&led->client->dev,
++			 "led-max-microamp cannot be higher than %d\n",
++			 LM3601X_MAX_TORCH_I_UA);
++		led->torch_current_max = LM3601X_MAX_TORCH_I_UA;
++	}
++
++
+ 	ret = fwnode_property_read_u32(child, "flash-max-microamp",
+ 				&led->flash_current_max);
+ 	if (ret) {
+-- 
+2.45.2.803.g4e1b14247a-goog
+
 
