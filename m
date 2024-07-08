@@ -1,142 +1,167 @@
-Return-Path: <linux-leds+bounces-2214-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2215-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5E7929C09
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 08:18:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357B8929D39
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 09:39:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70CD01C210B2
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 06:18:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56DD81C20912
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 07:39:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD2810953;
-	Mon,  8 Jul 2024 06:18:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF56522616;
+	Mon,  8 Jul 2024 07:39:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLuD9geF"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="jAeEtlw8"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466DF6FB9;
-	Mon,  8 Jul 2024 06:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB17224F6
+	for <linux-leds@vger.kernel.org>; Mon,  8 Jul 2024 07:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720419515; cv=none; b=IiORfLj7vKYU62JA7ny8o9lV3ILcmzEYO2dFku2Fhmnq60a2CaYwhSTHMEas/eia2LH5mnGPa64evmujQurvzv2QDqAVOl+m2Ecrqu/ZolrqvQ7lpkyGavKy55sp8/Mb7qqeF7o6UKJ/K9fyrhOtsG9B51iKzSZAZ72kyWvxj6E=
+	t=1720424352; cv=none; b=DUvoMLkNsrgwzTQkHwVHEejDp/Yzi80kAfCYG+UmaKAnc6ayWI2ZFn9sL/qWXS4Z6/iSv3ojM28SzEr80aEvvfUU3dldF5H3qp3FGsxvYybwW0SGHt5XyXAdSncs1tjyFdagCtGBGT/VHXgz0fCPz/PVqfCV/Nfwjkyu0Fpp31k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720419515; c=relaxed/simple;
-	bh=WyI2tOjR1wvtR1vlEuMCrHnZzMvNiCxmI9bcy6i71qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VzPlDDblT6EKMd1sMfA+EP//0tKEWQ0SI2iNguarlTrs5PON7EZziY0rv1fFAUNeO0mT1svKws/4ePoJUHMfizD7IQHjVUnjeIbkV27FWxd6bc7v36+NhkEmNfuSIeQabbRfhkINzKX6qifSvoUGNhyTKIzkiAK/escbSyhkeZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLuD9geF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC1DC116B1;
-	Mon,  8 Jul 2024 06:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720419514;
-	bh=WyI2tOjR1wvtR1vlEuMCrHnZzMvNiCxmI9bcy6i71qg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KLuD9geFA5Od9PEwe/scDT+57Aqiu410OhiJvA23p6rBSCcShRkdYsKr4NQvH9RmN
-	 PbQdm1pS6VTAzQVbaRHcrP06s7uPOldyz7JQpiu/Abkn/8pVA0C3ojEt57j3Eb3Mf5
-	 QqETzm/vtiakf2T8bJh1hV724WxiOIxklkuh8a6HBBjrIj0wOowO8tHsagmz38OCKA
-	 yJ1JUxB01f3TKWRFRvkUcncoqGoiU6floFDKqpU5L2x8sl8cwa4f8aWlkR3xLb/G8U
-	 KgUDKXoxO12oNphkJ+B6qBW9yd1aKZp8WpI5cIZjvHyAJPrGGesvXn8JDebs603cgQ
-	 Sa9rtgpUx5nMg==
-Message-ID: <9a0b596a-82ab-4731-8a48-88b02e48395b@kernel.org>
-Date: Mon, 8 Jul 2024 08:18:29 +0200
+	s=arc-20240116; t=1720424352; c=relaxed/simple;
+	bh=OdHQYffnI1MnKOFjaCBGe1+olPDrFei83GYzc+nRjDM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=eyhDOUJE12UmBA3VMmjecNzMzXADXf65/jan/+ePWANQudtrYwuF0FyN5yz0M+ZakkQNKuDf1p2Ol08PG0BfnuM/lbHf1z60ngSDRCa+2ZAA0PaFoDooaQOq+7SIhod5y0KnDYJOZWTNwVqzjkumdQ/6LXE+FNwOxJPsFFDJGoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=jAeEtlw8; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a77d876273dso153264366b.0
+        for <linux-leds@vger.kernel.org>; Mon, 08 Jul 2024 00:39:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1720424349; x=1721029149; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OdHQYffnI1MnKOFjaCBGe1+olPDrFei83GYzc+nRjDM=;
+        b=jAeEtlw8UVE8r9CzT/9i7D+8PKaNdOkI2syezy1hOIfZ3dKNIBBzV5YE4TITL2GQuW
+         hNWsxWEPGwk8Y+qNClW4DbDQKwAXBdneTFOFReSsoNTdsTmFA84CYXaKCFRTxBJG8FzB
+         sqf3GJu3XTtCz1cMscu/nzVCX5Wve1aDhDp/docqYdMNCRnmH6b/A7dUqXAsT+xisgQa
+         MAyF4ViOyge59UpHnBRhk98IPeakCPaDHl2NiHg8xt0DfFJb/qoSo8JWq+LVHNxyuHwM
+         icaK66dJEstTNAwsuHoKdkeeLli3Cws8ktSuJtwfwYW0jeBEgET0B910tjlhPsJCqHsW
+         V6UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720424349; x=1721029149;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OdHQYffnI1MnKOFjaCBGe1+olPDrFei83GYzc+nRjDM=;
+        b=Q+EFN4URBHR3Qb+fes/2AWuvZA+TMUZ1nPQiH9ypecrJWEYVhukOw+ZRB7AlDXRWJB
+         QWlA9tmPrykFuvlAx8ExLJUclRE4pt1kC4O3DHxyz1mRxAQZalnYWSJKgr0DO2vUN1Gv
+         JK/nIDZMwfFCGgtbMv0wScS4C5cwh2oGEzXzWyZ/mBE2p8E0wDHwiXAysGLnsMmaBYEq
+         9BmMpgDkLLIY9XXSAxPO54gHx5hv3B3qTy0FiyeJaCmk1856gfMJfZEWrylYPYwu7QLE
+         jpvA3PWVjHmhVZ6E5LoMI2AS23W5EiQ01nkz48E8dmyAQ506Fh32m3HjLK//YL4eTkEB
+         0jOw==
+X-Gm-Message-State: AOJu0YwNWMUwBIgojbSBub8Cw5BzguNV+KcpBNpwa3TbYATjSpst4slL
+	Ft6DsUK5CPRxOpMh9J6VhFhZrwZB7NZFwrD+IrIFM0ylqh0gbsnqXrzlS6zTiFI=
+X-Google-Smtp-Source: AGHT+IF/1aWOT6fhzPZTuQqzZjdB1GINtas402gNSeNFQ4i1cR0zwoyXLbvlvs8ayC989dd4FtVW9g==
+X-Received: by 2002:a05:6402:1e91:b0:58b:f46f:ae45 with SMTP id 4fb4d7f45d1cf-58e5a4098c6mr9923869a12.23.1720424349166;
+        Mon, 08 Jul 2024 00:39:09 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77d808b81esm256852266b.151.2024.07.08.00.39.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jul 2024 00:39:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: leds: Document "netdev" trigger
-To: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org
-Cc: kernel@dh-electronics.com, Conor Dooley <conor+dt@kernel.org>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org
-References: <20240705215313.256963-1-marex@denx.de>
- <22b43c93-6055-4503-94ad-cd449f21f801@kernel.org>
- <ba158821-2f9f-46f6-9929-5bc810f2e10b@denx.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ba158821-2f9f-46f6-9929-5bc810f2e10b@denx.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Mon, 08 Jul 2024 09:39:08 +0200
+Message-Id: <D2JZJ6OV854S.JBNP47IB708D@fairphone.com>
+Subject: Re: [PATCH RESEND v3] leds: flash: leds-qcom-flash: limit LED
+ current based on thermal condition
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Fenglin Wu" <quic_fenglinw@quicinc.com>, <kernel@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, "Pavel Machek" <pavel@ucw.cz>, "Lee Jones"
+ <lee@kernel.org>
+Cc: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David
+ Collins" <quic_collinsd@quicinc.com>, "Subbaraman Narayanamurthy"
+ <quic_subbaram@quicinc.com>
+X-Mailer: aerc 0.17.0-0-g6ea74eb30457
+References: <20240705-qcom_flash_thermal_derating-v3-1-8e2e2783e3a6@quicinc.com> <D2HO9CAE81NA.3UIL5UZ1N5I4W@fairphone.com> <40dfeb9c-e420-4695-939f-ef9b1985d61c@quicinc.com>
+In-Reply-To: <40dfeb9c-e420-4695-939f-ef9b1985d61c@quicinc.com>
 
-On 07/07/2024 21:49, Marek Vasut wrote:
-> On 7/7/24 3:49 PM, Krzysztof Kozlowski wrote:
->> On 05/07/2024 23:52, Marek Vasut wrote:
->>> Document the "netdev" trigger which is used to control LEDs by
->>> network device activity.
->>
->> Instead, please propose a patch adding a comment there (in that place):
->> "# netdev - not accepted, please do not add it"
->>
->> This is like fourth or fifth attempt.
->>
->> https://lore.kernel.org/all/20230217230346.GA2217008-robh@kernel.org/
-> 
-> There is a follow up to that discussion:
-> 
-> https://lore.kernel.org/all/20230221014413.GA780723-robh@kernel.org/
-> 
-> That netdev trigger is nothing new, there are existing DTs using that 
-> trigger in-tree going back to 2019, this is only documenting it.
-> 
-> So, shall I really add a comment or update the commit message ?
+On Mon Jul 8, 2024 at 4:59 AM CEST, Fenglin Wu wrote:
+>
+>
+> On 7/5/2024 10:23 PM, Luca Weiss wrote:
+> > On Fri Jul 5, 2024 at 9:55 AM CEST, Fenglin Wu via B4 Relay wrote:
+> >> From: Fenglin Wu <quic_fenglinw@quicinc.com>
+> >>
+> >> The flash module has status bits to indicate different thermal
+> >> conditions which are called as OTSTx. For each OTSTx status,
+> >> there is a recommended total flash current for all channels to
+> >> prevent the flash module entering into higher thermal level.
+> >> For example, the total flash current should be limited to 1000mA/500mA
+> >> respectively when the HW reaches the OTST1/OTST2 thermal level.
+> >=20
+> > Hi Fenglin,
+> >=20
+> > Only semi-related to this patch, but I wanted to ask.
+> >=20
+> > Since most phones with a flash also have a thermistor for the flash led=
+,
+> > is there any plan to add support to be able to declare the flash led to
+> > be a "cooling-device" for the relevant thermal zone? That way from a
+> > Linux thermal API standpoint when the zone gets too hot that it can ask
+> > the driver to throttle the brightness or turn the LED off completely.
+> >=20
+> > Right now the only action the kernel can take is with type 'critical' t=
+o
+> > just kill the entire system to mitigate the thermal situation.
+> >=20
+> > Regards
+> > Luca
+> >=20
+>
+> Hi Luca,
+>
+> This change provides the ability to throttle flash current based on the=
+=20
+> thermal status sensed by the temperature sensor inside the flash module=
+=20
+> HW , it doesn't need to register anything in Linux thermal framework.
+>
+> For the case that you mentioned, when an external thermistor is=20
+> installed nearby the flash LED component and normally the ADC_TM driver=
+=20
+> registers a thermal_zone device with it, I agree that having the flash=20
+> LED driver providing a thermal_cooling device so that any cooling=20
+> mapping policy could be defined between the thermal sensor and the=20
+> cooling device would be a good option for better system level thermal=20
+> control. I would assume that this could be added in flash LED framework=
+=20
+> driver instead of the client drivers considering this should be a common=
+=20
+> request because of the big thermal dissipation of flash LED?
 
-I was not aware that discussion, so it seems commit will be fine, but
-with updated message.
+Right, the LED core getting the ability to register a cooling device
+would probably be a reasonable solution, that way any flash LED driver
+would be cooling-ready. Apart from decreasing brightness - or worst case
+turning the LED off completely I can't think of many other actions that
+could be taken anyways?
 
-Thanks.
+Pavel, Lee, your opinion?
 
-Best regards,
-Krzysztof
+Regards
+Luca
+
+>
+> Fenglin
+> >>
+> >> ---
+> >> base-commit: ca66b10a11da3c445c9c0ca1184f549bbe9061f2
+> >> change-id: 20240507-qcom_flash_thermal_derating-260b1f3c757c
+> >>
+> >> Best regards,
+> >=20
 
 
