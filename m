@@ -1,63 +1,48 @@
-Return-Path: <linux-leds+bounces-2213-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2214-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84E4929AFA
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 04:59:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5E7929C09
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 08:18:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DA6F1F211AD
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 02:59:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70CD01C210B2
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2024 06:18:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 194786138;
-	Mon,  8 Jul 2024 02:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD2810953;
+	Mon,  8 Jul 2024 06:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WN4v4FeZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLuD9geF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD86469D;
-	Mon,  8 Jul 2024 02:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466DF6FB9;
+	Mon,  8 Jul 2024 06:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720407589; cv=none; b=KlYG6V8PDzoSBGdA/pxAYmlxL0jW1+bATTFz8iaZSWgbwu+xQS0ECick4OlkqV0fwarLsU8HEFM+iyQBqf1aUyTd4ei2oLxDAKFH1tjLUQx2VdtMtqWdEoqyJQIzFEaJGqmV9oCD/yb+WRu7b1JTZ1dW7nSNft/aMIqOcya/b9o=
+	t=1720419515; cv=none; b=IiORfLj7vKYU62JA7ny8o9lV3ILcmzEYO2dFku2Fhmnq60a2CaYwhSTHMEas/eia2LH5mnGPa64evmujQurvzv2QDqAVOl+m2Ecrqu/ZolrqvQ7lpkyGavKy55sp8/Mb7qqeF7o6UKJ/K9fyrhOtsG9B51iKzSZAZ72kyWvxj6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720407589; c=relaxed/simple;
-	bh=A1FQ2BG5XM8p1fshxHOyJ7FQDlUasavHLtnXZJmCBN8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uo0v6hYupDUoqrou1EexqxpTyoRh3Pp4bDi7nlTDhU2Rvarg27RlCehaSld7glycui+Phx8h9r4oGQzbrgYqdVyrczp0WT5SsVDjPVv4b8fi+c8GY3ZUNuWxq4xC2ugq9kj3dvWitq7hJ5uIZtEXs9ES23aIoISp/tlPo0Yk/Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=WN4v4FeZ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4682EFSP012919;
-	Mon, 8 Jul 2024 02:59:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nTchpMjfhBevEBM42fp3Ef+mrykdVch3hUrrS7l5hto=; b=WN4v4FeZ6gYCnk17
-	TK6o9QM1XX7+H4GcrObDY0ZUDbn8vIGUqrcy1JT3c/K3SNKuiufbZty2G0IE90r2
-	qwNxSOyxPYl14WUtM0IN5XGXn1MP54IMLQ8JyXvpO0zNniJHzo7jcLyarXciaLkQ
-	wjgOQSvd04C7hsByoQurHmLGASTYgSIAHHZJ4GYvA/2yZIH/OXw2ty4CPKxyN44K
-	GqAvHzhGGi7HmqWey9rKDCnDF1VdKQay6FcGF22zImNEn6it20W0EGEzKedCaikm
-	A0VBtzO0l1QOerSOMYdTu6e3WRxDCrw64ASwYYVX5VGBXEWHXsltXyOaF/R33SxW
-	KKwAJA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406x512edr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jul 2024 02:59:39 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 4682xcwo012098
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 8 Jul 2024 02:59:38 GMT
-Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 7 Jul 2024
- 19:59:33 -0700
-Message-ID: <40dfeb9c-e420-4695-939f-ef9b1985d61c@quicinc.com>
-Date: Mon, 8 Jul 2024 10:59:31 +0800
+	s=arc-20240116; t=1720419515; c=relaxed/simple;
+	bh=WyI2tOjR1wvtR1vlEuMCrHnZzMvNiCxmI9bcy6i71qg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VzPlDDblT6EKMd1sMfA+EP//0tKEWQ0SI2iNguarlTrs5PON7EZziY0rv1fFAUNeO0mT1svKws/4ePoJUHMfizD7IQHjVUnjeIbkV27FWxd6bc7v36+NhkEmNfuSIeQabbRfhkINzKX6qifSvoUGNhyTKIzkiAK/escbSyhkeZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLuD9geF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC1DC116B1;
+	Mon,  8 Jul 2024 06:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720419514;
+	bh=WyI2tOjR1wvtR1vlEuMCrHnZzMvNiCxmI9bcy6i71qg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KLuD9geFA5Od9PEwe/scDT+57Aqiu410OhiJvA23p6rBSCcShRkdYsKr4NQvH9RmN
+	 PbQdm1pS6VTAzQVbaRHcrP06s7uPOldyz7JQpiu/Abkn/8pVA0C3ojEt57j3Eb3Mf5
+	 QqETzm/vtiakf2T8bJh1hV724WxiOIxklkuh8a6HBBjrIj0wOowO8tHsagmz38OCKA
+	 yJ1JUxB01f3TKWRFRvkUcncoqGoiU6floFDKqpU5L2x8sl8cwa4f8aWlkR3xLb/G8U
+	 KgUDKXoxO12oNphkJ+B6qBW9yd1aKZp8WpI5cIZjvHyAJPrGGesvXn8JDebs603cgQ
+	 Sa9rtgpUx5nMg==
+Message-ID: <9a0b596a-82ab-4731-8a48-88b02e48395b@kernel.org>
+Date: Mon, 8 Jul 2024 08:18:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,91 +50,93 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3] leds: flash: leds-qcom-flash: limit LED current
- based on thermal condition
-To: Luca Weiss <luca.weiss@fairphone.com>, <kernel@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones
-	<lee@kernel.org>
-CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "David
- Collins" <quic_collinsd@quicinc.com>,
-        Subbaraman Narayanamurthy
-	<quic_subbaram@quicinc.com>
-References: <20240705-qcom_flash_thermal_derating-v3-1-8e2e2783e3a6@quicinc.com>
- <D2HO9CAE81NA.3UIL5UZ1N5I4W@fairphone.com>
+Subject: Re: [PATCH] dt-bindings: leds: Document "netdev" trigger
+To: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org
+Cc: kernel@dh-electronics.com, Conor Dooley <conor+dt@kernel.org>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org
+References: <20240705215313.256963-1-marex@denx.de>
+ <22b43c93-6055-4503-94ad-cd449f21f801@kernel.org>
+ <ba158821-2f9f-46f6-9929-5bc810f2e10b@denx.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <D2HO9CAE81NA.3UIL5UZ1N5I4W@fairphone.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <ba158821-2f9f-46f6-9929-5bc810f2e10b@denx.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: cbG9am1QUBLpZ3l3KeuYeJbmyqb9REpU
-X-Proofpoint-ORIG-GUID: cbG9am1QUBLpZ3l3KeuYeJbmyqb9REpU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-07_10,2024-07-05_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
- suspectscore=0 impostorscore=0 mlxlogscore=711 mlxscore=0 bulkscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407080023
 
-
-
-On 7/5/2024 10:23 PM, Luca Weiss wrote:
-> On Fri Jul 5, 2024 at 9:55 AM CEST, Fenglin Wu via B4 Relay wrote:
->> From: Fenglin Wu <quic_fenglinw@quicinc.com>
+On 07/07/2024 21:49, Marek Vasut wrote:
+> On 7/7/24 3:49 PM, Krzysztof Kozlowski wrote:
+>> On 05/07/2024 23:52, Marek Vasut wrote:
+>>> Document the "netdev" trigger which is used to control LEDs by
+>>> network device activity.
 >>
->> The flash module has status bits to indicate different thermal
->> conditions which are called as OTSTx. For each OTSTx status,
->> there is a recommended total flash current for all channels to
->> prevent the flash module entering into higher thermal level.
->> For example, the total flash current should be limited to 1000mA/500mA
->> respectively when the HW reaches the OTST1/OTST2 thermal level.
-> 
-> Hi Fenglin,
-> 
-> Only semi-related to this patch, but I wanted to ask.
-> 
-> Since most phones with a flash also have a thermistor for the flash led,
-> is there any plan to add support to be able to declare the flash led to
-> be a "cooling-device" for the relevant thermal zone? That way from a
-> Linux thermal API standpoint when the zone gets too hot that it can ask
-> the driver to throttle the brightness or turn the LED off completely.
-> 
-> Right now the only action the kernel can take is with type 'critical' to
-> just kill the entire system to mitigate the thermal situation.
-> 
-> Regards
-> Luca
-> 
-
-Hi Luca,
-
-This change provides the ability to throttle flash current based on the 
-thermal status sensed by the temperature sensor inside the flash module 
-HW , it doesn't need to register anything in Linux thermal framework.
-
-For the case that you mentioned, when an external thermistor is 
-installed nearby the flash LED component and normally the ADC_TM driver 
-registers a thermal_zone device with it, I agree that having the flash 
-LED driver providing a thermal_cooling device so that any cooling 
-mapping policy could be defined between the thermal sensor and the 
-cooling device would be a good option for better system level thermal 
-control. I would assume that this could be added in flash LED framework 
-driver instead of the client drivers considering this should be a common 
-request because of the big thermal dissipation of flash LED?
-
-Fenglin
+>> Instead, please propose a patch adding a comment there (in that place):
+>> "# netdev - not accepted, please do not add it"
 >>
->> ---
->> base-commit: ca66b10a11da3c445c9c0ca1184f549bbe9061f2
->> change-id: 20240507-qcom_flash_thermal_derating-260b1f3c757c
+>> This is like fourth or fifth attempt.
 >>
->> Best regards,
+>> https://lore.kernel.org/all/20230217230346.GA2217008-robh@kernel.org/
 > 
+> There is a follow up to that discussion:
+> 
+> https://lore.kernel.org/all/20230221014413.GA780723-robh@kernel.org/
+> 
+> That netdev trigger is nothing new, there are existing DTs using that 
+> trigger in-tree going back to 2019, this is only documenting it.
+> 
+> So, shall I really add a comment or update the commit message ?
+
+I was not aware that discussion, so it seems commit will be fine, but
+with updated message.
+
+Thanks.
+
+Best regards,
+Krzysztof
+
 
