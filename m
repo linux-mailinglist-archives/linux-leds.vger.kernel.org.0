@@ -1,103 +1,300 @@
-Return-Path: <linux-leds+bounces-2223-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2224-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F66192B3CD
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jul 2024 11:28:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B04892BE3A
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jul 2024 17:25:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC1691F220A7
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Jul 2024 09:27:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5A50CB21B60
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Jul 2024 15:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E5915530B;
-	Tue,  9 Jul 2024 09:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B67CA43147;
+	Tue,  9 Jul 2024 15:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWH01lHC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PfOw2uRm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BD0155310;
-	Tue,  9 Jul 2024 09:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3D219CD0A
+	for <linux-leds@vger.kernel.org>; Tue,  9 Jul 2024 15:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720517153; cv=none; b=bnPqpsYnieBfGAWkwPZYF+UZ4/GuEJeez/alI8gU6qr92xuxS5pcLTTt9DDPg9v5KE/TPw5Lxin95dUEWefy5TNy106cY2mDqCUsOz1xJAGNWKSEWizSfkMGLEZ7w5+fcozzzlS5ZzjfTkMnORvayWS/lZVsz4kP26EwJfhbgVY=
+	t=1720538739; cv=none; b=IRemr4qlDN0G+NQKPR8pcKGdSG5QhB5muJGGK3hi6Jv5kB2nLymjz6iRPkZa5u3AtsWPQsb4WWDGgfxv7tmX4r64TBC7pu+1v780toYGm+Wkb5jo2v8WzMYpS9axhzytuPslT7uqHmXrpDmtpdNuO6sA/YMpbua3xT2psvTa1Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720517153; c=relaxed/simple;
-	bh=QBQ3Vf3AsBCxVX0Ial0oaRT12iQXKMU1CCuUwuqKGGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOR5O2y4O8et0y0vgbUvbezlOA72sd8d+dTfFiR8lmzESDqQ5m92fdtJzwmPXkBk/rL4JxGcDbm9d9wmx/FuII1BDPel7PzFH8wX+Tv9ZQbIC4lFxRuE9e3E3ZgGMPfW2nakkLBYNzBpCpSV3T3YoCW1u+gXA+4hYeotUadbhtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWH01lHC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801C7C3277B;
-	Tue,  9 Jul 2024 09:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720517152;
-	bh=QBQ3Vf3AsBCxVX0Ial0oaRT12iQXKMU1CCuUwuqKGGM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lWH01lHC26cPJsw/X+HBenWlEpFJJfJltpYufo4Nwc+j21AG+AgSd0mO35ip/x55X
-	 1j3wMkPD4jxOL9TWXbtvtIQpK+r5OevcF9GrmWkPk6CyxPTlJhwGyvfrSQpodhNU9T
-	 Ej5H2PNhkrvX3NwrYtw2gYhZg99SIq3DOU0O7SqXa+cuujYzDd5SUzD8zYIMTnYep1
-	 cIUi8500jcB+ittL3URif7r3qBocfl1W3F80r2sNTH5NJflOYtX8H98NBCeE2cMMLB
-	 HXmWdNfbJvJ6qLoehzpkJxb2fWCkI12TVgucRPshBHD2ku/q3Q9I9YQbQNDZx50ZBE
-	 BAe9M3W+wYjVQ==
-Date: Tue, 9 Jul 2024 10:25:47 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	linux-leds@vger.kernel.org,
-	Rajas Paranjpe <paranjperajas@gmail.com>
-Subject: [GIT PULL] Immutable branch between MFD, LEDs and Platform due for
- the v6.11 merge window[GIT PULL] Immutable branch between MFD, LEDs and
- Platform due for the v6.11 merge window
-Message-ID: <20240709092547.GC501857@google.com>
-References: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
+	s=arc-20240116; t=1720538739; c=relaxed/simple;
+	bh=mKYpsNwqxWEzmvTYQkktMzGi4xMtOiAFdOcQS5BzKP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tHrOOkwZuOBD5u1TzgGVVOBK7LoIsYjLwHsQq0wqvRZYeIgP5USepmro2w9D5CB0u8VO5T4Ka4tZu1kapAujA7vCsXGyZ4+Hlw+8lAPlMDNWhwNxPy+JI5yXQCkndHTe6T43BQaFRtC7/gDZ1WazOT0yYEnBF1mgdyMuLoRdw08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PfOw2uRm; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720538737; x=1752074737;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mKYpsNwqxWEzmvTYQkktMzGi4xMtOiAFdOcQS5BzKP0=;
+  b=PfOw2uRmElz9NdZwhxcBXH8jdc10hopaw6BMrnpCHI8ImlQ8QQ4ca9+3
+   UYDBWydvhDMEP2Dtssj+Wo7h2nb77MjZlgutWM14tjcKVU1pqNJS0k2YY
+   MDgsPmNVEkKpaZRq6AQFuvcMKNSEU9TlJBV+tnOsZfeyPT4t7mX4YaPae
+   9BtNolEpDNwl+GMbjkfHkTmPBEWSvu7evzyG4D6dFg2V8VTbWVJCmrwE7
+   hdTnl9OwrmWlepJ3FYZGcPRyM/6FOPkyyIROh8JT0zBjzslPYTeU44sw0
+   TfUDwUdHH4a2CcaNF8Zj3Nc3K9xjQCHPTfzQhShvYhzAgXSHibGeIfPiI
+   g==;
+X-CSE-ConnectionGUID: NfT2hkb5T3CJQLoKHKjVeg==
+X-CSE-MsgGUID: 1BDGqjhvRPGqfEjH6ZWS0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="43225132"
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
+   d="scan'208";a="43225132"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 08:25:37 -0700
+X-CSE-ConnectionGUID: AFmjwkf+QBGFCaac6XJsHg==
+X-CSE-MsgGUID: K+hauEa8TTiAiZerKWPAnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
+   d="scan'208";a="47675363"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Jul 2024 08:25:35 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRCij-000WnU-1m;
+	Tue, 09 Jul 2024 15:25:33 +0000
+Date: Tue, 9 Jul 2024 23:25:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next 61/62] drivers/leds/leds-lp5521.c:189:33:
+ error: macro "guard" passed 2 arguments, but takes just 1
+Message-ID: <202407092352.NAcaYfjI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240526-cros_ec-kbd-led-framework-v3-0-ee577415a521@weissschuh.net>
 
-Enjoy!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   b9bd590268485652b928110b5543057543b5d02b
+commit: efd0d1cbb8c5dd1049922e839fa7d85811facd53 [61/62] leds: leds-lp55xx: Convert mutex lock/unlock to guard API
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240709/202407092352.NAcaYfjI-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092352.NAcaYfjI-lkp@intel.com/reproduce)
 
-The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407092352.NAcaYfjI-lkp@intel.com/
 
-  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+All errors (new ones prefixed by >>):
 
-are available in the Git repository at:
+   drivers/leds/leds-lp5521.c: In function 'lp5521_selftest':
+>> drivers/leds/leds-lp5521.c:189:33: error: macro "guard" passed 2 arguments, but takes just 1
+     189 |         guard(mutex, &chip->lock);
+         |                                 ^
+   In file included from drivers/leds/leds-lp5521.c:12:
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+>> drivers/leds/leds-lp5521.c:189:9: error: 'guard' undeclared (first use in this function)
+     189 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp5521.c:189:9: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/leds/leds-lp5523.c: In function 'lp5523_selftest':
+>> drivers/leds/leds-lp5523.c:192:33: error: macro "guard" passed 2 arguments, but takes just 1
+     192 |         guard(mutex, &chip->lock);
+         |                                 ^
+   In file included from drivers/leds/leds-lp5523.c:12:
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+>> drivers/leds/leds-lp5523.c:192:9: error: 'guard' undeclared (first use in this function)
+     192 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp5523.c:192:9: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/leds/leds-lp5562.c: In function 'lp5562_led_brightness':
+>> drivers/leds/leds-lp5562.c:175:33: error: macro "guard" passed 2 arguments, but takes just 1
+     175 |         guard(mutex, &chip->lock);
+         |                                 ^
+   In file included from drivers/leds/leds-lp5562.c:10:
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+>> drivers/leds/leds-lp5562.c:175:9: error: 'guard' undeclared (first use in this function)
+     175 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp5562.c:175:9: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/leds/leds-lp5562.c: In function 'lp5562_store_pattern':
+   drivers/leds/leds-lp5562.c:272:33: error: macro "guard" passed 2 arguments, but takes just 1
+     272 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp5562.c:272:9: error: 'guard' undeclared (first use in this function)
+     272 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp5562.c: In function 'lp5562_store_engine_mux':
+   drivers/leds/leds-lp5562.c:324:33: error: macro "guard" passed 2 arguments, but takes just 1
+     324 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp5562.c:324:9: error: 'guard' undeclared (first use in this function)
+     324 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+--
+   drivers/leds/leds-lp5569.c: In function 'lp5569_selftest':
+>> drivers/leds/leds-lp5569.c:400:33: error: macro "guard" passed 2 arguments, but takes just 1
+     400 |         guard(mutex, &chip->lock);
+         |                                 ^
+   In file included from drivers/leds/leds-lp5569.c:7:
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+>> drivers/leds/leds-lp5569.c:400:9: error: 'guard' undeclared (first use in this function)
+     400 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp5569.c:400:9: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_led_brightness':
+>> drivers/leds/leds-lp55xx-common.c:276:33: error: macro "guard" passed 2 arguments, but takes just 1
+     276 |         guard(mutex, &chip->lock);
+         |                                 ^
+   In file included from drivers/leds/leds-lp55xx-common.c:13:
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+>> drivers/leds/leds-lp55xx-common.c:276:9: error: 'guard' undeclared (first use in this function)
+     276 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c:276:9: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_multicolor_brightness':
+   drivers/leds/leds-lp55xx-common.c:291:33: error: macro "guard" passed 2 arguments, but takes just 1
+     291 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:291:9: error: 'guard' undeclared (first use in this function)
+     291 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'led_current_store':
+   drivers/leds/leds-lp55xx-common.c:409:33: error: macro "guard" passed 2 arguments, but takes just 1
+     409 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:409:9: error: 'guard' undeclared (first use in this function)
+     409 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'run_engine_store':
+   drivers/leds/leds-lp55xx-common.c:637:33: error: macro "guard" passed 2 arguments, but takes just 1
+     637 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:637:9: error: 'guard' undeclared (first use in this function)
+     637 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_engine_mode':
+   drivers/leds/leds-lp55xx-common.c:676:33: error: macro "guard" passed 2 arguments, but takes just 1
+     676 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:676:9: error: 'guard' undeclared (first use in this function)
+     676 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_engine_load':
+   drivers/leds/leds-lp55xx-common.c:704:33: error: macro "guard" passed 2 arguments, but takes just 1
+     704 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:704:9: error: 'guard' undeclared (first use in this function)
+     704 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_engine_leds':
+   drivers/leds/leds-lp55xx-common.c:803:33: error: macro "guard" passed 2 arguments, but takes just 1
+     803 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:803:9: error: 'guard' undeclared (first use in this function)
+     803 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c:798:17: warning: unused variable 'ret' [-Wunused-variable]
+     798 |         ssize_t ret;
+         |                 ^~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_show_master_fader':
+   drivers/leds/leds-lp55xx-common.c:827:33: error: macro "guard" passed 2 arguments, but takes just 1
+     827 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:827:9: error: 'guard' undeclared (first use in this function)
+     827 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_master_fader':
+   drivers/leds/leds-lp55xx-common.c:851:33: error: macro "guard" passed 2 arguments, but takes just 1
+     851 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:851:9: error: 'guard' undeclared (first use in this function)
+     851 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_show_master_fader_leds':
+   drivers/leds/leds-lp55xx-common.c:870:33: error: macro "guard" passed 2 arguments, but takes just 1
+     870 |         guard(mutex, &chip->lock);
+         |                                 ^
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+   drivers/leds/leds-lp55xx-common.c:870:9: error: 'guard' undeclared (first use in this function)
+     870 |         guard(mutex, &chip->lock);
+         |         ^~~~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_master_fader_leds':
+   drivers/leds/leds-lp55xx-common.c:901:33: error: macro "guard" passed 2 arguments, but takes just 1
+     901 |         guard(mutex, &chip->lock);
+         |                                 ^
 
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-leds-platform-v6.11
 
-for you to fetch changes up to 970c3a6b7aa3c68ccdf5af2562c3d39533dd62a9:
+vim +/guard +189 drivers/leds/leds-lp5521.c
 
-  mfd: cros_ec: Register keyboard backlight subdevice (2024-06-14 10:09:40 +0100)
-
-----------------------------------------------------------------
-Immutable branch between MFD, LEDs and Platform due for the v6.11 merge window
-
-----------------------------------------------------------------
-Thomas Weißschuh (4):
-      leds: class: Warn about name collisions earlier
-      leds: class: Add flag to avoid automatic renaming of LED devices
-      platform/chrome: cros_kbd_led_backlight: allow binding through MFD
-      mfd: cros_ec: Register keyboard backlight subdevice
-
- drivers/leds/led-class.c                         |  9 +++---
- drivers/mfd/cros_ec_dev.c                        |  9 ++++++
- drivers/platform/chrome/Kconfig                  |  2 +-
- drivers/platform/chrome/cros_kbd_led_backlight.c | 40 ++++++++++++++++++++++--
- include/linux/leds.h                             |  1 +
- 5 files changed, 54 insertions(+), 7 deletions(-)
+   180	
+   181	static ssize_t lp5521_selftest(struct device *dev,
+   182				       struct device_attribute *attr,
+   183				       char *buf)
+   184	{
+   185		struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
+   186		struct lp55xx_chip *chip = led->chip;
+   187		int ret;
+   188	
+ > 189		guard(mutex, &chip->lock);
+   190	
+   191		ret = lp5521_run_selftest(chip, buf);
+   192	
+   193		return sysfs_emit(buf, "%s\n", ret ? "FAIL" : "OK");
+   194	}
+   195	
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
