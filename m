@@ -1,52 +1,53 @@
-Return-Path: <linux-leds+bounces-2263-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2262-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6DB92E887
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 14:50:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B70C92E889
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 14:50:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F5C6284726
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 12:50:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9DB7B2587D
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 12:50:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F1F15DBC6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F4815B554;
 	Thu, 11 Jul 2024 12:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L7osMi8v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUdj8Ohg"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEC715B98E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4971E892;
 	Thu, 11 Jul 2024 12:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720702204; cv=none; b=fMVPSmadeUIXhz1BaQ7RrtzuKbAwlEAkYc3vi4SDLUYBvlpGMeZf8t6WlOU0DTLVqCGAvLiiGYnJA6dAmUWgQG83Zc4HbK1dvc1Tl+wTS++kjZhz0sqscHY0BjE7OHNq9EEEHS/1v/QE0OLkaFcZ0p+PWyR1qUybXDFcMiKmxxQ=
+	t=1720702204; cv=none; b=KQLwqCYt6Sk+Ym7QYaWnpQW/Fb6yOsY9bbfiXB5rnhPXmU5OVhfV6SlZWaqnrSjCJclsz2SSqJrlme7lA6CPtuLypc3W9/Z0R0sgUvMYFTVV9qDpd1lRlkBcHwWAgBesW+A9jHZqITo8fI1byf3gEkN+GsvXCj/fEd+eDqV3zIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1720702204; c=relaxed/simple;
-	bh=PGVBgX12JpkKOC5s1Bqle8ztSKAHOxZdYZgmUN143qQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=R/gEq+HDYBSics3Jnvn7XYmGzwYrK2wqjtUvojtA6uU/p7sHFneDNZTUWaF8UFtoYg0AP0Y4TBaXRx9cFlOPvP45vN9IT4tTZdMC81oPUXROOrRsWK7MsTNn02Hau6Mb+Lx7+eGNacB5D+rxWTmS/TeuIN344l1jUYHIiVhEKnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L7osMi8v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 26A89C116B1;
+	bh=2S6wiPTFHPJdM/v1Q7GToqIDc7o81c9D6s45n8dLLl4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=o4P4pglwdJUhXTP5CZLUh2GSwVWsIAomMtY1plHdQ/Zv+swqfcI2n1TjHlUGxLKNHF5Qn6/3rDHL9TmAM9jFn7dndhjtoouRuTPqGF9ykOHNnvnuKsJvu946jjBKhC1sNTdqxwnbcYSdy7I/QKjXPpXZ+CTyDSIPdNPc/uxiT9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUdj8Ohg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 30FC6C4AF07;
 	Thu, 11 Jul 2024 12:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1720702204;
-	bh=PGVBgX12JpkKOC5s1Bqle8ztSKAHOxZdYZgmUN143qQ=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=L7osMi8vtVVsKfXBZwBaBUQWHv/Sw8/7bAFn2HiW/uHDtx9LKSr7IJTjjCRxRuB+6
-	 gQAx+zlk2xwPD5UwDhXZ9JGR5hG/a7s8ZBKnBroWUaCL+VvostbXkpV1Fyo09Qb99j
-	 lQAqKDhQSgueipOgcQmYCY5KJIF78ywDj05DwzS4yDsKqAjMjNb7BL5T/WXm7XKdJ4
-	 l97h+BLw/FzIlROyET4CmeGzAfzkYSXTZrexO76zBcxM/mGviiJJD6AKaHg/yT3py9
-	 h5AYh5n+5C5MIKXbni2N8Y6gDQ+yEh77MYTgFvnjSiE2UaBzDrHwGIiIT24Mqhj1xX
-	 qaoV4bjlGfF8g==
+	bh=2S6wiPTFHPJdM/v1Q7GToqIDc7o81c9D6s45n8dLLl4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=TUdj8OhgVu+xwIpAi7gXmZ41mLjGy1wZLsMej0ZwAy17IcxJuhVWdTVroyu7CKbQC
+	 p1++B9q3bo1m9QSVbY8nQacwKsW/moWO8E8V7PapRfOIbHtjGxPyszDdhq+sL9xYfA
+	 QD5n655OqkULy4GAKjhCqgjZSW0Bhj1aRVdbAdOepxJXpIcYX3C7xKr7rYmuDSPn01
+	 FEGOzdmYrJb8bRvBP5ITVKz5+440iFlpEZiLuAvZgzTdRoXzrkI41Ex64HMQPrMBYj
+	 4R3XFpj4ILptfmry0rnPlruoVCOdNbLjSOhI09hyeuv3dT+K8MQHB+94VA84JNq2NY
+	 C02kAZoaZgp3A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC27C3DA49;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E096C3DA41;
 	Thu, 11 Jul 2024 12:50:04 +0000 (UTC)
 From: Pieterjan Camerlynck via B4 Relay <devnull+pieterjanca.gmail.com@kernel.org>
-Subject: [PATCH v4 0/2] leds: leds-pca995x: Add support for NXP PCA9956B
-Date: Thu, 11 Jul 2024 14:49:49 +0200
-Message-Id: <20240711-pca995x-v4-0-702a67148065@gmail.com>
+Date: Thu, 11 Jul 2024 14:49:50 +0200
+Subject: [PATCH v4 1/2] dt-bindings: leds: pca995x: Add new nxp,pca9956b
+ compatible
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -55,10 +56,9 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAO3Uj2YC/3XMSwrCMBSF4a2UjI3cvBrjyH2IgyRN2oB90Eiol
- O7dtIgWweG53O+fUXRjcBGdixmNLoUY+i4PfiiQbXRXOxyqvBEFykGCwoPVSokJV9IKr6QvnbE
- ofw+j82HaStdb3k2Ij358buFE1uu7QeDTSAQDFlwAESUwALjUrQ73o+1btDYS/eNodievvSkdN
- 7ISv47tHfk6lp0mxhPPLPNC792yLC+Ft1xzDgEAAA==
+Message-Id: <20240711-pca995x-v4-1-702a67148065@gmail.com>
+References: <20240711-pca995x-v4-0-702a67148065@gmail.com>
+In-Reply-To: <20240711-pca995x-v4-0-702a67148065@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -67,11 +67,11 @@ Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Pieterjan Camerlynck <pieterjanca@gmail.com>, 
  Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720702203; l=1479;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720702203; l=1529;
  i=pieterjanca@gmail.com; s=20240709; h=from:subject:message-id;
- bh=PGVBgX12JpkKOC5s1Bqle8ztSKAHOxZdYZgmUN143qQ=;
- b=M3aIdgUWYTDf089Cx4ujaOq2Ip9hglN2nxHFzrJDLbxwePXbbDpKjolYz+CCfp8MzvIkuWpEL
- wwAiD9fKSlWD61ulo6cZr/ErA5yrVWdzchxpnAiMiGcw3114bsAgp7o
+ bh=6vO+6FBkF83NNJD/iYLLMy7G/J0jk6c6K0j7e/z+Ghg=;
+ b=GUnNEmh0FyyZTNKqn3AY72mRzXaK+C2ZMPDAmBBY9oTGMGqhB5/3KklfWAdJNfdBDCybuSLes
+ nA67CZL0PQGDEa98kY/OyFf/3Oklmd3f6Q64PrSOTmcFnrG1ULFQyQ6
 X-Developer-Key: i=pieterjanca@gmail.com; a=ed25519;
  pk=gSAHfvqQjVhNa1MhUClqbt7d3S+fviKz6FdQVaWFRyM=
 X-Endpoint-Received: by B4 Relay for pieterjanca@gmail.com/20240709 with
@@ -79,46 +79,49 @@ X-Endpoint-Received: by B4 Relay for pieterjanca@gmail.com/20240709 with
 X-Original-From: Pieterjan Camerlynck <pieterjanca@gmail.com>
 Reply-To: pieterjanca@gmail.com
 
-This series adds support for NXP PCA9956B to the pca995x driver. This
-chip is similar to the others but has 24 instead of 16 outputs and a
-slightly different register layout. Datasheet available at [1].
+From: Pieterjan Camerlynck <pieterjanca@gmail.com>
 
-[1]: https://www.nxp.com/docs/en/data-sheet/PCA9956B.pdf
+Add nxp,pca9956b compatible, which has 24 instead of 16 outputs. Adjust
+the documentation for the difference.
 
+Reviewed-by: Marek Vasut <marex@denx.de>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Pieterjan Camerlynck <pieterjanca@gmail.com>
 ---
-Changes in v4:
-- replace btype with chipdef in-place
-- Link to v3: https://lore.kernel.org/r/20240711-pca995x-v3-0-a1bf1f3c3f5a@gmail.com
+ Documentation/devicetree/bindings/leds/nxp,pca995x.yaml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Changes in v3:
-- restore PCA995X_MAX_OUTPUTS and increase to 24
-- restore secondary for loop in pca995x_probe()
-- remove parenthesis around (chipdef->pwm_base)
-- Link to v2: https://lore.kernel.org/r/20240710-pca995x-v2-0-8fafb6e4b7d5@gmail.com
+diff --git a/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml b/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml
+index 654915c1f687..ab8c90cbadb5 100644
+--- a/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml
++++ b/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml
+@@ -11,19 +11,21 @@ maintainers:
+   - Marek Vasut <marex@denx.de>
+ 
+ description:
+-  The NXP PCA9952/PCA9955B are programmable LED controllers connected via I2C
+-  that can drive 16 separate lines. Each of them can be individually switched
++  The NXP PCA995x family are programmable LED controllers connected via I2C
++  that can drive separate lines. Each of them can be individually switched
+   on and off, and brightness can be controlled via individual PWM.
+ 
+   Datasheets are available at
+   https://www.nxp.com/docs/en/data-sheet/PCA9952_PCA9955.pdf
+   https://www.nxp.com/docs/en/data-sheet/PCA9955B.pdf
++  https://www.nxp.com/docs/en/data-sheet/PCA9956B.pdf
+ 
+ properties:
+   compatible:
+     enum:
+       - nxp,pca9952
+       - nxp,pca9955b
++      - nxp,pca9956b
+ 
+   reg:
+     maxItems: 1
 
-Thank you for the review Marek Vasut.
-
-Changes in v2:
-- define seperate const struct pca995x_chipdef for each chip
-- remove chip enum
-- Link to v1: https://lore.kernel.org/r/20240710-pca995x-v1-0-545015603000@gmail.com
-
----
-Pieterjan Camerlynck (2):
-      dt-bindings: leds: pca995x: Add new nxp,pca9956b compatible
-      leds: leds-pca995x: Add support for NXP PCA9956B
-
- .../devicetree/bindings/leds/nxp,pca995x.yaml      |  6 ++-
- drivers/leds/leds-pca995x.c                        | 59 ++++++++++++++--------
- 2 files changed, 43 insertions(+), 22 deletions(-)
----
-base-commit: 82d01fe6ee52086035b201cfa1410a3b04384257
-change-id: 20240709-pca995x-d7c5f97f6ebc
-
-Best regards,
 -- 
-Pieterjan Camerlynck <pieterjanca@gmail.com>
+2.45.2
 
 
 
