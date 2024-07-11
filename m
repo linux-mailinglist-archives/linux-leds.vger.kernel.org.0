@@ -1,147 +1,120 @@
-Return-Path: <linux-leds+bounces-2248-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2249-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DD092DE26
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 03:51:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FAD92E14F
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 09:53:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EC2D1F220A4
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 01:51:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CDFE281395
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2024 07:53:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A8788830;
-	Thu, 11 Jul 2024 01:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CFB1509A4;
+	Thu, 11 Jul 2024 07:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="U4P+gjBP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eF20VhMV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8DFBE5A;
-	Thu, 11 Jul 2024 01:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485BC148847;
+	Thu, 11 Jul 2024 07:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720662701; cv=none; b=KGd97wcBSFNuqEIq4xz9zCKuP7DCD1EdZ9ck8TvpzCPLIQS8vb4/RP0O4oSRigr+M39iPiIcc3bdvAaT7j1rJMbTEFS2+RJMb1TVTRzS259PPORERG1RMC4f+wV1LADrv6J915dgDzvNwhKrFa3Oj0lz3/gd/Fa9jMqmGMIPfoE=
+	t=1720684382; cv=none; b=aLbxSLeB/wrW686SR7xekk0IIFqEqIU4NZCMwWqsWYmyzkIr4XyG0+Wyv4opyudK1lD7PStUpEaPk3coHdXgbzWTtdleG2RoRoCndyW8pc/5k4UHT1C0nH4MjiztGhDqBayAh9O0usGaXazolEd1538w3t7QOivChB97ayFFt4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720662701; c=relaxed/simple;
-	bh=fL4FZ4hZXaG4km0dzBkdmtfNkxTIYuyoHOEm0Cgnkpc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IR0gTwg6s8XoGoKXbuQS52w76z0ED1LuVejK6UB+Q9ZDVDY7OJljK2fulNh/rm01+LJc9sLh52MhQBraIuUlD6XpB5jif4iCBjls7scpQxUwugO3iI1PHRjJ4WqErL/io8DhyrL6AozBHHcFHCNuaD9dAsWhN3kdX84LCTzWFJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=U4P+gjBP; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id B0E3C88709;
-	Thu, 11 Jul 2024 03:51:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1720662696;
-	bh=7Zr7gH5qHOUFxru02iy24qF4XGxxRzCJESt0mNpg1NI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U4P+gjBP8n2RYiyXL8QSo/IDW/W69FdB4qDPlKGtF97q2aUeueiLeHB7KxTgBXC5c
-	 jWGTo0fJAaM3CR7G/LLt5q++U0IHcmQvOWYKyxjjUHMTZloKTZmhGgUsZhLpdwJqMI
-	 64FF+qh+ovPI5V7ImpD8EAh2AzHd9X/15oZnMEIJicl/+7XR0p2RXm/CoRZSMfOA2y
-	 /eJcL+c5FrX1wS9ci5Qo0GfHeKzlK69Y4YHJGSsjLez8F+IuCC/Vq98kh3KSd8l+TM
-	 FC/CraGfHz/9o9Z0FxYgwnc6JkQ33+wWY/XS6ItUt//4ZzRq84/l/gKmiegkDWZhKT
-	 JI/nB5w1OkR6w==
-Message-ID: <fe6d1df7-eefc-4e4e-9f3c-989f982b0daa@denx.de>
-Date: Thu, 11 Jul 2024 03:29:28 +0200
+	s=arc-20240116; t=1720684382; c=relaxed/simple;
+	bh=xTXN2dtxTf7A/9UJXOYSRARxg5U3uy73slffwuN6WTQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=itwUDvJXHson2XUJfgPAtkth5JJu8S76sq1Q3YltYjVad/XLICix/+NzX7hzNFVWHSlkgQv9z4QbD8Z0vf37AR0zxBC/+lqYmjrhWdPiswNvcu44u3NDsIkb7I1kV6kAXcVCwHgOvBuzsugsIO5pEq2YkVlKVhDksQth+OfXY5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eF20VhMV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D26FCC116B1;
+	Thu, 11 Jul 2024 07:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720684381;
+	bh=xTXN2dtxTf7A/9UJXOYSRARxg5U3uy73slffwuN6WTQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=eF20VhMVvKNcxFrE+mBYyo0q3GzqwmyfBTl1lmMXopOI4I6O176xb9ZdjddQOcKHo
+	 u4Wo5RwLXlvkLkdPBJhzWjDmXv6qwMUJ73UrNZvRVNcU0IfPtpKDCtAEMV7sSqlkIu
+	 uZW6CmqWqaWO4Tz3zO30ZJkNCpKOMCF0ONqShY8SYbGaBj9LQmPOmu5BXsHI3Jvyce
+	 qGH8S5gu26bFZrv5OngfTGe7zY2kj4mkjILT/krw+5NoUAsd6kZ5ucCAUK+J/yKOnT
+	 bYvUVTvdFkwCRSimgsKTWQ3nR0iieVJKrP0fWjuz4G2zfdFkGOKw3cNhWTsPGQSCfe
+	 GE7wNq4n5wExQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD01C3DA47;
+	Thu, 11 Jul 2024 07:53:01 +0000 (UTC)
+From: Pieterjan Camerlynck via B4 Relay <devnull+pieterjanca.gmail.com@kernel.org>
+Subject: [PATCH v3 0/2] leds: leds-pca995x: Add support for NXP PCA9956B
+Date: Thu, 11 Jul 2024 09:52:21 +0200
+Message-Id: <20240711-pca995x-v3-0-a1bf1f3c3f5a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] leds: leds-pca995x: Add support for NXP PCA9956B
-To: pieterjanca@gmail.com, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Isai Gaspar <isaiezequiel.gaspar@nxp.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240710-pca995x-v2-0-8fafb6e4b7d5@gmail.com>
- <20240710-pca995x-v2-2-8fafb6e4b7d5@gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20240710-pca995x-v2-2-8fafb6e4b7d5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+X-B4-Tracking: v=1; b=H4sIADWPj2YC/3WMwQ6CMBAFf4Xs2ZptodR68j+Mh1Ja2ESEtKbBE
+ P7dQozx4nFe3swC0QVyEc7FAsElijQ+MpSHAmxvHp1j1GYGgaJChZpN1mgtZ9YqK71WvnaNhfy
+ egvM076XrLXNP8TmG1x5OfFs/DY7fRuIMmawkclljiYiXbjB0P9pxgK2RxB9PZO/kjW9qVzWql
+ b/euq5vxZgtetYAAAA=
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Isai Gaspar <isaiezequiel.gaspar@nxp.com>, Marek Vasut <marex@denx.de>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Pieterjan Camerlynck <pieterjanca@gmail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720684380; l=1336;
+ i=pieterjanca@gmail.com; s=20240709; h=from:subject:message-id;
+ bh=xTXN2dtxTf7A/9UJXOYSRARxg5U3uy73slffwuN6WTQ=;
+ b=YWKHaXwn+jK7EvJ9LJLdgV6AIIjMe82U/vCV0MCyl4ermO4p1CpJwnfrCPXwgxAqkNI+74KmA
+ oTzKwRHZbGnAo7aEmpIfKX0RkZDR1RS0qP63wuhs084eipEn9mLhbvg
+X-Developer-Key: i=pieterjanca@gmail.com; a=ed25519;
+ pk=gSAHfvqQjVhNa1MhUClqbt7d3S+fviKz6FdQVaWFRyM=
+X-Endpoint-Received: by B4 Relay for pieterjanca@gmail.com/20240709 with
+ auth_id=182
+X-Original-From: Pieterjan Camerlynck <pieterjanca@gmail.com>
+Reply-To: pieterjanca@gmail.com
 
-On 7/10/24 4:32 PM, Pieterjan Camerlynck via B4 Relay wrote:
+This series adds support for NXP PCA9956B to the pca995x driver. This
+chip is similar to the others but has 24 instead of 16 outputs and a
+slightly different register layout. Datasheet available at [1].
 
-[...]
+[1]: https://www.nxp.com/docs/en/data-sheet/PCA9956B.pdf
 
-> @@ -52,9 +68,9 @@ struct pca995x_led {
->   };
->   
->   struct pca995x_chip {
-> +	const struct pca995x_chipdef *chipdef;
->   	struct regmap *regmap;
-> -	struct pca995x_led leds[PCA995X_MAX_OUTPUTS];
-> -	int btype;
-> +	struct pca995x_led leds[];
+Signed-off-by: Pieterjan Camerlynck <pieterjanca@gmail.com>
+---
+Changes in v3:
+- restore PCA995X_MAX_OUTPUTS and increase to 24
+- restore secondary for loop in pca995x_probe()
+- remove parenthesis around (chipdef->pwm_base)
+- Link to v2: https://lore.kernel.org/r/20240710-pca995x-v2-0-8fafb6e4b7d5@gmail.com
 
-Please increase PCA995X_MAX_OUTPUTS to 24 and avoid this variable length 
-array at the end.
+Thank you for the review Marek Vasut.
 
->   };
->   
->   static int pca995x_brightness_set(struct led_classdev *led_cdev,
-> @@ -62,10 +78,11 @@ static int pca995x_brightness_set(struct led_classdev *led_cdev,
->   {
->   	struct pca995x_led *led = ldev_to_led(led_cdev);
->   	struct pca995x_chip *chip = led->chip;
-> +	const struct pca995x_chipdef *chipdef = chip->chipdef;
->   	u8 ledout_addr, pwmout_addr;
->   	int shift, ret;
->   
-> -	pwmout_addr = (chip->btype ? PCA9955B_PWM0 : PCA9952_PWM0) + led->led_no;
-> +	pwmout_addr = (chipdef->pwm_base) + led->led_no;
+Changes in v2:
+- define seperate const struct pca995x_chipdef for each chip
+- remove chip enum
+- Link to v1: https://lore.kernel.org/r/20240710-pca995x-v1-0-545015603000@gmail.com
 
-Parenthesis around (chipdef->pwm_base) not needed.
+---
+Pieterjan Camerlynck (2):
+      dt-bindings: leds: pca995x: Add new nxp,pca9956b compatible
+      leds: leds-pca995x: Add support for NXP PCA9956B
 
->   	ledout_addr = PCA995X_LEDOUT0 + (led->led_no / PCA995X_OUTPUTS_PER_REG);
->   	shift = PCA995X_LDRX_BITS * (led->led_no % PCA995X_OUTPUTS_PER_REG);
->   
-> @@ -101,24 +118,24 @@ static const struct regmap_config pca995x_regmap = {
->   
->   static int pca995x_probe(struct i2c_client *client)
->   {
-> -	struct fwnode_handle *led_fwnodes[PCA995X_MAX_OUTPUTS] = { 0 };
->   	struct fwnode_handle *np, *child;
->   	struct device *dev = &client->dev;
-> +	const struct pca995x_chipdef *chipdef;
->   	struct pca995x_chip *chip;
->   	struct pca995x_led *led;
-> -	int i, btype, reg, ret;
-> +	int reg, ret;
->   
-> -	btype = (unsigned long)device_get_match_data(&client->dev);
-> +	chipdef = device_get_match_data(&client->dev);
->   
->   	np = dev_fwnode(dev);
->   	if (!np)
->   		return -ENODEV;
->   
-> -	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
-> +	chip = devm_kzalloc(dev, struct_size(chip, leds, chipdef->num_leds), GFP_KERNEL);
+ .../devicetree/bindings/leds/nxp,pca995x.yaml      |  6 ++-
+ drivers/leds/leds-pca995x.c                        | 59 ++++++++++++++--------
+ 2 files changed, 43 insertions(+), 22 deletions(-)
+---
+base-commit: 82d01fe6ee52086035b201cfa1410a3b04384257
+change-id: 20240709-pca995x-d7c5f97f6ebc
 
-This won't be needed once you fix up PCA995X_MAX_OUTPUTS above.
+Best regards,
+-- 
+Pieterjan Camerlynck <pieterjanca@gmail.com>
 
->   	if (!chip)
->   		return -ENOMEM;
->   
-> -	chip->btype = btype;
-> +	chip->chipdef = chipdef;
->   	chip->regmap = devm_regmap_init_i2c(client, &pca995x_regmap);
->   	if (IS_ERR(chip->regmap))
->   		return PTR_ERR(chip->regmap);
 
-It is starting to look pretty good, thanks !
 
