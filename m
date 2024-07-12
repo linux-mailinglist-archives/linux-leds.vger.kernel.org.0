@@ -1,325 +1,145 @@
-Return-Path: <linux-leds+bounces-2274-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2275-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F0492F985
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2024 13:24:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D839B93016F
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2024 23:07:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6D16282B62
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2024 11:24:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 82D311F23252
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2024 21:07:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA9E013D605;
-	Fri, 12 Jul 2024 11:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65DD8481C4;
+	Fri, 12 Jul 2024 21:07:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/n2USJF"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="gSpGb5Qt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F29C624
-	for <linux-leds@vger.kernel.org>; Fri, 12 Jul 2024 11:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D31D219FF;
+	Fri, 12 Jul 2024 21:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720783466; cv=none; b=THJxrVWF0/HDNjXvkz89x2eYeiswzAeDCCoaEPyF8ubNAthhMkr2R2kiQz/0d8BIlePQxI/Rs5XnobjNVjBlw1DrCUVtWqZOb14lt/xLga5EDJbm6a4SlydteR/UVVwdT+OgHqIibAZbhQD8TcVYPIidJ3Wd5Xep/mUCDKnTLEc=
+	t=1720818450; cv=none; b=fWq56q6arKRbKVw3qpAC40Znu07ekXhMXgtMzc7nhc8/rRa/gTfZvM7aRk1h4Ua7TUFsJK3ejBciKIsxqPHipY+tqqfzYUiYsNWedPwundi6gs72kc8flJq9BM/KERYp/Cf/LNdrj5RsbV394Aki7uiZmk/tgm7WGm3TvLploVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720783466; c=relaxed/simple;
-	bh=ACnYhDBNOmb4VEksGsTIpj5GdSW/7L7dfUfZnkN+JeI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j3CTthqluZcKma5vwDnUw6QDA+L2/4WUbOo2IRHurbyf/IKOUe+0tw9+74U+Fw1I61ba4JZQ88fZPD4ch15eVlAu+o0mJ9T3ooHj6pKALN3irwHFwdsd4/PjAEkxTq1oqVl98ZyIlq9PrhEwrMlf/RBepAkcaBYJov0iolyAZFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/n2USJF; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720783464; x=1752319464;
-  h=date:from:to:cc:subject:message-id;
-  bh=ACnYhDBNOmb4VEksGsTIpj5GdSW/7L7dfUfZnkN+JeI=;
-  b=B/n2USJFLsXmy87D+4KXb3mM0Tpw0n7ZnvIGn6tfWG720xTfqz46hjg4
-   QtpufiClpa4LjEn1TUI7Ps4qPEhEiDax5zBND90jV6+ol7p5pmN1oib5G
-   yGbntjdVYCNiJdMTEiZYrtVLubXNV4KZFsmUSWEA/jEP+wF3++ciBD+Uo
-   H7bxMV2uSFvuytPG0RDbDfCAnYqaZqVhr59MLoAGpt6yY6aJ19z7IV+9k
-   FEkpQMZ3hjr9diLX4ANh5jW3Vo8SO+Nr31NIlWKM1N4bYCvwpTvOxu44w
-   FfEmeL21BCA/+FCS65TYr7EvkiMRMst6zH55esuOk5UyawcqxVadB9qQs
-   w==;
-X-CSE-ConnectionGUID: 30AyW84FRGGnYbOHUoc/Cw==
-X-CSE-MsgGUID: aCBRwcceQtmeVKta7vRBog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="17928559"
-X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="17928559"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 04:24:23 -0700
-X-CSE-ConnectionGUID: FpVUQk3tQceBEPkJtHtjnw==
-X-CSE-MsgGUID: IueGh3+ZRX6owrj+BLlcCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="53715991"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jul 2024 04:24:22 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sSENv-000ahu-1c;
-	Fri, 12 Jul 2024 11:24:19 +0000
-Date: Fri, 12 Jul 2024 19:24:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD REGRESSION
- d9cc80b1c9b40a33c022e125b7f9555813c7f385
-Message-ID: <202407121909.CX3yFZfA-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1720818450; c=relaxed/simple;
+	bh=vKFZ7VhhVPwDMBl1L3Jwa9uOyxKi/wF0dZAUg/xUYoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RcfxGAhNmJ0i1diy3a30bthBXK33ExUGsqvErnBM/DBf2H806IdKuwtLzvW9a08/gJ6jR6mXPqmCzqdxAQsyBDYU0zsoZzg23RtpjH2+490xl4iA0SIIeX/hKwL9Ny+hYR2VEekJ26mYRZV5BfM2mWcoghKkEC0PCdwHa2Hsyv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=gSpGb5Qt; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=4fyXkYyDXPeoIA7KiK11Pb/8YiiA2kBtTpxn1oy5Xfg=; b=gSpGb5Qt1QavJ4twGDivqpU9x1
+	kJt7FGBvbK2aTCJXowAhCepe19G36RO0QZWmVH4ZPnVqIYIfznu7g94inYaiaa4BZwbr0mfO7JKmq
+	hYRy6/W3yREkiAKPS246SXVVNa0BVKo1HZe+daKDFlZ9wbhS0rpTOJi6AfDKYl1fydKTSjE4zeaFA
+	T2PD/MI/JPC74BKmrhhAdrEh2TjJz5S2lgouEjh1E/aDlO28e1Khlw1472v0LlmBo1AWQJStJIzSv
+	XuNycvvbN48jEJAU5oiGYqzSk8+UlLvMw5zPEmKVQbAREOVeGYIr8Ia4mlMgVp51XfHHXOziLrjME
+	hkmO4NzA==;
+Date: Fri, 12 Jul 2024 23:06:56 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Rob Herring
+ <robh@kernel.org>, Daniel Scally <djrscally@gmail.com>, Heikki Krogerus
+ <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Jean Delvare <jdelvare@suse.com>, Guenter
+ Roeck <linux@roeck-us.net>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+ <lee@kernel.org>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 3/6] leds: bd2606mvv: use device_for_each_child_node()
+ to access device child nodes
+Message-ID: <20240712230656.67e89eb2@akphone>
+In-Reply-To: <2cd45260-e737-43e9-9bf6-c267d6f86ad3@gmail.com>
+References: <20240706-device_for_each_child_node-available-v1-0-8a3f7615e41c@gmail.com>
+	<20240706-device_for_each_child_node-available-v1-3-8a3f7615e41c@gmail.com>
+	<20240707175713.4deb559f@jic23-huawei>
+	<4cf71de7-dc47-475c-bba0-a9e755f66d49@gmail.com>
+	<2cd45260-e737-43e9-9bf6-c267d6f86ad3@gmail.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.37; aarch64-alpine-linux-musl)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: d9cc80b1c9b40a33c022e125b7f9555813c7f385  leds: leds-lp5569: Enable chip after chip configuration
+On Mon, 8 Jul 2024 17:45:43 +0200
+Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
 
-Error/Warning reports:
+> On 08/07/2024 10:14, Javier Carrasco wrote:
+> > On 07/07/2024 18:57, Jonathan Cameron wrote:  
+> >> On Sat, 06 Jul 2024 17:23:35 +0200
+> >> Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
+> >>  
+> >>> The iterated nodes are direct children of the device node, and the
+> >>> `device_for_each_child_node()` macro accounts for child node
+> >>> availability.
+> >>>
+> >>> `fwnode_for_each_available_child_node()` is meant to access the
+> >>> child nodes of an fwnode, and therefore not direct child nodes of
+> >>> the device node.
+> >>>
+> >>> Use `device_for_each_child_node()` to indicate device's direct
+> >>> child nodes.
+> >>>
+> >>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>  
+> >> Why not the scoped variant?
+> >> There look to be two error paths in there which would be
+> >> simplified. 
+> > 
+> > I did not use the scoped variant because "child" is used outside
+> > the loop.
+> > 
+> > On the other hand, I think an fwnode_handle_get() is missing for
+> > every "led_fwnodes[reg] = child" because a simple assignment does
+> > not increment the refcount.
+> > 
+> > After adding fwnode_handle_get(), the scoped variant could be used,
+> > and the call to fwnode_handle_put() would act on led_fwnodes[reg]
+> > instead. 
+> 
+> Actually, the whole trouble comes from doing the processing in two
+> consecutive loops, where the second loop accesses a child node that
+> gets released at the end of the first one. It seems that some code
+> got moved from one loop to a new one between two versions of the
+> patchset.
+> 
+> @Andreas Kemnade: I see that you had a single loop until v4 (the
+> driver got applied with v6), and then you split it into two loops,
+> but I don't see any mention to this modification in the change log.
+> 
+> What was the reason for this modification? Apparently, similar drivers
+> do everything in one loop to avoid such issues.
+> 
+The reason for two loops is that we check in the first loop whether
+broghtness can be individually controlled so we can set max_brightness
+in the second loop. I had the assumption that max_brightness should be
+set before registering leds.
 
-https://lore.kernel.org/oe-kbuild-all/202407120702.K20luS0E-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202407120801.PxZUtOgp-lkp@intel.com
+Some LEDs share brightness register, in the case where leds are defined
+with a shared register, we revert to on-off.
 
-Error/Warning: (recently discovered and may have been fixed)
+> Maybe refactoring to have a single loop again (if possible) would be
+> the cleanest solution. Otherwise a get/put mechanism might be
+> necessary.
+> 
+I had no idea how to do it the time I wrote the patch.
 
-drivers/leds/leds-lp5569.c:204:31: error: incompatible pointer types passing 'int *' to parameter of type 'u8 *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
-drivers/leds/leds-lp5569.c:204:52: error: passing argument 3 of 'lp55xx_read' from incompatible pointer type [-Wincompatible-pointer-types]
-
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-|-- hexagon-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:incompatible-pointer-types-passing-int-to-parameter-of-type-u8-(aka-unsigned-char-)-Werror-Wincompatible-pointer-types
-|-- hexagon-allyesconfig
-|   `-- drivers-leds-leds-lp5569.c:error:incompatible-pointer-types-passing-int-to-parameter-of-type-u8-(aka-unsigned-char-)-Werror-Wincompatible-pointer-types
-|-- i386-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- i386-allyesconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- loongarch-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- m68k-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- m68k-allyesconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- microblaze-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- microblaze-allyesconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- s390-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:incompatible-pointer-types-passing-int-to-parameter-of-type-u8-(aka-unsigned-char-)-Werror-Wincompatible-pointer-types
-|-- sh-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-|-- um-allmodconfig
-|   `-- drivers-leds-leds-lp5569.c:error:incompatible-pointer-types-passing-int-to-parameter-of-type-u8-(aka-unsigned-char-)-Werror-Wincompatible-pointer-types
-|-- um-allyesconfig
-|   `-- drivers-leds-leds-lp5569.c:error:passing-argument-of-lp55xx_read-from-incompatible-pointer-type
-`-- x86_64-allyesconfig
-    `-- drivers-leds-leds-lp5569.c:error:incompatible-pointer-types-passing-int-to-parameter-of-type-u8-(aka-unsigned-char-)-Werror-Wincompatible-pointer-types
-
-elapsed time: 1021m
-
-configs tested: 193
-configs skipped: 4
-
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-alpha                            allyesconfig   gcc-13.3.0
-alpha                               defconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                                 defconfig   gcc-13.2.0
-arc                         haps_hs_defconfig   gcc-13.2.0
-arc                   randconfig-001-20240712   gcc-13.2.0
-arc                   randconfig-002-20240712   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                               allnoconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-13.2.0
-arm                     am200epdkit_defconfig   gcc-13.2.0
-arm                                 defconfig   gcc-13.2.0
-arm                   milbeaut_m10v_defconfig   gcc-13.2.0
-arm                        multi_v7_defconfig   gcc-13.2.0
-arm                   randconfig-001-20240712   gcc-13.2.0
-arm                   randconfig-002-20240712   gcc-13.2.0
-arm                   randconfig-003-20240712   gcc-13.2.0
-arm                   randconfig-004-20240712   gcc-13.2.0
-arm                       spear13xx_defconfig   gcc-13.2.0
-arm                           stm32_defconfig   gcc-13.2.0
-arm64                            allmodconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                               defconfig   gcc-13.2.0
-arm64                 randconfig-001-20240712   gcc-13.2.0
-arm64                 randconfig-002-20240712   gcc-13.2.0
-arm64                 randconfig-003-20240712   gcc-13.2.0
-arm64                 randconfig-004-20240712   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                                defconfig   gcc-13.2.0
-csky                  randconfig-001-20240712   gcc-13.2.0
-csky                  randconfig-002-20240712   gcc-13.2.0
-hexagon                          allmodconfig   clang-19
-hexagon                          allyesconfig   clang-19
-i386                             allmodconfig   clang-18
-i386                             allmodconfig   gcc-13
-i386                              allnoconfig   clang-18
-i386                              allnoconfig   gcc-13
-i386                             allyesconfig   clang-18
-i386                             allyesconfig   gcc-13
-i386         buildonly-randconfig-001-20240712   gcc-9
-i386         buildonly-randconfig-002-20240712   clang-18
-i386         buildonly-randconfig-002-20240712   gcc-9
-i386         buildonly-randconfig-003-20240712   clang-18
-i386         buildonly-randconfig-003-20240712   gcc-9
-i386         buildonly-randconfig-004-20240712   clang-18
-i386         buildonly-randconfig-004-20240712   gcc-9
-i386         buildonly-randconfig-005-20240712   gcc-11
-i386         buildonly-randconfig-005-20240712   gcc-9
-i386         buildonly-randconfig-006-20240712   clang-18
-i386         buildonly-randconfig-006-20240712   gcc-9
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240712   clang-18
-i386                  randconfig-001-20240712   gcc-9
-i386                  randconfig-002-20240712   clang-18
-i386                  randconfig-002-20240712   gcc-9
-i386                  randconfig-003-20240712   clang-18
-i386                  randconfig-003-20240712   gcc-9
-i386                  randconfig-004-20240712   clang-18
-i386                  randconfig-004-20240712   gcc-9
-i386                  randconfig-005-20240712   clang-18
-i386                  randconfig-005-20240712   gcc-9
-i386                  randconfig-006-20240712   clang-18
-i386                  randconfig-006-20240712   gcc-9
-i386                  randconfig-011-20240712   clang-18
-i386                  randconfig-011-20240712   gcc-9
-i386                  randconfig-012-20240712   clang-18
-i386                  randconfig-012-20240712   gcc-9
-i386                  randconfig-013-20240712   clang-18
-i386                  randconfig-013-20240712   gcc-9
-i386                  randconfig-014-20240712   gcc-10
-i386                  randconfig-014-20240712   gcc-9
-i386                  randconfig-015-20240712   gcc-10
-i386                  randconfig-015-20240712   gcc-9
-i386                  randconfig-016-20240712   gcc-12
-i386                  randconfig-016-20240712   gcc-9
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch                           defconfig   gcc-13.2.0
-loongarch             randconfig-001-20240712   gcc-13.2.0
-loongarch             randconfig-002-20240712   gcc-13.2.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                                defconfig   gcc-13.2.0
-m68k                       m5208evb_defconfig   gcc-13.2.0
-m68k                        stmark2_defconfig   gcc-13.2.0
-m68k                           virt_defconfig   gcc-13.2.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-mips                           ip27_defconfig   gcc-13.2.0
-mips                           jazz_defconfig   gcc-13.2.0
-nios2                            alldefconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                               defconfig   gcc-13.2.0
-nios2                 randconfig-001-20240712   gcc-13.2.0
-nios2                 randconfig-002-20240712   gcc-13.2.0
-openrisc                          allnoconfig   gcc-14.1.0
-openrisc                         allyesconfig   gcc-14.1.0
-openrisc                            defconfig   gcc-14.1.0
-parisc                           allmodconfig   gcc-14.1.0
-parisc                            allnoconfig   gcc-14.1.0
-parisc                           allyesconfig   gcc-14.1.0
-parisc                              defconfig   gcc-14.1.0
-parisc                randconfig-001-20240712   gcc-13.2.0
-parisc                randconfig-002-20240712   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                          allmodconfig   gcc-14.1.0
-powerpc                           allnoconfig   gcc-14.1.0
-powerpc                          allyesconfig   gcc-14.1.0
-powerpc                      ppc6xx_defconfig   gcc-13.2.0
-powerpc               randconfig-001-20240712   gcc-13.2.0
-powerpc               randconfig-002-20240712   gcc-13.2.0
-powerpc               randconfig-003-20240712   gcc-13.2.0
-powerpc                     tqm8548_defconfig   gcc-13.2.0
-powerpc64             randconfig-001-20240712   gcc-13.2.0
-powerpc64             randconfig-002-20240712   gcc-13.2.0
-powerpc64             randconfig-003-20240712   gcc-13.2.0
-riscv                            allmodconfig   gcc-14.1.0
-riscv                             allnoconfig   gcc-14.1.0
-riscv                            allyesconfig   gcc-14.1.0
-riscv                               defconfig   gcc-14.1.0
-riscv                 randconfig-001-20240712   gcc-13.2.0
-riscv                 randconfig-002-20240712   gcc-13.2.0
-s390                             allmodconfig   clang-19
-s390                              allnoconfig   clang-19
-s390                              allnoconfig   gcc-14.1.0
-s390                             allyesconfig   clang-19
-s390                             allyesconfig   gcc-14.1.0
-s390                                defconfig   gcc-14.1.0
-s390                  randconfig-001-20240712   gcc-13.2.0
-s390                  randconfig-002-20240712   gcc-13.2.0
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-13.2.0
-sh                               allyesconfig   gcc-14.1.0
-sh                                  defconfig   gcc-14.1.0
-sh                               j2_defconfig   gcc-13.2.0
-sh                    randconfig-001-20240712   gcc-13.2.0
-sh                    randconfig-002-20240712   gcc-13.2.0
-sh                            shmin_defconfig   gcc-13.2.0
-sparc                            allmodconfig   gcc-14.1.0
-sparc64                             defconfig   gcc-14.1.0
-sparc64               randconfig-001-20240712   gcc-13.2.0
-sparc64               randconfig-002-20240712   gcc-13.2.0
-um                               allmodconfig   clang-19
-um                               allmodconfig   gcc-13.3.0
-um                                allnoconfig   clang-17
-um                                allnoconfig   gcc-14.1.0
-um                               allyesconfig   gcc-13
-um                               allyesconfig   gcc-13.3.0
-um                                  defconfig   gcc-14.1.0
-um                             i386_defconfig   gcc-14.1.0
-um                    randconfig-001-20240712   gcc-13.2.0
-um                    randconfig-002-20240712   gcc-13.2.0
-um                           x86_64_defconfig   gcc-14.1.0
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240712   clang-18
-x86_64       buildonly-randconfig-002-20240712   clang-18
-x86_64       buildonly-randconfig-003-20240712   clang-18
-x86_64       buildonly-randconfig-004-20240712   clang-18
-x86_64       buildonly-randconfig-005-20240712   clang-18
-x86_64       buildonly-randconfig-006-20240712   clang-18
-x86_64                              defconfig   clang-18
-x86_64                              defconfig   gcc-13
-x86_64                randconfig-001-20240712   clang-18
-x86_64                randconfig-002-20240712   clang-18
-x86_64                randconfig-003-20240712   clang-18
-x86_64                randconfig-004-20240712   clang-18
-x86_64                randconfig-005-20240712   clang-18
-x86_64                randconfig-006-20240712   clang-18
-x86_64                randconfig-011-20240712   clang-18
-x86_64                randconfig-012-20240712   clang-18
-x86_64                randconfig-013-20240712   clang-18
-x86_64                randconfig-014-20240712   clang-18
-x86_64                randconfig-015-20240712   clang-18
-x86_64                randconfig-016-20240712   clang-18
-x86_64                randconfig-071-20240712   clang-18
-x86_64                randconfig-072-20240712   clang-18
-x86_64                randconfig-073-20240712   clang-18
-x86_64                randconfig-074-20240712   clang-18
-x86_64                randconfig-075-20240712   clang-18
-x86_64                randconfig-076-20240712   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240712   gcc-13.2.0
-xtensa                randconfig-002-20240712   gcc-13.2.0
-xtensa                    xip_kc705_defconfig   gcc-13.2.0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Andreas
 
