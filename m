@@ -1,202 +1,125 @@
-Return-Path: <linux-leds+bounces-2281-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2282-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6018E93077D
-	for <lists+linux-leds@lfdr.de>; Sat, 13 Jul 2024 23:37:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF77B933384
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2024 23:25:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A4472826F8
-	for <lists+linux-leds@lfdr.de>; Sat, 13 Jul 2024 21:37:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E05211C2289E
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2024 21:25:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7211714430C;
-	Sat, 13 Jul 2024 21:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5102676056;
+	Tue, 16 Jul 2024 21:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iaG37Zjk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cT4WdwSs"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5083715E;
-	Sat, 13 Jul 2024 21:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203D53CF4F;
+	Tue, 16 Jul 2024 21:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720906673; cv=none; b=Oqr4kSX01GC0r+hx9IZ5vjMzJJDels7G1V4KkmuzSbfJ5R1oLF/sbtJhOm8Afrkmfinm0qV0qOlPJsKk+KwckAQJHCxlNo3pHYELHxtaaniWRX3fDQjOu3511GC7729B1Jv3BLc+U6tPedakRGmtwyM2sx6vTDngQsg8wgo9ZuM=
+	t=1721165102; cv=none; b=T5OuZ2O4i9nLupTsT54falqnIRrluNa/ns/J6oJQmzxxXVQ8QSEncYlDx1ct+E10YWNXSNExWkuAvIbbsunkUXVcIdBTIQrxMfyav9W7eN+anXsByp0GBVCu77v5Od3BInPStnQO1anbq8XHapRiVkvsJCijGTh/lVh5v2MOMmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720906673; c=relaxed/simple;
-	bh=br048+ZCXEeV7hh8d9XnZQzMv7EjLwJDK7Qz+EMEaqo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hWi+ztxSb4VRrXk7roQxrqKz2O5YT3uU8vLqbvoW33y0RKwD5aQuU54gjf87kQsw5+iKpPo5wnom+abC9a5Q916W7EnWEjIA7OGN1iEiutRQwW8IW08GXqRR1o6pfb4fyHObv1ldpE+Ro/aY6c0oj4C1aue3N4LBZOymmVWzszA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iaG37Zjk; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3679f806223so2446714f8f.0;
-        Sat, 13 Jul 2024 14:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720906670; x=1721511470; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jWge+wPKweF2GBCVBIBv2ygG3wKeTixMcFo1aegvcvI=;
-        b=iaG37ZjkG7x67v9JqiZubumxkPiJNT/6GwdOSHMAdBGlhUjVBgA7u7VtGK/BqwC7Nc
-         I6UXryvWltp0zv3UUPuG+9UouUiUdc+XilR62hCR+9BXHqZP82QXxXX8LilP8exXmV36
-         DVEAW9WeBQ/iezwVcjpbzomzRzoOF7HH+7AU3oDzDOUD5YcSYS4v2x9EyGdbG+XnqWo/
-         3sCfhaHUsX5CycCbTI2qOC/4J6PzkU8LEEhH0YO9WaNW4g27hHT9L/yXRYAsNAx5xKnJ
-         2Xx7iRrVfXnhLmGfMZoDpb0QHp0rJFnJYro00K9zEsKGmYD5ivlXuGhOHW4f7PDOr0oS
-         UjKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720906670; x=1721511470;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jWge+wPKweF2GBCVBIBv2ygG3wKeTixMcFo1aegvcvI=;
-        b=gOU7B9vosYTv7ePvkabC6Rf7dHZ9XbgAx9ZMv8jWq98uBc0Ij160f+/7ey6xspPs0Q
-         C9ktw7CEyBhKD0YeEnWlz5RraqCs3ir7zWpS9lMGT2N7DZ4EPEb1ZsSiWk/Ln6JgjaDa
-         IfgRniH75EXcWWv9E+uAPojWybU3qziuqNF9sBlf69BDKK4Krw2vJZ3oMxVgzvvO364P
-         d64V80zgzcU4gbH2qv6p+AXp/VlZ0REQm2Y4Zmy1e8Dnb4CsPuRo5pGml8Y2mp0EWMy2
-         A8+UCHV6ULMS8x33AYVGw9wtL6uKJVBWeV7b62c8AzOTeYvB3A4dXK5S53YGo4ODvDyW
-         lQiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHK2sqKphHPgaAtbKeQ8R2FWSCTcX3yVgYFGCv+BXkcTRTMNtpmoLFIS8qFu4tq3MJAiTTB8yKKspAXMh+U3AqN4j9gLaK8ZoR/ntV9/qcjzaYloYXzQkFDPnWUlt3csRRFdVGa1ee9PDiALQR9BQwrihB7bz33JlBOnGO5WvMxzguBTsPH7Iq7Q8qNX5G4y3878JHuwcxjBffhmiCCY7JOmMbB13XuJCDbZQr5PV6yHULJ8tmb4z0iQ==
-X-Gm-Message-State: AOJu0YwI4dbiFmJDEHiVe3CbUTLfvQEptNzR5uvd+rFpQt886Vu7BPbl
-	JbIgFIuTMeCTTqci84hGfw6+s4aVVGt9dI+5rzr9fDcXF7mdyg77
-X-Google-Smtp-Source: AGHT+IFtFHfQbEmui8gyv0uER4jCDezZch9KaAtTQYCcQnH2LXfnaNOUq0m3eU4lltdgXGU4ehxnsQ==
-X-Received: by 2002:adf:f8d2:0:b0:367:40eb:a3c3 with SMTP id ffacd0b85a97d-36804fec57emr4637223f8f.34.1720906669552;
-        Sat, 13 Jul 2024 14:37:49 -0700 (PDT)
-Received: from ?IPV6:2a02:8389:41cf:e200:8180:f721:f9cb:10b2? (2a02-8389-41cf-e200-8180-f721-f9cb-10b2.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:8180:f721:f9cb:10b2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dab3b41sm2426542f8f.5.2024.07.13.14.37.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Jul 2024 14:37:49 -0700 (PDT)
-Message-ID: <4f996369-2959-4e17-917d-f2de48d22064@gmail.com>
-Date: Sat, 13 Jul 2024 23:37:46 +0200
+	s=arc-20240116; t=1721165102; c=relaxed/simple;
+	bh=0KfPRo37su5mr39AobY7aI+apgV4uSA31yq4ETtf3q4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rUUQg6cuHw6SzBgXDgf1C9OAjc/Ez4v7A1RNiGd6ndUk3nMnxhEFoqpZYizAAfjkBNv7+1rrJsJXA5uiWmFd4AWOEyzGx7f1l+R9prcaXs1wdHNh9NYhf0FyGtIHuQjtkK/A54IRJJNjoLu0oSjK09L3cLbnny/l4tlCmATFfHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cT4WdwSs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A32B6C116B1;
+	Tue, 16 Jul 2024 21:25:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721165101;
+	bh=0KfPRo37su5mr39AobY7aI+apgV4uSA31yq4ETtf3q4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cT4WdwSs1mqdz/s17edCI/V3iOy0/eezJULLPdCn0ScoQ9gjRm6GG9A0Y3yNMj9FT
+	 DqwuBfHS7QWPy1qqalRyFbmHZzX9KFSWendVXJvYiiNdtWAeNysucScSzeb+cpLpNT
+	 5IV6dKWaJLC9jnWQlIgEKYkthvF1ofv8uDlBiIrvZAnLxzN32vleA8lDGG5Z2Pi7yr
+	 E7ZpTY842xR1AmDE6OQIShidO+gMtwzy899PlyWr5GANts7oQbrR4vudM/M6LJDs+z
+	 C3e6vNGf4e5lDpIZX9SSICgIT90LgkIbeVlxa3+GNeBkuslg6eH6/lnO/30cY25bdi
+	 3MpMmqwWBemiw==
+From: Kees Cook <kees@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] leds: gpio: Set num_leds after allocation
+Date: Tue, 16 Jul 2024 14:24:59 -0700
+Message-Id: <20240716212455.work.809-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] leds: bd2606mvv: use device_for_each_child_node() to
- access device child nodes
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: Jonathan Cameron <jic23@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rob Herring <robh@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Jean Delvare
- <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Marcin Wojtas <marcin.s.wojtas@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20240706-device_for_each_child_node-available-v1-0-8a3f7615e41c@gmail.com>
- <20240706-device_for_each_child_node-available-v1-3-8a3f7615e41c@gmail.com>
- <20240707175713.4deb559f@jic23-huawei>
- <4cf71de7-dc47-475c-bba0-a9e755f66d49@gmail.com>
- <2cd45260-e737-43e9-9bf6-c267d6f86ad3@gmail.com>
- <20240712230656.67e89eb2@akphone>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240712230656.67e89eb2@akphone>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1999; i=kees@kernel.org; h=from:subject:message-id; bh=0KfPRo37su5mr39AobY7aI+apgV4uSA31yq4ETtf3q4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBmluUrFMNdfqaChiBzifkfXBx9T8v2qRVdtSBv7 e9TqnvSKzaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZpblKwAKCRCJcvTf3G3A Jj/xD/9PX+RUqRgBfnbRviA/Sw9wZTm7Nak1JVZQj36Rg1oiaLvmtlU8QZVM+GBmjBUTqJdPmiB QdexpPQQ5vUkh0h68D7YPsNkN1g1iB35pPmfHSHrqGPVyYKYSMKUpSAARdcHLAbBv71e0NdkNUp UJi/BHiiX1Vm7HP+X2lt+egQGHBH+xJQv5Ojaxa+Sr3HnCyvAW8aH1nAnjMHlEO+u7rCUmNkr3x Mcc3ISmQ2skH+dZ8oJHZtiBx9K4UqCoTmWA+smqq+DfSoRDmIE/0D3KThF3mbXzaP9jIG1C0BuQ +yeReWtNR9pqEka4PwCL2k5d2uwFAE6cFYDw9cZ3QVeZjztFMkIz3vmeBLwvoo/jQ0CFIfX6a6b /ybvqHHyZbIw/kia8aACFbZBJ6V32tA1RGQ8nX2AdWwdZBMbDzkvwoUOF8ibqzy3bJfKI94RVoU M1g/CKeJA6s43zbTH9JsGw1h/ytNy/yyZdbZhdcSta5aku67mh09kPW2iOjhrNuy50ISR4X8K41 1IyRD32ujlWOb8HU9BHwZu1S34dGs/VuD4GitjkM6Cac+WuQlMNbJfKjiatXrQDNqTUHWzgKi9y nsRFKnSt8x4Q2bA5hAx5LRIzl0SEYOE5ltwOhAswS3eTDaBHQh97k7izEj8WRao2Aw8Zmk4toJw hxDcDs5IhqsCU
+ SQ==
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On 12/07/2024 23:06, Andreas Kemnade wrote:
-> On Mon, 8 Jul 2024 17:45:43 +0200
-> Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
-> 
->> On 08/07/2024 10:14, Javier Carrasco wrote:
->> What was the reason for this modification? Apparently, similar drivers
->> do everything in one loop to avoid such issues.
->>
-> The reason for two loops is that we check in the first loop whether
-> broghtness can be individually controlled so we can set max_brightness
-> in the second loop. I had the assumption that max_brightness should be
-> set before registering leds.
-> 
-> Some LEDs share brightness register, in the case where leds are defined
-> with a shared register, we revert to on-off.
-> 
->> Maybe refactoring to have a single loop again (if possible) would be
->> the cleanest solution. Otherwise a get/put mechanism might be
->> necessary.
->>
-> I had no idea how to do it the time I wrote the patch.
-> 
-> Regards,
-> Andreas
+With the new __counted_by annotation, the "num_leds" variable needs to
+valid for accesses to the "leds" array. This requirement is not met in
+gpio_leds_create(), since "num_leds" starts at "0", so "leds" index "0"
+will not be considered valid (num_leds would need to be "1" to access
+index "0").
 
-Then we could leave the two loops, and fix them. I am thinking of something
-like this:
+Fix this by setting the allocation size after allocation, and then update
+the final count based on how many were actually added to the array.
 
- static int bd2606mvv_probe(struct i2c_client *client)
+Fixes: 52cd75108a42 ("leds: gpio: Annotate struct gpio_leds_priv with __counted_by")
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: linux-leds@vger.kernel.org
+---
+ drivers/leds/leds-gpio.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+index 83fcd7b6afff..4d1612d557c8 100644
+--- a/drivers/leds/leds-gpio.c
++++ b/drivers/leds/leds-gpio.c
+@@ -150,7 +150,7 @@ static struct gpio_leds_priv *gpio_leds_create(struct device *dev)
  {
--	struct fwnode_handle *child;
- 	struct device *dev = &client->dev;
- 	struct bd2606mvv_priv *priv;
- 	struct fwnode_handle *led_fwnodes[BD2606_MAX_LEDS] = { 0 };
- 	int active_pairs[BD2606_MAX_LEDS / 2] = { 0 };
- 	int err, reg;
--	int i;
-+	int i, j;
+ 	struct fwnode_handle *child;
+ 	struct gpio_leds_priv *priv;
+-	int count, ret;
++	int count, used, ret;
+ 
+ 	count = device_get_child_node_count(dev);
+ 	if (!count)
+@@ -159,9 +159,11 @@ static struct gpio_leds_priv *gpio_leds_create(struct device *dev)
+ 	priv = devm_kzalloc(dev, struct_size(priv, leds, count), GFP_KERNEL);
+ 	if (!priv)
+ 		return ERR_PTR(-ENOMEM);
++	priv->num_leds = count;
++	used = 0;
+ 
+ 	device_for_each_child_node(dev, child) {
+-		struct gpio_led_data *led_dat = &priv->leds[priv->num_leds];
++		struct gpio_led_data *led_dat = &priv->leds[used];
+ 		struct gpio_led led = {};
+ 
+ 		/*
+@@ -197,8 +199,9 @@ static struct gpio_leds_priv *gpio_leds_create(struct device *dev)
+ 		/* Set gpiod label to match the corresponding LED name. */
+ 		gpiod_set_consumer_name(led_dat->gpiod,
+ 					led_dat->cdev.dev->kobj.name);
+-		priv->num_leds++;
++		used++;
+ 	}
++	priv->num_leds = used;
+ 
+ 	return priv;
+ }
+-- 
+2.34.1
 
- 	if (!dev_fwnode(dev))
- 		return -ENODEV;
-@@ -93,20 +92,18 @@ static int bd2606mvv_probe(struct i2c_client *client)
-
- 	i2c_set_clientdata(client, priv);
-
--	device_for_each_child_node(dev, child) {
-+	device_for_each_child_node_scoped(dev, child) {
- 		struct bd2606mvv_led *led;
-
- 		err = fwnode_property_read_u32(child, "reg", &reg);
--		if (err) {
--			fwnode_handle_put(child);
-+		if (err)
- 			return err;
--		}
--		if (reg < 0 || reg >= BD2606_MAX_LEDS || led_fwnodes[reg]) {
--			fwnode_handle_put(child);
-+
-+		if (reg < 0 || reg >= BD2606_MAX_LEDS || led_fwnodes[reg])
- 			return -EINVAL;
--		}
-+
- 		led = &priv->leds[reg];
--		led_fwnodes[reg] = child;
-+		led_fwnodes[reg] = fwnode_handle_get(child);
- 		active_pairs[reg / 2]++;
- 		led->priv = priv;
- 		led->led_no = reg;
-@@ -129,7 +126,8 @@ static int bd2606mvv_probe(struct i2c_client *client)
- 						     &priv->leds[i].ldev,
- 						     &init_data);
- 		if (err < 0) {
--			fwnode_handle_put(child);
-+			for (j = i; j < BD2606_MAX_LEDS; j++)
-+				fwnode_handle_put(led_fwnodes[j]);
- 			return dev_err_probe(dev, err,
- 					     "couldn't register LED %s\n",
- 					     priv->leds[i].ldev.name);
-
-
-
-Thanks to the call to fwnode_get_handle(child), the child nodes get their
-refcount incremented to be used in the second loop, where all child nodes that
-have not been registered are released in case of error.
-
-The first loop becomes a scoped one, keeping the `child` variable from being
-accessed anywhere else.
-
-Any feedback before I send a v2 with this is very welcome.
-
-Best regards,
-Javier Carrasco
 
