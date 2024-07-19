@@ -1,154 +1,146 @@
-Return-Path: <linux-leds+bounces-2284-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2285-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC879334C7
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2024 02:42:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD00C937573
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jul 2024 11:02:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09C751F22A5A
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2024 00:42:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D58CB21031
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jul 2024 09:02:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86DB263C;
-	Wed, 17 Jul 2024 00:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DD847D095;
+	Fri, 19 Jul 2024 09:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SD9ASvcJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWIsad0+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E271A80B
-	for <linux-leds@vger.kernel.org>; Wed, 17 Jul 2024 00:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B2B5CB8;
+	Fri, 19 Jul 2024 09:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721176920; cv=none; b=IN/FaQFiImDubyC4tIKkV4ujBG6XU/yudjRcc32CfF5dCQLtMQ028/Jr2wWc6Wzg+xqWTYwaKerdPNdT49Tkc8QqQoDmpiz1xJB5XnaGsdW+GG6ypE7PKbHyNn+gla9k47s1Klua/kjGEMWeFXEOnUUAilLLLW94qrti5FhktAI=
+	t=1721379722; cv=none; b=VrTmIPgKQk7cAtvk/dWp5SZhdq7eVx1QDiEje3tynvijmHNqfjnlz9usEPJ2mY346g13Izs7gPOwsxCJMw8XcSPCnAPyr4czGRNZJorlN1nJnd8jYhWMxSP5bJLPwjt1BCnRWXhmhYaFAzBMbxsn1S4v+GLp5jmh+TKhPXOKsuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721176920; c=relaxed/simple;
-	bh=Ipj7zL2iZEnakXJvMlrr02p1LJkZOas0LO9/60TOE9I=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=lw236uOScgj1jM+nkW3Aa7r69QyJjwkI0cstf6CisKbFjVQ4QM+gKCaIcKoMaDRp181IyK02UeKqWg/ZOeO4pLfWTSn4+kD4uL/NechHl39gy7MhdMola7qoaAhTd4rReRuFN/j1nbAm+TBikWILay4lmk8AHaZeiLKVgzluhH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SD9ASvcJ; arc=none smtp.client-ip=209.85.222.43
+	s=arc-20240116; t=1721379722; c=relaxed/simple;
+	bh=e8NqB4UXXfRhq7xibWmOKgLLvVoy7/cBoXSoL07ZZd8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o76o0GYU4/fcYeuwHK+BWb06TB4fXqRK36oTmn0JKf3fqjR2NnsTF2+AlH+7RzdjN4EFS6tU9edE7Cvki8xE6n0G1rjb/2mh8psPL8d5vCh7rN8Q7mjZ5swKLvk1OeuiU635LhtWSTkj5924WDIyp3EzwS1sYxmGJFzykEjlRXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gWIsad0+; arc=none smtp.client-ip=209.85.217.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-81179185d4fso262013241.1
-        for <linux-leds@vger.kernel.org>; Tue, 16 Jul 2024 17:41:58 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4926a732a8dso594491137.0;
+        Fri, 19 Jul 2024 02:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721176918; x=1721781718; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=YMFs5B+zF1u0NUlRV73u/Wnfwv2OGsvFfBNT62+BOC0=;
-        b=SD9ASvcJEE/HYaHs9wG7z1h6BRVsa7wM4SXns2uqHvk0AwJDGmVZ9eUE9PFr6DO1ou
-         eCaqJRFBcHQworyA2a+H/b/V1W7IYEdpPShpNUgUetsgYNV4n5x983YnVKYq65ATNSsq
-         1VFVLKmvGc9BNlt66CXgGB17O/ptDqkwNISgQG4y8gjxetyPuIj/MizAs3BdA/xe8wma
-         OQd+aU7uWZvCJND9nmcg0wrLkn6E6cMNQAzAtLfZ0x7jckAb6mOkDqLK4tJyyCXwxBTh
-         GAOued4YbFjq+BVAhAXddynn7RjRmHAEsjvzdIkpoyg/xjxF+nlM1FKC8YSih//d1uRA
-         RVVw==
+        d=gmail.com; s=20230601; t=1721379720; x=1721984520; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e8NqB4UXXfRhq7xibWmOKgLLvVoy7/cBoXSoL07ZZd8=;
+        b=gWIsad0+rK05aE2J0pIqWynBQvX5NXxf+dO/jYm9yr8gV2jqJIFwANJusPXVqMCmrH
+         jniY/TQ61EdnV3WrOK/m9w8eU8bnfzeGCqwv/T5TEBv22Iruk+HPMaNPkyq0PBhF4EWu
+         /YS8kjVlE/Kyw1qqiTFYSkOX6nn1357bZsLBFMfPjiEOrYNM1YkbdTJNywd5jzha9nnP
+         RyGOh2FhRjY+QkqikTJ7ZRyJQIwOsVcYVOXOYMQdNBmpQVZ6JZCb4TbtGKD7n4cf0/Tp
+         YR7ypVSick/YoE4JUY3Q4YUhETlTRznq5DOMZT9gXi1MxgcaeAhU+XfTJdUs119eqse3
+         iAsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721176918; x=1721781718;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YMFs5B+zF1u0NUlRV73u/Wnfwv2OGsvFfBNT62+BOC0=;
-        b=gKhl4VAHWP2NPPgFxpoJjbR5IPbPDj5aSERFiuqbRVgNqBCDMROJZh9eI8+I8AzrTk
-         9aywdmhXbXDiW1t/LxiubLbgaI2hmfu6TzOXuny9w6AHVXMYeecqJPvI4P7DR2/nt4kb
-         AsKoGFCHuQhlRUjcMJ5lr1KkKJTJ+r/PfCNg8EnxpfDkgLvYNkBFm1WE+7UyDLyxgEaf
-         ZDt8ddvuR4yhFg4WAQP+BEA4stWCugxUwPHXDqB988xhHXT7Gd4vfF54emTORDP7PhjQ
-         6Isw9VfhsExF94wn14wQo5COg2+hNoKQ65/KGP+qtKwfkAfdHvXvSfmC/4/GoH+Gpu1K
-         AYBg==
-X-Gm-Message-State: AOJu0YwnHSGRh6u40xGRbN/SN22/t+otYKdynBBvenoCKUnK/gvNU5SC
-	vMPwIIprZ7JokwPGRH59v5/VwMc34crfPq8X4chx9MCOsZd/jC2TgMoSyX5EY7HnVvoaX0tIaD8
-	V7S9t7Yl2eBR6Vemnl+vimqrT+cml9t4D
-X-Google-Smtp-Source: AGHT+IE22eL+232Jhf8W/hNpU8O9mJDMmXDbNU/x5a2eFMEAyNXolz6z3L5AkVMizIRjksnvXaYYKYN4QyA3RwcLJjY=
-X-Received: by 2002:a05:6102:4b0d:b0:48f:df86:dba with SMTP id
- ada2fe7eead31-4915986bcbfmr353996137.5.1721176917654; Tue, 16 Jul 2024
- 17:41:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721379720; x=1721984520;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e8NqB4UXXfRhq7xibWmOKgLLvVoy7/cBoXSoL07ZZd8=;
+        b=anXTFeDXvOgCp2jA0B2jP4IylWxt6720HtgVze121XboLnJ5RqGWWHLGYC3dhhg/pc
+         NmlD6YVWA0ccooEfXppi+hgRTHcITD3mUjls66T2ndN0bew8W+80FNysBeTkOD3fwp0J
+         t4tBMdniC8HhG3fWmBeG5UHtIjTAJ/lmY7/bxYl8B0yfPmOU3OU/WhQe1hxtEHEYB5jy
+         eoZkijlM8uLnx6tRW7Z/q9XxfjlbLWa3Nxq1+fMX5DOBwxyAQrbsf0a/UDNSTMjLjosq
+         3xev6uBi0vKauhfELu07o2k7tksBYYtyYpDhdJBhsKw19J89cIuSokfWjTWZrEnUhqvG
+         2jYg==
+X-Forwarded-Encrypted: i=1; AJvYcCViLsYqEB55E+Q2g0PR2N5Di2yzjY7QDgldXn+lNBJDClTW1dRo07iDRzO9Qt5QZu64j3wfbQ+Jt7LRjUZHpv8cpDMLdO8jPegIFMsbAcHjg9vqT+IpO+2Dt/R2groU7oeAxS/WdD+Z4NoyWzMoUACCwQWqc6PRQAP+1VrrPf0Cn0yvJwb+pCkbN/S074O5uOHeEqMD7y+wKzlWlDVb5mITRCu9Q9gbRfdw4aLJhnTOlP8qmTn1CYBAwRPdZkKbw/LtjiW/pJKnK+ultQDMXR8260A3kb3tQZ0slW7dDEcoQEYNzUaiEKZUenJP5vnl7rWehy1U2SY0J8kSnDlB/7jtQvxzC9EthZXa6YhMxgEaTtrhoU+u25AD4SQL0+wpEs4kSNlPmMNWSjE+NnTwPlq7VsPrFy3Lr3nkUY4aS1LJkoCtgsipKvh5YxPxIuxIlCs=
+X-Gm-Message-State: AOJu0YwT/5FysG9Is/GOIs0KT6geaz7AuOgWhS71fCORHg6Zh331R5rD
+	nH38otIhsT1rJOU7bxEiErQFxjktzz7wrpCGwLmU4KhtXpiYzHf5BiceGFYcgV3Wi9iQ1JkUzvt
+	L9cLL9Q2b43tU4OpQjXsJyvH3GyE=
+X-Google-Smtp-Source: AGHT+IEEXrAtw5qdg+6Tlto0/IkkAm7AL1K/G5e76SlvQXcdxQq43WWyLQGsGDvFSp5tU2oxcT8DtAITdKNEJ/5OAbQ=
+X-Received: by 2002:a05:6102:512a:b0:48f:eb37:fd86 with SMTP id
+ ada2fe7eead31-491599ec471mr8207968137.30.1721379719734; Fri, 19 Jul 2024
+ 02:01:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?Q?Guilherme_Gi=C3=A1como_Sim=C3=B5es?= <trintaeoitogc@gmail.com>
-Date: Tue, 16 Jul 2024 21:41:22 -0300
-Message-ID: <CAM_RzfZ=f_Uw0JFXX8Kk6t6FB1gRw=4VAW8sDc5MDEkoHq_fBw@mail.gmail.com>
-Subject: [LEDs] leds: remove led_brightness
-To: linux-leds@vger.kernel.org
+References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-2-e3f6662017ac@gmail.com>
+ <wnf3mfgdm4p4f5wrxdtlx4wccnizdvohc7iiyu5t22eeb67r57@xun3r73hksrg>
+ <ad04e203-4244-4cd3-9c9a-fae002962990@linaro.org> <lwrz4rvn6ogseea5v6j7plc3yi3xnzo76dvrsl3muat3iswlkb@zmwa3xo3xgw4>
+ <85e03d10-59a2-4f15-bb85-7b2c0354a5d1@linaro.org>
+In-Reply-To: <85e03d10-59a2-4f15-bb85-7b2c0354a5d1@linaro.org>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Fri, 19 Jul 2024 12:01:48 +0300
+Message-ID: <CABTCjFBxOEdpbdYnbvPyf2MRE5m-3gfvHtaPbDF5PmkQZ2kV1w@mail.gmail.com>
+Subject: Re: [PATCH v3 02/23] gcc-sdm845: Add rates to the GP clocks
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sebastian Reichel <sre@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi community, I hope this email finds you well
-I maked a change in kernel linux, for fulfill a TODO in
-drivers/leds/TODO that say:
->* On/off LEDs should have max_brightness of 1
->* Get rid of enum led_brightness
+Why cannot max values be defined as ((2 ^ mnd_width) - 1) and ((2 ^
+hid_width) - 1)?
+
+=D0=B2=D1=82, 18 =D0=B8=D1=8E=D0=BD. 2024=E2=80=AF=D0=B3. =D0=B2 22:12, Kon=
+rad Dybcio <konrad.dybcio@linaro.org>:
 >
->It is really an integer, as maximum is configurable. Get rid of it, or
->make it into typedef or something.
-
-Then I removed the led_brightness. And in the files that enum
-led_brightness was used i replace to "int" ... And in the file
-"include/linux/leds.h" I created constants like:
-+#define LED_OFF  0
-+#define LED_ON   1
-+#define LED_HALF 127
-+#define LED_FULL 255
-
-because in some files when has a compare like "brightness == LED_OFF"
-it will work yet.
-
-The includes/linux/leds.h diff:
--/* This is obsolete/useless. We now support variable maximum brightness. */
--enum led_brightness {
--       LED_OFF         = 0,
--       LED_ON          = 1,
--       LED_HALF        = 127,
--       LED_FULL        = 255,
--};
-+// default values for leds brightness
-+#define LED_OFF  0
-+#define LED_ON   1
-+#define LED_HALF 127
-+#define LED_FULL 255
-
- enum led_default_state {
-        LEDS_DEFSTATE_OFF       = 0,
-@@ -127,15 +125,15 @@ struct led_classdev {
-         * that can sleep while setting brightness.
-         */
-        void            (*brightness_set)(struct led_classdev *led_cdev,
--                                         enum led_brightness brightness);
-+                                         int brightness);
-        /*
-         * Set LED brightness level immediately - it can block the caller for
-         * the time required for accessing a LED device register.
-         */
-        int (*brightness_set_blocking)(struct led_classdev *led_cdev,
--                                      enum led_brightness brightness);
-+                                      int brightness);
-        /* Get LED brightness level */
--       enum led_brightness (*brightness_get)(struct led_classdev *led_cdev);
-+       int (*brightness_get)(struct led_classdev *led_cdev);
-
-        /*
-         * Activate hardware accelerated blink, delays are in milliseconds
-@@ -486,7 +484,7 @@ int devm_led_trigger_register(struct device *dev,
- void led_trigger_register_simple(const char *name,
-                                struct led_trigger **trigger);
- void led_trigger_unregister_simple(struct led_trigger *trigger);
--void led_trigger_event(struct led_trigger *trigger,  enum
-led_brightness event);
-+void led_trigger_event(struct led_trigger *trigger,  int event);
- void led_trigger_blink(struct led_trigger *trigger, unsigned long delay_on,
-                       unsigned long delay_off);
-
-
-
-How the kernel has a lot of files that use this led_brightness, the
-change is very very big.
-I have some questions:
-
-Does my change make sense?
-
-How can I split the change into several patches for sending to
-different email lists and still have the split change make sense in
-the email lists I'm going to send it to? can I reference the commit in
-which I delete the enum?
+>
+>
+> On 6/18/24 20:55, Dmitry Baryshkov wrote:
+> > On Tue, Jun 18, 2024 at 08:50:52PM GMT, Konrad Dybcio wrote:
+> >>
+> >>
+> >> On 6/18/24 19:50, Dmitry Baryshkov wrote:
+> >>> On Tue, Jun 18, 2024 at 04:59:36PM GMT, Dzmitry Sankouski wrote:
+> >>>> sdm845 has "General Purpose" clocks that can be muxed to
+> >>>> SoC pins.
+> >>>>
+> >>>> Those clocks may be used as e.g. PWM sources for external peripheral=
+s.
+> >>>> Add more frequencies to the table for those clocks so it's possible
+> >>>> for arbitrary peripherals to make use of them.
+> >>>>
+> >>>> See also: bf8bb8eaccf(clk: qcom: gcc-msm8916: Add rates to the GP cl=
+ocks)
+> >>>
+> >>> Each time I look at the table attached to the GP CLK, I feel that it'=
+s
+> >>> plain wrong. In the end the GPCLK can in theory have arbitrary value
+> >>> depending on the usecase.
+> >>>
+> >>> Bjorn, Konrad, maybe we should add special clk_ops for GP CLK which
+> >>> allow more flexibility than a default clk_rcg2_ops?
+> >>
+> >> If we can somehow get max m/n/d values for all possible parents, sure
+> >
+> > Calculate them at runtime?
+>
+> We'd be calculating the mnd values for a frequency that's either equal or
+> reasonably close to the one requested. My worry is that we somehow need
+> to get the maximum values they can take (unless they're well-known)
+>
+> Konrad
 
