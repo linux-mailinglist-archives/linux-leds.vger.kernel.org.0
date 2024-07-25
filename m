@@ -1,102 +1,115 @@
-Return-Path: <linux-leds+bounces-2308-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2309-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D44093BDD6
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 10:19:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9752C93BE2E
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 10:50:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 136931F215E9
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 08:19:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54051284253
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 08:50:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB60167D8C;
-	Thu, 25 Jul 2024 08:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31936196C7C;
+	Thu, 25 Jul 2024 08:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sB3obELb"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08D61CD11;
-	Thu, 25 Jul 2024 08:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0261F196438;
+	Thu, 25 Jul 2024 08:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721895552; cv=none; b=S8OLl/bTOCP1o1qEGbvErjRNdTaC57yJuAZK+iZBd7c/MuJIoWhbCWFV06uFwzMy08n6123DxZEhdId585Zco9zsU2CU2+0kllwbmutFdtFgW8Vl5oEfsLu+twbMP9moD8ye50ys1m9OY0nqWpmyd4pt/LsOlZbS/RUrwvkN2vU=
+	t=1721897448; cv=none; b=sbJDDekcGRP2oOJ83JqGPdVQKf5lxGD2+Rl3Pb7mgS8ebb3aNjnv5xalvUN+HwijildWQVCulFPeQsMfGNWlkO6Omm4EXETgm7y5U8oOc6sinSJBqWrSRLYSdUzXKIY1hh7zBsWVv4ZOhsvcdZ4JoYzP39fsmZrN4c9cBxggxhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721895552; c=relaxed/simple;
-	bh=jEPFkk7dweGg6w4LjWhMpw6+689rnqvVfQxDeHzwFbI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EnUg5YCuDHp4cecd5WC/J+bQOC2S2rCppuwpAiVmlQb7UuXdbSUrETadPosTul+53D91jmu0XI9Ju7B9QTVsuKjHRGjk0Y5ZTi5Jc5pdhRrVzCAPsmdr/Z97xHDv4GS6UnfDFiziQhQIvrXLbrKkJ935mDsuihN1ZDBrykjBRKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-03 (Coremail) with SMTP id rQCowAB3f_twCqJmao3wAA--.27495S2;
-	Thu, 25 Jul 2024 16:18:57 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: pavel@ucw.cz,
-	lee@kernel.org,
-	kabel@kernel.org
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] leds: ns2: add missing check for fwnode_property_read_u32_array
-Date: Thu, 25 Jul 2024 16:15:37 +0800
-Message-Id: <20240725081537.3247339-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1721897448; c=relaxed/simple;
+	bh=OMp3CeWOcFvJAbm8g0YrxAISAwsJbKz6fXeARcHiXeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J90mMM10J5uV0Az93emFhh+QwghHxBiFLssdyh1hXNTPneCSCwloqvIVTpsfUq6S7tm7NfqYquoqjYJZp1lq6MNWI4EYhrUyZpE0HQWnNU7CRAnibHhfuc8aLaB6sfjjE0zs+UXl5hbck/HiAuMeWK8ZU43ISCUWxEXwhPrq0JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sB3obELb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64714C116B1;
+	Thu, 25 Jul 2024 08:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721897447;
+	bh=OMp3CeWOcFvJAbm8g0YrxAISAwsJbKz6fXeARcHiXeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sB3obELbDzy14mAk6Q5dSOmz8rx6pSmfinJySv7QDQAeTkNvsHeqRpTXcZTKomCmG
+	 5cOqLG8xAKun5rZW63YRB/WkrzuU/vY+eSvwJDKJEpdJ7GFPBFH6KIxQ4DSFwBhaXd
+	 ktVYB0vaIOWXVaZh93ngKRbQewFrpJknDHCA846w5HndeOpEZF6AiZXUQb4WbJJVNU
+	 Oa2TxJwSKV7f89xPB7z7JgIX7x63/910S+EckNqVH1jcGoJmDwYMNVzy1WTMA86JH3
+	 eGSGcnfk+16SXaQkigGDRUeGrXhKVBZ3+44m7srZ9rC+nS9Ng2ft8xXC9y8MngVEXE
+	 0/TVSH1M66rew==
+Date: Thu, 25 Jul 2024 09:50:42 +0100
+From: Lee Jones <lee@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+	linux-leds@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: leds: Document "netdev" trigger
+Message-ID: <20240725085042.GC501857@google.com>
+References: <20240708114653.18566-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAB3f_twCqJmao3wAA--.27495S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4kCw47Gr1kCF4xXr4fKrg_yoWDJrb_ur
-	97ZryxKa4jgF4F9rZFyw1Iv3sFkFWUWr48ua12vas3J3W8C3sxXr40vryDurZ7ZF4fArnx
-	Cr18Za43Cw13KjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbhxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAq
-	x4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
-	MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxV
-	CFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18
-	MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
-	1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
-	IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
-	A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjqjg7UUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+In-Reply-To: <20240708114653.18566-1-marex@denx.de>
 
-Add check for the return value of fwnode_property_read_u32_array() and
-return the error if it fails in order to catch the error.
+Cc: Andrew and netdev
 
-Fixes: 940cca1ab5d6 ("leds: ns2: convert to fwnode API")
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/leds/leds-ns2.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On Mon, 08 Jul 2024, Marek Vasut wrote:
 
-diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index f3010c472bbd..0713f7e9d1af 100644
---- a/drivers/leds/leds-ns2.c
-+++ b/drivers/leds/leds-ns2.c
-@@ -202,8 +202,12 @@ static int ns2_led_register(struct device *dev, struct fwnode_handle *node,
- 	if (!modval)
- 		return -ENOMEM;
- 
--	fwnode_property_read_u32_array(node, "modes-map", (void *)modval,
--				       nmodes * 3);
-+	ret = fwnode_property_read_u32_array(node, "modes-map", (void *)modval,
-+					     nmodes * 3);
-+	if (ret) {
-+		dev_err(dev, "Missing modes-map property for %pfw\n", node);
-+		return ret;
-+	}
- 
- 	rwlock_init(&led->rw_lock);
- 
+> Document the "netdev" trigger which is used to control LEDs by
+> network device activity. This is an existing trigger used in
+> existing DTs, document it so validation of those DTs would pass.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> ---
+> V2: Expand the commit message slightly
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index 8a3c2398b10ce..bf9a101e4d420 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -113,6 +113,8 @@ properties:
+>              # LED indicates NAND memory activity (deprecated),
+>              # in new implementations use "mtd"
+>            - nand-disk
+> +            # LED indicates network activity
+> +          - netdev
+
+netdev is the description of the network development ML/repo, right?
+
+Seems like an odd name for an OS agnostic property?
+
+>              # No trigger assigned to the LED. This is the default mode
+>              # if trigger is absent
+>            - none
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.25.1
-
+Lee Jones [李琼斯]
 
