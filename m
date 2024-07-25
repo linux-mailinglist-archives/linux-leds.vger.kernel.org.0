@@ -1,131 +1,86 @@
-Return-Path: <linux-leds+bounces-2306-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2307-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABE393B85E
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jul 2024 23:08:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B35ED93BD2E
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 09:37:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55A5828212A
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jul 2024 21:08:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EED5B212B3
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 07:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E8CF13B294;
-	Wed, 24 Jul 2024 21:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC86716EB50;
+	Thu, 25 Jul 2024 07:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="IaZ/EQ3f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gv/6J7Ns"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F3A446DB;
-	Wed, 24 Jul 2024 21:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B362016D4EB;
+	Thu, 25 Jul 2024 07:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721855318; cv=none; b=myZg/e4lK6NFvEd8PfKsNP3lCOv9fHwr2DsOGOUGg/3MhK1pocxjWa6gAIL8Jk4jvyc1U4V6RImq/SHSCZxxEz4z8mYCNuUuWPLnsaYO8vnZp/MKzlYoOHpx/h0+J2dEdewG+4aDdGk3U10GCsVVDI/gQjLgLk8ysQ1IkpvNQE0=
+	t=1721893047; cv=none; b=j2lKZgA+KZV5ey6LFt1sUAiEPGREm1luAWn6DS7g3XLzjqt2QLQNxrqeeMEuaU51IvskM1iGEJ++L+iAjpQKJhUjgDR1heelIshxYW/+zbWJ4sAkyRGBX03w8NyUOEc3KHyOYI1BkGOMge9P7kJo3ij0I0KDWHU02gpuBBmL/gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721855318; c=relaxed/simple;
-	bh=xauPDe3MUJmpkXHHLGbkZ6AjxNjImXmuIx8rlCswwGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OfnBH+JmYJgfEvMCOM1YD5zv0lZezrO3HiDgz3sNKNt8jW6WcXDYzGwiDjDwTgVRczj2bOdyBSldCeME2coKACX2W1Rjamlo3vKhU12pJZOTWINjYGz4DPh6WE5eBIq0A1Oz2+rFAa0n4SS89bFQatMc1usA1McvNKl3TOtGKSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=IaZ/EQ3f; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (p5b16425b.dip0.t-ipconnect.de [91.22.66.91])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 465472FC0087;
-	Wed, 24 Jul 2024 23:08:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1721855312;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h3Age+yvHCUqLI2CoWAhvtrLifjIlex4RPmQJcbWOTM=;
-	b=IaZ/EQ3fz0ZU/y+4RZpX6YNF7KQDUz23VKApKqub3s/+TXnGZXF2GOM0TQ5j2Qt4Uw66Yj
-	69r4VGlqtyuJZxOajvMI4D8+Bw8Hwh45Cs4naPT9jA1xndNlA2moFAJRBCJ6zmV0V6zQxM
-	VxMdPqhnDsa/GKV8APYH9QyOyLxGZTM=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <0c025223-9eeb-44dd-97a0-d7b6de28d90d@tuxedocomputers.com>
-Date: Wed, 24 Jul 2024 23:08:32 +0200
+	s=arc-20240116; t=1721893047; c=relaxed/simple;
+	bh=ttSDMeENsL/YjuqtLkhBSuK5q/wRicS92KYkoHzsHiY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=h7cubC210rbggbeFZ2aQUfh5/EzJ9585xXYutDeoctbJKVXoqN9XR03F3S8hb251jJQ4FUKSfklaQYDYqRFZyIdVZWQOUReIQ0ggbQVWlYqLMwHuYb2eotj977muV0sAOvJ9PiDwUhtTf0MgVUVCjQmEAP3ekeTbM14gYp9mraw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gv/6J7Ns; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FBC4C116B1;
+	Thu, 25 Jul 2024 07:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721893047;
+	bh=ttSDMeENsL/YjuqtLkhBSuK5q/wRicS92KYkoHzsHiY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=gv/6J7NsLJqCZmPsl49ZW/7PBoxrVwUTz5gpN6bEAF4RJ4gcDd4Fn0ih77ECDAm6z
+	 khycOdRL2ZmYedH5m+4HV6Aldpw9Jbi/Jm2hF3B2LU7bp2Vyq4m4uECryNnEPezoYN
+	 mq6cPY90TNa/Qj8ZRpz/3mPZmdknOFShg23VQzjCDhsNgtPNOu5lZcB3Nf8XvBeQXH
+	 W8vZ+FCLhK9sGiixBOjPEzC3oGUzmqLDsrPT9sGd6vPH1/wBwVLHgVFIc8ncDO8u6i
+	 kwNcviv8kit1pw1fXja2P/FUuQdsozyU9+n+GYj3E379hO38PLoQSIKkt1mePcN5Jz
+	 GRtEvpuMe6Eag==
+From: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Jack Chen <zenghuchen@google.com>
+Cc: Mark Brown <broonie@kernel.org>, Vadim Pasternak <vadimp@nvidia.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org
+In-Reply-To: <20240704191500.766846-1-zenghuchen@google.com>
+References: <20240704191500.766846-1-zenghuchen@google.com>
+Subject: Re: (subset) [PATCH v2] leds: lm3601x: Calculate max_brightness
+ and brightness properly
+Message-Id: <172189304588.827855.15843679475980331109.b4-ty@kernel.org>
+Date: Thu, 25 Jul 2024 08:37:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
- devices on Linux v3)
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Benjamin Tissoires <bentiss@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
- jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Gregor Riepl <onitake@gmail.com>
-References: <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
- <ZqE7sk0ZW0q8ueul@duo.ucw.cz>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZqE7sk0ZW0q8ueul@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 
-Hi
+On Thu, 04 Jul 2024 15:15:00 -0400, Jack Chen wrote:
+> The torch_current_max should be checked not exceeding the upper bound.
+> If it does, throw a warning message and set to LM3601X_MAX_TORCH_I_UA.
+> 
+> LM3601x torch brigthness register (LM3601X_LED_TORCH_REG) takes 0 as the
+> minimum output (2.4 mA). However, 0 of led_brightness means LED_OFF.
+> Adding a -1 offset to brightness before writing to brightness
+> register, so when users write minimum brightness (1), it sets lm3601x
+> output the minimum.
+> 
+> [...]
 
-Am 24.07.24 um 19:36 schrieb Pavel Machek:
-> Hi!
->
->>> IMO working with the HID LampArray is the way forward. So I would
->>> suggest to convert any non-HID RGB "LED display" that we are talking
->>> about as a HID LampArray device through `hid_allocate_device()` in the
->>> kernel. Basically what you are suggesting Hans. It's just that you don't
->>> need a formal transport layer, just a child device that happens to be
->>> HID.
->>>
->>> The next question IMO is: do we want the kernel to handle such
->>> machinery? Wouldn't it be simpler to just export the HID device and let
->>> userspace talk to it through hidraw, like what OpenRGB does?
->> That's already part of my plan: The kernels main goal is to give devices a
->> LampArray interface that don't have one already (e.g. because they are no
->> HID devices to begin with).
->>
->> The actual handling of LampArray will happen in userspace.
->>
->> Exception is that maybe it could be useful to implement a small subset of
->> LampArray in a generic leds-subsystem driver for backwards compatibility to
->> userspace applications that only implement that (e.g. UPower). It would
->> treat the whole keyboard as a single led.
+Applied, thanks!
 
-LampArray also gives the HID keycode, if applicable, for keyboard leds.
+[1/1] leds: lm3601x: Calculate max_brightness and brightness properly
+      commit: ef23c7b35efb9cfa0b56fbb7fdf3aa782b1c2b87
 
-It's the InputBinding field in the LampAttributesResponseReport, see HID Usage 
-Tables v1.5 -> 26.3 Lamp Attributes Report.
+--
+Lee Jones [李琼斯]
 
-Kind regards,
-
-Werner
-
-(ps sorry for resend @pavel, hit reply instead of reply all the first time)
-
-(pps resend a second time because Thunderbird did HTML e-mail)
-
-> Are you sure LampArray is good-enough interface? OpenRGB exposes
-> keycode-to-LED interface, how will that work with LampArray?
->
-> Best regards,
-> 								Pavel
 
