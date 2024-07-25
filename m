@@ -1,86 +1,102 @@
-Return-Path: <linux-leds+bounces-2307-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2308-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35ED93BD2E
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 09:37:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D44093BDD6
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 10:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EED5B212B3
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 07:37:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 136931F215E9
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Jul 2024 08:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC86716EB50;
-	Thu, 25 Jul 2024 07:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gv/6J7Ns"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB60167D8C;
+	Thu, 25 Jul 2024 08:19:12 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B362016D4EB;
-	Thu, 25 Jul 2024 07:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08D61CD11;
+	Thu, 25 Jul 2024 08:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721893047; cv=none; b=j2lKZgA+KZV5ey6LFt1sUAiEPGREm1luAWn6DS7g3XLzjqt2QLQNxrqeeMEuaU51IvskM1iGEJ++L+iAjpQKJhUjgDR1heelIshxYW/+zbWJ4sAkyRGBX03w8NyUOEc3KHyOYI1BkGOMge9P7kJo3ij0I0KDWHU02gpuBBmL/gg=
+	t=1721895552; cv=none; b=S8OLl/bTOCP1o1qEGbvErjRNdTaC57yJuAZK+iZBd7c/MuJIoWhbCWFV06uFwzMy08n6123DxZEhdId585Zco9zsU2CU2+0kllwbmutFdtFgW8Vl5oEfsLu+twbMP9moD8ye50ys1m9OY0nqWpmyd4pt/LsOlZbS/RUrwvkN2vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721893047; c=relaxed/simple;
-	bh=ttSDMeENsL/YjuqtLkhBSuK5q/wRicS92KYkoHzsHiY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=h7cubC210rbggbeFZ2aQUfh5/EzJ9585xXYutDeoctbJKVXoqN9XR03F3S8hb251jJQ4FUKSfklaQYDYqRFZyIdVZWQOUReIQ0ggbQVWlYqLMwHuYb2eotj977muV0sAOvJ9PiDwUhtTf0MgVUVCjQmEAP3ekeTbM14gYp9mraw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gv/6J7Ns; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FBC4C116B1;
-	Thu, 25 Jul 2024 07:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721893047;
-	bh=ttSDMeENsL/YjuqtLkhBSuK5q/wRicS92KYkoHzsHiY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gv/6J7NsLJqCZmPsl49ZW/7PBoxrVwUTz5gpN6bEAF4RJ4gcDd4Fn0ih77ECDAm6z
-	 khycOdRL2ZmYedH5m+4HV6Aldpw9Jbi/Jm2hF3B2LU7bp2Vyq4m4uECryNnEPezoYN
-	 mq6cPY90TNa/Qj8ZRpz/3mPZmdknOFShg23VQzjCDhsNgtPNOu5lZcB3Nf8XvBeQXH
-	 W8vZ+FCLhK9sGiixBOjPEzC3oGUzmqLDsrPT9sGd6vPH1/wBwVLHgVFIc8ncDO8u6i
-	 kwNcviv8kit1pw1fXja2P/FUuQdsozyU9+n+GYj3E379hO38PLoQSIKkt1mePcN5Jz
-	 GRtEvpuMe6Eag==
-From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Jack Chen <zenghuchen@google.com>
-Cc: Mark Brown <broonie@kernel.org>, Vadim Pasternak <vadimp@nvidia.com>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
- linux-leds@vger.kernel.org
-In-Reply-To: <20240704191500.766846-1-zenghuchen@google.com>
-References: <20240704191500.766846-1-zenghuchen@google.com>
-Subject: Re: (subset) [PATCH v2] leds: lm3601x: Calculate max_brightness
- and brightness properly
-Message-Id: <172189304588.827855.15843679475980331109.b4-ty@kernel.org>
-Date: Thu, 25 Jul 2024 08:37:25 +0100
+	s=arc-20240116; t=1721895552; c=relaxed/simple;
+	bh=jEPFkk7dweGg6w4LjWhMpw6+689rnqvVfQxDeHzwFbI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EnUg5YCuDHp4cecd5WC/J+bQOC2S2rCppuwpAiVmlQb7UuXdbSUrETadPosTul+53D91jmu0XI9Ju7B9QTVsuKjHRGjk0Y5ZTi5Jc5pdhRrVzCAPsmdr/Z97xHDv4GS6UnfDFiziQhQIvrXLbrKkJ935mDsuihN1ZDBrykjBRKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-03 (Coremail) with SMTP id rQCowAB3f_twCqJmao3wAA--.27495S2;
+	Thu, 25 Jul 2024 16:18:57 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: pavel@ucw.cz,
+	lee@kernel.org,
+	kabel@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] leds: ns2: add missing check for fwnode_property_read_u32_array
+Date: Thu, 25 Jul 2024 16:15:37 +0800
+Message-Id: <20240725081537.3247339-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+X-CM-TRANSID:rQCowAB3f_twCqJmao3wAA--.27495S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4kCw47Gr1kCF4xXr4fKrg_yoWDJrb_ur
+	97ZryxKa4jgF4F9rZFyw1Iv3sFkFWUWr48ua12vas3J3W8C3sxXr40vryDurZ7ZF4fArnx
+	Cr18Za43Cw13KjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbhxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAq
+	x4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72
+	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
+	MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxV
+	CFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18
+	MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
+	1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+	IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+	A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjqjg7UUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On Thu, 04 Jul 2024 15:15:00 -0400, Jack Chen wrote:
-> The torch_current_max should be checked not exceeding the upper bound.
-> If it does, throw a warning message and set to LM3601X_MAX_TORCH_I_UA.
-> 
-> LM3601x torch brigthness register (LM3601X_LED_TORCH_REG) takes 0 as the
-> minimum output (2.4 mA). However, 0 of led_brightness means LED_OFF.
-> Adding a -1 offset to brightness before writing to brightness
-> register, so when users write minimum brightness (1), it sets lm3601x
-> output the minimum.
-> 
-> [...]
+Add check for the return value of fwnode_property_read_u32_array() and
+return the error if it fails in order to catch the error.
 
-Applied, thanks!
+Fixes: 940cca1ab5d6 ("leds: ns2: convert to fwnode API")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/leds/leds-ns2.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-[1/1] leds: lm3601x: Calculate max_brightness and brightness properly
-      commit: ef23c7b35efb9cfa0b56fbb7fdf3aa782b1c2b87
-
---
-Lee Jones [李琼斯]
+diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
+index f3010c472bbd..0713f7e9d1af 100644
+--- a/drivers/leds/leds-ns2.c
++++ b/drivers/leds/leds-ns2.c
+@@ -202,8 +202,12 @@ static int ns2_led_register(struct device *dev, struct fwnode_handle *node,
+ 	if (!modval)
+ 		return -ENOMEM;
+ 
+-	fwnode_property_read_u32_array(node, "modes-map", (void *)modval,
+-				       nmodes * 3);
++	ret = fwnode_property_read_u32_array(node, "modes-map", (void *)modval,
++					     nmodes * 3);
++	if (ret) {
++		dev_err(dev, "Missing modes-map property for %pfw\n", node);
++		return ret;
++	}
+ 
+ 	rwlock_init(&led->rw_lock);
+ 
+-- 
+2.25.1
 
 
