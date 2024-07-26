@@ -1,107 +1,158 @@
-Return-Path: <linux-leds+bounces-2333-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2334-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F015C93CEE4
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Jul 2024 09:35:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F10093D0D9
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Jul 2024 12:05:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D1841C20A63
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Jul 2024 07:35:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F04E41F225B3
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Jul 2024 10:05:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0EB313C80A;
-	Fri, 26 Jul 2024 07:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE45A178CDF;
+	Fri, 26 Jul 2024 10:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4RZBNx4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dn0T106q"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9752B548EE;
-	Fri, 26 Jul 2024 07:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9369E176AA9;
+	Fri, 26 Jul 2024 10:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721979332; cv=none; b=p/tL5Qw944PYNZtu6v5LNObhHjCM/9g3FPM9CDT87KqjPX9DqG69MH6hW0I1I01WTbrmraFdgNmQvg+2sF87ww7TmG6ggRLPxJE4i0F8QxF5XeYn91ON+9LqM9ctLTash/X1JV2ipdLLM+KL6chLpvkDhSb7bWaSHiZn6yI/+hc=
+	t=1721988257; cv=none; b=pNBIe7iCw8zgNaTvYkBucdswFCb5uCXJAt2TYY1tW/wkom53Bd7UNXe/RyIt2NRVBNLi1uum1oK/3tFJW0Vx56ubpsqG6neZZRi5tcvHtgScQFWdCCMhRlOVkQLBQErAM1dmFWZ8F4avA2nIs/0yZm8pif+vQjwerKHV+9RVAA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721979332; c=relaxed/simple;
-	bh=GP7Fq6eI6OXmFtc/BTYihKrVtWU4428IyPtackZcyp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ymcq8GjbNKMNABaivdnWmVA8GtvlTmuxIxLkzzJxh+xxmGd5pMc7J554igxfiEiOBzCAZhrGOshebIHbkn0agxBLOQ7lm6nJJX3D0AJaAQKrVbP5DUk66hwFBG2lsTlba/cnsOU5hl+yi+xF4ukAi9MsiIXWnQB9MIBM0gKgGfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4RZBNx4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAC7EC32782;
-	Fri, 26 Jul 2024 07:35:30 +0000 (UTC)
+	s=arc-20240116; t=1721988257; c=relaxed/simple;
+	bh=XlhcHXnRSqptUTP1RNNiRZxd2iwlEZU0iUMh/1bntXY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TKBg91C6+wBcbp5EbhrWQJZwe6WL5+GUpmO/gUSMXDD2KhPkjEmA+z1foRjNOM40BMg7eeDZ0wOMZ2zzOBShlF9Ndvw7dCSSivHd8KVeDpxC3uKSSpyduBNBZ8+pEIXNvVZqrHbz3EGGiY8JxgXC+fTiqWxTj0XD/ME40pZ4RPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dn0T106q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FAF0C32782;
+	Fri, 26 Jul 2024 10:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721979332;
-	bh=GP7Fq6eI6OXmFtc/BTYihKrVtWU4428IyPtackZcyp4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g4RZBNx4Rn5ME5akrrcH2lyBA4U7M2v9M7dAEfQK+XH+xxDbwDZd4kCGvVz33xIP/
-	 7WwtZbKb/9rQe0V+DLz7bZsICY4c7Tannj1n/hMiwAhmal5MLIlIUDEPLqJcoJjsgK
-	 tnFvZf7QG3zKItM2XwX49PUUpoSOmYCrKdaweC4LHYDXVwCnrfREF5tV4WeGcF+dE1
-	 ula4lh6zUOv6bD9X/OnES2lc0ZOfU8e7cgKWbLFao8BmCJEODohMZGGFZYk283DC41
-	 y5XDO1/h2xEde0F13pa8nzHAaUaCC8dmCJSjGOaTyVCqorfV1cUITn8ot+wZ5YmkFc
-	 oahc9A/qJcSFA==
-Date: Fri, 26 Jul 2024 09:35:28 +0200
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: pavel@ucw.cz, lee@kernel.org, linux-leds@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: ns2: add missing check for
- fwnode_property_read_u32_array
-Message-ID: <hg5gxn3ck3muwix5fgapdwxrqt7jkaqsv6qsiyanntulfjr2fw@lptgumpwbhqp>
-References: <20240725081537.3247339-1-nichen@iscas.ac.cn>
+	s=k20201202; t=1721988257;
+	bh=XlhcHXnRSqptUTP1RNNiRZxd2iwlEZU0iUMh/1bntXY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dn0T106q6PUhsZ6b5qJ1qAVI2oauqbFghMh+1VZ/TEIm0kJ8BZTBzmaAyo5I05dRv
+	 b9aJA/hMr86WsoFdAFx2vbx7pbK+1arx2HTvAbgLfq4N4Rw09kNBkz7qYCg9WYFbRB
+	 bijtdYPPWKSUyB+kASHGCoWvEDURWJeoUvLri0psOHn7YODhcrdsSUC7w+sM/zx8Q1
+	 rWfKTiyClTMLh3amVt++mxS4b0lHUUf3HF3PPYUtVPCLZEkBQ+qRrfMjl/ZPYAoowp
+	 To3NhXIYQ8puwhg7pnaPy/AuCp88ziVBfaBK60I4hlVDdIDhUI9R2OnKSZDoBo/xWk
+	 KWKC2SKYMn5qQ==
+Message-ID: <a6712679-3d76-45eb-bd73-1b41775c5e74@kernel.org>
+Date: Fri, 26 Jul 2024 12:04:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240725081537.3247339-1-nichen@iscas.ac.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] dt-bindings: mfd: add binding for qnap,mcu devices
+To: Heiko Stuebner <heiko@sntech.de>, lee@kernel.org, jdelvare@suse.com,
+ linux@roeck-us.net, dmitry.torokhov@gmail.com, pavel@ucw.cz
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ ukleinek@debian.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20240725194539.1780790-1-heiko@sntech.de>
+ <20240725194539.1780790-2-heiko@sntech.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240725194539.1780790-2-heiko@sntech.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 25, 2024 at 04:15:37PM +0800, Chen Ni wrote:
-> Add check for the return value of fwnode_property_read_u32_array() and
-> return the error if it fails in order to catch the error.
+On 25/07/2024 21:45, Heiko Stuebner wrote:
+> These MCUs can be found in network attached storage devices made by QNAP.
+> They are connected to a serial port of the host device and provide
+> functionality like LEDs, power-control and temperature monitoring.
 > 
-> Fixes: 940cca1ab5d6 ("leds: ns2: convert to fwnode API")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 > ---
->  drivers/leds/leds-ns2.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  .../devicetree/bindings/mfd/qnap,mcu.yaml     | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/qnap,mcu.yaml
 > 
-> diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-> index f3010c472bbd..0713f7e9d1af 100644
-> --- a/drivers/leds/leds-ns2.c
-> +++ b/drivers/leds/leds-ns2.c
-> @@ -202,8 +202,12 @@ static int ns2_led_register(struct device *dev, struct fwnode_handle *node,
->  	if (!modval)
->  		return -ENOMEM;
->  
-> -	fwnode_property_read_u32_array(node, "modes-map", (void *)modval,
-> -				       nmodes * 3);
-> +	ret = fwnode_property_read_u32_array(node, "modes-map", (void *)modval,
-> +					     nmodes * 3);
-> +	if (ret) {
-> +		dev_err(dev, "Missing modes-map property for %pfw\n", node);
-> +		return ret;
-> +	}
+> diff --git a/Documentation/devicetree/bindings/mfd/qnap,mcu.yaml b/Documentation/devicetree/bindings/mfd/qnap,mcu.yaml
+> new file mode 100644
+> index 0000000000000..3b1ad8cb54da3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/qnap,mcu.yaml
 
-Please use
-  return dev_err_probe()
+qnap,ts433-mcu.yaml
 
-also maybe in other parts of the driver probe where
-  dev_err();
-  return ret;
-is being done.
+> @@ -0,0 +1,43 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/qnap,mcu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: QNAP NAS on-board Microcontroller
+> +
+> +maintainers:
+> +  - Heiko Stuebner <heiko@sntech.de>
+> +
+> +description: |
 
-The device_for_each_child_node() can be changed to
-device_for_each_child_node_scoped() and you can drop the fwnode_handle_put()
-from
-  if (ret) {
-    fwnode_handle_put(child);
-    return ret;
-  }
+Do not need '|' unless you need to preserve formatting.
 
-Marek
+> +  QNAP embeds a microcontroller on their NAS devices adding system feature
+> +  as PWM Fan control, additional LEDs, power button status and more.
+> +
+
+With two above:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
 
