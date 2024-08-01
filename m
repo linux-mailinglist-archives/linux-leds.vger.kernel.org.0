@@ -1,154 +1,139 @@
-Return-Path: <linux-leds+bounces-2373-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2374-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC4C94497C
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 12:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A004B944B6B
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 14:36:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DC0D1C219A3
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 10:38:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE97E1C216BD
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 12:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00ADC170A37;
-	Thu,  1 Aug 2024 10:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA5018950D;
+	Thu,  1 Aug 2024 12:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mhR1bT/T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJBU6vh8"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0E23BBE5;
-	Thu,  1 Aug 2024 10:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78561187FFD
+	for <linux-leds@vger.kernel.org>; Thu,  1 Aug 2024 12:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722508681; cv=none; b=DKV66gn6C52NDk/T7KEHwJAAcdc2E+PTaOdGHF3TuxLiKPmcLKSvw0TcBMZ8dKVEcXDlDD2l31fo13hZug3cOm+1S4mwwkba0OfwtDNZEbLm114ES/MTmDT/98l4xCJ+dy9mVfm+R8Dr2GR0L3yAvlj5f48zhSytF4HRBqI92Co=
+	t=1722515799; cv=none; b=Y9ggnI1rufPZsRFGrLAlWX59V2Ecx23aOWNF9t0s5TtvD8UoDNUvgFKRCFxPKbb66iC2OLUObs0RdjnSBxYEnGPL6ixotRxSnhnNJJ+s4R/ocmX4Wfa7iRDAcQQOdeO9xz4uJ+babSo7YPKPGgFTzagRVdufAYyXBi6mzFtaTFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722508681; c=relaxed/simple;
-	bh=HC/LAOMr7oeiXvzLAuHjUYrXFkJQ1pTg0sWwTGxaGxo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FIz9w5lfTL7vxAh/lA2ptON61+KqHUUdr4RF2Fmb6gkqRw7JQ52nwvemhofy04aUbMl2HyeFuafOkAa09HwWPayzCk/siwPJZVh64MLlN4dRREbRsQi374um7YWb714ZwXyGPhGh7pcebtT7wlwwFhdeIq3L5PgHxrAReHSJck4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mhR1bT/T; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52efaae7edfso7089495e87.2;
-        Thu, 01 Aug 2024 03:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722508678; x=1723113478; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6auF9SihaRv0NHeZgPwWgcp87LY5pPO2A6cg+JnSinA=;
-        b=mhR1bT/TgbkBquW41ErqqBRF2NByflhqDwECgEMywjhKx5fI5VxyyYmE9awnHulkPJ
-         VuI4E7CtH7/luqgekQEXgdfjMpavyFMFOYQhF8giYm8Tjerk1/YJ2G1h/AAnnF0+C/SY
-         qZ7SMlMn06EOYrN7W97lTE+qTE7Qv6NiTAZA/BwRdBL/sw7O7ogyffYW7OHKtnKkCc/4
-         wR0Uvji+54ZBz+n419zbThW+droLgtZevP1/xtPWAn1MQAQh8LrpNmkAhBT2Wh4FqKuL
-         B3XYFGP1Lq0HiXe8ldRRvl97SCQ17jb0ybKQKrS+bkJtRzdGxxoA1VzmmhKHayi5udVZ
-         qebw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722508678; x=1723113478;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6auF9SihaRv0NHeZgPwWgcp87LY5pPO2A6cg+JnSinA=;
-        b=fH4EmSFZfKT26ARrTV5N3PW6DCuVlFG8a6Jp7l4813Zoqi1FuFBrpAKjglZeprLhCk
-         K1tLqmSmdVWMoH2c5cPckvowudAOCmk87V53ausdAhu0wMrI6hVlL1QPgVJO0emD7vkw
-         dG6CZvIGKHWuWDEGDcoYDMNX8P12xga/FMvxEzYtuICv0NLWd8mfR5zmNi8xqgd0OHdt
-         DIz99Dcz9nXGEjXxycUJoWGjL6M7CivWHiv8cKAtOOkCoazLVa1MfjLvb01arLSLiSZh
-         ziD6tXWaVYuPcZN/fR3tXMCG5mZogY/vgV5KA/sByvb1M4gJ80yH38vAsA92l6GDDHNx
-         6HQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUt2/UzpKpyaP0A7dtA62Ic5s6c0e/mSwe29l1qj2GdvZsjfWUNHoFoRhdZ/GFYi+lrDoimNks1RAmobJUoSh0LfqGQtd4Uuuap5kPIOXVv9Cduwhupfv7Jg9Jw7gzyWYTAW6hBhn+zQR57LXjYtv9Ua2n3882bLx0GAlil6ktXGlLGWw==
-X-Gm-Message-State: AOJu0YwbdVT3N+HYlq/FbnRYAKXd+EoWgRRa6TCxP1pml5/STP3nAJvu
-	b9hShW4So7+JdUlyPtPf4Z9tS0uBNrzSJsjN2vdSCkJ+xB5TbPpP
-X-Google-Smtp-Source: AGHT+IHUQDe91xXDzoxuK90Fn56g8aZCSk7RPm/BkRWjmCrRl2zyPkAPw1H4PF0CTu3AaisIzJvq9w==
-X-Received: by 2002:a05:6512:b96:b0:52c:88d7:ae31 with SMTP id 2adb3069b0e04-530b61ebe2emr1506606e87.48.1722508677700;
-        Thu, 01 Aug 2024 03:37:57 -0700 (PDT)
-Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad416d0sm875712766b.101.2024.08.01.03.37.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 03:37:57 -0700 (PDT)
-Message-ID: <e7a4fdeb-e83b-4e0d-adb8-7ea58d6b1b7d@gmail.com>
-Date: Thu, 1 Aug 2024 12:37:55 +0200
+	s=arc-20240116; t=1722515799; c=relaxed/simple;
+	bh=x/dZFDqqlzseeKPqYlMiqzuEYtZjhm6mdctePPVYkR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aKKd80YuCGj2BywTn13DZhJ7fpyZlXOARNOzBWzY3NhFd2A9ZECdwfcJ87B8YL1srbk2AUKKfg+XVmGYrU41bj9bnOiUDVjcz3QTsQ0wEK2xaBhax2KdefBAl2iR3laZmCKyDhZMFTGPfuLMeDiN/IY17t6NnaMywZFuwgj6NvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJBU6vh8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C95C32786;
+	Thu,  1 Aug 2024 12:36:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722515799;
+	bh=x/dZFDqqlzseeKPqYlMiqzuEYtZjhm6mdctePPVYkR0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WJBU6vh8963bMgx05A0nSWIZ9RJNOFvV+67yamHEHgU5L4Sg0AGv+cLSSXVxCOqrP
+	 2rl/LlvdpSVh6YcnFGGRHs6TN8c+Z2PZV5JftNfDKFBxgO441C2vRlfsCQcFPN34bt
+	 hFCVDqbNQHxtnDYaT1t4D5HWb0HUhquEKJBPPq3eDheyZjS3DL1CUqfJY7d7D/hoJ8
+	 BTBMCCrNwQgJtFbc8YNPUTvJ8eQjwJHTUfX48XXVg6JTlPZ4u2b02eTTqKHXCobqke
+	 J6a9M1+WPDVG4OtzAwNIu++Q+1ZfbsQowfNgT5toEAB3oNwO0qMkChYvx9mN2SqeU6
+	 +3XIxmPtUQHTA==
+Date: Thu, 1 Aug 2024 13:36:35 +0100
+From: Lee Jones <lee@kernel.org>
+To: Guilherme =?iso-8859-1?Q?Gi=E1como_Sim=F5es?= <trintaeoitogc@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Subject: Re: [RESEND LEDs] leds: remove led_brightness
+Message-ID: <20240801123635.GB6756@google.com>
+References: <CAM_RzfbuYYf7P2YK7H0BpUJut8hFvxa-Sm6hP1BKJe-jVFa62w@mail.gmail.com>
+ <20240725102623.GF501857@google.com>
+ <CAM_RzfZhySkzDZF-RV=+8rtx0yTs-+qmsRNwwa31nsWRAc40-g@mail.gmail.com>
+ <ZqJHEdxwEpr5W605@duo.ucw.cz>
+ <CAM_RzfbkPN+Wjuj5y60jnAO_w5iSU68TLErcpuyJ=z0kX4RFrA@mail.gmail.com>
+ <CAM_RzfY4GR1Jkym4mpGUVtsew3T--nqKWJD_sb_0tc5hDFBiSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] coresight: cti: use device_* to iterate over device
- child nodes
-To: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>,
- Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
- Michal Simek <michal.simek@amd.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>
-Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20240801-device_child_node_access-v1-0-ddfa21bef6f2@gmail.com>
- <20240801-device_child_node_access-v1-1-ddfa21bef6f2@gmail.com>
- <381fd199-640a-4ca0-8d7e-1c4dae11ef7f@arm.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <381fd199-640a-4ca0-8d7e-1c4dae11ef7f@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAM_RzfY4GR1Jkym4mpGUVtsew3T--nqKWJD_sb_0tc5hDFBiSw@mail.gmail.com>
 
-On 01/08/2024 11:20, Suzuki K Poulose wrote:
-> On 01/08/2024 07:13, Javier Carrasco wrote:
->> Drop the manual access to the fwnode of the device to iterate over its
->> child nodes. `device_for_each_child_node` macro provides direct access
->> to the child nodes, and given that they are only required within the
->> loop, the scoped variant of the macro can be used.
->>
->> Use the `device_for_each_child_node_scoped` macro to iterate over the
->> direct child nodes of the device.
->>
->> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
->> ---
->>   drivers/hwtracing/coresight/coresight-cti-platform.c | 10 +++-------
->>   1 file changed, 3 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/
->> drivers/hwtracing/coresight/coresight-cti-platform.c
->> index ccef04f27f12..d0ae10bf6128 100644
->> --- a/drivers/hwtracing/coresight/coresight-cti-platform.c
->> +++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
->> @@ -416,20 +416,16 @@ static int
->> cti_plat_create_impdef_connections(struct device *dev,
->>                             struct cti_drvdata *drvdata)
->>   {
->>       int rc = 0;
->> -    struct fwnode_handle *fwnode = dev_fwnode(dev);
->> -    struct fwnode_handle *child = NULL;
->>   -    if (IS_ERR_OR_NULL(fwnode))
->> +    if (IS_ERR_OR_NULL(dev_fwnode(dev)))
->>           return -EINVAL;
->>   -    fwnode_for_each_child_node(fwnode, child) {
->> +    device_for_each_child_node_scoped(dev, child) {
->>           if (cti_plat_node_name_eq(child, CTI_DT_CONNS))
->> -            rc = cti_plat_create_connection(dev, drvdata,
->> -                            child);
->> +            rc = cti_plat_create_connection(dev, drvdata, child);
->>           if (rc != 0)
->>               break;
+Please do not top-post (moving your comments down to the bottom).
+
+On Mon, 29 Jul 2024, Guilherme Giácomo Simões wrote:
+> Em qui., 25 de jul. de 2024 às 10:07, Guilherme Giácomo Simões
+> <trintaeoitogc@gmail.com> escreveu:
 > 
-> Don't we need to fwnode_handle_put(child) here, since we removed the
-> outer one ?
+> >
+> > Pavel Machek <pavel@ucw.cz> writes:
+> > >
+> > > Hi!
+> > >
+> > > > > > The includes/linux/leds.h diff:
+> > > > > > -/* This is obsolete/useless. We now support variable maximum brightness. */
+> > > > > > -enum led_brightness {
+> > > > > > -       LED_OFF         = 0,
+> > > > > > -       LED_ON          = 1,
+> > > > > > -       LED_HALF        = 127,
+> > > > > > -       LED_FULL        = 255,
+> > > > > > -};
+> > > > > > +// default values for leds brightness
+> > > > > > +#define LED_OFF  0
+> > > > > > +#define LED_ON   1
+> > > > > > +#define LED_HALF 127
+> > > > > > +#define LED_FULL 255
+> > > > > >
+> > > > > I'm not aware of the history of this, however I'm even less sure how
+> > > > > converting these from an enum to #defines makes this any better.
+> > > > >
+> > > >
+> > > > Yeah. The TODO says:
+> > > > -* On/off LEDs should have max_brightness of 1
+> > > > -* Get rid of enum led_brightness
+> > > > -
+> > > > -It is really an integer, as maximum is configurable. Get rid of it, or
+> > > > -make it into typedef or something.
+> > > >
+> > > > I could only remove enum led_brightness, but in some places, the
+> > > > LED_FULL, LED_HALF...
+> > > > are used. This is why I created this #defines.
+> > > > I don't know what we can do in these cases that LED_FULL, FULL_HALF is used.
+> > > > For example, in the drivers/leds/leds-ss4200.c on line 223 have this code
+> > > >
+> > > > u32 setting = 0;
+> > > > if (brightness >= LED_HALF)
+> > > >     setting = 1;
+> > >
+> > > Yep. Such drivers should be modified to set max_brightness to real
+> > > number of steps hardware can do... then we can remove LED_HALF,
+> > > LED_FULL and such defines.
+> > >
+> > > Best regards,
+> > >                                                                 Pavel
+> >
+> > but this will require the effort of everyone who has already written drivers
+> > for some LED hardware. Because only the driver author himself will know
+> > all the steps for that specific LED.
+> >
+> > or, maybe we can adapt this drivers for understand the brightness as a 0 or 1.
+> > 0 for OFF and 1 for HALF and FULL. This is possble ?
+
+> In the drivers/leds/leds-clevo-mail.c for example, the LED_HALF is
+> used on line 102.
+> In drivers/leds/leds-pca955x.c the LED_HALF is used in line 260.
 > 
-> Suzuki
-> 
+> How can I remove these keywords if manufacturers still use them?
 
-Hi Suzuki,
+And now you see why no one has removed them before now.
 
-No, we don't need fwnode_handle_put(child) anymore because the scoped
-variant of the macro is used.
+Once all uses have been converted, we can remove the enum.
 
-Best regards,
-Javier Carrasco
+-- 
+Lee Jones [李琼斯]
 
