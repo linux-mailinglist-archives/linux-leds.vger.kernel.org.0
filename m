@@ -1,58 +1,73 @@
-Return-Path: <linux-leds+bounces-2374-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2375-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A004B944B6B
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 14:36:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE84B944B84
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 14:39:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE97E1C216BD
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 12:36:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C2EF1C25256
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Aug 2024 12:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA5018950D;
-	Thu,  1 Aug 2024 12:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 862411A01D7;
+	Thu,  1 Aug 2024 12:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJBU6vh8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCn4DhID"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78561187FFD
-	for <linux-leds@vger.kernel.org>; Thu,  1 Aug 2024 12:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4D615252D;
+	Thu,  1 Aug 2024 12:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722515799; cv=none; b=Y9ggnI1rufPZsRFGrLAlWX59V2Ecx23aOWNF9t0s5TtvD8UoDNUvgFKRCFxPKbb66iC2OLUObs0RdjnSBxYEnGPL6ixotRxSnhnNJJ+s4R/ocmX4Wfa7iRDAcQQOdeO9xz4uJ+babSo7YPKPGgFTzagRVdufAYyXBi6mzFtaTFI=
+	t=1722515949; cv=none; b=bA3NowNrJ9b/LPZQKN+Pp7s2EI/QXSW5WucG/hRrp1LpcAVhuDxcDMou4oM8h6Sm3DHyT68l/QhPKJJ2r+DRrIM47hsfUU4arUxCWrrkPueiHEbLLKZqb4/a6ib0QJigIwjHIiNXiz6CQg95XpnCagRWsKziQmDNhfUDgBuHVJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722515799; c=relaxed/simple;
-	bh=x/dZFDqqlzseeKPqYlMiqzuEYtZjhm6mdctePPVYkR0=;
+	s=arc-20240116; t=1722515949; c=relaxed/simple;
+	bh=HBLGXJAA56+z2j8DW+eYMm1UK33BW0xzkvU79F0+rlk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKKd80YuCGj2BywTn13DZhJ7fpyZlXOARNOzBWzY3NhFd2A9ZECdwfcJ87B8YL1srbk2AUKKfg+XVmGYrU41bj9bnOiUDVjcz3QTsQ0wEK2xaBhax2KdefBAl2iR3laZmCKyDhZMFTGPfuLMeDiN/IY17t6NnaMywZFuwgj6NvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJBU6vh8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C95C32786;
-	Thu,  1 Aug 2024 12:36:37 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=M35jFUluXIC0RCnT5mfEvBWAX2jeCZRVGNI/VLUkEXMRF/vKCyAzaUtcMBg94KuvxseuVcRHRZolzNW8UXvroB11rr/DLA46e4L38FC4/+lG5plRBJc9P+CfCiBWGVTfLAXRW4fK6gLXlJFMRZE2PBWXcU35a/ugRPAXSWJA5So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCn4DhID; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B04C32786;
+	Thu,  1 Aug 2024 12:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722515799;
-	bh=x/dZFDqqlzseeKPqYlMiqzuEYtZjhm6mdctePPVYkR0=;
+	s=k20201202; t=1722515948;
+	bh=HBLGXJAA56+z2j8DW+eYMm1UK33BW0xzkvU79F0+rlk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WJBU6vh8963bMgx05A0nSWIZ9RJNOFvV+67yamHEHgU5L4Sg0AGv+cLSSXVxCOqrP
-	 2rl/LlvdpSVh6YcnFGGRHs6TN8c+Z2PZV5JftNfDKFBxgO441C2vRlfsCQcFPN34bt
-	 hFCVDqbNQHxtnDYaT1t4D5HWb0HUhquEKJBPPq3eDheyZjS3DL1CUqfJY7d7D/hoJ8
-	 BTBMCCrNwQgJtFbc8YNPUTvJ8eQjwJHTUfX48XXVg6JTlPZ4u2b02eTTqKHXCobqke
-	 J6a9M1+WPDVG4OtzAwNIu++Q+1ZfbsQowfNgT5toEAB3oNwO0qMkChYvx9mN2SqeU6
-	 +3XIxmPtUQHTA==
-Date: Thu, 1 Aug 2024 13:36:35 +0100
+	b=nCn4DhIDkkEjOtwKn+8KB/FH9Bq93/RvdjSoKKVEk2sTX0poiVs6zed4NrpceWj3B
+	 ud97PfOJ3obUOkUfrmF4sIsCEYQ4fxL6Ep04la58Eoi9XhIf/YvI0EVFzNx7oEf/xu
+	 JHD3wnLR877SRn2kRzwZ7KSIeM0c2r/j/IGEIDRHHJhTCNfebXj12JTs6rR3zKL5Q5
+	 dRKOPRr5nPzlLNVk1RRgQvfPkVrdcBr0Ua5ilKSmuFshMUCgZUwZJ978c5nvFWKlrG
+	 JZKLc3E2cxqUBFEV8FxYQoDg3YhR40H6n3eJc8z1jKQ0iup/V+7T52xPKLkhhshkwK
+	 /iLdAEM5iLwHA==
+Date: Thu, 1 Aug 2024 13:39:01 +0100
 From: Lee Jones <lee@kernel.org>
-To: Guilherme =?iso-8859-1?Q?Gi=E1como_Sim=F5es?= <trintaeoitogc@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [RESEND LEDs] leds: remove led_brightness
-Message-ID: <20240801123635.GB6756@google.com>
-References: <CAM_RzfbuYYf7P2YK7H0BpUJut8hFvxa-Sm6hP1BKJe-jVFa62w@mail.gmail.com>
- <20240725102623.GF501857@google.com>
- <CAM_RzfZhySkzDZF-RV=+8rtx0yTs-+qmsRNwwa31nsWRAc40-g@mail.gmail.com>
- <ZqJHEdxwEpr5W605@duo.ucw.cz>
- <CAM_RzfbkPN+Wjuj5y60jnAO_w5iSU68TLErcpuyJ=z0kX4RFrA@mail.gmail.com>
- <CAM_RzfY4GR1Jkym4mpGUVtsew3T--nqKWJD_sb_0tc5hDFBiSw@mail.gmail.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Pavel Machek <pavel@ucw.cz>,
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andreas Kemnade <andreas@kemnade.info>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: (subset) [PATCH v2 0/6] use device_for_each_child_node() to
+ access device child nodes
+Message-ID: <20240801123901.GC6756@google.com>
+References: <20240721-device_for_each_child_node-available-v2-0-f33748fd8b2d@gmail.com>
+ <172192488125.1053789.17350723750885690064.b4-ty@kernel.org>
+ <094c7d7f-749f-4d8f-9254-f661090e4350@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,77 +77,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM_RzfY4GR1Jkym4mpGUVtsew3T--nqKWJD_sb_0tc5hDFBiSw@mail.gmail.com>
+In-Reply-To: <094c7d7f-749f-4d8f-9254-f661090e4350@gmail.com>
 
-Please do not top-post (moving your comments down to the bottom).
+On Mon, 29 Jul 2024, Javier Carrasco wrote:
 
-On Mon, 29 Jul 2024, Guilherme Giácomo Simões wrote:
-> Em qui., 25 de jul. de 2024 às 10:07, Guilherme Giácomo Simões
-> <trintaeoitogc@gmail.com> escreveu:
+> On 25/07/2024 18:28, Lee Jones wrote:
+> > On Sun, 21 Jul 2024 17:19:00 +0200, Javier Carrasco wrote:
+> >> This series aims to clarify the use cases of:
+> >>
+> >> - device_for_each_child_node[_scoped]()
+> >> - fwnode_for_each_available_child_node[_scoped]()
+> >>
+> >> to access firmware nodes.
+> >>
+> >> [...]
+> > 
+> > Applied, thanks!
+> > 
+> > [3/6] leds: bd2606mvv: fix device child node usage in bd2606mvv_probe()
+> >       commit: 75d2a77327c4917bb66163eea0374bb749428e9c
+> > [4/6] leds: is31fl319x: use device_for_each_child_node_scoped() to access child nodes
+> >       commit: 0f5a3feb60aba5d74f0b655cdff9c35aca03e81b
+> > [5/6] leds: pca995x: use device_for_each_child_node() to access device child nodes
+> >       (no commit info)
+> > 
+> > --
+> > Lee Jones [李琼斯]
+> > 
 > 
-> >
-> > Pavel Machek <pavel@ucw.cz> writes:
-> > >
-> > > Hi!
-> > >
-> > > > > > The includes/linux/leds.h diff:
-> > > > > > -/* This is obsolete/useless. We now support variable maximum brightness. */
-> > > > > > -enum led_brightness {
-> > > > > > -       LED_OFF         = 0,
-> > > > > > -       LED_ON          = 1,
-> > > > > > -       LED_HALF        = 127,
-> > > > > > -       LED_FULL        = 255,
-> > > > > > -};
-> > > > > > +// default values for leds brightness
-> > > > > > +#define LED_OFF  0
-> > > > > > +#define LED_ON   1
-> > > > > > +#define LED_HALF 127
-> > > > > > +#define LED_FULL 255
-> > > > > >
-> > > > > I'm not aware of the history of this, however I'm even less sure how
-> > > > > converting these from an enum to #defines makes this any better.
-> > > > >
-> > > >
-> > > > Yeah. The TODO says:
-> > > > -* On/off LEDs should have max_brightness of 1
-> > > > -* Get rid of enum led_brightness
-> > > > -
-> > > > -It is really an integer, as maximum is configurable. Get rid of it, or
-> > > > -make it into typedef or something.
-> > > >
-> > > > I could only remove enum led_brightness, but in some places, the
-> > > > LED_FULL, LED_HALF...
-> > > > are used. This is why I created this #defines.
-> > > > I don't know what we can do in these cases that LED_FULL, FULL_HALF is used.
-> > > > For example, in the drivers/leds/leds-ss4200.c on line 223 have this code
-> > > >
-> > > > u32 setting = 0;
-> > > > if (brightness >= LED_HALF)
-> > > >     setting = 1;
-> > >
-> > > Yep. Such drivers should be modified to set max_brightness to real
-> > > number of steps hardware can do... then we can remove LED_HALF,
-> > > LED_FULL and such defines.
-> > >
-> > > Best regards,
-> > >                                                                 Pavel
-> >
-> > but this will require the effort of everyone who has already written drivers
-> > for some LED hardware. Because only the driver author himself will know
-> > all the steps for that specific LED.
-> >
-> > or, maybe we can adapt this drivers for understand the brightness as a 0 or 1.
-> > 0 for OFF and 1 for HALF and FULL. This is possble ?
-
-> In the drivers/leds/leds-clevo-mail.c for example, the LED_HALF is
-> used on line 102.
-> In drivers/leds/leds-pca955x.c the LED_HALF is used in line 260.
+> Hi Lee,
 > 
-> How can I remove these keywords if manufacturers still use them?
+> could you please tell me where you applied them? I rebased onto
+> linux-next to prepare for v3, and these patches are still added on top
+> of it. Can I find them in some leds/ branch? Thank you.
 
-And now you see why no one has removed them before now.
+Sorry, I was side-tracked before pushing.
 
-Once all uses have been converted, we can remove the enum.
+Pushed now.  They should be in -next tomorrow.
 
 -- 
 Lee Jones [李琼斯]
