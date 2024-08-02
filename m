@@ -1,127 +1,263 @@
-Return-Path: <linux-leds+bounces-2382-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2383-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9A94592C
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 09:50:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C347C945F3F
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 16:18:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D846CB22623
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 07:50:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38096B22A0B
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 14:18:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB6911BE86D;
-	Fri,  2 Aug 2024 07:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D11F81E4EE5;
+	Fri,  2 Aug 2024 14:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k94ZGKbQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F21482CA;
-	Fri,  2 Aug 2024 07:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1DD1E4EE8
+	for <linux-leds@vger.kernel.org>; Fri,  2 Aug 2024 14:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722585024; cv=none; b=jv2729qvFE+t6suVu6FrGl6iqYj+AHBirP36ptq+dXjNpial+D43mOsfr5HZ1mGOI39rfjh282keO0GrdOadyYs14c1lr2/mGVfp6Yv4g4xoY4qd1c/4xzNsbX91CqUF4C2vR+RRTx5C3kSRBoiFBCibPsOgZY7xmVj7KOfO9WE=
+	t=1722608299; cv=none; b=cQvwW756mi+vkzlwcHJGwFpMRDr+gaxKfs5/qw4gL9aL8St10VFrtd3s++BS4dJySgow3IMvyfOPSXf290EHKLuuIaLWMZWXyXs8jJCuaB9pbvdaiB49qRRFRwE/93nfTBYiAj1mv1Y0DhUL6r6eZIMj1eC8ZuIehHoRoRfjycQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722585024; c=relaxed/simple;
-	bh=dNOGqefk42GXCh5UOaEKM05mnzE6WKDESifUK0HkCV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nldnZx7OzZmtUPJU8Aq+Zh02mSnnrAxcPqyG4q1kwYKkOF/v/pA/hTnwInTcJc6f1Bk45De/5FDOgNQmPh6gguEK4q8Vs8Iyr1X8zHVWDBCuB2L3873TB1Um/tedxTEZfv3MWnhBoCB3SSIUhp87R+/t/jhxGP2wvkALK+g81oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 728C01007;
-	Fri,  2 Aug 2024 00:50:46 -0700 (PDT)
-Received: from [10.57.95.187] (unknown [10.57.95.187])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9BF7E3F766;
-	Fri,  2 Aug 2024 00:50:18 -0700 (PDT)
-Message-ID: <d5a42f3a-5bf6-4f1a-b8f1-0254770856a5@arm.com>
-Date: Fri, 2 Aug 2024 08:50:17 +0100
+	s=arc-20240116; t=1722608299; c=relaxed/simple;
+	bh=oR1ewJkjSjtBVzD7/M4LF3n8bhpeGtjEt54I46KrBUg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NFtj+9bqkdcw5NdPjwG1GiJBsI7+eXAAHsKo5q3uvFwM4GjeIONPHncJ+Nocv6ScMuQ2s3zEgCu0Ug61qdofGaAwiaX78bdRvwyBdcLVZ1nA0NiIDp0AQpYdTNKh/xOX7LZ1HZyMqHAN005ThQ0OgsaJJ1727bIWEju5OjkqU4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k94ZGKbQ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722608298; x=1754144298;
+  h=date:from:to:cc:subject:message-id;
+  bh=oR1ewJkjSjtBVzD7/M4LF3n8bhpeGtjEt54I46KrBUg=;
+  b=k94ZGKbQiM7oDBDPQWit9XHJK44q/P5LrdTAUJrQSvpQqaXNWz5O8T6s
+   qNv+uyhYEgPJuJse3HLrdCCZtAPemRBkmE3SH/9mG+xnAkp9Rl4gDP9fX
+   VgAi4hI7AppV3TPMzZghRX5tEmVSK63aG+FuURQy76259plfQSjOnzcUP
+   hxN8PgTgIVMy/c5ECOYuL0/cfS868pSZtOCkOr8fESOJIipJUAvRcVapq
+   oYYHySiM2z3/JbcbUHBf3ocwdMZ6pXq5MwdQY6vK2dJXPElWNfOSmoyMd
+   S3e/XcEheuuVl/xMfd9iUC0+oUovx3fa3aLVuK0VWywaXCJ3TZ2+rA6zs
+   A==;
+X-CSE-ConnectionGUID: 6kxcltFgTWWHdH1GM9c+tQ==
+X-CSE-MsgGUID: vSfMFQlzQiKp0XBGlynTOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="38093152"
+X-IronPort-AV: E=Sophos;i="6.09,258,1716274800"; 
+   d="scan'208";a="38093152"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 07:18:17 -0700
+X-CSE-ConnectionGUID: lnASTPFsRmO4nSy2v3tRog==
+X-CSE-MsgGUID: xTi1o4vrQlakbcv7RaJWqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,258,1716274800"; 
+   d="scan'208";a="78669665"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 02 Aug 2024 07:18:15 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sZt6g-000ws0-2g;
+	Fri, 02 Aug 2024 14:18:10 +0000
+Date: Fri, 02 Aug 2024 22:17:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ a0864cf32044233e56247fa0eed3ac660f15db9e
+Message-ID: <202408022238.wJcAmU3V-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] coresight: cti: use device_* to iterate over device
- child nodes
-Content-Language: en-GB
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>,
- Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
- Michal Simek <michal.simek@amd.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>
-Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20240801-device_child_node_access-v1-0-ddfa21bef6f2@gmail.com>
- <20240801-device_child_node_access-v1-1-ddfa21bef6f2@gmail.com>
- <381fd199-640a-4ca0-8d7e-1c4dae11ef7f@arm.com>
- <e7a4fdeb-e83b-4e0d-adb8-7ea58d6b1b7d@gmail.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <e7a4fdeb-e83b-4e0d-adb8-7ea58d6b1b7d@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 01/08/2024 11:37, Javier Carrasco wrote:
-> On 01/08/2024 11:20, Suzuki K Poulose wrote:
->> On 01/08/2024 07:13, Javier Carrasco wrote:
->>> Drop the manual access to the fwnode of the device to iterate over its
->>> child nodes. `device_for_each_child_node` macro provides direct access
->>> to the child nodes, and given that they are only required within the
->>> loop, the scoped variant of the macro can be used.
->>>
->>> Use the `device_for_each_child_node_scoped` macro to iterate over the
->>> direct child nodes of the device.
->>>
->>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
->>> ---
->>>    drivers/hwtracing/coresight/coresight-cti-platform.c | 10 +++-------
->>>    1 file changed, 3 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/
->>> drivers/hwtracing/coresight/coresight-cti-platform.c
->>> index ccef04f27f12..d0ae10bf6128 100644
->>> --- a/drivers/hwtracing/coresight/coresight-cti-platform.c
->>> +++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
->>> @@ -416,20 +416,16 @@ static int
->>> cti_plat_create_impdef_connections(struct device *dev,
->>>                              struct cti_drvdata *drvdata)
->>>    {
->>>        int rc = 0;
->>> -    struct fwnode_handle *fwnode = dev_fwnode(dev);
->>> -    struct fwnode_handle *child = NULL;
->>>    -    if (IS_ERR_OR_NULL(fwnode))
->>> +    if (IS_ERR_OR_NULL(dev_fwnode(dev)))
->>>            return -EINVAL;
->>>    -    fwnode_for_each_child_node(fwnode, child) {
->>> +    device_for_each_child_node_scoped(dev, child) {
->>>            if (cti_plat_node_name_eq(child, CTI_DT_CONNS))
->>> -            rc = cti_plat_create_connection(dev, drvdata,
->>> -                            child);
->>> +            rc = cti_plat_create_connection(dev, drvdata, child);
->>>            if (rc != 0)
->>>                break;
->>
->> Don't we need to fwnode_handle_put(child) here, since we removed the
->> outer one ?
->>
->> Suzuki
->>
-> 
-> Hi Suzuki,
-> 
-> No, we don't need fwnode_handle_put(child) anymore because the scoped
-> variant of the macro is used.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: a0864cf32044233e56247fa0eed3ac660f15db9e  leds: flash: leds-qcom-flash: Limit LED current based on thermal condition
 
-Ah, apologies, was looking at the non-scoped version. I will queue this.
+elapsed time: 1480m
 
-Suzuki
-> 
-> Best regards,
-> Javier Carrasco
+configs tested: 170
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                          axs101_defconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                        nsimosci_defconfig   gcc-13.2.0
+arc                        vdk_hs38_defconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                       aspeed_g5_defconfig   gcc-14.1.0
+arm                        clps711x_defconfig   gcc-13.2.0
+arm                     davinci_all_defconfig   gcc-14.1.0
+arm                                 defconfig   gcc-13.2.0
+arm                          ep93xx_defconfig   gcc-14.1.0
+arm                          exynos_defconfig   gcc-13.2.0
+arm                      integrator_defconfig   gcc-13.2.0
+arm                          ixp4xx_defconfig   clang-20
+arm                      jornada720_defconfig   gcc-14.1.0
+arm                        mvebu_v7_defconfig   gcc-13.2.0
+arm                             rpc_defconfig   gcc-13.2.0
+arm                         s3c6400_defconfig   gcc-13.2.0
+arm                        shmobile_defconfig   gcc-14.1.0
+arm                           sunxi_defconfig   gcc-13.2.0
+arm                    vt8500_v6_v7_defconfig   clang-20
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240802   gcc-13
+i386         buildonly-randconfig-002-20240802   gcc-13
+i386         buildonly-randconfig-003-20240802   gcc-13
+i386         buildonly-randconfig-004-20240802   gcc-13
+i386         buildonly-randconfig-005-20240802   gcc-13
+i386         buildonly-randconfig-006-20240802   gcc-13
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240802   gcc-13
+i386                  randconfig-002-20240802   gcc-13
+i386                  randconfig-003-20240802   gcc-13
+i386                  randconfig-004-20240802   gcc-13
+i386                  randconfig-005-20240802   gcc-13
+i386                  randconfig-006-20240802   gcc-13
+i386                  randconfig-011-20240802   gcc-13
+i386                  randconfig-012-20240802   gcc-13
+i386                  randconfig-013-20240802   gcc-13
+i386                  randconfig-014-20240802   gcc-13
+i386                  randconfig-015-20240802   gcc-13
+i386                  randconfig-016-20240802   gcc-13
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+m68k                           virt_defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+microblaze                      mmu_defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                        bcm63xx_defconfig   gcc-13.2.0
+mips                          eyeq5_defconfig   gcc-14.1.0
+mips                           ip30_defconfig   gcc-13.2.0
+mips                           jazz_defconfig   gcc-14.1.0
+mips                     loongson2k_defconfig   gcc-14.1.0
+mips                malta_qemu_32r6_defconfig   gcc-13.2.0
+mips                      maltasmvp_defconfig   gcc-13.2.0
+mips                  maltasmvp_eva_defconfig   gcc-14.1.0
+mips                          rb532_defconfig   clang-20
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+openrisc                         alldefconfig   gcc-14.1.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                generic-64bit_defconfig   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                   bluestone_defconfig   clang-20
+powerpc                        icon_defconfig   gcc-14.1.0
+powerpc                  iss476-smp_defconfig   clang-20
+powerpc                 linkstation_defconfig   clang-20
+powerpc                   lite5200b_defconfig   clang-20
+powerpc                       maple_defconfig   gcc-13.2.0
+powerpc                   microwatt_defconfig   clang-20
+powerpc                   microwatt_defconfig   gcc-13.2.0
+powerpc                    mvme5100_defconfig   clang-20
+powerpc                     rainier_defconfig   gcc-13.2.0
+powerpc                    sam440ep_defconfig   gcc-14.1.0
+powerpc                     sequoia_defconfig   gcc-13.2.0
+powerpc                     tqm8540_defconfig   gcc-14.1.0
+powerpc                         wii_defconfig   gcc-13.2.0
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                    nommu_virt_defconfig   gcc-14.1.0
+s390                             allmodconfig   clang-20
+s390                              allnoconfig   gcc-14.1.0
+s390                             allyesconfig   clang-20
+s390                                defconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-14.1.0
+sh                        edosk7760_defconfig   gcc-13.2.0
+sh                          r7785rp_defconfig   gcc-14.1.0
+sh                          rsk7269_defconfig   gcc-13.2.0
+sh                          sdk7786_defconfig   gcc-13.2.0
+sh                             sh03_defconfig   gcc-13.2.0
+sh                   sh7770_generic_defconfig   gcc-13.2.0
+sh                            titan_defconfig   gcc-13.2.0
+sh                          urquell_defconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-14.1.0
+um                               allmodconfig   gcc-13.3.0
+um                                allnoconfig   gcc-14.1.0
+um                               allyesconfig   gcc-13.3.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-13.2.0
+um                             i386_defconfig   gcc-14.1.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240802   gcc-8
+x86_64       buildonly-randconfig-002-20240802   gcc-8
+x86_64       buildonly-randconfig-003-20240802   gcc-8
+x86_64       buildonly-randconfig-004-20240802   gcc-8
+x86_64       buildonly-randconfig-005-20240802   gcc-8
+x86_64       buildonly-randconfig-006-20240802   gcc-8
+x86_64                              defconfig   clang-18
+x86_64                                  kexec   clang-18
+x86_64                randconfig-001-20240802   gcc-8
+x86_64                randconfig-002-20240802   gcc-8
+x86_64                randconfig-003-20240802   gcc-8
+x86_64                randconfig-004-20240802   gcc-8
+x86_64                randconfig-005-20240802   gcc-8
+x86_64                randconfig-006-20240802   gcc-8
+x86_64                randconfig-011-20240802   gcc-8
+x86_64                randconfig-012-20240802   gcc-8
+x86_64                randconfig-013-20240802   gcc-8
+x86_64                randconfig-014-20240802   gcc-8
+x86_64                randconfig-015-20240802   gcc-8
+x86_64                randconfig-016-20240802   gcc-8
+x86_64                randconfig-071-20240802   gcc-8
+x86_64                randconfig-072-20240802   gcc-8
+x86_64                randconfig-073-20240802   gcc-8
+x86_64                randconfig-074-20240802   gcc-8
+x86_64                randconfig-075-20240802   gcc-8
+x86_64                randconfig-076-20240802   gcc-8
+x86_64                          rhel-8.3-rust   clang-18
+x86_64                               rhel-8.3   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                  audio_kc705_defconfig   gcc-13.2.0
+xtensa                       common_defconfig   gcc-13.2.0
+xtensa                          iss_defconfig   gcc-14.1.0
+xtensa                  nommu_kc705_defconfig   gcc-13.2.0
+xtensa                         virt_defconfig   gcc-13.2.0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
