@@ -1,74 +1,40 @@
-Return-Path: <linux-leds+bounces-2381-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2382-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE83945906
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 09:38:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9A94592C
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 09:50:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C992FB2194B
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 07:37:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D846CB22623
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Aug 2024 07:50:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 527031BE860;
-	Fri,  2 Aug 2024 07:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8pNbQAP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB6911BE86D;
+	Fri,  2 Aug 2024 07:50:24 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A64E45020;
-	Fri,  2 Aug 2024 07:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F21482CA;
+	Fri,  2 Aug 2024 07:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722584275; cv=none; b=s5dpsZu8k4gAOMX3dQIKIauC2JouxnoAVSmpWRbEqhpysBXefnOG0lQBPP6NjlDPAh7+xeo04LYLTei4phlrdseMudxh/GJKJhSfhxDOFRfksbBfYwNid+lYaeT7e+2VvDS5Yu2KXGKbJ6/TNac7eVS4vJpxUbbTfamFVJGcKls=
+	t=1722585024; cv=none; b=jv2729qvFE+t6suVu6FrGl6iqYj+AHBirP36ptq+dXjNpial+D43mOsfr5HZ1mGOI39rfjh282keO0GrdOadyYs14c1lr2/mGVfp6Yv4g4xoY4qd1c/4xzNsbX91CqUF4C2vR+RRTx5C3kSRBoiFBCibPsOgZY7xmVj7KOfO9WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722584275; c=relaxed/simple;
-	bh=442BEwgQZkNvyntWB/mlPJnY/PPnoqx1uEiiossTppU=;
+	s=arc-20240116; t=1722585024; c=relaxed/simple;
+	bh=dNOGqefk42GXCh5UOaEKM05mnzE6WKDESifUK0HkCV4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uP2VJSMlEepnkrg+K9rwj8kpn/Dzo/5zVzVvy7CJ/l8D7/skxYGM+4JovN7ctYIYi7k9PQkfvIf+ASZvDWZ00cd/LinzARHGNRcqfJIX5eiL6bQYai8jp3edR1AICxSRNkAbfLiXba1UpRickH+xKeaBVrS+Leqt6D2JYFVW2iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8pNbQAP; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52f01b8738dso8089125e87.1;
-        Fri, 02 Aug 2024 00:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722584271; x=1723189071; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VEul01c7Y76/vYgRcbl6yWvRBJXnnoj1/y3jzSU/8/8=;
-        b=i8pNbQAPDnn8RzniPSV4nRDgHa3MTkwnKDwB4Ts4KWgJNKmN/mTiOSFBM7x7Jf2/Sg
-         5FJkEOyvtCPDQzy1l3+CXTWLUCh/gnN4OBTEEXkJcXw/UaYSO/QBHUChyG1IhCp9t50E
-         RjMJ/FdSzAwex8GKGKnQMpnxX/PZPhGLi/sd4HW5bGkNv1dd7FR+UlV75WoFnYQotgrT
-         iAQLTIvld+1/Y5Mhn4e6IvAU0CQvSiRGSfdB7lROmoX3dpyYaiCALXl/sDq5s8QpN9gb
-         ztfnaPNxZK8yTBI9OMi6u4w1IefkKlXkhSLSyjkzqDjQ2SoxOF9yPULnDkz0EIGXwchO
-         qzfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722584271; x=1723189071;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VEul01c7Y76/vYgRcbl6yWvRBJXnnoj1/y3jzSU/8/8=;
-        b=TXrMBbJK8EKHMwiA6RHjrUpbgzCaylfiUhGG2+CB7W4yOIs04iZwX5S58QXVk0xSK1
-         du+83NjSb1IjsVQEQ9DOjmnp8KNGVGSsgAKkoENWlNTT9vv3ZCQEYEKWfs0elbkc8Ehq
-         j3DFww3NTuh62p7tcw1a0rUJhG5povrdkmUncomDu7Cw6GSMQYBRLGWI7YTf5hebauv0
-         NRYRtBKdQAC3dQ0pDkQo8I/JegokO4FVTPkiEbE8VoeHb802Qsu2WQ9hD/zOXPXE5bYW
-         m+pZX9rtOT3y51/+lKfsy6ccFImQQxvh0CSMu76uPzF5Pzy9GucEQdS5ZeO9qunwbpT/
-         Xkcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ6uMFjmkNQ8YLT9bnwb3hx16+FhPWOEXM7eqqtX6d4jQQTcJQYqo4URFnIjGN6h/pEuDR+SDeuIxJAYlutExT0/kNIrfWC8cUwguBFOzoBF8Jpf2M3zuqnQuXao+eudLU3Dr18JFyJh2zDkrp3kD6vL3orCdDDHZ+vLFBUEn7Jxd800iSJOad1tBpxf78+IlisNkIV3u/SXATMWZnr9QAjR55kPd7yincrKJhJtS4beTN4UmtHR/bnQ==
-X-Gm-Message-State: AOJu0YzRnkQ18SbQqMOu5LPZH83VObSqufhBVsgO6D2lIduTGKk37z1v
-	9w9qfigc7gMn6djLxSUP1Z2YF7Zn4yNWpVWB1nXjSABu515HvFWK
-X-Google-Smtp-Source: AGHT+IEHnlmTy7PUXPtQ9CQBEllQgwVpgIZH7F4dD5CQheEpZWQkcMNTvJS4jYPpRUf+JDphV9EeJw==
-X-Received: by 2002:a05:6512:b1a:b0:52e:9c69:b25b with SMTP id 2adb3069b0e04-530bb37c2a5mr1274908e87.28.1722584271076;
-        Fri, 02 Aug 2024 00:37:51 -0700 (PDT)
-Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd06df9esm1247001f8f.100.2024.08.02.00.37.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Aug 2024 00:37:50 -0700 (PDT)
-Message-ID: <9083938c-c2df-4429-904d-700e5021331c@gmail.com>
-Date: Fri, 2 Aug 2024 09:37:48 +0200
+	 In-Reply-To:Content-Type; b=nldnZx7OzZmtUPJU8Aq+Zh02mSnnrAxcPqyG4q1kwYKkOF/v/pA/hTnwInTcJc6f1Bk45De/5FDOgNQmPh6gguEK4q8Vs8Iyr1X8zHVWDBCuB2L3873TB1Um/tedxTEZfv3MWnhBoCB3SSIUhp87R+/t/jhxGP2wvkALK+g81oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 728C01007;
+	Fri,  2 Aug 2024 00:50:46 -0700 (PDT)
+Received: from [10.57.95.187] (unknown [10.57.95.187])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9BF7E3F766;
+	Fri,  2 Aug 2024 00:50:18 -0700 (PDT)
+Message-ID: <d5a42f3a-5bf6-4f1a-b8f1-0254770856a5@arm.com>
+Date: Fri, 2 Aug 2024 08:50:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -76,84 +42,86 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v2 0/6] use device_for_each_child_node() to
- access device child nodes
-To: Lee Jones <lee@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Jean Delvare
- <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Pavel Machek <pavel@ucw.cz>, Marcin Wojtas <marcin.s.wojtas@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andreas Kemnade <andreas@kemnade.info>, linux-acpi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-leds@vger.kernel.org, netdev@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20240721-device_for_each_child_node-available-v2-0-f33748fd8b2d@gmail.com>
- <172192488125.1053789.17350723750885690064.b4-ty@kernel.org>
- <094c7d7f-749f-4d8f-9254-f661090e4350@gmail.com>
- <20240801123901.GC6756@google.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240801123901.GC6756@google.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 1/4] coresight: cti: use device_* to iterate over device
+ child nodes
+Content-Language: en-GB
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>,
+ Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org
+References: <20240801-device_child_node_access-v1-0-ddfa21bef6f2@gmail.com>
+ <20240801-device_child_node_access-v1-1-ddfa21bef6f2@gmail.com>
+ <381fd199-640a-4ca0-8d7e-1c4dae11ef7f@arm.com>
+ <e7a4fdeb-e83b-4e0d-adb8-7ea58d6b1b7d@gmail.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <e7a4fdeb-e83b-4e0d-adb8-7ea58d6b1b7d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 01/08/2024 14:39, Lee Jones wrote:
-> On Mon, 29 Jul 2024, Javier Carrasco wrote:
-> 
->> On 25/07/2024 18:28, Lee Jones wrote:
->>> On Sun, 21 Jul 2024 17:19:00 +0200, Javier Carrasco wrote:
->>>> This series aims to clarify the use cases of:
->>>>
->>>> - device_for_each_child_node[_scoped]()
->>>> - fwnode_for_each_available_child_node[_scoped]()
->>>>
->>>> to access firmware nodes.
->>>>
->>>> [...]
+On 01/08/2024 11:37, Javier Carrasco wrote:
+> On 01/08/2024 11:20, Suzuki K Poulose wrote:
+>> On 01/08/2024 07:13, Javier Carrasco wrote:
+>>> Drop the manual access to the fwnode of the device to iterate over its
+>>> child nodes. `device_for_each_child_node` macro provides direct access
+>>> to the child nodes, and given that they are only required within the
+>>> loop, the scoped variant of the macro can be used.
 >>>
->>> Applied, thanks!
+>>> Use the `device_for_each_child_node_scoped` macro to iterate over the
+>>> direct child nodes of the device.
 >>>
->>> [3/6] leds: bd2606mvv: fix device child node usage in bd2606mvv_probe()
->>>       commit: 75d2a77327c4917bb66163eea0374bb749428e9c
->>> [4/6] leds: is31fl319x: use device_for_each_child_node_scoped() to access child nodes
->>>       commit: 0f5a3feb60aba5d74f0b655cdff9c35aca03e81b
->>> [5/6] leds: pca995x: use device_for_each_child_node() to access device child nodes
->>>       (no commit info)
+>>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>>> ---
+>>>    drivers/hwtracing/coresight/coresight-cti-platform.c | 10 +++-------
+>>>    1 file changed, 3 insertions(+), 7 deletions(-)
 >>>
->>> --
->>> Lee Jones [李琼斯]
->>>
+>>> diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/
+>>> drivers/hwtracing/coresight/coresight-cti-platform.c
+>>> index ccef04f27f12..d0ae10bf6128 100644
+>>> --- a/drivers/hwtracing/coresight/coresight-cti-platform.c
+>>> +++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
+>>> @@ -416,20 +416,16 @@ static int
+>>> cti_plat_create_impdef_connections(struct device *dev,
+>>>                              struct cti_drvdata *drvdata)
+>>>    {
+>>>        int rc = 0;
+>>> -    struct fwnode_handle *fwnode = dev_fwnode(dev);
+>>> -    struct fwnode_handle *child = NULL;
+>>>    -    if (IS_ERR_OR_NULL(fwnode))
+>>> +    if (IS_ERR_OR_NULL(dev_fwnode(dev)))
+>>>            return -EINVAL;
+>>>    -    fwnode_for_each_child_node(fwnode, child) {
+>>> +    device_for_each_child_node_scoped(dev, child) {
+>>>            if (cti_plat_node_name_eq(child, CTI_DT_CONNS))
+>>> -            rc = cti_plat_create_connection(dev, drvdata,
+>>> -                            child);
+>>> +            rc = cti_plat_create_connection(dev, drvdata, child);
+>>>            if (rc != 0)
+>>>                break;
 >>
->> Hi Lee,
+>> Don't we need to fwnode_handle_put(child) here, since we removed the
+>> outer one ?
 >>
->> could you please tell me where you applied them? I rebased onto
->> linux-next to prepare for v3, and these patches are still added on top
->> of it. Can I find them in some leds/ branch? Thank you.
+>> Suzuki
+>>
 > 
-> Sorry, I was side-tracked before pushing.
+> Hi Suzuki,
 > 
-> Pushed now.  They should be in -next tomorrow.
+> No, we don't need fwnode_handle_put(child) anymore because the scoped
+> variant of the macro is used.
+
+Ah, apologies, was looking at the non-scoped version. I will queue this.
+
+Suzuki
 > 
+> Best regards,
+> Javier Carrasco
 
-Thanks, I see
-
-[3/6] leds: bd2606mvv: fix device child node usage in bd2606mvv_probe()
-
-[4/6] leds: is31fl319x: use device_for_each_child_node_scoped() to
-access child nodes
-
-applied to -next, but
-
-[5/6] leds: pca995x: use device_for_each_child_node() to access device
-child nodes
-
-has not been applied yet.
 
