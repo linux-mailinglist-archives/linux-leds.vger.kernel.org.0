@@ -1,110 +1,124 @@
-Return-Path: <linux-leds+bounces-2385-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2386-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CF8946783
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Aug 2024 07:26:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1CB94696A
+	for <lists+linux-leds@lfdr.de>; Sat,  3 Aug 2024 13:17:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52B9C1C20BE4
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Aug 2024 05:26:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EAD51F218E7
+	for <lists+linux-leds@lfdr.de>; Sat,  3 Aug 2024 11:17:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5801213BC3D;
-	Sat,  3 Aug 2024 05:26:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2AC136326;
+	Sat,  3 Aug 2024 11:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFLp3uT0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkEMJqwt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DD613B7BC;
-	Sat,  3 Aug 2024 05:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A184A2F;
+	Sat,  3 Aug 2024 11:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722662784; cv=none; b=SJYn8TgSrPD9U8zxOqvhfkRGXG+0xSfswWBccp0ydTt7/qj3xKBT0+e6AHFIiBZQ2mr7TksPV+BGTLu8o96oeD7vzwSJfaYiMWdjE/MooCOR87p2FQu2Y9GKOWj1YiJFhW0YLaR72rLjouOciQ5l2TUenNoLzKwQqON72U6omac=
+	t=1722683866; cv=none; b=TiMupPMYf3mBX5ET4aP3li7YR0W0Y2qUIkuUG2MZjLdvlgY6DkVKOXfxYSh3oow/DCTCjws1pcd6oMK010drNKp1bNqO5MicHBhGSLp2V6gwqwHBGdXw67oWe60LMpk3o06mdsjds68bhgelnqHN1jvWHIlH1GJ+iAh1Yy5VU/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722662784; c=relaxed/simple;
-	bh=oWyRAm63uA9X7v13N3QIJUgnU1UH+ekPUw8NU3hEoP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oWOmHLXIkh+xmCKm8zrqnyR5Wn0xwfdQYoeLyz0oukzJ89OjYO4BgOERXSHvZeh3JPgOWV6SxuvfbuizIwKxcKkQzYmRASfpOvV26pMoSmr3LoWrtOsSsb8FQ8lI7VjN8gk6FRLdbVr+qM3yc0cxwAecqgBJMymXEizpjYgYlvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFLp3uT0; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-25e3d8d9f70so5285825fac.2;
-        Fri, 02 Aug 2024 22:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722662782; x=1723267582; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gw93++57utP9jDgCwiMGqKOTDkT86N63wDHgTh02H1Q=;
-        b=lFLp3uT0ZBFUqwBu3Ku2gfZ0h2U0frosMOkw6QPTwvMnBRW/TqkyntfQN6NcojVVlG
-         IfXGKWpxAGFQKPRddWqM3/GIho79Xfrki7ov7f6yp1u5oHA3jDHM3zT+WjPwcG+wSovy
-         6zKo1d7riIx4N1tgF4XBhZXZtIrLRM3KCPFYaqBpir3aYCSaBMcE5eczowdq2ZP+VsKg
-         kCOve3T7xt+Y7ZE0uJ0CuRojVt82Y+2QTwvWVFTcr3Sjn3+kCWN3bo7XLXGblUZ31uK+
-         jaN7BkiEawu74gaplGbMPrPC6tjGaSFTWa/dYV+2AU5bbSa51mMG++hYy7lPiUOzVJI9
-         kOew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722662782; x=1723267582;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gw93++57utP9jDgCwiMGqKOTDkT86N63wDHgTh02H1Q=;
-        b=jHp/jUMx6VtFO3jnVNbdsnd69zj8jsdVLct0WNrsnbHO/m9cIsiPzWpXzFMbSZqkWr
-         Nu7uXi10F31K0192CiI3N/BmfNjPgU1NNksVdPFb3l616oMjyzxyG71E6wJXscuj/lA7
-         5E1fDEab0qkifK8TQcwlO/DZ1HT5pbezIRxDrnZzhzYBfekkZqAmzExpE5D6Bnct14V1
-         zWV9nSOXxVyZFgQiSDscpf2xRfCDYbLALLn1xGUc3fCSaLrb7osaqzMp1yuAJ3wpDDVN
-         9rjSmsAn2Y14lqfdi2AYAckdURDumXliHNHuejOyJ7gchYcIm+4DaA+VO8Dgmlvat609
-         6m7A==
-X-Forwarded-Encrypted: i=1; AJvYcCU6qsC0HCRJSe1+JZqaM2vYN6Z5tWH7o0geOoOrhOhW3ZNC+ZA7Piz95t0g2SfNcZ03R6HlaXlGr18YIHFi+vL3gRTBQDqJl13PvlbAFvkmHk7jCbgbUr74QRLa1ZWyydhHlFRBCyClo7fDveEyvi/h5vqXHSGKAKSgzJe15ysXY4BDuAjpE1T3Fku8Eg39BVUWCWCk06l5ppeYFRXwy5odxFYPIB2CLPCw0qyFI9xDl/bSQXjU96vkm87Rm0F9
-X-Gm-Message-State: AOJu0Yy001VSbmh2ro9r4Bn7Ar0ZcnMGGCvI9K3yrKFb34+a6CtmfyeT
-	w1OzDNKOk+GlavomoZnCV8+OG/6ri+oLnO0LVWkQnRJ2T76nuvNr
-X-Google-Smtp-Source: AGHT+IEdvd40BBz1Z2/L360nmGpmg6LUmBpGm6IQu5JigqoSX0oej7Q4AZZeh3KSK/mxyU7gWtO6Fg==
-X-Received: by 2002:a05:6870:9690:b0:261:9c7:a0bb with SMTP id 586e51a60fabf-26891ee2919mr7265705fac.48.1722662781679;
-        Fri, 02 Aug 2024 22:26:21 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:47be:b3e2:7c00:141c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec41cb2sm2117690b3a.68.2024.08.02.22.26.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 22:26:21 -0700 (PDT)
-Date: Fri, 2 Aug 2024 22:26:18 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: lee@kernel.org, jdelvare@suse.com, linux@roeck-us.net, pavel@ucw.cz,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	ukleinek@debian.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 4/7] Input: add driver for the input part of qnap-mcu
- devices
-Message-ID: <Zq2_evktLN3MZaGF@google.com>
-References: <20240731212430.2677900-1-heiko@sntech.de>
- <20240731212430.2677900-5-heiko@sntech.de>
+	s=arc-20240116; t=1722683866; c=relaxed/simple;
+	bh=5/DsQtu3T1y/O8PIz5TS2XxabxQtX1xtMM7KNbFl4Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gdsoXvbIZaz5bq0+Mx4i5vDgOg7RNLCUwMsCnofL2Reuu2LD4P1AGrGrUBY8horbCbh16WzsfgN294+tzhsfqY9wO62EAB21RxhOrlp8HnbCdxfUeCpWh/QaXkFrMHrQnyQDRJ+/oCUAivwILEKpCknPw41I7vQNXnglfc8zwWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkEMJqwt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA12C116B1;
+	Sat,  3 Aug 2024 11:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722683865;
+	bh=5/DsQtu3T1y/O8PIz5TS2XxabxQtX1xtMM7KNbFl4Jk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OkEMJqwtIC8x7UokMCIy/6YiKHgjZxnz1CQJ2dtAposfloCklhkz3D1j9o1U2h2Hy
+	 B5PFCi4ydtkqaZYp8N4ibe64K+lp8zQuTIkO+Vy46E4tQKud8Q1RvZL/9GEdR7zhIK
+	 ae9k/rSz8qZEZsd795UyDF+Ra3La8jDadLKnjflYun925r1PllzEboU4twrOZbTdiR
+	 mKOORmkiDjrny7i7R6eFje1rJDrONRuCy5cATBMyyc9oDFjO+0uYQz7Tyw9SuL2/6a
+	 muvxIjbEMkVwnRowzZe6rke+/bQsY4NgJx57mDCOlsNcN+zEpWtVtxFUZflAJUC3U7
+	 axp7uT7Qrr7ug==
+Date: Sat, 3 Aug 2024 12:17:34 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Anand
+ Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, Michal Simek
+ <michal.simek@amd.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel
+ Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [PATCH 3/4] iio: adc: xilinx-ams: use device_* to iterate over
+ device child nodes
+Message-ID: <20240803121734.25f0863b@jic23-huawei>
+In-Reply-To: <20240801-device_child_node_access-v1-3-ddfa21bef6f2@gmail.com>
+References: <20240801-device_child_node_access-v1-0-ddfa21bef6f2@gmail.com>
+	<20240801-device_child_node_access-v1-3-ddfa21bef6f2@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240731212430.2677900-5-heiko@sntech.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 31, 2024 at 11:24:27PM +0200, Heiko Stuebner wrote:
-> The MCU controls the power-button and beeper, so expose them as input
-> device. There is of course no interrupt line, so the status of the
-> power-button needs to be polled. To generate an event the power-button
-> also needs to be held for 1-2 seconds, so the polling interval does
-> not need to be overly fast.
+On Thu, 01 Aug 2024 08:13:52 +0200
+Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
+
+> Use `device_for_each_child_node_scoped()` in `ams_parse_firmware()`
+> to explicitly state device child node access, and simplify the child
+> node handling as it is not required outside the loop.
 > 
-> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+>  drivers/iio/adc/xilinx-ams.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/xilinx-ams.c b/drivers/iio/adc/xilinx-ams.c
+> index f051358d6b50..27d5e4a6f9d6 100644
+> --- a/drivers/iio/adc/xilinx-ams.c
+> +++ b/drivers/iio/adc/xilinx-ams.c
+> @@ -1275,7 +1275,6 @@ static int ams_parse_firmware(struct iio_dev *indio_dev)
+>  	struct ams *ams = iio_priv(indio_dev);
+>  	struct iio_chan_spec *ams_channels, *dev_channels;
+>  	struct device *dev = indio_dev->dev.parent;
+> -	struct fwnode_handle *child = NULL;
+>  	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>  	size_t ams_size;
+>  	int ret, ch_cnt = 0, i, rising_off, falling_off;
+> @@ -1297,13 +1296,11 @@ static int ams_parse_firmware(struct iio_dev *indio_dev)
+>  		num_channels += ret;
+>  	}
+>  
+> -	fwnode_for_each_child_node(fwnode, child) {
+> +	device_for_each_child_node_scoped(dev, child) {
+>  		if (fwnode_device_is_available(child)) {
+This is fun.  should have been fwnode_for_each_available_child_node()
+in the first place rather than iterating over all nodes, and only
+doing stuff for the available ones.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Can use the device_for_each_child_node_scoped() but that only includes
+available nodes anyway, so my understanding is that we can also drop
+this if statement as it will always be true.
 
-Feel free to merge with the rest of the patches.
 
-Thanks.
+>  			ret = ams_init_module(indio_dev, child, ams_channels + num_channels);
+> -			if (ret < 0) {
+> -				fwnode_handle_put(child);
+> +			if (ret < 0)
+>  				return ret;
+> -			}
+>  
+>  			num_channels += ret;
+>  		}
+> 
 
--- 
-Dmitry
 
