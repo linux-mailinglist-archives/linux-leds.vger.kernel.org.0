@@ -1,62 +1,86 @@
-Return-Path: <linux-leds+bounces-2404-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2405-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114C6948222
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 21:17:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 171B29483C8
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 22:59:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA2BD1F23691
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 19:17:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 491571C21ED5
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 20:59:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA22315FA76;
-	Mon,  5 Aug 2024 19:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F210116BE27;
+	Mon,  5 Aug 2024 20:58:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1XOg7lq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZhzTRRY"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C55364AB;
-	Mon,  5 Aug 2024 19:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3344514AD30;
+	Mon,  5 Aug 2024 20:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722885445; cv=none; b=Dr1dUIlnG4txUwE+LdzBdFZu/p/OxrMcv682MIndDOafalEjaCy2EwuTOzRLz+MvtNhn8YYaAFuYd3G/HUqQ9K44RBzIBapKq72Je2HLRwBIu+7tuhOm9HGhUQhzfyDsixiwdeF2nxFp70b6EKDbWWg7hPjq1uxjjuW6Jcc9A7k=
+	t=1722891539; cv=none; b=dgYzxSBX5FuzieSlY2NtIT0yx0IYZbQUuzV+IezXXPsZa/Yvn6Uc5CnLX1zQq8orsb3GE7QixmV9O8303nQj7CwVjhiBOsutyZLsWkffMyI9h8RKRIiOkIA9gz7yWGqPo0fdcHZ0CNep2bAegZ5UC+jhrn6fiMKC/HsPwtRKASw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722885445; c=relaxed/simple;
-	bh=yIzYBRhu3FkCRao5W4ixWWwmAsOLTrfWSG9/9Ucrdsg=;
+	s=arc-20240116; t=1722891539; c=relaxed/simple;
+	bh=gjFRACIVY4CZs0fF0gBdmou29vCbYimp5bxsEMOmmUU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kwc5j0iuUINwxUE7IfVx15u03yv0ie0pSMVgnRUWfdi7l3pP2LPOiOOiKrcYYwLQo0J2APARzGim8D7NtPar3fxVTtD9zZH/PJJL2i5BaIxqcYUdXjdzAUaDo5gB5o/R9af2Oh/YMDR3l3JS/LYr+93JnSj278rAgDc3myyvyHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1XOg7lq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4DAC32782;
-	Mon,  5 Aug 2024 19:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722885445;
-	bh=yIzYBRhu3FkCRao5W4ixWWwmAsOLTrfWSG9/9Ucrdsg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u1XOg7lq5Gb+Iyutvrb8Ggq1n89ppsPewkZrwb13K7CWOXV1ARdNO+yQznlR51CJv
-	 x9DjQkQdymtnwglT35Zr3AzKShlloIi9pbSBHhQ2EU+RLp0dmJCQ66l9NgegZpPZbx
-	 S6QVW7Q46UxRi9amYrn3ZRfZGrXJhA1TeNTeXK3MCaIm6KiOVSgtIPPViJ783BI2A8
-	 ue5GOs/Uyl1OXFptfdXDApl1bygdQuBO2dH64KCQBaI+qRFJnTycQlHXQnh88c93Uq
-	 VD2po/oxeg5ZwuWR8jHjjzIzBSo6y1R5jMi6xF2A3CYcnDHnP1IVDk97wQl53JhHjK
-	 36UJfSxOdj/Og==
-Date: Mon, 5 Aug 2024 13:17:23 -0600
-From: Rob Herring <robh@kernel.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: lee@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-	dmitry.torokhov@gmail.com, pavel@ucw.cz, krzk+dt@kernel.org,
-	conor+dt@kernel.org, ukleinek@debian.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3 1/7] dt-bindings: mfd: add binding for qnap,ts433-mcu
- devices
-Message-ID: <20240805191723.GA2636745-robh@kernel.org>
-References: <20240731212430.2677900-1-heiko@sntech.de>
- <20240731212430.2677900-2-heiko@sntech.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ElRSATfyFYgxeySDj2zghhIhg80/D9w1ajKFqjV5VXREy6qvgUpeAaezF7Jlw7qjfOrFomVA5jZT+G1mCL848BKomtOHTDbLIODwa9OmVNu14A7P3e6cLQhh041RA1kfMicOaVA0k8INX40JuwwJ7RcCtYUhmXocsqps0claLLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZhzTRRY; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722891538; x=1754427538;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gjFRACIVY4CZs0fF0gBdmou29vCbYimp5bxsEMOmmUU=;
+  b=OZhzTRRYm8UK5KY/c9S+qE+wM3/jLnYIZNWhIFYX2BfClPxiByo1bHkH
+   ZofFGrYwNAUOiOHh55qc/Clzdpc8vLTrCMrw74lzxdPYKRuilrdJr0PTF
+   rLYnvEFvgvYw284SLWTfBVyfEmOnCc2R6Y6aGHp8N1mGKuVTxxL1VOqSm
+   cwW9u+zlWiUTo+FQY9d18SQpBqeUEUIQky33dA/Lfk0gLMJoLj7JLk/lh
+   8h8pE50I8bnThEMfn2gpE/UATGw5d+kogfNuRP/Fds67lvZm6kgbxB7Al
+   ssizdAqlP+QYoo65DjiRyq6PTviycOldEEgPsHZ5zVeGvVO9ramZNuowG
+   Q==;
+X-CSE-ConnectionGUID: mOpC6PxBTs+a2JLCqOLcbA==
+X-CSE-MsgGUID: Ql88UsKqTVu3JALm7pVJDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20458765"
+X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; 
+   d="scan'208";a="20458765"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 13:58:57 -0700
+X-CSE-ConnectionGUID: Hj3XyW2lRdOhBw/BJAV74Q==
+X-CSE-MsgGUID: Zt7l1uQRQwi5QRrZTwNguA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; 
+   d="scan'208";a="56198727"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 13:58:51 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9C17411F965;
+	Mon,  5 Aug 2024 23:58:48 +0300 (EEST)
+Date: Mon, 5 Aug 2024 20:58:48 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+	Michal Simek <michal.simek@amd.com>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 4/4] leds: as3645a: use device_* to iterate over device
+ child nodes
+Message-ID: <ZrE9CF_WlJsS_Ome@kekkonen.localdomain>
+References: <20240801-device_child_node_access-v1-0-ddfa21bef6f2@gmail.com>
+ <20240801-device_child_node_access-v1-4-ddfa21bef6f2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,60 +89,23 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731212430.2677900-2-heiko@sntech.de>
+In-Reply-To: <20240801-device_child_node_access-v1-4-ddfa21bef6f2@gmail.com>
 
-On Wed, Jul 31, 2024 at 11:24:24PM +0200, Heiko Stuebner wrote:
-> These MCUs can be found in network attached storage devices made by QNAP.
-> They are connected to a serial port of the host device and provide
-> functionality like LEDs, power-control and temperature monitoring.
+On Thu, Aug 01, 2024 at 08:13:53AM +0200, Javier Carrasco wrote:
+> Drop the manual access to the fwnode of the device to iterate over its
+> child nodes. `device_for_each_child_node` macro provides direct access
+> to the child nodes, and given that the `child` variable is only required
+> within the loop, the scoped variant of the macro can be used.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> ---
->  .../bindings/mfd/qnap,ts433-mcu.yaml          | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+> Use the `device_for_each_child_node_scoped` macro to iterate over the
+> direct child nodes of the device.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
-> new file mode 100644
-> index 0000000000000..5ae19d8faedbd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
-> @@ -0,0 +1,43 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/qnap,ts433-mcu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: QNAP NAS on-board Microcontroller
-> +
-> +maintainers:
-> +  - Heiko Stuebner <heiko@sntech.de>
-> +
-> +description:
-> +  QNAP embeds a microcontroller on their NAS devices adding system feature
-> +  as PWM Fan control, additional LEDs, power button status and more.
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Doesn't really look like the binding is complete.
+Thanks!
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qnap,ts433-mcu
-> +
-> +  "#cooling-cells":
-> +    const: 2
-> +
-> +  cooling-levels:
-> +    description: PWM duty cycle values corresponding to thermal cooling states.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    items:
-> +      maximum: 255
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-These are fan properties and should be in a "fan" node referencing 
-hwmon/fan-common.yaml.
-
-Rob
+-- 
+Sakari Ailus
 
