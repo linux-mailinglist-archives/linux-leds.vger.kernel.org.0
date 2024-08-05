@@ -1,177 +1,157 @@
-Return-Path: <linux-leds+bounces-2399-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2400-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D48947D34
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 16:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C841947E25
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 17:32:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3353B2834D4
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 14:51:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52ECF281311
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Aug 2024 15:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 178CA15C12C;
-	Mon,  5 Aug 2024 14:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44F8515B118;
+	Mon,  5 Aug 2024 15:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4ufaUuX"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X3fTZaWB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C40D15B153;
-	Mon,  5 Aug 2024 14:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A139915B102
+	for <linux-leds@vger.kernel.org>; Mon,  5 Aug 2024 15:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722869421; cv=none; b=GMGbLCVaYJ9dukx5HT3nhxVB/l4CLugeNjCiLJ8ZGFr1QAFpUX+RnP680vc+GJm/vQPMAYW4eQPPx76QWC5iTiv1yQHKVKd+G74A6PN9MbZDSOGXanhMNCiWd0Y+nRoSZaHzRtB5E/CAfXnGUPO2Vo5bmGAueVjrHCB1S2ieNDQ=
+	t=1722871898; cv=none; b=BcSwVo+9ViKk1YLZyq9aDftCIAFN4UkS6aE3K48S4vBs1b+YnGyYE2GwQXt3eWKr82UBLuERJM9yrgrzJG2zq7uu4VvCF2Wb0X4jq8CrnQoK68Ny1DIhf6JtukfzMHYh3ie73rJ44m2fC45UuSHuoUzKmRv7MU0RQiqAAwmcHn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722869421; c=relaxed/simple;
-	bh=Gs9fUy9yW4JBBaoGjjHZoItLt9sngv838Y8XASfxmd0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PfPGelbSkakV0eQAzZ1Kz2FWhBfB/dh7stMGqUZ5qnFsqN1Tc63qOHuIybq1imVJaxNz3VqfpihcBDCazay2FC5nqXxXs1w5BONSvIpDoFko2PHJjf2HCV7ZXDSYnzKBT03QvNA3kL1QiG6R9zLzqNe3T3tkEHRiDUI3hTv6nSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4ufaUuX; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5b8c2a611adso3413983a12.1;
-        Mon, 05 Aug 2024 07:50:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722869417; x=1723474217; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ni7itzdtEe2jfSTKg6OGqBXNu0xuqssIDqqXlEDVBsA=;
-        b=a4ufaUuX/pM/iqtA6lccvy3jXjNL1tyC/LEcrkqBHJ7Wmi2o4/+N2RP4YoQpSKztHr
-         4rigSN0vt89qJyA/MAOrUuI+cvtmsIJlB2Ti2uzZgkWWR5w+fW7LhTSkXK56gMvxbu2U
-         OvJ5l/cp/3cgaLeBOEnHywva7aI1tFOfA58K69w4XzETNAg1Hh+hwbfEND6OtvdpTRNu
-         QPB+7oAjyR/a/h0NLoDVEEo5AkImvGAiNyReLA5RKIHTnGZeyAAfmsn0TUb6096HuA1k
-         +7mkME2bBBjlrTIQmjofayPRAMhVSAkDGXlgPoEWK5tSYqy/XgJXzJ7bUWwyWBnHuf8J
-         Nqag==
+	s=arc-20240116; t=1722871898; c=relaxed/simple;
+	bh=LujCxIzyXRjwhPlqP8whLTzqd1Iwo0W1UDi1/ERk5Do=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mIjlvqzuLf9gD165WWOdvNfEovDzlSp+M891x3yOdBhudKBhvYB+PopdYQiYfflHNeTI4LaMHYtuiQMlg2jSsnVb6eNVpFUZVKtvIpl8ovjfoy1RCoXJM3NJMVfpTsM/nTHNt1a8ldROixmhkuuBpEyUR0SPzxsL9TtbapQUuMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X3fTZaWB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722871895;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6h3TlWGTE1+WlvLS85nPM+6D3cqZx0X5zf2j2PeJ3w=;
+	b=X3fTZaWBUVbKh9k3BPdugbvrP2J/l75GeWQtcsDFKHNg3+npvosHVDXEr44WSaiTJMKWjr
+	GFV62OQe5JMqpUMuMR9sDWMb1vhyXOuLoIoE+o7MZNGOzW1OBsVPPN1l7fySrgDDOfq6TQ
+	c5oUzanJQL0xBPtRiyz/SAWzlfvYQYo=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-aOEEkzq3OESPZ3G7_3-eBQ-1; Mon, 05 Aug 2024 11:31:32 -0400
+X-MC-Unique: aOEEkzq3OESPZ3G7_3-eBQ-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-52ebdbf8a7cso8458398e87.2
+        for <linux-leds@vger.kernel.org>; Mon, 05 Aug 2024 08:31:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722869417; x=1723474217;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ni7itzdtEe2jfSTKg6OGqBXNu0xuqssIDqqXlEDVBsA=;
-        b=ovNEqOASOtivpjQRbw1ySD9+VtUq2eisJZc1eTS8RXCMlSQalY2atqJUGUWMh6FqSb
-         iud9rsXuR+Uf+qH9jaHT4rKpoYuO9lLK6GOWgCRkEKeTURIkoFo5GCBdirtx73VQgVec
-         lI2xWklSz4ujB9RgKK2nWJfcAkrQOuH8kMruN/Ng0qbAWRHIbZ1isGbK1kOJ27hvRgrJ
-         wejomZzSKwLURYVjsQag97/1OI+6YQ7ykGMvx65ggsSGq9BMNfCYpFGC1jcGnCKUXRvP
-         4HAvtOIZqYw3NKAKLcbC20k4DifwyHLYAKnmrBrGZnveSBCCCpNlUIHu8SAAzYpIpDvi
-         AFqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfR/wJ/a+0TaD1Zta2qvB/QSnCEKIWThi0lbHFN3D8d7hvoUaOnf+dzNz4jM227xNn5D//3aVjdFEehQ==@vger.kernel.org, AJvYcCVH1jb5DLipSGrUGX1e3wcGJ6Om2M1ffGq7A6SjFHTD2fZFE8FLYoj7mHEM81bnkWkFAl3PoALI@vger.kernel.org, AJvYcCWtsFdWjuI+r5VoHkFMeSxv2kkO8nxPWjzt6E2mO5MWQfhIQZOjMkAZwVhWrmJ/Ue8vy+jey7b0wBl5eQ==@vger.kernel.org, AJvYcCXZCKIcfE9sYNYYpRA269ttkyB68sJcOoAcsGGPkmK/aO6DSmaL3cQJ6qC3KS2GbSLylFhwTnk6ImHFoV3k@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhtkiB6rD1e+dR6nYDYar/Q5kzmr5HpnSHcat2rpONPh8LupFj
-	fW2GxuD54Cu7R9sjDNmkMK9lBuuNT09Pd1Yz6CREOPvHf/tuWjfa0bGqud/v
-X-Google-Smtp-Source: AGHT+IEu7RnD//aEIHLSrf4o/e/BoWMlA3ETDJKKor1UP/ki+rOUQeZH+Has9o+RgFalA/2S8xJoVw==
-X-Received: by 2002:a50:ee17:0:b0:5a2:a0d9:c1a6 with SMTP id 4fb4d7f45d1cf-5b7f3cc7429mr8033257a12.11.1722869417114;
-        Mon, 05 Aug 2024 07:50:17 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b83b82f308sm5004088a12.63.2024.08.05.07.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 07:50:16 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 05 Aug 2024 16:49:47 +0200
-Subject: [PATCH v3 4/4] net: mvpp2: use device_for_each_child_node() to
- access device child nodes
+        d=1e100.net; s=20230601; t=1722871890; x=1723476690;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6h3TlWGTE1+WlvLS85nPM+6D3cqZx0X5zf2j2PeJ3w=;
+        b=rXF/dUQMXqEqZSmA1B8nIn0MEGiaRYM06TL06HahFLunXFoAOFuyLlExGwKq+oaUWf
+         ZKZlSnFt8jeKd9mryYyJMpzljeSEOjMPzVXXySOvx+QO9dKSPmDBp+UdH0ajLqPXuh6g
+         pqyqrYgBi/a3gubFqclfKGwSIBE7Au5ZFiD1DQqnPfaY36Bg8GXrlR3SgSLeujy/DKj3
+         DSbSKptpSW0r4p4iBxaWi14QqHVriuIYx8taA+qr3h5dxhkbknxES5EdmPhJyAlovHWk
+         bZiXtunPPMRsmDTBTLgTBwwzqOZ7Wflmg7TVEQFaNqYZ5MJKqzkEbGM5hkWNsQW+BCme
+         S7tA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIUIdGMM1vkVdKXXk9UJisRX5rkaNPVlRVrJd6SZQ0jvF7KBO3khMEBSF5cr+0HILVwQkw8QKqMDSM5a2mlP5UgRqB6FIoh/1K1Q==
+X-Gm-Message-State: AOJu0Yx64nXwVjDd+x4V/J9YJeKnztSJzDbD6gPkXwWTjZg0wiAD+zCH
+	WF1dJDLBL0GtuiULFHc4h32EeJl+sRrOqp/GOvIx43izNql1Q8IVm367CHght+Z5m4BjSpS9q1c
+	ba0i7Ich9/e/XlT9isJrMOzdIlD3B6jVpYRp7NDO+GBFxNylM0UzLghxHDBQ=
+X-Received: by 2002:a05:6512:6c2:b0:52c:e1cd:39be with SMTP id 2adb3069b0e04-530bb366423mr8255144e87.8.1722871890548;
+        Mon, 05 Aug 2024 08:31:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxZ6chdviq5hamliBqyoWz+o5DUn/+8ZWwmK9zqpFBDa2VFpbqPj1SixEfhXHWy5MD7/IH3Q==
+X-Received: by 2002:a05:6512:6c2:b0:52c:e1cd:39be with SMTP id 2adb3069b0e04-530bb366423mr8255104e87.8.1722871889911;
+        Mon, 05 Aug 2024 08:31:29 -0700 (PDT)
+Received: from [192.168.211.203] ([109.38.139.91])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b83bf3b99dsm5009113a12.91.2024.08.05.08.31.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Aug 2024 08:31:29 -0700 (PDT)
+Message-ID: <3dba67bc-fb22-41af-b9b9-3746c94cc1a1@redhat.com>
+Date: Mon, 5 Aug 2024 17:31:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240805-device_for_each_child_node-available-v3-4-48243a4aa5c0@gmail.com>
-References: <20240805-device_for_each_child_node-available-v3-0-48243a4aa5c0@gmail.com>
-In-Reply-To: <20240805-device_for_each_child_node-available-v3-0-48243a4aa5c0@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Daniel Scally <djrscally@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Andreas Kemnade <andreas@kemnade.info>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org, 
- netdev@vger.kernel.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722869407; l=2385;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=Gs9fUy9yW4JBBaoGjjHZoItLt9sngv838Y8XASfxmd0=;
- b=ihHIaYtp6T390sCfrty1YjNtAYZGThIeMtguLLHG6L01jXTjdSZMRrfQVtNCN4wVYLLhSbRXX
- /RuF4YN2ObTAcdrI40NuECuErDk+DxTOna13wsTN0raOuLMubO8ZQZG
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] platform/x86: Add wmi driver for Casper Excalibur
+ laptops
+To: =?UTF-8?Q?Mustafa_Ek=C5=9Fi?= <mustafa.eskieksi@gmail.com>,
+ ilpo.jarvinen@linux.intel.com
+Cc: jdelvare@suse.com, linux@roeck-us.net, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ pavel@ucw.cz, lee@kernel.org, linux-leds@vger.kernel.org,
+ rishitbansal0@gmail.com, bahaku@elrant.team,
+ carlosmiguelferreira.2003@gmail.com, alviro.iskandar@gnuweeb.org,
+ ammarfaizi2@gnuweeb.org, bedirhan_kurt22@erdogan.edu.tr
+References: <20240713163521.21958-1-mustafa.eskieksi@gmail.com>
+Content-Language: en-US
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240713163521.21958-1-mustafa.eskieksi@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The iterated nodes are direct children of the device node, and the
-`device_for_each_child_node()` macro accounts for child node
-availability.
+Hi,
 
-`fwnode_for_each_available_child_node()` is meant to access the child
-nodes of an fwnode, and therefore not direct child nodes of the device
-node.
+On 7/13/24 6:35 PM, Mustafa Ekşi wrote:
+> Hi, I apologize for the delay. I recently saw Carlos's patch and your
+> reviews, so I improved my driver according to it and made it ready for
+> another version.
+> 
+> I didn't include the documentation for the new zoned keyboard backlight
+> naming since Carlos is going to do that. However, I changed the naming of
+> corner led because it isn't affected when other zones' brightness changes.
+> And one last reason to not name it kbd_zoned_backlight is the fact that it
+> isn't on the keyboard, it's on the two corners of the laptop. I'm still not
+> sure how to name it, so I named it 'backlight'.
+> Here's a photo of the laptop: https://imgur.com/a/JEqMiGL
 
-The child nodes within mvpp2_probe are not accessed outside the loops,
-and the scoped version of the macro can be used to automatically
-decrement the refcount on early exits.
+Thanks for the photo very helpful.
 
-Use `device_for_each_child_node()` and its scoped variant to indicate
-device's direct child nodes.
+I see these corner LEDs actually illuminate the table, not the laptop
+itself, a bit like ambilight on Philips television sets. According
+to wikipedia the vendor neutral not trademarked name for this is
+bias-lighting:
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+https://en.wikipedia.org/wiki/Bias_lighting
 
-diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-index 0b5b2425de12..216cc7b860d6 100644
---- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-+++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-@@ -7417,8 +7417,6 @@ static int mvpp2_get_sram(struct platform_device *pdev,
- 
- static int mvpp2_probe(struct platform_device *pdev)
- {
--	struct fwnode_handle *fwnode = pdev->dev.fwnode;
--	struct fwnode_handle *port_fwnode;
- 	struct mvpp2 *priv;
- 	struct resource *res;
- 	void __iomem *base;
-@@ -7591,7 +7589,7 @@ static int mvpp2_probe(struct platform_device *pdev)
- 	}
- 
- 	/* Map DTS-active ports. Should be done before FIFO mvpp2_init */
--	fwnode_for_each_available_child_node(fwnode, port_fwnode) {
-+	device_for_each_child_node_scoped(&pdev->dev, port_fwnode) {
- 		if (!fwnode_property_read_u32(port_fwnode, "port-id", &i))
- 			priv->port_map |= BIT(i);
- 	}
-@@ -7614,7 +7612,7 @@ static int mvpp2_probe(struct platform_device *pdev)
- 		goto err_axi_clk;
- 
- 	/* Initialize ports */
--	fwnode_for_each_available_child_node(fwnode, port_fwnode) {
-+	device_for_each_child_node_scoped(&pdev->dev, port_fwnode) {
- 		err = mvpp2_port_probe(pdev, port_fwnode, priv);
- 		if (err < 0)
- 			goto err_port_probe;
-@@ -7653,8 +7651,6 @@ static int mvpp2_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_port_probe:
--	fwnode_handle_put(port_fwnode);
--
- 	for (i = 0; i < priv->port_count; i++)
- 		mvpp2_port_remove(priv->port_list[i]);
- err_axi_clk:
+So lets name it "casper:rgb:biaslight", which I admittedly is a bit
+weird, but backlight for LEDs which are not actually a backlight for
+displays or keys is confusing, so IMHO biaslight is best.
 
--- 
-2.43.0
+Regards,
+
+Hans
+
+
+p.s.
+
+I'm also doing a review of the patch itself, but I likely will not finish
+that today.
+
+
+
+
+
+
+> 
+> Mustafa Ekşi (1):
+>   platform/x86: Add wmi driver for Casper Excalibur laptops
+> 
+>  MAINTAINERS                       |   6 +
+>  drivers/platform/x86/Kconfig      |  14 +
+>  drivers/platform/x86/Makefile     |   1 +
+>  drivers/platform/x86/casper-wmi.c | 656 ++++++++++++++++++++++++++++++
+>  4 files changed, 677 insertions(+)
+>  create mode 100644 drivers/platform/x86/casper-wmi.c
+> 
 
 
