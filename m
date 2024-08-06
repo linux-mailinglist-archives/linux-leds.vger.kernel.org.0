@@ -1,144 +1,124 @@
-Return-Path: <linux-leds+bounces-2409-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2410-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3445E94996A
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Aug 2024 22:46:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4923949991
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Aug 2024 22:50:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1B1F2838F8
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Aug 2024 20:46:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3DFEAB27D4A
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Aug 2024 20:50:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA29F15689A;
-	Tue,  6 Aug 2024 20:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A5DE158DD8;
+	Tue,  6 Aug 2024 20:50:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXQFa+4n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEHIKsWT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCCA77F08;
-	Tue,  6 Aug 2024 20:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EF9155CAD;
+	Tue,  6 Aug 2024 20:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722977165; cv=none; b=V6BRovo2OVTFRY9pluDKwL8JT7QvqATXmgi/0czlF/I6YYumeZvGjVdjeEyYL9h45DJFysvw8rSLkzRiWuPrnXySAjqWC+uctpglIHG6RBgvgfIPQdsRIkR1S1aIDQVzAJU/iMtdjkNHmslDoM+u4mXALmXYoFXgYoxlwR5k2UA=
+	t=1722977426; cv=none; b=oIKxqGPGPynEfCo5r9P4x5JtzU+UluvOJcwx1ZAxSvHqq0mGmsgs5PMfOhNDqXJl+ZKzf53SRgi2MqGIny7wpjJKFnqLIZ55G+3xTqFxfUi8MYkZFGteu2BWb65Rs0Ot6xckjiWnIV4DH4uhUAlV2GiZL4JWaR83bPgo9f4u6bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722977165; c=relaxed/simple;
-	bh=FBPPBXVWYgE3RuKywF6s6v5xBm5ttSryUiyb6Dp8Dg8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UeggYifhyeCQVKzlcB0g5RA5qdS6mNkxsksCiwmwtpzIIaXHaOWuxbHiDC1lxUprRahm6FtOKcB1b48aB7X/H0HQG1R/L4JDdT8wNvZeF58rH7Yqq+8XGECZvEWJA/pegRK//K48AtFmFz4VvJxG3t49eA4M1KSrjpVQeLnU12o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXQFa+4n; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1722977426; c=relaxed/simple;
+	bh=/vIo88rGxJ7Qi1zU5jtv8+n+vDDff7LpbagHpBmGLkI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=o+KBpTnHctsA2f+vgUzyhrlqQq5DMOtFZJChdgpNbQpkk5DVodFd98wBXbTDGU1s+yiC8Uob5BWmdZaMJ/0n345KlnrcQqrSCaXkX7483EuVcGUFUO7nW5OmJJ9WH7f8Krq+FZTTaULfLdO8IM2FY2jNZ5hIeEM4QuAQ2wHzpTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TEHIKsWT; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ef2cb7d562so11214011fa.3;
-        Tue, 06 Aug 2024 13:46:03 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a7a9185e1c0so113364966b.1;
+        Tue, 06 Aug 2024 13:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722977162; x=1723581962; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LULBEc4FENaLMYCzin9zgQn6oarwP+ZKpZeZTtcHz6o=;
-        b=VXQFa+4nbkeGhMZ9uZ2T5fSf+Fx1/qYR0E0kPzBPQwui69J1fqB046kpCTTqswN0bk
-         viMcNvywbO+YzRQmSsVE/vK4zA67i1FgtVmFPghdFtLWqhbhVJrrHw8MQ/j8WcY/2Ly9
-         sC3O9I5V7REVLnGa0ZhUU8bt8cHWlzpbuzD9zZ5fWWN6vM4TyKX+yBoMDoPzEUeYoVco
-         rjOPlwd5526jO8VrEYzx+329qNqU4HJENWnc8q9E3gLRV+n8tSrUCg546ETY4jJoBsxr
-         p6Ubw9DBtyb3/8Z1FnzhIZyYO4k+dcPc6pF/KR4hYQWO21o5kRE/PLpqlbICu8pQ8cEu
-         tBWg==
+        d=gmail.com; s=20230601; t=1722977423; x=1723582223; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SPWAqHyClCkz14eOqbyrR1m/H7AsRzTMOO2Sv00fuaA=;
+        b=TEHIKsWTxbxpiQLHCkuWnG/MCAj0nfTmURnML607pHIhdSst22cS8DOHyQ+938FFKz
+         4hZl9Q/ILhDLX+pxEuaJA+ytO15NsT5HlHlgrnwhpXTiMn/Mzp8z1S48IMOUlPWzBVE8
+         YDrQPCXy5yv5/MlN6ZO2MxTMhRHhNchFF+yQ3hdqaA/53AaxVSuaabSZLq0LW6mPHf60
+         qxoATJPLwkLJw5DszihF+JsYljAgfwJz7j4nDagNY2ceBRjPg/R9LxOyNOB1/BKeZNx+
+         evFjWmVTNbhLuFr0xwXSM32klELv19Eo/eiFnsnLCHN8/jO/wPntEiaShzX+TKU6yljj
+         ImCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722977162; x=1723581962;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LULBEc4FENaLMYCzin9zgQn6oarwP+ZKpZeZTtcHz6o=;
-        b=eWBdenwcaudBzPKXo2U+nWVE11dKsP3ExSiujC8jQNgg6T/mwZiMFxnp7BQzwcAwB7
-         nQX6eEy/CFlmhcu9lGQzZ1TfRGUS6hJOeyQxyr74jSzoAJHIEZ3VcFw/LH4/PXt+z2AJ
-         fLf52XD347nfgcXaHuwuYZAFTLCvqiFLPjPAUmBmDegd3rvvJJhby0Mv0pSKFIBtaVBf
-         7BkxiFHFHBXzDoBoJlYaMZSRfGxllzqMnb+C3LyyTTjKfVGHNSRG61jvYYTSDj55sh2/
-         tXDrdfvRIl1mdvtVcEElSGdD79BTee4/is8vdhzhNsg8Fy4D5yq6xJ0PvE2kOAoWERTn
-         fHLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGAIvF9K+y/wS3rnNP/i2ENMOkobhk46ml7sQn4uwrSnTgBIQr5bdj1wMb/FjKZk3jmFk7LlKDz3IQfhI2k43mIUprIxPa10T1oLbmAz5qOtYBfOXcHUQVB+vWF8QhB73Kx/ZdqM7U7nnR0xPylFknss/ezTJNDXs04amvhfv1QKFaMMzZ5Dp1gxX/8VP1oesuQMSaovvY52VPOc7T
-X-Gm-Message-State: AOJu0Yx5Wa/Prd5OJxeyrtgtw9xWtbdwq5WfNNVCI3/guOQALcV/5Bzk
-	37ldOi6SpxoQ4oRu40O2VtjQWOvbFoCFlzE3mCcrFyboW5aaTNh+
-X-Google-Smtp-Source: AGHT+IFMeaFQDsf+dsHssdxOBCJ7gqaVJ+n/aCw9r/FzaHmGmbGdivVoVbMtHbP7QVFrNjeei9qk5g==
-X-Received: by 2002:a2e:9f06:0:b0:2f0:1a36:1d79 with SMTP id 38308e7fff4ca-2f15ab24cfamr117939951fa.45.1722977161874;
-        Tue, 06 Aug 2024 13:46:01 -0700 (PDT)
-Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b839c23417sm6263082a12.29.2024.08.06.13.45.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Aug 2024 13:46:00 -0700 (PDT)
-Message-ID: <14cd5fee-23f8-4265-96e7-22a5457627da@gmail.com>
-Date: Tue, 6 Aug 2024 22:45:58 +0200
+        d=1e100.net; s=20230601; t=1722977423; x=1723582223;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SPWAqHyClCkz14eOqbyrR1m/H7AsRzTMOO2Sv00fuaA=;
+        b=uXF9DiPYWKKN7j63C8mbJPT/+6ouaabiU/n29rrlK3WP6ZEo3gmVX8+wEY6eh64Aiq
+         FgNFDI7ZQKk/o7WIba6Z8FIXJi0hxiLNG58R00z1BCEXU7ZLgQIGuEk6+ck6YnPkGeSa
+         SOkKqnBLwzdHLw2T35OZboPRZuNCXCeNw+jPDyTtPr+hD55BNQBS0NvEm9RoFx9vAQUs
+         TKXSf+uL3LXL1EruHvFKAFT061m6zUGKERV3lqq+2C5XHA5+Kzq+kmnVmuLoWs8ZihOO
+         B4qqp4uDoFJMpOWUxaqpxYi4/LJcNfrP9muFnlUy+9USoNX6L14cLX93f4eF5IakSohi
+         Kh3A==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Db9yEvshhJFpZLjeLKpA+Bsr0xVlx+qY4eCgR8/pEa4dRnXnjdUT2MghXjVzz0s6Gkq6mXK/RqiVb21lNzzehHze7Y5k5DUwRHvOoSlmsNagA99S2iDEu4b4x6J6t3dn0dD1AttFQ7xPonBMs9lfwnTrO/HpPUkyvTqU4Nk0a7uqyl9tdW2LRcMMW6kqoSnEdbYDsvsrpYzwKGXwF+OKwUNMDTdAy7H4mw==
+X-Gm-Message-State: AOJu0YxbkoBRP22zPnEtw1thGtoYcFR0CGqbPIQjGnF/EXmBUXMY2XQr
+	9pT/xVnND/38kKyEIfaLL9prknrCpOx2NMrah+brke3OUo6JeyQn
+X-Google-Smtp-Source: AGHT+IEK7snqhGEt0KxcB2YfnB10pN1hdWKFMMtgDeoUtWdZlsGgynYkA8Nr/UcGh8tdKonEa33RpQ==
+X-Received: by 2002:a17:907:7e9c:b0:a72:6b08:ab24 with SMTP id a640c23a62f3a-a7dc4dc4df4mr1018771666b.14.1722977422271;
+        Tue, 06 Aug 2024 13:50:22 -0700 (PDT)
+Received: from localhost.localdomain ([94.120.87.161])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e8674dsm588730066b.146.2024.08.06.13.50.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 13:50:21 -0700 (PDT)
+From: =?UTF-8?q?Mustafa=20Ek=C5=9Fi?= <mustafa.eskieksi@gmail.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com
+Cc: mustafa.eskieksi@gmail.com,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	pavel@ucw.cz,
+	lee@kernel.org,
+	linux-leds@vger.kernel.org,
+	rishitbansal0@gmail.com,
+	bahaku@elrant.team,
+	carlosmiguelferreira.2003@gmail.com,
+	alviro.iskandar@gnuweeb.org,
+	ammarfaizi2@gnuweeb.org,
+	bedirhan_kurt22@erdogan.edu.tr
+Subject: [PATCH v7 0/1] platform/x86: Add wmi driver for Casper Excalibur laptops
+Date: Tue,  6 Aug 2024 23:50:00 +0300
+Message-ID: <20240806205001.191551-1-mustafa.eskieksi@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v3 2/4] leds: pca995x: use
- device_for_each_child_node() to access device child nodes
-To: Lee Jones <lee@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Jean Delvare
- <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Pavel Machek <pavel@ucw.cz>, Marcin Wojtas <marcin.s.wojtas@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andreas Kemnade <andreas@kemnade.info>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
- netdev@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20240805-device_for_each_child_node-available-v3-0-48243a4aa5c0@gmail.com>
- <20240805-device_for_each_child_node-available-v3-2-48243a4aa5c0@gmail.com>
- <172287362960.2885491.3573302906275384293.b4-ty@kernel.org>
- <20240805160153.GG1019230@google.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240805160153.GG1019230@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 05/08/2024 18:01, Lee Jones wrote:
-> On Mon, 05 Aug 2024, Lee Jones wrote:
-> 
->> On Mon, 05 Aug 2024 16:49:45 +0200, Javier Carrasco wrote:
->>> The iterated nodes are direct children of the device node, and the
->>> `device_for_each_child_node()` macro accounts for child node
->>> availability.
->>>
->>> `fwnode_for_each_available_child_node()` is meant to access the child
->>> nodes of an fwnode, and therefore not direct child nodes of the device
->>> node.
->>>
->>> [...]
->>
->> Applied, thanks!
->>
->> [2/4] leds: pca995x: use device_for_each_child_node() to access device child nodes
->>       commit: 6eefd65ba6ae29ab801f6461e59c10f93dd496f8
-> 
-> I'm not sure what you rebased onto, but it wasn't LEDs or -next.
-> 
-> Anyway, I fixed-up the conflicts and pushed.
-> 
-> The patch should be in -next by tomorrow.
-> 
-> Please check it to ensure I didn't make any mistakes.
-> 
+Hi,
+I made the changes you suggested.
 
-Hi, I rebased onto next-20240805, and its commit ID matches the
-base-commit provided in the cover letter (generated by b4). I wonder why
-it did not work on your side, but thanks for fixing the conflicts and
-applying (I checked it and it looks fine).
+On 5.08.2024 18:31, Hans de Goede wrote:
+> So lets name it "casper:rgb:biaslight", which I admittedly is a bit
+> weird, but backlight for LEDs which are not actually a backlight for
+> displays or keys is confusing, so IMHO biaslight is best.
+I agree, biaslight fits well. Do I need to add this naming to
+Documentation/leds/leds-class.rst?
 
-Best regards,
-Javier Carrasco
+Thanks for reviewing.
+
+Mustafa Ekşi (1):
+  platform/x86: Add wmi driver for Casper Excalibur laptops
+
+ MAINTAINERS                       |   6 +
+ drivers/platform/x86/Kconfig      |  14 +
+ drivers/platform/x86/Makefile     |   1 +
+ drivers/platform/x86/casper-wmi.c | 640 ++++++++++++++++++++++++++++++
+ 4 files changed, 661 insertions(+)
+ create mode 100644 drivers/platform/x86/casper-wmi.c
+
+-- 
+2.46.0
 
 
