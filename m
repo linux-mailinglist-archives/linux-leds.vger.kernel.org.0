@@ -1,102 +1,137 @@
-Return-Path: <linux-leds+bounces-2414-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2415-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF16F94A218
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Aug 2024 09:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073E394A466
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Aug 2024 11:35:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6992128564B
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Aug 2024 07:56:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 871102809E3
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Aug 2024 09:35:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8D1B1C57A0;
-	Wed,  7 Aug 2024 07:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k578+Oym"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C41B1CCB2A;
+	Wed,  7 Aug 2024 09:35:19 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06231C4610;
-	Wed,  7 Aug 2024 07:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB921B86C2;
+	Wed,  7 Aug 2024 09:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723017381; cv=none; b=p2sy+IAFOKCa6nm/4jZFjUX2pydjwFVxyrtXtuCscu4fNCBC/ofO1b+IZm+pJq/ucWPbv8mkRzjYo7HiKLp0pVsighHuMU0Pl4QBSRDCuSAjpYG2IAvgivHUl2kyhs5utSU6QbExYfjvr6x/3eGg4wOKw8okB6g8QHi6zlGPs8o=
+	t=1723023319; cv=none; b=X9OUw6xLA3mudZMyZFjFB2NaUSDvIbC0+23Kml/OkCRweXTG84IPI8pZkv+m135ePXcEcUWRJUn6aWqlNkgJmoSAx72351SZNQacEXoSD1Od/RgMJLbefJ66VpWMl6V3odHIMywIQ3ybO8MGnkLzDGIiGzXb9PHNZ9iQzrDGemw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723017381; c=relaxed/simple;
-	bh=t67hliGQP8YAGf3VszVUccQsTNazIlhHFsegoG+PvPU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TNMYvKWCUXalD7al7L0IA9jYHctuSi3/D0+WEg7HBNsOD4yV5L02caKtPw7tIWIimRVdKJThpknfc4MdcgNLOPXhUsDXfByKM++OrP9orlOv8iF3id8mgI+jM6XtE3zKBaloZx/SxKyB6nI/L2MFo3pKAPOW8NijMbsIo9FVJ7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k578+Oym; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE873C32782;
-	Wed,  7 Aug 2024 07:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723017381;
-	bh=t67hliGQP8YAGf3VszVUccQsTNazIlhHFsegoG+PvPU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=k578+OymDpoN0mQBKCfaQNfXSVOfZzdtDUvjen4aVh0khf2qy7AS+H3clcECSNryR
-	 JEcNzYFG054x95pRk4a5T+AFkLRWmojS89ua/TOsP7cPyWvTqNBe/pJNgfsKKokh2r
-	 F2OlmsR3HHBUi2BgdzRDmPIYpm7+/dTv8HrJHVNKx1lOiAiLK3rtSZtnp5tRDlLW5d
-	 CxBELmLpT+140QsPxiNslW0PMkdAMQeeJiih3ThfErDfoKvGEQVhORKzum8PC7DSTN
-	 6643SOUlan7xY4vEiBEjQCiNXJEdEyZqu6RxNh9uZpqWrKaDdqC4iSYgjsweo6VcFg
-	 vCA9FKK0kQSeQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Joseph Strauss <jstrauss@mailbox.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	=?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	George Stark <gnstark@salutedevices.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: blinkm: fix CONFIG_LEDS_CLASS_MULTICOLOR dependency
-Date: Wed,  7 Aug 2024 09:55:53 +0200
-Message-Id: <20240807075614.2118068-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1723023319; c=relaxed/simple;
+	bh=0rhb2vRZQeOGURRtbcyH5apu/JN8DC3SqwjnxjklUAc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dX4UfjTjrcx9tge2ywAOPIenrQ0u/4lOWC/0kd4rhPlmGXHUWMCgcSglc9CvLZGil79khqfEMPjqQPdN1htdj+HdOBkIZ1CpEOVqoo3rYfOaBa/Nm9at9rW8e/cE7TfGhbkIjQZu/Yk33KXcQBp+2d3BdiGTCyDqSTqx9yA13Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875a9f.versanet.de ([83.135.90.159] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sbd4G-0006qI-Rp; Wed, 07 Aug 2024 11:34:52 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>
+Cc: lee@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+ dmitry.torokhov@gmail.com, pavel@ucw.cz, krzk+dt@kernel.org,
+ conor+dt@kernel.org, ukleinek@debian.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject:
+ Re: [PATCH v3 1/7] dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+Date: Wed, 07 Aug 2024 11:34:51 +0200
+Message-ID: <1895730.u6TykanW85@diego>
+In-Reply-To: <20240805191723.GA2636745-robh@kernel.org>
+References:
+ <20240731212430.2677900-1-heiko@sntech.de>
+ <20240731212430.2677900-2-heiko@sntech.de>
+ <20240805191723.GA2636745-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Rob,
 
-With CONFIG_LEDS_CLASS_MULTICOLOR=m, a builtin leds-blinkm driver causes
-a link failure:
+Am Montag, 5. August 2024, 21:17:23 CEST schrieb Rob Herring:
+> On Wed, Jul 31, 2024 at 11:24:24PM +0200, Heiko Stuebner wrote:
+> > These MCUs can be found in network attached storage devices made by QNAP.
+> > They are connected to a serial port of the host device and provide
+> > functionality like LEDs, power-control and temperature monitoring.
+> > 
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> > ---
+> >  .../bindings/mfd/qnap,ts433-mcu.yaml          | 43 +++++++++++++++++++
+> >  1 file changed, 43 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+> > new file mode 100644
+> > index 0000000000000..5ae19d8faedbd
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+> > @@ -0,0 +1,43 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/mfd/qnap,ts433-mcu.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: QNAP NAS on-board Microcontroller
+> > +
+> > +maintainers:
+> > +  - Heiko Stuebner <heiko@sntech.de>
+> > +
+> > +description:
+> > +  QNAP embeds a microcontroller on their NAS devices adding system feature
+> > +  as PWM Fan control, additional LEDs, power button status and more.
+> 
+> Doesn't really look like the binding is complete.
 
-arm-linux-gnueabi-ld: drivers/leds/leds-blinkm.o: in function `blinkm_set_mc_brightness':
-leds-blinkm.c:(.text.blinkm_set_mc_brightness+0xc): undefined reference to `led_mc_calc_color_components'
+Hmm, apart from the fan subnode, anything else that is missing?
 
-Add a more specific dependency that only allows multicoler mode to
-be enabled for blinkm if it can build and link.
+Input device does not need data from devicetree, as the existence
+of the button and buzzer is attached to the specific mcu-compatible.
 
-Fixes: 56e8c56c9af0 ("leds: Add multicolor support to BlinkM LED driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/leds/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Similar for the LEDs I guess, their number and color are a property
+of the MCU variant used. I guess one could do subnodes for the
+linux,default-trigger property?
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 41214c9b93ba..818c8bdd047e 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -838,7 +838,7 @@ config LEDS_BLINKM
- config LEDS_BLINKM_MULTICOLOR
- 	bool "Enable multicolor support for BlinkM I2C RGB LED"
- 	depends on LEDS_BLINKM
--	depends on LEDS_CLASS_MULTICOLOR
-+	depends on LEDS_CLASS_MULTICOLOR=y || LEDS_CLASS_MULTICOLOR=LEDS_BLINKM
- 	help
- 	  This option enables multicolor sysfs class support for BlinkM LED and
- 	  disables the older, separated sysfs interface
--- 
-2.39.2
+
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - qnap,ts433-mcu
+> > +
+> > +  "#cooling-cells":
+> > +    const: 2
+> > +
+> > +  cooling-levels:
+> > +    description: PWM duty cycle values corresponding to thermal cooling states.
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    items:
+> > +      maximum: 255
+> 
+> These are fan properties and should be in a "fan" node referencing 
+> hwmon/fan-common.yaml.
+
+ok, I'll add a fan-0 subnode as some hwmon already does and move the
+cooling properties into it.
+
+
+Heiko
+
 
 
