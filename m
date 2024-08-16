@@ -1,75 +1,75 @@
-Return-Path: <linux-leds+bounces-2448-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2449-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD28954DB4
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 17:32:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E95E954DB5
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 17:32:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFB6F1C2118D
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 15:32:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F1E81F2385C
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 15:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A38EC1BD4F9;
-	Fri, 16 Aug 2024 15:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165F01BD502;
+	Fri, 16 Aug 2024 15:32:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zt64dWwG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DDuPN+5R"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F801BE226
-	for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 15:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454801BE84B
+	for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 15:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723822323; cv=none; b=nyvTCrDRsWacmRYYD+1ewgKm0l7uddgiHkcFAPKfAnv3ixXgKGgmQxZtOJ84bWg4zhuQDtnv5d+QlG8Ut0C1ShNecbBgjebPtXJz8TWOj+vFKRxXqx7Ox0MAU2E6VG/nsiqplhjhV9KOlGdvDg2hATtDvpljL0FAflGgJMyAYMM=
+	t=1723822324; cv=none; b=D2FFrC+O9werw/ZvJdvSDHHtYEViAclOWiELpL++0sAUTT3qdGhIQoyHQcy5xSPXiODvJB7ub6kVAAXelefLFfU7N9YnahgQiDa2KFvY+jN7lrvaooJAdhZvr/uaw8l3pg6+yvcKfqwu1crXVgYeqOVUxHZq+1VoWfGovgoJrko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723822323; c=relaxed/simple;
-	bh=5KMyb/0ghZiWoNxxGIN0+j8uXXpKKlWx7oozmJ4CEcs=;
+	s=arc-20240116; t=1723822324; c=relaxed/simple;
+	bh=haphcDVabNY+m5Vrc9+jwTzdz2gW4B9j++QCcBv7uus=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sMGntK6PZMVuhpOVGgZKT9Sfmys5LW4VnFolUaokDN3j+hO56AYItC9XKQRWgkelk/r+6P/xo9utIH0V4jeLH8JSA33nBKXEIpeeFmM3AGpID9MMtc1LKrlwJieTHyL+SlpqjatpS2UvAEdGGiYM0pgtbA2tqnOSIh0xkc86FA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zt64dWwG; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:To:Cc; b=sBZIJuYFebQBTV6WKvROKZShNq6HuwJKBJgkE9kiBXvcUoc/x9LUI/o4BDqceFCqHyXBJgieH7MF8rXHu1mIia+v8FN6uMyXOf3TZeDJC4opr/GJucvelFHHhy4dpalL2jVNv+mlvexAxDUDKdN4WYvolCkvHPdREx9o7uPslfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DDuPN+5R; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-428163f7635so16675865e9.2
-        for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 08:32:00 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-367963ea053so1486226f8f.2
+        for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 08:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723822319; x=1724427119; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1723822320; x=1724427120; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CMXjCi1nWSGJw2HEGXaKpvGQBWqmSFyvM6Rv3lJzOnk=;
-        b=zt64dWwG53OErxxJWStMAjFLyyARIxX/Jv6p7wzrz1N2ilL3sWJNDPWifXZZZ3Ep6m
-         tjlxXpi3DgmGcJcS5z2vOU1ywAmObQZnY5WNa2urETMWGTW76fv7fRw2523NrOOoug1w
-         935xV94efRPZEPh91ba5Ed3bzQL1B2OjGNioiuvAZo0wcIPhiddfLqrGIX/CJQY1zT/0
-         NvX4gAfeIVn+8qaeer0sfG7b9oypNhPOAhfvYQFRU8x5dunuHEGu4yZGYOhEsLDjNsaY
-         p7EQU8EO7krBUw1QdfX383jfS5zIyCuYjc/MVRZcCsTY3bj7jOVY52V1ZAZjEGlSUwai
-         K9IA==
+        bh=JmSp/tI6/cAsvRbhfMHRpQD46ohRd+mOrBdZEg+M/0c=;
+        b=DDuPN+5RUhLuKELNtFzqxEBL9OAmgy7IyE9eanUVDFCWRTuw/BWFzniyJOlEdMR+0u
+         /jFYIGgqzIGQoGzPX/0RYbyEH2lL4pcM8eB8f1uoEtEVZ0MB2UBNCWHtYuH9HFfiu0me
+         AXbP779P6I1A3gF333nvC8wGwDLwbIB9F8MA7uFPrZTzsgxd3HMYlL1vFBoZJDO1stP3
+         b8WqkUuq+Xg5p63c/2C2nG1e2sp85AlBrZAMKMwGGzbsTqSAYTqlZCfXVktcbbwiRPrc
+         OM9H1gyInE8TqW1PfChABXeDppBE0Nhe7bgTGS9gIxHc2j7AClnSTbn0cm//kLDQ816S
+         p+UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723822319; x=1724427119;
+        d=1e100.net; s=20230601; t=1723822320; x=1724427120;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CMXjCi1nWSGJw2HEGXaKpvGQBWqmSFyvM6Rv3lJzOnk=;
-        b=JwUHLftVsw54cSoe42PzgqsjqgzWGEFwDFRQtjBKCK/qxHdPX7n1UhOOyiro7FFpOn
-         p6KFOdW6bgi+hFmyOCZGbuvyKCXQALBWxKb5o+vIoydCq+SihIPsGkcPoNGzjdg7wgUi
-         YKe477A3NEAoKZj6rrbRPjo8VHDMlvJ59hc7eXfAh7CvYW20iVP/d3hhUeBmgXLWVy+H
-         WjDNVEkfVFC5zEL16bQrqe5qN3j6dowPvnybWMvc1Lu3NgqYqIOiR7scUk2LpRal6UWx
-         46HddoUC4CknwHSes11qkfk0IZ7nVT0sgA9bi31FpfaADug++uXLvwXWg0Jlo2HS0QnM
-         5ONg==
-X-Gm-Message-State: AOJu0YxJzKiuHa4WB0+wLU/ZtDIK4P18lWhS7gPO/lWqs5T9/o99ojvi
-	GJcgUHyp1usI6y0PDEbZaBxTEbAd18kdNiq9molUgDnkRetDj2IIELghUKSDZ44=
-X-Google-Smtp-Source: AGHT+IHQVp9RMVKnFXRmolzPy8dcbt7NmXN/jroL6chg+fDJWYg7uMIzfeBfP3NPtNgAOQVI5RxN+w==
-X-Received: by 2002:a05:600c:1987:b0:428:9ba:39f with SMTP id 5b1f17b1804b1-429ed79e212mr21385555e9.11.1723822318959;
-        Fri, 16 Aug 2024 08:31:58 -0700 (PDT)
+        bh=JmSp/tI6/cAsvRbhfMHRpQD46ohRd+mOrBdZEg+M/0c=;
+        b=U7wVzzhrtifV0CqJEy9rFD0nmRy/HzvQfLI8wHnNKb1fjSmqGDyAN4//A/blN01P94
+         MPxECZB+TqIwBDTQMpMr8rg9UbRb6s9C3ZAfaJmo7O8RkTgyxwH4P0zYy6X9wpjWYRwb
+         OeVMOiy07K/umvMqZvJYhAKHWeyfgCuPXICGexb5xwYz9u4DzKO1TEYE4YYZ0KmrrPr0
+         yVM2Hz0BK4qFyhv2csbF05WDnHglD/pk9D2NP6UDRwOB4ldfCs9AHTaeWn92SFxbm425
+         1N5Z/KbW8wJXuahHsR1aGthUBple0asg6i+pYrSzmr2JqhyroyqLXeaQXBmsFujgl7fR
+         1c0w==
+X-Gm-Message-State: AOJu0Yymbt/T9YSXSm3Nzto4j+iI3It1YrZHGxFwgfSM1klqeozN4ZYt
+	n/Q22dvFkEc7a7FRU+9Waon2G55OiCWYcdurDi3b0+cUc2zyh73lx+03nu6uNB0=
+X-Google-Smtp-Source: AGHT+IENvgflPrCRLHnfFtaGxKPmZxIFqASabhejGrvVmiQr8wKujrxn8UdnFq1rYdKsHedXwj+CoA==
+X-Received: by 2002:adf:a443:0:b0:368:7f8f:ca68 with SMTP id ffacd0b85a97d-3719464e70fmr2963005f8f.30.1723822320474;
+        Fri, 16 Aug 2024 08:32:00 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898497f0sm3853661f8f.39.2024.08.16.08.31.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898497f0sm3853661f8f.39.2024.08.16.08.31.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 08:31:58 -0700 (PDT)
+        Fri, 16 Aug 2024 08:32:00 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Fri, 16 Aug 2024 17:31:35 +0200
-Subject: [PATCH 03/17] leds: max77693: add missing of_node_get for probe
- duration
+Date: Fri, 16 Aug 2024 17:31:36 +0200
+Subject: [PATCH 04/17] leds: max77693: Simplify with scoped for each OF
+ child loop
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -78,7 +78,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240816-cleanup-h-of-node-put-var-v1-3-1d0292802470@linaro.org>
+Message-Id: <20240816-cleanup-h-of-node-put-var-v1-4-1d0292802470@linaro.org>
 References: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
 In-Reply-To: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
@@ -93,80 +93,89 @@ Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1838;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2297;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=5KMyb/0ghZiWoNxxGIN0+j8uXXpKKlWx7oozmJ4CEcs=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmv3DbVDkrgpNCWbqNPXUp9YCFjKcR3EI+TV8pk
- PJEmPek6O2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZr9w2wAKCRDBN2bmhouD
- 16uRD/9jJHb7kLUKzwpJD2ZWds7O67ALfXb3ZP6DUa7effzfaE+ihgB7WVZpKDFSz4Ynnq+GhzC
- SD7hYFMiD1dlIU45EiowQ6w17hk6OGGckkc4oS5UDLJHqO38ddcLxZMtxjHDGR8DPAIRHYRRSCV
- aeJF3qb6rx4DHfiGx+7HuYGQahBxc5wQO7aUmpD+tKb30AdRIIpxWoRL34DC3QyNlAkpBwXC34u
- S8wYpbf1rQQxBswNLYYVojtvNJmVa+/7G4urNcX3L2t5N9Ocz78wJ2KXKaJ6PmByMd996E0Wi2c
- zM3+rJPt//QRSatrCP+YBcu9vxG86z9Ssu+7kV3vDNkYop/8zteJ8ZUPHPgVNxvBuFt0JLzL8QR
- 39T+Se5p7DgKy2U7tH/cp8FZ8cwH87/8uXrGiwhgi5r6tn9THegbdFj1ZwKt6Q4phJpPKJxglY6
- bWKZfin1lyWgHMxA++9MV8mY7GtZ+lh8kRrvMJWq+Y9eva4qZJlXBk9O+Fu6OLzi+fHGL65R2LX
- JTUkAzxdPa/proprkZCnXopEdTizjxhet3j0QeFnBB5lAtMSuUttFIZKMxZg0OE96gq4JtVmGMy
- 56lHesBi9ptFlDGB2uRlD2OAXJ0+NmuyD0GOY548/WByuED2YjR12ECGeD4jD7KlanlFHSgqIAE
- FqnXEfx8WMfK5ig==
+ bh=haphcDVabNY+m5Vrc9+jwTzdz2gW4B9j++QCcBv7uus=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmv3DcFsjEVoUNxcpg4fNpAtVDyd+JTLcgwo8Hw
+ k/LlBeAdrSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZr9w3AAKCRDBN2bmhouD
+ 17zkD/0b5uHnjnzjPvy7kRfLttY9Q5sWPLsfyEq6CLUzPTCBewXF8K27CAlQIluNVr9MosDCghO
+ U7QGtLk8uSvJj9KQ02Yig2QWAcy/s5wRX+ONqPYRue6VOXglHUB0PaP/hurfyKbriRaOUyg3bm3
+ Ffad+VfZ46D5xsiEVre/lHkn2amNZE4K2cYDi73IjaGDH4+rdGn/xY4GWlBlA0sDiFaaZbq9mE9
+ 1bHtk3cykDUdm2ykX4X+1ycApN5D9e0drHjadREgiSLjd8NQmMWPwb9yroUwjZSfEPsFZzXEiGH
+ ESatJmodVxi+VpuKSU6tN+pn36jp7Uvo8oJLg2ciIqkhH7l/8f26PToam8oq0III9BmKa7K+WE2
+ SA2i561NmARvZKIb7ov2/YXtvUFPzgn/7ENHvP3gnz3QrvNmc6UPPaGIWeENQnPPlEqh9VDOciQ
+ GtOI3WZtohFdCug3984yJMuJtGZ2lScEuevzxO0cF2t1KI8+qhrQ4yog1t0e/OS5HQT8Iz4fa8g
+ XzXe3ZIxRQQ4cV9Dazp74uPSEkMMyN8EKzdftcVEuL48b9NbqZBencwcIcjhkt6pPpRXBMgLvu4
+ weZ7WS3MKriAVqcl2tPp4IjWatK/agobg3xKELYxOlZDdKiHQJc6uUI665Mi9MamHNKIXUMmcyo
+ ejGSHUPPEivrccw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-At beginning of probe() function, the driver iterates over OF children
-and assigns found device node for later.  The code uses
-for_each_available_child_of_node() which drops the references on
-children on each successful pass, thus the probe function operates later
-on the device node without holding the reference.
-
-Fix this by increasing the reference count for found child node and
-drop it at the end of the probe, because it is not needed further (the
-V4L init code takes its own references).
+Use scoped for_each_available_child_of_node_scoped() when iterating over
+device nodes to make code a bit simpler.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/leds/flash/leds-max77693.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/leds/flash/leds-max77693.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/leds/flash/leds-max77693.c b/drivers/leds/flash/leds-max77693.c
-index 9f016b851193..16b169e658de 100644
+index 16b169e658de..90d78b3d22f8 100644
 --- a/drivers/leds/flash/leds-max77693.c
 +++ b/drivers/leds/flash/leds-max77693.c
-@@ -649,7 +649,7 @@ static int max77693_led_parse_dt(struct max77693_led_device *led,
+@@ -599,7 +599,7 @@ static int max77693_led_parse_dt(struct max77693_led_device *led,
+ {
+ 	struct device *dev = &led->pdev->dev;
+ 	struct max77693_sub_led *sub_leds = led->sub_leds;
+-	struct device_node *node = dev_of_node(dev), *child_node;
++	struct device_node *node = dev_of_node(dev);
+ 	struct property *prop;
+ 	u32 led_sources[2];
+ 	int i, ret, fled_id;
+@@ -608,7 +608,7 @@ static int max77693_led_parse_dt(struct max77693_led_device *led,
+ 	of_property_read_u32(node, "maxim,boost-mvout", &cfg->boost_vout);
+ 	of_property_read_u32(node, "maxim,mvsys-min", &cfg->low_vsys);
+ 
+-	for_each_available_child_of_node(node, child_node) {
++	for_each_available_child_of_node_scoped(node, child_node) {
+ 		prop = of_find_property(child_node, "led-sources", NULL);
+ 		if (prop) {
+ 			const __be32 *srcs = NULL;
+@@ -622,7 +622,6 @@ static int max77693_led_parse_dt(struct max77693_led_device *led,
+ 		} else {
+ 			dev_err(dev,
+ 				"led-sources DT property missing\n");
+-			of_node_put(child_node);
  			return -EINVAL;
  		}
  
--		sub_nodes[fled_id] = child_node;
-+		sub_nodes[fled_id] = of_node_get(child_node);
- 		sub_leds[fled_id].fled_id = fled_id;
- 
- 		cfg->label[fled_id] =
-@@ -968,7 +968,7 @@ static int max77693_led_probe(struct platform_device *pdev)
- 
- 	ret = max77693_setup(led, &led_cfg);
- 	if (ret < 0)
--		return ret;
-+		goto err_setup;
- 
- 	mutex_init(&led->lock);
- 
-@@ -1000,6 +1000,8 @@ static int max77693_led_probe(struct platform_device *pdev)
- 			else
- 				goto err_register_led1;
+@@ -638,14 +637,12 @@ static int max77693_led_parse_dt(struct max77693_led_device *led,
+ 		} else {
+ 			dev_err(dev,
+ 				"Wrong led-sources DT property value.\n");
+-			of_node_put(child_node);
+ 			return -EINVAL;
  		}
-+		of_node_put(sub_nodes[i]);
-+		sub_nodes[i] = NULL;
+ 
+ 		if (sub_nodes[fled_id]) {
+ 			dev_err(dev,
+ 				"Conflicting \"led-sources\" DT properties\n");
+-			of_node_put(child_node);
+ 			return -EINVAL;
+ 		}
+ 
+@@ -681,10 +678,8 @@ static int max77693_led_parse_dt(struct max77693_led_device *led,
+ 
+ 		if (++cfg->num_leds == 2 ||
+ 		    (max77693_fled_used(led, FLED1) &&
+-		     max77693_fled_used(led, FLED2))) {
+-			of_node_put(child_node);
++		     max77693_fled_used(led, FLED2)))
+ 			break;
+-		}
  	}
  
- 	return 0;
-@@ -1013,6 +1015,9 @@ static int max77693_led_probe(struct platform_device *pdev)
- err_register_led1:
- 	mutex_destroy(&led->lock);
- 
-+err_setup:
-+	for (i = FLED1; i <= FLED2; i++)
-+		of_node_put(sub_nodes[i]);
- 	return ret;
- }
- 
+ 	if (cfg->num_leds == 0) {
 
 -- 
 2.43.0
