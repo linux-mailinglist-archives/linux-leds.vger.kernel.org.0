@@ -1,74 +1,75 @@
-Return-Path: <linux-leds+bounces-2445-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2446-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF51954DAE
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F1F954DAF
 	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 17:32:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE1D7B2170F
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 15:32:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 244FD2835B3
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 15:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84631BDA93;
-	Fri, 16 Aug 2024 15:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719341BDA9D;
+	Fri, 16 Aug 2024 15:31:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DJ5a4QOX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jL62j729"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3451DDF5
-	for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 15:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F3B1BCA14
+	for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 15:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723822318; cv=none; b=JW8WCbYsC8KV564i0m5Uxc3oF+e+nMQfZv7dc5ysCPQxecTywUH3KmmqqsnX7cbOFfWjHWXgnrlpVxSDQOvATiQSQ8c/Zf7gVb3BkwhzGmzn3b5sHVJyDyzHNq11TdabJ/Q/aMU6eF1ydPh8dBdjtRBqh4/6BBU6XQAK3Azjl+E=
+	t=1723822319; cv=none; b=rtzcZwtE5vdSVv4pZan4G/Sl8K7pxJJjg0C0RYbVTknJDW4zK6j/kmzLNagECZxQ+W1gLNb0iYcNnHDecVzdfKH4P3+vjI/aL8TPQz2UCQZKui33XvXSEeVN/aNIDC//3wIrElqXGlvTYIA7a5yBihcMCdT67aZJ0VyfOkAhy2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723822318; c=relaxed/simple;
-	bh=vPETBZPAFSUrChmKOPA1zhCE04APeQPcK73ZidPqOh0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=u6+IrMtHuuh7933Xw0AfS7oIppEoRl9uSzX3kshrQuGSjm4S1qmxhkuthMmS9unBq+GHWlZqOwo/LZtbYmZb+Qrg8e4zc+c0mVmWWsCzW7zNoyfFfrznw7Dbw5588vRVZLHBtBQfPly2Sq88gM2J2mkjyZntaKloTbBB0CnpWUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DJ5a4QOX; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1723822319; c=relaxed/simple;
+	bh=a1YGQS8jzBzLcYjwPx4kf8irSYV8QsT8hVGiKzaSR0k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JUDNmDg4ZR8CJO36gSiE+l+kzbB/4puMbPKOynw2k+Z+nQR2+RbkVmeZpyckxK8fddxtyNguNEweK/3xA/5bGr4zDbIzIM6wAAMr22nO6SSoACtlEongRlxvOtf6Lm/YyOXcNOMhhWnmgQKApGLRyu7IyImAXcqq4sYK65lUyug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jL62j729; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3717ff2358eso1125658f8f.1
-        for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 08:31:55 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-428163f7635so16675495e9.2
+        for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2024 08:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723822314; x=1724427114; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MHQ6C9YAPTB9bZgAEs3xu71MVSTPq6FS5mdvsNvOcFw=;
-        b=DJ5a4QOX3D//+Lfb5SdqTLB1OAYJEt5zBcELdfea5ckJJs0rBNZgjz0peOXVTHds/y
-         x1T+ZEiSNMhoK7YA7LjKjtkpBtPGqo3h/rJzVkRvaJTkexaXsLn8yoQMC9BAF9u0l7YK
-         mOmG9ICohRhUgubqRDSrJJ/KC3GMt+Hn8OKlYR+wHIZnbOxP8wWcw+HXyQ03GdO/hEgt
-         DZGQ3bkBOHAkbGUTUFcblb9kRD1I5kwVJz6MTFS9MUorEma1TzG5Ua6TF24S6RVwhcpY
-         EfgZxs9I7qpoqaGvSslabJli0MkUnxrTdgxWwcGTTRdS4tR3QwBzgxpPHI31v8hmkoYP
-         6g7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723822314; x=1724427114;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1723822316; x=1724427116; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MHQ6C9YAPTB9bZgAEs3xu71MVSTPq6FS5mdvsNvOcFw=;
-        b=R+XpxAQZi7CWqCgII/gKJWUgZ9I45h+R/RZOveM9jfWqqpEwN6ZJF7M1Us8V0RfKBY
-         nAOMd8I+kTUIFhLOp1C9jbXnOWu0KK3g/6KQ/dv+179Q26WsXyzugBZuM2ltESB8m9/h
-         paeuw46OUeI2OzM0ax7hvauHJw6jbU5k75HruA8nli5hj8kv/o8VE6+EHj4mp1WXfe5U
-         UrmWWeas10WtOFs95y+QnrcXnk8PfaE+gkTlZ/7Jfg2mS6R/LjXKN8lNPygCbFNtZm3c
-         62i56atkMotU9m4vVJL6qGYWjWVJKsseDgbdDrqRWXxb5rRcCDVqZMECCjWY29mfcfpl
-         y/CA==
-X-Gm-Message-State: AOJu0Yz8y7a27wic1Bru9qyXsGmOktihbnjlMfiIoadL2Ufs2fK1Cwad
-	1IIR7cBuegWWEkHsRT6bQ92CNlFVvi/qYtKUWQEcyh2fO/l9+mMbhFofO70Y/mU=
-X-Google-Smtp-Source: AGHT+IEJXIL/v689+CCwET62EtuJhvPdXX0bjxeXiDpExl+dQXshRR93P6h1RVyaR5NPA9hqYGuwQQ==
-X-Received: by 2002:adf:f80e:0:b0:371:82ec:206e with SMTP id ffacd0b85a97d-37194314e2cmr2149706f8f.5.1723822314242;
-        Fri, 16 Aug 2024 08:31:54 -0700 (PDT)
+        bh=Bs19CWciVe69z8rsWTOPtucmozrfgqJROhrJ589EkVY=;
+        b=jL62j72902DrAg0sWroJIIgWBMR3G7Ln6CNvTs0L4cvUW9XuarstT+vGKPIUWfwXo2
+         AnGclMa+iWyBPY7WNur6GrfXzv7UdJK7ly9guXgwpBX9bgfh4Q/iJpfzcBvcKUX0DhvV
+         CHPw3wT2UlwSfqNz5vXHii+ebWUh3fImKEjKzldneR+Ci5J91i6PGCTc+N8qoQY2rXEN
+         5PPly6x6ejh5VK+lXU822filgCl1BsCxjUFlNCFx3qJcqdRl+d3qj4cjrWrEIB5YdKrc
+         m7ZG/eytovp43dsV4hNXnh/byvk7oafE/6mmknC9RR/eOE7NNze4Bsha1cmuSlqGjW60
+         l7EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723822316; x=1724427116;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bs19CWciVe69z8rsWTOPtucmozrfgqJROhrJ589EkVY=;
+        b=vorDkqLnFBV2EAnmCFRwS/I68zcyx0fa0in7d9RIdeaSJI4lZBA7k9hA+CXdG/LEqQ
+         a/2h1g9ddZ8L0k7aQJsRpcpKit5YIiEf4RH0lN9JlUsGJLOuSMf8EGBRC3xt/+msWd0N
+         yfajC8hql9ru1izJVqdfGaNu7sxtAtTNTOusx0i2QCe8uqc7hYecOsMmAeTEWuFf/JZi
+         j/NJBStzb/I+0ZZn7HIvEBK7wluFh2apRkVLTGnLg55JgDMp35JBp0y7mDx+KfxlZAEt
+         zx87KBi4yC7xBxNPBx98UhUT7ZnqwVwWpj0JNuKIwFCIG5qeqb58ymZUmznGg/qBh7Jc
+         YIdw==
+X-Gm-Message-State: AOJu0Ywd7AM738KxDemDvHL36q9WpTvHH5GmcZvG72bzXHjrdQNKfUpf
+	N5tI6WI3oZYmojulDhtzcyVijuFBNDngcMRLAWEstePwWlUpU/0gRSiLCyIpwR4=
+X-Google-Smtp-Source: AGHT+IGR3dEEF3paPLhCSZQYsm1dXDhlnka2LZPKsFs9HlMVLbvtSAJs2IkTJafZE9YHaH92MT5WjA==
+X-Received: by 2002:a05:600c:4fd1:b0:426:6353:4b7c with SMTP id 5b1f17b1804b1-429ed7855f7mr22773225e9.8.1723822315663;
+        Fri, 16 Aug 2024 08:31:55 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898497f0sm3853661f8f.39.2024.08.16.08.31.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898497f0sm3853661f8f.39.2024.08.16.08.31.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 08:31:53 -0700 (PDT)
+        Fri, 16 Aug 2024 08:31:55 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 00/17] leds: Use scoped device node handling to simplify
- error paths
-Date: Fri, 16 Aug 2024 17:31:32 +0200
-Message-Id: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
+Date: Fri, 16 Aug 2024 17:31:33 +0200
+Subject: [PATCH 01/17] leds: aat1290: Use scoped device node handling to
+ simplify error paths
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -77,9 +78,9 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANRwv2YC/x3MQQrDIBBG4auEWXdARUrpVUoWQ/ytA0VFk1AIu
- Xsky2/x3kEdTdHpPR3UsGvXkgfsY6IlSf6CNQyTM86bl33y8oPkrXLiEjmXAK7byrs0hvcuuiB
- WYGn0tSHq/35/5vO8ADzhSsRrAAAA
+Message-Id: <20240816-cleanup-h-of-node-put-var-v1-1-1d0292802470@linaro.org>
+References: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
+In-Reply-To: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
  Sean Wang <sean.wang@mediatek.com>, 
  Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -92,75 +93,91 @@ Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2458;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2066;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=vPETBZPAFSUrChmKOPA1zhCE04APeQPcK73ZidPqOh0=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmv3DWkLz00DPYD8biGX01dG1yR9zLzcUK7/uv6
- 6afN8fm09yJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZr9w1gAKCRDBN2bmhouD
- 197FEACbc85PRN3+9lFao/L3mAVNDQNRS/WrqRBp38LHkAnWKc7LRgi5nYg5KB1EFA5h8jdqAip
- wQu5JfN0Uq6UVg2pni9gYeAd+u0b2ixjIpXBbU0aCIc2KHYzvRI+9pOqdi/2DAU75yq6uqTdkJz
- A1jyUxXiCXUbuA+O00JBPquyPzDSdxAi2jFBr87A1F8FhkSNlVWJNC8FRrYBsFgHPM/ERUA5cvr
- H2U9FWuVB0OoxIrFXoxu4JjXrg8kXvY0k6gp7B88QA8GdoLD9QGNWVDdB2/NB1pBxZJX8Pf3+N/
- 7L9qQCYj0SqGuPxCDYrbOUt/ntOfqWSw5I4uAwl6jMtgoIhe5VFJnhMujghF8e0UqW32nr2kk+i
- Psdzb61R1XKtHmsE5h5/CUp+EU5mm0K1NolzVKiPfu3P7IBVeOzWHxnWScFcpyrQqSEfY4Dsdjx
- eZKnmL2+dYljL/kl5mpO6jS3ltK/EOv85b2MzeRq4kgO7r9636O2Rxepa+QvKRcgq9tImKDuDst
- YCj14VVhOERncMmEmSoBrqGVTKuMKLBPYaeG+CAyd6fObIt3srxCVN0e6JPBB3+pPibLOU/Icay
- ybDu8w6Go/RZ4uzbeWWhTJpkof0ZfxuBxuqvQvwR+aNNZi6VrmD53WIbbNqiBqP6OjWp1PQnUbG
- 0Lkw1H+khOJc1Zg==
+ bh=a1YGQS8jzBzLcYjwPx4kf8irSYV8QsT8hVGiKzaSR0k=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmv3DZOpqtaUv4QAkOdHVd+6wkSZBmNTro/fzvY
+ CO/ZnU/HP+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZr9w2QAKCRDBN2bmhouD
+ 18eeD/44UH0sp3C6aYfp1LBephrs+liKt3nfnjZdWSJ0v/TieMbxVM6d4zS9ydJ5ky9FnYwB/bn
+ /67+vER0yxMdbgcdPdnq+7RJo3bpW2eqChHfkD1gR59G6Ochw7Zhoue60ljd9KsBK2RPJ9+7Dd+
+ Bk0oHl3jNMvbjNIfNBaqvnSCmvazbnZi2n1JrGvRuuhOSF6/oY0hlzCzYJj6U3J5JLoUHo/RvEv
+ xIDgNvQXD1Ul8c2AhudnTWUCCXGpw5bwLleLXZNh6r77KiudcrQ+wHjc+3AyB5100d/IDZV9pLz
+ T5KFT9Qqgr1UnhKUPqvmz/9zaqtUAp1yqWgIyE6dCiKKs5ll1ljE/4lx04RwwH7gIhPAUDp19um
+ 23NJqm8wECy/46SyyMgwAsCkV2PlLcjsTWknCQUnZKJlQawsbb/R6DYLt0NlwpkK5q+B5uh4cl7
+ kq4UnvALsghb7p84K1nYZ43IKYhaeH0AvYe7Q0nL3rFlNOTwi0+nCoCC8v9EleQ4sNat1X3RRxR
+ Bu8JX6oRfVsvIDPeQ1hzmdLHAmva4nLqWQQ3yEu8cwGljT1m2fYTuEzrn7BQnFKV/xC5rID1TqV
+ vbAdvyBu4MsxqHL8865ARm42fwwkprl2/gxxZdxmhDNYDD0KmvvJ3WQ0qiDzJATfz6/2/NPYVWP
+ V56tjRRvGbYMRoQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Hi,
+Obtain the device node reference with scoped/cleanup.h to reduce error
+handling and make the code a bit simpler.
 
-Make code a bit smaller/simpler, with less of_node_put() thanks to
-cleanup.h.
-
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (17):
-      leds: aat1290: Use scoped device node handling to simplify error paths
-      leds: ktd2692: Use scoped device node handling to simplify error paths
-      leds: max77693: add missing of_node_get for probe duration
-      leds: max77693: Simplify with scoped for each OF child loop
-      leds: 88pm860x: Simplify with scoped for each OF child loop
-      leds: aw2013: Simplify with scoped for each OF child loop
-      leds: bcm6328: Simplify with scoped for each OF child loop
-      leds: bcm6358: Simplify with scoped for each OF child loop
-      leds: is31fl32xx: Simplify with scoped for each OF child loop
-      leds: lp55xx: Simplify with scoped for each OF child loop
-      leds: mc13783: Use scoped device node handling to simplify error paths
-      leds: mt6323: Simplify with scoped for each OF child loop
-      leds: netxbig: Simplify with scoped for each OF child loop
-      leds: pca9532: Simplify with scoped for each OF child loop
-      leds: sc27xx: Simplify with scoped for each OF child loop
-      leds: turris-omnia: Simplify with scoped for each OF child loop
-      leds: qcom-lpg: Simplify with scoped for each OF child loop
+ drivers/leds/flash/leds-aat1290.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
- drivers/leds/flash/leds-aat1290.c  | 14 ++++++--------
- drivers/leds/flash/leds-ktd2692.c  | 15 +++++++--------
- drivers/leds/flash/leds-max77693.c | 20 ++++++++++----------
- drivers/leds/leds-88pm860x.c       |  5 ++---
- drivers/leds/leds-aw2013.c         |  8 +++-----
- drivers/leds/leds-bcm6328.c        |  7 ++-----
- drivers/leds/leds-bcm6358.c        |  7 ++-----
- drivers/leds/leds-is31fl32xx.c     | 14 ++++----------
- drivers/leds/leds-lp55xx-common.c  |  7 ++-----
- drivers/leds/leds-mc13783.c        | 24 +++++++++++-------------
- drivers/leds/leds-mt6323.c         | 22 +++++++---------------
- drivers/leds/leds-netxbig.c        | 19 ++++++++-----------
- drivers/leds/leds-pca9532.c        |  7 ++-----
- drivers/leds/leds-sc27xx-bltc.c    | 12 ++++--------
- drivers/leds/leds-turris-omnia.c   |  8 +++-----
- drivers/leds/rgb/leds-qcom-lpg.c   | 14 ++++----------
- 16 files changed, 77 insertions(+), 126 deletions(-)
----
-base-commit: 2d9e88b1a66c6b9a76fb16141ad3c6fb59334c5a
-change-id: 20240816-cleanup-h-of-node-put-var-e442f2da1ae1
+diff --git a/drivers/leds/flash/leds-aat1290.c b/drivers/leds/flash/leds-aat1290.c
+index e8f9dd293592..c7b6a1f01288 100644
+--- a/drivers/leds/flash/leds-aat1290.c
++++ b/drivers/leds/flash/leds-aat1290.c
+@@ -7,6 +7,7 @@
+  *	Author: Jacek Anaszewski <j.anaszewski@samsung.com>
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/led-class-flash.h>
+@@ -215,7 +216,6 @@ static int aat1290_led_parse_dt(struct aat1290_led *led,
+ 			struct device_node **sub_node)
+ {
+ 	struct device *dev = &led->pdev->dev;
+-	struct device_node *child_node;
+ #if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
+ 	struct pinctrl *pinctrl;
+ #endif
+@@ -246,7 +246,8 @@ static int aat1290_led_parse_dt(struct aat1290_led *led,
+ 	}
+ #endif
+ 
+-	child_node = of_get_next_available_child(dev_of_node(dev), NULL);
++	struct device_node *child_node __free(device_node) =
++		of_get_next_available_child(dev_of_node(dev), NULL);
+ 	if (!child_node) {
+ 		dev_err(dev, "No DT child node found for connected LED.\n");
+ 		return -EINVAL;
+@@ -267,7 +268,7 @@ static int aat1290_led_parse_dt(struct aat1290_led *led,
+ 	if (ret < 0) {
+ 		dev_err(dev,
+ 			"flash-max-microamp DT property missing\n");
+-		goto err_parse_dt;
++		return ret;
+ 	}
+ 
+ 	ret = of_property_read_u32(child_node, "flash-max-timeout-us",
+@@ -275,15 +276,12 @@ static int aat1290_led_parse_dt(struct aat1290_led *led,
+ 	if (ret < 0) {
+ 		dev_err(dev,
+ 			"flash-max-timeout-us DT property missing\n");
+-		goto err_parse_dt;
++		return ret;
+ 	}
+ 
+ 	*sub_node = child_node;
+ 
+-err_parse_dt:
+-	of_node_put(child_node);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ static void aat1290_led_validate_mm_current(struct aat1290_led *led,
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.43.0
 
 
