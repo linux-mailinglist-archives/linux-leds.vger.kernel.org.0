@@ -1,58 +1,64 @@
-Return-Path: <linux-leds+bounces-2465-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2466-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389B2954E57
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 18:01:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 463CF954E6A
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 18:05:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CEC141F25A17
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 16:01:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFE54B245F5
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 16:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 965981BD511;
-	Fri, 16 Aug 2024 16:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1C41BDA84;
+	Fri, 16 Aug 2024 16:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WFtE8rN3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mQi/QKKE"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D49C1BC9FE;
-	Fri, 16 Aug 2024 16:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336CE1DDF5;
+	Fri, 16 Aug 2024 16:05:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723824096; cv=none; b=jPeI7OVBb2/0hjaqY9mFVAlRCXQh8RVEG16QOcEf8gyTuA94lSnORopGEMTMmFnTTh/cfuNSljTFG18ytU7Icq5L5QPLAq1cEAfwgrOY4ouliJYPVNCD4dpITqFp9Qn3fNeHrCCAcFM6/lw1TgjNFPxWlo5JpEjLE38bFQjyrYo=
+	t=1723824314; cv=none; b=NH1dtwMq2YsdzuVH/Jxk1z8RGyDyhsu9cp+25C0gLw6Q4wKauV1TTVWjug/64AJr3+CwVcrolYEuDOCQFNobB9Z1l8ZmKa3Cb+zSfw951ka+rb3QSEnhwaQMT/UjIGq5BwhnsXY7ledpNcTNGZrjnhAaAYYl4DMje7HY5MpXURw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723824096; c=relaxed/simple;
-	bh=CiJGKQa+IE+T3ZkcWX/oy178uqrLN1LuLII+8zj3uH4=;
+	s=arc-20240116; t=1723824314; c=relaxed/simple;
+	bh=LDgOP9WVQfCrcitYGsxy1oplgK09T8t98MEAyrYzjYc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XkRQML2NViupRty2Xid4i+Ewaoj9Pd0j69Z2mD21xhTJiX97McnOS4GNoz5snBiEHcM0D1wbuc2yvP6rQJbAP/6o+th/oDu3GorNSUdVSkeWHDIPKTuej75ogQt28It2HHXRMtWVBySB5J/ZbCVPSpd8OU4Wqmz7zVcWInbQ6UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WFtE8rN3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8623AC32782;
-	Fri, 16 Aug 2024 16:01:30 +0000 (UTC)
+	 MIME-Version:Content-Type; b=mG+RP3xZBr/minu0ymE06dzlRCKK10stSjH3gf0xwlcrjekWUO8LzkGdi4T+aM0KcoF8TIlRX7W/8F/xUas3wi/GfNYqcErM66JryKPeK8TRFcwi75jJwu+Lm/bYva1nTbyA1zzGOK8fj3mYvPNEpHnQZmXMMHSS5vySI1D22eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mQi/QKKE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58C6C32782;
+	Fri, 16 Aug 2024 16:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723824095;
-	bh=CiJGKQa+IE+T3ZkcWX/oy178uqrLN1LuLII+8zj3uH4=;
+	s=k20201202; t=1723824313;
+	bh=LDgOP9WVQfCrcitYGsxy1oplgK09T8t98MEAyrYzjYc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WFtE8rN3utss1FjmMnm/yg+HGGxXdTddOxmU6eihRE0cAJ2UM54EXfEx2WCmV1tA8
-	 hU+qxnlTzgx5dNfUSn2n8/USL6QMwjH+JDPhwIh06L50cOzqVA54XW5wziX9uqrIeI
-	 r3jTZP0IJDfc+BRVrr+MbY91C7wD6T96DgzQ8DutzgiMUs5ZnuauxGfCfW5o9DSzs9
-	 FKUSC6WJsQUrnR2RX4u0sn4k1gzGPOEOWe0ol+9RTrJ+dalWBSERhwy3+jSbwU+X4R
-	 16DDoWadYBKLSO3LGd1tlKZVT6Maur3beQ5VoJ+OMhDmz0S0aqHOgtuZMCjX1Deuup
-	 EWQcVuIGFpG7w==
+	b=mQi/QKKE8oU7Jg2fnhqtL81/RqIzt6ILgXxAZlL1BF1MPE36Ex3zzE69h0h4btzkj
+	 LFXUEflc+zOTv7i/wfPoOH25S78tFmQmMDDJIbjipfk4LGHpSMnMH+8OVeJrQrYVsp
+	 6Uke3DWbf9ICVgUev+QDtGoO2b5Mb4UkvRU1lyZRGLd1o4xQOHHdmEh/gcPpgxBY46
+	 x0fiLY3T5xa9CZDFg4DxsPqQIAtPqH1gaaQGXyHE5kRCRHSiXLpb2imtlxFlJV1dxw
+	 poj13hFj3XwExqxByhaDcceORlwOWO6BfSLIYBBw0o7dl+dgcNqcz0gweVVStK5TlT
+	 NqV70FycIpA/g==
 From: Lee Jones <lee@kernel.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Isai Gaspar <isaiezequiel.gaspar@nxp.com>, Marek Vasut <marex@denx.de>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240807-leds-pca995x-fix-fwnode-usage-v1-1-8057c84dc583@gmail.com>
-References: <20240807-leds-pca995x-fix-fwnode-usage-v1-1-8057c84dc583@gmail.com>
-Subject: Re: (subset) [PATCH] leds: pca995x: Fix device child node usage in
- pca995x_probe()
-Message-Id: <172382409029.3366296.12169044923782597357.b4-ty@kernel.org>
-Date: Fri, 16 Aug 2024 17:01:30 +0100
+ Joseph Strauss <jstrauss@mailbox.org>, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Christian Marangi <ansuelsmth@gmail.com>, 
+ Patrick Rudolph <patrick.rudolph@9elements.com>, 
+ George Stark <gnstark@salutedevices.com>, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240807075614.2118068-1-arnd@kernel.org>
+References: <20240807075614.2118068-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH] leds: blinkm: fix
+ CONFIG_LEDS_CLASS_MULTICOLOR dependency
+Message-Id: <172382430351.3368067.16878264408726300501.b4-ty@kernel.org>
+Date: Fri, 16 Aug 2024 17:05:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,22 +69,22 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.13.0
 
-On Wed, 07 Aug 2024 15:37:03 +0200, Javier Carrasco wrote:
-> The current implementation accesses the `child` fwnode handle outside of
-> device_for_each_child_node() without incrementing its refcount.
+On Wed, 07 Aug 2024 09:55:53 +0200, Arnd Bergmann wrote:
+> With CONFIG_LEDS_CLASS_MULTICOLOR=m, a builtin leds-blinkm driver causes
+> a link failure:
 > 
-> Add the missing call to `fwnode_handle_get(child)`.
+> arm-linux-gnueabi-ld: drivers/leds/leds-blinkm.o: in function `blinkm_set_mc_brightness':
+> leds-blinkm.c:(.text.blinkm_set_mc_brightness+0xc): undefined reference to `led_mc_calc_color_components'
 > 
-> The cleanup process where `child` is accessed is not right either
-> because a single call to `fwnode_handle_put()` is carried out in case of
-> an error, ignoring unasigned nodes at the point when the error happens.
+> Add a more specific dependency that only allows multicoler mode to
+> be enabled for blinkm if it can build and link.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: pca995x: Fix device child node usage in pca995x_probe()
-      commit: 82c5ada1f9d05902a4ccb926c7ce34e2fe699283
+[1/1] leds: blinkm: fix CONFIG_LEDS_CLASS_MULTICOLOR dependency
+      commit: 17c40f3c94bc2279b879ea9ceb3eea973bcd1ac4
 
 --
 Lee Jones [李琼斯]
