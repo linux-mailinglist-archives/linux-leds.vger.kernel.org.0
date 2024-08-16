@@ -1,67 +1,60 @@
-Return-Path: <linux-leds+bounces-2467-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2468-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E623954E74
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 18:08:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86361954E80
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 18:11:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30180B21441
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 16:08:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA4401C243A8
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2024 16:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558F41BE23D;
-	Fri, 16 Aug 2024 16:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7681BE860;
+	Fri, 16 Aug 2024 16:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VO9vpP9x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCVdQqVX"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268EC2BB0D;
-	Fri, 16 Aug 2024 16:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6001BE250;
+	Fri, 16 Aug 2024 16:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723824509; cv=none; b=RzlE6nK2bP1PflvhmpOKcR5fTBHyONHla9Z+D4ErnCMQpZ+Qgwvquifj+qxQuZJZvVKO/2KFkzQt+TIV3pH30jviTI3XuGZQ2EGl2p9PM70YGIXlgXCx9aQ8hkTYLAEoqmBid6OtYV04Eveuq/391Q89YROxiXKk6M4XqYjblpI=
+	t=1723824673; cv=none; b=cQbNxHAP4x4lHncrRyRGtTOTpiQVQTkRu1nK8SKAtP8jiWsQyz37NTFvswJSbEHYVZvYse3gRzWb1rTlv0A5g3+i9tNJrviHzEecuxss+4RUr4VaGBScrODdP1DCAqadfOOLgu39etO/BtY0w8djKNGvL9eIaruV0f+j8KL3ie4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723824509; c=relaxed/simple;
-	bh=zo8q/X1fSRtsBnuH8fxiwu/3UwY5gwODpqavldS2UHU=;
+	s=arc-20240116; t=1723824673; c=relaxed/simple;
+	bh=PAZUDvd3q0geB8ZyBW+JbD6diVUg9FTVP8/5lWsekH0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XkoexLFBnIAyRC2s7CTKWmPS0mUHBpfW39iBCq3ayPgsTcH9QkJMy6FSBW8+mRkXs4TO4YFRuxEU2ye2ku9tU0ajvJQ759cgAuElOK3M/3TNd1TqUUAqKZ8arTgwmrZTGhTpjR4jhMf1puyDOEcU2lSd4HebSjLhtS+zfxyh58w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VO9vpP9x; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8972C32782;
-	Fri, 16 Aug 2024 16:08:22 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=TWyQHXWEQJJ4PFFeYEOpLvanyf+uSEb+ovn5v/Nxvdhwp2AE1Zgj7mACs8rFgGxnOZP0l+OtOtqLCU6OtNLQac7vw4kbqdL7mr/njWTTYopmYtjVaDvPX0yxSMpa0MxV21IqhRjr2QbnNbcr/dQErhGhuetGsP7UWw7gxucB4Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LCVdQqVX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D66CC32782;
+	Fri, 16 Aug 2024 16:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723824508;
-	bh=zo8q/X1fSRtsBnuH8fxiwu/3UwY5gwODpqavldS2UHU=;
+	s=k20201202; t=1723824673;
+	bh=PAZUDvd3q0geB8ZyBW+JbD6diVUg9FTVP8/5lWsekH0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VO9vpP9xmM/M4DdRO1plyue8kafzxyFSCc9GpectRLdvDmmyQAYmSwbjUAhOC5k2u
-	 mda0Ufu18I5DD1TqpWZZgMnTthB3uJZnmmpqRMM353hDyt0fxS/9WkmUtNTsItuYxg
-	 mA58CQtkXF+9MmmW96kdUSxpXnuvRdxWdCe3XKgohcurM60wffbalFSybwWp75XJ1a
-	 8Q8I4INVGfovM90LqwJbh+9HG+ba+90Z8QBHA9vfOB6H06ciZ1rBRHsiEoOCje5L5H
-	 cq4W7bEuWgbeKKSlhbI3uYtFqCiRtOxZGoecJLP7WnJHc4TXIWdRZ3y+KqkGqHrBMW
-	 u8Re3VX4L+fsg==
-Date: Fri, 16 Aug 2024 17:08:15 +0100
+	b=LCVdQqVXxHIG4Fqy+dHCTby8UTLjQ0wy1RzFFqFnbc3hXiz6AuuoLoRnHnv13LPjH
+	 E1G9GyOOigKUpl2ZfFRfFemxOSHfKtgmkmtypN8sc4v6l1BkgtUrUlMMiIzni7nUCY
+	 uLhv99ScC4WnzwtPghpnndd1yWOOgiCHKG+h+VqZbReJA8xcFX1BImm/VsrqzIgpYY
+	 tzZNFLRU9pWO4MFbf0Ty0d2kni2rTW0jXLgsBLLX2yACGUmKmDEHrleicq2gq5JNy5
+	 Vs7C+jy4CdkNBnAVJUoOtIYavkUPixulLJu8YtCLr33MN1tbg27Z4LB0B7eZon2sUc
+	 5Agh7iZPVMB+g==
+Date: Fri, 16 Aug 2024 17:11:08 +0100
 From: Lee Jones <lee@kernel.org>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Pavel Machek <pavel@ucw.cz>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] leds: as3645a: use device_* to iterate over
- device child nodes
-Message-ID: <20240816160815.GD5853@google.com>
-References: <20240808-device_child_node_access-v2-0-fc757cc76650@gmail.com>
- <20240808-device_child_node_access-v2-3-fc757cc76650@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>,
+	ilpo.jarvinen@linux.intel.com, Pavel Machek <pavel@ucw.cz>,
+	mustafa.eskieksi@gmail.com, platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Linux LED Subsystem <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v4 2/2] HP: wmi: Add documentation for the LED API naming
+ scheme
+Message-ID: <20240816161108.GE5853@google.com>
+References: <20240719100011.16656-1-carlosmiguelferreira.2003@gmail.com>
+ <20240719100011.16656-3-carlosmiguelferreira.2003@gmail.com>
+ <7bf12e39-8956-4cd3-a90a-871291d84370@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,61 +64,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240808-device_child_node_access-v2-3-fc757cc76650@gmail.com>
+In-Reply-To: <7bf12e39-8956-4cd3-a90a-871291d84370@redhat.com>
 
-On Thu, 08 Aug 2024, Javier Carrasco wrote:
+On Mon, 12 Aug 2024, Hans de Goede wrote:
 
-> Drop the manual access to the fwnode of the device to iterate over its
-> child nodes. `device_for_each_child_node` macro provides direct access
-> to the child nodes, and given that the `child` variable is only required
-> within the loop, the scoped variant of the macro can be used.
+> Hi all,
 > 
-> Use the `device_for_each_child_node_scoped` macro to iterate over the
-> direct child nodes of the device.
+> +Cc Pavel, Lee, linux-leds for review by the linux LED subsystem folks.
 > 
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
->  drivers/leds/flash/leds-as3645a.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+> Pavel, Lee there are 2 pdx86 drivers for control of zoned (3/4 zones)
+> RGB backlit laptop keyboards pending:
 > 
-> diff --git a/drivers/leds/flash/leds-as3645a.c b/drivers/leds/flash/leds-as3645a.c
-> index 2c6ef321b7c8..8e6abedf6e00 100644
-> --- a/drivers/leds/flash/leds-as3645a.c
-> +++ b/drivers/leds/flash/leds-as3645a.c
-> @@ -478,14 +478,12 @@ static int as3645a_detect(struct as3645a *flash)
->  	return as3645a_write(flash, AS_BOOST_REG, AS_BOOST_CURRENT_DISABLE);
->  }
->  
-> -static int as3645a_parse_node(struct as3645a *flash,
-> -			      struct fwnode_handle *fwnode)
-> +static int as3645a_parse_node(struct as3645a *flash, struct device *dev)
+> https://lore.kernel.org/platform-driver-x86/20240719100011.16656-2-carlosmiguelferreira.2003@gmail.com/
+> https://lore.kernel.org/platform-driver-x86/20240806205001.191551-2-mustafa.eskieksi@gmail.com/
+> 
+> both of these will use 1 multicolor LED class device per keyboard zone,
+> using the naming convention documented in this patch.
+> 
+> It would be good if we can get feedback or an ack from you for this
+> userspace API before merging these drivers.
+> 
+> Note the first part of the patch documents the already existing naming
+> scheme for single zone (RGB or mono color) backlight keyboards. This
+> scheme is already used by many drivers and by userspace consumers like
+> upower. So this is just documenting existing userspace API which so far
+> was not documented.
+> 
+> 
+> Carlos, Thank you for writing this patch.
+> 
+> For v2 please change the patch subject to:
+> 
+> "Documentation: leds: leds-class: Add documentation for keyboard backlight LED device names"
+> 
+> and this should also be merged through the LED subsystem tree, so for v2
+> please send this to Pavel + Lee with linux-leds + platform-driver-x86
+> in the Cc.
 
-Please swap the parameters to have the more senior one (dev) at the start.
+Please use get_maintainer.pl when submitting patches:
 
->  {
->  	struct as3645a_config *cfg = &flash->cfg;
-> -	struct fwnode_handle *child;
->  	int rval;
->  
-> -	fwnode_for_each_child_node(fwnode, child) {
-> +	device_for_each_child_node_scoped(dev, child) {
->  		u32 id = 0;
->  
->  		fwnode_property_read_u32(child, "reg", &id);
-> @@ -686,7 +684,7 @@ static int as3645a_probe(struct i2c_client *client)
->  
->  	flash->client = client;
->  
-> -	rval = as3645a_parse_node(flash, dev_fwnode(&client->dev));
-> +	rval = as3645a_parse_node(flash, &client->dev);
->  	if (rval < 0)
->  		return rval;
->  
+  % ./scripts/get_maintainer.pl -f Documentation/leds/leds-class.rst
+  Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM)
+  Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
+  Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+  linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+  linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+  linux-kernel@vger.kernel.org (open list)
+
+I'll review the patch once it's been submitted properly, thanks.
+
+> On 7/19/24 11:59 AM, Carlos Ferreira wrote:
+> > This patch adds documentation for the LED API class-device naming
+> > scheme practice.
+> >
+> > Signed-off-by: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
+> > ---
+> >  Documentation/leds/leds-class.rst | 40 +++++++++++++++++++++++++++++++
+> >  1 file changed, 40 insertions(+)
+> > 
+> > diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+> > index 5db620ed27aa..8e74a436ca9b 100644
+> > --- a/Documentation/leds/leds-class.rst
+> > +++ b/Documentation/leds/leds-class.rst
+> > @@ -116,6 +116,46 @@ above leaves scope for further attributes should they be needed. If sections
+> >  of the name don't apply, just leave that section blank.
+> >  
+> >  
+> > +Keyboard backlight control
+> > +==========================
+> > +
+> > +For backlit keyboards with a single brightness / color settings a
+> > +single (multicolor) LED device should be used to allow userspace
+> > +to change the backlight brightness (and if possible the color).
+> > +This LED device must have a name ending in ':kbd_backlight'.
+> > +
+> > +For RGB backlit keyboards with multiple control zones, one multicolor
+> > +LED device should be used per zone. These LED devices' name
+> > +must follow the following form:
+> > +
+> > +	"<devicename>:rgb:kbd_zoned_backlight-<zone_name>"
+> > +
+> > +and <devicename> must be the same for all zones of the same keyboard.
+> > +
+> > +Where possible <zone_name> should be a value already used by other
+> > +zoned keyboards with a similar or identical zone layout, e.g.:
+> > +
+> > +<devicename>:rgb:kbd_zoned_backlight-right
+> > +<devicename>:rgb:kbd_zoned_backlight-middle
+> > +<devicename>:rgb:kbd_zoned_backlight-left
+> > +<devicename>:rgb:kbd_zoned_backlight-corners
 > 
-> -- 
-> 2.43.0
+> The -corners zone was based on a misunderstanding about
+> the Excaliber laptop's functionality, please drop
+> the "<devicename>:rgb:kbd_zoned_backlight-corners"
+> line here as well as below.
 > 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> > +<devicename>:rgb:kbd_zoned_backlight-wasd
+> > +
+> > +or:
+> > +
+> > +<devicename>:rgb:kbd_zoned_backlight-main
+> > +<devicename>:rgb:kbd_zoned_backlight-cursor
+> > +<devicename>:rgb:kbd_zoned_backlight-numpad
+> > +<devicename>:rgb:kbd_zoned_backlight-corners
+> > +<devicename>:rgb:kbd_zoned_backlight-wasd
+> > +
+> > +Note that this is intended for keyboards with a limited number of zones,
+> > +keyboards with per key addressable backlighting must not use LED
+> > +class devices since the sysfs API is not suitable for rapidly change
+> > +multiple LEDs in one "commit" as is necessary to do animations /
+> > +special effects on such keyboards.
+> > +
+> > +
+> >  Brightness setting API
+> >  ======================
+> >  
 > 
 
 -- 
