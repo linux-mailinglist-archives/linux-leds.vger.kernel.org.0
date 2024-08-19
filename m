@@ -1,131 +1,102 @@
-Return-Path: <linux-leds+bounces-2478-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2484-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0753956D92
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 16:40:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D65195702E
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 18:26:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 760061F25D1E
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 14:40:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FBA21C22F39
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 16:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2835F176226;
-	Mon, 19 Aug 2024 14:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="BoN1ZK5E"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFB6216D307;
+	Mon, 19 Aug 2024 16:25:55 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1644D171E70;
-	Mon, 19 Aug 2024 14:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A677B171E5A;
+	Mon, 19 Aug 2024 16:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724078421; cv=none; b=fhlTwNT5HJNP7R2+G6R0OHR9k7fiWK54vaTnj4zsZhcHAm842Wou7wff7o+y8jL1K7X1dZyhBpR5WeJPsIowUJBzdzgX3QHn8FayiSZKsnCD1hoGXNIPY9xUg2k4tKvr8D/TcZmF52E9NkZx1ohfWED1sP7d0P8/AVL/O1dSL+I=
+	t=1724084755; cv=none; b=iV9vYePGU/zEVADYyR2HariTleI5oNtkjlxx8SAYZTelJfgWVeJJFa4zVoSq45cWQSWpUbAeD2LWcqC1ec+EIAxy+3tBMGb2OOjh87mCcYZWGhnS0xZimMeqzZaDl4cR5JBaRo0BRHByDOGLNffgwBYsld7RMDncOGNUghHJnqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724078421; c=relaxed/simple;
-	bh=equbU9VBMIwdvGkqWk+AjPVcTc+O1BMZPBWXnDB1Dyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RcmjDfVHqpaCA35Bg/MNA0g/N1nXwXrzur4RmxqCU6wbCcErfPfxvLzXkSYhFodViaRdsgLAMBchsIb2IrJWZRKAiMRwhKgrjeRw+8B+xQIbKgC+CbnzhEiEvUM0f8owWIuix8epb2ccyFiVrbqFTMU4Hyb7Udd/OcEt9VGTjDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=BoN1ZK5E; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=q1jpFbe8UJlfuFdvluwPG8fKnNdFZmBXVzuyZQAcBU0=; b=BoN1ZK5Edi9AlOHHsw1K/RGBPt
-	zQnEiOOg+wQjd7zLve56+O+FLfv3n7NCkXP3C7P4r3zBLkfiMaOrLqcIZJGSXaL9QINQhSfoRnac8
-	uEbjryqLMmKCDpbH2XSEKBouHnow+ghJF/ph6rUWQ/Nt1bOca21pt3UAYViRyyULydRLkSnAvUnXb
-	QylKTwWz1zgrtlp1rf+Ru5DGYSoJaQQtfWS9xjUlzTxDFbEp6kCsP+sXxcDUhmhiz6hHUmLa8I63a
-	F4iSiPN25iJmdtH6XBKaT38Z6lgfsAXzGnnYl35EzTqgDqv9vDCAxctSdNGsFZwvUMfikYe+cRdeb
-	2Ms5JD9w==;
-Received: from i53875a9f.versanet.de ([83.135.90.159] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sg3YG-00014n-NZ; Mon, 19 Aug 2024 16:40:08 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: lee@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	heiko@sntech.de,
-	dmitry.torokhov@gmail.com,
-	pavel@ucw.cz,
-	ukleinek@debian.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH v5 7/7] arm64: dts: rockchip: set hdd led labels on qnap-ts433
-Date: Mon, 19 Aug 2024 16:40:00 +0200
-Message-ID: <20240819144000.411846-8-heiko@sntech.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240819144000.411846-1-heiko@sntech.de>
-References: <20240819144000.411846-1-heiko@sntech.de>
+	s=arc-20240116; t=1724084755; c=relaxed/simple;
+	bh=7NqWr36HuVT4OotxGSUjFuV5V7CFfE5R2Y8n4XuSnJs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hWbOHUuOaKUb8wpZVfqVp/S0D7WbcvlSElGH8UNAl8D7L3HIYyKFFaLTRDOMfBkGH+gksvbXW1Asu+vp3uHHmViNQZalhAF0EakEMrmBNsIz3iu6ZZ4WxVux8ZkSptvofve2XHlXVlFW6jNLIAIlSVTak/RN7zWpVYuz4Abp9JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5320d8155b4so5993250e87.3;
+        Mon, 19 Aug 2024 09:25:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724084750; x=1724689550;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9tHGsPt2XMV+DbbdXwYM1UeT8GX8eWUBRSysGoQM7AE=;
+        b=bNJq+Rw785w2jTdYl94ryOYR/RVv+hyZt9J489GwYhx8XUkGgfboty6vbsdjrw5xfb
+         c0HWbZUnc2nKh16uTv4Rtm1pWaQQnRTDihHmuyxbPRprZA11BkYMg8mOqKUG2KgRUbqX
+         N4A+WSRCDIZBy8Vnheqf1YE6hTaUTJT0s9DR0s2BdRJNw7BGk/gGwp28rbwCKZFx68S/
+         wnGXeYA0HWkl+ClsvIDD4r5Qp6sGVjHiEGUzJw2GErz9CmriVAEmF9IaJ2A/PQ4LIjSr
+         Cd4acVMfZWOLthrOxdgjkCHL+2DofKXAzxYeQp7XdYuN1dwvAzsbLZp+DYYLDVhj3pE+
+         eR7w==
+X-Forwarded-Encrypted: i=1; AJvYcCX1LL9OVKLo7i8hCXjf8F9a3aRnRhjp0eB/d9zC+I21Gdk4Ycn9AyLUmTA3SVbQ1H9Mi8r0KhEf+IJBgZRn9nMvmSJTGu7xE1bF+lyPPmF+akTZG7wltEUYMhvFj1PRhyw0SC26Tzz2Tw==
+X-Gm-Message-State: AOJu0YwHvSaBIaH1rKM/JS9CaE+KE7XEwjvlZl0FyYv8Up9qPbXNFaoj
+	MxjgmnlaY4Sl20bqtbsRNcakm5yYLrcKnwdciKtq2UppG6R1fZeWpLmEutT2
+X-Google-Smtp-Source: AGHT+IGwo3bgpgel4eWIt6KQmb8XiyzPCXu7fJeaFolaMY9n4nV7Nq04DXfOFAA0+/S+u2Y2gkI/Tg==
+X-Received: by 2002:a05:6512:ba3:b0:530:e323:b1d0 with SMTP id 2adb3069b0e04-5331c68fccfmr7474305e87.9.1724084748771;
+        Mon, 19 Aug 2024 09:25:48 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5330d3b8ee7sm1527455e87.115.2024.08.19.09.25.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2024 09:25:47 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f189a2a7f8so46174421fa.2;
+        Mon, 19 Aug 2024 09:25:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUyx9NWTFyHqI5wye86Cg3I/jCAYnkXztTwxTMKsmsjyCV9GB7SkcKiZSIS2QE1uo5fobGCwuw7IVMbvsKA5ctR8lcYsH3C2i++VTKBawPSPUBtgZcTp//Bzm87KVw6aGEFqXOTBfcIYA==
+X-Received: by 2002:a05:651c:504:b0:2f1:56a6:6057 with SMTP id
+ 38308e7fff4ca-2f3be57849emr72731681fa.7.1724084747357; Mon, 19 Aug 2024
+ 09:25:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240816171129.6411-1-abhishektamboli9@gmail.com>
+In-Reply-To: <20240816171129.6411-1-abhishektamboli9@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 20 Aug 2024 00:25:34 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66J7ceyPikD8atnybMD-UsVwAJZ4TRo16LroyVkAOc1Yw@mail.gmail.com>
+Message-ID: <CAGb2v66J7ceyPikD8atnybMD-UsVwAJZ4TRo16LroyVkAOc1Yw@mail.gmail.com>
+Subject: Re: [PATCH] leds: sun50i-a100: Replace msleep() with usleep_range()
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: pavel@ucw.cz, lee@kernel.org, jernej.skrabec@gmail.com, 
+	samuel@sholland.org, linux-leds@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	skhan@linuxfoundation.org, rbmarliere@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The automatically generated names for the LEDs from color and function
-do not match nicely for the 4 hdds, so set them manually per the label
-property to also match the LEDs generated from the MCU.
+On Sat, Aug 17, 2024 at 1:12=E2=80=AFAM Abhishek Tamboli
+<abhishektamboli9@gmail.com> wrote:
+>
+> Replace msleep() with usleep_range() in sun50i_a100_ledc_suspend()
+> to address the checkpatch.pl warning. msleep() for such short delay
+> can lead to inaccurate sleep times. Switch to usleep_range()
+> provide more precise delay.
+>
+> Fix the following warning from checkpatch.pl:
+>
+> WARNING: msleep < 20ms can sleep for up to 20ms;
+> see Documentation/timers/timers-howto.rst
+> +               msleep(1);
+>
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
 
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
----
- arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-index 4bc5f5691d45..7bd32d230ad2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-@@ -50,6 +50,7 @@ led-0 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
-+			label = "hdd1:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd1_led_pin>;
-@@ -59,6 +60,7 @@ led-1 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_LOW>;
-+			label = "hdd2:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd2_led_pin>;
-@@ -68,6 +70,7 @@ led-2 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD7 GPIO_ACTIVE_LOW>;
-+			label = "hdd3:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd3_led_pin>;
-@@ -77,6 +80,7 @@ led-3 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
-+			label = "hdd4:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd4_led_pin>;
--- 
-2.43.0
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 
