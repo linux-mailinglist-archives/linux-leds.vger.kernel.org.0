@@ -1,92 +1,207 @@
-Return-Path: <linux-leds+bounces-2475-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2482-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D324C956D60
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 16:33:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2D4956DA5
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 16:41:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FC951F241C2
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 14:33:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F6451C23CED
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2024 14:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC5916B723;
-	Mon, 19 Aug 2024 14:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 858F117BED6;
+	Mon, 19 Aug 2024 14:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="O1odHTw4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C28925760;
-	Mon, 19 Aug 2024 14:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171617334E;
+	Mon, 19 Aug 2024 14:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724078033; cv=none; b=PPmY6duE+dROgxh9cItf0lr2gMI+S6fx8dk5VHAelNZkSLt1BY/tlMOIaZA3pKmr/W8rKCVytdlCtmgLRTIl6eFthj9hTIBjtIhGnkud3HfsJZNkKHflqQITrhhp20fn4ldxIdpmnGu0SJr+wYlPaXTIeUd44Wzm9nUh5dD1kc0=
+	t=1724078423; cv=none; b=oYfuuRQDP4KPWOUfrwLsbK18ME/P3jpBel68KuV90UK57dP44KIZSfDGO9+JoMLF3saHDDZmjbrTQITHvSqGdxZNg1iopT9LBUfcl/N6aoGms9/dSF9a99t+GuQLFYssySWExZ7CojSpLGO8PmsNnhKgNRnykPhtHKP9RCial34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724078033; c=relaxed/simple;
-	bh=2EcRFcFZ24hxH7FI/vmbdXoJjqRfMTBJZTWq0UYw8O8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=byyhz9nIF1g7PbTOEQlfcjGhe/BCD83MgG4GKgk6aVF0xDxKcaA3r0J683URVD44mHS+HcFneyEBUeJ/4wWE5O5KSMU1uN2ve7Yr+4OYNQnuWFWjGcbTOu5wyQGZKX6ovnwkowrigQ9sgbe6jubbvnNmdBb7oginGxNPZa7f0qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0CBF339;
-	Mon, 19 Aug 2024 07:34:16 -0700 (PDT)
-Received: from ewhatever.cambridge.arm.com (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 528833F73B;
-	Mon, 19 Aug 2024 07:33:48 -0700 (PDT)
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-To: Michal Simek <michal.simek@amd.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	James Clark <james.clark@linaro.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Pavel Machek <pavel@ucw.cz>,
-	Mike Leach <mike.leach@linaro.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Lee Jones <lee@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	s=arc-20240116; t=1724078423; c=relaxed/simple;
+	bh=NcrO4Grs6TfTvVO+Cf7rQUx8Jh+Jzii1EfSP/7I/rRI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UpW3ypJ56v1+zV6wWjpp9fyZz8UdAXM3hQRaFoNXgqPHd7gt4sr/P19qASDV/X+rhBWi+RM3RbvFu6nKtjMJ/Yrl/F2TJfxZury63wgMriUqWBOyimJX3XC1YOkTkRTSLb2rF9TCusUkdgqvySbAC1kfRHPFazesyGqaKCRPM5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=O1odHTw4; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=JYfnsdSfufBFWalo3qeLrTgSHYvAlQbPuIY9pVOLl4s=; b=O1odHTw4TlpciIDsdNuq8lkqi9
+	83yWv4jl32w/tBZeUJuEEchtzF/kcUoxY4BOG7W9nlJTuNWOvmuRi7RqGTyCNVs/F+1UFP3M4/c90
+	8EFP/4Vlj85Er6TpRqr+ME3loC0K/G85Goo7e9OmwuZzS/5oRF3/xWz1MzV64ErdQuoepuDEPIsbY
+	tE6zZLr0a2g4c6peL/2jD5iXaVbdZ8zWngDSqFMejkqh0+f9NxyGEqnDYpyoo+HqRekikXDGakYew
+	OtXCeDdPFzgQdgeqxyLvWYsBygW4jy2ReBti14yYKCn1gwp9wXTJxECME9weakeMdljV50bpDhIrY
+	PFPoF8WQ==;
+Received: from i53875a9f.versanet.de ([83.135.90.159] helo=phil.lan)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sg3YB-00014n-R0; Mon, 19 Aug 2024 16:40:03 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: lee@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	heiko@sntech.de,
+	dmitry.torokhov@gmail.com,
+	pavel@ucw.cz,
+	ukleinek@debian.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org,
-	linux-iio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-input@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] use device_for_each_child_node_scoped to access device child nodes
-Date: Mon, 19 Aug 2024 15:33:34 +0100
-Message-Id: <172407794569.198441.3395176443590632204.b4-ty@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240808-device_child_node_access-v2-0-fc757cc76650@gmail.com>
-References: <20240808-device_child_node_access-v2-0-fc757cc76650@gmail.com>
+Subject: [PATCH v5 0/7] Drivers to support the MCU on QNAP NAS devices
+Date: Mon, 19 Aug 2024 16:39:53 +0200
+Message-ID: <20240819144000.411846-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 08 Aug 2024 17:12:36 +0200, Javier Carrasco wrote:
-> This series removes accesses to the device `fwnode` to iterate over its
-> own child nodes. Using the `device_for_each_child_node` macro provides
-> direct access to the device child nodes, and given that in all cases
-> they are only required within the loop, the scoped variant of the macro
-> can be used.
-> 
-> It has been stated in previous discussions [1] that `device_for_each_*`
-> should be used to access device child nodes, removing the need to access
-> its internal fwnode, and restricting `fwnode_for_each_*` to traversing
-> subnodes when required.
-> 
-> [...]
+This implements a set of drivers for the MCU used on QNAP NAS devices.
 
-Applied, to coresight next tree. Thanks!
+Of course no documentation for the serial protocol is available, so
+thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
+I found interceptty [0] to listen to what goes over the serial connection.
 
-[1/3] coresight: cti: use device_* to iterate over device child nodes
-      https://git.kernel.org/coresight/c/daca644d0c9e0
+In general it looks like there are two different generations in general,
+an "EC" device and now this "MCU" - referenced in the strings of the
+userspace handlers for those devices.
 
-Best regards,
+For the MCU "SPEC3" and "SPEC4" are listed which is configured in
+the model.conf of the device. When setting the value from SPEC4 to
+SPEC3 on my TS433, the supported commands change, but the command
+interface stays the same and especially the version command is the
+same.
+
+The binding also does not expose any interals of the device that
+might change, so hopefully there shouldn't be big roadblocks to
+support different devices, apart from possibly adapting the commands.
+
+changes in v5:
+binding:
+- add Conor's Reviewed-by
+
+mfd:
+Address comments from Lee
+- improve commit message
+- improve Kconfig help text
+- sort headers alphabetical
+- style and spelling improvements
+- constants for magic numbers
+- drop reply assignment, the mcu only replies to commands sent to it,
+  so there should only ever be one command in fligth.
+
+hwmon:
+Add Acked-by from Guenter and address some remarks
+  - don't allow empty fan subnode
+  - use num var directly when getting cooling levels, without using ret
+    intermediate
+  - use dev_err_probe in thermal init function
+
+
+changes in v4:
+binding:
+- move cooling properties into a fan subnode and reference
+  fan-common.yaml (Rob)
+- dropped Krzysztof's Ack because of this
+
+mfd:
+- use correct format-string for size_t (kernel test robot)
+
+input:
+- added Dmitry's Ack
+
+hwmon:
+- adapted to fan-subnode when reading cooling properties
+- dropped Guenter's Ack because of this
+
+
+changes in v3:
+mfd
+- use correct power-off priority: default
+- constify the cmd-data array in command functions (Dmitry)
+
+leds:
+- don't point to temporary buffers for cdev->name (Florian Eckert)
+
+hwmon:
+- use clamp_val(), don't try to reimplement (Guenter)
+- add Guenter's Ack
+
+input:
+address Dmitry's comments
+- constify some cmd arrays
+- add input-close callback to cancel beep worker
+- drop initial input event report
+
+
+changes in v2:
+binding:
+- rename to qnap,ts433-mcu.yaml (Krzysztof)
+- drop "preserve formatting" indicator (Krzysztof)
+- add Krzysztof's Review tag
+
+mfd:
+- fix checkpatch --strict CHECKs
+- add a MAINTAINERS entry for all qnap-mcu-parts
+
+Heiko Stuebner (7):
+  dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+  mfd: add base driver for qnap-mcu devices
+  leds: add driver for LEDs from qnap-mcu devices
+  Input: add driver for the input part of qnap-mcu devices
+  hwmon: add driver for the hwmon parts of qnap-mcu devices
+  arm64: dts: rockchip: hook up the MCU on the QNAP TS433
+  arm64: dts: rockchip: set hdd led labels on qnap-ts433
+
+ .../bindings/mfd/qnap,ts433-mcu.yaml          |  42 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/qnap-mcu-hwmon.rst        |  27 ++
+ MAINTAINERS                                   |   9 +
+ .../boot/dts/rockchip/rk3568-qnap-ts433.dts   |  61 +++
+ drivers/hwmon/Kconfig                         |  12 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/qnap-mcu-hwmon.c                | 383 ++++++++++++++++++
+ drivers/input/misc/Kconfig                    |  12 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/qnap-mcu-input.c           | 161 ++++++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-qnap-mcu.c                  | 247 +++++++++++
+ drivers/mfd/Kconfig                           |  13 +
+ drivers/mfd/Makefile                          |   2 +
+ drivers/mfd/qnap-mcu.c                        | 347 ++++++++++++++++
+ include/linux/mfd/qnap-mcu.h                  |  27 ++
+ 18 files changed, 1358 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+ create mode 100644 Documentation/hwmon/qnap-mcu-hwmon.rst
+ create mode 100644 drivers/hwmon/qnap-mcu-hwmon.c
+ create mode 100644 drivers/input/misc/qnap-mcu-input.c
+ create mode 100644 drivers/leds/leds-qnap-mcu.c
+ create mode 100644 drivers/mfd/qnap-mcu.c
+ create mode 100644 include/linux/mfd/qnap-mcu.h
+
 -- 
-Suzuki K Poulose <suzuki.poulose@arm.com>
+2.43.0
+
 
