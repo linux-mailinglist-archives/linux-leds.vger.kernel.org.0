@@ -1,122 +1,253 @@
-Return-Path: <linux-leds+bounces-2499-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2500-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E9A95A68F
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 23:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2C695A69A
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 23:30:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CBCB6B20ABA
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 21:27:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D4EBB20B21
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 21:30:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA6115855F;
-	Wed, 21 Aug 2024 21:27:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDE9E178361;
+	Wed, 21 Aug 2024 21:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kms0sWoH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D232613B297
-	for <linux-leds@vger.kernel.org>; Wed, 21 Aug 2024 21:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB11A16FF3B;
+	Wed, 21 Aug 2024 21:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724275620; cv=none; b=G/joVx3f6eijRZ0Y7It1EVNb6Lz2wRUvJyyFbmQh2ZuFLnWbTvsQZSUyMr8VjyZFdeVykg6PxgzVSkCKHwe1CZG54d+sj+xMnchlCz8x7myE/g0REECB3DSI9iEN6eaMLy2mLsIVnCjaBc5G5nMAI2TM0PDgqacw7GIvh/NI+QI=
+	t=1724275834; cv=none; b=Taa6rklcHSfr62uCGPWa526EbaFijOM9nGM9Q4UhbHD26pX8dF/0qprXwBeNUV3zWFQwTO/AQYtCmxHqr5Z562xGpU1HLjSkEpJTRvDzOR1qECEyCDex1D/EvNtFCtHfT6eKN+dXJEH0iIVh0Fp4YuFPx52aZ/cmB2yoMi8Ibuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724275620; c=relaxed/simple;
-	bh=pAyB/SGACtBtpBXAJU2vpqOZqMMg3SUv2OZK5HjHTBk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X4d2iaAQNtktKe5XnN0+f5e3IB8h0AGbzUrSLEAyLt3wfp1zq5soFJJu5ya5EM5FTBlgN/pwy1DMI5rG0Fa6junU0YEQcXREqKiFqKk4FF+gxZal+swIj9vQDJdHUDx1iO+g/bc41txFdLPXn2EuXY/m9jXWIYjM7fPZCy0bBOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
-X-QQ-mid: bizesmtp85t1724275577tuyo2yhy
-X-QQ-Originating-IP: dr471oK3/UGAX5f0lQjYAEcOtotkp1aILZnF/gipgt8=
-Received: from [192.168.159.131] ( [106.150.157.243])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 22 Aug 2024 05:26:15 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2965814543808821696
-Message-ID: <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
-Date: Thu, 22 Aug 2024 06:26:15 +0900
+	s=arc-20240116; t=1724275834; c=relaxed/simple;
+	bh=lUkRjpbqR8oHtn/IJBgQ1mJvqc51sR87H/MyJIO5T8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/4JUjlDTAdFMNy8wunRys5AVPd3T/csUynjeCOiolvHk6dH9pU1z7N1J5PHhwFHfowWgR60uRxJk/Y9785zqNmlZmS5RLUFE1UKJFLUPul1D0oqL5DFlGWtJCcglvTcBw8NwTDWJ4AgI4wRCbuNQwymJGdEJSBp5WMkwgOnerA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kms0sWoH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E5BC4AF0E;
+	Wed, 21 Aug 2024 21:30:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724275834;
+	bh=lUkRjpbqR8oHtn/IJBgQ1mJvqc51sR87H/MyJIO5T8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kms0sWoHZPdLTBcsJS10PFW5gDcxmEJ1bcTGBZH2sETUWazZBKKjFYmsrhBD4Eprb
+	 LkYg1VVuxUth28L7a4eTZ7RzU0zrVq2MtqImfB9JMfuF3m0VYRl/vtIXjbumho7eRZ
+	 Wi1YzV8AfJBN+SnUDPXqiY7kixvTVGfCWzo/0T5hxzwWJXG4tjZcivNe+MiDpHMRFM
+	 x4xxSlnjX2bth0kMupUU6iTjeII4Uvnp/k6EdgBA+aA85tMCI8E7qUkXrqkwd5uDEV
+	 /9Q9tlYKcEmiG2qZvilqUpHQlbbNKB3AsaDMNA5w8uZGhBp/F0qX142V4U2+Si6I+X
+	 BpuFq3ueUNYNQ==
+Date: Wed, 21 Aug 2024 22:30:30 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+	"open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH v2 1/1] dt-bindings: leds: convert leds-lm3692x to yaml
+ format
+Message-ID: <20240821-harmful-reflex-2a4c612519d8@spud>
+References: <20240820183544.496419-1-Frank.Li@nxp.com>
+ <20240821-sizable-jumbo-1a114a8cc53a@spud>
+ <ZsYXvvhNxmXQAIVo@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: pwm-multicolor: fix multicolor PWM LED lights up
- without any setting
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org, pavel@ucw.cz
-References: <20240816102626.826-1-naoki@radxa.com>
- <20240821161119.GC6858@google.com>
-Content-Language: en-US
-From: FUKAUMI Naoki <naoki@radxa.com>
-In-Reply-To: <20240821161119.GC6858@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:radxa.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pH+X0yQAg/LfW/1N"
+Content-Disposition: inline
+In-Reply-To: <ZsYXvvhNxmXQAIVo@lizhi-Precision-Tower-5810>
 
-Hi,
 
-On 8/22/24 01:11, Lee Jones wrote:
-> On Fri, 16 Aug 2024, FUKAUMI Naoki wrote:
-> 
->> from drivers/leds/leds-pwm.c:led_pwm_set(),
->>
->> /*
->>   * Disabling a PWM doesn't guarantee that it emits the inactive level.
->>   * So keep it on. Only for suspending the PWM should be disabled because
->>   * otherwise it refuses to suspend. The possible downside is that the
->>   * LED might stay (or even go) on.
->>   */
->>
->> do the same in led_pwm_mc_set().
->>
->> this fixes LEDs light up without any setting (i.e. brightness is 0) on
->> Radxa E25.
-> 
-> Please redraft the commit message into proper sentences, complete with
-> correct grammar.  All sentences should start with an uppercase char.
+--pH+X0yQAg/LfW/1N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your review!
+On Wed, Aug 21, 2024 at 12:37:18PM -0400, Frank Li wrote:
+> On Wed, Aug 21, 2024 at 04:15:34PM +0100, Conor Dooley wrote:
+> > On Tue, Aug 20, 2024 at 02:35:43PM -0400, Frank Li wrote:
+> > > Convert binding doc leds-lm3592x to yaml format.
+> > > Additional change
+> > > - Add ref to common.yaml for child node
+> > > - Add i2c node at example
+> > >
+> > > Fix below warning:
+> > > arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: /soc@0/bus@30800=
+000/i2c@30a40000/backlight@36:
+> > > 	failed to match any schema with compatible: ['ti,lm36922']
+> > >
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > diff --git a/Documentation/devicetree/bindings/leds/ti.lm36922.yaml b=
+/Documentation/devicetree/bindings/leds/ti.lm36922.yaml
+> > > new file mode 100644
+> > > index 0000000000000..ac98547b78bd2
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/leds/ti.lm36922.yaml
+> > > @@ -0,0 +1,100 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/leds/ti.lm36922.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Texas Instruments - LM3692x Highly Efficient White LED Driver
+> > > +
+> > > +maintainers:
+> > > +  - Dan Murphy <dmurphy@ti.com>
+> > > +
+> > > +description: |
+> > > +  The LM3692x is an ultra-compact, highly efficient,
+> > > +  white-LED driver designed for LCD display backlighting.
+> > > +
+> > > +  The main difference between the LM36922 and LM36923 is the number =
+of
+> > > +  LED strings it supports. The LM36922 supports two strings while th=
+e LM36923
+> > > +  supports three strings.
+> > > +
+> > > +  For more product information please see the link below:
+> > > +  https://www.ti.com/lit/ds/snvsa29/snvsa29.pdf
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - ti,lm36922
+> > > +      - ti,lm36923
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  "#address-cells":
+> > > +    const: 1
+> > > +
+> > > +  "#size-cells":
+> > > +    const: 0
+> > > +
+> > > +  enable-gpios:
+> > > +    description: gpio pin to enable/disable the device.
+> >
+> > I think the description could be replaced with just marking the property
+> > as "true", both here and for the supply. The descriptions are statements
+> > of the obvious.
+> >
+> > > +
+> > > +  vled-supply:
+> > > +    description: LED supply
+> > > +
+> > > +  ti,ovp-microvolt:
+> > > +    description: Overvoltage protection.
+> > > +    default: 29000000
+> > > +    enum: [17000000, 21000000, 25000000, 29000000]
+> > > +
+> > > +patternProperties:
+> > > +  '^led@[0-9a-f]+$':
+> >
+> > There's no need for such a permissive pattern here, since reg is limited
+>=20
+> I am confused about it.  I think it at least need led@X pattern. Do
+> you means
+>    '^led@[0-3]+$'
 
-I'll do it in next ver.
+Yeah, that is what I meant - not that the pattern should be removed.
+The + I don't think you should have though, only a single digit is
+possible.
 
-> Copying comment-blocks into commit messages to save authors from writing
-> one isn't really the done thing.
+>=20
+> Frank
+>=20
+> > to the range 0-3. Additionally, I would add an
+> > allOf:
+> >   - if:
+> >       properties:
+> >         compatible:
+> >           contains:
+> >             const: ti,lm36922
+> >     then:
+> >       properties:
+> >         led@3: false
+> >
+> > or similar to restrict the third entry instead of doing so in prose.
+> >
+> > Thanks,
+> > Conor.
+> >
+> > > +    type: object
+> > > +    $ref: common.yaml
+> > > +    properties:
+> > > +      reg:
+> > > +        enum: [0, 1, 2, 3]
+> > > +        description: |
+> > > +          0 - Will enable all LED sync paths
+> > > +          1 - Will enable the LED1 sync
+> > > +          2 - Will enable the LED2 sync
+> > > +          3 - Will enable the LED3 sync (LM36923 only)
+> > > +
+> > > +    unevaluatedProperties: false
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - "#address-cells"
+> > > +  - "#size-cells"
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +    #include <dt-bindings/leds/common.h>
+> > > +
+> > > +    i2c {
+> > > +        #address-cells =3D <1>;
+> > > +        #size-cells =3D <0>;
+> > > +
+> > > +        led-controller@36 {
+> > > +            compatible =3D "ti,lm36922";
+> > > +            reg =3D <0x36>;
+> > > +            #address-cells =3D <1>;
+> > > +            #size-cells =3D <0>;
+> > > +
+> > > +            enable-gpios =3D <&gpio1 28 GPIO_ACTIVE_HIGH>;
+> > > +            vled-supply =3D <&vbatt>;
+> > > +            ti,ovp-microvolt =3D <29000000>;
+> > > +
+> > > +            led@0 {
+> > > +                reg =3D <0>;
+> > > +                function =3D LED_FUNCTION_BACKLIGHT;
+> > > +                color =3D <LED_COLOR_ID_WHITE>;
+> > > +                linux,default-trigger =3D "backlight";
+> > > +                led-max-microamp =3D <20000>;
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > --
+> > > 2.34.1
+> > >
+>=20
+>=20
 
-Sorry, I could not understand this part. What should I do for this?
+--pH+X0yQAg/LfW/1N
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
+-----BEGIN PGP SIGNATURE-----
 
---
-FUKAUMI Naoki
-Radxa Computer (Shenzhen) Co., Ltd.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsZcdQAKCRB4tDGHoIJi
+0slOAQCEyosjU/qY/WEXY3QPaqrwuIst2ZpPRFa+3AY0IYMkCQD/cQAGpmf0eFtG
+V0Y/QKEj2ilkf3C/yT38/co0i+Z/mgw=
+=RHBa
+-----END PGP SIGNATURE-----
 
->> Signed-off-by: FUKAUMI Naoki <naoki@radxa.com>
->> ---
->>   drivers/leds/rgb/leds-pwm-multicolor.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
->> index e1a81e0109e8..7155339c075e 100644
->> --- a/drivers/leds/rgb/leds-pwm-multicolor.c
->> +++ b/drivers/leds/rgb/leds-pwm-multicolor.c
->> @@ -50,7 +50,7 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
->>   			duty = priv->leds[i].state.period - duty;
->>   
->>   		priv->leds[i].state.duty_cycle = duty;
->> -		priv->leds[i].state.enabled = duty > 0;
->> +		priv->leds[i].state.enabled = !(cdev->flags & LED_SUSPENDED);
->>   		ret = pwm_apply_might_sleep(priv->leds[i].pwm,
->>   					    &priv->leds[i].state);
->>   		if (ret)
->> -- 
->> 2.43.0
->>
-> 
+--pH+X0yQAg/LfW/1N--
 
