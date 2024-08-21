@@ -1,65 +1,59 @@
-Return-Path: <linux-leds+bounces-2494-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2495-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B22B959F36
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 16:03:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB7595A0FF
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 17:09:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 380231F22E22
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 14:03:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 391C41C2100B
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Aug 2024 15:09:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE5FE1AF4D5;
-	Wed, 21 Aug 2024 14:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 188A013A243;
+	Wed, 21 Aug 2024 15:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ok+GK9N/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nxmj7O3y"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34301547D4;
-	Wed, 21 Aug 2024 14:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D370D433B5;
+	Wed, 21 Aug 2024 15:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724248984; cv=none; b=gk53P0DRHQ7yCPkf3zx+J+hKyWLdaqhPNMpaqTW47ovSJNCxf488AsZmqeJd6cEUkJEm5sFI6MiC6ojVrFi32FdguZd0uFN5GOdWXCENWYX1N0RYgmY+goWizFuMyuShvGiGZw3CPwMdaSfpkWD+ovMlk+sS4UuxHXyk9ifk8iY=
+	t=1724252925; cv=none; b=mUuiPLTOijzSVrkjkMxvkrgsyVNeWLzaJh4Wv6szwxULObcryW9acgTne2uh/QQZKDjcsSYHZiDvj5ureziVVxzUx97fOxl93WZvF6D82Dr9Ki7cXllzg7uHbXElUqwBlPBsxuSVMqryhFdKmKZYnLYDIa9L2WNbiVz0u5pz1Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724248984; c=relaxed/simple;
-	bh=9KQt3Ado5lkN2Lksrd2Ub8gjEvF2dK2WAnBhcopjr+4=;
+	s=arc-20240116; t=1724252925; c=relaxed/simple;
+	bh=gFGxUuMrLBFfVewbTA/3YPSYUrfiqegiKsyAf+HrzOA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OXD0ndm6e4hzY8YVxl6UJJEIakLPNUIxQUSmZi7wS48r+UArB+MvYKA9Vt+ZPd1a91NyoUbJ46TnlFIKObXb4R0ByahArSy2wDoPoXxoUydf4Tuk3ftUmohvQGx7L7PEZxDd4jiGwnNReyKytAMCiuhX/8xXT8yWqP/0trDHzlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ok+GK9N/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDE17C32781;
-	Wed, 21 Aug 2024 14:03:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=iysetJPRgZPyurNKEwFUIwFxIGGGw42fy9BYvJi2VxRfb1QB3Ip2uTOtHOv2vjIssiEPXmsCmhV5Jwk4reiHN1m+ZpI407fMNPMuEzFLBa00TkFs+VYsfz/DXpLLFnelZsf0WObxT3DV0w9WyjxUQHVEMEO1JFxAD3r4PnZYtt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nxmj7O3y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5CFC32781;
+	Wed, 21 Aug 2024 15:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724248984;
-	bh=9KQt3Ado5lkN2Lksrd2Ub8gjEvF2dK2WAnBhcopjr+4=;
+	s=k20201202; t=1724252924;
+	bh=gFGxUuMrLBFfVewbTA/3YPSYUrfiqegiKsyAf+HrzOA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ok+GK9N/CtzNxjWbIT1N2J37JYaQQpvcajh02jWoH1ccqMk/D0O5DbMFeJk/vvCyo
-	 bz4e2p46FpXD037CMt4mPNrTYbhjIDzxS9IIgY+EWSJRSHC4wjCj8kbUbburaGF+rS
-	 1E9+yngheisHclzDgobzWnXEZ0kGaMswlI1oSDTBZ5uLdnv53ezQk8STgrq3rxSqA8
-	 wpYuMgMtNuJQ7CvD5yUReheBkcLcnZbif6HDP56ATo09yEIpfES4exHbn6yT4Hg0SR
-	 TUFaDYwTRbRC7w418J0MIKF1qq3Zvr3QhxYCluSM3koVKLaGfaaRvmtPRBlRXlAJ0d
-	 isiiWjZQnGbFg==
-Date: Wed, 21 Aug 2024 15:02:58 +0100
+	b=Nxmj7O3yhKRu1tVbHQoOtdmwMbU2WeIC1lqLK9sYNOspkPiZKL5smmPU0h25fHHaN
+	 GZOoY6vecAVMpZWcXKHVz1AcBoYNbuQ05ZnO9DeRvvRV3+/ykrZTogLCY5N6ae3Cu7
+	 KEHt7Rggvx31/ALPClzMyVM8NGBba0rcblq9ulMh/0hLYeAQ0GC9F+qUMdUdCJBjVo
+	 LUPbInzjlQEvPhceG5HaS2yt2lcrNOU1mbDgHnQb3OyyhjnUM21frPEztaRor1jd7u
+	 WE/lMwlhncePP6pmv9QfhP4YAJuuNM06n3GSY37hkbdId+eVypjsVzmcbzZ5wtEC1Q
+	 4O6TgaHEJbmUQ==
+Date: Wed, 21 Aug 2024 16:08:39 +0100
 From: Lee Jones <lee@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
-	Christoph Hellwig <hch@lst.de>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Keith Busch <kbusch@kernel.org>, Marek Behun <marek.behun@nic.cz>,
-	Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/3] PCIe Enclosure LED Management
-Message-ID: <20240821140258.GA6858@google.com>
-References: <20240814122900.13525-1-mariusz.tkaczyk@linux.intel.com>
- <20240814202751.GA359905@bhelgaas>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+	"open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH v2 1/1] dt-bindings: leds: convert leds-lm3692x to yaml
+ format
+Message-ID: <20240821150839.GB6858@google.com>
+References: <20240820183544.496419-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,19 +63,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240814202751.GA359905@bhelgaas>
+In-Reply-To: <20240820183544.496419-1-Frank.Li@nxp.com>
 
-On Wed, 14 Aug 2024, Bjorn Helgaas wrote:
+On Tue, 20 Aug 2024, Frank Li wrote:
 
-> [+cc Lee, linux-leds for comment on using the LED subsystem as
-> described in patch 2/3; would be nice to have a reviewed-by or ack for
-> this.  Thread at
-> https://lore.kernel.org/r/20240814122900.13525-4-mariusz.tkaczyk@linux.intel.com]
+> Convert binding doc leds-lm3592x to yaml format.
+> Additional change
+> - Add ref to common.yaml for child node
+> - Add i2c node at example
+> 
+> Fix below warning:
+> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: /soc@0/bus@30800000/i2c@30a40000/backlight@36:
+> 	failed to match any schema with compatible: ['ti,lm36922']
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Change from v1 to v2
+> - fix dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/leds/ti.lm36922.example.dtb: /example-0/i2c/led-controller@36: failed to match any schema with compatible: ['ti,lm3692x']
+> ---
+>  .../devicetree/bindings/leds/leds-lm3692x.txt |  65 ------------
+>  .../devicetree/bindings/leds/ti.lm36922.yaml  | 100 ++++++++++++++++++
 
-I usually say things like "if you want to act as an X-device, author an
-X-driver and put it in X-subsystem".  However it looks like the LED
-class is already heavily abused in similar ways as this, so there's not
-a great deal I can say about it.
+Full-stop should be a comma.
+
+>  2 files changed, 100 insertions(+), 65 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-lm3692x.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti.lm36922.yaml
 
 -- 
 Lee Jones [李琼斯]
