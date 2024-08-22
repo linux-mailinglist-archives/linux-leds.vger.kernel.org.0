@@ -1,143 +1,144 @@
-Return-Path: <linux-leds+bounces-2503-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2504-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B796A95AC5E
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 06:06:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5ECD95AF3A
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 09:25:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFB301F23A94
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 04:06:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2412D1C2011F
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 07:25:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 954633611B;
-	Thu, 22 Aug 2024 04:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuSsMDjW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964403D0D5;
+	Thu, 22 Aug 2024 07:23:36 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD771B970;
-	Thu, 22 Aug 2024 04:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A6E4500E
+	for <linux-leds@vger.kernel.org>; Thu, 22 Aug 2024 07:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724299591; cv=none; b=NoOY5cY1hIWsAvjKcHvZVxuEeCepE7ToNRzmsAq5uWKHPEYj+UvP5Q9pFvhqYGZkIk4JzTYhRQ52W2GEsTbmxUFDxrQDmgI7zlWKZeL/mg2ra4BxCU48/L7DMwYOekuu65G0aZlo1yH+xJKcj9szFyLZSJ+w8pXAfEi/X57RTdg=
+	t=1724311416; cv=none; b=M4QGV6HptwOizRBSmDwksu+QJJz6ZNcOzZ3hL3q+JYAvtcmjfU974A9t38LRpu8cq9SL+UpiC9AAPARoGabvNxbgs9u1udvlWrmaaQQYZzJ30frFfPhiRbzYWf0tduY61yRR9B9IoxoccVIdMvjFfn7KQp95U143NggKVG4HjF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724299591; c=relaxed/simple;
-	bh=h+7VUn8zijg/bGK9rj92aQWLkRIvnnYNAUgbwBMKUtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A6KBl7/LYmuobvo0r/9wJ9b6LtteB8fp6c0QG0BmfRSlyO3SGtRIXWQ9MbyVW0Kh6y4aNrTzqfR7yRHDMSpUOooDgSeqd18GMyCkE5FGGZ20NfWIY5DKgbaGLxLEdEfoR+UpDC3kEwbdo7c7mc78YSGFxjDzmbXpldXrb/r5j3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuSsMDjW; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724299589; x=1755835589;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h+7VUn8zijg/bGK9rj92aQWLkRIvnnYNAUgbwBMKUtE=;
-  b=OuSsMDjW338wT5fwfTCIsCLbLrrbEyIkOrvDyPfjeXi41AOmxy3G+Z7/
-   n+aU5m6jQ/TlBnWQ4jPyNzlgYJh38ZVuPl/ZQ50f5IThxKpklfcE9S6+8
-   x4UtWpBxzUcFAxofKorIEDvz0Dp5UPG9pfwEL43juhDznazN4jzQ5Rm0o
-   u4rph5KS8EOY9+Y2ECUuTwb3kr3Mk+tgmYfFlfTt6rhcVsgYiTLbL9uG8
-   w1J583ObRmiftgxucMpq53A1n1eht08Koj6iDz2gkiijqLVg5J5EPkT6/
-   r63wnbuabVA0vVv8VTmcmE1tAlp/GG5bJwtFWYOdteJluhkCvv/Pm//ss
-   g==;
-X-CSE-ConnectionGUID: EqZBDZTDRwaYDqSge3GqCQ==
-X-CSE-MsgGUID: 7u+yb3ctQWis2UQI7UfNmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22874173"
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="22874173"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 21:06:28 -0700
-X-CSE-ConnectionGUID: UhBDiS8ERQyGVVxG8PYIKA==
-X-CSE-MsgGUID: UMplunvoT3iAhBaIVt1hvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="84483979"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Aug 2024 21:06:25 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgz5a-000CJ8-1v;
-	Thu, 22 Aug 2024 04:06:22 +0000
-Date: Thu, 22 Aug 2024 12:06:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>, lee@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-	heiko@sntech.de, dmitry.torokhov@gmail.com, pavel@ucw.cz,
-	ukleinek@debian.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v5 2/7] mfd: add base driver for qnap-mcu devices
-Message-ID: <202408221141.ZK7cre1s-lkp@intel.com>
-References: <20240819144000.411846-3-heiko@sntech.de>
+	s=arc-20240116; t=1724311416; c=relaxed/simple;
+	bh=ooEnQMN7ZskWsS5zavaLzve07PZXQW2T41kfBMMHkeg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ZP8JEfk6n4a01KqBy87oUHzBGQAQhwT/r2Q67tJ2Qt2SKJRRd6O1f/bHwigZY3pwuwVusS0mopMKQB2h2/3eHRwm61vRxrfX1vwEMna5x27i4RTMygFhk3oo9oAoQeMBw4GBCUiNTIsBk2bszQvi0w5E4I0dDX6WqhNhltGuYYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
+X-QQ-mid: bizesmtp77t1724311365tmk83l1g
+X-QQ-Originating-IP: hidd4YmxxQ0TAFPP8rsd61DIDSOUKaGcQWo2YLYEVuE=
+Received: from [192.168.159.131] ( [106.150.157.243])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 22 Aug 2024 15:22:43 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 254877396212538896
+Message-ID: <7DDC06B563854ED8+65e7204f-76df-4f36-8544-bede36a519fd@radxa.com>
+Date: Thu, 22 Aug 2024 16:22:42 +0900
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819144000.411846-3-heiko@sntech.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: pwm-multicolor: fix multicolor PWM LED lights up
+ without any setting
+From: FUKAUMI Naoki <naoki@radxa.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, pavel@ucw.cz
+References: <20240816102626.826-1-naoki@radxa.com>
+ <20240821161119.GC6858@google.com>
+ <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
+Content-Language: en-US
+In-Reply-To: <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:radxa.com:qybglogicsvrgz:qybglogicsvrgz8a-1
 
-Hi Heiko,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 8/22/24 06:26, FUKAUMI Naoki wrote:
+> Hi,
+> 
+> On 8/22/24 01:11, Lee Jones wrote:
+>> On Fri, 16 Aug 2024, FUKAUMI Naoki wrote:
+>>
+>>> from drivers/leds/leds-pwm.c:led_pwm_set(),
+>>>
+>>> /*
+>>>   * Disabling a PWM doesn't guarantee that it emits the inactive level.
+>>>   * So keep it on. Only for suspending the PWM should be disabled 
+>>> because
+>>>   * otherwise it refuses to suspend. The possible downside is that the
+>>>   * LED might stay (or even go) on.
+>>>   */
+>>>
+>>> do the same in led_pwm_mc_set().
+>>>
+>>> this fixes LEDs light up without any setting (i.e. brightness is 0) on
+>>> Radxa E25.
+>>
+>> Please redraft the commit message into proper sentences, complete with
+>> correct grammar.  All sentences should start with an uppercase char.
+> 
+> Thank you for your review!
+> 
+> I'll do it in next ver.
+> 
+>> Copying comment-blocks into commit messages to save authors from writing
+>> one isn't really the done thing.
+> 
+> Sorry, I could not understand this part. What should I do for this?
 
-[auto build test WARNING on next-20240819]
-[also build test WARNING on v6.11-rc4]
-[cannot apply to groeck-staging/hwmon-next lee-leds/for-leds-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes linus/master v6.11-rc4 v6.11-rc3 v6.11-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I (probably) understand what you said. I need to explain detail in my 
+own words and use correct English.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-mfd-add-binding-for-qnap-ts433-mcu-devices/20240819-224312
-base:   next-20240819
-patch link:    https://lore.kernel.org/r/20240819144000.411846-3-heiko%40sntech.de
-patch subject: [PATCH v5 2/7] mfd: add base driver for qnap-mcu devices
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408221141.ZK7cre1s-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221141.ZK7cre1s-lkp@intel.com/reproduce)
+unfortunately my knowledge about electrical circuits and English is not 
+sufficient for now.
+I need some time to learn some things for writing "why my fix is correct".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221141.ZK7cre1s-lkp@intel.com/
+then, I will not be able to send v2 so soon. if someone who understand 
+well about this problem and the fix, feel free to reuse my patch (or 
+make better patch).
 
-All warnings (new ones prefixed by >>):
+Best regards
 
->> drivers/mfd/qnap-mcu.c:64: warning: Excess struct member 'reply_lock' description in 'qnap_mcu'
+--
+FUKAUMI Naoki
+Radxa Computer (Shenzhen) Co., Ltd.
 
-
-vim +64 drivers/mfd/qnap-mcu.c
-
-    47	
-    48	/**
-    49	 * struct qnap_mcu - QNAP NAS embedded controller
-    50	 *
-    51	 * @serdev:	Pointer to underlying serdev
-    52	 * @bus_lock:	Lock to serialize access to the device
-    53	 * @reply_lock:	Lock protecting @reply
-    54	 * @reply:	Pointer to memory to store reply payload
-    55	 * @variant:	Device variant specific information
-    56	 * @version:	MCU firmware version
-    57	 */
-    58	struct qnap_mcu {
-    59		struct serdev_device *serdev;
-    60		struct mutex bus_lock;
-    61		struct qnap_mcu_reply reply;
-    62		const struct qnap_mcu_variant *variant;
-    63		u8 version[QNAP_MCU_VERSION_LEN];
-  > 64	};
-    65	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Best regards,
+> 
+> -- 
+> FUKAUMI Naoki
+> Radxa Computer (Shenzhen) Co., Ltd.
+> 
+>>> Signed-off-by: FUKAUMI Naoki <naoki@radxa.com>
+>>> ---
+>>>   drivers/leds/rgb/leds-pwm-multicolor.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c 
+>>> b/drivers/leds/rgb/leds-pwm-multicolor.c
+>>> index e1a81e0109e8..7155339c075e 100644
+>>> --- a/drivers/leds/rgb/leds-pwm-multicolor.c
+>>> +++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+>>> @@ -50,7 +50,7 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
+>>>               duty = priv->leds[i].state.period - duty;
+>>>           priv->leds[i].state.duty_cycle = duty;
+>>> -        priv->leds[i].state.enabled = duty > 0;
+>>> +        priv->leds[i].state.enabled = !(cdev->flags & LED_SUSPENDED);
+>>>           ret = pwm_apply_might_sleep(priv->leds[i].pwm,
+>>>                           &priv->leds[i].state);
+>>>           if (ret)
+>>> -- 
+>>> 2.43.0
+>>>
+>>
 
