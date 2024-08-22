@@ -1,59 +1,64 @@
-Return-Path: <linux-leds+bounces-2508-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2509-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A624195B314
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 12:40:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2732195B67C
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 15:25:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9B511C22CBE
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 10:40:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D304D1F26BE8
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Aug 2024 13:25:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B93183091;
-	Thu, 22 Aug 2024 10:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18281CB15D;
+	Thu, 22 Aug 2024 13:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CQiRinaB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGBhDaiM"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0B317DE16;
-	Thu, 22 Aug 2024 10:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BB21CB15A;
+	Thu, 22 Aug 2024 13:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724323198; cv=none; b=ZGKnJ78iYOszla7zeCwNTQzs3uZGqSYd6ltXwB2NnOj9pcEXaT/i+By/ZguE6GXgiMX9gs1XFT7nYXj85K9N0iyI/W2+pRm1jcTOqQoPvsmE8Z4Zlr0Y+5P65NaDE3WYiapeEopCimyMB394DtCjioLx4Svq9DGy8ZEchn6r1H8=
+	t=1724333032; cv=none; b=gYogyr6RtGr/t8QH4d8qn7R0Nju7NOTLbfhSpHzdWyb29++JdgDj60e4mLxEqkoz7206QkT+ooAsohQ/h4hlo2c2MsoajsVHp77qGFm4bRKIC5HOZFVYoJUb5RIVMBPdyjzS1sSg+BeuCn80CfKfQzeRZND/hxgyuB8HdbdZ8DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724323198; c=relaxed/simple;
-	bh=485sC5htGkQO+bcO6uAudwe1l+1z182B98DT/0EBhQk=;
+	s=arc-20240116; t=1724333032; c=relaxed/simple;
+	bh=P8fGI17fBYSUR6JP+2SBG3qvob6J8CR4tBanfBqwSGc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DIwucanPcUYKE5tNBFaHdafkwjwFLIJThnnQecBJ/esU15utr4THYBqJ5CmPU/XZzBE1MUXaKGivVIQmOSj0p+kimaR9ezbbYHiJ/Dd6LaRVXbiw3TI58fIuBId8GdzuRIoopCpA2++uEZFZhF3aTbkBFqEX7na3X8mWNPLqHEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CQiRinaB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D6E6C32782;
-	Thu, 22 Aug 2024 10:39:54 +0000 (UTC)
+	 MIME-Version:Content-Type; b=HO5NXK/zHe7LdLIMMSLSrawg0kMAGuTc3mEacpqbnnIHaP1AdmXm5gkTfNZYubo+h0lmBf27SxDqN5AXayHOQblIY3sUahok6kAKWWSEUiMeBasMmaTFEaT76UpTdkB95lx6K+ZwGR1lnjSNEUylvqH2dn3V7W1RxCkomAJvyJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGBhDaiM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8568EC32782;
+	Thu, 22 Aug 2024 13:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724323197;
-	bh=485sC5htGkQO+bcO6uAudwe1l+1z182B98DT/0EBhQk=;
+	s=k20201202; t=1724333032;
+	bh=P8fGI17fBYSUR6JP+2SBG3qvob6J8CR4tBanfBqwSGc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CQiRinaBV9nEhy6u5Yd1esF30tlcz2TZT+eJs5cqZuQNRytLysINpr+WCaU4EVQUq
-	 ZEaUe4ndARtlRJKQdRoR/wlN20gmiRHoMm2mwMZT/o3YSPlgkX+zVqXLtk2tRkbuZy
-	 6BT52w5nEUqi9HfVaGsoYO2g5Ah1FTMQNEVcD3Fa+puREG8kSth6ijUIPmk7HQceU0
-	 GhkREw0EKaRG9xxhWIte45I5mGfDNuV6SI9/5hi8s4GqQbyfL7mjTh9GI1UzbPZ+9K
-	 XVP6n2gu4floh79DHbyk8AZ5dhSdY6C7YcUt4eWie0jkPxDfznZ/DOsThonSrFq4o2
-	 006SeUe1b3KTg==
+	b=CGBhDaiMw2PCzbV69OVFQ0ASgOFCZlBCVU//h7NPdqWhY2mrxJnSxoIwGfLoT9Tx3
+	 vPNsvUZPxmFVRp1GootR00vw7jSBqjx2BHZ/+HBY0MLM1wzC/zocgeAI8J+frkmbhL
+	 QkBm962Y83FwnEqbMk5KRUTYG2ItWkAqgJjfMD3X+AnkWlLKzzf7IWTTwHlqBjiCka
+	 SYdfHF5DfvTZXWiBNj1D7vDVKMwRE2Whb7scaT0G3YiVhntKEL6to6I2FrMLDKoMX9
+	 Y5eeHKQ+QZue8gk/gFL8rDQAmp88wwQ0bulTzjnBXHrTKDMJsEmtalHP9M120qHE/y
+	 M4Vnhj3kUUSsQ==
 From: Lee Jones <lee@kernel.org>
-To: pavel@ucw.cz, lee@kernel.org, wens@csie.org, jernej.skrabec@gmail.com, 
- samuel@sholland.org, Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, skhan@linuxfoundation.org, 
- rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-References: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-Subject: Re: (subset) [PATCH] leds: sun50i-a100: Replace msleep() with
- usleep_range()
-Message-Id: <172432319478.1263517.9477247439443460396.b4-ty@kernel.org>
-Date: Thu, 22 Aug 2024 11:39:54 +0100
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Sean Wang <sean.wang@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Riku Voipio <riku.voipio@iki.fi>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
+References: <20240816-cleanup-h-of-node-put-var-v1-0-1d0292802470@linaro.org>
+Subject: Re: [PATCH 00/17] leds: Use scoped device node handling to
+ simplify error paths
+Message-Id: <172433302926.1317537.8444655210561506833.b4-ty@kernel.org>
+Date: Thu, 22 Aug 2024 14:23:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,20 +69,50 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.13.0
 
-On Fri, 16 Aug 2024 22:41:29 +0530, Abhishek Tamboli wrote:
-> Replace msleep() with usleep_range() in sun50i_a100_ledc_suspend()
-> to address the checkpatch.pl warning. msleep() for such short delay
-> can lead to inaccurate sleep times. Switch to usleep_range()
-> provide more precise delay.
+On Fri, 16 Aug 2024 17:31:32 +0200, Krzysztof Kozlowski wrote:
+> Make code a bit smaller/simpler, with less of_node_put() thanks to
+> cleanup.h.
 > 
-> Fix the following warning from checkpatch.pl:
+> Best regards,
+> Krzysztof
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] leds: sun50i-a100: Replace msleep() with usleep_range()
-      commit: 8f3f07517834382e819e168740bf855273f13d47
+[01/17] leds: aat1290: Use scoped device node handling to simplify error paths
+        commit: 1e63395e58b2b1d0105bb5ffdb1e5d7400a4be82
+[02/17] leds: ktd2692: Use scoped device node handling to simplify error paths
+        commit: 700b6c984b418c04c63a54f67b6758b81016f0e3
+[03/17] leds: max77693: add missing of_node_get for probe duration
+        commit: d225d436f7baccde74ad80d9dc7f08e1271b8473
+[04/17] leds: max77693: Simplify with scoped for each OF child loop
+        commit: 05c2f554d1edd6399720e8f8097e9165dcf17044
+[05/17] leds: 88pm860x: Simplify with scoped for each OF child loop
+        commit: 6c17a9a8991cf1f4e0767c2a8b3c110ea34e1019
+[06/17] leds: aw2013: Simplify with scoped for each OF child loop
+        commit: 073f016511913e2ea6c52e5d77d33a8cb03c4424
+[07/17] leds: bcm6328: Simplify with scoped for each OF child loop
+        commit: 6a1d796e70c703a7557c7ef21304879de85f40ec
+[08/17] leds: bcm6358: Simplify with scoped for each OF child loop
+        commit: c57ba40ea1e78bbf544ec667a9e0f885a8957f5c
+[09/17] leds: is31fl32xx: Simplify with scoped for each OF child loop
+        commit: 2c37529ee95d06ab44613572bfa474413f9a5b58
+[10/17] leds: lp55xx: Simplify with scoped for each OF child loop
+        commit: 9d4cfee092ecdaf98f255ee61d094334ddf9f110
+[11/17] leds: mc13783: Use scoped device node handling to simplify error paths
+        commit: e98a7f1fb9296733855347a98b1cac16e70b7ed8
+[12/17] leds: mt6323: Simplify with scoped for each OF child loop
+        commit: 84e2b97f87b8bc7dde90555ef29ac5eae27b3c8e
+[13/17] leds: netxbig: Simplify with scoped for each OF child loop
+        commit: d3f5f674058f5f1d93d9402c79f56684d81e5993
+[14/17] leds: pca9532: Simplify with scoped for each OF child loop
+        commit: af728722d7a1d81dd38bdf9a646fee84aefde901
+[15/17] leds: sc27xx: Simplify with scoped for each OF child loop
+        commit: 42476bce8d78eeea5057f34738daa8236b9912a6
+[16/17] leds: turris-omnia: Simplify with scoped for each OF child loop
+        commit: 122d57e2960c81b6916a5ebe44bfb8c14ebe81de
+[17/17] leds: qcom-lpg: Simplify with scoped for each OF child loop
+        commit: 9557b4376d02088a33e5f4116bcc324d35a3b64c
 
 --
 Lee Jones [李琼斯]
