@@ -1,131 +1,134 @@
-Return-Path: <linux-leds+bounces-2524-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2531-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E7995E52D
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Aug 2024 22:33:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8FF95EF0A
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Aug 2024 12:55:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1BBE2823F3
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Aug 2024 20:33:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50B5E1C22515
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Aug 2024 10:55:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DC0417084C;
-	Sun, 25 Aug 2024 20:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F8321514F6;
+	Mon, 26 Aug 2024 10:52:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="yJfQ/ZYi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzMhNFqN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2954F48CCC;
-	Sun, 25 Aug 2024 20:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013DB15099D;
+	Mon, 26 Aug 2024 10:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724617978; cv=none; b=UCm//TNGqHHmrnmv1nwwcE8Q0MWAXIpDTlJPlKQhLwoqdSZc0BHZAYtbmB1A9NJjpD9azcHFP7dlQonPeppsUvehORzNgNAbqQ62M2WEOiIDX7XSOPo/hOVIwr2VIeWOzCato8j3d7ECrWIuSmNoRnx3r0OWFwxC7p+m5fCfvzg=
+	t=1724669561; cv=none; b=MfrNT2WNaZHGko4K0duiKgXTO05VQxNGC1IfRRGcQb4GSoqWiMwy8SKsfukX8v0AryRQJalYRCeQEbSnUVLtl/rCTq31tFFIsnAHGHaeWDgGDzINNQngRYURwsFBVFt8MqVyJMEwu9Wx8djHzZz7CzIfzQGp4aYX1IBwSa/Bl3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724617978; c=relaxed/simple;
-	bh=equbU9VBMIwdvGkqWk+AjPVcTc+O1BMZPBWXnDB1Dyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gk+15XTxakTUWXy914DirizA9otDS8pGRU+IKwOygHIYkfgJVMXgHI3tUqSNKNLhSVcjZ5sm1iwIoqks7ZYR+dvDzKQhb78QJT2aX++MLZjMWpEfSZoLCfO3N6WgP6rNMzrkeb0v9KisPVxrpcfsdX7A5/FcU8g6eUKuQdNzGeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=yJfQ/ZYi; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=q1jpFbe8UJlfuFdvluwPG8fKnNdFZmBXVzuyZQAcBU0=; b=yJfQ/ZYiGjXfIVii5sEup1e3oT
-	YoLOHgiUbggO1eXEczvmIWxBeHgK2DavbeoG4HWaUqbd/yKwGL8sYArl25mjYWmG2UyiTLzQuw5nQ
-	WEUsXg9adhpxTTYG81NFZWAMd38HhRRxyJrAlCxXMPOZfYMEqGEdHRy3dEwFrXEDuB/BxyedDQqpU
-	V3rnk+YDqoJN86IpKRAhNQvSkBeJJf9yAsehJVv71Ye2xwI6Zbz1zPgMz6DADAsL2IFzp8f0z56Vf
-	ufG5jrRVEkGe1ij3dl+nir8fu5NomR279+5wg90IkMiuBDBZSsbS3rDNT4GjHWrfqy5ZLN2DTVIZZ
-	R3rbk+BQ==;
-Received: from i53875a40.versanet.de ([83.135.90.64] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1siJun-0001cM-E0; Sun, 25 Aug 2024 22:32:45 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: lee@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	heiko@sntech.de,
-	dmitry.torokhov@gmail.com,
-	pavel@ucw.cz,
-	ukleinek@debian.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH v6 7/7] arm64: dts: rockchip: set hdd led labels on qnap-ts433
-Date: Sun, 25 Aug 2024 22:32:35 +0200
-Message-ID: <20240825203235.1122198-8-heiko@sntech.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240825203235.1122198-1-heiko@sntech.de>
-References: <20240825203235.1122198-1-heiko@sntech.de>
+	s=arc-20240116; t=1724669561; c=relaxed/simple;
+	bh=q02QQHNSPXQ2BpaRfA4j+Kddrd7KJZ3iKb/VL/LUe64=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OivXkzExIe7Ip+0fzgY/6quGz9tkNo3VQKcHuU7K7DQ7mSmPMDwaILnY+xpC1FmYZsFg2Sb0f8nli7JxTmjSq0itkbEhIFZHBW57Tl93K24ZgOrAaDqMh7uQaTm2KDnm3uwZtid7jCUkFmXxbeLFqDwtl9LbN+Y6pfE1oP0SbdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzMhNFqN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84929C51436;
+	Mon, 26 Aug 2024 10:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724669560;
+	bh=q02QQHNSPXQ2BpaRfA4j+Kddrd7KJZ3iKb/VL/LUe64=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RzMhNFqNTgXUW/aD9kPhiKSzQESHhFWTzKO1lsPgyvemBdgPR9ziewWG7UjeE0yvI
+	 3xjt1snY9VHSOPdIYNC31+xjKfkuYglTzzXEMy2dPFwQfMELn/hNZU7hy/rjle3Gql
+	 I2igg5bDZxyWH5fuY2XbEeWGcAz73rnGwLkChirACmu5pk1I195fiEfIQM+xz6vCdk
+	 qbHA1wLOJL2uo2tWg9/pb/zudA5M68xgphYHHyEXYKTX3G8qhvntGgG1/y47dac8IX
+	 xw3/8mAYnLLlI4AISai9aNq09yDclODd/kbTzDMKo/ayGrlSBhXgsT96BBQn0D9jEN
+	 Q4QfBlmjRl89w==
+Date: Mon, 26 Aug 2024 11:52:26 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Anand
+ Ashok Dumbre <anand.ashok.dumbre@xilinx.com>, Michal Simek
+ <michal.simek@amd.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel
+ Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] iio: adc: xilinx-ams: use device_* to iterate
+ over device child nodes
+Message-ID: <20240826115226.43027f1b@jic23-huawei>
+In-Reply-To: <20240820-device_child_node_access-v3-1-1ee09bdedb9e@gmail.com>
+References: <20240820-device_child_node_access-v3-0-1ee09bdedb9e@gmail.com>
+	<20240820-device_child_node_access-v3-1-1ee09bdedb9e@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The automatically generated names for the LEDs from color and function
-do not match nicely for the 4 hdds, so set them manually per the label
-property to also match the LEDs generated from the MCU.
+On Tue, 20 Aug 2024 21:02:26 +0200
+Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
 
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
----
- arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+> Use `device_for_each_child_node_scoped()` in `ams_parse_firmware()`
+> to explicitly state device child node access, and simplify the child
+> node handling as it is not required outside the loop.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Applied, but I would ideally still like one of the xilinx folk
+others familiar with this driver to take a look.  It'll be a
+few days before this ends up in next anyway as I need to rebase
+after Greg (hopefully) takes the pull request from last week.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-index 4bc5f5691d45..7bd32d230ad2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-@@ -50,6 +50,7 @@ led-0 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
-+			label = "hdd1:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd1_led_pin>;
-@@ -59,6 +60,7 @@ led-1 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_LOW>;
-+			label = "hdd2:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd2_led_pin>;
-@@ -68,6 +70,7 @@ led-2 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD7 GPIO_ACTIVE_LOW>;
-+			label = "hdd3:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd3_led_pin>;
-@@ -77,6 +80,7 @@ led-3 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
-+			label = "hdd4:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd4_led_pin>;
--- 
-2.43.0
+It would be lovely to get rid of the direct fwnode usage
+in here but I'm not 100% sure if there is a path that will land
+on a disabled fwnode.
+
+Thanks,
+
+Jonathan
+
+> ---
+>  drivers/iio/adc/xilinx-ams.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/xilinx-ams.c b/drivers/iio/adc/xilinx-ams.c
+> index f051358d6b50..ebc583b07e0c 100644
+> --- a/drivers/iio/adc/xilinx-ams.c
+> +++ b/drivers/iio/adc/xilinx-ams.c
+> @@ -1275,7 +1275,6 @@ static int ams_parse_firmware(struct iio_dev *indio_dev)
+>  	struct ams *ams = iio_priv(indio_dev);
+>  	struct iio_chan_spec *ams_channels, *dev_channels;
+>  	struct device *dev = indio_dev->dev.parent;
+> -	struct fwnode_handle *child = NULL;
+>  	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>  	size_t ams_size;
+>  	int ret, ch_cnt = 0, i, rising_off, falling_off;
+> @@ -1297,16 +1296,12 @@ static int ams_parse_firmware(struct iio_dev *indio_dev)
+>  		num_channels += ret;
+>  	}
+>  
+> -	fwnode_for_each_child_node(fwnode, child) {
+> -		if (fwnode_device_is_available(child)) {
+> -			ret = ams_init_module(indio_dev, child, ams_channels + num_channels);
+> -			if (ret < 0) {
+> -				fwnode_handle_put(child);
+> -				return ret;
+> -			}
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		ret = ams_init_module(indio_dev, child, ams_channels + num_channels);
+> +		if (ret < 0)
+> +			return ret;
+>  
+> -			num_channels += ret;
+> -		}
+> +		num_channels += ret;
+>  	}
+>  
+>  	for (i = 0; i < num_channels; i++) {
+> 
 
 
