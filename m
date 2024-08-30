@@ -1,96 +1,95 @@
-Return-Path: <linux-leds+bounces-2555-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2556-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B409665CE
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 17:38:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E389666EC
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 18:31:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EABCC1C21DD8
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 15:38:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E6D01F215EB
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 16:31:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1A91B86C7;
-	Fri, 30 Aug 2024 15:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA59B1B5ED3;
+	Fri, 30 Aug 2024 16:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGu2EEG4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ehLFRetI"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E242D1B81C3;
-	Fri, 30 Aug 2024 15:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D2114B949;
+	Fri, 30 Aug 2024 16:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725032080; cv=none; b=spG/sW/SxmriZnDPHpzU6zhbRZLMxUSa05BpP/RvF/ynWLO995f4N3FhSbt8PobHYETUJB4arl7vfMZ0JzRD1FYqB9TzbCwtjJrtvOYpsQ93GCXqmhzgPiBUDY1xfJqxtlCngLbnXpc4rp0un6L7NknPFGvgQ/qfTdHVfTreFS0=
+	t=1725035429; cv=none; b=FjHcUhtvoDzpO2HveEPMNA69pNbNkBqu34CPgENA42jerlNAnmmrbPsyiAXAEoyRbBpwz46HNoYKD30KiKD648sARwigAVtSp3nbeoxAu1/seJ917h37N5EAZdJ4BfiQSri8ZtSm/0JWx+XDcZnmo4a+gfb5qPSCH+CmDokh1FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725032080; c=relaxed/simple;
-	bh=sMhjK2G93E8pRdOEGgRej93yB0F8vhk+6uOsJO083iE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ePSaY+++/UeV/Xinn+MwY22BXxlllp5flPtoRTbACmlUkC5pSwKgxC8OS5zdKErMPpWclGUOQkw16JWRCFV6/OgiV1A8VeAqbpGmCTiHux1PwgMKuUfvid6NHiDxmsv7N4B+7Qt45oMUAUDkgQnvtlhx6rTcFQMMpfV0MJjjcGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGu2EEG4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36455C4CEC2;
-	Fri, 30 Aug 2024 15:34:39 +0000 (UTC)
+	s=arc-20240116; t=1725035429; c=relaxed/simple;
+	bh=+XleoGvMIu7vWzlolqcvi3QD4HwPGFeNdxNXbuUZYgI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=oOq4K7DxraqqfRptOtzm9Q+pznTnM1IvCSfAyvd3uvQ3gqHO27mT/oefqsXwrc2flmqtri5PegaySxiicJR4YlHDZyK9pKdpjXr2BXSAQN9bOtJvK7DwRPXrYB16pbSQGmsvB3YSIYwOn1dGPkwH/TxE3KbCfSI4QEitXahNSCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ehLFRetI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22330C4CEC7;
+	Fri, 30 Aug 2024 16:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725032079;
-	bh=sMhjK2G93E8pRdOEGgRej93yB0F8vhk+6uOsJO083iE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BGu2EEG4qNddC56ktd+1VgcidfLuPMPi9DcvYjB8+u+ih72S9+0T0da4r8ynZnk3g
-	 uR/6O5p6dBovtm452fMouESkWIiCaWQUfBRivhC/tUQ64Np56kzACgQ+N5XZ+qxpVJ
-	 e2QXDNUpP+7nKL9d3OlS3Rwkz4Tq04Ccw/3LjyXnfdQqgefQt1EAS2K682LY4cetbV
-	 N1y5WDQj4SEetgbGNmagrg5ajX/6/W5ZmL4qsIapmKNu1lpl3iqkTybW/MclgMf9vf
-	 Qwa7DbNb4yqKc4qE0/ylwDVkqcbTik4pTgPG9Cq20KDSUbfiXsxUUScfIlMlLegBaw
-	 xMaFmb9Ds0C7A==
-Date: Fri, 30 Aug 2024 10:34:37 -0500
-From: Rob Herring <robh@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>,
-	Lee Jones <lee@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Flora Fu <flora.fu@mediatek.com>,
-	Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
-	Sen Chu <sen.chu@mediatek.com>,
-	Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v2 3/7] dt-bindings: rtc: mt6397: merge to MFD
- mediatek,mt6397 DT schema
-Message-ID: <20240830153437.GB4175444-robh@kernel.org>
-References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
- <20240830110732.30080-3-macpaul.lin@mediatek.com>
+	s=k20201202; t=1725035429;
+	bh=+XleoGvMIu7vWzlolqcvi3QD4HwPGFeNdxNXbuUZYgI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ehLFRetIbC0L7Td4IaFMtIB9+i/zmd0zoT9NOwEu8JeKELSMZez4hYSkv3rPzlG1V
+	 OYd7bDaIhelZWGdzzSXpTaUGVlNkfLZ93zcLfiGmV3b+NsUFklTc7WNx//GICgh1Lp
+	 p0oUbMTPLvynt6v/QvSB6kGIhT0Qnyp9LfS+dVpbM10VtWL3m2Un0sOqdDQJ11A3o8
+	 t3NUQPdjsCMxVpUHyZW0DbrQUIR+eoO2B6zMJ6dJyBfeyj5BxNXm2kkQVqQSjWhM2Y
+	 AoM/eTlhlMWjBKmtCcRJmw1nWKNTtJ5fVsrYpJI5GwOBLEK+5WCG8mlkwQOc5PxYZV
+	 lq/YLimUqP84w==
+Received: from ip-10-30-226-235.us-west-2.compute.internal (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B72883809A81;
+	Fri, 30 Aug 2024 16:30:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240830110732.30080-3-macpaul.lin@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH resend] Bluetooth: Use led_set_brightness() in LED trigger
+ activate() callback
+From: patchwork-bot+bluetooth@kernel.org
+Message-Id: 
+ <172503543072.2648350.9880242652165643665.git-patchwork-notify@kernel.org>
+Date: Fri, 30 Aug 2024 16:30:30 +0000
+References: <20240827105248.18177-1-hdegoede@redhat.com>
+In-Reply-To: <20240827105248.18177-1-hdegoede@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
+ pavel@ucw.cz, lee@kernel.org, linux-leds@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org
 
-On Fri, Aug 30, 2024 at 07:07:28PM +0800, Macpaul Lin wrote:
-> Convert rtc-mt6397.txt be compatible with the DT schema.
-> Since this is a simple RTC device node, merge it into parent
-> mediatek,mt6397.yaml. Subsequently, remove rtc-mt6397.txt with a
-> separate patch.
+Hello:
 
-This doesn't match what the patch does. You can just squash this into 
-the MFD patch where you add the schema.
+This patch was applied to bluetooth/bluetooth-next.git (master)
+by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
 
+On Tue, 27 Aug 2024 12:52:48 +0200 you wrote:
+> A LED trigger's activate() callback gets called when the LED trigger
+> gets activated for a specific LED, so that the trigger code can ensure
+> the LED state matches the current state of the trigger condition
+> (LED_FULL when HCI_UP is set in this case).
 > 
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  .../devicetree/bindings/rtc/rtc-mt6397.txt    | 31 -------------------
->  1 file changed, 31 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txt
+> led_trigger_event() is intended for trigger condition state changes and
+> iterates over _all_ LEDs which are controlled by this trigger changing
+> the brightness of each of them.
+> 
+> [...]
+
+Here is the summary with links:
+  - [resend] Bluetooth: Use led_set_brightness() in LED trigger activate() callback
+    https://git.kernel.org/bluetooth/bluetooth-next/c/669e8c8b5663
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
