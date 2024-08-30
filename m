@@ -1,148 +1,130 @@
-Return-Path: <linux-leds+bounces-2548-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2551-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F80E966034
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 13:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCD49661B8
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 14:30:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC9E91F229CC
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 11:11:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E66181F21C5D
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2024 12:30:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A381AF4DA;
-	Fri, 30 Aug 2024 11:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACDE4199FDD;
+	Fri, 30 Aug 2024 12:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="A3p4XWMw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7r9MGDW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5259A1AD5D6;
-	Fri, 30 Aug 2024 11:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E25199FC5;
+	Fri, 30 Aug 2024 12:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725016126; cv=none; b=FcgKVYJK6qFZalaS3crCrZxLpEW10X79g8bv+fkm0eExPSQbPVOuRZhlLVXn54+Gx3HaHwl2hYEYTSY4sY+QpY00HpvdLmOISwWkvFR1GNiWBpHASYhR8EL62/AII0wmOOaWHUZ4XahgeMpi2GLZbaxGgqRHCgCxH/5mdY07TPg=
+	t=1725020966; cv=none; b=LhyoG7L6kyzU0Mfz70eVerout2lQEiRUqcx1fei9kykWRHhoO/Wf9PsJbCWf4mfkWsHRR2CQMBj5T5ASHnMzbFWlceUj0vUdoTE+v8DWJibuwWpc+f22xRZG5KbpTMax6Y3PVcHqRoBi/xtixRBNH8ngi+6PifHFstX2DVKR32I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725016126; c=relaxed/simple;
-	bh=/Fb5pZToC3tAN1tu7MCACdn0yLrFT2nb9lJ4ahlghS0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OhdUjkz1PTZDxJFgs/EemmxgT3g11zmWBlS7b1t3wua7w0W9f/u5RwFMYOLcAtpqWnsqnw7PS7HXCqhXj0p1KQdVpRVJ3yqRG5mYxDg8SMt5IY9+hpYUA0GcK97nSxshtt+i8GYmv+S0sVWV7rjdLQmjS37fpz+u8L5Lo7NTfHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=A3p4XWMw; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 2ff440d866c011ef8593d301e5c8a9c0-20240830
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=DipCJgAWyMm6MFO6I1vTU2aLQjwa5Kl2TSY0FW5qvoQ=;
-	b=A3p4XWMw4d04ZQtqSGgDGifhf7iZ7Wlitat9b3ylOuR3mGSCy0/Mxe97kT52qAzBl3ZAFdc5jL1lM7KgvIPcNDP/DkPqMVhXZYTqX+zM11RtflObYS3NT/dKghW5mdpWRxY4VsaEj+8BTbJNJs3Pikt3K0tJUJOJxUFZhrxeU6Q=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:1af36010-1799-43d8-a43b-af36f01b5a9a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:35356fcf-7921-4900-88a1-3aef019a55ce,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 2ff440d866c011ef8593d301e5c8a9c0-20240830
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 510421618; Fri, 30 Aug 2024 19:08:29 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 30 Aug 2024 04:08:29 -0700
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 30 Aug 2024 19:08:29 +0800
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	<linux-leds@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>, Pavel Machek
-	<pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>, Lee Jones
-	<lee@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>, Flora Fu
-	<flora.fu@mediatek.com>
-CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Sen
- Chu <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-pm@vger.kernel.org>,
-	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
-Subject: [PATCH v2 7/7] dt-bindings: sound: mt6358: merge to MFD mediatek,mt6397 DT schema
-Date: Fri, 30 Aug 2024 19:07:32 +0800
-Message-ID: <20240830110732.30080-7-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240830110732.30080-1-macpaul.lin@mediatek.com>
-References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+	s=arc-20240116; t=1725020966; c=relaxed/simple;
+	bh=dWcO4HpmxD2VUhZ0j6XxpQ5q7RtFhg5rZL51PUt1w2I=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=ujzmwahMbBM7+nh/l+FCx7E7opiCEmSVqDiJLnmduxu03nqS6ffb8TGSgD5n1MvKM4GA12p8MypB1MQ0n+eWUpgaeJKAgqIsLEomljS1vHa5ZOzNFJx+8JOtAJgu8Ywv8FywJUcd0NQ+dT/0PMMlpDDbFuuEO6Ej9oDhTF4PXNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7r9MGDW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9FC3C4CEC2;
+	Fri, 30 Aug 2024 12:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725020966;
+	bh=dWcO4HpmxD2VUhZ0j6XxpQ5q7RtFhg5rZL51PUt1w2I=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=i7r9MGDWKFdIUkU0YekBibM1WFwxMlYCk5qxWxdeCbp4l4DrC/Q+s5zC1z8vrYGSy
+	 vL8fOqwV/DL2Hti30wTdcn2nvdEoLPT5Yw92x/H1R7eqrGwNqvfx0/U3WJJtqUFZYR
+	 68/wATucLIxOONL/A28TQOMK+T0AIdNvamp3dLqHzbj2TSd07iaKLvqFXu5xZfiqgE
+	 btVgyGLHYqWYXEllwk1polYJTO84ctWiw5xuj0yLS83WpN3k9MpDvicJud8EJUGWEZ
+	 9pUEIUAlhyb9p7Jrnz7MI9+KAJVnd/XEgOVVqDZVbe5pDR03k9eNT30L330htOnqHd
+	 eFFifg3u1sTEw==
+Date: Fri, 30 Aug 2024 07:29:24 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: linux-arm-kernel@lists.infradead.org, Sen Chu <sen.chu@mediatek.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Macpaul Lin <macpaul@gmail.com>, devicetree@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, Pavel Machek <pavel@ucw.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Sean Wang <sean.wang@mediatek.com>, 
+ MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
+ Bear Wang <bear.wang@mediatek.com>, Mark Brown <broonie@kernel.org>, 
+ linux-sound@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Chris-qj chen <chris-qj.chen@mediatek.com>, 
+ Alexandre Mergnat <amergnat@baylibre.com>, linux-pm@vger.kernel.org, 
+ Sebastian Reichel <sre@kernel.org>, linux-kernel@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Pablo Sun <pablo.sun@mediatek.com>, linux-leds@vger.kernel.org, 
+ Lee Jones <lee@kernel.org>, linux-rtc@vger.kernel.org
+In-Reply-To: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+Message-Id: <172502096265.3785833.16915280284565594254.robh@kernel.org>
+Subject: Re: [PATCH v2 1/7] regulator: dt-bindings: mt6323: Convert to DT
+ schema
 
-Convert "sound/mt6358.txt" to be compatible with the DT schema.
-Since this is a simple audio codec device node, merge it into the
-parent file mediatek,mt6397.yaml. Subsequently, remove mt6358.txt
-with a separate patch.
 
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
----
- .../devicetree/bindings/sound/mt6358.txt      | 26 -------------------
- 1 file changed, 26 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
+On Fri, 30 Aug 2024 19:07:26 +0800, Macpaul Lin wrote:
+> Convert this from the old style text based binding to the new DT schema
+> style.
+> 
+> The examples have been trimmed down and move to parent schema
+> mfd/mediatek,mt6397.yaml.
+> 
+> Add new maintainers and submitter from MediaTek.
+> 
+> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> ---
+>  .../regulator/mediatek,mt6323-regulator.yaml  |  84 +++++++
+>  .../bindings/regulator/mt6323-regulator.txt   | 237 ------------------
+>  2 files changed, 84 insertions(+), 237 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/mediatek,mt6323-regulator.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/regulator/mt6323-regulator.txt
+> 
+> Changes for v1 and v2:
+>  - This is the first version of converting mt6323-regulator.
+>    This is because converting mt6323-regulator together
+>    with mfd/mediatek,mt6397.yaml, so we've create a patch set
+>    instead of single patch for each skydives.
+>  - This patch has been made base on linux-next/master git repo.
+> 
 
-Changes for v1 and v2:
- - This is the first version of converting "sound/mt6358.txt".
-   This is because converting sound/mt6358.txt together
-   with mfd/mediatek,mt6397.yaml, so we've create a patch set
-   instead of submitting single patch for each subdevice.
- - This patch has been made base on linux-next/master git repo.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/Documentation/devicetree/bindings/sound/mt6358.txt b/Documentation/devicetree/bindings/sound/mt6358.txt
-deleted file mode 100644
-index fbe9e55..0000000
---- a/Documentation/devicetree/bindings/sound/mt6358.txt
-+++ /dev/null
-@@ -1,26 +0,0 @@
--Mediatek MT6358 Audio Codec
--
--The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
--For more detail, please visit Mediatek PMIC wrapper documentation.
--
--Must be a child node of PMIC wrapper.
--
--Required properties:
--
--- compatible - "string" - One of:
--    "mediatek,mt6358-sound"
--    "mediatek,mt6366-sound"
--- Avdd-supply : power source of AVDD
--
--Optional properties:
--- mediatek,dmic-mode : Indicates how many data pins are used to transmit two
--	channels of PDM signal. 0 means two wires, 1 means one wire. Default
--	value is 0.
--
--Example:
--
--mt6358_snd {
--	compatible = "mediatek,mt6358-sound";
--	Avdd-supply = <&mt6358_vaud28_reg>;
--	mediatek,dmic-mode = <0>;
--};
--- 
-2.45.2
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+
+
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml references a file that doesn't exist: Documentation/devicetree/bindings/regulator/mt6323-regulator.txt
+Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml: Documentation/devicetree/bindings/regulator/mt6323-regulator.txt
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240830110732.30080-1-macpaul.lin@mediatek.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
