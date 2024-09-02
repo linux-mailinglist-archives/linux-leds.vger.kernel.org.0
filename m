@@ -1,273 +1,114 @@
-Return-Path: <linux-leds+bounces-2560-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2561-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4E99670E2
-	for <lists+linux-leds@lfdr.de>; Sat, 31 Aug 2024 12:30:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAD69687AD
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 14:41:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15A7FB22D42
-	for <lists+linux-leds@lfdr.de>; Sat, 31 Aug 2024 10:30:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28D1D1C217A2
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 12:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C8D17C21C;
-	Sat, 31 Aug 2024 10:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D75F13DDB9;
+	Mon,  2 Sep 2024 12:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oKeuWaUn"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RcXHg7/j"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C84D14B06C
-	for <linux-leds@vger.kernel.org>; Sat, 31 Aug 2024 10:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B3B19E998
+	for <linux-leds@vger.kernel.org>; Mon,  2 Sep 2024 12:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725100201; cv=none; b=YH3sHnfT2nW3fgxD0wCTonqRCEO8VirNJacamgTTIf49ViRFVbSn9vtnQOxTjXywNyGSYtG7Shrrc5zYQv5GgwsquHFdv/oF2XOnS0kGg68ya60KzLM0puFyq3fBHlqCXIcYCI96PvulJsz4p+CfCSvGTcc0oNoNtbZMeAMw+rU=
+	t=1725280871; cv=none; b=hZVyLQX6P14WbPC7b/kIYnkHqRHcieFwKdkMp1R4epgIKBzbGxyQISsrbbBFdSD1AiPa7/472hGkVofV6FvcfZGWVL3spMPe+SbLplt8m5YGqiL0Df1v7/WpWrGyVZcAfyPRhFJIRhg/3DtJ7fTEDi9eae60nYtVQNmzFkz7248=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725100201; c=relaxed/simple;
-	bh=o0z+4FkoKuZsX2V5YDioQNOxLzYN1vkpAAFS39Cezrg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jfwBuN+F/KP3VnTfwy6sk/N5zt6xeqWUqkwkcQ96APLQVKcboqE0RkyINLhq0y0/pQ3XBVMxAu3Ca5r4PI7c8gmhLF+LGHZuim3cDqRMEse4YsSGRr4Gs72VDlDpRnn2uKxAd7Rd44LdmJeJRes68iU+89kUKOLYAsW6j8fyrqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oKeuWaUn; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725100200; x=1756636200;
-  h=date:from:to:cc:subject:message-id;
-  bh=o0z+4FkoKuZsX2V5YDioQNOxLzYN1vkpAAFS39Cezrg=;
-  b=oKeuWaUnXVJMHlkiiU7NZLj8UxijrlPoEODk9f94VtlDSvVW5LELyneo
-   p2DFUfGEyvtbraZN1yDtCrcJ0Q4+VTNYJ7cC9gEFnUW3vSaygWtI3Q79B
-   BEd6ZjUOhT1mDNrzPgY1i9jlMGXO0jkJDthnt+XVDwpw8uJC7ehSJe8nk
-   1XF7dMEajc1E8p7nmz2hO6s6gRs/IKGYQ3kJdnYGI80athyw8H1KmywEF
-   NouvJs8ADzWjxvUYBvTHZFa0ABUsSIqWsvRvnIgqciH+3nET9J3s+LBwP
-   Yr5hlhNIKWR8Jmq+V+eDHIoG8+WZWzRLvIOpVe39ch8kM5RTrM9IwXJr9
-   w==;
-X-CSE-ConnectionGUID: dsAd2BOnSOK2gTWL/fEKPw==
-X-CSE-MsgGUID: cTMmmxi/Sc+cBPEaw1FMbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34405002"
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="34405002"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 03:29:59 -0700
-X-CSE-ConnectionGUID: FKwL26w4R161XQPCNgmHuA==
-X-CSE-MsgGUID: BdQPTiD/TRWo+nDtp0wKhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="68971251"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2024 03:29:58 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skLMg-0002ai-31;
-	Sat, 31 Aug 2024 10:29:54 +0000
-Date: Sat, 31 Aug 2024 18:29:24 +0800
-From: kernel test robot <lkp@intel.com>
+	s=arc-20240116; t=1725280871; c=relaxed/simple;
+	bh=zW/MH3mw+Dzek1nzViHs0K1rsisWdenDXoEOQmUJCdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gPuuKTI355yNe9I/XEJG9gxsmlJPH/zaEboH3NzdJ2d0enuNKDjrWgUbA5doozHzk4al+p7Zgs6slKxfQdNHIjolr8CvX2SZnyDSwk5oZVOUzVNXMwGYkZGNfBWpq7s5y/qtVZhBHeCqvR4GbxQNQJoDbBQRH+zN3bcEez4ycPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RcXHg7/j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FA0C4CEC2;
+	Mon,  2 Sep 2024 12:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725280870;
+	bh=zW/MH3mw+Dzek1nzViHs0K1rsisWdenDXoEOQmUJCdY=;
+	h=From:To:List-Id:Cc:Subject:Date:From;
+	b=RcXHg7/j9LSPOmw8mVOU5Vv184mUO8ZbHzHvSXfVW9MW2E5eYL9jQB9lOgrZIchnT
+	 jNM+T+I5lkVu6C01AQ1vI1c545N0vZLsaJOYWHedt7OOALVimpL8hF0RZnDD3ynryP
+	 3tAt4xIOlhXGs97w9UbiWMMO/v7FSJXBmZcMorXCw296jObO77UL1VN7xePH+6wmsf
+	 hd3i6HWDg3ov7jyQwz59RidouT/j5aEIwKAmqIsCMyeFuMT/SNbKabCZI00TFpWQnC
+	 PfbAh2FUORWZ7kinU7DlJ9aDMfM7OD88HEb3nizXunWh/Vcjhtb3iwuMRTqmPV5VzB
+	 bHY5xKcPVoqHA==
+From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 64c38866500b0bda4363fb994d545557dffb017c
-Message-ID: <202408311822.D39ldFr9-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Cc: Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	soc@kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	arm@kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds 0/8] Turris Omnia LED driver changes
+Date: Mon,  2 Sep 2024 14:40:56 +0200
+Message-ID: <20240902124104.14297-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 64c38866500b0bda4363fb994d545557dffb017c  leds: turris-omnia: Fix module autoloading with MODULE_DEVICE_TABLE()
+Hello Lee,
 
-elapsed time: 1491m
+this series is for 6.12, but it depends on changes that have been
+merged to 6.11-rc3. Your for-leds-next branch is based on 6.11-rc1, so
+it won't apply there.
 
-configs tested: 180
-configs skipped: 5
+This series does two things:
+1. It drops the code for executing MCU commands from the LEDs driver and
+   instead starts using the functions from the turris-omnia-mcu platform
+   driver. This is so that we don't have the same code at two places.
+2. It adds support for the global LED brightness change interrupt to the
+   LED driver. This interrupt is exposed by the MCU driver. Userspace
+   can poll for global LED brightness change (triggered by pressing the
+   front button) by polling the corresponding sysfs file,
+   /sys/class/leds/<led>/device/brightness, documented in
+   Documentation/ABI/testing/sysfs-class-led-driver-turris-omnia.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Marek
 
-tested configs:
-alpha                             allnoconfig   gcc-14.1.0
-alpha                            allyesconfig   clang-20
-alpha                               defconfig   gcc-14.1.0
-arc                              allmodconfig   clang-20
-arc                               allnoconfig   gcc-14.1.0
-arc                              allyesconfig   clang-20
-arc                                 defconfig   gcc-14.1.0
-arc                        nsimosci_defconfig   clang-20
-arc                   randconfig-001-20240831   gcc-14.1.0
-arc                   randconfig-002-20240831   gcc-14.1.0
-arm                              allmodconfig   clang-20
-arm                               allnoconfig   gcc-14.1.0
-arm                              allyesconfig   clang-20
-arm                                 defconfig   gcc-14.1.0
-arm                          ep93xx_defconfig   clang-20
-arm                          gemini_defconfig   clang-20
-arm                      jornada720_defconfig   clang-20
-arm                         nhk8815_defconfig   clang-20
-arm                   randconfig-001-20240831   gcc-14.1.0
-arm                   randconfig-002-20240831   gcc-14.1.0
-arm                   randconfig-003-20240831   gcc-14.1.0
-arm                   randconfig-004-20240831   gcc-14.1.0
-arm                        realview_defconfig   clang-20
-arm                         vf610m4_defconfig   clang-20
-arm                    vt8500_v6_v7_defconfig   clang-20
-arm64                            allmodconfig   clang-20
-arm64                             allnoconfig   gcc-14.1.0
-arm64                               defconfig   clang-20
-arm64                               defconfig   gcc-14.1.0
-arm64                 randconfig-001-20240831   gcc-14.1.0
-arm64                 randconfig-002-20240831   gcc-14.1.0
-arm64                 randconfig-003-20240831   gcc-14.1.0
-arm64                 randconfig-004-20240831   gcc-14.1.0
-csky                              allnoconfig   gcc-14.1.0
-csky                                defconfig   gcc-14.1.0
-csky                  randconfig-001-20240831   gcc-14.1.0
-csky                  randconfig-002-20240831   gcc-14.1.0
-hexagon                          alldefconfig   clang-20
-hexagon                          allmodconfig   clang-20
-hexagon                           allnoconfig   gcc-14.1.0
-hexagon                          allyesconfig   clang-20
-hexagon                             defconfig   gcc-14.1.0
-hexagon               randconfig-001-20240831   gcc-14.1.0
-hexagon               randconfig-002-20240831   gcc-14.1.0
-i386                             allmodconfig   clang-18
-i386                              allnoconfig   clang-18
-i386                             allyesconfig   clang-18
-i386         buildonly-randconfig-001-20240831   clang-18
-i386         buildonly-randconfig-002-20240831   clang-18
-i386         buildonly-randconfig-003-20240831   clang-18
-i386         buildonly-randconfig-004-20240831   clang-18
-i386         buildonly-randconfig-005-20240831   clang-18
-i386         buildonly-randconfig-006-20240831   clang-18
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240831   clang-18
-i386                  randconfig-002-20240831   clang-18
-i386                  randconfig-003-20240831   clang-18
-i386                  randconfig-004-20240831   clang-18
-i386                  randconfig-005-20240831   clang-18
-i386                  randconfig-006-20240831   clang-18
-i386                  randconfig-011-20240831   clang-18
-i386                  randconfig-012-20240831   clang-18
-i386                  randconfig-013-20240831   clang-18
-i386                  randconfig-014-20240831   clang-18
-i386                  randconfig-015-20240831   clang-18
-i386                  randconfig-016-20240831   clang-18
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-14.1.0
-loongarch                           defconfig   gcc-14.1.0
-loongarch             randconfig-001-20240831   gcc-14.1.0
-loongarch             randconfig-002-20240831   gcc-14.1.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-14.1.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                          amiga_defconfig   clang-20
-m68k                                defconfig   gcc-14.1.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-14.1.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-14.1.0
-mips                              allnoconfig   gcc-14.1.0
-mips                            gpr_defconfig   clang-20
-mips                          malta_defconfig   clang-20
-mips                      malta_kvm_defconfig   clang-20
-mips                        omega2p_defconfig   clang-20
-mips                         rt305x_defconfig   clang-20
-nios2                            alldefconfig   clang-20
-nios2                             allnoconfig   gcc-14.1.0
-nios2                               defconfig   gcc-14.1.0
-nios2                 randconfig-001-20240831   gcc-14.1.0
-nios2                 randconfig-002-20240831   gcc-14.1.0
-openrisc                          allnoconfig   clang-20
-openrisc                            defconfig   gcc-12
-openrisc                  or1klitex_defconfig   clang-20
-parisc                            allnoconfig   clang-20
-parisc                              defconfig   gcc-12
-parisc                generic-64bit_defconfig   clang-20
-parisc                randconfig-001-20240831   gcc-14.1.0
-parisc                randconfig-002-20240831   gcc-14.1.0
-parisc64                            defconfig   gcc-14.1.0
-powerpc                    adder875_defconfig   clang-20
-powerpc                           allnoconfig   clang-20
-powerpc                 canyonlands_defconfig   clang-20
-powerpc                       ebony_defconfig   clang-20
-powerpc                    gamecube_defconfig   clang-20
-powerpc                       maple_defconfig   clang-20
-powerpc                 mpc834x_itx_defconfig   clang-20
-powerpc                    mvme5100_defconfig   clang-20
-powerpc               randconfig-001-20240831   gcc-14.1.0
-powerpc                  storcenter_defconfig   clang-20
-powerpc                     tqm8540_defconfig   clang-20
-powerpc64             randconfig-001-20240831   gcc-14.1.0
-powerpc64             randconfig-002-20240831   gcc-14.1.0
-powerpc64             randconfig-003-20240831   gcc-14.1.0
-riscv                             allnoconfig   clang-20
-riscv                               defconfig   gcc-12
-riscv                    nommu_k210_defconfig   clang-20
-riscv                 randconfig-001-20240831   gcc-14.1.0
-riscv                 randconfig-002-20240831   gcc-14.1.0
-s390                             allmodconfig   gcc-14.1.0
-s390                              allnoconfig   clang-20
-s390                             allyesconfig   gcc-14.1.0
-s390                                defconfig   gcc-12
-s390                  randconfig-001-20240831   gcc-14.1.0
-s390                  randconfig-002-20240831   gcc-14.1.0
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-14.1.0
-sh                               allyesconfig   gcc-14.1.0
-sh                                  defconfig   gcc-12
-sh                    randconfig-001-20240831   gcc-14.1.0
-sh                    randconfig-002-20240831   gcc-14.1.0
-sh                           se7780_defconfig   clang-20
-sh                   secureedge5410_defconfig   clang-20
-sh                        sh7763rdp_defconfig   clang-20
-sh                        sh7785lcr_defconfig   clang-20
-sparc                            allmodconfig   gcc-14.1.0
-sparc64                             defconfig   gcc-12
-sparc64               randconfig-001-20240831   gcc-14.1.0
-sparc64               randconfig-002-20240831   gcc-14.1.0
-um                               allmodconfig   clang-20
-um                                allnoconfig   clang-20
-um                               allyesconfig   clang-20
-um                                  defconfig   gcc-12
-um                             i386_defconfig   gcc-12
-um                    randconfig-001-20240831   gcc-14.1.0
-um                    randconfig-002-20240831   gcc-14.1.0
-um                           x86_64_defconfig   gcc-12
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240831   clang-18
-x86_64       buildonly-randconfig-002-20240831   clang-18
-x86_64       buildonly-randconfig-003-20240831   clang-18
-x86_64       buildonly-randconfig-004-20240831   clang-18
-x86_64       buildonly-randconfig-005-20240831   clang-18
-x86_64       buildonly-randconfig-006-20240831   clang-18
-x86_64                              defconfig   clang-18
-x86_64                                  kexec   gcc-12
-x86_64                randconfig-001-20240831   clang-18
-x86_64                randconfig-002-20240831   clang-18
-x86_64                randconfig-003-20240831   clang-18
-x86_64                randconfig-004-20240831   clang-18
-x86_64                randconfig-005-20240831   clang-18
-x86_64                randconfig-006-20240831   clang-18
-x86_64                randconfig-011-20240831   clang-18
-x86_64                randconfig-012-20240831   clang-18
-x86_64                randconfig-013-20240831   clang-18
-x86_64                randconfig-014-20240831   clang-18
-x86_64                randconfig-015-20240831   clang-18
-x86_64                randconfig-016-20240831   clang-18
-x86_64                randconfig-071-20240831   clang-18
-x86_64                randconfig-072-20240831   clang-18
-x86_64                randconfig-073-20240831   clang-18
-x86_64                randconfig-074-20240831   clang-18
-x86_64                randconfig-075-20240831   clang-18
-x86_64                randconfig-076-20240831   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-x86_64                               rhel-8.3   gcc-12
-xtensa                            allnoconfig   gcc-14.1.0
-xtensa                randconfig-001-20240831   gcc-14.1.0
-xtensa                randconfig-002-20240831   gcc-14.1.0
+Marek Behún (8):
+  turris-omnia-mcu-interface.h: Move command execution function to
+    global header
+  leds: turris-omnia: Use command execution functions from the MCU
+    driver
+  turris-omnia-mcu-interface.h: Add LED commands related definitions to
+    global header
+  leds: turris-omnia: Use global header for MCU command definitions
+  leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
+  platform: cznic: turris-omnia-mcu: Inform about missing LED panel
+    brightness change interrupt feature
+  leds: turris-omnia: Inform about missing LED gamma correction feature
+    in the MCU driver
+  ARM: dts: turris-omnia: Add global LED brightness change interrupt
+
+ .../dts/marvell/armada-385-turris-omnia.dts   |   1 +
+ drivers/leds/leds-turris-omnia.c              | 228 +++++++++---------
+ .../platform/cznic/turris-omnia-mcu-base.c    |   3 +
+ drivers/platform/cznic/turris-omnia-mcu.h     | 130 ----------
+ include/linux/turris-omnia-mcu-interface.h    | 147 +++++++++++
+ 5 files changed, 259 insertions(+), 250 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.2
+
 
