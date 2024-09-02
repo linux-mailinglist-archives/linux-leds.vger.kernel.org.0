@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-2568-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2569-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCF49687B4
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 14:41:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FF09687B5
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 14:41:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C8D31C21883
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 12:41:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A14F92837E9
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 12:41:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374D3181B80;
-	Mon,  2 Sep 2024 12:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D8C319E998;
+	Mon,  2 Sep 2024 12:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F0GzgIRB"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncGJVafg"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1328213DDB9
-	for <linux-leds@vger.kernel.org>; Mon,  2 Sep 2024 12:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395F319E991
+	for <linux-leds@vger.kernel.org>; Mon,  2 Sep 2024 12:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725280893; cv=none; b=DP3QLPuXQc4LSFdm06luttHLYTDzoNUmU5Iu82YSLq9eYvV+7hdX5mpbXLID8WRmqvgcgWHijJLON0OQ3eagn1oWkvCs+sS1pFO4C6mVie1HJviIAxhgQafaAGQ4MeEesNy4gagZofsHFjbYfWNao7hHrMTZLLa1R5W/H9cNDZ0=
+	t=1725280896; cv=none; b=WuweIcxTn8f9sKi31woYm1auZyRewUJF5t70hfKDGK80JyMdM2hxTSkL1refrngbRyu+n6mRrper68YytZk6rAZLs6wCQfNMLiJO3pW33AHzRJTmo+6BcQHmApkYZFgy0rIQdV16qzTRpofaNBHE85o6RLxN5q9Pu3hacqZle5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725280893; c=relaxed/simple;
-	bh=uTYJGwS6gkq0hTSsIoEjD5EwGJH188e8KYtruqHsaHM=;
+	s=arc-20240116; t=1725280896; c=relaxed/simple;
+	bh=s3xJG6D/pwss0IUNp6uxa7NHr8odZ+slvD78tK31x2M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QpGaICwRmWiO0Gl1taaOKExhs4fJbQvooD5TM2XXlnAYaxAc9vAgqvEuypWPEp5i8sxLoBzNZaRwsUwzSHan1yr+79al5zbA9tiowZheBKBSA2mrdFu0ftWSr8YIR1WWOR3W5vHF0WDeKLWctJVJbYWzwQNvRfHnYeEGT486K1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F0GzgIRB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C584C4CEC7;
-	Mon,  2 Sep 2024 12:41:30 +0000 (UTC)
+	 MIME-Version:Content-Type; b=pbbsi0bThLH9OwQ/6jtb/eclSNrEeR+m5YDP4ZqYpDPTGpAgw4QiMx84xKQchHAa2B4DJLI/Sgg/7E3Dtnq6+4q7UvQd2xiiWec7MjigRWTed15/2+0AtP486xs0p4YNMSOm8lYIikSkKT1zjt8vbRYi4v7vm5LPR9qhLAB4PnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ncGJVafg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B17C4CEC8;
+	Mon,  2 Sep 2024 12:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725280892;
-	bh=uTYJGwS6gkq0hTSsIoEjD5EwGJH188e8KYtruqHsaHM=;
+	s=k20201202; t=1725280896;
+	bh=s3xJG6D/pwss0IUNp6uxa7NHr8odZ+slvD78tK31x2M=;
 	h=From:To:List-Id:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F0GzgIRB6w2CvYOraSJszSpQ8kE+I6hMtw30JwD2PvUJ36wED0G34QwhOCGd0dNgV
-	 yrHm4y0aL1EZmp6uV3uqWa9h3OwbIlqHQSrNr6ZL6EbFruSTqQ/M94zQnSWoy+3Tx0
-	 uqI4quEGzSgJ8/WkBz3K0O/CxeWtadtu1dYfTP5uU2WfyP3Fm0pBq2dvkxa66Jk9Dc
-	 EELxhR7CF6swkftC25TybMBlDyhNAfnuZ7ppmI1Q6BuF3o+rvFzZV1DnjbsZR75syE
-	 9u7HrDMeLaxXq/ZJHg4BdE4/mzTjbWIx3BrHiRS1wYV4iQGbQYrmZhONWQOR2T4c6M
-	 6EF4GfF0L16Pw==
+	b=ncGJVafgq3pAFr4frXFxnmwzS09xLKQfsQrJpDNwLKC1RPI+aD26idsLYqyaSYj0A
+	 D1wjMiXwiQ4jQFVkZDDIx5nJEpC0gtAlCFtWvbH10xV3Afu6Wh2bOjjJP7PKRIyCXG
+	 lef7Q2AHmKouj0UPFJLW0EEX403QvukTwpNd+AVyx7E7ysVpZ/kO2qRNGDQd5W+xeP
+	 YlUEsMIr+FxQ/XM7RsY9ClVAW2R7PYhMr5A+QWcSK8+iikFEahDrM36SQaEKHUIM5G
+	 FAOIzWWe+3Iu4vjKppxdk3DhPakl/dDp12+shp9K5ctNo9IAGVUREZD3g80Yj735FG
+	 lnAS1xFUIxLig==
 From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
 Cc: Pavel Machek <pavel@ucw.cz>,
@@ -55,9 +55,9 @@ Cc: Pavel Machek <pavel@ucw.cz>,
 	Andrew Lunn <andrew@lunn.ch>,
 	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
 	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH leds 7/8] leds: turris-omnia: Inform about missing LED gamma correction feature in the MCU driver
-Date: Mon,  2 Sep 2024 14:41:03 +0200
-Message-ID: <20240902124104.14297-8-kabel@kernel.org>
+Subject: [PATCH leds 8/8] ARM: dts: turris-omnia: Add global LED brightness change interrupt
+Date: Mon,  2 Sep 2024 14:41:04 +0200
+Message-ID: <20240902124104.14297-9-kabel@kernel.org>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240902124104.14297-1-kabel@kernel.org>
 References: <20240902124104.14297-1-kabel@kernel.org>
@@ -70,49 +70,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If the LED gamma correction feature is missing in the MCU firmware,
-inform about this in the MCU firmware probe function instead of LED
-driver probe function, so that all the feature checks are in one place.
+When global LED brightness is changed by pressing the front button on
+Turris Omnia, the MCU can produce an interrupt to the CPU. Add the
+description of this interrupt to the LED controller node.
 
 Signed-off-by: Marek Behún <kabel@kernel.org>
 ---
- drivers/leds/leds-turris-omnia.c               | 9 +--------
- drivers/platform/cznic/turris-omnia-mcu-base.c | 1 +
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-index bf8635cec72e..7b5c1484924e 100644
---- a/drivers/leds/leds-turris-omnia.c
-+++ b/drivers/leds/leds-turris-omnia.c
-@@ -465,15 +465,8 @@ static int omnia_leds_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
--	has_brightness_interrupt = ret & OMNIA_FEAT_BRIGHTNESS_INT;
--
- 	leds->has_gamma_correction = ret & OMNIA_FEAT_LED_GAMMA_CORRECTION;
--	if (!leds->has_gamma_correction) {
--		dev_info(dev,
--			 "Your board's MCU firmware does not support the LED gamma correction feature.\n");
--		dev_info(dev,
--			 "Consider upgrading MCU firmware with the omnia-mcutool utility.\n");
--	}
-+	has_brightness_interrupt = ret & OMNIA_FEAT_BRIGHTNESS_INT;
- 
- 	mutex_init(&leds->lock);
- 
-diff --git a/drivers/platform/cznic/turris-omnia-mcu-base.c b/drivers/platform/cznic/turris-omnia-mcu-base.c
-index 3bb4a3cfdb29..770e680b96f9 100644
---- a/drivers/platform/cznic/turris-omnia-mcu-base.c
-+++ b/drivers/platform/cznic/turris-omnia-mcu-base.c
-@@ -259,6 +259,7 @@ static int omnia_mcu_read_features(struct omnia_mcu *mcu)
- 		_DEF_FEAT(POWEROFF_WAKEUP,	"poweroff and wakeup"),
- 		_DEF_FEAT(TRNG,			"true random number generator"),
- 		_DEF_FEAT(BRIGHTNESS_INT,	"LED panel brightness change interrupt"),
-+		_DEF_FEAT(LED_GAMMA_CORRECTION,	"LED gamma correction"),
- #undef _DEF_FEAT
- 	};
- 	struct i2c_client *client = mcu->client;
+diff --git a/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts b/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts
+index 43202890c959..83fe00abd652 100644
+--- a/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts
++++ b/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts
+@@ -251,6 +251,7 @@ mcu: system-controller@2a {
+ 			led-controller@2b {
+ 				compatible = "cznic,turris-omnia-leds";
+ 				reg = <0x2b>;
++				interrupts-extended = <&mcu 11 IRQ_TYPE_NONE>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 				status = "okay";
 -- 
 2.44.2
 
