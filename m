@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-2565-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2566-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E29F9687B1
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 14:41:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983809687B2
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 14:41:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16A412837E8
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 12:41:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43FB11F22CEE
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 12:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0627719E99E;
-	Mon,  2 Sep 2024 12:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E23FB13DDB9;
+	Mon,  2 Sep 2024 12:41:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5U9mA/G"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f58GFhGP"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D709D19E991
-	for <linux-leds@vger.kernel.org>; Mon,  2 Sep 2024 12:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE42819E991
+	for <linux-leds@vger.kernel.org>; Mon,  2 Sep 2024 12:41:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725280884; cv=none; b=QEp4ZBubX7+RbGT+OfG8usUbKUzuBGqSiMIPo8Q6UqLg7rWgru2gxGeJPxhx0xpyBMx+L8kHajxc5fe+HkWomaSoReyjUCwz9Ui6aDGyL46P+utkHTeaW1vDtZJksz2C/BwCuw8HvdTvXuHoaP0aFq3wzFeP2pfuNT5u06rJhR0=
+	t=1725280886; cv=none; b=kkedlpNIGNP5tWWmlj1U1+NRgPOZ0SVqNezlC8tEN7wDU+ZAvtEwaG0HuPR/Iah0rH6Lub7fDfgwLOAapKM5ia+dXnwt3hCs2MYZfToA7JAOluw9U8UCktX5PjExDgNVQILME4Od0NhTvjkMPNCQ/0Hm+1wTe3NjuC/ACqcHvCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725280884; c=relaxed/simple;
-	bh=7ATrjqRkBkWgvWCJYEN3yq7p5vBUVfgyg/PNRKEzajo=;
+	s=arc-20240116; t=1725280886; c=relaxed/simple;
+	bh=KxLoPvRTqutF1mR3o8geQ+QlfWUbc6g26YQYee6tbfw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eIR4oDPgzgIHTbKnQdFjUPquu4BlcrKdQ+nOWyIngEyyUixVpLw8zhawE40fE04iTzMamonjU77eANdQLstILafaXl1BleWKdVNKA6UCvw8kXMrF1G4mogPMRiIAngSVCmDlh3EB+FDXfmr9oRUGkMY46x5zhSNRL2plg2UGKb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5U9mA/G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF634C4CEC8;
-	Mon,  2 Sep 2024 12:41:20 +0000 (UTC)
+	 MIME-Version:Content-Type; b=ovxoRAY1+fUlb8FuTqCcUQK+zugnpS0ilKD2dc2QoucCx4XDRiKaGQYuAZDHKGuhfSAFJJR2p9Xd8HyZ7lMtToQMR1+UGNi1a6nOUTzhSD2I0p5Lg1kbMxKkbYjfa/rc0Tud/QdOdKFvcIw7PsjW3DUCpJDFwDRiKvcRGS6CuQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f58GFhGP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4820C4CEC7;
+	Mon,  2 Sep 2024 12:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725280883;
-	bh=7ATrjqRkBkWgvWCJYEN3yq7p5vBUVfgyg/PNRKEzajo=;
+	s=k20201202; t=1725280886;
+	bh=KxLoPvRTqutF1mR3o8geQ+QlfWUbc6g26YQYee6tbfw=;
 	h=From:To:List-Id:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U5U9mA/GuH6b/NJC26b3Ay9jSvmcUHHr2N0msYc43yIYVTx4jOBcuqkat8hzYFIuX
-	 6VKHFcUoeTNBZqUWbW9Wk3MAst7G1ub+uank/8UCvvZnY77Bd0nse9GZm/kC/OrZC9
-	 L04vUY5ky+K3DtffO1v3nzRIqDogm39mZNjWNL3WrLPhn9Z4KrmnOXl7Nhrjcfq/3T
-	 x7TujzRuYxqIvF2cIWFkbEYHjkdeMR6jtTSrrxhBDIlWAKvwANzulp4INNIZBguCyB
-	 qROVGznAh9cEYmOXosmGXPUfTsXaXEnYiKUuhAYuMrK9ty7pruIFB/aOvabA6EF94F
-	 TFHDb5u5vhpFQ==
+	b=f58GFhGP0J4vb0P5ZGq4rEaZLiPdhLCE95g9qjRUCWNf07PvPrc2jNhyxK8B5ZdOE
+	 w7kXOOM58GukcAx3vJ5VvzrY3ko28rvJzSwiG63QzhGXLh51mujRLQyPVuSGrNbUzz
+	 Vr2i0jsVyQF/TVTpQsT4YUGFiLN1eQ2RmFlK17ImXaCVOIm+60rrM/0Uo7qCwgrH0U
+	 tw+iCDwIxqZgfpKER2QA8hjtnNlxQ/ODSLfsLuFjUMmCprRb/3aL9hqTju0D4ZUspQ
+	 Ob6R/jXVrOYChu0gNQMtMdFGZXhALchbFsklobARRcvrO4m8nRtIhP0AWtY34cmqPC
+	 1YY73H93h/19g==
 From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
 Cc: Pavel Machek <pavel@ucw.cz>,
@@ -55,9 +55,9 @@ Cc: Pavel Machek <pavel@ucw.cz>,
 	Andrew Lunn <andrew@lunn.ch>,
 	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
 	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH leds 4/8] leds: turris-omnia: Use global header for MCU command definitions
-Date: Mon,  2 Sep 2024 14:41:00 +0200
-Message-ID: <20240902124104.14297-5-kabel@kernel.org>
+Subject: [PATCH leds 5/8] leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
+Date: Mon,  2 Sep 2024 14:41:01 +0200
+Message-ID: <20240902124104.14297-6-kabel@kernel.org>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240902124104.14297-1-kabel@kernel.org>
 References: <20240902124104.14297-1-kabel@kernel.org>
@@ -70,205 +70,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The global turris-omnia-mcu-interface.h header file contains the
-definitions for MCU commands. Drop the driver-internal definitions and
-use the global ones.
+Recall that on Turris Omnia, the LED controller has a global brightness
+property, which allows the user to make the front LED panel dimmer.
+
+There is also a button on the front panel, which by default is
+configured so that pressing it changes the global brightness to a lower
+value (unless it is at 0%, in which case pressing the button changes the
+global brightness to 100%).
+
+Newer versions of the MCU firmware support informing the SOC that the
+brightness was changed by button press event via an interrupt.
+
+Now that we have the turris-omnia-mcu driver, which adds support for MCU
+interrupts, add the ability to inform the userspace (via a sysfs
+notification) that the global brightness was changed.
 
 Signed-off-by: Marek Behún <kabel@kernel.org>
 ---
- drivers/leds/leds-turris-omnia.c | 78 ++++++++++++--------------------
- 1 file changed, 28 insertions(+), 50 deletions(-)
+ drivers/leds/leds-turris-omnia.c | 67 ++++++++++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-index b9dd971a9e5f..14e8fbb5bb69 100644
+index 14e8fbb5bb69..bf8635cec72e 100644
 --- a/drivers/leds/leds-turris-omnia.c
 +++ b/drivers/leds/leds-turris-omnia.c
-@@ -16,30 +16,8 @@
- #define OMNIA_BOARD_LEDS	12
- #define OMNIA_LED_NUM_CHANNELS	3
+@@ -357,7 +357,57 @@ static struct attribute *omnia_led_controller_attrs[] = {
+ 	&dev_attr_gamma_correction.attr,
+ 	NULL,
+ };
+-ATTRIBUTE_GROUPS(omnia_led_controller);
++
++static const struct attribute_group omnia_led_controller_group = {
++	.attrs = omnia_led_controller_attrs,
++};
++
++static irqreturn_t omnia_brightness_changed_handler(int irq, void *dev_id)
++{
++	struct kernfs_node *brightness_kn = dev_id;
++
++	sysfs_notify_dirent(brightness_kn);
++
++	return IRQ_HANDLED;
++}
++
++static void brightness_kn_release(struct device *dev, void *res)
++{
++	struct kernfs_node **brightness_kn = res;
++
++	sysfs_put(*brightness_kn);
++}
++
++static int omnia_probe_brightness_interrupt(struct i2c_client *client)
++{
++	struct kernfs_node **brightness_kn;
++	struct device *dev = &client->dev;
++	int ret;
++
++	brightness_kn = devres_alloc(brightness_kn_release,
++				     sizeof(*brightness_kn), GFP_KERNEL);
++	if (!brightness_kn)
++		return -ENOMEM;
++
++	*brightness_kn = sysfs_get_dirent(dev->kobj.sd, "brightness");
++	if (!*brightness_kn) {
++		devres_free(brightness_kn);
++		return -EIO;
++	}
++
++	devres_add(dev, brightness_kn);
++
++	ret = devm_request_any_context_irq(dev, client->irq,
++					   omnia_brightness_changed_handler,
++					   IRQF_ONESHOT, "leds-turris-omnia",
++					   *brightness_kn);
++	if (ret < 0) {
++		dev_err(dev, "Cannot request IRQ: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
  
--/* MCU controller commands at I2C address 0x2a */
--#define OMNIA_MCU_I2C_ADDR		0x2a
--
--#define CMD_GET_STATUS_WORD		0x01
--#define STS_FEATURES_SUPPORTED		BIT(2)
--
--#define CMD_GET_FEATURES		0x10
--#define FEAT_LED_GAMMA_CORRECTION	BIT(5)
--
--/* LED controller commands at I2C address 0x2b */
--#define CMD_LED_MODE			0x03
--#define CMD_LED_MODE_LED(l)		((l) & 0x0f)
--#define CMD_LED_MODE_USER		0x10
--
--#define CMD_LED_STATE			0x04
--#define CMD_LED_STATE_LED(l)		((l) & 0x0f)
--#define CMD_LED_STATE_ON		0x10
--
--#define CMD_LED_COLOR			0x05
--#define CMD_LED_SET_BRIGHTNESS		0x07
--#define CMD_LED_GET_BRIGHTNESS		0x08
--
--#define CMD_SET_GAMMA_CORRECTION	0x30
--#define CMD_GET_GAMMA_CORRECTION	0x31
-+/* MCU controller I2C address 0x2a, needed for detecting MCU features */
-+#define OMNIA_MCU_I2C_ADDR	0x2a
- 
- struct omnia_led {
- 	struct led_classdev_mc mc_cdev;
-@@ -64,7 +42,7 @@ static int omnia_led_send_color_cmd(const struct i2c_client *client,
- 	char cmd[5];
- 	int ret;
- 
--	cmd[0] = CMD_LED_COLOR;
-+	cmd[0] = OMNIA_CMD_LED_COLOR;
- 	cmd[1] = led->reg;
- 	cmd[2] = led->subled_info[0].brightness;
- 	cmd[3] = led->subled_info[1].brightness;
-@@ -126,12 +104,12 @@ static int omnia_led_brightness_set_blocking(struct led_classdev *cdev,
- 	 * is not being blinked by HW.
- 	 */
- 	if (!err && !led->hwtrig && !brightness != !led->on) {
--		u8 state = CMD_LED_STATE_LED(led->reg);
-+		u8 state = OMNIA_CMD_LED_STATE_LED(led->reg);
- 
- 		if (brightness)
--			state |= CMD_LED_STATE_ON;
-+			state |= OMNIA_CMD_LED_STATE_ON;
- 
--		err = omnia_cmd_write_u8(leds->client, CMD_LED_STATE, state);
-+		err = omnia_cmd_write_u8(leds->client, OMNIA_CMD_LED_STATE, state);
- 		if (!err)
- 			led->on = !!brightness;
- 	}
-@@ -166,8 +144,8 @@ static int omnia_hwtrig_activate(struct led_classdev *cdev)
- 
- 	if (!err) {
- 		/* Put the LED into MCU controlled mode */
--		err = omnia_cmd_write_u8(leds->client, CMD_LED_MODE,
--					 CMD_LED_MODE_LED(led->reg));
-+		err = omnia_cmd_write_u8(leds->client, OMNIA_CMD_LED_MODE,
-+					 OMNIA_CMD_LED_MODE_LED(led->reg));
- 		if (!err)
- 			led->hwtrig = true;
- 	}
-@@ -188,9 +166,9 @@ static void omnia_hwtrig_deactivate(struct led_classdev *cdev)
- 	led->hwtrig = false;
- 
- 	/* Put the LED into software mode */
--	err = omnia_cmd_write_u8(leds->client, CMD_LED_MODE,
--				 CMD_LED_MODE_LED(led->reg) |
--				 CMD_LED_MODE_USER);
-+	err = omnia_cmd_write_u8(leds->client, OMNIA_CMD_LED_MODE,
-+				 OMNIA_CMD_LED_MODE_LED(led->reg) |
-+				 OMNIA_CMD_LED_MODE_USER);
- 
- 	mutex_unlock(&leds->lock);
- 
-@@ -257,9 +235,9 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
- 	cdev->default_trigger = omnia_hw_trigger.name;
- 
- 	/* put the LED into software mode */
--	ret = omnia_cmd_write_u8(client, CMD_LED_MODE,
--				 CMD_LED_MODE_LED(led->reg) |
--				 CMD_LED_MODE_USER);
-+	ret = omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE,
-+				 OMNIA_CMD_LED_MODE_LED(led->reg) |
-+				 OMNIA_CMD_LED_MODE_USER);
- 	if (ret) {
- 		dev_err(dev, "Cannot set LED %pOF to software mode: %i\n", np,
- 			ret);
-@@ -267,8 +245,8 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
- 	}
- 
- 	/* disable the LED */
--	ret = omnia_cmd_write_u8(client, CMD_LED_STATE,
--				 CMD_LED_STATE_LED(led->reg));
-+	ret = omnia_cmd_write_u8(client, OMNIA_CMD_LED_STATE,
-+				 OMNIA_CMD_LED_STATE_LED(led->reg));
- 	if (ret) {
- 		dev_err(dev, "Cannot set LED %pOF brightness: %i\n", np, ret);
- 		return ret;
-@@ -310,7 +288,7 @@ static ssize_t brightness_show(struct device *dev, struct device_attribute *a,
- 	u8 reply;
- 	int err;
- 
--	err = omnia_cmd_read_u8(client, CMD_LED_GET_BRIGHTNESS, &reply);
-+	err = omnia_cmd_read_u8(client, OMNIA_CMD_GET_BRIGHTNESS, &reply);
- 	if (err < 0)
- 		return err;
- 
-@@ -330,7 +308,7 @@ static ssize_t brightness_store(struct device *dev, struct device_attribute *a,
- 	if (brightness > 100)
- 		return -EINVAL;
- 
--	err = omnia_cmd_write_u8(client, CMD_LED_SET_BRIGHTNESS, brightness);
-+	err = omnia_cmd_write_u8(client, OMNIA_CMD_SET_BRIGHTNESS, brightness);
- 
- 	return err ?: count;
- }
-@@ -345,7 +323,7 @@ static ssize_t gamma_correction_show(struct device *dev,
- 	int err;
- 
- 	if (leds->has_gamma_correction) {
--		err = omnia_cmd_read_u8(client, CMD_GET_GAMMA_CORRECTION, &reply);
-+		err = omnia_cmd_read_u8(client, OMNIA_CMD_GET_GAMMA_CORRECTION, &reply);
- 		if (err < 0)
- 			return err;
- 	}
-@@ -368,7 +346,7 @@ static ssize_t gamma_correction_store(struct device *dev,
- 	if (kstrtobool(buf, &val) < 0)
- 		return -EINVAL;
- 
--	err = omnia_cmd_write_u8(client, CMD_SET_GAMMA_CORRECTION, val);
-+	err = omnia_cmd_write_u8(client, OMNIA_CMD_SET_GAMMA_CORRECTION, val);
- 
- 	return err ?: count;
- }
-@@ -390,15 +368,15 @@ static int omnia_mcu_get_features(const struct i2c_client *client)
- 	/* We have to read features from different I2C address */
- 	mcu_client.addr = OMNIA_MCU_I2C_ADDR;
- 
--	err = omnia_cmd_read_u16(&mcu_client, CMD_GET_STATUS_WORD, &reply);
-+	err = omnia_cmd_read_u16(&mcu_client, OMNIA_CMD_GET_STATUS_WORD, &reply);
- 	if (err)
- 		return err;
- 
--	/* Check whether MCU firmware supports the CMD_GET_FEAUTRES command */
--	if (!(reply & STS_FEATURES_SUPPORTED))
-+	/* Check whether MCU firmware supports the OMNIA_CMD_GET_FEAUTRES command */
-+	if (!(reply & OMNIA_STS_FEATURES_SUPPORTED))
- 		return 0;
- 
--	err = omnia_cmd_read_u16(&mcu_client, CMD_GET_FEATURES, &reply);
-+	err = omnia_cmd_read_u16(&mcu_client, OMNIA_CMD_GET_FEATURES, &reply);
- 	if (err)
- 		return err;
- 
-@@ -436,7 +414,7 @@ static int omnia_leds_probe(struct i2c_client *client)
+ static int omnia_mcu_get_features(const struct i2c_client *client)
+ {
+@@ -387,6 +437,7 @@ static int omnia_leds_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct device_node *np = dev_of_node(dev);
++	bool has_brightness_interrupt;
+ 	struct omnia_leds *leds;
+ 	struct omnia_led *led;
+ 	int ret, count;
+@@ -414,6 +465,8 @@ static int omnia_leds_probe(struct i2c_client *client)
  		return ret;
  	}
  
--	leds->has_gamma_correction = ret & FEAT_LED_GAMMA_CORRECTION;
-+	leds->has_gamma_correction = ret & OMNIA_FEAT_LED_GAMMA_CORRECTION;
++	has_brightness_interrupt = ret & OMNIA_FEAT_BRIGHTNESS_INT;
++
+ 	leds->has_gamma_correction = ret & OMNIA_FEAT_LED_GAMMA_CORRECTION;
  	if (!leds->has_gamma_correction) {
  		dev_info(dev,
- 			 "Your board's MCU firmware does not support the LED gamma correction feature.\n");
-@@ -469,11 +447,11 @@ static void omnia_leds_remove(struct i2c_client *client)
- 	u8 buf[5];
+@@ -439,7 +492,16 @@ static int omnia_leds_probe(struct i2c_client *client)
+ 		led += ret;
+ 	}
  
- 	/* put all LEDs into default (HW triggered) mode */
--	omnia_cmd_write_u8(client, CMD_LED_MODE,
--			   CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
-+	omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE,
-+			   OMNIA_CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
+-	return 0;
++	ret = devm_device_add_group(dev, &omnia_led_controller_group);
++	if (ret < 0) {
++		dev_err(dev, "Cannot add sysfs attribute group: %d\n", ret);
++		return ret;
++	}
++
++	if (has_brightness_interrupt)
++		ret = omnia_probe_brightness_interrupt(client);
++
++	return ret;
+ }
  
- 	/* set all LEDs color to [255, 255, 255] */
--	buf[0] = CMD_LED_COLOR;
-+	buf[0] = OMNIA_CMD_LED_COLOR;
- 	buf[1] = OMNIA_BOARD_LEDS;
- 	buf[2] = 255;
- 	buf[3] = 255;
+ static void omnia_leds_remove(struct i2c_client *client)
+@@ -479,7 +541,6 @@ static struct i2c_driver omnia_leds_driver = {
+ 	.driver		= {
+ 		.name	= "leds-turris-omnia",
+ 		.of_match_table = of_omnia_leds_match,
+-		.dev_groups = omnia_led_controller_groups,
+ 	},
+ };
+ 
 -- 
 2.44.2
 
