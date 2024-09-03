@@ -1,96 +1,120 @@
-Return-Path: <linux-leds+bounces-2574-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2575-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548DA968A1F
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 16:38:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 101F19699F0
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2024 12:19:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3C6FB22BB1
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Sep 2024 14:38:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C20E82812C5
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2024 10:19:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2E32139D7;
-	Mon,  2 Sep 2024 14:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91E517C9B3;
+	Tue,  3 Sep 2024 10:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5w2VWrv"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTGKq8Jo"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992B72101AA
-	for <linux-leds@vger.kernel.org>; Mon,  2 Sep 2024 14:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937EF2904
+	for <linux-leds@vger.kernel.org>; Tue,  3 Sep 2024 10:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725287821; cv=none; b=SoajYF7n6E2WH6YTm02RNj+qlmvJLb6XeSPl1hF603ABff9FbOh+4W8Bi7MgTq188k8LeeaFT9/hfbhq2IntPlksWXxEYib/Ej7NlczSzFUugl9zWNNyy2M2f+Td/fHzegseT52vIWwHKUQMY1z5KS9cVXNh+TynVbi2fB/HL6I=
+	t=1725358776; cv=none; b=Vm6erZO4fobmM1Hz/23l1Rbd+mH39412d5XkWE8N6/yG/WUoirP3ryCxHktKerzTcoZIOJL37pox7jqNkIS1/bPDftW9gsltx73/eThwB7Xu9Q27rhXlK+rpAhRqdt3bi3nJxNBXLPeWSsRtphyh4YrWoX5UWbtaKS2yMuSv//s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725287821; c=relaxed/simple;
-	bh=SlupeQoZoxaS1YW/9lDWj5i+TCp/8XoU0PIkXcNt8BM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G0iURjmgsa1Wah0S+5uZ3Rx+8XamA1gGiNM9efE8oDK1mxxx1Zczrt4EJeXXQ/O+FLIhluM8TUGvyCdg8tDdIC2yV7tx0x6RzOVBurXAUHCvPHYFaXx3ueCvLjsfjWaNezCACs5G7IawJTiKgm1Fa+vszRd1VyCTPHaYf5ikRuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5w2VWrv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574ADC4CEC2;
-	Mon,  2 Sep 2024 14:36:58 +0000 (UTC)
+	s=arc-20240116; t=1725358776; c=relaxed/simple;
+	bh=zOl5UJC+OXlvlIIJzVEwApk7WtJxOv98Ox7oX7DxnF4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nhBwyXwiyUtdbAdmLJutVJ4Ap9AaNQIg08W+VzahFJZSdkrKr67gXLxUMew4UJXT87g824koT7CvSi+PFP4WHFH7xNSqMBh23D/q+bA6bxd+TTzkSmdWGXsTZ1wd2Rnlc9gpJf4wQ6/L1MwrfopkNWcupXOMoE3MRub66HcEjVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTGKq8Jo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7637EC4CEC4;
+	Tue,  3 Sep 2024 10:19:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725287821;
-	bh=SlupeQoZoxaS1YW/9lDWj5i+TCp/8XoU0PIkXcNt8BM=;
-	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
-	b=W5w2VWrvl8llTENsREb+61pkZkoIQ7IrPHrxjFx+4bKv7p4WYai9YK2/w4JnUezDW
-	 n4/pO0G0U3yyuKSyCn4E8UiQzGAzTShdWfGIDTdicseef6YwPHKTmA3HCOeugxQ8xl
-	 nMWAtzpxYEsYwC3UzdI5VN4yXsior2kkItFEoWfIpPLsaybeh1LEjIwlP7iC1XGfDS
-	 Ko6UD5YmSnqAf/ku1o6O7degBkS6QV6ZRjkHHP4jCPOpEoVLJc1sfLOzW/JQO5BceL
-	 qLxkmUQwd1YZgVDXU5naIHJdk+uU4gp/7VBN2W6GlsSEAHEh4Ccw+q4/VhCZcjxEGD
-	 5h38Rjr/EukvA==
-Date: Mon, 2 Sep 2024 16:36:55 +0200
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
-	linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, 
-	Gregory CLEMENT <gregory.clement@bootlin.com>, arm@kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-Subject: Re: [PATCH leds 5/8] leds: turris-omnia: Notify sysfs on MCU global
- LEDs brightness change
-Message-ID: <qn6az5grddl7ywf3yv72jjm36ovxqngpmgzt7kv77yyoulj25u@kbmcwws3lji5>
-References: <20240902124104.14297-1-kabel@kernel.org>
- <20240902124104.14297-6-kabel@kernel.org>
- <ZtW625-GePwV8ffA@smile.fi.intel.com>
+	s=k20201202; t=1725358776;
+	bh=zOl5UJC+OXlvlIIJzVEwApk7WtJxOv98Ox7oX7DxnF4=;
+	h=From:To:List-Id:Cc:Subject:Date:From;
+	b=LTGKq8JoP+YyyTcGlGu61iCZW9Yeoldxa8gQzwxkCw6JENEFy9e5uhFydCRZ7lYOD
+	 R+ortx9yNk8Onace9hrQ7gz+q2zJetkfhyaeK+DHDMsj5RkOOZKWkt0VZkR2yzdlVd
+	 gR4KuUFmN35APHoQJoKrrEzg9nxHY3aN2xUo680oIXf59gsSl6QEtaxRbNll/WVRbz
+	 r6SPSuVwBAmP81b1AVfiZji6x2L9yVM7hbKwrRfkjEwyDFz3LOGlNO4CAIryyWRk5M
+	 3YUgjCni0nvuxa9iiIK0mV5S1eBJEJ424hrGoqeTGrloJDmhqoO7urS+dVzmxs4SQV
+	 mfiSOs23BNbBQ==
+From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	soc@kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	arm@kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds v2 00/11] Turris Omnia LED driver changes
+Date: Tue,  3 Sep 2024 12:19:19 +0200
+Message-ID: <20240903101930.16251-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZtW625-GePwV8ffA@smile.fi.intel.com>
 
-On Mon, Sep 02, 2024 at 04:17:15PM +0300, Andy Shevchenko wrote:
-> On Mon, Sep 02, 2024 at 02:41:01PM +0200, Marek Beh˙n wrote:
-> > Recall that on Turris Omnia, the LED controller has a global brightness
-> > property, which allows the user to make the front LED panel dimmer.
-> > 
-> > There is also a button on the front panel, which by default is
-> > configured so that pressing it changes the global brightness to a lower
-> > value (unless it is at 0%, in which case pressing the button changes the
-> > global brightness to 100%).
-> > 
-> > Newer versions of the MCU firmware support informing the SOC that the
-> > brightness was changed by button press event via an interrupt.
-> > 
-> > Now that we have the turris-omnia-mcu driver, which adds support for MCU
-> > interrupts, add the ability to inform the userspace (via a sysfs
-> > notification) that the global brightness was changed.
-> 
-> ...
-> 
-> > +	ret = devm_device_add_group(dev, &omnia_led_controller_group);
-> 
-> AFAIU the intention is to remove that API, hence this shall not be used.
-> Greg?
+Hello Lee,
 
-OMG yes this should be with the group .is_visible method.
-Sorry.
+this is v2 of Turris Omnia LED driver changes.
+v1 can be found at
+  https://lore.kernel.org/linux-leds/20240902124104.14297-1-kabel@kernel.org/
+
+This series is for 6.12, but it depends on changes that have been
+merged to 6.11-rc3. Your for-leds-next branch is based on 6.11-rc1, so
+it won't apply there.
+
+Changes since v1:
+- patch 2 does away also with i2c_master_send() call, in favor of
+  omnia_cmd_write()
+- patch 5 was rewritten to not use devm_device_add_group() anymore,
+  since this function was deprecated. Instead, the sysfs_put() call for
+  the "brightness" node is done the first time the IRQ handler is
+  called, instead of driver probe.
+- the changes were done with 100 columns limit in mind
+- added 3 more "cosmetic" patches
+
+Marek
+
+Marek Beh√∫n (11):
+  turris-omnia-mcu-interface.h: Move command execution function to
+    global header
+  leds: turris-omnia: Use command execution functions from the MCU
+    driver
+  turris-omnia-mcu-interface.h: Add LED commands related definitions to
+    global header
+  leds: turris-omnia: Use global header for MCU command definitions
+  leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
+  platform: cznic: turris-omnia-mcu: Inform about missing LED panel
+    brightness change interrupt feature
+  leds: turris-omnia: Inform about missing LED gamma correction feature
+    in the MCU driver
+  leds: turris-omnia: Use dev_err_probe() where appropriate
+  leds: turris-omnia: Use uppercase first letter in all comments
+  leds: turris-omnia: Use 100 columns in the rest of the code
+  ARM: dts: turris-omnia: Add global LED brightness change interrupt
+
+ .../dts/marvell/armada-385-turris-omnia.dts   |   1 +
+ drivers/leds/leds-turris-omnia.c              | 283 +++++++-----------
+ .../platform/cznic/turris-omnia-mcu-base.c    |   3 +
+ drivers/platform/cznic/turris-omnia-mcu.h     | 130 --------
+ include/linux/turris-omnia-mcu-interface.h    | 148 ++++++++-
+ 5 files changed, 257 insertions(+), 308 deletions(-)
+
+-- 
+2.44.2
+
 
