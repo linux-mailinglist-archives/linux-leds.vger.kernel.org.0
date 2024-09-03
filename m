@@ -1,145 +1,240 @@
-Return-Path: <linux-leds+bounces-2591-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2592-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C9D96A087
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2024 16:28:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA1A96A0D0
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2024 16:38:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3C921F2784D
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2024 14:28:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87BEC286AC7
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2024 14:38:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D68189521;
-	Tue,  3 Sep 2024 14:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F57813CFA6;
+	Tue,  3 Sep 2024 14:38:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkbCYtHd"
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="c684NoBO"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD08189507
-	for <linux-leds@vger.kernel.org>; Tue,  3 Sep 2024 14:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB4E1CA69B;
+	Tue,  3 Sep 2024 14:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725373608; cv=none; b=peNxNqYiZ6+veAb1j5ixDVH0YT/U0GvlADDtV0ZQqpqVGfSP04nGYvIFwcQOWoS4sfWbWqPGLrdgwmyPskFPwoEuVLwT+ObpaEUu1AX/XJbERXEn9ooi4sMP5ZrL0M5FnV5hNwCF9+j7RoMDx/Wu0aC1TBa2Ox7heCBtfyC2Ufw=
+	t=1725374304; cv=none; b=fDjK5TdcC+50VbxVjnzSKlXTNlABELiKCPidENFKlmOSjSZIH1H9lty6tWybv/m4UFQrQIHDTNYE8aEX5Mequ92QZvTWv6QwYcnpFL5NlB3G0qlVA49tOJl0PcSBqhEGuMB2T3ukADH+63XrUheClVRA8z65GiNHIMYelHEPtOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725373608; c=relaxed/simple;
-	bh=Hj1yivyYJankQDXcGlg/R1Vke/ZctiA++fiXMrswr54=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=jozh674IcVlXdkVxBY8u1OEtjVYPMAAHpDRDY90bsvu2E4J4Sw8wc0cqmE7pxFLSknO/gkadObBTb/1UKE2aSCW3MkabiqHhIHotxUTAN1YAKv6uFPD1vEfKY38qp0uJ6u0m7G20nBYgjZBWaT0+Kyj0nIlmiT9cNM6wZjWrmZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkbCYtHd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35A63C4CEC9;
-	Tue,  3 Sep 2024 14:26:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725373608;
-	bh=Hj1yivyYJankQDXcGlg/R1Vke/ZctiA++fiXMrswr54=;
-	h=Date:From:To:List-Id:Cc:In-Reply-To:References:Subject:From;
-	b=IkbCYtHdw6Ew4ZzvsoQISiVKPOZMpn0ovpdwamRhGSlsqS5CsVFCXJH1c/1AtPHo1
-	 SJmP8fN9RaUGdFhyZgZ+9lXDrJH6ciENVmKJD4r5YhU0Mh7WFzhcHpbiC5p+9huE69
-	 DPe6ftVLe/+qQVYQm3jqto90bUMmyM5o4flToJ/L8e9Y9Scnwzu06wclbVRr/Xf/n6
-	 Sjqa1d9NeB44QGpcSYDV3+9cNt8n5eIcz21CXLOZ0X1XoJybAYSbfDmhIe7EZ1r3sL
-	 3oMV3hQbQKOjXpHhZElJy5O95+zME1De+GltV5rmrANeyD7gyp7/oFTaFE4LXsBpdr
-	 4xJqbOWreOjEQ==
-Date: Tue, 03 Sep 2024 09:26:47 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1725374304; c=relaxed/simple;
+	bh=bjOoW9AcUjBAChkWwwUlHy7Q/WmL5wJgs7drSknkdiY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dZ8+4fAfEzj/3iN2T/sLshPX2WqJrr7K5g7W5SitdgIgDrdoiBDffCPYCZRt4ECJ5DVwxaoLh67bQDzW79rOAql2CZPI1FR34Z9VPFI8sonGp2NLc7T4U/ScEwJKJqxftl4GZ/y0PyX7C937pdYkLEvzGiM6Evo9pvYcLoORZbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=c684NoBO; arc=none smtp.client-ip=81.19.3.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+	s=20160406-ysoft-com; t=1725373931;
+	bh=pUDU7P1M3Th0MRLFiahhDUdVpN72eijtFYzRoi0jvsk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=c684NoBOlY/dwj1bAYu3+y5LKTrqOXVz2T6s1GPiJProBwr1UpJhvsu8oFFVR0yJW
+	 TGPDcVElWT/I1WfHwo4TCfH22o6Ny5+azvh+1PSTcfnl5mKyZFa5M5NQoN0zf9rOOt
+	 3YmC9s/9mDPI54DrY/nrXilPmniNSNEQJ0iGo7EE=
+Received: from iota-build.ysoft.local (unknown [10.1.5.151])
+	by uho.ysoft.cz (Postfix) with ESMTP id 53B1BA4473;
+	Tue,  3 Sep 2024 16:32:11 +0200 (CEST)
+From: =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Dan Murphy <dmurphy@ti.com>
+Cc: linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+Subject: [RFC] leds: lp55xx: led-cur property is not properly used in case of multi-led
+Date: Tue,  3 Sep 2024 16:31:34 +0200
+Message-Id: <1725373894-1122-1-git-send-email-michal.vokac@ysoft.com>
+X-Mailer: git-send-email 2.1.4
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
-Cc: =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, Lee Jones <lee@kernel.org>, 
- Andrew Lunn <andrew@lunn.ch>, Andy Shevchenko <andy@kernel.org>, 
- Pavel Machek <pavel@ucw.cz>, arm@kernel.org, linux-leds@vger.kernel.org, 
- Hans de Goede <hdegoede@redhat.com>, soc@kernel.org, 
- Arnd Bergmann <arnd@arndb.de>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-In-Reply-To: <20240903101930.16251-1-kabel@kernel.org>
-References: <20240903101930.16251-1-kabel@kernel.org>
-Message-Id: <172537335178.875540.10164997021345385818.robh@kernel.org>
-Subject: Re: [PATCH leds v2 00/11] Turris Omnia LED driver changes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi all,
 
-On Tue, 03 Sep 2024 12:19:19 +0200, Marek Behún wrote:
-> Hello Lee,
-> 
-> this is v2 of Turris Omnia LED driver changes.
-> v1 can be found at
->   https://lore.kernel.org/linux-leds/20240902124104.14297-1-kabel@kernel.org/
-> 
-> This series is for 6.12, but it depends on changes that have been
-> merged to 6.11-rc3. Your for-leds-next branch is based on 6.11-rc1, so
-> it won't apply there.
-> 
-> Changes since v1:
-> - patch 2 does away also with i2c_master_send() call, in favor of
->   omnia_cmd_write()
-> - patch 5 was rewritten to not use devm_device_add_group() anymore,
->   since this function was deprecated. Instead, the sysfs_put() call for
->   the "brightness" node is done the first time the IRQ handler is
->   called, instead of driver probe.
-> - the changes were done with 100 columns limit in mind
-> - added 3 more "cosmetic" patches
-> 
-> Marek
-> 
-> Marek Behún (11):
->   turris-omnia-mcu-interface.h: Move command execution function to
->     global header
->   leds: turris-omnia: Use command execution functions from the MCU
->     driver
->   turris-omnia-mcu-interface.h: Add LED commands related definitions to
->     global header
->   leds: turris-omnia: Use global header for MCU command definitions
->   leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
->   platform: cznic: turris-omnia-mcu: Inform about missing LED panel
->     brightness change interrupt feature
->   leds: turris-omnia: Inform about missing LED gamma correction feature
->     in the MCU driver
->   leds: turris-omnia: Use dev_err_probe() where appropriate
->   leds: turris-omnia: Use uppercase first letter in all comments
->   leds: turris-omnia: Use 100 columns in the rest of the code
->   ARM: dts: turris-omnia: Add global LED brightness change interrupt
-> 
->  .../dts/marvell/armada-385-turris-omnia.dts   |   1 +
->  drivers/leds/leds-turris-omnia.c              | 283 +++++++-----------
->  .../platform/cznic/turris-omnia-mcu-base.c    |   3 +
->  drivers/platform/cznic/turris-omnia-mcu.h     | 130 --------
->  include/linux/turris-omnia-mcu-interface.h    | 148 ++++++++-
->  5 files changed, 257 insertions(+), 308 deletions(-)
-> 
-> --
-> 2.44.2
-> 
-> 
+I am trying to wrap my head around the implementation of the multicolor
+LED support in the lp55xx family drivers.
 
+The situation is quite straight forward when each LED is registered
+and controlled individually but it gets quite messy once you use
+the "multi-color LED interface".
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+I am working with the imx6dl-yapp43-pegasus.dts board (in-tree). There
+is one RGB LED driven by a LP5562 LED controller. Currently the RGB LED
+is described as three separate LEDs and each of the LEDs has
+individually tuned led-cur property. I would like to change the device
+tree and use the multi-led binding to be able to use triggers on a chosen
+RGB color.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+I already sent a patch to add multicolor brightness control to the lp5562
+driver [1] (no response yet).
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+When I was experimenting with that, I realized there is something wrong
+with the colors and identified that the led-cur property is not properly
+applied in case the multi-led binding is used. It seems it is broken since
+the beginning when the multicolor support was added.
 
-  pip3 install dtschema --upgrade
+What ultimately happens is that the led_current of the first LED in the multi-led
+group is set to the value of led-cur property of the last LED in the group.
+All the other LEDs in the group are left with the default value from the
+controller.
 
+I tried to describe the steps that led to my discovery in the comments to
+the file. Unfortunately I could not really figure out how this could be
+properly fixed.
 
-New warnings running 'make CHECK_DTBS=y marvell/armada-385-turris-omnia.dtb' for 20240903101930.16251-1-kabel@kernel.org:
+I would appreciate any comments to this problem and hopefully some ideas
+how it could be solved.
 
-arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: led-controller@2b: 'interrupts-extended' does not match any of the regexes: '^multi-led@[0-9a-b]$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/leds/cznic,turris-omnia-leds.yaml#
+Thank you,
+Michal
 
+[1] https://patches.linaro.org/project/linux-leds/patch/20240628064515.3765371-1-michal.vokac@ysoft.com/
+---
+ drivers/leds/leds-lp55xx-common.c | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-
-
+diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+index f0e30b86dbfb..00dc7d3300b7 100644
+--- a/drivers/leds/leds-lp55xx-common.c
++++ b/drivers/leds/leds-lp55xx-common.c
+@@ -1074,12 +1074,17 @@ static int lp55xx_register_leds(struct lp55xx_led *led, struct lp55xx_chip *chip
+ 		return -EINVAL;
+ 	}
+ 
++	// Step 8
++	// num_channels = 1
+ 	for (i = 0; i < num_channels; i++) {
+ 
+ 		/* do not initialize channels that are not connected */
+ 		if (pdata->led_config[i].led_current == 0)
+ 			continue;
+ 
++		// The pdata->led_config[0].led_current contains the led-cur
++		// property value of the last LED from the multi-led node.
++		// Here we store that value to the first LED in that node.
+ 		led_current = pdata->led_config[i].led_current;
+ 		each = led + i;
+ 		ret = lp55xx_init_led(each, chip, i);
+@@ -1133,8 +1138,16 @@ static int lp55xx_parse_common_child(struct device_node *np,
+ 				     struct lp55xx_led_config *cfg,
+ 				     int led_number, int *chan_nr)
+ {
++	// Step 6
++	// This is called 3-times (n-times in general, for each LED in the multi-led node)
++	// led_number = 0
++	// np = led@[0,1,2]
+ 	int ret;
+ 
++	// Size of the cfg is "1 lp55xx_led_config"
++	// led_number = 0 for each of the n-calls
++	// So the name, led_current and max_current variables are being
++	// overwritten until values from the last led@ subnode are stored.
+ 	of_property_read_string(np, "chan-name",
+ 				&cfg[led_number].name);
+ 	of_property_read_u8(np, "led-cur",
+@@ -1156,6 +1169,11 @@ static int lp55xx_parse_multi_led_child(struct device_node *child,
+ 					 struct lp55xx_led_config *cfg,
+ 					 int child_number, int color_number)
+ {
++	// Step 5
++	// This is called 3-times (n-times in general, for each LED in the multi-led node)
++	// child_number = 0
++	// color_number = [0,1,2]
++	// child = led@[0,1,2]
+ 	int chan_nr, color_id, ret;
+ 
+ 	ret = lp55xx_parse_common_child(child, cfg, child_number, &chan_nr);
+@@ -1176,6 +1194,10 @@ static int lp55xx_parse_multi_led(struct device_node *np,
+ 				  struct lp55xx_led_config *cfg,
+ 				  int child_number)
+ {
++	// Step 4
++	// This is called just once
++	// child_number = 0
++	// np = multi-led node
+ 	struct device_node *child;
+ 	int num_colors = 0, ret;
+ 
+@@ -1188,7 +1210,7 @@ static int lp55xx_parse_multi_led(struct device_node *np,
+ 		}
+ 		num_colors++;
+ 	}
+-
++	// num_colors = 3
+ 	cfg[child_number].num_colors = num_colors;
+ 
+ 	return 0;
+@@ -1198,6 +1220,10 @@ static int lp55xx_parse_logical_led(struct device_node *np,
+ 				   struct lp55xx_led_config *cfg,
+ 				   int child_number)
+ {
++	// Step 3
++	// This is called just once
++	// child_number = 0
++	// np = multi-led node
+ 	int led_color, ret;
+ 	int chan_nr = 0;
+ 
+@@ -1209,6 +1235,7 @@ static int lp55xx_parse_logical_led(struct device_node *np,
+ 		return ret;
+ 
+ 	if (led_color == LED_COLOR_ID_RGB)
++		// We go this way
+ 		return lp55xx_parse_multi_led(np, cfg, child_number);
+ 
+ 	ret =  lp55xx_parse_common_child(np, cfg, child_number, &chan_nr);
+@@ -1235,18 +1262,22 @@ static struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+ 	if (!pdata)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	// Step 2
++	// One RGB multiled, num_channels = 1
+ 	num_channels = of_get_available_child_count(np);
+ 	if (num_channels == 0) {
+ 		dev_err(dev, "no LED channels\n");
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
++	dev_err(dev, "LED channels: %d\n", num_channels);
+ 	cfg = devm_kcalloc(dev, num_channels, sizeof(*cfg), GFP_KERNEL);
+ 	if (!cfg)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	pdata->led_config = &cfg[0];
+ 	pdata->num_channels = num_channels;
++	// LP5562 max_channel = 4
+ 	cfg->max_channel = chip->cfg->max_channel;
+ 
+ 	for_each_available_child_of_node(np, child) {
+@@ -1297,6 +1328,7 @@ int lp55xx_probe(struct i2c_client *client)
+ 
+ 	if (!pdata) {
+ 		if (np) {
++			// Step 1
+ 			pdata = lp55xx_of_populate_pdata(&client->dev, np,
+ 							 chip);
+ 			if (IS_ERR(pdata))
+@@ -1336,6 +1368,7 @@ int lp55xx_probe(struct i2c_client *client)
+ 
+ 	dev_info(&client->dev, "%s Programmable led chip found\n", id->name);
+ 
++	// Step 7
+ 	ret = lp55xx_register_leds(led, chip);
+ 	if (ret)
+ 		goto err_out;
+-- 
+2.1.4
 
 
