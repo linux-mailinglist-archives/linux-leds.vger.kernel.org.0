@@ -1,106 +1,102 @@
-Return-Path: <linux-leds+bounces-2598-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2599-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1227896B2FA
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Sep 2024 09:36:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A417796B304
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Sep 2024 09:37:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA5631F21A7F
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Sep 2024 07:36:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 604D22811A4
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Sep 2024 07:37:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE11824AF;
-	Wed,  4 Sep 2024 07:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0235B1465BB;
+	Wed,  4 Sep 2024 07:37:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b="pr77zmjg"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bhJCepBR"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.nic.cz (mail.nic.cz [217.31.204.67])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D24D3C17
-	for <linux-leds@vger.kernel.org>; Wed,  4 Sep 2024 07:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.31.204.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8E014659C
+	for <linux-leds@vger.kernel.org>; Wed,  4 Sep 2024 07:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725435395; cv=none; b=s4A4peHhW9zF0kiJfk/87Cwfdem7WZO453P28FK3v7OoiEAclQWEbG0peAY/17A4TVRwiCr/NBJHYRXMKc8jEQWqnilgTwtznfykwtr81sxbJJEKpcGCCjo3H6nIrwkBpjz4w5u7bSEOB+bdRQ9bqFGIcdNak2HRhSB3Hc398MM=
+	t=1725435472; cv=none; b=CEhbC7LqBo7t60XYYkIihsbZDDHhuZInep4MruGwddkFFqlma4PdwRwzlr9yvix2p5cSQQox1gc/4Cn1aRDP3bG0bMt/hIqAJPvvuSfWZGJriXWwQKnGVosp6Z4wNe1SCXWlv8CE8jH0j+GaInCEF/gTJF99FhcHjN8j5GYx6GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725435395; c=relaxed/simple;
-	bh=tk3GLcKEhbugbqCDMBb450vXfJ/SOUCvr2F6s0BsG/g=;
+	s=arc-20240116; t=1725435472; c=relaxed/simple;
+	bh=JGIOAz3Rl02I1RE5HwHO7aZvHsLrunh+0oBaBwHLh2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qIKcreiBwwFa2s6s2EQIx37J28h0+vUYp+HyfJeBpw0a0Zh39KGrHcSDkyKkCvLuFHNFY1/V9JKbn8X4kN1tK/Cf5NuZCTAabCppn/C61/xxBzBCcYl7CXoQXSUX52NQtrwsTig+5Oyja3uBcFAXACDy8xMf/KCQdsSJUX19V/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz; spf=pass smtp.mailfrom=nic.cz; dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b=pr77zmjg; arc=none smtp.client-ip=217.31.204.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nic.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nic.cz
-Received: from solitude (unknown [172.20.6.91])
-	by mail.nic.cz (Postfix) with ESMTPS id 9CF0A1C11E3;
-	Wed,  4 Sep 2024 09:28:46 +0200 (CEST)
-Authentication-Results: mail.nic.cz;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-	t=1725434927; bh=tk3GLcKEhbugbqCDMBb450vXfJ/SOUCvr2F6s0BsG/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Reply-To:
-	 Subject:To:Cc;
-	b=pr77zmjg5yvhZhrJPb31kUOZFNX4X5cVM8/lMbOU4Q0LlbavQ3D2G/Ztlh/KYYr8F
-	 HrjMJTlDSOR03/Ib5paaGPhjLM886teXRoY8DlKGUYfeD3dDb6QfoZn83MTWR1tOdh
-	 RZ1qcj3pZ3w0XoMvjBbzByUXlWpVZhztqJyLcGjc=
-Date: Wed, 4 Sep 2024 09:28:46 +0200
-From: Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, 
+	 Content-Type:Content-Disposition:In-Reply-To; b=lapRIsq816h5AETpEf8z2zxDVi8AQzQKvxEUhvGQhUfx1Yxl/cCvNwryfqSd8VQ8kv5cVdbDlzU6Z02VTIRwIFuJGbpS3Rhvuf0L/S9dcVwqGSW+4N2lNhLXIMcVkgqpi4lbxAsFbYXjjLYQVHAiQBlcmK8kLhLliQeJHDfDcgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bhJCepBR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E0DC4CEC2;
+	Wed,  4 Sep 2024 07:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725435472;
+	bh=JGIOAz3Rl02I1RE5HwHO7aZvHsLrunh+0oBaBwHLh2k=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
+	b=bhJCepBRpfedSP9Bsfu7hUTiK+wMhFlTGYNAMVWoi9lpdvItGLkYAfyAZxC6hG+OE
+	 lnCdOMnXjnd7uLKdT7hOmBsffOkQudtk7d8UNG/AoGIRwC8/d1COHNmC14wlNiJm5d
+	 UCt5VHWLRXLSAoD7OoxBxNbVJZKpwzyoFDidceD3RnWwkYmhSyoJ63JKG/C4O6+zNS
+	 IXxWOx7ABa6J5EVTUgYscYePsexYD0zh+2/hHA6G6K3kndMYGU+XiLtxfaPpm9jrjA
+	 4D2paLb+1y46p/qcKykvoiZjNNoBnoOGUgG6+l3gIfgxu6L8H3df6SrxasJgVQqGwU
+	 pjsICN6GyhI8Q==
+Date: Wed, 4 Sep 2024 09:37:45 +0200
+From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
 	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
-	soc@kernel.org, Gregory Clement <gregory.clement@bootlin.com>, 
-	arm <arm@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>, 
+	arm@kernel.org, Andy Shevchenko <andy@kernel.org>, 
 	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-Subject: Re: [PATCH leds v2 10/11] leds: turris-omnia: Use 100 columns in the
- rest of the code
-Message-ID: <qlvkoj3nnfcnl2p5ekiaguhdgvsqug33jtpjxe3znj7urkvkdv@22honu42olit>
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Subject: Re: [PATCH leds v2 08/11] leds: turris-omnia: Use dev_err_probe()
+ where appropriate
+Message-ID: <lt2yews6pr2bicwj6xpvodw4pliwjo6rx7pckn4o63wyn4tajg@nq75jkw5qtfb>
 References: <20240903101930.16251-1-kabel@kernel.org>
- <20240903101930.16251-11-kabel@kernel.org>
- <fce1d0ed-d7e3-401a-9132-0b5c1571398c@app.fastmail.com>
+ <20240903101930.16251-9-kabel@kernel.org>
+ <CAHp75VfEnuJb2s4QWJ3NNeXcx+qwNXf2ypJ6A35ECOEf+TA9EQ@mail.gmail.com>
+ <224af639-babd-4d6e-813b-70fe07d5e337@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fce1d0ed-d7e3-401a-9132-0b5c1571398c@app.fastmail.com>
-X-Virus-Scanned: clamav-milter 0.103.10 at mail
-X-Virus-Status: Clean
-X-Rspamd-Action: no action
-X-Rspamd-Server: mail
-X-Rspamd-Pre-Result: action=no action;
-	module=multimap;
-	Matched map: WHITELISTED_IP
-X-Rspamd-Queue-Id: 9CF0A1C11E3
-X-Spamd-Bar: /
-X-Spamd-Result: default: False [-0.10 / 20.00];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	WHITELISTED_IP(0.00)[172.20.6.91];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+In-Reply-To: <224af639-babd-4d6e-813b-70fe07d5e337@lunn.ch>
 
-On Tue, Sep 03, 2024 at 03:21:15PM +0200, Arnd Bergmann wrote:
-> On Tue, Sep 3, 2024, at 12:19, Marek Behún wrote:
-> > There are 7 more places in the code where the 100 column limit can be
-> > used to make the code more uniform. Do it.
-> >
-> > Signed-off-by: Marek Behún <kabel@kernel.org>
+On Tue, Sep 03, 2024 at 05:56:29PM +0200, Andrew Lunn wrote:
+> On Tue, Sep 03, 2024 at 01:45:49PM +0300, Andy Shevchenko wrote:
+> > On Tue, Sep 3, 2024 at 1:20â€¯PM Marek BehÃºn <kabel@kernel.org> wrote:
+> > >
+> > > Use dev_err_probe() instead of dev_err() + separate return where
+> > > appropriate.
+> > 
+> > ...
+> > 
+> > > +       if (ret)
+> > > +               return dev_err_probe(dev, ret, "Cannot set LED %pOF to software mode\n", np);
+> > 
+> > Side note: Not sure how np is being used besides the messaging. If
+> > it's only for the messaging, I would rather see %pfw and fwnode based
+> > approach.
 > 
-> I feel like it's ok to use either 80-character or 100-character line
-> lengths in a file, but I don't see much value in changing from one to
-> another here, maybe just drop this patch.
+> This board has a number of Ethernet switches described in DT.  Nobody
+> takes ACPI seriously for any sort of complex networking. So using
+> fwnode is probably pointless, this board will probably never be used
+> with anything other than DT.
 
-By either-or you mean exclusive or inclusive OR? The driver already has
-some lines at 80 and other at 100, so I just wanted to convert to 100
-completely.
+Although this is true, my opinion is that converting drivers to fwnode
+API would still have some theoretical merit. For example using the
+device_property_*() functions, where possible, seems nicer semantically.
 
-But I don't mind dropping it.
+I think I tried it once, or at least asked Pavel if I should, and he
+turned me down, so I abandoned the effort.
+
+But the patch would be a very simple one.
+
+Marek
 
