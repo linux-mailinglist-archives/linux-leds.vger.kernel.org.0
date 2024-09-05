@@ -1,109 +1,167 @@
-Return-Path: <linux-leds+bounces-2605-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2606-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF58D96D258
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 10:38:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 449D696DC4B
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 16:48:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6970B1F2A579
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 08:38:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4561E1C215C9
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 14:48:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACD08194AC7;
-	Thu,  5 Sep 2024 08:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B312F870;
+	Thu,  5 Sep 2024 14:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQ6MlztX"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="w/b4diqw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463101898E4;
-	Thu,  5 Sep 2024 08:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13808179BF;
+	Thu,  5 Sep 2024 14:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725525511; cv=none; b=PLPjsomzmk3DSQW8xlwzj2PHUXxJo1wMmCJabFaSWFmqqYeEAUGRo233KQk+8pc16D9JAYL/MmyzqSaPL0bJWp4iqqwZJfGj4zTFggMpN9BiSuvhHoG8mERb1pqi5pD66y/w5fDN54UpCisgk6Kgb/vFP2XXkD83AJ3vHFhuQCs=
+	t=1725547725; cv=none; b=dO8ul8/V6RZJOasWSvWJBgwC2d4VEDvSY/IBwFhoVoCWcjmLfVoGii5/SyLfmOURN3iMgCnHXMOP32XySpUTlVjb4jrofVlzIW0PsQ/OyzpPdtZYjPRTIzXEA0carIfO+LsagFcvEZB3db+E1EtcmEm9PlhPIxnnotShVgDV+EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725525511; c=relaxed/simple;
-	bh=ApFEG/8hgSP79AC1OQrIN2gy7kHgGP8XJqjnCL21jr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MvjQ4fUs8KRw0XB58wjIc71oznmkUZpqS26Q+1/O6igwdMnypZ1k0gHEzVSfp8SEgFOnhqZgFIIINlrvfRIVB0myuy1QOOVJg52lEv8xpT+4sbg7sa1ACTeJS/HLzGwHU8GuJqSUct4rgeCoSWCeT3NHYvJpA3QHyLkO7VCr4XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQ6MlztX; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725525510; x=1757061510;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ApFEG/8hgSP79AC1OQrIN2gy7kHgGP8XJqjnCL21jr0=;
-  b=LQ6MlztXCKVuDsjL9Zv0cHrRjoQQ3XSBJxIkXmV2J4FnhxSNj+MhVv3q
-   S5wJ6imn7kUwSxhA7CSGq+ri1XYQ5CUW89A4p4cT7ddgimgHF8dZDuca4
-   ztACL3DNs5WRxAR3XNHcry86GKmtaSp4UuJAH5orFidRGoh7S29zBQURC
-   MOp5Ks1nhBSNGa5+PTs9ySSIjDSP/T8dOaIzst2XSc1d52Q3wWomuWD1k
-   1DWY7sIUjjTm+LB/MciBBVsTzR9HFfuQem9eepAgNB4tgxpj68m/c5+/f
-   y6qAOhBODrMmO/M9wgJT0tnpiMRyL3349WnCDQS+V6Lsgetia+SHkbXeh
-   g==;
-X-CSE-ConnectionGUID: HVR79ASGTJyd/Kja6kHKVQ==
-X-CSE-MsgGUID: 2k4+ZCZOSYCwnS5pVU6JmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24102266"
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="24102266"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 01:38:29 -0700
-X-CSE-ConnectionGUID: XcWnu0czRBG19CXaT9wKdg==
-X-CSE-MsgGUID: w3Ccck5hTmWQzvhu0as6Rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="65532989"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 01:38:25 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sm80T-00000005Knk-48yp;
-	Thu, 05 Sep 2024 11:38:21 +0300
-Date: Thu, 5 Sep 2024 11:38:21 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-leds@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>, Christoph Hellwig <hch@lst.de>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Marek Behun <marek.behun@nic.cz>, Pavel Machek <pavel@ucw.cz>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 0/3] PCIe Enclosure LED Management
-Message-ID: <Ztlt_ZUy1EH1VQgC@smile.fi.intel.com>
-References: <20240904104848.23480-1-mariusz.tkaczyk@linux.intel.com>
- <20240904222732.GA359748@bhelgaas>
+	s=arc-20240116; t=1725547725; c=relaxed/simple;
+	bh=0ommqQRWmdehvN0o6pbfhCcsZNj04TF1UHTEwGE5yDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j3ez7wsb/1ApqH+94ZSJ7MpY+Wc6GIDtaLnrHA8LZz9w+6e4pt28cDZRanlykN7wNXiJAEVkBkjK7KE3f/S91Rpm7MmJ25tyAudcwEFZGnh2IiEExlwT/z4SY4NNMlDZMVjCZIULEuKh784ioAnCevBXw5eyZwzNBYdEltIykDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=w/b4diqw; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Z9IgYD/2bP3HwiWDe9m6U4cOpfzwTsOumgc5N6zAYJA=; b=w/b4diqw5J8ZIWZLi5djL0KZax
+	oYskcatg6UJKVdLpBuSCCoPxb857ufeJN9eshcmsi68J/7ptbzWk043BsCHcRZ+oXflAwquP5rcoA
+	MV40is1liBi9d8axQSJHuIhypek6r9Lvz4WU8t+VItpygoIB3Qrdq4VKamWkE7HBi7vMET96xV0oC
+	yyF4mAvu0ThWEjYfLULsTtkVHc3A6s7wx5yRnUz9WjN0FdjUpRdKbQ0bD/gnSFwMp9guoDc2fL3HW
+	4iE5WgDR4IijnID5sLC2t6JfrtyLyvB2hFOMLYI26aTLd/qZk5RdFq5LFYVTydBQ05sXM6fHcZQsu
+	0P35Q/gw==;
+Received: from i5e860d0f.versanet.de ([94.134.13.15] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1smDmd-0002HD-Hx; Thu, 05 Sep 2024 16:48:27 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Lee Jones <lee@kernel.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ jdelvare@suse.com, linux@roeck-us.net, dmitry.torokhov@gmail.com,
+ pavel@ucw.cz, ukleinek@debian.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v6 3/7] leds: add driver for LEDs from qnap-mcu devices
+Date: Thu, 05 Sep 2024 16:50:22 +0200
+Message-ID: <3627679.ZzFAyJQhcr@diego>
+In-Reply-To: <20240829162705.GR6858@google.com>
+References:
+ <20240825203235.1122198-1-heiko@sntech.de>
+ <20240825203235.1122198-4-heiko@sntech.de> <20240829162705.GR6858@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240904222732.GA359748@bhelgaas>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Sep 04, 2024 at 05:27:32PM -0500, Bjorn Helgaas wrote:
-> On Wed, Sep 04, 2024 at 12:48:45PM +0200, Mariusz Tkaczyk wrote:
+Am Donnerstag, 29. August 2024, 18:27:05 CEST schrieben Sie:
+> On Sun, 25 Aug 2024, Heiko Stuebner wrote:
+> 
+> > This adds a driver that connects to the qnap-mcu mfd driver and provides
+> > access to the LEDs on it.
+> > 
+> > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 
-> I noticed that b4 didn't pick up Stuart's Tested-by from the cover
-> letter.  I assume it covers the whole series, so I added it to each
-> patch.  Let me know if that's not what you intended.
+[...]
 
-You forgot to add -t IIRC which does spread the tags against cover letter to
-all of the patches.
+> > +{
+> > +	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
+> > +	u8 cmd[] = { 0x40, 0x52, 0x30 + err_led->num, 0x30 };
+> 
+> Really not fan of these magic values being used raw like this.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Me neither, I tried my luck with QNAP support to get some sort of
+documentation on what these magic characters mean, and it did
+even get up to some "product team" but ultimately they decided
+against providing any help.
+
+But ok, if it makes you feel more at ease, I'll switch to at least
+replaying ascii-values where possible :-) .
+
+
+> > +static int qnap_mcu_err_led_blink_set(struct led_classdev *led_cdev,
+> > +				      unsigned long *delay_on,
+> > +				      unsigned long *delay_off)
+> > +{
+> > +	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
+> > +	u8 cmd[] = { 0x40, 0x52, 0x30 + err_led->num, 0x30 };
+> > +
+> > +	/* LED is off, nothing to do */
+> > +	if (err_led->mode == QNAP_MCU_ERR_LED_OFF)
+> > +		return 0;
+> > +
+> > +	if (*delay_on < 500) {
+> 
+> Setting delay_on based on the current value of delay_on sounds sketchy.
+
+As far as I understood the API, the parameter should indicated the wanted
+blink time, while the function then should set in those variables the delay
+the driver actually set.
+
+So if the delay_on is < 500, select the fast blink mode, which is this
+100/100 variant and for everything >= 500 the slow blink mode.
+
+I.e. you set the trigger to "timer" and this creates the delay_on and
+delay_off sysfs files, where you put you wish into and can read the
+actually set delays out of.
+
+
+> > +		*delay_on = 100;
+> > +		*delay_off = 100;
+> > +		err_led->mode = QNAP_MCU_ERR_LED_BLINK_FAST;
+> > +	} else {
+> > +		*delay_on = 500;
+> > +		*delay_off = 500;
+> > +		err_led->mode = QNAP_MCU_ERR_LED_BLINK_SLOW;
+> > +	}
+> 
+> How do you change from a fast to a slow blinking LED and back again?
+
+echo timer > /sys/class/leds/hdd4:red:status/trigger
+## creates delay_on + delay_off sysfs files
+
+echo 150 > /sys/class/leds/hdd4:red:status/delay_on
+cat /sys/class/leds/hdd4:red:status/delay_on --> 100
+
+echo 250 > /sys/class/leds/hdd4:red:status/delay_on
+cat /sys/class/leds/hdd4:red:status/delay_on --> 100
+
+## switch to slow blink
+
+echo 500 > /sys/class/leds/hdd4:red:status/delay_on
+cat /sys/class/leds/hdd4:red:status/delay_on --> 500
+
+echo 600 > /sys/class/leds/hdd4:red:status/delay_on
+cat /sys/class/leds/hdd4:red:status/delay_on --> 500
+
+## switch to fast blink again
+
+echo 150 > /sys/class/leds/hdd4:red:status/delay_on
+cat /sys/class/leds/hdd4:red:status/delay_on --> 100
+
+echo heartbeat > /sys/class/leds/hdd4:red:status/trigger
+## removes the delay_on + delay_off files again
+
+
+Heiko
 
 
 
