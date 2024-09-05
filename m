@@ -1,167 +1,233 @@
-Return-Path: <linux-leds+bounces-2606-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2611-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449D696DC4B
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 16:48:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E5096E265
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 20:53:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4561E1C215C9
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 14:48:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0BC8282AE4
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2024 18:53:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B312F870;
-	Thu,  5 Sep 2024 14:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BE01A726E;
+	Thu,  5 Sep 2024 18:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="w/b4diqw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="QQcU3hd5"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13808179BF;
-	Thu,  5 Sep 2024 14:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E7A1A3BCD;
+	Thu,  5 Sep 2024 18:52:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725547725; cv=none; b=dO8ul8/V6RZJOasWSvWJBgwC2d4VEDvSY/IBwFhoVoCWcjmLfVoGii5/SyLfmOURN3iMgCnHXMOP32XySpUTlVjb4jrofVlzIW0PsQ/OyzpPdtZYjPRTIzXEA0carIfO+LsagFcvEZB3db+E1EtcmEm9PlhPIxnnotShVgDV+EY=
+	t=1725562375; cv=none; b=b/TuhWPKZigFguBIiJqX4/Wpv/mAfy9cdnsvpDTcDbaHy+g4k+3E53YHplN4G9KBmhdAkTXV5xqm2rwNbGEd8Y5wpciu1AHadb7LJbsjUN3TFSkG4KzOr8GkpBnruJ07r3yq+mUELyvf5c2FksZIkxHMLyTooXHsL/pHWsr4sNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725547725; c=relaxed/simple;
-	bh=0ommqQRWmdehvN0o6pbfhCcsZNj04TF1UHTEwGE5yDM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j3ez7wsb/1ApqH+94ZSJ7MpY+Wc6GIDtaLnrHA8LZz9w+6e4pt28cDZRanlykN7wNXiJAEVkBkjK7KE3f/S91Rpm7MmJ25tyAudcwEFZGnh2IiEExlwT/z4SY4NNMlDZMVjCZIULEuKh784ioAnCevBXw5eyZwzNBYdEltIykDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=w/b4diqw; arc=none smtp.client-ip=185.11.138.130
+	s=arc-20240116; t=1725562375; c=relaxed/simple;
+	bh=AkzajpIKfF8NtIIPsmiGYss3Q98Skmep9rZvjjaKhUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YdLwyH9HUP+HE4fAl02ajHFtHLwZPBGZ15NIYNnNKTTlBmqKB6jyzqYOnlYPV627qJcNpu0oN4/1NMXWA9bXNYW6a6UvlQw5OAJ//gpe+K6hcHsz4SikEEbqnheW3fAKRpffIz8kEu+xOzhqy18D4+VuCM4fAsVpS4ZiSoqQsg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=QQcU3hd5; arc=none smtp.client-ip=185.11.138.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Z9IgYD/2bP3HwiWDe9m6U4cOpfzwTsOumgc5N6zAYJA=; b=w/b4diqw5J8ZIWZLi5djL0KZax
-	oYskcatg6UJKVdLpBuSCCoPxb857ufeJN9eshcmsi68J/7ptbzWk043BsCHcRZ+oXflAwquP5rcoA
-	MV40is1liBi9d8axQSJHuIhypek6r9Lvz4WU8t+VItpygoIB3Qrdq4VKamWkE7HBi7vMET96xV0oC
-	yyF4mAvu0ThWEjYfLULsTtkVHc3A6s7wx5yRnUz9WjN0FdjUpRdKbQ0bD/gnSFwMp9guoDc2fL3HW
-	4iE5WgDR4IijnID5sLC2t6JfrtyLyvB2hFOMLYI26aTLd/qZk5RdFq5LFYVTydBQ05sXM6fHcZQsu
-	0P35Q/gw==;
-Received: from i5e860d0f.versanet.de ([94.134.13.15] helo=diego.localnet)
+	bh=PqFNwfvYsgS6vo30lTnhwzemr9bycu9C6rzu97s2RSs=; b=QQcU3hd5iiI3eF/kwRllkGjuts
+	fti1YV+ELJokmUHIIKRJrcijXJwg3XGB8qXenCruLZDyC2uec8mjg30myz4L5bVT4EVbre0egKve7
+	n3GQzvy0RZh01y1NIoHl0QM+M1VSGrDdtFQGWod3W1B7ailP0LQAsxlCqdXoEkGPB8x55kO7qyd/3
+	iqeWuGjhGMtklLMoKgAPVuozHLZQJekQiFQc1kbYBWdjLucVz9ZE05ZbeQ5nhY7UyRfySeOvxD3AT
+	iMk6bT7vSiJVONgaZqM6njIAWP/9/0/3/9Bvl0cq3c7dSuZVyjlBOvCLufHAW+sV7gt5cUi5InTBA
+	P8ka+nGg==;
+Received: from i5e860d0f.versanet.de ([94.134.13.15] helo=phil.lan)
 	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <heiko@sntech.de>)
-	id 1smDmd-0002HD-Hx; Thu, 05 Sep 2024 16:48:27 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Lee Jones <lee@kernel.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- jdelvare@suse.com, linux@roeck-us.net, dmitry.torokhov@gmail.com,
- pavel@ucw.cz, ukleinek@debian.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v6 3/7] leds: add driver for LEDs from qnap-mcu devices
-Date: Thu, 05 Sep 2024 16:50:22 +0200
-Message-ID: <3627679.ZzFAyJQhcr@diego>
-In-Reply-To: <20240829162705.GR6858@google.com>
-References:
- <20240825203235.1122198-1-heiko@sntech.de>
- <20240825203235.1122198-4-heiko@sntech.de> <20240829162705.GR6858@google.com>
+	id 1smHav-0003sR-Uu; Thu, 05 Sep 2024 20:52:38 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: lee@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	heiko@sntech.de,
+	dmitry.torokhov@gmail.com,
+	pavel@ucw.cz,
+	ukleinek@debian.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: [PATCH v7 0/8] Drivers to support the MCU on QNAP NAS devices
+Date: Thu,  5 Sep 2024 20:52:24 +0200
+Message-ID: <20240905185232.2899464-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Am Donnerstag, 29. August 2024, 18:27:05 CEST schrieben Sie:
-> On Sun, 25 Aug 2024, Heiko Stuebner wrote:
-> 
-> > This adds a driver that connects to the qnap-mcu mfd driver and provides
-> > access to the LEDs on it.
-> > 
-> > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+This implements a set of drivers for the MCU used on QNAP NAS devices.
 
-[...]
+Of course no documentation for the serial protocol is available, so
+thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
+I found interceptty [0] to listen to what goes over the serial connection.
 
-> > +{
-> > +	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
-> > +	u8 cmd[] = { 0x40, 0x52, 0x30 + err_led->num, 0x30 };
-> 
-> Really not fan of these magic values being used raw like this.
+In general it looks like there are two different generations in general,
+an "EC" device and now this "MCU" - referenced in the strings of the
+userspace handlers for those devices.
 
-Me neither, I tried my luck with QNAP support to get some sort of
-documentation on what these magic characters mean, and it did
-even get up to some "product team" but ultimately they decided
-against providing any help.
+For the MCU "SPEC3" and "SPEC4" are listed which is configured in
+the model.conf of the device. When setting the value from SPEC4 to
+SPEC3 on my TS433, the supported commands change, but the command
+interface stays the same and especially the version command is the
+same.
 
-But ok, if it makes you feel more at ease, I'll switch to at least
-replaying ascii-values where possible :-) .
+The binding also does not expose any interals of the device that
+might change, so hopefully there shouldn't be big roadblocks to
+support different devices, apart from possibly adapting the commands.
 
 
-> > +static int qnap_mcu_err_led_blink_set(struct led_classdev *led_cdev,
-> > +				      unsigned long *delay_on,
-> > +				      unsigned long *delay_off)
-> > +{
-> > +	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
-> > +	u8 cmd[] = { 0x40, 0x52, 0x30 + err_led->num, 0x30 };
-> > +
-> > +	/* LED is off, nothing to do */
-> > +	if (err_led->mode == QNAP_MCU_ERR_LED_OFF)
-> > +		return 0;
-> > +
-> > +	if (*delay_on < 500) {
-> 
-> Setting delay_on based on the current value of delay_on sounds sketchy.
+changes in v7:
+- use ASCII representation in commands where possible instead of hex vals
+- drop get_variant function and use mfd platform-data instead
 
-As far as I understood the API, the parameter should indicated the wanted
-blink time, while the function then should set in those variables the delay
-the driver actually set.
+mfd:
+- a lot of style improvements
 
-So if the delay_on is < 500, select the fast blink mode, which is this
-100/100 variant and for everything >= 500 the slow blink mode.
-
-I.e. you set the trigger to "timer" and this creates the delay_on and
-delay_off sysfs files, where you put you wish into and can read the
-actually set delays out of.
+leds:
+- name variables better (value -> brightness, num -> num_err_led)
+- handle preservation of blink mode more effectively
+- snprintf -> scnprintf
+- drop duplicate "failed to register ... LED" messages
 
 
-> > +		*delay_on = 100;
-> > +		*delay_off = 100;
-> > +		err_led->mode = QNAP_MCU_ERR_LED_BLINK_FAST;
-> > +	} else {
-> > +		*delay_on = 500;
-> > +		*delay_off = 500;
-> > +		err_led->mode = QNAP_MCU_ERR_LED_BLINK_SLOW;
-> > +	}
-> 
-> How do you change from a fast to a slow blinking LED and back again?
+changes in v6:
+- format mcu commands arrays in single lines (Lee)
 
-echo timer > /sys/class/leds/hdd4:red:status/trigger
-## creates delay_on + delay_off sysfs files
-
-echo 150 > /sys/class/leds/hdd4:red:status/delay_on
-cat /sys/class/leds/hdd4:red:status/delay_on --> 100
-
-echo 250 > /sys/class/leds/hdd4:red:status/delay_on
-cat /sys/class/leds/hdd4:red:status/delay_on --> 100
-
-## switch to slow blink
-
-echo 500 > /sys/class/leds/hdd4:red:status/delay_on
-cat /sys/class/leds/hdd4:red:status/delay_on --> 500
-
-echo 600 > /sys/class/leds/hdd4:red:status/delay_on
-cat /sys/class/leds/hdd4:red:status/delay_on --> 500
-
-## switch to fast blink again
-
-echo 150 > /sys/class/leds/hdd4:red:status/delay_on
-cat /sys/class/leds/hdd4:red:status/delay_on --> 100
-
-echo heartbeat > /sys/class/leds/hdd4:red:status/trigger
-## removes the delay_on + delay_off files again
+mfd:
+- drop obsolete remain kdoc for the removed
+  reply_lock (kernel test robot)
 
 
-Heiko
+changes in v5:
+binding:
+- add Conor's Reviewed-by
 
+mfd:
+Address comments from Lee
+- improve commit message
+- improve Kconfig help text
+- sort headers alphabetical
+- style and spelling improvements
+- constants for magic numbers
+- drop reply assignment, the mcu only replies to commands sent to it,
+  so there should only ever be one command in fligth.
+
+hwmon:
+Add Acked-by from Guenter and address some remarks
+  - don't allow empty fan subnode
+  - use num var directly when getting cooling levels, without using ret
+    intermediate
+  - use dev_err_probe in thermal init function
+
+
+changes in v4:
+binding:
+- move cooling properties into a fan subnode and reference
+  fan-common.yaml (Rob)
+- dropped Krzysztof's Ack because of this
+
+mfd:
+- use correct format-string for size_t (kernel test robot)
+
+input:
+- added Dmitry's Ack
+
+hwmon:
+- adapted to fan-subnode when reading cooling properties
+- dropped Guenter's Ack because of this
+
+
+changes in v3:
+mfd
+- use correct power-off priority: default
+- constify the cmd-data array in command functions (Dmitry)
+
+leds:
+- don't point to temporary buffers for cdev->name (Florian Eckert)
+
+hwmon:
+- use clamp_val(), don't try to reimplement (Guenter)
+- add Guenter's Ack
+
+input:
+address Dmitry's comments
+- constify some cmd arrays
+- add input-close callback to cancel beep worker
+- drop initial input event report
+
+
+changes in v2:
+binding:
+- rename to qnap,ts433-mcu.yaml (Krzysztof)
+- drop "preserve formatting" indicator (Krzysztof)
+- add Krzysztof's Review tag
+
+mfd:
+- fix checkpatch --strict CHECKs
+- add a MAINTAINERS entry for all qnap-mcu-parts
+
+
+Heiko Stuebner (8):
+  mfd: core: make platform_data pointer const in struct mfd_cell
+  dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+  mfd: add base driver for qnap-mcu devices
+  leds: add driver for LEDs from qnap-mcu devices
+  Input: add driver for the input part of qnap-mcu devices
+  hwmon: add driver for the hwmon parts of qnap-mcu devices
+  arm64: dts: rockchip: hook up the MCU on the QNAP TS433
+  arm64: dts: rockchip: set hdd led labels on qnap-ts433
+
+ .../bindings/mfd/qnap,ts433-mcu.yaml          |  42 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/qnap-mcu-hwmon.rst        |  27 ++
+ MAINTAINERS                                   |   9 +
+ .../boot/dts/rockchip/rk3568-qnap-ts433.dts   |  61 +++
+ drivers/hwmon/Kconfig                         |  12 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/qnap-mcu-hwmon.c                | 364 ++++++++++++++++++
+ drivers/input/misc/Kconfig                    |  12 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/qnap-mcu-input.c           | 153 ++++++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-qnap-mcu.c                  | 227 +++++++++++
+ drivers/mfd/Kconfig                           |  13 +
+ drivers/mfd/Makefile                          |   2 +
+ drivers/mfd/qnap-mcu.c                        | 332 ++++++++++++++++
+ include/linux/mfd/core.h                      |   2 +-
+ include/linux/mfd/qnap-mcu.h                  |  26 ++
+ 19 files changed, 1296 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+ create mode 100644 Documentation/hwmon/qnap-mcu-hwmon.rst
+ create mode 100644 drivers/hwmon/qnap-mcu-hwmon.c
+ create mode 100644 drivers/input/misc/qnap-mcu-input.c
+ create mode 100644 drivers/leds/leds-qnap-mcu.c
+ create mode 100644 drivers/mfd/qnap-mcu.c
+ create mode 100644 include/linux/mfd/qnap-mcu.h
+
+-- 
+2.43.0
 
 
