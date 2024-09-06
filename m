@@ -1,99 +1,156 @@
-Return-Path: <linux-leds+bounces-2616-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2617-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E07C96EAF4
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2024 08:48:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EC596EF81
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2024 11:38:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A953F1C214DC
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2024 06:48:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 296781F25199
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2024 09:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E3B21428F3;
-	Fri,  6 Sep 2024 06:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 605F01C8FA5;
+	Fri,  6 Sep 2024 09:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=classfun.cn header.i=@classfun.cn header.b="drSg8Fhk"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C8732C8E;
-	Fri,  6 Sep 2024 06:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+Received: from classfun.cn (unknown [129.204.178.38])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 481241C870B;
+	Fri,  6 Sep 2024 09:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.204.178.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725605326; cv=none; b=tU0EAFXa5dwZ0BmX1g/qInfCL7CkNcsLIwBbceT8MaD1UttDCSnrlnlWBXarMFckYvXkJMF6AB5ku3VNhkNTK/ym9h8R2Jw1CLi+SVKU0Vejcbs5+awwIJ9eT02WT0/xQ+C6P548tbChug3NC5QyZ5neNVz5eO5e/Krf2RqjHF0=
+	t=1725615485; cv=none; b=XWOizhqOdW73iniJP62hXN8uMORcIBEk1kkt8Eayvvm+ZIz3gLQD/tSMDhonKRrslgEJJ0eyKAdFw0oZYhNL7tIiAU4t6hU0ziPAwOND5d93cQH99qL9sUp4VOFROkgBx6ucWs5UePmGqe97WC4phfJ+RlKOrlal2vM0U7hdOu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725605326; c=relaxed/simple;
-	bh=NXS5ZK0lqzOULgd1LCTYCrHVS9wA1Kpya+DiHw60DTc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qq3Jw9GQqOOv7LXnP3r/zMs1rTeCDeDUCMzK6mhevuJQAmy6Rlxkd6jvRGV2NvuTM+9TVdSQaCK48CNSPE4+Sj0LDO+h5PERXayGV+7CrKH0BZzLsKmsvKH4yxVB6w8cwzNYqOl58ncc5zSW8PF7M8uWNMH9pHfJuWsllVmvGTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-718d704704aso364004b3a.3;
-        Thu, 05 Sep 2024 23:48:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725605324; x=1726210124;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qjecQQXVxyphlazk9yR1DSS1IxHXeEWdJ2bGDGBfqVo=;
-        b=nIzUmRF5jhnRX7PzIb50PlhNuMN059XiWw3usZ4VH6ynd/kr5Z/3gMvDZRaWAiGzfc
-         vspPriH/B8Lci6pg5fkMW9GvLKizAyEq9fDbeHv2TNSwKfNJwS/VPgk4u+m5LmqqU6CH
-         GXyXmWW2pzbyTwtw+wjNDqgz7Wt2IDmbSaECi44Po791zVN9svmO9tgeAwqJ9t6OVJ5Y
-         HihZ5SN0kdSAAZWZWLOa6msDrLv9DFxiC4l1BbbjtxzlEuBCM0VOdzAIVEe7mlR5osjs
-         j+baElp09IwCZNxtjCjMJvyykAZGaDSwLXTBekcpFTbF8CNg9qjyiy4ELWgYyYcz2reF
-         yRKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLSzj7U4EULZjz4GboQBFqdmCl2AxnEoa/FefWrssSK7iI3bnAXTM3Exx8A92ni1g842iyY6vUWsi7@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuJ7w6hVn8jqi/T6+rzLpboaKWXVBOYDip2qXEaUu1Q36XuA4g
-	GCi+DCcdH7fBwUg9E2C+Q8AEVthfGcUXIOtif5mRPU4bl6rSf1VT
-X-Google-Smtp-Source: AGHT+IELHxEdT89rx+3aTx8bL3glmh7h9vtNWzgc7Z1akYjjecDGsRdR9tgUtmBEmdzIPJUyypOvxg==
-X-Received: by 2002:a05:6a00:198f:b0:714:2533:1b82 with SMTP id d2e1a72fcca58-715dfccab85mr32451515b3a.23.1725605324381;
-        Thu, 05 Sep 2024 23:48:44 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7177859968csm4340081b3a.146.2024.09.05.23.48.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 23:48:43 -0700 (PDT)
-Date: Fri, 6 Sep 2024 15:48:42 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
-Cc: linux-pci@vger.kernel.org, linux-leds@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>, Christoph Hellwig <hch@lst.de>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Marek Behun <marek.behun@nic.cz>, Pavel Machek <pavel@ucw.cz>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v7 3/3] PCI/NPEM: Add _DSM PCIe SSD status LED management
-Message-ID: <20240906064842.GE679795@rocinante>
-References: <20240904104848.23480-1-mariusz.tkaczyk@linux.intel.com>
- <20240904104848.23480-4-mariusz.tkaczyk@linux.intel.com>
+	s=arc-20240116; t=1725615485; c=relaxed/simple;
+	bh=0cWAEMyIHMK5hKqCiTZBW3Hcb6kQYvI3HtqeHMi2no4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CdDCt7uXIqD4QC9/cvrm0Uu8++2BAxM5+GcDt0p6chN0HMS6EuoVNdy3n5+eKQppkyWGj3lvQlYDYmN183ScjcmrCDt9WpquzkgxYEJSbK8cz6ubg8ZM7qTvJ4Ab4dtvWYcOadryVIx+ahX2ZmxOp77g0SQQyLCFWTYSZm/s2aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=classfun.cn; spf=pass smtp.mailfrom=classfun.cn; dkim=pass (1024-bit key) header.d=classfun.cn header.i=@classfun.cn header.b=drSg8Fhk; arc=none smtp.client-ip=129.204.178.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=classfun.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=classfun.cn
+Received: from bigfoot-server-storage.classfun.cn (unknown [124.72.163.35])
+	(Authenticated sender: bigfoot)
+	by classfun.cn (Postfix) with ESMTPSA id 1447F789FD;
+	Fri,  6 Sep 2024 17:37:42 +0800 (CST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 classfun.cn 1447F789FD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=classfun.cn;
+	s=default; t=1725615473;
+	bh=tyBtwkNnhg6jrvb3pwGGUkiw4PdPR9/Ska2BS2U9HwQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=drSg8FhkBGDvt0ogiXR5j9FZTpSiNbJJ0Vg4jDlDzlUVLImcJFq6oI7EFl/IyaB6Q
+	 UI4/HSsbUgIfntf02tMCCIX6gZHsoPotBcIOKeo2h08l6hD4qIF7a9GNG0udfQ9mGu
+	 E1L9SlY3LJFxoFLLIej8DpWdiqUQsUeClziaoHZE=
+From: Junhao Xie <bigfoot@classfun.cn>
+To: devicetree@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Cc: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Chukun Pan <amadeus@jmu.edu.cn>,
+	Junhao Xie <bigfoot@classfun.cn>
+Subject: [PATCH 0/9] Introduce Photonicat power management MCU driver
+Date: Fri,  6 Sep 2024 17:36:21 +0800
+Message-ID: <20240906093630.2428329-1-bigfoot@classfun.cn>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240904104848.23480-4-mariusz.tkaczyk@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Initial support for the power management MCU in the Ariaboard Photonicat
+This patch series depends on Add support for Ariaboard Photonicat RK3568 [1]
 
-Very nice series!
+Currently implemented features:
+  Implement serial communication protocol with MCU [2].
+  Support watchdog in MCU.
+  Shutdown by power button and system notifies MCU to power-off.
+  Read charger and battery supply voltage and simply calculate capacity.
+  Read board temperature sensor.
+  Set status of the network status LED.
+  Read and set the MCU real-time clock date time.
 
-[...]
-> +static const struct npem_ops dsm_ops = {
-> +	.get_active_indications = dsm_get_active_indications,
-> +	.set_active_indications = dsm_set_active_indications,
-> +	.name =  "_DSM PCIe SSD Status LED Management",
+[1] https://lore.kernel.org/linux-arm-kernel/20240906045706.1004813-1-bigfoot@classfun.cn/
+[2] https://photonicat.com/wiki/PMU_Protocol
 
-A small nit: extra space.
+Junhao Xie (9):
+  mfd: Add driver for Photonicat power management MCU
+  power: reset: add Photonicat PMU poweroff driver
+  watchdog: Add Photonicat PMU watchdog driver
+  power: supply: photonicat-supply: Add Photonicat PMU battery and
+    charger
+  rtc: Add Photonicat PMU real-time clock
+  hwmon: Add support for Photonicat PMU board temperature sensor
+  leds: add Photonicat PMU LED driver
+  dt-bindings: Add documentation for Photonicat PMU
+  arm64: dts: rockchip: add Photonicat PMU support for Ariaboard
+    Photonicat
 
-Bjorn, we can mend this on the branch, if are OK with that.
+ .../hwmon/ariaboard,photonicat-pmu-hwmon.yaml |  40 ++
+ .../leds/ariaboard,photonicat-pmu-leds.yaml   |  41 ++
+ .../mfd/ariaboard,photonicat-pmu.yaml         | 107 ++++
+ .../ariaboard,photonicat-pmu-poweroff.yaml    |  34 ++
+ .../ariaboard,photonicat-pmu-supply.yaml      |  55 ++
+ .../rtc/ariaboard,photonicat-pmu-rtc.yaml     |  37 ++
+ .../ariaboard,photonicat-pmu-watchdog.yaml    |  37 ++
+ .../boot/dts/rockchip/rk3568-photonicat.dts   |  43 ++
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/photonicat-hwmon.c              | 129 +++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-photonicat.c                |  75 +++
+ drivers/mfd/Kconfig                           |  13 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/photonicat-pmu.c                  | 501 ++++++++++++++++++
+ drivers/power/reset/Kconfig                   |  12 +
+ drivers/power/reset/Makefile                  |   1 +
+ drivers/power/reset/photonicat-poweroff.c     |  95 ++++
+ drivers/power/supply/Kconfig                  |  12 +
+ drivers/power/supply/Makefile                 |   1 +
+ drivers/power/supply/photonicat-supply.c      | 250 +++++++++
+ drivers/rtc/Kconfig                           |  12 +
+ drivers/rtc/Makefile                          |   1 +
+ drivers/rtc/rtc-photonicat.c                  | 190 +++++++
+ drivers/watchdog/Kconfig                      |  12 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/photonicat-wdt.c             | 124 +++++
+ include/linux/mfd/photonicat-pmu.h            |  86 +++
+ 30 files changed, 1933 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ariaboard,photonicat-pmu-hwmon.yaml
+ create mode 100644 Documentation/devicetree/bindings/leds/ariaboard,photonicat-pmu-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/ariaboard,photonicat-pmu.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/reset/ariaboard,photonicat-pmu-poweroff.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/supply/ariaboard,photonicat-pmu-supply.yaml
+ create mode 100644 Documentation/devicetree/bindings/rtc/ariaboard,photonicat-pmu-rtc.yaml
+ create mode 100644 Documentation/devicetree/bindings/watchdog/ariaboard,photonicat-pmu-watchdog.yaml
+ create mode 100644 drivers/hwmon/photonicat-hwmon.c
+ create mode 100644 drivers/leds/leds-photonicat.c
+ create mode 100644 drivers/mfd/photonicat-pmu.c
+ create mode 100644 drivers/power/reset/photonicat-poweroff.c
+ create mode 100644 drivers/power/supply/photonicat-supply.c
+ create mode 100644 drivers/rtc/rtc-photonicat.c
+ create mode 100644 drivers/watchdog/photonicat-wdt.c
+ create mode 100644 include/linux/mfd/photonicat-pmu.h
 
-	Krzysztof
+-- 
+2.46.0
+
 
