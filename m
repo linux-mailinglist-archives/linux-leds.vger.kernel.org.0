@@ -1,135 +1,114 @@
-Return-Path: <linux-leds+bounces-2662-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2663-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C53797138B
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2024 11:29:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3279F9723A5
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2024 22:28:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 739EF1C22B73
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2024 09:29:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB9CA1F24369
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2024 20:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C1F51B4C4C;
-	Mon,  9 Sep 2024 09:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1P41AHB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F3D188CAF;
+	Mon,  9 Sep 2024 20:28:22 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6718B1B4C39;
-	Mon,  9 Sep 2024 09:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FD416EB55;
+	Mon,  9 Sep 2024 20:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725874094; cv=none; b=Y/zI+YpSg5hFFNPGlKFyZOjypEa+B4ByfwNFvux66QLSaOkS4iNrbPY5QPw5zMErhvrXncFS5ZVZv9RK9ncm0XVwqROO9tBh9Eq5GzhGd7O92Qv3BRrhsPRh9N8s+6dkxjaWc26J+wNThdn5yzaKltGYf3Hzrh6x2kDLeARU9gQ=
+	t=1725913702; cv=none; b=GNrsCqFyVRNxRaOblAs2P5VeY3p0foawmG/t2yXJh1Yav3Ym9a0+eDm/CfmvHzIbQpIJadD03Lsy06xA1OarQ0tzbeDwIgkVq6wpS7lLHBTcf1tgliKqhPZ9dyK2XLWRlAoghQyxtvcxRu9sT37U36RZ28ywCxGnrVLf75hXKgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725874094; c=relaxed/simple;
-	bh=5/vlMbOv5Gk5+EMX5qaHDfYzM7Cjef4SdKHB+HygAh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hn1iwNX/Q5ngp57L0zVxEvu8VbYQK5tsrJp6ekQ04FmcSD6zLxy1t9KKj7aOu+/4WNi+6Armql6tD9Al4RmPy9YYP1bUaiWsZcUY49Y68486A/l61ANtdQYJPZo61gRKeQVh5Ls5RsIgqsE0JBBjpGA6t8wolWKJI3n2dYsXoQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1P41AHB; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725874092; x=1757410092;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5/vlMbOv5Gk5+EMX5qaHDfYzM7Cjef4SdKHB+HygAh0=;
-  b=R1P41AHByMFUquj/YTg3qfeRv/O3d7p5tmZ02DiNa/Qs4w8KyzJeOQLX
-   WhhLxqTSP82dkNcnxXgdS4pjHRCEXyspcaq97RunB5EJt8iILaEOY1fWt
-   jOvibDsns525dKCfiYBwYdY5VwvH8YWCCUwDlvDO8YU7x8kkUfR9DIZhc
-   r01CROotej7zQd8SexJiPb4Hv+XPkz1gvcQbseS6sxINTmOjnXdvGsR3v
-   nv3HN1HBHuG2QVWT9Yo28BaCLtb2swzBlmp8BC7CQu+Q85Jc3nx0WtcP2
-   WvrMjmSD43m+WXCh2SzMcj1p64qVDWv2ZlxmT8+hb3OUvYaBbwm4JZr7h
-   w==;
-X-CSE-ConnectionGUID: bhhSMHL9QXW1Zi4SbtO8VA==
-X-CSE-MsgGUID: X6xX6uWuTHutk4nJ1TghUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24109378"
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="24109378"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:28:11 -0700
-X-CSE-ConnectionGUID: H8Opibg1REiUl+ZWODO8GA==
-X-CSE-MsgGUID: HTJ8Mum9REisrNW8Gq9d1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="71190334"
-Received: from unknown (HELO localhost) ([10.217.182.6])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:28:07 -0700
-Date: Mon, 9 Sep 2024 11:28:02 +0200
-From: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+	s=arc-20240116; t=1725913702; c=relaxed/simple;
+	bh=KWoOpEbiz0TPTJslvAFnv9TWPCEsPiKD/hVA5wSfcxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qd8txNTJvqn2Q26Tpfp88yhFefn48ARR/dJKxm/dH2d2Yk1+7lJ/aGWs2Z5MIps8ADsP9Dw1lvDXiXwsWG5UwkXlLzVFtmL+anXUsmLvnHl9DK2EZBT/26t66f2gIkRM8GtEdeRJPQKHsjmuohzYG1UJayaan3+GRCy/nDgsnSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 9A0D7100E4197;
+	Mon,  9 Sep 2024 22:21:16 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 608EF30C9F5; Mon,  9 Sep 2024 22:21:16 +0200 (CEST)
+Date: Mon, 9 Sep 2024 22:21:16 +0200
+From: Lukas Wunner <lukas@wunner.de>
 To: Lee Jones <lee@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-leds@vger.kernel.org, Lukas Wunner
- <lukas@wunner.de>, Christoph Hellwig <hch@lst.de>, Ilpo =?ISO-8859-1?Q?J?=
- =?ISO-8859-1?Q?=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Stuart Hayes
- <stuart.w.hayes@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas
- <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Keith Busch
- <kbusch@kernel.org>, Marek Behun <marek.behun@nic.cz>, Pavel Machek
- <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>
+Cc: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-leds@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Keith Busch <kbusch@kernel.org>, Marek Behun <marek.behun@nic.cz>,
+	Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Subject: Re: [PATCH v7 1/3] leds: Init leds class earlier
-Message-ID: <20240909112802.00001353@linux.intel.com>
-In-Reply-To: <20240909090340.GA6556@google.com>
+Message-ID: <Zt9YvMf2jVyaQfRo@wunner.de>
 References: <20240904104848.23480-1-mariusz.tkaczyk@linux.intel.com>
-	<20240904104848.23480-2-mariusz.tkaczyk@linux.intel.com>
-	<20240909090340.GA6556@google.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ <20240904104848.23480-2-mariusz.tkaczyk@linux.intel.com>
+ <20240909090340.GA6556@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909090340.GA6556@google.com>
 
-On Mon, 9 Sep 2024 10:03:40 +0100
-Lee Jones <lee@kernel.org> wrote:
-
+On Mon, Sep 09, 2024 at 10:03:40AM +0100, Lee Jones wrote:
 > On Wed, 04 Sep 2024, Mariusz Tkaczyk wrote:
->=20
 > > NPEM driver will require leds class, there is an init-order conflict.
 > > Make sure that LEDs initialization happens first and add comment.
-> >=20
-> > Suggested-by: Dan Williams <dan.j.williams@intel.com> =20
->=20
-> Do you have a link to this discussion?
-
-https://lore.kernel.org/linux-pci/2024061429-handiness-waggle-d87a@gregkh/
-
-I discussed this with Lukas and Dan offline and as a result I updated Makef=
-ile
-instead initcall change.
-
->=20
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > Reviewed-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-> > Signed-off-by: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
-> > ---
-> >  drivers/Makefile | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/Makefile b/drivers/Makefile
-> > index fe9ceb0d2288..45d1c3e630f7 100644
+[...]
 > > --- a/drivers/Makefile
 > > +++ b/drivers/Makefile
-> > @@ -17,6 +17,9 @@ obj-$(CONFIG_PINCTRL)		+=3D pinctrl/
-> >  obj-$(CONFIG_GPIOLIB)		+=3D gpio/
-> >  obj-y				+=3D pwm/
-> > =20
-> > +# LEDs must come before PCI, it is needed by NPEM driver =20
->=20
+> > @@ -17,6 +17,9 @@ obj-$(CONFIG_PINCTRL)		+= pinctrl/
+> >  obj-$(CONFIG_GPIOLIB)		+= gpio/
+> >  obj-y				+= pwm/
+> >  
+> > +# LEDs must come before PCI, it is needed by NPEM driver
+> > +obj-y				+= leds/
+> > +
+> >  obj-y				+= pci/
+> >  
+> >  obj-$(CONFIG_PARISC)		+= parisc/
+> > @@ -130,7 +133,6 @@ obj-$(CONFIG_CPU_IDLE)		+= cpuidle/
+> >  obj-y				+= mmc/
+> >  obj-y				+= ufs/
+> >  obj-$(CONFIG_MEMSTICK)		+= memstick/
+> > -obj-y				+= leds/
+> >  obj-$(CONFIG_INFINIBAND)	+= infiniband/
+> >  obj-y				+= firmware/
+> >  obj-$(CONFIG_CRYPTO)		+= crypto/
+> 
 > This seems very fragile.
->=20
+> 
 > Isn't there a better way to describe the dependency in Kconfig etc?
 
-I don't know if it is better. What I know is (according to Greg) that
-maintainers are aware of possible ordering issues and not described depende=
-ncies
-so they are not likely to allow changing it.
+In v2 of this series, the correct init order was ensured by
+running leds_init() at "arch" initcall level, instead of "subsys":
 
-Mariusz
+https://lore.kernel.org/linux-pci/20240528131940.16924-2-mariusz.tkaczyk@linux.intel.com/
+
+If you prefer this alternative approach, then Bjorn or Krzysztof
+can probably replace the commit on the pci.git/npem branch.
+
+AFAIK, all topic branches in pci.git are to be considered drafts
+that can be amended until the pull request is sent.
+
+Thanks,
+
+Lukas
 
