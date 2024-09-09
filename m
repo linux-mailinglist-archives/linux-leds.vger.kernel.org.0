@@ -1,136 +1,121 @@
-Return-Path: <linux-leds+bounces-2656-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2661-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FF39709F5
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2024 23:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AC99712DE
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2024 11:03:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3F3C28270F
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2024 21:10:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 152152816F5
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2024 09:03:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12CA117E000;
-	Sun,  8 Sep 2024 21:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E89691B29BF;
+	Mon,  9 Sep 2024 09:03:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="2uWcj+fS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4rPJh2v"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D58417BB1E;
-	Sun,  8 Sep 2024 21:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA241B29AA;
+	Mon,  9 Sep 2024 09:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725829800; cv=none; b=XlxuKMxDpSKBKxMqvvwz5aCp+amS9uaV650dgKFS4qrIAPpfgHgfjReRZnBk40Vr4LNk/FqdzsHYgN2SlT5TYGXdN3ezewK9zM18I3r3rZzgjt8mjIDmAriDIZAj/FLvrj76AG9DKExqUrnclERPWFVFieTh/NXRft1GCsrdXVI=
+	t=1725872626; cv=none; b=LPwFrCJTkHs+MOagmPx/AfKJ8F/ACQGgT1tpexL8kuBbH6VSSInRor37s+9S58KPZUF3w6n6EIyOyxKlKZpmfvPuNq9L8LRMZ5JDvq8NydjVCPMEUd1aNv8WmadfCqXiVx24x8QtFCYNGZ1sL9VfD/LHOT1A2R0qMSxgL/xKpZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725829800; c=relaxed/simple;
-	bh=equbU9VBMIwdvGkqWk+AjPVcTc+O1BMZPBWXnDB1Dyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rHqimKcnp5GjJpo4+eQgRSda1VoQcokfamvR2y7D/YtHACidx0Rvc4KOsjR23YaG1LNSfGZBXZQD+qN81Xqu9xhFbRygXPGMXq9pUvtwdA7yWZJogoa7II1mrhNNrdyJGjJLNUPB/b9rVFi9/j0jyutnRNiIjkDqZ8rY680mjCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=2uWcj+fS; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=q1jpFbe8UJlfuFdvluwPG8fKnNdFZmBXVzuyZQAcBU0=; b=2uWcj+fSeC3gcEwnxueXgjo0si
-	Z3hkjgc4JZ0ZdQi6FYCFmDU1+Nv/5yQK7ScViFakuhTZu+D2GzRMq0vg0xBtkw3tc/II49bUcg3df
-	6f09+FSg4iDFa9dRssvhusUL3rsmNNEi/AUUj6EE0B9jsJtBUU2HfgUvff1l17LxvlnxQf2E1G8WN
-	ZuJy3/T1KNISHP21A27l86XKZNYErHsyPPNsSYBILehyY34QrpWVKw+spe1kyq5K0HnUHLF8muwAQ
-	ovVnCMHuVElR3a8PJzSN+Gaz/xlZ/K72xbZz8dx/L78piG/xDHe52h6YHTKEqwZKTD+fsqIAMRsSD
-	rQcD5sNA==;
-Received: from i5e8616cc.versanet.de ([94.134.22.204] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1snPA7-0003s9-U9; Sun, 08 Sep 2024 23:09:35 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: lee@kernel.org,
-	jikos@kernel.org,
-	jic23@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	srinivas.pandruvada@linux.intel.com,
-	bentiss@kernel.org,
-	dmitry.torokhov@gmail.com,
-	pavel@ucw.cz,
-	ukleinek@debian.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [PATCH v8 9/9] arm64: dts: rockchip: set hdd led labels on qnap-ts433
-Date: Sun,  8 Sep 2024 23:08:03 +0200
-Message-ID: <20240908210803.3339919-10-heiko@sntech.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240908210803.3339919-1-heiko@sntech.de>
-References: <20240908210803.3339919-1-heiko@sntech.de>
+	s=arc-20240116; t=1725872626; c=relaxed/simple;
+	bh=21jNyjkbDAwB0gHxBn2d6ckzlzOlfipq+AF+WbSEHmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZHFLddLcgFRwgz/qFogjUrYvarzSLMjipej8L2Cxqqg25L2VMRAlYPDFohSMElN5E7cnuGOMBxEsoBOGFP3M3hg++jSm3zieCBYUG5MmjD3yyI/f+gLLCXcF4A7JdK/XJfezOtrExUM4Va64xzRiVSrtYIi8ac+HLBcvRR61SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4rPJh2v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D7B5C4CEC5;
+	Mon,  9 Sep 2024 09:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725872626;
+	bh=21jNyjkbDAwB0gHxBn2d6ckzlzOlfipq+AF+WbSEHmI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V4rPJh2vR1xMDjkpABfD+X2bg3huGInWSQKG9eMErrq8N7tVQDdKamG1u6d99uDcp
+	 lDulgdff1izLriJzRkI739H6L4/jZ9Pd+W77OLS7AT13dJ4Ih/LPQKjRdpR/sw5pa3
+	 t3nPe6aWbeDrDZyHiBNWSrFw+8LBHLIUeGa2iHtYydYOcNlXDFJIK8A7tHRq12czTw
+	 iOkZLqitvR+TvTt4z3h2RpzdPq67l8I6R3ZSwg/DS5+hZnhC7E4PYj5cTXdb2zLFQ4
+	 kt2ZFoxUEqWukXh4w99XYVTnNin94KxOMBavDd67AmyFCPHKzK8cqcR4wkhUSe8Q60
+	 FfutYzk/8OhHg==
+Date: Mon, 9 Sep 2024 10:03:40 +0100
+From: Lee Jones <lee@kernel.org>
+To: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+Cc: linux-pci@vger.kernel.org, linux-leds@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>, Christoph Hellwig <hch@lst.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Keith Busch <kbusch@kernel.org>, Marek Behun <marek.behun@nic.cz>,
+	Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v7 1/3] leds: Init leds class earlier
+Message-ID: <20240909090340.GA6556@google.com>
+References: <20240904104848.23480-1-mariusz.tkaczyk@linux.intel.com>
+ <20240904104848.23480-2-mariusz.tkaczyk@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240904104848.23480-2-mariusz.tkaczyk@linux.intel.com>
 
-The automatically generated names for the LEDs from color and function
-do not match nicely for the 4 hdds, so set them manually per the label
-property to also match the LEDs generated from the MCU.
+On Wed, 04 Sep 2024, Mariusz Tkaczyk wrote:
 
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
----
- arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+> NPEM driver will require leds class, there is an init-order conflict.
+> Make sure that LEDs initialization happens first and add comment.
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-index 4bc5f5691d45..7bd32d230ad2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-@@ -50,6 +50,7 @@ led-0 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
-+			label = "hdd1:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd1_led_pin>;
-@@ -59,6 +60,7 @@ led-1 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_LOW>;
-+			label = "hdd2:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd2_led_pin>;
-@@ -68,6 +70,7 @@ led-2 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD7 GPIO_ACTIVE_LOW>;
-+			label = "hdd3:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd3_led_pin>;
-@@ -77,6 +80,7 @@ led-3 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
-+			label = "hdd4:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd4_led_pin>;
+Do you have a link to this discussion?
+
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> Signed-off-by: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
+> ---
+>  drivers/Makefile | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/Makefile b/drivers/Makefile
+> index fe9ceb0d2288..45d1c3e630f7 100644
+> --- a/drivers/Makefile
+> +++ b/drivers/Makefile
+> @@ -17,6 +17,9 @@ obj-$(CONFIG_PINCTRL)		+= pinctrl/
+>  obj-$(CONFIG_GPIOLIB)		+= gpio/
+>  obj-y				+= pwm/
+>  
+> +# LEDs must come before PCI, it is needed by NPEM driver
+
+This seems very fragile.
+
+Isn't there a better way to describe the dependency in Kconfig etc?
+
+> +obj-y				+= leds/
+> +
+>  obj-y				+= pci/
+>  
+>  obj-$(CONFIG_PARISC)		+= parisc/
+> @@ -130,7 +133,6 @@ obj-$(CONFIG_CPU_IDLE)		+= cpuidle/
+>  obj-y				+= mmc/
+>  obj-y				+= ufs/
+>  obj-$(CONFIG_MEMSTICK)		+= memstick/
+> -obj-y				+= leds/
+>  obj-$(CONFIG_INFINIBAND)	+= infiniband/
+>  obj-y				+= firmware/
+>  obj-$(CONFIG_CRYPTO)		+= crypto/
+> -- 
+> 2.35.3
+> 
+
 -- 
-2.43.0
-
+Lee Jones [李琼斯]
 
