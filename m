@@ -1,81 +1,117 @@
-Return-Path: <linux-leds+bounces-2665-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2666-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C57974A59
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2024 08:23:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE57976396
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2024 09:55:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BD5E6B238A5
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2024 06:23:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F254A28427C
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2024 07:55:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EFB47DA81;
-	Wed, 11 Sep 2024 06:23:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BD5A18EFF4;
+	Thu, 12 Sep 2024 07:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=classfun.cn header.i=@classfun.cn header.b="q4bx29TG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RE4Jpos0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from classfun.cn (unknown [129.204.178.38])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54B3D1DA5E;
-	Wed, 11 Sep 2024 06:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.204.178.38
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035FA18E349;
+	Thu, 12 Sep 2024 07:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726035813; cv=none; b=ONhkGZ9SUO4xA/fZ7RFSLTdPdI7eKE7tqBNOB1lFhWdL/ewpYhXXsm/PcJu/Lmu3qZxb/bMZigb9rgbCykXiDG98jitkF3w06oqKa5yPPOEpHLGUYZesSWBLdoD/POqEgRljKIBnqkQX3CBBLYgQBiKFWbkRmWTDGW+dTYKPnoo=
+	t=1726127732; cv=none; b=dacyhsAvLjOykFXReeU6h9OecENu81642d0tVC5M5Nm4A18QHAjt6g6990Bnqpar/RGvlHQA2LSkXKIBsqD5mrwTQODaiRLKXbNWX0TBCWugVeVQGL1St4SyhKUwjcI0TIeOMTEHDDE/0dYQcIvyEOaR6DOYITRPuXeupX2TNo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726035813; c=relaxed/simple;
-	bh=4wgafjl/GF7A9Wh1sZeg2hoiXJBXDO/q6k6MudD+87I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UbFUo+mHwkC619YlbDNuv5umHhlngpb8oU0r48/YT/SOe311RttgWYTy0KVLkCrZl3IhWUst/ibNt+Srw8T5G9nJwC7mubm0ga6yR+0sTLWXLJLyUgZnC1mjK/+bJjAuwVn96jfhUXjP43Ce3fcItMiOaULEAU3hN30zF5flZDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=classfun.cn; spf=pass smtp.mailfrom=classfun.cn; dkim=pass (1024-bit key) header.d=classfun.cn header.i=@classfun.cn header.b=q4bx29TG; arc=none smtp.client-ip=129.204.178.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=classfun.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=classfun.cn
-Received: from [192.168.0.160] (unknown [220.162.71.13])
-	(Authenticated sender: bigfoot)
-	by classfun.cn (Postfix) with ESMTPSA id 9DCEC78909;
-	Wed, 11 Sep 2024 14:23:16 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 classfun.cn 9DCEC78909
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=classfun.cn;
-	s=default; t=1726035798;
-	bh=G6ZlhgSqLu1jIrj4ZJvMQOKzybekvd6XIOY3ry0RzrI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=q4bx29TGnWLvZaZywL9HFJeY/ltajfcnMykw73XRyhlnBf4+sHCa7aFUr3rmDjGUB
-	 WjKAwHBYa3FITUg2c364dnLwlTip/8o25Fy7swUc5BwzQRF+URpqpcRZ2Es/aP/837
-	 n2PW5QHy83Ysm1FMrVoGxqVgAqytD+Gfl6yKUfUw=
-Message-ID: <50537ca6-2324-4cbf-8036-a8c5cadd52be@classfun.cn>
-Date: Wed, 11 Sep 2024 14:23:22 +0800
+	s=arc-20240116; t=1726127732; c=relaxed/simple;
+	bh=4s+VuwhVbNSAVesYDsrgOzVFuC3dn4Fh96NjWQHHSd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6c1sWxW5fA2B1SCV5IYRE/M97KXKOLAexRDTrIf17CQUHWmvnfRe6FQIoPmsD0HPKH3tqmqpx7zGyPJf6ClV7B5S3lWkVSZkvQUOkWdpJaSVebTbRRcwaOjjhN/VbKPFlYjDO6HgLFA2XHJYy84rQsYYenCm4IfA7u+vX5R7rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RE4Jpos0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDB5C4CEC3;
+	Thu, 12 Sep 2024 07:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726127730;
+	bh=4s+VuwhVbNSAVesYDsrgOzVFuC3dn4Fh96NjWQHHSd4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RE4Jpos0PNEzX+j4gvv4HnNOrUggjKzwMILkyBwl0ysVmjqAOlVX/mQhrIQNly6u5
+	 D4cMLo65bYBMzWlE/3MbcvaGJgeSBNYdVepAt76I+DLSY7juHCYtKFtFSF+NxXRLnf
+	 nw0U9baOT3m36ADEOMsC52DEtH41CuFRaJgFalbX5iXcl4IyQp85V7KiijKjx0cNGT
+	 6KayroEwMI5tGGbabloSBt1YK8gCKXHgprPzBlO8p/mD27xX6IExuLkytas4cCy+Lx
+	 FeyB97LCD7R1E9Adejrws3/2lIKYd4KEQJJgQvTdJ/MZTah6JaIHWY/t17UQPpDuJl
+	 ey2Ge3BBptu3g==
+Date: Thu, 12 Sep 2024 08:55:23 +0100
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Junhao Xie <bigfoot@classfun.cn>, devicetree@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chukun Pan <amadeus@jmu.edu.cn>, Conor Dooley <conor+dt@kernel.org>,
+	=?iso-8859-1?Q?G=FCnter_R=F6ck?= <linux@roeck-us.net>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>
+Subject: Re: [PATCH 1/9] mfd: Add driver for Photonicat power management MCU
+Message-ID: <20240912075523.GB24460@google.com>
+References: <20240906093630.2428329-2-bigfoot@classfun.cn>
+ <de5c9c27-56fa-4163-98e1-9a98400d2408@web.de>
+ <43918eda-c4e8-471a-9de4-ea72bb090803@classfun.cn>
+ <917ac8d8-a483-422c-a408-cdd44793e910@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] Introduce Photonicat power management MCU driver
-To: Chukun Pan <amadeus@jmu.edu.cn>
-Cc: linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-rtc@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux@roeck-us.net, wim@linux-watchdog.org
-References: <20240906093630.2428329-1-bigfoot@classfun.cn>
- <20240908093002.26317-1-amadeus@jmu.edu.cn>
-Content-Language: en-US
-From: Junhao Xie <bigfoot@classfun.cn>
-In-Reply-To: <20240908093002.26317-1-amadeus@jmu.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <917ac8d8-a483-422c-a408-cdd44793e910@kernel.org>
 
-On 2024/9/8 17:30, Chukun Pan wrote:
->> Initial support for the power management MCU in the Ariaboard Photonicat
->> This patch series depends on Add support for Ariaboard Photonicat RK3568 [1]
-> 
-> The official website says it's "Renesas RA2E1 cortex M23 ultra-low power MCU"
-> Perhaps renaming the 'Photonicat MCU' to 'Renesas RA2E1 MCU' would be better?
+On Sun, 08 Sep 2024, Krzysztof Kozlowski wrote:
 
-Renesas RA2E1 is a MCU product line, and Ariaboard wrote firmware for this MCU.
-Maybe "Renesas RA2E1 MCU in Photonicat" would be better?
+> On 07/09/2024 16:33, Junhao Xie wrote:
+> > On 2024/9/7 16:44, Markus Elfring wrote:
+> >> …
+> >>> +++ b/include/linux/mfd/photonicat-pmu.h
+> >>> @@ -0,0 +1,86 @@
+> >> …
+> >>> +#ifndef _PHOTONICAT_PMU_H
+> >>> +#define _PHOTONICAT_PMU_H
+> >> …
+> >>
+> >> I suggest to omit leading underscores from such identifiers.
+> >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+define+a+reserved+identifier
+> >>
+> >> Regards,
+> >> Markus
+> > 
+> > Thanks for your suggestion, does this look better?
+> > #ifndef MFD_PHOTONICAT_PMU_H
+> > #define MFD_PHOTONICAT_PMU_H
 
+Yes, this is better.
 
-Best regards,
-Junhao
+> <form letter>
+> Feel free to ignore all comments from Markus, regardless whether the
+> suggestion is reasonable or not. This person is banned from LKML and
+> several maintainers ignore Markus' feedback, because it is just a waste
+> of time.
+> </form letter>
+
+If you really _must_ do this, at least keep it factual.
+
+To the best of my knowledge Markus is not banned from LKML.
+
+-- 
+Lee Jones [李琼斯]
 
