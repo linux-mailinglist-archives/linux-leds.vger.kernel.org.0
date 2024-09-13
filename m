@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-2674-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2675-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B74B977FF9
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB4F977FFA
 	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 14:31:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 984AD281B18
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 12:31:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9EE61C21380
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 12:31:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C8EB1DA0F3;
-	Fri, 13 Sep 2024 12:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE1691DA0E1;
+	Fri, 13 Sep 2024 12:31:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACWcuVLd"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4d87rWz"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F1D1D86E3;
-	Fri, 13 Sep 2024 12:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EEA1D86E3;
+	Fri, 13 Sep 2024 12:31:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726230697; cv=none; b=fWGK/9MFbawe1iDGRRIO4kcqNX3Ohqgu2OomZz712ktWxaXrVxYDNUU7LSqJku5jKlDjbCkJqm0339z+jBWdUwDNEHGCguElSrP4bUYgvIl07Zf9VK7efjQQntxXwU+NfXcdVeFqXK61x56LddsVboLq0K0NEJmvsHs+vRCZUnk=
+	t=1726230700; cv=none; b=dxrlUeNFqQ3GBb8qoUb6Ef1nO8ulI4JIIZDzXXq/4bNROEjmYnLyxQ7O02mcbBWksPfhohaJm+flhvq3ouu7nsBM3BDsICI4nYT5xr3qSWVDqyz8AKzjpbK+20mGFxe0kXFnA/EWZ/Tc16jKtoiUt/JKWp1oItRW85myc1bSGCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726230697; c=relaxed/simple;
-	bh=FxPKGWWRKbnhjKzH3b2LpLpPDFpRJp5XiJc4PKVXMLI=;
+	s=arc-20240116; t=1726230700; c=relaxed/simple;
+	bh=z93xiTAMxlUviES4pfH+eJe8L643415tkjwDtltsdU4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hg/UDXUqr4Tv2TPvLONh0RZ0uvyNU/1VSlQtLC/fr8clR+5/belIwvHM+ikFrwKUhS0bQO11q4tj3BWn/tN9YglgIXd82b/LH07lz0hC7bS9nQ64y0d8cRDRdb9jbpUwkCgdBRT+9V7NSiZKQzzMx+dP/ktMFVjCSW9wEdeGRik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACWcuVLd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4755FC4CED3;
-	Fri, 13 Sep 2024 12:31:33 +0000 (UTC)
+	 MIME-Version:Content-Type; b=RJP+0wIc53ayZ4SG5767TQHgYXrcm6AakVsoDiNNNGsR/dHqPsIVZ0KERPVfNLJXyDO/NKRmOEGs0z4LNSncI2oImaJArqqipY2aGo9oLzbW9DgWzbnkwRaH7IrIIFhAy6XG0QnTYz29NPEJJOu1VFp8IiowZbo46RVaSqjuF/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4d87rWz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8DFC4CEC6;
+	Fri, 13 Sep 2024 12:31:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726230696;
-	bh=FxPKGWWRKbnhjKzH3b2LpLpPDFpRJp5XiJc4PKVXMLI=;
+	s=k20201202; t=1726230700;
+	bh=z93xiTAMxlUviES4pfH+eJe8L643415tkjwDtltsdU4=;
 	h=From:To:List-Id:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ACWcuVLdDkRw1EB6yJ98xAbzoK/P4ZltIfNWIqtYj/evjXIffgK8LBAWcvK4ZWFyw
-	 e0LS0wHqwP2LjroFksdTvf5FQgNMIg/buLHqM53m8l7c9swTrOzTmmRPDEIUb0toTd
-	 GOdGkWzZGK0fR6oasAG7KOeDl+5fca8JATnMJcOQbKmCAABGx5BnbuQHNp88NxBzms
-	 1EMZTKEEt+z+j7lNyh+UTRiokBXd3lQHaRsGTBItlFgz0CjPOwbazXYfDHicPrryPc
-	 iYl4qRuJf8zAvUZi04eCw4GO8HWkhXOeCZHpj9BGBaIhmS3j1As113tc7KOwToEnOx
-	 tUsQuMQEa28Og==
+	b=j4d87rWz9defTpFqRY2TK/3V8RB7SqF4kw0KuBe5JQf6Won8dt8W7oBWsGiaMLUGB
+	 LPb70aB2LwrpCXz9mB7jUD1yQ4Kx/XHKQYoQuScGYOgfx8QcJ3omEMdxVDI0z6E23r
+	 neAhTWwaYyk6d5wogIQKINUCM0/TPt15OktCSOuD0LXPqQ4GtaywhoD+2JN/4GoTXV
+	 h4L30YTwy99jdq2QPxP+RrGc8jwJnNfI1HAk7uAI5kTVs1Macjp+E7B3w6TVEsAA94
+	 SCUKlrbnTz/LK77/BAJ95SRlgPjuCSvMNY+BiFiiGFnatMZ5d55KUG/xUvC4spNkVW
+	 Gbg08LDesN1OQ==
 From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
 Cc: Pavel Machek <pavel@ucw.cz>,
@@ -59,9 +59,9 @@ Cc: Pavel Machek <pavel@ucw.cz>,
 	Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH leds v3 07/11] platform: cznic: turris-omnia-mcu: Inform about missing LED panel brightness change interrupt feature
-Date: Fri, 13 Sep 2024 14:30:59 +0200
-Message-ID: <20240913123103.21226-8-kabel@kernel.org>
+Subject: [PATCH leds v3 08/11] leds: turris-omnia: Inform about missing LED gamma correction feature in the MCU driver
+Date: Fri, 13 Sep 2024 14:31:00 +0200
+Message-ID: <20240913123103.21226-9-kabel@kernel.org>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240913123103.21226-1-kabel@kernel.org>
 References: <20240913123103.21226-1-kabel@kernel.org>
@@ -74,24 +74,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When reading MCU firmware features, check also for the LED panel
-brightness change interrupt feature, and suggest upgrading the firmware
-if it is missing.
+If the LED gamma correction feature is missing in the MCU firmware,
+inform about this in the MCU firmware probe function instead of LED
+driver probe function, so that all the feature checks are in one place.
 
 Signed-off-by: Marek Behún <kabel@kernel.org>
 ---
+ drivers/leds/leds-turris-omnia.c               | 6 ------
  drivers/platform/cznic/turris-omnia-mcu-base.c | 1 +
- 1 file changed, 1 insertion(+)
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
+diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+index a87cdb58e476..570f7a69709c 100644
+--- a/drivers/leds/leds-turris-omnia.c
++++ b/drivers/leds/leds-turris-omnia.c
+@@ -429,12 +429,6 @@ static int omnia_leds_probe(struct i2c_client *client)
+ 	}
+ 
+ 	leds->has_gamma_correction = ret & OMNIA_FEAT_LED_GAMMA_CORRECTION;
+-	if (!leds->has_gamma_correction) {
+-		dev_info(dev,
+-			 "Your board's MCU firmware does not support the LED gamma correction feature.\n");
+-		dev_info(dev,
+-			 "Consider upgrading MCU firmware with the omnia-mcutool utility.\n");
+-	}
+ 
+ 	if (ret & OMNIA_FEAT_BRIGHTNESS_INT) {
+ 		ret = devm_request_any_context_irq(dev, client->irq,
 diff --git a/drivers/platform/cznic/turris-omnia-mcu-base.c b/drivers/platform/cznic/turris-omnia-mcu-base.c
-index bb871226e357..3bb4a3cfdb29 100644
+index 3bb4a3cfdb29..770e680b96f9 100644
 --- a/drivers/platform/cznic/turris-omnia-mcu-base.c
 +++ b/drivers/platform/cznic/turris-omnia-mcu-base.c
-@@ -258,6 +258,7 @@ static int omnia_mcu_read_features(struct omnia_mcu *mcu)
- 		_DEF_FEAT(NEW_INT_API,		"new interrupt API"),
+@@ -259,6 +259,7 @@ static int omnia_mcu_read_features(struct omnia_mcu *mcu)
  		_DEF_FEAT(POWEROFF_WAKEUP,	"poweroff and wakeup"),
  		_DEF_FEAT(TRNG,			"true random number generator"),
-+		_DEF_FEAT(BRIGHTNESS_INT,	"LED panel brightness change interrupt"),
+ 		_DEF_FEAT(BRIGHTNESS_INT,	"LED panel brightness change interrupt"),
++		_DEF_FEAT(LED_GAMMA_CORRECTION,	"LED gamma correction"),
  #undef _DEF_FEAT
  	};
  	struct i2c_client *client = mcu->client;
