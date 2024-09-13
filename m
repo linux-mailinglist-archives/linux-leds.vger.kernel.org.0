@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-2676-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2677-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FDD977FFC
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 14:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEA2977FFE
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 14:31:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CA8A1C20ADE
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 12:31:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C900B1C20905
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 12:31:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A251DA0F7;
-	Fri, 13 Sep 2024 12:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 641CD1DA101;
+	Fri, 13 Sep 2024 12:31:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4/N7+8Y"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArTAL3UW"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49AE1DA0F5;
-	Fri, 13 Sep 2024 12:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4F71DA0E4;
+	Fri, 13 Sep 2024 12:31:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726230704; cv=none; b=oUOIgPLYjmJlob3CWqgmsNds164dpDWwCFgyPgGhbdATjLWdXuYYi3eLMNl9N/zuI5q95HcAHbf8aI1JWwucdFbmpF4vLKOn+EG29uPAD8uTQMUZSZzVqBvvyjUgNlrfQau5FpJTG3rjjAb6EHYlp4dTB7lB0bVg64ZRFxPOagE=
+	t=1726230708; cv=none; b=k6saVR4lEMpwYCtUejW3IP4GWoAC1KLkG6n8R5Lsm9Ny5TEO7DGZu8ONyVX9e7wZE9VnZLFET3uZE+KBYL9aP2IHFSEvrocFQzwrka4Z+U9VAZwmMnhvuwbgY0opi7YTTdR2JNCUVUgv3cGKkPXGp+JPvIMPZXCUkXuMFxrp9OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726230704; c=relaxed/simple;
-	bh=imVY1X0+i7e7P5L16WbNX7ZDN/oDuV3FjYQS+AZWUfE=;
+	s=arc-20240116; t=1726230708; c=relaxed/simple;
+	bh=mrhLbGM4zoekNVG+dFW0cVAaZNJ+Oig1GARw4aCabIs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U7xWXpzHWuajP63fC2PNeXl1m1d+ZA2XPOGElXcIj+tKtqEZKBahZjur1SWCF662YhcYeD8dR6eddTCkttvVTIkPmRAYxiy5mppxXmxljDieRsX4YkiVw41XGesWKJiJJAjtgEIZY+OHdRAoHIVw00bNiw/4SYBFaHrhHVm3r7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4/N7+8Y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E583AC4CEC7;
-	Fri, 13 Sep 2024 12:31:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=dIaomBEjREzRfwurDYkfPaKAtI2ly7pgzNJBhK0w6e1arq6VRXcYgmImyYz8zt877HNbORNnCmX8LvgU0gAtfTOVYmW59U/MgvSqXpyAbfrr/uoQfxxh9yU7LG+lQrhJpJfVYyvS3Sc+1FY/Ad6h26f7djiCrfwn8erUWtDsU+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArTAL3UW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8558C4CED0;
+	Fri, 13 Sep 2024 12:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726230704;
-	bh=imVY1X0+i7e7P5L16WbNX7ZDN/oDuV3FjYQS+AZWUfE=;
+	s=k20201202; t=1726230708;
+	bh=mrhLbGM4zoekNVG+dFW0cVAaZNJ+Oig1GARw4aCabIs=;
 	h=From:To:List-Id:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O4/N7+8YkfNUiBFsvAxC5HYGV+4vv2WvoxivaJCx1yl3siY5G93lEhd5NFe4QHpbR
-	 NZPvk/5EUpNqIWg1lMMV/FMpTjbX5NbsO91kJHwIugupH7PiTXUANUInLNbVCQrTgU
-	 qtMBxmhwnNQvX8J+24rOvscLQHGDO0VlBL0iCaBqSufUW2dl42erkKMHNVrGFJGbqP
-	 QqKrxsUdqnbDCFgIpHPVX/cF3iue1SyH4jCh6Z5hfWTN0zJ2bg/Fl18wZ5klm0qfI6
-	 3xyJM7mOSTeqHMBEo02i9Wk0eg5HYbH9wtJlt49WomFOQXpobxbu5h1dVbv2BVMn8W
-	 xRt8ciV94sunA==
+	b=ArTAL3UWlbLLOH4w85SXP9jpoByqVr9vuOi3X5I2pxo4yps4YdPhvpiv4PEGAVK57
+	 +xqOWf9PEJl63MPKBnV2z3tcUAvN4/ELH5x5qH74IerXHufnPOyBBoxaeMXAmq+t/J
+	 yZTkE1nyRyh4zcZqrQS42FSHj3wB/02ZyUefNQDn0NWb+IUgGmISworgFgqBIpJAfS
+	 vCy579CV5iH24Mt9KNCS/+8OvA8XJnbtLFxmQLUzYfYqwwpKGfPIXMTxeQ06r1kv3H
+	 qgoMnW6sWhut13vpdSq7XexMfOznmjuMsuGAci4sP2tWZRhpKlEJSQfEpHnFDGfsZk
+	 UHLeHd/EPDYmQ==
 From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
 Cc: Pavel Machek <pavel@ucw.cz>,
@@ -59,9 +59,9 @@ Cc: Pavel Machek <pavel@ucw.cz>,
 	Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH leds v3 09/11] leds: turris-omnia: Use dev_err_probe() where appropriate
-Date: Fri, 13 Sep 2024 14:31:01 +0200
-Message-ID: <20240913123103.21226-10-kabel@kernel.org>
+Subject: [PATCH leds v3 10/11] leds: turris-omnia: Use uppercase first letter in all comments
+Date: Fri, 13 Sep 2024 14:31:02 +0200
+Message-ID: <20240913123103.21226-11-kabel@kernel.org>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240913123103.21226-1-kabel@kernel.org>
 References: <20240913123103.21226-1-kabel@kernel.org>
@@ -74,105 +74,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Use dev_err_probe() instead of dev_err() + separate return where
-appropriate.
+Change first letter of 4 more comments to uppercase to make the driver
+comments uniform.
 
 Signed-off-by: Marek Behún <kabel@kernel.org>
 ---
- drivers/leds/leds-turris-omnia.c | 50 ++++++++++----------------------
- 1 file changed, 16 insertions(+), 34 deletions(-)
+ drivers/leds/leds-turris-omnia.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-index 570f7a69709c..298bdffd8c40 100644
+index 298bdffd8c40..d7e5f6de0f14 100644
 --- a/drivers/leds/leds-turris-omnia.c
 +++ b/drivers/leds/leds-turris-omnia.c
-@@ -238,33 +238,23 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
- 	/* put the LED into software mode */
+@@ -235,13 +235,13 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
+ 	 */
+ 	cdev->default_trigger = omnia_hw_trigger.name;
+ 
+-	/* put the LED into software mode */
++	/* Put the LED into software mode */
  	ret = omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE, OMNIA_CMD_LED_MODE_LED(led->reg) |
  							     OMNIA_CMD_LED_MODE_USER);
--	if (ret) {
--		dev_err(dev, "Cannot set LED %pOF to software mode: %i\n", np,
--			ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Cannot set LED %pOF to software mode\n", np);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Cannot set LED %pOF to software mode\n", np);
  
- 	/* disable the LED */
+-	/* disable the LED */
++	/* Disable the LED */
  	ret = omnia_cmd_write_u8(client, OMNIA_CMD_LED_STATE, OMNIA_CMD_LED_STATE_LED(led->reg));
--	if (ret) {
--		dev_err(dev, "Cannot set LED %pOF brightness: %i\n", np, ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Cannot set LED %pOF brightness\n", np);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Cannot set LED %pOF brightness\n", np);
+@@ -455,10 +455,10 @@ static void omnia_leds_remove(struct i2c_client *client)
+ 	if (leds->brightness_kn)
+ 		sysfs_put(leds->brightness_kn);
  
- 	/* Set initial color and cache it */
- 	ret = omnia_led_send_color_cmd(client, led);
--	if (ret < 0) {
--		dev_err(dev, "Cannot set LED %pOF initial color: %i\n", np,
--			ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Cannot set LED %pOF initial color\n", np);
+-	/* put all LEDs into default (HW triggered) mode */
++	/* Put all LEDs into default (HW triggered) mode */
+ 	omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE, OMNIA_CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
  
- 	ret = devm_led_classdev_multicolor_register_ext(dev, &led->mc_cdev,
- 							&init_data);
--	if (ret < 0) {
--		dev_err(dev, "Cannot register LED %pOF: %i\n", np, ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Cannot register LED %pOF\n", np);
- 
- 	return 1;
+-	/* set all LEDs color to [255, 255, 255] */
++	/* Set all LEDs color to [255, 255, 255] */
+ 	omnia_cmd_set_color(client, OMNIA_BOARD_LEDS, 255, 255, 255);
  }
-@@ -406,13 +396,10 @@ static int omnia_leds_probe(struct i2c_client *client)
- 	int ret, count;
  
- 	count = of_get_available_child_count(np);
--	if (!count) {
--		dev_err(dev, "LEDs are not defined in device tree!\n");
--		return -ENODEV;
--	} else if (count > OMNIA_BOARD_LEDS) {
--		dev_err(dev, "Too many LEDs defined in device tree!\n");
--		return -EINVAL;
--	}
-+	if (count == 0)
-+		return dev_err_probe(dev, -ENODEV, "LEDs are not defined in device tree!\n");
-+	if (count > OMNIA_BOARD_LEDS)
-+		return dev_err_probe(dev, -EINVAL, "Too many LEDs defined in device tree!\n");
- 
- 	leds = devm_kzalloc(dev, struct_size(leds, leds, count), GFP_KERNEL);
- 	if (!leds)
-@@ -422,11 +409,8 @@ static int omnia_leds_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, leds);
- 
- 	ret = omnia_mcu_get_features(client);
--	if (ret < 0) {
--		dev_err(dev, "Cannot determine MCU supported features: %d\n",
--			ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Cannot determine MCU supported features\n");
- 
- 	leds->has_gamma_correction = ret & OMNIA_FEAT_LED_GAMMA_CORRECTION;
- 
-@@ -441,10 +425,8 @@ static int omnia_leds_probe(struct i2c_client *client)
- 	mutex_init(&leds->lock);
- 
- 	ret = devm_led_trigger_register(dev, &omnia_hw_trigger);
--	if (ret < 0) {
--		dev_err(dev, "Cannot register private LED trigger: %d\n", ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Cannot register private LED trigger\n");
- 
- 	led = &leds->leds[0];
- 	for_each_available_child_of_node_scoped(np, child) {
 -- 
 2.44.2
 
