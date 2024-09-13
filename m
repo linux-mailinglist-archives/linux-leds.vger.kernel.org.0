@@ -1,117 +1,125 @@
-Return-Path: <linux-leds+bounces-2666-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2667-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE57976396
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2024 09:55:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA806977FE9
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 14:31:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F254A28427C
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2024 07:55:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C349281EF3
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2024 12:31:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BD5A18EFF4;
-	Thu, 12 Sep 2024 07:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A82A1DA118;
+	Fri, 13 Sep 2024 12:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RE4Jpos0"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLo5XgDR"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035FA18E349;
-	Thu, 12 Sep 2024 07:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717231DA110;
+	Fri, 13 Sep 2024 12:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726127732; cv=none; b=dacyhsAvLjOykFXReeU6h9OecENu81642d0tVC5M5Nm4A18QHAjt6g6990Bnqpar/RGvlHQA2LSkXKIBsqD5mrwTQODaiRLKXbNWX0TBCWugVeVQGL1St4SyhKUwjcI0TIeOMTEHDDE/0dYQcIvyEOaR6DOYITRPuXeupX2TNo8=
+	t=1726230670; cv=none; b=OQRFlTx4nphoGszSfITbR1OCgph5YQZylpOnlGtTkmnfVpNJKBiNQXYgaI1fJgf/SgINnoaVVF5PfU1pOCpdI1j3W8oDH5q7G8vsMAAopleEaevxLA/+11FqkgZ8jAHYqUPx9djRPO+t6FkgNToe8ek9JLxVVv75TvTOt6iqYiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726127732; c=relaxed/simple;
-	bh=4s+VuwhVbNSAVesYDsrgOzVFuC3dn4Fh96NjWQHHSd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6c1sWxW5fA2B1SCV5IYRE/M97KXKOLAexRDTrIf17CQUHWmvnfRe6FQIoPmsD0HPKH3tqmqpx7zGyPJf6ClV7B5S3lWkVSZkvQUOkWdpJaSVebTbRRcwaOjjhN/VbKPFlYjDO6HgLFA2XHJYy84rQsYYenCm4IfA7u+vX5R7rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RE4Jpos0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDB5C4CEC3;
-	Thu, 12 Sep 2024 07:55:26 +0000 (UTC)
+	s=arc-20240116; t=1726230670; c=relaxed/simple;
+	bh=9zbXLs01rJN0ObAMBm52pWCMloxHSGISDzqIEVGl3o4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J3ryhaIYs8yC9DLAh/3XWeHXShvvo8HJrE4I2LySeQBvcDOUBTzfq232nfL0n0LnC5HmaNODQwyGeti1pRhuxljUAgO/tTgji4vuqiWpj3EBeXgIpvHN+o8tqUVfhf3+IMGkfEbDA/br56FbzkdlDDsftAuf72eqN8Kzyfd1/II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLo5XgDR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88DB9C4CED4;
+	Fri, 13 Sep 2024 12:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726127730;
-	bh=4s+VuwhVbNSAVesYDsrgOzVFuC3dn4Fh96NjWQHHSd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RE4Jpos0PNEzX+j4gvv4HnNOrUggjKzwMILkyBwl0ysVmjqAOlVX/mQhrIQNly6u5
-	 D4cMLo65bYBMzWlE/3MbcvaGJgeSBNYdVepAt76I+DLSY7juHCYtKFtFSF+NxXRLnf
-	 nw0U9baOT3m36ADEOMsC52DEtH41CuFRaJgFalbX5iXcl4IyQp85V7KiijKjx0cNGT
-	 6KayroEwMI5tGGbabloSBt1YK8gCKXHgprPzBlO8p/mD27xX6IExuLkytas4cCy+Lx
-	 FeyB97LCD7R1E9Adejrws3/2lIKYd4KEQJJgQvTdJ/MZTah6JaIHWY/t17UQPpDuJl
-	 ey2Ge3BBptu3g==
-Date: Thu, 12 Sep 2024 08:55:23 +0100
-From: Lee Jones <lee@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Junhao Xie <bigfoot@classfun.cn>, devicetree@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Chukun Pan <amadeus@jmu.edu.cn>, Conor Dooley <conor+dt@kernel.org>,
-	=?iso-8859-1?Q?G=FCnter_R=F6ck?= <linux@roeck-us.net>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Jean Delvare <jdelvare@suse.com>,
+	s=k20201202; t=1726230669;
+	bh=9zbXLs01rJN0ObAMBm52pWCMloxHSGISDzqIEVGl3o4=;
+	h=From:To:List-Id:Cc:Subject:Date:From;
+	b=aLo5XgDR0oiFrLoC5NDgki1hsAHhvzoWoGCxrAgPehMKkGEpSahDcwiy08PzK5kXa
+	 fYez0ivrsFSWXX5HPFIgDpc0UCKl/8WQowSpiTNY2FwinGO+TeNOm0qgjzlsXng1b1
+	 2F6wrDFief7HfVbSL1VxwajYRXiATxnHv/lCJm0ueXALmKHPMjLep2xL7+e491FIcO
+	 m4XO7I7qyDixmz1eq8xWCmQ+8iaqC9tAD/WL20C8xHX9eV3FRJh8jGOk8UsihWhM5B
+	 0lUKBe7bmBEHb9Z6z0RaLXB1+eQ+drfVb4C+D9lUooxTzOmIVzhsxfW0oW/tCTzsXo
+	 u8CIUcf41RBUw==
+From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	soc@kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	arm@kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>
-Subject: Re: [PATCH 1/9] mfd: Add driver for Photonicat power management MCU
-Message-ID: <20240912075523.GB24460@google.com>
-References: <20240906093630.2428329-2-bigfoot@classfun.cn>
- <de5c9c27-56fa-4163-98e1-9a98400d2408@web.de>
- <43918eda-c4e8-471a-9de4-ea72bb090803@classfun.cn>
- <917ac8d8-a483-422c-a408-cdd44793e910@kernel.org>
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds v3 00/11] Turris Omnia LED driver changes
+Date: Fri, 13 Sep 2024 14:30:52 +0200
+Message-ID: <20240913123103.21226-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <917ac8d8-a483-422c-a408-cdd44793e910@kernel.org>
 
-On Sun, 08 Sep 2024, Krzysztof Kozlowski wrote:
+Hello Lee,
 
-> On 07/09/2024 16:33, Junhao Xie wrote:
-> > On 2024/9/7 16:44, Markus Elfring wrote:
-> >> …
-> >>> +++ b/include/linux/mfd/photonicat-pmu.h
-> >>> @@ -0,0 +1,86 @@
-> >> …
-> >>> +#ifndef _PHOTONICAT_PMU_H
-> >>> +#define _PHOTONICAT_PMU_H
-> >> …
-> >>
-> >> I suggest to omit leading underscores from such identifiers.
-> >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+define+a+reserved+identifier
-> >>
-> >> Regards,
-> >> Markus
-> > 
-> > Thanks for your suggestion, does this look better?
-> > #ifndef MFD_PHOTONICAT_PMU_H
-> > #define MFD_PHOTONICAT_PMU_H
+this is v3 of Turris Omnia LED driver changes.
+v1 and v2 can be found at
+  https://lore.kernel.org/linux-leds/20240902124104.14297-1-kabel@kernel.org/
+  https://lore.kernel.org/linux-leds/20240903101930.16251-1-kabel@kernel.org/
 
-Yes, this is better.
+This series is for 6.12 (alternatively 6.13), but it depends on changes
+that have been merged to 6.11-rc3. Your for-leds-next branch is based on
+6.11-rc1, so it won't apply there.
 
-> <form letter>
-> Feel free to ignore all comments from Markus, regardless whether the
-> suggestion is reasonable or not. This person is banned from LKML and
-> several maintainers ignore Markus' feedback, because it is just a waste
-> of time.
-> </form letter>
+Changes since v2:
+- added interrupts property description to device-tree binding to fix
+  the device-tree binding check reported by Rob's bot (new patch 05/11
+  in this series)
+- dropped the patch that converted to 100 column wrapping, as suggested
+  by Arnd
+- took Andy's suggestions into the patch that converts to
+  dev_err_probe()
 
-If you really _must_ do this, at least keep it factual.
+Marek
 
-To the best of my knowledge Markus is not banned from LKML.
+Marek Behún (11):
+  turris-omnia-mcu-interface.h: Move command execution function to
+    global header
+  leds: turris-omnia: Use command execution functions from the MCU
+    driver
+  turris-omnia-mcu-interface.h: Add LED commands related definitions to
+    global header
+  leds: turris-omnia: Use global header for MCU command definitions
+  dt-bindings: leds: cznic,turris-omnia-leds: Allow interrupts property
+  leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
+  platform: cznic: turris-omnia-mcu: Inform about missing LED panel
+    brightness change interrupt feature
+  leds: turris-omnia: Inform about missing LED gamma correction feature
+    in the MCU driver
+  leds: turris-omnia: Use dev_err_probe() where appropriate
+  leds: turris-omnia: Use uppercase first letter in all comments
+  ARM: dts: turris-omnia: Add global LED brightness change interrupt
+
+ .../leds/cznic,turris-omnia-leds.yaml         |   8 +
+ .../dts/marvell/armada-385-turris-omnia.dts   |   1 +
+ drivers/leds/leds-turris-omnia.c              | 262 +++++++-----------
+ .../platform/cznic/turris-omnia-mcu-base.c    |   3 +
+ drivers/platform/cznic/turris-omnia-mcu.h     | 130 ---------
+ include/linux/turris-omnia-mcu-interface.h    | 148 +++++++++-
+ 6 files changed, 258 insertions(+), 294 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+2.44.2
+
 
