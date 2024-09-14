@@ -1,134 +1,155 @@
-Return-Path: <linux-leds+bounces-2721-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2722-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12873978E63
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Sep 2024 08:18:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1698978EC2
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Sep 2024 09:07:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F47DB2445C
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Sep 2024 06:18:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F2B228D31E
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Sep 2024 07:07:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34A1B61FFC;
-	Sat, 14 Sep 2024 06:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCA7C1CDFCB;
+	Sat, 14 Sep 2024 07:06:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp50RM/H"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="C0iM3a/U"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC5F57CAC;
-	Sat, 14 Sep 2024 06:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596BE1CDFC9;
+	Sat, 14 Sep 2024 07:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726294491; cv=none; b=nZ4Is5L74Eng/5vW955MeXTVrXFro99FnA/65sOpYPJegGU9DojsEVMM9+2W5sRJUUxlFbhw9ojqPIrVRTN1cFfzokQgxXmFciUQzurhj+24RDLILU9e2NMD0PDjericK4DAbI0Xup8KhH1lZkIXy98nkYpc/K054tyC1Hlg4Sc=
+	t=1726297580; cv=none; b=cPS9ygjhqcxatvgzOf+n379aTraE6fF7HcXN+QQF9nXBojLAjrHWJLgX52ufih8BPy1theM+damLq4KAshVqzk+h7w5ShNMIiLCnzYlmNyxDG8RMLnnfPLypLTX3SVsfwxcuox7PYFPfUUuVICIEkowFJHzTkVvQzoPPXMPeRUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726294491; c=relaxed/simple;
-	bh=gtgG7++hfQoedYAbNm1ByFyRcSWJX3tPiW00y5S+y0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l6Na36BW5v/2lfQc04oIMdl+J+Ak3eduxTsYL0hxSANzlyqphg6nNFfyfwPDFGricwoOgrwGvKJ9irsFnAINwRGgqkE+AA5FKm1gzE9wX1cVwNRfQVFRG51xnlFBLVMsUJYXWEkTcR8na3rQTtcpoT9q81hxMsqaszsVbDlT7iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cp50RM/H; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726294489; x=1757830489;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gtgG7++hfQoedYAbNm1ByFyRcSWJX3tPiW00y5S+y0Y=;
-  b=Cp50RM/HaxQqexTX/sqd2+gkkLXu4PQTLhtyr3qeh5gI5RD9jGe9vrxr
-   //JRJwegWr1DJicvCWleT3gDK4MwxZUDpj6dHdiF0HxrfNuaDrT+LSAiy
-   QXO/YTwBwuojxGIbDKtfa0gAoE42p1yio1g35md1hZYe+NaGfzAgPbrIB
-   Nylpw7eYDbASVoptZSKL6r7H/Z0WmgcllRx++FQm1COZ077sOsyn33Sic
-   ySV/YfUlEqHwiYfD6hGTFYuQaPln3zf/jCTdR+Eo/+niQV+tjFXSLpv+f
-   ZVKnS0ols444PYC3DNzCacGoVZ0qcf8NwEIm9dWu47d7fPqrCO9r5eF/5
-   w==;
-X-CSE-ConnectionGUID: Ssf0BibOS7KeghHIsg+eyg==
-X-CSE-MsgGUID: Iy6NVW+tQ3eBv0RsJWl/3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="50617939"
-X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="50617939"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 23:14:48 -0700
-X-CSE-ConnectionGUID: StiVNNFcTWao6Bdsc5Zz+A==
-X-CSE-MsgGUID: RzdkT+mxTHGF7AoTFI1KIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
-   d="scan'208";a="105765711"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Sep 2024 23:14:45 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spM3O-0007Ru-1C;
-	Sat, 14 Sep 2024 06:14:42 +0000
-Date: Sat, 14 Sep 2024 14:14:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	soc@kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>,
-	arm@kernel.org, Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH leds v3 02/11] leds: turris-omnia: Use command execution
- functions from the MCU driver
-Message-ID: <202409141326.XsUVZj3l-lkp@intel.com>
-References: <20240913123103.21226-3-kabel@kernel.org>
+	s=arc-20240116; t=1726297580; c=relaxed/simple;
+	bh=A4pR3u/T6SMTPpu/b2HQXK80EWeF9lXXT9d4NrBgJzo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=NLiNkZQkirY6zOUTZivAY/A0h3n0Nyu5cPt41ziI7XvQTq9G0U04fMB6fOpMqdlEDge+aTaducLPtcTv80JBP5SD4WI8tCYqBYSvMsES2Tlz3uOyDbVkdac0HqP6MirnoDHfzDjT5SXzeCMYxUGvI8e2Z24kVKR++L0zu622uuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=C0iM3a/U; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: d3b738b2726711efb66947d174671e26-20240914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=gOzS1fYuXawLqEdeQfCslk8qImk6u8m0BOnVeqEnmrY=;
+	b=C0iM3a/UMwwJ2Ra1cmkHaoVgIIiOqgHjJPmOV2r9ovIFLRV7F8E6hG7aWp8fQoEhE3vh4qEKS98hq5Wb3evHZnAGHonRobXwo/ztiC+T9246ZnYKw/K1xgoamlZcbD43j/kvuSFNa6mHqeBb0y4CmrlKwaumPpTu7Z7EuInwSBI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:64c5cd36-aec3-4925-9237-805e722419c4,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:27bc01b7-8c4d-4743-b649-83c6f3b849d4,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: d3b738b2726711efb66947d174671e26-20240914
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1803344272; Sat, 14 Sep 2024 15:06:13 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 14 Sep 2024 15:06:11 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Sat, 14 Sep 2024 15:06:11 +0800
+Message-ID: <099c4f3e-0772-3d30-79f7-8b996142cd7c@mediatek.com>
+Date: Sat, 14 Sep 2024 15:06:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240913123103.21226-3-kabel@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Content-Language: en-US
+To: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Bear Wang <bear.wang@mediatek.com>, Conor Dooley <conor+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen Zhong
+	<chen.zhong@mediatek.com>, <linux-leds@vger.kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>, Lee Jones
+	<lee@kernel.org>, <linux-mediatek@lists.infradead.org>, Macpaul Lin
+	<macpaul@gmail.com>, Mark Brown <broonie@kernel.org>, Chris-qj chen
+	<chris-qj.chen@mediatek.com>, <linux-input@vger.kernel.org>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, <linux-rtc@vger.kernel.org>, MediaTek Chromebook
+ Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Sean Wang
+	<sean.wang@mediatek.com>, Pavel Machek <pavel@ucw.cz>,
+	<linux-pm@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>, Sebastian
+ Reichel <sre@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>,
+	<devicetree@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sound@vger.kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Pablo Sun <pablo.sun@mediatek.com>
+References: <20240913175926.7443-1-macpaul.lin@mediatek.com>
+ <172625540069.478205.2893721075637493498.robh@kernel.org>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <172625540069.478205.2893721075637493498.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Marek,
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20240913]
-[also build test ERROR on v6.11-rc7]
-[cannot apply to lee-leds/for-leds-next robh/for-next linus/master v6.11-rc7 v6.11-rc6 v6.11-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 9/14/24 03:23, Rob Herring (Arm) wrote:
+> 	
+> 
+> External email : Please do not click links or open attachments until you 
+> have verified the sender or the content.
+> 
+> On Sat, 14 Sep 2024 01:59:26 +0800, Macpaul Lin wrote:
+>> Convert the mfd: mediatek: mt6397 binding to DT schema format.
+>> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Beh-n/turris-omnia-mcu-interface-h-Move-command-execution-function-to-global-header/20240913-203320
-base:   next-20240913
-patch link:    https://lore.kernel.org/r/20240913123103.21226-3-kabel%40kernel.org
-patch subject: [PATCH leds v3 02/11] leds: turris-omnia: Use command execution functions from the MCU driver
-config: arc-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141326.XsUVZj3l-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141326.XsUVZj3l-lkp@intel.com/reproduce)
+[snip]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141326.XsUVZj3l-lkp@intel.com/
+>> 
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Warning: Duplicate compatible "mediatek,mt6357" found in schemas matching "$id":
 
-All errors (new ones prefixed by >>):
+I'm using dtschema 2024.09 and the dt_bindings_check didn't report this 
+issue even the full check has been run.
+However, the compatible "mediatek,mt6357" indeed existed in the old 
+bindings. Since it is a independent DT schema now, I'll remove this line
+and update v4 version to see if it will help.
 
-   arc-elf-ld: drivers/leds/leds-turris-omnia.o: in function `gamma_correction_show':
->> leds-turris-omnia.c:(.text+0x26): undefined reference to `omnia_cmd_write_read'
->> arc-elf-ld: leds-turris-omnia.c:(.text+0x26): undefined reference to `omnia_cmd_write_read'
-   arc-elf-ld: drivers/leds/leds-turris-omnia.o: in function `brightness_show':
-   leds-turris-omnia.c:(.text+0x98): undefined reference to `omnia_cmd_write_read'
-   arc-elf-ld: leds-turris-omnia.c:(.text+0x98): undefined reference to `omnia_cmd_write_read'
-   arc-elf-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_led_send_color_cmd':
-   leds-turris-omnia.c:(.text+0xfc): undefined reference to `omnia_cmd_write_read'
-   arc-elf-ld: drivers/leds/leds-turris-omnia.o:leds-turris-omnia.c:(.text+0xfc): more undefined references to `omnia_cmd_write_read' follow
+Is there new version of dtschema used by bot? I guess the base shouldn't 
+affect this duplicate detection whether using rc-1 or next-20240906.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[snip]
+
+> 
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240913175926.7443-1-macpaul.lin@mediatek.com
+> 
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch
+The base of this patch set is based on next-20240906 with linux-next/master.
+
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+> 
+
+Thanks
+Macpaul Lin
 
