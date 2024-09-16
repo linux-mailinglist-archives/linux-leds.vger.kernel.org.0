@@ -1,248 +1,228 @@
-Return-Path: <linux-leds+bounces-2735-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2736-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1753979E50
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2024 11:22:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6006997A023
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2024 13:18:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EB231F21204
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2024 09:22:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E04091F21EFB
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2024 11:18:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D86149C4F;
-	Mon, 16 Sep 2024 09:22:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C951465AB;
+	Mon, 16 Sep 2024 11:18:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsPGQlYB"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="gEIhxDSb"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442FB144304;
-	Mon, 16 Sep 2024 09:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28E113A89B;
+	Mon, 16 Sep 2024 11:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726478521; cv=none; b=LnKiaiUPKDa4OxPWBBBaeXIRlDBFxwzoDrXUEa7ALPMZ8J/Dm/YFcDL7WPghgYK+SbZB332ilK52Pg3SB5zrp8hPjCyuJMMtQlYsUIi95atw5D5qReiQZc6oo/gDFFxWHR3NjxtCNPbIu8jHY3NQvh76mJ7AscnHI5MB6oJAh2I=
+	t=1726485518; cv=none; b=cDsSZZ7ksG+ZsVqczLZPMFEwfzHEXAa4TvykOZX39HjONbdSNLBzHufFmmnsc026dhQqQ27De/TqSKcQOnI7FIMOYFe5Xe5XzwVwifG2/11uG89cDdPdTit2BbocNLQ681elYk2/wrbsJ9HvGoTnRQNWj8ZeETa5UAhKkq58EMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726478521; c=relaxed/simple;
-	bh=A5qBoko8pAMwveL+v901lMUwnWa5DeXCPvgTk3pPW/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQmml5eCETbDg17bidwTZAA8VDHoSR10kPGIFa95eMYkZPJmIqKFUEa1yQ98kUFfsd89Cf14LPUvpWgKykO8al05CnNhcwBGnxmAX9MF/4njxeFNIIgYQhd7x6aBJ9NUobuRljfFJim7tKA1/wm40j8vg4+yCV9cprBsDO5jvtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsPGQlYB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D82BC4CEC4;
-	Mon, 16 Sep 2024 09:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726478521;
-	bh=A5qBoko8pAMwveL+v901lMUwnWa5DeXCPvgTk3pPW/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jsPGQlYBPSTiFJMXX9gAj5l7zVJTiyzJzXpksrqR1WURfgNlsR0edZrPFBFebfxPh
-	 1naZciVddWbs2v5+7UTUIxbnrMUVzYbF5ER+r4g7G90IE6v7I0XAKjcFMgpbg4pig/
-	 wQ1XSQ+SdxEj2650FQa2tjaQT0SoQ+ylNtYEqDp9dTqjaKiOECALJJSYA7VNitOgMh
-	 AjMnnhcHLCDsPFpPK6KW1AURzv0wx3qvnIOHepmhmYrEopdQjswknmjwCMOOKs1mS4
-	 TWRHOApsZFFUD1JA6Wcz85YIauCpiAwmve4uFw0m7r0nd+IqVpw4u51eyKxUASgxfI
-	 5W4F6EODAOv9w==
-Date: Mon, 16 Sep 2024 11:21:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
-	cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4 15/27] regulator: add s2dos05 regulator support
-Message-ID: <35liocltjuxv3gjueuvpaytx44crebbc4c63atztakuq5dfpax@bquve7tkrvtx>
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-15-2d2efd5c5877@gmail.com>
+	s=arc-20240116; t=1726485518; c=relaxed/simple;
+	bh=MplaQvoiPNLVBFxKT82dzAIR+YzcNVzY78B5f9SeNCI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJR5VKAwA6xFtMqhKMM/JP0NNhaHttan5aH7ydEE1UiZ7V5I9rUIazcmtzFg56FdHJb96TQ9o+/pCb9wnRlxRc11BY6mKc5LmPk6gi4AkBZxB0o9+6lmOCgqDJ73JW5yaQy5iVt+CfncmZIDLA+qI40TWXXxIN7fpbiYIZNj7uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=gEIhxDSb; arc=none smtp.client-ip=45.89.224.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 190AC120012;
+	Mon, 16 Sep 2024 14:18:17 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 190AC120012
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1726485497;
+	bh=d6bOVb21gpYmK70zPvijjIAYgU/fptSjrdK2mV/ria0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=gEIhxDSb7jkJ2bv9HXpfbiSIDQrq1ytfQ2prM55e9YN0uYwvYg/XjbGNExKaiXmuy
+	 MlE65eGRKKclKIo/TI56VE6yjwQQymH014OlkhwzSEAG51OjsmocJeEG3pjbygUPzZ
+	 3WnpatVZu5gaRN5Yxj1ypxr5ZJYkg+CdS1v8tBOgAxR5hpVAH5Tjo1ZuYQWIj4DXaP
+	 UxE5GCeMCOebNqeuKDnEi1VX0Tf0VKu8rkzCkylfMeCOfnFun6iUhLEr+Bv0tXxTUW
+	 GgkJHv9/Pug03L3s7C13b199yD/kvDf1Kc9c4S/wt5NiEzkL8xOl+6pW2KNPE18V5R
+	 gjQuZXmRULdLA==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Mon, 16 Sep 2024 14:18:14 +0300 (MSK)
+Date: Mon, 16 Sep 2024 14:18:02 +0300
+From: Dmitry Rokosov <ddrokosov@salutedevices.com>
+To: <pavel@ucw.cz>, <lee@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+	<kernel@salutedevices.com>, <rockosov@gmail.com>, Alexey Romanov
+	<avromanov@salutedevices.com>
+Subject: Re: [PATCH v2] leds: introduce ordered workqueue for leds events
+ instead of system_wq
+Message-ID: <20240916111733.c5rp4l666rtdz7bt@CAB-WSD-L081021>
+References: <20240903223936.21292-1-ddrokosov@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240913-starqltechn_integration_upstream-v4-15-2d2efd5c5877@gmail.com>
+In-Reply-To: <20240903223936.21292-1-ddrokosov@salutedevices.com>
+User-Agent: NeoMutt/20220415
+X-ClientProxiedBy: p-i-exch-a-m1.sberdevices.ru (172.24.196.116) To
+ p-i-exch-a-m1.sberdevices.ru (172.24.196.116)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 187764 [Sep 16 2024]
+X-KSMG-AntiSpam-Version: 6.1.1.5
+X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Tracking_uf_ne_domains}, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;lore.kernel.org:7.1.1;127.0.0.199:7.1.2;smtp.sberdevices.ru:7.1.1,5.0.1;salutedevices.com:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/09/16 10:09:00
+X-KSMG-LinksScanning: Clean, bases: 2024/09/16 10:10:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/09/16 05:22:00 #26594998
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Fri, Sep 13, 2024 at 06:07:58PM +0300, Dzmitry Sankouski wrote:
-> S2dos05 has 1 buck and 4 LDO regulators, used for powering
-> panel/touchscreen.
+Hello Lee!
+
+What are the next steps? Should I make any changes, or are we waiting
+for test results from the mailing list members?
+
+Sorry for the ping.
+
+On Wed, Sep 04, 2024 at 01:39:30AM +0300, Dmitry Rokosov wrote:
+> This allows to setup ordered workqueue for leds events. This may be
+> useful, because default 'system_wq' does not guarantee execution order
+> of each work_struct, thus for several brightness update requests (for
+> multiple leds), real brightness switch could be in random order.
 > 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> Yes, for sysfs-based leds we have flush_work() call inside
+> brightness_store() operation, but it's blocking call, so userspace
+> caller can be blocked at a long time, which means leds animation stream
+> can be broken.
 > 
-
-...
-
-> +#include <linux/bug.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/slab.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regulator/driver.h>
-> +#include <linux/regulator/machine.h>
-> +#include <linux/regulator/of_regulator.h>
-> +#include <linux/mfd/samsung/core.h>
-> +#include <linux/regulator/s2dos05.h>
-> +#include <linux/i2c.h>
+> Ordered workqueue has the same behaviour as system_wq + flush_work(),
+> but all scheduled works are async and userspace caller is not blocked,
+> which it better for userspace animation scheduling.
+> 
+> Signed-off-by: Alexey Romanov <avromanov@salutedevices.com>
+> Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> ---
+> Changes v2 since v1 at [1]:
+>     - replace "leds" with "LEDs" in the log message
+> 
+> Links:
+>     [1] https://lore.kernel.org/all/20240820155407.32729-1-ddrokosov@salutedevices.com/
+> ---
+>  drivers/leds/led-class.c | 12 +++++++++++-
+>  drivers/leds/led-core.c  |  6 +++---
+>  include/linux/leds.h     |  1 +
+>  3 files changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index c66d1bead0a4..b5e28ad54f7f 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -25,6 +25,8 @@
+>  static DEFINE_MUTEX(leds_lookup_lock);
+>  static LIST_HEAD(leds_lookup_list);
+>  
+> +static struct workqueue_struct *leds_wq;
 > +
-> +struct s2dos05_data {
-> +	struct regmap *regmap;
-> +	struct device *dev;
-> +};
+>  static ssize_t brightness_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
+>  {
+> @@ -57,7 +59,6 @@ static ssize_t brightness_store(struct device *dev,
+>  	if (state == LED_OFF)
+>  		led_trigger_remove(led_cdev);
+>  	led_set_brightness(led_cdev, state);
+> -	flush_work(&led_cdev->set_brightness_work);
+>  
+>  	ret = size;
+>  unlock:
+> @@ -548,6 +549,8 @@ int led_classdev_register_ext(struct device *parent,
+>  
+>  	led_update_brightness(led_cdev);
+>  
+> +	led_cdev->wq = leds_wq;
 > +
-> +static const struct regulator_ops s2dos05_ops = {
-
-Keep definitions together. This goes down, after all declarations and
-macros.
-
-> +	.list_voltage		= regulator_list_voltage_linear,
-> +	.map_voltage		= regulator_map_voltage_linear,
-> +	.is_enabled		= regulator_is_enabled_regmap,
-> +	.enable			= regulator_enable_regmap,
-> +	.disable		= regulator_disable_regmap,
-> +	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
-> +	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
-> +	.set_voltage_time_sel	= regulator_set_voltage_time_sel,
-> +	.set_active_discharge	= regulator_set_active_discharge_regmap,
-> +};
-> +
-> +#define _BUCK(macro)	S2DOS05_BUCK##macro
-> +#define _buck_ops(num)	s2dos05_ops##num
-> +
-> +#define _LDO(macro)	S2DOS05_LDO##macro
-> +#define _REG(ctrl)	S2DOS05_REG##ctrl
-> +#define _ldo_ops(num)	s2dos05_ops##num
-> +#define _MASK(macro)	S2DOS05_ENABLE_MASK##macro
-> +#define _TIME(macro)	S2DOS05_ENABLE_TIME##macro
-> +
-
-...
-
-> +
-> +static struct regulator_desc regulators[S2DOS05_REGULATOR_MAX] = {
-
-This should be const.
-
-> +		// name, id, ops, min_uv, uV_step, vsel_reg, enable_reg
-> +		LDO_DESC("ldo1", _LDO(1), &_ldo_ops(), _LDO(_MIN1),
-> +			_LDO(_STEP1), _REG(_LDO1_CFG),
-> +			_REG(_EN), _MASK(_L1), _TIME(_LDO), _REG(_LDO1_CFG)),
-> +		LDO_DESC("ldo2", _LDO(2), &_ldo_ops(), _LDO(_MIN1),
-> +			_LDO(_STEP1), _REG(_LDO2_CFG),
-> +			_REG(_EN), _MASK(_L2), _TIME(_LDO), _REG(_LDO2_CFG)),
-> +		LDO_DESC("ldo3", _LDO(3), &_ldo_ops(), _LDO(_MIN2),
-> +			_LDO(_STEP1), _REG(_LDO3_CFG),
-> +			_REG(_EN), _MASK(_L3), _TIME(_LDO), _REG(_LDO3_CFG)),
-> +		LDO_DESC("ldo4", _LDO(4), &_ldo_ops(), _LDO(_MIN2),
-> +			_LDO(_STEP1), _REG(_LDO4_CFG),
-> +			_REG(_EN), _MASK(_L4), _TIME(_LDO), _REG(_LDO4_CFG)),
-> +		BUCK_DESC("buck1", _BUCK(1), &_buck_ops(), _BUCK(_MIN1),
-> +			_BUCK(_STEP1), _REG(_BUCK_VOUT),
-> +			_REG(_EN), _MASK(_B1), _TIME(_BUCK), _REG(_BUCK_CFG)),
-> +};
-> +
-> +static int s2dos05_pmic_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct sec_pmic_dev *iodev = dev_get_drvdata(pdev->dev.parent);
-> +	struct of_regulator_match *rdata = NULL;
-> +	struct s2dos05_data *s2dos05;
-> +	struct regulator_config config = { };
-> +	unsigned int rdev_num = ARRAY_SIZE(regulators);
-> +	int i, ret;
-> +
-> +	s2dos05 = devm_kzalloc(dev, sizeof(struct s2dos05_data),
-> +				GFP_KERNEL);
-
-sizeof(*)
-
-> +	if (!s2dos05)
+>  	led_init_core(led_cdev);
+>  
+>  #ifdef CONFIG_LEDS_TRIGGERS
+> @@ -666,12 +669,19 @@ EXPORT_SYMBOL_GPL(devm_led_classdev_unregister);
+>  
+>  static int __init leds_init(void)
+>  {
+> +	leds_wq = alloc_ordered_workqueue("leds", 0);
+> +	if (!leds_wq) {
+> +		pr_err("failed to create LEDs ordered workqueue\n");
 > +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, s2dos05);
-> +
-> +	rdata = devm_kcalloc(dev, rdev_num, sizeof(*rdata), GFP_KERNEL);
-> +	if (!rdata)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < rdev_num; i++)
-> +		rdata[i].name = regulators[i].name;
-> +
-> +	s2dos05->regmap = iodev->regmap_pmic;
-> +	s2dos05->dev = dev;
-> +	if (!dev->of_node)
-> +		dev->of_node = dev->parent->of_node;
-> +
-> +	for (i = 0; i < rdev_num; i++) {
-> +		struct regulator_dev *regulator;
-> +
-> +		config.init_data = rdata[i].init_data;
-> +		config.of_node = rdata[i].of_node;
-> +		config.dev = dev;
-> +		config.driver_data = s2dos05;
-> +		regulator = devm_regulator_register(&pdev->dev,
-> +						&regulators[i], &config);
-> +		if (IS_ERR(regulator)) {
-> +			ret = PTR_ERR(regulator);
-> +			dev_err(&pdev->dev, "regulator init failed for %d\n",
-> +				i);
-> +		}
 > +	}
 > +
-> +	return ret;
-> +}
-> +
-> +static const struct platform_device_id s2dos05_pmic_id[] = {
-> +	{ "s2dos05-regulator" },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(platform, s2dos05_pmic_id);
-> +
-> +static struct platform_driver s2dos05_platform_driver = {
-> +	.driver = {
-> +		.name = "s2dos05",
-> +	},
-> +	.probe = s2dos05_pmic_probe,
-> +	.id_table = s2dos05_pmic_id,
-> +};
-> +module_platform_driver(s2dos05_platform_driver);
-> +
-> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-> +MODULE_DESCRIPTION("SAMSUNG s2dos05 Regulator Driver");
+>  	return class_register(&leds_class);
+>  }
+>  
+>  static void __exit leds_exit(void)
+>  {
+>  	class_unregister(&leds_class);
+> +	destroy_workqueue(leds_wq);
+>  }
+>  
+>  subsys_initcall(leds_init);
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index 89c9806cc97f..9769ac49be20 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -266,7 +266,7 @@ void led_blink_set_nosleep(struct led_classdev *led_cdev, unsigned long delay_on
+>  		led_cdev->delayed_delay_on = delay_on;
+>  		led_cdev->delayed_delay_off = delay_off;
+>  		set_bit(LED_SET_BLINK, &led_cdev->work_flags);
+> -		schedule_work(&led_cdev->set_brightness_work);
+> +		queue_work(led_cdev->wq, &led_cdev->set_brightness_work);
+>  		return;
+>  	}
+>  
+> @@ -297,7 +297,7 @@ void led_set_brightness(struct led_classdev *led_cdev, unsigned int brightness)
+>  		 */
+>  		if (!brightness) {
+>  			set_bit(LED_BLINK_DISABLE, &led_cdev->work_flags);
+> -			schedule_work(&led_cdev->set_brightness_work);
+> +			queue_work(led_cdev->wq, &led_cdev->set_brightness_work);
+>  		} else {
+>  			set_bit(LED_BLINK_BRIGHTNESS_CHANGE,
+>  				&led_cdev->work_flags);
+> @@ -333,7 +333,7 @@ void led_set_brightness_nopm(struct led_classdev *led_cdev, unsigned int value)
+>  		set_bit(LED_SET_BRIGHTNESS_OFF, &led_cdev->work_flags);
+>  	}
+>  
+> -	schedule_work(&led_cdev->set_brightness_work);
+> +	queue_work(led_cdev->wq, &led_cdev->set_brightness_work);
+>  }
+>  EXPORT_SYMBOL_GPL(led_set_brightness_nopm);
+>  
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 6300313c46b7..7c9f1cb12ab9 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -169,6 +169,7 @@ struct led_classdev {
+>  	int			 new_blink_brightness;
+>  	void			(*flash_resume)(struct led_classdev *led_cdev);
+>  
+> +	struct workqueue_struct *wq; /* LED workqueue */
+>  	struct work_struct	set_brightness_work;
+>  	int			delayed_set_value;
+>  	unsigned long		delayed_delay_on;
+> -- 
+> 2.43.0
+> 
 
-s/SAMSUNG/Samsung/
-
-Also, your Kconfig used different name, so please use one - probably
-Samsung.
-
-This applies to MFD patch as well.
-
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/linux/regulator/s2dos05.h b/include/linux/regulator/s2dos05.h
-> new file mode 100644
-> index 000000000000..2e89fcbce769
-> --- /dev/null
-> +++ b/include/linux/regulator/s2dos05.h
-> @@ -0,0 +1,73 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-
-Are you sure that here (and other places) you want any newer GPL? This
-is quite odd. Does original code (from which you took 2016 copyrights)
-have this as well?
-
-Best regards,
-Krzysztof
-
+-- 
+Thank you,
+Dmitry
 
