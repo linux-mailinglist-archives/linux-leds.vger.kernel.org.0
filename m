@@ -1,68 +1,73 @@
-Return-Path: <linux-leds+bounces-2741-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2742-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273BF97A816
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2024 22:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3237797ABBA
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Sep 2024 09:00:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C12251F21E81
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2024 20:08:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C4DB1F237E3
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Sep 2024 07:00:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AC8F15CD64;
-	Mon, 16 Sep 2024 20:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643CF14A60C;
+	Tue, 17 Sep 2024 07:00:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCc4wEl1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXJ/DXix"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C706ABE6C;
-	Mon, 16 Sep 2024 20:08:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D10314375D;
+	Tue, 17 Sep 2024 07:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726517293; cv=none; b=je0QMuSTiN2BtFSlktD3YbOj+dTpsqp6j2AYaQdyY2qg+tkYpS9Yqg/VQotRXoOb6lAjaMXa4CDIRPpDjFlwu2QZ7U5hzHsbGS3zNEU/1Zyn3Y2BMC/IOYZU3ZlT9ujtoL++sb12vLREcz/ZGZIafMa9mRaeyCeKCYROXwjIYFM=
+	t=1726556427; cv=none; b=UUxFcbZTVQz+1pHDOWBkQAzMnWw/Mr171O6LtKGRJCtoDuLOqsiOcCBHJdwtS1VqyCXoO73ENX1nsfj4lx6yC8DL8aQEc0bD4jIBVCkPd1dLLl9ap8EzlkbiqjPwKM7yDXyf9xWrJyecTG2+febA1AMZ6qXI6pGu8Uo46lqhFWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726517293; c=relaxed/simple;
-	bh=YBjWbfo0a0keCQPpKYbQNbu61ItDdyOZQNE68ZGbl3M=;
+	s=arc-20240116; t=1726556427; c=relaxed/simple;
+	bh=xYXjLgKIgVQVJl/mI7hl5hLIk1cdSp8r/KFLQ4nwxgM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kifx2puFdEVocehIEV+YuDhVxVX8qCvh2hEppCnew2RdNFNTX12YgfeFCjMcBuE7/3uuoTN+gE2z3vY/WWO0XpCpXxWLoOhjOkRh307x+o7QiKX0EHzNLfaIVCfUOYrdo6EMPZ8zThxjXyA2qePAHZTCtstvfLoW2IB/ZAhlZk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCc4wEl1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70FD6C4CEC4;
-	Mon, 16 Sep 2024 20:08:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LXxNbwbjacbF5Y0l6vNvD2YrKkdB+SUkGcHYwcI9NXHcgfbKCF9a7iYNuUcjvMzuqnxCo324GP4MRgogpEYj3sTbNaIeJW7lhL9bfQn0sopSBxWa7pQ7bgBPIpQCMhvglWDnuidSBl+h3GJpSb9PKGPsXKzfa9MXr3oO96gJ0w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXJ/DXix; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AA3FC4CEC6;
+	Tue, 17 Sep 2024 07:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726517292;
-	bh=YBjWbfo0a0keCQPpKYbQNbu61ItDdyOZQNE68ZGbl3M=;
+	s=k20201202; t=1726556426;
+	bh=xYXjLgKIgVQVJl/mI7hl5hLIk1cdSp8r/KFLQ4nwxgM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DCc4wEl18k4kWLqBq6iNCPK6cahPYo3qxIvef7bzOZEcMsaklUsZ/9Ikn+ieTTqso
-	 26VxtnAJENQ+rpPAAXF4d6yIE9QA1f/qvHhymWujw9IA3PY7CgA1QPh13MqeBxpn8Z
-	 RX+xwBGIMuB8UozvYwQ7YE0IuPhUSx2ivrKllorV4d2IrifhxK8NEiAg1CIPKsZFIs
-	 CGszExjt27bjR+I+saWIrhWkocBeCBJdT9ctx05FDwlZDj8F4ei+AJyCxir62WTpAT
-	 g+WHnXXtDrbr6Gx43p8h9c8MmgVZZnzia19ZEtCOjFOMxY2J/V9Ru/dYeO7z8Gpnzn
-	 YjcnTucvqpqOQ==
-Date: Mon, 16 Sep 2024 22:08:08 +0200
+	b=nXJ/DXixRjjDtOwXrUIh1eVPfuQ3jMIC7ZCco3EQFL4PNFnS8+SNHzXil7GkmG+Wv
+	 +re5wFT9lDF+2K3ZmYXDhGY5uViKGt3AbEyjhQXiYGsoY4Rn4BGgLwoZw29/zpzAiD
+	 W+tWDKUdHWrKr86gPrfGplJnUJh1TQ1Oed4gUl6BjTWgFzk+wX2l7J+Pbujqf+umyW
+	 2IjmIzCBf2BnvnOtGycrodoh6oCQ53Id2Mphp5LZ7U2yg41Elqezl29tbDEEuKlp9h
+	 T8dvp/BY5tcBunj6V+MSfFDgD8IxctyDLW0kgRSjsgCyhZxeuTVb0l0zNpAq32q0u5
+	 envyKvvKyTDtg==
+Date: Tue, 17 Sep 2024 09:00:23 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
-	cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4 04/27] dt-bindings: panel: add Samsung s6e3ha8
-Message-ID: <oldqqsnonmbczvhbtzuaxvnpm23uq3kuyvy5o2igq7c4ojlmsl@bket5pssbmmc>
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-4-2d2efd5c5877@gmail.com>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Sean Wang <sean.wang@mediatek.com>, 
+	Sen Chu <sen.chu@mediatek.com>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen Zhong <chen.zhong@mediatek.com>, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
+	Chris-qj chen <chris-qj.chen@mediatek.com>, 
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v5 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <iudkiamza3lsl33tsby3sghfy66rj2tgg3kqjjwzeba46oxtpi@yrri5m5skjld>
+References: <20240916151132.32321-1-macpaul.lin@mediatek.com>
+ <20240916151132.32321-2-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,112 +76,279 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240913-starqltechn_integration_upstream-v4-4-2d2efd5c5877@gmail.com>
+In-Reply-To: <20240916151132.32321-2-macpaul.lin@mediatek.com>
 
-On Fri, Sep 13, 2024 at 06:07:47PM +0300, Dzmitry Sankouski wrote:
-> Add binding for the Samsung s6e3ha8 panel found in the Samsung S9.
+On Mon, Sep 16, 2024 at 11:11:31PM +0800, Macpaul Lin wrote:
+> Convert the mfd: mediatek: mt6397 binding to DT schema format.
 > 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> MT6323, MT6358, and MT6397 are PMIC devices with multiple function
+> subdevices. They share a common PMIC design but have variations in
+> subdevice combinations.
 > 
-> ---
-> Changes in v4:
-> - change dts example intendation from tabs
->  to spaces
-> - remove reset-gpios description
-> ---
->  .../bindings/display/panel/samsung,s6e3ha8.yaml    | 75 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 80 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
-> new file mode 100644
-> index 000000000000..94c812e07571
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
-> @@ -0,0 +1,75 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/samsung,s6e3ha8.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Samsung s6e3ha8 AMOLED DSI panel
-> +
-> +description: The s6e3ha8 is a 1440x2960 DPI display panel from Samsung Mobile
-> +  Displays (SMD).
-> +
-> +maintainers:
-> +  - Dzmitry Sankouski <dsankouski@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: samsung,s6e3ha8
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios: true
-> +
-> +  port: true
-> +
-> +  vdd3-supply:
-> +    description: VDD regulator
-> +
-> +  vci-supply:
-> +    description: VCI regulator
-> +
-> +  vddr-supply:
-> +    description: VDDR regulator
-> +
-> +required:
-> +  - compatible
-> +  - reset-gpios
-> +  - vdd3-supply
-> +  - vddr-supply
-> +  - vci-supply
+> Key updates in this conversion:
 
-If there is going to be resend, then keep the same order as in
-properties: block.
+...
 
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "samsung,s6e3ha8";
-> +            reg = <0>;
-> +            vci-supply = <&s2dos05_ldo4>;
-> +            vddr-supply = <&s2dos05_buck1>;
-> +            vdd3-supply = <&s2dos05_ldo1>;
-> +            te-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
-> +            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
-> +            pinctrl-0 = <&sde_dsi_active &sde_te_active_sleep>;
-> +            pinctrl-1 = <&sde_dsi_suspend &sde_te_active_sleep>;
-> +            pinctrl-names = "default", "sleep";
-> +
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint = <&mdss_dsi0_out>;
-> +                };
+> +                regulator-name = "vproc";
+> +                regulator-min-microvolt = < 700000>;
+> +                regulator-max-microvolt = <1350000>;
+> +                regulator-ramp-delay = <12500>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
 > +            };
-> +      };
-
-Indentation is still mixed up.
-
-> +    };
 > +
-> +...
+> +            buck_vsys {
+> +                regulator-name = "vsys";
+> +                regulator-min-microvolt = <1400000>;
+> +                regulator-max-microvolt = <2987500>;
+> +                regulator-ramp-delay = <25000>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            buck_vpa {
+> +                regulator-name = "vpa";
+> +                regulator-min-microvolt = < 500000>;
+> +                regulator-max-microvolt = <3650000>;
+> +            };
+> +
+> +            ldo_vtcxo {
+> +                regulator-name = "vtcxo";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <90>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vcn28 {
+> +                regulator-name = "vcn28";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <185>;
+> +            };
+> +
+> +            ldo_vcn33_bt {
+> +                regulator-name = "vcn33_bt";
+> +                regulator-min-microvolt = <3300000>;
+> +                regulator-max-microvolt = <3600000>;
+> +                regulator-enable-ramp-delay = <185>;
+> +            };
+> +
+> +            ldo_vcn33_wifi {
+> +                regulator-name = "vcn33_wifi";
+> +                regulator-min-microvolt = <3300000>;
+> +                regulator-max-microvolt = <3600000>;
+> +                regulator-enable-ramp-delay = <185>;
+> +            };
+> +
+> +            ldo_va {
+> +                regulator-name = "va";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vcama {
+> +                regulator-name = "vcama";
+> +                regulator-min-microvolt = <1500000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vio28 {
+> +                regulator-name = "vio28";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vusb {
+> +                regulator-name = "vusb";
+> +                regulator-min-microvolt = <3300000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vmc {
+> +                regulator-name = "vmc";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vmch {
+> +                regulator-name = "vmch";
+> +                regulator-min-microvolt = <3000000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vemc3v3 {
+> +                regulator-name = "vemc3v3";
+> +                regulator-min-microvolt = <3000000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vgp1 {
+> +                regulator-name = "vgp1";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vgp2 {
+> +                regulator-name = "vgp2";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3000000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vgp3 {
+> +                regulator-name = "vgp3";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vcn18 {
+> +                regulator-name = "vcn18";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vsim1 {
+> +                regulator-name = "vsim1";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <3000000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vsim2 {
+> +                regulator-name = "vsim2";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <3000000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vrtc {
+> +                regulator-name = "vrtc";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vcamaf {
+> +                regulator-name = "vcamaf";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vibr {
+> +                regulator-name = "vibr";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +            };
+> +
+> +            ldo_vrf18 {
+> +                regulator-name = "vrf18";
+> +                regulator-min-microvolt = <1825000>;
+> +                regulator-max-microvolt = <1825000>;
+> +                regulator-enable-ramp-delay = <187>;
+> +            };
+> +
+> +            ldo_vm {
+> +                regulator-name = "vm";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vio18 {
+> +                regulator-name = "vio18";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +           ldo_vcamd {
+> +                regulator-name = "vcamd";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vcamio {
+> +                regulator-name = "vcamio";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +        };
+> +
+> +        keys {
+> +            compatible = "mediatek,mt6323-keys";
+> +            mediatek,long-press-mode = <1>;
+> +            power-off-time-sec = <0>;
+> +
+> +            power {
+> +                    linux,keycodes = <116>;
+
+Messed indentation.
+
+> +                    wakeup-source;
+> +            };
+> +
+> +            home {
+> +                    linux,keycodes = <114>;
+> +            };
+> +        };
+> +
+> +        power-controller {
+> +            compatible = "mediatek,mt6323-pwrc";
+> +            #power-domain-cells = <0>;
+> +        };
+> +
+> +        rtc {
+> +            compatible = "mediatek,mt6323-rtc";
+> +        };
+> +    };
+
+Keep one complete example. Maybye two if they are significantly
+different, but I don't see these differences.
+
+
+> +
+> +  - |
+> +    #include <dt-bindings/input/input.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    pmic {
+> +        compatible = "mediatek,mt6358">
+
+
+....
+
+> -	Required properties:
+> -		- compatible: "mediatek,mt6397-pinctrl"
+> -	For details, see ../pinctrl/pinctrl-mt65xx.txt
 
 Best regards,
 Krzysztof
