@@ -1,108 +1,156 @@
-Return-Path: <linux-leds+bounces-2779-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2780-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB9897D635
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 15:36:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF4597D641
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 15:38:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E242285DA3
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 13:36:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 493561F22C12
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 13:38:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC365178378;
-	Fri, 20 Sep 2024 13:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2184D17995E;
+	Fri, 20 Sep 2024 13:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oI3yXrZX"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UXs9/D0D"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F88F158DB1
-	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 13:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D24617839C;
+	Fri, 20 Sep 2024 13:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726839402; cv=none; b=WbyiwPeApzE+3XQdkS1ZfRSBKEZKTnOv8JTdlynNi4otQxnVhKaCjvQRSKFJ+cTN7Yz/uz4KQo4VfCyuJgW45laUS1uWy2hLczAvJkVGMGZ2Z3X+0c/J7Y+t/jE6yHZabldkICVR8mn+UulU6wX6IK/nhTMa20puQE1y619bdm4=
+	t=1726839479; cv=none; b=byEwPmUxJC5Uxx1s6g7NyPxJCPqNtY+zEhy2QXbKmX+bzuHe/ggbQAp4MEowNHCL3+xfRTvsdwU8EO1j3IdiGRFchkV9p3l3tMdyQJkNCDYTghv0qN9xhyNFw33aZDx+hgugeniQ18xiLKlSv8KVZz7TPd+wo9mKka2oTeWpza8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726839402; c=relaxed/simple;
-	bh=JvX86XJgCRYYcyM726NTaN9hhTnAJ4K/UyW2ajC3ZH8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cRjX7HBICVQGTfS4J0WQG/gR4ed5er0Qhl7N4q01AjRCfBjaOfFqdJ6s1HwSsWFJMsodXGCl+7rrBaT2J7YJUSwoNP5v65RT5Udoo55g4wUgslo2gQYJDM1b1jdgdT8tlcDsh8y8iOYalcdwVWHCeZLsEYz1n5Qpk0rI4V2L5v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oI3yXrZX; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53659867cbdso3205879e87.3
-        for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 06:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726839399; x=1727444199; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JvX86XJgCRYYcyM726NTaN9hhTnAJ4K/UyW2ajC3ZH8=;
-        b=oI3yXrZXrd+qlM3cvxz+cZBm1VWqtsUMdTWDJFfCmeieCaIBH7o7PYN1voOAWB1BSP
-         BKBKkNE+dXkloopyrIKVhNE5AIVDSaLs/yt6wu97WFHf5ZR6xD/RARuwYWTi0KpDjrJW
-         7XmAqscznshPnaSwWCF5xpmCbfeU9fERUVndd6gxg6Tp1bcGjbnjuHHKNrcg9FQnMgJg
-         622ifNW+SMjNwKbR5eNRhahj+Tc6wEXqj8C88fwfZMcEoaepLSh11RR4FBbINWjeRZyi
-         HhuEPRijzPMQ6arvufhq5fvt/rgg2O6hxL8JStWR3yrS6QXyWeZ03Kq63PYwF7d3CZcu
-         Ibpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726839399; x=1727444199;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JvX86XJgCRYYcyM726NTaN9hhTnAJ4K/UyW2ajC3ZH8=;
-        b=reYTfM3KcglQyb3YymHnJTUe1aqzrx4gRdSzXsAFFfkOavAyqEq+jw996Xt32nqcNm
-         Cpqmvv8CKo6CDbcdCH7QcyiJRXv6Gc/vJKcCEIpDVZ3xGlKnFY6s6QcY3JkIQ801dIEj
-         /T7dmHtIt7l9xELeb5PyqPsuTVpAiwl4rU+nXaqKGclJJmbGwRIFjzXgZI3RrLCU7Ak2
-         BF1eiscpb76UyeCZGcKAskQLqpJV035B4+5W8PY2mg+y6W9dsxzftsgGoi+SFVD8h7Ls
-         96ZnBUOLqlrg2VGpEUjS8DhdPtXSKen7Pg/RxDOlKsys40hvPoa5mfhkKvJKh4hmQnEY
-         NLSw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8DW0AdbfQ+ObXLDvgcZ40DBilZ6tP4QFu4RASor+t55GGjElT0Rz083FGGsBbxQJdJPUKG7aJI2TM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd1rL55HK+QHB4xdHfJJP8hu6W3VXt+fKnZcagjN66ndf7L2gB
-	78F7++3ghDG8H5GarGqTYKg/Yh8dG7906Cyw9pQ6ojt09rjnRhYNeNyQnW2n0t+pqnhQHyQg0jc
-	5sGu1qd7VWfHiLAXkEy9WE+sBowVESm38HO82Jw==
-X-Google-Smtp-Source: AGHT+IF3MXqM4AHdMsRT0X+IuAROYjzOa/eJcaWjmb2kM5RxfqdyUYT97T2lTKxU1txf6kHpDxbFL++mBvZFpq5QCTA=
-X-Received: by 2002:a05:6512:3989:b0:536:a695:9414 with SMTP id
- 2adb3069b0e04-536ac2d69abmr2693139e87.6.1726839399099; Fri, 20 Sep 2024
- 06:36:39 -0700 (PDT)
+	s=arc-20240116; t=1726839479; c=relaxed/simple;
+	bh=kgWb5kRwz1iKoDUmfC8iUWF0tLM8l/Q9bdKBzrkGBxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bsMcYkCFupkBifFaqzZc2Z1d9+uWpE2of9O39oqxPyjjqrfH48BRxCnltX/tjzHE0EcUqS6+ZZzE7SQ/j8feGPMMdqLeoQ1aNPeMRd9zVuuhXSmbOTtTJ0SB4yeB4cf3fMSpV7Pow+UdRnWdOllYOq7ydRTjZh8UEKN1eeLaBMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UXs9/D0D; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 00CCE240003;
+	Fri, 20 Sep 2024 13:37:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1726839473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VlxQbVI6GjsZePKg/GpEB4+lUld/JLjhc7SjBhbTe4Q=;
+	b=UXs9/D0DtqVUffHhaaWz9qCOw/YcTM1Da9aftLEfmybPoIbNYYchtTL63Nv0L731M/G8/u
+	m/kgvm1ljyop99J/70lQJKwq1y4Ey3TwCNEW51rZ3TLJcb2Efbi6+vblOwv+FlLGcVxJIu
+	sR9XtjpZDrhyXa1yPyG6LVN/IVgh1cYd9HbBIF43LtOxYg3geiazifHUSsyCnv61VYijua
+	5zmxBLG9zHiaseTmUMaOOege3taJZ7w6TH0KN46RL6i/MgQD/eQWXaOq9JkSBx7HEkZCZe
+	g8lOObN72EGjYEwtc9w0du8y50UWLZ5en31dBX8U5NCUNekmjK3goVGk1qJsVA==
+Date: Fri, 20 Sep 2024 15:37:50 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Macpaul Lin <macpaul.lin@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Sean Wang <sean.wang@mediatek.com>,
+	Sen Chu <sen.chu@mediatek.com>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>,
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+	Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <202409201337500284902d@mail.local>
+References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
+ <20240918064955.6518-2-macpaul.lin@mediatek.com>
+ <20240918115151c896f33f@mail.local>
+ <20240918115651c1475d36@mail.local>
+ <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
+ <d8b90ddf-efbc-4434-9ad0-4be6942d51a5@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240920-bcmbca-leds-v1-0-5f70e692c6ff@linaro.org>
- <20240920-bcmbca-leds-v1-2-5f70e692c6ff@linaro.org> <12ea4d8609b3defa8782a37c62a22820@milecki.pl>
-In-Reply-To: <12ea4d8609b3defa8782a37c62a22820@milecki.pl>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 20 Sep 2024 15:36:27 +0200
-Message-ID: <CACRpkdZTrT-+u+Mt4ymyYxx8pR8s2rS6yfyf-11fLb-MZoMzxw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] leds: bcmbca: Add new driver for Broadcom BCMBCA
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	William Zhang <william.zhang@broadcom.com>, Anand Gore <anand.gore@broadcom.com>, 
-	Kursad Oney <kursad.oney@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8b90ddf-efbc-4434-9ad0-4be6942d51a5@collabora.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Fri, Sep 20, 2024 at 1:30=E2=80=AFPM Rafa=C5=82 Mi=C5=82ecki <rafal@mile=
-cki.pl> wrote:
-> On 2024-09-20 13:15, Linus Walleij wrote:
-> > The Broadcom BCA (Broadband Access) SoCs have a LED control
-> > block that can support either parallel (directly connected)
-> > LEDs or serial (connected to 1-4 shift registers) LEDs.
-> >
-> > Add a driver for that hardware.
->
-> There is an existing driver for this hw block, please see:
-> drivers/leds/blink/leds-bcm63138.c
+On 20/09/2024 09:31:24+0200, AngeloGioacchino Del Regno wrote:
+> Il 18/09/24 16:18, Macpaul Lin ha scritto:
+> > 
+> > On 9/18/24 19:56, Alexandre Belloni wrote:
+> > > 
+> > > On 18/09/2024 13:51:51+0200, Alexandre Belloni wrote:
+> > > > > Changes for v4:
+> > > > >  - Remove "mediatek,mt6357" from PMIC's compatible string since there is a
+> > > > >    seperated DT schema for PMIC mt6357.
+> > > > > > Changes for v5:
+> > > > >  - Rebase to next-20240913 (linux-next/master).
+> > > > >  - Fix the "title" (device type) of mfd/mediatek,mt6397.yaml to "PMIC".
+> > > > >  - RTC:
+> > > > >   - Drop "start-year"
+> > > > 
+> > > > Maybe, instead of dropping the property, you should add support in the
+> > > > driver by setting range_min and range_max.
+> > > 
+> > > Looking at this even more, the driver can probably be simplified by
+> > > setting start_year in probe and dropping RTC_MIN_YEAR_OFFSET.
+> > 
+> > Thank you for pointing out where and how the driver should be changed.
+> > However, I'm wondering if this should be a fix with a separated
+> > patchset (bindings and the driver)? The board or SoC's device trees
+> > should be reviewed as well. I'll need to get someone's help (permission)
+> > inside MediaTek to check those dts and construct the patch for RTC
+> > driver.
+> > That will take sometime.
+> > 
+> 
+> Alexandre, I definitely agree with you on the fact that the MTK PMIC RTC driver
+> can (and needs to) be improved, and that it can make use of some nice cleanup...
+> 
+> ... but!
+> 
+> This series performs a conversion to schema, and the previous txt file didn't
+> say anything about the start-year property - which was not mandatory to support
+> at that time (nor now, afaik?), so adding support for that is out of scope for
+> this series.
 
-Gah how could I miss this ... I will test with this driver and then add
-any stuff I need.
+It is mandatory now. I agree this can be done in a subsequent series.
 
-Thanks!
-Linus Walleij
+> 
+> Eventually, that can come as a series on top, adding support for that in the
+> binding (and, of course, in the driver).
+> 
+> I should be able to tackle that... most probably next week - but still, the
+> improvements would come as a series on top of this one.
+> 
+> Cheers,
+> Angelo
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
