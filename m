@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-2782-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2783-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC50297D71C
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 16:54:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE6997D71E
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 16:54:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EDF91C21EE2
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 14:54:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA75B1F24C47
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 14:54:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02DA317C222;
-	Fri, 20 Sep 2024 14:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB1C17C21C;
+	Fri, 20 Sep 2024 14:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGwgyTQh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hxuv2Ujr"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5C017C213;
-	Fri, 20 Sep 2024 14:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4421F17BED6;
+	Fri, 20 Sep 2024 14:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726844067; cv=none; b=rDix+blAN0Qw7lEuaLuVnLUcz6tLwss5TGTQscpPhRBhX0AxUFsrc+Pi8JV91MM+1YrUrBV7m5QjccyLmPlcs5ZsdTUFPbFsu0F+qTqcQsbOhEmH1HP7C9SwcWSAETf5xaXddCkchybsASrhisUvXT2mZwgTKZmbWhSdY8Lvygc=
+	t=1726844091; cv=none; b=Wql/Y9GOioWPhc5youNFJjjErb9JpHxIXR+woWMqTgSDlyDlaUZfMdmakShMc2LIrg7LaogXG1gWY1bPX+p5ZcuyEZ1KVe8MZGTer9w4K6mQC2P1de0SBg8l0eC4EGVPBYp64vEXGpWbEIBTIYEiuyonYoltG5Wwf6dLj0FDC/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726844067; c=relaxed/simple;
-	bh=g2GCmn860/SoAntjsc6FkB8rPMPKjII8iqm5LrcO/CQ=;
+	s=arc-20240116; t=1726844091; c=relaxed/simple;
+	bh=6BY1Yd9JN+P7E4fi5RFlhBdrQPiO3pKnc2LtEfmsSFU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M9JGQ5Cj4rOwZ+66yHDKAdgqRq5avI2zYsIRg2M5Se1lpMbLLbDX8FE/2O4v6ZOTsl7SHZbbGk5oqI8LR+wHDcBpKigBNqXvXl+TCHm3VM3grfb9InMtxFGfPXnvqVKetitjPbDYH4MtmhplL/YGA+tcFGb00tX2x6vKbvN0wNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGwgyTQh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 253C1C4CEC3;
-	Fri, 20 Sep 2024 14:54:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=bRkZ54h77cmj0qjyyyr3wPyQmJtkOq6iG2qG9rZud77SrNwkpHkTopFj6KxUkLAIqOVbftr3JXC1sRghInNaZESYHE7MHQrSwbSytis1yJk4zbKODlMls1Gp2KJWwOf+Jxf+Fh7eRPwVOJ0GKMA6lPzhgmEOD+fbMyryNGQjKkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hxuv2Ujr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FED8C4CEC3;
+	Fri, 20 Sep 2024 14:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726844067;
-	bh=g2GCmn860/SoAntjsc6FkB8rPMPKjII8iqm5LrcO/CQ=;
+	s=k20201202; t=1726844090;
+	bh=6BY1Yd9JN+P7E4fi5RFlhBdrQPiO3pKnc2LtEfmsSFU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iGwgyTQhZByleVwiAGFjeEUXDGHHGWYKAa/NTKVeuwHA9HxOg/PDxSaNC64ysYxoc
-	 vJIzzhyf9F2RRCEQzvC5DHv79pk/8H6MokZJpw0JBa3Lhpbh9OI1kFE0J/jLzZLmIK
-	 JyU4W8herdPq8Ydf7LMKWlOYhDmy40p3HwAoF+Ggqpposbh1rN8Rg/6ubZzcggjM6c
-	 8KRT/3FJbEPiqTWWS7O02xkM4wVTj/BY269lNjHa9gbM3pICB9vIvl171pVhnFx4q2
-	 7ljl6ELmiLC14gZ2wQ7xTPOFrxxXZJ0mGFb1Bv6+mv6+xdXoCVFKV14Yfs5jagPILL
-	 B3h07O36NlqqA==
-Message-ID: <8779d01f-069a-42d7-b7dc-a2671863b26d@kernel.org>
-Date: Fri, 20 Sep 2024 16:54:20 +0200
+	b=Hxuv2Ujr0kvZaFTvMOM+dmw/5oor/1iIhmSFJUPW2HAPQx03r0fAbwK5l2OVN/mr1
+	 hp+MSeJO2Mp1NF4X/7VUuOhO50SraDVczGsiuOo1MY/0iOwz/bhlYInAPyCAxUOp9n
+	 qisHLdTD2VryovRfbYTvpZZuN6/LvegFV6jy+qC2bTRC2dmr9nJA6U9f0bjXD1nRQc
+	 GsQk/iqZcflXndeYfC8tDoUhEcZpieL3QAaFNxtF01QxiB/Wnx2p5DoMgM+Cy59V80
+	 WpX6oCs0leNi+pRpTDl0JQzFTg/HLWsj0ggyoHj/T3Lt/SugZfMupSHEOSXBzfVWMi
+	 H1X5XXYJ8kK+Q==
+Message-ID: <d369aaa0-b14a-4eb3-97bd-b61188d973ec@kernel.org>
+Date: Fri, 20 Sep 2024 16:54:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -52,10 +52,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH leds v3 05/11] dt-bindings: leds: cznic,turris-omnia-leds:
  Allow interrupts property
-To: =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, soc@kernel.org,
+To: =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, soc@kernel.org,
  Gregory CLEMENT <gregory.clement@bootlin.com>, arm@kernel.org,
  Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
@@ -65,6 +64,8 @@ Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
  Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
 References: <20240913123103.21226-1-kabel@kernel.org>
  <20240913123103.21226-6-kabel@kernel.org>
+ <rchpwlmgzsoj37oz6plzqcyxdyzpcdqtpmzik2gcflakeca3rm@vcdrovzs4nzh>
+ <wn6mj233oqouxbrbogpf27w5bdybukoblbold6gk25fdfmy5j2@dlzxkh7whlzw>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,19 +111,60 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240913123103.21226-6-kabel@kernel.org>
+In-Reply-To: <wn6mj233oqouxbrbogpf27w5bdybukoblbold6gk25fdfmy5j2@dlzxkh7whlzw>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 13/09/2024 14:30, Marek Behún wrote:
-> Extend the cznic,turris-omnia-leds binding with interrupts property,
-> specifying the global LED brightness changed by button press interrupt.
+On 17/09/2024 09:08, Marek Behún wrote:
+> On Mon, Sep 16, 2024 at 04:33:13PM +0200, Krzysztof Kozlowski wrote:
+>> On Fri, Sep 13, 2024 at 02:30:57PM +0200, Marek Behún wrote:
+>>> Extend the cznic,turris-omnia-leds binding with interrupts property,
+>>> specifying the global LED brightness changed by button press interrupt.
+>>>
+>>> Signed-off-by: Marek Behún <kabel@kernel.org>
+>>> ---
+>>>  .../devicetree/bindings/leds/cznic,turris-omnia-leds.yaml | 8 ++++++++
+>>>  1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+>>> index 34ef5215c150..f52f6304c79e 100644
+>>> --- a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+>>> +++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+>>> @@ -23,6 +23,12 @@ properties:
+>>>      description: I2C slave address of the microcontroller.
+>>>      maxItems: 1
+>>>  
+>>> +  interrupts:
+>>> +    description:
+>>> +      Specifier for the global LED brightness changed by front button press
+>>> +      interrupt.
+>>
+>> This "front button press" concerns me that you just hooked here
+>> gpio-key. Are you sure that this is the physical interrupt line going to
+>> this device?
 > 
-> Signed-off-by: Marek Behún <kabel@kernel.org>
-> ---
+> No no no, that is a different interrupt from the gpio-key.
+> 
+> The button can be configure in two modes:
+> 
+> - it can act like a GPIO to the CPU, forwarding press and release events
+>   via the GPIO chip (so button press it is handled by CPU)
+>   - can be set with
+>       echo cpu >/sys/bus/i2c/devices/1-002a/front_button_mode
+>   - pressing it will generate the INT_BUTTON_PRESSED interrupt from the
+>     MCU
+> 
+> - it can change LED panel brightness (so button press is handled by MCU)
+>   - this is the default mode, configured after boot
+>   - can be set with
+>       echo mcu >/sys/bus/i2c/devices/1-002a/front_button_mode
+>   - pressing it will generate the INT_BRIGHTNESS_CHANGED interrupt
+> 
+> The INT_BUTTON_PRESSED and INT_BRIGHTNESS_CHANGED interrupt semantically
+> different (and also literally, they are at different bits). See
+>   https://gitlab.nic.cz/turris/hw/omnia_hw_ctrl/-/blob/master/src/drivers/i2c_iface.h?ref_type=heads#L289-L321
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+That's fine, thanks for the explanation.
 
 Best regards,
 Krzysztof
