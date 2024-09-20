@@ -1,76 +1,74 @@
-Return-Path: <linux-leds+bounces-2773-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2774-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2647C97D49A
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 13:15:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F3697D49C
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 13:15:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF3022832C5
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 11:15:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87D641C221A5
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 11:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CAEE13F431;
-	Fri, 20 Sep 2024 11:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00590140397;
+	Fri, 20 Sep 2024 11:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ryeqEOxB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AZmz6NBz"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AA338DE5
-	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 11:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCB113E8A5
+	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 11:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726830920; cv=none; b=QqCD6HThNDMqoAS9Bur7qiECtacYSMq7CONsUXjTnKq2uzG6iCxooREiuGb3gSZcMasm88pRNNAnfPYo2dh/K/RL1K00nT+eE9pW5pR5UZAKsjP/XdBMgC/Ju4QSFtOJX6ID1+1k9oERv0R9MyowYtfMh0skTxPHxy6KRGCY2dc=
+	t=1726830922; cv=none; b=XIIiGNOCLj109uQimC69Dmh5gF2lewIV3S3Joel+FYVYCIAdJKD6UkOkgbSrwwex/iPULvS3ajqoleqWDrn+5nPzGkDtkRyK0DXDEtJ26vPO/42+er0Lty8wBxQ3BG98dYEJ1hd+Kl6VTPy3nw6bPwiA1aGPwiw7ZQdvTHBl69Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726830920; c=relaxed/simple;
-	bh=3EzdKFwNjJiOtkQLdUrsZHq1Dar03EPpfASw0h0NtLA=;
+	s=arc-20240116; t=1726830922; c=relaxed/simple;
+	bh=Gv57wclApeuEMQ7azjdwXA14GxlKdGzrC8sWDLmSgKc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M5phsHOURl5G+rzQWSPxi/2/U8uUGK/kS5iVnUZsPZHjJUlKxH1Ib6rZcCpn4HG7cztSiBrkmHOrfTeqw/AXQRFNVjyMGS35aVOOGZxWFTGJtgjiFgVe2j8d3iCwMvqjwouoHzqHK0+cJTM1t0my+xoSTyZ4b4YkhoAIrmHTOvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ryeqEOxB; arc=none smtp.client-ip=209.85.167.51
+	 In-Reply-To:To:Cc; b=bzB6ymZ0r2iNopKk255/YCqcz8xGmbv9zhnDP/Czx7H11+Ms2oq5WXDUyEhfOb+IkpQSOwe9YGtLwIFjYA3bGB7I3V5Wk/qOjo87dnIip6lF7YhjGJWOprpn+1E+t1b2048oumbjv9xMqX+DjPS8p7yKnKwsyWTizQmjIpng4ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AZmz6NBz; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5356bb5522bso2381400e87.1
-        for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 04:15:18 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a8d64b27c45so311438566b.3
+        for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 04:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726830917; x=1727435717; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1726830918; x=1727435718; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IqkRbX7cvnqn3NxpF9ZaXzLw5MpKO313tJC374Y70as=;
-        b=ryeqEOxB4ZwklWD2iwx6CFtT+ly11luekzHNykYIheMDx8BSWxDkJbgqhXvHzTTIUl
-         Ql5uUE8ClhdrAq4PfR7+D3x5XBZM8qINVNfR2J7OTc8CIB14dYFdfc03kHWwa56Y8cxo
-         lH8KE8F4/OOmEjZOdcPqST78Ii40mtrE/5CF+wInXzRlMpvG0aeWG4GxE6f4CbTc6PL1
-         I46QJy9SwtA3MAa2r2cgfhtpC/IKuzZO3TGgJZZrAuKU2YsBFEzOgm4ieUGAy1mEZn/C
-         fUBVPQsMh6N1f757vEfSBQe+j3FKr4Z1WH9S4RoyzrQvGLnpq2qhx8nVrU27E3Pko45W
-         vXbQ==
+        bh=ocdV6UAxfoXgEc5jdC/lvxhHos+UsfjtvMrbaeubl44=;
+        b=AZmz6NBzzrhqVOINpatr/2cyLltB0CNoR6pdx1VTT3xq75M0dGgJ276XDD7cpuNqbW
+         4xQK0u9FF2QP8YXxmfApKNv7W4yVpm/LDy0UlSjTS0cW6ACs/IN8LKaTE+YSTAGR3hXb
+         zOf4ye8nSA7oR1hZNingAPO6gJth9yfr1AT9lqoF6r44m8U03hDGTD0QnCxBpEWtqNxp
+         3hu0LMmaTAvkl/xo/IjM/Mn3DHN7edC4v7jUEd0HTyTdZpuoxdNmudvo73m/ob0yjPlt
+         xiFwZ5tbFkx9OwaJJoy5D74qYfcmPelLK3nV9uhdCxdniHTD04qEzePlP4oIycX+SXb8
+         XkSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726830917; x=1727435717;
+        d=1e100.net; s=20230601; t=1726830918; x=1727435718;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IqkRbX7cvnqn3NxpF9ZaXzLw5MpKO313tJC374Y70as=;
-        b=BSqhNwJQkqmJNXKxB1iUjXMSTaMvFxR6TUcLhoD+GafXqUtt6Z9iDMhu5uShVj8hbb
-         s4WZablQryB8jU4jgN7PMVPQqK2QW2Bt36GKCAZG4/PKMVjYAkqCEEXflW4AXm70jvoK
-         UIt3kFLmuZV4Q+kEwk/a17CkKTaCRXso/Rtv0w8xt4q4yEStW1dFFz3pBeR5CTYlbkzg
-         il9GRup/R4pyOukf1gYOil1s9TjLKyibHwYElC3230Ws36Gw/dzxaNf24h3Ya17l+fb6
-         nrpGQWd6pzRaLbpcpzlPvswhTkhLYJQ6+63joLRVeS9RHM0ZFakmIp8nrSqvFdKb6jow
-         PJxw==
-X-Gm-Message-State: AOJu0YxFu1noHBKDpFsbST0Pple/lyTjOUhnTOXrXqBvReYthKIUuVQh
-	pq4pLUcC5NGw7E/dlLFbJG6oV00Wx61mmgE5VTDfDKOxZlmw2frxWaATPZtb7QahOYjXDMMptmK
-	x
-X-Google-Smtp-Source: AGHT+IEeYpo8PQHRLHcz+C5f+4ycbwcLk1+m5tXAcsiG5bPi6YAeNtkNq5R30PtO1zoYrVGQDM/Dvw==
-X-Received: by 2002:a05:6512:1191:b0:534:3cdc:dbfe with SMTP id 2adb3069b0e04-536ac2f509emr1546809e87.28.1726830916661;
-        Fri, 20 Sep 2024 04:15:16 -0700 (PDT)
+        bh=ocdV6UAxfoXgEc5jdC/lvxhHos+UsfjtvMrbaeubl44=;
+        b=isT9mA7QhPnkJD7P5Z7Z2J7JUUOh5P8KMPPcZHD8iCt0KuPM+lmnDiTUXk12ZpS8YE
+         eRnQs8ocQ9/K9KjLMzsdkI8C0BSlLrlPduX1mGHZ91cyfElFMfc788KH244QAZ5NWh3t
+         X4UP6ECq1kNli/sRsvOAZrthEUoInCIRDKQ28rcylfewgeQTTN+ftTMrOkle9Bh+XLsJ
+         CPI65tijbXN2OxEQIl1H4j4tbGuk79Q+RqAXGPd+LOBM1cYvckTzPo1b270lbK9BfArM
+         5dYM563bAHvSRjNBMq4GAOgqbNLwO2PGp6wJlgbGrBsgVBglC54qwwKFl6uPF4tzrwk/
+         6RJw==
+X-Gm-Message-State: AOJu0YxBMnDl0MP0pzp/lMBwUndqX2SYohcorELL9UaWFp9S3ut6fT/H
+	bNLqSmSIsbjgcVFT91bc/s2WPbF4onp1YAi6JYJ9f+l29DDLADfWgC+6kxZf5oE=
+X-Google-Smtp-Source: AGHT+IHj2ot166L13+w0FJxn9us1Aorz5zwai3bhLb3jdLgcwmz+/gj6pBodxo3X9h/A7yboe/84Fg==
+X-Received: by 2002:a17:907:3f9f:b0:a8a:9054:8394 with SMTP id a640c23a62f3a-a90d4e34f51mr226805866b.0.1726830918156;
+        Fri, 20 Sep 2024 04:15:18 -0700 (PDT)
 Received: from lino.lan ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f452csm838261266b.89.2024.09.20.04.15.15
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f452csm838261266b.89.2024.09.20.04.15.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 04:15:16 -0700 (PDT)
+        Fri, 20 Sep 2024 04:15:17 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 20 Sep 2024 13:15:12 +0200
-Subject: [PATCH 1/2] dt-bindings: leds: bcmbca: Add bindings for BRCMBCA
- LEDs
+Date: Fri, 20 Sep 2024 13:15:13 +0200
+Subject: [PATCH 2/2] leds: bcmbca: Add new driver for Broadcom BCMBCA
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -79,7 +77,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240920-bcmbca-leds-v1-1-5f70e692c6ff@linaro.org>
+Message-Id: <20240920-bcmbca-leds-v1-2-5f70e692c6ff@linaro.org>
 References: <20240920-bcmbca-leds-v1-0-5f70e692c6ff@linaro.org>
 In-Reply-To: <20240920-bcmbca-leds-v1-0-5f70e692c6ff@linaro.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
@@ -96,108 +94,467 @@ Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.0
 
-The Broadcom BCA (Broadband Access) SoCs contain a unique
-LED block. Add bindings for it.
+The Broadcom BCA (Broadband Access) SoCs have a LED control
+block that can support either parallel (directly connected)
+LEDs or serial (connected to 1-4 shift registers) LEDs.
+
+Add a driver for that hardware.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- .../devicetree/bindings/leds/brcm,bcmbca-leds.yaml | 88 ++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ MAINTAINERS                |   7 +
+ drivers/leds/Kconfig       |   9 ++
+ drivers/leds/Makefile      |   1 +
+ drivers/leds/leds-bcmbca.c | 391 +++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 408 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/brcm,bcmbca-leds.yaml b/Documentation/devicetree/bindings/leds/brcm,bcmbca-leds.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc40a9d9b8cd..0a603b72a6a0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4383,6 +4383,13 @@ N:	bcm[9]?6856
+ N:	bcm[9]?6858
+ N:	bcm[9]?6878
+ 
++BROADCOM BCMBCA LED DRIVER
++M:	Linus Walleij <linus.walleij@linaro.org>
++L:	linux-leds@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/brcm,bcmbca-leds.yaml
++F:	drivers/leds/leds-bcmbca.c
++
+ BROADCOM BDC DRIVER
+ M:	Justin Chen <justin.chen@broadcom.com>
+ M:	Al Cooper <alcooperx@gmail.com>
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 8d9d8da376e4..e14c7fa587f0 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -146,6 +146,15 @@ config LEDS_BCM6358
+ 	  This option enables support for LEDs connected to the BCM6358
+ 	  LED HW controller accessed via MMIO registers.
+ 
++config LEDS_BCMBCA
++	tristate "LED Support for Broadcom BCMBCA"
++	depends on LEDS_CLASS
++	depends on HAS_IOMEM
++	depends on OF
++	help
++	  This option enables support for LEDs connected to the BCMBCA
++	  LED HW controller accessed via MMIO registers.
++
+ config LEDS_CHT_WCOVE
+ 	tristate "LED support for Intel Cherry Trail Whiskey Cove PMIC"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 18afbb5a23ee..96e036f04e18 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -18,6 +18,7 @@ obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
+ obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
+ obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
+ obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
++obj-$(CONFIG_LEDS_BCMBCA)		+= leds-bcmbca.o
+ obj-$(CONFIG_LEDS_BD2606MVV)		+= leds-bd2606mvv.o
+ obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
+ obj-$(CONFIG_LEDS_BLINKM)		+= leds-blinkm.o
+diff --git a/drivers/leds/leds-bcmbca.c b/drivers/leds/leds-bcmbca.c
 new file mode 100644
-index 000000000000..7fe2222c0c58
+index 000000000000..74dc4245bea4
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/brcm,bcmbca-leds.yaml
-@@ -0,0 +1,88 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/brcm,bcmbca-leds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/leds/leds-bcmbca.c
+@@ -0,0 +1,391 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Driver for BCMBCA memory-mapped LEDs
++ *
++ * Copyright 2024 Linus Walleij <linus.walleij@linaro.org>
++ */
++#include <linux/bits.h>
++#include <linux/cleanup.h>
++#include <linux/io.h>
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/spinlock.h>
 +
-+title: Broadcom BCMBCA LEDs
++#define BCMBCA_CTRL			0x00
++#define BCMBCA_CTRL_SERIAL_POL_HIGH	BIT(1)
++#define BCMBCA_CTRL_ENABLE		BIT(3) /* Uncertain about this bit */
++#define BCMBCA_CTRL_SERIAL_MSB_FIRST	BIT(4)
 +
-+maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
++#define BCMBCA_MASK			0x04
++#define BCMBCA_HW_EN			0x08
++/*
++ * In the serial shift selector, set bits to 1 from BIT(0) and upward all
++ * set to one until the last LED including any unused slots in the shift
++ * register.
++ */
++#define BCMBCA_SERIAL_SHIFT_SEL		0x0c
++#define BCMBCA_FLASH_RATE		0x10 /* 4 bits per LED so -> 1c */
++#define BCMBCA_BRIGHTNESS		0x20 /* 4 bits per LED so -> 2c */
++#define BCMBCA_POWER_LED_CFG		0x30
++#define BCMBCA_POWER_LUT		0x34 /* -> b0 */
++#define BCMBCA_HW_POLARITY		0xb4
++#define BCMBCA_SW_DATA			0xb8 /* 1 bit on/off for each LED */
++#define BCMBCA_SW_POLARITY		0xbc
++#define BCMBCA_PARALLEL_POLARITY	0xc0
++#define BCMBCA_SERIAL_POLARITY		0xc4
 +
-+description: |
-+  The Broadcom BCA (Broadband Access) SoCs have a LED control
-+  block that can support either parallel (directly connected)
-+  LEDs or serial (connected to 1-4 shift registers) LEDs.
-+  The LEDs can optionally be hardware-triggered by ethernet port
-+  traffic.
++#define BCMBCA_LED_MAX_COUNT		32
++#define BCMBCA_LED_MAX_BRIGHTNESS	8
 +
-+properties:
-+  compatible:
-+    const: brcm,bcmbca-leds
++enum bcmbca_led_type {
++	BCMBCA_LED_SERIAL,
++	BCMBCA_LED_PARALLEL,
++};
 +
-+  reg:
-+    maxItems: 1
++/**
++ * struct bcmbca_led - state container for bcmbca based LEDs
++ * @cdev: LED class device for this LED
++ * @base: memory base address
++ * @lock: memory lock
++ * @idx: LED index number
++ * @active_low: LED is active low
++ * @num_serial_shifters: number of serial shift registers
++ * @led_type: whether this is a serial or parallel LED
++ */
++struct bcmbca_led {
++	struct led_classdev cdev;
++	void __iomem *base;
++	spinlock_t *lock;
++	unsigned int idx;
++	bool active_low;
++	u32 num_serial_shifters;
++	enum bcmbca_led_type led_type;
++};
 +
-+  "#address-cells":
-+    const: 1
++static void bcmbca_led_blink_disable(struct led_classdev *ldev)
++{
++	struct bcmbca_led *led =
++		container_of(ldev, struct bcmbca_led, cdev);
++	/* 8 LEDs per register so integer-divide by 8 */
++	u8 led_offset = (led->idx >> 3);
++	/* Find the 4 bits for each LED */
++	u32 led_mask = 0xf << ((led->idx & 0x07) << 2);
++	u32 val;
 +
-+  "#size-cells":
-+    const: 0
++	/* Write registers */
++	guard(spinlock_irqsave)(led->lock);
++	val = readl(led->base + BCMBCA_FLASH_RATE + led_offset);
++	val &= led_mask;
++	writel(val, led->base + BCMBCA_FLASH_RATE + led_offset);
++}
 +
-+  brcm,serial-shifters:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      This describes the number of 8-bit serial shifters
-+      connected to the LED controller block. If this property
-+      is definied, it is implicit that the driver is using
-+      serial LED control, if it is missing, parallel LED
-+      control is assumed.
++static int bcmbca_led_blink_set(struct led_classdev *ldev,
++				unsigned long *delay_on,
++				unsigned long *delay_off)
++{
++	struct bcmbca_led *led =
++		container_of(ldev, struct bcmbca_led, cdev);
++	u8 led_offset = (led->idx >> 3);
++	u32 led_mask = 0xf << ((led->idx & 0x07) << 2);
++	unsigned long period;
++	u32 led_val;
++	u32 val;
 +
-+patternProperties:
-+  "^led@[0-9a-f]+$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
++	/* Friendly defaults as specified in the documentation */
++	if (*delay_on == 0 && *delay_off == 0) {
++		*delay_on = 240;
++		*delay_off = 240;
++	}
 +
-+    properties:
-+      reg:
-+        minimum: 0
++	if (*delay_on != *delay_off) {
++		dev_dbg(ldev->dev, "only square blink supported\n");
++		return -EINVAL;
++	}
 +
-+    required:
-+      - reg
++	period = *delay_on + *delay_off;
++	if (period > 2000) {
++		dev_dbg(ldev->dev, "period too long, %lu max 2000 ms\n",
++			period);
++		return -EINVAL;
++	}
 +
-+required:
-+  - compatible
-+  - reg
++	if (period <= 60)
++		led_val = 1;
++	else if (period <= 120)
++		led_val = 2;
++	else if (period <= 240)
++		led_val = 3;
++	else if (period <= 480)
++		led_val = 4;
++	else if (period <= 960)
++		led_val = 5;
++	else if (period <= 1920)
++		led_val = 6;
++	else
++		led_val = 7;
 +
-+additionalProperties: false
++	led_val = led_val << ((led->idx & 0x07) << 2);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
++	/* Write registers */
++	guard(spinlock_irqsave)(led->lock);
++	val = readl(led->base + BCMBCA_FLASH_RATE + led_offset);
++	val &= led_mask;
++	val |= led_val;
++	writel(val, led->base + BCMBCA_FLASH_RATE + led_offset);
 +
-+    soc {
-+        #address-cells = <1>;
-+        #size-cells = <1>;
++	return 0;
++}
 +
-+        led-controller@800 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            compatible = "brcm,bcmbca-leds";
-+            reg = <0x800 0xc8>;
++static void bcmbca_led_set(struct led_classdev *ldev,
++			    enum led_brightness value)
++{
++	struct bcmbca_led *led =
++		container_of(ldev, struct bcmbca_led, cdev);
++	u8 led_offset = (led->idx >> 3);
++	u32 led_mask = 0xf << ((led->idx & 0x07) << 2);
++	u32 led_val = value << ((led->idx & 0x07) << 2);
++	u32 val;
 +
-+            led@0 {
-+                reg = <0>;
-+                active-low;
-+                function = "ext";
-+                color = <LED_COLOR_ID_GREEN>;
-+            };
++	dev_dbg(ldev->dev, "LED%u, register %08x, mask %08x, value %08x\n",
++		led->idx, BCMBCA_BRIGHTNESS + led_offset, led_mask, led_val);
 +
-+            led@1 {
-+                reg = <1>;
-+                active-low;
-+                function = "ext";
-+                color = <LED_COLOR_ID_AMBER>;
-+            };
-+        };
-+    };
++	/* Write registers */
++	guard(spinlock_irqsave)(led->lock);
++
++	/* Parallel LEDs support brightness control */
++	if (led->led_type == BCMBCA_LED_PARALLEL) {
++		val = readl(led->base + BCMBCA_BRIGHTNESS + led_offset);
++		val &= led_mask;
++		val |= led_val;
++		writel(val, led->base + BCMBCA_BRIGHTNESS + led_offset);
++	}
++
++	/* Software control on/off */
++	if (value == LED_OFF) {
++		val = readl(led->base + BCMBCA_SW_DATA);
++		val &= ~BIT(led->idx);
++		writel(val, led->base + BCMBCA_SW_DATA);
++		bcmbca_led_blink_disable(ldev);
++	} else {
++		val = readl(led->base + BCMBCA_SW_DATA);
++		val |= BIT(led->idx);
++		writel(val, led->base + BCMBCA_SW_DATA);
++	}
++}
++
++static u8 bcmbca_led_get(void __iomem *base, int idx)
++{
++	u8 led_offset = (idx >> 3);
++	u32 led_mask = 0xf << ((idx & 0x07) << 2);
++	u32 val;
++
++	/* Called marshalled so no lock needed */
++	val = readl(base + BCMBCA_BRIGHTNESS + led_offset);
++	return ((val & led_mask) >> ((idx & 0x07) << 2));
++}
++
++static int bcmbca_led_probe(struct device *dev, struct device_node *np, u32 reg,
++			    void __iomem *base, spinlock_t *lock,
++			    u32 num_shifters, enum bcmbca_led_type led_type)
++{
++	struct led_init_data init_data = {};
++	struct bcmbca_led *led;
++	enum led_default_state state;
++	u32 val;
++	int rc;
++
++	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
++	if (!led)
++		return -ENOMEM;
++
++	led->idx = reg;
++	led->base = base;
++	led->lock = lock;
++
++	if (of_property_read_bool(np, "active-low"))
++		led->active_low = true;
++
++	init_data.fwnode = of_fwnode_handle(np);
++
++	if (led->led_type == BCMBCA_LED_PARALLEL)
++		led->cdev.max_brightness = BCMBCA_LED_MAX_BRIGHTNESS;
++	else
++		led->cdev.max_brightness = LED_ON;
++
++	state = led_init_default_state_get(init_data.fwnode);
++
++	switch (state) {
++	case LEDS_DEFSTATE_ON:
++		led->cdev.brightness = led->cdev.max_brightness;
++		break;
++	case LEDS_DEFSTATE_KEEP:
++		val = bcmbca_led_get(base, led->idx);
++		if (val)
++			led->cdev.brightness = val;
++		else
++			led->cdev.brightness = LED_OFF;
++		break;
++	default:
++		led->cdev.brightness = LED_OFF;
++		break;
++	}
++
++	/*
++	 * Polarity inversion setting per-LED
++	 * The default is actually active low, we set a bit to 1
++	 * in the register to make it active high.
++	 */
++	if (!of_property_read_bool(np, "active-low")) {
++		switch (led_type) {
++		case BCMBCA_LED_SERIAL:
++			val = readl(base + BCMBCA_SERIAL_POLARITY);
++			val |= BIT(led->idx);
++			writel(val, base + BCMBCA_SERIAL_POLARITY);
++			break;
++		case BCMBCA_LED_PARALLEL:
++			val = readl(base + BCMBCA_PARALLEL_POLARITY);
++			val |= BIT(led->idx);
++			writel(val, base + BCMBCA_PARALLEL_POLARITY);
++			break;
++		default:
++			break;
++		}
++	}
++
++	/* Initial brightness setup */
++	bcmbca_led_set(&led->cdev, led->cdev.brightness);
++
++	led->cdev.brightness_set = bcmbca_led_set;
++	led->cdev.blink_set = bcmbca_led_blink_set;
++	/* TODO: implement HW control */
++
++	rc = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
++	if (rc < 0)
++		return rc;
++
++	dev_info(dev, "registered LED %s\n", led->cdev.name);
++
++	return 0;
++}
++
++static int bcmbca_leds_probe(struct platform_device *pdev)
++{
++	unsigned int max_leds = BCMBCA_LED_MAX_COUNT;
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev_of_node(&pdev->dev);
++	enum bcmbca_led_type led_type;
++	void __iomem *base;
++	spinlock_t *lock; /* memory lock */
++	u32 num_shifters;
++	u32 val;
++	int ret;
++	int i;
++
++	base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(base))
++		return PTR_ERR(base);
++
++	lock = devm_kzalloc(dev, sizeof(*lock), GFP_KERNEL);
++	if (!lock)
++		return -ENOMEM;
++
++	ret = of_property_read_u32(np, "brcm,serial-shifters", &num_shifters);
++	if (!ret) {
++		/* Serial LEDs */
++		dev_dbg(dev, "serial LEDs, %d shift registers used\n", num_shifters);
++		led_type = BCMBCA_LED_SERIAL;
++		/*
++		 * Each shifter can handle maximum 8 LEDs so we cap the
++		 * maximum LEDs we can handle at that.
++		 */
++		max_leds = num_shifters * 8;
++	} else {
++		/* Parallel LEDs */
++		led_type = BCMBCA_LED_PARALLEL;
++		dev_info(dev, "parallel LEDs requested, this is untested\n");
++	}
++
++	spin_lock_init(lock);
++
++	/* Turn off all LEDs and let the driver deal with them */
++	writel(0, base + BCMBCA_HW_EN);
++	writel(0, base + BCMBCA_SERIAL_POLARITY);
++	writel(0, base + BCMBCA_PARALLEL_POLARITY);
++
++	/* Set up serial shift register */
++	switch (num_shifters) {
++	case 0:
++		val = 0;
++		break;
++	case 1:
++		val = 0x000000ff;
++		break;
++	case 2:
++		val = 0x0000ffff;
++		break;
++	case 3:
++		val = 0x00ffffff;
++		break;
++	case 4:
++		val = 0xffffffff;
++		break;
++	}
++	writel(val, base + BCMBCA_SERIAL_SHIFT_SEL);
++
++	/* ??? */
++	writel(0xc0000000, base + BCMBCA_HW_POLARITY);
++	/* Initialize to max brightness */
++	for (i = 0; i < BCMBCA_LED_MAX_COUNT/8; i++) {
++		writel(0x88888888, base + BCMBCA_BRIGHTNESS + 4*i);
++		writel(0, base + BCMBCA_BRIGHTNESS + BCMBCA_FLASH_RATE + 4*i);
++	}
++
++	for_each_available_child_of_node_scoped(np, child) {
++		u32 reg;
++
++		if (of_property_read_u32(child, "reg", &reg))
++			continue;
++
++		if (reg >= max_leds) {
++			dev_err(dev, "invalid LED (%u >= %d)\n", reg,
++				max_leds);
++			continue;
++		}
++
++		ret = bcmbca_led_probe(dev, child, reg, base, lock,
++				       num_shifters, led_type);
++		if (ret < 0)
++			return ret;
++	}
++
++	/* Enable the LEDs */
++	val = BCMBCA_CTRL_ENABLE | BCMBCA_CTRL_SERIAL_POL_HIGH;
++	if (of_property_read_bool(np, "brcm,serial-active-low"))
++		val &= ~BCMBCA_CTRL_SERIAL_POL_HIGH;
++	writel(val, base + BCMBCA_CTRL);
++
++	return 0;
++}
++
++static const struct of_device_id bcmbca_leds_of_match[] = {
++	{ .compatible = "brcm,bcmbca-leds", },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, bcmbca_leds_of_match);
++
++static struct platform_driver bcmbca_leds_driver = {
++	.probe = bcmbca_leds_probe,
++	.driver = {
++		.name = "leds-bcmbca",
++		.of_match_table = bcmbca_leds_of_match,
++	},
++};
++
++module_platform_driver(bcmbca_leds_driver);
++
++MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
++MODULE_DESCRIPTION("LED driver for BCMBCA LED controllers");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:leds-bcmbca");
 
 -- 
 2.46.0
