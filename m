@@ -1,47 +1,47 @@
-Return-Path: <linux-leds+bounces-2775-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2776-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D573C97D4F1
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 13:47:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E5F97D533
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 14:07:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A3BC282C3C
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 11:47:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D076F1C20E03
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 12:07:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E5933985;
-	Fri, 20 Sep 2024 11:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BA014290C;
+	Fri, 20 Sep 2024 12:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=milecki.pl header.i=@milecki.pl header.b="aX8DSaH7"
+	dkim=pass (2048-bit key) header.d=milecki.pl header.i=@milecki.pl header.b="hirYtoOn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from 18.mo561.mail-out.ovh.net (18.mo561.mail-out.ovh.net [87.98.172.162])
+Received: from 5.mo576.mail-out.ovh.net (5.mo576.mail-out.ovh.net [46.105.43.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3B46FB6
-	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 11:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.172.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1471428E3
+	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 12:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.43.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726832869; cv=none; b=EjgoQDfyf6inIgStC7Kd0rxIojO3uPR/0xO9b3+629RPBj56ZQLXzypA7sZsLPqA8UrrcL58+KweKdmzh+dyrfu4Apr9vLyu2jAFyE/hd6o+QjmCnx9G3OklTrBKDCkZW5MTiSSpW4j2cEQxWJ4yTyChIA0/Y4QCBLefSTqO9qM=
+	t=1726834075; cv=none; b=NyIE6o6gTjA3Y6TiS8UZu0WzN5WsFYOUweJUSToRCwYdB59VC+HZhu19i6kBjB6Gae4KVRQtz1HlcCpXPkd0RFBgxDe6V0anqkikGxkGOtB95R8gxDeptO53UkOjSSZ6AWxM+KUhdd8fDW/sXkwl6pQnFemDbt0Jc+ng9Ubrq9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726832869; c=relaxed/simple;
-	bh=3+v9eL6D2Dm8BIFU3RspD6lqMt9+w8Ri9OY5lMhQEb8=;
+	s=arc-20240116; t=1726834075; c=relaxed/simple;
+	bh=VX5s+5yuGFQRhfbP/V5xvT1lBMIF7VZpfVBcjgm2Emg=;
 	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=eRYq72UHTl03+X6H0hdfOlcmbyN6d3GXIqlA/rqFh/IwTn1DUidGSjJApI+W6XAQNCT8fMofQwwV9i/DQNdmAjK62vSA5YeJKzJxmMOnZcHkUxxNQFEN2FzklRbaYKeZ2BDdAeL9LBDfdD9qeKNrKILx9GNGjqZnjHMtIfDuCIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=milecki.pl; spf=pass smtp.mailfrom=milecki.pl; dkim=pass (2048-bit key) header.d=milecki.pl header.i=@milecki.pl header.b=aX8DSaH7; arc=none smtp.client-ip=87.98.172.162
+	 Message-ID:Content-Type; b=sykQVJ3a31fBLKPUYAWo57vJWaU64MuvdDB2VbQGnsuJuJQ2dpigJdEZUj6pmENuluEjYZocsFvnr/QRXeb5W9P1b9zEwjeUH4mGYAxl0Vi1L2D/WHApP9h7A87PQHAgmvz0ZPHLMqUyU2W6A0Ge+eMql76Gs43WyZLX3rpHhvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=milecki.pl; spf=pass smtp.mailfrom=milecki.pl; dkim=pass (2048-bit key) header.d=milecki.pl header.i=@milecki.pl header.b=hirYtoOn; arc=none smtp.client-ip=46.105.43.105
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=milecki.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=milecki.pl
-Received: from director3.ghost.mail-out.ovh.net (unknown [10.108.25.23])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 4X999w0xGjz1Wc0
-	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 11:28:20 +0000 (UTC)
-Received: from ghost-submission-55b549bf7b-vt8xk (unknown [10.110.118.109])
-	by director3.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 30A911FEBE;
-	Fri, 20 Sep 2024 11:28:17 +0000 (UTC)
-Received: from milecki.pl ([37.59.142.104])
-	by ghost-submission-55b549bf7b-vt8xk with ESMTPSA
-	id igwNA1Fc7WaesgAAhI//MA
-	(envelope-from <rafal@milecki.pl>); Fri, 20 Sep 2024 11:28:17 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-104R0050a85ce99-6b80-47eb-8868-df5f6923f433,
+Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.140.140])
+	by mo576.mail-out.ovh.net (Postfix) with ESMTP id 4X99DZ3xMzz26fS
+	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 11:30:38 +0000 (UTC)
+Received: from ghost-submission-55b549bf7b-p2jxt (unknown [10.108.42.32])
+	by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 98C481FDBA;
+	Fri, 20 Sep 2024 11:30:35 +0000 (UTC)
+Received: from milecki.pl ([37.59.142.102])
+	by ghost-submission-55b549bf7b-p2jxt with ESMTPSA
+	id arP+Fdtc7WaAIjEAGFBLig
+	(envelope-from <rafal@milecki.pl>); Fri, 20 Sep 2024 11:30:35 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-102R004ac0ce6d4-cdd8-4c4f-950f-43d261164fb7,
                     81FEEB5978853F9BF3B0EAA5D8951869BE0D21DF) smtp.auth=rafal@milecki.pl
 X-OVh-ClientIp:176.31.238.120
 Precedence: bulk
@@ -50,7 +50,7 @@ List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 20 Sep 2024 13:28:16 +0200
+Date: Fri, 20 Sep 2024 13:30:35 +0200
 From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
 To: Linus Walleij <linus.walleij@linaro.org>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring
@@ -61,66 +61,42 @@ Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring
  review list <bcm-kernel-feedback-list@broadcom.com>,
  linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/2] dt-bindings: leds: bcmbca: Add bindings for BRCMBCA
- LEDs
-In-Reply-To: <20240920-bcmbca-leds-v1-1-5f70e692c6ff@linaro.org>
+Subject: Re: [PATCH 2/2] leds: bcmbca: Add new driver for Broadcom BCMBCA
+In-Reply-To: <20240920-bcmbca-leds-v1-2-5f70e692c6ff@linaro.org>
 References: <20240920-bcmbca-leds-v1-0-5f70e692c6ff@linaro.org>
- <20240920-bcmbca-leds-v1-1-5f70e692c6ff@linaro.org>
-Message-ID: <e883f80b1135f547896a2fb59f8b6997@milecki.pl>
+ <20240920-bcmbca-leds-v1-2-5f70e692c6ff@linaro.org>
+Message-ID: <12ea4d8609b3defa8782a37c62a22820@milecki.pl>
 X-Sender: rafal@milecki.pl
 X-Webmail-UserID: rafal@milecki.pl
 Content-Type: text/plain; charset=UTF-8;
  format=flowed
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 6652661076435249944
+X-Ovh-Tracer-Id: 6691786097647987480
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeftddrudelfedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghfkfigihgtgfesthekjhdttddtjeenucfhrhhomheptfgrfhgrlhcuofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepjeejkeekgeejtdffffevffeivedtueeifeeuffegkeehkeeliedugfelfedutdeunecukfhppeduvdejrddtrddtrddupdefuddruddurddvudekrddutdeipddujeeirdefuddrvdefkedruddvtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomheprhgrfhgrlhesmhhilhgvtghkihdrphhlpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedupdhmohguvgepshhmthhpohhuth
-DKIM-Signature: a=rsa-sha256; bh=VyuZkAdrcGs1c+5X7UCe+1Dx2WS7RTmJvhT5b+BmNRU=;
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeftddrudelfedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghfkfigihgtgfesthekjhdttddtjeenucfhrhhomheptfgrfhgrlhcuofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepjeejkeekgeejtdffffevffeivedtueeifeeuffegkeehkeeliedugfelfedutdeunecukfhppeduvdejrddtrddtrddupdefuddruddurddvudekrddutdeipddujeeirdefuddrvdefkedruddvtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomheprhgrfhgrlhesmhhilhgvtghkihdrphhlpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehjeeipdhmohguvgepshhmthhpohhuth
+DKIM-Signature: a=rsa-sha256; bh=Hk1db6I33prPcdmUSsL4zs5Cr51+2sEVCNVhiqbyuBg=;
  c=relaxed/relaxed; d=milecki.pl; h=From; s=ovhmo3028686-selector1;
- t=1726831700; v=1;
- b=aX8DSaH7m/dNONWjbFvbuycZXoYL48mCKdQZLq7nIKqSAVCcTY3m/ufhoNqO1z9Wv20IACAc
- 1UswRa6BOTqQlNXQshC2eQa1Xdr2NfyoJ78QrSMAXa1AsKieBrh1OPpjNMGL88FFSu9/MP6us8p
- UhiWlXgCM4EkyHpW9CDRZVySfV27NAhntX4X8miD6I5J3wtQqD/fycywZ3DTQudnZASu/Ux8c27
- hc6Rd6YhdKjVOj8bYGpUpg/fdHr6l8cEjnCaGqo9gaRI7yQ0K3EBDzx57VdV+R/ISHW5RcYZSQ1
- 1bPcwo8f9cwprUR7g1mVO6pSE9cteJrJ0qh4+hCKRT7dQ==
+ t=1726831838; v=1;
+ b=hirYtoOnEYkrHDy180lsA6Na4sjePhx6f5TvQVqcWT8PLLwgsDCU7o7ipsKL/w6vxoGu3n1d
+ rRZZ9r/DUfWsmIrVps0TD/n/IOhLAW30OTCkpIg+hh5vQJdFfayG809fxpyV3yeakCyqBtPX4SZ
+ 31ctTv7clJMHSWneMUHBxr0RH3lTLXQ8jgwhEIUyPYPzIXisyACN+0inGUiPbNbgZ5ExoKbhHEE
+ ARh67zG0abMuSpM1kIkrmSISKII/UDtaCQulWRjDeMsgSSTujNoZosfN0lYhTr1oteKNicK+726
+ iNFGRwk6XB/ohd/kzBs2KPE4R/WgNgLu/9sGMmWXTdPuA==
 
 On 2024-09-20 13:15, Linus Walleij wrote:
-> The Broadcom BCA (Broadband Access) SoCs contain a unique
-> LED block. Add bindings for it.
+> The Broadcom BCA (Broadband Access) SoCs have a LED control
+> block that can support either parallel (directly connected)
+> LEDs or serial (connected to 1-4 shift registers) LEDs.
+> 
+> Add a driver for that hardware.
 
-I don't remember anymore what SoCs are part of the BCMBCA family but I
-believe we already have bindings for those devices (depending on the hw
-design variant). Please check:
+There is an existing driver for this hw block, please see:
+drivers/leds/blink/leds-bcm63138.c
 
-Documentation/devicetree/bindings/leds/leds-bcm6328.yaml
-Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
-
-It may be also worth to check my commit description:
-
-commit 13344f8ce8a0d98aa7f5d69ce3b47393c73a343b
-Author: Rafał Miłecki <rafal@milecki.pl>
-Date:   Mon Dec 27 15:59:04 2021 +0100
-
-     dt-bindings: leds: add Broadcom's BCM63138 controller
-
-     Broadcom used 2 LEDs hardware blocks for their BCM63xx SoCs:
-     1. Older one (BCM6318, BCM6328, BCM6362, BCM63268, BCM6838)
-     2. Newer one (BCM6848, BCM6858, BCM63138, BCM63148, BCM63381, 
-BCM68360)
-
-     The newer one was also later also used on BCM4908 SoC.
-
-     Old block is already documented in the leds-bcm6328.yaml. This 
-binding
-     documents the new one which uses different registers & programming. 
-It's
-     first used in BCM63138 thus the binding name.
-
-     Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
-     Reviewed-by: Rob Herring <robh@kernel.org>
-     Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-     Signed-off-by: Pavel Machek <pavel@ucw.cz>
+It may need some work (I didn't compare your submission with my minimal
+driver) and I think it would be preferred over adding a new driver for
+the same hw.
 
 -- 
 Rafał Miłecki
