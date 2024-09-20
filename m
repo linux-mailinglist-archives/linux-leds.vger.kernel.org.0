@@ -1,142 +1,134 @@
-Return-Path: <linux-leds+bounces-2771-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2772-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BEF97D1C0
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 09:31:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE4197D499
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 13:15:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDA641F227E5
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 07:31:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2F341C2187E
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2024 11:15:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EFE940862;
-	Fri, 20 Sep 2024 07:31:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3C213D521;
+	Fri, 20 Sep 2024 11:15:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="P8CfZv+B"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nINvnpQI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB695475C;
-	Fri, 20 Sep 2024 07:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D47A13A268
+	for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 11:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726817490; cv=none; b=TBXXTKbJgmBbC0kyb6rN6gQ/RyXqBgbRdvT7q0YlIzqeffEtHeWExizowV/NgmifBYaOoPzBRmoAf9phVNaojbvhPMrcSI021T+Xn7uNo5iUI6zkUjvWuigE91H3bUMACdbrOcI7j74yyEnm/4Jv3GRYjL26TNcAEwUe6gUoQ6c=
+	t=1726830918; cv=none; b=mvDQmEB2bLUWnsTc/Z64vqmPvflwu249sZTCfqryUSFER/TLsSlSsVFx1ZnIvKVR7R6VjoAYnWUgtGVKMCVJmnIbu7BmMcWG/S+Hk2FruGfPtJOuWpsp1Oh5TATm5HNoDaPDTV5cwi69cBmNSC2qMVn3TcYBmfxNH1K3yi/f1Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726817490; c=relaxed/simple;
-	bh=m7PBRT27J+9/iK8yrsDqlPtfv2hVtsUYjoWCit4BGLc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mMiJ0b5JB7+pAaBOpF0bkNPCY5a8VX0S1xvyz77/Iwm+tMEse8l7f5cn5TQJYm9Pi8WNPJZdoCujRURlyNA9xQwPjX4qaQXbBt2RtZN+A2TU/BnKIoT2XWSQSUMQyxjXBtPCNPd0eGIpM3cSFNT7UPMCulz+uaalL63Ejac+9FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=P8CfZv+B; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1726817486;
-	bh=m7PBRT27J+9/iK8yrsDqlPtfv2hVtsUYjoWCit4BGLc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=P8CfZv+B3eGpCJ6fpLODZfBGZCJWTI4cOrnApghRY3jVfi84T+nQzcj8rOR4gcUUB
-	 nKX2/r0oUGaHQn/nbzXlBITh5PnqeeukhXfeXKAUvWFwDcDUxl5tlVmDnYbNENK+kt
-	 BofNtmpzl8+c7X3ccNRMruofrXHcSUP6RWQ5SK3hQ00OtP3hAOGCeiketBOKsnAoFU
-	 Kt6J7db/Ra9Vcl+1Xn+M6rQJ3JWKl3q2jQR2V3+KPoXOx8Lx0Y9yXT0CGJCpSiU5Cs
-	 KMPjJLOuAdIOppfsMayex80G2njTULEIJZXWsiQwCftKasWAtxOrLIu/32bD83qXgE
-	 3Xgj9sibirUVQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D81017E0FD6;
-	Fri, 20 Sep 2024 09:31:25 +0200 (CEST)
-Message-ID: <d8b90ddf-efbc-4434-9ad0-4be6942d51a5@collabora.com>
-Date: Fri, 20 Sep 2024 09:31:24 +0200
+	s=arc-20240116; t=1726830918; c=relaxed/simple;
+	bh=W/l/2NQIDeSWPodi6purnRhJ8jd/DZjrx3WDtrv/tf4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=to/r3H43t9hGvSOs+ZCnzOAG54XBtk4k8gMJxrOLlKpW50dWlaLNIHbFhJmzMhiROPpnWIANuvH48wPzts10zl78SUjJtYb5L6aYbRXLOPP5OePkUPun/ral+qEpkEX0UJtfj47PvlYLo7fsCsGd6DVTLmSj90M+mih8vPhT8I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nINvnpQI; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a8d2daa2262so217753766b.1
+        for <linux-leds@vger.kernel.org>; Fri, 20 Sep 2024 04:15:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726830915; x=1727435715; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJ9NqHXUSHxiyxcQjusCgad+8Q1rEeKcLOlI+n4WvTM=;
+        b=nINvnpQIAtH/CQekN6Yjs55bwlSCupXf9leRTwrMMt2LdtdUXUSmM0WJlIgQUkPrlx
+         QdYrl9hrHldfekjQleycpFtEz+6yMF5vwc1e++/4jFoFdbcX2gYaPviC6ECYxjUncoEA
+         mG/IW3XxJBQg3+O17GrqotVX4y0KY8qt9nHOPKqr5vskv/Iox65w008xakAiBFPfcBs/
+         jqA55JfA9qoUXGUG0jHTQ5K5/Fd+xQZhiRfv3DHXG4tbvWGH/7YTDIy/f4oqLH2tVtDh
+         AbZNVukBDcBMu54EHuKW3p6PV1h0e1ROlmFMFNoTjjFk/gsehRRk9BMKSNy0WSanlYbz
+         qrow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726830915; x=1727435715;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TJ9NqHXUSHxiyxcQjusCgad+8Q1rEeKcLOlI+n4WvTM=;
+        b=t8C6/R8XtHS8FJDmhXHvaEKY8yM8hYq1NbwqaMfnCrxm9ZBMg50UY3x6trovjArIWY
+         09PAlZkMZQedZ7wztBra+KUmgMC8o6+dwa6evNUJM3n9u3ZcboC++N/dPl3Vjj25g2YD
+         FUxwqQeC+9CLhUshpW0TS07B5a8OxHFqdyASBwleGpPKGVMEEZ0hsuG2o3/Mp9lXxv/H
+         hVza1W6erb94WM+dL9wUQ+et5/PvZv/caLjJfitTFmgVVRwNJxtBWJm4oIYo+aV86UFE
+         c7Y0yFe7TT74j1ni4v3RnLPR7+Xmpy9116lp/XLuPIB6J4fbFCiRpNG3yTZqXUyxHiXB
+         cFWg==
+X-Gm-Message-State: AOJu0Yx6TeECJIF5phQi8qebSIUZrG2zOo/OW0GqkW1VNuNa5yP65psS
+	WDJLQepEH3xOeSM9ELdk+UBfPs/HWUw6rAIdZXElGEXSPt43EkHYRo5noNhMH6Y=
+X-Google-Smtp-Source: AGHT+IHnliuN/RkFq3L3GXDKde5hN1tDpf6axzJaFfQtxrEiWrsJoIHee+ltRqo6QGSk3aYNFWzCGQ==
+X-Received: by 2002:a17:906:c148:b0:a8f:f799:e7d4 with SMTP id a640c23a62f3a-a90d517fcc3mr227244166b.59.1726830915317;
+        Fri, 20 Sep 2024 04:15:15 -0700 (PDT)
+Received: from lino.lan ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f452csm838261266b.89.2024.09.20.04.15.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2024 04:15:14 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/2] leds: Add basic BCMBCA LEDs support
+Date: Fri, 20 Sep 2024 13:15:11 +0200
+Message-Id: <20240920-bcmbca-leds-v1-0-5f70e692c6ff@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-To: Macpaul Lin <macpaul.lin@mediatek.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Sean Wang <sean.wang@mediatek.com>,
- Sen Chu <sen.chu@mediatek.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
- Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang
- <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>
-References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
- <20240918064955.6518-2-macpaul.lin@mediatek.com>
- <20240918115151c896f33f@mail.local> <20240918115651c1475d36@mail.local>
- <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD9Z7WYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDSyMD3aTk3KTkRN2c1JRi3VSzNEOzNFPT5LQUSyWgjoKi1LTMCrBp0bG
+ 1tQCCdAxRXQAAAA==
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ William Zhang <william.zhang@broadcom.com>, 
+ Anand Gore <anand.gore@broadcom.com>, 
+ Kursad Oney <kursad.oney@broadcom.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.0
 
-Il 18/09/24 16:18, Macpaul Lin ha scritto:
-> 
-> On 9/18/24 19:56, Alexandre Belloni wrote:
->>
->> On 18/09/2024 13:51:51+0200, Alexandre Belloni wrote:
->>> > Changes for v4:
->>> >  - Remove "mediatek,mt6357" from PMIC's compatible string since there is a
->>> >    seperated DT schema for PMIC mt6357.
->>> > > Changes for v5:
->>> >  - Rebase to next-20240913 (linux-next/master).
->>> >  - Fix the "title" (device type) of mfd/mediatek,mt6397.yaml to "PMIC".
->>> >  - RTC:
->>> >   - Drop "start-year"
->>>
->>> Maybe, instead of dropping the property, you should add support in the
->>> driver by setting range_min and range_max.
->>
->> Looking at this even more, the driver can probably be simplified by
->> setting start_year in probe and dropping RTC_MIN_YEAR_OFFSET.
-> 
-> Thank you for pointing out where and how the driver should be changed.
-> However, I'm wondering if this should be a fix with a separated
-> patchset (bindings and the driver)? The board or SoC's device trees
-> should be reviewed as well. I'll need to get someone's help (permission) inside 
-> MediaTek to check those dts and construct the patch for RTC driver.
-> That will take sometime.
-> 
+This series adds bindings and a driver for the Broadcom
+BCA (Broadband Access) SoC LEDs.
 
-Alexandre, I definitely agree with you on the fact that the MTK PMIC RTC driver
-can (and needs to) be improved, and that it can make use of some nice cleanup...
+These LEDs can be either serial using 1-4 shift registers
+or parallel using unique lines per-LED.
 
-... but!
+The LED controller supports hardware triggers from an
+integrated ethernet switch, this support can be added
+later, the modern hardware control framework is complex
+and will require phandles and elaborate lookup of the
+corresponding netdev etc.
 
-This series performs a conversion to schema, and the previous txt file didn't
-say anything about the start-year property - which was not mandatory to support
-at that time (nor now, afaik?), so adding support for that is out of scope for
-this series.
+The patches were developed and tested on the Genexis
+XG6846B device using the BCM6846 SoC.
 
-Eventually, that can come as a series on top, adding support for that in the
-binding (and, of course, in the driver).
+Broadcom guys: if you would rather take sole maintenanceship
+of this or be listed as comaintainers, tell me, it's fine.
 
-I should be able to tackle that... most probably next week - but still, the
-improvements would come as a series on top of this one.
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (2):
+      dt-bindings: leds: bcmbca: Add bindings for BRCMBCA LEDs
+      leds: bcmbca: Add new driver for Broadcom BCMBCA
 
-Cheers,
-Angelo
+ .../devicetree/bindings/leds/brcm,bcmbca-leds.yaml |  88 +++++
+ MAINTAINERS                                        |   7 +
+ drivers/leds/Kconfig                               |   9 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-bcmbca.c                         | 391 +++++++++++++++++++++
+ 5 files changed, 496 insertions(+)
+---
+base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
+change-id: 20240920-bcmbca-leds-e6f16f55cfd9
+
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
+
 
