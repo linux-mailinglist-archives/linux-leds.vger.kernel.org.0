@@ -1,165 +1,89 @@
-Return-Path: <linux-leds+bounces-2798-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2799-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D9597EA08
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2024 12:43:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BAB984818
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2024 16:56:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07B0A281B63
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2024 10:43:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C270B20153
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2024 14:56:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FC46195B14;
-	Mon, 23 Sep 2024 10:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75C251AAE2A;
+	Tue, 24 Sep 2024 14:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="EmzD1NEH"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VSkOBwQY"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABA317543;
-	Mon, 23 Sep 2024 10:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A021A7254;
+	Tue, 24 Sep 2024 14:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727088218; cv=none; b=fT06AN14CJrcymwCfJiiI64+GGhUU01l8NaRC7Zk0kFkvKwmVo34icrSNqIq3Xp9VHphLpRMrDJ90h0yH3OBjQWZYAQ10x6NU1K/hALNfM777FbWyx1UvsuFHkvsRFTpGo9wzG3ARmvS44L2SerDCr2GMQxCyaRL+0c1CYqGNU4=
+	t=1727189774; cv=none; b=C6U6F0IX+B0juUoOW1NCwrLYccDtEYjbGzd14+VaOqcIllU5C9Fj/9huZuY+07oy2B03jZuF5fAKlNR2u/0xXmWuRy3XGPVnTT6rw1CPs2AE/OFNzAgFRnONZmyxNC7hCl7iuj8dYFbc9WxGND/KNk2xOX9QYF+SCSjjrjJVP5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727088218; c=relaxed/simple;
-	bh=+xoSspNKJ5MEUo0tLVZmeEuaK5ipmpy6ZXvedGMFkMg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=cfwOW5pXUue36+6uNd7cdsBfwTIhajLzFxSkS1YbHsDpfKfnsc9h85Z2UzKGabazYbQznQkqil2kwSqfSHg4H4oCURl7hfsrHhNhOEXHB3Ss4ahxu4McF8EYd89Ll2/CYjq/psOmfK4dPtYtOVctJaydIyyyKcxtmQIZNS5e7OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=EmzD1NEH; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: ac46e808799811efb66947d174671e26-20240923
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=lxJ2u/FvugU1hQiGyVxAGg7yfWlaUL7i8/K8f/CODxM=;
-	b=EmzD1NEHc00QO3MhkzE01AetGGypiXlLNuFwDv/+mf5KzfgIHWm/GRroijcpnlxvaLExCyYaymWknRde/ShztiAIRnciqIbjRd85HhxVq4xrQ3ME3gvh2juN95PR8QysuigX32l0+1Dx/TeOj7mQkDZzdprO1JdIDSzlOfOiRhI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:ab14257d-9121-42ff-9bcd-a013a3e0b8b0,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:c9ca9fd0-7921-4900-88a1-3aef019a55ce,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ac46e808799811efb66947d174671e26-20240923
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1160707181; Mon, 23 Sep 2024 18:43:30 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 23 Sep 2024 18:43:27 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Mon, 23 Sep 2024 18:43:26 +0800
-Message-ID: <637aca9a-5d1e-6726-4b97-4d5db0ee30a3@mediatek.com>
-Date: Mon, 23 Sep 2024 18:43:23 +0800
+	s=arc-20240116; t=1727189774; c=relaxed/simple;
+	bh=BiTkDZFNxnw8hpzPzvwTIo35bstM7i6MkRzYSpffxMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SZdJHkwj+zKhwDgWBROZk2v9FzwV3J3kczqly2YsfgRz8ZW1pvFujcAaCLNf9G1Z497Ou5P3Xdq80wuSe5dFvDc8H2pwhJQI3lHsEJuYMXQY7WETQ5f6HErAkz8EwVPC5d7wKbNJBrMOzz8tS+HRUFaaQkFRwn7KGpzn3BwSDsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VSkOBwQY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E97BC4CEC4;
+	Tue, 24 Sep 2024 14:56:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1727189773;
+	bh=BiTkDZFNxnw8hpzPzvwTIo35bstM7i6MkRzYSpffxMo=;
+	h=Date:From:To:Cc:Subject:From;
+	b=VSkOBwQY2h00KcycEvlxW5Im2abduju9isbVHQ+JEOg7WhBs0AFRHS172zab1PkuV
+	 dW6nfQPu6IyFM/gNbzPTa5MdY0JIVJt6F2KFUeEmGMNqdYWspw9diI5XwfEt8+zdFb
+	 nPCF9uixyIlL42dOtnr2qG8UK4YTNDcDTLDNarl0=
+Date: Tue, 24 Sep 2024 10:56:12 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Xing Tong Wu <xingtong_wu@163.com>, 
+	Tobias Schaffner <tobias.schaffner@siemens.com>
+Cc: linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, helpdesk@kernel.org
+Subject: Bouncing maintainers: Xing Tong Wu, Gerd Haeussler
+Message-ID: <20240924-straight-rigorous-earthworm-f8f242@lemur>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, "AngeloGioacchino Del
- Regno" <angelogioacchino.delregno@collabora.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sean Wang
-	<sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
-	<netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones
-	<lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Chen Zhong
-	<chen.zhong@mediatek.com>, <linux-input@vger.kernel.org>,
-	<linux-leds@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>, Alexandre Mergnat
-	<amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
-	<pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Chris-qj chen
-	<chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
-	<wenst@chromium.org>
-References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
- <20240918064955.6518-2-macpaul.lin@mediatek.com>
- <20240918115151c896f33f@mail.local> <20240918115651c1475d36@mail.local>
- <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
- <d8b90ddf-efbc-4434-9ad0-4be6942d51a5@collabora.com>
- <202409201337500284902d@mail.local>
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-In-Reply-To: <202409201337500284902d@mail.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--16.104600-8.000000
-X-TMASE-MatchedRID: QW5G6BKkLToOwH4pD14DsF2036HHwFm/C/ExpXrHizwJmdXzOhEMdq1X
-	iPUpd5urvhH72H3yPfRl52ofpDGzAUER5ddgnEDec2k2agnXN3xMkOX0Uoduuf5Ndkm9jGh5+k9
-	OmImxseHdNZBjAe+TD5j4oSfJftZ+Gmdo3OL/XyN17gHAyAFr0z49+ukeLY9133Nl3elSfspkDy
-	hB8FZCo0saY8ROPM6fB++TmiSdVlO6de0YULw0FnuTVkeYosXtYY0tNGdvli3qLnOUXH9QdIcqr
-	S3ZaIiqCEuVF6nuSDFftuJwrFEhTbew1twePJJB3QfwsVk0UbtuRXh7bFKB7n0Bw/xUOCRaQob8
-	Aj73RQ4BdZxBcFC/afKV0PghFKiIHIV02d1rpG8=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--16.104600-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 29BBBD91297B46FCBF23EA27127FA88C925FF1F3A72ACB71CB857985D524E1632000:8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+Hello:
 
-On 9/20/24 21:37, Alexandre Belloni wrote:
+I'm reaching out to co-maintainers of the following subsystems:
 
-[snip]
+  - SIEMENS IPC LED DRIVERS
+  - SIEMENS IPC PLATFORM DRIVERS
+  - SIEMENS IPC WATCHDOG DRIVERS
 
->> > > > >  - RTC:
->> > > > >   - Drop "start-year"
->> > > > 
+The email address for several of your maintainers are bouncing:
 
-[snip]
+  M: Xing Tong Wu <xingtong.wu@siemens.com>
+  M: Gerd Haeussler <gerd.haeussler.ext@siemens.com>
 
->> > 
->> 
->> Alexandre, I definitely agree with you on the fact that the MTK PMIC RTC driver
->> can (and needs to) be improved, and that it can make use of some nice cleanup...
->> 
->> ... but!
->> 
->> This series performs a conversion to schema, and the previous txt file didn't
->> say anything about the start-year property - which was not mandatory to support
->> at that time (nor now, afaik?), so adding support for that is out of scope for
->> this series.
-> 
-> It is mandatory now. I agree this can be done in a subsequent series.
-> 
+There are several possible courses of action:
 
-Thanks you all for helping with the review and kindly understanding the
-situation. I see that Angelo has already submitted the RTC patch set.
-I'll check it with the internal driver owner. It seems okay with a quick 
-glance.
+1. If you know the new email address for the maintainers, please ask them to
+   submit a patch for MAINTAINERS and .mailmap files.
 
->> 
->> Eventually, that can come as a series on top, adding support for that in the
->> binding (and, of course, in the driver).
->> 
->> I should be able to tackle that... most probably next week - but still, the
->> improvements would come as a series on top of this one.
->> 
->> Cheers,
->> Angelo
-> 
+2. If these maintainer stepped away from their duties, or if co-maintainers are
+   equally unable to reach them via any other means, please submit a patch to
+   MAINTAINERS to remove their M: entries.
 
-Thanks
-Macpaul Lin
+The goal is to have no bouncing M: entries in the maintainers file, so please
+follow up as soon as you have decided on the correct course of action.
+
+Best regards,
+-- 
+Konstantin Ryabitsev
+Linux Foundation
+
+bugspray track
 
