@@ -1,150 +1,137 @@
-Return-Path: <linux-leds+bounces-2859-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2860-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5BC988BAB
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 23:03:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F51988BDA
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 23:38:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9741F21DD6
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 21:03:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B213C1C2128C
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 21:38:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6E4189F2B;
-	Fri, 27 Sep 2024 21:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04AF416F909;
+	Fri, 27 Sep 2024 21:38:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="kAuFu+HO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XqN8A9B9"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EA71514C6;
-	Fri, 27 Sep 2024 21:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7ED27733;
+	Fri, 27 Sep 2024 21:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727471001; cv=none; b=F5OIzNI5bzJ+cZZsf4Nz9S3rLPJIo29IZOcga9dXWU0jyUESjhYf2cokNaq8fFuoiRk+UVeXL8kqFbTzdV+V5NQqGqEiRy/t8FymHekO3EfKXkYaPv5vdtlCrf+dbHy+SB+Ijmme52xQzIRJpjXyq1LY3jeOTgNLRHDBjRyyBL0=
+	t=1727473099; cv=none; b=Vuh1UFP6e7uw8u6QJN7Vi6vyn1UMiOSmhCbmW+a0XphNP9cjoU/CCTrpOkxpFtrKEiy9RE8q41jHRh4TsIpmKYh22woTkGCIt8lrYBzxhg5vmPeWsxrxkIX04G8Bxo5KYM43bZVnS0KXzyBEj/mTLmKobcZMzIgKU5YZD919sQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727471001; c=relaxed/simple;
-	bh=Ww9xGXgX7UDQQbSHopbSKGixwCYJIXFtdHxGvD1P0vI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nsJfi24fctpb1eDgjYaU/Bk5wf6hAEC9nNDu1bNrqYXZUpgrU6PkO9FGok1S7sqk0Q+8Yuwp6v0O5hKu3NZCxSUrpviWwvsP+GHYNrdR4atUATrFmsPtF3G8SFyFeZj5fXd1zom5JSrzknLuNwC2RDCRas1xPtR0SnnU9tEasW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=kAuFu+HO; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id DB0A41C00B3; Fri, 27 Sep 2024 23:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1727470995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SDyrJfOzttkCBWAPJJENDhELp/mHPzDrymXHNYlDyd0=;
-	b=kAuFu+HO2SGrke+T3SD9lIoFQTaLsBFA29Qft2q5QnPTKWu1hhQd6pUo0XNcwRej/Y+8Qg
-	15G/kZT5ylTIcwJscQ2g5aLTHBNv9zjaXJQnNvzkADK3p5YfuAUhF2qZ3O8IXrqsBZuA7e
-	YDhk0rfYqlCb06k9Ff4q3ppQ4fnq5WI=
-Date: Fri, 27 Sep 2024 23:03:14 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
-	jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
-	ojeda@kernel.org, onitake@gmail.com
-Subject: Re: [PATCH 0/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04
-Message-ID: <ZvcdknJWzaLbhgyE@amd.ucw.cz>
-References: <20240926174405.110748-1-wse@tuxedocomputers.com>
- <et3cv7i2lhsjoq26toweh4uv72yo34u3wqrj3q2urfnx2bhiq3@fdtkag4bcekh>
+	s=arc-20240116; t=1727473099; c=relaxed/simple;
+	bh=3UQZeHfK5/gRkdAT3WZTH2zqHNW/VEXeYje1wlyMW7c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=e4t90k7MFYble97+fhPHrNOAaAnSRKr0TMtstSIoERSVOVPbbe1Gk8MbtRzprJPamo1zbPHBNW5jOtcCIDWjP9jI8vgpW/Qm4hQMd9YUbzLduAebokaOLA7XwN10V2Qpm0M5CluNWqJoU2s/Q7OLUcrks3cKhpFgHE5Q3+S8LaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XqN8A9B9; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f761461150so38698541fa.0;
+        Fri, 27 Sep 2024 14:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727473096; x=1728077896; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bLovns2KL8c7D/KfYP9IZ4phHb9upAJmIjj3CCHbk/o=;
+        b=XqN8A9B9JA2gDViICMFPydFjdQTbtV6X6NXMcMuTpq03c6BWPFQlmzWecMcZjR+Gie
+         1hPb1BuygfUQhpdnQxLdOZqD9lIWaMFAdmCqHpgpviN4WFH4hGjbVZBf8GDwmNi3K4O+
+         rCZzbemDMqpIklEkZJYYxGeOd35vre1dmgzXH+5tBiIWFK8LrXZRtcTstjWVKnzMqTCP
+         jjuACv5dR0M1MpsaOdK1uRR/AET22+3Ivc+ahtjdGDkg6fmkQjRItUZ/Wciel0fsVSMy
+         VY6Ym9NhWUwcbLnsRcsek/WeyOJhTzMr81rJQ/gHQJv+U3tiK2YVtNRQDp3+bBAkCJTy
+         nMDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727473096; x=1728077896;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bLovns2KL8c7D/KfYP9IZ4phHb9upAJmIjj3CCHbk/o=;
+        b=Wtu61fdgrHkH1EC2Iqz2cQ5p9Hkyieei/42IMAfusjoEPKXSsvBTuDERhLC4yfgLEG
+         CKKtBNCbm9qjfSc9q8EYJkh0AzgZ0b8rTT6zZR8rkRf5ureXgUf1psx601Har5wVZgJ4
+         RHmwzkERzecKWpyZCBX9HcJ+PYztcRFCj4A139s247Rc+p/8FyspoIIlRzqyM7/9a7ol
+         duuiXeEdsxInjNvU0vf1rFZUQiiGMyzddLl3p4poIs7GS/Ap0QGkUV75C/YUtZfRhURr
+         ISYONKVryxpi2w4ncYkO/HcjYtXvVo3nAZQFrcdzCxf7HZImYVku25PDeWuJKH0mLfDu
+         IwHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmWYuM022ubuZMil3UArWMbpgSbljQ/G5n9FzYLPlfjFhDLfK52uX3WlHJNeVnlzZguWCL7dO2FXy4aME=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkLAyogXUjJuUy7vbwv2Th5vYfGiNaATiboYL/SIO7mnVZRKG4
+	SGS9ew90tl3d1iWhBUTiITuRvYMwd6jkuUqHJdoq9h3hCHmX+1QJ
+X-Google-Smtp-Source: AGHT+IFi017WXeQrWtNjLMQtyIiZQitRA4AP6LqRLB2tT4j5IiFL+0AbQNRoAfVQm2zwRmStDDJFlQ==
+X-Received: by 2002:a05:651c:2126:b0:2f7:562d:cb6c with SMTP id 38308e7fff4ca-2f9d3e3d2a5mr44986391fa.2.1727473095919;
+        Fri, 27 Sep 2024 14:38:15 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-6e73-3ff7-9936-9d4d.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:6e73:3ff7:9936:9d4d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2978a04sm179174366b.144.2024.09.27.14.38.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 14:38:15 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 0/6] leds: Remove local leds.h where not required
+Date: Fri, 27 Sep 2024 23:37:39 +0200
+Message-Id: <20240927-leds_unused_leds_h-v1-0-46fbf41ed4ae@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8et7i8b3htfBrpbi"
-Content-Disposition: inline
-In-Reply-To: <et3cv7i2lhsjoq26toweh4uv72yo34u3wqrj3q2urfnx2bhiq3@fdtkag4bcekh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKMl92YC/x2MQQqAIBAAvyJ7TjApzL4SIaJbLYSFSxGEf0+6z
+ RxmXmDMhAyjeCHjTUxHqtI2AsLm04qSYnXQSnfKaiN3jOyudDFG9/Mm/WKs8sH0cVBQwzPjQs8
+ /neZSPo+2W4dkAAAA
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727473094; l=1718;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=3UQZeHfK5/gRkdAT3WZTH2zqHNW/VEXeYje1wlyMW7c=;
+ b=34E4CMKjaRNaKvfM1srxdfPO+whMqRPlZ0SxFcN1CjgQ+fQFIHrzo4AU8zQ3enO23w0+wxGpI
+ L/PH2SOpTK9C//g+aYoeIg4g8IRkwjLM7gsM2EfDoA0nr2Q40JKrNPS
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
+There is a logical tendency to move elements from the local leds.h to
+the global one under include/linux/ to make them accessible for users
+outside the leds subsystem. On the other hand, some users of the local
+header, which also include the global one, do not need to include it
+anymore as the elements they required are no longer there.
 
---8et7i8b3htfBrpbi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That has been the case for leds-gpio and leds-pwm, which used to obtain
+led_init_default_state_get() from that header. I could not identify the
+reason why the rest of affected drivers included leds.h from the
+beginning, but I suppose they used to require something that might not
+be there anymore, or it was just added "by default". Either way, they
+don't require it in their current form.
 
-On Fri 2024-09-27 18:08:52, Benjamin Tissoires wrote:
-> On Sep 26 2024, Werner Sembach wrote:
-> > Hi,
-> > took some time but now a first working draft of the suggested new way of
-> > handling per-key RGB keyboard backlights is finished. See:
-> > https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedo=
-computers.com/
-> > First time for me sending a whole new driver to the LKML, so please exc=
-use
-> > mistakes I might have made.
-> >=20
-> > Known bugs:
-> > - The device has a lightbar which is currently not implemented and
-> >   therefore stuck to blue once the first backlight control command is s=
-end.
-> >=20
-> > What is still missing:
-> > - The leds fallback
-> > - Lightbar control
-> >=20
-> > Some general noob questions:
-> >=20
-> > Initially I though it would be nice to have 2 modules, one jsut being t=
-he
-> > wmi initialization and utility stuff and one just being the backlight l=
-ogic
-> > stuff, being loaded automatically via module_alias, but that would still
-> > require me to create the virtual hid device during the wmi_ab probe, and
-> > that already needs the ll_driver, so i guess I have to do it statically
-> > like i did now?
-> > Or in other words: I would have liked to have a module dependency graph
-> > like this:
-> >     tuxedo_nb04_lamp_array depends on tuxedo_nb04_platform (combining *=
-_wmi_init and *_wmi_utility)
-> > but if i currently split it into modules i would get this:
-> >     tuxedo_nb04_wmi_ab_init dpends on tuxedo_nb04_wmi_ab_lamp_array dep=
-ends on tuxedo_nb04_wmi_utility
->=20
-> On more general question to you: how much confident are you about your
-> LampArray implementation?
->=20
-> If you still need to add/fix stuff in it, I would advise you to have a
-> simple HID device, with bare minimum functionality, and then add the
-> LampArray functionality on top through HID-BPF. This way you can fix
-> LampArray out of band with the kernel, while having a more stable kernel
-> module. This should be possible with v6.11+.
->=20
-> Another solution is to still have your wmi-to-hid module, and then a
-> HID kernel module in drivers/hid that supports LampArray.
->=20
-> But I would strongly suggest while you are figuring out the userspace
-> part to stick to HID-BPF, and then once you are happy we can move to a
-> full kernel module.
+This series has been validated by building the kernel with both Clang
+and GCC without any issues.
 
-What about creating real kernel driver with real interface to
-userland, instead? My preference would be treating this as a display,
-but nearly anything is better than _this_.
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Javier Carrasco (6):
+      leds: flash: Remove unused local leds.h
+      leds: multicolor: Remove unused local leds.h
+      leds: gpio: Remove unused local leds.h
+      leds: lp50xx: Remove unused local leds.h
+      leds: pwm: Remove unused local leds.h
+      leds: turris-omnia: Remove unused local leds.h
+
+ drivers/leds/led-class-flash.c      | 1 -
+ drivers/leds/led-class-multicolor.c | 2 --
+ drivers/leds/leds-gpio.c            | 2 --
+ drivers/leds/leds-lp50xx.c          | 2 --
+ drivers/leds/leds-pwm.c             | 1 -
+ drivers/leds/leds-turris-omnia.c    | 1 -
+ 6 files changed, 9 deletions(-)
+---
+base-commit: 40e0c9d414f57d450e3ad03c12765e797fc3fede
+change-id: 20240927-leds_unused_leds_h-af790ac75d80
 
 Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
---8et7i8b3htfBrpbi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZvcdkgAKCRAw5/Bqldv6
-8rBlAKCfdrgp9aTsCLmDnhs2OYYXhvpJUgCglw2O3Bhu87qBixOdtRPMx4XXxIk=
-=fk2l
------END PGP SIGNATURE-----
-
---8et7i8b3htfBrpbi--
 
