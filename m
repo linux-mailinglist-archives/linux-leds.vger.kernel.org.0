@@ -1,50 +1,48 @@
-Return-Path: <linux-leds+bounces-2852-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2853-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A6A988531
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 14:42:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7189886E2
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 16:18:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BCA31F24653
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 12:42:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F7DD1C22BA6
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Sep 2024 14:18:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A1218C928;
-	Fri, 27 Sep 2024 12:42:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2825F481AB;
+	Fri, 27 Sep 2024 14:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="hKVoOJy1"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="YHq/tdl8"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854D518B48B;
-	Fri, 27 Sep 2024 12:42:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F94191;
+	Fri, 27 Sep 2024 14:17:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727440959; cv=none; b=nKJ+nlvKEluSIigbITWgtwVvJxhxI6nHgOWaWJAGhKOKVTBG8ajr1NmnEUDKmVZ2Qbe9K5oQKaLSV9JqRpuTfTq8DbebRihz0twsAR6M0s5Hij+F0goz+v+bmZlvGIS2GbwlS7guIRN9BmSULu163qdW2Bb1QJ/24YVI2jtVK24=
+	t=1727446679; cv=none; b=nSVA9syu2oTzRX/sMpTpt7Cv4XpAKcVE60iLXynw9xIHT+7cNEF8/O4PbSDveP5O2EdC6sBSDrZG9h57CiplIMmkQHqz7BGQEfKR8QUTZJwVtog02TJmGiQK+BZz4udljrw+2YbUwPn9OyClBGa6+flx6dEEDxfcbRhzfPCEjU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727440959; c=relaxed/simple;
-	bh=eJ+Suswe11llUU7mydXSTYqHJGoYQpADwYEBdqO9SqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kv3ecfdYjVSusaxQuDU2UYLHxFnFihxRSZMdeLCDvF47vQtHeRz2dt/bmcjSQ6qssByWhuijRb2g1MljiylbAuDtPTK4hnBkfuKJizVEAXbTs9YyMwNhbu6J7ThY9+UxITyHfYmu7buRdpgHtrkDYXW8X2ZSVCafM76PKeWvGrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=hKVoOJy1; arc=none smtp.client-ip=157.90.84.7
+	s=arc-20240116; t=1727446679; c=relaxed/simple;
+	bh=oxldyaIuiZaRpAtyhrQXyWtR5owD3aV6JL28Ifq2aPE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=swJYgAJ/pCPIq6hmsWNB6Jal70beMJTadmEqR5qgx3D39Xw2lqRLc1wL2h2gIwpoBsvkZZQBZ0glqdVTwiUWguEW846pwrg1Xv8LBCFA2iynbgLCNWYRiAsuWiynBqEsUt8/I0qcxyGMkknZAXDRmfcDQ2yZXQzlg8513B+zTZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=YHq/tdl8; arc=none smtp.client-ip=157.90.84.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Received: from wse.fritz.box (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 06C6C2FC0064;
-	Fri, 27 Sep 2024 14:42:33 +0200 (CEST)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 0DF7C2FC004A;
+	Fri, 27 Sep 2024 16:17:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1727440953;
+	s=default; t=1727446668;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h+1DvrdgZelb0i7pbsYZCu3GOspfje8i1eurxFgm4Bo=;
-	b=hKVoOJy1B1TWyoi5uzW27x02e8Vm5RqtZ4HFmqJ/0zkLBm5Z5AGXJg4Oo2zVryMwqh4ABS
-	Bj5qFh9d2lPMFShebzh8Og5Tk8MDDz3pHNQCZdGGfUogSzv22gMhOB6XsOfjM0FrDdrd0E
-	sNlb+VcKtAvSVxGazTrnnu9eKrRe4P0=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EE4bzqbSi/OtRSjn0WgcE3DMc8rXXQ13Odeo7k9kWn4=;
+	b=YHq/tdl8LwUhr2TAFAA7XdmU7yx+tGVmZD8R9KmzdnGSAQVnHNTyEw3E8T6a7fnI1cOu91
+	XOnjfbpVYsLeL+ehmJ9UhKbf9L3CST2VyQHj4Hf+3xtNZxOMhTGMiHjSG4jafLXWHANtpJ
+	FVYfeO5bPSCuids75IdtS6StUUPobeU=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
 From: Werner Sembach <wse@tuxedocomputers.com>
@@ -65,12 +63,10 @@ Cc: bentiss@kernel.org,
 	pavel@ucw.cz,
 	cs@tuxedo.de,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
-Date: Fri, 27 Sep 2024 14:41:52 +0200
-Message-Id: <20240927124152.139099-2-wse@tuxedocomputers.com>
+Subject: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+Date: Fri, 27 Sep 2024 16:17:43 +0200
+Message-Id: <20240927141745.145176-1-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240927124152.139099-1-wse@tuxedocomputers.com>
-References: <20240927124152.139099-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -90,6 +86,7 @@ a suitable UAPI for per-key keyboard backlights, and like this no new UAPI
 needs to be established.
 
 v2: Integrated Armins feedback and fixed kernel test robot warnings.
+v3: Fixed borked the subject line of v2
 
 Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
 Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
