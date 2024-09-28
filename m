@@ -1,132 +1,113 @@
-Return-Path: <linux-leds+bounces-2878-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2879-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE7E988E58
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Sep 2024 10:04:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 453FD988E5D
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Sep 2024 10:06:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6C201C20DCF
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Sep 2024 08:04:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5211A1F210D0
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Sep 2024 08:06:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB6F719DF8B;
-	Sat, 28 Sep 2024 08:04:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46DCD19CCFC;
+	Sat, 28 Sep 2024 08:05:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLK1S68w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaiyGwrL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D3613A40D;
-	Sat, 28 Sep 2024 08:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA0812E75;
+	Sat, 28 Sep 2024 08:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727510650; cv=none; b=Qs4rvJl7toGY8vU10i8rkG5W4XwQ0tDPdldCOXc9cYUwIThK2ZP25FzUSKv5dxuK/S//iQLe2pmIdkXAuJVu2pAuQYWtv66GvlszD72cWm7oz8Cot3Jss0/HTUuImM9nfgvNL2PLsZf9mF8Nkp40wdqmah6uD3XT7wGuBwTSDGU=
+	t=1727510756; cv=none; b=s1pqNaHJMx3nTJGUeDNxautPHkHZcPFUA1kKm5n+tS7RCe07ixZD3Nab6m32VXTmFZPr67g3+wFw8mAeyB6uSeNx45u9ZyQ25tidHjdDmde5ur4oDqm9LirjoQT+CFTTXU6dMzbnUUZliilr0Fi0xKnNAlqjoUlVAkUD7CEuCqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727510650; c=relaxed/simple;
-	bh=iYwiwZZbcYBs1YE9u1895Apadus7z72Bxx4TTaVUpUc=;
+	s=arc-20240116; t=1727510756; c=relaxed/simple;
+	bh=oBWMk5IXftwDZHR1DA8gs5+5AjQ0N9WxypmUP0N6Pw8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzkuNA+lH5lUCZOrduMI7X09qQEXuebXA9qpbC5CPnx61V6p+gumOWFZna81/poYSMCW0Y3PyYhcvtImyKMNbN/o2/pUweBiS8fO+qJKJywA2TXupcjAEpWGzAYE+jApMiU6TVzHI5SpPODT0qTNYkDXE6hU3ZkP229RNkEkoJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLK1S68w; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727510649; x=1759046649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iYwiwZZbcYBs1YE9u1895Apadus7z72Bxx4TTaVUpUc=;
-  b=FLK1S68waFTiaLSREZYWatNLSkp1urP33T8hASWa2t6Xw2QhB3eWRMYL
-   sQemx+VOqeTYb5hHsRyfaRq1+LA/Dz3tQSz/n5o/yFyFeJN7RsdOjcFOB
-   IfQcnRo3kPTWuEeavOUcVcDJQLacQET5j7cbHagistH5EN3RakTdiUX/s
-   UH43qYFkeJFmNg8s/pRk0mHkZWDvvi9ehXz2vQFwH+Fa0odILPwACQF0D
-   os1+63sYHuA0L+KfVcVq8wgqRurdE4zJ0ipclaIMY1/vwFviKZzldSC5V
-   JElbF7gRqoAuHavM4/vt1RSDkdgJTB1GYPtlYTWzxaqvtogXPkWeKFJl/
-   A==;
-X-CSE-ConnectionGUID: oeOId70DRPCzSXn09cEwfw==
-X-CSE-MsgGUID: i5zn4qx8QyOmWmubOt0OBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="37331703"
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="37331703"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 01:04:08 -0700
-X-CSE-ConnectionGUID: 5dMSq6rWRAaEU6u8vUhqEQ==
-X-CSE-MsgGUID: ZEojGvVpSUqDqljoa2Fw0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72831532"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Sep 2024 01:04:04 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suSQr-000N1Q-1O;
-	Sat, 28 Sep 2024 08:04:01 +0000
-Date: Sat, 28 Sep 2024 16:03:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-Message-ID: <202409281513.tYxQaGoH-lkp@intel.com>
-References: <20240927141745.145176-1-wse@tuxedocomputers.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WsRT9IWznWnI2uQxH1MKGent/SX/wfxM4KObCkLRjbjcuEYHilFLuZfMmv34c7PFh/Y9kiXOdTNLPjzSJOYXJ0Sd0b0mt04E6kG6tztCKV1RYreGQ5NIKOpnxwmWdmqEudZM2LJoTY1BkqceYm+ZMrBd+JAOWIPYjNM7xXTrkCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaiyGwrL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E56D2C4CEC3;
+	Sat, 28 Sep 2024 08:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727510755;
+	bh=oBWMk5IXftwDZHR1DA8gs5+5AjQ0N9WxypmUP0N6Pw8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QaiyGwrLw2XtwAIBVPsGq6n1pRXl0ow3G80G2c/fQuhlTwHI5OxwRMqNH5nvpye54
+	 u5qagd1tSzbEzMJenpYJwJcdzetQv5KY0l6/G+pG9XaE4ykQ3rm9VvLibMVzP5LMrX
+	 CjuXsHWBJcy56xfEfKvejxH3oPHoGA9wVi0+LOqhaSsPBA+KzXQsbg/WwWt/rHIN0J
+	 jxULFQ1BAZ3GnVcY0S4z7GhHKQNhogl5c/qmntZHIEN2ujZWpRUBEhBZZqY4j4yvfU
+	 HPTfo72R8PyV7cAx7KE28XwVA8Ef0J9ZLBx6WfB9Oxlge8yAOJYDNsN5fUArwVWYoE
+	 J2YD2rYW5Yl+w==
+Date: Sat, 28 Sep 2024 10:05:52 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, William Zhang <william.zhang@broadcom.com>, 
+	Anand Gore <anand.gore@broadcom.com>, Kursad Oney <kursad.oney@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: leds: bcm63138: Add shift register
+ bits
+Message-ID: <fmuxz5w77tfkodvntaley2b6kv2c7acgcfb6ojk3plw7g6rbdd@sahgzglndrda>
+References: <20240928-bcm63138-leds-v2-0-f6aa4d4d6ef2@linaro.org>
+ <20240928-bcm63138-leds-v2-1-f6aa4d4d6ef2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240927141745.145176-1-wse@tuxedocomputers.com>
+In-Reply-To: <20240928-bcm63138-leds-v2-1-f6aa4d4d6ef2@linaro.org>
 
-Hi Werner,
+On Sat, Sep 28, 2024 at 12:29:47AM +0200, Linus Walleij wrote:
+> The BCM63138 family of serial LED controllers has a register
+> where we can set up bits for the shift registers. These are
+> the number of rounds the bits need to be shifted before all
+> bits have been shifted through the external shift registers.
+> 
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - Drop the $ref to u32 since the new property is suffixed
+>   with "-bits" and thus get standard treatment.
+> ---
+>  Documentation/devicetree/bindings/leds/leds-bcm63138.yaml | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml b/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
+> index bb20394fca5c..b3d530c46061 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
+> @@ -41,6 +41,17 @@ properties:
+>    "#size-cells":
+>      const: 0
+>  
+> +  brcm,serial-shift-bits:
 
-kernel test robot noticed the following build errors:
+bits is an uint32-array, so you need to limit number of items, e.g.
+items:
+ - minimum: 1
+   maximum: 32
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+default: [0]? or something else?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/platform-x86-tuxedo-Add-virtual-LampArray-for-TUXEDO-NB04-devices/20240927-221932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240927141745.145176-1-wse%40tuxedocomputers.com
-patch subject: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
-config: x86_64-buildonly-randconfig-004-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281513.tYxQaGoH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281513.tYxQaGoH-lkp@intel.com/reproduce)
+> +    minimum: 1
+> +    maximum: 32
+> +    description:
+> +      This describes the number of 8-bit serial shifters
+> +      connected to the LED controller block. The hardware
+> +      is typically using 8-bit shift registers with 8 LEDs
+> +      per shift register, so 4 shifters results in 32 LEDs
+> +      or 2 shifters give 16 LEDs etc, but the hardware
+> +      supports any odd number of registers.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281513.tYxQaGoH-lkp@intel.com/
+Best regards,
+Krzysztof
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/mm/testmmiotrace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-ERROR: modpost: "hid_destroy_device" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
->> ERROR: modpost: "wmidev_evaluate_method" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
->> ERROR: modpost: "wmi_driver_unregister" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
->> ERROR: modpost: "__wmi_driver_register" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-ERROR: modpost: "hid_parse_report" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-ERROR: modpost: "hid_add_device" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-ERROR: modpost: "hid_allocate_device" [drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
