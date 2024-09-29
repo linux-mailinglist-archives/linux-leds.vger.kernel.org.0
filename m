@@ -1,128 +1,117 @@
-Return-Path: <linux-leds+bounces-2885-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2886-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40D698937D
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Sep 2024 09:40:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 657B3989476
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Sep 2024 11:24:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 807D7281EF3
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Sep 2024 07:40:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95E841C232CF
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Sep 2024 09:24:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F20C413AD06;
-	Sun, 29 Sep 2024 07:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175031779AE;
+	Sun, 29 Sep 2024 09:22:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzhI78dg"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Nusst0kc"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352321F95A;
-	Sun, 29 Sep 2024 07:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D8B152790;
+	Sun, 29 Sep 2024 09:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727595622; cv=none; b=KDu4Ng1QtrlvaKcHumfqrK5nHS0fw0LAqr37NgRfdwZtSuiW9YxgGDmLTpXleIkXtrNAWfl67EQ0dbG1rUruh0PPyTClPs7jC1BstQ372x4Z8LlezSveS9EfUiANILIrwhKIBvvQ0OwCd5cYRd7VbVxLT0Rp1hYxxpUBY3Gcxd8=
+	t=1727601763; cv=none; b=QVgF1TYTUChuhA6xD76nR27jZoBWW16M7ii9A3+TB2PYNR/0Lb0cIWIfGqlnZF0iAbGrP3ApD2fcNznZhfYQy2VbCGlfRsYsBfYBDbhPAH90XIT3C/ljGb1hq8eQFQjFzFtgWuv1vmg+gFy36MU1V0fuK8VQFlZ644TwMlEtmzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727595622; c=relaxed/simple;
-	bh=wGxWHk+iodS3mlP5Z/WAVJxfkUca1FSivOYcI33k12Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MOxw9rS+pguJxJupCWDCHwspNFppxdumtfOuyRg4QazibNtrdlBKN8o8wJtiI3MfuByTX3hDJJpA8do39MIeTOrUVVNvxxuvIQQWJT2RoiQ7I0yehnuVCcUc3YGmLXxQmc7xyFboRrxfwFdpmnsuAlH4joIeOXwiTimfDapj87I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzhI78dg; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727595621; x=1759131621;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wGxWHk+iodS3mlP5Z/WAVJxfkUca1FSivOYcI33k12Q=;
-  b=DzhI78dg07fnrOqIMyrvxsojzcdKeG4cFPYRPc5YRqsfif2y7gSrqip7
-   gRfvINir80p5QLpA6xXj+rE7MjAZ6M+i4b3Nn4T+0udOeKG+deK2nMDPW
-   zZOjvBUOLMnBbE40WmK132YeybXQ2armp/0sYkHVLIgW5Qfo9SY4Zotrp
-   IwltwHAxjGJFc3RrFvDSwLUOhZBkLcHQCRQE7yKf8MP+Vaz64gJ+Dd8OY
-   9PZzcZPOC5YL0o90dIXlJHe/xYbKiC9pNhCWftNtabMwHW6NTRcAphwBA
-   wAbN4XLOZPBWCxpyKqRYybzZrsNPkdsisiiLpAYVoa+y59TTNc82uc3e3
-   w==;
-X-CSE-ConnectionGUID: huDAJOuHSnynAbPnAmD7CQ==
-X-CSE-MsgGUID: AsksNixuTlWfhIxaLgRkbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="14316084"
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="14316084"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 00:40:19 -0700
-X-CSE-ConnectionGUID: BRz8Q1I7TBONv/YhKerRsA==
-X-CSE-MsgGUID: EYnfQ/ESSlCH4dbbLCZaSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="96297876"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2024 00:40:16 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suoXN-000O0D-23;
-	Sun, 29 Sep 2024 07:40:13 +0000
-Date: Sun, 29 Sep 2024 15:39:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO
-Message-ID: <202409291428.gVFlS4L1-lkp@intel.com>
-References: <20240927124152.139099-2-wse@tuxedocomputers.com>
+	s=arc-20240116; t=1727601763; c=relaxed/simple;
+	bh=HMwqAktBHR321G4V0drhu3d2RksWelOXlZchpT6OQXY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o2JVBgVFa3FeSJVh4IGxTeuiisy378aXxb0JfLKgmWoRq31lM4RHT/3SPWv++1weeUCYVpbxU3gUFZopa9+UVIjhF4smRJKDt9K+LwuVitguOobs9lajMzSNRAmtR+x/vwTJ5x2ujSAzJMkJqvmmw5rGX5fn5tV2B9Ff65iXluI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Nusst0kc; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1727601694;
+	bh=dEd10cim6i43JU3mwWFeexRFb9vw0bE8/cYxC7zHp8U=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Nusst0kcYfgZA9K8UtkOXTz+R+3sezFyGabrSwNQK5pVwbi4X2uwkQK2uL3QIDVG3
+	 q3GVSmjanICDEGK/yw2y9BBTGvaWkQdVPTLwHrpzRVRQLW2x4sI3sfKHgKrv57ZtLI
+	 CfD/TgWXwldvp+ap31DaZeKm7DfUZFzj+wscmQo4=
+X-QQ-mid: bizesmtpsz11t1727601663th71y9
+X-QQ-Originating-IP: XO3PTpV1d7mu0tyJTNtMJ62elmv8jBM4+fmPaBs/1GU=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 29 Sep 2024 17:21:01 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11011655909713705943
+From: WangYuli <wangyuli@uniontech.com>
+To: pavel@ucw.cz,
+	lee@kernel.org,
+	aren@peacevolution.org,
+	tzimmermann@suse.de,
+	wangyuli@uniontech.com
+Cc: linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jjhiblot@traphandler.com,
+	guanwentao@uniontech.com,
+	zhanjun@uniontech.com
+Subject: [RESEND. PATCH] leds: rgb: leds-group-multicolor: Correct the typo 'acccess'
+Date: Sun, 29 Sep 2024 17:20:57 +0800
+Message-ID: <DA8E8FA1F45D2F5A+20240929092057.1037448-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927124152.139099-2-wse@tuxedocomputers.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: ORsPGgEyjQSPL+g5xeTt9lUpoSBYFV3HVdoq4Jm6VrXJ3Nrxdj/wipW6
+	/7aR17zPn9aHcak81PrT3cnyCeS22MiPZdffIpGKeEjCoRYRhbA2h3KcOZUIcJfepjQc7Td
+	pW17DX5q3OVhFDHvs47h/mTGck/51mV1KfyLQeS/SdGI55s6wFqz3ge4GwANqxYTUekiArJ
+	qCgstgSWXj3iSqyiuxWMmGoFLjZjODbAHBfH7OsDAY9pVhZkoFXiB1mzcnX5ug8w6FtDXaH
+	yYHBMUjFEojJHErrOdfbv3C3jRYlSJro6mClsUk9qhD+rW4EeFkJnQahYkfChTkdwS5PUjQ
+	smcYLlRD4QpR+qcnx+bSTVuHucCfJ3XxJJoiyWdrtU+xBA5uKIvNDmDCtC9F/0X/d36UKyA
+	N3uzKoMdfg9imUDabApzBLFX8dus7+dNCXgEAOdDtJhlxIbkuSlDavfau6SleG4VfjpcMhP
+	Jy1ShduMFTCDcTdI1oTr7+30klf1MD1ZdJnc1m0KYTc2ghTnNZrZiZ8Bk0X6uw2DPkqMFXH
+	s5uKQOhszihB+w46IjUT9WDukWhQjtQ/dTvIi51OmVlwqjrGwzlWWWi06Ame/La8ttwkMeD
+	IQSg8mFz63L1kEL3ZX0e1JRUyujyhfWUu8bltQ6jwkur/uOjmzX8YygktPrYNzuEYOWkwL0
+	rIKGiVCiU2FStCxpwcnmn/QvZXKtbdzHYtuPysYoIzzzK0cRvpDBH1K6takbAfzf6TN5t/G
+	lNeStRuA+jV3eQJlMVsny5tfP7f8qTvSHSdS+1dFhzqDMNV074tlAuiv8HFRQV2VNh1AgR4
+	cWhr17s/DppQz6QPV4AXUTdIPC8am9ztm3xHWCqF+JFOQAIV9XjOK2MJW7rD+Itv9SiiWth
+	lzyppXGU+wJUObQaAA0utLJUe88lCAxWWPO1oM9fnOsWV9Nu9mbl7wkFLbU7z0JqjK65BbG
+	AlJvpwk9oP65+JRXqe7/N6i0e5UVBPG14E53u2LfumVonSrohlSDg9DkOOsBQJyRY981RX5
+	c15dwz6NZz7tYxyKXgz39BqZaIAiM=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-RECHKSPAM: 0
 
-Hi Werner,
+There is a spelling mistake of 'acccess' which should be instead of
+'access'.
 
-kernel test robot noticed the following build errors:
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://lore.kernel.org/all/0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@suse.de/
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ drivers/leds/rgb/leds-group-multicolor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/platform-x86-tuxedo-Add-virtual-LampArray-for-TUXEDO/20240927-214157
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240927124152.139099-2-wse%40tuxedocomputers.com
-patch subject: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
-config: x86_64-buildonly-randconfig-003-20240929 (https://download.01.org/0day-ci/archive/20240929/202409291428.gVFlS4L1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409291428.gVFlS4L1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409291428.gVFlS4L1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.o: in function `remove':
->> tuxedo_nb04_wmi_ab_init.c:(.text+0x34): undefined reference to `hid_destroy_device'
-   ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.o: in function `ll_parse':
->> tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0xdbd): undefined reference to `hid_parse_report'
-   ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.o: in function `tuxedo_nb04_virtual_lamp_array_add_device':
->> tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0xeff): undefined reference to `hid_allocate_device'
->> ld: tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0xfbb): undefined reference to `hid_add_device'
->> ld: tuxedo_nb04_wmi_ab_virtual_lamp_array.c:(.text+0x1004): undefined reference to `hid_destroy_device'
-
+diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
+index b6c7679015fd..548c7dd63ba1 100644
+--- a/drivers/leds/rgb/leds-group-multicolor.c
++++ b/drivers/leds/rgb/leds-group-multicolor.c
+@@ -55,7 +55,7 @@ static void restore_sysfs_write_access(void *data)
+ {
+ 	struct led_classdev *led_cdev = data;
+ 
+-	/* Restore the write acccess to the LED */
++	/* Restore the write access to the LED */
+ 	mutex_lock(&led_cdev->led_access);
+ 	led_sysfs_enable(led_cdev);
+ 	mutex_unlock(&led_cdev->led_access);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
 
