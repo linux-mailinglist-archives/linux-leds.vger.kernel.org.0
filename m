@@ -1,1302 +1,329 @@
-Return-Path: <linux-leds+bounces-2915-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2916-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FC598C513
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2024 20:07:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9116298C5E3
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2024 21:18:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 154A31C23C2F
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2024 18:07:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEAC41C23805
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2024 19:18:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521C51CCB2E;
-	Tue,  1 Oct 2024 18:07:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1537F1CBE9F;
+	Tue,  1 Oct 2024 19:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Kr5FsF/V"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Sdb32tkQ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DB71CBEB5;
-	Tue,  1 Oct 2024 18:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312F91CCEDF;
+	Tue,  1 Oct 2024 19:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727806038; cv=none; b=s3yxeDkZuujz+lK/Es7fSTNSCGK/NznYOWz0+kEFsoIK0XYi8J4e3KpE+/c4xa6muEJ/t2Jgja2p2i58RHQsJ4VXvcSS3XCeBhT/e3GDvDoyF4FOODmm81WL/kxLrxS1WO9TldT/4+iv18OHfbosB4846xPTyL38Mbr3/eZ11E0=
+	t=1727810291; cv=none; b=UF+j3KIHyUbIB4n+8Nxke4oVDqxA2rswXLohTl5e/k9i5ZboYd47N/MphhkS+f4olRE4rAkkLrVPETusBbgwKWdLIYA47sJCvSnDqOLVODua5hquttM+YDyo9XuXJuzeiEfyFUS7YXEKua01C5pMYBx0sjbFyw/BedgEufKEd2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727806038; c=relaxed/simple;
-	bh=5OVm1UGK1FxbEFQYl77RQUkY/4u56ZL3sj5u2yG9bZA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KO/6hOxlhL6dmEInYl4Bp5VSE3PhvKgCt2+98rdmD6Qll6madmnqDBgKsiQfYSbqmyQIsZXRIZk9TxGXlRJjCVzCV7s+CkTILdJcco3jJbGHm0NeriUtf2rqrWGV/QPNPBXBzxuuOUmgKU6VGJqNQEkddFNDSp/N+PWkU7+SbEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=Kr5FsF/V; arc=none smtp.client-ip=157.90.84.7
+	s=arc-20240116; t=1727810291; c=relaxed/simple;
+	bh=hMKzXJ6JZyuiToANzK/Tu9BgvHhl2iP27Xm9dV0R3EM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IYnHbdl97F+S/Tyl30XtyICHtUomNP0dHZefhJbuhFZRgHiZX4xGO7BtCZd/FqyuyMnbcHzwZgqc0k43jqcbgJWyZFXPhTYG16EiwvQ2U9D0/ef+Q0pjlfmcMvp4zdJCVGq+kBOl765nWCyuwMds8hM9q5hFXpc0nFaK2pEeJiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=Sdb32tkQ; arc=none smtp.client-ip=157.90.84.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from wse.fritz.box (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
+Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 7CEE72FC0057;
-	Tue,  1 Oct 2024 20:07:06 +0200 (CEST)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id CC9192FC0055;
+	Tue,  1 Oct 2024 21:18:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1727806026;
+	s=default; t=1727810281;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nAMIq7JN/L9QZAxRToN5pIgW+JRXKGN0ziGJjlImJ3s=;
-	b=Kr5FsF/V7goQfYAxkyq/yYSBrhoVS0ARZfT9rCfm3ZhpJZtfF3238YDRGo8ZempUfl4Yfe
-	JnvMU7rhodAIYDfBW6NpO2KiR3Uhbxoohc743fp8HZqfvpNb0bUWzj5Fitc54LgiO4ROdy
-	Al5a/CxHOSSZP+P25MmFFqrzHytWzkA=
+	bh=X+cw6q/5i1bHOSzS2dbiJ/kQFGbl+76ohWRhqh4yiPA=;
+	b=Sdb32tkQwZjeq/p721EE3umIc9ILqyJfy+sYxgXQZJ8ITa28NRr+KAvJLpIuBz5f4mKdBT
+	2P7KNMrMXlAjbajjZLuAhtqE4kHOQCD7pOXTu9GtHu72hnzLjZXkx6BCF56kY9aXWDmMZ9
+	tWzf+MXCbD0aQgqiaO6U5HOTKwV1qhs=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Werner Sembach <wse@tuxedocomputers.com>
-Cc: bentiss@kernel.org,
-	dri-devel@lists.freedesktop.org,
-	jelle@vdwaa.nl,
-	jikos@kernel.org,
-	lee@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com,
-	ojeda@kernel.org,
-	onitake@gmail.com,
-	pavel@ucw.cz,
-	cs@tuxedo.de,
-	platform-driver-x86@vger.kernel.org
-Subject: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
-Date: Tue,  1 Oct 2024 20:06:57 +0200
-Message-Id: <20241001180658.76396-2-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241001180658.76396-1-wse@tuxedocomputers.com>
-References: <20241001180658.76396-1-wse@tuxedocomputers.com>
+Message-ID: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+Date: Tue, 1 Oct 2024 21:18:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <ZvcdNXQJmc8cjifw@amd.ucw.cz>
+ <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
+ <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
+ <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
+ <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
+ <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+ <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a per-key
-controllable RGB keyboard backlight. The firmware API for it is implemented
-via WMI.
+Hi Benjamin,
 
-To make the backlight userspace configurable this driver emulates a
-LampArray HID device and translates the input from hidraw to the
-corresponding WMI calls. This is a new approach as the leds subsystem lacks
-a suitable UAPI for per-key keyboard backlights, and like this no new UAPI
-needs to be established.
+Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
+> On Oct 01 2024, Werner Sembach wrote:
+>> (sorry resend because thunderbird made it a html mail)
+>>
+>> Hi,
+>>
+>> Am 30.09.24 um 19:06 schrieb Benjamin Tissoires:
+>>> On Sep 30 2024, Werner Sembach wrote:
+>>>> [...]
+>>>> Thinking about it, maybe it's not to bad that it only changes once udev is
+>>>> ready, like this udev could decide if leds should be used or if it should
+>>>> directly be passed to OpenRGB for example, giving at least some consistency
+>>>> only changing once: i.e. firmware -> OpenRGB setting and not firmware->leds
+>>>> setting->OpenRGB setting.
+>>> That would work if OpenRGB gets to ship the LampArray bpf object (not
+>>> saying that it should). Because if OpenRGB is not installed, you'll get
+>>> a led class device, and if/when OpenRGB is installed, full LampArray
+>>> would be presented.
+>> The idea in my head is still that there is some kind of sysfs switch to
+>> enable/disable leds.
+> FWIW, I'm never a big fan of sysfs. They become UAPI and we are screwed
+> without possibility to change them...
+>
+>> My idea is then that a udev rule shipped with OpenRGB sets this switch to
+>> disable before loading the BPF driver so leds never get initialized for the
+>> final LampArray device.
+> FWIW, udev-hid-bpf can inject a udev property into a HID-BPF. So
+> basically we can have a udev property set (or not) by openrgb which
+> makes the BPF program decide whether to present the keyboard as
+> LampArray or not.
+>
+>>> But anyway, BPF allows to dynamically change the behaviour of the
+>>> device, so that's IMO one bonus point of it.
+>>>
+>>>>> FWIW, the use of BPF only allows you to not corner yourself. If you
+>>>>> failed at your LampArray implementation, you'll have to deal with it
+>>>>> forever-ish. So it's perfectly sensible to use BPF as an intermediate step
+>>>>> where you develop both userspace and kernel space and then convert back
+>>>>> the BPF into a proper HID driver.
+>>>> I don't really see this point: The LampArray API is defined by the HID Usage
+>>>> Table and the report descriptor, so there is not API to mess up and
+>>>> everything else has to be parsed dynamically by userspace anyway, so it can
+>>>> easily be changed and userspace just adopts automatically.
+>>>>
+>>>> And for this case the proper HID driver is already ready.
+>>> Yeah, except we don't have the fallback LED class. If you are confident
+>>> enough with your implementation, then maybe yes we can include it as a
+>>> driver from day one, but that looks like looking for troubles from my
+>>> point of view.
+>> To be on the safe side that we don't talk about different things: My current
+>> plan is that the leds subsystem builds on top of the LampArray
+>> implementation.
+> I would say that the HID subsystem knows how to translate LampArray into
+> a subset of LEDs. But I think that's what you are saying.
+>
+>> Like this the leds part has to be only implemented once for all LampArray
+>> devices be it emulated via a driver or native via firmware in the device
+>> itself.
+> yep, that's the plan. However, not sure how to fit LampArray into LED.
 
-v2: Integrated Armins feedback and fixed kernel test robot warnings.
-v3: Fixed borked subject line of v2.
-v4: Remove unrequired WMI mutex.
-    Move device checking from probe to init.
-    Fix device checking working exactly reverse as it should.
-    Fix null pointer dereference because, hdev->driver_data != hdev->dev.driver_data.
+My idea was that all leds just get treated as a singular led only allowing to 
+set a singular color and brightness, but I just looked it up again: LampArray 
+allows different color and brightness ranges per key, so the grouping might not 
+be possible in a sensible way ...
 
-Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
-Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Link: https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
----
- MAINTAINERS                                   |   6 +
- drivers/platform/x86/Kconfig                  |   2 +
- drivers/platform/x86/Makefile                 |   3 +
- drivers/platform/x86/tuxedo/Kbuild            |   9 +
- drivers/platform/x86/tuxedo/Kconfig           |  14 +
- .../x86/tuxedo/tuxedo_nb04_wmi_ab_init.c      |  99 +++
- .../x86/tuxedo/tuxedo_nb04_wmi_ab_init.h      |  19 +
- .../tuxedo_nb04_wmi_ab_virtual_lamp_array.c   | 735 ++++++++++++++++++
- .../tuxedo_nb04_wmi_ab_virtual_lamp_array.h   |  18 +
- .../x86/tuxedo/tuxedo_nb04_wmi_util.c         |  82 ++
- .../x86/tuxedo/tuxedo_nb04_wmi_util.h         | 112 +++
- 11 files changed, 1099 insertions(+)
- create mode 100644 drivers/platform/x86/tuxedo/Kbuild
- create mode 100644 drivers/platform/x86/tuxedo/Kconfig
- create mode 100644 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c
- create mode 100644 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.h
- create mode 100644 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c
- create mode 100644 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.h
- create mode 100644 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.c
- create mode 100644 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.h
+Maybe the leds integration is a bad idea after all and we should just nudge the 
+DEs and/or UPower to implement LampArray directly? But that's just kicking the 
+complexity down the road, at least as long as there is not universal easy to use 
+library (haven't looked into the library build of OpenRGB yet).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc40a9d9b8cd1..3385ad51af194 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23358,6 +23358,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git turbostat
- F:	tools/power/x86/turbostat/
- F:	tools/testing/selftests/turbostat/
- 
-+TUXEDO DRIVERS
-+M:	Werner Sembach <wse@tuxedocomputers.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Supported
-+F:	drivers/platform/x86/tuxedo/
-+
- TW5864 VIDEO4LINUX DRIVER
- M:	Bluecherry Maintainers <maintainers@bluecherrydvr.com>
- M:	Andrey Utkin <andrey.utkin@corp.bluecherry.net>
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index ddfccc226751f..c7cffb222adac 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1196,3 +1196,5 @@ config P2SB
- 	  The main purpose of this library is to unhide P2SB device in case
- 	  firmware kept it hidden on some platforms in order to access devices
- 	  behind it.
-+
-+source "drivers/platform/x86/tuxedo/Kconfig"
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index e1b1429470674..1562dcd7ad9a5 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -153,3 +153,6 @@ obj-$(CONFIG_WINMATE_FM07_KEYS)		+= winmate-fm07-keys.o
- 
- # SEL
- obj-$(CONFIG_SEL3350_PLATFORM)		+= sel3350-platform.o
-+
-+# TUXEDO
-+obj-y					+= tuxedo/
-diff --git a/drivers/platform/x86/tuxedo/Kbuild b/drivers/platform/x86/tuxedo/Kbuild
-new file mode 100644
-index 0000000000000..5a3506ab98131
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/Kbuild
-@@ -0,0 +1,9 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# TUXEDO X86 Platform Specific Drivers
-+#
-+
-+tuxedo_nb04_wmi_ab-y			:= tuxedo_nb04_wmi_ab_init.o
-+tuxedo_nb04_wmi_ab-y			+= tuxedo_nb04_wmi_util.o
-+tuxedo_nb04_wmi_ab-y			+= tuxedo_nb04_wmi_ab_virtual_lamp_array.o
-+obj-$(CONFIG_TUXEDO_NB04_WMI_AB)	+= tuxedo_nb04_wmi_ab.o
-diff --git a/drivers/platform/x86/tuxedo/Kconfig b/drivers/platform/x86/tuxedo/Kconfig
-new file mode 100644
-index 0000000000000..b1f7c6ceeaae4
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# TUXEDO X86 Platform Specific Drivers
-+#
-+
-+menuconfig TUXEDO_NB04_WMI_AB
-+	tristate "TUXEDO NB04 WMI AB Platform Driver"
-+	default m
-+	help
-+	  This driver implements the WMI AB device found on TUXEDO Notebooks
-+	  with board vendor NB04. For the time being only the keyboard backlight
-+	  control is implemented.
-+
-+	  When compiled as a module it will be called tuxedo_nb04_wmi_ab.
-diff --git a/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c
-new file mode 100644
-index 0000000000000..bd5bca3b15bc7
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c
-@@ -0,0 +1,99 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This driver implements the WMI AB device found on TUXEDO Notebooks with board
-+ * vendor NB04.
-+ *
-+ * Copyright (C) 2024 Werner Sembach wse@tuxedocomputers.com
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/module.h>
-+#include <linux/wmi.h>
-+#include <linux/dmi.h>
-+
-+#include "tuxedo_nb04_wmi_ab_virtual_lamp_array.h"
-+
-+#include "tuxedo_nb04_wmi_ab_init.h"
-+
-+static int probe(struct wmi_device *wdev, const void __always_unused *context)
-+{
-+	struct tuxedo_nb04_wmi_driver_data_t *driver_data;
-+	int ret;
-+
-+	driver_data = devm_kzalloc(&wdev->dev, sizeof(*driver_data), GFP_KERNEL);
-+	if (!driver_data)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&wdev->dev, driver_data);
-+
-+	ret = tuxedo_nb04_virtual_lamp_array_add_device(wdev,
-+							&driver_data->virtual_lamp_array_hdev);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void remove(struct wmi_device *wdev)
-+{
-+	struct tuxedo_nb04_wmi_driver_data_t *driver_data = dev_get_drvdata(&wdev->dev);
-+
-+	hid_destroy_device(driver_data->virtual_lamp_array_hdev);
-+}
-+
-+static const struct wmi_device_id tuxedo_nb04_wmi_ab_device_ids[] = {
-+	{ .guid_string = "80C9BAA6-AC48-4538-9234-9F81A55E7C85" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(wmi, tuxedo_nb04_wmi_ab_device_ids);
-+
-+static struct wmi_driver tuxedo_nb04_wmi_ab_driver = {
-+	.driver = {
-+		.name = "tuxedo_nb04_wmi_ab",
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+	},
-+	.id_table = tuxedo_nb04_wmi_ab_device_ids,
-+	.probe = probe,
-+	.remove = remove,
-+	.no_singleton = true,
-+};
-+
-+// We don't know if the WMI API is stable and how unique the GUID is for this ODM. To be on the safe
-+// side we therefore only run this driver on tested devices defined by this list.
-+static const struct dmi_system_id tested_devices_dmi_table[] __initconst = {
-+	{
-+		// TUXEDO Sirius 16 Gen1
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "APX958"),
-+		},
-+	},
-+	{
-+		// TUXEDO Sirius 16 Gen2
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AHP958"),
-+		},
-+	},
-+	{ }
-+};
-+
-+static int __init tuxedo_nb04_wmi_ab_init(void)
-+{
-+	if (!dmi_check_system(tested_devices_dmi_table))
-+		return -ENODEV;
-+
-+	return wmi_driver_register(&tuxedo_nb04_wmi_ab_driver);
-+}
-+module_init(tuxedo_nb04_wmi_ab_init);
-+
-+static void __exit tuxedo_nb04_wmi_ab_exit(void)
-+{
-+	return wmi_driver_unregister(&tuxedo_nb04_wmi_ab_driver);
-+}
-+module_exit(tuxedo_nb04_wmi_ab_exit);
-+
-+MODULE_DESCRIPTION("Virtual HID LampArray interface for TUXEDO NB04 devices");
-+MODULE_AUTHOR("Werner Sembach <wse@tuxedocomputers.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.h b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.h
-new file mode 100644
-index 0000000000000..3306e3d28bcab
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This driver implements the WMI AB device found on TUXEDO Notebooks with board
-+ * vendor NB04.
-+ *
-+ * Copyright (C) 2024 Werner Sembach wse@tuxedocomputers.com
-+ */
-+
-+#ifndef TUXEDO_NB04_WMI_AB_INIT_H
-+#define TUXEDO_NB04_WMI_AB_INIT_H
-+
-+#include <linux/mutex.h>
-+#include <linux/hid.h>
-+
-+struct tuxedo_nb04_wmi_driver_data_t {
-+	struct hid_device *virtual_lamp_array_hdev;
-+};
-+
-+#endif
-diff --git a/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c
-new file mode 100644
-index 0000000000000..906eb59c5cfd2
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c
-@@ -0,0 +1,735 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This code gives the built in RGB lighting of the TUXEDO NB04 devices a
-+ * standardised interface, namely HID LampArray.
-+ *
-+ * Copyright (C) 2024 Werner Sembach wse@tuxedocomputers.com
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include "tuxedo_nb04_wmi_util.h"
-+
-+#include "tuxedo_nb04_wmi_ab_virtual_lamp_array.h"
-+
-+enum report_ids {
-+	LAMP_ARRAY_ATTRIBUTES_REPORT_ID		= 0x01,
-+	LAMP_ATTRIBUTES_REQUEST_REPORT_ID	= 0x02,
-+	LAMP_ATTRIBUTES_RESPONSE_REPORT_ID	= 0x03,
-+	LAMP_MULTI_UPDATE_REPORT_ID		= 0x04,
-+	LAMP_RANGE_UPDATE_REPORT_ID		= 0x05,
-+	LAMP_ARRAY_CONTROL_REPORT_ID		= 0x06,
-+};
-+
-+static const uint8_t sirius_16_ansii_kbl_mapping[] = {
-+	0x29, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
-+	0x43, 0x44, 0x45, 0xf1, 0x46, 0x4c,   0x4a, 0x4d, 0x4b, 0x4e,
-+	0x35, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
-+	0x27, 0x2d, 0x2e, 0x2a,               0x53, 0x55, 0x54, 0x56,
-+	0x2b, 0x14, 0x1a, 0x08, 0x15, 0x17, 0x1c, 0x18, 0x0c, 0x12,
-+	0x13, 0x2f, 0x30, 0x31,               0x5f, 0x60, 0x61,
-+	0x39, 0x04, 0x16, 0x07, 0x09, 0x0a, 0x0b, 0x0d, 0x0e, 0x0f,
-+	0x33, 0x34, 0x28,                     0x5c, 0x5d, 0x5e, 0x57,
-+	0xe1, 0x1d, 0x1b, 0x06, 0x19, 0x05, 0x11, 0x10, 0x36, 0x37,
-+	0x38, 0xe5, 0x52,                     0x59, 0x5a, 0x5b,
-+	0xe0, 0xfe, 0xe3, 0xe2, 0x2c, 0xe6, 0x65, 0xe4, 0x50, 0x51,
-+	0x4f,                                 0x62, 0x63, 0x58
-+};
-+
-+static const uint32_t sirius_16_ansii_kbl_mapping_pos_x[] = {
-+	 25000,  41700,  58400,  75100,  91800, 108500, 125200, 141900, 158600, 175300,
-+	192000, 208700, 225400, 242100, 258800, 275500,   294500, 311200, 327900, 344600,
-+	 24500,  42500,  61000,  79500,  98000, 116500, 135000, 153500, 172000, 190500,
-+	209000, 227500, 246000, 269500,                   294500, 311200, 327900, 344600,
-+	 31000,  51500,  70000,  88500, 107000, 125500, 144000, 162500, 181000, 199500,
-+	218000, 236500, 255000, 273500,                   294500, 311200, 327900,
-+	 33000,  57000,  75500,  94000, 112500, 131000, 149500, 168000, 186500, 205000,
-+	223500, 242000, 267500,                           294500, 311200, 327900, 344600,
-+	 37000,  66000,  84500, 103000, 121500, 140000, 158500, 177000, 195500, 214000,
-+	232500, 251500, 273500,                           294500, 311200, 327900,
-+	 28000,  47500,  66000,  84500, 140000, 195500, 214000, 234000, 255000, 273500,
-+	292000,                                           311200, 327900, 344600
-+};
-+
-+static const uint32_t sirius_16_ansii_kbl_mapping_pos_y[] = {
-+	 53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,
-+	 53000,  53000,  53000,  53000,  53000,  53000,    53000,  53000,  53000,  53000,
-+	 67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,
-+	 67500,  67500,  67500,  67500,                    67500,  67500,  67500,  67500,
-+	 85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,
-+	 85500,  85500,  85500,  85500,                    85500,  85500,  85500,
-+	103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500,
-+	103500, 103500, 103500,                           103500, 103500, 103500,  94500,
-+	121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500,
-+	121500, 121500, 129000,                           121500, 121500, 121500,
-+	139500, 139500, 139500, 139500, 139500, 139500, 139500, 139500, 147000, 147000,
-+	147000,                                           139500, 139500, 130500
-+};
-+
-+static const uint32_t sirius_16_ansii_kbl_mapping_pos_z[] = {
-+	  5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,
-+	  5000,   5000,   5000,   5000,   5000,   5000,     5000,   5000,   5000,   5000,
-+	  5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,
-+	  5250,   5250,   5250,   5250,                     5250,   5250,   5250,   5250,
-+	  5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,
-+	  5500,   5500,   5500,   5500,                     5500,   5500,   5500,
-+	  5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,
-+	  5750,   5750,   5750,                             5750,   5750,   5750,   5625,
-+	  6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,
-+	  6000,   6000,   6125,                             6000,   6000,   6000,
-+	  6250,   6250,   6250,   6250,   6250,   6250,   6250,   6250,   6375,   6375,
-+	  6375,                                             6250,   6250,   6125
-+};
-+
-+static const uint8_t sirius_16_iso_kbl_mapping[] = {
-+	0x29, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
-+	0x43, 0x44, 0x45, 0xf1, 0x46, 0x4c,   0x4a, 0x4d, 0x4b, 0x4e,
-+	0x35, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
-+	0x27, 0x2d, 0x2e, 0x2a,               0x53, 0x55, 0x54, 0x56,
-+	0x2b, 0x14, 0x1a, 0x08, 0x15, 0x17, 0x1c, 0x18, 0x0c, 0x12,
-+	0x13, 0x2f, 0x30,                     0x5f, 0x60, 0x61,
-+	0x39, 0x04, 0x16, 0x07, 0x09, 0x0a, 0x0b, 0x0d, 0x0e, 0x0f,
-+	0x33, 0x34, 0x32, 0x28,               0x5c, 0x5d, 0x5e, 0x57,
-+	0xe1, 0x64, 0x1d, 0x1b, 0x06, 0x19, 0x05, 0x11, 0x10, 0x36,
-+	0x37, 0x38, 0xe5, 0x52,               0x59, 0x5a, 0x5b,
-+	0xe0, 0xfe, 0xe3, 0xe2, 0x2c, 0xe6, 0x65, 0xe4, 0x50, 0x51,
-+	0x4f,                                 0x62, 0x63, 0x58
-+};
-+
-+static const uint32_t sirius_16_iso_kbl_mapping_pos_x[] = {
-+	 25000,  41700,  58400,  75100,  91800, 108500, 125200, 141900, 158600, 175300,
-+	192000, 208700, 225400, 242100, 258800, 275500,   294500, 311200, 327900, 344600,
-+	 24500,  42500,  61000,  79500,  98000, 116500, 135000, 153500, 172000, 190500,
-+	209000, 227500, 246000, 269500,                   294500, 311200, 327900, 344600,
-+	 31000,  51500,  70000,  88500, 107000, 125500, 144000, 162500, 181000, 199500,
-+	218000, 234500, 251000,                           294500, 311200, 327900,
-+	 33000,  57000,  75500,  94000, 112500, 131000, 149500, 168000, 186500, 205000,
-+	223500, 240000, 256500, 271500,                   294500, 311200, 327900, 344600,
-+	 28000,  47500,  66000,  84500, 103000, 121500, 140000, 158500, 177000, 195500,
-+	214000, 232500, 251500, 273500,                   294500, 311200, 327900,
-+	 28000,  47500,  66000,  84500, 140000, 195500, 214000, 234000, 255000, 273500,
-+	292000,                                           311200, 327900, 344600
-+};
-+
-+static const uint32_t sirius_16_iso_kbl_mapping_pos_y[] = {
-+	 53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,
-+	 53000,  53000,  53000,  53000,  53000,  53000,    53000,  53000,  53000,  53000,
-+	 67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,
-+	 67500,  67500,  67500,  67500,                    67500,  67500,  67500,  67500,
-+	 85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,
-+	 85500,  85500,  85500,                            85500,  85500,  85500,
-+	103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500,
-+	103500, 103500, 103500,  94500,                   103500, 103500, 103500,  94500,
-+	121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500,
-+	121500, 121500, 121500, 129000,                   121500, 121500, 121500,
-+	139500, 139500, 139500, 139500, 139500, 139500, 139500, 139500, 147000, 147000,
-+	147000,                                           139500, 139500, 130500
-+};
-+
-+static const uint32_t sirius_16_iso_kbl_mapping_pos_z[] = {
-+	  5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,
-+	  5000,   5000,   5000,   5000, 5000, 5000,         5000,   5000,   5000,   5000,
-+	  5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,
-+	  5250,   5250,   5250,   5250,                     5250,   5250,   5250,   5250,
-+	  5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,
-+	  5500,   5500,   5500,                             5500,   5500,   5500,
-+	  5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,
-+	  5750,   5750,   5750,   5750,                     5750,   5750,   5750,   5625,
-+	  6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,
-+	  6000,   6000,   6000,   6125,                     6000,   6000,   6000,
-+	  6250,   6250,   6250,   6250,   6250,   6250,   6250,   6250,   6375,   6375,
-+	  6375,                                             6250,   6250,   6125
-+};
-+
-+struct driver_data_t {
-+	uint8_t keyboard_type;
-+	uint8_t lamp_count;
-+	uint8_t next_lamp_id;
-+	union tuxedo_nb04_wmi_496_b_in_80_b_out_input next_kbl_set_multiple_keys_input;
-+};
-+
-+
-+static int ll_start(struct hid_device *hdev)
-+{
-+	struct driver_data_t *driver_data;
-+	struct wmi_device *wdev = to_wmi_device(hdev->dev.parent);
-+	int ret;
-+	union tuxedo_nb04_wmi_8_b_in_80_b_out_input input;
-+	union tuxedo_nb04_wmi_8_b_in_80_b_out_output output;
-+
-+	driver_data = devm_kzalloc(&hdev->dev, sizeof(*driver_data), GFP_KERNEL);
-+	if (!driver_data)
-+		return -ENOMEM;
-+
-+	input.get_device_status_input.device_type = WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_KEYBOARD;
-+	ret = tuxedo_nb04_wmi_8_b_in_80_b_out(wdev, WMI_AB_GET_DEVICE_STATUS, &input, &output);
-+	if (ret)
-+		return ret;
-+
-+	driver_data->keyboard_type = output.get_device_status_output.keyboard_physical_layout;
-+	driver_data->lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+	driver_data->next_lamp_id = 0;
-+
-+	hdev->driver_data = driver_data;
-+
-+	return ret;
-+}
-+
-+
-+static void ll_stop(struct hid_device __always_unused *hdev)
-+{
-+}
-+
-+
-+static int ll_open(struct hid_device __always_unused *hdev)
-+{
-+	return 0;
-+}
-+
-+
-+static void ll_close(struct hid_device __always_unused *hdev)
-+{
-+}
-+
-+
-+static uint8_t report_descriptor[327] = {
-+	0x05, 0x59,			// Usage Page (Lighting and Illumination)
-+	0x09, 0x01,			// Usage (Lamp Array)
-+	0xa1, 0x01,			// Collection (Application)
-+	0x85, LAMP_ARRAY_ATTRIBUTES_REPORT_ID, //  Report ID (1)
-+	0x09, 0x02,			//  Usage (Lamp Array Attributes Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x03,			//   Usage (Lamp Count)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x03,			//   Feature (Cnst,Var,Abs)
-+	0x09, 0x04,			//   Usage (Bounding Box Width In Micrometers)
-+	0x09, 0x05,			//   Usage (Bounding Box Height In Micrometers)
-+	0x09, 0x06,			//   Usage (Bounding Box Depth In Micrometers)
-+	0x09, 0x07,			//   Usage (Lamp Array Kind)
-+	0x09, 0x08,			//   Usage (Min Update Interval In Microseconds)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0xff, 0x7f,	//   Logical Maximum (2147483647)
-+	0x75, 0x20,			//   Report Size (32)
-+	0x95, 0x05,			//   Report Count (5)
-+	0xb1, 0x03,			//   Feature (Cnst,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_ATTRIBUTES_REQUEST_REPORT_ID, //  Report ID (2)
-+	0x09, 0x20,			//  Usage (Lamp Attributes Request Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x21,			//   Usage (Lamp Id)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_ATTRIBUTES_RESPONSE_REPORT_ID, //  Report ID (3)
-+	0x09, 0x22,			//  Usage (Lamp Attributes Response Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x21,			//   Usage (Lamp Id)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x23,			//   Usage (Position X In Micrometers)
-+	0x09, 0x24,			//   Usage (Position Y In Micrometers)
-+	0x09, 0x25,			//   Usage (Position Z In Micrometers)
-+	0x09, 0x27,			//   Usage (Update Latency In Microseconds)
-+	0x09, 0x26,			//   Usage (Lamp Purposes)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0xff, 0x7f,	//   Logical Maximum (2147483647)
-+	0x75, 0x20,			//   Report Size (32)
-+	0x95, 0x05,			//   Report Count (5)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x28,			//   Usage (Red Level Count)
-+	0x09, 0x29,			//   Usage (Green Level Count)
-+	0x09, 0x2a,			//   Usage (Blue Level Count)
-+	0x09, 0x2b,			//   Usage (Intensity Level Count)
-+	0x09, 0x2c,			//   Usage (Is Programmable)
-+	0x09, 0x2d,			//   Usage (Input Binding)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x26, 0xff, 0x00,		//   Logical Maximum (255)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x06,			//   Report Count (6)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_MULTI_UPDATE_REPORT_ID, //  Report ID (4)
-+	0x09, 0x50,			//  Usage (Lamp Multi Update Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x03,			//   Usage (Lamp Count)
-+	0x09, 0x55,			//   Usage (Lamp Update Flags)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x25, 0x08,			//   Logical Maximum (8)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x02,			//   Report Count (2)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x21,			//   Usage (Lamp Id)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x08,			//   Report Count (8)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x26, 0xff, 0x00,		//   Logical Maximum (255)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x20,			//   Report Count (32)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_RANGE_UPDATE_REPORT_ID, //  Report ID (5)
-+	0x09, 0x60,			//  Usage (Lamp Range Update Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x55,			//   Usage (Lamp Update Flags)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x25, 0x08,			//   Logical Maximum (8)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x61,			//   Usage (Lamp Id Start)
-+	0x09, 0x62,			//   Usage (Lamp Id End)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x02,			//   Report Count (2)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x26, 0xff, 0x00,		//   Logical Maximum (255)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x04,			//   Report Count (4)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_ARRAY_CONTROL_REPORT_ID, //  Report ID (6)
-+	0x09, 0x70,			//  Usage (Lamp Array Control Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x71,			//   Usage (Autonomous Mode)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x25, 0x01,			//   Logical Maximum (1)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0xc0				// End Collection
-+};
-+
-+static int ll_parse(struct hid_device *hdev)
-+{
-+	return hid_parse_report(hdev, report_descriptor, sizeof(report_descriptor));
-+}
-+
-+
-+struct __packed lamp_array_attributes_report_t {
-+	const uint8_t report_id;
-+	uint16_t lamp_count;
-+	uint32_t bounding_box_width_in_micrometers;
-+	uint32_t bounding_box_height_in_micrometers;
-+	uint32_t bounding_box_depth_in_micrometers;
-+	uint32_t lamp_array_kind;
-+	uint32_t min_update_interval_in_microseconds;
-+};
-+
-+static int handle_lamp_array_attributes_report(struct hid_device *hdev,
-+					       struct lamp_array_attributes_report_t *rep)
-+{
-+	struct driver_data_t *driver_data = hdev->driver_data;
-+
-+	rep->lamp_count = driver_data->lamp_count;
-+	rep->bounding_box_width_in_micrometers = 368000;
-+	rep->bounding_box_height_in_micrometers = 266000;
-+	rep->bounding_box_depth_in_micrometers = 30000;
-+	// LampArrayKindKeyboard, see "26.2.1 LampArrayKind Values" of "HID Usage Tables v1.5"
-+	rep->lamp_array_kind = 1;
-+	// Some guessed value for interval microseconds
-+	rep->min_update_interval_in_microseconds = 500;
-+
-+	return sizeof(struct lamp_array_attributes_report_t);
-+}
-+
-+
-+struct __packed lamp_attributes_request_report_t {
-+	const uint8_t report_id;
-+	uint16_t lamp_id;
-+};
-+
-+static int handle_lamp_attributes_request_report(struct hid_device *hdev,
-+						 struct lamp_attributes_request_report_t *rep)
-+{
-+	struct driver_data_t *driver_data = hdev->driver_data;
-+
-+	if (rep->lamp_id < driver_data->lamp_count)
-+		driver_data->next_lamp_id = rep->lamp_id;
-+	else
-+		driver_data->next_lamp_id = 0;
-+
-+	return sizeof(struct lamp_attributes_request_report_t);
-+}
-+
-+
-+struct __packed lamp_attributes_response_report_t {
-+	const uint8_t report_id;
-+	uint16_t lamp_id;
-+	uint32_t position_x_in_micrometers;
-+	uint32_t position_y_in_micrometers;
-+	uint32_t position_z_in_micrometers;
-+	uint32_t update_latency_in_microseconds;
-+	uint32_t lamp_purpose;
-+	uint8_t red_level_count;
-+	uint8_t green_level_count;
-+	uint8_t blue_level_count;
-+	uint8_t intensity_level_count;
-+	uint8_t is_programmable;
-+	uint8_t input_binding;
-+};
-+
-+static int handle_lamp_attributes_response_report(struct hid_device *hdev,
-+						  struct lamp_attributes_response_report_t *rep)
-+{
-+	struct driver_data_t *driver_data = hdev->driver_data;
-+	uint16_t lamp_id = driver_data->next_lamp_id;
-+	const uint8_t *kbl_mapping;
-+	const uint32_t *kbl_mapping_pos_x, *kbl_mapping_pos_y, *kbl_mapping_pos_z;
-+
-+	rep->lamp_id = lamp_id;
-+	// Some guessed value for latency microseconds
-+	rep->update_latency_in_microseconds = 100;
-+	 // LampPurposeControl, see "26.3.1 LampPurposes Flags" of "HID Usage Tables v1.5"
-+	rep->lamp_purpose = 1;
-+	rep->red_level_count = 0xff;
-+	rep->green_level_count = 0xff;
-+	rep->blue_level_count = 0xff;
-+	rep->intensity_level_count = 0xff;
-+	rep->is_programmable = 1;
-+
-+	if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII) {
-+		kbl_mapping = &sirius_16_ansii_kbl_mapping[0];
-+		kbl_mapping_pos_x = &sirius_16_ansii_kbl_mapping_pos_x[0];
-+		kbl_mapping_pos_y = &sirius_16_ansii_kbl_mapping_pos_y[0];
-+		kbl_mapping_pos_z = &sirius_16_ansii_kbl_mapping_pos_z[0];
-+	} else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO) {
-+		kbl_mapping = &sirius_16_iso_kbl_mapping[0];
-+		kbl_mapping_pos_x = &sirius_16_iso_kbl_mapping_pos_x[0];
-+		kbl_mapping_pos_y = &sirius_16_iso_kbl_mapping_pos_y[0];
-+		kbl_mapping_pos_z = &sirius_16_iso_kbl_mapping_pos_z[0];
-+	} else
-+		return -EINVAL;
-+
-+	if (kbl_mapping[lamp_id] <= 0xe8)
-+		rep->input_binding = kbl_mapping[lamp_id];
-+	else
-+		// Everything bigger is reserved/undefined, see "10 Keyboard/Keypad Page (0x07)" of
-+		// "HID Usage Tables v1.5" and should return 0, see "26.8.3 Lamp Attributes" of the
-+		// same document.
-+		rep->input_binding = 0;
-+	rep->position_x_in_micrometers = kbl_mapping_pos_x[lamp_id];
-+	rep->position_y_in_micrometers = kbl_mapping_pos_y[lamp_id];
-+	rep->position_z_in_micrometers = kbl_mapping_pos_z[lamp_id];
-+
-+	driver_data->next_lamp_id = (driver_data->next_lamp_id + 1) % driver_data->lamp_count;
-+
-+	return sizeof(struct lamp_attributes_response_report_t);
-+}
-+
-+
-+#define LAMP_UPDATE_FLAGS_LAMP_UPDATE_COMPLETE	BIT(0)
-+
-+struct __packed lamp_multi_update_report_t {
-+	const uint8_t report_id;
-+	uint8_t lamp_count;
-+	uint8_t lamp_update_flags;
-+	uint16_t lamp_id[8];
-+	struct {
-+		uint8_t red;
-+		uint8_t green;
-+		uint8_t blue;
-+		uint8_t intensity;
-+	} update_channels[8];
-+};
-+
-+static int handle_lamp_multi_update_report(struct hid_device *hdev,
-+					   struct lamp_multi_update_report_t *rep)
-+{
-+	struct driver_data_t *driver_data = hdev->driver_data;
-+	struct wmi_device *wdev = to_wmi_device(hdev->dev.parent);
-+	int ret;
-+	uint8_t lamp_count = 0, key_id, key_id_j;
-+	union tuxedo_nb04_wmi_496_b_in_80_b_out_input *next =
-+		&driver_data->next_kbl_set_multiple_keys_input;
-+	union tuxedo_nb04_wmi_496_b_in_80_b_out_output output;
-+
-+	// Catching missformated lamp_multi_update_report and fail silently according to
-+	// "HID Usage Tables v1.5"
-+	for (int i = 0; i < rep->lamp_count; ++i) {
-+		if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+			lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+		else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+			lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+
-+		if (rep->lamp_id[i] > lamp_count) {
-+			pr_debug("Out of bounds lamp_id in lamp_multi_update_report. Skippng whole report!\n");
-+			return sizeof(struct lamp_multi_update_report_t);
-+		}
-+
-+		for (int j = i + 1; j < rep->lamp_count; ++j) {
-+			if (rep->lamp_id[i] == rep->lamp_id[j]) {
-+				pr_debug("Duplicate lamp_id in lamp_multi_update_report. Skippng whole report!\n");
-+				return sizeof(struct lamp_multi_update_report_t);
-+			}
-+		}
-+	}
-+
-+	for (int i = 0; i < rep->lamp_count; ++i) {
-+		if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+			key_id = sirius_16_ansii_kbl_mapping[rep->lamp_id[i]];
-+		else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+			key_id = sirius_16_iso_kbl_mapping[rep->lamp_id[i]];
-+
-+		for (int j = 0; j < WMI_AB_KBL_SET_MULTIPLE_KEYS_LIGHTING_SETTINGS_COUNT_MAX; ++j) {
-+			key_id_j = next->kbl_set_multiple_keys_input.lighting_settings[j].key_id;
-+			if (key_id_j == 0x00 || key_id_j == key_id) {
-+				if (key_id_j == 0x00)
-+					next->kbl_set_multiple_keys_input.lighting_setting_count =
-+						j + 1;
-+				next->kbl_set_multiple_keys_input.lighting_settings[j].key_id =
-+					key_id;
-+				// While this driver respects
-+				// intensity_update_channel according to "HID
-+				// Usage Tables v1.5" also on RGB leds, the
-+				// Microsoft MacroPad reference implementation
-+				// (https://github.com/microsoft/RP2040MacropadHidSample
-+				// 1d6c3ad) does not and ignores it. If it turns
-+				// out that Windows writes intensity = 0 for RGB
-+				// leds instead of intensity = 255, this driver
-+				// should also irgnore the
-+				// intensity_update_channel.
-+				next->kbl_set_multiple_keys_input.lighting_settings[j].red =
-+					rep->update_channels[i].red
-+						* rep->update_channels[i].intensity / 0xff;
-+				next->kbl_set_multiple_keys_input.lighting_settings[j].green =
-+					rep->update_channels[i].green
-+						* rep->update_channels[i].intensity / 0xff;
-+				next->kbl_set_multiple_keys_input.lighting_settings[j].blue =
-+					rep->update_channels[i].blue
-+						* rep->update_channels[i].intensity / 0xff;
-+
-+				break;
-+			}
-+		}
-+	}
-+
-+	if (rep->lamp_update_flags & LAMP_UPDATE_FLAGS_LAMP_UPDATE_COMPLETE) {
-+		ret = tuxedo_nb04_wmi_496_b_in_80_b_out(wdev, WMI_AB_KBL_SET_MULTIPLE_KEYS, next,
-+							&output);
-+		memset(next, 0, sizeof(union tuxedo_nb04_wmi_496_b_in_80_b_out_input));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return sizeof(struct lamp_multi_update_report_t);
-+}
-+
-+
-+struct __packed lamp_range_update_report_t {
-+	const uint8_t report_id;
-+	uint8_t lamp_update_flags;
-+	uint16_t lamp_id_start;
-+	uint16_t lamp_id_end;
-+	uint8_t red_update_channel;
-+	uint8_t green_update_channel;
-+	uint8_t blue_update_channel;
-+	uint8_t intensity_update_channel;
-+};
-+
-+static int handle_lamp_range_update_report(struct hid_device *hdev,
-+					   struct lamp_range_update_report_t *report)
-+{
-+	struct driver_data_t *driver_data = hdev->driver_data;
-+	int ret;
-+	uint8_t lamp_count;
-+	struct lamp_multi_update_report_t lamp_multi_update_report = {
-+		.report_id = LAMP_MULTI_UPDATE_REPORT_ID
-+	};
-+
-+	// Catching missformated lamp_range_update_report and fail silently according to
-+	// "HID Usage Tables v1.5"
-+	if (report->lamp_id_start > report->lamp_id_end) {
-+		pr_debug("lamp_id_start > lamp_id_end in lamp_range_update_report. Skippng whole report!\n");
-+		return sizeof(struct lamp_range_update_report_t);
-+	}
-+
-+	if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+		lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+	else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+		lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+
-+	if (report->lamp_id_end > lamp_count - 1) {
-+		pr_debug("Out of bounds lamp_id_* in lamp_range_update_report. Skippng whole report!\n");
-+		return sizeof(struct lamp_range_update_report_t);
-+	}
-+
-+	// Break handle_lamp_range_update_report call down to multiple
-+	// handle_lamp_multi_update_report calls to easily ensure that mixing
-+	// handle_lamp_range_update_report and handle_lamp_multi_update_report
-+	// does not break things.
-+	for (int i = report->lamp_id_start; i < report->lamp_id_end + 1; i = i + 8) {
-+		lamp_multi_update_report.lamp_count = MIN(report->lamp_id_end + 1 - i, 8);
-+		if (i + lamp_multi_update_report.lamp_count == report->lamp_id_end + 1)
-+			lamp_multi_update_report.lamp_update_flags |=
-+				LAMP_UPDATE_FLAGS_LAMP_UPDATE_COMPLETE;
-+
-+		for (int j = 0; j < lamp_multi_update_report.lamp_count; ++j) {
-+			lamp_multi_update_report.lamp_id[j] = i + j;
-+			lamp_multi_update_report.update_channels[j].red =
-+				report->red_update_channel;
-+			lamp_multi_update_report.update_channels[j].green =
-+				report->green_update_channel;
-+			lamp_multi_update_report.update_channels[j].blue =
-+				report->blue_update_channel;
-+			lamp_multi_update_report.update_channels[j].intensity =
-+				report->intensity_update_channel;
-+		}
-+
-+		ret = handle_lamp_multi_update_report(hdev, &lamp_multi_update_report);
-+		if (ret < 0)
-+			return ret;
-+		else if (ret != sizeof(struct lamp_multi_update_report_t))
-+			return -EIO;
-+	}
-+
-+	return sizeof(struct lamp_range_update_report_t);
-+}
-+
-+
-+struct __packed lamp_array_control_report_t {
-+	const uint8_t report_id;
-+	uint8_t autonomous_mode;
-+};
-+
-+static int handle_lamp_array_control_report(struct hid_device __always_unused *hdev,
-+					    struct lamp_array_control_report_t __always_unused *rep)
-+{
-+	// The keyboard firmware doesn't have any built in effects or controls
-+	// so this is a NOOP.
-+	// According to the HID Documentation (HID Usage Tables v1.5) this
-+	// function is optional and can be removed from the HID Report
-+	// Descriptor, but it should first be confirmed that userspace respects
-+	// this possibility too. The Microsoft MacroPad reference implementation
-+	// (https://github.com/microsoft/RP2040MacropadHidSample 1d6c3ad)
-+	// already deviates from the spec at another point, see
-+	// handle_lamp_*_update_report.
-+
-+	return sizeof(struct lamp_array_control_report_t);
-+}
-+
-+
-+static int ll_raw_request(struct hid_device *hdev, unsigned char reportnum, __u8 *buf, size_t len,
-+			   unsigned char rtype, int reqtype)
-+{
-+	int ret;
-+
-+	ret = -EINVAL;
-+	if (rtype == HID_FEATURE_REPORT) {
-+		if (reqtype == HID_REQ_GET_REPORT) {
-+			if (reportnum == LAMP_ARRAY_ATTRIBUTES_REPORT_ID
-+			    && len == sizeof(struct lamp_array_attributes_report_t))
-+				ret = handle_lamp_array_attributes_report(
-+					hdev, (struct lamp_array_attributes_report_t *)buf);
-+			else if (reportnum == LAMP_ATTRIBUTES_RESPONSE_REPORT_ID
-+			    && len == sizeof(struct lamp_attributes_response_report_t))
-+				ret = handle_lamp_attributes_response_report(
-+					hdev, (struct lamp_attributes_response_report_t *)buf);
-+		} else if (reqtype == HID_REQ_SET_REPORT) {
-+			if (reportnum == LAMP_ATTRIBUTES_REQUEST_REPORT_ID
-+			    && len == sizeof(struct lamp_attributes_request_report_t))
-+				ret = handle_lamp_attributes_request_report(
-+					hdev, (struct lamp_attributes_request_report_t *)buf);
-+			else if (reportnum == LAMP_MULTI_UPDATE_REPORT_ID
-+			    && len == sizeof(struct lamp_multi_update_report_t))
-+				ret = handle_lamp_multi_update_report(
-+					hdev, (struct lamp_multi_update_report_t *)buf);
-+			else if (reportnum == LAMP_RANGE_UPDATE_REPORT_ID
-+			    && len == sizeof(struct lamp_range_update_report_t))
-+				ret = handle_lamp_range_update_report(
-+					hdev, (struct lamp_range_update_report_t *)buf);
-+			else if (reportnum == LAMP_ARRAY_CONTROL_REPORT_ID
-+			    && len == sizeof(struct lamp_array_control_report_t))
-+				ret = handle_lamp_array_control_report(
-+					hdev, (struct lamp_array_control_report_t *)buf);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct hid_ll_driver ll_driver = {
-+	.start = &ll_start,
-+	.stop = &ll_stop,
-+	.open = &ll_open,
-+	.close = &ll_close,
-+	.parse = &ll_parse,
-+	.raw_request = &ll_raw_request,
-+};
-+
-+int tuxedo_nb04_virtual_lamp_array_add_device(struct wmi_device *wdev, struct hid_device **hdev_out)
-+{
-+	struct hid_device *hdev;
-+	int ret;
-+
-+	pr_debug("Adding TUXEDO NB04 Virtual LampArray device.\n");
-+
-+	hdev = hid_allocate_device();
-+	if (IS_ERR(hdev))
-+		return PTR_ERR(hdev);
-+	*hdev_out = hdev;
-+
-+	strscpy(hdev->name, "TUXEDO NB04 RGB Lighting", sizeof(hdev->name));
-+
-+	hdev->ll_driver = &ll_driver;
-+	hdev->bus = BUS_VIRTUAL;
-+	hdev->vendor = 0x21ba;
-+	hdev->product = 0x0400;
-+	hdev->dev.parent = &wdev->dev;
-+
-+	ret = hid_add_device(hdev);
-+	if (ret)
-+		hid_destroy_device(hdev);
-+	return ret;
-+}
-+EXPORT_SYMBOL(tuxedo_nb04_virtual_lamp_array_add_device);
-diff --git a/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.h b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.h
-new file mode 100644
-index 0000000000000..fdc2a01d95c24
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This code gives the built in RGB lighting of the TUXEDO NB04 devices a
-+ * standardised interface, namely HID LampArray.
-+ *
-+ * Copyright (C) 2024 Werner Sembach wse@tuxedocomputers.com
-+ */
-+
-+#ifndef TUXEDO_NB04_WMI_AB_VIRTUAL_LAMP_ARRAY_H
-+#define TUXEDO_NB04_WMI_AB_VIRTUAL_LAMP_ARRAY_H
-+
-+#include <linux/wmi.h>
-+#include <linux/hid.h>
-+
-+int tuxedo_nb04_virtual_lamp_array_add_device(struct wmi_device *wdev,
-+					      struct hid_device **hdev_out);
-+
-+#endif
-diff --git a/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.c b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.c
-new file mode 100644
-index 0000000000000..a61b59d225f9f
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.c
-@@ -0,0 +1,82 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This code gives functions to avoid code duplication while interacting with
-+ * the TUXEDO NB04 wmi interfaces.
-+ *
-+ * Copyright (C) 2024 Werner Sembach wse@tuxedocomputers.com
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include "tuxedo_nb04_wmi_ab_init.h"
-+
-+#include "tuxedo_nb04_wmi_util.h"
-+
-+static int __wmi_method_acpi_object_out(struct wmi_device *wdev, uint32_t wmi_method_id,
-+					uint8_t *in, acpi_size in_len, union acpi_object **out)
-+{
-+	struct acpi_buffer acpi_buffer_in = { in_len, in };
-+	struct acpi_buffer acpi_buffer_out = { ACPI_ALLOCATE_BUFFER, NULL };
-+
-+	pr_debug("Evaluate WMI method: %u in:\n", wmi_method_id);
-+	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET, in, in_len);
-+
-+	acpi_status status = wmidev_evaluate_method(wdev, 0, wmi_method_id, &acpi_buffer_in,
-+						    &acpi_buffer_out);
-+	if (ACPI_FAILURE(status)) {
-+		pr_err("Failed to evaluate WMI method.\n");
-+		return -EIO;
-+	}
-+	if (!acpi_buffer_out.pointer) {
-+		pr_err("Unexpected empty out buffer.\n");
-+		return -ENODATA;
-+	}
-+
-+	*out = acpi_buffer_out.pointer;
-+
-+	return 0;
-+}
-+
-+static int __wmi_method_buffer_out(struct wmi_device *wdev, uint32_t wmi_method_id, uint8_t *in,
-+				   acpi_size in_len, uint8_t *out, acpi_size out_len)
-+{
-+	int ret;
-+	union acpi_object *acpi_object_out = NULL;
-+
-+	ret = __wmi_method_acpi_object_out(wdev, wmi_method_id, in, in_len, &acpi_object_out);
-+	if (ret)
-+		return ret;
-+
-+	if (acpi_object_out->type != ACPI_TYPE_BUFFER) {
-+		pr_err("Unexpected out buffer type. Expected: %u Got: %u\n", ACPI_TYPE_BUFFER,
-+		       acpi_object_out->type);
-+		kfree(acpi_object_out);
-+		return -EIO;
-+	}
-+	if (acpi_object_out->buffer.length < out_len) {
-+		pr_err("Unexpected out buffer length.\n");
-+		kfree(acpi_object_out);
-+		return -EIO;
-+	}
-+
-+	memcpy(out, acpi_object_out->buffer.pointer, out_len);
-+	kfree(acpi_object_out);
-+
-+	return ret;
-+}
-+
-+int tuxedo_nb04_wmi_8_b_in_80_b_out(struct wmi_device *wdev,
-+				    enum tuxedo_nb04_wmi_8_b_in_80_b_out_methods method,
-+				    union tuxedo_nb04_wmi_8_b_in_80_b_out_input *input,
-+				    union tuxedo_nb04_wmi_8_b_in_80_b_out_output *output)
-+{
-+	return __wmi_method_buffer_out(wdev, method, input->raw, 8, output->raw, 80);
-+}
-+
-+int tuxedo_nb04_wmi_496_b_in_80_b_out(struct wmi_device *wdev,
-+				      enum tuxedo_nb04_wmi_496_b_in_80_b_out_methods method,
-+				      union tuxedo_nb04_wmi_496_b_in_80_b_out_input *input,
-+				      union tuxedo_nb04_wmi_496_b_in_80_b_out_output *output)
-+{
-+	return __wmi_method_buffer_out(wdev, method, input->raw, 496, output->raw, 80);
-+}
-diff --git a/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.h b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.h
-new file mode 100644
-index 0000000000000..2765cbe9fcfef
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.h
-@@ -0,0 +1,112 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This code gives functions to avoid code duplication while interacting with
-+ * the TUXEDO NB04 wmi interfaces.
-+ *
-+ * Copyright (C) 2024 Werner Sembach wse@tuxedocomputers.com
-+ */
-+
-+#ifndef TUXEDO_NB04_WMI_UTIL_H
-+#define TUXEDO_NB04_WMI_UTIL_H
-+
-+#include <linux/wmi.h>
-+
-+#define WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_TOUCHPAD	1
-+#define WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_KEYBOARD	2
-+#define WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_APP_PAGES	3
-+
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_NONE		0
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_PER_KEY	1
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_FOUR_ZONE	2
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_WHITE_ONLY	3
-+
-+#define WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII	0
-+#define WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO	1
-+
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_RED		1
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_GREEN		2
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_YELLOW	3
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_BLUE		4
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_PURPLE	5
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_INDIGO	6
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_WHITE		7
-+
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_DASHBOARD	BIT(0)
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_SYSTEMINFOS	BIT(1)
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_KBL		BIT(2)
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_HOTKEYS	BIT(3)
-+
-+
-+union tuxedo_nb04_wmi_8_b_in_80_b_out_input {
-+	uint8_t raw[8];
-+	struct __packed {
-+		uint8_t device_type;
-+		uint8_t reserved_0[7];
-+	} get_device_status_input;
-+};
-+
-+union tuxedo_nb04_wmi_8_b_in_80_b_out_output {
-+	uint8_t raw[80];
-+	struct __packed {
-+		uint16_t return_status;
-+		uint8_t device_enabled;
-+		uint8_t kbl_type;
-+		uint8_t kbl_side_bar_supported;
-+		uint8_t keyboard_physical_layout;
-+		uint8_t app_pages;
-+		uint8_t per_key_kbl_default_color;
-+		uint8_t four_zone_kbl_default_color_1;
-+		uint8_t four_zone_kbl_default_color_2;
-+		uint8_t four_zone_kbl_default_color_3;
-+		uint8_t four_zone_kbl_default_color_4;
-+		uint8_t light_bar_kbl_default_color;
-+		uint8_t reserved_0[1];
-+		uint16_t dedicated_gpu_id;
-+		uint8_t reserved_1[64];
-+	} get_device_status_output;
-+};
-+
-+enum tuxedo_nb04_wmi_8_b_in_80_b_out_methods {
-+	WMI_AB_GET_DEVICE_STATUS	= 2,
-+};
-+
-+
-+#define WMI_AB_KBL_SET_MULTIPLE_KEYS_LIGHTING_SETTINGS_COUNT_MAX	120
-+
-+union tuxedo_nb04_wmi_496_b_in_80_b_out_input {
-+	uint8_t raw[496];
-+	struct __packed {
-+		uint8_t reserved_0[15];
-+		uint8_t lighting_setting_count;
-+		struct {
-+			uint8_t key_id;
-+			uint8_t red;
-+			uint8_t green;
-+			uint8_t blue;
-+		} lighting_settings[WMI_AB_KBL_SET_MULTIPLE_KEYS_LIGHTING_SETTINGS_COUNT_MAX];
-+	}  kbl_set_multiple_keys_input;
-+};
-+
-+union tuxedo_nb04_wmi_496_b_in_80_b_out_output {
-+	uint8_t raw[80];
-+	struct __packed {
-+		uint8_t return_value;
-+		uint8_t reserved_0[79];
-+	} kbl_set_multiple_keys_output;
-+};
-+
-+enum tuxedo_nb04_wmi_496_b_in_80_b_out_methods {
-+	WMI_AB_KBL_SET_MULTIPLE_KEYS	= 6,
-+};
-+
-+
-+int tuxedo_nb04_wmi_8_b_in_80_b_out(struct wmi_device *wdev,
-+				    enum tuxedo_nb04_wmi_8_b_in_80_b_out_methods method,
-+				    union tuxedo_nb04_wmi_8_b_in_80_b_out_input *input,
-+				    union tuxedo_nb04_wmi_8_b_in_80_b_out_output *output);
-+int tuxedo_nb04_wmi_496_b_in_80_b_out(struct wmi_device *wdev,
-+				      enum tuxedo_nb04_wmi_496_b_in_80_b_out_methods method,
-+				      union tuxedo_nb04_wmi_496_b_in_80_b_out_input *input,
-+				      union tuxedo_nb04_wmi_496_b_in_80_b_out_output *output);
-+
-+#endif
--- 
-2.34.1
+>
+>> And I feel confident that the UAPI should be that the userspace gets a
+>> hidraw device with a LampArray HID descriptor, and every thing else is, by
+>> the HID spec, dynamic anyway so I can still change my mind in implementation
+>> specifics there, can't I?
+> Yeah... I think?
+>
+>  From my point of view we are just bikeshedding on to where put that
+> "firmware" extension, in WMI, in HID (kernel with a subdriver), or
+> externally in BPF.
+>
+>>> After a second look at the LampArray code here... Aren't you forgetting
+>>> the to/from CPU conversions in case you are on a little endian system?
+>> Since this driver is for built in keyboards of x86 notebooks it isn't
+>> required or is it?
+> Good point. Let's just hope you don't start shipping a LE laptop with
+> the same keyboard hardware :)
+Well there is the dmi table in the driver that would prevent issues in this front.
+>
+>>>> So the only point for me currently is: Is it ok to have key position/usage
+>>>> description tables in the kernel driver or not?
+>>> good question :)
+>>>
+>>> I would say, probably not in the WMI driver itself. I would rather have
+>>> a hid-tuxedo.c HID driver that does that. But even there, we already had
+>>> Linus complaining once regarding the report descriptors we sometimes
+>>> insert in drivers, which are looking like opaque blobs. So it might not be
+>>> the best either.
+>> Isn't tuxedo_nb04_wmi_ab_virtual_lamp_array.c not something like
+>> hid-tuxedo.c? or should it be a separate file with just the arrays?
+> It is, in a way. I think it's more a question for Hans and the other
+> platform maintainers, whether they would accept this.
+>
+>>> Sorry I don't have a clear yes/no answer.
+>> Hm... Well if it's no problem I would keep the current implementation with
+>> minor adjustments because, like i described above, I don't see a benefit now
+>> that this already works to rewrite it in BPF again.
+>>
+>> If it is a problem then i don't see another way then to rewrite it in BPF.
+>>
+>> Note: For future devices there might be more keyboard layouts added,
+>> basically every time the chassis form factor changes.
+> If the WMI part doesn't change, then maybe having BPF would be easier
+> for you in the future. Adding a HID-BPF file would cost basically
+> nothing, and it'll be out of band with the kernel, meaning you can ship
+> it in already running kernels (assuming the same WMI driver doesn't need
+> any updates).
+The WMI part will probably not change, but since we don't write the firmware but 
+also just get it as a blob we can't control that. That's why I put the DMI table 
+in the driver, so at least an expansion to the DMI table is required every time 
+a new device releases.
+>
+>>> Cheers,
+>>> Benjamin
+>> To sum up the architechture (not mutally exclusive technically)
+>>
+>> /- leds
+>> WMI <- WMI to LampArray Kernel driver <-switch-|
+>>                                                 \- OpenRGB
+>>
+>> /- leds
+>> WMI <- WMI to Custom HID Kernel driver <- Custom HID to LampArray BPF
+>> driver<-switch-|
+>> \- OpenRGB
+>>
+>> With the "switch" and "leds" implemented in hid core, automatically
+>> initialized every time a LampArray device pops up (regardless if it is from
+>> native firmware, a bpf driver or a kernel driver)
+>>
+>> Writing this down I think it was never decided how the switch should look like:
+>>
+>> It should not be a sysfs attribute of the leds device as the leds device
+>> should disappear when the switch is set away from it, but should it be a
+>> sysfs variable of the hid device? This would mean that hid core needs to add
+>> that switch variable to every hid device having a LampArray section in the
+>> descriptor.
+> Again, not a big fan of the sysfs, because it's UAPI and need root to
+> trigger it (though the udev rule sort this one out).
+> BPF allows already to re-enumerate the device with a different look and
+> feel, so it seems more appropriate to me.
+>
+> Also, having a sysfs that depends on the report descriptor basically
+> means that we will lose it whenever we re-enumerate it (kind of what the
+> LED problem you mentioned above). So we would need to have a sysfs on
+> *every* HID devices???
+>
+> Actually, what would work is (ignoring the BPF bikeshedding for Tuxedos
+> HW):
+> - a device presents a report descriptor with LampArray (wherever it
+>    comes from)
+> - hid-led.c takes over it (assuming we extend it for LampArray), and
+>    creates a few LEDs based on the Input usage (one global rgb color for
+>    regular keys, another one for the few other LEDs known to userspace)
+> - when openRGB is present (special udev property), a BPF program is
+>    inserted that only contains a report descriptor fixup that prevent the
+>    use of hid-led.c
+
+How would that look like? just a custom bit in a "Vendor defined" usage page?
+
+But this is still UAPI just hidden inside a BFP program instead of sysfs. But it 
+would avoid the re-enumeration problem.
+
+> - the device gets re-enumerated, cleaning the in-kernel leds, and only
+>    present the LampArray through hidraw, waiting for OpenRGB to take
+>    over.
+> - at any time we can remove the BPF and restore the LEDs functionality
+>    of hid-led.c
+>
+>>>>> Being able to develop a kernel driver without having to reboot and
+>>>>> being sure you won't crash your kernel is a game changer ;)
+>>>>>
+>>>>> Cheers,
+>>>>> Benjamin
+>> Best regards and sorry for the many questions,
+>>
+>> Werner Sembach
+>>
+>> PS: on a side node: How does hid core handle HID devices with a broken HID
+>> implementation fixed by bpf, if bpf is loaded after hid-core? Does the hid
+>> device get reinitialized by hid core once the bpf driver got loaded? If yes,
+>> is there a way to avoid side effects by this double initialization or is
+>> there a way to avoid this double initialization, like marking the device id
+>> as broken so that hid core- does not initialize it unless it's fixed by bpf?
+> - broken HID device:
+>    it depends on what you call "broken" HID device. If the report
+>    descriptor is boggus, hid-core will reject the device and will not
+>    present it to user space (by returning -EINVAL).
+>    If the device is sensible in terms of HID protocol, it will present it
+>    to userspace, but the fact that it creates an input node or LED or
+>    whatever just depends on what is inside the report descriptor.
+>
+> - HID-BPF:
+>    HID-BPF is inserted between the device itself and the rest of the
+>    in-kernel HID stack.
+>    Whenever you load and attach (or detach) a BPF program which has a
+>    report descriptor fixup, HID-core will reconnect the device,
+>    re-enumerate it (calling ->probe()), and will re-present it to
+>    userspace as if it were a new device (you get all uevents).
+>
+> - double initialization:
+>    nowadays hid-generic doesn't do anything on the device itself except
+>    calling the powerup/powerdown, by calling ->start and ->stop on the
+>    HID transport driver. It's not a problem on 99% of the devices AFAICT.
+>    technically, if the report descriptor is bogus, start/stop won't be
+>    called, but you'll get an error in the dmesg. So if you really want to
+>    rely on that "broken" scenario we can always add a specific quirk in
+>    HID to not spew that error.
+>
+> Cheers,
+> Benjamin
+>
+> PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
+> all of the requirements here:
+> - need to be dynamic
+> - still unsure of the userspace implementation, meaning that userspace
+>    might do something wrong, which might require kernel changes
+
+Well the reference implementetion for the arduiono macropad from microsoft 
+ignores the intensity (brightness) channel on rgb leds contrary to the HID spec, 
+soo yeah you have a point here ...
+
+> - possibility to extend later the kernel API
+> - lots of fun :)
+
+You advertise it good ;). More work for me now but maybe less work for me later, 
+I will look into it.
+
+Best regards,
+
+Werner
 
 
