@@ -1,121 +1,99 @@
-Return-Path: <linux-leds+bounces-2919-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2920-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CFE98C743
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2024 23:06:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D2698CCC6
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2024 07:58:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CD111F27854
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2024 21:06:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CA8E1C20E74
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2024 05:58:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F33A1CF5CD;
-	Tue,  1 Oct 2024 21:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0873A8172D;
+	Wed,  2 Oct 2024 05:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="miQqc6uF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qOhJ05Yp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2407E14F9F1;
-	Tue,  1 Oct 2024 21:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF80D7DA9C;
+	Wed,  2 Oct 2024 05:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727816617; cv=none; b=nePCKiXLF+MXx7yp9T5+7zAiMrrp+daMcqB5wM0t8AUEMSN2SZ0b4U2XJxqkZLDVUmqHNdKik1j4kQKRT/x4RTdtoey3jUcaI6v3RHVK8Ku7hQ5xkpLYmsUC+v8t9U72hy4/rywd4Smgk1XmNMukpFnq8fNOqzZGU8KuQf2JqGM=
+	t=1727848733; cv=none; b=LLyeOGSDAuVaLripYDVKFTzqpJHFUDEDS+eGgtvhGtwAUgGoy6a1lit4rDGb5upFF5Fqi3cs97qlG26sumHutmJPcK+L7saxYDJxQ47PY8tVMMTtYR8HRnSH0PVc3OvR2XYpvJqKbcHmX2gGE6PbkMvglp4QxTAHclo0VmQxT64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727816617; c=relaxed/simple;
-	bh=+CP/9q57+oary05EZYJHkS6VTDlkOVlJdLWDeR+9SqI=;
+	s=arc-20240116; t=1727848733; c=relaxed/simple;
+	bh=UOTl03DOOV7SlDAksJvetAb0xk40DOwnob6rAZ9l/5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DPIBWTO18Vk8MtKE8hqx/WKKLpmWV/x7eiK4naPphb1ovb6EvDrb5MImBHwSXXgBBPBE5xpTz4FuB/2CM+bJa2OO/SZr2nfTWpwQCh4GZMFw0KK3jlLpSAdLZh8pQO8AlnPMKaDpMCYuiw1osc5UEJudf8BuKizCnOKQaG/Z3CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=miQqc6uF; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 530131C00B7; Tue,  1 Oct 2024 23:03:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1727816612;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZMJQ7Xdd/Czu1VGn1Tsno8aYplKs4QKTEfkVhGledB0=;
-	b=miQqc6uFrbM49d5QxOIBu7eWTCvjXBRP5z40sKIJdMetB8K1bNq2wbhP48Y5Wo+O6rafkL
-	m9OopvDTWSRqRUsKvdxhRPai0SkHGkDczjxd3QSmd+DD1fcUZG+tM6E2fHmRzJG46ukIYh
-	/1N1tr69UEhTyENhmA1Qy1Cg6fYFAYE=
-Date: Tue, 1 Oct 2024 23:03:31 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, Armin Wolf <W_Armin@gmx.de>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-ID: <Zvxjo/CYXmKw2jjM@duo.ucw.cz>
-References: <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
- <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
- <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
- <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
- <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
- <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PbJNqXNer7RFNiYNKwXYhQFgeUaBYm0a1u93CbHIrad//V/pviBVZGS7yGc7IN/tg53F1gK2PjsiTGaQsjhs3zisO/ruX69A0AQa1owEYxNoCo0yN06nhsw9nVvdFfvj6B6Jusin1JcTbrB9A04094OZzvzXgf0NhEyGoHe85pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qOhJ05Yp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688A0C4CEC5;
+	Wed,  2 Oct 2024 05:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727848733;
+	bh=UOTl03DOOV7SlDAksJvetAb0xk40DOwnob6rAZ9l/5M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qOhJ05Yp2U95NcHq5xvxPz524T5XJsV5gyevoSqlBBh0itjEHf16irh8ZyafHjjGh
+	 2A3DpmbsPH64CkqRUKyGSgLf0xciig5zUAaHn1KVHBSelzV6KS3fPrcbl3VayNnJjT
+	 lYtWDR++NzQ2/+KGhZ8mxa02trqG+sfiuDKoaFotDg5ypzTpfBk4eBzzUToOv+z7af
+	 rhGmViMIEa4WqPUcLNdEE1nzyjDV8F9Eveu3Ud5jlxg6h2StQGESDAHPNqdNOuFage
+	 ROkL56BAuEJHTCNbPoiUD5PolPneZdyH7fQmHCj6MSwAxmA7gvLOQa7lkh5wsO+JmE
+	 Yn8+ln5kheKhw==
+Date: Wed, 2 Oct 2024 07:58:50 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu <sen.chu@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
+	Chris-qj chen <chris-qj.chen@mediatek.com>, 
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v8 2/3] ASoC: dt-bindings: mt6358: Convert to DT Schema
+Message-ID: <kofbpvthmbzynfq2l4x3sxznuzrfcp6qiy4dddfuomdyjpbons@xoze6bxytw56>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+ <20241001104145.24054-2-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="i2yKCeYKo7PAl3qJ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+In-Reply-To: <20241001104145.24054-2-macpaul.lin@mediatek.com>
 
+On Tue, Oct 01, 2024 at 06:41:44PM +0800, Macpaul Lin wrote:
+> Convert the MediaTek MT6358 Audio CODEC bindings to DT schema.
+> 
+> This change implements the following updates:
+> 1. Compatible property: Added the const 'mediatek,mt6358-sound'
+>    to ensure alignment with the schema in the actual (DTS) file
+>    "mt8186-corsola.dtsi" with 'mediatek,mt6366-sound'.
+> 2. Example: Removed the example section, as it should be relocated to
+>    the MT6397 PMIC file 'mfd/mediatek,mt6397.yaml'.
+> 3. Use filename 'mediatek,mt6358-sound.yaml' to align the compatible
+>    name.
+> 
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 
---i2yKCeYKo7PAl3qJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
-> all of the requirements here:
-> - need to be dynamic
-> - still unsure of the userspace implementation, meaning that userspace
->   might do something wrong, which might require kernel changes
-> - possibility to extend later the kernel API
-> - lots of fun :)
-
-Please don't do this.
-
-We have real drivers for framebuffers. We don't make them emulate
-USB-display devices.
-
-Yes, this is a small display, and somewhat unusual with weird pixel
-positions, but it is common enough that we should have real driver for
-that, with real API.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Krzysztof
 
---i2yKCeYKo7PAl3qJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZvxjowAKCRAw5/Bqldv6
-8h00AKCYdnZ7Jiu+V5omssu0osT4YWICWgCdGkyowiNz5O6AcmXFnusH8PKcqVY=
-=8+yZ
------END PGP SIGNATURE-----
-
---i2yKCeYKo7PAl3qJ--
 
