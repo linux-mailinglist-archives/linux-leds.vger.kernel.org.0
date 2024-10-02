@@ -1,100 +1,153 @@
-Return-Path: <linux-leds+bounces-2933-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2934-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C82A98D59F
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2024 15:32:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C61298D881
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2024 16:01:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C72E2B20914
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2024 13:32:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01FCB284C94
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2024 14:01:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F35991D04A0;
-	Wed,  2 Oct 2024 13:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A72C21D1505;
+	Wed,  2 Oct 2024 13:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="AKdh1Wtt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HbNL0Frb"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526AF1D0B90;
-	Wed,  2 Oct 2024 13:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE251D0951;
+	Wed,  2 Oct 2024 13:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727875910; cv=none; b=nN1oRZswNPBibWkWtwVVp9sev3JpV0tKaCrv489E+hA3StWzZLMOr5R0Fwr0rRj2LqUaxHmtQOq9+VlaqIhbu31z+CNp4lbhPDGXZ6nHUKiUiI12XINGVhSQhMI2QY9fxT/pOJA8q+n94ZAT61RxlWkDLfnklNIoI9rhozjpWU8=
+	t=1727877537; cv=none; b=asE5Jjo0eXew0hJjzjqsaISxHGfa3o34/bHuClSSqVL7Saty8YCATeBuiwGpTY9kYGD3YIJZm15wUbsUzbT4bPi1gujmjia6+jy2BQR23M9xniY6XKGy6nN2MyfQOjVH4IU6s4qa7p23X+Sp6RO5Bdv15R64CymkVOCze807Z5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727875910; c=relaxed/simple;
-	bh=Py1xnOdYVYVi/h2btIwfR6K+nqxqbcW6dIlTXx6prnU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fy0r6dG/QSITzGGERAD3/vL/ROB3SESPICJnfIU9ja7URSYWMouJmPdxztzmGUI1sQcuV0lK6ffjRYSEyqHM45WHAd+gUL6/ZHSdQ0dFT/U48ljOlTWBIykXqwjpzhCdMqy/9ff/EGIcpSSk4AN0lTtW4w87XpAKNGX6HPYXfAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=AKdh1Wtt; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 57BDA2FC0050;
-	Wed,  2 Oct 2024 15:31:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1727875904;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wGOtZtXVPpdQdwtaMm7mq8l+rXyCb8gEF+WRDFxJKYo=;
-	b=AKdh1WttXohJ3kmStfUJlq+YBFG0nVVUnH6gJFFlkO8LXBTQ7i67AAKMa7Uxgojxe11DIp
-	9AhqnU/+v8p4FwfkK8fs51GtUsn7waSWGeag7UMc39r6cbMDH4m76TrYCEmcPZL7xuNO+D
-	1kN11fRwGQqVAzXFaIdgmU1Vid2iy7U=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <4bfc188c-0873-490f-bfef-119c7fa74be5@tuxedocomputers.com>
-Date: Wed, 2 Oct 2024 15:31:44 +0200
+	s=arc-20240116; t=1727877537; c=relaxed/simple;
+	bh=kzEysxO2ap3NSntJagiOFBlB2EHYbnQ40iQCb2oIRLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5U3fuofiqtK0xf28pnclT5+iJ17IF+D8URnKKaaL73rcNzGd/PpXUsJLrcVKjmxG21zNwAviC0VgWoAcUcXIbftbRKM9yV1bNdHWb+8zbzX8FKWDPmlATzQoQKjsZ1zRKi+cY105ZDmMTcOcFwavEM52IlzslI5LqbsjVILVBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HbNL0Frb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C46C4CECE;
+	Wed,  2 Oct 2024 13:58:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727877537;
+	bh=kzEysxO2ap3NSntJagiOFBlB2EHYbnQ40iQCb2oIRLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HbNL0Frbukj+51wQmYmNT6WV9aa9aA7MwmnkV/9lK15Rew25r0gaXhEnWPjft7UUj
+	 c2fmQLNBp9Sb7TTKMl1QwGaMmDkKl2kndMXJu8Bi69C00FJe2BTcGaGhX2LgdmH1to
+	 8JCPci0I5M+QiemOaMrcsv1OW+14RM6tEYmTz3pghoDGC6puORnZY/owGG2us1ADvI
+	 c+5E9McgeP2F1lLr2fsheVIn9H/RgE48Ms4aiRl/DkQxYk0brod3WpW0LZTg5AZZSV
+	 WPmiUSkEca5NEorG4Gw8yZc+sfbpPRFzVANINoqd6zwhH2Uyz0TxCdHA1dX4MFmGYB
+	 r8+IHxoUnSQ3g==
+Date: Wed, 2 Oct 2024 14:58:50 +0100
+From: Lee Jones <lee@kernel.org>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: jikos@kernel.org, jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+	srinivas.pandruvada@linux.intel.com, bentiss@kernel.org,
+	dmitry.torokhov@gmail.com, pavel@ucw.cz, ukleinek@debian.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v8 1/9] HID: hid-sensor-hub: don't use stale
+ platform-data on remove
+Message-ID: <20241002135850.GE7504@google.com>
+References: <20240908210803.3339919-1-heiko@sntech.de>
+ <20240908210803.3339919-2-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO
-To: Lee Jones <lee@kernel.org>
-Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
- jelle@vdwaa.nl, jikos@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
- pavel@ucw.cz, cs@tuxedo.de
-References: <20240927124152.139099-1-wse@tuxedocomputers.com>
- <20241002125243.GC7504@google.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20241002125243.GC7504@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240908210803.3339919-2-heiko@sntech.de>
 
-Hi,
+Intentional top-post!
 
-Am 02.10.24 um 14:52 schrieb Lee Jones:
-> On Fri, 27 Sep 2024, Werner Sembach wrote:
->
->> Hi,
->> first revision integrating Armins feedback.
->>
->> Stuff I did not yet change and did not comment on previously:
->> - Still have to ask Christoffer why the mutex is required
->> - Still using acpi_size instad of size_t in the util functions, because the value is put directly into a struct using acpi_size
->> - Error messages for __wmi_method_acpi_object_out still in that method because they reference method internal variables
->>
->> Let me know if my reasoning is flawed
-> Use `git format-patch`'s --annotate and --compose next time please.
->
-I did but --compose does not automatically insert the subject line, that's why i 
-copied it but forgot to change it to 0/1
+Just this patch to be reviewed now.
 
-Sorry for the flawed subject line
+Any of the HID people around?
 
-Best Regards,
+> The hid-sensor-hub creates the individual device structs and transfers them
+> to the created mfd platform-devices via the platform_data in the mfd_cell.
+> 
+> Before commit e651a1da442a ("HID: hid-sensor-hub: Allow parallel synchronous reads")
+> the sensor-hub was managing access centrally, with one "completion" in the
+> hub's data structure, which needed to be finished on removal at the latest.
+> 
+> The mentioned commit then moved this central management to each hid sensor
+> device, resulting on a completion in each struct hid_sensor_hub_device.
+> The remove procedure was adapted to go through all sensor devices and
+> finish any pending "completion".
+> 
+> What this didn't take into account was, platform_device_add_data() that is
+> used by mfd_add{_hotplug}_devices() does a kmemdup on the submitted
+> platform-data. So the data the platform-device gets is a copy of the
+> original data, meaning that the device worked on a different completion
+> than what sensor_hub_remove() currently wants to access.
+> 
+> To fix that, use device_for_each_child() to go through each child-device
+> similar to how mfd_remove_devices() unregisters the devices later and
+> with that get the live platform_data to finalize the correct completion.
+> 
+> Fixes: e651a1da442a ("HID: hid-sensor-hub: Allow parallel synchronous reads")
+> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> ---
+>  drivers/hid/hid-sensor-hub.c | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-sensor-hub.c b/drivers/hid/hid-sensor-hub.c
+> index 26e93a331a51..3cd00afa453a 100644
+> --- a/drivers/hid/hid-sensor-hub.c
+> +++ b/drivers/hid/hid-sensor-hub.c
+> @@ -730,23 +730,30 @@ static int sensor_hub_probe(struct hid_device *hdev,
+>  	return ret;
+>  }
+>  
+> +static int sensor_hub_finalize_pending_fn(struct device *dev, void *data)
+> +{
+> +	struct hid_sensor_hub_device *hsdev = dev->platform_data;
+> +
+> +	if (hsdev->pending.status)
+> +		complete(&hsdev->pending.ready);
+> +
+> +	return 0;
+> +}
+> +
+>  static void sensor_hub_remove(struct hid_device *hdev)
+>  {
+>  	struct sensor_hub_data *data = hid_get_drvdata(hdev);
+>  	unsigned long flags;
+> -	int i;
+>  
+>  	hid_dbg(hdev, " hardware removed\n");
+>  	hid_hw_close(hdev);
+>  	hid_hw_stop(hdev);
+> +
+>  	spin_lock_irqsave(&data->lock, flags);
+> -	for (i = 0; i < data->hid_sensor_client_cnt; ++i) {
+> -		struct hid_sensor_hub_device *hsdev =
+> -			data->hid_sensor_hub_client_devs[i].platform_data;
+> -		if (hsdev->pending.status)
+> -			complete(&hsdev->pending.ready);
+> -	}
+> +	device_for_each_child(&hdev->dev, NULL,
+> +			      sensor_hub_finalize_pending_fn);
+>  	spin_unlock_irqrestore(&data->lock, flags);
+> +
+>  	mfd_remove_devices(&hdev->dev);
+>  	mutex_destroy(&data->mutex);
+>  }
+> -- 
+> 2.43.0
+> 
 
-Werner
-
+-- 
+Lee Jones [李琼斯]
 
