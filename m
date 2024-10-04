@@ -1,159 +1,138 @@
-Return-Path: <linux-leds+bounces-2957-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2958-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0939906B2
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 16:51:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7761B9908C5
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 18:15:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B1841C2169B
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 14:51:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06C301F2112B
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 16:15:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9219621D2D7;
-	Fri,  4 Oct 2024 14:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E97761AA780;
+	Fri,  4 Oct 2024 16:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBhXcd1A"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Is8hKbYv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EA421D2CD;
-	Fri,  4 Oct 2024 14:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85E1E3783
+	for <linux-leds@vger.kernel.org>; Fri,  4 Oct 2024 16:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728053223; cv=none; b=Bjtxrc8Aw2nNBtdC/Iq7hDd5QU1Cqd46pp6B4qyZ2oVeupoB/AeGj0nCw0gu3DR4Xe8iuQff7ng7W4pR7IaAUWPICihGppd+GUNTpc3vK0MHKBdRUmEs6S0dV+0S9AObO1c7IhXtuWeRaYz8F5unrRk8yABxmlIEIUkLC52HBdw=
+	t=1728058541; cv=none; b=VPNAx2cFLCAkhoQelSJbethdOPRCTWLXgfgJaHHvC0kDPCgbFRjA7c2nt9UISw5Tm0KGg4PXHw70VYENW5AHFXgR1W+whwOszTBz8G7sBMqYreKaDTyR6R2/CYcSEoF81W6DJzARchL5fqdo1/hUQ4k84vBhR9uUSjOQ8em3VE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728053223; c=relaxed/simple;
-	bh=gpDESdIH7u+B964YQBozH7uDbFJdt+fik9h9olFCT6A=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kPg+8BC2TKT9tNhmxaoxEnJWatbKnWwdLYWnyjQ/WQyAV4REGhFHUerMVPJZhutyha0bo54gNwIBkdZJkXKYX5I62zekud+iMRZqlnJlDehTsfgOdwk4GIg4AcDtKmOYs+cfPtFyWZV7OT5ObLNgd0DYKCezTj5AZTnPlp5hYok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBhXcd1A; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728053220; x=1759589220;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=gpDESdIH7u+B964YQBozH7uDbFJdt+fik9h9olFCT6A=;
-  b=RBhXcd1AbS6A3HLUoc9KL+DoaEztpIybxq5fmNqPOksTFQYsRTtN2AcE
-   fbeNsn2UB8gcD4V+lVS82eChr0NPt+AkLVleA7e5Zqiojdr+MVCC0fRY2
-   aV66Pbxy1b0ff5MUP2w/w0hNcYantt/6aPFeJIK2NBP8bxrE6vhTNF8Ie
-   dz5xN7C0IsuTorQFPXYmAYkf8TLl3rr7YHi6VOKFAUX6LEc5XrfkjX5HW
-   22Mc7FQTrnrvovxKejNIgm3EJqacHAbiEE0O+ZN7JA3rvHLiadHfkQII+
-   gGJRhYPTYpgDAkIQ7IZ/5bvom+f7vXXGhA8mWeAO51ui4pROd1+x50+MF
-   w==;
-X-CSE-ConnectionGUID: TJ3Dv57CSZmNXD3AAo42FA==
-X-CSE-MsgGUID: zV6ofEreQdSk06W+jPKCgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37847128"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="37847128"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 07:46:59 -0700
-X-CSE-ConnectionGUID: C1Gf8WVtQEKW3bGkYuLaDg==
-X-CSE-MsgGUID: ADnZZNiHRwSvD8wgaZf9KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="78717018"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.148])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 07:46:52 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 4 Oct 2024 17:46:46 +0300 (EEST)
-To: Werner Sembach <wse@tuxedocomputers.com>
-cc: Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org, 
-    dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org, 
-    lee@kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org, 
-    miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
-    pavel@ucw.cz, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
-Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray
- for TUXEDO NB04 devices
-In-Reply-To: <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
-Message-ID: <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
-References: <20241001180658.76396-1-wse@tuxedocomputers.com> <20241001180658.76396-2-wse@tuxedocomputers.com> <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com> <fdfaaad5-59e7-4825-bc06-db44831ac741@tuxedocomputers.com> <49beebf1-db73-a3a1-3376-e1822ce2e569@linux.intel.com>
- <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
+	s=arc-20240116; t=1728058541; c=relaxed/simple;
+	bh=aAhZeHaF+3jTLFYRxlEUkEIZN1lpbKcdY9dTKBa3ywQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c4B4OF4WlB8ot4ON54u4xzAM8QQpFmmeBZWng6RAitblyWhY5FyAY+AGGpAK4AKLozl/z6UCJ+/ofh2g+o2je+g+s0s22+Sv06wMC8Kmqh/5eZ/UcQFuefJBUtf0KkDLI5XrAuCYUZGpF6a2/UxmT5hhRWx8lLe6zfUdftRfWjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Is8hKbYv; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7c1324be8easo2491597a12.1
+        for <linux-leds@vger.kernel.org>; Fri, 04 Oct 2024 09:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1728058540; x=1728663340; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=E2kYz+RSZOgPBpO7Q02mQQbQkX0efpwZ1a0zriJuRiU=;
+        b=Is8hKbYvgENH7fmvmbL7EF8QMmqsaf7S2M8mUZ0gEO/4desUqtP0tXACjh5Gl3bRZS
+         GiYeLnMH6ZCdjYVQq+5lOsidmb7WWrynfNwAIEsh7yfs06idUvHhAYYV2X1z2oS5U6F/
+         L6qGNORjt4IhPhYUoqZDHu4DN4j/AwUweEHog=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728058540; x=1728663340;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E2kYz+RSZOgPBpO7Q02mQQbQkX0efpwZ1a0zriJuRiU=;
+        b=wXPqddEhb/6VOJCYKvmubVIw+DMtJFc5mBN1GnroIYohI1wN6r17qda74WTFFINh1I
+         obqhKzXkDKIZzIL6uwgG4uIQuPnm+pUmkqe1C2+lI9384ueNxGwpSBF3eeGsrAbEGEAi
+         yf73J2c2Po1v1i+q/yGbuLtXzWQ9YTrM+fOUP/DxZGOZnEAkDZh08SPEVQPDrtNS61RC
+         OefLcIhtjAIfHDDvlhkB0sMRNou+nBxhLLYOEd+Befj3c1oSR+mzaP0WaS7ogkTGXwQh
+         qRAdWHK2XjUJkn9fnAQSQXgB5y6vMt/YYWmvm1P2h0ougYIc/gyPXXsWZxOoiJ0kAVWr
+         2BrQ==
+X-Gm-Message-State: AOJu0Yxz3Df0jWpaV/BRztTr2fnAoubJomqdxpBeD6mSHGULt1mF+pQx
+	AN4diSAyox+w74umnhG9VuTSL/OGD8hu+SdJ0S8u+otRVMFF/XxTNAw24vO5ig==
+X-Google-Smtp-Source: AGHT+IGIvRkq17wbSfo09twEbNm+pWIgDNw6Ws7RTsvMd8+ey7OIDKL/xVRMH501MM2PPo0Ijw5MOw==
+X-Received: by 2002:a17:90b:792:b0:2e0:8518:44fa with SMTP id 98e67ed59e1d1-2e1b389af22mr10506012a91.7.1728058539626;
+        Fri, 04 Oct 2024 09:15:39 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e866551csm1814416a91.40.2024.10.04.09.15.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Oct 2024 09:15:38 -0700 (PDT)
+Message-ID: <919386a4-ef38-48fe-a0cb-400ef0c02306@broadcom.com>
+Date: Fri, 4 Oct 2024 09:15:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-558844353-1728053094=:957"
-Content-ID: <12779ba9-89e7-dc78-8aa4-3e38be204c34@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] dt-bindings: leds: bcm63138: Add shift register
+ bits
+To: Linus Walleij <linus.walleij@linaro.org>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, William Zhang <william.zhang@broadcom.com>,
+ Anand Gore <anand.gore@broadcom.com>, Kursad Oney
+ <kursad.oney@broadcom.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241004-bcm63138-leds-v3-0-ba99a8e464b9@linaro.org>
+ <20241004-bcm63138-leds-v3-1-ba99a8e464b9@linaro.org>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20241004-bcm63138-leds-v3-1-ba99a8e464b9@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 10/4/24 00:59, Linus Walleij wrote:
+> The BCM63138 family of serial LED controllers has a register
+> where we can set up bits for the shift registers. These are
+> the number of rounds the bits need to be shifted before all
+> bits have been shifted through the external shift registers.
+> 
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
---8323328-558844353-1728053094=:957
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <1a604cdc-a092-b688-97b7-2cd68c9b909e@linux.intel.com>
-
-On Fri, 4 Oct 2024, Werner Sembach wrote:
-> Am 03.10.24 um 12:54 schrieb Ilpo J=E4rvinen:
-> > On Wed, 2 Oct 2024, Werner Sembach wrote:
-> > > Am 02.10.24 um 11:52 schrieb Ilpo J=E4rvinen:
-> > > > On Tue, 1 Oct 2024, Werner Sembach wrote:
-> > > >=20
-> > > > > The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have =
-a
-> > > > > per-key
-> > > > > controllable RGB keyboard backlight. The firmware API for it is
-> > > > > implemented
-> > > > > via WMI.
-> > > > >=20
-> > > > > To make the backlight userspace configurable this driver emulates=
- a
-> > > > > LampArray HID device and translates the input from hidraw to the
-> > > > > corresponding WMI calls. This is a new approach as the leds subsy=
-stem
-> > > > > lacks
-> > > > > a suitable UAPI for per-key keyboard backlights, and like this no=
- new
-> > > > > UAPI
-> > > > > needs to be established.
-> > > > >=20
-> > > > > v2: Integrated Armins feedback and fixed kernel test robot warnin=
-gs.
-> > > > > v3: Fixed borked subject line of v2.
-> > > > > v4: Remove unrequired WMI mutex.
-> > > > >       Move device checking from probe to init.
-> > > > >       Fix device checking working exactly reverse as it should.
-> > > > >       Fix null pointer dereference because, hdev->driver_data !=
-=3D
-> > > > > hdev->dev.driver_data.
-> > > > >=20
-> > > > > Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
-> > > > > Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
-> > > > > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> > > > > Link:
-> > > > > https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@=
-tuxedocomputers.com/
-> > > > > ---
-
-> > > That why i choose the rather generic names of just the input and outp=
-ut
-> > > length
-> > > because there is no semantic connection between the wmi methods in
-> > > tuxedo_nb04_wmi_8_b_in_80_b_out and tuxedo_nb04_wmi_496_b_in_80_b_out
-> > > respectively that would make for a good name.
-> > So the only valuable characters are prefix + 8/496/80 the rest doesn't
-> > really tell much despite all its characters :-). Details like which of =
-the
-> > numbers is in/out and that the numbers are in bytes could IMO be left t=
-o
-> > struct's comment without loss of much information value.
-> >=20
-> tuxedo_nb04_wmi_8_80 kinda looks strange to me, what about
-> tuxedo_nb04_wmi_8_in_80_out? but that's on 4 chars shorter.
-
-Perhaps just tuxedo_nb04_wmi_8in_80out ?
-
-I can see you like to use underscores a lot so I can understand if that=20
-feels a step too far :-) (no offence meant).
-
---=20
- i.
---8323328-558844353-1728053094=:957--
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+-- 
+Florian
 
