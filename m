@@ -1,71 +1,71 @@
-Return-Path: <linux-leds+bounces-2958-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2959-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7761B9908C5
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 18:15:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF5C9908C8
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 18:16:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06C301F2112B
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 16:15:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 687CC1F211F8
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2024 16:16:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E97761AA780;
-	Fri,  4 Oct 2024 16:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECA841E3760;
+	Fri,  4 Oct 2024 16:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Is8hKbYv"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="bYExviPV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85E1E3783
-	for <linux-leds@vger.kernel.org>; Fri,  4 Oct 2024 16:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890E61E376A
+	for <linux-leds@vger.kernel.org>; Fri,  4 Oct 2024 16:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728058541; cv=none; b=VPNAx2cFLCAkhoQelSJbethdOPRCTWLXgfgJaHHvC0kDPCgbFRjA7c2nt9UISw5Tm0KGg4PXHw70VYENW5AHFXgR1W+whwOszTBz8G7sBMqYreKaDTyR6R2/CYcSEoF81W6DJzARchL5fqdo1/hUQ4k84vBhR9uUSjOQ8em3VE8=
+	t=1728058562; cv=none; b=b1a7NntbfFy6LIRRyYAumnRmzu9VsiNl6Jrfaw8dy1o/Y1ziSTHiCyf5MHRUumpJgf2OcMqthqXWitUVCMg9WRz0mYjxUf/elTlKlrHuq9uDTEvVO3Ef/jVgwu/HAk6xoxu03ji1ccwK9gxfEteXDZWKhfqU8UQ/gUVn/TfWlh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728058541; c=relaxed/simple;
-	bh=aAhZeHaF+3jTLFYRxlEUkEIZN1lpbKcdY9dTKBa3ywQ=;
+	s=arc-20240116; t=1728058562; c=relaxed/simple;
+	bh=3Rgm5HQdwTatG9CSA9mcBK3Psx5OMjNgjcQyZBfQcpA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c4B4OF4WlB8ot4ON54u4xzAM8QQpFmmeBZWng6RAitblyWhY5FyAY+AGGpAK4AKLozl/z6UCJ+/ofh2g+o2je+g+s0s22+Sv06wMC8Kmqh/5eZ/UcQFuefJBUtf0KkDLI5XrAuCYUZGpF6a2/UxmT5hhRWx8lLe6zfUdftRfWjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Is8hKbYv; arc=none smtp.client-ip=209.85.215.178
+	 In-Reply-To:Content-Type; b=FFem+hEQK0tm3ON52rRB4ekyO60XVcKHDhDxsK5Gbeuav7metihn5AC5aq5RLegNoE2eNiInLb+GONR78J5Ba8OTAgaJ6gTyaoCEfFsYgxJD9tMszOS/kXDNy4UeGDKxezjF4E7qYyBTZIWz1Ywrlfeo0rMxjVk5kwv/d6Pxfd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=bYExviPV; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7c1324be8easo2491597a12.1
-        for <linux-leds@vger.kernel.org>; Fri, 04 Oct 2024 09:15:40 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20b95359440so20920275ad.0
+        for <linux-leds@vger.kernel.org>; Fri, 04 Oct 2024 09:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1728058540; x=1728663340; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1728058560; x=1728663360; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=E2kYz+RSZOgPBpO7Q02mQQbQkX0efpwZ1a0zriJuRiU=;
-        b=Is8hKbYvgENH7fmvmbL7EF8QMmqsaf7S2M8mUZ0gEO/4desUqtP0tXACjh5Gl3bRZS
-         GiYeLnMH6ZCdjYVQq+5lOsidmb7WWrynfNwAIEsh7yfs06idUvHhAYYV2X1z2oS5U6F/
-         L6qGNORjt4IhPhYUoqZDHu4DN4j/AwUweEHog=
+        bh=oW8jK9KDvC91b6q1Oiguq92+O2XHlvFXiRMZEuE/nVI=;
+        b=bYExviPVbfOmMrn+0ANHCs0XC2OUTsEtsQ3qHYTX4MJWNBmQVQh3fPm2aTn18TYiRm
+         xh9Wwetiv396l63268/Zk7Ks7DtzlvZSPPNManSmuiKOa9FM+dTSZ3bl76JUKVbxO1Ss
+         EbVjgEtcHCyNdlc5jEJhZjhHY3F6QU5L9zTQU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728058540; x=1728663340;
+        d=1e100.net; s=20230601; t=1728058560; x=1728663360;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E2kYz+RSZOgPBpO7Q02mQQbQkX0efpwZ1a0zriJuRiU=;
-        b=wXPqddEhb/6VOJCYKvmubVIw+DMtJFc5mBN1GnroIYohI1wN6r17qda74WTFFINh1I
-         obqhKzXkDKIZzIL6uwgG4uIQuPnm+pUmkqe1C2+lI9384ueNxGwpSBF3eeGsrAbEGEAi
-         yf73J2c2Po1v1i+q/yGbuLtXzWQ9YTrM+fOUP/DxZGOZnEAkDZh08SPEVQPDrtNS61RC
-         OefLcIhtjAIfHDDvlhkB0sMRNou+nBxhLLYOEd+Befj3c1oSR+mzaP0WaS7ogkTGXwQh
-         qRAdWHK2XjUJkn9fnAQSQXgB5y6vMt/YYWmvm1P2h0ougYIc/gyPXXsWZxOoiJ0kAVWr
-         2BrQ==
-X-Gm-Message-State: AOJu0Yxz3Df0jWpaV/BRztTr2fnAoubJomqdxpBeD6mSHGULt1mF+pQx
-	AN4diSAyox+w74umnhG9VuTSL/OGD8hu+SdJ0S8u+otRVMFF/XxTNAw24vO5ig==
-X-Google-Smtp-Source: AGHT+IGIvRkq17wbSfo09twEbNm+pWIgDNw6Ws7RTsvMd8+ey7OIDKL/xVRMH501MM2PPo0Ijw5MOw==
-X-Received: by 2002:a17:90b:792:b0:2e0:8518:44fa with SMTP id 98e67ed59e1d1-2e1b389af22mr10506012a91.7.1728058539626;
-        Fri, 04 Oct 2024 09:15:39 -0700 (PDT)
+        bh=oW8jK9KDvC91b6q1Oiguq92+O2XHlvFXiRMZEuE/nVI=;
+        b=sv9Se3Lu6Lwwq7ESqKgSMqbhZG11xCNxUi37oHhL/R3asF6kLzshNhvt5tWheUFTDB
+         qsNitdVyAmfZMxD7FB/Q1C9Tg+iSyCA6+1zVRfUbnVMoprmZVPwqKPVtZCw3Dyb0mRRY
+         g3hU8h3DtgMXzIicW0tBFWsx3ug0SjzvRBUwsPluQxmYtTKUr7PqYJccvytXcivmEO/B
+         7sTo9zV8YmNTTUO+2W8ceDLMgIOA1KYgBTe4DUVH6qooUOqN9PMrhD6yfcTtjbeQY7t9
+         zBReFe4Lk6m9H0Cg6mZ4SRbn9VLAyjmqBgN2GwzFBmpX3g9LvglVX9zmkUPiFdd+/Mae
+         gcKQ==
+X-Gm-Message-State: AOJu0Yxlce05iQyf6W7duCWSpZHcPOdqGh5jWdUAovi6tpLPi6FQ7A/I
+	gasCu+MzVqnL7aHORmciUCBzeTl8VvFH2p9C8pFApLySZ7moVmo3Tm51178LPQ==
+X-Google-Smtp-Source: AGHT+IHY1LSgxlVk6ZcbCLk/lhGllk2zCN5/XaI2aZlzzIRikxpNu4InUTWqzjLt9hRz8Sf626gceA==
+X-Received: by 2002:a17:903:24f:b0:1fb:90e1:c8c5 with SMTP id d9443c01a7336-20bfe03f6a2mr46932335ad.33.1728058559707;
+        Fri, 04 Oct 2024 09:15:59 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e866551csm1814416a91.40.2024.10.04.09.15.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c138b0fa3sm353355ad.28.2024.10.04.09.15.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2024 09:15:38 -0700 (PDT)
-Message-ID: <919386a4-ef38-48fe-a0cb-400ef0c02306@broadcom.com>
-Date: Fri, 4 Oct 2024 09:15:36 -0700
+        Fri, 04 Oct 2024 09:15:58 -0700 (PDT)
+Message-ID: <0db565f4-ae11-420a-ac50-9576809a9506@broadcom.com>
+Date: Fri, 4 Oct 2024 09:15:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -73,8 +73,7 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: leds: bcm63138: Add shift register
- bits
+Subject: Re: [PATCH v3 3/4] leds: bcm63138: Handle shift register config
 To: Linus Walleij <linus.walleij@linaro.org>, Pavel Machek <pavel@ucw.cz>,
  Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -85,7 +84,7 @@ To: Linus Walleij <linus.walleij@linaro.org>, Pavel Machek <pavel@ucw.cz>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org
 References: <20241004-bcm63138-leds-v3-0-ba99a8e464b9@linaro.org>
- <20241004-bcm63138-leds-v3-1-ba99a8e464b9@linaro.org>
+ <20241004-bcm63138-leds-v3-3-ba99a8e464b9@linaro.org>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -120,15 +119,17 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20241004-bcm63138-leds-v3-1-ba99a8e464b9@linaro.org>
+In-Reply-To: <20241004-bcm63138-leds-v3-3-ba99a8e464b9@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/4/24 00:59, Linus Walleij wrote:
-> The BCM63138 family of serial LED controllers has a register
-> where we can set up bits for the shift registers. These are
-> the number of rounds the bits need to be shifted before all
-> bits have been shifted through the external shift registers.
+> This adds code to optionally read the width of the shift register
+> chain from the device tree and use it to set up the register
+> controlling the shifter hardware.
+> 
+> If the property is not present, the boot-time default is used so
+> existing device trees keep working as this is what they assume.
 > 
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
