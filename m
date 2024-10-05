@@ -1,31 +1,31 @@
-Return-Path: <linux-leds+bounces-2963-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2964-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B45991848
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Oct 2024 18:28:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF4399184C
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Oct 2024 18:28:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 812A2B20C09
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Oct 2024 16:28:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EAAE0281130
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Oct 2024 16:28:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5A1157476;
-	Sat,  5 Oct 2024 16:28:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C2E157493;
+	Sat,  5 Oct 2024 16:28:47 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6C314B94B;
-	Sat,  5 Oct 2024 16:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3321D14A4F7;
+	Sat,  5 Oct 2024 16:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728145706; cv=none; b=iYrPxyiLECK+cAkVD/s+MBiaOL+C2WP3gn27ZYYVRTs6a1dfJVCWQtqujI8Bst4cA2funvrqOmFrAikoBWmnDEzOoVH83HbHH+lHd6V5nKc3d4PYnGLhxfnX0kEySIh/a9iGTj9ffjbVNlnh4M8ZAZGhOZS8Ay2/fLme0YKR2YY=
+	t=1728145727; cv=none; b=J7+0lBq8i1gGhS6nltdyXvgGD25Mq6PFbLAY2Fbg5+G6GaL/0f920e6UT8h7KqrhL6hrOhMOioDkfRJwdDw5IKvupAAlzljqQIg7I4Nv96ZwH1jFBRvKRZVZ4/zigfBFu2W5Lna3aor9JfQ/JmwHBci5GgJJBwpEDBosViEAA6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728145706; c=relaxed/simple;
-	bh=mfY8SjHy1iBJk5oaEJ2SJrGLxqt7p0f0z8HzXY/WCXE=;
+	s=arc-20240116; t=1728145727; c=relaxed/simple;
+	bh=/1zA0mp9VAeBlM8oa9n+jmxw+nSew2/1tOt5CK4IRHM=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PoCpz6nyEABDYlFIBijxYyd9HkuWZStDpv8ZSfVnNKJZ+hXqssLMNIh6zxXSB52whM7ZUYlK8CAHY9dZRWPXsSbOH4r/utkkcbxmre8BBC9wm/gjDvDI2W118IWkuevTaciEiUlKqNyLLAbfdEjXQZSLPp9cnI+iG8G86ua8gew=
+	 Content-Type:Content-Disposition:In-Reply-To; b=DcZTDy1ScAlyGH3EFKEjDIlb+idZrSjTWdxVw2Gxf2CuZ5ABJ5ofMHIcZJ81UXYfIrO5DdLAmgl6nqmOmZ23K4BzwvDGoQVl2OMgIqeXxjMQD2xr6BecTJkTFDm9hqow3JeHBcU6dut15dzpA0DW4b5UoWZkImuKi/hdBtjmrj4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -33,9 +33,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.98)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1sx7dh-0000000045x-1TwZ;
-	Sat, 05 Oct 2024 16:28:17 +0000
-Date: Sat, 5 Oct 2024 17:28:13 +0100
+	id 1sx7e4-0000000046L-3MCW;
+	Sat, 05 Oct 2024 16:28:40 +0000
+Date: Sat, 5 Oct 2024 17:28:37 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -56,9 +56,9 @@ To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH net-next 3/4] net: phy: aquantia: correctly describe LED
- polarity override
-Message-ID: <2d59088ac85d78b9bf4b54c2de9442e89eacf790.1728145095.git.daniel@makrotopia.org>
+Subject: [PATCH net-next 4/4] net: phy: mxl-gpy: correctly describe LED
+ polarity
+Message-ID: <cb0ae5cc99225a1bd104fd044927df6cf8ab578f.1728145095.git.daniel@makrotopia.org>
 References: <e91ca84ac836fc40c94c52733f8fc607bcbed64c.1728145095.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -70,46 +70,23 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <e91ca84ac836fc40c94c52733f8fc607bcbed64c.1728145095.git.daniel@makrotopia.org>
 
-Use newly defined 'active-high' property to set the
-VEND1_GLOBAL_LED_DRIVE_VDD bit and let 'active-low' clear that bit. This
-reflects the technical reality which was inverted in the previous
-description in which the 'active-low' property was used to actually set
-the VEND1_GLOBAL_LED_DRIVE_VDD bit, which means that VDD (ie. supply
-voltage) of the LED is driven rather than GND.
+According the datasheet covering the LED (0x1b) register:
+0B Active High LEDx pin driven high when activated
+1B Active Low LEDx pin driven low when activated
+
+Make use of the now available 'active-high' property and correctly
+reflect the polarity setting which was previously inverted.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
- drivers/net/phy/aquantia/aquantia.h      |  1 +
- drivers/net/phy/aquantia/aquantia_leds.c |  6 +++++-
- drivers/net/phy/aquantia/aquantia_main.c | 12 +++++++++---
- 3 files changed, 15 insertions(+), 4 deletions(-)
+ drivers/net/phy/mxl-gpy.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/phy/aquantia/aquantia.h b/drivers/net/phy/aquantia/aquantia.h
-index 2465345081f8..0c78bfabace5 100644
---- a/drivers/net/phy/aquantia/aquantia.h
-+++ b/drivers/net/phy/aquantia/aquantia.h
-@@ -177,6 +177,7 @@ static const struct aqr107_hw_stat aqr107_hw_stats[] = {
- struct aqr107_priv {
- 	u64 sgmii_stats[AQR107_SGMII_STAT_SZ];
- 	unsigned long leds_active_low;
-+	unsigned long leds_active_high;
- };
- 
- #if IS_REACHABLE(CONFIG_HWMON)
-diff --git a/drivers/net/phy/aquantia/aquantia_leds.c b/drivers/net/phy/aquantia/aquantia_leds.c
-index 201c8df93fad..21b8ede2a105 100644
---- a/drivers/net/phy/aquantia/aquantia_leds.c
-+++ b/drivers/net/phy/aquantia/aquantia_leds.c
-@@ -121,7 +121,7 @@ int aqr_phy_led_active_low_set(struct phy_device *phydev, int index, bool enable
- {
- 	return phy_modify_mmd(phydev, MDIO_MMD_VEND1, AQR_LED_DRIVE(index),
- 			      VEND1_GLOBAL_LED_DRIVE_VDD,
--			      enable ? VEND1_GLOBAL_LED_DRIVE_VDD : 0);
-+			      enable ? 0 : VEND1_GLOBAL_LED_DRIVE_VDD);
- }
- 
- int aqr_phy_led_polarity_set(struct phy_device *phydev, int index, unsigned long modes)
-@@ -138,6 +138,8 @@ int aqr_phy_led_polarity_set(struct phy_device *phydev, int index, unsigned long
+diff --git a/drivers/net/phy/mxl-gpy.c b/drivers/net/phy/mxl-gpy.c
+index 1c9cd00c7bee..f50697f35160 100644
+--- a/drivers/net/phy/mxl-gpy.c
++++ b/drivers/net/phy/mxl-gpy.c
+@@ -1013,13 +1013,15 @@ static int gpy_led_polarity_set(struct phy_device *phydev, int index,
  		case PHY_LED_ACTIVE_LOW:
  			active_low = true;
  			break;
@@ -118,46 +95,14 @@ index 201c8df93fad..21b8ede2a105 100644
  		default:
  			return -EINVAL;
  		}
-@@ -146,6 +148,8 @@ int aqr_phy_led_polarity_set(struct phy_device *phydev, int index, unsigned long
- 	/* Save LED driver vdd state to restore on SW reset */
- 	if (active_low)
- 		priv->leds_active_low |= BIT(index);
-+	else
-+		priv->leds_active_high |= BIT(index);
- 
- 	return aqr_phy_led_active_low_set(phydev, index, active_low);
- }
-diff --git a/drivers/net/phy/aquantia/aquantia_main.c b/drivers/net/phy/aquantia/aquantia_main.c
-index c33a5ef34ba0..c7381d5ede37 100644
---- a/drivers/net/phy/aquantia/aquantia_main.c
-+++ b/drivers/net/phy/aquantia/aquantia_main.c
-@@ -488,7 +488,7 @@ static void aqr107_chip_info(struct phy_device *phydev)
- static int aqr107_config_init(struct phy_device *phydev)
- {
- 	struct aqr107_priv *priv = phydev->priv;
--	u32 led_active_low;
-+	u32 led_idx;
- 	int ret;
- 
- 	/* Check that the PHY interface type is compatible */
-@@ -515,8 +515,14 @@ static int aqr107_config_init(struct phy_device *phydev)
- 		return ret;
- 
- 	/* Restore LED polarity state after reset */
--	for_each_set_bit(led_active_low, &priv->leds_active_low, AQR_MAX_LEDS) {
--		ret = aqr_phy_led_active_low_set(phydev, led_active_low, true);
-+	for_each_set_bit(led_idx, &priv->leds_active_low, AQR_MAX_LEDS) {
-+		ret = aqr_phy_led_active_low_set(phydev, led_idx, true);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	for_each_set_bit(led_idx, &priv->leds_active_high, AQR_MAX_LEDS) {
-+		ret = aqr_phy_led_active_low_set(phydev, led_idx, false);
- 		if (ret)
- 			return ret;
  	}
+ 
+ 	return phy_modify(phydev, PHY_LED, PHY_LED_POLARITY(index),
+-			  active_low ? 0 : PHY_LED_POLARITY(index));
++			  active_low ? PHY_LED_POLARITY(index) : 0);
+ }
+ 
+ static struct phy_driver gpy_drivers[] = {
 -- 
 2.46.2
-
 
