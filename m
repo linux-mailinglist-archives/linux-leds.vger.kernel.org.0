@@ -1,94 +1,127 @@
-Return-Path: <linux-leds+bounces-2965-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2966-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1AB991943
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Oct 2024 20:09:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0B3991BD5
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Oct 2024 03:56:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F0011C21160
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Oct 2024 18:09:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9B1D1F22301
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Oct 2024 01:56:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC0715854F;
-	Sat,  5 Oct 2024 18:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5697416DEA2;
+	Sun,  6 Oct 2024 01:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="My4Dwevc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bHJhnSlc"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6859915854A;
-	Sat,  5 Oct 2024 18:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6F879CD;
+	Sun,  6 Oct 2024 01:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728151689; cv=none; b=ksxaDKa5+iV+U3R/qTN5WMGw8myGxvCg2F+sxsRNsZPS5BXJV5JNMFULZ01mW+/0o0kUU4Qw9kuvQ9CHw7vNXxOco3O746XsKUO9ftTZ9NXRifMZ/WM+IwfmZSSn4MxSox4oxuk0tnT+i9gbj0qzndzPrCrxSBUlDMOSVmIpVUA=
+	t=1728179746; cv=none; b=LP318No42i0OaqiwKWZMISmKiFXkbwrQCUbJs1F8sfV9Mal+phTOyTebVl2hYn2rvyMB4tpP0RYJAM6NCMNKeuwZovG3k46+qD4Rz9eMVExPMSx1ONhvSx3lXcsDygfv4T7L2wxuQYM9in9YX63v960FPHoizN6I3ePzcuc4QuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728151689; c=relaxed/simple;
-	bh=49/t/8KBEiiEwXH2mK980zJgf7nK2Z7MQbml2DBMDEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppWW36ui1qwKTTPBzk0CLZLz08z05wud+uyE4WmD1SUkYX+RHU1ed0w6FXBMEEaXZqmsFDVlCZ9XrQzl0mONDnFmZmED4qiRh2gFr8ZCaCuVQgAgaqX2hthtQ8Q0jfzBK2aH3V4z4FuNeHWZDbssNLfdla+Ria8/b3Vll+bi4A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=My4Dwevc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BEEDC4CEC2;
-	Sat,  5 Oct 2024 18:08:09 +0000 (UTC)
+	s=arc-20240116; t=1728179746; c=relaxed/simple;
+	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rs7lWhEgKgtboQkS2yenDkRykYlGFQt5/01n7rhw//hm4PIJrYSZUlKwMb+vZeNZDTa3js21Fwb/g+uKo35QzwZLlbztusZr4Vraiqu8FlrJYeYh115nJjXRIkJ9wQXj6ANLcLYLRoU7HWqQHDlzJ0N7RuTLao5d6zNmxNH+oyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bHJhnSlc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442DCC4CEC2;
+	Sun,  6 Oct 2024 01:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728151689;
-	bh=49/t/8KBEiiEwXH2mK980zJgf7nK2Z7MQbml2DBMDEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=My4DwevcoNVQat0dc8p8xFYhKgU+15TSQPGjSIWfD7rhWmtBHm3kIXkILR9jBCtJP
-	 a2ggo4E85OQc4Yg31mb2K35P8amQv180kTb1jQr7Gg6HE7kgBDG8erUTRsUFJgtQh9
-	 2eSW+L1S9xTaXa05xP9CQO+X8iV8yXLp3TmpBEc23XLqq4ljOqsqfq+QN9ZcBNOUew
-	 z3mwaRV5gl21bWU6vV3FzXq9Y6ixLJ6Ot9bc89COU4IHxiRP/iz8y6PeTs2+Iq8iXA
-	 cvlmm7rBQh0nV1HIuf/9py5yCxq4bNPeYxUiS8rE0Yk+ZpBEzAhsUxAXVKitB8TofT
-	 51IMsvx0T4Dhg==
-Date: Sat, 5 Oct 2024 13:08:08 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Anand Gore <anand.gore@broadcom.com>, devicetree@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Kursad Oney <kursad.oney@broadcom.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Lee Jones <lee@kernel.org>,
-	William Zhang <william.zhang@broadcom.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH v3 1/4] dt-bindings: leds: bcm63138: Add shift register
- bits
-Message-ID: <172815168655.479624.2716334888825153554.robh@kernel.org>
-References: <20241004-bcm63138-leds-v3-0-ba99a8e464b9@linaro.org>
- <20241004-bcm63138-leds-v3-1-ba99a8e464b9@linaro.org>
+	s=k20201202; t=1728179745;
+	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bHJhnSlcDypCxKXc9/0e8sSwcsPUcNs5OrzLmNK372VoYuGepvQT+MeJe7gZxz24S
+	 Td8OetlGIX6VQqxeo+oLpBwCwYCr2xh0kr7HWG2dWxJwS9C9I5+F0Ozm3XgnvgOi6R
+	 eyo7cMIiqgZ5im6lRwsEC9egd6IBXTkhxhVOAfSeJ6SqQ1OAUWk36taYJoiLw9dpJ9
+	 1TD2kMI24gaTyunNoaEycYfyV8WJ6EL2ZaaiP5SsbbYsVWCcKHV7TrlwKb7lUEYqTY
+	 l48kzmdHzTLb/dBfgaSN3gUHXAeR3ENezjiB4lZZ+5JAICFVxSM/ycZNnlcwg/pUoP
+	 0Njb/XOnUh7ew==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-gpio@vger.kernel.org,
+	Julia Lawall <Julia.Lawall@inria.fr>
+Cc: kernel-janitors@vger.kernel.org,
+	audit@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org,
+	linux-mm@kvack.org,
+	maple-tree@lists.infradead.org,
+	alsa-devel@alsa-project.org,
+	Sanyog Kale <sanyog.r.kale@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	dccp@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
+	drbd-dev@lists.linbit.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-leds@vger.kernel.org,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	tipc-discussion@lists.sourceforge.net,
+	Robin Murphy <robin.murphy@arm.com>,
+	iommu@lists.linux.dev,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org,
+	Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	linux-nfs@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-wireless@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org
+Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
+Date: Sat,  5 Oct 2024 20:55:35 -0500
+Message-ID: <172817973322.398361.12931602917664759173.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241004-bcm63138-leds-v3-1-ba99a8e464b9@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
-On Fri, 04 Oct 2024 09:59:22 +0200, Linus Walleij wrote:
-> The BCM63138 family of serial LED controllers has a register
-> where we can set up bits for the shift registers. These are
-> the number of rounds the bits need to be shifted before all
-> bits have been shifted through the external shift registers.
+On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
+> Reorganize kerneldoc parameter names to match the parameter
+> order in the function header.
 > 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v2->v3:
-> - Mention that HW defaults will be used if the shift
->   register property is missing.
-> ChangeLog v1->v2:
-> - Drop the $ref to u32 since the new property is suffixed
->   with "-bits" and thus get standard treatment.
-> ---
->  Documentation/devicetree/bindings/leds/leds-bcm63138.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> The misordered cases were identified using the following
+> Coccinelle semantic patch:
 > 
+> // <smpl>
+> @initialize:ocaml@
+> @@
+> 
+> [...]
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Applied, thanks!
 
+[24/35] soc: qcom: qmi: Reorganize kerneldoc parameter names
+        commit: eea73fa08e69fec9cdc915592022bec6a9ac8ad7
+
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
