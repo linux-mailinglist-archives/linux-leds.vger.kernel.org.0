@@ -1,101 +1,102 @@
-Return-Path: <linux-leds+bounces-2986-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2987-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDFB9937EF
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 22:07:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4F399388F
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 22:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D99601C236CE
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 20:07:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 061BFB21805
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 20:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F9B1DE4C8;
-	Mon,  7 Oct 2024 20:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5358718B491;
+	Mon,  7 Oct 2024 20:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NM+xKt86"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="WQRt6cc1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEE21DE3C5;
-	Mon,  7 Oct 2024 20:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03EA41C7F;
+	Mon,  7 Oct 2024 20:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728331662; cv=none; b=d5VebbWgFj+k0JurTl5/Z03Afgrf7ixCaIpfM0YbjE67Zt8ZmKLJzxUKfNLKNK7hCqnr9fCz2ugnPP5PiI+VDm7uA3ZoTfZNPUE6HFK2eQlLWabEPrfE3GcsnAkxxdMDVTx29UVtflwSAvqPnYh+Y0loeUk9b8i5fYeaK0rMk1M=
+	t=1728334387; cv=none; b=rB4tSO4z5HC2mKnT8HaAHk+hLIjVE1AqVyaxVq/qR/4aaVTNlArgmXWslskkxolfETCxISQRx/EHS3nPXoKKM812HzR7W5UKhZQiyRm7D0dm6ZVVOCK6Gr8DX24KKprKMOmn9WUqS7UQq1NMIoxvXXZ6p10Xh40q8FopZ6jPkb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728331662; c=relaxed/simple;
-	bh=BxLDkE25VPOwCrsCvshNOC404xDqaWO7nzcWZR1O3so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U+1gysEP1XlM4mKOEHUxdP8DV6GVuKJyvCd/vH/fnoYzyhqLLoWmjAPZyowHXh7EVyQaaI4u9jEYpUfIXbLOrIzp7opJ1QsAf7+iraeS7bh6x6QAicZ8g9DPDUsR5cMRLHhpJxExfB4YcXgpbDoQFfYTkY4T3kWzsyKe4KjKmrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NM+xKt86; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09855C4CEC6;
-	Mon,  7 Oct 2024 20:07:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728331662;
-	bh=BxLDkE25VPOwCrsCvshNOC404xDqaWO7nzcWZR1O3so=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NM+xKt86wT/VjQBK3wc0ZgaUUaALWTVCDkajoZh7vpelgFeLiqb5iFhcbFuIy9NUa
-	 QrPhih3W/hxBpQttV8eu/XAEOD83Lx9vhxWn0/C6Qbbbi4ahVCXuCN6q0pPW8XCeRC
-	 RGaxW2c3fKYVWPIUyiWI7aDI9OXSCMmpdKhFKqnYM7/Hi0Ygl+EFqryaTmLtrkUP+N
-	 CSb08v1l3OaoW95IyEp76YMb8FyogpJVEFmyFxXrYFcJo4qvMZfIwDnpJcm5WTei8n
-	 Au7r962G4kpcFc6h7Ji/lRkifYzRoehZoPx859ZRHHI5IcFC6RtI88C3WJhCN0DZm3
-	 LVlF9LIid1PMw==
-Date: Mon, 7 Oct 2024 15:07:41 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-leds@vger.kernel.org,
-	Chanwoo Choi <cw00.choi@samsung.com>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	linux-pm@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v6 2/7] dt-bindings: mfd: add maxim,max77705
-Message-ID: <172833166069.2315774.14681195967266298858.robh@kernel.org>
-References: <20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com>
- <20241007-starqltechn_integration_upstream-v6-2-0d38b5090c57@gmail.com>
+	s=arc-20240116; t=1728334387; c=relaxed/simple;
+	bh=6ogw3sZvXB5dWJWJYCgI2TS+lYZhQtKrkp0miIwCkMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mYlWkXLuRQdrD0Tjdw7Ko/NNvI+e9b8DdvKNXuV4MTOda5hCeoYHF9klxLu9p3X2AhIiMnbI2Yi5OaQGZtMV2OfB+hlHkTI58fCceR0q461Q3wxf29HfrL+gWMFD+QRiGupGPUFVzk5AJpuRifQ3EPQ4Hw0bvOCYqbxGlwlK/7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=WQRt6cc1; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=kH67In2vOx5AviMTppuriiT6BzmoKGXayNjsYGVnNA4=; b=WQRt6cc1/5/JzDQCMwbcFDZhhf
+	0Xhfp7K29vsJs7LBQhCOxT4SHpOQMZftkoU6RWKc1QDTbwvsA9dsCnjIZdzu1NQpE9AOkfDsyZ9Ew
+	HW8jmNxXsjtvgR/XsVuEg+DgFLZxyDhynaUpBEH0lCwSkH47XzdU1eNxyAHX5HMJi2XmUKGwM16rY
+	bZcCVZyJpt9Fbc3iPzmCZbd9kXxPP5DMXUUZg5FkVgNs6Mfk/sO43LKMZKsKUs5s9qPgBYoFmHtS5
+	EyliszWAqUgOGZAAAicP0zbPXPyFPx3I6QnqbC4AGYRYnLp4DoPVx+sqjfeYtVhuhOyFflYp+rmdC
+	zm4PX8dw==;
+Received: from i5e860d18.versanet.de ([94.134.13.24] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sxuiu-0006DK-0p; Mon, 07 Oct 2024 22:52:56 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: lee@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Document "rc-feedback" trigger
+Date: Mon, 07 Oct 2024 22:52:55 +0200
+Message-ID: <4934483.GXAFRqVoOG@diego>
+In-Reply-To: <ZwQh99TjfKhoP6UK@duo.ucw.cz>
+References:
+ <20241007160804.2447947-1-heiko@sntech.de> <ZwQh99TjfKhoP6UK@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-starqltechn_integration_upstream-v6-2-0d38b5090c57@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Am Montag, 7. Oktober 2024, 20:01:27 CEST schrieb Pavel Machek:
+> On Mon 2024-10-07 18:08:04, Heiko Stuebner wrote:
+> > Document the "rc-feedback" trigger which is used to control LEDs by
+> > remote control device activity. This is an existing trigger used in
+> > existing DTs, document it so validation of those DTs would pass.
+> > 
+> > It was originally introduced into the Linux kernel in 2013 with
+> > commit 153a60bb0fac ("[media] rc: add feedback led trigger for rc keypresses")
+> 
+> > index bf9a101e4d42..32f9116e03a2 100644
+> > --- a/Documentation/devicetree/bindings/leds/common.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> > @@ -119,6 +119,8 @@ properties:
+> >              # if trigger is absent
+> >            - none
+> >              # LED indicates camera torch state
+> > +          - rc-feedback
+> > +            # LED indicates remote control feedback
+> >            - torch
+> >              # LED indicates USB gadget activity
+> >            - usb-gadget
+> 
+> NAK. Wrongly placed comment.
+
+you're right, and it even messed up the torch comment + entry
+Will send a v2
+
+Heiko
 
 
-On Mon, 07 Oct 2024 18:55:50 +0300, Dzmitry Sankouski wrote:
-> Add maxim,max77705 core binding part.
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> 
-> ---
-> Changes in v6:
-> - unevaluatedProperties must be false
-> - drop excessive sentence from description,
->   just describe the device
-> 
-> Changes in v5:
-> - formatting changes
-> - add unevaluatedProperties: false for nodes referencing
->   common schemas
-> - remove additionalProperties on nodes with
->   unevaluatedProperties: false
-> - add min and max to led index
-> Changes in v4:
-> - change dts example intendation from tabs
->  to spaces
-> - remove interrupt-names property
-> - remove obvious reg description
-> - split long(>80) lines
-> ---
->  Documentation/devicetree/bindings/mfd/maxim,max77705.yaml | 174 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                                               |   1 +
->  2 files changed, 175 insertions(+)
-> 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
