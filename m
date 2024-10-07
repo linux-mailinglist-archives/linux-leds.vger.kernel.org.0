@@ -1,140 +1,109 @@
-Return-Path: <linux-leds+bounces-2984-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2985-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE8299357A
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 19:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8015A993598
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 20:01:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5439F284603
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 17:57:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 498B828170D
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 18:01:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE731DDA36;
-	Mon,  7 Oct 2024 17:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C51BF1DDA3A;
+	Mon,  7 Oct 2024 18:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="QUBNoX/2"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="kukd/hRp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA471DD555;
-	Mon,  7 Oct 2024 17:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB91F13B294;
+	Mon,  7 Oct 2024 18:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728323833; cv=none; b=BYBz9VcGuXcvG7DGVEgeX2QwLWm1MTXLOak2LiKRGFVC2nObfBxaOKgZ6o8Mb7mANIeXSyCkvZXBMsE50tL96evTEHf6Xp/nEu5a5UT/rqEGqRT0cVUW70kCA0ZYeR5wo//8+u1s0sqaTahZq7azzVfqZY3ukKa+8EFzVYHjja4=
+	t=1728324099; cv=none; b=XcNyFapPbx/7mandlXgEwoPRz1yTnnciQF42Zi3nopubLb9YycSvmH7XOkJoSfoHCHkY5pJUpJlwFDBqYJ+VQkMjrhrfKT3aaE7L0hewtOcCtrVKEeKFU0bv8f3EELKvCUdP/dDD/cgxqEut1punWSPTmy8CpIlE5mHIMHtI8mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728323833; c=relaxed/simple;
-	bh=h3L8IgVFMqKnfTBdmE7EdHq6WxEkfyAoyfaD5LEtvgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5zou2y/9e76f002kPhOv9qInL9m+DOLdqTzx8EG3CijsUaSFkmPGmV6W2DCaoUtGGo1lu7RhJxuaUjGzQgOJTkSo1ijH0UclUeLVPynOo9YTYDxJzy7UejTaYhG2T8I+TurHXLXS70QnTrGvxD0BXLOHpPTCdq0cWgjTbDvpN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=QUBNoX/2; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B54F52FC004D;
-	Mon,  7 Oct 2024 19:57:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1728323826;
+	s=arc-20240116; t=1728324099; c=relaxed/simple;
+	bh=tSxOSj9xeLPsNXwq4MaFou/UBhYu4c1HN0GkaaU3Wwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=glIYxNS8Kr7c68MyCq7YHkULGTnhjFoplloGy6tSJ1IuaNMguPfZ63femDltgk21YhXTKSKlBOzGoIbRA2U+Qk+8OAOaW3WQ4qCLwtlcMq4hcAu8yxJaCHabKp/uR5Gmg22R0/v/luJARDF9IbsHcSQM91IvNAE+DGt5wIYmFr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=kukd/hRp; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 58FC81C0082; Mon,  7 Oct 2024 20:01:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1728324088;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BdldwIyeD16eXrXCJmmOPyc0Ld6j2ynds8Z6PNLTWsE=;
-	b=QUBNoX/2cClS6EjpLosxp8Jv29RatROr1BsQQOBVfzg81bezfTWJ/hq5mgL1SYSAAePAAz
-	Pmgx2dISHwr74NocOwWEJ8TdgxNZz6WMiY1/YKZ46zkTm1wvo33eGZDpYXeQLqhhFwX8we
-	BzGaH1A6DV40AemSLQ7S5m3Bvz7hAJo=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
-Date: Mon, 7 Oct 2024 19:57:05 +0200
+	bh=W3mOuSpcn4Jd+P9mFpSsD2UWkIjeGYperc8QMBIDESQ=;
+	b=kukd/hRpPKsvcr2JMaAqXYlPvQanr5z7Um9QiRHiw1UVIJmDUSVwIbCnLvrx+JWNpUqxCk
+	FP+QeBnBsD4Dltsch/iqzpNVcfsDyqr9rk7A5QFXc4G5hzRTDKMFH73I4UP5dR/P6FUXTC
+	gWQ3CvhO+OCHPR0qGGqnX+p0w2CBBpk=
+Date: Mon, 7 Oct 2024 20:01:27 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: lee@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Document "rc-feedback" trigger
+Message-ID: <ZwQh99TjfKhoP6UK@duo.ucw.cz>
+References: <20241007160804.2447947-1-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
- <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
- <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
- <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
- <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SoKU/aEhMC5BLwbp"
+Content-Disposition: inline
+In-Reply-To: <20241007160804.2447947-1-heiko@sntech.de>
 
-Hi,
 
-Am 02.10.24 um 10:31 schrieb Benjamin Tissoires:
-> On Oct 01 2024, Werner Sembach wrote:
->> Hi Benjamin,
->>
->> Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
->>> [...]
->>> PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
->>> all of the requirements here:
->>> - need to be dynamic
->>> - still unsure of the userspace implementation, meaning that userspace
->>>     might do something wrong, which might require kernel changes
->> Well the reference implementetion for the arduiono macropad from microsoft
->> ignores the intensity (brightness) channel on rgb leds contrary to the HID
->> spec, soo yeah you have a point here ...
-> Heh :)
->
->>> - possibility to extend later the kernel API
->>> - lots of fun :)
->> You advertise it good ;). More work for me now but maybe less work for me
->> later, I will look into it.
-> Again, I'm pushing this because I see the benefits and because I can
-> probably reuse the same code on my Corsair and Logitech keyboards. But
-> also, keep in mind that it's not mandatory because you can actually
-> attach the BPF code on top of your existing driver to change the way it
-> behaves. It'll be slightly more complex if you don't let a couple of
-> vendor passthrough reports that we can use to directly talk to the
-> device without any tampering, but that's doable. But if you want to keep
-> the current implementation and have a different layout, this can easily
-> be done in BPF on top.
->
-> Cheers,
-> Benjamin
->
->
-> [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
+--SoKU/aEhMC5BLwbp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thinking about the minimal WMI to HID today, but found a problem: a HID feature 
-report is either strictly input or output afaik, but the WMI interface has both 
-in some functions.
+On Mon 2024-10-07 18:08:04, Heiko Stuebner wrote:
+> Document the "rc-feedback" trigger which is used to control LEDs by
+> remote control device activity. This is an existing trigger used in
+> existing DTs, document it so validation of those DTs would pass.
+>=20
+> It was originally introduced into the Linux kernel in 2013 with
+> commit 153a60bb0fac ("[media] rc: add feedback led trigger for rc keypres=
+ses")
 
-How would I map that?
+> index bf9a101e4d42..32f9116e03a2 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -119,6 +119,8 @@ properties:
+>              # if trigger is absent
+>            - none
+>              # LED indicates camera torch state
+> +          - rc-feedback
+> +            # LED indicates remote control feedback
+>            - torch
+>              # LED indicates USB gadget activity
+>            - usb-gadget
 
-If I split everything in input and output the new interface wouldn't actually be 
-much smaller.
+NAK. Wrongly placed comment.
+							Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-Also what would I write for the usage for the reserved padding in the report 
-descriptor. Usage: 0x00?
+--SoKU/aEhMC5BLwbp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-best regards,
+-----BEGIN PGP SIGNATURE-----
 
-Werner
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZwQh9wAKCRAw5/Bqldv6
+8j/LAJ4iVDjFXY+b9G86eJ8EmlPHV/cHnwCePHPHd5BMJWGjFpnKlUYoAHN7wEU=
+=B+/t
+-----END PGP SIGNATURE-----
 
+--SoKU/aEhMC5BLwbp--
 
