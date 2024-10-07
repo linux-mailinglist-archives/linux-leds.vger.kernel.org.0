@@ -1,99 +1,135 @@
-Return-Path: <linux-leds+bounces-2982-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-2983-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DB1993286
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 18:08:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FD89932EC
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 18:18:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99D791C20981
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 16:08:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E3491F2361E
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2024 16:18:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B0AC1DA0E9;
-	Mon,  7 Oct 2024 16:08:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADA201D9346;
+	Mon,  7 Oct 2024 16:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ocSfg4kR"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="VUnquY9M"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F4A1D61B9;
-	Mon,  7 Oct 2024 16:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429871D434E;
+	Mon,  7 Oct 2024 16:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728317290; cv=none; b=GdnIix/kTm4S1Dyz/p7Z6dPbOcuK6J7AepzPIZ3Q4u/BwE2+YFK+snOPiQETCHb9YFAamEgQWEqxYvGsf+Ds3NtljPmVBS4CxfxEb6JKVOzf9RESRkuaLXMuIKfAoKWRJetvxBmRByqZRunOBKp7LdETz+58bbC0cucupeH6c9I=
+	t=1728317879; cv=none; b=i0DlrvwDrAqGwsRF3BXWvtLP9kU5NtVS01AbV+AvG6gMhOI5fyVWDy6BCgIx6UCIDoZqP9CFz5227SyhCA1f5u5qZcO+cskSKl3hXmp19qnOxpR2TXXQUTGSj8h3W+lVbfUnM4e1S7hQtmOJL053o5s/jrapsLQ1z/Gu+YNsGRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728317290; c=relaxed/simple;
-	bh=uqkRqVlfW6WWbHVuSuWc5OtFYX+n1sshI00wPz1tgmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YfPZASXcenTGFjRWNvx2SltPrg3Hfvubs5GVMcdr+QcgVPHFESDBCcyjExS/sT/lLLq+GrKCCpBLNfLuyJhoSrY0ESIKji7tJNPjiiUpwivlsAKGb3rmK/e5zSfDLa/QrZ0jF6lAyYtI7S7Z7EZ8Q172c2UcClUnKP7vWX1QzM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ocSfg4kR; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=TcfkwV3f9baV8MY6zp7V4iWPZ2iF38+wYPeAUgAVClw=; b=ocSfg4kRHsOgJaXyKMewNo8FXX
-	5v0oto4RYzXvY5jykwI+viOFUVrF87yOBFHEqV+zHKZc+ieUIPE/F1nv+BZG8aUl1gc2JXRaZWPro
-	mssbta0k4hspSkGEGbNH1lyawZuie6EjCvbsZW2O/yc7o0rFIttYT8aL7sWfGOqiQlpPlqTl0q53I
-	AmjH1F9svmbc+uOu5kKv92hSjsfjHJ/YgRTapdUv4Rs4+TDrD6lXSIeVnliG9xxck0wMVruPZrkR8
-	YOBQVrPtgUOorkcq09OsCk0uUvQl6iMJZj/KoMRASvRx7/L3zWLE8luIkiwIydEGQOU3aSa2kSZUe
-	hGNE9BFQ==;
-Received: from i5e860d18.versanet.de ([94.134.13.24] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sxqHG-0002af-Ba; Mon, 07 Oct 2024 18:08:06 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: lee@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	heiko@sntech.de
-Subject: [PATCH] dt-bindings: leds: Document "rc-feedback" trigger
-Date: Mon,  7 Oct 2024 18:08:04 +0200
-Message-ID: <20241007160804.2447947-1-heiko@sntech.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1728317879; c=relaxed/simple;
+	bh=pAwrv/y5NT3G3VUR9WEeiKDGG4RLZNszvEX9MD5Ybc0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=akx6QBAWAaqs1gz4ShN2DZOUEHzheN2UI4QEY9BKOgsqykxk/8Oa+PpM7SMdKuTDtwe/ZModv/k4zhf0Q/x2FOXF9aHzU9kECMN+25IWED3ShsQrvZrtlpawREXI4RmpxVDabq2wQCUM1WfdXTF4U+BE9eC3oihwCcaSyZhEgng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=VUnquY9M; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id C72112FC004D;
+	Mon,  7 Oct 2024 18:17:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1728317869;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXCO8nk9dKyl6+T9Ci1UYd9mcP4/XTE0/Kr6tzc5qDg=;
+	b=VUnquY9MWox7I1OzpywCG2UbAbIvlqwLEvnewplFuE/POSjG2eswBZ7lU4XMRgz5Wd5+FS
+	qRZyi9AMsPiLNAieVVp1WaZvRI2ia7zbwvLiaRQsuW/HiUBa/z19SMV49c1rE0V948kyda
+	J9QRvcwYtFrOf9eZx1HplLEp8UU4LMQ=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <2392fa23-4823-4660-8b38-0f9dfe06c863@tuxedocomputers.com>
+Date: Mon, 7 Oct 2024 18:17:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
+ pavel@ucw.cz, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
+References: <20241001180658.76396-1-wse@tuxedocomputers.com>
+ <20241001180658.76396-2-wse@tuxedocomputers.com>
+ <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com>
+ <fdfaaad5-59e7-4825-bc06-db44831ac741@tuxedocomputers.com>
+ <49beebf1-db73-a3a1-3376-e1822ce2e569@linux.intel.com>
+ <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
+ <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Document the "rc-feedback" trigger which is used to control LEDs by
-remote control device activity. This is an existing trigger used in
-existing DTs, document it so validation of those DTs would pass.
 
-It was originally introduced into the Linux kernel in 2013 with
-commit 153a60bb0fac ("[media] rc: add feedback led trigger for rc keypresses")
-
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
----
- Documentation/devicetree/bindings/leds/common.yaml | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index bf9a101e4d42..32f9116e03a2 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -119,6 +119,8 @@ properties:
-             # if trigger is absent
-           - none
-             # LED indicates camera torch state
-+          - rc-feedback
-+            # LED indicates remote control feedback
-           - torch
-             # LED indicates USB gadget activity
-           - usb-gadget
--- 
-2.43.0
-
+Am 04.10.24 um 16:46 schrieb Ilpo Järvinen:
+> On Fri, 4 Oct 2024, Werner Sembach wrote:
+>> Am 03.10.24 um 12:54 schrieb Ilpo Järvinen:
+>>> On Wed, 2 Oct 2024, Werner Sembach wrote:
+>>>> Am 02.10.24 um 11:52 schrieb Ilpo Järvinen:
+>>>>> On Tue, 1 Oct 2024, Werner Sembach wrote:
+>>>>>
+>>>>>> The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a
+>>>>>> per-key
+>>>>>> controllable RGB keyboard backlight. The firmware API for it is
+>>>>>> implemented
+>>>>>> via WMI.
+>>>>>>
+>>>>>> To make the backlight userspace configurable this driver emulates a
+>>>>>> LampArray HID device and translates the input from hidraw to the
+>>>>>> corresponding WMI calls. This is a new approach as the leds subsystem
+>>>>>> lacks
+>>>>>> a suitable UAPI for per-key keyboard backlights, and like this no new
+>>>>>> UAPI
+>>>>>> needs to be established.
+>>>>>>
+>>>>>> v2: Integrated Armins feedback and fixed kernel test robot warnings.
+>>>>>> v3: Fixed borked subject line of v2.
+>>>>>> v4: Remove unrequired WMI mutex.
+>>>>>>        Move device checking from probe to init.
+>>>>>>        Fix device checking working exactly reverse as it should.
+>>>>>>        Fix null pointer dereference because, hdev->driver_data !=
+>>>>>> hdev->dev.driver_data.
+>>>>>>
+>>>>>> Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
+>>>>>> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+>>>>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>>>>> Link:
+>>>>>> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
+>>>>>> ---
+>>>> That why i choose the rather generic names of just the input and output
+>>>> length
+>>>> because there is no semantic connection between the wmi methods in
+>>>> tuxedo_nb04_wmi_8_b_in_80_b_out and tuxedo_nb04_wmi_496_b_in_80_b_out
+>>>> respectively that would make for a good name.
+>>> So the only valuable characters are prefix + 8/496/80 the rest doesn't
+>>> really tell much despite all its characters :-). Details like which of the
+>>> numbers is in/out and that the numbers are in bytes could IMO be left to
+>>> struct's comment without loss of much information value.
+>>>
+>> tuxedo_nb04_wmi_8_80 kinda looks strange to me, what about
+>> tuxedo_nb04_wmi_8_in_80_out? but that's on 4 chars shorter.
+> Perhaps just tuxedo_nb04_wmi_8in_80out ?
+ok
+>
+> I can see you like to use underscores a lot so I can understand if that
+> feels a step too far :-) (no offence meant).
+>
 
