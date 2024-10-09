@@ -1,54 +1,48 @@
-Return-Path: <linux-leds+bounces-3010-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3011-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0F999662B
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 11:56:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD957996635
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 11:57:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23C3828462E
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 09:56:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E1FF28AB5F
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 09:57:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2B3B18E028;
-	Wed,  9 Oct 2024 09:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C10D318C024;
+	Wed,  9 Oct 2024 09:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="fGD4vuFS"
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="ZV3E5gOO"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB26518E03F;
-	Wed,  9 Oct 2024 09:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B0A18DF83;
+	Wed,  9 Oct 2024 09:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728467755; cv=none; b=b/5J8O/Zl8vSRhfSYow7oNzaxyywnFIgK6eRl/H7zwTJT2FdPx0znXiIsxKGKvRb7rtJqWtF27Pty1LQ9DBSSwKymXwPSks97RKl7zVXoeGO3eCScMfwzS/SgoVcl0Kiovt0ToDr8soDhjpT13QRgaIWajKQqXjIz5Ba6uzuKyU=
+	t=1728467795; cv=none; b=HegLEOfbr8ravf2I/scANprpDcUVkMiPcQLIMK0zNFuxbg202BXMI8Njp+SYUapW0ieArOh2hBeH47hgowO5NF4XK5pW9qaE+lFEKHfCrgv+FQrlYXEPJQbo1f0hHUHMeMWM+/trE8s87kCwvtTKwpI92uHOjwbHespWSZW+TNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728467755; c=relaxed/simple;
-	bh=TIP5yunRNWtpf/sUMarm8gNn2JPA38YTnUTKYYrTurk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YePtLFCTFosk/ePBQeAnhFmodRhyT5M6xlCCCrI8/i1gOYwYf9cW8acCs/MmlIEHnNJdk0nVXaWk6JfR8RuwXOkV6Px7d7KwaT8lCAmrFQBigzVHpa3nK7e6blbqDZyXKZEXnOVposmpajqwxRwglkV7IIUtkbn7pDbmwdGCHcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=fGD4vuFS; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 791582FC006B;
-	Wed,  9 Oct 2024 11:55:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1728467749;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=matgur0Yk2xRSfUdO/KN7BzP8ABPQVByoZncuZXXpKU=;
-	b=fGD4vuFSyVqogi3FuCBaxbDfT8vnbX24Gm5Q9RwoeIcrDEexIWKIlzytxkIKzhTd/Wnz8N
-	IESUM+t4PrLqL+RxBGAP+mFBAmLu8y4Jm6Cnc2jUkcAwOq7D1kQbfiznGJ5a/sUU+JXXyi
-	cTr5zbTa0d6Z37oD1wCqnh8wf7rgXT4=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
-Date: Wed, 9 Oct 2024 11:55:49 +0200
+	s=arc-20240116; t=1728467795; c=relaxed/simple;
+	bh=owP3Jvn5HxzUDxs8qawtViaDOGXnf1RIfNHw8e27wEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hn0YSVUbozwQv0C3a8sMYFmEBfR9fVVwbbW+sYF0PhIthzqS9oz9VuNVC8kC7cDoM5ekBXC6aiHUaIcuO8BVK5tVaAFrvlfhQ/GlQD9vv0l8Xy+NfMkrJFPd6WOt1KR8D9eoxQQtHWzaVqwx6dxJmBwqoHWBlpdTgMKXb+qBZBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=ZV3E5gOO; arc=none smtp.client-ip=81.19.3.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+	s=20160406-ysoft-com; t=1728467792;
+	bh=e2NBim9PwvK2VTyvEOHjdLsVYEkH/6NAqieskfn/za0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZV3E5gOO0l8dSWO6UceoHD/u5R0DDf9SGn/6BcrMVYK4kB4WPXzvtYx1VDyXJVXBC
+	 zwJTHay73DelIJlsOJcHZQyAuzbYjpyucBA1JWYs/TNS4hE6VwS96JQR8N8yNlYOXJ
+	 lHy1BJ5V6+voaR+LQPHeF+RK88ecbyBUXPER8uIQ=
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+	by uho.ysoft.cz (Postfix) with ESMTP id E0144A021E;
+	Wed,  9 Oct 2024 11:56:31 +0200 (CEST)
+Message-ID: <cb3550f1-06c8-4e22-ae23-a738b61192fd@ysoft.com>
+Date: Wed, 9 Oct 2024 11:56:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -56,123 +50,76 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+Subject: Re: [PATCH] leds: lp55xx: Fix check for invalid channel number
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: Dan Murphy <dmurphy@ti.com>, Jacek Anaszewski
+ <jacek.anaszewski@gmail.com>, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Christian Marangi <ansuelsmth@gmail.com>
+References: <1728464547-31722-1-git-send-email-michal.vokac@ysoft.com>
 Content-Language: en-US
-In-Reply-To: <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+From: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+In-Reply-To: <1728464547-31722-1-git-send-email-michal.vokac@ysoft.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Resend because HTML mail ..., but I think I now know when Thunderbird does it: 
-Every time I include a link it gets converted.
++Cc Christian Marangi as I see he contributed a lot to this driver recently.
 
-Hi
+I also see that Dan Murphy can not be reached on the ti.com e-mail as he
+works for Abbott since 2021 according to linkedin..
 
-Am 08.10.24 um 17:21 schrieb Benjamin Tissoires:
-> On Oct 08 2024, Werner Sembach wrote:
->> [...]
-> Yeah, it just means that you can query or send the data. You can also
-> use HIDIOCGINPUT() and HIDIOCSOUTPUT() to get a current input report and
-> set an output report through the hidraw ioctl...
->
-> Internally, HIDIOCGINPUT() uses the same code path than
-> HIDIOCGFEATURE(), but with the report type being an Input instead of a
-> Feature. Same for HIDIOCSOUTPUT() and HIDIOCSFEATURE().
-
-Ok so just a difference in definition not in implementation.
-
-Then I use a get feature report for the device status function and use it as 
-input and output at the same time, and use a set output report for the led 
-update function (which technically has a return value but i think it's always 0 
-anyway).
-
-I scoured the old thread about exposing WMI calls to userspace, because I 
-remembered that something here came up already.
-
-1. https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/ -> 
-Should be no problem? Because this is not generally exposing wmi calls, just 
-mapping two explicitly with sanitized input (whitelisting basically).
-
-2. https://lore.kernel.org/all/b6d79727-ae94-44b1-aa88-069416435c14@redhat.com/ 
--> Do this concerns this apply here? The actual API to be used is LampArray and 
-the HID mapped WMI calls are just an "internal" interface for the BPF driver, 
-but technically UAPI.
-
-Also at Armin and Hans: Do you have comments on this approach?
-
->> (well as far as I can tell the hut doesn't actual specify, if they need to
->> be feature reports, or am I missing something?)
-> They can be both actually. The HUT is missing what's expected here :(.
->
-> However, looking at the HUT RR 84:
-> https://www.usb.org/sites/default/files/hutrr84_-_lighting_and_illumination_page.pdf
->
-> There is an example of a report descriptor, and they are using Features.
-> Not Input+Output.
->
-> And looking even further (above), in 3.5 Usage Definitions:
-> 3.5.2, 3.5.3 and 3.5.5 all of them are meant to be a feature, like:
-> LampArrayAttributesReport CL – Feature -
-> LampAttributesRequestReport CL – Feature –
-> LampAttributesResponseReport CL – Feature –
-> LampArrayControlReport CL – Feature –
->
-> 3.5.4: can be either feature or output, like:
-> LampMultiUpdateReport CL – Feature/Output –
-> LampRangeUpdateReport CL – Feature/ Output –
->
-> So I guess the MS implementation can handle Feature only for all but the
-> update commands.
-Thanks for the link, I guess for the BPF driver I will stick to feature reports 
-for the LampArray part until there is actually a hid descriptor spotted in the 
-wild defining LampMultiUpdateReport and LampRangeUpdateReport as Output and not 
-feature.
->> and there is the pair with LampAttributesRequestReport and
->> LampAttributesResponseReport.
-> Yeah, not a big deal. The bold IN and OUT are just to say that calling a
-> setReport on a LampAttributesResponseReport is just ignored AFAIU.
->
->> Sorry for my confusion over the hid spec.
-> No worries. It is definitely confusing :)
-
-On this note as I fathom:
-
-Input Report (usually always get report): Interrupts (the ioctl just there to 
-repeat the last one?)
-
-Output Report (usually always set report): Async write, no return value (Buffer 
-should stay untouched)
-
-Feature report set: Sync write, no return value (Buffer should stay untouched)
-
-Feature report get: Sync read/write (intended only for read, but not limited to 
-it, uses singular buffer for both input and output)
-
-I kind of don't get why feature report set exists, but well it's the specs ^^.
-
-Regards,
-
-Werner
-
-[*snip*]
+On 09. 10. 24 11:02, Michal Vokáč wrote:
+> Prior to commit 92a81562e695 ("leds: lp55xx: Add multicolor framework
+> support to lp55xx") the reg property (chan_nr) was parsed and stored
+> as it was. Then, in lp55xx_init_led() function, it was checked if it
+> is within valid range. In case it was not, an error message was
+> printed and the driver probe failed.
+> 
+> With the mentioned commit the reg property is checked right after it
+> is read from the device tree. Comparison to the upper range is not
+> correct though. Valid reg values are 0 to (max_channel - 1). So in
+> case the parsed value is out of this (wrong) range the probe just
+> fails and no error message is shown.
+> 
+> Fix it by using proper comparison and print a message in case of
+> an error. The check that is done in lp55xx_init_led() function is now
+> redundant and can be removed.
+> 
+> Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+> ---
+>   drivers/leds/leds-lp55xx-common.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+> index 5a2e259679cf..055ee77455f9 100644
+> --- a/drivers/leds/leds-lp55xx-common.c
+> +++ b/drivers/leds/leds-lp55xx-common.c
+> @@ -512,12 +512,6 @@ static int lp55xx_init_led(struct lp55xx_led *led,
+>   	led->max_current = pdata->led_config[chan].max_current;
+>   	led->chan_nr = pdata->led_config[chan].chan_nr;
+>   
+> -	if (led->chan_nr >= max_channel) {
+> -		dev_err(dev, "Use channel numbers between 0 and %d\n",
+> -			max_channel - 1);
+> -		return -EINVAL;
+> -	}
+> -
+>   	if (pdata->led_config[chan].num_colors > 1)
+>   		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
+>   	else
+> @@ -1132,8 +1126,11 @@ static int lp55xx_parse_common_child(struct device_node *np,
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (*chan_nr < 0 || *chan_nr > cfg->max_channel)
+> +	if (*chan_nr < 0 || *chan_nr >= cfg->max_channel) {
+> +		dev_err(dev, "Use channel numbers between 0 and %d\n",
+> +			cfg->max_channel - 1);
+>   		return -EINVAL;
+> +	}
+>   
+>   	return 0;
+>   }
 
