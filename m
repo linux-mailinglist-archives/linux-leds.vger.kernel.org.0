@@ -1,125 +1,130 @@
-Return-Path: <linux-leds+bounces-3011-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3012-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD957996635
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 11:57:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A86CE996638
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 11:57:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E1FF28AB5F
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 09:57:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 611611F270EF
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 09:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C10D318C024;
-	Wed,  9 Oct 2024 09:56:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CA2418F2E3;
+	Wed,  9 Oct 2024 09:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="ZV3E5gOO"
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="XozO5Nkd"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B0A18DF83;
-	Wed,  9 Oct 2024 09:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A510918E37A;
+	Wed,  9 Oct 2024 09:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728467795; cv=none; b=HegLEOfbr8ravf2I/scANprpDcUVkMiPcQLIMK0zNFuxbg202BXMI8Njp+SYUapW0ieArOh2hBeH47hgowO5NF4XK5pW9qaE+lFEKHfCrgv+FQrlYXEPJQbo1f0hHUHMeMWM+/trE8s87kCwvtTKwpI92uHOjwbHespWSZW+TNU=
+	t=1728467802; cv=none; b=U6SOrPXXtvnbsOOKpmmHpK0/OJPCoEadEAZfqJDD+6NKv7SzeG70G8hnjDJ+Xr96ogTx/K/HzULtj1mJzdSGTW5aUGHFFYZ5jmCW7eX9XsbqetNGe7PWMVjpliNkfdy/P8j8Fri6rYyjC/dAk+JuSMGIBNzgjIiWowp8UZXxvrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728467795; c=relaxed/simple;
-	bh=owP3Jvn5HxzUDxs8qawtViaDOGXnf1RIfNHw8e27wEg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hn0YSVUbozwQv0C3a8sMYFmEBfR9fVVwbbW+sYF0PhIthzqS9oz9VuNVC8kC7cDoM5ekBXC6aiHUaIcuO8BVK5tVaAFrvlfhQ/GlQD9vv0l8Xy+NfMkrJFPd6WOt1KR8D9eoxQQtHWzaVqwx6dxJmBwqoHWBlpdTgMKXb+qBZBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=ZV3E5gOO; arc=none smtp.client-ip=81.19.3.130
+	s=arc-20240116; t=1728467802; c=relaxed/simple;
+	bh=bVfK+k6Rj9bACFwnQCtvMMSrQblXycclxbPPTsGc69M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iXvNxCrfUQ5u62d/8NMcewbuoQ+mseYjtjdqA9EpNZM4+vBjfNiCB7L+yBp0Qau0AFomFJAtOhvdYPUBHKme9A23xCevU62nKG6K+7U0Jae44QfaIqJaK+HBs3Xqbac+YIPYVK3tXu7yElOoQWTz710iKEexOa5m+tNOoh/Mvlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=XozO5Nkd; arc=none smtp.client-ip=81.19.3.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-	s=20160406-ysoft-com; t=1728467792;
-	bh=e2NBim9PwvK2VTyvEOHjdLsVYEkH/6NAqieskfn/za0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZV3E5gOO0l8dSWO6UceoHD/u5R0DDf9SGn/6BcrMVYK4kB4WPXzvtYx1VDyXJVXBC
-	 zwJTHay73DelIJlsOJcHZQyAuzbYjpyucBA1JWYs/TNS4hE6VwS96JQR8N8yNlYOXJ
-	 lHy1BJ5V6+voaR+LQPHeF+RK88ecbyBUXPER8uIQ=
-Received: from [10.1.8.111] (unknown [10.1.8.111])
-	by uho.ysoft.cz (Postfix) with ESMTP id E0144A021E;
-	Wed,  9 Oct 2024 11:56:31 +0200 (CEST)
-Message-ID: <cb3550f1-06c8-4e22-ae23-a738b61192fd@ysoft.com>
-Date: Wed, 9 Oct 2024 11:56:31 +0200
+	s=20160406-ysoft-com; t=1728467798;
+	bh=rUewkbwyzSI6oMmlCe/UtDapHFjvuIQTH5uGojU1xy4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XozO5NkddKT/Dg6EFafWtG8VsGjkmns5deEZTi1Z7afnmbpTlkJYWH1rJtPj1mg5m
+	 9gAoMX5D+I7Qx/74yced7Q5PIexlkE5pFxCsl/ttGmNT3oOpEWUOSpYPJqUis6IuJp
+	 4pcGwYo/49nbHEUrM/LLZBcVHHybfGMGImY2GlZY=
+Received: from vokac-nb.ysoft.local (unknown [10.1.8.111])
+	by uho.ysoft.cz (Postfix) with ESMTP id 19893A05D4;
+	Wed,  9 Oct 2024 11:56:38 +0200 (CEST)
+From: =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	=?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+Subject: [PATCH v2] leds: lp5562: Add multicolor brightness control
+Date: Wed,  9 Oct 2024 11:56:35 +0200
+Message-ID: <20241009095635.2790613-1-michal.vokac@ysoft.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: lp55xx: Fix check for invalid channel number
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc: Dan Murphy <dmurphy@ti.com>, Jacek Anaszewski
- <jacek.anaszewski@gmail.com>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Christian Marangi <ansuelsmth@gmail.com>
-References: <1728464547-31722-1-git-send-email-michal.vokac@ysoft.com>
-Content-Language: en-US
-From: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-In-Reply-To: <1728464547-31722-1-git-send-email-michal.vokac@ysoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-+Cc Christian Marangi as I see he contributed a lot to this driver recently.
+The framework for multicolor brightness control is already in place
+in the lp55xx-common code but the function to control the multicolor
+brightness for this particular chip is still missing.
 
-I also see that Dan Murphy can not be reached on the ti.com e-mail as he
-works for Abbott since 2021 according to linkedin..
+Implement the multicolor_brightness_fn function to allow multicolor
+brightness control of LEDs connected to the LP5562 LED driver.
 
-On 09. 10. 24 11:02, Michal Vokáč wrote:
-> Prior to commit 92a81562e695 ("leds: lp55xx: Add multicolor framework
-> support to lp55xx") the reg property (chan_nr) was parsed and stored
-> as it was. Then, in lp55xx_init_led() function, it was checked if it
-> is within valid range. In case it was not, an error message was
-> printed and the driver probe failed.
-> 
-> With the mentioned commit the reg property is checked right after it
-> is read from the device tree. Comparison to the upper range is not
-> correct though. Valid reg values are 0 to (max_channel - 1). So in
-> case the parsed value is out of this (wrong) range the probe just
-> fails and no error message is shown.
-> 
-> Fix it by using proper comparison and print a message in case of
-> an error. The check that is done in lp55xx_init_led() function is now
-> redundant and can be removed.
-> 
-> Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
-> ---
->   drivers/leds/leds-lp55xx-common.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-> index 5a2e259679cf..055ee77455f9 100644
-> --- a/drivers/leds/leds-lp55xx-common.c
-> +++ b/drivers/leds/leds-lp55xx-common.c
-> @@ -512,12 +512,6 @@ static int lp55xx_init_led(struct lp55xx_led *led,
->   	led->max_current = pdata->led_config[chan].max_current;
->   	led->chan_nr = pdata->led_config[chan].chan_nr;
->   
-> -	if (led->chan_nr >= max_channel) {
-> -		dev_err(dev, "Use channel numbers between 0 and %d\n",
-> -			max_channel - 1);
-> -		return -EINVAL;
-> -	}
-> -
->   	if (pdata->led_config[chan].num_colors > 1)
->   		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
->   	else
-> @@ -1132,8 +1126,11 @@ static int lp55xx_parse_common_child(struct device_node *np,
->   	if (ret)
->   		return ret;
->   
-> -	if (*chan_nr < 0 || *chan_nr > cfg->max_channel)
-> +	if (*chan_nr < 0 || *chan_nr >= cfg->max_channel) {
-> +		dev_err(dev, "Use channel numbers between 0 and %d\n",
-> +			cfg->max_channel - 1);
->   		return -EINVAL;
-> +	}
->   
->   	return 0;
->   }
+Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+---
+v2:
+- rebase on top of latest linux v6.12-rc
+- use guard API instead of mutex lock/unlock
+
+This was tested on the imx6dl-yapp43-pegasus board (in tree) that uses
+this LED driver. There is only an RGB LED on the board so I could not
+test the white channel.
+
+ drivers/leds/leds-lp5562.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/drivers/leds/leds-lp5562.c b/drivers/leds/leds-lp5562.c
+index b26bcc81d079..14a4af361b26 100644
+--- a/drivers/leds/leds-lp5562.c
++++ b/drivers/leds/leds-lp5562.c
+@@ -161,6 +161,30 @@ static int lp5562_post_init_device(struct lp55xx_chip *chip)
+ 	return 0;
+ }
+ 
++static int lp5562_multicolor_brightness(struct lp55xx_led *led)
++{
++	struct lp55xx_chip *chip = led->chip;
++	static const u8 addr[] = {
++		LP5562_REG_R_PWM,
++		LP5562_REG_G_PWM,
++		LP5562_REG_B_PWM,
++		LP5562_REG_W_PWM,
++	};
++	int ret;
++	int i;
++
++	guard(mutex)(&chip->lock);
++	for (i = 0; i < led->mc_cdev.num_colors; i++) {
++		ret = lp55xx_write(chip,
++				   addr[led->mc_cdev.subled_info[i].channel],
++				   led->mc_cdev.subled_info[i].brightness);
++		if (ret)
++			break;
++	}
++
++	return ret;
++}
++
+ static int lp5562_led_brightness(struct lp55xx_led *led)
+ {
+ 	struct lp55xx_chip *chip = led->chip;
+@@ -364,6 +388,7 @@ static struct lp55xx_device_config lp5562_cfg = {
+ 	.post_init_device   = lp5562_post_init_device,
+ 	.set_led_current    = lp5562_set_led_current,
+ 	.brightness_fn      = lp5562_led_brightness,
++	.multicolor_brightness_fn = lp5562_multicolor_brightness,
+ 	.run_engine         = lp5562_run_engine,
+ 	.firmware_cb        = lp55xx_firmware_loaded_cb,
+ 	.dev_attr_group     = &lp5562_group,
+-- 
+2.43.0
+
 
