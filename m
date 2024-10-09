@@ -1,100 +1,114 @@
-Return-Path: <linux-leds+bounces-3025-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3026-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F352996F20
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 17:02:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A7D9970D8
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 18:15:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 615C91C23E49
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 15:02:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE737283C0B
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 16:15:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 210D9197A7E;
-	Wed,  9 Oct 2024 15:02:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542021E3DEB;
+	Wed,  9 Oct 2024 15:52:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOM32IBO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azT6oxO9"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1D64084D;
-	Wed,  9 Oct 2024 15:02:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A111E0DF0;
+	Wed,  9 Oct 2024 15:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728486151; cv=none; b=MRf7KkvFVdMnIsKQ7Q21Y8Yff9OZOpPqQh2tFWYwa7nXpyo6z3iTqPym6aMn5ENki6zq3fQn5z+9IqgI9j20Q7qyZaY4XLisFhG/v3luSxXOwOb8aQASmly5+ooNhvyOXyrXl1aBwrlnRXazFpIYt2KnDaKJsgkdA+8lAXgsoiM=
+	t=1728489153; cv=none; b=BaKd1ajzjtRR+A3YUC9hmd2MoBlpboy/SJ5XYA1ySZElokuEfdIaLg9PutG7GWsZaQMoG/ggYUFt0NM8gDQbIRxD1DpMemZcBdMRytgdlI7TkEZdbtLRJsy5Qt2JYZ0JxBgIwl6dLtAXO8dZRjbGqGItP66IG97/EltdI66wD6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728486151; c=relaxed/simple;
-	bh=YijPQnFRilQWRtLvvdo5y8s95IoL47EEoI6aPDUbRg8=;
+	s=arc-20240116; t=1728489153; c=relaxed/simple;
+	bh=3opAzplvKjVglSivCDPrg441vYhzAuPR3tmj9pIPgGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7RcxjsotHMQxPMeMUCGBaVz7xBG8A56TTG4+3Zm48rHL7lq7ClAiYi7vOUkUubO1lTaZlQa/7cO19Tc5S7tIWt2d5hSxl4JxChQimd/9ErtKRzf7jN1Ldb6H7fVVGxM/qXRK5vrWs1nwA3fNIU83WiM/B9dBVudQ9rrfv1WmYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOM32IBO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F2AC4CEC3;
-	Wed,  9 Oct 2024 15:02:30 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=jicJwHVz9dEGsvLxYMifNery/UP2s2by2xhiiqGYCSActwMyTSMGy1qli72V+iK5U98ozYPc2iKamd3K2Zz04liTL86/1kPyUH9SzsgLSGFKJcm8fWZqdsiEGYYZYn7lNiYjaYZfr19YJmELVEcjMnmmGxbyvNjEQqhkWZ+HDdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azT6oxO9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 858BCC4CEC3;
+	Wed,  9 Oct 2024 15:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728486150;
-	bh=YijPQnFRilQWRtLvvdo5y8s95IoL47EEoI6aPDUbRg8=;
+	s=k20201202; t=1728489152;
+	bh=3opAzplvKjVglSivCDPrg441vYhzAuPR3tmj9pIPgGg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oOM32IBOekQCh583Xv7JBTXXjGSGt2wiWSi5G5Vm0PCPDbsJolFYePCS0OVH04/Ni
-	 ftaxp2RWcWQ/fUzPu5bG2JHkteD4AmFOv07W9KmW5z2aUcWgZKqKvlYJcDXMlrCOsH
-	 hgc7i291Q3Eev3H2ywjGqVu2JrFRHOsyggEqwp3rOu7LQ69CRg5AZvGHam08EGbbHM
-	 UTtOVbLFRE0ZQF0XRYj6XsgW1q+5a+7+duAyfl6UjcCUqa87iUc8xGXEVZ8oaDUHT9
-	 1AdY46RGoiD4S08D4n6SA6O8LCxnjkSc/Af91uZuqzwPJmeFl+i3c9LT6Pj7LCn/sj
-	 jdwilatPoP4WQ==
-Date: Wed, 9 Oct 2024 10:02:28 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	b=azT6oxO9H+KxyL5DtHqGVzaw6VvkwhCRZgi1s6K6jyeWDPYKNq9NU8WNE4Y7aZ/SL
+	 UG+VkA3yrXSNOTlFfHz4zK+Lm4pTxmHvfewkwPfhfg3fYwpSSE+83fbfkcd3HpK1vP
+	 Xmjx8YBICRi9S1DP9dYVz5AN1Edh1ISqu4+QulIRl5vZCf4SWU4b+fTrh+KanQLlqb
+	 Vmyx9hwwbV42F+c4A9yUYZFeFg6d05ibkOE6QMLn6bQ4ir7OERXL79h7LJYHSPZtd/
+	 oFM6PIv8M335szmQLptKsy/a99iR75ThRECQ6gcjWw+/lOSTHh9ZjK+o75IJCDI4fn
+	 nn3obwpSqL8Dw==
+Date: Wed, 9 Oct 2024 16:52:22 +0100
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Macpaul Lin <macpaul.lin@mediatek.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 0/5] dt-bindings: mfd: convert zii,rave-sp.txt and child
- txt to yaml format
-Message-ID: <20241009150228.GB465237-robh@kernel.org>
-References: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>,
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+	Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <20241009155222.GB637580@google.com>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+ <20241001104145.24054-3-macpaul.lin@mediatek.com>
+ <5nvshurbpmjkqysphfrfxhekq3c6od6a2uqai4rfxns64mdvf7@ftjvgjnivr3k>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5nvshurbpmjkqysphfrfxhekq3c6od6a2uqai4rfxns64mdvf7@ftjvgjnivr3k>
 
-On Tue, Oct 08, 2024 at 06:00:56PM -0400, Frank Li wrote:
-> Fixed below warnings:
+On Wed, 02 Oct 2024, Krzysztof Kozlowski wrote:
+
+> On Tue, Oct 01, 2024 at 06:41:45PM +0800, Macpaul Lin wrote:
+> > Convert the mfd: mediatek: mt6397 binding to DT schema format.
+> > 
+> > MT6323, MT6358, and MT6397 are PMIC devices with multiple function
+> > subdevices. They share a common PMIC design but have variations in
+> > subdevice combinations.
+> > 
+> > Key updates in this conversion:
+> > 
+> > 1. RTC:
+> >    - Convert rtc-mt6397.txt and merge into parent MT6397 PMIC DT schema.
 > 
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Frank Li (5):
->       dt-bindings: input: convert zii,rave-sp-pwrbutton.txt to yaml
->       dt-bindings: backlight: convert zii,rave-sp-backlight.txt to yaml
->       dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt to yaml format
->       dt-bindings: watchdog: convert zii,rave-sp-wdt.txt to yaml format
->       dt-bindings: mfd: convert zii,rave-sp.txt to yaml format
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-All looks fine except for the maintainers.
+Everyone okay with me taking this without a pull-request?
 
-Rob
+-- 
+Lee Jones [李琼斯]
 
