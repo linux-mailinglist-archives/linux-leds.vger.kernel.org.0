@@ -1,130 +1,182 @@
-Return-Path: <linux-leds+bounces-3012-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3013-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86CE996638
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 11:57:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A79B996665
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 12:05:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 611611F270EF
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 09:57:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C559C1F270C3
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 10:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CA2418F2E3;
-	Wed,  9 Oct 2024 09:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA0D18DF7D;
+	Wed,  9 Oct 2024 10:05:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="XozO5Nkd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QosHPxkJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A510918E37A;
-	Wed,  9 Oct 2024 09:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2165118C329;
+	Wed,  9 Oct 2024 10:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728467802; cv=none; b=U6SOrPXXtvnbsOOKpmmHpK0/OJPCoEadEAZfqJDD+6NKv7SzeG70G8hnjDJ+Xr96ogTx/K/HzULtj1mJzdSGTW5aUGHFFYZ5jmCW7eX9XsbqetNGe7PWMVjpliNkfdy/P8j8Fri6rYyjC/dAk+JuSMGIBNzgjIiWowp8UZXxvrw=
+	t=1728468304; cv=none; b=fDlvbpNg6x+VcjhVFUUlYrQ3WrgFq3z5ik/2+8wYha4W4kN9VFDi7zYrudtZvxYKyV93rzoFKfTZflEIjfDXTPfXIOaJfc8ED9LtQOel93c6mx54SxOf8CeGnBAtflJkQ7a1g4vJFvDVC0CvupZTu1vLWWvniIUld/e6vX+PS8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728467802; c=relaxed/simple;
-	bh=bVfK+k6Rj9bACFwnQCtvMMSrQblXycclxbPPTsGc69M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iXvNxCrfUQ5u62d/8NMcewbuoQ+mseYjtjdqA9EpNZM4+vBjfNiCB7L+yBp0Qau0AFomFJAtOhvdYPUBHKme9A23xCevU62nKG6K+7U0Jae44QfaIqJaK+HBs3Xqbac+YIPYVK3tXu7yElOoQWTz710iKEexOa5m+tNOoh/Mvlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=XozO5Nkd; arc=none smtp.client-ip=81.19.3.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-	s=20160406-ysoft-com; t=1728467798;
-	bh=rUewkbwyzSI6oMmlCe/UtDapHFjvuIQTH5uGojU1xy4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XozO5NkddKT/Dg6EFafWtG8VsGjkmns5deEZTi1Z7afnmbpTlkJYWH1rJtPj1mg5m
-	 9gAoMX5D+I7Qx/74yced7Q5PIexlkE5pFxCsl/ttGmNT3oOpEWUOSpYPJqUis6IuJp
-	 4pcGwYo/49nbHEUrM/LLZBcVHHybfGMGImY2GlZY=
-Received: from vokac-nb.ysoft.local (unknown [10.1.8.111])
-	by uho.ysoft.cz (Postfix) with ESMTP id 19893A05D4;
-	Wed,  9 Oct 2024 11:56:38 +0200 (CEST)
-From: =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	=?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-Subject: [PATCH v2] leds: lp5562: Add multicolor brightness control
-Date: Wed,  9 Oct 2024 11:56:35 +0200
-Message-ID: <20241009095635.2790613-1-michal.vokac@ysoft.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1728468304; c=relaxed/simple;
+	bh=zcrhkQU3a/I3nldi+jyZLPEYX6EbLf6WARSWbNo2SXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJt19TnhUKu3d1BWTnlB6HEzMqIYt6fze1ouTB7sSGAn9Ggvkz3xd80+aCvkRBKEXSDTQkLUwnw3/spfw2adAQ4YzeewrrhCJPpeTibvNBk+rIe4zdMVh0ZZYrWXIEqqA19b/JFHruVnpA8nbeH81XATHUJddzS1j2l2A+gh438=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QosHPxkJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BDBC4CEC5;
+	Wed,  9 Oct 2024 10:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728468303;
+	bh=zcrhkQU3a/I3nldi+jyZLPEYX6EbLf6WARSWbNo2SXA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QosHPxkJTXDemqEEkGWzxzp/BNx3OxfQI+DWZjB+eV46HKTPLAgvXc+y/Vv+n2u4w
+	 g4MMMwzchRY2fPwwSNEtVVPYO71tglAWcndvL0pn8M9CimRzZoWt3xvtcCCUTT72e+
+	 YbZHq4IEaIElCXnfLuR0gkkgE78Ff4zq7ZLf9/CJuimsaVGy2n0cKcKiK1gcSAXC5p
+	 frKwu37G+oYFPnoNhahoKcwsmJN6LtiZ8UJSvkYihUjv8I58AckfZJeGvTvqPY4pFi
+	 K6AmyFamB1f6ZTA1K4EK54EFT8Kf1YizI+13709GSKLTp+5ib4bJyWCmKPreO0XB3P
+	 A5P2qhc993wBw==
+Date: Wed, 9 Oct 2024 11:04:57 +0100
+From: Lee Jones <lee@kernel.org>
+To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>, arm@kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH leds v3 06/11] leds: turris-omnia: Notify sysfs on MCU
+ global LEDs brightness change
+Message-ID: <20241009100457.GA276481@google.com>
+References: <20240913123103.21226-1-kabel@kernel.org>
+ <20240913123103.21226-7-kabel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240913123103.21226-7-kabel@kernel.org>
 
-The framework for multicolor brightness control is already in place
-in the lp55xx-common code but the function to control the multicolor
-brightness for this particular chip is still missing.
+On Fri, 13 Sep 2024, Marek Behún wrote:
 
-Implement the multicolor_brightness_fn function to allow multicolor
-brightness control of LEDs connected to the LP5562 LED driver.
+> Recall that on Turris Omnia, the LED controller has a global brightness
+> property, which allows the user to make the front LED panel dimmer.
+> 
+> There is also a button on the front panel, which by default is
+> configured so that pressing it changes the global brightness to a lower
+> value (unless it is at 0%, in which case pressing the button changes the
+> global brightness to 100%).
+> 
+> Newer versions of the MCU firmware support informing the SOC that the
+> brightness was changed by button press event via an interrupt.
+> 
+> Now that we have the turris-omnia-mcu driver, which adds support for MCU
+> interrupts, add the ability to inform the userspace (via a sysfs
+> notification) that the global brightness was changed.
+> 
+> Signed-off-by: Marek Behún <kabel@kernel.org>
+> ---
+>  drivers/leds/leds-turris-omnia.c | 37 ++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+> 
+> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+> index 82cf58fbe946..a87cdb58e476 100644
+> --- a/drivers/leds/leds-turris-omnia.c
+> +++ b/drivers/leds/leds-turris-omnia.c
+> @@ -33,6 +33,7 @@ struct omnia_leds {
+>  	struct i2c_client *client;
+>  	struct mutex lock;
+>  	bool has_gamma_correction;
+> +	struct kernfs_node *brightness_kn;
 
-Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
----
-v2:
-- rebase on top of latest linux v6.12-rc
-- use guard API instead of mutex lock/unlock
+Variable nomenclature should be self documenting.
 
-This was tested on the imx6dl-yapp43-pegasus board (in tree) that uses
-this LED driver. There is only an RGB LED on the board so I could not
-test the white channel.
+What is kn?  Please improve this.
 
- drivers/leds/leds-lp5562.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+>  	struct omnia_led leds[];
+>  };
+>  
+> @@ -357,6 +358,21 @@ static struct attribute *omnia_led_controller_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(omnia_led_controller);
+>  
+> +static irqreturn_t omnia_brightness_changed_handler(int irq, void *dev_id)
 
-diff --git a/drivers/leds/leds-lp5562.c b/drivers/leds/leds-lp5562.c
-index b26bcc81d079..14a4af361b26 100644
---- a/drivers/leds/leds-lp5562.c
-+++ b/drivers/leds/leds-lp5562.c
-@@ -161,6 +161,30 @@ static int lp5562_post_init_device(struct lp55xx_chip *chip)
- 	return 0;
- }
- 
-+static int lp5562_multicolor_brightness(struct lp55xx_led *led)
-+{
-+	struct lp55xx_chip *chip = led->chip;
-+	static const u8 addr[] = {
-+		LP5562_REG_R_PWM,
-+		LP5562_REG_G_PWM,
-+		LP5562_REG_B_PWM,
-+		LP5562_REG_W_PWM,
-+	};
-+	int ret;
-+	int i;
-+
-+	guard(mutex)(&chip->lock);
-+	for (i = 0; i < led->mc_cdev.num_colors; i++) {
-+		ret = lp55xx_write(chip,
-+				   addr[led->mc_cdev.subled_info[i].channel],
-+				   led->mc_cdev.subled_info[i].brightness);
-+		if (ret)
-+			break;
-+	}
-+
-+	return ret;
-+}
-+
- static int lp5562_led_brightness(struct lp55xx_led *led)
- {
- 	struct lp55xx_chip *chip = led->chip;
-@@ -364,6 +388,7 @@ static struct lp55xx_device_config lp5562_cfg = {
- 	.post_init_device   = lp5562_post_init_device,
- 	.set_led_current    = lp5562_set_led_current,
- 	.brightness_fn      = lp5562_led_brightness,
-+	.multicolor_brightness_fn = lp5562_multicolor_brightness,
- 	.run_engine         = lp5562_run_engine,
- 	.firmware_cb        = lp55xx_firmware_loaded_cb,
- 	.dev_attr_group     = &lp5562_group,
+Why dev_id?  This appears to be driver data.  ddata sounds more applicable.
+
+> +{
+> +	struct omnia_leds *leds = dev_id;
+> +
+> +	if (unlikely(!leds->brightness_kn)) {
+> +		leds->brightness_kn = sysfs_get_dirent(leds->client->dev.kobj.sd, "brightness");
+
+NACK.  This will sleep in IRQ context.
+
+> +		if (!leds->brightness_kn)
+> +			return IRQ_NONE;
+> +	}
+> +
+> +	sysfs_notify_dirent(leds->brightness_kn);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static int omnia_mcu_get_features(const struct i2c_client *client)
+>  {
+>  	struct i2c_client mcu_client = *client;
+> @@ -420,6 +436,14 @@ static int omnia_leds_probe(struct i2c_client *client)
+>  			 "Consider upgrading MCU firmware with the omnia-mcutool utility.\n");
+>  	}
+>  
+> +	if (ret & OMNIA_FEAT_BRIGHTNESS_INT) {
+> +		ret = devm_request_any_context_irq(dev, client->irq,
+> +						   omnia_brightness_changed_handler, IRQF_ONESHOT,
+> +						   "leds-turris-omnia", leds);
+> +		if (ret <= 0)
+> +			return dev_err_probe(dev, ret ?: -ENXIO, "Cannot request brightness IRQ\n");
+> +	}
+> +
+>  	mutex_init(&leds->lock);
+>  
+>  	ret = devm_led_trigger_register(dev, &omnia_hw_trigger);
+> @@ -442,6 +466,19 @@ static int omnia_leds_probe(struct i2c_client *client)
+>  
+>  static void omnia_leds_remove(struct i2c_client *client)
+>  {
+> +	struct omnia_leds *leds = i2c_get_clientdata(client);
+> +
+> +	/*
+> +	 * We need to free the brightness IRQ here, before putting away the brightness sysfs node.
+> +	 * Otherwise devres would free the interrupt only after the sysfs node is removed, and if
+> +	 * an interrupt occurred between those two events, it would use a removed sysfs node.
+> +	 */
+> +	devm_free_irq(&client->dev, client->irq, leds);
+> +
+> +	/* Now put away the sysfs node we got the first time the interrupt handler was called */
+> +	if (leds->brightness_kn)
+> +		sysfs_put(leds->brightness_kn);
+> +
+>  	/* put all LEDs into default (HW triggered) mode */
+>  	omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE, OMNIA_CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
+>  
+> -- 
+> 2.44.2
+> 
+
 -- 
-2.43.0
-
+Lee Jones [李琼斯]
 
