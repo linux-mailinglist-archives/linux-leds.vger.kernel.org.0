@@ -1,126 +1,163 @@
-Return-Path: <linux-leds+bounces-3019-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3020-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184EA996D86
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 16:21:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 553B2996DB5
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 16:28:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC42D286EA9
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 14:20:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD9C91F22C50
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2024 14:28:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0372719CC28;
-	Wed,  9 Oct 2024 14:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 852D417BB3E;
+	Wed,  9 Oct 2024 14:28:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYLSgIOn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fO3K7ls4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC5B19C552;
-	Wed,  9 Oct 2024 14:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD0D199223
+	for <linux-leds@vger.kernel.org>; Wed,  9 Oct 2024 14:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728483650; cv=none; b=K3XoMoXInFPvzuW8pt9KMc30EvdTd/1phLvN0S4A0gfn2S3vN/3jV4/cj9euz2XU4EbipHwSTrvIJ3qYu9moBFHw7SU1ssjhV0bKU/vGlYgtJBfJ1LlUT+2DlOwYItGwYlh4AQ7B09g/v9A3sGzZCRgCxFm2o+BpsPSJOXZnq9c=
+	t=1728484084; cv=none; b=MBkM26+6nR9wwmhOMPq4axwNgYSdH/PF8Yxjpgxbr4nWRPKcVDmIQSyOp1fCEgKp3AoR4H3nifes1SM6YbXpW2xnl0+OaD7aYsu4PuCY2TEcbiVToDEh4npZcsqUpxNOwui8yuPWZFueluZorpb/HqDfPz5jB/pee+r90M5SMDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728483650; c=relaxed/simple;
-	bh=QViY9lx7IRmLT83VCb/QN5MYrQn/DBbOjGPf3qXYL5s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bB9gHtScZelvGypDBtQNmdQoEQU8X9pHbJSJjy8aH62xnrOCZ/kwzQ8pCAE5be2emaK1pRtw0OLrQzDEX9YOkz1iUHxem55eWZDM329VfJnMoaRkSSrrmDG8VHebqjuEkhyJeY2gx0qwrzrzhf5ysX/GUijGVYl2dmB75nXHybU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYLSgIOn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D826C4CEC3;
-	Wed,  9 Oct 2024 14:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728483650;
-	bh=QViY9lx7IRmLT83VCb/QN5MYrQn/DBbOjGPf3qXYL5s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PYLSgIOnaefqWMugYlxXrb0D/Ib2TT0NidJoR91A+I1KWnvbwjXA0TxGSS0XmSl/t
-	 e1h6UyqPFeZRjST9LWLXu/xaRjJm09Wwqh+ivTZ2pJHOuW5b1ziZDieAyV1AHxfoh5
-	 XlHRXxaULCD77+zDBcjrqONuXkTD9gHK7jaPvJ5oBraQM0/TDKqWKc/tLkoMY/NEwb
-	 sgN5WDbkK/YRwUZNth0ww+iuxri65xvNLYd5sOxsUSeL/0hbp4iFspHsDXjOUaYp21
-	 i9ADNApYJRTUBPG17ZeZkWmSrrI+wtRizpR3mthj9G/+KycKO84hmPqYJdjET+30xB
-	 PmzE+wa1LVh7Q==
-From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Gene Chen <gene_chen@richtek.com>, 
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, stable@vger.kernel.org
-In-Reply-To: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
-References: <20240927-leds_device_for_each_child_node_scoped-v1-0-95c0614b38c8@gmail.com>
-Subject: Re: [PATCH 00/18] leds: switch to
- device_for_each_child_node_scoped()
-Message-Id: <172848364679.581850.9636321610214125502.b4-ty@kernel.org>
-Date: Wed, 09 Oct 2024 15:20:46 +0100
+	s=arc-20240116; t=1728484084; c=relaxed/simple;
+	bh=23cA1onqzwt1q7lhY9JMGOcwOd3fOLWS2ciwmGet5bg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kd5rXN9tWhyhaYBP+wSsIaVecWzqtnebrzfrjbQql48ByH/XBovBR0FRWabfkmLx+KrAlGs5ykte5haW6x/3oOg79buZNJijbRCCu+4+TJreTMsvUbKu37Op08if8SuJcQzLeOi7pnQCNIxHNDjMfhpCBLbf5nys2/esdOBdy9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fO3K7ls4; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c92a59de18so587170a12.3
+        for <linux-leds@vger.kernel.org>; Wed, 09 Oct 2024 07:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728484081; x=1729088881; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CylJOmagGAkGpdVrMr6+1cW2iaVLREpDJiGPFs09KAk=;
+        b=fO3K7ls4i7JsT/TnbFPklx+ss4sTEg5Vamz+C/xNw9i2AWD+LILRtzZSsU8G6q8ICM
+         DIAaS70BV0ySeOQjK5gEPIRQOU3b/PeemR5PyEaINKVErU44QDKjKiFR/VontsQIJtxS
+         Q49RvF3C16Zc59Lu98D5vx1rSL/R5LZxJLA8c1KSelg8f3oMe2CocktgG4yxAyTPTE5m
+         x9BOrrFpfVJgiDtVP4EM5xD6Es8FwvW8Uv2DELaPxlczIUyzYgXwsa3KttttekI1f06m
+         8usIaa1UIZcNo9m9ns2K2cTREJkOyXHpk25nnIb4Nlac+VyFShKX6sFOjCYP/wNQPMSN
+         +EwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728484081; x=1729088881;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CylJOmagGAkGpdVrMr6+1cW2iaVLREpDJiGPFs09KAk=;
+        b=ZUwoQtT0UpCb/tTNIoif9O1tws2x9vvw9V18d45W6d9kzCilLsRFL4Fv0fFOLSnllb
+         WWGpoFts6y22BBv3O0SIQQICjxnpVXe3PyxRfwJA/LZm6rPaK7PHK376AZ7qH87Kw0Qn
+         HaGdLuKnuMcbbgdbPWrfXll8r9Mdmm7O0fVGF5ouhSwRcmBaobNIFIS7Oex+EmIcyDpY
+         IZIX7/RsrZpD+DwpfZeNG1eJzrUgtEhrYgEb+u/oZ92X7ZkEu0pB0FyZgsUXhjgupFXC
+         2gzQyWY6cqKr03KcPjEZj+Cpgmq9emd9Y4i7I3YkUF7X4S8VmdSZEgNy4DGoQhwgPTzs
+         D2dg==
+X-Forwarded-Encrypted: i=1; AJvYcCWblX6UfswuS4CVR0y2TlCTO4uFkSLo/YnJ9ZfSR/QYCDzaD2GRr1O56ucg83cwluuOdD2UKffBEY8f@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCZVmEO30D4dEe2thhCnUon/3YUTcedXZggB+5Hi49NwkyuBW6
+	83KsbXBOw8hTWF2O8xFkIARdHmZ8fPm1CXNSfJXkF67E5eKiOQL5Y11bQUEfxHA=
+X-Google-Smtp-Source: AGHT+IFC2+aNftX1wtcYA5gceGi5A5G0BYMh6bKRimAvEmAv1nnzz79VY6eqA3p/ELTcZ0JDKdD5Pw==
+X-Received: by 2002:a05:6402:528a:b0:5c8:84d9:ce26 with SMTP id 4fb4d7f45d1cf-5c91d5c3636mr2060269a12.19.1728484080612;
+        Wed, 09 Oct 2024 07:28:00 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c91cd8eadesm1016377a12.12.2024.10.09.07.27.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 07:28:00 -0700 (PDT)
+Date: Wed, 9 Oct 2024 15:27:58 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 2/5] dt-bindings: backlight: convert
+ zii,rave-sp-backlight.txt to yaml
+Message-ID: <20241009142758.GB16179@aspen.lan>
+References: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
+ <20241008-zii_yaml-v1-2-d06ba7e26225@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241008-zii_yaml-v1-2-d06ba7e26225@nxp.com>
 
-On Fri, 27 Sep 2024 01:20:51 +0200, Javier Carrasco wrote:
-> This series switches from the device_for_each_child_node() macro to its
-> scoped variant, which in general makes the code more robust if new early
-> exits are added to the loops, because there is no need for explicit
-> calls to fwnode_handle_put(). Depending on the complexity of the loop
-> and its error handling, the code gets simplified and it gets easier to
-> follow.
-> 
-> [...]
+On Tue, Oct 08, 2024 at 06:00:58PM -0400, Frank Li wrote:
+> Convert device tree binding doc zii,rave-sp-backlight.txt to yaml format.
+> Additional Changes:
+> - Remove mfd parent node at example.
+> - Ref to backlight's common.yaml
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../leds/backlight/zii,rave-sp-backlight.txt       | 23 --------------
+>  .../leds/backlight/zii,rave-sp-backlight.yaml      | 36 ++++++++++++++++++++++
+>  2 files changed, 36 insertions(+), 23 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.txt
+> deleted file mode 100644
+> index ff5c921386502..0000000000000
+> --- a/Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.txt
+> +++ /dev/null
+> @@ -1,23 +0,0 @@
+> -Zodiac Inflight Innovations RAVE Supervisory Processor Backlight Bindings
+> -
+> -RAVE SP backlight device is a "MFD cell" device corresponding to
+> -backlight functionality of RAVE Supervisory Processor. It is expected
+> -that its Device Tree node is specified as a child of the node
+> -corresponding to the parent RAVE SP device (as documented in
+> -Documentation/devicetree/bindings/mfd/zii,rave-sp.txt)
+> -
+> -Required properties:
+> -
+> -- compatible: Should be "zii,rave-sp-backlight"
+> -
+> -Example:
+> -
+> -	rave-sp {
+> -		compatible = "zii,rave-sp-rdu1";
+> -		current-speed = <38400>;
+> -
+> -		backlight {
+> -			compatible = "zii,rave-sp-backlight";
+> -		};
+> -	}
+> -
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.yaml
+> new file mode 100644
+> index 0000000000000..fe9dba8231bf1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.yaml
+> @@ -0,0 +1,36 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/zii,rave-sp-backlight.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Zodiac Inflight Innovations RAVE Supervisory Processor Backlight
+> +
+> +maintainers:
+> +  - Lee Jones <lee@kernel.org>
 
-Applied, thanks!
+How did you arrive at this maintainer list?
 
-[01/18] leds: flash: mt6360: fix device_for_each_child_node() refcounting in error paths
-        commit: 73b03b27736e440e3009fe1319cbc82d2cd1290c
-[02/18] leds: flash: mt6370: switch to device_for_each_child_node_scoped()
-        commit: 19d1cc765e7d477070ddda02c9a07a1ebcdf4b2d
-[03/18] leds: flash: leds-qcom-flash: switch to device_for_each_child_node_scoped()
-        commit: f64dd42a4f939fb5acc3f3568ef2118487617996
-[04/18] leds: aw200xx: switch to device_for_each_child_node_scoped()
-        commit: a361af3c1622d4b8ede54493fa88633fb12201d0
-[05/18] leds: cr0014114: switch to device_for_each_child_node_scoped()
-        commit: 65135e2ccf5ad0853c1df0ffeefc372066a62909
-[06/18] leds: el15203000: switch to device_for_each_child_node_scoped()
-        commit: 9e445e28ae0c6fe24369127cf2302cd4f3a1b42b
-[07/18] leds: gpio: switch to device_for_each_child_node_scoped()
-        commit: 42b49671602f9badb14fd2c32e6791a24d8cbf02
-[08/18] leds: lm3532: switch to device_for_each_child_node_scoped()
-        commit: 7bd4b9277b9831d115f14d26000c0ba32c83d109
-[09/18] leds: lm3697: switch to device_for_each_child_node_scoped()
-        commit: 6e2d1d83b70bd736228529fd1cb4f98e0ab77eb8
-[10/18] leds: lp50xx: switch to device_for_each_child_node_scoped()
-        commit: ba35b9a4c1b074218880c47ca09d19a3c69f904d
-[11/18] leds: max77650: switch to device_for_each_child_node_scoped()
-        commit: 4ab3ae432da1706b5e1624ecea3c670faaec39d7
-[12/18] leds: ns2: switch to device_for_each_child_node_scoped()
-        commit: 5b5d936db0d2fb9e81d240ed91d062b8c8f0d224
-[13/18] leds: pca963x: switch to device_for_each_child_node_scoped()
-        commit: dea90acb09324efe640ab69766c12d8d387ee97f
-[14/18] leds: pwm: switch to device_for_each_child_node_scoped()
-        commit: e3456071853597229012622c97b76109c0fa8754
-[15/18] leds: sun50i-a100: switch to device_for_each_child_node_scoped()
-        commit: 8cf103de9a002fb02125491c06d9cd60762d70e5
-[16/18] leds: tca6507: switch to device_for_each_child_node_scoped()
-        commit: 01728d041986a6992d0b2499e88db4569e65a535
-[17/18] leds: rgb: ktd202x: switch to device_for_each_child_node_scoped()
-        commit: 48259638fe5986afe8ed2a49e35f0641d953c311
-[18/18] leds: rgb: mt6370: switch to device_for_each_child_node_scoped()
-        commit: bf3fba727695dcd1ac3f9d17d88845223f56c14f
+It's not the usual backlight group and it also doesn't match the
+maintainer for the mfd bindings.
 
---
-Lee Jones [李琼斯]
 
+Daniel.
 
