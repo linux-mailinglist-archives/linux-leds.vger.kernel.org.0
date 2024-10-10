@@ -1,31 +1,31 @@
-Return-Path: <linux-leds+bounces-3035-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3036-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2167E9986AF
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 14:54:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25EC99986B6
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 14:54:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAFAF1F219CC
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 12:54:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9784AB227A0
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 12:54:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701A91C68BC;
-	Thu, 10 Oct 2024 12:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82481C6F45;
+	Thu, 10 Oct 2024 12:54:31 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633391C2DC0;
-	Thu, 10 Oct 2024 12:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C081C2DAA;
+	Thu, 10 Oct 2024 12:54:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728564848; cv=none; b=Ur6EIvx9I2/HYDsHvRyvWZNp7clwiORrNogKB8Nnjop09I5xAv4sMZiVw09Q7W5K8BuJMtn5GxCCxPBq+OI0iWavCr+d7LLLuh7fQigD7WIk8QEdUasdT76FhXcuj/cviYMgfh82bAAOuP5rv1tO6GjuXWutAiaLP7CVsuilIxA=
+	t=1728564871; cv=none; b=R9vDeoWRK8IH/qOAVBEfB0q98AjZFv7x6cgUtRnT+5v1ecRvMopHdmgZfWTaePdwsD3tE4dbJv3YXMF1SpDFekzVxogm3CVcXIPz32uACA7n1J+kMtLStg1A/gPFdwzR87LOWKjTzAvA0El4kiBjib9xwuygwPuumkmOSNEZwfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728564848; c=relaxed/simple;
-	bh=VgdWPTW7P0L+QIKLU0QKp4uLoRUrGlFZO6w8Mmj3fHU=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GynSQKPt6siEddTV1Hl4yCL5HC5VBpUDCOTlIcNNfdppRvWotCGsDyCIo53+ZUSB3avNrkHeZ4Kx/J99Y39Ry9F3dWHBd/+SYx3p0uiFUc88KWbforXAUx4zOKq0OAcbLSVxf1rCCnX7iRAnN/5UZxhNyj9p1HDKzrBpz9GG9ek=
+	s=arc-20240116; t=1728564871; c=relaxed/simple;
+	bh=PUrZp8lCXWqh4KpB2y21LccScnMbQxPhaDUJOqh3RBc=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TrzbRER/4+IJv3BaSQUN7j9hNITus8f226Z70a8OJsGSbkSK2g23vAfD8laE6bP9XjdQGVqibqs2XWjLbmll3Mt4BqjdFpewGvwOVxN/Vl9J942PIlfnAzhL/8zqc33vakElUXHfAlS6YrPIFfslYCXdoph37haaQGYxQnnMwXA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -33,9 +33,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.98)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1sysfn-0000000039J-2wnk;
-	Thu, 10 Oct 2024 12:53:43 +0000
-Date: Thu, 10 Oct 2024 13:53:36 +0100
+	id 1sysgR-0000000039k-0Jbr;
+	Thu, 10 Oct 2024 12:54:23 +0000
+Date: Thu, 10 Oct 2024 13:54:19 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -55,8 +55,10 @@ To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH net-next v2 1/5] dt-bindings: leds: add 'active-high' property
-Message-ID: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
+Subject: [PATCH net-next v2 2/5] net: phy: support 'active-high' property for
+ PHY LEDs
+Message-ID: <91598487773d768f254d5faf06cf65b13e972f0e.1728558223.git.daniel@makrotopia.org>
+References: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,56 +67,60 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
 
-Other than described in commit c94d1783136e ("dt-bindings: net: phy:
-Make LED active-low property common") the absence of the 'active-low'
-property means not to touch the polarity settings which are inherited
-from reset defaults, the bootloader or bootstrap configuration. Hence,
-in order to override a LED pin being active-high in case of the default,
-bootloader or bootstrap setting being active-low an additional property
-'active-high' is required. Document that property and make it mutually
-exclusive to the existing 'active-low' property.
+In addition to 'active-low' and 'inactive-high-impedance' also
+support 'active-high' property for PHY LED pin configuration.
+As only either 'active-high' or 'active-low' can be set at the
+same time, WARN and return an error in case both are set.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-v2: fix commit sha truncation in commit message
+v2: emmit warning and return error if both, 'active-high' and
+    'active-low' are set
 
- Documentation/devicetree/bindings/leds/common.yaml | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/net/phy/phy_device.c | 6 ++++++
+ include/linux/phy.h          | 5 +++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index bf9a101e4d42..7c3cd7b7412e 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -202,6 +202,12 @@ properties:
-       #trigger-source-cells property in the source node.
-     $ref: /schemas/types.yaml#/definitions/phandle-array
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 4ccf504a8b2c..e92fac9aad92 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -3357,11 +3357,17 @@ static int of_phy_led(struct phy_device *phydev,
+ 	if (index > U8_MAX)
+ 		return -EINVAL;
  
-+  active-high:
-+    type: boolean
-+    description:
-+      Makes LED active high. To turn the LED ON, line needs to be
-+      set to high voltage instead of low.
++	if (of_property_read_bool(led, "active-high"))
++		set_bit(PHY_LED_ACTIVE_HIGH, &modes);
+ 	if (of_property_read_bool(led, "active-low"))
+ 		set_bit(PHY_LED_ACTIVE_LOW, &modes);
+ 	if (of_property_read_bool(led, "inactive-high-impedance"))
+ 		set_bit(PHY_LED_INACTIVE_HIGH_IMPEDANCE, &modes);
+ 
++	if (WARN_ON(modes & BIT(PHY_LED_ACTIVE_LOW) &&
++		    modes & BIT(PHY_LED_ACTIVE_HIGH)))
++		return -EINVAL;
 +
-   active-low:
-     type: boolean
-     description:
-@@ -225,6 +231,14 @@ properties:
-       Maximum timeout in microseconds after which the flash LED is turned off.
-       Required for flash LED nodes with configurable timeout.
+ 	if (modes) {
+ 		/* Return error if asked to set polarity modes but not supported */
+ 		if (!phydev->drv->led_polarity_set)
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index ff762a3d8270..bf0eb4e5d35c 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -877,8 +877,9 @@ struct phy_plca_status {
  
-+allOf:
-+  - if:
-+      required:
-+        - active-low
-+    then:
-+      properties:
-+        active-high: false
-+
- additionalProperties: true
+ /* Modes for PHY LED configuration */
+ enum phy_led_modes {
+-	PHY_LED_ACTIVE_LOW = 0,
+-	PHY_LED_INACTIVE_HIGH_IMPEDANCE = 1,
++	PHY_LED_ACTIVE_HIGH = 0,
++	PHY_LED_ACTIVE_LOW = 1,
++	PHY_LED_INACTIVE_HIGH_IMPEDANCE = 2,
  
- examples:
+ 	/* keep it last */
+ 	__PHY_LED_MODES_NUM,
 -- 
 2.47.0
 
