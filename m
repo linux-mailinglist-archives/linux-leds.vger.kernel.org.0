@@ -1,131 +1,120 @@
-Return-Path: <linux-leds+bounces-3034-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3035-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4BA9980F1
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 10:54:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2167E9986AF
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 14:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 255821F2979B
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 08:54:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAFAF1F219CC
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 12:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 420A91C8FC7;
-	Thu, 10 Oct 2024 08:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="zXn9E3Ts"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701A91C68BC;
+	Thu, 10 Oct 2024 12:54:08 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8939A1C8FBD;
-	Thu, 10 Oct 2024 08:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633391C2DC0;
+	Thu, 10 Oct 2024 12:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728549853; cv=none; b=c+1MZIG30g3kmQzDxE2OEHJmU0euBT8lri4UVvWQOp8Wgvc5aUGgJM6zrEFaL+7bpCG3q8IiCcA4NFhIUXCIXE+oWo1BQvTThpeFmCaBwNbKveqKgNLf5FEWIYR3I5wxOU5BhioLJErzVW8YZnwNqqLfrTuB/S3MC3oxl1wZmag=
+	t=1728564848; cv=none; b=Ur6EIvx9I2/HYDsHvRyvWZNp7clwiORrNogKB8Nnjop09I5xAv4sMZiVw09Q7W5K8BuJMtn5GxCCxPBq+OI0iWavCr+d7LLLuh7fQigD7WIk8QEdUasdT76FhXcuj/cviYMgfh82bAAOuP5rv1tO6GjuXWutAiaLP7CVsuilIxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728549853; c=relaxed/simple;
-	bh=5xx2sKzgepURMFfqi6aRbYvWqvkElOhXxFhGT/E+q+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UVeSRC73AniRwhbox6G2LjFokMLsxspxy3PJJgp6vvqwM8GMpDZOSZ2JhBzE7M6VGPu2Wp5fmlfP04rHIFcX4QQDI6xR53E1zb7McQ10ivbVSadQkYClI1f8wfMQT5TptccGDlhtIcJ0j6uypIVPkdatCAuZlwlh0okhOyXNtxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=zXn9E3Ts; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=X3jEBg7jkWA7DJfKHTHDAHOsaQY1XgeC8tjq7OWdZlU=; b=zXn9E3Ts7NQKLnjeXJiEsx2ul/
-	dZCiWwsGQMqRgAhhq1yIzEO8CTeSMxPg0uOHnFblF+mhyqAj8NFRpA/frSOMrs3imqPQmIKIOrhLT
-	HEYjhZs50SANJigpHE9r2b0jJd0JuNdbm0/M3J5e6AGOFBSTd4dhZb9xEEybJwwFpXAT/QxB3L+B1
-	Vi5CYXEGyQzfX145sJV3bUMax+A4HJZ3+o/ZngJyzyh3YPGTJbBGGwWVTvBxRFMyBNAxQF2xWtcgv
-	WlLs7BRqTihufLcltVbn0GoHTNvgfiJJyspa/ceQ8icFfG5uazGgARhKY8M0I16L0Yx4hArCwD0SF
-	yxnhk/ew==;
-Received: from i53875b34.versanet.de ([83.135.91.52] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1syom5-0001Th-N1; Thu, 10 Oct 2024 10:43:57 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Lee Jones <lee@kernel.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: leds: Document "rc-feedback" trigger
-Date: Thu, 10 Oct 2024 10:43:56 +0200
-Message-ID: <4386529.ejJDZkT8p0@diego>
-In-Reply-To: <20241010083738.GE661995@google.com>
-References:
- <20241007205315.2477060-1-heiko@sntech.de> <23688435.6Emhk5qWAg@diego>
- <20241010083738.GE661995@google.com>
+	s=arc-20240116; t=1728564848; c=relaxed/simple;
+	bh=VgdWPTW7P0L+QIKLU0QKp4uLoRUrGlFZO6w8Mmj3fHU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GynSQKPt6siEddTV1Hl4yCL5HC5VBpUDCOTlIcNNfdppRvWotCGsDyCIo53+ZUSB3avNrkHeZ4Kx/J99Y39Ry9F3dWHBd/+SYx3p0uiFUc88KWbforXAUx4zOKq0OAcbLSVxf1rCCnX7iRAnN/5UZxhNyj9p1HDKzrBpz9GG9ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.98)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1sysfn-0000000039J-2wnk;
+	Thu, 10 Oct 2024 12:53:43 +0000
+Date: Thu, 10 Oct 2024 13:53:36 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Xu Liang <lxu@maxlinear.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Robert Marko <robimarko@gmail.com>,
+	Russell King <rmk+kernel@armlinux.org.uk>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH net-next v2 1/5] dt-bindings: leds: add 'active-high' property
+Message-ID: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am Donnerstag, 10. Oktober 2024, 10:37:38 CEST schrieb Lee Jones:
-> On Wed, 09 Oct 2024, Heiko St=FCbner wrote:
->=20
-> > Hi Lee,
-> >=20
-> > Am Mittwoch, 9. Oktober 2024, 16:48:36 CEST schrieb Lee Jones:
-> > > On Mon, 07 Oct 2024, Heiko Stuebner wrote:
-> > >=20
-> > > > Document the "rc-feedback" trigger which is used to control LEDs by
-> > > > remote control device activity. This is an existing trigger used in
-> > > > existing DTs, document it so validation of those DTs would pass.
-> > > >=20
-> > > > It was originally introduced into the Linux kernel in 2013 with
-> > > > commit 153a60bb0fac ("[media] rc: add feedback led trigger for rc k=
-eypresses")
-> > > >=20
-> > > > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> > > > ---
-> > > > changes in v2:
-> > > > - put the entry in the correct position and comment above it (Pavel)
-> > > >=20
-> > > >  Documentation/devicetree/bindings/leds/common.yaml | 2 ++
-> > > >  1 file changed, 2 insertions(+)
-> > > >=20
-> > > > diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/D=
-ocumentation/devicetree/bindings/leds/common.yaml
-> > > > index bf9a101e4d42..9cd89f30fa7c 100644
-> > > > --- a/Documentation/devicetree/bindings/leds/common.yaml
-> > > > +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> > > > @@ -118,6 +118,8 @@ properties:
-> > > >              # No trigger assigned to the LED. This is the default =
-mode
-> > > >              # if trigger is absent
-> > > >            - none
-> > > > +            # LED indicates remote control feedback
-> > > > +          - rc-feedback
-> > >=20
-> > > Is 'rc' a recognised and well known abbreviation for remote control?
-> > >=20
-> > > How about we people some (look-up) time and say:
-> > >=20
-> > >   - remote-control-feedback
-> >=20
-> > The issue being that this exact trigger rc-feedback is in the kernel for
-> > 11 years already - see the commit link in the description, and used in
-> > a number of boards in the wild since then.
-> >=20
-> > So the naming-ship has sailed for a while now, and this change
-> > "simply" documents the status quo. And judging from Rob's Ack
-> > it looks like he's okay with the naming too.
->=20
-> This is why it's important for people to document things when they're
-> introduced. :(
+Other than described in commit c94d1783136e ("dt-bindings: net: phy:
+Make LED active-low property common") the absence of the 'active-low'
+property means not to touch the polarity settings which are inherited
+from reset defaults, the bootloader or bootstrap configuration. Hence,
+in order to override a LED pin being active-high in case of the default,
+bootloader or bootstrap setting being active-low an additional property
+'active-high' is required. Document that property and make it mutually
+exclusive to the existing 'active-low' property.
 
-I fully agree with you on that :-) .
+Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+v2: fix commit sha truncation in commit message
 
+ Documentation/devicetree/bindings/leds/common.yaml | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-
-
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index bf9a101e4d42..7c3cd7b7412e 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -202,6 +202,12 @@ properties:
+       #trigger-source-cells property in the source node.
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+ 
++  active-high:
++    type: boolean
++    description:
++      Makes LED active high. To turn the LED ON, line needs to be
++      set to high voltage instead of low.
++
+   active-low:
+     type: boolean
+     description:
+@@ -225,6 +231,14 @@ properties:
+       Maximum timeout in microseconds after which the flash LED is turned off.
+       Required for flash LED nodes with configurable timeout.
+ 
++allOf:
++  - if:
++      required:
++        - active-low
++    then:
++      properties:
++        active-high: false
++
+ additionalProperties: true
+ 
+ examples:
+-- 
+2.47.0
 
