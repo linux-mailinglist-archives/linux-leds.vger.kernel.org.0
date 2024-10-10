@@ -1,316 +1,112 @@
-Return-Path: <linux-leds+bounces-3052-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3053-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1899A998D6B
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 18:29:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51042998EC5
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 19:50:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7CEFB38DB0
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 15:45:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7FB8285E4F
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2024 17:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C7981CEE93;
-	Thu, 10 Oct 2024 15:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A66441C9B6F;
+	Thu, 10 Oct 2024 17:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ZVwtjTI9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uhpIXSva"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013033.outbound.protection.outlook.com [52.101.67.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C721CEE9A;
-	Thu, 10 Oct 2024 15:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728575027; cv=fail; b=sh3JCRTxxDijfEZTLWNb2OaYSXuRTpdLASFxYec6yJEYmpJJ+gX6bUHVCIckzaqlW48X1oE6TCW26Ji15jE4yPYbYDlEWUvQuYsFwAOIo0AUYkEl7ITnlx811GfsXGYP6gYNK9cnMGiPIpphWwOopGwAqgY0rHAF9q5yJSlSeMg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728575027; c=relaxed/simple;
-	bh=QgZ4qpuBe2Iuf+86t5wdsnelCC4x9/FyyKlFxjiYoLE=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=JJEBN8mALQhNIQvU8prfKDWnrfFcILjzjZv/VoCUeWGpU8uKh9tDcn9Th/j6PDq1sbMBtubdA3eiGYJLQDaQzVJPF/MLUIzhMvOXAZwRrpvcutFEACfn6ONxROQ+olJuFONY1bFd+ZvXIUaB3uD0a99751nZsPPftze1Er6jeBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ZVwtjTI9; arc=fail smtp.client-ip=52.101.67.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nmw4lffN9KasulZ5QIlg2RGQhF52b3Lb0WRAQNlXfxx7SltPwfY6hXx0qTOr7x+u5XaOmi6nxqhjDP+defVBF5E1jDsHaa/2zUia93UBYIe5cs5VBb5EVFOX3VJG4KNvnUfa4DZc4TCg18mZyD1Gi7oYqE1li4NUtjMHin55EFCx+nzU4dG0jaW8GbjiIBpYTpg1SHPXEo7IkDOQgp9sG0ESUghcCZJG4UUabwLB+XqxKbipOdg2KAdJYYe30XIm8ThCSQc0XwhM5HmYXAxfVklYiiNpWmt3CHAAfPfIMpWf+UJz/7rOZCOPBXOuTZGLKn38lhFQgH5qcapW/MMTiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5yBaguEH7/lRAPP2avNlNp0tYwa0TnmzDd43PItTlY=;
- b=uQm4grj75S5YEVBa3SZkjqjOvshv+34XJEkH4bDR8/y1atvObHF7MXUlOMeWTfUTS7gXptZ/6bsiiCsfRcLbbm46uC/1Cw7mdtPwld6roqdo7/OToJvNMQoylkoG7BlFYv9QRWxSQOQSHiJPI+YFRCSnQbuGEOQO/Hajd4kU7Ddd5gKfsJlw8xrVUkZj8h/FYNAgQnp3EHA1nTPy4db6Tj7fL0uBWyG9bfCdc9QMbCAefeiNxquONBevM5ZwSK5S+rZ7nL5cyXleu5kJrLElDhWaGtPspDnSdFktk6ydzhhTN2djMFKMgZfDw2W9xm9P7MRqa+8iUQKK3keaLngvJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5yBaguEH7/lRAPP2avNlNp0tYwa0TnmzDd43PItTlY=;
- b=ZVwtjTI905LcTjv1H29DZXwpjc+6loB+u8W5drIo/ZZcYUM0blZH0Xqkg76FWNr8GK+nLEbhy4vsuTRW2T28FjhfVXpBYotRXnQ0Z1MmMTWaBb//ga8xdebJMWCDiwP7Ahdd7046rw58KchF4GKnVOn4ips/j8jDaMsXp3gKCKzl8Iw5a/5dmtplXELavn5La7EYXWNhJ/lglCvQ31jzhWhRZJUTTFNiZYQIu05uNEBRtwXDpvCINZsEkY0bizpGMofUk9eXwCToP+3Ot3Xdse+tijriKKHdJBdIS/Sm7Q5pJeYW2k0AVVSJi2Oi5LhucYrQ7ZnYazJM0wVZukki9g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DU2PR04MB8984.eurprd04.prod.outlook.com (2603:10a6:10:2e3::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
- 2024 15:43:41 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%4]) with mapi id 15.20.8048.013; Thu, 10 Oct 2024
- 15:43:41 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Thu, 10 Oct 2024 11:42:42 -0400
-Subject: [PATCH v2 5/5] dt-bindings: mfd: convert zii,rave-sp.txt to yaml
- format
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A841C8FB9;
+	Thu, 10 Oct 2024 17:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728582629; cv=none; b=YAQpMCuVE+ewmXmyePe7zgrRvmXrER9Z/iyn/kdBmNszB79LIl+6wWM4Bo1Wyc+fDCsJ7u6ZEjdU6D3XIuJm4JnQRswMJlaaZ5sj1uw13VJVPtBEJFsc1tBau3DV15UdUjvWkDj3cDt5cfOhJPjR6owz1BbYHuSF82rCkn4i6rA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728582629; c=relaxed/simple;
+	bh=7drw4WHctnYvbMoyySTq1OnS4EX6OsZuazvZDG0donI=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=Gicu8rvfYiouQRsNlFIdxKL569M75a+AXIgUrrRTh1VvOD/fDRtJyVrwkE0+FJ9Bg3THE2DzHFa/uCDlDon+ZmIy6+MYOnq+aizqfA9dsHO4t+snHgTOl/20YxBCYwfOC83e/IympYPn/+Rsu2bSzxLNW+A4c+41ku13W5Lg9nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uhpIXSva; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C937C4CEC5;
+	Thu, 10 Oct 2024 17:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728582628;
+	bh=7drw4WHctnYvbMoyySTq1OnS4EX6OsZuazvZDG0donI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=uhpIXSva0fcCHHS8aktFQSRnAlUGi+FKDeTeYIhopreh67zdnQGGY3vC/Gyw9D1el
+	 Mb1mtMrvMBqJLSlwZ7J8JW16voggmzt3r2qNj2JoM0oaLN8ccRcjTNyBR2M7165eqB
+	 DgLqVDD6EFCBOzBFyP8g0FsoA54C6LuUHaXBfBEVdihzNw30DY+urazJ2BXwQgpNiP
+	 exwav4uzQETi74D4xSn4T9cWhfGYeZ4ZwDWjEoIOrkcPz9Mlbf1dJF7uU/6X4Ya0E7
+	 8yC0wXaC75/pIDyiv4eInjBNV4bxIan142srcJbyZ215s+RRX/QtQgYUBwC5IwJ8s2
+	 dLSdckL1VGTNA==
+Date: Thu, 10 Oct 2024 12:50:27 -0500
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241010-zii_yaml-v2-5-0ab730607422@nxp.com>
-References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
-In-Reply-To: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org, 
- Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.13-dev-e586c
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728574994; l=3530;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=QgZ4qpuBe2Iuf+86t5wdsnelCC4x9/FyyKlFxjiYoLE=;
- b=FwvYC2wbbYrnZIu/cKhwgmJuKtMJgH8bOQDFnzE8CrQQ5sOacTcY7/t2hQyMrQJHC9bVS95gz
- VyqB5JixYsaAnTyP3D9UZpGIn/VzS8p05s3pwEGqA5rbi8/X3eSEgBK
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: SJ2PR07CA0022.namprd07.prod.outlook.com
- (2603:10b6:a03:505::24) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB8984:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74b50f0e-e150-4beb-e3b6-08dce94250f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WWRTaGlNS2o5c01yRlBXTTFlMXA4TVdLREJ1VHc2YXBvazhtcWREWGxtOFZX?=
- =?utf-8?B?bkIySGU4dTVzOGI5OEFqbFM1eHBERjQ4U3U2VjJWZHBJcEZRY0k5STBoWDZH?=
- =?utf-8?B?Y2ZFQjBJYmROZXBKc04vbmliNVdXM29jZ3VYM2I1WlFsbWs0TEdwcWo0bVc3?=
- =?utf-8?B?L0x1UEJGRVBNRGE5elRDdnliYk9IMFM4ekV5WEFsVUxXbXZTbUg4OEc4YXlE?=
- =?utf-8?B?a1cwbmdaME5VRHdJYVNLb2hDbVZ6VHp3OUxYZlloUE5nVFZmNngwSnVsVHdV?=
- =?utf-8?B?NzFWWnMwZmtnY1JicnlEWVpYWnQ1YVdTc3dHV3NZNXo0c2tiTEIva0EzQWZt?=
- =?utf-8?B?aG1FSHdyd05uTXc1YkhBb252RlVraEtubXRmMERYRTBFYWVuVzVSSXE5MTZV?=
- =?utf-8?B?NXRMWm83cWtEVGxyYStPdG5Yd0pndHpHOWNUV3VMaTlUYUZMMTNyYVcyNjlx?=
- =?utf-8?B?cEp5UEplVlhaSXJiSVFWejFHZWZSNCtKZmNWRXMzVVdIejhydlYyR24zQ3kw?=
- =?utf-8?B?V0VYUDZiUTBsM0pzT2IxYXY5alY5djhsMU1LQUtyVmdKRXJTTUg1aUp0UWVa?=
- =?utf-8?B?RVgzQWFmTFkwVHBFQU9TZm11cXEvNFk5Z0pZNXdSTjFNWEgyZVM0L0hkWkdF?=
- =?utf-8?B?ZTFCeTZXQUoxdXpWSzBYR1hRbk9aWmlrcEJXWmVTODVMODNBUzhocU1YWTdN?=
- =?utf-8?B?cStyVTRtNk1NbVNmb1VoQjVWSmxLZmVrNmdaQUNNVXR6V2Q0S1ZLenRKb1V2?=
- =?utf-8?B?TXFMR2pJVEovWndlOEhMcGxTM3NOZUFSemRod2NBWE5UZTJNTldMTnBTTUhy?=
- =?utf-8?B?TjBmaSsyZ3MzWi9WaEhRR0plNTVlZzhQUkdMcnphMTFDdTJXeG5BVkgzU2Vo?=
- =?utf-8?B?RElMRkw4NVlHR3N3QUk4UEtEZjJOQzl2eXVzTTZMaHFQMCs5TGdQYUVZbk4v?=
- =?utf-8?B?SmpoejBjenN5WjRQb1FHbmU4YkZGRnFwczNhOUFreStCVk9QYndwVjl5cURp?=
- =?utf-8?B?b2NoYjVqcmIxWkh3MGFPdG1MOE5Vb2dPUHJvU1dZMkFOQWptMDBLbi9uVU5U?=
- =?utf-8?B?UnpCOFFaRHNMYU1DMnB0OUFRT3dZQloybG55T2wzVk5BdllDNGphdlUzQ05i?=
- =?utf-8?B?WnZNT1NlR09GWTdWZEVrRUUwSHppSHc5RFF6dll0NWdBUVJBN0l3dVFscU8x?=
- =?utf-8?B?dUpHTjNOMkxDK1A3ckdwM1MwaFlLZG45WnhsclJaM1c4Q2dQUi9QVWdNNFBs?=
- =?utf-8?B?RnpVK3ROK3J6dWh1cnA3Nlc0ZndPMzM2RnBLd284Y2k1a3k0QS9qdk44WEt3?=
- =?utf-8?B?M0oxNlZpZ1RvcklUd2hyc3NzV21OWDExQ0R4MnJnT3lMVjZoTG0xMUs5bXBp?=
- =?utf-8?B?bWdFSExheGQ1OFZZUDJ0Vm02ZmtFeVdiVXU1R01FZm84WTZLTDJPVjdiVkxD?=
- =?utf-8?B?a2NPVzBwakI3TmgvMUdva1dwaXBoRk1XcXI0TmRRT3hidS9DQnRRR0NvVk16?=
- =?utf-8?B?TUdLeGJ5ZEIrZGFiWkFRMzJjQ1Y5MmpTVDlWWU9GdmlBSVpMWFpLQUsxS2Ra?=
- =?utf-8?B?eEo3dElKSE5LMTRVQ0JIRUN4SDQyODFPNFNoMURoUXNQZUgyR0h5K3JraFI2?=
- =?utf-8?B?aGEraTZmZWZaTTlQRFR1cWdoUGU1Q29nbU9tNzQrM2h2eDZKdzFRL2dPR3dY?=
- =?utf-8?B?WkdsS2Z1V0wySit6aXFPTmI2RmMyV01xMy81OVZmQy9meWI2TDNsUGVERWli?=
- =?utf-8?Q?Kd1aJ4JHeEkoIwOgbQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aEhPSjIvemI4ZjZvQnFwZlRNZmUzMHZCTWk2cGRFOVlMQVU1bXg4N3Bpb3Bv?=
- =?utf-8?B?L1pLdUZ5SXloRzJnQjFJeFVLR3JDRkltUURVZEZJeWdIQmwzU0xVUDFZWkJD?=
- =?utf-8?B?UGlrN0t0Y3VXYnRSa2FBbUhiK0Q2bEF6dk5OYzl0ZXppM2JJQzlZaUlRQXFs?=
- =?utf-8?B?cGh1OVd6QnBPWFM1SHVQRW02Vk9SNXZpM2lqclRJWDNZYWxtUDg4R2d1TkM1?=
- =?utf-8?B?VmpUU2xQOGdEVU5INVdEcHNjOVRXOFVDZkFDbUVoTTlsbVFYN0dvTzEwbzBk?=
- =?utf-8?B?WDUvdDlxampuaGQvWjc1ajBRcllNUWZaWDd3b3lXWnUyUmVGOU5XMlBRREk5?=
- =?utf-8?B?U2JTd0F2cFNwbisxNWxNa2JVK0N2S0JjL0IxcEZrS0V1dVZQbE13RHJjM0RP?=
- =?utf-8?B?UWtxUXBvTFZWVFFuOGNGQ2JBVmt2WFUrbFVFeGFGckh1ekN5bjVqNksvM3N5?=
- =?utf-8?B?NWpCZHlack9BR1pwazA2M0lKd0FxVkJZYmc5eTJ2MzNibmVSdWMyM0swUXND?=
- =?utf-8?B?NEE4Sm1FZ0JDbXlyOXNhaXFZZ3pad24rRTJ2VCtobUphcklCNmtHSFFOcTRH?=
- =?utf-8?B?ZENiWUdXY0hWVXU4aUQycXFod1FSQkNqbHdJQytVSWhzTjFIcThpaVlrS0RO?=
- =?utf-8?B?bnlFUHFYaGQxcy9vRXRYMUg2bDJyU3dZT2QwcmtlRjFBcGE2cjFVTDlLNjdK?=
- =?utf-8?B?Y2pLNkQvRmU2NG5sN21YeEp0MU4yNy94NjZWREk2MHlKRXB1ZVEwQk5VdHZw?=
- =?utf-8?B?cW5DM0Z1M2J3cjZIVkpzK0xLQ3phcXpNYzBQVjJTaUp0T1FpdzBoL0t1S0l4?=
- =?utf-8?B?UmxybElaNFZUMEcxVlozS3p4TEY5bmdrUjZqSUVuUlNpa1hscFFqSlhLV0lz?=
- =?utf-8?B?OXN3MXZJZ3R6ZXJwekNMWlQ0bEx0YmF4WE5WeXVSOU9rWmtrRmVRNjFENG9L?=
- =?utf-8?B?czkxVmdZU1JwN1dOdklIZGg4ZmlNM29FMCtEMUt0d2tpSGgvWVlyeThXbFQ0?=
- =?utf-8?B?aGxuU2Mwd0twcmxNQnFyNzlFTS9QdHdIMnJ3UmN1YnVIam5qNEgwcTBUdDhL?=
- =?utf-8?B?eXprRFJ2WnU5Ui9RTkNtR1ZEZzRQeWZZOG0rV1RsdHRtTEFVVk9GRnk5T1Vo?=
- =?utf-8?B?ODVvcFE4WDlHSitWWVJNUWk4aTRRQ1BsRWpESlRNRnFXZFJSbEp0aEhXb0pP?=
- =?utf-8?B?WVhqWTdZL2QxaUk4ejFSRlZGQUxEbGN0emZmekVIZ2lCQzRvbEw0ZHZQblU4?=
- =?utf-8?B?UG01NzRvU0pFNkZ4OWNaeGdMbmRKb1BUNzhFUHJUNGlwTDQ2Y2UzMmtwYmtS?=
- =?utf-8?B?SkF6cEVxVzFIZ2ZPcEFMQWdkQytGQ05BbGU3VSt3UlpiMjdVd2VaaUp1NFpF?=
- =?utf-8?B?ZTZNMDF0TDZBRldMYWZxYWNPbnBRTGs2NU9pOHdvcHpidzFwWGFvalU5V2g1?=
- =?utf-8?B?V2YzcFhwZWYyZFRIMXluZFdaUkpzRHNEZkNZK05jWUJhdlcxWnc1VFRiUWRR?=
- =?utf-8?B?QlFrSnczeUg3aHh3amQyRUszc1cxWVVybmxzL1lIUkd5aktYUkZPTDhoVW1Z?=
- =?utf-8?B?d0pUeXhldWFmYlF5anN4WGU0TTU1bnkyWEFJMmZaYnN0VGZJOVlIUVFaY1Vx?=
- =?utf-8?B?NTZNUTJENDNabzVyeDN6eUlTZVNoSzAwc0l6UitGUjhObnBRL3phVU1aUTRt?=
- =?utf-8?B?YmVMSFpWRDJLQkhnSUNrTHpzVE1tWWI2REUyRHBUcWhQYkxkS3RNekI1Kzk2?=
- =?utf-8?B?bXhUM0x5WjdtV2Z6eUgzYnlycnl0S3FMeWhjL251WGpHbnAyR0hTU0c1U0VG?=
- =?utf-8?B?VGNvTVFtNjB2MElSTmZvN2ZEM2NtMWx0d2FuTXllbWVYd25TRW5XUmRzR0xC?=
- =?utf-8?B?MGVWU0pNUGljUVBkejFTTnZFd3lWZ1d5cDhtU3E4dVVZN3hNaG5IWUNubEJj?=
- =?utf-8?B?OG91RE5xWVh2bVphMkFCanBqYjllcnIzLzVXK0pqREM0WE5UcUJaOFBiRHRV?=
- =?utf-8?B?djJtSm11T0tHaEJqK0RSY0JVR05jbmkzR1luckxpdEtjdDliVmpvSHk5dHNr?=
- =?utf-8?B?akVheWhCVmM1Q3h4UE1xeDdCOFBrS0FEcWlsYzhIWUZIanFncWZ0NUg5am1h?=
- =?utf-8?Q?CVOA=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74b50f0e-e150-4beb-e3b6-08dce94250f3
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 15:43:41.6121
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MXTd1nB1CLe1KLUN5UvDatwx6W+DFlr1sgB62EofxRPc8cBIdxBuZ0PBRdwtfg5gc0yX0U0GA3mHt52tQn4HfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8984
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+ linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, 
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Jingoo Han <jingoohan1@gmail.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org
+In-Reply-To: <20241010-zii_yaml-v2-1-0ab730607422@nxp.com>
+References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
+ <20241010-zii_yaml-v2-1-0ab730607422@nxp.com>
+Message-Id: <172858262296.2080831.11191926901477789932.robh@kernel.org>
+Subject: Re: [PATCH v2 1/5] dt-bindings: input: convert
+ zii,rave-sp-pwrbutton.txt to yaml
 
-Convert device binding doc zii,rave-sp.txt to yaml format.
-Additional change:
-- ref to other zii yaml files.
-- remove rave-sp-hwmon and rave-sp-leds.
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- .../devicetree/bindings/mfd/zii,rave-sp.txt        | 39 --------------
- .../devicetree/bindings/mfd/zii,rave-sp.yaml       | 63 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 39 deletions(-)
+On Thu, 10 Oct 2024 11:42:38 -0400, Frank Li wrote:
+> Convert device tree binding doc zii,rave-sp-pwrbutton.txt to yaml format.
+> Additional changes:
+> - add ref to input.yaml.
+> - remove mfd node in example.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../bindings/input/zii,rave-sp-pwrbutton.txt       | 22 -------------
+>  .../bindings/input/zii,rave-sp-pwrbutton.yaml      | 36 ++++++++++++++++++++++
+>  2 files changed, 36 insertions(+), 22 deletions(-)
+> 
 
-diff --git a/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt b/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-deleted file mode 100644
-index e0f901edc0635..0000000000000
---- a/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Zodiac Inflight Innovations RAVE Supervisory Processor
--
--RAVE Supervisory Processor communicates with SoC over UART. It is
--expected that its Device Tree node is specified as a child of a node
--corresponding to UART controller used for communication.
--
--Required parent device properties:
--
-- - compatible: Should be one of:
--	- "zii,rave-sp-niu"
--	- "zii,rave-sp-mezz"
--	- "zii,rave-sp-esb"
--	- "zii,rave-sp-rdu1"
--	- "zii,rave-sp-rdu2"
--
-- - current-speed: Should be set to baud rate SP device is using
--
--RAVE SP consists of the following sub-devices:
--
--Device				 Description
--------				 -----------
--rave-sp-wdt			: Watchdog
--rave-sp-nvmem			: Interface to onboard EEPROM
--rave-sp-backlight		: Display backlight
--rave-sp-hwmon			: Interface to onboard hardware sensors
--rave-sp-leds			: Interface to onboard LEDs
--rave-sp-input			: Interface to onboard power button
--
--Example of usage:
--
--	rdu {
--		compatible = "zii,rave-sp-rdu2";
--		current-speed = <1000000>;
--
--		watchdog {
--			compatible = "zii,rave-sp-watchdog";
--		};
--	};
--
-diff --git a/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml b/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-new file mode 100644
-index 0000000000000..1d078c5ef1689
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Zodiac Inflight Innovations RAVE Supervisory Processor
-+
-+maintainers:
-+  - Frank Li <Frank.Li@nxp.com>
-+
-+description:
-+  RAVE Supervisory Processor communicates with SoC over UART. It is
-+  expected that its Device Tree node is specified as a child of a node
-+  corresponding to UART controller used for communication.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - zii,rave-sp-niu
-+      - zii,rave-sp-mezz
-+      - zii,rave-sp-esb
-+      - zii,rave-sp-rdu1
-+      - zii,rave-sp-rdu2
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 1
-+
-+  watchdog:
-+    $ref: /schemas/watchdog/zii,rave-sp-wdt.yaml
-+
-+  backlight:
-+    $ref: /schemas/leds/backlight/zii,rave-sp-backlight.yaml
-+
-+  pwrbutton:
-+    $ref: /schemas/input/zii,rave-sp-pwrbutton.yaml
-+
-+patternProperties:
-+  '^eeprom@[0-9a-f]+$':
-+    $ref: /schemas/nvmem/zii,rave-sp-eeprom.yaml
-+
-+required:
-+  - compatible
-+
-+allOf:
-+  - $ref: /schemas/serial/serial-peripheral-props.yaml
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    mfd {
-+        compatible = "zii,rave-sp-rdu2";
-+        current-speed = <1000000>;
-+
-+        watchdog {
-+            compatible = "zii,rave-sp-watchdog";
-+        };
-+    };
-+
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-2.34.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+
+
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/input/zii,rave-sp-pwrbutton.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+Documentation/devicetree/bindings/input/zii,rave-sp-pwrbutton.yaml: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241010-zii_yaml-v2-1-0ab730607422@nxp.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
