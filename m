@@ -1,117 +1,167 @@
-Return-Path: <linux-leds+bounces-3078-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3079-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E8B99A4ED
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 15:23:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D45599A773
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 17:23:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C48D0B2472E
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 13:23:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A36711F24BF5
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 15:23:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E512185BA;
-	Fri, 11 Oct 2024 13:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A1F194A45;
+	Fri, 11 Oct 2024 15:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ed20bO6u"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="BkKdV6cv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B858E216454;
-	Fri, 11 Oct 2024 13:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258C1194A40;
+	Fri, 11 Oct 2024 15:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728652950; cv=none; b=jgws0tUbzJSQRgWjke/gJH+SROUOcybov2xNkJXKnhLBBNcG1jC9MxcWLyAqrDmtr84Urb/aYcnyxpxalagc/cg6ugDm2SULiLslzr5diYgi2tFnSKhLzrXc82XqTzD2Ab0IITtYv5JOVDxXAXIVuGC50I5r0zYOxIl2Twv5oaE=
+	t=1728660213; cv=none; b=aMa+/tCjVZYRhZ1eAMW3OtPwHXfyFU3iI93l0WCBucQgawVSH2ERNUPzvqtVXN8JstDxYIpG05SYbhbLtqeKkK3BH4x/IaveUXiiDvxjqfEl5liLMc6PkVR58JBNd9OJCyLYUyGtJDiWim3QVcBLOKRSRHnIlmjFFGuQPYF0W1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728652950; c=relaxed/simple;
-	bh=X4jrEL73piYv2hQshoFHqqebq4fF76gXm6+LMN6Al/A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E5f19QXlVADJ4Xv01IX5piFLIJjGg1puWiBf2cy1KJ5lIju3gZU/paQCCoKULAtRyZoyxy53DeJcKhj/0nNP/EGTxHBtMQoliky8pXivtOlv23Mqt5bBtAXtJk6n4exCZ2QPn0K0qRhIAY0uooYa4sc1hblAESXpmq/6ro81p/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ed20bO6u; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cb89a4e4cso217375ad.3;
-        Fri, 11 Oct 2024 06:22:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728652946; x=1729257746; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TvLMHXo3BfNUkLw9ytw5UuEB+h5y/vEG9NYRyEiEEL4=;
-        b=ed20bO6u5NnEPTuWFwJ3N5fO6T7IomRTku4Yn72cjasxlm/c21UQgeYc2XIZ/o+GwA
-         Q7vQVC6LG2ZFzeJX/lTEdc4SWSJIY0MGu/d9v2YG/JV19yCYD1baLQs7xLoxbTRu2pKV
-         YmxTax0pJV8jHcW01tCe1Vn7FP0giB4oY37ZRiG7eTB3JfuQ1DjFLxLE1TCY/42A9ns4
-         850ppKJOzSM2v4sotL1m1LP6Ygk8V+ksHEhm8DuK8Z4DsE4GoMqkbqy1hnlL4RDe1G9H
-         zxt+tgJHx5mYdm7cu1jphVRITl/4jVaXgqv0xFUeJpJMYAA/StrW6w8N+6rM2sBsdvhk
-         Bsdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728652946; x=1729257746;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvLMHXo3BfNUkLw9ytw5UuEB+h5y/vEG9NYRyEiEEL4=;
-        b=TZpI4zXP4PrmSx5TMIPu00rjnvt7soEpoG1hJ1IhX/jLj6Ne9cS27E7sNgWeWqbRt6
-         xnWCctC2fXdtcS2PRCvMLYlgTaIbuqXEFAVbab6Hitfng/XYxBJPsrOCmhPbTaExGHTL
-         d92Zi4P20dSQmiEZ/VoaE6mIE7O5+PWhdRrz3Lmp0oTWLFx5FToFb9IGS7eDdIQOl5nT
-         jI4Tw8ygY9lvta3Dte5dZCcD6zys7LRJ+vF4EI4MzNn96c9SUAUaTsJYr8KkRhUdhOqO
-         IGbP8Da1DW1rTqIU7KMJ8S0WGhTuGQb3zG5UbDUYSLnCw29+zE7kj/GKF+TBcfb+Lr60
-         Z8Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCVL6PHxwi2dY//xeMSydGUGZZgPGXDCZUaR7Vs5AHMjROhm2CPWZXUlrX5HImFQgZkZK0cSmIfQlBeveWQ=@vger.kernel.org, AJvYcCXkHCDE3vQFz01Ca7np9WPAcGvNlIvT2aWsVcLQD1yyTDAOh7skdYkshQIIoA4p9yB46EZQUYvLLmIsSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3OdMiCUgX+VKgBDzuwvzNd0O0wjdEooiraKhEev9b/MkYMbX0
-	kQHI6Xif6HJd/jdnwzkvTc6vzkc/Lnwoc9Pqa2oK6OxNqw8lfv84
-X-Google-Smtp-Source: AGHT+IHVe8IOBQZmu+MX/aAlR434no8yh5BEm3aOGISvPCP+fwJlanDcT/2aukoQplmi0ob1+Zo46g==
-X-Received: by 2002:a17:902:ce89:b0:20c:8fd4:eda0 with SMTP id d9443c01a7336-20ca147b16fmr36891675ad.24.1728652945767;
-        Fri, 11 Oct 2024 06:22:25 -0700 (PDT)
-Received: from ?IPV6:2409:40c0:11a4:8d8a:687:fb0b:3c04:c809? ([2409:40c0:11a4:8d8a:687:fb0b:3c04:c809])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8c348986sm23257035ad.258.2024.10.11.06.22.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 06:22:25 -0700 (PDT)
-Message-ID: <7274be28-aefe-49b1-b8e1-dd1c2bad96d0@gmail.com>
-Date: Fri, 11 Oct 2024 18:52:18 +0530
+	s=arc-20240116; t=1728660213; c=relaxed/simple;
+	bh=dNkSK16lr1JQGU/ueH8/BjMoCQlHXeuOs4ScHbna40o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t74GWS1vidXAkpPpBKT4iykxKUnq7V8xzNKFdofj7hbS5fahiCtbu9aChFDp7MjyrzwLK780YAqXhGeEfKDLk1E3jwMObSUL/crxvi6krj6f/5DWo42Qauk4u3j4IsqJfm2jLvov8WWjiTSVqrO/ELNPJx/qI7PLcbF5Ij9lkJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=BkKdV6cv; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id EDC561C0087; Fri, 11 Oct 2024 17:23:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1728660207;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x+uzJgAZKr0aQskZeYDshW8VRu9nH9afBqYYtu8uge4=;
+	b=BkKdV6cvGSL2VVmCHgZHtvvMduAME43++YaCcGI1vW5aZhaCeH6rvzvpMZqanlABN0qGdI
+	TO5Eg6T+zPnoGSqe/eJ8Bi7AJD0AEsSm35xVOJKXHZPIxCKrIwOo9+ay2dty13XTksXixY
+	NdtBHZ5k9mYh3L9toHtex9VzwQHBipo=
+Date: Fri, 11 Oct 2024 17:23:27 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, Armin Wolf <W_Armin@gmx.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+	lee@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+	onitake@gmail.com, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <ZwlC750GojkprUKg@duo.ucw.cz>
+References: <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <Zvxjo/CYXmKw2jjM@duo.ucw.cz>
+ <rdo2yyy5dxsxrfm7bweuuvsqjzjelyevo5xvufixuiyrdlf7pc@mprc7pzbpnla>
+ <Zv0YI3qIEg88Dx4c@duo.ucw.cz>
+ <hdahq2vfi3bnvaqswwdtave2kc2qm3ngvcwn6cgfiirfjfbqnz@zk77mbs3yktp>
+ <Zv54/T+6znqZB3X9@duo.ucw.cz>
+ <ysidntvhwmqwe5o6rpshtoam674lwnkook747ni5dbf4z5sf3a@vdf44xu2ydjz>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH] leds: Fix uninitialized variable 'ret' in
- mt6370_mc_pattern_clear
-To: Lee Jones <lee@kernel.org>, pavel@ucw.cz
-Cc: matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20241006131337.48442-1-surajsonawane0215@gmail.com>
- <172863776565.3130628.18378710932238203204.b4-ty@kernel.org>
-Content-Language: en-US
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-In-Reply-To: <172863776565.3130628.18378710932238203204.b4-ty@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="2TcMguCtEoo8TZyh"
+Content-Disposition: inline
+In-Reply-To: <ysidntvhwmqwe5o6rpshtoam674lwnkook747ni5dbf4z5sf3a@vdf44xu2ydjz>
 
-On 11/10/24 14:39, Lee Jones wrote:
-> On Sun, 06 Oct 2024 18:43:37 +0530, SurajSonawane2415 wrote:
->> Fix the uninitialized symbol 'ret' in the function mt6370_mc_pattern_clear
->> to resolve the following warning:
->> drivers/leds/rgb/leds-mt6370-rgb.c:604 mt6370_mc_pattern_clear()
->> error: uninitialized symbol 'ret'.
->> Initialize 'ret' to 0 to prevent undefined behavior from uninitialized
->> access.
->>
->> [...]
-> 
-> Applied, thanks!
-> 
-> [1/1] leds: Fix uninitialized variable 'ret' in mt6370_mc_pattern_clear
->        commit: b5a5659aebfffbcddb81abafe042fb4044b6ff9e
-> 
-> --
-> Lee Jones [李琼斯]
-> 
-Thank you! I'm glad the patch was applied. I'll ensure future patches 
-follow the necessary guidelines.
+
+--2TcMguCtEoo8TZyh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> > > There is a slight difference between mouse support and LEDs on your
+> > > keyboard. The former is actually required to bring up the machine and=
+ to
+> > > use it, the latter is nice to have.
+> >=20
+> > But that's not the difference that matters. Linux is not microkernel,
+> > and is trying to provide hardware abstractions. (Except for printers,
+> > I guess that's because printers are often network devices).
+> >=20
+> > Besides, mouse was not required to bring up a machine "back then".
+> >=20
+> > Besides,
+> >=20
+> > 1) using those keyboards in dark room without backlight is hard,
+> > because their labels are translucent and not having enough contrast.
+> >=20
+> > 2) rainbow effects make people ill.
+>=20
+> And I agree with you here. And that's also why I agree with Werner's
+> plan: have a minimum support in kernel for that with the already
+> supported LED class, which is supported by UPower and others, and let
+> the ones who want the fancy effects be in charge of their mess.
+
+But the patch being proposed does not match the this description,
+right?
+
+And for hardware I seen, "minimum driver" you describe would be
+already 90% of the full driver. (We can just use fbdev interface...)
+
+Anyway, lets do it. I have rgb keyboard, you have few, and we have
+Tuxedocomputers with machines where driver can't live in userspace.
+If you have working driver, lets see it. I have posted my copy, but I
+hae problem where keyboard functionality stops working when its
+loaded. Can you help?
+
+Then we can see how much of the driver is required for basic
+functionality. I suspect it will be fairly easy to turn it into "full"
+driver at that point.
+
+> > Note how we have drivers for audio, LEDs, cameras, dunno, iio sensors,
+> > none of that is required to bring system up.
+> >=20
+> > We need driver for the WMI stuff in kernel. And that point it should
+> > be pretty clear proper driver/subsystem should be done.
+>=20
+> Yes, and again, I never said we need to provide WMI to userspace.
+
+Good.
+
+> What I want is:
+> - provide a minimum support on Linux using already existing APIs (LED
+>   class)
+> - allow crazy people to do their thing if they want to have a rainbow
+>   initiated by every key press
+> - ensure the minimum support of the LED class is not messed up when
+>   people start using the HID LampArray API.
+>=20
+> HID LampArray is a ratified standard by a few hardware makers already[0]
+> (Acer, Asus, HP, Logitech, Razer, SteelSeries and Twinkly apparently).
+
+I have yet to see HID LampArray device.
 
 Best regards,
-Suraj Sonawane
+									Pavel
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--2TcMguCtEoo8TZyh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZwlC7wAKCRAw5/Bqldv6
+8qY2AKC+nAvGhkJI328sv8/1wPlLQa94/ACfdypXrZPZo6fWin1NoeaTgtYi2cc=
+=98+x
+-----END PGP SIGNATURE-----
+
+--2TcMguCtEoo8TZyh--
 
