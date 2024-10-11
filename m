@@ -1,74 +1,74 @@
-Return-Path: <linux-leds+bounces-3077-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3078-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DC099A4E1
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 15:22:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E8B99A4ED
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 15:23:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FC881C21155
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 13:22:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C48D0B2472E
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 13:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA67E218D65;
-	Fri, 11 Oct 2024 13:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E512185BA;
+	Fri, 11 Oct 2024 13:22:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vyo/FP0x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ed20bO6u"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF8021859A;
-	Fri, 11 Oct 2024 13:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B858E216454;
+	Fri, 11 Oct 2024 13:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728652816; cv=none; b=H5HG8/KCVTRGd+1Fbqz9D+zbJR6DP/FlWY6qNJ+lnuV9tBtGIxWu7WCrmv/uEwit+43QUoj5/bjWYB1Ib0TP20egoLsH+mTqHBiGIT8/Of4Ic9lf8BouHpmnXco5327ipDfJlFly9vsOMUnON2Gkvla3Z5RtVvspMcr9Fghbo8E=
+	t=1728652950; cv=none; b=jgws0tUbzJSQRgWjke/gJH+SROUOcybov2xNkJXKnhLBBNcG1jC9MxcWLyAqrDmtr84Urb/aYcnyxpxalagc/cg6ugDm2SULiLslzr5diYgi2tFnSKhLzrXc82XqTzD2Ab0IITtYv5JOVDxXAXIVuGC50I5r0zYOxIl2Twv5oaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728652816; c=relaxed/simple;
-	bh=NuI87gb2l/dMeMpAWx7RwsSYv8IlVDFvAoedt/XdVeU=;
+	s=arc-20240116; t=1728652950; c=relaxed/simple;
+	bh=X4jrEL73piYv2hQshoFHqqebq4fF76gXm6+LMN6Al/A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TSsQfledQfWWP2L/clxHPyoPLqZBSw6J64NT9KTgtI7PYDxGPYysivvF0aUSsHtRiJuGDsKmUV1l70RsSXII822rRWnv4/2GSen4AOJsAIQ7cKau4MByOZz/kQ3J+fx1CvuEHKZ1za7ldCk6YfCsJSDBbh8v9cjYf5+NPgZ1voo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vyo/FP0x; arc=none smtp.client-ip=209.85.215.182
+	 In-Reply-To:Content-Type; b=E5f19QXlVADJ4Xv01IX5piFLIJjGg1puWiBf2cy1KJ5lIju3gZU/paQCCoKULAtRyZoyxy53DeJcKhj/0nNP/EGTxHBtMQoliky8pXivtOlv23Mqt5bBtAXtJk6n4exCZ2QPn0K0qRhIAY0uooYa4sc1hblAESXpmq/6ro81p/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ed20bO6u; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7e9f98f2147so1233317a12.1;
-        Fri, 11 Oct 2024 06:20:15 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cb89a4e4cso217375ad.3;
+        Fri, 11 Oct 2024 06:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728652815; x=1729257615; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728652946; x=1729257746; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HQGnKXGMD/jd3LTWPOuFrMlwOdbC5EsGlhAOU++vmwc=;
-        b=Vyo/FP0xC0ccDm4JiUHtvqv6rxjh8ppQ1h9x4Ddl33oa5i90A8+epmWiFTf4ztPHVm
-         MSIHQENlu3aJ6vIvgicnQaGvKKfPAi8/SkPlJjVZ50Yb9HRj0Pvu8yINZq+EUeznN3nd
-         SPTlI5MhREVm58clT5D+/GT5jU3R959vU6xDHgpGWOir6KhQ/9S9Qxrt+AqLfLf0zAiV
-         g4gIYwYh1rocXeVKEs/QD+PXzpGrdmjgQ4f0+XSWDZo+SiwX0bhka8HWSXZ87Fookg8/
-         M5eISvxRg42auaaelLKJ1gcmt+opzWYIZFbo5h98nye/mhbZkeU+76YnGAmaBmmeS+37
-         x1uA==
+        bh=TvLMHXo3BfNUkLw9ytw5UuEB+h5y/vEG9NYRyEiEEL4=;
+        b=ed20bO6u5NnEPTuWFwJ3N5fO6T7IomRTku4Yn72cjasxlm/c21UQgeYc2XIZ/o+GwA
+         Q7vQVC6LG2ZFzeJX/lTEdc4SWSJIY0MGu/d9v2YG/JV19yCYD1baLQs7xLoxbTRu2pKV
+         YmxTax0pJV8jHcW01tCe1Vn7FP0giB4oY37ZRiG7eTB3JfuQ1DjFLxLE1TCY/42A9ns4
+         850ppKJOzSM2v4sotL1m1LP6Ygk8V+ksHEhm8DuK8Z4DsE4GoMqkbqy1hnlL4RDe1G9H
+         zxt+tgJHx5mYdm7cu1jphVRITl/4jVaXgqv0xFUeJpJMYAA/StrW6w8N+6rM2sBsdvhk
+         Bsdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728652815; x=1729257615;
+        d=1e100.net; s=20230601; t=1728652946; x=1729257746;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HQGnKXGMD/jd3LTWPOuFrMlwOdbC5EsGlhAOU++vmwc=;
-        b=eLJqrPJrtDpZ1K48XjO2JIvmvOiyYxmHX1C7sOLhaa0Lt37jmGtf1+3+NooTQm5dFY
-         BqWhLfoimD2zKqxgszvm7XW5/dBBSYVpvm4KQ/NatrQ1cxqlMPEDmEIhSwVP/IXw3/S2
-         ccrihvJXeaJ+Lbxb1hnNtk29vSGiam+zXXhjilgU90uA0zm/44r1lh5QExh2XO/Ub6/U
-         g2L9MTWpS9psCje4HCSGZ8hXeM7rsCZMgVttxyXDOP9Hhdrwh7/bninl0Jsqsb6puosm
-         08c4qQY3F4Cmro1fayQ6/3pxk/NFd9iMHjPz7S3ekQuxLqmh25MyehIzl7+sXIYAiM0h
-         DWvw==
-X-Forwarded-Encrypted: i=1; AJvYcCWiqS9NRXrV0q5O5ejN/+P99+teUGkFNQPmCc8TVu1XgEoOzn9tLbByAPuNdaUYaTKqgxcXKEjZQ9O/7g==@vger.kernel.org, AJvYcCXQM1Oc0TcJ7BMIJcVRe0T4AmA7WgtK8kQjnoBVXiWZoIwEnsRJNjAcQljBtEf3HBsJPTM2MTOAiRliGIY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrgVc+cdwYH6/SRCie/wZQcdNNp0hWy/USJ/g3ypRNfBx13Stg
-	Yl1jL8Az7CX4DZoWIx3zrAs4HTvei+Ioxqb2mS9lwGR0VpKFhdHp
-X-Google-Smtp-Source: AGHT+IH5nEeE+SMSc6DH3bEQIbFsOMs4TIXRax9wCnVZVUm8SWqh9hQoGE5QLcDKtpZh23qzawXOfg==
-X-Received: by 2002:a17:90a:c250:b0:2e2:d1a3:faf8 with SMTP id 98e67ed59e1d1-2e2f0dac7c2mr3651218a91.33.1728652814511;
-        Fri, 11 Oct 2024 06:20:14 -0700 (PDT)
+        bh=TvLMHXo3BfNUkLw9ytw5UuEB+h5y/vEG9NYRyEiEEL4=;
+        b=TZpI4zXP4PrmSx5TMIPu00rjnvt7soEpoG1hJ1IhX/jLj6Ne9cS27E7sNgWeWqbRt6
+         xnWCctC2fXdtcS2PRCvMLYlgTaIbuqXEFAVbab6Hitfng/XYxBJPsrOCmhPbTaExGHTL
+         d92Zi4P20dSQmiEZ/VoaE6mIE7O5+PWhdRrz3Lmp0oTWLFx5FToFb9IGS7eDdIQOl5nT
+         jI4Tw8ygY9lvta3Dte5dZCcD6zys7LRJ+vF4EI4MzNn96c9SUAUaTsJYr8KkRhUdhOqO
+         IGbP8Da1DW1rTqIU7KMJ8S0WGhTuGQb3zG5UbDUYSLnCw29+zE7kj/GKF+TBcfb+Lr60
+         Z8Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCVL6PHxwi2dY//xeMSydGUGZZgPGXDCZUaR7Vs5AHMjROhm2CPWZXUlrX5HImFQgZkZK0cSmIfQlBeveWQ=@vger.kernel.org, AJvYcCXkHCDE3vQFz01Ca7np9WPAcGvNlIvT2aWsVcLQD1yyTDAOh7skdYkshQIIoA4p9yB46EZQUYvLLmIsSg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3OdMiCUgX+VKgBDzuwvzNd0O0wjdEooiraKhEev9b/MkYMbX0
+	kQHI6Xif6HJd/jdnwzkvTc6vzkc/Lnwoc9Pqa2oK6OxNqw8lfv84
+X-Google-Smtp-Source: AGHT+IHVe8IOBQZmu+MX/aAlR434no8yh5BEm3aOGISvPCP+fwJlanDcT/2aukoQplmi0ob1+Zo46g==
+X-Received: by 2002:a17:902:ce89:b0:20c:8fd4:eda0 with SMTP id d9443c01a7336-20ca147b16fmr36891675ad.24.1728652945767;
+        Fri, 11 Oct 2024 06:22:25 -0700 (PDT)
 Received: from ?IPV6:2409:40c0:11a4:8d8a:687:fb0b:3c04:c809? ([2409:40c0:11a4:8d8a:687:fb0b:3c04:c809])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5fc5e1bsm3153033a91.52.2024.10.11.06.20.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8c348986sm23257035ad.258.2024.10.11.06.22.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 06:20:13 -0700 (PDT)
-Message-ID: <83572cde-19a1-4089-b02b-361a8ef40bee@gmail.com>
-Date: Fri, 11 Oct 2024 18:50:04 +0530
+        Fri, 11 Oct 2024 06:22:25 -0700 (PDT)
+Message-ID: <7274be28-aefe-49b1-b8e1-dd1c2bad96d0@gmail.com>
+Date: Fri, 11 Oct 2024 18:52:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -76,24 +76,22 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: Fix uninitialized variable 'ret' in
+Subject: Re: (subset) [PATCH] leds: Fix uninitialized variable 'ret' in
  mt6370_mc_pattern_clear
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@ucw.cz, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
+To: Lee Jones <lee@kernel.org>, pavel@ucw.cz
+Cc: matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 References: <20241006131337.48442-1-surajsonawane0215@gmail.com>
- <20241011074702.GN661995@google.com>
+ <172863776565.3130628.18378710932238203204.b4-ty@kernel.org>
 Content-Language: en-US
 From: Suraj Sonawane <surajsonawane0215@gmail.com>
-In-Reply-To: <20241011074702.GN661995@google.com>
+In-Reply-To: <172863776565.3130628.18378710932238203204.b4-ty@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/10/24 13:17, Lee Jones wrote:
-> On Sun, 06 Oct 2024, SurajSonawane2415 wrote:
-> 
+On 11/10/24 14:39, Lee Jones wrote:
+> On Sun, 06 Oct 2024 18:43:37 +0530, SurajSonawane2415 wrote:
 >> Fix the uninitialized symbol 'ret' in the function mt6370_mc_pattern_clear
 >> to resolve the following warning:
 >> drivers/leds/rgb/leds-mt6370-rgb.c:604 mt6370_mc_pattern_clear()
@@ -101,34 +99,18 @@ On 11/10/24 13:17, Lee Jones wrote:
 >> Initialize 'ret' to 0 to prevent undefined behavior from uninitialized
 >> access.
 >>
->> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
+>> [...]
 > 
-> Real names only.  Please update your .gitconfig.
+> Applied, thanks!
 > 
->> ---
->>   drivers/leds/rgb/leds-mt6370-rgb.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
->> index 10a0b5b45..87805c21e 100644
->> --- a/drivers/leds/rgb/leds-mt6370-rgb.c
->> +++ b/drivers/leds/rgb/leds-mt6370-rgb.c
->> @@ -587,7 +587,7 @@ static inline int mt6370_mc_pattern_clear(struct led_classdev *lcdev)
->>   	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
->>   	struct mt6370_priv *priv = led->priv;
->>   	struct mc_subled *subled;
->> -	int i, ret;
->> +	int i, ret = 0;
->>   
->>   	mutex_lock(&led->priv->lock);
->>   
->> -- 
->> 2.34.1
->>
+> [1/1] leds: Fix uninitialized variable 'ret' in mt6370_mc_pattern_clear
+>        commit: b5a5659aebfffbcddb81abafe042fb4044b6ff9e
 > 
-
-Thanks for the feedback. I'll update my .gitconfig to use my real name 
-for future patches.
+> --
+> Lee Jones [李琼斯]
+> 
+Thank you! I'm glad the patch was applied. I'll ensure future patches 
+follow the necessary guidelines.
 
 Best regards,
 Suraj Sonawane
