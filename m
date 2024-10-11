@@ -1,134 +1,242 @@
-Return-Path: <linux-leds+bounces-3075-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3076-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A4899A2CD
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 13:35:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9482A99A3A6
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 14:15:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77492289AB0
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 11:35:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17AC1B23F07
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 12:15:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1F21216433;
-	Fri, 11 Oct 2024 11:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7922D217311;
+	Fri, 11 Oct 2024 12:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpOITlxG"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="FUorwyPo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1821F192D77;
-	Fri, 11 Oct 2024 11:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD56212F13;
+	Fri, 11 Oct 2024 12:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728646519; cv=none; b=NY5o6IBRo6WJ39no9Qr1DGoPnvv2guDhpIuO7+yEscPqnKWJ2P9fhU8I4AtiPkZA1hL1qsxDOqjZvOv1Qwz1tMtUkz5eEWEus1GMRFb4wlP+jcWdVHTnGC+mLcRUaGAmR6M4uSUSi4Gfua5RXkw4hFDqTRGC86KrmlYj1BvGS6E=
+	t=1728648901; cv=none; b=nXplRustCiBhYhxw4cxcfigA6Gre+T8uOU86feMBO3kcpcaBwy84+MyEQfLag+TnWUiR7qKlCvqDHFtOMEg0l/oWtGiw9jvTygsloQ9Atp/QUc18Ik3ujNF92KFA61kO8TZU3nYiu9cjOg+HSXImHBuNX4GvCCMczfqA9A+Qfm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728646519; c=relaxed/simple;
-	bh=ZBZUlNi8h/D5QWW+bum5UjcTb6lETOPGVvmQjW3+6jY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NJPuK7KneNGK5xTF006QrSsAR3/bZ/Zvydeyagf7rZFZyKBcF/TDJKNd2yXvR1OERVBCEDKodkC18NixC9tbYTymbKH65app2/ZnRHAm6FCfDUmCI+dVFYyIxLWcb1S3esNFl2kZdSEiXRhUxk8zCNqZ04XIh/38frxjW1kW5bI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpOITlxG; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728646517; x=1760182517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZBZUlNi8h/D5QWW+bum5UjcTb6lETOPGVvmQjW3+6jY=;
-  b=OpOITlxGYUs9SyFVd67vT3SvtTZzKC95Btd4dSl3iSqD4bR2R6M9BG3B
-   411lkNxcLy2H1VPhtjiY2ycr/I9K/pfZVNGlEMS8lfd0dWmFk/Y0DzmhY
-   9MxNxUMbvWmxkZlNNS7R4HluWIZUUFzNnoH25UCvZgRSF1JqhBEexmsCc
-   AUPwS1sybosOBn1S+REx15Pk+O3Qa4au0XpgmjVBBsHtoxbycTKSuQUKD
-   v+gBPsHquR5yJi/6pOGYinIxqnCCL/fqjDDClc2AAT0EdIWz05xMFGokk
-   /OLsEKZhACknqYLnxWeD1iBQK0dL5IFfoKPtaE18+COoWIPQAoHwdeONJ
-   g==;
-X-CSE-ConnectionGUID: /PkL3tqMSIy/snGBErEWqg==
-X-CSE-MsgGUID: lgapOt64TgKYDrK+02xyyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="53448450"
-X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="53448450"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 04:35:16 -0700
-X-CSE-ConnectionGUID: O14eHymeRoi8cs5j1wr0Yw==
-X-CSE-MsgGUID: jGCbzQY9Tn+Jhp6BuY8+Rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="76892191"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 11 Oct 2024 04:35:13 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1szDvL-000CF0-0o;
-	Fri, 11 Oct 2024 11:35:11 +0000
-Date: Fri, 11 Oct 2024 19:34:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH v6 6/7] power: supply: max77705: Add fuel gauge driver
- for Maxim 77705
-Message-ID: <202410111913.5ADtNHNM-lkp@intel.com>
-References: <20241007-starqltechn_integration_upstream-v6-6-0d38b5090c57@gmail.com>
+	s=arc-20240116; t=1728648901; c=relaxed/simple;
+	bh=2Lx4BjqOxemSrgiJcPsQW8BTG3E3pVcNlidalXKGTeM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aDyzLSkv8v6TgmhliE988DDFlKDy8R+X8W/kCVhnUAlWsoGprHmX5Zyps8jPgskzWhJpsxefuAbSLMNpXgGkOhp2ZBxoZdCJCJlLyMZCU/EuKTbm0XeaDtOlrYsMQgRHT2/sgkA6U9kiKIXBbJWwxESPN+/OxchC9+XJ4MOZt7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=FUorwyPo; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1728648876; x=1729253676; i=w_armin@gmx.de;
+	bh=2Lx4BjqOxemSrgiJcPsQW8BTG3E3pVcNlidalXKGTeM=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=FUorwyPoauO+1cCYbWAPION23PF9d3IfcHTiJHMzkce9y3Db8CDYL4z3/f04EN4/
+	 TDcQZzzDGnyL4bus9bQwe3eAlFe/L6TzoTIXZtAF3xeqtIHx/iQ8mCRNK7/zE8gf/
+	 B5qzw6Md/zYSrXXv74OTr29SrdHa/AgjwYHv2farxLOs0+y4UFplGK8HY1WK/d98E
+	 tyKOkSY/tH0paNjHrDwZyKzyAkaOffed0Xd/Xo7zx0xLY+sKzhC6G/YbIeTWfdh0/
+	 HDn9Swpux5Gn0x5wVpj5tu7S87u1X2g4k+im9RVZFi9SdrtHnPp3Wg+SQ/gAwcvI3
+	 t+kcruN0JZ02a3MEJA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.154.201] ([141.76.185.172]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfpOT-1taUAU3uif-00dHkO; Fri, 11
+ Oct 2024 14:14:36 +0200
+Message-ID: <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
+Date: Fri, 11 Oct 2024 14:14:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-starqltechn_integration_upstream-v6-6-0d38b5090c57@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Werner Sembach <wse@tuxedocomputers.com>,
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+ <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
+ <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
+ <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
+ <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
+ <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:LOHS+CHWlk5R5g0WJIRAcpU4DziE7QkscDFMqDJyROhn82Qi4Sk
+ B/OuZvYhdKFAsxXBu275P8ufMqEg0Dk/ajd8VYEpquFAnxUMOJ2bWpDVpi9HK1OOcn+yaSR
+ UNAUuHN4z0nrPslbHjlrnA3xKPeOLqFdDLMjF53yTu68AFpt7OGCZJBMZaUsDlE/n/MDBUq
+ HfxIM0sr1ehDdMmIKvnyQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HfTPthU7cqU=;GG1fQbSAwJwoGB5clOYbHj/LRjA
+ RMa7WsJzUWxiY01RkIjs1CcZTwGqqqApE93/2Xn93/g65Qn66jkWngD9Jaxc9cgVXIXlhtZlQ
+ UerrMzYTMWwRredbTbyatBTuEEjzWplDa5/YWp7xTzr7CIDKVKP3uRftZqXMOpDQKaOWvMS/V
+ GWujDjSPWWUUBddFyKgW4xubShh6jO9VlxOy3N1Ex+L1oXnbvnrkuBnvN2EcYY4LQ3NHQX0v+
+ lbRRPUcrnqqeDC83t1CmYgwFScGwOuoTxuC57ZsYyZ/+vpyBEgwAhRAxDya9vPUMS/JeK2ILA
+ sYL83jcIzEOM7cXeYPwUXhqVrHQsQ8rhWQAuN2sXdJJVMEpTbyKlKJYLAJfkLGojt7h54qe2t
+ peUjBu3xu+EezY/hgTzCx+fFD6+IDAv+iWtFe1IhoKJ9U+ULP21stqpMWgKGykJBxkzbDrUdI
+ 544fa4/VDw8Zi88DC9Q9hYmJQNXVR0vxQ5EfoP7YKC9FISjwPD9FsvNgYG1aoR9tB8mcrJW/L
+ SAqsGxsPWhEGnQ5pu6WCNbcxIfPsIesRQyQmfANY/WGoYb7GXUUn1q4SBEii4X8Lyw+PrssAX
+ ZKwZ8JLDFfFHdBB3v8bRGcdAhqZVovT5P0xtas9SZXMvpOxWZu0tsfvPOGCEZYhnm4qhi51H4
+ RLzXO1JZrgrBIV55jwZ69KsKZjAWv8FkyySkVGKOWv00uw5LxsjaVaK1F7OM6jvpwf/CpCPrU
+ r9GlfBCpJoHqtPadThp86PLpembWyXneDjwAYIXgkbreidL3YAKKzAtqoEXog4x6m1qHtVURx
+ QNzI9CFifHtbD24kvk1ctPp+OJVsaWO7ygR+v7l3kTuDA=
 
-Hi Dzmitry,
+Am 09.10.24 um 11:55 schrieb Werner Sembach:
 
-kernel test robot noticed the following build errors:
+> Resend because HTML mail ..., but I think I now know when Thunderbird
+> does it: Every time I include a link it gets converted.
+>
+> Hi
+>
+> Am 08.10.24 um 17:21 schrieb Benjamin Tissoires:
+>> On Oct 08 2024, Werner Sembach wrote:
+>>> [...]
+>> Yeah, it just means that you can query or send the data. You can also
+>> use HIDIOCGINPUT() and HIDIOCSOUTPUT() to get a current input report an=
+d
+>> set an output report through the hidraw ioctl...
+>>
+>> Internally, HIDIOCGINPUT() uses the same code path than
+>> HIDIOCGFEATURE(), but with the report type being an Input instead of a
+>> Feature. Same for HIDIOCSOUTPUT() and HIDIOCSFEATURE().
+>
+> Ok so just a difference in definition not in implementation.
+>
+> Then I use a get feature report for the device status function and use
+> it as input and output at the same time, and use a set output report
+> for the led update function (which technically has a return value but
+> i think it's always 0 anyway).
+>
+> I scoured the old thread about exposing WMI calls to userspace,
+> because I remembered that something here came up already.
+>
+> 1.
+> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
+> -> Should be no problem? Because this is not generally exposing wmi
+> calls, just mapping two explicitly with sanitized input (whitelisting
+> basically).
 
-[auto build test ERROR on 58ca61c1a866bfdaa5e19fb19a2416764f847d75]
+It would be OK to expose a selected set of WMI calls to userspace and sani=
+tizing the input of protect potentially buggy firmware from userspace.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20241008-000014
-base:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-patch link:    https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-6-0d38b5090c57%40gmail.com
-patch subject: [PATCH v6 6/7] power: supply: max77705: Add fuel gauge driver for Maxim 77705
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241011/202410111913.5ADtNHNM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111913.5ADtNHNM-lkp@intel.com/reproduce)
+>
+> 2.
+> https://lore.kernel.org/all/b6d79727-ae94-44b1-aa88-069416435c14@redhat.=
+com/
+> -> Do this concerns this apply here? The actual API to be used is
+> LampArray and the HID mapped WMI calls are just an "internal"
+> interface for the BPF driver, but technically UAPI.
+>
+I see no benefit of using BPF for creating the whole HID reports. Otherwis=
+e the HID interface exported by the driver to userspace would be a HID-map=
+ped IOCTL interface
+with no real benefit.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111913.5ADtNHNM-lkp@intel.com/
+I think it would make more sense for the driver to export a generic HID La=
+mpArray interface, which contains placeholder values for the dimensions. T=
+hose values can then
+be supplied by a HID-BPF snipped for each individual machine model. This w=
+ould indeed be a suitable use of HID-BPF, as this would allow us to omit h=
+aving a large quirk
+table inside the kernel driver.
 
-All errors (new ones prefixed by >>):
+Regarding the basic idea of having a virtual HID interface: i would prefer=
+ to create a illumination subsystem instead, but i have to agree that we s=
+hould be doing this
+only after enough drivers are inside the kernel, so we can design a suitab=
+le interface for them. For now, creating a virtual HID interface seems to =
+be good enough.
 
-   ld: drivers/power/supply/max77705_fuel_gauge.o: in function `max77705_fg_get_property':
->> max77705_fuel_gauge.c:(.text+0x244): undefined reference to `__divdi3'
->> ld: max77705_fuel_gauge.c:(.text+0x2b1): undefined reference to `__udivdi3'
-   ld: drivers/power/supply/max77705_fuel_gauge.o: in function `max77705_fg_vs_convert':
->> max77705_fuel_gauge.c:(.text+0x6c2): undefined reference to `__udivdi3'
-   ld: drivers/power/supply/max77705_fuel_gauge.o: in function `max77705_fg_cs_convert':
-   max77705_fuel_gauge.c:(.text+0x706): undefined reference to `__divdi3'
+Thanks,
+Armin Wolf
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Also at Armin and Hans: Do you have comments on this approach?
+>
+>>> (well as far as I can tell the hut doesn't actual specify, if they
+>>> need to
+>>> be feature reports, or am I missing something?)
+>> They can be both actually. The HUT is missing what's expected here :(.
+>>
+>> However, looking at the HUT RR 84:
+>> https://www.usb.org/sites/default/files/hutrr84_-_lighting_and_illumina=
+tion_page.pdf
+>>
+>>
+>> There is an example of a report descriptor, and they are using Features=
+.
+>> Not Input+Output.
+>>
+>> And looking even further (above), in 3.5 Usage Definitions:
+>> 3.5.2, 3.5.3 and 3.5.5 all of them are meant to be a feature, like:
+>> LampArrayAttributesReport CL =E2=80=93 Feature -
+>> LampAttributesRequestReport CL =E2=80=93 Feature =E2=80=93
+>> LampAttributesResponseReport CL =E2=80=93 Feature =E2=80=93
+>> LampArrayControlReport CL =E2=80=93 Feature =E2=80=93
+>>
+>> 3.5.4: can be either feature or output, like:
+>> LampMultiUpdateReport CL =E2=80=93 Feature/Output =E2=80=93
+>> LampRangeUpdateReport CL =E2=80=93 Feature/ Output =E2=80=93
+>>
+>> So I guess the MS implementation can handle Feature only for all but th=
+e
+>> update commands.
+> Thanks for the link, I guess for the BPF driver I will stick to
+> feature reports for the LampArray part until there is actually a hid
+> descriptor spotted in the wild defining LampMultiUpdateReport and
+> LampRangeUpdateReport as Output and not feature.
+>>> and there is the pair with LampAttributesRequestReport and
+>>> LampAttributesResponseReport.
+>> Yeah, not a big deal. The bold IN and OUT are just to say that calling =
+a
+>> setReport on a LampAttributesResponseReport is just ignored AFAIU.
+>>
+>>> Sorry for my confusion over the hid spec.
+>> No worries. It is definitely confusing :)
+>
+> On this note as I fathom:
+>
+> Input Report (usually always get report): Interrupts (the ioctl just
+> there to repeat the last one?)
+>
+> Output Report (usually always set report): Async write, no return
+> value (Buffer should stay untouched)
+>
+> Feature report set: Sync write, no return value (Buffer should stay
+> untouched)
+>
+> Feature report get: Sync read/write (intended only for read, but not
+> limited to it, uses singular buffer for both input and output)
+>
+> I kind of don't get why feature report set exists, but well it's the
+> specs ^^.
+>
+> Regards,
+>
+> Werner
+>
+> [*snip*]
+>
 
