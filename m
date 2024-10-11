@@ -1,94 +1,98 @@
-Return-Path: <linux-leds+bounces-3068-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3069-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31745999DCC
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 09:24:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BCD999E16
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 09:39:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0C15286496
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 07:24:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2597028A4E5
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 07:39:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE44C20969E;
-	Fri, 11 Oct 2024 07:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A39120ADE9;
+	Fri, 11 Oct 2024 07:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="H3otn10T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJpjAVMQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE150209F47
-	for <linux-leds@vger.kernel.org>; Fri, 11 Oct 2024 07:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F88209F4D;
+	Fri, 11 Oct 2024 07:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728631392; cv=none; b=grFL/cIfijDXbtC1vuZyiZ+C/0Vt26nUkKshQqO3poSiCCTY9QHxIAKoYtLo3alHO385jOXYvb85emV1SxqixdqI/G09YwAAvKeJF/xv3EFnzzKlYHfcYKLLKVl0OXzgNtDxFSgIAAXoAFwCWEH/jPGE3+ZhxI7/+jwtoDp7z2s=
+	t=1728632255; cv=none; b=u1ARsi0PIoene3ORuPaVQlp6GMd/zGa+5NUMC/u68fCOTjP2Dj2X2fH891MNAa3hXDgPh1nX887g842nCej8xBpieLGCCEuEbOLx9YPo2MmyecOtYGuS9LCO67GA1FMko7y1WSQkfzm9lsiydp0kLTx3OvMn/KlWhTDltf6iy30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728631392; c=relaxed/simple;
-	bh=0l+HP1wG7FlvFZBwuf0WJ9dQ/kIrzFUT3ZGyVXRKHKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t8BJWwANA1itbhr1RBDWv6hm4AoMx7P/XyYGt1KInnicbAcSseNNPqGO/FCJIIwPZR7dphqFYOr/VG3YAKGz6l/OdTSY4/iUsmXBxyBj/+Rbma50sZMM1xydlEkJq5oqxUWB9fBYSiEAaHHdGgLU8UIgekJxWq2aPPVEB73ozWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=H3otn10T; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 864F31C0086; Fri, 11 Oct 2024 09:16:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1728631003;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hj5S2Pv5E96aLb9HR/+YI6ws7noD0Ue/KgTdoCW+78U=;
-	b=H3otn10TTh3YeZSemWzVCg/cL5nzPEThji4qk4gJiAvotcEaw6YvcXzNdpxiKHRvpKAIRh
-	iWUD1riQSs/djnfUnyFjP+7b/z54ysyIiE8coZdujP9XA214Av9DSNjezC3YoyDTbyfYSm
-	IRTlVG8rvFIiDqznwXxJsmxpl3Fsnqs=
-Date: Fri, 11 Oct 2024 09:16:43 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: Switch back to struct platform_driver::remove()
-Message-ID: <ZwjQ202CCspJS1K6@duo.ucw.cz>
-References: <20241010203622.839625-5-u.kleine-koenig@baylibre.com>
+	s=arc-20240116; t=1728632255; c=relaxed/simple;
+	bh=S/xH1Qml/Sx8VPcBePbXZI6iin6x1ngugX1Sjnm9EY8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=W7/NsHnCSnNd2amamUsGbvumcqOwqH4fLPNCR5LuQUz/qTRmhKTpPBy9WhYXLtbe1Z06MshT7DdaVkgVzRCsYIpgJLSe6/lGpXVBlpWQm5TtvRKzC2/TzG7q/xeGh5bHl8/hG/jwEj18t8moTYjLpSI5w06pYxMP4LnzZRCdt4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJpjAVMQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12560C4CEC3;
+	Fri, 11 Oct 2024 07:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728632254;
+	bh=S/xH1Qml/Sx8VPcBePbXZI6iin6x1ngugX1Sjnm9EY8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cJpjAVMQQJdt86EgsMMt5JXeQcPre6+7kfADgin62kHLtW+eNn4Hx+JqpqaD4s5ND
+	 PHQqHzYUZir5PksQrBtEiIZChBjpliv7J2O3C5zjaxXuA0pORHKp7kUIft6mazAw5a
+	 lasxEkWyODFWE6pOk5B8dtHqUNm37gPbiXBIbV4bx7LHFWNyfPen7ugK8ibG6TvAZe
+	 vJBtmKSUqFM2GyCKRjpnvJjIlVQrpWyiyIgRDqMv275Qf2fVfapiRtcT7bEJV1hjNi
+	 RhRZ/t1JMgGxVPngka9hFAS7r9/zVwWMJULuimokAQ9AA6qgwlUM68Y7xA2hjnfQqY
+	 nNJj3uN50X2UQ==
+From: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ William Zhang <william.zhang@broadcom.com>, 
+ Anand Gore <anand.gore@broadcom.com>, 
+ Kursad Oney <kursad.oney@broadcom.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20241010-bcm63138-leds-v4-0-cdb80780a555@linaro.org>
+References: <20241010-bcm63138-leds-v4-0-cdb80780a555@linaro.org>
+Subject: Re: [PATCH v4 0/4] leds: bcm63138: Add some new bindings and code
+Message-Id: <172863225180.3063282.9288774822137994735.b4-ty@kernel.org>
+Date: Fri, 11 Oct 2024 08:37:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="H5q+UlmE7NprfSOa"
-Content-Disposition: inline
-In-Reply-To: <20241010203622.839625-5-u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 
+On Thu, 10 Oct 2024 16:10:49 +0200, Linus Walleij wrote:
+> This brings over the few know-how items and little things
+> I found about the BCMBCA LEDs in my previous duplicate driver.
+> 
+> This was tested on the BCM6846-based Genexis XG6846B.
+> 
+> The main addition is the ability to define the number shifting
+> bits in the serial shift register which is necessary if the
+> previous boot stages have not set up the hardware properly
+> before.
+> 
+> [...]
 
---H5q+UlmE7NprfSOa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-Hi!
+[1/4] dt-bindings: leds: bcm63138: Add shift register bits
+      commit: d19261ffd077609e5d348f1c12894997807a64a8
+[2/4] leds: bcm63138: Use scopes and guards
+      commit: 61574073e15cbaaab3fa1b2ad7df3ffe21e48509
+[3/4] leds: bcm63138: Handle shift register config
+      commit: 5f312fdace9cee3fb8a7964469546fb4d8624ff7
+[4/4] leds: bcm63138: Add some register defines
+      commit: def9c8b7bc0d9d7436cf29eb0106698e356f006d
 
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
+--
+Lee Jones [李琼斯]
 
-Would it make sense to wait few years with that? I feel this is going
-to cause problems with backports to stable...
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---H5q+UlmE7NprfSOa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZwjQ2wAKCRAw5/Bqldv6
-8rXmAKCVf6G4aUd6b/r3JKOkT2fHDronBwCeLFySj1D54UONwI5yxRO+p/1ZX3Y=
-=AtFB
------END PGP SIGNATURE-----
-
---H5q+UlmE7NprfSOa--
 
