@@ -1,56 +1,74 @@
-Return-Path: <linux-leds+bounces-3076-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3077-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9482A99A3A6
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 14:15:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DC099A4E1
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 15:22:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17AC1B23F07
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 12:15:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FC881C21155
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2024 13:22:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7922D217311;
-	Fri, 11 Oct 2024 12:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA67E218D65;
+	Fri, 11 Oct 2024 13:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="FUorwyPo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vyo/FP0x"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD56212F13;
-	Fri, 11 Oct 2024 12:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF8021859A;
+	Fri, 11 Oct 2024 13:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728648901; cv=none; b=nXplRustCiBhYhxw4cxcfigA6Gre+T8uOU86feMBO3kcpcaBwy84+MyEQfLag+TnWUiR7qKlCvqDHFtOMEg0l/oWtGiw9jvTygsloQ9Atp/QUc18Ik3ujNF92KFA61kO8TZU3nYiu9cjOg+HSXImHBuNX4GvCCMczfqA9A+Qfm8=
+	t=1728652816; cv=none; b=H5HG8/KCVTRGd+1Fbqz9D+zbJR6DP/FlWY6qNJ+lnuV9tBtGIxWu7WCrmv/uEwit+43QUoj5/bjWYB1Ib0TP20egoLsH+mTqHBiGIT8/Of4Ic9lf8BouHpmnXco5327ipDfJlFly9vsOMUnON2Gkvla3Z5RtVvspMcr9Fghbo8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728648901; c=relaxed/simple;
-	bh=2Lx4BjqOxemSrgiJcPsQW8BTG3E3pVcNlidalXKGTeM=;
+	s=arc-20240116; t=1728652816; c=relaxed/simple;
+	bh=NuI87gb2l/dMeMpAWx7RwsSYv8IlVDFvAoedt/XdVeU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aDyzLSkv8v6TgmhliE988DDFlKDy8R+X8W/kCVhnUAlWsoGprHmX5Zyps8jPgskzWhJpsxefuAbSLMNpXgGkOhp2ZBxoZdCJCJlLyMZCU/EuKTbm0XeaDtOlrYsMQgRHT2/sgkA6U9kiKIXBbJWwxESPN+/OxchC9+XJ4MOZt7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=FUorwyPo; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1728648876; x=1729253676; i=w_armin@gmx.de;
-	bh=2Lx4BjqOxemSrgiJcPsQW8BTG3E3pVcNlidalXKGTeM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=FUorwyPoauO+1cCYbWAPION23PF9d3IfcHTiJHMzkce9y3Db8CDYL4z3/f04EN4/
-	 TDcQZzzDGnyL4bus9bQwe3eAlFe/L6TzoTIXZtAF3xeqtIHx/iQ8mCRNK7/zE8gf/
-	 B5qzw6Md/zYSrXXv74OTr29SrdHa/AgjwYHv2farxLOs0+y4UFplGK8HY1WK/d98E
-	 tyKOkSY/tH0paNjHrDwZyKzyAkaOffed0Xd/Xo7zx0xLY+sKzhC6G/YbIeTWfdh0/
-	 HDn9Swpux5Gn0x5wVpj5tu7S87u1X2g4k+im9RVZFi9SdrtHnPp3Wg+SQ/gAwcvI3
-	 t+kcruN0JZ02a3MEJA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [172.16.154.201] ([141.76.185.172]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfpOT-1taUAU3uif-00dHkO; Fri, 11
- Oct 2024 14:14:36 +0200
-Message-ID: <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
-Date: Fri, 11 Oct 2024 14:14:30 +0200
+	 In-Reply-To:Content-Type; b=TSsQfledQfWWP2L/clxHPyoPLqZBSw6J64NT9KTgtI7PYDxGPYysivvF0aUSsHtRiJuGDsKmUV1l70RsSXII822rRWnv4/2GSen4AOJsAIQ7cKau4MByOZz/kQ3J+fx1CvuEHKZ1za7ldCk6YfCsJSDBbh8v9cjYf5+NPgZ1voo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vyo/FP0x; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7e9f98f2147so1233317a12.1;
+        Fri, 11 Oct 2024 06:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728652815; x=1729257615; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HQGnKXGMD/jd3LTWPOuFrMlwOdbC5EsGlhAOU++vmwc=;
+        b=Vyo/FP0xC0ccDm4JiUHtvqv6rxjh8ppQ1h9x4Ddl33oa5i90A8+epmWiFTf4ztPHVm
+         MSIHQENlu3aJ6vIvgicnQaGvKKfPAi8/SkPlJjVZ50Yb9HRj0Pvu8yINZq+EUeznN3nd
+         SPTlI5MhREVm58clT5D+/GT5jU3R959vU6xDHgpGWOir6KhQ/9S9Qxrt+AqLfLf0zAiV
+         g4gIYwYh1rocXeVKEs/QD+PXzpGrdmjgQ4f0+XSWDZo+SiwX0bhka8HWSXZ87Fookg8/
+         M5eISvxRg42auaaelLKJ1gcmt+opzWYIZFbo5h98nye/mhbZkeU+76YnGAmaBmmeS+37
+         x1uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728652815; x=1729257615;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQGnKXGMD/jd3LTWPOuFrMlwOdbC5EsGlhAOU++vmwc=;
+        b=eLJqrPJrtDpZ1K48XjO2JIvmvOiyYxmHX1C7sOLhaa0Lt37jmGtf1+3+NooTQm5dFY
+         BqWhLfoimD2zKqxgszvm7XW5/dBBSYVpvm4KQ/NatrQ1cxqlMPEDmEIhSwVP/IXw3/S2
+         ccrihvJXeaJ+Lbxb1hnNtk29vSGiam+zXXhjilgU90uA0zm/44r1lh5QExh2XO/Ub6/U
+         g2L9MTWpS9psCje4HCSGZ8hXeM7rsCZMgVttxyXDOP9Hhdrwh7/bninl0Jsqsb6puosm
+         08c4qQY3F4Cmro1fayQ6/3pxk/NFd9iMHjPz7S3ekQuxLqmh25MyehIzl7+sXIYAiM0h
+         DWvw==
+X-Forwarded-Encrypted: i=1; AJvYcCWiqS9NRXrV0q5O5ejN/+P99+teUGkFNQPmCc8TVu1XgEoOzn9tLbByAPuNdaUYaTKqgxcXKEjZQ9O/7g==@vger.kernel.org, AJvYcCXQM1Oc0TcJ7BMIJcVRe0T4AmA7WgtK8kQjnoBVXiWZoIwEnsRJNjAcQljBtEf3HBsJPTM2MTOAiRliGIY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrgVc+cdwYH6/SRCie/wZQcdNNp0hWy/USJ/g3ypRNfBx13Stg
+	Yl1jL8Az7CX4DZoWIx3zrAs4HTvei+Ioxqb2mS9lwGR0VpKFhdHp
+X-Google-Smtp-Source: AGHT+IH5nEeE+SMSc6DH3bEQIbFsOMs4TIXRax9wCnVZVUm8SWqh9hQoGE5QLcDKtpZh23qzawXOfg==
+X-Received: by 2002:a17:90a:c250:b0:2e2:d1a3:faf8 with SMTP id 98e67ed59e1d1-2e2f0dac7c2mr3651218a91.33.1728652814511;
+        Fri, 11 Oct 2024 06:20:14 -0700 (PDT)
+Received: from ?IPV6:2409:40c0:11a4:8d8a:687:fb0b:3c04:c809? ([2409:40c0:11a4:8d8a:687:fb0b:3c04:c809])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5fc5e1bsm3153033a91.52.2024.10.11.06.20.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 06:20:13 -0700 (PDT)
+Message-ID: <83572cde-19a1-4089-b02b-361a8ef40bee@gmail.com>
+Date: Fri, 11 Oct 2024 18:50:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -58,185 +76,60 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Werner Sembach <wse@tuxedocomputers.com>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+Subject: Re: [PATCH] leds: Fix uninitialized variable 'ret' in
+ mt6370_mc_pattern_clear
+To: Lee Jones <lee@kernel.org>
+Cc: pavel@ucw.cz, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20241006131337.48442-1-surajsonawane0215@gmail.com>
+ <20241011074702.GN661995@google.com>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+From: Suraj Sonawane <surajsonawane0215@gmail.com>
+In-Reply-To: <20241011074702.GN661995@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:LOHS+CHWlk5R5g0WJIRAcpU4DziE7QkscDFMqDJyROhn82Qi4Sk
- B/OuZvYhdKFAsxXBu275P8ufMqEg0Dk/ajd8VYEpquFAnxUMOJ2bWpDVpi9HK1OOcn+yaSR
- UNAUuHN4z0nrPslbHjlrnA3xKPeOLqFdDLMjF53yTu68AFpt7OGCZJBMZaUsDlE/n/MDBUq
- HfxIM0sr1ehDdMmIKvnyQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:HfTPthU7cqU=;GG1fQbSAwJwoGB5clOYbHj/LRjA
- RMa7WsJzUWxiY01RkIjs1CcZTwGqqqApE93/2Xn93/g65Qn66jkWngD9Jaxc9cgVXIXlhtZlQ
- UerrMzYTMWwRredbTbyatBTuEEjzWplDa5/YWp7xTzr7CIDKVKP3uRftZqXMOpDQKaOWvMS/V
- GWujDjSPWWUUBddFyKgW4xubShh6jO9VlxOy3N1Ex+L1oXnbvnrkuBnvN2EcYY4LQ3NHQX0v+
- lbRRPUcrnqqeDC83t1CmYgwFScGwOuoTxuC57ZsYyZ/+vpyBEgwAhRAxDya9vPUMS/JeK2ILA
- sYL83jcIzEOM7cXeYPwUXhqVrHQsQ8rhWQAuN2sXdJJVMEpTbyKlKJYLAJfkLGojt7h54qe2t
- peUjBu3xu+EezY/hgTzCx+fFD6+IDAv+iWtFe1IhoKJ9U+ULP21stqpMWgKGykJBxkzbDrUdI
- 544fa4/VDw8Zi88DC9Q9hYmJQNXVR0vxQ5EfoP7YKC9FISjwPD9FsvNgYG1aoR9tB8mcrJW/L
- SAqsGxsPWhEGnQ5pu6WCNbcxIfPsIesRQyQmfANY/WGoYb7GXUUn1q4SBEii4X8Lyw+PrssAX
- ZKwZ8JLDFfFHdBB3v8bRGcdAhqZVovT5P0xtas9SZXMvpOxWZu0tsfvPOGCEZYhnm4qhi51H4
- RLzXO1JZrgrBIV55jwZ69KsKZjAWv8FkyySkVGKOWv00uw5LxsjaVaK1F7OM6jvpwf/CpCPrU
- r9GlfBCpJoHqtPadThp86PLpembWyXneDjwAYIXgkbreidL3YAKKzAtqoEXog4x6m1qHtVURx
- QNzI9CFifHtbD24kvk1ctPp+OJVsaWO7ygR+v7l3kTuDA=
+Content-Transfer-Encoding: 7bit
 
-Am 09.10.24 um 11:55 schrieb Werner Sembach:
+On 11/10/24 13:17, Lee Jones wrote:
+> On Sun, 06 Oct 2024, SurajSonawane2415 wrote:
+> 
+>> Fix the uninitialized symbol 'ret' in the function mt6370_mc_pattern_clear
+>> to resolve the following warning:
+>> drivers/leds/rgb/leds-mt6370-rgb.c:604 mt6370_mc_pattern_clear()
+>> error: uninitialized symbol 'ret'.
+>> Initialize 'ret' to 0 to prevent undefined behavior from uninitialized
+>> access.
+>>
+>> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
+> 
+> Real names only.  Please update your .gitconfig.
+> 
+>> ---
+>>   drivers/leds/rgb/leds-mt6370-rgb.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
+>> index 10a0b5b45..87805c21e 100644
+>> --- a/drivers/leds/rgb/leds-mt6370-rgb.c
+>> +++ b/drivers/leds/rgb/leds-mt6370-rgb.c
+>> @@ -587,7 +587,7 @@ static inline int mt6370_mc_pattern_clear(struct led_classdev *lcdev)
+>>   	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+>>   	struct mt6370_priv *priv = led->priv;
+>>   	struct mc_subled *subled;
+>> -	int i, ret;
+>> +	int i, ret = 0;
+>>   
+>>   	mutex_lock(&led->priv->lock);
+>>   
+>> -- 
+>> 2.34.1
+>>
+> 
 
-> Resend because HTML mail ..., but I think I now know when Thunderbird
-> does it: Every time I include a link it gets converted.
->
-> Hi
->
-> Am 08.10.24 um 17:21 schrieb Benjamin Tissoires:
->> On Oct 08 2024, Werner Sembach wrote:
->>> [...]
->> Yeah, it just means that you can query or send the data. You can also
->> use HIDIOCGINPUT() and HIDIOCSOUTPUT() to get a current input report an=
-d
->> set an output report through the hidraw ioctl...
->>
->> Internally, HIDIOCGINPUT() uses the same code path than
->> HIDIOCGFEATURE(), but with the report type being an Input instead of a
->> Feature. Same for HIDIOCSOUTPUT() and HIDIOCSFEATURE().
->
-> Ok so just a difference in definition not in implementation.
->
-> Then I use a get feature report for the device status function and use
-> it as input and output at the same time, and use a set output report
-> for the led update function (which technically has a return value but
-> i think it's always 0 anyway).
->
-> I scoured the old thread about exposing WMI calls to userspace,
-> because I remembered that something here came up already.
->
-> 1.
-> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
-> -> Should be no problem? Because this is not generally exposing wmi
-> calls, just mapping two explicitly with sanitized input (whitelisting
-> basically).
+Thanks for the feedback. I'll update my .gitconfig to use my real name 
+for future patches.
 
-It would be OK to expose a selected set of WMI calls to userspace and sani=
-tizing the input of protect potentially buggy firmware from userspace.
-
->
-> 2.
-> https://lore.kernel.org/all/b6d79727-ae94-44b1-aa88-069416435c14@redhat.=
-com/
-> -> Do this concerns this apply here? The actual API to be used is
-> LampArray and the HID mapped WMI calls are just an "internal"
-> interface for the BPF driver, but technically UAPI.
->
-I see no benefit of using BPF for creating the whole HID reports. Otherwis=
-e the HID interface exported by the driver to userspace would be a HID-map=
-ped IOCTL interface
-with no real benefit.
-
-I think it would make more sense for the driver to export a generic HID La=
-mpArray interface, which contains placeholder values for the dimensions. T=
-hose values can then
-be supplied by a HID-BPF snipped for each individual machine model. This w=
-ould indeed be a suitable use of HID-BPF, as this would allow us to omit h=
-aving a large quirk
-table inside the kernel driver.
-
-Regarding the basic idea of having a virtual HID interface: i would prefer=
- to create a illumination subsystem instead, but i have to agree that we s=
-hould be doing this
-only after enough drivers are inside the kernel, so we can design a suitab=
-le interface for them. For now, creating a virtual HID interface seems to =
-be good enough.
-
-Thanks,
-Armin Wolf
-
-> Also at Armin and Hans: Do you have comments on this approach?
->
->>> (well as far as I can tell the hut doesn't actual specify, if they
->>> need to
->>> be feature reports, or am I missing something?)
->> They can be both actually. The HUT is missing what's expected here :(.
->>
->> However, looking at the HUT RR 84:
->> https://www.usb.org/sites/default/files/hutrr84_-_lighting_and_illumina=
-tion_page.pdf
->>
->>
->> There is an example of a report descriptor, and they are using Features=
-.
->> Not Input+Output.
->>
->> And looking even further (above), in 3.5 Usage Definitions:
->> 3.5.2, 3.5.3 and 3.5.5 all of them are meant to be a feature, like:
->> LampArrayAttributesReport CL =E2=80=93 Feature -
->> LampAttributesRequestReport CL =E2=80=93 Feature =E2=80=93
->> LampAttributesResponseReport CL =E2=80=93 Feature =E2=80=93
->> LampArrayControlReport CL =E2=80=93 Feature =E2=80=93
->>
->> 3.5.4: can be either feature or output, like:
->> LampMultiUpdateReport CL =E2=80=93 Feature/Output =E2=80=93
->> LampRangeUpdateReport CL =E2=80=93 Feature/ Output =E2=80=93
->>
->> So I guess the MS implementation can handle Feature only for all but th=
-e
->> update commands.
-> Thanks for the link, I guess for the BPF driver I will stick to
-> feature reports for the LampArray part until there is actually a hid
-> descriptor spotted in the wild defining LampMultiUpdateReport and
-> LampRangeUpdateReport as Output and not feature.
->>> and there is the pair with LampAttributesRequestReport and
->>> LampAttributesResponseReport.
->> Yeah, not a big deal. The bold IN and OUT are just to say that calling =
-a
->> setReport on a LampAttributesResponseReport is just ignored AFAIU.
->>
->>> Sorry for my confusion over the hid spec.
->> No worries. It is definitely confusing :)
->
-> On this note as I fathom:
->
-> Input Report (usually always get report): Interrupts (the ioctl just
-> there to repeat the last one?)
->
-> Output Report (usually always set report): Async write, no return
-> value (Buffer should stay untouched)
->
-> Feature report set: Sync write, no return value (Buffer should stay
-> untouched)
->
-> Feature report get: Sync read/write (intended only for read, but not
-> limited to it, uses singular buffer for both input and output)
->
-> I kind of don't get why feature report set exists, but well it's the
-> specs ^^.
->
-> Regards,
->
-> Werner
->
-> [*snip*]
->
+Best regards,
+Suraj Sonawane
 
