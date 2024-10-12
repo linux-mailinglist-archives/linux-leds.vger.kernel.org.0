@@ -1,187 +1,91 @@
-Return-Path: <linux-leds+bounces-3082-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3083-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2684A99B039
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Oct 2024 04:46:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40AE99B635
+	for <lists+linux-leds@lfdr.de>; Sat, 12 Oct 2024 19:24:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D45C2281CD7
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Oct 2024 02:46:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 940EA28222D
+	for <lists+linux-leds@lfdr.de>; Sat, 12 Oct 2024 17:24:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B367E55B;
-	Sat, 12 Oct 2024 02:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF556F06A;
+	Sat, 12 Oct 2024 17:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYG9ZxEE"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hKe8W7b4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3492564
-	for <linux-leds@vger.kernel.org>; Sat, 12 Oct 2024 02:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322EDC133;
+	Sat, 12 Oct 2024 17:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728701212; cv=none; b=Y2j14tiX04BStagvfFrko9NnlKhlijCMGcjwBgWvQFvSYA+649VV1ZUZLwGu9ue5kp/X8Ve+/yK17Eqe8reV2L+/eyjfPOtSzkP/GgnGuiMATswlUnyPUPqk3E2ODLXf6w+hSZ5zp5stAznOvg9gxpSyJGf6mqP/54kGJ5Sx830=
+	t=1728753858; cv=none; b=oGlMCoZOo5nZo977HVyhvEvKICklCXkbPuY4mLyVLyb/WFucahmNi8lougfFbNJcdmYnoR7SL4dEtra+uLn1QM5PTzVGPOh4rYjt7YO1UbwIi5LmgvApD6Invtg1UQUKMn5QphJFlP/wFXqcx3xL//d8/M1QAr4eKH7H8QTZOaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728701212; c=relaxed/simple;
-	bh=uqkWGZsSWf7o8mVzGQwL6NCtX5z76/4xlyqNHHQA8u8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LXQXvH6mXUw/8DF33d9srzTBtQyIVOxho7XHwSSwai4fcIqkvrVDmkdmrhWmSMUmtTbgznWaJjrmvy5m6xodGHEy60PpeJ+Yw1uK/IMM2aO2USu0p+u7Y5CRKdh2MaMejEIvrqHSb4H1O41aN71OyCCJASRYMuRIv/kbJz3Y/Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYG9ZxEE; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728701210; x=1760237210;
-  h=date:from:to:cc:subject:message-id;
-  bh=uqkWGZsSWf7o8mVzGQwL6NCtX5z76/4xlyqNHHQA8u8=;
-  b=NYG9ZxEEIAZqgIoyfNyNijaNm4xRcMeZ/qQSFZ9nH1civijtLAhoOhwU
-   dPlmJbevt/R1ZVmnTdp5YKuDZ/+dP5iCllu3vrIlnEuB2cnOyb9QxNLut
-   ccQfSVoWjyt8VHtDiXTeikystAI3SJ8zeaqRYoah19VWr8TO+KPtxFIr7
-   nC0PkG+jmmw0CAq44KX+uA75p88IqCf5UpzkIxfnZhb743Lp99XzEWcYc
-   0nV/1d65malutCngPtR6pvKzobvO1zwX7Cf7oiHdT1RKmsAMi2htrhMu2
-   F4SXd8PpazbIGYgBtCDZh4povfML18hVN5x8aQEKpUd84TZ6lxXwQfj4o
-   g==;
-X-CSE-ConnectionGUID: x9b5AhOTQku+yNjzZCyJQg==
-X-CSE-MsgGUID: dzK+y0oFRWqQ+2V8USEQ1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53537277"
-X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="53537277"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 19:46:50 -0700
-X-CSE-ConnectionGUID: hjs4SrrdSsqZso/tJN4mFA==
-X-CSE-MsgGUID: r8ihLQZDShWipgYBD11F2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
-   d="scan'208";a="76704525"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Oct 2024 19:46:49 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1szS9W-000CyZ-3C;
-	Sat, 12 Oct 2024 02:46:46 +0000
-Date: Sat, 12 Oct 2024 10:46:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 0791e9106c22c6909124c8199b783b60ea0933b0
-Message-ID: <202410121056.OuRjEy2G-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1728753858; c=relaxed/simple;
+	bh=N4XoqOD8j/6yjqCTP1nue5zspW8mIRlcm5amoIbTYgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RMVp//anwWTPSTx36VYSnzlIj9qZ9NQqDDwglyviVhZuux+jNcSX7ZaiFpWCtDfvHtfobo9gOOQxNFIloscYLhmmjkay7iK3EfDbqxiw2xIEn+kDX6jSuDZtZN9BFsyqQvpDSvIZBj5Cj3LkD5WBme4QFdLan2dCZjZEJpBcVto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=hKe8W7b4; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=E5Z1C8i4Znj4Wos9XAj0tRvPohxc/FM9zyA5QqXLAPY=; b=hKe8W7b4fFYXayoWX7fH2HW824
+	2e5VfVdWshRGmST7sODJ+KZIrzJsmhWcF6gKdnVlCVWUoKo1UmajOvED8wjW1uOEx+xTNP8/ZQb4+
+	VcX/pfkxQNZCBkeMUk80B1PAb/Fbfv7sIzmKK5G2rvdIVSsY9ApmLcTajW6ushGd7w4I=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1szfqU-009oGL-D1; Sat, 12 Oct 2024 19:24:02 +0200
+Date: Sat, 12 Oct 2024 19:24:02 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Xu Liang <lxu@maxlinear.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Robert Marko <robimarko@gmail.com>,
+	Russell King <rmk+kernel@armlinux.org.uk>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/5] net: phy: support 'active-high' property
+ for PHY LEDs
+Message-ID: <89eb6d9e-a22a-4300-81c6-9cb27feb11ea@lunn.ch>
+References: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
+ <91598487773d768f254d5faf06cf65b13e972f0e.1728558223.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91598487773d768f254d5faf06cf65b13e972f0e.1728558223.git.daniel@makrotopia.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 0791e9106c22c6909124c8199b783b60ea0933b0  leds: Switch back to struct platform_driver::remove()
+On Thu, Oct 10, 2024 at 01:54:19PM +0100, Daniel Golle wrote:
+> In addition to 'active-low' and 'inactive-high-impedance' also
+> support 'active-high' property for PHY LED pin configuration.
+> As only either 'active-high' or 'active-low' can be set at the
+> same time, WARN and return an error in case both are set.
+> 
+> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 
-elapsed time: 989m
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-configs tested: 94
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.1.0
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arc                                 defconfig    gcc-14.1.0
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                                 defconfig    gcc-14.1.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                               defconfig    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-csky                                defconfig    gcc-14.1.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.1.0
-i386                             allmodconfig    clang-18
-i386                              allnoconfig    clang-18
-i386                             allyesconfig    clang-18
-i386        buildonly-randconfig-001-20241012    gcc-12
-i386        buildonly-randconfig-002-20241012    gcc-12
-i386        buildonly-randconfig-003-20241012    gcc-12
-i386        buildonly-randconfig-004-20241012    gcc-12
-i386        buildonly-randconfig-005-20241012    gcc-12
-i386        buildonly-randconfig-006-20241012    gcc-12
-i386                                defconfig    clang-18
-i386                  randconfig-001-20241012    gcc-12
-i386                  randconfig-002-20241012    gcc-12
-i386                  randconfig-003-20241012    gcc-12
-i386                  randconfig-004-20241012    gcc-12
-i386                  randconfig-005-20241012    gcc-12
-i386                  randconfig-006-20241012    gcc-12
-i386                  randconfig-011-20241012    gcc-12
-i386                  randconfig-012-20241012    gcc-12
-i386                  randconfig-013-20241012    gcc-12
-i386                  randconfig-014-20241012    gcc-12
-i386                  randconfig-015-20241012    gcc-12
-i386                  randconfig-016-20241012    gcc-12
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch                           defconfig    gcc-14.1.0
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-m68k                                defconfig    gcc-14.1.0
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-microblaze                          defconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-nios2                             allnoconfig    gcc-14.1.0
-nios2                               defconfig    gcc-14.1.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.1.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.1.0
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.1.0
-riscv                            allmodconfig    gcc-14.1.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.1.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    gcc-14.1.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                             defconfig    gcc-12
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-18
-x86_64                           allyesconfig    clang-18
-x86_64                              defconfig    clang-18
-x86_64                                  kexec    gcc-12
-x86_64                               rhel-8.3    gcc-12
-x86_64                          rhel-8.3-rust    clang-18
-xtensa                            allnoconfig    gcc-14.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    Andrew
 
