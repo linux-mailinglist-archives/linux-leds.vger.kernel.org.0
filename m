@@ -1,72 +1,90 @@
-Return-Path: <linux-leds+bounces-3085-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3086-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CEC99B64B
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Oct 2024 19:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14C199CD62
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Oct 2024 16:32:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 615CE1C20F4F
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Oct 2024 17:30:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82D9A1C216C3
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Oct 2024 14:32:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AFB180C13;
-	Sat, 12 Oct 2024 17:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C5E14A614;
+	Mon, 14 Oct 2024 14:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="S4Ff3VwS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jPZKbhrr"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155B46F06A;
-	Sat, 12 Oct 2024 17:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CC036B17
+	for <linux-leds@vger.kernel.org>; Mon, 14 Oct 2024 14:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728754235; cv=none; b=B5m+1MWeuVn+DMpAkBiGC1DdNl6JnXmEi4f4dMF0vSclerzZT4V4YhmpKKIsLUOkMfd6Ytkdo3VXPt4l1bWj4PxnHDRvbQhf4BFaJsmVQAiiCk9+wk2AWqym8w0HyeWn8y5B5PC5riwfPDYE8htn8xXCyEL1Y4k0BF2/M9ve20E=
+	t=1728916338; cv=none; b=RXsnlCj5PpxfTYQ0ECOE4kpf4WmjosB4jL7bTPI6UBIE7EJspXpaTRoqtvqEE5iDh0eyeaafGMg8dgh+kZPmxJJbyFBpQVVi1TbT61s/vLmk86ie4GsjZzaKLZ0ZK5QuUBxSRGmlyIRU07+DJr0D6vDRVrgLvs5EkmJ3R5VilOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728754235; c=relaxed/simple;
-	bh=lAmk8qweEfG9WF+FkFKFFHuHtt4spQx5ZrigpxHR2oE=;
+	s=arc-20240116; t=1728916338; c=relaxed/simple;
+	bh=zl8UFLW7Tkwq4TL+cGeNvFCZJyv3PKwLsnDSoE2Q6So=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvYVrm14PvJDU4R9Fn8VZZsYMDIrhphLVcHyIt77mKfibpjQUPzz1zWsirt/p46JUmK0RV3yvkeoYfsvI4Kz/wpHXB8xUZnDEpNXZ6lbHLO0cmWQD6nv0imwNSoWWjk58Sjj5Q+w+bQK0ookSFmGFO7zZGJ2hYd4rD2dNIlhgPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=S4Ff3VwS; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=DQm141ViCMzhU11jXjJClJYjjMCDmk8T4ukFMZIGqnc=; b=S4Ff3VwSFeXUoMKXaJ6HEPfZ8v
-	CUoSBNtqEp8z3PQ+A4E24cO5Ipjt8p04YwFuz3oDjav398C24tjeCTwGInoiBNugaCYKYb2rkKS2c
-	OX0iVUGwfNEk48fuLs3m59NQngJkXGnhf2/IfGvmjng9C3byQXc1+NfHQXX98ejQlNSE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1szfwa-009oJ2-Vr; Sat, 12 Oct 2024 19:30:20 +0200
-Date: Sat, 12 Oct 2024 19:30:20 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=o981PcjV5/AU6MYOvfDZqdfGz6WfMJo4peRpSIh3KKaDFddXtVqQNL0FVOCFtuRthDdIFVkbGv4QWte+Yinrn032kP+i4RA4wqS0c2DPi0PYkMRvdBH1KC+Yhb+Mh8K5RisyqIFTbBmMIm4CyLKhlg0Z7/umyENUPqGg9pBbcrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jPZKbhrr; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37d47b38336so2656415f8f.3
+        for <linux-leds@vger.kernel.org>; Mon, 14 Oct 2024 07:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728916335; x=1729521135; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zl8UFLW7Tkwq4TL+cGeNvFCZJyv3PKwLsnDSoE2Q6So=;
+        b=jPZKbhrrIBakJwx7D5c5jE9gE7N/m4Q7WOrVEROXKIuwK1PnCqVCUHdjOVscre4EAy
+         0SEFi5wvG0EYMXzaWx9qBIh81bYjUVin2/xWgvkVaxVhp+J5WzjeLwBH9h8D6n1hp/q2
+         jknj+c8gqa1bqtMzdCtlyaTB1VJhrqE+xTZHQ2iC0BVFc7+6CPmJAwyIqCnglozCdlkd
+         e9qNIQeOLmGfvLkdXmh4qNXtH17XNEVluvZ53EeOwmPGH1/Fd0BW5F3bh7MJpf8ZpZMn
+         tQXVLV0cnt+991HkopcGZzQNKwLkJ5SOtAj59I8aZsvXsFVOJuFqPtdlEr+bIZtcPhPW
+         Yf+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728916335; x=1729521135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zl8UFLW7Tkwq4TL+cGeNvFCZJyv3PKwLsnDSoE2Q6So=;
+        b=rlH3Bc34wu+KA0/LtJ/bl3fBhdI2gvi1o/On4QC1LEi8fnxcRH5pCdZwkZFfpsv36p
+         B042NS2NUflB7bvoBg5JSWo550B0P1aPU04hbaibUxn0E+U+iqeuCYZ0kjEKuad92QNd
+         yMgY5wAqBl2KmR2flixvmQhhE9Rq6m/zEcfcf67YzqFpCYfcFNarc6Ntp3Y3fUgS9bFH
+         JJ6Ir1O5VZNN7+PfDf8LzQ2gqzSXXM9ll+QFdhAFl2dq1ArFbgjUjPohBSUY40qrbriS
+         oX9IDC5CQsKDvLz/OIcd4rkVK0AcVwV7LlyOVlHRzBwLztCyCyyntMOp4yyXl3mbxtov
+         izYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIkqq8lIViDAdFkIOoOMjUQZ5zslkRWMvMfb6HG8z4qNBAXYgP4BtkO9u0qFsMDAY8PNq9/1ANdyTD@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnItfBuwAyqigtmsQvb39jJr5qH9bPDpwGBO+ZcGkmMlXgoMdA
+	tNWglcVgtPlU/BvNxIwp5cF7TzOgkg0/ahPnohlblgFeXozh8Flgm2VTn+084kE=
+X-Google-Smtp-Source: AGHT+IE3w9OgnIs5ktJA45Iy0OYC2gnGhc4/sWHDLgg9MLsz7ESBtRvhqpqzssEm3UrgKqkaey1GKA==
+X-Received: by 2002:a05:6000:110e:b0:367:9881:7d66 with SMTP id ffacd0b85a97d-37d552fe2famr7213141f8f.41.1728916335269;
+        Mon, 14 Oct 2024 07:32:15 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8ac3sm11464781f8f.3.2024.10.14.07.32.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 07:32:14 -0700 (PDT)
+Date: Mon, 14 Oct 2024 15:32:12 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Xu Liang <lxu@maxlinear.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Robert Marko <robimarko@gmail.com>,
-	Russell King <rmk+kernel@armlinux.org.uk>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v2 5/5] net: phy: intel-xway: add support for
- PHY LEDs
-Message-ID: <8ee4f92f-aaf4-436a-bc1e-23fcb24e22ca@lunn.ch>
-References: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
- <81f4717ab9acf38f3239727a4540ae96fd01109b.1728558223.git.daniel@makrotopia.org>
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] dt-bindings: backlight: convert
+ zii,rave-sp-backlight.txt to yaml
+Message-ID: <20241014143212.GA97798@aspen.lan>
+References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
+ <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -75,21 +93,18 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <81f4717ab9acf38f3239727a4540ae96fd01109b.1728558223.git.daniel@makrotopia.org>
+In-Reply-To: <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
 
-On Thu, Oct 10, 2024 at 01:55:29PM +0100, Daniel Golle wrote:
-> The intel-xway PHY driver predates the PHY LED framework and currently
-> initializes all LED pins to equal default values.
-> 
-> Add PHY LED functions to the drivers and don't set default values if
-> LEDs are defined in device tree.
-> 
-> According the datasheets 3 LEDs are supported on all Intel XWAY PHYs.
-> 
-> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-> ---
+On Thu, Oct 10, 2024 at 11:42:39AM -0400, Frank Li wrote:
+> Convert device tree binding doc zii,rave-sp-backlight.txt to yaml format.
+> Additional Changes:
+> - Remove mfd parent node at example.
+> - Ref to backlight's common.yaml
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-    Andrew
+
+Daniel.
 
