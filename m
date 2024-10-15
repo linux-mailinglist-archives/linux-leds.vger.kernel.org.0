@@ -1,110 +1,91 @@
-Return-Path: <linux-leds+bounces-3086-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3087-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14C199CD62
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Oct 2024 16:32:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C051099DAB4
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2024 02:37:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82D9A1C216C3
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Oct 2024 14:32:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C0F51F222CD
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2024 00:37:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C5E14A614;
-	Mon, 14 Oct 2024 14:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD37AD55;
+	Tue, 15 Oct 2024 00:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jPZKbhrr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cufWovvF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CC036B17
-	for <linux-leds@vger.kernel.org>; Mon, 14 Oct 2024 14:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E051B7F4;
+	Tue, 15 Oct 2024 00:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728916338; cv=none; b=RXsnlCj5PpxfTYQ0ECOE4kpf4WmjosB4jL7bTPI6UBIE7EJspXpaTRoqtvqEE5iDh0eyeaafGMg8dgh+kZPmxJJbyFBpQVVi1TbT61s/vLmk86ie4GsjZzaKLZ0ZK5QuUBxSRGmlyIRU07+DJr0D6vDRVrgLvs5EkmJ3R5VilOc=
+	t=1728952637; cv=none; b=iLsh4HY/mEFQTfiwvT+14rBW6I8Q+DIbrqiUF7BGZNL08Z1Wesne0433Q143zVEiqinyfeoO4n3JYR1CvGbYatHC3ni43gy6R6SDGAAbwI557C3Uw4T768H/SrfuGT0MgfVDkAqyy6vEflIi7Wx7o8+G5VdEjNBWCdfGMMuMGdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728916338; c=relaxed/simple;
-	bh=zl8UFLW7Tkwq4TL+cGeNvFCZJyv3PKwLsnDSoE2Q6So=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o981PcjV5/AU6MYOvfDZqdfGz6WfMJo4peRpSIh3KKaDFddXtVqQNL0FVOCFtuRthDdIFVkbGv4QWte+Yinrn032kP+i4RA4wqS0c2DPi0PYkMRvdBH1KC+Yhb+Mh8K5RisyqIFTbBmMIm4CyLKhlg0Z7/umyENUPqGg9pBbcrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jPZKbhrr; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37d47b38336so2656415f8f.3
-        for <linux-leds@vger.kernel.org>; Mon, 14 Oct 2024 07:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728916335; x=1729521135; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zl8UFLW7Tkwq4TL+cGeNvFCZJyv3PKwLsnDSoE2Q6So=;
-        b=jPZKbhrrIBakJwx7D5c5jE9gE7N/m4Q7WOrVEROXKIuwK1PnCqVCUHdjOVscre4EAy
-         0SEFi5wvG0EYMXzaWx9qBIh81bYjUVin2/xWgvkVaxVhp+J5WzjeLwBH9h8D6n1hp/q2
-         jknj+c8gqa1bqtMzdCtlyaTB1VJhrqE+xTZHQ2iC0BVFc7+6CPmJAwyIqCnglozCdlkd
-         e9qNIQeOLmGfvLkdXmh4qNXtH17XNEVluvZ53EeOwmPGH1/Fd0BW5F3bh7MJpf8ZpZMn
-         tQXVLV0cnt+991HkopcGZzQNKwLkJ5SOtAj59I8aZsvXsFVOJuFqPtdlEr+bIZtcPhPW
-         Yf+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728916335; x=1729521135;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zl8UFLW7Tkwq4TL+cGeNvFCZJyv3PKwLsnDSoE2Q6So=;
-        b=rlH3Bc34wu+KA0/LtJ/bl3fBhdI2gvi1o/On4QC1LEi8fnxcRH5pCdZwkZFfpsv36p
-         B042NS2NUflB7bvoBg5JSWo550B0P1aPU04hbaibUxn0E+U+iqeuCYZ0kjEKuad92QNd
-         yMgY5wAqBl2KmR2flixvmQhhE9Rq6m/zEcfcf67YzqFpCYfcFNarc6Ntp3Y3fUgS9bFH
-         JJ6Ir1O5VZNN7+PfDf8LzQ2gqzSXXM9ll+QFdhAFl2dq1ArFbgjUjPohBSUY40qrbriS
-         oX9IDC5CQsKDvLz/OIcd4rkVK0AcVwV7LlyOVlHRzBwLztCyCyyntMOp4yyXl3mbxtov
-         izYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVIkqq8lIViDAdFkIOoOMjUQZ5zslkRWMvMfb6HG8z4qNBAXYgP4BtkO9u0qFsMDAY8PNq9/1ANdyTD@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnItfBuwAyqigtmsQvb39jJr5qH9bPDpwGBO+ZcGkmMlXgoMdA
-	tNWglcVgtPlU/BvNxIwp5cF7TzOgkg0/ahPnohlblgFeXozh8Flgm2VTn+084kE=
-X-Google-Smtp-Source: AGHT+IE3w9OgnIs5ktJA45Iy0OYC2gnGhc4/sWHDLgg9MLsz7ESBtRvhqpqzssEm3UrgKqkaey1GKA==
-X-Received: by 2002:a05:6000:110e:b0:367:9881:7d66 with SMTP id ffacd0b85a97d-37d552fe2famr7213141f8f.41.1728916335269;
-        Mon, 14 Oct 2024 07:32:15 -0700 (PDT)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8ac3sm11464781f8f.3.2024.10.14.07.32.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 07:32:14 -0700 (PDT)
-Date: Mon, 14 Oct 2024 15:32:12 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] dt-bindings: backlight: convert
- zii,rave-sp-backlight.txt to yaml
-Message-ID: <20241014143212.GA97798@aspen.lan>
-References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
- <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
+	s=arc-20240116; t=1728952637; c=relaxed/simple;
+	bh=ghXbgNkKFxzOJvB3Lri2nXRIzvvHq7IauZH0nYGZG9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iXjB5Dh64n8MnSiXrq6VgaFA/h9F7fDtZXTAHuc6iZDJQvKQhy1LdKxEo3keYq8Y0g+ILtBoXtJnvj9cga3pzuCiXxnZNLReREejQ8IxAgh43tEVdFaJz4EOp+jU+bkMaIlEK4Tp+uws9BsLPWGqPfXAS+leHSZGMwlShlck0fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cufWovvF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79FA2C4CEC3;
+	Tue, 15 Oct 2024 00:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728952637;
+	bh=ghXbgNkKFxzOJvB3Lri2nXRIzvvHq7IauZH0nYGZG9A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cufWovvFgwK2IVGZJsetcYLZPuzGzH1ItVbbP83pc5RKItZtg6KCAICtXUDvGqLv7
+	 XXQGapYhsuYgflwzZ2AM2tRJKTVKZXBbomwxttBCJg7gYd09x+mQWCpxpb6X8ve0e3
+	 +QkA4vbFmwBdzlIA3YQusWuQjtq1LdEaxUbtFbOjw8f/dvTFuWNbQIx3xNJOFQHn8w
+	 hXdoYj0nUG5T4d3B5C2VdOgZZ4X8AUwBdeBukTzkB9DJ/FlAS/Hikwo+WF7tM5aj9j
+	 qtqa0lN2x4V1jIucxo8kCWuM1zp39ewayG6GEwvjb5mY1OZcQCZuKIgcAJMl5q9A+W
+	 MPVWiiYIACb/Q==
+Date: Mon, 14 Oct 2024 17:37:15 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Xu Liang <lxu@maxlinear.com>, Christian Marangi
+ <ansuelsmth@gmail.com>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, Robert Marko <robimarko@gmail.com>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Jacek Anaszewski
+ <jacek.anaszewski@gmail.com>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/5] dt-bindings: leds: add 'active-high'
+ property
+Message-ID: <20241014173715.08a2313d@kernel.org>
+In-Reply-To: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
+References: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 10, 2024 at 11:42:39AM -0400, Frank Li wrote:
-> Convert device tree binding doc zii,rave-sp-backlight.txt to yaml format.
-> Additional Changes:
-> - Remove mfd parent node at example.
-> - Ref to backlight's common.yaml
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+On Thu, 10 Oct 2024 13:53:36 +0100 Daniel Golle wrote:
+> Other than described in commit c94d1783136e ("dt-bindings: net: phy:
+> Make LED active-low property common") the absence of the 'active-low'
+> property means not to touch the polarity settings which are inherited
+> from reset defaults, the bootloader or bootstrap configuration. Hence,
+> in order to override a LED pin being active-high in case of the default,
+> bootloader or bootstrap setting being active-low an additional property
+> 'active-high' is required. Document that property and make it mutually
+> exclusive to the existing 'active-low' property.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Daniel, please make sure you provide a cover letter for any submissions
+longer than 2 patches. If nothing else it gives the maintainers a quick
+overview of which files you're touching.
 
+This submission is okay but please correct going forward.
 
-Daniel.
+Let's wait a bit longer for Lee to ack / take the first patch and then
+I presume we take the rest.
 
