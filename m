@@ -1,95 +1,98 @@
-Return-Path: <linux-leds+bounces-3088-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3089-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A175799E11D
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2024 10:32:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AC699E1E7
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2024 11:00:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D40011C2184A
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2024 08:31:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A43A1C23050
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2024 09:00:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C861C57B1;
-	Tue, 15 Oct 2024 08:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B3D1CF7DB;
+	Tue, 15 Oct 2024 08:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gTK4HbXA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mL3AQxYh"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FEE185936;
-	Tue, 15 Oct 2024 08:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE301CF296;
+	Tue, 15 Oct 2024 08:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728981115; cv=none; b=cnshZbkf73MgnhmA2qO3s7pGuQGsqcsRxfe3XE4xpo6sodmCC2rCy/ILGmZmCLl6dkyEPNS2yFaDLPjYaHSojgbQsh5kC4xuox/ceE1huU4h1maAR1TT9tYWzLPwqEi/ujHxX8XQAQQ+rQw+jDDObggzLf5DgAQJvAvmh/4eknI=
+	t=1728982727; cv=none; b=UwLcNAhzIclA1CwvbtBYpf5pGE+sEBUvu0s9mPs520veGDXxno6XpGZWjB6jBazXzQCK8m7c9CYoIK9qC6b2OFck+v6n/X/gGTTa/Rgh82RFyeo+sHYD7jmR1XRNL1DXu/zCHQbrIaXjfj1WqDCjgSFz+TLjh6R0kWaW9y3ZLi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728981115; c=relaxed/simple;
-	bh=czGm3bsjbOginSrzN3yTJzEs4FxqKQu7b+ZKVUrchuk=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WFxyqE5duKaTvkY8xqIsw7EapGkwQ5Fzpn4fZZKzvF4Z4sr2zjfWBNYRJrkRhiMG8+aiu7Mt1FgbnTdQjoZ+nze3/Df2r2OPCqrG12Btjz0xloGZIBHZKEKN44t1aAezkBSRxzYZW1gsU27ePusDJSzszuJXMRTDURoVA4dmzMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gTK4HbXA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECED0C4CEC7;
-	Tue, 15 Oct 2024 08:31:50 +0000 (UTC)
+	s=arc-20240116; t=1728982727; c=relaxed/simple;
+	bh=jAGoNoLVAbRIcXL7z9HRSFMPr+Mhu705XIwf+Uer1jQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d+HMS1CYceFb5XHbZZU/tpdwZHzgvNrg21tgUvggPzyhthbhaASArwDGpVI/2WdBr7KtK7Upuk8dnYHejeIM36uyvQUI9qMRUlmAtixObIqEq4Lqjqdqn2Ct8ECQi8OPxVMV/V4YnOR+o4MgKs3e+TinZqOxJ4QkgOVgDDkyPu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mL3AQxYh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FC14C4CEC6;
+	Tue, 15 Oct 2024 08:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728981115;
-	bh=czGm3bsjbOginSrzN3yTJzEs4FxqKQu7b+ZKVUrchuk=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=gTK4HbXA/7vb70s7Zutj2rEn64AKAmOMgyYLGQCfqs6FhyT0Y5XbcUhiQQVcs1W1g
-	 MPDBUKlqFBEF5qGtFJbxpO7Egxsuh9uoFRk2cpPAjNf45HUyREVoKIMxh0PlXT0lw3
-	 O39L+x3JdHwQUduLSL/3j8gSy4CKfq3Jiz3icOzDlJ1f5fmziEeX1ctUTrC+jIsYGl
-	 tJz7mibI42FYaelzjPuvVtyNCpuHkhkD5RtsbMyXzIlKX03jvI5Xs0xdc3SWGMt5GF
-	 pohvpF43mlH+2yLnA0Zk4ChseNxCoMbO4s7GmccVe27g3ULtGh0oVsogkZJCHCD/a1
-	 wMj4zhVo7vUkg==
+	s=k20201202; t=1728982726;
+	bh=jAGoNoLVAbRIcXL7z9HRSFMPr+Mhu705XIwf+Uer1jQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mL3AQxYhpqOS657KY4KyNUFpIpD0dZiiW8+n21zMH916n1KfWI2lTQ5OwCKcsgiaO
+	 MMmDNerfrPDwONsQjoORWai+TitJErYqNQRtHr+9GBnXU7GL6QOoVUPBu1Fxh26AE4
+	 41j0WRrEZXJoTUHrBK2IQ6jHVpQzWpmuJnrx4VsDJUNOLzJOlGRSbnNaZUFkmjkNe3
+	 zGDupd0EbdeYEBUp67fLA+XGOPsEnG3+btDBBgw8akmvG+GEMUq6pFmZk1MOa8ZJhg
+	 7AbZTooqfZru4R9+OXZi8aVQdkFNpc1a+QsA6Gzrke5aczhY+AOOa42gE3VR7f9hSa
+	 r/d4sAAMDOryg==
+Date: Tue, 15 Oct 2024 09:58:42 +0100
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Xu Liang <lxu@maxlinear.com>, Christian Marangi <ansuelsmth@gmail.com>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Robert Marko <robimarko@gmail.com>, 
- Russell King <rmk+kernel@armlinux.org.uk>, 
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, Daniel Golle <daniel@makrotopia.org>
-In-Reply-To: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
-References: <e9b15613a81129ceecb07ec51f71bbe75425ad2e.1728558223.git.daniel@makrotopia.org>
-Subject: Re: (subset) [PATCH net-next v2 1/5] dt-bindings: leds: add
- 'active-high' property
-Message-Id: <172898111066.383402.12632073984288018090.b4-ty@kernel.org>
-Date: Tue, 15 Oct 2024 09:31:50 +0100
+To: Suraj Sonawane <surajsonawane0215@gmail.com>
+Cc: pavel@ucw.cz, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: (subset) [PATCH] leds: Fix uninitialized variable 'ret' in
+ mt6370_mc_pattern_clear
+Message-ID: <20241015085842.GC8348@google.com>
+References: <20241006131337.48442-1-surajsonawane0215@gmail.com>
+ <172863776565.3130628.18378710932238203204.b4-ty@kernel.org>
+ <7274be28-aefe-49b1-b8e1-dd1c2bad96d0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+In-Reply-To: <7274be28-aefe-49b1-b8e1-dd1c2bad96d0@gmail.com>
 
-On Thu, 10 Oct 2024 13:53:36 +0100, Daniel Golle wrote:
-> Other than described in commit c94d1783136e ("dt-bindings: net: phy:
-> Make LED active-low property common") the absence of the 'active-low'
-> property means not to touch the polarity settings which are inherited
-> from reset defaults, the bootloader or bootstrap configuration. Hence,
-> in order to override a LED pin being active-high in case of the default,
-> bootloader or bootstrap setting being active-low an additional property
-> 'active-high' is required. Document that property and make it mutually
-> exclusive to the existing 'active-low' property.
-> 
-> [...]
+On Fri, 11 Oct 2024, Suraj Sonawane wrote:
 
-Applied, thanks!
+> On 11/10/24 14:39, Lee Jones wrote:
+> > On Sun, 06 Oct 2024 18:43:37 +0530, SurajSonawane2415 wrote:
+> > > Fix the uninitialized symbol 'ret' in the function mt6370_mc_pattern_clear
+> > > to resolve the following warning:
+> > > drivers/leds/rgb/leds-mt6370-rgb.c:604 mt6370_mc_pattern_clear()
+> > > error: uninitialized symbol 'ret'.
+> > > Initialize 'ret' to 0 to prevent undefined behavior from uninitialized
+> > > access.
+> > > 
+> > > [...]
+> > 
+> > Applied, thanks!
+> > 
+> > [1/1] leds: Fix uninitialized variable 'ret' in mt6370_mc_pattern_clear
+> >        commit: b5a5659aebfffbcddb81abafe042fb4044b6ff9e
+> > 
+> > --
+> > Lee Jones [李琼斯]
+> > 
+> Thank you! I'm glad the patch was applied. I'll ensure future patches follow
+> the necessary guidelines.
 
-[1/5] dt-bindings: leds: add 'active-high' property
-      commit: fcaade450ea25e0162ee4a28ac0c7b911fa25674
+Sorry, this is a tooling error.  The patch was not meant to be applied.
 
---
+Please resubmit it using your updated .gitconfig file.
+
+-- 
 Lee Jones [李琼斯]
-
 
