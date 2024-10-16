@@ -1,160 +1,138 @@
-Return-Path: <linux-leds+bounces-3114-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3115-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CBB9A0389
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 10:04:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5F29A055F
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 11:24:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BD216B25B8B
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 08:04:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3830B280E63
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 09:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1B01D4173;
-	Wed, 16 Oct 2024 08:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FAF4205150;
+	Wed, 16 Oct 2024 09:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdZQu0lv"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bd0G6Qb9"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F045A1D1E99;
-	Wed, 16 Oct 2024 08:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF695204F88
+	for <linux-leds@vger.kernel.org>; Wed, 16 Oct 2024 09:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729065779; cv=none; b=DE6uYgVRiN86KbhGp3yKCDmLdKtjuWTx6jKQOKkusxUXNKVTsGceFl4UZzxdXw0fI4sF6Fpgs7H+27H5mHxo1xvIntIrBmHApNfpnLmvHDGc6Uy4s5AOgqhwqsiY1pNK2xTbfmQ9Jofe1XN2gSEx/ddegWrD6mwCRebHfMU3LyI=
+	t=1729070668; cv=none; b=nAztiX486j3PvrjVn/btiGY1zHySEyZVSXKx2ekcDNq2wAYAnNjj+dR2a2iJ3ys9OY+2sOjd/6mOPkilqRq3kN94cs8N9T0VsZGO6ZIECzh22ubq5desQjhxKlxuQ9PCFyAYpanCJ0FQJL5bZsOSwq95mxdbMLqHk+Nq7OorN6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729065779; c=relaxed/simple;
-	bh=VQWxLbP46Yk3JT2ruUu0Qw3xjvSUtKf+K6RBYmBe+lM=;
+	s=arc-20240116; t=1729070668; c=relaxed/simple;
+	bh=ohF3umPyuOauRCXtg+9g0LSx9YYMmt3J70ihGoUN+Vw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPV/PDB+UNRic1w+yJ6soybzyVhgoHYyloyAVzP1cMRNVMMoIBsosv8Hd9/aFUgYWKow9cxKhv4ypPSDdcfYoJ4Qz1aT0w3jTgniVmhDZJywINcqiI2N5rzTpOLWKReUtPEkQdtCJdHU1+ItC2OXvtB9fwS469Ipt6W7GrcpE9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdZQu0lv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CC7C4CED0;
-	Wed, 16 Oct 2024 08:02:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729065778;
-	bh=VQWxLbP46Yk3JT2ruUu0Qw3xjvSUtKf+K6RBYmBe+lM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EdZQu0lvkqQKp6i7wnzriOv0ggkWZWcHotek7nZZSEdw35cKxZpgEDMR9IrMPXZbQ
-	 WYoop23uy1X0RnPZxv+h22a0dffsyAWGe47B3VkLwdnV46GNOwJL0i3dnbOWnL5pqV
-	 omdNB+UMVqzfLHYIcQhnCKXUFkU6z65UbCHDFkDyHmnnjxUI+O5bzUMFG8CnQdhrus
-	 XL9m9kdJ61u2FNby/2sWKy01wPxw1/DeGD4aTCMMTOmDF7gVJmeIWCVkItZEaRNeJH
-	 MyKxVJEiK6L05viEsJafMLkbLfvaL3SZzmumCECEL5gaUXlP26Z9cagMEpkoaYU6ij
-	 1iyG5JVbDWBUg==
-Date: Wed, 16 Oct 2024 09:02:48 +0100
-From: Lee Jones <lee@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
-	Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-Message-ID: <20241016080248.GN8348@google.com>
-References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
- <20241001104145.24054-3-macpaul.lin@mediatek.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gRMtKSM0CgBD0pEIk2gWsTUXCahWfvDa+dqLhI35XPoXV5UV0VccKLc/sclFDalasnQw+uzEoNYmnK3BP/rwjxY/41GGQf7oorYBavZHL12K859KHUsoOjRZpB7dninPlPYUeN1WfMnlNX9Jrg/ts3lx/abwKOOw7Ex+xv2AcVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bd0G6Qb9; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d43a9bc03so3800342f8f.2
+        for <linux-leds@vger.kernel.org>; Wed, 16 Oct 2024 02:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729070665; x=1729675465; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h3l+KDfnkkj0EjY+IxLRr8g1YXZJZ298Gwmhofoyb7U=;
+        b=bd0G6Qb9P7iohy4EfgEloqWTovP6NnVnuDugUXtegvI2CwhfXE05TELvnX8Bi75Mn8
+         RGAAdCa5iSXBaGBnJCGt1sufjiw7rdIxH30Y2cvKRALmhyIYlVopWcE4T84uabSirUg+
+         P5A2Nvt1N3D6ttPk0s7TusSPRjmEnXXygxIVMRjSWASL80f8uvyUo8sc3VdqEqP7t1wr
+         pFVLF0GzWzizbkxglVSHwnmPF4Yprwgol1pNnUsABBRGxxjCgf6kplTRuyB/3t1+4RcP
+         /HeOWlXjFQIxO11NGRoWF3BALmMw1MfT1lFK52YhzXTjtHo2FTKagbR30AeG5JZZfezT
+         p59A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729070665; x=1729675465;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h3l+KDfnkkj0EjY+IxLRr8g1YXZJZ298Gwmhofoyb7U=;
+        b=dPpNAjp8rGVmbeS3ZgVayfkHliX1iKK7dHncRH+BLW0KkTBy2Zc/fawMHBXrO3QkWN
+         wjO2FMK/NWGM4JJLgnrZziybdvoXxDAEeAMYf2tKfUnTYVwbhBCs464sY7S9sJ17Yznj
+         LepYxfK7D1ApAIqNxgqIbMuTayXSH2rpq7552mqBy9Jvl5e+XoUulOPgcqpv2TpZrpGW
+         6jLXHXeatHQIbEtGLcTfmVMXa+/+sVQZZz21/B7TxnL4NEw1zXxBlchaHZOrvAjo6oUO
+         EbmcoL3PEyV18CWz3s1ecAo+M0sLGPNk9rJHTAmWMxR9CjclFYQKrk5ZBX6dr1TvjPnt
+         MZIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWt60pGAeSt1BY62YF0X2upxEiczRyRQoUjBRZ18roavQ719Px+E5FBjzdmbpN+tYQfMwPtsXIga7+s@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/x+2L3qWAwgicI2JmOMw/lvTCb12z7F9TWTzpZXDMX9soGHlZ
+	U7JZ6rcGzZ2AhPn6cJy4zrxG+1phuoeY2fzNWr0110WL8OTpkzisBX6K+JrcNK4=
+X-Google-Smtp-Source: AGHT+IEuAtfaxDWmqtRo9Z3HTKzFQKfb1kZMHoevg8q3GnY0D22B+5RMWQcG66IkM6ULLjRGVt7AJg==
+X-Received: by 2002:a5d:680b:0:b0:37d:3185:285f with SMTP id ffacd0b85a97d-37d5ffa58d3mr9177424f8f.54.1729070665098;
+        Wed, 16 Oct 2024 02:24:25 -0700 (PDT)
+Received: from localhost (p200300f65f19e3002f38cf427133ca7b.dip0.t-ipconnect.de. [2003:f6:5f19:e300:2f38:cf42:7133:ca7b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa87ed1sm3828558f8f.45.2024.10.16.02.24.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 02:24:24 -0700 (PDT)
+Date: Wed, 16 Oct 2024 11:24:23 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v6 5/7] power: supply: max77705: Add charger driver for
+ Maxim 77705
+Message-ID: <rt7g7xcwh5eock2le5kmwsbgmwg6lav7imia7qbcmcjtvobx2j@letkpg5ee256>
+References: <20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com>
+ <20241007-starqltechn_integration_upstream-v6-5-0d38b5090c57@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3rwftlszfssiia67"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241001104145.24054-3-macpaul.lin@mediatek.com>
+In-Reply-To: <20241007-starqltechn_integration_upstream-v6-5-0d38b5090c57@gmail.com>
 
-Argh, I couldn't bring myself to do it!  Here's a PR instead:
 
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
+--3rwftlszfssiia67
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v6 5/7] power: supply: max77705: Add charger driver for
+ Maxim 77705
+MIME-Version: 1.0
 
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
+Hello,
 
-are available in the Git repository at:
+On Mon, Oct 07, 2024 at 06:55:53PM +0300, Dzmitry Sankouski wrote:
+> +static struct platform_driver max77705_charger_driver = {
+> +	.driver = {
+> +		.name = "max77705-charger",
+> +		.of_match_table = max77705_charger_of_match,
+> +	},
+> +	.probe = max77705_charger_probe,
+> +	.remove_new = max77705_charger_remove,
+> +};
+> +module_platform_driver(max77705_charger_driver);
 
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-dt-mfd-input-leds-power-rtc-v6.13
+After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+return void") .remove() is (again) the right callback to implement for
+platform drivers. Please just drop "_new".
 
-for you to fetch changes up to 6e357f572638547e9c9e8d8abb7dc572c12032f3:
+Best regards
+Uwe
 
-  dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format (2024-10-16 09:00:38 +0100)
+--3rwftlszfssiia67
+Content-Type: application/pgp-signature; name="signature.asc"
 
-----------------------------------------------------------------
-Immutable branch between DT, MFD, Input, LEDs Power and RTC due for the v6.13 merge window
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Macpaul Lin (1):
-      dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcPhkUACgkQj4D7WH0S
+/k6XSQf9HYfNHCPs19xcik0QvwtHwfq60p0vK9Zlpg81ZP1YUD6D2EMe66Nc3H3C
+McW4rcxRusfO2nVqqDJFtOMnNCMXDbyesJOivUpFimfSVwxDucIyG1cpwz5yJCNq
+A5zLw4i3fMAuZIFgzXBQoss4+YV/Avcpa4elpwLQUgG1TGYOMJaqpTwUMcD+x4fO
+yCeP6OBBfj5oOrPXRb+dis1eJqsEByUWUT8ZNruObp5o9PJSEMiXms2JSFj6G9aZ
+grKExD+U1yMvGuBlhI+KSp+aJ4OBtfo77qv5SJITuGg9QARk/xiRj9pfuTRTFcQ5
+90o26qv3GEH9ksysJQEEwQ03MsyuNQ==
+=XHAz
+-----END PGP SIGNATURE-----
 
- .../bindings/input/mediatek,pmic-keys.yaml         |   2 +-
- .../devicetree/bindings/leds/leds-mt6323.txt       |  63 ---
- .../devicetree/bindings/mfd/mediatek,mt6397.yaml   | 588 +++++++++++++++++++++
- Documentation/devicetree/bindings/mfd/mt6397.txt   | 110 ----
- .../bindings/power/reset/mt6323-poweroff.txt       |  20 -
- .../devicetree/bindings/rtc/rtc-mt6397.txt         |  31 --
- MAINTAINERS                                        |   8 +-
- 7 files changed, 595 insertions(+), 227 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
- create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
- delete mode 100644 Documentation/devicetree/bindings/mfd/mt6397.txt
- delete mode 100644 Documentation/devicetree/bindings/power/reset/mt6323-poweroff.txt
- delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txtThe following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
-
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-dt-mfd-input-leds-power-rtc-v6.13
-
-for you to fetch changes up to 6e357f572638547e9c9e8d8abb7dc572c12032f3:
-
-  dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format (2024-10-16 09:00:38 +0100)
-
-----------------------------------------------------------------
-Immutable branch between DT, MFD, Input, LEDs Power and RTC due for the v6.13 merge window
-
-----------------------------------------------------------------
-Macpaul Lin (1):
-      dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format
-
- .../bindings/input/mediatek,pmic-keys.yaml         |   2 +-
- .../devicetree/bindings/leds/leds-mt6323.txt       |  63 ---
- .../devicetree/bindings/mfd/mediatek,mt6397.yaml   | 588 +++++++++++++++++++++
- Documentation/devicetree/bindings/mfd/mt6397.txt   | 110 ----
- .../bindings/power/reset/mt6323-poweroff.txt       |  20 -
- .../devicetree/bindings/rtc/rtc-mt6397.txt         |  31 --
- MAINTAINERS                                        |   8 +-
- 7 files changed, 595 insertions(+), 227 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
- create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
- delete mode 100644 Documentation/devicetree/bindings/mfd/mt6397.txt
- delete mode 100644 Documentation/devicetree/bindings/power/reset/mt6323-poweroff.txt
- delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txt
-
--- 
-Lee Jones [李琼斯]
+--3rwftlszfssiia67--
 
