@@ -1,48 +1,74 @@
-Return-Path: <linux-leds+bounces-3118-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3119-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9B59A05DE
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 11:44:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B699A0915
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 14:13:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D34FB1C20FC2
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 09:44:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 618E6B231F7
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2024 12:13:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C9C205158;
-	Wed, 16 Oct 2024 09:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB6D207A26;
+	Wed, 16 Oct 2024 12:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jFk+k6Ix"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BB3OKRCm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2006199221;
-	Wed, 16 Oct 2024 09:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F103206059;
+	Wed, 16 Oct 2024 12:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729071871; cv=none; b=Cv59mTMW4e/v6V02ad/q3xyXc9rKAWOSHUUnLF41DmdJxMrZfynuK3F8biH9c8d5sMofFOTLkQNwfFAjSkG5JOYnrHgEHn38gf/kOjsy31NiefeBV51aEpVV+Ipi3bkyraFgj8Ijs1MIFhKMpy2qL+uHl6yjE8PcV9e+KQGZLBg=
+	t=1729080819; cv=none; b=HRg8DREAC34HWkx6b4msoPjzfsWyNjMKJGfN2RneJeJuRD29lJOy2tInOdhKztL1x4ZbsLgqf2WSQZNw+i/fNPPYe9jVD2YTM0TldZzW5fQNKphqsZxigoVAhBhrGEo4cn1rFe253Tl4xP0MWGhG3mQkmPB6IxLcC3wosYx+MVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729071871; c=relaxed/simple;
-	bh=LsyIifKu8l/xyCVS7qYxqZli9QlFHCJR3JE/VlUfY3s=;
+	s=arc-20240116; t=1729080819; c=relaxed/simple;
+	bh=lK7RprZLD+xZ+b9OBOQCQ2ag1yfeLIcZq4YyXtP6YVM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sEr1I85e+omOGpgtnD0uXe0G2Ur64OAh/sc1LrpJXF7H0rFPunv3i8UAmjUOgT1PMJaFUcX4/qxCcnQzmkcaUMEZqY73x3aAoQrT7u8jXbP7hu+5PmmJ02Icxn2Tj5w+UYhxTG0Kup+9Y/55+cx318Hpa+7YohKtAf1ebjfT0Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jFk+k6Ix; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC2CC4CEC5;
-	Wed, 16 Oct 2024 09:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729071871;
-	bh=LsyIifKu8l/xyCVS7qYxqZli9QlFHCJR3JE/VlUfY3s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jFk+k6IxStUrDwJVbHy48rAnseSQSO0LcpK184KQgRPV0923HiifIdmU4zpOMwEmO
-	 xZFngT2fckNiucIPHvT+hJ0jqw1RxiBesAhXbG4OSymXYbQs6tawfYqfdJYcbD0BY7
-	 lGvw+XmR2Bym/olWZZ1/JK9GZKbxVlAg7pwJF0KGLyGLGbjS4nPhAZXYHFbd67LM93
-	 o0RI2cThzhgqMhLMs5gANYDcF09fyYg/Pjo3o+B8JCk2iDbElkN+cqtO4bZ3Lc+knH
-	 EEFTROw9KPgwniae2I/AtLKNoVbWFko+jkTgnnw1uCZ3bBAN2yv3U7DHxS/ujogW/5
-	 Avyi5tdz3ejrw==
-Message-ID: <7ce0daed-1a90-482c-9521-833baceb73d0@kernel.org>
-Date: Wed, 16 Oct 2024 11:44:26 +0200
+	 In-Reply-To:Content-Type; b=dOg2rXfQakVAbmHJ4Ws/5u5G8lbA2FUSUJmoxwQNU6IF8v1aayFVhn45ga3Fu/7GaQdDZzZmkRepoTYfpv667gpKnslcf2qpExQnRM3USSpuURfXIH64Cala4ogL+Z4g50KBEh8JHIf0Ydg2s56QfvTT84nUr9BGi3CVtWox2q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BB3OKRCm; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7db1f13b14aso5412879a12.1;
+        Wed, 16 Oct 2024 05:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729080817; x=1729685617; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iZZ6IoFhK6PDXBG1QpjJe1QGZtQQvwP0mL/ZwkXR4ZE=;
+        b=BB3OKRCmW3E1ce8UQxGERVTXbuTdIS0X0BSDZPegrLmtIAGdSSb0XWNTi3OzuAOzuI
+         8ElGjwM8L9JuvLuRsXmCejRvyKg6gxV12tdcFAfKqoUm702xMLky3ujYpeNQEGpR/S+m
+         XmKAAv5r5Wrol8DQcGx1EBvROYrt16w/j9HHwYwcTHAJhF6wD5liBvv9we3O8oRp+HPA
+         1b1+vhamH63FapWyRxDJX4dvuBedpYpzJa89Qr+7ZvVdz8CUMLr9kDbeipiRM/ayEPl1
+         3/fKbFWDf2M93nOyFqpCxwOVUJBAaHt8Gt3I9S8vkzXHa1zu3y+Z9/Jn0WI692AjLdt4
+         EwAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729080817; x=1729685617;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iZZ6IoFhK6PDXBG1QpjJe1QGZtQQvwP0mL/ZwkXR4ZE=;
+        b=nHKSuvc4Lh3tH5qYeXLgCdTaPeOpigT3sJl7RMutHn5bPwSvdqBqXQJK47so50DrPJ
+         wvyi2F8abcccINO3hGXwrpQniz+8nXAS+OZgTCYE14soYMA4ieXcIK/HcZDJbN8RwRAS
+         UELakYbHvFcoWiWodBHibWjHu+WwVIbgZV1N6/PtwjPxxXOTP8Gxf0eLuEOh7Z20XF2a
+         ao+Gas8+norijUndFn8U94zeBiTolTECogCbOd9YemuR1oSLpoFRHvCfoACziiVwQCCF
+         0UMQAKSjup5Pacak+EDmawmePoXIFZxW72CEKrWvA/SDEm59Mp/AEbNX9mtIr+/GR63H
+         2Qlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUoG2HwVzBm2N7pbMVd+wTLK8IP85lCzK7/0k+KYdJt1+L2xpl0apAAMuABQiG8NVY9z54iGJfU0oKhgw==@vger.kernel.org, AJvYcCXUf6z8NMSADACzcatVYicNrqTgrwcVBYduNVSpU9J1aTloQlEfxakUKBO84RNG1TLYD41emJa01qOQe/4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpFO2pe9VdhZUfOmjf9OcuXzd9PumDPSN4Jd+ummA2fQRlb1I/
+	HE/ZMuepjzAVxgtkbYkqdVwmK4W0MctPiNL9kAdbSsHvom+RFNQA
+X-Google-Smtp-Source: AGHT+IGka7vQ+KnGqvwGPqMmm5jyJDtZa+anmR+UonwTf4lt2t9DshghkEXcXytCl/nQDa2rP0r9cg==
+X-Received: by 2002:a05:6a21:1584:b0:1d8:b11e:19b9 with SMTP id adf61e73a8af0-1d905f69289mr5724548637.47.1729080817343;
+        Wed, 16 Oct 2024 05:13:37 -0700 (PDT)
+Received: from ?IPV6:2409:4040:d96:3a2:b0b8:ce41:c5f3:28ee? ([2409:4040:d96:3a2:b0b8:ce41:c5f3:28ee])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ea9c6d43f8sm3105241a12.54.2024.10.16.05.13.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Oct 2024 05:13:36 -0700 (PDT)
+Message-ID: <a87bee76-85a9-47d7-bdd4-70f8dbe42848@gmail.com>
+Date: Wed, 16 Oct 2024 17:43:30 +0530
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,78 +76,40 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: leds: pca955x: Convert text bindings to
- YAML
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nate Case <ncase@xes-inc.com>
-Cc: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241016093857.925467-1-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: (subset) [PATCH v2] leds: Fix uninitialized variable 'ret' in
+ mt6370_mc_pattern_clear
+To: Lee Jones <lee@kernel.org>
+Cc: angelogioacchino.delregno@collabora.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, pavel@ucw.cz
+References: <20241015085842.GC8348@google.com>
+ <20241016042142.8088-1-surajsonawane0215@gmail.com>
+ <172906519188.1139310.1418498131501157586.b4-ty@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241016093857.925467-1-Delphine_CC_Chiu@wiwynn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Suraj Sonawane <surajsonawane0215@gmail.com>
+In-Reply-To: <172906519188.1139310.1418498131501157586.b4-ty@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 16/10/2024 11:38, Delphine CC Chiu wrote:
-> From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
+On 16/10/24 13:23, Lee Jones wrote:
+> On Wed, 16 Oct 2024 09:51:42 +0530, Suraj Sonawane wrote:
+>> Fix the uninitialized symbol 'ret' in the function mt6370_mc_pattern_clear
+>> to resolve the following warning:
+>> drivers/leds/rgb/leds-mt6370-rgb.c:604 mt6370_mc_pattern_clear()
+>> error: uninitialized symbol 'ret'.
+>> Initialize 'ret' to 0 to prevent undefined behavior from uninitialized
+>> access.
+>>
+>> [...]
 > 
-> Convert the text bindings of pca955x to YAML so it could be used to
-> validate the DTS.
+> Applied, thanks!
 > 
-> Signed-off-by: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-
-Thanks.
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+> [1/1] leds: Fix uninitialized variable 'ret' in mt6370_mc_pattern_clear
+>        commit: 6cbf5c99541ac681cf5c6155b582dfbcd879eae3
+> 
+> --
+> Lee Jones [李琼斯]
+> 
+Thanks a lot!
 
