@@ -1,124 +1,125 @@
-Return-Path: <linux-leds+bounces-3129-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3130-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E1B9A4BD8
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2024 09:33:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8036C9A507D
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2024 21:37:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B1601C22070
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2024 07:33:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06D681F22CCE
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2024 19:37:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A97C1CF2AC;
-	Sat, 19 Oct 2024 07:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C90D191496;
+	Sat, 19 Oct 2024 19:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TBbGe+1r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VfXrjdqK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0E01CC890;
-	Sat, 19 Oct 2024 07:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6D219149F;
+	Sat, 19 Oct 2024 19:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729323191; cv=none; b=FTyIuleEeeBs0m13VSe+S2hGDA8QkwzYYCZuUXq1Ev5t09EZ/ewAhA9wIVBARyHQRFLrA+OHLMSwirb7gmiErzCUAq0TdnN9lTfdAnNLGjUWxSqwnYT8YMOuasyucI3iIKC4wbP/pJ//B2rOP9H7v5GZVXaEtOAQHZxXslw3b3Q=
+	t=1729366618; cv=none; b=REuYWKOL4WGnyzSubKppbtmmi96bi1RzROJuqvDHxbCJCz8NBO/2yWn3JixH0CqE667bTkJF7LteqOEHF4M4qjP1IrQvLJ8uNC2d9IG829lMsSokL4Gyc3X/gZ1UGlu3mS0+VTZcAgCAMjF6qLQFs1pzlspAfaK3WPx2dvAWGjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729323191; c=relaxed/simple;
-	bh=PM1w9jPYNHRU+duHImk/IOAFy3VpBGInZe9wWXFLRc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WRr1zljhxcTnftpM/ZrADoz4UZLI4d39Gw6t1Uv6UdmGXGVaWfjsr7TLttH4nF875Vm1Y4SStRqj0wlbBzZaNapb7yzNQoEHtCUdfh+VKCdo4Uqbr+4qjpFmWmk7NwPXCO6GGUhOCg8eXUl+x/wUUmELtuta/PhkusBVal5p448=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TBbGe+1r; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1729366618; c=relaxed/simple;
+	bh=sRhWhBOKZi1ss4zw4+0+/y1VvPKZuQbq0qeeG1W5FdQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WR2PQ20hrzF5iIj+EiFuWyfIN+bgP/Js6KlZWPanQGdkiUuXPhkmKSz6YrjvLPbxFV0k/WfRdQ77CjaYWdXJ1JrUfW/p1AMEeeKWIgn36wCQGK7Tt8aOaqQbzs0saMA11dFvP8Ye1PQyyjSx6LP5Q+J7bMwBC6CNnzNecskRKMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VfXrjdqK; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c767a9c50so27798305ad.1;
-        Sat, 19 Oct 2024 00:33:09 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-431695fa98bso6632025e9.3;
+        Sat, 19 Oct 2024 12:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729323189; x=1729927989; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4lIu+bEoFl/+r/8JR6eoKiKy3olXY3TGY7BGrpwebwk=;
-        b=TBbGe+1rwybie9lrDsL9ng/c5RIBoW/PuWiaSdRttfo/cS75EkS32EW1uXSdur8ZEv
-         8P7GXi8wJ46ryCRM18BVL/FKXf1T6UH9bGRs8D5AD+PFhpJo9Xnrc41uIzQYqsv63zXM
-         ItBerq2z8YucduHJUC/AzJLi5DF1a5kQ4YvEfnXKFgsazANa5FRKOuQccs57rX6xqh8a
-         Zs4r3+IlOGj3rbHfXrT/nPGlx9ulPvSZPm2n3gtQ5XTJ84Oswu1bWSyL7LTKSndCNKRJ
-         Wy1Kmr1LDr4vpTgfHb1yLpdDX4686V9TN2b7xkR8aLn0CxkQvHcT8E2DN2kl4E+9MqKP
-         7hWw==
+        d=gmail.com; s=20230601; t=1729366614; x=1729971414; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v0OYkXB8VktlSdTAQ14RoH3fm6PKpbJT3bfx/sl5TJ4=;
+        b=VfXrjdqK4JTc3B+07gAR94OIguNdO0nekxVZALECinuAAW2bYOqsZjepvMu/+hVErp
+         p6lZSV3+R7elFnbQEsGN5TSJOCgOx4+82lUhSMJRDBP4LNADoczY4FEmLuO37PQAx6dr
+         fP5k51C0oY56Y//nMsLN7af3ARKkTqvURduv8H10afVhQBDV840nRx5n1OGrwKr9plMU
+         6h6quA03xl+NFTuc+O7M24+0MthUfeDPjmj8CQnJ5LZqaPsbCe9UaZQMjMBgl43eE+0H
+         AjZJ28fPhKdcIjAEizOLqmy28buvGf3vlIDM/+ZPg0pBU+OIVvvL6EWjWhUCbV2WBCJm
+         lfVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729323189; x=1729927989;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1729366614; x=1729971414;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4lIu+bEoFl/+r/8JR6eoKiKy3olXY3TGY7BGrpwebwk=;
-        b=p+wAr1OfeMr6DRgv2ISGoVDRlkbQS6vVWFBpHZlwjcLbpjqeb19L96lPScV2DzP686
-         3jCZM6i+1wN7mVcGojInPIQqFg8mrjXnSnv4P6kewmopaXrguGxMqAM3s1u43HOMy9zc
-         dUqZeVhfBl+/5pDD1C7Qfzv5TRO1KH+KkznQfzTG9PLKiTqJvWl7WXIPlFXYsJbBLT0t
-         H82dhwM8sj5uhU7QtiNViXP6+Mn6E/XKaUrwa3+EgirtqKf2dD5Uip0smyOc7khM8ciq
-         xMN6PhIQDSZgCw1UK6g7WDip9wuDYz12s/9pY5yEh07umx1mPju3bn43vyV/1NGMxceq
-         twVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUnfgYfaLs8B4X73feJmavx+gK0xa+OdVAsdBN9ch0c0upBpRqFBumHR4EDBfSH3CmX2Uw0q70KpwWM7g==@vger.kernel.org, AJvYcCXDp7h36jT4kibL7pReAavadaz9sXXWKxoWwwGIpQV7Q6j9BnKxOvJTiy748T8qTMK/qEacSEXx2dpi6cM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwutfhPb9eq9AxTHbNTDiSrbt4baSuUgK8kTgWPUw7VRWyozDbS
-	FcjLE/twzEqpq8Z2IzXIlCTG4+TA/CblsrhbPTMhjhqKbppuummzv/gMMQ==
-X-Google-Smtp-Source: AGHT+IGeCPFVsEf+ZjSSJ0DmPlGqLZtKnyfJ6/ukYudRaS6qlR3B/jq99wetB1TY62zsPU+MSfvDQA==
-X-Received: by 2002:a17:902:d505:b0:1fa:1dd8:947a with SMTP id d9443c01a7336-20e5a92837emr58392975ad.46.1729323188843;
-        Sat, 19 Oct 2024 00:33:08 -0700 (PDT)
-Received: from ubuntu.worldlink.com.np ([27.34.65.170])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e5a8f3d42sm22877205ad.211.2024.10.19.00.33.05
+        bh=v0OYkXB8VktlSdTAQ14RoH3fm6PKpbJT3bfx/sl5TJ4=;
+        b=HThBEPcjnN8Jn8sdAC7SVknMiI9VS6vv4ogpXkkS7no4azR7C3FKmNw3X6qwTL5AOH
+         LB/tPXNJiHLT5ICcVeNRNfdzwpSRJd5hbwohzAj/G9cGj6/8Saqv16xE5bLuxZjZA/jl
+         uLLONOzVC3iiBUzf5IYuI7wneOcJMBJeAnqEiFq0BY2qyYEvUQVYflMsXZcHvRuFEcDf
+         db/bcHc/Ypbp4wb54wv3vk2vG9ZnBssnKOrDyPnRYg90/IkfdD5yDRXVWANeXHVoFg9U
+         3yOaeojTn0d3ZLFqLUe8FLXLT7d0096yYI2UiBbBKCsA3ajEY77fnh9rw7LQvg4g12Z/
+         j/6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVn1KaVfTysOs+Edfo55xgZZ6hlQqkBtTIBgrTNcRjXWnvRZPo+eheg6MeES+sgUWLIZ8LlrwqC@vger.kernel.org, AJvYcCWEPWX3OSuyaojOUBapiDrVUp+q06Bl9KjsbdXdzebFEq8Jxm0JqPxQLZv8PDfEGLPzCLKGZVVKIpAQd7M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpOxbCcjouYMDDzD1YwQu0zPOz7cfYpy6dMtZfHn0NOwanCR+P
+	/WBzJyC/bHLserzO1QwPC/AazVI5357dy/zmbnBotYKiya/2/WZdoiDAGg==
+X-Google-Smtp-Source: AGHT+IE0/S8eytgT1eHaj9W0XwDlbdYQcRqhAh40I/BHjWepzAUmpIEq8SRagpi6Ey+XdCGMXR6Tnw==
+X-Received: by 2002:a05:600c:4ed2:b0:426:8884:2c58 with SMTP id 5b1f17b1804b1-43161622989mr40845435e9.4.1729366614238;
+        Sat, 19 Oct 2024 12:36:54 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-f8f1-d6d3-1513-aa34.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:f8f1:d6d3:1513:aa34])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f57e66asm2671335e9.13.2024.10.19.12.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Oct 2024 00:33:08 -0700 (PDT)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: lee@kernel.org,
-	pavel@ucw.cz
-Cc: Dipendra Khadka <kdipendra88@gmail.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] leds: bcm6328: Replace divide condition with comparison for shift value
-Date: Sat, 19 Oct 2024 07:33:01 +0000
-Message-ID: <20241019073302.35499-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 19 Oct 2024 12:36:53 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 0/2] leds: max5970: fix unreleased fwnode_handle in probe
+ function
+Date: Sat, 19 Oct 2024 21:36:42 +0200
+Message-Id: <20241019-max5970-of_node_put-v1-0-e6ce4af4119b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEoKFGcC/x3MQQqAIBBA0avErBNGK8KuEhGVY80iDa0QorsnL
+ d/i/wciBaYIXfFAoJsje5chywKWbXIrCTbZoFDVEqUW+5Qa3aLwdnTe0Hhcp9CVnhFr27RGQS6
+ PQJbTf+2H9/0AniVNtWUAAAA=
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Patrick Rudolph <patrick.rudolph@9elements.com>, 
+ Naresh Solanki <Naresh.Solanki@9elements.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729366612; l=1107;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=sRhWhBOKZi1ss4zw4+0+/y1VvPKZuQbq0qeeG1W5FdQ=;
+ b=4wgMAXy1dfChy3MPsn7rKpKgmnkxltf/D0dSE32bJ/8Lmi+uI5TLt3+UMPZisl7m+WN6kKPft
+ tOZwczxCT36DQCNKEIoEJM6cHD+D3sOZLW+9rlRV2EAMgpkouea22Y5
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-Fixes the following Smatch warnings:
-drivers/leds/leds-bcm6328.c:116 bcm6328_led_mode() warn: replace divide condition 'shift / 16' with 'shift >= 16'
-drivers/leds/leds-bcm6328.c:360 bcm6328_led() warn: replace divide condition 'shift / 16' with 'shift >= 16'
+This series fixes the wrong management of the 'led_node' fwnode_handle,
+which is not released after it is no longer required. This affects both
+the normal path of execution and the existing error paths (currently
+two) in max5970_led_probe().
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+First, the missing callst to fwnode_handle_put() in the different code
+paths are added, to make the patch available for stable kernels. Then,
+the code gets updated to a more robust approach by means of the __free()
+macro to automatically release the node when it goes out of scope,
+removing the need for explicit calls to fwnode_handle_put().
+
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
-v2:
- - Changed the patch subject as suggested
- - Changed the patch description
-v1: https://lore.kernel.org/all/20240922174020.49856-1-kdipendra88@gmail.com/
- drivers/leds/leds-bcm6328.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Javier Carrasco (2):
+      leds: max5970: fix unreleased fwnode_handle in probe function
+      leds: max5970: use cleanup facility for fwnode_handle led_node
 
-diff --git a/drivers/leds/leds-bcm6328.c b/drivers/leds/leds-bcm6328.c
-index 29f5bad61796..592bbf4b7e35 100644
---- a/drivers/leds/leds-bcm6328.c
-+++ b/drivers/leds/leds-bcm6328.c
-@@ -113,7 +113,7 @@ static void bcm6328_led_mode(struct bcm6328_led *led, unsigned long value)
- 	unsigned long val, shift;
- 
- 	shift = bcm6328_pin2shift(led->pin);
--	if (shift / 16)
-+	if (shift >= 16)
- 		mode = led->mem + BCM6328_REG_MODE_HI;
- 	else
- 		mode = led->mem + BCM6328_REG_MODE_LO;
-@@ -357,7 +357,7 @@ static int bcm6328_led(struct device *dev, struct device_node *nc, u32 reg,
- 		break;
- 	case LEDS_DEFSTATE_KEEP:
- 		shift = bcm6328_pin2shift(led->pin);
--		if (shift / 16)
-+		if (shift >= 16)
- 			mode = mem + BCM6328_REG_MODE_HI;
- 		else
- 			mode = mem + BCM6328_REG_MODE_LO;
+ drivers/leds/leds-max5970.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+---
+base-commit: f2493655d2d3d5c6958ed996b043c821c23ae8d3
+change-id: 20241019-max5970-of_node_put-939b004f57d2
+
+Best regards,
 -- 
-2.43.0
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
 
