@@ -1,56 +1,80 @@
-Return-Path: <linux-leds+bounces-3134-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3135-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477469A9126
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Oct 2024 22:27:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4909A9BAB
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Oct 2024 09:59:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C83681F230CB
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Oct 2024 20:27:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D29CB1C21961
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Oct 2024 07:59:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 489C31FCF52;
-	Mon, 21 Oct 2024 20:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24C3C15534E;
+	Tue, 22 Oct 2024 07:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="HBnoie6+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GweyATkd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1ACF1C8FDB;
-	Mon, 21 Oct 2024 20:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75050155330
+	for <linux-leds@vger.kernel.org>; Tue, 22 Oct 2024 07:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729542440; cv=none; b=mNBavwrokGaxgAoSVvXEg9eFKErf7Gd4cWEVOAlNJp3c5eQU+AMNF1B0bjyG5zYq7WKPGUs6i19WHAXrkFMHWyHEqHTUHaYDuMjkO0fM3wNATXpwBqVppw6BxtnUmNvpuxJxQPv8tm0DkgEVcG4a08/kxDhz9hl2ypIYfoh7cN4=
+	t=1729583937; cv=none; b=DXHz2pajuBal4SHP8MBaK1Sg8QXcWMBuk5hRKiiwUgEI+7pLAEsNVLbt7UdzmvIdFbmOrRc9tSANq2tRNhh3jwu7HHfgkExh7NxpPPVcaGAn0mJmzYWmmurSgonarMuOHnXPtpX+OnwYbq28AU+Tq3r+3SALNmd38739DPEk1D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729542440; c=relaxed/simple;
-	bh=3g3ulzUEILj6Ab6SKjBWHtGnUwVU/KgosIKltudjBYA=;
+	s=arc-20240116; t=1729583937; c=relaxed/simple;
+	bh=lASjZqRy8DWUdG/x3b3JyJoeoS2+o+iWUvtizrQ9F9A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SjZvV0b/rNh+AWjEpcA90arMcLEZxefOs3AD7PJLnP4o+uIKAPEcaX7gXy4FxG04/okvBuIJEccVNfR1N3QCsXoM0p/KkTsMInlNRCTnRnHL1uvPPgsqeOYLXb97B05nU9mppgDNr79nZqTUEmo5kIqjT7tnHtQpPi59QZIkKNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=HBnoie6+; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729542416; x=1730147216; i=w_armin@gmx.de;
-	bh=e9QbNuLAuXgzKvnSaHT2dAq3xYZ/W2rd0vmM7cmicmQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=HBnoie6+Eni1+RAqebH7JvbR6KXTStsKsuLhcPhUNN/HBs5M4bMHPQ3O7Yy4f8aW
-	 2OyTuvfMadMULQBvI8s0b68cbFcL3um2IOhiSRpDA+7KeNJ/V44slXuQsTIltiLr5
-	 y9G+lHvF7TM1E+sADntfaz7vcFOsOCTFxpGR2Urh7j5OBOD6nX1WC/FlUadBFKAk9
-	 BJyZugpNBkj0nSHG/hikbExCkoa2dbfeWXuVF36W3HQZKyCB9GtBQPohuBuac7UuZ
-	 h8yqGTjU5ijpRIZClm89OJafN+Ze8hIlJcHc8Rr/5P0vT9r6VGhMAIAJAKlXruGcP
-	 bAH/TDavJlSK0KAHiQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MysRu-1tokLq117a-00w12Z; Mon, 21
- Oct 2024 22:26:56 +0200
-Message-ID: <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
-Date: Mon, 21 Oct 2024 22:26:54 +0200
+	 In-Reply-To:Content-Type; b=rRijzWmmbUcmNK2SC3XZgJg93g5ag1qCxWHC7477aSUaD2kqzuNA3WeUnJtI+x0HjKgdox54/kD0Jn3MMUiqMEDGCPQ8NYrhUSO7LU+3tE5s9/yz4x5YsYWMGCZ/5VK/Z10cyOQYXOVH5IzqOVZ4wQ7wr1U6wzu9zChl+x/fTGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GweyATkd; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729583934;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/toOIhDFxtm2KiH53yytgdrHcc4/hOCbQgrRu1IsbBM=;
+	b=GweyATkdPlz0anyMzAz6zXPcWMA27iYEuO3M3LQ6iQb/kjW6uw99NsXwpEZMhqsDCBItwW
+	A8vjzzuLMXG0Fgahfefy2hD9sCOtugivyRKBCVH4FLc8A4HJRgC7KweOah9jIZAdgFOFLb
+	pBihlF67nq8Dy/vnrzV7TzqDvOEKbCA=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-457-Zi6-IZfOOTumJY8ekHU-zA-1; Tue, 22 Oct 2024 03:58:53 -0400
+X-MC-Unique: Zi6-IZfOOTumJY8ekHU-zA-1
+Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-53a0b48e8d4so4950979e87.3
+        for <linux-leds@vger.kernel.org>; Tue, 22 Oct 2024 00:58:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729583932; x=1730188732;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/toOIhDFxtm2KiH53yytgdrHcc4/hOCbQgrRu1IsbBM=;
+        b=UGpNrpGN12Qb43tJ2A4VVl35fD/lWlobiGGcjlFdS6Izb7ea0beAqCIUTSKutScG7S
+         1uq/C5358j7EuQhEqO6RKI7kE/uw4drr6tn5+SwER3bQrcwqip3dzUdN74lNPRlV6ZHr
+         9T7ZfwyLvh7qY0fYgMaLssAbp7hnasJCZEch/J37msPvZjH3kxgb012YXSbEtd94qrtb
+         HqNpnd5QRqqyqZMxo8AZlR9gWIKIanvqCFzGarC4+KIbsjORaSXCfaskSHgq6WVzu/QF
+         VI4sJr5g5KadfZEUeEMLrN2b3bVWf9HLgPQJePCUOZB9bysfxTYqftDPgbhFpdDpZkdc
+         GV8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWwdeScaAT5m1+sXINekwvefPgTOT5+RgarD0NtD8QGzXZ9ucWz0iMKcvdz/U8+3QvF1k9OVfcphUn6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxL0zoTDGr3Hldu434JtchJAt4e3mkc4z5Vz9y2ZrdzXHNwF1f
+	M0gybK82Iq4uHMinwc/fEFA3DOjHnCFCHtR/00cD47AqE8t/n9Qy56CzylF1Os37BLogPKjrz3y
+	C0lbTqvrpjbPK4eOYS7/YmSVA0vCGhAnA2ewrvVE+uExDWPDiGzD4k0Q0pmI=
+X-Received: by 2002:a05:6512:1396:b0:539:e873:6e6 with SMTP id 2adb3069b0e04-53a15445fbbmr6176916e87.43.1729583931536;
+        Tue, 22 Oct 2024 00:58:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFHZkuY2o29BsH2nW9fSeox5DGzjxId3xF7ANCRMftKPLZng9BBjKBjW/HI8QrQjL7hrhqDkQ==
+X-Received: by 2002:a05:6512:1396:b0:539:e873:6e6 with SMTP id 2adb3069b0e04-53a15445fbbmr6176880e87.43.1729583930939;
+        Tue, 22 Oct 2024 00:58:50 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66a6a729sm2841670a12.54.2024.10.22.00.58.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Oct 2024 00:58:50 -0700 (PDT)
+Message-ID: <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+Date: Tue, 22 Oct 2024 09:58:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -60,13 +84,12 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
  NB04 devices
-To: Pavel Machek <pavel@ucw.cz>
+To: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>
 Cc: Werner Sembach <wse@tuxedocomputers.com>,
- Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede
- <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
  ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
 References: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
@@ -79,86 +102,99 @@ References: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
  <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
  <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
  <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <ZwlDpCPhieF3tezX@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:3UMk7ZMRiG7KwkFqWRpMUf9HSa5Kej0YUjCRMm78uvohH0r57Db
- NagZcni7LAn/QyXuhwv5M3Mj7tDVTx0RNnEkYnM7QOeBRscIkVx4Y7n0AjicHLNAuRDYi45
- qrbUQd6FzewuS90QL4lsQBE7ApYx4+uzWisL9H8/gokYmwXheZ3PYed9n0raiMHbXj4S3aU
- q/QhfvfTgh9FFsvxOIvZA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YkNcCmVhFIg=;TW3OJSZTcOHLE/RkcCQciQ7OVw9
- CFIxdo5Aoe6bYbK5ID+klKg7e5S6efm7oiCgvmUItL835L5FAD1ncJWdBVAEvwxnKYxA6aj6r
- hHfKJhwr02GhQ/XJ4HNOA+Bf+DD5Lvs8zZU6NYNEJXwNR99zA/QpcT0cLfM4luIWaHvvNhbL5
- Qj34WGp/1Ajq0SotkyOyfYu5X0KRSrkooA5ySIppPj6ghSmESgsml0ge1cf828seXOhWzgwfP
- LTUDb7+TlttV5+PQlRF8llDbg2z+sNHYI8iFXmQZe7H7iEkpAGcF6c6EnwzF08Cmhm0PuVlZ+
- 8r/yrBXlKQcc6djkb9vzXC7v4WSWdrGi5PL1JSWpi2+9cJU6WkLjsWZ9v4hU+HIuY0RnkFCov
- JjTpYL/2RlRhack6g8VE1CjJxO5TrHVlUXIX2SpknhxsVVazTBk2g+TQwPDnjUtCQb5dye+LC
- K9kDF7OXxe+hkqv2OvLsJy8WmhAXBkIwW66ah+Rm3WwaWhw9RQ5NRlXi6CLj7M6gkgX1M4Snh
- VaY0BvQVh33Q44U79yLehRyb3rkcJaeQP8x4Uby4+q9Jg+pb+Uamda/edV8eqN583lgawOdGK
- m2pozh0n9hwLla2Ip83zigs/DGdBSVUVb0P2ac5MKTHecUMh2wwZaiRVkWVuGzy7iZyWjGtIi
- Ct2EooV5PGaoXBlWFVtPzY9Xlp26h7/G5pLkPBmpxAZ3UuDF1ubVNaixfToBxOexSCbzWlJ+n
- 6OieTfsdUkhAWvfmbGEQZjEtsNX9KC+wElfjei3HwgE+Ifrq4deEy3F6Sfq07SGHy0NeqhDDw
- 7AkxX6ZRe8wg96COrLhplymqFwLN0Unw2M+teLY76xe3s=
+ <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Am 11.10.24 um 17:26 schrieb Pavel Machek:
+Hi Armin,
 
-> Hi!
->
->>> 1.
->>> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
->>> -> Should be no problem? Because this is not generally exposing wmi
->>> calls, just mapping two explicitly with sanitized input (whitelisting
->>> basically).
->> It would be OK to expose a selected set of WMI calls to userspace and sanitizing the input of protect potentially buggy firmware from userspace.
+On 21-Oct-24 10:26 PM, Armin Wolf wrote:
+> Am 11.10.24 um 17:26 schrieb Pavel Machek:
+> 
+>> Hi!
 >>
-> I don't believe this is good idea. Passthrough interfaces where
-> userland talks directly to hardware are very tricky.
->
->> Regarding the basic idea of having a virtual HID interface: i would prefer to create a illumination subsystem instead, but i have to agree that we should be doing this
->> only after enough drivers are inside the kernel, so we can design a
->> suitable interface for them. For now, creating a virtual HID
->> interface seems to be good enough.
-> I have an RGB keyboard, and would like to get it supported. I already
-> have kernel driver for LEDs (which breaks input functionality). I'd
-> like to cooperate on "illumination" subsystem.
->
-> Best regards,
-> 								Pavel
+>>>> 1.
+>>>> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
+>>>> -> Should be no problem? Because this is not generally exposing wmi
+>>>> calls, just mapping two explicitly with sanitized input (whitelisting
+>>>> basically).
+>>> It would be OK to expose a selected set of WMI calls to userspace and sanitizing the input of protect potentially buggy firmware from userspace.
+>>>
+>> I don't believe this is good idea. Passthrough interfaces where
+>> userland talks directly to hardware are very tricky.
+>>
+>>> Regarding the basic idea of having a virtual HID interface: i would prefer to create a illumination subsystem instead, but i have to agree that we should be doing this
+>>> only after enough drivers are inside the kernel, so we can design a
+>>> suitable interface for them. For now, creating a virtual HID
+>>> interface seems to be good enough.
+>> I have an RGB keyboard, and would like to get it supported. I already
+>> have kernel driver for LEDs (which breaks input functionality). I'd
+>> like to cooperate on "illumination" subsystem.
+>>
+>> Best regards,
+>>                                 Pavel
+> 
+> Sorry for taking a bit long to respond.
+> 
+> This "illumination" subsystem would (from my perspective) act like some sort of LED subsystem
+> for devices with a high count of LEDs, like some RGB keyboards.
+> 
+> This would allow us too:
+> - provide an abstract interface for userspace applications like OpenRGB
+> - provide an generic LED subsystem emulation on top of the illumination device (optional)
+> - support future RGB controllers in a generic way
+> 
+> Advanced features like RGB effects, etc can be added later should the need arise.
+> 
+> I would suggest that we model it after the HID LampArray interface:
+> 
+> - interface for querying:
+>  - number of LEDs
+>  - supported colors, etc of those LEDs
+>  - position of those LEDs if available
+>  - kind (keyboard, ...)
+>  - latency, etc
+> - interface for setting multiple LEDs at once
+> - interface for setting a range of LEDs at once
+> - interface for getting the current LED colors
+> 
+> Since sysfs has a "one value per file" rule, i suggest that we use a chardev interface
+> for querying per-LED data and for setting/getting LED colors.
+> 
+> I do not know if mixing sysfs (for controller attributes like number of LEDs, etc) and IOCTL
+> (for setting/getting LED colors) is a good idea, any thoughts?
 
-Sorry for taking a bit long to respond.
+I wonder what the advantage of this approach is over simply using HID LampArray
+(emulation), openRGB is already going to support HID LampArray and since Microsoft
+is pushing this we will likely see it getting used more and more.
 
-This "illumination" subsystem would (from my perspective) act like some sort of LED subsystem
-for devices with a high count of LEDs, like some RGB keyboards.
+Using HID LampArray also has the advantage that work has landed and is landing
+to allow safely handing over raw HID access to userspace programs or even
+individual graphical apps with the option to revoke that access when it is
+no longer desired for the app to have access.
 
-This would allow us too:
-- provide an abstract interface for userspace applications like OpenRGB
-- provide an generic LED subsystem emulation on top of the illumination device (optional)
-- support future RGB controllers in a generic way
+HID LampArray gives us a well designed API + a safe way to give direct access
+to e.g. games to control the lighting. I really don't see the advantage of
+inventing our own API here only to then also have to design + code some way to
+safely give access to sandboxed apps.
 
-Advanced features like RGB effects, etc can be added later should the need arise.
+Note that giving access to sandboxed apps is a lot of work, it is not just
+kernel API it also requires designing a portal interface + implementing
+that portal for at least GNOME, KDE and wlroots.
 
-I would suggest that we model it after the HID LampArray interface:
+Personally I really like the idea to just emulate a HID LampArray device
+for this instead or rolling our own API.  I believe there need to be
+strong arguments to go with some alternative NIH API and I have not
+heard such arguments yet.
 
-- interface for querying:
-  - number of LEDs
-  - supported colors, etc of those LEDs
-  - position of those LEDs if available
-  - kind (keyboard, ...)
-  - latency, etc
-- interface for setting multiple LEDs at once
-- interface for setting a range of LEDs at once
-- interface for getting the current LED colors
+Regards,
 
-Since sysfs has a "one value per file" rule, i suggest that we use a chardev interface
-for querying per-LED data and for setting/getting LED colors.
+Hans
 
-I do not know if mixing sysfs (for controller attributes like number of LEDs, etc) and IOCTL
-(for setting/getting LED colors) is a good idea, any thoughts?
 
-Thanks,
-Armin Wolf
+
 
 
