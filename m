@@ -1,56 +1,56 @@
-Return-Path: <linux-leds+bounces-3143-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3144-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6B09AB194
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Oct 2024 17:03:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A579B9AB1D6
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Oct 2024 17:19:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C38B71F2331A
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Oct 2024 15:03:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20C4DB211A8
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Oct 2024 15:19:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5123E19D8A7;
-	Tue, 22 Oct 2024 15:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5471C1A070D;
+	Tue, 22 Oct 2024 15:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="bz7VkP3a"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="VucLLaoM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9AC85C5E;
-	Tue, 22 Oct 2024 15:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0453171066;
+	Tue, 22 Oct 2024 15:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729609396; cv=none; b=b02jaEDY7DwvqrKbnZnM4ybkGeH+/V3lXMcdmQM9JpKa3P/+iacedslKaOf+rBIl46iD3tEvo/ieGkqN8AUMKK/seixdjFgdFuzhhQV9UKrA6Bexchs08+C9I2j7vMZpd1EltVr3s8H1mmPwGSMp8sJS5fG7A1yDc3RXGYd3CmM=
+	t=1729610344; cv=none; b=Rz4mhgDxNR3KudvOfGcIXI8DJiPBNZqdNKWH95//YwVOROz/03ZFNsJdZD8ivrITE/LI8LklfNRcEg9COUo2hnp9yQU8WzDNEJ0j4xcJjaRyDG2W+RXGWPktmliSug+sKeQeKKqHHI/4Fo3ZbSrthibiZo2j2Mpxw3//2ORuK90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729609396; c=relaxed/simple;
-	bh=h4PzYrDPgx/dA0UY/qsvB8n6XSfdbkTqKIvL1amIuCQ=;
+	s=arc-20240116; t=1729610344; c=relaxed/simple;
+	bh=Fp8/GOXGb3EmY3MB66TvaSjOBlWEw4kZ+DVZ6o1Miyc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CoxwHtJ/bL/9Gtb9gDCopGxKuKgeyWcWsQPCS2GCsCxlE1BKj2aBD/lj+2JRlQUxqeJbpTiPxzdu7DML5lcsIFYCAY2Y67QzngDK9t6Jww+F/UkdHcV3ExFxn0E83imsKkTjnMbYp1mjVfk2quy8mr8ezyylnGnKX54+ros0gRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=bz7VkP3a; arc=none smtp.client-ip=212.227.17.21
+	 In-Reply-To:Content-Type; b=EBbx+3UM7I1N6PFqnYrqmXNrBk33TkiRmh6sem5q5t2IjKb3mKP4cUqI7t2ALoJ/nWzSYjKdAhL4et1e5ZaPOVZGTL221WfYBLx1DCWDmMldgHv0Xube9jrlKkviu4O+VNVYJEeu20rXteeNicKSrU17bi6TjoyE25LQQswyNds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=VucLLaoM; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729609372; x=1730214172; i=w_armin@gmx.de;
-	bh=iyTVaz4YZToxUrhmRQO6zFXlT9G5B63Ll4lLI9zE4as=;
+	s=s31663417; t=1729610319; x=1730215119; i=w_armin@gmx.de;
+	bh=+LRGaDe+Stgy5CCZ/3A3Mnw1RHXr59PL8Vt6Ku7+Ll0=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
 	 References:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:cc:content-transfer-encoding:
 	 content-type:date:from:message-id:mime-version:reply-to:subject:
 	 to;
-	b=bz7VkP3a3IQVdIp3zlcVTsy+Ja1vxLRTaOt9Fk6ClTJ1jpnjcsoNPOrvLaNhyTs+
-	 A2F9oLpIlpDa/tdYxImMp4FOmwDKjL15ggnt200F0MICpkkpuU7DXkfdWxUugsPeO
-	 t40x9EfYHiCLv29siKCJxN2SSaiI4rt5v2FBg7v97e23grsEZoOb8cw/w6GASQvRK
-	 CNuI12DRduFj9ij+V2lj9BOpGFlDpL/2YoNNgF8MEuiOW24WhCY+xhwc48QUwH4Uk
-	 +GwzZn1G1pn3clezQi86lycWLqNu91MQJnZP2CGv7GIL7es354gLIoAhFBEsQEgEt
-	 NU5xfR5aLeT2t+Lc/w==
+	b=VucLLaoMPq/xGUr20kHB9InIobOyL3z8y0L9dafS7/zBOqi8m7QOqEpR11cZts1C
+	 HCdMyxPEznUk69/fx//jcDSok9JhVfcOp3vsPC87Af00gUTJ245CeAnaZOGx8s0g1
+	 2Zi2wA96mxitzxVcFG+Ce02POYltVbXMTHgWX1bLe+54vN8V6jwBz9HyDHcVbUyMN
+	 mFnrjDeGS5JVTwFfipTlv5ZKSRep3M1PPYNdVtaC4oK5BUlCBYSpD/Tu10sDnCLaT
+	 XVIcXUMlMfzg8ARXhJ5C/meihdQVdw+6HCi5qIqT1KHhu763Wx3lzsKKy4XoMs1Fh
+	 2Z5Y4tpQuPeSFEudEw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfYPY-1ta67A18Qq-00fzBl; Tue, 22
- Oct 2024 17:02:52 +0200
-Message-ID: <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
-Date: Tue, 22 Oct 2024 17:02:50 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MmUHp-1tkt9423RR-00iPmB; Tue, 22
+ Oct 2024 17:18:39 +0200
+Message-ID: <35a98b67-d1eb-4aa9-9d3f-025c94cd6b0f@gmx.de>
+Date: Tue, 22 Oct 2024 17:18:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -60,15 +60,16 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
  NB04 devices
-To: Pavel Machek <pavel@ucw.cz>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Werner Sembach <wse@tuxedocomputers.com>,
+To: Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+ Benjamin Tissoires <bentiss@kernel.org>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
  dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
  lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
  ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
+References: <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
+ <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
  <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
  <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
  <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
@@ -76,93 +77,137 @@ References: <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
  <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
  <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
  <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
- <kywhqw5ef6hioemoydwub57dcmfuu3bwqpz3vjur4pkabboydo@2hrqj3zy4txv>
- <ZxdyQFMRIRusMD6S@duo.ucw.cz>
+ <Zxd0ou7GpCRu0K5a@duo.ucw.cz>
 Content-Language: en-US
 From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <ZxdyQFMRIRusMD6S@duo.ucw.cz>
+In-Reply-To: <Zxd0ou7GpCRu0K5a@duo.ucw.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:buvMcpt7UqADbxglDvv1br4rnAVjoyNl6mJL2vRW0OAmw2ePwSV
- rf6Ll7E5y7hUFY8h+S69VdRzhAK6FJrBDkWuDKXKFhK77jdPTHe+NE9ZqHnHvQECtmI0F2z
- /KWGhRaUwogFJg9BTpU9CdYsCV78RW+7xsu2ADL9LGmqFtOwmybulAE7KneqNomdp2w37N/
- je1oxtigOzTX0vHYyiSYg==
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZeIZAH2Xu1nwYxtwU8UI4KY9oDAHTf0p1g29jRN8fyzdBMETX4n
+ mk5s8AY6A5dF9aXWRVF1gwiaCNKzuHN2ZPK7bTh2DHfBFkW7yhojONZtMUpBpS4dayHt1sx
+ iTdexFwaMHE9Akiv7L77FRn/eYUb5vgg74h4VteC/z6C3LnKeEvbqLSEBnxGlXaoUmUdvnx
+ ZIq9wRgXbm5jkSJ621g9g==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:WfBvh+JhZ4Q=;OXt0JGNMGHC98/Pjb7oNflPVIwA
- NVlBkaUMMzTEewvxxYGDTpVYglg1VJCqXHe9BqwG4fHQezZ1TE0NWxbUlXY5p19/Nbw7SzCHq
- b664sJ6NDXBtMF8OD/C+mHMsPFsf/KRc2zztj+KNysD30jG/W7itgAgMp8UgzD3FSf3uP2Q/+
- CIHLlkSBrskBey2D8UBbuZoD3JPSDtdOF2bv/TIoMnJe72Fb17VKbV1WLqaPlCQ18LSst4DYu
- Md0nmKdIDcCqIAizHoSPe9x9a4dy+zm7AMzqdabac8Lm/gheA+RE9QK8kXiEUnUlFeXHxane/
- YzqtWr7tyTI6gBc2k9eBCQU5KSJ5p9RI5vVaZkCHDqA8SNYsV0dp2lOBJ2/QFXNt1iRE0exPd
- ilHSLTz/CqNRWXhbh7Q7p6OKxNU1ZNV7fjz10dk0hlNdPpUFdqJb2XqFHuJmY4bZ6ZM4bAuso
- gcueega+td3x34j0oWL9AqohaDbhndfRIBdzAnURMrhJRLhcA5wBtmI0tpbu9NweZ+NHivSIs
- f7ZePNOodMo99Qf2RdXph2GzeJVGsSZllc+bBp36Ad6zIz1Z8tuEq0bcxTH0ptHqXZveXxvi7
- IKN3C+1cqTBM906T7RRnqv11FZE43F0Z+w5OM6NiKXF9tTrOhzfnrHpFWDccQglbkPevoMyry
- 0mlCoiKGA1PrVUvS+kkxasRUtyuq1/jud3OSMdop8sYZdYDRRLgBEHjtG/gYdj3Hvcj0VrYNX
- /jX758Mck6PLhrlispKzHqTU2ssPSdfSzu5CcIDHC03I1ZmJO47WH1bZTvYfhk9uc2xPzOaDx
- kX8r3zY3z6MIAiJ7bZ6fyYEBmnYuLnVUSFRXRfDF7MImM=
+UI-OutboundReport: notjunk:1;M01:P0:48MQsRlI0js=;IwlaPd5r16YHo3FdR4hUaxQxxtq
+ fhAbL+vhyAE3oBU2VGU+TBdFFk9TXv4Z0ElfK4hpQXxWvykuQIGB5nqpbFERO9wMVOSv6W+xn
+ PfQmDqtdTx/jZl7B2Nuv2hqwFeLjaLO3yHpcklkx7hy6mwHZl2FnZNq/cPZJFAeLKMZmsyVmd
+ UWgLstw+3dcZACrXs8cR38yHBaR36/laycp3q2XwKDUAJ3lFmVPbFHTNFsKzC6SG5c2Z80SA4
+ dQYJRJuWIWvPBP34XITmuhWShXekmtNO40pNxhuQqTja8d1mhFTqq517pYd/SLUGMz2eT0Ebo
+ hJbhlNoKGr8hT0ZS9moAUMnzU8UTB8m6ISQ2poVjBm/SvgxXsj5bEr1a6MX5JX8Abl8Oo7At/
+ 1j+KDEffTcxyE0hjY6rMiNC3wb02l/ghhKLaZwgg1JCxldLBANjPfCH/g+V1Iz+9nUFHyyOWJ
+ lO+NIxvBMSzc2PPTmixvwp3gMeKlf9ZjaUj7mvBxXkGHVcD4hTpKw71GpmaorZANhvZcHMu7L
+ loXcsjpREp/O/Xsk2GyesKQbMsK1yIUOac93N2G3C3Tab49sloUHvYibDJe665tXf7Iw7X17t
+ Pd8zpTh2xVJkBKQ265XhZL9OgN8Lnmj7PAY7yNokk7x5iHswOejcGNmYL2h1Sf0oSpWg7NIO4
+ CVOBSjTyjWojQPbmsxg0XUEoKz9XsC13mqv0xoSsDoDzIF4XyCjztGSW+Ul+acBgTKvmIbGJJ
+ rrVF4i2AyM0t8qPPDnq8OG97lyOlEcwvIlBrOwvp9+ByJR2MkEAY+b4EzOW+UlzQtTbmEWI13
+ LljQW5s9wOSnQKqEzvoyFidg==
 
-Am 22.10.24 um 11:37 schrieb Pavel Machek:
+Am 22.10.24 um 11:47 schrieb Pavel Machek:
 
 > Hi!
 >
->>> Personally I really like the idea to just emulate a HID LampArray device
->>> for this instead or rolling our own API.  I believe there need to be
->>> strong arguments to go with some alternative NIH API and I have not
->>> heard such arguments yet.
+>>> Sorry for taking a bit long to respond.
+>>>
+>>> This "illumination" subsystem would (from my perspective) act like som=
+e sort of LED subsystem
+>>> for devices with a high count of LEDs, like some RGB keyboards.
+>>>
+>>> This would allow us too:
+>>> - provide an abstract interface for userspace applications like OpenRG=
+B
+>>> - provide an generic LED subsystem emulation on top of the illuminatio=
+n device (optional)
+>>> - support future RGB controllers in a generic way
+>>>
+>>> Advanced features like RGB effects, etc can be added later should the =
+need arise.
+>>>
+>>> I would suggest that we model it after the HID LampArray interface:
+>>>
+>>> - interface for querying:
+>>>  =C2=A0- number of LEDs
+>>>  =C2=A0- supported colors, etc of those LEDs
+>>>  =C2=A0- position of those LEDs if available
+>>>  =C2=A0- kind (keyboard, ...)
+>>>  =C2=A0- latency, etc
+>>> - interface for setting multiple LEDs at once
+>>> - interface for setting a range of LEDs at once
+> How are LEDs ordered? I don't believe range makes much sense.
 
-Using a virtual HID LampArray already creates two issues:
+Range would allow for efficiently changing the color of all LEDs. But i ag=
+ree
+that this can be considered optional and can be added later.
 
-1. We have to supply device size data (length, width, height), but the driver
-cannot know this.
+Should we ever prototype such an interface, then providing a method for se=
+tting
+multiple LEDs at once would be enough.
 
-2. It is very difficult to extend the HID LampArray interface, for example
-there is no way to read the current LED color from the hardware or switch
-between different modes.
+>>> I do not know if mixing sysfs (for controller attributes like number o=
+f LEDs, etc) and IOCTL
+>>> (for setting/getting LED colors) is a good idea, any thoughts?
+>> I wonder what the advantage of this approach is over simply using HID L=
+ampArray
+>> (emulation), openRGB is already going to support HID LampArray and sinc=
+e Microsoft
+>> is pushing this we will likely see it getting used more and more.
+> There's nothing simple about "HID LampArray". Specification is long
+> ang ugly... and we don't want to be stuck with with OpenRGB (links to QT=
+!).
 
-A sysfs- and/or ioctl-based interface would allow us to:
+And HID LampArray its not easily extendable.
 
-1. Threat some data as optional.
-
-2. Extend the interface later should the need arise.
-
-Looking at the tuxedo-drivers code, it seems that the WMI interface also reports:
-
-- preset color
-- device type (touchpad, keyboard, ...)
-- keyboard type (US/UK)
-
-Making this information available through the HID LampArray protocol would be
-difficult (except for the device type information).
-
->> Agreed on everything Hans said.
->>
->> I'll personnaly fight against any new "illumination" API as long as we
->> don't have committed users. This is the same policy the DRM folks
->>> are
-> Well, and I'll personally fight against user<->kernel protocol as
-> crazy as HID LampArray is.
 >
-> OpenRGB is not suitable hardware driver.
+>> Using HID LampArray also has the advantage that work has landed and is =
+landing
+>> to allow safely handing over raw HID access to userspace programs or ev=
+en
+>> individual graphical apps with the option to revoke that access when it=
+ is
+>> no longer desired for the app to have access.
+> HID raw is not suitable kernel interface.
+
+I agree, using HID raw in this case would be like amdgpu emulating a i915 =
+GPU to
+support applications working with a i915 GPU.
+
+>> Personally I really like the idea to just emulate a HID LampArray devic=
+e
+>> for this instead or rolling our own API.  I believe there need to be
+>> strong arguments to go with some alternative NIH API and I have not
+>> heard such arguments yet.
+> If you don't want "some alternative API", we already have perfectly
+> working API for 2D arrays of LEDs. I believe I mentioned it before
+> :-). Senzrohssre.
+>
 > 								Pavel
 
-I agree.
+We may have to support 3D arrays of LEDs, so using a simple framebuffer
+would likely cause trouble.
 
-The point is that we need to design a userspace API since we cannot just allow
-userspace to access the raw device like with HID devices.
+I think of something like this:
 
-And since we are already forced to come up with a userspace API, then maybe it would
-make sense to build a extendable userspace API or else we might end up in the exact
-same situation later should another similar driver appear.
+illumination class:
 
-Since the HID LampArray is a hardware interface standard, we AFAIK cannot easily extend it.
+sysfs attrs:
 
-Also i like to point out that OpenRGB seems to be willing to use this new "illumination" API
-as long as the underlying hardware interface is properly documented so that they can implement
-support for it under Windows.
+  - lamp_count
+  - kind (optional)
+  - width, height, length (all optional)
+  - latency (optional)
+  - driver-defined attributes like firmware_version, ... (optional)
 
-I would even volunteer to write the necessary OpenRGB backend since i already contributed to
-the project in the past.
+ioctl interface:
+
+  - get LED info (id, supported colors, position (optional), key code (opt=
+ional), ...)
+  - get current color of LEDs
+  - set multiple LEDs (by ID)
+
+This interface is similar the the HID LampArray interface except that:
+
+  - we can read the current color
+  - we can omit optional information
+  - we can extend the interface later (animations, etc)
 
 Thanks,
 Armin Wolf
