@@ -1,191 +1,178 @@
-Return-Path: <linux-leds+bounces-3153-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3154-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6559AD35B
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2024 19:54:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3890B9AD4FA
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2024 21:43:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61D131C21EDD
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2024 17:54:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF73C2834AA
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2024 19:43:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68F3A1CFEA5;
-	Wed, 23 Oct 2024 17:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B48111D9667;
+	Wed, 23 Oct 2024 19:43:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="L57meQvR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l1sQxlQP"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA2D15EFA0;
-	Wed, 23 Oct 2024 17:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17D81D0E2B;
+	Wed, 23 Oct 2024 19:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729706085; cv=none; b=BWQwLBN6aqaDhdgS5z89TawdUwF30h6uvnX7JMn2IR2O+JVP3Xh0tDtgPlrgytaUi9jRcJ4jiGctoWrzkw+JiHtBGrSVkg73GD1lUY6wMjdvvniKDqM3hyR8BBhIrqd6nO+BEjs3GFJY8lR4xE1tdZ71tEwgVYwMBmTDjirZFWM=
+	t=1729712582; cv=none; b=l6clTOU3CvNVNdqw8lZ+Sp4FVNMzoyddOhc5usQPf3VoqEw4hCuG8J1lLnjQjGie9NpCreCcxqNaBbWWJ25QeOmsrR3fZ/BTpitaGRxIhrczbUQlXxHebW0G4Z4IjGqcVnw6cCXiFcHN1g5C/zduA1+bKyWX0QQFFrzTACiU0DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729706085; c=relaxed/simple;
-	bh=FeQrnl/Qbqd5tte+UM4+fj/8ecOkjXc/c7EqWD06SD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZ7EVxe7Zk/FqTi6athZOOHY2FVE4L1eWrsDY7Xk2GiE4pO78x3GSOajNvHbQtGbrEpvwNM8dMGNaDcptMMKoD28VVDsy1Ske/7cmsjKNA8En4qwIAwND4JBOaWkIecjg+NvL+oayvOVOkrEuxDFuvSepQcgLu/ggYSMe0li3NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=L57meQvR; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 4C25D2FC004A;
-	Wed, 23 Oct 2024 19:54:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1729706080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qg6J2ZKjKuT4NxpJxzY+/4uhSMmE1FV8vXNLyqWjSwU=;
-	b=L57meQvRSn7NFM0dls4nqJzDyda9eeYwdS3HS23gutt88rjXInhg+hgsce9YkuDFNsHZhM
-	r+VvwxPvLdEBP/gpHU0noFZrQ5PyiwOtT3+B0tu1NpWPHygJXhTwahz2jKOLzxmFnLeny+
-	t5DMP+scGYbBMOV+Gxm8nW85au0Es48=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com>
-Date: Wed, 23 Oct 2024 19:54:39 +0200
+	s=arc-20240116; t=1729712582; c=relaxed/simple;
+	bh=tCA6fw7MBrhr9mOrTf8+DhdJnsHnrQsEXArVWZBBlrk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=l+HNoj7WYVBa9tLJ09y5ijofkaUT2SSYrG1CRJueAjsqquAjEKkx6r3f40A7xPfa2yuCopwyW6urd2CG1Fpzq8ORfaKp/dwtCFSRd6QXsC9/gQqERL+c8IrQkwkpKmHulXL7sdsoqzu3gyJvRtjvy/2Id4GyGydviGkBhtwVVpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l1sQxlQP; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so987221fa.1;
+        Wed, 23 Oct 2024 12:43:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729712579; x=1730317379; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RhbLCrIKCahQuoN9WUphMNRLJJ3fa6OTKAHMEZIGPB0=;
+        b=l1sQxlQPRGf55GS9v7XWLR5fybatJ9b3ZFqsbEAAa0tmgcvJ8ba5eM9EfuXaS+9vnm
+         JCb4c51vIdqBLBojSRBtKZ3pa0meqzMoOqsJyt8Fyw264G6p8AIyWyCICd8AaoH4HtCA
+         gQKGbCegKQIODdoMjq4bL6xjQ22g/C3qjpXPhGpyssm19xMKyYsoe90nYkVSkqn7GNoZ
+         41oysLNUyn+NED2gTJ0znLaNEmfVCMqyg7Ry+xzyfGcm1njvfcGsOiWjMGS3qZ/lVYPi
+         GDxxHAllxecXDAmN+ssN/SHXrW0LQwKYFLFQ333Th6tbPNOL6gAADQtXuJ01g/C3l7JH
+         SN9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729712579; x=1730317379;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RhbLCrIKCahQuoN9WUphMNRLJJ3fa6OTKAHMEZIGPB0=;
+        b=OB9iJEZZBVDM8g2mFnVe8XxUAtDht50370UFtWcNwFDeUTIgGmToPibIMzlNQm49zW
+         Ke3mhLMD5PIFn3MV9VTGJA9NYOZtQyGfN3hE4VDGwgngHNArMBMoaC0Yuy/xels8+gDN
+         f0dRYx5XD6cMVxXINP+oqHJX8pQRQ8yyHFjLqFN0rO3ZbFXGjufAyvkEolNGFBDXxkJG
+         WI6WC0sunGF0njqkIk/4wPAn+186Iog7aJGFVnx8gabEgrM2oN3TqU61Il75QC/WUsxf
+         EstUJZjkgnDukkqg1sHuKAPDx+TxNOuTDJRxGzQtJ4Im1Jj+p5QXcEjZVgHI032kpxpi
+         8evg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE+NMKEd+0PHJ7d1DKXf7XPBQL3jg+xKAxQpMoyt1Fe/s45MZgM4f+vIWz3FAZyqeJG5TR4umfk/Nu@vger.kernel.org, AJvYcCUomC/cmyhZq7GA1SQGBDheiwxjc9//sUaWWbM7r97fZ8lBqaaW3P/SbA74BOv7+Z+ClE9+9ChReWcqLSTn@vger.kernel.org, AJvYcCV/6wPDlzq6SNiLaGuhlO1RukCE+7TMAflPXBMWZTVSaIvPlujq1+0cryy8RDwZR9B92kf8N3sQp5DDLQ==@vger.kernel.org, AJvYcCWfrDd/s2F92hrWsZ9/hM2tMxHA1hA8sZtoz5U6jdGo3Kroij+fBekbwL0MAGDcimG3FYW3CmnBXQ/h8jQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCtBQZ846R5rk/FOBfAH0bdntYbSjIKYZ0hnSnhZyOYpY1k86L
+	OijbGZaLAIlEq10s3OjXl52z71tumITGFVBwFDXe4uEDPCdO5sx1pIMYhg==
+X-Google-Smtp-Source: AGHT+IGoOK01spO2Q3H9lmeaZa4e6Rq/V0S5zzHLf/ni1DhBL8Y8pIZE9kHVeUw88+6Hktw7qtRsNA==
+X-Received: by 2002:a2e:a288:0:b0:2fb:57d6:f464 with SMTP id 38308e7fff4ca-2fc9d30ef7bmr18046541fa.20.1729712578385;
+        Wed, 23 Oct 2024 12:42:58 -0700 (PDT)
+Received: from [127.0.1.1] ([46.53.244.166])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66c6b1d8sm4803940a12.72.2024.10.23.12.42.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 12:42:57 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH v7 0/7] Add support for Maxim Integrated MAX77705 PMIC
+Date: Wed, 23 Oct 2024 22:42:48 +0300
+Message-Id: <20241023-starqltechn_integration_upstream-v7-0-9bfaa3f4a1a0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
- <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
- <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
- <kywhqw5ef6hioemoydwub57dcmfuu3bwqpz3vjur4pkabboydo@2hrqj3zy4txv>
- <ZxdyQFMRIRusMD6S@duo.ucw.cz> <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIALhRGWcC/43QzWrEIBQF4FcZXNdy1WicrvoepQzGXBMhMVN1p
+ GXIu9cM9H/RLM8Fv3PwShJGj4k8HK4kYvHJL6GG9u5A7GjCgNT3NRMOvAHFWpqyiS9TRjuGkw8
+ Zh2hyfXO6nFOOaGbaWa20hI47FKQynUlIu2iCHSsULtNUj+eIzr/eep+eax59ykt8u80oYrt+N
+ Or/G4ugQFE4pRQH1hr7OMzGT/d2mcmGl+YLPDKxA2wqyHuOrpdW6rb9DcrvC3f8SZHbQgAhHGt
+ Yz/6A6hNkAHtAVUHohe4kHMHKH+C6ru+MW0Pn2AEAAA==
+To: Sebastian Reichel <sre@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729712576; l=3825;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=tCA6fw7MBrhr9mOrTf8+DhdJnsHnrQsEXArVWZBBlrk=;
+ b=iJCye/ip5nY1sYZWNwja3osS5QzB0nWVM549PsVhEyPmegK/xYuwk7wAmjXeAXX6RVKVo+dLm
+ gE2GyWUYoeABW8ueEEt9EQAakLg4Ch1O5EJs6V789i/dMfTJWXmX6T9
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-Hi,
+The Maxim MAX77705 is a Companion Power Management and Type-C
+interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+Type-C management IC. It's used in Samsung S series smart phones
+starting from S9 model.
 
-Am 22.10.24 um 17:02 schrieb Armin Wolf:
-> Am 22.10.24 um 11:37 schrieb Pavel Machek:
->
->> Hi!
->>
->>>> Personally I really like the idea to just emulate a HID LampArray device
->>>> for this instead or rolling our own API.  I believe there need to be
->>>> strong arguments to go with some alternative NIH API and I have not
->>>> heard such arguments yet.
->
-> Using a virtual HID LampArray already creates two issues:
->
-> 1. We have to supply device size data (length, width, height), but the driver
-> cannot know this.
->
-> 2. It is very difficult to extend the HID LampArray interface, for example
-> there is no way to read the current LED color from the hardware or switch
-> between different modes.
->
-> A sysfs- and/or ioctl-based interface would allow us to:
->
-> 1. Threat some data as optional.
->
-> 2. Extend the interface later should the need arise.
->
-> Looking at the tuxedo-drivers code, it seems that the WMI interface also reports:
->
-> - preset color
-> - device type (touchpad, keyboard, ...)
-> - keyboard type (US/UK)
->
-> Making this information available through the HID LampArray protocol would be
-> difficult (except for the device type information).
->
->>> Agreed on everything Hans said.
->>>
->>> I'll personnaly fight against any new "illumination" API as long as we
->>> don't have committed users. This is the same policy the DRM folks
->>>> are
->> Well, and I'll personally fight against user<->kernel protocol as
->> crazy as HID LampArray is.
->>
->> OpenRGB is not suitable hardware driver.
->>                                 Pavel
->
-> I agree.
->
-> The point is that we need to design a userspace API since we cannot just allow
-> userspace to access the raw device like with HID devices.
->
-> And since we are already forced to come up with a userspace API, then maybe it 
-> would
-> make sense to build a extendable userspace API or else we might end up in the 
-> exact
-> same situation later should another similar driver appear.
->
-> Since the HID LampArray is a hardware interface standard, we AFAIK cannot 
-> easily extend it.
->
-> Also i like to point out that OpenRGB seems to be willing to use this new 
-> "illumination" API
-> as long as the underlying hardware interface is properly documented so that 
-> they can implement
-> support for it under Windows.
->
-> I would even volunteer to write the necessary OpenRGB backend since i already 
-> contributed to
-> the project in the past.
+Add features:
+  - charger
+  - fuelgauge
+  - haptic
+  - led
 
-Just wanting to leave my 2 cents here: I'm in theory fine with both approaches 
-(hidraw LampArray or wrapping it in some kind of new UAPI which at least has the 
-LampArray feature set).
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Changes in v7:
+- Fix review comments
+- Link to v6: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com
 
-I also don't think that OpenRGB has a problem with a new Linux exclusive API as 
-long as someone is doing the implementation work. After all the reason why 
-OpenRGB was started is to unify all the different vendor APIs under one UI. So 
-one more or less doesn't matter.
+Changes in v6:
+- fix binding review comments
+- update trailers
+- Link to v5: https://lore.kernel.org/r/20240617-starqltechn_integration_upstream-v5-0-e0033f141d17@gmail.com
 
-BUT: I already did work for the hidraw LampArray approach and OpenRGB already 
-did work for that as well (albeit I didn't yet managed to get the draft running) 
-and we already had a lengthy discussion about this in the last thread. (This one 
-https://lore.kernel.org/all/20231011190017.1230898-1-wse@tuxedocomputers.com/) 
-with all the same arguments.
+Changes in v5:
+- Split patchset per subsystem
+- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
 
-e.g. Expansion of the API: How should that look like? It would have to be 
-basically an own extension for every keyboard manufacturer because every one 
-supports different built in modes with different values to tweak.
+Changes in v4:
+- Rewrite max77705, max77705_charger, max77705_fuel_gauge from scratch
+- Reorder patches:
+  - squash max77705 subdevice bindings in core file because
+    no resources there
+  - split device tree changes
+- Use _ as space for filenames in power/supply like the majority
+- Link to v3: https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com
 
-So I'm siding with Hans and Benjamin on this one.
+---
+Dzmitry Sankouski (7):
+      power: supply: add undervoltage health status property
+      dt-bindings: mfd: add maxim,max77705
+      mfd: Add new driver for MAX77705 PMIC
+      input: max77693: add max77705 haptic support
+      power: supply: max77705: Add charger driver for Maxim 77705
+      power: supply: max77705: Add fuel gauge driver for Maxim 77705
+      leds: max77705: Add LEDs support
 
-My only plan for the current patch besides some more code beautification: Move 
-the device-sku specific values (key map, and key positions) to a bpf driver.
-
-The question in my mind currently is: Is the patch merge ready with just that? 
-Or must the OpenRGB implemenation also be finished before the merge?
+ Documentation/ABI/testing/sysfs-class-power               |   2 +-
+ Documentation/devicetree/bindings/mfd/maxim,max77705.yaml | 174 +++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                               |   4 +
+ drivers/input/misc/Kconfig                                |   4 +-
+ drivers/input/misc/Makefile                               |   1 +
+ drivers/input/misc/max77693-haptic.c                      |  15 +++-
+ drivers/leds/Kconfig                                      |   6 ++
+ drivers/leds/Makefile                                     |   1 +
+ drivers/leds/leds-max77705.c                              | 168 ++++++++++++++++++++++++++++++++++
+ drivers/mfd/Kconfig                                       |  12 +++
+ drivers/mfd/Makefile                                      |   2 +
+ drivers/mfd/max77705.c                                    | 224 ++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/Kconfig                              |  13 +++
+ drivers/power/supply/Makefile                             |   2 +
+ drivers/power/supply/max77705_charger.c                   | 602 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/max77705_fuel_gauge.c                | 364 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/power_supply_sysfs.c                 |   1 +
+ include/linux/mfd/max77693-common.h                       |   5 +-
+ include/linux/mfd/max77705-private.h                      | 198 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/power/max77705_charger.h                    | 215 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/power/max77705_fuelgauge.h                  |  60 +++++++++++++
+ include/linux/power_supply.h                              |   1 +
+ 22 files changed, 2069 insertions(+), 5 deletions(-)
+---
+base-commit: 63b3ff03d91ae8f875fe8747c781a521f78cde17
+change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
 
 Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
 
-Werner
-
->
-> Thanks,
-> Armin Wolf
->
 
