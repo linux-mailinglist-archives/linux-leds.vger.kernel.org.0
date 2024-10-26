@@ -1,139 +1,131 @@
-Return-Path: <linux-leds+bounces-3173-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3174-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D9E9B18B3
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Oct 2024 16:48:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9202A9B1A06
+	for <lists+linux-leds@lfdr.de>; Sat, 26 Oct 2024 19:17:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F103B1F2135C
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Oct 2024 14:48:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5791F284654
+	for <lists+linux-leds@lfdr.de>; Sat, 26 Oct 2024 17:17:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE0001C695;
-	Sat, 26 Oct 2024 14:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D3D9481C4;
+	Sat, 26 Oct 2024 17:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="Bgr+Ftoq"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Kjl0Krxz"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FFA14A91
-	for <linux-leds@vger.kernel.org>; Sat, 26 Oct 2024 14:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D7F3BBD8;
+	Sat, 26 Oct 2024 17:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729954096; cv=none; b=FABDpEiZ8LTWGdbZEfbvAa/976Vx3pwwifdGJ3u3HsjmmlCIEGinOewJMLDZG8XNqUfRnn+ELgfDX+0EwOJ1I2wnddT4gkc9W+tdSUeWclZVeM/XWgqkZsroeYk+i0gPhSC3oz57IM6WuCjo9sN9aGAIAV9obcP9LMFiBrMbwrA=
+	t=1729963070; cv=none; b=rmgK5R/I++3ePb6yAe+n5EHV2DdBolTdWNWwYs4nNXI0SnqWeG9u3I/rj48x7iisHsvEJcFvbi5VieYbtmWngz8Vx714EnZ2jUJdMlcVXK9Qys3D9d707IPBHjqKrP169o5/yHyMbIijgrC+9hNvhGBgciGcbXU6ED8mgDZTgqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729954096; c=relaxed/simple;
-	bh=MWxPZ0rd0vQSSGb1OYfWrjEcHEmLMZBNRKOr3PUqu1U=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KYhG/5x+W10nGlsmU4Nk/RkibtQsgE5CPiRQqbhuXRN9yYGhZdQ3iqX53CAvfgaZLcJ7T67fKhzOMu4upIj2Vp5ouFjNNdwOxzBavS2wUImi47TtPSbAi0KmQSKn+tN2w7HUf2VqvsfXtahy8Pb7S8NFOFiBDUzUru5ZKaKp6nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=Bgr+Ftoq; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c9454f3bfaso3274823a12.2
-        for <linux-leds@vger.kernel.org>; Sat, 26 Oct 2024 07:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1729954093; x=1730558893; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qC024lRJVAEmIHLuN+s83Hm+ef/1j+PPbHp473apDbA=;
-        b=Bgr+FtoqNJnerTcO0wKkFHUGafd7/GJWb5Llvrz6rxduM3NbqZeqp/1Ln/YB/D7kSo
-         76MWFU9Qf40cfaT0Ge1wbbjUpLYViTrkdXERKh2BfnTp00umUlarme+RZFiIOXLkJ2Ya
-         9sjNiHBwqgQ+o4AFIDnvM37XpLeB+G/outCvghWxrS3wSwY9HZzkhBBkBpMXHvgGe1Rc
-         oHGa38A+csgmP381YPbk76LwCBsQ4mHGeWjtkSYBiYPVcLu3IupjNEfziKDxV186n6/Q
-         6PwQoVEwrSSyBf6JyRMecu4K7M2G8dWYwhgt+IpHp7oaXTPCBvB1AxrjWiPimLx4fnTl
-         kkkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729954093; x=1730558893;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qC024lRJVAEmIHLuN+s83Hm+ef/1j+PPbHp473apDbA=;
-        b=WV8Jf6i62KRGv/xmKbFKgPcdb/jv14o+65PxRXrozAbU6Cd/eUH+Hi+60nRjcSoK1W
-         i8tHKMz1B6H4NkeZNpP9mlBb/G+qQR0qmX9KhWT6I/5LW6vU23fnTL2xhHefYKFhmu60
-         332vtSWyTSrJz189SkddEpWsCCrFAJhzbjeGCS27YuDGpCSwPghW3JT17d7yxDHMI7HC
-         8VuRlsujdiuTSXyIMDjio58TC1+zv1wQmpEMGSxnqfVygZNXefg0sAJOXnaulM+qvDcw
-         rehORmU1liN/Yrm9C3cdkj1xU3KsFRWVfr93paqCTxnOo1KJTvKszOF4XYGIrHVm0vb9
-         XSXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVt8U1P09aVNIjz7332QBzCaL5eYfHdwofrveHjamY3r/QzVF9HiGSeYxzIGFboOLFsCcNWvXtNL4AU@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrvbMs/t1tm8jyWYWVhBVtTuE0I6NQn6O9l/GPTUxig1xjMHwR
-	cSmjHcpc4M5DV0MI2mbv5hZ/5iRQgD8AAFeVuJ5XFPb+96DNy80yr94AheeJ2T54ByNVDmQSImL
-	jx1l3VELeXSmvdkRUxuBqB3pK7RSDXxaTpnyFN5LL8306W79xeLHHbbUMn0pPRfOVd7F1D+K6U1
-	WwGmzzCbhi6nku9EDVaviQQw3bYCU5EP1VhK2IHw==
-X-Google-Smtp-Source: AGHT+IG4PpxrQduHWvKVj7/srrfd0iKQ4sb0Q12T19VO7aaWAAlCMAAaNmGu/B9Jn4rtQnFNhOISWA==
-X-Received: by 2002:a05:6402:1d50:b0:5c8:9548:f28b with SMTP id 4fb4d7f45d1cf-5cbbf8a6813mr2154556a12.11.1729954093244;
-        Sat, 26 Oct 2024 07:48:13 -0700 (PDT)
-Received: from admins-Air ([2a02:810d:aec0:2a54:158c:1efa:f963:7401])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb62c42c7sm1586799a12.51.2024.10.26.07.48.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Oct 2024 07:48:12 -0700 (PDT)
-Date: Sat, 26 Oct 2024 16:48:10 +0200
-From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-To: pavel@ucw.cz, lee@kernel.org, corbet@lwn.net,
-	linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] Documentation:leds: Add leds-st1202.rst
-Message-ID: <Zx0BKtXo55D_pCGk@admins-Air>
+	s=arc-20240116; t=1729963070; c=relaxed/simple;
+	bh=UmBE9vHOfIOTS7rcqqGq9NZVUSg9LyFR7vFT1/hVmR0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=UMbekdLhBRLPfaZR9Ru3Y0YybRSDOWa+zGIJoXZ8nN87a9v6vzhF7xg9A2KhW4rpIL7FmU5jH4uA27h09F03JlKX9XQIBgxnRbhNZlfXiC4YGm254BozxENOGF0eLCf9M+Tx8zPo/a3NMJRhM2kuDf4lEBqYnabKz6uDWz/RLVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Kjl0Krxz; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=xRRxzHXcG6ByeGhUqK+NNCEcYuk1Uf6B9ch89Ph+eL0=; b=Kjl0KrxzE3EP9jgIEIUrAgV3MF
+	k9Ffno18+ejTyi8laHQ/KWFx/TREke0bS7atgVumJ3CGgvGkHomk/kFb993lhu2ASWEIjYUgx/UQF
+	aAwIE3hWTSUxoG3p9rT/fjUDx+DVOJ16aiwyRjllPXvIDou4GqkyX2UDGrMODRB77WHmYdq/2w711
+	9LPa3xH8+K8rVd2IXl4huBef9r3dHxOICc14qAt3ddoV38EImRUb0j5ZfUb664Auaf4B39onmx92Z
+	SPvJ+J6hEeukg10LTMbdkZ39mnoqzM5E3K+6/SOfDhdt0u1zM3dzDJTu2tghPnu/CBF5YRRlC8iSD
+	uomNRjJA==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t4kQ1-00000009Grr-0CSL;
+	Sat, 26 Oct 2024 17:17:41 +0000
+Message-ID: <0ae13ad4-342a-48ca-bd7a-8f15f6d99504@infradead.org>
+Date: Sat, 26 Oct 2024 10:17:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/3] Documentation:leds: Add leds-st1202.rst
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+ pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <Zx0BKtXo55D_pCGk@admins-Air>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <Zx0BKtXo55D_pCGk@admins-Air>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add usage for sysfs hw_pattern entry for leds-st1202 
+Hi,
 
-Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
----
- Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 Documentation/leds/leds-st1202.rst
+On 10/26/24 7:48 AM, Vicentiu Galanopulo wrote:
+> Add usage for sysfs hw_pattern entry for leds-st1202 
+> 
+> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+> ---
+>  Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>  create mode 100644 Documentation/leds/leds-st1202.rst
+> 
+> diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
+> new file mode 100644
+> index 000000000000..72286a512c69
+> --- /dev/null
+> +++ b/Documentation/leds/leds-st1202.rst
+> @@ -0,0 +1,36 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================================
+> +Kernel driver for STMicroelectronics LED1202
+> +============================================
+> +
+> +/sys/class/leds/<led>/hw_pattern
+> +--------------------------------
+> +
+> +Specify a hardware pattern for the ST1202 LED. The LED
+> +controller, implements 12 low-side current generators
 
-diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
-new file mode 100644
-index 000000000000..72286a512c69
---- /dev/null
-+++ b/Documentation/leds/leds-st1202.rst
-@@ -0,0 +1,36 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================================
-+Kernel driver for STMicroelectronics LED1202
-+============================================
-+
-+/sys/class/leds/<led>/hw_pattern
-+--------------------------------
-+
-+Specify a hardware pattern for the ST1202 LED. The LED
-+controller, implements 12 low-side current generators
-+with independent dimming control. Internal volatile memory
-+allows the user to store up to 8 different patterns.
-+Each pattern is a particular output configuration in terms
-+of PWM duty-cycle and duration (ms).
-+
-+To be compatible with the hardware pattern
-+format, maximum 8 tuples of brightness (PWM) and duration must
-+be written to hw_pattern.
-+
-+- Min pattern duration: 22 ms
-+- Max pattern duration: 5660 ms
-+
-+The format of the hardware pattern values should be:
-+"brightness duration brightness duration ..."
-+
-+/sys/class/leds/<led>/repeat
-+----------------------------
-+
-+Specify a pattern repeat number, which is common for all channels.
-+Default is 1, other negative numbers and number 0 are invalid.
-+
-+This file will always return the originally written repeat number.
-+
-+When the 255 value is written to it, all patterns will repeat
-+indefinitely.
+no comma     ^
+
+> +with independent dimming control. Internal volatile memory
+> +allows the user to store up to 8 different patterns.
+> +Each pattern is a particular output configuration in terms
+> +of PWM duty-cycle and duration (ms).
+> +
+> +To be compatible with the hardware pattern
+> +format, maximum 8 tuples of brightness (PWM) and duration must
+> +be written to hw_pattern.
+> +
+> +- Min pattern duration: 22 ms
+> +- Max pattern duration: 5660 ms
+> +
+> +The format of the hardware pattern values should be:
+> +"brightness duration brightness duration ..."
+> +
+> +/sys/class/leds/<led>/repeat
+> +----------------------------
+> +
+> +Specify a pattern repeat number, which is common for all channels.
+> +Default is 1, other negative numbers and number 0 are invalid.
+
+   Default is 1; negative numbers and 0 are invalid.
+
+> +
+> +This file will always return the originally written repeat number.
+> +
+> +When the 255 value is written to it, all patterns will repeat
+> +indefinitely.
+
 -- 
-2.39.3 (Apple Git-145)
+~Randy
 
 
