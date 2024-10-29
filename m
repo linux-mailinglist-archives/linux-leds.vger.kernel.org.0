@@ -1,47 +1,47 @@
-Return-Path: <linux-leds+bounces-3198-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3199-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9772E9B5442
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2024 21:45:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 618C19B5444
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2024 21:45:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15D02B2331D
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2024 20:45:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0A857B23638
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2024 20:45:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DDF20ADD2;
-	Tue, 29 Oct 2024 20:42:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377DA20B1E7;
+	Tue, 29 Oct 2024 20:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="SXeXWTtp"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="UURkd/Ca"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EF320A5F1;
-	Tue, 29 Oct 2024 20:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D90B20A5FD;
+	Tue, 29 Oct 2024 20:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730234527; cv=none; b=gGfbBsIu5g/tqfV0FkIKmZ7eSYwrwOeLGSYWdVY3gzM/y1Yqbs331vXtgrIww/BnST/eRbd15H4ADXXp6AOxSMyTHO7rQ2ZrJmyY0uuM+IIdnpK9C+3f1w5gNgoYKZACB44LG8bhhg6UbcKrXP7J6Y9aaaQvW4Vpfo9HcT7odpQ=
+	t=1730234529; cv=none; b=hY/sJGGMjR6hH/ISmUFU97pSE/eWQEWGoYhj7UlUmHm7gr0PS5rx7LX2tEAjaBi6xVZmz1t9teMfkwqypweMFSwu1KAK5LNjQfxoLxV+MzoWYslYZPh0AzNyh+e+o8+d+Z6NysKIOF/VvlhBEdRsTI876B/Z5OR9fV03sh1AA1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730234527; c=relaxed/simple;
-	bh=IdHM0Hd7O9esdaYks5tdDsPVmvNzOfMjsNAJ0HkIMXA=;
+	s=arc-20240116; t=1730234529; c=relaxed/simple;
+	bh=vnvjVIYZ5Jk96fuS8ZrfsZP/5C/OXW8jIVfasEfcWb8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Y6He0bGk1Ic4q/uApQEtNloOmPZ3wP+gOQlIHNZ4HnRfi3dmjrUp/cvK+KGYP5qgA5zxFahvpLMjKGAiQ4zupyYiDH/XQMUZBhoHrVS0VflTXJLyC7FlyAJl44qq0m1dwOiNY9TgvM2bkqs26LxMbgH5oZSq9P6CBYCJqyXyJJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=SXeXWTtp; arc=none smtp.client-ip=83.149.199.84
+	 MIME-Version; b=ApWsivu+Mp+0EHGzSE4x8v+ovqMPCIGsVWhtI0FMalXNJTArXoeNwk23d5MdkjS29kTJgSqGZK0jnYAvGAi5XFUHF3Snhtr7Fb/rwwC8Grth+3WwUgt69Zo/2C4iSSx48TUmDR1UlVqUSc5ChU4nFiVtr+E73ePBdp8Hehbdl+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=UURkd/Ca; arc=none smtp.client-ip=83.149.199.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
 Received: from fpc.intra.ispras.ru (unknown [10.10.165.10])
-	by mail.ispras.ru (Postfix) with ESMTPSA id 7C50B40F1DD9;
-	Tue, 29 Oct 2024 20:42:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 7C50B40F1DD9
+	by mail.ispras.ru (Postfix) with ESMTPSA id 160CE40F1DF3;
+	Tue, 29 Oct 2024 20:42:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 160CE40F1DF3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1730234522;
-	bh=ZocKsk5ybxu8Akr6Go2akWj3CW80/wDMMRt+5pvw7n0=;
+	s=default; t=1730234524;
+	bh=36OTyILlgVD62XFWhCMCt1bV5vEU6WF/FyC9megsOw8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SXeXWTtp+UIlXvb3zAbXw1fXH+DP5U3x4Q4mFqdL8c+XVLpydv80T/9Fbmab5WlGX
-	 Ivyfthd+YX3hTuhTMB2ewZcbGQa7JCt0l6lUWjYouJVxz8qVMxCKFGhyoNmzIrC3oq
-	 Yovn8sSnuAHLRCaXR8QJNgrOPv64lxq5fCkgBjcI=
+	b=UURkd/CaEAAUwNXE+WpO1+xCjvNZPnUwlqQ967qyjGtDyiLKS0w/cKnbWIZIfvxeb
+	 SKFVjBA53STm+TTGps46j3vPIYMIlvn/0+yW2J1yE5wRpn8xHGQvzivd1YMqcu0oiq
+	 pEZ5C0mAIQCVNs67w8clTjoI18ugscqYzbGqcCXA=
 From: Fedor Pchelkin <pchelkin@ispras.ru>
 To: Sasha Levin <sashal@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,9 +54,9 @@ Cc: Fedor Pchelkin <pchelkin@ispras.ru>,
 	linux-kernel@vger.kernel.org,
 	Stefan Kalscheuer <stefan@stklcode.de>,
 	lvc-project@linuxtesting.org
-Subject: [PATCH 6.6 1/2] leds: spi-byte: Use devm_led_classdev_register_ext()
-Date: Tue, 29 Oct 2024 23:41:27 +0300
-Message-Id: <20241029204128.527033-2-pchelkin@ispras.ru>
+Subject: [PATCH 5.10/5.15/6.1 2/2] leds: spi-byte: Use devm_led_classdev_register_ext()
+Date: Tue, 29 Oct 2024 23:41:28 +0300
+Message-Id: <20241029204128.527033-3-pchelkin@ispras.ru>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241029204128.527033-1-pchelkin@ispras.ru>
 References: <20241029204128.527033-1-pchelkin@ispras.ru>
@@ -85,7 +85,7 @@ Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
  1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-index afe9bff7c7c1..b04cf502e603 100644
+index 6883d3ba382f..eb6481df5997 100644
 --- a/drivers/leds/leds-spi-byte.c
 +++ b/drivers/leds/leds-spi-byte.c
 @@ -83,7 +83,7 @@ static int spi_byte_probe(struct spi_device *spi)
@@ -102,7 +102,7 @@ index afe9bff7c7c1..b04cf502e603 100644
  		return -ENOMEM;
  
 -	of_property_read_string(child, "label", &name);
--	strscpy(led->name, name, sizeof(led->name));
+-	strlcpy(led->name, name, sizeof(led->name));
  	led->spi = spi;
  	mutex_init(&led->mutex);
  	led->cdef = device_get_match_data(dev);
