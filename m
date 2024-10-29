@@ -1,107 +1,127 @@
-Return-Path: <linux-leds+bounces-3181-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3182-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F62E9B3779
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Oct 2024 18:15:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAC99B4B6E
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2024 14:56:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D422B2262F
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Oct 2024 17:15:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7D7C1F24286
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2024 13:56:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035CC18BBB9;
-	Mon, 28 Oct 2024 17:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F8362071E5;
+	Tue, 29 Oct 2024 13:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CWAOt+iN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZY8zWP1X"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EAF188CD8;
-	Mon, 28 Oct 2024 17:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C9A206E76;
+	Tue, 29 Oct 2024 13:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730135726; cv=none; b=IuN4BG6nNfxWeBr195LM5lak0irytMXp7acxJTxCJBYJFzuIMEykPUrEa1EDyccUQ4FERXcSKls5fAqzi1h81DGD/pIzjSSr/F4cPP8tHrPyADlDQZuOqMcLPe+M1lVyfP/WmKz1Dq2esmCeRzKnM8RfX02HuMAM3oQ7wvXxPT8=
+	t=1730210193; cv=none; b=ARUePmRfaCEIc5vj+QrXXca07YflRG87ruFYKLudqC+7T5C1UIiUtQEvAWXYNyzN7FeKUOovWueI/SfJm6kkUZuRH7ah6WzNJjQswmaoEsLTkAs2Xa//+Ak1gC+FNwB4oWHrTPzOXqYk84CHInu56zpzrcZ/uvx+TSFzOBQNGwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730135726; c=relaxed/simple;
-	bh=SHA60aUVkHc5dOlticmp590SgsHwyopdCX3RsUQYjWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z8qSIKKt4ZLwEEAaZbIDgA3+VRSYewjkkvNq28sRrgGUKMzRFkMB1NugQOQJMOnRyS0VWpjdcOyZ6pa6QNwRp+mWQSkACDHiI3wWMv4sB2/1IG7wcSFXgeEah1bVf+Wbo5wOB+ZNywObj+m9KFJHoPuATKB0cSD1BKEZ2y5t8rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CWAOt+iN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F54C4CEC3;
-	Mon, 28 Oct 2024 17:15:25 +0000 (UTC)
+	s=arc-20240116; t=1730210193; c=relaxed/simple;
+	bh=vgzAeV+QgCiYr0n/cWTXTZqBE4QIkiily2oQVrtjb0I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LV2RWQ/GIjF9aFUzsVprmWOuQpSzfMjOzCnAeQtnvA8Zuqox0D4P8p+iVrLDngig4HKutWhMPHLlgpqmdWxKB8hcuLNmtw5LFr/WRQuPBDUOJzFRixjGmP0ibOZBMLfEPD70HfuIN4acSWjp04+g5lAHTQuee3gbxNxqKQz11jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZY8zWP1X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA70C4CECD;
+	Tue, 29 Oct 2024 13:56:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730135726;
-	bh=SHA60aUVkHc5dOlticmp590SgsHwyopdCX3RsUQYjWU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CWAOt+iNqV10UbkGMm36iAkjcva/IcPN2CiH5/NaihQtNCvt2RzbFu8Z3qJejfR/Q
-	 98AB7CAtGwicrznM29UzZtx5rnNHNFMdA+3xsHywrzFCo1yMoZfBcypBFW3cGCGzX3
-	 jp9BqiggK9yw/A9paQ0uxWnhV5vZwe+v/SIAYcfIrWWQ1Omrtgx7Fy/KjGRXcYky9S
-	 BaRi3qsuI14JxJiHm6H57dmVXxLmHwbfMfYlKBxnIbs+7CToaZIPAbEOJGmMRXegVS
-	 AVuGchll3ZzAwXShS1RXO8r0Ur5pK71nmjuv57v+czwzRxMO6s+DsZVO46wUB0mf/0
-	 atZrkOYxqzCsw==
-Date: Mon, 28 Oct 2024 12:15:24 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	s=k20201202; t=1730210192;
+	bh=vgzAeV+QgCiYr0n/cWTXTZqBE4QIkiily2oQVrtjb0I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZY8zWP1XnhZgBzD+SikMIkIRxcTDr/w3Yax+kVTscDIRcIdhPHFXedYjsfGrsjpLt
+	 lMSq/7VFd2Q9ZO5hVpj6o2tnjiklMWQ+vtPc77yS0zJeIfoZE/BjS6ZjHNXm3PsK+Z
+	 FaT528cVnSEE7kkGHkH6YeD9vnZ7DmzpwAEmV4UYEFHeByBLEbP3DXIjLu1RWmo+ZV
+	 2Bj3NTFdM0S9N+U0i2dBRn+rvAytTLw1esqt4xZfadASklMxZwYubp1C9mK2Jr0psa
+	 LpxsR/7yuVzt6t8uDLiyYHxACvqvjqsTSeii/Lf9ppA4gXY986TEcRvocVzeqRDOM5
+	 Z80yIcuUAOpJA==
+From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	soc@kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	arm@kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] dt-bindings: mfd: convert zii,rave-sp.txt and
- child txt to yaml format
-Message-ID: <20241028171524.GA888974-robh@kernel.org>
-References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds v4 00/12] Turris Omnia LED driver changes
+Date: Tue, 29 Oct 2024 14:56:09 +0100
+Message-ID: <20241029135621.12546-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 10, 2024 at 11:42:37AM -0400, Frank Li wrote:
-> Fixed below warnings:
-> 
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Changes in v2:
-> - change all maintainer to frank li.
-> - Link to v1: https://lore.kernel.org/r/20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com
-> 
-> ---
-> Frank Li (5):
->       dt-bindings: input: convert zii,rave-sp-pwrbutton.txt to yaml
->       dt-bindings: backlight: convert zii,rave-sp-backlight.txt to yaml
->       dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt to yaml format
->       dt-bindings: watchdog: convert zii,rave-sp-wdt.txt to yaml format
->       dt-bindings: mfd: convert zii,rave-sp.txt to yaml format
+Hello Lee,
 
-Applied 1 and 4 since they still haven't been picked up and linux-next 
-is warning due to the whole series not being applied. Once again, these 
-MFD bindings need to go in via 1 tree.
+this is v4 of Turris Omnia LED driver changes.
+v1, v2 and v3 can be found at
+  https://lore.kernel.org/linux-leds/20240902124104.14297-1-kabel@kernel.org/
+  https://lore.kernel.org/linux-leds/20240903101930.16251-1-kabel@kernel.org/
+  https://lore.kernel.org/linux-leds/20240913123103.21226-1-kabel@kernel.org/
 
-Rob
+Changes since v3:
+- fixed kernel test robot warning for patch 2 by adding dependency to
+  the TURRIS_OMNIA_MCU module
+- added Krzysztof's Acked-by to patch 5
+- added patch documenting driver private `struct omnia_leds` and
+  `struct omnia_led`
+- addressed your notes for patch 7 (6 in v3)
+- added `select TURRIS_OMNIA_MCU_GPIO` to KConfig. The driver already
+  depends on TURRIS_OMNIA_MCU, but for the global brightness changed
+  interrupt it needs the GPIO functionality from the turris-omnia-mcu
+  driver
+
+Marek
+
+Marek Behún (12):
+  turris-omnia-mcu-interface.h: Move command execution function to
+    global header
+  leds: turris-omnia: Use command execution functions from the MCU
+    driver
+  turris-omnia-mcu-interface.h: Add LED commands related definitions to
+    global header
+  leds: turris-omnia: Use global header for MCU command definitions
+  dt-bindings: leds: cznic,turris-omnia-leds: Allow interrupts property
+  leds: turris-omnia: Document driver private structures
+  leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
+  platform: cznic: turris-omnia-mcu: Inform about missing LED panel
+    brightness change interrupt feature
+  leds: turris-omnia: Inform about missing LED gamma correction feature
+    in the MCU driver
+  leds: turris-omnia: Use dev_err_probe() where appropriate
+  leds: turris-omnia: Use uppercase first letter in all comments
+  ARM: dts: turris-omnia: Add global LED brightness change interrupt
+
+ .../leds/cznic,turris-omnia-leds.yaml         |   8 +
+ .../dts/marvell/armada-385-turris-omnia.dts   |   1 +
+ drivers/leds/Kconfig                          |   2 +
+ drivers/leds/leds-turris-omnia.c              | 291 ++++++++----------
+ .../platform/cznic/turris-omnia-mcu-base.c    |   3 +
+ drivers/platform/cznic/turris-omnia-mcu.h     | 130 --------
+ include/linux/turris-omnia-mcu-interface.h    | 148 ++++++++-
+ 7 files changed, 288 insertions(+), 295 deletions(-)
+
+-- 
+2.45.2
+
 
