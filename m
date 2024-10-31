@@ -1,60 +1,57 @@
-Return-Path: <linux-leds+bounces-3217-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3218-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2669B78A5
-	for <lists+linux-leds@lfdr.de>; Thu, 31 Oct 2024 11:28:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 381569B7CE9
+	for <lists+linux-leds@lfdr.de>; Thu, 31 Oct 2024 15:33:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DEF2A1C21FE7
-	for <lists+linux-leds@lfdr.de>; Thu, 31 Oct 2024 10:28:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2D241F21617
+	for <lists+linux-leds@lfdr.de>; Thu, 31 Oct 2024 14:33:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6923E1991B8;
-	Thu, 31 Oct 2024 10:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A2681A070D;
+	Thu, 31 Oct 2024 14:32:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KDDoiHua"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BadDpcVD"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7AA1940BC;
-	Thu, 31 Oct 2024 10:28:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0300319C57F;
+	Thu, 31 Oct 2024 14:32:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730370490; cv=none; b=M/4EiFus5BLNY8i0W0sX28E17ZzNJNyNaRQ4YqO/Xy0ujZoUCyb5z/1GWYppahcs9NMsMLWkhkAl48LrvjpJteUPROxMsaVja+3U4VN2BL4Yc7DUpOTYVNEmQGeUpnczCYBo2oqVQRBvm44Mx7ySdjwPH4QZlUGX5ZymoFNJjYU=
+	t=1730385176; cv=none; b=LiLykRb/tsyV8VjSx/0yDDJOx8gtxnoBUiz2G4KoggL66w1ywABQ8VS51qO0HGITD+iG7Q4+lWheY1wzpeAEeEliNJ5mMyHdbGJ8ZulL6OiowDvPYDGFY7DwMMoFj5m980RH9FbVHE1UhtD+vOKgCSG6UxQ01wpu+3CXzjSKvJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730370490; c=relaxed/simple;
-	bh=lpP3jN+E1ZyJjDX2voI1B2yuCIeUlReyAvg8Xsd6+Zs=;
+	s=arc-20240116; t=1730385176; c=relaxed/simple;
+	bh=GdvBqgA9us7PRKsGay4ZUGodHWRvXjW1Th8o7CsH9Os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IByJrLNmfL/9bG+lMYZv5DVCpMlk+kflbWt6bWh3HwHcOMMV3YXJR+C5AV7OSq8a9X5+gOU+mm5eqZ8k8aU8/QTs67QuDt974sYdwLccdVC3aLGWE/hhir28oh92ki4WHm2e6N3JDp4gZpscVjdnsudxL+ywuUeg9e688ZNFwZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KDDoiHua; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB33C4CEC3;
-	Thu, 31 Oct 2024 10:28:08 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADmedCp2LZieohTMBvBKUZTjSNhnUZe2S4bBWrJxD1a5nM2wTu+AFg2LAo2PY/Gjfd0gXTLOJJ0W63aEdvmjOj1EsNbfMEIPfHHaRW5TH+H8RHgPQZEg/fXQcfAHKXIzUlRFUrG53RdP0Rr7QD6HXoeVz+Tqs5uQqWq/nxCpzX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BadDpcVD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A89C4CED0;
+	Thu, 31 Oct 2024 14:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730370489;
-	bh=lpP3jN+E1ZyJjDX2voI1B2yuCIeUlReyAvg8Xsd6+Zs=;
+	s=k20201202; t=1730385175;
+	bh=GdvBqgA9us7PRKsGay4ZUGodHWRvXjW1Th8o7CsH9Os=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KDDoiHuaI1FnHcr8QVuAxVNYPDXnJ485x2CTeNhbgwxkalsxlLfkFF847Iwg8Cxid
-	 Nx4n2fdglIgYxE/+9YJJmxtl6p3Hn3cfHkqS2jdJOZMeCNl+lLyVTb5raZWaQ5W2lz
-	 fqi2QPMghm3UbYJ1HxMF7MXYfarp7fM+VC4XRBPgw0jLgGy70LM9tvvNwGz/9PuVXH
-	 20spfLzBiCUtwHosh49suuOL3kLYmnKxjJQ+mLwA2rQsIS9pzVQs8IDxbIBOqhZwdx
-	 6tc++AIF2RiVFUL1xwG+wgcOPTYgD2Qq+OxdQkBFrK/zHswHPuoaCc1T3iuHyqxX4X
-	 f/ozCEuiHbqxw==
-Date: Thu, 31 Oct 2024 10:28:05 +0000
+	b=BadDpcVDHkEHKOItwoeeX8Vwio08SysKCwRsexowF/sLGr5NgYb3Wt13+/J5/H8YX
+	 k8eIg/tL99B+Ebxwff1lUqB2s/bKZNmaKaIRMexERMw6JALpoOzLdE2LYC7yP3+mZ1
+	 Bz06UaS4wualVrZ5PFA1fh6N2O/Q3hhuVH6XCSqnvlPOGP1f8ZYhs7BCdhta3y1Ym+
+	 Uu6uMPUoBOreDh7N8nF8Hru3QmDR3DlZaQWiPUXDdhlGn8+yDolVlXhVkenIYuWXaH
+	 fyTWL72AG9e9Fp5sFwdGhswxEpnP0mr84oU87v0Op37ZRaMrb2eBOiPMcHM7GKqjVi
+	 1ioujHHYsgjwA==
+Date: Thu, 31 Oct 2024 14:32:50 +0000
 From: Lee Jones <lee@kernel.org>
-To: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc: pavel@ucw.cz, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	kernel@salutedevices.com, rockosov@gmail.com,
-	Alexey Romanov <avromanov@salutedevices.com>
-Subject: Re: [PATCH v2] leds: introduce ordered workqueue for leds events
- instead of system_wq
-Message-ID: <20241031102805.GF10824@google.com>
-References: <20240903223936.21292-1-ddrokosov@salutedevices.com>
- <20240916111733.c5rp4l666rtdz7bt@CAB-WSD-L081021>
- <20240917080412.GB9955@google.com>
- <20241022142248.lzm45fzisrcgtitd@CAB-WSD-L081021>
- <20241029200632.chysrb7teyc7dsrq@CAB-WSD-L081021>
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@salutedevices.com
+Subject: Re: [PATCH 2/2] leds: pwm: Add optional DT property
+ default-brightness
+Message-ID: <20241031143250.GH10824@google.com>
+References: <20241015151410.2158102-1-gnstark@salutedevices.com>
+ <20241015151410.2158102-3-gnstark@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,15 +61,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241029200632.chysrb7teyc7dsrq@CAB-WSD-L081021>
+In-Reply-To: <20241015151410.2158102-3-gnstark@salutedevices.com>
 
-On Tue, 29 Oct 2024, Dmitry Rokosov wrote:
+On Tue, 15 Oct 2024, George Stark wrote:
 
-> Hello Lee,
+> When probing if default LED state is on then default brightness will be
+> applied instead of max brightness.
 > 
-> Kindly reminder.
+> Signed-off-by: George Stark <gnstark@salutedevices.com>
+> ---
+>  drivers/leds/leds-pwm.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+> index 7961dca0db2f..514fc8ca3e80 100644
+> --- a/drivers/leds/leds-pwm.c
+> +++ b/drivers/leds/leds-pwm.c
+> @@ -65,7 +65,8 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+>  
+>  __attribute__((nonnull))
+>  static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+> -		       struct led_pwm *led, struct fwnode_handle *fwnode)
+> +		       struct led_pwm *led, struct fwnode_handle *fwnode,
+> +		       unsigned int default_brightness)
+>  {
+>  	struct led_pwm_data *led_data = &priv->leds[priv->num_leds];
+>  	struct led_init_data init_data = { .fwnode = fwnode };
+> @@ -104,7 +105,7 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+>  	/* set brightness */
+>  	switch (led->default_state) {
+>  	case LEDS_DEFSTATE_ON:
+> -		led_data->cdev.brightness = led->max_brightness;
+> +		led_data->cdev.brightness = default_brightness;
+>  		break;
+>  	case LEDS_DEFSTATE_KEEP:
+>  		{
+> @@ -141,6 +142,7 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+>  static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
+>  {
+>  	struct led_pwm led;
+> +	unsigned int default_brightness;
+>  	int ret;
+>  
+>  	device_for_each_child_node_scoped(dev, fwnode) {
+> @@ -160,7 +162,12 @@ static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
+>  
+>  		led.default_state = led_init_default_state_get(fwnode);
+>  
+> -		ret = led_pwm_add(dev, priv, &led, fwnode);
+> +		ret = fwnode_property_read_u32(fwnode, "default-brightness",
+> +					       &default_brightness);
+> +		if (ret < 0 || default_brightness > led.max_brightness)
+> +			default_brightness = led.max_brightness;
+> +
+> +		ret = led_pwm_add(dev, priv, &led, fwnode, default_brightness);
 
-It's on the list.  There is no need to contentless pings.
+This creates a lot more hopping around than is necessary.
+
+Since led_pwm_add() already has access to the fwnode, why not look up
+the property in there instead, thus massively simplifying things.
+
+
+>  		if (ret)
+>  			return ret;
+>  	}
+> -- 
+> 2.25.1
+> 
 
 -- 
 Lee Jones [李琼斯]
