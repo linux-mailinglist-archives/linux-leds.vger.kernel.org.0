@@ -1,230 +1,137 @@
-Return-Path: <linux-leds+bounces-3240-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3241-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36589BA243
-	for <lists+linux-leds@lfdr.de>; Sat,  2 Nov 2024 20:56:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7D29BA307
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Nov 2024 00:23:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 340921F2294C
-	for <lists+linux-leds@lfdr.de>; Sat,  2 Nov 2024 19:56:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C892BB224F7
+	for <lists+linux-leds@lfdr.de>; Sat,  2 Nov 2024 23:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82501AB6ED;
-	Sat,  2 Nov 2024 19:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49C271A0B07;
+	Sat,  2 Nov 2024 23:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nr/ZSEYn"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="fp3KCrPE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B96A14F12F;
-	Sat,  2 Nov 2024 19:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821D2158DC4;
+	Sat,  2 Nov 2024 23:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730577358; cv=none; b=e8bAm1irQxI1KkO1GhtMt/yUUnDxj+tBUFXYWPbK8sNHjYSTldXFGoh/iPazCFdzNrHhveAJ5+rWqxC6Z3qbomvkG1SfMfFmKKj+FW96764EK90hpvetihfSXy2IN/oo0ex3RLxP3ttI1mAFMR01blRBs2oNCJSbj0A5vgxqguc=
+	t=1730589785; cv=none; b=NY3LF2GstXgd06aVSAFrnYc17iG5hIRg0yZyCOPb42mpNho1JWNVuL2xVVV2o9KnEymuKTRzrCdAJ4dVF0GFer7cZx31ALr7z2lhhXgMBSLTUGWJGqlO0ivWfRyl6aiijLJ01n99SsaUvtilZeullh1HERBa9hDO8tf45ZsQlVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730577358; c=relaxed/simple;
-	bh=g36kdeuRYZI5ierO4LxZY9yHnOtnQ6TIOAVdj/Y/oLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i2ef/9slWq0PgKVusvXoeUI3N8+F/pKN4k4f05ZSzT7Lb2FB7MqlIVvdN+nUsxYfRMFsYHI+PqKJwrzWE5bOJjaMQWn2E2t3yNtNzbKv/lLkVkWj/mCUbc5NIwOhPca4lCY5viCq2VKex0KPPv+tsYogvClMdHXNlBJ+/CbtLLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nr/ZSEYn; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730577356; x=1762113356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g36kdeuRYZI5ierO4LxZY9yHnOtnQ6TIOAVdj/Y/oLs=;
-  b=Nr/ZSEYndI9ktyN1PT5mfkJms1IS9ucFLqn6VmfA0Ws8hKElHHIz6flE
-   kALKrXdiGTsfw/XnMAwrwGrrDLBAS10F/fl8vL8U6FwU3tym+HsQkaC4d
-   IxWpX371vI0akWF7Kt5L/6K5a/MdKjywNLKMbEi3EQnX51pVfGcodIXsX
-   aD8O767BJ4j/HzoDjQVy6q0CSATh2k4kzGQ9xULpqOTnzgHlFhk1SAHlZ
-   XuYtW+Vd21Z1+ZSQgO9oUL/FFcsw1wCVo3mZjGXTcMTkIXK9swktK1OQt
-   8p7ZLWPH0qDJQZXTdlLvF/4fHGf30LoJHH+93UVYVt9ikAbOmkMw2Rebt
-   w==;
-X-CSE-ConnectionGUID: QEBY7QQjS9G2IXq2gq4B/A==
-X-CSE-MsgGUID: 6e78hUw2TceHejVqmtGryw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30270382"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30270382"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 12:55:55 -0700
-X-CSE-ConnectionGUID: DEM1bP8vQuCq66BSj637Tw==
-X-CSE-MsgGUID: 8fsNL1ZsSEG7Z1R9sShxcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="88024912"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 02 Nov 2024 12:55:52 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7KDt-000jI9-0Z;
-	Sat, 02 Nov 2024 19:55:49 +0000
-Date: Sun, 3 Nov 2024 03:55:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH v8 3/7] mfd: Add new driver for MAX77705 PMIC
-Message-ID: <202411030141.DTmej8oX-lkp@intel.com>
-References: <20241031-starqltechn_integration_upstream-v8-3-2fa666c2330e@gmail.com>
+	s=arc-20240116; t=1730589785; c=relaxed/simple;
+	bh=YJ3sYPc+iG4EtVbZOeXZIZMMgFvSsgjeYHInbchlMXc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=J0vod+Wgo9npqaMMD6eeJoybKPTul1UVs2YNgtMXom14shxmZBQH0OUjMJh6qa2SIC2aRfgthcaVIHoySvrIvL5bp6+A/aStkGT8SLpC8rrMHuy4k+ZBXJ4xARsl0IPwkbOc5GaKYyE/EYFPwCAyR1QI/FxIAElpZFkDKiQ3YIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=fp3KCrPE; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+Received: from p-infra-ksmg-sc-msk01.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 42671100004;
+	Sun,  3 Nov 2024 02:15:19 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 42671100004
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1730589319;
+	bh=QPWimwSMLRZZhnlPIYt85z2yTmcu2PSWskgTqEezw+g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+	b=fp3KCrPEMPvQlFJ2TWYiamiDWZZhTroLlRKBcnzSvPMaQS5wcuH9BGjwwpSvTHTwP
+	 xEgkLsK1oyKoyYbVX1cA3XZchUk9sGwkE435dQuvHW2h/gG8aZAazslUK7cyk4/QiJ
+	 hEjsI0NfPkP4YMqUIweJEt1cMRZhp6zrsH0olHP36AuDR7YI8klIehTcm5Nb7coRLD
+	 mQ8CkhzDNYc67fKbbHzSIC8QSdxOn31EwtHHVSMHxa4gM8JHju6AGBfuwXuH42tqiT
+	 5wkKK4ciwDk8mkBBJSRWIAkvJXqfvlXB82oi49j0kQyuOGMMra9L72JIzvQ087cl2c
+	 qk1nDIleXTy4A==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Sun,  3 Nov 2024 02:15:19 +0300 (MSK)
+Message-ID: <aa96e9ab-00d6-413b-a7e8-8c709087f5bc@salutedevices.com>
+Date: Sun, 3 Nov 2024 02:15:18 +0300
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241031-starqltechn_integration_upstream-v8-3-2fa666c2330e@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: pwm: Add default-brightness
+ property
+To: Krzysztof Kozlowski <krzk@kernel.org>, <robh@kernel.org>
+CC: <pavel@ucw.cz>, <lee@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <linux-leds@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<kernel@salutedevices.com>
+References: <20241101154844.1175860-1-gnstark@salutedevices.com>
+ <20241101154844.1175860-2-gnstark@salutedevices.com>
+ <ngwfccj55vovsaj5bdealdidgxdrxfl7nwxfdqponqzdiv3olo@epzabbxkdzxb>
+Content-Language: en-US
+From: George Stark <gnstark@salutedevices.com>
+In-Reply-To: <ngwfccj55vovsaj5bdealdidgxdrxfl7nwxfdqponqzdiv3olo@epzabbxkdzxb>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: p-i-exch-a-m2.sberdevices.ru (172.24.196.120) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 188949 [Nov 02 2024]
+X-KSMG-AntiSpam-Version: 6.1.1.7
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41 623e98d5198769c015c72f45fabbb9f77bdb702b, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, elixir.bootlin.com:7.1.1;smtp.sberdevices.ru:5.0.1,7.1.1;salutedevices.com:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/11/02 22:22:00
+X-KSMG-LinksScanning: Clean, bases: 2024/11/02 22:22:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/11/02 20:58:00 #26807587
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-Hi Dzmitry,
+Hello Krzysztof, Rob
 
-kernel test robot noticed the following build warnings:
+Thanks for noticing it, missed the tag not by purpose, sorry about it.
+Sure I'll add the tag to v3 if v3 happens.
 
-[auto build test WARNING on 86e3904dcdc7e70e3257fc1de294a1b75f3d8d04]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20241031-053513
-base:   86e3904dcdc7e70e3257fc1de294a1b75f3d8d04
-patch link:    https://lore.kernel.org/r/20241031-starqltechn_integration_upstream-v8-3-2fa666c2330e%40gmail.com
-patch subject: [PATCH v8 3/7] mfd: Add new driver for MAX77705 PMIC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241103/202411030141.DTmej8oX-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411030141.DTmej8oX-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411030141.DTmej8oX-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/mfd/max77705.c:8:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mfd/max77705.c:129:6: warning: variable 'pmic_rev' is uninitialized when used here [-Wuninitialized]
-     129 |         if (pmic_rev != MAX77705_PASS3) {
-         |             ^~~~~~~~
-   drivers/mfd/max77705.c:108:13: note: initialize the variable 'pmic_rev' to silence this warning
-     108 |         u8 pmic_rev;
-         |                    ^
-         |                     = '\0'
-   5 warnings generated.
-
-
-vim +/pmic_rev +129 drivers/mfd/max77705.c
-
-   100	
-   101	static int max77705_i2c_probe(struct i2c_client *i2c)
-   102	{
-   103		struct max77693_dev *max77705;
-   104		struct regmap_irq_chip_data *irq_data;
-   105		struct irq_domain *domain;
-   106		int ret;
-   107		unsigned int pmic_rev_value;
-   108		u8 pmic_rev;
-   109	
-   110	
-   111		max77705 = devm_kzalloc(&i2c->dev, sizeof(*max77705), GFP_KERNEL);
-   112		if (!max77705)
-   113			return -ENOMEM;
-   114	
-   115		max77705->i2c = i2c;
-   116		max77705->dev = &i2c->dev;
-   117		max77705->irq = i2c->irq;
-   118		max77705->type = TYPE_MAX77705;
-   119		i2c_set_clientdata(i2c, max77705);
-   120	
-   121		max77705->regmap = devm_regmap_init_i2c(i2c, &max77705_regmap_config);
-   122	
-   123		if (IS_ERR(max77705->regmap))
-   124			return PTR_ERR(max77705->regmap);
-   125	
-   126		if (regmap_read(max77705->regmap, MAX77705_PMIC_REG_PMICREV, &pmic_rev_value) < 0)
-   127			return -ENODEV;
-   128	
- > 129		if (pmic_rev != MAX77705_PASS3) {
-   130			dev_err(max77705->dev, "rev.0x%x is not tested",
-   131				pmic_rev);
-   132			return -ENODEV;
-   133		}
-   134	
-   135		max77705->regmap_leds = devm_regmap_init_i2c(i2c, &max77705_leds_regmap_config);
-   136	
-   137		if (IS_ERR(max77705->regmap_leds))
-   138			return PTR_ERR(max77705->regmap_leds);
-   139	
-   140		ret = devm_regmap_add_irq_chip(max77705->dev, max77705->regmap,
-   141						max77705->irq,
-   142						IRQF_ONESHOT | IRQF_SHARED, 0,
-   143						&max77705_topsys_irq_chip,
-   144						&irq_data);
-   145	
-   146		if (ret)
-   147			dev_err(max77705->dev, "failed to add irq chip: %d\n", ret);
-   148	
-   149		/* Unmask interrupts from all blocks in interrupt source register */
-   150		ret = regmap_update_bits(max77705->regmap,
-   151					 MAX77705_PMIC_REG_INTSRC_MASK,
-   152					 MAX77705_SRC_IRQ_ALL, (unsigned int)~MAX77705_SRC_IRQ_ALL);
-   153	
-   154		if (ret < 0) {
-   155			dev_err(max77705->dev,
-   156				"Could not unmask interrupts in INTSRC: %d\n", ret);
-   157			return ret;
-   158		}
-   159	
-   160		domain = regmap_irq_get_domain(irq_data);
-   161	
-   162		ret = devm_mfd_add_devices(max77705->dev, PLATFORM_DEVID_NONE,
-   163					   max77705_devs, ARRAY_SIZE(max77705_devs),
-   164					   NULL, 0, domain);
-   165	
-   166		if (ret) {
-   167			dev_err(max77705->dev, "Failed to register child devices: %d\n", ret);
-   168			return ret;
-   169		}
-   170	
-   171		device_init_wakeup(max77705->dev, true);
-   172	
-   173		return 0;
-   174	}
-   175	
+On 11/2/24 16:06, Krzysztof Kozlowski wrote:
+> On Fri, Nov 01, 2024 at 06:48:43PM +0300, George Stark wrote:
+>> Optional default-brightness property specifies brightness value to be
+>> used if default LED state is on.
+>>
+>> Signed-off-by: George Stark <gnstark@salutedevices.com>
+>> ---
+>>   Documentation/devicetree/bindings/leds/leds-pwm.yaml | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+> 
+> <form letter>
+> This is a friendly reminder during the review process.
+> 
+> It looks like you received a tag and forgot to add it.
+> 
+> If you do not know the process, here is a short explanation: Please add
+> Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+> or above your Signed-off-by tag. Tag is "received", when provided
+> in a message replied to you on the mailing list. Tools like b4 can help
+> here. However, there's no need to repost patches *only* to add the tags.
+> The upstream maintainer will do that for tags received on the version
+> they apply.
+> 
+> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+> 
+> If a tag was not added on purpose, please state why and what changed.
+> </form letter>
+> 
+> Best regards,
+> Krzysztof
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+George
 
