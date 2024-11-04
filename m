@@ -1,157 +1,120 @@
-Return-Path: <linux-leds+bounces-3270-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3271-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EE09BB8EE
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 16:26:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 360499BB9BC
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 17:02:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40B4D1C21DAF
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 15:26:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFB5F283036
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 16:02:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A7CC1C231D;
-	Mon,  4 Nov 2024 15:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9DC21C07DF;
+	Mon,  4 Nov 2024 16:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="XUyZoYcb"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="V7BFKuQF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E361BF80C;
-	Mon,  4 Nov 2024 15:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC79208A7;
+	Mon,  4 Nov 2024 16:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730733879; cv=none; b=rfgHukrHL/SiyOMYJJRLxPeFXhCJh96LQYjzI6NU0MSnsNHHuQrtIjBnNmGkyQUDvQMIx1qeP4oO0O1WGAxupX4gFcUrhppH5QSjL7MsHURtbvAwntCVIDTYx4/keDjzvfrB+EPgwUTFeIW3QZf8YUVnHTtBaBkfkoiL0LVKkoA=
+	t=1730736169; cv=none; b=fpQmW89uHRCsp5WkNim0Fi59xGwVX36g9fC5Z9F90GgX2xkqAYv2VtpdL+/YFwmNya8RgBcsM1N4XqdViCbNqmMUsGM/9atN6ou3TYHxyBfABjeXaYwt2lwjmXE36tO1aab8Bj+Oh7341Zuk4ExZbfWxQPca0ytuko1do3KDfhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730733879; c=relaxed/simple;
-	bh=jCDBlylsOzrgQaNlej+sW6wCxbQqqoCN8j/G9BzxwkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=TPyn8Eg+KBJi5mFO69zrNwNQ6RBh8xOim6qkFwcadAzErpyw9F4UYSd9aiFvzZmvt8fYnR1hpZwbPiJdRSmCAfWQQh0dDu9F5Yg26RYu7lB6I5xOPwLAHMoKzxI4Obec1Lx/fk3uSOL7z0zdzSjYalgjZ64Kx2VJqVdJEEmGtU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=XUyZoYcb; arc=none smtp.client-ip=81.19.3.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-	s=20160406-ysoft-com; t=1730733402;
-	bh=Q6WriQMGrsUgGeqFJrLVcxtByXDFPjJNGKQK3ku9RWk=;
-	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
-	b=XUyZoYcbQ7a2pcnxqoLn8RulRO0I/cnoX/Isca+voXKfnX+2q9MX9XcqB1xwR1Q6C
-	 uKZ6fYxybH1o6NWaAgzLzZIxeT7H2hVYVEEIdHSO+uEkP5KJrktSTK0pr5GjfVOlIE
-	 emjKYk1EFu3adYt5H5GnQp1Vkl1KFcTS1x4EawmY=
-Received: from [10.1.8.111] (unknown [10.1.8.111])
-	by uho.ysoft.cz (Postfix) with ESMTP id 79D9DA03E9;
-	Mon,  4 Nov 2024 16:16:42 +0100 (CET)
-Message-ID: <01b7029f-ecac-4b45-a28d-04081b326024@ysoft.com>
-Date: Mon, 4 Nov 2024 16:16:42 +0100
+	s=arc-20240116; t=1730736169; c=relaxed/simple;
+	bh=IMPSXRSZHiSKChDLZSD/EL+GNcEzzjv6djemSat7PcQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ff7Hs5jWnGAWTheIjLbRiUqq+S4Ny9aaxkphobfxksGdaGmrtGrw9ujTSvYgA+B2GsMExbmhx1RpDpgWjHAbeYnArBJY2a/EiBCKgRXvtsWO8LWap3SBf5AEMFIONFJa5WoM9/DQEjMg7oSfa84pvGTofUtE8ojAJsluZ+vc58s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V7BFKuQF; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A61B1BF212;
+	Mon,  4 Nov 2024 16:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1730736165;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hVW8Eovr8XM+Wk5SgrmMG++7+hvu3mp1NJ851HHAgbQ=;
+	b=V7BFKuQFb19JUly9CiSwu5oht+6XImDThA72JhlABUx3krc0uXVJxEb2TOwzR6GCPLzJT8
+	0kf1fHR24ed1AhbpdyDhYhxVsPX5M6NDxqSKHgoqkUx5AnKbrcbWz8U4zcdmqZMhOeS/sY
+	NWX0RpKkkxQO3oU4hGuWFeKFT4QvARW9oXmCBExe0eADehf2mqWiW5UbGCOXXJJq3M2teu
+	PfWQCpS3CfHi/JsYe1abKbJMtghDsGoPCmwtmBI5l7j3PmeDaotqC+fx160Z9PsrcnDUvv
+	pdSn1GPBPIYG25qk4IQrfGuZywH4sn+L8QIhbyBvcfszlDSTMyRz4TsLD3grXw==
+From: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: Marek =?utf-8?Q?Beh=C3=BAn?= <kabel@kernel.org>, Lee Jones
+ <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, Arnd Bergmann
+ <arnd@arndb.de>, soc@kernel.org, arm@kernel.org, Andy Shevchenko
+ <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?Q?J?=
+ =?utf-8?Q?=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Sebastian
+ Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, Marek
+ =?utf-8?Q?Beh=C3=BAn?=
+ <kabel@kernel.org>
+Subject: Re: [PATCH leds v5 12/12] ARM: dts: turris-omnia: Add global LED
+ brightness change interrupt
+In-Reply-To: <20241104141924.18816-13-kabel@kernel.org>
+References: <20241104141924.18816-1-kabel@kernel.org>
+ <20241104141924.18816-13-kabel@kernel.org>
+Date: Mon, 04 Nov 2024 17:02:44 +0100
+Message-ID: <87bjyv9ecb.fsf@BLaptop.bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] leds: Add LED1202 I2C driver
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-References: <Zx0A8ywBb9J65Rxl@admins-Air>
- <20241101170658.GA1807686@google.com> <ZyYKCMbviprVnoDK@admins-Air>
-Content-Language: en-US
-Cc: pavel@ucw.cz, lee@kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>
-From: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-In-Reply-To: <ZyYKCMbviprVnoDK@admins-Air>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: gregory.clement@bootlin.com
 
-On 02. 11. 24 12:16, Vicentiu Galanopulo wrote:
-> 
->>
->> Alphabetical.
-> Done
->>> +#define ST1202_BUF_SIZE                    16
->>
->> This appears to be unused.
-> Done
->> Please make sure all of these defines are used or removed.
->>
->>
->> I'm usually all for defines, but this one is a bit over the top.
-> Removed
->>
->>
->> Why have you broken the line here and not 2 lines down?
-> Checkpatch was complaining
->   
->>
->> Do this during declaration.
-> Moved it inside for_each_available_child_of_node_scoped
-> 
->> Lee Jones [李琼斯]
-> Thank you for the review. I think corrected everything.
+Marek Beh=C3=BAn <kabel@kernel.org> writes:
 
-Hi Vicentiu,
+> When global LED brightness is changed by pressing the front button on
+> Turris Omnia, the MCU can produce an interrupt to the CPU. Add the
+> description of this interrupt to the LED controller node.
+>
+> Signed-off-by: Marek Beh=C3=BAn <kabel@kernel.org>
 
-Once a while I browse through the patches in various mailing lists to keep myself informed.
-So I came across your patch set pretty randomly.
+As the binding had been acked, and this change won't produce any
+regression I can already get it.
 
-I have few tips for you to make your life easier before you get to some serious troubles
-with the maintainers ;)
+Applied on mvebu/dt
 
-1. Always send all the patches in the series to the same recipients list.
+Thanks,
 
-That is, do not send dt-bindings to just Rob, Krzysztof etc. and LED driver
-patches to Lee et al. We all need to see the whole thing.
+Gregory
 
-If you run the scripts/get_maintainer.pl script on the series, you get a complete list.
-This is what Krzysztof requested you to do in his comments to v3.
-
-2. Use git format-patch and git send-email tools to submit patches.
-
-If you use these tools you will avoid issues with wrong threading of the messages.
-
-3. The following text should not be here.
-
-You are supposed to just reply in-place to the review messages to acknowledge
-that you read the comments and you understand what the reviewers want to
-change. Then you send a next version of the series as a new message to all
-the recipients. Definitely not as a in-reply-to to the previous version.
-
-> [PATCH v5 2/3] leds: Add LED1202 I2C driver
-> 
-> The output current can be adjusted separately for each channel by 8-bit
-> analog (current sink input) and 12-bit digital (PWM) dimming control. The
-> LED1202 implements 12 low-side current generators with independent dimming
-> control. Internal volatile memory allows the user to store up to 8 different
-> patterns, each pattern is a particular output configuration in terms of PWM
-> duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
-> common to all patterns. Each device tree LED node will have a corresponding
-> entry in /sys/class/leds with the label name. The brightness property
-> corresponds to the per channel analog dimming, while the patterns[1-8] to the
-> PWM dimming control.
-> 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
 > ---
-> Changes in v5:
->    - remove unused macros
->    - switch to using devm_led_classdev_register_ext (struct st1202_led update)
->    - add prescalar_to_milliseconds (convert [22..5660]ms to [0..255] reg value)
->    - remove register range check in dt_init (range protected by yaml)
->    - address all review comments in v4
-> Changes in v4:
->    - Remove attributes/extended attributes implementation
->    - Use /sys/class/leds/<led>/hw_pattern (Pavel suggestion)
->    - Implement review findings of Christophe JAILLET
-> Changes in v3:
->    - Rename all ll1202 to st1202, including driver file name
->    - Convert all magic numbers to defines
->    - Refactor the show/store callbacks as per Lee's and Thomas's review
->    - Remove ll1202_get_channel and use dev_ext_attributes instead
->    - Log all error values for all the functions
->    - Use sysfs_emit for show callbacks
-> Changes in v2:
->    - Fix build error for device_attribute modes
+>  arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts b/arch=
+/arm/boot/dts/marvell/armada-385-turris-omnia.dts
+> index 43202890c959..83fe00abd652 100644
+> --- a/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts
+> +++ b/arch/arm/boot/dts/marvell/armada-385-turris-omnia.dts
+> @@ -251,6 +251,7 @@ mcu: system-controller@2a {
+>  			led-controller@2b {
+>  				compatible =3D "cznic,turris-omnia-leds";
+>  				reg =3D <0x2b>;
+> +				interrupts-extended =3D <&mcu 11 IRQ_TYPE_NONE>;
+>  				#address-cells =3D <1>;
+>  				#size-cells =3D <0>;
+>  				status =3D "okay";
+> --=20
+> 2.45.2
+>
 
-I hope you will get this sorted, I know the beginnings are difficult.
-
-Best regards,
-Michal
+--=20
+Gr=C3=A9gory CLEMENT, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
