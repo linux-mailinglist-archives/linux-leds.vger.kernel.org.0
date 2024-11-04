@@ -1,260 +1,636 @@
-Return-Path: <linux-leds+bounces-3245-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3246-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279539BA750
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Nov 2024 18:56:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508439BAE77
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 09:48:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97EF72814EB
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Nov 2024 17:56:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73F6F1C210A8
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 08:48:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B56A14F9E9;
-	Sun,  3 Nov 2024 17:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E14B11AAE01;
+	Mon,  4 Nov 2024 08:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yv1YqPJe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lC5CSM6M"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D447080F;
-	Sun,  3 Nov 2024 17:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DC118C326;
+	Mon,  4 Nov 2024 08:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730656565; cv=none; b=kTfUNEOI7vixVCM6i9tbSBuPd1wRjMnVCvwtoJ/18LySpWniFjDn9FHangiLFkuYtIfNl7GlJEy1bsWgtJYfMqX10lXAKlT+GUVYFkkSCPoiBAMHDMVbDjs6Xw8O8pQCGDlP5s3rxmgwHCQPIpiG30rVNpbbO4Z89z3kIUcX6vc=
+	t=1730710107; cv=none; b=kUtEpR2rU3WGzPdEk+NK0tETFEPuJCw+gzQKqAsKQSRnfKjLOG94LagFGfW+iE5VyqLyywR9RkChd7l3gRSsFLJw23JNW/9fvj20PyjXqA22r0SdVs4ozWjnnpe/geRMHxCsBCQG1gDYMVK2CJjOFwryHS7FzLDxs/Wu3NTPbuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730656565; c=relaxed/simple;
-	bh=paxo03j/hKNdgK1yoYG9WqQcXD6SWqrFNKoEkcI+CkE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jbzlPiVZfWLYIfOJSlX7fM3JRY89wsBxDAsK9O7o/9xq65h2epLIhBjrZnED87M8i40y372X7yAynrjb1i0/EaeyyanNAUN/5ehHk761+I14pw/1sjDM4TPM4nDPaCokHcD7diKbr2s6JdUZfUbUVGWc0FQbxdwmtab0HY/LVz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yv1YqPJe; arc=none smtp.client-ip=209.85.208.169
+	s=arc-20240116; t=1730710107; c=relaxed/simple;
+	bh=ieeozOBoT/hUfxM6G/eG0PnBqvNCBtxvm9ZxZvgBzDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PhpdbTqV3kJs0wANwU1HTGLYJodt7G8TkxLn26Em0ukjRBJpb1RF0GXGG0E9BKmhmyePIkSodTKO9X0KTq1jAWPNudu3MR+wmnMVlb3wKkdpW5EqAlqhOtDLEhg+UG4ebrVYhmTpzgRiR4mggLeIjWNanYIEcdITNrmpv5YRgC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lC5CSM6M; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so41345041fa.1;
-        Sun, 03 Nov 2024 09:56:02 -0800 (PST)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9a3dc089d8so667757766b.3;
+        Mon, 04 Nov 2024 00:48:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730656561; x=1731261361; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jd+fxIoCWTSvZp/tGoyshzSMcbCvXc7tRidGMg1lBFs=;
-        b=Yv1YqPJeSBcJV4HPZoz++YDqFKbAaBFRCLO3npGlxJOaI1mifYUQNZqr5F4OoRSv+p
-         1aEjgIY5/adbFg5PVl2z74txWschw1sHeSGJhjSKI8n5asZqXKioCtWsbhzxgljIBXvm
-         be7xnZh3G9313faB4u5T33wJ5g1DNQfMD+0hDkjyT43EMOJjgefPF4Ki5xeqVM484MOX
-         YpK+gOrzImHQR2MDtKtkbv5ukpywArTu0qqIU+r5eolMjOyfCrbTr0I7Y8koR5kJxcdR
-         rHxmV2aJhCb74O+lF0TSNjS0jh4s0LpvvI8EbPyY/lHQ3lUdVV84QXU8gcX28XN7ctIX
-         HW2A==
+        d=gmail.com; s=20230601; t=1730710104; x=1731314904; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8uUY2OJbWDGFjBu98yJDzgII+Ph2MDjiCrySpehdizA=;
+        b=lC5CSM6MTdeYl2nXoq4S2n4c4nOEYW8Wz4uqTktQ0e2/3XODzSIahyLg6YMx8yQeaU
+         MpQmEg9DEPH4xVeE1FsEgilNoAiXHu2IAc1wK5TCXg5kMQuS4W+6Pb38aiOMbHzI8kzR
+         bNxaZHcGnuph6tZiqmO7ZLylYC5w3mO1CTIx35WmSEsgBEMvhBIUxoBYw+q7g9MnZEYi
+         qPmcDRoumztjM4XxtxjPcIVWnwzbXG8+2JwUU5Mc4l2MUUXcHVoX4gxXzz2EMzw5beDs
+         ZCyjBMuAaJkBsEMGNciQMdEViG2mxPzupS1QsEhhlhJYfBy6NkrBeK5xvn/LVwgYFIiO
+         zjOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730656561; x=1731261361;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jd+fxIoCWTSvZp/tGoyshzSMcbCvXc7tRidGMg1lBFs=;
-        b=ItKp+EQhQlRPgcj01Pxc9jq8KEEAakiHdmV2923NMWHJaaPHTUfHb4jK6YpZuAG2xc
-         1RJTHZjoCdN9NMIM9u7ujLUV1e4ttLpTc32fyXdYZuw5N/IXsesomvOULo754eA59YPv
-         6/fyvvrq9CHsmF6JTvBKFgy5K46FUVnePxuaGl4X+gpNNVp493RgsXqAQUWFNDvQ1oYg
-         iixqMvwB03REbcEcbrsgvkcidxaVq7aozfdDek93YO8zVjOZ1x8m2KIlLObmBB9AMysw
-         9sg9nZh/Le9qG6ZRxrh9XAoIWJtHELnZJWesEtKKHbLkr1jV4t6tb10IuHdrZMxHctiP
-         yZaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNLt011N2GUfQ4ETCeKq7gYnNb5WjPdL6xJylhY61xP2oswTU/NZKr7Ip+r1O9/pxin8QAs3SGSE0jWQ==@vger.kernel.org, AJvYcCVlCRj7MJrbtdGzxVx3xw/q0JI8qcin+f4gg53AQVmpqqrRI9e/k4uXlcUOqsRqCAyId+6d6iK51yKCmlE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVxuuCsIUIuVFrueBXStiSK6y71i7lVn/BMoVCtzHiUE7YC21u
-	pD5eF5cFHboRDKkHPSHEMRHbyMxXjAX8J4alXxngGrhN9h+LRGd1DVmRzOZCTJlxEROjYzdrRdz
-	kQQhtrGhq+w+J2MiekeYsVpuTTK4=
-X-Google-Smtp-Source: AGHT+IGUwOTFgCFbXye4flFgCdgrLWo4dE0+cJem5SaqKaZ8V5tgw4NSbRcAKpfpD7HH0Pqe+aYbB6OIqSA0yOcep7g=
-X-Received: by 2002:a2e:a989:0:b0:2fb:382e:4105 with SMTP id
- 38308e7fff4ca-2fdef271476mr35600281fa.11.1730656560601; Sun, 03 Nov 2024
- 09:56:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730710104; x=1731314904;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uUY2OJbWDGFjBu98yJDzgII+Ph2MDjiCrySpehdizA=;
+        b=OdVzk9fDVJaNkwWpvRjnsK1e4s8vJ3u+tRlmLiUslLO+zzqljuPcrDlDD+lsdD7ftB
+         7RXztWqCu9xwb7KiSAq/uJ7JlJkMT1Q1OiuoDa9zV53GRQjlw9BpydGSgOm7IeC7Id52
+         YKGEmqSTgZ7WsBk4CBVAaMhaZiNYB9nz2p1N/USpq9Ibg15hpX1dDMbsWQDoq6VKVnU3
+         Bg5htlvYTptdFT+Vkj8aFkxxZw+i10HzCnB4w6148QUeFigUoc59jvDZDUHuDIGBcH1Q
+         pu3kA4FhJwqGr7/H1BvMpBeCquaD2FxZdUi9fSfYUkZJMNzA938RKzEKaaa3PlCZegyP
+         eIgw==
+X-Forwarded-Encrypted: i=1; AJvYcCX9JFMURt15CPtJJiqFe7PrBlYKCqx2cQvV175LldyfB/8g+Oyxz9Q8xT60A3cKgKKUXPv8t+vm5ucF@vger.kernel.org, AJvYcCXGLCNnFdI5HiSlZgMQGOhGiyC64SrsJEy8CUhCraYYK9AcXzg/9vR6e7KFAgQAkj67EaEuSGn8EDE=@vger.kernel.org, AJvYcCXNzh4+dCZDMIOywaWgLVijI8v0pXGO5ItrB/23sIAMsJQF0eDecUhi/B8xic8oa5BSPRA+jVM/0i+Cr+//@vger.kernel.org, AJvYcCXn0eVw6Ip4ilUrXHqftS9X3fXlq2mMLXMMi5oUtQvBUkmD130gxZWpCk9kvxER+tDJhfdFXiMFswiq5A==@vger.kernel.org, AJvYcCXwBn/9o3aeUE4jqXr+x4BqwLTTcGk0+O4e0pffEE7oHMcNOpQKCx2AFof31+7+we4Q9eWGFVX/KOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNAD2t7FGPieSb6+hm3pDMK4qZ7kNJbVIyvCG/crKZfAnRz5eb
+	ZfJDIGpenE8JTi+3lLRw9tzOyGTmiKAwERQ9hfeW+JFb0Ih+QqEa
+X-Google-Smtp-Source: AGHT+IEJwqUzuL45+dgEO8NTgngtB0dtDCqWv0IJVHc6vajNBf/y02YfSkzxVYc+hH2GATxC9pz2sg==
+X-Received: by 2002:a17:906:f8d1:b0:a9e:6e77:3ecd with SMTP id a640c23a62f3a-a9e6e77407bmr887156966b.54.1730710103492;
+        Mon, 04 Nov 2024 00:48:23 -0800 (PST)
+Received: from standask-GA-A55M-S2HP (lu-nat-113-247.ehs.sk. [188.123.113.247])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e565df962sm522780166b.123.2024.11.04.00.48.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 00:48:23 -0800 (PST)
+Date: Mon, 4 Nov 2024 09:48:21 +0100
+From: Stanislav Jakubek <stano.jakubek@gmail.com>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: [PATCH v3 1/2] dt-bindings: mfd: sprd,sc2731: convert to YAML
+Message-ID: <efd200c3b5b75405e4e450d064b026f10ae2f8e0.1730709384.git.stano.jakubek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241103160527.82487-1-quic_mojha@quicinc.com>
-In-Reply-To: <20241103160527.82487-1-quic_mojha@quicinc.com>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Sun, 3 Nov 2024 09:55:48 -0800
-Message-ID: <CABCoZhCxgQmkpCtCUtSwpHRHzn-EUBRnT5jCEDGM0hh28Kkz5g@mail.gmail.com>
-Subject: Re: [PATCH v3] leds: class: Protect brightness_show() with
- led_cdev->led_access mutex
-To: Mukesh Ojha <quic_mojha@quicinc.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Nov 3, 2024 at 8:15 AM Mukesh Ojha <quic_mojha@quicinc.com> wrote:
->
-> There is NULL pointer issue observed if from Process A where hid device
-> being added which results in adding a led_cdev addition and later a
-> another call to access of led_cdev attribute from Process B can result
-> in NULL pointer issue.
->
-> Use mutex led_cdev->led_access to protect access to led->cdev and its
-> attribute inside brightness_show() and max_brightness_show() and also
-> update the comment for mutex that it should be used to protect the led
-> class device fields.
->
->         Process A                               Process B
->
->  kthread+0x114
->  worker_thread+0x244
->  process_scheduled_works+0x248
->  uhid_device_add_worker+0x24
->  hid_add_device+0x120
->  device_add+0x268
->  bus_probe_device+0x94
->  device_initial_probe+0x14
->  __device_attach+0xfc
->  bus_for_each_drv+0x10c
->  __device_attach_driver+0x14c
->  driver_probe_device+0x3c
->  __driver_probe_device+0xa0
->  really_probe+0x190
->  hid_device_probe+0x130
->  ps_probe+0x990
->  ps_led_register+0x94
->  devm_led_classdev_register_ext+0x58
->  led_classdev_register_ext+0x1f8
->  device_create_with_groups+0x48
->  device_create_groups_vargs+0xc8
->  device_add+0x244
->  kobject_uevent+0x14
->  kobject_uevent_env[jt]+0x224
->  mutex_unlock[jt]+0xc4
->  __mutex_unlock_slowpath+0xd4
->  wake_up_q+0x70
->  try_to_wake_up[jt]+0x48c
->  preempt_schedule_common+0x28
->  __schedule+0x628
->  __switch_to+0x174
->                                                 el0t_64_sync+0x1a8/0x1ac
->                                                 el0t_64_sync_handler+0x68/0xbc
->                                                 el0_svc+0x38/0x68
->                                                 do_el0_svc+0x1c/0x28
->                                                 el0_svc_common+0x80/0xe0
->                                                 invoke_syscall+0x58/0x114
->                                                 __arm64_sys_read+0x1c/0x2c
->                                                 ksys_read+0x78/0xe8
->                                                 vfs_read+0x1e0/0x2c8
->                                                 kernfs_fop_read_iter+0x68/0x1b4
->                                                 seq_read_iter+0x158/0x4ec
->                                                 kernfs_seq_show+0x44/0x54
->                                                 sysfs_kf_seq_show+0xb4/0x130
->                                                 dev_attr_show+0x38/0x74
->                                                 brightness_show+0x20/0x4c
->                                                 dualshock4_led_get_brightness+0xc/0x74
->
-> [ 3313.874295][ T4013] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000060
-> [ 3313.874301][ T4013] Mem abort info:
-> [ 3313.874303][ T4013]   ESR = 0x0000000096000006
-> [ 3313.874305][ T4013]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [ 3313.874307][ T4013]   SET = 0, FnV = 0
-> [ 3313.874309][ T4013]   EA = 0, S1PTW = 0
-> [ 3313.874311][ T4013]   FSC = 0x06: level 2 translation fault
-> [ 3313.874313][ T4013] Data abort info:
-> [ 3313.874314][ T4013]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
-> [ 3313.874316][ T4013]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-> [ 3313.874318][ T4013]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> [ 3313.874320][ T4013] user pgtable: 4k pages, 39-bit VAs, pgdp=00000008f2b0a000
-> ..
->
-> [ 3313.874332][ T4013] Dumping ftrace buffer:
-> [ 3313.874334][ T4013]    (ftrace buffer empty)
-> ..
-> ..
-> [ dd3313.874639][ T4013] CPU: 6 PID: 4013 Comm: InputReader
-> [ 3313.874648][ T4013] pc : dualshock4_led_get_brightness+0xc/0x74
-> [ 3313.874653][ T4013] lr : led_update_brightness+0x38/0x60
-> [ 3313.874656][ T4013] sp : ffffffc0b910bbd0
-> ..
-> ..
-> [ 3313.874685][ T4013] Call trace:
-> [ 3313.874687][ T4013]  dualshock4_led_get_brightness+0xc/0x74
-> [ 3313.874690][ T4013]  brightness_show+0x20/0x4c
-> [ 3313.874692][ T4013]  dev_attr_show+0x38/0x74
-> [ 3313.874696][ T4013]  sysfs_kf_seq_show+0xb4/0x130
-> [ 3313.874700][ T4013]  kernfs_seq_show+0x44/0x54
-> [ 3313.874703][ T4013]  seq_read_iter+0x158/0x4ec
-> [ 3313.874705][ T4013]  kernfs_fop_read_iter+0x68/0x1b4
-> [ 3313.874708][ T4013]  vfs_read+0x1e0/0x2c8
-> [ 3313.874711][ T4013]  ksys_read+0x78/0xe8
-> [ 3313.874714][ T4013]  __arm64_sys_read+0x1c/0x2c
-> [ 3313.874718][ T4013]  invoke_syscall+0x58/0x114
-> [ 3313.874721][ T4013]  el0_svc_common+0x80/0xe0
-> [ 3313.874724][ T4013]  do_el0_svc+0x1c/0x28
-> [ 3313.874727][ T4013]  el0_svc+0x38/0x68
-> [ 3313.874730][ T4013]  el0t_64_sync_handler+0x68/0xbc
-> [ 3313.874732][ T4013]  el0t_64_sync+0x1a8/0x1ac
->
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+Convert the Spreadtrum SC27xx PMIC bindings to DT schema. Adjust the
+filename to match the compatible of the only in-tree user, SC2731.
+Change #interrupt-cells value to 1, as according to [1] that is the
+correct value.
+Move partial examples of child nodes in the child node schemas to this new
+MFD schema to have one complete example.
 
+[1] https://lore.kernel.org/lkml/b6a32917d1e231277d240a4084bebb6ad91247e3.1550060544.git.baolin.wang@linaro.org/
 
-reviewed-by: Anish Kumar <yesanishhere@gmail.com>
->
->
-> ---
-> Changes in v3:
->  - s/Class/class in comment for variable led_access.
->
-> Changes in v2:
->  - Updated the comment for led_access mutex lock.
->  - Also added mutex protection for max_brightness_show().
->
->  drivers/leds/led-class.c | 14 +++++++++++---
->  include/linux/leds.h     |  2 +-
->  2 files changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 06b97fd49ad9..f69f4e928d61 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -29,11 +29,14 @@ static ssize_t brightness_show(struct device *dev,
->                 struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +       unsigned int brightness;
->
-> -       /* no lock needed for this */
-> +       mutex_lock(&led_cdev->led_access);
->         led_update_brightness(led_cdev);
-> +       brightness = led_cdev->brightness;
-> +       mutex_unlock(&led_cdev->led_access);
->
-> -       return sprintf(buf, "%u\n", led_cdev->brightness);
-> +       return sprintf(buf, "%u\n", brightness);
->  }
->
->  static ssize_t brightness_store(struct device *dev,
-> @@ -70,8 +73,13 @@ static ssize_t max_brightness_show(struct device *dev,
->                 struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +       unsigned int max_brightness;
-> +
-> +       mutex_lock(&led_cdev->led_access);
-> +       max_brightness = led_cdev->max_brightness;
-> +       mutex_unlock(&led_cdev->led_access);
->
-> -       return sprintf(buf, "%u\n", led_cdev->max_brightness);
-> +       return sprintf(buf, "%u\n", max_brightness);
->  }
->  static DEVICE_ATTR_RO(max_brightness);
->
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index e5968c3ed4ae..2337f516fa7c 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -238,7 +238,7 @@ struct led_classdev {
->         struct kernfs_node      *brightness_hw_changed_kn;
->  #endif
->
-> -       /* Ensures consistent access to the LED Flash Class device */
-> +       /* Ensures consistent access to the LED class device */
->         struct mutex            led_access;
->  };
->
-> --
-> 2.34.1
->
->
+Signed-off-by: Stanislav Jakubek <stano.jakubek@gmail.com>
+---
+Changes in V3:
+- remove $ref to nvmem/sc2731-efuse and list the compatibles with
+  additionalProperties: true (Krzysztof)
+
+Changes in V2:
+- rebase on next-20241029
+- drop partial examples in child node schemas, move them here (Rob)
+
+Link to V2: https://lore.kernel.org/lkml/ZyExK01iprBHhGm6@standask-GA-A55M-S2HP/
+Link to V1: https://lore.kernel.org/lkml/Zr3X1RoQs7ElTnlJ@standask-GA-A55M-S2HP/
+
+ .../bindings/iio/adc/sprd,sc2720-adc.yaml     |  17 --
+ .../bindings/leds/sprd,sc2731-bltc.yaml       |  31 ---
+ .../devicetree/bindings/mfd/sprd,sc2731.yaml  | 252 ++++++++++++++++++
+ .../bindings/mfd/sprd,sc27xx-pmic.txt         |  40 ---
+ .../bindings/power/supply/sc2731-charger.yaml |  21 +-
+ .../bindings/power/supply/sc27xx-fg.yaml      |  38 +--
+ .../regulator/sprd,sc2731-regulator.yaml      |  21 --
+ .../bindings/rtc/sprd,sc2731-rtc.yaml         |  16 --
+ 8 files changed, 254 insertions(+), 182 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/sprd,sc2731.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/sprd,sc27xx-pmic.txt
+
+diff --git a/Documentation/devicetree/bindings/iio/adc/sprd,sc2720-adc.yaml b/Documentation/devicetree/bindings/iio/adc/sprd,sc2720-adc.yaml
+index 8181cf9a8e07..a678323d78e3 100644
+--- a/Documentation/devicetree/bindings/iio/adc/sprd,sc2720-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/sprd,sc2720-adc.yaml
+@@ -80,23 +80,6 @@ required:
+ additionalProperties: false
+ 
+ examples:
+-  - |
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-    pmic {
+-        #address-cells = <1>;
+-        #size-cells = <0>;
+-        adc@480 {
+-            compatible = "sprd,sc2731-adc";
+-            reg = <0x480>;
+-            interrupt-parent = <&sc2731_pmic>;
+-            interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+-            #io-channel-cells = <1>;
+-            hwlocks = <&hwlock 4>;
+-            nvmem-cells = <&adc_big_scale>, <&adc_small_scale>;
+-            nvmem-cell-names = "big_scale_calib", "small_scale_calib";
+-        };
+-    };
+-
+   - |
+     #include <dt-bindings/interrupt-controller/irq.h>
+     pmic {
+diff --git a/Documentation/devicetree/bindings/leds/sprd,sc2731-bltc.yaml b/Documentation/devicetree/bindings/leds/sprd,sc2731-bltc.yaml
+index 5853410c7a45..97535d6dc47a 100644
+--- a/Documentation/devicetree/bindings/leds/sprd,sc2731-bltc.yaml
++++ b/Documentation/devicetree/bindings/leds/sprd,sc2731-bltc.yaml
+@@ -50,35 +50,4 @@ required:
+   - '#size-cells'
+ 
+ additionalProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/leds/common.h>
+-
+-    pmic {
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-
+-      led-controller@200 {
+-        compatible = "sprd,sc2731-bltc";
+-        reg = <0x200>;
+-        #address-cells = <1>;
+-        #size-cells = <0>;
+-
+-        led@0 {
+-          reg = <0x0>;
+-          color = <LED_COLOR_ID_RED>;
+-        };
+-
+-        led@1 {
+-          reg = <0x1>;
+-          color = <LED_COLOR_ID_GREEN>;
+-        };
+-
+-        led@2 {
+-          reg = <0x2>;
+-          color = <LED_COLOR_ID_BLUE>;
+-        };
+-      };
+-    };
+ ...
+diff --git a/Documentation/devicetree/bindings/mfd/sprd,sc2731.yaml b/Documentation/devicetree/bindings/mfd/sprd,sc2731.yaml
+new file mode 100644
+index 000000000000..8beec7e8e4c6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/sprd,sc2731.yaml
+@@ -0,0 +1,252 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/sprd,sc2731.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Spreadtrum SC27xx PMIC
++
++maintainers:
++  - Orson Zhai <orsonzhai@gmail.com>
++  - Baolin Wang <baolin.wang7@gmail.com>
++  - Chunyan Zhang <zhang.lyra@gmail.com>
++
++description: |
++  Spreadtrum PMICs belonging to the SC27xx series integrate all mobile handset
++  power management, audio codec, battery management and user interface support
++  functions in a single chip. They have 6 major functional blocks:
++    - DCDCs to support CPU, memory
++    - LDOs to support both internal and external requirements
++    - Battery management system, such as charger, fuel gauge
++    - Audio codec
++    - User interface functions, such as indicator, flash LED and so on
++    - IC level interface, such as power on/off control, RTC, typec and so on
++
++properties:
++  $nodename:
++    pattern: '^pmic@[0-9a-f]+$'
++
++  compatible:
++    enum:
++      - sprd,sc2720
++      - sprd,sc2721
++      - sprd,sc2723
++      - sprd,sc2730
++      - sprd,sc2731
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  interrupt-controller: true
++  spi-max-frequency: true
++
++  '#address-cells':
++    const: 1
++
++  '#interrupt-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  regulators:
++    type: object
++    $ref: /schemas/regulator/sprd,sc2731-regulator.yaml#
++
++patternProperties:
++  "^adc@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/iio/adc/sprd,sc2720-adc.yaml#
++
++  "^charger@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/power/supply/sc2731-charger.yaml#
++
++  "^efuse@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        enum:
++          - sprd,sc2720-efuse
++          - sprd,sc2721-efuse
++          - sprd,sc2723-efuse
++          - sprd,sc2730-efuse
++          - sprd,sc2731-efuse
++
++  "^fuel-gauge@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/power/supply/sc27xx-fg.yaml#
++
++  "^gpio@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/gpio/sprd,gpio-eic.yaml#
++
++  "^led-controller@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/leds/sprd,sc2731-bltc.yaml#
++
++  "^rtc@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/rtc/sprd,sc2731-rtc.yaml#
++
++  "^vibrator@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/input/sprd,sc27xx-vibrator.yaml#
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-controller
++  - spi-max-frequency
++  - '#address-cells'
++  - '#interrupt-cells'
++  - '#size-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/leds/common.h>
++
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      sc2731_pmic: pmic@0 {
++        compatible = "sprd,sc2731";
++        reg = <0>;
++        interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-controller;
++        spi-max-frequency = <26000000>;
++        #address-cells = <1>;
++        #interrupt-cells = <1>;
++        #size-cells = <0>;
++
++        charger@0 {
++          compatible = "sprd,sc2731-charger";
++          reg = <0x0>;
++          phys = <&ssphy>;
++          monitored-battery = <&bat>;
++        };
++
++        led-controller@200 {
++          compatible = "sprd,sc2731-bltc";
++          reg = <0x200>;
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          led@0 {
++            reg = <0x0>;
++            color = <LED_COLOR_ID_RED>;
++          };
++
++          led@1 {
++            reg = <0x1>;
++            color = <LED_COLOR_ID_GREEN>;
++          };
++
++          led@2 {
++            reg = <0x2>;
++            color = <LED_COLOR_ID_BLUE>;
++          };
++        };
++
++        rtc@280 {
++          compatible = "sprd,sc2731-rtc";
++          reg = <0x280>;
++          interrupt-parent = <&sc2731_pmic>;
++          interrupts = <2>;
++        };
++
++        pmic_eic: gpio@300 {
++          compatible = "sprd,sc2731-eic";
++          reg = <0x300>;
++          interrupt-parent = <&sc2731_pmic>;
++          interrupts = <5>;
++          gpio-controller;
++          #gpio-cells = <2>;
++          interrupt-controller;
++          #interrupt-cells = <2>;
++        };
++
++        efuse@380 {
++          compatible = "sprd,sc2731-efuse";
++          reg = <0x380>;
++          hwlocks = <&hwlock 12>;
++          #address-cells = <1>;
++          #size-cells = <1>;
++
++          /* Data cells */
++          fgu_calib: calib@6 {
++            reg = <0x6 0x2>;
++            bits = <0 9>;
++          };
++
++          adc_big_scale: calib@24 {
++            reg = <0x24 0x2>;
++          };
++
++          adc_small_scale: calib@26 {
++            reg = <0x26 0x2>;
++          };
++        };
++
++        adc@480 {
++          compatible = "sprd,sc2731-adc";
++          reg = <0x480>;
++          interrupt-parent = <&sc2731_pmic>;
++          interrupts = <0>;
++          #io-channel-cells = <1>;
++          hwlocks = <&hwlock 4>;
++          nvmem-cells = <&adc_big_scale>, <&adc_small_scale>;
++          nvmem-cell-names = "big_scale_calib", "small_scale_calib";
++        };
++
++        fuel-gauge@a00 {
++          compatible = "sprd,sc2731-fgu";
++          reg = <0xa00>;
++          battery-detect-gpios = <&pmic_eic 9 GPIO_ACTIVE_HIGH>;
++          interrupt-parent = <&sc2731_pmic>;
++          interrupts = <4>;
++          io-channels = <&pmic_adc 5>, <&pmic_adc 14>;
++          io-channel-names = "bat-temp", "charge-vol";
++          nvmem-cells = <&fgu_calib>;
++          nvmem-cell-names = "fgu_calib";
++          monitored-battery = <&bat>;
++          sprd,calib-resistance-micro-ohms = <21500>;
++        };
++
++        vibrator@ec8 {
++          compatible = "sprd,sc2731-vibrator";
++          reg = <0xec8>;
++        };
++
++        regulators {
++          compatible = "sprd,sc2731-regulator";
++
++          BUCK_CPU0 {
++            regulator-name = "vddarm0";
++            regulator-min-microvolt = <400000>;
++            regulator-max-microvolt = <1996875>;
++            regulator-ramp-delay = <25000>;
++            regulator-always-on;
++          };
++
++          LDO_CAMA0 {
++            regulator-name = "vddcama0";
++            regulator-min-microvolt = <1200000>;
++            regulator-max-microvolt = <3750000>;
++            regulator-enable-ramp-delay = <100>;
++          };
++        };
++      };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/mfd/sprd,sc27xx-pmic.txt b/Documentation/devicetree/bindings/mfd/sprd,sc27xx-pmic.txt
+deleted file mode 100644
+index 21b9a897fca5..000000000000
+--- a/Documentation/devicetree/bindings/mfd/sprd,sc27xx-pmic.txt
++++ /dev/null
+@@ -1,40 +0,0 @@
+-Spreadtrum SC27xx Power Management Integrated Circuit (PMIC)
+-
+-The Spreadtrum SC27xx series PMICs contain SC2720, SC2721, SC2723, SC2730
+-and SC2731. The Spreadtrum PMIC belonging to SC27xx series integrates all
+-mobile handset power management, audio codec, battery management and user
+-interface support function in a single chip. It has 6 major functional
+-blocks:
+-- DCDCs to support CPU, memory.
+-- LDOs to support both internal and external requirement.
+-- Battery management system, such as charger, fuel gauge.
+-- Audio codec.
+-- User interface function, such as indicator, flash LED and so on.
+-- IC level interface, such as power on/off control, RTC and typec and so on.
+-
+-Required properties:
+-- compatible: Should be one of the following:
+-	"sprd,sc2720"
+-	"sprd,sc2721"
+-	"sprd,sc2723"
+-	"sprd,sc2730"
+-	"sprd,sc2731"
+-- reg: The address of the device chip select, should be 0.
+-- spi-max-frequency: Typically set to 26000000.
+-- interrupts: The interrupt line the device is connected to.
+-- interrupt-controller: Marks the device node as an interrupt controller.
+-- #interrupt-cells: The number of cells to describe an PMIC IRQ, must be 2.
+-- #address-cells: Child device offset number of cells, must be 1.
+-- #size-cells: Child device size number of cells, must be 0.
+-
+-Example:
+-pmic@0 {
+-	compatible = "sprd,sc2731";
+-	reg = <0>;
+-	spi-max-frequency = <26000000>;
+-	interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+-	interrupt-controller;
+-	#interrupt-cells = <2>;
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-};
+diff --git a/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml b/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml
+index a846a4d14ca9..f5aa72502b4e 100644
+--- a/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml
++++ b/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml
+@@ -30,23 +30,4 @@ properties:
+       - constant-charge-voltage-max-microvolt: maximum constant input voltage.
+ 
+ additionalProperties: false
+-
+-examples:
+-  - |
+-    bat: battery {
+-      compatible = "simple-battery";
+-      charge-term-current-microamp = <120000>;
+-      constant-charge-voltage-max-microvolt = <4350000>;
+-    };
+-
+-    pmic {
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-
+-      battery@a00 {
+-        compatible = "sprd,sc2731-charger";
+-        reg = <0x0>;
+-        phys = <&ssphy>;
+-        monitored-battery = <&bat>;
+-      };
+-    };
++...
+diff --git a/Documentation/devicetree/bindings/power/supply/sc27xx-fg.yaml b/Documentation/devicetree/bindings/power/supply/sc27xx-fg.yaml
+index 9108a2841caf..9495397c9269 100644
+--- a/Documentation/devicetree/bindings/power/supply/sc27xx-fg.yaml
++++ b/Documentation/devicetree/bindings/power/supply/sc27xx-fg.yaml
+@@ -65,40 +65,4 @@ required:
+   - monitored-battery
+ 
+ additionalProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/gpio/gpio.h>
+-    bat: battery {
+-      compatible = "simple-battery";
+-      charge-full-design-microamp-hours = <1900000>;
+-      constant-charge-voltage-max-microvolt = <4350000>;
+-      ocv-capacity-celsius = <20>;
+-      ocv-capacity-table-0 = <4185000 100>, <4113000 95>, <4066000 90>,
+-                             <4022000 85>, <3983000 80>, <3949000 75>,
+-                             <3917000 70>, <3889000 65>, <3864000 60>,
+-                             <3835000 55>, <3805000 50>, <3787000 45>,
+-                             <3777000 40>, <3773000 35>, <3770000 30>,
+-                             <3765000 25>, <3752000 20>, <3724000 15>,
+-                             <3680000 10>, <3605000 5>, <3400000 0>;
+-                             // ...
+-    };
+-
+-    pmic {
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-
+-      battery@a00 {
+-        compatible = "sprd,sc2731-fgu";
+-        reg = <0xa00>;
+-        battery-detect-gpios = <&pmic_eic 9 GPIO_ACTIVE_HIGH>;
+-        interrupt-parent = <&sc2731_pmic>;
+-        interrupts = <4>;
+-        io-channels = <&pmic_adc 5>, <&pmic_adc 14>;
+-        io-channel-names = "bat-temp", "charge-vol";
+-        nvmem-cells = <&fgu_calib>;
+-        nvmem-cell-names = "fgu_calib";
+-        monitored-battery = <&bat>;
+-        sprd,calib-resistance-micro-ohms = <21500>;
+-      };
+-    };
++...
+diff --git a/Documentation/devicetree/bindings/regulator/sprd,sc2731-regulator.yaml b/Documentation/devicetree/bindings/regulator/sprd,sc2731-regulator.yaml
+index ffb2924dde36..9bd752bab68e 100644
+--- a/Documentation/devicetree/bindings/regulator/sprd,sc2731-regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/sprd,sc2731-regulator.yaml
+@@ -43,25 +43,4 @@ required:
+   - compatible
+ 
+ additionalProperties: false
+-
+-examples:
+-  - |
+-    regulators {
+-      compatible = "sprd,sc2731-regulator";
+-
+-      BUCK_CPU0 {
+-        regulator-name = "vddarm0";
+-        regulator-min-microvolt = <400000>;
+-        regulator-max-microvolt = <1996875>;
+-        regulator-ramp-delay = <25000>;
+-        regulator-always-on;
+-      };
+-
+-      LDO_CAMA0 {
+-        regulator-name = "vddcama0";
+-        regulator-min-microvolt = <1200000>;
+-        regulator-max-microvolt = <3750000>;
+-        regulator-enable-ramp-delay = <100>;
+-      };
+-    };
+ ...
+diff --git a/Documentation/devicetree/bindings/rtc/sprd,sc2731-rtc.yaml b/Documentation/devicetree/bindings/rtc/sprd,sc2731-rtc.yaml
+index f3d20e976965..5756f617df36 100644
+--- a/Documentation/devicetree/bindings/rtc/sprd,sc2731-rtc.yaml
++++ b/Documentation/devicetree/bindings/rtc/sprd,sc2731-rtc.yaml
+@@ -30,20 +30,4 @@ allOf:
+   - $ref: rtc.yaml#
+ 
+ unevaluatedProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-
+-    pmic {
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-
+-      rtc@280 {
+-        compatible = "sprd,sc2731-rtc";
+-        reg = <0x280>;
+-        interrupt-parent = <&sc2731_pmic>;
+-        interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
+-      };
+-    };
+ ...
+-- 
+2.43.0
+
 
