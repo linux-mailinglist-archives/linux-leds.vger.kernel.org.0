@@ -1,45 +1,46 @@
-Return-Path: <linux-leds+bounces-3256-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3257-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0C09BB773
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 765AF9BB772
 	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 15:19:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA7E0B2350F
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 14:19:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F05091F22E38
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2024 14:19:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 841C74502B;
-	Mon,  4 Nov 2024 14:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D7513A257;
+	Mon,  4 Nov 2024 14:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mXLq86xt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3jl5Z+O"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A31CAD24;
-	Mon,  4 Nov 2024 14:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEB5139D04;
+	Mon,  4 Nov 2024 14:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730729972; cv=none; b=A8LMbUgLoWndsoR203WQhWpQESYICXtpF/IuSx4QbE5PG25OiUqdwCwSGwnRmcxxPZeXsW73ZDtf7C77NfSBghCJE4oziTeOmC81VJAN5c74BdrPf54k/o7fQdw33tdTG44blB9QViXTkjvrwV7j9VEFfDrEgKDXYVHxElJuW1I=
+	t=1730729976; cv=none; b=d9aGEewiRMocizqkD1x1lBEwLU6Ve6dT3L/Jd6X6dAarygV3X8/OEYblNjxMwPYzO0HmpjyzAkQHuOdw/81aM0VoCXvFpfuiBOg/MzMlth75dNGb31/WC0E9gXCk3Q0H181pjqGkS+0HhoAh5cLi+C3Z3Dk+41UVV03fnTwd72o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730729972; c=relaxed/simple;
-	bh=JhFNXixVI6LoLn/UIp5izX3h/kj/BU4WbxVI+NQJB8E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=b/Rr+5JWarpTgTo32C0IgVtMONdTnQcaKZA+PLdnjG/8FRKhPmv/yGMGuQQNz6EjKnAlQOvLm2Wujyg6+znIvASyisvHmCDpTsBuqlBQdo4uKeDFinJlF8oTGO1huBOGCENu2n5MZQV9I7j4UCXNhC7p+qgPff2PpjCW46Jy9nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mXLq86xt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64086C4CECE;
-	Mon,  4 Nov 2024 14:19:28 +0000 (UTC)
+	s=arc-20240116; t=1730729976; c=relaxed/simple;
+	bh=eeBYr2p6za6laSDrNMtl6LIf0+fxsP9YIvYI/u+rMD4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tOVCumSTGksKxftce+s0kxTTn2LF+zmnXojeGSdIjNl65Iug1gdklIRUGRfDytFOPGmu5b9k949anJkaeG7DuBwqSDQF98Ag9Zn8S5qtIThEeYE884erKhgK9i2TrrrB9ivgk42ojpJQ4g+IzUqZIQdTKi+hbKpPLJreKfD+74A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3jl5Z+O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A4DAC4CED8;
+	Mon,  4 Nov 2024 14:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730729972;
-	bh=JhFNXixVI6LoLn/UIp5izX3h/kj/BU4WbxVI+NQJB8E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mXLq86xt7G/cozgLlRT60EhML9LfBKQyBX8q+JyBgaMd7xPHJ0oRFgmJFtcFbbTch
-	 GDI2k3yOtHobgsBTE5MEZiiRqXHhU40IMoWtHnCkq7vYpW5Oal6N/MLRD0Hn+HrGO3
-	 F9VgOGeQkv24b1O5dSwb0Eb+b2dkVRPUMdOtCyUVB1P4aWUHqWJrBdtiKfG3jgj8iP
-	 8IKLxow7ku2QH+iTEcVvIX9Nc2Mfo/BMvKeuZXVow5k1WjpAim5Tw4YT37r7svjBiC
-	 rhtlb8nF40gjFd2g1xvUrVQnhZXPZ51ZvCfbWKqXpjmUF4yGiprJTUPJK/xfpK8dYY
-	 n4FuvaWjbLozg==
+	s=k20201202; t=1730729976;
+	bh=eeBYr2p6za6laSDrNMtl6LIf0+fxsP9YIvYI/u+rMD4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=L3jl5Z+OTAzG12km0UEdW4MYNIFz2V1Ie+p2wpz/a3axeK5qkxOxC1yXQVT4CwUTw
+	 KgGPYtgCZT8SQXVPMFwyspR89euxUy0A54DRc5Szd6pvSXw53NsDeqP2ZN77H7qDi+
+	 flY0frW8nSfW4mSDcd8PJfgdm54nlqCaPHqNB3lKARUVY1jOlTQDmIFSNB78RPNTi8
+	 8I8jRXajFR12I4i38dzeU/NAoMlEv0Fpb9iIXA717MCZnR+VmWVpEOf3QqG5PRXYCm
+	 CGRN27FARSvAVMTL1pASVMwjeDDLMY5Tj9oGybjA14KcVFLJDLc+8QwkwowH1oK7/M
+	 aZr4GTQ31cMmw==
 From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
 Cc: Pavel Machek <pavel@ucw.cz>,
@@ -58,10 +59,12 @@ Cc: Pavel Machek <pavel@ucw.cz>,
 	Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH leds v5 00/12] Turris Omnia LED driver changes
-Date: Mon,  4 Nov 2024 15:19:12 +0100
-Message-ID: <20241104141924.18816-1-kabel@kernel.org>
+Subject: [PATCH leds v5 01/12] turris-omnia-mcu-interface.h: Move command execution function to global header
+Date: Mon,  4 Nov 2024 15:19:13 +0100
+Message-ID: <20241104141924.18816-2-kabel@kernel.org>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241104141924.18816-1-kabel@kernel.org>
+References: <20241104141924.18816-1-kabel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,55 +74,336 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello Lee,
+Move the command execution functions from the turris-omnia-mcu platform
+driver private header to the global turris-omnia-mcu-interface.h header,
+so that they can be used by the LED driver.
 
-this is v5 of Turris Omnia LED driver changes.
-v1 to v4 can be found at
-  https://lore.kernel.org/linux-leds/20240902124104.14297-1-kabel@kernel.org/
-  https://lore.kernel.org/linux-leds/20240903101930.16251-1-kabel@kernel.org/
-  https://lore.kernel.org/linux-leds/20240913123103.21226-1-kabel@kernel.org/
-  https://lore.kernel.org/linux-leds/20241029135621.12546-1-kabel@kernel.org/
+Signed-off-by: Marek Behún <kabel@kernel.org>
+---
+ .../platform/cznic/turris-omnia-mcu-base.c    |   1 +
+ drivers/platform/cznic/turris-omnia-mcu.h     | 130 -----------------
+ include/linux/turris-omnia-mcu-interface.h    | 136 +++++++++++++++++-
+ 3 files changed, 136 insertions(+), 131 deletions(-)
 
-Changes since v4:
-- patch 2: correctly get MCU I2C device with device_find_child() when
-  trying to determine features supported by MCU firmware
-- patch 7: don't select TURRIS_OMNIA_MCU_GPIO, depend on it instead.
-  Selecting it causes kernel test robot to warn on some unmet
-  dependencies since GPIOLIB is dependency for TURRIS_OMNIA_MCU_GPIO
-- patch 7: request brighhtness changed IRQ only if it is defined in
-  the device-tree
-- patch 7: fix check for return value of devm_request_threaded_irq()
-
-Marek
-
-Marek Behún (12):
-  turris-omnia-mcu-interface.h: Move command execution function to
-    global header
-  leds: turris-omnia: Use command execution functions from the MCU
-    driver
-  turris-omnia-mcu-interface.h: Add LED commands related definitions to
-    global header
-  leds: turris-omnia: Use global header for MCU command definitions
-  dt-bindings: leds: cznic,turris-omnia-leds: Allow interrupts property
-  leds: turris-omnia: Document driver private structures
-  leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
-  platform: cznic: turris-omnia-mcu: Inform about missing LED panel
-    brightness change interrupt feature
-  leds: turris-omnia: Inform about missing LED gamma correction feature
-    in the MCU driver
-  leds: turris-omnia: Use dev_err_probe() where appropriate
-  leds: turris-omnia: Use uppercase first letter in all comments
-  ARM: dts: turris-omnia: Add global LED brightness change interrupt
-
- .../leds/cznic,turris-omnia-leds.yaml         |   8 +
- .../dts/marvell/armada-385-turris-omnia.dts   |   1 +
- drivers/leds/Kconfig                          |   1 +
- drivers/leds/leds-turris-omnia.c              | 318 +++++++++---------
- .../platform/cznic/turris-omnia-mcu-base.c    |   3 +
- drivers/platform/cznic/turris-omnia-mcu.h     | 130 -------
- include/linux/turris-omnia-mcu-interface.h    | 148 +++++++-
- 7 files changed, 312 insertions(+), 297 deletions(-)
-
+diff --git a/drivers/platform/cznic/turris-omnia-mcu-base.c b/drivers/platform/cznic/turris-omnia-mcu-base.c
+index 58f9afae2867..bb871226e357 100644
+--- a/drivers/platform/cznic/turris-omnia-mcu-base.c
++++ b/drivers/platform/cznic/turris-omnia-mcu-base.c
+@@ -52,6 +52,7 @@ int omnia_cmd_write_read(const struct i2c_client *client,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(omnia_cmd_write_read);
+ 
+ static int omnia_get_version_hash(struct omnia_mcu *mcu, bool bootloader,
+ 				  char version[static OMNIA_FW_VERSION_HEX_LEN])
+diff --git a/drivers/platform/cznic/turris-omnia-mcu.h b/drivers/platform/cznic/turris-omnia-mcu.h
+index 57ef5d350043..b36f9626e660 100644
+--- a/drivers/platform/cznic/turris-omnia-mcu.h
++++ b/drivers/platform/cznic/turris-omnia-mcu.h
+@@ -8,7 +8,6 @@
+ #ifndef __TURRIS_OMNIA_MCU_H
+ #define __TURRIS_OMNIA_MCU_H
+ 
+-#include <linux/bitops.h>
+ #include <linux/completion.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/hw_random.h>
+@@ -17,8 +16,6 @@
+ #include <linux/types.h>
+ #include <linux/watchdog.h>
+ #include <linux/workqueue.h>
+-#include <asm/byteorder.h>
+-#include <linux/unaligned.h>
+ 
+ struct i2c_client;
+ struct rtc_device;
+@@ -63,133 +60,6 @@ struct omnia_mcu {
+ #endif
+ };
+ 
+-int omnia_cmd_write_read(const struct i2c_client *client,
+-			 void *cmd, unsigned int cmd_len,
+-			 void *reply, unsigned int reply_len);
+-
+-static inline int omnia_cmd_write(const struct i2c_client *client, void *cmd,
+-				  unsigned int len)
+-{
+-	return omnia_cmd_write_read(client, cmd, len, NULL, 0);
+-}
+-
+-static inline int omnia_cmd_write_u8(const struct i2c_client *client, u8 cmd,
+-				     u8 val)
+-{
+-	u8 buf[2] = { cmd, val };
+-
+-	return omnia_cmd_write(client, buf, sizeof(buf));
+-}
+-
+-static inline int omnia_cmd_write_u16(const struct i2c_client *client, u8 cmd,
+-				      u16 val)
+-{
+-	u8 buf[3];
+-
+-	buf[0] = cmd;
+-	put_unaligned_le16(val, &buf[1]);
+-
+-	return omnia_cmd_write(client, buf, sizeof(buf));
+-}
+-
+-static inline int omnia_cmd_write_u32(const struct i2c_client *client, u8 cmd,
+-				      u32 val)
+-{
+-	u8 buf[5];
+-
+-	buf[0] = cmd;
+-	put_unaligned_le32(val, &buf[1]);
+-
+-	return omnia_cmd_write(client, buf, sizeof(buf));
+-}
+-
+-static inline int omnia_cmd_read(const struct i2c_client *client, u8 cmd,
+-				 void *reply, unsigned int len)
+-{
+-	return omnia_cmd_write_read(client, &cmd, 1, reply, len);
+-}
+-
+-static inline unsigned int
+-omnia_compute_reply_length(unsigned long mask, bool interleaved,
+-			   unsigned int offset)
+-{
+-	if (!mask)
+-		return 0;
+-
+-	return ((__fls(mask) >> 3) << interleaved) + 1 + offset;
+-}
+-
+-/* Returns 0 on success */
+-static inline int omnia_cmd_read_bits(const struct i2c_client *client, u8 cmd,
+-				      unsigned long bits, unsigned long *dst)
+-{
+-	__le32 reply;
+-	int err;
+-
+-	if (!bits) {
+-		*dst = 0;
+-		return 0;
+-	}
+-
+-	err = omnia_cmd_read(client, cmd, &reply,
+-			     omnia_compute_reply_length(bits, false, 0));
+-	if (err)
+-		return err;
+-
+-	*dst = le32_to_cpu(reply) & bits;
+-
+-	return 0;
+-}
+-
+-static inline int omnia_cmd_read_bit(const struct i2c_client *client, u8 cmd,
+-				     unsigned long bit)
+-{
+-	unsigned long reply;
+-	int err;
+-
+-	err = omnia_cmd_read_bits(client, cmd, bit, &reply);
+-	if (err)
+-		return err;
+-
+-	return !!reply;
+-}
+-
+-static inline int omnia_cmd_read_u32(const struct i2c_client *client, u8 cmd,
+-				     u32 *dst)
+-{
+-	__le32 reply;
+-	int err;
+-
+-	err = omnia_cmd_read(client, cmd, &reply, sizeof(reply));
+-	if (err)
+-		return err;
+-
+-	*dst = le32_to_cpu(reply);
+-
+-	return 0;
+-}
+-
+-static inline int omnia_cmd_read_u16(const struct i2c_client *client, u8 cmd,
+-				     u16 *dst)
+-{
+-	__le16 reply;
+-	int err;
+-
+-	err = omnia_cmd_read(client, cmd, &reply, sizeof(reply));
+-	if (err)
+-		return err;
+-
+-	*dst = le16_to_cpu(reply);
+-
+-	return 0;
+-}
+-
+-static inline int omnia_cmd_read_u8(const struct i2c_client *client, u8 cmd,
+-				    u8 *reply)
+-{
+-	return omnia_cmd_read(client, cmd, reply, sizeof(*reply));
+-}
+-
+ #ifdef CONFIG_TURRIS_OMNIA_MCU_GPIO
+ extern const u8 omnia_int_to_gpio_idx[32];
+ extern const struct attribute_group omnia_mcu_gpio_group;
+diff --git a/include/linux/turris-omnia-mcu-interface.h b/include/linux/turris-omnia-mcu-interface.h
+index 2da8cbeb158a..7f24cc682780 100644
+--- a/include/linux/turris-omnia-mcu-interface.h
++++ b/include/linux/turris-omnia-mcu-interface.h
+@@ -9,7 +9,10 @@
+ #define __TURRIS_OMNIA_MCU_INTERFACE_H
+ 
+ #include <linux/bitfield.h>
+-#include <linux/bits.h>
++#include <linux/bitops.h>
++#include <linux/types.h>
++#include <linux/unaligned.h>
++#include <asm/byteorder.h>
+ 
+ enum omnia_commands_e {
+ 	OMNIA_CMD_GET_STATUS_WORD		= 0x01, /* slave sends status word back */
+@@ -246,4 +249,135 @@ enum omnia_cmd_usb_ovc_prot_e {
+ 	OMNIA_CMD_xET_USB_OVC_PROT_ENABLE	= BIT(4),
+ };
+ 
++/* Command execution functions */
++
++struct i2c_client;
++
++int omnia_cmd_write_read(const struct i2c_client *client,
++			 void *cmd, unsigned int cmd_len,
++			 void *reply, unsigned int reply_len);
++
++static inline int omnia_cmd_write(const struct i2c_client *client, void *cmd,
++				  unsigned int len)
++{
++	return omnia_cmd_write_read(client, cmd, len, NULL, 0);
++}
++
++static inline int omnia_cmd_write_u8(const struct i2c_client *client, u8 cmd,
++				     u8 val)
++{
++	u8 buf[2] = { cmd, val };
++
++	return omnia_cmd_write(client, buf, sizeof(buf));
++}
++
++static inline int omnia_cmd_write_u16(const struct i2c_client *client, u8 cmd,
++				      u16 val)
++{
++	u8 buf[3];
++
++	buf[0] = cmd;
++	put_unaligned_le16(val, &buf[1]);
++
++	return omnia_cmd_write(client, buf, sizeof(buf));
++}
++
++static inline int omnia_cmd_write_u32(const struct i2c_client *client, u8 cmd,
++				      u32 val)
++{
++	u8 buf[5];
++
++	buf[0] = cmd;
++	put_unaligned_le32(val, &buf[1]);
++
++	return omnia_cmd_write(client, buf, sizeof(buf));
++}
++
++static inline int omnia_cmd_read(const struct i2c_client *client, u8 cmd,
++				 void *reply, unsigned int len)
++{
++	return omnia_cmd_write_read(client, &cmd, 1, reply, len);
++}
++
++static inline unsigned int
++omnia_compute_reply_length(unsigned long mask, bool interleaved,
++			   unsigned int offset)
++{
++	if (!mask)
++		return 0;
++
++	return ((__fls(mask) >> 3) << interleaved) + 1 + offset;
++}
++
++/* Returns 0 on success */
++static inline int omnia_cmd_read_bits(const struct i2c_client *client, u8 cmd,
++				      unsigned long bits, unsigned long *dst)
++{
++	__le32 reply;
++	int err;
++
++	if (!bits) {
++		*dst = 0;
++		return 0;
++	}
++
++	err = omnia_cmd_read(client, cmd, &reply,
++			     omnia_compute_reply_length(bits, false, 0));
++	if (err)
++		return err;
++
++	*dst = le32_to_cpu(reply) & bits;
++
++	return 0;
++}
++
++static inline int omnia_cmd_read_bit(const struct i2c_client *client, u8 cmd,
++				     unsigned long bit)
++{
++	unsigned long reply;
++	int err;
++
++	err = omnia_cmd_read_bits(client, cmd, bit, &reply);
++	if (err)
++		return err;
++
++	return !!reply;
++}
++
++static inline int omnia_cmd_read_u32(const struct i2c_client *client, u8 cmd,
++				     u32 *dst)
++{
++	__le32 reply;
++	int err;
++
++	err = omnia_cmd_read(client, cmd, &reply, sizeof(reply));
++	if (err)
++		return err;
++
++	*dst = le32_to_cpu(reply);
++
++	return 0;
++}
++
++static inline int omnia_cmd_read_u16(const struct i2c_client *client, u8 cmd,
++				     u16 *dst)
++{
++	__le16 reply;
++	int err;
++
++	err = omnia_cmd_read(client, cmd, &reply, sizeof(reply));
++	if (err)
++		return err;
++
++	*dst = le16_to_cpu(reply);
++
++	return 0;
++}
++
++static inline int omnia_cmd_read_u8(const struct i2c_client *client, u8 cmd,
++				    u8 *reply)
++{
++	return omnia_cmd_read(client, cmd, reply, sizeof(*reply));
++}
++
+ #endif /* __TURRIS_OMNIA_MCU_INTERFACE_H */
 -- 
 2.45.2
 
