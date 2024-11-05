@@ -1,64 +1,60 @@
-Return-Path: <linux-leds+bounces-3281-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3282-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABBA9BD12B
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 16:55:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 639A99BD13A
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 16:58:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC3071C22741
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 15:55:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B8651F21B0E
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 15:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7066F14EC56;
-	Tue,  5 Nov 2024 15:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE01413D881;
+	Tue,  5 Nov 2024 15:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H1y7x+Ny"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCe30A9f"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C1314A4DC;
-	Tue,  5 Nov 2024 15:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A141538DD6;
+	Tue,  5 Nov 2024 15:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730822127; cv=none; b=kNnj3G9IwVyl6e1Ahl/kE5XyVgH8ZP1sh3k/HaRgTmOQbUWraDNcrB+YtFNqqLYV7kEzoUncRbSyTZKIwtRbFSxNJVulnNDDhykRkM5S1QD2bECcKZgImgoCUBXWV2AGvC2kWZDq1rtqiSuqoLlIFdpqlW+9lh3+6jvWf10xan4=
+	t=1730822279; cv=none; b=QrKM1v07gs1UCeCTYyPkKZc9R0sc1gSoCaq/RiRVzq5wJWo/AOTIhAx+a19ltICQE6UcuDeWexazm5tugxHJcW0+Y17NKftD6H0j/35FCMDIyySepC73NLzI3GnlR23OladYAHimpv/9oS91sTwejHPvRhZHsALR1OerPSyeJhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730822127; c=relaxed/simple;
-	bh=cMvTh8PxTSmZ112HIDfP6ZSowBcMCKVJTesKcB3gvwk=;
+	s=arc-20240116; t=1730822279; c=relaxed/simple;
+	bh=ou22O8RDUi8KZSgCMaSSv2Or09Rq9phV/01ikujjiqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5GiDGKT8rHId67/i4sGE1pOzg9S1q1IVe/Wv2s0XP1MPBdDS558fT+B5IdnvrIWBdnXvzS/cWfz2dfXuQJL4QYPuMkYlx+wALE3TJQfAz1TITjwYV4n9xknT0OakI2KsqcK51xYpFBFjxOpd19VcHhULnvDimDTbtuty/3gywk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H1y7x+Ny; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8686AC4CECF;
-	Tue,  5 Nov 2024 15:55:23 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFMJmXL/QOC/7wGdgiFKmn7Ps36TUlHS4cD0Tr86zk6WnF4R0AC4l2XzSfE9fcRg355j5DQAaD+l9mzXxQ3lykfLDDT1FAzyA3KuM+Y+a9AontTuISqDbLhlgOA75eEtM1xhKtOsiHiGvjnp4QEC+c8+cZy7KQxgMbBAPSo/4yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCe30A9f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20631C4CECF;
+	Tue,  5 Nov 2024 15:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730822126;
-	bh=cMvTh8PxTSmZ112HIDfP6ZSowBcMCKVJTesKcB3gvwk=;
+	s=k20201202; t=1730822279;
+	bh=ou22O8RDUi8KZSgCMaSSv2Or09Rq9phV/01ikujjiqQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H1y7x+NyhnuuyB5F85fhewQ2GPZQXp7zTj5nyJz/ECA8hH1QUxx5PW6fwWEKnW7fH
-	 1G8sTZek5eZ+kwBpCOBfg24Am0Frdtdxg/+PLjpyhjy8XYOaqC5CrlaaSU68crFl1c
-	 EjYclJ5GBgx0kUmRjDwgtZu8yz1xJevhzsHGsW5kyJQNlf0TrG+g/JUdZpV7alVkQh
-	 I2vFAcPfmwejx+xjYiS14ScmQc1SUt3jC5wRo0+1yTnWsgu+JMJhErOuej/IE1KsKl
-	 5q+h9OR7BtYrmxdJfYEY8/sonX2GPLy0v97KyEJnkL3xGF8hYR9mTVlAif/XqJqaRV
-	 teMxarrdIZ6UA==
-Date: Tue, 5 Nov 2024 15:55:20 +0000
+	b=ZCe30A9faTUoeOwcTM3qlVBQE7aJhOBw5/Zq4xQFircPkncJlKppKZ+sABmIAYUos
+	 /Ggbe8Vy2m1WosbEblN9KIBMGexrzQ0IM3jpV4qWdZR6QIk/ab/wUrSFF3n/exo9Tv
+	 F8KxvaBdHx69qiHpHBJl4c3TjAj37nLIp8tBhXG8IyUGRZTQsFPhYiSKiDatieIrph
+	 MAH+nBkaEEDqKp4dzqsUuC8kKvM9ugeLP9BPTngbOUIMEPTLhjvcj/7g7Yn+/GZoVB
+	 /S2Kc5SEFa8d6kYh7QWQEXobqzE//1myxruQDDItkTyomwMxo0m8RL3oSXv923pmp2
+	 Lo69Ga5dvZI0w==
+Date: Tue, 5 Nov 2024 15:57:54 +0000
 From: Lee Jones <lee@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: konstantin@linuxfoundation.org, baocheng.su@siemens.com,
-	tobias.schaffner@siemens.com, pavel@ucw.cz,
-	ilpo.jarvinen@linux.intel.com, wim@linux-watchdog.org,
-	linux@roeck-us.net,
-	Benedikt Niedermayr <benedikt.niedermayr@siemens.com>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	felix.moessbauer@siemens.com, christian.storm@siemens.com,
-	quirin.gylstorff@siemens.com, chao.zeng@siemens.com
-Subject: Re: (subset) [PATCH 1/1] MAINTAINERS: replace bouncing maintainers
-Message-ID: <20241105155520.GC1807686@google.com>
-References: <20241028112359.3333152-1-benedikt.niedermayr@siemens.com>
- <20241028112359.3333152-2-benedikt.niedermayr@siemens.com>
- <173048213838.1966999.11456105703949125929.b4-ty@kernel.org>
- <0f27f32e-bf00-4f9d-a0b6-0625a6dae203@redhat.com>
+To: George Stark <gnstark@salutedevices.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, robh@kernel.org, pavel@ucw.cz,
+	krzk+dt@kernel.org, conor+dt@kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@salutedevices.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: pwm: Add default-brightness
+ property
+Message-ID: <20241105155754.GD1807686@google.com>
+References: <20241101154844.1175860-1-gnstark@salutedevices.com>
+ <20241101154844.1175860-2-gnstark@salutedevices.com>
+ <ngwfccj55vovsaj5bdealdidgxdrxfl7nwxfdqponqzdiv3olo@epzabbxkdzxb>
+ <aa96e9ab-00d6-413b-a7e8-8c709087f5bc@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -68,38 +64,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f27f32e-bf00-4f9d-a0b6-0625a6dae203@redhat.com>
+In-Reply-To: <aa96e9ab-00d6-413b-a7e8-8c709087f5bc@salutedevices.com>
 
-On Mon, 04 Nov 2024, Hans de Goede wrote:
+On Sun, 03 Nov 2024, George Stark wrote:
 
-> Hi Lee,
+> Hello Krzysztof, Rob
 > 
-> On 1-Nov-24 6:28 PM, Lee Jones wrote:
-> > On Mon, 28 Oct 2024 12:23:59 +0100, Benedikt Niedermayr wrote:
-> >> Since complaints about bouncing maintainers raised [1] we have now a
-> >> replacement for maintainers that stepped away from their duties.
-> >>
-> >> [1] https://www.spinics.net/lists/platform-driver-x86/msg47105.html
-> >>
-> >>
+> Thanks for noticing it, missed the tag not by purpose, sorry about it.
+> Sure I'll add the tag to v3 if v3 happens.
+
+Please reply directly under the text you're referring to.  Top-posting
+is not allowed.
+
+Please submit a v2 [RESEND] complete with the missing tags.
+
+> On 11/2/24 16:06, Krzysztof Kozlowski wrote:
+> > On Fri, Nov 01, 2024 at 06:48:43PM +0300, George Stark wrote:
+> > > Optional default-brightness property specifies brightness value to be
+> > > used if default LED state is on.
+> > > 
+> > > Signed-off-by: George Stark <gnstark@salutedevices.com>
+> > > ---
+> > >   Documentation/devicetree/bindings/leds/leds-pwm.yaml | 6 ++++++
+> > >   1 file changed, 6 insertions(+)
+> > > 
 > > 
-> > Applied, thanks!
+> > <form letter>
+> > This is a friendly reminder during the review process.
 > > 
-> > [1/1] MAINTAINERS: replace bouncing maintainers
-> >       commit: 64dd44a658065ab5595bbfe2cb4d8fd30c9e34a2
+> > It looks like you received a tag and forgot to add it.
+> > 
+> > If you do not know the process, here is a short explanation: Please add
+> > Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+> > or above your Signed-off-by tag. Tag is "received", when provided
+> > in a message replied to you on the mailing list. Tools like b4 can help
+> > here. However, there's no need to repost patches *only* to add the tags.
+> > The upstream maintainer will do that for tags received on the version
+> > they apply.
+> > 
+> > https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+> > 
+> > If a tag was not added on purpose, please state why and what changed.
+> > </form letter>
+> > 
+> > Best regards,
+> > Krzysztof
+> > 
 > 
-> I'm not seeing this on either of:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/log/?h=for-leds-next
-> https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/log/?h=for-mfd-next
-> 
-> ?
-> 
-> Note I'm fine with you picking this up, I just want to make sure that
-> it does not fall through the cracks and drop it from my own patch queue
-> since it also touches pdx86 MAINTAINERS entries.
-
-I'm pushing it through the LEDs tree.  It'll be in -next tomorrow.
+> -- 
+> Best regards
+> George
 
 -- 
 Lee Jones [李琼斯]
