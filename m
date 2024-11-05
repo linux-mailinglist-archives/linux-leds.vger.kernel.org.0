@@ -1,120 +1,160 @@
-Return-Path: <linux-leds+bounces-3282-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3283-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639A99BD13A
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 16:58:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBEB9BD1CA
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 17:11:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B8651F21B0E
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 15:58:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7C3C1C24DD7
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 16:11:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE01413D881;
-	Tue,  5 Nov 2024 15:57:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35D8B16EB4C;
+	Tue,  5 Nov 2024 16:10:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCe30A9f"
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="A28ZCbSU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A141538DD6;
-	Tue,  5 Nov 2024 15:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3E215DBB3
+	for <linux-leds@vger.kernel.org>; Tue,  5 Nov 2024 16:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730822279; cv=none; b=QrKM1v07gs1UCeCTYyPkKZc9R0sc1gSoCaq/RiRVzq5wJWo/AOTIhAx+a19ltICQE6UcuDeWexazm5tugxHJcW0+Y17NKftD6H0j/35FCMDIyySepC73NLzI3GnlR23OladYAHimpv/9oS91sTwejHPvRhZHsALR1OerPSyeJhs=
+	t=1730823054; cv=none; b=u0QcdwSAlbBfBYQ1vPaecPbw2GQW2TDkb9TmO6eXRmqPGE9i9J4/BnvZjIKbLrwWJ+B1FwISUMUZrSDfnMhSuiDKla09As0Fyr7LPoSTLEvbOc7+bRpCCZRzq1QXqagYYC7TBuN2mXGKLHOGNEQQhNG0c7ayIf6kfU+76YMMIOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730822279; c=relaxed/simple;
-	bh=ou22O8RDUi8KZSgCMaSSv2Or09Rq9phV/01ikujjiqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QFMJmXL/QOC/7wGdgiFKmn7Ps36TUlHS4cD0Tr86zk6WnF4R0AC4l2XzSfE9fcRg355j5DQAaD+l9mzXxQ3lykfLDDT1FAzyA3KuM+Y+a9AontTuISqDbLhlgOA75eEtM1xhKtOsiHiGvjnp4QEC+c8+cZy7KQxgMbBAPSo/4yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCe30A9f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20631C4CECF;
-	Tue,  5 Nov 2024 15:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730822279;
-	bh=ou22O8RDUi8KZSgCMaSSv2Or09Rq9phV/01ikujjiqQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZCe30A9faTUoeOwcTM3qlVBQE7aJhOBw5/Zq4xQFircPkncJlKppKZ+sABmIAYUos
-	 /Ggbe8Vy2m1WosbEblN9KIBMGexrzQ0IM3jpV4qWdZR6QIk/ab/wUrSFF3n/exo9Tv
-	 F8KxvaBdHx69qiHpHBJl4c3TjAj37nLIp8tBhXG8IyUGRZTQsFPhYiSKiDatieIrph
-	 MAH+nBkaEEDqKp4dzqsUuC8kKvM9ugeLP9BPTngbOUIMEPTLhjvcj/7g7Yn+/GZoVB
-	 /S2Kc5SEFa8d6kYh7QWQEXobqzE//1myxruQDDItkTyomwMxo0m8RL3oSXv923pmp2
-	 Lo69Ga5dvZI0w==
-Date: Tue, 5 Nov 2024 15:57:54 +0000
-From: Lee Jones <lee@kernel.org>
-To: George Stark <gnstark@salutedevices.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, robh@kernel.org, pavel@ucw.cz,
-	krzk+dt@kernel.org, conor+dt@kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@salutedevices.com
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: pwm: Add default-brightness
- property
-Message-ID: <20241105155754.GD1807686@google.com>
-References: <20241101154844.1175860-1-gnstark@salutedevices.com>
- <20241101154844.1175860-2-gnstark@salutedevices.com>
- <ngwfccj55vovsaj5bdealdidgxdrxfl7nwxfdqponqzdiv3olo@epzabbxkdzxb>
- <aa96e9ab-00d6-413b-a7e8-8c709087f5bc@salutedevices.com>
+	s=arc-20240116; t=1730823054; c=relaxed/simple;
+	bh=GOR+kBMKKKTUIGtKRM9XCI7YPrZNWfva3GQbxSEtoSM=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Z25HAmRjvkUFS4sxJU5rL4fT6mqVdzTrH5R70mYbs2ngir+lFRFFwdxhizlim1Q+uFSFOaShfsKNpe5B/nxNfqGKnhxuB0VOiM/wmjjRvXycywA39oQRTBSJahWxFFRrc3WzMMFR3sXoKr3sJ8XD/B4wkYyUggGxWGGKwxvFmUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=A28ZCbSU; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9eb3794a04so142203866b.3
+        for <linux-leds@vger.kernel.org>; Tue, 05 Nov 2024 08:10:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1730823050; x=1731427850; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I8iWPAz9+BWvksPjr7PaPX4v4WYSbjtCmVf883G/l4A=;
+        b=A28ZCbSUe1sy7nr+smYopJ15aGJDyBhkG0ZSSY/Uhrw7QSx2w3rPwewWEXN3xKx8Oy
+         88ICBj4vP2tP8ZHoj29LPsCL+AS2Oao0K08YCvwuUuymC/4F4NKPkuZx0p2egP0mADgn
+         UPAjYBbmJUqrLG3YwSChwu7k0bRXofnEaaoacFRi1N7X8Gd/tWzpx8sM9Xhu7RPHzFsn
+         eviUj7y93Vv4MOx0RwJeDXV1wdbYYt0pcltIuxSxg86PYMcQlymGBGSnekJ1RZJZVBq5
+         AI9iJFqVOVfLIZnEwkVA6BmR19z42XFP2oP4kiWd8AhcHfZftDmkVMdsz12Wyz8ILyua
+         QA8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730823050; x=1731427850;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I8iWPAz9+BWvksPjr7PaPX4v4WYSbjtCmVf883G/l4A=;
+        b=rcfpB0+5ZsCg1IZOuLt70+++koECcOi1ZdKRtgxJVM7CKz/oqtKUNIjrjGuzDk3QlJ
+         o198TYNzdheidue7axvw4pzzR+h8k4XXKAKBb2Pfm7ndTkywgc477O+wqfQDAyBX0hvm
+         FcB7NlR/48OjtJ0opZoiaib/z8ngkQO30ti13Af+rJ/KoxYPL57Xm+R+hcDHgBk4EJd9
+         IwBTndaxcBHlSfev1fcXl4iWkQNB8iMeKv6QXTMYONkWadY0OMQZf/MySm8vSEdKydNe
+         efeMmXQcDXec8NEJeDgvIx1ToDnx5Gz6DOUIu/wa1Hgg74lrq12bI76QzloO4jsRePxt
+         0uHw==
+X-Forwarded-Encrypted: i=1; AJvYcCXJe5eQCZI2MyacJnJJkl5bQffQ8Q48NFBJj71lxRX9wKyLFJwV8GsCY5rRE+8v3pC1HrG0KGsUAu4l@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc5kdtnZ7EUr5VAg0n4QA3h0cW2xO3aJyDlUpxyUHr5T1lJwAO
+	TqNsgwcMg1vT7giB8k2HLNlx4pI27gjsnuT7vX+HotVX3YJRlPo3yz23dgpE161tISTFXwdCcLb
+	hb6GB25jwaGdVRU4STB3WCezE1WgyPPqyWb2MrPP1eAdoF2lrO5H142BWSNNbDS5vY6jBqCSqeM
+	QJ6WKNeUJPQ7x5l0WFkpkPJnnR
+X-Google-Smtp-Source: AGHT+IGkmJfi7dRHZtTpmNCLlbGTZDSTQBEvMTQNo52T6AzDkPM1XFezL57iku5tpryplHLQ/GERnQ==
+X-Received: by 2002:a17:907:948a:b0:a9a:238a:381d with SMTP id a640c23a62f3a-a9e3a6ca29cmr2346666466b.52.1730823049770;
+        Tue, 05 Nov 2024 08:10:49 -0800 (PST)
+Received: from localhost.localdomain ([178.27.36.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17f7928sm151184666b.138.2024.11.05.08.10.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 08:10:49 -0800 (PST)
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 1/3] [PATCH v3] Documentation:leds: Add leds-st1202.rst
+Date: Tue,  5 Nov 2024 16:10:36 +0000
+Message-Id: <20241105161041.4813-1-vicentiu.galanopulo@remote-tech.co.uk>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa96e9ab-00d6-413b-a7e8-8c709087f5bc@salutedevices.com>
 
-On Sun, 03 Nov 2024, George Stark wrote:
+Add usage for sysfs hw_pattern entry for leds-st1202
 
-> Hello Krzysztof, Rob
-> 
-> Thanks for noticing it, missed the tag not by purpose, sorry about it.
-> Sure I'll add the tag to v3 if v3 happens.
+Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+---
+ - Changes in v3: Add leds-st1202 to index.rst
+ - Changes in v2: Implement review comments
+---
+ Documentation/leds/index.rst       |  1 +
+ Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 Documentation/leds/leds-st1202.rst
 
-Please reply directly under the text you're referring to.  Top-posting
-is not allowed.
-
-Please submit a v2 [RESEND] complete with the missing tags.
-
-> On 11/2/24 16:06, Krzysztof Kozlowski wrote:
-> > On Fri, Nov 01, 2024 at 06:48:43PM +0300, George Stark wrote:
-> > > Optional default-brightness property specifies brightness value to be
-> > > used if default LED state is on.
-> > > 
-> > > Signed-off-by: George Stark <gnstark@salutedevices.com>
-> > > ---
-> > >   Documentation/devicetree/bindings/leds/leds-pwm.yaml | 6 ++++++
-> > >   1 file changed, 6 insertions(+)
-> > > 
-> > 
-> > <form letter>
-> > This is a friendly reminder during the review process.
-> > 
-> > It looks like you received a tag and forgot to add it.
-> > 
-> > If you do not know the process, here is a short explanation: Please add
-> > Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
-> > or above your Signed-off-by tag. Tag is "received", when provided
-> > in a message replied to you on the mailing list. Tools like b4 can help
-> > here. However, there's no need to repost patches *only* to add the tags.
-> > The upstream maintainer will do that for tags received on the version
-> > they apply.
-> > 
-> > https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-> > 
-> > If a tag was not added on purpose, please state why and what changed.
-> > </form letter>
-> > 
-> > Best regards,
-> > Krzysztof
-> > 
-> 
-> -- 
-> Best regards
-> George
-
+diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+index 3ade16c18328..0ab0a2128a11 100644
+--- a/Documentation/leds/index.rst
++++ b/Documentation/leds/index.rst
+@@ -28,4 +28,5 @@ LEDs
+    leds-mlxcpld
+    leds-mt6370-rgb
+    leds-sc27xx
++   leds-st1202.rst
+    leds-qcom-lpg
+diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
+new file mode 100644
+index 000000000000..e647966e496c
+--- /dev/null
++++ b/Documentation/leds/leds-st1202.rst
+@@ -0,0 +1,36 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================================
++Kernel driver for STMicroelectronics LED1202
++============================================
++
++/sys/class/leds/<led>/hw_pattern
++--------------------------------
++
++Specify a hardware pattern for the ST1202 LED. The LED
++controller implements 12 low-side current generators
++with independent dimming control. Internal volatile memory
++allows the user to store up to 8 different patterns.
++Each pattern is a particular output configuration in terms
++of PWM duty-cycle and duration (ms).
++
++To be compatible with the hardware pattern
++format, maximum 8 tuples of brightness (PWM) and duration must
++be written to hw_pattern.
++
++- Min pattern duration: 22 ms
++- Max pattern duration: 5660 ms
++
++The format of the hardware pattern values should be:
++"brightness duration brightness duration ..."
++
++/sys/class/leds/<led>/repeat
++----------------------------
++
++Specify a pattern repeat number, which is common for all channels.
++Default is 1; negative numbers and 0 are invalid.
++
++This file will always return the originally written repeat number.
++
++When the 255 value is written to it, all patterns will repeat
++indefinitely.
 -- 
-Lee Jones [李琼斯]
+2.25.1
+
 
