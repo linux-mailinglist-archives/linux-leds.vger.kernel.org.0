@@ -1,84 +1,90 @@
-Return-Path: <linux-leds+bounces-3275-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3276-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475759BC4A2
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 06:23:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C69AF9BC4CE
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 06:45:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F41101F224EB
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 05:23:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 865B82819A9
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 05:45:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F036B383;
-	Tue,  5 Nov 2024 05:23:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6F031C07C8;
+	Tue,  5 Nov 2024 05:45:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="OUPKLLqG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TOesXvlN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F5D181334
-	for <linux-leds@vger.kernel.org>; Tue,  5 Nov 2024 05:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB57183CD6;
+	Tue,  5 Nov 2024 05:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730784213; cv=none; b=kGdFEDhxvSt6l2AmS8O3z1Sol7K2uk6ypliOhTxaGOPr6aYcKTjA/MYv8cl648Dtk0k+WBFe+SzaB0XmTBx3VP5WuyHnw5oiiFEZ0E4WXV6se2EwlrqLrg+Mh/j23SbDeNTqdI3Yb6GsdB9qEhVMJCF84r7xhp5upV56+SgnvQY=
+	t=1730785500; cv=none; b=ptEgEjCt6waozvRHXyMpV5GBSV5f4tT0f/YiZ2rdWGjmmdDocsDFEQQATT9bV7A91kmu9lzIjgIX/2k2BfSugDmfwdGrbeeC1ffRcvsu7oe8GiEoG5BQ8zn5VeAHxlVznFHLmL2WeUpxsvvD0+8U1Xq/G26NQFOYuGZn/FptBUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730784213; c=relaxed/simple;
-	bh=Zsdsrn5QyifI5KpUEy3Si6Hqlwx2uydMgzuv5g0ftik=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgAXaSKx1DoAO6kxQN8Q1m179K+883IzY5oxA+6b3nJqKfpjQu6IPreUWnForVoQwkcSjLxBXlWARTcUoD9RQn96P6ekTP6GjCY54EHN+5GCKcqon0OoYaiUGiVTLPKkZKUDssqqoAjRQ9I1k9BwyL2hmPKH2yu1DyY3QcUNqSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=OUPKLLqG; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cec8c4e2f6so3302859a12.1
-        for <linux-leds@vger.kernel.org>; Mon, 04 Nov 2024 21:23:31 -0800 (PST)
+	s=arc-20240116; t=1730785500; c=relaxed/simple;
+	bh=addazq6n2l0kd7V2RYOfC/z5VRexbSCbfjbLGPgcVMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KvXl8Ii2Hu7oMPdws75bjl+OEqiF6CPKYDE6f/h1rbrkhWy9f8JC5Uw9HKZc/M9aNtVKw3e3rueCJ27/zzxmpczF3W5G4aEqAIQ5CCVoTkXKOrMzrIZvp5ujcJzexI5x49zUR+by1lXEwdyhobRDOIo7xNstIVNptotV4W2Q5yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TOesXvlN; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e56750bb0dso3494524a91.0;
+        Mon, 04 Nov 2024 21:44:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1730784210; x=1731389010; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730785499; x=1731390299; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sLek+8rRFefzz3qfy2bF6CDdC5m9OTEU8lr9WxdqGCM=;
-        b=OUPKLLqGiaq3JR1DjLLeKfn96BtuzkXt4KDKQoBGkM7tCUlGb0+oukSonlBsetvca+
-         KEEMZEWOdVZpvofCrzf5vI5IrnVKeLiVS39JaKvDzXFfrAZOhhjI7oNLtxijFicckY+2
-         DwlE0hLTTw9ETXmt8j8+vts64oYCx32+oA71FNMTzJ9eIX0BVFc+bhm36/ZdfYSs1bHE
-         5C7VvLi5pyTcVOu5IKW1kKYzuW2mHY1XxCKMUO186oM6U4t24An2RyD6S17MCrcQQCuH
-         /U09YzSqYanZ2KOQrsg4LEvhO3VcW5FTUBdQcdlGhxQsC+hXkfoUZbGZgRx4Tckd3wNY
-         vKgQ==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZKFlu1rGSsQukvkT9KeloJW2B0c6Ugz4QlXCY6/YUKw=;
+        b=TOesXvlNE29IIyBxwQFnOTcG2Pw14g4cMY3M7m4fCi8S6m6f65S7tQ1jUzuKtfNzkR
+         ATONrzUko6zI3eKoDCaFAmNS3YjhItbr5igqeShiV1IK5+KgtuL/RiTsHnkPU+u9I0sz
+         ErwJs5J1BkwK9YZVn6YLa7t8IH6RDpp+ZaHFZiw+e9t2lSOEYn4s9L4GivnduFzSqwI2
+         H9DZ31NaNLLdZEW6xAzYtAMSpjx0hfRi84uiNFiWzgDYFq2rVM11mifOmj5iqZzJOxm4
+         RVtTLD/cOailYg+M9XSzZNJOF9THFRYsNk+mxj1yM0hv3vAHoFLwGTG5Bx5yMxJE2sFc
+         EMQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730784210; x=1731389010;
+        d=1e100.net; s=20230601; t=1730785499; x=1731390299;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sLek+8rRFefzz3qfy2bF6CDdC5m9OTEU8lr9WxdqGCM=;
-        b=ucwuXI4nNRlzKNj6M8C6gC2ooQN+mCvwM5u+6MM1+RGN3pe5YRTxoiNCKB/h3Zrtym
-         lI2paJP3JG4BKF612aWo/etG/3zJpbqiwOaS+aki+7niLvUhxd7MDJN9NAejzg+dG2Fv
-         n0uNCqcNBw6SY6CxFDZ8tX1QwMv48iE2i+5l0gH/lXfsRwL6esXxg0RYh85VL8xzYfJW
-         Zh7HdkjhYEf0MIDiaNbzZcpgYwsF7fhyn70ZvFTkg5/sBQLCDixRoFhEIQ7+w6sx+sVB
-         HwPyqynAz9PtA2aUxk/Z+AVMzKgTNBpj0mzZSKfW1v0E4JS4skQWTSZdBNCi3SbSiVzu
-         r+kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXuDTqMyrEWgOMNMkV2JEn4XmN9M7pUkU0ncXKZr2c1+zWHaBJRye8+Yh5I3G+0HvD9VzcK23bK4vL@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBtcvDcXxhKrzbkQjyPL1zoYuVjSb0n50Ej9fjT/eEmaeYMMPC
-	vyLWdy+AfNtPlBTOjQBz2HhlfGxJUxcGvwWC+Io0zHwVxezZepZabOC+EmonuUA3z5xtJHy37mz
-	iunffLxUD5V29HuqbRidgyiXFQaRAhEVB7e4P0Xbd4pLaRY3mL3RRWxPynomp2BeqgmWd8m2OyK
-	Yt6SSkqSnvUYHVbqB+QpH0CO8T
-X-Google-Smtp-Source: AGHT+IHEIACSt9/rcfK3SRS20RLq+YIWg4Kpqj9LfsyCOxuVCHRmz+k9dQ4OGU35Nq4IDBHXxM7DQQ==
-X-Received: by 2002:a17:906:c145:b0:a99:7bc0:bca9 with SMTP id a640c23a62f3a-a9e6553af4fmr1495008166b.3.1730784209066;
-        Mon, 04 Nov 2024 21:23:29 -0800 (PST)
-Received: from admins-Air ([2a02:810d:aec0:2a54:587b:f26d:2c10:f02a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb181398bsm76145566b.196.2024.11.04.21.23.26
+        bh=ZKFlu1rGSsQukvkT9KeloJW2B0c6Ugz4QlXCY6/YUKw=;
+        b=WA/QhSUuIto/+jJ0Rj4W8ITX15FLNzbKEXiIyF3nqW9ObuGHlUY/iBHWtja1JlU5rM
+         cvllGiFpek26CaLwbmRgtmY1F+TjgBakSg2E9zamr1l99oWQquLcQ/at3yq4EPZBbYhC
+         5XKoYWlRM0b2D+LY8M23jVUjm1RWOZrIa3r5r7w96Ja34KbxNSymQoVLsa9GL3EEK0KB
+         Fx39VZUfSw8ajI4d8x9JUrZ+XN6I/9y98UfALKF8gM8pFfkSktXrX7101J2q8e6+r+NA
+         F6CzrVueodLI6RPcv+0yYOkYkPHf7TXm9HVkoa4qKZmKn+sKNxdE0KX6TlvzbJPHGZcj
+         0Bfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdb4gtoJmtui4gWZOhnsDXCkAHFwiQrd5Loh+03IPGjcDmW/6VZjMlSZKQ0Cy9zLMZNDT2zjEEeTM8rA==@vger.kernel.org, AJvYcCW4VY+LLIm0TJD0AY92wSiS2mJ5lmNhXUlYn24eJiwz8F3/bc4/HDlyGeWlqvHvG7fsBg21AWJJxFUr@vger.kernel.org, AJvYcCWVsImvJ4eDsmDS8yx1kPPuSii9Q4MPD3T6tbCv4O6altFifarAO6c4KIDRMflUtkkDpELKPikjTc+Z@vger.kernel.org, AJvYcCWbtZcak9JWAOzt5QJCh0SHLfmm7/uN1Y6OrcbuFsGp1dIslqm4/1+26F123+CM0r8WQt/+hulyyGn9WdY=@vger.kernel.org, AJvYcCX8d24kfGNiiXaF8mWljkzl8SM85QFKgdTYUEAdrMJ1FL2+RxCNk/RW3bFcEBu/rPv6xbqxJdjik4cVbe/w@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJJoH7Wzp//EjTGGK/PoFmghksoFKONHaaEDvQ6orbl3tqrpct
+	DnvOnFll9USExY8HBclE0EYzrMlMMPn61ASFGtVbWwDfuT7qF5I0
+X-Google-Smtp-Source: AGHT+IFfGfuB66JHWO4NcWfWxC0I2kdjg/uIghAr5FZPGpr7sHO9jl2rgL06JW1h83pKw8joHp3FzQ==
+X-Received: by 2002:a17:90b:4a91:b0:2e2:c423:8e17 with SMTP id 98e67ed59e1d1-2e94c295063mr21438945a91.7.1730785498509;
+        Mon, 04 Nov 2024 21:44:58 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:1bb4:1f23:1031:ac0e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056ed8c7sm70499875ad.53.2024.11.04.21.44.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 21:23:27 -0800 (PST)
-Date: Tue, 5 Nov 2024 06:23:20 +0100
-From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-To: michal.vokac@ysoft.com, pavel@ucw.cz, lee@kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	krzk+dt@kernel.org
-Subject: Re: [PATCH v4 2/3] leds: Add LED1202 I2C driver
-Message-ID: <ZymryKmQxU6Ndkih@admins-Air>
-References: <Zx0A8ywBb9J65Rxl@admins-Air>
- <20241101170658.GA1807686@google.com>
- <ZyYKCMbviprVnoDK@admins-Air>
- <01b7029f-ecac-4b45-a28d-04081b326024@ysoft.com>
+        Mon, 04 Nov 2024 21:44:57 -0800 (PST)
+Date: Mon, 4 Nov 2024 21:44:55 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/6] Input: gpio_keys - avoid using GPIOF_ACTIVE_LOW
+Message-ID: <Zymw17NOSw2zciO9@google.com>
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
+ <20241104093609.156059-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -87,61 +93,51 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <01b7029f-ecac-4b45-a28d-04081b326024@ysoft.com>
+In-Reply-To: <20241104093609.156059-2-andriy.shevchenko@linux.intel.com>
 
+On Mon, Nov 04, 2024 at 11:34:19AM +0200, Andy Shevchenko wrote:
+> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
 > 
-> Hi Vicentiu,
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Hey Michal
- 
-> Once a while I browse through the patches in various mailing lists to keep myself informed.
-> So I came across your patch set pretty randomly.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+> ---
+>  drivers/input/keyboard/gpio_keys.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> I have few tips for you to make your life easier before you get to some serious troubles
-> with the maintainers ;)
-> 
-
-Thanks for the advice. Annoying the maintainers was definitely not my intention.
-My apologies for any inconvenience.
-
-> 1. Always send all the patches in the series to the same recipients list.
-> 
-> That is, do not send dt-bindings to just Rob, Krzysztof etc. and LED driver
-> patches to Lee et al. We all need to see the whole thing.
-> 
-> If you run the scripts/get_maintainer.pl script on the series, you get a complete list.
-> This is what Krzysztof requested you to do in his comments to v3.
-
-Ok. Understood
-
-> 2. Use git format-patch and git send-email tools to submit patches.
-> 
-> If you use these tools you will avoid issues with wrong threading of the messages.
-> 
-
-I have a Macbook as a work computer. 
-I've found online that the way to send it on Mac is with mutt.
-Most certanly I lack some skills, but I took me almost 1 day to have everything working
-mutt + google account + script mutt_oauth2.py
-
-So, quickly jumping to git format-patch and git send-email was something I was not looking
-forward to.
-
-
-> 3. The following text should not be here.
-> 
-> You are supposed to just reply in-place to the review messages to acknowledge
-> that you read the comments and you understand what the reviewers want to
-> change. Then you send a next version of the series as a new message to all
-> the recipients. Definitely not as a in-reply-to to the previous version.
+> diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+> index 380fe8dab3b0..5eef66516e37 100644
+> --- a/drivers/input/keyboard/gpio_keys.c
+> +++ b/drivers/input/keyboard/gpio_keys.c
+> @@ -531,12 +531,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+>  		 * Legacy GPIO number, so request the GPIO here and
+>  		 * convert it to descriptor.
+>  		 */
+> -		unsigned flags = GPIOF_IN;
+> -
+> -		if (button->active_low)
+> -			flags |= GPIOF_ACTIVE_LOW;
+> -
+> -		error = devm_gpio_request_one(dev, button->gpio, flags, desc);
+> +		error = devm_gpio_request_one(dev, button->gpio, GPIOF_IN, desc);
+>  		if (error < 0) {
+>  			dev_err(dev, "Failed to request GPIO %d, error %d\n",
+>  				button->gpio, error);
+> @@ -546,6 +541,9 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+>  		bdata->gpiod = gpio_to_desc(button->gpio);
+>  		if (!bdata->gpiod)
+>  			return -EINVAL;
+> +
+> +		if (button->active_low ^ gpiod_is_active_low(bdata->gpiod))
+> +			gpiod_toggle_active_low(bdata->gpiod);
+>  	}
+>  
+>  	if (bdata->gpiod) {
+> -- 
+> 2.43.0.rc1.1336.g36b5255a03ac
 > 
 
-Ok. I think I got. Hopefully the next ones will be ok.
-
-> 
-> Best regards,
-> Michal
-
-Thanks again and best regards,
-Vicentiu
+-- 
+Dmitry
 
