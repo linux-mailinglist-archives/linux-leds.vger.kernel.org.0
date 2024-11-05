@@ -1,49 +1,50 @@
-Return-Path: <linux-leds+bounces-3288-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3287-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BBD9BD55F
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 19:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CEB9BD558
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 19:52:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDBCD281809
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 18:52:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC7392817BE
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 18:51:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC9F1F4FCA;
-	Tue,  5 Nov 2024 18:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D559F1F471F;
+	Tue,  5 Nov 2024 18:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="GoQ4aj2d"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="N3mhdkb0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE411E7C16;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFFB1EB9EC;
 	Tue,  5 Nov 2024 18:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730832645; cv=none; b=a4upg/6zEmbjATtnuX7R6RRwjpkz2Hm7pSe2gnqGWZucupuLTz3XVn4eO+pTZcAlAN6khMYxH4KjCdRdC70k9XKVofdP+j8QgAN3UtypV5ktHv/FkAPSRiAwcvBUJZicMzyDDcfMkEqqsLWAF4UwieuIV5q2RYx61LqvQvl0vNg=
+	t=1730832642; cv=none; b=hPC6kh7Cyk6beYzxKT2J2zBIa4dAzUYzc1OuCNkVJZM/OC5++Eutt0uj9UOtUJabkn3I7C3mMmFkhe94qpFD/yuD71asgB79YqUp1LRds2Bw6zEFvvLusUC4Bhb40EcFJrFgynRR1Oh6qGWlE5j+GH565AVmbeeST8hygc/tPHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730832645; c=relaxed/simple;
-	bh=VAX0+82+Fngu708Lh3AZW1e6Egd2QTv/qONgohR6bRA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XYrvq5TkyiBq32dlA5cwoalYT+0jIrvXtFYEbA9XmXMaoYo7VZiFKyKwxg+tdmCjB7My1BxZxqQay8tiNO9d+IulDIW6USI3c4guKCFRBYuoTCZ2rdH0nCca//2X32yXbbMJFf7mGeTBfIqeyXmD6QVoG6lBJdTUn//l6zgtWxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=GoQ4aj2d; arc=none smtp.client-ip=37.18.73.165
+	s=arc-20240116; t=1730832642; c=relaxed/simple;
+	bh=3Lk9YQDRiu7Xe9+9aR1SOK4PXEo0DGhpzguMq2dFRrg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XSz4kNdh5f9iidYjMp7zOhzkGzr4d/4dfxX08MpqJhzKonDh5PFTnjzGvj0AwMZ1UV3WUCTTJrjuBZIIMhvJi1zZyX/1IMA7HQBTJYZafu4XGS9Q3FAGxWR4IJwuJVzF3YxVMrAplgfEG1BB2h4FRXAOLTjmjYbX75Lt5w/scv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=N3mhdkb0; arc=none smtp.client-ip=45.89.224.132
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
-Received: from p-infra-ksmg-sc-msk01.sberdevices.ru (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id BC14F100016;
-	Tue,  5 Nov 2024 21:50:28 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru BC14F100016
+Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 00E1812001A;
+	Tue,  5 Nov 2024 21:50:29 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 00E1812001A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1730832628;
-	bh=y6nAAzzkMDWuNh//5mJoh4cSqksisQKY3QkAgnMbq5E=;
+	s=mail; t=1730832629;
+	bh=0uko2DGOqBQDkeDEpra5tojET53uvNmONL7PkmqRMAk=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=GoQ4aj2dIIuKphyj3RjeeaqZx/TL/S6BKSZQLzQHgYMJ6EN/wn4jIL8r4mrv6Dd2q
-	 L9VpCDttQnyZ3qUmJSAB6T94NP2C5ibCdlZUoKsbEsB6XMSTWFSyFxfXXIQw2fBLTI
-	 IRdGXhtgibbq8C+G5dclu3Y605Q3xLaKp/Vylg60rdb8VhgsD5O2FvwsouTo9vhsvw
-	 OOkQjDLkAan8tk8qTEVpmuTK1GTaFuHC2nDG8brgkGDum6i9IfUvmgdNK1M/qyjkyN
-	 SIA4iPL1n/2OQnYT5wvTxJj5twuLqrgl8W5q4H3lKvO5W021NCA6T0MYOOnp4y3Eui
-	 2sIZTx+v47Qpg==
+	b=N3mhdkb0Zgh+f0xsXAtTojVzWRxEkPo+eO1cAb84579jSRG5YC5dwDqAFTDQNmizl
+	 UqMWhSTFspikdZyMMopSVB5XYcfmQw4vuHTPJsuxg26a8VFFkHJGq0KWJ/H54PJ15n
+	 2UJwcKObbLfIGSiG6NevcPlu1iIB1GsgSx3IUKyjb+7xmXtzvkTw6LtwxyUpnSPSF8
+	 IievDLjmvDbQp1SRJ4jeWF8En/cdjhpll/UJkV97ZVD8mlq7ts3zQkg+ZqD73rVM97
+	 KBS5ZzKq6sGTkEpicRkm7zxnVisJJEQM+uLThvKRsKyxc0j49wC3ZkjmLV5Fg4UFGd
+	 HceolfSak7waA==
 Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
@@ -55,10 +56,12 @@ To: <pavel@ucw.cz>, <lee@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
 CC: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <kernel@salutedevices.com>, George Stark
 	<gnstark@salutedevices.com>
-Subject: [RESEND PATCH v2 0/2] leds: pwm: Add default-brightness property
-Date: Tue, 5 Nov 2024 21:50:04 +0300
-Message-ID: <20241105185006.1380166-1-gnstark@salutedevices.com>
+Subject: [RESEND PATCH v2 1/2] dt-bindings: leds: pwm: Add default-brightness property
+Date: Tue, 5 Nov 2024 21:50:05 +0300
+Message-ID: <20241105185006.1380166-2-gnstark@salutedevices.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241105185006.1380166-1-gnstark@salutedevices.com>
+References: <20241105185006.1380166-1-gnstark@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -78,40 +81,41 @@ X-KSMG-AntiSpam-Rate: 0
 X-KSMG-AntiSpam-Status: not_detected
 X-KSMG-AntiSpam-Method: none
 X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41 623e98d5198769c015c72f45fabbb9f77bdb702b, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:7.1.1,5.0.1;salutedevices.com:7.1.1;lore.kernel.org:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
+X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41 623e98d5198769c015c72f45fabbb9f77bdb702b, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;smtp.sberdevices.ru:5.0.1,7.1.1, FromAlignment: s
 X-MS-Exchange-Organization-SCL: -1
 X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/11/05 17:30:00
-X-KSMG-LinksScanning: Clean, bases: 2024/11/05 17:47:00
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
 X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/11/05 17:19:00 #26822794
 X-KSMG-AntiVirus-Status: Clean, skipped
 
-led-pwm driver supports default-state DT property and if that state is on then
-the driver during initialization turns on the LED setting maximum brightness.
-Sometimes it's desirable to use lower initial brightness.
-This patch series adds support for DT property default-brightness.
+Optional default-brightness property specifies brightness value to be
+used if default LED state is on.
 
-Things to discuss:
-If such a property is acceptable it could be moved to leds/common.yaml due to
-several drivers support multiple brightness levels and could support the property
-too.
+Signed-off-by: George Stark <gnstark@salutedevices.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/leds/leds-pwm.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Changes in v2:
-  leds: pwm: Add optional DT property default-brightness
-    - refactor patch to make it more accurate
-  link to v1: [1]
-
-[1] https://lore.kernel.org/lkml/20241015151410.2158102-3-gnstark@salutedevices.com/T/
-
-George Stark (2):
-  dt-bindings: leds: pwm: Add default-brightness property
-  leds: pwm: Add optional DT property default-brightness
-
- .../devicetree/bindings/leds/leds-pwm.yaml      |  6 ++++++
- drivers/leds/leds-pwm.c                         | 17 ++++++++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
-
---
+diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.yaml b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+index 113b7c218303..61b97e8bc36d 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pwm.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+@@ -34,6 +34,12 @@ patternProperties:
+           Maximum brightness possible for the LED
+         $ref: /schemas/types.yaml#/definitions/uint32
+ 
++      default-brightness:
++        description:
++          Brightness to be set if LED's default state is on. Used only during
++          initialization. If the option is not set then max brightness is used.
++        $ref: /schemas/types.yaml#/definitions/uint32
++
+     required:
+       - pwms
+       - max-brightness
+-- 
 2.25.1
 
 
