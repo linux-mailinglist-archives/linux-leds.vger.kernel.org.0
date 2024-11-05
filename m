@@ -1,146 +1,135 @@
-Return-Path: <linux-leds+bounces-3277-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3278-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECD29BC4D3
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 06:45:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816C99BC8A6
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 10:08:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 956561F22710
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 05:45:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46547282E2B
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Nov 2024 09:08:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9CF71BE86E;
-	Tue,  5 Nov 2024 05:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65FD41CEEB8;
+	Tue,  5 Nov 2024 09:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aG2LproR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tM/s6U06"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B477189B80;
-	Tue,  5 Nov 2024 05:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4DB1CDFD1;
+	Tue,  5 Nov 2024 09:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730785522; cv=none; b=WpQbis/Qh7XNcJxhSMg8ncQhelsIVzVsnCqvYjaFUGCWkI/zC+3fuet7A08wJtg4d0Ga9DA4JarCMvN5ncLeREpyq69gAgLuIcWWv0MUDphOnqOavzfEVQURJP8BLVAWrqVwgjzAP2hbJvn3o2IP8vElLm7NlsQxpPaCMtC8Odc=
+	t=1730797678; cv=none; b=HsAeXhlq8uwmk5oHGibHEo7vxWNYpkcli0HbHuu1+kTvYKzy2SkNSsTz1QkezpGChphZ8Drx9T8mfNsxH8ZohX1CY55R1ofPTDdugi05zJMyQv6NbS6SN8exikeOPVlOVB/gwKdiOV5BAxVoYX3i6lzzwRTBmJQNZ6tackZUTJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730785522; c=relaxed/simple;
-	bh=pj4DDAoUIGokaC2yqQD6Sx1d6qPlmvPZHoKG6fJYE7M=;
+	s=arc-20240116; t=1730797678; c=relaxed/simple;
+	bh=pmGq4bxmNkXH43e+/yMhBxMa+keTYDeRSUEaiaZ43bQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQGsvdlkq++iV6oWhaVLqBjPfXggrt5gGDuCRTXuRtzljY1QCgY4qGaXpYI5jpwCLNIwzH+zCwJJzgasBo7ppmmnbDvnwgGOZAUexXNETJe7RNZfRvOsIVqY6+c8HOMdv6FaBhx/2UzuE0mhlLMppumgrMF3Nwtkx548Id+/sA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aG2LproR; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7ede6803585so4354416a12.0;
-        Mon, 04 Nov 2024 21:45:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730785521; x=1731390321; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/RDLe17+douEMkUYt4Wjjg5zMXictGIxgKdWzTriDi8=;
-        b=aG2LproRaL31sInjzNNpyyKMbtxVhzaI1F7RS/rmaP8OloFzi1OM+A8L+tPYY1DF6t
-         f2iBSG/P31nOUnr/3bB/Jcek500N/lvZQ+YEpo+c+Q5+Yhyg8drLrLjGAwzqoH8Nrg+h
-         2Lgp2GiH69LB1JdkWY9RNSd/gQyXgNqYPmHcJo0wO2iIsLcJQLG2ysDA5HVnXtdb+p1Y
-         PyRoRxDZEfOUnYDPHoRR7AdeG7Z5nhxuyI6AR4k7Sec88G97txMEaG4xd1G/+9Ja40LC
-         RONELe+eaWYa5evlSQ9ueJtW/vRCBW4qnfd0k4/owCk5o6vJgAuKFQr7GJwX1CV1EHkA
-         732Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730785521; x=1731390321;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/RDLe17+douEMkUYt4Wjjg5zMXictGIxgKdWzTriDi8=;
-        b=uTJdMg+IaTz1CzSL8CpcbmQgZR2kNOTQchs81AVKnfvSVg4bC/kuxo4M5fwnn5lcfm
-         Wr0+JYw3hLwlXY5D7qLSUnIB/WF0WZK/MHdwhYrpoOMFzpGX04dztClzWWTI3x0ph1dC
-         vff3cS7EC8bZ96qoHHAORWTYwiESP8+fkvUqtMgjQE9MhETPZEeMpFnTQCmwOwwFyNIA
-         JMA4t3kUl8Ktvt6/G20NO5M4AONn9V/MV1sq0Dg98rnb5Kc8kDjJ7cjl73egDOblMgbD
-         1yoVOAz7P1WOKo6sHNtYd5AXtcBC8/vNSWjRPIu7nfx/CRMiNtHTcpkAsER6N0fXhf+Z
-         oYzw==
-X-Forwarded-Encrypted: i=1; AJvYcCU11TfIgSzBPepy/vflvTiVXXhS49+kr901Q3YhTE3jaNf7oq4z12oey3oL2R5zfiMW8BDZvy46aFAY0A==@vger.kernel.org, AJvYcCU58bPnXMIfEaPIfxoYoPV0PYB/mthlLaH4nYaEPvS1RdAwb04wQaeBFebq6OCCys4TsHRE1WBi4y8S@vger.kernel.org, AJvYcCUxNP5VvY+SWqZnbueEGUZ3rXDMYvJRhHF6Rg4KPmZLEIdIO3lCxQBTMeprmcU6B4qGqrOp6dU90LxEbDQ=@vger.kernel.org, AJvYcCVdhX793hSuwuMtwQHLNd+oyy0EbtKwyuJFOcipxZdggQ8lcg74Eo5s4/NYA5fmCWZmT/ocuDdHnsyL@vger.kernel.org, AJvYcCXBVpEg2QQ35bYlJLKrFMTRO1RNQhn0uZ6GX/dPlKojBqTj4HCi6waBnHzAwzhkLmVBeEIiJYdHAlwaaO2u@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuU0XIlm3lkkGomHF1jgbFf+zFOGyiuBAHY0r7NKHxGYuRy9EW
-	IjuQUNM6W3ltSsIQRitaaGtoy1D8vRc0l4ncboKUn9OEaisl2BkT
-X-Google-Smtp-Source: AGHT+IGc+nG1wt+DMP+moaC/TTecbd98DJcbFy/BYzWTbFGMHiYt+g49EqO/yY9xHvXO/9A1wYjT9g==
-X-Received: by 2002:a17:90b:3ec9:b0:2d8:b510:170f with SMTP id 98e67ed59e1d1-2e94c23344emr19375465a91.20.1730785520437;
-        Mon, 04 Nov 2024 21:45:20 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:1bb4:1f23:1031:ac0e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057a60d6sm69822985ad.124.2024.11.04.21.45.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 21:45:20 -0800 (PST)
-Date: Mon, 4 Nov 2024 21:45:17 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 2/6] Input: gpio_keys_polled - avoid using
- GPIOF_ACTIVE_LOW
-Message-ID: <Zymw7fduuSyCCdeS@google.com>
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
- <20241104093609.156059-3-andriy.shevchenko@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gODSsSZIzxGYkiAIk6RehcCkVxEE1T+urA0+lwWkH8mXAkhHUevHj8wkReeTEyVbf4ZtN98YRVeZShBj1twvMCfbIxdPsqIQHsX7eI1cN9BUGMD9PptNOYrFlb63yHJuicOzY6O+ZwULfRXw0U1yD+PP702l4vN3LaSDL7y9reo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tM/s6U06; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68519C4CECF;
+	Tue,  5 Nov 2024 09:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730797677;
+	bh=pmGq4bxmNkXH43e+/yMhBxMa+keTYDeRSUEaiaZ43bQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tM/s6U06yMCdIMZ+I6yPyi159xDRefUguxRfmo4V22GQy/aYgZTJBt36mG8iwHqFd
+	 NozJbUa5TbWLQFh+wGxtFttgp5o/jYvONUZCBQnTafkoSoYYYOBF83t+95rxrWaVrS
+	 /hgJMdO1QYub5jPqWu0EUJ2eNh0Wf4Tkl05ORdDTx0B89q8wS7nVN7VR91mkDfX3VX
+	 cRuVMsw5vy4m+d4aVnBgl2teXhjI8aZ2CyPv3SkTFEaFcyb8BNPjSffrIqcwFNtx6V
+	 MFMgjYB6JxbxCsGxGz9ueLr3wND9JQJHP/gv9SVb3AobG6xiXhHPoZG1NjwqvdnNGz
+	 AX1ZVGO1dqgXg==
+Date: Tue, 5 Nov 2024 10:07:51 +0100
+From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>, 
+	arm@kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH leds v5 02/12] leds: turris-omnia: Use command execution
+ functions from the MCU driver
+Message-ID: <y57d4i3kzk2w7bceuikfrr37ba2iwzdysj3ojjhexrvq6il23f@kkglnapi552l>
+References: <20241104141924.18816-1-kabel@kernel.org>
+ <20241104141924.18816-3-kabel@kernel.org>
+ <ZyjfbOkJgpWVvj9v@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241104093609.156059-3-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZyjfbOkJgpWVvj9v@smile.fi.intel.com>
 
-On Mon, Nov 04, 2024 at 11:34:20AM +0200, Andy Shevchenko wrote:
-> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+On Mon, Nov 04, 2024 at 04:51:24PM +0200, Andy Shevchenko wrote:
+> On Mon, Nov 04, 2024 at 03:19:14PM +0100, Marek Behún wrote:
+> > Use the MCU command execution functions from the MCU driver instead of
+> > the ad-hoc implementation in the LED driver. This allows as to drop the
+> > LED driver implementation, which is a duplicate.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-> ---
->  drivers/input/keyboard/gpio_keys_polled.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
+> ...
 > 
-> diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-> index 41ca0d3c9098..e6707d72210e 100644
-> --- a/drivers/input/keyboard/gpio_keys_polled.c
-> +++ b/drivers/input/keyboard/gpio_keys_polled.c
-> @@ -306,13 +306,8 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
->  			 * Legacy GPIO number so request the GPIO here and
->  			 * convert it to descriptor.
->  			 */
-> -			unsigned flags = GPIOF_IN;
-> -
-> -			if (button->active_low)
-> -				flags |= GPIOF_ACTIVE_LOW;
-> -
-> -			error = devm_gpio_request_one(dev, button->gpio,
-> -					flags, button->desc ? : DRV_NAME);
-> +			error = devm_gpio_request_one(dev, button->gpio, GPIOF_IN,
-> +						      button->desc ? : DRV_NAME);
->  			if (error)
->  				return dev_err_probe(dev, error,
->  						     "unable to claim gpio %u\n",
-> @@ -325,6 +320,9 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
->  					button->gpio);
->  				return -EINVAL;
->  			}
-> +
-> +			if (button->active_low ^ gpiod_is_active_low(bdata->gpiod))
-> +				gpiod_toggle_active_low(bdata->gpiod);
->  		}
->  
->  		bdata->last_state = -1;
-> -- 
-> 2.43.0.rc1.1336.g36b5255a03ac
+> > +static int omnia_match_mcu_client(struct device *dev, void *data)
+> > +{
+> > +	struct i2c_client *client;
+> > +
+> > +	client = i2c_verify_client(dev);
+> > +	if (!client)
+> > +		return 0;
+> > +
+> > +	return client->addr == OMNIA_MCU_I2C_ADDR;
+> > +}
+> > +
+> > +static int omnia_find_mcu_and_get_features(struct device *dev)
+> > +{
+> > +	struct device *mcu_dev;
+> > +	int ret;
+> > +
+> > +	mcu_dev = device_find_child(dev->parent, NULL, omnia_match_mcu_client);
+> > +	if (!mcu_dev)
+> > +		return -ENODEV;
+> > +
+> > +	ret = omnia_mcu_get_features(i2c_verify_client(mcu_dev));
+> > +
+> > +	put_device(mcu_dev);
+> > +
+> > +	return ret;
+> >  }
 > 
+> I'm wondering why the MCU driver (and node) is not represented as syscon
+> (with some regmap beneath it).
+> 
+> In such a case it would be something like
+> 
+>   foo = syscon_regmap_lookup_by_compatible();
+> 
+> here instead of all these dances.
 
--- 
-Dmitry
+Hi Andy,
+
+the MCU interface is command-reply oriented. It is incompatible with
+regmap. I investigated this back in 2019 and explained to Jacek why it
+is not possible, but can't find the e-mail on mailing lists, so I am
+attaching it.
+
+So regmap is most probably not possible, unless things changed.
+
+It is possible to add MCU node to the DT binding and find the device
+that way. But if the device-tree does not contain the MCU node, the
+driver would still have to fall back to this dance, for backwards
+compatibility. Otherwise it would not be able to determine whether gamma
+correction is supported with old device tree, as it does currently.
+
+I guess I could break backwards compatibility with old device tree with
+this small feature. I don't think there are any users that don't use
+TurrisOS, do upgrade the kernel, but don't upgrade the device-tree...
+
+Marek
 
