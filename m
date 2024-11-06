@@ -1,207 +1,179 @@
-Return-Path: <linux-leds+bounces-3308-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3309-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3A99BE45F
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 11:37:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BBC9BE491
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 11:46:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAB261C2189B
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 10:37:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28E761C23450
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 10:46:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AFAE1DDC02;
-	Wed,  6 Nov 2024 10:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28DB11DE2C6;
+	Wed,  6 Nov 2024 10:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7stQKbv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btSOA+op"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A001D358B;
-	Wed,  6 Nov 2024 10:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39442F44;
+	Wed,  6 Nov 2024 10:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730889433; cv=none; b=BvjIDtgAra0PNxpjIubk4N7pXr7DfNOO8RkRIENh4N+H1KKya/1rZAwSHqsh+9nlk2dW4KqlR6vuQlMDrRZ94egFo1ZOckHVosreuZ+DcP/HE/SEJg89EbjwaFsDcTdCyZwiJx9mcV1+WC0J6YkptAfjvIobflAt9aaL7RK3J4k=
+	t=1730889967; cv=none; b=Sul5z0lxsNMKd3ANGa6IVtjj0VyRYvgoU+D8nZZAnxmJsF4A0za0AYGfZeA3FiPh4p5P73v9eUMuGJNfdRe0eLUiOALmYhVCrsj1LY5HY+G5SDREJ5y261rIKYdyXHfnTnbnscik/9Gf/8Kthydmru/Od2cJpZxLmLLyyUWpHik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730889433; c=relaxed/simple;
-	bh=SyN0BUUE8vNmc14UElwkyTklWam+fc6Pwz1elb5EFK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FzS7zbJoKyR6dJaRP1EYhlHZpcZOQRKXMPe+AMBuVieY5Y11AbzC6qN2Y2uu1hoFz3LUqX4tBWlKIdQLXEoWzDhpvj9uIxaaMtRVtW4t21b79cBP4OdU5XanbE7LjLXkzVfeGflxiTEU8GeeASX2K0WBAwPQGgFL4GZpt7fa2GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7stQKbv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 702C0C4CECD;
-	Wed,  6 Nov 2024 10:37:09 +0000 (UTC)
+	s=arc-20240116; t=1730889967; c=relaxed/simple;
+	bh=Id80CP0/w/7Ra1ztx8OJIaV/Z4yYxZI/BwvJ/EnJH3Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m1O9rPCnyqrsXAmNhPMFvwMRrIQwWghOvLCU13Ny09W4sohPBsy86V4kHHtFgyPaMoTKOLjbmO05v6cMkdw/okAH/7mYi2teYC8hKBLZcTyrhSNzPzv2NM3MeR2QeylPALS+errTWBdTc0H/GY/Tsx8Wx55mUnz+/pbMtl/R68E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btSOA+op; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03FBBC4CED0;
+	Wed,  6 Nov 2024 10:46:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730889432;
-	bh=SyN0BUUE8vNmc14UElwkyTklWam+fc6Pwz1elb5EFK0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c7stQKbvzSYGtXaumP8DyzzSAbZ76+cgJwizkFvB/f2GUYjrIckTu7L1v3+8yzA6m
-	 uYaxND4M3410Jmt+apcbF7Dd43OdKbRzCvt5uemnAXPsKjlTOQW8lbWy2RPYLhQVRI
-	 I8ikaNeBTgg9eyXERA4TpPF66oNs0RROsWIofmjK7RsvDe3WPOSg+lhj9633qPvmbp
-	 mfP9raFYEhiDfRcL16g+KqakzsfRJXF7pFSIC9uZmY3KtzJWQ7qbGmcAejdxCfnJmO
-	 O23zJHfaHbjBPYVkuAO03CPdDtLgqNA7fh8M5J+rCzV/8u/AWM/1+HrS3ebVvWE4qx
-	 M+JiX4n+KDSnQ==
-Date: Wed, 6 Nov 2024 10:37:06 +0000
-From: Lee Jones <lee@kernel.org>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org,
-	Gregory CLEMENT <gregory.clement@bootlin.com>, arm@kernel.org,
-	Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH leds v5 07/12] leds: turris-omnia: Notify sysfs on MCU
- global LEDs brightness change
-Message-ID: <20241106103706.GP1807686@google.com>
-References: <20241104141924.18816-1-kabel@kernel.org>
- <20241104141924.18816-8-kabel@kernel.org>
+	s=k20201202; t=1730889966;
+	bh=Id80CP0/w/7Ra1ztx8OJIaV/Z4yYxZI/BwvJ/EnJH3Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=btSOA+op7PmdUtJZ2sWIkzile71qRDpIvDfAUiuxdtrahC/RDh18lrWYFENBsiEuC
+	 RCVaVwWAqLiPmuKIq/I6YI0PNckU3aj1NmSf5/en26XKrpb45r3uCCt+ScAIN+3CnK
+	 E1JMZYMsgfH/+i94kt5WfQH45dOHz/fzoE9pCzBKAWKY7K2EWXNRWqfTxEkTYirJiK
+	 0CtuZcTTgPJMZcbjfGL1n0pqi+2izC1XFCmhtSrCBRPwj+hU292YLAbDFIJcXKHAFN
+	 LicwZctZTZ1K3vemJVGiHiJirvSrh9SLj6FLwfWdCNTH38CbuCPj+u99PxU6YF8RNd
+	 eVoA0KlFwRjlQ==
+Message-ID: <a349a820-7b3f-4739-a506-e2947f6df68d@kernel.org>
+Date: Wed, 6 Nov 2024 11:46:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241104141924.18816-8-kabel@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: driver for O2 Micro LED IC
+To: anishkmr@amazon.com, pavel@ucw.cz, dmurphy@ti.com
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Anish Kumar <yesanishhere@gmail.com>, Karthik Poduval <kpoduval@lab126.com>,
+ Yue Hu <yhuamzn@amazon.com>
+References: <20241106015441.995014-1-anishkmr@amazon.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241106015441.995014-1-anishkmr@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 04 Nov 2024, Marek Behún wrote:
-
-> Recall that on Turris Omnia, the LED controller has a global brightness
-> property, which allows the user to make the front LED panel dimmer.
+On 06/11/2024 02:54, anishkmr@amazon.com wrote:
+> From: Anish Kumar <anishkmr@amazon.com>
 > 
-> There is also a button on the front panel, which by default is
-> configured so that pressing it changes the global brightness to a lower
-> value (unless it is at 0%, in which case pressing the button changes the
-> global brightness to 100%).
+> LED Driver for O2 Micro LED IC
 > 
-> Newer versions of the MCU firmware support informing the SOC that the
-> brightness was changed by button press event via an interrupt.
-> 
-> Now that we have the turris-omnia-mcu driver, which adds support for MCU
-> interrupts, add the ability to inform the userspace (via a sysfs
-> notification) that the global brightness was changed.
-> 
-> Signed-off-by: Marek Behún <kabel@kernel.org>
+> reviewed-by: Anish Kumar <yesanishhere@gmail.com>
+> Signed-off-by: Karthik Poduval <kpoduval@lab126.com>
+> Signed-off-by: Yue Hu <yhuamzn@amazon.com>
 > ---
->  drivers/leds/Kconfig             |  2 +-
->  drivers/leds/leds-turris-omnia.c | 48 ++++++++++++++++++++++++++++++++
->  2 files changed, 49 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index fcbe93b61e49..148384aacdcc 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -217,7 +217,7 @@ config LEDS_TURRIS_OMNIA
->  	depends on I2C
->  	depends on MACH_ARMADA_38X || COMPILE_TEST
->  	depends on OF
-> -	depends on TURRIS_OMNIA_MCU
-> +	depends on TURRIS_OMNIA_MCU_GPIO
->  	select LEDS_TRIGGERS
->  	help
->  	  This option enables basic support for the LEDs found on the front
-> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-> index 7d2ed0c6500a..168ce362fd14 100644
-> --- a/drivers/leds/leds-turris-omnia.c
-> +++ b/drivers/leds/leds-turris-omnia.c
-> @@ -43,12 +43,15 @@ struct omnia_led {
->   * @client:			I2C client device
->   * @lock:			mutex to protect
->   * @has_gamma_correction:	whether the MCU firmware supports gamma correction
-> + * @brightness_knode:		kernel node of the "brightness" device sysfs attribute (this is the
-> + *				driver specific global brightness, not the LED classdev brightness)
->   * @leds:			flexible array of per-LED data
->   */
->  struct omnia_leds {
->  	struct i2c_client *client;
->  	struct mutex lock;
->  	bool has_gamma_correction;
-> +	struct kernfs_node *brightness_knode;
->  	struct omnia_led leds[];
->  };
->  
-> @@ -373,6 +376,30 @@ static struct attribute *omnia_led_controller_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(omnia_led_controller);
->  
-> +static irqreturn_t omnia_brightness_changed_threaded_fn(int irq, void *data)
-> +{
-> +	struct omnia_leds *leds = data;
-> +
-> +	if (unlikely(!leds->brightness_knode)) {
-> +		/*
-> +		 * It would be nicer to get this dirent in the driver probe method, before the IRQ
-> +		 * is requested. But the really_probe() function in drivers/base/dd.c registers
-> +		 * driver's .dev_groups only after probe is finished, so during driver probe the
-> +		 * "brightness" sysfs node is not yet present.
+>  .../devicetree/bindings/leds/leds-ozl003.txt  |  23 ++
 
-Right, but this is known and therefore never called from probe making
-this comment superfluous.  Either do something about it or remove the
-comment and carry-on working with what you have. :)
+1. Please run scripts/checkpatch.pl and fix reported warnings. Then
+please run `scripts/checkpatch.pl --strict` and (probably) fix more
+warnings. Some warnings can be ignored, especially from --strict run,
+but the code here looks like it needs a fix. Feel free to get in touch
+if the warning is not clear.
 
-> +		 *
-> +		 * Note that sysfs_get_dirent() may sleep. This is okay, because we are in threaded
-> +		 * context.
-> +		 */
-> +		leds->brightness_knode = sysfs_get_dirent(leds->client->dev.kobj.sd, "brightness");
-> +		if (!leds->brightness_knode)
-> +			return IRQ_NONE;
-> +	}
-> +
-> +	sysfs_notify_dirent(leds->brightness_knode);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static int omnia_mcu_get_features(const struct i2c_client *mcu_client)
->  {
->  	u16 reply;
-> @@ -459,6 +486,14 @@ static int omnia_leds_probe(struct i2c_client *client)
->  			 "Consider upgrading MCU firmware with the omnia-mcutool utility.\n");
->  	}
->  
-> +	if (client->irq && (ret & OMNIA_FEAT_BRIGHTNESS_INT)) {
-> +		ret = devm_request_threaded_irq(dev, client->irq, NULL,
-> +						omnia_brightness_changed_threaded_fn, IRQF_ONESHOT,
-> +						"leds-turris-omnia", leds);
-> +		if (ret < 0)
-> +			return dev_err_probe(dev, ret, "Cannot request brightness IRQ\n");
-> +	}
-> +
->  	mutex_init(&leds->lock);
->  
->  	ret = devm_led_trigger_register(dev, &omnia_hw_trigger);
-> @@ -481,6 +516,19 @@ static int omnia_leds_probe(struct i2c_client *client)
->  
->  static void omnia_leds_remove(struct i2c_client *client)
->  {
-> +	struct omnia_leds *leds = i2c_get_clientdata(client);
-> +
-> +	/*
-> +	 * We need to free the brightness IRQ here, before putting away the brightness sysfs node.
-> +	 * Otherwise devres would free the interrupt only after the sysfs node is removed, and if
-> +	 * an interrupt occurred between those two events, it would use a removed sysfs node.
-> +	 */
-> +	devm_free_irq(&client->dev, client->irq, leds);
-> +
-> +	/* Now put away the sysfs node we got the first time the interrupt handler was called */
-> +	if (leds->brightness_knode)
-> +		sysfs_put(leds->brightness_knode);
-> +
->  	/* put all LEDs into default (HW triggered) mode */
->  	omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE, OMNIA_CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
->  
-> -- 
-> 2.45.2
-> 
+2. No bindings in TXT. They must com ine DT schema. It is no 2017
+anymore. Please reach to your colleagues in Amazon for some internal
+guidance on upstreaming. Such big companies should perform basic
+internal review instead of asking community to explain that basic stuff.
 
--- 
-Lee Jones [李琼斯]
+3. Please use scripts/get_maintainers.pl to get a list of necessary
+people and lists to CC. It might happen, that command when run on an
+older kernel, gives you outdated entries. Therefore please be sure you
+base your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+
+
+
+...
+
+
+> +
+> +static struct i2c_driver ozl003_driver = {
+> +	.driver = {
+> +		.owner = THIS_MODULE,
+
+Please do no send downstream, junk code. This was fixed years ago.
+
+> +		.name = "ozl003",
+> +		.of_match_table = ozl003_match_table,
+> +	},
+> +	.id_table = ozl003_id,
+> +	.probe = ozl003_probe,
+> +	.remove = ozl003_remove,
+> +};
+> +
+
+...
+
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:ozl003-led");
+
+Drop as well. Useless or incorrect.
+
+Best regards,
+Krzysztof
+
 
