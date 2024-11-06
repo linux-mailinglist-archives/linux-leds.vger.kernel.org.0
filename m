@@ -1,69 +1,65 @@
-Return-Path: <linux-leds+bounces-3304-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3305-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CEE9BE1D3
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 10:08:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34A59BE33E
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 10:55:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11A3C1C210AB
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 09:08:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4C62FB21A25
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 09:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357D01DC194;
-	Wed,  6 Nov 2024 09:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A0E51DD0FF;
+	Wed,  6 Nov 2024 09:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ky3ZD82E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBIWBSwt"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1811D63F3;
-	Wed,  6 Nov 2024 09:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617E81DACAF;
+	Wed,  6 Nov 2024 09:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730883917; cv=none; b=rpfsyllJMQyjgzzYJxvZZl3wAlNu5FPxjLzweQUdfhFkzT3xL0a1EhCJ9R9/Nsup0H526K18QUg4VG93HwMzjqb8hHoTCBZsy9rd/bdUplDaQI93swW64VO/AfsU22PVFaxiEU69dzJOEKrwtORqR+bJVX46PVIBuhqmko/tA00=
+	t=1730886926; cv=none; b=DbcHRrBWSYYytGAfLBCv1mB+YXOEgv4un0Q4D8TtlqP3BKHZ40ZusKXkNTjtSnYMtzAppN/8LTNZvEt9lwcYxJAICsxnpn3b3xo3f/Xk4N9up3/9kfrN6BhZihGfDVF1zsiKssX8zuKV6d0T3BYr8KrUJQpMLIDJ450dR2zGRBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730883917; c=relaxed/simple;
-	bh=bZxgR2PWLkGJRu+OTwhP61Fmug5IVUKMq4IwoiIgluY=;
+	s=arc-20240116; t=1730886926; c=relaxed/simple;
+	bh=RZivVHsX1p8dULP9mNC1LUxwiEF+L/SLxiNfZZN1qRE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UU/euSkHV3OqOEjdDEXuLafqrb8E1zlnSU8LChD7MlV4/t40JjkPlwKZTtD0btqno+UfmfNcTfFR2srvmYNVzUp9ocLwsCR9h9NmFnArumcNNfJqr3J4SuF4jvfOlfnAm8cowqo++zvAk1gnkLXmQYAw7Cot04saYhG461P0frI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ky3ZD82E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87BFCC4CECD;
-	Wed,  6 Nov 2024 09:05:12 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9E45YGWo/eCO5s55pI12B0eNOnpZ8Ge9tsKpyydTPEPG8qTiP55HBaz8fxzUPoWp1MZFJJJJ0xZSfGP9cYDfDESrkSRH9xEFbetTPrC2D8YgKUOvYmnQPY2VezP02NBZXNJIFzejhVXSf/Qoy+GORoDa2IJUgdSBf8eLOktYmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBIWBSwt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0AA9C4CED0;
+	Wed,  6 Nov 2024 09:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730883916;
-	bh=bZxgR2PWLkGJRu+OTwhP61Fmug5IVUKMq4IwoiIgluY=;
+	s=k20201202; t=1730886926;
+	bh=RZivVHsX1p8dULP9mNC1LUxwiEF+L/SLxiNfZZN1qRE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ky3ZD82EkBeaw9OP1Clsj5oXO+GrPp9xzmS+fUhDt/cjoqUGE6kVr5wAF59D1kK8i
-	 EVZg4ThYgzlmFc2VXZ5qKC/ROcxD+cFIHUgSgsRX7WVCGK2ibN4R2ndJchcAj/4YJM
-	 kcdtSw/pX9BT8k8GO3D36ZhIQo5z/1iF2A2tCS22i1/7hjonaZ8PVqh3QzgI8d2EFK
-	 LtKusaT8HmrwvOXqrPeqmB2WBPp68YRJ5PeVBDi0mX1tZDY5BFhtcJrg88y9zHT7du
-	 xW1YEb0nEhhEzuO2BRefHw7/JRl2niFE6HWHFVIQTbfwa+zeQAy+/U7BSjdnVN5vJ6
-	 e9QvZGoQbJ/zw==
-Date: Wed, 6 Nov 2024 09:05:09 +0000
+	b=JBIWBSwtMF1lHVxk8kFv5Ld+3FgvQU+Up3RYG+nPrJeI/7oWIsTpH3o1OKU+Q0qqh
+	 vsMy90fYuiQWNfhssG0Rx9/yYjW7pD0Tv3uMuO0zU9KilM7TJbeEaq5wkI7Ql+kWIi
+	 4uegJ1Az4kcKGYXINFG2SoB6DPzEaEj/iL+E4UdImwZdlt22kUwGGFu54ut7HBl3sc
+	 inlNY4wajw6+u43BLb15PKxBapCMh4TnVptbaEbkxrZXdnKXcyw/NuMF5jCunwOKLJ
+	 8+PleglAX7gZs3yWnHS8UMAlmH518P7zcXhaZOgXrEhgpfyNmAx06ZpLLgup08EAQu
+	 V0AY4hi5o/INA==
+Date: Wed, 6 Nov 2024 09:55:20 +0000
 From: Lee Jones <lee@kernel.org>
-To: Stanislav Jakubek <stano.jakubek@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] dt-bindings: mfd: sprd,sc2731: reference
- sprd,sc2731-efuse bindings
-Message-ID: <20241106090509.GL1807686@google.com>
-References: <efd200c3b5b75405e4e450d064b026f10ae2f8e0.1730709384.git.stano.jakubek@gmail.com>
- <cd8cc95b59c31418b174bba521dd2599a7929fda.1730709384.git.stano.jakubek@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 3/6] leds: gpio: Avoid using GPIOF_ACTIVE_LOW
+Message-ID: <20241106095520.GM1807686@google.com>
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
+ <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -73,25 +69,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd8cc95b59c31418b174bba521dd2599a7929fda.1730709384.git.stano.jakubek@gmail.com>
+In-Reply-To: <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
 
-On Mon, 04 Nov 2024, Stanislav Jakubek wrote:
+On Mon, 04 Nov 2024, Andy Shevchenko wrote:
 
-> Directly reference the sc2731-efuse bindings to simplify the schema.
-> Remove the duplicate example from the efuse bindings.
+> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
 > 
-> Signed-off-by: Stanislav Jakubek <stano.jakubek@gmail.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
-> Changes in V3:
-> - new patch due to a missing dependency in the MFD tree 
-> 
-> Link to V2: https://lore.kernel.org/lkml/ZyExK01iprBHhGm6@standask-GA-A55M-S2HP/
-> Link to V1: https://lore.kernel.org/lkml/Zr3X1RoQs7ElTnlJ@standask-GA-A55M-S2HP/
-> 
->  .../devicetree/bindings/mfd/sprd,sc2731.yaml  | 10 +------
->  .../bindings/nvmem/sprd,sc2731-efuse.yaml     | 29 -------------------
+>  drivers/leds/leds-gpio.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 
-Srini, you happy for this to go in via MFD?
+Acked-by: Lee Jones <lee@kernel.org>
+
+> diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+> index 0d59b0bbc002..a3428b22de3a 100644
+> --- a/drivers/leds/leds-gpio.c
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -212,7 +212,6 @@ static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>  					    const struct gpio_led *template)
+>  {
+>  	struct gpio_desc *gpiod;
+> -	unsigned long flags = GPIOF_OUT_INIT_LOW;
+>  	int ret;
+>  
+>  	/*
+> @@ -239,10 +238,7 @@ static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>  	if (!gpio_is_valid(template->gpio))
+>  		return ERR_PTR(-ENOENT);
+>  
+> -	if (template->active_low)
+> -		flags |= GPIOF_ACTIVE_LOW;
+> -
+> -	ret = devm_gpio_request_one(dev, template->gpio, flags,
+> +	ret = devm_gpio_request_one(dev, template->gpio, GPIOF_OUT_INIT_LOW,
+>  				    template->name);
+>  	if (ret < 0)
+>  		return ERR_PTR(ret);
+> @@ -251,6 +247,9 @@ static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>  	if (!gpiod)
+>  		return ERR_PTR(-EINVAL);
+>  
+> +	if (template->active_low ^ gpiod_is_active_low(gpiod))
+> +		gpiod_toggle_active_low(gpiod);
+> +
+>  	return gpiod;
+>  }
+>  
+> -- 
+> 2.43.0.rc1.1336.g36b5255a03ac
+> 
 
 -- 
 Lee Jones [李琼斯]
