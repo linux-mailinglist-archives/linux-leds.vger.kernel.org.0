@@ -1,58 +1,56 @@
-Return-Path: <linux-leds+bounces-3316-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3317-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34279BEFAC
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 14:59:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 853C49BEFB7
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 15:01:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24A07B212DE
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 13:59:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4ABED281E62
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 14:01:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A75200CB7;
-	Wed,  6 Nov 2024 13:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1447E1DF745;
+	Wed,  6 Nov 2024 14:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAC2tMlv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLSfW0Zm"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F8017DFF2;
-	Wed,  6 Nov 2024 13:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D601E1898E9;
+	Wed,  6 Nov 2024 14:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730901552; cv=none; b=GzZCkoLtGk4gxBVmutuN9ku12/STHGBUW+3PbGwdPrBO+nWgYAlD0VZXFrJm9lkv2uL2PBg5x0SmYey+dHttPdWet7EefKAWdReM8Ojxdcn72g8kOQFfR9zxc5c27sO9ucN4ngE2eXgD+VbOzeG2UOm/UKAuoOAZbBa0J8P/k9A=
+	t=1730901682; cv=none; b=TZchN5cN6wYZRtjAR2NpeHf60gj2daLXpgShx3Gwi6qbopmny0/Q5o/Nl8lRLmZs0f1LtYwq0C4IFpjCbJw+EwY9TeYCku0SbuCdMm0o6OePsO0wlWUiGKTPw3mdKEYbmfr+qHkIDUO+AgEBqBBQ5ontFdPe6FrkGNfhzANjRxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730901552; c=relaxed/simple;
-	bh=L/8YMxvyNwnI5zLAy8H13m0yzgYnRf4I8l3T6fZ9kp0=;
+	s=arc-20240116; t=1730901682; c=relaxed/simple;
+	bh=i7Zmi87D8d0gBokDvVUy3Mhw6AjH4JyV50E/iLattpU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kkNUL0FBZ+th6qVguHhw6Uf58Ek293uvte2gc1iaQlihwytgxV5VQqbA8gp7lQNvWVbIFpMEiBHL6PW50Vmh7BvzW5bOkb2n/4ZHCmGbRm75FeG0aHvOFzneBr74gAI2/1AoZTACa3LqhEixxtVsRXXKy3lfHmc3pjeMi6/LexY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAC2tMlv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F352C4CEC6;
-	Wed,  6 Nov 2024 13:59:10 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9pzRRwOSCAvi1t8JyJFfatn9420GgIMYE1SIXt66aAWwH1JJ/nRKUutPMbXcNjk/jT9d0Op9GC+Q4uNbbljwaeNaqpBiTR6FsIVBoT+hq5aaMSfilYeOsq505E3dCLAzRoLHp5WpYQgIzMucISfc04tULFiM71m9JnhtOg/i+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLSfW0Zm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C02CC4CEC6;
+	Wed,  6 Nov 2024 14:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730901551;
-	bh=L/8YMxvyNwnI5zLAy8H13m0yzgYnRf4I8l3T6fZ9kp0=;
+	s=k20201202; t=1730901681;
+	bh=i7Zmi87D8d0gBokDvVUy3Mhw6AjH4JyV50E/iLattpU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AAC2tMlvCJbV+uWBMVEliFPVSO9bTha3xYSXhQAPt+H9lLA58DMqvN4hmiwYYiWFx
-	 12R5+XhgTpUi6+t16UD2DJiIrY/lHPx3RkZHg8D4E65lpVPOEuNPrypkZmm4K0zXoV
-	 ci/sGr39maUiaVzl04vQfxAnLOeD9jIJy1RSkoejgQ3vtkGmXtnR2ZFpjMxUMFXwOY
-	 lSbjAp37B28zxvxdKWbIR3JbLt5rKg/9AcPQQEB+8oJrRy/kAsGAAPsoGQLYhNC6Uu
-	 jNG7hTe20UX3HX7UtlQ/l6haQHJquE/7LEGAKq1aysds6PuMzDsIEVI8YbzbQzcy2J
-	 oU8esAsYPShpg==
-Date: Wed, 6 Nov 2024 14:59:08 +0100
+	b=OLSfW0ZmKhSBFzNytPLoYes5edBhcDMGgGcXHbp9rybjrcfOK1/is2f70/32xAnW+
+	 ra0v4DJAn2kElKT0TZCwQ28qm4PqsXoHVaufdH8NbuF30p2lvWe4zhtMN37p/DI55t
+	 UngKWPjzgi99iOpvdGPvDHInEXeBspMJNSt/IF8B4o1FbCWmkeIQDg/O5oE+HiEidM
+	 Kpl2S6UmlAV36QRUi8tCdirwq3I1gWJl0NmQ97AUSGqK1VHujtI61lQfJq6H0wW/r/
+	 SI0XpeNvpbGKg18nUv+NS3Hn23+OCXmslNy6Z2UBDpmqVwcxGtOr75LSnzB4ub3iaQ
+	 WoIIrLfBBpOWA==
+Date: Wed, 6 Nov 2024 15:01:15 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] [PATCH v4] dt-bindings: leds: Add LED1202 LED
- Controller
-Message-ID: <us45a35olruo6xaykepmhkdhal3zbit6f5kxo2utzqiukc3kte@kzbwcm7qtfww>
+Subject: Re: [PATCH 1/3] [PATCH v3] Documentation:leds: Add leds-st1202.rst
+Message-ID: <3dfaukblo37yf3xy3ch2uooi6zcn7owbdigyjwl6jh3zruwr7o@je6tvxnsva2c>
 References: <20241106061812.6819-1-vicentiu.galanopulo@remote-tech.co.uk>
- <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,66 +59,28 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
+In-Reply-To: <20241106061812.6819-1-vicentiu.galanopulo@remote-tech.co.uk>
 
-On Wed, Nov 06, 2024 at 06:18:08AM +0000, Vicentiu Galanopulo wrote:
-> The LED1202 is a 12-channel low quiescent current LED driver with:
->   * Supply range from 2.6 V to 5 V
->   * 20 mA current capability per channel
->   * 1.8 V compatible I2C control interface
->   * 8-bit analog dimming individual control
->   * 12-bit local PWM resolution
->   * 8 programmable patterns
-> 
-> If the led node is present in the controller then the channel is
-> set to active.
-> 
-> v1: https://lore.kernel.org/lkml/ZnCnnQfwuRueCIQ0@admins-Air/T/
-> v2: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
-> v3: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
-
-This goes after ---.
-
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
-
-This ws correct in v3 so I do not understand what is happening with this
-patch.
-
+On Wed, Nov 06, 2024 at 06:18:07AM +0000, Vicentiu Galanopulo wrote:
+> Add usage for sysfs hw_pattern entry for leds-st1202
 > 
 > Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+> ---
+>  - Changes in v3: Add leds-st1202 to index.rst
+>  - Changes in v2: Implement review comments
+> ---
+>  Documentation/leds/index.rst       |  1 +
+>  Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 Documentation/leds/leds-st1202.rst
 > 
-> ---
-> Changes in v4:
->   - remove label property, use devm_led_classdev_register_ext instead
 
-Where? This is a binding.
+I don't understand your patch threading and formatting. Why binding is
+v4 but this is v3?
 
->   - use as base patch the v3
-
-What does it mean? How can you no use v3, but something else?
-
-> Changes in v3:
->   - remove active property
-> Changes in v2:
->   - renamed label to remove color from it
->   - add color property for each node
->   - add function and function-enumerator property for each node
-> ---
-
-You have also whitespace errors in your patch. Again:
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
-
->  .../devicetree/bindings/leds/st,led1202.yaml  | 132 ++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+Please mark your patches appropriately. Use b4 or git format-patch -v4.
+If you use other commands, you can screw things up, so then it is up to
+you to create proper sets.
 
 Best regards,
 Krzysztof
