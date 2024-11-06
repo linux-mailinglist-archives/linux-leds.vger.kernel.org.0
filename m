@@ -1,101 +1,114 @@
-Return-Path: <linux-leds+bounces-3320-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3321-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF739BF493
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 18:49:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9209BF8CD
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 23:03:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1B82286AD7
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 17:49:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6D1B28432C
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 22:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF14620721C;
-	Wed,  6 Nov 2024 17:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44FFB1D6DB7;
+	Wed,  6 Nov 2024 22:03:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="gcj3HTZ7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bJsGY8/n"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D98F205137;
-	Wed,  6 Nov 2024 17:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F961D0E23;
+	Wed,  6 Nov 2024 22:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730915351; cv=none; b=QuS10lptNcoTF0VMrO4FPuDUTrxAfjmy71M1LgiVEZQ/Q7z/ArlENNn1/FkzK0u9QJtQtDnC/3zE9+4VROl5H8Y+KVSo3UooJHZDbBgvUFy3sEUbKOhUcD8/n2Z9Bvqqz6ROwYNKbHN/qq6QJSDEOUd70FjlGtMsMYAMm+QTwq0=
+	t=1730930620; cv=none; b=bbys8lGqjXDCLrKAqn3RxkfUEiKMJ7Tu31d/aBBNUIpEIebvhP6xc/6fSRyQh4jmXsmmEyxyqNIuTcMWcaUiI1QX1fEzJSLImUJ//BXoJHSPnDASMNXCT0TaVWmCelkb31IpKqKFkwI1/U+zRCBm+UIrMODcrGmtkxzfODzRx3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730915351; c=relaxed/simple;
-	bh=rZ0AHnFlkPojxV8zDLmE7gXqcPz0Hc1o+TSxHoEAZBY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RH2d2aMexWGqUl1fWFe0mavT2N5jLraWhtRro2c2dBYR17U2ImaaXP8BXGVvYLIE7hrucIIz6cR1EPkyUQXHwicsUAvpUWReh7IMOYe1igfes96hrvrFEnTmm1ijUHgBafMvNAejXcNXNhfFP0RJCfbJkrSMCP6w0SPtw5lzJmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=gcj3HTZ7; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 33AF61C00A8; Wed,  6 Nov 2024 18:49:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1730915346;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrqxqbGgbhGqhX5NKtxPAjB1Ah5iqmFvP6g0rlkAXFE=;
-	b=gcj3HTZ7ZpwPKj7DPl19zsYplL4Cq4z5Yi7Q1RACgd0Kzse7ZWCXgdkFJOPetMHFV3//kR
-	yUoOdSNatYVwPWBfqY7bgTFkeoY/VbClTxphi5i770e/LUoNMIrX3vHbFzPbiBTmUdedzp
-	/r9g1laAU2V/Xwee6NUYbz9bfcaWvD8=
-Date: Wed, 6 Nov 2024 18:49:05 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: anishkmr@amazon.com
-Cc: dmurphy@ti.com, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Anish Kumar <yesanishhere@gmail.com>,
-	Karthik Poduval <kpoduval@lab126.com>, Yue Hu <yhuamzn@amazon.com>
-Subject: Re: [PATCH] leds: driver for O2 Micro LED IC
-Message-ID: <ZyusEX3Pad8DTAk+@duo.ucw.cz>
-References: <20241106015441.995014-1-anishkmr@amazon.com>
+	s=arc-20240116; t=1730930620; c=relaxed/simple;
+	bh=YJWjwpYXHiV2SY6PkifU5htAknhaTr+41+oZ8yNDjec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N8R+hjtSxZ3fJSXXTVFjFOa1SD0Bu3YacxCybU5OcPzaUuEZJrYH+uosc9LCWMzuSrkB7gXWwvhE3K07b40t08kZaFtBmRCgYmj+plFm+hFx88zVXnTSiPvSvK54x5Pbyy5gzcZqN/lPNCydXMX1GWA1Ac1Uo9TgZF6QWFosf9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bJsGY8/n; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb4af0b6beso4149941fa.3;
+        Wed, 06 Nov 2024 14:03:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730930616; x=1731535416; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qIj8QYqUkzDrkpjYMB5/jbWypSblXkiBacZ+ENgTse8=;
+        b=bJsGY8/n3VleB9mlZF6zSaDj7+seQpLOB1ophK1eXg7hQXnzV/y9JOgTCn1ZOSwFDy
+         T+LJCcLG2XTFl+dON8j85bRIW7vrJDmq0UXoKF1T9SI8wf+3a45qe7P46O4Y/wgc4Xgv
+         sdMQxY8P2pvjIp54o8S0F+aLUQpx7bnehS97zFm+Uz4BSvV99DGCeXe5/r6ZJTuUZytt
+         HSPilyaUS5XR624/TER+v8yaEn4V+CzBcFPmK4Os5pYLGMGgM/mN1ky57S0pTIRg1KMl
+         NeaK+3+5/ix8+yYDDr6ZrqL7fMyQ2TQ0k3Q6ElCJJIPXsea8L+U3Z7vGzlo39lFkc0Aa
+         XwoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730930616; x=1731535416;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qIj8QYqUkzDrkpjYMB5/jbWypSblXkiBacZ+ENgTse8=;
+        b=KLdJJrhikfvLrZtB6aF0XO1YHjusfd7d9FfDBF2ERsxnFw0PGiEiGPgyvgIWhY67uq
+         OCXivVSjSBt208gqEfGNWLbD45q9+ctkm6oWbdnVB/bXL6/jVOUw2czHEH6VRAO+WiNe
+         gPwJt/ZyOosO95ILV3WqGzi4Myn8XmejtTbBThJVIDMUtJQV3OXmj7xCSbm4dwwcw8Em
+         t2EPaQ2Jf3+lQ/FJzGgyEVEd8ClZH08TWr9CULf28OGjGCKxYIKj1SBM7kojgYvv7lOD
+         ghIXI7+Ogc7AcDxdWiRg4e14DaEtvS7gInEuCS16iwxCtIT8Fo1A/SYiVKCkyZ3vMMDn
+         VCww==
+X-Forwarded-Encrypted: i=1; AJvYcCVxXv8vrThEVVF3AFDaGu2k5szjFEYzzVgZuEMVFDREC0vH/KE3wYTtyxiatZIjWt5d25A21KhASMDx83Q=@vger.kernel.org, AJvYcCXeZCBhDMeFXh9CbB+sdmf9Pv24Qqp5IadcRg7Ofsyz02wlP/eUt8JEm1dyqpx/QvW7FgYKxPbs7VRreg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YziAHI1o8mCP/h9aaQc/egXq2KDbH3ZiAsgsmCOGxL52OFsP9CK
+	NcVgmASmqaGJMcCOa4KSzy//cw9IWenGZu4kKNdAicHdij+scr3MJl25E0BTRVY01w8280mUSrg
+	3R/W/8TOT9q8ROVlcp/Mfx3hxTuQ=
+X-Google-Smtp-Source: AGHT+IEO77gOQ5lnKmiwOtNspVF7cv9Ls5keQEslYlOuWg0QevYlxNqB8qZZzxFkVY4hpuh+azhtXwKZaLz1TB3Qp9M=
+X-Received: by 2002:a2e:be0c:0:b0:2fa:d84a:bda5 with SMTP id
+ 38308e7fff4ca-2fedb794b84mr154563801fa.7.1730930616224; Wed, 06 Nov 2024
+ 14:03:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ihaWzg01fV8LJLgH"
-Content-Disposition: inline
-In-Reply-To: <20241106015441.995014-1-anishkmr@amazon.com>
-
-
---ihaWzg01fV8LJLgH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241106015441.995014-1-anishkmr@amazon.com> <ZyusEX3Pad8DTAk+@duo.ucw.cz>
+In-Reply-To: <ZyusEX3Pad8DTAk+@duo.ucw.cz>
+From: anish kumar <yesanishhere@gmail.com>
+Date: Wed, 6 Nov 2024 14:03:24 -0800
+Message-ID: <CABCoZhDAg1LfUZ1XCTFkR=TbHEUn=yOQRqrugzDK5Apge3JVPw@mail.gmail.com>
+Subject: Re: [PATCH] leds: driver for O2 Micro LED IC
+To: Pavel Machek <pavel@ucw.cz>
+Cc: anishkmr@amazon.com, dmurphy@ti.com, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Karthik Poduval <kpoduval@lab126.com>, 
+	Yue Hu <yhuamzn@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+On Wed, Nov 6, 2024 at 9:49=E2=80=AFAM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > +++ b/Documentation/devicetree/bindings/leds/leds-ozl003.txt
+> > @@ -0,0 +1,23 @@
+> > +*O2 Micro Compact LED Strobe Light Controller
+> > +
+> > +Compact LED strobe light controller, can be controlled by I2C or via a
+> > +PWM gpio controlled.
+> > +
+> > +Required properties:
+> > +- compatible : "o2micro,ozl003"
+>
+> o2micro needs to be registered as a prefix somewhere.
 
-> +++ b/Documentation/devicetree/bindings/leds/leds-ozl003.txt
-> @@ -0,0 +1,23 @@
-> +*O2 Micro Compact LED Strobe Light Controller
-> +
-> +Compact LED strobe light controller, can be controlled by I2C or via a
-> +PWM gpio controlled.
-> +
-> +Required properties:
-> +- compatible : "o2micro,ozl003"
+Wondering if adding hereDocumentation/devicetree/bindings/vendor-prefixes.y=
+aml
+not sufficient? I added that in the same patch though, I guess
+I will have to split the patch to add that first and then the
+driver.
 
-o2micro needs to be registered as a prefix somewhere.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---ihaWzg01fV8LJLgH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZyusEQAKCRAw5/Bqldv6
-8oqkAJ9rllItCguh3nlqL4LAaohv1Gu6UQCbBwNsNov+8NZVoL4YQc29I8fRiYs=
-=bOme
------END PGP SIGNATURE-----
-
---ihaWzg01fV8LJLgH--
+>
+> Best regards,
+>                                                                 Pavel
+> --
+> People of Russia, stop Putin before his war on Ukraine escalates.
 
