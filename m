@@ -1,262 +1,160 @@
-Return-Path: <linux-leds+bounces-3291-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3292-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8BB39BDBC1
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 03:04:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C70D9BDEB7
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 07:18:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D80711C20F5A
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 02:04:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 240201F2453A
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 06:18:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2FFB18E377;
-	Wed,  6 Nov 2024 02:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CECD1925B4;
+	Wed,  6 Nov 2024 06:18:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U26jhd04"
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="bESeYVjn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0192318E357;
-	Wed,  6 Nov 2024 02:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B6A1922DB
+	for <linux-leds@vger.kernel.org>; Wed,  6 Nov 2024 06:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730858643; cv=none; b=Td1SWc6aw/24OdVsyI7FGpsAQUF6eMlWvea7Tlvuh64shP6t42ExlRLG8aTG/LBJZ8OzU0P5sWLNr1dV4y247LpZggQYe+k6ncb93jHKHCMuc0TCnRkIaMHTQLHVw9tzjPe7URC9C3x+3ZdeRiE9pVLRVk+ocekGzeQNgzdavac=
+	t=1730873902; cv=none; b=swBYw4X2NT3Ye4LrjqlYyOdmsNL9KasTKnCsKt1DGYbw3dkMJpmMigejsJoJIjFjJDWLNqW2FBeZ+3DuvTCN3LHjtWBsLXOPS/Mz3y1uEts/59WSvIPRwQAaWXL1A/7fGOsWBKMpdDDOX113vBgU2H7ax+d/O+6hT42WgF+MBd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730858643; c=relaxed/simple;
-	bh=yr5Ph1Tihi1w7qUuN1EN22QtdOscYJpSIjS6vBaq1m4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idhzMZkuzDhGrlqC8nPAHhYUUj4nAzDJ4Ozhs/Kr9R0VXodXyeR0Bm5RZ51EPl5PXIgNUGUoUvoa3TjWNv6xtaSYhVg0HGx51tEz80gVOy8XZhllknZkFJCh/+xZ572FQcpCPDToO+Se4OoHj5Yd3cWMsSBomr93Uhqqzii3vQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U26jhd04; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730858642; x=1762394642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yr5Ph1Tihi1w7qUuN1EN22QtdOscYJpSIjS6vBaq1m4=;
-  b=U26jhd04PpPfWzl2AbR6Oj8bNEbC9Mhvhl6UDydg8/AzAXB/SCkRzPVw
-   DGuIbNMldb9OMBnC0/TlBOBH20RNmnm8OZNqDRM6JFfcXR4s+lZd0g1vN
-   HyoRtd5nS9t/Su3VZ9t+Nnb8vXrqI4ayczHDyQAZisyo2PR2Ox6Q2V+8l
-   OGG/pSLe9xcuVzpUhI8Y6ZwKnyES+A+hyQ45U4Kch8KxVhDGd9qtXTnXj
-   O33Z6+UH4DBwnRe5kVb5fAfhqafMT6BZ0SZ9Y1FkTSoGcJ6/5azCfDwNC
-   59faYf4SOrsURZJUr9saBgTBLEKiqVLUd4YHzbJkJGkdx+uDqWr1JNhY1
-   A==;
-X-CSE-ConnectionGUID: awJhk+3BQ+uT9amShg67dw==
-X-CSE-MsgGUID: 9U/AhoQdSF2CYLIO+AqZCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="56036262"
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="56036262"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 18:04:01 -0800
-X-CSE-ConnectionGUID: n5hkPUTeQeOgsBhL/4vAJA==
-X-CSE-MsgGUID: tQ/8Oae2SmidS+ia16R7rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="84600421"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Nov 2024 18:03:58 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8VOl-000mjt-1k;
-	Wed, 06 Nov 2024 02:03:55 +0000
-Date: Wed, 6 Nov 2024 10:03:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	s=arc-20240116; t=1730873902; c=relaxed/simple;
+	bh=GOR+kBMKKKTUIGtKRM9XCI7YPrZNWfva3GQbxSEtoSM=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Ryr2TDPU9fTrawkhns+WAwi/vrevWmOaeODjXVCEl0/y0BMORGBB0sA7cx3U9bnx7kRg6PoTAI67s6JZoOXCh45y5YZIW5BxomW9VbWIxQNABg4/OVmJaPa2xS1vpiSEfDoVqq1cUnF6K4CCgR3dFI0oDEbzEaC5/Jsh3boh3v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=bESeYVjn; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5ced377447bso4254640a12.1
+        for <linux-leds@vger.kernel.org>; Tue, 05 Nov 2024 22:18:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1730873897; x=1731478697; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I8iWPAz9+BWvksPjr7PaPX4v4WYSbjtCmVf883G/l4A=;
+        b=bESeYVjnchrH9XzS4dV5pZ+9Zj7e5TNJ12qsN/uRA5CfWbeXSRSHDnakshsSa0KqLa
+         NvsJP/jK7mOX4kz/ljcAcWdV6lBA68vfmBK0bMkITk2B7Y03M1co+W4+ZEqrZWl0QlER
+         UJa6kUWGr382jQv+EULr7+tQPgHmdvVAn0ihx1FqVsQv/MuRLDVcuFxZPj5kIvVJOKz3
+         9fp9CAPlWOZOBnT223XVzkker41BdirKwcOzHrFpStgerJEDBn1gVRJdLxVJQeFmRjeT
+         +h0pgP1opKFWeTrlbDdvtuJQwveXg3onz/HiCeNxVAikfRZt/prIxn4bPCDZI/d+x5/7
+         PYcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730873897; x=1731478697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I8iWPAz9+BWvksPjr7PaPX4v4WYSbjtCmVf883G/l4A=;
+        b=wW/V0km8yjRKVcA/TmiBAI5Opsf9YuF66ZA3s2vAGkjXluqDf54jEDhFWrD7RNPxjc
+         Xl2Di/pQQnZ9ayYvK4+WwQNExs//1gxeTNkr6ujG5WvYzrmtIXglxdNLipFSxWnKInOF
+         rLTE20H41+5jCCoZ1CpLaDTv5KWZx0FM3BGqv4chkmrMSsbd2fbLSKw2ZgGvztGLQDDD
+         QomcWL19PSTA4uDnz/Tx1G4zK0RPjLfWE030Cf32/WEDOZq9NzXRV+F38XImZ6v8Fy8u
+         Ob8HAoXiQnWzwoHeQjQG/JN94PR2qIg2XMW3r6H5E9zmqx7FlEoxF6Y/lakAdh3Oi/X+
+         CoQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8HECAfXETBGcugVLMi120hqvZBZlFGAUDrhmAu4udHRiZYlh9izlgnCmrAOReNPTSkGdrCCpBlv7x@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEOoMeC6rDv9pP0T0aepQvUuo0IiqD2E84B/2VYvAoCTm2AnKf
+	TkRkvQgDPCD+uUJ+oLxFKimOHOJp9oT19qoEzsdGG2ulzw7VDZ/fipjSbfLBnWqd4lqSzzp0o7T
+	WU9alcnWiMKg9AWmwh5CFC7CTiUcxokhIH+UuuwlBBtety3mO2IOs8VHAoKUhQ4UOj/d18CY8oG
+	zdml9Ir7Pnn8cOAUeGufukZiR0
+X-Google-Smtp-Source: AGHT+IFhssBi+UlpY04epBO4T8YAbXnYbIOZ36OUnkPmVbmrgXEXs9H586XxPpmnYSy0vPODACN07Q==
+X-Received: by 2002:a17:907:6e8a:b0:a99:5021:bcf0 with SMTP id a640c23a62f3a-a9e3a61eaa2mr2578981566b.34.1730873896762;
+        Tue, 05 Nov 2024 22:18:16 -0800 (PST)
+Received: from localhost.localdomain ([178.27.36.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17cecccsm232360866b.102.2024.11.05.22.18.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 22:18:16 -0800 (PST)
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
-Message-ID: <202411060929.dw469eSa-lkp@intel.com>
-References: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
+Subject: [PATCH 1/3] [PATCH v3] Documentation:leds: Add leds-st1202.rst
+Date: Wed,  6 Nov 2024 06:18:07 +0000
+Message-Id: <20241106061812.6819-1-vicentiu.galanopulo@remote-tech.co.uk>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Transfer-Encoding: 8bit
 
-Hi Vicentiu,
+Add usage for sysfs hw_pattern entry for leds-st1202
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+---
+ - Changes in v3: Add leds-st1202 to index.rst
+ - Changes in v2: Implement review comments
+---
+ Documentation/leds/index.rst       |  1 +
+ Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 Documentation/leds/leds-st1202.rst
 
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on robh/for-next linus/master v6.12-rc6 next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-001305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20241105161041.4813-3-vicentiu.galanopulo%40remote-tech.co.uk
-patch subject: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241106/202411060929.dw469eSa-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060929.dw469eSa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060929.dw469eSa-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/leds/leds-st1202.c:12:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/leds/leds-st1202.c:12:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/leds/leds-st1202.c:12:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/leds/leds-st1202.c:12:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/leds/leds-st1202.c:350:28: warning: missing terminating '"' character [-Winvalid-pp-token]
-     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
-         |                                                 ^
->> drivers/leds/leds-st1202.c:350:28: error: expected expression
-   drivers/leds/leds-st1202.c:351:17: warning: missing terminating '"' character [-Winvalid-pp-token]
-     351 |                                         error: %d\n", err);
-         |                                                    ^
-   9 warnings and 1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +350 drivers/leds/leds-st1202.c
-
-   318	
-   319	static int st1202_dt_init(struct st1202_chip *chip)
-   320	{
-   321		struct device *dev = &chip->client->dev;
-   322		struct st1202_led *led;
-   323		int err, reg;
-   324	
-   325		for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
-   326			struct led_init_data init_data = {};
-   327	
-   328			err = of_property_read_u32(child, "reg", &reg);
-   329			if (err) {
-   330				of_node_put(child);
-   331				return dev_err_probe(dev, err, "Invalid register, error: %d\n", err);
-   332			}
-   333	
-   334			led = &chip->leds[reg];
-   335			led->is_active = true;
-   336			led->fwnode = of_fwnode_handle(child);
-   337	
-   338			led->led_cdev.max_brightness = U8_MAX;
-   339			led->led_cdev.brightness_set_blocking = st1202_led_set;
-   340			led->led_cdev.pattern_set = st1202_led_pattern_set;
-   341			led->led_cdev.pattern_clear = st1202_led_pattern_clear;
-   342			led->led_cdev.default_trigger = "pattern";
-   343	
-   344			init_data.fwnode = led->fwnode;
-   345			init_data.devicename = "st1202";
-   346			init_data.default_label = ":";
-   347			err = devm_led_classdev_register_ext(dev,
-   348						&led->led_cdev, &init_data);
-   349			if (err < 0) {
- > 350				dev_err_probe(dev, err, "Failed to register LED class dev,
-   351						error: %d\n", err);
-   352				return err;
-   353			}
-   354			led->led_cdev.brightness_set = st1202_brightness_set;
-   355			led->led_cdev.brightness_get = st1202_brightness_get;
-   356		}
-   357	
-   358		return 0;
-   359	}
-   360	
-
+diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+index 3ade16c18328..0ab0a2128a11 100644
+--- a/Documentation/leds/index.rst
++++ b/Documentation/leds/index.rst
+@@ -28,4 +28,5 @@ LEDs
+    leds-mlxcpld
+    leds-mt6370-rgb
+    leds-sc27xx
++   leds-st1202.rst
+    leds-qcom-lpg
+diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
+new file mode 100644
+index 000000000000..e647966e496c
+--- /dev/null
++++ b/Documentation/leds/leds-st1202.rst
+@@ -0,0 +1,36 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================================
++Kernel driver for STMicroelectronics LED1202
++============================================
++
++/sys/class/leds/<led>/hw_pattern
++--------------------------------
++
++Specify a hardware pattern for the ST1202 LED. The LED
++controller implements 12 low-side current generators
++with independent dimming control. Internal volatile memory
++allows the user to store up to 8 different patterns.
++Each pattern is a particular output configuration in terms
++of PWM duty-cycle and duration (ms).
++
++To be compatible with the hardware pattern
++format, maximum 8 tuples of brightness (PWM) and duration must
++be written to hw_pattern.
++
++- Min pattern duration: 22 ms
++- Max pattern duration: 5660 ms
++
++The format of the hardware pattern values should be:
++"brightness duration brightness duration ..."
++
++/sys/class/leds/<led>/repeat
++----------------------------
++
++Specify a pattern repeat number, which is common for all channels.
++Default is 1; negative numbers and 0 are invalid.
++
++This file will always return the originally written repeat number.
++
++When the 255 value is written to it, all patterns will repeat
++indefinitely.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
 
