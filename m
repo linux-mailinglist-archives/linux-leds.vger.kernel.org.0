@@ -1,487 +1,262 @@
-Return-Path: <linux-leds+bounces-3290-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3291-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361429BDB7E
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 02:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BB39BDBC1
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 03:04:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 593871C22888
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 01:54:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D80711C20F5A
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 02:04:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76CE318BBBB;
-	Wed,  6 Nov 2024 01:54:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2FFB18E377;
+	Wed,  6 Nov 2024 02:04:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="WYzvBVLb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U26jhd04"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D266BFCA;
-	Wed,  6 Nov 2024 01:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0192318E357;
+	Wed,  6 Nov 2024 02:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730858089; cv=none; b=GDrgH4vryXdaHWnvZ7IfH5r8CTS+7kGORFQ2sKbQVjRb0Q24lwlt8M9XrZ33UB7f8Kyb5FrSgXKKHJwgCmpk63+YNnIyyVwY5K0BRw1IKen5eyvj7MP4QqFnbIoCeuyTte2D8oXObIbzSBcMC/K+WA1CWcikG/hkS5c0MxQpqzQ=
+	t=1730858643; cv=none; b=Td1SWc6aw/24OdVsyI7FGpsAQUF6eMlWvea7Tlvuh64shP6t42ExlRLG8aTG/LBJZ8OzU0P5sWLNr1dV4y247LpZggQYe+k6ncb93jHKHCMuc0TCnRkIaMHTQLHVw9tzjPe7URC9C3x+3ZdeRiE9pVLRVk+ocekGzeQNgzdavac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730858089; c=relaxed/simple;
-	bh=aG3UK+CVuWHOb3OOJcJnDpLZgZTUdLmLjz460K3Pfy8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bvzkSaReGUlhQsYX9vyqwETgwb/hnYAQZdM6fkFYA80t1/N+CR6CwuPoINuizC/G7cvqB4MdzbijFllNlLGrJ6nhiIcRmoHQPtGVB0Rkdqxr7gteZ9kvIJUHEOGjnQ9byPoi0506c/EGG2oUGoTe/n4IBoOiMFwccXvaqNC5ybs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=WYzvBVLb; arc=none smtp.client-ip=52.119.213.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1730858088; x=1762394088;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zThZNmrvdvQBHwrxPBNp03hJ36qLcErblHLPxcP3g8Q=;
-  b=WYzvBVLbx8WbgWdOMdQku+p3NtaWscV3OVLzOj+W4jK6yxgoMrMWaq2y
-   hxImiP7EZHqk4D9BI+FZOAXf+oXMe1NB30xGxgjiaYLUDMA1fiadUPiQs
-   k94fds1Vn85XlX72jdXuEGqLFmaLa5G9JV/PuxRupOr+ZPDOdGtCJw+TN
-   0=;
-X-IronPort-AV: E=Sophos;i="6.11,261,1725321600"; 
-   d="scan'208";a="693368507"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 01:54:46 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [10.0.7.35:61550]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.10.37:2525] with esmtp (Farcaster)
- id 4f1531bb-e8bf-48a2-93c4-f41193bd1676; Wed, 6 Nov 2024 01:54:45 +0000 (UTC)
-X-Farcaster-Flow-ID: 4f1531bb-e8bf-48a2-93c4-f41193bd1676
-Received: from EX19D018UWC002.ant.amazon.com (10.13.138.159) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 6 Nov 2024 01:54:44 +0000
-Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
- EX19D018UWC002.ant.amazon.com (10.13.138.159) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 6 Nov 2024 01:54:44 +0000
-Received: from email-imr-corp-prod-pdx-1box-2b-8c2c6aed.us-west-2.amazon.com
- (10.25.36.214) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Wed, 6 Nov 2024 01:54:44 +0000
-Received: from u82295ab0776f5b.ant.amazon.com (u82295ab0776f5b.ant.amazon.com [10.68.86.58])
-	by email-imr-corp-prod-pdx-1box-2b-8c2c6aed.us-west-2.amazon.com (Postfix) with ESMTP id 32863A059D;
-	Wed,  6 Nov 2024 01:54:44 +0000 (UTC)
-From: <anishkmr@amazon.com>
-To: <pavel@ucw.cz>, <dmurphy@ti.com>
-CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Anish Kumar
-	<anishkmr@amazon.com>, Anish Kumar <yesanishhere@gmail.com>, Karthik Poduval
-	<kpoduval@lab126.com>, Yue Hu <yhuamzn@amazon.com>
-Subject: [PATCH] leds: driver for O2 Micro LED IC
-Date: Tue, 5 Nov 2024 17:54:41 -0800
-Message-ID: <20241106015441.995014-1-anishkmr@amazon.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1730858643; c=relaxed/simple;
+	bh=yr5Ph1Tihi1w7qUuN1EN22QtdOscYJpSIjS6vBaq1m4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=idhzMZkuzDhGrlqC8nPAHhYUUj4nAzDJ4Ozhs/Kr9R0VXodXyeR0Bm5RZ51EPl5PXIgNUGUoUvoa3TjWNv6xtaSYhVg0HGx51tEz80gVOy8XZhllknZkFJCh/+xZ572FQcpCPDToO+Se4OoHj5Yd3cWMsSBomr93Uhqqzii3vQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U26jhd04; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730858642; x=1762394642;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yr5Ph1Tihi1w7qUuN1EN22QtdOscYJpSIjS6vBaq1m4=;
+  b=U26jhd04PpPfWzl2AbR6Oj8bNEbC9Mhvhl6UDydg8/AzAXB/SCkRzPVw
+   DGuIbNMldb9OMBnC0/TlBOBH20RNmnm8OZNqDRM6JFfcXR4s+lZd0g1vN
+   HyoRtd5nS9t/Su3VZ9t+Nnb8vXrqI4ayczHDyQAZisyo2PR2Ox6Q2V+8l
+   OGG/pSLe9xcuVzpUhI8Y6ZwKnyES+A+hyQ45U4Kch8KxVhDGd9qtXTnXj
+   O33Z6+UH4DBwnRe5kVb5fAfhqafMT6BZ0SZ9Y1FkTSoGcJ6/5azCfDwNC
+   59faYf4SOrsURZJUr9saBgTBLEKiqVLUd4YHzbJkJGkdx+uDqWr1JNhY1
+   A==;
+X-CSE-ConnectionGUID: awJhk+3BQ+uT9amShg67dw==
+X-CSE-MsgGUID: 9U/AhoQdSF2CYLIO+AqZCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="56036262"
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="56036262"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 18:04:01 -0800
+X-CSE-ConnectionGUID: n5hkPUTeQeOgsBhL/4vAJA==
+X-CSE-MsgGUID: tQ/8Oae2SmidS+ia16R7rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="84600421"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 05 Nov 2024 18:03:58 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t8VOl-000mjt-1k;
+	Wed, 06 Nov 2024 02:03:55 +0000
+Date: Wed, 6 Nov 2024 10:03:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
+Message-ID: <202411060929.dw469eSa-lkp@intel.com>
+References: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 
-From: Anish Kumar <anishkmr@amazon.com>
+Hi Vicentiu,
 
-LED Driver for O2 Micro LED IC
+kernel test robot noticed the following build errors:
 
-reviewed-by: Anish Kumar <yesanishhere@gmail.com>
-Signed-off-by: Karthik Poduval <kpoduval@lab126.com>
-Signed-off-by: Yue Hu <yhuamzn@amazon.com>
----
- .../devicetree/bindings/leds/leds-ozl003.txt  |  23 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- drivers/leds/Kconfig                          |   6 +
- drivers/leds/Makefile                         |   1 +
- drivers/leds/leds-ozl003.c                    | 306 ++++++++++++++++++
- 5 files changed, 338 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-ozl003.txt
- create mode 100644 drivers/leds/leds-ozl003.c
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on robh/for-next linus/master v6.12-rc6 next-20241105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-ozl003.txt b/Documentation/devicetree/bindings/leds/leds-ozl003.txt
-new file mode 100644
-index 000000000000..9dbd78ed1093
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-ozl003.txt
-@@ -0,0 +1,23 @@
-+*O2 Micro Compact LED Strobe Light Controller
-+
-+Compact LED strobe light controller, can be controlled by I2C or via a
-+PWM gpio controlled.
-+
-+Required properties:
-+- compatible : "o2micro,ozl003"
-+- #address-cells: must be 1
-+- #size-cells: must be 0
-+- reg: I2C slave address. depends on the model.
-+
-+Optional properties:
-+- gpio-mode: if set then controlled via gpio
-+
-+Examples:
-+
-+irled: ozl003@4b {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+	compatible = "o2micro,ozl003";
-+	reg = <0x4B>;
-+};
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index f6064d84a424..06453649c0e7 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -796,6 +796,8 @@ patternProperties:
-     description: NVIDIA
-   "^nxp,.*":
-     description: NXP Semiconductors
-+  "^o2micro,.*":
-+    description: O2Micro Ltd.
-   "^oceanic,.*":
-     description: Oceanic Systems (UK) Ltd.
-   "^oct,.*":
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b6742b4231bf..ddc5bc0886af 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -732,6 +732,12 @@ config LEDS_OT200
- 	  This option enables support for the LEDs on the Bachmann OT200.
- 	  Say Y to enable LEDs on the Bachmann OT200.
- 
-+config LEDS_OZL003
-+	tristate "O2 Micro OZL003 Compact LED Strobe Light Controller"
-+	depends on LEDS_CLASS && I2C
-+	help
-+	  This option enables support for O2 Micro LED IC.
-+
- config LEDS_MENF21BMC
- 	tristate "LED support for the MEN 14F021P00 BMC"
- 	depends on LEDS_CLASS && MFD_MENF21BMC
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 2a698df9da57..b89c8747466d 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -73,6 +73,7 @@ obj-$(CONFIG_LEDS_NETXBIG)		+= leds-netxbig.o
- obj-$(CONFIG_LEDS_NIC78BX)		+= leds-nic78bx.o
- obj-$(CONFIG_LEDS_NS2)			+= leds-ns2.o
- obj-$(CONFIG_LEDS_OT200)		+= leds-ot200.o
-+obj-$(CONFIG_LEDS_OZL003)		+= leds-ozl003.o
- obj-$(CONFIG_LEDS_PCA9532)		+= leds-pca9532.o
- obj-$(CONFIG_LEDS_PCA955X)		+= leds-pca955x.o
- obj-$(CONFIG_LEDS_PCA963X)		+= leds-pca963x.o
-diff --git a/drivers/leds/leds-ozl003.c b/drivers/leds/leds-ozl003.c
-new file mode 100644
-index 000000000000..0b6a98a2ab19
---- /dev/null
-+++ b/drivers/leds/leds-ozl003.c
-@@ -0,0 +1,306 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/i2c.h>
-+#include <linux/delay.h>
-+#include <linux/of.h>
-+#include <linux/slab.h>
-+#include <linux/leds.h>
-+#include <linux/of_gpio.h>
-+
-+/* Register mapping */
-+#define OPERATION_MODE			(0x00)
-+#define ISEN1_REG_SETTING		(0x01)
-+#define ISEN2_REG_SETTING		(0x02)
-+#define DURATION_WDT			(0x03)
-+#define STATUS_REG			(0x04)
-+#define PROTECTION_THRES		(0x05)
-+
-+/* Register bit masks */
-+#define OPERATION_MODE_CNTRL_MSK	(0x01)
-+#define OPERATION_MODE_ENA_MSK		(0x02)
-+#define OPERATION_MODE_VLED_MSK		(0xFC)
-+#define ISEN_REG_MSK			(0x80)
-+#define DURATION_WDT_LED_MSK		(0x80)
-+
-+/* Default Register values */
-+#define ISEN1_CURRENT			(0x7D)
-+#define ISEN2_CURRENT			(0x7D)
-+#define DEFAULT_STROBE_OP		(0x00)
-+#define DEFAULT_VLED_OUTPUT		(0x00)
-+#define DEFAULT_PROT_THRES		(0x06)
-+#define DEFAULT_WDT_AND_I2C_DISABLE	(0x00)
-+
-+#define OZL003_MAX_BRIGHTNESS		(127)
-+
-+struct ozl003 {
-+	struct i2c_client *client;
-+	bool gpio_mode;
-+	struct led_classdev led_dev;
-+	enum led_brightness brightness;
-+	struct mutex lock;
-+	struct work_struct work;
-+};
-+
-+static int ozl003_i2c_read_byte(struct ozl003 *ozl003, u8 addr, u8 *val)
-+{
-+	int retval;
-+	struct i2c_client *client = ozl003->client;
-+	struct i2c_adapter *adap = client->adapter;
-+	struct i2c_msg msg[2];
-+
-+	msg[0].addr = client->addr;
-+	msg[0].len = 1;
-+	msg[0].flags = 0;
-+	msg[0].buf = &addr;
-+
-+	msg[1].addr = client->addr;
-+	msg[1].flags = I2C_M_RD;
-+	msg[1].len = 1;
-+	msg[1].buf = val;
-+
-+	retval = i2c_transfer(adap, msg, 2);
-+	if (retval < 0)
-+		return retval;
-+	return (retval == 2) ? 0 : -EIO;
-+}
-+
-+static int ozl003_i2c_write_byte(struct ozl003 *ozl003, u8 addr, u8 val)
-+{
-+	int retval;
-+	u8 buf[2];
-+	struct i2c_client *client = ozl003->client;
-+
-+	buf[0] = addr;
-+	buf[1] = val;
-+
-+	retval = i2c_master_send(client, buf, 2);
-+	if (retval < 0)
-+		return retval;
-+	return (retval == 2) ? 0 : -EIO;
-+}
-+
-+static int ozl003_set_led_operation(struct ozl003 *ozl003, bool on)
-+{
-+	int ret;
-+	u8 val;
-+
-+	/* If we are using gpio to toggle LED, no need to set register */
-+	if (ozl003->gpio_mode)
-+		return 0;
-+
-+	ret = ozl003_i2c_read_byte(ozl003, DURATION_WDT, &val);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed getting WDT register ret=%d\n", ret);
-+		return ret;
-+	}
-+	if (on)
-+		val |= DURATION_WDT_LED_MSK;
-+	else
-+		val &= (~DURATION_WDT_LED_MSK);
-+	ret = ozl003_i2c_write_byte(ozl003, DURATION_WDT, val);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting WDT register ret=%d\n", ret);
-+	}
-+	return ret;
-+}
-+
-+static int ozl003_set_led_brightness(struct ozl003 *ozl003, enum led_brightness brt_val)
-+{
-+	int ret = 0;
-+	u8 s1_current;
-+	u8 s2_current;
-+
-+	s1_current = s2_current = brt_val;
-+
-+	ret = ozl003_i2c_write_byte(ozl003, ISEN1_REG_SETTING, s1_current);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting SEN1 current register ret=%d\n", ret);
-+		return ret;
-+	}
-+	ret = ozl003_i2c_write_byte(ozl003, ISEN2_REG_SETTING, s2_current);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting SEN2 current ret=%d\n", ret);
-+		return ret;
-+	}
-+	return ret;
-+
-+}
-+
-+static void ozl003_led_brightness_work(struct work_struct *work)
-+{
-+	struct ozl003 *ozl003 = container_of(work, struct ozl003, work);
-+
-+	mutex_lock(&ozl003->lock);
-+
-+	if (ozl003->brightness == LED_OFF) {
-+		ozl003_set_led_operation(ozl003, false);
-+	} else {
-+		ozl003_set_led_brightness(ozl003, ozl003->brightness);
-+		ozl003_set_led_operation(ozl003, true);
-+	}
-+
-+	mutex_unlock(&ozl003->lock);
-+}
-+
-+static void ozl003_brightness_set(struct led_classdev *led_cdev,
-+		enum led_brightness brt_val)
-+{
-+	struct ozl003 *ozl003 = container_of(led_cdev, struct ozl003, led_dev);
-+	bool update_brightness = false;
-+
-+	mutex_lock(&ozl003->lock);
-+
-+	if (brt_val != ozl003->brightness)
-+		update_brightness = true;
-+
-+	ozl003->brightness = brt_val;
-+
-+	mutex_unlock(&ozl003->lock);
-+
-+	if (update_brightness)
-+		schedule_work(&ozl003->work);
-+}
-+
-+static int ozl003_init(struct ozl003 *ozl003)
-+{
-+	int ret;
-+	u8 mode = DEFAULT_VLED_OUTPUT;
-+	u8 s1_current = 0;
-+	u8 s2_current = 0;
-+
-+	if (ozl003->gpio_mode) {
-+		mode &= (~OPERATION_MODE_CNTRL_MSK);
-+	} else { /* I2C mode */
-+		mode |= OPERATION_MODE_CNTRL_MSK;
-+	}
-+
-+	ret = ozl003_i2c_write_byte(ozl003, OPERATION_MODE, mode);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting OP register ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ozl003_i2c_write_byte(ozl003, ISEN1_REG_SETTING, s1_current);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting SEN1 current register ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ozl003_i2c_write_byte(ozl003, ISEN2_REG_SETTING, s2_current);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting SEN2 current ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	/* disable the delay timer */
-+	ret = ozl003_i2c_write_byte(ozl003, DURATION_WDT, DEFAULT_WDT_AND_I2C_DISABLE);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting WDT register ret=%d\n", ret);
-+	}
-+
-+	/* enable the IC */
-+	mode |= OPERATION_MODE_ENA_MSK;
-+	ret = ozl003_i2c_write_byte(ozl003, OPERATION_MODE, mode);
-+	if (unlikely(ret)) {
-+		dev_err(&(ozl003->client->dev),
-+				"Failed setting OP register ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ozl003_probe(struct i2c_client *client,
-+		const struct i2c_device_id *id)
-+{
-+	struct ozl003 *ozl003;
-+	struct device_node *np = client->dev.of_node;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(&client->dev, "i2c_check_functionality error\n");
-+		return -EIO;
-+	}
-+
-+	ozl003 = devm_kzalloc(&client->dev, sizeof(struct ozl003), GFP_KERNEL);
-+	if (!ozl003)
-+		return -ENOMEM;
-+	ozl003->client = client;
-+	i2c_set_clientdata(client, ozl003);
-+	mutex_init(&ozl003->lock);
-+	INIT_WORK(&ozl003->work, ozl003_led_brightness_work);
-+
-+	if (client->dev.of_node) {
-+		ozl003->gpio_mode = of_property_read_bool(np, "gpio-mode");
-+		dev_info(&client->dev, "gpio-mode %d\n", ozl003->gpio_mode);
-+	}
-+
-+
-+	ozl003->led_dev.max_brightness = OZL003_MAX_BRIGHTNESS;
-+	ozl003->led_dev.brightness_set = ozl003_brightness_set;
-+	ozl003->led_dev.name = "ozl003";
-+
-+	ret = ozl003_init(ozl003);
-+	if (ret)
-+		goto err;
-+
-+	ret = led_classdev_register(&client->dev, &ozl003->led_dev);
-+	if (ret) {
-+		dev_err(&client->dev, "led register err: %d\n", ret);
-+		goto err;
-+	}
-+
-+	return 0;
-+
-+err:
-+	return ret;
-+}
-+
-+static int ozl003_remove(struct i2c_client *client)
-+{
-+	struct ozl003 *ozl003 = i2c_get_clientdata(client);
-+
-+	led_classdev_unregister(&ozl003->led_dev);
-+	return 0;
-+}
-+
-+static const struct i2c_device_id ozl003_id[] = {
-+	{ "ozl003", 0 },
-+	{ }
-+};
-+
-+static const struct of_device_id ozl003_match_table[] = {
-+	{.compatible = "o2micro,ozl003",},
-+	{ },
-+};
-+
-+MODULE_DEVICE_TABLE(i2c, ozl003_id);
-+
-+static struct i2c_driver ozl003_driver = {
-+	.driver = {
-+		.owner = THIS_MODULE,
-+		.name = "ozl003",
-+		.of_match_table = ozl003_match_table,
-+	},
-+	.id_table = ozl003_id,
-+	.probe = ozl003_probe,
-+	.remove = ozl003_remove,
-+};
-+
-+module_i2c_driver(ozl003_driver);
-+
-+MODULE_AUTHOR("Yue Hu <yhuamzn@amazon.com>");
-+MODULE_AUTHOR("Karthik Poduval <kpoduval@lab126.com>");
-+MODULE_DESCRIPTION("O2 Micro LED Controller driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:ozl003-led");
+url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-001305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20241105161041.4813-3-vicentiu.galanopulo%40remote-tech.co.uk
+patch subject: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241106/202411060929.dw469eSa-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060929.dw469eSa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060929.dw469eSa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/leds/leds-st1202.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/leds/leds-st1202.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/leds/leds-st1202.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/leds/leds-st1202.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   drivers/leds/leds-st1202.c:350:28: warning: missing terminating '"' character [-Winvalid-pp-token]
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                                 ^
+>> drivers/leds/leds-st1202.c:350:28: error: expected expression
+   drivers/leds/leds-st1202.c:351:17: warning: missing terminating '"' character [-Winvalid-pp-token]
+     351 |                                         error: %d\n", err);
+         |                                                    ^
+   9 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +350 drivers/leds/leds-st1202.c
+
+   318	
+   319	static int st1202_dt_init(struct st1202_chip *chip)
+   320	{
+   321		struct device *dev = &chip->client->dev;
+   322		struct st1202_led *led;
+   323		int err, reg;
+   324	
+   325		for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+   326			struct led_init_data init_data = {};
+   327	
+   328			err = of_property_read_u32(child, "reg", &reg);
+   329			if (err) {
+   330				of_node_put(child);
+   331				return dev_err_probe(dev, err, "Invalid register, error: %d\n", err);
+   332			}
+   333	
+   334			led = &chip->leds[reg];
+   335			led->is_active = true;
+   336			led->fwnode = of_fwnode_handle(child);
+   337	
+   338			led->led_cdev.max_brightness = U8_MAX;
+   339			led->led_cdev.brightness_set_blocking = st1202_led_set;
+   340			led->led_cdev.pattern_set = st1202_led_pattern_set;
+   341			led->led_cdev.pattern_clear = st1202_led_pattern_clear;
+   342			led->led_cdev.default_trigger = "pattern";
+   343	
+   344			init_data.fwnode = led->fwnode;
+   345			init_data.devicename = "st1202";
+   346			init_data.default_label = ":";
+   347			err = devm_led_classdev_register_ext(dev,
+   348						&led->led_cdev, &init_data);
+   349			if (err < 0) {
+ > 350				dev_err_probe(dev, err, "Failed to register LED class dev,
+   351						error: %d\n", err);
+   352				return err;
+   353			}
+   354			led->led_cdev.brightness_set = st1202_brightness_set;
+   355			led->led_cdev.brightness_get = st1202_brightness_get;
+   356		}
+   357	
+   358		return 0;
+   359	}
+   360	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
