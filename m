@@ -1,117 +1,128 @@
-Return-Path: <linux-leds+bounces-3315-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3316-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391069BEF59
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 14:44:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A34279BEFAC
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 14:59:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2DEB285AC9
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 13:44:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24A07B212DE
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 13:59:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4BE1FA26E;
-	Wed,  6 Nov 2024 13:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A75200CB7;
+	Wed,  6 Nov 2024 13:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="f3CcdIPo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAC2tMlv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512BA1FA255
-	for <linux-leds@vger.kernel.org>; Wed,  6 Nov 2024 13:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F8017DFF2;
+	Wed,  6 Nov 2024 13:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730900627; cv=none; b=EUB1uW07iU5c/DqkFhdhzj7lPUMAA2cAUD++BZcnaplUbbA9UVIboi8PcXP0MfM6/Rh700g86bvlL7rXKprW9+Mc+jPU5VizxU86Ze7NaT8YmDRSYRTplsMxncewBX4WLOLLPZKvUBgs0IuCxm3jvel4IaQinipRB7V7Tyfn49A=
+	t=1730901552; cv=none; b=GzZCkoLtGk4gxBVmutuN9ku12/STHGBUW+3PbGwdPrBO+nWgYAlD0VZXFrJm9lkv2uL2PBg5x0SmYey+dHttPdWet7EefKAWdReM8Ojxdcn72g8kOQFfR9zxc5c27sO9ucN4ngE2eXgD+VbOzeG2UOm/UKAuoOAZbBa0J8P/k9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730900627; c=relaxed/simple;
-	bh=07turtyFaUtqmTN7irIArurWZHjH3oZpuJFzYmQgqlU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kwvG5Xl3DHneuDjMWwQaNS9TYepJgwWgEl7+KO3EMIyJW/kFfw1i808sK5zLNsM/mgb4/RvvNviS7q4B+BlUf3Bx4FcDE764ahu3jsWZyEMjrkUPbHJ9RtzIpBIdeTB2DpkYgDQORwlQH07V3OzIo1UNOi/TrV49iLxa3t0uNSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=f3CcdIPo; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb5743074bso7337321fa.1
-        for <linux-leds@vger.kernel.org>; Wed, 06 Nov 2024 05:43:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1730900624; x=1731505424; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=07turtyFaUtqmTN7irIArurWZHjH3oZpuJFzYmQgqlU=;
-        b=f3CcdIPoULNOErGfe7BXfAsURIm4et373ySgVx6cdoUgNhp4INO93h6R/F2yDiDfLu
-         ldr/kxxfMhsdCTBO4RcOT3i+xlleOh6EIAVyvupoIGUXjOEbPAMoNDXWYyAQ8hjSTPPx
-         /FGUHI5TnpwImxyp5vlsMgDzQVhWKduYrGOtSRP5e4vGzQ8P6j7kkfO4CRCvfs4t8H/B
-         Pbl1MbBRrILWpxMq1M0rR85mBG77/ZXX20DC5hMUM8EJxMs6iRuQt1bvUHiqIbtq20zx
-         YrrDXLLp8jj09I7DE0vrVcdzxKLcZAI+zsSpF1DP+U+sKuXSwZ7YgxTCVPivyP50Lqby
-         NvvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730900624; x=1731505424;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=07turtyFaUtqmTN7irIArurWZHjH3oZpuJFzYmQgqlU=;
-        b=B5p6TvW0Ydc2Flkr6G3jIvgTEEHaYhd20cwanGlfN2wVz8JHRC2aWd505DP6dhE77P
-         6241kHOkPUQFTP4BFC/+gmdIpXPSwDsz1w5p2qq9djK1gX9StMjTRsckj2DxO1Qx4V9F
-         OYq1V0u2E3XTUuUC7dnf4kJcinpRMg4/39F+RZBHqY+1QH/emMzni/UB9jm7I9J9HBfQ
-         wlW7bG9b5/6iDALCKo9jey1yQ9bWX9u/ow0EN8Kq6/x/1L5gsQZbpI7tDss+lM7Bpq7G
-         t4hcgTMog095v9299BMLaSXujqIAHWHuuVa6o7z3/f/WvSlMi6ow2GPo1K5t5U9dWUU+
-         QShw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOMe2HOaN+Oye14L79Gyi0sQETra9x7pL6bH5pfDCgpVK/YNUzsuiGEg95UJIXkKRcvJXbOqSRahGJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYqgQ7Mx44sLsER/W9WTWCTGYnNBE1Rab6Of9qjAqCcrcTAGIq
-	16SSuH3+dpWYh5m9rSwOjcL23xLrrhS0X6XbKZ9v2uSeQvPfm+qZBSVIVj06KIpbrUv6xuE40GE
-	7PMl9tm2g8lyWOIxp/HvoEJ/55xP8ZSwz+MV0Ig==
-X-Google-Smtp-Source: AGHT+IHUtnnhEva3lCB8uWh8uIWC06tcgEpMXvu5am5NhlAEbhUxeQ79Id1SoLC6uXkPBOCC/N9jH1BHhM6ITnKzWf8=
-X-Received: by 2002:a05:651c:210a:b0:2fa:ce0d:ec34 with SMTP id
- 38308e7fff4ca-2ff0cb2376emr8634191fa.2.1730900624427; Wed, 06 Nov 2024
- 05:43:44 -0800 (PST)
+	s=arc-20240116; t=1730901552; c=relaxed/simple;
+	bh=L/8YMxvyNwnI5zLAy8H13m0yzgYnRf4I8l3T6fZ9kp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kkNUL0FBZ+th6qVguHhw6Uf58Ek293uvte2gc1iaQlihwytgxV5VQqbA8gp7lQNvWVbIFpMEiBHL6PW50Vmh7BvzW5bOkb2n/4ZHCmGbRm75FeG0aHvOFzneBr74gAI2/1AoZTACa3LqhEixxtVsRXXKy3lfHmc3pjeMi6/LexY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAC2tMlv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F352C4CEC6;
+	Wed,  6 Nov 2024 13:59:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730901551;
+	bh=L/8YMxvyNwnI5zLAy8H13m0yzgYnRf4I8l3T6fZ9kp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AAC2tMlvCJbV+uWBMVEliFPVSO9bTha3xYSXhQAPt+H9lLA58DMqvN4hmiwYYiWFx
+	 12R5+XhgTpUi6+t16UD2DJiIrY/lHPx3RkZHg8D4E65lpVPOEuNPrypkZmm4K0zXoV
+	 ci/sGr39maUiaVzl04vQfxAnLOeD9jIJy1RSkoejgQ3vtkGmXtnR2ZFpjMxUMFXwOY
+	 lSbjAp37B28zxvxdKWbIR3JbLt5rKg/9AcPQQEB+8oJrRy/kAsGAAPsoGQLYhNC6Uu
+	 jNG7hTe20UX3HX7UtlQ/l6haQHJquE/7LEGAKq1aysds6PuMzDsIEVI8YbzbQzcy2J
+	 oU8esAsYPShpg==
+Date: Wed, 6 Nov 2024 14:59:08 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] [PATCH v4] dt-bindings: leds: Add LED1202 LED
+ Controller
+Message-ID: <us45a35olruo6xaykepmhkdhal3zbit6f5kxo2utzqiukc3kte@kzbwcm7qtfww>
+References: <20241106061812.6819-1-vicentiu.galanopulo@remote-tech.co.uk>
+ <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com> <ZytP0XGgmz_R5gos@smile.fi.intel.com>
-In-Reply-To: <ZytP0XGgmz_R5gos@smile.fi.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 6 Nov 2024 14:43:32 +0100
-Message-ID: <CAMRc=MfQw1YmOoq-rK5Bq3uDK8cmjG_xsUgVDs28phsqkcHofA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] gpio: Get rid of deprecated GPIOF_ACTIVE_LOW
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
-	Linus Walleij <linus.walleij@linaro.org>, Pavel Machek <pavel@ucw.cz>, 
-	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
-	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
 
-On Wed, Nov 6, 2024 at 12:15=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Mon, Nov 04, 2024 at 11:34:18AM +0200, Andy Shevchenko wrote:
-> > This series targets the deprecated GPIOF_ACTIVE_LOW as only a few users
-> > left. Convert those users to call modern APIs and drop this legacy piec=
-e
-> > from the source tree.
-> >
-> > The idea is to route this via GPIO tree, please Ack.
->
-> Thank you for Acks, folks!
->
-> Dominik, is it possible to get yours or are you inactive nowadays (I saw
-> last mention of your name ca. 2023).
->
-> Bart, we have all Acks except pcmcia (see also above), and the change is
-> the same all over the places, do you think it's okay to apply if Dominik
-> won't respond for a few days?
->
+On Wed, Nov 06, 2024 at 06:18:08AM +0000, Vicentiu Galanopulo wrote:
+> The LED1202 is a 12-channel low quiescent current LED driver with:
+>   * Supply range from 2.6 V to 5 V
+>   * 20 mA current capability per channel
+>   * 1.8 V compatible I2C control interface
+>   * 8-bit analog dimming individual control
+>   * 12-bit local PWM resolution
+>   * 8 programmable patterns
+> 
+> If the led node is present in the controller then the channel is
+> set to active.
+> 
+> v1: https://lore.kernel.org/lkml/ZnCnnQfwuRueCIQ0@admins-Air/T/
+> v2: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
+> v3: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
 
-If we don't get an ack until Friday, I will take it as is.
+This goes after ---.
 
-Bart
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
+
+This ws correct in v3 so I do not understand what is happening with this
+patch.
+
+> 
+> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+> 
+> ---
+> Changes in v4:
+>   - remove label property, use devm_led_classdev_register_ext instead
+
+Where? This is a binding.
+
+>   - use as base patch the v3
+
+What does it mean? How can you no use v3, but something else?
+
+> Changes in v3:
+>   - remove active property
+> Changes in v2:
+>   - renamed label to remove color from it
+>   - add color property for each node
+>   - add function and function-enumerator property for each node
+> ---
+
+You have also whitespace errors in your patch. Again:
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
+
+>  .../devicetree/bindings/leds/st,led1202.yaml  | 132 ++++++++++++++++++
+>  1 file changed, 132 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+
+Best regards,
+Krzysztof
+
 
