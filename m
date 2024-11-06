@@ -1,55 +1,67 @@
-Return-Path: <linux-leds+bounces-3311-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3312-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB0F9BE4E2
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 11:55:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECA19BE51A
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 12:02:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 363E2280B95
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 10:55:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD6541C20D52
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 11:02:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C2C91DE3C2;
-	Wed,  6 Nov 2024 10:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B7A1DE2DF;
+	Wed,  6 Nov 2024 11:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLZwFhBq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSg9NINL"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFCF1DD525;
-	Wed,  6 Nov 2024 10:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CFA1DC734;
+	Wed,  6 Nov 2024 11:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730890500; cv=none; b=uOS+HLVE/o5S9dsNBjSW4Vl2/7HjXUolY/Alglh3BofAn6+YrciKdg/dWm/1d3ZwQe+VkVKKq67mwX6b3eZOVPp1m8sDzv39SaCRCAglHtP1k2lV9H+s8mL99B05cVhNy9Q2MTZ8XePRcPUnzELSUsg+/BClL4b1KuKyyPxKB/0=
+	t=1730890922; cv=none; b=lh+qxI7gdMA5mqHQC4SmvkE0dSHLFBT+ooUONFfZxBlmqstw+cJPL38Ny7hxMFJ9Kq5MrgjHo1TLYT/OZobkieV+S2GtgHT3W6/GWN76v4Subu0jYA+lraflz0pQNROWOo786CNX3S7J/hUPIucOYggqEpYg9GtINu4Mjuoz4g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730890500; c=relaxed/simple;
-	bh=JzJ2jvVWeRAP+hj95hcIGJu+zeCkaii11+p1DMnnk5U=;
+	s=arc-20240116; t=1730890922; c=relaxed/simple;
+	bh=R4KFIpTwSYwi0uSTr4qqyTaoElUcnWINoFL/IwPq+6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CCJ4WOKo5rttdQrIwAOSxPc53YSgmlR4UHuQFPT2z4XRTDCHg2SfSIBM7EU6KHBbZwA8y/F4rxwWc/REqlBYYYiAUD1faqlgeIDcDhWL3XagaMpRYH/dPHf1oxagCWKKgRIdIb9RQxsE4N9kFxBoCapKyd6dy1SzvnwfoW6LeTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLZwFhBq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D515C4CECD;
-	Wed,  6 Nov 2024 10:54:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhhA1T1OMZyT853N6hV6w0vaoEwXrqjOSpGwgOx6xFpPxsepCvwYDp6mHlc+goB01N0d0v1eVQat49+mr8XOY7WNKzK0bJSBvHU+Is4ge8VI/P2Pf8ODElnv3N1rTstqHSJo4FJ85jDMwmU8vYkV2wRI8+W4+O2nuFFc620+u+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSg9NINL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54AB4C4CECD;
+	Wed,  6 Nov 2024 11:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730890500;
-	bh=JzJ2jvVWeRAP+hj95hcIGJu+zeCkaii11+p1DMnnk5U=;
+	s=k20201202; t=1730890922;
+	bh=R4KFIpTwSYwi0uSTr4qqyTaoElUcnWINoFL/IwPq+6k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PLZwFhBqTFsT7DIjmlEAaVVk2YeEJ00EI3QxsgEubH18WHZLRTcOzTg3E1snQn4hD
-	 yq9E5XrjyAMmStXBlvindVdaWDB3ZQJJuRRcwRAB6uIEM7c9H8UXf5gtmKVq83LsrH
-	 CCx2oay3Y78ESI5g6tiTVvfKBq0kGbeKtAWCJyVDF/nAzmIF9/tp9Q7xW0b1FxK6qv
-	 7kXn5WwOddhgS5ndHNA5s6ryr6T7/UTkyNClaA+YGmaPMKFALa62UjDrdp8fKrIcpN
-	 iBMc7n3KBPdtYvF10hWll2slpe7wEMIqwdL6/3we089+PCgel2IPkZB8AtcERX0+gH
-	 qY5FBvQkQq34A==
-Date: Wed, 6 Nov 2024 10:54:55 +0000
+	b=nSg9NINL3R1lnxQ7wJvkKF2/r1poB6BGYDQXWyGUchyJkytMyV1TsgUvAqcEv0frq
+	 WLAHXnmiRKUZipI5y/cCOmR77kqvRNA+I3wRDLI97UZIbSpcVELBKdIlOHi12B1PxV
+	 Rt8iaW/62qf0oAAyolbkPPE2p6T/6N+t/Z1qa2qJMoaBwUBijpBFZ/is6GOiQRajys
+	 Z/CDwCftb2a5U8kCBvAnok3JSCvhVCxAGxWQTINCrP5kKFomGaJgMYhdURg5uSof5v
+	 frD6XXrgfKx2JBzoT7uSs8UF+EW9YKjdGbEBvzbEQP8HlD5Peqnr/Mqrs4YcPudCRz
+	 621hjCV/w/t9w==
+Date: Wed, 6 Nov 2024 11:01:56 +0000
 From: Lee Jones <lee@kernel.org>
-To: George Stark <gnstark@salutedevices.com>
-Cc: pavel@ucw.cz, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@salutedevices.com
-Subject: Re: [RESEND PATCH v2 0/2] leds: pwm: Add default-brightness property
-Message-ID: <20241106105455.GQ1807686@google.com>
-References: <20241105185006.1380166-1-gnstark@salutedevices.com>
+To: Gregory CLEMENT <gregory.clement@bootlin.com>
+Cc: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, arm@kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH leds v5 01/12] turris-omnia-mcu-interface.h: Move command
+ execution function to global header
+Message-ID: <20241106110156.GS1807686@google.com>
+References: <20241104141924.18816-1-kabel@kernel.org>
+ <20241104141924.18816-2-kabel@kernel.org>
+ <20241106102840.GN1807686@google.com>
+ <87msic8wh7.fsf@BLaptop.bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -59,36 +71,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241105185006.1380166-1-gnstark@salutedevices.com>
+In-Reply-To: <87msic8wh7.fsf@BLaptop.bootlin.com>
 
-On Tue, 05 Nov 2024, George Stark wrote:
+On Wed, 06 Nov 2024, Gregory CLEMENT wrote:
 
-> led-pwm driver supports default-state DT property and if that state is on then
-> the driver during initialization turns on the LED setting maximum brightness.
-> Sometimes it's desirable to use lower initial brightness.
-> This patch series adds support for DT property default-brightness.
+> Lee Jones <lee@kernel.org> writes:
 > 
-> Things to discuss:
-> If such a property is acceptable it could be moved to leds/common.yaml due to
-> several drivers support multiple brightness levels and could support the property
-> too.
+> > On Mon, 04 Nov 2024, Marek Behún wrote:
+> >
+> >> Move the command execution functions from the turris-omnia-mcu platform
+> >> driver private header to the global turris-omnia-mcu-interface.h header,
+> >> so that they can be used by the LED driver.
+> >> 
+> >> Signed-off-by: Marek Behún <kabel@kernel.org>
+> >> ---
+> >>  .../platform/cznic/turris-omnia-mcu-base.c    |   1 +
+> >>  drivers/platform/cznic/turris-omnia-mcu.h     | 130 -----------------
+> >>  include/linux/turris-omnia-mcu-interface.h    | 136 +++++++++++++++++-
+> >>  3 files changed, 136 insertions(+), 131 deletions(-)
+> >
+> > Who needs to Ack this for me to take it via the LED tree?
 > 
-> Changes in v2:
->   leds: pwm: Add optional DT property default-brightness
->     - refactor patch to make it more accurate
->   link to v1: [1]
-> 
-> [1] https://lore.kernel.org/lkml/20241015151410.2158102-3-gnstark@salutedevices.com/T/
-> 
-> George Stark (2):
->   dt-bindings: leds: pwm: Add default-brightness property
->   leds: pwm: Add optional DT property default-brightness
-> 
->  .../devicetree/bindings/leds/leds-pwm.yaml      |  6 ++++++
->  drivers/leds/leds-pwm.c                         | 17 ++++++++++++++++-
->  2 files changed, 22 insertions(+), 1 deletion(-)
+> Usually, it's Arnd who takes these patches, so it could be him who needs
+> to acknowledge them. However, Marek is the maintainer of this driver, so
+> I think it's already okay for you to take it.
 
-The set doesn't apply.  Please rebase it.
+Okay, let's leave it for a little while.
+
+If Arnd does not protest, I'll take it in for v6.14.
 
 -- 
 Lee Jones [李琼斯]
