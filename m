@@ -1,370 +1,257 @@
-Return-Path: <linux-leds+bounces-3322-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3329-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C109BFA82
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Nov 2024 00:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E126B9C04B4
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Nov 2024 12:48:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86A33284151
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Nov 2024 23:56:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E44A284224
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Nov 2024 11:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06FB81E04AC;
-	Wed,  6 Nov 2024 23:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A4FC20FABC;
+	Thu,  7 Nov 2024 11:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjr/KScv"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="rC9Sk2t0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E172D20D4FE
-	for <linux-leds@vger.kernel.org>; Wed,  6 Nov 2024 23:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DAE2076BA;
+	Thu,  7 Nov 2024 11:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730937405; cv=none; b=W9DexxQRm9/Z8tikkGo4Qh2DiSOVAhgOWTX2eLqZLqxiNoV87gnRfxvu546PYLga0wlknizcntKzgr2YuLrkcKJuUjRWgm6+TjiCkkNZj75PbZJuGWazWGBPYo5fU9Sw9vjXuAKGCx+10vzj0GE63mdQ4/Imzr0DVGItompiFjg=
+	t=1730980079; cv=none; b=YVsy/teW+3W4rV+JGb4fFeZRsVlw7NxoW2M1iao2YEFpxVs0oNjd3QJ5Gtwv4yw854mIlpHKAxVWb/BgxqmDJA+Bz4v8snRNpyYeCdvlMotu4dRshEQ8Gyo4hmYPc4vKaWi/F/mY6G8wSlBzorMfEI+4ef9bLVBSHqaqhvVwc2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730937405; c=relaxed/simple;
-	bh=O9eQwiGCKUmmJLEU76H85P/AlexB61PIq5S2+0taxio=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XlsIS8zrv02iKIw74UawtHdf9o59t0FYF1/kfv1u6fDeusGF1YdJ+X5A4DIUSSl+L+uX40ueMaP2ckjlEs/mmjMDsDqjlqBGdTjD6EFjK3gR8bK2PErngZoE6HpMXTmPLOdvWydy5hkO+y49Pe1sj0pjiZuFTb80RNjdP5lg19U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjr/KScv; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730937404; x=1762473404;
-  h=date:from:to:cc:subject:message-id;
-  bh=O9eQwiGCKUmmJLEU76H85P/AlexB61PIq5S2+0taxio=;
-  b=hjr/KScvJzCzwk5mOLnV6tFDAvARIuQEPhrq/2JF1FanFxK+qW7+mHPM
-   WY/AzBWO5jgHHs2Z1pqxd+LwVNsCbUCFkDpLJJYBtdHTN0DkKdd7KLVzX
-   9eeE52yhIftO29t9RjqNJPjJjDILhkpB+YhOx5CW7aIWHJ/WnOFLXFxL4
-   +7TJY96Pd3Sdt8ODmZz+b6tLA0wi83UZA27Bwdo3/TunlzUGI2j3xMqh8
-   ZgEATv/oKym4uNPDQhWNknwgJbGqDd83VHVhianw7A2E9b9GIrUrTr6+F
-   7TG1ApwP20sAk/AxP1PauB3n1d2CfX03CZ/KBlBcZZTbuxDpf4v12iPuT
-   w==;
-X-CSE-ConnectionGUID: NwMQxtCKRmSd59ZlTcYmVQ==
-X-CSE-MsgGUID: chk/YWD5TxC+T9QCywABuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48223978"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="48223978"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 15:56:44 -0800
-X-CSE-ConnectionGUID: jg3DQ/ejRbKIAKB/c0eMlA==
-X-CSE-MsgGUID: yMJdqw3qT6mASEFVTn+i0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
-   d="scan'208";a="89352987"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2024 15:56:42 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8ptA-000pXq-0X;
-	Wed, 06 Nov 2024 23:56:40 +0000
-Date: Thu, 07 Nov 2024 07:56:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 4ca7cd938725a4050dcd62ae9472e931d603118d
-Message-ID: <202411070710.TptqzANK-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1730980079; c=relaxed/simple;
+	bh=qFaM2BaJr/Or/FxVrIE+FVVouQihzZBNAcBeeHYDhGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZnmCdp3xN1iox3oAokmeY5E54+OJer3wBplt7pQUYf0t5FEO9uclTh+U9OP45js5dU9fva9yBXEA+Jb242bE4EUWCkyiJu3WnmajfRzozCT8KN6QSQnMqL7pxMH94voWHr3rkFyTEFxrC5fhEOOL7F1kRWLt4TYGngchIhkcFcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=rC9Sk2t0; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=RAahKqW3YpKeIKLPCckgcq3vCFHoB1MSxhlhtUGlvLQ=; b=rC9Sk2t0fiLbLWRGQnI0Xg5GEA
+	3qbzhXqrP1irOfjUNTs9sJ/vM9fJsVkdaxQZ8y3SqdgsRdxdHtZYaXwygVdUJv1uPej6DNH23Khtp
+	YU1+CAgJGXJGpTef5E1lyFcAfF9jpVmg9dGUzo9DqNKC98++2r+/NLJM/i+QaZtmx4k4pkGRkSdl4
+	3uvRzCzBHzP7m4p4xxbRVK2Hszy+M026g27md6kD4eiO2CCgq3Ptr7BmoDtZeDYxFU3zypYKxxrYb
+	cT3q07oGdMfcP3IqsmPu9cB+R7u6wwfTMp/nsb/YvG0+cZvg+DHlQXhdaDo6qXjbMf/DT2jIe7wa3
+	bq6cleMQ==;
+Received: from i53875b28.versanet.de ([83.135.91.40] helo=localhost.localdomain)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1t90yx-0005lF-Rb; Thu, 07 Nov 2024 12:47:23 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: lee@kernel.org,
+	jikos@kernel.org,
+	jic23@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	srinivas.pandruvada@linux.intel.com,
+	bentiss@kernel.org,
+	dmitry.torokhov@gmail.com,
+	pavel@ucw.cz,
+	ukleinek@debian.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	heiko@sntech.de
+Subject: [PATCH v9 0/9] Drivers to support the MCU on QNAP NAS devices
+Date: Thu,  7 Nov 2024 12:47:03 +0100
+Message-ID: <20241107114712.538976-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 4ca7cd938725a4050dcd62ae9472e931d603118d  leds: class: Protect brightness_show() with led_cdev->led_access mutex
+This implements a set of drivers for the MCU used on QNAP NAS devices.
 
-elapsed time: 723m
+Of course no documentation for the serial protocol is available, so
+thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
+I found interceptty [0] to listen to what goes over the serial connection.
 
-configs tested: 277
-configs skipped: 7
+In general it looks like there are two different generations in general,
+an "EC" device and now this "MCU" - referenced in the strings of the
+userspace handlers for those devices.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+For the MCU "SPEC3" and "SPEC4" are listed which is configured in
+the model.conf of the device. When setting the value from SPEC4 to
+SPEC3 on my TS433, the supported commands change, but the command
+interface stays the same and especially the version command is the
+same.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-20
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-20
-arc                          axs101_defconfig    gcc-14.2.0
-arc                     haps_hs_smp_defconfig    clang-20
-arc                        nsimosci_defconfig    clang-20
-arc                   randconfig-001-20241106    gcc-14.2.0
-arc                   randconfig-001-20241107    gcc-14.2.0
-arc                   randconfig-002-20241106    gcc-14.2.0
-arc                   randconfig-002-20241107    gcc-14.2.0
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-20
-arm                         axm55xx_defconfig    gcc-14.2.0
-arm                            hisi_defconfig    clang-20
-arm                         nhk8815_defconfig    clang-20
-arm                            qcom_defconfig    clang-20
-arm                   randconfig-001-20241106    gcc-14.2.0
-arm                   randconfig-001-20241107    gcc-14.2.0
-arm                   randconfig-002-20241106    gcc-14.2.0
-arm                   randconfig-002-20241107    gcc-14.2.0
-arm                   randconfig-003-20241106    gcc-14.2.0
-arm                   randconfig-003-20241107    gcc-14.2.0
-arm                   randconfig-004-20241106    gcc-14.2.0
-arm                   randconfig-004-20241107    gcc-14.2.0
-arm                             rpc_defconfig    clang-20
-arm                       spear13xx_defconfig    clang-20
-arm                           sunxi_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.2.0
-arm64                               defconfig    clang-20
-arm64                 randconfig-001-20241106    gcc-14.2.0
-arm64                 randconfig-001-20241107    gcc-14.2.0
-arm64                 randconfig-002-20241106    gcc-14.2.0
-arm64                 randconfig-002-20241107    gcc-14.2.0
-arm64                 randconfig-003-20241106    gcc-14.2.0
-arm64                 randconfig-003-20241107    gcc-14.2.0
-arm64                 randconfig-004-20241106    gcc-14.2.0
-arm64                 randconfig-004-20241107    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20241106    gcc-14.2.0
-csky                  randconfig-001-20241107    gcc-14.2.0
-csky                  randconfig-002-20241106    gcc-14.2.0
-csky                  randconfig-002-20241107    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-20
-hexagon               randconfig-001-20241106    gcc-14.2.0
-hexagon               randconfig-001-20241107    gcc-14.2.0
-hexagon               randconfig-002-20241106    gcc-14.2.0
-hexagon               randconfig-002-20241107    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20241106    gcc-12
-i386        buildonly-randconfig-001-20241107    clang-19
-i386        buildonly-randconfig-002-20241106    gcc-12
-i386        buildonly-randconfig-002-20241107    clang-19
-i386        buildonly-randconfig-003-20241106    gcc-12
-i386        buildonly-randconfig-003-20241107    clang-19
-i386        buildonly-randconfig-004-20241106    gcc-12
-i386        buildonly-randconfig-004-20241107    clang-19
-i386        buildonly-randconfig-005-20241106    gcc-12
-i386        buildonly-randconfig-005-20241107    clang-19
-i386        buildonly-randconfig-006-20241106    gcc-12
-i386        buildonly-randconfig-006-20241107    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241106    gcc-12
-i386                  randconfig-001-20241107    clang-19
-i386                  randconfig-002-20241106    gcc-12
-i386                  randconfig-002-20241107    clang-19
-i386                  randconfig-003-20241106    gcc-12
-i386                  randconfig-003-20241107    clang-19
-i386                  randconfig-004-20241106    gcc-12
-i386                  randconfig-004-20241107    clang-19
-i386                  randconfig-005-20241106    gcc-12
-i386                  randconfig-005-20241107    clang-19
-i386                  randconfig-006-20241106    gcc-12
-i386                  randconfig-006-20241107    clang-19
-i386                  randconfig-011-20241106    gcc-12
-i386                  randconfig-011-20241107    clang-19
-i386                  randconfig-012-20241106    gcc-12
-i386                  randconfig-012-20241107    clang-19
-i386                  randconfig-013-20241106    gcc-12
-i386                  randconfig-013-20241107    clang-19
-i386                  randconfig-014-20241106    gcc-12
-i386                  randconfig-014-20241107    clang-19
-i386                  randconfig-015-20241106    gcc-12
-i386                  randconfig-015-20241107    clang-19
-i386                  randconfig-016-20241106    gcc-12
-i386                  randconfig-016-20241107    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20241106    gcc-14.2.0
-loongarch             randconfig-001-20241107    gcc-14.2.0
-loongarch             randconfig-002-20241106    gcc-14.2.0
-loongarch             randconfig-002-20241107    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                         amcore_defconfig    clang-20
-m68k                          amiga_defconfig    clang-20
-m68k                       m5208evb_defconfig    gcc-14.2.0
-m68k                           sun3_defconfig    clang-20
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                         bigsur_defconfig    clang-20
-mips                            gpr_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20241106    gcc-14.2.0
-nios2                 randconfig-001-20241107    gcc-14.2.0
-nios2                 randconfig-002-20241106    gcc-14.2.0
-nios2                 randconfig-002-20241107    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-12
-openrisc                  or1klitex_defconfig    clang-20
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-12
-parisc                generic-32bit_defconfig    clang-20
-parisc                randconfig-001-20241106    gcc-14.2.0
-parisc                randconfig-001-20241107    gcc-14.2.0
-parisc                randconfig-002-20241106    gcc-14.2.0
-parisc                randconfig-002-20241107    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    clang-20
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                      bamboo_defconfig    gcc-14.2.0
-powerpc                        cell_defconfig    clang-20
-powerpc                        cell_defconfig    gcc-14.2.0
-powerpc                   currituck_defconfig    clang-20
-powerpc                   motionpro_defconfig    clang-20
-powerpc                     mpc5200_defconfig    clang-20
-powerpc                 mpc832x_rdb_defconfig    gcc-14.2.0
-powerpc                 mpc834x_itx_defconfig    clang-20
-powerpc                      pasemi_defconfig    clang-20
-powerpc                      pcm030_defconfig    clang-20
-powerpc                      ppc64e_defconfig    clang-20
-powerpc                         ps3_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20241106    gcc-14.2.0
-powerpc               randconfig-001-20241107    gcc-14.2.0
-powerpc               randconfig-002-20241106    gcc-14.2.0
-powerpc               randconfig-002-20241107    gcc-14.2.0
-powerpc               randconfig-003-20241106    gcc-14.2.0
-powerpc               randconfig-003-20241107    gcc-14.2.0
-powerpc                     tqm8555_defconfig    clang-20
-powerpc                      tqm8xx_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20241106    gcc-14.2.0
-powerpc64             randconfig-002-20241106    gcc-14.2.0
-powerpc64             randconfig-003-20241106    gcc-14.2.0
-powerpc64             randconfig-003-20241107    gcc-14.2.0
-riscv                            allmodconfig    clang-20
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    clang-20
-riscv                            allyesconfig    gcc-14.2.0
-riscv                               defconfig    clang-20
-riscv                               defconfig    gcc-12
-riscv                    nommu_virt_defconfig    gcc-14.2.0
-riscv                 randconfig-001-20241106    gcc-14.2.0
-riscv                 randconfig-001-20241107    gcc-14.2.0
-riscv                 randconfig-002-20241106    gcc-14.2.0
-riscv                 randconfig-002-20241107    gcc-14.2.0
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20241106    gcc-14.2.0
-s390                  randconfig-001-20241107    gcc-14.2.0
-s390                  randconfig-002-20241106    gcc-14.2.0
-s390                  randconfig-002-20241107    gcc-14.2.0
-s390                       zfcpdump_defconfig    clang-20
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                         ecovec24_defconfig    clang-20
-sh                        edosk7760_defconfig    clang-20
-sh                     magicpanelr2_defconfig    clang-20
-sh                    randconfig-001-20241106    gcc-14.2.0
-sh                    randconfig-001-20241107    gcc-14.2.0
-sh                    randconfig-002-20241106    gcc-14.2.0
-sh                    randconfig-002-20241107    gcc-14.2.0
-sh                           se7712_defconfig    clang-20
-sh                           se7721_defconfig    clang-20
-sh                   secureedge5410_defconfig    gcc-14.2.0
-sh                           sh2007_defconfig    clang-20
-sh                        sh7757lcr_defconfig    gcc-14.2.0
-sh                        sh7785lcr_defconfig    gcc-14.2.0
-sh                          urquell_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20241106    gcc-14.2.0
-sparc64               randconfig-001-20241107    gcc-14.2.0
-sparc64               randconfig-002-20241106    gcc-14.2.0
-sparc64               randconfig-002-20241107    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20241106    gcc-14.2.0
-um                    randconfig-001-20241107    gcc-14.2.0
-um                    randconfig-002-20241106    gcc-14.2.0
-um                    randconfig-002-20241107    gcc-14.2.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20241106    gcc-11
-x86_64      buildonly-randconfig-001-20241107    clang-19
-x86_64      buildonly-randconfig-002-20241106    gcc-11
-x86_64      buildonly-randconfig-002-20241107    clang-19
-x86_64      buildonly-randconfig-003-20241106    gcc-11
-x86_64      buildonly-randconfig-003-20241107    clang-19
-x86_64      buildonly-randconfig-004-20241106    gcc-11
-x86_64      buildonly-randconfig-004-20241107    clang-19
-x86_64      buildonly-randconfig-005-20241106    gcc-11
-x86_64      buildonly-randconfig-005-20241107    clang-19
-x86_64      buildonly-randconfig-006-20241106    gcc-11
-x86_64      buildonly-randconfig-006-20241107    clang-19
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                                  kexec    gcc-12
-x86_64                randconfig-001-20241106    gcc-11
-x86_64                randconfig-001-20241107    clang-19
-x86_64                randconfig-002-20241106    gcc-11
-x86_64                randconfig-002-20241107    clang-19
-x86_64                randconfig-003-20241106    gcc-11
-x86_64                randconfig-003-20241107    clang-19
-x86_64                randconfig-004-20241106    gcc-11
-x86_64                randconfig-004-20241107    clang-19
-x86_64                randconfig-005-20241106    gcc-11
-x86_64                randconfig-005-20241107    clang-19
-x86_64                randconfig-006-20241106    gcc-11
-x86_64                randconfig-006-20241107    clang-19
-x86_64                randconfig-011-20241106    gcc-11
-x86_64                randconfig-011-20241107    clang-19
-x86_64                randconfig-012-20241106    gcc-11
-x86_64                randconfig-012-20241107    clang-19
-x86_64                randconfig-013-20241106    gcc-11
-x86_64                randconfig-013-20241107    clang-19
-x86_64                randconfig-014-20241106    gcc-11
-x86_64                randconfig-014-20241107    clang-19
-x86_64                randconfig-015-20241106    gcc-11
-x86_64                randconfig-015-20241107    clang-19
-x86_64                randconfig-016-20241106    gcc-11
-x86_64                randconfig-016-20241107    clang-19
-x86_64                randconfig-071-20241106    gcc-11
-x86_64                randconfig-071-20241107    clang-19
-x86_64                randconfig-072-20241106    gcc-11
-x86_64                randconfig-072-20241107    clang-19
-x86_64                randconfig-073-20241106    gcc-11
-x86_64                randconfig-073-20241107    clang-19
-x86_64                randconfig-074-20241106    gcc-11
-x86_64                randconfig-074-20241107    clang-19
-x86_64                randconfig-075-20241106    gcc-11
-x86_64                randconfig-075-20241107    clang-19
-x86_64                randconfig-076-20241106    gcc-11
-x86_64                randconfig-076-20241107    clang-19
-x86_64                               rhel-8.3    gcc-12
-x86_64                           rhel-8.3-bpf    clang-19
-x86_64                         rhel-8.3-kunit    clang-19
-x86_64                           rhel-8.3-ltp    clang-19
-x86_64                          rhel-8.3-rust    clang-19
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                  audio_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20241106    gcc-14.2.0
-xtensa                randconfig-001-20241107    gcc-14.2.0
-xtensa                randconfig-002-20241106    gcc-14.2.0
-xtensa                randconfig-002-20241107    gcc-14.2.0
+The binding also does not expose any interals of the device that
+might change, so hopefully there shouldn't be big roadblocks to
+support different devices, apart from possibly adapting the commands.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+changes in v9:
+- add Acks + cc-stable to HID patch
+- make timeout-value a constant in core mfd-driver
+- some flush serdev before sending a new command
+
+changes in v8:
+- patch for hid-sensor hub to not do wonky stuff with an old
+  platform-data copy
+  I hope my reading of the situation is correct here, but that
+  initial platform_data really seemed wrong
+
+mfd:
+- flush serial before writing a new command
+- wait for send to complete before starting the receive wait-timeout
+- set expected length to 0 directly when the reply is complete
+  not after leaving the receive callback
+
+
+changes in v7:
+- use ASCII representation in commands where possible instead of hex vals
+- drop get_variant function and use mfd platform-data instead
+
+mfd:
+- a lot of style improvements
+
+leds:
+- name variables better (value -> brightness, num -> num_err_led)
+- handle preservation of blink mode more effectively
+- snprintf -> scnprintf
+- drop duplicate "failed to register ... LED" messages
+
+
+changes in v6:
+- format mcu commands arrays in single lines (Lee)
+
+mfd:
+- drop obsolete remain kdoc for the removed
+  reply_lock (kernel test robot)
+
+
+changes in v5:
+binding:
+- add Conor's Reviewed-by
+
+mfd:
+Address comments from Lee
+- improve commit message
+- improve Kconfig help text
+- sort headers alphabetical
+- style and spelling improvements
+- constants for magic numbers
+- drop reply assignment, the mcu only replies to commands sent to it,
+  so there should only ever be one command in fligth.
+
+hwmon:
+Add Acked-by from Guenter and address some remarks
+  - don't allow empty fan subnode
+  - use num var directly when getting cooling levels, without using ret
+    intermediate
+  - use dev_err_probe in thermal init function
+
+
+changes in v4:
+binding:
+- move cooling properties into a fan subnode and reference
+  fan-common.yaml (Rob)
+- dropped Krzysztof's Ack because of this
+
+mfd:
+- use correct format-string for size_t (kernel test robot)
+
+input:
+- added Dmitry's Ack
+
+hwmon:
+- adapted to fan-subnode when reading cooling properties
+- dropped Guenter's Ack because of this
+
+
+changes in v3:
+mfd
+- use correct power-off priority: default
+- constify the cmd-data array in command functions (Dmitry)
+
+leds:
+- don't point to temporary buffers for cdev->name (Florian Eckert)
+
+hwmon:
+- use clamp_val(), don't try to reimplement (Guenter)
+- add Guenter's Ack
+
+input:
+address Dmitry's comments
+- constify some cmd arrays
+- add input-close callback to cancel beep worker
+- drop initial input event report
+
+
+changes in v2:
+binding:
+- rename to qnap,ts433-mcu.yaml (Krzysztof)
+- drop "preserve formatting" indicator (Krzysztof)
+- add Krzysztof's Review tag
+
+mfd:
+- fix checkpatch --strict CHECKs
+- add a MAINTAINERS entry for all qnap-mcu-parts
+
+Heiko Stuebner (9):
+  HID: hid-sensor-hub: don't use stale platform-data on remove
+  mfd: core: make platform_data pointer const in struct mfd_cell
+  dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+  mfd: add base driver for qnap-mcu devices
+  leds: add driver for LEDs from qnap-mcu devices
+  Input: add driver for the input part of qnap-mcu devices
+  hwmon: add driver for the hwmon parts of qnap-mcu devices
+  arm64: dts: rockchip: hook up the MCU on the QNAP TS433
+  arm64: dts: rockchip: set hdd led labels on qnap-ts433
+
+ .../bindings/mfd/qnap,ts433-mcu.yaml          |  42 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/qnap-mcu-hwmon.rst        |  27 ++
+ MAINTAINERS                                   |   9 +
+ .../boot/dts/rockchip/rk3568-qnap-ts433.dts   |  61 +++
+ drivers/hid/hid-sensor-hub.c                  |  21 +-
+ drivers/hwmon/Kconfig                         |  12 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/qnap-mcu-hwmon.c                | 364 ++++++++++++++++++
+ drivers/input/misc/Kconfig                    |  12 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/qnap-mcu-input.c           | 153 ++++++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-qnap-mcu.c                  | 227 +++++++++++
+ drivers/mfd/Kconfig                           |  13 +
+ drivers/mfd/Makefile                          |   2 +
+ drivers/mfd/qnap-mcu.c                        | 338 ++++++++++++++++
+ include/linux/mfd/core.h                      |   2 +-
+ include/linux/mfd/qnap-mcu.h                  |  26 ++
+ 20 files changed, 1316 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+ create mode 100644 Documentation/hwmon/qnap-mcu-hwmon.rst
+ create mode 100644 drivers/hwmon/qnap-mcu-hwmon.c
+ create mode 100644 drivers/input/misc/qnap-mcu-input.c
+ create mode 100644 drivers/leds/leds-qnap-mcu.c
+ create mode 100644 drivers/mfd/qnap-mcu.c
+ create mode 100644 include/linux/mfd/qnap-mcu.h
+
+-- 
+2.45.2
+
 
