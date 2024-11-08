@@ -1,104 +1,116 @@
-Return-Path: <linux-leds+bounces-3344-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3345-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E56B9C1824
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 09:37:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BF29C1A41
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 11:14:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97DEF1C22FD6
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 08:37:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0993B234B6
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 10:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC70A1DFDAB;
-	Fri,  8 Nov 2024 08:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C031E32A6;
+	Fri,  8 Nov 2024 10:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J4trMXOC"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="IoMoY/PC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E915E1A2631
-	for <linux-leds@vger.kernel.org>; Fri,  8 Nov 2024 08:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A0B1E2303;
+	Fri,  8 Nov 2024 10:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731055046; cv=none; b=bTWlw7X6q2tcL6M2r78d73yYR6siNSN/fiion7y2TwmwqTDomDOE8efSJiTejeaAFURDXowyOwrpt1y6TAeGxtOtDiBKVxZfPE4t6ioVuH5U0Ml6PmUmctB+zZcmnqhRlOJmL7ur9vvwW3fR/kWRKZN0xwF6da9t+v9VhIEx/oY=
+	t=1731060845; cv=none; b=LbI9wc5Z7QtEUVpnyRYobGsWA38NIZ/AMJK9wQRZZFqRjj3BmfGVFfl+DeEdeI15wAp+BBv2fcQieHk8BaIgFWtFyDudlXsxgBneXpkb/1k0glR+fdSMGZDtsSSyZCjc0bDHtG0QTDovUx34ea8gr2VUW/0fIOHEJSFNL2T0S/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731055046; c=relaxed/simple;
-	bh=vVqCqej3UEHzQjSpv0v/eChyYMxhKtzxsLYbfjRtEsA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AaX8okH/+u3LSevBEQPCIJS4viq71I79EkmKvm1nwS04PBLD0dTU0XL9ASdo1ngM2uHdGjQ27HuXKDj/2KtgMe2mF7p8m18nvObZpjOLAxWF3LO+ATWGICgWO+E1OYI4PpjL6dL1aybY7iCSOUuvHjM/xwiWT0tiUvWm3iEiXc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J4trMXOC; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb49510250so18349311fa.0
-        for <linux-leds@vger.kernel.org>; Fri, 08 Nov 2024 00:37:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731055042; x=1731659842; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vVqCqej3UEHzQjSpv0v/eChyYMxhKtzxsLYbfjRtEsA=;
-        b=J4trMXOCdlZotamJ1c9PSB5u42g2LpaT42W9S3lTMICufykI3At19WUB8nbWt1et5d
-         NaYe/AsGBdmYZkz4swrG8HoiTFErd2BI8D5AFcOB/2alLSMoNRSa9cE26mzG89AD/Max
-         DzIZXmCwfy+VvW/mKKbe85jin/fQo4C33Fs8mKaciNEKRDIfU32h8za1qLurF2nTksyk
-         nN0ip+hDQX3o7U0aZoqFXaZKQn6l/E+rQHqND9Mhc2E2ZYkY/9vLvxvEh904Xa/zSEBe
-         IMFLTrLCAt0yr24bnMOVw46yT5p4jaHLWggGbyDJ93eJB8WEnGB7UE1EtQHWNGT7MCRs
-         fLMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731055042; x=1731659842;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vVqCqej3UEHzQjSpv0v/eChyYMxhKtzxsLYbfjRtEsA=;
-        b=we6+jmRcgngaCwBWFYgaqAcvlNafnRJFoE5uBPEIBEjTUWadaaiXWFUvvPaC7r9i4i
-         O3+++pDvRiluGQ0a5tR1yAwCz9ImtptkTefKyVStoMAYtfvETUSVA3GfI0j8dR6XMBba
-         pDO5cKvDNQI1LxcsNsrY+aI9fz7aZvu54NMqobxH7aikpDdf/H5s9wGDjpVwBgA8ASI2
-         U2BEDvhGV6+gXIDI3Y2tkQltcYuwrQnaA0Bz5NuXQzNUlMclr5PELrFzDPrlelaRRsQI
-         pp0bZ9y8kk2B0ZGkXTDFM5hFg8Owo8BtyS8qCoO5oLwOwxYcgrVlCj0s+ZWtPsFdnEgg
-         LtSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXWG1lxgcuM2V3UT0EpjlD+0JFv3gNbV2f22dEuoivMb+hhcKSkVZSj3CTJE/CXg/tPf6AgR2HzbbF1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzmq8p85Ogs4VlLzw4FO31ruIiNWaEcPsZgRELCLK+3jb+JZY+U
-	TZWzNC6gaj/4zeOJpT0JOfrtvSJ/OMdnNF9pgKPJyfkHBzaBJiFTTSRwe8IPC3saU9XbLDXw6Wt
-	L/U8dm1cZoLa0P8ntjST5RraeiosG62yD/iSYNA==
-X-Google-Smtp-Source: AGHT+IFNMbx//cYEjFKlLreQGe6KHnDtkiSUF8TkDB0AJS6zWunIMN9dfiGm3wfKDkFfc9lg5KxffwMABzLboCKR1AQ=
-X-Received: by 2002:a05:651c:881:b0:2fb:628c:2580 with SMTP id
- 38308e7fff4ca-2ff201e6d03mr10547841fa.2.1731055042295; Fri, 08 Nov 2024
- 00:37:22 -0800 (PST)
+	s=arc-20240116; t=1731060845; c=relaxed/simple;
+	bh=atv7eZF400/S0PRnrN2ng0/Ut+7a6hVlyoulpZaKxDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F7UVNoiObrGComIyF8QzZCF2cY3EGoDh1qCzfLXe6ozzgPPQ4OPUvmaHVWp42pvj4O6wMqYHVw0VHJWoQSvtCJfECChKelj+LLOFdBMhFxNFVcTVbHDxUSIwqWWee4RtO5rDdRlmSuzr3Bb9v8rsnUyy/09hMV9V3ymYN4YhgAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=IoMoY/PC; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 28C041C00A0; Fri,  8 Nov 2024 11:13:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1731060834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mjuq5+QVoir9yK6E4RzXSjM+k6PwpaQeSdjFdVJCvC4=;
+	b=IoMoY/PCVpdrxq+pEPa31EhV/E5ET7xjuDUvh5rLj06C6XLHn4/GofDtKlZK6nEE9mSU2g
+	q5E0Hijex84Ps+yj6oan60jidD10sN0JnlgVa7XJqNrFUvEGH3+I3U2CFVujx2hf6FG00v
+	Q8+yp6wD0oARXX4B4L2n/rBm01lSD9g=
+Date: Fri, 8 Nov 2024 11:13:53 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: anish kumar <yesanishhere@gmail.com>
+Cc: anishkmr@amazon.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Karthik Poduval <kpoduval@lab126.com>,
+	Yue Hu <yhuamzn@amazon.com>
+Subject: Re: [PATCH] leds: driver for O2 Micro LED IC
+Message-ID: <Zy3kYZM0zYIpNcqS@duo.ucw.cz>
+References: <20241106015441.995014-1-anishkmr@amazon.com>
+ <ZyusEX3Pad8DTAk+@duo.ucw.cz>
+ <CABCoZhDAg1LfUZ1XCTFkR=TbHEUn=yOQRqrugzDK5Apge3JVPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com> <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 8 Nov 2024 09:37:11 +0100
-Message-ID: <CACRpkdb7gaYW3FXfqZ=E-yC6071LEiv8hnyMD4Hh=bxJ3BEdrw@mail.gmail.com>
-Subject: Re: [PATCH v1 3/6] leds: gpio: Avoid using GPIOF_ACTIVE_LOW
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, 
-	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
-	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="hWdK7WnyXcXtw3BW"
+Content-Disposition: inline
+In-Reply-To: <CABCoZhDAg1LfUZ1XCTFkR=TbHEUn=yOQRqrugzDK5Apge3JVPw@mail.gmail.com>
+
+
+--hWdK7WnyXcXtw3BW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 4, 2024 at 10:36=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Wed 2024-11-06 14:03:24, anish kumar wrote:
+> On Wed, Nov 6, 2024 at 9:49=E2=80=AFAM Pavel Machek <pavel@ucw.cz> wrote:
+> >
+> > Hi!
+> >
+> > > +++ b/Documentation/devicetree/bindings/leds/leds-ozl003.txt
+> > > @@ -0,0 +1,23 @@
+> > > +*O2 Micro Compact LED Strobe Light Controller
+> > > +
+> > > +Compact LED strobe light controller, can be controlled by I2C or via=
+ a
+> > > +PWM gpio controlled.
+> > > +
+> > > +Required properties:
+> > > +- compatible : "o2micro,ozl003"
+> >
+> > o2micro needs to be registered as a prefix somewhere.
+>=20
+> Wondering if adding hereDocumentation/devicetree/bindings/vendor-prefixes=
+=2Eyaml
+> not sufficient? I added that in the same patch though, I guess
+> I will have to split the patch to add that first and then the
+> driver.
 
-> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Doing that in same patch is ok, sorry if I missed that.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+BR,
+								Pavel
 
-Yours,
-Linus Walleij
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--hWdK7WnyXcXtw3BW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZy3kYQAKCRAw5/Bqldv6
+8t6zAJsF+alO6m5uWe+YyQBQXAf3KKy5jwCfXxCiGcsaVNGZ3AUT3qRYi0rIETg=
+=CsZa
+-----END PGP SIGNATURE-----
+
+--hWdK7WnyXcXtw3BW--
 
