@@ -1,175 +1,107 @@
-Return-Path: <linux-leds+bounces-3337-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3338-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1ABC9C14D6
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 04:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5629C17E9
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 09:28:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EC96282E4E
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 03:49:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7317B2867F3
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 08:28:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED5919DF64;
-	Fri,  8 Nov 2024 03:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901F41DE4EE;
+	Fri,  8 Nov 2024 08:28:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=classfun.cn header.i=@classfun.cn header.b="E+ALW2Mn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ab3PzqSl"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from classfun.cn (unknown [129.204.178.38])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 724A88F54;
-	Fri,  8 Nov 2024 03:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.204.178.38
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B442A1DDA32
+	for <linux-leds@vger.kernel.org>; Fri,  8 Nov 2024 08:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731037755; cv=none; b=gvaLsWNhShKBwQL/oxCFpJIPAOuNDIYRChr7BoXc+hX/w/vQwnErWkgrE++BVE2wU7axPnXKk5946oLlKiaQLfnagxjEMLz7uu1fTg2KTVS7OWiZzqALaVKQSVMaojYnhDOuI9cBFZ74wgdv6Lno42J0shjtHaFfzf9K1EuzTZ8=
+	t=1731054514; cv=none; b=a8Hf7t/094YBoH0Jc6I41rC8mxDD6lfKSQgt096cvx/I8L9lDKFZhMIa1Gs94rZ0CYfheNFkYZKrBNJ2jc3zkg7LRjKCQoD8WKi3brq4FCCeCf7MuGbDS2GxvLJg8TaldNk1HdPSvkK3D1wGvphRsVHZrgfI1xgj1c/LMHOAtL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731037755; c=relaxed/simple;
-	bh=MXe6IYQzEOrzfZcmjrcC+xeinHkhz6G2TN1/BMXAynw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H0gg32oJrdu4jzrfONHZRE1fp2rUPOf/U6xJeW9r2o37DnkOj9qjNB82xLkRVk3HWex3JVFxyp+WbAjPdDhd2k2vjWIcSYWNjj1rk2rAgB5qjnKSmor3xGJUbzHzM1va1WNAPo/YIgBwJkRHlvmgwTS/MFlXcME09fJLlCsXa3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=classfun.cn; spf=pass smtp.mailfrom=classfun.cn; dkim=pass (1024-bit key) header.d=classfun.cn header.i=@classfun.cn header.b=E+ALW2Mn; arc=none smtp.client-ip=129.204.178.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=classfun.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=classfun.cn
-Received: from [192.168.0.160] (unknown [120.32.101.155])
-	(Authenticated sender: bigfoot)
-	by classfun.cn (Postfix) with ESMTPSA id 2CD777892D;
-	Fri,  8 Nov 2024 11:49:04 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 classfun.cn 2CD777892D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=classfun.cn;
-	s=default; t=1731037750;
-	bh=3B/wDt2bOqNsA638987AnsCuaRwFSHdyN6e3dd6uRWs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=E+ALW2MnvftkIzO17VOsGIQg22QbPsXe9/be2g7Px6bhaYtwj8TYvzBsOxmMG9qxZ
-	 TaZetswj/qwGv/3WW0NWlFX5iLYKHNEgI9fru2ysjzYR5Ehb05WjLXS6Ve1oIADmei
-	 eoZTqSBOtrKCyPPAWju58G0dTUgIIQ8za1/rhogE=
-Message-ID: <6e748aa6-de2c-4a90-b07f-7a9d3e441d19@classfun.cn>
-Date: Fri, 8 Nov 2024 11:48:50 +0800
+	s=arc-20240116; t=1731054514; c=relaxed/simple;
+	bh=kaMh04+CLb7ZuQdQwd4gSI6K1RpPGQ2X0wWmQyg4vCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eQyeTGMmFq9mb5fqA2pX6bpkpzTH74xH5yIgU8ZrQ3i4zMTchu7r88TnmhJXZ47W63Bv1tbikHCnDibPJg2fKvB1PETm9Om0kGD/KLI7njigQHnX+84wYfJtiAF7H4KYJQnaPl4HfDGCfsx6/C74BjDU/1RxJE4ipf/Qe8fnaMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ab3PzqSl; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb6110c8faso19146881fa.1
+        for <linux-leds@vger.kernel.org>; Fri, 08 Nov 2024 00:28:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731054511; x=1731659311; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kaMh04+CLb7ZuQdQwd4gSI6K1RpPGQ2X0wWmQyg4vCo=;
+        b=ab3PzqSlh+7MVx9YgzYXwyRF5d8Ak1hp++oP0WU6CSdsgOfZLFYwigp8SuUPDYnZv2
+         SWB55lgoIWt25cAIEA2sMVBp62vG+a9tKupB6vwwVihCXbr0al2bYlC31s/FXaUKtqh8
+         5zNSAE5pgHA+9KHlGR92+NmjKygBBX1hu0hRabxDLTMClpHerk+ah+/DHiyrCQH2jgKe
+         ZvGZfjzlNv4OxT5V8V8Ulu8x+6K1BL+fEAwQwe2ieGRGp9dZz2/7fO31ksJGGSU+9JDr
+         NjoPhVaLYIXaTNxANlPIqU0/DWqqLOZbjyyf/pZCKi9U/iPCE1Tmlkpk5RxAvNSIlM/8
+         nr1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731054511; x=1731659311;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kaMh04+CLb7ZuQdQwd4gSI6K1RpPGQ2X0wWmQyg4vCo=;
+        b=cAn52kfm/V77Z2E3ncAVvI28vdk5LFz6MEanW1sBToIXnr3xN4eTdQcXsaVLh4JQKB
+         aYBsVYer9NVRn3kadYf76CpOgGOuXAEc2GfXG5Vz9Q9JOFSVSnM/RGUoReHtDLbA9OCJ
+         eMDsgCv9WGrnkeitlryh4F4Xk0JlLTqEQRKqBRWUVZcQcM3fFMsGdoAiyVUpdP1WhCl/
+         SNx8kyQjeKwd0/iRNOA7tpQmWYJlPghvSCUnEzsiaC5gKU1/qRzDJEnVvBc61VyzWlZk
+         vaBnmSqy4wtrBjJFfBTrhUL/NjeYgTOYryB8H8flPFnFmgb7SV4aG8l2igDZulOBPIuw
+         R19w==
+X-Forwarded-Encrypted: i=1; AJvYcCW4rcGiG5/s/b3vJkJQSWDwEHqi1eUusi2NLFpZB61gBoyxVZKklashFKU8136fw1zTIAI6V3eLKrnb@vger.kernel.org
+X-Gm-Message-State: AOJu0YymkoROsUWoZ5piozCaNjaHzoRZqv8c4sBlSb/z9FDE7dJWUTpf
+	PtW5gHot6yB4miOIpgm7TUBcVFnikmJhP4b4icBYFqK+5MY4MAD1njDHKmDWifoEvzCYr7h+Izi
+	NAXjdAY7yPYSUUPI/A6/AtQbJLpPWqw+hnY+NSg==
+X-Google-Smtp-Source: AGHT+IG+g9QB/Q7yhaX//JsVe1DFtQNOzLjrFeQ0iseJ97Cr2u/qsa6qFZ/FQqJfsYHVTCRrxZ6pRHR0v/dSmSX5cBg=
+X-Received: by 2002:a2e:b8c2:0:b0:2fb:48f6:27e4 with SMTP id
+ 38308e7fff4ca-2ff2015261amr8351291fa.3.1731054510817; Fri, 08 Nov 2024
+ 00:28:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] leds: add Photonicat PMU LED driver
-To: Lee Jones <lee@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Sebastian Reichel <sre@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Heiko Stuebner <heiko@sntech.de>,
- Chukun Pan <amadeus@jmu.edu.cn>, Junhao Xie <bigfoot@classfun.cn>
-References: <20240906093630.2428329-1-bigfoot@classfun.cn>
- <20240906093630.2428329-8-bigfoot@classfun.cn>
- <20241002153536.GG7504@google.com>
-Content-Language: en-US
-From: Junhao Xie <bigfoot@classfun.cn>
-In-Reply-To: <20241002153536.GG7504@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com> <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 8 Nov 2024 09:28:19 +0100
+Message-ID: <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
+Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024/10/2 23:35, Lee Jones wrote:
-> On Fri, 06 Sep 2024, Junhao Xie wrote:
-> 
->> Photonicat has a network status LED that can be controlled by system.
->> The LED status can be set through command 0x19.
-[...]
->> +config LEDS_PHOTONICAT_PMU
->> +	tristate "LED Support for Photonicat PMU"
->> +	depends on LEDS_CLASS
->> +	depends on MFD_PHOTONICAT_PMU
->> +	help
->> +	  Photonicat has a network status LED that can be controlled by system,
-> 
-> "the system"
-> 
->> +	  this option enables support for LEDs connected to the Photonicat PMU.
-[...]
->> +++ b/drivers/leds/leds-photonicat.c
->> @@ -0,0 +1,75 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2024 Junhao Xie <bigfoot@classfun.cn>
->> + */
->> +
->> +#include <linux/mfd/photonicat-pmu.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/leds.h>
-> 
-> Alphabetical.
-> 
->> +struct pcat_leds {
->> +	struct device *dev;
-> 
-> Where is this used?
+On Mon, Nov 4, 2024 at 10:36=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-I used it to print logs, but now it doesn't, I will remove it.
+> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-> 
->> +	struct pcat_pmu *pmu;
-> 
-> Why do you need to store this?
-> 
-> Can't you get this at the call-site by:
-> 
->   dev_get_drvdata(cdev->dev->parent)
+Looks right to me, some testing would be even better
+because I never trust these flags to get right.
 
-Yes, I will change it.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
->> +	struct led_classdev cdev;
->> +};
-[...]
->> +static int pcat_leds_probe(struct platform_device *pdev)
->> +{
->> +	int ret;
-> 
-> Small sized variables at the bottom please.
-> 
->> +	struct device *dev = &pdev->dev;
->> +	struct pcat_leds *leds;
->> +	const char *label;
->> +
->> +	leds = devm_kzalloc(dev, sizeof(*leds), GFP_KERNEL);
->> +	if (!leds)
->> +		return -ENOMEM;
->> +
->> +	leds->dev = dev;
-> 
-> Where is this used?
-> 
->> +	leds->pmu = dev_get_drvdata(dev->parent);
->> +	platform_set_drvdata(pdev, leds);
-> 
-> Where do you platform_get_drvdata()
-> 
->> +	ret = of_property_read_string(dev->of_node, "label", &label);
-[...]
->> +static const struct of_device_id pcat_leds_dt_ids[] = {
->> +	{ .compatible = "ariaboard,photonicat-pmu-leds", },
-> 
-> How many LEDs are there?
-
-Photonicat has three LEDs:
- - system operation status indicator
- - charging status indicator
- - network status indicator
-and currently only one LED (network status indicator) can be controlled.
-
->> +	{ /* sentinel */ }
->> +};
-[...]
->> -- 
->> 2.46.0
-
-Thanks for your review, I will fix all problems in next version!
-
-Best regards,
-Junhao
+Yours,
+Linus Walleij
 
