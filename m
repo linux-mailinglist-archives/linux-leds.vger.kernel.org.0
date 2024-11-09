@@ -1,149 +1,105 @@
-Return-Path: <linux-leds+bounces-3361-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3362-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9483C9C1F57
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 15:34:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47CE89C2AE3
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Nov 2024 07:47:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5CB31C2303B
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Nov 2024 14:34:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0CA12282AA6
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Nov 2024 06:47:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB4EA1F470E;
-	Fri,  8 Nov 2024 14:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81DAA13CA9C;
+	Sat,  9 Nov 2024 06:47:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OOOiCG06"
+	dkim=pass (2048-bit key) header.d=dominikbrodowski.net header.i=@dominikbrodowski.net header.b="m0Ck6tLN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7D51EABDC
-	for <linux-leds@vger.kernel.org>; Fri,  8 Nov 2024 14:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EC046447;
+	Sat,  9 Nov 2024 06:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.243.71.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731076447; cv=none; b=NP5GVoCXQmMbM20X4cC6nMGinafcR4PFqNxHnxhO+TpBJhBxfZ6Ul08FgMIqy1DHmqXs+oHWJqtuMCuo3gZfARZRQBuhIMkqaDWmQou/2S5ikmgqxcF6+AUtVEhnl/tB2rFt194pEngN0WhW/JDzJYgxtPuGyZWaOdlNhXBWHtU=
+	t=1731134866; cv=none; b=IBT/QyegqlluWfpRLe/XhGNNVOATm5YyiKAdVF3heE98QuaGBheaVxKX8SM7ob9hgOhnLqXhlLOs447PIk8svf/MikZ4YB/QJKRCj3A0/cpuce7eg5nzECgEl8vcuW4iSiGJgedtBRXPHL53YkCzp9S2+fs3xLb/e9sT+g4hMDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731076447; c=relaxed/simple;
-	bh=DPU+D+82CmA9h5Ph6EL7ffraHSVchVSGoKUFRSRG56Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=P+gw2yrxwmyhmL/EJ+wNJoNXNMj9H+xDljmFhqXXQ0gBDpp25MHTpXyo2zCfhFE/WwNRN58/nrMLx0Y4z/xCpUughg6z9X9CCIG/b0l1JWLJdWMz7wshtIPZhByJOFZwYe3kGFvPzsDT77RmyD7cxifFSgyTZ3mtVl2u4mfT6Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OOOiCG06; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-37ed7eb07a4so1486204f8f.2
-        for <linux-leds@vger.kernel.org>; Fri, 08 Nov 2024 06:34:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731076443; x=1731681243; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4aKxG3gwOAGANkGkZ2NSS+guj7HDwh0arnh3SiLCSnU=;
-        b=OOOiCG067fS+8RfOqDQmbO6ma7hV+Ye9d/tLATYf9EJR/o9VgdWjn7HWb+g23E1tOI
-         LzzGrIUMD7k9iiKFmWSqN8VxiB66U5OJeRo7cfgEjSU0Ur0ozBaHRmDed2NuXS3qL3VK
-         dDtqLrQZziRpEqYrTurIb1fdGnBKs2ApynSxvdS+0oVLgnjxfTqrrGpD5UKdFMTScoMw
-         1RPHDnYJeFQo1F2iPdbij2qxgyvtd0689OqBZt9vm+HwO0Gxg9XgO5fJYsq/vr8hnbKB
-         b3UTDLvCudHdJdD1FZ0fm6iEaG10Jx+WEyQa8PvNLIBMcKihTVBly9EkV7visETRe/6/
-         vRrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731076443; x=1731681243;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4aKxG3gwOAGANkGkZ2NSS+guj7HDwh0arnh3SiLCSnU=;
-        b=VmtXRHU48gcttC+j24SmDcZjA4BepbUVQDl3TBj2gc1FgwCjgstbmNUD0O1wRQsnSB
-         qDWrTeOg28p5Jsei6u8+bBYkHWkxiSBsBw/ScWVhIg7nW5XqDyfykZnALLa+434gKBGU
-         8IWzlE8T4O35B7ehx6zqU0H3mpdOw/dnyMRIhOQWfgbRuzT+1GdJeHAH1XQk+GlKrC3M
-         +i3vF3IPXZxFtMceDmuH5PSELa1t2rofsGxlu3AV/+qdnO/uyOpwqhSQYJ4BmabeBRAF
-         sncQWh0+ccQ6fmuLlm1whGSXOVOb7iCyAJk0lyg2n5opJUSE86k3P9BOhNqfgkzkAgqE
-         Y0nw==
-X-Forwarded-Encrypted: i=1; AJvYcCUEABA322G4hdpuaUPOdLDojq52J+JmN39AQU/7JlMu2l0a2DUVQFtmStyAcPcgdxpQiz65THqhAsaR@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVUSvocyylkeqcP/3HWQO12kTtlHNYei7mw63AC9Nm210Vhl0F
-	1m+5xl8jMFlIVktrRIQ8hCiyAF3DDoxqJ7ofbiwCbK5u1ymEvBhPdTeFZ4zhL50=
-X-Google-Smtp-Source: AGHT+IFiQTvvUUVNBS+RC050g+C25oacYB7OQt6yFvIZkoyX4jf9tm4lHFTxhmnrBwsgz4a+MFioMQ==
-X-Received: by 2002:a05:6000:1866:b0:37d:4870:dedf with SMTP id ffacd0b85a97d-381f172a6e7mr2781004f8f.19.1731076443139;
-        Fri, 08 Nov 2024 06:34:03 -0800 (PST)
-Received: from localhost ([89.101.134.25])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed99a34bsm4960209f8f.54.2024.11.08.06.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 06:34:02 -0800 (PST)
-Date: Fri, 8 Nov 2024 17:34:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
-Message-ID: <954d6aa4-5dc7-4421-9b92-4cb9a0b9d40c@suswa.mountain>
+	s=arc-20240116; t=1731134866; c=relaxed/simple;
+	bh=m68XOFghE54ivU2dcmIYLk882k+HwPd8s6RJ2NuvOUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lkqOAWdSI+s2tqRO1b2QkOlFXPTvY7kZ2JT4EdgsQboqNe2Hrc1xJQVnn+wOlxefeEWUE+28guflX8FX0vO6fzgySABl5F3emDQtlUO9FqW3Ws7uWvQZ+daaXTKXwfkhOzKsKTBtHf7GzL1SdJtC7ZR3Bgc4PdXqtbhlKvyOBs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net; spf=pass smtp.mailfrom=dominikbrodowski.net; dkim=pass (2048-bit key) header.d=dominikbrodowski.net header.i=@dominikbrodowski.net header.b=m0Ck6tLN; arc=none smtp.client-ip=136.243.71.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dominikbrodowski.net;
+	s=k10.isilmar-4; t=1731134425;
+	bh=m68XOFghE54ivU2dcmIYLk882k+HwPd8s6RJ2NuvOUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m0Ck6tLN37f+wQFu3UsQKdc+QFgC4L455vHgvRwEu/CVsrintIaqw0BGGgBpyMvdW
+	 3KihegNFT/LSWiBGJHrh2x4bq2Tw/x8qpX2tSqHkcHUtNaZ4IJ2gQGC4GnUZTUiCLQ
+	 r56r2k3qqEKDP0FwBJlQPXH7YxXcxu81/eip498VpxpX7p3tYsQfg0wB+5KyAZvFv+
+	 5cuD7F/DteExPqXttlt9JrilrD6jrYzfKLgGkoZpUZzbqFgWkNrjt5d36ItgqB3Xx/
+	 ncV2XBUlHYtqXvveXkMXoNho0jTuTbMH4TEpAUqHdct6wbuMCY+YILmbceORQa2Unv
+	 BubNYu8gN0QBA==
+Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
+	by isilmar-4.linta.de (Postfix) with ESMTPSA id 03AE8200602;
+	Sat,  9 Nov 2024 06:40:24 +0000 (UTC)
+Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
+	id B3D61A006B; Sat, 09 Nov 2024 07:40:15 +0100 (CET)
+Date: Sat, 9 Nov 2024 07:40:15 +0100
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
+Message-ID: <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
+ <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
+ <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
+ <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241106061812.6819-3-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
 
-Hi Vicentiu,
+Am Fri, Nov 08, 2024 at 10:35:41AM +0200 schrieb Andy Shevchenko:
+> On Fri, Nov 08, 2024 at 09:28:19AM +0100, Linus Walleij wrote:
+> > On Mon, Nov 4, 2024 at 10:36 AM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > 
+> > > Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+> > >
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > 
+> > Looks right to me, some testing would be even better
+> > because I never trust these flags to get right.
+> 
+> I also would like to have this, but seems the only odd fixer was active ca.
+> 2023 last time, I'm not sure we may hear from Dominik in time, otherwise the
+> series will be postponed for unknown period of time, which I do not prefer,
+> rather I will fix any regressions later (but I doubt there are here).
 
-kernel test robot noticed the following build warnings:
+As I don't have such hardware, I cannot help with testing, but from the
+PCMCIA point of view:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-142011
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20241106061812.6819-3-vicentiu.galanopulo%40remote-tech.co.uk
-patch subject: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
-config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080756.6eYdrM5X-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411080756.6eYdrM5X-lkp@intel.com/
-
-smatch warnings:
-drivers/leds/leds-st1202.c:175 st1202_brightness_get() error: uninitialized symbol 'value'.
-
-vim +/value +175 drivers/leds/leds-st1202.c
-
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  155  static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  156  {
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  157  	struct st1202_led *led;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  158  	struct st1202_chip *chip;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  159  	u8 value;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  160  	int ret;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  161  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  162  	led = cdev_to_st1202_led(led_cdev);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  163  	chip = led->chip;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  164  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  165  	mutex_lock(&chip->lock);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  166  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  167  	ret = st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num,
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  168  				&value);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  169  	if (ret != 0)
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  170  		dev_err(&chip->client->dev, "Reading register [0x%x] failed, error: %d\n",
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  171  			ST1202_ILED_REG0 + led->led_num, ret);
-
-Presumably value is uninitialized if st1202_read_reg() fails.  Normally
-I would just mark st1202_read_reg() as a no-fail function and not
-report it but here there is explicit error checking so it's weird.
-
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  172  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  173  	mutex_unlock(&chip->lock);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  174  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06 @175  	return value;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  176  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Thanks,
+	Dominik
 
