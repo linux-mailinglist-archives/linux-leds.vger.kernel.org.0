@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-3377-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3378-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563169C3B9C
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 11:04:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 092059C3B9E
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 11:04:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 883041C21D08
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 10:04:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B44811F20FC8
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 10:04:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87BA91714B2;
-	Mon, 11 Nov 2024 10:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5581A175562;
+	Mon, 11 Nov 2024 10:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agOFtOGl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iogNKRKX"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8B215C15A;
-	Mon, 11 Nov 2024 10:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6EA15C15A;
+	Mon, 11 Nov 2024 10:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731319461; cv=none; b=oiU8b2HyN9vOJXgOVF3MHJMwJ+WNe9GzFrAtTuwRNTedl3oGQUHk5b7XGp2PzM5fPFVPNTQ+oWWUMY5WWErEH/3hpAA/236Ne3fPUVePTkVj0wgfbvGFZMnK876mkwVJXrB33i5HOahnEDlOFzI2GHLy04OfM6QtIqKHPbgpM1c=
+	t=1731319465; cv=none; b=FiG3kokmGdybg53Eqy7Zg6rO+N2N5IRXG/pIJ1tvEerHbemDjpFDV7LZA5t0y3GgQX0hbs/FqzMRA8ZGBrO7+dsO4bVdr6vK2nqHB60wQqreUiecoYOBujLHiYQ55iMTnE8cKYhXxK8VRy8vlFCIbgbx3id9/M8tZvFGYe2uHz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731319461; c=relaxed/simple;
-	bh=IL6ApZj/AEN4ogtSsw2hRDlMG6U3NVDiHfarNqZTetA=;
+	s=arc-20240116; t=1731319465; c=relaxed/simple;
+	bh=v7WL23ms+ZXopV86QQbTvWoLrATGoi65c3m/UcEpUlc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mpjm1awtvklGApa2gWBv/mML+2quaSWJGRkXW95pt1742N0oukvkVGdIALhC0K5+UA/ES6axScZEaHUe1oXdC/mzcBGCxJEXcdTo1kAeY5SHuUltQ4OsdEq79+u+vsS1DKwS5puNolDSWtKD/f6ta+3FbtzwvxD6nzChzQwSZLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agOFtOGl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B692FC4AF09;
-	Mon, 11 Nov 2024 10:04:17 +0000 (UTC)
+	 MIME-Version:Content-Type; b=eCnk23thwaYURZrtXA1mz3wCM7rATUGAD23Fo3fgsD7Qe6ONuakQ45zWdz5wVmKSExNxwKGPXjvTmfTr1GKniAhKO3WPtyde5TqZmU4GykE0B5i8F+8kuZVMUuwes/rYUMef9ZgMx+Dtu2rjXhtzWvOmUr46+SVbxfkDF7uzHxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iogNKRKX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1A57C4CED8;
+	Mon, 11 Nov 2024 10:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731319461;
-	bh=IL6ApZj/AEN4ogtSsw2hRDlMG6U3NVDiHfarNqZTetA=;
+	s=k20201202; t=1731319465;
+	bh=v7WL23ms+ZXopV86QQbTvWoLrATGoi65c3m/UcEpUlc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=agOFtOGlyrFlKEtDWQtdOHNBJOrG1vf4ZSdmYsLx0uTRY6WrjeK3hGPbl2HD+uGDS
-	 dVQa7DFwq+geYIdn8qexRJ2kbQVqhWZxRKJXNzLcHZ+U90DJrWGJUbib7Pk+9q6Hy8
-	 VtYdnSqkPc9Sq4w7WWFhZtAHKC7Rw0bDXubIZdB1dN+BcI1JenmM13A+nUw0NSgpeX
-	 jwt2zI+/oTe4CiMADHbmEkS4WrWrQ1B2Jr6PPZG5a1a+5pzbG85BtFQ4U0tkcaz8hP
-	 boDYLRRoRMls5+hKvHWHfqtbkpxNSWX0K7TTBZPvNoL+rRSKvPVlH30BCOgXLE8pb9
-	 W0H6jlpDYDNsw==
+	b=iogNKRKXYNCLxVUg9+CTQpiWoSwg1smhkoUnxxKMuEtCyDj2QC2Fg5znpEVJjRCwO
+	 /un0S0ZXcGYl53AdAwgvZOFxmMWr00FV1g8lwOFRu1KgMBBGZv4z6W7QYKrG6auz6K
+	 ODLGlOOg24G0OGvLXFhV6OJDKyG3tWgHY1tofGSUtC6SX+YcDuCpl7zHLsoYhiFPPA
+	 csWmxO4iIl5byENLONrsj12Q0ivi8GGk2EkH8gSBxyX1upKeZNM0IMbZa2zwAma8cp
+	 SwyaQzB1B+xZLuPMbm+lAhzGcNbWbzaFIOLW94El2dEG64Rgxn33/9rKExTCnVwL4M
+	 JQJxAz21dhNSQ==
 From: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
 To: Lee Jones <lee@kernel.org>
 Cc: Pavel Machek <pavel@ucw.cz>,
@@ -58,11 +58,10 @@ Cc: Pavel Machek <pavel@ucw.cz>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org,
-	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH leds v7 05/11] dt-bindings: leds: cznic,turris-omnia-leds: Allow interrupts property
-Date: Mon, 11 Nov 2024 11:03:49 +0100
-Message-ID: <20241111100355.6978-6-kabel@kernel.org>
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds v7 06/11] leds: turris-omnia: Document driver private structures
+Date: Mon, 11 Nov 2024 11:03:50 +0100
+Message-ID: <20241111100355.6978-7-kabel@kernel.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241111100355.6978-1-kabel@kernel.org>
 References: <20241111100355.6978-1-kabel@kernel.org>
@@ -75,48 +74,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Extend the cznic,turris-omnia-leds binding with interrupts property,
-specifying the global LED brightness changed by button press interrupt.
+Add documentation for driver private structures, `struct omnia_leds` and
+`struct omnia_led`.
 
 Signed-off-by: Marek Behún <kabel@kernel.org>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/leds/cznic,turris-omnia-leds.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/leds/leds-turris-omnia.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-index 34ef5215c150..f52f6304c79e 100644
---- a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-+++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-@@ -23,6 +23,12 @@ properties:
-     description: I2C slave address of the microcontroller.
-     maxItems: 1
+diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+index 50fef4389c93..b60c34f57d0e 100644
+--- a/drivers/leds/leds-turris-omnia.c
++++ b/drivers/leds/leds-turris-omnia.c
+@@ -19,6 +19,15 @@
+ /* MCU controller I2C address 0x2a, needed for detecting MCU features */
+ #define OMNIA_MCU_I2C_ADDR	0x2a
  
-+  interrupts:
-+    description:
-+      Specifier for the global LED brightness changed by front button press
-+      interrupt.
-+    maxItems: 1
-+
-   "#address-cells":
-     const: 1
++/**
++ * struct omnia_led - per-LED part of driver private data structure
++ * @mc_cdev:		multi-color LED class device
++ * @subled_info:	per-channel information
++ * @cached_channels:	cached values of per-channel brightness that was sent to the MCU
++ * @on:			whether the LED was set on
++ * @hwtrig:		whether the LED blinking was offloaded to the MCU
++ * @reg:		LED identifier to the MCU
++ */
+ struct omnia_led {
+ 	struct led_classdev_mc mc_cdev;
+ 	struct mc_subled subled_info[OMNIA_LED_NUM_CHANNELS];
+@@ -29,6 +38,13 @@ struct omnia_led {
  
-@@ -56,6 +62,7 @@ additionalProperties: false
- examples:
-   - |
+ #define to_omnia_led(l)		container_of(l, struct omnia_led, mc_cdev)
  
-+    #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/leds/common.h>
- 
-     i2c {
-@@ -65,6 +72,7 @@ examples:
-         led-controller@2b {
-             compatible = "cznic,turris-omnia-leds";
-             reg = <0x2b>;
-+            interrupts-extended = <&mcu 11 IRQ_TYPE_NONE>;
-             #address-cells = <1>;
-             #size-cells = <0>;
- 
++/**
++ * struct omnia_leds - driver private data structure
++ * @client:			I2C client device
++ * @lock:			mutex to protect cached state
++ * @has_gamma_correction:	whether the MCU firmware supports gamma correction
++ * @leds:			flexible array of per-LED data
++ */
+ struct omnia_leds {
+ 	struct i2c_client *client;
+ 	struct mutex lock;
 -- 
 2.45.2
 
