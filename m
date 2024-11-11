@@ -1,130 +1,83 @@
-Return-Path: <linux-leds+bounces-3365-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3366-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1219C3506
-	for <lists+linux-leds@lfdr.de>; Sun, 10 Nov 2024 23:20:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E049C38C2
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 07:58:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 223C6281772
-	for <lists+linux-leds@lfdr.de>; Sun, 10 Nov 2024 22:20:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B637F1F20C2A
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 06:58:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96B97158558;
-	Sun, 10 Nov 2024 22:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jgvAhVq8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CC31514EE;
+	Mon, 11 Nov 2024 06:58:23 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2E52B9A9;
-	Sun, 10 Nov 2024 22:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+Received: from cmccmta2.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218541487F4;
+	Mon, 11 Nov 2024 06:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731277215; cv=none; b=A5Nyur6G4Kdxfi7NWIVpfBK8XAIysQnUTjBvP2q74VBtQC4gzrR0f6Zv09NtOCDPN6NiA6LcvdX6P6PQ3qTEEj6rRAEdGXzn24xn6vCh5AdaYMyz9TIZ1jnOP3LpbPcnQhrNCLTgR7Uq6ia0j7EvDLvQuEAc7a9QwjOIWEDl1E4=
+	t=1731308303; cv=none; b=a3eBaTukY+4Om2y6p1Ei8oERPnaxv4KL9fT2et6jy9UonCXd3ofGurO1gzHi0RloIZZEnUPVnmtctGNMnxuCfaofvX9R+3c7kpxV1BFjCYsRcP2wIHDyLm5YC5xBYgDk6hU8uYS1qgKHQ2j20g3paTBz8rCUhILLKrB5cr+ofls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731277215; c=relaxed/simple;
-	bh=vWiAnPDvzJ7D0NhtAYKIk8U+AVw3hjK1fZbqqvO6PfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LpGHq7E2eyDUTB2yNjXWv2kZlchjy3aDpE9py8BNhrQJ1YD742rndxEO/vlTsFU4omRYBj6Yk0zI+rZT6PwwZFqd8Ln8rOVb1uqiwfbVdEQbPoB/jl6z6w4XGYn9UP2NysavIvpQrcrqE3Iyefod+1cseVGM/7B2EFQGx90Gfqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jgvAhVq8; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AA228240002;
-	Sun, 10 Nov 2024 22:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731277204;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9orySFqiLkR/qY+bcxW2Z/J3ieCCiSxmMOqWc/cVx04=;
-	b=jgvAhVq8nz+iOOzk69MseaQRS8fuzamkE0JFjN9bMWZlr0PfZY4POo38flHp15iJLhInar
-	jLKq4Wz5g9h6UB6i+LqJmkAGxjyDIVxRIs16vhSEx6HqVXfINdx6o0zv2cyj3ejuF0ii9S
-	5Uj8z5vdvdD7Ta/QLXNXg3l3QqTLQ3klv7zc6agCNGhLOLkA3DyY2WpPtmMzeJXjhFtY+V
-	GB9g5SoggFvMqkTj50de74DHp8jJOQSsWj9dt5JMWEeEBgtgc0OULDeEH6TRFJKJTckEjw
-	G1QZ9dgGhbsSYUAjxY4LnKvvBYCzFM+OZQY3ufLJFfztzLnXZVsuGU7xAB+TVg==
-Date: Sun, 10 Nov 2024 23:20:03 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Stanislav Jakubek <stano.jakubek@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: mfd: sprd,sc2731: convert to YAML
-Message-ID: <20241110222003bbcff5ad@mail.local>
-References: <efd200c3b5b75405e4e450d064b026f10ae2f8e0.1730709384.git.stano.jakubek@gmail.com>
- <20241106090422.GK1807686@google.com>
+	s=arc-20240116; t=1731308303; c=relaxed/simple;
+	bh=RRfA/3dJQQAyx8yE8jLrEZTN7L+GQSAafq7NHGwZh3Y=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=Gpwx2ZMOVDXUi5dDlnmigNJxXHLQjOHgUTf7IM3y/RhyNVTO0IfB8OsY9/kq0Gpu8Uz0FQT3vV0fgbvdeZh5+BKn61O0R2OjwWZ9sVsBty6u3iZFg/MHWEZVW1QfmVBIbEH1aiJs6LTuRYCexCMf811tmwy5KK6JDIfLdSnnUfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86731ab0408b-3e0d4;
+	Mon, 11 Nov 2024 14:58:13 +0800 (CST)
+X-RM-TRANSID:2ee86731ab0408b-3e0d4
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from ubuntu.localdomain (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86731ab04f4b-173d5;
+	Mon, 11 Nov 2024 14:58:12 +0800 (CST)
+X-RM-TRANSID:2ee86731ab04f4b-173d5
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: pavel@ucw.cz
+Cc: lee@kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zhujun2@cmss.chinamobile.com
+Subject: [PATCH] leds: ss4200: Fix the wrong format specifier
+Date: Sun, 10 Nov 2024 22:58:09 -0800
+Message-Id: <20241111065809.3814-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241106090422.GK1807686@google.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On 06/11/2024 09:04:22+0000, Lee Jones wrote:
-> On Mon, 04 Nov 2024, Stanislav Jakubek wrote:
-> 
-> > Convert the Spreadtrum SC27xx PMIC bindings to DT schema. Adjust the
-> > filename to match the compatible of the only in-tree user, SC2731.
-> > Change #interrupt-cells value to 1, as according to [1] that is the
-> > correct value.
-> > Move partial examples of child nodes in the child node schemas to this new
-> > MFD schema to have one complete example.
-> > 
-> > [1] https://lore.kernel.org/lkml/b6a32917d1e231277d240a4084bebb6ad91247e3.1550060544.git.baolin.wang@linaro.org/
-> > 
-> > Signed-off-by: Stanislav Jakubek <stano.jakubek@gmail.com>
-> > ---
-> > Changes in V3:
-> > - remove $ref to nvmem/sc2731-efuse and list the compatibles with
-> >   additionalProperties: true (Krzysztof)
-> > 
-> > Changes in V2:
-> > - rebase on next-20241029
-> > - drop partial examples in child node schemas, move them here (Rob)
-> > 
-> > Link to V2: https://lore.kernel.org/lkml/ZyExK01iprBHhGm6@standask-GA-A55M-S2HP/
-> > Link to V1: https://lore.kernel.org/lkml/Zr3X1RoQs7ElTnlJ@standask-GA-A55M-S2HP/
-> > 
-> >  .../bindings/iio/adc/sprd,sc2720-adc.yaml     |  17 --
-> >  .../bindings/leds/sprd,sc2731-bltc.yaml       |  31 ---
-> >  .../devicetree/bindings/mfd/sprd,sc2731.yaml  | 252 ++++++++++++++++++
-> >  .../bindings/mfd/sprd,sc27xx-pmic.txt         |  40 ---
-> >  .../bindings/power/supply/sc2731-charger.yaml |  21 +-
-> >  .../bindings/power/supply/sc27xx-fg.yaml      |  38 +--
-> >  .../regulator/sprd,sc2731-regulator.yaml      |  21 --
-> >  .../bindings/rtc/sprd,sc2731-rtc.yaml         |  16 --
-> 
-> Is everyone happy with me merging this through MFD?
-> 
+The format specifier of "signed int" in sprintf() should be "%d", not
+"%u".
 
-This is fine for me.
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+---
+ drivers/leds/leds-ss4200.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -- 
-> Lee Jones [李琼斯]
-> 
-
+diff --git a/drivers/leds/leds-ss4200.c b/drivers/leds/leds-ss4200.c
+index 2ef9fc7371bd..f24ca75c7cb1 100644
+--- a/drivers/leds/leds-ss4200.c
++++ b/drivers/leds/leds-ss4200.c
+@@ -451,7 +451,7 @@ static ssize_t blink_show(struct device *dev,
+ 	int blinking = 0;
+ 	if (nasgpio_led_get_attr(led, GPO_BLINK))
+ 		blinking = 1;
+-	return sprintf(buf, "%u\n", blinking);
++	return sprintf(buf, "%d\n", blinking);
+ }
+ 
+ static ssize_t blink_store(struct device *dev,
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.17.1
+
+
+
 
