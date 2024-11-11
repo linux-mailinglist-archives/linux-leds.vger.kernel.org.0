@@ -1,114 +1,153 @@
-Return-Path: <linux-leds+bounces-3368-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3369-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41069C3B14
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 10:41:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7818D9C3B2F
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 10:45:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E634C1C21CA4
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 09:41:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1D39B2293F
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 09:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E72381527A7;
-	Mon, 11 Nov 2024 09:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MIvuiUM+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD8A14B077;
+	Mon, 11 Nov 2024 09:45:31 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB16A224D6;
-	Mon, 11 Nov 2024 09:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0E81531C0;
+	Mon, 11 Nov 2024 09:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731318068; cv=none; b=LP9RutuaYsbfNYkZbi04prUYf50JKwDhol2WDiZeJTkY/NEAjSzTLBMsQbQEhi92cP4WokCcc/rSknnsb+hj0AXV3oRu7+mQgMdwqKuiguwLZ6nNbz4SELDNtbzZHdBckbu8/gXb2SCeLgqsF2h44+HGM/NL5GUhAzfqNRtjsn0=
+	t=1731318331; cv=none; b=EJSiLiUUxwULD41bA1c3vLtN3+U9ohLsx1gJlyZzzQUoitG5JhiY1Tg/2ZzzyZJMf8Y2/K9K0n7FGj9f/vR9RWYiAa5ms1NH1mMxei6l69yPFQSkLF2KBFEFhWWz6PYcBGJ8BJNJfyNhAzQ8pOFKZ2b8jquDPX/uTgnF7W4FSWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731318068; c=relaxed/simple;
-	bh=Z4jSMiSPL1S9y+kW2x469PcEBIPM0+q8m43FKd34St4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f4ShAR7wv2Jne9sJJLRmOiBD73DlRiad1E1coS8RqXGcxFc8KRIUGdr4WKgaqC0a2rBn+ZL7kkpG4FsH41Plo9RGrakFPii2qLTQeAFyXcKT/OcbLo2fs/HAZwKsxgc1WwXkXR6DIxjPb9EKzrs7CFPDgYxMBuwT+4kCMByQwFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MIvuiUM+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61100C4CED0;
-	Mon, 11 Nov 2024 09:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731318068;
-	bh=Z4jSMiSPL1S9y+kW2x469PcEBIPM0+q8m43FKd34St4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MIvuiUM+qye/J0ErzpvtizsbKNP2j/8yx1z93R6EL+f8MHOb+2W+SZDEncZeS2q1n
-	 WXVeoRHfQNKEUZ+6bq7il6WP1+5hbpycpiDW1ycEuHldR5KU2L3v4U1nb92O9rGs1C
-	 r9sujbBIaK7pFND3XfS7ygPlF0a++tE5+HTib8VXcQwPsuzdHC+IZWAhYaGipK6ivv
-	 yDU+o7YM7RHVxB8yXX+ArPnii6841sEuwIZYldYLMgIIzbzw4jPHASnybzkAWLToT0
-	 drC9t9ixOeWoPYxO6qi3I/+p6xmUeN4ddWGe3lB9/9Rt7pRvJbhOT7PtIrE5NATOmT
-	 i+yn9eF73fgYA==
-Date: Mon, 11 Nov 2024 09:41:02 +0000
-From: Lee Jones <lee@kernel.org>
-To: Fiona Behrens <me@kloenk.dev>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC PATCH 0/2] rust: LED abstractions
-Message-ID: <20241111094102.GA8552@google.com>
-References: <20241009105759.579579-1-me@kloenk.dev>
+	s=arc-20240116; t=1731318331; c=relaxed/simple;
+	bh=xfVdFbW/WL8OzILGgda9MRZEnND71lnebv0KQTum3ak=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OIDpT+iNALhzR/aayIlhAHDdxvOHkA18OuytvxCas9wj18NCl4GNWiouY92iIh7HYedvvkdwQ12AyTPtofHNSiBSRYZBRcz/ousJwgTnlp1O5rxRrxQbLIk7usUzo2HLLmQe5KwL7p1EnOHze6OSAyzpxaefaHCmVB35nX1rCeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e290d5f83bcso4005685276.0;
+        Mon, 11 Nov 2024 01:45:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731318328; x=1731923128;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NG3w6IoKtjFw3GDAzprXMtFGp5ZzUMYeN9BzuAyCT4k=;
+        b=JtTzQccWKNYf+XgtTg7D9aZ4KUHgc8YXO/AghxmiqXOLUmGyYoN1pYeutSSg2nmQnK
+         kYCPi0wXKwDF+Y/IHlQdsqO/7RvtCXghjqI4Calynt05nMcrWi77X/+lCYIXXLDimwms
+         6cNz8iA8sVym+H2lGgwb+XkH9Sh0FxnE7wyTcGI+7nAvNDwvG8xhPxIcBfXR4EUtvrA3
+         SUoZki6S/luillFLeVbmMNMgB2hfab48Hh3jPJCokALSOtzl1ve7GKyQMn0uRAku9IuK
+         rYegVN4i0Ud3S4QtfYDzgl0gb26/70MHb29C+NUuN2rIlO0gF+eKfHWLjpD2zkNYj1+B
+         qQdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhlTJ3Tah2Hw7AiSelIF6+0XhUetZtU1jq/hiH7teSV/NR9HPzaX0TfjyzQvV0Udkv5DXsm7DPsqT4rw==@vger.kernel.org, AJvYcCVQf8BzrJYFMcXANgu7YHwm+NtuSIaJ4LWaqy4gQbhyn8DXVIoxoN9mac+xhGl0nVLk1bDYcUSLf3bB@vger.kernel.org, AJvYcCWNShEgJStVa4a2mBxkdDVUERNYvoabhQK6L3gj6UBGqdfs3IlOwVzcoCrQA16Cy0Bxq148RQJB1iNa468=@vger.kernel.org, AJvYcCWsZxk41PgQYvq57HUvSjkffq0ylNFHysOWTquZr/ZNbbyZ+UdMf19kKvQjlDwctveleDCAO8bpw6HR@vger.kernel.org, AJvYcCXAlBJsArE41Hw25uSXGb38Vg3RM0QMHh5wpa/OakRmKYAlYGzxHyG8qjUU4836yip4gRTm7N4JgUlqHffh@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0fygvZKXyFVbYPi3TzirseS+VNch+BKcuYW6mhNOsEWCB0bXN
+	Jun7gwTsu3KK5yOhvpHGfxw7bDNpk04tT2ROzJmPwH3KTKs/zgi7QnOg43g9
+X-Google-Smtp-Source: AGHT+IH1dq/CGVrcgdiw4ecuXKxh6ZWzjkd60AXGa836S/M71fmRFl6pisCL7HI0NvOMD4Z8WeScNA==
+X-Received: by 2002:a05:6902:2890:b0:e30:ce97:d3bd with SMTP id 3f1490d57ef6-e337f83f903mr11279297276.5.1731318327749;
+        Mon, 11 Nov 2024 01:45:27 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e336ef2017bsm2175112276.21.2024.11.11.01.45.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 01:45:26 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6eb0e90b729so6937367b3.1;
+        Mon, 11 Nov 2024 01:45:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU0AFmUf8y1NerB6LurB3hPaWLihnkh8wC2m+9yMp2JS+gSjPWyK4f22PMikra/UH/nnklPp2tbK1aS@vger.kernel.org, AJvYcCUzWVKQjwyBTuNI/DlbR3rZt0XxPobXYTgufWAms8CixhFFsuW9JwzEgb8foi7bJvw4mvz3DEp1vANMSQ==@vger.kernel.org, AJvYcCVkZ6j0cRsnMP9um0g9BdOJHX5Hy/jld63GrnWKGrmGPEfLpN/6YNk11/d2jswXVaKgTo9Tq+1EFMB9@vger.kernel.org, AJvYcCX9Gv7g93PtDiNpzy85KDYxgkC/j4ucdAO5O9cFau192E3h6GNpwIdD9mo313VyqD6MPMZ8Sfi2xhAyeWf6@vger.kernel.org, AJvYcCXNUSvm19CVpla0K0XNqKL0b2ONnNQ88eFEKSh/YSwwKiI1j36HoukDkAnWpXc4rmT5wUO0jM8zz8vXW00=@vger.kernel.org
+X-Received: by 2002:a05:690c:6f83:b0:6ea:c928:771 with SMTP id
+ 00721157ae682-6eaddf7ffabmr110486467b3.28.1731318326288; Mon, 11 Nov 2024
+ 01:45:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241009105759.579579-1-me@kloenk.dev>
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com> <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 Nov 2024 10:45:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXx6hYsdKo-5sw+-vH7GOJYWn_de=wSvhj1QVVpbwCN7Q@mail.gmail.com>
+Message-ID: <CAMuHMdXx6hYsdKo-5sw+-vH7GOJYWn_de=wSvhj1QVVpbwCN7Q@mail.gmail.com>
+Subject: Re: [PATCH v1 3/6] leds: gpio: Avoid using GPIOF_ACTIVE_LOW
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 09 Oct 2024, Fiona Behrens wrote:
+Hi Andy,
 
-> This RFC implements a basic LED abstraction to show how this would work with rust.
-> 
-> Currently this just implements a sample driver, to show how to use the abstraction, which just
-> prints the requested state, supporting a on/off LED and an led with brightness level up to 255 and
-> hardware blinking. I intend to write a hardware specific driver for submitting.
-> 
-> The abstractions is a generic struct that holds a generic driver data on which the vtable is
-> implemented. Because this struct also holds the c led_classdev (include/linux/leds.h) struct this
-> struct is pinned and is using pin_init to create and directly register the LED.
-> Dropping the struct unregisteres the LED. I plan to also add devm functions later, but as device
-> abstractions in rust are not yet that far I opted agains that for the first iteration of the LED
-> abstractions.
-> 
-> This is currently using core::time::Duration for the blinking interval, but will likely change that
-> to use the Delta time type from FUJITA Tomonori [1].
-> 
-> This is requiring the Opaque::try_ffi_init patch by Alice Ryhl[2] which just got merged into
-> char-misc-testing.
-> 
-> [1]: https://lore.kernel.org/rust-for-linux/20241005122531.20298-3-fujita.tomonori@gmail.com/
-> [2]: https://lore.kernel.org/rust-for-linux/20240926-b4-miscdevice-v1-1-7349c2b2837a@google.com/
-> 
-> Fiona Behrens (2):
->   rust: LED abstraction
->   samples: rust: led sample
-> 
->  rust/kernel/leds.rs      | 399 +++++++++++++++++++++++++++++++++++++++
->  rust/kernel/lib.rs       |   2 +
->  samples/rust/Kconfig     |  10 +
->  samples/rust/Makefile    |   1 +
->  samples/rust/rust_led.rs | 103 ++++++++++
->  5 files changed, 515 insertions(+)
->  create mode 100644 rust/kernel/leds.rs
->  create mode 100644 samples/rust/rust_led.rs
+On Mon, Nov 4, 2024 at 10:37=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-FYI: I'm not ignoring this patch-set.  On the contrary.  I'm trying to
-place myself into a position where I can not only review it with some
-confidence, but use it to author LED drivers.
+Thanks for your patch, which is now commit e6a2f0ea519fd247
+("leds: gpio: Avoid using GPIOF_ACTIVE_LOW") in gpio/gpio/for-next.
 
--- 
-Lee Jones [李琼斯]
+> --- a/drivers/leds/leds-gpio.c
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -212,7 +212,6 @@ static struct gpio_desc *gpio_led_get_gpiod(struct de=
+vice *dev, int idx,
+>                                             const struct gpio_led *templa=
+te)
+>  {
+>         struct gpio_desc *gpiod;
+> -       unsigned long flags =3D GPIOF_OUT_INIT_LOW;
+>         int ret;
+>
+>         /*
+> @@ -239,10 +238,7 @@ static struct gpio_desc *gpio_led_get_gpiod(struct d=
+evice *dev, int idx,
+>         if (!gpio_is_valid(template->gpio))
+>                 return ERR_PTR(-ENOENT);
+>
+> -       if (template->active_low)
+> -               flags |=3D GPIOF_ACTIVE_LOW;
+> -
+> -       ret =3D devm_gpio_request_one(dev, template->gpio, flags,
+> +       ret =3D devm_gpio_request_one(dev, template->gpio, GPIOF_OUT_INIT=
+_LOW,
+>                                     template->name);
+
+Just wondering, as I am not 100% sure: can this change change the
+initial state of the GPIO?
+
+>         if (ret < 0)
+>                 return ERR_PTR(ret);
+> @@ -251,6 +247,9 @@ static struct gpio_desc *gpio_led_get_gpiod(struct de=
+vice *dev, int idx,
+>         if (!gpiod)
+>                 return ERR_PTR(-EINVAL);
+>
+> +       if (template->active_low ^ gpiod_is_active_low(gpiod))
+> +               gpiod_toggle_active_low(gpiod);
+> +
+>         return gpiod;
+>  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
