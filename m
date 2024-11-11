@@ -1,83 +1,129 @@
-Return-Path: <linux-leds+bounces-3366-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3367-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E049C38C2
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 07:58:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3205E9C390B
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 08:31:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B637F1F20C2A
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 06:58:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC4EA2810BA
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2024 07:31:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CC31514EE;
-	Mon, 11 Nov 2024 06:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE1715099D;
+	Mon, 11 Nov 2024 07:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sr+Zs7Z/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from cmccmta2.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218541487F4;
-	Mon, 11 Nov 2024 06:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BA7E545;
+	Mon, 11 Nov 2024 07:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731308303; cv=none; b=a3eBaTukY+4Om2y6p1Ei8oERPnaxv4KL9fT2et6jy9UonCXd3ofGurO1gzHi0RloIZZEnUPVnmtctGNMnxuCfaofvX9R+3c7kpxV1BFjCYsRcP2wIHDyLm5YC5xBYgDk6hU8uYS1qgKHQ2j20g3paTBz8rCUhILLKrB5cr+ofls=
+	t=1731310309; cv=none; b=fCF2yyE+yZHTxE3zuDBHZ0D2xxSPvRvJ8A5a6mux8StxfOIpsWM5tIESm15hfVZiobPjO/+w+1Of+Gg0HiCraaccySniwHdAIZ2BYexYeDcxno1USIZLiyyakCd85/77M08RLkivlgFxlTALmAz/Jni4WRT+OzJei9DGZgQ+hXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731308303; c=relaxed/simple;
-	bh=RRfA/3dJQQAyx8yE8jLrEZTN7L+GQSAafq7NHGwZh3Y=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=Gpwx2ZMOVDXUi5dDlnmigNJxXHLQjOHgUTf7IM3y/RhyNVTO0IfB8OsY9/kq0Gpu8Uz0FQT3vV0fgbvdeZh5+BKn61O0R2OjwWZ9sVsBty6u3iZFg/MHWEZVW1QfmVBIbEH1aiJs6LTuRYCexCMf811tmwy5KK6JDIfLdSnnUfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86731ab0408b-3e0d4;
-	Mon, 11 Nov 2024 14:58:13 +0800 (CST)
-X-RM-TRANSID:2ee86731ab0408b-3e0d4
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from ubuntu.localdomain (unknown[10.55.1.70])
-	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86731ab04f4b-173d5;
-	Mon, 11 Nov 2024 14:58:12 +0800 (CST)
-X-RM-TRANSID:2ee86731ab04f4b-173d5
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: pavel@ucw.cz
-Cc: lee@kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhujun2@cmss.chinamobile.com
-Subject: [PATCH] leds: ss4200: Fix the wrong format specifier
-Date: Sun, 10 Nov 2024 22:58:09 -0800
-Message-Id: <20241111065809.3814-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1731310309; c=relaxed/simple;
+	bh=SXzhXfPE+Qx72rA8T0X23owjGP3zy9X4bJ0lEmi/M3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RcFE9y+rnw17Y6Bk4Zo9EVsQw8hnO1Dqu8Jn7ylGFPtXit47hKlZuHmBQXaXpmGK+qLEZKSdAdLlztVG8IDqgNYyTkHnnK1cHhjAOvFIrEqOx+ajSDV7L8o3JUPA5ClEdOSZsALWxD5vPcMozFVrfmeRS/5qH7LvHNIKTmZnbf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sr+Zs7Z/; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731310308; x=1762846308;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SXzhXfPE+Qx72rA8T0X23owjGP3zy9X4bJ0lEmi/M3Q=;
+  b=Sr+Zs7Z/8vVlNWVgbqbSNKSB7kzX7gjYIgfTI6z8CXPXyGIPmy+gVNA/
+   DAdNcxW6RqDTwRCkQ9fe/I2+ZohAi7SWdCQbnD8esMMTslqwzlQE3E443
+   tNv2uDjv5CYI/U3/+ZRGXecAx9RTKRcoHBBLRUvlh62fH/+jOynaX0+AS
+   zLQl5VQ+sba6Au8jHXAfMXms8jQqCv3ZO7m5gkRqmeCGtwBMnwEpAKtqG
+   2uu4nB3DLx8r0mcTRWLhlzwIUoXVE69MkRPa7x9CA+JOJtIW4AMX6Is89
+   S2Iq9689DB6Eumn5QdbhogBSDGXT0UBBlefwJ79oXAO1ly5v3H2QzuYIS
+   Q==;
+X-CSE-ConnectionGUID: c/4UcSNdRHKtYNlV9KRQFg==
+X-CSE-MsgGUID: 0GIrVh7FQdWl8mhYWU5F3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41719572"
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="41719572"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 23:31:47 -0800
+X-CSE-ConnectionGUID: 1wF9bTkqS6ep9vgbqng2bg==
+X-CSE-MsgGUID: EoccRMIkS2OIbniMG4nl0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="86538133"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 23:31:42 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tAOte-0000000DVuj-3MD3;
+	Mon, 11 Nov 2024 09:31:38 +0200
+Date: Mon, 11 Nov 2024 09:31:38 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
+Message-ID: <ZzGy2huB-l4PYNUV@smile.fi.intel.com>
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
+ <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
+ <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
+ <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
+ <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-The format specifier of "signed int" in sprintf() should be "%d", not
-"%u".
+On Sat, Nov 09, 2024 at 07:40:15AM +0100, Dominik Brodowski wrote:
+> Am Fri, Nov 08, 2024 at 10:35:41AM +0200 schrieb Andy Shevchenko:
+> > On Fri, Nov 08, 2024 at 09:28:19AM +0100, Linus Walleij wrote:
+> > > On Mon, Nov 4, 2024 at 10:36 AM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > 
+> > > > Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+> > > >
+> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > 
+> > > Looks right to me, some testing would be even better
+> > > because I never trust these flags to get right.
+> > 
+> > I also would like to have this, but seems the only odd fixer was active ca.
+> > 2023 last time, I'm not sure we may hear from Dominik in time, otherwise the
+> > series will be postponed for unknown period of time, which I do not prefer,
+> > rather I will fix any regressions later (but I doubt there are here).
+> 
+> As I don't have such hardware, I cannot help with testing, but from the
+> PCMCIA point of view:
+> 
+> 	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
----
- drivers/leds/leds-ss4200.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for chiming in!
 
-diff --git a/drivers/leds/leds-ss4200.c b/drivers/leds/leds-ss4200.c
-index 2ef9fc7371bd..f24ca75c7cb1 100644
---- a/drivers/leds/leds-ss4200.c
-+++ b/drivers/leds/leds-ss4200.c
-@@ -451,7 +451,7 @@ static ssize_t blink_show(struct device *dev,
- 	int blinking = 0;
- 	if (nasgpio_led_get_attr(led, GPO_BLINK))
- 		blinking = 1;
--	return sprintf(buf, "%u\n", blinking);
-+	return sprintf(buf, "%d\n", blinking);
- }
- 
- static ssize_t blink_store(struct device *dev,
 -- 
-2.17.1
-
+With Best Regards,
+Andy Shevchenko
 
 
 
