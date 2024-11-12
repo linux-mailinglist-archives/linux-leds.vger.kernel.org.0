@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-3390-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3391-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9669C4CBB
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 03:41:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240A89C4CBE
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 03:41:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65627285F45
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 02:41:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8F011F232BF
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 02:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83236205E04;
-	Tue, 12 Nov 2024 02:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88151204F84;
+	Tue, 12 Nov 2024 02:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1q048LS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lhj4T7RH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CD74206E;
-	Tue, 12 Nov 2024 02:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3030204953;
+	Tue, 12 Nov 2024 02:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731379278; cv=none; b=syP+YBTGRE/Q4K4hk05xfZvZdfOzwBg7BVrUMEoGcjVLXS0IPNhvIEeDfeOeIO10xu4XdbWx9SyOHaKU1eDws+h7MgU61NNNietfs7QxVZl4r/a9Icd+pD/+oVDR5+8WUqWPGg4ye8+t1rEDznz2oWta5H1UEEEHk0hlDZ+i+kU=
+	t=1731379282; cv=none; b=fQiBfADpjgTVrgCpYCNRc5XExrnJtSjg8XCvia2Ml/v3TD6ZoYyoJ47NlqneYgmeHOkSOne3AU3I6dfWRRCjmveLBbogsKWWtDjKne53CNRPE/WvKztz+0ECBMomr/jdtrLyOusYiyeB7VpGpi0YG9CfiDaq3ZY0LLHTi6dwdZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731379278; c=relaxed/simple;
-	bh=V5vwGXQSOqlKHor9QPKQeOp/guRxpMu2AFdh9qH8knk=;
+	s=arc-20240116; t=1731379282; c=relaxed/simple;
+	bh=IpZydYlHdxh/qFTl2PNa2xzz/UVdkEWmO3oPwcHl8g8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tld+IJpTNb4FhxGNAjP3Bl6SYvZhb/Yl8/b+XDREMZFS3b48TcdrCDU9FtEWR7InkDCLmxlKY/ZpPMnBaRA7LET2T/JvxUmMDehCxZOtTfsqxo3ol8M/UEQr2zPb49ZHh7VPihw8OzI4Jg//vBjB3cP+hg+0Z5vkoVmDvPGnaB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1q048LS; arc=none smtp.client-ip=209.85.219.43
+	 MIME-Version; b=sa1RnKSwiEemA6hAePY4cZYp0ejBn4T/X586sCICJW8Sw3CJBLyD0LoqhWiNKfY53dyvw14F30yKDESQg9YfJHHvtZI0bCG8ExttFhdCCis6drD220HWDMjm36PsM8ofnSZxgjdOMc/WCxYoAieo+rjkZbSvdlvr8SFalLYXETE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lhj4T7RH; arc=none smtp.client-ip=209.85.222.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6cbd12b38b4so34190156d6.2;
-        Mon, 11 Nov 2024 18:41:16 -0800 (PST)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7b14df8f821so478537585a.2;
+        Mon, 11 Nov 2024 18:41:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731379276; x=1731984076; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731379280; x=1731984080; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/fTCWKcQDfMBnJLbE85DJwjJzGhPAmUIYQ+EBhwUivc=;
-        b=S1q048LSOjDhj04UihhaklbupVGQ0PykKgv7EKT8RJJCmx+QT4gyTumntwDz7YvxjQ
-         2dFfRwnowseLjW7hkdFRNQL2m8yaUjSb9L6GGcjMv094nPwQxEroo3V/YetZWpfF3ir9
-         cETs43KtncRDMZS+NZug+K2PnZkXl4jW0Pj4arqRmMCIM08Sx2bw8Ww337T9bpIS0lSx
-         BZ2x//NX0pn/5hmYIBUiG9/gz3t2Xn8Q5JJ4rcu3LiBAEY7Bns42H/rmxbOXnagUC78Q
-         m2nL17wpUbM2/tade7loAdd9ACJXIOe18nkpYQr0ruQTEQ8NhWjtGd9ZVZ2cr5lXfppd
-         LIsQ==
+        bh=7ug7n6yxxaOQrSjkaUQ4R0ZKOErDPDxqYqa7dlrKjLQ=;
+        b=Lhj4T7RHNpgD29xFmQaDlVLIo2UBoI9EarVAcfnHl2qP3PJs7fovxKgSDBias2/eJX
+         sUfgOldzAGJkMcfKvFCzoAINPLGiisWM+Q3uju7Dzu+yQ5R1NuVhDbw5EPPhYpIiqR54
+         SyrTElhoQ5364tW5qkZFxI65OyYne+CKaWlNuE/S9fUueQMZrbV6b3ezp6OzEMRM+FlZ
+         4BouKOPmb1oLNvd7Y8MPfr3GavjByy+JULQy3pM+KvjcwTNemM8T/LsoopCMilg7RhFO
+         iudWst4WQBJaXkqzdYe5mf+BzZ9AKbfXPIZS7IEFX9bin7y8ghwy9qjIEoKyudUXN/N8
+         GNPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731379276; x=1731984076;
+        d=1e100.net; s=20230601; t=1731379280; x=1731984080;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/fTCWKcQDfMBnJLbE85DJwjJzGhPAmUIYQ+EBhwUivc=;
-        b=uRRcPliADJlouKYm/63igSQcG+/DHOB9G6Ktx429lmKN9JLY9uFeDvODJcijkB6otD
-         DIkYMoHz/o2V6EBjyil7kNjXg41TZRatWluhMjp0rxTatRzGXJ3v+I10lftjza1vA3yS
-         OUY8QzPbZAZK48SVjEjx61FWMXlHbY3t/KOgxCnq/iiP4TLA4ahnUcZ8Jd8uW5cgt4qW
-         MupSoqYM+C1ty12BVqbmYuqeyH163BEgaLt/CSbO1h6iOH0fs6Cc4UVdRS9+urP+/s9g
-         Orw7D2MQRqEpxcqu/m8YsrAoZ1Q8LZcZiZwHTnStIQ1wtOtqZ4q2Sb8W9VlW8tBjLwQi
-         mI4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWC2ditht83udxpQi8xlKft2Zg0xj+QflZ0U0qAjQNV9BrPSHEWCW6g+2SBnHzum1d/Dg0+WpC4t7lo4hDWEw==@vger.kernel.org, AJvYcCXf4UMsB9KSQvw2De/X1WcLvBEFOW2xeVoVEvgjfXUE6G26OirmZmthXZl43DYA7/PTBTKLTPmIu+3Y@vger.kernel.org, AJvYcCXmqGwEEL1eKl4CwlgrKAKE0ly7Rgh+JdNS2mI16XnVcSpUI+Vn9RbsylFUIvkAtjbhGLfLai3YOd97bg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaMZAg3DX41kwswqt23rINC2eChpiUBKkoeAr+wM6OG++cd2tg
-	mQv6IR5cmBF7hLj2RdGZthGUHMwcnye3vlAp8BF89bfd+8nSW/L/
-X-Google-Smtp-Source: AGHT+IFhkImVyedpIPs/d7A+Jc9I6MAHP+B/rf0r1T+kw/i4mSdsbNyLCY4GeNd2fkeLgFZqNTqQPQ==
-X-Received: by 2002:a05:6214:2d44:b0:6d3:4553:49ac with SMTP id 6a1803df08f44-6d39e1cf0b6mr219340096d6.30.1731379275858;
-        Mon, 11 Nov 2024 18:41:15 -0800 (PST)
+        bh=7ug7n6yxxaOQrSjkaUQ4R0ZKOErDPDxqYqa7dlrKjLQ=;
+        b=f9h/3NPsCLiHvr/L+9gwo/mgWHA0uxgfWBQdmkzNb5KzN3xpEKt2iaiHgpI8nF3vci
+         rd9b7shvQbp1lR04F7N+QSNg+6yhrE0wTBBfN/MAx6DZaMGeXx68Krc03F+14KkwHqcI
+         Vt4ABQundoxsDX1LBOhdZCxaUifLSKt7XcTxr05wB6tjlr3TSLzuPDWgOVnuUfuIZNg7
+         fS6Mlwq9W67SNNQAZ3ddEvacpRgaEqFzGWZFkqwgpVFacB6by9tKz91stkvMdTa7IbcC
+         TTLRQsm/q7NVcVloKPNQ3VhdlcYv1pzfnxi4ZiBklp1nlI3J+DNNRX4g9JsTVQngk7MY
+         JWYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVdu7+GyVK2D6GzLNRyOA4HjxywcsOnj02qDrFOKsDq1x5UWvjQMvKOutD6zb5f+BmvZuWKdMGJ6LFJ0Q==@vger.kernel.org, AJvYcCVt874CeyhGd13uxwbZS8a6Umnk/voOnGtFfGPZ+DuZPmgUgkQpS0CBsj32T6FZ2UKcKMe4tAllob9GGHh9lw==@vger.kernel.org, AJvYcCW2Qpam0caHCAvHTN4v7q70G65aaw3u9orpXnRDSh7QA5zxigHWherNDzTkhYGotYZrOFKfIatmkbYR@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMpLNzU8Q13hyazfCzCvYXFYkkd5XSGPb9TzmV0vzjQmB/6468
+	JcUbHUeZhPaxwM0n90oso0w18CfxpAR5Bb/uB0IrAvLoSWOlIP397cgvP9C3
+X-Google-Smtp-Source: AGHT+IEZLQmBLPlCMkGicHqpc5EwF+VqAhoWrKJafZogRF3mvoiv4B1zv1uWeW9gfuIKLxieb4hzYw==
+X-Received: by 2002:a05:620a:4495:b0:7b1:5143:8da1 with SMTP id af79cd13be357-7b331f20600mr2031990585a.43.1731379279849;
+        Mon, 11 Nov 2024 18:41:19 -0800 (PST)
 Received: from localhost ([2607:fea8:52a3:d200::ea7f])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d3cf934d85sm3618496d6.33.2024.11.11.18.41.14
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32ac2dc1esm550438385a.18.2024.11.11.18.41.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 18:41:14 -0800 (PST)
+        Mon, 11 Nov 2024 18:41:18 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -80,9 +80,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 2/3] arm64: dts: qcom: pm660l: add flash leds
-Date: Mon, 11 Nov 2024 21:40:53 -0500
-Message-ID: <20241112024050.669578-8-mailingradian@gmail.com>
+Subject: [PATCH 3/3] arm64: dts: qcom: sdm670-google-sargo: add flash leds
+Date: Mon, 11 Nov 2024 21:40:54 -0500
+Message-ID: <20241112024050.669578-9-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241112024050.669578-6-mailingradian@gmail.com>
 References: <20241112024050.669578-6-mailingradian@gmail.com>
@@ -94,30 +94,45 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The PM660L has support for QPNP flash LEDs. Add them to the device tree.
+The Pixel 3a has two identical flash LEDs. Add them together.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/pm660l.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/pm660l.dtsi b/arch/arm64/boot/dts/qcom/pm660l.dtsi
-index 0094e0ef058b..3f8b9eafe164 100644
---- a/arch/arm64/boot/dts/qcom/pm660l.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pm660l.dtsi
-@@ -70,6 +70,12 @@ pm660l_lpg: pwm {
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+index 176b0119fe6d..800773a676c0 100644
+--- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
++++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+@@ -10,6 +10,7 @@
  
-+		pm660l_flash: led-controller@d300 {
-+			compatible = "qcom,pm660l-flash-led", "qcom,spmi-flash-led";
-+			reg = <0xd300>;
-+			status = "disabled";
-+		};
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/input/input.h>
++#include <dt-bindings/leds/common.h>
+ #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+ #include <dt-bindings/power/qcom-rpmpd.h>
+ #include "sdm670.dtsi"
+@@ -482,6 +483,19 @@ &mdss_mdp {
+ 	status = "okay";
+ };
+ 
++&pm660l_flash {
++	status = "okay";
 +
- 		pm660l_wled: leds@d800 {
- 			compatible = "qcom,pm660l-wled";
- 			reg = <0xd800>, <0xd900>;
++	led-0 {
++		function = LED_FUNCTION_FLASH;
++		color = <LED_COLOR_ID_WHITE>;
++		led-sources = <1>, <2>;
++		led-max-microamp = <500000>;
++		flash-max-microamp = <1500000>;
++		flash-max-timeout-us = <1280000>;
++	};
++};
++
+ &pm660l_gpios {
+ 	vol_up_pin: vol-up-state {
+ 		pins = "gpio7";
 -- 
 2.47.0
 
