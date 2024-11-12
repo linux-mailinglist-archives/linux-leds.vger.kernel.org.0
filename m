@@ -1,93 +1,81 @@
-Return-Path: <linux-leds+bounces-3400-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3401-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24129C5D0E
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 17:22:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CE79C5EC1
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 18:22:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8DF5FB41A15
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 14:49:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B2EF1F2366C
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 17:22:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E3001FF02B;
-	Tue, 12 Nov 2024 14:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD3942003D6;
+	Tue, 12 Nov 2024 17:21:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ityExVVJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yo9VjLh9"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627891FCC66;
-	Tue, 12 Nov 2024 14:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C7F189B8A;
+	Tue, 12 Nov 2024 17:21:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731422916; cv=none; b=ZDvbzPVB2Dr90qWEFS6LDreMigqREDlGA8tiX3VjPNZkBZgeL27vJmI7jUAVCfBGcvolqtOchIjI5HEfZCh3W6Ios7rhyXiK5uXzW6RKdHFS7f87qJOUqZczbm/sLMAvACC1/U+Ly2X2w39pHRCi0d8SdqENAuC6DruQS69Z/g4=
+	t=1731432083; cv=none; b=GpGtulww+GLQTYh1AnCMd9hgoYiatjmsvoWigkwGIGeDTOUtCkhG2Ej5H94m4Q34YgnQt9/OFuxSLE2Ex29eYdxcEtMYFxnj/rhZ71SsyDosuyLidg4xTrMFKT6vv7NrlRvWnFDRSLcAO+3ApIsuz+uKdSa8eXufFXYk95er19U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731422916; c=relaxed/simple;
-	bh=LaX258tbxjOqEOTGbrNDUKoUkGa+ThGu/PsjRDKKkdQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ALmwTaN0sEps2MMdvSPwMPZd4+voIt3xAJz9MwrYg0Ksh3SWKjynQVpoHF4BDWziDbo+h6Hw0MwZh+78k4pNMyBJYT7sStcZFp9FCEvpqsmjfyk2YC7aSWPlKHJMqC9cMOv/tCNdwFDGNWE27CS0sIHkk25mjNYGZzKvmCBvpUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ityExVVJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A83DC4CECD;
-	Tue, 12 Nov 2024 14:48:31 +0000 (UTC)
+	s=arc-20240116; t=1731432083; c=relaxed/simple;
+	bh=/JtKb7FsaOVou3htAjGvssb9aR32wpE0fEKW7R5DMBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IEKhSYgkDcq3dzDnqVhsos9OtfJwOm9d+n4uUh7P1lihYUAcBDDz2lKOtZdBs+byDShN/ZPez/gbozARM4QTLK48FNSNNC9djOxaUqmVs2zC1TnkahVn2z9rFaltSsbftgfNp4+BaZo4aQl1jhjvHS7KBuL71pkfK1sawFM/ssM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yo9VjLh9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471F5C4CECD;
+	Tue, 12 Nov 2024 17:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731422916;
-	bh=LaX258tbxjOqEOTGbrNDUKoUkGa+ThGu/PsjRDKKkdQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ityExVVJjDuG4ybSOwEhW0G8PSTWwT15xm7SChbAaxRGzsqELtPi4xC/YRZs9d+0j
-	 VaIAqJQyAOzU3TqjUu+OxDErg2eb76Q6OyQlSgLeXHD9VV2Lt2DEJE+LUQXqOpPxmE
-	 w0JfsmjHnx12YhiTYviaD82ee3Vz9U/Sf865ewvwpxQWqD4CGgBYXrh6d1FfNoi4YO
-	 HZ7uxe/lde53fnMZOvUy43+iMdJO6Hhuggk+9zWt9ohqHUMw/4IGFOHsCAPd2/Ng17
-	 8rB92hfyxXh2hi1vxP/A60CHceoO4KiD0YKVR5rrvSa4v6XtwlZMX9zLcO3+Ih3wf5
-	 kR1hdGVaqzNMQ==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Stanislav Jakubek <stano.jakubek@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org
-In-Reply-To: <efd200c3b5b75405e4e450d064b026f10ae2f8e0.1730709384.git.stano.jakubek@gmail.com>
-References: <efd200c3b5b75405e4e450d064b026f10ae2f8e0.1730709384.git.stano.jakubek@gmail.com>
-Subject: Re: (subset) [PATCH v3 1/2] dt-bindings: mfd: sprd,sc2731: convert
- to YAML
-Message-Id: <173142291174.1055133.1779666527306049052.b4-ty@kernel.org>
-Date: Tue, 12 Nov 2024 14:48:31 +0000
+	s=k20201202; t=1731432083;
+	bh=/JtKb7FsaOVou3htAjGvssb9aR32wpE0fEKW7R5DMBg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yo9VjLh9VZGV6qPubc2gsu+bPK03Nw6Fp71YV185k19ZTTHTDtMJLr1paLZvoIAO4
+	 R6kKwhRSF0mkBt8gnOSMX/n9nkqVlUz22B/vxCyMRoRFjQeUYEZXaLqeoW1gdfEOz9
+	 x1bNH9N/XEFWs3CUnT+MFDZcFfb5/gLY3Mx0fqHMR3yd4bm68xj1ToY5tn9NkayKE7
+	 tEmlUWwk4eTTxQLUrOyTFmHPazGl6G0F07fmvcRm8VQ2yzlwypdyDK7NKVgyGqzffx
+	 w05iG1YOs7XN5UpEHaua+g9iRlTK3bJwyR6wMGUdm5kemQxeLRZavL0bCnMImDcHHf
+	 joi6dWyGzEH8g==
+Date: Tue, 12 Nov 2024 11:21:21 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-leds@vger.kernel.org, Fenglin Wu <quic_fenglinw@quicinc.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: leds: qcom,spmi-flash-led: add pm660l
+ compatible
+Message-ID: <173143208072.1365750.10688609238642608606.robh@kernel.org>
+References: <20241112024050.669578-6-mailingradian@gmail.com>
+ <20241112024050.669578-7-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241112024050.669578-7-mailingradian@gmail.com>
 
-On Mon, 04 Nov 2024 09:48:21 +0100, Stanislav Jakubek wrote:
-> Convert the Spreadtrum SC27xx PMIC bindings to DT schema. Adjust the
-> filename to match the compatible of the only in-tree user, SC2731.
-> Change #interrupt-cells value to 1, as according to [1] that is the
-> correct value.
-> Move partial examples of child nodes in the child node schemas to this new
-> MFD schema to have one complete example.
+
+On Mon, 11 Nov 2024 21:40:52 -0500, Richard Acayan wrote:
+> Add the compatible for the flash LED controller on the PM660L PMIC.
 > 
-> [...]
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Applied, thanks!
-
-[1/2] dt-bindings: mfd: sprd,sc2731: convert to YAML
-      commit: f9c7529fdb607a255bb648f0a7550813e311b5ba
-
---
-Lee Jones [李琼斯]
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
