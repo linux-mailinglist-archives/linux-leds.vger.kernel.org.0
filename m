@@ -1,70 +1,72 @@
-Return-Path: <linux-leds+bounces-3388-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3389-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216329C4CB7
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 03:41:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 609109C4CB8
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 03:41:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9EF1F23457
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 02:41:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 193B61F235C2
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Nov 2024 02:41:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C332204F84;
-	Tue, 12 Nov 2024 02:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5347205ABF;
+	Tue, 12 Nov 2024 02:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LE5gxPp/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c/vUqAWA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4FB4206E;
-	Tue, 12 Nov 2024 02:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E53E4206E;
+	Tue, 12 Nov 2024 02:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731379273; cv=none; b=t1eqY4iRotHZfmMhPazolJSpyNbMLfwX2/5bjjKXmXlnLFjSKThGNpJiYNIPGGI74N4MIB1BiHSZzIC9vYufY6fFUFn9lMsSWg5KtneiuERsP59OxUSTox1frR6Q5weK3FYQ4de+dYEXwXCo1WiB4BPsIQduMwobZQ0z+rCu5mE=
+	t=1731379275; cv=none; b=G2n0/o6QULdk8qOnQwNdgkxtcakVibFbnTaQeMJueXqx/A8uTh4DLZxIxioV6rmUw+NgMpNJLc6kVLBKth5+4GwSEUl61p8fmhHt7Q4kPL2xjxssu6tg03vDmZbNgkFai0iIAxVzzxefsAkvqGUglg6584WQ3ZtA8S8yazc3aOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731379273; c=relaxed/simple;
-	bh=61Svc0+rQmVw7M2S5r3cIIPmrGexpUJc/kRDOWrrt5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cIKRjvZ54XzwNGU2NCMkGM4a/P7bghg4bK7TMbnBEjJ7DvMUcViL3+TmAF6T6EZ9uB4VLhACiqIpl+wcgzfNLxZrgKx9bgwL7S1luaPrVBgFxFS7NfgVYv9VeFHr17c3NxzRd7m9usZoFeCwiXMf5ya8efSPp9y6O2NojPLvpx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LE5gxPp/; arc=none smtp.client-ip=209.85.160.177
+	s=arc-20240116; t=1731379275; c=relaxed/simple;
+	bh=jl6088SbsfXaW9MfUE9nm15VLjSxMoeK4y1C4WyPoWA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sy4HijmWBgDyyw8Vz1Xy7rZw4XtgGPJAAdcNpXibLXOcBffZbywZDuqpWAyNB78EPXFRTgBIw+EMyKG8u2VNaOdlYwlSG5/6JEMFGVuJZGS2bl8ahWrQU8+lzWmsg23TduFv7YHmEr/lkw7p8mIuDvOEdPWjXCwQy8zkkyOOAMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c/vUqAWA; arc=none smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4609c96b2e5so33686501cf.0;
-        Mon, 11 Nov 2024 18:41:11 -0800 (PST)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6ce3fc4e58bso30090186d6.0;
+        Mon, 11 Nov 2024 18:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731379271; x=1731984071; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kh1VxmpNai26o/BA2meq1FBJ6IEGdZhuB+ut7uvZe/Q=;
-        b=LE5gxPp/a9bUqYIzzaBic55HEobQWgf3ZFb5YNGzuStSMrn9SxO3zXppFrnxKfZCOH
-         4tggOwS3KtkBiEbfhqGbGXSkA1Y16/Eds5S/mwoMKgARG8tYt8D0CNB68Ka2X8yqPRyv
-         uQIWXuyuaTruM9uko020+pCHVMXvbwTR9OYmZfj2Jlk9Ipx9vOcotoGGRDFVs4gDripp
-         AKrNXZf67o8cErQvnwf/AnhI72B8+V2ZONAe/YrwGlEBZMj1ktbD27QjpgEtqzsDVMEy
-         UMpqILHZIV55fvKsoLuKhEP+g8fYRRWMJqc71fgiUxClUoMzOQeL/m8uvrD5Z2gN1g9y
-         u5oQ==
+        d=gmail.com; s=20230601; t=1731379273; x=1731984073; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3v4c0zVwDO/ANV8imc9i8efR9gG0vcKpmvgynk89r4A=;
+        b=c/vUqAWACNlJTFmaHSF+2khdRs0o9RrClBRZXC6qJXxSH00iAlgLL2JgzrKXCq4XZ2
+         pXE4t59GX1u34T7IeKd537efIu0sIYgTo74cPhsBy3Poymo7mgVAguJLo9LWUMk1sKRo
+         mqnYAC0gfJ1oSJY8ufJgrQBRwhnr11941rFVh5jCEjTBHm46RbT0cv5YDklnwE9Zjs8j
+         X7TtuK6rizXHbXwxSm6Hz3R6GdXgAzrfkEXjjL4fJUjsoZ2IeLh2o52xC4bH9k/JSnY+
+         eifc1+Xi1ZsMSayyK9rQbXNLgceDMIBNf5/BvE08QEEeyxe2uMHGaOkm9dcOH0eEDNrt
+         XRsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731379271; x=1731984071;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kh1VxmpNai26o/BA2meq1FBJ6IEGdZhuB+ut7uvZe/Q=;
-        b=EtZ+ps2xUufygmUTGrpwJmSKujBVcRSySWuiX4HI8hrxRV8g/j09gQ4ilX58qPT5ch
-         7ustTkDVTJ4MgKPSQ5sqWnXAm9XD4/2KfgsuOlpKBKGTZ+dfdgxbPep/6MmuTL++h7Wy
-         R5tyMUs870IfO0+a3Zxsx0hhe9kbeo+fMNBAEGo6QYnf+qDxSyMH+ztlbC7qTTM8P+XU
-         0S94TookU1bUMNfXaiBnWXwRtrdQ+4z2BOAb6TP6ja7V+ec4JXNxVOskng5fi31e5BnC
-         5QI3p+nYj9+wLx5HSGqr0ir8B7pD4m7qlN/6G2z+D9tPnpemcHEMfK/Xll5bD/SOSqrm
-         XnaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKeLlIzLRtQAwbNQGUQotntrCmfrj7GWZs+q2WV9bIRtxThTM24Gl1ItwDCEcKhweYIjY16/hKCncISA6luA==@vger.kernel.org, AJvYcCW5kDl7lRlb1Ogayc0010BJveJdPJSbtMrtTGnmYCYS3l21ksU+KEiwdnLD+0D36EoWqQpJiTvks+11Wg==@vger.kernel.org, AJvYcCW7YIoFSIWachK6TrRzsE9ac0hPYoIh+yd+VlxfRHnTEYpL+2V4/WAMcej9ityPt0svsYYO5Of7P+OK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9aE2PaQiYHS9wD9FWxSU6sIyhR82tFtXabJHHcIO/ebUMPPf1
-	raT/wI1ON1MignI8GZhOePhmwAmNQuZJl3tiTV/dw15KhLABY7Za
-X-Google-Smtp-Source: AGHT+IE51rk2PFrxlvXDQeP33/ge+knpVFzZtVDJZ65xqRwa6+a78XWuzhVPy5vQl7ZclGykKcuZGQ==
-X-Received: by 2002:ac8:59c5:0:b0:460:bb93:4b00 with SMTP id d75a77b69052e-4630941acfamr255612161cf.50.1731379270745;
-        Mon, 11 Nov 2024 18:41:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731379273; x=1731984073;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3v4c0zVwDO/ANV8imc9i8efR9gG0vcKpmvgynk89r4A=;
+        b=TJxNaxEd/8MsoekBPH9t8Y4NDTAtmfEUQLbWzSenwfpq7zeJY/Q8taFWjCOUI1Ce+1
+         HzUOH82MTzgDa9xji88wEAZUo1GqO9S6wgfPJwFk3XOebXJd4dpAr34isnJ170ZPqf6P
+         N0lO3NBeu4RS1WQYm2XJIB/ECyRzTSTzApYeYI9Qp4+4MlE1oikYt/jRAMq/loXxkMHN
+         Co3MB0hKQagSf5CicxAfBLsiq8qFQ7d/BpeRqJ/7M/UWwHdu+qbqcu+/Wb6NDTlXZ6jJ
+         XTgKaObwQQYiNzJjBedRp9oMQmtdlObYOydyWOI4gkh8Q9tc1A+2QiW5jG1vGwZB2A1p
+         0qFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrWdUJFD2H+1GxHyyleFCef8xDKwql8kWEH/jt3f5gjKsENbhWWYaWpYXxoawBXHXkioh0GIP1M4Y2QQ==@vger.kernel.org, AJvYcCUv8NxD5qkC+VCloRwAqlMqJel10X/jdM4F2WiOhO6R+w2GlLNvw7dPL6KU4YLcAktbv2DEa5K0IIMl@vger.kernel.org, AJvYcCXQ7w5gMVcGp16wHfArrz+RdoOAaipIUtCXUsqYtM727tFmdNCt8YN0iyMH551gAkZ+/cCeiyGLGCyVZ+XFyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIKRDoBltYCub3d0Zq17S7SH+hxctdY0rV8QwZVNFLQUq4+46E
+	3FL9EMUkLHzIQmrgcgHcs1Hq0wK/2B640xxooNTfxgnrXNgx5bOa
+X-Google-Smtp-Source: AGHT+IFCQ58KKXKUpst2SbH+kU4dpZM+zMjooOk5Hq6hMCmenGuC+lWAArOCKyq1xd+nFmFOonomLQ==
+X-Received: by 2002:a05:6214:3389:b0:6d1:9f29:2e3b with SMTP id 6a1803df08f44-6d39e12534fmr186574896d6.13.1731379272861;
+        Mon, 11 Nov 2024 18:41:12 -0800 (PST)
 Received: from localhost ([2607:fea8:52a3:d200::ea7f])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-462ff5d7c21sm69644731cf.83.2024.11.11.18.41.08
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d396204b2csm66196616d6.60.2024.11.11.18.41.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 18:41:09 -0800 (PST)
+        Mon, 11 Nov 2024 18:41:12 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -78,10 +80,12 @@ To: Pavel Machek <pavel@ucw.cz>,
 	linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 0/3] arm64: dts: qcom: Pixel 3a Flash LEDs
-Date: Mon, 11 Nov 2024 21:40:51 -0500
-Message-ID: <20241112024050.669578-6-mailingradian@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: leds: qcom,spmi-flash-led: add pm660l compatible
+Date: Mon, 11 Nov 2024 21:40:52 -0500
+Message-ID: <20241112024050.669578-7-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241112024050.669578-6-mailingradian@gmail.com>
+References: <20241112024050.669578-6-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -90,19 +94,25 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds support for the flash LEDs on PM660L and enables it on the
-Pixel 3a as an initial user.
+Add the compatible for the flash LED controller on the PM660L PMIC.
 
-Richard Acayan (3):
-  dt-bindings: leds: qcom,spmi-flash-led: add pm660l compatible
-  arm64: dts: qcom: pm660l: add flash leds
-  arm64: dts: qcom: sdm670-google-sargo: add flash leds
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+---
+ Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/leds/qcom,spmi-flash-led.yaml         |  1 +
- arch/arm64/boot/dts/qcom/pm660l.dtsi               |  6 ++++++
- arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts   | 14 ++++++++++++++
- 3 files changed, 21 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+index 1ba607685f5f..bcf0ad4ea57e 100644
+--- a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
++++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+@@ -23,6 +23,7 @@ properties:
+     items:
+       - enum:
+           - qcom,pm6150l-flash-led
++          - qcom,pm660l-flash-led
+           - qcom,pm8150c-flash-led
+           - qcom,pm8150l-flash-led
+           - qcom,pm8350c-flash-led
 -- 
 2.47.0
 
