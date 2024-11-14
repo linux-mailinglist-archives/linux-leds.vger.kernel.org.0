@@ -1,57 +1,63 @@
-Return-Path: <linux-leds+bounces-3403-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3404-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2199C87F3
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2024 11:45:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF8C9C8A52
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2024 13:44:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73408B2544D
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2024 10:31:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81A9F28577C
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2024 12:44:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BA31DE4DF;
-	Thu, 14 Nov 2024 10:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b="WrFg+zw1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC5FC1FAC47;
+	Thu, 14 Nov 2024 12:44:44 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5101F76C2
-	for <linux-leds@vger.kernel.org>; Thu, 14 Nov 2024 10:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB351FAC2C
+	for <linux-leds@vger.kernel.org>; Thu, 14 Nov 2024 12:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731579867; cv=none; b=P1ZPfRL6N6fWTPhX8GbImpIQ+pcI/3Y1zJU1LN8zgwKRbPidpw73JhYp6yTUsmc+AeGNNjOu7dZsdC630OIf0aMz+nZsSX6ZSG1EvXYfrdnVnn17b+wFgugaMrLCvXKAp88TLDzCJbl7zYZdQB0m132lAYM6UY+SNRIyrEAkE5E=
+	t=1731588284; cv=none; b=EnRyv4d6Cgv7N3OT6RsTte7/P0W0TZNlIm14hCFf4YhmQQK4N4EtYhw9dkXOWPUrl3OnL3+mAJws1k5YZVGm5qocgwC/6njPwoxzAyROclEtjiVk/LeAx/gfA0JgLHF932M16qR43hbHt/zRndrQttY3yBfspdG9WPqd1bGexeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731579867; c=relaxed/simple;
-	bh=687xpeUGJEdLVnXDJDz30jphuzPVzal+qNm2J6rqObk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QRKhT+VBmZP6srKWfySjJw0KryGLqmx2sa3A0hA6uqhsMrZbuNAPAwbF09LvdTef42RVRMo0f/Qf/IrRSWsG3uSNb7JxjpoGkfsgRBe6f8c+BoEOdadvJ7R/XjCVf5MtrG7Qa9PCdxRBdMnHsKoMwq2DQRXeb3NMTI+SnLSdWEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b=WrFg+zw1; arc=none smtp.client-ip=185.136.64.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20241114101413c528fd4d0b5b8624e2
-        for <linux-leds@vger.kernel.org>;
-        Thu, 14 Nov 2024 11:14:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=alexander.sverdlin@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=VE9hYTociBf8ZRiio0kTSwD9q1GDVXYKjidfYnajdcQ=;
- b=WrFg+zw13YIAjDzQ0ei/3KaRAlicoMwHI61Emppa6sd/3iOPAkfb/xjg2DXFKA5x2tyABd
- 3w6nLrLvjMr++eyB2KlcVlr7y651jZtQMU4blZA/cGIsdjzFXXyEIYc0PX56nh7o8aAG0tMj
- XNu9bD2CobdCT1akFciX3g3hI/wB3viYUW4TTwaEfflq0TiW27LBcILa5oQ5NSK5Q3uAnIQZ
- kP8IhU1NVf794vWc2afHnSPYlHPZslmXvQ/BGsF3iAbtZW1iNK0LHzJl1a0RzNZdEI63AhFm
- mP9z0Bq6mKmRW5k8X8MOuKVwBBPHmWaLoJ3ExCatDaHK6auixz3vc2AQ==;
-From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
-To: linux-leds@vger.kernel.org
-Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
-	Dan Murphy <dmurphy@ti.com>,
-	Pavel Machek <pavel@ucw.cz>,
+	s=arc-20240116; t=1731588284; c=relaxed/simple;
+	bh=s/PM/VQ9hwh6iiReNHCWYFkLslOMojWhBx/aZXlmtaA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PZPcUdkXGYNjDyocrDrN5CO6X6Q5+f6Bu0WoYArxGbtE9xdqg+4eteGgUYcjY64QxANqUaXd43LGdP/yBSfl1VCtIO5+p1Imfq7VmACgZW4hWAWBCFRERaE1qdI+gffrGslHnRtmRzTgczRP+xav8FumleSkPICG8QLunXgooPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:ab77:b6e5:88e8:df20])
+	by laurent.telenet-ops.be with cmsmtp
+	id cckW2D00C0Ss59E01ckWid; Thu, 14 Nov 2024 13:44:33 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tBZCi-0070f8-0n;
+	Thu, 14 Nov 2024 13:44:30 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tBZD4-004LPc-6M;
+	Thu, 14 Nov 2024 13:44:30 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] leds: lp8860: Write full EEPROM, not only half of it
-Date: Thu, 14 Nov 2024 11:13:59 +0100
-Message-ID: <20241114101402.2562878-1-alexander.sverdlin@siemens.com>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Davis <afd@ti.com>,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+	Dan Murphy <dmurphy@ti.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: leds: class-multicolor: Fix path to color definitions
+Date: Thu, 14 Nov 2024 13:44:29 +0100
+Message-Id: <a3c7ea92e90b77032f2e480d46418b087709286d.1731588129.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -59,38 +65,30 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-456497:519-21489:flowmailer
 
-From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+The LED color definitions have always been in
+include/dt-bindings/leds/common.h in upstream.
 
-I struggle to explain dividing an ARRAY_SIZE() by the size of an element
-once again. As the latter equals to 2, only the half of EEPROM was ever
-written. Drop the unexplainable division and write full ARRAY_SIZE().
-
-Cc: stable@vger.kernel.org
-Fixes: 7a8685accb95 ("leds: lp8860: Introduce TI lp8860 4 channel LED driver")
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Fixes: 5c7f8ffe741daae7 ("dt: bindings: Add multicolor class dt bindings documention")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This is based on code review only, I don't have LP8860 to test.
-
- drivers/leds/leds-lp8860.c | 2 +-
+ .../devicetree/bindings/leds/leds-class-multicolor.yaml         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/leds-lp8860.c b/drivers/leds/leds-lp8860.c
-index 7a136fd817206..06196d851ade7 100644
---- a/drivers/leds/leds-lp8860.c
-+++ b/drivers/leds/leds-lp8860.c
-@@ -265,7 +265,7 @@ static int lp8860_init(struct lp8860_led *led)
- 		goto out;
- 	}
+diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+index e850a8894758df1b..bb40bb9e036ee00e 100644
+--- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+@@ -27,7 +27,7 @@ properties:
+     description: |
+       For multicolor LED support this property should be defined as either
+       LED_COLOR_ID_RGB or LED_COLOR_ID_MULTI which can be found in
+-      include/linux/leds/common.h.
++      include/dt-bindings/leds/common.h.
+     enum: [ 8, 9 ]
  
--	reg_count = ARRAY_SIZE(lp8860_eeprom_disp_regs) / sizeof(lp8860_eeprom_disp_regs[0]);
-+	reg_count = ARRAY_SIZE(lp8860_eeprom_disp_regs);
- 	for (i = 0; i < reg_count; i++) {
- 		ret = regmap_write(led->eeprom_regmap,
- 				lp8860_eeprom_disp_regs[i].reg,
+ required:
 -- 
-2.47.0
+2.34.1
 
 
