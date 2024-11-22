@@ -1,111 +1,82 @@
-Return-Path: <linux-leds+bounces-3427-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3428-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9159D5474
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Nov 2024 22:05:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC599D598D
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Nov 2024 07:47:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 212FC1F21F98
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Nov 2024 21:05:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C4DCB2223E
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Nov 2024 06:47:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEEC01C4A0B;
-	Thu, 21 Nov 2024 21:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ko30Kico"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB831714A8;
+	Fri, 22 Nov 2024 06:46:35 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA778145A03;
-	Thu, 21 Nov 2024 21:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from cmccmta2.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B196170A3E;
+	Fri, 22 Nov 2024 06:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732223115; cv=none; b=s9xQbWU6oAgumWJADi4N5Xy3lOXnPNnZYdglCXBYBHBOufMdCG6gqhkOkQS1HOrQxz74QikKyBad0rAD3HXeGLM5OkL71sOCiUDLkSGnyoo59u2xwPCcir/InEad+518xshuYeQIPmMuTgRLIzLXyiMiG/t4xdY3kPybebbjoo0=
+	t=1732257995; cv=none; b=uP6tDRJXa5V8IyjcQQthjgif+PvkR3SiZX/BCf+FbCVRqiuH8dL/kxuBiVCoHeHDSw6Pq6+PAYwXn1RjDhEmuw+SUwPHbPc9ewA2TzaANWfZPTSok9i3J77Ti0pa99LkqKJZvci3CD91uY0IhL2Gw+9vb8AhqQuYPnKXCsiO4/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732223115; c=relaxed/simple;
-	bh=X3eu61xg9llcnUKHcb0Q5Uo0q9OVZwoeWaPet4215wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IYV31IM+kT/xMM5s641ntQEe3rKbacX83UDNSJRjHMGzGPq6lOqwVE0zpoJmIiHMtcZTv+8m2LMaoFnwqSYGZSLzgms+rSKbyTGKgySo3iP+9vLhElTAYpMlNm0os3Y1HRQ3+UghzjLy4bKJ0R0kKS3I7VX7yXYIBBudITYgNWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ko30Kico; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C4F4C4CECC;
-	Thu, 21 Nov 2024 21:05:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732223115;
-	bh=X3eu61xg9llcnUKHcb0Q5Uo0q9OVZwoeWaPet4215wY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ko30KicoHx8gnZ/U7OKxZrl0iYK5pvTuG7i4fkptS/RpBBI+9pxGVJdnoMTAZUdTp
-	 JBT4M5+gbBtmuaJ6ggBgwnc7hfjkALeBjBqqmBErKqKJfPvCrODXXLETxMWVmk4x5Q
-	 8Rs/6vYBFmWkgWuKlUicKAOw4IJq6DN8+rnZFK7C8bNj3ZSrN0nM7YMfPfd1qgHG33
-	 ikLttYrZOXWg88HnwyyhY/j7+L4dbrSpAzErkAJUpbQcYu+4x/nJGyNlT2T8Icac6G
-	 riaXWOl919iNwVuIxnhrCWWUXGuFe+4p1//LtrUiihXw7scyAn/vqrxiDoAONFAfhA
-	 23oUPDSN1YJ5w==
-Date: Thu, 21 Nov 2024 15:05:14 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v9 2/3] dt-bindings: leds: Add LED1202 LED Controller
-Message-ID: <173222307644.3811087.7654504224510124517.robh@kernel.org>
-References: <20241121165829.8210-1-vicentiu.galanopulo@remote-tech.co.uk>
- <20241121165829.8210-3-vicentiu.galanopulo@remote-tech.co.uk>
+	s=arc-20240116; t=1732257995; c=relaxed/simple;
+	bh=3I99lCGDgd5DvYWOxwiGxStPb4kwiHZnV+LH5iYyqCQ=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=ZXdohSQt+bwxyJKoCGRYiupo7pU/XZTkPw8Q0FK+OPAZXJx5kmkMv7FpaIbXQGnENPfxenSjlI3ivnEbi7GBEC+VMogcsfOQPwSYEb2IjVUmawF71RH3ZyA6reRF5VaShZK687TJgSw6qSkEP7r/U792RjqfShOpLF+vQ8H4eNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee8674028c3db2-a0dfe;
+	Fri, 22 Nov 2024 14:46:28 +0800 (CST)
+X-RM-TRANSID:2ee8674028c3db2-a0dfe
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from ubuntu.localdomain (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee6674028c369b-2b812;
+	Fri, 22 Nov 2024 14:46:27 +0800 (CST)
+X-RM-TRANSID:2ee6674028c369b-2b812
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: pavel@ucw.cz
+Cc: lee@kernel.org,
+	zhujun2@cmss.chinamobile.com,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: ledtrig-activity: Fix the wrong format specifier
+Date: Thu, 21 Nov 2024 22:46:26 -0800
+Message-Id: <20241122064626.4680-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241121165829.8210-3-vicentiu.galanopulo@remote-tech.co.uk>
 
+The format specifier of "signed int" in sprintf() should be "%d", not
+"%u".
 
-On Thu, 21 Nov 2024 16:58:24 +0000, Vicentiu Galanopulo wrote:
-> The LED1202 is a 12-channel low quiescent current LED driver with:
->   * Supply range from 2.6 V to 5 V
->   * 20 mA current capability per channel
->   * 1.8 V compatible I2C control interface
->   * 8-bit analog dimming individual control
->   * 12-bit local PWM resolution
->   * 8 programmable patterns
-> 
-> If the led node is present in the controller then the channel is
-> set to active.
-> 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-> ---
-> v1: https://lore.kernel.org/lkml/ZnCnnQfwuRueCIQ0@admins-Air/T/
-> v2: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
-> v3: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
-> 
-> Changes in v4:
->   - remove label property, use devm_led_classdev_register_ext instead
-> Changes in v3:
->   - remove active property
-> Changes in v2:
->   - renamed label to remove color from it
->   - add color property for each node
->   - add function and function-enumerator property for each node
-> 
->  .../devicetree/bindings/leds/st,led1202.yaml  | 132 ++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
-> 
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+---
+ drivers/leds/trigger/ledtrig-activity.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Please add Acked-by/Reviewed-by tags when posting new versions. However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for acks received on the version they apply.
-
-If a tag was not added on purpose, please state why and what changed.
-
-Missing tags:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+diff --git a/drivers/leds/trigger/ledtrig-activity.c b/drivers/leds/trigger/ledtrig-activity.c
+index 33cbf8413..b3ee33aed 100644
+--- a/drivers/leds/trigger/ledtrig-activity.c
++++ b/drivers/leds/trigger/ledtrig-activity.c
+@@ -156,7 +156,7 @@ static ssize_t led_invert_show(struct device *dev,
+ {
+ 	struct activity_data *activity_data = led_trigger_get_drvdata(dev);
+ 
+-	return sprintf(buf, "%u\n", activity_data->invert);
++	return sprintf(buf, "%d\n", activity_data->invert);
+ }
+ 
+ static ssize_t led_invert_store(struct device *dev,
+-- 
+2.17.1
 
 
 
