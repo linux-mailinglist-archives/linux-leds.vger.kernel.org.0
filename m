@@ -1,210 +1,157 @@
-Return-Path: <linux-leds+bounces-3440-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3441-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C437A9D8B64
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Nov 2024 18:35:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75FD29D9DC9
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Nov 2024 20:04:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BDE73B298C6
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Nov 2024 17:21:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E3A5287692
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Nov 2024 19:04:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32D5D1B4152;
-	Mon, 25 Nov 2024 17:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="nbmMj7Zs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C31E1DE2DB;
+	Tue, 26 Nov 2024 19:04:52 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A05192D6C;
-	Mon, 25 Nov 2024 17:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E362616F0E8;
+	Tue, 26 Nov 2024 19:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732555260; cv=none; b=r278nxQddlatLAkb3ClyixfcUJlmIRQMvBKbIPJ2QpxcprZO0sdJMKoY0NdTGV3b9JucBQWLSqOnia4P3YsnCuuQ/WmQipR+WP3YEJeGJGotltE38WyeC3pppvVrTjC7q74ghVnynMpUYgKgBf22mLKMdBe3zWMvKQYTItnHZwQ=
+	t=1732647892; cv=none; b=EYMkum2ELajZ1ysItKua6fu76j3lBIrBAeDz6c8t9COmtnXqsAp+qP7PO2hqPjxaOLt+FQ37s0yZLCt2uAwUcJZR50EgC2crF4gonen21FzoEiUgoB0tMsq2GJEnLC1eJZG/ITvoxqzbvUSE+OYta/jjmW2Cg1YxLsBUmf5s0Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732555260; c=relaxed/simple;
-	bh=WHzghXeHADUeiy5JloG47SfpO/VnnN6vY8DaO8TdF8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h5qLa6t5hdi9sGiRGphLeZJ9RpQE+lNOgdNdM/TWhuXmc+CbO3PbNKFMzXSX+wB1kKkB0Yr0nHc10b4STMFbjfIJ6sZYLdL6wFLLCJji4elrFoDmrvOL0A5iOq4fLfkbluyjSNUr6fdO1VAoIdddqErhQvAqhwumrkl8ks5k4VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=nbmMj7Zs; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1732555231; x=1733160031; i=w_armin@gmx.de;
-	bh=WHzghXeHADUeiy5JloG47SfpO/VnnN6vY8DaO8TdF8k=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=nbmMj7Zs3nihgPYFTKBoBObMRXSeeKalFFYA0M0+Cz/Gm4jnXkaYGqesYQOm/9SP
-	 gZHvG27PGT9iGZEamhG3hZUiF7nkXcdxfKRPj79yt9Yf6TvJH0q6GCwhDnMNeT+9P
-	 ODjGgpQOOg705Z1a7/MbhiUmdve44/LAyXxFq4jnFeNCFjsg/w0aC5hGrhEaKfBkL
-	 B/Zso+BVgqxQZC4r1Jf+lJ7BUp7aXmC3iC1ypwimTvma2oMMcSK9YN017o7Fvf8e4
-	 UxseOozc121jKWFxoMVpSEjvjeh9DFfc8NA2dxtBth1/3SW2iDaPwYYkuJ2hGhPw7
-	 0XNgOkiq+OmlL8fdtQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.119.183] ([176.6.135.59]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MiacR-1tsnST2z2t-00ojDM; Mon, 25
- Nov 2024 18:20:30 +0100
-Message-ID: <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
-Date: Mon, 25 Nov 2024 18:20:28 +0100
+	s=arc-20240116; t=1732647892; c=relaxed/simple;
+	bh=qQCWd6U/ZoiKaGO0HuHoCIeIwfRD/cI8nHIsSGT4F1g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EIjHxfif1NI6bl6BcRjy6x4mmaqoDtZaYKdAnKdkQuzPM9LQgJ6hqHIbDIp8beHX7sLpB0o0T6AO6afguEOrJ0nduQmEBgoYX89Qb+2l2yRYzGWxzkhYfk7ysAZuhmdRZyt1kLD5wi9HgS743Cbt0S6KkHXuACb9uL2Qqg7MfA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-841a9366b5eso61979739f.2;
+        Tue, 26 Nov 2024 11:04:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732647890; x=1733252690;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qQCWd6U/ZoiKaGO0HuHoCIeIwfRD/cI8nHIsSGT4F1g=;
+        b=Bsjc7kzn/yVrUj0k8vS2FD58R7gVh/PxNW/ed5/u3rkyLolcmtUb1eXFUhvlf/qoJy
+         uRZ5S7AjxlDPP0F6lP7cAcX/b/K67iyLgxJG31qGdcl5NOw98UxrthPeqckJg4MMp/KX
+         NL2VURXILW2iDNJWEJc/GyhbfcqIUdIUWYgG58pM+hsdzMgeoyHdAUuGOITYm9Dn/fRq
+         xsKtTBY3kW52GbTr8aLNiEeB2fBD8S2i+qS/by5iB6QmBx6Rjn3c4pqzh0cbCE9CwFBy
+         5qzAaKnWoRuitdlDWrKjv7knLgm8o4VQMJIW7i+qkOfvV5HI86j7kkx7xy77EPFiPAdP
+         h2ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWteDnrdtjieQ50XbPcLhje1KPk9957SOv07H3wrofPZbOcuEDtmQO5q3pTrmsRfKG/mo3Kt6j3VyoA4BUI/9ssu5OSoQ==@vger.kernel.org, AJvYcCXvYLjyXsdOrMVgWDNOuJWw5n31nOxCzE4l420svUAIF9rrRaHJODB8+RUUrxvwCKXB7j5HqOjS+2Q8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwmE1qtkkJOmk1wCPk6oaY886pNF5z1FmLhxgSWy+nhu3vnwE8
+	dHw03FHRwcnsI7LmZL1k6yBJ++FJqKUq429fDYkeNqDQaCoUbXMZtD1wRf93
+X-Gm-Gg: ASbGncvm/ZuUItVNgRVf1yJwPSIZUiGaBJQzn3JgPQDbUgRmKsI7hFxp7znGf15W7M5
+	J2IYkhJTZ1uwYMGiLUWHCTBLmmLpghpvSUI/DXsbCygFv/clDc+X5erTwHS1iJprxHWRAZvJoqY
+	g8i0TLjsYagA3CWQH8lY0+u/p6UnYI4TiFIBfB7PjZTGYBUOLPNOW4Vd0qQTkzJAjhopZ+MHKuO
+	ia376lvYq9jqYO3eXZDROP4GERCvCyzEib06TcemIiy6U+Ru0Ye/p38aziw2p/gRG0x3DGhUs4l
+	BamTaaJ5e72U+Q0=
+X-Google-Smtp-Source: AGHT+IGrAS9pDNjIPqv/mfH1/REslEJKPch7BJNdQDUn0XI4hjYjEc4GpQatR/sqjkHats1NI52XZA==
+X-Received: by 2002:a05:6602:1695:b0:83d:e526:fde7 with SMTP id ca18e2360f4ac-843ecf19b45mr73460739f.6.1732647889855;
+        Tue, 26 Nov 2024 11:04:49 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e209f3a06asm919561173.48.2024.11.26.11.04.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Nov 2024 11:04:49 -0800 (PST)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-84198253281so89016439f.0;
+        Tue, 26 Nov 2024 11:04:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV65Bf8PENr6P6l7BX73Ybij+jNRf+a10j4VTDwZSujc31D7ARIE5NHQ2fAFpwNdNhfVhqa5XoNuVALxnRmqeCIOsMIew==@vger.kernel.org, AJvYcCW/nFbwy3vAgHd1ZbLjmYH6xHBDhS0BfMePG7vEO+Ir/m3m4APz63kaoKcxpurttlC44tWOCBhbg9Hm@vger.kernel.org
+X-Received: by 2002:a05:6602:140f:b0:843:e8d0:a728 with SMTP id
+ ca18e2360f4ac-843ececc316mr79491139f.4.1732647889274; Tue, 26 Nov 2024
+ 11:04:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Adding a new platform driver samsung-galaxybook
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: Kurt Borja <kuurtb@gmail.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, lee@kernel.org, linux-leds@vger.kernel.org
 References: <CAMF+KeYus9dW00WNJMLVxLLHdG9JgCfrGJ491fu7NM8GAEqqCg@mail.gmail.com>
- <fd4a30e0-b5bb-47d7-8173-312417dce215@gmx.de>
- <CAMF+KeZkqwnBNT4vVNLEC03zZqSTSAE-Z=8j9ZLACf3yBeun8A@mail.gmail.com>
+ <fd4a30e0-b5bb-47d7-8173-312417dce215@gmx.de> <CAMF+KeZkqwnBNT4vVNLEC03zZqSTSAE-Z=8j9ZLACf3yBeun8A@mail.gmail.com>
  <qsdbzbvpwlrnx2sqhrjfg3rukbm3z5gjkyjwlwoc3jnd3vre36@72py3mfwwsse>
  <CAMF+KeYGCZuc5DSCf4S+oZZgp5E4hwowJ+HqOy=ijjPZwv+zpQ@mail.gmail.com>
- <e46b4d6d-16f0-47d9-a680-c1ac90c52a97@gmx.de>
- <CAMF+KeaSarRT3weYhiCFO=Th5ZWMf=nvi53A+ggKYq2wBYAJpw@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAMF+KeaSarRT3weYhiCFO=Th5ZWMf=nvi53A+ggKYq2wBYAJpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <e46b4d6d-16f0-47d9-a680-c1ac90c52a97@gmx.de> <CAMF+KeaSarRT3weYhiCFO=Th5ZWMf=nvi53A+ggKYq2wBYAJpw@mail.gmail.com>
+ <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
+In-Reply-To: <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Tue, 26 Nov 2024 20:04:38 +0100
+X-Gmail-Original-Message-ID: <CAMF+Kear1ZhaM1Jry=SS=xPa17+DNUQusOiR_rrYpcpW1YFhFw@mail.gmail.com>
+Message-ID: <CAMF+Kear1ZhaM1Jry=SS=xPa17+DNUQusOiR_rrYpcpW1YFhFw@mail.gmail.com>
+Subject: Re: Adding a new platform driver samsung-galaxybook
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Kurt Borja <kuurtb@gmail.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, 
+	Pavel Machek <pavel@ucw.cz>, lee@kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jmlrr+GGPcc9ISIvohsaOCF0m11ZighJGNXu4bfggEMVsl3MAZ2
- EKwf4RxmWVL+YO1mPmMKxlAbDl7lh2g1a6WWBHlcXg5xY1zs/w3/0HiMaO/AzL+CuWvDFW2
- Nn2W5c69yzzVvTN2iGaWXHPLE+X9OIxcnnXIq5cN8bMZ6C3Q42L3w23nWO6rCObNFgC+B/A
- NHYXlnyoI/ykPahlOaTNA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:JvGZaCzb40M=;e/95gJEUpGx5FWwNW2CUJGFrUsE
- tMYjqg/hpI7emAnhpDFsWzVFZbwPNbdbKA+RBHGbJCCQkFcu2PxCneju+GmCGWC5uMxgsvwYZ
- fKknIIryJ5UC6ip3rcyP6Fit+QuoTBmUsUGR0MuDn7UcRlUsiWi4bsyAlhd7inYWSCdDGXPNw
- F6b3+CIYm2kI5jGhLXYQLoUE31aTb9A4p/vFz3ZTmvz/h5xcqgn3txDhXxD1y5Ij6Qt732QvC
- HWctyzY6GclDV/I2Add4mAJxWsnqo+mLBTNMEDwQQmXyozoLOv+cn85MlFr86F7z2jRhyu4SO
- ISxBVhGHu/EDeN8X0sNPevxm/bTAcS+ri7E73D7vbyKliMJhdtseqoA0OS2uWjOLh6mh5lylp
- aWzB9QkonqisLb9K0UMGGOZJ6CEa3F0vQDzfZsbmJDdFjfJ8amvASfE8uJ837lBHpxojPrXQY
- GFEGruY7p1VnIhRqVhNuQA7V2iSp338bp440vTDtC6kSg12zEKH+oKELIrNIKfkDGHD909Zg1
- FMz+EVMQCU3gdNSUZgdIwY9RD+3lMGMPwdJjgm9m9PqphydsSk828wGqDSJ+y7PAfxIhFIUnQ
- S3B3RICZUNfEZ0o5AfwXgzYzPX08/PQRJoyEsZiV2djYbHGohD7mQ0xQCB8fMwPhSU6Wtf47S
- BpteihLcoEVn9gTfgPBqdp6qxohZUx1n6l1Q3uWBWtJ+Vxx9825p8eMLuxsKEXuSvsMWZTfBw
- 0Yucu+Lk6lvvXfrBupBJXxRYv1yodbRf+aTaxg7vVTWguxxofr+hYc9eNSYOPUTVYGeQgbqpU
- REjEAfsuokkCozhdK2s4YwI0zPVsKrjQ/fr/gU47NuAxyUo8piwvJt128Ox4g+ggDLnVMp9f5
- SnUe7PbxHujD+0kVxEq7jX2lKf82/11ZIPqqURoa2VQCKEfPsiNF+Ccqq6lwbxukPd0vPuAkz
- u4mdU3JuxWarsKj4phKjrQX+H2cfbCq9gQABziHRItc5NriNu+ew5lFO3vgWmXRvoQMqhuGJ3
- fDt7WF66YcNC9xWk/xO7FObNF8ZDqTAZ/wxXvYKE1nxSwUqXs7zH3mL5c8chb8jb7jUrVHiKN
- PlqU3Cdd3wMnasNJ65npvjeYihBr7S
 
-Am 25.11.24 um 15:16 schrieb Joshua Grisham:
-
-> Den l=C3=B6r 23 nov. 2024 kl 23:19 skrev Armin Wolf <W_Armin@gmx.de>:
->>> 1) Yes or no to create new platform_device even though one already
->>> exists with the ACPI device ID as it's name?
->> I advise against this, because if the driver somehow binds to multiple =
-devices in the future
->> then creating a second platform device will fail (same name). So No.
->> [...]
->>> 2) If using existing platform_device, should these kind of sysfs
->>> attributes be under the dynamic device ID-based platform_device or is
->>> it ok / make sense to move them to driver attributes?
->> Driver attributes get created then the driver is registered, so this co=
-uld lead to
->> various lifetime problems, so please use device attributes.
->>
->> I suggest that you update the documentation of the driver to tell peopl=
-e that:
->>
->> 1. They should use udev for device discovery
->>
->> and/or
->>
->> 2. They can find the attributes under /sys/bus/platform/drivers/<driver=
- name>/<device name>/<attribute>
-> Thanks again Armin, this is very good advice! I have made these
-> adjustments now in a local copy but then stumbled onto something else:
-> what about the hwmon and kbd_backlight LED class device names? Right
-> now I have also hard-coded these with "samsung-galaxybook" but in
-> theory if multiple different instances of one of the ACPI device IDs
-> existed (as you mentioned could be a "possible" scenario in the
-> future?) then I guess these would break as well?
-
-The hwmon subsystem can handle duplicate chip names, so naming the hwmon c=
-hip
-"samsung-galaxybook" should be OK.
-
-For the LED class device: you can use led_init_data to set default_label a=
-nd
-devicename (just copy the platform device name for devicename). By setting
-devname_mandatory to true the resulting led class device should have a uni=
-que
-name.
-
-> Having said that, it would be REALLY strange if any of these Samsung
-> notebooks had multiple instances of one or more of these ACPI devices;
-> it would be like saying there are two completely separate "platform"
-> devices on the same notebook, where both can control their own
-> keyboard backlight, performance mode, etc.. I can't imagine this
-> should ever actually be the case? Also in this case my driver will
-> actually only try to create the LED class device if the ACPI method to
-> enable and get/set its value within the device itself is returning the
-> right success codes, so it seems even less likely that there would be
-> two instances of the ACPI device IDs on the same notebook and that
-> both are responding positively to the ACPI method to enable/get/set
-> the kbd backlight brightness? The hwmon device, on the other hand,
-> will always be created if it finds any PNP fan devices that need
-> special handling (e.g. they will not be reporting their values by
-> default as acpi4 fans so will be set up by the driver instead).
-
-You are right that it is unlikely for multiple compatible ACPI devices to
-exist, but being able to gracefully handle this case would still be nice.
-
-> I tried to look in the kernel for existing platform drivers (and
-> glanced through several non-platform drivers as well) to find any that
-> might be following this pattern of dynamic LED class device name or
-> hwmon device name and could not really find anything except the Intel
-> int3472 which is using the ACPI device ID as the LED class device
-> name; otherwise, everything else I could find under platform is using
-> hard-coded names, including drivers that seem to follow this pattern
-> we are talking about here (using existing platform devices based on
-> ACPI device ID name instead of creating new ones, e.g. ideapad-laptop
-> has hard-coded LED class device names with its
-> "platform::kbd_backlight" and "platform::fnlock" even though the
-> actual platform device is just matched from the ACPI device ID VPC2004
-> ??).
-
-Sadly not all drivers try to handle such a situation.
-
-> For specifically kbd_backlight and hwmon devices, I think it is more
-> likely that people will be making various scripts / config / etc that
-> do things like show the fan speeds in various widgets and/or control
-> the keyboard backlight via script, so it seems to me like it is even
-> better if these can be fixed names that anyone who uses these devices
-> will be able to use (e.g. "samsung-galaxybook::kbd_backlight" feels
-> better than something non-fixed based on ACPI device ID like
-> "SAM0429_00::kbd_backlight").
+Den m=C3=A5n 25 nov. 2024 kl 18:20 skrev Armin Wolf <W_Armin@gmx.de>:
 >
-> This feels a bit like sub-optimizing here, especially since pretty
-> much all of the other drivers I can see are hard-coding these kind of
-> names already as well.. is it ok to just leave hwmon and LED class
-> device names as hard-coded with prefix "samsung-galaxybook" and
-> if/when it comes along that someone has a problem with multiple
-> instances, it will fail with an error message in the kernel log and
-> they can submit a bug? (where we figure out what the right course of
-> action is exactly for that case)
-
-I am CCing the LED maintainers so they can give us some advise on how to h=
-andle
-this the best way.
-
-Thanks,
-Armin Wolf
-
-> Thanks again!
-> Joshua
+> For the LED class device: you can use led_init_data to set default_label =
+and
+> devicename (just copy the platform device name for devicename). By settin=
+g
+> devname_mandatory to true the resulting led class device should have a un=
+ique
+> name.
 >
->> [...]
+
+Thank you, this was excellent guidance as usual! I tested a few
+variations and found that it is possible to match existing platform
+drivers with the format of <name>::kbd_backlight and here is how this
+change looks in the branch I am using to make these adjustments in:
+
+https://github.com/joshuagrisham/samsung-galaxybook-extras/commit/20f28efed=
+07fb04b7c5397e709bbd00772bdf4fb
+
+As a summary I am basically setting the following:
+
+init_data.devicename =3D "samsung-galaxybook";
+init_data.default_label =3D ":kbd_backlight";
+init_data.devname_mandatory =3D true;
+
+This results in the name of the first added LED device to still be
+"samsung-galaxybook::kbd_backlight" which also matches the pattern
+that exists in basically every other currently existing x86 Platform
+driver.
+
+I "mocked" having multiple existing by temporarily removing the
+unregister step and then removing and re-probing the module several
+times. What happens is that the string is just appended with a rolling
+number like this: samsung-galaxybook::kbd_backlight_1,
+samsung-galaxybook::kbd_backlight_2, etc.
+
+I then checked in the code of both udev and upower to ensure that
+these names would still work with the features in those services, and
+in both places they are looking for the existence of the string
+"kbd_backlight" anywhere within the name, so it should still work with
+this implementation as well.. To be sure that it does in fact work, I
+forced the name to be exactly samsung-galaxybook::kbd_backlight_1 and
+rebooted, and everything seemed to be working fine / automatically
+within GNOME and otherwise--so far, so good, there!
+
+I am quite pleased with this solution as it should give the originally
+intended name in all existing known cases and additional names would
+be added only in super weird circumstances, yet will still handle
+multiple names in a graceful way.
+
+> I am CCing the LED maintainers so they can give us some advise on how to =
+handle
+> this the best way.
+>
+
+Amazing, thank you! How does it look with the change I mentioned
+here--does it seem like this is matching the desired outcome, or is
+there anything that should be changed?
+
+Thank you again!
+
+Best,
+Joshua
+
+> [...]
 
