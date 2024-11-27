@@ -1,157 +1,201 @@
-Return-Path: <linux-leds+bounces-3441-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3442-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FD29D9DC9
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Nov 2024 20:04:56 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF5E9DA6E8
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Nov 2024 12:40:09 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E3A5287692
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Nov 2024 19:04:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 626FD165A34
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Nov 2024 11:40:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C31E1DE2DB;
-	Tue, 26 Nov 2024 19:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E571F8EE4;
+	Wed, 27 Nov 2024 11:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ffXrAkpl"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E362616F0E8;
-	Tue, 26 Nov 2024 19:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11E11F8AE5
+	for <linux-leds@vger.kernel.org>; Wed, 27 Nov 2024 11:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732647892; cv=none; b=EYMkum2ELajZ1ysItKua6fu76j3lBIrBAeDz6c8t9COmtnXqsAp+qP7PO2hqPjxaOLt+FQ37s0yZLCt2uAwUcJZR50EgC2crF4gonen21FzoEiUgoB0tMsq2GJEnLC1eJZG/ITvoxqzbvUSE+OYta/jjmW2Cg1YxLsBUmf5s0Ko=
+	t=1732707606; cv=none; b=Cr4p8LDthnLvoJrdujiTy3Vr45HBuxMM0vOPUWEw/kkQ5IohI6EEft2B02vckGTNLTrMqYG5ZJddKReIs/7RfjQZcvehdMlnQuig4lTyc4jVWU5f5BUxpaqmSvTD7uon+KirFlPvRE1dmpcIYFF+b1MD+XGxGXeLaddCWsR0oUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732647892; c=relaxed/simple;
-	bh=qQCWd6U/ZoiKaGO0HuHoCIeIwfRD/cI8nHIsSGT4F1g=;
+	s=arc-20240116; t=1732707606; c=relaxed/simple;
+	bh=o4nE8wjfnFUpBbQRpANI+Wi2/lAKikDxFPZ7qS/fPGs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EIjHxfif1NI6bl6BcRjy6x4mmaqoDtZaYKdAnKdkQuzPM9LQgJ6hqHIbDIp8beHX7sLpB0o0T6AO6afguEOrJ0nduQmEBgoYX89Qb+2l2yRYzGWxzkhYfk7ysAZuhmdRZyt1kLD5wi9HgS743Cbt0S6KkHXuACb9uL2Qqg7MfA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-841a9366b5eso61979739f.2;
-        Tue, 26 Nov 2024 11:04:50 -0800 (PST)
+	 To:Cc:Content-Type; b=ZkzvQhv4s+XVdSGtla6IQuIzfsj2EtKM57qJ2j0CoA8Zm6dGWz4jcJhoTFBSstBbkEi7l3KnZz/XZ0weo4QnNfyRiIvnYqIkRHCw6gSxHz0FFNdMkihwMVYoaq3QTNQGHxXKpbWhwYv7blQ6goIsCBmSU2gdh87jx5viSf4h+js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ffXrAkpl; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-434acf1f9abso1465225e9.2
+        for <linux-leds@vger.kernel.org>; Wed, 27 Nov 2024 03:40:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732707602; x=1733312402; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xeLUdoD4xLFsh9NoqmIjIyZQO4DIDisVAw+MDipGd5U=;
+        b=ffXrAkplVejDaObxRHxegsuKwBLaUrFW3NKgy2bn8AzojFxiFMDNVbEe12U4WmnwTS
+         BPnzl+CFR5E5nbcjpEY+9gdp1XIM4OekUj2FKyz9/TiyJ8z2zTuh3iWMyrlaIHhgaYJ0
+         JB24QYzwTFEHeIhqkZflMMLBs5CDbU3d9gibMI3Zu+DlrcOF85Zrv/7wMLLRZmv6/F/G
+         TRaVAgxaztVzMrWd3FOE1oaBgiNvVMu6+ia/fwXKh5VXhZhmxhcY+lY3xx6alw2aoxC3
+         QJ/L+nUFZELllQNSd1QJw7KiQ/ZUL/HBPiWdN2lQM5lbNnIsP6ng+N3tgY0zdtRysUg4
+         Ctfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732647890; x=1733252690;
+        d=1e100.net; s=20230601; t=1732707602; x=1733312402;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qQCWd6U/ZoiKaGO0HuHoCIeIwfRD/cI8nHIsSGT4F1g=;
-        b=Bsjc7kzn/yVrUj0k8vS2FD58R7gVh/PxNW/ed5/u3rkyLolcmtUb1eXFUhvlf/qoJy
-         uRZ5S7AjxlDPP0F6lP7cAcX/b/K67iyLgxJG31qGdcl5NOw98UxrthPeqckJg4MMp/KX
-         NL2VURXILW2iDNJWEJc/GyhbfcqIUdIUWYgG58pM+hsdzMgeoyHdAUuGOITYm9Dn/fRq
-         xsKtTBY3kW52GbTr8aLNiEeB2fBD8S2i+qS/by5iB6QmBx6Rjn3c4pqzh0cbCE9CwFBy
-         5qzAaKnWoRuitdlDWrKjv7knLgm8o4VQMJIW7i+qkOfvV5HI86j7kkx7xy77EPFiPAdP
-         h2ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWteDnrdtjieQ50XbPcLhje1KPk9957SOv07H3wrofPZbOcuEDtmQO5q3pTrmsRfKG/mo3Kt6j3VyoA4BUI/9ssu5OSoQ==@vger.kernel.org, AJvYcCXvYLjyXsdOrMVgWDNOuJWw5n31nOxCzE4l420svUAIF9rrRaHJODB8+RUUrxvwCKXB7j5HqOjS+2Q8@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwmE1qtkkJOmk1wCPk6oaY886pNF5z1FmLhxgSWy+nhu3vnwE8
-	dHw03FHRwcnsI7LmZL1k6yBJ++FJqKUq429fDYkeNqDQaCoUbXMZtD1wRf93
-X-Gm-Gg: ASbGncvm/ZuUItVNgRVf1yJwPSIZUiGaBJQzn3JgPQDbUgRmKsI7hFxp7znGf15W7M5
-	J2IYkhJTZ1uwYMGiLUWHCTBLmmLpghpvSUI/DXsbCygFv/clDc+X5erTwHS1iJprxHWRAZvJoqY
-	g8i0TLjsYagA3CWQH8lY0+u/p6UnYI4TiFIBfB7PjZTGYBUOLPNOW4Vd0qQTkzJAjhopZ+MHKuO
-	ia376lvYq9jqYO3eXZDROP4GERCvCyzEib06TcemIiy6U+Ru0Ye/p38aziw2p/gRG0x3DGhUs4l
-	BamTaaJ5e72U+Q0=
-X-Google-Smtp-Source: AGHT+IGrAS9pDNjIPqv/mfH1/REslEJKPch7BJNdQDUn0XI4hjYjEc4GpQatR/sqjkHats1NI52XZA==
-X-Received: by 2002:a05:6602:1695:b0:83d:e526:fde7 with SMTP id ca18e2360f4ac-843ecf19b45mr73460739f.6.1732647889855;
-        Tue, 26 Nov 2024 11:04:49 -0800 (PST)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e209f3a06asm919561173.48.2024.11.26.11.04.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Nov 2024 11:04:49 -0800 (PST)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-84198253281so89016439f.0;
-        Tue, 26 Nov 2024 11:04:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV65Bf8PENr6P6l7BX73Ybij+jNRf+a10j4VTDwZSujc31D7ARIE5NHQ2fAFpwNdNhfVhqa5XoNuVALxnRmqeCIOsMIew==@vger.kernel.org, AJvYcCW/nFbwy3vAgHd1ZbLjmYH6xHBDhS0BfMePG7vEO+Ir/m3m4APz63kaoKcxpurttlC44tWOCBhbg9Hm@vger.kernel.org
-X-Received: by 2002:a05:6602:140f:b0:843:e8d0:a728 with SMTP id
- ca18e2360f4ac-843ececc316mr79491139f.4.1732647889274; Tue, 26 Nov 2024
- 11:04:49 -0800 (PST)
+        bh=xeLUdoD4xLFsh9NoqmIjIyZQO4DIDisVAw+MDipGd5U=;
+        b=a7vIuKHlNk1Q9FTlnNkr9k+DMLbi0s9EkrYka6uWMCG8b5dGlX2LZOmXOstR745AlF
+         W5wi9CRcjr4tUUHmBeD7ueNJm0/7SCYawNxu/ZWxqPSymNZWmeD0OtoRoXftANvhB7hW
+         GmILuf7eRFa/TYvX6tyRI2miwTb5ey77Kxw3Z0aeDSS/YA18bl9xb2T9kgtQbT0TTVG6
+         /iGffiEmyCoMs5yu4i5GRIbteLWWMWuel6O1yFaSh3hBhgDStEn6sq5QsY7NI7BbOda7
+         awnxLUQ6SZuU9WxV1ySsDz6OVecLb2boubcjhxNUErpNUci1wa3ktnyD0fEn4BTsXPmt
+         DT/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXBgyumvbnkd+/77j4kAbQ5qyN+8ju3sNnfnURwe6CyaZTpeJCu8dQ8MPdh3wHWlByib8a+YrvLWVwG@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBp9MUWLuOiNzg499Su2cgS5EpOknYPv/X56i/uZjAUmsi1af/
+	WuvPF/5IsEMIQaslrHZT77qf8k7jsFWeKGyxYHpPWIGYvoOGbi2lbN2SigPWneMpgYgSTCBtkRH
+	2pTAPR34IPteRn+4Lju1A1pgwf2SoZQywklrz
+X-Gm-Gg: ASbGncsfFQimGpYG+NHP/4VcA8Kb/O+bAdA4eFQvi8s6mbzTQzLFmPoQBT9uECl55kM
+	ERTy4QdQW4M25gG+6deb9up8rpaXuKykc/Ph7xZew7n/lzAYXBfngIjTtkUOjtQ==
+X-Google-Smtp-Source: AGHT+IE2us7yWfY+1kczS4KsIvlmVgvswliWrEIl2BCiPKvMLgsZBRMbS9TfEIMWq8DNi4spliLCC7466V6b6w8xKVs=
+X-Received: by 2002:a05:6000:1acc:b0:382:4cc3:7def with SMTP id
+ ffacd0b85a97d-385c6eb6eb1mr1956832f8f.7.1732707602192; Wed, 27 Nov 2024
+ 03:40:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMF+KeYus9dW00WNJMLVxLLHdG9JgCfrGJ491fu7NM8GAEqqCg@mail.gmail.com>
- <fd4a30e0-b5bb-47d7-8173-312417dce215@gmx.de> <CAMF+KeZkqwnBNT4vVNLEC03zZqSTSAE-Z=8j9ZLACf3yBeun8A@mail.gmail.com>
- <qsdbzbvpwlrnx2sqhrjfg3rukbm3z5gjkyjwlwoc3jnd3vre36@72py3mfwwsse>
- <CAMF+KeYGCZuc5DSCf4S+oZZgp5E4hwowJ+HqOy=ijjPZwv+zpQ@mail.gmail.com>
- <e46b4d6d-16f0-47d9-a680-c1ac90c52a97@gmx.de> <CAMF+KeaSarRT3weYhiCFO=Th5ZWMf=nvi53A+ggKYq2wBYAJpw@mail.gmail.com>
- <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
-In-Reply-To: <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Tue, 26 Nov 2024 20:04:38 +0100
-X-Gmail-Original-Message-ID: <CAMF+Kear1ZhaM1Jry=SS=xPa17+DNUQusOiR_rrYpcpW1YFhFw@mail.gmail.com>
-Message-ID: <CAMF+Kear1ZhaM1Jry=SS=xPa17+DNUQusOiR_rrYpcpW1YFhFw@mail.gmail.com>
-Subject: Re: Adding a new platform driver samsung-galaxybook
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Kurt Borja <kuurtb@gmail.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, 
-	Pavel Machek <pavel@ucw.cz>, lee@kernel.org, linux-leds@vger.kernel.org
+References: <20241009105759.579579-1-me@kloenk.dev> <20241009105759.579579-2-me@kloenk.dev>
+ <CAH5fLggju9ZYPD7LRTZKXJ9dhuLJ0uAS-USAokeoSvjOiN1v=w@mail.gmail.com> <6F3F4134-23FF-4230-9DC2-219FACAF546E@kloenk.dev>
+In-Reply-To: <6F3F4134-23FF-4230-9DC2-219FACAF546E@kloenk.dev>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Wed, 27 Nov 2024 12:39:49 +0100
+Message-ID: <CAH5fLgivWoo=FpKAhTsHPOot7ptWvezrgsB8YoHKsRobXok4MA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] rust: LED abstraction
+To: Fiona Behrens <me@kloenk.dev>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Den m=C3=A5n 25 nov. 2024 kl 18:20 skrev Armin Wolf <W_Armin@gmx.de>:
+On Thu, Nov 21, 2024 at 10:47=E2=80=AFAM Fiona Behrens <me@kloenk.dev> wrot=
+e:
 >
-> For the LED class device: you can use led_init_data to set default_label =
-and
-> devicename (just copy the platform device name for devicename). By settin=
-g
-> devname_mandatory to true the resulting led class device should have a un=
-ique
-> name.
+> On 18 Nov 2024, at 11:22, Alice Ryhl wrote:
 >
-
-Thank you, this was excellent guidance as usual! I tested a few
-variations and found that it is possible to match existing platform
-drivers with the format of <name>::kbd_backlight and here is how this
-change looks in the branch I am using to make these adjustments in:
-
-https://github.com/joshuagrisham/samsung-galaxybook-extras/commit/20f28efed=
-07fb04b7c5397e709bbd00772bdf4fb
-
-As a summary I am basically setting the following:
-
-init_data.devicename =3D "samsung-galaxybook";
-init_data.default_label =3D ":kbd_backlight";
-init_data.devname_mandatory =3D true;
-
-This results in the name of the first added LED device to still be
-"samsung-galaxybook::kbd_backlight" which also matches the pattern
-that exists in basically every other currently existing x86 Platform
-driver.
-
-I "mocked" having multiple existing by temporarily removing the
-unregister step and then removing and re-probing the module several
-times. What happens is that the string is just appended with a rolling
-number like this: samsung-galaxybook::kbd_backlight_1,
-samsung-galaxybook::kbd_backlight_2, etc.
-
-I then checked in the code of both udev and upower to ensure that
-these names would still work with the features in those services, and
-in both places they are looking for the existence of the string
-"kbd_backlight" anywhere within the name, so it should still work with
-this implementation as well.. To be sure that it does in fact work, I
-forced the name to be exactly samsung-galaxybook::kbd_backlight_1 and
-rebooted, and everything seemed to be working fine / automatically
-within GNOME and otherwise--so far, so good, there!
-
-I am quite pleased with this solution as it should give the originally
-intended name in all existing known cases and additional names would
-be added only in super weird circumstances, yet will still handle
-multiple names in a graceful way.
-
-> I am CCing the LED maintainers so they can give us some advise on how to =
-handle
-> this the best way.
+> > On Wed, Oct 9, 2024 at 12:58=E2=80=AFPM Fiona Behrens <me@kloenk.dev> w=
+rote:
+> >> +impl<'a, T> Led<T>
+> >> +where
+> >> +    T: Operations + 'a,
+> >> +{
+> >> +    /// Register a new LED with a predefine name.
+> >> +    pub fn register_with_name(
+> >> +        name: &'a CStr,
+> >> +        device: Option<&'a Device>,
+> >> +        config: &'a LedConfig,
+> >> +        data: T,
+> >> +    ) -> impl PinInit<Self, Error> + 'a {
+> >> +        try_pin_init!( Self {
+> >> +            led <- Opaque::try_ffi_init(move |place: *mut bindings::l=
+ed_classdev| {
+> >> +            // SAFETY: `place` is a pointer to a live allocation, so =
+erasing is valid.
+> >> +            unsafe { place.write_bytes(0, 1) };
+> >> +
+> >> +            // SAFETY: `place` is a pointer to a live allocation of `=
+bindings::led_classdev`.
+> >> +            unsafe { Self::build_with_name(place, name) };
+> >> +
+> >> +            // SAFETY: `place` is a pointer to a live allocation of `=
+bindings::led_classdev`.
+> >> +            unsafe { Self::build_config(place, config) };
+> >> +
+> >> +            // SAFETY: `place` is a pointer to a live allocation of `=
+bindings::led_classdev`.
+> >> +            unsafe { Self::build_vtable(place) };
+> >> +
+> >> +        let dev =3D device.map(|dev| dev.as_raw()).unwrap_or(ptr::nul=
+l_mut());
+> >> +            // SAFETY: `place` is a pointer to a live allocation of `=
+bindings::led_classdev`.
+> >> +        crate::error::to_result(unsafe {
+> >> +            bindings::led_classdev_register_ext(dev, place, ptr::null=
+_mut())
+> >> +        })
+> >> +            }),
+> >> +            data: data,
+> >> +        })
+> >> +    }
+> >> +
+> >> +    /// Add nameto the led_classdev.
+> >> +    ///
+> >> +    /// # Safety
+> >> +    ///
+> >> +    /// `ptr` has to be valid.
+> >> +    unsafe fn build_with_name(ptr: *mut bindings::led_classdev, name:=
+ &'a CStr) {
+> >> +        // SAFETY: `ptr` is pointing to a live allocation, so the der=
+ef is safe.
+> >> +        let name_ptr =3D unsafe { ptr::addr_of_mut!((*ptr).name) };
+> >> +        // SAFETY: `name_ptr` points to a valid allocation and we hav=
+e exclusive access.
+> >> +        unsafe { ptr::write(name_ptr, name.as_char_ptr()) };
+> >> +    }
+> >> +
+> >> +    /// Add config to led_classdev.
+> >> +    ///
+> >> +    /// # Safety
+> >> +    ///
+> >> +    /// `ptr` has to be valid.
+> >> +    unsafe fn build_config(ptr: *mut bindings::led_classdev, config: =
+&'a LedConfig) {
+> >> +        // SAFETY: `ptr` is pointing to a live allocation, so the der=
+ef is safe.
+> >> +        let color_ptr =3D unsafe { ptr::addr_of_mut!((*ptr).color) };
+> >> +        // SAFETY: `color_ptr` points to a valid allocation and we ha=
+ve exclusive access.
+> >> +        unsafe { ptr::write(color_ptr, config.color.into()) };
+> >> +    }
+> >> +}
+> >
+> > This usage of lifetimes looks incorrect to me. It looks like you are
+> > trying to say that the references must be valid for longer than the
+> > Led<T>, but what you are writing here does not enforce that. The Led
+> > struct must be annotated with the 'a lifetime if you want that, but
+> > I'm inclined to say you should not go for the lifetime solution in the
+> > first place.
 >
+> The `led_classdev_register_ext` function copies the name, therefore the i=
+dea was that the name only has to exists until the pin init function is cal=
+led, which should be the case with how I used the lifetimes here
 
-Amazing, thank you! How does it look with the change I mentioned
-here--does it seem like this is matching the desired outcome, or is
-there anything that should be changed?
+In that case you should be able to get rid of the lifetime like this:
 
-Thank you again!
-
-Best,
-Joshua
-
-> [...]
+impl<T> Led<T>
+where
+    T: Operations,
+{
+    /// Register a new LED with a predefine name.
+    pub fn register_with_name(
+        name: &CStr,
+        device: Option<&Device>,
+        config: &LedConfig,
+        data: T,
+    ) -> impl PinInit<Self, Error> {
+        ...
+    }
 
