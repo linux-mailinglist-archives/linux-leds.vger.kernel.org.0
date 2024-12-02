@@ -1,109 +1,110 @@
-Return-Path: <linux-leds+bounces-3445-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3456-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C479DFD0E
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 10:26:49 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF0391626EF
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 09:26:42 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03F71FA252;
-	Mon,  2 Dec 2024 09:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBjhM2Md"
-X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FC09DFDC7
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 10:51:04 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72581F9F63;
-	Mon,  2 Dec 2024 09:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733131598; cv=none; b=uchX9OSEJX7/v6ZJQ269mhb9nO1aNqwHye1VHUdiPoxUUZA7WESADarQBymHfvfaswB/kjq3RpD1pA5a0BD8NYGIw2NEyPja1Ti/SWufJQzoAOzJ3kJT7PdU1dCtHjGsLWx4DAdT+48H6uJTEGymsQy4QGPetUGxk93CGN8zeWI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733131598; c=relaxed/simple;
-	bh=ynWAH9fQ4ujIPxs58oONnUtsiHSL3KKoCOBqGBaLlmk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jbeljaR2nS7iBTu1rirE8d63lHwbICiBi0MRQKrDgiuLpObItprN2H8XOtpVS3pvVrw2k0C+KGbR8RVrbAYC9iVgi+eU6qWEGOutqPPvZtgKblxOEDleOTbo3gtY/bb/gDFrUkHA1sOZIaDmDrrScBSMXelnzWzj2a7J6JzFekE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBjhM2Md; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 666A5C4CED2;
-	Mon,  2 Dec 2024 09:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733131598;
-	bh=ynWAH9fQ4ujIPxs58oONnUtsiHSL3KKoCOBqGBaLlmk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eBjhM2MdbVZyIioL4v0TnKdvpjx6fRHDcc8GbREEvpFRgvhh6pocUZWZZo8FhaB+a
-	 9X1qaZTqr6qvSZcrwkVz1Fg3B3kjYUPD+zndg2g3UK6YoyOc0FEAjUmG7rE/ZJ5g+g
-	 G1Jy72rSi9DZXdIUWlyxJ//8m0tHVW1ci7wNtokmlIhNn1FOXweNH8XMkxVNP/D6BO
-	 R9X0ii5mWGQu0NVK7GHMgiyaMVgwjo25QY5BYMlc2Mv/+Ye0PzdvmoPLLEGqZdv54T
-	 5gXszoKSKC9ELiaxf1U8kscOKyyMF4pi/PCH6Xs+Ut8sF9D/ey6+A+ZnYY64z95rrh
-	 KVfMtGWl3QHTQ==
-Date: Mon, 2 Dec 2024 09:26:33 +0000
-From: Lee Jones <lee@kernel.org>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Joshua Grisham <josh@joshuagrisham.com>, Kurt Borja <kuurtb@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org
-Subject: Re: Adding a new platform driver samsung-galaxybook
-Message-ID: <20241202092633.GA7451@google.com>
-References: <CAMF+KeYus9dW00WNJMLVxLLHdG9JgCfrGJ491fu7NM8GAEqqCg@mail.gmail.com>
- <fd4a30e0-b5bb-47d7-8173-312417dce215@gmx.de>
- <CAMF+KeZkqwnBNT4vVNLEC03zZqSTSAE-Z=8j9ZLACf3yBeun8A@mail.gmail.com>
- <qsdbzbvpwlrnx2sqhrjfg3rukbm3z5gjkyjwlwoc3jnd3vre36@72py3mfwwsse>
- <CAMF+KeYGCZuc5DSCf4S+oZZgp5E4hwowJ+HqOy=ijjPZwv+zpQ@mail.gmail.com>
- <e46b4d6d-16f0-47d9-a680-c1ac90c52a97@gmx.de>
- <CAMF+KeaSarRT3weYhiCFO=Th5ZWMf=nvi53A+ggKYq2wBYAJpw@mail.gmail.com>
- <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 371C5281E78
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 09:51:03 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243D01FBC84;
+	Mon,  2 Dec 2024 09:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chaosfield.at header.i=jakob+lkml@chaosfield.at header.b="a47zapme"
+X-Original-To: linux-leds@vger.kernel.org
+Received: from sender-op-o11.zoho.eu (sender-op-o11.zoho.eu [136.143.169.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF951FA827
+	for <linux-leds@vger.kernel.org>; Mon,  2 Dec 2024 09:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733132983; cv=pass; b=WY+DCSM1sHG8+7zLgavtECVclbs12ZCTA4aCqeq0qkqufksXkjKTL0q+Gj3esIPjIHb5n9JINkR7nSSOyMVcb50HPAYo7u7GmsDfSaNaUeWhlKubs4tAGB1yg91DQDgl3WMQ+flgc2aSZQVZuhrCq0skGrjUn7FG50050aFbjog=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733132983; c=relaxed/simple;
+	bh=MbICyQsPvJAAo9ILIEbsw6MS55XWr27QBzphMMOFI/A=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=dc8BUruavFzws+440VTRObTwzl2Ym2nd4UfzfxvRkmFSKY4hiQskGg7fNwaTo7Cvkidoz8qHe34pQO7BG9hwiaExiFEmRS2rzlftxCvkHzXjArjm1Lgyug4FISgLIu5R3fsiZYIgYwufTuE2y5NQxCzaZtU29HqdwL1Ro3SuT1k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chaosfield.at; spf=pass smtp.mailfrom=chaosfield.at; dkim=pass (1024-bit key) header.d=chaosfield.at header.i=jakob+lkml@chaosfield.at header.b=a47zapme; arc=pass smtp.client-ip=136.143.169.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chaosfield.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosfield.at
+ARC-Seal: i=1; a=rsa-sha256; t=1733132039; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=K167TZpchs/s6dapR+MVt9oJaj3AB/qXnEloSa8F+hH7tCuF2SmB6PwXJm0W/cNqDedVIDySynOqf6ycDHeXHxdx5pOPm8I96ep3IZGmKZIBs3CQuoOMEVPU9Jov9S64cFJ5QZJsAmIGnYmkwBSIPjvkueLKUS8zGgQcgpz8I0Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1733132039; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=OJAZDsiTKccCTEvgek6N9lxLeLvTd97VAf6qnXrLf58=; 
+	b=GTZ5Gynzn4pFDFV0+iDdy3h2IVVpWojT2UkVwWEPCgC0iqAn26YbZ3k11sMQOgEokVi2nRSO4qnAs5qLOTmteSMlOvoKbuvwcPocUF4yqWYhsG/vJzC9RrkIEoh7u18WTq/O3ds14Sl1hRNL4UFXH27JiIrucu+Mg011MUJNRkU=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=chaosfield.at;
+	spf=pass  smtp.mailfrom=jakob+lkml@chaosfield.at;
+	dmarc=pass header.from=<jakob+lkml@chaosfield.at>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733132039;
+	s=zohoeu1; d=chaosfield.at; i=jakob+lkml@chaosfield.at;
+	h=Message-ID:Date:Date:MIME-Version:From:From:Subject:Subject:To:To:Cc:Cc:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=OJAZDsiTKccCTEvgek6N9lxLeLvTd97VAf6qnXrLf58=;
+	b=a47zapmepXSbIpXRgJnCgob40bPeaETfBV+ALydtwxbhAShMkT4TgUr5aS9qP9Hy
+	6CY0axUA/Ssj0Dbdb4iWh6V1zBPYVRAaN9rQewgWv6f210NPa1M4sdZy9kPh/HVv/ZH
+	LGak/ToYPpg8SJKIkowyVbhVw8Sjx5M4baXBW4CY=
+Received: by mx.zoho.eu with SMTPS id 1733132035596622.3248648826997;
+	Mon, 2 Dec 2024 10:33:55 +0100 (CET)
+Message-ID: <d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at>
+Date: Mon, 2 Dec 2024 10:33:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Jakob Riepler <jakob+lkml@chaosfield.at>
+Subject: [PATCH] leds: pwm-multicolor: Disable PWM when going to suspend
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b531a5a7-d96a-4840-9831-d01a2b77c000@gmx.de>
+X-ZohoMailClient: External
 
-> > For specifically kbd_backlight and hwmon devices, I think it is more
-> > likely that people will be making various scripts / config / etc that
-> > do things like show the fan speeds in various widgets and/or control
-> > the keyboard backlight via script, so it seems to me like it is even
-> > better if these can be fixed names that anyone who uses these devices
-> > will be able to use (e.g. "samsung-galaxybook::kbd_backlight" feels
-> > better than something non-fixed based on ACPI device ID like
-> > "SAM0429_00::kbd_backlight").
-> > 
-> > This feels a bit like sub-optimizing here, especially since pretty
-> > much all of the other drivers I can see are hard-coding these kind of
-> > names already as well.. is it ok to just leave hwmon and LED class
-> > device names as hard-coded with prefix "samsung-galaxybook" and
-> > if/when it comes along that someone has a problem with multiple
-> > instances, it will fail with an error message in the kernel log and
-> > they can submit a bug? (where we figure out what the right course of
-> > action is exactly for that case)
-> 
-> I am CCing the LED maintainers so they can give us some advise on how to handle
-> this the best way.
+This fixes suspend on platforms like stm32mp1xx, where the PWM consumer
+has to be disabled for the PWM to enter suspend.
+Another positive side effect is that active-low LEDs now properly
+turn off instead of going back to full brightness when they are set to 0.
 
-I'm only in receipt of a snippet of the conversation here and lack all
-context, however I can speak generally.
+Link: 
+https://lore.kernel.org/all/20240417153846.271751-2-u.kleine-koenig@pengutronix.de/
+Signed-off-by: Jakob Riepler <jakob+lkml@chaosfield.at>
+---
+  drivers/leds/rgb/leds-pwm-multicolor.c | 8 +++++++-
+  1 file changed, 7 insertions(+), 1 deletion(-)
 
-It is unlikely that you find yourself in uncharted territory with
-respect to device enumeration and future-proofing.  The kernel is
-designed in such a way as to support subsequent versions of devices,
-usually by versioning or literal enumeration (see PLATFORM_DEVID_AUTO as
-an example of this).  Allowing future devices to break and subsequently
-relying on users to submit bug reports sounds suboptimal.  If we can
-prevent breakage rather than react to it, possibly after developers have
-moved on to something else, then we should do that. Matching on known
-ACPI implementations and providing support for that sounds sane.
+diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c 
+b/drivers/leds/rgb/leds-pwm-multicolor.c
+index e1a81e0109e8..f80a06cc31f8 100644
+--- a/drivers/leds/rgb/leds-pwm-multicolor.c
++++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+@@ -50,7 +50,13 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
+              duty = priv->leds[i].state.period - duty;
 
+          priv->leds[i].state.duty_cycle = duty;
+-        priv->leds[i].state.enabled = duty > 0;
++        /*
++         * Disabling a PWM doesn't guarantee that it emits the inactive 
+level.
++         * So keep it on. Only for suspending the PWM should be 
+disabled because
++         * otherwise it refuses to suspend. The possible downside is 
+that the
++         * LED might stay (or even go) on.
++         */
++        priv->leds[i].state.enabled = !(cdev->flags & LED_SUSPENDED);
+          ret = pwm_apply_might_sleep(priv->leds[i].pwm,
+                          &priv->leds[i].state);
+          if (ret)
 -- 
-Lee Jones [李琼斯]
+2.47.0
+
 
