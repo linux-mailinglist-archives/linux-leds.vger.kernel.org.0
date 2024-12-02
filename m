@@ -1,48 +1,58 @@
-Return-Path: <linux-leds+bounces-3462-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3463-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA4A9DFEF2
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 11:30:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 040D99E023E
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 13:31:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8604828222B
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 10:30:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 760AEB3798D
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2024 12:16:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 250D91FC7F6;
-	Mon,  2 Dec 2024 10:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B1F2036FD;
+	Mon,  2 Dec 2024 12:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikhjkACi"
+	dkim=pass (1024-bit key) header.d=chaosfield.at header.i=jakob+lkml@chaosfield.at header.b="DQnLpBQM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender2-op-o11.zoho.eu (sender2-op-o11.zoho.eu [136.143.171.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91B61FC119;
-	Mon,  2 Dec 2024 10:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733135402; cv=none; b=txKCpco/3scPb5EseulNB+WfY3vO+3kZSCQRcvcJ6yHiB7THnUTkfPdCIdx0X6mwOiye+n5y3DyCUriMXEqHdGdY/0gThaQWFb0cFSNKPk85KTDZurk8gFGHo0fpFvt4qfkyD/NcRZTlnNXNKk7QpX8U5uIOoXg3hIKBOO7jDh0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733135402; c=relaxed/simple;
-	bh=LuFsk7gRGBuCuEnZFd0Z5kjf8SQVkInCv2kWohtubqk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A80205AD5;
+	Mon,  2 Dec 2024 12:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.171.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733141294; cv=pass; b=ObmTZlBatafvvP0F6IlXAXziIWD0xpw8ZwB/9FN2Cq29VSUb6mhnLEsCA3AGNpEOxNCNDPEJwzlhIMLwFTE7lqngb30Lc+0Ju9j83cAejUc4LQCXbuYeLUKAdU14zgx8MaVPdGXCQTWqnulGNjNoHu9nD5JcA/n/NuaDcwQ9bQk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733141294; c=relaxed/simple;
+	bh=hHFka5L2zVORZlNG1xvolgyFI+LGuuqcR6ENNyanQ+U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jm8LYo7TN47dq8RfdAGMiOHpIbAnGjiJAi7uRaOQxSnmQ3KWwBmtsfj5JvtbmAsD4wWaz2YPUqbgpGaDKKKIIK22AyqvoVPSF25tuSbdnFF1LdO0w28Gor33KWgT0U9zRS+pcVdWnQj2pWTM0c0kBOMeDLOQV7KHBcLyVWodv48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikhjkACi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D399C4CED1;
-	Mon,  2 Dec 2024 10:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733135401;
-	bh=LuFsk7gRGBuCuEnZFd0Z5kjf8SQVkInCv2kWohtubqk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ikhjkACihn+xC0pbMrkkFlVcoFHZag2jhTZJ60iU9/et26klYWxrv6eJdU74GDyaS
-	 1apJVYRRuCyNDXXFgLyvs+WnpF0dEoKpKIOVGWeAJOy14chBW62C8/R3gENIsKDTbx
-	 QbxjcJdo4B6qpc9vxFtICOsIl/vrayaE4Sc1wutLTBNNXN1dljAviJRqJCLY3EtN/y
-	 pOl+9lP5qnsQ3bzb5E6+8Eu9/YK1Sj+l5c1kxj92uwNjUYWACBwd14naoJqk6z+f6L
-	 mVB9tX5qnByqNqTbi+YsXOM5vZkKwqq2PNQvZlPIXHSoo2K2b4sOwufxkmJGIsf2mh
-	 ZDujRu2/s69QA==
-Message-ID: <b7e4162a-a7f7-462d-9dde-121eeb59d148@kernel.org>
-Date: Mon, 2 Dec 2024 11:29:54 +0100
+	 In-Reply-To:Content-Type; b=ngcETZAFyPo551HkIAl7i2kYQpziHyWB7pOipFVGHww4/3sUBMG90nqyXEDhpyoBSu5ebL6Fa9Vxbv5BidEzIeZ3FQIsL0axKuF9bBwAgY5PxjA6YerQL1Qm4CHHIG/+w9Pr5kLFHWvSW7yFYMzWJn1pDzu3xRFvH3cfzUlexvg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chaosfield.at; spf=pass smtp.mailfrom=chaosfield.at; dkim=pass (1024-bit key) header.d=chaosfield.at header.i=jakob+lkml@chaosfield.at header.b=DQnLpBQM; arc=pass smtp.client-ip=136.143.171.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chaosfield.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosfield.at
+ARC-Seal: i=1; a=rsa-sha256; t=1733141276; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=ic9ejCH1Wzo/gP2ZAjrCMCGRn0xNhXMo0F4THnYLAMn261HP6VtLBF4FKRao9MJu93Sqm1L5KstGMhZLZGNzDkSuSw0o2FR1Zg5crYfl2jCOCaQYzuBGlY/6anEsdhTBmLDEeb3Y3mBtp7yrEqic4gEgPitOakXKzuf4JXvG3wE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1733141276; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=BMV9SMnLebQrEW79GXBEprl8gCg+plSDoj9lVar/fxY=; 
+	b=kjTqduZ/huYbM3WO9LEaWjmS0NIGETJZXSon8p2YnWXZjYY9YWXKJ7eFGBKKsYb7sgeW9qC610Y9Zj2D31byXB6PavLiVWw1+yz2F+eY0+T75aKFa0r6QFw8SCeRNTK5mwy0EV/0aJEdXwtiqLYThnQgYSYemH7VDZ9YfLMzFlA=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=chaosfield.at;
+	spf=pass  smtp.mailfrom=jakob+lkml@chaosfield.at;
+	dmarc=pass header.from=<jakob+lkml@chaosfield.at>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733141276;
+	s=zohoeu1; d=chaosfield.at; i=jakob+lkml@chaosfield.at;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=BMV9SMnLebQrEW79GXBEprl8gCg+plSDoj9lVar/fxY=;
+	b=DQnLpBQM/g2VhVYaqcmyN2NN6dhIywA3mLcS2u4yCZvApsby2dNriC8LWKorLnX/
+	eCvqon+ZtWmqMMgqJfJQXiVu74e5AHlGM/y5OUESJZsCCWxwWJrw3zr+tR09PgfE4zZ
+	PFOcFD7/keDQPOZiLmpAii671VXqwkuAn9fIfHiY=
+Received: by mx.zoho.eu with SMTPS id 1733141272255861.7005327403868;
+	Mon, 2 Dec 2024 13:07:52 +0100 (CET)
+Message-ID: <50bbd767-b0e0-4788-975b-f5d9598208e5@chaosfield.at>
+Date: Mon, 2 Dec 2024 13:07:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,150 +60,51 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 9/9] leds: max77705: Add LEDs support
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Purism Kernel Team <kernel@puri.sm>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20241202-starqltechn_integration_upstream-v9-0-a1adc3bae2b8@gmail.com>
- <20241202-starqltechn_integration_upstream-v9-9-a1adc3bae2b8@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v2] leds: pwm-multicolor: Disable PWM when going to suspend
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241202-starqltechn_integration_upstream-v9-9-a1adc3bae2b8@gmail.com>
+From: Jakob Riepler <jakob+lkml@chaosfield.at>
+In-Reply-To: <d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 02/12/2024 10:48, Dzmitry Sankouski wrote:
-> This adds basic support for LEDs for the max77705 PMIC.
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> 
-> ---
-> Changes for v8:
-> - join line where possible to fit in 100 chars
+This fixes suspend on platforms like stm32mp1xx, where the PWM consumer
+has to be disabled for the PWM to enter suspend.
+Another positive side effect is that active-low LEDs now properly
+turn off instead of going back to full brightness when they are set to 0.
 
+Link: https://lore.kernel.org/all/20240417153846.271751-2-u.kleine-koenig@pengutronix.de/
+Signed-off-by: Jakob Riepler <jakob+lkml@chaosfield.at>
+---
+Changes in v2:
+ - fix wrong line-breaks in patch
 
-Coding style asks for 80. checkpatch is not a coding style, unless this
-came from maintainer's review.
+ drivers/leds/rgb/leds-pwm-multicolor.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-> - change comment style C++ -> C
-> 
-
-> Changes for v6:
-> - change compatible suffix to 'rgb'
-> - remove I2C dependency in Kconfig
-> - remove copyright and author from 'based on' header statement
-> - replace MFD abbreviation with PMIC
-> - MAINTAINERS: alphabetic order
-> - max77705_rgb_blink: replace ternary operators with if..else if sequence
-> - max77705_rgb_blink: move hardcoded numbers to constants
-> - max77705_led_brightness_set: move ret to the bottom
-> - s/map/regmap
-> - replace device_for_each_child_node with scoped version
-> - s/rv/ret
-> Changes for v5:
-> - use same hardware name in Kconfig and module descriptions
-> - remove copyrighter owner from module authors
-> 
-> Changes in v4:
-> - inline BLINK_(ON|OFF) macro
-> - remove camel case
-> - drop backwards compatibility(new driver)
-> - drop module alias
-> ---
->  MAINTAINERS                          |   1 +
->  drivers/leds/Kconfig                 |   6 ++++++
->  drivers/leds/Makefile                |   1 +
->  drivers/leds/leds-max77705.c         | 167 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/mfd/max77705-private.h |  18 ++++++++++++++++
->  5 files changed, 193 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-
-
-...
-
-> diff --git a/include/linux/mfd/max77705-private.h b/include/linux/mfd/max77705-private.h
-> index be781a0f9802..2140693ce747 100644
-> --- a/include/linux/mfd/max77705-private.h
-> +++ b/include/linux/mfd/max77705-private.h
-> @@ -35,6 +35,24 @@
->  #define MAX77705_SYSTEM_IRQ_SYSOVLO_INT	BIT(5)
->  #define MAX77705_SYSTEM_IRQ_TSHDN_INT	BIT(6)
->  #define MAX77705_SYSTEM_IRQ_TM_INT	BIT(7)
-> +/* MAX77705_RGBLED_REG_LEDEN register */
-> +#define MAX77705_RGBLED_EN_WIDTH	2
-> +/* MAX77705_RGBLED_REG_LEDBLNK register */
-> +#define MAX77705_RGB_DELAY_100_STEP_LIM 500
-> +#define MAX77705_RGB_DELAY_100_STEP_COUNT 4
-> +#define MAX77705_RGB_DELAY_100_STEP 100
-> +#define MAX77705_RGB_DELAY_250_STEP_LIM 3250
-> +#define MAX77705_RGB_DELAY_250_STEP 250
-> +#define MAX77705_RGB_DELAY_500_STEP 500
-> +#define MAX77705_RGB_DELAY_500_STEP_COUNT 10
-> +#define MAX77705_RGB_DELAY_500_STEP_LIM 5000
-> +#define MAX77705_RGB_DELAY_1000_STEP_LIM 8000
-> +#define MAX77705_RGB_DELAY_1000_STEP_COUNT 13
-> +#define MAX77705_RGB_DELAY_1000_STEP 1000
-> +#define MAX77705_RGB_DELAY_2000_STEP 2000
-> +#define MAX77705_RGB_DELAY_2000_STEP_COUNT 13
-> +#define MAX77705_RGB_DELAY_2000_STEP_LIM 12000
-> +
->  
-
-No need for multiple line breaks.
-
-Best regards,
-Krzysztof
+diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
+index e1a81e0109e8..f80a06cc31f8 100644
+--- a/drivers/leds/rgb/leds-pwm-multicolor.c
++++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+@@ -50,7 +50,13 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
+             duty = priv->leds[i].state.period - duty;
+ 
+         priv->leds[i].state.duty_cycle = duty;
+-        priv->leds[i].state.enabled = duty > 0;
++        /*
++         * Disabling a PWM doesn't guarantee that it emits the inactive level.
++         * So keep it on. Only for suspending the PWM should be disabled because
++         * otherwise it refuses to suspend. The possible downside is that the
++         * LED might stay (or even go) on.
++         */
++        priv->leds[i].state.enabled = !(cdev->flags & LED_SUSPENDED);
+         ret = pwm_apply_might_sleep(priv->leds[i].pwm,
+                         &priv->leds[i].state);
+         if (ret)
+-- 
+2.47.0
 
