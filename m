@@ -1,238 +1,211 @@
-Return-Path: <linux-leds+bounces-3475-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3476-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F94E9E41B6
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 18:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424959E4553
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 21:10:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA09C16683D
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 17:33:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EF9E168355
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 20:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE29D22C711;
-	Wed,  4 Dec 2024 17:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E9EA1F03ED;
+	Wed,  4 Dec 2024 20:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iigcQrfC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1BwHGaH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F6222C70C;
-	Wed,  4 Dec 2024 17:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBE31F03DF;
+	Wed,  4 Dec 2024 20:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733331829; cv=none; b=pDSC6J39I9dhMZeZr5/YpqR62uJ3HnrtODAWrJAM0ZqjJXxT8xITsYAuurTnDm/dGdle7ufVMm5CxiK9TAAo3ptbGkaB8MD5ACySDDMXn7nkPjhjR/DzEPJbojxqB91MihaIVOI4Tkdx+j9SwVOMN89DWKjF0sw5pUl8j7xDi0E=
+	t=1733343010; cv=none; b=nJxHaiSwlyCWLr748Ya5nQzoAxKtYab7jj+zFHrzbyfcaxSDl412bLP1ZDDLxnK2JdqpwiAMbBPR+TfCi6YZFTYy2u44RS8OjLr9lJQcyMuZ3vw86iEp3ow5g/i6W9wGn37ODBeeSrj270c3WIGAIr7Gf5qa7dThqiAddf4EJNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733331829; c=relaxed/simple;
-	bh=gxfNcpwvGQNVHSUQdiOwW3aJlO0yMJdoDiYGfm3zHtQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dYLkp01IWt3vA8Kg8U+DJA+Xr8UsYLKo2Vp28FNsEQcYlxMIVuFefEyJogwjJRhpnlz2VGeVlKTAfLCWAZMQH2YIcbZ2IkvN+b8b8xPKv22qVOLBNTdEF6sjJnHZpWv88bZq3xei/jWpx4gJKZB1ZfYjcl98QQlZx2qzWrwBrWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iigcQrfC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47076C4CECD;
-	Wed,  4 Dec 2024 17:03:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733331829;
-	bh=gxfNcpwvGQNVHSUQdiOwW3aJlO0yMJdoDiYGfm3zHtQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iigcQrfCNfGP+CT7as9SH9il7gBfjZt5WBRW7sa6DwSXW9mhhg0PjQYbRhv6q+lki
-	 bnZtYqER3LsImXBhPNSmuRtoMZb3moz49FDUfjd1+aFQNd8jX2DCYX5dqleeYI2NWf
-	 oFoQHv2kYmdJaCiJXOkdXhBMioy+K1ei3NdQkeN2X/xGKxLWm15lrxt5+j+HUqm2+j
-	 lLPu9PuLvAT0olBmF/xCxxkk7vTNfdUegUC995lFOpL+wyRrEUj4sGbUIYVQ6EH9Tn
-	 A6DChIKXpepR8xCfIUUTVDz+osSHn9XaguXdmGfplKxjIWj9XWMOBzFji+mNUf8kJW
-	 Ug+lwclFgyrSg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Mukesh Ojha <quic_mojha@quicinc.com>,
-	Anish Kumar <yesanishhere@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	pavel@ucw.cz,
-	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/6] leds: class: Protect brightness_show() with led_cdev->led_access mutex
-Date: Wed,  4 Dec 2024 10:52:22 -0500
-Message-ID: <20241204155226.2215336-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204155226.2215336-1-sashal@kernel.org>
-References: <20241204155226.2215336-1-sashal@kernel.org>
+	s=arc-20240116; t=1733343010; c=relaxed/simple;
+	bh=QPLa0r+6p8PLfccDRaeRG4DbcK4v55uLKkJBlNlcdC8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HBJIOwTNJ4Y1S170dga8IuzpxU0pi7cPm4lTBp5HQgR88ATBxscyj4Llu8TBauaQ3Vjolo95mTsTcMo9lj86mF/Kw9gs0/KuL0tYAP5yyUIeWalGrP8IdxfsZ7XIlkTTPcShCF2swCGIWGYxdvrxohLeHRldxpEgPWFsj7EdEDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1BwHGaH; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5cf6f367f97so190165a12.0;
+        Wed, 04 Dec 2024 12:10:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733343006; x=1733947806; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iR3FhZB90yY2CtQD1Z8nT3lcBvWhMlkfTygUbcwhlIE=;
+        b=L1BwHGaHBlZ4r2uaSg9wed2d3+gO+BtaFTex0z82UWtvBKD2azHn52To95F8ErjZBs
+         xK76Fs2I+ARdRuzO3jyh+a64wi1KHDBGR7hMfulDuYil2kreXAREQW24iLASNCcsSLqJ
+         84voq7POuidsJvnYov6V62oHVkdx6iXw/WuHcVmvdxVHyRyJBFZsKKI0UBvH1UaJ7q8O
+         /7Md7lWh0tc5Ezw+V38/KlMhQZjNUV8e8hjJMR4lZYK0RrBN/rKo+vyosyrcmA9Wvc3a
+         y4jpaJuNrSjn7NtCQjg3xV+hJZXPSAS+512ovTq11uxmX00Ibr6W4z1vvsXKErINoJOK
+         4Ikw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733343006; x=1733947806;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iR3FhZB90yY2CtQD1Z8nT3lcBvWhMlkfTygUbcwhlIE=;
+        b=DknCH2WYTzYiW3X7Rodik8+M4ZXmLOJEN9aC6lrFhtyRyBcmUBvdmLADFBUdrO+X8P
+         zY4wUOOyWauxdelzbDPuZaRoU7q+o7IW4s3OAYq/89ddzNEEB45hqovRJ7dyK4eicxG5
+         QnMYYdwyESoGmxMzU8bGmSS7KqY+miw2Epsm/E8xbgPN7iMIUQ/sI0EVeb/Yojvo5eNZ
+         9hqmZQ7/rolIyApG3ndKqa3Jn41bN3E1pwOBwBvbCwxBBR+DjGmmgnmEgyaN7gmQQxpN
+         Riax0DsGnlOQazZ5/6dCQ8pBNiSVbfMFeJmKRVnQnyij4WAoJZuYoaow3XgPcGF4Msez
+         6p3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUAqQJ9bYBenKxSI5OVXHB4K3xwCPzP7BVAqSHOzcCH4lRfJVa0S+w2wEgQO5sRDshtQfdv8tMMaEz13kEE@vger.kernel.org, AJvYcCW1ne5tNPM1HXArXde72orQuitE/hnZ1zNnc/ReGSdgZkiCplEWpzrSHl++5hr0+Q/MYt2G8A3o9DKWMqc=@vger.kernel.org, AJvYcCW4U68grR7KtA3/p9cy8J5asYje014eBj5Fd4WSqhPC/daWr5fQeg5z5qXeupmMZW30Gp1kxeuif1XtCA==@vger.kernel.org, AJvYcCWv+2wwyooKPMUbp4IXLfSZ7ii+af/BZgZ4ghIRgpN2D3nzHV80U+C/2w/ybo9ULbJCouzfvHYnLC1V@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw91hrAl2i7xpsOb+qIZdEiiTSszLc/lXn5DvEvH+Qsy6coXn9P
+	dEZhK5wAlFokyG9bYIPcclO/2Y84S/2DQ9aezNC4Mke/4ZBZMZJXjQcvGg==
+X-Gm-Gg: ASbGncv6/yLpGFG3mir840XZegNNvZ7Jx4b0LmFUEuAwaTAoWY04OfZLoqRE2VOwH1S
+	cgV8OjKwk90s55OrSVZDxDoFGHWjqpKdZj+b14RaO2qhuUJGpE1JdKBrnAczASBFxdJR2Pl6hBl
+	kzWO9HmnvmPvQl3vktHZyXDdlLdBVLS7OPERcMEB6dgMggo3J7p2/K99G4Wls8Ufi6jZ4xY3vge
+	dFSpiADkHgj36XCrviILBFtH+WwJqVA6000cTFzcwtknP0v
+X-Google-Smtp-Source: AGHT+IEUUgdhIfO47YE8X0YhH4Y6sYmYrtouHL+4ILHkEsbtMSf1sDjiOZAZuFHaFJt/fsJw5HCJAw==
+X-Received: by 2002:a05:6402:2743:b0:5cf:bb9e:cca7 with SMTP id 4fb4d7f45d1cf-5d10cb9ae01mr9440108a12.28.1733343005941;
+        Wed, 04 Dec 2024 12:10:05 -0800 (PST)
+Received: from [127.0.1.1] ([46.53.242.72])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5d0b7ce5584sm6266526a12.54.2024.12.04.12.10.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 12:10:04 -0800 (PST)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH v10 0/8] Add support for Maxim Integrated MAX77705 PMIC
+Date: Wed, 04 Dec 2024 23:09:50 +0300
+Message-Id: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.324
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAA+3UGcC/43SUW+DIBAH8K/S+DyWAxTQp32PpWkOhEqitkVru
+ jT97jvbbDXdw3wh4Qy/O/B/zQafoh+yanPNkp/iEA89bTi8bTLXYL/3LNZUyASIHBTXbBgxndr
+ Ru6bfxX70+4QjHdqdj8OYPHbMOqNMAVYELzNiLA6e2YS9awjqz21LxWPyIV7ujT+3tG/iMB7S1
+ 32OSc7Vn47m/46TZMC8DEopAVyj+9h3GNt3d+iyGZ/yJ1hyuQLMCRS18KEuXGG0fgWL5YQr3mQ
+ q5gkBpAw85zX/A6pfkAOsARWBUEtjCyjBFX9AvQDFmitrAksbEGXIkSO8gmYBSr4CNPMbBqSf4
+ oSU4F/B8gnSsgIsCaTJaictemHNErw9MpX86UwZHh/BekSPvndxrDYhN8oZRK6s4VoEJW1dOw2
+ cKwRnSo06yAAiW0a/2twH5GCYzVmHF64hF6yUoILTBQb0FcVre7t9AxPTlTlLAwAA
+To: Sebastian Reichel <sre@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+ Purism Kernel Team <kernel@puri.sm>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733343003; l=4992;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=QPLa0r+6p8PLfccDRaeRG4DbcK4v55uLKkJBlNlcdC8=;
+ b=OfzIXUB5S/YQ9pEPQ6Qro0CsjNNBncwzoUVtA9/KvcXXCUgVb6o/U0EhiWdnnLnBAv/sU5Lvi
+ iEnds+4/x/WD6acv8E8Q9X+S2g0kQZzK8imBMFQk2BWSvTCRdguMzbf
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-From: Mukesh Ojha <quic_mojha@quicinc.com>
+The Maxim MAX77705 is a Companion Power Management and Type-C
+interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+Type-C management IC. It's used in Samsung S series smart phones
+starting from S9 model.
 
-[ Upstream commit 4ca7cd938725a4050dcd62ae9472e931d603118d ]
+Add features:
+  - charger
+  - fuelgauge
+  - haptic
+  - led
 
-There is NULL pointer issue observed if from Process A where hid device
-being added which results in adding a led_cdev addition and later a
-another call to access of led_cdev attribute from Process B can result
-in NULL pointer issue.
-
-Use mutex led_cdev->led_access to protect access to led->cdev and its
-attribute inside brightness_show() and max_brightness_show() and also
-update the comment for mutex that it should be used to protect the led
-class device fields.
-
-	Process A 				Process B
-
- kthread+0x114
- worker_thread+0x244
- process_scheduled_works+0x248
- uhid_device_add_worker+0x24
- hid_add_device+0x120
- device_add+0x268
- bus_probe_device+0x94
- device_initial_probe+0x14
- __device_attach+0xfc
- bus_for_each_drv+0x10c
- __device_attach_driver+0x14c
- driver_probe_device+0x3c
- __driver_probe_device+0xa0
- really_probe+0x190
- hid_device_probe+0x130
- ps_probe+0x990
- ps_led_register+0x94
- devm_led_classdev_register_ext+0x58
- led_classdev_register_ext+0x1f8
- device_create_with_groups+0x48
- device_create_groups_vargs+0xc8
- device_add+0x244
- kobject_uevent+0x14
- kobject_uevent_env[jt]+0x224
- mutex_unlock[jt]+0xc4
- __mutex_unlock_slowpath+0xd4
- wake_up_q+0x70
- try_to_wake_up[jt]+0x48c
- preempt_schedule_common+0x28
- __schedule+0x628
- __switch_to+0x174
-						el0t_64_sync+0x1a8/0x1ac
-						el0t_64_sync_handler+0x68/0xbc
-						el0_svc+0x38/0x68
-						do_el0_svc+0x1c/0x28
-						el0_svc_common+0x80/0xe0
-						invoke_syscall+0x58/0x114
-						__arm64_sys_read+0x1c/0x2c
-						ksys_read+0x78/0xe8
-						vfs_read+0x1e0/0x2c8
-						kernfs_fop_read_iter+0x68/0x1b4
-						seq_read_iter+0x158/0x4ec
-						kernfs_seq_show+0x44/0x54
-						sysfs_kf_seq_show+0xb4/0x130
-						dev_attr_show+0x38/0x74
-						brightness_show+0x20/0x4c
-						dualshock4_led_get_brightness+0xc/0x74
-
-[ 3313.874295][ T4013] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000060
-[ 3313.874301][ T4013] Mem abort info:
-[ 3313.874303][ T4013]   ESR = 0x0000000096000006
-[ 3313.874305][ T4013]   EC = 0x25: DABT (current EL), IL = 32 bits
-[ 3313.874307][ T4013]   SET = 0, FnV = 0
-[ 3313.874309][ T4013]   EA = 0, S1PTW = 0
-[ 3313.874311][ T4013]   FSC = 0x06: level 2 translation fault
-[ 3313.874313][ T4013] Data abort info:
-[ 3313.874314][ T4013]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
-[ 3313.874316][ T4013]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[ 3313.874318][ T4013]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[ 3313.874320][ T4013] user pgtable: 4k pages, 39-bit VAs, pgdp=00000008f2b0a000
-..
-
-[ 3313.874332][ T4013] Dumping ftrace buffer:
-[ 3313.874334][ T4013]    (ftrace buffer empty)
-..
-..
-[ dd3313.874639][ T4013] CPU: 6 PID: 4013 Comm: InputReader
-[ 3313.874648][ T4013] pc : dualshock4_led_get_brightness+0xc/0x74
-[ 3313.874653][ T4013] lr : led_update_brightness+0x38/0x60
-[ 3313.874656][ T4013] sp : ffffffc0b910bbd0
-..
-..
-[ 3313.874685][ T4013] Call trace:
-[ 3313.874687][ T4013]  dualshock4_led_get_brightness+0xc/0x74
-[ 3313.874690][ T4013]  brightness_show+0x20/0x4c
-[ 3313.874692][ T4013]  dev_attr_show+0x38/0x74
-[ 3313.874696][ T4013]  sysfs_kf_seq_show+0xb4/0x130
-[ 3313.874700][ T4013]  kernfs_seq_show+0x44/0x54
-[ 3313.874703][ T4013]  seq_read_iter+0x158/0x4ec
-[ 3313.874705][ T4013]  kernfs_fop_read_iter+0x68/0x1b4
-[ 3313.874708][ T4013]  vfs_read+0x1e0/0x2c8
-[ 3313.874711][ T4013]  ksys_read+0x78/0xe8
-[ 3313.874714][ T4013]  __arm64_sys_read+0x1c/0x2c
-[ 3313.874718][ T4013]  invoke_syscall+0x58/0x114
-[ 3313.874721][ T4013]  el0_svc_common+0x80/0xe0
-[ 3313.874724][ T4013]  do_el0_svc+0x1c/0x28
-[ 3313.874727][ T4013]  el0_svc+0x38/0x68
-[ 3313.874730][ T4013]  el0t_64_sync_handler+0x68/0xbc
-[ 3313.874732][ T4013]  el0t_64_sync+0x1a8/0x1ac
-
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-Reviewed-by: Anish Kumar <yesanishhere@gmail.com>
-Link: https://lore.kernel.org/r/20241103160527.82487-1-quic_mojha@quicinc.com
-Signed-off-by: Lee Jones <lee@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
- drivers/leds/led-class.c | 14 +++++++++++---
- include/linux/leds.h     |  2 +-
- 2 files changed, 12 insertions(+), 4 deletions(-)
+Changes in v10:
+- drop NACKed 'dt-bindings: power: supply: max17042: remove reg from
+  required' patch
+- review fixes
+- use dev_err_probe for errors in probe functions
+- Link to v9: https://lore.kernel.org/r/20241202-starqltechn_integration_upstream-v9-0-a1adc3bae2b8@gmail.com
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 4e63dd2bfcf87..56a1e290fe8d0 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -29,11 +29,14 @@ static ssize_t brightness_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	unsigned int brightness;
- 
--	/* no lock needed for this */
-+	mutex_lock(&led_cdev->led_access);
- 	led_update_brightness(led_cdev);
-+	brightness = led_cdev->brightness;
-+	mutex_unlock(&led_cdev->led_access);
- 
--	return sprintf(buf, "%u\n", led_cdev->brightness);
-+	return sprintf(buf, "%u\n", brightness);
- }
- 
- static ssize_t brightness_store(struct device *dev,
-@@ -69,8 +72,13 @@ static ssize_t max_brightness_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	unsigned int max_brightness;
-+
-+	mutex_lock(&led_cdev->led_access);
-+	max_brightness = led_cdev->max_brightness;
-+	mutex_unlock(&led_cdev->led_access);
- 
--	return sprintf(buf, "%u\n", led_cdev->max_brightness);
-+	return sprintf(buf, "%u\n", max_brightness);
- }
- static DEVICE_ATTR_RO(max_brightness);
- 
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 834683d603f91..88fb9d1e6770e 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -119,7 +119,7 @@ struct led_classdev {
- 	struct kernfs_node	*brightness_hw_changed_kn;
- #endif
- 
--	/* Ensures consistent access to the LED Flash Class device */
-+	/* Ensures consistent access to the LED class device */
- 	struct mutex		led_access;
- };
- 
+Changes in v9:
+- fuel gauge: use max17042 driver instead of separate max77705
+- fix kernel bot error
+- charger: enable interrupt after power supply registration
+- add dependency on max17042 patch series
+- Link to v8: https://lore.kernel.org/r/20241031-starqltechn_integration_upstream-v8-0-2fa666c2330e@gmail.com
+
+Changes in v8:
+- Fix comment style
+- join line where possible to fit in 100 chars
+- Link to v7: https://lore.kernel.org/r/20241023-starqltechn_integration_upstream-v7-0-9bfaa3f4a1a0@gmail.com
+
+Changes in v7:
+- Fix review comments
+- Link to v6: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com
+
+Changes in v6:
+- fix binding review comments
+- update trailers
+- Link to v5: https://lore.kernel.org/r/20240617-starqltechn_integration_upstream-v5-0-e0033f141d17@gmail.com
+
+Changes in v5:
+- Split patchset per subsystem
+- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
+
+Changes in v4:
+- Rewrite max77705, max77705_charger, max77705_fuel_gauge from scratch
+- Reorder patches:
+  - squash max77705 subdevice bindings in core file because
+    no resources there
+  - split device tree changes
+- Use _ as space for filenames in power/supply like the majority
+- Link to v3: https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com
+
+---
+Dzmitry Sankouski (8):
+      power: supply: add undervoltage health status property
+      dt-bindings: power: supply: max17042: add max77705 support
+      dt-bindings: mfd: add maxim,max77705
+      power: supply: max17042: add max77705 fuel gauge support
+      mfd: Add new driver for MAX77705 PMIC
+      input: max77693: add max77705 haptic support
+      power: supply: max77705: Add charger driver for Maxim 77705
+      leds: max77705: Add LEDs support
+
+ Documentation/ABI/testing/sysfs-class-power                        |   2 +-
+ Documentation/devicetree/bindings/mfd/maxim,max77705.yaml          | 192 +++++++++++++++++++++++++++++++++++++
+ Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml |   1 +
+ MAINTAINERS                                                        |   4 +
+ drivers/input/misc/Kconfig                                         |   4 +-
+ drivers/input/misc/Makefile                                        |   1 +
+ drivers/input/misc/max77693-haptic.c                               |  15 ++-
+ drivers/leds/Kconfig                                               |   6 ++
+ drivers/leds/Makefile                                              |   1 +
+ drivers/leds/leds-max77705.c                                       | 267 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/mfd/Kconfig                                                |  12 +++
+ drivers/mfd/Makefile                                               |   2 +
+ drivers/mfd/max77705.c                                             | 233 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/Kconfig                                       |   6 ++
+ drivers/power/supply/Makefile                                      |   1 +
+ drivers/power/supply/max17042_battery.c                            |   3 +
+ drivers/power/supply/max77705_charger.c                            | 590 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/power_supply_sysfs.c                          |   1 +
+ include/linux/mfd/max77693-common.h                                |   4 +-
+ include/linux/mfd/max77705-private.h                               | 194 +++++++++++++++++++++++++++++++++++++
+ include/linux/power/max77705_charger.h                             | 194 +++++++++++++++++++++++++++++++++++++
+ include/linux/power_supply.h                                       |   1 +
+ 22 files changed, 1729 insertions(+), 5 deletions(-)
+---
+base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
+change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+prerequisite-change-id: 20241108-b4-max17042-9306fc75afae:v4
+prerequisite-patch-id: a78c51c4a1b48756c00cbc3d56b9e019577e4a6b
+prerequisite-patch-id: 735d52c3137c5e474f3601adf010f9fe2f3f7036
+
+Best regards,
 -- 
-2.43.0
+Dzmitry Sankouski <dsankouski@gmail.com>
 
 
