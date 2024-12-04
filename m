@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-3471-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3472-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A769E4160
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 18:24:33 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D690D9E42CF
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 19:05:00 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D17B9166C92
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 17:24:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 016C2B46F79
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 17:27:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83F5E223ABC;
-	Wed,  4 Dec 2024 17:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74BCC217F5D;
+	Wed,  4 Dec 2024 17:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LoMcAHqa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4kUmKH8"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B623223AB6;
-	Wed,  4 Dec 2024 17:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465F9217F5A;
+	Wed,  4 Dec 2024 17:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733331765; cv=none; b=VEuM9hy+OrPZ2B12en+8ftU2L/IsXfZ5qRuOTsHyWEMQN+AQSVX4S9NlzuZ++db1wFQNU+GCU0DUmWYFK3El9DGlsjVLnli78hS5+yED1KYqxmPZt0ejuQQN69cH0I99YizRMCJru8hsC23v5vZ7VzCeT3gW/q1hGO4J+umynrY=
+	t=1733331787; cv=none; b=epnyNZe56OBzCMGR/sQoQA8EMAIu7qYiEH+16un+pc8gWpViQyukBb6Pdjw70wjzl34q+eL8xohQ8POQhIfx1P2DZnhANEjjnBq6a+pOZPt4fpbpHd+rDdzQpXu2xtwKXIUHIWEypmsJyJNGKt8hdl80cJCbVC5rhCGjRjHuDY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733331765; c=relaxed/simple;
-	bh=F/kJVFCukZgcpJYj/EX2Z5fnJMmIS65uBwj1mRqYCLA=;
+	s=arc-20240116; t=1733331787; c=relaxed/simple;
+	bh=CQ0Y2XlWV6ZdgV4NWg644F4Oln2qe5SEAzG6/wJk8AQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cj//9a2pXsCAoUjkycOx+GLIvS1DIKv5MWvdX98sB2AB6OW7JdeFtErCNLFgwZxIqkw2RNSXzNpX1bGpseg8fQZnRqA/kngDrQp/o6cHIR4ifeJNASWibXxzBzIme7CBUO6dtpHFqM1mQOMbFkGCYiOyFsEksYSaSHrtvyLsoAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LoMcAHqa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E40DEC4CED1;
-	Wed,  4 Dec 2024 17:02:43 +0000 (UTC)
+	 MIME-Version; b=CmMMORpvQmtuPKpZBVOoXVieuPV7kxb9Z9Vd6q6XUjWi6j7L47a5S9z4Ux9BtfJQeG4tZnCAkfmk0ksp/xpdESGKLZ+EXt8XGlMjtxIW1cxJ2fL4ikLzf55G82gEldYnPNb2Jxc681lLoHeqygZeyPRU6UKwpsa9JjXXRthOFvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4kUmKH8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83A0C4CECD;
+	Wed,  4 Dec 2024 17:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733331764;
-	bh=F/kJVFCukZgcpJYj/EX2Z5fnJMmIS65uBwj1mRqYCLA=;
+	s=k20201202; t=1733331786;
+	bh=CQ0Y2XlWV6ZdgV4NWg644F4Oln2qe5SEAzG6/wJk8AQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LoMcAHqaoUxqDlvIBr1lDJzerh+HYH3HbjO+G2FPuSYZOO6zlTSOcheMzz0wZH5R2
-	 8UHLw5FiImBgTMpex+DkM9PPmNLP2DzSs9+eX1SvYksMCgVp9Xr5bkHnD8WzXDMEza
-	 LlSXEFK1Yq2dcrC9ZUEXBgm44qytTcCvIx4TGk6HaovW+9jjencn0rtSr9LZIsiV80
-	 eroZTCw8c6PWiFg5pmScH0ekV7NXn/IAWQ1GYdMYhSdvQPAiuyB9kCx6XRsDgjVBSu
-	 y6h8VU+wYY7PlzfZvwfSt0iX7ru4yJa6nmnN4WSGHejGi0r/0IN4oQ1nC0mMlCJ+qV
-	 bd9djR5pygxvQ==
+	b=o4kUmKH8Ho6OS0dfA96v/muuobI9cs6vIIkT1g8nQ9rFRL+sItkb7daHBz3chzYJt
+	 Y7xynDcHA96VrsSlBy7Aq7QRvbe7PoR0xUQB7CFO9K5jw1/20UJDSZyeJ/2561RAQZ
+	 UU5xGczt/7rhCvDj90I+La5WVy39Fk/gZ0qcF8+yc737x4frwY0EdkoTSiTVRfzVB1
+	 S8IfFuEyYq+GSvYr/BqdCmyILRvKDWC3X0nEM+/22YFyNsX8JftcWdIbhWSj7puaUf
+	 hKIDIko9b+ecCeBz/Z/193/gX+N2nBUXn7CQ8SbHt2ozTbHhy84CwsYgOWUNPMVtWh
+	 IL6momyERbCAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,12 +50,12 @@ Cc: Mukesh Ojha <quic_mojha@quicinc.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@ucw.cz,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 08/15] leds: class: Protect brightness_show() with led_cdev->led_access mutex
-Date: Wed,  4 Dec 2024 10:50:47 -0500
-Message-ID: <20241204155105.2214350-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 5/9] leds: class: Protect brightness_show() with led_cdev->led_access mutex
+Date: Wed,  4 Dec 2024 10:51:35 -0500
+Message-ID: <20241204155141.2214748-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204155105.2214350-1-sashal@kernel.org>
-References: <20241204155105.2214350-1-sashal@kernel.org>
+In-Reply-To: <20241204155141.2214748-1-sashal@kernel.org>
+References: <20241204155141.2214748-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
+X-stable-base: Linux 5.15.173
 Content-Transfer-Encoding: 8bit
 
 From: Mukesh Ojha <quic_mojha@quicinc.com>
@@ -184,7 +184,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 7391d2cf1370a..93fdca5c7dc5d 100644
+index 6e88df4c87fa8..1e4fed64aee18 100644
 --- a/drivers/leds/led-class.c
 +++ b/drivers/leds/led-class.c
 @@ -28,11 +28,14 @@ static ssize_t brightness_show(struct device *dev,
