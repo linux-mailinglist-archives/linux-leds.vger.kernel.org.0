@@ -1,121 +1,100 @@
-Return-Path: <linux-leds+bounces-3491-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3492-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A2D9E55BC
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Dec 2024 13:43:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D57209E5BAA
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Dec 2024 17:42:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76FC81882A79
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Dec 2024 12:43:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C92CB188549E
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Dec 2024 16:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C143421885E;
-	Thu,  5 Dec 2024 12:43:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EB5922146C;
+	Thu,  5 Dec 2024 16:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOA0mi7h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KALgSE06"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935531EB2F;
-	Thu,  5 Dec 2024 12:43:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB72221460;
+	Thu,  5 Dec 2024 16:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733402582; cv=none; b=pMUZaYHxk02KVSig9VR7ss41rL8VJ62fXXPTSh84MaDuFgaS5mG1XtWooi7s6cnEUjWJFrVtEPKq4eWScCKxDsz9UrouM047BDTYUzt2ZWROIdhEOR5mfwSg7p8dxL+T6v+/oicwZL7tsXt/ODuORIImzw5wx7SGr5qouNjQ+pA=
+	t=1733416944; cv=none; b=lteTz2AQTij4E7pzFQ6sPGt6U7uMeTU7H+3oC2QCriDsldYFuAXfLEXeYgQc2/Y19HX9slNvHyRgDSXd9D28czLzl0zVpVEc9BYvY0TnGOvhuU6uQI6vvNtESKajKhwIDbhVBHfAkJJ/nOJ5PfLXsu/GDhpvau7YeMw/m5JBlIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733402582; c=relaxed/simple;
-	bh=c3AR7VNa7Axc5m38pbb3JDhLhtCHLJu8X5574bwf74g=;
+	s=arc-20240116; t=1733416944; c=relaxed/simple;
+	bh=zNMK5lrZXKiwfx+Tj0AHcqEpcuC/49k4FJeb7BIl8E0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dNNjwZvB6UiIYAfo3xOxABY+0fHvII0nJrR7sgy4mB27fje1UMjD12K1/wSl7vumxx8vtxtsA38GT/wBCgNWJXMjc5VWmaIEKQVErw26Pd5IdAVE7nftvj+Nx913TBUQgNr7aF+SRMucegYO5rYF0cSovIVvJMbkhmACZtbOfuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOA0mi7h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32814C4CED1;
-	Thu,  5 Dec 2024 12:42:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2aPdFcRn4wAxKWoNRYYUhSdBCiOWIh3r8aJbU4AaFpbHwjtGNdw5tcmNDyA8XhypS0nr6zlbaKAOvZV8DCceHRMQ5MDszq2PHgVS39XrCap8W8olPLcZikcSF7eVAKIxe9esT7SMXUAv35YUuCF+wrCPgHS2Bs+2M3KWqWIB50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KALgSE06; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EC7DC4CEDC;
+	Thu,  5 Dec 2024 16:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733402582;
-	bh=c3AR7VNa7Axc5m38pbb3JDhLhtCHLJu8X5574bwf74g=;
+	s=k20201202; t=1733416943;
+	bh=zNMK5lrZXKiwfx+Tj0AHcqEpcuC/49k4FJeb7BIl8E0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lOA0mi7hywXG0d1/uUAbtg3DcTJlVSax9QJsdZgt0ieX6jlMsrD3Kkp7t7JyfgnWa
-	 gX36OYbKePx/iZOVpgctI6S+Tgcn+hEVOFPo+Jxq5qO48sHCerU4K3347ptbycxrE5
-	 E12W+zUXlvveSzct/HkIePaI9Po744epVRKlRAWCIu2bVCl+UuttGWHgXVFl7YY9Wr
-	 tzyWjs96JtblLskq9yKUhn4+C6uCrutDN83OhIaAGZIyi27+/gU73M0Z1BSvvYezl0
-	 znAbvVwImgmYgk4puLJgsz6CJ6m7TxLXTR5V8A023xdK7cK4JbNYEH6Z8k1nrFDrr9
-	 a9OpeN9bjGh/g==
-Date: Thu, 5 Dec 2024 13:42:55 +0100
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-Cc: Klaus Kudielka <klaus.kudielka@gmail.com>, 
-	Gregory CLEMENT <gregory.clement@bootlin.com>, Lee Jones <lee@kernel.org>, regressions@lists.linux.dev, 
-	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	soc@kernel.org, arm@kernel.org, Andy Shevchenko <andy@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH leds v5 12/12] ARM: dts: turris-omnia: Add global LED
- brightness change interrupt
-Message-ID: <ofd5ru77wypfysflpblafbbdgrcmzztqwoewfjfuusrnbma4aw@y3oc3etutisi>
-References: <20241104141924.18816-1-kabel@kernel.org>
- <20241104141924.18816-13-kabel@kernel.org>
- <87bjyv9ecb.fsf@BLaptop.bootlin.com>
- <778f08f1774fcad5fcc39114dbb721793ebf95d6.camel@gmail.com>
- <2iocrd4a7l4avfhqmobbexo7k4u2poidkvvj7lpqh7vp7mprkm@pfgytqnmt2si>
+	b=KALgSE06UPl+ohiv959c4JH7g2g7mAMVQCQkqscU/v86lWlDNOuVbn1MloKf8gA0R
+	 tVdx+07qamJh8CeJTpfqBDufiToHlfwlQBjLqDgP3BTUmTdZSxeUGfdbyyC4meWtTK
+	 UGfdxWV/aSOPSqrqJ6+hFhi4hY+J15WTIT2SjMcwnmwPZP7DrDhnOFT7Hnln+ri/FO
+	 lvyJ9cMaES9x9uflmj2963RxQA/xHajdrmesslUQ2kDt83FwTBe1RQLW+q7suQYZTa
+	 SYFkW0ntsHTNNsjGoCeEPMdx/EJ4pkEIIPmw1EV7PotVA8tFwZTlr2Ql97Er0VKGER
+	 akdxuPf6QKgxQ==
+Date: Thu, 5 Dec 2024 16:42:17 +0000
+From: Lee Jones <lee@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v9 9/9] leds: max77705: Add LEDs support
+Message-ID: <20241205164217.GJ7451@google.com>
+References: <20241202-starqltechn_integration_upstream-v9-0-a1adc3bae2b8@gmail.com>
+ <20241202-starqltechn_integration_upstream-v9-9-a1adc3bae2b8@gmail.com>
+ <b7e4162a-a7f7-462d-9dde-121eeb59d148@kernel.org>
+ <CABTCjFDyoF7g-5tj_dr6k7ScB_313dwEmfdJ+49rwMYfN63x1Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2iocrd4a7l4avfhqmobbexo7k4u2poidkvvj7lpqh7vp7mprkm@pfgytqnmt2si>
+In-Reply-To: <CABTCjFDyoF7g-5tj_dr6k7ScB_313dwEmfdJ+49rwMYfN63x1Q@mail.gmail.com>
 
-On Thu, Dec 05, 2024 at 01:38:10PM +0100, Marek Beh�n wrote:
-> On Wed, Dec 04, 2024 at 07:48:51AM +0100, Klaus Kudielka wrote:
-> > On Mon, 2024-11-04 at 17:02 +0100, Gregory CLEMENT wrote:
-> > > Marek Beh�n <kabel@kernel.org> writes:
-> > > 
-> > > > When global LED brightness is changed by pressing the front button on
-> > > > Turris Omnia, the MCU can produce an interrupt to the CPU. Add the
-> > > > description of this interrupt to the LED controller node.
-> > > > 
-> > > > Signed-off-by: Marek Beh�n <kabel@kernel.org>
-> > > 
-> > > As the binding had been acked, and this change won't produce any
-> > > regression I can already get it.
-> > > 
-> > > Applied on mvebu/dt
-> > > 
-> > > Thanks,
-> > > 
-> > > Gregory
-> > > 
-> > 
-> > This patch made it into v6.13-rc1, and completely breaks the LEDS on my Turris Omnia CZNIC11.
-> > The entries in /sys/class/leds disappeared, and instead the kernel says:
-> > 
-> > [   11.746116] i2c 1-002b: deferred probe pending: (reason unknown)
-> > 
-> > If I just revert the patch on top of v6.13-rc1, all is good again. Kernel config attached, for reference.
-> > 
-> > Best regards, Klaus
-> > 
-> > #regzbot introduced: 68bc6a71f56875a7dbde4f44aa4404c214651e1c
+On Tue, 03 Dec 2024, Dzmitry Sankouski wrote:
+
+> пн, 2 дек. 2024 г. в 13:30, Krzysztof Kozlowski <krzk@kernel.org>:
+> >
+> > On 02/12/2024 10:48, Dzmitry Sankouski wrote:
+> > > This adds basic support for LEDs for the max77705 PMIC.
+> > >
+> > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> > >
+> > > ---
+> > > Changes for v8:
+> > > - join line where possible to fit in 100 chars
+> >
+> >
+> > Coding style asks for 80. checkpatch is not a coding style, unless this
+> > came from maintainer's review.
+> >
 > 
-> This is because the patch went into 6.13 but the rest of the patches
-> did not, Lee wants to take them for 6.14 :-(
-> 
-> Apply this series and it will work.
-> 
-> https://lore.kernel.org/linux-leds/20241111100355.6978-1-kabel@kernel.org/T/
+> On v6 discussion, Lee Jones stated 'This is old guidance':
+> https://patchwork.kernel.org/project/linux-input/patch/20241007-starqltechn_integration_upstream-v6-7-0d38b5090c57@gmail.com/
 
-Alternatively you can overcome this issue if you enable the
-turris-omnia-mcu driver in 6.13:
+I prefer 100-chars where it makes sense.  The future is bright!
 
-  CONFIG_CZNIC_PLATFORMS=y
-  CONFIG_TURRIS_OMNIA_MCU=y/m
-(and also the subsequent options).
-
-Marek
+-- 
+Lee Jones [李琼斯]
 
