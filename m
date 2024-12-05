@@ -1,249 +1,211 @@
-Return-Path: <linux-leds+bounces-3487-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3488-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD029E4759
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 23:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D769E4EDD
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Dec 2024 08:48:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0681188035B
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Dec 2024 22:01:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EFB818819BD
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Dec 2024 07:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310BF1946A2;
-	Wed,  4 Dec 2024 22:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F3C21C1F13;
+	Thu,  5 Dec 2024 07:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="bp2KUPjQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uMm/sAIA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CB11922CC;
-	Wed,  4 Dec 2024 22:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F481BF7E8;
+	Thu,  5 Dec 2024 07:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733349669; cv=none; b=bFlXtJs0s6AwvdFhXuWCxsS93bLblm0PwPwgV9uT1ltaIzcM0KwTVLRcMSlJeE6Fnh4GosDr4dUxvjJEVVOwmawBIMj9c0L2gkHzVST+to64kSL8fnmitF+mCFNsrBL0j0GYvmbFolH+Do/B5cD24kK7KfY12L2D3y7EwM+8GpU=
+	t=1733384921; cv=none; b=DntzKEdoPu0fPZAqTBVaraloCanJeQOcbH2ftMBItQAks4Ig6udWWtAOltjEZtrYJ2M07rrphas1GXSJnWRxRMM2e6/X+3jfPLnOwVjuYP+W/R6sJH79MYvrT7NOZGHWhoC9sOQ/cBjDNf4MZoCy7PkfsUfsIwAuWXzixypVXh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733349669; c=relaxed/simple;
-	bh=657Ovy0HJodj6dPNC/6YLDl4wZSQOJ/3NePzsiUh0lw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cS6bshVhf7qj+zeKtH8//5NvpJRv7VuA+2yPuhkiWrK2gu2fDBdammwpnxm8Rx4gH+VJcqQ2onLk01MHWuk7qZMZ91U11QB/Dx1chZsnv2e2mcN+eBOyZZ5JX6g/7on1IK4I744HXz5La8TkmZqP1kGOZcB0c6yzS1CqYyKD7K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=bp2KUPjQ; arc=none smtp.client-ip=80.12.242.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id IxPTtIDrcnKDzIxPTtIyVH; Wed, 04 Dec 2024 22:59:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1733349594;
-	bh=qmm2EnZh4yKKWPoPQOh3lTfrcYbc7B9Zyo8CHOXMMzI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=bp2KUPjQlR1kM3nSRPoe0C0H/59ejCORfn+6OkR3zVAyB3hI0PSe3/6o3p9XQ0vZS
-	 rNR1h3tpiF4IztjPcltYg7zSQfl6OJwRdW3Z1mMvov+P9yLF+RqZ1Ddy7l6qZqB0dC
-	 pqhVfT9lCzHrrPH0k+H7Vn41HcOj/GLIemh1zYmP/PGcwehnl9Z4n5YMYdEDf96CGj
-	 TZbQrZ+jc/sv+WgMd9bRGVk/T4yFN8EhIP7ixM4oljQj/22te/OsNW0b/wBe6TzCZJ
-	 ISrSME+RlO0aLP9xKNDLWP1bSM1EitsVBX1LS1lpPN7OEzArw2kVTPx536zowLGnR+
-	 RSK8vBYbknHaQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Wed, 04 Dec 2024 22:59:54 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <87e26131-7793-49fc-a2be-73126bce86ba@wanadoo.fr>
-Date: Wed, 4 Dec 2024 22:59:50 +0100
+	s=arc-20240116; t=1733384921; c=relaxed/simple;
+	bh=bSj37bmt7ADxZheK3OHEPhQVUUID4mtcZsHj93X0KKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RYmEXEWWYygPIZgBZ2DU5qjDO8WeG17JkJAm7mDhYhgS4yYVZEBe080VxlmhCi5QOx2eUWp9F6zjZXKL8+IV9HIzOnqUvPjCCAALTVsxg45jXK6/W8IKawXUcNFR7c6M9Pvkqxsdiq8vW54Lc6uYRyPR3XPaBxkiXh3wPcwKoXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uMm/sAIA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E75BC4CEDE;
+	Thu,  5 Dec 2024 07:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733384920;
+	bh=bSj37bmt7ADxZheK3OHEPhQVUUID4mtcZsHj93X0KKk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uMm/sAIA2nn1qVkJJcLGnmqW5ViC4WlDFo/xtfN5/wDNCbI3LNES25lEC4V8VUq2b
+	 PzP+vecfeEsFKt0zg44BPbgmeUhB/44vgdgtKANZ2KaiJPucONJwXEANgIbQwljg+b
+	 eET5f9KosB128PDpIvrVv3Qdu3pS7Zmh6Z4AwLvAxUOXZZGIQDfNfRtQ+RqXUJqRX/
+	 EZaY8goZhAD8QDF/dY5H0sWtIj3B9fOoAUOn3GhGah7DyIdBI71uHO9ZNGmSM8RcKH
+	 9NhKZ5dDtuqXyojYHINlbkQkKlO2H5RZPkyd/hC7z5Q9LkmsZgz5y1OTNLXJe6uPdP
+	 dn+0EbxirIM9A==
+Date: Thu, 5 Dec 2024 08:48:37 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v10 3/8] dt-bindings: mfd: add maxim,max77705
+Message-ID: <hjrxt3qkzzpda2uqazdse3h263ixb4onezyij4xcgezpaaihqk@ijln25sdyzfr>
+References: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
+ <20241204-starqltechn_integration_upstream-v10-3-7de85e48e562@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 7/8] power: supply: max77705: Add charger driver for
- Maxim 77705
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Purism Kernel Team <kernel@puri.sm>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
- <20241204-starqltechn_integration_upstream-v10-7-7de85e48e562@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241204-starqltechn_integration_upstream-v10-7-7de85e48e562@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241204-starqltechn_integration_upstream-v10-3-7de85e48e562@gmail.com>
 
-Le 04/12/2024 à 21:09, Dzmitry Sankouski a écrit :
-> Add driver for Maxim 77705 switch-mode charger (part of max77705
-> MFD driver) providing power supply class information to userspace.
+On Wed, Dec 04, 2024 at 11:09:53PM +0300, Dzmitry Sankouski wrote:
+> Add maxim,max77705 binding.
 > 
-> The driver is configured through DTS (battery and system related
-> settings).
-> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> 
 > ---
+> Changes in v10:
+> - leds: replace label with color and function properties
+> - leds: add support for leds-class-multicolor
+> - move fuelgauge node to patternProperties "^fuel-gauge@[0-9a-f]+$"
+>   to comply with max17042 binding
 
-Hi,
+You silently added significant change - new address to fuel-gauge.
 
-> +static int max77705_check_battery(struct max77705_charger_data *charger, int *val)
-> +{
-> +	unsigned int reg_data;
-> +	unsigned int reg_data2;
-> +	struct regmap *regmap = charger->regmap;
-> +
-> +
-> +	regmap_read(regmap, MAX77705_CHG_REG_INT_OK, &reg_data);
-> +
-> +	dev_dbg(charger->dev, "CHG_INT_OK(0x%x)\n", reg_data);
-> +
-> +	regmap_read(regmap,
-> +			  MAX77705_CHG_REG_DETAILS_00, &reg_data2);
+> 
+> Changes in v9:
+> - replace max77705 fuel gauge with max17042
+> - remove monitored battery because not supported by max17042
+> 
+> Changes in v8:
+> - fix leds compatible
+> 
+> Changes in v6:
+> - unevaluatedProperties must be false
+> - drop excessive sentence from description,
+>   just describe the device
+> - change leds compatible to maxim,max77705-rgb
 
-This can fit on a single line, I think.
+Your changelog should mention you added review here.
 
+> 
+> Changes in v5:
+> - formatting changes
+> - add unevaluatedProperties: false for nodes referencing
+>   common schemas
+> - remove additionalProperties on nodes with
+>   unevaluatedProperties: false
+> - add min and max to led index
+> Changes in v4:
+> - change dts example intendation from tabs
+>  to spaces
+> - remove interrupt-names property
+> - remove obvious reg description
+> - split long(>80) lines
+> ---
+>  Documentation/devicetree/bindings/mfd/maxim,max77705.yaml | 192 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                                               |   1 +
+>  2 files changed, 193 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> new file mode 100644
+> index 000000000000..1bc026a01337
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> @@ -0,0 +1,192 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	dev_dbg(charger->dev, "CHG_DETAILS00(0x%x)\n", reg_data2);
+> +title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC
 > +
-> +	if ((reg_data & MAX77705_BATP_OK) || !(reg_data2 & MAX77705_BATP_DTLS))
-> +		*val = true;
-> +	else
-> +		*val = false;
+> +maintainers:
+> +  - Dzmitry Sankouski <dsankouski@gmail.com>
 > +
-> +	return 0;
-> +}
+> +description: |
+> +  The Maxim MAX77705 is a Companion Power Management and Type-C
+> +  interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+> +  Type-C management IC.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77705
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
 
-...
-
-> +static int max77705_get_input_current(struct max77705_charger_data *charger,
-> +					int *val)
-> +{
-> +	unsigned int reg_data;
-> +	int get_current = 0;
-> +	struct regmap *regmap = charger->regmap;
-> +
-> +	regmap_read(regmap,
-> +			  MAX77705_CHG_REG_CNFG_09, &reg_data);
-
-It can fit on a single line, I think.
-
-> +
-> +	reg_data &= MAX77705_CHG_CHGIN_LIM_MASK;
-> +
-> +	if (reg_data <= 3)
-> +		get_current = 100;
-> +	else if (reg_data >= MAX77705_CHG_CHGIN_LIM_MASK)
-> +		get_current = MAX77705_CURRENT_CHGIN_MAX;
-> +	else
-> +		get_current = (reg_data + 1) * 25;
-> +
-> +	*val = get_current;
-> +
-> +	return 0;
-> +}
-> +
-> +static int max77705_get_charge_current(struct max77705_charger_data *charger,
-> +					int *val)
-> +{
-> +	unsigned int reg_data;
-> +	struct regmap *regmap = charger->regmap;
-> +
-> +
-
-No need for to empty lines.
-
-> +	regmap_read(regmap, MAX77705_CHG_REG_CNFG_02, &reg_data);
-> +	reg_data &= MAX77705_CHG_CC;
-> +
-> +	*val = reg_data <= 0x2 ? 100 : reg_data * 50;
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int max77705_charger_probe(struct platform_device *pdev)
-> +{
-> +	struct power_supply_config pscfg = {};
-> +	struct i2c_client *i2c_chg;
-> +	struct max77693_dev *max77705;
-> +	struct max77705_charger_data *chg;
-> +	struct device *dev, *parent;
-> +	struct regmap_irq_chip_data *irq_data;
-> +	int ret;
-> +
-> +	dev = &pdev->dev;
-> +	parent = dev->parent;
-> +	max77705 = dev_get_drvdata(parent);
-> +
-> +	chg = devm_kzalloc(dev, sizeof(*chg), GFP_KERNEL);
-> +	if (!chg)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, chg);
-> +
-> +	i2c_chg = devm_i2c_new_dummy_device(dev, max77705->i2c->adapter, I2C_ADDR_CHG);
-> +	if (IS_ERR(i2c_chg))
-> +		return PTR_ERR(i2c_chg);
-> +
-> +	chg->regmap = devm_regmap_init_i2c(i2c_chg, &max77705_chg_regmap_config);
-> +	if (IS_ERR(chg->regmap))
-> +		return PTR_ERR(chg->regmap);
-> +
-> +	chg->dev = dev;
-> +
-> +	ret = regmap_update_bits(chg->regmap,
-> +				MAX77705_CHG_REG_INT_MASK,
-> +				MAX77705_CHGIN_IM, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pscfg.of_node = dev->of_node;
-> +	pscfg.drv_data = chg;
-> +
-> +	chg->psy_chg = devm_power_supply_register(dev, &max77705_charger_psy_desc, &pscfg);
-> +	if (IS_ERR(chg->psy_chg))
-> +		return PTR_ERR(chg->psy_chg);
-> +
-> +	max77705_charger_irq_chip.irq_drv_data = chg;
-> +	ret = devm_regmap_add_irq_chip(chg->dev, chg->regmap, max77705->irq,
-> +					IRQF_ONESHOT | IRQF_SHARED, 0,
-> +					&max77705_charger_irq_chip,
-> +					&irq_data);
-> +	if (ret)
-> +		dev_err_probe(dev, ret, "failed to add irq chip\n");
-> +
-> +	chg->wqueue = create_singlethread_workqueue(dev_name(dev));
-> +	if (IS_ERR(chg->wqueue))
-> +		dev_err_probe(dev, PTR_ERR(chg->wqueue), "failed to create workqueue\n");
-
-Is it fine if chg->wqueue is an ERR?
-I think that max77705_chgin_irq() won't like it.
-
-Missing return?
-
-Same for the test above. Is it fine to continue if 
-devm_regmap_add_irq_chip() fails?
+Nope, none of children are supposed to have addresses. All nodes are
+unit-less.
 
 > +
-> +	INIT_WORK(&chg->chgin_work, max77705_chgin_isr_work);
+> +  reg:
+> +    maxItems: 1
 > +
-> +	max77705_charger_initialize(chg);
-> +
-> +	ret = devm_add_action_or_reset(dev, max77705_charger_disable, chg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return max77705_charger_enable(chg);
-> +}
+> +  interrupts:
+> +    maxItems: 1
 
 ...
 
-CJ
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-rgb
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      multi-led:
+> +        type: object
+> +        $ref: /schemas/leds/leds-class-multicolor.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          "#address-cells":
+> +            const: 1
+> +
+> +          "#size-cells":
+> +            const: 0
+> +
+> +        patternProperties:
+> +          "^led@[0-3]$":
+> +            type: object
+> +            $ref: /schemas/leds/common.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              reg:
+> +                maxItems: 1
+> +
+> +            required:
+> +              - reg
+> +
+> +    required:
+> +      - compatible
+> +
+> +patternProperties:
+> +  "^fuel-gauge@[0-9a-f]+$":
+
+
+How unit address appeared here? It was absolutely never reviewed. This
+is significant change, so drop the review tag.
+
+It's also a no, drop unit address.
+
+Best regards,
+Krzysztof
+
 
