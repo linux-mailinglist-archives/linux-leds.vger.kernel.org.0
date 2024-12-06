@@ -1,125 +1,112 @@
-Return-Path: <linux-leds+bounces-3493-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3494-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2E59E69A1
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Dec 2024 10:05:13 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8139E6F26
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Dec 2024 14:18:34 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7EDF164BBF
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Dec 2024 13:15:30 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42861206F3A;
+	Fri,  6 Dec 2024 13:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6QeHy05"
+X-Original-To: linux-leds@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB5C2281F64
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Dec 2024 09:05:12 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A2F41E0DEA;
-	Fri,  6 Dec 2024 09:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtxgC8i0"
-X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A73C22315;
-	Fri,  6 Dec 2024 09:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1466B1FF7D4;
+	Fri,  6 Dec 2024 13:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733475910; cv=none; b=OgudmC/HBbFjhew+VF39w2ObGATSvMB+sVrK5FNSrS268sYGP+y4et15RUjCU+uQodEl5FFug+mtGRy1Mp64EPXmSYMM91qrJvI7DQSIyr1a7weACg9o9ejMUFV0XRZRCqZPf45shnb0bpRnE7NHvSd59OTHNYGHbQzLp3Hb9n0=
+	t=1733490931; cv=none; b=cEDihQTYfuG1wwe8RHEO8vX9Tss2HpoeFsz34gq1T7N7pMXOFLv4k3QB7ENlue0HvbMl9TmqjGQyYXqvofFjnYTGAwsMyQwtLaBXpPy/AbBe9kS2dCpYLVZ/LbTmGTsV0tAEgoc0dsE+0Wn4epTmWQaCvBqQ0hPhdwS6Av+p0Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733475910; c=relaxed/simple;
-	bh=Yr0g3WmQW+IHXu+PjpY2ZQ2+PDu7yU9MPGfZM+h7qLw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I0COkSGbsQ6bdVQ1QdzTnEIA/JrzSzWTK0RL8EauV+FMoik6bMQYw9yWAIhXbd/5VIR94+055sGFvifxXLfPeem+1wtyn7Up0zaQxZ46WZ+nPuCFxcKsICbVHcqIHl+w3LwxqPscy5ZrlX1VeEIy6oYmZUCE5Kxp+fAinBcrG6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtxgC8i0; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ffd6b7d77aso22328081fa.0;
-        Fri, 06 Dec 2024 01:05:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733475907; x=1734080707; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=efsIOzc9I0KV4PldJMZIG9pg8gFQONLYL0eK0acbihU=;
-        b=FtxgC8i0AFBvDP84qXXe9gr1UOQ0u+M+Eb9sBCyp9VK1dpVw6TlXiL0BiGb6Lgueie
-         k4Jf05HMBBkxkyAEa4TO/IRh4c9G73s7AnYhDpAvM8pXpe/9g0vuFu8oq3//Hozxo3S+
-         pAUGZONNUAAz9gGwwgEg44/HHNCGfNKpbeWeFlHTGod1+s1KEtB5rKtML7P7V/3nnCLa
-         K2bo/AV3HY/jUB5kxEIMoVrDZ/u4jbaH4Zy8XJH5KaXH18HpKPuNXiNIIJ6tLAKa5itq
-         h/4qCvgYb8IXgWQc7CMxiAXCNLXzSgqyPcx3w1dAgjFpnXr0wQRZEUhMe1sx4DcXNOuN
-         qEEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733475907; x=1734080707;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=efsIOzc9I0KV4PldJMZIG9pg8gFQONLYL0eK0acbihU=;
-        b=c+npsdtGoGQb99w4bpScoy3np66zxVa0cgihBUmKZnWfNLT5doKB/CWjvxo9W5GXC0
-         Iu/MR3yjEQJvczZMlTSYG2SVYLwVVEIVDXInRWMxuOykTP8iDIFHBWHR6JfjH0tQWJgx
-         I/an0TKqJsVUX7tvL3H9W5yryuUJFEiEeQOsLUCPZRZuEHxbvkKTSPloCERlxS/yivYS
-         l+2BG57naC+SWunlAr7We9XvArkLpmxcqiW2FN/edITULBDrJmNcthqMEWXA3GQlocty
-         prrZYMEwnjA+hZTnfPHTTs/0vnpdXtsk0f/tCKDbB9CFTtugZOjoEoNsPG20X1s6jXAw
-         HdqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2oDb/5+f64BQgwTgKFfOTcyJRFTkAIT212tlkPpdkJKZD+iKCPLdksVffjTDAmYrxYxI2du/cz5gmvw==@vger.kernel.org, AJvYcCWHfO/nkg79d5G03nZ9M9wmfuP1wBXascdFRGae1ZiNKuVlWG7LWMi1irXQUr7RcJ++QtaTXiH3ud5m@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdsRkRePT3wcUnXoTN0OPGm+zKslxDG+434JexKPKiSLlyfLIl
-	u89SyuHRaPwengRyYx/WPAmeTVWe3vF+5ir1QvlpIYd+/6AGrug1ZR1F2vxLSNGC/Xk3bKuKCEs
-	CkJ2Ts9v0Vhn2rxeryivrRUVf06I=
-X-Gm-Gg: ASbGncsbXNUTYpb1sKZXT+oPOvJswCa0oCwCvKVTFxHEu3Y3WMG6te/oXvDrAWiDrGF
-	KLYDTnuKvMkFSsly+RWC7WymnP83y+h0=
-X-Google-Smtp-Source: AGHT+IG3PcR91L2T9z3OmlJIfEmknI/xIPqLFBSaFNeahHyyl0XqsdvHAwMamczMXZSxQGrufLIUoq1zoKwW+VQQ06I=
-X-Received: by 2002:a05:651c:901:b0:2fb:4b0d:9092 with SMTP id
- 38308e7fff4ca-3002f89e98dmr9183041fa.1.1733475906447; Fri, 06 Dec 2024
- 01:05:06 -0800 (PST)
+	s=arc-20240116; t=1733490931; c=relaxed/simple;
+	bh=RBQPiZLaF/HhYgZcAn4z7acnCKkfab9JJzcgHdj2gco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lbHi7KE7U5g68mqSkcVeZdkqvrSITK6mN8jQaz+Rjoj6AItjtgv5H2ZeIjcUZm1YzIXJ/v2K4pRBnXdIm9q3Oyi57RCx0Z6CdgAjmYtIS7SvZ3VFfdsjxop1/wXyw65QrXom6b9CblXdhcXBcWzwgOYqtYXEE1oAgDgNmnJTXqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6QeHy05; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7C9DC4CED2;
+	Fri,  6 Dec 2024 13:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733490930;
+	bh=RBQPiZLaF/HhYgZcAn4z7acnCKkfab9JJzcgHdj2gco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R6QeHy05RXBSsTKwcBOYlJr2HkerKo9KqPFDRbXA6hFsWiGonVcZluo4sks33Ow1L
+	 cFU7qPOwcNsmP7qio8uAeGLVOEfGvAfemTa6vPS7gK2Y093SZZ3OxmjlW3npcci3Jj
+	 2ennJ8B3UOZYsw6TwDSbGqNwtpwLl1DwHYmU8KWjHNpHK9NVIKsgKDWiZ38Uvp8dEO
+	 YBG9l7V+Rca9oWH2ZnSoDrdoMsoo6VwM9UHDb6HBnIVvT4+/V2P5cjYyWgs65vGAGe
+	 9CqPaR419CkRVg3c0twz2p+hTf1sjwO7ozndhp4o/zvJctY7/fDwvIS3+8ZE/v8UzY
+	 P4A+JwrZ8KuAw==
+Date: Fri, 6 Dec 2024 14:15:24 +0100
+From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+To: Klaus Kudielka <klaus.kudielka@gmail.com>
+Cc: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, 
+	Gregory CLEMENT <gregory.clement@bootlin.com>, Lee Jones <lee@kernel.org>, regressions@lists.linux.dev, 
+	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	soc@kernel.org, arm@kernel.org, Andy Shevchenko <andy@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH leds v5 12/12] ARM: dts: turris-omnia: Add global LED
+ brightness change interrupt
+Message-ID: <7rkcryouxg2s5misf7nx3vsf72rhaq2twhlksj62bzmaagdwfv@p3xy6rhzgntz>
+References: <20241104141924.18816-1-kabel@kernel.org>
+ <20241104141924.18816-13-kabel@kernel.org>
+ <87bjyv9ecb.fsf@BLaptop.bootlin.com>
+ <778f08f1774fcad5fcc39114dbb721793ebf95d6.camel@gmail.com>
+ <2iocrd4a7l4avfhqmobbexo7k4u2poidkvvj7lpqh7vp7mprkm@pfgytqnmt2si>
+ <ofd5ru77wypfysflpblafbbdgrcmzztqwoewfjfuusrnbma4aw@y3oc3etutisi>
+ <CAPy0QmsF1qr3A-89BDQHu-QVXpMhMGWt8e74FfDkqVT6Ha7q-g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241104141924.18816-1-kabel@kernel.org> <20241104141924.18816-13-kabel@kernel.org>
- <87bjyv9ecb.fsf@BLaptop.bootlin.com> <778f08f1774fcad5fcc39114dbb721793ebf95d6.camel@gmail.com>
- <2iocrd4a7l4avfhqmobbexo7k4u2poidkvvj7lpqh7vp7mprkm@pfgytqnmt2si> <ofd5ru77wypfysflpblafbbdgrcmzztqwoewfjfuusrnbma4aw@y3oc3etutisi>
-In-Reply-To: <ofd5ru77wypfysflpblafbbdgrcmzztqwoewfjfuusrnbma4aw@y3oc3etutisi>
-From: Klaus Kudielka <klaus.kudielka@gmail.com>
-Date: Fri, 6 Dec 2024 10:04:49 +0100
-Message-ID: <CAPy0QmsF1qr3A-89BDQHu-QVXpMhMGWt8e74FfDkqVT6Ha7q-g@mail.gmail.com>
-Subject: Re: [PATCH leds v5 12/12] ARM: dts: turris-omnia: Add global LED
- brightness change interrupt
-To: =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>
-Cc: Gregory CLEMENT <gregory.clement@bootlin.com>, Lee Jones <lee@kernel.org>, 
-	regressions@lists.linux.dev, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, arm@kernel.org, 
-	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPy0QmsF1qr3A-89BDQHu-QVXpMhMGWt8e74FfDkqVT6Ha7q-g@mail.gmail.com>
 
-On Thu, Dec 5, 2024 at 1:43=E2=80=AFPM Marek Beh=C3=BAn <kabel@kernel.org> =
-wrote:
-> On Thu, Dec 05, 2024 at 01:38:10PM +0100, Marek Beh=C3=BAn wrote:
+On Fri, Dec 06, 2024 at 10:04:49AM +0100, Klaus Kudielka wrote:
+> On Thu, Dec 5, 2024 at 1:43 PM Marek Behún <kabel@kernel.org> wrote:
+> > On Thu, Dec 05, 2024 at 01:38:10PM +0100, Marek Behún wrote:
+> > >
+> > > This is because the patch went into 6.13 but the rest of the patches
+> > > did not, Lee wants to take them for 6.14 :-(
+> > >
+> > > Apply this series and it will work.
+> > >
+> > > https://lore.kernel.org/linux-leds/20241111100355.6978-1-kabel@kernel.org/T/
 > >
-> > This is because the patch went into 6.13 but the rest of the patches
-> > did not, Lee wants to take them for 6.14 :-(
+> > Alternatively you can overcome this issue if you enable the
+> > turris-omnia-mcu driver in 6.13:
 > >
-> > Apply this series and it will work.
+> >   CONFIG_CZNIC_PLATFORMS=y
+> >   CONFIG_TURRIS_OMNIA_MCU=y/m
+> > (and also the subsequent options).
 > >
-> > https://lore.kernel.org/linux-leds/20241111100355.6978-1-kabel@kernel.o=
-rg/T/
->
-> Alternatively you can overcome this issue if you enable the
-> turris-omnia-mcu driver in 6.13:
->
->   CONFIG_CZNIC_PLATFORMS=3Dy
->   CONFIG_TURRIS_OMNIA_MCU=3Dy/m
-> (and also the subsequent options).
->
-> Marek
+> > Marek
+> 
+> Thanks, I will try that when I'm back at the hardware (in a week or so).
+> 
+> Do I correctly understand the situation:
+> For the Turris Omnia LEDs there is now a temporary dependency on
+> CONFIG_TURRIS_OMNIA_MCU, which will vanish in 6.14?
+> 
+> Best regards, Klaus
 
-Thanks, I will try that when I'm back at the hardware (in a week or so).
+No, the leds-turris-omnia driver will have hard dependency on turris-omnia-mcu
+driver instead. You won't be able to select leds-turris-omnia without enabling
+turris-omnia-mcu.
 
-Do I correctly understand the situation:
-For the Turris Omnia LEDs there is now a temporary dependency on
-CONFIG_TURRIS_OMNIA_MCU, which will vanish in 6.14?
+This is because leds-turris-omnia depends on the IRQ line provided by the
+turris-omnia-mcu driver.
 
-Best regards, Klaus
+Marek
 
