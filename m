@@ -1,138 +1,158 @@
-Return-Path: <linux-leds+bounces-3519-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3520-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656809E8014
-	for <lists+linux-leds@lfdr.de>; Sat,  7 Dec 2024 14:06:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 036639E89E5
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2024 04:42:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65ED5166ACB
-	for <lists+linux-leds@lfdr.de>; Sat,  7 Dec 2024 13:05:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A045B1883D81
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2024 03:42:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9307615530B;
-	Sat,  7 Dec 2024 13:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9099193435;
+	Mon,  9 Dec 2024 03:41:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6la+J2W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLee83u9"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4A8153BFC;
-	Sat,  7 Dec 2024 13:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F23160799;
+	Mon,  9 Dec 2024 03:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733576705; cv=none; b=joPqQA/RJqyU+YrEmJKUTfK9erAsfnBHV9el3iGIpIoSkR/5HL3oMOwiDRdsYyRypV6Mwy5jVvzY74mYKzr/ZRv8yVVcChWHxOR/MLWZtBg6FHtfnQJ5+bC28S5Qm8sJmgOg39YoXt2FNVvEakaNfSQ7hScQyBR1AP9LRzUSy8E=
+	t=1733715668; cv=none; b=faB3OQ9UnkmvTFCJzMIALmXNw3haK7JAaA4Utdw1klU8sj84uH+9FJtDjya/VEgaSR2Xiw0iCfmkcmPGnlkFLu9Bx2h3+HbGWpJW8AyTdWJ1QIpX7yW9p2+rWKnZlF/zOEoMIo9YF4jOSVByRgG2/ZmoYQpvtgFwb7/Pm6cZ18w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733576705; c=relaxed/simple;
-	bh=V1gxC+7pFmhwcsVRYLSmWj0bXwQS8MKVVfihUEUE05E=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LtPhNxhM/nK+0AeO+0MPJuFmVtQ6runG/5WwESL0gPO1BY52Zd/Lqh17kx1Be5Yy+S2KNgvDFNJcKlaIA9blvIKDuM16raEFfWObewyKBIXqBvc+/8klza3RgrQvKOzVEfoQ9WShw/UaDUIwOvne7JmPbTlW9tFj8GVfYRTfoOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6la+J2W; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-215b45a40d8so25116565ad.1;
-        Sat, 07 Dec 2024 05:05:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733576703; x=1734181503; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TFVSrkNiEMMJAigz7OiMiNZjcf3pYxRxO/MhDZIhBgc=;
-        b=L6la+J2W4S9j0Zx0YaouSsTbvOUO6/4QDmiRfRgH0/q5V2rjSByJUCtqwSeP01pikZ
-         loxvR1bTyvdCIu2SSr1HRaU+p2uw1owMnbxFWE7wB+6xANkUS+KqomGStSShwVZHpMH6
-         vWvAdHJ36t21ttIWM7ieG21tIU34Myt3zFCBtyG+ihHZDRA/2Q35Yl29DVwUNwx9thn3
-         rzErGRLmLZjcqNyZhb5FDFRp+j26IHDoPVus1ZHyaxYtIf1gOpoyPtMKAGgE49IverDF
-         L9HZeRoX/Pf2MhxbHlmzTqXMmTAjxiSAe6316JSwIoUPndz7PWZJAagYK2Jg+IzqmV1K
-         9rbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733576703; x=1734181503;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TFVSrkNiEMMJAigz7OiMiNZjcf3pYxRxO/MhDZIhBgc=;
-        b=AxNFyJ4/tfiC1q5W7Izgw/pPJ2ikt4bgdXVlfofaQgJ8NpzS58ENvoXkXUt5zariaJ
-         SGNhYF+cR50B0DPSZkK4fJH81xU8ZcktRyE25VTWPMkxb4hKXuUVLTR4dyS/CY4aWCs2
-         vOFAZiGzgMJfvtwexYaollEhQ6pA9YoBUZmtSt07KuNHaYCmAFwId+ATGW0XQixhJto3
-         bnE2k/7PFpmizmuOX/G3Rixg2zRwn4E4Laom0WgDHzFgjLv9hpbpRn1koUSlxgFlxH3W
-         9QR/Flkde3fs31TXecbKtH3XOsO8eEOfZZH3IuP37jW5u++o3iuTpG67/rRF9VDi9dgn
-         fg/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUcLplGEN3rdbpwj6ClK68ukkidGUHHRSQGJoAvqNjp2AVR46NNXPxu0dhlgc3EgYoYC4lHOimcf4CF@vger.kernel.org, AJvYcCWewyS7bAMaFg1iNTc089SudDHEyffIMM3oTPmMJAW48gFDe0QOGq2irBRNNIQ3rQEn34UY7wiFOe5AaQ==@vger.kernel.org, AJvYcCXG8ACxwv0cRqshHMHyZK0VELCIHAdSltnrzTFPvtDPRgOdXeEmryLmCRQZ5ob21PB4uPWg1FDP8JIGgj5O@vger.kernel.org, AJvYcCXGoK11NnC8QG1BkQwUoY9WGeMiv069GiAqd/bAEbOcHVmbdyll/C1X0lBRoh8kCeiZg+Sbdo43tocoBvE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdN6MXGiNqmZ0ouJl9HNQMTHFOPpsFtPF6okAfomakyrNbb/7/
-	LopmS99bMIKwddPuujdh11mz8317Vyau3O39hTbEK15cG7mPUYv5
-X-Gm-Gg: ASbGnctYFLTGZNYTBb9fLOZfcWU+sIcrluqkZEqn5provGQhZWXFjg44EXdMPcd6sr1
-	GwzmYUNJpYQbU7MA3e1LED/WJOnxYBAFMuh8a+rHeqUf3kwN6RndEHRyc0OvEhWfKVw5d2/Ygkn
-	NUUEW91LctXCRrN6qMD+VT6cAew27gjzNFTS/tg14aE0DQTnP7DG+/Ay0vC34uGg860OE2deoFS
-	jGUFve/l0zJAbZ2uBXwGMUMCDtZlWb0sld6hsMS3szLV3w3Y2szEJthj8H8A38gYg==
-X-Google-Smtp-Source: AGHT+IH0D/Yd8zXEABvPSshTZ5GdofWvmFimE7bz/L0Dg8+hzOe7KfKe6Ge/tMmMUKD8ETbyZzILpQ==
-X-Received: by 2002:a17:902:e80b:b0:215:97c5:52b0 with SMTP id d9443c01a7336-21614dac17dmr93533435ad.38.1733576703350;
-        Sat, 07 Dec 2024 05:05:03 -0800 (PST)
-Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-21628c59730sm12779715ad.105.2024.12.07.05.04.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2024 05:05:03 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Lee Jones <lee@kernel.org>,
+	s=arc-20240116; t=1733715668; c=relaxed/simple;
+	bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eecuc9Pd691mwylDCZ9Jr+FialQ7h4ASmcI55pFmAg4zydZtnmBe3MOof+xHDTEgFXyIiBdCXtBMee7OKe5D+ncOKT+qSrNCDmdZhnbvpYNkqtUxCA+rXnCZ4Lo/uCn9puxyrGhLCw+TSjVn2/5kS7KvpG23iluCf0XDaSmlRE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLee83u9; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733715667; x=1765251667;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
+  b=ZLee83u9uCmCkBQNj9EVe2Y22ErNStep4JeyEtHf1aqc2BL6uU9h/nXZ
+   ze900PQZQjWWs7mkvhWHTr2+L4rpvG2MEw8dQ06OiSDwI08/rfWfX8V6n
+   T0C4tuiA5c92PCh7IHFcI0naPcghgADlASA/EKyVEVzqr9H3d6Q5SIWPu
+   rg8j4a69s60iTwjCQ2PxtPDe38J8Lpnbq3tWE5rxQE14XJyx0T2zPxex8
+   6oY+kSLY6N2XRxXJjXPMqf8OIQQ0LI3iVkdTTcTKq4oS/XP4qybM/lPAN
+   ZYJx3N/KAOlx/60C35o97t5bGm5vMZkWtAJJh0Ga9Y/8wfpBNak1DI5fc
+   A==;
+X-CSE-ConnectionGUID: 0tBkZmHDRWetxi86H/BPDg==
+X-CSE-MsgGUID: Q82HfI5PQFuTVfLR+rncLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33889113"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="33889113"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:41:06 -0800
+X-CSE-ConnectionGUID: X3YHOIjOT4KxtkQC+kKXTQ==
+X-CSE-MsgGUID: nkT5gCzYSmOuxlFtB3DBpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="95295523"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 19:41:02 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKUdn-0003kB-0K;
+	Mon, 09 Dec 2024 03:40:59 +0000
+Date: Mon, 9 Dec 2024 11:40:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nick Chan <towinchenmi@gmail.com>, Lee Jones <lee@kernel.org>,
 	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Nick Chan <towinchenmi@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	asahi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/3] MAINTAINERS: Add entries for Apple DWI backlight controller
-Date: Sat,  7 Dec 2024 21:03:16 +0800
-Message-ID: <20241207130433.30351-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241207130433.30351-1-towinchenmi@gmail.com>
-References: <20241207130433.30351-1-towinchenmi@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
+Message-ID: <202412070721.9tZI9Ogl-lkp@intel.com>
+References: <20241206172735.4310-3-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241206172735.4310-3-towinchenmi@gmail.com>
 
-Add MAINTAINERS entries for the driver.
+Hi Nick,
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e930c7a58b1..36de76bc6fd4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2204,6 +2204,7 @@ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
- F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-+F:	Documentation/devicetree/bindings/video/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -2221,6 +2222,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Chan/dt-bindings-leds-backlight-apple-dwi-bl-Add-bindings-for-Apple-DWI-backlight/20241207-013254
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241206172735.4310-3-towinchenmi%40gmail.com
+patch subject: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
+config: arc-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070721.9tZI9Ogl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_update_status':
+>> drivers/video/backlight/dwi_bl.c:46:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+      46 |         cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
+         |                ^~~~~~~~~~
+   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_get_brightness':
+>> drivers/video/backlight/dwi_bl.c:61:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+      61 |         return FIELD_GET(DWI_BL_CMD_DATA, cmd);
+         |                ^~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +46 drivers/video/backlight/dwi_bl.c
+
+    37	
+    38	static int dwi_bl_update_status(struct backlight_device *bl)
+    39	{
+    40		struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
+    41	
+    42		int brightness = backlight_get_brightness(bl);
+    43	
+    44		u32 cmd = 0;
+    45	
+  > 46		cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
+    47		cmd |= FIELD_PREP(DWI_BL_CMD_TYPE, DWI_BL_CMD_TYPE_SET_BRIGHTNESS);
+    48	
+    49		writel(cmd, dwi_bl->base + DWI_BL_CMD);
+    50		writel(DWI_BL_CTL_SEND, dwi_bl->base + DWI_BL_CTL);
+    51	
+    52		return 0;
+    53	}
+    54	
+    55	static int dwi_bl_get_brightness(struct backlight_device *bl)
+    56	{
+    57		struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
+    58	
+    59		u32 cmd = readl(dwi_bl->base + DWI_BL_CMD);
+    60	
+  > 61		return FIELD_GET(DWI_BL_CMD_DATA, cmd);
+    62	}
+    63	
+
 -- 
-2.47.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
