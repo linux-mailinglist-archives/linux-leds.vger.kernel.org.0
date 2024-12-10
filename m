@@ -1,48 +1,55 @@
-Return-Path: <linux-leds+bounces-3558-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3559-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF5F9EAB15
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 09:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FC89EBD6F
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 23:13:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15250166B97
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 08:54:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02156163975
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 22:13:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294A1230D08;
-	Tue, 10 Dec 2024 08:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33BC02451F8;
+	Tue, 10 Dec 2024 22:03:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5Ri4LSJ"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="k4Dg2g3j"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03F22309A7;
-	Tue, 10 Dec 2024 08:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708182451F1;
+	Tue, 10 Dec 2024 22:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733820844; cv=none; b=Q09fTFU595D5YtAnGo9zFPCG0T47vyQLTTof28jc6i6oLHFdPledYf2Ishu7nfFvQtBvPDnA16tvcqCY1QMvBVyLRJsgC+m0+7Ve9gb0EoQi4oJchnNTW6B5s7g0Rl2ZsARe8Ra2g+VN7mlB2JPrXH3pMUp9dmUvgZIiBbY/+po=
+	t=1733868236; cv=none; b=eucGV0aKvLpn1Mebk2PfbPdY7nrSmSuU0NgyRgwCNyjEd5pwJTjgxwj872xlZvt/PxmJg6jE8d3rZxePgwv9055c9+REfGC84CxmVb4oa8NsrmpbMhMy/prRhSTr3rNhqRD+DDzgkhfugeJlCF2pVbnBcVQZcqRlVLzOTBkiB0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733820844; c=relaxed/simple;
-	bh=0/JO/NDmxUZ73YAOpHuTnRch13qdY3wlae3d//4pQ9Q=;
+	s=arc-20240116; t=1733868236; c=relaxed/simple;
+	bh=chLVF/n4S2Gt6eJE4eERHqu9z2YYk6cN5qGEAS+WPco=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UC+sDgyAxZwCjND2yLtswyyDHC5G6KKA0ZieAUhKbicx5XarDV+E7mmm/fqDf7FF8wdtWLspFXCsn60cPGs/AKczag75a3C3yePuwZftbVZ+axwnnVw044VI3HjqAXK7kHXQpWNDxchF7s4KHz18HmeZTNAZ+hk1c8eykewWXeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5Ri4LSJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55616C4CED6;
-	Tue, 10 Dec 2024 08:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733820843;
-	bh=0/JO/NDmxUZ73YAOpHuTnRch13qdY3wlae3d//4pQ9Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=C5Ri4LSJesDeFw+fN/ffmrF8LwAa/kpP1Pv8f+gP0XzyXvDrbggUF46GmkpIk9K71
-	 qyRpKyJJRxU0hrMOIL885kINJgtkG3g6RBBZ1HTpdqM0ewa2KFJkZ+Wy2n4MIkH61q
-	 QQQUA++sWDGYkdTETmOoYtP/YBI4Sg3jxeg8kfxizWjaw8o1/cX+SizkwmKLtZVHV+
-	 MJ25aXuW0JE5zW/lcTFhoxbIhMHnakqH/kuEGZnCUPA/l0g8+DK+inSoxvA8g35NiD
-	 rJR61tvVoHlLd/qjp3L3OJby2PjVCdlT9Coord+++YqYkdsqPvj/0NWrB1NiaDxU4o
-	 PYHGwJj7Uka6g==
-Message-ID: <0521227d-1607-4a3f-b307-4d799cf41c2c@kernel.org>
-Date: Tue, 10 Dec 2024 09:53:54 +0100
+	 In-Reply-To:Content-Type; b=HEeqb2exiccF6FhJvY35QjhucWBIg1ObrX2ZcDoKdT/R8OK7L9aupwjEa7kVQ07YzIb8ppSDi2XKKs3mEJwCoKoDQstsozyy/7kGCbB90QKGlq/k82O77MG/RCY9is5tGg3MDNw0GnyDZA76K50NyybH2/tsE3a4Up+X4hBCoBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=k4Dg2g3j; arc=none smtp.client-ip=80.12.242.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id L8JMt1CCAzLhcL8JMtnHY8; Tue, 10 Dec 2024 23:02:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1733868154;
+	bh=vdIWqiL9YeYZIPJs3LWY7CxT8XaVOOt8ra806CiqypQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=k4Dg2g3jch4CBWVmgDqiSXMbtFnM8Ou9fxDwZNVBuQt0wM/FopsqJS25t6tUQm4GS
+	 qx40inpNoxdOPeEp3w0NxlwYnVOO18kKLuO6OeP1GQE4HipP8jnysiKbCM/2NiyFTN
+	 aJYh2vDhWYLrFKr0qQ9Oi2Wh+G5niJcjJdiHgFkwqGDIvujq70CEp07/tkQ4hOzYNP
+	 ilPaBNxfWKv6zTi3oqv3Ke6y37lAoJBSQVHlblWOCvJC4d4cgga9LLGLyH2bVQLjgO
+	 DWSRQ4+5BzyFijUyvfswwGjNeinHRXaIbPjtRWvDHbIu2vpnXQptJdDgyOqRcuM71s
+	 M65I71Ej4GvGA==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 10 Dec 2024 23:02:34 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <99cfb914-dc4e-4cb1-b4c7-c8b0e62cc3fa@wanadoo.fr>
+Date: Tue, 10 Dec 2024 23:02:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,85 +57,183 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20241209075908.140014-1-towinchenmi@gmail.com>
- <20241209075908.140014-3-towinchenmi@gmail.com>
- <w5niokvjfwajnzz3muccb45jsvqzg7lql7g5tg5s6iat3mtqkk@qu2a5zcp3rs7>
- <23e6d9c0-c3d6-40c1-b933-01c5a9ef43f8@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <23e6d9c0-c3d6-40c1-b933-01c5a9ef43f8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v11 6/9] mfd: Add new driver for MAX77705 PMIC
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org
+References: <20241209-starqltechn_integration_upstream-v11-0-dc0598828e01@gmail.com>
+ <20241209-starqltechn_integration_upstream-v11-6-dc0598828e01@gmail.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241209-starqltechn_integration_upstream-v11-6-dc0598828e01@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/12/2024 09:47, Nick Chan wrote:
+Le 09/12/2024 à 12:26, Dzmitry Sankouski a écrit :
+> Add the core MFD driver for max77705 PMIC. We define five sub-devices
+> for which the drivers will be added in subsequent patches.
 > 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > 
-> Krzysztof Kozlowski 於 2024/12/10 下午4:32 寫道:
-> 
->> Nothing improved here.
-> 
-> 
-> This is sent before you left any review, v4 will have improvements
-> 
-Ah, ok. Just popped in the patchwork.
+> ---
 
-In general rule is one patchset per 24h (some maintainers expect one per
-48h), so reviewers will be able to respond.
+...
 
-Best regards,
-Krzysztof
+> diff --git a/drivers/mfd/max77705.c b/drivers/mfd/max77705.c
+> new file mode 100644
+> index 000000000000..bf71d4399b23
+> --- /dev/null
+> +++ b/drivers/mfd/max77705.c
+> @@ -0,0 +1,233 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Maxim MAX77705 PMIC core driver
+> +//
+> +// Copyright (C) 2024 Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/mfd/max77705-private.h>
+> +#include <linux/mfd/max77693-common.h>
+> +#include <linux/pm.h>
+> +#include <linux/power/max17042_battery.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +#include <linux/of.h>
+> +
+> +#define I2C_ADDR_FG     0x36
+> +#define	FUEL_GAUGE_NAME "max77705-battery"
+> +
+> +const struct dev_pm_ops max77705_pm_ops;
+
+I'm not sure that this is needed.
+
+DEFINE_SIMPLE_DEV_PM_OPS() at the end of the file already define it, IIUC.
+
+...
+
+> +static int max77705_resume(struct device *dev)
+> +{
+> +	struct i2c_client *i2c = to_i2c_client(dev);
+> +	struct max77693_dev *max77705 = i2c_get_clientdata(i2c);
+> +
+> +	if (device_may_wakeup(dev))
+> +		disable_irq_wake(max77705->irq);
+> +
+> +	enable_irq(max77705->irq);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SIMPLE_DEV_PM_OPS(max77705_pm_ops, max77705_suspend, max77705_resume);
+> +
+> +static const struct of_device_id max77705_i2c_of_match[] = {
+> +	{ .compatible = "maxim,max77705" },
+> +	{ },
+
+Nitpick: Unneeded ending comma
+
+> +};
+> +MODULE_DEVICE_TABLE(of, max77705_i2c_of_match);
+
+...
+
+> +enum max77705_reg {
+> +	MAX77705_PMIC_REG_PMICID1		= 0x00,
+> +	MAX77705_PMIC_REG_PMICREV		= 0x01,
+> +	MAX77705_PMIC_REG_MAINCTRL1		= 0x02,
+> +	MAX77705_PMIC_REG_BSTOUT_MASK		= 0x03,
+> +	MAX77705_PMIC_REG_FORCE_EN_MASK		= 0x08,
+> +	MAX77705_PMIC_REG_MCONFIG		= 0x10,
+> +	MAX77705_PMIC_REG_MCONFIG2		= 0x11,
+> +	MAX77705_PMIC_REG_INTSRC		= 0x22,
+> +	MAX77705_PMIC_REG_INTSRC_MASK		= 0x23,
+> +	MAX77705_PMIC_REG_SYSTEM_INT		= 0x24,
+> +	MAX77705_PMIC_REG_RESERVED_25		= 0x25,
+> +	MAX77705_PMIC_REG_SYSTEM_INT_MASK	= 0x26,
+> +	MAX77705_PMIC_REG_RESERVED_27		= 0x27,
+> +	MAX77705_PMIC_REG_RESERVED_28		= 0x28,
+> +	MAX77705_PMIC_REG_RESERVED_29		= 0x29,
+> +	MAX77705_PMIC_REG_BOOSTCONTROL1		= 0x4C,
+> +	MAX77705_PMIC_REG_BOOSTCONTROL2		= 0x4F,
+> +	MAX77705_PMIC_REG_SW_RESET		= 0x50,
+> +	MAX77705_PMIC_REG_USBC_RESET		= 0x51,
+> +
+> +	MAX77705_PMIC_REG_END,
+
+Nitpick: Unneeded ending comma
+
+> +};
+
+...
+
+> +enum max77705_fuelgauge_reg {
+> +	STATUS_REG				= 0x00,
+> +	VALRT_THRESHOLD_REG			= 0x01,
+> +	TALRT_THRESHOLD_REG			= 0x02,
+> +	SALRT_THRESHOLD_REG			= 0x03,
+> +	REMCAP_REP_REG				= 0x05,
+> +	SOCREP_REG				= 0x06,
+> +	TEMPERATURE_REG				= 0x08,
+> +	VCELL_REG				= 0x09,
+> +	TIME_TO_EMPTY_REG			= 0x11,
+> +	FULLSOCTHR_REG				= 0x13,
+> +	CURRENT_REG				= 0x0A,
+> +	AVG_CURRENT_REG				= 0x0B,
+> +	SOCMIX_REG				= 0x0D,
+> +	SOCAV_REG				= 0x0E,
+> +	REMCAP_MIX_REG				= 0x0F,
+> +	FULLCAP_REG				= 0x10,
+> +	RFAST_REG				= 0x15,
+> +	AVR_TEMPERATURE_REG			= 0x16,
+> +	CYCLES_REG				= 0x17,
+> +	DESIGNCAP_REG				= 0x18,
+> +	AVR_VCELL_REG				= 0x19,
+> +	TIME_TO_FULL_REG			= 0x20,
+> +	CONFIG_REG				= 0x1D,
+> +	ICHGTERM_REG				= 0x1E,
+> +	REMCAP_AV_REG				= 0x1F,
+> +	FULLCAP_NOM_REG				= 0x23,
+> +	LEARN_CFG_REG				= 0x28,
+> +	FILTER_CFG_REG				= 0x29,
+> +	MISCCFG_REG				= 0x2B,
+> +	QRTABLE20_REG				= 0x32,
+> +	FULLCAP_REP_REG				= 0x35,
+> +	RCOMP_REG				= 0x38,
+> +	VEMPTY_REG				= 0x3A,
+> +	FSTAT_REG				= 0x3D,
+> +	DISCHARGE_THRESHOLD_REG			= 0x40,
+> +	QRTABLE30_REG				= 0x42,
+> +	ISYS_REG				= 0x43,
+> +	DQACC_REG				= 0x45,
+> +	DPACC_REG				= 0x46,
+> +	AVGISYS_REG				= 0x4B,
+> +	QH_REG					= 0x4D,
+> +	VSYS_REG				= 0xB1,
+> +	TALRTTH2_REG				= 0xB2,
+> +	VBYP_REG				= 0xB3,
+> +	CONFIG2_REG				= 0xBB,
+> +	IIN_REG					= 0xD0,
+> +	OCV_REG					= 0xEE,
+> +	VFOCV_REG				= 0xFB,
+> +	VFSOC_REG				= 0xFF,
+> +
+> +	MAX77705_FG_END,
+
+Nitpick: Unneeded ending comma
+
+> +};
+
+...
+
+CJ
 
