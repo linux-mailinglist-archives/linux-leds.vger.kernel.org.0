@@ -1,60 +1,61 @@
-Return-Path: <linux-leds+bounces-3554-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3555-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9DF9EA9C2
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 08:40:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C61B9EAAB7
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 09:31:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA1E9169A8B
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 07:40:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94E24166843
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 08:31:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E757228389;
-	Tue, 10 Dec 2024 07:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6550A23098A;
+	Tue, 10 Dec 2024 08:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="od+/DqDU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLfoiTtu"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B9C172BD5;
-	Tue, 10 Dec 2024 07:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F1E38389;
+	Tue, 10 Dec 2024 08:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733816424; cv=none; b=bOqzMXtP0Dxodmbyazb2TESiOHREXq9PVO+yyJKJ57EBB3Vu1uY1ZBwboRqMF08nrZ1Z/QWY/B7hYSYu5P6BYwmNZIPB/xPyrJK0RH/iw37t9zNPxIX+zRTq1ymwVGIUTXIdCwsaBiU193ck82CypyD2uEFjmEoNtIWhFDsS1fM=
+	t=1733819503; cv=none; b=jdqzorO9kKoIrC/hBO4c8egD27CBukA2kw0LJgiKGnxFzYP32K2SD2j5nP6GcHRG1uw4guZHCtZ/MU5JkBz9hJtRBcMG2Z/PCC8ffO7FxaRMflLoas+U4UII/vCSiYN7ih5JUQ+/Rk5Ct+cOfVozZtK+l/6ci0sO8IRmU+lLqCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733816424; c=relaxed/simple;
-	bh=nzpmwZVWHwGpxIkipi+fJQIVbIbAQ3WZO9CIjk+pZC8=;
+	s=arc-20240116; t=1733819503; c=relaxed/simple;
+	bh=IqvKMQWSIXJGAccIjtznu0gLl18o7vkKcnIk+pvfNsU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HBdl7qX2JS7V4Vf0dYYeFEM/CNtjlXF9al5cWXERJk9FTe1ntAp7oBRxlzuf/aA8S0TKyVHzO2U/uFQkHa6LhEgNlbwX48mUGvR/2KC/H1B6Ktk6cJqjrhmrgoHVibuBTpS1Gy/AfkL+uygFwJR+7kf4fbG1ckjKyO1eWOH/vJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=od+/DqDU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F23FC4CED6;
-	Tue, 10 Dec 2024 07:40:22 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=oXhZpWgVTGpcQ3aNXEKZo2AJcEStwtAXsV4U3FKr6O9wTw/rF8jw3geX7bfhmZWFyT7E9gCau1RsaDXaV8oKTP8k0lwrksZUZxPeki73vdYkUqKWW/5GK1lNQ9+fg+SEQlgL5YqQbQk+Egx+sJeDSqS0DdAaLxpwkmsdxpwUCiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLfoiTtu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF6FC4CED6;
+	Tue, 10 Dec 2024 08:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733816423;
-	bh=nzpmwZVWHwGpxIkipi+fJQIVbIbAQ3WZO9CIjk+pZC8=;
+	s=k20201202; t=1733819501;
+	bh=IqvKMQWSIXJGAccIjtznu0gLl18o7vkKcnIk+pvfNsU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=od+/DqDU66vllOpOtrqJzxvp4kFoQL0NFBzP6wow1TIETtZsigCBhbQ9KoOuf+wpf
-	 ZGkdCP97oTCjX6SNemf+4gY1Z6PgrL9igEs8CYVYc3MZqNhwWNT30leKM2GOGWbWTt
-	 7SpdPKENZwMpapADYJlWUcUW+rwXit56T281q9TwSqVvCdhKsrBf+axUo/oYqviZK0
-	 iTSaUaKNA+n3c0O8wmNUyXZfGHNTUfxWXQGrL2nZ6OEvuuk2RQzP4OresoiJ3RCo53
-	 Gyhl3f/5svwZOhTK/x8q90AxhNkKKZ89j0gBfn7Q8fOVfF3hUb+F3WjgEKQ4P7MB3K
-	 EeQzYmdpIQLZg==
-Date: Tue, 10 Dec 2024 08:40:20 +0100
+	b=DLfoiTtu9dVkcxrI2fiP4olwKnTPyIpwXDzUpCFZRWrqiycSB9OYhYhsafMyKWGXL
+	 2m+PvncE+Whi0J1BQkp4cjeqUDdo8Tg9T4bdtk6yOR2OxV5Ma71vhaanLX2N/hCrlx
+	 C8M5jso6qT2ocFzgFPhWKwPwGLHeD/JPlYi0qtj0WggqgIVUjdm74I9RiwjOxCfWqV
+	 RsHMbMBWS7gUVfyxHsrqkWEVn+fnAANYJ3JoLgM3mYk5YRQUBg42KMMePzRD1mwsIW
+	 BSZsWuwJfAvmLSMd7luXH4ANGCxASyljcXha8B1VFhPVSY+x4fhOM90iPNLLt/V2Ss
+	 4QQLByiWA3LFw==
+Date: Tue, 10 Dec 2024 09:31:38 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v11 4/9] dt-bindings: mfd: add maxim,max77705
-Message-ID: <v7pr3ah47h6w2bco2h7ctl4ydv3igu7vibbn6dy646fdljv7wf@eknbz34wsnof>
-References: <20241209-starqltechn_integration_upstream-v11-0-dc0598828e01@gmail.com>
- <20241209-starqltechn_integration_upstream-v11-4-dc0598828e01@gmail.com>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: leds: backlight: apple,dwi-bl: Add
+ bindings for Apple DWI backlight
+Message-ID: <okhsrlpr6qu6crzzhqzbvgwoqwcxefynceje6pyttb3x57vrsf@hyilj6xo23t7>
+References: <20241209075908.140014-1-towinchenmi@gmail.com>
+ <20241209075908.140014-2-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,25 +64,29 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241209-starqltechn_integration_upstream-v11-4-dc0598828e01@gmail.com>
+In-Reply-To: <20241209075908.140014-2-towinchenmi@gmail.com>
 
-On Mon, Dec 09, 2024 at 02:26:28PM +0300, Dzmitry Sankouski wrote:
-> +  charger:
-> +    $ref: /schemas/power/supply/power-supply.yaml
-> +    unevaluatedProperties: false
-> +    properties:
-> +      compatible:
-> +        const: maxim,max77705-charger
-> +
-> +    required:
-> +      - compatible
-> +      - monitored-battery
-> +
-> +  fuel-gauge:
-> +    $ref: /schemas/power/supply/maxim,max17042-base.yaml#
+On Mon, Dec 09, 2024 at 03:58:33PM +0800, Nick Chan wrote:
+> Add the device tree bindings for backlight controllers attached via Apple
+> DWI 2-wire interface.
+> 
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
+>  .../bindings/leds/backlight/apple,dwi-bl.yaml | 54 +++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+> 
 
-We do not use "base" in any names, but rather common. However shared
-schema cannot be used without compatibles.
+<form letter>
+This is a friendly reminder during the review process.
+
+It seems my or other reviewer's previous comments were not fully
+addressed. Maybe the feedback got lost between the quotes, maybe you
+just forgot to apply it. Please go back to the previous discussion and
+either implement all requested changes or keep discussing them.
+
+Thank you.
+</form letter>
 
 Best regards,
 Krzysztof
