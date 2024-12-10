@@ -1,79 +1,48 @@
-Return-Path: <linux-leds+bounces-3557-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3558-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931759EAAF5
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 09:47:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF5F9EAB15
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 09:54:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC598188456E
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 08:47:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15250166B97
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 08:54:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18EEE2309A7;
-	Tue, 10 Dec 2024 08:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294A1230D08;
+	Tue, 10 Dec 2024 08:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHNKmpLJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5Ri4LSJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBB012DD88;
-	Tue, 10 Dec 2024 08:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03F22309A7;
+	Tue, 10 Dec 2024 08:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733820438; cv=none; b=hiASm7FIlrLuMFqTprmguePVjDNs56QF6rJr7hWJ8KmntAVdEmH1dYVtcLLdZBwqjd1iKxZh9lZfcY/Vf/mlOH7HLKRv7mTdfxaSk3ExIyQ8N4VAfsluUCcduCdfcN9O3O1sgqRWBwN/6lY8J3KB6aOPnvkWtXsBOFwLuBh7pBM=
+	t=1733820844; cv=none; b=Q09fTFU595D5YtAnGo9zFPCG0T47vyQLTTof28jc6i6oLHFdPledYf2Ishu7nfFvQtBvPDnA16tvcqCY1QMvBVyLRJsgC+m0+7Ve9gb0EoQi4oJchnNTW6B5s7g0Rl2ZsARe8Ra2g+VN7mlB2JPrXH3pMUp9dmUvgZIiBbY/+po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733820438; c=relaxed/simple;
-	bh=yqgJ06i6Y7xo25MnVPg+XILEuMsyhZtOxmam3qSlkFs=;
+	s=arc-20240116; t=1733820844; c=relaxed/simple;
+	bh=0/JO/NDmxUZ73YAOpHuTnRch13qdY3wlae3d//4pQ9Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ffdcr6OJVoe2zuzz2oyblfsqeYJliuiwaq01mbguVPOxRZ498N1qRUyx4FL3DYs3xDQ5AhvWzGhIoSeJ0FKs+VCgqgU9KJ3OfIiO1gp+ib+vIsoWQTOa3LD4LR+4OSLNfZAFIY8QAqWmVP3M6dwMLh0yXldJZIHU3rlAYvZa3DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHNKmpLJ; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2162c0f6a39so23604585ad.0;
-        Tue, 10 Dec 2024 00:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733820436; x=1734425236; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yqgJ06i6Y7xo25MnVPg+XILEuMsyhZtOxmam3qSlkFs=;
-        b=gHNKmpLJO7gva96UnxD7Ywn9UBYN67zJO5kd4oN+My5Qca2/W9BxLpRMcH0VLBMGCV
-         T99qjbF4Ay+Ben5BZySzd8RT9ApAlyq7xsf36IXoDvAc+IAF3rE/YmB8A3/8bNl5716+
-         n8pBnh6AOuMJWyB1pE3WOrtyAm6be5br9O+YA8rtLOYFdnqVMxXbcc5PDwsBGG3KDot5
-         45s4wpgAWSX/1nwBEhF+yClBRrD1XWbUHQtsjbf1A5OLBO1Gofk+iOwPIJ9ioUX0sWGU
-         5z3ziUgv+2hKTuEgEDfAbLIWvZvFojNNLE4RiW0IsOkRzPx1yDbPR/9iVTByLGOy7NMC
-         wC+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733820436; x=1734425236;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yqgJ06i6Y7xo25MnVPg+XILEuMsyhZtOxmam3qSlkFs=;
-        b=MZhoVJMMMe7IxUxWcv/7uNZT8MKhrGMe1icauo/kfFmypmd2/Qj2w5/ojDoTIL60E7
-         DuqGGa4zvMYMxuaetGaZPElRWSCb+ZrTj7aWwXe1xm7iAjq/jIWW8RkAgmTZeMxcIYBw
-         sqbe8kJo8Xo1c4VskPtlJhxI2ewySBqUh0vYoZKyws1a40KlBDnmr4WLXH5R32bTDkEl
-         vhTRRm9M8JAD7L+4n0HeYRvjZIzAksL1J+ojUnMb7KnNjjKXa2wZp4guj5OLg5U4oHd9
-         5zXrKJ/qjwua0PAAP3MG+/OqS3SQ/si5eLjYVhfr9O53Z5q0KLPh5ICNPzgb58uW+g7h
-         a0cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWPBkUHhmRSlqM9Kuil2hLjp4qr7sH5KqzvJfe/LN2Jc1F8QxOE9Aq3Bqtw3VEG/gegII+EfqmmSFx8XQ==@vger.kernel.org, AJvYcCWms3gtL4OpKV510o6uTigbSpWXncXb5O+AhQtogZVfGvkuyqtIJe49pAMzkEc4Fw1Gow6N6YeBImji@vger.kernel.org, AJvYcCWrx39WwV/D4KPYOdGpqrxDaG1wxETj6Q8zJs7q55D8XLSuA+/V9Hhn0ZqDd7xpf2X+X59x/hkR4Z6G7Lk=@vger.kernel.org, AJvYcCXMhx0N/jA++WP4gRuex5jDJy51//DOf4egTCnzYp6mfxI7c1UF0SE1lwjgcvHlE5cWMDjNyNCK1LEnPAMw@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPAw8lZmkC8mYIrWhOZhiGNkwdUUk48zNS1ZairgCoa8KNzByS
-	CaHDK/zI2LLx30Y6HTHTtzLOoFfEJkJ7wNrCry7NhpHXrhNTaTnu
-X-Gm-Gg: ASbGnctng0nbTNJoQO4Z9palOmBbHH54tWmc5k9ZoZlNcHuw+3tvdcbuIRgcetD+gN5
-	AUpIw3A/l8fmkL/AogdA2DWl3bqGgb81sJZmu61mGnDrXh5xGhWsrUAYG6OTi6KzuN/RjF9yxaE
-	Sh1+u+ac/QPJOAlElKulWw5ZTMp19giBnvMS0ZPABX4Qrj5x5B+u2rzZBHmoLk2OlPdUwwHkDfG
-	sBXs65vTHWJceno1czWycoe3tvM4uqgwNhp2YfdS8gz47vwjR78P8g5fh8Or85it0GVIhcLzVM5
-	/A==
-X-Google-Smtp-Source: AGHT+IFyFx9u2Q8EBc+BBmDXtC22UJjW0IxAAzdnx72zpqdewbRBPV5UQPIkvDpar7059Mt3H6VwCQ==
-X-Received: by 2002:a17:903:187:b0:215:a808:61cf with SMTP id d9443c01a7336-21670a47b3dmr40495715ad.25.1733820435973;
-        Tue, 10 Dec 2024 00:47:15 -0800 (PST)
-Received: from [192.168.0.115] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8f26c6csm85230675ad.233.2024.12.10.00.47.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2024 00:47:15 -0800 (PST)
-Message-ID: <23e6d9c0-c3d6-40c1-b933-01c5a9ef43f8@gmail.com>
-Date: Tue, 10 Dec 2024 16:47:11 +0800
+	 In-Reply-To:Content-Type; b=UC+sDgyAxZwCjND2yLtswyyDHC5G6KKA0ZieAUhKbicx5XarDV+E7mmm/fqDf7FF8wdtWLspFXCsn60cPGs/AKczag75a3C3yePuwZftbVZ+axwnnVw044VI3HjqAXK7kHXQpWNDxchF7s4KHz18HmeZTNAZ+hk1c8eykewWXeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5Ri4LSJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55616C4CED6;
+	Tue, 10 Dec 2024 08:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733820843;
+	bh=0/JO/NDmxUZ73YAOpHuTnRch13qdY3wlae3d//4pQ9Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=C5Ri4LSJesDeFw+fN/ffmrF8LwAa/kpP1Pv8f+gP0XzyXvDrbggUF46GmkpIk9K71
+	 qyRpKyJJRxU0hrMOIL885kINJgtkG3g6RBBZ1HTpdqM0ewa2KFJkZ+Wy2n4MIkH61q
+	 QQQUA++sWDGYkdTETmOoYtP/YBI4Sg3jxeg8kfxizWjaw8o1/cX+SizkwmKLtZVHV+
+	 MJ25aXuW0JE5zW/lcTFhoxbIhMHnakqH/kuEGZnCUPA/l0g8+DK+inSoxvA8g35NiD
+	 rJR61tvVoHlLd/qjp3L3OJby2PjVCdlT9Coord+++YqYkdsqPvj/0NWrB1NiaDxU4o
+	 PYHGwJj7Uka6g==
+Message-ID: <0521227d-1607-4a3f-b307-4d799cf41c2c@kernel.org>
+Date: Tue, 10 Dec 2024 09:53:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -82,7 +51,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
  Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -95,20 +64,71 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
 References: <20241209075908.140014-1-towinchenmi@gmail.com>
  <20241209075908.140014-3-towinchenmi@gmail.com>
  <w5niokvjfwajnzz3muccb45jsvqzg7lql7g5tg5s6iat3mtqkk@qu2a5zcp3rs7>
+ <23e6d9c0-c3d6-40c1-b933-01c5a9ef43f8@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <w5niokvjfwajnzz3muccb45jsvqzg7lql7g5tg5s6iat3mtqkk@qu2a5zcp3rs7>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <23e6d9c0-c3d6-40c1-b933-01c5a9ef43f8@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+On 10/12/2024 09:47, Nick Chan wrote:
+> 
+> 
+> Krzysztof Kozlowski 於 2024/12/10 下午4:32 寫道:
+> 
+>> Nothing improved here.
+> 
+> 
+> This is sent before you left any review, v4 will have improvements
+> 
+Ah, ok. Just popped in the patchwork.
 
+In general rule is one patchset per 24h (some maintainers expect one per
+48h), so reviewers will be able to respond.
 
-Krzysztof Kozlowski 於 2024/12/10 下午4:32 寫道:
-
-> Nothing improved here.
-
-
-This is sent before you left any review, v4 will have improvements
-
-Nick Chan
+Best regards,
+Krzysztof
 
