@@ -1,181 +1,158 @@
-Return-Path: <linux-leds+bounces-3560-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3561-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B49F9EBDAC
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 23:18:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43709ECB5B
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Dec 2024 12:35:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B79F1188CC61
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2024 22:17:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDA41188A0B3
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Dec 2024 11:35:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53F551F1910;
-	Tue, 10 Dec 2024 22:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E007211261;
+	Wed, 11 Dec 2024 11:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="IdjbnnJt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwnZQ7de"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8501EE7A3;
-	Tue, 10 Dec 2024 22:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EED238E3F;
+	Wed, 11 Dec 2024 11:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733868471; cv=none; b=qatQ/HizhtO0hNPTBWJknbP2N6pb08zBwKddp0sYkpCR38tWaZlZFUMcGWf/JHn3DM3DQ1O/bCKnej727bObyQNW9Ap2mkXtuiBVzbR2Nqca0vKKlxx0uSRzXczmWCOpUcZUq6U7tQb+0rmFXcN5dc0ZvBuNVwIVqwcugLoC5mo=
+	t=1733916934; cv=none; b=sQ5YrLvCsKwiGoz0S+76Z+WZViGIqI7o2/s8cZl33rz7Dypt/IAW13k+7lBD6hbE8CfXyklc+pf3CU1epOfd2+iDaXD0VARW9oBZs3rj9w406WwlDrPmluFpmTRjuC7kej0DRNyCRPK1T9YDQPvXrOredB6EwIr4QNQROk+9TNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733868471; c=relaxed/simple;
-	bh=30fQ1JSKA6ogu9UhDW11Yk/kOdFzk+xKJiQatxUQACw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YUjYPt96/5l8EOZzsln9zVJNsNSl3/kZYUgeKpEFjAL5RalUA8Z8bjLbJP843s09Ka9sVe466CmllPpk6LA93oLEG85KSv187HldQXmfogB8m3WNDvuDOordDv/5N0wLjMbdWuLtNicRLvZiFr4uM9wHxWk+cJElGbReonfeBdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=IdjbnnJt; arc=none smtp.client-ip=80.12.242.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id L8ONtY3Roj2I6L8ONtt4eo; Tue, 10 Dec 2024 23:07:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1733868466;
-	bh=uz6gxdciznG8CDr0h0Zdpu/ElUf4Mfu7nz7WNv1xPc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=IdjbnnJtEDs9JyhaObaTU97UEO4KsHA+8+moigv5gvUjRi5+4LEGSuoDeJSwbhyxL
-	 1YU9zQrU2eZc0C9TWHaimmWeLsoVdGA+m3HDXIy5adJal6ap+Hyw6aascW6eQLGD5n
-	 77qJ0gMHIdAOl9+LqyWzyMgJULuMF1iAZ5J5hBl1CRvc9ytryIC7sBXI69jefO2e65
-	 ozVTd6HAnnpv1oQxCKwFkszga0AeC/DdXl0W6RkybJAZlzSgO8UIt9x7QisY2ak64P
-	 bWNqGIyo4fd/9egBD+81Y38b+fNe9BEYjypEADby3nRXuQ1BRZ+8YDO3/QUqHhmTvp
-	 qvi6PiUT+p3bQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 10 Dec 2024 23:07:46 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <27f4fda0-a00b-4278-a5a1-1cea4a3be97c@wanadoo.fr>
-Date: Tue, 10 Dec 2024 23:07:43 +0100
+	s=arc-20240116; t=1733916934; c=relaxed/simple;
+	bh=YyxaXuufcIt0GgfSjrhWJiVObWb/Mkn9OBVuggRuJN0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=J/njlM+TWR+UynUqXGJ7MstNJDtV26tUaGoOAH6efLBV58ln94D7pHQrQTmICNXOu3q1YZnT10B505ithtQoX6CS4ARd3SV3asGP1Qxc3S11RqHd6fJO9FPP8qxI7m8YCVV2U4sOJ7rC8EFY5LcUdOvSbWgUgi84C68pq8GToO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwnZQ7de; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-216634dd574so19707075ad.2;
+        Wed, 11 Dec 2024 03:35:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733916931; x=1734521731; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jfzckOZQbltxC6H30tDEw75Y4uZ6lGIUQBcpNCwyAy4=;
+        b=CwnZQ7de57L56q6tvO8fRy+ZwrRxrPyfD+f+9AegE83lIFIU+G/umK4Zrmd4E5GpRu
+         4svZtSn4tJpH6ppTlyQb4VUO/B/eVX9aQxdFCseFSj/sxQi3L83QkWeDfJBE6yYxug2x
+         2u6nX672sPf1FVmFiCFkNKcd+ftDQUCglEMGH2fbDS8U80OP7yTdek6dkZCREDOLGKVD
+         tAl8vnJuugXjubpR42P5r6P19rTfd7g5ezEasjKQ7VfSkdWw7yKt4jDiezCTjAJIf547
+         rG6jIebroCJbnOgA7HJP7SJLapZvj9mU/g59RLMGFVtY1vuHDKQ1UUyQ68x+qZzFmHj8
+         yIjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733916931; x=1734521731;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jfzckOZQbltxC6H30tDEw75Y4uZ6lGIUQBcpNCwyAy4=;
+        b=jOLpcMGMTIx3shr+ejqj7SPIxr+zRceVNDKWvvOjMEV6l/QJGoVFAcCGNLzpftXvEB
+         VTsliEnYFCN3X3v4U67h0GG9SrqPDBhG8+doJdfs3tSBTBt0UdGfwts5aJrdKYJ7DgfA
+         Q4SZZRVSKcSBgK3NQ/LdSBwk1FFyCXQLbq5fot5rklZLukjx0sN9TReETJWylEBzA9M1
+         r4XF89IGs3OETdQn9+ufEkI9koKLyrd9Xu8s9tBoVilHMyrWNDHrJ+QDa0oFqbg4zupZ
+         9HtsQitFzlQgOOFC+7bYy1DiKXpphMI4JLAfEUXFbfKFtMKyvI7ZSQZiwTzWaK2oHMAV
+         refA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+8poDQCSUPPxmfU/di8V7P/6mA/jx360HJSEQO3YL0qN1KfQpgfySsBf8936d4SPN7mszi7Y4fW7r@vger.kernel.org, AJvYcCWk4apUPLxbg63YYx4uhMni+11HgiOjWqvoywEYnZbrjtIZBwG1YKnMtUPblxOczPuUbHaX7qhlAAJZYaE1@vger.kernel.org, AJvYcCX15K68yTtzLO9+i5V56ACCZ2uUpJK9Sa1HS3JxzLn+SmS7Kj0v5yn6QUCrIWIfJ6SBzI7hiXj3LHGzt2s=@vger.kernel.org, AJvYcCXWgZj5is2ww0cEwgpBjssavXxq1gzi7sej/77vdjUR+FiCd0lmxBBp+3KSHh2dl336fDuUdBM1x4oGIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxT4olLA7bMVCEl0DOUU70HFXGosaMgplu1FOwJBOLHsic3oxh0
+	UcceMba2R9ykCkP4LcPEgB8uTF571i9eoglq3FsncJF8c6zOlRIG
+X-Gm-Gg: ASbGncv7B3VLnzmhd98xP8ujNM2JannMQG/gaTBELOi37BdvIayIYa5KCe7O0GLqFR6
+	FzRyEMeZe0PyzMneLSfxC854/J0NWu3M/oPfHpCFHDnwwYEsh/CTfLq3BTRATaKY/+ZoZsc6F5k
+	BSbL9gmZJz2oj/RTB+Za4BlnQI5snJURoM7S+ZImRQuO8lHXENEtHYy9xhl9sUovX/zEksDqsc1
+	+pLq84YWkmRknwG/mQQk12GrGrmZCOVTh2YcqgFlSitiOOo8Ip3MintpUDhTzb/DYHG4A==
+X-Google-Smtp-Source: AGHT+IFh+SOIc2pSK+oc73lJ9XAuJ74bWyxa1vkuaFSPTypJbOqSoOBkbcihWmoq5jPUmTdegrgTaA==
+X-Received: by 2002:a17:902:dacc:b0:215:b75f:a18d with SMTP id d9443c01a7336-2177839599cmr40156315ad.11.1733916931480;
+        Wed, 11 Dec 2024 03:35:31 -0800 (PST)
+Received: from localhost.localdomain ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-216404df131sm56765635ad.203.2024.12.11.03.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 03:35:30 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Nick Chan <towinchenmi@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 0/3] Apple DWI backlight driver
+Date: Wed, 11 Dec 2024 19:34:36 +0800
+Message-ID: <20241211113512.19009-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 8/9] power: supply: max77705: Add charger driver for
- Maxim 77705
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Purism Kernel Team <kernel@puri.sm>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20241209-starqltechn_integration_upstream-v11-0-dc0598828e01@gmail.com>
- <20241209-starqltechn_integration_upstream-v11-8-dc0598828e01@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241209-starqltechn_integration_upstream-v11-8-dc0598828e01@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 09/12/2024 à 12:26, Dzmitry Sankouski a écrit :
-> Add driver for Maxim 77705 switch-mode charger (part of max77705
-> MFD driver) providing power supply class information to userspace.
-> 
-> The driver is configured through DTS (battery and system related
-> settings).
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> 
+Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
+and iPod touches the backlight controller is connected via this interface.
+This series adds a backlight driver for backlight controllers connected
+this way.
 
-...
+Changes since v3:
+- $ref to common.yaml in bindings
+- (and then additionalProperties is changed to unevaluatedProperties)
+- Use hex everywhere in bindings example
+- Use sizeof(*dwi_bl) instead of the type of the struct when doing
+devm_kzalloc()
+- Use devm_platform_get_and_ioremap_resource() in driver
+- Fix sorting in drivers/video/backlight/Makefile
+- In drivers/video/backlight/Kconfig, move config to right after
+BACKLIGHT_APPLE
+- Explain this driver being completely different from apple_bl
 
-> +static void max77705_chgin_isr_work(struct work_struct *work)
-> +{
-> +	struct max77705_charger_data *charger =
-> +		container_of(work, struct max77705_charger_data, chgin_work);
+v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gmail.com/T
 
-Missing new line.
+Changes since v2:
+- Add missing includes in driver
+- Fix file path in MAINTAINERS
 
-> +	power_supply_changed(charger->psy_chg);
-> +}
+v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmail.com/T
 
-...
+Changes since v1:
+- Fixed dt-bindings $id.
+- Make power-domains an optional property in dt-bindings.
+- Added missing error checking after devm_ioremap_resource() in
+dwi_bl_probe().
 
-> +static int max77705_charger_probe(struct platform_device *pdev)
-> +{
-> +	struct power_supply_config pscfg = {};
-> +	struct i2c_client *i2c_chg;
-> +	struct max77693_dev *max77705;
-> +	struct max77705_charger_data *chg;
-> +	struct device *dev, *parent;
-> +	struct regmap_irq_chip_data *irq_data;
-> +	int ret;
-> +
-> +	dev = &pdev->dev;
-> +	parent = dev->parent;
-> +	max77705 = dev_get_drvdata(parent);
-> +
-> +	chg = devm_kzalloc(dev, sizeof(*chg), GFP_KERNEL);
-> +	if (!chg)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, chg);
-> +
-> +	i2c_chg = devm_i2c_new_dummy_device(dev, max77705->i2c->adapter, I2C_ADDR_CHG);
-> +	if (IS_ERR(i2c_chg))
-> +		return PTR_ERR(i2c_chg);
-> +
-> +	chg->regmap = devm_regmap_init_i2c(i2c_chg, &max77705_chg_regmap_config);
-> +	if (IS_ERR(chg->regmap))
-> +		return PTR_ERR(chg->regmap);
-> +
-> +	chg->dev = dev;
-> +
-> +	ret = regmap_update_bits(chg->regmap,
-> +				MAX77705_CHG_REG_INT_MASK,
-> +				MAX77705_CHGIN_IM, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pscfg.of_node = dev->of_node;
-> +	pscfg.drv_data = chg;
-> +
-> +	chg->psy_chg = devm_power_supply_register(dev, &max77705_charger_psy_desc, &pscfg);
-> +	if (IS_ERR(chg->psy_chg))
-> +		return PTR_ERR(chg->psy_chg);
-> +
-> +	max77705_charger_irq_chip.irq_drv_data = chg;
-> +	ret = devm_regmap_add_irq_chip(chg->dev, chg->regmap, max77705->irq,
-> +					IRQF_ONESHOT | IRQF_SHARED, 0,
-> +					&max77705_charger_irq_chip,
-> +					&irq_data);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to add irq chip\n");
-> +
-> +	chg->wqueue = create_singlethread_workqueue(dev_name(dev));
-> +	if (IS_ERR(chg->wqueue))
-> +		return dev_err_probe(dev, PTR_ERR(chg->wqueue), "failed to create workqueue\n");
-> +
-> +	INIT_WORK(&chg->chgin_work, max77705_chgin_isr_work);
-> +
-> +	max77705_charger_initialize(chg);
-> +
-> +	ret = devm_add_action_or_reset(dev, max77705_charger_disable, chg);
+v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail.com/T
 
-*Based on naming only*, it is strange to add an action to disable 
-something that seems to be enabled a few lines below.
+Nick Chan
+---
 
-Should this be after a successfulmax77705_charger_enable()?
+Nick Chan (3):
+  dt-bindings: leds: backlight: apple,dwi-bl: Add Apple DWI backlight
+  backlight: dwi_bl: Add Apple DWI backlight driver
+  MAINTAINERS: Add entries for Apple DWI backlight controller
 
-> +	if (ret)
-> +		return ret;
-> +
-> +	return max77705_charger_enable(chg);
-> +}
+ .../bindings/leds/backlight/apple,dwi-bl.yaml |  57 ++++++++
+ MAINTAINERS                                   |   2 +
+ drivers/video/backlight/Kconfig               |  12 ++
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/dwi_bl.c              | 122 ++++++++++++++++++
+ 5 files changed, 194 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+ create mode 100644 drivers/video/backlight/dwi_bl.c
 
-...
 
-CJ
+base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+-- 
+2.47.1
+
 
