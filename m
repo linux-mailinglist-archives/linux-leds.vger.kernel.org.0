@@ -1,120 +1,107 @@
-Return-Path: <linux-leds+bounces-3583-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3584-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E199EEE5B
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Dec 2024 16:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230319EF599
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Dec 2024 18:18:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA949285E72
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Dec 2024 15:56:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E1CC289E3F
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Dec 2024 17:18:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52CD6222D4A;
-	Thu, 12 Dec 2024 15:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE42221DBE;
+	Thu, 12 Dec 2024 17:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JbTyuEFz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cwKkrDWj"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F08215764;
-	Thu, 12 Dec 2024 15:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEE21F2381;
+	Thu, 12 Dec 2024 17:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734018941; cv=none; b=HaA+Qukjxt+CksE8MEAFg9MngHr9DEIG/bWnUiAbN5mefpMiuUyT4gUpViKqRQKl8gTBMuuKXzkQbpQ2TReVMvKejWffvljvMNrWwu3WylfnVWxdMtHnGe/DbTfEs29LVMg5S6Ge8wdxoWO8L3vwegDuWs55JaIPxRAVTks9uDo=
+	t=1734023882; cv=none; b=mQjLHsCnDbu24sk2c1AJ6EymvaGX/W4GhGaze/Qd8bO6QXZ14P4Cp04kahZDOOgNNO9rFgXGXjlJeFQ2io4yY/V89tSzeqV+32NgJ6e/HBF7Q+GwLFNdS3WFmVqgfsjDpgSoxnOarJI7CxyXCN8oJqTglB1QojyyGgVD29Iirhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734018941; c=relaxed/simple;
-	bh=PKNBf0TCKuwNcifWvhSa7hUFVANZKsYx7vGJQEMnWHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oo3yWXeinRwcFx5xeplb7M8e7G3MBAiGur17IHghqY+fTz0AMxkQxv1xo3Dl1gnBXqk+W7RxDDLHnFCtEBbCNYbheuCrTaFPex47aPBk1zKrvx8yH5I5ar7Wxl7XTejV612SuBv5dnpAGwWlqXQpCNAjrjzZ3kMGTkgKnie8PtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JbTyuEFz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9073DC4CED3;
-	Thu, 12 Dec 2024 15:55:36 +0000 (UTC)
+	s=arc-20240116; t=1734023882; c=relaxed/simple;
+	bh=gUkmLslWwau7PQ/rqBKBXnsLHUj3XhDqGxojh6HslHA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pZHu6ObiLAXVsA97CtzNSC/6VBS98yCfc+GEVED+fHKNPygpakRXamvTI7mUkZmptZHt5ztVwevDAF/u5wJHu41zqYJ4DsXqGbPRuhONR9gROGjrY/lM9w25/0Jq4r5lDiK+nqKH5ZzC7/XZV45l1L/VbverKVtV2iUynlA0mxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cwKkrDWj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B59C5C4CED3;
+	Thu, 12 Dec 2024 17:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734018940;
-	bh=PKNBf0TCKuwNcifWvhSa7hUFVANZKsYx7vGJQEMnWHs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JbTyuEFzQhdRJOmDrKJyk9vWtv59qHQf6NV5vzbP3QL+w07scAiTpND/D+fCd5C8M
-	 HGFo7Zr4lA5KuhQLh7wMkG5WWx5Kwal2PKprL1LophqlY/WN+VyLBpsZN7PTE0uCjd
-	 XCQ0F8h0QOZONPX2obr7xgnwPTHDCgpgZWYhjXMhHfrPQXzgzL7yfoJDVJvO65o1bq
-	 w/zHPnbEtKLRQh0t0kyUZvpJsBX6ZnpdESQlKb/vt8tTSwZJc/KFJ6+Q+rhQJ5VEUp
-	 PKEBQhBU2DPnV/ofyaUbQV54Hzth2cvwnkNcKOatzAiuYps8eAMqojXzk68jfIL7aF
-	 PBNJQBAh1PLCA==
-Date: Thu, 12 Dec 2024 15:55:33 +0000
+	s=k20201202; t=1734023881;
+	bh=gUkmLslWwau7PQ/rqBKBXnsLHUj3XhDqGxojh6HslHA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cwKkrDWjiW8TR9jqZjKrU5uWhsvufo/SKwmpc6Rrg5GZe5ncsc0bu0jgz9DXMVafs
+	 8R6byDSjz6nc2ZkWvgF5RbtYq71wKsVEdqrV6fwEA6XyvtQIdZKd4xkI+0SIzcCFap
+	 ML8vQ0pyQ0njSAHDp0uPzqdPz71t2MOZDRe/1enAn+qslPZy3NqdtQoF5MD0jD+xqw
+	 29v5HrtCmxHLLU5wAX/vzzKNtSLBKqwG6zJvUnfq+UeiVScxVgufqWl55r7UM6J8CF
+	 xTOLKFCL1wLJZ+pr0NBzm3mztQKnxZg/w1/U8W2DTEW5wm2t8fkr66dfhpSTfhjRjL
+	 xwR/tXpUcsMIQ==
 From: Lee Jones <lee@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>, jic23@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	jdelvare@suse.com, linux@roeck-us.net,
-	srinivas.pandruvada@linux.intel.com, bentiss@kernel.org,
-	dmitry.torokhov@gmail.com, pavel@ucw.cz, ukleinek@debian.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v9 1/9] HID: hid-sensor-hub: don't use stale
- platform-data on remove
-Message-ID: <20241212155533.GG7139@google.com>
+To: lee@kernel.org, jikos@kernel.org, jic23@kernel.org, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ jdelvare@suse.com, linux@roeck-us.net, srinivas.pandruvada@linux.intel.com, 
+ bentiss@kernel.org, dmitry.torokhov@gmail.com, pavel@ucw.cz, 
+ ukleinek@debian.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-leds@vger.kernel.org
+In-Reply-To: <20241107114712.538976-1-heiko@sntech.de>
 References: <20241107114712.538976-1-heiko@sntech.de>
- <20241211120844.GD7139@google.com>
- <n914pn7o-pr9n-5ss0-p744-73402nnn843p@xreary.bet>
- <3196449.TQGk6oTFT5@diego>
- <4s41717n-3888-os6o-384n-7678n0361r0s@xreary.bet>
+Subject: Re: [PATCH v9 0/9] Drivers to support the MCU on QNAP NAS devices
+Message-Id: <173402387748.2234929.7484373598047473898.b4-ty@kernel.org>
+Date: Thu, 12 Dec 2024 17:17:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4s41717n-3888-os6o-384n-7678n0361r0s@xreary.bet>
+X-Mailer: b4 0.13.0
 
-On Wed, 11 Dec 2024, Jiri Kosina wrote:
+On Thu, 07 Nov 2024 12:47:03 +0100, Heiko Stuebner wrote:
+> This implements a set of drivers for the MCU used on QNAP NAS devices.
+> 
+> Of course no documentation for the serial protocol is available, so
+> thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
+> I found interceptty [0] to listen to what goes over the serial connection.
+> 
+> In general it looks like there are two different generations in general,
+> an "EC" device and now this "MCU" - referenced in the strings of the
+> userspace handlers for those devices.
+> 
+> [...]
 
-> On Wed, 11 Dec 2024, Heiko Stübner wrote:
-> 
-> > > > > > > This change was more or less a surprise find, because I wanted to make
-> > > > > > > the platform_data pointer in the mfd_cell struct const and this the hid
-> > > > > > > sensor hub stood out as doing something strange ;-) .
-> > > > > > > 
-> > > > > > > So patch 2 of this series actually depends on this change to not cause
-> > > > > > > build errors.
-> > > > > > 
-> > > > > > Ah, right.
-> > > > > > 
-> > > > > > > But seeing that we're after -rc6 alredy, I would assume the brunt of the 
-> > > > > > > mcu series might need to wait after 6.13-rc1 anyway - but I guess that 
-> > > > > > > depends on how Lee sees things ;-) .
-> > > > > > 
-> > > > > > OK, I am keeping my hands off it for the time being.
-> > > > > 
-> > > > > I can take it now with an Ack.
-> > > > 
-> > > > Looking to apply this set now.
-> > > > 
-> > > > Ack please.
-> > > 
-> > > I'd preferer if Srinivas could ack this as the more specific maintainer. 
-> > > Srinivas, please? 
-> > 
-> > The patch already includes the
-> >    Ack from Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > from a previous version, so I guess it should be ok already?
-> 
-> Ah, I missed that, indeed, sorry for the noise.
-> 
-> With that
-> 
-> 	Acked-by: Jiri Kosina <jkosina@suse.com>
-> 
-> and Lee, please feel free to take it.
+Applied, thanks!
 
-Thanks, will do.
+[1/9] HID: hid-sensor-hub: don't use stale platform-data on remove
+      commit: e079a120f31e3f9c00180aa13c1df18cc138f7fe
+[2/9] mfd: core: make platform_data pointer const in struct mfd_cell
+      commit: 8f4009ad901c44f0428dbde654c4dd1fb29c863b
+[3/9] dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+      commit: 8877bcff3e3b4f08a1fc0232dbfdaeda085cfdf3
+[4/9] mfd: add base driver for qnap-mcu devices
+      commit: 944ca826f69e4723853b3876875b03aeafe67b60
+[5/9] leds: add driver for LEDs from qnap-mcu devices
+      commit: fe6a21ee38f12e3e5f9adbd2f9a840be105b943f
+[6/9] Input: add driver for the input part of qnap-mcu devices
+      commit: 4b27e0da257371d3d141fae38fdbdc3c3a67bce6
+[7/9] hwmon: add driver for the hwmon parts of qnap-mcu devices
+      commit: 41755872a8a8ab8d1644459d9634c53b743fe2be
+[8/9] arm64: dts: rockchip: hook up the MCU on the QNAP TS433
+      (no commit info)
+[9/9] arm64: dts: rockchip: set hdd led labels on qnap-ts433
+      (no commit info)
 
--- 
+--
 Lee Jones [李琼斯]
+
 
