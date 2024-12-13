@@ -1,130 +1,129 @@
-Return-Path: <linux-leds+bounces-3601-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3602-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32EB9F15AF
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 20:20:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A949F17DD
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 22:12:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F075188D31B
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 19:20:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 064061668C6
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 21:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D4071684AC;
-	Fri, 13 Dec 2024 19:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=paranoidlabs.org header.i=@paranoidlabs.org header.b="Z+6zO/ak";
-	dkim=pass (2048-bit key) header.d=paranoidlabs.org header.i=@paranoidlabs.org header.b="JcwlwK3z"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C9A191F6C;
+	Fri, 13 Dec 2024 21:12:29 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.hypatia.paranoidlabs.org (hypatia.paranoidlabs.org [45.11.248.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491B71E501C;
-	Fri, 13 Dec 2024 19:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.11.248.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ED4188704
+	for <linux-leds@vger.kernel.org>; Fri, 13 Dec 2024 21:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734117614; cv=none; b=Ef1+JKOtpzx0Sx/QdxqWSle8fgdJl0GWWwttMlwlAwSEqodRnHN4vChtBh7NbyIdcbY1ZImVgVWDwY7kHdQwgw8mvieVYvyY/0feKJEjmdlgb7MFDnPmnMA7TM8uLOy5IbcdAxouJeVq1icI2IbTxSfH0HS/Kzw4fHqbK/65qY4=
+	t=1734124349; cv=none; b=T7w5vCQUyaTyxL+QjJ+CtwsbtQ++MMvOu9HOBk4vBe+QMyG8m+F3CY6Q0BlFyIpf8nGmRTyHBATl2vB7m+r+DAYHtWVlxu0aMBnilDF/LgF7g9V0UE4hXuZJ+R8OqEJwlt5DoTQvFcsHDMBOWnGkWKvUqc1pVILcMVgth9ojA4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734117614; c=relaxed/simple;
-	bh=9OoqmauZQxohnJFZN4P+wamIlR3i4wpOOCK/m7yVa1g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qOb3YNRRKztQbASFravCa/Fo7W2ouRQ21tjispCafsSdoZcr5Cwq4h9nf1YkNrTy/E7zLxSwuorZJyypcd4oySAQeHAjHcuCHqt1E2kKk8s+qmOjy4KTENHHUWLAZT0kTfxTAxwopL3xb+XLV2cs5T77cIJDhJmu5OqqToyI5b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paranoidlabs.org; spf=pass smtp.mailfrom=paranoidlabs.org; dkim=permerror (0-bit key) header.d=paranoidlabs.org header.i=@paranoidlabs.org header.b=Z+6zO/ak; dkim=pass (2048-bit key) header.d=paranoidlabs.org header.i=@paranoidlabs.org header.b=JcwlwK3z; arc=none smtp.client-ip=45.11.248.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paranoidlabs.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paranoidlabs.org
-Received: from caph.lan (unknown [IPv6:2a02:1748:dd4e:ded0::3ab])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.hypatia.paranoidlabs.org (PlabsMail) with ESMTPSA id C2F621DB80;
-	Fri, 13 Dec 2024 19:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=paranoidlabs.org;
-	s=ed25519-20210101; t=1734117191;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yQ8n5rTevTsEagDkA9CThrufiGSWMm/mG2qZW+/pzSQ=;
-	b=Z+6zO/ak+dNkVat4nDjkQYeN5w9UZrge2k44A1oF5xuLUhqTJu2ybLMp6O5LSOwM9JoUwr
-	8ObkavOgfgMOUqAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paranoidlabs.org;
-	s=rsa-20210101; t=1734117191;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yQ8n5rTevTsEagDkA9CThrufiGSWMm/mG2qZW+/pzSQ=;
-	b=JcwlwK3z7+TjYCQwVsn6bMMZPrYZAq/gd7D49TkqWNGarXxSfHMCeahfkhqfZ0JEzLNBNL
-	BD8xXppPnNiyyy0FLxQQOuh9SBU4/2rh0TQXy/TthEZVb74KH3cP8RlPlnQflFZZXNZUBd
-	DA80P/FWaaNGLZ4HLVxPcViqSSaj6QBhds78Ju/nRD06t3F4gEy9jmcn/+3ugxjiAvE881
-	03is+8bP34LHLsoqsvioePvTHgask0Wpy62vG/5psd0qKoYtT9Tp1uhwWRElMC2hMhEQql
-	YGLSDd2sAB/LOWdoQjqhd6b8WAE3AOED8BfUL+oggA9plmP0ARqoLIfxE0duXg==
-From: Jakob Riepler <jakob+lkml@paranoidlabs.org>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
-	Jakob Riepler <jakob+lkml@chaosfield.at>
-Subject: [PATCH v3] leds: pwm-multicolor: Disable PWM when going to suspend
-Date: Fri, 13 Dec 2024 20:10:41 +0100
-Message-ID: <20241213191039.181169-3-jakob+lkml@paranoidlabs.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241213163445.GA2418536@google.com>
-References: <d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at> <50bbd767-b0e0-4788-975b-f5d9598208e5@chaosfield.at> <20241212174356.GJ7139@google.com> <d021d011-d5d4-4692-973a-f5a45be8db94@chaosfield.at> <20241213163445.GA2418536@google.com>
+	s=arc-20240116; t=1734124349; c=relaxed/simple;
+	bh=i7MSvUORILIbIQKYZ0FsHEo8f6eLVvVYLR6saF3x3p8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mo59P11lsBjx/mdVXOUCDmaLl+auw2HcRe6YI8D5bqYH8VREkxpGrWLS9Z9JrQ6Fn/w6TA9WBnUtZ/G8mcxyYH4VD/qb0u5gBLC+SPM7XArW99b/5EgMWOYMk/2fugt73wh43yK0hdbMeowInKCJJUrn1b9L2WfvFostgIivyu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
+X-QQ-mid: bizesmtpip4t1734124316th7si9z
+X-QQ-Originating-IP: jPqEn8pZ8zoSQ8gwySbX1OXImpj0OTA3fC6ZEMs0Ipk=
+Received: from [IPV6:240f:10b:7440:1:a920:fc03 ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 14 Dec 2024 05:11:54 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 13607947265060659934
+Message-ID: <EF91924B2E892C4C+6a08f801-3ccc-4ccd-a700-c5fc569c11df@radxa.com>
+Date: Sat, 14 Dec 2024 06:11:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: pwm-multicolor: fix multicolor PWM LED lights up
+ without any setting
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+References: <20240816102626.826-1-naoki@radxa.com>
+ <20240821161119.GC6858@google.com>
+ <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
+ <7DDC06B563854ED8+65e7204f-76df-4f36-8544-bede36a519fd@radxa.com>
+ <303538E55468284B+287412a2-b1dc-45d0-af5d-c33c0c63acc5@radxa.com>
+ <20241212190407.GM7139@google.com>
+ <F60FA21FC28E019E+90aa034b-2edd-435a-a4c4-17910267089d@radxa.com>
+ <20241213163540.GB2418536@google.com>
+Content-Language: en-US
+From: FUKAUMI Naoki <naoki@radxa.com>
+In-Reply-To: <20241213163540.GB2418536@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:radxa.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NWDl/EfWhAWlnijUkvvmRUVZUD+uq+5pv2digAB1oXrBTQlVDU//YLc3
+	0G+0Yz5SrTvnUNKaPZ5bLamfLwKs6Q6CqV7TD2CuD1JUA1lAShkNC+8tu2hi+p9oTC6emKd
+	sFRG8XKEc9m0mrZDym5tAl3i6vC9WTYDUUXdUkSSGMkHKCqUAAKHGWV6AVK9kf3nIeTKZjE
+	VJavPaHaNo3TfKRKSQLPEPYtqCDR37vw5rMhfnNKJ55isRW6zHDOoY++DW1X2M7QZv5E+du
+	WKLLZRjiy0ulEOdvqZTnEloNqtIFNf7Gol+E/uVLy2TmQWEU7mLv+tdH5o5pLz02qq/p1JC
+	MkquPZzwoLOtwy/o9wppt6Lvjk9iuqI68l+O4juo40RyqCoXUZbGsDFHVLd48ZyKlwCpGQT
+	dFzd9E3NHt2gH9AiWp2QBUs9LPGJel22ZY1LP0lfR0tIg2nTi1i0QwRBbtxKYIk131vIk5I
+	qDoVvpndPGL6tDDb0LM6MpoZkt2AzX5Q8ZJbDDxdqMidbW8J1tX04Zi+8r3m+bIN2U1vehL
+	E1t0L9j4qaxAc3oYps5bVTUUnf9A+QpOs8TXOpuIoo5FwR9cP9QwjsuM6z1WuZQswZ3lQdH
+	BuNUh665oKk4V3J/Z6AqznfjRAYtzGVLmyh2qQLhr0KNHUOPxMYN0wYU0YroEswltrXfobL
+	fhvBesrYzFuakl3hvPXZDa1sqTDo6ihv8+RUblAOdtNa9CRr1iJChhWxlLhVgVen4TQ8Qx7
+	Kmgcshf/7FH8dueHbwjIb31CYKinwxHca0ok15Ll895NZ5lQDy9DseIyAKPrGTqWb4fbdfK
+	U96nCgRone/t5AjG4USSDngqu7fcQbqwyXM9g/iu4Ruftv6O+mnht1qbJeqvzw55Urrg9Ue
+	8bmzBJeClFaYJ59pGUVHdZqOHaS3stjLK8eABZ2uVNI=
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-This fixes suspend on platforms like stm32mp1xx, where the PWM consumer
-has to be disabled for the PWM to enter suspend.
-Another positive side effect is that active-low LEDs now properly
-turn off instead of going back to full brightness when they are set to 0.
+Hi Lee,
 
-Link: https://lore.kernel.org/all/20240417153846.271751-2-u.kleine-koenig@pengutronix.de/
-Signed-off-by: Jakob Riepler <jakob+lkml@chaosfield.at>
----
-Changes in v2:
- - fix wrong line-breaks in patch
-Changes in v3:
- - use git send-email
+On 12/14/24 01:35, Lee Jones wrote:
+> On Fri, 13 Dec 2024, FUKAUMI Naoki wrote:
+> 
+>> Hi,
+>>
+>> On 12/13/24 04:04, Lee Jones wrote:
+>>> On Tue, 10 Dec 2024, FUKAUMI Naoki wrote:
+>>>
+>>>> Hi,
+>>>>
+>>>> Could you help me(write good commit message), anyone?
+>>>
+>>> Surely you know what the changes you authored do and why you authored
+>>> them?  Write out a nice description in your first language then use
+>>> a free online translation tool to convert it into English.  It doesn't
+>>> have to be a novel.  Just describe what you're doing and why it's
+>>> needed.
+>>
+>> I have no knowledge about electrical circuits...
+> 
+> You must know why you made this change?
 
-Sorry for the issues.
-I'm using git send-email with a different mailserver now so the patch
-formatting should now be correct - at least in my tests git am was
-happy now.
+I noticed strange behavior on Radxa E25 which have pwm-multicolor.
 
-Best regards
-Jakob
+I compared leds-pwm.c:led_pwm_set() and 
+leds-pwm-multicolor.c:led_pwm_mc_set(), and found difference.
 
- drivers/leds/rgb/leds-pwm-multicolor.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Do the same fixed the problem, so I just thought this is correct fix.
+No knowledge was required.
 
-diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
-index e1a81e0109e8..f80a06cc31f8 100644
---- a/drivers/leds/rgb/leds-pwm-multicolor.c
-+++ b/drivers/leds/rgb/leds-pwm-multicolor.c
-@@ -50,7 +50,13 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
- 			duty = priv->leds[i].state.period - duty;
- 
- 		priv->leds[i].state.duty_cycle = duty;
--		priv->leds[i].state.enabled = duty > 0;
-+		/*
-+		 * Disabling a PWM doesn't guarantee that it emits the inactive level.
-+		 * So keep it on. Only for suspending the PWM should be disabled because
-+		 * otherwise it refuses to suspend. The possible downside is that the
-+		 * LED might stay (or even go) on.
-+		 */
-+		priv->leds[i].state.enabled = !(cdev->flags & LED_SUSPENDED);
- 		ret = pwm_apply_might_sleep(priv->leds[i].pwm,
- 					    &priv->leds[i].state);
- 		if (ret)
--- 
-2.47.1
+Btw, this is enough for me.
 
+  https://lore.kernel.org/linux-leds/d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at/T/#t
+
+Please ignore my patch. Thank you very much  for your help, and sorry 
+for wasting your time.
+
+Best regards,
+
+--
+FUKAUMI Naoki
+Radxa Computer (Shenzhen) Co., Ltd.
 
