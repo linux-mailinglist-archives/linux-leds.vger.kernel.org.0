@@ -1,44 +1,52 @@
-Return-Path: <linux-leds+bounces-3602-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3603-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A949F17DD
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 22:12:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B899F1924
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 23:32:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 064061668C6
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 21:12:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 36A4F188E6F8
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 22:33:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C9A191F6C;
-	Fri, 13 Dec 2024 21:12:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84E118F2D4;
+	Fri, 13 Dec 2024 22:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="TtUhHujo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ED4188704
-	for <linux-leds@vger.kernel.org>; Fri, 13 Dec 2024 21:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DF62114;
+	Fri, 13 Dec 2024 22:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734124349; cv=none; b=T7w5vCQUyaTyxL+QjJ+CtwsbtQ++MMvOu9HOBk4vBe+QMyG8m+F3CY6Q0BlFyIpf8nGmRTyHBATl2vB7m+r+DAYHtWVlxu0aMBnilDF/LgF7g9V0UE4hXuZJ+R8OqEJwlt5DoTQvFcsHDMBOWnGkWKvUqc1pVILcMVgth9ojA4Y=
+	t=1734129173; cv=none; b=qtuU9iQ0iggkdt+USvY34GjIiHmvd5uvScq2twSgWXs8VPEXbZCmDxeAXxeUVdfdAb/ukCuPZUKRSeny6qcfRAaRabfUNcNHPHrbLuDTcojvPuzZ8HBqlyIupmT+YyFmhbTfQkqUVIFGYTn+K2XRlhwDT74oztHd9DtY57OebZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734124349; c=relaxed/simple;
-	bh=i7MSvUORILIbIQKYZ0FsHEo8f6eLVvVYLR6saF3x3p8=;
+	s=arc-20240116; t=1734129173; c=relaxed/simple;
+	bh=vnmgKd4DpL+rwwN/tkLSZraFY2PgmaB34glLCaCeCWg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mo59P11lsBjx/mdVXOUCDmaLl+auw2HcRe6YI8D5bqYH8VREkxpGrWLS9Z9JrQ6Fn/w6TA9WBnUtZ/G8mcxyYH4VD/qb0u5gBLC+SPM7XArW99b/5EgMWOYMk/2fugt73wh43yK0hdbMeowInKCJJUrn1b9L2WfvFostgIivyu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
-X-QQ-mid: bizesmtpip4t1734124316th7si9z
-X-QQ-Originating-IP: jPqEn8pZ8zoSQ8gwySbX1OXImpj0OTA3fC6ZEMs0Ipk=
-Received: from [IPV6:240f:10b:7440:1:a920:fc03 ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 14 Dec 2024 05:11:54 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 13607947265060659934
-Message-ID: <EF91924B2E892C4C+6a08f801-3ccc-4ccd-a700-c5fc569c11df@radxa.com>
-Date: Sat, 14 Dec 2024 06:11:54 +0900
+	 In-Reply-To:Content-Type; b=tET6nLahgjC4uAt7NBzy3O9kZyP733qKW+jKbatgucGgoStTgxt6Wjxx/Ngby/EqJOcTr/bHDhBMtidvIuuW2VqQO6kCpJYWTi3v5+nkmSniNi27XeraCrVFQWZ+7QipyF8qBGNS3q+ROnHKz435e6MkW+2pQCp1hle3zmYdWGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=TtUhHujo; arc=none smtp.client-ip=89.58.32.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2BF71103B8FD5;
+	Fri, 13 Dec 2024 23:32:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1734129167;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G3lMENMefBk6pUR9W4xYAZB0rcngf/adMQ7Rd64R32A=;
+	b=TtUhHujoQYV7chB9SEaTrnGogUxwq5ffO+LBzAu0R980y8NtSb8AGVxW1K6Nii5SKgzXqp
+	D4wlV6E0Y3vRsVIGQmaE9VDzvj8NxFJqeDvjwrQJr88EnPeIRqz/5sgIA9HtGAbfz5T9i3
+	rR9O+tS5cdGYRSWhiKb3MtLf0vRp9xK6hOfImDmIBDiviWgBYHmpJ/Z+Scs94CCO3s7sjz
+	DOI2UUaZoAcru0Jcx+rVY28NPHjS9uRXPTDlJYIih00GwzdDfNWP7dmSoVYx4bacBlzusK
+	HBZkuG3tWujNwgrEEOuuwJkNGR8II1x6qCwBjpql5fW7o+t6OfekUWkYK/8VUQ==
+Message-ID: <72383917-4bbe-4b95-9e2f-4e364f5288bd@denx.de>
+Date: Fri, 13 Dec 2024 23:15:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -46,84 +54,66 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: pwm-multicolor: fix multicolor PWM LED lights up
- without any setting
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-References: <20240816102626.826-1-naoki@radxa.com>
- <20240821161119.GC6858@google.com>
- <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
- <7DDC06B563854ED8+65e7204f-76df-4f36-8544-bede36a519fd@radxa.com>
- <303538E55468284B+287412a2-b1dc-45d0-af5d-c33c0c63acc5@radxa.com>
- <20241212190407.GM7139@google.com>
- <F60FA21FC28E019E+90aa034b-2edd-435a-a4c4-17910267089d@radxa.com>
- <20241213163540.GB2418536@google.com>
+Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on interface
+ up
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: linux-leds@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christian Marangi <ansuelsmth@gmail.com>,
+ Christophe Roullier <christophe.roullier@foss.st.com>,
+ Daniel Golle <daniel@makrotopia.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>,
+ Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
+ kernel@dh-electronics.com, linux-stm32@st-md-mailman.stormreply.com,
+ netdev@vger.kernel.org
+References: <20241001024731.140069-1-marex@denx.de>
+ <6f848ef7-c921-4694-9fd5-4a777d5271d0@lunn.ch>
 Content-Language: en-US
-From: FUKAUMI Naoki <naoki@radxa.com>
-In-Reply-To: <20241213163540.GB2418536@google.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <6f848ef7-c921-4694-9fd5-4a777d5271d0@lunn.ch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:radxa.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NWDl/EfWhAWlnijUkvvmRUVZUD+uq+5pv2digAB1oXrBTQlVDU//YLc3
-	0G+0Yz5SrTvnUNKaPZ5bLamfLwKs6Q6CqV7TD2CuD1JUA1lAShkNC+8tu2hi+p9oTC6emKd
-	sFRG8XKEc9m0mrZDym5tAl3i6vC9WTYDUUXdUkSSGMkHKCqUAAKHGWV6AVK9kf3nIeTKZjE
-	VJavPaHaNo3TfKRKSQLPEPYtqCDR37vw5rMhfnNKJ55isRW6zHDOoY++DW1X2M7QZv5E+du
-	WKLLZRjiy0ulEOdvqZTnEloNqtIFNf7Gol+E/uVLy2TmQWEU7mLv+tdH5o5pLz02qq/p1JC
-	MkquPZzwoLOtwy/o9wppt6Lvjk9iuqI68l+O4juo40RyqCoXUZbGsDFHVLd48ZyKlwCpGQT
-	dFzd9E3NHt2gH9AiWp2QBUs9LPGJel22ZY1LP0lfR0tIg2nTi1i0QwRBbtxKYIk131vIk5I
-	qDoVvpndPGL6tDDb0LM6MpoZkt2AzX5Q8ZJbDDxdqMidbW8J1tX04Zi+8r3m+bIN2U1vehL
-	E1t0L9j4qaxAc3oYps5bVTUUnf9A+QpOs8TXOpuIoo5FwR9cP9QwjsuM6z1WuZQswZ3lQdH
-	BuNUh665oKk4V3J/Z6AqznfjRAYtzGVLmyh2qQLhr0KNHUOPxMYN0wYU0YroEswltrXfobL
-	fhvBesrYzFuakl3hvPXZDa1sqTDo6ihv8+RUblAOdtNa9CRr1iJChhWxlLhVgVen4TQ8Qx7
-	Kmgcshf/7FH8dueHbwjIb31CYKinwxHca0ok15Ll895NZ5lQDy9DseIyAKPrGTqWb4fbdfK
-	U96nCgRone/t5AjG4USSDngqu7fcQbqwyXM9g/iu4Ruftv6O+mnht1qbJeqvzw55Urrg9Ue
-	8bmzBJeClFaYJ59pGUVHdZqOHaS3stjLK8eABZ2uVNI=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Lee,
-
-On 12/14/24 01:35, Lee Jones wrote:
-> On Fri, 13 Dec 2024, FUKAUMI Naoki wrote:
-> 
->> Hi,
+On 10/3/24 2:06 PM, Andrew Lunn wrote:
+> On Tue, Oct 01, 2024 at 04:45:23AM +0200, Marek Vasut wrote:
+>> The trigger_data->hw_control indicates whether the LED is controlled by HW
+>> offload, i.e. the PHY. The trigger_data->hw_control = can_hw_control() is
+>> currently called only from netdev_led_attr_store(), i.e. when writing any
+>> sysfs attribute of the netdev trigger instance associated with a PHY LED.
 >>
->> On 12/13/24 04:04, Lee Jones wrote:
->>> On Tue, 10 Dec 2024, FUKAUMI Naoki wrote:
->>>
->>>> Hi,
->>>>
->>>> Could you help me(write good commit message), anyone?
->>>
->>> Surely you know what the changes you authored do and why you authored
->>> them?  Write out a nice description in your first language then use
->>> a free online translation tool to convert it into English.  It doesn't
->>> have to be a novel.  Just describe what you're doing and why it's
->>> needed.
+>> The can_hw_control() calls validate_net_dev() which internally calls
+>> led_cdev->hw_control_get_device(), which is phy_led_hw_control_get_device()
+>> for PHY LEDs. The phy_led_hw_control_get_device() returns NULL if the PHY
+>> is not attached.
 >>
->> I have no knowledge about electrical circuits...
+>> At least in case of DWMAC (STM32MP, iMX8M, ...), the PHY device is attached
+>> only when the interface is brought up and is detached again when the
+>> interface is brought down. In case e.g. udev rules configure the netdev
+>> LED trigger sysfs attributes before the interface is brought up, then when
+>> the interface is brought up, the LEDs are not blinking.
+>>
+>> This is because trigger_data->hw_control = can_hw_control() was called
+>> when udev wrote the sysfs attribute files, before the interface was up,
+>> so can_hw_control() resp. validate_net_dev() returned false, and the
+>> trigger_data->hw_control = can_hw_control() was never called again to
+>> update the trigger_data->hw_control content and let the offload take
+>> over the LED blinking.
+>>
+>> Call data->hw_control = can_hw_control() from netdev_trig_notify() to
+>> update the offload capability of the LED when the UP notification arrives.
+>> This makes the LEDs blink after the interface is brought up.
+>>
+>> On STM32MP13xx with RTL8211F, it is enough to have the following udev rule
+>> in place, boot the machine with cable plugged in, and the LEDs won't work
+>> without this patch once the interface is brought up, even if they should:
+>> "
+>> ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:green:wan", ATTR{trigger}="netdev", ATTR{link_10}="1", ATTR{link_100}="1", ATTR{link_1000}="1", ATTR{device_name}="end0"
+>> ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:yellow:wan", ATTR{trigger}="netdev", ATTR{rx}="1", ATTR{tx}="1", ATTR{device_name}="end0"
+>> "
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
 > 
-> You must know why you made this change?
-
-I noticed strange behavior on Radxa E25 which have pwm-multicolor.
-
-I compared leds-pwm.c:led_pwm_set() and 
-leds-pwm-multicolor.c:led_pwm_mc_set(), and found difference.
-
-Do the same fixed the problem, so I just thought this is correct fix.
-No knowledge was required.
-
-Btw, this is enough for me.
-
-  https://lore.kernel.org/linux-leds/d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at/T/#t
-
-Please ignore my patch. Thank you very much  for your help, and sorry 
-for wasting your time.
-
-Best regards,
-
---
-FUKAUMI Naoki
-Radxa Computer (Shenzhen) Co., Ltd.
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Is there anything blocking this patch from being picked up ?
 
