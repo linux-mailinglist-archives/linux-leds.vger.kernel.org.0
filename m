@@ -1,92 +1,89 @@
-Return-Path: <linux-leds+bounces-3599-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3600-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418E29F124F
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 17:35:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F1E9F1346
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 18:09:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0048A283D55
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 16:35:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E60AD28152D
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Dec 2024 17:09:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24BF61547F5;
-	Fri, 13 Dec 2024 16:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30E01E22E6;
+	Fri, 13 Dec 2024 17:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sesZ6Ktb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QT5McpZZ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0065B152E1C
-	for <linux-leds@vger.kernel.org>; Fri, 13 Dec 2024 16:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D3E17C21E;
+	Fri, 13 Dec 2024 17:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734107745; cv=none; b=PV10uUSozllRiVAOIv2lTBwCAyoTH1rQGcaN71BeFZdnlRzZ2FKuvIEisn9icElioed3bE0SdewdcL/BA/oW4hs9n6SPRmAJs2zAzbLrHG3N1Zozt1jFiAwCTbZFAwQcdqQR6hJdnHGyRZsl6ZLEZVYoAyzm9FWPFHqDu5/hbnQ=
+	t=1734109775; cv=none; b=kDMuRGEZJ2A+zlRwXDoolkKflFkMwyKHZU4uXY/MviMP5DjSZfVO/j2Ndpol8so72wObOdy3fhQLuPj+yPp5XulocsXY9KtHLbRsb+r85G7z2xuJB2+9uROvvJfmups6qsDN3yy6siTY4J9/Bw2THDarsyndOArsiSQKQYpA2Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734107745; c=relaxed/simple;
-	bh=scLPu6zwwblcXgS38MX8MxfYsMx9Frw6zMTDTE/KB78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u3JIrPIbaBhwVn9xqvrZJ2QUr+1GJNBET3ITIswzJdxX5PxSJ+saS01Ag5qB8y5UQrIIXrNaQhgLmkJnBTMT724RcVXVdCV3Cu1PiYDPJdybye/ko9SgOOxgjoWNBK9dNA2NA1WsHJT8Fu7ZTvTvDkU+vJQbrzpeS3CGYJ3pK+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sesZ6Ktb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1384C4CED0;
-	Fri, 13 Dec 2024 16:35:43 +0000 (UTC)
+	s=arc-20240116; t=1734109775; c=relaxed/simple;
+	bh=JZ2USEEEV7FFcVBTCgSNTmRnykylc2iH9qSCZf1QpHw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SpTjo1VncPV1ZkGYVRXqBmki29rU2LrrOf/UlOGEASP2rAeNFxZVXarp4/09rw8/27tiLKZ78iCfkBFuw8PTd3QORRnTVUmK327Vsuz8Fll5C22d7o4dD+pkohEF+vU1ccM2bO2IIv8JNfq50HUKWmo46/0h+10ZYiFwiwWHEeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QT5McpZZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B20C4CED0;
+	Fri, 13 Dec 2024 17:09:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734107744;
-	bh=scLPu6zwwblcXgS38MX8MxfYsMx9Frw6zMTDTE/KB78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sesZ6KtbsQ2dRxbfZPQphy/+jgznJU6Y0GA+VEodI2Py2sdufBEyiEMK9vuWTYa8e
-	 3xE5/JTkEID7Qrgg4UkZoXTPXYIwjyKOWPBpYxoRlURXV86syKwEk2KDkMt7C4WoAz
-	 6lCv57bcZ/RWAGpun+2LKD0UbPISIsCbiUnvqveO6hTrG9o3/xmn+UEb3bOTS/EUFS
-	 YeY3eNnjEo5tE4ScsDM/hJtPgC36+RP/UBoZ+2vfwHcvI7u4gAgCXH66BGPyjRZnDA
-	 bdX/mMsewP51p+DT6hBwDD9VoqnlK3QKA+AIpvksu0W9LitgIkNq9nhmLPUukLaI+T
-	 BqYCCMkroe4cA==
-Date: Fri, 13 Dec 2024 16:35:40 +0000
+	s=k20201202; t=1734109775;
+	bh=JZ2USEEEV7FFcVBTCgSNTmRnykylc2iH9qSCZf1QpHw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QT5McpZZONNcg7KADmbU2DPbaBeP8mlRlKQHNkSI9YZmDWrQRRKDUevKF72qD4psW
+	 19KAfNdNGsk/0I9B+eimsCrsOB4OPh3x6D3qzkCVx/KvXYK/0MPn9LKxQPpNFKFuF8
+	 CpmTjJMCbNQ3oyXTGp524MsYj1KPoWHw9DDysKV3IDlCInt/Gpgbxh+g3LTbPQ8odV
+	 9amrJGml01xQ29W432ZegOypMgyqzLByXHRo6T7sp4BRoRG9ErZySJAjKtzvdvvunl
+	 ejTwv1LOvO+V9vcrPqXQVgH5XIm1do9dxmTivb/Dn98gqBdzvSxtPNYiJ82KAjG82G
+	 CRG5paaOHNyyQ==
 From: Lee Jones <lee@kernel.org>
-To: FUKAUMI Naoki <naoki@radxa.com>
-Cc: linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: pwm-multicolor: fix multicolor PWM LED lights up
- without any setting
-Message-ID: <20241213163540.GB2418536@google.com>
-References: <20240816102626.826-1-naoki@radxa.com>
- <20240821161119.GC6858@google.com>
- <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
- <7DDC06B563854ED8+65e7204f-76df-4f36-8544-bede36a519fd@radxa.com>
- <303538E55468284B+287412a2-b1dc-45d0-af5d-c33c0c63acc5@radxa.com>
- <20241212190407.GM7139@google.com>
- <F60FA21FC28E019E+90aa034b-2edd-435a-a4c4-17910267089d@radxa.com>
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@ucw.cz>, Thomas Richard <thomas.richard@bootlin.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, thomas.petazzoni@bootlin.com, 
+ DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
+In-Reply-To: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
+References: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
+Subject: Re: (subset) [PATCH 0/5] Add support for the AAEON UP board FPGA
+Message-Id: <173410977288.944644.7928182846086408038.b4-ty@kernel.org>
+Date: Fri, 13 Dec 2024 17:09:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <F60FA21FC28E019E+90aa034b-2edd-435a-a4c4-17910267089d@radxa.com>
+X-Mailer: b4 0.13.0
 
-On Fri, 13 Dec 2024, FUKAUMI Naoki wrote:
-
-> Hi,
+On Wed, 11 Dec 2024 17:27:15 +0100, Thomas Richard wrote:
+> This is the revival of the AAEON UP boards FPGA.
+> The latest version was sent one year ago [1].
 > 
-> On 12/13/24 04:04, Lee Jones wrote:
-> > On Tue, 10 Dec 2024, FUKAUMI Naoki wrote:
-> > 
-> > > Hi,
-> > > 
-> > > Could you help me(write good commit message), anyone?
-> > 
-> > Surely you know what the changes you authored do and why you authored
-> > them?  Write out a nice description in your first language then use
-> > a free online translation tool to convert it into English.  It doesn't
-> > have to be a novel.  Just describe what you're doing and why it's
-> > needed.
+> I started a new series, as I re-wrote all the drivers using the AAEON
+> DKMS driver [2] as reference. I also read all series sent to the ML to
+> collect the comments sent by the maintainers and reviewers (to not
+> reproduce the same errors).
 > 
-> I have no knowledge about electrical circuits...
+> [...]
 
-You must know why you made this change?
+Applied, thanks!
 
--- 
+[1/5] mfd: Add support for AAEON UP board FPGA
+      commit: 577ced9b8ac3791edfddc7c371a7f948cdd0e35c
+[2/5] leds: Add AAEON UP board LED driver
+      commit: 5885a1731d0052d5d8a8cbc9871f94fae1f3baa3
+[5/5] MAINTAINERS: Add entry for AAEON UP board FPGA drivers
+      commit: f35d82b6f63994e7d7944daa99651ab88300ce22
+
+--
 Lee Jones [李琼斯]
+
 
