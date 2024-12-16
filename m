@@ -1,83 +1,106 @@
-Return-Path: <linux-leds+bounces-3615-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3616-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C710C9F2D67
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:53:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3199F2DB4
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 11:04:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1143B16420D
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:53:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D94F188045E
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:03:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DA47201026;
-	Mon, 16 Dec 2024 09:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7528201269;
+	Mon, 16 Dec 2024 10:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="QGEJTBqB"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="piviGXt1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C1BBA49;
-	Mon, 16 Dec 2024 09:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD93B202C26;
+	Mon, 16 Dec 2024 10:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734342789; cv=none; b=qHVOdCYo6CY1m58FuaTEXiTTqGuAaT1wSsPy7ZfysvXKjrb7Xc1FluS9ifpnJeKr9zEN97mMycgBsGR7DCi3Cf6+HRkIQKmt1jgosU3FuBGvwv5m6tlKOBPAEN6feduZmGDav35Jnjxnohto+Q6iaKU6PsKmcfeCXOp1rNdwtH0=
+	t=1734343365; cv=none; b=ZWVoHNasvU8DfqyL8WZMt4Ku39csRElL3RL2BPmxjYijGz0ChTsieqbG6jHYtTCH9hOwMVhSzH3rB9NJn0TydS3emig+GuGKYzKBZODy3itw5P9zLr4eMj+wo+kWtpzebpB2Bop4ki6n3kJnzvR6JHaXJ/q+cRdH4vrU+6VL2DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734342789; c=relaxed/simple;
-	bh=/CKUXBtOOwZ//wpp/7irongspgmXVlrvsuTwSU9fzBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ksERfYmva8E9+LVHeslt+5Zg/chDGNg6MDP7y2MICfs1MFIYXBbpc0/uokvxOIgLxcQmJ2i8EunBCe8c/pjZQcqbaPMS47sj0y1Hm3oTguGWqAWk0Gy6RWQZuylo1aywnU/SuI/ktWRnV+71uuM3NOaAqsOaFtYsAEkEMPFnrxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=QGEJTBqB; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=c/jnkkvjkZkhQh2NENGcQlzKqSHY5puqA49DNvov0QU=; b=QGEJTBqB+7Od0l5rj5GQrkfojR
-	1ioziAekL5aDc24THwFfE1w2fe6ZJw6GVK96MYaZ5jH/ZTpMYOpsJShzq9NtaOqSiOU51muWr555r
-	4acoHFT3hqYunsPjJbl0S9S8UXSQ+yaU7/m1NHOl3Ij/W0N+KiC5UPRjANGMXuN2RiUQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tN7mQ-000ZwQ-IH; Mon, 16 Dec 2024 10:52:46 +0100
-Date: Mon, 16 Dec 2024 10:52:46 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Lee Jones <lee@kernel.org>
-Cc: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Christophe Roullier <christophe.roullier@foss.st.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
-	kernel@dh-electronics.com, linux-stm32@st-md-mailman.stormreply.com,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on
- interface up
-Message-ID: <417d05ba-0def-45b9-a086-ea36c580c472@lunn.ch>
-References: <20241001024731.140069-1-marex@denx.de>
- <6f848ef7-c921-4694-9fd5-4a777d5271d0@lunn.ch>
- <72383917-4bbe-4b95-9e2f-4e364f5288bd@denx.de>
- <5c15ea24-8ca1-4b44-b6d6-fa6adac50334@lunn.ch>
- <20241216093525.GG2418536@google.com>
+	s=arc-20240116; t=1734343365; c=relaxed/simple;
+	bh=3Bn0XDCgvjUAcs0JJMNweqfavk9Ae8nzA9aqUXkAjNs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFRJ7mkvhC7G6D5mX+00gdXqFTaSLB/TkWBr5jkwreXbptoxqjtFuDhcXTvUCVbJjlS+Hxwi5iNB3rp8IuTaCL+V+uQEZwVNgaK4SRnCQoK9vVTHocuWW6FtaStaBNI1AKm9dQa1E3JPThydCZTvmeG+R9zJzlesxvTITHRF2wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=piviGXt1; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E2503E000F;
+	Mon, 16 Dec 2024 10:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1734343355;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6bMkpsWG2STvsBYlJ3JnC7cvQAT4JZnLBQxIJKnkPHc=;
+	b=piviGXt1wejSD3QKlfGdE7ChKJIB9GG2IT2kTYeBtRKmOcwwdwCvZiP62RMjQnGwDZUTtV
+	Eh3QvwPmIAuR7X/kqpJ5KaY4siWERuhlcyIMcOxoatWbggw3NzJszvOcFcmI+RNRSSktKx
+	pgxfwjvwc7IxjBnEYY8j39D4kGAw8gA4EX6O8eptY0d413/35X0wJNzow5iE/IMwFit3lU
+	0R5I9YjmpQuNDdd2eRQGohfjB6RXP7EtjzqXT26cMvP51wLainFz28v2faVgn6+x4DuaHF
+	4IXzc8HaXBPTzIKa/GXr59XjV1tDpFS/zSwjJr2mFAS4ifjmwUUOZzLh+e7UPg==
+Message-ID: <19311182-b5d5-44e9-96f5-ee21f2178668@bootlin.com>
+Date: Mon, 16 Dec 2024 11:02:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241216093525.GG2418536@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] gpiolib: add gpiochip_add_pinlist_range() function
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
+References: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
+ <20241211-aaeon-up-board-pinctrl-support-v1-3-24719be27631@bootlin.com>
+ <CAMRc=MfUDGaW1cBrsLzAZ6GORFFv5fAjEKXu7esO44v4XckheQ@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Richard <thomas.richard@bootlin.com>
+In-Reply-To: <CAMRc=MfUDGaW1cBrsLzAZ6GORFFv5fAjEKXu7esO44v4XckheQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: thomas.richard@bootlin.com
 
-> It looked like the conversation was continuing.
+On 12/16/24 10:17, Bartosz Golaszewski wrote:
+> On Wed, Dec 11, 2024 at 5:27 PM Thomas Richard
+> <thomas.richard@bootlin.com> wrote:
+>>
+>> Add gpiochip_add_pinlist_range() function to add a range for GPIO <-> pin
+>> mapping, using a list of non consecutive pins.
+>> Previously, it was only possible to add range of consecutive pins using
+>> gpiochip_add_pin_range().
+>>
+>> The struct pinctrl_gpio_range has a 'pins' member which allows to set a
+>> list of pins (which can be non consecutive). gpiochip_add_pinlist_range()
+>> is identical to gpiochip_add_pin_range(), except it set 'pins' member
+>> instead of 'pin_base' member.
+>>
+>> Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
+>> ---
+> 
+> I don't have anything against this change so in any case:
+> 
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> But may I suggest the name to be changed to
+> gpiochip_add_pin_range_sparse() for a better indication of its
+> purpose?
 
-Yes, it did, for nice to have additional functionality. But i think
-the base patch is good to go, and it has my Reviewed-by:.
+Hi Bartosz,
 
-I expect there will be a resend coming soon :-)
+Yes for sure, I will change the name for the v2.
 
-	Andrew
+Regards,
+
+Thomas
+
 
