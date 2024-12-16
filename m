@@ -1,107 +1,117 @@
-Return-Path: <linux-leds+bounces-3609-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3610-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7C69F2641
-	for <lists+linux-leds@lfdr.de>; Sun, 15 Dec 2024 22:26:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D52C9F2B29
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 08:49:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93ACE7A15F3
-	for <lists+linux-leds@lfdr.de>; Sun, 15 Dec 2024 21:26:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25CE21658E3
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 07:49:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C9A1BD4FD;
-	Sun, 15 Dec 2024 21:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541401AAA24;
+	Mon, 16 Dec 2024 07:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YCqJOY+Z"
+	dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="Ayvszt2j"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621DC1B87C7;
-	Sun, 15 Dec 2024 21:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1901FF1C4
+	for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2024 07:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734297997; cv=none; b=SK+121wiMi0aUjK5A1EnLrZdB+3HeXF3Lm1igj5M3XwcMuDOs9+KckYmCPXqqbJ2u1nWmuZyS+dOSGBLklwm/WCdxDEYsymBHKlr1a3AXnz40nrYH51XWsDlViVMhrkMpGdLFuuLVVsx7SoT2FE/AXzrIgk4UbXx9cPb4sCTFaE=
+	t=1734335374; cv=none; b=CdWLgGjS3enbMETeWsISsVpODdO94EYqHG05+HNHaCMc5gE90qj7VKAibPVzFCyXk3bXqtUOiPeNWTUkUWab45B6zMkdRgIzygMX0+pRQ+t80NxuZK6TwlLRs3DjYrFsOQe+lYzzArZOhMfwHKa9vjs1z/WsknD0+mG+6j3V720=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734297997; c=relaxed/simple;
-	bh=/wCfD8PYxsv1hEHkNP3Aza2mADy3dTGKMocVP/4mrKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gDN79kCMhPbnvAdgMf40C61L+8VRG2sVb60Hp5usBWoQATPz3Pu/xhF24CL8XFuPqj04sCv4YHEp1a9Tx29mwPBd41GAVVY2qyJRs7adIVV0v4K+OmQHnQQIQeBQE3BIBIkF8r8KJF4YSavblukFN2q+44XCCjR6h7gRHuu3Y+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YCqJOY+Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B1A0C4CECE;
-	Sun, 15 Dec 2024 21:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734297996;
-	bh=/wCfD8PYxsv1hEHkNP3Aza2mADy3dTGKMocVP/4mrKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YCqJOY+Z383UEd4ZnNbqRNrMjT3zblk3FAZ6cxSnXMOGkagpgfs4g+gnj9oBBBcTs
-	 E+CCYQim53VrLdVbDcEvvprbDbuF1+6rwACMAbTa1fR9awoPe6r5fWZceaB1Zv9ncp
-	 EWRhyT+uLP79eiJiCk48HvgPs25ULNJD1Q2Mdzxt/gwnMSH8Gg8cJs9VQLF9UuakL7
-	 LEYWi0rMd+89n4aWRtBKLWnMAdT0h7QQgznz11khTmMrioPemdG9jFvHHvK9CG0Gg/
-	 LiadWLdGw8ortZv4acIB1KN4vBezDFF/DShgkL9M/Dfxkkr7BU2Ly2kww990uqGPZ6
-	 NErEKWXBfFrEQ==
-Date: Sun, 15 Dec 2024 22:26:31 +0100
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Klaus Kudielka <klaus.kudielka@gmail.com>
-Cc: Gregory CLEMENT <gregory.clement@bootlin.com>, 
-	Lee Jones <lee@kernel.org>, regressions@lists.linux.dev, Pavel Machek <pavel@ucw.cz>, 
-	linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, arm@kernel.org, 
-	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH leds v5 12/12] ARM: dts: turris-omnia: Add global LED
- brightness change interrupt
-Message-ID: <6gxg466bl7tbyfq5yoenpw5t3vcfcyywv3jydwwwiqik2pzqsv@3g4gk6m62mdk>
-References: <20241104141924.18816-1-kabel@kernel.org>
- <20241104141924.18816-13-kabel@kernel.org>
- <87bjyv9ecb.fsf@BLaptop.bootlin.com>
- <778f08f1774fcad5fcc39114dbb721793ebf95d6.camel@gmail.com>
- <2iocrd4a7l4avfhqmobbexo7k4u2poidkvvj7lpqh7vp7mprkm@pfgytqnmt2si>
- <ofd5ru77wypfysflpblafbbdgrcmzztqwoewfjfuusrnbma4aw@y3oc3etutisi>
- <ec61714eaa3d84498cd69dc673fb11996550a3ea.camel@gmail.com>
+	s=arc-20240116; t=1734335374; c=relaxed/simple;
+	bh=mKfecYvyd9Ed+foU21elt75SnTQ7jxLys65foSfdhj4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cfctdEq0leWiVqaz4vsN/M2gxJklwLfLjIPJbyq3D8jNugJwqUfRqOiOwQDgyO0+XU8jV++aD+8Oyq8GvA6ZmYlnMQp6XRGWE9utOhkfY98sXfOFxVrIpsy/1bY1Rlp/BmQ0h7hQtxEBjxuJ1DIPfmuUUWFKMiRPtmPwBWara6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b=Ayvszt2j; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-725ee6f56b4so3129112b3a.3
+        for <linux-leds@vger.kernel.org>; Sun, 15 Dec 2024 23:49:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734335371; x=1734940171; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3YGcdpgc7Msq5fznO1WU85erCIPp7Gi0gsPLgpOxGt4=;
+        b=Ayvszt2jkFzUyT/i6bighz+31KtU1VMhKwJ9ShNAHZaKkNXw2UuR2I+AEfQBM+zgai
+         00QNatpPGExrP/ABoyDSa7DAVTd5Pd3scAgp6n461Tej2/g40D/lBlN+MNDmpy/czihk
+         vfdL7PI2s1NE09yjcwjKoHB+jmv93NkExzDJgH41+uuKBfwDoQt0RYf1xVuwjOoaPjMp
+         d6rhfE3GrmKOh06OJI5a2hpEeDZKtn5U6oPwhajZsRNPBtFz8IIo1GdoEV4P1HmvcQIB
+         tqmpv6prUqFgJcKhG4o9VU+LcFciEX6Ty5fSpy0OUm44QmR+wIzadfUeGDRy4hT5eR6q
+         QoLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734335371; x=1734940171;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3YGcdpgc7Msq5fznO1WU85erCIPp7Gi0gsPLgpOxGt4=;
+        b=wdR5L/8LP2fBNJrzj2w0GgPtDsrMiAY9RhjEqh9Ep0rzhzwF0hbstw/vORac6dPao4
+         Qw3csA0OJLPuhgvHIkTViuB2f0MlhyyC7fw3y5TKOxu2rEa3LHRPV2SfazheWXhMQRdE
+         cN3JK65nBu6zvHF9aUUyCbccukTZEQcWhaKnaDJHglabegIOH9N1gJMAyb0cKrq3VSFi
+         NihBmerbuL9QiplRJNUuxiaZPfiGzswcsTHWOROrAfsTxfAptBtDadtgL8G8CNM5dh7f
+         CKlUhYRybWOEoIxp6vRdY//KG6hWQpiT/YIUaO2Fj7pe5BOyWJbzhMP8TMgGzzPC9R48
+         ugxg==
+X-Gm-Message-State: AOJu0YxLSYOvJ4odub5GhgwNdDu0dlvzfS/W3HOwied2dhTvJY/Grm03
+	TVrLD1gLyxGFqumVx7nChg4FBrg/o+L/uCwAmZHfcxnui/Q7l6ynongSf98CYEE=
+X-Gm-Gg: ASbGnctlqevJWkUlykgmn4MO3/YVD4UBRHwbWTPMPbHKqnYadhbV7Wfnztz/+cgeu/9
+	znD2VZVbRIkJscI0PtXhQUUs71lJzgmWc9owUvjMLik/P+3j9ck/S11bfkKQAvkvkaHRDJJqvuE
+	y2/pp+fpNCKvq1TxkR6Sg0JQQtOYF9sdW9v+m21sFq12I1LR8/s8rnbLHfZfQT9Gai1FGY3muUf
+	npzHFbwNy21pW3mf76Om0cPms+ueoDA6g/YzJ5k5GLiFQxJ8PDMmlsP5uUQwTPXnTgfANyXBAQB
+	MrRBVPEtlBOGsPlWSVN7DfM902/gDwddlNlrfc3wB9o=
+X-Google-Smtp-Source: AGHT+IH32xOi6VDRoL9F3SunYc9OwUouoRIkW4oKlIZqPeZrarfrSmbLhN+JUl2VMy/wNFlj7EVivQ==
+X-Received: by 2002:aa7:8c19:0:b0:729:1c0f:b957 with SMTP id d2e1a72fcca58-7291c0fbb05mr8118227b3a.25.1734335370783;
+        Sun, 15 Dec 2024 23:49:30 -0800 (PST)
+Received: from localhost.localdomain (133-32-227-190.east.xps.vectant.ne.jp. [133.32.227.190])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918bad81asm4114072b3a.151.2024.12.15.23.49.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Dec 2024 23:49:30 -0800 (PST)
+From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+To: pavel@ucw.cz,
+	lee@kernel.org
+Cc: linux-leds@vger.kernel.org,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+Subject: [PATCH] leds: netxbig: fix an OF node reference leak in netxbig_leds_get_of_pdata()
+Date: Mon, 16 Dec 2024 16:49:23 +0900
+Message-Id: <20241216074923.628509-1-joe@pf.is.s.u-tokyo.ac.jp>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ec61714eaa3d84498cd69dc673fb11996550a3ea.camel@gmail.com>
 
-On Sun, Dec 15, 2024 at 12:39:10PM +0100, Klaus Kudielka wrote:
-> On Thu, 2024-12-05 at 13:42 +0100, Marek Behún wrote:
-> > On Thu, Dec 05, 2024 at 01:38:10PM +0100, Marek Behún wrote:
-> > > 
-> > > This is because the patch went into 6.13 but the rest of the patches
-> > > did not, Lee wants to take them for 6.14 :-(
-> > > 
-> > > Apply this series and it will work.
-> > > 
-> > > https://lore.kernel.org/linux-leds/20241111100355.6978-1-kabel@kernel.org/T/
-> > 
-> > Alternatively you can overcome this issue if you enable the
-> > turris-omnia-mcu driver in 6.13:
-> > 
-> >   CONFIG_CZNIC_PLATFORMS=y
-> >   CONFIG_TURRIS_OMNIA_MCU=y/m
-> > (and also the subsequent options).
-> > 
-> > Marek
-> 
-> Testing reveals:
-> I have to enable CONFIG_TURRIS_OMNIA_MCU_GPIO as well, to make the LEDS work again with v6.13-rc2.
-> 
-> So far, so good.
-> 
-> But the upcoming dependency in 6.14 will be on CONFIG_TURRIS_OMNIA_MCU, not on CONFIG_TURRIS_OMNIA_MCU_GPIO.
-> Is this correct?
+netxbig_leds_get_of_pdata() does not release the OF node obtained by
+of_parse_phandle() when of_find_device_by_node() fails. Add an
+of_node_put() call to fix the leak.
 
-On both, see the first added line at
-  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?h=for-leds-next&id=d82e09d62b3bdbfa9dac2daf3c3c071b6a79d2aa
+This bug was found by an experimental static analysis tool that I am
+developing.
 
-Marek
+Fixes: 9af512e81964 ("leds: netxbig: Convert to use GPIO descriptors")
+Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+---
+ drivers/leds/leds-netxbig.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
+index af5a908b8d9e..e95287416ef8 100644
+--- a/drivers/leds/leds-netxbig.c
++++ b/drivers/leds/leds-netxbig.c
+@@ -439,6 +439,7 @@ static int netxbig_leds_get_of_pdata(struct device *dev,
+ 	}
+ 	gpio_ext_pdev = of_find_device_by_node(gpio_ext_np);
+ 	if (!gpio_ext_pdev) {
++		of_node_put(gpio_ext_np);
+ 		dev_err(dev, "Failed to find platform device for gpio-ext\n");
+ 		return -ENODEV;
+ 	}
+-- 
+2.34.1
+
 
