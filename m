@@ -1,65 +1,64 @@
-Return-Path: <linux-leds+bounces-3612-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3613-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC309F2D16
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749E49F2D55
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:50:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 659CF1883B72
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:35:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F0151886041
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:50:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EACF200B8A;
-	Mon, 16 Dec 2024 09:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1FF202C21;
+	Mon, 16 Dec 2024 09:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CqcqrCu4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qn9ZX0LI"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CED2AF03;
-	Mon, 16 Dec 2024 09:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8457B1FFC60;
+	Mon, 16 Dec 2024 09:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734341732; cv=none; b=HUt7kHKPhGA/22vfLNCLJn+Q1Iei1c6z3oZ5m/mLN9SPLDyRfsgbLNt9de1gNSMCtL+FTtTfp3FKO5ludqyDLMWybw+wBzYkomf55GyoyBrcDGn9y0nJKGg/Okw58CGWXSCBT92MV+OX5GOEQyQd8XePnT/UKQz38QJWk7ENkN8=
+	t=1734342588; cv=none; b=VzwiLna0ShMDncqO7VA4cwQpOIeVBX6i1bX6cHxgugvTtiqZK4igkZEr5qvIQxZdPAnPgaWldViuyaBmpBCZTlnCWRb531Lfb7EQpRwn/fU2m6aPjlLusmSvSzNDRW4AO2RMJ0xjfD5DAP8KnRx4HhPoV0DHbMeBEeuOILmQHxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734341732; c=relaxed/simple;
-	bh=MJAI/S1eHdraNTqHVjewdE9v94dBXIYQiOVlxPlvNrs=;
+	s=arc-20240116; t=1734342588; c=relaxed/simple;
+	bh=5zUbiawPtOv8GK8M6GJMQMoFppSm38F60LOkOuxh+h0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r91qCB+UKYHDzER7aFv8e3sefnRA0by1pmYzjynKHjEBF/oP3MkMZ7QsPOW7fzTWVAiS1DkQ92OqrMA3uVyOKmKknxPq8ss9XNG/FCQ0H1J4IepRHiU04XQS3m5R63BdjgOY33lcHx+5w7fo6GqmbEvkZXdtKSuGzNjNOCjQV/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CqcqrCu4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F62DC4CED3;
-	Mon, 16 Dec 2024 09:35:28 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=iw5ky+BFE6wvI1z5ywg0+4TadPLy7kYw5Yhhj31FdZ3HG8EE2g/7u6fLTpn4wImaao93vAtFpkclciH2+vpYaG26XKtfONGmQTbyavxQCLWuiyVNDUQEb+MfHRTcwndaAt2wdA8EMsTv4VdHaLXeHvmPmZFcxPHteFuYC/eOef8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qn9ZX0LI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67EDAC4CED0;
+	Mon, 16 Dec 2024 09:49:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734341730;
-	bh=MJAI/S1eHdraNTqHVjewdE9v94dBXIYQiOVlxPlvNrs=;
+	s=k20201202; t=1734342588;
+	bh=5zUbiawPtOv8GK8M6GJMQMoFppSm38F60LOkOuxh+h0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CqcqrCu4hKubVHrP5OFmAQeSv5jXAjEVkgLWRNxM1HyH8n4lXGrkEwQ/qd8YU1neZ
-	 MOByLXyEzw8WoCKYmse+m43YN080jJbWoOpO89l+krT+QIwYKa2XYrJoPjD62YtpOC
-	 4BWDbWIxAZWJ+ZGoUCnHP9dl14leMa9Aj2pjz2dYZRJQ9HCfFRP8OtlAT/rvXOWKh8
-	 L284uiICX4cxf/zTLr77F5fZeTGB8LBOV1JohATH4MKwlx8WLXBQ7XP5eWHWkkPZTv
-	 qMhMN65zPHMjTn1V/1GxK6jP//1OUPrfz58yrDMUSa8WsQk+yJPrmScGHD0NgaJ7Rs
-	 p4fGlGKsDjkLQ==
-Date: Mon, 16 Dec 2024 09:35:25 +0000
+	b=Qn9ZX0LIBs70rH1XKkLnM02o6g5ZA7LlGkN6T3wjf7ftvX57Bd69PMmCQ5foyYSrE
+	 PaokxoRqsQf2v/Pyguk83LmeXtKJhLrTYpDYkQr3Pj/N3+1XoWrLLil+7OJNuO8HhP
+	 jNKMrvC8FDvZd71RKLBTxkGPsbZMQUKrX/wFmwtrWsH3nqfK2PnVxACMURUi0pPSfD
+	 oesxxEQrplk0oPTZhbqyv9M9lbVcE9t/uinUaEtym++iuLCLkA5FnxB0XMgwrVCdR0
+	 4BQj+LKlxyViOiQkjTbaL5gUuHc8VfWd6lqjuQu7zaTdLzcJel4uI8bXvyyaXRwuwK
+	 E+llaDldNrj1A==
+Date: Mon, 16 Dec 2024 09:49:43 +0000
 From: Lee Jones <lee@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Christophe Roullier <christophe.roullier@foss.st.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
-	kernel@dh-electronics.com, linux-stm32@st-md-mailman.stormreply.com,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on
- interface up
-Message-ID: <20241216093525.GG2418536@google.com>
-References: <20241001024731.140069-1-marex@denx.de>
- <6f848ef7-c921-4694-9fd5-4a777d5271d0@lunn.ch>
- <72383917-4bbe-4b95-9e2f-4e364f5288bd@denx.de>
- <5c15ea24-8ca1-4b44-b6d6-fa6adac50334@lunn.ch>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Jakob Riepler <jakob+lkml@paranoidlabs.org>,
+	Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+	Jakob Riepler <jakob+lkml@chaosfield.at>
+Subject: Re: [PATCH v3] leds: pwm-multicolor: Disable PWM when going to
+ suspend
+Message-ID: <20241216094943.GH2418536@google.com>
+References: <d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at>
+ <50bbd767-b0e0-4788-975b-f5d9598208e5@chaosfield.at>
+ <20241212174356.GJ7139@google.com>
+ <d021d011-d5d4-4692-973a-f5a45be8db94@chaosfield.at>
+ <20241213163445.GA2418536@google.com>
+ <20241213191039.181169-3-jakob+lkml@paranoidlabs.org>
+ <2wirsrr37nwo54k3fqh4xejzjidjclc5jvw6fjl657ytmfquof@ygqsovx23h3p>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,60 +68,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5c15ea24-8ca1-4b44-b6d6-fa6adac50334@lunn.ch>
+In-Reply-To: <2wirsrr37nwo54k3fqh4xejzjidjclc5jvw6fjl657ytmfquof@ygqsovx23h3p>
 
-On Sat, 14 Dec 2024, Andrew Lunn wrote:
+On Sat, 14 Dec 2024, Uwe Kleine-König wrote:
 
-> On Fri, Dec 13, 2024 at 11:15:09PM +0100, Marek Vasut wrote:
-> > On 10/3/24 2:06 PM, Andrew Lunn wrote:
-> > > On Tue, Oct 01, 2024 at 04:45:23AM +0200, Marek Vasut wrote:
-> > > > The trigger_data->hw_control indicates whether the LED is controlled by HW
-> > > > offload, i.e. the PHY. The trigger_data->hw_control = can_hw_control() is
-> > > > currently called only from netdev_led_attr_store(), i.e. when writing any
-> > > > sysfs attribute of the netdev trigger instance associated with a PHY LED.
-> > > > 
-> > > > The can_hw_control() calls validate_net_dev() which internally calls
-> > > > led_cdev->hw_control_get_device(), which is phy_led_hw_control_get_device()
-> > > > for PHY LEDs. The phy_led_hw_control_get_device() returns NULL if the PHY
-> > > > is not attached.
-> > > > 
-> > > > At least in case of DWMAC (STM32MP, iMX8M, ...), the PHY device is attached
-> > > > only when the interface is brought up and is detached again when the
-> > > > interface is brought down. In case e.g. udev rules configure the netdev
-> > > > LED trigger sysfs attributes before the interface is brought up, then when
-> > > > the interface is brought up, the LEDs are not blinking.
-> > > > 
-> > > > This is because trigger_data->hw_control = can_hw_control() was called
-> > > > when udev wrote the sysfs attribute files, before the interface was up,
-> > > > so can_hw_control() resp. validate_net_dev() returned false, and the
-> > > > trigger_data->hw_control = can_hw_control() was never called again to
-> > > > update the trigger_data->hw_control content and let the offload take
-> > > > over the LED blinking.
-> > > > 
-> > > > Call data->hw_control = can_hw_control() from netdev_trig_notify() to
-> > > > update the offload capability of the LED when the UP notification arrives.
-> > > > This makes the LEDs blink after the interface is brought up.
-> > > > 
-> > > > On STM32MP13xx with RTL8211F, it is enough to have the following udev rule
-> > > > in place, boot the machine with cable plugged in, and the LEDs won't work
-> > > > without this patch once the interface is brought up, even if they should:
-> > > > "
-> > > > ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:green:wan", ATTR{trigger}="netdev", ATTR{link_10}="1", ATTR{link_100}="1", ATTR{link_1000}="1", ATTR{device_name}="end0"
-> > > > ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:yellow:wan", ATTR{trigger}="netdev", ATTR{rx}="1", ATTR{tx}="1", ATTR{device_name}="end0"
-> > > > "
-> > > > 
-> > > > Signed-off-by: Marek Vasut <marex@denx.de>
-> > > 
-> > > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> > Is there anything blocking this patch from being picked up ?
+> Hello Jakob,
 > 
-> I think this should be going via the LED Maintainer. Please check with
+> On Fri, Dec 13, 2024 at 08:10:41PM +0100, Jakob Riepler wrote:
+> > This fixes suspend on platforms like stm32mp1xx, where the PWM consumer
+> > has to be disabled for the PWM to enter suspend.
+> > Another positive side effect is that active-low LEDs now properly
+> > turn off instead of going back to full brightness when they are set to 0.
+> > 
+> > Link: https://lore.kernel.org/all/20240417153846.271751-2-u.kleine-koenig@pengutronix.de/
+> > Signed-off-by: Jakob Riepler <jakob+lkml@chaosfield.at>
+> > ---
+> > Changes in v2:
+> >  - fix wrong line-breaks in patch
+> > Changes in v3:
+> >  - use git send-email
+> 
+> Applies fine for me now.
+> 
+> I already gave my Ack for v2, repeating it here to make it easy to pick
+> up:
+> 
+> Acked-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+> 
+> Please add this to your v4 if you have to send a new version. I don't
+> know how picky Lee is, but the email address of the sender doesn't match
+> the S-o-b line ...
 
-It looked like the conversation was continuing.
+Very picky!  Please resend.
 
-If you have everything tied up, rather than relying on maintainers to
-keep up with the branching conversations of 100's of patch-sets, it's
-best to collect the tags you have and submit a [RESEND].
+Also, please send subsequent versions as a new thread.
 
 -- 
 Lee Jones [李琼斯]
