@@ -1,116 +1,129 @@
-Return-Path: <linux-leds+bounces-3611-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3612-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0269F2CBC
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC309F2D16
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:35:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03A67188AEE5
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:17:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 659CF1883B72
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BC11200BB9;
-	Mon, 16 Dec 2024 09:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EACF200B8A;
+	Mon, 16 Dec 2024 09:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="JnWP9Zl2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CqcqrCu4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0E2200BB8
-	for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2024 09:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CED2AF03;
+	Mon, 16 Dec 2024 09:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734340657; cv=none; b=OmQ+rF3JBiLDiwOlq7mCpo1leHZiRteb0xruxVt+jZFNl2dNVgnzFpKaWfy/ALPCN3Y7Zg0LukHDiSqJySs8RO0b1TPKX4qZznsHjORnlG0JIUGnxRZJfGqXMSd+CBxGrbscferfxhnZzupaC+chZiUrBEljifjWpwu14YOgjJc=
+	t=1734341732; cv=none; b=HUt7kHKPhGA/22vfLNCLJn+Q1Iei1c6z3oZ5m/mLN9SPLDyRfsgbLNt9de1gNSMCtL+FTtTfp3FKO5ludqyDLMWybw+wBzYkomf55GyoyBrcDGn9y0nJKGg/Okw58CGWXSCBT92MV+OX5GOEQyQd8XePnT/UKQz38QJWk7ENkN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734340657; c=relaxed/simple;
-	bh=1qR5+1H3fLvBgI1LotDXtcQetIxOlpQF0+huH0Qt/4E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uqB35N9VvuUsX8zMXClRWHr1sYSv9/5UUknewINcJNG9dS5xJW37qBbOpLQt9LadnSOk84ovGbbiovxB8UQ4drC3GEMNWJ5o/Sw/wdBE/qnnGQo5XLfhfE59oRgbrvBbP2MY7iy28YJSibgW7d8NF5TjAVrGkAubuNwSXBwxsNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=JnWP9Zl2; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30229d5b1caso38982051fa.2
-        for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2024 01:17:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1734340654; x=1734945454; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1qR5+1H3fLvBgI1LotDXtcQetIxOlpQF0+huH0Qt/4E=;
-        b=JnWP9Zl2prbWhXhYSp3bdNi3H4yHDKDKTwK4gXw4cvejsv5XoACLnDpISJub6hYulP
-         GIZ+3aWl3tj/9OTB6n1rhrAV7hwAAbFU6dpWhwB2h25CG+NcS9irBEXJ9AXkYmX97CUP
-         ZJikAotjjdRhvBobpxbhrADNVC+qqtIwMOZ33rhltHd0PNk95jyJ0qFjyVXx+DAIixi7
-         h47Tl2nJvbY9ki+h2FRmZLKnmITYVrv3wRA6pvj3mGLbZM8R2zDUX/gNPbfdfmzU+juS
-         bmRuDVSssi6PYLDugrh/LSUmSFpU6IX5o4kFS54I4GXDZkgzf6Nu4NG67Z1t2IgRCsHJ
-         jiWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734340654; x=1734945454;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1qR5+1H3fLvBgI1LotDXtcQetIxOlpQF0+huH0Qt/4E=;
-        b=rO98untj4+hSHoj/b690lNSiUgEQrZ4KjNtFLRFt6UMexBF6jXXQCQHcuQ4bGfuAtF
-         pUzk0HoBFnrTKIC8SDxCuotiwLmh9GoksCN/zkyxRNk8tjAJvLy6imK7htx5kowH4LQu
-         tTZ5jkfMTXj6c/sngXdXUnbOIQVAf2Eu3cn5u2ZKvor+gDhCiiWrxS6YA67StzZysqps
-         2u/jwylINlhEhH4q72qFbulVCzLcioxfCuFwxspooqGWdvJDX2aqxqNVTRp2EniXSn3w
-         H//FTPpx1uHcIKks1FGV1moq9P+rObCxVYlsCycxtT25w0DBvn4tlLF3DPd59hxekV4A
-         HQrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfaCfKR8rFIlGbBuX6GGaVrEnsFOs0LCDTMu0P7MtyaD0cH8kboUPlnnjfrDNwc1SAG6hT+1cp3oeI@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHJXpOcNaZGcuRpt+aCjz22lWlQJdRcaghmvM536V5IhNpL1ZN
-	vx1YqzR1mBqEDdiVHeB7PfKZArV9YcC7+eVJ/i/V4n9TMkBeo7FurvCRm1inDQY3rixJCwjMsdk
-	bBMQqroFBSCN/YEEov4CISyyexTvoB7I2zMU+Fw==
-X-Gm-Gg: ASbGnctNgX8X8ZKkIBNPRSjOeQ5TuaT8G4zK7KM6qsX//AEf/yxxbNYsFNhtOzro1ZB
-	dlpMh1fToBZrKnqRO0oG0OtAIXp9xvLoALdJJJGmR4Xlwd0FZDRePZm6+O5e/w3rhOocHuA==
-X-Google-Smtp-Source: AGHT+IEOwduo8usaj8ZRTiMKvnDvI/sKvG+uXPsesp8eVxzp1U/WEzzEulhhST+phRCarmJrvrroOrMmTlHcWhwZgzA=
-X-Received: by 2002:a2e:bc09:0:b0:302:2bd8:2687 with SMTP id
- 38308e7fff4ca-30254530bc4mr33805791fa.12.1734340654051; Mon, 16 Dec 2024
- 01:17:34 -0800 (PST)
+	s=arc-20240116; t=1734341732; c=relaxed/simple;
+	bh=MJAI/S1eHdraNTqHVjewdE9v94dBXIYQiOVlxPlvNrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r91qCB+UKYHDzER7aFv8e3sefnRA0by1pmYzjynKHjEBF/oP3MkMZ7QsPOW7fzTWVAiS1DkQ92OqrMA3uVyOKmKknxPq8ss9XNG/FCQ0H1J4IepRHiU04XQS3m5R63BdjgOY33lcHx+5w7fo6GqmbEvkZXdtKSuGzNjNOCjQV/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CqcqrCu4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F62DC4CED3;
+	Mon, 16 Dec 2024 09:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734341730;
+	bh=MJAI/S1eHdraNTqHVjewdE9v94dBXIYQiOVlxPlvNrs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CqcqrCu4hKubVHrP5OFmAQeSv5jXAjEVkgLWRNxM1HyH8n4lXGrkEwQ/qd8YU1neZ
+	 MOByLXyEzw8WoCKYmse+m43YN080jJbWoOpO89l+krT+QIwYKa2XYrJoPjD62YtpOC
+	 4BWDbWIxAZWJ+ZGoUCnHP9dl14leMa9Aj2pjz2dYZRJQ9HCfFRP8OtlAT/rvXOWKh8
+	 L284uiICX4cxf/zTLr77F5fZeTGB8LBOV1JohATH4MKwlx8WLXBQ7XP5eWHWkkPZTv
+	 qMhMN65zPHMjTn1V/1GxK6jP//1OUPrfz58yrDMUSa8WsQk+yJPrmScGHD0NgaJ7Rs
+	 p4fGlGKsDjkLQ==
+Date: Mon, 16 Dec 2024 09:35:25 +0000
+From: Lee Jones <lee@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Christophe Roullier <christophe.roullier@foss.st.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
+	kernel@dh-electronics.com, linux-stm32@st-md-mailman.stormreply.com,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on
+ interface up
+Message-ID: <20241216093525.GG2418536@google.com>
+References: <20241001024731.140069-1-marex@denx.de>
+ <6f848ef7-c921-4694-9fd5-4a777d5271d0@lunn.ch>
+ <72383917-4bbe-4b95-9e2f-4e364f5288bd@denx.de>
+ <5c15ea24-8ca1-4b44-b6d6-fa6adac50334@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
- <20241211-aaeon-up-board-pinctrl-support-v1-3-24719be27631@bootlin.com>
-In-Reply-To: <20241211-aaeon-up-board-pinctrl-support-v1-3-24719be27631@bootlin.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 16 Dec 2024 10:17:23 +0100
-Message-ID: <CAMRc=MfUDGaW1cBrsLzAZ6GORFFv5fAjEKXu7esO44v4XckheQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] gpiolib: add gpiochip_add_pinlist_range() function
-To: Thomas Richard <thomas.richard@bootlin.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@ucw.cz>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org, thomas.petazzoni@bootlin.com, 
-	DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5c15ea24-8ca1-4b44-b6d6-fa6adac50334@lunn.ch>
 
-On Wed, Dec 11, 2024 at 5:27=E2=80=AFPM Thomas Richard
-<thomas.richard@bootlin.com> wrote:
->
-> Add gpiochip_add_pinlist_range() function to add a range for GPIO <-> pin
-> mapping, using a list of non consecutive pins.
-> Previously, it was only possible to add range of consecutive pins using
-> gpiochip_add_pin_range().
->
-> The struct pinctrl_gpio_range has a 'pins' member which allows to set a
-> list of pins (which can be non consecutive). gpiochip_add_pinlist_range()
-> is identical to gpiochip_add_pin_range(), except it set 'pins' member
-> instead of 'pin_base' member.
->
-> Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
-> ---
+On Sat, 14 Dec 2024, Andrew Lunn wrote:
 
-I don't have anything against this change so in any case:
+> On Fri, Dec 13, 2024 at 11:15:09PM +0100, Marek Vasut wrote:
+> > On 10/3/24 2:06 PM, Andrew Lunn wrote:
+> > > On Tue, Oct 01, 2024 at 04:45:23AM +0200, Marek Vasut wrote:
+> > > > The trigger_data->hw_control indicates whether the LED is controlled by HW
+> > > > offload, i.e. the PHY. The trigger_data->hw_control = can_hw_control() is
+> > > > currently called only from netdev_led_attr_store(), i.e. when writing any
+> > > > sysfs attribute of the netdev trigger instance associated with a PHY LED.
+> > > > 
+> > > > The can_hw_control() calls validate_net_dev() which internally calls
+> > > > led_cdev->hw_control_get_device(), which is phy_led_hw_control_get_device()
+> > > > for PHY LEDs. The phy_led_hw_control_get_device() returns NULL if the PHY
+> > > > is not attached.
+> > > > 
+> > > > At least in case of DWMAC (STM32MP, iMX8M, ...), the PHY device is attached
+> > > > only when the interface is brought up and is detached again when the
+> > > > interface is brought down. In case e.g. udev rules configure the netdev
+> > > > LED trigger sysfs attributes before the interface is brought up, then when
+> > > > the interface is brought up, the LEDs are not blinking.
+> > > > 
+> > > > This is because trigger_data->hw_control = can_hw_control() was called
+> > > > when udev wrote the sysfs attribute files, before the interface was up,
+> > > > so can_hw_control() resp. validate_net_dev() returned false, and the
+> > > > trigger_data->hw_control = can_hw_control() was never called again to
+> > > > update the trigger_data->hw_control content and let the offload take
+> > > > over the LED blinking.
+> > > > 
+> > > > Call data->hw_control = can_hw_control() from netdev_trig_notify() to
+> > > > update the offload capability of the LED when the UP notification arrives.
+> > > > This makes the LEDs blink after the interface is brought up.
+> > > > 
+> > > > On STM32MP13xx with RTL8211F, it is enough to have the following udev rule
+> > > > in place, boot the machine with cable plugged in, and the LEDs won't work
+> > > > without this patch once the interface is brought up, even if they should:
+> > > > "
+> > > > ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:green:wan", ATTR{trigger}="netdev", ATTR{link_10}="1", ATTR{link_100}="1", ATTR{link_1000}="1", ATTR{device_name}="end0"
+> > > > ACTION=="add", SUBSYSTEM=="leds", KERNEL=="stmmac-0:01:yellow:wan", ATTR{trigger}="netdev", ATTR{rx}="1", ATTR{tx}="1", ATTR{device_name}="end0"
+> > > > "
+> > > > 
+> > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > 
+> > > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> > Is there anything blocking this patch from being picked up ?
+> 
+> I think this should be going via the LED Maintainer. Please check with
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+It looked like the conversation was continuing.
 
-But may I suggest the name to be changed to
-gpiochip_add_pin_range_sparse() for a better indication of its
-purpose?
+If you have everything tied up, rather than relying on maintainers to
+keep up with the branching conversations of 100's of patch-sets, it's
+best to collect the tags you have and submit a [RESEND].
 
-Bart
+-- 
+Lee Jones [李琼斯]
 
