@@ -1,118 +1,83 @@
-Return-Path: <linux-leds+bounces-3614-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3615-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731069F2D5C
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:51:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C710C9F2D67
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 10:53:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 943457A2C23
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:51:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1143B16420D
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2024 09:53:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A2F020124F;
-	Mon, 16 Dec 2024 09:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DA47201026;
+	Mon, 16 Dec 2024 09:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vu+toPIt"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="QGEJTBqB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55712201026
-	for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2024 09:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C1BBA49;
+	Mon, 16 Dec 2024 09:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734342666; cv=none; b=shuB/7bfGhlT8jwrrUJIkPkn0h1SJQS+Z13296Dejy1kyH92XGi5/FZnVGWuDzxIuVK9jVfsBPFbgF3j1Q6spMhlTrGb+T8jLRla/nTvWB5+9wp9dKNW3pcIjXeprUteFyxry0pmu5jSvRFfkM+OL45kcXitfBMy8ZgTmVWrJ30=
+	t=1734342789; cv=none; b=qHVOdCYo6CY1m58FuaTEXiTTqGuAaT1wSsPy7ZfysvXKjrb7Xc1FluS9ifpnJeKr9zEN97mMycgBsGR7DCi3Cf6+HRkIQKmt1jgosU3FuBGvwv5m6tlKOBPAEN6feduZmGDav35Jnjxnohto+Q6iaKU6PsKmcfeCXOp1rNdwtH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734342666; c=relaxed/simple;
-	bh=jEUqCNOoZENBgh8GFUqCrlDM0LR0Owp4LYxS3j6cN38=;
+	s=arc-20240116; t=1734342789; c=relaxed/simple;
+	bh=/CKUXBtOOwZ//wpp/7irongspgmXVlrvsuTwSU9fzBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LFiKjSip87fkiCKDhMjlMLD8PiuoMBgAbXuY7fDJmsuTZe5J07Y1k+OpvT8GQ1zyCmDv1zFDjT2N1TxagQl8DGBTOfApOb9tuy7NJ0BF80Mr8jL+nmieMY3ebxOz5p33xw0bPV1CWxQFvihQsov+8VT9J+nQWUc5lSqFPKzy3VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vu+toPIt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243CFC4CED0;
-	Mon, 16 Dec 2024 09:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734342665;
-	bh=jEUqCNOoZENBgh8GFUqCrlDM0LR0Owp4LYxS3j6cN38=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vu+toPIt31QMifnmqeWg9DjKCJQVoSJHSoJOWDFQR2LAlW2lG6vofNZieYm4UaaIZ
-	 C3LxYZaFFIBkaVWxlYwWhRyXPYoRmHOZ4a/sJz/4rVS1b/H9RuVgugA+p+372AN91V
-	 J/SVkDwyXz9lfh9b/PCIQNBy50Nj6Mc4qvUEWbcp7Q91Uz/eXzHCf3vNvRSVhwdKKU
-	 snXSC6gkJrNHzqwoVvcoBQdrJhV9yPt1B7RzdFG/VI5Tr+hQW+rvNejgAb3sH8hHkv
-	 Wy/Kvqg+Qwf/kFJM10aCPkrBjdfrmi1gN6oBSyPRBhkcH1Enw3mbMXHFtTG7YEqxx4
-	 frus+rx7/Yq+w==
-Date: Mon, 16 Dec 2024 09:51:02 +0000
-From: Lee Jones <lee@kernel.org>
-To: FUKAUMI Naoki <naoki@radxa.com>
-Cc: linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: pwm-multicolor: fix multicolor PWM LED lights up
- without any setting
-Message-ID: <20241216095102.GI2418536@google.com>
-References: <20240816102626.826-1-naoki@radxa.com>
- <20240821161119.GC6858@google.com>
- <A85312FB70235D56+bd5fad03-36bf-4df9-ad44-7f7eaa7b2aa9@radxa.com>
- <7DDC06B563854ED8+65e7204f-76df-4f36-8544-bede36a519fd@radxa.com>
- <303538E55468284B+287412a2-b1dc-45d0-af5d-c33c0c63acc5@radxa.com>
- <20241212190407.GM7139@google.com>
- <F60FA21FC28E019E+90aa034b-2edd-435a-a4c4-17910267089d@radxa.com>
- <20241213163540.GB2418536@google.com>
- <EF91924B2E892C4C+6a08f801-3ccc-4ccd-a700-c5fc569c11df@radxa.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksERfYmva8E9+LVHeslt+5Zg/chDGNg6MDP7y2MICfs1MFIYXBbpc0/uokvxOIgLxcQmJ2i8EunBCe8c/pjZQcqbaPMS47sj0y1Hm3oTguGWqAWk0Gy6RWQZuylo1aywnU/SuI/ktWRnV+71uuM3NOaAqsOaFtYsAEkEMPFnrxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=QGEJTBqB; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=c/jnkkvjkZkhQh2NENGcQlzKqSHY5puqA49DNvov0QU=; b=QGEJTBqB+7Od0l5rj5GQrkfojR
+	1ioziAekL5aDc24THwFfE1w2fe6ZJw6GVK96MYaZ5jH/ZTpMYOpsJShzq9NtaOqSiOU51muWr555r
+	4acoHFT3hqYunsPjJbl0S9S8UXSQ+yaU7/m1NHOl3Ij/W0N+KiC5UPRjANGMXuN2RiUQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1tN7mQ-000ZwQ-IH; Mon, 16 Dec 2024 10:52:46 +0100
+Date: Mon, 16 Dec 2024 10:52:46 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Lee Jones <lee@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Christophe Roullier <christophe.roullier@foss.st.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
+	kernel@dh-electronics.com, linux-stm32@st-md-mailman.stormreply.com,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: netdev: Check offload ability on
+ interface up
+Message-ID: <417d05ba-0def-45b9-a086-ea36c580c472@lunn.ch>
+References: <20241001024731.140069-1-marex@denx.de>
+ <6f848ef7-c921-4694-9fd5-4a777d5271d0@lunn.ch>
+ <72383917-4bbe-4b95-9e2f-4e364f5288bd@denx.de>
+ <5c15ea24-8ca1-4b44-b6d6-fa6adac50334@lunn.ch>
+ <20241216093525.GG2418536@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <EF91924B2E892C4C+6a08f801-3ccc-4ccd-a700-c5fc569c11df@radxa.com>
+In-Reply-To: <20241216093525.GG2418536@google.com>
 
-On Sat, 14 Dec 2024, FUKAUMI Naoki wrote:
+> It looked like the conversation was continuing.
 
-> Hi Lee,
-> 
-> On 12/14/24 01:35, Lee Jones wrote:
-> > On Fri, 13 Dec 2024, FUKAUMI Naoki wrote:
-> > 
-> > > Hi,
-> > > 
-> > > On 12/13/24 04:04, Lee Jones wrote:
-> > > > On Tue, 10 Dec 2024, FUKAUMI Naoki wrote:
-> > > > 
-> > > > > Hi,
-> > > > > 
-> > > > > Could you help me(write good commit message), anyone?
-> > > > 
-> > > > Surely you know what the changes you authored do and why you authored
-> > > > them?  Write out a nice description in your first language then use
-> > > > a free online translation tool to convert it into English.  It doesn't
-> > > > have to be a novel.  Just describe what you're doing and why it's
-> > > > needed.
-> > > 
-> > > I have no knowledge about electrical circuits...
-> > 
-> > You must know why you made this change?
-> 
-> I noticed strange behavior on Radxa E25 which have pwm-multicolor.
-> 
-> I compared leds-pwm.c:led_pwm_set() and
-> leds-pwm-multicolor.c:led_pwm_mc_set(), and found difference.
-> 
-> Do the same fixed the problem, so I just thought this is correct fix.
-> No knowledge was required.
-> 
-> Btw, this is enough for me.
-> 
->  https://lore.kernel.org/linux-leds/d7d930bc-4c82-4272-b2c6-88f7cac5a3e1@chaosfield.at/T/#t
-> 
-> Please ignore my patch. Thank you very much  for your help, and sorry for
-> wasting your time.
+Yes, it did, for nice to have additional functionality. But i think
+the base patch is good to go, and it has my Reviewed-by:.
 
-You didn't waste my time.
+I expect there will be a resend coming soon :-)
 
-If you see any other issues, please feel free to submit them.
-
--- 
-Lee Jones [李琼斯]
+	Andrew
 
