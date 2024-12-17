@@ -1,487 +1,279 @@
-Return-Path: <linux-leds+bounces-3635-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3636-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431069F508E
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2024 17:13:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A07DB9F538C
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2024 18:30:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F8B47AA1F2
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2024 16:10:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EB23189177B
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2024 17:27:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6904F1FBEAA;
-	Tue, 17 Dec 2024 15:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D77EA1F8693;
+	Tue, 17 Dec 2024 17:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Byuv3fSf"
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b="YWmSHcmC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2087.outbound.protection.outlook.com [40.107.103.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2ED61FBEA8;
-	Tue, 17 Dec 2024 15:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734451032; cv=none; b=IKITH5qoqEcnGG0F2zBnvJtqRdl7tazD/IawSfBBDJKEyDOvE7rJFHcTn0Yl3/R9uBlkM+zBYNGnBw2VV6DCahVn9tdPwlDl5/3bZ/cKxElwOMzr6RDX0Zhez9FTL1m6J72ypkWqIBkftTmcw737BoU7zcPb45klb8TR7r8O7Rg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734451032; c=relaxed/simple;
-	bh=3nO3LPfbB9KEAmlbYzZKlo5cryE4gyZbil4LEs5QFC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HouIRyfPugcpLxEggbRWedifn4s4jluBoiIaFpr6TWZTuNUSpGgyi7U8b1QjozwwxbFTuQ6D3hp62ev2fP16RXGSJEu00ER1wNIEkM8ll51l95HLYB99eJ+2JPAOIMAoUDZPpbh8b2RWO/EkKkkc6K/113o8BwnRP+QHwR7QeXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Byuv3fSf; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 4BHFuoVN025962
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 17 Dec 2024 09:56:50 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1734451010;
-	bh=UGeiJKnAhgpVTPvUacMnuLnYh9kTlMuDIuvWegvk4T0=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Byuv3fSf2zG4wQeGZaCPHplIC+wohUdacAG4GT1U1IrwNuUIIG03zepPyDVt/YwV7
-	 DBe4fliqpxzvCUv2FO7K/FFaGGu31pxPo4Gl1ntaw/NmCpA3bngoY+qepGuoB94W6R
-	 J5ztbRvdnD53ffd1nKWStUmPftbCPrf0XTky5O+Q=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4BHFuor0001793
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 17 Dec 2024 09:56:50 -0600
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 17
- Dec 2024 09:56:49 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 17 Dec 2024 09:56:49 -0600
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4BHFunb3066883;
-	Tue, 17 Dec 2024 09:56:49 -0600
-Message-ID: <b0e2e061-0a1f-4cba-9f25-b26769e8ff27@ti.com>
-Date: Tue, 17 Dec 2024 09:56:49 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865C31F63D5;
+	Tue, 17 Dec 2024 17:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734456391; cv=fail; b=iSCovBoe9oMhcqCE/cczK8KS0Ky+soWtl9FmIGYup5/aiU2IYER8U1IEH8cs2zouubsRnghzItdPpl+E+EyrqSbWTn2pEEHhUqQPyMWFrcKga4Ed2c8KkpK32RJmUcKtz7kTJtyxKEI10sUJ4+3DYQTYQMOzo7WhrzRuF+REOtU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734456391; c=relaxed/simple;
+	bh=inKpU/AtW6GnxknGgDd0GZU7aEngXXGnQ7IfQoCKnJY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=A/RKIHrW7WZ6PxzWrUfbcH+ooSoly9ayJB6Y6U35/GyLYVbcNMRl9859Mq1NDEYiurkihhn3CMLV2WRtsfTCo+eWYsKqBISRq5TYy98rYWCVx+7oxvUM2XroEafrQL3pFgll90XKt68cAvFZ4SJyg39ZCFbiBZXa8ZB23Nm0i1M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b=YWmSHcmC; arc=fail smtp.client-ip=40.107.103.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siemens.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bApjdWlI7w8rVA3ayP3/uzM9llY7ebbbOwPg+6qJMbb0dumlEJtkP59/VdA62vY0+NneDN0CsA2ulXotE8dfryrq0ztQ255Zppg5WrqnCllanuPGIRfUc9o5rLyliykZzD4DFwooiSYqLm5xtxdOABYgIr/dh/QP+A6ZB7bgxUXgmqzrrTzuC3QnNXe4DL9/HS7sQAbcT9KgxwRCIJ+2+gCjEN04/CN/J8vjqB6rsQTzg2oHiFnZiK9b+xW9fXpmIzbXCjZ+AwSSuDEAoooBimwMGJpTB5Pkjd2d4M/AEasSvZP3Yyiy2w+1bGqMVuxxMqyoEFAg9zoqt2iCPDDHJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=inKpU/AtW6GnxknGgDd0GZU7aEngXXGnQ7IfQoCKnJY=;
+ b=jACEOy4ZSpKDyRw97nAvGygmkb3xrQopCH0/EHJK3lZtUZyzDi5e9goeDU2wmrgd/e8puocOiEGQgbNjXrhTyrgzRiY3pv1yMMzA2/OGDVI9z1oD56nESNeEAZLbHieXLLwP8B+lQjVpFjXAOdAvbYoT36FbUqhEXWrS5qLYx/XbxwLHR/BLK6g3L3rpe5b8DE+IOSROpk2Zr1Wn/PbnN20AN6DqMId7qf+RKFNKy0LW/rGS5G1kPkrZ7Lig+caciM6xvKzmaIiBborbuPxhagxTAztIbELrUFPRujkvDBMmVGdK2gH48siZKLUsiUcA2hD92TZP2xLaivatnykYiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=inKpU/AtW6GnxknGgDd0GZU7aEngXXGnQ7IfQoCKnJY=;
+ b=YWmSHcmCK/hgrfYQp+ZSQBr60ttx6I1fwdBulZFLGBK+oh9gGt4k3s+TLtJ0EgT3ViGK2sderm9h8q/s5xlEczlavS8uvPAgqbsAcWy81Bvv0GW7KeI9XLXY7FuYDTyc0CK0Z3Bdhq0HhwzQ7nTel2lpRPawZ1jJlRBxQro4Jsi2uuA0oO/s9RDYJFKYt+NRtkq0aO88/iMsjHwc8Ey+QUadqEp8fxGSUaSY0RRMyBhjBaiJDdpdnHqNyQQMGinZf7m2eZZDYgvvBkLdLHRZcQKwmPhVvKV8G7LLA6cl/VjFsq8QFs3kSmzOkx6oE3CuzS2voc211sx6xk3DCHFPWg==
+Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
+ by PA1PR10MB8546.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:443::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.11; Tue, 17 Dec
+ 2024 17:26:24 +0000
+Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::baa6:3ada:fbe6:98f4]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::baa6:3ada:fbe6:98f4%7]) with mapi id 15.20.8272.005; Tue, 17 Dec 2024
+ 17:26:24 +0000
+From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+To: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>, "afd@ti.com"
+	<afd@ti.com>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+CC: "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "lee@kernel.org"
+	<lee@kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
+	"danielt@kernel.org" <danielt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>
+Subject: Re: [PATCH v4 2/2] leds: lp8864: New driver
+Thread-Topic: [PATCH v4 2/2] leds: lp8864: New driver
+Thread-Index: AQHbUIjMUwx+j9IEfUCIwCFyj7ubGbLql36AgAAZBoA=
+Date: Tue, 17 Dec 2024 17:26:24 +0000
+Message-ID: <05d69345baf79df9741543a0ff64117c6f058cda.camel@siemens.com>
+References: <20241217133713.326853-1-alexander.sverdlin@siemens.com>
+	 <20241217133713.326853-3-alexander.sverdlin@siemens.com>
+	 <b0e2e061-0a1f-4cba-9f25-b26769e8ff27@ti.com>
+In-Reply-To: <b0e2e061-0a1f-4cba-9f25-b26769e8ff27@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|PA1PR10MB8546:EE_
+x-ms-office365-filtering-correlation-id: 2686fbda-b3d6-4fb3-1296-08dd1ebfee9a
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?QW1KUXhnUlZIc3FNMkZ4cVozenVaZFczQzhrSlhnd3pndW9Fblpha05UY25Y?=
+ =?utf-8?B?VlpSMng3MURUQkxSREx1eFZHMXl2T0d4U2gyMTIwdG5Sa0tDa2tSMDQwL1kw?=
+ =?utf-8?B?VWFBSGZaV2ZydUg0VGhkOE1aOTNTMFAwNXlVUGFydHAyamtHT0pDZjJFS0hR?=
+ =?utf-8?B?VGI1Y05YQjFCaXc4K1M2c2daM0RZdWk0K21QeVVGNXFkMmw5dzIreElQbkIr?=
+ =?utf-8?B?aUlMYVk1ZS9MNjlZLzhIeWxiVmI1WFlGTTVqN0F1U3hFOUoybE9BRjVjZW1X?=
+ =?utf-8?B?a3dIcmdjRjR1S0RoZmV5L0ozKzRaeUZnS3VTbjZsZlpHS1NWbGd3cjVPN05I?=
+ =?utf-8?B?eHhORWF0c3pwQktOMWN3S0hJNGVzY3VMNWRQS2p5TGp4ZmZhcXptQkdPdVRE?=
+ =?utf-8?B?TFhqMVhTK2tpTzV4QWVrMEsvWXlQNWR2RDI1Sk1JQXl5VWJSQzVyS3B6Mko2?=
+ =?utf-8?B?Ym9DcEhRK3JMeEtnT1lHMDhRK1BlZ0kxUW5DMzZRaEQyVjlUd2xPNlZ4cmd1?=
+ =?utf-8?B?aHRKMytJK1hYWjFFeHZ0am9Gbnpqb2lHKzM0RU83dTlmVmZoaWg4dVprN0Zy?=
+ =?utf-8?B?b0hkQmZFNEo0MnRkVGNvbHEydDFvaGVXY1RaMGtYaWpRMm4rTm1UWlo3eTJp?=
+ =?utf-8?B?d2QyRTFQbFhZcHRWM1BSbUdERzJSTW5qZXp2d0VVT3ZUMnptZmZmek1Wekps?=
+ =?utf-8?B?Q3pGU1lVQ0ZRV2VJSmlNUkR0Y2szM04yYWdLYXNJdTVoVkVJMmhYdms5aFU5?=
+ =?utf-8?B?Y2Q4Z3RkN0lUOTF3MGlPaHMxY3lnMlBzb290QWtNR1JJUVJEYjc5ZGJid0FN?=
+ =?utf-8?B?VG81THU2d0RFS2dMaUI4NTdmQThybUltUUl1bGJRYzRacTdNQ3pmdTZ3SXFZ?=
+ =?utf-8?B?L3RqbG12NXhiVlpINW9RK2FCVkU2L3U3SG04Yk54djhpWlkwU0RQZXh5MUxD?=
+ =?utf-8?B?YnBvWHJ5eHowL2xCa2FDZ2RrVXBZUnpkM0QwMUUwYUdJYmt1U2Z3N3hNKzBl?=
+ =?utf-8?B?NWFveVd6NXI2Rk1QZXVxT1I4djBWNDNjWG4vWDdRN29mTUVMMmh5K1FyTzBi?=
+ =?utf-8?B?NVNLWXMxMjRuQWRqek1SeHFOdGloSG5ZY3RnWW94K1BENVN2VUZLdWhrWGVH?=
+ =?utf-8?B?MGtHM3h0elM3Um9MbXk1d1d4S2l3WS9ac1dtNG14VkVjeHJ2bFlRTHBJazly?=
+ =?utf-8?B?VkNCc2I4dzFTT3dUSjJlUHNlK3YyYUtkYzMwSlpiYmhtdzFPUXhSTk9kNndQ?=
+ =?utf-8?B?NXFNNXd6eTd3TzJlQlNqelVpSlpNU284czNRR1gzZmFyWkVKN3RuTk9qaCt0?=
+ =?utf-8?B?Q2l1Ykg5MlEzN0YxK2MrTnBOSDhVT3BJcWlzQWNQdy9WckhWQWJDUklTaU4v?=
+ =?utf-8?B?UGdwdDJHbzFJSXVTRzEweGpnWXFSbVNJQXBmclZDdzg5aGRXZVUyQmRBbjhF?=
+ =?utf-8?B?cnVDT215VjJxWkdWd3N3S2lYY081Q2xMUWZBMllRbXdVWUhoTFdlRFdyTWwr?=
+ =?utf-8?B?eXIycklReGIvaDYwTmYrMzJweUFLaEJqQVoyU1hQMGJMNjJhcnM4U3ZVVWJ4?=
+ =?utf-8?B?U0VMMnJ2MzN5aml1bTRENG5GY3dHOWlrc0NNby9LVXRiLzlVVGM0K0xIeTZU?=
+ =?utf-8?B?YmtxVFRpNXUyM3pieWJwalIrN3NlNGV3dStiTURDVksrL1pPRDJjeTE4cWg0?=
+ =?utf-8?B?Q0FlZ0d4L0RMMHFIZ2VTc053YmhTQ3VJdUFmWnUrTjVLbzlocUJPenRBanJT?=
+ =?utf-8?B?Y3FTZE1qcVFwNFF3bXBkcXpUcXFyaDBYdTVnRUZYWjZER0ppbVpYYTc1eEl1?=
+ =?utf-8?B?aWNIUXpPS1JHM1c0ay95T2pZR0NRdDFoU29Qay9KeTlmNHlJbUZTYU9WOTZX?=
+ =?utf-8?B?angydjJTaVpFQU1aV0R3NnBNY3IyZ1doKy9BNU51UFpKeHc9PQ==?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?bjBNVG1idE5pVmdTY1ZyM3pmOVJGQ0hXTC9iYm1rdUZaM0M5dmdhQjdFNGRr?=
+ =?utf-8?B?UHBIVkNWaXpXUkRqS0UwY1BVRnA2THVkYzlUdTB0Wm5KdU5ueXRVYnEyZkZr?=
+ =?utf-8?B?NkN6Yk5IVWNUY2ZOL3VCQjJaaUt2LytUNXFiVm1ZaGxtdTRYY0VuUk12QkpU?=
+ =?utf-8?B?Uy9pNlNuU0E2OWUxbFBwd2dRTkVldTJPYVQ0QjdsY1BJc1l6YUZHNzdPRVRa?=
+ =?utf-8?B?MW9ibmszMFMxOXV5VmRBYkZEeEhabmdOcUZjQlMvYmxLcDZTM2RvaVZTQ29p?=
+ =?utf-8?B?SWpHdmg0dkl4VzRXTmhJR1pEQUVLUkhMTDkvUktSems3S09PbTNpUnlWNTBM?=
+ =?utf-8?B?SEJMZCthbjBad0Q1MkZrMUIvbi96YVM3ZDBnUUMrRjh3M01XcFlOcnRUdzhR?=
+ =?utf-8?B?MmI0QWU4enI4ZEU2YWR1Wk1CaWoyZkRGSWEvQVc2d3hrVnd0ZjhtMzdtTVRk?=
+ =?utf-8?B?SXVNZWpSUTNBZE53ekdnRTJiNGVOY2R2RHRVTGYrZUo1a0xTczMwTkM1bTJj?=
+ =?utf-8?B?bVMwZktFek5pZUN2em5KWXJ4UlZkODNLRmdvTGQwWEtFS3dRcmpISTRlR1Q0?=
+ =?utf-8?B?WDJ2NmRxZUFRazBuS3BkeU1PYTdoZzdxR3FVdmQ1cTZmR1JBY1dRWEJqRlQx?=
+ =?utf-8?B?RjRqN2g2enNtY05KWnVFaVRLNmhnWS9oWVBQQllVaG9qV3BvRFJGM0tzY0FM?=
+ =?utf-8?B?YWZvSFp5cGlPSWFTSXNGVnRRSWxmUHBxRHZGUFp3RDBtK2l6SW5sVG0vYytC?=
+ =?utf-8?B?WFMvaFNCUTlvM3Z5dk9lU2w0WVNMdnpVc0h2RW5XaDJwbTh3SGhJMzhQSzdt?=
+ =?utf-8?B?OXhIaDJta0dtak5XS0RzVHZIdzRxaVJ5OWlnbWFldWMraUVXY1RjMW5xeWY3?=
+ =?utf-8?B?Y0x2Znc3QnZFbURLb2V3eEI5bWpKOWlPR05MMXBrdiswZkhEd1M3YllUczEy?=
+ =?utf-8?B?N1FpTDJIUDlDQjNNMDVzcDE1YlNXZENrb1dBWGZvQWVNdjU3MjE4WnBiYjIw?=
+ =?utf-8?B?dHpSeW1TQm1zRkpBZSsvQndZbGxPSDRraFdvTEgzM0JoTzJNR2Q3L3p5Wjhn?=
+ =?utf-8?B?NEhFM2dhVEo5OTBtaVBnZnppWlUramRUUXFWT1BURC9hUEZQdEVjUG96OTBy?=
+ =?utf-8?B?am5mWmZvYktIVU1IKzJJRjRMN2gyUXdsQnprZmxCRkEwRXh5YnZtUDk2eXVO?=
+ =?utf-8?B?SVZEYWpKZXRGZEtaZlpNNlRUVWx3MDJ5NHhtRVNISms0a1pNZ1VQZENMOHdi?=
+ =?utf-8?B?VEx2M0pESFgyVzlUTVlyQXhPanhkcXNzWmJmUXdMQldYNUovV3ZQNUw1OGo5?=
+ =?utf-8?B?aGplOC8zZ0xwK3RrVTVmMlgxMXBxNkZQVjlJbWt6bnFPNzBpcjVZV1VEeWlp?=
+ =?utf-8?B?bW5zNC9yNWwzZlJnbkJ6Q0hLcWZhdTdUL21JSzdGRms2cVNnYTBnVVJrRVNF?=
+ =?utf-8?B?UGhSQzRKOERNREFmd0pBZk9WVHpRMWd4UWFtNUZpQlZqZXArN1dzMFgrdGtN?=
+ =?utf-8?B?eEJEYUkwMXBLQzEyUS84RHZBM3B5Mld5R1FqK01aaWpKVUFHS2tmQnArUGta?=
+ =?utf-8?B?MGhEcjdUNFlMbHpISFFPNkVsa0VJN2hGaXRFR1A2Uk9HNzZ1SGN1MVJ4WW9x?=
+ =?utf-8?B?a3JFTEJ6YXFxV3FMaE0vdkdFeFp2MzNIUDYxWHlzdzlkNHExcGJReSt4b2Nj?=
+ =?utf-8?B?WGkwb1JWU29mVFJLWXlwakJQM2plZ0xMWlp5c3JFMC9XVERBTDlTblJ3cUdU?=
+ =?utf-8?B?RThJOGdOcVdTZ2ZHRGNOME5jN1ZyVmNocVRGY3I0ckNwclhIYTBLMUxUOUtl?=
+ =?utf-8?B?NlJ6UnN1bkc4Yjlhem4xYVdIQnJLSEVlNTQzbFdFVmgxb0hnVUYwR2M5VjN0?=
+ =?utf-8?B?OWR4Tkx2TDZhK1Q5amVSK0p5UDd5SzN0RmVwemFCZ2gvenZrNFhpWS8yRTZV?=
+ =?utf-8?B?Rm1aYjZEZ2FBdUErYW1SM0ovM0N1dUxHc3hCZEJ0QVRaMEFESFZjZzl2Q2xP?=
+ =?utf-8?B?U3VIZ0IyMW5SM3pMdHNNY1hsQm1XZnl3cytOa3ZHN2kvZUNTR0IzQU1JL0Zl?=
+ =?utf-8?B?WUd6Z1VmMmpOMVJoTTJIaXNGTkhZYmlVSkFVOVZnc05vUWxFZWx5UHVxOTNx?=
+ =?utf-8?B?SzVFcEJ3UjV1UldaUWoybURKWlkyWVloRENrL1pMKzQ3NnNKS0VyT3luV2Ux?=
+ =?utf-8?Q?Rm6fOlLWGqgir49nNK82ouA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1F11B25EEF05624D8336999729B050EF@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] leds: lp8864: New driver
-To: "A. Sverdlin" <alexander.sverdlin@siemens.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, Lee Jones <lee@kernel.org>,
-        Daniel
- Thompson <danielt@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel
- Machek <pavel@ucw.cz>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-References: <20241217133713.326853-1-alexander.sverdlin@siemens.com>
- <20241217133713.326853-3-alexander.sverdlin@siemens.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20241217133713.326853-3-alexander.sverdlin@siemens.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2686fbda-b3d6-4fb3-1296-08dd1ebfee9a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2024 17:26:24.6677
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ULetumqi0NODWKBEYnp6pPKqSK+CvS19x9eHTJIb0wynGsgTpFswhQdxQBUQ0svrEZySBqZfpqBveHS8oP6h3Y0lgYbpfcdob8pPemqxSOg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB8546
 
-On 12/17/24 7:37 AM, A. Sverdlin wrote:
-> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> 
-> Add driver for TI LP8864, LP8864S, LP8866 4/6 channel LED-backlight drivers
-> with I2C interface.
-> 
-> Link: https://www.ti.com/lit/gpn/lp8864-q1
-> Link: https://www.ti.com/lit/gpn/lp8864s-q1
-> Link: https://www.ti.com/lit/gpn/lp8866-q1
-> Link: https://www.ti.com/lit/gpn/lp8866s-q1
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> ---
-> Changelog:
-> v4:
-> - better separated comments from register defines
-> - removed NULL from fault text arrays for two regs with odd-even structure
-> - changed HW fault printf from errors to warnings
-> - renamed "buf" -> "val"
-> - reflowed the code with up to 100 symbols per line
-> - added comments for 8<->16-bit linear scaling in set/get callbacks
-> - removed register names from error messages
-> v3:
-> - dropped lp8864_init(), REGCACHE_NONE, %pe in dev_err_probe(),
->    i2c_set_clientdata()
-> - added devm_add_action_or_reset() return value check, dev_err_probe() after
->    devm_regmap_init_i2c()
-> v2: no changes
-> 
->   MAINTAINERS                |   7 +
->   drivers/leds/Kconfig       |  12 ++
->   drivers/leds/Makefile      |   1 +
->   drivers/leds/leds-lp8864.c | 296 +++++++++++++++++++++++++++++++++++++
->   4 files changed, 316 insertions(+)
->   create mode 100644 drivers/leds/leds-lp8864.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b332995b3350..d4268a3bbc5a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -23322,6 +23322,13 @@ S:	Supported
->   F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml
->   F:	drivers/iio/dac/ti-dac7612.c
->   
-> +TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
-> +M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> +L:	linux-leds@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-> +F:	drivers/leds/leds-lp8864.c
-> +
->   TEXAS INSTRUMENTS' SYSTEM CONTROL INTERFACE (TISCI) PROTOCOL DRIVER
->   M:	Nishanth Menon <nm@ti.com>
->   M:	Tero Kristo <kristo@kernel.org>
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 3bf51a4e01d7..5dde8f46100c 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -513,6 +513,18 @@ config LEDS_LP8860
->   	  on the LP8860 4 channel LED driver using the I2C communication
->   	  bus.
->   
-> +config LEDS_LP8864
-> +	tristate "LED support for the TI LP8864/LP8866 4/6 channel LED drivers"
-> +	depends on LEDS_CLASS && I2C && OF
-> +	select REGMAP_I2C
-> +	help
-> +	  If you say yes here you get support for the TI LP8864-Q1,
-> +	  LP8864S-Q1, LP8866-Q1, LP8866S-Q1 4/6 channel LED backlight
-> +	  drivers with I2C interface.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called leds-lp8864.
-> +
->   config LEDS_CLEVO_MAIL
->   	tristate "Mail LED on Clevo notebook"
->   	depends on LEDS_CLASS && BROKEN
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index e7982938ddc1..8a2caa48343b 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -57,6 +57,7 @@ obj-$(CONFIG_LEDS_LP55XX_COMMON)	+= leds-lp55xx-common.o
->   obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
->   obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
->   obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
-> +obj-$(CONFIG_LEDS_LP8864)		+= leds-lp8864.o
->   obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
->   obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
->   obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
-> diff --git a/drivers/leds/leds-lp8864.c b/drivers/leds/leds-lp8864.c
-> new file mode 100644
-> index 000000000000..9ee9e5e0df3c
-> --- /dev/null
-> +++ b/drivers/leds/leds-lp8864.c
-> @@ -0,0 +1,296 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * TI LP8864/LP8866 4/6 Channel LED Driver
-> + *
-> + * Copyright (C) 2024 Siemens AG
-> + *
-> + * Based on LP8860 driver by Dan Murphy <dmurphy@ti.com>
-> + */
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +
-> +#define LP8864_BRT_CONTROL		0x00
-> +#define LP8864_USER_CONFIG1		0x04
-> +#define   LP8864_BRT_MODE_MASK		GENMASK(9, 8)
-> +#define   LP8864_BRT_MODE_REG		BIT(9)		/* Brightness control by DISPLAY_BRT reg */
-> +#define LP8864_SUPPLY_STATUS		0x0e
-> +#define LP8864_BOOST_STATUS		0x10
-> +#define LP8864_LED_STATUS		0x12
-> +#define   LP8864_LED_STATUS_WR_MASK	GENMASK(14, 9	/* Writeable bits in the LED_STATUS reg */
-
-Missing the closing ) ?
-
-> +
-> +/* Textual meaning for status bits, starting from bit 1 */
-> +static const char *const lp8864_supply_status_msg[] = {
-> +	"Vin under-voltage fault",
-> +	"Vin over-voltage fault",
-> +	"Vdd under-voltage fault",
-> +	"Vin over-current fault",
-> +	"Missing charge pump fault",
-> +	"Charge pump fault",
-> +	"Missing boost sync fault",
-> +	"CRC error fault ",
-> +};
-> +
-> +/* Textual meaning for status bits, starting from bit 1 */
-> +static const char *const lp8864_boost_status_msg[] = {
-> +	"Boost OVP low fault",
-> +	"Boost OVP high fault",
-> +	"Boost over-current fault",
-> +	"Missing boost FSET resistor fault",
-> +	"Missing MODE SEL resistor fault",
-> +	"Missing LED resistor fault",
-> +	"ISET resistor short to ground fault",
-> +	"Thermal shutdown fault",
-> +};
-> +
-> +/* Textual meaning for every register bit */
-> +static const char *const lp8864_led_status_msg[] = {
-> +	"LED 1 fault",
-> +	"LED 2 fault",
-> +	"LED 3 fault",
-> +	"LED 4 fault",
-> +	"LED 5 fault",
-> +	"LED 6 fault",
-> +	"LED open fault",
-> +	"LED internal short fault",
-> +	"LED short to GND fault",
-> +	NULL, NULL, NULL,
-> +	"Invalid string configuration fault",
-> +	NULL,
-> +	"I2C time out fault",
-> +};
-> +
-> +/**
-> + * struct lp8864_led
-> + * @client: Pointer to the I2C client
-> + * @led_dev: led class device pointer
-> + * @regmap: Devices register map
-> + * @led_status_mask: Helps to report LED fault only once
-> + */
-> +struct lp8864_led {
-> +	struct i2c_client *client;
-> +	struct led_classdev led_dev;
-> +	struct regmap *regmap;
-> +	u16 led_status_mask;
-> +};
-> +
-> +static int lp8864_fault_check(struct lp8864_led *led)
-> +{
-> +	int ret, i;
-> +	unsigned int val;
-> +
-> +	ret = regmap_read(led->regmap, LP8864_SUPPLY_STATUS, &val);
-> +	if (ret)
-> +		goto err;
-
-You could probably keep this simple and print the exact error here
-and return, vs the common error message at the end
-
-> +
-> +	/* Odd bits are status bits, even bits are clear bits */
-> +	for (i = 0; i < ARRAY_SIZE(lp8864_supply_status_msg); i++)
-> +		if (val & BIT(i * 2 + 1))
-> +			dev_warn(&led->client->dev, "%s\n", lp8864_supply_status_msg[i]);
-> +
-> +	/*
-> +	 * Clear bits have an index preceding the corresponding Status bits;
-> +	 * both have to be written "1" simultaneously to clear the corresponding
-> +	 * Status bit.
-> +	 */
-> +	if (val)
-> +		ret = regmap_write(led->regmap, LP8864_SUPPLY_STATUS, val >> 1 | val);
-> +	if (ret)
-> +		goto err;
-> +
-> +	ret = regmap_read(led->regmap, LP8864_BOOST_STATUS, &val);
-> +	if (ret)
-> +		goto err;
-> +
-> +	/* Odd bits are status bits, even bits are clear bits */
-> +	for (i = 0; i < ARRAY_SIZE(lp8864_boost_status_msg); i++)
-> +		if (val & BIT(i * 2 + 1))
-> +			dev_warn(&led->client->dev, "%s\n", lp8864_boost_status_msg[i]);
-> +
-> +	if (val)
-> +		ret = regmap_write(led->regmap, LP8864_BOOST_STATUS, val >> 1 | val);
-> +	if (ret)
-> +		goto err;
-> +
-> +	ret = regmap_read(led->regmap, LP8864_LED_STATUS, &val);
-> +	if (ret)
-> +		goto err;
-> +
-> +	/*
-> +	 * Clear already reported faults that maintain their value until device
-> +	 * power-down
-> +	 */
-> +	val &= ~led->led_status_mask;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(lp8864_led_status_msg); i++)
-> +		if (lp8864_led_status_msg[i] && val & BIT(i))
-> +			dev_warn(&led->client->dev, "%s\n", lp8864_led_status_msg[i]);
-> +
-> +	/*
-> +	 * Mark those which maintain their value until device power-down as
-> +	 * "already reported"
-> +	 */
-> +	led->led_status_mask |= val & ~LP8864_LED_STATUS_WR_MASK;
-> +
-> +	/*
-> +	 * Only bits 14, 12, 10 have to be cleared here, but others are RO,
-> +	 * we don't care what we write to them.
-> +	 */
-> +	if (val & LP8864_LED_STATUS_WR_MASK)
-> +		ret = regmap_write(led->regmap, LP8864_LED_STATUS, val >> 1 | val);
-> +	if (ret)
-> +		goto err;
-> +
-> +	return 0;
-> +
-> +err:
-> +	dev_err(&led->client->dev, "Failed to read/clear faults (%pe)\n", ERR_PTR(ret));
-> +
-> +	return ret;
-> +}
-> +
-> +static int lp8864_brightness_set(struct led_classdev *led_cdev,
-> +				 enum led_brightness brt_val)
-> +{
-> +	struct lp8864_led *led = container_of(led_cdev, struct lp8864_led, led_dev);
-> +	/* Scale 0..LED_FULL into 16-bit HW brightness */
-> +	unsigned int val = brt_val * 0xffff / LED_FULL;
-> +	int ret;
-> +
-> +	ret = lp8864_fault_check(led);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(led->regmap, LP8864_BRT_CONTROL, val);
-> +	if (ret)
-> +		dev_err(&led->client->dev, "Failed to write brightness value\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static enum led_brightness lp8864_brightness_get(struct led_classdev *led_cdev)
-> +{
-> +	struct lp8864_led *led = container_of(led_cdev, struct lp8864_led, led_dev);
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	ret = regmap_read(led->regmap, LP8864_BRT_CONTROL, &val);
-> +	if (ret) {
-> +		dev_err(&led->client->dev, "Failed to read brightness value\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Scale 16-bit HW brightness into 0..LED_FULL */
-> +	return val * LED_FULL / 0xffff;
-> +}
-> +
-> +static const struct regmap_config lp8864_regmap_config = {
-> +	.reg_bits		= 8,
-> +	.val_bits		= 16,
-> +	.val_format_endian	= REGMAP_ENDIAN_LITTLE,
-> +};
-> +
-> +static void lp8864_disable_gpio(void *data)
-> +{
-> +	struct gpio_desc *gpio = data;
-> +
-> +	gpiod_set_value(gpio, 0);
-> +}
-> +
-> +static int lp8864_probe(struct i2c_client *client)
-> +{
-> +	int ret;
-> +	struct lp8864_led *led;
-> +	struct device_node *np = dev_of_node(&client->dev);
-> +	struct device_node *child_node;
-> +	struct led_init_data init_data = {};
-> +	struct gpio_desc *enable_gpio;
-> +
-> +	led = devm_kzalloc(&client->dev, sizeof(*led), GFP_KERNEL);
-> +	if (!led)
-> +		return -ENOMEM;
-> +
-> +	child_node = of_get_next_available_child(np, NULL);
-> +	if (!child_node) {
-> +		dev_err(&client->dev, "No LED function defined\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = devm_regulator_get_enable_optional(&client->dev, "vled");
-> +	if (ret && ret != -ENODEV)
-> +		return dev_err_probe(&client->dev, ret, "Failed to enable vled regulator\n");
-> +
-> +	enable_gpio = devm_gpiod_get_optional(&client->dev, "enable", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(enable_gpio))
-> +		return dev_err_probe(&client->dev, PTR_ERR(enable_gpio),
-> +				     "Failed to get enable GPIO\n");
-> +
-> +	ret = devm_add_action_or_reset(&client->dev, lp8864_disable_gpio, enable_gpio);
-> +	if (ret)
-> +		return ret;
-> +
-> +	led->client = client;
-> +	led->led_dev.brightness_set_blocking = lp8864_brightness_set;
-> +	led->led_dev.brightness_get = lp8864_brightness_get;
-> +
-> +	led->regmap = devm_regmap_init_i2c(client, &lp8864_regmap_config);
-> +	if (IS_ERR(led->regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(led->regmap),
-> +				     "Failed to allocate regmap\n");
-> +
-> +	/* Control brightness by DISPLAY_BRT register */
-> +	ret = regmap_update_bits(led->regmap, LP8864_USER_CONFIG1, LP8864_BRT_MODE_MASK,
-> +								   LP8864_BRT_MODE_REG);
-> +	if (ret) {
-> +		dev_err(&led->client->dev, "Failed to set brightness control mode\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = lp8864_fault_check(led);
-> +	if (ret)
-> +		return ret;
-> +
-> +	init_data.fwnode = of_fwnode_handle(child_node);
-> +	init_data.devicename = "lp8864";
-> +	init_data.default_label = ":display_cluster";
-> +
-> +	ret = devm_led_classdev_register_ext(&client->dev, &led->led_dev, &init_data);
-> +	if (ret)
-> +		dev_err(&client->dev, "Failed to register LED device (%pe)\n", ERR_PTR(ret));
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct i2c_device_id lp8864_id[] = {
-> +	{ "lp8864" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, lp8864_id);
-> +
-> +static const struct of_device_id of_lp8864_leds_match[] = {
-> +	{ .compatible = "ti,lp8864" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, of_lp8864_leds_match);
-> +
-> +static struct i2c_driver lp8864_driver = {
-> +	.driver = {
-> +		.name	= "lp8864",
-> +		.of_match_table = of_lp8864_leds_match,
-> +	},
-> +	.probe		= lp8864_probe,
-> +	.id_table	= lp8864_id,
-> +};
-> +module_i2c_driver(lp8864_driver);
-> +
-> +MODULE_DESCRIPTION("Texas Instruments LP8864/LP8866 LED driver");
-> +MODULE_AUTHOR("Alexander Sverdlin <alexander.sverdlin@siemens.com>");
-> +MODULE_LICENSE("GPL");
+SGkgQW5kcmV3IQ0KDQpPbiBUdWUsIDIwMjQtMTItMTcgYXQgMDk6NTYgLTA2MDAsIEFuZHJldyBE
+YXZpcyB3cm90ZToNCj4gT24gMTIvMTcvMjQgNzozNyBBTSwgQS4gU3ZlcmRsaW4gd3JvdGU6DQo+
+ID4gRnJvbTogQWxleGFuZGVyIFN2ZXJkbGluIDxhbGV4YW5kZXIuc3ZlcmRsaW5Ac2llbWVucy5j
+b20+DQo+ID4gDQo+ID4gQWRkIGRyaXZlciBmb3IgVEkgTFA4ODY0LCBMUDg4NjRTLCBMUDg4NjYg
+NC82IGNoYW5uZWwgTEVELWJhY2tsaWdodCBkcml2ZXJzDQo+ID4gd2l0aCBJMkMgaW50ZXJmYWNl
+Lg0KPiA+IA0KPiA+IExpbms6IGh0dHBzOi8vd3d3LnRpLmNvbS9saXQvZ3BuL2xwODg2NC1xMQ0K
+PiA+IExpbms6IGh0dHBzOi8vd3d3LnRpLmNvbS9saXQvZ3BuL2xwODg2NHMtcTENCj4gPiBMaW5r
+OiBodHRwczovL3d3dy50aS5jb20vbGl0L2dwbi9scDg4NjYtcTENCj4gPiBMaW5rOiBodHRwczov
+L3d3dy50aS5jb20vbGl0L2dwbi9scDg4NjZzLXExDQo+ID4gU2lnbmVkLW9mZi1ieTogQWxleGFu
+ZGVyIFN2ZXJkbGluIDxhbGV4YW5kZXIuc3ZlcmRsaW5Ac2llbWVucy5jb20+DQo+ID4gLS0tDQo+
+ID4gQ2hhbmdlbG9nOg0KPiA+IHY0Og0KPiA+IC0gYmV0dGVyIHNlcGFyYXRlZCBjb21tZW50cyBm
+cm9tIHJlZ2lzdGVyIGRlZmluZXMNCj4gPiAtIHJlbW92ZWQgTlVMTCBmcm9tIGZhdWx0IHRleHQg
+YXJyYXlzIGZvciB0d28gcmVncyB3aXRoIG9kZC1ldmVuIHN0cnVjdHVyZQ0KPiA+IC0gY2hhbmdl
+ZCBIVyBmYXVsdCBwcmludGYgZnJvbSBlcnJvcnMgdG8gd2FybmluZ3MNCj4gPiAtIHJlbmFtZWQg
+ImJ1ZiIgLT4gInZhbCINCj4gPiAtIHJlZmxvd2VkIHRoZSBjb2RlIHdpdGggdXAgdG8gMTAwIHN5
+bWJvbHMgcGVyIGxpbmUNCj4gPiAtIGFkZGVkIGNvbW1lbnRzIGZvciA4PC0+MTYtYml0IGxpbmVh
+ciBzY2FsaW5nIGluIHNldC9nZXQgY2FsbGJhY2tzDQo+ID4gLSByZW1vdmVkIHJlZ2lzdGVyIG5h
+bWVzIGZyb20gZXJyb3IgbWVzc2FnZXMNCj4gPiB2MzoNCj4gPiAtIGRyb3BwZWQgbHA4ODY0X2lu
+aXQoKSwgUkVHQ0FDSEVfTk9ORSwgJXBlIGluIGRldl9lcnJfcHJvYmUoKSwNCj4gPiDCoMKgwqAg
+aTJjX3NldF9jbGllbnRkYXRhKCkNCj4gPiAtIGFkZGVkIGRldm1fYWRkX2FjdGlvbl9vcl9yZXNl
+dCgpIHJldHVybiB2YWx1ZSBjaGVjaywgZGV2X2Vycl9wcm9iZSgpIGFmdGVyDQo+ID4gwqDCoMKg
+IGRldm1fcmVnbWFwX2luaXRfaTJjKCkNCj4gPiB2Mjogbm8gY2hhbmdlcw0KPiA+IA0KPiA+IMKg
+wqAgTUFJTlRBSU5FUlPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNyArDQo+
+ID4gwqDCoCBkcml2ZXJzL2xlZHMvS2NvbmZpZ8KgwqDCoMKgwqDCoCB8wqAgMTIgKysNCj4gPiDC
+oMKgIGRyaXZlcnMvbGVkcy9NYWtlZmlsZcKgwqDCoMKgwqAgfMKgwqAgMSArDQo+ID4gwqDCoCBk
+cml2ZXJzL2xlZHMvbGVkcy1scDg4NjQuYyB8IDI5NiArKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrDQo+ID4gwqDCoCA0IGZpbGVzIGNoYW5nZWQsIDMxNiBpbnNlcnRpb25zKCsp
+DQo+ID4gwqDCoCBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9sZWRzL2xlZHMtbHA4ODY0LmMN
+Cj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUw0KPiA+IGlu
+ZGV4IGIzMzI5OTViMzM1MC4uZDQyNjhhM2JiYzVhIDEwMDY0NA0KPiA+IC0tLSBhL01BSU5UQUlO
+RVJTDQo+ID4gKysrIGIvTUFJTlRBSU5FUlMNCj4gPiBAQCAtMjMzMjIsNiArMjMzMjIsMTMgQEAg
+UzoJU3VwcG9ydGVkDQo+ID4gwqDCoCBGOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvaWlvL2RhYy90aSxkYWM3NjEyLnlhbWwNCj4gPiDCoMKgIEY6CWRyaXZlcnMvaWlvL2RhYy90
+aS1kYWM3NjEyLmMNCj4gPiDCoMKgIA0KPiA+ICtURVhBUyBJTlNUUlVNRU5UUycgTEI4ODY0IExF
+RCBCQUNLTElHSFQgRFJJVkVSDQo+ID4gK006CUFsZXhhbmRlciBTdmVyZGxpbiA8YWxleGFuZGVy
+LnN2ZXJkbGluQHNpZW1lbnMuY29tPg0KPiA+ICtMOglsaW51eC1sZWRzQHZnZXIua2VybmVsLm9y
+Zw0KPiA+ICtTOglNYWludGFpbmVkDQo+ID4gK0Y6CURvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9sZWRzL2JhY2tsaWdodC90aSxscDg4NjQueWFtbA0KPiA+ICtGOglkcml2ZXJzL2xl
+ZHMvbGVkcy1scDg4NjQuYw0KPiA+ICsNCj4gPiDCoMKgIFRFWEFTIElOU1RSVU1FTlRTJyBTWVNU
+RU0gQ09OVFJPTCBJTlRFUkZBQ0UgKFRJU0NJKSBQUk9UT0NPTCBEUklWRVINCj4gPiDCoMKgIE06
+CU5pc2hhbnRoIE1lbm9uIDxubUB0aS5jb20+DQo+ID4gwqDCoCBNOglUZXJvIEtyaXN0byA8a3Jp
+c3RvQGtlcm5lbC5vcmc+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbGVkcy9LY29uZmlnIGIv
+ZHJpdmVycy9sZWRzL0tjb25maWcNCj4gPiBpbmRleCAzYmY1MWE0ZTAxZDcuLjVkZGU4ZjQ2MTAw
+YyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2xlZHMvS2NvbmZpZw0KPiA+ICsrKyBiL2RyaXZl
+cnMvbGVkcy9LY29uZmlnDQo+ID4gQEAgLTUxMyw2ICs1MTMsMTggQEAgY29uZmlnIExFRFNfTFA4
+ODYwDQo+ID4gwqDCoMKgCcKgIG9uIHRoZSBMUDg4NjAgNCBjaGFubmVsIExFRCBkcml2ZXIgdXNp
+bmcgdGhlIEkyQyBjb21tdW5pY2F0aW9uDQo+ID4gwqDCoMKgCcKgIGJ1cy4NCj4gPiDCoMKgIA0K
+PiA+ICtjb25maWcgTEVEU19MUDg4NjQNCj4gPiArCXRyaXN0YXRlICJMRUQgc3VwcG9ydCBmb3Ig
+dGhlIFRJIExQODg2NC9MUDg4NjYgNC82IGNoYW5uZWwgTEVEIGRyaXZlcnMiDQo+ID4gKwlkZXBl
+bmRzIG9uIExFRFNfQ0xBU1MgJiYgSTJDICYmIE9GDQo+ID4gKwlzZWxlY3QgUkVHTUFQX0kyQw0K
+PiA+ICsJaGVscA0KPiA+ICsJwqAgSWYgeW91IHNheSB5ZXMgaGVyZSB5b3UgZ2V0IHN1cHBvcnQg
+Zm9yIHRoZSBUSSBMUDg4NjQtUTEsDQo+ID4gKwnCoCBMUDg4NjRTLVExLCBMUDg4NjYtUTEsIExQ
+ODg2NlMtUTEgNC82IGNoYW5uZWwgTEVEIGJhY2tsaWdodA0KPiA+ICsJwqAgZHJpdmVycyB3aXRo
+IEkyQyBpbnRlcmZhY2UuDQo+ID4gKw0KPiA+ICsJwqAgVG8gY29tcGlsZSB0aGlzIGRyaXZlciBh
+cyBhIG1vZHVsZSwgY2hvb3NlIE0gaGVyZTogdGhlDQo+ID4gKwnCoCBtb2R1bGUgd2lsbCBiZSBj
+YWxsZWQgbGVkcy1scDg4NjQuDQo+ID4gKw0KPiA+IMKgwqAgY29uZmlnIExFRFNfQ0xFVk9fTUFJ
+TA0KPiA+IMKgwqDCoAl0cmlzdGF0ZSAiTWFpbCBMRUQgb24gQ2xldm8gbm90ZWJvb2siDQo+ID4g
+wqDCoMKgCWRlcGVuZHMgb24gTEVEU19DTEFTUyAmJiBCUk9LRU4NCj4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9sZWRzL01ha2VmaWxlIGIvZHJpdmVycy9sZWRzL01ha2VmaWxlDQo+ID4gaW5kZXgg
+ZTc5ODI5MzhkZGMxLi44YTJjYWE0ODM0M2IgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9sZWRz
+L01ha2VmaWxlDQo+ID4gKysrIGIvZHJpdmVycy9sZWRzL01ha2VmaWxlDQo+ID4gQEAgLTU3LDYg
+KzU3LDcgQEAgb2JqLSQoQ09ORklHX0xFRFNfTFA1NVhYX0NPTU1PTikJKz0gbGVkcy1scDU1eHgt
+Y29tbW9uLm8NCj4gPiDCoMKgIG9iai0kKENPTkZJR19MRURTX0xQODUwMSkJCSs9IGxlZHMtbHA4
+NTAxLm8NCj4gPiDCoMKgIG9iai0kKENPTkZJR19MRURTX0xQODc4OCkJCSs9IGxlZHMtbHA4Nzg4
+Lm8NCj4gPiDCoMKgIG9iai0kKENPTkZJR19MRURTX0xQODg2MCkJCSs9IGxlZHMtbHA4ODYwLm8N
+Cj4gPiArb2JqLSQoQ09ORklHX0xFRFNfTFA4ODY0KQkJKz0gbGVkcy1scDg4NjQubw0KPiA+IMKg
+wqAgb2JqLSQoQ09ORklHX0xFRFNfTFQzNTkzKQkJKz0gbGVkcy1sdDM1OTMubw0KPiA+IMKgwqAg
+b2JqLSQoQ09ORklHX0xFRFNfTUFYNTk3MCkJCSs9IGxlZHMtbWF4NTk3MC5vDQo+ID4gwqDCoCBv
+YmotJChDT05GSUdfTEVEU19NQVg3NzY1MCkJCSs9IGxlZHMtbWF4Nzc2NTAubw0KPiA+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2xlZHMvbGVkcy1scDg4NjQuYyBiL2RyaXZlcnMvbGVkcy9sZWRzLWxw
+ODg2NC5jDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAu
+LjllZTllNWUwZGYzYw0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9kcml2ZXJzL2xlZHMv
+bGVkcy1scDg4NjQuYw0KPiA+IEBAIC0wLDAgKzEsMjk2IEBADQo+ID4gKy8vIFNQRFgtTGljZW5z
+ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkNCj4gPiArLyoNCj4gPiArICogVEkgTFA4ODY0L0xQ
+ODg2NiA0LzYgQ2hhbm5lbCBMRUQgRHJpdmVyDQo+ID4gKyAqDQo+ID4gKyAqIENvcHlyaWdodCAo
+QykgMjAyNCBTaWVtZW5zIEFHDQo+ID4gKyAqDQo+ID4gKyAqIEJhc2VkIG9uIExQODg2MCBkcml2
+ZXIgYnkgRGFuIE11cnBoeSA8ZG11cnBoeUB0aS5jb20+DQo+ID4gKyAqLw0KPiA+ICsNCj4gPiAr
+I2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L2ky
+Yy5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvaW5pdC5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgv
+bGVkcy5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ID4gKyNpbmNsdWRlIDxs
+aW51eC9tdXRleC5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvb2YuaD4NCj4gPiArI2luY2x1ZGUg
+PGxpbnV4L3JlZ21hcC5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVy
+Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9zbGFiLmg+DQo+ID4gKw0KPiA+ICsjZGVmaW5lIExQ
+ODg2NF9CUlRfQ09OVFJPTAkJMHgwMA0KPiA+ICsjZGVmaW5lIExQODg2NF9VU0VSX0NPTkZJRzEJ
+CTB4MDQNCj4gPiArI2RlZmluZcKgwqAgTFA4ODY0X0JSVF9NT0RFX01BU0sJCUdFTk1BU0soOSwg
+OCkNCj4gPiArI2RlZmluZcKgwqAgTFA4ODY0X0JSVF9NT0RFX1JFRwkJQklUKDkpCQkvKiBCcmln
+aHRuZXNzIGNvbnRyb2wgYnkgRElTUExBWV9CUlQgcmVnICovDQo+ID4gKyNkZWZpbmUgTFA4ODY0
+X1NVUFBMWV9TVEFUVVMJCTB4MGUNCj4gPiArI2RlZmluZSBMUDg4NjRfQk9PU1RfU1RBVFVTCQkw
+eDEwDQo+ID4gKyNkZWZpbmUgTFA4ODY0X0xFRF9TVEFUVVMJCTB4MTINCj4gPiArI2RlZmluZcKg
+wqAgTFA4ODY0X0xFRF9TVEFUVVNfV1JfTUFTSwlHRU5NQVNLKDE0LCA5CS8qIFdyaXRlYWJsZSBi
+aXRzIGluIHRoZSBMRURfU1RBVFVTIHJlZyAqLw0KPiANCj4gTWlzc2luZyB0aGUgY2xvc2luZyAp
+ID8NCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3IQ0KU2VlbXMgdGhhdCBteSB0ZXN0aW5nIHdlbnQg
+c2VyaW91c2x5IHdyb25nIDpbIF0NCg0KLS0gDQpBbGV4YW5kZXIgU3ZlcmRsaW4NClNpZW1lbnMg
+QUcNCnd3dy5zaWVtZW5zLmNvbQ0K
 
