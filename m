@@ -1,107 +1,147 @@
-Return-Path: <linux-leds+bounces-3649-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3650-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852769F585E
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2024 22:06:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F94F9F5FB7
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 08:56:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0CF61892E6B
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2024 21:06:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0108B1889B7C
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 07:56:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33DEB1F9F5E;
-	Tue, 17 Dec 2024 21:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA775158DC5;
+	Wed, 18 Dec 2024 07:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPF964+q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TzgvZBos"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE331F9F44;
-	Tue, 17 Dec 2024 21:06:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E7F42048;
+	Wed, 18 Dec 2024 07:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734469579; cv=none; b=DgT83WrPnzcNLo4dq27ZiJNU7cB8t0L6iR8h2z9frt8ohhabmDD7MvzPntNcsSRWalxeo1MDQmzRFlQRjc9C7KpK4n+4f70Bb47OSC3T/cM4G48WY+HcIw0czENGvaiLrOoYh7i3Lh+qHRw3VZ8Aa+woCoN0t9kvk2T4bGdDlgY=
+	t=1734508572; cv=none; b=lwu7d1q33nilugvWg24jTv7GoOApltuQumfIfaVWWKp+/5+kZgrDVq/1Uu0jv0ALaVl3TwFRFps4sIkMJHNmo8zmeG/wKGvsepCpgZsfwfqMWp/LnAZuTwhEF247JS0ADwzDFG8bG8uetgldU8Y8Nuxa2FHuRV3c1P1u7Ym7obU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734469579; c=relaxed/simple;
-	bh=6BIHdtEzcXSXZ+JBnh804aXJtDUVjAEcytppCIP84nY=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=uMH2Myz2VqpzWJfCAG/ObNEHMF2p0NoP+fWWOFMSbgyiAygmEwbYRN5CYBDWjtEjYYJLp25Vzm0YUXAcOKT0KRhIVMvMBrOkHuPo7E0LMknn26YyEL7qXCfz6ihChjzVJlehjb+8cxAxuNAlgQWwkqbr18Jr1T3Tl47AumlSMj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPF964+q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15B5EC4CEDD;
-	Tue, 17 Dec 2024 21:06:16 +0000 (UTC)
+	s=arc-20240116; t=1734508572; c=relaxed/simple;
+	bh=BrDCfYdQ1DBora0atTDfNnrZe61xzvZBXNC2QdIQ8bE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JKZlC1EOabxASlzfTpbcvQNIENj/9MHFzJq5ZE5JMP4SO88dh8vuyGs5yL+nrfYw3dCrFd5KCmIMJlclPge7HcSZpYCgq/3pKjbl6PKFW9gRv0gm8an4l5vWA4J9esve0oBnHyPCSIGAhaNd/Uf21VMcYE2b5x4JJ4NgT6Jh5DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TzgvZBos; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7CBFC4CECE;
+	Wed, 18 Dec 2024 07:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734469577;
-	bh=6BIHdtEzcXSXZ+JBnh804aXJtDUVjAEcytppCIP84nY=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=aPF964+q0FEH0SCL47fWdrJPl4ydOT6FZdQ/Sxx/ifikIlIX7zYP+JsFR4eFA5LY8
-	 +YLGc/jpl5n+ABjOJ4jG+at6zo/b0knyB6SahU8WIM/8HhHFSuzeVDRW0PTTWKW3AB
-	 LtXnTZ0n7GzUs7zyB3hTlUGgHAZin2cxTJ4/RnYbjcJtEX+l8AsuebNSi3N3CpjOeZ
-	 6D4lXRJXr/NlkcZQN7Jd4+jifMCZDYMrEy0yBMJ6arPqrDzZcowCG3bmSjt4wna5Vi
-	 4UbYQpYmlc4R7lwo7BAwgezRT9t7o7EIFYBGYqDMsdMKK/54PiADSp8/WhLFfSBL68
-	 uRVIMcG4uw72A==
-Date: Tue, 17 Dec 2024 15:06:15 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1734508572;
+	bh=BrDCfYdQ1DBora0atTDfNnrZe61xzvZBXNC2QdIQ8bE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TzgvZBosLoZFh5meuHHmD1x48hgInQYIOcmLlgncgpWywYTmAHlCy2ow4iGDfj5uO
+	 Q2eSjzA7czpy/2D1JHo0Zp/6ExGrMQieLHnLMv5qGMYHod3yaYpwsV4HeY7IWPi2Sj
+	 VtRG6NL9vEDpgM6pIflI2Fgyb+8WXcr3tiM4Tkr+764tlMHT684CMSAZVo/mVC6fd8
+	 OkWKIZ7JhOu8j2iYyi0XUFV+K6S2ZR6mJs8W7jjCP7mdfowiv+zyCvPxBhb3G2pH72
+	 sCnu/XClqkKe5N4VzXY+j3MyLri7YmhM6L0OH+gZZrGiB7RbSCy4H8UpaD116NC/dL
+	 33ivgXZ8Zlaog==
+Message-ID: <c3270109-406f-49bd-9c11-e323d1b6e84d@kernel.org>
+Date: Wed, 18 Dec 2024 08:56:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, 
- Lee Jones <lee@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Hans de Goede <hdegoede@redhat.com>, Sebastian Reichel <sre@kernel.org>, 
- Chanwoo Choi <cw00.choi@samsung.com>, devicetree@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-input@vger.kernel.org, 
- Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 3/9] dt-bindings: power: supply: max17042: split on 2
+ files
 To: Dzmitry Sankouski <dsankouski@gmail.com>
-In-Reply-To: <20241217-starqltechn_integration_upstream-v12-5-ed840944f948@gmail.com>
-References: <20241217-starqltechn_integration_upstream-v12-0-ed840944f948@gmail.com>
- <20241217-starqltechn_integration_upstream-v12-5-ed840944f948@gmail.com>
-Message-Id: <173446957568.3352044.2208837286818207483.robh@kernel.org>
-Subject: Re: [PATCH v12 05/11] dt-bindings: mfd: add maxim,max77705 sensors
+Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20241209-starqltechn_integration_upstream-v11-0-dc0598828e01@gmail.com>
+ <20241209-starqltechn_integration_upstream-v11-3-dc0598828e01@gmail.com>
+ <7qt7thbuh5mvoaknxaiteusbmcmiusc23k2oiyvq3bwn4l6wsw@p4qid73hmiry>
+ <CABTCjFD4ipvapWX9gJF1KXWpzj_jhL9pYB0z+Q4sEi-cu6mx7Q@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CABTCjFD4ipvapWX9gJF1KXWpzj_jhL9pYB0z+Q4sEi-cu6mx7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-On Tue, 17 Dec 2024 20:30:03 +0300, Dzmitry Sankouski wrote:
-> Add maxim,max77705 sensors binding part.
-> This includes fuelgauge and voltage/current sensor on
-> chip input and system bus.
+On 11/12/2024 15:59, Dzmitry Sankouski wrote:
+> Ah, indeed, the device tree in this and previous patches doesn't
+> reflect hardware wiring.
 > 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> ---
->  Documentation/devicetree/bindings/mfd/maxim,max77705-sensors.yaml | 60 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
+> MAX77705 fuel gauge has a separate i2c address, i.e. I may move it out of the
+> MAX77705 MFD node. However, the device on that address has additional features,
+> like measuring system and input current, which is out of fuel gauge
+> responsibility.
+
+This is fuel gauge job.
+
 > 
+> So I guess I should create another MFD for fuel gauge, i. e. max77705 example
+> would look like:
+> 
+> ...
+>   pmic@66 {
+>     compatible = "maxim,max77705";
+> ...
+>   };
+> 
+>   meter@36 {
+>     compatible = "maxim,max77705-meter";
+> 
+No resources here, so not a MFD. This is one device.
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705-sensors.yaml: fuel-gauge: Missing additionalProperties/unevaluatedProperties constraint
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241217-starqltechn_integration_upstream-v12-5-ed840944f948@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Best regards,
+Krzysztof
 
