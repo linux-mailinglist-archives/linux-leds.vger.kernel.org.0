@@ -1,188 +1,137 @@
-Return-Path: <linux-leds+bounces-3662-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3663-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E2F9F6D34
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 19:24:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B499F6D63
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 19:34:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF8CD1884FE6
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 18:24:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90821163FD0
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 18:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62E481FA829;
-	Wed, 18 Dec 2024 18:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C3C1FAC4B;
+	Wed, 18 Dec 2024 18:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="czwgqNCE"
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="dj5TZuUT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0043597C;
-	Wed, 18 Dec 2024 18:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE421F0E21
+	for <linux-leds@vger.kernel.org>; Wed, 18 Dec 2024 18:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734546286; cv=none; b=erLAdNKpcwBFhTllAdg7rvF7TRk8tg3nvcmIuHdOtqVvEjWPava3zLDSRgPhI35qf5MgfiIu863nFQ5o8Ki35YiRZRJuYaqw3zAPVzc88KKhCCmlsmAZVhpayU5MeEwfenkfjH372BX8RwFdTBbDwKfFOK7qUJCxvHJ2yCDA9Oo=
+	t=1734546849; cv=none; b=V/iYema/KJP2mlExgA4Gy+S+zL437r/TYOJajpQG8WMxEHL3EPafRw3vPn+ToANYDc0Y88miKFMl6c/SkPDi/XzeUXWYS4UMxcx2NA2/a61FQluogiCtKkhJM8BNk+DEsy/dY1lQ72uSZ935FIWVUTnRN0MxrCxAkn/AY1ABmko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734546286; c=relaxed/simple;
-	bh=3XiLF1Wf+pk+itwpr2VAHqM0hK4GGkizwkWAckNZb+A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=krTnwjLmTKILbOkhAQoj/NSrz7YV2VCo7PLYrAAW+PRHfntlfXIx1cwgqHw7VWIcwyfNnqbRhJJDpzfENa62kDplrqsMhHocE+FfulkrmxAEdydfK24+xqBW8hN1CcZgGbPHU1zNHc1dWPuxvBm5PZJ/JkGJuvdciXANcRATQrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=czwgqNCE; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4afeb79b52fso1908324137.0;
-        Wed, 18 Dec 2024 10:24:44 -0800 (PST)
+	s=arc-20240116; t=1734546849; c=relaxed/simple;
+	bh=ZwPHIRSgcHchgzPbOnE6MDpfrdFaHBQfvVCSdA9Wztg=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=AWwP8YOe81xTk/Wh0zIpZ02m/2OaSKD4OK/86u25l7uiFM0MEBxGGjoFI4sfLudhdgEWFMQ6kajSnXEWvjrstTpIjNgz/TDZTQIuWvGuukUIEvgCIGsuRGmQiIsdlN4f358LM6qaOY5e6l73jVJaajhQQna3G4nsV5eRz0qk000=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=dj5TZuUT; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aa6997f33e4so1045078266b.3
+        for <linux-leds@vger.kernel.org>; Wed, 18 Dec 2024 10:34:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734546283; x=1735151083; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E700w9QuffQfIy0SrxiIOo8P0TGVoGXhxkdZEo5QdQI=;
-        b=czwgqNCEf/FVfafEQpU0q3LnnWb8zY4z9gMC1qRAuQNyDdHnHtLT3QDx3QcywI8slI
-         JwqDp45u5LgtPg8stdlXthCuQo0CCHZndF4WTcFClb7UeRI5pX33JAJ2xyRHix6KUNpS
-         rSnyxFcWGmZoUFpJ2yhzy6XReKHS1By08MTjbk8vJWm5or34yiGPbsTsVx/Z21nGE9mL
-         /7oVtQd1zNUmIQXgr+Jb2Tkcv+/bIW44Z6qpoH1kY7coMMGwo9R8fFWK3c2XH7H+kKrk
-         mYITXMsF5Lhh7b0jipfUZr7VjFTMGJtkpRPd6h/opi9VJFMrYiKhQZZOOWNGH9k5KZhJ
-         XOvA==
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1734546845; x=1735151645; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lKJ9++QatzOVaiEHtQl8i8T+s1fyCP259nh7H9lhb4Y=;
+        b=dj5TZuUT1bWeMPqIFttPWQMGgy8uKt4f4/85akmRGokTJ6nd4xrKU9Srwg7g02MW9r
+         5oiXV+fvj4YXuS0vXdDi0vklrD1wTWDOP8ff6zijVF0rYpPK6VClmG0HElJogh8TflMg
+         bJAWzQf7eKR6YlU8hsz4xGgatdzsZ0ogOQih1rsp02I8L1VdjgJw2rWnfYY0XfSDy9mi
+         4XJUiDGdDHDb8LfJZPn0x0W90Vyx3TC1sbTJX1KvEPNipt9fFxMv7u+mF0PuWVzkf9Pr
+         FzSVirsfnySRHOKEPr0sxo1fAO/IWyhUzsSjG16bJaihRkGwD7i7jbIlRbbhG+talJnH
+         RkZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734546283; x=1735151083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E700w9QuffQfIy0SrxiIOo8P0TGVoGXhxkdZEo5QdQI=;
-        b=lKqSXetb0gDvYLwmhSE9myNuXUjM8ITCs0kJe54/ETVHfAYH3UC3YcgOMs+NKqWNQz
-         N0bect4ltJjC+bizbqoNq+juotvxQVGyAnkJj+UfhyhwBqGBHTj08hUokLrbD8yxliX9
-         /YtocuVt8Am+Tv4XAK3H64LmdHI5wFMce8EcumfO15Nsyzjy/+ZrU+SYS/q5HfezPwew
-         fPLWUTGM26aCeTouQ+Uv3tS3WZ7UNSmMtcQFfiWXAuqZIMJ4QAjvZix+4CCf7bNrOjYG
-         bew5wCd2/4FgVRWqGwA94YZS+nAElSKw7OON5C6nyozuwKdhsAOFmBDSqpQ99TO3pJuo
-         jpZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOPf+q9HcMlo64Ma/+EPsvjduojw9WVMin9gt/0DkV0MfLcIKZt4K+OfcSprDFe/NYOiOBOFo9lrU=@vger.kernel.org, AJvYcCXB7LqbKW25quJC5dXdG7bpIPDGMs/odfSH4fM/6aTcGWNDSPdIc3hWrVp8Pe8YQN0bj3E2QWgNwBzB@vger.kernel.org, AJvYcCXTb78sBbKJRVYyAwPXdFPpIFQCl+YY54q05dYERkkRIsY+toE3TydSohV1I5u6fNUhelPKhVAPY/R1ZfI=@vger.kernel.org, AJvYcCXhg+GiPZHRc9/fNKxIEtYbmKb5SCCEoGsRTKVW1xHf6tMJrexyoEOI3BPxvDFo5xhPYdcvo8gVwlFESg==@vger.kernel.org, AJvYcCXoxGekYGuzJ3nDnp+VWk7ULg0vHWapPzt16mkJJa6xrFT7E5/GxN25/dtGoN30LCQRIOPZo44yDCZNMq46@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWxGSFYuMiHdIDT4/iuf6LMRuict2ElFoEPYPKxFgkkah4vL09
-	yu3yPh5USOyDWzZrpG0FJ/KhModQx1IKFWtKrakqzJmkc8vzYspyTUY0Scqxix0J85jbkz81HYg
-	YtMD4yDDB5jPnnX3FNyLYbwMVIUY=
-X-Gm-Gg: ASbGncskfp0zWghE+TBJj+/AVYz5SQRTQioZe6TY6x4PeaC1KFFMGFkApYvfxx7WETm
-	LdAeFxnvRJwS3Bhr4z0XsaRJjcUXuieSdwP4s
-X-Google-Smtp-Source: AGHT+IEWseURIL7DnIOmJjE4mPvK+8SSRYUDTmrHrrfemRfNvar05kmLHNZ5hGEiXCCqG+/v10kkV9suRecozL8LHQ8=
-X-Received: by 2002:a05:6102:508a:b0:4af:eccf:e3ca with SMTP id
- ada2fe7eead31-4b2bbdc46b8mr635155137.10.1734546283475; Wed, 18 Dec 2024
- 10:24:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734546845; x=1735151645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lKJ9++QatzOVaiEHtQl8i8T+s1fyCP259nh7H9lhb4Y=;
+        b=f5GkIZK7MvZoHHt4KQzjQ10louF3sXt5ZvcZIrNBnyTsoQ7ab/xMcEgW0YbG6iIg5t
+         LigK3CDlhbBvRXfQ0lJr386he5JIWSJyQxzk3nv3JnKzv7lPd0EA5p5qljQ46Po/1mYv
+         U14cHh3Pt7WM3RtBL7Slsfs8ZOSW3ViaEHpohAhDkRZZ+qbpVoShZCb7Dg98GzMAyTMI
+         wkgPH16YIbc89clL8vR6qVKD0Q1M6kGldccQA3OCgpCt9FTaw/OwS8ervXJP/mh6J2Gx
+         iEaKc9xfHHQPvo2QLRezWBuyqpQaUUppj2a8Cse+hllj5c0Jyj9/d3/IUwxl3IzYpxGm
+         vW+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXSp5jvuDtx2pC1kmG/ZBipf2+jAopliBD4A+AMvlWN6BO9kVlA+vqfuvThb3x+ECYFqF96fVuOGH+o@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbJlnyxY4bkaHAPsCzvgZnXAN2HfEcJTNqClf7kIWe8zJM8h/Q
+	gCdIak7nzZYh1BIk4rL+4XNK8A8Tm7Rf83vvOzaSKG0ktSfxFCN1S6SEEnQQP5tYvORo2dqFgYl
+	WaxjZS6+5mVGxmEEA2XGseCoOgG+zpjUfXcsWNed0wGfoPP6yddcmPgp4MPm6TrPKynkU1pKAie
+	sqC+ITNY1wFifBChG8v7imGYWiYq51HlYOVxhmsg==
+X-Gm-Gg: ASbGnctXBp0x8f6cQ4D7YrWcpiSMiun4Rjj1PlDNEJ7kAbPMwWK0Qny6uDGGNNtWzoI
+	Jj2cT+tL6PPCfB34tz4FcBqviGqtfsq67lanVF1HawH1Bdda2pw6KjCAjYhCIM1Idheo6ZRKbFS
+	TbgDJhvqkjbJNlRlczczj5GBLfkY7f02a8XQft3bDpoWrJ0kf4/eeg++FsQSnYagMxu3MvE9iN9
+	U48e7fJLVfJHQkoMlq2IAJDWddLR2hm1mlY7+BtR7xDIW/tVqBQGLiaIvEYIUeWMJeyHaIgUhdo
+	X/PyEt5AIsf+RQvWk9jOH7+WQ355OhOUdVnopOU/z6m49160rm//FblfnsivzY70O/7uRS5CMI7
+	z
+X-Google-Smtp-Source: AGHT+IFgz4oTm0bhEwShmLzCO68c9ozstI4NZkAOdhWqnPdWVYPEqC37W2hJWwY67bQN+jIYR8b3Gg==
+X-Received: by 2002:a17:907:7813:b0:aa6:81dc:6638 with SMTP id a640c23a62f3a-aabf47573c0mr369610266b.16.1734546845193;
+        Wed, 18 Dec 2024 10:34:05 -0800 (PST)
+Received: from localhost.localdomain (ipb21b247d.dynamic.kabel-deutschland.de. [178.27.36.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab9638ec53sm583873366b.156.2024.12.18.10.34.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 10:34:04 -0800 (PST)
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v11 0/3] Add LED1202 LED Controller
+Date: Wed, 18 Dec 2024 18:33:56 +0000
+Message-Id: <20241218183401.41687-1-vicentiu.galanopulo@remote-tech.co.uk>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217-starqltechn_integration_upstream-v12-0-ed840944f948@gmail.com>
- <20241217-starqltechn_integration_upstream-v12-2-ed840944f948@gmail.com>
- <vunx3s4wqw5fqtwuuuuofjtja7buh5zpxi3iznzgfl4iz7fm4d@wlxbzrnlu7fr>
- <CABTCjFBO6RYwf5GiExPFEyBAfCF7vUnbYFRePdSVPdXNfwZwrA@mail.gmail.com> <igvefqqns4k2tbau56nvu6uorhvr4k4j4hiv5asgohviydvlbg@6c2zhgcgdkth>
-In-Reply-To: <igvefqqns4k2tbau56nvu6uorhvr4k4j4hiv5asgohviydvlbg@6c2zhgcgdkth>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Wed, 18 Dec 2024 21:24:32 +0300
-Message-ID: <CABTCjFBv7shGvXZPKTdk0XJzOUcD8W195ZNQVGjZrMMsVNNZRA@mail.gmail.com>
-Subject: Re: [PATCH v12 02/11] dt-bindings: power: supply: max17042: split on
- 2 files
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
-	Hans de Goede <hdegoede@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-=D1=81=D1=80, 18 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 14:34, Krz=
-ysztof Kozlowski <krzk@kernel.org>:
->
-> On Wed, Dec 18, 2024 at 02:25:31PM +0300, Dzmitry Sankouski wrote:
-> > =D1=81=D1=80, 18 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 11:28,=
- Krzysztof Kozlowski <krzk@kernel.org>:
-> > >
-> > > On Tue, Dec 17, 2024 at 08:30:00PM +0300, Dzmitry Sankouski wrote:
-> > > > Move max17042 common binding part to separate file, to
-> > > > reuse it for MFDs with platform driver version.
-> > > >
-> > > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > > >
-> > > > Changes on v12:
-> > >
-> > > Malformed patch.
-> > >
-> > > > - add addtionalProperties: true on common file
-> > > > - rename *-base file to *-common
-> > > > - remove compatibles from shared shema
-> > > > - move required properties to final schema
-> > > > - remove max77705 compatible from binding - it will be used in
-> > > >   mfd77705 binding
-> > >
-> > > Sorry, all this is somehow complicated effort of not calling the fuel
-> > > gauge what it really is: separate device with its own I2C address, ju=
-st
-> > > like all previous designs in that family from Maxim.
-> > >
-> > > I keep repeating this and you keep going that way, maybe because it f=
-its
-> > > your drivers, but that's not the way.
-> > >
-> > > Best regards,
-> > > Krzysztof
-> >
-> > Fuel gauge ICs designed to sit between battery and charger, or even in =
-the
-> > battery pack itself, with a goal to track and protect the battery.
-> > Given powering diagram:
-> >
-> > ----------              ---------      ------------      --------------
-> > |usb port|<--[input]--> |charger| <--> |fuel gauge| <--> |battery pack|
-> > ----------              ---------      ------------      --------------
-> >                             |
-> >                             |
-> >                             |---> [system bus]
-> >
-> > There's no fuel gauge ICs with input and system bus measurements on the=
- market.
->
-> OK, good point, assuming that this is the input not for example the
-> charge on battery. But even if the diagram is correct, we represent here
-> programming model exposed by device, not physical components of entire
-> PMIC. Therefore you could have more components there yet still it is
-> one device: fuel gauge with its I2C addres.
->
->
-> >
-> > This device indeed has its own I2C address, but that's not enough to
-> > say it should be
-> > a separate device, because we have MFD's with its goal to share
-> > resources like a single
->
-> There is no such thing as "MFD" device in terms of hardware. MFD is a
-> Linux construct.
->
-> > i2c address for devices with separate functions.
->
-> >
-> > To me it's more like Maxim put its fuel gauge together with some hwmon
-> > solution on the
-> > single i2c client logic.
->
-> Which still makes it one device, unless you are capable of re-using this
-> other sensor-part on its own or in other devices.
+The LED1202 is a 12-channel low quiescent current LED driver with:
+  * Supply range from 2.6 V to 5 V
+  * 20 mA current capability per channel
+  * 1.8 V compatible I2C control interface
+  * 8-bit analog dimming individual control
+  * 12-bit local PWM resolution
+  * 8 programmable patterns
 
-I think I get it. There's no need for an MFD device node, because it's
-just empty.
-So in the device tree we'll only have a max17042 fuel gauge node. It'll get
-matched with simple-mfd-i2c driver, which will create 2 sub devices -
-fuel gauge and hwmon. Fuel gauge platform driver version will
-get matched by platform id, and will take of_node from pdev dev parent
-for setup.
+Internal volatile memory allows the user to store up to 8 different patterns,
+each pattern is a particular output configuration in terms of PWM
+duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+common to all patterns. Each device tree LED node will have a corresponding
+entry in /sys/class/leds with the label name. The brightness property
+corresponds to the per channel analog dimming, while the patterns[1-8] to the
+PWM dimming control.
 
-Is that what you are thinking of?
+Vicentiu Galanopulo (3):
+  Documentation:leds: Add leds-st1202.rst
+  dt-bindings: leds: Add LED1202 LED Controller
+  leds: Add LED1202 I2C driver
 
---=20
-Best regards and thanks for review,
-Dzmitry
+---
+   - Changes in v11: Add version history
+
+ .../devicetree/bindings/leds/st,led1202.yaml  | 132 ++++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-st1202.rst            |  34 ++
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-st1202.c                    | 416 ++++++++++++++++++
+ 6 files changed, 594 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+ create mode 100644 Documentation/leds/leds-st1202.rst
+ create mode 100644 drivers/leds/leds-st1202.c
+
+-- 
+2.39.3 (Apple Git-145)
+
 
