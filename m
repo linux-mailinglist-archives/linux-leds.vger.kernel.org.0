@@ -1,59 +1,63 @@
-Return-Path: <linux-leds+bounces-3668-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3671-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83629F6F40
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 22:08:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1D09F6F5F
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 22:18:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 934BF18908EE
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 21:08:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CC621641ED
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 21:18:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3E6C1FC102;
-	Wed, 18 Dec 2024 21:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD5B1FA8CE;
+	Wed, 18 Dec 2024 21:18:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b="dDfwtd2a"
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b="nd4T+smf"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3EF14D283
-	for <linux-leds@vger.kernel.org>; Wed, 18 Dec 2024 21:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8BC1FAC29
+	for <linux-leds@vger.kernel.org>; Wed, 18 Dec 2024 21:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734556086; cv=none; b=k3y2ByeaNgRlyWGni6ONSShg0UUOprXoPd1ZryI0PUodYS1yvKivkVlOusY8UH4XPdT/1hmvk+lpM+aahHsQNiOJSDRDVDTNDYgtx9qSleWLgXA3JBvBNRlyNxi8WJOG+pHqmuQIWlQ2RNGQ2UioxSn7lbR3yB3wXPuwo97OGRM=
+	t=1734556727; cv=none; b=ANbvAB72hXkH/Q0CpsCvgOl+jOv3vDiARrXoSguRnuQ42xyHuX6+FXHCjY2QtdlhsuJ5Lz9m9bAgomTH0wGhF1+yuUFnox/6JsR+JHqFIevpmnENSEFDtkKsLr6wbk1D/tbgYWPrjWQ0RhwezOCH3YWsHeqvyaRldQI+uxsJni0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734556086; c=relaxed/simple;
-	bh=dDZRgbeJvhB1AZdOZNuDjYv4G+6rxHpqQmzXfMnHlng=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xsbw1IZJSVF9SIbqblucFe40zKlX5//umm54JTczyTRp5P/52ohzbbHlOZMvXMRGjjgRn1wP4JI7Mhzy3S5dwyFcq+GkR+y6VBArUpcTOh42Kl7N+Gx4Y4v4A4tfTblAJ9IHBthQq3raAYdTNqKKBbnHdl6QOz4BSGJzNto4pGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b=dDfwtd2a; arc=none smtp.client-ip=185.136.65.226
+	s=arc-20240116; t=1734556727; c=relaxed/simple;
+	bh=mpkF+KliBxkXe4shpr+AtFSOJ/VGLkhExDly5Dww5cc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o5bxqzHfBiFgfYl/AthVLQzaLRelbAtffumCYh961n3PjLx54+BmlQQYIm/nbKSpRc6vdFF2WzC4kbT+9zWQTRjnpMQVcWe3zjkwzsBIiXuGd/irxD0SBha+26C3LNS72FUpBAL1wqVSjFwiPyzAjL/9K6/eYsQfSL84zTCte0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b=nd4T+smf; arc=none smtp.client-ip=185.136.65.226
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2024121821075659ffe84dfa738b905c
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2024121821083231a935d03a9767a9e4
         for <linux-leds@vger.kernel.org>;
-        Wed, 18 Dec 2024 22:07:56 +0100
+        Wed, 18 Dec 2024 22:08:32 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=alexander.sverdlin@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=5Jh+57Y1c2R3e6lTZjw2mUMUSyN78LBTkzkZJHLCVKo=;
- b=dDfwtd2akSGbLVnS1cmqbt662uzBnV2VHJ5G6zOvvEGa435X5q5xP9EWV5f0o4V0DS/UDz
- wsE+qtScyg1L114hh7yll3OcQSqOoTX7ZkUCf7qiFQ5kxM4Db/btQsWaVhg4SkMLJmuXTKbQ
- Qhs10aNwSaSt01EObNh3vW+4WmvhJj6e2aMOo8O60OE5tJ9lRwS57A1lRlmmWre17lbLufot
- Vih4RndT1RC+gbRJJNgIjH3/g5+WL8YiqhSTEGhw5fVRtqiiFznE3b0lSSd6IXz0q6j/7po/
- ZXOe5GesP+1MASCX4i79Dh80/D+Auv2FiOnhMc3reRPuMTcDf/1j3xog==;
+ bh=xps1rrCB3ezPJ4SU0woL1vnK1r7e4vQ0fCMaUaYxnw8=;
+ b=nd4T+smfD0sdQa3oBs5N9xd4x7JVFIPhtIW8YVecNkzNJCP9ocrJ1scFeFSBf9veDUrqtG
+ GrGX/+lPplSOpZSyuNn/mHJy1kyIF09mnf6PiymaYOjURmmnkFx45VMCckW/sADvr0Cp3XUx
+ wvHRo/YucSOoTtI8a28YmEdY5uTsLfjQZIsVsoIHajXU0bcuRVeSlvBNnASRNU+/ZPK/6FFI
+ V6VFi5qArIYL+cbnw0eeufukL0JD/4oEKnvP/OCWMFUJmcFs9uXlia+wltCeqIieMidgAk3X
+ 3r8NljmCwtu/07CR1CZBSGlHZAqXYd6Ck9xyqTY2PCl0p/hKxe6LLbrA==;
 From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
-To: Conor Dooley <conor+dt@kernel.org>,
-	Andrew Davis <afd@ti.com>,
+To: linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+	dri-devel@lists.freedesktop.org,
 	Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-leds@vger.kernel.org
-Subject: [PATCH v3] dt-bindings: leds: Convert LP8860 into YAML format
-Date: Wed, 18 Dec 2024 22:06:30 +0100
-Message-ID: <20241218210631.72997-1-alexander.sverdlin@siemens.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Davis <afd@ti.com>
+Subject: [PATCH v5 0/2] leds: TI LP8864/LP8866 support
+Date: Wed, 18 Dec 2024 22:08:25 +0100
+Message-ID: <20241218210829.73191-1-alexander.sverdlin@siemens.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,174 +70,34 @@ Feedback-ID: 519:519-456497:519-21489:flowmailer
 
 From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 
-Convert Texas Instruments' LP8860 LED driver bindings into YAML format.
+The series adds support for a family of Texas Instruments' automotive
+high-efficiency LED drivers with boost controller. The four or six
+high-precision current sinks support phase shifting that is automatically
+adjusted based on the number of channels in use. LED brightness can be
+controlled globally through the I2C interface or PWM input.
 
-Acked-by: Andrew Davis <afd@ti.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
----
-Changelog:
-v3: made reg, #address-cells/#size-cells optional
-v2: patternProperties: ^led@[0]$ -> ^led(@[0-3])?$
+Add new DT bindings for ti,lp8864 to support all four software-compatible
+devices:
+- LP8864
+- LP8864S
+- LP8866
+- LP8866S
 
- .../devicetree/bindings/leds/leds-lp8860.txt  | 50 -----------
- .../devicetree/bindings/leds/ti,lp8860.yaml   | 90 +++++++++++++++++++
- 2 files changed, 90 insertions(+), 50 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-lp8860.txt
- create mode 100644 Documentation/devicetree/bindings/leds/ti,lp8860.yaml
+Add leds class driver for these devices.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp8860.txt b/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-deleted file mode 100644
-index 8bb25749a3da..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-+++ /dev/null
-@@ -1,50 +0,0 @@
--* Texas Instruments - lp8860 4-Channel LED Driver
--
--The LP8860-Q1 is an high-efficiency LED
--driver with boost controller. It has 4 high-precision
--current sinks that can be controlled by a PWM input
--signal, a SPI/I2C master, or both.
--
--Required properties:
--	- compatible :
--		"ti,lp8860"
--	- reg : I2C slave address
--	- #address-cells : 1
--	- #size-cells : 0
--
--Optional properties:
--	- enable-gpios : gpio pin to enable (active high)/disable the device.
--	- vled-supply : LED supply
--
--Required child properties:
--	- reg : 0
--
--Optional child properties:
--	- function : see Documentation/devicetree/bindings/leds/common.txt
--	- color : see Documentation/devicetree/bindings/leds/common.txt
--	- label : see Documentation/devicetree/bindings/leds/common.txt (deprecated)
--	- linux,default-trigger :
--	   see Documentation/devicetree/bindings/leds/common.txt
--
--Example:
--
--#include <dt-bindings/leds/common.h>
--
--led-controller@2d {
--	compatible = "ti,lp8860";
--	#address-cells = <1>;
--	#size-cells = <0>;
--	reg = <0x2d>;
--	enable-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
--	vled-supply = <&vbatt>;
--
--	led@0 {
--		reg = <0>;
--		function = LED_FUNCTION_BACKLIGHT;
--		color = <LED_COLOR_ID_WHITE>;
--		linux,default-trigger = "backlight";
--	};
--}
--
--For more product information please see the link below:
--https://www.ti.com/product/lp8860-q1
-diff --git a/Documentation/devicetree/bindings/leds/ti,lp8860.yaml b/Documentation/devicetree/bindings/leds/ti,lp8860.yaml
-new file mode 100644
-index 000000000000..0ee357b02661
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/ti,lp8860.yaml
-@@ -0,0 +1,90 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/ti,lp8860.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments - lp8860 4-Channel LED Driver
-+
-+maintainers:
-+  - Andrew Davis <afd@ti.com>
-+
-+description: |
-+  The LP8860-Q1 is an high-efficiency LED driver with boost controller.
-+  It has 4 high-precision current sinks that can be controlled by a PWM input
-+  signal, a SPI/I2C master, or both.
-+
-+  For more product information please see the link below:
-+    https://www.ti.com/product/lp8860-q1
-+
-+properties:
-+  compatible:
-+    const: ti,lp8860
-+
-+  reg:
-+    maxItems: 1
-+    description: I2C slave address
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+  enable-gpios:
-+    maxItems: 1
-+    description: GPIO pin to enable (active high) / disable the device
-+
-+  vled-supply:
-+    description: LED supply
-+
-+patternProperties:
-+  "^led(@[0-3])?$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+
-+    properties:
-+      reg:
-+        description:
-+          Index of the LED.
-+        maxItems: 1
-+
-+      function: true
-+      color: true
-+      label: true
-+      linux,default-trigger: true
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/leds/common.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        led-controller@2d {
-+            compatible = "ti,lp8860";
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            reg = <0x2d>;
-+            enable-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
-+            vled-supply = <&vbatt>;
-+
-+            led@0 {
-+                reg = <0>;
-+                function = LED_FUNCTION_BACKLIGHT;
-+                color = <LED_COLOR_ID_WHITE>;
-+                linux,default-trigger = "backlight";
-+            };
-+        };
-+    };
-+
-+...
+Alexander Sverdlin (2):
+  dt-bindings: backlight: add TI LP8864/LP8866 LED-backlight drivers
+  leds: lp8864: New driver
+
+ .../bindings/leds/backlight/ti,lp8864.yaml    |  80 +++++
+ MAINTAINERS                                   |   7 +
+ drivers/leds/Kconfig                          |  12 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-lp8864.c                    | 296 ++++++++++++++++++
+ 5 files changed, 396 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+ create mode 100644 drivers/leds/leds-lp8864.c
+
 -- 
 2.47.1
 
