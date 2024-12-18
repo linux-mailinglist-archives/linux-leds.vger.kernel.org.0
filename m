@@ -1,147 +1,205 @@
-Return-Path: <linux-leds+bounces-3654-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3655-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8C69F64EE
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 12:35:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEB79F68E1
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 15:46:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F018116C8AA
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 11:34:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F0A91899298
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 14:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47F8619D09C;
-	Wed, 18 Dec 2024 11:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E62FA1E9B08;
+	Wed, 18 Dec 2024 14:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z9qlO5Ch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvT1VGca"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AAFB165F16;
-	Wed, 18 Dec 2024 11:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF21E9B04
+	for <linux-leds@vger.kernel.org>; Wed, 18 Dec 2024 14:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734521693; cv=none; b=FssOsXO8fBBAAEHUFRCMcY6uNDl6YW43rqD/c3kNxOBOMdJwNGNdMlFBRwGaKvfUsMdY5T7D1WCg+SJxZT1ELSC9NrFNrk5IzrHZuqmmZDHNTKRyqZvS59YUEEt8M1JPlkZLXT9hn3852dtz57tqYuM/zhL4rcPVIRdOTKZwfJM=
+	t=1734532858; cv=none; b=Rg9+K6ipH8nhUyGyjCMxtc14bSY7IaqMCpYZ2V375S1hA3vEN9L92hdVROOvE4RmCiVTaZRssiujeFuE54fnhyx5p74iYuIwGkYiL/MiaViK7I23BFrK/Ps7wNuQZi7K8U8X0sKhNn5uKskPDbshEBnva5XvKHC/egvYETNiW1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734521693; c=relaxed/simple;
-	bh=aZwG0QOV9ddmzu9MDnqKsxCiCb5gsfpVMd5wOowRdSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CvWWwPc/YuwwHzIWGPPe8ulrFTMDfI72s24tP9BHzzXfZk6V2jmEgwrVeJXQMbH1+ch80shyiXTEDD2I0v8N4Xb20oFzfiM6cQ4fG5jWi6vtEnCISvkZHU1IkBgZfVz9l3Pxh0T4KrboQ5FV2+QNj3OBZ4cVTP9weWPoNRmYPMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z9qlO5Ch; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E98DC4CECE;
-	Wed, 18 Dec 2024 11:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734521692;
-	bh=aZwG0QOV9ddmzu9MDnqKsxCiCb5gsfpVMd5wOowRdSY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z9qlO5Ch83fk6BsOJNKDN0Qcz+sH6D7v/bFEHkRBlG4Jn4ctrbqxCHl9OBBOA+SxV
-	 qq4qTzo9BIr0J4Ce9c+dLuWclX9uXXotq0ux+g3/ibsLiJOEt0KeewyvHvwDWhQnx/
-	 zf/3tZThdqIaHwvDqt7N7pkonQZlgSjzct4NsrCnEeqYxkG6Eo/G8xzmrGgcOGsens
-	 ojua7xY9y0Tz5clNzRC49ULCBtZLt8ZoMO+e8KA5p2wBxoXiC7Sfeb4p9IfKZ4G0LK
-	 hu8tTNZUowX/n7A4iDl+CuxtgI6uIb9WUkUN/Nx8nk6fYXnKcmNtxjgsCoPePkBcst
-	 KillZr+3PglbQ==
-Date: Wed, 18 Dec 2024 12:34:48 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v12 02/11] dt-bindings: power: supply: max17042: split on
- 2 files
-Message-ID: <igvefqqns4k2tbau56nvu6uorhvr4k4j4hiv5asgohviydvlbg@6c2zhgcgdkth>
-References: <20241217-starqltechn_integration_upstream-v12-0-ed840944f948@gmail.com>
- <20241217-starqltechn_integration_upstream-v12-2-ed840944f948@gmail.com>
- <vunx3s4wqw5fqtwuuuuofjtja7buh5zpxi3iznzgfl4iz7fm4d@wlxbzrnlu7fr>
- <CABTCjFBO6RYwf5GiExPFEyBAfCF7vUnbYFRePdSVPdXNfwZwrA@mail.gmail.com>
+	s=arc-20240116; t=1734532858; c=relaxed/simple;
+	bh=Yl70nrXjWidsZu3sGuEeEh+KA1bcYaytPIGKyQ2QFgo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VghKdEdUMNMxUIt8BBNcL2nbO97Wt2A79r4IDpfAp81XYw3pdOkadegyrvpbc2tiw20FZ5Rd9AQpukGUCiwSGvgSIoifPMSkizgmF0FJJJi9J3M043ojV8G98j9qzCCVOxQfZ9EG49JNaVOBjBiZwA6/xiNkvDh30+q4IDJ7IcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvT1VGca; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734532857; x=1766068857;
+  h=date:from:to:cc:subject:message-id;
+  bh=Yl70nrXjWidsZu3sGuEeEh+KA1bcYaytPIGKyQ2QFgo=;
+  b=cvT1VGca3BSA188+pdsaFSdGUF4GJsTUCLNdpmpPTcYAH5wS5savtiLI
+   jiTHU2Mc87fQgYT4JBpHGOcGX9KrI0sT3plGIX53bZl83khl8dFlTb85q
+   WtNd5NhpLaKdcCwPebok9534gx2ojvo8hqY3hkHLyubrBEC9tu5qwx8z4
+   izcrujU/roPKRML4ElWn8PumFrpYNOZIMBtBHwLSHN1Y9uDpMAANq5RFg
+   p1+Htr0MFZB/UQ+AYxfyU98A3AgYTnfw71o5SCKbyHrfeeG5AJW2LiubD
+   PSdBN1lY++CnuLBhSqkpm5XonCYvf+G1othl/HqIllUCXIaYAPLyayt/2
+   g==;
+X-CSE-ConnectionGUID: bzz0HqFLS/WKJSr0O89keg==
+X-CSE-MsgGUID: j+RC7mD/Tau+yQP/Mt25mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="35168904"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="35168904"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 06:40:55 -0800
+X-CSE-ConnectionGUID: 60d/5TKxR7C9A0MdNYdsug==
+X-CSE-MsgGUID: stHxR9RLTamQ6mqjsQDUGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102489402"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 18 Dec 2024 06:40:54 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNvEK-000GOo-0L;
+	Wed, 18 Dec 2024 14:40:52 +0000
+Date: Wed, 18 Dec 2024 22:39:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 3d6976047922374347fb77b509d755da153f549d
+Message-ID: <202412182250.cjciwdD3-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CABTCjFBO6RYwf5GiExPFEyBAfCF7vUnbYFRePdSVPdXNfwZwrA@mail.gmail.com>
 
-On Wed, Dec 18, 2024 at 02:25:31PM +0300, Dzmitry Sankouski wrote:
-> =D1=81=D1=80, 18 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 11:28, K=
-rzysztof Kozlowski <krzk@kernel.org>:
-> >
-> > On Tue, Dec 17, 2024 at 08:30:00PM +0300, Dzmitry Sankouski wrote:
-> > > Move max17042 common binding part to separate file, to
-> > > reuse it for MFDs with platform driver version.
-> > >
-> > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > >
-> > > Changes on v12:
-> >
-> > Malformed patch.
-> >
-> > > - add addtionalProperties: true on common file
-> > > - rename *-base file to *-common
-> > > - remove compatibles from shared shema
-> > > - move required properties to final schema
-> > > - remove max77705 compatible from binding - it will be used in
-> > >   mfd77705 binding
-> >
-> > Sorry, all this is somehow complicated effort of not calling the fuel
-> > gauge what it really is: separate device with its own I2C address, just
-> > like all previous designs in that family from Maxim.
-> >
-> > I keep repeating this and you keep going that way, maybe because it fits
-> > your drivers, but that's not the way.
-> >
-> > Best regards,
-> > Krzysztof
->=20
-> Fuel gauge ICs designed to sit between battery and charger, or even in the
-> battery pack itself, with a goal to track and protect the battery.
-> Given powering diagram:
->=20
-> ----------              ---------      ------------      --------------
-> |usb port|<--[input]--> |charger| <--> |fuel gauge| <--> |battery pack|
-> ----------              ---------      ------------      --------------
->                             |
->                             |
->                             |---> [system bus]
->=20
-> There's no fuel gauge ICs with input and system bus measurements on the m=
-arket.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 3d6976047922374347fb77b509d755da153f549d  MAINTAINERS: Add entry for AAEON UP board FPGA drivers
 
-OK, good point, assuming that this is the input not for example the
-charge on battery. But even if the diagram is correct, we represent here
-programming model exposed by device, not physical components of entire
-PMIC. Therefore you could have more components there yet still it is
-one device: fuel gauge with its I2C addres.
+elapsed time: 1445m
 
+configs tested: 112
+configs skipped: 3
 
->=20
-> This device indeed has its own I2C address, but that's not enough to
-> say it should be
-> a separate device, because we have MFD's with its goal to share
-> resources like a single
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-There is no such thing as "MFD" device in terms of hardware. MFD is a
-Linux construct.
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+alpha                               defconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                                 defconfig    gcc-13.2.0
+arc                   randconfig-001-20241218    gcc-13.2.0
+arc                   randconfig-002-20241218    gcc-13.2.0
+arc                    vdk_hs38_smp_defconfig    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                            qcom_defconfig    clang-17
+arm                   randconfig-001-20241218    clang-20
+arm                   randconfig-002-20241218    clang-19
+arm                   randconfig-003-20241218    clang-17
+arm                   randconfig-004-20241218    clang-19
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20241218    clang-20
+arm64                 randconfig-002-20241218    clang-20
+arm64                 randconfig-003-20241218    gcc-14.2.0
+arm64                 randconfig-004-20241218    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20241217    gcc-14.2.0
+csky                  randconfig-002-20241217    gcc-14.2.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    clang-20
+hexagon               randconfig-001-20241217    clang-20
+hexagon               randconfig-002-20241217    clang-19
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20241218    clang-19
+i386        buildonly-randconfig-002-20241218    clang-19
+i386        buildonly-randconfig-003-20241218    gcc-12
+i386        buildonly-randconfig-004-20241218    gcc-12
+i386        buildonly-randconfig-005-20241218    clang-19
+i386        buildonly-randconfig-006-20241218    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20241217    gcc-14.2.0
+loongarch             randconfig-002-20241217    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                        m5272c3_defconfig    gcc-14.2.0
+m68k                        mvme147_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20241217    gcc-14.2.0
+nios2                 randconfig-002-20241217    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20241217    gcc-14.2.0
+parisc                randconfig-002-20241217    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20241217    clang-20
+powerpc               randconfig-002-20241217    gcc-14.2.0
+powerpc               randconfig-003-20241217    clang-16
+powerpc64             randconfig-001-20241217    gcc-14.2.0
+powerpc64             randconfig-002-20241217    gcc-14.2.0
+powerpc64             randconfig-003-20241217    gcc-14.2.0
+riscv                            allmodconfig    clang-20
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-20
+riscv                 randconfig-001-20241217    gcc-14.2.0
+riscv                 randconfig-002-20241217    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20241217    gcc-14.2.0
+s390                  randconfig-002-20241217    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                    randconfig-001-20241217    gcc-14.2.0
+sh                    randconfig-002-20241217    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20241217    gcc-14.2.0
+sparc                 randconfig-002-20241217    gcc-14.2.0
+sparc64               randconfig-001-20241217    gcc-14.2.0
+sparc64               randconfig-002-20241217    gcc-14.2.0
+um                                allnoconfig    clang-18
+um                    randconfig-001-20241217    clang-20
+um                    randconfig-002-20241217    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20241217    clang-19
+x86_64      buildonly-randconfig-002-20241217    gcc-12
+x86_64      buildonly-randconfig-003-20241217    gcc-12
+x86_64      buildonly-randconfig-004-20241217    clang-19
+x86_64      buildonly-randconfig-005-20241217    gcc-12
+x86_64      buildonly-randconfig-006-20241217    clang-19
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20241217    gcc-14.2.0
+xtensa                randconfig-002-20241217    gcc-14.2.0
 
-> i2c address for devices with separate functions.
-
->=20
-> To me it's more like Maxim put its fuel gauge together with some hwmon
-> solution on the
-> single i2c client logic.
-
-Which still makes it one device, unless you are capable of re-using this
-other sensor-part on its own or in other devices.
-
-Best regards,
-Krzysztof
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
