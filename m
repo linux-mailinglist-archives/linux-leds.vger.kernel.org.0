@@ -1,148 +1,161 @@
-Return-Path: <linux-leds+bounces-3673-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3674-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB06E9F76E9
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2024 09:11:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFB79F7734
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2024 09:24:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1520F1609EA
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2024 08:11:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E3947A2379
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2024 08:24:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D73E21639B;
-	Thu, 19 Dec 2024 08:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA3F4217F4D;
+	Thu, 19 Dec 2024 08:23:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="s5wzle02"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jkNL0f40"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA131A2396
-	for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2024 08:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CF3216E3E
+	for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2024 08:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734595878; cv=none; b=qCFSuQc3ioRhA6lNCgPFuNpBTu+p1lRYOUGLfyKUiP9JcxTg73iUqm6sEJkPSnQpOsd8+/vnnAgc4L8J92deLdcGWM0KhlZ7XXalgy6e2MX76gCN3rQn91aCW0l9Nfp09b3eykBAAwKNPkHRTgDOpvO6pDSTaeM6LWkl+tyBrd8=
+	t=1734596628; cv=none; b=OsjlSRS7GX274jB4QlMWOIwXejwVulnfHAVMwTJ5eeG+E873RpUKsmCLY8N6gUevW5OmzYUtNFlQP4SZEVyTCH18ZXwNA/g/5V9RKmuyCr8Cbbo5FHBDvQVIiSF/S1UaNYkrp3lWUm++A2Zprr5BTRKvHUlblBXHusW7pYgwrTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734595878; c=relaxed/simple;
-	bh=JW6BEEPp7C6IVob4t2erAbsojKxw9pABPwOqygRj/sQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H25hWcg2QYu7Wie3b4Pg8g5NR7faKWVHtCGTJ8a7hSnRaFOpLdvW18qKNKWrSoGy7wnyBw56D7wBJkwfc/xIbH9ei3p4aGbDOYrQbVKHvelXZ+8tocKP7w5fKqsloUhNPUt5+KTBdaDQr4X0/zkf7mtpsQtXIrLmmDNir6HRfZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=s5wzle02; arc=none smtp.client-ip=209.85.208.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fc01so865841a12.2
-        for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2024 00:11:15 -0800 (PST)
+	s=arc-20240116; t=1734596628; c=relaxed/simple;
+	bh=SYnECCsIqZtY59W4mgzTbCLCQSSWGE9TuSX8NlHcwk0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=I7gdM3S20CZQecTTnNZDnBSNzyY80Cr5C8RAvzT6g+CySo8ER6FehOAD2D6LMrPloZOiiOrYYQ4aZRT/jJZhZ84dJZgEcf7JvSyOM8JypiHtq3dTuQvEL+2u8W25zk5aTu4CkkCVeHaXsQnx3gD7SaEzslJMnRW+n3VJuHZz4cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jkNL0f40; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-436246b1f9bso822235e9.1
+        for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2024 00:23:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734595874; x=1735200674; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l30pmurgnrZCgg1HevjA9SNBQTiwuzOzqnY711YESmA=;
-        b=s5wzle02VDc9or7sb25+bcq+mRJsObd7rY0hTgalj8margql8fKcQnO3UlApgKdd3t
-         KP6A3FaljedlKVZzRrbMhyNUh8Nku/Srgl10e0bxTeA5FreV/2UIY32hmGTumu1knbb9
-         lNbTep1jNnCPPMzHKLG8ocPrZvx4gW7ZUAmOSMtv1z7UyMVD8c884txKzBxst6JLe7Ca
-         A918br5g4VUvuh1k8qHhkeNqhFBJdz4OQETgrsR+WN1mabZGNUW6+GbeM1CZJpa8iebz
-         TxJT4tIFgJbhE9WA5iZlnopOfppQp002xvmKOa4RkQJPUpf7HMWRsRBKXdvd15sYRMXc
-         8XPg==
+        d=linaro.org; s=google; t=1734596624; x=1735201424; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZhWQPVqIkAZjYF1Lest5sd+4whqHXleakyxliNBakmU=;
+        b=jkNL0f40NZm7VkKZtHZu308OVVB7I7bWpfnfUbDRE0QXCzLXviC0dzuMvSkDx5UcZH
+         JcjPF8gPNL8IwHKkvdPSPregcNCaG1cQJeDFk1Jv3GjmrjEjLwAO7fJiNP2X7T/iZwT1
+         hFd/8pVEIgbGUEQl9ou0R4AnwvtjLfO95Bq5UnilcPBMvtsLjfUYydG5J8ZnLF/V2s0x
+         BDa1bh2d+K9JClc2Mrhr7xfvKepuPX3ftzyHqxrIbcVRJzagFk+WDF5jAj5RYRfkgMHl
+         YTO4jVlbsUugY2RsFyAbKzkuTGY9lbxt+9ndIzJKTFyM757s2CBY64UM+tx8QEznkBO0
+         nmrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734595874; x=1735200674;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l30pmurgnrZCgg1HevjA9SNBQTiwuzOzqnY711YESmA=;
-        b=xDps8/x43dpFu+t1MRAm5WmA0CSs1a2pEqVnMkiLXl44j/8H2lBhFybL77g4nbEHNV
-         qlioYfzpQdIVjc73+ocsfNoddbUVo4bb/NxIbTOzFfalXa4m1ca0EpdM8DMlRy3em2ST
-         x37LiUt4xpwdDSUjBrfcAV8Hirb/nCBy74bQdZGhj1N/m3QTOV6zgtALTtAxvt10lIVs
-         7CnusUe+g+7KTg7DP+Zj4hdQ3jXbim/5jLhmaayLw4TyPlZem/URHoTSx9+pgeLOQMve
-         em8htdXlqSOVdX3Z4Fkx4EyQJeaXQWSggfhtJYwN9+IHbbOGgL8tvZhSSPAFk6cf+TCA
-         jUwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgQ6nU8gCaiMxfQee9Q+CXPN5LGVVk2d8GDM64SV9X8JLBqlYyTR/u5R72orrPH0Sxa/Pn7maGfWM4@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKsbjWxeyHjRHCQg7/W/L2k6nOPK+ztfjOO5oXwd9pbuyn/SfK
-	xZYZyzMbHvABoNhmD4Bnk6TobveQM9/oQgApNZSGW3L2Cq60CuFUq5mp+gGU8rU=
-X-Gm-Gg: ASbGncsmvJvh0qlFcrjoe2qPO2D1UpSMSEHoa2IEL4Q2lGjTmK3uZP+/chxJz9Vv88n
-	ED2DPeVQ48JK0jtyYt8BNIIKIPYTQMz6q3LfmS7bEtpruJ903OkTzhKZUlvOM4nP2Ss84HmVK4k
-	MiSj79hktJCAbL1IuZXCky1J90P0uH6D7LRGwXllW/wr4mmugFZIOh5BwKCH18YgoPoXCDhRKrD
-	kYGXz5VHeMbu2bMBnAfpr/gmMqAUjEz8a2eoXSQu3egoUVUaDd/3wkKy6xKFw==
-X-Google-Smtp-Source: AGHT+IH14fNck5IRKL0035QZjbzePk7ndrzkAPG84X1Nir3GfdBnJwfXxa2NgD3JNEBpSNb5e6n36A==
-X-Received: by 2002:a05:6402:400c:b0:5ce:d028:e11 with SMTP id 4fb4d7f45d1cf-5d8025cfec7mr2019467a12.17.1734595873878;
-        Thu, 19 Dec 2024 00:11:13 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80675a3ebsm389378a12.7.2024.12.19.00.11.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 00:11:13 -0800 (PST)
-Date: Thu, 19 Dec 2024 09:11:11 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, 
-	Jakob Riepler <jakob+lkml@paranoidlabs.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v4] leds: pwm-multicolor: Disable PWM when going
- to suspend
-Message-ID: <kfkfwwv3ytv3jdcfg5xle6xjks7mjk6ziqe75lrhq4tqfgi6pk@borrphl7vatz>
-References: <20241216213754.18374-2-jakob+lkml@paranoidlabs.org>
- <173444790659.1886613.13367326556110236101.b4-ty@kernel.org>
+        d=1e100.net; s=20230601; t=1734596624; x=1735201424;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZhWQPVqIkAZjYF1Lest5sd+4whqHXleakyxliNBakmU=;
+        b=hNKLvyc7Lh2zO2WrM+bdHvSpFRSMZqytW3Kt2mVB4niMDw6T5+oLsk7/H3LP0rhQjY
+         sEvJ2ryp37du/RNkN5CD9E1hrQhqR+J+3R/vf4mVt5CkUoF+6GqIrOKdDkqpSevCS2Ma
+         I3Vyi3+Py7TUjCn1uvgPTYv25d/WFpX7KrKqGx7jmSPl9X7UA4oGqsQU4kbu8k55d8PC
+         H70xQiUbHZrVv9vxEkh/1f7sQbxhZFHAD2hKeGPGccuapQK8xgpWzMWsQlGqOUTCXSgU
+         4NNrl1bbZe/wN2Ey9BxNPObSaasaVCSFDtFpN9bglJPgcI9sV8fbs4LGatyshcAP0Fgx
+         7YCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVhtj9yWFbnCII+WbmPD9NfP9FaYbivfPUQ6yDGzuOK4aLGIi8oS5dzfDm1IT3EgAo9A2qAKOk78a0U@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/wNR77EAUaIBjr8dyjLZtHF+CsOAQqg49AMDLxwcki4VFEBWs
+	XmHWu9fVliopd2lCCilvGCaUQgyS97wIQY4EcvNn9ZKMa/p+w/WRUjcwigO4Nqo=
+X-Gm-Gg: ASbGnctwjk8kBigO/kjJf9gaep4E0lCHhClQI18zELvVJVQaSeyi7VOxa08ZZEB4AFl
+	7Oer+N4S9DbY8jeW+qLucg0RB4TH/dcHfWHQAgdDW/LPYQimawVdE8tSKwlkA2X0rhG77GhItcP
+	k7uskYUE2ahbGIm3Zlay4IXI35Shs5cVokDd/AP9gbfdVRA9jWupdzSyI7drZMAdGVCH0isbCVh
+	bmLFoz5oQ4XZxlAz9c+T5smFL8x+lKkUFZD4fRiNY+EavrGKBLUAGUJtEhD2QmWD3Qd/2rTfyll
+X-Google-Smtp-Source: AGHT+IFZl2uun/13rola6ti6dCUDltByS/wYtTiPlDn2whacOYLHjMLnRwmDCZFqBKw1iSVoPLGm3Q==
+X-Received: by 2002:a05:6000:480d:b0:385:dc3b:da71 with SMTP id ffacd0b85a97d-388e4d835a7mr1984485f8f.8.1734596624600;
+        Thu, 19 Dec 2024 00:23:44 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c829297sm989010f8f.4.2024.12.19.00.23.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 00:23:44 -0800 (PST)
+Message-ID: <c93c89c2-7188-4b17-ab3f-a3d2f1972a21@linaro.org>
+Date: Thu, 19 Dec 2024 09:23:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zv7wquikricwlc6m"
-Content-Disposition: inline
-In-Reply-To: <173444790659.1886613.13367326556110236101.b4-ty@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 2/3] dt-bindings: leds: Add LED1202 LED Controller
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241218182001.41476-1-vicentiu.galanopulo@remote-tech.co.uk>
+ <20241218182001.41476-3-vicentiu.galanopulo@remote-tech.co.uk>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20241218182001.41476-3-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 18/12/2024 19:19, Vicentiu Galanopulo wrote:
+> The LED1202 is a 12-channel low quiescent current LED driver with:
+>   * Supply range from 2.6 V to 5 V
+>   * 20 mA current capability per channel
+>   * 1.8 V compatible I2C control interface
+>   * 8-bit analog dimming individual control
+>   * 12-bit local PWM resolution
+>   * 8 programmable patterns
+> 
+> If the led node is present in the controller then the channel is
+> set to active.
+> 
+> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+Stop sending the same 5 times to people.
 
---zv7wquikricwlc6m
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: (subset) [PATCH v4] leds: pwm-multicolor: Disable PWM when going
- to suspend
-MIME-Version: 1.0
-
-Hello Lee,
-
-On Tue, Dec 17, 2024 at 03:05:06PM +0000, Lee Jones wrote:
-> On Mon, 16 Dec 2024 22:37:55 +0100, Jakob Riepler wrote:
-> > This fixes suspend on platforms like stm32mp1xx, where the PWM consumer
-> > has to be disabled for the PWM to enter suspend.
-> > Another positive side effect is that active-low LEDs now properly
-> > turn off instead of going back to full brightness when they are set to =
-0.
-> >=20
-> >=20
->=20
-> Applied, thanks!
->=20
-> [1/1] leds: pwm-multicolor: Disable PWM when going to suspend
->       commit: 29df7025cff00dd9fa7cacbec979ede97ee775eb
-
-Where is this applied? I checked today's next and even after
-
-	for b in for-leds-next for-leds-next-next leds-fixes master; do git fetch =
-git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git refs/heads/$b; d=
-one
-
-I don't have the above commit object and these branches don't seem to
-contain the commit with a different commit id either.
-
-Best regards
-Uwe
-
---zv7wquikricwlc6m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdj1R0ACgkQj4D7WH0S
-/k5aegf/TmDEKBqbUThHXXnIe8JzhmH0acvO5db38Ai/8e+Tr7DQqyNEHomVUyG5
-nYvvDe3wERzgKxfi8EhYrsRxhmPM6W2TyTs6bVfDYeBRVNek1qg4io+fQ+QM45tv
-sSsvtT7HSusenue/6iNl91VOwk0/gXU4LBnvHsNk1B1He28S2rJe5fyE5JO1jXXv
-UfcbUdcaojBrx17L7xBrF5OLiQm0iYEIvXV4TPfH50dB6XBI4PNkqU3LOfxg2pnB
-MSnoCD8d6ugZLNZQ6ZJmfcJthjwCRkIBU4K8oAv8gIBEGuyF3Gs8nlYGlqnvRXWm
-kuLKZmfMHId/auoC4C0xAnK+lyFPSQ==
-=8fvW
------END PGP SIGNATURE-----
-
---zv7wquikricwlc6m--
+Best regards,
+Krzysztof
 
