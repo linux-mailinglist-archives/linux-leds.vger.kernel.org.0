@@ -1,118 +1,148 @@
-Return-Path: <linux-leds+bounces-3672-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3673-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1299F704E
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 23:50:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB06E9F76E9
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2024 09:11:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 569481894499
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2024 22:50:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1520F1609EA
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2024 08:11:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 240E31FC10E;
-	Wed, 18 Dec 2024 22:49:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D73E21639B;
+	Thu, 19 Dec 2024 08:11:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="UwdQuMcG"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="s5wzle02"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D824719D098;
-	Wed, 18 Dec 2024 22:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA131A2396
+	for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2024 08:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734562195; cv=none; b=que5LxytcZcWYk+5WbYQmxxibn03El/bvpAYyJA0uPFpYKjQInmLYUUEn5Zfg6OPCwR+MRKsjzqDqQMko+AZqwAhsQ/HCZ1ZdhEk0E6/UENrlAUCd3wEyu7cv1D7XCnhN8Xl43/id52z0Oo+CPNAi++Ty5Dm9GL5Lo1eOOF5FhQ=
+	t=1734595878; cv=none; b=qCFSuQc3ioRhA6lNCgPFuNpBTu+p1lRYOUGLfyKUiP9JcxTg73iUqm6sEJkPSnQpOsd8+/vnnAgc4L8J92deLdcGWM0KhlZ7XXalgy6e2MX76gCN3rQn91aCW0l9Nfp09b3eykBAAwKNPkHRTgDOpvO6pDSTaeM6LWkl+tyBrd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734562195; c=relaxed/simple;
-	bh=ZTkLKzQrDSXWYeC+XgwRqAbl/w62QmUqrsOcvrotmFk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AIgPM6mJdmGYaLJijyfKeWeU0PIylaTiKxYc0GFSpE1N8gKE+7yb5h+NUvLfRmaiBx/yKlY+tAk6R5Q60Gu/yPgDDykCPt/7KgCCm6TPCb7oWzcOlxAs+dnyQh1b+sdD1uFHpQ5X4WaBH+X5Rq4/2rJl8CbiNSolP1U5Gvd4EbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=UwdQuMcG; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=l6tgjtGuZAZYpQX7UB8px4+rlQbXawD8OcbC4h3qdLQ=; b=UwdQuMcGp6v4V6yuMHPbP3RnCj
-	ZO0VOo3UBHLv4IiuJ9gdLsSqt+cwpzBMtrYaQKGUCtwMGypHW0GezgxeCjKInu3agQpIbAAg0+2re
-	YSaQdwooHedwxUGw981Dl3yxMaZQbz3gm2IZxhyYNp3Ur3hhCaDf7juqUse653WvVAOAhXIEs+jA4
-	Br5kiCOuJ+8rTBzCrfY92sR7xUFv1R9Y+ZvOp42vq45YcNyVGFBkKurihef3wQj5fRCvdcaWJrS5U
-	qDKaL/FpoaiWWD3lbgGBcfIqKIERSI9T5+OwWOphf8IHgWbUoiRgxbThlwPrfk8Hrz1F7ArUtVLXw
-	JB8yfd4g==;
-Received: from i53875bfb.versanet.de ([83.135.91.251] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tO2r2-0005qY-Jd; Wed, 18 Dec 2024 23:49:20 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: jikos@kernel.org, jic23@kernel.org, Lee Jones <lee@kernel.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- jdelvare@suse.com, linux@roeck-us.net, srinivas.pandruvada@linux.intel.com,
- bentiss@kernel.org, dmitry.torokhov@gmail.com, pavel@ucw.cz,
- ukleinek@debian.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org
-Subject: Re: [PATCH v9 0/9] Drivers to support the MCU on QNAP NAS devices
-Date: Wed, 18 Dec 2024 23:49:19 +0100
-Message-ID: <15355121.tv2OnDr8pf@diego>
-In-Reply-To: <20241212171954.GI7139@google.com>
-References:
- <20241107114712.538976-1-heiko@sntech.de>
- <173402387748.2234929.7484373598047473898.b4-ty@kernel.org>
- <20241212171954.GI7139@google.com>
+	s=arc-20240116; t=1734595878; c=relaxed/simple;
+	bh=JW6BEEPp7C6IVob4t2erAbsojKxw9pABPwOqygRj/sQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H25hWcg2QYu7Wie3b4Pg8g5NR7faKWVHtCGTJ8a7hSnRaFOpLdvW18qKNKWrSoGy7wnyBw56D7wBJkwfc/xIbH9ei3p4aGbDOYrQbVKHvelXZ+8tocKP7w5fKqsloUhNPUt5+KTBdaDQr4X0/zkf7mtpsQtXIrLmmDNir6HRfZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=s5wzle02; arc=none smtp.client-ip=209.85.208.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fc01so865841a12.2
+        for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2024 00:11:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734595874; x=1735200674; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l30pmurgnrZCgg1HevjA9SNBQTiwuzOzqnY711YESmA=;
+        b=s5wzle02VDc9or7sb25+bcq+mRJsObd7rY0hTgalj8margql8fKcQnO3UlApgKdd3t
+         KP6A3FaljedlKVZzRrbMhyNUh8Nku/Srgl10e0bxTeA5FreV/2UIY32hmGTumu1knbb9
+         lNbTep1jNnCPPMzHKLG8ocPrZvx4gW7ZUAmOSMtv1z7UyMVD8c884txKzBxst6JLe7Ca
+         A918br5g4VUvuh1k8qHhkeNqhFBJdz4OQETgrsR+WN1mabZGNUW6+GbeM1CZJpa8iebz
+         TxJT4tIFgJbhE9WA5iZlnopOfppQp002xvmKOa4RkQJPUpf7HMWRsRBKXdvd15sYRMXc
+         8XPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734595874; x=1735200674;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l30pmurgnrZCgg1HevjA9SNBQTiwuzOzqnY711YESmA=;
+        b=xDps8/x43dpFu+t1MRAm5WmA0CSs1a2pEqVnMkiLXl44j/8H2lBhFybL77g4nbEHNV
+         qlioYfzpQdIVjc73+ocsfNoddbUVo4bb/NxIbTOzFfalXa4m1ca0EpdM8DMlRy3em2ST
+         x37LiUt4xpwdDSUjBrfcAV8Hirb/nCBy74bQdZGhj1N/m3QTOV6zgtALTtAxvt10lIVs
+         7CnusUe+g+7KTg7DP+Zj4hdQ3jXbim/5jLhmaayLw4TyPlZem/URHoTSx9+pgeLOQMve
+         em8htdXlqSOVdX3Z4Fkx4EyQJeaXQWSggfhtJYwN9+IHbbOGgL8tvZhSSPAFk6cf+TCA
+         jUwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWgQ6nU8gCaiMxfQee9Q+CXPN5LGVVk2d8GDM64SV9X8JLBqlYyTR/u5R72orrPH0Sxa/Pn7maGfWM4@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKsbjWxeyHjRHCQg7/W/L2k6nOPK+ztfjOO5oXwd9pbuyn/SfK
+	xZYZyzMbHvABoNhmD4Bnk6TobveQM9/oQgApNZSGW3L2Cq60CuFUq5mp+gGU8rU=
+X-Gm-Gg: ASbGncsmvJvh0qlFcrjoe2qPO2D1UpSMSEHoa2IEL4Q2lGjTmK3uZP+/chxJz9Vv88n
+	ED2DPeVQ48JK0jtyYt8BNIIKIPYTQMz6q3LfmS7bEtpruJ903OkTzhKZUlvOM4nP2Ss84HmVK4k
+	MiSj79hktJCAbL1IuZXCky1J90P0uH6D7LRGwXllW/wr4mmugFZIOh5BwKCH18YgoPoXCDhRKrD
+	kYGXz5VHeMbu2bMBnAfpr/gmMqAUjEz8a2eoXSQu3egoUVUaDd/3wkKy6xKFw==
+X-Google-Smtp-Source: AGHT+IH14fNck5IRKL0035QZjbzePk7ndrzkAPG84X1Nir3GfdBnJwfXxa2NgD3JNEBpSNb5e6n36A==
+X-Received: by 2002:a05:6402:400c:b0:5ce:d028:e11 with SMTP id 4fb4d7f45d1cf-5d8025cfec7mr2019467a12.17.1734595873878;
+        Thu, 19 Dec 2024 00:11:13 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80675a3ebsm389378a12.7.2024.12.19.00.11.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 00:11:13 -0800 (PST)
+Date: Thu, 19 Dec 2024 09:11:11 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, 
+	Jakob Riepler <jakob+lkml@paranoidlabs.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v4] leds: pwm-multicolor: Disable PWM when going
+ to suspend
+Message-ID: <kfkfwwv3ytv3jdcfg5xle6xjks7mjk6ziqe75lrhq4tqfgi6pk@borrphl7vatz>
+References: <20241216213754.18374-2-jakob+lkml@paranoidlabs.org>
+ <173444790659.1886613.13367326556110236101.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Am Donnerstag, 12. Dezember 2024, 18:19:54 CET schrieb Lee Jones:
-> On Thu, 12 Dec 2024, Lee Jones wrote:
-> 
-> > On Thu, 07 Nov 2024 12:47:03 +0100, Heiko Stuebner wrote:
-> > > This implements a set of drivers for the MCU used on QNAP NAS devices.
-> > > 
-> > > Of course no documentation for the serial protocol is available, so
-> > > thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
-> > > I found interceptty [0] to listen to what goes over the serial connection.
-> > > 
-> > > In general it looks like there are two different generations in general,
-> > > an "EC" device and now this "MCU" - referenced in the strings of the
-> > > userspace handlers for those devices.
-> > > 
-> > > [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [1/9] HID: hid-sensor-hub: don't use stale platform-data on remove
-> >       commit: e079a120f31e3f9c00180aa13c1df18cc138f7fe
-> > [2/9] mfd: core: make platform_data pointer const in struct mfd_cell
-> >       commit: 8f4009ad901c44f0428dbde654c4dd1fb29c863b
-> > [3/9] dt-bindings: mfd: add binding for qnap,ts433-mcu devices
-> >       commit: 8877bcff3e3b4f08a1fc0232dbfdaeda085cfdf3
-> > [4/9] mfd: add base driver for qnap-mcu devices
-> >       commit: 944ca826f69e4723853b3876875b03aeafe67b60
-> > [5/9] leds: add driver for LEDs from qnap-mcu devices
-> >       commit: fe6a21ee38f12e3e5f9adbd2f9a840be105b943f
-> > [6/9] Input: add driver for the input part of qnap-mcu devices
-> >       commit: 4b27e0da257371d3d141fae38fdbdc3c3a67bce6
-> > [7/9] hwmon: add driver for the hwmon parts of qnap-mcu devices
-> >       commit: 41755872a8a8ab8d1644459d9634c53b743fe2be
-> 
-> Once build testing is complete, I'll send out a PR.
-
-thanks a lot for picking up the driver patches.
-
-Heiko
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zv7wquikricwlc6m"
+Content-Disposition: inline
+In-Reply-To: <173444790659.1886613.13367326556110236101.b4-ty@kernel.org>
 
 
+--zv7wquikricwlc6m
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: (subset) [PATCH v4] leds: pwm-multicolor: Disable PWM when going
+ to suspend
+MIME-Version: 1.0
+
+Hello Lee,
+
+On Tue, Dec 17, 2024 at 03:05:06PM +0000, Lee Jones wrote:
+> On Mon, 16 Dec 2024 22:37:55 +0100, Jakob Riepler wrote:
+> > This fixes suspend on platforms like stm32mp1xx, where the PWM consumer
+> > has to be disabled for the PWM to enter suspend.
+> > Another positive side effect is that active-low LEDs now properly
+> > turn off instead of going back to full brightness when they are set to =
+0.
+> >=20
+> >=20
+>=20
+> Applied, thanks!
+>=20
+> [1/1] leds: pwm-multicolor: Disable PWM when going to suspend
+>       commit: 29df7025cff00dd9fa7cacbec979ede97ee775eb
+
+Where is this applied? I checked today's next and even after
+
+	for b in for-leds-next for-leds-next-next leds-fixes master; do git fetch =
+git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git refs/heads/$b; d=
+one
+
+I don't have the above commit object and these branches don't seem to
+contain the commit with a different commit id either.
+
+Best regards
+Uwe
+
+--zv7wquikricwlc6m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdj1R0ACgkQj4D7WH0S
+/k5aegf/TmDEKBqbUThHXXnIe8JzhmH0acvO5db38Ai/8e+Tr7DQqyNEHomVUyG5
+nYvvDe3wERzgKxfi8EhYrsRxhmPM6W2TyTs6bVfDYeBRVNek1qg4io+fQ+QM45tv
+sSsvtT7HSusenue/6iNl91VOwk0/gXU4LBnvHsNk1B1He28S2rJe5fyE5JO1jXXv
+UfcbUdcaojBrx17L7xBrF5OLiQm0iYEIvXV4TPfH50dB6XBI4PNkqU3LOfxg2pnB
+MSnoCD8d6ugZLNZQ6ZJmfcJthjwCRkIBU4K8oAv8gIBEGuyF3Gs8nlYGlqnvRXWm
+kuLKZmfMHId/auoC4C0xAnK+lyFPSQ==
+=8fvW
+-----END PGP SIGNATURE-----
+
+--zv7wquikricwlc6m--
 
