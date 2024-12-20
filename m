@@ -1,72 +1,72 @@
-Return-Path: <linux-leds+bounces-3687-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3688-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3789F921E
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Dec 2024 13:22:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD7A9F9240
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Dec 2024 13:31:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5EB097A3035
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Dec 2024 12:22:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 943047A36F7
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Dec 2024 12:31:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648401C4612;
-	Fri, 20 Dec 2024 12:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41F220FAAC;
+	Fri, 20 Dec 2024 12:31:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YTfoOlBG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="laI+J+F6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468E8204567
-	for <linux-leds@vger.kernel.org>; Fri, 20 Dec 2024 12:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069A420E717
+	for <linux-leds@vger.kernel.org>; Fri, 20 Dec 2024 12:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734697365; cv=none; b=Az4C92hSdK6FEzhDwYDZEUOhhF9kdkhOyzLutqQFES4g7S3868FhHmGjHBdviBmq0JV1CLUIItDElCWGPtIZyQHJQBYIVW4DKhYSvdYJZRpKYCGW5QCu2n7YzuxqJ5kRMrKxfBW3NHFYGjwif2QDlfzgNK6bqWsOR8ZTkanwiwg=
+	t=1734697880; cv=none; b=pHm8usHV4RIkcO4oVA9EA9nibdJgTwd8M/FCTZG70FOFgrZ7uG9yZU6RxZlX0TEH1ZzCsRLovqdcXMJ35Vg0EL9q5QBzU3bX3QtATWi7ewaLXoUKnNTqDZ8OQ398hkmnN65OHX08pLeYNB82H4WulyQPTf2fYpvg9SxSXCr2LZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734697365; c=relaxed/simple;
-	bh=U62+/9q+OAASXkOaKHD5lSoMYWGibD3VibcFdBVUFDQ=;
+	s=arc-20240116; t=1734697880; c=relaxed/simple;
+	bh=K/GqX6lt5w8J+Rml0vG7Tf8CY/i7DJtERJUYG6W7lW0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VzjJOXkF5rjyM1SMw6d7EAmbkfRPDa2MMfripW9bTnykTVJ/J3v+gKI+rwRBKXxLS1T50zAKFPwf3cXoq7wWNwsMJwFWrzGuX7IbvD30LygkASz99C3qH+Uf1XHMIBtxT8Z8Qwb5aWYeMu3dNOSecZ/SZYTxkkCJMjlp2lTrAgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YTfoOlBG; arc=none smtp.client-ip=209.85.167.43
+	 To:Cc:Content-Type; b=g40CP9UFe+jzJUFu3krtnXyNtn5YSLgrf90mXtSxRnQ7SU3FPEE+pKdrzAmf2dW1rby7yu3535WQSfhhTagZYHrZtGF6oE3l3ZFyRUrSTwSNeGnasHGgOI2yKEdPUed5QaDbsQDbRQhLpli1l+7OsjyHrQ5/P2dSyoGclyt4yUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=laI+J+F6; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53df19bf6a9so2439544e87.1
-        for <linux-leds@vger.kernel.org>; Fri, 20 Dec 2024 04:22:43 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30039432861so18291751fa.2
+        for <linux-leds@vger.kernel.org>; Fri, 20 Dec 2024 04:31:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734697361; x=1735302161; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1734697877; x=1735302677; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vVphS9qNxpidSYQzn1Jwc4zym/HE78rDG8jkas55B2g=;
-        b=YTfoOlBG0CegalpPLUiPGKBsreNghrnTL3WBC8MH60+hB6orSrTddLkwK8L7b4uExh
-         W2LHn/8M4U8ZVHZ/jZB8dX94REQk6eT37/HjwkqJylfRU5ma046pFilrNvypp7Sv2u7o
-         KBPCiE5mxNsbq5rBDWnw1fAwO1IWtlHvErbADC6+F5YBthFfRQtNQLY17mGHLn4JyhGY
-         fhyR+qJVsL1h4sdNtAzizH8sD6pRhERqmuASvj191ZVvFdocqHrgZnB6C3sLIyJOj5pF
-         zgzKgU+E6sYILDsqf7A8Tg5g/R1JEb7S+8yEgmrc0mgqgXFiumbBEpSh/qmDcfFDTZsH
-         iG5g==
+        bh=ir1V42gRjXc0yY1xGNb20UYWxYH47j634gRykKT6tIQ=;
+        b=laI+J+F66SEiCmqx1bCFHNxyg7fqhZTyG1IDHkxwUPbT1NPWYYWzw8Seydj8luGHuo
+         MjgQj5NizlsI3o1T2JA6wWDgFVdgY+VpAFimiZujDSYI2+OXzXP+qOTyX+7CxnrESfJE
+         e7DsODAWgY3AmAwFyzOFZ56q0b9gXJAG8FufmxZk6hPxttCC9shL2mnvLp8mfu3kKlqD
+         64Q8zhb/QqMTmPquHCy8wQAty6b6RaaKWPjmHLfVyrlboK2VoGPLhGWGW/c+hbufwo+/
+         1MwgaQMk3FxrVPJbKQo0yISyF4wtOeHFVgUE37ziocqtnFvxKF4q4Gwl+24LaeErSt9Z
+         QAkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734697361; x=1735302161;
+        d=1e100.net; s=20230601; t=1734697877; x=1735302677;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vVphS9qNxpidSYQzn1Jwc4zym/HE78rDG8jkas55B2g=;
-        b=LZ7XoNUlu0jySW0pgCPDnppGfkH7yEo6cjpz/dJroEpFL7AHC8Y6rFSs4wQQustD/Y
-         BRIXkaq8rKL8V76vLpBqlB9XfRe2LVJnc3JS0En+79sMPyVrKmEv7qMAliDJuVYwXlHC
-         PzO/Si9PX+VjDj/GHT+NFwE0Gn8/Oujsi79Ie4EEufXXaFsZJVKCpFQgDKzCcbGss5yk
-         uQI9TbSaTEW1gXPvMNU81znvOUU/C2RFcrQV2EDpWxjWWSREUPQqGKPHSPSioNFUxQK5
-         Yq3u/LYfrVcor7frG484H381HmAQ9gGvrrTWF7/Q+cWxhCP2tAj7YYoT4fynsMBIbQJn
-         fBXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJO4s10lkgZ2Q2vv5daBPti3v6aOA7Rt7plDhV3WAFYR/pGPcNM2rjW2819k8dX/TY5iPu6LX+i5n+@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbRUYPB7IpKqQ7x6Pj0awnLPa8rtPjLl+6MEA7Lez50l2KAkOZ
-	gVyT227J88JRpIGeQBxjqevNKbcbZElfUU0YEQ3XHO7PwQJDZP4y+vOq+FasFtCTxewrkocbAip
-	jHiJCT2elCHvuIv4nnIxEjwqIzhRFRV+j/hGHfQ==
-X-Gm-Gg: ASbGncvbRk8sfKRYqLbf9+K/66EE4tO5Eg6EJA2Q1z+6yfNUA2nP7INKzTKr4JOjby1
-	lJtuk5wx/0IgP+Xpq/wofIrin7/QUxH/caxH1uQ==
-X-Google-Smtp-Source: AGHT+IFGhittHLLqvD2aKsLjDPS3OVz2YJXvu8/X2vARIaa1xYKmHCEy9A/wEWav1aRH6YcsgDyP5OyCYnEzC/a94+g=
-X-Received: by 2002:a05:6512:318e:b0:540:2fd2:6c87 with SMTP id
- 2adb3069b0e04-54229533e65mr864873e87.16.1734697361380; Fri, 20 Dec 2024
- 04:22:41 -0800 (PST)
+        bh=ir1V42gRjXc0yY1xGNb20UYWxYH47j634gRykKT6tIQ=;
+        b=ffPuNeDUYC121B06SHXTsf6AicTncPKT5mG4c41aZ2Wv3dF//mxpjAbd7TRppIjzUn
+         /3Qn3RniQBVQy4a0Xdt8pC7Ot0Klq/HWvIiyL/+ccQcoOe+tJZMQWnnwzKMCbmBJeFti
+         UBegMRI2IHYMgevt1Y1uv0O1xjZOgJBAVXy/dLS2XGE8yyEBKsByw/Fm0P3dFP9uHw5W
+         Nzv1j+SP7LtThgzScuLndbRk9n+aqO0oThctQmC85tYSxzX/CmBfPzjEg0qq054Suzj7
+         2bjZVgNfX72/+aDWAGqYMDYRSK2rRQUIzMZj3RW2QmCjFvJv1tgQKQifXRf1Iz2jaC5z
+         YJ7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUcUMkbx+w0C0hJj4t0L8ScbiWNF6wdAeAl6NyZmQHbT1aBJTGlFAsSfWGeE3OuCObgssoG7A9TYgu3@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRmXtnNHPXMup5Sg1oYv2Hl6R4lOX5EFpWRFATbBLovenFRHs3
+	r8tyiaEUdp9AJ8Vvr2OywE6W78Yd5wqDKp6q/5azRC7pkRziaPrnKVcruKKhsUZqtDkW6RSjCEw
+	nb4/9eG9gjXoZegpsEJTELUV1dnaBlHRrECyxIQ==
+X-Gm-Gg: ASbGncvLaYnz+R+Vn6fqHz4lCB6EX3xvfqrhk0oGRuvu4EgdMVlIukVr3K+TQb7kyXC
+	NWq/bijcLGFe/BEC8hP5g7s8HjiT+euiNHb0JJA==
+X-Google-Smtp-Source: AGHT+IEeoqYz80Wd3bVkHJUUrfvTviJCnLJMCqYe1QoYUN3OHj5ylAeaAyTy8s5czE9UdukTGUShxyO/RkZoJm38G70=
+X-Received: by 2002:a05:6512:10cc:b0:53d:ed69:a593 with SMTP id
+ 2adb3069b0e04-5422953ff0amr954401e87.22.1734697877087; Fri, 20 Dec 2024
+ 04:31:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -74,12 +74,12 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
- <20241211-aaeon-up-board-pinctrl-support-v1-4-24719be27631@bootlin.com>
-In-Reply-To: <20241211-aaeon-up-board-pinctrl-support-v1-4-24719be27631@bootlin.com>
+ <20241211-aaeon-up-board-pinctrl-support-v1-3-24719be27631@bootlin.com>
+In-Reply-To: <20241211-aaeon-up-board-pinctrl-support-v1-3-24719be27631@bootlin.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 20 Dec 2024 13:22:30 +0100
-Message-ID: <CACRpkdZ_AwiE+HFX6TFBgscaVquKm_tegNSbTT0fhFmpkM7d_Q@mail.gmail.com>
-Subject: Re: [PATCH 4/5] pinctrl: Add pin controller driver for AAEON UP boards
+Date: Fri, 20 Dec 2024 13:31:06 +0100
+Message-ID: <CACRpkdZi-KP2SK4w_Pj_AjQmcSM2miTpAYb7UzWTxtCoqpquuw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] gpiolib: add gpiochip_add_pinlist_range() function
 To: Thomas Richard <thomas.richard@bootlin.com>
 Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
 	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -95,206 +95,54 @@ thanks for your patch!
 On Wed, Dec 11, 2024 at 5:27=E2=80=AFPM Thomas Richard
 <thomas.richard@bootlin.com> wrote:
 
-> This enables the pin control support of the onboard FPGA on AAEON UP
-> boards.
-> Due to the hardware design, the driver shall control its pins in tandem
-> with their corresponding Intel SoC GPIOs.
+> Add gpiochip_add_pinlist_range() function to add a range for GPIO <-> pin
+> mapping, using a list of non consecutive pins.
+> Previously, it was only possible to add range of consecutive pins using
+> gpiochip_add_pin_range().
 >
-> UP boards and UP Squared boards are supported.
->
-> Based on the work done by Gary Wang <garywang@aaeon.com.tw>, largely
-> rewritten.
+> The struct pinctrl_gpio_range has a 'pins' member which allows to set a
+> list of pins (which can be non consecutive). gpiochip_add_pinlist_range()
+> is identical to gpiochip_add_pin_range(), except it set 'pins' member
+> instead of 'pin_base' member.
 >
 > Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
 
-Overall this looks as a good start, some comments below.
+(...)
+> -int gpiochip_add_pin_range(struct gpio_chip *gc, const char *pinctl_name=
+,
+> -                          unsigned int gpio_offset, unsigned int pin_off=
+set,
+> -                          unsigned int npins)
+> +static int __gpiochip_add_pin_range(struct gpio_chip *gc, const char *pi=
+nctl_name,
+> +                                   unsigned int gpio_offset, unsigned in=
+t pin_offset,
+> +                                   unsigned int const *pins, unsigned in=
+t npins)
 
-> +config PINCTRL_UPBOARD
-> +       tristate "AAeon UP board FPGA pin controller"
-> +       depends on MFD_UPBOARD_FPGA
-> +       select PINMUX
-> +       select GENERIC_PINCTRL_GROUPS
-> +       select GENERIC_PINMUX_FUNCTIONS
+Uh this looks messy and I'm not a fan, sadly.
 
-This implements GPIO so you need:
-select GPIOLIB
+Overall I dislike __inner_function() syntax, so use some name that
+describe what is going on please, but I don't think we wanna do
+this at all.
 
-But I'm not sure because of some oddities, see below.
+Instead of this hack that start to soften the boundary between GPIO
+and pin control drivers, I think it is better to do what we often do
+and move the whole GPIO driver over into the pin control driver
+and have it all inside one single file, since I suspect the hardware
+is supposed to be used as one single unit.
 
-> +#include <linux/device.h>
-> +#include <linux/gpio/consumer.h>
+Please look at other combined GPIO+pin control drivers
+for inspiration, such as:
+pinctrl-stmfx.c
+pinctrl-sx150x.c
 
-Questionable include, see below.
+those just access any registers they need as they are in one
+driver, but still maintains the separation by just calling the
+existing gpiochip_add_pin_range() and be done with it.
 
-> +static int __upboard_pinctrl_gpio_request_enable(struct pinctrl_dev *pct=
-ldev,
-> +                                                unsigned int offset)
-
-I'm not a fan of functions named with __inner_function() double-underscore
-convention. The reason is that double underscore is also used for
-compiler intrinsics. Can you just name it
-
-committ_upboard_pinctrl_gpio_request_enable()?
-
-> +static void __upboard_pinctrl_gpio_disable_free(struct pinctrl_dev *pctl=
-dev, unsigned int offset)
-
-Dito
-
-> +static int __upboard_pinctrl_gpio_set_direction(struct pinctrl_dev *pctl=
-dev,
-> +                                               unsigned int offset, bool=
- input)
-
-Dito
-
-The pinmux code is very straight forward otherwise, good job!
-
-> +static int upboard_gpio_get_direction(struct gpio_chip *gc, unsigned int=
- offset)
-> +{
-> +       struct upboard_pinctrl *pctrl =3D container_of(gc, struct upboard=
-_pinctrl, chip);
-> +       unsigned int pin =3D pctrl->pctrl_data->pin_header[offset];
-> +       int mode;
-> +
-> +       if (pctrl->gpio[offset])
-> +               return gpiod_get_direction(pctrl->gpio[offset]);
-
-See below.
-
-> +       /*
-> +        * GPIO was not requested so SoC pin is probably not in GPIO mode=
-.
-> +        * When a gpio_chip is registered, the core calls get_direction()=
- for all lines.
-> +        * At this time, upboard_gpio_request() was not yet called, so th=
-e driver didn't
-> +        * request the corresponding SoC pin. So the SoC pin is probably =
-in function (not in
-> +        * GPIO mode).
-> +        *
-> +        * To get the direction of the SoC pin, it shall be requested in =
-GPIO mode.
-> +        * Once a SoC pin is set in GPIO mode, there is no way to set it =
-back to its
-> +        * function mode.
-> +        * Instead of returning the SoC pin direction, the direction of t=
-he FPGA pin is
-> +        * returned (only for the get_direction() called during the gpio_=
-chip registration).
-> +        */
-> +       mode =3D upboard_pinctrl_pin_get_mode(pctrl->pctldev, pin);
-
-Fair enough I guess it's the best we can do here.
-
-> +static int upboard_gpio_get(struct gpio_chip *gc, unsigned int offset)
-> +{
-> +       struct upboard_pinctrl *pctrl =3D container_of(gc, struct upboard=
-_pinctrl, chip);
-> +
-> +       return gpiod_get_value(pctrl->gpio[offset]);
-> +}
-> +
-> +static void upboard_gpio_set(struct gpio_chip *gc, unsigned int offset, =
-int value)
-> +{
-> +       struct upboard_pinctrl *pctrl =3D container_of(gc, struct upboard=
-_pinctrl, chip);
-> +
-> +       gpiod_set_value(pctrl->gpio[offset], value);
-> +}
-> +
-> +static int upboard_gpio_direction_input(struct gpio_chip *gc, unsigned i=
-nt offset)
-> +{
-> +       struct upboard_pinctrl *pctrl =3D container_of(gc, struct upboard=
-_pinctrl, chip);
-> +       int ret;
-> +
-> +       ret =3D pinctrl_gpio_direction_input(gc, offset);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return gpiod_direction_input(pctrl->gpio[offset]);
-> +}
-> +
-> +static int upboard_gpio_direction_output(struct gpio_chip *gc, unsigned =
-int offset, int value)
-> +{
-> +       struct upboard_pinctrl *pctrl =3D container_of(gc, struct upboard=
-_pinctrl, chip);
-> +       int ret;
-> +
-> +       ret =3D pinctrl_gpio_direction_output(gc, offset);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return gpiod_direction_output(pctrl->gpio[offset], value);
-> +}
-
-This looks dangerous and I guess also the reason you are including consumer=
-.h.
-
-Explain with a comment in the code what is going on here, like if this
-GPIO comes from a completely different hardware unit, it looks like
-a recepie for an eternal loop if it would point back to the same GPIO.
-
-All of these have the same "loop out to another hardware" feature
-that looks weird to me, but explain what's going on so I understand
-it.
-
-To me usually pin control works like this:
-
-linux gpio <-> gpio driver <-> pin control driver
-
-so the pin control driver is a pure "backend" for GPIO,
-typically implements in struct pinmux_ops:
-.gpio_request_enable()
-.gpio_disable_free()
-.gpio_set_direction()
-
-that just set up the pin in the corresponding way. If your hardware
-cannot mux back a pin from GPIO mode (as a comment says)
-I would say that gpio_disable_free() can just return -ENODEV
-or something if the pin has been put into gpio mode, maybe
-some experimentation is needed there.
-
-The corresponding GPIO driver typically uses GPIO ranges
-to access the corresponding pin. It usually call
-gpiochip_add_pin_range() to map its pins to the pin control
-driver (if e.g. device tree is not used for the ranges).
-
-What you do here is confusing to me, it looks like:
-
-linux gpio <-> this gpio shim <-> pin control <-> other gpio driver
-
-I think it is better to try to keep things separate if you can,
-the current design seems to come from an attempt to be
-"complete" and protect users from themselves, but we can
-never protect users from themselves.
-
-> +static int upboard_gpio_to_irq(struct gpio_chip *gc, unsigned int offset=
-)
-> +{
-> +       struct upboard_pinctrl *pctrl =3D container_of(gc, struct upboard=
-_pinctrl, chip);
-> +
-> +       return gpiod_to_irq(pctrl->gpio[offset]);
-> +}
-
-If you use the GPIOLIB_IRQCHIP, you do not need to define this function
-at all, it is handled by gpiolib.
-
-> +       ret =3D gpiochip_add_pinlist_range(chip, dev_name(dev), 0, pctrl-=
->pctrl_data->pin_header,
-> +                                        pctrl->pctrl_data->ngpio);
-
-I would rather have it that the actual gpio chip (the one that write
-something into hardware registers) do this without another gpio chip
-inbetween if you see what I mean.
-
-But explain what's going on! I'm curious.
+This should remove your need for the strange hacks like this
+patch and the gpiochip wrapper in the pin control driver.
 
 Yours,
 Linus Walleij
