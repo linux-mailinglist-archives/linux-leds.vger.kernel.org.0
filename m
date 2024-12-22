@@ -1,254 +1,148 @@
-Return-Path: <linux-leds+bounces-3691-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3692-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13139FA2F0
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Dec 2024 00:44:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 869419FA7DC
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Dec 2024 21:05:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B195C188854B
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2024 23:44:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF8A6165A1E
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Dec 2024 20:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7A3E1DD9AC;
-	Sat, 21 Dec 2024 23:44:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B490913A244;
+	Sun, 22 Dec 2024 20:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nx5eDPh+"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="HU4Se2ly"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61BA1CF8B
-	for <linux-leds@vger.kernel.org>; Sat, 21 Dec 2024 23:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DA3748D;
+	Sun, 22 Dec 2024 20:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734824647; cv=none; b=cdn5veqG9xXvEIsC4iSDfmI+UZK1WIppPfQTJWDRfkDPnH635CCURTP7Z3FM7GnhZlqvduRma90fpnJPcVsNAsmFdKn/JpNt6i9A2VpS3r5tsR3oo0HgQr5jTR7ZXcb0LeDhc7Wl37JVyCJWcWO1L5he6DP7uZwMPX4c3YwNUbU=
+	t=1734897899; cv=none; b=c0Anaa1hSfXzrd+dsf1ESLroqSr6U26P/REEFBajKcVcNc4WOGfdZjFao8+Hr693amOpQRjo7SPd206o5Tj/lyEXUZXJYiF8GDnPQYoJ7T7gJRhnFuldM0V5Hzzm+hrGQdmwTQCjLdENYmtYazaN7sNuGZy8HZU4pB1xG/sVfLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734824647; c=relaxed/simple;
-	bh=FAxriXy1VBhEp6+drg9IByRPAx3vaKwqL5CoIFhupp8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fotpXIvKm2CZJABhjhU6MjpluMKYX6v/z9c+53X7wEzfR/67qRERFkuSwsOqn+XPAl4IDiTYwrmiDhpFL0/C3iFl6oKQ34mtcjy4bStuDDX4YdPNrKz+b3MKccQPKaEMwCcp9Bds/rc5hoZ490cPz9OxVOmh/zuYukJml7EABUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nx5eDPh+; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53e389d8dc7so3200795e87.0
-        for <linux-leds@vger.kernel.org>; Sat, 21 Dec 2024 15:44:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734824644; x=1735429444; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+EAY9TL3VXa9YSmXfF47DjhR+bRcu+p93fOBuspJdNo=;
-        b=nx5eDPh+cB9p4wPTx2A6sSJaSJHhkZ5H1pz+MVdmMQmPVlK15C/vrMh0OPRr0SvXk/
-         l4r0YaclAUNNIFAiBe6djeoHoVftLiJQJ5S0HLUu5F7t3C4fh0cA49QQPbwNcat6mN9T
-         nsN42beGQSl9E/uwbgoF8GBM3XM2xIrEpBB2HN2Z0NiLU9DGYth9cDoxHsf8zyKL/na4
-         AK0b432midal84SVRVnhAbo8OtK1m6UOf1EjBhnETXsd2MIa6bSHcmkjwycz9um3ORdV
-         hswaDtOKm3vNKtrjXjjej5Nrxna0e9GtWly3DC4j+kNF30cGq9JE5gd9SlbS84Znozqy
-         iDng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734824644; x=1735429444;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+EAY9TL3VXa9YSmXfF47DjhR+bRcu+p93fOBuspJdNo=;
-        b=B6GXEgR5+7SxVIvZiBUg0n3k/PgG2whiy+w+T6jitsfr2QqR9Fjerz7GxPaSFfqiah
-         0H4jtgocbQmTBVZeWhQXMXCT+qc7rYwhSxK/bUKv8Q6uxzhA+rcd+mQPCtvX7XLMNuC1
-         zxxblyimi5+z2mSKZ6rLs0vFNriC5g76ImBMfCLJI9ZuboW1cysXrYoDglo/tm5oNvAc
-         YIwLN0JGh7cdbu5DjmQd3yqUm6O8SGzvR9ofi6O5SWr4huvULJseiPwUWILrUvPWugvd
-         9qqsZ+zgmn8FVpJ+a7jVCFyhiFfTx4lX0cy0RqIquYbP2Sr55iELiaiFu8a3QC9p0uWt
-         O96w==
-X-Forwarded-Encrypted: i=1; AJvYcCXOOfPcZG5qXrXMV+Sqz4yqMTNsoeF4pwnUtldlqHv8NSSi/Ixih19d51tS+mCPBGFVAJB5FVTcuJY7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0vaym84RzmyrqC9HNvfQFzwNk+QsKZ/CIIZXg+8JBrTkJ5ocK
-	P0HtpvciG/3ybDEilu8S/t0ZGsFGsaVolYslWB6ZinkVkUcAZUGz3q/fhDP6q3ONjdFWX0GKQFP
-	Zs8KYS4MKIoSpuoUrtMUprQIb0v/QGN+WTz7V17cFM7JT5Ofkoo8=
-X-Gm-Gg: ASbGncvOPfej2NlsyDof0PjayxCqRVP4Toh/zQRzDkQTUzvwjgixVOwB05luMDu0vUC
-	fg1PcScSQSgr9+S/Bdd6VaxwidiogSsjukq9C
-X-Google-Smtp-Source: AGHT+IGvv1HHB3ir44LqmxfQzI5NCI5yGpRRnfZXrg8Ab09YCK/dKPLkcceMg5vvGQghPyyeYWnMhg6tQndCLvQxcQM=
-X-Received: by 2002:a05:6512:4014:b0:540:251e:b2c2 with SMTP id
- 2adb3069b0e04-5422957b03emr2371945e87.53.1734824643653; Sat, 21 Dec 2024
- 15:44:03 -0800 (PST)
+	s=arc-20240116; t=1734897899; c=relaxed/simple;
+	bh=IUsODn5TmnaQpCwJ4Im9kF+HCMYOj2OnDKc9Tg7Tu40=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Vmfn8BJNxqyG5zktMIcJyPhDg0H62lgtiCdB31lrksZxTSGjtLMETXAmV2pe19UDLDH5VgHjY1E3wzLn8NtgG6iTzNH4JTdLbcry3zNvPqj6oTDWI4/gb5McRuaNvxNOoobVLbkB6d4Bd7ZY4UlogcqLEppnyfSTk7fVqEJ7Cbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=HU4Se2ly; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1734897893;
+	bh=IUsODn5TmnaQpCwJ4Im9kF+HCMYOj2OnDKc9Tg7Tu40=;
+	h=From:Date:Subject:To:Cc:From;
+	b=HU4Se2lyyf5LLg/2D5GImLwyJjiamLvPAvrqfaufMBxe1dTSdvxRJ3Yz1Scdk/rPb
+	 Pda+3+9nSFYAtDALCOOFfMvY20AWeFnaT2di4/Bg2vmLLLwskUuD4Pi2yCdnCJvZ2M
+	 bQeo0rcXVVKl5r6mQnmTy9kokP5C8W9Hp9n0cexc=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 22 Dec 2024 21:04:50 +0100
+Subject: [PATCH] leds: triggers: Constify 'struct bin_attribute'
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
- <20241211-aaeon-up-board-pinctrl-support-v1-4-24719be27631@bootlin.com>
- <CACRpkdZ_AwiE+HFX6TFBgscaVquKm_tegNSbTT0fhFmpkM7d_Q@mail.gmail.com> <9e692951-86a1-4dda-b843-58173453ffe0@bootlin.com>
-In-Reply-To: <9e692951-86a1-4dda-b843-58173453ffe0@bootlin.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 22 Dec 2024 00:43:52 +0100
-Message-ID: <CACRpkdZ6kmPn9TfO40drJ+vwM2GNKfNaP21R_gEvugg+GJiF1w@mail.gmail.com>
-Subject: Re: [PATCH 4/5] pinctrl: Add pin controller driver for AAEON UP boards
-To: Thomas Richard <thomas.richard@bootlin.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org, thomas.petazzoni@bootlin.com, 
-	DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241222-sysfs-const-bin_attr-led-v1-1-ecc5212a31fa@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAOFwaGcC/x3MQQqDMBBA0avIrB0w01SCVxEpaZzUAUkkE0qLe
+ PeGLt/i/xOUi7DC1J1Q+C0qOTWYvoOw+fRilLUZaCBriAj1q1Ex5KQVn5IevtaCO69o7oN1Nzd
+ 6YwlafhSO8vmv5+W6fkac5R9qAAAA
+X-Change-ID: 20241222-sysfs-const-bin_attr-led-15048386a142
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734897893; l=3289;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=IUsODn5TmnaQpCwJ4Im9kF+HCMYOj2OnDKc9Tg7Tu40=;
+ b=rVbj8KKB5yi/XgI+NzNEZJrxoqW5/5t9JqdaSt0FIiw6XPHA9K7kvglzZjiOjg/yHBxnuX0AC
+ Z9vLT3zoZnlDCKzmY9vSznfntl7jIEm+4KmSE2otsClWbvFU6YUKnd3
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Hi Thomas,
+The sysfs core now allows instances of 'struct bin_attribute' to be
+moved into read-only memory. Make use of that to protect them against
+accidental or malicious modifications.
 
-thanks for your detailed reply!
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/leds/led-class.c    | 6 +++---
+ drivers/leds/led-triggers.c | 4 ++--
+ drivers/leds/leds.h         | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-On Fri, Dec 20, 2024 at 2:50=E2=80=AFPM Thomas Richard
-<thomas.richard@bootlin.com> wrote:
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 2a04ac61574d5fcf998412e97d8bfbc3bd40ed81..c20ac8ccf52b7d79762a3aeea446389bad8443ea 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -85,13 +85,13 @@ static ssize_t max_brightness_show(struct device *dev,
+ static DEVICE_ATTR_RO(max_brightness);
+ 
+ #ifdef CONFIG_LEDS_TRIGGERS
+-static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
+-static struct bin_attribute *led_trigger_bin_attrs[] = {
++static const BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
++static const struct bin_attribute *const led_trigger_bin_attrs[] = {
+ 	&bin_attr_trigger,
+ 	NULL,
+ };
+ static const struct attribute_group led_trigger_group = {
+-	.bin_attrs = led_trigger_bin_attrs,
++	.bin_attrs_new = led_trigger_bin_attrs,
+ };
+ #endif
+ 
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index 78eb20093b2c10643e26cea3517acf5a58df423d..b2d40f87a5ff22b9fe38bce0a655da72ea385fee 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -34,7 +34,7 @@ trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
+ }
+ 
+ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+-			  struct bin_attribute *bin_attr, char *buf,
++			  const struct bin_attribute *bin_attr, char *buf,
+ 			  loff_t pos, size_t count)
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+@@ -123,7 +123,7 @@ static int led_trigger_format(char *buf, size_t size,
+  * copy it.
+  */
+ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+-			struct bin_attribute *attr, char *buf,
++			const struct bin_attribute *attr, char *buf,
+ 			loff_t pos, size_t count)
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
+index d7999e7372a49f4c5f2bd0c489581e2467d53803..bee46651e068f7f7c9d6d5fde31b39c020b79fcd 100644
+--- a/drivers/leds/leds.h
++++ b/drivers/leds/leds.h
+@@ -22,10 +22,10 @@ void led_stop_software_blink(struct led_classdev *led_cdev);
+ void led_set_brightness_nopm(struct led_classdev *led_cdev, unsigned int value);
+ void led_set_brightness_nosleep(struct led_classdev *led_cdev, unsigned int value);
+ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+-			struct bin_attribute *attr, char *buf,
++			const struct bin_attribute *attr, char *buf,
+ 			loff_t pos, size_t count);
+ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+-			struct bin_attribute *bin_attr, char *buf,
++			const struct bin_attribute *bin_attr, char *buf,
+ 			loff_t pos, size_t count);
+ 
+ extern struct rw_semaphore leds_list_lock;
 
-> Yes my cover letter was a bit short, and maybe some context was missing.
+---
+base-commit: bcde95ce32b666478d6737219caa4f8005a8f201
+change-id: 20241222-sysfs-const-bin_attr-led-15048386a142
 
-The text and graphics below explain it very well, so please include them
-into the commit message so we have it there!
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
-> This FPGA acts as a level shifter between the Intel SoC pins and the pin
-> header, and also makes a kind of switch/mux.
-
-Since it's Intel we need to notify Andy to help out with this so that
-it gets done in a way that works with how he think consumers
-should interact with Intel pin control and GPIO.
-
-> +---------+         +--------------+             +---+
->           |         |              |             | H |
->           |---------|              |-------------| E |
->           |         |              |             | A |
-> Intel Soc |---------|    FPGA      |-------------| D |
->           |         |              |             | E |
->           |---------|              |-------------| R |
->           |         |              |             |   |
-> ----------+         +--------------+             +---+
->
->
-> For most of the pins, the FPGA opens/closes a switch to enable/disable
-> the access to the SoC pin from a pin header.
-> Each "switch", has a direction flag that shall be set in tandem with the
-> status of the SoC pin.
-> For example, if the SoC pin is in PWM mode, the "switch" shall be
-> configured in output direction.
-> If the SoC pin is set in GPIO mode, the direction of the "switch" shall
-> corresponds to the GPIO direction.
->
-> +---------+              +--------------+             +---+
->           |              |              |             | H |
->           |              |      \       |             | E |
->           |   PWM1       |       \      |             | A |
-> Intel Soc |--------------|-----   \-----|-------------| D |
->           |              |              |             | E |
->           |              |              |             | R |
->           |              |    FPGA      |             |   |
-> ----------+              +--------------+             +---+
->
-> (PWM1 pin from Intel SoC can be used as PWM, and also in GPIO mode,
-> thanks to the Intel pinctrl driver).
->
->
-> Few pins (PINMUX_* pins) work differently. The FPGA acts as a mux and
-> routes for example the I2C0_SDA pin or GPIOX (of the SoC) to the pin head=
-er.
->
-> +---------+           +--------------+             +---+
->           | I2C0_SDA  |              |             | H |
->           |-----------|----- \       |             | E |
->           |           |       \      |             | A |
-> Intel Soc |           |        \-----|-------------| D |
->           | GPIOX     |              |             | E |
->           |-----------|-----         |             | R |
->           |           |    FPGA      |             |   |
-> ----------+           +--------------+             +---+
->
-> The pin header looks like this:
-> +--------------------+--------------------+
-> |      3.3V          |       5V           |
-> | GPIO2 / I2C1_SDA   |       5V           |
-> | GPIO3 / I2C1_SCL   |       GND          |
-> | GPIO4 / ADC0       | GPIO14 / UART1_TX  |
-> |      GND           | GPIO15 / UART1_RX  |
-> | GPIO17 / UART1_RTS | GPIO18 / I2S_CLK   |
-> |     GPIO27         |       GND          |
-> |     GPIO22         |      GPIO23        |
-> |      3.3V          |      GPIO24        |
-> | GPIO10 / SPI_MOSI  |       GND          |
-> | GPIO9 / SPI_MISO   |      GPIO25        |
-> | GPIO11 / SPI_CLK   | GPIO8 / SPI_CS0    |
-> |      GND           | GPIO7 / SPI_CS1    |
-> | GPIO0 / I2C0_SDA   | GPIO1 / I2C0_SCL   |
-> |     GPIO5          |       GND          |
-> |     GPIO6          | GPIO12 / PWM0      |
-> | GPIO13 / PWM1      |       GND          |
-> | GPIO19 / I2S_FRM   | GPIO16 / UART1_CTS |
-> |     GPIO26         | GPIO20 / I2S_DIN   |
-> |      GND           | GPIO21 / I2S_DOUT  |
-> +--------------------+--------------------+
->
-> The GPIOs in the pin header corresponds to the gpiochip I declare in
-> this driver.
-> So when I want to use a pin in GPIO mode, the upboard pinctrl driver
-> requests the corresponding SoC GPIO to the Intel pinctrl driver.
-> The SoC pins connected to the FPGA, are identified with "external" id.
->
-> The hardware and the FPGA were designed in tandem, so you know for
-> example that for the GPIOX you need to request the Nth "external" GPIO.
->
-> When you drive your GPIO, the upboard gpiochip manages in the same time
-> the direction of the "switch" and the value/direction of the
-> corresponding SoC pin.
->
-> +------------------+         +--------------+             +---+
->                    |---------|              |-------------| H |
->                    |---------|   GPIOCHIP   |-------------| E |
->    Intel gpiochip  |---------|              |-------------| A |
->  provided by Intel |---------|    FPGA      |-------------| D |
->   pinctrl driver   |---------|              |-------------| E |
->                    |---------|              |-------------| R |
->                    |---------|              |-------------|   |
-> +------------------+         +--------------+             +---+
->
->
-> About gpiochip_add_pinlist_range(), I added it because the FPGA pins
-> used by the gpiochip are not consecutive.
->
-> Please let me know if it is not clear.
-> And sorry I'm not very good to make ascii art.
-
-I get it! We have a similar driver in the kernel already, look into:
-drivers/gpio/gpio-aggregator.c
-
-The aggregator abstraction is however just software. What you
-need here is a gpio-aggregator that adds some hardware
-control on top. But it has a very nice design using a bitmap
-to keep track of the GPIOs etc, and it supports operations
-on multiple GPIOs (many man-hours of hard coding and
-design went into that driver, ask Geert and Andy...)
-
-So I would proceed like this:
-
-- The pin control part of the driver looks sound, except
-  for the way you add ranges.
-
-- The gpiochip part needs to be refactored using the
-  ideas from gpio-aggregator.c.
-
-- Look closely at aggregator and see what you can do
-  based on that code, if you can mimic how it picks up
-  and forwards all GPIO functions. Maybe part of it
-  needs to be made into a library?
- <linux/gpio/gpio-aggregator.h>?
-  For example if you start to feel like "I would really like
-  to just call gpio_fwd_get_multiple() then this is what
-  you want to do. The library can probably still be
-  inside gpio-aggregator.c the way we do it in
-  e.g. gpio-mmio.c, just export and keep library functions
-  separately.
-
-- The way you split up gpiochip_add_pin_range() I
-  still do not understand at all, in my view you just want
-  this gpiochip to refer to the pin controller pins in the
-  same file so I don't see it. How can e.g.
-  pinctrl-sx150x.c do this trick but not your driver?
-  I might be missing something though.
-
-Yours,
-Linus Walleij
 
