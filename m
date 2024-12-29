@@ -1,93 +1,158 @@
-Return-Path: <linux-leds+bounces-3707-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3708-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB8C9FCCCF
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Dec 2024 19:31:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB999FDEB5
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Dec 2024 12:14:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A7131881AB6
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Dec 2024 18:31:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 919503A17DC
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Dec 2024 11:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0031DD0E7;
-	Thu, 26 Dec 2024 18:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6083146D59;
+	Sun, 29 Dec 2024 11:14:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P7eqAtC1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0U2IDAS"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94B61DCB2D;
-	Thu, 26 Dec 2024 18:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297AE4D8A3;
+	Sun, 29 Dec 2024 11:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735237651; cv=none; b=h7CS0ruIyhycJSYBT2ULH4/qP+tfAHaWa9RuTshN7rPBr9vnRqg/F5+iyP79QT8UwKR71vD/MZQMRjuezBKCgIetgw2mzGosuu2kPIb+KIiSG/mJo1H37RuViQfm1OxkXpvUnDpE4sejXjhz1gysdTKS0VGMYRk+o2s1+TNEZgg=
+	t=1735470847; cv=none; b=VfH9P7MNOqmaLsMGWGFI210u+R+Cyka2g4c+cqmQocrh6UJECEKxCgL6lIFEVVI/nJ5iWIeCf+DWdAF8xmFOWxR6bSe5EMQu88Yz87P7nxubq39afsFR/cJscxH3UwuzSsnJRGp1nuMBhud7fZLoRkAl3KCuPOeDG9cn2DHq29U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735237651; c=relaxed/simple;
-	bh=is0teGi7eIaTkFxCOrgu8fA/t9r9uioKAcL0hF0oUmw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cq2grXOfAroF5KB+kbeQObSkR9l2N7GQWbfGrCJGpQ8WPtFnRyQWfWr/ki2pu8WF+AIEkSFmSn2yZ0+d3QErVPo7zDLxHbjhMmqNl7WAlr3RcnuyJDbzOFJEiPLq4B/GtSJ3GA1HhpNKarZj+cO8AOJTUPahNa63AZZjNs+D848=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P7eqAtC1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E99A8C4CEDD;
-	Thu, 26 Dec 2024 18:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735237650;
-	bh=is0teGi7eIaTkFxCOrgu8fA/t9r9uioKAcL0hF0oUmw=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=P7eqAtC12I31MA3gqr4rRhswpRT9rasSF2bV8VBE5BXU+dnNOKDiS+60ns0MAdhX0
-	 4i+H/6J7qMVbcEXZJW3R2OjgucPibtKympZnTSzMsCmGwtLi+Z08mEsE1S1gddH3yG
-	 EfX+sEGc3vdUog6BQQFSFysORryRUY3s6ct7jUUQzIcrvRXtHotDoJaUDq9BSbjoAW
-	 rZepvkhVphFusduCkzk/fpH5e0no3f+NzB6pbCM/dFO1BmrnCRN4XnVxthxB9+OsPW
-	 CsTxO+Qz6ScYC2Z6sp4mu12xMxOWSXZhrASBnE8KdsDvS8miPycVMOQSJAjPR19f75
-	 epwi36pwr91WQ==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>,
+	s=arc-20240116; t=1735470847; c=relaxed/simple;
+	bh=WimL86Ee7sTDRb3waoeawAMTramntwTiB7N8weugKA4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=aOwnfj7RWftGqUyI2VZoIaAHVRNSAh5tz644lHl4bNWZzWiqCvF9TayClRGfTilP46N7eXYGy6jiRrmIcsXh0DfEoB5UYm1xFujo6bY3DZpcEFoN0/YMAcSjseNZEU31iU0vxoHL3u6F0AQLgvkFcgyN+JJCx1LS9dv7wQUYHY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0U2IDAS; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21619108a6bso98680285ad.3;
+        Sun, 29 Dec 2024 03:14:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735470845; x=1736075645; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TQ2IkiBTPwiZJOx3g0L64WXeGUqnnVHn4KyvGu674w8=;
+        b=U0U2IDASr7KCnKWjeXLa4+LL24ZB+45aHO6lKXFXyxX5qSg1NkaZbKIFBsNqjEqRsw
+         OjIdoCq+jOmQzq/fWs5ZhBjU8fmTq6RmcpLdUHNzX0Vbj+EUn3hl9v1kFEhrjh9X6jhc
+         VfENE0TUR4+KKh6uJvkf5s2j+KSPyanUzrtpUJI1Y/9Oj9kRLot7EET+rl0kjOYygMAX
+         DwY599PMKDEM1qrSILQjrlEB+N6fUWpUDKtUzz9h0WS31gzSL+gT6FYXynTn9tiAD/RL
+         d9qn30XZoX1hbgyUY0h33Zw60MHEUTow79cUyXWUgEFLmaKlwpQDFqlvHznqR1GZCnqG
+         0Qeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735470845; x=1736075645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TQ2IkiBTPwiZJOx3g0L64WXeGUqnnVHn4KyvGu674w8=;
+        b=dL6l3EB5L8Qo1h8QBVJqlFukaHicAs08ZR6XDTYkLLszSfdRK9UHY7gZURbij37F1x
+         PJRwZBTgqGnd/ALbye0HZvO9YhcmUsFxjknVDvy1gxuJYw40W881fdKYSBoX1R8x6BuO
+         UAxE2wnDaruJ/CMeEwjYkY5j5fxkd59NXhPNxbu+dDtWYpPjxEA2cJYPLt8nUBzCloDa
+         bTr0U5S9SlrNl4Y6JUqYvIS77SAqrkH5UX2pzSgUsREkf/Zmif3fSwmIydqCes1qDpJF
+         Bq9AogBJ5rILCaUC7hsUdpn4IfS1YImpFlDREnMQwhTi/xZtVyoLDE7ybM0pMIc/4bXz
+         jbgg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0GHcLVUt1jwd109Ce84GrmcNrnH/EDAFmf+aW4pOfB1a0ESFcS5yceO84/6ZQLea/6mM+i3ABuVhp@vger.kernel.org, AJvYcCU1nijXfpl3+Y1vidb5ca2t3s+T6bza1e8I4o8L0K8fByzRBdta9wLtI5SHALL1auOyMUMO24pHjvSd2w==@vger.kernel.org, AJvYcCWrAu3uXNf9vkU63QMvmIYFrF2B/muacmpe6W8T9Dgz7KnP9LfPCibfOnaPxNN2neHvdkoenvw7XlPgMJzH@vger.kernel.org, AJvYcCXwgqbCIlXVq6GeuQ6/0RzQ+8pyElAWWjIHcPYrFWoNV+wToVER4Cm0jpGFvrwi7pUlsrpZw3X5TXuMck4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHwQfYE9Kr0gQmTmt4rLN1/DBAEWUyBGJ228gWhYOyEWXnm6GM
+	lX2k/1Rs3MyL7qtH7k9Ll0zH71zVUZsPleMkSxXX8fjDRbZBWYqV
+X-Gm-Gg: ASbGncvEvpIlHYohVFE73z4RT3WzilRdMj3xGelpb1pVsRUomLJfLkjYj39Q0qdiot5
+	tA3/DSD1Jyz4RCVEehWjOjgD53w231OEJ6y/iKxRQduKSvfbExe2IOf5m6+0ngFOSNs3uRKr/Uq
+	KOWLd6Qj/70ME9cytQjrnCyuL2XzT6OyqfQgQ/x5lSZMRK8dJEOX2ZXCXoYPDJDw+R98k2em1YU
+	rNe7h5e0liQ2pmdw0y3DG7s6YvSC50dJNUQGdUy4obL8eI2p5NlzMIoZQ==
+X-Google-Smtp-Source: AGHT+IFC1QZJfqXlyjwwxcIAnkfum3t6MQ+L3yuYAABJDnspWgtVfFsqagRUXkgAgDc1Jy7GWtwr8g==
+X-Received: by 2002:a17:902:d48f:b0:212:4aec:f646 with SMTP id d9443c01a7336-219e6ec1340mr390222995ad.33.1735470845437;
+        Sun, 29 Dec 2024 03:14:05 -0800 (PST)
+Received: from nick-mbp.. ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-219dca02544sm161655895ad.255.2024.12.29.03.14.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Dec 2024 03:14:05 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Fenglin Wu <quic_fenglinw@quicinc.com>,
-	linux-arm-msm@vger.kernel.org,
+	Helge Deller <deller@gmx.de>,
+	Nick Chan <towinchenmi@gmail.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
 	linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: Re: (subset) [PATCH 0/3] arm64: dts: qcom: Pixel 3a Flash LEDs
-Date: Thu, 26 Dec 2024 12:26:48 -0600
-Message-ID: <173523761389.1412574.10392484276633722098.b4-ty@kernel.org>
+	linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: [PATCH v4 RESEND 0/3] Apple DWI backlight driver
+Date: Sun, 29 Dec 2024 19:11:16 +0800
+Message-ID: <20241229111322.4139-1-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241112024050.669578-6-mailingradian@gmail.com>
-References: <20241112024050.669578-6-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
+and iPod touches the backlight controller is connected via this interface.
+This series adds a backlight driver for backlight controllers connected
+this way.
 
-On Mon, 11 Nov 2024 21:40:51 -0500, Richard Acayan wrote:
-> This adds support for the flash LEDs on PM660L and enables it on the
-> Pixel 3a as an initial user.
-> 
-> Richard Acayan (3):
->   dt-bindings: leds: qcom,spmi-flash-led: add pm660l compatible
->   arm64: dts: qcom: pm660l: add flash leds
->   arm64: dts: qcom: sdm670-google-sargo: add flash leds
-> 
-> [...]
+Changes since v3:
+- $ref to common.yaml in bindings
+- (and then additionalProperties is changed to unevaluatedProperties)
+- Use hex everywhere in bindings example
+- Use sizeof(*dwi_bl) instead of the type of the struct when doing
+devm_kzalloc()
+- Use devm_platform_get_and_ioremap_resource() in driver
+- Fix sorting in drivers/video/backlight/Makefile
+- In drivers/video/backlight/Kconfig, move config to right after
+BACKLIGHT_APPLE
+- Explain this driver being completely different from apple_bl
 
-Applied, thanks!
+v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gmail.com/T
 
-[2/3] arm64: dts: qcom: pm660l: add flash leds
-      commit: 9b2955bae7025190c8d15983b37554da96e43e21
-[3/3] arm64: dts: qcom: sdm670-google-sargo: add flash leds
-      commit: 44d2a252698effd2f247a31492c10e1290903474
+Changes since v2:
+- Add missing includes in driver
+- Fix file path in MAINTAINERS
 
-Best regards,
+v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmail.com/T
+
+Changes since v1:
+- Fixed dt-bindings $id.
+- Make power-domains an optional property in dt-bindings.
+- Added missing error checking after devm_ioremap_resource() in
+dwi_bl_probe().
+
+v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail.com/T
+
+Nick Chan
+---
+
+Nick Chan (3):
+  dt-bindings: leds: backlight: apple,dwi-bl: Add Apple DWI backlight
+  backlight: dwi_bl: Add Apple DWI backlight driver
+  MAINTAINERS: Add entries for Apple DWI backlight controller
+
+ .../bindings/leds/backlight/apple,dwi-bl.yaml |  57 ++++++++
+ MAINTAINERS                                   |   2 +
+ drivers/video/backlight/Kconfig               |  12 ++
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/dwi_bl.c              | 122 ++++++++++++++++++
+ 5 files changed, 194 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+ create mode 100644 drivers/video/backlight/dwi_bl.c
+
+
+base-commit: 4bbf9020becbfd8fc2c3da790855b7042fad455b
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.47.1
+
 
