@@ -1,82 +1,121 @@
-Return-Path: <linux-leds+bounces-3721-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3722-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A24A058BF
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jan 2025 11:53:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF287A05C2B
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jan 2025 13:56:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46C157A03DE
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jan 2025 10:53:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF806165EAB
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jan 2025 12:56:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AFD31F8666;
-	Wed,  8 Jan 2025 10:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MO1leYDT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3211F9F7D;
+	Wed,  8 Jan 2025 12:56:12 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E131A0BF8;
-	Wed,  8 Jan 2025 10:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256111F9F5A;
+	Wed,  8 Jan 2025 12:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736333632; cv=none; b=dcHj1pAlwR0TBRDEQEp1dzkee5e6AZNBZpy7IqJ99tq01h3na6abZmZQFS9/e9k2WSVm8MpYGdNkWwWk/CTEDY1WuAlk9fJenwUmcvZB3+cgW5byheaPem14Z2V7Mj92FLe1UcWrH9f86hnHMdx/rYUAB9KngQBCVkfDLopX0HE=
+	t=1736340972; cv=none; b=kU2mMUzIb1eRd3yQ/u2HSysxkCrQNc6Z02pq9ZRvL3XMbitJ+oeAg+1yKb/UqL4TGe3A12o1/15eKt7oBPpygEbR7QyqpCsTSucsxcaUaWvbKVhbz3JFO8t795oAO83hyitnsGdrEkqQRXHFFdilCE4js2IkvRO0mgQM0C+t9vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736333632; c=relaxed/simple;
-	bh=MdzLiNiMUefIpEMjWF8sA0mgOuEA1ymjFocAvj83YU4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cPiLOQnX9Mr9VJFmYosHejaZbnQpIXCYEyaMwvCOLBfa42ZGD/dSF7v93WKgVn0R0UPeFFwb6K+vUZX8cgEgyNoxUSjQ2oWz6dPVvIvXURKbIe4jnsRmlegFSePRkHLiZyScv3qvCsCh5+4pnAezf5Mn1Tc3nPJnbCC0Wy6F/X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MO1leYDT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4F66C4CEDD;
-	Wed,  8 Jan 2025 10:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736333632;
-	bh=MdzLiNiMUefIpEMjWF8sA0mgOuEA1ymjFocAvj83YU4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MO1leYDT/KQycCDok3dZtz1b6lChQeKjS47nI43y7an5N4Bourgc3jaRzijGYmyDR
-	 uEddCwqBeHSJREvXhnz1HfrlFH6cppD6r2xUMMaC8NO9RX1EyNQjz8nH0Ng7O/Jm5T
-	 k74EwS0aMvRpEWWVWjLm9Ix+ErZzdx1jcmEXC8/rhhKGJzwUYT0abRBFqdfyNqrsbN
-	 iyY+NNT4c2llVFqWtm8vzBFW/OjWbF59iCH5ZrbLJyw2xQY1Ta1NL+SDGaFcKp0FGY
-	 bQ3JT6KdT8EAlJuzOg4rJtqeb66RXgMjFsypTFOLuNhympArzLKxsPRouZoNuhZ+ZJ
-	 2JcCjRbMlesXg==
-Date: Wed, 8 Jan 2025 10:53:45 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 3/3] MAINTAINERS: Add entries for Apple DWI backlight
- controller
-Message-ID: <Z35ZOckf90QkbwHg@aspen.lan>
-References: <20241211113512.19009-1-towinchenmi@gmail.com>
- <20241211113512.19009-4-towinchenmi@gmail.com>
+	s=arc-20240116; t=1736340972; c=relaxed/simple;
+	bh=oKT7Yz8DLH/KDqfm87YOoAHzlTdU3CIV02cT2d0S8zc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aWlh6aC0ZGo2QpGSk45FduojpzbpQ4G+hLobZR2aL0i/fcaiMwoPFRhL1fZhfJDy4h1QCWk/+I3wFL6Q+xqme7+ZdYbkLaE29toNfnj+iJp6+kDvMMs1n9Pljzha2UyQ6MeOnPuCZNxqrGFCKQqXJXEtSD0Tk7kg2Dc6hTqt7YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4afdfd3124dso4617490137.2;
+        Wed, 08 Jan 2025 04:56:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736340969; x=1736945769;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zr5OAgOEPPZiSNcmjwmBPGqoc39w41Bm0SLcztepzJA=;
+        b=JRsDL/n9SGsgK+jp30v5i9Ovs8sZg1+1p0dhpeCvbnuhQJ6qX0d6nz5KuXmuFsUaBk
+         xvCnr/hW8b2WtpEMmbIG5lP7UT0qjg2N83trU0gQlo1Oa+dtAlM6drIUI7i4WHUrO7kM
+         mkTxpXhlHr0ftEpO4Perx1cSln5S3vuRcgNSTaqVBLDIWOXJOJx8D2LOr0x8LzT1yjRN
+         qLGyx6KYP+6odVYKOWaSNDmhGNBoXXZ2YS9w8aJHu7SQvCBngdhk12tr77YfUNXccVar
+         scqGn2/kqkg4hCbkOpgN/BZwe42J0FBEzc1wQZn49ONSCqtMefzPE+QisVZbR4MmeEA6
+         Tptw==
+X-Forwarded-Encrypted: i=1; AJvYcCU1iT6meDIpLREuYNANfy5pHPrw3j/P5AeSwywXbJ4vfMtruhQEjKXWkwnPSmCKfsmBUL0bTXUTS0lJyh8rHQ==@vger.kernel.org, AJvYcCVWI/QVANfc/zbUW9yfouO58rd0OIsFysYLIEveub+NhLAkb4eo3KjDzBEeZQf1BhSrZNzBnsWhrUjL+KOIM3a9gHo=@vger.kernel.org, AJvYcCVk4b9rPJtYd9W4waX7TqXYltZFJKThBmKuVCQ4hFaDIcKkLEgw+tOCr4Sf6Y1BV8YKievs72KzhxPI@vger.kernel.org, AJvYcCWQgW4Lc3sdBBgYvnbXC8D3S3vSkEx5zVhh+6Mlj5SISwLEb+6YtVh2pQwrdkiEu6+/vd/C3T/WLJP+@vger.kernel.org, AJvYcCWnwRymLN8QknNgQ3kFlLXhOxPd8NK0m+leEbZhtrOMErP9ZYI3ypqxELKpRw0rR5M94uIducImpcm2qFXD@vger.kernel.org, AJvYcCX5mwkKNatJ9mu8wiKa7fsFM518iUQzJRWVLZQFn2VcqobCG+2c1GXPsZmH+hFm03ORShswXN5Lqow6@vger.kernel.org, AJvYcCXDPwAocUbtBDz+TNuGF4JlAF13Jeswv1HbJ07hqEtAlY+z9YNKuolDziDIp7YpkbFTBwkKOn6EoLGmbjs=@vger.kernel.org, AJvYcCXgESDVTzk6vYfJjqUoLf3d8H1SGfDr+IYM5trx77i3AdShYHqtOm3Mj+EpkP51EfsV4G856Z2zd6tQ6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgC00Sv1ZE4hUwHJUAklxdZep2rOO7TV6XcwSQQ7DInow3zi0+
+	4l+Hlm8kji3mOoTeRAJp7edgBDDy7NK/el+dNS2S0X3FDBw1Ly+8FCD2F6pY
+X-Gm-Gg: ASbGnctA39A+5fz0oxBwZiHe3tcbPWCqZApO1Dirqn5qMwbNSaJGM7IcFIaa5uN5Ypq
+	ruCTmxPwqByT67+PK0vEbo6wJcyUH5Ez3ZLgWUIdtogoiRyMs+OkFg9Sf/fsWZu4Rbq/T6kTzVX
+	jXwkiwZCS1LEOp+uPydrmUOY6dYpsHTB/1+tjfW9Vm+SJRpoZaMtksg6U8YyzfOFeILNL15qiQw
+	lS9kln2GU6iMsDItzn6mguAHv+a5usPR9dQ20F4tMvoHL22hFN+YMEK8xHdN4l5kf/CzGoCvnrX
+	xkTQanGmLO1d6z1kzR770/M=
+X-Google-Smtp-Source: AGHT+IGXigZfJbGek043S1B2Kso9f9KPMJJpqNGHfmzud/SjN0BItpqeokefRoP4CAhSyoBpp3lbLQ==
+X-Received: by 2002:a05:6102:6d0:b0:4af:f630:7216 with SMTP id ada2fe7eead31-4b3d0f2999amr1764418137.16.1736340969517;
+        Wed, 08 Jan 2025 04:56:09 -0800 (PST)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b2bf98d1c9sm8376010137.4.2025.01.08.04.56.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2025 04:56:09 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5187f0b893dso5403208e0c.3;
+        Wed, 08 Jan 2025 04:56:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUkEphz2cn+a5FlMLFJ/mM0h8YJGwO5xOE11dlowaT5V3Kw2KY5d94OtDBMKG9OrJ558CA2cZzvChyp@vger.kernel.org, AJvYcCWHFtNMKCLY/6mwyD/nFBC5NtT+nrsscNK8T4S/Q6MbLYuAkw9PKe3WdOxNAgoIb9KGUSI+1W7wFhp+1Q==@vger.kernel.org, AJvYcCWRfqHPpp6L7OzPKmTFuqwmgCXmpP3XATW5SxWSQ4Qe1jjQHbiZvVbCR0JRHsVsCzjiO8cBmtqvnoFFxXjSj7Ljq+g=@vger.kernel.org, AJvYcCWXPQQEXO8qulQkEeOpx0yYLzM7L4us4+EShHSw0zNJJ4LW9NmokSu6j6hWYm3UnpnkJOfdg08ZSG7u@vger.kernel.org, AJvYcCXFasQFEDhhyOfUAZtpcaIvUa1xgHLffxkIAwD5/ANRD7uz8hRp8VEYzi7PueqK43+cBhZsdZCQenf746zL@vger.kernel.org, AJvYcCXQP7YsThJ8i4HCTkiZ25WMbelsbuzQl1XOGgsToVrC4piww5jPJAK+HOJjfJxtIwiffPXX4UvIz3ib@vger.kernel.org, AJvYcCXVTxZyRYGyxv7h4d4rhtE2ZTm3O+Cs9caouCkHFgJKX/MSggW1jgYOI8yLizF9a5vUDPUJhgpGBJkQCjc=@vger.kernel.org, AJvYcCXh5LyDLuUMrlI0iqgZ9D3v+ZwPRsv2YXACatRGhjmLs1VdWrmjboUnrMS+F+9YviJYtlQVLvGYmdQn3PYsow==@vger.kernel.org
+X-Received: by 2002:a05:6102:5123:b0:4b2:ad82:1318 with SMTP id
+ ada2fe7eead31-4b3d0fde32amr1732752137.26.1736340968977; Wed, 08 Jan 2025
+ 04:56:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211113512.19009-4-towinchenmi@gmail.com>
+References: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 8 Jan 2025 13:55:57 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWjRu8AnCei67oBX-eR6RqD6m11SbH6mRmpjD2sfTtFzA@mail.gmail.com>
+X-Gm-Features: AbW1kvZ52DN__RR4vjE2dLHCl44CSoj_lJNsAln_Gci5kCuBVU2sP3BZtvvNBVQ
+Message-ID: <CAMuHMdWjRu8AnCei67oBX-eR6RqD6m11SbH6mRmpjD2sfTtFzA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Correct indentation and style in DTS example
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 11, 2024 at 07:34:39PM +0800, Nick Chan wrote:
-> Add MAINTAINERS entries for the driver.
+On Tue, Jan 7, 2025 at 2:15=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
 >
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
-(keep this R-b if you rename any files)
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml |  78 +++----
+>  .../bindings/rtc/renesas,rzn1-rtc.yaml        |  22 +-
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
 
-Daniel.
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
