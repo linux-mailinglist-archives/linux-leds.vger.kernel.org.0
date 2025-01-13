@@ -1,214 +1,157 @@
-Return-Path: <linux-leds+bounces-3764-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3765-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337AAA0B827
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 14:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4FDA0B843
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 14:36:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 132F1188637E
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:29:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94FE21885727
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2ED018E361;
-	Mon, 13 Jan 2025 13:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA4722A4EF;
+	Mon, 13 Jan 2025 13:36:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="Bu3qa6+n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhBPV4cf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D2B25760;
-	Mon, 13 Jan 2025 13:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13143125B2;
+	Mon, 13 Jan 2025 13:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736774940; cv=none; b=Gv55SxTnzSd2W5bwymIdzi7o7xABT7o6d31pn5aVzfulQKeY4BUDMccZj5qX1mMqNC4KodbEiXmMhnmul9oCaDwliVPBQyHiUXfAUcaR+pkEBzbYoUbkwmPCcnEIgJPgn5nu9Lj6uxMGAku7aiG08PxKyLzxwSKqhZPGbj8EFyk=
+	t=1736775366; cv=none; b=ruXrtcIqqaDMGY8H5knvh48FJHtIZvHvxXsxij40cG/t3M4WROJqheIYDrlC4S80yw5MCHHEtOwv/WO1TBhJ72sr0hfyN0ehOjrmlmvj1YTTrAYrVR+Z7kL8UcHc74BNshDDq8WgBwtPrkMCPCcUEwdMnBUe+liMDEQneQ81qQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736774940; c=relaxed/simple;
-	bh=xf9WqrDKk9XENZYR8Hmb72Zb7PWZLe+L7uzYUb/bcDE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ocVVbP+3zYyDdTwwiwJMTo29rIf8kV67B9nYDWfSFFRPMNbFqTuBCQwFixwqPDFo6CojBy2eE6QEtCQVfsAfUT3FUUEXCFFPYiKHJnvwWPZWoREQy/SuUx7jvrIcMFXCbmE2CCg11oN/L7sWChukzuPqo03tQsNVhQz9ng+4f2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=Bu3qa6+n; arc=none smtp.client-ip=49.12.72.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
-From: Fiona Behrens <me@kloenk.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
-	t=1736774933; bh=ToDAPe7C16PVVuwTXSWdRMuIKvhUofTeEU9jtzBijcQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Bu3qa6+n2wqedKaykwb9kQRQkU7yTsDnd4TTQiYcPHt+SAZrU6Y8W1Q6DryWY76GN
-	 eMPBecC/5YbcSF45pHw1Eze7JsLpL9PoUrtsZ5yH5QATHAkgPhEgi+9av8btifjPVK
-	 EaLpHQlK73h54ZI2ileaCx5ICB99Qv9VuxWDnX3o=
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Mark Pearson <mpearson-lenovo@squebb.ca>,
- Peter Koch <pkoch@lenovo.com>, rust-for-linux@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] rust: add I/O port abstractions with resource
- management
-Date: Mon, 13 Jan 2025 14:28:10 +0100
-Message-ID: <A0B919A0-5B44-4298-8696-026BCB96ED56@kloenk.dev>
-In-Reply-To: <9C204B39-B714-452D-8F90-8FE426470244@collabora.com>
-References: <20250113121620.21598-1-me@kloenk.dev>
- <20250113121620.21598-5-me@kloenk.dev>
- <9C204B39-B714-452D-8F90-8FE426470244@collabora.com>
+	s=arc-20240116; t=1736775366; c=relaxed/simple;
+	bh=x6ha5Ky2lC0qUjPPvUiU85NoPbXUXu7Yam+Wmm5D+wo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lyTITs+yUNDgqM1d5WEFtmHWE6q/rGTD4QmywMHWO+Yy4eho7rlcGkuYCymUhhwD2YLKfvmL+fbm6z16bz0Aorxif6nq1n+kCaL88uK7e9pI+pjhXfMjt9TshW0bkBDdrvc72DW1sKrUhhB9wJxroPqw1kue5eava0+PTfpN6U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hhBPV4cf; arc=none smtp.client-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-860f0e91121so2924293241.0;
+        Mon, 13 Jan 2025 05:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736775364; x=1737380164; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Je3pBYcDo10F18n9QDSn0Ys9/NG5PE+POke78jldIrM=;
+        b=hhBPV4cfvLoCgVEfI7rdrbL6jaXsW9wPnoB/RC5gqvbdj6DGmkdBeGeGAo8xnXoAJj
+         n7h9s6wArRo1N6Q8bmdZlYiZMtAIu/AU8uYEIo9FCLADpDJtSsbuztuNVmZ1J9lgrPYe
+         VKBViNKEyj2jdJ2CaKqLqC5Ss2HvQbiXRb82f3YBfcfX89rvlBOXVMkLeTxOPrwHJ2h0
+         qySjBRAHA88fCILOp9e4H8iVak81lcJkD8b8cZDEiFF6yBWqexHDycp8NgELaFu2xjek
+         ce9MUbfdNp0VReUwg87God4aMK7XqT2t+WEV3XAIfhAW/9y8htFpuxNs1B08px1jFMZe
+         2y4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736775364; x=1737380164;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Je3pBYcDo10F18n9QDSn0Ys9/NG5PE+POke78jldIrM=;
+        b=igC+iMEcUzbfpCug2O7xbiQIJtS1C4IIsRTx7EM0qzxhZANQ0z0k2LVNxvMPbAm787
+         fk3lifF3RMq00GQNBSvEQGFOlO3ulA4OSOBx3qVkIiIE21iEFH3HmTjAsFB9yMMWDIif
+         tTrprYifIqQmHGI7VZ7YPJMSf0j9iwp2sHC4ax42hqsavbwSxtBC6o1Z0BhoaTBhQrXw
+         3WwnGKiOkgDaltZ2UgUI6KGdEgLYQvqPKUclDWOg4nrgU+ZiKY/F9+zLwkt+GnPegmPG
+         dFqO+4tNdhfZDC6QXmvFdtu3YCLTdW9pcE9JpgrxckToVzgtjASvalezKtCCtJxqyd33
+         XGQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYIgNmmVWuVhj/BAtuHAdIBhK9vq5knBHSYDLtzA8yuycuXQvxmPkM1XPF1fUi3NY3/NHlELUqYVXRIYM=@vger.kernel.org, AJvYcCWZcXerMYeh2TQY9Aj3NMZQLmA507Wc+M8srGuLr6eQck3wPRCHyFYn2rRM73fvBzNHoY3fEBwSNaV2@vger.kernel.org, AJvYcCXM6Pas8qHNj2fvoJeGOAmfK2kzwZFA+KKV6BEBxUl8q6ndaMDDWSQxPeZUDp5OKEi2+pKvdL94xKXvdw==@vger.kernel.org, AJvYcCXdDO6sgM/hgDwUOe1G6Xb59QE7xDcEybfiCA4U/VQ6mjLCiRLB5UmfpKH6dQ7uq2lI6xdBN7VttXE=@vger.kernel.org, AJvYcCXdEHw0ed3LlqAz/X5CDSZnur8zbdFeiZsIsyAGYm+Lx/2Ny+12EiJIW6LAWrayH/LqnCUCf47ZxVcdeDJr@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8R3I6Fg3LlU1r4VdUTQw50+u3yqK42JLbGkFHII+0T6jd+C1S
+	aD5X9ubDoMPvbtVi4lOZfLMeYyF4dm5PhhUkKu7iOLRlx8b3DQFbm77OqYVFz1aQiKC58PlqyBz
+	/fK1vGhZ6LJGMqPgOPvboQccLyEw=
+X-Gm-Gg: ASbGncurQ43glo7p8u0WaWJLdoy+RIYNcfQ8Vpt+ixgBYZX/gXJgx2mZXvKOoCbRpGJ
+	Vt+G6JHmGUHQYz0JfDwp/Nd3D2R/BciAG4Ok7mA==
+X-Google-Smtp-Source: AGHT+IEJr+Arylij/5HPtp83Stfq9iUWZWYnxqY1tWSnXNDXdyAjXhsAoB35wLJqa7gStu8nZ23tfz0bjL9eH0NNvDs=
+X-Received: by 2002:ac5:cb1c:0:b0:515:1fde:1cb1 with SMTP id
+ 71dfb90a1353d-51c7c818a5dmr11549565e0c.3.1736775363888; Mon, 13 Jan 2025
+ 05:36:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250108-starqltechn_integration_upstream-v14-0-f6e84ec20d96@gmail.com>
+ <20250108-starqltechn_integration_upstream-v14-7-f6e84ec20d96@gmail.com>
+ <20250109120158.GH6763@google.com> <20250109120308.GI6763@google.com> <CABTCjFCMky1kRZ0a8q999_WNdeOhqsDwtqxMCcWsmUoWv_rhDw@mail.gmail.com>
+In-Reply-To: <CABTCjFCMky1kRZ0a8q999_WNdeOhqsDwtqxMCcWsmUoWv_rhDw@mail.gmail.com>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Mon, 13 Jan 2025 16:35:53 +0300
+X-Gm-Features: AbW1kvZ2qog6kGbZ1YG6oeO5x7IGSNUtBvLoX71ZgTLHS-d-lGX3QVMqzXpEjpU
+Message-ID: <CABTCjFArONRgDBjiDABHfRhp1OQnZRFoirx4gNAR=wB4VPBZvg@mail.gmail.com>
+Subject: Re: [PATCH v14 07/10] mfd: simple-mfd-i2c: Add MAX77705 support
+To: Lee Jones <lee@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Hans de Goede <hdegoede@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 13 Jan 2025, at 14:15, Daniel Almeida wrote:
-
-> Hi Fiona,
+=D1=87=D1=82, 9 =D1=8F=D0=BD=D0=B2. 2025=E2=80=AF=D0=B3. =D0=B2 15:53, Dzmi=
+try Sankouski <dsankouski@gmail.com>:
 >
->> On 13 Jan 2025, at 09:16, Fiona Behrens <me@kloenk.dev> wrote:
->>
->> This patch introduces abstractions for working with I/O port resources=
-,
->> including the `Resource` and `Region` types. These abstractions facili=
-tate
->> interaction with `ioport_resource`, enabling safe management of resour=
-ce
->> reservations and memory accesses.
->>
->> Additionally, helper functions such as `outb`, `outw`, and `outl` have=
- been
->> provided to write values to these resources, with matching read functi=
-ons
->> such as `inb`, `inw`, and `inl` for accessing the port memory.
->>
->> Signed-off-by: Fiona Behrens <me@kloenk.dev>
->> ---
->> rust/helpers/helpers.c |   1 +
->> rust/helpers/ioport.c  |  42 ++++++++++
->> rust/kernel/ioport.rs  | 169 +++++++++++++++++++++++++++++++++++++++++=
-
->> rust/kernel/lib.rs     |   2 +
->> 4 files changed, 214 insertions(+)
->> create mode 100644 rust/helpers/ioport.c
->> create mode 100644 rust/kernel/ioport.rs
->>
->> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
->> index dcf827a61b52..b40aee82fa0f 100644
->> --- a/rust/helpers/helpers.c
->> +++ b/rust/helpers/helpers.c
->> @@ -14,6 +14,7 @@
->> #include "cred.c"
->> #include "err.c"
->> #include "fs.c"
->> +#include "ioport.c"
->> #include "jump_label.c"
->> #include "kunit.c"
->> #include "mutex.c"
->> diff --git a/rust/helpers/ioport.c b/rust/helpers/ioport.c
->> new file mode 100644
->> index 000000000000..d9c9e2093b98
->> --- /dev/null
->> +++ b/rust/helpers/ioport.c
->> @@ -0,0 +1,42 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +#include <linux/ioport.h>
->> +#include <linux/io.h>
->> +
->> +struct resource *rust_helper_request_region(resource_size_t start,
->> +    resource_size_t n, const char *name)
->> +{
->> + return request_region(start, n, name);
->> +}
->> +
->> +struct resource *rust_helper_request_muxed_region(resource_size_t sta=
-rt,
->> +  resource_size_t n,
->> +  const char *name)
->> +{
->> + return request_muxed_region(start, n, name);
->> +}
->> +
->> +void rust_helper_release_region(resource_size_t start, resource_size_=
-t n)
->> +{
->> + release_region(start, n);
->> +}
->> +
->> +#define define_rust_helper_out(name, type)                      \
->> + void rust_helper_##name(type value, unsigned long addr) \
->> + {                                                       \
->> + (name)(value, addr);                            \
->> + }
->> +
->> +define_rust_helper_out(outb, u8);
->> +define_rust_helper_out(outw, u16);
->> +define_rust_helper_out(outl, u32);
->> +
->> +#define define_rust_helper_in(name, type)           \
->> + type rust_helper_##name(unsigned long addr) \
->> + {                                           \
->> + return (name)(addr);                \
->> + }
->> +
->> +define_rust_helper_in(inb, u8);
->> +define_rust_helper_in(inw, u16);
->> +define_rust_helper_in(inl, u32);
->> diff --git a/rust/kernel/ioport.rs b/rust/kernel/ioport.rs
->> new file mode 100644
->> index 000000000000..9bc342cb4663
->> --- /dev/null
->> +++ b/rust/kernel/ioport.rs
->> @@ -0,0 +1,169 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +//! Abstractions of routines for detecting, reserving and
->> +//! allocating system resources.
->> +//!
->> +//! C header: [`include/linux/ioport.h`](srctree/include/linux/ioport=
-=2Eh)
->> +
->> +use core::ops::Deref;
->> +use core::ptr;
->> +
->> +use crate::prelude::*;
->> +use crate::types::Opaque;
->> +
->> +/// Resource Size type.
->> +/// This is a type alias to `u64`
->> +/// depending on the config option `CONFIG_PHYS_ADDR_T_64BIT`.
->> +#[cfg(CONFIG_PHYS_ADDR_T_64BIT)]
->> +pub type ResourceSize =3D u64;
->> +
->> +/// Resource Size type.
->> +/// This is a type alias to `u32`
->> +/// depending on the config option `CONFIG_PHYS_ADDR_T_64BIT`.
->> +#[cfg(not(CONFIG_PHYS_ADDR_T_64BIT))]
->> +pub type ResourceSize =3D u32;
->> +
->> +/// Resource node.
->> +#[repr(transparent)]
->> +pub struct Resource(Opaque<bindings::resource>);
+> =D1=87=D1=82, 9 =D1=8F=D0=BD=D0=B2. 2025=E2=80=AF=D0=B3. =D0=B2 15:03, Le=
+e Jones <lee@kernel.org>:
+> >
+> > On Thu, 09 Jan 2025, Lee Jones wrote:
+> >
+> > > On Wed, 08 Jan 2025, Dzmitry Sankouski wrote:
+> > >
+> > > > Add MAX77705 support - fuel gauge and hwmon devices.
+> > > > Hwmon provides charger input and system bus measurements.
+> > > >
+> > > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> > > > ---
+> > > > Changes in v13:
+> > > > - remove compatible from cells
+> > > > - change mfd compatible to match max77705 fuel gauge node
+> > > > ---
+> > > >  drivers/mfd/simple-mfd-i2c.c | 11 +++++++++++
+> > > >  1 file changed, 11 insertions(+)
+> > > >
+> > > > diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-=
+i2c.c
+> > > > index 6eda79533208..22159913bea0 100644
+> > > > --- a/drivers/mfd/simple-mfd-i2c.c
+> > > > +++ b/drivers/mfd/simple-mfd-i2c.c
+> > > > @@ -83,11 +83,22 @@ static const struct simple_mfd_data maxim_max59=
+70 =3D {
+> > > >     .mfd_cell_size =3D ARRAY_SIZE(max5970_cells),
+> > > >  };
+> > > >
+> > > > +static const struct mfd_cell max77705_sensor_cells[] =3D {
+> > > > +   { .name =3D "max77705-battery" },
+> > > > +   { .name =3D "max77705-hwmon", },
+> > > > +};
+> >
+> > Why not register these from the proper MFD driver?
+> >
 >
-> This is a conflict with [0]
+> Because the fuel gauge address is different from the max77705 mfd device.
 
-Ah missed that, only saw the IO abstraction in the same series but it did=
- not work for my use case, and then somehow missed this, will rework to u=
-se that as base in the next version
+In more details:
 
-Thanks
-Fiona
+we had a discussion with Krzysztof about fuel gauge device
+[1], [2], [3] and agreed that it should be modeled as a separate device,
+because it has no common resources with max77705 device, and has separate
+address. This means its node are out of MAX77705 mfd node, forming its own
+MFD with shared i2c bus.
 
->
-> [0]: https://lore.kernel.org/rust-for-linux/20250109133057.243751-1-dan=
-iel.almeida@collabora.com/
->
-> =E2=80=94 Daniel
+https://lore.kernel.org/lkml/55f32164-f504-4409-8ce2-6462b833da89@kernel.or=
+g/
+https://patchwork.kernel.org/project/linux-input/patch/20241202-starqltechn=
+_integration_upstream-v9-3-a1adc3bae2b8@gmail.com/
+https://patches.linaro.org/project/linux-leds/patch/20241217-starqltechn_in=
+tegration_upstream-v12-2-ed840944f948@gmail.com/#951752
+
+--=20
+Best regards and thanks for review,
+Dzmitry
 
