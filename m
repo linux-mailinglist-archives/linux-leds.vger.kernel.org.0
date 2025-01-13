@@ -1,43 +1,43 @@
-Return-Path: <linux-leds+bounces-3759-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3758-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F0DA0B6C6
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:24:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C23A4A0B6C4
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:24:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A42507A42B9
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:24:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBFC3164F2B
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:24:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A34722A4EB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F0BB22A4DC;
 	Mon, 13 Jan 2025 12:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="cc5YoBTr"
+	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="gr/FaBBZ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F36922CF20;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3E22045B6;
 	Mon, 13 Jan 2025 12:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736771051; cv=none; b=jTwgU843LlCvdfDI9j1SFU7u0S7F4xouUnKCTKhOvOFCMOS0izeuZptayrC7FmMtik87HrJ36qM695p4YAMV2giBh2FsoUL5McrWXtr4ZQ41aeVEbTArkETfzwal9EFyOzGdiMAirK+AUfbuUaK5sXuikA3stgJu6ad/bdhT5xI=
+	t=1736771051; cv=none; b=ChWuWIdfo6YwNJaEOlrYRPsLmfBFboifpKgqWUDAT49E2M0US5Z4TDuHH7D7Jlcm7cKfVwk1Qk8bMN4k16O7JigXKOiiDOWCPjV9hKhKALgP+YrI19nHvbbl3tJ9Wcm1bgmkLH/PI/ToVvJxStsxVQORCbdGBfXPVIsInNtjrX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736771051; c=relaxed/simple;
-	bh=InkuYB3k/SBuKJMcUmu2oiNJ9VcPHoKX+PwDidrViFw=;
+	bh=+PyEeSLPl5fE9v99iZI8bcIBW0o1ZJP1R07PF4JjW4s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cR7V3n1BrIGwidXW8P/SvO15ryNPKVPfLCslrFXQ6JCs9g2QpsvywljM6Ot1YRKOgSIrgGXnxvED4jM2BS181KuYHXojwC8W1/e4IJF6oyNEVTgzInf8QVDJ8lZJcHIPNNc/VVgpx0FMurCZlscdwrVeyKxJgx0HZclbAfUEuZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=cc5YoBTr; arc=none smtp.client-ip=49.12.72.200
+	 MIME-Version; b=N1sGx+VNLaZS1LiiRGAW+jpGNs7gf3se8spC8lHevkIdx0OeAgdJkIrcebTVn1x6BE9K6SXtmHA+CZyh8F6i1depojYYpXT7Tn+Nvk5X8tJTRMFNAAPF+EYd7hn0JNscr9SrV7Nn7sIL+S/JQ9n9s2vUCaJ9zc+w9wMCYdJuHfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=gr/FaBBZ; arc=none smtp.client-ip=49.12.72.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
 From: Fiona Behrens <me@kloenk.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
-	t=1736770601; bh=8Z1dr9VJxgVBQHf7eEsadNYIMRjUk4lfj7X3rMMik84=;
+	t=1736770603; bh=x0QnlD4Vmg0Kp9RPBCFlDIqtOrxbMyJ6d+E77AZiYnY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=cc5YoBTrFP4S3g5BwxqFgc26iocyx3eZ7N3XkeH5s0Ras9et0aDn4Wpcoq2f99rgz
-	 pnx5kcqj4PQGjjNb2HyddHtAnUfqLtJqjxBuI2bw7KGa/HV4kH6BO+LprPGNQAVrQ0
-	 3G62UJl8P9zowSZXaN4Q4bKb/snc+GKxhjwQgYMM=
+	b=gr/FaBBZ/rq7Tayhhek7CHotdp9asjD45HwjqHXnvbczirWaRJ2i253tt1uJk8hfw
+	 2CG5oMjWMIZ5/WtU8AHSdogPFTBJhg1Os1Ax3CukaOwZ7/7TpD1pbsFdVCKAutVXxM
+	 cRNoVmfbWXF7VeaRDKoTIH1UA/Mx1N0sb3QWGD2E=
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
 	Pavel Machek <pavel@ucw.cz>,
@@ -56,9 +56,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	rust-for-linux@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/5] rust: leds: Add Rust bindings for LED subsystem
-Date: Mon, 13 Jan 2025 13:16:17 +0100
-Message-ID: <20250113121620.21598-3-me@kloenk.dev>
+Subject: [PATCH v2 3/5] rust: leds: Add hardware trigger support for hardware-controlled LEDs
+Date: Mon, 13 Jan 2025 13:16:18 +0100
+Message-ID: <20250113121620.21598-4-me@kloenk.dev>
 In-Reply-To: <20250113121620.21598-1-me@kloenk.dev>
 References: <20250113121620.21598-1-me@kloenk.dev>
 Precedence: bulk
@@ -69,414 +69,310 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch introduces Rust support for the LED subsystem, adding abstractions
-for the `led_classdev` struct and implementing core LED operations such as
-`brightness_set`, `brightness_get`, and `blink_set` via a vtable trait.
+Adds abstraction for hardware trigger support in LEDs, enabling LEDs to
+be controlled by external hardware events.
 
-A `Color` enum is defined to represent various LED colors, and a `LedConfig`
-struct is used to configure LED properties such as name and color. The `Led`
-struct wraps the C `led_classdev` and ensures proper memory management by being
-pinned and automatically unregistered when dropped.
-
-Support for a devm register variant is not included in this patch.
+An `Arc` is embedded within the `led_classdev` to manage the lifecycle
+of the hardware trigger, ensuring proper reference counting and cleanup
+when the LED is dropped.
 
 Signed-off-by: Fiona Behrens <me@kloenk.dev>
 ---
- MAINTAINERS         |   1 +
- rust/kernel/leds.rs | 341 ++++++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs  |   2 +
- rust/kernel/time.rs |   7 +
- 4 files changed, 351 insertions(+)
- create mode 100644 rust/kernel/leds.rs
+ MAINTAINERS                  |   1 +
+ rust/kernel/leds.rs          |  95 +++++++++++++++++++++++---
+ rust/kernel/leds/triggers.rs | 128 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 214 insertions(+), 10 deletions(-)
+ create mode 100644 rust/kernel/leds/triggers.rs
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 30cbc3d44cd5..cef929b57159 100644
+index cef929b57159..954dbd311a55 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -13019,6 +13019,7 @@ F:	Documentation/leds/
- F:	drivers/leds/
+@@ -13020,6 +13020,7 @@ F:	drivers/leds/
  F:	include/dt-bindings/leds/
  F:	include/linux/leds.h
-+F:	rust/kernel/leds.rs
+ F:	rust/kernel/leds.rs
++F:	rust/kernel/leds/
  
  LEGO MINDSTORMS EV3
  R:	David Lechner <david@lechnology.com>
 diff --git a/rust/kernel/leds.rs b/rust/kernel/leds.rs
-new file mode 100644
-index 000000000000..980af7c405d4
---- /dev/null
+index 980af7c405d4..f10a10b56e23 100644
+--- a/rust/kernel/leds.rs
 +++ b/rust/kernel/leds.rs
-@@ -0,0 +1,341 @@
+@@ -10,9 +10,14 @@
+ use crate::error::from_result;
+ use crate::ffi::c_ulong;
+ use crate::prelude::*;
++#[cfg(CONFIG_LEDS_TRIGGERS)]
++use crate::sync::Arc;
+ use crate::time::Delta;
+ use crate::types::Opaque;
+ 
++#[cfg(CONFIG_LEDS_TRIGGERS)]
++pub mod triggers;
++
+ /// Color of an LED.
+ #[allow(missing_docs)]
+ #[derive(Copy, Clone)]
+@@ -110,12 +115,34 @@ fn try_from(value: u32) -> Result<Self, Self::Error> {
+ }
+ 
+ /// Data used for led registration.
+-#[derive(Clone)]
+-pub struct LedConfig<'name> {
++pub struct LedConfig<'name, T> {
+     /// Name to give the led.
+     pub name: Option<&'name CStr>,
+     /// Color of the LED.
+     pub color: Color,
++    /// Private data of the LED.
++    pub data: T,
++
++    /// Default trigger name.
++    pub default_trigger: Option<&'static CStr>,
++    /// Hardware trigger.
++    ///
++    /// Setting this to some also defaults the default trigger to this hardware trigger.
++    /// Use `default_trigger: Some("none")` to overwrite this.
++    #[cfg(CONFIG_LEDS_TRIGGERS)]
++    pub hardware_trigger: Option<Arc<triggers::Hardware<T>>>,
++}
++
++impl<'name, T> LedConfig<'name, T> {
++    /// Create a new LedConfig
++    pub fn new(color: Color, data: T) -> Self {
++        Self {
++            color,
++            data,
++            // SAFETY: all other fields are valid with zeroes.
++            ..unsafe { core::mem::zeroed() }
++        }
++    }
+ }
+ 
+ /// A Led backed by a C `struct led_classdev`, additionally offering
+@@ -141,8 +168,7 @@ impl<T> Led<T>
+     #[cfg(CONFIG_LEDS_CLASS)]
+     pub fn register<'a>(
+         device: Option<&'a Device>,
+-        config: &'a LedConfig<'a>,
+-        data: T,
++        config: LedConfig<'a, T>,
+     ) -> impl PinInit<Self, Error> + 'a
+     where
+         T: 'a,
+@@ -188,14 +214,46 @@ pub fn register<'a>(
+                 unsafe { ptr::write(set_fn_ptr, Some(blink_set::<T>)) };
+             }
+ 
++        #[cfg(CONFIG_LEDS_TRIGGERS)]
++        if let Some(trigger) = config.hardware_trigger {
++            let trigger = trigger.into_raw();
++            // SAFETY: `place` is pointing to a live allocation.
++            let trigger_type_ptr = unsafe { ptr::addr_of_mut!((*place).trigger_type) };
++            // SAFETY: `trigger` is a valid pointer
++            let hw_trigger = unsafe { ptr::addr_of!((*trigger).hw_type) };
++            // SAFETY: `trigger_type_ptr` points to a valid allocation and we have exclusive access.
++            unsafe { ptr::write(trigger_type_ptr, hw_trigger.cast_mut().cast()) };
++
++            // SAFETY: trigger points to a valid hardware trigger struct.
++            let trigger_name_ptr = unsafe { Opaque::raw_get(ptr::addr_of!( (*trigger).trigger)) };
++            // SAFETY: trigger points to a valid hardware trigger struct.
++            let trigger_name_ptr = unsafe { (*trigger_name_ptr).name };
++            // SAFETY: `place` is pointing to a live allocation.
++            let default_trigger_ptr = unsafe { ptr::addr_of_mut!((*place).default_trigger) };
++            // SAFETY: `default_trigger_ptr` points to a valid allocation and we have exclusive access.
++            unsafe { ptr::write(default_trigger_ptr, trigger_name_ptr) };
++
++            // SAFETY: `place` is pointing to a live allocation.
++            let hw_ctrl_trigger_ptr = unsafe { ptr::addr_of_mut!((*place).hw_control_trigger) };
++            // SAFETY: `hw_ctrl_trigger_ptr` points to a valid allocation and we have exclusive access.
++            unsafe { ptr::write(hw_ctrl_trigger_ptr, trigger_name_ptr) };
++        }
++
++        // After hw trigger impl, to overwrite default trigger
++        if let Some(default_trigger) = config.default_trigger {
++            // SAFETY: `place` is pointing to a live allocation.
++            let default_trigger_ptr = unsafe { ptr::addr_of_mut!((*place).default_trigger) };
++            // SAFETY: `default_trigger_ptr` points to a valid allocation and we have exclusive access.
++            unsafe { ptr::write(default_trigger_ptr, default_trigger.as_char_ptr()) };
++        }
+ 
+-            let dev = device.map(|dev| dev.as_raw()).unwrap_or(ptr::null_mut());
+-            // SAFETY: `place` is a pointer to a live allocation of `bindings::led_classdev`.
+-            crate::error::to_result(unsafe {
+-                bindings::led_classdev_register_ext(dev, place, ptr::null_mut())
+-            })
++        let dev = device.map(|dev| dev.as_raw()).unwrap_or(ptr::null_mut());
++        // SAFETY: `place` is a pointer to a live allocation of `bindings::led_classdev`.
++        crate::error::to_result(unsafe {
++                    bindings::led_classdev_register_ext(dev, place, ptr::null_mut())
++        })
+             }),
+-            data: data,
++            data: config.data,
+         })
+     }
+ }
+@@ -220,6 +278,23 @@ fn drop(self: Pin<&mut Self>) {
+         unsafe {
+             bindings::led_classdev_unregister(self.led.get())
+         }
++
++        // drop trigger if there is a hw trigger defined.
++        #[cfg(CONFIG_LEDS_TRIGGERS)]
++        {
++            // SAFETY: `self.led` is a valid led.
++            let hw_trigger_type =
++                unsafe { ptr::read(ptr::addr_of!((*self.led.get()).trigger_type)) };
++            if !hw_trigger_type.is_null() {
++                // SAFETY: hw_trigger_type is a valid and non null pointer into a Hardware trigger.
++                let hw_trigger_type = unsafe {
++                    crate::container_of!(hw_trigger_type, triggers::Hardware<T>, hw_type)
++                };
++                // SAFETY: `hw_trigger_type` is a valid pointer that came from an arc.
++                let hw_trigger_type = unsafe { Arc::from_raw(hw_trigger_type) };
++                drop(hw_trigger_type);
++            }
++        }
+     }
+ }
+ 
+diff --git a/rust/kernel/leds/triggers.rs b/rust/kernel/leds/triggers.rs
+new file mode 100644
+index 000000000000..d5f2b8252645
+--- /dev/null
++++ b/rust/kernel/leds/triggers.rs
+@@ -0,0 +1,128 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+//! LED subsystem.
-+//!
-+//! C header: [`includes/linux/leds.h`](srctree/include/linux/leds.h)
++//! LED trigger abstractions.
 +
++use core::marker::PhantomData;
 +use core::ptr;
 +
-+use crate::device::Device;
-+use crate::error::from_result;
-+use crate::ffi::c_ulong;
++use crate::error::{from_result, to_result};
 +use crate::prelude::*;
-+use crate::time::Delta;
 +use crate::types::Opaque;
 +
-+/// Color of an LED.
-+#[allow(missing_docs)]
-+#[derive(Copy, Clone)]
-+#[repr(u32)]
-+pub enum Color {
-+    White = bindings::LED_COLOR_ID_WHITE,
-+    Red = bindings::LED_COLOR_ID_RED,
-+    Green = bindings::LED_COLOR_ID_GREEN,
-+    Blue = bindings::LED_COLOR_ID_BLUE,
-+    Amber = bindings::LED_COLOR_ID_AMBER,
-+    Violet = bindings::LED_COLOR_ID_VIOLET,
-+    Yellow = bindings::LED_COLOR_ID_YELLOW,
-+    Purple = bindings::LED_COLOR_ID_PURPLE,
-+    Orange = bindings::LED_COLOR_ID_ORANGE,
-+    Pink = bindings::LED_COLOR_ID_PINK,
-+    Cyan = bindings::LED_COLOR_ID_CYAN,
-+    Lime = bindings::LED_COLOR_ID_LIME,
++use super::FromLedClassdev;
 +
-+    /// Infrared
-+    IR = bindings::LED_COLOR_ID_IR,
-+    /// Multicolor LEDs
-+    Multi = bindings::LED_COLOR_ID_MULTI,
-+    /// Multicolor LEDs that can do arbitrary color,
-+    /// so this would include `RGBW` and similar
-+    RGB = bindings::LED_COLOR_ID_RGB,
-+}
-+
-+impl Color {
-+    /// Get String representation of the Color.
-+    pub fn name_cstr(&self) -> Option<&'static CStr> {
-+        // SAFETY: C function call, enum is valid argument.
-+        let name = unsafe { bindings::led_get_color_name(u32::from(self) as u8) };
-+        if name.is_null() {
-+            return None;
-+        }
-+        // SAFETY: pointer from above, valid for static lifetime.
-+        Some(unsafe { CStr::from_char_ptr(name) })
-+    }
-+
-+    /// Get String representation of the Color as rust type.
-+    #[inline]
-+    pub fn name(&self) -> Option<&'static str> {
-+        self.name_cstr().map(|name|
-+		 // SAFETY: name from C name array which is valid UTF-8.
-+		 unsafe { name.as_str_unchecked() })
-+    }
-+}
-+
-+impl core::fmt::Display for Color {
-+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-+        f.write_str(self.name().unwrap_or("Invalid color"))
-+    }
-+}
-+
-+impl From<Color> for u32 {
-+    fn from(color: Color) -> Self {
-+        color as u32
-+    }
-+}
-+
-+impl From<&Color> for u32 {
-+    fn from(color: &Color) -> Self {
-+        (*color).into()
-+    }
-+}
-+
-+impl TryFrom<u32> for Color {
-+    type Error = Error;
-+
-+    /// Tris to convert a u32 into a [`Color`].
-+    ///
-+    /// # Errors
-+    ///
-+    /// Returns [`EINVAL`] if the color is not known.
-+    fn try_from(value: u32) -> Result<Self, Self::Error> {
-+        Ok(match value {
-+            bindings::LED_COLOR_ID_WHITE => Color::White,
-+            bindings::LED_COLOR_ID_RED => Color::Red,
-+            bindings::LED_COLOR_ID_GREEN => Color::Green,
-+            bindings::LED_COLOR_ID_BLUE => Color::Blue,
-+            bindings::LED_COLOR_ID_AMBER => Color::Amber,
-+            bindings::LED_COLOR_ID_VIOLET => Color::Violet,
-+            bindings::LED_COLOR_ID_YELLOW => Color::Yellow,
-+            bindings::LED_COLOR_ID_PURPLE => Color::Purple,
-+            bindings::LED_COLOR_ID_ORANGE => Color::Orange,
-+            bindings::LED_COLOR_ID_PINK => Color::Pink,
-+            bindings::LED_COLOR_ID_CYAN => Color::Cyan,
-+            bindings::LED_COLOR_ID_LIME => Color::Lime,
-+            bindings::LED_COLOR_ID_IR => Color::IR,
-+            bindings::LED_COLOR_ID_MULTI => Color::Multi,
-+            bindings::LED_COLOR_ID_RGB => Color::RGB,
-+            _ => return Err(EINVAL),
-+        })
-+    }
-+}
-+
-+/// Data used for led registration.
-+#[derive(Clone)]
-+pub struct LedConfig<'name> {
-+    /// Name to give the led.
-+    pub name: Option<&'name CStr>,
-+    /// Color of the LED.
-+    pub color: Color,
-+}
-+
-+/// A Led backed by a C `struct led_classdev`, additionally offering
-+/// driver data storage.
++/// LED Hardware trigger.
 +///
-+/// The LED is unregistered once this LED struct is dropped.
-+// TODO: add devm register variant
++/// Used to impement a hardware operation mode for an LED.
 +#[pin_data(PinnedDrop)]
-+pub struct Led<T> {
++pub struct Hardware<T> {
 +    #[pin]
-+    led: Opaque<bindings::led_classdev>,
-+    /// Driver private data
-+    pub data: T,
++    pub(crate) hw_type: Opaque<bindings::led_hw_trigger_type>,
++    #[pin]
++    pub(crate) trigger: Opaque<bindings::led_trigger>,
++    _t: PhantomData<T>,
 +}
 +
-+impl<T> Led<T>
++impl<T> Hardware<T>
 +where
-+    T: Operations<This = Led<T>>,
++    T: HardwareOperations,
 +{
-+    /// Register a new LED.
-+    ///
-+    /// Copies the name if provided so that the lifetime of the name can end after the init function.
-+    #[cfg(CONFIG_LEDS_CLASS)]
-+    pub fn register<'a>(
-+        device: Option<&'a Device>,
-+        config: &'a LedConfig<'a>,
-+        data: T,
-+    ) -> impl PinInit<Self, Error> + 'a
-+    where
-+        T: 'a,
-+    {
-+        try_pin_init!(Self {
-+            led <- Opaque::try_ffi_init(move |place: *mut bindings::led_classdev| {
++    /// Register a new hardware Trigger with a given name.
++    pub fn register(name: &'static CStr) -> impl PinInit<Self, Error> {
++        try_pin_init!( Self {
++            // SAFETY: `led_hw_trigger_type` is valid with all zeroes.
++            hw_type: Opaque::new(unsafe { core::mem::zeroed() }),
++            trigger <- Opaque::try_ffi_init(move |place: *mut bindings::led_trigger| {
 +            // SAFETY: `place` is a pointer to a live allocation, so erasing is valid.
 +            unsafe { place.write_bytes(0, 1) };
 +
-+            if let Some(name) = &config.name {
-+                // SAFETY: `place` is a pointer to a live allocation.
-+                let name_ptr = unsafe { ptr::addr_of_mut!((*place).name) };
-+                // SAFETY: `name_ptr` points to a valid allocation and we have exclusive access.
-+                unsafe { ptr::write(name_ptr, name.as_char_ptr()) };
++            // Add name
++            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
++            let name_ptr = unsafe { ptr::addr_of_mut!((*place).name) };
++            // SAFETY: `name_ptr` points to a valid allocation and we have exclusive access.
++            unsafe { ptr::write(name_ptr, name.as_char_ptr()) };
++
++            // Add fn pointers
++            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
++            let activate_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).activate) };
++            // SAFETY: `activate_fn_ptr` points to a valid allocation and we have exclusive access.
++            unsafe { ptr::write(activate_fn_ptr, Some(trigger_activate::<T>)) };
++
++            if T::HAS_DEACTIVATE {
++                // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
++                let deactivate_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).deactivate) };
++                // SAFETY: `deactivate_fn_ptr` points to a valid allocation and we have exclusive access.
++                unsafe { ptr::write(deactivate_fn_ptr, Some(trigger_deactivate::<T>)) };
 +            }
 +
-+            // SAFETY: `place` is a pointer to a live allocation.
-+            let color_ptr = unsafe { ptr::addr_of_mut!((*place).color) };
-+            // SAFETY: `color_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(color_ptr, config.color.into()) };
++            // Add hardware trigger
++            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
++            let trigger_type_ptr = unsafe { ptr::addr_of_mut!((*place).trigger_type) };
++            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
++            let trigger_type = unsafe { crate::container_of!(place, Self, trigger).cast_mut() };
++            // SAFETY: `trigger_type` is pointing to a live allocation of Self.
++            let trigger_type = unsafe { ptr::addr_of!((*trigger_type).hw_type) };
++            // SAFETY: `trigger_type_ptr` points to a valid allocation and we have exclusive access.
++            unsafe{ ptr::write(trigger_type_ptr, Opaque::raw_get(trigger_type)) };
 +
-+            // SAFETY: `place` is a pointer to a live allocation.
-+            let max_brightness_ptr = unsafe { ptr::addr_of_mut!((*place).max_brightness) };
-+            // SAFETY: `max_brightness_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(max_brightness_ptr, T::MAX_BRIGHTNESS as _) };
-+
-+            // SAFETY: `place` is a pointer to a live allocation.
-+            let set_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).brightness_set) };
-+            // SAFETY: `set_fn_ptr` points to valid allocation and we have exclusive access.
-+            unsafe { ptr::write(set_fn_ptr, Some(brightness_set::<T>)) };
-+
-+            if T::HAS_BRIGHTNESS_GET {
-+                // SAFETY: `place` is pointing to a live allocation.
-+                let get_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).brightness_get) };
-+                // SAFETY: `get_fn_ptr` points to a valid allocation and we have exclusive access.
-+                unsafe { ptr::write(get_fn_ptr, Some(brightness_get::<T>)) };
-+            }
-+
-+            if T::HAS_BLINK_SET {
-+                // SAFETY: `place` is pointing to a live allocation.
-+                let set_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).blink_set) };
-+                // SAFETY: `get_fn_ptr` points to a valid allocation and we have exclusive access.
-+                unsafe { ptr::write(set_fn_ptr, Some(blink_set::<T>)) };
-+            }
-+
-+
-+            let dev = device.map(|dev| dev.as_raw()).unwrap_or(ptr::null_mut());
-+            // SAFETY: `place` is a pointer to a live allocation of `bindings::led_classdev`.
-+            crate::error::to_result(unsafe {
-+                bindings::led_classdev_register_ext(dev, place, ptr::null_mut())
++        // SAFETY: ffi call, `place` is sufficently filled with data at this point
++            to_result(unsafe {
++                bindings::led_trigger_register(place)
 +            })
 +            }),
-+            data: data,
++            _t: PhantomData,
 +        })
-+    }
-+}
-+
-+impl<T> private::Sealed for Led<T> {}
-+
-+impl<T> FromLedClassdev for Led<T> {
-+    #[inline]
-+    unsafe fn led_container_of(ptr: *mut bindings::led_classdev) -> *mut Self {
-+        let ptr = ptr.cast::<Opaque<bindings::led_classdev>>();
-+
-+        // SAFETY: By the safety requirement of this function ptr is embedded in self.
-+        unsafe { crate::container_of!(ptr, Self, led).cast_mut() }
 +    }
 +}
 +
 +#[pinned_drop]
-+impl<T> PinnedDrop for Led<T> {
++impl<T> PinnedDrop for Hardware<T> {
 +    fn drop(self: Pin<&mut Self>) {
-+        // SAFETY: led is pointing to a live allocation
-+        #[cfg(CONFIG_LEDS_CLASS)]
++        // SAFETY: trigger is pointing to a live and registered allocation
 +        unsafe {
-+            bindings::led_classdev_unregister(self.led.get())
++            bindings::led_trigger_unregister(self.trigger.get());
 +        }
 +    }
 +}
 +
-+// SAFETY: `struct led_classdev` holds a mutex.
-+unsafe impl<T: Send> Send for Led<T> {}
-+// SAFETY: `struct led_classdev` holds a mutex.
-+unsafe impl<T: Sync> Sync for Led<T> {}
-+
-+/// Led operations vtable.
-+// TODO: add blocking variant (either via const generic or second trait)
++/// Operations for the Hardware trigger
 +#[macros::vtable]
-+pub trait Operations: Sized {
-+    /// The maximum brightnes this led supports.
-+    const MAX_BRIGHTNESS: u8;
-+
-+    /// Type of the container to use as self in the callbacks.
-+    ///
-+    /// This is most often [`Led<Self>`].
-+    type This: FromLedClassdev;
-+
-+    /// Set LED brightness level.
-+    /// This functions must not sleep.
-+    fn brightness_set(this: &mut Self::This, brightness: u8);
-+
-+    /// Get the LED brightness level.
-+    fn brightness_get(_this: &mut Self::This) -> u8 {
-+        crate::build_error(crate::error::VTABLE_DEFAULT_ERROR)
-+    }
-+
-+    /// Activae hardware accelerated blink, delays are in milliseconds
-+    fn blink_set(
-+        _this: &mut Self::This,
-+        _delay_on: Delta,
-+        _delay_off: Delta,
-+    ) -> Result<(Delta, Delta)> {
++pub trait HardwareOperations: super::Operations {
++    /// Activate the hardware trigger.
++    fn activate(this: &mut Self::This) -> Result;
++    /// Deactivate the hardware trigger.
++    fn deactivate(_this: &mut Self::This) {
 +        crate::build_error(crate::error::VTABLE_DEFAULT_ERROR)
 +    }
 +}
 +
-+/// `brightness_set` function pointer
++/// `trigger_activate` function pointer
 +///
 +/// # Safety
 +///
-+/// `led_cdev` must be passed by the corresponding callback in `led_classdev`
-+unsafe extern "C" fn brightness_set<T>(
-+    led_cdev: *mut bindings::led_classdev,
-+    brightness: bindings::led_brightness,
-+) where
-+    T: Operations,
-+{
-+    // SAFETY: By the safety requirement of this function `led_cdev` is embedded inside a `T::This<T>`.
-+    let led = unsafe { &mut *(T::This::led_container_of(led_cdev.cast())) };
-+    T::brightness_set(led, brightness as _);
-+}
-+
-+/// `brightness_get` function pointer
-+///
-+/// # Safety
-+///
-+/// `led_cdev` must be passed by the corresponding callback in `led_classdev`
-+unsafe extern "C" fn brightness_get<T>(
-+    led_cdev: *mut bindings::led_classdev,
-+) -> bindings::led_brightness
++/// `led_cdev` must be passed by the corresponding callback in `led_trigger`.
++unsafe extern "C" fn trigger_activate<T>(led_cdev: *mut bindings::led_classdev) -> i32
 +where
-+    T: Operations,
-+{
-+    // SAFETY: By the safety requirement of this function `led_cdev` is embedded inside a `T::This<T>`.
-+    let led = unsafe { &mut *(T::This::led_container_of(led_cdev.cast())) };
-+    T::brightness_get(led) as _
-+}
-+
-+/// `blink_set` function pointer
-+///
-+/// # Safety
-+///
-+/// `led_cdev` must be passed by the corresponding callback in `led_classdev`
-+unsafe extern "C" fn blink_set<T>(
-+    led_cdev: *mut bindings::led_classdev,
-+    delay_on: *mut c_ulong,
-+    delay_off: *mut c_ulong,
-+) -> i32
-+where
-+    T: Operations,
++    T: HardwareOperations,
 +{
 +    from_result(|| {
 +        // SAFETY: By the safety requirement of this function `led_cdev` is embedded inside a `T::This<T>`.
 +        let led = unsafe { &mut *(T::This::led_container_of(led_cdev.cast())) };
-+
-+        // SAFETY: By the safety requirement of this function `delay_on` is pointing to a valid `c_ulong`.
-+        let on = Delta::from_millis(unsafe { *delay_on } as i64);
-+        // SAFETY: By the safety requirement of this function `delay_off` is pointing to a valid `c_ulong`.
-+        let off = Delta::from_millis(unsafe { *delay_off } as i64);
-+
-+        let (on, off) = T::blink_set(led, on, off)?;
-+
-+        // writing back return values
-+        // SAFETY: By the safety requirement of this function `delay_on` is pointing to a valid `c_ulong`.
-+        unsafe { ptr::write(delay_on, on.as_millis_ceil() as c_ulong) };
-+        // SAFETY: By the safety requirement of this function `delay_off` is pointing to a valid `c_ulong`.
-+        unsafe { ptr::write(delay_off, off.as_millis_ceil() as c_ulong) };
-+
++        T::activate(led)?;
 +        Ok(0)
 +    })
 +}
 +
-+/// Trait to get the type from a `led_classdev` pointer.
-+pub trait FromLedClassdev: private::Sealed {
-+    /// Get pointer to the outer type from a `led_classdev` pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `ptr` must point to a [`bindings::led_classdev`] field in a struct of type `Self`.
-+    unsafe fn led_container_of(ptr: *mut bindings::led_classdev) -> *mut Self;
++/// `trigger_deactivate` function pointer
++///
++/// # Safety
++///
++/// `led_cdev` must be passed by the corresponding callback in `led_trigger`.
++unsafe extern "C" fn trigger_deactivate<T>(led_cdev: *mut bindings::led_classdev)
++where
++    T: HardwareOperations,
++{
++    // SAFETY: By the safety requirement of this function `led_cdev` is embedded inside a `T::This<T>`.
++    let led = unsafe { &mut *(T::This::led_container_of(led_cdev.cast())) };
++    T::deactivate(led)
 +}
-+
-+mod private {
-+    /// Marker that a trait cannot be implemented outside of this crate
-+    pub trait Sealed {}
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index e21f2e607963..8895a1683f82 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -46,6 +46,8 @@
- pub mod jump_label;
- #[cfg(CONFIG_KUNIT)]
- pub mod kunit;
-+#[cfg(CONFIG_NEW_LEDS)]
-+pub mod leds;
- pub mod list;
- pub mod miscdevice;
- #[cfg(CONFIG_NET)]
-diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
-index 38da79925586..3c348ce4a7c2 100644
---- a/rust/kernel/time.rs
-+++ b/rust/kernel/time.rs
-@@ -143,4 +143,11 @@ pub fn as_nanos(self) -> i64 {
-     pub fn as_micros_ceil(self) -> i64 {
-         self.as_nanos().saturating_add(NSEC_PER_USEC - 1) / NSEC_PER_USEC
-     }
-+
-+    /// Return the smallest number of milliseconds greater than or equal
-+    /// to the value in the `Delta`.
-+    #[inline]
-+    pub fn as_millis_ceil(self) -> i64 {
-+        self.as_nanos().saturating_add(NSEC_PER_MSEC - 1) / NSEC_PER_MSEC
-+    }
- }
 -- 
 2.47.0
 
