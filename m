@@ -1,262 +1,197 @@
-Return-Path: <linux-leds+bounces-3756-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3762-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6F3A0B687
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8271AA0B7C7
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 14:11:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F9343A753C
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:16:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 506AE3A4A72
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:11:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D9B1CAA99;
-	Mon, 13 Jan 2025 12:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1651C22A4D2;
+	Mon, 13 Jan 2025 13:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="XQQptS2L"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="el9zlBBp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD6A1CAA8B;
-	Mon, 13 Jan 2025 12:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB322045B2;
+	Mon, 13 Jan 2025 13:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736770609; cv=none; b=ZwUaxy+F1W1GwL9Rc9rSCIrbHGuD8XEqVE7v99D+2DLZ8+8tf2QhXLChQ3P8nMEiIRwT4iIYYI1TDfC++hvetlzRfrnFeAZB1CXqEPG/f974qzUuFo8Y/Ih/Mtz8PxqOXYoMWkAji7QtPQJMR7uFl9W5GQpevIPdmGPTZTwa7uc=
+	t=1736773864; cv=none; b=PPZ8UbH2ni889OgCB95mPrLuTwRuSbTTNnyzrXjfS+bEWNeFaZpTSwh55+gfSn7BIBdSdYsqYuHgwU6r7X6Pe07FQj4CD/lkSFcJtjZZ9t4g6coFl/xWr0AnCviDddSfX+QY2pE9X2DQKdKGZX1cIWy9pwSrs7k8H7L0ApUjM3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736770609; c=relaxed/simple;
-	bh=UvvrAR9ApRUqao8isFWxMEwk6PPS7V9ANdkH0NAcR6M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mdkSam7AsrTwHxw3tJRAE98q0myvdVqoHTnOhORJfqBtQY5Ojg7NJ7ZcfpXjgY+rlAwLIzEx6+Sf4677yG0NGWIxG8MILy5jwYHfe4sBomGP7QdJ2SwFod3BcRozy7wcTOqT3B0Up8IDIJA4FjHAtk/niffxm2i7OQ0QLPL3DvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=XQQptS2L; arc=none smtp.client-ip=49.12.72.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
-From: Fiona Behrens <me@kloenk.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
-	t=1736770605; bh=U8U0PrI/d9CyD4YsL382N2BEX1fb3wg8wSgKoWM6dhY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XQQptS2Lz+1j0+jxKSfPAeWoz4SS5m4NIPeCQm5hRamsSV4jaX9ULL3EV5Ej14317
-	 w3vDwzKmrlmmwLuhP2rA/++3B48bmhnc0sGWksRtrRaOPA6PbSeUdVULmLpMga5fh1
-	 XCTn8WPv31L4/l2PQvUgDMUwSTAVfW2EXsGe9QSI=
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Fiona Behrens <me@kloenk.dev>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Peter Koch <pkoch@lenovo.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] leds: leds_lenovo_se10: LED driver for Lenovo SE10 platform
-Date: Mon, 13 Jan 2025 13:16:20 +0100
-Message-ID: <20250113121620.21598-6-me@kloenk.dev>
-In-Reply-To: <20250113121620.21598-1-me@kloenk.dev>
-References: <20250113121620.21598-1-me@kloenk.dev>
+	s=arc-20240116; t=1736773864; c=relaxed/simple;
+	bh=Sa5ZISg0z+ntugA86i8FspanCvrFn8XYflpBz61M2zg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T/IPbqUGZlFneNJB4hf7MHM/mejKF/t1mwLpJgi+9nK5ldSc7gmrqQnmhthO5pNr5yCl9WZBsNILN2pMwK8wb/SpXJ3+Z11kvPwIMcLkIW0t6PBxd5zhoWpz7QHQRZ8sfgjbj1NHqNRVAI3OfS0HrAKhYR5tjxWyxWzS9I1E81k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=el9zlBBp; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ef7733a1dcso994781a91.3;
+        Mon, 13 Jan 2025 05:11:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736773860; x=1737378660; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MdJDhp+iY4n7yIgrSVYba1PlflJYQ6SUiiKbLS23I7Q=;
+        b=el9zlBBp6mInCFzxeSuSaJcdLj8vqvTzNg7oiYLWBYtRqkalU/eG2hHvLNfgp3Qmno
+         aF6DT+E3YwxWbXjCvbhJz5UhrhbrQMmBGD30mUJ9wiAwAfoIqXbGSXQQWIck981/UxYB
+         Al+OD5jajJMUH0N4Soxpvkva96P6nIb9LwJplcnVO+9cMM8H3A4Fw8WQ8Y6epE5DFEl5
+         9ie0SoNQlr26TAfVCMmKzeYZBD4QfHbksg7b7GTRjgJI9t69B9NTkWqQuDdkGYBpVWMV
+         AqA9sESC7Yph05c4w87Z1pZZjbF27gg0BTgak33XuyqnYSlOdb6TTuhVmff+KOJzJqAF
+         ZxAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736773860; x=1737378660;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MdJDhp+iY4n7yIgrSVYba1PlflJYQ6SUiiKbLS23I7Q=;
+        b=Ipf9BnynxNi92OS4Yd/XSxmWnpKO3Y55nRkaSscTn7lE0hOUDre4dGodumTmmfojEK
+         oTmlDetahUmXeyML8gWFToi5AGYZQMEIDNH0Yv6kJtZE/7qT7F5OlzIp4coOYOsP908a
+         0JMt/RXdnOYOwLC692ZDE/1hdfO39XSelkMAQjLGxscMpy0rk+mxf9g+nt4+YpIY/ZkP
+         dQ4IHxw9UevpcT01v06eYCzQQIrGX+lHO6AIKOMhfwdXc8XMB+Og+6VMQ7UgAvz5Fm/K
+         SPXxbgDgOuaJkbUZ/fWQqcX+L5Fq1M2nBwa6vNMa7brFPGL5hQZR79VBDijJ4DQrduV7
+         9Cqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVrM+s/5vkEs6dZZHRFihAoZUTL19ZI313wS7wurYPCaBN7+zDh/qKExV3hyHnhLJjKaev+S4fMevbHjNRrlEg=@vger.kernel.org, AJvYcCWio6HDiNJGg9kQ5msPD1kk6zcRTNILBGOidha4FwCA32WrUl9g5b83zhW63voXE8pcrECCu/NXwGU5bA==@vger.kernel.org, AJvYcCXwLR8taf8udHM+NWQE2pYkODK7x44NltPbfphdIlfABRU2x08FufrLiIQIncyUpGN43Z4Saqr1NM3W3vA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXfy9hpmDs7GvPMz+J7Zkd0mCAs4KLeLsgUFCTZH+UQBk8JRUW
+	bpq/cTmns2EOYCmB9DqCb9aFYZBRYO+2IDeTRfvWo5BEFqXuzBW8NKiR4PCJ57eRd2mfXD2+Tob
+	WvFaeUa9sF/mTreGan4YQDQZ0XB4=
+X-Gm-Gg: ASbGncu15YIE8m0HIdspT/l81e4RRVTJouUo+jY+zUVJkMEdc7ujRdiJukPClxL+KB2
+	aj7VixVZ3pljDnj+Hq8zyQpNDnk4fRXN5ey6uvQ==
+X-Google-Smtp-Source: AGHT+IEIcnrpgv25CLwOlLmjYFRnYgPUL2G6leVb0yLbPATss4ojfSeRE6/BYRG99iNfypNeQM8RPxal703I6KxAu6E=
+X-Received: by 2002:a17:90b:5184:b0:2ea:853a:99e0 with SMTP id
+ 98e67ed59e1d1-2f5490aa11cmr11756947a91.5.1736773860107; Mon, 13 Jan 2025
+ 05:11:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250113121620.21598-1-me@kloenk.dev> <20250113121620.21598-3-me@kloenk.dev>
+In-Reply-To: <20250113121620.21598-3-me@kloenk.dev>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 13 Jan 2025 14:10:48 +0100
+X-Gm-Features: AbW1kvZ06MslHfqwY1XC4kMC8S7Kmzlo_96sjpBTemjO0VBoc8jxW5-acj1KrXg
+Message-ID: <CANiq72mSTBC0=kdNxqRvZR+MWwGwO_7yO+nMTvkp4LSNU9HAZA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] rust: leds: Add Rust bindings for LED subsystem
+To: Fiona Behrens <me@kloenk.dev>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Lee Jones <lee@kernel.org>, Jean Delvare <jdelvare@suse.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, Peter Koch <pkoch@lenovo.com>, 
+	rust-for-linux@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add driver for the Lenovo ThinkEdge SE10 LED.
+Hi Fiona,
 
-This driver supports controlling the red LED located on the front panel of the
-Lenovo SE10 hardware. Additionally, it supports the hardware-triggered
-functionality of the LED, which by default is tied to the WWAN trigger.
+Thanks for this! I noticed a procedural thing (the last diff chunk,
+please see below), so I took the chance to give a few quick
+surface-level comments I noticed while scrolling, mostly on docs :)
 
-The driver is written in Rust and adds basic LED support for the SE10 platform.
+On Mon, Jan 13, 2025 at 1:16=E2=80=AFPM Fiona Behrens <me@kloenk.dev> wrote=
+:
+>
+> +    /// Get String representation of the Color.
 
-Signed-off-by: Fiona Behrens <me@kloenk.dev>
----
- drivers/leds/Kconfig             |  10 +++
- drivers/leds/Makefile            |   1 +
- drivers/leds/leds_lenovo_se10.rs | 132 +++++++++++++++++++++++++++++++
- 3 files changed, 143 insertions(+)
- create mode 100644 drivers/leds/leds_lenovo_se10.rs
+[`String`], [`Color`]
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b784bb74a837..89d9e98189d6 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -223,6 +223,16 @@ config LEDS_TURRIS_OMNIA
- 	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
- 	  front panel.
- 
-+config LEDS_LENOVO_SE10
-+       tristate "LED support for Lenovo ThinkEdge SE10"
-+       depends on RUST
-+       depends on (X86 && DMI) || COMPILE_TEST
-+       depends on HAS_IOPORT
-+       imply LEDS_TRIGGERS
-+       help
-+	This option enables basic support for the LED found on the front of
-+	Lenovo's SE10 ThinkEdge. There is one user controlable LED on the front panel.
-+
- config LEDS_LM3530
- 	tristate "LCD Backlight driver for LM3530"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 18afbb5a23ee..2cff22cbafcf 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -37,6 +37,7 @@ obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
- obj-$(CONFIG_LEDS_IPAQ_MICRO)		+= leds-ipaq-micro.o
- obj-$(CONFIG_LEDS_IS31FL319X)		+= leds-is31fl319x.o
- obj-$(CONFIG_LEDS_IS31FL32XX)		+= leds-is31fl32xx.o
-+obj-$(CONFIG_LEDS_LENOVO_SE10)		+= leds_lenovo_se10.o
- obj-$(CONFIG_LEDS_LM3530)		+= leds-lm3530.o
- obj-$(CONFIG_LEDS_LM3532)		+= leds-lm3532.o
- obj-$(CONFIG_LEDS_LM3533)		+= leds-lm3533.o
-diff --git a/drivers/leds/leds_lenovo_se10.rs b/drivers/leds/leds_lenovo_se10.rs
-new file mode 100644
-index 000000000000..d704125610a4
---- /dev/null
-+++ b/drivers/leds/leds_lenovo_se10.rs
-@@ -0,0 +1,132 @@
-+// SPDX-License-Identifier: GPL-2.0
-+//! LED driver for  Lenovo ThinkEdge SE10.
-+
-+use kernel::ioport::{Region, ResourceSize};
-+#[cfg(CONFIG_LEDS_TRIGGERS)]
-+use kernel::leds::triggers;
-+use kernel::leds::{Led, LedConfig, Operations};
-+use kernel::prelude::*;
-+use kernel::time::Delta;
-+use kernel::{c_str, dmi_device_table};
-+
-+module! {
-+    type: SE10,
-+    name: "leds_lenovo_se10",
-+    author: "Fiona Behrens <me@kloenk.dev>",
-+    description: "LED driver for Lenovo ThinkEdge SE10",
-+    license: "GPL",
-+}
-+
-+dmi_device_table!(5, SE10_DMI_TABLE, [
-+    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NH"],
-+    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NJ"],
-+    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NK"],
-+    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NL"],
-+    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NM"],
-+]);
-+
-+struct SE10 {
-+    /// Led registration
-+    _led: Pin<KBox<Led<LedSE10>>>,
-+}
-+
-+impl kernel::Module for SE10 {
-+    fn init(_module: &'static ThisModule) -> Result<Self> {
-+        if SE10_DMI_TABLE.check_system().is_none() {
-+            return Err(ENODEV);
-+        }
-+
-+        let led = KBox::try_pin_init(
-+            Led::register(
-+                None,
-+                LedConfig {
-+                    name: Some(c_str!("platform:red:user")),
-+                    #[cfg(CONFIG_LEDS_TRIGGERS)]
-+                    hardware_trigger: Some(kernel::sync::Arc::pin_init(
-+                        triggers::Hardware::register(c_str!("wwan")),
-+                        GFP_KERNEL,
-+                    )?),
-+                    ..LedConfig::new(kernel::leds::Color::Red, LedSE10)
-+                },
-+            ),
-+            GFP_KERNEL,
-+        )?;
-+
-+        Ok(Self { _led: led })
-+    }
-+}
-+
-+/// Valid led commands.
-+#[repr(u8)]
-+#[allow(missing_docs)]
-+enum LedCommand {
-+    #[cfg(CONFIG_LEDS_TRIGGERS)]
-+    Trigger = 0xB2,
-+    Off = 0xB3,
-+    On = 0xB4,
-+    Blink = 0xB5,
-+}
-+
-+struct LedSE10;
-+
-+impl LedSE10 {
-+    /// Base address of the command port.
-+    const CMD_PORT: ResourceSize = 0x6C;
-+    /// Length of the command port.
-+    const CMD_LEN: ResourceSize = 1;
-+    /// Blink duration the hardware supports.
-+    const HW_DURATION: Delta = Delta::from_millis(1000);
-+
-+    /// Request led region.
-+    fn request_cmd_region(&self) -> Result<Region<'static>> {
-+        Region::request_muxed(Self::CMD_PORT, Self::CMD_LEN, c_str!("leds_lenovo_se10"))
-+            .ok_or(EBUSY)
-+    }
-+
-+    /// Send command.
-+    fn send_cmd(&self, cmd: LedCommand) -> Result {
-+        let region = self.request_cmd_region()?;
-+        region.outb(cmd as u8, 0);
-+        Ok(())
-+    }
-+}
-+
-+#[vtable]
-+impl Operations for LedSE10 {
-+    type This = Led<LedSE10>;
-+
-+    const MAX_BRIGHTNESS: u8 = 1;
-+
-+    fn brightness_set(this: &mut Self::This, brightness: u8) {
-+        if let Err(e) = if brightness == 0 {
-+            this.data.send_cmd(LedCommand::Off)
-+        } else {
-+            this.data.send_cmd(LedCommand::On)
-+        } {
-+            pr_warn!("Failed to set led: {e:?}\n)")
-+        }
-+    }
-+
-+    fn blink_set(
-+        this: &mut Self::This,
-+        delay_on: Delta,
-+        delay_off: Delta,
-+    ) -> Result<(Delta, Delta)> {
-+        if !(delay_on.is_zero() && delay_off.is_zero()
-+            || delay_on == Self::HW_DURATION && delay_off == Self::HW_DURATION)
-+        {
-+            return Err(EINVAL);
-+        }
-+
-+        this.data.send_cmd(LedCommand::Blink)?;
-+        Ok((Self::HW_DURATION, Self::HW_DURATION))
-+    }
-+}
-+
-+#[vtable]
-+#[cfg(CONFIG_LEDS_TRIGGERS)]
-+impl triggers::HardwareOperations for LedSE10 {
-+    fn activate(this: &mut Self::This) -> Result {
-+        this.data.send_cmd(LedCommand::Trigger)
-+    }
-+}
--- 
-2.47.0
+i.e. please format, and use intra-doc links where possible/reasonable.
 
+> +        // SAFETY: pointer from above, valid for static lifetime.
+
+In general, try to explain why, not just what, in the safety comments,
+i.e. why it is valid for a static lifetime? e.g. does the C API
+guarantee it?
+
+> +    /// Get String representation of the Color as rust type.
+> +    #[inline]
+> +    pub fn name(&self) -> Option<&'static str> {
+
+"Rust type"
+
+However, I am not sure what it is trying to say. I would have thought
+it is a custom newtype of something or perhaps something strange is
+going on, but I guess you are referring to `str` vs. `CStr`? In
+general, I don't think we need to say "as a Rust type" -- it may
+confuse more than help.
+
+> +                // SAFETY: name from C name array which is valid UTF-8.
+
+What guarantees this? i.e. I imagine you looked into all the cases
+from the static table, so I would for instance say: "All values in the
+C name array are valid UTF-8." or similar (perhaps mention which
+array, so that people can e.g. grep).
+
+> +impl core::fmt::Display for Color {
+> +    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result=
+ {
+> +        f.write_str(self.name().unwrap_or("Invalid color"))
+> +    }
+> +}
+
+Can this happen? If not, should `Color` have an `# Invariant` and
+would we need the `Option<...>` for names then?
+
+In any case, here, shouldn't the error be bubbled up?
+
+> +    /// Tris to convert a u32 into a [`Color`].
+
+Typo: Tries
+Format: [`u32`]
+
+There are also other typos ("brightnes", "Activae") -- I recommend
+`checkpatch.pl` with the `--codespell` flag which may help catching
+some of these.
+
+> +    /// Get the LED brightness level.
+> +    fn brightness_get(_this: &mut Self::This) -> u8 {
+> +        crate::build_error(crate::error::VTABLE_DEFAULT_ERROR)
+> +    }
+
+Please use the macro instead (see 15f2f9313a39 ("rust: use the
+`build_error!` macro, not the hidden function")). Soon we will have it
+in the prelude too (see 4401565fe92b ("rust: add `build_error!` to the
+prelude")), by the way.
+
+> +        // SAFETY: By the safety requirement of this function `delay_on`=
+ is pointing to a valid `c_ulong`.
+> +        let on =3D Delta::from_millis(unsafe { *delay_on } as i64);
+
+I didn't look into most comments, but e.g. I noticed this one does not
+look correct -- the safety requirements for this function do not
+mention anything about `delay_on`, no?
+
+> diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
+> index 38da79925586..3c348ce4a7c2 100644
+> --- a/rust/kernel/time.rs
+> +++ b/rust/kernel/time.rs
+> @@ -143,4 +143,11 @@ pub fn as_nanos(self) -> i64 {
+>      pub fn as_micros_ceil(self) -> i64 {
+>          self.as_nanos().saturating_add(NSEC_PER_USEC - 1) / NSEC_PER_USE=
+C
+>      }
+> +
+> +    /// Return the smallest number of milliseconds greater than or equal
+> +    /// to the value in the `Delta`.
+> +    #[inline]
+> +    pub fn as_millis_ceil(self) -> i64 {
+> +        self.as_nanos().saturating_add(NSEC_PER_MSEC - 1) / NSEC_PER_MSE=
+C
+> +    }
+
+This should probably be its own patch, with Cc to the timekeeping
+maintainers etc.
+
+Cheers,
+Miguel
 
