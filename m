@@ -1,43 +1,43 @@
-Return-Path: <linux-leds+bounces-3757-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3756-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD61CA0B688
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:16:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6F3A0B687
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:16:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1C6A188375D
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:16:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F9343A753C
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:16:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0A01CAA9C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D9B1CAA99;
 	Mon, 13 Jan 2025 12:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="W96Kf6Le"
+	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="XQQptS2L"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4345F46B5;
-	Mon, 13 Jan 2025 12:16:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD6A1CAA8B;
+	Mon, 13 Jan 2025 12:16:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736770609; cv=none; b=Goj0UN0DOZt9E7yopDvzxEa+wJZblni/SOnm8O13bXGRlHPVrTmkxNVGY8C0w37pGX2dq64VzYeSpbFhtteUryYHVGC/73IO9x5bsqsVXRjDE5HqD8w9KMr1oJfQhU68XdAphOZy5E8ilcPEAquWZeCkGhiXs9l2CQ5Ohq6qEpA=
+	t=1736770609; cv=none; b=ZwUaxy+F1W1GwL9Rc9rSCIrbHGuD8XEqVE7v99D+2DLZ8+8tf2QhXLChQ3P8nMEiIRwT4iIYYI1TDfC++hvetlzRfrnFeAZB1CXqEPG/f974qzUuFo8Y/Ih/Mtz8PxqOXYoMWkAji7QtPQJMR7uFl9W5GQpevIPdmGPTZTwa7uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736770609; c=relaxed/simple;
-	bh=X55MW9Dg0Zi/RNAdNvnOWc+2TMmIMf4DTNcr3zscVk8=;
+	bh=UvvrAR9ApRUqao8isFWxMEwk6PPS7V9ANdkH0NAcR6M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nqMEkVFD7aHPhOk65dWCxVT7w92dYRiNMUGdNVrAovxvnyMhTk9vnrYfrItewuY1HwM5vnL3zGuDHZAXzR7c8EWwYVc/MfQURx0Mlp3c7jxnCz/+4mpxRHg6DCDHiqHHlrVDN1pn4IvpXUlASSjgRMhgQHJ7JaQNQpC33iPKKDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=W96Kf6Le; arc=none smtp.client-ip=49.12.72.200
+	 MIME-Version; b=mdkSam7AsrTwHxw3tJRAE98q0myvdVqoHTnOhORJfqBtQY5Ojg7NJ7ZcfpXjgY+rlAwLIzEx6+Sf4677yG0NGWIxG8MILy5jwYHfe4sBomGP7QdJ2SwFod3BcRozy7wcTOqT3B0Up8IDIJA4FjHAtk/niffxm2i7OQ0QLPL3DvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=XQQptS2L; arc=none smtp.client-ip=49.12.72.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
 From: Fiona Behrens <me@kloenk.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
-	t=1736770604; bh=Azv4UbYvX3F38g2x+W0M5pOtjjIlGZCAIrMpGofvm+U=;
+	t=1736770605; bh=U8U0PrI/d9CyD4YsL382N2BEX1fb3wg8wSgKoWM6dhY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=W96Kf6Leb2YWuj+wZE9h0QcmFTIKqKuhHJEHK3IUcDrt74rZfKkEIrLwGVHbNOQDQ
-	 eVQLyYpl52OpozicStzikb/rRuCPrYqBV544i/+K+o1QjcB/o68f+udOj5yKn8ej9s
-	 BAzdYRJdKDLXqmR6fvNakNYy6HhYWEXlRb2HvWg8=
+	b=XQQptS2Lz+1j0+jxKSfPAeWoz4SS5m4NIPeCQm5hRamsSV4jaX9ULL3EV5Ej14317
+	 w3vDwzKmrlmmwLuhP2rA/++3B48bmhnc0sGWksRtrRaOPA6PbSeUdVULmLpMga5fh1
+	 XCTn8WPv31L4/l2PQvUgDMUwSTAVfW2EXsGe9QSI=
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
 	Pavel Machek <pavel@ucw.cz>,
@@ -56,9 +56,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	rust-for-linux@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/5] rust: add I/O port abstractions with resource management
-Date: Mon, 13 Jan 2025 13:16:19 +0100
-Message-ID: <20250113121620.21598-5-me@kloenk.dev>
+Subject: [PATCH v2 5/5] leds: leds_lenovo_se10: LED driver for Lenovo SE10 platform
+Date: Mon, 13 Jan 2025 13:16:20 +0100
+Message-ID: <20250113121620.21598-6-me@kloenk.dev>
 In-Reply-To: <20250113121620.21598-1-me@kloenk.dev>
 References: <20250113121620.21598-1-me@kloenk.dev>
 Precedence: bulk
@@ -69,273 +69,193 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch introduces abstractions for working with I/O port resources,
-including the `Resource` and `Region` types. These abstractions facilitate
-interaction with `ioport_resource`, enabling safe management of resource
-reservations and memory accesses.
+Add driver for the Lenovo ThinkEdge SE10 LED.
 
-Additionally, helper functions such as `outb`, `outw`, and `outl` have been
-provided to write values to these resources, with matching read functions
-such as `inb`, `inw`, and `inl` for accessing the port memory.
+This driver supports controlling the red LED located on the front panel of the
+Lenovo SE10 hardware. Additionally, it supports the hardware-triggered
+functionality of the LED, which by default is tied to the WWAN trigger.
+
+The driver is written in Rust and adds basic LED support for the SE10 platform.
 
 Signed-off-by: Fiona Behrens <me@kloenk.dev>
 ---
- rust/helpers/helpers.c |   1 +
- rust/helpers/ioport.c  |  42 ++++++++++
- rust/kernel/ioport.rs  | 169 +++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs     |   2 +
- 4 files changed, 214 insertions(+)
- create mode 100644 rust/helpers/ioport.c
- create mode 100644 rust/kernel/ioport.rs
+ drivers/leds/Kconfig             |  10 +++
+ drivers/leds/Makefile            |   1 +
+ drivers/leds/leds_lenovo_se10.rs | 132 +++++++++++++++++++++++++++++++
+ 3 files changed, 143 insertions(+)
+ create mode 100644 drivers/leds/leds_lenovo_se10.rs
 
-diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-index dcf827a61b52..b40aee82fa0f 100644
---- a/rust/helpers/helpers.c
-+++ b/rust/helpers/helpers.c
-@@ -14,6 +14,7 @@
- #include "cred.c"
- #include "err.c"
- #include "fs.c"
-+#include "ioport.c"
- #include "jump_label.c"
- #include "kunit.c"
- #include "mutex.c"
-diff --git a/rust/helpers/ioport.c b/rust/helpers/ioport.c
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index b784bb74a837..89d9e98189d6 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -223,6 +223,16 @@ config LEDS_TURRIS_OMNIA
+ 	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
+ 	  front panel.
+ 
++config LEDS_LENOVO_SE10
++       tristate "LED support for Lenovo ThinkEdge SE10"
++       depends on RUST
++       depends on (X86 && DMI) || COMPILE_TEST
++       depends on HAS_IOPORT
++       imply LEDS_TRIGGERS
++       help
++	This option enables basic support for the LED found on the front of
++	Lenovo's SE10 ThinkEdge. There is one user controlable LED on the front panel.
++
+ config LEDS_LM3530
+ 	tristate "LCD Backlight driver for LM3530"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 18afbb5a23ee..2cff22cbafcf 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -37,6 +37,7 @@ obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
+ obj-$(CONFIG_LEDS_IPAQ_MICRO)		+= leds-ipaq-micro.o
+ obj-$(CONFIG_LEDS_IS31FL319X)		+= leds-is31fl319x.o
+ obj-$(CONFIG_LEDS_IS31FL32XX)		+= leds-is31fl32xx.o
++obj-$(CONFIG_LEDS_LENOVO_SE10)		+= leds_lenovo_se10.o
+ obj-$(CONFIG_LEDS_LM3530)		+= leds-lm3530.o
+ obj-$(CONFIG_LEDS_LM3532)		+= leds-lm3532.o
+ obj-$(CONFIG_LEDS_LM3533)		+= leds-lm3533.o
+diff --git a/drivers/leds/leds_lenovo_se10.rs b/drivers/leds/leds_lenovo_se10.rs
 new file mode 100644
-index 000000000000..d9c9e2093b98
+index 000000000000..d704125610a4
 --- /dev/null
-+++ b/rust/helpers/ioport.c
-@@ -0,0 +1,42 @@
++++ b/drivers/leds/leds_lenovo_se10.rs
+@@ -0,0 +1,132 @@
 +// SPDX-License-Identifier: GPL-2.0
++//! LED driver for  Lenovo ThinkEdge SE10.
 +
-+#include <linux/ioport.h>
-+#include <linux/io.h>
++use kernel::ioport::{Region, ResourceSize};
++#[cfg(CONFIG_LEDS_TRIGGERS)]
++use kernel::leds::triggers;
++use kernel::leds::{Led, LedConfig, Operations};
++use kernel::prelude::*;
++use kernel::time::Delta;
++use kernel::{c_str, dmi_device_table};
 +
-+struct resource *rust_helper_request_region(resource_size_t start,
-+					    resource_size_t n, const char *name)
-+{
-+	return request_region(start, n, name);
++module! {
++    type: SE10,
++    name: "leds_lenovo_se10",
++    author: "Fiona Behrens <me@kloenk.dev>",
++    description: "LED driver for Lenovo ThinkEdge SE10",
++    license: "GPL",
 +}
 +
-+struct resource *rust_helper_request_muxed_region(resource_size_t start,
-+						  resource_size_t n,
-+						  const char *name)
-+{
-+	return request_muxed_region(start, n, name);
++dmi_device_table!(5, SE10_DMI_TABLE, [
++    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NH"],
++    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NJ"],
++    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NK"],
++    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NL"],
++    "LENOVO-SE10": [SysVendor: "LENOVO", ProductName: "12NM"],
++]);
++
++struct SE10 {
++    /// Led registration
++    _led: Pin<KBox<Led<LedSE10>>>,
 +}
 +
-+void rust_helper_release_region(resource_size_t start, resource_size_t n)
-+{
-+	release_region(start, n);
-+}
++impl kernel::Module for SE10 {
++    fn init(_module: &'static ThisModule) -> Result<Self> {
++        if SE10_DMI_TABLE.check_system().is_none() {
++            return Err(ENODEV);
++        }
 +
-+#define define_rust_helper_out(name, type)                      \
-+	void rust_helper_##name(type value, unsigned long addr) \
-+	{                                                       \
-+		(name)(value, addr);                            \
-+	}
++        let led = KBox::try_pin_init(
++            Led::register(
++                None,
++                LedConfig {
++                    name: Some(c_str!("platform:red:user")),
++                    #[cfg(CONFIG_LEDS_TRIGGERS)]
++                    hardware_trigger: Some(kernel::sync::Arc::pin_init(
++                        triggers::Hardware::register(c_str!("wwan")),
++                        GFP_KERNEL,
++                    )?),
++                    ..LedConfig::new(kernel::leds::Color::Red, LedSE10)
++                },
++            ),
++            GFP_KERNEL,
++        )?;
 +
-+define_rust_helper_out(outb, u8);
-+define_rust_helper_out(outw, u16);
-+define_rust_helper_out(outl, u32);
-+
-+#define define_rust_helper_in(name, type)           \
-+	type rust_helper_##name(unsigned long addr) \
-+	{                                           \
-+		return (name)(addr);                \
-+	}
-+
-+define_rust_helper_in(inb, u8);
-+define_rust_helper_in(inw, u16);
-+define_rust_helper_in(inl, u32);
-diff --git a/rust/kernel/ioport.rs b/rust/kernel/ioport.rs
-new file mode 100644
-index 000000000000..9bc342cb4663
---- /dev/null
-+++ b/rust/kernel/ioport.rs
-@@ -0,0 +1,169 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Abstractions of routines for detecting, reserving and
-+//! allocating system resources.
-+//!
-+//! C header: [`include/linux/ioport.h`](srctree/include/linux/ioport.h)
-+
-+use core::ops::Deref;
-+use core::ptr;
-+
-+use crate::prelude::*;
-+use crate::types::Opaque;
-+
-+/// Resource Size type.
-+/// This is a type alias to `u64`
-+/// depending on the config option `CONFIG_PHYS_ADDR_T_64BIT`.
-+#[cfg(CONFIG_PHYS_ADDR_T_64BIT)]
-+pub type ResourceSize = u64;
-+
-+/// Resource Size type.
-+/// This is a type alias to `u32`
-+/// depending on the config option `CONFIG_PHYS_ADDR_T_64BIT`.
-+#[cfg(not(CONFIG_PHYS_ADDR_T_64BIT))]
-+pub type ResourceSize = u32;
-+
-+/// Resource node.
-+#[repr(transparent)]
-+pub struct Resource(Opaque<bindings::resource>);
-+
-+impl Resource {
-+    /// Convert a raw C `struct resource` pointer to a `&'a Resource`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must ensure that `ptr` is valid, non-null.
-+    pub unsafe fn as_ref<'a>(ptr: *mut bindings::resource) -> &'a Self {
-+        // SAFETY: Guaranteed by the safety requirements of the function.
-+        unsafe { &*ptr.cast() }
-+    }
-+
-+    /// Return raw pointer to the resource.
-+    pub fn as_raw(&self) -> *mut bindings::resource {
-+        self.0.get()
-+    }
-+
-+    /// Get name of the resource.
-+    pub fn name(&self) -> &CStr {
-+        // SAFETY: self.get is valid and of type `bindings::resource`
-+        let name_ptr = unsafe { ptr::read(ptr::addr_of!((*self.as_raw()).name)) };
-+        // SAFETY: `name_ptr` is a valid char pointer from the resource
-+        unsafe { CStr::from_char_ptr(name_ptr) }
-+    }
-+
-+    /// Get the start of the [`Resource`].
-+    #[inline]
-+    pub fn start(&self) -> ResourceSize {
-+        // SAFETY: self.get is valid and of type `bindings::resource`
-+        unsafe { ptr::read(ptr::addr_of!((*self.as_raw()).start)) }
-+    }
-+
-+    /// Get the end of the [`Resource`].
-+    #[inline]
-+    pub fn end(&self) -> ResourceSize {
-+        // SAFETY: self.get is valid and of type `bindings::resource`
-+        unsafe { ptr::read(ptr::addr_of!((*self.as_raw()).start)) }
-+    }
-+
-+    /// Get the length of the Resource.
-+    // Empty resource (len = 0) does not make any sense.`
-+    #[allow(clippy::len_without_is_empty)]
-+    pub fn len(&self) -> ResourceSize {
-+        self.end() - self.start() + 1
++        Ok(Self { _led: led })
 +    }
 +}
 +
-+/// Requested region using `request_region`. This will release the region when dropped.
-+///
-+/// This uses port memory from the `ioport_resource` parent resource.
-+pub struct Region<'name>(&'name Resource);
++/// Valid led commands.
++#[repr(u8)]
++#[allow(missing_docs)]
++enum LedCommand {
++    #[cfg(CONFIG_LEDS_TRIGGERS)]
++    Trigger = 0xB2,
++    Off = 0xB3,
++    On = 0xB4,
++    Blink = 0xB5,
++}
 +
-+impl<'name> Region<'name> {
-+    /// Request a new muxed region from the `ioport_resource` region.
-+    #[inline]
-+    pub fn request_muxed(start: ResourceSize, n: ResourceSize, name: &'name CStr) -> Option<Self> {
-+        // SAFETY: C ffi call. `name` is valid for lifetime of `Self`
-+        unsafe { Self::from_resource(bindings::request_muxed_region(start, n, name.as_char_ptr())) }
++struct LedSE10;
++
++impl LedSE10 {
++    /// Base address of the command port.
++    const CMD_PORT: ResourceSize = 0x6C;
++    /// Length of the command port.
++    const CMD_LEN: ResourceSize = 1;
++    /// Blink duration the hardware supports.
++    const HW_DURATION: Delta = Delta::from_millis(1000);
++
++    /// Request led region.
++    fn request_cmd_region(&self) -> Result<Region<'static>> {
++        Region::request_muxed(Self::CMD_PORT, Self::CMD_LEN, c_str!("leds_lenovo_se10"))
++            .ok_or(EBUSY)
 +    }
 +
-+    /// Request a new region from the `ioport_resource` region.
-+    #[inline]
-+    pub fn request(start: ResourceSize, n: ResourceSize, name: &'name CStr) -> Option<Self> {
-+        // SAFETY: C ffi call. `name` is valid for lifetime of `Self`
-+        unsafe { Self::from_resource(bindings::request_region(start, n, name.as_char_ptr())) }
++    /// Send command.
++    fn send_cmd(&self, cmd: LedCommand) -> Result {
++        let region = self.request_cmd_region()?;
++        region.outb(cmd as u8, 0);
++        Ok(())
 +    }
++}
 +
-+    /// Get a resource pointer and return a resource if the pointer is non-null.
-+    ///
-+    /// Helper for `request` and `request_muxed`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `resource` has to be a valid or null pointer to a resource.
-+    unsafe fn from_resource(resource: *mut bindings::resource) -> Option<Self> {
-+        if resource.is_null() {
-+            None
++#[vtable]
++impl Operations for LedSE10 {
++    type This = Led<LedSE10>;
++
++    const MAX_BRIGHTNESS: u8 = 1;
++
++    fn brightness_set(this: &mut Self::This, brightness: u8) {
++        if let Err(e) = if brightness == 0 {
++            this.data.send_cmd(LedCommand::Off)
 +        } else {
-+            // SAFETY: resource is a valid resource by the function requirements and non-null.
-+            Some(Self(unsafe { Resource::as_ref(resource) }))
++            this.data.send_cmd(LedCommand::On)
++        } {
++            pr_warn!("Failed to set led: {e:?}\n)")
 +        }
 +    }
-+}
 +
-+macro_rules! define_out {
-+    ($name:ident => $type:ty) => {
-+	#[doc = concat!("Write [`", stringify!($type), "`] value into port memory region at the given offset.")]
-+	pub fn $name(&self, value: $type, offset: ResourceSize) {
-+	    let address = self.start() + offset;
-+	    debug_assert!((address + (core::mem::size_of::<$type>() as ResourceSize)) <= (self.end() + 1));
-+	    // SAFETY: ffi call, address is in the region
-+	    unsafe { bindings::$name(value, address) };
-+	}
-+    };
-+    ($($name:ident => $type:ty;)*) => {
-+	$(define_out! { $name => $type })*
-+    };
-+}
++    fn blink_set(
++        this: &mut Self::This,
++        delay_on: Delta,
++        delay_off: Delta,
++    ) -> Result<(Delta, Delta)> {
++        if !(delay_on.is_zero() && delay_off.is_zero()
++            || delay_on == Self::HW_DURATION && delay_off == Self::HW_DURATION)
++        {
++            return Err(EINVAL);
++        }
 +
-+macro_rules! define_in {
-+    ($name:ident => $type:ty) => {
-+	#[doc = concat!("Read [`", stringify!($type), "`] value from port memory region at the given offset.")]
-+	pub fn $name(&self, offset: ResourceSize) -> $type {
-+	    let address = self.start() + offset;
-+	    debug_assert!((address + (core::mem::size_of::<$type>() as ResourceSize)) <= (self.end() + 1));
-+	    // SAFETY: ffi call, address is in the region
-+	    unsafe { bindings::$name(address) }
-+	}
-+    };
-+    ($($name:ident => $type:ty;)*) => {
-+	$(define_in! { $name => $type })*
-+    };
-+}
-+
-+impl Region<'_> {
-+    define_out! {
-+        outb => u8;
-+        outw => u16;
-+        outl => u32;
-+    }
-+    define_in! {
-+        inb => u8;
-+        inw => u16;
-+        inl => u32;
++        this.data.send_cmd(LedCommand::Blink)?;
++        Ok((Self::HW_DURATION, Self::HW_DURATION))
 +    }
 +}
 +
-+impl Drop for Region<'_> {
-+    fn drop(&mut self) {
-+        // SAFETY: ffi call, resource is valid.
-+        unsafe { bindings::release_region(self.start(), self.len()) };
++#[vtable]
++#[cfg(CONFIG_LEDS_TRIGGERS)]
++impl triggers::HardwareOperations for LedSE10 {
++    fn activate(this: &mut Self::This) -> Result {
++        this.data.send_cmd(LedCommand::Trigger)
 +    }
 +}
-+
-+impl Deref for Region<'_> {
-+    type Target = Resource;
-+
-+    fn deref(&self) -> &Self::Target {
-+        self.0
-+    }
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 8895a1683f82..99cd706c40e7 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -43,6 +43,8 @@
- pub mod fs;
- pub mod init;
- pub mod ioctl;
-+#[cfg(CONFIG_HAS_IOPORT)]
-+pub mod ioport;
- pub mod jump_label;
- #[cfg(CONFIG_KUNIT)]
- pub mod kunit;
 -- 
 2.47.0
 
