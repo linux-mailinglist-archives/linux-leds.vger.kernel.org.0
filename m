@@ -1,1092 +1,127 @@
-Return-Path: <linux-leds+bounces-3766-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3767-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFE5A0BBFB
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 16:30:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BCFA0BF0E
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 18:42:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD8C97A0734
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 15:30:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53ED7164912
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 17:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB1DD1C5D66;
-	Mon, 13 Jan 2025 15:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABFA1BC9FB;
+	Mon, 13 Jan 2025 17:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LLYTn+wG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q0K6jGjc"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFB71C5D74
-	for <linux-leds@vger.kernel.org>; Mon, 13 Jan 2025 15:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B9F1B0F35;
+	Mon, 13 Jan 2025 17:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736782225; cv=none; b=r3oJ/I0+MAoyKpv7jxAJJM0bvvZHQfbQmLGwc4EKvkNkO7xg5iCRYJshtSUmeHIUYqxgW16EqxIlVaq6GTt1mOX+52+6s73UX3Ie+iZi0APOY9yAbkfYyJCKLmf+hfo71KF9d6mSrpitGHQYZs9xk68zVLCvUSMIXO8mV1XSWDw=
+	t=1736790161; cv=none; b=tKwyJeWaS/IDlsAHKuHZsJvj+KzN88BcTEGYB8mJGgz/7EeveNthzoSftTqsPddKJH+LLI7+SEiYsAIFnvfVl4vy4SD9JEMbjZ+W2bN9WuCnYs9HVdn8YXQQKBJFUt4BFEIi5coZW57Y5qlGsKVfIun2ro1gIZDAnY2WFkoqV1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736782225; c=relaxed/simple;
-	bh=hJcDCWJ0XKDTxkvT0gv/kU/j3T6JPYR0V6jHRLqgfh4=;
+	s=arc-20240116; t=1736790161; c=relaxed/simple;
+	bh=9By/cg3WRaJU39H2+KcBel81dQIv17faS7AvhuuC9hM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JFNFmrieDwwm1ocNfvBXEaMzQmRc4QaHt0H1cJuvWeHC0jX76o9rYyuYyca/OYdZHX0trjK8Tl5MvV6SbacPBTC4qFhaPUvkaqnewuifzMQ6H6z7h6uw0M6HAPu11GaYxQNnovpXZRvVa83AQXOeQ6dtkHEiJe7vGKI+FZDhO5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LLYTn+wG; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e53537d8feeso6425651276.0
-        for <linux-leds@vger.kernel.org>; Mon, 13 Jan 2025 07:30:21 -0800 (PST)
+	 To:Cc:Content-Type; b=Wk/SSGFlUPMm+LjVHhZMoAqAv/js+CjtVNTaO3bCwAE2w5HnLdypu/mUb4iwW+5ZOctAitcAZkKSNd8jIRBq0dyAmYWNd/F/oGVhvvwS8OrVh0WbpzwXvmn6/FdswkYITLuMPukpKMnmKWVAoa2zVh6cA5OVGNYNAwcaGV1iLcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q0K6jGjc; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2aa179a8791so2879090fac.1;
+        Mon, 13 Jan 2025 09:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736782220; x=1737387020; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9oQDi0/SWiWfKk+9Gche/9wGg+RadThS6DHDD9fwWmk=;
-        b=LLYTn+wGTYaBHEbXQN0rxWMMC2Opu/NwRFrCq0HoCl7MvXsh9bHTCCerojGG+Xd1Km
-         vHdvnZcLJ45qLs7bnroV0FsRY/0fNBVg7R1CEh70lvlV/VnfoYg15SDGqjppBa8brwxX
-         i83NoKQ/QLywWJt4eKFYRH7zlaC3KdWPEjm53+cLuf9CbXCXCiOnXKuCwnq/JHWEEQpW
-         6oiZPMxsieVbN84Ywnv+mxo5jhF+Ei12AB0J4oOgdxF/QlN2ASmZb2LRcotxcbF9ktuO
-         tS7YXxP4d+UupaPx4RGje9XyAZ2r2vmdj1LrL80xM2OWvJEKm/a5Q8/fIn1bAtqBoTis
-         n8Sg==
+        d=gmail.com; s=20230601; t=1736790159; x=1737394959; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LQZPia2sZAAmybfMLEyqNp4QuNfkcuPO8IQNsllu2Bk=;
+        b=Q0K6jGjcTQoWGmIJfM6TM1YKspMMDp0mSZ7sV8/I1oCjLilta5KBFFhQD9hZ8f0pqo
+         cGiBzG9HzDMveQxhuZ/Al2td91ZuUysNZY2f5qje8j2UG88FDBqaxHnWuiDSyj/cUiy8
+         yTyDs0uFc0cnsgJrmP4dgZDhVnzsmC2EPKHLo0jsNmSyC2KbnzfJjDp3oeuTZU8a37Yu
+         wMAH0Q0O1x632YWIHtUOIR6w13eC2kgMUtCNxEVYfgVTf1huMmcszW/JJG2OU3vBKzer
+         tRQp56nxrIrtT1bi/cUr38sU7Tr7UWV9EUKOEVV1Vd2hQVVw3O+jPhk7faKHxhvVRZG4
+         uFhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736782220; x=1737387020;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9oQDi0/SWiWfKk+9Gche/9wGg+RadThS6DHDD9fwWmk=;
-        b=KdnN2r8sQhtdpKL2U7BMbCb5mxoExKLFI/txlaocXl3rg01wS3SY1z7xb8gnqCoDjX
-         tYmYUFKjHZS+utJ8cnO01sjK38Ybd+WyZjduvp3WQvih58+v3JBo0rUR1iK4OdijZR8x
-         WvJ7lbneTlt7LM0nn7lfDnnDDN4RmIuAoTlXeFTgvPgK9xaWOsBRjZJigj/gP4vYTDvs
-         Nl/v5ZBbb0eWiTSXpz/98jnarpp3PyO8rruLJZIF1TCtry+T/LDa3sLM+tnr1UG40sQb
-         X4LDsfx8zrTsdnNUg8CNmGIcIZUK+kWI/5PsgW+gOP7gdgUiL71iNP/O+k6WYIDQF0cB
-         mgpA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3rBfPUVAmQ+xfcmVb1/VGM7smEn11hp0zMgdieb61yniJwOj6kXf+BZ/2LcfTacOqhR/+d1UNJFIs@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpzznL0r0Kq7AQkfT8TurUG4zjl0ekkuvPHz2NX//9nI9eRnGB
-	icp1cVzQQ3RMLibpeo0/p+1tRXFhSvxrxT7py+mpflOXA5TWBA/f1YkY701T7LXls2VsqMnZPw/
-	xyYyeMP4t1r9V4U81VnYE+NbE4Zq8Zb5A1rCGRQ==
-X-Gm-Gg: ASbGncvlAtr3dg4zq8bWyToqJzbopVBV+G0yW6bBw8TFPfde/1MKgk8o+V7HrUF5AWl
-	jGOpCqHZgD31VwV/jO99LztWN8z/YBHmIGkM5RPE=
-X-Google-Smtp-Source: AGHT+IE/Rs0eGFjnCr36IcxvjCR55VcCpOavchJR1thmMQjrPvfZKGoCiEXSvpOp1KmbsM2nqvc7+n9wcxW2NlRsVA0=
-X-Received: by 2002:a05:690c:4d81:b0:6ef:7f34:fe08 with SMTP id
- 00721157ae682-6f531224a36mr171480667b3.18.1736782220097; Mon, 13 Jan 2025
- 07:30:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736790159; x=1737394959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LQZPia2sZAAmybfMLEyqNp4QuNfkcuPO8IQNsllu2Bk=;
+        b=piU0sDvATKBV2VAyvB9wWWwKYGapItX+n+00R+qJuua0Xit2iguUjHLYv0SWWrgSz9
+         97rR4uZcj3tnNdS9IgHns4CtOebcqoxRNNQO6vhAmkPpdaE3q8LdRLQD+SHbV8LNqGDK
+         97UwzMOZGJBAUQLRVv1UHxoSrtYubqyL5WIUAKk7xE1U7kVExSMrTh4PAVFMvlEkJ/Xb
+         pQQS3k+XiA5lpSjFaUge68BlsjrcL7U/l3slu/4ib5BylG2y+zkILr5TOlcOQghATPFa
+         SkOZRdXv8uLgeI56IHYl9M1xU0NEqX1S5WE0JIN0fpnW3qSXe1EMz1K0Ne7hTcSYKupP
+         ht3A==
+X-Forwarded-Encrypted: i=1; AJvYcCV+g4ypgHvmY+DzJGwrs0KbVGGai1QckjrJVCbvIqsbn7y+dvfh6IuB6xnK+zm1W5VEjYfcLKJaD5z09w==@vger.kernel.org, AJvYcCV0W08Hm9hcU6TJCmU511EGrsIiCzlMpt5PVpangPUlyCaSWJPnRcj8ad9iqK1SHeqU94nGB9dI0jM=@vger.kernel.org, AJvYcCVpPZzUdiM9YUp0lrhbPtEJDEkyjZPjrB+uYz5OMGqjbdRuSbj3VLEXSErPReQXxsr05iM35iiIU0Ch@vger.kernel.org, AJvYcCWdxNku1JGMhrc9pQmR05frYkC/EuiaOGKe0jvD/3bSv0osWaIKR2HjdWPt0yYD9g0doWd5jYiR+oOff2Q=@vger.kernel.org, AJvYcCWnnj/ogJq1p0y/RbSEkIR9u+VIaT9eU+jypj8/BfO9Hjgr4di61by5x6P2epmumyASreK5udga+uw3KpM5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9OtovXg1dtFzssCgPe73nbMW0s1eby3MxIcMUjmLeWFqcR+Bl
+	Rah+hys6pFnw/L8zlw4+ccvbZ9tA7a/VtsfiBXSQxIElOV2PbCP3XZVfCraFsmTva3IRp79IKHI
+	Q8Q9/axibscCgAImnScDr4rqnck0=
+X-Gm-Gg: ASbGncvsZJsYIqzTHlxhhWbfEE6xrcQzlhohNzlCVT7N8bdDtKxl9mElurlaXUDRjuO
+	D/zRjBGtvdrlaL/Fb3sITa5sbEQFwUxWH2nrXJw==
+X-Google-Smtp-Source: AGHT+IHMB+GGiNJhNGefJ2LWoJuZLtThtPOh9fydXyn/5Rwt5TmKrvnF9R7u9+jTH81xBy2WWWy1ILuMVCmAVSS1zkY=
+X-Received: by 2002:a05:6870:1710:b0:29e:1325:760a with SMTP id
+ 586e51a60fabf-2aa06668e92mr11830484fac.8.1736790158782; Mon, 13 Jan 2025
+ 09:42:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 13 Jan 2025 16:29:43 +0100
-X-Gm-Features: AbW1kvYWbnfG0KFXAkpEUTR1I-t7BpFrUJU8ssFCCWFUnH1Av89lNIlrLhoPqz4
-Message-ID: <CAPDyKFqXzujP9DCFYBixwBM57Ut2N8B6XM0QQM8CAB+jqX3wUg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Correct indentation and style in DTS example
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250108-starqltechn_integration_upstream-v14-0-f6e84ec20d96@gmail.com>
+ <20250108-starqltechn_integration_upstream-v14-8-f6e84ec20d96@gmail.com> <20250109122148.GJ6763@google.com>
+In-Reply-To: <20250109122148.GJ6763@google.com>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Mon, 13 Jan 2025 20:42:27 +0300
+X-Gm-Features: AbW1kvb-liGKuGLtkmrjc1H7lITbUJMSGPuUb2fk2sIiLd6fXWjbBtERZBX-Eys
+Message-ID: <CABTCjFCaTOLQQ_cU10HNiVUoWT=FreoKYj3yAGQYccDkagcn0g@mail.gmail.com>
+Subject: Re: [PATCH v14 08/10] mfd: Add new driver for MAX77705 PMIC
+To: Lee Jones <lee@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Hans de Goede <hdegoede@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Jan 2025 at 14:15, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+=D1=87=D1=82, 9 =D1=8F=D0=BD=D0=B2. 2025=E2=80=AF=D0=B3. =D0=B2 15:21, Lee =
+Jones <lee@kernel.org>:
 >
-> DTS example in the bindings should be indented with 2- or 4-spaces and
-> aligned with opening '- |', so correct any differences like 3-spaces or
-> mixtures 2- and 4-spaces in one binding.
+> On Wed, 08 Jan 2025, Dzmitry Sankouski wrote:
 >
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
+> > Add the core MFD driver for max77705 PMIC. Drivers for sub-devices
+> > will be added in subsequent patches.
+> >
+> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> >
+(...)
+> > +
+> > +     /* Unmask interrupts from all blocks in interrupt source register=
+ */
+> > +     ret =3D regmap_update_bits(max77705->regmap,
+> > +                              MAX77705_PMIC_REG_INTSRC_MASK,
+> > +                              MAX77705_SRC_IRQ_ALL, (unsigned int)~MAX=
+77705_SRC_IRQ_ALL);
 >
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> I don't see this much.  Are you sure the cast is required?
+>
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC
+BIT macro creates a 64 bit constant value. When inverted,
+it overruns 32 bit value, causing compiler to warn on conversion like
+`warning: conversion from =E2=80=98long unsigned int=E2=80=99 to =E2=80=98u=
+nsigned int=E2=80=99`.
 
-Kind regards
-Uffe
 
->
-> ---
->
-> This applies cleanly on v6.13-rc6 and on next-20250107, so I expect no
-> conflicts between Rob's tree and other maintainers' trees.
->
-> Rob,
-> Can you apply it to DT tree?
-> ---
->  .../arm/arm,trace-buffer-extension.yaml       |  10 +-
->  .../bindings/arm/stm32/st,mlahb.yaml          |  20 +-
->  .../bindings/dsp/mediatek,mt8195-dsp.yaml     |  42 ++--
->  ...ntel,ixp4xx-network-processing-engine.yaml |  52 ++---
->  .../bindings/fpga/xlnx,versal-fpga.yaml       |   2 +-
->  .../bindings/interconnect/qcom,rpmh.yaml      |  28 +--
->  .../bindings/iommu/riscv,iommu.yaml           |   6 +-
->  .../devicetree/bindings/leds/leds-mt6360.yaml | 195 +++++++++---------
->  .../devicetree/bindings/mips/brcm/soc.yaml    |  42 ++--
->  .../misc/intel,ixp4xx-ahb-queue-manager.yaml  |   6 +-
->  .../devicetree/bindings/mmc/renesas,sdhi.yaml |  78 +++----
->  .../bindings/mtd/technologic,nand.yaml        |   2 +-
->  .../bindings/nvmem/amlogic,meson6-efuse.yaml  |   2 +-
->  .../bindings/pci/ti,j721e-pci-ep.yaml         |  34 +--
->  .../bindings/power/reset/qcom,pon.yaml        |  62 +++---
->  .../nvidia,tegra264-bpmp-shmem.yaml           |  15 +-
->  .../bindings/rtc/renesas,rzn1-rtc.yaml        |  22 +-
->  .../amlogic/amlogic,meson-gx-hhi-sysctrl.yaml |  26 +--
->  .../bindings/soc/qcom/qcom,eud.yaml           |  38 ++--
->  .../bindings/soc/ti/wkup-m3-ipc.yaml          |  32 +--
->  20 files changed, 357 insertions(+), 357 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/arm/arm,trace-buffer-extension.yaml b/Documentation/devicetree/bindings/arm/arm,trace-buffer-extension.yaml
-> index 87128e7b7d28..f5b54b4fc55d 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,trace-buffer-extension.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,trace-buffer-extension.yaml
-> @@ -41,10 +41,10 @@ additionalProperties: false
->  examples:
->
->    - |
-> -   #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->
-> -   trbe {
-> -     compatible = "arm,trace-buffer-extension";
-> -     interrupts = <GIC_PPI 15 IRQ_TYPE_LEVEL_HIGH>;
-> -   };
-> +    trbe {
-> +        compatible = "arm,trace-buffer-extension";
-> +        interrupts = <GIC_PPI 15 IRQ_TYPE_LEVEL_HIGH>;
-> +    };
->  ...
-> diff --git a/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml b/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
-> index 3e996346b264..4970b9167d1c 100644
-> --- a/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
-> +++ b/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
-> @@ -55,17 +55,17 @@ unevaluatedProperties: false
->  examples:
->    - |
->      ahb {
-> -      compatible = "st,mlahb", "simple-bus";
-> -      #address-cells = <1>;
-> -      #size-cells = <1>;
-> -      ranges;
-> -      dma-ranges = <0x00000000 0x38000000 0x10000>,
-> -                   <0x10000000 0x10000000 0x60000>,
-> -                   <0x30000000 0x30000000 0x60000>;
-> +        compatible = "st,mlahb", "simple-bus";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +        dma-ranges = <0x00000000 0x38000000 0x10000>,
-> +                     <0x10000000 0x10000000 0x60000>,
-> +                     <0x30000000 0x30000000 0x60000>;
->
-> -      m4_rproc: m4@10000000 {
-> -       reg = <0x10000000 0x40000>;
-> -      };
-> +        m4_rproc: m4@10000000 {
-> +            reg = <0x10000000 0x40000>;
-> +        };
->      };
->
->  ...
-> diff --git a/Documentation/devicetree/bindings/dsp/mediatek,mt8195-dsp.yaml b/Documentation/devicetree/bindings/dsp/mediatek,mt8195-dsp.yaml
-> index ca8d8661f872..abc52978be7a 100644
-> --- a/Documentation/devicetree/bindings/dsp/mediatek,mt8195-dsp.yaml
-> +++ b/Documentation/devicetree/bindings/dsp/mediatek,mt8195-dsp.yaml
-> @@ -81,25 +81,25 @@ examples:
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/interrupt-controller/irq.h>
->      dsp@10803000 {
-> -       compatible =  "mediatek,mt8195-dsp";
-> -       reg = <0x10803000  0x1000>,
-> -             <0x10840000  0x40000>;
-> -       reg-names = "cfg", "sram";
-> -       clocks = <&topckgen 10>, //CLK_TOP_ADSP
-> -                <&clk26m>,
-> -                <&topckgen 107>, //CLK_TOP_AUDIO_LOCAL_BUS
-> -                <&topckgen 136>, //CLK_TOP_MAINPLL_D7_D2
-> -                <&scp_adsp 0>, //CLK_SCP_ADSP_AUDIODSP
-> -                <&topckgen 34>; //CLK_TOP_AUDIO_H
-> -       clock-names = "adsp_sel",
-> -                     "clk26m_ck",
-> -                     "audio_local_bus",
-> -                     "mainpll_d7_d2",
-> -                     "scp_adsp_audiodsp",
-> -                     "audio_h";
-> -       memory-region = <&adsp_dma_mem_reserved>,
-> -                       <&adsp_mem_reserved>;
-> -       power-domains = <&spm 6>; //MT8195_POWER_DOMAIN_ADSP
-> -       mbox-names = "rx", "tx";
-> -       mboxes = <&adsp_mailbox0>, <&adsp_mailbox1>;
-> +        compatible =  "mediatek,mt8195-dsp";
-> +        reg = <0x10803000 0x1000>,
-> +              <0x10840000 0x40000>;
-> +        reg-names = "cfg", "sram";
-> +        clocks = <&topckgen 10>, //CLK_TOP_ADSP
-> +                 <&clk26m>,
-> +                 <&topckgen 107>, //CLK_TOP_AUDIO_LOCAL_BUS
-> +                 <&topckgen 136>, //CLK_TOP_MAINPLL_D7_D2
-> +                 <&scp_adsp 0>, //CLK_SCP_ADSP_AUDIODSP
-> +                 <&topckgen 34>; //CLK_TOP_AUDIO_H
-> +        clock-names = "adsp_sel",
-> +                      "clk26m_ck",
-> +                      "audio_local_bus",
-> +                      "mainpll_d7_d2",
-> +                      "scp_adsp_audiodsp",
-> +                      "audio_h";
-> +        memory-region = <&adsp_dma_mem_reserved>,
-> +                        <&adsp_mem_reserved>;
-> +        power-domains = <&spm 6>; //MT8195_POWER_DOMAIN_ADSP
-> +        mbox-names = "rx", "tx";
-> +        mboxes = <&adsp_mailbox0>, <&adsp_mailbox1>;
->      };
-> diff --git a/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml b/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml
-> index e6bed7d93e2d..50f1f08744a1 100644
-> --- a/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml
-> +++ b/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml
-> @@ -62,33 +62,33 @@ examples:
->      #include <dt-bindings/gpio/gpio.h>
->
->      npe: npe@c8006000 {
-> -         compatible = "intel,ixp4xx-network-processing-engine";
-> -         reg = <0xc8006000 0x1000>, <0xc8007000 0x1000>, <0xc8008000 0x1000>;
-> -         #address-cells = <1>;
-> -         #size-cells = <0>;
-> +        compatible = "intel,ixp4xx-network-processing-engine";
-> +        reg = <0xc8006000 0x1000>, <0xc8007000 0x1000>, <0xc8008000 0x1000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
->
-> -         hss@0 {
-> -             compatible = "intel,ixp4xx-hss";
-> -             reg = <0>;
-> -             intel,npe-handle = <&npe 0>;
-> -             intel,queue-chl-rxtrig = <&qmgr 12>;
-> -             intel,queue-chl-txready = <&qmgr 34>;
-> -             intel,queue-pkt-rx = <&qmgr 13>;
-> -             intel,queue-pkt-tx = <&qmgr 14>, <&qmgr 15>, <&qmgr 16>, <&qmgr 17>;
-> -             intel,queue-pkt-rxfree = <&qmgr 18>, <&qmgr 19>, <&qmgr 20>, <&qmgr 21>;
-> -             intel,queue-pkt-txdone = <&qmgr 22>;
-> -             cts-gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
-> -             rts-gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
-> -             dcd-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
-> -             dtr-gpios = <&gpio_74 2 GPIO_ACTIVE_LOW>;
-> -             clk-internal-gpios = <&gpio_74 0 GPIO_ACTIVE_HIGH>;
-> -         };
-> +        hss@0 {
-> +            compatible = "intel,ixp4xx-hss";
-> +            reg = <0>;
-> +            intel,npe-handle = <&npe 0>;
-> +            intel,queue-chl-rxtrig = <&qmgr 12>;
-> +            intel,queue-chl-txready = <&qmgr 34>;
-> +            intel,queue-pkt-rx = <&qmgr 13>;
-> +            intel,queue-pkt-tx = <&qmgr 14>, <&qmgr 15>, <&qmgr 16>, <&qmgr 17>;
-> +            intel,queue-pkt-rxfree = <&qmgr 18>, <&qmgr 19>, <&qmgr 20>, <&qmgr 21>;
-> +            intel,queue-pkt-txdone = <&qmgr 22>;
-> +            cts-gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
-> +            rts-gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
-> +            dcd-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
-> +            dtr-gpios = <&gpio_74 2 GPIO_ACTIVE_LOW>;
-> +            clk-internal-gpios = <&gpio_74 0 GPIO_ACTIVE_HIGH>;
-> +        };
->
-> -         crypto {
-> -             compatible = "intel,ixp4xx-crypto";
-> -             intel,npe-handle = <&npe 2>;
-> -             queue-rx = <&qmgr 30>;
-> -             queue-txready = <&qmgr 29>;
-> -         };
-> +        crypto {
-> +            compatible = "intel,ixp4xx-crypto";
-> +            intel,npe-handle = <&npe 2>;
-> +            queue-rx = <&qmgr 30>;
-> +            queue-txready = <&qmgr 29>;
-> +        };
->      };
->  ...
-> diff --git a/Documentation/devicetree/bindings/fpga/xlnx,versal-fpga.yaml b/Documentation/devicetree/bindings/fpga/xlnx,versal-fpga.yaml
-> index 80833462f620..41b368d54557 100644
-> --- a/Documentation/devicetree/bindings/fpga/xlnx,versal-fpga.yaml
-> +++ b/Documentation/devicetree/bindings/fpga/xlnx,versal-fpga.yaml
-> @@ -27,7 +27,7 @@ additionalProperties: false
->  examples:
->    - |
->      versal_fpga: versal-fpga {
-> -         compatible = "xlnx,versal-fpga";
-> +        compatible = "xlnx,versal-fpga";
->      };
->
->  ...
-> diff --git a/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml b/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml
-> index 1b9164dc162f..dad3ad2fd93b 100644
-> --- a/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml
-> +++ b/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml
-> @@ -127,19 +127,19 @@ unevaluatedProperties: false
->
->  examples:
->    - |
-> -      #include <dt-bindings/interconnect/qcom,sdm845.h>
-> +    #include <dt-bindings/interconnect/qcom,sdm845.h>
->
-> -      mem_noc: interconnect@1380000 {
-> -             compatible = "qcom,sdm845-mem-noc";
-> -             reg = <0x01380000 0x27200>;
-> -             #interconnect-cells = <1>;
-> -             qcom,bcm-voters = <&apps_bcm_voter>;
-> -      };
-> +    interconnect@1380000 {
-> +        compatible = "qcom,sdm845-mem-noc";
-> +        reg = <0x01380000 0x27200>;
-> +        #interconnect-cells = <1>;
-> +        qcom,bcm-voters = <&apps_bcm_voter>;
-> +    };
->
-> -      mmss_noc: interconnect@1740000 {
-> -             compatible = "qcom,sdm845-mmss-noc";
-> -             reg = <0x01740000 0x1c1000>;
-> -             #interconnect-cells = <1>;
-> -             qcom,bcm-voter-names = "apps", "disp";
-> -             qcom,bcm-voters = <&apps_bcm_voter>, <&disp_bcm_voter>;
-> -      };
-> +    interconnect@1740000 {
-> +        compatible = "qcom,sdm845-mmss-noc";
-> +        reg = <0x01740000 0x1c1000>;
-> +        #interconnect-cells = <1>;
-> +        qcom,bcm-voter-names = "apps", "disp";
-> +        qcom,bcm-voters = <&apps_bcm_voter>, <&disp_bcm_voter>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/iommu/riscv,iommu.yaml b/Documentation/devicetree/bindings/iommu/riscv,iommu.yaml
-> index 5d015eeb06d0..d4838c3b3741 100644
-> --- a/Documentation/devicetree/bindings/iommu/riscv,iommu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/riscv,iommu.yaml
-> @@ -139,9 +139,9 @@ examples:
->
->              /* The IOMMU programming interface uses slot 00:01.0 */
->              iommu0: iommu@1,0 {
-> -               compatible = "pci1efd,edf1", "riscv,pci-iommu";
-> -               reg = <0x800 0 0 0 0>;
-> -               #iommu-cells = <1>;
-> +                compatible = "pci1efd,edf1", "riscv,pci-iommu";
-> +                reg = <0x800 0 0 0 0>;
-> +                #iommu-cells = <1>;
->              };
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6360.yaml b/Documentation/devicetree/bindings/leds/leds-mt6360.yaml
-> index d84e28e616d7..d2e1d8afc302 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-mt6360.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-mt6360.yaml
-> @@ -87,106 +87,105 @@ additionalProperties: false
->
->  examples:
->    - |
-> -   #include <dt-bindings/leds/common.h>
-> -   led-controller {
-> -     compatible = "mediatek,mt6360-led";
-> -     #address-cells = <1>;
-> -     #size-cells = <0>;
-> +    #include <dt-bindings/leds/common.h>
-> +    led-controller {
-> +        compatible = "mediatek,mt6360-led";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
->
-> -     multi-led@0 {
-> -       reg = <0>;
-> -       function = LED_FUNCTION_INDICATOR;
-> -       color = <LED_COLOR_ID_RGB>;
-> -       led-max-microamp = <24000>;
-> -       #address-cells = <1>;
-> -       #size-cells = <0>;
-> -       led@0 {
-> -         reg = <0>;
-> -         color = <LED_COLOR_ID_RED>;
-> -       };
-> -       led@1 {
-> -         reg = <1>;
-> -         color = <LED_COLOR_ID_GREEN>;
-> -       };
-> -       led@2 {
-> -         reg = <2>;
-> -         color = <LED_COLOR_ID_BLUE>;
-> -       };
-> -     };
-> -     led@3 {
-> -       reg = <3>;
-> -       function = LED_FUNCTION_INDICATOR;
-> -       color = <LED_COLOR_ID_WHITE>;
-> -       led-max-microamp = <150000>;
-> -     };
-> -     led@4 {
-> -       reg = <4>;
-> -       function = LED_FUNCTION_FLASH;
-> -       color = <LED_COLOR_ID_WHITE>;
-> -       function-enumerator = <1>;
-> -       led-max-microamp = <200000>;
-> -       flash-max-microamp = <500000>;
-> -       flash-max-timeout-us = <1024000>;
-> -     };
-> -     led@5 {
-> -       reg = <5>;
-> -       function = LED_FUNCTION_FLASH;
-> -       color = <LED_COLOR_ID_WHITE>;
-> -       function-enumerator = <2>;
-> -       led-max-microamp = <200000>;
-> -       flash-max-microamp = <500000>;
-> -       flash-max-timeout-us = <1024000>;
-> -     };
-> -   };
-> +        multi-led@0 {
-> +            reg = <0>;
-> +            function = LED_FUNCTION_INDICATOR;
-> +            color = <LED_COLOR_ID_RGB>;
-> +            led-max-microamp = <24000>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            led@0 {
-> +                reg = <0>;
-> +                color = <LED_COLOR_ID_RED>;
-> +            };
-> +            led@1 {
-> +                reg = <1>;
-> +                color = <LED_COLOR_ID_GREEN>;
-> +            };
-> +            led@2 {
-> +                reg = <2>;
-> +                color = <LED_COLOR_ID_BLUE>;
-> +            };
-> +        };
-> +        led@3 {
-> +            reg = <3>;
-> +            function = LED_FUNCTION_INDICATOR;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            led-max-microamp = <150000>;
-> +        };
-> +        led@4 {
-> +            reg = <4>;
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            function-enumerator = <1>;
-> +            led-max-microamp = <200000>;
-> +            flash-max-microamp = <500000>;
-> +            flash-max-timeout-us = <1024000>;
-> +        };
-> +        led@5 {
-> +            reg = <5>;
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            function-enumerator = <2>;
-> +            led-max-microamp = <200000>;
-> +            flash-max-microamp = <500000>;
-> +            flash-max-timeout-us = <1024000>;
-> +        };
-> +    };
->
->    - |
-> +    led-controller {
-> +        compatible = "mediatek,mt6360-led";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
->
-> -   led-controller {
-> -     compatible = "mediatek,mt6360-led";
-> -     #address-cells = <1>;
-> -     #size-cells = <0>;
-> -
-> -     led@0 {
-> -       reg = <0>;
-> -       function = LED_FUNCTION_INDICATOR;
-> -       color = <LED_COLOR_ID_RED>;
-> -       led-max-microamp = <24000>;
-> -     };
-> -     led@1 {
-> -       reg = <1>;
-> -       function = LED_FUNCTION_INDICATOR;
-> -       color = <LED_COLOR_ID_GREEN>;
-> -       led-max-microamp = <24000>;
-> -     };
-> -     led@2 {
-> -       reg = <2>;
-> -       function = LED_FUNCTION_INDICATOR;
-> -       color = <LED_COLOR_ID_BLUE>;
-> -       led-max-microamp = <24000>;
-> -     };
-> -     led@3 {
-> -       reg = <3>;
-> -       function = LED_FUNCTION_INDICATOR;
-> -       color = <LED_COLOR_ID_WHITE>;
-> -       led-max-microamp = <150000>;
-> -     };
-> -     led@4 {
-> -       reg = <4>;
-> -       function = LED_FUNCTION_FLASH;
-> -       color = <LED_COLOR_ID_WHITE>;
-> -       function-enumerator = <1>;
-> -       led-max-microamp = <200000>;
-> -       flash-max-microamp = <500000>;
-> -       flash-max-timeout-us = <1024000>;
-> -     };
-> -     led@5 {
-> -       reg = <5>;
-> -       function = LED_FUNCTION_FLASH;
-> -       color = <LED_COLOR_ID_WHITE>;
-> -       function-enumerator = <2>;
-> -       led-max-microamp = <200000>;
-> -       flash-max-microamp = <500000>;
-> -       flash-max-timeout-us = <1024000>;
-> -     };
-> -   };
-> +        led@0 {
-> +            reg = <0>;
-> +            function = LED_FUNCTION_INDICATOR;
-> +            color = <LED_COLOR_ID_RED>;
-> +            led-max-microamp = <24000>;
-> +        };
-> +        led@1 {
-> +            reg = <1>;
-> +            function = LED_FUNCTION_INDICATOR;
-> +            color = <LED_COLOR_ID_GREEN>;
-> +            led-max-microamp = <24000>;
-> +        };
-> +        led@2 {
-> +            reg = <2>;
-> +            function = LED_FUNCTION_INDICATOR;
-> +            color = <LED_COLOR_ID_BLUE>;
-> +            led-max-microamp = <24000>;
-> +        };
-> +        led@3 {
-> +            reg = <3>;
-> +            function = LED_FUNCTION_INDICATOR;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            led-max-microamp = <150000>;
-> +        };
-> +        led@4 {
-> +            reg = <4>;
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            function-enumerator = <1>;
-> +            led-max-microamp = <200000>;
-> +            flash-max-microamp = <500000>;
-> +            flash-max-timeout-us = <1024000>;
-> +        };
-> +        led@5 {
-> +            reg = <5>;
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            function-enumerator = <2>;
-> +            led-max-microamp = <200000>;
-> +            flash-max-microamp = <500000>;
-> +            flash-max-timeout-us = <1024000>;
-> +        };
-> +    };
->  ...
-> diff --git a/Documentation/devicetree/bindings/mips/brcm/soc.yaml b/Documentation/devicetree/bindings/mips/brcm/soc.yaml
-> index 0cc634482a6a..461a8c063313 100644
-> --- a/Documentation/devicetree/bindings/mips/brcm/soc.yaml
-> +++ b/Documentation/devicetree/bindings/mips/brcm/soc.yaml
-> @@ -92,29 +92,29 @@ additionalProperties: true
->
->  examples:
->    - |
-> -     / {
-> -         compatible = "brcm,bcm3368";
-> -         #address-cells = <1>;
-> -         #size-cells = <1>;
-> -         model = "Broadcom 3368";
-> +    / {
-> +        compatible = "brcm,bcm3368";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        model = "Broadcom 3368";
->
-> -         cpus {
-> -           #address-cells = <1>;
-> -           #size-cells = <0>;
-> +        cpus {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
->
-> -           mips-hpt-frequency = <150000000>;
-> +            mips-hpt-frequency = <150000000>;
->
-> -           cpu@0 {
-> -             compatible = "brcm,bmips4350";
-> -             device_type = "cpu";
-> -             reg = <0>;
-> -           };
-> +            cpu@0 {
-> +                compatible = "brcm,bmips4350";
-> +                device_type = "cpu";
-> +                reg = <0>;
-> +            };
->
-> -           cpu@1 {
-> -             compatible = "brcm,bmips4350";
-> -             device_type = "cpu";
-> -             reg = <1>;
-> -           };
-> -         };
-> -       };
-> +            cpu@1 {
-> +                compatible = "brcm,bmips4350";
-> +                device_type = "cpu";
-> +                reg = <1>;
-> +            };
-> +        };
-> +    };
->  ...
-> diff --git a/Documentation/devicetree/bindings/misc/intel,ixp4xx-ahb-queue-manager.yaml b/Documentation/devicetree/bindings/misc/intel,ixp4xx-ahb-queue-manager.yaml
-> index 36a9dbdf3f03..aab89946b04f 100644
-> --- a/Documentation/devicetree/bindings/misc/intel,ixp4xx-ahb-queue-manager.yaml
-> +++ b/Documentation/devicetree/bindings/misc/intel,ixp4xx-ahb-queue-manager.yaml
-> @@ -45,7 +45,7 @@ examples:
->      #include <dt-bindings/interrupt-controller/irq.h>
->
->      qmgr: queue-manager@60000000 {
-> -         compatible = "intel,ixp4xx-ahb-queue-manager";
-> -         reg = <0x60000000 0x4000>;
-> -         interrupts = <3 IRQ_TYPE_LEVEL_HIGH>, <4 IRQ_TYPE_LEVEL_HIGH>;
-> +        compatible = "intel,ixp4xx-ahb-queue-manager";
-> +        reg = <0x60000000 0x4000>;
-> +        interrupts = <3 IRQ_TYPE_LEVEL_HIGH>, <4 IRQ_TYPE_LEVEL_HIGH>;
->      };
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index af378b9ff3f4..b2df1e26ceef 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -227,49 +227,49 @@ examples:
->      #include <dt-bindings/power/r8a7790-sysc.h>
->
->      sdhi0: mmc@ee100000 {
-> -            compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> -            reg = <0xee100000 0x328>;
-> -            interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>;
-> -            clocks = <&cpg CPG_MOD 314>;
-> -            dmas = <&dmac0 0xcd>, <&dmac0 0xce>, <&dmac1 0xcd>, <&dmac1 0xce>;
-> -            dma-names = "tx", "rx", "tx", "rx";
-> -            max-frequency = <195000000>;
-> -            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> -            resets = <&cpg 314>;
-> +        compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> +        reg = <0xee100000 0x328>;
-> +        interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD 314>;
-> +        dmas = <&dmac0 0xcd>, <&dmac0 0xce>, <&dmac1 0xcd>, <&dmac1 0xce>;
-> +        dma-names = "tx", "rx", "tx", "rx";
-> +        max-frequency = <195000000>;
-> +        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +        resets = <&cpg 314>;
->      };
->
->      sdhi1: mmc@ee120000 {
-> -             compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> -             reg = <0xee120000 0x328>;
-> -             interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-> -             clocks = <&cpg CPG_MOD 313>;
-> -             dmas = <&dmac0 0xc9>, <&dmac0 0xca>, <&dmac1 0xc9>, <&dmac1 0xca>;
-> -             dma-names = "tx", "rx", "tx", "rx";
-> -             max-frequency = <195000000>;
-> -             power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> -             resets = <&cpg 313>;
-> +        compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> +        reg = <0xee120000 0x328>;
-> +        interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD 313>;
-> +        dmas = <&dmac0 0xc9>, <&dmac0 0xca>, <&dmac1 0xc9>, <&dmac1 0xca>;
-> +        dma-names = "tx", "rx", "tx", "rx";
-> +        max-frequency = <195000000>;
-> +        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +        resets = <&cpg 313>;
->      };
->
->      sdhi2: mmc@ee140000 {
-> -             compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> -             reg = <0xee140000 0x100>;
-> -             interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> -             clocks = <&cpg CPG_MOD 312>;
-> -             dmas = <&dmac0 0xc1>, <&dmac0 0xc2>, <&dmac1 0xc1>, <&dmac1 0xc2>;
-> -             dma-names = "tx", "rx", "tx", "rx";
-> -             max-frequency = <97500000>;
-> -             power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> -             resets = <&cpg 312>;
-> -     };
-> -
-> -     sdhi3: mmc@ee160000 {
-> -              compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> -              reg = <0xee160000 0x100>;
-> -              interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
-> -              clocks = <&cpg CPG_MOD 311>;
-> -              dmas = <&dmac0 0xd3>, <&dmac0 0xd4>, <&dmac1 0xd3>, <&dmac1 0xd4>;
-> -              dma-names = "tx", "rx", "tx", "rx";
-> -              max-frequency = <97500000>;
-> -              power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> -              resets = <&cpg 311>;
-> +        compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> +        reg = <0xee140000 0x100>;
-> +        interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD 312>;
-> +        dmas = <&dmac0 0xc1>, <&dmac0 0xc2>, <&dmac1 0xc1>, <&dmac1 0xc2>;
-> +        dma-names = "tx", "rx", "tx", "rx";
-> +        max-frequency = <97500000>;
-> +        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +        resets = <&cpg 312>;
-> +    };
-> +
-> +    sdhi3: mmc@ee160000 {
-> +        compatible = "renesas,sdhi-r8a7790", "renesas,rcar-gen2-sdhi";
-> +        reg = <0xee160000 0x100>;
-> +        interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD 311>;
-> +        dmas = <&dmac0 0xd3>, <&dmac0 0xd4>, <&dmac1 0xd3>, <&dmac1 0xd4>;
-> +        dma-names = "tx", "rx", "tx", "rx";
-> +        max-frequency = <97500000>;
-> +        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +        resets = <&cpg 311>;
->      };
-> diff --git a/Documentation/devicetree/bindings/mtd/technologic,nand.yaml b/Documentation/devicetree/bindings/mtd/technologic,nand.yaml
-> index f9d87c46094b..a3c316436317 100644
-> --- a/Documentation/devicetree/bindings/mtd/technologic,nand.yaml
-> +++ b/Documentation/devicetree/bindings/mtd/technologic,nand.yaml
-> @@ -40,6 +40,6 @@ examples:
->          #address-cells = <1>;
->          #size-cells = <0>;
->          nand@0 {
-> -           reg = <0>;
-> +            reg = <0>;
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml b/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-> index b5cf740f96fa..9879d521842e 100644
-> --- a/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-> @@ -53,6 +53,6 @@ examples:
->          };
->
->          temperature_calib: calib@1f4 {
-> -             reg = <0x1f4 0x4>;
-> +            reg = <0x1f4 0x4>;
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml b/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml
-> index 97f2579ea908..29580cbd1767 100644
-> --- a/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml
-> +++ b/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml
-> @@ -123,21 +123,21 @@ examples:
->          #size-cells = <2>;
->
->          pcie0_ep: pcie-ep@d000000 {
-> -           compatible = "ti,j721e-pcie-ep";
-> -           reg = <0x00 0x02900000 0x00 0x1000>,
-> -                 <0x00 0x02907000 0x00 0x400>,
-> -                 <0x00 0x0d000000 0x00 0x00800000>,
-> -                 <0x00 0x10000000 0x00 0x08000000>;
-> -           reg-names = "intd_cfg", "user_cfg", "reg", "mem";
-> -           ti,syscon-pcie-ctrl = <&pcie0_ctrl 0x4070>;
-> -           max-link-speed = <3>;
-> -           num-lanes = <2>;
-> -           power-domains = <&k3_pds 239 TI_SCI_PD_EXCLUSIVE>;
-> -           clocks = <&k3_clks 239 1>;
-> -           clock-names = "fck";
-> -           max-functions = /bits/ 8 <6>;
-> -           dma-coherent;
-> -           phys = <&serdes0_pcie_link>;
-> -           phy-names = "pcie-phy";
-> -       };
-> +            compatible = "ti,j721e-pcie-ep";
-> +            reg = <0x00 0x02900000 0x00 0x1000>,
-> +                  <0x00 0x02907000 0x00 0x400>,
-> +                  <0x00 0x0d000000 0x00 0x00800000>,
-> +                  <0x00 0x10000000 0x00 0x08000000>;
-> +            reg-names = "intd_cfg", "user_cfg", "reg", "mem";
-> +            ti,syscon-pcie-ctrl = <&pcie0_ctrl 0x4070>;
-> +            max-link-speed = <3>;
-> +            num-lanes = <2>;
-> +            power-domains = <&k3_pds 239 TI_SCI_PD_EXCLUSIVE>;
-> +            clocks = <&k3_clks 239 1>;
-> +            clock-names = "fck";
-> +            max-functions = /bits/ 8 <6>;
-> +            dma-coherent;
-> +            phys = <&serdes0_pcie_link>;
-> +            phy-names = "pcie-phy";
-> +        };
->      };
-> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> index 3da3d02a6690..979a377cb4ff 100644
-> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> @@ -115,40 +115,40 @@ allOf:
->
->  examples:
->    - |
-> -   #include <dt-bindings/interrupt-controller/irq.h>
-> -   #include <dt-bindings/input/linux-event-codes.h>
-> -   #include <dt-bindings/spmi/spmi.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/input/linux-event-codes.h>
-> +    #include <dt-bindings/spmi/spmi.h>
->
-> -   spmi@c440000 {
-> -     reg = <0x0c440000 0x1100>;
-> -     #address-cells = <2>;
-> -     #size-cells = <0>;
-> +    spmi@c440000 {
-> +        reg = <0x0c440000 0x1100>;
-> +        #address-cells = <2>;
-> +        #size-cells = <0>;
->
-> -     pmic@0 {
-> -       reg = <0x0 SPMI_USID>;
-> -       #address-cells = <1>;
-> -       #size-cells = <0>;
-> +        pmic@0 {
-> +            reg = <0x0 SPMI_USID>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
->
-> -       pon@800 {
-> -         compatible = "qcom,pm8998-pon";
-> -         reg = <0x800>;
-> +            pon@800 {
-> +                compatible = "qcom,pm8998-pon";
-> +                reg = <0x800>;
->
-> -         pwrkey {
-> -            compatible = "qcom,pm8941-pwrkey";
-> -            interrupts = <0x0 0x8 0 IRQ_TYPE_EDGE_BOTH>;
-> -            debounce = <15625>;
-> -            bias-pull-up;
-> -            linux,code = <KEY_POWER>;
-> -         };
-> +                pwrkey {
-> +                    compatible = "qcom,pm8941-pwrkey";
-> +                    interrupts = <0x0 0x8 0 IRQ_TYPE_EDGE_BOTH>;
-> +                    debounce = <15625>;
-> +                    bias-pull-up;
-> +                    linux,code = <KEY_POWER>;
-> +                };
->
-> -         resin {
-> -            compatible = "qcom,pm8941-resin";
-> -            interrupts = <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
-> -            debounce = <15625>;
-> -            bias-pull-up;
-> -            linux,code = <KEY_VOLUMEDOWN>;
-> -         };
-> -       };
-> -     };
-> -   };
-> +                resin {
-> +                    compatible = "qcom,pm8941-resin";
-> +                    interrupts = <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
-> +                    debounce = <15625>;
-> +                    bias-pull-up;
-> +                    linux,code = <KEY_VOLUMEDOWN>;
-> +                };
-> +            };
-> +        };
-> +    };
->  ...
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/nvidia,tegra264-bpmp-shmem.yaml b/Documentation/devicetree/bindings/reserved-memory/nvidia,tegra264-bpmp-shmem.yaml
-> index f9b2f0fdc282..4380f622f9a9 100644
-> --- a/Documentation/devicetree/bindings/reserved-memory/nvidia,tegra264-bpmp-shmem.yaml
-> +++ b/Documentation/devicetree/bindings/reserved-memory/nvidia,tegra264-bpmp-shmem.yaml
-> @@ -36,12 +36,13 @@ required:
->  examples:
->    - |
->      reserved-memory {
-> -       #address-cells = <2>;
-> -       #size-cells = <2>;
-> -       dram_cpu_bpmp_mail: shmem@f1be0000 {
-> -           compatible = "nvidia,tegra264-bpmp-shmem";
-> -           reg = <0x0 0xf1be0000 0x0 0x2000>;
-> -           no-map;
-> -       };
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        shmem@f1be0000 {
-> +            compatible = "nvidia,tegra264-bpmp-shmem";
-> +            reg = <0x0 0xf1be0000 0x0 0x2000>;
-> +            no-map;
-> +        };
->      };
->  ...
-> diff --git a/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml b/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-> index f6e0c613af67..7d60ce00ce24 100644
-> --- a/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-> @@ -57,14 +57,14 @@ examples:
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/clock/r9a06g032-sysctrl.h>
->      rtc@40006000 {
-> -       compatible = "renesas,r9a06g032-rtc", "renesas,rzn1-rtc";
-> -       reg = <0x40006000 0x1000>;
-> -       interrupts = <GIC_SPI 66 IRQ_TYPE_EDGE_RISING>,
-> -                    <GIC_SPI 67 IRQ_TYPE_EDGE_RISING>,
-> -                    <GIC_SPI 68 IRQ_TYPE_EDGE_RISING>;
-> -       interrupt-names = "alarm", "timer", "pps";
-> -       clocks = <&sysctrl R9A06G032_HCLK_RTC>;
-> -       clock-names = "hclk";
-> -       power-domains = <&sysctrl>;
-> -       start-year = <2000>;
-> -     };
-> +        compatible = "renesas,r9a06g032-rtc", "renesas,rzn1-rtc";
-> +        reg = <0x40006000 0x1000>;
-> +        interrupts = <GIC_SPI 66 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 67 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 68 IRQ_TYPE_EDGE_RISING>;
-> +        interrupt-names = "alarm", "timer", "pps";
-> +        clocks = <&sysctrl R9A06G032_HCLK_RTC>;
-> +        clock-names = "hclk";
-> +        power-domains = <&sysctrl>;
-> +        start-year = <2000>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
-> index c6bce40946d4..123937a5fb2e 100644
-> --- a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
-> +++ b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
-> @@ -172,22 +172,22 @@ examples:
->          };
->
->          power-controller {
-> -           compatible = "amlogic,meson-axg-pwrc";
-> -           #power-domain-cells = <1>;
-> -           amlogic,ao-sysctrl = <&sysctrl_AO>;
-> +            compatible = "amlogic,meson-axg-pwrc";
-> +            #power-domain-cells = <1>;
-> +            amlogic,ao-sysctrl = <&sysctrl_AO>;
->
-> -           resets = <&reset_viu>,
-> -                    <&reset_venc>,
-> -                    <&reset_vcbus>,
-> -                    <&reset_vencl>,
-> -                    <&reset_vid_lock>;
-> -           reset-names = "viu", "venc", "vcbus", "vencl", "vid_lock";
-> -           clocks = <&clk_vpu>, <&clk_vapb>;
-> -           clock-names = "vpu", "vapb";
-> +            resets = <&reset_viu>,
-> +                     <&reset_venc>,
-> +                     <&reset_vcbus>,
-> +                     <&reset_vencl>,
-> +                     <&reset_vid_lock>;
-> +            reset-names = "viu", "venc", "vcbus", "vencl", "vid_lock";
-> +            clocks = <&clk_vpu>, <&clk_vapb>;
-> +            clock-names = "vpu", "vapb";
->          };
->
->          phy {
-> -           compatible = "amlogic,axg-mipi-pcie-analog-phy";
-> -           #phy-cells = <0>;
-> +            compatible = "amlogic,axg-mipi-pcie-analog-phy";
-> +            #phy-cells = <0>;
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-> index f2c5ec7e6437..84218636c0d8 100644
-> --- a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-> @@ -55,25 +55,25 @@ additionalProperties: false
->  examples:
->    - |
->      eud@88e0000 {
-> -           compatible = "qcom,sc7280-eud", "qcom,eud";
-> -           reg = <0x88e0000 0x2000>,
-> -                 <0x88e2000 0x1000>;
-> +        compatible = "qcom,sc7280-eud", "qcom,eud";
-> +        reg = <0x88e0000 0x2000>,
-> +              <0x88e2000 0x1000>;
->
-> -           ports {
-> -                   #address-cells = <1>;
-> -                   #size-cells = <0>;
-> -                   port@0 {
-> -                           reg = <0>;
-> -                           eud_ep: endpoint {
-> -                                   remote-endpoint = <&usb2_role_switch>;
-> -                           };
-> -                   };
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            port@0 {
-> +                reg = <0>;
-> +                eud_ep: endpoint {
-> +                    remote-endpoint = <&usb2_role_switch>;
-> +                };
-> +            };
->
-> -                   port@1 {
-> -                           reg = <1>;
-> -                           eud_con: endpoint {
-> -                                   remote-endpoint = <&con_eud>;
-> -                           };
-> -                   };
-> -           };
-> +            port@1 {
-> +                reg = <1>;
-> +                eud_con: endpoint {
-> +                    remote-endpoint = <&con_eud>;
-> +                };
-> +            };
-> +        };
->      };
-> diff --git a/Documentation/devicetree/bindings/soc/ti/wkup-m3-ipc.yaml b/Documentation/devicetree/bindings/soc/ti/wkup-m3-ipc.yaml
-> index 0df41c4f60c1..56b16183c885 100644
-> --- a/Documentation/devicetree/bindings/soc/ti/wkup-m3-ipc.yaml
-> +++ b/Documentation/devicetree/bindings/soc/ti/wkup-m3-ipc.yaml
-> @@ -121,13 +121,13 @@ examples:
->          };
->
->          wkup_m3_ipc@1324 {
-> -           compatible = "ti,am3352-wkup-m3-ipc";
-> -           reg = <0x1324 0x24>;
-> -           interrupts = <78>;
-> -           ti,rproc = <&wkup_m3>;
-> -           mboxes = <&am335x_mailbox &mbox_wkupm3>;
-> -           ti,vtt-gpio-pin = <7>;
-> -           firmware-name = "am335x-evm-scale-data.bin";
-> +            compatible = "ti,am3352-wkup-m3-ipc";
-> +            reg = <0x1324 0x24>;
-> +            interrupts = <78>;
-> +            ti,rproc = <&wkup_m3>;
-> +            mboxes = <&am335x_mailbox &mbox_wkupm3>;
-> +            ti,vtt-gpio-pin = <7>;
-> +            firmware-name = "am335x-evm-scale-data.bin";
->          };
->      };
->
-> @@ -155,20 +155,20 @@ examples:
->              pinctrl-0 = <&ddr3_vtt_toggle_default>;
->
->              ddr3_vtt_toggle_default: ddr_vtt_toggle_default {
-> -                 pinctrl-single,pins = <
-> +                pinctrl-single,pins = <
->                      0x25C (DS0_PULL_UP_DOWN_EN | PIN_OUTPUT_PULLUP | DS0_FORCE_OFF_MODE | MUX_MODE7)
-> -                 >;
-> +                >;
->              };
->          };
->
->          wkup_m3_ipc@1324 {
-> -           compatible = "ti,am4372-wkup-m3-ipc";
-> -           reg = <0x1324 0x24>;
-> -           interrupts = <78>;
-> -           ti,rproc = <&wkup_m3>;
-> -           mboxes = <&am437x_mailbox &mbox_wkupm3>;
-> -           ti,set-io-isolation;
-> -           firmware-name = "am43x-evm-scale-data.bin";
-> +            compatible = "ti,am4372-wkup-m3-ipc";
-> +            reg = <0x1324 0x24>;
-> +            interrupts = <78>;
-> +            ti,rproc = <&wkup_m3>;
-> +            mboxes = <&am437x_mailbox &mbox_wkupm3>;
-> +            ti,set-io-isolation;
-> +            firmware-name = "am43x-evm-scale-data.bin";
->          };
->      };
->
-> --
-> 2.43.0
->
->
+--=20
+Best regards and thanks for review,
+Dzmitry
 
