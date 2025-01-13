@@ -1,43 +1,43 @@
-Return-Path: <linux-leds+bounces-3758-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3757-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23A4A0B6C4
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:24:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD61CA0B688
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 13:16:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBFC3164F2B
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:24:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1C6A188375D
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 12:16:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F0BB22A4DC;
-	Mon, 13 Jan 2025 12:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0A01CAA9C;
+	Mon, 13 Jan 2025 12:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="gr/FaBBZ"
+	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="W96Kf6Le"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3E22045B6;
-	Mon, 13 Jan 2025 12:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4345F46B5;
+	Mon, 13 Jan 2025 12:16:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736771051; cv=none; b=ChWuWIdfo6YwNJaEOlrYRPsLmfBFboifpKgqWUDAT49E2M0US5Z4TDuHH7D7Jlcm7cKfVwk1Qk8bMN4k16O7JigXKOiiDOWCPjV9hKhKALgP+YrI19nHvbbl3tJ9Wcm1bgmkLH/PI/ToVvJxStsxVQORCbdGBfXPVIsInNtjrX4=
+	t=1736770609; cv=none; b=Goj0UN0DOZt9E7yopDvzxEa+wJZblni/SOnm8O13bXGRlHPVrTmkxNVGY8C0w37pGX2dq64VzYeSpbFhtteUryYHVGC/73IO9x5bsqsVXRjDE5HqD8w9KMr1oJfQhU68XdAphOZy5E8ilcPEAquWZeCkGhiXs9l2CQ5Ohq6qEpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736771051; c=relaxed/simple;
-	bh=+PyEeSLPl5fE9v99iZI8bcIBW0o1ZJP1R07PF4JjW4s=;
+	s=arc-20240116; t=1736770609; c=relaxed/simple;
+	bh=X55MW9Dg0Zi/RNAdNvnOWc+2TMmIMf4DTNcr3zscVk8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N1sGx+VNLaZS1LiiRGAW+jpGNs7gf3se8spC8lHevkIdx0OeAgdJkIrcebTVn1x6BE9K6SXtmHA+CZyh8F6i1depojYYpXT7Tn+Nvk5X8tJTRMFNAAPF+EYd7hn0JNscr9SrV7Nn7sIL+S/JQ9n9s2vUCaJ9zc+w9wMCYdJuHfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=gr/FaBBZ; arc=none smtp.client-ip=49.12.72.200
+	 MIME-Version; b=nqMEkVFD7aHPhOk65dWCxVT7w92dYRiNMUGdNVrAovxvnyMhTk9vnrYfrItewuY1HwM5vnL3zGuDHZAXzR7c8EWwYVc/MfQURx0Mlp3c7jxnCz/+4mpxRHg6DCDHiqHHlrVDN1pn4IvpXUlASSjgRMhgQHJ7JaQNQpC33iPKKDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=W96Kf6Le; arc=none smtp.client-ip=49.12.72.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
 From: Fiona Behrens <me@kloenk.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
-	t=1736770603; bh=x0QnlD4Vmg0Kp9RPBCFlDIqtOrxbMyJ6d+E77AZiYnY=;
+	t=1736770604; bh=Azv4UbYvX3F38g2x+W0M5pOtjjIlGZCAIrMpGofvm+U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=gr/FaBBZ/rq7Tayhhek7CHotdp9asjD45HwjqHXnvbczirWaRJ2i253tt1uJk8hfw
-	 2CG5oMjWMIZ5/WtU8AHSdogPFTBJhg1Os1Ax3CukaOwZ7/7TpD1pbsFdVCKAutVXxM
-	 cRNoVmfbWXF7VeaRDKoTIH1UA/Mx1N0sb3QWGD2E=
+	b=W96Kf6Leb2YWuj+wZE9h0QcmFTIKqKuhHJEHK3IUcDrt74rZfKkEIrLwGVHbNOQDQ
+	 eVQLyYpl52OpozicStzikb/rRuCPrYqBV544i/+K+o1QjcB/o68f+udOj5yKn8ej9s
+	 BAzdYRJdKDLXqmR6fvNakNYy6HhYWEXlRb2HvWg8=
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
 	Pavel Machek <pavel@ucw.cz>,
@@ -56,9 +56,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	rust-for-linux@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] rust: leds: Add hardware trigger support for hardware-controlled LEDs
-Date: Mon, 13 Jan 2025 13:16:18 +0100
-Message-ID: <20250113121620.21598-4-me@kloenk.dev>
+Subject: [PATCH v2 4/5] rust: add I/O port abstractions with resource management
+Date: Mon, 13 Jan 2025 13:16:19 +0100
+Message-ID: <20250113121620.21598-5-me@kloenk.dev>
 In-Reply-To: <20250113121620.21598-1-me@kloenk.dev>
 References: <20250113121620.21598-1-me@kloenk.dev>
 Precedence: bulk
@@ -69,310 +69,273 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds abstraction for hardware trigger support in LEDs, enabling LEDs to
-be controlled by external hardware events.
+This patch introduces abstractions for working with I/O port resources,
+including the `Resource` and `Region` types. These abstractions facilitate
+interaction with `ioport_resource`, enabling safe management of resource
+reservations and memory accesses.
 
-An `Arc` is embedded within the `led_classdev` to manage the lifecycle
-of the hardware trigger, ensuring proper reference counting and cleanup
-when the LED is dropped.
+Additionally, helper functions such as `outb`, `outw`, and `outl` have been
+provided to write values to these resources, with matching read functions
+such as `inb`, `inw`, and `inl` for accessing the port memory.
 
 Signed-off-by: Fiona Behrens <me@kloenk.dev>
 ---
- MAINTAINERS                  |   1 +
- rust/kernel/leds.rs          |  95 +++++++++++++++++++++++---
- rust/kernel/leds/triggers.rs | 128 +++++++++++++++++++++++++++++++++++
- 3 files changed, 214 insertions(+), 10 deletions(-)
- create mode 100644 rust/kernel/leds/triggers.rs
+ rust/helpers/helpers.c |   1 +
+ rust/helpers/ioport.c  |  42 ++++++++++
+ rust/kernel/ioport.rs  | 169 +++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs     |   2 +
+ 4 files changed, 214 insertions(+)
+ create mode 100644 rust/helpers/ioport.c
+ create mode 100644 rust/kernel/ioport.rs
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cef929b57159..954dbd311a55 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13020,6 +13020,7 @@ F:	drivers/leds/
- F:	include/dt-bindings/leds/
- F:	include/linux/leds.h
- F:	rust/kernel/leds.rs
-+F:	rust/kernel/leds/
- 
- LEGO MINDSTORMS EV3
- R:	David Lechner <david@lechnology.com>
-diff --git a/rust/kernel/leds.rs b/rust/kernel/leds.rs
-index 980af7c405d4..f10a10b56e23 100644
---- a/rust/kernel/leds.rs
-+++ b/rust/kernel/leds.rs
-@@ -10,9 +10,14 @@
- use crate::error::from_result;
- use crate::ffi::c_ulong;
- use crate::prelude::*;
-+#[cfg(CONFIG_LEDS_TRIGGERS)]
-+use crate::sync::Arc;
- use crate::time::Delta;
- use crate::types::Opaque;
- 
-+#[cfg(CONFIG_LEDS_TRIGGERS)]
-+pub mod triggers;
-+
- /// Color of an LED.
- #[allow(missing_docs)]
- #[derive(Copy, Clone)]
-@@ -110,12 +115,34 @@ fn try_from(value: u32) -> Result<Self, Self::Error> {
- }
- 
- /// Data used for led registration.
--#[derive(Clone)]
--pub struct LedConfig<'name> {
-+pub struct LedConfig<'name, T> {
-     /// Name to give the led.
-     pub name: Option<&'name CStr>,
-     /// Color of the LED.
-     pub color: Color,
-+    /// Private data of the LED.
-+    pub data: T,
-+
-+    /// Default trigger name.
-+    pub default_trigger: Option<&'static CStr>,
-+    /// Hardware trigger.
-+    ///
-+    /// Setting this to some also defaults the default trigger to this hardware trigger.
-+    /// Use `default_trigger: Some("none")` to overwrite this.
-+    #[cfg(CONFIG_LEDS_TRIGGERS)]
-+    pub hardware_trigger: Option<Arc<triggers::Hardware<T>>>,
-+}
-+
-+impl<'name, T> LedConfig<'name, T> {
-+    /// Create a new LedConfig
-+    pub fn new(color: Color, data: T) -> Self {
-+        Self {
-+            color,
-+            data,
-+            // SAFETY: all other fields are valid with zeroes.
-+            ..unsafe { core::mem::zeroed() }
-+        }
-+    }
- }
- 
- /// A Led backed by a C `struct led_classdev`, additionally offering
-@@ -141,8 +168,7 @@ impl<T> Led<T>
-     #[cfg(CONFIG_LEDS_CLASS)]
-     pub fn register<'a>(
-         device: Option<&'a Device>,
--        config: &'a LedConfig<'a>,
--        data: T,
-+        config: LedConfig<'a, T>,
-     ) -> impl PinInit<Self, Error> + 'a
-     where
-         T: 'a,
-@@ -188,14 +214,46 @@ pub fn register<'a>(
-                 unsafe { ptr::write(set_fn_ptr, Some(blink_set::<T>)) };
-             }
- 
-+        #[cfg(CONFIG_LEDS_TRIGGERS)]
-+        if let Some(trigger) = config.hardware_trigger {
-+            let trigger = trigger.into_raw();
-+            // SAFETY: `place` is pointing to a live allocation.
-+            let trigger_type_ptr = unsafe { ptr::addr_of_mut!((*place).trigger_type) };
-+            // SAFETY: `trigger` is a valid pointer
-+            let hw_trigger = unsafe { ptr::addr_of!((*trigger).hw_type) };
-+            // SAFETY: `trigger_type_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(trigger_type_ptr, hw_trigger.cast_mut().cast()) };
-+
-+            // SAFETY: trigger points to a valid hardware trigger struct.
-+            let trigger_name_ptr = unsafe { Opaque::raw_get(ptr::addr_of!( (*trigger).trigger)) };
-+            // SAFETY: trigger points to a valid hardware trigger struct.
-+            let trigger_name_ptr = unsafe { (*trigger_name_ptr).name };
-+            // SAFETY: `place` is pointing to a live allocation.
-+            let default_trigger_ptr = unsafe { ptr::addr_of_mut!((*place).default_trigger) };
-+            // SAFETY: `default_trigger_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(default_trigger_ptr, trigger_name_ptr) };
-+
-+            // SAFETY: `place` is pointing to a live allocation.
-+            let hw_ctrl_trigger_ptr = unsafe { ptr::addr_of_mut!((*place).hw_control_trigger) };
-+            // SAFETY: `hw_ctrl_trigger_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(hw_ctrl_trigger_ptr, trigger_name_ptr) };
-+        }
-+
-+        // After hw trigger impl, to overwrite default trigger
-+        if let Some(default_trigger) = config.default_trigger {
-+            // SAFETY: `place` is pointing to a live allocation.
-+            let default_trigger_ptr = unsafe { ptr::addr_of_mut!((*place).default_trigger) };
-+            // SAFETY: `default_trigger_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(default_trigger_ptr, default_trigger.as_char_ptr()) };
-+        }
- 
--            let dev = device.map(|dev| dev.as_raw()).unwrap_or(ptr::null_mut());
--            // SAFETY: `place` is a pointer to a live allocation of `bindings::led_classdev`.
--            crate::error::to_result(unsafe {
--                bindings::led_classdev_register_ext(dev, place, ptr::null_mut())
--            })
-+        let dev = device.map(|dev| dev.as_raw()).unwrap_or(ptr::null_mut());
-+        // SAFETY: `place` is a pointer to a live allocation of `bindings::led_classdev`.
-+        crate::error::to_result(unsafe {
-+                    bindings::led_classdev_register_ext(dev, place, ptr::null_mut())
-+        })
-             }),
--            data: data,
-+            data: config.data,
-         })
-     }
- }
-@@ -220,6 +278,23 @@ fn drop(self: Pin<&mut Self>) {
-         unsafe {
-             bindings::led_classdev_unregister(self.led.get())
-         }
-+
-+        // drop trigger if there is a hw trigger defined.
-+        #[cfg(CONFIG_LEDS_TRIGGERS)]
-+        {
-+            // SAFETY: `self.led` is a valid led.
-+            let hw_trigger_type =
-+                unsafe { ptr::read(ptr::addr_of!((*self.led.get()).trigger_type)) };
-+            if !hw_trigger_type.is_null() {
-+                // SAFETY: hw_trigger_type is a valid and non null pointer into a Hardware trigger.
-+                let hw_trigger_type = unsafe {
-+                    crate::container_of!(hw_trigger_type, triggers::Hardware<T>, hw_type)
-+                };
-+                // SAFETY: `hw_trigger_type` is a valid pointer that came from an arc.
-+                let hw_trigger_type = unsafe { Arc::from_raw(hw_trigger_type) };
-+                drop(hw_trigger_type);
-+            }
-+        }
-     }
- }
- 
-diff --git a/rust/kernel/leds/triggers.rs b/rust/kernel/leds/triggers.rs
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index dcf827a61b52..b40aee82fa0f 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -14,6 +14,7 @@
+ #include "cred.c"
+ #include "err.c"
+ #include "fs.c"
++#include "ioport.c"
+ #include "jump_label.c"
+ #include "kunit.c"
+ #include "mutex.c"
+diff --git a/rust/helpers/ioport.c b/rust/helpers/ioport.c
 new file mode 100644
-index 000000000000..d5f2b8252645
+index 000000000000..d9c9e2093b98
 --- /dev/null
-+++ b/rust/kernel/leds/triggers.rs
-@@ -0,0 +1,128 @@
++++ b/rust/helpers/ioport.c
+@@ -0,0 +1,42 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+//! LED trigger abstractions.
++#include <linux/ioport.h>
++#include <linux/io.h>
 +
-+use core::marker::PhantomData;
++struct resource *rust_helper_request_region(resource_size_t start,
++					    resource_size_t n, const char *name)
++{
++	return request_region(start, n, name);
++}
++
++struct resource *rust_helper_request_muxed_region(resource_size_t start,
++						  resource_size_t n,
++						  const char *name)
++{
++	return request_muxed_region(start, n, name);
++}
++
++void rust_helper_release_region(resource_size_t start, resource_size_t n)
++{
++	release_region(start, n);
++}
++
++#define define_rust_helper_out(name, type)                      \
++	void rust_helper_##name(type value, unsigned long addr) \
++	{                                                       \
++		(name)(value, addr);                            \
++	}
++
++define_rust_helper_out(outb, u8);
++define_rust_helper_out(outw, u16);
++define_rust_helper_out(outl, u32);
++
++#define define_rust_helper_in(name, type)           \
++	type rust_helper_##name(unsigned long addr) \
++	{                                           \
++		return (name)(addr);                \
++	}
++
++define_rust_helper_in(inb, u8);
++define_rust_helper_in(inw, u16);
++define_rust_helper_in(inl, u32);
+diff --git a/rust/kernel/ioport.rs b/rust/kernel/ioport.rs
+new file mode 100644
+index 000000000000..9bc342cb4663
+--- /dev/null
++++ b/rust/kernel/ioport.rs
+@@ -0,0 +1,169 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Abstractions of routines for detecting, reserving and
++//! allocating system resources.
++//!
++//! C header: [`include/linux/ioport.h`](srctree/include/linux/ioport.h)
++
++use core::ops::Deref;
 +use core::ptr;
 +
-+use crate::error::{from_result, to_result};
 +use crate::prelude::*;
 +use crate::types::Opaque;
 +
-+use super::FromLedClassdev;
++/// Resource Size type.
++/// This is a type alias to `u64`
++/// depending on the config option `CONFIG_PHYS_ADDR_T_64BIT`.
++#[cfg(CONFIG_PHYS_ADDR_T_64BIT)]
++pub type ResourceSize = u64;
 +
-+/// LED Hardware trigger.
-+///
-+/// Used to impement a hardware operation mode for an LED.
-+#[pin_data(PinnedDrop)]
-+pub struct Hardware<T> {
-+    #[pin]
-+    pub(crate) hw_type: Opaque<bindings::led_hw_trigger_type>,
-+    #[pin]
-+    pub(crate) trigger: Opaque<bindings::led_trigger>,
-+    _t: PhantomData<T>,
-+}
++/// Resource Size type.
++/// This is a type alias to `u32`
++/// depending on the config option `CONFIG_PHYS_ADDR_T_64BIT`.
++#[cfg(not(CONFIG_PHYS_ADDR_T_64BIT))]
++pub type ResourceSize = u32;
 +
-+impl<T> Hardware<T>
-+where
-+    T: HardwareOperations,
-+{
-+    /// Register a new hardware Trigger with a given name.
-+    pub fn register(name: &'static CStr) -> impl PinInit<Self, Error> {
-+        try_pin_init!( Self {
-+            // SAFETY: `led_hw_trigger_type` is valid with all zeroes.
-+            hw_type: Opaque::new(unsafe { core::mem::zeroed() }),
-+            trigger <- Opaque::try_ffi_init(move |place: *mut bindings::led_trigger| {
-+            // SAFETY: `place` is a pointer to a live allocation, so erasing is valid.
-+            unsafe { place.write_bytes(0, 1) };
++/// Resource node.
++#[repr(transparent)]
++pub struct Resource(Opaque<bindings::resource>);
 +
-+            // Add name
-+            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
-+            let name_ptr = unsafe { ptr::addr_of_mut!((*place).name) };
-+            // SAFETY: `name_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(name_ptr, name.as_char_ptr()) };
++impl Resource {
++    /// Convert a raw C `struct resource` pointer to a `&'a Resource`.
++    ///
++    /// # Safety
++    ///
++    /// Callers must ensure that `ptr` is valid, non-null.
++    pub unsafe fn as_ref<'a>(ptr: *mut bindings::resource) -> &'a Self {
++        // SAFETY: Guaranteed by the safety requirements of the function.
++        unsafe { &*ptr.cast() }
++    }
 +
-+            // Add fn pointers
-+            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
-+            let activate_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).activate) };
-+            // SAFETY: `activate_fn_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe { ptr::write(activate_fn_ptr, Some(trigger_activate::<T>)) };
++    /// Return raw pointer to the resource.
++    pub fn as_raw(&self) -> *mut bindings::resource {
++        self.0.get()
++    }
 +
-+            if T::HAS_DEACTIVATE {
-+                // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
-+                let deactivate_fn_ptr: *mut Option<_> = unsafe { ptr::addr_of_mut!((*place).deactivate) };
-+                // SAFETY: `deactivate_fn_ptr` points to a valid allocation and we have exclusive access.
-+                unsafe { ptr::write(deactivate_fn_ptr, Some(trigger_deactivate::<T>)) };
-+            }
++    /// Get name of the resource.
++    pub fn name(&self) -> &CStr {
++        // SAFETY: self.get is valid and of type `bindings::resource`
++        let name_ptr = unsafe { ptr::read(ptr::addr_of!((*self.as_raw()).name)) };
++        // SAFETY: `name_ptr` is a valid char pointer from the resource
++        unsafe { CStr::from_char_ptr(name_ptr) }
++    }
 +
-+            // Add hardware trigger
-+            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
-+            let trigger_type_ptr = unsafe { ptr::addr_of_mut!((*place).trigger_type) };
-+            // SAFETY: `place` is pointing to a live allocation, so the deref is safe.
-+            let trigger_type = unsafe { crate::container_of!(place, Self, trigger).cast_mut() };
-+            // SAFETY: `trigger_type` is pointing to a live allocation of Self.
-+            let trigger_type = unsafe { ptr::addr_of!((*trigger_type).hw_type) };
-+            // SAFETY: `trigger_type_ptr` points to a valid allocation and we have exclusive access.
-+            unsafe{ ptr::write(trigger_type_ptr, Opaque::raw_get(trigger_type)) };
++    /// Get the start of the [`Resource`].
++    #[inline]
++    pub fn start(&self) -> ResourceSize {
++        // SAFETY: self.get is valid and of type `bindings::resource`
++        unsafe { ptr::read(ptr::addr_of!((*self.as_raw()).start)) }
++    }
 +
-+        // SAFETY: ffi call, `place` is sufficently filled with data at this point
-+            to_result(unsafe {
-+                bindings::led_trigger_register(place)
-+            })
-+            }),
-+            _t: PhantomData,
-+        })
++    /// Get the end of the [`Resource`].
++    #[inline]
++    pub fn end(&self) -> ResourceSize {
++        // SAFETY: self.get is valid and of type `bindings::resource`
++        unsafe { ptr::read(ptr::addr_of!((*self.as_raw()).start)) }
++    }
++
++    /// Get the length of the Resource.
++    // Empty resource (len = 0) does not make any sense.`
++    #[allow(clippy::len_without_is_empty)]
++    pub fn len(&self) -> ResourceSize {
++        self.end() - self.start() + 1
 +    }
 +}
 +
-+#[pinned_drop]
-+impl<T> PinnedDrop for Hardware<T> {
-+    fn drop(self: Pin<&mut Self>) {
-+        // SAFETY: trigger is pointing to a live and registered allocation
-+        unsafe {
-+            bindings::led_trigger_unregister(self.trigger.get());
++/// Requested region using `request_region`. This will release the region when dropped.
++///
++/// This uses port memory from the `ioport_resource` parent resource.
++pub struct Region<'name>(&'name Resource);
++
++impl<'name> Region<'name> {
++    /// Request a new muxed region from the `ioport_resource` region.
++    #[inline]
++    pub fn request_muxed(start: ResourceSize, n: ResourceSize, name: &'name CStr) -> Option<Self> {
++        // SAFETY: C ffi call. `name` is valid for lifetime of `Self`
++        unsafe { Self::from_resource(bindings::request_muxed_region(start, n, name.as_char_ptr())) }
++    }
++
++    /// Request a new region from the `ioport_resource` region.
++    #[inline]
++    pub fn request(start: ResourceSize, n: ResourceSize, name: &'name CStr) -> Option<Self> {
++        // SAFETY: C ffi call. `name` is valid for lifetime of `Self`
++        unsafe { Self::from_resource(bindings::request_region(start, n, name.as_char_ptr())) }
++    }
++
++    /// Get a resource pointer and return a resource if the pointer is non-null.
++    ///
++    /// Helper for `request` and `request_muxed`.
++    ///
++    /// # Safety
++    ///
++    /// `resource` has to be a valid or null pointer to a resource.
++    unsafe fn from_resource(resource: *mut bindings::resource) -> Option<Self> {
++        if resource.is_null() {
++            None
++        } else {
++            // SAFETY: resource is a valid resource by the function requirements and non-null.
++            Some(Self(unsafe { Resource::as_ref(resource) }))
 +        }
 +    }
 +}
 +
-+/// Operations for the Hardware trigger
-+#[macros::vtable]
-+pub trait HardwareOperations: super::Operations {
-+    /// Activate the hardware trigger.
-+    fn activate(this: &mut Self::This) -> Result;
-+    /// Deactivate the hardware trigger.
-+    fn deactivate(_this: &mut Self::This) {
-+        crate::build_error(crate::error::VTABLE_DEFAULT_ERROR)
++macro_rules! define_out {
++    ($name:ident => $type:ty) => {
++	#[doc = concat!("Write [`", stringify!($type), "`] value into port memory region at the given offset.")]
++	pub fn $name(&self, value: $type, offset: ResourceSize) {
++	    let address = self.start() + offset;
++	    debug_assert!((address + (core::mem::size_of::<$type>() as ResourceSize)) <= (self.end() + 1));
++	    // SAFETY: ffi call, address is in the region
++	    unsafe { bindings::$name(value, address) };
++	}
++    };
++    ($($name:ident => $type:ty;)*) => {
++	$(define_out! { $name => $type })*
++    };
++}
++
++macro_rules! define_in {
++    ($name:ident => $type:ty) => {
++	#[doc = concat!("Read [`", stringify!($type), "`] value from port memory region at the given offset.")]
++	pub fn $name(&self, offset: ResourceSize) -> $type {
++	    let address = self.start() + offset;
++	    debug_assert!((address + (core::mem::size_of::<$type>() as ResourceSize)) <= (self.end() + 1));
++	    // SAFETY: ffi call, address is in the region
++	    unsafe { bindings::$name(address) }
++	}
++    };
++    ($($name:ident => $type:ty;)*) => {
++	$(define_in! { $name => $type })*
++    };
++}
++
++impl Region<'_> {
++    define_out! {
++        outb => u8;
++        outw => u16;
++        outl => u32;
++    }
++    define_in! {
++        inb => u8;
++        inw => u16;
++        inl => u32;
 +    }
 +}
 +
-+/// `trigger_activate` function pointer
-+///
-+/// # Safety
-+///
-+/// `led_cdev` must be passed by the corresponding callback in `led_trigger`.
-+unsafe extern "C" fn trigger_activate<T>(led_cdev: *mut bindings::led_classdev) -> i32
-+where
-+    T: HardwareOperations,
-+{
-+    from_result(|| {
-+        // SAFETY: By the safety requirement of this function `led_cdev` is embedded inside a `T::This<T>`.
-+        let led = unsafe { &mut *(T::This::led_container_of(led_cdev.cast())) };
-+        T::activate(led)?;
-+        Ok(0)
-+    })
++impl Drop for Region<'_> {
++    fn drop(&mut self) {
++        // SAFETY: ffi call, resource is valid.
++        unsafe { bindings::release_region(self.start(), self.len()) };
++    }
 +}
 +
-+/// `trigger_deactivate` function pointer
-+///
-+/// # Safety
-+///
-+/// `led_cdev` must be passed by the corresponding callback in `led_trigger`.
-+unsafe extern "C" fn trigger_deactivate<T>(led_cdev: *mut bindings::led_classdev)
-+where
-+    T: HardwareOperations,
-+{
-+    // SAFETY: By the safety requirement of this function `led_cdev` is embedded inside a `T::This<T>`.
-+    let led = unsafe { &mut *(T::This::led_container_of(led_cdev.cast())) };
-+    T::deactivate(led)
++impl Deref for Region<'_> {
++    type Target = Resource;
++
++    fn deref(&self) -> &Self::Target {
++        self.0
++    }
 +}
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 8895a1683f82..99cd706c40e7 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -43,6 +43,8 @@
+ pub mod fs;
+ pub mod init;
+ pub mod ioctl;
++#[cfg(CONFIG_HAS_IOPORT)]
++pub mod ioport;
+ pub mod jump_label;
+ #[cfg(CONFIG_KUNIT)]
+ pub mod kunit;
 -- 
 2.47.0
 
