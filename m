@@ -1,224 +1,289 @@
-Return-Path: <linux-leds+bounces-3754-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3755-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A72A0ACCE
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 01:24:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3177CA0B379
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 10:46:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7B4B1886606
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 00:24:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6419B1881D51
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2025 09:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430D533C5;
-	Mon, 13 Jan 2025 00:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206DF157469;
+	Mon, 13 Jan 2025 09:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Cci70lU8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IoxIckBa"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA6B749A;
-	Mon, 13 Jan 2025 00:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AF6235BEF;
+	Mon, 13 Jan 2025 09:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736727847; cv=none; b=kDP9SIFP774j+fdMqtrKqs4TouDjfwjGzegBKBi/4KBwIEgcDqFRG5vYsIP0nnPKP9LKTHCoNg+rHNWGq8cn8epnYXhTRPk1kR+MYp5LBpcv66VmDk82Ggfq+auRbhkaTNLZ6EYpQHMqE7w9BbfAmU7zcTO+03hM//BcWw+6I8Y=
+	t=1736761603; cv=none; b=aqVr/MisORIc3cjxiYg+URtEbPhvpshE0nsoMldJ0fNju/pODhzWumSa2o8PaW5sKxArSMpu+T4SrD5OSPUdCIn3P0bD/5RGnJtXs3niZigtdZziUPOQWpuXWZV+5ZXBeF/mJe16p05JIqc++FX79lmFW4SA3hBRl+BGoRRs6Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736727847; c=relaxed/simple;
-	bh=LK36QBCDL7VmwpsAxJ3myMP3WAaaLSWzzF3ae6NLIbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hApz7LItdvxFQJUzBB50m9vWvfuvlVOXgSuRlQjV42NunFq3gAsErWPAzXqAsFb/bLi2xWvVnYCEpc24NACFKCafejNdVND0HJ3wJPU1eVMoBaelydFLQ3YE19J7N9OF5yAnuRcrPs4ZAIJL/VQImuEYvE39feOjDW5kC1hmJbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Cci70lU8; arc=none smtp.client-ip=89.58.32.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 19B77101D23A3;
-	Mon, 13 Jan 2025 01:24:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1736727842;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CiinI+Vz1CC4T2hrWYGNflx0pjUKdpQ9DrI6EquLXFM=;
-	b=Cci70lU8JxhsgWjag55yL5tDNa41fTbFIyuWFz/qofb7wSwPcfhNPrVSu6OYrri/CG561n
-	A3elaYHv/TaLtOv80HrBGirZx5ViJ7j6agYbD30oxRmfIFtvqf/DF/B1IpfSW45Dotehk3
-	NzNTPbc1qq0nyrZp5yZkNGBMEnFUgyK+daNSpnshmOoScFO+c72JG/WM2BQPwL7tkcfjuN
-	xUmos7GImV3LiT0GZcGIaeWy9e9oRhCpeXjDrtEMZEnRc35/junJh5V+9w8LQzgMiMu8ud
-	53wpxSBzCxuJ6xnz9qC6Hc2pRvfcl/hCXgRzDVSRknIuSnadw0y73sMzo8LZSA==
-From: Marek Vasut <marex@denx.de>
-To: linux-leds@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Lukasz Majewski <lukma@denx.de>,
-	Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH 2/2] leds: trigger: netdev: Introduce OF mode configuration using netdev-trigger-mode property
-Date: Mon, 13 Jan 2025 01:23:38 +0100
-Message-ID: <20250113002346.297481-2-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250113002346.297481-1-marex@denx.de>
-References: <20250113002346.297481-1-marex@denx.de>
+	s=arc-20240116; t=1736761603; c=relaxed/simple;
+	bh=SaVhOgz4l86WMJzhR0gLOvaAZrh5zTIpU1lyFWvTS8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JtpX7Z8A7eFQoomX48jEdaocbyyKOdkArSEBXtv3s+Wms5uFsj47qdimWhbP6I8IvZ49Nz+LFM+kOfuqhzghoY0C9hkQjp5TVACGy/Cu5xghtT+NBBOyTFjsUjdkzjFtc9KJkdZy4DkuWwaUdyf4PdrANJyDjRVWBYF1V0MVwCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IoxIckBa; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736761601; x=1768297601;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SaVhOgz4l86WMJzhR0gLOvaAZrh5zTIpU1lyFWvTS8A=;
+  b=IoxIckBa4VgnY0yqSp1qCIQhzSE6Iuf6+3NcqU7/Xlma2ZfJuGodYwmX
+   ibgFZ0onGRsjdfxfEL1dQudzwBmByZcLP8XzrGYVHlOMAboijZKJ+LWun
+   SyGUXXBL7YVHaLJXindI3/P6lpt2r5fgul+XFljdCL4je3jtg6/cUx54H
+   meuNjBS71JUUB8F3//CKIsL3SJAeTHMdYS7aVkYJ3i0kv5S1BfVjZwrIZ
+   KUx3wg24qhYNZsL0e6ehx87Vm6duznpCD460COT7whwSQ8GJoRJ+57bzO
+   gmxhiVCPDVN9SxbaM7XcSTZH9hUihu3gsN7JmbUPDqTrJETHDU4MDGA0a
+   w==;
+X-CSE-ConnectionGUID: oNQ2DSFWSLW1D87GyFU1Bg==
+X-CSE-MsgGUID: plUr1OAYTQa+k+PpHD0yQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="54555900"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="54555900"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 01:46:40 -0800
+X-CSE-ConnectionGUID: SkXU9miOQ1OESpcuBG28Kg==
+X-CSE-MsgGUID: 4flXyqnIRhCbApGin4zQuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="109457880"
+Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 01:46:37 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tXH1m-00000000PVZ-1WoG;
+	Mon, 13 Jan 2025 11:46:34 +0200
+Date: Mon, 13 Jan 2025 11:46:34 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Thomas Richard <thomas.richard@bootlin.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, DanieleCleri@aaeon.eu,
+	GaryWang@aaeon.com.tw
+Subject: Re: [PATCH 4/5] pinctrl: Add pin controller driver for AAEON UP
+ boards
+Message-ID: <Z4Tg-uTVcOiYK2Dr@smile.fi.intel.com>
+References: <20241211-aaeon-up-board-pinctrl-support-v1-0-24719be27631@bootlin.com>
+ <20241211-aaeon-up-board-pinctrl-support-v1-4-24719be27631@bootlin.com>
+ <CACRpkdZ_AwiE+HFX6TFBgscaVquKm_tegNSbTT0fhFmpkM7d_Q@mail.gmail.com>
+ <9e692951-86a1-4dda-b843-58173453ffe0@bootlin.com>
+ <CACRpkdZ6kmPn9TfO40drJ+vwM2GNKfNaP21R_gEvugg+GJiF1w@mail.gmail.com>
+ <7e96dd60-8f72-48f9-a393-5a8a7e5c6b18@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <7e96dd60-8f72-48f9-a393-5a8a7e5c6b18@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Introduce netdev trigger specific netdev-trigger-mode property which
-is used to configure the netdev trigger mode flags. Those mode flags
-define events on which the LED acts upon when the hardware offload is
-enabled. This is traditionally configured via sysfs, but that depends
-on userspace, which is available too late and makes ethernet PHY LEDs
-not work e.g. when NFS root is being mounted.
+On Fri, Jan 03, 2025 at 11:28:30AM +0100, Thomas Richard wrote:
+> On 12/22/24 00:43, Linus Walleij wrote:
+> > Hi Thomas,
+> > 
+> > thanks for your detailed reply!
+> > 
+> > On Fri, Dec 20, 2024 at 2:50 PM Thomas Richard
+> > <thomas.richard@bootlin.com> wrote:
+> > 
+> >> Yes my cover letter was a bit short, and maybe some context was missing.
+> > 
+> > The text and graphics below explain it very well, so please include them
+> > into the commit message so we have it there!
+> > 
+> >> This FPGA acts as a level shifter between the Intel SoC pins and the pin
+> >> header, and also makes a kind of switch/mux.
+> > 
+> > Since it's Intel we need to notify Andy to help out with this so that
+> > it gets done in a way that works with how he think consumers
+> > should interact with Intel pin control and GPIO.
+> > 
+> >> +---------+         +--------------+             +---+
+> >>           |         |              |             | H |
+> >>           |---------|              |-------------| E |
+> >>           |         |              |             | A |
+> >> Intel Soc |---------|    FPGA      |-------------| D |
+> >>           |         |              |             | E |
+> >>           |---------|              |-------------| R |
+> >>           |         |              |             |   |
+> >> ----------+         +--------------+             +---+
+> >>
+> >>
+> >> For most of the pins, the FPGA opens/closes a switch to enable/disable
+> >> the access to the SoC pin from a pin header.
+> >> Each "switch", has a direction flag that shall be set in tandem with the
+> >> status of the SoC pin.
+> >> For example, if the SoC pin is in PWM mode, the "switch" shall be
+> >> configured in output direction.
+> >> If the SoC pin is set in GPIO mode, the direction of the "switch" shall
+> >> corresponds to the GPIO direction.
+> >>
+> >> +---------+              +--------------+             +---+
+> >>           |              |              |             | H |
+> >>           |              |      \       |             | E |
+> >>           |   PWM1       |       \      |             | A |
+> >> Intel Soc |--------------|-----   \-----|-------------| D |
+> >>           |              |              |             | E |
+> >>           |              |              |             | R |
+> >>           |              |    FPGA      |             |   |
+> >> ----------+              +--------------+             +---+
+> >>
+> >> (PWM1 pin from Intel SoC can be used as PWM, and also in GPIO mode,
+> >> thanks to the Intel pinctrl driver).
+> >>
+> >>
+> >> Few pins (PINMUX_* pins) work differently. The FPGA acts as a mux and
+> >> routes for example the I2C0_SDA pin or GPIOX (of the SoC) to the pin header.
+> >>
+> >> +---------+           +--------------+             +---+
+> >>           | I2C0_SDA  |              |             | H |
+> >>           |-----------|----- \       |             | E |
+> >>           |           |       \      |             | A |
+> >> Intel Soc |           |        \-----|-------------| D |
+> >>           | GPIOX     |              |             | E |
+> >>           |-----------|-----         |             | R |
+> >>           |           |    FPGA      |             |   |
+> >> ----------+           +--------------+             +---+
+> >>
+> >> The pin header looks like this:
+> >> +--------------------+--------------------+
+> >> |      3.3V          |       5V           |
+> >> | GPIO2 / I2C1_SDA   |       5V           |
+> >> | GPIO3 / I2C1_SCL   |       GND          |
+> >> | GPIO4 / ADC0       | GPIO14 / UART1_TX  |
+> >> |      GND           | GPIO15 / UART1_RX  |
+> >> | GPIO17 / UART1_RTS | GPIO18 / I2S_CLK   |
+> >> |     GPIO27         |       GND          |
+> >> |     GPIO22         |      GPIO23        |
+> >> |      3.3V          |      GPIO24        |
+> >> | GPIO10 / SPI_MOSI  |       GND          |
+> >> | GPIO9 / SPI_MISO   |      GPIO25        |
+> >> | GPIO11 / SPI_CLK   | GPIO8 / SPI_CS0    |
+> >> |      GND           | GPIO7 / SPI_CS1    |
+> >> | GPIO0 / I2C0_SDA   | GPIO1 / I2C0_SCL   |
+> >> |     GPIO5          |       GND          |
+> >> |     GPIO6          | GPIO12 / PWM0      |
+> >> | GPIO13 / PWM1      |       GND          |
+> >> | GPIO19 / I2S_FRM   | GPIO16 / UART1_CTS |
+> >> |     GPIO26         | GPIO20 / I2S_DIN   |
+> >> |      GND           | GPIO21 / I2S_DOUT  |
+> >> +--------------------+--------------------+
+> >>
+> >> The GPIOs in the pin header corresponds to the gpiochip I declare in
+> >> this driver.
+> >> So when I want to use a pin in GPIO mode, the upboard pinctrl driver
+> >> requests the corresponding SoC GPIO to the Intel pinctrl driver.
+> >> The SoC pins connected to the FPGA, are identified with "external" id.
+> >>
+> >> The hardware and the FPGA were designed in tandem, so you know for
+> >> example that for the GPIOX you need to request the Nth "external" GPIO.
+> >>
+> >> When you drive your GPIO, the upboard gpiochip manages in the same time
+> >> the direction of the "switch" and the value/direction of the
+> >> corresponding SoC pin.
+> >>
+> >> +------------------+         +--------------+             +---+
+> >>                    |---------|              |-------------| H |
+> >>                    |---------|   GPIOCHIP   |-------------| E |
+> >>    Intel gpiochip  |---------|              |-------------| A |
+> >>  provided by Intel |---------|    FPGA      |-------------| D |
+> >>   pinctrl driver   |---------|              |-------------| E |
+> >>                    |---------|              |-------------| R |
+> >>                    |---------|              |-------------|   |
+> >> +------------------+         +--------------+             +---+
+> >>
+> >>
+> >> About gpiochip_add_pinlist_range(), I added it because the FPGA pins
+> >> used by the gpiochip are not consecutive.
+> >>
+> >> Please let me know if it is not clear.
+> >> And sorry I'm not very good to make ascii art.
+> > 
+> > I get it! We have a similar driver in the kernel already, look into:
+> > drivers/gpio/gpio-aggregator.c
+> > 
+> > The aggregator abstraction is however just software. What you
+> > need here is a gpio-aggregator that adds some hardware
+> > control on top. But it has a very nice design using a bitmap
+> > to keep track of the GPIOs etc, and it supports operations
+> > on multiple GPIOs (many man-hours of hard coding and
+> > design went into that driver, ask Geert and Andy...)
+> > 
+> > So I would proceed like this:
+> > 
+> > - The pin control part of the driver looks sound, except
+> >   for the way you add ranges.
+> > 
+> > - The gpiochip part needs to be refactored using the
+> >   ideas from gpio-aggregator.c.
+> > 
+> > - Look closely at aggregator and see what you can do
+> >   based on that code, if you can mimic how it picks up
+> >   and forwards all GPIO functions. Maybe part of it
+> >   needs to be made into a library?
+> >  <linux/gpio/gpio-aggregator.h>?
+> >   For example if you start to feel like "I would really like
+> >   to just call gpio_fwd_get_multiple() then this is what
+> >   you want to do. The library can probably still be
+> >   inside gpio-aggregator.c the way we do it in
+> >   e.g. gpio-mmio.c, just export and keep library functions
+> >   separately.
+> 
+> Hi Linus,
+> 
+> Ok I think I understand what you expect.
+> I started to look at the gpio-aggregator code, play a bit with it, and
+> refactor it to use it from my driver.
+> 
+> My main issue is about the request of the SoC GPIOs done by the aggregator.
+> If from my driver I call the aggregator library to create a gpiochip,
+> the SoC pins will be requested. So the SoC pins will be set in GPIO
+> mode, and the pins will never be in function mode.
+> There is no way to set the pins back to function mode (even if the GPIO
+> is free).
+> 
+> I tried to add a feature in the aggregator to defer the request of the gpio.
+> So at the beginning of each ops the gpio_desc is checked. If it is
+> valid, the gpio can be used. Otherwise, the gpio is requested.
+> For example:
+> 
+> gpio_fwd_get() {
+> 	if (!gpio_desc_is_valid(desc))
+> 		desc = request_gpio()
+> 
+> 	return gpiod_get_value(desc)
+> }
+> 
+> But when a gpiochip is registered, the core calls get_direction() or
+> direction_input(), so all GPIOs are requested and it does not solve my
+> problem.
+> 
+> I expect to register a gpiochip without setting all pins in GPIO mode at
+> probe time (like all pinctrl driver do).
+> But I did not find a solution.
 
-For each LED with linux,default-trigger = "netdev" described in DT, the
-optional netdev-trigger-mode property supplies the default configuration
-of the PHY LED mode via DT. This property should be set to a subset of
-TRIGGER_NETDEV_* flags.
+Basically what you need is a pinctrl-aggregattor (an analogue for the pin
+muxing and configuration).
 
-For each LED with linux,default-trigger = "netdev" described in DT, the
-netdev trigger is activated during kernel boot. The trigger is extended
-the parse the netdev-trigger-mode property and set it as a default value
-of trigger_data->mode.
-
-It is not possible to immediately configure the LED mode, because the
-interface to which the PHY and the LED is connected to might not be
-attached to the PHY yet. The netdev_trig_notify() is called when the
-PHY got attached to interface, extend netdev_trig_notify() to detect
-the condition where the LED does have netdev trigger configured in DT
-but the mode was not yet configured and configure the baseline mode
-from the notifier. This can reuse most of set_device_name() except for
-the rtnl_lock() which cannot be claimed in the notifier, so split the
-relevant core code into set_device_name_locked() and call only the core
-code.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Andrew Lunn <andrew@lunn.ch>
-Cc: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Lukasz Majewski <lukma@denx.de>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-leds@vger.kernel.org
----
- drivers/leds/trigger/ledtrig-netdev.c | 51 ++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index c15efe3e50780..20dfc9506c0a6 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -23,6 +23,7 @@
- #include <linux/module.h>
- #include <linux/netdevice.h>
- #include <linux/mutex.h>
-+#include <linux/of.h>
- #include <linux/phy.h>
- #include <linux/rtnetlink.h>
- #include <linux/timer.h>
-@@ -256,19 +257,9 @@ static ssize_t device_name_show(struct device *dev,
- 	return len;
- }
- 
--static int set_device_name(struct led_netdev_data *trigger_data,
--			   const char *name, size_t size)
-+static void set_device_name_locked(struct led_netdev_data *trigger_data,
-+				  const char *name, size_t size)
- {
--	if (size >= IFNAMSIZ)
--		return -EINVAL;
--
--	cancel_delayed_work_sync(&trigger_data->work);
--
--	/*
--	 * Take RTNL lock before trigger_data lock to prevent potential
--	 * deadlock with netdev notifier registration.
--	 */
--	rtnl_lock();
- 	mutex_lock(&trigger_data->lock);
- 
- 	if (trigger_data->net_dev) {
-@@ -298,6 +289,24 @@ static int set_device_name(struct led_netdev_data *trigger_data,
- 		set_baseline_state(trigger_data);
- 
- 	mutex_unlock(&trigger_data->lock);
-+}
-+
-+static int set_device_name(struct led_netdev_data *trigger_data,
-+			   const char *name, size_t size)
-+{
-+	if (size >= IFNAMSIZ)
-+		return -EINVAL;
-+
-+	cancel_delayed_work_sync(&trigger_data->work);
-+
-+	/*
-+	 * Take RTNL lock before trigger_data lock to prevent potential
-+	 * deadlock with netdev notifier registration.
-+	 */
-+	rtnl_lock();
-+
-+	set_device_name_locked(trigger_data, name, size);
-+
- 	rtnl_unlock();
- 
- 	return 0;
-@@ -579,6 +588,20 @@ static int netdev_trig_notify(struct notifier_block *nb,
- 	    && evt != NETDEV_CHANGENAME)
- 		return NOTIFY_DONE;
- 
-+	if (evt == NETDEV_REGISTER && !trigger_data->device_name[0] &&
-+	    led_cdev->hw_control_get && led_cdev->hw_control_set &&
-+	    led_cdev->hw_control_is_supported) {
-+		struct device *ndev = led_cdev->hw_control_get_device(led_cdev);
-+		if (ndev) {
-+			const char *name = dev_name(ndev);
-+
-+			trigger_data->hw_control = true;
-+
-+			cancel_delayed_work_sync(&trigger_data->work);
-+			set_device_name_locked(trigger_data, name, strlen(name));
-+		}
-+	}
-+
- 	if (!(dev == trigger_data->net_dev ||
- 	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name)) ||
- 	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name))))
-@@ -689,6 +712,7 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
- 	struct led_netdev_data *trigger_data;
- 	unsigned long mode = 0;
- 	struct device *dev;
-+	u32 val;
- 	int rc;
- 
- 	trigger_data = kzalloc(sizeof(struct led_netdev_data), GFP_KERNEL);
-@@ -706,7 +730,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
- 	trigger_data->net_dev = NULL;
- 	trigger_data->device_name[0] = 0;
- 
--	trigger_data->mode = 0;
-+	rc = of_property_read_u32(led_cdev->dev->of_node, "netdev-trigger-mode", &val);
-+	trigger_data->mode = rc ? 0 : val;
- 	atomic_set(&trigger_data->interval, msecs_to_jiffies(NETDEV_LED_DEFAULT_INTERVAL));
- 	trigger_data->last_activity = 0;
- 
 -- 
-2.45.2
+With Best Regards,
+Andy Shevchenko
+
 
 
