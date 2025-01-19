@@ -1,169 +1,132 @@
-Return-Path: <linux-leds+bounces-3816-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3817-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2596EA15A0B
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Jan 2025 00:41:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C311A161B3
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Jan 2025 13:45:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 29D7A7A33BF
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Jan 2025 23:41:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F48418860E0
+	for <lists+linux-leds@lfdr.de>; Sun, 19 Jan 2025 12:45:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 212AF1DEFE3;
-	Fri, 17 Jan 2025 23:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2C01DE8BB;
+	Sun, 19 Jan 2025 12:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="meMnbOpD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JI8nLzIh"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01olkn2048.outbound.protection.outlook.com [40.92.112.48])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ED51DED71;
-	Fri, 17 Jan 2025 23:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.112.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737157246; cv=fail; b=UEZrogm2kHhXOKAfaQFsZslxhPHEzlAlWyDM5HeHS7Cfe3gVvk+CjtgTFPL6XBlZkUkR0pNxSq40/2u+th7CX7PsZ/Z01gljWe/AndcjWsKVCB3aCeK2msei609TKTIVUwPHyWcY2j2iXdQ2/puBMdZ8llpb3ZJzGLd4l/dNRKI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737157246; c=relaxed/simple;
-	bh=lgiXXvCaKcBCyhP26HiVwsbPcg2M35/IDLImVgQ7rhc=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XgxBKHGPWsXHHZsr1jbkA4PzTO57bD/QNBVhpXIgQIFTOa6Iffn5qfsMcf42PJwe8SimitbTR4js4xCccSoEs/5ZOmr/mGUn21/6ADuxuKRmogB+wnH+Ut/RoYvspHeiMDLTGZ8h0EWCES8L/OCFHe6inlbqR3Ci1w/88jsQ98w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=meMnbOpD; arc=fail smtp.client-ip=40.92.112.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZQqbN+TzuTAxDh3yuI2N44sZSLzb1xNlt8h91TDrhnCFRDjAzx+mlg714PH/gSjKCA1hANuPqtHchvd/KHmyZpDCyVAzE0+XimvUkLt+CUww1wKvxcghipO1mfmqyTlQy926SgoNixEPsX+FHxp9sC1nhmHXoSoXwCPhLwaMQqdLdrTvQe9q4cpbmRHVBCiu34I7HGtHeFgjEgIhWrEcA3nOPpve9Vahz2mE36qe5wUp++NtduvCWsB+eMw0K/6e0TE2bPZJkP7jo85acFxCR9sR2ijoxRQwQGnGIWTZ3jvfe/jineQlG7zl6GxTGyVmKjzb6h7AZvnDXw+pnbGPhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c9v2O0/2Rxg68/EBe1Ab+v/cvXrGzztTeldf326wlbw=;
- b=tUOQfhxUna6JH0JXddhVZnaOsa06hYEbutrliB93e14kBleUHrTlzsnxZnX28Fjl3U88hutGhagaa/Q0wecqEm9mcnL8+jo5MhKPNwBi0plIYi0pBrYIpE8P7A89S3DmhUu/LGUdtQAe//yFjCDB0O5G6ve92TSxEKdbqjfEYB5zkMzMCyjmG6h9D3ybM7noXUaWy2P9bXtKMMUpx5Dpk6MYiCK87WukGJrwf14LVRmPrXecoxMbLVNtRMN0CAX+6VaqqkMKmLg01WC45wguKirwIj9NXxP9RpPfPy3d4km0Ch11frN6yhmsmnZrLJKO4i2JYtgJEokbV26K95t7XQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c9v2O0/2Rxg68/EBe1Ab+v/cvXrGzztTeldf326wlbw=;
- b=meMnbOpDAs3inAx3/hB3JrkmVDIlOWnUcGAl0PZy1hcehNiuva1G69kESfXZW4n3wmENnA8wVP3abLkAyNr644wt9m1FuYuL8ShKCN99chn+Z0PEEHDQLXlkXxFuJb0aIPuY3QjkZzctN1M93xfbj3IDUsP8OcF5FC8WbTrRM/CBRgIsKbkNzxvB5W9OomS/EzF31zHJ1nu8RR/MPmVIEmY373BSyTUPpT2Z+OacreLUDGc20HtX0x258IfQ54zaDhsPtjAnC/mMgEggunPteO6Tf8xt3Vmf4wRo9Y1KWKYc18SlWP/lP3I1iFeFSIRHhN9YIe6U6jvLR3jUw23DGg==
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:160::13)
- by CWXP123MB4166.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:b4::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.17; Fri, 17 Jan
- 2025 23:40:37 +0000
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb]) by CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb%6]) with mapi id 15.20.8356.014; Fri, 17 Jan 2025
- 23:40:37 +0000
-From: Manuel Fombuena <fombuena@outlook.com>
-To: pavel@ucw.cz,
-	lee@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] Documentation: leds: remove .rst extension for leds-st1202 on index
-Date: Fri, 17 Jan 2025 23:40:31 +0000
-Message-ID:
- <CWLP123MB5473872C55D085611737E009C51B2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250117234034.670794-1-fombuena@outlook.com>
-References: <20250117234034.670794-1-fombuena@outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CWLP123CA0273.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:1d5::20) To CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:160::13)
-X-Microsoft-Original-Message-ID:
- <20250117234034.670794-6-fombuena@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FAD19B59C;
+	Sun, 19 Jan 2025 12:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737290720; cv=none; b=Y8/Jo41k1cNxkhI+zoBpAG5Dp1/wX8jqkBljzSZO5H7qQ4Y+qKh4B2ah14ketpoFB/0I9V8Ov0tnoAZCCXLi1km798Xdp4v0u3/jkkUMHivnfwHUZ2KC84w6lAHzvvhyik0/VmKQxfGGpGrXv6NuaZnB2uDJbNa+sOvr++baa7s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737290720; c=relaxed/simple;
+	bh=Tmc8lsl8sz5I2t4ujzk9kU4BDvASsv68J/O5ZBaXE2A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ezq6/1XhdfkR8OzBqpQgMIPBEDq7cvcXfKasmN56eO6N5jrI7cNkZkH81ARXnMdRIFMgq7T8jZLansDI77kgXGQ21BeVlR8xErigAgoTyKnoHMUjZVv0DESe2oy/s0y3FnLcGnNgTbeTPGlf3z2xlIHaWc3rmMvfGg3BCmD/pZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JI8nLzIh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81160C4CED6;
+	Sun, 19 Jan 2025 12:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737290719;
+	bh=Tmc8lsl8sz5I2t4ujzk9kU4BDvASsv68J/O5ZBaXE2A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JI8nLzIhOxKKdbt7JKe0Fz4ZmD5khwuzgF9BjOlzhKCftMvq6UdgehNLm1eYSxbqv
+	 ouSeYexY1aMRsgINVZ1RIUdxPJtJ5zukduj9NedJLeikM3n6gn83uY8h2TU0DPuKsV
+	 SGMrkkcBfb6Um222NFLIiNjYpcEiaAU6RISSrJkWUnlAbmMtVuDvkjHQtGtl88j6Pc
+	 rk3cobE4LsLk+VJ11YYrNtwQx4tn/gQSlcnfsLYW3PL3wjLEZRyGh0zWPosCGbxzf/
+	 oQqDapIVRNLylZyTj+oJqIISLyO65QMgKg4MW0u2DgEX3fYDjshdWNApjDddIZ0CGm
+	 Pnkm+NuE3VuEw==
+Message-ID: <0b3ac708-64c4-44a5-a3f7-1bcb22f59db6@kernel.org>
+Date: Sun, 19 Jan 2025 13:45:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB5473:EE_|CWXP123MB4166:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5c147c7-00f2-4781-c3c3-08dd37505832
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799006|15080799006|5072599009|461199028|7092599003|19110799003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0hwVoKb2SfpextlL0B123xlm0bIdAWDy49EqnFulgyw4PxVRgiagKoASFcUO?=
- =?us-ascii?Q?i7imWRUyoyaOU4sTXw3P/z/1bAmPGIp0zauHRYeKTBS+MD4WFsmTX9hQ8MX7?=
- =?us-ascii?Q?AQrNoQNHyIdpUdwBtVDv8bO3UjKt7AT00R2j4ja8hKqRkMCtsXMNpKYFznAc?=
- =?us-ascii?Q?4C0KCGJ5qpMvRQzVhCMC4JkQk/XPoWFYVsytTLL7A3p2LllwdUQCPl7lE6HQ?=
- =?us-ascii?Q?D3Cds+m57p50tsMUJ07JfwgUV1F/QdZ44hguZEuCtTWr2BQKkuVyLogwGfuD?=
- =?us-ascii?Q?YoYdBfBbulfdYzBH2jzF+LRlxkAI9+Nm53YWd6ABwZkAGtKdJcRrgB3j6K4y?=
- =?us-ascii?Q?B4ODRmf9zePyTLhOhioAj3ClAIiOJO4NxS1+JGHeAGA1Z1RgitQmuN7Ok9im?=
- =?us-ascii?Q?GP78wLombAMJzQnD42UMefGsVJ6GBLlGPod45ENIgitTBYSPUCr+wjbqqsJL?=
- =?us-ascii?Q?bTx8vmt6pgk8N9mjnJE/yEfipSbHg2CPjcyugpw+d6gD7tNItvLJCMX+clez?=
- =?us-ascii?Q?QZevvp/RtwN2kZlzy/1671uaTnJ6X8XKSshO7b2pumHJxTzPDnil9F+tEGeW?=
- =?us-ascii?Q?Yay0neU9jpLGxED1KKz/hvVWp0G9VbpVezNOBdnSD6Bo7ezE7Ndr0uFP6y8N?=
- =?us-ascii?Q?BcvmM282KLFNwC7FuUSnoC3XKyxALs0D4ZnAi+zV9G5y6mkH1uyRbNH4/yZZ?=
- =?us-ascii?Q?zM9BO15EpzVIf1Pu+GpLdwfXOeWUDG5+SUvQn+En6Hq5RuIbzMQrkSRTZ8CH?=
- =?us-ascii?Q?GJewSHngFnb7NLFCZ76CGD50YmQGVz76nr1+Oe7+rLboURBxC7c+7I+rqhjv?=
- =?us-ascii?Q?pyfUrm4nfhWvmIhBSfU0FSalKE8LK+DTkzIgmQDVuhWAjjRRMFW2F9wJgIa5?=
- =?us-ascii?Q?fpLJdYFVuaViRrupzJQi2tx3EzYFQdKVWnlDGK1SJ8Pnqt1Z0UBTER9hxG9s?=
- =?us-ascii?Q?9d6rzch6b5hc78+F0igjzRu0IojoqVveAIFLTf3pkwSXF41LLFablJKCc9cn?=
- =?us-ascii?Q?LnFyw1IjAmRFN6Wh9GS7y3tsZ1iqtM8oCUJG4/P9i+ue+kAgwKc8JDg2cdv1?=
- =?us-ascii?Q?Wb/IJ/sAQ2HzWrx0ouPSNrTOmFDugg=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Y2NHcSOzoaCFqwJQSx68tPtJ5Mr6O4I8YAqcXR1NwwgGcL+A0e1JrBV/AR6R?=
- =?us-ascii?Q?MwJpQwzs70mXx4g6+z2mKe3IUtFDfs51U2uhgHRdPA6DqeGoabT812QCaxdz?=
- =?us-ascii?Q?wJ1dA6GmuNlsb0kSaLPQBRp71UswNc7wP4QUGVIpjtamthLkhdNJFB0JHr5/?=
- =?us-ascii?Q?VUaze97jXHA8R4loSvZ2hu7cBil92E334zM+gtIh+KNCea2wkdkZffgYxKh/?=
- =?us-ascii?Q?MLILYYZyuLXieJcEe+suRtC3QHHDsvSGzVvIJMPa7nXzuFShGrd5Xvp8OmNH?=
- =?us-ascii?Q?PZcgaxj1D0QxENVpw+OBE/0qkeHRyeTZPBMaGzTJfYun6gfClNAOHdxNSCxf?=
- =?us-ascii?Q?hvQTTDwK7OA02NRbu7W89sfOoWMPFo4NIjm241eiOsWC/9xNiUK4N1x5v1FU?=
- =?us-ascii?Q?C34tTA7HQdpVrubIvOpjeNLalfQH3eyg2PpAgJN3NMAEctHyIEqi7Vct4Fu3?=
- =?us-ascii?Q?MM8TrOUWr5XYpldOsvkKM/5GvqtoFh/3OHB+79ejgHSMwXiEL6W7VRc//yBW?=
- =?us-ascii?Q?a73K53xojWDtVQXXnZu1C+Cf2hIWF52dMqd515hVMRC5aARw7Nj7k7pc9oIu?=
- =?us-ascii?Q?zI4h8xtQTKFIQvrxckBLhC0tNv07YG74Wu/PGhfiNsR5IF58BMAwVk+mBEb9?=
- =?us-ascii?Q?RWgn735ETZMDSjNiHlakV9shrJjCDPF6QVnIFhgUSJjgP2jOHHpjfn6osozV?=
- =?us-ascii?Q?7x+nuahaO5dqs/XHJGROYlzoqz0+Ap0lUPSRZoxeMu1ucJny3zVawl4znFfF?=
- =?us-ascii?Q?+B++RvHnKaePFUcsXObXwmucLiDwjtowJrMqUOOlZ6jioDpE8AHgqvBUJW6o?=
- =?us-ascii?Q?2SiwvFlRKgfPHuZbHZXoofLtURW13p3hoUT1fD53M+k2KIiGju9F6mnPKMjO?=
- =?us-ascii?Q?N+XrE0HdGw5gvTmGiNxxR2Ob1mnj7LKpZow2muhQ1PJSqx/+O/85cU5lB07t?=
- =?us-ascii?Q?UBFVAIZMZJOQGZRQpeKNDrn3k1s7U6gDS39yOcTa1eQSqj5UyxCA09JdpTtj?=
- =?us-ascii?Q?qtC1qMPnMiWfPVMBGAD2E7csaGOdT165JOD7uxyaMcLiODoujBzn2Pstk4DR?=
- =?us-ascii?Q?AebL6FYnGGBf0g/BZUOzTjx0SShbbt62XnP2Z+jW33eX7xW1P8jPkuN90Y3T?=
- =?us-ascii?Q?klr5nkZnaLCQeEXq7Eqy0x4oXwZuvwSifce+l+rStV+mBIKQqLbtYdQRzbgV?=
- =?us-ascii?Q?0RhSEz25BlPeHVGDJkXjlhgl7VMF4P1sCmBXSqREJC9G3TddLh9YRiVWGH4l?=
- =?us-ascii?Q?srLjTopWa6hQB8HUMNWjfuzzLrTAgvss/02sPPBw2MY8e/PAxyrTuSEBsMV2?=
- =?us-ascii?Q?Tr0=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5c147c7-00f2-4781-c3c3-08dd37505832
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 23:40:37.6288
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB4166
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 6/7] input: max77693: add max77705 haptic support
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org
+References: <20250117-starqltechn_integration_upstream-v16-0-11afa877276c@gmail.com>
+ <20250117-starqltechn_integration_upstream-v16-6-11afa877276c@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250117-starqltechn_integration_upstream-v16-6-11afa877276c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-No other LED driver is listed on index.rst with the .rst extension.
-Remove it.
+On 17/01/2025 14:01, Dzmitry Sankouski wrote:
+> Add support for haptic controller on MAX77705 Multifunction
+> device.
+> 
+> This driver supports external pwm and LRA (Linear Resonant Actuator) motor.
+> User can control the haptic device via force feedback framework.
+> 
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
 
-Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
----
- Documentation/leds/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 0ab0a2128a11..76fae171039c 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -28,5 +28,5 @@ LEDs
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
--   leds-st1202.rst
-+   leds-st1202
-    leds-qcom-lpg
--- 
-2.48.1
-
+Best regards,
+Krzysztof
 
