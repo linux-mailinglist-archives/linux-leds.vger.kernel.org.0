@@ -1,148 +1,135 @@
-Return-Path: <linux-leds+bounces-3828-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3829-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57225A16BB8
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 12:38:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE5CA16E4A
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 15:19:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 565C9163C63
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 11:38:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F7697A20E9
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 14:19:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9DBA191F95;
-	Mon, 20 Jan 2025 11:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0094E1E0E0A;
+	Mon, 20 Jan 2025 14:19:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="LBl/YPJW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgBXfmuJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA9F10E9
-	for <linux-leds@vger.kernel.org>; Mon, 20 Jan 2025 11:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69171E515;
+	Mon, 20 Jan 2025 14:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737373085; cv=none; b=AMC5n9T0ZkS7BMyQVyTovLHhE7UmPjtBNR9SiIRikO0AlmHsA7S23YEomXNzt6gtoPEW5hmKvMZenO7CEKhIFdaRsBBnKuynbRjPlUzGIC2EaztU1+g/0Vv1rICCstUQ/54HzZNajke+hKPagsbAuWLrPO02Eo9tr4J+NdAc/4U=
+	t=1737382742; cv=none; b=f8UYsBCFuvyU5P0QPovz8U8CTzYVAx3XwJcTPkvzaNCzZmAjkFE6/vV4aX9EfTXBn7lOSc0+d3TEgmTrCglzL8C9FvT4Pp3iMJ/qKgOtQlGxqcBfSwYl35YxslGUXv9Rsw7uDod2r+u/vE+Gg2FIY9G3ta//3X1D2EMJEXHAXnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737373085; c=relaxed/simple;
-	bh=519Hq0Oqatv1/lF2DyfEluJsjkAiM0XFDWdNUq9YL68=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AzkPW1ruo2C8/JVVGu3/uvWYR1mEl9ZlBb+UK7miJN5AbWtckPOTPXwPJrMRKcbwO7yYV9spQpZXZ0MyjKd5ND6CSbf9akfWt0cP8uh1xcN7Z665zOTvNGo3fAAmRGTl3SEj/FuKDm2zIECbBWuKMWkoDmSd7mJBrtRy1rKLJXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=LBl/YPJW; arc=none smtp.client-ip=89.58.32.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 252E11048B8B6;
-	Mon, 20 Jan 2025 12:37:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1737373080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=rB7T6vTMLqdj8PDtIZpFXRveqRe2giRmZ+QvNbBGViY=;
-	b=LBl/YPJWOaAMGv9kP4op+2CT6bZ256C+aW3RwM1o0QHWO3ARtgIOoqOVTh4l6K1wt6fDRs
-	qv3EbGqCOOFmoQxIx/bINm/oJSnbLUQBji8EbkQK47HJqhOzNawV7qPnnOy+npytfs7Dt1
-	07JINRDpkGkkis5N9mfxi/7ViaHFWYfH9Hs55WqFc7fJ2OOOqITYQ3uLCnNMavt7lgnyfV
-	aOpDLO8WlRhpv00jxHmbkGuyxR+xoiyaRAI5YWop6cPZO+V1jPcT9U1aX/0y3hQxHQaF2r
-	6FRelsJ84o9SiwG+25xPfLulFiN0NLl/MbuDbesNhvyA6Nl1f+skD+Km8Q1Ubg==
-From: Marek Vasut <marex@denx.de>
-To: linux-leds@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Lukasz Majewski <lukma@denx.de>,
-	Pavel Machek <pavel@ucw.cz>
-Subject: [PATCH] leds: trigger: netdev: Configure LED blink interval for HW offload
-Date: Mon, 20 Jan 2025 12:36:53 +0100
-Message-ID: <20250120113740.91807-1-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1737382742; c=relaxed/simple;
+	bh=m1L0cqHEWqwTbAH+uQ2DNRqRpDvGGNhvtaweWQxcAbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=boTpho+Krb61qolfrjbOAt+xOW6njlsUJ3IHnvjKyKFc3j5WzfuvyS6Xr8phS1kIhJyjv/5+RLZAHuuQi0vy5YbfE2Iuu5DxH32CxxeWDNPchizaZMzNYWf07RxB6lfc/tI7KlpAhYKAdEBe/n69gi2acSxW55UifeRM68HIGwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgBXfmuJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56B99C4CEE1;
+	Mon, 20 Jan 2025 14:18:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737382742;
+	bh=m1L0cqHEWqwTbAH+uQ2DNRqRpDvGGNhvtaweWQxcAbE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TgBXfmuJ6G/OGJ5GnFq14/MBAlyw05z18siJKTohb5gMOaHBHcDLhCStXWkYmMpCB
+	 MUjECQea+3e3g07J6GIkh0EQReLoBD3nqpnoL+8CBfP9qkIpi4+CNZvku5M45sWsdz
+	 6ECs8bfwHHwoL4cFQ0rBWPvKs4RGZWY3gUNmQllFdBhSXUe8ggShweB5WAkL4q7hk9
+	 nTOTpT9Xf3LYEVZtDMjGzxBeNIMB+aBuYp3+BB2FGGNEyijTWf1wnjHHjnmAi1eF0L
+	 ePABb3tmSnRS401Wr6dc7XGkgAElm/ZFuDHFKjcAybev04vuqgK83/PIAn3l/kw+JM
+	 rSdeUwxOHtTKg==
+Date: Mon, 20 Jan 2025 15:18:55 +0100
+From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+To: Fiona Behrens <me@kloenk.dev>
+Cc: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Lee Jones <lee@kernel.org>, Jean Delvare <jdelvare@suse.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	Peter Koch <pkoch@lenovo.com>, rust-for-linux@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] rust: leds: Add hardware trigger support for
+ hardware-controlled LEDs
+Message-ID: <ve4waunjbwjjuteuzsalsvbdzwygqhfla5nvqefkl5smaixups@x2e4ltcuisxd>
+References: <20250113121620.21598-1-me@kloenk.dev>
+ <20250113121620.21598-4-me@kloenk.dev>
+ <2rla4ga3v563gdjdg6fztyh6hardmxnnclfe667gnfs4icsiqo@eho3bcv53h7d>
+ <5366FB38-FF4C-4FC8-B116-9102381791D5@kloenk.dev>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5366FB38-FF4C-4FC8-B116-9102381791D5@kloenk.dev>
 
-In case a PHY LED implements .blink_set callback to set LED blink
-interval, call it even if .hw_control is already set, as that LED
-blink interval likely controls the blink rate of that HW offloaded
-LED. For PHY LEDs, that can be their activity blinking interval.
+On Mon, Jan 20, 2025 at 11:59:03AM +0100, Fiona Behrens wrote:
+> >
+> > This looks as if you are doing a Rust binding for struct led_trigger.
+> > But you keep calling it Hardware trigger, which makes me thing that
+> > you are confused about what is a LED trigger and what is a hardware
+> > trigger.
+> >
+> > Why do you keep putting "Hardware" into the names of these symbols?
+> 
+> The idea was to create a abstraction specific to writing a hardware trigger (or my understanding of what that is) and deal with the other
+> trigger types later, to more separate the things on the rust side with e.g. the vtables for those.
+> But my understanding might be wrong.
+> 
+> (My broad understanding is what I did in the SE10 driver later, to tell the hardware to not present the LED to the kernel, but some other hardware wiring to a hardware thing that then drives the LED)
 
-The software blinking is not affected by this change.
+Looking at patch 5, you do:
 
-With this change, the LED interval setting looks something like this:
-$ echo netdev > /sys/class/leds/led:green:lan/trigger
-$ echo 1 > /sys/class/leds/led:green:lan/brightness
-$ echo 250 > /sys/class/leds/led:green:lan/interval
+  #[vtable]
+  #[cfg(CONFIG_LEDS_TRIGGERS)]
+  impl triggers::HardwareOperations for LedSE10 {
+      fn activate(this: &mut Self::This) -> Result {
+          this.data.send_cmd(LedCommand::Trigger)
+      }
+  }
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Andrew Lunn <andrew@lunn.ch>
-Cc: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Lukasz Majewski <lukma@denx.de>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: linux-leds@vger.kernel.org
----
- drivers/leds/trigger/ledtrig-netdev.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+I think this naming "triggers::HardwareOperations" may cause confusion
+in the future. I think that what you implement here should be called
+LED Private Trigger, or something derived from that.
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 20dfc9506c0a6..47c44620ba585 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -69,6 +69,7 @@ struct led_netdev_data {
- 	unsigned int last_activity;
- 
- 	unsigned long mode;
-+	unsigned long blink_delay;
- 	int link_speed;
- 	__ETHTOOL_DECLARE_LINK_MODE_MASK(supported_link_modes);
- 	u8 duplex;
-@@ -87,6 +88,10 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
- 	/* Already validated, hw control is possible with the requested mode */
- 	if (trigger_data->hw_control) {
- 		led_cdev->hw_control_set(led_cdev, trigger_data->mode);
-+		if (led_cdev->blink_set) {
-+			led_cdev->blink_set(led_cdev, &trigger_data->blink_delay,
-+					    &trigger_data->blink_delay);
-+		}
- 
- 		return;
- 	}
-@@ -463,10 +468,11 @@ static ssize_t interval_store(struct device *dev,
- 			      size_t size)
- {
- 	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-+	struct led_classdev *led_cdev = trigger_data->led_cdev;
- 	unsigned long value;
- 	int ret;
- 
--	if (trigger_data->hw_control)
-+	if (trigger_data->hw_control && !led_cdev->blink_set)
- 		return -EINVAL;
- 
- 	ret = kstrtoul(buf, 0, &value);
-@@ -475,9 +481,13 @@ static ssize_t interval_store(struct device *dev,
- 
- 	/* impose some basic bounds on the timer interval */
- 	if (value >= 5 && value <= 10000) {
--		cancel_delayed_work_sync(&trigger_data->work);
-+		if (trigger_data->hw_control) {
-+			trigger_data->blink_delay = value;
-+		} else {
-+			cancel_delayed_work_sync(&trigger_data->work);
- 
--		atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
-+			atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
-+		}
- 		set_baseline_state(trigger_data);	/* resets timer */
- 	}
- 
--- 
-2.45.2
+Using the work "hardware" may lead people to think that it means the
+other mechanism, wherein we offload software LED triggers to hardware
+(which is implemented via the `hw_control_*` members of
+ `struct led_classdev`).
 
+> 
+> >
+> > I fear that you may be confused about some stuff here. In order to
+> > determine whether this is the case, could you answer the following
+> > questions please?
+> 
+> That might be right, thanks for trying to clear it up if that is the case.
+> 
+> > - What is the purpose of `struct led_hw_trigger_type`?
+> Marking a led that it has a private trigger that gives control of the LED to some hardware driver.
+> > - What is the purpose of the `dummy` member of this struct? What
+> >   value should be assigned to it?
+> From my understanding this is just to give the struct a size, so that it has a unique address in memory so the pointer value can be compared.
+> > - If a LED class device (LED cdev) has the `trigger_type` member set
+> >   to NULL, which LED triggers will be listed in the sysfs `trigger`
+> >   file for this LED cdev? And which triggers will be listed if the
+> >   `trigger_type` member is not NULL?
+> For null all generic triggers will be listed, and for some value all generic plus the specific trigger.
+> > - Why does both `struct led_classdev` and `struct led_trigger` have
+> >   the `trigger_type` member?
+> led_classdev has it to declare that it does have a led private trigger mode, and the led_trigger has it so the activate/deactive functions can be found.
+> 
+> My research so far into how triggers work was mostly so that I can use the wwan module trigger on the SE10 board I have here, and therefore I did not look into how to write a generic led trigger usable on more then a specific led.
+> 
+> Thanks a lot for clearing up possible misunderstandings,
+> Fiona
+
+OK it seems that you do indeed understand these.
 
