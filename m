@@ -1,101 +1,80 @@
-Return-Path: <linux-leds+bounces-3830-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3831-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A07A17048
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 17:35:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 639C4A171FB
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 18:34:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 868613A571D
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 16:35:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EEF8160286
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2025 17:34:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64CBF1E0DC0;
-	Mon, 20 Jan 2025 16:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD2B17A5A4;
+	Mon, 20 Jan 2025 17:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LwtPjWOb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PiVte+wY"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90052BE65;
-	Mon, 20 Jan 2025 16:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5602115381A;
+	Mon, 20 Jan 2025 17:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737390938; cv=none; b=BHujxIcdonQ37+3+OqJE5eNPvz57Qa+2bLwDqeffLbgIsOyyUejXdVt6+isCyMQ1yzJfhKfTK/USUHJSgMFYLohsrfuHbiJUFBHQi7pYNUaL58BGVZu/fVmwce/VhfdHKwCkIblCGPy46z1VWLBDqRlq/AYVxPCjorfaGg7BXzs=
+	t=1737394486; cv=none; b=egWfgBT5Wh05+bWRMOHZLmtmpBzUYDjDEB8/Dmtfk7O56D2OvhSVGMcKLcJd/HmWqa9LkLdnSsbHhfoSFEd4nKmKRKwsedWTTPUtOs0uwVEl3ZpPAprmMlurB9+7K0r3cS4Snc/99TFfcgVVPn8aCjxobXrE/8KRMoix4MxGJYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737390938; c=relaxed/simple;
-	bh=qqrmxJmOHSUAkdGHpGJG3jmnpYcM5OK5iRkr2wR31f8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=facYLV/NhH3bq64q6S9qt12vLEIRyxm4wWWOJhG5QFeRDIq+KXUXfnrb2rUIXxYv0VYHWNbtuzuxeRbP6eSNFDBQDA8CpNBuTxWjfyUxH8VCeC/4w4OHtI+K0fVnt9GzSVHyMrrHUKzBugoX9OFxfRdmJZFHD/PQ7gwTqlBv7Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LwtPjWOb; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=CcWoiBYoEMqYuATaF1lrf5SJ9QM8f54MsZl7GkMl10E=; b=LwtPjWOb42oC2tATVXdn10NbbN
-	Nk/6WG0jyLr0MoiiMZuz+t26izOejjIZLEaQkcu/QjvDjfAVmzvOebpAp1p/x+fKThFxdvLqpxdns
-	R9rlfufB9D+g4xlb+daKwzE8Pfud+Lg3DNqib0A1R7cftf9H+2pf1r6Cn5NuSlgqsvcU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tZukE-006O0j-Tf; Mon, 20 Jan 2025 17:35:22 +0100
-Date: Mon, 20 Jan 2025 17:35:22 +0100
-From: Andrew Lunn <andrew@lunn.ch>
+	s=arc-20240116; t=1737394486; c=relaxed/simple;
+	bh=0gqkl+E1P9Uk9N5su1IB8MPHCCtQk14/H/NOn2rx7Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hhT0DgLnHrnUgLAPT+HkiKsb7XK8xZ4Wqd7fpF01b5SiZ1uihApFVL1A+8FLQAwwjngrw8rQAXgIXenQ08q2zhBph6mK54zS42WHt5k0jOmkkZj6RAxV40D+FXZcnaHUPWNnlHCU86SNSYq+eEvixchOktBN1yz78Z9pULGmKE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PiVte+wY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F74EC4CEDD;
+	Mon, 20 Jan 2025 17:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737394485;
+	bh=0gqkl+E1P9Uk9N5su1IB8MPHCCtQk14/H/NOn2rx7Ns=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PiVte+wYOmmi9LS4l02xNbHwRS2gO4Oz7D5evFbVEZ94sJIavhClxJ2a8D0HXDkAn
+	 iVgBZwwUt1ROEG2XHB9Ao89AlAD0scbCK8NfRZnR5hDTcJXAFnkNKhJIMosNNK6Arz
+	 SQtE0htcbNV5Gyku/5bYcDBdT9wg+J1575lNTLlTGCIlcYR6cFYmPA5Ocm+vdmBhMN
+	 WxopM4k4Xps7eoBZ3MdcwSsLgTVIkyBTFU41sLl+jAOv2rbx/I/LFJ8Em2sgNXngiX
+	 uJ8fwnnOcSJ7QF/9OaNbYpxitvRWXoSBN5NLhqfsRrzOr56rdmUYwfAt2lZ+60ZoDJ
+	 +/vbyW79YUOtQ==
+Date: Mon, 20 Jan 2025 09:34:44 -0800
+From: Jakub Kicinski <kuba@kernel.org>
 To: Marek Vasut <marex@denx.de>
 Cc: linux-leds@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org
-Subject: Re: [PATCH v2] net: phy: Handle both led@0 and led subnode name for
+ Andrew Lunn <andrew@lunn.ch>, Eric Dumazet <edumazet@google.com>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Paolo Abeni <pabeni@redhat.com>, Russell
+ King <linux@armlinux.org.uk>, netdev@vger.kernel.org
+Subject: Re: [PATCH] net: phy: Handle both led@0 and led subnode name for
  single-LED PHYs
-Message-ID: <f2a4d89c-d633-4b18-bc0e-2994a0f76b9e@lunn.ch>
-References: <20250120090256.54382-1-marex@denx.de>
+Message-ID: <20250120093444.683501ad@kernel.org>
+In-Reply-To: <197f3134-96fa-484f-a5f5-36779c54b340@denx.de>
+References: <20250120082609.50445-1-marex@denx.de>
+	<197f3134-96fa-484f-a5f5-36779c54b340@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250120090256.54382-1-marex@denx.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 20, 2025 at 10:02:46AM +0100, Marek Vasut wrote:
-> In case a PHY supports only one LED in total, like ADIN1300, and this LED
-> is described in DT, it is currently necessary to include unit address in
-> the LED node name and the address-cells have to be set to 1:
-> 
-> leds {
->   #address-cells = <1>;
->   ...
->   led@0 {
->     reg = <0>;
->     ...
->   };
-> };
-> 
-> For a single LED PHY, this should not be necessary and plain 'led' node
-> without unit should be acceptable as well:
-> 
-> leds {
->   ...
->   led {
->     ...
->   };
-> };
+On Mon, 20 Jan 2025 10:02:33 +0100 Marek Vasut wrote:
+> > Handle this special case. In case reg property is not present in the leds
+> > node subnode, test whether the leds node contains exactly one subnode, and
+> > if so, assume this is the one single LED with reg property set to 0.
+> > 
+> > Signed-off-by: Marek Vasut <marex@denx.de>  
+> Please ignore, V2 is coming with a trivial fix for variable rename.
 
-So how do other subsystems handle this? SPI with only a single chip
-select line? Standalone LED controllers with a single LED? A PWM with
-a single output?
-
->  drivers/net/phy/phy_device.c | 15 +++++++++++++--
-
-What about the device tree binding? Does it already have the reg
-property as optional?
-
-	Andrew
+We have a rule prohibiting reports within 24h. See:
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#resending-after-review
+One of the goals is to make sure people build test their patches.
+Please follow the guidelines.
+-- 
+pv-bot: 24h
 
