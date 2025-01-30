@@ -1,75 +1,75 @@
-Return-Path: <linux-leds+bounces-3856-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3858-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B660A234ED
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jan 2025 21:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553E6A234F0
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Jan 2025 21:13:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B2701887FB4
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jan 2025 20:13:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81A581887FB1
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Jan 2025 20:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38B5A1F1312;
-	Thu, 30 Jan 2025 20:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590951F0E5E;
+	Thu, 30 Jan 2025 20:12:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HBRCQ8qr"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="s24NMaxK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555E91EEA43
-	for <linux-leds@vger.kernel.org>; Thu, 30 Jan 2025 20:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED3E1F130D
+	for <linux-leds@vger.kernel.org>; Thu, 30 Jan 2025 20:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738267977; cv=none; b=TO7AX9FhsILZcWCyzk5e4cR+U4DhP7YFjQ/2UqvzFbt6XZ/xsTgT5gjWAvfS//Eu1sT9LgKtPOBSfkHE38v1DZjAUs30YuAszmNw/r/D4ZeH9aXklV6rw+7+ONNhJqGoMc3pKXzkNx5Q5IQe21HMdWvMBm0IRO4QdbhTyuFQ+nc=
+	t=1738267978; cv=none; b=Ay9NzUG0lJirJ2SiuyL0+1M/nrKQo/qL/TMBuc+OQuhBDQNbV+HINWNKpd233Lu7JWmZ93AIb65QZwAHhsC2oUXNE8BGrx2bRyHZNIbtw1efvxNK41qw5X4Y9z9vbFykqfszo3Rk8hY4L8rvW8jKz+6rM6GsHGBHQjdxCqlXtsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738267977; c=relaxed/simple;
-	bh=9KGCHgjovlcK5XrnD5jnkmmToaXePww/iq4vlR4s49U=;
+	s=arc-20240116; t=1738267978; c=relaxed/simple;
+	bh=F4hCleVG5Wcziq2ZC0bKVv/XefRt545H2UbBsfn2H/8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fgM67fpzl+YaVt+cb4P3WSd3K+Pz/L/K52t9w+fN/6QsK2lFW5QGUSJc2GRDRCu1tJ4sY6tlkiRFYFQYJXtC3Mp9sfYoqSxqfja2XLXQ4Jp0e+xEoug9SGLvSUOXUYGbVykCvtDkDfBhNqNaqGQUABtaQs4Tnnh9xx5XovfsSxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HBRCQ8qr; arc=none smtp.client-ip=148.163.158.5
+	 MIME-Version; b=rRcrfhWJp0RTlVI2g74vrewl/JrPxXhj7LqsJX1xlW1H6JOT2DPE5eRQGuXEMCYRfYLebnNtbgNH3TXgOtAcskRIeFvMQq2GxLZLV2TrZxDKPGqe7/m59gAfLZ16fU3ty9XSFS7e67LRGMNAGIOQnCaJ4CoR1Ho+EF0CsLy8N9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=s24NMaxK; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50UJUYv0024279;
-	Thu, 30 Jan 2025 20:12:49 GMT
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50UJUVXP018460;
+	Thu, 30 Jan 2025 20:12:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=k80e+u6/Ql2NWACKD
-	DC6QYoK4nwJH+jfVAEChXUCh+k=; b=HBRCQ8qrV1en8957CN17VYTHVMKvV9mFH
-	KA4BmMCSizV5USIeeG+LxLxoAY8VSUak6hPKdQxI31kqL2peynGgz34gOH2N2sVo
-	N3gWdh43ww1BvKPUCT0ARJhrLlOmspXFZ5lDwZqR709kBKqozgpaIgvD4nNZuDu+
-	R1CFpNff8TjghXyM65vH9wsEU0BMIlUF49tpCemtYLrvkbh1vtIz5zorEMDJqKTj
-	XzCDta4al3tep11IpR3K9qErK43+pnSvEXQDeg8PyC6MKAyPMYikQE3vUNRSb5FW
-	7uKZ6KXPBmxPo0iEfv+W9JfdBCdW47Su7/+h4oh8xpS9SR1EEpIkw==
+	:mime-version:references:subject:to; s=pp1; bh=tOovT03GaiGkVfsA2
+	aW2i05aPV4ERel+k2roTATsZ2Y=; b=s24NMaxKqkvYm9yqR1tYApgVaYSm89hq0
+	o4ofmlVliA5fwbTisHFvMhRV7KJufnMhGIhyb72JZ1I1pHOtvZA1ZygfumZX1XRX
+	vzE7kLfg6EEYfVhctlbtqNLECLvh1ZsSvo2blGzL7PTbkhioVvRCiaZE5uqsoUrH
+	wAWpd7lKMFxebM1WSTtFk4qRspmKEUW27m5G38xkJA9WdrPbARm7pAxp63U3FF2+
+	LMGpWxUl7XZf1lq2HWY2VQQYwvCTwyGokodTzju17WZkHSKGsT92xNNMmyhUpgIV
+	BxwZWuynjZUZtKRjD6HsHpuB+nCbzgLfDyNnqiFiiYPPrrA9UWTkA==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44gfn585f7-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44gfn4r57y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Jan 2025 20:12:50 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50UK9Dg4003651;
+	Thu, 30 Jan 2025 20:12:49 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44gfn4r57w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 30 Jan 2025 20:12:49 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50UKCmPs020369;
-	Thu, 30 Jan 2025 20:12:48 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44gfn585f4-1
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50UJ8UFl015957;
+	Thu, 30 Jan 2025 20:12:49 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 44gfau875a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Jan 2025 20:12:48 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50UJ8oPq017346;
-	Thu, 30 Jan 2025 20:12:48 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 44gfax875p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Jan 2025 20:12:48 +0000
+	Thu, 30 Jan 2025 20:12:49 +0000
 Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50UKClL620775626
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50UKClmQ64749966
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 30 Jan 2025 20:12:48 GMT
+	Thu, 30 Jan 2025 20:12:47 GMT
 Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D415858054;
-	Thu, 30 Jan 2025 20:12:47 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 4C69958054;
+	Thu, 30 Jan 2025 20:12:48 +0000 (GMT)
 Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7C5CB58055;
+	by IMSVA (Postfix) with ESMTP id E9CE358055;
 	Thu, 30 Jan 2025 20:12:47 +0000 (GMT)
 Received: from slate16.aus.stglabs.ibm.com (unknown [9.61.92.209])
 	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
@@ -78,9 +78,9 @@ From: Eddie James <eajames@linux.ibm.com>
 To: linux-leds@vger.kernel.org
 Cc: lee@kernel.org, pavel@ucw.cz, andy.shevchenko@gmail.com,
         eajames@linux.ibm.com
-Subject: [PATCH v7 RESEND 2/4] leds: pca955x: Use pointers to driver data rather than I2C client
-Date: Thu, 30 Jan 2025 14:12:44 -0600
-Message-ID: <20250130201246.292079-3-eajames@linux.ibm.com>
+Subject: [PATCH v7 RESEND 3/4] leds: pca955x: Optimize probe led selection
+Date: Thu, 30 Jan 2025 14:12:45 -0600
+Message-ID: <20250130201246.292079-4-eajames@linux.ibm.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20250130201246.292079-1-eajames@linux.ibm.com>
 References: <20250130201246.292079-1-eajames@linux.ibm.com>
@@ -92,204 +92,103 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PMdm7Chvtybr-zFuEdzQyNlI6Lbd557O
-X-Proofpoint-GUID: vDDkreWjWZOnlpJXSPWMwTeaZY2FgHbB
+X-Proofpoint-GUID: uEgnNOUQl6ypAOuIFImfiXrZSlyVK-_j
+X-Proofpoint-ORIG-GUID: hi6Kb7ypZ6CAu69Ttrbn0M9ExCycD0ni
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-30_09,2025-01-30_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- mlxscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- adultscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=767 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2501300153
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 clxscore=1015 impostorscore=0 mlxlogscore=680 malwarescore=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2501300153
 
-As a minor clean up item, pass the driver data pointer instead of the
-I2C client to the reader and writer helper functions. Now the PCA
-driver data doesn't have to be looked up again in the I2C client data
+Previously, the probe function might do up to 32 reads and writes
+to the same 4 registers to program the led selection. Reduce this to
+a maximum of 5 operations by accumulating the changes to the led
+selection and comparing with the previous value to write the
+selection if different.
 
 Signed-off-by: Eddie James <eajames@linux.ibm.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/leds/leds-pca955x.c | 61 ++++++++++++++++---------------------
- 1 file changed, 27 insertions(+), 34 deletions(-)
+ drivers/leds/leds-pca955x.c | 38 +++++++++++++++++++++++++++----------
+ 1 file changed, 28 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index 4a7111a24ab49..4990f8aff6d16 100644
+index 4990f8aff6d16..8bdebc14ea2e6 100644
 --- a/drivers/leds/leds-pca955x.c
 +++ b/drivers/leds/leds-pca955x.c
-@@ -156,16 +156,15 @@ static inline int pca955x_ledstate(u8 ls, int led_num)
-  * Write to frequency prescaler register, used to program the
-  * period of the PWM output.  period = (PSCx + 1) / 38
-  */
--static int pca955x_write_psc(struct i2c_client *client, int n, u8 val)
-+static int pca955x_write_psc(struct pca955x *pca955x, int n, u8 val)
- {
--	struct pca955x *pca955x = i2c_get_clientdata(client);
- 	u8 cmd = pca955x_num_input_regs(pca955x->chipdef->bits) + (2 * n);
- 	int ret;
+@@ -446,7 +446,9 @@ static int pca955x_probe(struct i2c_client *client)
+ 	struct led_classdev *led;
+ 	struct led_init_data init_data;
+ 	struct i2c_adapter *adapter;
+-	int i, err;
++	int i, bit, err, nls, reg;
++	u8 ls1[4];
++	u8 ls2[4];
+ 	struct pca955x_platform_data *pdata;
+ 	bool set_default_label = false;
+ 	bool keep_pwm = false;
+@@ -504,6 +506,17 @@ static int pca955x_probe(struct i2c_client *client)
+ 	init_data.devname_mandatory = false;
+ 	init_data.devicename = "pca955x";
  
--	ret = i2c_smbus_write_byte_data(client, cmd, val);
-+	ret = i2c_smbus_write_byte_data(pca955x->client, cmd, val);
- 	if (ret < 0)
--		dev_err(&client->dev, "%s: reg 0x%x, val 0x%x, err %d\n",
--			__func__, n, val, ret);
-+		dev_err(&pca955x->client->dev, "%s: reg 0x%x, val 0x%x, err %d\n", __func__, n,
-+			val, ret);
- 	return ret;
- }
++	nls = pca955x_num_led_regs(chip->bits);
++	/* use auto-increment feature to read all the led selectors at once */
++	err = i2c_smbus_read_i2c_block_data(client,
++					    0x10 | (pca955x_num_input_regs(chip->bits) + 4), nls,
++					    ls1);
++	if (err < 0)
++		return err;
++
++	for (i = 0; i < nls; ++i)
++		ls2[i] = ls1[i];
++
+ 	for (i = 0; i < chip->bits; i++) {
+ 		pca955x_led = &pca955x->leds[i];
+ 		pca955x_led->led_num = i;
+@@ -515,19 +528,16 @@ static int pca955x_probe(struct i2c_client *client)
+ 		case PCA955X_TYPE_GPIO:
+ 			break;
+ 		case PCA955X_TYPE_LED:
++			bit = i % 4;
++			reg = i / 4;
+ 			led = &pca955x_led->led_cdev;
+ 			led->brightness_set_blocking = pca955x_led_set;
+ 			led->brightness_get = pca955x_led_get;
  
-@@ -176,16 +175,15 @@ static int pca955x_write_psc(struct i2c_client *client, int n, u8 val)
-  *
-  * Duty cycle is (256 - PWMx) / 256
-  */
--static int pca955x_write_pwm(struct i2c_client *client, int n, u8 val)
-+static int pca955x_write_pwm(struct pca955x *pca955x, int n, u8 val)
- {
--	struct pca955x *pca955x = i2c_get_clientdata(client);
- 	u8 cmd = pca955x_num_input_regs(pca955x->chipdef->bits) + 1 + (2 * n);
- 	int ret;
+-			if (pdata->leds[i].default_state == LEDS_DEFSTATE_OFF) {
+-				err = pca955x_led_set(led, LED_OFF);
+-				if (err)
+-					return err;
+-			} else if (pdata->leds[i].default_state == LEDS_DEFSTATE_ON) {
+-				err = pca955x_led_set(led, LED_FULL);
+-				if (err)
+-					return err;
+-			}
++			if (pdata->leds[i].default_state == LEDS_DEFSTATE_OFF)
++				ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_OFF);
++			else if (pdata->leds[i].default_state == LEDS_DEFSTATE_ON)
++				ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_ON);
  
--	ret = i2c_smbus_write_byte_data(client, cmd, val);
-+	ret = i2c_smbus_write_byte_data(pca955x->client, cmd, val);
- 	if (ret < 0)
--		dev_err(&client->dev, "%s: reg 0x%x, val 0x%x, err %d\n",
--			__func__, n, val, ret);
-+		dev_err(&pca955x->client->dev, "%s: reg 0x%x, val 0x%x, err %d\n", __func__, n,
-+			val, ret);
- 	return ret;
- }
+ 			init_data.fwnode = pdata->leds[i].fwnode;
  
-@@ -193,16 +191,15 @@ static int pca955x_write_pwm(struct i2c_client *client, int n, u8 val)
-  * Write to LED selector register, which determines the source that
-  * drives the LED output.
-  */
--static int pca955x_write_ls(struct i2c_client *client, int n, u8 val)
-+static int pca955x_write_ls(struct pca955x *pca955x, int n, u8 val)
- {
--	struct pca955x *pca955x = i2c_get_clientdata(client);
- 	u8 cmd = pca955x_num_input_regs(pca955x->chipdef->bits) + 4 + n;
- 	int ret;
- 
--	ret = i2c_smbus_write_byte_data(client, cmd, val);
-+	ret = i2c_smbus_write_byte_data(pca955x->client, cmd, val);
- 	if (ret < 0)
--		dev_err(&client->dev, "%s: reg 0x%x, val 0x%x, err %d\n",
--			__func__, n, val, ret);
-+		dev_err(&pca955x->client->dev, "%s: reg 0x%x, val 0x%x, err %d\n", __func__, n,
-+			val, ret);
- 	return ret;
- }
- 
-@@ -210,32 +207,28 @@ static int pca955x_write_ls(struct i2c_client *client, int n, u8 val)
-  * Read the LED selector register, which determines the source that
-  * drives the LED output.
-  */
--static int pca955x_read_ls(struct i2c_client *client, int n, u8 *val)
-+static int pca955x_read_ls(struct pca955x *pca955x, int n, u8 *val)
- {
--	struct pca955x *pca955x = i2c_get_clientdata(client);
- 	u8 cmd = pca955x_num_input_regs(pca955x->chipdef->bits) + 4 + n;
- 	int ret;
- 
--	ret = i2c_smbus_read_byte_data(client, cmd);
-+	ret = i2c_smbus_read_byte_data(pca955x->client, cmd);
- 	if (ret < 0) {
--		dev_err(&client->dev, "%s: reg 0x%x, err %d\n",
--			__func__, n, ret);
-+		dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n", __func__, n, ret);
- 		return ret;
- 	}
- 	*val = (u8)ret;
- 	return 0;
- }
- 
--static int pca955x_read_pwm(struct i2c_client *client, int n, u8 *val)
-+static int pca955x_read_pwm(struct pca955x *pca955x, int n, u8 *val)
- {
--	struct pca955x *pca955x = i2c_get_clientdata(client);
- 	u8 cmd = pca955x_num_input_regs(pca955x->chipdef->bits) + 1 + (2 * n);
- 	int ret;
- 
--	ret = i2c_smbus_read_byte_data(client, cmd);
-+	ret = i2c_smbus_read_byte_data(pca955x->client, cmd);
- 	if (ret < 0) {
--		dev_err(&client->dev, "%s: reg 0x%x, err %d\n",
--			__func__, n, ret);
-+		dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n", __func__, n, ret);
- 		return ret;
- 	}
- 	*val = (u8)ret;
-@@ -249,7 +242,7 @@ static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
- 	u8 ls, pwm;
- 	int ret;
- 
--	ret = pca955x_read_ls(pca955x->client, pca955x_led->led_num / 4, &ls);
-+	ret = pca955x_read_ls(pca955x, pca955x_led->led_num / 4, &ls);
- 	if (ret)
- 		return ret;
- 
-@@ -264,7 +257,7 @@ static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
- 		ret = LED_HALF;
- 		break;
- 	case PCA955X_LS_BLINK1:
--		ret = pca955x_read_pwm(pca955x->client, 1, &pwm);
-+		ret = pca955x_read_pwm(pca955x, 1, &pwm);
- 		if (ret)
- 			return ret;
- 		ret = 255 - pwm;
-@@ -286,7 +279,7 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
- 
- 	mutex_lock(&pca955x->lock);
- 
--	ret = pca955x_read_ls(pca955x->client, reg, &ls);
-+	ret = pca955x_read_ls(pca955x, reg, &ls);
- 	if (ret)
- 		goto out;
- 
-@@ -308,14 +301,14 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
- 		 * OFF, HALF, or FULL.  But, this is probably better than
- 		 * just turning off for all other values.
- 		 */
--		ret = pca955x_write_pwm(pca955x->client, 1, 255 - value);
-+		ret = pca955x_write_pwm(pca955x, 1, 255 - value);
- 		if (ret)
- 			goto out;
- 		ls = pca955x_ledsel(ls, bit, PCA955X_LS_BLINK1);
- 		break;
+@@ -571,6 +581,14 @@ static int pca955x_probe(struct i2c_client *client)
+ 		}
  	}
  
--	ret = pca955x_write_ls(pca955x->client, reg, ls);
-+	ret = pca955x_write_ls(pca955x, reg, ls);
- 
- out:
- 	mutex_unlock(&pca955x->lock);
-@@ -579,22 +572,22 @@ static int pca955x_probe(struct i2c_client *client)
- 	}
- 
++	for (i = 0; i < nls; ++i) {
++		if (ls1[i] != ls2[i]) {
++			err = pca955x_write_ls(pca955x, i, ls2[i]);
++			if (err)
++				return err;
++		}
++	}
++
  	/* PWM0 is used for half brightness or 50% duty cycle */
--	err = pca955x_write_pwm(client, 0, 255 - LED_HALF);
-+	err = pca955x_write_pwm(pca955x, 0, 255 - LED_HALF);
+ 	err = pca955x_write_pwm(pca955x, 0, 255 - LED_HALF);
  	if (err)
- 		return err;
- 
- 	if (!keep_pwm) {
- 		/* PWM1 is used for variable brightness, default to OFF */
--		err = pca955x_write_pwm(client, 1, 0);
-+		err = pca955x_write_pwm(pca955x, 1, 0);
- 		if (err)
- 			return err;
- 	}
- 
- 	/* Set to fast frequency so we do not see flashing */
--	err = pca955x_write_psc(client, 0, 0);
-+	err = pca955x_write_psc(pca955x, 0, 0);
- 	if (err)
- 		return err;
--	err = pca955x_write_psc(client, 1, 0);
-+	err = pca955x_write_psc(pca955x, 1, 0);
- 	if (err)
- 		return err;
- 
 -- 
 2.43.5
 
