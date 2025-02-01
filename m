@@ -1,483 +1,182 @@
-Return-Path: <linux-leds+bounces-3859-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3860-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68656A234F3
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jan 2025 21:13:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4028DA2470C
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Feb 2025 05:40:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D4471624E1
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jan 2025 20:13:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 085113A7D38
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Feb 2025 04:40:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46541F12F2;
-	Thu, 30 Jan 2025 20:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7737239ACC;
+	Sat,  1 Feb 2025 04:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="EkOkz1qw"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="MQIh6QsA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC481F130A
-	for <linux-leds@vger.kernel.org>; Thu, 30 Jan 2025 20:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A68217BCE;
+	Sat,  1 Feb 2025 04:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738267979; cv=none; b=iIpthAc0anWT098LjPPPaA+DNabbtRju0VSOkhPEL/i1mTkmSUuo5VNrBcYg3ffuT4SR+U8b5oEHxBKisRG35gKcSRUsRvQeWUYANxDnFRvfR0KWnand/p4giR20QZLqKP8DyG6Y2OqbLsLuzXhxF06+fgp+xFi870ccJ6LxYa4=
+	t=1738384816; cv=none; b=rgtaCBDTe9CaT0KIJZCYf2MWWotm1tPtsjtGxXtX0DpQ7Qx/ohjZtrwsDbHr70Kkc2gkCELAebd+Q8FQvDOkY/lRKZUBz63YF/lup2A9US6YPhWH5QFjgsPHhAyoPaM1vNhF/ZY2qASg2EP/P0Jclu+2e29WCe7tAaPgJcsLqtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738267979; c=relaxed/simple;
-	bh=HUk64tGkozM1XtDmMYMR6QpBPfvulA1Uw9FYnJqhX5Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ezqnXByLihSWoTJxEiUPIpa9sRzBZ87cSNsEJiVk2wXJygaVf8CnHgniqGlGEYSbaJRC4Mbu9i5Nz++z5fDV1D95e+OxWPN5bxg4yyErY3PitFqIqCCzd9qQ7/HQH6E7uUawTGJHagn3DCSF8fYNwe+baZggdSUwBwxU6jhFH1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=EkOkz1qw; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50UJUbvg018501;
-	Thu, 30 Jan 2025 20:12:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=eq6ZT4Vs2pmIeEUdy
-	qNCoyZuZ0TaHYFbEJ+7j1YWucU=; b=EkOkz1qw7X7dFXcM65u5t+sEh7+3rlejf
-	cLLXu4LYo9t1ds+eAwB5qzipu3vaIt1Mskm6v5Zt1tn7yEXtmrdwvpG/2pDVaDu+
-	We4ycBzQDtUxCakpwq7aiWXm6syjEgSoOgDAxpetV49BC1HdvE0WAbw/Ho06o6He
-	1dX1JOMqA467A65qq7wiusjQ6VPQhauDUcWXRH7FPqb0tLjQFVIwNzM6wfhPsFNN
-	AuxRn7FlUx0LIU4/y8LZpPcLIk7FCJZwrWJ+/+A/xyY+YBHhvLAcxlO9VkESDUBA
-	e52i9Q6p9Nfy9t+b1qqzgA6eJ/OecudGtQMArYXWpGWStIw+E3WEg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44gfn4r581-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Jan 2025 20:12:50 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50UKArkB006496;
-	Thu, 30 Jan 2025 20:12:50 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44gfn4r57x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Jan 2025 20:12:50 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50UJ8lFx017196;
-	Thu, 30 Jan 2025 20:12:49 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 44gfay8756-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Jan 2025 20:12:49 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50UKCmRT22348422
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 30 Jan 2025 20:12:48 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BAD4358054;
-	Thu, 30 Jan 2025 20:12:48 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6314A58055;
-	Thu, 30 Jan 2025 20:12:48 +0000 (GMT)
-Received: from slate16.aus.stglabs.ibm.com (unknown [9.61.92.209])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 30 Jan 2025 20:12:48 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-leds@vger.kernel.org
-Cc: lee@kernel.org, pavel@ucw.cz, andy.shevchenko@gmail.com,
-        eajames@linux.ibm.com
-Subject: [PATCH v7 RESEND 4/4] leds: pca955x: Add HW blink support
-Date: Thu, 30 Jan 2025 14:12:46 -0600
-Message-ID: <20250130201246.292079-5-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250130201246.292079-1-eajames@linux.ibm.com>
-References: <20250130201246.292079-1-eajames@linux.ibm.com>
+	s=arc-20240116; t=1738384816; c=relaxed/simple;
+	bh=xo7/q6vlZdNeRWEWkoAlNw1e0d6k7F8xJ30Ok5ww660=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J1oF/TfvyQYcWuupYNpfUtQoMMJco5e9Y9BVefvrqo6rvV/qE14Dcyxy5QV7PCpdvY249lOqsZq1Jm7pku1PhSAwnjfotHU86Gk976O92Okw5a4Cut9jo9XlfcXWlJOZ2Fr68HV7o9Qu6HKcQ6Dto3ln+8Y/vB8pI/Bt/0Ub+20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=MQIh6QsA; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1738384794; x=1738989594; i=w_armin@gmx.de;
+	bh=LT750kSE9bF5YLcER4OJ17oUOtS5kE1L/aK//c9KpYI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=MQIh6QsAP4n0PL5GuCxKJSQGqExqVDlX8C3QweLaIBInAPuSUu5+alz23ie5iJZX
+	 uh12nG66lz5URpJzwQoX/sOmnMRFDG4d+Nac8sQRbTA+b/kIEn0ea0Mam748kIxRZ
+	 +pOHSkrqmvoZ5wLF7TYwJ/BMnnYAsRQXA5lNDAaq/+TyiHB7HIJldx2OVkJ3LEMYH
+	 wCL8an077w8wRcAtbpGzMIcw/Q6l0rM/V9JnhMt9bwpFRi0ytl4F0ZmlTvn+321k1
+	 Ffv2PYhxHQqrNZ0Yu6S6FYebwxjrncDj5mBpeO2f3BxrFHfM4ZLPDe/gauNkCtIK7
+	 GuEfn1+/IAfFX0ks0Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.246.83]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N3bX1-1tVSRe3BeV-00w1d9; Sat, 01
+ Feb 2025 05:39:54 +0100
+Message-ID: <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
+Date: Sat, 1 Feb 2025 05:39:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ZB-W1jhxanHX_cqk5c0Nfc7x-szF8bKs
-X-Proofpoint-ORIG-GUID: VykYTvBgMy3PlZCHLzef1j9kFqD9i7Xa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-30_09,2025-01-30_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999 malwarescore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2501300153
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+To: Werner Sembach <wse@tuxedocomputers.com>, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, bentiss@kernel.org
+Cc: dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
+ platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20250121225510.751444-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:pALTMLKB7mMHQQycS43ma88A2gx+nB8dmXITJNjbom2JBMqBRwE
+ yAREBGOKW1CJoi+K++E1AoG5I2TTJ3LGkOF+Q14cht0DRbV1t9GJ6+lHcIVg0oJWMYtkQLK
+ BS+43+pJ+E5bHQHrjEidOHxT4AK7lzOO5Tjx7s8SGOOVZSPebrPUL9OVWSV1avdJcvo369N
+ zkbXj4deyhIg2gyAkXBMA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:BBsPRm+lS0Q=;NcG0FE4KxwiBnnABDwi8c+B+uPO
+ /vV9XuJGHiA78dys94k6fetrooym5vY5GtRjNXq7+TS0XITAK/pINMBIsB23SNsBb5eq+Kp2V
+ XMJLniMCtaCwMYJCSgYw6sSQuj9u8bLy9BOrCbo424Z1WMGeO/xSGuO9udGBzdf7XA+Yjaos9
+ JEM6oPZNSsGuASq976bBWWqzG6FQ+Zxv2VVfzuin5XMqunOplk4EfhwzPZ9BFBuP1LM40zfeV
+ Zf512LtToicTjtomIcdbAOdQ03I7YZ4xOF1gwpMtmCZToST3QOeAJzkrifJXKFdujkd5DOS2o
+ sK/APJi3ay1jpAkbGovg1DZpIcIWH4iSRpKDi2EaawzzLi2GrxMdnZRkjMdQ7lQeDI+XaLMmo
+ uud8cMSNfmGFhntp4n0HDxnCnrJJ8bRvEF5v4V6iuvavxVFrYmBcZmckhEzSTNEMqft9yorUx
+ U6vMjQptJLL7ObBhVmkibA9KQEmFo/svFIpy3Hoz64ByFKwGh2zt9E10epNVeMfcRPAG8Ph16
+ 44AJO1ma6eCpjIXFatkJqD9HUF0uvrZdfvLt07IXI1akqsPzQ3/CLXdZXeUdw79jsS4b80tLN
+ tXL0O1rhSTiSskxiwygqmG7WRmLMkLOpnxFw03WzrlPWzE0kJWIVfSz6KGKls7InESvzVDJ+J
+ X9CnCv+AUbT3M57HSAM6SxX3ipqXr5Wl6Ko+yoxcjqQ8blINi6vslVvXk+Jmy35dGDNu7nR5Y
+ 2ZHaBkf4gUsZ/YgKhkGuZ0lwVHBGPi34F9MQWUoQzhopA/OFJ+4VsljX9U9OSlvZKAtU3VQpl
+ d5mkaFir9d4fl1CTI5mB9KBmvQ/uS8t9gBbte+MHFB9KOfSi/xjIhh95BeiwthI9Wb6MFBgB2
+ Z7C+uHaJe1G0maH1tWwIy9LniKQgjHujVlAejxnGtR6g0qEb+btqtxDEJmq4ozXMrn283ItoL
+ Jyio6sANk8uhN2OcgJ1rhIvhoGdMC2DHNlPFCtO7ep8MhPzDl230tmrlyV7wdEP9kPLXmI81V
+ ramRIko9M9455Vaf1gJshjEtbDj/jVNJ0UoHKNDAV+AnTY3q1Hq4cB+CFDRtjBa/Kg+4KXSRx
+ s0VzBEeY6JSfR6r/HIbiSW5KYX512B4qSKG9vkpidJcWNyMdD1KL+AMmrQf3kSGp3aWydsTRQ
+ /Z14IGlLtRhqw3BAuxj4kRF6tpW3xmjx1lPt/zqVZPzh2NfIRWABTseRJ5k9i5TBbkM3kVBZb
+ 4e7kDj/3jBJDR7wRMRM3TUVWnCbQ8hSATAd6YTVQNCPYwXWNx2LwIamI/toVCsFZ2bMJHSqJn
+ DYTRVR3puZcIR6HBKmtacjDq1RvwmTjOCrw9Zhak+9Ejn8=
 
-Support blinking using the PCA955x chip. Use PWM0 for blinking
-instead of LED_HALF brightness. Since there is only one frequency
-and brightness register for any blinking LED, track the blink state
-of each LED and only support one HW blinking frequency. If another
-frequency is requested, fallback to software blinking. In addition,
-blinked LEDs can only use full brightness in order to maintain 50%
-duty cycle, which is required for the specified blink rate.
+Am 21.01.25 um 23:31 schrieb Werner Sembach:
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/leds/leds-pca955x.c | 221 +++++++++++++++++++++++++++---------
- 1 file changed, 169 insertions(+), 52 deletions(-)
+> Hi,
+> after some other work, picked this up again.
+> Only coding style changes vs v4.
+>
+>
+> I now got my feet a little wet with hid-bpf regarding something else, and
+> with that knowledge I would leave the long arrays in the beginning in the
+> kernel code for the time being:
+>
+> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+> during initialization so they have to exist in the kernel code anyway.
+>
+> report_descriptor will most likly not change even for future models and
+> afaik having report_descriptors in kernel drivers is not unheard of.
+>
+> So the only things that could be meaningfully moved to a hid-bpf program
+> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
+> out some fallback value anyway for the case where a hid-bpf file is missing
+> or fails to load. So why not use real world values from my test device for
+> these values?
+>
+> As soon as there is a future device that can use the same driver with just
+> these pos arrays different, then I would implement that change via a bpf
+> program instead of a change to the kernel driver.
+>
+> Let me know if you too think this is a sensefull approach?
+>
+>
+> Another question: Would this patch need to wait for a userspace
+> implementation of lamp array before it can get accepted?
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index 8bdebc14ea2e6..6e0e9deecb4a6 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -62,6 +62,8 @@
- #define PCA955X_GPIO_HIGH	LED_OFF
- #define PCA955X_GPIO_LOW	LED_FULL
- 
-+#define PCA955X_BLINK_DEFAULT_MS	1000
-+
- enum pca955x_type {
- 	pca9550,
- 	pca9551,
-@@ -74,6 +76,7 @@ struct pca955x_chipdef {
- 	int			bits;
- 	u8			slv_addr;	/* 7-bit slave address mask */
- 	int			slv_addr_shift;	/* Number of bits to ignore */
-+	int			blink_div;	/* PSC divider */
- };
- 
- static const struct pca955x_chipdef pca955x_chipdefs[] = {
-@@ -81,26 +84,31 @@ static const struct pca955x_chipdef pca955x_chipdefs[] = {
- 		.bits		= 2,
- 		.slv_addr	= /* 110000x */ 0x60,
- 		.slv_addr_shift	= 1,
-+		.blink_div	= 44,
- 	},
- 	[pca9551] = {
- 		.bits		= 8,
- 		.slv_addr	= /* 1100xxx */ 0x60,
- 		.slv_addr_shift	= 3,
-+		.blink_div	= 38,
- 	},
- 	[pca9552] = {
- 		.bits		= 16,
- 		.slv_addr	= /* 1100xxx */ 0x60,
- 		.slv_addr_shift	= 3,
-+		.blink_div	= 44,
- 	},
- 	[ibm_pca9552] = {
- 		.bits		= 16,
- 		.slv_addr	= /* 0110xxx */ 0x30,
- 		.slv_addr_shift	= 3,
-+		.blink_div	= 44,
- 	},
- 	[pca9553] = {
- 		.bits		= 4,
- 		.slv_addr	= /* 110001x */ 0x62,
- 		.slv_addr_shift	= 1,
-+		.blink_div	= 44,
- 	},
- };
- 
-@@ -109,7 +117,9 @@ struct pca955x {
- 	struct pca955x_led *leds;
- 	const struct pca955x_chipdef	*chipdef;
- 	struct i2c_client	*client;
-+	unsigned long active_blink;
- 	unsigned long active_pins;
-+	unsigned long blink_period;
- #ifdef CONFIG_LEDS_PCA955X_GPIO
- 	struct gpio_chip gpio;
- #endif
-@@ -154,7 +164,8 @@ static inline int pca955x_ledstate(u8 ls, int led_num)
- 
- /*
-  * Write to frequency prescaler register, used to program the
-- * period of the PWM output.  period = (PSCx + 1) / 38
-+ * period of the PWM output.  period = (PSCx + 1) / coeff
-+ * Where for pca9551 chips coeff = 38 and for all other chips coeff = 44
-  */
- static int pca955x_write_psc(struct pca955x *pca955x, int n, u8 val)
- {
-@@ -235,6 +246,20 @@ static int pca955x_read_pwm(struct pca955x *pca955x, int n, u8 *val)
- 	return 0;
- }
- 
-+static int pca955x_read_psc(struct pca955x *pca955x, int n, u8 *val)
-+{
-+	u8 cmd = pca955x_num_input_regs(pca955x->chipdef->bits) + (2 * n);
-+	int ret;
-+
-+	ret = i2c_smbus_read_byte_data(pca955x->client, cmd);
-+	if (ret < 0) {
-+		dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n", __func__, n, ret);
-+		return ret;
-+	}
-+	*val = (u8)ret;
-+	return 0;
-+}
-+
- static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
- {
- 	struct pca955x_led *pca955x_led = led_to_pca955x(led_cdev);
-@@ -248,14 +273,12 @@ static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
- 
- 	switch (pca955x_ledstate(ls, pca955x_led->led_num % 4)) {
- 	case PCA955X_LS_LED_ON:
-+	case PCA955X_LS_BLINK0:
- 		ret = LED_FULL;
- 		break;
- 	case PCA955X_LS_LED_OFF:
- 		ret = LED_OFF;
- 		break;
--	case PCA955X_LS_BLINK0:
--		ret = LED_HALF;
--		break;
- 	case PCA955X_LS_BLINK1:
- 		ret = pca955x_read_pwm(pca955x, 1, &pwm);
- 		if (ret)
-@@ -283,29 +306,36 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
- 	if (ret)
- 		goto out;
- 
--	switch (value) {
--	case LED_FULL:
--		ls = pca955x_ledsel(ls, bit, PCA955X_LS_LED_ON);
--		break;
--	case LED_OFF:
--		ls = pca955x_ledsel(ls, bit, PCA955X_LS_LED_OFF);
--		break;
--	case LED_HALF:
--		ls = pca955x_ledsel(ls, bit, PCA955X_LS_BLINK0);
--		break;
--	default:
--		/*
--		 * Use PWM1 for all other values.  This has the unwanted
--		 * side effect of making all LEDs on the chip share the
--		 * same brightness level if set to a value other than
--		 * OFF, HALF, or FULL.  But, this is probably better than
--		 * just turning off for all other values.
--		 */
--		ret = pca955x_write_pwm(pca955x, 1, 255 - value);
--		if (ret)
-+	if (test_bit(pca955x_led->led_num, &pca955x->active_blink)) {
-+		if (value == LED_OFF) {
-+			clear_bit(pca955x_led->led_num, &pca955x->active_blink);
-+			ls = pca955x_ledsel(ls, bit, PCA955X_LS_LED_OFF);
-+		} else {
-+			/* No variable brightness for blinking LEDs */
- 			goto out;
--		ls = pca955x_ledsel(ls, bit, PCA955X_LS_BLINK1);
--		break;
-+		}
-+	} else {
-+		switch (value) {
-+		case LED_FULL:
-+			ls = pca955x_ledsel(ls, bit, PCA955X_LS_LED_ON);
-+			break;
-+		case LED_OFF:
-+			ls = pca955x_ledsel(ls, bit, PCA955X_LS_LED_OFF);
-+			break;
-+		default:
-+			/*
-+			 * Use PWM1 for all other values. This has the unwanted
-+			 * side effect of making all LEDs on the chip share the
-+			 * same brightness level if set to a value other than
-+			 * OFF or FULL. But, this is probably better than just
-+			 * turning off for all other values.
-+			 */
-+			ret = pca955x_write_pwm(pca955x, 1, 255 - value);
-+			if (ret)
-+				goto out;
-+			ls = pca955x_ledsel(ls, bit, PCA955X_LS_BLINK1);
-+			break;
-+		}
- 	}
- 
- 	ret = pca955x_write_ls(pca955x, reg, ls);
-@@ -316,6 +346,102 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
- 	return ret;
- }
- 
-+static u8 pca955x_period_to_psc(struct pca955x *pca955x, unsigned long p)
-+{
-+	p *= pca955x->chipdef->blink_div;
-+	p /= MSEC_PER_SEC;
-+	p -= 1;
-+
-+	return p;
-+}
-+
-+static unsigned long pca955x_psc_to_period(struct pca955x *pca955x, u8 psc)
-+{
-+	unsigned long p = psc;
-+
-+	p += 1;
-+	p *= MSEC_PER_SEC;
-+	p /= pca955x->chipdef->blink_div;
-+
-+	return p;
-+}
-+
-+static int pca955x_led_blink(struct led_classdev *led_cdev,
-+			     unsigned long *delay_on, unsigned long *delay_off)
-+{
-+	struct pca955x_led *pca955x_led = led_to_pca955x(led_cdev);
-+	struct pca955x *pca955x = pca955x_led->pca955x;
-+	unsigned long p = *delay_on + *delay_off;
-+	int ret = 0;
-+
-+	mutex_lock(&pca955x->lock);
-+
-+	if (p) {
-+		if (*delay_on != *delay_off) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		if (p < pca955x_psc_to_period(pca955x, 0) ||
-+		    p > pca955x_psc_to_period(pca955x, 0xff)) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	} else {
-+		p = pca955x->active_blink ? pca955x->blink_period :
-+			PCA955X_BLINK_DEFAULT_MS;
-+	}
-+
-+	if (!pca955x->active_blink ||
-+	    pca955x->active_blink == BIT(pca955x_led->led_num) ||
-+	    pca955x->blink_period == p) {
-+		u8 psc = pca955x_period_to_psc(pca955x, p);
-+
-+		if (!test_and_set_bit(pca955x_led->led_num,
-+				      &pca955x->active_blink)) {
-+			u8 ls;
-+			int reg = pca955x_led->led_num / 4;
-+			int bit = pca955x_led->led_num % 4;
-+
-+			ret = pca955x_read_ls(pca955x, reg, &ls);
-+			if (ret)
-+				goto out;
-+
-+			ls = pca955x_ledsel(ls, bit, PCA955X_LS_BLINK0);
-+			ret = pca955x_write_ls(pca955x, reg, ls);
-+			if (ret)
-+				goto out;
-+
-+			/*
-+			 * Force 50% duty cycle to maintain the specified
-+			 * blink rate.
-+			 */
-+			ret = pca955x_write_pwm(pca955x, 0, 128);
-+			if (ret)
-+				goto out;
-+		}
-+
-+		if (pca955x->blink_period != p) {
-+			pca955x->blink_period = p;
-+			ret = pca955x_write_psc(pca955x, 0, psc);
-+			if (ret)
-+				goto out;
-+		}
-+
-+		p = pca955x_psc_to_period(pca955x, psc);
-+		p /= 2;
-+		*delay_on = p;
-+		*delay_off = p;
-+	} else {
-+		ret = -EBUSY;
-+	}
-+
-+out:
-+	mutex_unlock(&pca955x->lock);
-+
-+	return ret;
-+}
-+
- #ifdef CONFIG_LEDS_PCA955X_GPIO
- /*
-  * Read the INPUT register, which contains the state of LEDs.
-@@ -450,8 +576,9 @@ static int pca955x_probe(struct i2c_client *client)
- 	u8 ls1[4];
- 	u8 ls2[4];
- 	struct pca955x_platform_data *pdata;
-+	u8 psc0;
-+	bool keep_psc0 = false;
- 	bool set_default_label = false;
--	bool keep_pwm = false;
- 	char default_label[8];
- 
- 	chip = i2c_get_match_data(client);
-@@ -502,6 +629,7 @@ static int pca955x_probe(struct i2c_client *client)
- 	mutex_init(&pca955x->lock);
- 	pca955x->client = client;
- 	pca955x->chipdef = chip;
-+	pca955x->blink_period = PCA955X_BLINK_DEFAULT_MS;
- 
- 	init_data.devname_mandatory = false;
- 	init_data.devicename = "pca955x";
-@@ -533,11 +661,16 @@ static int pca955x_probe(struct i2c_client *client)
- 			led = &pca955x_led->led_cdev;
- 			led->brightness_set_blocking = pca955x_led_set;
- 			led->brightness_get = pca955x_led_get;
-+			led->blink_set = pca955x_led_blink;
- 
- 			if (pdata->leds[i].default_state == LEDS_DEFSTATE_OFF)
- 				ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_OFF);
- 			else if (pdata->leds[i].default_state == LEDS_DEFSTATE_ON)
- 				ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_ON);
-+			else if (pca955x_ledstate(ls2[reg], bit) == PCA955X_LS_BLINK0) {
-+				keep_psc0 = true;
-+				set_bit(i, &pca955x->active_blink);
-+			}
- 
- 			init_data.fwnode = pdata->leds[i].fwnode;
- 
-@@ -565,19 +698,6 @@ static int pca955x_probe(struct i2c_client *client)
- 				return err;
- 
- 			set_bit(i, &pca955x->active_pins);
--
--			/*
--			 * For default-state == "keep", let the core update the
--			 * brightness from the hardware, then check the
--			 * brightness to see if it's using PWM1. If so, PWM1
--			 * should not be written below.
--			 */
--			if (pdata->leds[i].default_state == LEDS_DEFSTATE_KEEP) {
--				if (led->brightness != LED_FULL &&
--				    led->brightness != LED_OFF &&
--				    led->brightness != LED_HALF)
--					keep_pwm = true;
--			}
- 		}
- 	}
- 
-@@ -589,22 +709,19 @@ static int pca955x_probe(struct i2c_client *client)
- 		}
- 	}
- 
--	/* PWM0 is used for half brightness or 50% duty cycle */
--	err = pca955x_write_pwm(pca955x, 0, 255 - LED_HALF);
--	if (err)
--		return err;
--
--	if (!keep_pwm) {
--		/* PWM1 is used for variable brightness, default to OFF */
--		err = pca955x_write_pwm(pca955x, 1, 0);
--		if (err)
--			return err;
-+	if (keep_psc0) {
-+		err = pca955x_read_psc(pca955x, 0, &psc0);
-+	} else {
-+		psc0 = pca955x_period_to_psc(pca955x, pca955x->blink_period);
-+		err = pca955x_write_psc(pca955x, 0, psc0);
- 	}
- 
--	/* Set to fast frequency so we do not see flashing */
--	err = pca955x_write_psc(pca955x, 0, 0);
- 	if (err)
- 		return err;
-+
-+	pca955x->blink_period = pca955x_psc_to_period(pca955x, psc0);
-+
-+	/* Set PWM1 to fast frequency so we do not see flashing */
- 	err = pca955x_write_psc(pca955x, 1, 0);
- 	if (err)
- 		return err;
--- 
-2.43.5
+It would be nice if you could test the LampArray implementation. But other than that
+userspace can catch up later.
 
+Still, i am interested in the opinion of the LED maintainers regarding the fake HID interface.
+
+Thanks,
+Armin Wolf
+
+>
+> The folder structure and naming scheme with nb04 is im preparation for
+> other parts of tuxedo-drivers to be upstreamed. NB04 is one of the
+> board_vendor dmi strings on TUXEDO devices that aligns with which part of
+> tuxedo-drivers implements the features of that device. They are independent
+> of each other so I plan to put them in different subfolders to reflect
+> that.
+>
+> Best regards,
+> Werner Sembach
+>
+> Werner Sembach (1):
+>    platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+>
+>   MAINTAINERS                                   |   6 +
+>   drivers/platform/x86/Kconfig                  |   2 +
+>   drivers/platform/x86/Makefile                 |   3 +
+>   drivers/platform/x86/tuxedo/Kbuild            |   6 +
+>   drivers/platform/x86/tuxedo/Kconfig           |   6 +
+>   drivers/platform/x86/tuxedo/nb04/Kbuild       |   9 +
+>   drivers/platform/x86/tuxedo/nb04/Kconfig      |  14 +
+>   .../platform/x86/tuxedo/nb04/wmi_ab_init.c    | 103 +++
+>   .../platform/x86/tuxedo/nb04/wmi_ab_init.h    |  18 +
+>   .../x86/tuxedo/nb04/wmi_ab_virt_lamparray.c   | 772 ++++++++++++++++++
+>   .../x86/tuxedo/nb04/wmi_ab_virt_lamparray.h   |  18 +
+>   .../platform/x86/tuxedo/nb04/wmi_xx_util.c    |  97 +++
+>   .../platform/x86/tuxedo/nb04/wmi_xx_util.h    | 112 +++
+>   13 files changed, 1166 insertions(+)
+>   create mode 100644 drivers/platform/x86/tuxedo/Kbuild
+>   create mode 100644 drivers/platform/x86/tuxedo/Kconfig
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/Kbuild
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/Kconfig
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_init.c
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_init.h
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_virt_lamparray.c
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_virt_lamparray.h
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_xx_util.c
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_xx_util.h
+>
 
