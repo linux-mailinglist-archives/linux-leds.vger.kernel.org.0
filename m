@@ -1,140 +1,105 @@
-Return-Path: <linux-leds+bounces-3872-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3875-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC9BA2589B
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Feb 2025 12:53:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA89A26C49
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Feb 2025 07:53:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 426EA1643FA
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Feb 2025 11:53:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E8497A4179
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Feb 2025 06:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5F722045B5;
-	Mon,  3 Feb 2025 11:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B64204080;
+	Tue,  4 Feb 2025 06:53:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zr6GL1mC"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Fj5y1/Bd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E472045A2;
-	Mon,  3 Feb 2025 11:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001223D81;
+	Tue,  4 Feb 2025 06:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738583559; cv=none; b=SNKhZEwzkcI8nJ4zRm1XIQRI0ZyUCtvNxa8Ow3RDOw4r7H+qjUN2LfefVeTW1bSGUlEJ4HwpnGZ4k8922p4GA812RXGQAw0k1TPaKiyCadZbaLOmUX8SfCpKHFWf4xASWBmdJtbt2EIhbrR9C1jFkcj0lcARKQTxJPCxZksanvI=
+	t=1738651994; cv=none; b=hrksCGXjDPA0gC2Ce3c398L5qToPXF6OGCUMaLvc8rORuCGDPrDfNTE2x5gcHigH3jd3zc2wZwE9bZfGk2CCXoO4YgdYliJLlMBDOrcJAxhl9Dg9WR4D8H4eDpbU2Ud+jc1J/Kn+8rEcT7Ok+QAtYQUFvc1z8uAmawP0f7LMsL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738583559; c=relaxed/simple;
-	bh=mtPz4s+4egQ0jOh3GQAGAPwNPBPu0BZnd8qj+UMcZso=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X8xj1O1d5JkEzlDoiDvM2uFDLCTydrGcwYwmcktf/5g3BoYYo/fXog1QwaFUHpdqVsumcPdaC9zrRoWwIpSbtn+jVEe35M3WHg9xQso5vylX7tXGxhdLhiptrBVI4pEv6gmRM36j0fmRkGOy2ryZIpagH3he3Vv8V/UIjuRMEQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zr6GL1mC; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2161eb94cceso49914835ad.2;
-        Mon, 03 Feb 2025 03:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738583557; x=1739188357; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Uc4uCqsleGcCsKVC2kCtafnEyIcpxj+3QblkARK4r2c=;
-        b=Zr6GL1mCVD35zEQCcBoyuLXtiuDYsnmfSGU/iwcnbuWjCS0ZDe7P8EAIJIq/mKXjrL
-         E/lmKMRZKClU/YGa5ukT0H5QM24PI65D/TXT2mtjLt3WJkY1UusXTzOcWRWc/tethChZ
-         JTrDGI/iOay6k74seXvzboEG74idEwEzTc9OjJbJekzK0cNCsJMHA5xMkmJA5CfI+QH+
-         t7dbk/hHX4DHxpX93dzNQq5If1fiDOSfmIRxXaV6L0QPX2WPF/hrCV583wGVez3+1VqH
-         sf9rNdkfPCNazRfge9HLIfThioxN3gcUIiWd085hdeYy0yJavBoTaZ2q+RpG4nq5yrgD
-         OjKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738583557; x=1739188357;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Uc4uCqsleGcCsKVC2kCtafnEyIcpxj+3QblkARK4r2c=;
-        b=gDETCQgnAFpAyz+SBawRoz0p4paZOTcQWYG4H9M/JSHHnVYVjSZaq6oR41hfUUWiG5
-         yLVZNQNkuZWnFhSUg8bE1ztAznAhXKv6nzIsR+LYeRVWWk1s5yTPwDnGoej1XDFO/XHE
-         hRJW/vRyO4pv4O8n5HKF1YB5DcDV5j26c3hbbnYzy1I+SuBWBAjoc3RqSY5PcNWM9Qdd
-         XCLAr69W8QeNIhVLJg61HvHczKzvwuF/irOCI8mhjjikNX/7499ysOVlpC45cxzhQmZM
-         ahLV4Y0W/XJTlQ/yuo4u0FIiK7cE1CR7oT7BbPYhwS1PkkkI788XMxuvtJXBvQ5xq3pc
-         KuiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSSYrxSIeR1oG4RbpcRJPl0ub/9f4owINj7EDixv88rEbqoSJtHytZJWsUgmm8pZWkA/GxmwVkvoVZSw==@vger.kernel.org, AJvYcCUvnomiKUBzg9d2E19hYBvmV0U0lutsQr33oMKoYtIMclXKV04D/w25QeQmKxdGWYTn5CgUbCLgIS1EPTEH@vger.kernel.org, AJvYcCVILihiV700WSJbUrE5Lx9GS+I4VY2BNZScGMRdzzch62onZSU9b8YRRGP/wuXp89CV7am5Tea+RCEQ@vger.kernel.org, AJvYcCVzhcbHHzwdLDRybGeWgGf/xikHPAt2NW+F5qiQ4nYoYCxF2O6otNwMq0amFjqXHVlDiV6wroswilHrzZQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoEGQwG9t7SVxkimi+pq3ZzYua7qKjtWpsNwMft88A9RAj35gl
-	Vq9+E+WHi2Usm1fG9UjyJiyc0SMP8oRW9IPTidScFHcihyts7BGO
-X-Gm-Gg: ASbGncuyDBCpUB5DV9JPqCsqr7Hn2/mmg6I/TTW9HPlUmlzCL17NPBADShwaUxaA7L/
-	5COEcEh7hHo0PEmcqZ549jVYplgqUjC3mJJPpBAE6saRs8hUtwHr4bHKmoRvQBX64WaxhcAV8rB
-	9yLzQ8nyyWe7TOHJwpSTl6sgeE7RcONtvIy2RA1XMjINzJOrtEd4QCvFnwIeC/d9D8AdSh9EtN5
-	V2CGWJs/MbvOYSeKngxenVT7UxrJRRE3Qu+7wgWSgdWYKpNogRf+g4NR6C4FYfoY4RDVXddBPz2
-	0wSo9eK1eFHF+50K
-X-Google-Smtp-Source: AGHT+IG9OzjbgkvCS8tq7nwliRQ7D0GE7eIK1YFb7OgjbU/H0UhSsEr4jVXSBegVQdOpNlym0wtPBw==
-X-Received: by 2002:a05:6a00:4642:b0:725:f1b1:cbc5 with SMTP id d2e1a72fcca58-72fd0bc26c1mr38178820b3a.3.1738583557299;
-        Mon, 03 Feb 2025 03:52:37 -0800 (PST)
-Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-72fe631c039sm8262408b3a.25.2025.02.03.03.52.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 03:52:36 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Nick Chan <towinchenmi@gmail.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 RESEND 3/3] MAINTAINERS: Add entries for Apple DWI backlight controller
-Date: Mon,  3 Feb 2025 19:50:34 +0800
-Message-ID: <20250203115156.28174-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250203115156.28174-1-towinchenmi@gmail.com>
-References: <20250203115156.28174-1-towinchenmi@gmail.com>
+	s=arc-20240116; t=1738651994; c=relaxed/simple;
+	bh=e9ndPcbZwm5RuvhZvDZBuPk4IeP+XyR5Pvj0NbdTTec=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UxUWGWRgRuJUfooVKeyikT5bEkb44BBZDLtsSC4upUbRj12+AQi4nEEwPhTPoPoXtiG39xH2uB1ObR3FTrtijEB2miXZHbcEQj8puka4A6FDtSTivfehE5TCa3ytjIFWWaZcFlbhXsz58a46/vmiMBf+FB1SMx9+OsP7iN/cH1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Fj5y1/Bd; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1738651982;
+	bh=e9ndPcbZwm5RuvhZvDZBuPk4IeP+XyR5Pvj0NbdTTec=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Fj5y1/BdV0YQzl0M/limq+nrItnNFBRLlaAHWKnYEBgPbS+4IZNeNt4U2k1mFCyJ4
+	 XGLsfAx0maidRV/35vgB/h9aYTqTm66v6wm8IPzmuZGVfrGsLqoRTOpaDijjm49sxy
+	 w8rKBFLaZQMxk2u6lbQAd/scSbKmraa5MFBNGDsU=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v2 0/2] locking/mutex: Mark devm_mutex_init() as
+ __must_check
+Date: Tue, 04 Feb 2025 07:52:49 +0100
+Message-Id: <20250204-must_check-devm_mutex_init-v2-0-7b6271c4b7e6@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAEG5oWcC/33NQQ6CMBCF4auQWVtDiwq68h6GECiDnRiK6ZSKI
+ b27FfduJvln8b0VGB0hwyVbwWEgpsmmULsMtGntHQX1qUHl6iDzQopxZt9og/ohegxjM84el4Y
+ seaFbfayKrm+rASEBT4cDLRt+q1MbYj+597YV5Pf7Y9P5xwYppMBTjt257CpdqusLiZm1mc3eo
+ oc6xvgBq6/k3skAAAA=
+X-Change-ID: 20241031-must_check-devm_mutex_init-cac583bda8fe
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Lee Jones <lee@kernel.org>, 
+ Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738651981; l=1043;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=e9ndPcbZwm5RuvhZvDZBuPk4IeP+XyR5Pvj0NbdTTec=;
+ b=gb7LykAWGBP7maTIml4gPL18TQZbsN9rUuVRQjeEHiyogkzfHbxrBaxXErfRQiYKfcui7ls/u
+ nfW2I89DFoyBJDCccbhZG8Qzvkp1szGqGQeJo7nf+L3Sn4UuAf5say9
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Add MAINTAINERS entries for the driver.
+Even if it's not critical, the avoidance of checking the error code
+from devm_mutex_init() call today diminishes the point of using devm
+variant of it. Tomorrow it may even leak something. Enforce all callers
+checking the return value through the compiler.
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+The series should go through the locking tree.
+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Changes in v2:
+- Rebase on 6.14-rc1
+- Fix up leds-1202 driver
+- Link to v1: https://lore.kernel.org/r/20241202-must_check-devm_mutex_init-v1-1-e60eb97b8c72@weissschuh.net
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 896a307fa065..a576324807f5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2228,6 +2228,7 @@ F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-+F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -2253,6 +2254,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/apple_dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
+---
+Thomas Weißschuh (2):
+      leds: st1202: Check for error code from devm_mutex_init() call
+      locking/mutex: Mark devm_mutex_init() as __must_check
+
+ drivers/leds/leds-st1202.c |  4 +++-
+ include/linux/mutex.h      | 17 ++++++++---------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20241031-must_check-devm_mutex_init-cac583bda8fe
+
+Best regards,
 -- 
-2.48.1
+Thomas Weißschuh <linux@weissschuh.net>
 
 
