@@ -1,124 +1,145 @@
-Return-Path: <linux-leds+bounces-3890-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3894-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A73A2ACC6
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Feb 2025 16:40:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D556A2AD7C
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Feb 2025 17:18:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D32B3A408A
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Feb 2025 15:40:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FACE7A3DD8
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Feb 2025 16:17:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EE74227561;
-	Thu,  6 Feb 2025 15:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B5A722D4F8;
+	Thu,  6 Feb 2025 16:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="LPmRIDn9"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28C923315B;
-	Thu,  6 Feb 2025 15:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5964148FED;
+	Thu,  6 Feb 2025 16:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738856451; cv=none; b=BWigFPQrh/WZt4fzYfTEMfrNZOE4UDi/2iqHPMjUZPoqahMUs5yjVnEhfguUii5vxrz81lMf2Nsp7BEuCbYV4RbqLVve7+BK3MoQt92MPoFjTeA3KW0hp+buAi+CQGDvorl24tv9B19f2ttImJqsZl5CmwKCO9x6SbtlIuubw3I=
+	t=1738858689; cv=none; b=Aubo6P/a0IE+BcfOAr0Ktr8HR+IR1k7/izrq46r48GxIftY+SMIJ8qKgEZaR4WHcxGwCOx0MryYPa2grEDnxZYAh0VerWjAO6acCDqltEx6GhelZpvDfuv8/3oSvikBod78U7fJPX76yZe8HxV75T0W0hyHPsH1WzCGQD1bTuik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738856451; c=relaxed/simple;
-	bh=IsAu7JdKBnglMwM2CePvGx1UPXBBwWznIbT4Ckx6N7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lz/2xY/+Y2XlXoPYBFQUJxn0QNeyTCz08e/NIFul3YJlMjgMs8GPzpGMqvBbeTMbiithP96ntaUMXeYguDeY5qKmyCbn6l50YIs1kIUD4HyvFdTlsxFbu8XUf1k9xxXEkHFXrkYsII2PFeoO424D1TJKBL6GGKWRCF48j/e+4E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E8CEF1F452;
-	Thu,  6 Feb 2025 15:40:47 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A522D13AB2;
-	Thu,  6 Feb 2025 15:40:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wAMfJ//XpGf4PAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 06 Feb 2025 15:40:47 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: pavel@ucw.cz,
-	lee@kernel.org,
-	danielt@kernel.org,
-	jingoohan1@gmail.com,
-	deller@gmx.de,
-	simona@ffwll.ch
-Cc: linux-leds@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 13/13] fbdev: Remove constants of unused events
-Date: Thu,  6 Feb 2025 16:30:32 +0100
-Message-ID: <20250206154033.697495-14-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250206154033.697495-1-tzimmermann@suse.de>
-References: <20250206154033.697495-1-tzimmermann@suse.de>
+	s=arc-20240116; t=1738858689; c=relaxed/simple;
+	bh=CrTRD0J2fEP8KCGRaT3yUv6KCossMoANGMgXmbM0pOE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C5tg3G4XjZFP8D70G8ZGCCcYGP1xSZZsUb4A2qGhKsdiGwHXhtRr0sI3saekHSx65BebeRcqUtRM5UsIR2HiB6trNAtIJdnAVckZws8i/dEJNvX6MncSlDoZ0LoksjX+3GJY5mvFxgYppBQoSBWh7v0kBXmDw9i52NFuZ90Aby8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=LPmRIDn9; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e59260.dip0.t-ipconnect.de [217.229.146.96])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 98AAA2FC004D;
+	Thu,  6 Feb 2025 17:18:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1738858683;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n6LU6zxKiKUC5NfzSCWaT/v4KeZZVvnTobPxq3yz3vM=;
+	b=LPmRIDn9W4tGg1fEFn+ROJWLxSSh+TZN9vt2CnIdSvbBRMmqhjaMuH0z/Tm54i8YWPCDuN
+	rqVshu/6BwtWCL795QIhsVpaePiRc3gEyqinXdHw5IZvVqPG0p58QhvHG/FkGUnL//9V4G
+	YdU62clPVHUamV8z8BoKV/RACAXahVA=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
+Date: Thu, 6 Feb 2025 17:18:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E8CEF1F452
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+To: Pavel Machek <pavel@ucw.cz>, Armin Wolf <W_Armin@gmx.de>
+Cc: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, bentiss@kernel.org,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, cs@tuxedo.de,
+ platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+ <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de> <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The constants FB_EVENT_MODE_CHANGE and FB_EVENT_BLANK are unused.
-Remove them from the header file.
+Hi,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/fb.h | 6 ------
- 1 file changed, 6 deletions(-)
+Am 01.02.25 um 09:48 schrieb Pavel Machek:
+> Hi!
+>
+>>> I now got my feet a little wet with hid-bpf regarding something else, and
+>>> with that knowledge I would leave the long arrays in the beginning in the
+>>> kernel code for the time being:
+>>>
+>>> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+>>> during initialization so they have to exist in the kernel code anyway.
+>>>
+>>> report_descriptor will most likly not change even for future models and
+>>> afaik having report_descriptors in kernel drivers is not unheard of.
+>>>
+>>> So the only things that could be meaningfully moved to a hid-bpf program
+>>> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
+>>> out some fallback value anyway for the case where a hid-bpf file is missing
+>>> or fails to load. So why not use real world values from my test device for
+>>> these values?
+>>>
+>>> As soon as there is a future device that can use the same driver with just
+>>> these pos arrays different, then I would implement that change via a bpf
+>>> program instead of a change to the kernel driver.
+>>>
+>>> Let me know if you too think this is a sensefull approach?
+>>>
+>>>
+>>> Another question: Would this patch need to wait for a userspace
+>>> implementation of lamp array before it can get accepted?
+>> It would be nice if you could test the LampArray implementation. But other than that
+>> userspace can catch up later.
+>>
+>> Still, i am interested in the opinion of the LED maintainers
+>> regarding the fake HID interface.
+> Comments from previous review were not addressed.
+>
+> Most importantly, this is not a way to do kernel interface. We want
+> reasonable interface that can be documented and modified as needed. We
+> want to pass /dev/input to userspace, not raw HID. This is not ok.
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index bebf279c8bc6..c272c0fc074d 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -129,18 +129,12 @@ struct fb_cursor_user {
-  * Register/unregister for framebuffer events
-  */
- 
--/*	The resolution of the passed in fb_info about to change */
--#define FB_EVENT_MODE_CHANGE		0x01
--
- #ifdef CONFIG_GUMSTIX_AM200EPD
- /* only used by mach-pxa/am200epd.c */
- #define FB_EVENT_FB_REGISTERED          0x05
- #define FB_EVENT_FB_UNREGISTERED        0x06
- #endif
- 
--/*      A display blank is requested       */
--#define FB_EVENT_BLANK                  0x09
--
- struct fb_event {
- 	struct fb_info *info;
- 	void *data;
--- 
-2.48.1
+There are already 2 endless discussions about this:
 
+https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
+
+https://lore.kernel.org/all/73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com/
+
+And a shorter one before that:
+
+https://lore.kernel.org/all/30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com/
+
+The brief:
+
+- LampArray is a standard that will hit the Linux world anyway.
+
+- The alternative proposal via a led matrix does not even really fit keyboards, 
+and does not at all fit all other device types.
+
+Hans and Benjamin already agree with me that LampArray is the way to go.
+
+So after over 2 years can I please have a final decision on how to implement this?
+
+Regards,
+
+Werner
+
+>
+> Best regards,
+> 								Pavel
 
