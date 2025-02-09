@@ -1,131 +1,178 @@
-Return-Path: <linux-leds+bounces-3896-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3899-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECD9A2D75A
-	for <lists+linux-leds@lfdr.de>; Sat,  8 Feb 2025 17:30:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C25A2DD17
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Feb 2025 12:22:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE25E3A42CE
-	for <lists+linux-leds@lfdr.de>; Sat,  8 Feb 2025 16:30:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD33B188589B
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Feb 2025 11:22:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57F221106;
-	Sat,  8 Feb 2025 16:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="btzsGsCk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA1AE19DF60;
+	Sun,  9 Feb 2025 11:22:49 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75121F30BF;
-	Sat,  8 Feb 2025 16:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9E315CD52;
+	Sun,  9 Feb 2025 11:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739032224; cv=none; b=KrKMJ2wpgEH6znmAmlAvT7lZAcwuuNOUcwhCfJvUofXLMsCvtpAPyB32xES5YGCb/61VTFZ6D+yR7wNafpSOlhKT7TyvO+OngV6IFn1fvatHoo8S8PYXAv95vZ2SSJrpcv4QPil3reZ3q9rvaOjwDWx5YnGDfNz+9IYcrZsD7Vw=
+	t=1739100169; cv=none; b=oEIqix8vgM3/wgWva9LsBduA7BCym5X5BXFD3VrZ1gv1NJpNbinYT0zXlGR6Is9fAfa4PgvgLJAZiflKX5121mhkjDPn8v+smW+jws8hwTkigiR75u7X6Go8hBrqe2HwDSav3odGBOeHUilIW5y3w2n7IKDS9Za+kutGr4qNtfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739032224; c=relaxed/simple;
-	bh=CaCYZdoznE8WXB+t4HNPsgCbCMDDiyEbSGnXkSMn6g8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=G3XqCAxCgR50uWQrFqHZjrpvSaUGfqgJnIol/k7IQ7PwZMp8ZQRstFY3GRb4x2oRXTim/yZwvA0RKbC4XkbKtBd3md+hmMwF/wG3NFolOD4tcvphsQMZbXhXsqGjjarVkSr5uV5F5eI74F0V5XTlSisYvpdoTMDMHBk7yIY+auI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=btzsGsCk; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1739032220;
-	bh=CaCYZdoznE8WXB+t4HNPsgCbCMDDiyEbSGnXkSMn6g8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=btzsGsCkKjEIbxIsSJ24YcyNkyx8a1wyGV4gJyzf+IvG2MzjPEFuJmFxSXEH2U0Ip
-	 DlhKzBfeFOsWUnsY9a0rZPrHhA7sk5E+UTtgCTRdaTfoR3YB9M45yY7WXGHYxR772n
-	 kSkeUfQvaZ43A12mVABwc00sWINulKz6JeSvxcuU=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 08 Feb 2025 17:30:04 +0100
-Subject: [PATCH v3 2/2] locking/mutex: Mark devm_mutex_init() as
- __must_check
+	s=arc-20240116; t=1739100169; c=relaxed/simple;
+	bh=fSpAlkuvzafpBDecQQKDZzLy+MX6Hjz7TRvpdMGaUmQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=csWELi4k7kAtjVDQOTPy8L0f0141O3GcFS3ffKT9ozTyKrhOUqWTUk5h1zLn04DQz5RwuKuhxx89yWMUKoPU5CGUIAuNVveUGpnBfmCafke7ikk3BLTw9+5QdpJk3MDE39DJ6B/saJfkudW80AZf04xKEXlXB4SCw060Q1dxye4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ab7863f9be4so346404366b.0;
+        Sun, 09 Feb 2025 03:22:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739100165; x=1739704965;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=czsr8ut4E1IjeGJZsPHODj7dteAs5/QBRXMGMfAcAZA=;
+        b=I2SXLqbOzyC5aMhr6I7rBYcKaNyxcubopTza3dXAq8Rsm+GHGjlIZ5lGI81mc7ygxQ
+         AGUCIUeEoc1gOr5hRGKx3R2YTT0hnb3oj7J8vc4QwF6yWkZmHCgUuJRbxr+bt8OIGHhI
+         VTWzWgsc9fuX4uI7ja6/A6HQk4ZN/gjhI6/7JiwGPttAzcTCG38ouo3tRPX6QH9mPsFY
+         9BQXMOVLPVpLEtvN+0tlYo7/pW5e8bimTjNHxMAosfUF6Ix9zID0kp6uxPOEz8j+eDH6
+         qE2BtK0PSwJqh+qKED15SlYJ34DVVvZiNVphrX60Q+WXQXihYLGtXzMS93/O7K0YuX8u
+         MMpw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcrKont0uPw9Coet6QdtkvlXXeBRVfcWSEoLHYacRRpoC2G+IuS7bdcr0XmXTv0xeKsMxYTb8oXO9/cQ==@vger.kernel.org, AJvYcCVvXBrstJyLktRjZ27jQEHR9/kS3XuNPx1rYt4uNCHJPIiri8Wcz05a3zIngUbtZAJieRnGByyIV3jZ/bA=@vger.kernel.org, AJvYcCWf/5f8A5Ok5vdDxcttnjj3fuSYEISu1N60QXGKKSVrc+3nR8dvQT98gOPvpUvmCCRl/bBZb4iEiBl+@vger.kernel.org, AJvYcCXsspjJ5/5pPstiH7dnorAky/mmT8zhAYnr5EjU1s9cIzSX5qaKYIz7LBwrmxyrRt64H43wEpao8z9jJTp6@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKRp8s7KYq05bsieZtkfkMOLs8Nbkeg0muOaAs/1MtZHb7g51r
+	WUXn3o+yOwi0iwFS+xSdX3k34L8Jg2Y4JzaTzoPsPKHIlGrrZS00pyXJ0CVA4cw=
+X-Gm-Gg: ASbGncs+ElrwNITOaL/npWaV0lINiw73uGUrxFATJO7Z43yFQ9tTUZNmKCdsT/5skcj
+	bLbkLyMDbzvvOCXSUKK7Q59G7FsU6/fOQv7aIJn6G6JkGpdo/34WIggWzfG2QX790SgpFdirdqU
+	Krm38Qwtb3cBujpDcGzJuBbedLmLWfIY5MK6Nqvhbw4gwqOb80e1mcQ7a9OHDmA+zlxHju2UY9+
+	lB2tOq6OMKLBPgeLSUmkwzdGCz2gEWVyYXeiPZKlzeaKqSZLmZXcnrEN0WkJFh3/Ex06LtkIxmx
+	/DTcLE1dfcDK89MGB00AxLLdrsRBs8RHYQuBMPF6f/VsrQ==
+X-Google-Smtp-Source: AGHT+IEdB9R3spqx2SEWAobW9gJu4+fmb8vmoxtEhl6cFp/SdUHzvuAKiRTyBIEas4/dGdeZr2DQSQ==
+X-Received: by 2002:a17:907:c285:b0:ab6:32d2:16d4 with SMTP id a640c23a62f3a-ab789c35448mr1039216266b.56.1739100165260;
+        Sun, 09 Feb 2025 03:22:45 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7bf5b8e6asm17110166b.16.2025.02.09.03.22.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Feb 2025 03:22:44 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5dcea56d6e2so6297700a12.1;
+        Sun, 09 Feb 2025 03:22:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+BLfvHk74Jrx3i9CQ98+QUiZqPwnFgA/Dnzd+q41L/CxIRWoF+9pvqD8H/2kyWmN5wdFBZjHmRg2b9oHb@vger.kernel.org, AJvYcCUluvYc+q7qkuRndVXSZhJftfRh6lsurrjda7VVTVeki7WoI38riilHoIUn6fqiBkCfT+aDsUaTzbJWjA==@vger.kernel.org, AJvYcCXS42RSVTeYbFdwFyiAxrRNtqKjKdUgF+S6r3YC9mqDiYBhLADKO3SW6Fr+JCdy7UZapRgLGGiOkf2iF70=@vger.kernel.org, AJvYcCXeFiIqhWXMAQf8dLvVIVQKEo7cDfbnCgyd0ik0+LaFckzC1xgcBDlVSBH5ewHVUyiQuBO20TQkcNmF@vger.kernel.org
+X-Received: by 2002:a05:6402:5252:b0:5db:f423:19b9 with SMTP id
+ 4fb4d7f45d1cf-5de450236admr7763979a12.16.1739100164505; Sun, 09 Feb 2025
+ 03:22:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250208-must_check-devm_mutex_init-v3-2-245e417dcc9e@weissschuh.net>
-References: <20250208-must_check-devm_mutex_init-v3-0-245e417dcc9e@weissschuh.net>
-In-Reply-To: <20250208-must_check-devm_mutex_init-v3-0-245e417dcc9e@weissschuh.net>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Lee Jones <lee@kernel.org>, 
- Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739032220; l=2032;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=CaCYZdoznE8WXB+t4HNPsgCbCMDDiyEbSGnXkSMn6g8=;
- b=0ZxN+2uSZvaFdCeSXX5kVzhUxZVR9ll2dqmtVANSNQIw2rGkOw9DGeuBvPeweEjcp65yEp/1u
- RLtjJtBcFV7Cq5ngLpBp2isXBaOuAoQat+2hIOOtSA56SBuIsM7A8+m
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+References: <20250203115156.28174-1-towinchenmi@gmail.com>
+In-Reply-To: <20250203115156.28174-1-towinchenmi@gmail.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sun, 9 Feb 2025 06:22:08 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je8cB==_+fNi0hc-mPqkEd-w82tWay_2Wu76hV10LV4X2g@mail.gmail.com>
+X-Gm-Features: AWEUYZks2Pe6z_gT4XPe5iRvZlGve_lJKCtY1woYJMW8gNu9Xz8tZDlJPRfovXQ
+Message-ID: <CAEg-Je8cB==_+fNi0hc-mPqkEd-w82tWay_2Wu76hV10LV4X2g@mail.gmail.com>
+Subject: Re: [PATCH v5 RESEND 0/3] Apple DWI backlight driver
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lee Jones <lee@kernel.org>, 
+	Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Helge Deller <deller@gmx.de>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, Janne Grunau <j@jannau.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Even if it's not critical, the avoidance of checking the error code
-from devm_mutex_init() call today diminishes the point of using devm
-variant of it. Tomorrow it may even leak something. Enforce all callers
-checking the return value through the compiler.
+On Mon, Feb 3, 2025 at 6:52=E2=80=AFAM Nick Chan <towinchenmi@gmail.com> wr=
+ote:
+>
+> Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
+> and iPod touches the backlight controller is connected via this interface=
+.
+> This series adds a backlight driver for backlight controllers connected
+> this way.
+>
+> Changes since v4:
+> - Change type to BACKLIGHT_PLATFORM since the driver does not directly
+> interface with the backlight controller. The actual backlight controller
+> can be directly controlled via i2c and is not the same on all hardware
+> that supports the dwi interface.
+> - Rename file to apple_dwi_bl.c to better match config option.
+> - Rename driver to apple-dwi-bl to better match config option
+> - Indicate that the backlight scales linearly
+>
+> v4: https://lore.kernel.org/asahi/20241211113512.19009-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v3:
+> - $ref to common.yaml in bindings
+> - (and then additionalProperties is changed to unevaluatedProperties)
+> - Use hex everywhere in bindings example
+> - Use sizeof(*dwi_bl) instead of the type of the struct when doing
+> devm_kzalloc()
+> - Use devm_platform_get_and_ioremap_resource() in driver
+> - Fix sorting in drivers/video/backlight/Makefile
+> - In drivers/video/backlight/Kconfig, move config to right after
+> BACKLIGHT_APPLE
+> - Explain this driver being completely different from apple_bl
+>
+> v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gma=
+il.com/T
+>
+> Changes since v2:
+> - Add missing includes in driver
+> - Fix file path in MAINTAINERS
+>
+> v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v1:
+> - Fixed dt-bindings $id.
+> - Make power-domains an optional property in dt-bindings.
+> - Added missing error checking after devm_ioremap_resource() in
+> dwi_bl_probe().
+>
+> v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail=
+.com/T
+>
+> Nick Chan
+>
+> ---
+> Nick Chan (3):
+>   dt-bindings: leds: backlight: apple,dwi-bl: Add Apple DWI backlight
+>   backlight: apple_dwi_bl: Add Apple DWI backlight driver
+>   MAINTAINERS: Add entries for Apple DWI backlight controller
+>
+>  .../bindings/leds/backlight/apple,dwi-bl.yaml |  57 ++++++++
+>  MAINTAINERS                                   |   2 +
+>  drivers/video/backlight/Kconfig               |  12 ++
+>  drivers/video/backlight/Makefile              |   1 +
+>  drivers/video/backlight/apple_dwi_bl.c        | 123 ++++++++++++++++++
+>  5 files changed, 195 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/appl=
+e,dwi-bl.yaml
+>  create mode 100644 drivers/video/backlight/apple_dwi_bl.c
+>
+>
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> --
+> 2.48.1
+>
+>
 
-As devm_mutex_init() itself is a macro, it can not be annotated
-directly. Annotate __devm_mutex_init() instead.
-Unfortunately __must_check/warn_unused_result don't propagate through
-statement expression. So move the statement expression into the argument
-list of the call to __devm_mutex_init() through a helper macro.
+This series looks good to me.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- include/linux/mutex.h | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-index 2bf91b57591b49e4668752e773419ae945f124da..970b0526c549b699e7e4e1ba522696537957e069 100644
---- a/include/linux/mutex.h
-+++ b/include/linux/mutex.h
-@@ -126,11 +126,11 @@ do {							\
- 
- #ifdef CONFIG_DEBUG_MUTEXES
- 
--int __devm_mutex_init(struct device *dev, struct mutex *lock);
-+int __must_check __devm_mutex_init(struct device *dev, struct mutex *lock);
- 
- #else
- 
--static inline int __devm_mutex_init(struct device *dev, struct mutex *lock)
-+static inline int __must_check __devm_mutex_init(struct device *dev, struct mutex *lock)
- {
- 	/*
- 	 * When CONFIG_DEBUG_MUTEXES is off mutex_destroy() is just a nop so
-@@ -141,14 +141,17 @@ static inline int __devm_mutex_init(struct device *dev, struct mutex *lock)
- 
- #endif
- 
--#define devm_mutex_init(dev, mutex)			\
-+#define __mutex_init_ret(mutex)				\
- ({							\
- 	typeof(mutex) mutex_ = (mutex);			\
- 							\
- 	mutex_init(mutex_);				\
--	__devm_mutex_init(dev, mutex_);			\
-+	mutex_;						\
- })
- 
-+#define devm_mutex_init(dev, mutex) \
-+	__devm_mutex_init(dev, __mutex_init_ret(mutex))
-+
- /*
-  * See kernel/locking/mutex.c for detailed documentation of these APIs.
-  * Also see Documentation/locking/mutex-design.rst.
 
--- 
-2.48.1
-
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
 
