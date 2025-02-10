@@ -1,76 +1,82 @@
-Return-Path: <linux-leds+bounces-3911-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3912-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0266AA2F4B8
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Feb 2025 18:10:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CFBA2F55B
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Feb 2025 18:35:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 296BC1888725
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Feb 2025 17:10:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12A463A464D
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Feb 2025 17:35:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF935256C7A;
-	Mon, 10 Feb 2025 17:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A90A424F5A4;
+	Mon, 10 Feb 2025 17:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q9uw5oeL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6JoZEaz"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B67C256C69
-	for <linux-leds@vger.kernel.org>; Mon, 10 Feb 2025 17:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE92256C99;
+	Mon, 10 Feb 2025 17:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739207393; cv=none; b=XPXb2R+VxSl/L7/bRU6SLr0hZ2xZFzHB7iadvLFJl/uPJ8gA2I2sAiehoyhfcgdx7MyOPs+s4HU5sZM7ixTiSxAmDVjLAkTzwXt3efN1gpE5qfL5e0r197mknahIN379GfnkqnLzdSYZEEzm8mhFNdxw0MZCL+qxgqG9P5TDZbg=
+	t=1739208904; cv=none; b=O9mEtMbVw5lW9hFAi5Ewpx7j1SAwbS85X0//m/a/mBJmGpUIXVQE3MtVTAMD2mC6vIXg4bD9pWTmY6ge8kbcjkzSQ700agre8Ho4Lxp1aJV4YW3oWMK7soCzUp3d9MilCxjmIOcXn3/ZtfIocH9TeL5mAEuOnNkzl1Q6jveMrkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739207393; c=relaxed/simple;
-	bh=SUTMXqCsUhbB7T+Rl/lScXiQARKPddoYFa4v3CJxtNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gRzWZ+1ibyIll+17uJnOd+6zBaaobWWV99OYu7EpeMrA7Uj5NcZicPr1dF4Q1Q0hKR/YpysaRQY/ZPchBvC+XdFSnqf1nhG3OKlPb4vs0KAxGkz3UpObVp3W+mYK8Ra97bL/WNhZhu0sd02AeKbuVBY+fWdFctRCtyQdlGJaGxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q9uw5oeL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EEEC4CED1;
-	Mon, 10 Feb 2025 17:09:52 +0000 (UTC)
+	s=arc-20240116; t=1739208904; c=relaxed/simple;
+	bh=p8aq8zFa18JR+QUrWxfYcA1G15bcohfRpJYdfzTJQyI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cYLUALgINW8VQQ/+pfCvH3jlCZIfpWXARmL5wOA7gJzx2a1mp4sxhCaVqjGdnP3a4H5btkQIFbmiPdIGub4qLxLNhpuTDNPmzR5N/X68bml/MMprroMR9SJk2yDc4kOkQ+wXKL9xtrDWovUoQVfthE8iZwTbpBYca0yhLUbbWi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6JoZEaz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F59BC4CED1;
+	Mon, 10 Feb 2025 17:35:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739207393;
-	bh=SUTMXqCsUhbB7T+Rl/lScXiQARKPddoYFa4v3CJxtNg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q9uw5oeLA9rvPgmJ1uBw+g+vPqii+6sN+2HCb6RNqzdVxAr7SQDPsuWlOaYsydXKC
-	 oqv62Zw4YkFEFprPTAY+cQ9Ez9ch1ykcDdeuxXR9qmUOVkXKpIlfi3vgti5dpllNCv
-	 Cu9x0XJW3Fxd7Evz+k+aiy/AI5/t7q/ciTGk8dFVsN6mdLoomA71ts3UWiWoWokVmH
-	 9U1kksAQRglKCHuLAnZq2ofo6NUguUjxd0PYd1+QuZBiCvuf6tH9PBX8YixvV4qRjR
-	 tkyBUlu+rZepUYEGrM2FdnAZ2J8t7ffcjzDfQ54bI9zvMI5QxfBJXgUWJGBa0ylPUh
-	 DCfgjKeuBVbUw==
-Date: Mon, 10 Feb 2025 17:09:49 +0000
+	s=k20201202; t=1739208904;
+	bh=p8aq8zFa18JR+QUrWxfYcA1G15bcohfRpJYdfzTJQyI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=F6JoZEazfztkZvbA4yEZre+HILVGd6Wf9v2thxvJu6XPK5gi/VKIdfOmI3SCHk191
+	 dGuWUv0FGaXrgPgy+4M6MhUO8ykWSUc2/MQz/NkQXLkROsGIFTJbN9zeEi2jtfrxd7
+	 WmjOcb6Rawc1S42nnJSiCmBxxn/arPccl2DgfGoXnPjWMsLxPXrDcOIAfZBzmvSdto
+	 0ZVlINUsX/iwjLP4Ohaiy74sUAOsPx/rKis7p0l33FbyHSanb4Ie1Owie2MJ+2GYti
+	 9ATGGz45nCpfuVgpDYjpkTS46CsPvbdVQe7uucywJO72JmpjjYfkcyye08DV9BMIL7
+	 mx5CglvdNYyCA==
 From: Lee Jones <lee@kernel.org>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: linux-leds@vger.kernel.org
-Subject: Re: ledtrig_flash_ctrl and ledtrig_torch_ctrl
-Message-ID: <20250210170949.GG1868108@google.com>
-References: <Z5WfSYiANGBXgdW8@gallifrey>
+To: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+In-Reply-To: <20250129152659.1801420-1-andriy.shevchenko@linux.intel.com>
+References: <20250129152659.1801420-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: (subset) [PATCH v1 1/1] leds: lp8860: Drop unneeded assignment
+ for cache_type
+Message-Id: <173920890313.1935155.1479953783502384544.b4-ty@kernel.org>
+Date: Mon, 10 Feb 2025 17:35:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5WfSYiANGBXgdW8@gallifrey>
+X-Mailer: b4 0.13.0
 
-On Sun, 26 Jan 2025, Dr. David Alan Gilbert wrote:
-
-> Hi,
->   One of my scripts noticed that ledtrig_flash_ctrl() and
-> ledtrig_torch_ctrl() don't seem to be called anywhere,
-> and don't seem to have been since they were added in 2013.
+On Wed, 29 Jan 2025 17:26:59 +0200, Andy Shevchenko wrote:
+> REGCACHE_NONE is the default type of the cache when not provided.
+> Drop unneeded explicit assignment to it.
 > 
-> Are they actually deadcode I can/should remove?
+> Note, it's defined to 0, and if ever be redefined, it will break
+> literally a lot of the drivers, so it very unlikely to happen.
+> 
+> 
+> [...]
 
-I would ping the authors first.  If there are no good reasons to keep
-them around come back, you can remove them.
+Applied, thanks!
 
--- 
+[1/1] leds: lp8860: Drop unneeded assignment for cache_type
+      commit: 59670b23bfb649b29ad185618116d522f0e7ae90
+
+--
 Lee Jones [李琼斯]
+
 
