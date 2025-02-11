@@ -1,112 +1,92 @@
-Return-Path: <linux-leds+bounces-3928-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3929-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCD6A30E9E
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2025 15:43:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F99CA30F3F
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2025 16:08:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D84BB166ED9
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2025 14:43:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA4BD3A11F9
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2025 15:07:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0DE82505D3;
-	Tue, 11 Feb 2025 14:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2698524F5AA;
+	Tue, 11 Feb 2025 15:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLmmjNJG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQGRmWCX"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966C9243396;
-	Tue, 11 Feb 2025 14:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC4E3C3C;
+	Tue, 11 Feb 2025 15:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739284985; cv=none; b=NP0vAMz6nppe5+lnqDwR4BrsZEYRVnrHCl18dSAXPzJxWCXPxOE91z/fpecHv4eG4Z0QoEfk0qGBB5H5VgNpiSfgPiV9rpT0RzEErEjHEWLYXrq7ZzY9c8ri466QEIBCFCBBiezZ1YYYcFsva+U1YOYaERm3xhpGL84gmHHON/g=
+	t=1739286481; cv=none; b=M5k2ckxjSqPqkhNQX7ZgsYJq7ZM8hpnpqZUX8lc4h+ytW0ygSvB9pIBlisLZjlOyUIQhx5NzM7M6nXMy4VO1GkrYExeFPMWZ7w1AxIYDSYqxu6/2+5nfkw5T3fJbk5vN5LSTmGBE6WkUMf7i7WsYh9Z2W2cw8LXJo7bYieehi1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739284985; c=relaxed/simple;
-	bh=voK0gPzw+wXISlMnQBaqyxmaIdyN+OgNztg0FBND6l4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+HKQF5TFPYSaWKJppMRMKR5055P+jeov33TeZHCeXFgMrmSOJFTDdkn52OdHtxbnI460jTV+aRWFmGZhXc2x04J5buzvUvuslo+UBBsetNYKDADKn/kAQay51nN4nlGVUQF4PYfaFQwxRnfY0p3O3eXN6YJWQ7Z8OgSAc5g7vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLmmjNJG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF4AC4CEDD;
-	Tue, 11 Feb 2025 14:43:03 +0000 (UTC)
+	s=arc-20240116; t=1739286481; c=relaxed/simple;
+	bh=lNPUaE77q0AFctgL6amVVXO/TUfnN9RH4g0Cnckt/s0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BaaGRKFXv4N8cct8H52/lMF7AE5d5Rah16XKjba6UtdU/OpwYnz6BfzobO4Qj6eLvoqfZtyGWa9VnhDka59gPIdktR1GyPAKExd8tJ2rssAVEzi/Ojlr+XvCmBGJ8u5cyU7w6T42O9VT++1dbA6LXktH4QkpxgtiA7sphTw9pfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQGRmWCX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D314C4CEDD;
+	Tue, 11 Feb 2025 15:07:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739284985;
-	bh=voK0gPzw+wXISlMnQBaqyxmaIdyN+OgNztg0FBND6l4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YLmmjNJGAcSLPAyZ0KQ6kprjDncYe39q8wtFEVHf5HpI4k5G4yrWG6ykaTZTsKcUK
-	 5T3S3Yax/EU4cdOuRrEG+py0EmMZErVfexXKIj8iXZmHWFiaA8A3lQAt24x/to+G7N
-	 JsZCFwCeOiqHDxFnBfFNugi0OBE6naFN7SfywFJhrcegbFjp959EpNxkvNHj27NOVU
-	 4APfnAFqN3QEswb9Yl/NM62+ofWsTAk2bRuIi6VabseNwvSrtPd1LKoSbSQJ6BsAJ0
-	 Iymr8Gkxu1bCzXpOugO9pgl/yck58qlkFdlkG+utg5wWFMg5WSk3l7Wh8Yg4cRLayv
-	 yYHo3mQN4tAIg==
-Date: Tue, 11 Feb 2025 14:43:00 +0000
+	s=k20201202; t=1739286480;
+	bh=lNPUaE77q0AFctgL6amVVXO/TUfnN9RH4g0Cnckt/s0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=bQGRmWCXqvhbdz66JOSQ6E9JHNzpA2U3GGuSVVQ0KERNCdSV3theFvI6QoYRMKlvz
+	 7ZhLbISnpWL9/YtSnCRW+vb6FubqpNY9vb05tThmmhE2pyFJjEbcYlTAGhTEAJovoy
+	 Yoj9MyVb8AWinPKBJaW7tub/lFUcawT8vs8W4q4s4VlPeRx634YCJPjEUH3RpO39Io
+	 nqmfLVbIGpXCc3ZQhk/uiSi/E7kDWz+cypeIRNhMEHdEQBTA0gLyme1zCpU3GxOsb/
+	 agjnHt+nhNFsZB7T4LDEW5B4hCTUZwJ1TPaft3NvoUm0q7ivbcesw4fHkK1kCZmgy+
+	 rATZ0cTZMxnQg==
 From: Lee Jones <lee@kernel.org>
-To: j.ne@posteo.net
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: Allow differently named multicolor
- leds
-Message-ID: <20250211144300.GW1868108@google.com>
-References: <20250209-multi-led-v1-1-5aebccbd2db7@posteo.net>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+Cc: imx@lists.linux.dev
+In-Reply-To: <20250107161628.121685-1-Frank.Li@nxp.com>
+References: <20250107161628.121685-1-Frank.Li@nxp.com>
+Subject: Re: (subset) [PATCH v2 1/1] dt-bindings: leds: Convert
+ leds-tlc591xx.txt to yaml format
+Message-Id: <173928647810.2237766.13705317280883831005.b4-ty@kernel.org>
+Date: Tue, 11 Feb 2025 15:07:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250209-multi-led-v1-1-5aebccbd2db7@posteo.net>
+X-Mailer: b4 0.13.0
 
-On Sun, 09 Feb 2025, J. Neuschäfer via B4 Relay wrote:
+On Tue, 07 Jan 2025 11:16:26 -0500, Frank Li wrote:
+> Convert binding doc leds-tlc591xx.txt to yaml format to fix below DTB_CHECK
+> warning.
+> 
+> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb:
+>   /soc@0/bus@30800000/i2c@30a30000/tlc59108@40: failed to match any schema with compatible: ['ti,tlc59108']
+> 
+> Additional change:
+> - ref to common.yaml for child nodes.
+> - limit child's reg to 0 - 7 for ti,tlc59108.
+> - fix typo 'linux,default_trigger' in example.
+> - change child node name's prefix to led-.
+> - change nodename to led-controller.
+> - fix properties order in example.
+> 
+> [...]
 
-> From: "J. Neuschäfer" <j.ne@posteo.net>
-> 
-> In some cases, a board may have multiple multi-leds, which can't be
-> distinguished by unit address. In such cases it should be possible to
-> name them differently, for example multi-led-a and multi-led-b.
-> This patch adds another node name pattern to leds-class-multicolor.yaml
-> to allow such names.
+Applied, thanks!
 
-Which H/W needs this?  Is it upstream?  Where is the doc / usage?
+[1/1] dt-bindings: leds: Convert leds-tlc591xx.txt to yaml format
+      commit: 346e704278151149e9b4c6807686ee667b911e77
 
-> Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
-> ---
->  Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> index bb40bb9e036ee00e06d21e2321ecd5a7d471c408..c22af25b6430be71300c0e37f696cd61112ea190 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> @@ -21,7 +21,9 @@ description: |
->  
->  properties:
->    $nodename:
-> -    pattern: "^multi-led(@[0-9a-f])?$"
-> +    oneOf:
-> +      - pattern: "^multi-led(@[0-9a-f])?$"
-> +      - pattern: "^multi-led-.*$"
->  
->    color:
->      description: |
-> 
-> ---
-> base-commit: 645b5c24cf8590eea322a4fd79c811817046a2e6
-> change-id: 20250209-multi-led-9991e205befd
-> 
-> Best regards,
-> -- 
-> J. Neuschäfer <j.ne@posteo.net>
-> 
-> 
-
--- 
+--
 Lee Jones [李琼斯]
+
 
