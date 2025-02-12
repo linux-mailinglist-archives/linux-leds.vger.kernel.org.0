@@ -1,157 +1,383 @@
-Return-Path: <linux-leds+bounces-3957-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3958-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806C9A32C0C
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2025 17:41:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CAEA33016
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2025 20:49:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2925A3A149C
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2025 16:39:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3903188B9AD
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2025 19:49:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4964824E4D0;
-	Wed, 12 Feb 2025 16:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEB101FFC74;
+	Wed, 12 Feb 2025 19:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="OqJ+9dpa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nInCXglg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A8D256C91
-	for <linux-leds@vger.kernel.org>; Wed, 12 Feb 2025 16:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58F11FF7AC;
+	Wed, 12 Feb 2025 19:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739378372; cv=none; b=XMeAPZWB3vUMbpxbVZRGWp1YvL8wsZ9AYjhXV01q/7heIkoMo4dlH/8dbKrSpaW9poJnoJbTZWU+RQTDZO1UDnP73l7IVt3PHMw9bhl/DeQpktzPH6e3pv/m1LagZMWZsdvpboL7dtQngKDjWJXjjKcO5IXS8wFWsQIz0hVGnrQ=
+	t=1739389767; cv=none; b=lyiSsYF0dKFS09Izj0ectUzMSB8E+NivnguAKO6QgNWd5jv39FIcU4zfUcKWZVrLy+0BMkurwgW2JtpWSvVVWU8pko7djefd15ttESWF8dAehIua786yYdpXdB6GgRKDLWHbdMbH9XiiUMn1NfK+S2frRk8Gw5MZwJZv43IUFdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739378372; c=relaxed/simple;
-	bh=SqrHKzrnFGepf7djcq2JyOhODUv+D2vmoBsZ1xq9Mfg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SX2C89UddQyMtBSXTPsIisPBX2ixWRxMOJ2ByYrPF6JVQzjnBY4RC2h+m84f2Z9ZT+RlYh1od4ezSiGyke4cldt35zlvUPQ+7uO5+URMEHGbbWHj+VYvk0QF5Sxc4HzQJVPpceGHDC7f18A5hRrB555aw26BcSVKI7MTAQRZDYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=OqJ+9dpa; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30738a717ffso62584911fa.0
-        for <linux-leds@vger.kernel.org>; Wed, 12 Feb 2025 08:39:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739378368; x=1739983168; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g9J4VAMrvjFIthFOUeNoRIlqfbAqCet1lDNYxHiSCoI=;
-        b=OqJ+9dpa0raGWq3XzwnErmo6krpYzKu4f4rZe4TPClXbR68Ls746QAppIxzOlmd0vB
-         4vtIq7km1jfFTqW8mZZGyEoi2mSEnfL8F/IJZWcHZIV37N967atcIOjLLeohwbDTHh58
-         QRo/qqNGTlkGcfjMMgxqNjFZKeeQfcYPo5wYdavpeLtCQ3k0tGNcFOed8d5ZTjXXq5Et
-         6tdNMe2qBDmYdGMMXqveuVAs+tZS5b34GtVMv2U9+pfwgHNele+tIuyVmtB2QiU8fsdQ
-         W4saen6qbjVA1bgH8ChEjeZRGUXJLGsgcOx1EyD9pZTiB5Gn/s3BYm3WKFOiOC9XjqWG
-         TiFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739378368; x=1739983168;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g9J4VAMrvjFIthFOUeNoRIlqfbAqCet1lDNYxHiSCoI=;
-        b=tplLTvKFxTHIb8i62ss/VWgRlAJ1kbWLM3lu2+pLOTrb8es3+C7QDqHlA1sSTX0PHB
-         C2d179DF9y/dq33RoPZ++EBqu0trgqhsigszyEIrCUw8XhtOtMQDfE7/gPURwjhdd59o
-         wf6b/2uLiq5SPmDGxZk1MAHO2LcHAFXmSrsENyQ1JE3mfmBCQ9zpRnob1F8RlVPvn4yR
-         EvKtO+SBCWPBy9CJ8IEV4gdeE0MQKydElQnZjsCkZFzyq9wdVR3nc2782kx30rc4wOaX
-         Gf7DlB5jIJRNskDRhMGFPFNJ1SQKzVOkUBhgsQb7G/MpU3IOV4xwQzS6cd649CBHo21m
-         gCrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWKXZX5VA5TghNxWsRlYYuKk8j+EtgfyAyFb+Wi1K72aDMHE82KY0MeDz7PaZZe33h/UUABt6YQNjk@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9hN8pnAmEj6pekPdOQ6fjSE0QrP9ZNTeNisz/aJtfpKzDj4Xh
-	3YuGgNC4u/A6X2SQil2YMBoQRKwXAycJO5FF3vZTlbuIPUJPHsYCyVnfCLjc+CBjsGGKT8aBbHp
-	5iUvBADC+PToj6TRAbz2FTR6zSZBgB0kaKxswSQ==
-X-Gm-Gg: ASbGnct0jLkxQzGfna6Ah4FPaqy6ETQKY52JhFec6pan5h1ST1zAoMsLRC87ongjFXE
-	Oi4wdZkIL9U/cNKKiemYfvnzipqQlmhHiJnlguHgKIg4TFxqgkCbPX++0/4HU13cQpjjQ+L+LTx
-	DBjsaGkYqRHA7zqDLj+25r9kn7O61N
-X-Google-Smtp-Source: AGHT+IGJSilHTkyG543GwkVXgOCLC5wxxAUOH6Du13FUEkPkgsZP4J+t1m6e3kH+6mL7xYbhbLX9btLHN1Ux9+Vvxyw=
-X-Received: by 2002:a2e:a99e:0:b0:308:e9ae:b5a8 with SMTP id
- 38308e7fff4ca-30904fe6b6fmr12180011fa.13.1739378368403; Wed, 12 Feb 2025
- 08:39:28 -0800 (PST)
+	s=arc-20240116; t=1739389767; c=relaxed/simple;
+	bh=ukMwm41SBfxitfaLU4ZcbtM2grba8h6Qwy+0LGZgnBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFMvQcjdkFMOTrpSFrwCdRGPj1tk5d+tcxDNG92sICLcxw8aJ+fJhBGNmEr0P/cEh71jsyXKBn4quANYJe5V4DXFtDzgYSkbau12H0EkP9BM6sTHpY32MgWpIxdNy0/1KJDvmpz0HG+b9lzvtzl7AGW6n05uMq5cg2IPrxVEaGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nInCXglg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6BFBC4CEDF;
+	Wed, 12 Feb 2025 19:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739389767;
+	bh=ukMwm41SBfxitfaLU4ZcbtM2grba8h6Qwy+0LGZgnBg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nInCXglgnks801jxB2IDu+Ejnmawpyz+w5xbfLDo22xAgmk+x1oHbSk2bDxkI6HW1
+	 pf4kKcc6PoVloU9v8xZvv8r8UfseSRSaJkrxBHGDurhtxVCHHbaTwDCT37Ow1W2EZf
+	 5+84Bx6xZgGI56Qi2x/yH6PFqomnlYf111TyyjzCRURyMmzqX0O8xqgS5+gW8SUnxQ
+	 Bknm/ouBRGDe+QT4xu6yCs5K/T3fLBCZSpewBIg1O7ajJROHqPCczrl5lPM4fy36m+
+	 5OVD+E896ms5MSG2MU7mwFh/hwhHwNiGaQrb9iGVhlfsCOUahlkmVBW6be5DfZx4dN
+	 1P2VaZhY8J8OQ==
+Date: Wed, 12 Feb 2025 19:49:21 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: mfd: Document TI LM3533 MFD
+Message-ID: <20250212-reprint-underfed-fd723ebf3df3@spud>
+References: <20250212075845.11338-1-clamor95@gmail.com>
+ <20250212075845.11338-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250212085918.6902-1-brgl@bgdev.pl> <CAMRc=MdFwe2onYhwY__n-kAOSrXKKDWJ38hpbYb0711Nx60DHw@mail.gmail.com>
- <20250212155512.GE2274105@google.com>
-In-Reply-To: <20250212155512.GE2274105@google.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 12 Feb 2025 17:39:16 +0100
-X-Gm-Features: AWEUYZmGJUAGvgR0rK_Au78KUTPXxd0-vdf5bbSOE6eZxG3UNG7JHjJD80yu-r0
-Message-ID: <CAMRc=Met68e5c16ShiJ1mHQM-GSvautN_whVMGh53g3mx7OQSg@mail.gmail.com>
-Subject: Re: [PATCH] leds: aw200xx: don't use return with gpiod_set_value() variants
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2sr14TLGCRJiRmsH"
+Content-Disposition: inline
+In-Reply-To: <20250212075845.11338-2-clamor95@gmail.com>
+
+
+--2sr14TLGCRJiRmsH
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 12, 2025 at 4:55=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
->
-> On Wed, 12 Feb 2025, Bartosz Golaszewski wrote:
->
-> > On Wed, Feb 12, 2025 at 9:59=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev=
-.pl> wrote:
-> > >
-> > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > >
-> > > While it now returns void, it will soon be converted to return an
-> > > integer instead. Don't do `return gpiod_set...`.
-> > >
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202502121512.CmoMg9Q7-l=
-kp@intel.com/
-> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > ---
-> > >  drivers/leds/leds-aw200xx.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.=
-c
-> > > index 08cca128458c..fe223d363a5d 100644
-> > > --- a/drivers/leds/leds-aw200xx.c
-> > > +++ b/drivers/leds/leds-aw200xx.c
-> > > @@ -379,7 +379,7 @@ static void aw200xx_enable(const struct aw200xx *=
-const chip)
-> > >
-> > >  static void aw200xx_disable(const struct aw200xx *const chip)
-> > >  {
-> > > -       return gpiod_set_value_cansleep(chip->hwen, 0);
-> > > +       gpiod_set_value_cansleep(chip->hwen, 0);
-> > >  }
-> > >
-> > >  static int aw200xx_probe_get_display_rows(struct device *dev,
-> > > --
-> > > 2.45.2
-> > >
-> >
-> > Lee, Pavel:
-> >
-> > If this is OK for you, can you please provide me with an immutable
-> > branch so that I can pull it into the GPIO tree? It seems it's the
-> > only such use-case in the tree apart from the gpio.h header that I can
-> > fix locally. Alternatively you can just Ack this and let me take it
-> > through the GPIO tree.
->
-> I'm okay with it, but why do you need it?
->
+On Wed, Feb 12, 2025 at 09:58:41AM +0200, Svyatoslav Ryhel wrote:
+> Add bindings for the LM3533 - a complete power source for
+> backlight, keypad, and indicator LEDs in smartphone handsets.
+> The high-voltage inductive boost converter provides the
+> power for two series LED strings display backlight and keypad
+> functions.
+>=20
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../devicetree/bindings/mfd/ti,lm3533.yaml    | 221 ++++++++++++++++++
+>  include/dt-bindings/mfd/lm3533.h              |  19 ++
+>  2 files changed, 240 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
+>  create mode 100644 include/dt-bindings/mfd/lm3533.h
+>=20
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml b/Docum=
+entation/devicetree/bindings/mfd/ti,lm3533.yaml
+> new file mode 100644
+> index 000000000000..d0307e5894f8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
+> @@ -0,0 +1,221 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ti,lm3533.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LM3533 Complete Lighting Power Solution
+> +
+> +description: |
+> +  The LM3533 is a complete power source for backlight,
+> +  keypad, and indicator LEDs in smartphone handsets. The
+> +  high-voltage inductive boost converter provides the
+> +  power for two series LED strings display backlight and
+> +  keypad functions.
+> +  https://www.ti.com/product/LM3533
+> +
+> +maintainers:
+> +  - Johan Hovold <jhovold@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,lm3533
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  enable-gpios:
+> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
+> +    maxItems: 1
+> +
+> +  ti,boost-ovp:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost OVP select (16V, 24V, 32V, 40V)
+> +    enum: [ 0, 1, 2, 3 ]
+> +    default: 0
+> +
+> +  ti,boost-freq:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost frequency select (500KHz or 1MHz)
+> +    enum: [ 0, 1 ]
+> +    default: 0
 
-For historical reasons gpiod_set_value() and its variants don't have a
-return value. However, we now support all kinds of hardware that can
-fail to set a line value: I2C, SPI, USB (hot-unpluggable chips), etc.
-I want to rework the GPIO subsystem to make these functions return int
-and become able to indicate failures. Build-bot complained about my
-series[1] and pointed at this driver after the interface for
-gpiod_set_value_cansleep() changed in patch 1. This is why I want to
-fix it, get it into my tree and then pick up the series.
+Properties like these should be in units, so some standard voltage-based
+one for the boost and in hertz for the second. See property-units.yaml
+in dt-schema.
 
-Sorry for not explaining it in detail earlier.
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +  - enable-gpios
+> +
+> +patternProperties:
+> +  "^backlight@[01]$":
+> +    type: object
+> +    description:
+> +      Properties for a backlight device.
+> +
+> +    properties:
+> +      compatible:
+> +        const: lm3533-backlight
 
-Bart
+Missing vendor prefix
 
-[1] https://lore.kernel.org/linux-gpio/20250211-gpio-set-retval-v1-0-52d3d6=
-13d7d3@linaro.org/
+> +
+> +      reg:
+> +        description: |
+> +          The control bank that is used to program the two current sinks=
+=2E The
+> +          LM3533 has two control banks (A and B) and are represented as =
+0 or 1
+> +          in this property. The two current sinks can be controlled
+> +          independently with both banks, or bank A can be configured to =
+control
+> +          both sinks with the led-sources property.
+> +        minimum: 0
+> +        maximum: 1
+> +
+> +      max-current-microamp:
+> +        description:
+> +          Maximum current in =B5A with a 800 =B5A step.
+> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
+> +                10600, 11400, 12200, 13000, 13800, 14600,
+> +                15400, 16200, 17000, 17800, 18600, 19400,
+> +                20200, 21000, 21800, 22600, 23400, 24200,
+> +                25000, 25800, 26600, 27400, 28200, 29000,
+> +                29800 ]
+> +        default: 5000
+> +
+> +      default-brightness:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Default brightness level on boot.
+> +        minimum: 0
+> +        maximum: 255
+> +        default: 255
+> +
+> +      pwm:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Default pwm level on boot.
+> +        minimum: 0
+> +        maximum: 63
+> +        default: 0
+
+Why is default-brightness /and/ a default for pwm needed? If the pwm
+drives the backlight, wouldn't you only need one of these two?
+
+If it stays, I think it needs a rename to be more clear about what it is
+doing. "pwm" is very close to "pwms", the property used for phandles to
+pwm providers but the use is rather different.
+
+backlight/common.yaml has standard properties that you could be using,
+so I'd expect to see a ref here, rather than redefining your own
+version.
+
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +  "^led@[0-3]$":
+> +    type: object
+> +    description:
+> +      Properties for a led device.
+> +
+> +    properties:
+> +      compatible:
+> +        const: lm3533-leds
+
+Ditto here re: compatible.
+
+> +
+> +      reg:
+> +        description:
+> +          4 led banks
+> +        minimum: 0
+> +        maximum: 3
+> +
+> +      max-current-microamp:
+> +        description:
+> +          Maximum current in =B5A with a 800 =B5A step.
+> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
+> +                10600, 11400, 12200, 13000, 13800, 14600,
+> +                15400, 16200, 17000, 17800, 18600, 19400,
+> +                20200, 21000, 21800, 22600, 23400, 24200,
+> +                25000, 25800, 26600, 27400, 28200, 29000,
+> +                29800 ]
+> +        default: 5000
+> +
+> +      default-trigger:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        description: |
+> +          This parameter, if present, is a string defining
+> +          the trigger assigned to the LED. Check linux,default-trigger.
+> +
+> +      pwm:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Default pwm level on boot.
+> +        minimum: 0
+> +        maximum: 63
+> +        default: 0
+
+Same applies here, leds/common.yaml has some of these already.
+
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +  "^light-sensor@[0]$":
+
+Not a pattern if it can only have 1 outcome.
+
+> +    type: object
+> +    description:
+> +      Properties for an illumination sensor.
+> +
+> +    properties:
+> +      compatible:
+> +        const: lm3533-als
+> +
+> +      reg:
+> +        const: 0
+> +
+> +      resistor-value:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+> +          PWM resistor value a linear step in currents
+> +          of 10 =B5A per code based upon 2V/R_ALS.
+> +        minimum: 1
+> +        maximum: 127
+> +        default: 1
+> +
+
+I'd expect a resistor to be measured in ohms of some sort,
+hard to tell what the increments actually are here, they don't appear to
+be a real unit. Are they register values?
+
+This and all other custom properties need to have a vendor prefix on
+them btw.
+
+> +      pwm-mode:
+> +        type: boolean
+> +        description: Mode in which ALS is running
+
+Are there multiple pwm modes? Or is this trying to say that, if set, the
+sensor is in pwm mode? Hard to tell from the description here, sorry.
+
+Cheers,
+Conor.
+
+
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/mfd/lm3533.h>
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        led-controller@36 {
+> +            compatible =3D "ti,lm3533";
+> +            reg =3D <0x36>;
+> +
+> +            enable-gpios =3D <&gpio 110 GPIO_ACTIVE_HIGH>;
+> +
+> +            ti,boost-ovp =3D <LM3533_BOOST_OVP_24V>;
+> +            ti,boost-freq =3D <LM3533_BOOST_FREQ_500KHZ>;
+> +
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            backlight@0 {
+> +                compatible =3D "lm3533-backlight";
+> +                reg =3D <0>;
+> +
+> +                max-current-microamp =3D <23400>;
+> +                default-brightness =3D <113>;
+> +                pwm =3D <0x00>;
+> +            };
+> +        };
+> +    };
+
+
+--2sr14TLGCRJiRmsH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6z7QQAKCRB4tDGHoIJi
+0mXKAP9Pxfv/6EGnQDex8gDTpQhlgAtjZZaGN8P0Ck+ynf1ulwEA8UhnY1kpky8h
+CSf4ymU5K1BBdq8/Ycg+1y5t2JyZyAI=
+=lDN7
+-----END PGP SIGNATURE-----
+
+--2sr14TLGCRJiRmsH--
 
