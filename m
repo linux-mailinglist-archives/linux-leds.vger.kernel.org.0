@@ -1,57 +1,58 @@
-Return-Path: <linux-leds+bounces-3963-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3964-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335B2A33B43
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 10:31:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB56A33CAB
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 11:25:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAA9D188749A
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 09:31:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5524418849D1
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 10:25:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D388C2080C8;
-	Thu, 13 Feb 2025 09:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A6B212F8F;
+	Thu, 13 Feb 2025 10:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s6Rnozo8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmHE3b0S"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BF01F7092;
-	Thu, 13 Feb 2025 09:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC27720AF66;
+	Thu, 13 Feb 2025 10:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739439105; cv=none; b=QD55lcM4tcS27DMPdVGh0wvUqAKt35TIJShgmCyAS4ryC8EhiTcv0xEvH27ODCpN75+5Jn3ZdrYppdn3xTMVfnD8UnG4E61y7iKmd2WYP2educoqzBK1fbLPVQ6Ar0ulLIORr51zMzXQHo2gHiUPOvLf0yg+2PxLyVDDrJ1lSFI=
+	t=1739442293; cv=none; b=b1FlgCse3wyAFPES8RDPwAoztpzvODObGG/1rDC99UteAlpXsW5J/tIACduCf5htxxLFdb2cv1zVMCJLj6wxs6oAeoGr0P/Sah9WK9t1AZWlw9a7MXwJcVkHUZkdW8qaUULIrCsmuC0R5kiB0L99emWTg8Y65Q3rFVrUibKmOy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739439105; c=relaxed/simple;
-	bh=/e356o/HvSSDb1+tgBGgSqwPIx/ZNk3f7zE+cDhfcgU=;
+	s=arc-20240116; t=1739442293; c=relaxed/simple;
+	bh=xlGbVhIH0YE0BajkxMWWIdpcf/qwJL2JAnhZknrjXxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=diZBh2pxkHSLtVKR1L2yDe/1qGbFB8dV/CAOv2j+vQFyC0mdKnJk/pMXj1+NhIxcjwrP/7TfdBxJUYbMGjaeqJMdhgAmcVIQAu/l0oQdQa7WMqSvwmE1TvDu+KJK9tJikg6+WHZL8mZglunWNuj0P2x6XpbKjmw2mdgODZGJ+EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s6Rnozo8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901D3C4CED1;
-	Thu, 13 Feb 2025 09:31:43 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZPNQoHwbYUmOnwZlMjy3h4twrPKDaO6IWVGOxs3OGoCKd9FKKEmJc8C5eZmMAmwa3aL1GxsQUhxBkI+V1KVhYS/kbW+7+AtJuGrR4rtjZ1mZZXPYdQ2wkkXleyNS9c5gW4wt2kG6gXzjzhvCqwOYN8Rg197yAYVYYWG0jcgBozo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmHE3b0S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E015FC4CEE2;
+	Thu, 13 Feb 2025 10:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739439104;
-	bh=/e356o/HvSSDb1+tgBGgSqwPIx/ZNk3f7zE+cDhfcgU=;
+	s=k20201202; t=1739442293;
+	bh=xlGbVhIH0YE0BajkxMWWIdpcf/qwJL2JAnhZknrjXxA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s6Rnozo83/oUATnjn23TFIMzrEOKzYNS+z5kepA+Q+jLg+qcrtqWKKJjuTUVVomB+
-	 A13fSQ0+BYTMff6aHyIo9Ju9URTyipFhDX/PspqOJLQRwcjxd9RpawBHY1jza9erL3
-	 xxJXPCNWbeb0ye39tTiV7/neBZdhqjNKGQ7BMu2dQCHa9t6BUYw8+dLu1KuA7utdzR
-	 WcTzTl/S0cNwsd5aSAFzIMA1/SllrsYJdhkeozHzuksOK2ociR3lZUgCxFnZgxOa8j
-	 hFpKcdrkY/kyFoiZ13ZZBtdc/JD4AQdWQ6zBhKG3vzd+4xwI2kBL1qlSREDmFEFzCr
-	 taenSc+uBJLag==
-Date: Thu, 13 Feb 2025 10:31:41 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tony O'Brien <tony.obrien@alliedtelesis.co.nz>
-Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ben Hoelker <ben.hoelker@alliedtelesis.co.nz>, 
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH] dt-bindings:leds: Add function define for POE
-Message-ID: <20250213-successful-pronghorn-of-dignity-83facb@krzk-bin>
-References: <20250213005841.4143929-1-tony.obrien@alliedtelesis.co.nz>
- <20250213005841.4143929-2-tony.obrien@alliedtelesis.co.nz>
+	b=FmHE3b0So4c1GnxcqmAzyayaulCHqAPyK0L+bm8Rr5jwpO2cybCD69BFN9NIXeDCQ
+	 xvZbDS/1+HfG8lm0uBSiW/0rkrD82dPAYIVBUL2kjb5RMx8Ql0003Sp/OKj78TItaU
+	 1uNGofs+ZI+24WRQkYd84PvJ7TeYnq6TekYTQQ/JeTDOmvemmXvtLko/6TKP1TD1yk
+	 Vz9Kf3C4FWQtXkjWz95EZutNSXALct5/958A/H+6WAUL6Th9XuWocZFqzCy0gaOxnp
+	 96c3Z+wmFs99bYh/dQPBJ6tIrBR2QDSvuBlmt0NsKpy1EtShj2OqHa8G+OCmw3TSzT
+	 fZasYEy6nrhaA==
+Date: Thu, 13 Feb 2025 10:24:49 +0000
+From: Lee Jones <lee@kernel.org>
+To: Manuel Fombuena <fombuena@outlook.com>
+Cc: pavel@ucw.cz, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND 1/5] leds: leds-st1202: fix NULL pointer access on
+ race condition
+Message-ID: <20250213102449.GC2756671@google.com>
+References: <CWLP123MB5473933B9B97137828ACC6A6C5EB2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+ <CWLP123MB547377D20905AF224E682BFBC5EB2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+ <20250211133149.GN1868108@google.com>
+ <CWLP123MB547308A731A2B7F1B7FF12DFC5FC2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -60,35 +61,41 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250213005841.4143929-2-tony.obrien@alliedtelesis.co.nz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CWLP123MB547308A731A2B7F1B7FF12DFC5FC2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
 
-On Thu, Feb 13, 2025 at 01:58:41PM +1300, Tony O'Brien wrote:
-> Add a define so network devices with a PoE PSE feature can provide
-> status indications of connected PoE PDs.
+On Wed, 12 Feb 2025, Manuel Fombuena wrote:
+
+> On Tue, 11 Feb 2025, Lee Jones wrote:
 > 
-> Reviewed-by: Ben Hoelker <ben.hoelker@alliedtelesis.co.nz>
-> Reviewed-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-
-Where did these two reviews happen?
-
-> Signed-off-by: Tony O'Brien <tony.obrien@alliedtelesis.co.nz>
-> ---
->  include/dt-bindings/leds/common.h | 1 +
->  1 file changed, 1 insertion(+)
+> > On Sat, 01 Feb 2025, Manuel Fombuena wrote:
+> > 
+> > > st1202_dt_init() calls devm_led_classdev_register_ext() before the
+> > > internal data structures are properly setup, so the leds become visible
+> > > to user space while being partially initialized, leading to a window
+> > > where trying to access them causes a NULL pointer access.
+> > 
+> > If this is true, you need to provide a Fixes: tag and to Cc: Stable.
+> >
+> > Documentation/process/stable-kernel-rules.rst
+> > 
 > 
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 4f017bea0123..3a8958b81c87 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -94,6 +94,7 @@
->  #define LED_FUNCTION_MOBILE "mobile"
->  #define LED_FUNCTION_MTD "mtd"
->  #define LED_FUNCTION_PANIC "panic"
-> +#define LED_FUNCTION_POE "poe"
+> Yes, some circumstances have to confluence but it is reproducible under 
+> normal use. I can send panic logs if you want to see the details.
+> 
+> Since this driver has been added in 6.14-rc1, I thought that, if applied,    
+> this patch would be included in fixes before the final release and there 
+> would be no need to apply it to -stable trees, as it is nowhere else at 
+> the moment. But of course I will review the documentation and make changes as 
+> suggested.
 
-Where is any user of this?
+Then you need to separate the set into patches you expect to be
+submitted to the -rcs and ones which can be applied during the next
+cycle, then go to lengths to explain that either in the diff section of
+each patch (preferred) or in the cover-letter.
 
-Best regards,
-Krzysztof
+Either way, you need Fixes: tags.
 
+-- 
+Lee Jones [李琼斯]
 
