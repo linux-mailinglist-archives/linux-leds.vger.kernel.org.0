@@ -1,54 +1,55 @@
-Return-Path: <linux-leds+bounces-3974-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3975-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E78A34EC5
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 20:55:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB44A34EC9
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 20:55:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF49A188D5B7
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 19:55:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0D0C189071A
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2025 19:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A5F224BC16;
-	Thu, 13 Feb 2025 19:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AEDB2661A2;
+	Thu, 13 Feb 2025 19:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="KG1xWxBk"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="ToSrb7cW"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C0124A057;
-	Thu, 13 Feb 2025 19:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85ACF24BC00;
+	Thu, 13 Feb 2025 19:54:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739476500; cv=none; b=dX/yH723vYmVltC+/oQYjpDj3QvVwbUF6AIaBfqFr0PZm36iKxjKnMFKGft5vdWb0pVy7fqWRFIjyvqd4gFE6rMI7p7r6DjO5bVzfDio4dF0rwj4DqX2EV+pZfR3r0uoZRwu0y4xJsxFCcIlWLiwUfKyOkksM/QrUqQdifdbEnU=
+	t=1739476501; cv=none; b=tI8uV5dwYxKMD3bTLM1crLUgOc3TubljZakLRDCXfIABq8DHAgfjPUDZbfrEoFno0THz7Ff+IUhwDfHiuacq2O4/4h3vvGRUQf6YmiWenNsAWVIqgRuxVB6n8oKVIUxG7NHusJfM0/Ru+CsgsmqupRCs4hWg5K9Q3R5SOqxkDT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739476500; c=relaxed/simple;
-	bh=kIBzo1hTSnHBpHp0h6a/1GVcVgYd17roCbJ9ycu54MM=;
+	s=arc-20240116; t=1739476501; c=relaxed/simple;
+	bh=RirCIYtA6MaJ7gcEWQuqa331X8Y+fvPvZb9sjazFIgA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MVZdBmQFeYN1mz1NRTGLyEGuronM0ofyHUEl0XqrQeXZlSV6whuvP3Po0FhKEBeioocYfOfTpErPgthldffGkxWgDodc66xJ0mu6N+hByzYUK6QDKymXeJePWeMUVpxVGllEt9CLLffIOY7fOxCn2unC9/6/XG7zo6BsgVbLh0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=KG1xWxBk; arc=none smtp.client-ip=5.75.144.95
+	 In-Reply-To:To:Cc; b=bOPg1yrSzhBRjsfPQDAzWAfXXfysOzjSVeLyDOfgdR78z4dgXlF7gCVj/jAPZMq4sMJR1fGCa+RvWCjHy3EZSbkVKPoxmX9zMMR+4Lqc4fawYGM76mMpXAB8HwrQ+AjOf3ZS1cY56WP9JDLNQWporfmDATJXAyx4i+jFUwgMLSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=ToSrb7cW; arc=none smtp.client-ip=5.75.144.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Received: from [192.168.244.162] (254C08C9.nat.pool.telekom.hu [37.76.8.201])
-	by mail.mainlining.org (Postfix) with ESMTPSA id 015B9BB83A;
-	Thu, 13 Feb 2025 19:54:49 +0000 (UTC)
+	by mail.mainlining.org (Postfix) with ESMTPSA id 187B5BB83B;
+	Thu, 13 Feb 2025 19:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
-	s=psm; t=1739476490;
+	s=psm; t=1739476491;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pyw1u1T/BhqeaBOTjBWKSBiCdVPWSj6O3GNyYzcu6Bw=;
-	b=KG1xWxBkuZlEwOl8B/pEdKc9eoZlT0p8DklwzaQeftd7+nP6iULsfoaHqZWEhdCRD4VvxE
-	2lxf46ectbmEq+EgXaqeFPuougjjCJtn0UC3FZpJxbTxSpL2uQW8QmCLaIVTJyU3MgDMey
-	EIwht3rmrNxKTnNtOWDFnlvoi1/rIG7jGYiu0eLkgf8hlTTFeWvMM2qJyANUrt/lIMYnyX
-	bp5njWW+PCaqnokxsw81oPwUhIizevybzkW5tG65Vpc3ALGknwSa0hqSr9SD6xgoq+N5EE
-	rpKAQMKV4BtZLnQRTeYFTWM3LRYsBscbC9ZJfbz2vjdOPiVmyO2fv6+y3BSSOA==
+	bh=ScU4C5kD2FXBNDVEfbcMvkNhcY06xzpF/lYTFbynkHs=;
+	b=ToSrb7cWxsGup6WNke565smwGv4iGjqGyd4npgIm1nb6eyAPFAwbDYquNjXXKGtnC1bb+1
+	XAjITBoisGOGuDOKa8C10UFM7o2ZqusBifeCPobGpDNLOXCziEp1G1wHN4X8bbG0UVgpmy
+	JFmaboKetHSP868LBQZBjLxxm6iHskdsYZGhDZB7LPCHLB1g7KlC7z5vuNhEpiO5I5Tz6S
+	OCDtnt82tdEglwkeKi1bmiEhOxuIiBcA5KRF/EjybwXs2EEeyPqrAq7dMY8Hp68VjDuY/u
+	oREve8mrTyQApB8hNxaFKGvhENQuWXRqiOOC+iYIkuDxGqTi2aPDfnhYMIoZpQ==
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-Date: Thu, 13 Feb 2025 20:54:48 +0100
-Subject: [PATCH v2 2/3] arm64: dts: qcom: pm8937: Add LPG PWM driver
+Date: Thu, 13 Feb 2025 20:54:49 +0100
+Subject: [PATCH v2 3/3] arm64: dts: qcom: msm8917-xiaomi-riva: Add display
+ backlight
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -57,7 +58,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250213-pm8937-pwm-v2-2-49ea59801a33@mainlining.org>
+Message-Id: <20250213-pm8937-pwm-v2-3-49ea59801a33@mainlining.org>
 References: <20250213-pm8937-pwm-v2-0-49ea59801a33@mainlining.org>
 In-Reply-To: <20250213-pm8937-pwm-v2-0-49ea59801a33@mainlining.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -67,47 +68,66 @@ To: Bjorn Andersson <andersson@kernel.org>,
  Pavel Machek <pavel@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
- Daniil Titov <daniilt971@gmail.com>
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739476487; l=910;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739476487; l=1432;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=69SYFpWMkYJ+N8d8d0RynUMQEawybp8xYKfH2SGkMEE=;
- b=gMHRaEAax1pz7MFagRnve2mD3gqITTh6Rho1R+aKyNJx89dpuAu0iNjgjOKXLQ8Nlyu07oTty
- 4MXXavmQbj+BZLHnpIkdVPPeGVstj9xXT0Pfv8fk3VCHZMhlJJxG5X8
+ bh=RirCIYtA6MaJ7gcEWQuqa331X8Y+fvPvZb9sjazFIgA=;
+ b=MXdN/OeYJ+HXHqyCS7XR6hDExLVdcfdJEh8V81GhWZRu/97AI2iRcUFBsgB2o20BfDCEXFT3M
+ ollHQ4fiY6LDYki5rfbrXks+dDfQx7Mozso667n02iBjunbLbfGOVyJ
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 
-From: Daniil Titov <daniilt971@gmail.com>
+Redmi 5A display uses pwm backlight, add support for it.
 
-Add PWM/LPG node to the PM8937 dtsi so devices
-which use this block can enable them.
-
-Signed-off-by: Daniil Titov <daniilt971@gmail.com>
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
- arch/arm64/boot/dts/qcom/pm8937.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/boot/dts/qcom/msm8917-xiaomi-riva.dts | 25 ++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/pm8937.dtsi b/arch/arm64/boot/dts/qcom/pm8937.dtsi
-index 42b3575b36ff4d37df11ccb5ed68e965e3716300..77809c3534a744f1aa4d8941736e590b9cdb28c5 100644
---- a/arch/arm64/boot/dts/qcom/pm8937.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pm8937.dtsi
-@@ -143,6 +143,14 @@ pmic@1 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
+diff --git a/arch/arm64/boot/dts/qcom/msm8917-xiaomi-riva.dts b/arch/arm64/boot/dts/qcom/msm8917-xiaomi-riva.dts
+index f1d22535fedd94467ba3f0a88b2110ce5360e7e1..8808306c989f54116052667887f9bf36b63c4c64 100644
+--- a/arch/arm64/boot/dts/qcom/msm8917-xiaomi-riva.dts
++++ b/arch/arm64/boot/dts/qcom/msm8917-xiaomi-riva.dts
+@@ -20,6 +20,14 @@ / {
+ 	qcom,msm-id = <QCOM_ID_MSM8917 0>;
+ 	qcom,board-id = <0x1000b 2>, <0x2000b 2>;
  
-+		pm8937_pwm: pwm {
-+			compatible = "qcom,pm8937-pwm", "qcom,pm8916-pwm";
++	pwm_backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pm8937_pwm 0 100000>;
++		brightness-levels = <0 255>;
++		num-interpolated-steps = <255>;
++		default-brightness-level = <128>;
++	};
 +
-+			#pwm-cells = <2>;
+ 	battery: battery {
+ 		compatible = "simple-battery";
+ 		charge-full-design-microamp-hours = <3000000>;
+@@ -131,6 +139,23 @@ bq25601@6b{
+ 	};
+ };
+ 
++&pm8937_gpios {
++	pwm_enable_default: pwm-enable-default-state {
++		pins = "gpio8";
++		function = "dtest2";
++		output-low;
++		bias-disable;
++		qcom,drive-strength = <2>;
++	};
++};
 +
-+			status = "disabled";
-+		};
++&pm8937_pwm {
++	pinctrl-0 = <&pwm_enable_default>;
++	pinctrl-names = "default";
 +
- 		pm8937_spmi_regulators: regulators {
- 			compatible = "qcom,pm8937-regulators";
- 		};
++	status = "okay";
++};
++
+ &pm8937_resin {
+ 	linux,code = <KEY_VOLUMEDOWN>;
+ 
 
 -- 
 2.48.1
