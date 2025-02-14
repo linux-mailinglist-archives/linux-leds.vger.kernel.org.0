@@ -1,154 +1,184 @@
-Return-Path: <linux-leds+bounces-3984-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3985-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A2DA356EC
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2025 07:17:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4129A357D6
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2025 08:25:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B5C61891F73
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2025 06:16:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85AFB16AF4A
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2025 07:25:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CDB21FF7DF;
-	Fri, 14 Feb 2025 06:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MptpSou7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6CF72080E1;
+	Fri, 14 Feb 2025 07:25:15 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642AA149C64;
-	Fri, 14 Feb 2025 06:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C4013A3EC;
+	Fri, 14 Feb 2025 07:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739513753; cv=none; b=OzVOFvqNkjnnzwY62YrUCsnO8NhpyA6gMbiwFrjjUQLwOGitQug2AM9lGDza7YcE1pG9IhGsfar2GAZ5zWe5uCZyKyZZBQ/rIeCqMETTXvU/HjbasWt2ja7YDc+vhfsNt98pSff5NHFHnyOw26zSEMlULnX7VeYLwgYFI8UwKso=
+	t=1739517915; cv=none; b=GkDMBz8ELiMU/OGRtdG142pNxlDWZYz/z9JC6kDWmd525FWO8LX1zFOXxfYmUC78AqjGssvN4kxsJcgRhw7G9nEZT9lz+2WYVMpr7ittdfUFsWReoruSIqKsfLjcnBKJ37gp5tTzFrR7U44T+FqBrjAr3XrQwmYa37bidZlGmNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739513753; c=relaxed/simple;
-	bh=aM14EfTf7kxGF6E6MWp7m7oiNKQeF7djPzQHqGzU97I=;
+	s=arc-20240116; t=1739517915; c=relaxed/simple;
+	bh=njhTqJEMSxRhiYF56n6lamJ5BDIWXxGYG2aaHwYf2Cs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=At6dsh/iNoBKXSD2ElnaYm01d1H0z6kBkxFIVfR3is4FvCekAWGskiSx4POGjwjy2fM68/OPwuU5NdjKiuwU4ALwi41EOlbwdtlan44CuDyTtXwF8NVD7vKB8eFu5SeBsbltnyS8SClgyiAe/onWQJRm15t+SXTaJ6SXArlw0Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MptpSou7; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=i+Eos7n6CyZLKvpzmbjxQ6yw9VMdsSOLVVRo9Bu8UtcoSXvLiy5b+pdMjOSmvZ+w084t1IAqJPir9+Dt9PEC4ameAl5IH7OcypT3XdkIuFXAtZx9rZa1VOH4QRblOaC/s4+ttLylHv9NmOPmerUbHxhc1Y6b49d+kuQxWcLAlqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so877644f8f.1;
-        Thu, 13 Feb 2025 22:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739513749; x=1740118549; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jhnYXc5eLU/qb2LmGA7DVYyAfoe6L2fU4LUv/RW7nLY=;
-        b=MptpSou7BpvLsUzPvkDuJEAqq/mf3iAPNjUXk0ACnGYsX50iOSxtQAxU8PgEkfqzYR
-         Wb4fI+N7rEPw/prtAdWjttGLc5o949nErteAWBUB35wGwu1oYfSmUA927uv0rhPqXQPf
-         VPc081l0jXLgviflhpt/G3005W7f5zi9j+RLRzGelT44Fq6Lng1C6GHaKPH3EGf0VC00
-         z6HW4IwZvREXXn2J99HEoSb66yQwqp8B/TtfK2QL306yYgdFXU05X9o/c941sNWN400U
-         Hcogy0aSNj/j8uYYkIr1rulFkkfnKt0+Xim1AxGJMSCfRU+Z2Ew31qdFbFDm9AFLMFyC
-         b2rA==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab7483b9bf7so221528866b.3;
+        Thu, 13 Feb 2025 23:25:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739513749; x=1740118549;
+        d=1e100.net; s=20230601; t=1739517912; x=1740122712;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jhnYXc5eLU/qb2LmGA7DVYyAfoe6L2fU4LUv/RW7nLY=;
-        b=E3s/TQ00v0umQ2mVZEUmqw1d8P5kykYekXMtrMjPxL/a5DiA8GV2Dk5ycoMH6wImRc
-         4oAVT/ZrMlUHdDNFCDE67nBSi+ztOYNmKPIiDHk6vrQPRDkIIJ2TewTwh2bXTpWsHmM/
-         b3pbe7syEjnjfqhvrupR2gHQf5mHPQ+oVNuzZpXvHZHdmzMman700cwzhmO9+vUduLLD
-         9S8BP6v3155Y0OmGgMP0bjERdi70Iw43nSsSWcOwWZwTv/OQudULlRCEQeWjNC69kLhJ
-         62TAaiWZSVqyMzZ3kzLusH0O5519Ohv2FSaHewsy5ezOGF3Tzg2j0UuNrKbvcaehgNKZ
-         BAJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAeFXILJkO+xM4Bxc/j3pv7Sx9p6/RXsuAYzk8Q8JEajN4kH/iHLUw9m/II7ATOd6ouGkdD5tz1BtX@vger.kernel.org, AJvYcCW9dOmNvkrtfskaXuflkJ4BFh9u/WoWM8uaniovPFX/6ZdDucchkIS3Y4rmAAYlFm4CszRcGd5m635i@vger.kernel.org, AJvYcCWUgEdxq08xG6+8aDvneeYRLUJJwHrNqTnKf+2mMoU454Cmin55WJLbJ0AnZZb/zqBHFe8PgLvasd8fggML@vger.kernel.org, AJvYcCWaOn9rersQRJ7QO5+Zb9k+S2a/xfbA5lISD/2UDsD9ZDhrB67B80U3JF3fJtoqupnto15Ypf5QVlhlUA==@vger.kernel.org, AJvYcCXVQTs/MY2BdqJZ3QEvRQc1smfYCv0hVkWg/BjU/Q/sGeTH6mFjt1mzzFr62WR7sX2+DB4HeAl0jhlj5bs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXAl/6RLI4oKcoZPn1r5sNe9pzYZQ5FXqLh9UToQATAbcn35Yj
-	U5HBLash4GNqQWsUsffAL7WKcjQvrjzXKuYU7NAWYrK2AOlj5RwoUv7V87Yn54CEOLrjZod+Apx
-	GL1oI0ev840iCWY3XFE00vFdjOyk=
-X-Gm-Gg: ASbGncvtsi+E7GrV85P8UumbjyjDRU/GIk8Y9F+Wj3613hm+37x+QqeADh5YRC+PCJK
-	xHgbZg9SrDMpQhgj2uDcGZLXO1MsXH5asivwvzv1kARzkdtTEdvYRCiPdday++VSukXIyAEpDBQ
-	==
-X-Google-Smtp-Source: AGHT+IEheasLNiOFDe5gQUVHdJ2tXdveZ64cTF1VIIUAvU9iciSBae2zDTq5NTHytPqUSQySTKC3ggW2wMA/FnoTyEQ=
-X-Received: by 2002:a5d:6484:0:b0:38d:a879:4778 with SMTP id
- ffacd0b85a97d-38f24505651mr8245160f8f.33.1739513747960; Thu, 13 Feb 2025
- 22:15:47 -0800 (PST)
+        bh=l+sv0U2cyjukGfA/ZIjsFBOYnHcPPEH2EG7bSm4QAFU=;
+        b=iXl+2bkVRmwcXmw+BZ7XesSdoHQsdrfsKoFmdhpzkHsbosN79dP4M7uW2XIT2qbhoj
+         kf45LvXSA/flUbu/KTuTZzy/LOMl2RqhBO4Q7sCEhq2bsgPONBW0IirnnmH+Z+1BhDwW
+         7vLm//c7UqMxY8UE18JogkL1FP5JJVj5aJS6vg3L604opZVesu6D3GPLI1G7oZ5Gs4d4
+         NyfhiZM9WA9BJBQ0DvNOLgJM+neTXeXlqNht+mEn5VaZZ55yc1y/0A2fhmGccpQvrYPR
+         g++h+J6B5WOKHiT4cuPEtwb16LVPNc337cyuoj3B+A7jaQijEAjKb2yoL39YHqKJLKLF
+         n6Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCUd2HD0xpl6c1Wyhj4TdbIGilG3tZDV6rVB/aNjVKnCpb60+Re/OyTK50F+DIp5adgltZAWW7nmaMdo@vger.kernel.org, AJvYcCUugzaG9pjnwxXlr/Tj0Ccb2NpXnmO6xTjPH3/xqdafE8boBXfPi/NtMTCrx/YjF6i5fWHSrNH4Q4t1I5nf@vger.kernel.org, AJvYcCWfcybEFoOsdbrji90wA8nKQDQuR46wAMeCxGJcowHvjtK6tnBHluzXyvlfJ/v0n55SOADEM4SoZraWHQ==@vger.kernel.org, AJvYcCXY/FwjtLj7dYkzZBHUtfuyqx94kVwAnio9nRv99nTSrYf0EmI9YjxoxUuSLv8HI04/FFpA/xJ2xtaTbTY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqQUX9Lhd+5upDVN7bCVLJd10Lm8yIZU9qp8vNxK2YAM7s1NWu
+	Uo9W4aylujYR/C0nKJFyUMY8hy7e6rnA7avgrkTlYIm7i0To87c9o71zLrxDrxc=
+X-Gm-Gg: ASbGncs8y168NGlWUL/O25O28n14muS8qSqjt8jlKjx3t3WemXrUFHXeHf5iY7zJa71
+	Ov7kSCASmggswIQCgMrTjUc3tjVtuM3C/l/9vHg8QIA+0oXfHs+7z79PjRDbuzRR1XNo/TXZPVe
+	CVPfD83zbsebKw0xu+zPVrjvrsa5kPlzMlxgSowLIRSLl52HJb+kavez1RkU6dPi6oFL3/O5YPi
+	arxd1Ebdjv10jssAcGFGWw4bP6Mb6Z4rXlc1DN7OWkGuSCskgOSwPaxIZa0SKY02GWrQcnemG1h
+	LHlBubEl1fl+5/GsWytmPgtLLd/4FbtIRpNB4ZWHPpWgfQ==
+X-Google-Smtp-Source: AGHT+IGYN5QXOKwbMA3PoZ4nlgJhwsCk9nUu8eukWyCdLmBAJzjCji3J7ZjVxS7NbsD6CtBSWBTM0Q==
+X-Received: by 2002:a17:907:1909:b0:ab7:8e0d:3d3c with SMTP id a640c23a62f3a-ab7f3473720mr1066976566b.42.1739517911597;
+        Thu, 13 Feb 2025 23:25:11 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba532575b8sm282318966b.44.2025.02.13.23.25.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2025 23:25:11 -0800 (PST)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ab7c501bbecso253734966b.2;
+        Thu, 13 Feb 2025 23:25:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU4kjCRbFIAeBlPawvEaVnCEIRc9APHHJzqs9KSGbpD2QrdxoFXZ3rLvlhRukWF54Mpsgxhhha4R9ZRMA==@vger.kernel.org, AJvYcCUhXFYeT2k59uC5sqK2dnd7hU8D9kUvCmacTCWoaLs/tY4iAw8lAHIb6BNZVPwWmP5BxD0B2/YkE6x8wcY0@vger.kernel.org, AJvYcCWTuW8Jf0YrTXECI7f87pktHVcBmwRK7ziGdkxE143Pd7dWZgWkDSOMGB2lZcR+M1Hlq/72X+/MGlIQ@vger.kernel.org, AJvYcCXLtYqw5ol7lrm0k0apAqJMD5ypJ8G3T0PSpWOPD/FAtTU945NjhbL03Ry2ADMVHg/7Dd6aXTLY4kWwE9k=@vger.kernel.org
+X-Received: by 2002:a17:907:1909:b0:ab7:8e0d:3d3c with SMTP id
+ a640c23a62f3a-ab7f3473720mr1066973166b.42.1739517910868; Thu, 13 Feb 2025
+ 23:25:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250212075845.11338-1-clamor95@gmail.com> <20250212075845.11338-2-clamor95@gmail.com>
- <Z65k-fi78DnKVN1K@aspen.lan>
-In-Reply-To: <Z65k-fi78DnKVN1K@aspen.lan>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Fri, 14 Feb 2025 08:15:36 +0200
-X-Gm-Features: AWEUYZkYeN4e2_mTmoivB54FQVa-QU7otnFSUN4kc54MQBDIFepRTqtzY9BzDCE
-Message-ID: <CAPVz0n2p2OS=nhBY13huPEew0XjReH+LF+zxLMAXLWo0kU-jSA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: mfd: Document TI LM3533 MFD
-To: Daniel Thompson <daniel@riscstar.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, 
-	Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+References: <20250214040306.16312-1-towinchenmi@gmail.com>
+In-Reply-To: <20250214040306.16312-1-towinchenmi@gmail.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Fri, 14 Feb 2025 02:24:34 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je88-zfnD+Yx7GdxMaG8NZBBjDGZJJ33D0kUyYnAhMhrDA@mail.gmail.com>
+X-Gm-Features: AWEUYZmee1G4NO9TTRkSGcwt1I0mLzwp9RPxwW1Z78u96Fa7SXff07gmHN3DsJ8
+Message-ID: <CAEg-Je88-zfnD+Yx7GdxMaG8NZBBjDGZJJ33D0kUyYnAhMhrDA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] Apple DWI backlight driver
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lee Jones <lee@kernel.org>, 
+	Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Helge Deller <deller@gmx.de>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+	linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D1=87=D1=82, 13 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 23:32 Dani=
-el Thompson <daniel@riscstar.com> =D0=BF=D0=B8=D1=88=D0=B5:
+On Thu, Feb 13, 2025 at 11:04=E2=80=AFPM Nick Chan <towinchenmi@gmail.com> =
+wrote:
 >
-> On Wed, Feb 12, 2025 at 09:58:41AM +0200, Svyatoslav Ryhel wrote:
-> > Add bindings for the LM3533 - a complete power source for
-> > backlight, keypad, and indicator LEDs in smartphone handsets.
-> > The high-voltage inductive boost converter provides the
-> > power for two series LED strings display backlight and keypad
-> > functions.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../devicetree/bindings/mfd/ti,lm3533.yaml    | 221 ++++++++++++++++++
-> >  include/dt-bindings/mfd/lm3533.h              |  19 ++
-> >  2 files changed, 240 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/ti,lm3533.yam=
-l
-> >  create mode 100644 include/dt-bindings/mfd/lm3533.h
-> >
-> > diff --git a/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml b/Doc=
-umentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> > new file mode 100644
-> > index 000000000000..d0307e5894f8
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> > @@ -0,0 +1,221 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/mfd/ti,lm3533.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: TI LM3533 Complete Lighting Power Solution
-> > +
-> > +description: |
-> > +  The LM3533 is a complete power source for backlight,
-> > +  keypad, and indicator LEDs in smartphone handsets. The
-> > +  high-voltage inductive boost converter provides the
-> > +  power for two series LED strings display backlight and
-> > +  keypad functions.
-> > +  https://www.ti.com/product/LM3533
-> > +
-> > +maintainers:
-> > +  - Johan Hovold <jhovold@gmail.com>
+> Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
+> and iPod touches the backlight controller is connected via this interface=
+.
+> This series adds a backlight driver for backlight controllers connected
+> this way.
 >
-> This looks like it has been copied from the lm3533 driver. Did Johan
-> agree to this?
+> Changes since v5:
+> - Remove default y from drivers/video/backlight/Kconfig
+>
+> v5: https://lore.kernel.org/asahi/20250203115156.28174-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v4:
+> - Change type to BACKLIGHT_PLATFORM since the driver does not directly
+> interface with the backlight controller. The actual backlight controller
+> can be directly controlled via i2c and is not the same on all hardware
+> that supports the dwi interface.
+> - Rename file to apple_dwi_bl.c to better match config option.
+> - Rename driver to apple-dwi-bl to better match config option
+> - Indicate that the backlight scales linearly
+>
+> v4: https://lore.kernel.org/asahi/20241211113512.19009-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v3:
+> - $ref to common.yaml in bindings
+> - (and then additionalProperties is changed to unevaluatedProperties)
+> - Use hex everywhere in bindings example
+> - Use sizeof(*dwi_bl) instead of the type of the struct when doing
+> devm_kzalloc()
+> - Use devm_platform_get_and_ioremap_resource() in driver
+> - Fix sorting in drivers/video/backlight/Makefile
+> - In drivers/video/backlight/Kconfig, move config to right after
+> BACKLIGHT_APPLE
+> - Explain this driver being completely different from apple_bl
+>
+> v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gma=
+il.com/T
+>
+> Changes since v2:
+> - Add missing includes in driver
+> - Fix file path in MAINTAINERS
+>
+> v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmai=
+l.com/T
+>
+> Changes since v1:
+> - Fixed dt-bindings $id.
+> - Make power-domains an optional property in dt-bindings.
+> - Added missing error checking after devm_ioremap_resource() in
+> dwi_bl_probe().
+>
+> v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail=
+.com/T
+>
+> Nick Chan
+>
+> ---
+> Nick Chan (3):
+>   dt-bindings: leds: backlight: apple,dwi-bl: Add Apple DWI backlight
+>   backlight: apple_dwi_bl: Add Apple DWI backlight driver
+>   MAINTAINERS: Add entries for Apple DWI backlight controller
+>
+>  .../bindings/leds/backlight/apple,dwi-bl.yaml |  57 ++++++++
+>  MAINTAINERS                                   |   2 +
+>  drivers/video/backlight/Kconfig               |  11 ++
+>  drivers/video/backlight/Makefile              |   1 +
+>  drivers/video/backlight/apple_dwi_bl.c        | 123 ++++++++++++++++++
+>  5 files changed, 194 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/appl=
+e,dwi-bl.yaml
+>  create mode 100644 drivers/video/backlight/apple_dwi_bl.c
+>
+>
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> --
+> 2.48.1
+>
 >
 
-Thank you for pointing this out, maintainers field should have been
-amended with my name. It seems that this slipped from me on
-submitting. I initially though that maintainers should contain driver
-author hence set Johan, but that is obviously not correct.
+Series LGTM.
 
->
-> Daniel.
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+
+
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
 
