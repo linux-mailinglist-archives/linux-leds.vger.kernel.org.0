@@ -1,196 +1,155 @@
-Return-Path: <linux-leds+bounces-3987-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3988-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A671FA374BF
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Feb 2025 15:40:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9094AA376FF
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Feb 2025 19:50:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A3821890A6F
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Feb 2025 14:40:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60EEE165DC2
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Feb 2025 18:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5771197A67;
-	Sun, 16 Feb 2025 14:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3431B19E804;
+	Sun, 16 Feb 2025 18:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmLrW4fj"
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="GaVK6LCa"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744D9194A67;
-	Sun, 16 Feb 2025 14:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E5632C8B
+	for <linux-leds@vger.kernel.org>; Sun, 16 Feb 2025 18:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739716845; cv=none; b=sCyBDO8GjAEg+WMho5rF7sfLS4J1RP8nT1TtRzOHc9qidBh1XUZw+TjbaA4RAF7vjunpEflWRR9erOXu/VTRH5McW7dConQGbksftb0FJ1bHdDf4lLZYCMFBSU1tFw1JpEVpODhjj9+gBU4YIX2Gd8VmLqeETkIDerA/+idcM48=
+	t=1739731804; cv=none; b=Ijqp0xNQQ4NVWNrHjdiso7uUoGOJCa7XKSze7k72wX4tgorVUKCBLcQsAT8xNSlxAwVppYYfXspu0yzTG5mW0tRrYALtEeRsiLYuQPEQw6YNzvqXRmwOd0Qs9P/OykiDd2RIXeYEOpQ1Uk78ZRmVWNOQaQoY0aDthSZWcHATH3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739716845; c=relaxed/simple;
-	bh=x3aFXyhGS+U6X3HUjZO8xlvr8jPhcUkEQ3Hk37j9GNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qW7qshatFgjCyAbmXsLrOSSGBce5MxATN7z57moOvJ+doANdWlTqFJMY5G9coQhndf34XWKZYM6UyknNPHCqye7TXqK223gI9xCGRgnGnYgREQebsCaZ3Jv6GRyiaizEZVOFf25gfd3lgdrpHriqGPK/HSlI2CXZdZQkq+4S8js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmLrW4fj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1413C4CEDD;
-	Sun, 16 Feb 2025 14:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739716844;
-	bh=x3aFXyhGS+U6X3HUjZO8xlvr8jPhcUkEQ3Hk37j9GNc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FmLrW4fjCmyZFZr1YzTzhQQn46h4frr/4RKLRlUYWYOEjHvSwmJUlZp2CgHJ8YZ+8
-	 8oTMm3l/zAHH4nQ0+vsGOlZdjgR7lgUpAAsyJVuysP1iLBY+Srk3/9megO+4YW3l0v
-	 kuL5kqYjYjBjeLH1jrR+K43/suqFQ3FxcF80vF7d/4tztaMOntanyuqSQFSk5fU6x4
-	 qkuBgqLAKcsD5y/VD1dBENmjbMaJasuWPY9rQiuxdceU0/1f0YjlYVdBdtuDA0lSCo
-	 Zxbh5G9/BWuQeRtCfEaoZFVLFDSemCavP8Pt1VA51S1JVv66krp/SZ5EtXq5ORG/jF
-	 VvgqcSInyKysA==
-Date: Sun, 16 Feb 2025 14:40:33 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel
- Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
- Deller <deller@gmx.de>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] mfd: lm3533: convert to use OF
-Message-ID: <20250216144033.47852a60@jic23-huawei>
-In-Reply-To: <20250212075845.11338-3-clamor95@gmail.com>
-References: <20250212075845.11338-1-clamor95@gmail.com>
-	<20250212075845.11338-3-clamor95@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1739731804; c=relaxed/simple;
+	bh=0sMOYFr8lutzqCd8xDlGm4XShbFef/qPFvt/RMTnqFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OkmhNTS0Flvbsrt+X94XjqZ/35302A+9g6XGM13f3PrUPLonB3D892+9vyGhbESS3wGvrydIsMYknWIvxQmr7DndeHnZl3EHK7AIS0JvnaLKl5t9weXcdmnrqRzO0t/cVaCJDK1AIGvAKocaIxcvzHGAj5QlQa0C3FW0WUA+UpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=GaVK6LCa; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 8776F240027
+	for <linux-leds@vger.kernel.org>; Sun, 16 Feb 2025 19:50:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1739731800; bh=0sMOYFr8lutzqCd8xDlGm4XShbFef/qPFvt/RMTnqFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=GaVK6LCauNE8RtiinMqme2XXU/YUdrG1T1mHORTrShsihCOz0tSqNq5hjZvclrVer
+	 mDNcrf2Rc2e8WezCQrrD1jJNUZlLifWz9TXVqGID+chD6GRttte4tn+388WFi1hFjq
+	 kUfSXphmGHrGTW+apf1kM9dxuBE+SW6TCK/iZ9/dZNgdI6NpYJoUQWNiF6xpE00WNw
+	 uuSmS4AyOCuH0viiH6RsQEI4zlhF+2dzfk2Bo0HGRinh02kmGacxAwbFPmlw65Qf9R
+	 MCosauHdUuK1Z8rnUmZZ0h50ILdN3TJ8yREJ/7RHOR0wmvdjRfHPzCMJVTGfeCBiKH
+	 wfSVKOnZVEhdg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Ywvwl1vCqz6tw7;
+	Sun, 16 Feb 2025 19:49:59 +0100 (CET)
+Date: Sun, 16 Feb 2025 18:49:59 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Allow differently named multicolor
+ leds
+Message-ID: <Z7IzV15IVizOQxu4@probook>
+References: <20250209-multi-led-v1-1-5aebccbd2db7@posteo.net>
+ <20250211144300.GW1868108@google.com>
+ <Z6ucAFNauWkhfYZr@probook>
+ <de7fb605-527e-4c62-9b5d-947a1636c54b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <de7fb605-527e-4c62-9b5d-947a1636c54b@kernel.org>
 
-On Wed, 12 Feb 2025 09:58:42 +0200
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
-
-> Add ability to fill pdata from device tree. Common stuff is
-> filled from core driver and then pdata is filled per-device
-> since all cells are optional.
+On Tue, Feb 11, 2025 at 08:10:28PM +0100, Krzysztof Kozlowski wrote:
+> On 11/02/2025 19:50, J. Neuschäfer wrote:
+> > On Tue, Feb 11, 2025 at 02:43:00PM +0000, Lee Jones wrote:
+> >> On Sun, 09 Feb 2025, J. Neuschäfer via B4 Relay wrote:
+> >>
+> >>> From: "J. Neuschäfer" <j.ne@posteo.net>
+> >>>
+> >>> In some cases, a board may have multiple multi-leds, which can't be
+> >>> distinguished by unit address. In such cases it should be possible to
+> >>> name them differently, for example multi-led-a and multi-led-b.
+> >>> This patch adds another node name pattern to leds-class-multicolor.yaml
+> >>> to allow such names.
+> >>
+> >> Which H/W needs this?  Is it upstream?  Where is the doc / usage?
+> > 
+> > I encountered this situation while upstreaming the LANCOM NWAPP2 board,
+> > which has multiple LED-group-based multicolor LEDs:
+> > 
+> >   https://lore.kernel.org/lkml/20250102-mpc83xx-v1-16-86f78ba2a7af@posteo.net/
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Which LEDs are these?
 
-Focusing on just the IIO bit. (backlog of review is a bit high
-for me this weekend!)
+These and a few more:
 
-> ---
->  drivers/iio/light/lm3533-als.c      | 58 ++++++++++++++++++++-
->  drivers/leds/leds-lm3533.c          | 69 +++++++++++++++++++++++--
->  drivers/mfd/lm3533-core.c           | 79 ++++++++++++++++++++++++-----
->  drivers/video/backlight/lm3533_bl.c | 72 ++++++++++++++++++++++++--
->  include/linux/mfd/lm3533.h          |  1 +
->  5 files changed, 256 insertions(+), 23 deletions(-)
+	led-power {
+		label = "multicolor:power";
+		compatible = "leds-group-multicolor";
+		color = <LED_COLOR_ID_MULTI>;
+		function = LED_FUNCTION_POWER;
+		leds = <&led_power_red>, <&led_power_green>;
+	};
+
+	led-wlan-link {
+		label = "multicolor:wlan-link";
+		compatible = "leds-group-multicolor";
+		color = <LED_COLOR_ID_MULTI>;
+		function = LED_FUNCTION_WLAN;
+		leds = <&led_wlan_link_red>, <&led_wlan_link_green>;
+	};
+
+According to the leds-class-multicolor.yaml binding, they should be
+named "multi-led", optionally with a unit address. Unit addresses don't
+make a lot of sense, as these nodes don't have (or need) a reg property.
+They can't, however, have the same name, which brings me to the idea of
+this patch: To allow different names that start with "multi-led-".
+
+> I don't see multi-led there node name at all.
+
+This was my mistake while writing the NWAPP2 devicetree.
+
 > 
-> diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/lm3533-als.c
-> index 99f0b903018c..21fc5f215c80 100644
-> --- a/drivers/iio/light/lm3533-als.c
-> +++ b/drivers/iio/light/lm3533-als.c
-> @@ -16,7 +16,9 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/mfd/core.h>
-> +#include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  
-> @@ -826,6 +828,50 @@ static const struct iio_info lm3533_als_info = {
->  	.read_raw	= &lm3533_als_read_raw,
->  };
->  
-> +static void lm3533_parse_als(struct platform_device *pdev,
-> +			     struct lm3533_als_platform_data *pdata)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	int val, ret;
-> +
-> +	/* 1 - 127 (ignored in PWM-mode) */
-> +	ret = device_property_read_u32(dev, "resistor-value", &val);
-> +	if (ret)
-> +		val = 1;
-For defaults that apply on any error, the pattern
+> This patch must come with user. It's fine to send the user separately,
+> but please provide lore link to exact user.
+> 
+> Otherwise what certainty we have that this change is needed in the first
+> place?
 
-	val = 1;
-	device_property_read_u32(dev, "resistor-value", &val);
-is cleaner.
+For ease of review, I'll include this patch in v2 of the NWAPP2 series,
+and extend the commit message.
 
-What are the units? If it's a resistor then they should be ohms
-or similar and that should be part of the naming.
+> 
+> > 
+> > Since they are based on leds-group-multicolor, they don't have a unit
+> > address, but there is more than one on the same level (as direct
+> > sub-nodes of the DT root node).
+> 
+> Which binding is this?
 
-You should be taking whatever the value is in ohms and mapping
-it to appropriate r_select in this function.
+Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+  specifies compatible = "leds-group-multicolor", and includes:
 
-> +	pdata->r_select = val;
-> +
-> +	pdata->pwm_mode = device_property_read_bool(dev, "pwm-mode");
-> +}
-> +
-> +static int lm3533_pass_of_node(struct platform_device *pdev,
-> +			       struct lm3533_als_platform_data *pdata)
-> +{
-> +	struct device *parent_dev = pdev->dev.parent;
-> +	struct device *dev = &pdev->dev;
-> +	struct fwnode_handle *node;
-> +	const char *label;
-> +	int val, ret;
-> +
-> +	device_for_each_child_node(parent_dev, node) {
+Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+  defines node name pattern of "^multi-led(@[0-9a-f])?$"
 
-This devices should have direct access to the correct child node.
-Otherwise something odd is going on...
 
-> +		fwnode_property_read_string(node, "compatible", &label);
-> +
-> +		if (!strcmp(label, pdev->name)) {
-> +			ret = fwnode_property_read_u32(node, "reg", &val);
-> +			if (ret) {
-> +				dev_err(dev, "reg property is missing: ret %d\n", ret);
-
-use return dev_err_probe() for these.
-
-> +				return ret;
-> +			}
-> +
-> +			if (val == pdev->id) {
-> +				dev->fwnode = node;
-> +				dev->of_node = to_of_node(node);
-> +			}
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int lm3533_als_probe(struct platform_device *pdev)
->  {
->  	const struct lm3533_als_platform_data *pdata;
-> @@ -840,8 +886,16 @@ static int lm3533_als_probe(struct platform_device *pdev)
->  
->  	pdata = dev_get_platdata(&pdev->dev);
->  	if (!pdata) {
-> -		dev_err(&pdev->dev, "no platform data\n");
-> -		return -EINVAL;
-> +		pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
-> +		if (!pdata)
-> +			return -ENOMEM;
-> +
-> +		ret = lm3533_pass_of_node(pdev, pdata);
-> +		if (ret)
-> +			return dev_err_probe(&pdev->dev, ret,
-> +					     "failed to get als device node\n");
-> +
-> +		lm3533_parse_als(pdev, pdata);
->  	}
->  
->  	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*als));
-
+Best regards,
+J. Neuschäfer
 
