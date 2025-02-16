@@ -1,84 +1,196 @@
-Return-Path: <linux-leds+bounces-3986-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-3987-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96267A358F3
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2025 09:33:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A671FA374BF
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Feb 2025 15:40:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD6C616AEE3
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2025 08:33:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A3821890A6F
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Feb 2025 14:40:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8B3223339;
-	Fri, 14 Feb 2025 08:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5771197A67;
+	Sun, 16 Feb 2025 14:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gTgsJJGr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmLrW4fj"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5E620ADFB;
-	Fri, 14 Feb 2025 08:33:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744D9194A67;
+	Sun, 16 Feb 2025 14:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739521997; cv=none; b=AHucKoo9MmOy2K3ey2k14odhxKBZ7ylYidPu9143FChHJ2S2HduZCoG/EKXO9gUdB3bhfac9dYbhFvWVKOVEpu0hQdWgWqin1k4uBDwa0MuwFAUJQDSxggDYt4D0s6DRncN+wOXZc9qgMEoN6mt2xwqmHpoGJNGnQnILSWL0q1Q=
+	t=1739716845; cv=none; b=sCyBDO8GjAEg+WMho5rF7sfLS4J1RP8nT1TtRzOHc9qidBh1XUZw+TjbaA4RAF7vjunpEflWRR9erOXu/VTRH5McW7dConQGbksftb0FJ1bHdDf4lLZYCMFBSU1tFw1JpEVpODhjj9+gBU4YIX2Gd8VmLqeETkIDerA/+idcM48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739521997; c=relaxed/simple;
-	bh=7HIkH/KEQQIflBpWCsurCpwPb9iVOK6yYecA0UCy8eM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0vlgLNI67hgyVg/aI1CfpRvnz5bNuYjRzCTWgTL+K/VTF48ifGZ/C99DbkYWO+WlU/mq3f0QbxssiVA7y9Saz7W6q9C5XF7TppcZ32aAIeerzPOxPtP0yUTqyDqY2VasL8inw5/U9CtasJbHhGLoM55+s3+MT9uME45ohdPhR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gTgsJJGr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3F7C4CED1;
-	Fri, 14 Feb 2025 08:33:13 +0000 (UTC)
+	s=arc-20240116; t=1739716845; c=relaxed/simple;
+	bh=x3aFXyhGS+U6X3HUjZO8xlvr8jPhcUkEQ3Hk37j9GNc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qW7qshatFgjCyAbmXsLrOSSGBce5MxATN7z57moOvJ+doANdWlTqFJMY5G9coQhndf34XWKZYM6UyknNPHCqye7TXqK223gI9xCGRgnGnYgREQebsCaZ3Jv6GRyiaizEZVOFf25gfd3lgdrpHriqGPK/HSlI2CXZdZQkq+4S8js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmLrW4fj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1413C4CEDD;
+	Sun, 16 Feb 2025 14:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739521995;
-	bh=7HIkH/KEQQIflBpWCsurCpwPb9iVOK6yYecA0UCy8eM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gTgsJJGr/cKHok2Q+pWAy0B5vKQIIaGC5Vaj1z4Gq4N/BiLgGQsGbrOCyPstKyeQN
-	 cuVBojvP9p9aSBDOotLBaGHChIxmMzHLz22cpm8g3Rb+GmEs70N3n52dMIQnBlnQSI
-	 VuwygdG4BGQudiyFDuNtGnuahvt1gk9QhZOM3H09dJmQbWHjYodZVepnPQT6ovAtiA
-	 Amcg7SUtmc8xqnGAlh49asP8xqwuToW+rkysjMwf/t67yT27O0u1N8e8COjhOQuNQa
-	 M9zic8a3uojE6KtHEYUEQh8mjSVYNXhnn+6wdm8H1WYb5XRCjd98kArJDX0p2DmJk9
-	 kzoU6Di2IwIWA==
-Date: Fri, 14 Feb 2025 09:33:11 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: leds: qcom-lpg: Document PM8937 PWM
- compatible
-Message-ID: <20250214-muscular-arcane-chachalaca-fdfacb@krzk-bin>
-References: <20250213-pm8937-pwm-v2-0-49ea59801a33@mainlining.org>
- <20250213-pm8937-pwm-v2-1-49ea59801a33@mainlining.org>
+	s=k20201202; t=1739716844;
+	bh=x3aFXyhGS+U6X3HUjZO8xlvr8jPhcUkEQ3Hk37j9GNc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FmLrW4fjCmyZFZr1YzTzhQQn46h4frr/4RKLRlUYWYOEjHvSwmJUlZp2CgHJ8YZ+8
+	 8oTMm3l/zAHH4nQ0+vsGOlZdjgR7lgUpAAsyJVuysP1iLBY+Srk3/9megO+4YW3l0v
+	 kuL5kqYjYjBjeLH1jrR+K43/suqFQ3FxcF80vF7d/4tztaMOntanyuqSQFSk5fU6x4
+	 qkuBgqLAKcsD5y/VD1dBENmjbMaJasuWPY9rQiuxdceU0/1f0YjlYVdBdtuDA0lSCo
+	 Zxbh5G9/BWuQeRtCfEaoZFVLFDSemCavP8Pt1VA51S1JVv66krp/SZ5EtXq5ORG/jF
+	 VvgqcSInyKysA==
+Date: Sun, 16 Feb 2025 14:40:33 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel
+ Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
+ Deller <deller@gmx.de>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] mfd: lm3533: convert to use OF
+Message-ID: <20250216144033.47852a60@jic23-huawei>
+In-Reply-To: <20250212075845.11338-3-clamor95@gmail.com>
+References: <20250212075845.11338-1-clamor95@gmail.com>
+	<20250212075845.11338-3-clamor95@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250213-pm8937-pwm-v2-1-49ea59801a33@mainlining.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 13, 2025 at 08:54:47PM +0100, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wr=
-ote:
-> The PM8937 PWM modules are compatible with the PM8916 PWM modules,
-> document the PM8937 PWM compatible as fallback for the PM8916 PWM.
->=20
-> Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <barnabas.czeman@mainlining=
-=2Eorg>
+On Wed, 12 Feb 2025 09:58:42 +0200
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+
+> Add ability to fill pdata from device tree. Common stuff is
+> filled from core driver and then pdata is filled per-device
+> since all cells are optional.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+
+Focusing on just the IIO bit. (backlog of review is a bit high
+for me this weekend!)
+
 > ---
->  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/iio/light/lm3533-als.c      | 58 ++++++++++++++++++++-
+>  drivers/leds/leds-lm3533.c          | 69 +++++++++++++++++++++++--
+>  drivers/mfd/lm3533-core.c           | 79 ++++++++++++++++++++++++-----
+>  drivers/video/backlight/lm3533_bl.c | 72 ++++++++++++++++++++++++--
+>  include/linux/mfd/lm3533.h          |  1 +
+>  5 files changed, 256 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/lm3533-als.c
+> index 99f0b903018c..21fc5f215c80 100644
+> --- a/drivers/iio/light/lm3533-als.c
+> +++ b/drivers/iio/light/lm3533-als.c
+> @@ -16,7 +16,9 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/mfd/core.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/uaccess.h>
+>  
+> @@ -826,6 +828,50 @@ static const struct iio_info lm3533_als_info = {
+>  	.read_raw	= &lm3533_als_read_raw,
+>  };
+>  
+> +static void lm3533_parse_als(struct platform_device *pdev,
+> +			     struct lm3533_als_platform_data *pdata)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	int val, ret;
+> +
+> +	/* 1 - 127 (ignored in PWM-mode) */
+> +	ret = device_property_read_u32(dev, "resistor-value", &val);
+> +	if (ret)
+> +		val = 1;
+For defaults that apply on any error, the pattern
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+	val = 1;
+	device_property_read_u32(dev, "resistor-value", &val);
+is cleaner.
 
-Best regards,
-Krzysztof
+What are the units? If it's a resistor then they should be ohms
+or similar and that should be part of the naming.
+
+You should be taking whatever the value is in ohms and mapping
+it to appropriate r_select in this function.
+
+> +	pdata->r_select = val;
+> +
+> +	pdata->pwm_mode = device_property_read_bool(dev, "pwm-mode");
+> +}
+> +
+> +static int lm3533_pass_of_node(struct platform_device *pdev,
+> +			       struct lm3533_als_platform_data *pdata)
+> +{
+> +	struct device *parent_dev = pdev->dev.parent;
+> +	struct device *dev = &pdev->dev;
+> +	struct fwnode_handle *node;
+> +	const char *label;
+> +	int val, ret;
+> +
+> +	device_for_each_child_node(parent_dev, node) {
+
+This devices should have direct access to the correct child node.
+Otherwise something odd is going on...
+
+> +		fwnode_property_read_string(node, "compatible", &label);
+> +
+> +		if (!strcmp(label, pdev->name)) {
+> +			ret = fwnode_property_read_u32(node, "reg", &val);
+> +			if (ret) {
+> +				dev_err(dev, "reg property is missing: ret %d\n", ret);
+
+use return dev_err_probe() for these.
+
+> +				return ret;
+> +			}
+> +
+> +			if (val == pdev->id) {
+> +				dev->fwnode = node;
+> +				dev->of_node = to_of_node(node);
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int lm3533_als_probe(struct platform_device *pdev)
+>  {
+>  	const struct lm3533_als_platform_data *pdata;
+> @@ -840,8 +886,16 @@ static int lm3533_als_probe(struct platform_device *pdev)
+>  
+>  	pdata = dev_get_platdata(&pdev->dev);
+>  	if (!pdata) {
+> -		dev_err(&pdev->dev, "no platform data\n");
+> -		return -EINVAL;
+> +		pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
+> +		if (!pdata)
+> +			return -ENOMEM;
+> +
+> +		ret = lm3533_pass_of_node(pdev, pdata);
+> +		if (ret)
+> +			return dev_err_probe(&pdev->dev, ret,
+> +					     "failed to get als device node\n");
+> +
+> +		lm3533_parse_als(pdev, pdata);
+>  	}
+>  
+>  	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*als));
 
 
