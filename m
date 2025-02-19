@@ -1,71 +1,70 @@
-Return-Path: <linux-leds+bounces-4008-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4009-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE61A3C986
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2025 21:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C31DA3CDE3
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 00:52:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A707164E96
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2025 20:20:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E8571669DA
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2025 23:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D99B22E3F7;
-	Wed, 19 Feb 2025 20:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A854A262158;
+	Wed, 19 Feb 2025 23:52:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SLwKh1NL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrO2KsAB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD08214A64;
-	Wed, 19 Feb 2025 20:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D14E25EF87;
+	Wed, 19 Feb 2025 23:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739996418; cv=none; b=KFRyc+3PRqdFpFxZOkCl/ntqFdH/RTyaIHg/2JJ3TDJvEWpUaLLGMor1FHa5RbFvvoraMYQ6KqyuHb6WoHnhBvZ1BwTmW0G13I7dt2w0LBAJjfYXB4nAdPyhbxgP+/AhXSFvVascJBWVtYAKFm9kVsfHOkCzdYsbStIT1E8U2wg=
+	t=1740009131; cv=none; b=qv5hTdWTUXqu1FR5QJiAi3eTUpV9VH7S2fpRrU0te5rjMuJ8osf1wpqmjQqgKiIjijWd7Inz+eujVJRLuHlMvSxoSXuODWNhaOY0SHeTyf3enTNz1n6JQjlsfzMwqEkLFhu5SD8VvvuSM/foJCGCi0EWBMiN1KYSng7VxsBVK/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739996418; c=relaxed/simple;
-	bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
+	s=arc-20240116; t=1740009131; c=relaxed/simple;
+	bh=fC6muqlChDrljBG2bGaCmMbBFb3Lrun3fzk8vu7AYLA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/zQ/A0bIyWu4LjDD47WXHvMm3T4TNlgLwzf+whOWyJ3DOmcoLZNtKfzto844waj2yrEQCyB5nqSJj6Ve0qYzTvo/muJul4stmXTgrPI3+cB/WQEJjvE09//DC2NIctO+7Da97+S6yvi6tZMgV66q5OMQZ3uddCSARGsWqbpZWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SLwKh1NL; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YWdjfnRQlM1A6asntg2Eq1jq5LDnNVmsvC8h+Jmgm7VBim7/OhB3r7OV9ERtAmePnHUxCgaGfC+hMsASRQABvTk/nkNxepY9xP6ZdgaWmsEfUf8un5g51OQnaJf9c8y9fXmd03nsLYu04Cxx8Tlc6JFAL4jkqWVYJavatpqxOdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrO2KsAB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739996417; x=1771532417;
+  t=1740009129; x=1771545129;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
-  b=SLwKh1NL1DwE6Bj7EkPzEWWHnZ0KNUFjPfvHKxAuG7IqiystVLTWdbn/
-   rnDyD894CWXt8rVWQ18z1So5L6Mbzvnlso26EENVou/e24qQQah4rys88
-   NAIsUWaotMENr/haVsROKSTm0n6rm6PL9Uzu6x83WNuPdsCzbNJonMTTf
-   eXhgHV8jBn0+5WBHobiYFTuzuAlMtyw4zL0zYctl1sW29UQjf4cwPY/cU
-   Itn0paSTooeI/1hvAnXpT52niLFGPD4D8opWJt/tCWRVhZYAXlF1Ra6TQ
-   77eEORrX1tUPKw3GSoMFXu/9EiWuTDh27nR5E2LhAV8zT21E+G4MLoaZ/
+  bh=fC6muqlChDrljBG2bGaCmMbBFb3Lrun3fzk8vu7AYLA=;
+  b=nrO2KsAB8MhUlqZMSNHsxPoG+tMkFCfdRdqSPyXo/BmlOXFHutA1QjhM
+   75yc6ZOykBcHhq5QfqQ1ib/8hhAKSPdBDAP8TS4c/grAJJqFOSvB/jq+8
+   18/nHEOrNf7wEDY34hrH6sUouaGshXtj9WPJY4jTaJ2bONX6tmfl1TO2I
+   rwooDDHZswIr1jjaaeo8Zm30jvNgvdwhAYzdybJxqXmTfZMjRwoUAS0Fv
+   /RTvl+db7/s5Yj937VFS2yFJjs4mkfUbWR3sNfIswA39kVT40YwdYgU6E
+   uWtdQC1X1GoppuBfZhEF4xVAcZfFmapjbOH4PGB0ZP7sqT+8s/UzFL2nE
    w==;
-X-CSE-ConnectionGUID: 4A3KExFrQn6NS+91mav+fA==
-X-CSE-MsgGUID: 6nSjkFk1QjSXFYaqHLfh/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="50966657"
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="50966657"
+X-CSE-ConnectionGUID: y9safsIiRJCd87WfDDymbg==
+X-CSE-MsgGUID: qJ5AF7wuQ0mqU0ue1Sv2ZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44688520"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="44688520"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:20:13 -0800
-X-CSE-ConnectionGUID: pBlNVsujSvyr6QenP15SOg==
-X-CSE-MsgGUID: Nq+u8uC3QQy+wHa6XfpUhQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 15:52:08 -0800
+X-CSE-ConnectionGUID: ooLzz0LaSPGEFPY9ENumrA==
+X-CSE-MsgGUID: NYD5DsV1TIOSvYVpYayIhg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="115020364"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:20:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tkqY8-0000000D7d9-2wZe;
-	Wed, 19 Feb 2025 22:20:04 +0200
-Date: Wed, 19 Feb 2025 22:20:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="115065139"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Feb 2025 15:52:04 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tktrF-0003d5-26;
+	Wed, 19 Feb 2025 23:52:01 +0000
+Date: Thu, 20 Feb 2025 07:51:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -73,15 +72,15 @@ Cc: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
 	Daniel Thompson <danielt@kernel.org>,
 	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-Message-ID: <Z7Y89AI8me_MFsEV@smile.fi.intel.com>
+Message-ID: <202502200718.H8t6Uv7b-lkp@intel.com>
 References: <20250218132702.114669-3-clamor95@gmail.com>
- <202502192343.twEQ3SSs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -90,19 +89,58 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502192343.twEQ3SSs-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250218132702.114669-3-clamor95@gmail.com>
 
-On Thu, Feb 20, 2025 at 12:02:51AM +0800, kernel test robot wrote:
-> Hi Svyatoslav,
-> 
-> kernel test robot noticed the following build errors:
+Hi Svyatoslav,
 
-It a second time you send not even compiled code.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lee-mfd/for-mfd-next]
+[also build test ERROR on lee-leds/for-leds-next robh/for-next linus/master v6.14-rc3 next-20250219]
+[cannot apply to lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-mfd-Document-TI-LM3533-MFD/20250218-212857
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20250218132702.114669-3-clamor95%40gmail.com
+patch subject: [PATCH v2 2/2] mfd: lm3533: convert to use OF
+config: arm-randconfig-002-20250219 (https://download.01.org/0day-ci/archive/20250220/202502200718.H8t6Uv7b-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200718.H8t6Uv7b-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502200718.H8t6Uv7b-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/video/backlight/lm3533_bl.c:417:25: error: use of undeclared identifier 'lm3533_match_table'; did you mean 'lm3533_bl_match_table'?
+     417 | MODULE_DEVICE_TABLE(of, lm3533_match_table);
+         |                         ^~~~~~~~~~~~~~~~~~
+         |                         lm3533_bl_match_table
+   include/linux/module.h:250:15: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     250 | extern typeof(name) __mod_device_table__##type##__##name                \
+         |               ^
+   drivers/video/backlight/lm3533_bl.c:413:34: note: 'lm3533_bl_match_table' declared here
+     413 | static const struct of_device_id lm3533_bl_match_table[] = {
+         |                                  ^
+   1 error generated.
+
+
+vim +417 drivers/video/backlight/lm3533_bl.c
+
+   412	
+   413	static const struct of_device_id lm3533_bl_match_table[] = {
+   414		{ .compatible = "ti,lm3533-backlight" },
+   415		{ },
+   416	};
+ > 417	MODULE_DEVICE_TABLE(of, lm3533_match_table);
+   418	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
