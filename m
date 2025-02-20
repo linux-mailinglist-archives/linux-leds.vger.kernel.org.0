@@ -1,76 +1,76 @@
-Return-Path: <linux-leds+bounces-4041-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4042-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE85CA3E794
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 23:35:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE47A3E86E
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 00:27:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB6F6189BC18
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 22:35:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00661189FB04
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 23:27:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A8B1EF08F;
-	Thu, 20 Feb 2025 22:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA4D1D5CDD;
+	Thu, 20 Feb 2025 23:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrj99wEf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJol4hIs"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF0C1EE02A
-	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 22:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0803326561A
+	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 23:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740090919; cv=none; b=J0M0XlkG7DYgvlAhcWWYYkEYZtUD+8o882aUzeGLiCFN/rQ/TaSpSpb1VNrw3OKYNh7yp0JfRNE0lzL1LOLQs+oPbAX7/FRpT5Ra24k2pVzNibk+OJq4EmejufRzbHB5t9aRqusF4cV50UjzSVx99jgq24jiK0N1rUOZZsuVt3M=
+	t=1740094058; cv=none; b=cMk1YAskyU5EJoAYfn8Frn5fRJ+KVUkinLZjmWxA05wEP2jk45rPtCm+JQT0wOA1Nmb26mz6erctxV/8DrUbFTUbbAVPNbTB00XfDZXI7SQI+z86HBXBUfY6DrKYlFqahEwr+/e8bzwTx8Sge9hf9M+i7Lc5DEjNwJEMGD2TITU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740090919; c=relaxed/simple;
-	bh=/C2Rlqx9oCGhWC/a5yMv7OJLitq498eexdp4HfCaqsI=;
+	s=arc-20240116; t=1740094058; c=relaxed/simple;
+	bh=1Y5KTXu/MwxQ4sILuIxRDeL+/tqtoaj+kiR4shMl7I0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WSlfZIKKsOqW/MrQ+MoEEblT0eaVQOod0H2uYN17Dt0G14AFra1cFDcmSQlhrkVkE5QFYNg2fpwySzRohPWhqHwMdzNe0crgiQ0XzzttgcldT2iqFhV5kk5x6HyxNwEh6RCWnNikzCZNtydQ9arp1gI9c/kS3e6jwLktEpomNFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrj99wEf; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=CbOYIN9e3DhzE7RlaudnyEX4BWbFHHqDSAMN2X8bbJ0dMEgzdJUYcwOO0zkYTu2A8dPxFIyl6mUkcG89+12JNXC3wkTLRqPRxc3auL5P/s3Yuz7S0qgzdcXu8cVr/3nqonVYET1t7V5bmlNMD2Z26180e4j3FLYIMO0zlKixnR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJol4hIs; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740090918; x=1771626918;
+  t=1740094056; x=1771630056;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/C2Rlqx9oCGhWC/a5yMv7OJLitq498eexdp4HfCaqsI=;
-  b=nrj99wEf5WgIo+yftfSUEQNgaka4Rfp6ka9wIzVdaF+HDz34qEVLHL/N
-   9gLYhm6vWsaxVH+VhK1eYO3bjhWUODBFNE6zRgcL0ne/U7dG0wsnQwh/l
-   //mEmTTXUNpeZkDt3jYzL3nTj9o4rzQbAjiEgWR8nmfVsgRFM4UWz2iOU
-   BxD60M8mKrXgKKvzWN6ZlajWfohUt45AwvvRvu5AvqInAGcgCnm1H3Gjm
-   8n2GiQhSjMyTYI3mTIO5x6+vN6u2ODHjmqOJzdg9rMfJI8kJTsKIdvDsH
-   OG7UhADAGiXrjNPlFRlfGDVed9F9jGIqrY14N5gtUumTfCTCng59btGIo
-   Q==;
-X-CSE-ConnectionGUID: SZ3GdZvMQTumQ9uMjsFdzA==
-X-CSE-MsgGUID: VEdndNybSVmMRpAuG/pphA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40081558"
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="40081558"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 14:35:17 -0800
-X-CSE-ConnectionGUID: jgY90kUbTcaN9l8dvWWHYw==
-X-CSE-MsgGUID: PWlBssE9SDy5pYp9Zx8uzQ==
+  bh=1Y5KTXu/MwxQ4sILuIxRDeL+/tqtoaj+kiR4shMl7I0=;
+  b=PJol4hIszQKhz0X/T58PDsM9tAAyGmfqO4pLNQGDdRP2AX0crw5MoFx7
+   W1UX3H/YDPazgCIPORPwnwzLgsohoV2FUqVBQxkWvJ7nP8AogYgWw9Ge4
+   8nKZC7TL1HHFXwgeGueA0fLhmijRmf216YMw958R4w7VqPTeenHeXp7RZ
+   UUJuZatlZkBh4NgOWffuZQse6nqUiitjQxfY5b/oXNg//T0cjGy3l0GyB
+   HBTqW/x+yu5bVhAkfzyOhcYGdjv7InitXXPL1B+JiUSd6d8JUrXmqihqd
+   ZyNSYoDWf8RACJbZqTnojExfoRUW5gOQXk2ZDs1KcSgC5ux0R0yn5Hfz5
+   g==;
+X-CSE-ConnectionGUID: qdx1XntMRAC4tkA0OriV9w==
+X-CSE-MsgGUID: jEFcn7QrSXCymWcLIhFNzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51114850"
+X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
+   d="scan'208";a="51114850"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 15:27:35 -0800
+X-CSE-ConnectionGUID: VLr+hPyBRHehOOnSS5xzMA==
+X-CSE-MsgGUID: 1fv+cnPuQKyv9nHCMnDSlg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="120163177"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115048529"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 20 Feb 2025 14:35:16 -0800
+  by orviesa010.jf.intel.com with ESMTP; 20 Feb 2025 15:27:33 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlF8T-0004pL-28;
-	Thu, 20 Feb 2025 22:35:13 +0000
-Date: Fri, 21 Feb 2025 06:34:52 +0800
+	id 1tlFx5-0004rT-1u;
+	Thu, 20 Feb 2025 23:27:31 +0000
+Date: Fri, 21 Feb 2025 07:26:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: Eddie James <eajames@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [lee-leds:for-leds-next 7/10] drivers/leds/leds-pca955x.c:509:15:
- error: implicit declaration of function 'pca955x_num_led_regs'; did you mean
- 'pca955x_num_input_regs'?
-Message-ID: <202502210631.1wjjGDNd-lkp@intel.com>
+Subject: [lee-leds:for-leds-next 7/10] drivers/leds/leds-pca955x.c:509:8:
+ error: call to undeclared function 'pca955x_num_led_regs'; ISO C99 and later
+ do not support implicit function declarations
+Message-ID: <202502210701.i2fIb4tb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -83,26 +83,28 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
 head:   2f372a5dce6885f1d2647f7add01756bee0fef49
 commit: 14ef0738a31dcecfbba38626884b7d9a60b75cd0 [7/10] leds: pca955x: Optimize probe LED selection
-config: i386-buildonly-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502210631.1wjjGDNd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210631.1wjjGDNd-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-005-20250221 (https://download.01.org/0day-ci/archive/20250221/202502210701.i2fIb4tb-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210701.i2fIb4tb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210631.1wjjGDNd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210701.i2fIb4tb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/leds/leds-pca955x.c: In function 'pca955x_probe':
->> drivers/leds/leds-pca955x.c:509:15: error: implicit declaration of function 'pca955x_num_led_regs'; did you mean 'pca955x_num_input_regs'? [-Werror=implicit-function-declaration]
+>> drivers/leds/leds-pca955x.c:509:8: error: call to undeclared function 'pca955x_num_led_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      509 |         nls = pca955x_num_led_regs(chip->bits);
-         |               ^~~~~~~~~~~~~~~~~~~~
-         |               pca955x_num_input_regs
-   cc1: some warnings being treated as errors
+         |               ^
+   drivers/leds/leds-pca955x.c:509:8: note: did you mean 'pca955x_num_input_regs'?
+   drivers/leds/leds-pca955x.c:135:19: note: 'pca955x_num_input_regs' declared here
+     135 | static inline int pca955x_num_input_regs(int bits)
+         |                   ^
+   1 error generated.
 
 
-vim +509 drivers/leds/leds-pca955x.c
+vim +/pca955x_num_led_regs +509 drivers/leds/leds-pca955x.c
 
    440	
    441	static int pca955x_probe(struct i2c_client *client)
