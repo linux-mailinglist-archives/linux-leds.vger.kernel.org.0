@@ -1,167 +1,283 @@
-Return-Path: <linux-leds+bounces-4040-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4041-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A99A3E6AB
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 22:33:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE85CA3E794
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 23:35:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3419D19C4C39
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 21:32:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB6F6189BC18
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 22:35:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B25264FAF;
-	Thu, 20 Feb 2025 21:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A8B1EF08F;
+	Thu, 20 Feb 2025 22:35:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="M7fJ8uQ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrj99wEf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E426B2641D0
-	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 21:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF0C1EE02A
+	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 22:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740087060; cv=none; b=oUwMAmVy1XhruPxiNyMVfKJmQaVcHJDWDKXyYntjsfIlxGxoKL0aTlmcA9svI7Q5C1sm9Ava7S6tFlpn9UJxFhVJc+BGPuvQEsQpIyiaZR6MoiKa6FY+QqJqOBUaKiYsCPSsyKHeofHnbkRlxD7fdb73ufg8BEmA5owUUy4XrLw=
+	t=1740090919; cv=none; b=J0M0XlkG7DYgvlAhcWWYYkEYZtUD+8o882aUzeGLiCFN/rQ/TaSpSpb1VNrw3OKYNh7yp0JfRNE0lzL1LOLQs+oPbAX7/FRpT5Ra24k2pVzNibk+OJq4EmejufRzbHB5t9aRqusF4cV50UjzSVx99jgq24jiK0N1rUOZZsuVt3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740087060; c=relaxed/simple;
-	bh=Jcm7PvHpMe7tKGTpIyGRdzGtn040bJAdsFeXtJ5E8RA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NNSiEPUSx8a3RjprS61fcrlsr7qHPM8r60VpVJYPQMdU9R6lAr6gIzBZKGxm6W72bdjsiWbcjZhnRIrHRniG2FIlvC3PHSMS1a4FsPS/Em/4UVDqSk8/GkItxzRocpfmvlFjw7r+n5/eN/mlp84cZ+HNRGvXcMx6d82WgMP6pgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=M7fJ8uQ/; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KGM2bx031746
-	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 21:30:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4b/yWlz2b5oRI/+oWIeuPJO4gw6pMqA+jcdXud5kRy8=; b=M7fJ8uQ/YQo+U5c1
-	AI+PflHA7lAcH+DS21iEGwiibUMtciUIcKz3/V2ET6UD0hQcsJbfLVBht1sSBkDP
-	MuSPUB4eM9endoIm754gqnrbvAXD1oMQqePAQ1McSuYXQ1Q/IcjaP5IQawfcgYzg
-	SrJ6aebRLmxbr3uxqont8+AqcSirCol8DRtPa50Ofion/M8SvF2QpzcI4omYgnOI
-	DbGmJfm3BR/4fTr51Za7mhC27tnfcbgPcy36zGym0Mb2W7Nz96oBIy6LA95wBR+J
-	oLRKdz8T2UYLs0w8pFqxNMNMaO2VF95bopoFJvA0evNecWoDCF7QnYVkyt3x15Dc
-	XdvnQQ==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy5feax-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 21:30:57 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-220cb5924a4so47124235ad.2
-        for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 13:30:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740087056; x=1740691856;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4b/yWlz2b5oRI/+oWIeuPJO4gw6pMqA+jcdXud5kRy8=;
-        b=N0Udn1DzidjUlLyit++rJENOpu9xfsBxun6+iV+40AJnHhHL2SseU5z0RW1oZ9JZ+k
-         LaLFZA5a1cfuG4xPL8d/ts1yf8O7LmdSAitlym/BvXb+dGzGXXVhjwm91m1PJBdfSX6/
-         mbm18TzPCh9MhVehxOUqWLLYzOZlcjwEmOsUyAPxrq3sHcmIVeuO55LQGqxzl1oFbO3K
-         OJZVrn/nmDFyFM40sA6zsQy3ixhRuwgy4DLveN3TRkMq9ti6eT+wxYtsp8EkigCSkcxh
-         Jp3P12qCPWwDg2DFg7jlyhz4AJjzX89HZHqk9/zJ3auEYTz33S9c2fZ6oBcuX05kF9tz
-         Tn7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWyoFKxPSTxbwPA2C3xJvtkccDZFrkInx53hG/3kQWz0Ugp/KzUsZ3T/m7SUujUcaESyfO1arozWJRE@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmeWo/6ua4msOoQ/kF7JVfBh9uTeVooFSiw/E5BlkEIDHzDHYL
-	Ny+cCnphNYxiS8LTFqcwFvR3o97verey7QQwaYyzS1Th4Lo0Xkvk1UnW3sXRlAHrgkPy4KSjsaE
-	rWHVmHbv8iPmQYgvK6USwhYlqoC9Y/b53XrKZNfI9iIPCqst1SdKOyzOjiC+V
-X-Gm-Gg: ASbGncvYEGCgGe637mK5THrQtGX7H/d05v3TpYcnQYxWyxE9QaQ2fUPpLBElexqosbW
-	+/J3z2tElu94B9CtgIuvtgkhZkgtnDubCyq+zeQE4jDk38vdfrhk8V2alyx1Hlbx6BzsO3kxkin
-	V1m3WPJ6UfYHD57lzV5s6FaF50iu1Fdee5zL0yxgx6iQODu69A1x6UWD8migMP+aQVdzZT7D8bl
-	NQNwGOBno6qIdLgqBWwcYRnIzz0rwLXgsuHg3yME/1ydKlzTv2hYQTmJ9UH8gXQchzg9V94GvnP
-	NX7+tc5J3MRdqKvcO6WWZ+SAmjDNITghmsyq9O5JZgac5j6nqDXmmUmdBV7+LWwfH+qxXg==
-X-Received: by 2002:a17:902:da91:b0:220:c143:90a0 with SMTP id d9443c01a7336-2219ff600b7mr11658985ad.24.1740087056262;
-        Thu, 20 Feb 2025 13:30:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHNaLSENnRatqWhogdEYw5CUZWUoO3mcRQXara8Vz/XKsvoelzsFfaRcRLsxSscNETH5JB+8w==
-X-Received: by 2002:a17:902:da91:b0:220:c143:90a0 with SMTP id d9443c01a7336-2219ff600b7mr11658495ad.24.1740087055823;
-        Thu, 20 Feb 2025 13:30:55 -0800 (PST)
-Received: from [10.71.108.77] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d559089asm125179175ad.241.2025.02.20.13.30.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 13:30:55 -0800 (PST)
-Message-ID: <e97d17ca-be8c-42a2-9767-77d73eaa916c@oss.qualcomm.com>
-Date: Thu, 20 Feb 2025 13:30:53 -0800
+	s=arc-20240116; t=1740090919; c=relaxed/simple;
+	bh=/C2Rlqx9oCGhWC/a5yMv7OJLitq498eexdp4HfCaqsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WSlfZIKKsOqW/MrQ+MoEEblT0eaVQOod0H2uYN17Dt0G14AFra1cFDcmSQlhrkVkE5QFYNg2fpwySzRohPWhqHwMdzNe0crgiQ0XzzttgcldT2iqFhV5kk5x6HyxNwEh6RCWnNikzCZNtydQ9arp1gI9c/kS3e6jwLktEpomNFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrj99wEf; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740090918; x=1771626918;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/C2Rlqx9oCGhWC/a5yMv7OJLitq498eexdp4HfCaqsI=;
+  b=nrj99wEf5WgIo+yftfSUEQNgaka4Rfp6ka9wIzVdaF+HDz34qEVLHL/N
+   9gLYhm6vWsaxVH+VhK1eYO3bjhWUODBFNE6zRgcL0ne/U7dG0wsnQwh/l
+   //mEmTTXUNpeZkDt3jYzL3nTj9o4rzQbAjiEgWR8nmfVsgRFM4UWz2iOU
+   BxD60M8mKrXgKKvzWN6ZlajWfohUt45AwvvRvu5AvqInAGcgCnm1H3Gjm
+   8n2GiQhSjMyTYI3mTIO5x6+vN6u2ODHjmqOJzdg9rMfJI8kJTsKIdvDsH
+   OG7UhADAGiXrjNPlFRlfGDVed9F9jGIqrY14N5gtUumTfCTCng59btGIo
+   Q==;
+X-CSE-ConnectionGUID: SZ3GdZvMQTumQ9uMjsFdzA==
+X-CSE-MsgGUID: VEdndNybSVmMRpAuG/pphA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40081558"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="40081558"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 14:35:17 -0800
+X-CSE-ConnectionGUID: jgY90kUbTcaN9l8dvWWHYw==
+X-CSE-MsgGUID: PWlBssE9SDy5pYp9Zx8uzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="120163177"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 20 Feb 2025 14:35:16 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlF8T-0004pL-28;
+	Thu, 20 Feb 2025 22:35:13 +0000
+Date: Fri, 21 Feb 2025 06:34:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eddie James <eajames@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [lee-leds:for-leds-next 7/10] drivers/leds/leds-pca955x.c:509:15:
+ error: implicit declaration of function 'pca955x_num_led_regs'; did you mean
+ 'pca955x_num_input_regs'?
+Message-ID: <202502210631.1wjjGDNd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Add support for 6-bit PWM
- resolution
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@kernel.org, andersson@kernel.org, krzysztof.kozlowski@linaro.org,
-        morf3089@gmail.com, u.kleine-koenig@pengutronix.de,
-        marijn.suijten@somainline.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Zejiong Huang <zejiongh@qti.qualcomm.com>
-References: <20250213003533.1684131-1-anjelique.melendez@oss.qualcomm.com>
- <20250220145522.GA778229@google.com>
-Content-Language: en-US
-From: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
-In-Reply-To: <20250220145522.GA778229@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: F7xRpFCSK_JR4WqfORcAFW1AE1hgfugZ
-X-Proofpoint-GUID: F7xRpFCSK_JR4WqfORcAFW1AE1hgfugZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_09,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=999 spamscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- adultscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502200143
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   2f372a5dce6885f1d2647f7add01756bee0fef49
+commit: 14ef0738a31dcecfbba38626884b7d9a60b75cd0 [7/10] leds: pca955x: Optimize probe LED selection
+config: i386-buildonly-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502210631.1wjjGDNd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210631.1wjjGDNd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210631.1wjjGDNd-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/leds/leds-pca955x.c: In function 'pca955x_probe':
+>> drivers/leds/leds-pca955x.c:509:15: error: implicit declaration of function 'pca955x_num_led_regs'; did you mean 'pca955x_num_input_regs'? [-Werror=implicit-function-declaration]
+     509 |         nls = pca955x_num_led_regs(chip->bits);
+         |               ^~~~~~~~~~~~~~~~~~~~
+         |               pca955x_num_input_regs
+   cc1: some warnings being treated as errors
 
 
+vim +509 drivers/leds/leds-pca955x.c
 
-On 2/20/2025 6:55 AM, Lee Jones wrote:
-> On Wed, 12 Feb 2025, Anjelique Melendez wrote:
-> 
->> Currently, driver only allows for PWM modules to use 9-bit resolution.
->> However, PWM modules can support 6-bit and 9-bit resolution. Add support
->> for 6-bit resolution.
->>
->> Suggested-by: Zejiong Huang <zejiongh@qti.qualcomm.com>
->> Signed-off-by: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
->> ---
->>   drivers/leds/rgb/leds-qcom-lpg.c | 13 +++++++------
->>   1 file changed, 7 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
->> index f3c9ef2bfa57..4e5c56ded1f0 100644
->> --- a/drivers/leds/rgb/leds-qcom-lpg.c
->> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
->> @@ -24,6 +24,7 @@
->>   #define LPG_PATTERN_CONFIG_REG	0x40
->>   #define LPG_SIZE_CLK_REG	0x41
->>   #define  PWM_CLK_SELECT_MASK	GENMASK(1, 0)
->> +#define  PWM_SIZE_SELECT_MASK	BIT(2)
-> 
-> Are you sure you want to shove this between 2 seemingly related defines?
-> 
-We placed the PWM_SIZE_SELECT_MASK here so we could group all the masks 
-used for PWM together then the masks used for Hi resolution PWM together
-i.e
-   1. pwm clk mask
-   2. pwm size mask
-   3. hi resolution pwm clk mask
-   4. hi resolution pwm size mask
+   440	
+   441	static int pca955x_probe(struct i2c_client *client)
+   442	{
+   443		struct pca955x *pca955x;
+   444		struct pca955x_led *pca955x_led;
+   445		const struct pca955x_chipdef *chip;
+   446		struct led_classdev *led;
+   447		struct led_init_data init_data;
+   448		struct i2c_adapter *adapter;
+   449		int i, bit, err, nls, reg;
+   450		u8 ls1[4];
+   451		u8 ls2[4];
+   452		struct pca955x_platform_data *pdata;
+   453		bool set_default_label = false;
+   454		bool keep_pwm = false;
+   455		char default_label[8];
+   456	
+   457		chip = i2c_get_match_data(client);
+   458		if (!chip)
+   459			return dev_err_probe(&client->dev, -ENODEV, "unknown chip\n");
+   460	
+   461		adapter = client->adapter;
+   462		pdata = dev_get_platdata(&client->dev);
+   463		if (!pdata) {
+   464			pdata =	pca955x_get_pdata(client, chip);
+   465			if (IS_ERR(pdata))
+   466				return PTR_ERR(pdata);
+   467		}
+   468	
+   469		/* Make sure the slave address / chip type combo given is possible */
+   470		if ((client->addr & ~((1 << chip->slv_addr_shift) - 1)) !=
+   471		    chip->slv_addr) {
+   472			dev_err(&client->dev, "invalid slave address %02x\n",
+   473				client->addr);
+   474			return -ENODEV;
+   475		}
+   476	
+   477		dev_info(&client->dev, "leds-pca955x: Using %s %d-bit LED driver at "
+   478			 "slave address 0x%02x\n", client->name, chip->bits,
+   479			 client->addr);
+   480	
+   481		if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+   482			return -EIO;
+   483	
+   484		if (pdata->num_leds != chip->bits) {
+   485			dev_err(&client->dev,
+   486				"board info claims %d LEDs on a %d-bit chip\n",
+   487				pdata->num_leds, chip->bits);
+   488			return -ENODEV;
+   489		}
+   490	
+   491		pca955x = devm_kzalloc(&client->dev, sizeof(*pca955x), GFP_KERNEL);
+   492		if (!pca955x)
+   493			return -ENOMEM;
+   494	
+   495		pca955x->leds = devm_kcalloc(&client->dev, chip->bits,
+   496					     sizeof(*pca955x_led), GFP_KERNEL);
+   497		if (!pca955x->leds)
+   498			return -ENOMEM;
+   499	
+   500		i2c_set_clientdata(client, pca955x);
+   501	
+   502		mutex_init(&pca955x->lock);
+   503		pca955x->client = client;
+   504		pca955x->chipdef = chip;
+   505	
+   506		init_data.devname_mandatory = false;
+   507		init_data.devicename = "pca955x";
+   508	
+ > 509		nls = pca955x_num_led_regs(chip->bits);
+   510		/* Use auto-increment feature to read all the LED selectors at once. */
+   511		err = i2c_smbus_read_i2c_block_data(client,
+   512						    0x10 | (pca955x_num_input_regs(chip->bits) + 4), nls,
+   513						    ls1);
+   514		if (err < 0)
+   515			return err;
+   516	
+   517		for (i = 0; i < nls; i++)
+   518			ls2[i] = ls1[i];
+   519	
+   520		for (i = 0; i < chip->bits; i++) {
+   521			pca955x_led = &pca955x->leds[i];
+   522			pca955x_led->led_num = i;
+   523			pca955x_led->pca955x = pca955x;
+   524			pca955x_led->type = pdata->leds[i].type;
+   525	
+   526			switch (pca955x_led->type) {
+   527			case PCA955X_TYPE_NONE:
+   528			case PCA955X_TYPE_GPIO:
+   529				break;
+   530			case PCA955X_TYPE_LED:
+   531				bit = i % 4;
+   532				reg = i / 4;
+   533				led = &pca955x_led->led_cdev;
+   534				led->brightness_set_blocking = pca955x_led_set;
+   535				led->brightness_get = pca955x_led_get;
+   536	
+   537				if (pdata->leds[i].default_state == LEDS_DEFSTATE_OFF)
+   538					ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_OFF);
+   539				else if (pdata->leds[i].default_state == LEDS_DEFSTATE_ON)
+   540					ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_ON);
+   541	
+   542				init_data.fwnode = pdata->leds[i].fwnode;
+   543	
+   544				if (is_of_node(init_data.fwnode)) {
+   545					if (to_of_node(init_data.fwnode)->name[0] ==
+   546					    '\0')
+   547						set_default_label = true;
+   548					else
+   549						set_default_label = false;
+   550				} else {
+   551					set_default_label = true;
+   552				}
+   553	
+   554				if (set_default_label) {
+   555					snprintf(default_label, sizeof(default_label),
+   556						 "%d", i);
+   557					init_data.default_label = default_label;
+   558				} else {
+   559					init_data.default_label = NULL;
+   560				}
+   561	
+   562				err = devm_led_classdev_register_ext(&client->dev, led,
+   563								     &init_data);
+   564				if (err)
+   565					return err;
+   566	
+   567				set_bit(i, &pca955x->active_pins);
+   568	
+   569				/*
+   570				 * For default-state == "keep", let the core update the
+   571				 * brightness from the hardware, then check the
+   572				 * brightness to see if it's using PWM1. If so, PWM1
+   573				 * should not be written below.
+   574				 */
+   575				if (pdata->leds[i].default_state == LEDS_DEFSTATE_KEEP) {
+   576					if (led->brightness != LED_FULL &&
+   577					    led->brightness != LED_OFF &&
+   578					    led->brightness != LED_HALF)
+   579						keep_pwm = true;
+   580				}
+   581			}
+   582		}
+   583	
+   584		for (i = 0; i < nls; i++) {
+   585			if (ls1[i] != ls2[i]) {
+   586				err = pca955x_write_ls(pca955x, i, ls2[i]);
+   587				if (err)
+   588					return err;
+   589			}
+   590		}
+   591	
+   592		/* PWM0 is used for half brightness or 50% duty cycle */
+   593		err = pca955x_write_pwm(pca955x, 0, 255 - LED_HALF);
+   594		if (err)
+   595			return err;
+   596	
+   597		if (!keep_pwm) {
+   598			/* PWM1 is used for variable brightness, default to OFF */
+   599			err = pca955x_write_pwm(pca955x, 1, 0);
+   600			if (err)
+   601				return err;
+   602		}
+   603	
+   604		/* Set to fast frequency so we do not see flashing */
+   605		err = pca955x_write_psc(pca955x, 0, 0);
+   606		if (err)
+   607			return err;
+   608		err = pca955x_write_psc(pca955x, 1, 0);
+   609		if (err)
+   610			return err;
+   611	
 
-Would you rather have definitions grouped based on mask type?
-i.e
-   1. pwm clk mask
-   2. hi resolution pwm clk mask
-   3. pwm size mask
-   4. hi resolution pwm size mask
-
-
->>   #define  PWM_CLK_SELECT_HI_RES_MASK	GENMASK(2, 0)
->>   #define  PWM_SIZE_HI_RES_MASK	GENMASK(6, 4)
->>   #define LPG_PREDIV_CLK_REG	0x42
-
-Thanks,
-Anjelique
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
