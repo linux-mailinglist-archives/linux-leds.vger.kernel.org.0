@@ -1,151 +1,181 @@
-Return-Path: <linux-leds+bounces-4014-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4015-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2053EA3D58D
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 10:57:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4343BA3D644
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 11:16:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF1633AAC1A
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 09:57:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16D2817B9C8
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 10:16:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9F191F0E28;
-	Thu, 20 Feb 2025 09:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D2C1F03E8;
+	Thu, 20 Feb 2025 10:15:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="mNqV0fLu"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WVNMrGyc"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0209F1F03EB
-	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 09:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FBE1F03E5
+	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 10:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740045439; cv=none; b=iNmccASD5gKkiCx2KIJzPrq10bMZ8Qk+fdYcTo+stVPmTYeSA2mIOCIpgqdO9+vW2ofbz906njAWUnUpajmdpBpLvOOhdHZYaY1jmMLG9DQ4AySUhocS7rCzRUV4Z40/ys5zrBkheaamDKSHcEepZyLggRsiiRd4dSHlGeuKTl8=
+	t=1740046554; cv=none; b=dA31cOjCF+yteu0ZKjjVVykdhbp5VPhtVf71903mK+ulkDclre+H1iLZilF34aPGHRzmR1O5SMWN/yJg7g4wcVVioftGIchyQ3gSOr5Ta3LBQP1s9cWlzEtOQpPlaS1gVHTHIeUAqj1JRerkIrkKisRXur8M7OHPFYSXS/f2bmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740045439; c=relaxed/simple;
-	bh=/gqeqRwMs8CevwwaRvu7rMfOHz8FGAeaeJay3AIimak=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UM4Bn1SG1YL5s53AXxfZF9qd5fxbx3EW2DUbiE8PJrjvJXKceavd1ESgA9/fXD1AgUUihxZ3WLBhQ90pNTaPTXfAyedFuhGrO7hW1qYi/SXXKUnEE3y108CnGj0ihG7Ck5TF9/tQKUTEyXCxT+yXbiyQPMmDMOS3Qcj14wDHVig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=mNqV0fLu; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43989226283so4475435e9.1
-        for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 01:57:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1740045436; x=1740650236; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ePE6aVSyq82nNiteS0eDm4Murw6GeKSP9YRuA1+AOq4=;
-        b=mNqV0fLuVu2L5+QXJoh2GuOOj6dnK1k0W/KI80AeBRCN7EfV/v29KcZzC7aS3NGi5g
-         02GsEZLzfR1cDUH7vFqFyDIl/8o49E928FwZVOorLuc8KVVfJDifD9UFqQigN60P4hDZ
-         J12zXzOhcUhKAUoaqbiWO9amXXxMy+uRJe7IpIhmt/Vg66yKdYlpYUiwWgFqJZi6LxJA
-         oWyis+a8oqroRe7E0VaP1JCvnyRINAHmGHrAbgty0Cm3pMYIvsfZI5cds3k+bb6M6loQ
-         nrH0mhrweh1v+z7SlIyc7HukEx2rLnNYpo0e3iTGSc18jZP2CkouI3qZ0EszG7JgQcYs
-         LNgg==
+	s=arc-20240116; t=1740046554; c=relaxed/simple;
+	bh=9NdHty/qXXHevrqZTlhaGK+GjngNvreBPr3m97uQbS4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o1201A6pXy6uKxJnLJqR0JYB9N4PidEl3e3oZRPlsBXXfW/+A8ApeQt+gkHwi7QZBwjw2C0oOLMKoak3zJrdX62P+XS1SgSeWJ7EnRLj9D0vqGv+qwFqG4zAZ9rWHgjmeRhZAkwbaypca9swHUpnmMNjuLqDwS44irQPpZwx254=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WVNMrGyc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740046551;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0lOieDFJGuf9n9Z9p1RYtcsNxHaDLi5VEtVsV6J0yw=;
+	b=WVNMrGyczXomSmi6VAI1U0PDIZiWrvJHeikJYJEdPka+P7bcmeNY2bxgI4CTdfW9kAhpFJ
+	qGHSEQMIY0X4uq4qdYEp6FmUAMBHS/yyIHnJpuaOKHze9SgAQr2u0aTeHLRFBghF4Efy+i
+	pAfB1REOAtBqntTF02yQbZqB9xHSHOw=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-7-cuH1XyS8Nj68o2eE6sbFnA-1; Thu, 20 Feb 2025 05:15:49 -0500
+X-MC-Unique: cuH1XyS8Nj68o2eE6sbFnA-1
+X-Mimecast-MFC-AGG-ID: cuH1XyS8Nj68o2eE6sbFnA_1740046549
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ab7f6f6cd96so138080766b.2
+        for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 02:15:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740045436; x=1740650236;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ePE6aVSyq82nNiteS0eDm4Murw6GeKSP9YRuA1+AOq4=;
-        b=px2MHXn7le4u4rXH0IQGF0SbGpusizz5GY/xUK0T1oHAbSDOMIEAJtdduYpXzmmCl+
-         Ior7w6gHTAFti9cTBfU8if4A3WU3jHvtr9lgCwUvfwcWQ+NB8022HYfCn3yYSJkfvOdD
-         8CatzD1K0hn6SXyznNpWa66rwenFz5nabbnVFOdEZofXUnRowNJARe3RpNKe63zakKPQ
-         Cz9/ZtMfPr+xyTq7aS2dt2AsRhld7sqgS0eRNFIKwGxQdiOpLQB0BNY55AwiEgndAw6K
-         KaH+fm+SzUu+gVuIrUu6B2+jJm6yTH6kbpn3zTrHGAs8qtQdQsAYzpfEFifbBkJc+fip
-         /A4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXAGIKJJMlmjURxglUkhrT9dcxsFjjtTgA25OitSqxinHLQFXc7uTt3NlSrN0eh5bTOhAZQSZdO1DgZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLBIJrwanSzOylUrcPepf2NYyyLCvEPvjdUDC0yw4VY26IfwOZ
-	GZ0diVXhfXZ+g+6x3fZu89QkIshm8nIcFe5kFg3wL/5Zy+RZccjHV2ssY0J5GUM=
-X-Gm-Gg: ASbGncsCs0xEr6GxbbCY6dr17N02ckfyf9jvVxLcdtxoet+ap6QXDPt8ju37t3BTavZ
-	t/Ait23b/2IbV15L7Vj9Atw9kdaN4o0BNLkYt1b1+l3ChxftaPnB2za5IquEli3qgUS7f/rY7Br
-	JNMMRpW9XauCEl28g0IUae4TK36f6K3UCy+5oOXISAmy6KUxzHMl3PvxF9KZNImjmEbIMkrXzsj
-	A9Y9SA32FL6pwcfZPac2N32hV0cH8DFZ9I7lRpVn5hw5T9C6SxDqUupGDOUhTkyVqY2RL4iFjK3
-	UiQOyR0=
-X-Google-Smtp-Source: AGHT+IEJ18E0znCg/W6pI6SBZ6POwzntvKs5Wddj1jzrAx7EMhapZSXX+0+m/ezVaZFBdWbuk2I/Mg==
-X-Received: by 2002:a05:6000:b07:b0:38f:2a5e:f169 with SMTP id ffacd0b85a97d-38f651405d3mr1047722f8f.37.1740045436112;
-        Thu, 20 Feb 2025 01:57:16 -0800 (PST)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:e2e4:418d:7462:9cf])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d65dfsm20509174f8f.64.2025.02.20.01.57.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 01:57:15 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 20 Feb 2025 10:56:58 +0100
-Subject: [PATCH v2 01/15] leds: aw200xx: don't use return with
- gpiod_set_value() variants
+        d=1e100.net; s=20230601; t=1740046548; x=1740651348;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f0lOieDFJGuf9n9Z9p1RYtcsNxHaDLi5VEtVsV6J0yw=;
+        b=lQY228SlrAl8dpf9SOurVANkeyQV2kvy6jr8afMXxnuinh1bJ5BZayCHCn3v2rC526
+         tJwnxQzPSCKxwG1/p5rtqkvMsS6suNbR8v6giMBQQ5GHUkAOPXLFKl+vm27vmWHd66aZ
+         4EyK9syMU4RW76AIoD3WSztmmRVLlLYLs9y9Vdwl2wkJ+jAbh33VjTbs4J9WD7YauPbX
+         h2WGLoz8IAP5djs86v1TJnUhed/0yOHuAFBAVHFhy94ZWxZ8FQ10M26fCj/E1r/cptMW
+         KwrDVnsCrDUgQeC9xoQbdxl38x651CLl6vyHKG76kRh9ygPqtm3MJ+OynNol+4WMnp/C
+         lqyg==
+X-Gm-Message-State: AOJu0Ywi50347JgRexQqaUscBM9dSyWsjs0QaJ9RxTMXbSM9b82X2bMO
+	3SwE9DDaBR0xUjZVww7lTGVF67gkWa07WgedFatjlEJD2HcJ02G9tMvCik6c+btIm90no87W1wl
+	oVqOpJEQ5yhdyt9AXOv3FDKxjs+h2mihS9SPuTPv6pcFMXIzJr7rAW5bO/1U=
+X-Gm-Gg: ASbGncsy419LFByIXIZBo48WIAeUaIGIWGZSDSVeUr6VpukntksmXZKlDztwCkXrOLV
+	Ce88TsYQv/1WP61aUzDFa9u9+yMVFjdhsVggzpQFfxOxNEFjRq7K8gCA7VRzeqfsz1LAyuT76J2
+	KkVjxsR9AEYjFRTbdL35xs25UMchWAm7C/g+Ax//CSCczr+kg11+sp34aNqDSRdHwLs9xG81j0T
+	TFDv/nf4PVLNDWmivW1hYOMdGceH524T20mZ3VL5yLL2IQ/v1KOBmajucDvIeIzXE/tSk75OxSM
+	JV2EfLu4Za56lnZRy9WCRTIsh9lyRrk9YTXl7aMUryceDo24TEVCJaoMCQHjLo1huScUDFbue2h
+	soYzjuwxpd+BjnUPE+USedgn4OB3b43qQkaH8s+5K+kZ7XlJMVF5k1KU=
+X-Received: by 2002:a17:907:890d:b0:ab7:b589:4f9e with SMTP id a640c23a62f3a-abbf3cb9821mr204653666b.39.1740046548563;
+        Thu, 20 Feb 2025 02:15:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFsci5hMHI8bHshKq0WmvJmdBW2u6ItgvalIOqwsQQPyPAwE35l+KG7VmzL+LgVw3fVRYVE0A==
+X-Received: by 2002:a17:907:890d:b0:ab7:b589:4f9e with SMTP id a640c23a62f3a-abbf3cb9821mr204650166b.39.1740046548098;
+        Thu, 20 Feb 2025 02:15:48 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb8915db0dsm908550666b.145.2025.02.20.02.15.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 02:15:47 -0800 (PST)
+Message-ID: <56f42c2e-94e9-4cb8-8046-2b9ef02995e0@redhat.com>
+Date: Thu, 20 Feb 2025 11:15:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: Fix LED_OFF brightness race
+To: Remi Pommarel <repk@triplefau.lt>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>
+References: <26a2690e77671cfe687c5614613fbb6f079f7365.1739959820.git.repk@triplefau.lt>
+ <e8ab8707-5ed3-44e6-b52b-a1d6131e7c51@redhat.com> <Z7br2g8Rc9Tkcsle@pilgrim>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Z7br2g8Rc9Tkcsle@pilgrim>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250220-gpio-set-retval-v2-1-bc4cfd38dae3@linaro.org>
-References: <20250220-gpio-set-retval-v2-0-bc4cfd38dae3@linaro.org>
-In-Reply-To: <20250220-gpio-set-retval-v2-0-bc4cfd38dae3@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Michael Walle <mwalle@kernel.org>, 
- Bamvor Jian Zhang <bamv2005@gmail.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, Keerthy <j-keerthy@ti.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pwm@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- linux-leds@vger.kernel.org, kernel test robot <lkp@intel.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1051;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=PIuGkhnXNIukoW+JQ2UdGjN/QTq1yPTYeOxQX3xtWd8=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBntvx2ZKtP4FP+4pU3UV9J1oA5xxYaJP4wFaj6s
- eKwF6do6XaJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ7b8dgAKCRARpy6gFHHX
- ctGWEADaiKjypEdiDNeOeEm1nP8JwKq7Occ+KYMcJrlW2mkA6sC+tG3lFxgXKdHHkra8cMdvmeE
- yKalq+0h/rNSkpMUJhlg1TMVaFucMWJSqvZca28OccapHZu24j3I4l/+A9kapSZvlk8n9/kC6o8
- N5AfP+VRR3Q+Zj4V5sq0NYLAuRHwQOx/oESmv8OFHwI5ihgB4rGXQh5Qhwp2JjitTiZDy8QAS6m
- frYj/XuUZXMo1yCr/uCgSgEyDvWe3vhZkRj48p+eivBPeibHsRXJaa9fTzutNFfdIfCna8TIZXJ
- g95pL2mCdWhrGWwIuj6jccIUSyV+twxjrXorYhRB4ZaDREF/hu1MD8mFRIp8PUxCk1T3Shhsdwj
- 3IEcpvxalJHy8mckvNeOpQGqoL6bphxTTQbz0hKJfelAdbdNkph5Yvy93r08vg+YM9AxGJqlqQM
- TYOcyugVDZUc92iHjac5lV/rz5h2LjhYhDrCJ1ZE5rse9uhAoLfMpfWHLiIohS1N43NM5xr+atb
- ILkzVHghd/xo6/q40EF4GOhyVmDR2Xvenw+T4rH4zad2I3KlyVEbuNxwKFIc9kkTIEEySJVXARm
- DmO75+rvkfLQb5t648rPOARandd31y2oTkZE3B6z+Mi3r2sR2TPuLVSwoMaxf5LMTvA2ds/UyhC
- HngwkMA5k2QKIBw==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi,
 
-While gpiod_set_value() currently returns void, it will soon be converted
-to return an integer instead. Don't do `return gpiod_set...`.
+On 20-Feb-25 9:46 AM, Remi Pommarel wrote:
+> On Wed, Feb 19, 2025 at 12:52:36PM +0100, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 19-Feb-25 11:41 AM, Remi Pommarel wrote:
+>>> While commit fa15d8c69238 ("leds: Fix set_brightness_delayed() race")
+>>> successfully forces led_set_brightness() to be called with LED_OFF at
+>>> least once when switching from blinking to LED on state so that
+>>> hw-blinking can be disabled, another race remains. Indeed in
+>>> led_set_brightness(LED_OFF) followed by led_set_brightness(any)
+>>> scenario the following CPU scheduling can happen:
+>>>
+>>>     CPU0                                     CPU1
+>>>     ----                                     ----
+>>>  set_brightness_delayed() {
+>>>    test_and_clear_bit(BRIGHTNESS_OFF)
+>>>                                          led_set_brightness(LED_OFF) {
+>>>                                            set_bit(BRIGHTNESS_OFF)
+>>> 					   queue_work()
+>>>                                          }
+>>>                                          led_set_brightness(any) {
+>>>                                            set_bit(BRIGHTNESS)
+>>> 					   queue_work() //already queued
+>>>                                          }
+>>>    test_and_clear_bit(BRIGHTNESS)
+>>>      /* LED set with brightness any */
+>>>  }
+>>>
+>>>  /* From previous CPU1 queue_work() */
+>>>  set_brightness_delayed() {
+>>>    test_and_clear_bit(BRIGHTNESS_OFF)
+>>>      /* LED turned off */
+>>>    test_and_clear_bit(BRIGHTNESS)
+>>>      /* Clear from previous run, LED remains off */
+>>>
+>>> In that case the led_set_brightness(LED_OFF)/led_set_brightness(any)
+>>> sequence will be effectively executed in reverse order and LED will
+>>> remain off.
+>>>
+>>> With the introduction of commit 32360bf6a5d4 ("leds: Introduce ordered
+>>> workqueue for LEDs events instead of system_wq") the race is easier to
+>>> trigger as sysfs brightness configuration does not wait for
+>>> set_brightness_delayed() work to finish (flush_work() removal).
+>>>
+>>> Use delayed_set_value to optionnally re-configure brightness after a
+>>> LED_OFF. That way a LED state could be configured more that once but
+>>> final state will always be as expected.
+>>>
+>>> Fixes: fa15d8c69238 ("leds: Fix set_brightness_delayed() race")
+>>> Signed-off-by: Remi Pommarel <repk@triplefau.lt>
+>>
+>> Thanks, patch looks good to me:
+>>
+> 
+> Actually two additionnal remarks here. The first one is that now more
+> than before, delayed_set_value store should be seen before work_flags
+> modification on other CPUs. That means that a smp_mb__before_atomic()
+> is needed before the two set_bit().
+> 
+> The second one is that delayed_set_value can be bigger than a single
+> byte, so theoretically store tearing can happen and
+> set_brightness_delayed_set_brightness() could be called with an invalid
+> value. WRITE_ONCE/READ_ONCE could prevent that but because the
+> smp_mb__before_atomic() ensures that the "last" delayed_set_value is
+> valid I don't mind having very seldom intermediate invalid values.
+> 
+> So I think a v2 with smp_mb__before_atomic() is needed here, what do you
+> think ?
 
-Cc: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202502121512.CmoMg9Q7-lkp@intel.com/
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/leds/leds-aw200xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Doing a v2 with smp_mb__before_atomic() sounds good to me.
 
-diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-index 08cca128458c..fe223d363a5d 100644
---- a/drivers/leds/leds-aw200xx.c
-+++ b/drivers/leds/leds-aw200xx.c
-@@ -379,7 +379,7 @@ static void aw200xx_enable(const struct aw200xx *const chip)
- 
- static void aw200xx_disable(const struct aw200xx *const chip)
- {
--	return gpiod_set_value_cansleep(chip->hwen, 0);
-+	gpiod_set_value_cansleep(chip->hwen, 0);
- }
- 
- static int aw200xx_probe_get_display_rows(struct device *dev,
+Regards,
 
--- 
-2.45.2
+Hans
 
 
