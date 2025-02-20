@@ -1,106 +1,109 @@
-Return-Path: <linux-leds+bounces-4033-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4034-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25936A3DF9D
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 17:00:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B566A3E10E
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 17:41:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 138A33B14D9
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 15:58:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BFBE18827F1
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 16:40:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57361FECBA;
-	Thu, 20 Feb 2025 15:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409F92080CE;
+	Thu, 20 Feb 2025 16:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="trpXHrN/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHew2h1L"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CC513BACC;
-	Thu, 20 Feb 2025 15:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0990313A87C;
+	Thu, 20 Feb 2025 16:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740067118; cv=none; b=X+oCr1GhCdK0HkuQCMIEBh8SI0Bf8B9woH+qIBvMZVPZ4qCvzkqwjHWyAR+KjKHj4NB4FXpUn01/D1QDeG8JpeoJ9m5a8JslbPOBeA1aTQGK5RypxwkhcuITwJzF4yAJSFz/cuy8mZSjH8YpDpvrRwLEp9TlTB2dUFdsFTf5tkI=
+	t=1740069620; cv=none; b=pkSHXwgs7qtw8XA3mXT7MRukzrPqRpcJEZ2JmOdUHADqZGdCJHzJTOsWrIKZo5PB0fhuHkSm9zcNJLYAw0cMg57DXg7Q7oQ1yz2VIYBtZYsgnViLNzWW7YyfLICe/dFxPHKvLyfasoLvV94vAVh/9fNeCHkkQ2NFJ7gDJKUx1IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740067118; c=relaxed/simple;
-	bh=14rJoV0ANKQdFBTR+duDJVpDee6Cz/q0o6NV+rmiOU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YsvtgEyBsqHgr8Qg+RMu11R7//IKMo3escMEnJrcpywXOUI70Q7cu9//cAMIQRI10YTKU+ibYD+pss1lBf3QGqUt4k42dQAFFlqKYuMcBdTQJv2td3S1+kI2ZMjz9rj3wBZxm4gc7eUbiMkvMG1BXyShRtLPtMsXsdAM90MrYWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=trpXHrN/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B24C4CED1;
-	Thu, 20 Feb 2025 15:58:36 +0000 (UTC)
+	s=arc-20240116; t=1740069620; c=relaxed/simple;
+	bh=yGrW1sKVebqJhUcMcxVBHgSJO25Iq3FjkThrAN2NsKI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jGqtUtrkfbzS4oGTwhFKYqLEfpBbV9+23duh1imsDRl6YQGeMC3GbctqqHSTv3lXVTetkMnFbk1+wFd3qCCbUr7I4WZ20jbQ8VOBr569v9CLSwAz1s9GSyRGCciA2g3UPRZsYgi0NtSb3GSn8CzBlCzhTMhahTR00RvCOmdJJ2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHew2h1L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0A0BC4CEE2;
+	Thu, 20 Feb 2025 16:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740067118;
-	bh=14rJoV0ANKQdFBTR+duDJVpDee6Cz/q0o6NV+rmiOU0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=trpXHrN/WRxpPIJd+Ki2aEBFIqN+k8UcruG6iXcDDywo9WlieD1+Bw2YKnzMJt69I
-	 O46Ae0Vk3LQQRmIT+kZdXWHpEYnkCdxcO5BEZSPjMB461rJk295ALffb9zLLPMC3FB
-	 If1aYim7UPVG1wVS2+lnMxyKWltMvhcWDpvhaKqk7ZZFi8W7d87vPxDgUSmoCWk1su
-	 p8WPtuH9y8IApUc7Jh0ylR5gC/GR/eRSYCki12I7sj35+7hHHsFhZS0o/MK8FMF8V5
-	 LXptJhQPF3K+R2ALxVqGeA9n+xq5yCkpet1LxmAobfpIqllQi2dEjjSfZJEmDOUVRc
-	 Pra3pEexReqTQ==
-Date: Thu, 20 Feb 2025 15:58:34 +0000
+	s=k20201202; t=1740069619;
+	bh=yGrW1sKVebqJhUcMcxVBHgSJO25Iq3FjkThrAN2NsKI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oHew2h1LIKFuHP5TwtrVGg/jFxVLEXSmPMZl7Xhszm2Xyi1SttuJs9BIgQ7vBaGRR
+	 jZos+8vIqCLhl5cFJYAnfe4S1pVsT4uAnKwJ85f62W1xwYFq78EaGEGy1yyciNZsrJ
+	 ru3CSoK9qE97a+g5ptUBJAagw4h1DZXIaMST12BLJ/TRjM6oKEt/XCj8QbEbb1jvwA
+	 A8qIsu6H+ik/8g1IsZUb5MfVGjvmRn16Zzc5ac/D9SkNsdEql7bfER/G0XjV/fEYPH
+	 8CPHTWoAU7Vse7YZV8Ex5i9AgQqQB1OBSDPIy5xQqusu1t6YtnsKjS8Ri2IT9UxbRT
+	 9tdrXfpsTaoSg==
 From: Lee Jones <lee@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Pavel Machek <pavel@kernel.org>,
-	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: st1202: Fix an error handling path in
- st1202_probe()
-Message-ID: <20250220155834.GA824852@google.com>
-References: <4afa457713874729eb61eec533a4674a51d1d242.1739985599.git.christophe.jaillet@wanadoo.fr>
+To: Sebastian Reichel <sre@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+ Purism Kernel Team <kernel@puri.sm>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
+References: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
+Subject: Re: [PATCH v17 0/7] Add support for Maxim Integrated MAX77705 PMIC
+Message-Id: <174006961563.882548.1668950876404410080.b4-ty@kernel.org>
+Date: Thu, 20 Feb 2025 16:40:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4afa457713874729eb61eec533a4674a51d1d242.1739985599.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: b4 0.15-dev-510f9
 
-On Wed, 19 Feb 2025, Christophe JAILLET wrote:
-
-> devm_mutex_init() may return -ENOMEM.
-> So this error should be handled in st1202_probe().
-
-The start of a new sentence shouldn't warrant a line break.
-
-> Fixes: 259230378c65 ("leds: Add LED1202 I2C driver")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/leds/leds-st1202.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+On Thu, 23 Jan 2025 18:04:25 +0300, Dzmitry Sankouski wrote:
+> The Maxim MAX77705 is a Companion Power Management and Type-C
+> interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+> Type-C management IC. It's used in Samsung S series smart phones
+> starting from S9 model.
 > 
-> diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
-> index b691c4886993..4fc17d518292 100644
-> --- a/drivers/leds/leds-st1202.c
-> +++ b/drivers/leds/leds-st1202.c
-> @@ -356,7 +356,10 @@ static int st1202_probe(struct i2c_client *client)
->  	if (!chip)
->  		return -ENOMEM;
->  
-> -	devm_mutex_init(&client->dev, &chip->lock);
-> +	ret = devm_mutex_init(&client->dev, &chip->lock);
-> +	if (ret < 0)
-
-My assumption is that anything but 0 would be bad, thus:
-
-	if (ret)
-
-> +		return ret;
-> +
->  	chip->client = client;
->  
->  	ret = st1202_dt_init(chip);
-> -- 
-> 2.48.1
+> Add features:
+>   - charger
+>   - fuelgauge
+>   - haptic
+>   - led
 > 
+> [...]
 
--- 
+Applied, thanks!
+
+[1/7] dt-bindings: power: supply: add maxim,max77705 charger
+      commit: af280f29f32c885942f67edacfeae7d9b6e897a4
+[2/7] dt-bindings: mfd: add maxim,max77705
+      commit: 2ae4ffff28bf48a7144591eed7081f746b98e130
+[3/7] power: supply: max77705: Add charger driver for Maxim 77705
+      commit: a6a494c8e3ce1fe84aac538b087a4cab868ed83f
+[4/7] mfd: simple-mfd-i2c: Add MAX77705 support
+      commit: 7b591ef98b3fc1ce20c3ccb86715429b72e2e6f0
+[5/7] mfd: Add new driver for MAX77705 PMIC
+      commit: c8d50f029748b73313838b64b829992b66ccb704
+[6/7] input: max77693: add max77705 haptic support
+      commit: eb79f3a5a51a1f484e2570d983dc9d8217e8f912
+[7/7] leds: max77705: Add LEDs support
+      commit: aebb5fc9a0d87916133b911e1ef2cc04a7996335
+
+--
 Lee Jones [李琼斯]
+
 
