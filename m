@@ -1,58 +1,59 @@
-Return-Path: <linux-leds+bounces-4025-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4026-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39B5A3DD67
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 15:55:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77B7A3DD8D
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 16:00:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD61D3A8B91
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 14:55:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0846189762F
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 15:00:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FE2A1D47C3;
-	Thu, 20 Feb 2025 14:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 635BE1F9F75;
+	Thu, 20 Feb 2025 15:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MzFDF3q+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jhwuq73G"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32361AF0AF;
-	Thu, 20 Feb 2025 14:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369051F584F;
+	Thu, 20 Feb 2025 15:00:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740063328; cv=none; b=A6J3otliAUmnvLn7/Gkta/hrpPZXN48XqtPsOz9mRyjg1l8EF9PZWSF4AC3Go4bni3DyV2FOgPWbqwy2yheZcPUOYk3hq4ltN72Lee91AoLyhoPDScPblnXti2zUHbh02SPUinIkSv+aWROJpUX2CMOmaZnhdt+2XqVOlIv8tcI=
+	t=1740063621; cv=none; b=qcQlwdj2W3d7x3BMikJ29ns+Lt4fRHmkCe6HnvboL4scwyNM3FikInY+6xD/uTBYbG+fO9A6qvipxdHTnc7BSIWbzWDeuPV1gJtEkeED5lTHygXiAaIS/T9jQsWl/7JMIyyqaYPt8nlUUY78K55cKaiytbQ1/dUabZdksR2+A8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740063328; c=relaxed/simple;
-	bh=x7a7QgwEQ8Ok2FjIVJZ6GJRoCewQcZ4Bi/rQyvwyGYg=;
+	s=arc-20240116; t=1740063621; c=relaxed/simple;
+	bh=4bckTq02vaYkp80bkNFN6Mdl+bCKGs+xiMduy7+da4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R2ls5XZ61ixQzChJonYF/axxBhQ1K9KTDcM0qzK5HX5itOspZ48SpBa1WcdcUAy3BkTkAGOygZoaIVaE+yZ66oQQvboVF3PcvSvx7x9++KTVtI2J52NRASVKLwCqx+kU4fgl7ZtusKP1tNU2hJQdXmsrYlEu2cnMNil7lXXH7TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MzFDF3q+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B178C4CED1;
-	Thu, 20 Feb 2025 14:55:25 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=PUKdxmMg9GDKgFMkMcYHHI6mF9VJOWu62XCPu3jGOkI9cUyav8r2z0sVbWxKKliDTfQfYz14reBc0NtqluFc1PfiuFprV91q/tO6lGXFQ99JrUTg93yCCtp567XRbrsI0it4e/uMWHX0+edePsBhg2tByNXOlrXZZpWSUcYB1FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jhwuq73G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE99CC4CEDD;
+	Thu, 20 Feb 2025 15:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740063327;
-	bh=x7a7QgwEQ8Ok2FjIVJZ6GJRoCewQcZ4Bi/rQyvwyGYg=;
+	s=k20201202; t=1740063620;
+	bh=4bckTq02vaYkp80bkNFN6Mdl+bCKGs+xiMduy7+da4Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MzFDF3q+fUoguQu7juLzjBlqSOY3A35Je9kgKU0yqmo7FJv4VikgzoUEltyL4Zk/i
-	 O1iTW09NoVBBxXvKJgx/mgWo7fsdfW3afCl5iV/VACxdwYzv5bEqxdir01tvEAidY1
-	 SMTsMTFmUUKZum38H/myeBg7STtZda9z8oo30RTrtweKXnkfpLos9vTUll+c9OBI5d
-	 F4lnkh9i5PTZ+e0GvYl/BXU3tiEE3AFF5N5jMUopIyR5DcPgRvY251bveBSmpoiGRy
-	 tXV7ewJWpEHWQX0P37OUqIUQuz5fZlN7qVB72sKhkhoeNMx/wr0p2AE67zj3PHEA/g
-	 A/Guz0t0e54Sw==
-Date: Thu, 20 Feb 2025 14:55:22 +0000
+	b=Jhwuq73GiLIkP8rLFDZ5sCdKaip/pnIr9jbsMzBNwAs+ue9U8dPoCj2Q5KHnqqEA+
+	 BNrRsPfS5NuNTMIuhQ82f9lgYHb1B/fJ2HCE99s5nkqFkHch3VnlINwJGlusQ4W93O
+	 sKLKUUB1XZzYTpD7tf5CQUK8Q1+JPlQNhinQFi1sF8trYC/7QkO8gaW4sVsANDz/KX
+	 rQYFuw55EW9GIZxmjxzvdBh8VYX5DtfoLQ+8BaWgO5uKFKF/9aK1fitTO0Uh5t2IJd
+	 qIUE5J87X/5KIXUUzE4/KzugfK8YRYmvzZYEbsJBR+E6ozfJJQ5luh9gDAdRLFgGlG
+	 yQ0ZkagfPiy7w==
+Date: Thu, 20 Feb 2025 15:00:16 +0000
 From: Lee Jones <lee@kernel.org>
-To: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
-Cc: pavel@kernel.org, andersson@kernel.org, krzysztof.kozlowski@linaro.org,
-	morf3089@gmail.com, u.kleine-koenig@pengutronix.de,
-	marijn.suijten@somainline.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Zejiong Huang <zejiongh@qti.qualcomm.com>
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Add support for 6-bit PWM
- resolution
-Message-ID: <20250220145522.GA778229@google.com>
-References: <20250213003533.1684131-1-anjelique.melendez@oss.qualcomm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: pavel@ucw.cz, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	simona@ffwll.ch, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 12/13] leds: backlight trigger: Replace fb events with a
+ dedicated function call
+Message-ID: <20250220150016.GC778229@google.com>
+References: <20250206154033.697495-1-tzimmermann@suse.de>
+ <20250206154033.697495-13-tzimmermann@suse.de>
+ <20250211135752.GT1868108@google.com>
+ <f4652dbd-7544-4a6d-98d0-f4b64d60a435@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,83 +63,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250213003533.1684131-1-anjelique.melendez@oss.qualcomm.com>
+In-Reply-To: <f4652dbd-7544-4a6d-98d0-f4b64d60a435@suse.de>
 
-On Wed, 12 Feb 2025, Anjelique Melendez wrote:
+On Thu, 13 Feb 2025, Thomas Zimmermann wrote:
 
-> Currently, driver only allows for PWM modules to use 9-bit resolution.
-> However, PWM modules can support 6-bit and 9-bit resolution. Add support
-> for 6-bit resolution.
+> Hi
 > 
-> Suggested-by: Zejiong Huang <zejiongh@qti.qualcomm.com>
-> Signed-off-by: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
-> ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+> Am 11.02.25 um 14:57 schrieb Lee Jones:
+> > On Thu, 06 Feb 2025, Thomas Zimmermann wrote:
+> > 
+> > > Remove support for fb events from the led backlight trigger. Provide the
+> > > helper ledtrig_backlight_blank() instead. Call it from fbdev to inform
+> > > the trigger of changes to a display's blank state.
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > ---
+> > >   drivers/leds/trigger/ledtrig-backlight.c | 31 +++++-------------------
+> > >   drivers/video/fbdev/core/fbmem.c         | 21 +++++++++-------
+> > >   include/linux/leds.h                     |  6 +++++
+> > >   3 files changed, 24 insertions(+), 34 deletions(-)
+> > > 
+> > > diff --git a/drivers/leds/trigger/ledtrig-backlight.c b/drivers/leds/trigger/ledtrig-backlight.c
+> > > index f9317f93483b..e3ae4adc29e3 100644
+> > > --- a/drivers/leds/trigger/ledtrig-backlight.c
+> > > +++ b/drivers/leds/trigger/ledtrig-backlight.c
+> > > @@ -10,7 +10,6 @@
+> > >   #include <linux/kernel.h>
+> > >   #include <linux/slab.h>
+> > >   #include <linux/init.h>
+> > > -#include <linux/fb.h>
+> > >   #include <linux/leds.h>
+> > >   #include "../leds.h"
+> > > @@ -21,7 +20,6 @@ struct bl_trig_notifier {
+> > >   	struct led_classdev *led;
+> > >   	int brightness;
+> > >   	int old_status;
+> > > -	struct notifier_block notifier;
+> > >   	unsigned invert;
+> > >   	struct list_head entry;
+> > > @@ -30,7 +28,7 @@ struct bl_trig_notifier {
+> > >   static struct list_head ledtrig_backlight_list;
+> > >   static struct mutex ledtrig_backlight_list_mutex;
+> > > -static void ledtrig_backlight_blank(struct bl_trig_notifier *n, bool on)
+> > > +static void __ledtrig_backlight_blank(struct bl_trig_notifier *n, bool on)
+> > I'm confused.  Didn't you just introduce this?
 > 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index f3c9ef2bfa57..4e5c56ded1f0 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -24,6 +24,7 @@
->  #define LPG_PATTERN_CONFIG_REG	0x40
->  #define LPG_SIZE_CLK_REG	0x41
->  #define  PWM_CLK_SELECT_MASK	GENMASK(1, 0)
-> +#define  PWM_SIZE_SELECT_MASK	BIT(2)
-
-Are you sure you want to shove this between 2 seemingly related defines?
-
->  #define  PWM_CLK_SELECT_HI_RES_MASK	GENMASK(2, 0)
->  #define  PWM_SIZE_HI_RES_MASK	GENMASK(6, 4)
->  #define LPG_PREDIV_CLK_REG	0x42
-> @@ -412,8 +413,8 @@ static int lpg_lut_sync(struct lpg *lpg, unsigned int mask)
->  static const unsigned int lpg_clk_rates[] = {0, 1024, 32768, 19200000};
->  static const unsigned int lpg_clk_rates_hi_res[] = {0, 1024, 32768, 19200000, 76800000};
->  static const unsigned int lpg_pre_divs[] = {1, 3, 5, 6};
-> -static const unsigned int lpg_pwm_resolution[] =  {9};
-> -static const unsigned int lpg_pwm_resolution_hi_res[] =  {8, 9, 10, 11, 12, 13, 14, 15};
-> +static const unsigned int lpg_pwm_resolution[] = {6, 9};
-> +static const unsigned int lpg_pwm_resolution_hi_res[] = {8, 9, 10, 11, 12, 13, 14, 15};
->  
->  static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
->  {
-> @@ -436,12 +437,12 @@ static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
->  	 * period = --------------------------
->  	 *                   refclk
->  	 *
-> -	 * Resolution = 2^9 bits for PWM or
-> +	 * Resolution = 2^{6 or 9} bits for PWM or
->  	 *              2^{8, 9, 10, 11, 12, 13, 14, 15} bits for high resolution PWM
->  	 * pre_div = {1, 3, 5, 6} and
->  	 * M = [0..7].
->  	 *
-> -	 * This allows for periods between 27uS and 384s for PWM channels and periods between
-> +	 * This allows for periods between 3uS and 384s for PWM channels and periods between
->  	 * 3uS and 24576s for high resolution PWMs.
->  	 * The PWM framework wants a period of equal or lower length than requested,
->  	 * reject anything below minimum period.
-> @@ -558,7 +559,7 @@ static void lpg_apply_freq(struct lpg_channel *chan)
->  		val |= GENMASK(5, 4);
->  		break;
->  	case LPG_SUBTYPE_PWM:
-> -		val |= BIT(2);
-> +		val |= FIELD_PREP(PWM_SIZE_SELECT_MASK, chan->pwm_resolution_sel);
->  		break;
->  	case LPG_SUBTYPE_HI_RES_PWM:
->  		val |= FIELD_PREP(PWM_SIZE_HI_RES_MASK, chan->pwm_resolution_sel);
-> @@ -1276,7 +1277,7 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->  		resolution = lpg_pwm_resolution_hi_res[FIELD_GET(PWM_SIZE_HI_RES_MASK, val)];
->  	} else {
->  		refclk = lpg_clk_rates[FIELD_GET(PWM_CLK_SELECT_MASK, val)];
-> -		resolution = 9;
-> +		resolution = lpg_pwm_resolution[FIELD_GET(PWM_SIZE_SELECT_MASK, val)];
->  	}
->  
->  	if (refclk) {
-> -- 
-> 2.34.1
+> It's being renamed here; probably something to avoid.
 > 
 > 
+> > 
+> > >   {
+> > >   	struct led_classdev *led = n->led;
+> > >   	int new_status = !on ? BLANK : UNBLANK;
+> > > @@ -48,23 +46,14 @@ static void ledtrig_backlight_blank(struct bl_trig_notifier *n, bool on)
+> > >   	n->old_status = new_status;
+> > >   }
+> > > -static int fb_notifier_callback(struct notifier_block *p,
+> > > -				unsigned long event, void *data)
+> > > +void ledtrig_backlight_blank(bool on)
+> > >   {
+> > > -	struct bl_trig_notifier *n = container_of(p,
+> > > -					struct bl_trig_notifier, notifier);
+> > > -	struct fb_event *fb_event = data;
+> > > -	int *blank;
+> > > -
+> > > -	/* If we aren't interested in this event, skip it immediately ... */
+> > > -	if (event != FB_EVENT_BLANK)
+> > > -		return 0;
+> > > -
+> > > -	blank = fb_event->data;
+> > > +	struct bl_trig_notifier *n;
+> > > -	ledtrig_backlight_blank(n, !blank[0]);
+> > > +	guard(mutex)(&ledtrig_backlight_list_mutex);
+> > > -	return 0;
+> > > +	list_for_each_entry(n, &ledtrig_backlight_list, entry)
+> > > +		__ledtrig_backlight_blank(n, on);
+> > >   }
+> > >   static ssize_t bl_trig_invert_show(struct device *dev,
+> > > @@ -110,8 +99,6 @@ ATTRIBUTE_GROUPS(bl_trig);
+> > >   static int bl_trig_activate(struct led_classdev *led)
+> > >   {
+> > > -	int ret;
+> > > -
+> > >   	struct bl_trig_notifier *n;
+> > >   	n = kzalloc(sizeof(struct bl_trig_notifier), GFP_KERNEL);
+> > > @@ -122,11 +109,6 @@ static int bl_trig_activate(struct led_classdev *led)
+> > >   	n->led = led;
+> > >   	n->brightness = led->brightness;
+> > >   	n->old_status = UNBLANK;
+> > > -	n->notifier.notifier_call = fb_notifier_callback;
+> > > -
+> > > -	ret = fb_register_client(&n->notifier);
+> > > -	if (ret)
+> > > -		dev_err(led->dev, "unable to register backlight trigger\n");
+> > >   	mutex_lock(&ledtrig_backlight_list_mutex);
+> > >   	list_add(&n->entry, &ledtrig_backlight_list);
+> > > @@ -143,7 +125,6 @@ static void bl_trig_deactivate(struct led_classdev *led)
+> > >   	list_del(&n->entry);
+> > >   	mutex_unlock(&ledtrig_backlight_list_mutex);
+> > > -	fb_unregister_client(&n->notifier);
+> > >   	kfree(n);
+> > >   }
+> > > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> > > index fb7ca143a996..92c3fe2a7aff 100644
+> > > --- a/drivers/video/fbdev/core/fbmem.c
+> > > +++ b/drivers/video/fbdev/core/fbmem.c
+> > > @@ -16,6 +16,7 @@
+> > >   #include <linux/fb.h>
+> > >   #include <linux/fbcon.h>
+> > >   #include <linux/lcd.h>
+> > > +#include <linux/leds.h>
+> > >   #include <video/nomodeset.h>
+> > > @@ -373,11 +374,19 @@ static void fb_lcd_notify_blank(struct fb_info *info)
+> > >   #endif
+> > >   }
+> > > +static void fb_ledtrig_backlight_notify_blank(struct fb_info *info)
+> > > +{
+> > > +#if IS_REACHABLE(CONFIG_LEDS_TRIGGER_BACKLIGHT)
+> > #iferry is generally discouraged in C files.
+> > 
+> > Does is_defined() work for you?
+> 
+> I don't think so. This ifdef covers the case that fbdev is built in, but led
+> is a module (i.e., fbdev=y && led=m).
+> 
+> > /
+> > > +	if (info->blank == FB_BLANK_UNBLANK)
+> > > +		ledtrig_backlight_blank(true);
+> > If !CONFIG_LEDS_TRIGGER_BACKLIGHT(), then ledtrig_backlight_blank() is a
+> > noop anyway, right?  So why encompass it in the #if at all?
+> 
+> Because of (fbdev=y && led=m) again. ledtrig_backlight_blank() would be
+> defined then, but not linkable from fbdev. Preferably, I'd rather leave out
+> the ifdef in the led header file.
+
+#ifdefs are not generally welcome in C-files.  Please rework it.
 
 -- 
 Lee Jones [李琼斯]
