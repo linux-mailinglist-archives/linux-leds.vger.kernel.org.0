@@ -1,181 +1,194 @@
-Return-Path: <linux-leds+bounces-4015-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4016-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4343BA3D644
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 11:16:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9F9A3D6C2
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 11:32:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16D2817B9C8
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 10:16:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B7F3160E95
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2025 10:31:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D2C1F03E8;
-	Thu, 20 Feb 2025 10:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 372C31F12ED;
+	Thu, 20 Feb 2025 10:31:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WVNMrGyc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oajjSPzM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FBE1F03E5
-	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 10:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370191EF094
+	for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 10:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740046554; cv=none; b=dA31cOjCF+yteu0ZKjjVVykdhbp5VPhtVf71903mK+ulkDclre+H1iLZilF34aPGHRzmR1O5SMWN/yJg7g4wcVVioftGIchyQ3gSOr5Ta3LBQP1s9cWlzEtOQpPlaS1gVHTHIeUAqj1JRerkIrkKisRXur8M7OHPFYSXS/f2bmk=
+	t=1740047476; cv=none; b=f5YCWT85Fs9uCw3vYilcfZZZ/pcnWoeMBTwkMh5BzWyR/98ZrHZIFxKhg2ZFAYQR5i38IFsZ1hhD3aSuCij1ikhNqnBJSX0MF0Bh5l/GIy3fv65r2PBbQBbBOtc6nPJwA+unsxCNh/FbcwmBJPJjsWHZPs4pfxnsRLwKwpWfzmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740046554; c=relaxed/simple;
-	bh=9NdHty/qXXHevrqZTlhaGK+GjngNvreBPr3m97uQbS4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o1201A6pXy6uKxJnLJqR0JYB9N4PidEl3e3oZRPlsBXXfW/+A8ApeQt+gkHwi7QZBwjw2C0oOLMKoak3zJrdX62P+XS1SgSeWJ7EnRLj9D0vqGv+qwFqG4zAZ9rWHgjmeRhZAkwbaypca9swHUpnmMNjuLqDwS44irQPpZwx254=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WVNMrGyc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740046551;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f0lOieDFJGuf9n9Z9p1RYtcsNxHaDLi5VEtVsV6J0yw=;
-	b=WVNMrGyczXomSmi6VAI1U0PDIZiWrvJHeikJYJEdPka+P7bcmeNY2bxgI4CTdfW9kAhpFJ
-	qGHSEQMIY0X4uq4qdYEp6FmUAMBHS/yyIHnJpuaOKHze9SgAQr2u0aTeHLRFBghF4Efy+i
-	pAfB1REOAtBqntTF02yQbZqB9xHSHOw=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-7-cuH1XyS8Nj68o2eE6sbFnA-1; Thu, 20 Feb 2025 05:15:49 -0500
-X-MC-Unique: cuH1XyS8Nj68o2eE6sbFnA-1
-X-Mimecast-MFC-AGG-ID: cuH1XyS8Nj68o2eE6sbFnA_1740046549
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ab7f6f6cd96so138080766b.2
-        for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 02:15:49 -0800 (PST)
+	s=arc-20240116; t=1740047476; c=relaxed/simple;
+	bh=7atARvokLY07mqgnr8qm+w1Plqn46HRkXLWGb+WjuPU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TZZvMrRa4lrid4FM6mVFve2zb9+MfaW4A8ZRfCi18PTBXzApWndY7Wm2OtrBZwldyQVrjcdKPDAFb7OX3E2ixfkgd9UzICZdOWvsDXfxjtwMK80FVeRz1bWCa6I4ErJYwxTeTUBlxDRT+MCG3rCUhYUxlsQo5HznTDjjw9UWYmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oajjSPzM; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5ded46f323fso1002313a12.1
+        for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2025 02:31:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740047472; x=1740652272; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i8pZn6/QFo8TbDdZwnXuIATxRnl2SnecFyZcNTZXt6k=;
+        b=oajjSPzMCQ0Q0JyepqfS6giDdmcRHHXBJjdPKPtL1M84DE2LdZuQ0PdHW1Lcmvbth+
+         9aIJDAQZpmiTOHpDyyAlcLk90Jw5fg1wtRrY2gMlQBAsZVdrk2Ziw7ClaGKsMhDargoe
+         inKVHa6zEEt0RiVj2G7e0JFP4ubHoCNvsGqbnpYSbEIH58OLvN4JhK20wy6Q2ozZ6tyO
+         WYLG5SlBzpJaMw9goBsK3FnGReXOtED6FE2Xk/xn/9coH7MRJSXD3H2aT0Nru+lKCHVF
+         zt+0choJcOsNRYB9PUSB8shTegNyl8csbXfK60p/XGWdjIeFPyP5VFzpHyycAlTEgkjk
+         Sf+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740046548; x=1740651348;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f0lOieDFJGuf9n9Z9p1RYtcsNxHaDLi5VEtVsV6J0yw=;
-        b=lQY228SlrAl8dpf9SOurVANkeyQV2kvy6jr8afMXxnuinh1bJ5BZayCHCn3v2rC526
-         tJwnxQzPSCKxwG1/p5rtqkvMsS6suNbR8v6giMBQQ5GHUkAOPXLFKl+vm27vmWHd66aZ
-         4EyK9syMU4RW76AIoD3WSztmmRVLlLYLs9y9Vdwl2wkJ+jAbh33VjTbs4J9WD7YauPbX
-         h2WGLoz8IAP5djs86v1TJnUhed/0yOHuAFBAVHFhy94ZWxZ8FQ10M26fCj/E1r/cptMW
-         KwrDVnsCrDUgQeC9xoQbdxl38x651CLl6vyHKG76kRh9ygPqtm3MJ+OynNol+4WMnp/C
-         lqyg==
-X-Gm-Message-State: AOJu0Ywi50347JgRexQqaUscBM9dSyWsjs0QaJ9RxTMXbSM9b82X2bMO
-	3SwE9DDaBR0xUjZVww7lTGVF67gkWa07WgedFatjlEJD2HcJ02G9tMvCik6c+btIm90no87W1wl
-	oVqOpJEQ5yhdyt9AXOv3FDKxjs+h2mihS9SPuTPv6pcFMXIzJr7rAW5bO/1U=
-X-Gm-Gg: ASbGncsy419LFByIXIZBo48WIAeUaIGIWGZSDSVeUr6VpukntksmXZKlDztwCkXrOLV
-	Ce88TsYQv/1WP61aUzDFa9u9+yMVFjdhsVggzpQFfxOxNEFjRq7K8gCA7VRzeqfsz1LAyuT76J2
-	KkVjxsR9AEYjFRTbdL35xs25UMchWAm7C/g+Ax//CSCczr+kg11+sp34aNqDSRdHwLs9xG81j0T
-	TFDv/nf4PVLNDWmivW1hYOMdGceH524T20mZ3VL5yLL2IQ/v1KOBmajucDvIeIzXE/tSk75OxSM
-	JV2EfLu4Za56lnZRy9WCRTIsh9lyRrk9YTXl7aMUryceDo24TEVCJaoMCQHjLo1huScUDFbue2h
-	soYzjuwxpd+BjnUPE+USedgn4OB3b43qQkaH8s+5K+kZ7XlJMVF5k1KU=
-X-Received: by 2002:a17:907:890d:b0:ab7:b589:4f9e with SMTP id a640c23a62f3a-abbf3cb9821mr204653666b.39.1740046548563;
-        Thu, 20 Feb 2025 02:15:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFsci5hMHI8bHshKq0WmvJmdBW2u6ItgvalIOqwsQQPyPAwE35l+KG7VmzL+LgVw3fVRYVE0A==
-X-Received: by 2002:a17:907:890d:b0:ab7:b589:4f9e with SMTP id a640c23a62f3a-abbf3cb9821mr204650166b.39.1740046548098;
-        Thu, 20 Feb 2025 02:15:48 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb8915db0dsm908550666b.145.2025.02.20.02.15.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 02:15:47 -0800 (PST)
-Message-ID: <56f42c2e-94e9-4cb8-8046-2b9ef02995e0@redhat.com>
-Date: Thu, 20 Feb 2025 11:15:46 +0100
+        d=1e100.net; s=20230601; t=1740047472; x=1740652272;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i8pZn6/QFo8TbDdZwnXuIATxRnl2SnecFyZcNTZXt6k=;
+        b=UoyKtoUQc0xj65fpwLeWQIIgaBjAlgzBKqNecHkN6zZdQPDZBxD7mZZ4jPege++L4Z
+         HYKj+XCRhUAnpuqu2szQ2k0VLJ7lnDrLfEu9zhqjQfNyXaVz2RpnnCU0O6+QAnrG8+8s
+         z7ZZfV1J099kXE6IexIuGWRnQTRyAMH9vrwcSYMe83OjjFsmsYPAssAB1RYSfJN0BytZ
+         tEAbgj38SdE5ggHxc1d+sBTL0opqFJuxXh7ePEl7sSnBEw72KbaLHy50mEFl96V3yT5I
+         suoQlQZTXuIsgvTObsPvVmtGrWl93hrUf6fI+eDS+to2aLAftEBnSK9V0YAN3ftxbdVo
+         515A==
+X-Forwarded-Encrypted: i=1; AJvYcCWKvb5b/0ikE7xN4ukzjyEXtOaWNTFDPnIBvieadyJMhP4eYo01e5eTtBsLRSlxb8B3WwfGnPYoY0s4@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC3TwYJELD0u7tpE1mAJh1bZGN50n2lruu2tdSnp44+OSxggGm
+	gBz0fOHvtCDLTIt6Ne2mtOVjV4dXyBDdBnzZdhDLzAh+KQsg/yMIb2Ipxp9NOFY=
+X-Gm-Gg: ASbGncvbOYj7iaPu+PaCkuLLcewZ2C79EShTMl7KaEo5AGnMdi35FtS164pDD7r+dcq
+	RUO+vGODGNWJ6TkT6eggAQaN/p17XyTsWzh0SATRKTmNZJJ7gKkJWyNprOfQdO+wnrAdtPVYkcH
+	KOS3OLSx8XKdVkVwSQMzzgCCPXwbCKqyvoq0KlDapBmW5li+rjgeWjmUyTzgni822UXWaoOHwPZ
+	Bs6HQON1lgAHww9qYB9FGCnoqQjAWUPQAsxNn9/fggs/xejCIyXm8KNjM73prfSTvKHb0zRlhwH
+	AKKNxHmxavlFzA==
+X-Google-Smtp-Source: AGHT+IGkLjx1lyMFl288723pjRQskad0IrpyzmWLZ2jkcgybDcgcD4iSXpmxCzpSlh3nibMQ8BJ3eA==
+X-Received: by 2002:a17:907:6ea9:b0:abb:b294:6a2d with SMTP id a640c23a62f3a-abbcd0b9393mr650036766b.53.1740047472270;
+        Thu, 20 Feb 2025 02:31:12 -0800 (PST)
+Received: from [127.0.1.1] ([62.231.96.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb94e4d0adsm823778366b.56.2025.02.20.02.31.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 02:31:11 -0800 (PST)
+From: Abel Vesa <abel.vesa@linaro.org>
+Date: Thu, 20 Feb 2025 12:31:00 +0200
+Subject: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: Fix LED_OFF brightness race
-To: Remi Pommarel <repk@triplefau.lt>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>
-References: <26a2690e77671cfe687c5614613fbb6f079f7365.1739959820.git.repk@triplefau.lt>
- <e8ab8707-5ed3-44e6-b52b-a1d6131e7c51@redhat.com> <Z7br2g8Rc9Tkcsle@pilgrim>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Z7br2g8Rc9Tkcsle@pilgrim>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-v1-1-a161ec670ea5@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAGQEt2cC/x2NzQrCMBAGX6Xs2Q/igqb6KuIhtmu70PyYhVoof
+ XeDx4FhZieTqmJ073aqsqppTg3Op46GOaRJoGNjYscXx+ywyGj4DDliKRPeuiGGDeUbkRNmRRW
+ Du3rpfc/B317USqVKE/+Xx/M4fl1ktPR1AAAA
+X-Change-ID: 20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-067e8782a79b
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Anjelique Melendez <quic_amelende@quicinc.com>
+Cc: Kamal Wadhwa <quic_kamalw@quicinc.com>, 
+ Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Sebastian Reichel <sre@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
+X-Mailer: b4 0.15-dev-dedf8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3026; i=abel.vesa@linaro.org;
+ h=from:subject:message-id; bh=7atARvokLY07mqgnr8qm+w1Plqn46HRkXLWGb+WjuPU=;
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBntwRt/BF7ZpH3h7g59Ow1VFkipWuLmBqZ784Q8
+ oRHeGAyp56JAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZ7cEbQAKCRAbX0TJAJUV
+ VpaWD/9MMLieWxuLt7ssUG3zSaev0aST6HosKPbBuUaxfGPTPkHOugXWpzmSdtm9MIvkl52wwPF
+ QOVPNOXf0IAWuIeX+F0pv9s6FujWjAc35gi72l3JRgpST+TOAQJlXUeOWYLp/SZBwiRe0YsbeoQ
+ opoR044nYTtkzjb27oPPorkFnNAl0N1IKIDa+NoBYcLHw0LvESgOSHgReOyKjAsopGWlpuqz0Fu
+ UgKIOric3Exzzdm8h1VZDn4IW6HJ7LCgBZCCdDUkusN7PEHmWZ01uIP5GbPYGlHM1eRR3Wt6TcS
+ gNDVAWbjLXPUD4fgDBVSypnbJVUlMjxdEb+RO7pg9Qt1s69WclpMX2pqIXdZkJREKQwXmqgMr09
+ iFXTqtvnfCOERxIlYL9wEw1z7dQC3hugrU8SsvaTQJZoE8RgzqMF8t5Kbrf9bIec1vWB1wP8bsm
+ L60yfnR8OlUbXsB3NILUCEQ0F+g2Bukq1OkE94VUSE/MnLZH+zJrNGK7DSbAGAl8mxa9LvjJhJL
+ +e0k+3GhN3Gnkb1RrIdJB4pD4EZhUdJhZpw5Tf/KZX2FSPIzOtuh/JanIjEVtjf7TfJN5a9Z5ye
+ ft8l1XhGDhs644s5ZbwCsH2Utj6JzN07JZvL/OG3WGPL6MMFBe1KC5wVE7syn2cEmBrEh+DTUwa
+ rw7s4JyW6yh0/QA==
+X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 
-Hi,
+Currently, for the high resolution PWMs, the resolution, clock,
+pre-divider and exponent are being selected based on period. Basically,
+the implementation loops over each one of these and tries to find the
+closest (higher) period based on the following formula:
 
-On 20-Feb-25 9:46 AM, Remi Pommarel wrote:
-> On Wed, Feb 19, 2025 at 12:52:36PM +0100, Hans de Goede wrote:
->> Hi,
->>
->> On 19-Feb-25 11:41 AM, Remi Pommarel wrote:
->>> While commit fa15d8c69238 ("leds: Fix set_brightness_delayed() race")
->>> successfully forces led_set_brightness() to be called with LED_OFF at
->>> least once when switching from blinking to LED on state so that
->>> hw-blinking can be disabled, another race remains. Indeed in
->>> led_set_brightness(LED_OFF) followed by led_set_brightness(any)
->>> scenario the following CPU scheduling can happen:
->>>
->>>     CPU0                                     CPU1
->>>     ----                                     ----
->>>  set_brightness_delayed() {
->>>    test_and_clear_bit(BRIGHTNESS_OFF)
->>>                                          led_set_brightness(LED_OFF) {
->>>                                            set_bit(BRIGHTNESS_OFF)
->>> 					   queue_work()
->>>                                          }
->>>                                          led_set_brightness(any) {
->>>                                            set_bit(BRIGHTNESS)
->>> 					   queue_work() //already queued
->>>                                          }
->>>    test_and_clear_bit(BRIGHTNESS)
->>>      /* LED set with brightness any */
->>>  }
->>>
->>>  /* From previous CPU1 queue_work() */
->>>  set_brightness_delayed() {
->>>    test_and_clear_bit(BRIGHTNESS_OFF)
->>>      /* LED turned off */
->>>    test_and_clear_bit(BRIGHTNESS)
->>>      /* Clear from previous run, LED remains off */
->>>
->>> In that case the led_set_brightness(LED_OFF)/led_set_brightness(any)
->>> sequence will be effectively executed in reverse order and LED will
->>> remain off.
->>>
->>> With the introduction of commit 32360bf6a5d4 ("leds: Introduce ordered
->>> workqueue for LEDs events instead of system_wq") the race is easier to
->>> trigger as sysfs brightness configuration does not wait for
->>> set_brightness_delayed() work to finish (flush_work() removal).
->>>
->>> Use delayed_set_value to optionnally re-configure brightness after a
->>> LED_OFF. That way a LED state could be configured more that once but
->>> final state will always be as expected.
->>>
->>> Fixes: fa15d8c69238 ("leds: Fix set_brightness_delayed() race")
->>> Signed-off-by: Remi Pommarel <repk@triplefau.lt>
->>
->> Thanks, patch looks good to me:
->>
-> 
-> Actually two additionnal remarks here. The first one is that now more
-> than before, delayed_set_value store should be seen before work_flags
-> modification on other CPUs. That means that a smp_mb__before_atomic()
-> is needed before the two set_bit().
-> 
-> The second one is that delayed_set_value can be bigger than a single
-> byte, so theoretically store tearing can happen and
-> set_brightness_delayed_set_brightness() could be called with an invalid
-> value. WRITE_ONCE/READ_ONCE could prevent that but because the
-> smp_mb__before_atomic() ensures that the "last" delayed_set_value is
-> valid I don't mind having very seldom intermediate invalid values.
-> 
-> So I think a v2 with smp_mb__before_atomic() is needed here, what do you
-> think ?
+                          period * refclk
+prediv_exp = log2 -------------------------------------
+                    NSEC_PER_SEC * pre_div * resolution
 
-Doing a v2 with smp_mb__before_atomic() sounds good to me.
+Since the resolution is power of 2, the actual period resulting is
+usually higher than what the resolution allows. That's why the duty
+cycle requested needs to be capped to the maximum value allowed by the
+resolution (known as PWM size).
 
-Regards,
+Here is an example of how this can happen:
 
-Hans
+For a requested period of 5000000, the best clock is 19.2MHz, the best
+prediv is 5, the best exponent is 6 and the best resolution is 256.
+
+Then, the pwm value is determined based on requested period and duty
+cycle, best prediv, best exponent and best clock, using the following
+formula:
+
+                            duty * refclk
+pwm_value = ----------------------------------------------
+                NSEC_PER_SEC * prediv * (1 << prediv_exp)
+
+So in this specific scenario:
+
+(5000000 * 19200000) / (1000000000 * 5 * (1 << 64)) = 300
+
+With a resolution of 8 bits, this pwm value obviously goes over.
+
+Therefore, the max pwm value allowed needs to be 255.
+
+If not, the PMIC internal logic will only value that is under the set PWM
+size, resulting in a wrapped around PWM value.
+
+This has been observed on Lenovo Thinkpad T14s Gen6 (LCD panel version)
+which uses one of the PMK8550 to control the LCD backlight.
+
+Fix the value of the PWM by capping to a max based on the chosen
+resolution (PWM size).
+
+Cc: stable@vger.kernel.org    # 6.4
+Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for high resolution PWM")
+Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+---
+Note: This fix is blocking backlight support on Lenovo Thinkpad T14s
+Gen6 (LCD version), for which I have patches ready to send once this
+patch is agreed on (review) and merged.
+---
+ drivers/leds/rgb/leds-qcom-lpg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index f3c9ef2bfa572f9ee86c8b8aa37deb8231965490..146cd9b447787bf170310321e939022dfb176e9f 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -529,7 +529,7 @@ static void lpg_calc_duty(struct lpg_channel *chan, uint64_t duty)
+ 	unsigned int clk_rate;
+ 
+ 	if (chan->subtype == LPG_SUBTYPE_HI_RES_PWM) {
+-		max = LPG_RESOLUTION_15BIT - 1;
++		max = BIT(lpg_pwm_resolution_hi_res[chan->pwm_resolution_sel]) - 1;
+ 		clk_rate = lpg_clk_rates_hi_res[chan->clk_sel];
+ 	} else {
+ 		max = LPG_RESOLUTION_9BIT - 1;
+
+---
+base-commit: 50a0c754714aa3ea0b0e62f3765eb666a1579f24
+change-id: 20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-067e8782a79b
+
+Best regards,
+-- 
+Abel Vesa <abel.vesa@linaro.org>
 
 
