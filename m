@@ -1,176 +1,343 @@
-Return-Path: <linux-leds+bounces-4054-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4055-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C19A3FFC2
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 20:34:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26EF0A40129
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 21:38:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E55037034E7
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 19:34:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFB983AB9B2
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 20:37:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DB9F1CD1E1;
-	Fri, 21 Feb 2025 19:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93F12200114;
+	Fri, 21 Feb 2025 20:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mhclx1gV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ndfbt+48"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2717C17591
-	for <linux-leds@vger.kernel.org>; Fri, 21 Feb 2025 19:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590DC1D7E2F;
+	Fri, 21 Feb 2025 20:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740166456; cv=none; b=RWfdqVe/bJMoKHtl+z46cY2B+FWWLGon0ZJi6RhR4sxBiUzjoxs0zsb9v7MilPLFP8Ebu0RlPQts7EBSdoR/DuwvZzlJMbKStLe/HvnQbLdSSUmQ42oyaUDOOMAII69UIyKXDAHYJKqA3VsaHAAy25077QPvtbJiDU1qhE3PjfM=
+	t=1740170286; cv=none; b=SzP2Bl26et8at73ZrIsE6zBkIBCGMI5SyeXYOIZ95s/fP1TkQkOV+61BnH7EoxvxW9ajzCenl7f7yB+R5TtlSrXEJyFcB/OQ/Sq9IZkktaXrmGRaN1Ltq9SP8R6rPhVqDUd9SGj4V5xG2fvA8EyTxzctBArKou9/tuKXJtzaZVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740166456; c=relaxed/simple;
-	bh=u6TaScNZ/DU4r4jwpXk2osYnJ17lzPB8FM3VjxjHDuk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H6LSNTqPQo95Zffp7Z/5vcjXUFOtjWhQZ9+wyp1ZUBqLZjpQBNro4ASj11cFCT11rsYo+U3uXiP/ZL8B0EGYSvRC9z/h1hwdJN4zdcJvFPJ6mpXAseCQ8734IQgXKd9a9BSLOaFub1OThs0A8J5ZN8GKRNKYT7gLs2YEG5On18M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Mhclx1gV; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51LIkkPB011872
-	for <linux-leds@vger.kernel.org>; Fri, 21 Feb 2025 19:34:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pHtrFdX4sDiVFBmCYWlwT5oKJhWKWB+bSduK5G48vLE=; b=Mhclx1gVMAt/xjj2
-	/2YSTJcRCyjP6bRzINGYRfjwmDsZcFyqmM8IHxMCaZq+LlibMpDTJlbQIyCm4RPy
-	NUqKwQoQCLjr/DKSHKIYxAWMWM9p2OCMwsoWbwbtZ34mKtHvRjcMTIlPFNMxupvy
-	bFPKSBx3YD96vLB7n0MdXfBtGYGnspIviVEWjSaMNUE/braRdnrne0Q4JBpBV51L
-	NZEb9dWAijWzvX1htHCOIt3CSptBQuuWtACLHUs3AEtuIE9PEZP64w1BIO94soa0
-	QwzF0L1itJvA8jVkZ70siueiHa3cG9oJAGKK5+T2Ls+NQPFTkPj+uLdLE3Oc9yRK
-	Z4qjCQ==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44x2xbd7t8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Fri, 21 Feb 2025 19:34:13 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6e422f1ceadso4615306d6.0
-        for <linux-leds@vger.kernel.org>; Fri, 21 Feb 2025 11:34:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740166452; x=1740771252;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHtrFdX4sDiVFBmCYWlwT5oKJhWKWB+bSduK5G48vLE=;
-        b=D/2kcnDcoLrDJuWHXNpRwTHjaapCMLB8vvrd/FhXpuBwZLKsRyHll+7FOvByDsKrMo
-         fgcKs3+Kn14OdItAQ25ZctLEtpUhmdcAVHlCErKgJyVHP0keXxiy0gWxeBsjeVOVDcF0
-         1ocG70JOTjFOU9TBBICA499ypfDjD8ynFurk8mdzr2Q67WBbsba2JKxfZc7gfn6vd3Eh
-         HzoI8mxakgmW48+fb1F+hpktZp8X+0et/mSIAiWdOqJ1/LrP5rWIiybAnuowTvIaDqKW
-         FolrqJmaXp/y9tpu7sVkZJpRAiuLYrm4PRRrmF+57szsd65KjS/g5JHsU/EBF/4w7IDt
-         4/pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVndPiG9pEouUwBVFU4rPoy/EeDHwM/4BC4GSJfdacWwJG4H+5yx7Ujd62DuDxvMUMhxxRffB2b8Yyz@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLcMhTAgb0zOESHMe2+XefNedSLjkhyhR38xuEP1UN4S8OP6So
-	UT34aJQSgrbZrGC0FPdklV58BX8SNV+zFFTZmshI0U/GoJqEf1DaFanIPr1mQoSZbmF9Js/b3A3
-	99SqEXOH7Vi9jZHPlgXDHD6mgBjRR2rtT/lUPvZFERQBVNQNPZlt0xo+WzPhX
-X-Gm-Gg: ASbGncs5LjOaxV+wA5PoHC1+COBOjt7nEYhnmKVgqZZ+yGo6cOIm+11KIqy/M3t0Mxs
-	lZNclrmvaX21Gts0rjV8iv6rOLngMxySdCkHrnsuN1mSCu9FFnDgm3Okbld71zBgtqqGDMjN3xI
-	IIP9PQA526Hqyd921B0ZNcYkDYpTVSHsbTZRJb3pOxZVRDEV/6KB7uhgNJWwQwUKLtsVLImDR04
-	f1D71unPIPbsI1EHr7vvYMA60ty5jSkAZYQa3+5S4PegZmA1i4Vu00gyaXvJl8K8EQMi0+mwUju
-	tK3vgZSyc/C3J2fcbWK7V8K3DLr6g+gN+ixiF8DCsictDKhVL0K7HjcgKXB+wZFw8q8Syg==
-X-Received: by 2002:a05:6214:4005:b0:6e4:4f27:7754 with SMTP id 6a1803df08f44-6e6ae8019b7mr20340946d6.4.1740166451805;
-        Fri, 21 Feb 2025 11:34:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFMRtFP8L9pwSmUTIIxeADi+goeh9v8A2IJATffBawES3MorlO92k2n4DJ2B9zsNBuYEj7soA==
-X-Received: by 2002:a05:6214:4005:b0:6e4:4f27:7754 with SMTP id 6a1803df08f44-6e6ae8019b7mr20340816d6.4.1740166451399;
-        Fri, 21 Feb 2025 11:34:11 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb93874686sm1091861166b.0.2025.02.21.11.34.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Feb 2025 11:34:10 -0800 (PST)
-Message-ID: <9d330824-58b4-4c19-b778-9b000eb4d20a@oss.qualcomm.com>
-Date: Fri, 21 Feb 2025 20:34:08 +0100
+	s=arc-20240116; t=1740170286; c=relaxed/simple;
+	bh=cZReEKvxGMFAzn2nYLfiWitsoEwnGLiU1ItJsk7GJrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WWyBjQGucfA3LQgLjIU4D5Hs+HEcb6nFbAjz2zOZpzUnX7rgUfy3WZZS+w1xSQak5gK1U4Vm4E5jqIlB5A5DwEOJDu1F8blKFBxFVg+fa8DUuGlXs4Hn8xbPFRJFIM5MnIAqLdYdweUIYBKHPW4ttiR9/ulDM0hwR5RtZEzTQI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ndfbt+48; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94787C4CED6;
+	Fri, 21 Feb 2025 20:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740170285;
+	bh=cZReEKvxGMFAzn2nYLfiWitsoEwnGLiU1ItJsk7GJrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ndfbt+48L4RUb3WT78YqKEkPhF3BzDwk9jaSj6fPv91ryKts6+cOTdoQgapK2WP0j
+	 8s0traSuhiLn53SJu6fL4ilpCUF8Nz8CUmU7BVBo3Lzk2eprS+ah0xVQ0T4mCzTETe
+	 PhZMvy0gKeAA+mEoGpLNH7rx9uIsPMvC+mbfSwfYgV9/iwh1SkPucuS6HDUdCS3yON
+	 KN1vTiTDcNH95IeouzRup2F9LQMCJBifFZbg8Sj5HqAAQtsJLYTPB7PCUVoQMlRVtt
+	 HCJSPaFTSjpuD1bJaYsRx7EpyZpgQDd0itSh2KMcV9LeQWf73Z8sGW6Ge6+oVhEGze
+	 henAZXi/4khyA==
+Date: Fri, 21 Feb 2025 14:38:03 -0600
+From: Rob Herring <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: mfd: Document TI LM3533 MFD
+Message-ID: <20250221203803.GA24813-robh@kernel.org>
+References: <20250218132702.114669-1-clamor95@gmail.com>
+ <20250218132702.114669-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
- PWMs
-To: Abel Vesa <abel.vesa@linaro.org>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Cc: Kamal Wadhwa <quic_kamalw@quicinc.com>,
-        Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Johan Hovold <johan@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-v1-1-a161ec670ea5@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-v1-1-a161ec670ea5@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: HMDoPD_1Vrd3a1zXMSRr3d23VseABbX8
-X-Proofpoint-ORIG-GUID: HMDoPD_1Vrd3a1zXMSRr3d23VseABbX8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-21_07,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 spamscore=0
- mlxlogscore=884 clxscore=1015 priorityscore=1501 adultscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2502210134
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250218132702.114669-2-clamor95@gmail.com>
 
-On 20.02.2025 11:31 AM, Abel Vesa wrote:
-> Currently, for the high resolution PWMs, the resolution, clock,
-> pre-divider and exponent are being selected based on period. Basically,
-> the implementation loops over each one of these and tries to find the
-> closest (higher) period based on the following formula:
+On Tue, Feb 18, 2025 at 03:26:59PM +0200, Svyatoslav Ryhel wrote:
+> Add bindings for the LM3533 - a complete power source for
+> backlight, keypad, and indicator LEDs in smartphone handsets.
+> The high-voltage inductive boost converter provides the
+> power for two series LED strings display backlight and keypad
+> functions.
 > 
->                           period * refclk
-> prediv_exp = log2 -------------------------------------
->                     NSEC_PER_SEC * pre_div * resolution
-> 
-> Since the resolution is power of 2, the actual period resulting is
-> usually higher than what the resolution allows. That's why the duty
-> cycle requested needs to be capped to the maximum value allowed by the
-> resolution (known as PWM size).
-> 
-> Here is an example of how this can happen:
-> 
-> For a requested period of 5000000, the best clock is 19.2MHz, the best
-> prediv is 5, the best exponent is 6 and the best resolution is 256.
-> 
-> Then, the pwm value is determined based on requested period and duty
-> cycle, best prediv, best exponent and best clock, using the following
-> formula:
-> 
->                             duty * refclk
-> pwm_value = ----------------------------------------------
->                 NSEC_PER_SEC * prediv * (1 << prediv_exp)
-> 
-> So in this specific scenario:
-> 
-> (5000000 * 19200000) / (1000000000 * 5 * (1 << 64)) = 300
-> 
-> With a resolution of 8 bits, this pwm value obviously goes over.
-> 
-> Therefore, the max pwm value allowed needs to be 255.
-> 
-> If not, the PMIC internal logic will only value that is under the set PWM
-> size, resulting in a wrapped around PWM value.
-> 
-> This has been observed on Lenovo Thinkpad T14s Gen6 (LCD panel version)
-> which uses one of the PMK8550 to control the LCD backlight.
-> 
-> Fix the value of the PWM by capping to a max based on the chosen
-> resolution (PWM size).
-> 
-> Cc: stable@vger.kernel.org    # 6.4
-> Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for high resolution PWM")
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
+>  .../devicetree/bindings/mfd/ti,lm3533.yaml    | 231 ++++++++++++++++++
+>  1 file changed, 231 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
+> new file mode 100644
+> index 000000000000..83542f0c7bf7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
+> @@ -0,0 +1,231 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ti,lm3533.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LM3533 Complete Lighting Power Solution
+> +
+> +description: |
 
-Maybe Anjelique would know better, but the computer tells me PMK8550 has
-a 1*4*(not 15)-bit PWM controller.. I don't know if it's related, but
-something to keep in mind
+Use '>' rather than '|' if only formatting is paragraphs.
 
-Konrad
+> +  The LM3533 is a complete power source for backlight,
+> +  keypad, and indicator LEDs in smartphone handsets. The
+> +  high-voltage inductive boost converter provides the
+> +  power for two series LED strings display backlight and
+> +  keypad functions.
+
+Wrap lines at 80
+
+blank line here
+
+> +  https://www.ti.com/product/LM3533
+> +
+> +maintainers:
+> +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,lm3533
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  enable-gpios:
+> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
+> +    maxItems: 1
+> +
+> +  ti,boost-ovp-microvolt:
+> +    description:
+> +      Boost OVP select (16V, 24V, 32V, 40V)
+> +    enum: [ 16000000, 24000000, 32000000, 40000000 ]
+> +    default: 16000000
+> +
+> +  ti,boost-freq-hz:
+> +    description:
+> +      Boost frequency select (500KHz or 1MHz)
+> +    enum: [ 500000, 1000000 ]
+> +    default: 500000
+> +
+> +  light-sensor@0:
+> +    type: object
+> +    description:
+> +      Properties for an illumination sensor.
+> +
+> +    properties:
+> +      compatible:
+> +        const: ti,lm3533-als
+> +
+> +      reg:
+> +        const: 0
+> +
+> +      ti,resistor-value-ohm:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+
+Don't need '|'. Elsewhere too.
+
+> +          Internal configuration resister value when ALS is in Analog Sensor
+> +          mode and PWM mode is disabled.
+> +        minimum: 1575
+> +        maximum: 200000
+> +
+> +      ti,pwm-mode:
+> +        type: boolean
+> +        description: |
+> +          Switch for mode in which ALS is running. If this propertly is
+> +          set then ALS is running in PWM mode, internal resistor value is
+> +          set to high-impedance (0) and resistor-value-ohm propertly is
+> +          ignored.
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +    additionalProperties: false
+
+Move this above 'properties'.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +  - enable-gpios
+> +
+> +patternProperties:
+> +  "^backlight@[01]$":
+> +    type: object
+> +    description:
+> +      Properties for a backlight device.
+> +
+> +    $ref: /schemas/leds/backlight/common.yaml#
+> +
+> +    properties:
+> +      compatible:
+> +        const: ti,lm3533-backlight
+> +
+> +      reg:
+> +        description: |
+> +          The control bank that is used to program the two current sinks. The
+> +          LM3533 has two control banks (A and B) and are represented as 0 or 1
+> +          in this property. The two current sinks can be controlled
+> +          independently with both banks, or bank A can be configured to control
+> +          both sinks with the led-sources property.
+> +        minimum: 0
+> +        maximum: 1
+> +
+> +      default-brightness: true
+> +
+> +      ti,max-current-microamp:
+> +        description:
+> +          Maximum current in µA with a 800 µA step.
+> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
+> +                10600, 11400, 12200, 13000, 13800, 14600,
+> +                15400, 16200, 17000, 17800, 18600, 19400,
+> +                20200, 21000, 21800, 22600, 23400, 24200,
+> +                25000, 25800, 26600, 27400, 28200, 29000,
+> +                29800 ]
+> +        default: 5000
+> +
+> +      ti,pwm-config-mask:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+> +          Control Bank PWM Configuration Register mask that allows to configure
+> +          PWM input in Zones 0-4
+> +          BIT(0) - PWM Input is enabled
+> +          BIT(1) - PWM Input is enabled in Zone 0
+> +          BIT(2) - PWM Input is enabled in Zone 1
+> +          BIT(3) - PWM Input is enabled in Zone 2
+> +          BIT(4) - PWM Input is enabled in Zone 3
+> +          BIT(5) - PWM Input is enabled in Zone 4
+> +
+> +      ti,linear-mapping-mode:
+> +        description: |
+> +          Enable linear mapping mode. If disabled, then it will use exponential
+> +          mapping mode in which the ramp up/down appears to have a more uniform
+> +          transition to the human eye.
+> +        type: boolean
+> +
+> +      ti,hardware-controlled:
+> +        description: |
+> +          Each backlight has its own voltage Control Bank (A and B) and there are
+> +          two HVLED sinks which by default are linked to respective Bank. Setting
+> +          this property will link both sinks to a Control Bank of backlight where
+> +          property is defined.
+> +        type: boolean
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +  "^led@[0-3]$":
+> +    type: object
+> +    description:
+> +      Properties for a led device.
+> +
+> +    $ref: /schemas/leds/common.yaml#
+> +
+> +    properties:
+> +      compatible:
+> +        const: ti,lm3533-leds
+> +
+> +      reg:
+> +        description:
+> +          4 led banks
+> +        minimum: 0
+> +        maximum: 3
+> +
+> +      linux,default-trigger: true
+> +
+> +      ti,max-current-microamp:
+> +        description:
+> +          Maximum current in µA with a 800 µA step.
+> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
+> +                10600, 11400, 12200, 13000, 13800, 14600,
+> +                15400, 16200, 17000, 17800, 18600, 19400,
+> +                20200, 21000, 21800, 22600, 23400, 24200,
+> +                25000, 25800, 26600, 27400, 28200, 29000,
+> +                29800 ]
+> +        default: 5000
+> +
+> +      ti,pwm-config-mask:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Same descryption and function as for backlight.
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        led-controller@36 {
+> +            compatible = "ti,lm3533";
+> +            reg = <0x36>;
+> +
+> +            enable-gpios = <&gpio 110 GPIO_ACTIVE_HIGH>;
+> +
+> +            ti,boost-ovp-microvolt = <24000000>;
+> +            ti,boost-freq-hz = <500000>;
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            backlight@0 {
+> +                compatible = "ti,lm3533-backlight";
+> +                reg = <0>;
+> +
+> +                ti,max-current-microamp = <23400>;
+> +                default-brightness = <113>;
+> +                ti,hardware-controlled;
+> +            };
+
+Please make the example complete.
+
+> +        };
+> +    };
+> +...
+> -- 
+> 2.43.0
+> 
 
