@@ -1,124 +1,162 @@
-Return-Path: <linux-leds+bounces-4048-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4049-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CAEA3F224
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 11:31:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1861CA3F326
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 12:41:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0483170446
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 10:31:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6ABDB860032
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2025 11:39:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ADFF204F93;
-	Fri, 21 Feb 2025 10:31:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CC5520967C;
+	Fri, 21 Feb 2025 11:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWTVpvlT"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="deOZsFKN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44173205501;
-	Fri, 21 Feb 2025 10:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A720207DF8;
+	Fri, 21 Feb 2025 11:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740133889; cv=none; b=nNcgM1BLZU48K3ol6NF1vWcmXPrEWOhXRVSzX/oU7vlt7XmgUhdIsZvegnVFW9wsZKftUOXIi3KAh4zw8pbqDIk3jdlde1Wjcm85Kt5WmYI5af6i6ZnI4J5K0+PbhEa4zOZLsZK3EWqHeZHdrRYFlAnWy5QKznid3ktjQUqRCYc=
+	t=1740137977; cv=none; b=LmF0+eq1qNKRVBFuO5WVyR+DXkmYSaYfZEynwCb3/2zrewlDBkCEpBcLIOoQpwqs3XnchNNCRVXcHHVk8hEpv+iwaMg8r36uvZ+k/TvbEC6Dd8VvTtNPPM6hG0V0PtV0X2zctJt129q6qkVgIX44FTPt6x5jgOj1cb5uCazPweU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740133889; c=relaxed/simple;
-	bh=UOD81SOOv99aZPAdnSzK6KX7d0xxkiZrq3cW/CpKd4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ib5jWq75hpInh50u6lobQk0SMoRlgG83ly4TxnhJ9PKcHaJUcWjcMbhOQcVCctsSoYAf8Hd8tw9powZrga8VluQN5CpxJo3PXSvUqtiPPVVvNw71CQB2hRw3MTH82gNtoJY6ph9hrWjs7A5pFYfgKBpDCMk+DTyAfTrubNy21RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWTVpvlT; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740133887; x=1771669887;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UOD81SOOv99aZPAdnSzK6KX7d0xxkiZrq3cW/CpKd4s=;
-  b=LWTVpvlT15dM0Ml+rMQxje4/s4Toz8z4v10FEtj27R3SrEymu1T1BQGe
-   AqqMEbtL5Pg/gjHjSdj91ekFVDm/fhVdIiPLXKWkjm5Ne4fhrZ8uTG8uD
-   1LyArxKHWuT8yARSzfRKfqX66YcT0JGuOtBpZPE/htka96w2o32DwV4Bx
-   e4K22sXYU1vQY7R7gnQzqXyPtAxVkGurzelE3cXfePaPUghh4Ov4fF4rt
-   yDXU9TfNRX7lSP9Of4WsGvXzLz4lh+fr3ZnCeIc6hkrKhMObgX8N8VuJR
-   eU6rRYPZj0IxG+pjtyCREdjxO+dl+CX8WJn0RXF2f0Tod+vwjoO3JFIZk
-   g==;
-X-CSE-ConnectionGUID: KV81JenzTwaV42YTdEk0bA==
-X-CSE-MsgGUID: SC9NlRrCT1yY5cHdWBgbrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="63422850"
-X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="63422850"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 02:31:26 -0800
-X-CSE-ConnectionGUID: Wi7D5EgORwu+yzzB+zKGBQ==
-X-CSE-MsgGUID: nIAPelcTQEa2ho7+H5+r5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="138555009"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Feb 2025 02:31:24 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tlQJW-0005ON-39;
-	Fri, 21 Feb 2025 10:31:22 +0000
-Date: Fri, 21 Feb 2025 18:30:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nam Tran <trannamatk@gmail.com>, pavel@kernel.org, lee@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Nam Tran <trannamatk@gmail.com>
-Subject: Re: [PATCH v1 2/2] leds: add new LED driver for TI LP5812
-Message-ID: <202502211827.2FKKhUB7-lkp@intel.com>
-References: <20250220181541.2341-3-trannamatk@gmail.com>
+	s=arc-20240116; t=1740137977; c=relaxed/simple;
+	bh=Sml3o/HkUO8vLaWWXWZk2o3At1Jy/794DhB7GIldb6s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FanRKyu7Iw3SFIxYfNJFJwrxER4X442MQRy8gCB/2U7j3rZYv+xWJIUArfpVFyBERgWElyQZqIVaLrnS98MknBPtCnlEHcWSoBcbOoMCQXcx7kEOijrNwGvS+eTSyt0+KdZJRpok5R44feWBTiDJGJ9o+/yxIU2qtYzXiGPScMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=deOZsFKN; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e59d4d.dip0.t-ipconnect.de [217.229.157.77])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 305C82FC0182;
+	Fri, 21 Feb 2025 12:39:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1740137966;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LqXUo1FZ4TpebA15goo8baRIskVIN6WUi38uv9gPwFc=;
+	b=deOZsFKNmuJi0lPeSPivrTX2+2wjtvvKLqs7wSbApPPMJx4ziaoUyUlgNkvW+JfIP1tVeh
+	7e/mRwslMZtcjVNpm2dPNZABksf3cyyJYZwFCmc00DVTLG8/NOqGPhZOwxBn6/nU2bACwZ
+	wdhXvtekzZvIu+hG/nglgxoVs3tvMok=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <ea88c72e-a03f-4aac-9182-ece94fb99e54@tuxedocomputers.com>
+Date: Fri, 21 Feb 2025 12:39:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250220181541.2341-3-trannamatk@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Pavel Machek <pavel@ucw.cz>, Armin Wolf <W_Armin@gmx.de>,
+ Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+Cc: ilpo.jarvinen@linux.intel.com, dri-devel@lists.freedesktop.org,
+ jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, cs@tuxedo.de,
+ platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+ <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de> <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+ <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
+Content-Language: en-US
+In-Reply-To: <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Nam,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Am 06.02.25 um 17:18 schrieb Werner Sembach:
+> Hi,
+>
+> Am 01.02.25 um 09:48 schrieb Pavel Machek:
+>> Hi!
+>>
+>>>> I now got my feet a little wet with hid-bpf regarding something else, and
+>>>> with that knowledge I would leave the long arrays in the beginning in the
+>>>> kernel code for the time being:
+>>>>
+>>>> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+>>>> during initialization so they have to exist in the kernel code anyway.
+>>>>
+>>>> report_descriptor will most likly not change even for future models and
+>>>> afaik having report_descriptors in kernel drivers is not unheard of.
+>>>>
+>>>> So the only things that could be meaningfully moved to a hid-bpf program
+>>>> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
+>>>> out some fallback value anyway for the case where a hid-bpf file is missing
+>>>> or fails to load. So why not use real world values from my test device for
+>>>> these values?
+>>>>
+>>>> As soon as there is a future device that can use the same driver with just
+>>>> these pos arrays different, then I would implement that change via a bpf
+>>>> program instead of a change to the kernel driver.
+>>>>
+>>>> Let me know if you too think this is a sensefull approach?
+>>>>
+>>>>
+>>>> Another question: Would this patch need to wait for a userspace
+>>>> implementation of lamp array before it can get accepted?
+>>> It would be nice if you could test the LampArray implementation. But other 
+>>> than that
+>>> userspace can catch up later.
+>>>
+>>> Still, i am interested in the opinion of the LED maintainers
+>>> regarding the fake HID interface.
+>> Comments from previous review were not addressed.
+>>
+>> Most importantly, this is not a way to do kernel interface. We want
+>> reasonable interface that can be documented and modified as needed. We
+>> want to pass /dev/input to userspace, not raw HID. This is not ok.
+>
+> There are already 2 endless discussions about this:
+>
+> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/ 
+>
+>
+> https://lore.kernel.org/all/73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com/ 
+>
+>
+> And a shorter one before that:
+>
+> https://lore.kernel.org/all/30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com/ 
+>
+>
+> The brief:
+>
+> - LampArray is a standard that will hit the Linux world anyway.
+>
+> - The alternative proposal via a led matrix does not even really fit 
+> keyboards, and does not at all fit all other device types.
+>
+> Hans and Benjamin already agree with me that LampArray is the way to go.
+>
+> So after over 2 years can I please have a final decision on how to implement 
+> this?
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.14-rc3 next-20250221]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Any update?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-Add-LP5812-LED-driver-bindings/20250221-021848
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250220181541.2341-3-trannamatk%40gmail.com
-patch subject: [PATCH v1 2/2] leds: add new LED driver for TI LP5812
-reproduce: (https://download.01.org/0day-ci/archive/20250221/202502211827.2FKKhUB7-lkp@intel.com/reproduce)
+Best regards,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211827.2FKKhUB7-lkp@intel.com/
+Werner Sembach
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/leds/leds-lp5812.c: 10 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 424: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> Regards,
+>
+> Werner
+>
+>>
+>> Best regards,
+>>                                 Pavel
 
