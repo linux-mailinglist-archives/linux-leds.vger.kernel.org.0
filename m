@@ -1,155 +1,110 @@
-Return-Path: <linux-leds+bounces-4060-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4061-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E2BA40A81
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 18:06:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD13A40AA1
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 18:27:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 415E33B38F2
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 17:06:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0633189D9F6
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 17:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE9412E7F;
-	Sat, 22 Feb 2025 17:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8C31FFC6F;
+	Sat, 22 Feb 2025 17:27:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgUh1JFC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYhhby/4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5B5EEDE
-	for <linux-leds@vger.kernel.org>; Sat, 22 Feb 2025 17:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E541F1506;
+	Sat, 22 Feb 2025 17:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740244006; cv=none; b=I9NEaXoPMeZtuuMnjNPE5E+/WIjo6ebMu9pqGrD2FsRgxXQClaR3arVEsguSrty9h6kAgI4SdENHzsXUYI9NerPFWizk3V23LcWaPj9wAnN0SbjVfvo4M+RPvpAVXnHJ+VDIGbFFzs5MCV12r1HgS4RwJgHh6crhhjY8ClXqmGU=
+	t=1740245249; cv=none; b=SmUgj9SThSG6rTDDj4OpCqJgHXhF3qufkYU4XDyLAW5cr4vCghf8ORYYP/bzd+fU4rplVQ+0kxLcYBqOtqlsLJfXOvYagjDege4Wdsuvp3zfc0ARs+oScCN72hJONG1WyixiQ+7f403XIGwQwjtH5VeF938K9glvDq20ocWl5Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740244006; c=relaxed/simple;
-	bh=+TUN+cj0XjHqWvEES8OlGzIQd+jDsTJfFQyR4F+lm+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lB2svNGkBCJcL5UFm57naAKnSYkk7ObPG7qqjXNzLxg0tFfVwTRH5oU+5tpnCKB1VkDE8FvJCgY53mDlLfUapzI6UnqE87tMOGJCTeLdmBSast7Sp1fKpqnqWfOw0bgC42c1IUb/7LbAc/2RHnO6A7cOvq/mbER35KdN8eRFzS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AgUh1JFC; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740244005; x=1771780005;
-  h=date:from:to:cc:subject:message-id;
-  bh=+TUN+cj0XjHqWvEES8OlGzIQd+jDsTJfFQyR4F+lm+Q=;
-  b=AgUh1JFCpMEBhp2qarixYahmXgL+ehihaAWAUT7+GH7PMndlVgs9W+WV
-   uOkNT5xF9JM1TeBJOVDvhxOLOt8OfHnPLcdqfzMBOZunk1vMHTR2fA0s/
-   WGg4dv3s6O+PAZQNKy12XX0ykR9GNEopONg5sRd8c8hsq9hl53+dam6/o
-   4UmQWILCy0U/9Uo7JCR/ew/H9RO5RZroCa+1fNxU7m8buzDva9E6CAeJl
-   anBO23QgzQXA+ryhh2ca5sxZEjykUadWWjrIYO7PNaIhMJX5tj3PZADaU
-   aLMlQV9NWgBWDVPORHWCUnI/K5q1MTzJrqlNMp5fyRmpZX6qD61oEbX4u
-   Q==;
-X-CSE-ConnectionGUID: niJFFgYVR9iMHXdXwQ2oyA==
-X-CSE-MsgGUID: ax6ytZ4ETM6yXWwpZOzDDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="41190342"
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="41190342"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 09:06:45 -0800
-X-CSE-ConnectionGUID: zG+qaZdZSYSj9G7Wz39fCw==
-X-CSE-MsgGUID: 0Zxnd44zTvKEt9sEp+zdMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="138875256"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2025 09:06:43 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tlsxd-0006kJ-1G;
-	Sat, 22 Feb 2025 17:06:41 +0000
-Date: Sun, 23 Feb 2025 01:06:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 012825dbd5aa7454b93f7a17bd99efee114023ba
-Message-ID: <202502230128.0jVazF37-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1740245249; c=relaxed/simple;
+	bh=CL61gAUqhb0sQMX+rTET5exH4siStwJSEMSACoiFGKo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O99vNH2YpNeN5i3dDXGpQ0mC8i07nQMHfCznwaavMRsJkiIFE/fUHFmiqvujZWIb0blSUYfaHicxr6rRlcs9Ho9xpNJnxaWWUtJjxH/ZQQG7nV6+MSrTJZUSO2xXnRZbscVrjYDHmNyhSFS2w+UFcWP6C61zIQLEDfLVDMqGjk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYhhby/4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A99C4CED1;
+	Sat, 22 Feb 2025 17:27:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740245249;
+	bh=CL61gAUqhb0sQMX+rTET5exH4siStwJSEMSACoiFGKo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZYhhby/4+5agcCxUg89X9BuGaSUpK2vX48Zi2ELbrOmDCXhqRz09VtRY7G2+DiDBC
+	 Nc9lbo+FGDeBIfbYuE4iQKcOtg1B5iZ9uvMNDs4sdnzT+W43hfNxDfbJpIqcofEVqQ
+	 b3gi6tutBAyvMNwU9ZPH6ffIrDXE8DcmqqI9H0FwBJOH7FIOCbcfTfB9WCEl30Tcq3
+	 AANt0zcPRNgdWbJ8jFXyNxGHUohg4UNbEPUSeVZliARRtCNLa/+VkRfKGqHT9LFSfK
+	 72Oqf1cPmMpqz8lMLmD236A5/2ixgYB68+DB3PY++FgwOlHsTP3R50yITxKlOJqW3b
+	 VW71TkE0WbNaA==
+Date: Sat, 22 Feb 2025 17:27:17 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel
+ Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
+ Deller <deller@gmx.de>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: mfd: Document TI LM3533 MFD
+Message-ID: <20250222172717.72b665fd@jic23-huawei>
+In-Reply-To: <CAPVz0n0up=vkVzryYLauNCM2=hnz-o_ECm+ooXC8y=C2q+T_WQ@mail.gmail.com>
+References: <20250218132702.114669-1-clamor95@gmail.com>
+	<20250218132702.114669-2-clamor95@gmail.com>
+	<20250222142910.4e6b706d@jic23-huawei>
+	<CAPVz0n0up=vkVzryYLauNCM2=hnz-o_ECm+ooXC8y=C2q+T_WQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 012825dbd5aa7454b93f7a17bd99efee114023ba  Revert "leds-pca955x: Remove the unused function pca95xx_num_led_regs()"
+On Sat, 22 Feb 2025 16:39:31 +0200
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-elapsed time: 1446m
+> =D1=81=D0=B1, 22 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 16:29 Jo=
+nathan Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Tue, 18 Feb 2025 15:26:59 +0200
+> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > =20
+> > > Add bindings for the LM3533 - a complete power source for
+> > > backlight, keypad, and indicator LEDs in smartphone handsets.
+> > > The high-voltage inductive boost converter provides the
+> > > power for two series LED strings display backlight and keypad
+> > > functions. =20
+> >
+> > Wrap patch descriptions to 75 chars as describe in submitting-patches.r=
+st
+> > =20
+>=20
+> Alright, though why then checkpatch script has max line length 100 chars?
+>=20
+> https://github.com/torvalds/linux/commit/bdc48fa11e46f867ea4d75fa59ee87a7=
+f48be144
 
-configs tested: 62
-configs skipped: 1
+Because that script is intended to catch when things are very wrong not
+slightly so.  It provides guidance that you should look at and consider
+whether to respond to.  Checking for short wrap is trickier to do as
+perhaps the formatting is intended in some cases.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-tested configs:
-alpha                           allyesconfig    gcc-14.2.0
-arc                  randconfig-001-20250222    gcc-13.2.0
-arc                  randconfig-002-20250222    gcc-13.2.0
-arm                  randconfig-001-20250222    gcc-14.2.0
-arm                  randconfig-002-20250222    gcc-14.2.0
-arm                  randconfig-003-20250222    clang-16
-arm                  randconfig-004-20250222    gcc-14.2.0
-arm64                randconfig-001-20250222    gcc-14.2.0
-arm64                randconfig-002-20250222    clang-21
-arm64                randconfig-003-20250222    clang-18
-arm64                randconfig-004-20250222    clang-21
-csky                 randconfig-001-20250222    gcc-14.2.0
-csky                 randconfig-002-20250222    gcc-14.2.0
-hexagon                         allmodconfig    clang-21
-hexagon                         allyesconfig    clang-18
-hexagon              randconfig-001-20250222    clang-17
-hexagon              randconfig-002-20250222    clang-19
-i386       buildonly-randconfig-001-20250222    clang-19
-i386       buildonly-randconfig-002-20250222    gcc-12
-i386       buildonly-randconfig-003-20250222    gcc-12
-i386       buildonly-randconfig-004-20250222    clang-19
-i386       buildonly-randconfig-005-20250222    gcc-12
-i386       buildonly-randconfig-006-20250222    clang-19
-loongarch            randconfig-001-20250222    gcc-14.2.0
-loongarch            randconfig-002-20250222    gcc-14.2.0
-nios2                randconfig-001-20250222    gcc-14.2.0
-nios2                randconfig-002-20250222    gcc-14.2.0
-parisc               randconfig-001-20250222    gcc-14.2.0
-parisc               randconfig-002-20250222    gcc-14.2.0
-powerpc              randconfig-001-20250222    gcc-14.2.0
-powerpc              randconfig-002-20250222    gcc-14.2.0
-powerpc              randconfig-003-20250222    gcc-14.2.0
-powerpc64            randconfig-001-20250222    gcc-14.2.0
-powerpc64            randconfig-002-20250222    clang-16
-powerpc64            randconfig-003-20250222    clang-18
-riscv                randconfig-001-20250222    clang-21
-riscv                randconfig-002-20250222    gcc-14.2.0
-s390                            allmodconfig    clang-19
-s390                            allyesconfig    gcc-14.2.0
-s390                 randconfig-001-20250222    gcc-14.2.0
-s390                 randconfig-002-20250222    clang-15
-sh                              allmodconfig    gcc-14.2.0
-sh                              allyesconfig    gcc-14.2.0
-sh                   randconfig-001-20250222    gcc-14.2.0
-sh                   randconfig-002-20250222    gcc-14.2.0
-sparc                           allmodconfig    gcc-14.2.0
-sparc                randconfig-001-20250222    gcc-14.2.0
-sparc                randconfig-002-20250222    gcc-14.2.0
-sparc64              randconfig-001-20250222    gcc-14.2.0
-sparc64              randconfig-002-20250222    gcc-14.2.0
-um                              allmodconfig    clang-21
-um                              allyesconfig    gcc-12
-um                   randconfig-001-20250222    gcc-12
-um                   randconfig-002-20250222    gcc-12
-x86_64     buildonly-randconfig-001-20250222    clang-19
-x86_64     buildonly-randconfig-002-20250222    gcc-12
-x86_64     buildonly-randconfig-003-20250222    gcc-12
-x86_64     buildonly-randconfig-004-20250222    clang-19
-x86_64     buildonly-randconfig-005-20250222    clang-19
-x86_64     buildonly-randconfig-006-20250222    gcc-12
-xtensa               randconfig-001-20250222    gcc-14.2.0
-xtensa               randconfig-002-20250222    gcc-14.2.0
+Jonathan
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com> =20
+
 
