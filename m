@@ -1,120 +1,155 @@
-Return-Path: <linux-leds+bounces-4059-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4060-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6BAA40928
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 15:39:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E2BA40A81
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 18:06:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17B6517AF56
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 14:39:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 415E33B38F2
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 17:06:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBC42176AA1;
-	Sat, 22 Feb 2025 14:39:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE9412E7F;
+	Sat, 22 Feb 2025 17:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jPs7DcuS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgUh1JFC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E13070830;
-	Sat, 22 Feb 2025 14:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5B5EEDE
+	for <linux-leds@vger.kernel.org>; Sat, 22 Feb 2025 17:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740235186; cv=none; b=NiQzEKjJsZGyfcLvdO5VSTUEtf2q0WUKGGpzzDItolj4VjpgvNLeGDLlU/qbKTcsg086qdUrxm0Y23cuLC9xxZVYL9hbodjucl3llxcj5HPcGxL48v9pciNIuSCthN1KA0SxmI3eK8YxTrDeXmPWbDqn+mmhyLEJjvfIALBtI1Q=
+	t=1740244006; cv=none; b=I9NEaXoPMeZtuuMnjNPE5E+/WIjo6ebMu9pqGrD2FsRgxXQClaR3arVEsguSrty9h6kAgI4SdENHzsXUYI9NerPFWizk3V23LcWaPj9wAnN0SbjVfvo4M+RPvpAVXnHJ+VDIGbFFzs5MCV12r1HgS4RwJgHh6crhhjY8ClXqmGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740235186; c=relaxed/simple;
-	bh=PBmt0sYMIFhvFdLPyTV+3bLT9pVncOJVnlGTV+VP3VU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CXB32e+OVN95yX0FsvvG0O7WqhtZ8xvi+sirkKOgbr1oDXCqJpE3i5/nFthvJ9vkG9HkyEYoy3WXTLesSmuGTy1gn5KnRf5kZ+VFmag0aBSk+wdIdDVwrCXXa3rICKroc/NuRe+QQe3+1ZqLjTrcB2/Iiyx9nir/qkAHr89RDek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jPs7DcuS; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so1783986f8f.1;
-        Sat, 22 Feb 2025 06:39:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740235183; x=1740839983; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PBmt0sYMIFhvFdLPyTV+3bLT9pVncOJVnlGTV+VP3VU=;
-        b=jPs7DcuSlf/zyV13+3l+tDrD1mUi4714T6WYrpFWy5qi1HEyMz3Gpy4I3GNgnwOsC3
-         2WYZKbQeWhpONX0DBxtSl5cda5gVmM1XI3pxw7vze21fOnt2HGVB7OhRLB8G+BtrrBKP
-         qaoyoB8/YK5MpLin0xv+hanF2DV2ureCd0gZuIvULaqLn1FK0Tqv78f8Dd3czrRZoKTs
-         r/z2JHsF9jwgYbvji9e9y5BI8g2Ec607w0+4xOfbOMQ0RJWz0j09dSpZUDWRaDjRP1nS
-         pGAhcaAEsH+DpeXJQzIdz5zx7ufut88jLJJEBQ3akuS5XJUQKT+abL3OiC1dUMSqogPr
-         rZ3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740235183; x=1740839983;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PBmt0sYMIFhvFdLPyTV+3bLT9pVncOJVnlGTV+VP3VU=;
-        b=TqhiT86QwRreIMGn5CHGgJOHhPn+hLCxBYtpTp3Z2CoM0FuutPXLmxKCbhVBg8ZCvQ
-         5yhIvafBxIwOue0gttFZBRJ7HpnyLHg2UdLjt7tqGUynoGiARzUOneSeG/578rVSiabe
-         pt41+AX8OQpTHh9I/oMkp44wvYHuvJD2fLOP65obtJsJ0cVvNkP7v1YVM2S9NGnC/XlC
-         oP6hkvYc9sHLkKSVCes6l6vlqFfyQMmhz1QkPHuMaxJClvDlBjubYkQlExYs5IuRhZL+
-         oJ/dL44iT/K9R0lgUsq+3UF97Mcai7J8zaKv3+zMtpcGTxKtYbj+Ax0BEERbCzQ7bNfk
-         uRhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFc5omtoT/9JPp/4UMkX1hoOnkDIgLgWgaCfoFM3PPBtk+TcrIjzN8wQGm2VmrGb7n0RHfK3r9EMuy@vger.kernel.org, AJvYcCUfQe5J15+QWta0prHiNbESpPM3jIT/+u4NHanxFC98tPphhIOQD47JYOZC10W1jk4SW80r7jExazUoQtwi@vger.kernel.org, AJvYcCUlHsuSbq3cTv4VsrH15f1RFZX8du0WtTBgFcIwnjAYhFiHFJHFtuC9byismw3tvUQsiCWTAdg5D+GgMGY=@vger.kernel.org, AJvYcCUthXgKPR1sfiyHYJ6dbTzKw1bumJpD7UjdIUh7JWUKkVFBZC03rrLwJwJcMVyw0WdKkqwBy4p22zwv@vger.kernel.org, AJvYcCXcE0xY2QhRjW8QHUvnYrawMNuwF/XXNhb8/FFQP+OEZB8w5X+uYe1MtmwS/cg4nBe2m2JDSvYfNIrmwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKSWAMNnWy56H3fkgWC8xgXza3scTqpNn7HpaQhsmax/J4A8Ep
-	AV+xM7Bu6SMygHDX+SrY6XaHgxvLWy2fFNYMG+guoIjtyS6hE08/N+cRqRRbDtwAWghJ7bRJBLk
-	o278aVtkYgGrwWtkPlHUtJfSJaO4=
-X-Gm-Gg: ASbGncuYsxSumrKZy5OdfniJDZqj6lUgWYquzJqEIjjr2HhhQb30ArY5gryMzR6I9oI
-	IzNf0gfd/rESvyZrH/NgZ3OVN/HQl23sH54LzCM1LHb70f5iKTZ/kgqz6FYOYgArowoFsC3J9RF
-	l7JY+7ZfNZ
-X-Google-Smtp-Source: AGHT+IHhfsh8L7SoEfSEAPt4i71ayj8NVEs5Jlp8DnbYgaOEu/0ofJ6OfKwdPbxf6QtaA24Nr5hPTMqg2KwgIHxy5SI=
-X-Received: by 2002:a5d:6d03:0:b0:38f:32ac:7e70 with SMTP id
- ffacd0b85a97d-38f6f0c13dcmr5144501f8f.49.1740235183190; Sat, 22 Feb 2025
- 06:39:43 -0800 (PST)
+	s=arc-20240116; t=1740244006; c=relaxed/simple;
+	bh=+TUN+cj0XjHqWvEES8OlGzIQd+jDsTJfFQyR4F+lm+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lB2svNGkBCJcL5UFm57naAKnSYkk7ObPG7qqjXNzLxg0tFfVwTRH5oU+5tpnCKB1VkDE8FvJCgY53mDlLfUapzI6UnqE87tMOGJCTeLdmBSast7Sp1fKpqnqWfOw0bgC42c1IUb/7LbAc/2RHnO6A7cOvq/mbER35KdN8eRFzS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AgUh1JFC; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740244005; x=1771780005;
+  h=date:from:to:cc:subject:message-id;
+  bh=+TUN+cj0XjHqWvEES8OlGzIQd+jDsTJfFQyR4F+lm+Q=;
+  b=AgUh1JFCpMEBhp2qarixYahmXgL+ehihaAWAUT7+GH7PMndlVgs9W+WV
+   uOkNT5xF9JM1TeBJOVDvhxOLOt8OfHnPLcdqfzMBOZunk1vMHTR2fA0s/
+   WGg4dv3s6O+PAZQNKy12XX0ykR9GNEopONg5sRd8c8hsq9hl53+dam6/o
+   4UmQWILCy0U/9Uo7JCR/ew/H9RO5RZroCa+1fNxU7m8buzDva9E6CAeJl
+   anBO23QgzQXA+ryhh2ca5sxZEjykUadWWjrIYO7PNaIhMJX5tj3PZADaU
+   aLMlQV9NWgBWDVPORHWCUnI/K5q1MTzJrqlNMp5fyRmpZX6qD61oEbX4u
+   Q==;
+X-CSE-ConnectionGUID: niJFFgYVR9iMHXdXwQ2oyA==
+X-CSE-MsgGUID: ax6ytZ4ETM6yXWwpZOzDDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="41190342"
+X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
+   d="scan'208";a="41190342"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 09:06:45 -0800
+X-CSE-ConnectionGUID: zG+qaZdZSYSj9G7Wz39fCw==
+X-CSE-MsgGUID: 0Zxnd44zTvKEt9sEp+zdMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
+   d="scan'208";a="138875256"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2025 09:06:43 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlsxd-0006kJ-1G;
+	Sat, 22 Feb 2025 17:06:41 +0000
+Date: Sun, 23 Feb 2025 01:06:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 012825dbd5aa7454b93f7a17bd99efee114023ba
+Message-ID: <202502230128.0jVazF37-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250218132702.114669-1-clamor95@gmail.com> <20250218132702.114669-2-clamor95@gmail.com>
- <20250222142910.4e6b706d@jic23-huawei>
-In-Reply-To: <20250222142910.4e6b706d@jic23-huawei>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Sat, 22 Feb 2025 16:39:31 +0200
-X-Gm-Features: AWEUYZnZiYzFm0aljnXobt-fG7MOBn3hu3PRi2D5FDNHFhs1inR24Sh-v5qul0w
-Message-ID: <CAPVz0n0up=vkVzryYLauNCM2=hnz-o_ECm+ooXC8y=C2q+T_WQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: mfd: Document TI LM3533 MFD
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-=D1=81=D0=B1, 22 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 16:29 Jona=
-than Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Tue, 18 Feb 2025 15:26:59 +0200
-> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
->
-> > Add bindings for the LM3533 - a complete power source for
-> > backlight, keypad, and indicator LEDs in smartphone handsets.
-> > The high-voltage inductive boost converter provides the
-> > power for two series LED strings display backlight and keypad
-> > functions.
->
-> Wrap patch descriptions to 75 chars as describe in submitting-patches.rst
->
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 012825dbd5aa7454b93f7a17bd99efee114023ba  Revert "leds-pca955x: Remove the unused function pca95xx_num_led_regs()"
 
-Alright, though why then checkpatch script has max line length 100 chars?
+elapsed time: 1446m
 
-https://github.com/torvalds/linux/commit/bdc48fa11e46f867ea4d75fa59ee87a7f4=
-8be144
+configs tested: 62
+configs skipped: 1
 
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                           allyesconfig    gcc-14.2.0
+arc                  randconfig-001-20250222    gcc-13.2.0
+arc                  randconfig-002-20250222    gcc-13.2.0
+arm                  randconfig-001-20250222    gcc-14.2.0
+arm                  randconfig-002-20250222    gcc-14.2.0
+arm                  randconfig-003-20250222    clang-16
+arm                  randconfig-004-20250222    gcc-14.2.0
+arm64                randconfig-001-20250222    gcc-14.2.0
+arm64                randconfig-002-20250222    clang-21
+arm64                randconfig-003-20250222    clang-18
+arm64                randconfig-004-20250222    clang-21
+csky                 randconfig-001-20250222    gcc-14.2.0
+csky                 randconfig-002-20250222    gcc-14.2.0
+hexagon                         allmodconfig    clang-21
+hexagon                         allyesconfig    clang-18
+hexagon              randconfig-001-20250222    clang-17
+hexagon              randconfig-002-20250222    clang-19
+i386       buildonly-randconfig-001-20250222    clang-19
+i386       buildonly-randconfig-002-20250222    gcc-12
+i386       buildonly-randconfig-003-20250222    gcc-12
+i386       buildonly-randconfig-004-20250222    clang-19
+i386       buildonly-randconfig-005-20250222    gcc-12
+i386       buildonly-randconfig-006-20250222    clang-19
+loongarch            randconfig-001-20250222    gcc-14.2.0
+loongarch            randconfig-002-20250222    gcc-14.2.0
+nios2                randconfig-001-20250222    gcc-14.2.0
+nios2                randconfig-002-20250222    gcc-14.2.0
+parisc               randconfig-001-20250222    gcc-14.2.0
+parisc               randconfig-002-20250222    gcc-14.2.0
+powerpc              randconfig-001-20250222    gcc-14.2.0
+powerpc              randconfig-002-20250222    gcc-14.2.0
+powerpc              randconfig-003-20250222    gcc-14.2.0
+powerpc64            randconfig-001-20250222    gcc-14.2.0
+powerpc64            randconfig-002-20250222    clang-16
+powerpc64            randconfig-003-20250222    clang-18
+riscv                randconfig-001-20250222    clang-21
+riscv                randconfig-002-20250222    gcc-14.2.0
+s390                            allmodconfig    clang-19
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20250222    gcc-14.2.0
+s390                 randconfig-002-20250222    clang-15
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20250222    gcc-14.2.0
+sh                   randconfig-002-20250222    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20250222    gcc-14.2.0
+sparc                randconfig-002-20250222    gcc-14.2.0
+sparc64              randconfig-001-20250222    gcc-14.2.0
+sparc64              randconfig-002-20250222    gcc-14.2.0
+um                              allmodconfig    clang-21
+um                              allyesconfig    gcc-12
+um                   randconfig-001-20250222    gcc-12
+um                   randconfig-002-20250222    gcc-12
+x86_64     buildonly-randconfig-001-20250222    clang-19
+x86_64     buildonly-randconfig-002-20250222    gcc-12
+x86_64     buildonly-randconfig-003-20250222    gcc-12
+x86_64     buildonly-randconfig-004-20250222    clang-19
+x86_64     buildonly-randconfig-005-20250222    clang-19
+x86_64     buildonly-randconfig-006-20250222    gcc-12
+xtensa               randconfig-001-20250222    gcc-14.2.0
+xtensa               randconfig-002-20250222    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
