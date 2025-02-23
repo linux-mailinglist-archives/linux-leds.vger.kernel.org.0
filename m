@@ -1,110 +1,92 @@
-Return-Path: <linux-leds+bounces-4061-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4062-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD13A40AA1
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 18:27:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80085A40EC5
+	for <lists+linux-leds@lfdr.de>; Sun, 23 Feb 2025 13:15:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0633189D9F6
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Feb 2025 17:27:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6408A16E64F
+	for <lists+linux-leds@lfdr.de>; Sun, 23 Feb 2025 12:15:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8C31FFC6F;
-	Sat, 22 Feb 2025 17:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEF7F201270;
+	Sun, 23 Feb 2025 12:15:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYhhby/4"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KIlnO9D8"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E541F1506;
-	Sat, 22 Feb 2025 17:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0973A6FC3
+	for <linux-leds@vger.kernel.org>; Sun, 23 Feb 2025 12:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740245249; cv=none; b=SmUgj9SThSG6rTDDj4OpCqJgHXhF3qufkYU4XDyLAW5cr4vCghf8ORYYP/bzd+fU4rplVQ+0kxLcYBqOtqlsLJfXOvYagjDege4Wdsuvp3zfc0ARs+oScCN72hJONG1WyixiQ+7f403XIGwQwjtH5VeF938K9glvDq20ocWl5Co=
+	t=1740312951; cv=none; b=Q7vX2+/Dk2FAvcLl2bOPJTXTYnj79VrQUBu8fwDfoO1vPzYJipLhab/dapxI7lKMV/NZ0jRpeGoZGWHD7NPWfbW/m4pHzsR8qzUzqEuEStOH3SKG3OQfM4ZF/bGxEaaHyKXnjLIz8tF/LSWZf3tKkpMgb2K9clfh9rSmw8cPvWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740245249; c=relaxed/simple;
-	bh=CL61gAUqhb0sQMX+rTET5exH4siStwJSEMSACoiFGKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O99vNH2YpNeN5i3dDXGpQ0mC8i07nQMHfCznwaavMRsJkiIFE/fUHFmiqvujZWIb0blSUYfaHicxr6rRlcs9Ho9xpNJnxaWWUtJjxH/ZQQG7nV6+MSrTJZUSO2xXnRZbscVrjYDHmNyhSFS2w+UFcWP6C61zIQLEDfLVDMqGjk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYhhby/4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A99C4CED1;
-	Sat, 22 Feb 2025 17:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740245249;
-	bh=CL61gAUqhb0sQMX+rTET5exH4siStwJSEMSACoiFGKo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZYhhby/4+5agcCxUg89X9BuGaSUpK2vX48Zi2ELbrOmDCXhqRz09VtRY7G2+DiDBC
-	 Nc9lbo+FGDeBIfbYuE4iQKcOtg1B5iZ9uvMNDs4sdnzT+W43hfNxDfbJpIqcofEVqQ
-	 b3gi6tutBAyvMNwU9ZPH6ffIrDXE8DcmqqI9H0FwBJOH7FIOCbcfTfB9WCEl30Tcq3
-	 AANt0zcPRNgdWbJ8jFXyNxGHUohg4UNbEPUSeVZliARRtCNLa/+VkRfKGqHT9LFSfK
-	 72Oqf1cPmMpqz8lMLmD236A5/2ixgYB68+DB3PY++FgwOlHsTP3R50yITxKlOJqW3b
-	 VW71TkE0WbNaA==
-Date: Sat, 22 Feb 2025 17:27:17 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel
- Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
- Deller <deller@gmx.de>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: mfd: Document TI LM3533 MFD
-Message-ID: <20250222172717.72b665fd@jic23-huawei>
-In-Reply-To: <CAPVz0n0up=vkVzryYLauNCM2=hnz-o_ECm+ooXC8y=C2q+T_WQ@mail.gmail.com>
-References: <20250218132702.114669-1-clamor95@gmail.com>
-	<20250218132702.114669-2-clamor95@gmail.com>
-	<20250222142910.4e6b706d@jic23-huawei>
-	<CAPVz0n0up=vkVzryYLauNCM2=hnz-o_ECm+ooXC8y=C2q+T_WQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1740312951; c=relaxed/simple;
+	bh=JmGHL0HtrhUwS2TqlnvpTuK3a1KLvGiRHI28miZ6j2Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D/kpeFd+TfermXWSBXaPu28sm/4hcUe+Al6GrXoAOKYCA5PEGX1oCc2vFR3U6ZVHeOIjRSWhBrZruB5cFu+FxuLun7A/Wng/3xSau9/lP5ytlzhPIrOVUMCdEJ2s+bbWwepX9fEEa/5RZzCwtM/bznUQm3h/3aQeeWFT8JQXZ/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KIlnO9D8; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ewG3w
+	tXW8kUs9/Y2QSD/o9DN1UuVUsphYUQ/MNLyMmo=; b=KIlnO9D8dY00VTkuB7IZS
+	gb9dJQhOZIN0aSiTc7DjpNh5Li73JLV12mga76KzoDj98GRYoCArKW4oMa1bzY1q
+	35GcsdR96ctWw9E5fO0u1Eh0aM+mHGbWl9kqR8NZX/T0Fgh7GoRNTDPhVlaOR8km
+	uFryghkKro8ZMFhMWyPWFU=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgBHZ1xHEbtnyQmcOw--.26339S4;
+	Sun, 23 Feb 2025 20:15:32 +0800 (CST)
+From: Yuanjun Gong <ruc_gongyuanjun@163.com>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
+	linux-leds@vger.kernel.org
+Cc: Yuanjun Gong <ruc_gongyuanjun@163.com>
+Subject: [PATCH 1/1] leds: pwm-multicolor: Add check for fwnode_property_read_u32
+Date: Sun, 23 Feb 2025 20:14:59 +0800
+Message-Id: <20250223121459.2889484-1-ruc_gongyuanjun@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:QCgvCgBHZ1xHEbtnyQmcOw--.26339S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWruFy5tF48WF4rAF17tw4fXwb_yoWfKFX_u3
+	yxuF97XrZxWay8trn09anayasa9rZ5WrykWr4Iva4ft347urn0qF40vF9rZw4UW3srKr95
+	Wa15AFy3Zr1SgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRWbyAJUUUUU==
+X-CM-SenderInfo: 5uxfsw5rqj53pdqm30i6rwjhhfrp/1tbiJwn75We6CfHZQgABsP
 
-On Sat, 22 Feb 2025 16:39:31 +0200
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+Add a check to the return value of fwnode_property_read_u32()
+in case it fails.
 
-> =D1=81=D0=B1, 22 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 16:29 Jo=
-nathan Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > On Tue, 18 Feb 2025 15:26:59 +0200
-> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
-> > =20
-> > > Add bindings for the LM3533 - a complete power source for
-> > > backlight, keypad, and indicator LEDs in smartphone handsets.
-> > > The high-voltage inductive boost converter provides the
-> > > power for two series LED strings display backlight and keypad
-> > > functions. =20
-> >
-> > Wrap patch descriptions to 75 chars as describe in submitting-patches.r=
-st
-> > =20
->=20
-> Alright, though why then checkpatch script has max line length 100 chars?
->=20
-> https://github.com/torvalds/linux/commit/bdc48fa11e46f867ea4d75fa59ee87a7=
-f48be144
+Signed-off-by: Yuanjun Gong <ruc_gongyuanjun@163.com>
+---
+ drivers/leds/rgb/leds-pwm-multicolor.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Because that script is intended to catch when things are very wrong not
-slightly so.  It provides guidance that you should look at and consider
-whether to respond to.  Checking for short wrap is trickier to do as
-perhaps the formatting is intended in some cases.
-
-
-Jonathan
-
->=20
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com> =20
+diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
+index f80a06cc31f8..1c7705bafdfc 100644
+--- a/drivers/leds/rgb/leds-pwm-multicolor.c
++++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+@@ -141,8 +141,11 @@ static int led_pwm_mc_probe(struct platform_device *pdev)
+ 
+ 	/* init the multicolor's LED class device */
+ 	cdev = &priv->mc_cdev.led_cdev;
+-	fwnode_property_read_u32(mcnode, "max-brightness",
++	ret = fwnode_property_read_u32(mcnode, "max-brightness",
+ 				 &cdev->max_brightness);
++	if (ret)
++		goto release_mcnode;
++
+ 	cdev->flags = LED_CORE_SUSPENDRESUME;
+ 	cdev->brightness_set_blocking = led_pwm_mc_set;
+ 
+-- 
+2.25.1
 
 
