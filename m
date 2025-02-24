@@ -1,159 +1,248 @@
-Return-Path: <linux-leds+bounces-4065-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4066-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5E7A416F4
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2025 09:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55490A4174F
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2025 09:28:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6E541895577
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2025 08:11:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28DA518906C6
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2025 08:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C1E9241CA2;
-	Mon, 24 Feb 2025 08:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7840185B72;
+	Mon, 24 Feb 2025 08:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uNgqshJv"
+	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="WqXOe5EC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2088.outbound.protection.outlook.com [40.107.117.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE302417C2;
-	Mon, 24 Feb 2025 08:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740384671; cv=none; b=En6j9NvJiu7USGkH3BS45/eAdT5BZH1QG7y0hp488w5XF3F57vYkTLAtVnSLHO7NykuFVDRliuDWdXiKuzvceP3ZGIXJkI6GthULlk0e0V5EuC2i078DnFeI4nN0Yi5XM1uhBIAyjlzMtvhVqsACHMzFrY+jV+uQyR1cgUPsk8o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740384671; c=relaxed/simple;
-	bh=XeJkQDc4AhpFioo9gr+LS5UXIJ0XZpuDmfYxSva973A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VQsrwvooS4mRm83AAkUDlW4fVNRQxNwN8AgRqWHViM9ECMGQ0iIgbpso/isSWuy/0DOpTA1Yx6F7xUM/YJwI/B35pG/BKK73ew09IHnSjorSN+a6x9advHw42Kclo4p7fSd6xgDo1DG5vLwbYv8PR+NhJdlCtfu5iCoOakc18Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uNgqshJv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28864C4CED6;
-	Mon, 24 Feb 2025 08:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740384670;
-	bh=XeJkQDc4AhpFioo9gr+LS5UXIJ0XZpuDmfYxSva973A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uNgqshJvRf+EdavFAOz5AIPHMAcu9tlTznGt4GrGLCMiDFVGrP1J8pXgUh844o2bN
-	 +z8w1sAXH2tNwgNkZTQDyqYCvZyVM1q6BpUdoBxWLfzZbMYJpWZ6rlX4cnpMuHI7I9
-	 ZtVet4BN3EeAWsDao8PMce79iCpii3qJPZylO58GyLYv6sLbi2siS7a2AUluk8Abnd
-	 h5gujSXbSgJqXUlWlq1V3RfLbp6idesShNFDFkagKEx27EFM9B2tOL/ArIPRbf5X84
-	 f/lahWC2hkY4obG2qWe6sxvNb17wbjRBpKlFu457zrO5btjBe0yEbGc/YrGM5RH4dj
-	 NE3QuthAmVWlQ==
-Message-ID: <94e9c990-e37f-4980-86c3-35f390e11395@kernel.org>
-Date: Mon, 24 Feb 2025 09:11:04 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EA786346;
+	Mon, 24 Feb 2025 08:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.88
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740385707; cv=fail; b=la5PW08Z4aJJWvtFEq56jGTcfLTR/u2aXLYwIVUDLH9B61H5uepIz6BNGJ/Txa0h6187Xd3xDSeLzeV0TR5X2MjCiGexpIcsB2E1VexgPthq8homGMF4G5Rl9Sx67cb4XnN4g8AZs0zAJ3Zg3p7OKXNlPkzoOYY1jLjWWxXDi3w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740385707; c=relaxed/simple;
+	bh=sMS1/sCn9yw/lUBxUn6eAukGAy+LF464cNGNr3j8x0s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jcnSnIxdi60cb76egt4EEiFggDcM2ChNMU9V2ukUY7I709di3K2Vz2qGEIfWVcRgz2RTPzHvutvLO6aOIXVZBmH4UWHCA1x4I50DNJ1WoQs1B9hSsa9kxxexxgO6pSzCgGSKvrVVibK6nape6okUq6oi++srCdM62MRNp31q4fY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; spf=pass smtp.mailfrom=wiwynn.com; dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b=WqXOe5EC; arc=fail smtp.client-ip=40.107.117.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wiwynn.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dy6q9UKyCdpHuYA//IXwHmpdyboZRvsyWxONgURDtamqnk1OHg5awExrB6CsABr/NeIZbzZMxpLBR2VmbvxuaUYmbenEYlnxPfS7cqmwYegOJ4HPvuSRDVbq9rtETYkHpBm/8n3mkziA4M9KD+MLVqCA2lPXMzaStF5UfuWrsn/DlzuOecGXocHFspY4BXrfHqoECNQqO/p4IrwG0mRcwSr9IuwVxqGKHr5Hu8VHtIxJNn0cwORefNrohfgJ4YpqfiDr/38BXVT52qzu39BgHdD2N5Rfd+m1Hn1mp+lMXnZTRax9cn3AN/LqedjM4gd0pK/JScI5Ewj/bx2bxS8brg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D1RjZOhXE80FYBnM2M3oz40fTLATsmw3qVz3IKRPadY=;
+ b=Xt089FME95zRmer+mZxQ+cKI/TMaQPrVZDaHBqO88P71cv4y8vB8h9zcXPjrTa08zaxrb3EJb/edIVht/Mo8H7qFri3hmlX2FGaX9kQcca9/wvVDf/bNbRymwt+o+888vH6yfYXJMcxNtrbvYURl+WfUBCpyTAjspUQikG2zynp+W2lH3n5lqEcrbuRIqIj6K+kujE6z6m1/PuSOMgOl2QaBbPyKivzh3LAgwdimYbR6DpkrCYqW6dkE1sLBT26nMF+tOEsu2M34pHJu4G1BEi+LSCZ8Nj1orrGRqlafptpBQQGtIx+BAQzlTkE3r8jJzUHovGm79n+IJHLNycToPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D1RjZOhXE80FYBnM2M3oz40fTLATsmw3qVz3IKRPadY=;
+ b=WqXOe5ECMtLuI0UEDLdjyV9Iajvs7T07CB+c4AzzCnrNYHWNqYX1c4+vz+Auz8lVaAui9ARqukXXVdsp1EUyNlKvzw/3YGoZMKoQ9h8bYZbSnepCOysu+y8WNtTDFxNOkwsnsXDToR7HoQlOgRz6/WdMrYQrbY4CHNqBrmi8PhWhsjZFv47AEhxmrBQn6FJ0RaU3uxEeFWxyfT96AkVbG17l4krOwVHC1Z4stsDhql95la49ZFSYSRrKmIvJcd1g53iC9NPhu5E+Lv+NWF7w1On7U+nO8MGSQHh+q36EZ5g6dJ5ZJKd5ac0wf+KHeOCgzljwTH40Nlooy/puAckelw==
+Received: from SL2P216CA0193.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1a::22)
+ by SI6PR04MB8344.apcprd04.prod.outlook.com (2603:1096:4:232::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
+ 2025 08:28:21 +0000
+Received: from HK3PEPF0000021F.apcprd03.prod.outlook.com
+ (2603:1096:101:1a:cafe::b6) by SL2P216CA0193.outlook.office365.com
+ (2603:1096:101:1a::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.20 via Frontend Transport; Mon,
+ 24 Feb 2025 08:28:20 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK3PEPF0000021F.mail.protection.outlook.com (10.167.8.41) with Microsoft SMTP
+ Server id 15.20.8489.16 via Frontend Transport; Mon, 24 Feb 2025 08:28:18
+ +0000
+From: Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>
+To: patrick@stwcx.xyz,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>,
+	Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] leds: cat9532: support cat9532 in pca955x
+Date: Mon, 24 Feb 2025 16:28:15 +0800
+Message-Id: <20250224082815.1827487-1-delphine_cc_chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings:leds: Add function define for POE
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>,
- Tony O'Brien <Tony.OBrien@alliedtelesis.co.nz>
-Cc: "pavel@kernel.org" <pavel@kernel.org>, "lee@kernel.org" <lee@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- Ben Hoelker <Ben.Hoelker@alliedtelesis.co.nz>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>
-References: <20250213005841.4143929-1-tony.obrien@alliedtelesis.co.nz>
- <20250213005841.4143929-2-tony.obrien@alliedtelesis.co.nz>
- <20250213-successful-pronghorn-of-dignity-83facb@krzk-bin>
- <31bc5340976761dbf3653ed2802a8988e07b18d5.camel@alliedtelesis.co.nz>
- <7462bb47-01ff-45d7-9cbc-24b8da7f7a1d@kernel.org>
- <7a6c287c-45f6-4193-a29a-6c6a29eee3e4@alliedtelesis.co.nz>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <7a6c287c-45f6-4193-a29a-6c6a29eee3e4@alliedtelesis.co.nz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021F:EE_|SI6PR04MB8344:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 341319fb-ebcc-4824-35bf-08dd54ad3154
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?pOVKlOEFOhrd5J0lkGKfh2Zu+2y/Ie5xYUPaLo3PyXuMjUHl5XEuQmIpXztq?=
+ =?us-ascii?Q?93P/SSCzpNPTeB1tI+HR4/C/dvqTrjxlYdI7QgN7QhvE83arRLpeAyJFVOny?=
+ =?us-ascii?Q?ikF9jsenbkxmoW70Z/1NanIgx7gybAklpdpLQLHZ+5MKHIzHHVpzznCsyZJP?=
+ =?us-ascii?Q?axJwm8cGFFBAQqR4fdRbyP9kKf2exl0sdUIKHyIUyM0oNSPD6h9PDnKZ86jJ?=
+ =?us-ascii?Q?LyZX0HIRGEMSzyYA0btspTXgRWBCv3SN9GRReZYVGHrcUn+QI1YWgD7dE1Yz?=
+ =?us-ascii?Q?55p6ZyeK9Hghn6Bg2ahBbqgAVl6DsOINPf0OSObQhV/UOW7eZM4Auwez72aX?=
+ =?us-ascii?Q?bT1lNMnNNMAS/LK6k0o6TVnU0gbGbp6nuE1Yucxw9QlkfgV/k9LPem0ZAm3s?=
+ =?us-ascii?Q?XuIk8FAMrEFAkvA+K0M7PpX/aSU4AUumo2HhF3Qw3L75/wCpPMmNCRtjEpor?=
+ =?us-ascii?Q?ZnxzjjrwFtWmGrAgm9H/hUXzO6FE1fXP97vZM+46CDF2gIVvewY5rFzPcfim?=
+ =?us-ascii?Q?obeY2bKTNJPVHEI9+HAPTZyp+0IuSBLTxJXVm6WzxvG6jyLDyd6+ldY8bezr?=
+ =?us-ascii?Q?61elAI4DTV7V5BpJwUOsQIIkViTuGRNEoqgNyfJEqNUTTr3PFU5Nhq8IR7ie?=
+ =?us-ascii?Q?Fm/CkxVaESSbdKVMemko+SVlVg160PQV5xb6oogeIkCqfJnbwQT1Sn9teLwC?=
+ =?us-ascii?Q?wvLKYbjSwDzSUoWFDSBEKT/PJKc5Bf7zKI1zTkaJB+y/oQ2z2QdBZwMdqVL2?=
+ =?us-ascii?Q?2Fv7MGijVurLjBUoUI2Y5f2ctBBXQGvR9Qh17+Jz2eykqkKBcxx2cU/aDWEB?=
+ =?us-ascii?Q?nFAWOvv4ZtRbIzShx6KxDcBwqzlpx1OFT4afwYpgDhk0GXRw9ivi+d4Jq0qZ?=
+ =?us-ascii?Q?GkzXY9AA6agsY1Rp/zc3fBFT8fxuTXoJsAYqljQbGcSQNqf2asn5rM5mhKVf?=
+ =?us-ascii?Q?elFchjn1cfTPcEu0lLl4lXsfnQQ/BO/tjlJh23W/XYcwVxO3ndqwZ3aIp1mq?=
+ =?us-ascii?Q?jFzbE8C8UnpTBHz7j0hKcyXkYeJ+llJexx+Kf+83PEaHWzGZLFSP0pl2+pm4?=
+ =?us-ascii?Q?smLPYRwWfVBMFEjhBaMysfmnDJhW2Ci6bS8ykmp/0cn5RYowDQBDtcspSkG8?=
+ =?us-ascii?Q?uEKyEOGDmQTcUGba7NPigv8LNe7RNQcvo83Nf7nNXyPPdEIzbD6/kAGY1H4v?=
+ =?us-ascii?Q?g0coJYsZDc1VX2p6UExoh9QFs+BYxMNFSxO3TSKtrhPPEoRAn1NKjlKzb4ol?=
+ =?us-ascii?Q?SkWSVcOUkIGKVziK/VmLaUoeC1q6jdF2pUP5lFVJXtVGsEIU+xF/VXaPhY13?=
+ =?us-ascii?Q?sXh6WJurZ/4wtYxcWHk/fDpYPZwd23Dz/qWSm/tFt4FIMa02snnD/4mV5q8R?=
+ =?us-ascii?Q?hdO0HcDAqJ0WLE4wxJaTciguUvq5cIdne4+zqSmEE2eCb6bdCVUozs44MJVd?=
+ =?us-ascii?Q?RC5YT+xI8Wz9DE4R8jx7xaUQndKgJm58K1ixgEFuuJE9cQyH51QYP3OIeGAf?=
+ =?us-ascii?Q?HrFGk0VTcMPI3CU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 08:28:18.7968
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 341319fb-ebcc-4824-35bf-08dd54ad3154
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	HK3PEPF0000021F.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI6PR04MB8344
 
-On 23/02/2025 21:54, Chris Packham wrote:
-> Hi Krzysztof,
-> 
-> On 17/02/2025 22:13, Krzysztof Kozlowski wrote:
->> On 16/02/2025 22:37, Tony O'Brien wrote:
->>> Hi Krzysztof -
->>>
->>>> Where did these two reviews happen?
->>> They were in-house reviews.  Please feel free to remove them from the
->>> patch.
->>>
->>>> Where is any user of this?
->>> We are adding Kernel control of PoE LEDs and thought this might be
->>> useful to others, maybe those working on netdev, or anyone implementing
->>> PoE on their devices.  Also, the Kernel >> Docs >> LEDs page states:
->>> "If required color or function is missing, please submit a patch to
->>> linux-leds@vger.kernel.org", which is included here.
->> You did not answer: where is the user? By "we are adding" you mean
->> downstream?
-> 
-> It's downstream. One of our PoE switches in development which uses a 
+From: MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>
 
+The CAT9532 chips are almost 100% compatible with PCA9552, except that
+the CAT9532 uses the opposite polarity in register that sets on/off.
 
-So for me that's a no. We don't care about downstream. Otherwise we
-would need to accept whatever else people invented and never bothered
-with upstreaming.
+Compare the state at INPUT with the state of LSn and dynamically
+adjust how you program LSn
 
-> pca9552 LED controller. I suggested to Tony that we get this upstream as 
-> I know there is some work going on to support PoE PSEs in netdev. I did 
-> wonder if we wanted to make this more specific i.e. have "pse" and "pd" 
-> as different functions but something like "poe" seemed fine as you're 
-> not going to have something that is both a PSE and a PD on the same port.
+Signed-off-by: MarshallZhan <marshall_zhan@wiwynn.com>
+Signed-off-by: Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>
+---
+ drivers/leds/leds-pca955x.c | 41 +++++++++++++++++++++++++++++++------
+ 1 file changed, 35 insertions(+), 6 deletions(-)
 
-To me, this is not a catalog of all possible LED functions. Come with
-any sort of user - either driver or DTS (and I still remember discussion
-with Hans de Goede about taking such patches without DTS user, but that
-was under condition there is driver user).
+diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
+index 94a9f8a54b35..447da4a2d089 100644
+--- a/drivers/leds/leds-pca955x.c
++++ b/drivers/leds/leds-pca955x.c
+@@ -4,7 +4,7 @@
+  *
+  * Author: Nate Case <ncase@xes-inc.com>
+  *
+- * LED driver for various PCA955x I2C LED drivers
++ * LED driver for various PCA955x and CAT9532 I2C LED drivers
+  *
+  * Supported devices:
+  *
+@@ -145,6 +145,11 @@ static inline u8 pca955x_ledsel(u8 oldval, int led_num, int state)
+ 		((state & 0x3) << (led_num << 1));
+ }
+ 
++static inline int pca955x_ledstate(u8 ls, int led_num)
++{
++	return (ls >> (led_num << 1)) & 0x3;
++}
++
+ /*
+  * Write to frequency prescaler register, used to program the
+  * period of the PWM output.  period = (PSCx + 1) / 38
+@@ -235,6 +240,21 @@ static int pca955x_read_pwm(struct i2c_client *client, int n, u8 *val)
+ 	return 0;
+ }
+ 
++static int pca955x_read_input_bit(struct pca955x *pca955x, int led_num)
++{
++	u8 cmd = led_num / 8;
++	int input_state;
++
++	input_state= i2c_smbus_read_byte_data(pca955x->client, cmd);
++	if (input_state < 0) {
++		dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n", 
++				__func__, led_num, input_state);
++		return input_state;
++	}
++	return (input_state >> (led_num % 8)) & 1;
++
++}
++
+ static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
+ {
+ 	struct pca955x_led *pca955x_led = container_of(led_cdev,
+@@ -251,10 +271,11 @@ static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
+ 	ls = (ls >> ((pca955x_led->led_num % 4) << 1)) & 0x3;
+ 	switch (ls) {
+ 	case PCA955X_LS_LED_ON:
+-		ret = LED_FULL;
+-		break;
+ 	case PCA955X_LS_LED_OFF:
+-		ret = LED_OFF;
++		if (pca955x_read_input_bit(pca955x, pca955x_led->led_num))
++			ret = LED_FULL;
++		else
++			ret = LED_OFF;
+ 		break;
+ 	case PCA955X_LS_BLINK0:
+ 		ret = LED_HALF;
+@@ -276,6 +297,8 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
+ 	struct pca955x_led *pca955x_led;
+ 	struct pca955x *pca955x;
+ 	u8 ls;
++	u8 ls_last_state;
++	int input_bit;
+ 	int chip_ls;	/* which LSx to use (0-3 potentially) */
+ 	int ls_led;	/* which set of bits within LSx to use (0-3) */
+ 	int ret;
+@@ -292,12 +315,18 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
+ 	if (ret)
+ 		goto out;
+ 
++	ls_last_state = pca955x_ledstate(ls, ls_led);
++	input_bit = pca955x_read_input_bit(pca955x, pca955x_led->led_num);
+ 	switch (value) {
+ 	case LED_FULL:
+-		ls = pca955x_ledsel(ls, ls_led, PCA955X_LS_LED_ON);
++		ls = pca955x_ledsel(ls, ls_led,
++				(ls_last_state == input_bit) ? 
++				PCA955X_LS_LED_ON : PCA955X_LS_LED_OFF);
+ 		break;
+ 	case LED_OFF:
+-		ls = pca955x_ledsel(ls, ls_led, PCA955X_LS_LED_OFF);
++		ls = pca955x_ledsel(ls, ls_led,
++				(ls_last_state == input_bit) ? 
++				PCA955X_LS_LED_OFF : PCA955X_LS_LED_ON);
+ 		break;
+ 	case LED_HALF:
+ 		ls = pca955x_ledsel(ls, ls_led, PCA955X_LS_BLINK0);
+-- 
+2.25.1
 
-Best regards,
-Krzysztof
 
