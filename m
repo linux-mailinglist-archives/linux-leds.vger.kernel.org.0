@@ -1,332 +1,312 @@
-Return-Path: <linux-leds+bounces-4072-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4073-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18860A42DD3
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2025 21:31:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0458EA431BA
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2025 01:09:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0434A1701E5
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2025 20:31:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D10F18993FC
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2025 00:09:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52FB023F410;
-	Mon, 24 Feb 2025 20:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9672634;
+	Tue, 25 Feb 2025 00:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsGM5Hqa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HPXkgjOx"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC9D15886C;
-	Mon, 24 Feb 2025 20:31:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AFC367;
+	Tue, 25 Feb 2025 00:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740429066; cv=none; b=dcpxR8Jn4r5E0AdykmUQ1I+lqcZP4gs+0Ucr5jMsuqM/2D5FSCsfLLwWG2ySJZKtJvJra6zE/jlb3Ev58FxBMF2UwyjP1ahStUSaf7QzYW36keIaLba8sMjmlkwsXEa/Q6ux0epZz57KC5JEk0zfUyYI01m8Ks65U3zKuyqGJKw=
+	t=1740442143; cv=none; b=AUj4REcTiamOrye+0bWs9SpQhDUZJ6ZEueAkuJykQedbkIacNdJ+1BPz99PmTkJQZvOpZWTMWeI0HtHY07jSTZ0R2PrlUAZre3goYa9gkAfzGDKWmHdB5lBoL+wi9q+yjKMsQSrw+i0j5lyxO8iVhw3M3vqPQaA5l4yJTJSP/x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740429066; c=relaxed/simple;
-	bh=L8IZghbWBb1FZ+oD2PukBSn8EeW2fG7tEPS95geHYCU=;
+	s=arc-20240116; t=1740442143; c=relaxed/simple;
+	bh=oBU8kgz+P91vV6zGeL/bMoDT+t3Cz6ynGLGqLfBWM94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BqFzPfF3A7IW8zaRbyLGnPhJxEwRl+t1HmnRNBjpp/bkN88oKE2YvVVWWXjNTqfrQ3lo/mmix4Bqswo03uLnXQCZ6wF6KApzzCLwYJngKWcc2VY5uKY3HynHgut0h+mgMM9JVK18GMWUJ0rH5lVsOyCXYov5Pn9VlIkW763LFg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsGM5Hqa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF15C4CEDD;
-	Mon, 24 Feb 2025 20:31:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=TPy9SGz6I0szfffG1YGMqQLFNwLt7UyW6NLBOjHsLotcAU0VaFtI2UN5Fkr3xVyrmiWvCN8nr210floRgmMEJcejtmy8e8eFsL6yh/z6B0zDEaCm5nNPANm7I2rNuhqyIBd5FuJc7wuP2QJPu/rdSPbXtN23e4jvRdzbIDhPDpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HPXkgjOx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BB2C4CED6;
+	Tue, 25 Feb 2025 00:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740429065;
-	bh=L8IZghbWBb1FZ+oD2PukBSn8EeW2fG7tEPS95geHYCU=;
+	s=k20201202; t=1740442143;
+	bh=oBU8kgz+P91vV6zGeL/bMoDT+t3Cz6ynGLGqLfBWM94=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WsGM5HqaAucAaiS7PAROvBe7UYvBT1EQy7FUyX/EntMrSEoGBOEW0pmFQ2FdwEygf
-	 B7AnI+DJV7MboF4vz2Goncoa6fTgsa2N9S5OM1UZRqpZqMrAA+VKGGbLkyubseaUrW
-	 2T8lSbPOKlhSljpJ/oXnaaiEzPmlrlLAkg1FXNXRcisGSbdMguauXendyMcnbzhfJx
-	 a+yqldGEqA68z1FwAV+TOBFEGRcogS6nH+MnvU30d4TVAG32gVAK5FLRrmlv5pV7Fk
-	 m749g371WW+fh+Pxq6cLd2UipiQCucafSaj6gXAC54qQCEq1srEHrMHqwOyT9C4HjZ
-	 M6wJRsC5MlSdA==
-Date: Mon, 24 Feb 2025 14:31:03 -0600
-From: Rob Herring <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: mfd: Document TI LM3533 MFD
-Message-ID: <20250224203103.GA4043445-robh@kernel.org>
-References: <20250224114815.146053-1-clamor95@gmail.com>
- <20250224114815.146053-2-clamor95@gmail.com>
+	b=HPXkgjOx2PUI5cjyuUQFkDJpiVwzAmHXwyqFgJu2+2R7gERzeJ1O96qUSo5zumR2y
+	 DwW6m0/5teuLXZV3C8WNnix9XSfYv6+JVhFTnu4wobgPCgyLnjn+QTEknwOqrJ0IXJ
+	 YvxCSf53pGuvguTwt1HPa0uIyll09Rn9Lk10TBCDemWi5CfGBh/dJdhqxuHlCPvjtT
+	 inpuJ9/EBjy6Ax8IQfEWV8cH4KqH6dgEhBiywTCwB96D0STPUW5by/YtoDYBbuxSGI
+	 dhVsl6tKfaK5SlCGagR7aWbgoieATq+ac+GvJ8rquw93mAtNDtw8gtbM0TYu8qjmzE
+	 hsupXIbgIEsQg==
+Received: by venus (Postfix, from userid 1000)
+	id D956018066D; Tue, 25 Feb 2025 01:09:00 +0100 (CET)
+Date: Tue, 25 Feb 2025 01:09:00 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Anjelique Melendez <quic_amelende@quicinc.com>, Kamal Wadhwa <quic_kamalw@quicinc.com>, 
+	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
+Message-ID: <vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67pd2@cz2dcracta6w>
+References: <20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-v1-1-a161ec670ea5@linaro.org>
+ <dfthocttum7dscotngi6l2hz6bpdwfgrdxpvkcv6bdux3lt66d@iqfvmntvzyut>
+ <Z7zVgeM+7P7SLWIu@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="su4oqueo2btoztqk"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250224114815.146053-2-clamor95@gmail.com>
+In-Reply-To: <Z7zVgeM+7P7SLWIu@linaro.org>
 
-On Mon, Feb 24, 2025 at 01:48:13PM +0200, Svyatoslav Ryhel wrote:
-> Add bindings for the LM3533 - a complete power source for backlight, keypad
-> and indicator LEDs in smartphone handsets. The high-voltage inductive boost
-> converter provides the power for two series LED strings display backlight
-> and keypad functions.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../devicetree/bindings/mfd/ti,lm3533.yaml    | 231 ++++++++++++++++++
->  1 file changed, 231 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> new file mode 100644
-> index 000000000000..c8ac6d4424aa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ti,lm3533.yaml
-> @@ -0,0 +1,231 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/ti,lm3533.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI LM3533 Complete Lighting Power Solution
-> +
-> +description: >
-> +  The LM3533 is a complete power source for backlight, keypad, and indicator LEDs
-> +  in smartphone handsets. The high-voltage inductive boost converter provides the
-> +  power for two series LED strings display backlight and keypad functions.
-> +
-> +  https://www.ti.com/product/LM3533
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,lm3533
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  enable-gpios:
-> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
-> +    maxItems: 1
-> +
-> +  ti,boost-ovp-microvolt:
-> +    description:
-> +      Boost OVP select (16V, 24V, 32V, 40V)
-> +    enum: [ 16000000, 24000000, 32000000, 40000000 ]
-> +    default: 16000000
-> +
-> +  ti,boost-freq-hz:
-> +    description:
-> +      Boost frequency select (500KHz or 1MHz)
-> +    enum: [ 500000, 1000000 ]
-> +    default: 500000
-> +
-> +  light-sensor:
-> +    type: object
-> +    description:
-> +      Properties for an illumination sensor.
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      compatible:
-> +        const: ti,lm3533-als
-> +
-> +      ti,resistor-value-ohm:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Internal configuration resister value when ALS is in Analog Sensor
-> +          mode and PWM mode is disabled.
-> +        minimum: 1575
-> +        maximum: 200000
-> +
-> +      ti,pwm-mode:
-> +        type: boolean
-> +        description:
-> +          Switch for mode in which ALS is running. If this propertly is set
-> +          then ALS is running in PWM mode, internal resistor value is set to
-> +          high-impedance (0) and resistor-value-ohm propertly is ignored.
-> +
-> +    required:
-> +      - compatible
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +  - light-sensor
-> +  - backlight-0
-> +  - backlight-1
-> +  - led-0
-> +  - led-1
-> +  - led-2
-> +  - led-3
-> +
-> +patternProperties:
-> +  "^backlight-[01]$":
-> +    type: object
-> +    description:
-> +      Properties for a backlight device.
-> +
-> +    $ref: /schemas/leds/backlight/common.yaml#
-> +
-> +    properties:
-> +      compatible:
-> +        const: ti,lm3533-backlight
-> +
-> +      default-brightness: true
-> +
-> +      ti,max-current-microamp:
-> +        description:
-> +          Maximum current in µA with a 800 µA step.
-> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
-> +                10600, 11400, 12200, 13000, 13800, 14600,
-> +                15400, 16200, 17000, 17800, 18600, 19400,
-> +                20200, 21000, 21800, 22600, 23400, 24200,
-> +                25000, 25800, 26600, 27400, 28200, 29000,
-> +                29800 ]
-> +        default: 5000
-> +
-> +      ti,pwm-config-mask:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Control Bank PWM Configuration Register mask that allows to configure
-> +          PWM input in Zones 0-4
-> +          BIT(0) - PWM Input is enabled
-> +          BIT(1) - PWM Input is enabled in Zone 0
-> +          BIT(2) - PWM Input is enabled in Zone 1
-> +          BIT(3) - PWM Input is enabled in Zone 2
-> +          BIT(4) - PWM Input is enabled in Zone 3
-> +          BIT(5) - PWM Input is enabled in Zone 4
-> +
-> +      ti,linear-mapping-mode:
-> +        description:
-> +          Enable linear mapping mode. If disabled, then it will use exponential
-> +          mapping mode in which the ramp up/down appears to have a more uniform
-> +          transition to the human eye.
-> +        type: boolean
-> +
-> +      ti,hardware-controlled:
-> +        description:
-> +          Each backlight has its own voltage Control Bank (A and B) and there are
-> +          two HVLED sinks which by default are linked to respective Bank. Setting
-> +          this property will link both sinks to a Control Bank of backlight where
-> +          property is defined.
-> +        type: boolean
-> +
-> +    required:
-> +      - compatible
-> +
-> +    additionalProperties: false
-> +
-> +  "^led-[0-3]$":
-> +    type: object
-> +    description:
-> +      Properties for a led device.
-> +
-> +    $ref: /schemas/leds/common.yaml#
-> +
-> +    properties:
-> +      compatible:
-> +        const: ti,lm3533-leds
-> +
-> +      linux,default-trigger: true
-> +
-> +      ti,max-current-microamp:
-> +        description:
-> +          Maximum current in µA with a 800 µA step.
-> +        enum: [ 5000, 5800, 6600, 7400, 8200, 9000, 9800,
-> +                10600, 11400, 12200, 13000, 13800, 14600,
-> +                15400, 16200, 17000, 17800, 18600, 19400,
-> +                20200, 21000, 21800, 22600, 23400, 24200,
-> +                25000, 25800, 26600, 27400, 28200, 29000,
-> +                29800 ]
-> +        default: 5000
-> +
-> +      ti,pwm-config-mask:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Same descryption and function as for backlight.
-> +
-> +    required:
-> +      - compatible
-> +
-> +    additionalProperties: false
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@36 {
-> +            compatible = "ti,lm3533";
-> +            reg = <0x36>;
-> +
-> +            enable-gpios = <&gpio 110 GPIO_ACTIVE_HIGH>;
-> +
-> +            ti,boost-ovp-microvolt = <24000000>;
-> +            ti,boost-freq-hz = <500000>;
-> +
-> +            backlight-0 {
-> +                compatible = "ti,lm3533-backlight";
-> +
-> +                ti,max-current-microamp = <23400>;
-> +                default-brightness = <113>;
-> +                ti,hardware-controlled;
-> +            };
-> +
-> +            backlight-1 {
-> +                compatible = "ti,lm3533-backlight";
-> +                status = "disabled";
 
-Examples should be enabled. Drop status.
+--su4oqueo2btoztqk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
+MIME-Version: 1.0
 
-With those fixed,
+Hi,
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+On Mon, Feb 24, 2025 at 10:24:33PM +0200, Abel Vesa wrote:
+> On 25-02-21 00:35:08, Sebastian Reichel wrote:
+> > On Thu, Feb 20, 2025 at 12:31:00PM +0200, Abel Vesa wrote:
+> > > Currently, for the high resolution PWMs, the resolution, clock,
+> > > pre-divider and exponent are being selected based on period. Basicall=
+y,
+> > > the implementation loops over each one of these and tries to find the
+> > > closest (higher) period based on the following formula:
+> > >=20
+> > >                           period * refclk
+> > > prediv_exp =3D log2 -------------------------------------
+> > >                     NSEC_PER_SEC * pre_div * resolution
+> > >=20
+> > > Since the resolution is power of 2, the actual period resulting is
+> > > usually higher than what the resolution allows. That's why the duty
+> > > cycle requested needs to be capped to the maximum value allowed by the
+> > > resolution (known as PWM size).
+> > >=20
+> > > Here is an example of how this can happen:
+> > >=20
+> > > For a requested period of 5000000, the best clock is 19.2MHz, the best
+> > > prediv is 5, the best exponent is 6 and the best resolution is 256.
+> > >=20
+> > > Then, the pwm value is determined based on requested period and duty
+> > > cycle, best prediv, best exponent and best clock, using the following
+> > > formula:
+> > >=20
+> > >                             duty * refclk
+> > > pwm_value =3D ----------------------------------------------
+> > >                 NSEC_PER_SEC * prediv * (1 << prediv_exp)
+> > >=20
+> > > So in this specific scenario:
+> > >=20
+> > > (5000000 * 19200000) / (1000000000 * 5 * (1 << 64)) =3D 300
+> > >=20
+> > > With a resolution of 8 bits, this pwm value obviously goes over.
+> > >=20
+> > > Therefore, the max pwm value allowed needs to be 255.
+> > >=20
+> > > If not, the PMIC internal logic will only value that is under the set=
+ PWM
+> > > size, resulting in a wrapped around PWM value.
+> > >=20
+> > > This has been observed on Lenovo Thinkpad T14s Gen6 (LCD panel versio=
+n)
+> > > which uses one of the PMK8550 to control the LCD backlight.
+> > >=20
+> > > Fix the value of the PWM by capping to a max based on the chosen
+> > > resolution (PWM size).
+> > >=20
+> > > Cc: stable@vger.kernel.org    # 6.4
+> > > Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for high =
+resolution PWM")
+> > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > > ---
+> > > Note: This fix is blocking backlight support on Lenovo Thinkpad T14s
+> > > Gen6 (LCD version), for which I have patches ready to send once this
+> > > patch is agreed on (review) and merged.
+> > > ---
+> >=20
+> > Do you know if the pwm duty cycle to pwm value calculation is
+> > correct otherwise?
+>=20
+> Sorry for the late reply.
 
-> +            };
-> +
-> +            led-0 {
-> +                compatible = "ti,lm3533-leds";
-> +                status = "disabled";
-> +            };
-> +
-> +            led-1 {
-> +                compatible = "ti,lm3533-leds";
-> +                status = "disabled";
-> +            };
-> +
-> +            led-2 {
-> +                compatible = "ti,lm3533-leds";
-> +                status = "disabled";
-> +            };
-> +
-> +            led-3 {
-> +                compatible = "ti,lm3533-leds";
-> +                status = "disabled";
-> +            };
-> +
-> +            light-sensor {
-> +                compatible = "ti,lm3533-als";
-> +                status = "disabled";
-> +            };
-> +        };
-> +    };
-> +...
-> -- 
-> 2.43.0
-> 
+No worries, I understand this takes time.
+
+> Here is my understanding of the calculation of the pwm value currently
+> implemented.
+>=20
+> First, find the best pre_div, refclk, resolution and prediv_exp by looping
+> through all refclk, resolution and prediv possible values, for the
+> following formula:
+>=20
+>                          period * refclk
+> prediv_exp =3D log2 -------------------------------------
+>                     NSEC_PER_SEC * pre_div * (1 << resolution)
+>=20
+>=20
+> So in DT we set the period to 50000000. For this, as I mentioned in the
+> commit message the best refclk is 19.2MHz, the best prediv is 5, the best
+> exponent is 6 and the best resolution is 255.
+>=20
+> So if you use these to compute the period following this formula:
+>=20
+>=20
+>                 NSEC_PER_SEC * prediv * (1 << resolution)
+> best_period =3D -------------------------------------------
+>                              refclk
+>=20
+> So in our case:
+>=20
+> (1000000000 * 5 * (1 << 8) * (1 << 6)) / 19200000 =3D 4266666.6666...
+>=20
+> So here is where the things go wrong. Bjorn helped me figure this out tod=
+ay
+> (off-list). Basically, the pwm framework will allow values up to 5000000,
+> as specified in the DT, but for then pwm value will go over 255
+> when computing the actual pwm value by the following formula:
+>=20
+>                             duty * refclk
+> pwm_value =3D ----------------------------------------------
+>                 NSEC_PER_SEC * prediv * (1 << prediv_exp)
+>=20
+>=20
+> So here is how the value 300 is reached (I messed up this next formula in
+> the commit message):
+>=20
+> (5000000 * 19200000) / (1000000000 * 5 * (1 << 8)) =3D 300
+>=20
+> But if we were to use the best_period determined:
+>=20
+> (4266666 * 19200000) / (1000000000 * 5 * (1 << 8)) =3D 255
+>=20
+> So I guess the process of determining the best parameters is correct.
+> What I think is missing is we need to divide the requested period (500000=
+0)
+> to the resolution (255) and make sure the duty cycle is a multiple of the
+> result.
+
+Let me try to summarize that:
+
+1. PWM backlight driver requests PWM with 5 MHz period
+2. leds-qcom-lpg uses 4.2666 MHz period instead due to HW limits
+3. PWM backlight driver is unaware and requests a duty cycle
+   expecting the period to be 5 MHz, so the duty cycle can
+   exceed 100%
+
+Then the question is: Why is the PWM backlight driver not aware of
+the reduced period? It runs pwm_get_state(), so leds-qcom-lpg can
+actually report back that it is using 4.2 MHz instead of 5 MHz.
+
+I guess that also means the bug could be avoided by requesting a
+period of 4266666 in DT in the first place. Might be an option to
+unblock the T14s upstreaming.
+
+Greetings,
+
+-- Sebastian
+
+> Something like this:
+>=20
+> step =3D period / (1 << resolution)
+>=20
+> So:=20
+>=20
+> 5000000 / ((1 << 8) - 1) =3D 19607
+>=20
+> and then:
+>=20
+> pwm_value =3D duty / step;
+>=20
+> Hope this makes sense.
+>=20
+> Will try this out and respin the patch.
+>=20
+> >=20
+> > I'm asking because the max value is only used for capping, so with
+> > this patch the maximum brightness will be reached at around 80% duty
+> > cycle (i.e. when the wrap over happens without this patch).
+> >=20
+> > Locally I'm currently remapping the duty cycle range to the PWM
+> > value range, which means the display brightness increases
+> > step-by-step until reaching 100% "duty cycle":
+> >=20
+> > 		val =3D (duty * 255) / chan->period;
+> > 		chan->pwm_value =3D min(val, 255);
+> >=20
+> > But for the backlight control the absolute numbers do not really
+> > matter and I have zero knowledge about the chip. So it might be
+> > that the controller really can only go up to ~80% duty cycle at
+> > these settings?
+> >=20
+> > Greetings,
+> >=20
+> > -- Sebastian
+> >=20
+> > >  drivers/leds/rgb/leds-qcom-lpg.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds=
+-qcom-lpg.c
+> > > index f3c9ef2bfa572f9ee86c8b8aa37deb8231965490..146cd9b447787bf170310=
+321e939022dfb176e9f 100644
+> > > --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> > > +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> > > @@ -529,7 +529,7 @@ static void lpg_calc_duty(struct lpg_channel *cha=
+n, uint64_t duty)
+> > >  	unsigned int clk_rate;
+> > > =20
+> > >  	if (chan->subtype =3D=3D LPG_SUBTYPE_HI_RES_PWM) {
+> > > -		max =3D LPG_RESOLUTION_15BIT - 1;
+> > > +		max =3D BIT(lpg_pwm_resolution_hi_res[chan->pwm_resolution_sel]) -=
+ 1;
+> > >  		clk_rate =3D lpg_clk_rates_hi_res[chan->clk_sel];
+> > >  	} else {
+> > >  		max =3D LPG_RESOLUTION_9BIT - 1;
+> > >=20
+> > > ---
+> > > base-commit: 50a0c754714aa3ea0b0e62f3765eb666a1579f24
+> > > change-id: 20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-067e8782a79b
+> > >=20
+> > > Best regards,
+> > > --=20
+> > > Abel Vesa <abel.vesa@linaro.org>
+> > >=20
+>=20
+>=20
+
+--su4oqueo2btoztqk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme9ChYACgkQ2O7X88g7
++ppnDg//fHupdEHAByjfHwaHWlNK4AdjRJEknvKHKRSUYqr7hHKPV/IDNbilQrxq
+Zj6/DAFBQMSkH6MGo2VN6vIBfFvtF/JhWfphLzyS6NMQMd+eCpNKcVy+aq7QuZTU
+gzR7j6EmMAaIsS8q3OE/c1I57OIQk1nDKnDNuaf8vHy6jmCNcZNCVyB1qHSsNfg1
+WYhbGrf1usl6YVCigauZ2Eqzc04PQfb6CIs/EAnPf6VdcKgH+AJJcfG2rdcWiYn9
+6q+6m+CFLzA1Gbu8571VFU+XVHayX72zgUuJ5Ls0gwQv8iHt7DX7lJ2f1t+4WZTr
+XuUZSiilZVikOGN/MXoHVsXQSwXYLSbsiUL8FcQR7Dn8y7rm/IZHCUqpcyLYtVm5
+4llWJlxB+XXhEaaRc5QO2mDcwu1F3Sqc4+sQhjtx7P0T8SthFZqnNsFpKC3wTV7m
+UZ/8opM3kwD6pXQeLgl3+aZ5FTkIf/3EQXbBHqNERXuALEstn1MJBAekJAXKcgrM
+lXJb3uVAn8ULjCfZDiETqsWoANYzA1duqf/T8/gP3792b29F8Kkj1uD2LYi3vwHc
+RNze6w+c934fzJqK+2sGM0P+WSzIbwNCtkICxFKgVSj6c34d5x9KRza1ZdlnfnKo
+DsDjvP0+bfOpKMeJ9gK/01dUjGs9h5THTx1nGfuq8capZIwT6+E=
+=Lo0P
+-----END PGP SIGNATURE-----
+
+--su4oqueo2btoztqk--
 
