@@ -1,75 +1,77 @@
-Return-Path: <linux-leds+bounces-4075-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4076-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7D9A4479D
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2025 18:15:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76A5A44769
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2025 18:08:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5429C3BFE35
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2025 17:06:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 462ED1779AC
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2025 17:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D6018DB10;
-	Tue, 25 Feb 2025 17:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72E281917D4;
+	Tue, 25 Feb 2025 17:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wsa7kM0S"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBZKXIXv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8421547E3;
-	Tue, 25 Feb 2025 17:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B1918DB10;
+	Tue, 25 Feb 2025 17:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740503170; cv=none; b=N0dPaiGV7PMj8CeN8vLfidaOlbPn4NMqKZ2EWYDRELzzmqIsmkCCVF37dpj7kGyP1G2CHbh0XRQdkFvgRFQuDCZnvE6gFgyI8mW5YkbWbEcchalfGTNClwcmWhSyux4srBSis4OzvPcXKR+cv2Yyj7IRAeF3hH4Msyp8LRxv5y0=
+	t=1740503179; cv=none; b=jbrRrJLz/T1j8+fWCrEJNrxnEt59rE4VNCvy/ChfmbApAHWOB9Gl2n5qXUOEi2P3ELFFRC9v1IwQDGwGs2jKbVpGMrpB+uvHekPXCKqyyKHQKUZ3+lIACjD41LuTiqkXuvEDB9tT+FuEaxOsjadtdtUVdEtjF/6QJRXuUT1UK7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740503170; c=relaxed/simple;
-	bh=bpxL3B7mFZ8T1gpT6geSdExB3J0o22Gfa+Yiler7EOM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l2yWN61gwWvHDfpl3uJnkBBmLnz9Sl2TCGsaugMOOjLMSO5rkyitGc5O0ALotYLhT4ydhoqTc/FyV7LevJQMeHvAVUPBDQmb9beahpYo7kgSlIko/6QCPZsk3AbRFVvRx2QApAQ5Q10avQ4pOG/8n3xLIHBwEEraZDxmsteaJZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wsa7kM0S; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1740503179; c=relaxed/simple;
+	bh=F9arj9XlSPYLFUn2cFiuuIjkriGaXcT4MDgLxONyaic=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sierku1h2MRLTvTRDibG3Mu+Rd1de+ltrvlsK0LyM0K7tIykgX6GowUFjusek1MGzUjDD193cbwC73cZPnhZwFCYii0cDw4JVYBZvHXLJkwcKoXWmvlluvfsRWbBfdMfSsVM9uPhIcWli7cdr0A4TbzvrdrhUjwxiTEpK/ZEesg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBZKXIXv; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2211cd4463cso120229245ad.2;
-        Tue, 25 Feb 2025 09:06:08 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-220d28c215eso91758715ad.1;
+        Tue, 25 Feb 2025 09:06:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740503168; x=1741107968; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bpxL3B7mFZ8T1gpT6geSdExB3J0o22Gfa+Yiler7EOM=;
-        b=Wsa7kM0SXVUPlaFyrl+1M2gSWxE+93VurzC4Xsqp65qIdnIbRtir8bMo6qrrY/6bkH
-         g0nagPF21ynsi4rdJIvpp5e/2BSOCS5UNpNHzTGaus+FkXKttQRjIdtR595dmC5EkUGb
-         F1Iyc5lDoUww0X6zej77/7jDLmOWg0E79ynExy7t55K7tgtyaXWbCnqme3asUxTwV0FT
-         QT8Nh1yS9y86djDqlhWovOVXKslRbmeuMJ/ya3mALAHdotBEoJgP9F3tHKAnPIc/rLNK
-         4RXnPgmHjdvS2Iamh2HI0/qST1klhXVK6TcLVvyu3eRBX3ewJY0yFRgzGRGcEReKGC50
-         laZA==
+        d=gmail.com; s=20230601; t=1740503176; x=1741107976; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qs/0+j89mqn1YHcz/KkekbDc2+h2ZGxPg7HFDR1eoNA=;
+        b=EBZKXIXvF0PvKSeTLMjDGEUIu9+X06iHwI4Qw4sAJqQSSRV4QfLneovxNgfeSVfRbE
+         TRYwh887EUQVa3/vrhfIVkICxOBzGPKGg0r7lFz9UfI04iTTpD+EXud4sDLxhgQs198t
+         szhtsF2znv80o9km1vPeTOYEbYgfgVUmkjV5l4YCB+TJwR0URpQozog4tuWJAMGChA6e
+         T7g2fGiSNk97Zitj/WHJoyNJUXBbHgHu61hoCxUxsV4+3cW47mSGyo2aQkUqn/Cjn79e
+         fVVQVbCNzGUn/EnGBmaHVZjnE9TNgmdTQptpFu+SnXc6qINzgY9pzfTCwk53VWPFJHAq
+         8RdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740503168; x=1741107968;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bpxL3B7mFZ8T1gpT6geSdExB3J0o22Gfa+Yiler7EOM=;
-        b=bg2iV5TP//KY5ldHi70SHaGJJpQivHjvGaQwdUIHiRAfIB7N89VBZR5WSjizcFmKlk
-         I0CsaeL+USnkYQYvJGMY70nAOQ3QYjgr9+2Aa+K48ClIvElik8rfJtI3x3aRQ0CBqrfR
-         sFMR623niwxbj5ZD8wbdHEn0ky6u6zYk4KIpvDlHRl4vMaq6UYtGRtMTeVskHlVPQ4oM
-         YP5FUTKD03GCxzZiAg1cdfC/ZIhOagvpEY8c1cD6noTPEddpQ/3fA1+urGV4gynXYkeL
-         oIdbaGfESkBYztoB5cHmQrHn64NWEjitBApbSgUsqxC5MSbT4Z2L9VArvoP9ukKVhhUV
-         SQzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVq64IE5YKDfabjtlDFrVIpEYfhku/xgI5MhawnRsW8LTy5MiWNAj0jA8c/XrUqoLOR6vOk8dmSJIDRNw==@vger.kernel.org, AJvYcCWsK4mMomVnyHmaD8GCwrf74SuZWEI8t8YIObH1uz7iFKeEEdn8YEwBl5CwtLLOBE7GLwextYlS75l2ilw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+vdkLmpPTXIN6wRS9kQ01eoC5QQMxm077u8cSN2FyFhWo+YlJ
-	nwbHoDfWIIoHSMomQ979cZTLUPwOMtErC32Fa+Ugg39Avf+tTiP5qyBbbSId
-X-Gm-Gg: ASbGncsC5YlwToS/3aa+lFXDDjjUY+MY59Chleq2BroWFQadvYX94xn/HfOnqjY8kbm
-	SJkepr5aZK6cJo7iM5y/QNU9PQKhdZzICqmseIFOQt9r36WFONXFPwLsVj0lw5CN2b5l1+v3B5u
-	vk0uE9hDqh315gRdctqehwmEiSM1NzKzqTy01t5gBOunZZfDOc1/NeICS1KG9CFssQoJ9nyPA/p
-	xkkQSAe/4Qch+jx2dnAq3ysuft0jTDEPdhElN/g9t48lYo3k0HKbAP5kXFSrtzhAa9bZMfZ1o6N
-	q8dQ1sssVlWGuXBDmfm/hDOJ7nIJMHUOXijqzkI1Kd+z1DE=
-X-Google-Smtp-Source: AGHT+IFv9YuL/fzfRISpsvngTs+AOHJv036o9wJ92ZFpW3rksechl/oac0mMWei93fa2C8ODk7J6Xg==
-X-Received: by 2002:a05:6a00:8c3:b0:730:94e5:1ea2 with SMTP id d2e1a72fcca58-734790a2709mr5892899b3a.4.1740503168229;
-        Tue, 25 Feb 2025 09:06:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740503176; x=1741107976;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qs/0+j89mqn1YHcz/KkekbDc2+h2ZGxPg7HFDR1eoNA=;
+        b=J0AajdfKix87caP6E2OCuKQgh8T3SjaXjpNh9a9unZ6heyK0qDdkehJUg4I7DO2T3v
+         s90LtmUy3lNMmc5s2EPKcK+8csZKsGrcdQK4VyN3ZI4ANd+DPatMQ1vJEpnA20XAN2Nu
+         oyLsJXuttBV/u69u6eIgfMmXvQnfBTa5OSmNtVDI6sxrTJ1yJ17H28INFeKWYAXAmdll
+         GEoA2Crxo/X8Tx1447ccuS5wOyNBG5E/xUt42ueiU/Hh6uTxQZYPSl0GgMHIyGs3lzUB
+         9tajk/SMvsD2axc/uwrpZO3sV1e3o+76vlsi5yujm+IwmY0zRJWxajNr352Bv2NB5p34
+         orWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVzNyE91mOW5tMtU72yG1w7qg21N+YBsGYO8zSdWs1rJsU35Vm0ekj/K1hCvATuPffHZZFoRvOJT0TGXlc=@vger.kernel.org, AJvYcCWBLS632r8izg13frT38gouzAEAXYMF7vGU7+D38l2XZKMz4ta4L3ymGuwXx5GkjYm5/y+fC73X/qxW7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUuAHhm5IxCtNmLxlnFRAY8Z7NyAccRravHXm+Ib5qnNBm1ZZR
+	QdTp3+HSQNKMMvpruj7TUoRC0bMoweIiGRESf0bPjRluR2bgWe7OdHsb6PhF
+X-Gm-Gg: ASbGncuE1pa8SBh1yWlToEEswnVeACGkddufk8lERzCZqPOdqUNzoUCB0h4tllG73hK
+	60n2nPHTppVzxsZWHaM0aB9hIMIOs2NAlopBhc3YyJwtv+cmjOlkXAg7nek+aFgBlg6XHqir8yl
+	U1nABE4H3sku8pwfoVwxHJwCajPVjTSwxkLuOO8qodpkxpZH73xh7K0eMQFAW3a18g1ndQq6wyU
+	iHkxG28FOjBHNFqX7XFOWE9lRrIeXKFRIUMH9lTBA2S0hEKzdNg7vSKJIqhkYo+mHqvbjN4FTCA
+	QXW+Sx19EaSJo8JTkuttFOkZojapfwY17EE3ZVJ7IL5PyEc=
+X-Google-Smtp-Source: AGHT+IG251AWdoXj3YPsOiyV3kX25AqOqmYbGwvFLLj7JBzdt+vcWebCY6rP9OGkXxr6pLe8CTfV/Q==
+X-Received: by 2002:a17:902:d4d0:b0:21f:7082:1146 with SMTP id d9443c01a7336-22307b5b90fmr61113065ad.30.1740503176553;
+        Tue, 25 Feb 2025 09:06:16 -0800 (PST)
 Received: from DESKTOP-P76LG1N.localdomain ([14.162.192.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a6abb63sm1759887b3a.9.2025.02.25.09.06.05
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a6abb63sm1759887b3a.9.2025.02.25.09.06.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 09:06:07 -0800 (PST)
+        Tue, 25 Feb 2025 09:06:16 -0800 (PST)
 From: Nam Tran <trannamatk@gmail.com>
 To: pavel@kernel.org,
 	lee@kernel.org,
@@ -80,10 +82,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v1 0/2] leds: add new LED driver for TI LP5812
-Date: Wed, 26 Feb 2025 00:05:59 +0700
-Message-Id: <20250225170601.21334-1-trannamatk@gmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: leds: Add LP5812 LED driver bindings
+Date: Wed, 26 Feb 2025 00:06:00 +0700
+Message-Id: <20250225170601.21334-2-trannamatk@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250225170601.21334-1-trannamatk@gmail.com>
+References: <20250225170601.21334-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -92,32 +96,74 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Nam Tran <trannamatk@gmail.com>
-To: Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-
-This patch series adds support for the Texas Instruments LP5812 LED driver.
-Patch 1 adds the Device Tree (DT) bindings documentation.
-Patch 2 introduces the core driver implementation.
-
-The LP5812 is an I2C-controlled LED driver capable of driving up to 4 LEDs with independent brightness control and pattern programming.
-This driver provides support through the Linux LED framework and includes device tree bindings for proper integration.
-
-This driver has been tested on Raspberry Pi 4 B using kernel version 6.14.0.
-
-I kindly request feedback from the community to ensure that this driver adheres to the Linux LED subsystem standards.
-
-Thank you for your consideration.
-
-Best regards,
-Nam
-
----
-
-Changes in v2:
-- Renamed DT bindings file from `leds-lp5812.yaml` to `ti,lp5812.yaml`.
-- Added LP5812 device tree node to `bcm2711-rpi-4b.dts` for Raspberry Pi 4B.
-- Updated core driver implementation to fix build errors in kernel version 6.14.0-rc4. (The v1 patch was only compatible with kernel version 6.1.93)
+This documentation ensures proper integration of the LP5812
+in Device Tree-based systems.
 
 Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+ .../devicetree/bindings/leds/ti,lp5812.yaml   | 34 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/ti,lp5812.yaml b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+new file mode 100644
+index 000000000000..1eb395230531
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+@@ -0,0 +1,34 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++
++title: LED driver for LP5812 LED from Texas Instruments.
++
++maintainers:
++
++description: |
++  The LP5812 is an I2C LED Driver that can support LED matrix 4x3.
++
++properties:
++  compatible:
++    const: ti,lp5812
++
++  reg:
++    description: I2C slave address
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c1 {
++      lp5812@1b {
++        compatible = "ti,lp5812";
++        reg = <0x1b>;
++      };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4ff26fa94895..32312959d595 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23494,6 +23494,12 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+ F:	drivers/leds/leds-lp8864.c
+ 
++TEXAS INSTRUMENTS' LP5812 LED DRIVER
++M:	Nam Tran <trannamatk@gmail.com>
++L:	linux-leds@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
++
+ TEXAS INSTRUMENTS' SYSTEM CONTROL INTERFACE (TISCI) PROTOCOL DRIVER
+ M:	Nishanth Menon <nm@ti.com>
+ M:	Tero Kristo <kristo@kernel.org>
+-- 
+2.25.1
+
 
