@@ -1,177 +1,156 @@
-Return-Path: <linux-leds+bounces-4090-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4096-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A90A45A59
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2025 10:38:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C82A45B90
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2025 11:19:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 730167A7A50
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2025 09:37:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2BA943AA4A3
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2025 10:19:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87A5A238170;
-	Wed, 26 Feb 2025 09:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5803226D0E;
+	Wed, 26 Feb 2025 10:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2FoeceZN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eW7PvPHu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2FoeceZN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eW7PvPHu"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="LV+kBunC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3530238179
-	for <linux-leds@vger.kernel.org>; Wed, 26 Feb 2025 09:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6DD213256
+	for <linux-leds@vger.kernel.org>; Wed, 26 Feb 2025 10:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740562688; cv=none; b=GpHk+9dr8hvdkJFEk0sM62Fyhgn3FRs1ZoZv13/nrcnKfzRRimHDCHtRJYuut7GsKvp0tdCEG4kxULkhIwmOS5SUUwx+76g6V5O6DzCjzjLCrG4FxbF5X2kwHbumiykQkh9+Yxqcas7cZHvdG2kzQnUeJoL7k1O1o56wASDZM9w=
+	t=1740565172; cv=none; b=ZcluwPQ0jGW2QrH0T8oLhp27HAkltNz4sSzKwTZb+BIOXYdoRSzdeGdMrGUJP6B9dnmnzRgTKAdJVMPlhKTNqV15NtLB6Yhh6fUkjBenCvGfhyveBAb3Wy5fIL+C9tQ0Ox9k64HjeIZndzXar7JViXMFpL8dCCR/QQNZgeR4tWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740562688; c=relaxed/simple;
-	bh=IsAu7JdKBnglMwM2CePvGx1UPXBBwWznIbT4Ckx6N7Q=;
+	s=arc-20240116; t=1740565172; c=relaxed/simple;
+	bh=lsqUHQiNLeacHnEbKXQeLViXVU0UgO/D/+5OdoncwL8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DpdDyA+98TUF5ZJbcMQt+eG72Wxyy0KELG0rw4d9u1TBsOqxToUSkuuO59tjyzkSJ7nPMDfoVRXMSRa2T66MaChuvPPm0m2b1FCpn1cjkSAtLHl7FQQTDjrofzZAi248ptN2FYrOTZt9jcDGOI8NrGTDq2aeP7R2k4UxGVtlRWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2FoeceZN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eW7PvPHu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2FoeceZN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eW7PvPHu; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 921402119C;
-	Wed, 26 Feb 2025 09:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740562668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PFr8H+hCTUTRF1jOy94qiEOja/muVDhbuvTUu0DRKIA=;
-	b=2FoeceZN/1smE7rS61qAGw5nDOqeX0HJ3+m2aAiMANHmYeCGCk7+XMwc6rXvp+Wp/DLGVR
-	91mNt1+TzKm1E97ONaYdHyZNbTOdM+GWKljiP/YeDzsdvRiDT0QBRLIaAFKj8flUPlrBTn
-	LRiISxHhFwEnTf7CxrugVLZCEJtFyjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740562668;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PFr8H+hCTUTRF1jOy94qiEOja/muVDhbuvTUu0DRKIA=;
-	b=eW7PvPHuZ09E3PmIHRjog/16cdTevbr6x/Ho+LMHcziwMqWMyiR5zG2J22gp0FPG8YgNXw
-	jwshVqSwJ32Q7vDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740562668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PFr8H+hCTUTRF1jOy94qiEOja/muVDhbuvTUu0DRKIA=;
-	b=2FoeceZN/1smE7rS61qAGw5nDOqeX0HJ3+m2aAiMANHmYeCGCk7+XMwc6rXvp+Wp/DLGVR
-	91mNt1+TzKm1E97ONaYdHyZNbTOdM+GWKljiP/YeDzsdvRiDT0QBRLIaAFKj8flUPlrBTn
-	LRiISxHhFwEnTf7CxrugVLZCEJtFyjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740562668;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PFr8H+hCTUTRF1jOy94qiEOja/muVDhbuvTUu0DRKIA=;
-	b=eW7PvPHuZ09E3PmIHRjog/16cdTevbr6x/Ho+LMHcziwMqWMyiR5zG2J22gp0FPG8YgNXw
-	jwshVqSwJ32Q7vDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B8E813A82;
-	Wed, 26 Feb 2025 09:37:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aOglEezgvmezXQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 26 Feb 2025 09:37:48 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org,
-	pavel@ucw.cz,
-	danielt@kernel.org,
-	jingoohan1@gmail.com,
-	deller@gmx.de,
-	simona@ffwll.ch
-Cc: linux-leds@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 11/11] fbdev: Remove constants of unused events
-Date: Wed, 26 Feb 2025 10:32:00 +0100
-Message-ID: <20250226093456.147402-12-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250226093456.147402-1-tzimmermann@suse.de>
-References: <20250226093456.147402-1-tzimmermann@suse.de>
+	 MIME-Version:Content-Type; b=FkZGkWxOW0+1o0VqdSzrSa5x7uTpFQoa8wEZA1fHqjZDkhSFoT2d5flWQFx2x1hovF/9mFN5GYybXBJhYqeseuhQEAyb1AmNEQaIX46gEeGW5lBUbIQxWGocsbt/wA+aIBtloU56sDpM3cq7BaiEcuKihfRvqc/xIOYutcSnfMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=LV+kBunC; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso66514525e9.1
+        for <linux-leds@vger.kernel.org>; Wed, 26 Feb 2025 02:19:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1740565169; x=1741169969; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WvejRLHxI7cWJHZ6jttnlknQfuM1gunX4QyfWK6KcOM=;
+        b=LV+kBunCODO6lNpe09E6YU70eUNp8Tz73QMd+pt+hmBjEkv0FDY4BvWPdAHJeTYc1W
+         MXqHgtWsyiXcw98aAlKPEDufMvqYEhTq/jymcrYd3LPLrhRAKyvw8VII8vS6v61gLheV
+         auVt1V9scAqQAIB9COd2ZG72QRMo/hRBjiFqSRpKDRuXVXrHNdOlE6z+RU02f3ETnZe+
+         QlBwm6B00fkMSpZZgvre249Vs/eK3hc3xC18xidHfAVq95P7fbLp+k1JXo4FBuEIzdXQ
+         SU2yruFaEXzF2gDZmZpxAlllhKBjwOJy5Uo6M49pPMvoXJyJomldEztFujZa4WD7NUpD
+         glTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740565169; x=1741169969;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WvejRLHxI7cWJHZ6jttnlknQfuM1gunX4QyfWK6KcOM=;
+        b=aS6tgfKeo2BbW7PwH9cQwjuyCThAHK3ApWJjj2dWXiPXaq/4f9kHbgNOfZ8rOwU27A
+         Y6Vufq7NeUHW7thtx2Ukku0Z7Uj8pOap0U8O9k2T5RIRCTQQ8neooNvVJyePkpJTOs+m
+         geFmDPZmPztvdVfC/Y0Pz9BiV0gT6w1X4p+sOFWDx0Cz+W3iU2CYwJbTtNCNzbBk3yWa
+         +Mg/dvYjVpExw68t1d/u9uxSttkJQkT+aPXNaxhnQykgWyFSqIoawHa45rJVnsDdwj3w
+         1c2P9UjiReDDXDROiwI3UsgjCpLnr48juAqt86A2Xv3cfG8/0A8a8RZ7YQc6Z7pkhw4X
+         ctBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCPpV5A7euoddmQ7qlgH9JEr5nn+BL22XHWZtl54KzYo4SYfU9TRCdG5TR2GDAoOHW1q2DPZC1L5H7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2RpMFG6Gf4JxFDXpGU0bm/0B1heqjZ7zjU3F2/dWcVmv/fXfB
+	mUDKxoG/d0XFu0XOjUCe8gDvkTyJY5/5b8l1qDYWD5DT5O7phX//tBHOsToE9sc=
+X-Gm-Gg: ASbGncuVYYE7OE8UsZJJJM1thHVFLNyLk2Dyug3nrt4Y83e/PMXliAljfwRs94SPYN8
+	8JuGHNkuXvZX0WEK3xGHzQKRKBD285LZtCQUz8dYMK3cwHvibTYcUFlukqafo/VqUhrXj+E4+Ww
+	T+FZXkO+Vl5qG63Lnm8jmss47JKVMoW33km7dODlo1TDHoh/dvhYPHYCGMuDuRpaVC4ce15Z7uF
+	Dcq/eiF/4i7CwVzOBHRiwDAtz04Jjgttx5/ete7cHUwvYNE3iI7OOyUOYrMN0AgbFFgMQPcaigO
+	rbV/8AgGf1tolIzu6z0t8jc=
+X-Google-Smtp-Source: AGHT+IHtX44cvyUZkHpacOhemqLTunu3D50Mgcq1iaIh7ou+6BH/jVVPHw9q66AFLdQeQkeaqpkm8A==
+X-Received: by 2002:a05:600c:444d:b0:439:89d1:30dc with SMTP id 5b1f17b1804b1-43ab0f2dcbcmr72336785e9.10.1740565169301;
+        Wed, 26 Feb 2025 02:19:29 -0800 (PST)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:7d02:26:5770:658c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba532bbcsm15963045e9.11.2025.02.26.02.19.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 02:19:28 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Bamvor Jian Zhang <bamv2005@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Keerthy <j-keerthy@ti.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	linux-leds@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 00/15] gpiolib: indicate errors in value setters
+Date: Wed, 26 Feb 2025 11:19:27 +0100
+Message-ID: <174056512537.35186.16775359979829251031.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250220-gpio-set-retval-v2-0-bc4cfd38dae3@linaro.org>
+References: <20250220-gpio-set-retval-v2-0-bc4cfd38dae3@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLqirfcw6gnbcr9a9yhi49fhi6)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Flag: NO
-X-Spam-Level: 
 
-The constants FB_EVENT_MODE_CHANGE and FB_EVENT_BLANK are unused.
-Remove them from the header file.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/fb.h | 6 ------
- 1 file changed, 6 deletions(-)
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index bebf279c8bc6..c272c0fc074d 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -129,18 +129,12 @@ struct fb_cursor_user {
-  * Register/unregister for framebuffer events
-  */
- 
--/*	The resolution of the passed in fb_info about to change */
--#define FB_EVENT_MODE_CHANGE		0x01
--
- #ifdef CONFIG_GUMSTIX_AM200EPD
- /* only used by mach-pxa/am200epd.c */
- #define FB_EVENT_FB_REGISTERED          0x05
- #define FB_EVENT_FB_UNREGISTERED        0x06
- #endif
- 
--/*      A display blank is requested       */
--#define FB_EVENT_BLANK                  0x09
--
- struct fb_event {
- 	struct fb_info *info;
- 	void *data;
+On Thu, 20 Feb 2025 10:56:57 +0100, Bartosz Golaszewski wrote:
+> The value setter callbacks (both for single and multiple lines) return
+> void even though we have many types of controllers that can fail to set
+> a line's value: i2c, SPI, USB, etc.
+> 
+> For the consumer API: single line setters return void. Multiple line
+> setters do have an integer return value but due to the above, they still
+> cannot be used to indicate problems within the driver.
+> 
+> [...]
+
+Applied, thanks!
+
+[01/15] leds: aw200xx: don't use return with gpiod_set_value() variants
+        commit: 129fdfe25ac513018d5fe85b0c493025193ef19f
+[02/15] gpiolib: make value setters have return values
+        commit: 8ce258f62f90cb2d339cc39fa43e5634594a9dfb
+[03/15] gpiolib: wrap gpio_chip::set()
+        commit: d36058b89a4aa30865d4cfeb101bbfd1d1dcb22f
+[04/15] gpiolib: rework the wrapper around gpio_chip::set_multiple()
+        commit: 9b407312755fd5db012413ca005f0f3a661db8dd
+[05/15] gpiolib: introduce gpio_chip setters that return values
+        commit: 98ce1eb1fd87ea1b016e0913ef6836ab0139b5c4
+[06/15] gpio: sim: use value returning setters
+        commit: fe69bedc77c119ffd4e27778eec03c89acb8e87b
+[07/15] gpio: regmap: use value returning setters
+        commit: a458d2309c81902dc6ca19b5037b9d25eb60a4a8
+[08/15] gpio: pca953x: use value returning setters
+        commit: e32ce8f62dd9c0ec923cfb9c783fc04070edb24e
+[09/15] gpio: mockup: use value returning setters
+        commit: 66d231b12eb8d39c21835a9bf553299a278ae363
+[10/15] gpio: aggregator: use value returning setters
+        commit: 468eae4166ab796cd2f9ad2bbb141d914e19c0b1
+[11/15] gpio: max77650: use value returning setters
+        commit: 97c9b59f6658671f3f13f57de1352ec9d16ad13d
+[12/15] gpio: latch: use lock guards
+        commit: 14628b692707fa8e61d0a068ef012156d23dc776
+[13/15] gpio: latch: use value returning setters
+        commit: 4b28762caa7b85609ee1a9a5e1038ae7bbd24892
+[14/15] gpio: davinci: use value returning setters
+        commit: f01436c2a038fe8d7b69a5fe701ab98028ce5cc4
+[15/15] gpio: mvebu: use value returning setters
+        commit: 9080b5d1b9c259645cd0e3694ffba85ccdd25352
+
+Best regards,
 -- 
-2.48.1
-
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
