@@ -1,324 +1,187 @@
-Return-Path: <linux-leds+bounces-4106-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4107-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4956FA479A9
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 10:58:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F16F0A47C6E
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 12:43:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 406E63B2C74
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 09:58:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E87C116A517
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 11:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E94C21B192;
-	Thu, 27 Feb 2025 09:58:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE32822B598;
+	Thu, 27 Feb 2025 11:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IWq1xeX/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrEYdE7Q"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A6D228CA5
-	for <linux-leds@vger.kernel.org>; Thu, 27 Feb 2025 09:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DEC22A1EA;
+	Thu, 27 Feb 2025 11:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740650335; cv=none; b=VAeJIFVQ19/Fko2YEEkC+IYNcnjBTqx/9ukFCuTg1FYwaRUb0Rw9dFOFNHw1iUAdILnDWyUxUfZ4v8v7CDMi4HsxE3XiF6Xw9QBh/0E/+8UE0+Tmcz+YsNLDUsQNTqv2+XM/x0A6ZZin/FBbS1lRqxJK5/wiaOAMN5oDJcvSAfA=
+	t=1740656605; cv=none; b=JMXpHVUm6AfwqPElegQDj1EV+CYPInM5dBQwoYRrsG53bF7ctaBNdlLNXg7EHM9wVfS5z1NhFgXwmqYNSR6LgS50dGpgywh9pEg7fTniHCUXlekrTG6BCRAx1dPEKlK6v6s0Rf7nzmdSP4q9MQR5UPaZfgygCgpTJuAyt9aI9/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740650335; c=relaxed/simple;
-	bh=LVEnZcUngYqfe5dp9+WHbzV3vUZ1hd679ph7F71Gt4k=;
+	s=arc-20240116; t=1740656605; c=relaxed/simple;
+	bh=jfD1xzbIAseHmcXVa7MNKzSlnr4yWjTir2dWuJpqANk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rl59ZOkQeIoPiDoHxrkhBoI+Z8cD4Pe6Svlkytnyb69OSYpATUYPRCp0ruVDVBnPgnP2zX4XS6FLTcm0r1Mm+RFVfOmfw3LC+N4LC8hMHhx/LY/nzJH0yKgZ6rkiBC8l3jGa3m3J+0FrzobW8OPzGlMnpWkuxZDkph2DKIZ7ZbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=IWq1xeX/; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-abbac134a19so104632066b.0
-        for <linux-leds@vger.kernel.org>; Thu, 27 Feb 2025 01:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740650331; x=1741255131; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7J+E2Gx3hCnyd4BeJgCtnWWxfQu+1wq2ZqoJsA7+a4s=;
-        b=IWq1xeX/dZ4dTZ1Tj+SXzPSiElfias0NKblQ+GqxaMq4ykvWcDfenelXoNYRzrnUkM
-         fbk1CpnJrgxpGV43C8iXEz38bePTVhLZer0jgfo6ZLw1T1Sy8C2iaVciTpG+k8Rr7HZ2
-         p/qW7q9e7ETLDWMrTrGmyfY44vb6qaGf30ydX4TJ/DHBB+Eo4uoYIrwTfKPeyBvTNbmQ
-         Gihhj8iJL7kdfW9WW+Sg0iZm8Ux5zl9xV17ADsrk38oQj8TQDbH8KrVRJ1u55Uroanog
-         2BWucD6sJ2qbOeGxOSrtHGHsEIYHcmbyjeYN2QudA+Y2bKGnqFWhiQb3a9Md9GzhLsEm
-         hBFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740650331; x=1741255131;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7J+E2Gx3hCnyd4BeJgCtnWWxfQu+1wq2ZqoJsA7+a4s=;
-        b=n5hfctVbY+JZBfOZhINMi4V4hPFSMfCxAQ9943Bdq5BZ+CwBkBQ1RJtMZRxjrjxZFi
-         +quQb2E5MR2C8u6DYu/DkpD30njoCse1/icPAOnr/2hWkntOsTXFS2YRs156917UGy27
-         ju5SEtqhCIk/9PAnlWyKODQqD2+TZeRCQ9AGgRvkO5uzvn1GmWHYLur7HK8LBXVeZ1zE
-         VofgAUw0mRfw8uVolE+hDXiy9mS8FvjbTl49mURkWS+yazDac2QpJgM19JICubmC0ncF
-         ouEgwPXqlEV8WbU/cP3eQaVzfqEY+e+3qtGl1N61lvqOM0bFVeQtty50e1QwlKcFuNRv
-         EtPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUp6y9Z9LS7u6dDGk6bSF5xJpZKqta9ZSL+TbjBDUCsPknyqTy2heKIZzlfc6TDZcRT+uDzAJ1Rx7E1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5tGw8HE3lz/fxsey1U0QYvyrmy7FfR3RNjYTbSJDrizd4aV/s
-	CdIk9Q4K6VUxgqeqn3BO4l/xuPap/Uxpsm2foyxdOMQSsdD5yYMC16iHKbseb/4=
-X-Gm-Gg: ASbGncthtpj6anFRUlsU0GVNF0yOLXVKgAN34AxPehqP0/n3FvzpVmOaRVYFWb1R0RG
-	NC6gIrleKA+5jFph2+ntLaGBbht1+FprfL3h5YNX3e86E+pQZf2GAIwrA/p2aCa/dnrIqccBIgc
-	4tOzyec5TSFC/EFEnZAf7mCbgRSKIlqZ0n3qreqOZR0awXh5W+R9I/Fw5zn2JH+8vHaGr6kKb3l
-	QcIbR72lRN5sv2bgeJ968exCV5qWeqMtDvUa4qHnHlDStFnY8GirxCy6bvPZRbyo2ATI8Eg1BEj
-	XiB5hFPYih7DWo36Ogya8idR3S8OG47tE46fXHUAcIiQGl6rtQ5UdrY77pyb0R+3nfZ4
-X-Google-Smtp-Source: AGHT+IEQc8GL4ZFIAPYJAnXnctlA/znV6Ay89JUxzHHTfb6XQ9a7TyalDh4OWbGea9chE40xcXbTeA==
-X-Received: by 2002:a17:907:7fa5:b0:ab7:1012:3ccb with SMTP id a640c23a62f3a-abed0cbe7d6mr1025749966b.14.1740650331153;
-        Thu, 27 Feb 2025 01:58:51 -0800 (PST)
-Received: from localhost (p200300f65f083b0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f08:3b04::1b9])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3bc8800sm876857a12.48.2025.02.27.01.58.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 01:58:49 -0800 (PST)
-Date: Thu, 27 Feb 2025 10:58:47 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
-	Kamal Wadhwa <quic_kamalw@quicinc.com>, Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
- PWMs
-Message-ID: <5euqboshlfwweie7tlaffajzg3siiy6bm3j4evr572ko54gtbv@7lan3vizskt3>
-References: <20250220-leds-qcom-lpg-fix-max-pwm-on-hi-res-v1-1-a161ec670ea5@linaro.org>
- <dfthocttum7dscotngi6l2hz6bpdwfgrdxpvkcv6bdux3lt66d@iqfvmntvzyut>
- <Z7zVgeM+7P7SLWIu@linaro.org>
- <vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67pd2@cz2dcracta6w>
- <Z7161SzdxhLITsW3@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=S80qp/fcLwYedn90g3bq8+6NkGiST4Nln3gIvbaHZioWU2W/OBV+qxEhwPUNX8qRROD496BwjqG+VathRkp37MaSuKSQI6kC7FcrwAruzmEd9U0oivkV9nLtAMK+CYByrqG2K2rFavTGiMnrayiPkDJSgx5VTEWg+hsqd7ajtOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrEYdE7Q; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740656604; x=1772192604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jfD1xzbIAseHmcXVa7MNKzSlnr4yWjTir2dWuJpqANk=;
+  b=LrEYdE7QzHJGVbjSCDjJB37sJTNkS7h+CeStUSvygGfM4RErgSrPnhSV
+   NF/ggziXsxV8TQvEZrj6DrAqIxr8PGenbrDSiVCD0Vw9gY59uId7NQwiC
+   gzVCsMyNEnxMMiVwdcG0JxNOmRgCkPd7TFuOblVrPSzLmgk1HK5X/8QrT
+   187oUvB8yUjXJUYIFLArkwKAQ5FXxa2WJIX3+XmgDDmzzWz0MlFuP8g0k
+   5J5yZNlTI2Dh9IULtYF+G73GnhF/pm6p62rGx4b3ll1I9csdLtQTVm46A
+   kFP3k4oPwi0hBRc10/litZz++cAZd/nZWvnMGSvbzFJw+fmedjpNvlD48
+   Q==;
+X-CSE-ConnectionGUID: 7E/+xPdkT5qLLW55j5jC4Q==
+X-CSE-MsgGUID: ET5Qx4HQTbKGsgu5fJoRKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41671689"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="41671689"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 03:43:23 -0800
+X-CSE-ConnectionGUID: Z1OI2PlpQk+QlNvSMzuJYw==
+X-CSE-MsgGUID: oVzuM2KTQSeVmxwP1ZFcdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="121940371"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2025 03:43:20 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tncIQ-000DIs-09;
+	Thu, 27 Feb 2025 11:43:18 +0000
+Date: Thu, 27 Feb 2025 19:42:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org, pavel@ucw.cz,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 06/11] backlight: Replace fb events with a dedicated
+ function call
+Message-ID: <202502271951.iaH6W6q1-lkp@intel.com>
+References: <20250226093456.147402-7-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nr5ltixjdluytq45"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z7161SzdxhLITsW3@linaro.org>
+In-Reply-To: <20250226093456.147402-7-tzimmermann@suse.de>
 
+Hi Thomas,
 
---nr5ltixjdluytq45
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
- PWMs
-MIME-Version: 1.0
+kernel test robot noticed the following build errors:
 
-Hello,
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master lee-backlight/for-backlight-fixes v6.14-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I was dragged into the discussion by the patch that Abel Vesa created in
-reply to this mail, i.e.
-https://lore.kernel.org/linux-pwm/20250226-pwm-bl-read-back-period-from-hw-=
-v1-1-ccd1df656b23@linaro.org/
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Rework-fb_blank/20250226-174013
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20250226093456.147402-7-tzimmermann%40suse.de
+patch subject: [PATCH v2 06/11] backlight: Replace fb events with a dedicated function call
+config: arc-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271951.iaH6W6q1-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271951.iaH6W6q1-lkp@intel.com/reproduce)
 
-On Tue, Feb 25, 2025 at 10:09:57AM +0200, Abel Vesa wrote:
-> On 25-02-25 01:09:00, Sebastian Reichel wrote:
-> > On Mon, Feb 24, 2025 at 10:24:33PM +0200, Abel Vesa wrote:
-> > > On 25-02-21 00:35:08, Sebastian Reichel wrote:
-> > > > On Thu, Feb 20, 2025 at 12:31:00PM +0200, Abel Vesa wrote:
-> > > > > Currently, for the high resolution PWMs, the resolution, clock,
-> > > > > pre-divider and exponent are being selected based on period. Basi=
-cally,
-> > > > > the implementation loops over each one of these and tries to find=
- the
-> > > > > closest (higher) period based on the following formula:
-> > > > >=20
-> > > > >                           period * refclk
-> > > > > prediv_exp =3D log2 -------------------------------------
-> > > > >                     NSEC_PER_SEC * pre_div * resolution
-> > > > >=20
-> > > > > Since the resolution is power of 2, the actual period resulting is
-> > > > > usually higher than what the resolution allows. That's why the du=
-ty
-> > > > > cycle requested needs to be capped to the maximum value allowed b=
-y the
-> > > > > resolution (known as PWM size).
-> > > > >=20
-> > > > > Here is an example of how this can happen:
-> > > > >=20
-> > > > > For a requested period of 5000000, the best clock is 19.2MHz, the=
- best
-> > > > > prediv is 5, the best exponent is 6 and the best resolution is 25=
-6.
-> > > > >=20
-> > > > > Then, the pwm value is determined based on requested period and d=
-uty
-> > > > > cycle, best prediv, best exponent and best clock, using the follo=
-wing
-> > > > > formula:
-> > > > >=20
-> > > > >                             duty * refclk
-> > > > > pwm_value =3D ----------------------------------------------
-> > > > >                 NSEC_PER_SEC * prediv * (1 << prediv_exp)
-> > > > >=20
-> > > > > So in this specific scenario:
-> > > > >=20
-> > > > > (5000000 * 19200000) / (1000000000 * 5 * (1 << 64)) =3D 300
-> > > > >=20
-> > > > > With a resolution of 8 bits, this pwm value obviously goes over.
-> > > > >=20
-> > > > > Therefore, the max pwm value allowed needs to be 255.
-> > > > >=20
-> > > > > If not, the PMIC internal logic will only value that is under the=
- set PWM
-> > > > > size, resulting in a wrapped around PWM value.
-> > > > >=20
-> > > > > This has been observed on Lenovo Thinkpad T14s Gen6 (LCD panel ve=
-rsion)
-> > > > > which uses one of the PMK8550 to control the LCD backlight.
-> > > > >=20
-> > > > > Fix the value of the PWM by capping to a max based on the chosen
-> > > > > resolution (PWM size).
-> > > > >=20
-> > > > > Cc: stable@vger.kernel.org    # 6.4
-> > > > > Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for h=
-igh resolution PWM")
-> > > > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > > > > ---
-> > > > > Note: This fix is blocking backlight support on Lenovo Thinkpad T=
-14s
-> > > > > Gen6 (LCD version), for which I have patches ready to send once t=
-his
-> > > > > patch is agreed on (review) and merged.
-> > > > > ---
-> > > >=20
-> > > > Do you know if the pwm duty cycle to pwm value calculation is
-> > > > correct otherwise?
-> > >=20
-> > > Sorry for the late reply.
-> >=20
-> > No worries, I understand this takes time.
-> >=20
-> > > Here is my understanding of the calculation of the pwm value currently
-> > > implemented.
-> > >=20
-> > > First, find the best pre_div, refclk, resolution and prediv_exp by lo=
-oping
-> > > through all refclk, resolution and prediv possible values, for the
-> > > following formula:
-> > >=20
-> > >                          period * refclk
-> > > prediv_exp =3D log2 -------------------------------------
-> > >                     NSEC_PER_SEC * pre_div * (1 << resolution)
-> > >=20
-> > >=20
-> > > So in DT we set the period to 50000000. For this, as I mentioned in t=
-he
-> > > commit message the best refclk is 19.2MHz, the best prediv is 5, the =
-best
-> > > exponent is 6 and the best resolution is 255.
-> > >=20
-> > > So if you use these to compute the period following this formula:
-> > >=20
-> > >=20
-> > >                 NSEC_PER_SEC * prediv * (1 << resolution)
-> > > best_period =3D -------------------------------------------
-> > >                              refclk
-> > >=20
-> > > So in our case:
-> > >=20
-> > > (1000000000 * 5 * (1 << 8) * (1 << 6)) / 19200000 =3D 4266666.6666...
-> > >=20
-> > > So here is where the things go wrong. Bjorn helped me figure this out=
- today
-> > > (off-list). Basically, the pwm framework will allow values up to 5000=
-000,
-> > > as specified in the DT, but for then pwm value will go over 255
-> > > when computing the actual pwm value by the following formula:
-> > >=20
-> > >                             duty * refclk
-> > > pwm_value =3D ----------------------------------------------
-> > >                 NSEC_PER_SEC * prediv * (1 << prediv_exp)
-> > >=20
-> > >=20
-> > > So here is how the value 300 is reached (I messed up this next formul=
-a in
-> > > the commit message):
-> > >=20
-> > > (5000000 * 19200000) / (1000000000 * 5 * (1 << 8)) =3D 300
-> > >=20
-> > > But if we were to use the best_period determined:
-> > >=20
-> > > (4266666 * 19200000) / (1000000000 * 5 * (1 << 8)) =3D 255
-> > >=20
-> > > So I guess the process of determining the best parameters is correct.
-> > > What I think is missing is we need to divide the requested period (50=
-00000)
-> > > to the resolution (255) and make sure the duty cycle is a multiple of=
- the
-> > > result.
-> >=20
-> > Let me try to summarize that:
-> >=20
-> > 1. PWM backlight driver requests PWM with 5 MHz period
-> > 2. leds-qcom-lpg uses 4.2666 MHz period instead due to HW limits
-> > 3. PWM backlight driver is unaware and requests a duty cycle
-> >    expecting the period to be 5 MHz, so the duty cycle can
-> >    exceed 100%
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271951.iaH6W6q1-lkp@intel.com/
 
-Can you please enable CONFIG_PWM_DEBUG, enable pwm tracing (
+All error/warnings (new ones prefixed by >>):
 
-	echo 1 > /sys/kernel/debug/tracing/events/pwm/enable
+   In file included from drivers/video/cmdline.c:19:
+>> include/linux/fb.h:767:6: warning: no previous prototype for 'fb_bl_notify_blank' [-Wmissing-prototypes]
+     767 | void fb_bl_notify_blank(struct fb_info *info, int old_blank)
+         |      ^~~~~~~~~~~~~~~~~~
+--
+   arc-elf-ld: drivers/video/cmdline.o: in function `fb_bl_notify_blank':
+>> cmdline.c:(.text+0x9c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/adp8860_bl.o: in function `fb_bl_notify_blank':
+   adp8860_bl.c:(.text+0xefc): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/as3711_bl.o: in function `fb_bl_notify_blank':
+   as3711_bl.c:(.text+0x85c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/backlight.o: in function `fb_bl_notify_blank':
+   backlight.c:(.text+0xa34): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/da9052_bl.o: in function `fb_bl_notify_blank':
+   da9052_bl.c:(.text+0x20c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/ktd253-backlight.o: in function `fb_bl_notify_blank':
+   ktd253-backlight.c:(.text+0x36c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/lv5207lp.o: in function `fb_bl_notify_blank':
+   lv5207lp.c:(.text+0x224): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/max8925_bl.o: in function `fb_bl_notify_blank':
+   max8925_bl.c:(.text+0x3c8): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/mp3309c.o: in function `fb_bl_notify_blank':
+   mp3309c.c:(.text+0x730): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/pandora_bl.o: in function `fb_bl_notify_blank':
+   pandora_bl.c:(.text+0x294): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/pwm_bl.o: in function `fb_bl_notify_blank':
+   pwm_bl.c:(.text+0xd08): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/qcom-wled.o: in function `fb_bl_notify_blank':
+   qcom-wled.c:(.text+0x1f34): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/regulator/rpi-panel-attiny-regulator.o: in function `fb_bl_notify_blank':
+   rpi-panel-attiny-regulator.c:(.text+0x5f4): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_edid.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_file.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_modes.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_panel.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/display/drm_dp_helper.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o: in function `fb_bl_notify_blank':
+   panel-asus-z00t-tm5p5-n35596.c:(.text+0x654): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-jdi-lpm102a188a.o: in function `fb_bl_notify_blank':
+   panel-jdi-lpm102a188a.c:(.text+0x9c4): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-lg-sw43408.o: in function `fb_bl_notify_blank':
+   panel-lg-sw43408.c:(.text+0x4ec): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-novatek-nt35560.o: in function `fb_bl_notify_blank':
+   panel-novatek-nt35560.c:(.text+0x784): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-raydium-rm69380.o: in function `fb_bl_notify_blank':
+   panel-raydium-rm69380.c:(.text+0x59c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-samsung-s6d7aa0.o: in function `fb_bl_notify_blank':
+   panel-samsung-s6d7aa0.c:(.text+0x92c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-samsung-sofef00.o: in function `fb_bl_notify_blank':
+   panel-samsung-sofef00.c:(.text+0x4f8): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.o: in function `fb_bl_notify_blank':
+   panel-sony-tulip-truly-nt35521.c:(.text+0xf38): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-truly-nt35597.o: in function `fb_bl_notify_blank':
+   panel-truly-nt35597.c:(.text+0x7c8): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-visionox-r66451.o: in function `fb_bl_notify_blank':
+   panel-visionox-r66451.c:(.text+0x704): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/bridge/parade-ps8622.o: in function `fb_bl_notify_blank':
+   parade-ps8622.c:(.text+0x7e0): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/hid/hid-picolcd_core.o: in function `fb_bl_notify_blank':
+   hid-picolcd_core.c:(.text+0xca4): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/hid/hid-picolcd_backlight.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/hid/hid-picolcd_debugfs.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/of/platform.o: in function `fb_bl_notify_blank':
+   platform.c:(.text+0xb10): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
 
-) then reproduce the problem and provide the output of
-
-	cat /sys/kernel/debug/tracing/trace
-
-=2E
-
-I didn't take a deeper dive in this driver combination, but here is a
-description about what *should* happen:
-
-You're talking about period in MHz, the PWM abstraction uses
-nanoseconds. So your summary translated to the PWM wording is (to the
-best of my understanding):
-
-  1. PWM backlight driver requests PWM with .period =3D 200 ns and
-     .duty_cycle =3D 200 ns.
-
-  2. leds-qcom-lpg cannot pick 200 ns exactly and then chooses .period =3D
-     1000000000 / 4.26666 MHz =3D 234.375 ns
-    =20
-  3. leds-qcom-lpg then determines setting for requested .duty_cycle
-     based on .period =3D 200 ns which then ends up with something bogus.
-
-Right?
-
-There is a problem in 2. already: The PWM hardware driver is supposed to
-pick the highest period (in ns) not bigger than the requested value. So
-it must not pick 234.375 ns. (Enabling CONFIG_PWM_DEBUG on that is
-supposed to wail about that.) It should instead pick (say) 187 ns. In
-the next step the hw driver should pick the highest duty_cycle (again in
-ns) not exceeding the requested value (and physics). That will be (I
-guess) also 187 ns in the constructed example. So you should get your
-requested 100 % relative duty cycle at least.
-
-So the problem about now knowing the resulting PWM waveform is somewhat
-real. I think if leds-qcom-lpg behaved as expected from a PWM driver, it
-would be a tad better than your report suggests. I might miss something
-though.
-
-Best regards
-Uwe
-
---nr5ltixjdluytq45
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmfAN1MACgkQj4D7WH0S
-/k45xggAmjCO7S6izDGu36XMPBoWEbbqAZQ3btsQbUN0DsvuwPpdUaciOU0Ib+9n
-8QYWArwEkOauEobGAy2QFrmIph1pgeXAmlctNrRx14EzY3qgW0RfWDEsLhjkfDvH
-mV9pCebZCXpNGElgjIHQDJaZsQ5ue/l88Vh8OF4u57EdVzwKdjjC1UJjmVQlOI+z
-In5wsgH6S1+sN0ERqJzwBobR3e2x4u++guYJqRFtqxjrrx6oT3dgPnDoQZbOfDlv
-ksgcXuSnkihLrYtuzCHdb8ffLMQ2kLv0pZpfrqA6bmK6pG9dh6EbV3zKPVptYssU
-hKtqFsPkEzDhxSJ8X7OVAxdzWNN4Yw==
-=+raP
------END PGP SIGNATURE-----
-
---nr5ltixjdluytq45--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
