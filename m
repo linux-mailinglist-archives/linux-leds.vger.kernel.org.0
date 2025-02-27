@@ -1,206 +1,289 @@
-Return-Path: <linux-leds+bounces-4119-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4120-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4C1A4874A
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 19:08:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C04E0A4877C
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 19:12:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E7033AC900
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 18:08:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C09AC16D59F
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 18:12:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C4091E5212;
-	Thu, 27 Feb 2025 18:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 182F21F5820;
+	Thu, 27 Feb 2025 18:09:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fu/pWpvj"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="U59ib/nN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62301199239;
-	Thu, 27 Feb 2025 18:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA501EFF8A
+	for <linux-leds@vger.kernel.org>; Thu, 27 Feb 2025 18:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740679702; cv=none; b=fX9OWAQWt7uVg1dKlM2W2YGErKnoKP8PSAIZnz15oGYgrDZQtsn4zPqZhi8b541FD2a2FaCtIKopyGS/xP4uywH0eRpr5588Y6FKmAzZDxuv1TJhxYIGFDc7tNu68542V4JIS9ZUMrfZfjF4alDOKQYOn3gGPMbEWCcnLm0Kzsg=
+	t=1740679788; cv=none; b=r5Z5l/iAKLNbiOhpco91uwZzfZPQe5imVWN8DijqsAv78WVtMAhoCRIzYVtuAtBcWAzv4kNuslzN+66Ce1x8NmED59Y6aQtMg49b+Njmha2kXIdIN5SxU5jdQP2cM44slrOCb854cT7H7fg/ww0TaiJLVH0JVFjZyGJ6Tlr52UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740679702; c=relaxed/simple;
-	bh=zn6+kaT0qr+KrKSEqCpSvIrTzLNZuK1KwZiw0gaP4cg=;
+	s=arc-20240116; t=1740679788; c=relaxed/simple;
+	bh=xdChzCxZLgxBax8Z0/iBsu5xox6O3W/RGdDinFxDb9k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SDeSiM4892wfYfwrDgNepwpRZOBtUK4ydkH4pBUZJdJlQJT4rb/n1nIvzrCg/rEhJZ5BNaKZ+A3kJrkCejL+ew6Ah/oumMmMlqHnVYzZG1/RYKgvXSiw3z5DTMv1+geTBXxG3i5xZxeyPg7QPZsqnCzYc+e4CYMwqcVQcIQSXH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fu/pWpvj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7B4C4CEDD;
-	Thu, 27 Feb 2025 18:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740679701;
-	bh=zn6+kaT0qr+KrKSEqCpSvIrTzLNZuK1KwZiw0gaP4cg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fu/pWpvjmYTZmmZWK2jGjOJqhdpINd/1icsNwK7DdUhvJ2Q/z9xwHQXQ76ukgx+KO
-	 XGq6Qz3LaQFrabwKM83cfFc7VVsS807sGk+fCIWmLi75tFHab1aH38jvygo57yTUYY
-	 3vRaZf7uEesdSIC2hSS3qhm2A18+a/6tA3QzmSv98u2sTC1QlOQ9E1XBDtKeis5faY
-	 dB/jXeunjQ6TjYQES0ggZ/JQFOehvph+Qt17+hdi5xtiudHYB3aYPoap4UEXzm08pp
-	 OPSXtOLfGm+QngYasUrbYbKL2zLVgcXkfbb5OnfPrOxEpnPWTZEQ0VD42lEL8Rd23N
-	 8GPSBW5ZjVbAw==
-Date: Thu, 27 Feb 2025 18:08:17 +0000
-From: Lee Jones <lee@kernel.org>
-To: Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>
-Cc: patrick@stwcx.xyz, Pavel Machek <pavel@kernel.org>,
-	MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] leds: cat9532: support cat9532 in pca955x
-Message-ID: <20250227180817.GK824852@google.com>
-References: <20250224082815.1827487-1-delphine_cc_chiu@wiwynn.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3peSLeJ8Lc7Md61aej+gFtid7u2mYXsLlgGS0c1W6ZEvzEtZV5cPCeCPHV41MVjzOYS6cMayecY59C6jEdR4MgzmjBlwjgrB378+kgFWd2pZQXYOpOIVEZ6UA+JqW+6A9f15xO5PXpL8sF32O3Rt5IYfoutg6ZYZT1lG0tfAGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=U59ib/nN; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab78e6edb99so170290266b.2
+        for <linux-leds@vger.kernel.org>; Thu, 27 Feb 2025 10:09:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740679783; x=1741284583; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VfjpGp1L26OhdaNqt/gYg8OwWNQRpw6uVt+zy1eXaNU=;
+        b=U59ib/nNARlrKFR8mHOnfDsq/hWYqQri9rMx4rJlDZLJhdTvv68qQQu6+By17g8eUx
+         5MrNsm2krTGjM/10dLbBCdeXEl59o0PplSPigAIOpq2zpyzchVopxIO0XIz4NmT5UVDM
+         IBXXpIEybBkMuOG5mT34UsCo8wSC71UdJgcdmMUF8CMpvdRzTTyazrbdWfbu8BGBmoA9
+         WheLGhN9rbxsEt8GDKsYkezjJKt/UhIB1MkkVn2zq9ZkhHOu7dpnLpcNc4+ttY+rjoLa
+         jiiH/JymZ7n006IChsJMobyNasIVSGpdiZkiCMaKpoU3bfjMRLfX0n5v3Azg57+QRmFu
+         epPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740679783; x=1741284583;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VfjpGp1L26OhdaNqt/gYg8OwWNQRpw6uVt+zy1eXaNU=;
+        b=gOsnbqpMbJc0omoSsbke0X2cwWtT3UR3H2otUKAhzBGPbfv5G1SlNdKtJxyiBRpkQI
+         jexDxLCbMF8dDJaraMX+FpKkJLAv+svDsO7W3I1mx5nGQdQ9HmfzJ6s7a7UxyJ8LuveD
+         RWUzO5oMHocti/j6JcmUT8g+3eeOAn+CR3hM0v0yKSKKhRzgTfHrrLSCnwFycHaLKEgn
+         d5FwEBw87ed58BOaH2xtO950kS+YcDNxNrWCp587agY2FR9jdd/q8RBFCuKVFZhuiN01
+         YjDRzGSIl2L1VuvY9ej/IA649FWZp4Aj0fY437DjLiPh/ynhyWVB1V7abcKoefleuzg4
+         d+FA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/TIY74RfH8FdSah6jQG4KCPCcoli5hBAkbhKPO3ZjSAI0GxNO+YwUruKf9FJV2h1sTQibAFzHNBuQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZxZDLe8xTmB9XVzwwQ3yP8H1m/ddsn1tTZyR1eFga4S//bi43
+	NWHIDKJI/0gJd3lLzObp678vWxPWk/cjtDCVUjwrDJOm5lRAYJlB59TGbXRWYJA=
+X-Gm-Gg: ASbGncuuiUfT+0IHyX7FsHOV99vUqmEIo+T42qqmb3//tT7DB46xboE6RnqW2ucZCKs
+	J8+6ZziKzvz2crZhXSGh/9+Mt9f3F+xBquWapZx/MrrIrYC0TEWbCFp/sqLa/6MKzLUXXQAuQoc
+	9A5s7MudRhU+tujsZmQoxYY6zri61tHG9DH/lW/Hq93hZt8XHv+yPHOybgzewalbG+d+lWHFNSt
+	Ew0cdmRdhQdgfK9a8obdofIbr347aojlyENR8hT3q5Aw/jmActg9ATs3/sED2bBNTSCXIzoGWZl
+	Ocp1mx/EDzkM2ALxK4HTO04QBpobX/eXk4XLuYPjx19iinuk1zi0ZjXZ8F5NZ0L8
+X-Google-Smtp-Source: AGHT+IG5jhPAhA4gLbl+6jNfxZsQy6dhnuwfbakZ2ECzbDoT+qIk3FvugKFPtllN44+P1qWPzxitZQ==
+X-Received: by 2002:a17:907:988:b0:abe:ff13:d0c4 with SMTP id a640c23a62f3a-abf261cd53cmr53791366b.32.1740679783111;
+        Thu, 27 Feb 2025 10:09:43 -0800 (PST)
+Received: from localhost (p200300f65f2c000400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f2c:4::1b9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf0c0b9a90sm159028166b.34.2025.02.27.10.09.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Feb 2025 10:09:41 -0800 (PST)
+Date: Thu, 27 Feb 2025 19:09:39 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Kamal Wadhwa <quic_kamalw@quicinc.com>, Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
+Message-ID: <ioater5m23lhkmyik3hurozol6vtyx6ovac3phmvcphrmmprwb@igggmox3jz5m>
+References: <dfthocttum7dscotngi6l2hz6bpdwfgrdxpvkcv6bdux3lt66d@iqfvmntvzyut>
+ <Z7zVgeM+7P7SLWIu@linaro.org>
+ <vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67pd2@cz2dcracta6w>
+ <Z7161SzdxhLITsW3@linaro.org>
+ <5euqboshlfwweie7tlaffajzg3siiy6bm3j4evr572ko54gtbv@7lan3vizskt3>
+ <Z8B2Bl/9uD3jPvQi@linaro.org>
+ <j55de6bbipoavqx25w2s6qr7n6fv6w7bj3lrgyag4dlvvddbqv@shn22aqcqeci>
+ <Z8CIY2OJUMqIOHGU@linaro.org>
+ <Z8CTqdFafLY17C25@linaro.org>
+ <Z8CbSvlG856oxQRw@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="coiu4r2gfvk33wam"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250224082815.1827487-1-delphine_cc_chiu@wiwynn.com>
+In-Reply-To: <Z8CbSvlG856oxQRw@linaro.org>
 
-On Mon, 24 Feb 2025, Delphine CC Chiu wrote:
 
-> From: MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>
-> 
-> The CAT9532 chips are almost 100% compatible with PCA9552, except that
-> the CAT9532 uses the opposite polarity in register that sets on/off.
-> 
-> Compare the state at INPUT with the state of LSn and dynamically
-> adjust how you program LSn
-> 
-> Signed-off-by: MarshallZhan <marshall_zhan@wiwynn.com>
-> Signed-off-by: Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>
-> ---
->  drivers/leds/leds-pca955x.c | 41 +++++++++++++++++++++++++++++++------
->  1 file changed, 35 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-> index 94a9f8a54b35..447da4a2d089 100644
-> --- a/drivers/leds/leds-pca955x.c
-> +++ b/drivers/leds/leds-pca955x.c
-> @@ -4,7 +4,7 @@
->   *
->   * Author: Nate Case <ncase@xes-inc.com>
->   *
-> - * LED driver for various PCA955x I2C LED drivers
-> + * LED driver for various PCA955x and CAT9532 I2C LED drivers
->   *
->   * Supported devices:
+--coiu4r2gfvk33wam
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
+MIME-Version: 1.0
 
-You not adding this device to the list of supported devices now?
+Hello,
 
->   *
-> @@ -145,6 +145,11 @@ static inline u8 pca955x_ledsel(u8 oldval, int led_num, int state)
->  		((state & 0x3) << (led_num << 1));
->  }
->  
-> +static inline int pca955x_ledstate(u8 ls, int led_num)
-> +{
-> +	return (ls >> (led_num << 1)) & 0x3;
+On Thu, Feb 27, 2025 at 07:05:14PM +0200, Abel Vesa wrote:
+> On 25-02-27 18:32:41, Abel Vesa wrote:
+> > On 25-02-27 17:44:35, Abel Vesa wrote:
+> > > On 25-02-27 16:25:06, Uwe Kleine-K=F6nig wrote:
+> > > > Hello Abel,
+> > > >=20
+> > > > On Thu, Feb 27, 2025 at 04:26:14PM +0200, Abel Vesa wrote:
+> > > > > On 25-02-27 10:58:47, Uwe Kleine-K=F6nig wrote:
+> > > > > > Can you please enable CONFIG_PWM_DEBUG, enable pwm tracing (
+> > > > > >=20
+> > > > > > 	echo 1 > /sys/kernel/debug/tracing/events/pwm/enable
+> > > > > >=20
+> > > > > > ) then reproduce the problem and provide the output of
+> > > > > >=20
+> > > > > > 	cat /sys/kernel/debug/tracing/trace
+> > > > > >=20
+> > > > > > .
+> > > > >=20
+> > > > > $ cat trace
+> > > > > # tracer: nop
+> > > > > #
+> > > > > # entries-in-buffer/entries-written: 13/13   #P:12
+> > > > > #
+> > > > > #                                _-----=3D> irqs-off/BH-disabled
+> > > > > #                               / _----=3D> need-resched
+> > > > > #                              | / _---=3D> hardirq/softirq
+> > > > > #                              || / _--=3D> preempt-depth
+> > > > > #                              ||| / _-=3D> migrate-disable
+> > > > > #                              |||| /     delay
+> > > > > #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> > > > > #              | |         |   |||||     |         |
+> > > > >         modprobe-203     [000] .....     0.938668: pwm_get: pwmch=
+ip0.0: period=3D1066407 duty_cycle=3D533334 polarity=3D0 enabled=3D1 err=3D0
+> > > > >         modprobe-203     [000] .....     0.938775: pwm_apply: pwm=
+chip0.0: period=3D5000000 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=3D0
+> > > > >         modprobe-203     [000] .....     0.938821: pwm_get: pwmch=
+ip0.0: period=3D4266537 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=3D0
+> > > > >         modprobe-203     [000] .....     0.938936: pwm_apply: pwm=
+chip0.0: period=3D4266537 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=3D0
+> > > > >         modprobe-203     [000] .....     0.938982: pwm_get: pwmch=
+ip0.0: period=3D4266537 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=3D0
+> > > > >         modprobe-203     [000] .....     0.939274: pwm_apply: pwm=
+chip0.0: period=3D5000000 duty_cycle=3D921458 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > >         modprobe-203     [000] .....     0.939320: pwm_get: pwmch=
+ip0.0: period=3D4266537 duty_cycle=3D921355 polarity=3D0 enabled=3D1 err=3D0
+> > > > >         modprobe-203     [000] .....     0.939434: pwm_apply: pwm=
+chip0.0: period=3D4266537 duty_cycle=3D921355 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > >         modprobe-203     [000] .....     0.939480: pwm_get: pwmch=
+ip0.0: period=3D4266537 duty_cycle=3D921355 polarity=3D0 enabled=3D1 err=3D0
+> > > > >  systemd-backlig-724     [006] .....     9.079538: pwm_apply: pwm=
+chip0.0: period=3D5000000 duty_cycle=3D5000000 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > >  systemd-backlig-724     [006] .....     9.079585: pwm_get: pwmch=
+ip0.0: period=3D4266537 duty_cycle=3D4266537 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > >  systemd-backlig-724     [006] .....     9.079698: pwm_apply: pwm=
+chip0.0: period=3D4266537 duty_cycle=3D4266537 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > >  systemd-backlig-724     [006] .....     9.079750: pwm_get: pwmch=
+ip0.0: period=3D4266537 duty_cycle=3D4266537 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > > $
+> > > > >=20
+> > > > > >=20
+> > > > > > I didn't take a deeper dive in this driver combination, but her=
+e is a
+> > > > > > description about what *should* happen:
+> > > > > >=20
+> > > > > > You're talking about period in MHz, the PWM abstraction uses
+> > > > > > nanoseconds. So your summary translated to the PWM wording is (=
+to the
+> > > > > > best of my understanding):
+> > > > > >=20
+> > > > > >   1. PWM backlight driver requests PWM with .period =3D 200 ns =
+and
+> > > > > >      .duty_cycle =3D 200 ns.
+> > > > > >=20
+> > > > > >   2. leds-qcom-lpg cannot pick 200 ns exactly and then chooses =
+=2Eperiod =3D
+> > > > > >      1000000000 / 4.26666 MHz =3D 234.375 ns
+> > > > > >     =20
+> > > > > >   3. leds-qcom-lpg then determines setting for requested .duty_=
+cycle
+> > > > > >      based on .period =3D 200 ns which then ends up with someth=
+ing bogus.
+> > > >=20
+> > > > The trace looks better than what I expected. 2. is fine here becaus=
+e it
+> > > > seems when Sebastian wrote "driver requests PWM with 5 MHz period" =
+that
+> > > > meant period =3D 5000000 ns. That was then rounded down to 4266537 =
+ns. And
+> > > > the request for period =3D 5000000 ns + duty_cycle =3D 5000000 ns w=
+as
+> > > > serviced by configuring period =3D 4266537 ns + duty_cycle =3D 4266=
+537 ns.
+> > > > So that's a 100 % relative duty configuration as intended.
+> > > >=20
+> > > > So just from the traces I don't spot a problem. Do these logs not m=
+atch
+> > > > what actually happens on the signal?
+> > >=20
+> > > What I do not get is why do we expect 2 pwm_get() and 2 pwm_apply()
+> > > calls each time ?
+> >=20
+> > OK, so the second pwm_apply() is due to CONFIG_PWM_DEBUG.
 
-Please describe what it is you're doing here.
+ack. This is done just for the tests implemented in CONFIG_PWM_DEBUG, as
+are the two pwm_get()s.
 
-Maybe renaming 'ls' would help.
+> > But still, the first pwm_apply() requests duty cycle of 5MHz:
 
-> +}
-> +
->  /*
->   * Write to frequency prescaler register, used to program the
->   * period of the PWM output.  period = (PSCx + 1) / 38
-> @@ -235,6 +240,21 @@ static int pca955x_read_pwm(struct i2c_client *client, int n, u8 *val)
->  	return 0;
->  }
->  
-> +static int pca955x_read_input_bit(struct pca955x *pca955x, int led_num)
-> +{
-> +	u8 cmd = led_num / 8;
-> +	int input_state;
-> +
+5 ms, yes. But it cannot give you 5 ms and so you get 4.266 ns.
 
-Comment here.  What information does 'input state' provide?
+> > systemd-backlig-724     [006] .....     9.079538: pwm_apply: pwmchip0.0=
+: period=3D5000000 duty_cycle=3D5000000 polarity=3D0 enabled=3D1 err=3D0
+> >=20
+> > So since the period is 4.26MHz, due to the knobs selected by the
+> > provider, this duty cycle will result in a PWM value that is above the
+> > selected resolution, as I already mentioned.
 
-Why was the 'input state' not required for the PCA9552?
+"above the selected resolution"? Do you mean you don't get the exact
+value that you requested?
 
-> +	input_state= i2c_smbus_read_byte_data(pca955x->client, cmd);
+> On top of that, the duty cycle in debugfs is also reported as 5000000ns
+> when in fact it is 4266666ns, as the trace shows.
 
-' ' after input_state.
+Yes. Consider that a relict from the times when there was no
+pwm_get_state_hw(). Both values are interesting in different situations.
+So just telling the real parameters isn't the optimal way forward
+either.
 
-Doesn't checkpatch.pl usually catch these issues?  Did you run it?
+Something like the patch I showed in
+https://lore.kernel.org/all/7bcnckef23w6g47ll5l3bktygedrcfvr7fk3qjuq2swtoff=
+hec@zs4w4tuh6qvm/
+would make you a bit luckier I guess. Feel free to polish that one a bit
+(e.g.  by checking the return value of pwm_get_state_hw() and acting
+sensible in reply to it) and send a proper patch. (A Suggested-by for me
+is enough for such a patch, grab authorship yourself.)
 
-Maybe a function header comment would be better to describe what's
-happening here?
+> > > Need to dig a bit further.
+> > >=20
+> > > But meanwhile, if the first pwm_apply() call goes all the way to the
+> > > provider, then the duty cycle value, when translated to the actual PWM
+> > > value that gets written to reg, will overflow.
 
-> +	if (input_state < 0) {
-> +		dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n", 
-> +				__func__, led_num, input_state);
-> +		return input_state;
-> +	}
-> +	return (input_state >> (led_num % 8)) & 1;
-> +
-> +}
-> +
->  static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
->  {
->  	struct pca955x_led *pca955x_led = container_of(led_cdev,
-> @@ -251,10 +271,11 @@ static enum led_brightness pca955x_led_get(struct led_classdev *led_cdev)
->  	ls = (ls >> ((pca955x_led->led_num % 4) << 1)) & 0x3;
+No it will not. The .duty_cycle value (also 5000000 ns) will reach the
+lowlevel PWM driver together with .period =3D 5000000 ns. Both are rounded
+down to 4266666ns. I see no overflow.=20
 
-Changing all of these magic MOD and AND values to shift / mask defines
-would help readability greatly.
+Best regards
+Uwe
 
->  	switch (ls) {
->  	case PCA955X_LS_LED_ON:
-> -		ret = LED_FULL;
-> -		break;
->  	case PCA955X_LS_LED_OFF:
-> -		ret = LED_OFF;
+--coiu4r2gfvk33wam
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I requested a comment here in the last version.
+-----BEGIN PGP SIGNATURE-----
 
-> +		if (pca955x_read_input_bit(pca955x, pca955x_led->led_num))
-> +			ret = LED_FULL;
-> +		else
-> +			ret = LED_OFF;
->  		break;
->  	case PCA955X_LS_BLINK0:
->  		ret = LED_HALF;
-> @@ -276,6 +297,8 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
->  	struct pca955x_led *pca955x_led;
->  	struct pca955x *pca955x;
->  	u8 ls;
-> +	u8 ls_last_state;
-> +	int input_bit;
->  	int chip_ls;	/* which LSx to use (0-3 potentially) */
->  	int ls_led;	/* which set of bits within LSx to use (0-3) */
->  	int ret;
-> @@ -292,12 +315,18 @@ static int pca955x_led_set(struct led_classdev *led_cdev,
->  	if (ret)
->  		goto out;
->  
-> +	ls_last_state = pca955x_ledstate(ls, ls_led);
-> +	input_bit = pca955x_read_input_bit(pca955x, pca955x_led->led_num);
->  	switch (value) {
->  	case LED_FULL:
-> -		ls = pca955x_ledsel(ls, ls_led, PCA955X_LS_LED_ON);
-> +		ls = pca955x_ledsel(ls, ls_led,
-> +				(ls_last_state == input_bit) ? 
-> +				PCA955X_LS_LED_ON : PCA955X_LS_LED_OFF);
->  		break;
->  	case LED_OFF:
-> -		ls = pca955x_ledsel(ls, ls_led, PCA955X_LS_LED_OFF);
-> +		ls = pca955x_ledsel(ls, ls_led,
-> +				(ls_last_state == input_bit) ? 
-> +				PCA955X_LS_LED_OFF : PCA955X_LS_LED_ON);
->  		break;
->  	case LED_HALF:
->  		ls = pca955x_ledsel(ls, ls_led, PCA955X_LS_BLINK0);
-> -- 
-> 2.25.1
-> 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmfAqmEACgkQj4D7WH0S
+/k59Lwf/c53g1pFJpL0c/xEQriO8AL4IHT0MyM5FXUa7J9I1fDnHwffLa/y4ul2C
+XbhoexOvuSO4NCktkZ8qWHGofl0MFX5NeNkgI4z972nPSpoQwXb1qyrhX9igA9nS
+OlUyWmqG0kBTOUgnm8rb14NHtHl50p5PR2kxs2pqNnm5m4QYsvc/HWkQCjKWx6WO
+Z6TiBcVTByGFdJ3EFIhE0kydakv0cKthMTFbgUGRlR3k3u35DUoWyOicT3uvaUMB
+zyhZTK9kFV7HbXW+XceARMrE3+19oMa65csNYv9X6Ta+MXOzrwV86U8wPmfIi+E0
+UaCwkC2Gd7Es8lxpkY/unI0K++ytTQ==
+=IqCH
+-----END PGP SIGNATURE-----
 
--- 
-Lee Jones [李琼斯]
+--coiu4r2gfvk33wam--
 
