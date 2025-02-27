@@ -1,184 +1,151 @@
-Return-Path: <linux-leds+bounces-4104-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4105-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DDFA4679F
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2025 18:14:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD040A471CD
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 02:56:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E7A93B17B2
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2025 17:13:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4698D188FDF1
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2025 01:48:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E71224888;
-	Wed, 26 Feb 2025 17:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 149CB61FF2;
+	Thu, 27 Feb 2025 01:48:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="ppXb/BE3"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q/X48syr"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazolkn19011033.outbound.protection.outlook.com [52.103.37.33])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9335258CFE;
-	Wed, 26 Feb 2025 17:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.37.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740589988; cv=fail; b=czJuluQX3SCkfpS9Nme0nemyj+hss/MZdEMV/pHNhoZikIm0LHn4HQ970Mka7Kxt0zmb1juA5MgddKyhhi2ivT16eBAqoQQF/NO506lnK4dTknJro6Lu3qgEAc8a0SHlrmXFPdiWWpqah3WgoeBGTXyiwdHT06G1AjKteJrpbdE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740589988; c=relaxed/simple;
-	bh=KFf8yatt3FG1ShAsQIq0RbrxBiTRM0CagB54zt40aqE=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eSESn/QXxwvhD+zGNKtRkAZ31oZ01OejyNXjoRFiJluZ5+J/ie7Y0q0IK+BjatfNYooG3X3Fwclbz78Ss0JI5DqX5StNsXu2G4UHaP5scIVoOKOvSbd0clpjoW0mpL+DlysoEXvjzjnhrctQs6wO2telM+vzeDgmhBT/eHjTNwY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=ppXb/BE3; arc=fail smtp.client-ip=52.103.37.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=la80DFn7++rJxwAa8OAWCRlU/5QfDRSG5gOO5WyrsGEnGrp3mugJ2eWbQ/jwkkQ24GPPBEwaVa1KoyidBBwHZnHrTnYw9UCATZztq23PIKt1M3xx7+ty1DmD+XTZIeEd2S0q04jmgbcwX7rO+KxUVwD06Te0etrE3wnk2cPUe1um0EMgk8NvBL/JFVxZSiQkhyXR2ThUV7yvbhm2CXvC+GfxxYYEaTtKBUafiU8+euBNQ5Y8MONqBbDAfXBdIKDoZMnl14hSUbu8cs/06fwsEMjvvnzuo1L50EbLdriSVLkNL2csA+RP7CT17b/WaPllBii5qfbspJqDeXRU3GlfuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7KStWyzwadSfBKWFvsZ1/QfORuQcuqZdbE5OwMJBwLA=;
- b=uu+zq8HYpwq/OXSQqx0bfLnPJcQBYKkrXfCAzWn2Ne1v1Hp8IDWZyNLaJmFFyDjC9Asy4fxdnKWPae91wvQV6NvTc37PXNPTlzHdZw2xvDLoAXU3gpvjyVY12gV2/xD/bj/GWJwocT2PA+bDyHA2IsOZ+UU9z5+X2RHs+REgB3lOjQIJKjRoVuUlKpvIrAmAbPKrYhDxUKQGqzJYZDMEfSgIM1lH9GLQ6O28A/IA4H1sJwFKXNaQ4khhKTiHdn+iGAivF+UzmONoVAuR6uTZUeV5YSY7g+M0Kbr2NCb/jcQP7WT2ijl9uuu6ZS5760cIhnx3n6s5DE9Km82lXzj12Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7KStWyzwadSfBKWFvsZ1/QfORuQcuqZdbE5OwMJBwLA=;
- b=ppXb/BE3B3eJKww52ZrWbz8WLqc/9vi8FviJW5ee09cVQzQEw1eaak/FHowh88pSkzVX6AvNs0wmNYCyyVLBS8nxuS37MD2ZEJqFwUUK1e30B9DPUjrILceYxV+MbmjHzl7Ehm1c4Uae1ifbJsIo3cqbvkHjZWAIu5mrpsVST0SQ53gSLnxvmD4D3D+sHCqwSBMcOUcK0aoGX2O37AEVBwexQDkpZpLh6bgf4AZFd0DYOQE9qCxi2r9vhLn4UQgBSvID/8OO/xMxwdcPDySWVutcyqHCsf8lKZftNFIxVlxJ81Lx5yXYsMIbIWpBZzbzN355ydEyOgkTQXMOU9PI8w==
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:160::13)
- by LO2P123MB7258.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:32a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.18; Wed, 26 Feb
- 2025 17:13:01 +0000
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb]) by CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb%5]) with mapi id 15.20.8489.019; Wed, 26 Feb 2025
- 17:13:01 +0000
-From: Manuel Fombuena <fombuena@outlook.com>
-To: pavel@ucw.cz,
-	lee@kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] leds: Kconfig: leds-st1202: add select for required LEDS_TRIGGER_PATTERN
-Date: Wed, 26 Feb 2025 17:12:50 +0000
-Message-ID:
- <CWLP123MB5473F4DF3A668F7DD057A280C5C22@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <CWLP123MB54739F38EF9CFA057021BC2DC5C22@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-References: <CWLP123MB54739F38EF9CFA057021BC2DC5C22@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0139.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:9f::31) To CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:160::13)
-X-Microsoft-Original-Message-ID:
- <20250226171250.2371299-1-fombuena@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DF813DBA0;
+	Thu, 27 Feb 2025 01:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740620887; cv=none; b=CpD0R/rcpha0pp7w1sR7toN0eZLWT8WlAWdu7yeFv+UJ7dcHKsJvyrPXhfByRQUpMRTZqvpW5l/vn4hCZ6pKnH5dfiQ8U4lLuJzc96bsoeNIOBCwT4Vo6sZIXx0Ed1mjaXrRNHHVMJlycaOjcNxDpRF3dMysBH6A4Pk6BIbec2Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740620887; c=relaxed/simple;
+	bh=c3jHSH5/Ic2hfTlW1xxDY80EJf3Z4p+MfLyYQXVfbks=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=mkZEU9CuXT/70a8J9QZiasiKdbNgxFgZiOGj6GPfOFMuDb2jM+QUpt2WA6P0p5R43+Kbh63REkA0W+Jav7amxhQIf97KiRh/aqBLEhxPTeqci3Vsria+y87sXaXSCQxZ2X7h6Fc1QonDWL8/Iu9eIUTXNIW9glZPJ4Lh8KxwcmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q/X48syr; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51QL41QN015804;
+	Thu, 27 Feb 2025 01:47:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9TtABugFltVHuLEvIWfL7aCH1UmuOTxK96s6ajxC5MI=; b=Q/X48syrI/YkpBLF
+	S+Aq9csrQC5yiPnWh2W8qJenS9LuqFJaJ/1GTHYCanA8VbN8rpRVYh831IW1HqfW
+	qvQSHHtO65GNEBhcxRoXsncyRXhc8z6Vb8fLMgDyglM+FcTGKbwGh3JrhdrUep9O
+	ci1QmlPmOMV1HZPma8PPJS2Emuo2q8pOWQrtIf3VRo3677/VsUicHHXohDspR8+i
+	cCGJsA4Qu450rHO9WUl5XasZcWMiPm8tGkVZdQv1V+YPj3DzQ22yeiTuiUV2JG0n
+	NfIkxGfYKgibZrFO5mKPrBbGQDy6x5mO0Vv/IJe1dnBEkFxRyErJY3KOLftgEhcB
+	Wna6cQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 451prnkw4n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Feb 2025 01:47:57 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51R1luVM009349
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Feb 2025 01:47:56 GMT
+Received: from [10.110.36.175] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 26 Feb
+ 2025 17:47:55 -0800
+Message-ID: <c328c258-6e26-4727-98d8-c9d551358bbd@quicinc.com>
+Date: Wed, 26 Feb 2025 17:47:55 -0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB5473:EE_|LO2P123MB7258:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8bf7f2c9-284d-4588-37c0-08dd5688d30e
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799006|19110799003|5072599009|461199028|7092599003|15080799006|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Wc6zWCKc9Y2ICCqZ4UP3a/5/rKl+HoX7SRTvhQnpJwpVn8XesYxrAGqGyqmr?=
- =?us-ascii?Q?Zwvi6rrIJG984fPH/ZvERW0bvstEes+rkYFe+l/DK84BL4qRYLtmiVgXcxKF?=
- =?us-ascii?Q?3DBj1AnFtRYZ7X2fyLam+G+v2nSUruWY9K7yV8cxz6pgmfaKO3gHrcEDuRFk?=
- =?us-ascii?Q?hAS4Pu6eSe6T6QWbeL0j9KMCcEHYMnZxADHiOToJGmma0LTYgt8/tTm4E1Iy?=
- =?us-ascii?Q?XN1oPlTrGeXyDNJAjoUJ7ByUVsbFp7UtcRmV61GilbnhCC/FgI8IXgVPwLLh?=
- =?us-ascii?Q?kguvh2Qi8Z61fREJIb1XQiRCmsc4d83rVl7wO0Lqe6JtVT7qidfdbN3IE0LM?=
- =?us-ascii?Q?Gt/5Jyfq27HA3KJkFiw465LpakHHl/Pgx/ckLHAxMG4A+I0DXBBtL39RytF6?=
- =?us-ascii?Q?QNWlDCK+zUXr8k0ahMfNEtkKlUbUdxuhcLAWI+vlf+cjkzBruOVbMfbH87Lf?=
- =?us-ascii?Q?nU76IcPtO+LlfSVQXvOIryLP0+7C82/DYBjMFTZAkqPkp9uW3dy4mm12Cm3H?=
- =?us-ascii?Q?Pf3waYSLdO/E88s4zXXY8OKiW+9DQBT8siXmlFFvcebsS654jnnx0mXMtHUJ?=
- =?us-ascii?Q?HXQhS2gXk5UPeNePYdZ6r+LWKJwJjHJcufMiun9Rfym++SAuzoQxgY7Q+Pfa?=
- =?us-ascii?Q?6yYBDHZhsktuHD0u+VEws8ZBXMdJYYFJp8ymbNB8/54CwbHAJ4FnxPp9/TtP?=
- =?us-ascii?Q?2dVlmL2B86ksWLW7EwIZ6txl8ZKP4jKnfWxTRUr8gN1YBswqJ28v/WrE+7Oh?=
- =?us-ascii?Q?WCyLyVzyiZK6JKofI+Gui329XXRXZODE1QX/UvV6Nz3x/+25nEKOKH9xyZxR?=
- =?us-ascii?Q?cF2sTsHe9QOvgdnZFFzxqnI1T4IM020dgfL32Uq6qQbOfxFGbHRAa5cW8CsR?=
- =?us-ascii?Q?mvwCciKp/lCw0XO4F00VFlfM+H4LIf2bI8cUabxL5SdzNYTkRj3ygkgL4zAA?=
- =?us-ascii?Q?ORWsTPNiRmYQrePMGH9jgbHQvUwYfy+TK2/uRAmREMcNONhG6qfsvMwhHo7a?=
- =?us-ascii?Q?QAYKYte1exaqgTHxuHWGbx2252aO31b+FObEmsETX6ulMzXGGh8fQ1Mlj0E5?=
- =?us-ascii?Q?s/scyzlXE3f5SsoOOfWY/ttjWqfxTg=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4mAF0NO+lLqeAAIq+2egmexNcvfDdboMMMxBl7RsfSoeXODiBqJVz2yyDzt1?=
- =?us-ascii?Q?mRg1Nez1/yGZHBozoUF+1aMJgA3/G3ZLBtFj+K6GARt6Dm6rVxvebDzKSMkq?=
- =?us-ascii?Q?ka5NYge3Dv3zWi2dAcUEOzxu0OTKD7R/ggRYc751o7UH5fJyKNOzE7FKDZfW?=
- =?us-ascii?Q?AIPkrc2apxyefaUi+oESIQNmNvEldhDyLktThmRNHJEMw8MvdJDL9VqqbVCm?=
- =?us-ascii?Q?6Ln0sCR3SVDwUyxRCMr9f+HTCC/dSOsmCn/KyXxj8nKWGqsHY6gxPU9J0mQ7?=
- =?us-ascii?Q?1YbETWKzmzdxv3U7f97qNlSOZOwvx+lrx8DWGWRXcOs6hxhyRJufBaCenVbh?=
- =?us-ascii?Q?hIZBimUNf6MoaVsIyl12An93rrPMw0CBkPvUpCNMwKEJZDx83n5YyOfeyQ4B?=
- =?us-ascii?Q?OGtQZ4pitwhJzW/ueMAFWvjvOOcWiTQOccd5maEE1hRAJaooc6Wqf/bx/pdD?=
- =?us-ascii?Q?pU6nDLxRmr0U6ElIvNGygoAh1Esz3AFulXfyVMLyKMPrWZtqFtpS5TFxBX5d?=
- =?us-ascii?Q?kO/ebmNMs4uSrzCpmPd5E48mC+IAALllHFPGKSaxzUhr5UDmsHVvPMI8GUea?=
- =?us-ascii?Q?WYnQUyJXEOt40qCVEXgi/RVv8WKrzK9PU1vS4QPyhWrbPjSE7Qo6eKxLVqec?=
- =?us-ascii?Q?R9IR7/p7FqJfatMrl6jaqvUNceZkM0H7y3DsKGgzDcLC9IKpT1gT8+Fz23+E?=
- =?us-ascii?Q?kwsbP0wfYj+FDsSOO2KglolRJLmylMQWbjSeAf+EmLX7GntUWgJp0Yv6RBU9?=
- =?us-ascii?Q?jB0kn3oJYVBs5a74Cs/c10iBosJOZB2Dm72+31OX5GxQNcw7MkihLMK/wg0I?=
- =?us-ascii?Q?rzoZdwhvxgJLTCd87A10yR6ini5BfcChbTvSKUJhqTrAMLYpGphShqy/jeya?=
- =?us-ascii?Q?LL07JB/R37XuB4CMo/w8wSAf9FT0OT3QXsJFt6T93HQAvWRUcfoY4BsZUhor?=
- =?us-ascii?Q?VWwsVJ7ZpM66pXHnzCnHVnE+CyjDwxbwnkkzEffPTVd9IHLa5wqvf/Xvqgi5?=
- =?us-ascii?Q?gIo7h3mhlOB9r1PO4mqf0JnLWYuNaEQqA98HIz5DkshRxu7a0ZSFGWHS0uvX?=
- =?us-ascii?Q?BCqXq7ktGlHhEEEdQUUsb/U8P812iagW2XzUctzh8fxaiJMCIRebgSbtFXyr?=
- =?us-ascii?Q?vps2pOfTu65Bc5xkCR9Hxqd8oTT6wydRnFjjw4yx5QgR3sALcCJW+4b3KfWE?=
- =?us-ascii?Q?soslesFERqCf5QzJYlJFciyU7cW/OSIYIBeq3vxeQDJ9DJuqcf7Yhm3RNsuv?=
- =?us-ascii?Q?M6jB3ec2OU5qXGnzp98gk0JChZrkUXr8kIwJLLrO5NCXX1QBy+a4VuXSXDq9?=
- =?us-ascii?Q?zbc=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bf7f2c9-284d-4588-37c0-08dd5688d30e
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2025 17:13:01.6822
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB7258
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] leds: rgb: leds-qcom-lpg: Fix pwm resolution max
+ for Hi-Res PWMs
+To: Abel Vesa <abel.vesa@linaro.org>, Lee Jones <lee@kernel.org>,
+        Pavel Machek
+	<pavel@kernel.org>
+CC: Kamal Wadhwa <quic_kamalw@quicinc.com>,
+        Jishnu Prakash
+	<jishnu.prakash@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Johan Hovold <johan@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20250226-leds-qcom-lpg-fix-max-pwm-on-hi-res-v2-0-7af5ef5d220b@linaro.org>
+ <20250226-leds-qcom-lpg-fix-max-pwm-on-hi-res-v2-1-7af5ef5d220b@linaro.org>
+Content-Language: en-US
+From: Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <20250226-leds-qcom-lpg-fix-max-pwm-on-hi-res-v2-1-7af5ef5d220b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EhxmHmq6o0X-OBGGrJXaMKRw28hXHADL
+X-Proofpoint-ORIG-GUID: EhxmHmq6o0X-OBGGrJXaMKRw28hXHADL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-27_01,2025-02-26_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1011
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502270013
 
-leds-st1202 requires the LED Pattern Trigger (LEDS_TRIGGER_PATTERN), which
-is not selected when LED Trigger support is (LEDS_TRIGGERS).
 
-To reproduce this:
 
-- make menuconfig KCONFIG_CONFIG=
-- select LEDS_ST1202 dependencies OF, I2C and LEDS_CLASS.
-- select LEDS_ST1202
-- LEDS_TRIGGERS is selected but LEDS_TRIGGER_PATTERN isn't.
+On 2/26/2025 5:58 AM, Abel Vesa wrote:
+> Ideally, the requested duty cycle should never translate to a PWM
+> value higher than the selected resolution (PWM size), but currently the
+> best matched period is never reported back to the PWM consumer, so the
+> consumer will still be using the requested period which is higher than
+> the best matched one. This will result in PWM consumer requesting
+> duty cycle values higher than the allowed PWM value.
+> 
+> Currently, the consumer driver known to fail this way is the PWM backlight
+> (pwm_bl) and should be reworked in such a way that the best matched period
+> is used instead.
+> 
+> As for the current implementation of the duty cycle calculation, it is
+> capping the max value, fix that by using the resolution to figure out the
+> maximum allowed PWM value.
+> 
+> Cc: stable@vger.kernel.org    # 6.4
+> Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for high resolution PWM")
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+>   drivers/leds/rgb/leds-qcom-lpg.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index f3c9ef2bfa572f9ee86c8b8aa37deb8231965490..146cd9b447787bf170310321e939022dfb176e9f 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -529,7 +529,7 @@ static void lpg_calc_duty(struct lpg_channel *chan, uint64_t duty)
+>   	unsigned int clk_rate;
+>   
+>   	if (chan->subtype == LPG_SUBTYPE_HI_RES_PWM) {
+> -		max = LPG_RESOLUTION_15BIT - 1;
+> +		max = BIT(lpg_pwm_resolution_hi_res[chan->pwm_resolution_sel]) - 1;
+>   		clk_rate = lpg_clk_rates_hi_res[chan->clk_sel];
+>   	} else {
 
-The absence of LEDS_TRIGGER_PATTERN explicitly required can lead to builds
-in which LEDS_ST1202 is selected while LEDS_TRIGGER_PATTERN isn't. The direct
-result of that would be that /sys/class/leds/<led>/hw_pattern wouldn't be
-available and there would be no way of interacting with the driver and
-hardware from user space.
+I have a patch under review, 
+https://lore.kernel.org/all/20250213003533.1684131-1-anjelique.melendez@oss.qualcomm.com/, 
+which adds support for 6-bit resolution for regular PWM so this capping 
+problem will also become an issue for regular PWM.
+I think it would make sense for you to include fixing the max for 
+regular PWM here. Thoughts?
 
-Add select LEDS_TRIGGER_PATTERN to Kconfig to meet the requirement and
-indirectly document it as well.
-
-Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
----
- drivers/leds/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 2b27d043921c..8859e8fe292a 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -971,6 +971,7 @@ config LEDS_ST1202
- 	depends on I2C
- 	depends on OF
- 	select LEDS_TRIGGERS
-+	select LEDS_TRIGGER_PATTERN
- 	help
- 	  Say Y to enable support for LEDs connected to LED1202
- 	  LED driver chips accessed via the I2C bus.
--- 
-2.48.1
+>   		max = LPG_RESOLUTION_9BIT - 1;
+> 
 
 
