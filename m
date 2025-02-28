@@ -1,292 +1,883 @@
-Return-Path: <linux-leds+bounces-4121-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4122-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC52A49430
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 09:59:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDC5A49437
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 09:59:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E9017A546E
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 08:58:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D96D6189324D
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 08:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8BB1254879;
-	Fri, 28 Feb 2025 08:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC9B8254AF1;
+	Fri, 28 Feb 2025 08:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vR/k2l7J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIcBac+o"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56271EDA2F
-	for <linux-leds@vger.kernel.org>; Fri, 28 Feb 2025 08:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3E11DDA20;
+	Fri, 28 Feb 2025 08:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740733155; cv=none; b=mn1D9xyC7s3vU+y+6RwJo/sHrYjbXp+6kx3VAM1o9YAt55FIt3UtVWomSSXkYZuxiPgU5s1N3ehDTyBWlBPE4dWuqBGbMZt0W7oKvIuL2tUp97M1kUdO3RsUFZ2gS+SQug6UijT7dywhi2avsJwTJaFDUrqqgPCcqHj4PQo+ZKg=
+	t=1740733176; cv=none; b=kA9GYiqQMucKz8q61NgGtetFB1ZSl9Y7exrEuRnTzTYf2Gz8ra4Qai4XHYUvgn5QDxC8owBqIktb/Bgeo2A/8vkBtvWldgTz3uV8206HlTvdahYTIF5pFRflftfCMJpI6gHZxN74j1+YI7dauvxTYB/4tSBq74eYNQmfnKCBYrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740733155; c=relaxed/simple;
-	bh=bLEtAyE5Aa/xsQIBOnXYf2Hy93VCBG3sU+stkJWUAMQ=;
+	s=arc-20240116; t=1740733176; c=relaxed/simple;
+	bh=JH8KsO1DBqdQi/6JwlgKcuoItRQl049EoRkTHyx9Gjs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rJzma/3pAT5xbKeVM4kqvHJqZmeaQuGfuZcVZxosKAFbIC8dxQJyu1kNh/LJNAhyRvNDTeUIEy5C1tEA2n3JkjKmjQS3jJH4aTyc+Z/jWxWHEyOriGi84+n1FWaiorywzfAG5m8r/YrpqsMOBAWM7l7iAI9U70Zv314D81jQU1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vR/k2l7J; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e04064af07so3371662a12.0
-        for <linux-leds@vger.kernel.org>; Fri, 28 Feb 2025 00:59:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740733152; x=1741337952; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mo2JWZvfARQxbztcC0oXWR4xyuLy9YblRRhrM00mM5o=;
-        b=vR/k2l7J/j5J2Hi8B4DtGrAlElh7t1Lq91fovjRQ6yxzQpXca7TKBNsiBx8mlW023o
-         d7dVqaFFSMsGHcR4R4g5u+h+tw9T/Wj4cMYZkKa5RaDVWEBeQosxWgrEULN3GHSeIjFt
-         MpJXougfTFrJMyY4MG3LyoZuzTx9V5sIAr9w/9wFTXTIFNRVmQhERkG/J+36daVqu6uI
-         F+mYZq9UeDv0rIfefAUWafW0SkS1SqPPs/sTaCU+sNRaV6nE/J0EjJ7cHAeQEhUF5Z9W
-         7LFEAX8kNxASWxQ2Y3oAdCNllZqqIYXTOmkzXT0yYvWgmkTtS5S+Ibz0N2ibmm8AV4Bj
-         cR8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740733152; x=1741337952;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mo2JWZvfARQxbztcC0oXWR4xyuLy9YblRRhrM00mM5o=;
-        b=Tm0r82BziSa+wvuCFrG3KaWJPgzL0X6fhTUhldt5gvFnvbfCVMh9hm/ANhSWba/Pye
-         IfPTYVNdIM0bf4odm4Insmww8JqxeveIVBSGBJ9XXZ2SRSSzqRAWcGL5PynYLOiDriO6
-         jWp33cz/R3i4baYdL46OEkSI97yKosBtmK/HsSrsVj7yKeGBWwfmmDtNcug580TH2Bk0
-         bHFlGeKivME9wQD3TwKXjgrPLBu4Nu82QdoMWVtanRXrTDrFM/JonkilUwPIaUQQWFNC
-         1RpGisfTBacOvXVLSE3yix4YSPtCVgNnEPYe8EEE6mHCcTNbZdRrljHGWiymtn3vGr2L
-         ZfVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzuI8s7W1BMWdpJ2hY9B3cZVKY1V5tdgEfTDZ6gMNlkbvZzEs7BcsA6cty1yw59vuM95couKmjf+Iw@vger.kernel.org
-X-Gm-Message-State: AOJu0YyncABNOBQYSmXA8vzt9c8otOV7yT0Ife3HSk50t7QHUvzpUaKo
-	5W+7dS1PeAML/I4vL8WohTaY4E04R/zqVrHceoT+/J5aZO+ZChCdYc52ATGVL3LQy0x0b/DDXAD
-	X
-X-Gm-Gg: ASbGnctKDfuaPkvN5nkYRSeHCfKfskljfhGXJAPB4JOjXL7PVCbyBu+/BbTiQrBfT/g
-	mPfdQpbiWOku/DPbvSv6BvZbVxOZ0KsTY3iyt3duJj0umyw6tuGVtPyYmHZ5RPk/ozo85s3SAVx
-	rQrMj4lQcggLz7rxHj/ZFQC00Qva27rDQOrE5ovqDn5osNO3OWqqK776SxLbVL3GpYi0DxEfTNK
-	FhAgUXmw6j/DMuEp6RhnxT2q1s49uIbecOVJ8QGRqzmqKGhmX21FYPJYplImq+1DHcW1G47ePks
-	qQqTRFY1iKGiCe994uZSuT8=
-X-Google-Smtp-Source: AGHT+IG+ohc2Pb9yFbQaY7IHiQEBgBBf60B3jiO2zg3pP45+H+r70TxRLEMjkL+Z5vuXly0heAE9eQ==
-X-Received: by 2002:a17:907:7f22:b0:abb:b209:aba6 with SMTP id a640c23a62f3a-abf25da2d4amr224744566b.3.1740733151822;
-        Fri, 28 Feb 2025 00:59:11 -0800 (PST)
-Received: from linaro.org ([62.231.96.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf3e117114sm24695766b.147.2025.02.28.00.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 00:59:11 -0800 (PST)
-Date: Fri, 28 Feb 2025 10:59:09 +0200
-From: Abel Vesa <abel.vesa@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Kamal Wadhwa <quic_kamalw@quicinc.com>,
-	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Johan Hovold <johan@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
- PWMs
-Message-ID: <Z8F63fS/RDnF8+oU@linaro.org>
-References: <Z7zVgeM+7P7SLWIu@linaro.org>
- <vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67pd2@cz2dcracta6w>
- <Z7161SzdxhLITsW3@linaro.org>
- <5euqboshlfwweie7tlaffajzg3siiy6bm3j4evr572ko54gtbv@7lan3vizskt3>
- <Z8B2Bl/9uD3jPvQi@linaro.org>
- <j55de6bbipoavqx25w2s6qr7n6fv6w7bj3lrgyag4dlvvddbqv@shn22aqcqeci>
- <Z8CIY2OJUMqIOHGU@linaro.org>
- <Z8CTqdFafLY17C25@linaro.org>
- <Z8CbSvlG856oxQRw@linaro.org>
- <ioater5m23lhkmyik3hurozol6vtyx6ovac3phmvcphrmmprwb@igggmox3jz5m>
+	 Content-Type:Content-Disposition:In-Reply-To; b=d0fIciHurv4UxHKAWgE1DjXrHDhZhv9BSmEwJ76qHJYQlj+RdlRpmsxRLom0iwJsfpMpxqaSsM3mfTwWR3OfBKmLFeFLtl5sR7VYqiLiW3HXpQl4U6scj5UeeBEOgLFLfaAn0bwfRmB0LmQnpZtyt2B9rHApWhW6dHOoEhtWxNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LIcBac+o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61218C4CED6;
+	Fri, 28 Feb 2025 08:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740733173;
+	bh=JH8KsO1DBqdQi/6JwlgKcuoItRQl049EoRkTHyx9Gjs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LIcBac+oYc2sqpwOrkiITQo2OakRb8qshwknaG0VzKgRAy5fjk8pUuVqqBIM5AnXO
+	 5S4LwdApIFUnWBOFSP38/5tmr6coFEL/2qBgIuszUc5ja2JWfnP4ywinfHi68sVrp9
+	 WqVPmJz9K+MLzoZRbq3Gf52VlmR+iMN0AAXNn+DYRUCSnuRhSqOol9gfzRa6PNP4L3
+	 XICyKSM7oa6pgWvJgfSxmqO5TpA+Bmfx1zIMwufHaK4+c/egZkqoIzQ2IvMUgAn+Vt
+	 lSCiPBxSNoUi1irtBMqN+YIVjIq2gqDQVxEpMeLEQiR0PbD52fchrmkjXyq7CAJq8l
+	 +lRxBZVx8Rirw==
+Date: Fri, 28 Feb 2025 08:59:27 +0000
+From: Lee Jones <lee@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] mfd: lm3533: convert to use OF
+Message-ID: <20250228085927.GM824852@google.com>
+References: <20250224114815.146053-1-clamor95@gmail.com>
+ <20250224114815.146053-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ioater5m23lhkmyik3hurozol6vtyx6ovac3phmvcphrmmprwb@igggmox3jz5m>
+In-Reply-To: <20250224114815.146053-3-clamor95@gmail.com>
 
-On 25-02-27 19:09:39, Uwe Kleine-Kˆnig wrote:
-> Hello,
+On Mon, 24 Feb 2025, Svyatoslav Ryhel wrote:
+
+> Remove platform data and fully relay on OF and device tree
+> parsing and binding devices.
 > 
-> On Thu, Feb 27, 2025 at 07:05:14PM +0200, Abel Vesa wrote:
-> > On 25-02-27 18:32:41, Abel Vesa wrote:
-> > > On 25-02-27 17:44:35, Abel Vesa wrote:
-> > > > On 25-02-27 16:25:06, Uwe Kleine-Kˆnig wrote:
-> > > > > Hello Abel,
-> > > > > 
-> > > > > On Thu, Feb 27, 2025 at 04:26:14PM +0200, Abel Vesa wrote:
-> > > > > > On 25-02-27 10:58:47, Uwe Kleine-Kˆnig wrote:
-> > > > > > > Can you please enable CONFIG_PWM_DEBUG, enable pwm tracing (
-> > > > > > > 
-> > > > > > > 	echo 1 > /sys/kernel/debug/tracing/events/pwm/enable
-> > > > > > > 
-> > > > > > > ) then reproduce the problem and provide the output of
-> > > > > > > 
-> > > > > > > 	cat /sys/kernel/debug/tracing/trace
-> > > > > > > 
-> > > > > > > .
-> > > > > > 
-> > > > > > $ cat trace
-> > > > > > # tracer: nop
-> > > > > > #
-> > > > > > # entries-in-buffer/entries-written: 13/13   #P:12
-> > > > > > #
-> > > > > > #                                _-----=> irqs-off/BH-disabled
-> > > > > > #                               / _----=> need-resched
-> > > > > > #                              | / _---=> hardirq/softirq
-> > > > > > #                              || / _--=> preempt-depth
-> > > > > > #                              ||| / _-=> migrate-disable
-> > > > > > #                              |||| /     delay
-> > > > > > #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-> > > > > > #              | |         |   |||||     |         |
-> > > > > >         modprobe-203     [000] .....     0.938668: pwm_get: pwmchip0.0: period=1066407 duty_cycle=533334 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.938775: pwm_apply: pwmchip0.0: period=5000000 duty_cycle=0 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.938821: pwm_get: pwmchip0.0: period=4266537 duty_cycle=0 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.938936: pwm_apply: pwmchip0.0: period=4266537 duty_cycle=0 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.938982: pwm_get: pwmchip0.0: period=4266537 duty_cycle=0 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.939274: pwm_apply: pwmchip0.0: period=5000000 duty_cycle=921458 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.939320: pwm_get: pwmchip0.0: period=4266537 duty_cycle=921355 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.939434: pwm_apply: pwmchip0.0: period=4266537 duty_cycle=921355 polarity=0 enabled=1 err=0
-> > > > > >         modprobe-203     [000] .....     0.939480: pwm_get: pwmchip0.0: period=4266537 duty_cycle=921355 polarity=0 enabled=1 err=0
-> > > > > >  systemd-backlig-724     [006] .....     9.079538: pwm_apply: pwmchip0.0: period=5000000 duty_cycle=5000000 polarity=0 enabled=1 err=0
-> > > > > >  systemd-backlig-724     [006] .....     9.079585: pwm_get: pwmchip0.0: period=4266537 duty_cycle=4266537 polarity=0 enabled=1 err=0
-> > > > > >  systemd-backlig-724     [006] .....     9.079698: pwm_apply: pwmchip0.0: period=4266537 duty_cycle=4266537 polarity=0 enabled=1 err=0
-> > > > > >  systemd-backlig-724     [006] .....     9.079750: pwm_get: pwmchip0.0: period=4266537 duty_cycle=4266537 polarity=0 enabled=1 err=0
-> > > > > > $
-> > > > > > 
-> > > > > > > 
-> > > > > > > I didn't take a deeper dive in this driver combination, but here is a
-> > > > > > > description about what *should* happen:
-> > > > > > > 
-> > > > > > > You're talking about period in MHz, the PWM abstraction uses
-> > > > > > > nanoseconds. So your summary translated to the PWM wording is (to the
-> > > > > > > best of my understanding):
-> > > > > > > 
-> > > > > > >   1. PWM backlight driver requests PWM with .period = 200 ns and
-> > > > > > >      .duty_cycle = 200 ns.
-> > > > > > > 
-> > > > > > >   2. leds-qcom-lpg cannot pick 200 ns exactly and then chooses .period =
-> > > > > > >      1000000000 / 4.26666 MHz = 234.375 ns
-> > > > > > >      
-> > > > > > >   3. leds-qcom-lpg then determines setting for requested .duty_cycle
-> > > > > > >      based on .period = 200 ns which then ends up with something bogus.
-> > > > > 
-> > > > > The trace looks better than what I expected. 2. is fine here because it
-> > > > > seems when Sebastian wrote "driver requests PWM with 5 MHz period" that
-> > > > > meant period = 5000000 ns. That was then rounded down to 4266537 ns. And
-> > > > > the request for period = 5000000 ns + duty_cycle = 5000000 ns was
-> > > > > serviced by configuring period = 4266537 ns + duty_cycle = 4266537 ns.
-> > > > > So that's a 100 % relative duty configuration as intended.
-> > > > > 
-> > > > > So just from the traces I don't spot a problem. Do these logs not match
-> > > > > what actually happens on the signal?
-> > > > 
-> > > > What I do not get is why do we expect 2 pwm_get() and 2 pwm_apply()
-> > > > calls each time ?
-> > > 
-> > > OK, so the second pwm_apply() is due to CONFIG_PWM_DEBUG.
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/iio/light/lm3533-als.c      |  40 ++++---
+>  drivers/leds/leds-lm3533.c          |  46 +++++---
+>  drivers/mfd/lm3533-core.c           | 159 ++++++++--------------------
+>  drivers/video/backlight/lm3533_bl.c |  71 ++++++++++---
+>  include/linux/mfd/lm3533.h          |  35 +-----
+>  5 files changed, 164 insertions(+), 187 deletions(-)
 > 
-> ack. This is done just for the tests implemented in CONFIG_PWM_DEBUG, as
-> are the two pwm_get()s.
+> diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/lm3533-als.c
+> index 99f0b903018c..cb52965e93c6 100644
+> --- a/drivers/iio/light/lm3533-als.c
+> +++ b/drivers/iio/light/lm3533-als.c
+> @@ -16,9 +16,12 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/mfd/core.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/units.h>
+>  
+>  #include <linux/mfd/lm3533.h>
+>  
+> @@ -56,6 +59,9 @@ struct lm3533_als {
+>  
+>  	atomic_t zone;
+>  	struct mutex thresh_mutex;
+> +
+> +	unsigned pwm_mode:1;		/* PWM input mode (default analog) */
+> +	u8 r_select;			/* 1 - 127 (ignored in PWM-mode) */
+>  };
+>  
+>  
+> @@ -753,18 +759,17 @@ static int lm3533_als_set_resistor(struct lm3533_als *als, u8 val)
+>  	return 0;
+>  }
+>  
+> -static int lm3533_als_setup(struct lm3533_als *als,
+> -			    const struct lm3533_als_platform_data *pdata)
+> +static int lm3533_als_setup(struct lm3533_als *als)
+>  {
+>  	int ret;
+>  
+> -	ret = lm3533_als_set_input_mode(als, pdata->pwm_mode);
+> +	ret = lm3533_als_set_input_mode(als, als->pwm_mode);
+>  	if (ret)
+>  		return ret;
+>  
+>  	/* ALS input is always high impedance in PWM-mode. */
+> -	if (!pdata->pwm_mode) {
+> -		ret = lm3533_als_set_resistor(als, pdata->r_select);
+> +	if (!als->pwm_mode) {
+> +		ret = lm3533_als_set_resistor(als, als->r_select);
+
+You're already passing 'als'.
+
+Just teach lm3533_als_set_resistor that 'r_select' is now contained.
+
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -828,22 +833,16 @@ static const struct iio_info lm3533_als_info = {
+>  
+>  static int lm3533_als_probe(struct platform_device *pdev)
+>  {
+> -	const struct lm3533_als_platform_data *pdata;
+>  	struct lm3533 *lm3533;
+>  	struct lm3533_als *als;
+>  	struct iio_dev *indio_dev;
+> +	u32 val;
+
+Value of what, potatoes?
+
+>  	int ret;
+>  
+>  	lm3533 = dev_get_drvdata(pdev->dev.parent);
+>  	if (!lm3533)
+>  		return -EINVAL;
+>  
+> -	pdata = dev_get_platdata(&pdev->dev);
+> -	if (!pdata) {
+> -		dev_err(&pdev->dev, "no platform data\n");
+> -		return -EINVAL;
+> -	}
+> -
+>  	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*als));
+>  	if (!indio_dev)
+>  		return -ENOMEM;
+> @@ -864,13 +863,21 @@ static int lm3533_als_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, indio_dev);
+>  
+> +	val = 200 * KILO; /* 200kOhm */
+
+Better to #define magic numbers; DEFAULT_{DESCRIPTION}_OHMS
+
+> +	device_property_read_u32(&pdev->dev, "ti,resistor-value-ohm", &val);
+> +
+> +	/* Convert resitance into R_ALS value with 2v / 10uA * R */
+
+Because ...
+
+> +	als->r_select = DIV_ROUND_UP(2 * MICRO, 10 * val);
+> +
+> +	als->pwm_mode = device_property_read_bool(&pdev->dev, "ti,pwm-mode");
+> +
+>  	if (als->irq) {
+>  		ret = lm3533_als_setup_irq(als, indio_dev);
+>  		if (ret)
+>  			return ret;
+>  	}
+>  
+> -	ret = lm3533_als_setup(als, pdata);
+> +	ret = lm3533_als_setup(als);
+>  	if (ret)
+>  		goto err_free_irq;
+>  
+> @@ -907,9 +914,16 @@ static void lm3533_als_remove(struct platform_device *pdev)
+>  		free_irq(als->irq, indio_dev);
+>  }
+>  
+> +static const struct of_device_id lm3533_als_match_table[] = {
+> +	{ .compatible = "ti,lm3533-als" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lm3533_als_match_table);
+> +
+>  static struct platform_driver lm3533_als_driver = {
+>  	.driver	= {
+>  		.name	= "lm3533-als",
+> +		.of_match_table = lm3533_als_match_table,
+>  	},
+>  	.probe		= lm3533_als_probe,
+>  	.remove		= lm3533_als_remove,
+> diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm3533.c
+> index 45795f2a1042..6e661a2a540f 100644
+> --- a/drivers/leds/leds-lm3533.c
+> +++ b/drivers/leds/leds-lm3533.c
+> @@ -10,8 +10,10 @@
+>  #include <linux/module.h>
+>  #include <linux/leds.h>
+>  #include <linux/mfd/core.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  
+>  #include <linux/mfd/lm3533.h>
+> @@ -48,6 +50,9 @@ struct lm3533_led {
+>  
+>  	struct mutex mutex;
+>  	unsigned long flags;
+> +
+> +	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
+> +	u8 pwm;				/* 0 - 0x3f */
+
+This comment doesn't add anything.
+
+>  };
+>  
+>  
+> @@ -632,23 +637,22 @@ static const struct attribute_group *lm3533_led_attribute_groups[] = {
+>  	NULL
+>  };
+>  
+> -static int lm3533_led_setup(struct lm3533_led *led,
+> -					struct lm3533_led_platform_data *pdata)
+> +static int lm3533_led_setup(struct lm3533_led *led)
+>  {
+>  	int ret;
+>  
+> -	ret = lm3533_ctrlbank_set_max_current(&led->cb, pdata->max_current);
+> +	ret = lm3533_ctrlbank_set_max_current(&led->cb, led->max_current);
+
+Why not make max_current and attribute of lm3533_ctrlbank and drop the
+redundant parameter?
+
+>  	if (ret)
+>  		return ret;
+>  
+> -	return lm3533_ctrlbank_set_pwm(&led->cb, pdata->pwm);
+> +	return lm3533_ctrlbank_set_pwm(&led->cb, led->pwm);
+
+As above.
+
+>  }
+>  
+>  static int lm3533_led_probe(struct platform_device *pdev)
+>  {
+>  	struct lm3533 *lm3533;
+> -	struct lm3533_led_platform_data *pdata;
+>  	struct lm3533_led *led;
+> +	u32 val;
+>  	int ret;
+>  
+>  	dev_dbg(&pdev->dev, "%s\n", __func__);
+> @@ -657,12 +661,6 @@ static int lm3533_led_probe(struct platform_device *pdev)
+>  	if (!lm3533)
+>  		return -EINVAL;
+>  
+> -	pdata = dev_get_platdata(&pdev->dev);
+> -	if (!pdata) {
+> -		dev_err(&pdev->dev, "no platform data\n");
+> -		return -EINVAL;
+> -	}
+> -
+>  	if (pdev->id < 0 || pdev->id >= LM3533_LVCTRLBANK_COUNT) {
+>  		dev_err(&pdev->dev, "illegal LED id %d\n", pdev->id);
+>  		return -EINVAL;
+> @@ -673,8 +671,11 @@ static int lm3533_led_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  
+>  	led->lm3533 = lm3533;
+> -	led->cdev.name = pdata->name;
+> -	led->cdev.default_trigger = pdata->default_trigger;
+> +	led->cdev.name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-%d",
+> +					pdev->name, pdev->id);
+> +	led->cdev.default_trigger = "none";
+> +	device_property_read_string(&pdev->dev, "linux,default-trigger",
+> +				    &led->cdev.default_trigger);
+>  	led->cdev.brightness_set_blocking = lm3533_led_set;
+>  	led->cdev.brightness_get = lm3533_led_get;
+>  	led->cdev.blink_set = lm3533_led_blink_set;
+> @@ -702,7 +703,17 @@ static int lm3533_led_probe(struct platform_device *pdev)
+>  
+>  	led->cb.dev = led->cdev.dev;
+>  
+> -	ret = lm3533_led_setup(led, pdata);
+> +	/* 5000 - 29800 uA (800 uA step) */
+> +	val = 5000;
+> +	device_property_read_u32(&pdev->dev, "ti,max-current-microamp", &val);
+> +	led->max_current = val;
+
+Why not just use 'led->max_current' from the offset and delete 'val'?
+
+> +
+> +	/* 0 - 0x3f */
+
+How does this improve readability?  Why would use this info?
+
+> +	val = 0;
+> +	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &val);
+> +	led->pwm = val;
+> +
+> +	ret = lm3533_led_setup(led);
+>  	if (ret)
+>  		goto err_deregister;
+>  
+> @@ -739,9 +750,16 @@ static void lm3533_led_shutdown(struct platform_device *pdev)
+>  	lm3533_led_set(&led->cdev, LED_OFF);		/* disable blink */
+>  }
+>  
+> +static const struct of_device_id lm3533_led_match_table[] = {
+> +	{ .compatible = "ti,lm3533-leds" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lm3533_led_match_table);
+> +
+>  static struct platform_driver lm3533_led_driver = {
+>  	.driver = {
+>  		.name = "lm3533-leds",
+> +		.of_match_table = lm3533_led_match_table,
+>  	},
+>  	.probe		= lm3533_led_probe,
+>  	.remove		= lm3533_led_remove,
+> diff --git a/drivers/mfd/lm3533-core.c b/drivers/mfd/lm3533-core.c
+> index 0a2409d00b2e..e1b8fe136af9 100644
+> --- a/drivers/mfd/lm3533-core.c
+> +++ b/drivers/mfd/lm3533-core.c
+> @@ -14,10 +14,13 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/mfd/core.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/property.h>
+>  #include <linux/regmap.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/units.h>
+>  
+>  #include <linux/mfd/lm3533.h>
+>  
+> @@ -42,41 +45,41 @@
+>  
+>  #define LM3533_REG_MAX			0xb2
+>  
+> -
+> -static struct mfd_cell lm3533_als_devs[] = {
+> +static struct mfd_cell lm3533_child_devices[] = {
+
+Drop the child_ part.
+
+>  	{
+>  		.name	= "lm3533-als",
+>  		.id	= -1,
+> +		.of_compatible = "ti,lm3533-als",
+>  	},
+> -};
+> -
+> -static struct mfd_cell lm3533_bl_devs[] = {
+>  	{
+>  		.name	= "lm3533-backlight",
+>  		.id	= 0,
+> +		.of_compatible = "ti,lm3533-backlight",
+>  	},
+>  	{
+>  		.name	= "lm3533-backlight",
+>  		.id	= 1,
+> +		.of_compatible = "ti,lm3533-backlight",
+>  	},
+> -};
+> -
+> -static struct mfd_cell lm3533_led_devs[] = {
+>  	{
+>  		.name	= "lm3533-leds",
+>  		.id	= 0,
+
+Do you know if these are actually used for anything?
+
+Any reason to not just use PLATFORM_DEVID_AUTO?
+
+> +		.of_compatible = "ti,lm3533-leds",
+>  	},
+>  	{
+>  		.name	= "lm3533-leds",
+>  		.id	= 1,
+> +		.of_compatible = "ti,lm3533-leds",
+>  	},
+>  	{
+>  		.name	= "lm3533-leds",
+>  		.id	= 2,
+> +		.of_compatible = "ti,lm3533-leds",
+>  	},
+>  	{
+>  		.name	= "lm3533-leds",
+>  		.id	= 3,
+> +		.of_compatible = "ti,lm3533-leds",
+>  	},
+>  };
+>  
+> @@ -376,136 +379,60 @@ static struct attribute_group lm3533_attribute_group = {
+>  	.attrs		= lm3533_attributes
+>  };
+>  
+> -static int lm3533_device_als_init(struct lm3533 *lm3533)
+> -{
+> -	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
+> -	int ret;
+> -
+> -	if (!pdata->als)
+> -		return 0;
+> -
+> -	lm3533_als_devs[0].platform_data = pdata->als;
+> -	lm3533_als_devs[0].pdata_size = sizeof(*pdata->als);
+> -
+> -	ret = mfd_add_devices(lm3533->dev, 0, lm3533_als_devs, 1, NULL,
+> -			      0, NULL);
+> -	if (ret) {
+> -		dev_err(lm3533->dev, "failed to add ALS device\n");
+> -		return ret;
+> -	}
+> -
+> -	lm3533->have_als = 1;
+> -
+> -	return 0;
+> -}
+> -
+> -static int lm3533_device_bl_init(struct lm3533 *lm3533)
+> -{
+> -	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
+> -	int i;
+> -	int ret;
+> -
+> -	if (!pdata->backlights || pdata->num_backlights == 0)
+> -		return 0;
+> -
+> -	if (pdata->num_backlights > ARRAY_SIZE(lm3533_bl_devs))
+> -		pdata->num_backlights = ARRAY_SIZE(lm3533_bl_devs);
+> -
+> -	for (i = 0; i < pdata->num_backlights; ++i) {
+> -		lm3533_bl_devs[i].platform_data = &pdata->backlights[i];
+> -		lm3533_bl_devs[i].pdata_size = sizeof(pdata->backlights[i]);
+> -	}
+> -
+> -	ret = mfd_add_devices(lm3533->dev, 0, lm3533_bl_devs,
+> -			      pdata->num_backlights, NULL, 0, NULL);
+> -	if (ret) {
+> -		dev_err(lm3533->dev, "failed to add backlight devices\n");
+> -		return ret;
+> -	}
+> -
+> -	lm3533->have_backlights = 1;
+> -
+> -	return 0;
+> -}
+> -
+> -static int lm3533_device_led_init(struct lm3533 *lm3533)
+> -{
+> -	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
+> -	int i;
+> -	int ret;
+> -
+> -	if (!pdata->leds || pdata->num_leds == 0)
+> -		return 0;
+> -
+> -	if (pdata->num_leds > ARRAY_SIZE(lm3533_led_devs))
+> -		pdata->num_leds = ARRAY_SIZE(lm3533_led_devs);
+> -
+> -	for (i = 0; i < pdata->num_leds; ++i) {
+> -		lm3533_led_devs[i].platform_data = &pdata->leds[i];
+> -		lm3533_led_devs[i].pdata_size = sizeof(pdata->leds[i]);
+> -	}
+> -
+> -	ret = mfd_add_devices(lm3533->dev, 0, lm3533_led_devs,
+> -			      pdata->num_leds, NULL, 0, NULL);
+> -	if (ret) {
+> -		dev_err(lm3533->dev, "failed to add LED devices\n");
+> -		return ret;
+> -	}
+> -
+> -	lm3533->have_leds = 1;
+> -
+> -	return 0;
+> -}
+> -
+> -static int lm3533_device_setup(struct lm3533 *lm3533,
+> -					struct lm3533_platform_data *pdata)
+> +static int lm3533_device_setup(struct lm3533 *lm3533)
+>  {
+>  	int ret;
+>  
+> -	ret = lm3533_set_boost_freq(lm3533, pdata->boost_freq);
+> +	ret = lm3533_set_boost_freq(lm3533, lm3533->boost_freq);
+
+Same comments as before.
+
+Teach lm3533_set_boost_freq() that 'boost_freq' is contained in 'lm3533'.
+
+>  	if (ret)
+>  		return ret;
+>  
+> -	return lm3533_set_boost_ovp(lm3533, pdata->boost_ovp);
+> +	return lm3533_set_boost_ovp(lm3533, lm3533->boost_ovp);
+>  }
+>  
+>  static int lm3533_device_init(struct lm3533 *lm3533)
+>  {
+> -	struct lm3533_platform_data *pdata = dev_get_platdata(lm3533->dev);
+> +	u32 val;
+
+'uV' and 'hz' could be easier to follow.
+
+>  	int ret;
+>  
+> -	dev_dbg(lm3533->dev, "%s\n", __func__);
+> +	lm3533->hwen = devm_gpiod_get(lm3533->dev, "enable", GPIOD_OUT_LOW);
+> +	if (IS_ERR(lm3533->hwen))
+> +		return dev_err_probe(lm3533->dev, PTR_ERR(lm3533->hwen),
+> +				     "failed to request HWEN GPIO\n");
+>  
+> -	if (!pdata) {
+> -		dev_err(lm3533->dev, "no platform data\n");
+> -		return -EINVAL;
+> -	}
+> +	val = 16 * MICRO; /* 16V */
+> +	device_property_read_u32(lm3533->dev, "ti,boost-ovp-microvolt", &val);
+>  
+> -	lm3533->hwen = devm_gpiod_get(lm3533->dev, NULL, GPIOD_OUT_LOW);
+> -	if (IS_ERR(lm3533->hwen))
+> -		return dev_err_probe(lm3533->dev, PTR_ERR(lm3533->hwen), "failed to request HWEN GPIO\n");
+> -	gpiod_set_consumer_name(lm3533->hwen, "lm3533-hwen");
+> +	/* boost_ovp is defined in microvolts, convert to enum value */
+> +	lm3533->boost_ovp = val / (8 * MICRO) - 2;
+
+Wait, what.  Why?
+
+Converting a useful microvolt value to an arbitrary enum sounds fragile.
+
+> +
+> +	val = 500 * KILO; /* 500kHz */
+> +	device_property_read_u32(lm3533->dev, "ti,boost-freq-hz", &val);
+> +
+> +	/* boost_freq is defined in Hz, convert to enum value */
+> +	lm3533->boost_freq = val / (500 * KILO) - 1;
+>  
+>  	lm3533_enable(lm3533);
+>  
+> -	ret = lm3533_device_setup(lm3533, pdata);
+> +	ret = lm3533_device_setup(lm3533);
+>  	if (ret)
+>  		goto err_disable;
+>  
+> -	lm3533_device_als_init(lm3533);
+> -	lm3533_device_bl_init(lm3533);
+> -	lm3533_device_led_init(lm3533);
+> +	ret = devm_mfd_add_devices(lm3533->dev, 0, lm3533_child_devices,
+
+
+> +				   ARRAY_SIZE(lm3533_child_devices), NULL, 0, NULL);
+> +	if (ret) {
+> +		dev_err(lm3533->dev, "failed to add MFD devices: %d\n", ret);
+
+"child devices" or "sub-devices".
+
+> +		goto err_disable;
+> +	}
+>  
+>  	ret = sysfs_create_group(&lm3533->dev->kobj, &lm3533_attribute_group);
+>  	if (ret < 0) {
+>  		dev_err(lm3533->dev, "failed to create sysfs attributes\n");
+> -		goto err_unregister;
+> +		goto err_disable;
+>  	}
+>  
+>  	return 0;
+>  
+> -err_unregister:
+> -	mfd_remove_devices(lm3533->dev);
+>  err_disable:
+>  	lm3533_disable(lm3533);
+>  
+> @@ -517,8 +444,6 @@ static void lm3533_device_exit(struct lm3533 *lm3533)
+>  	dev_dbg(lm3533->dev, "%s\n", __func__);
+>  
+>  	sysfs_remove_group(&lm3533->dev->kobj, &lm3533_attribute_group);
+> -
+> -	mfd_remove_devices(lm3533->dev);
+>  	lm3533_disable(lm3533);
+>  }
+>  
+> @@ -591,6 +516,9 @@ static int lm3533_i2c_probe(struct i2c_client *i2c)
+>  	lm3533->dev = &i2c->dev;
+>  	lm3533->irq = i2c->irq;
+>  
+> +	i2c->dev.coherent_dma_mask = 0;
+> +	i2c->dev.dma_mask = &i2c->dev.coherent_dma_mask;
+
+Why are you manually doing this?
+
+The core should take care of this for you:
+
+drivers/mfd/mfd-core.c: pdev->dev.dma_mask = parent->dma_mask;
+drivers/mfd/mfd-core.c: pdev->dev.coherent_dma_mask = parent->coherent_dma_mask;
+
+> +
+>  	return lm3533_device_init(lm3533);
+>  }
+>  
+> @@ -603,6 +531,12 @@ static void lm3533_i2c_remove(struct i2c_client *i2c)
+>  	lm3533_device_exit(lm3533);
+>  }
+>  
+> +static const struct of_device_id lm3533_match_table[] = {
+> +	{ .compatible = "ti,lm3533" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lm3533_match_table);
+> +
+>  static const struct i2c_device_id lm3533_i2c_ids[] = {
+>  	{ "lm3533" },
+>  	{ }
+> @@ -612,6 +546,7 @@ MODULE_DEVICE_TABLE(i2c, lm3533_i2c_ids);
+>  static struct i2c_driver lm3533_i2c_driver = {
+>  	.driver = {
+>  		   .name = "lm3533",
+> +		   .of_match_table = lm3533_match_table,
+>  	},
+>  	.id_table	= lm3533_i2c_ids,
+>  	.probe		= lm3533_i2c_probe,
+> diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
+> index babfd3ceec86..0827a5e98dbb 100644
+> --- a/drivers/video/backlight/lm3533_bl.c
+> +++ b/drivers/video/backlight/lm3533_bl.c
+> @@ -9,7 +9,9 @@
+>  
+>  #include <linux/module.h>
+>  #include <linux/init.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include <linux/backlight.h>
+>  #include <linux/slab.h>
+>  
+> @@ -19,6 +21,7 @@
+>  #define LM3533_HVCTRLBANK_COUNT		2
+>  #define LM3533_BL_MAX_BRIGHTNESS	255
+>  
+> +#define LM3533_REG_OUTPUT_CONF1		0x10
+>  #define LM3533_REG_CTRLBANK_AB_BCONF	0x1a
+>  
+>  
+> @@ -27,6 +30,11 @@ struct lm3533_bl {
+>  	struct lm3533_ctrlbank cb;
+>  	struct backlight_device *bd;
+>  	int id;
+> +
+> +	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
+> +	u8 pwm;				/* 0 - 0x3f */
+
+Remove or improve this comment.
+
+> +	bool linear;
+> +	bool hvled;
+>  };
+>  
+>  
+> @@ -246,25 +254,40 @@ static struct attribute_group lm3533_bl_attribute_group = {
+>  	.attrs		= lm3533_bl_attributes
+>  };
+>  
+> -static int lm3533_bl_setup(struct lm3533_bl *bl,
+> -					struct lm3533_bl_platform_data *pdata)
+> +static int lm3533_bl_setup(struct lm3533_bl *bl)
+>  {
+> +	int id = lm3533_bl_get_ctrlbank_id(bl);
+>  	int ret;
+>  
+> -	ret = lm3533_ctrlbank_set_max_current(&bl->cb, pdata->max_current);
+> +	if (bl->linear) {
+> +		ret = lm3533_update(bl->lm3533, LM3533_REG_CTRLBANK_AB_BCONF,
+> +				    BIT(2 * id + 1), BIT(2 * id + 1));
+
+These need to be defined as SHIFT values or whatever they are.
+
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (bl->hvled) {
+> +		ret = lm3533_update(bl->lm3533, LM3533_REG_OUTPUT_CONF1,
+> +				    id | id << 1, BIT(0) | BIT(1));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = lm3533_ctrlbank_set_max_current(&bl->cb, bl->max_current);
+>  	if (ret)
+>  		return ret;
+>  
+> -	return lm3533_ctrlbank_set_pwm(&bl->cb, pdata->pwm);
+> +	return lm3533_ctrlbank_set_pwm(&bl->cb, bl->pwm);
+>  }
+>  
+>  static int lm3533_bl_probe(struct platform_device *pdev)
+>  {
+>  	struct lm3533 *lm3533;
+> -	struct lm3533_bl_platform_data *pdata;
+>  	struct lm3533_bl *bl;
+>  	struct backlight_device *bd;
+>  	struct backlight_properties props;
+> +	char *name;
+> +	u32 val;
+
+As above.
+
+>  	int ret;
+>  
+>  	dev_dbg(&pdev->dev, "%s\n", __func__);
+> @@ -273,12 +296,6 @@ static int lm3533_bl_probe(struct platform_device *pdev)
+>  	if (!lm3533)
+>  		return -EINVAL;
+>  
+> -	pdata = dev_get_platdata(&pdev->dev);
+> -	if (!pdata) {
+> -		dev_err(&pdev->dev, "no platform data\n");
+> -		return -EINVAL;
+> -	}
+> -
+>  	if (pdev->id < 0 || pdev->id >= LM3533_HVCTRLBANK_COUNT) {
+>  		dev_err(&pdev->dev, "illegal backlight id %d\n", pdev->id);
+>  		return -EINVAL;
+> @@ -295,13 +312,15 @@ static int lm3533_bl_probe(struct platform_device *pdev)
+>  	bl->cb.id = lm3533_bl_get_ctrlbank_id(bl);
+>  	bl->cb.dev = NULL;			/* until registered */
+>  
+> +	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-%d", pdev->name, pdev->id);
+
+Doesn't platform already provide enumerated names?
+
+> +
+>  	memset(&props, 0, sizeof(props));
+>  	props.type = BACKLIGHT_RAW;
+>  	props.max_brightness = LM3533_BL_MAX_BRIGHTNESS;
+> -	props.brightness = pdata->default_brightness;
+> -	bd = devm_backlight_device_register(&pdev->dev, pdata->name,
+> -					pdev->dev.parent, bl, &lm3533_bl_ops,
+> -					&props);
+> +	props.brightness = LM3533_BL_MAX_BRIGHTNESS;
+> +	device_property_read_u32(&pdev->dev, "default-brightness", &props.brightness);
+> +	bd = devm_backlight_device_register(&pdev->dev, name, pdev->dev.parent,
+> +					    bl, &lm3533_bl_ops, &props);
+>  	if (IS_ERR(bd)) {
+>  		dev_err(&pdev->dev, "failed to register backlight device\n");
+>  		return PTR_ERR(bd);
+> @@ -320,7 +339,20 @@ static int lm3533_bl_probe(struct platform_device *pdev)
+>  
+>  	backlight_update_status(bd);
+>  
+> -	ret = lm3533_bl_setup(bl, pdata);
+> +	/* 5000 - 29800 uA (800 uA step) */
+> +	val = 5000;
+> +	device_property_read_u32(&pdev->dev, "ti,max-current-microamp", &val);
+> +	bl->max_current = val;
+> +
+> +	/* 0 - 0x3f */
+> +	val = 0;
+> +	device_property_read_u32(&pdev->dev, "ti,pwm-config-mask", &val);
+> +	bl->pwm = val;
+> +
+> +	bl->linear = device_property_read_bool(&pdev->dev, "ti,linear-mapping-mode");
+> +	bl->hvled = device_property_read_bool(&pdev->dev, "ti,hardware-controlled");
+> +
+> +	ret = lm3533_bl_setup(bl);
+>  	if (ret)
+>  		goto err_sysfs_remove;
+>  
+> @@ -381,10 +413,17 @@ static void lm3533_bl_shutdown(struct platform_device *pdev)
+>  	lm3533_ctrlbank_disable(&bl->cb);
+>  }
+>  
+> +static const struct of_device_id lm3533_bl_match_table[] = {
+> +	{ .compatible = "ti,lm3533-backlight" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lm3533_bl_match_table);
+> +
+>  static struct platform_driver lm3533_bl_driver = {
+>  	.driver = {
+>  		.name	= "lm3533-backlight",
+>  		.pm	= &lm3533_bl_pm_ops,
+> +		.of_match_table = lm3533_bl_match_table,
+>  	},
+>  	.probe		= lm3533_bl_probe,
+>  	.remove		= lm3533_bl_remove,
+> diff --git a/include/linux/mfd/lm3533.h b/include/linux/mfd/lm3533.h
+> index 69059a7a2ce5..3b28fc0970f6 100644
+> --- a/include/linux/mfd/lm3533.h
+> +++ b/include/linux/mfd/lm3533.h
+> @@ -27,6 +27,9 @@ struct lm3533 {
+>  	struct gpio_desc *hwen;
+>  	int irq;
+>  
+> +	u32 boost_ovp;
+> +	u32 boost_freq;
+> +
+>  	unsigned have_als:1;
+>  	unsigned have_backlights:1;
+>  	unsigned have_leds:1;
+> @@ -38,25 +41,6 @@ struct lm3533_ctrlbank {
+>  	int id;
+>  };
+>  
+> -struct lm3533_als_platform_data {
+> -	unsigned pwm_mode:1;		/* PWM input mode (default analog) */
+> -	u8 r_select;			/* 1 - 127 (ignored in PWM-mode) */
+> -};
+> -
+> -struct lm3533_bl_platform_data {
+> -	char *name;
+> -	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
+> -	u8 default_brightness;		/* 0 - 255 */
+> -	u8 pwm;				/* 0 - 0x3f */
+> -};
+> -
+> -struct lm3533_led_platform_data {
+> -	char *name;
+> -	const char *default_trigger;
+> -	u16 max_current;		/* 5000 - 29800 uA (800 uA step) */
+> -	u8 pwm;				/* 0 - 0x3f */
+> -};
+> -
+>  enum lm3533_boost_freq {
+>  	LM3533_BOOST_FREQ_500KHZ,
+>  	LM3533_BOOST_FREQ_1000KHZ,
+> @@ -69,19 +53,6 @@ enum lm3533_boost_ovp {
+>  	LM3533_BOOST_OVP_40V,
+>  };
+>  
+> -struct lm3533_platform_data {
+> -	enum lm3533_boost_ovp boost_ovp;
+> -	enum lm3533_boost_freq boost_freq;
+> -
+> -	struct lm3533_als_platform_data *als;
+> -
+> -	struct lm3533_bl_platform_data *backlights;
+> -	int num_backlights;
+> -
+> -	struct lm3533_led_platform_data *leds;
+> -	int num_leds;
+> -};
+> -
+>  extern int lm3533_ctrlbank_enable(struct lm3533_ctrlbank *cb);
+>  extern int lm3533_ctrlbank_disable(struct lm3533_ctrlbank *cb);
+>  
+> -- 
+> 2.43.0
 > 
-> > > But still, the first pwm_apply() requests duty cycle of 5MHz:
-> 
-> 5 ms, yes. But it cannot give you 5 ms and so you get 4.266 ns.
-> 
-> > > systemd-backlig-724     [006] .....     9.079538: pwm_apply: pwmchip0.0: period=5000000 duty_cycle=5000000 polarity=0 enabled=1 err=0
-> > > 
-> > > So since the period is 4.26MHz, due to the knobs selected by the
-> > > provider, this duty cycle will result in a PWM value that is above the
-> > > selected resolution, as I already mentioned.
-> 
-> "above the selected resolution"? Do you mean you don't get the exact
-> value that you requested?
 
-I think I understand your point now.
-
-You expectation is that the provider would remap the entire range of the
-period to whatever the HW can do.
-
-So in this case, when 5ms is requested as duty cycle from consumer, the 
-provider will select the max value.
-
-What the current implementation of the leds-qcom-lpg does is that will
-expect a duty cycle request of up to 4.26ms. And according to you, even
-if the consumer requests 5ms, the leds-qcom-lpg driver should write the
-value of 255 (which is what the selected resolution allows (1 << 8) ) and
-not compute a higher value.
-
-I think this is wrong though. The fact that the pwm generic framework
-reports 5ms when it is actually 4.26ms should be considered wrong.
-For cases where the exact value of the duty cycle matters, this would
-not even make sense.
-
-Correct me if I'm wrong, but the pwm API should behave more like:
-The consumer should ask for the closest period the HW can actually do
-and then use that closest period from there on for every duty cycle
-request. This way, if the consumer initially wants 5ms but the provider
-can do only 4.26ms instead, at least the consumer would be able to
-correct its duty cycle requests based on what the HW says it can do.
-
-> 
-> > On top of that, the duty cycle in debugfs is also reported as 5000000ns
-> > when in fact it is 4266666ns, as the trace shows.
-> 
-> Yes. Consider that a relict from the times when there was no
-> pwm_get_state_hw(). Both values are interesting in different situations.
-> So just telling the real parameters isn't the optimal way forward
-> either.
-> 
-> Something like the patch I showed in
-> https://lore.kernel.org/all/7bcnckef23w6g47ll5l3bktygedrcfvr7fk3qjuq2swtoffhec@zs4w4tuh6qvm/
-
-And this patchset only adds the info of actual value that the HW is actually doing.
-So basically, the already existing state in this case will represent the
-"desired" state.
-
-> would make you a bit luckier I guess. Feel free to polish that one a bit
-> (e.g.  by checking the return value of pwm_get_state_hw() and acting
-> sensible in reply to it) and send a proper patch. (A Suggested-by for me
-> is enough for such a patch, grab authorship yourself.)
-> 
-> > > > Need to dig a bit further.
-> > > > 
-> > > > But meanwhile, if the first pwm_apply() call goes all the way to the
-> > > > provider, then the duty cycle value, when translated to the actual PWM
-> > > > value that gets written to reg, will overflow.
-> 
-> No it will not. The .duty_cycle value (also 5000000 ns) will reach the
-> lowlevel PWM driver together with .period = 5000000 ns. Both are rounded
-> down to 4266666ns. I see no overflow. 
-
-Again, the consumer is being lied to. It expects 5ms and gets 4.26ms
-instead.
-
-Imagine a device that is controlled via PWM and needs exact duty cycle
-values in ms, what would the consumer driver do in this case?
-
-And to make things worse, when the consumer is asking for duty cycle of
-4ms while the period requested is 5ms (which would be 80%), the period
-the provider will do is actually 4.26ms while the duty cycle would be
-~3.41ms, which if the pwm step (reg value) doesn't allow, it will probably
-result in an actual value that is even further than what the consumer
-is expecting.
-
-So I'm thinking maybe the pwm should probably even ask the provider
-for what duty cycle it will provide based on provider's provided period
-and then decide if the resulting duty cycle is what it really wants.
-
-IIRC, this is more in line with what the CCF (common clocks framework)
-currently does.
-
-> 
-> Best regards
-> Uwe
-
-
+-- 
+Lee Jones [ÊùéÁêºÊñØ]
 
