@@ -1,977 +1,450 @@
-Return-Path: <linux-leds+bounces-4126-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4128-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F10EA497C5
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 11:51:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C455A49831
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 12:17:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E9203B6B0D
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 10:50:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B33116513A
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Feb 2025 11:17:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F9D425D543;
-	Fri, 28 Feb 2025 10:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8842825DAE8;
+	Fri, 28 Feb 2025 11:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="nXB39Ob7"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0oGNT1oN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F791B4250;
-	Fri, 28 Feb 2025 10:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD312580CC
+	for <linux-leds@vger.kernel.org>; Fri, 28 Feb 2025 11:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740739860; cv=none; b=b+Q8UzNoX39rUm1Gg3PUQiWy6wuaAs634aPo4VA4Cx2KHcEqPvvGG5UEyq0VWssIKMZKefxnAySD8ch3ZxeR+0ZE4oWMRkRomJNxCRwNE0qse82LBvEOPDQw22RhlE955dtAViJlHjnxwxo9NuMHbRU4GjRTs+Bc/0cBw0fcu6I=
+	t=1740741418; cv=none; b=fA5THLp2VgCyxqchH+Ts5Uw2WKxLFR1iR9w/A/ZZqYBihBqWnl7wJuYo4DqM5dWPTH4w4h1/5V4UpOB/R8/zJ5QsMw8zCreKSVGe1vXJhd3i5QT1NK7a9RQITiwgjUG0dg97kccsdQA3T+vvfx9lJFIsFO9I1Ah13Vk+htXPn3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740739860; c=relaxed/simple;
-	bh=4hYYBi6yOIj5Y1mduUPTeiq+u9vLbfVWA/v7YT2iCsM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OPjCj9M0iIb33GMaBzShCqsOQU5KWY44IpDNrklEaqFgepIaZWRfvaKUEXXDd1maJ3QC0c+J5mCTJ5nGcc/25z5/pImcjDx3Liv4pq1m5S5XiHyEVYWUNRlOroHl0E22uf8p+2wQxe9ld/akesFvHc8+KEGlGFc23jDY0hlBQm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=nXB39Ob7; arc=none smtp.client-ip=168.119.41.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Cc:To:In-Reply-To:References:Message-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=eJcNcAnCyo8217PZY61NmmXMNI9VTevtdnDDHcEzU40=; b=nXB39Ob75eAR9ocrOMV00RYx4W
-	4YFqsLkNra6h9oh8TtIeWlUR4E4/Iq891kv7CMDrJOt+nOiXA1IrR6nA1FYXZKY3F5UhVV8YMi3JL
-	rpnahVzfX0OmddLqMca9lakfcFlX+m9vpg0FHVy5mWr7volUWeQW9AGzaYIU8aYfjzVk=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:63536 helo=[127.0.1.1])
-	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <matthias.fend@emfend.at>)
-	id 1tnxee-00Dtva-Dj; Fri, 28 Feb 2025 11:31:42 +0100
-From: Matthias Fend <matthias.fend@emfend.at>
-Date: Fri, 28 Feb 2025 11:31:24 +0100
-Subject: [PATCH 2/2] leds: tps6131x: add support for Texas Instruments
- TPS6131X flash LED driver
+	s=arc-20240116; t=1740741418; c=relaxed/simple;
+	bh=ckmai19NnoWl9ChlNFmTdwxMh3JznyiEUkRQGeJl1yE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D0otW5r9FFTyB6asDhCyWKzi4mxQTrq9HUlfRgnz8begYNPn24i5R2hUWk708mMg6nTyxqV0km0WLLWbd3Jjkcs3QyvKdck8tCGKkin+4mCn0OuXs2tgmBDs8MvS295tze6zjSXjMFlPzKPE6elCaSVeYBoadh+yPmWu5o58sdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0oGNT1oN; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5ded6c31344so2515921a12.1
+        for <linux-leds@vger.kernel.org>; Fri, 28 Feb 2025 03:16:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740741414; x=1741346214; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H2pVqF4gjO3v3zc/y/ZXO1xr7qTw5W69z4gzxpYSp+8=;
+        b=0oGNT1oN8lz4/ndtfjkmmUVNF3vwd/2AcPCRqePVIXjCjTpLYm91eHzd7oGbskHKia
+         uhAMrLoEYxmgiU3sp7YnY5CduSye6NggHARo6hs4bmiIIgqzuFNpep8BQUvDZLS5P9YX
+         klIwQcfmRR2Olbml4eAvHjAzf1kHa2R+COv3zBVEDsgeZrSzgpQrVwnxj+fppFATL6jQ
+         xUVC/uxIxDa7dxTTnfIlMMriuFpF4HGARpHlFdlcG4udWvTtiDYNvRkbiF2BoPxKnMIc
+         nwTwi1LW2ByAItN9NCMbfsr4CmJSVQuAtIq1rysogDFQRRY+x0A0DRdyNIv0LZOox748
+         OTuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740741414; x=1741346214;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H2pVqF4gjO3v3zc/y/ZXO1xr7qTw5W69z4gzxpYSp+8=;
+        b=gltyUvEPnWhbtIxnaKvAX83sNxR1nsQoqXFJiQ1pMSnwhTZcZJLEVabCf9yHRJ8fd6
+         y6j6dgd0owxUxm+3ogwQZXp2U/nnwQrcSu0v5c80ddra8JKMjE7x/ch/pa3DHdiL0QJT
+         jTstSueqsYeWCrPhJJ+bnnwRxnIkpXaQpTLHqbiAy/lZsmThpf9cpB8kzDweLrVGmfqb
+         cg5W2nIP+IkwJxZDuLV2tf/BFgIEVTFVb9onjlovIsalfs/kmBo/Q3vN71ZBM2Y/hx9h
+         Bukob5qyQv7uZqkcNEXt/CEN9xTxST2sGkqkMxgsCJTxyjJavLRCzBNjAYilL85yK4Q9
+         o7/g==
+X-Forwarded-Encrypted: i=1; AJvYcCW2EabA3QK7BbhMtEdy44hoJOUWdSL+wpXwQWbMK3ncfFwTdbQSJsMqZ3DUZTYtIn0B6CBmqkxJjjpA@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQtmv6ZBE0d063ahI/M/fwwnbu4LOO5iJ18ZhWkabpyVV7IqYZ
+	QGjnM7yLHpnZjEwZBaTBGiF/3omHAUgyQbXayfpIiXHd1+gd4J5x43BFsMkRpDk=
+X-Gm-Gg: ASbGncsQ/Yg8BjsXJ8JSGjm9k3e33pKBpSkJ8znL3Kocjyj2FBwrD5/YCgOIScVy7YH
+	/8Tft6ekUh4diJh/qhIa8PX7N2cX/iT8MCh5dWLkiSjuNPFdv8jPQA2ahffTxUyM7MevAJWrUap
+	RXtfP7cNGwqDydjjIDHjEtswfWg+/DQso4YzXAywBfdk7jIBrPwrNoEE0IwNSksl1z5j5w3kHXQ
+	vEdDe8owYYw2e6+XMhawBMnu4SHARk6DixI8HuKCbPN6t05niPpGfKvqXBjsKH/LMlW0927h+SY
+	yfFLf9XkJLB//v3bIC76525CjYlpr1c0rF9Cqk4Z3k7QVlJq9iXu25SVCGz4WPhV
+X-Google-Smtp-Source: AGHT+IFTXvx9sVAleIQbxrWDO1hdHe2VsnE9cFb5TfDWeqjZ03pqpRDqZMOi3rz1Olpgdv0Y+Cne/A==
+X-Received: by 2002:a05:6402:40cf:b0:5e4:d220:3333 with SMTP id 4fb4d7f45d1cf-5e4d6ac4a4dmr6299161a12.1.1740741413937;
+        Fri, 28 Feb 2025 03:16:53 -0800 (PST)
+Received: from localhost (p200300f65f2c000400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f2c:4::1b9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf196e7035sm222799966b.140.2025.02.28.03.16.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 03:16:53 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:16:51 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Kamal Wadhwa <quic_kamalw@quicinc.com>, Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
+Message-ID: <6siwtqeeqmyg62mqlxpckhopkjzl24qvrjuk6p7ccysaeg7ltw@pnzzf5hjlu3i>
+References: <vc7irlp7nuy5yvkxwb5m7wy7j7jzgpg73zmajbmq2zjcd67pd2@cz2dcracta6w>
+ <Z7161SzdxhLITsW3@linaro.org>
+ <5euqboshlfwweie7tlaffajzg3siiy6bm3j4evr572ko54gtbv@7lan3vizskt3>
+ <Z8B2Bl/9uD3jPvQi@linaro.org>
+ <j55de6bbipoavqx25w2s6qr7n6fv6w7bj3lrgyag4dlvvddbqv@shn22aqcqeci>
+ <Z8CIY2OJUMqIOHGU@linaro.org>
+ <Z8CTqdFafLY17C25@linaro.org>
+ <Z8CbSvlG856oxQRw@linaro.org>
+ <ioater5m23lhkmyik3hurozol6vtyx6ovac3phmvcphrmmprwb@igggmox3jz5m>
+ <Z8F63fS/RDnF8+oU@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250228-leds-tps6131x-v1-2-d1071d90f9ea@emfend.at>
-References: <20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at>
-In-Reply-To: <20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
- bsp-development.geo@leica-geosystems.com
-X-Mailer: b4 0.14.2
-X-Spam-Score: -1.0
-X-Spam-Bar: -
-X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hosting",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- 
- Content preview:  Document Texas Instruments TPS61310/TPS61311 flash LED driver
-    devicetree bindings. Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-    --- .../devicetree/bindings/leds/ti,tps6131x.yaml | 123 +++++++++++++++++++++
-    1 file changed, 123 insertions(+) 
- 
- Content analysis details:   (-1.0 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
-  0.0 URIBL_BLOCKED          ADMINISTRATOR NOTICE: The query to URIBL was
-                             blocked.  See
-                             http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-                              for more information.
-                             [URIs: ti.com]
-  0.0 URIBL_DBL_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
-                             dbl.spamhaus.org was blocked due to usage
-                             of an open resolver. See
-                             https://www.spamhaus.org/returnc/pub/
-                             [URIs: ti.com]
-  0.0 URIBL_ZEN_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
-                             zen.spamhaus.org was blocked due to usage
-                             of an open resolver. See
-                             https://www.spamhaus.org/returnc/pub/
-                             [URIs: ti.com]
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-  0.0 TVD_RCVD_IP            Message was received from an IP address
-  0.0 KAM_SHORT              Use of a URL Shortener for very short URL
-  0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
-                             Alignment
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q67kilu5fjsok7m4"
+Content-Disposition: inline
+In-Reply-To: <Z8F63fS/RDnF8+oU@linaro.org>
 
-The TPS61310/TPS61311 is a flash LED driver with I2C interface. Its power
-stage is capable of supplying a maximum total current of roughly 1500mA.
-The TPS6131x provides three constant-current sinks, capable of sinking up
-to 2 × 400mA (LED1 and LED3) and 800mA (LED2) in flash mode. In torch mode
-each sink (LED1, LED2, LED3) supports currents up to 175mA.
 
-Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
----
- MAINTAINERS                        |   7 +
- drivers/leds/flash/Kconfig         |  11 +
- drivers/leds/flash/Makefile        |   1 +
- drivers/leds/flash/leds-tps6131x.c | 798 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 817 insertions(+)
+--q67kilu5fjsok7m4
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] leds: rgb: leds-qcom-lpg: Fix pwm resolution for Hi-Res
+ PWMs
+MIME-Version: 1.0
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0fa7c5728f1e64d031f4a47b6fce1db484ce0fc2..d2ca840647b566cfee4d8ded1f787e32be4aa163 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23225,6 +23225,13 @@ F:	Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
- F:	Documentation/hwmon/tps23861.rst
- F:	drivers/hwmon/tps23861.c
- 
-+TEXAS INSTRUMENTS TPS6131X FLASH LED DRIVER
-+M:	Matthias Fend <matthias.fend@emfend.at>
-+L:	linux-leds@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/ti,tps6131x.yaml
-+F:	drivers/leds/flash/leds-tps6131x.c
-+
- TEXAS INSTRUMENTS' DAC7612 DAC DRIVER
- M:	Ricardo Ribalda <ribalda@kernel.org>
- L:	linux-iio@vger.kernel.org
-diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
-index f39f0bfe6eefcd376405d9d35dc36e323a485002..55ca663ca506ad8be627f58f6d6308368ea2b928 100644
---- a/drivers/leds/flash/Kconfig
-+++ b/drivers/leds/flash/Kconfig
-@@ -132,4 +132,15 @@ config LEDS_SY7802
- 
- 	  This driver can be built as a module, it will be called "leds-sy7802".
- 
-+config LEDS_TPS6131X
-+	tristate "LED support for TI TPS6131x flash LED driver"
-+	depends on I2C && OF
-+	depends on GPIOLIB
-+	select REGMAP_I2C
-+	help
-+	  This option enables support for Texas Instruments TPS61310/TPS61311
-+	  flash LED driver.
-+
-+	  This driver can be built as a module, it will be called "leds-tps6131x".
-+
- endif # LEDS_CLASS_FLASH
-diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
-index 48860eeced79513a0ed303e4af3db9bfe9724b7e..712fb737a428e42747e1aa339058dc4306ade9c8 100644
---- a/drivers/leds/flash/Makefile
-+++ b/drivers/leds/flash/Makefile
-@@ -12,3 +12,4 @@ obj-$(CONFIG_LEDS_RT4505)	+= leds-rt4505.o
- obj-$(CONFIG_LEDS_RT8515)	+= leds-rt8515.o
- obj-$(CONFIG_LEDS_SGM3140)	+= leds-sgm3140.o
- obj-$(CONFIG_LEDS_SY7802)	+= leds-sy7802.o
-+obj-$(CONFIG_LEDS_TPS6131X)	+= leds-tps6131x.o
-diff --git a/drivers/leds/flash/leds-tps6131x.c b/drivers/leds/flash/leds-tps6131x.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..5fca542ac88da1db755a75e982dee8e3dde06373
---- /dev/null
-+++ b/drivers/leds/flash/leds-tps6131x.c
-@@ -0,0 +1,798 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Texas Instruments TPS61310/TPS61311 flash LED driver with I2C interface
-+ *
-+ * Copyright 2025 Matthias Fend <matthias.fend@emfend.at>
-+ */
-+
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/led-class-flash.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <media/v4l2-flash-led-class.h>
-+
-+/* Registers */
-+
-+#define TPS6131X_REG_0				0x00
-+#define TPS6131X_REG_0_RESET			BIT(7)
-+#define TPS6131X_REG_0_DCLC13			GENMASK(5, 3)
-+#define TPS6131X_REG_0_DCLC13_SHIFT		3
-+#define TPS6131X_REG_0_DCLC2			GENMASK(2, 0)
-+#define TPS6131X_REG_0_DCLC2_SHIFT		0
-+
-+#define TPS6131X_REG_1				0x01
-+#define TPS6131X_REG_1_MODE			GENMASK(7, 6)
-+#define TPS6131X_REG_1_MODE_SHIFT		6
-+#define TPS6131X_REG_1_FC2			GENMASK(5, 0)
-+#define TPS6131X_REG_1_FC2_SHIFT		0
-+
-+#define TPS6131X_REG_2				0x02
-+#define TPS6131X_REG_2_MODE			GENMASK(7, 6)
-+#define TPS6131X_REG_2_MODE_SHIFT		6
-+#define TPS6131X_REG_2_ENVM			BIT(5)
-+#define TPS6131X_REG_2_FC13			GENMASK(4, 0)
-+#define TPS6131X_REG_2_FC13_SHIFT		0
-+
-+#define TPS6131X_REG_3				0x03
-+#define TPS6131X_REG_3_STIM			GENMASK(7, 5)
-+#define TPS6131X_REG_3_STIM_SHIFT		5
-+#define TPS6131X_REG_3_HPFL			BIT(4)
-+#define TPS6131X_REG_3_SELSTIM_TO		BIT(3)
-+#define TPS6131X_REG_3_STT			BIT(2)
-+#define TPS6131X_REG_3_SFT			BIT(1)
-+#define TPS6131X_REG_3_TXMASK			BIT(0)
-+
-+#define TPS6131X_REG_4				0x04
-+#define TPS6131X_REG_4_PG			BIT(7)
-+#define TPS6131X_REG_4_HOTDIE_HI		BIT(6)
-+#define TPS6131X_REG_4_HOTDIE_LO		BIT(5)
-+#define TPS6131X_REG_4_ILIM			BIT(4)
-+#define TPS6131X_REG_4_INDC			GENMASK(3, 0)
-+#define TPS6131X_REG_4_SHIFT			0
-+
-+#define TPS6131X_REG_5				0x05
-+#define TPS6131X_REG_5_SELFCAL			BIT(7)
-+#define TPS6131X_REG_5_ENPSM			BIT(6)
-+#define TPS6131X_REG_5_STSTRB1_DIR		BIT(5)
-+#define TPS6131X_REG_5_GPIO			BIT(4)
-+#define TPS6131X_REG_5_GPIOTYPE			BIT(3)
-+#define TPS6131X_REG_5_ENLED3			BIT(2)
-+#define TPS6131X_REG_5_ENLED2			BIT(1)
-+#define TPS6131X_REG_5_ENLED1			BIT(0)
-+
-+#define TPS6131X_REG_6				0x06
-+#define TPS6131X_REG_6_ENTS			BIT(7)
-+#define TPS6131X_REG_6_LEDHOT			BIT(6)
-+#define TPS6131X_REG_6_LEDWARN			BIT(5)
-+#define TPS6131X_REG_6_LEDHDR			BIT(4)
-+#define TPS6131X_REG_6_OV			GENMASK(3, 0)
-+#define TPS6131X_REG_6_OV_SHIFT			0
-+
-+#define TPS6131X_REG_7				0x07
-+#define TPS6131X_REG_7_ENBATMON			BIT(7)
-+#define TPS6131X_REG_7_BATDROOP			GENMASK(6, 4)
-+#define TPS6131X_REG_7_BATDROOP_SHIFT		4
-+#define TPS6131X_REG_7_REVID			GENMASK(2, 0)
-+#define TPS6131X_REG_7_REVID_SHIFT		0
-+
-+/* Constants */
-+
-+#define TPS6131X_MAX_CHANNELS			3
-+
-+#define TPS6131X_FLASH_MAX_I_CHAN13_MA		400
-+#define TPS6131X_FLASH_MAX_I_CHAN2_MA		800
-+#define TPS6131X_FLASH_STEP_I_MA		25
-+
-+#define TPS6131X_TORCH_MAX_I_CHAN13_MA		175
-+#define TPS6131X_TORCH_MAX_I_CHAN2_MA		175
-+#define TPS6131X_TORCH_STEP_I_MA		25
-+
-+#define TPS6131X_TORCH_REFRESH_INTERVAL_JIFFIES msecs_to_jiffies(10000)
-+
-+struct tps6131x {
-+	struct i2c_client *client;
-+	struct regmap *regmap;
-+	struct gpio_desc *reset_gpio;
-+	struct mutex lock; /* */
-+	struct delayed_work torch_refresh_work;
-+	bool valley_current_limit;
-+	bool chan1_en;
-+	bool chan2_en;
-+	bool chan3_en;
-+	struct fwnode_handle *led_node;
-+	u32 max_flash_current_ma;
-+	u32 step_flash_current_ma;
-+	u32 max_torch_current_ma;
-+	u32 step_torch_current_ma;
-+	u32 max_timeout_us;
-+	struct led_classdev_flash fled_cdev;
-+	struct v4l2_flash *v4l2_flash;
-+};
-+
-+static struct tps6131x *fled_cdev_to_tps6131x(struct led_classdev_flash *fled_cdev)
-+{
-+	return container_of(fled_cdev, struct tps6131x, fled_cdev);
-+}
-+
-+static const struct reg_default tps6131x_regmap_defaults[] = {
-+	{ TPS6131X_REG_0, 0x0A },
-+	{ TPS6131X_REG_1, 0x10 },
-+	{ TPS6131X_REG_2, 0x08 },
-+	{ TPS6131X_REG_3, 0xC1 },
-+	{ TPS6131X_REG_4, 0x00 },
-+	{ TPS6131X_REG_5, 0x6A },
-+	{ TPS6131X_REG_6, 0x00 },
-+	{ TPS6131X_REG_7, 0x46 },
-+};
-+
-+/*
-+ * These registers contain flags that are reset when read. Ensure that these registers are not read
-+ * outside of a call from the driver.
-+ */
-+static bool tps6131x_regmap_precious(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case TPS6131X_REG_3:
-+	case TPS6131X_REG_4:
-+	case TPS6131X_REG_6:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_config tps6131x_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = TPS6131X_REG_7,
-+	.reg_defaults = tps6131x_regmap_defaults,
-+	.num_reg_defaults = ARRAY_SIZE(tps6131x_regmap_defaults),
-+	.cache_type = REGCACHE_FLAT,
-+	.precious_reg = &tps6131x_regmap_precious,
-+};
-+
-+struct tps6131x_timer_config {
-+	u8 val;
-+	u8 range;
-+	u32 time_us;
-+};
-+
-+static const struct tps6131x_timer_config tps6131x_timer_configs[] = {
-+	{ .val = 0, .range = 1, .time_us = 5300 },
-+	{ .val = 1, .range = 1, .time_us = 10700 },
-+	{ .val = 2, .range = 1, .time_us = 16000 },
-+	{ .val = 3, .range = 1, .time_us = 21300 },
-+	{ .val = 4, .range = 1, .time_us = 26600 },
-+	{ .val = 5, .range = 1, .time_us = 32000 },
-+	{ .val = 6, .range = 1, .time_us = 37300 },
-+	{ .val = 0, .range = 0, .time_us = 68200 },
-+	{ .val = 7, .range = 1, .time_us = 71500 },
-+	{ .val = 1, .range = 0, .time_us = 102200 },
-+	{ .val = 2, .range = 0, .time_us = 136300 },
-+	{ .val = 3, .range = 0, .time_us = 170400 },
-+	{ .val = 4, .range = 0, .time_us = 204500 },
-+	{ .val = 5, .range = 0, .time_us = 340800 },
-+	{ .val = 6, .range = 0, .time_us = 579300 },
-+	{ .val = 7, .range = 0, .time_us = 852000 },
-+};
-+
-+static const struct tps6131x_timer_config *tps6131x_find_closest_timer_config(u32 timeout_us)
-+{
-+	const struct tps6131x_timer_config *timer_config = &tps6131x_timer_configs[0];
-+	u32 diff, min_diff = U32_MAX;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(tps6131x_timer_configs); i++) {
-+		diff = abs(tps6131x_timer_configs[i].time_us - timeout_us);
-+		if (diff < min_diff) {
-+			timer_config = &tps6131x_timer_configs[i];
-+			min_diff = diff;
-+			if (!min_diff)
-+				break;
-+		}
-+	}
-+
-+	return timer_config;
-+}
-+
-+static int tps6131x_reset_chip(struct tps6131x *tps6131x)
-+{
-+	int ret;
-+
-+	if (IS_ERR_OR_NULL(tps6131x->reset_gpio)) {
-+		ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_0, TPS6131X_REG_0_RESET,
-+					 TPS6131X_REG_0_RESET);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_0, TPS6131X_REG_0_RESET, 0);
-+		if (ret)
-+			return ret;
-+	} else {
-+		gpiod_set_value_cansleep(tps6131x->reset_gpio, 1);
-+		fsleep(10);
-+		gpiod_set_value_cansleep(tps6131x->reset_gpio, 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static int tps6131x_init_chip(struct tps6131x *tps6131x)
-+{
-+	u32 reg4, reg5, reg6;
-+	int ret;
-+
-+	reg4 = tps6131x->valley_current_limit ? TPS6131X_REG_4_ILIM : 0;
-+	ret = regmap_write(tps6131x->regmap, TPS6131X_REG_4, reg4);
-+	if (ret)
-+		return ret;
-+
-+	reg5 = TPS6131X_REG_5_ENPSM | TPS6131X_REG_5_STSTRB1_DIR | TPS6131X_REG_5_GPIOTYPE;
-+	if (tps6131x->chan1_en)
-+		reg5 |= TPS6131X_REG_5_ENLED1;
-+
-+	if (tps6131x->chan2_en)
-+		reg5 |= TPS6131X_REG_5_ENLED2;
-+
-+	if (tps6131x->chan3_en)
-+		reg5 |= TPS6131X_REG_5_ENLED3;
-+	ret = regmap_write(tps6131x->regmap, TPS6131X_REG_5, reg5);
-+	if (ret)
-+		return ret;
-+
-+	reg6 = TPS6131X_REG_6_ENTS;
-+	ret = regmap_write(tps6131x->regmap, TPS6131X_REG_6, reg6);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+enum tps6131x_mode {
-+	TPS6131X_MODE_SHUTDOWN,
-+	TPS6131X_MODE_TORCH,
-+	TPS6131X_MODE_FLASH,
-+};
-+
-+static int tps6131x_set_mode(struct tps6131x *tps6131x, enum tps6131x_mode mode, bool force)
-+{
-+	u8 val;
-+
-+	switch (mode) {
-+	case TPS6131X_MODE_FLASH:
-+		val = 2 << TPS6131X_REG_1_MODE_SHIFT;
-+		break;
-+	case TPS6131X_MODE_TORCH:
-+		val = 1 << TPS6131X_REG_1_MODE_SHIFT;
-+		break;
-+	case TPS6131X_MODE_SHUTDOWN:
-+	default:
-+		val = 0 << TPS6131X_REG_1_MODE_SHIFT;
-+		break;
-+	}
-+
-+	return regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_1, TPS6131X_REG_1_MODE, val,
-+				       NULL, false, force);
-+}
-+
-+static void tps6131x_torch_refresh_handler(struct work_struct *work)
-+{
-+	struct tps6131x *tps6131x = container_of(work, struct tps6131x, torch_refresh_work.work);
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	tps6131x_set_mode(tps6131x, TPS6131X_MODE_TORCH, true);
-+
-+	schedule_delayed_work(&tps6131x->torch_refresh_work,
-+			      TPS6131X_TORCH_REFRESH_INTERVAL_JIFFIES);
-+}
-+
-+static int tps6131x_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
-+{
-+	struct led_classdev_flash *fled_cdev = lcdev_to_flcdev(cdev);
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+	int ret;
-+	u8 reg0;
-+	u32 steps_remaining, steps_chan13, steps_chan2;
-+	unsigned int num_chans = tps6131x->chan1_en + tps6131x->chan2_en + tps6131x->chan3_en;
-+
-+	cancel_delayed_work_sync(&tps6131x->torch_refresh_work);
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	/*
-+	 * The brightness parameter uses the number of current steps as the unit (not the current
-+	 * value itself). Since the reported step size can vary depending on the configuration,
-+	 * this value must be converted into actual register steps.
-+	 */
-+	steps_remaining = (brightness * tps6131x->step_torch_current_ma) / TPS6131X_TORCH_STEP_I_MA;
-+
-+	/*
-+	 * The currents are distributed as evenly as possible across the activated channels.
-+	 * Since channels 1 and 3 share the same register setting, they always use the same current
-+	 * value. Channel 2 supports higher currents and thus takes over the remaining additional
-+	 * portion that cannot be covered by the other channels.
-+	 */
-+	steps_chan13 = min_t(u32, steps_remaining / num_chans,
-+			     TPS6131X_TORCH_MAX_I_CHAN13_MA / TPS6131X_TORCH_STEP_I_MA);
-+	if (tps6131x->chan1_en)
-+		steps_remaining -= steps_chan13;
-+	if (tps6131x->chan3_en)
-+		steps_remaining -= steps_chan13;
-+
-+	steps_chan2 = min_t(u32, steps_remaining,
-+			    TPS6131X_TORCH_MAX_I_CHAN2_MA / TPS6131X_TORCH_STEP_I_MA);
-+
-+	reg0 = (steps_chan13 << TPS6131X_REG_0_DCLC13_SHIFT) |
-+	       (steps_chan2 << TPS6131X_REG_0_DCLC2_SHIFT);
-+	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_0,
-+				 TPS6131X_REG_0_DCLC13 | TPS6131X_REG_0_DCLC2, reg0);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = tps6131x_set_mode(tps6131x, brightness ? TPS6131X_MODE_TORCH : TPS6131X_MODE_SHUTDOWN,
-+				true);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * In order to use both the flash and the video light functions purely via the I2C
-+	 * interface, STRB1 must be low. If STRB1 is low, then the video light watchdog timer
-+	 * is also active, which puts the device into the shutdown state after around 13 seconds.
-+	 * To prevent this, the mode must be refreshed within the watchdog timeout.
-+	 */
-+	if (brightness)
-+		schedule_delayed_work(&tps6131x->torch_refresh_work,
-+				      TPS6131X_TORCH_REFRESH_INTERVAL_JIFFIES);
-+
-+	return 0;
-+}
-+
-+static int tps6131x_strobe_set(struct led_classdev_flash *fled_cdev, bool state)
-+{
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+	int ret;
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	ret = tps6131x_set_mode(tps6131x, state ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
-+				true);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (state) {
-+		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_3, TPS6131X_REG_3_SFT,
-+					      TPS6131X_REG_3_SFT, NULL, false, true);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_3, TPS6131X_REG_3_SFT, 0, NULL,
-+				      false, true);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int tps6131x_flash_brightness_set(struct led_classdev_flash *fled_cdev, u32 brightness)
-+{
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+	u32 steps_remaining, steps_chan13, steps_chan2, num_chans;
-+	int ret;
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	steps_remaining = brightness / TPS6131X_FLASH_STEP_I_MA;
-+	num_chans = tps6131x->chan1_en + tps6131x->chan2_en + tps6131x->chan3_en;
-+
-+	steps_chan13 = min_t(u32, steps_remaining / num_chans,
-+			     TPS6131X_FLASH_MAX_I_CHAN13_MA / TPS6131X_FLASH_STEP_I_MA);
-+	if (tps6131x->chan1_en)
-+		steps_remaining -= steps_chan13;
-+	if (tps6131x->chan3_en)
-+		steps_remaining -= steps_chan13;
-+	steps_chan2 = min_t(u32, steps_remaining,
-+			    TPS6131X_FLASH_MAX_I_CHAN2_MA / TPS6131X_FLASH_STEP_I_MA);
-+
-+	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_2, TPS6131X_REG_2_FC13,
-+				 steps_chan13 << TPS6131X_REG_2_FC13_SHIFT);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_1, TPS6131X_REG_1_FC2,
-+				 steps_chan2 << TPS6131X_REG_1_FC2_SHIFT);
-+	if (ret < 0)
-+		return ret;
-+
-+	fled_cdev->brightness.val = brightness;
-+
-+	return 0;
-+}
-+
-+static int tps6131x_flash_timeout_set(struct led_classdev_flash *fled_cdev, u32 timeout_us)
-+{
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+	int ret;
-+	u8 reg3;
-+	const struct tps6131x_timer_config *timer_config;
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	timer_config = tps6131x_find_closest_timer_config(timeout_us);
-+
-+	reg3 = timer_config->val << TPS6131X_REG_3_STIM_SHIFT;
-+	if (timer_config->range)
-+		reg3 |= TPS6131X_REG_3_SELSTIM_TO;
-+
-+	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_3,
-+				 TPS6131X_REG_3_STIM | TPS6131X_REG_3_SELSTIM_TO, reg3);
-+	if (ret < 0)
-+		return ret;
-+
-+	fled_cdev->timeout.val = timer_config->time_us;
-+
-+	return 0;
-+}
-+
-+static int tps6131x_strobe_get(struct led_classdev_flash *fled_cdev, bool *state)
-+{
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+	unsigned int reg3;
-+	int ret;
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_3, &reg3);
-+	if (ret)
-+		return ret;
-+
-+	*state = !!(reg3 & TPS6131X_REG_3_SFT);
-+
-+	return 0;
-+}
-+
-+static int tps6131x_flash_fault_get(struct led_classdev_flash *fled_cdev, u32 *fault)
-+{
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+	unsigned int reg3, reg4, reg6;
-+	int ret;
-+
-+	*fault = 0;
-+
-+	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_3, &reg3);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_4, &reg4);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_6, &reg6);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (reg3 & TPS6131X_REG_3_HPFL)
-+		*fault |= LED_FAULT_SHORT_CIRCUIT;
-+
-+	if (reg3 & TPS6131X_REG_3_SELSTIM_TO)
-+		*fault |= LED_FAULT_TIMEOUT;
-+
-+	if (reg4 & TPS6131X_REG_4_HOTDIE_HI)
-+		*fault |= LED_FAULT_OVER_TEMPERATURE;
-+
-+	if (reg6 & (TPS6131X_REG_6_LEDHOT | TPS6131X_REG_6_LEDWARN))
-+		*fault |= LED_FAULT_LED_OVER_TEMPERATURE;
-+
-+	if (!(reg6 & TPS6131X_REG_6_LEDHDR))
-+		*fault |= LED_FAULT_UNDER_VOLTAGE;
-+
-+	if (reg6 & TPS6131X_REG_6_LEDHOT) {
-+		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_6,
-+					      TPS6131X_REG_6_LEDHOT, 0, NULL, false, true);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct led_flash_ops flash_ops = {
-+	.flash_brightness_set = tps6131x_flash_brightness_set,
-+	.strobe_set = tps6131x_strobe_set,
-+	.strobe_get = tps6131x_strobe_get,
-+	.timeout_set = tps6131x_flash_timeout_set,
-+	.fault_get = tps6131x_flash_fault_get,
-+};
-+
-+static int tps6131x_parse_node(struct tps6131x *tps6131x)
-+{
-+	struct device *dev = &tps6131x->client->dev;
-+	int ret;
-+	u32 current_ua, timeout_us;
-+	const struct tps6131x_timer_config *timer_config;
-+	u32 flash_max_i_ma, torch_max_i_ma;
-+	u32 current_step_multiplier;
-+	u32 channels[TPS6131X_MAX_CHANNELS];
-+	unsigned int num_channels;
-+	int i;
-+
-+	tps6131x->valley_current_limit = device_property_read_bool(dev, "ti,valley-current-limit");
-+
-+	tps6131x->led_node = fwnode_get_next_available_child_node(dev->fwnode, NULL);
-+	if (!tps6131x->led_node) {
-+		dev_err(dev, "Missing LED node\n");
-+		return -EINVAL;
-+	}
-+
-+	num_channels = fwnode_property_count_u32(tps6131x->led_node, "led-sources");
-+	if (num_channels <= 0) {
-+		dev_err(dev, "Failed to read led-sources property\n");
-+		return -EINVAL;
-+	}
-+
-+	if (num_channels > TPS6131X_MAX_CHANNELS) {
-+		dev_err(dev, "led-sources count %u exceeds maximum channel count %u\n",
-+			num_channels, TPS6131X_MAX_CHANNELS);
-+		return -EINVAL;
-+	}
-+
-+	ret = fwnode_property_read_u32_array(tps6131x->led_node, "led-sources", channels,
-+					     num_channels);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to read led-sources property\n");
-+		return ret;
-+	}
-+
-+	flash_max_i_ma = 0;
-+	torch_max_i_ma = 0;
-+	for (i = 0; i < num_channels; i++) {
-+		switch (channels[i]) {
-+		case 1:
-+			tps6131x->chan1_en = true;
-+			flash_max_i_ma += TPS6131X_FLASH_MAX_I_CHAN13_MA;
-+			torch_max_i_ma += TPS6131X_TORCH_MAX_I_CHAN13_MA;
-+			break;
-+		case 2:
-+			tps6131x->chan2_en = true;
-+			flash_max_i_ma += TPS6131X_FLASH_MAX_I_CHAN2_MA;
-+			torch_max_i_ma += TPS6131X_TORCH_MAX_I_CHAN2_MA;
-+			break;
-+		case 3:
-+			tps6131x->chan3_en = true;
-+			flash_max_i_ma += TPS6131X_FLASH_MAX_I_CHAN13_MA;
-+			torch_max_i_ma += TPS6131X_TORCH_MAX_I_CHAN13_MA;
-+			break;
-+		default:
-+			dev_err(dev, "led-source out of range [1-3]\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	/*
-+	 * If only channels 1 and 3 are used, the step size is doubled because the two channels
-+	 * share the same current control register.
-+	 */
-+	current_step_multiplier =
-+		(tps6131x->chan1_en && tps6131x->chan3_en && !tps6131x->chan2_en) ? 2 : 1;
-+	tps6131x->step_flash_current_ma = current_step_multiplier * TPS6131X_FLASH_STEP_I_MA;
-+	tps6131x->step_torch_current_ma = current_step_multiplier * TPS6131X_TORCH_STEP_I_MA;
-+
-+	ret = fwnode_property_read_u32(tps6131x->led_node, "led-max-microamp", &current_ua);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to read led-max-microamp property\n");
-+		return ret;
-+	}
-+
-+	tps6131x->max_torch_current_ma = current_ua / 1000;
-+
-+	if (!tps6131x->max_torch_current_ma || tps6131x->max_torch_current_ma > torch_max_i_ma ||
-+	    (tps6131x->max_torch_current_ma % tps6131x->step_torch_current_ma)) {
-+		dev_err(dev, "led-max-microamp out of range or not a multiple of %u\n",
-+			tps6131x->step_torch_current_ma);
-+		return -EINVAL;
-+	}
-+
-+	ret = fwnode_property_read_u32(tps6131x->led_node, "flash-max-microamp", &current_ua);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to read flash-max-microamp property\n");
-+		return ret;
-+	}
-+
-+	tps6131x->max_flash_current_ma = current_ua / 1000;
-+
-+	if (!tps6131x->max_flash_current_ma || tps6131x->max_flash_current_ma > flash_max_i_ma ||
-+	    (tps6131x->max_flash_current_ma % tps6131x->step_flash_current_ma)) {
-+		dev_err(dev, "flash-max-microamp out of range or not a multiple of %u\n",
-+			tps6131x->step_flash_current_ma);
-+		return -EINVAL;
-+	}
-+
-+	ret = fwnode_property_read_u32(tps6131x->led_node, "flash-max-timeout-us", &timeout_us);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to read flash-max-timeout-us property\n");
-+		return ret;
-+	}
-+
-+	timer_config = tps6131x_find_closest_timer_config(timeout_us);
-+	tps6131x->max_timeout_us = timer_config->time_us;
-+
-+	if (tps6131x->max_timeout_us != timeout_us)
-+		dev_warn(dev, "flash-max-timeout-us %u not supported (using %u)\n", timeout_us,
-+			 tps6131x->max_timeout_us);
-+
-+	return 0;
-+}
-+
-+static int tps6131x_led_class_setup(struct tps6131x *tps6131x)
-+{
-+	struct led_classdev *led_cdev;
-+	struct led_flash_setting *setting;
-+	struct led_init_data init_data = {};
-+	static const struct tps6131x_timer_config *timer_config;
-+	int ret;
-+
-+	tps6131x->fled_cdev.ops = &flash_ops;
-+
-+	setting = &tps6131x->fled_cdev.timeout;
-+	timer_config = tps6131x_find_closest_timer_config(0);
-+	setting->min = timer_config->time_us;
-+	setting->max = tps6131x->max_timeout_us;
-+	setting->step = 1; /* Only some specific time periods are supported. No fixed step size. */
-+	setting->val = setting->min;
-+
-+	setting = &tps6131x->fled_cdev.brightness;
-+	setting->min = tps6131x->step_flash_current_ma;
-+	setting->max = tps6131x->max_flash_current_ma;
-+	setting->step = tps6131x->step_flash_current_ma;
-+	setting->val = setting->min;
-+
-+	led_cdev = &tps6131x->fled_cdev.led_cdev;
-+	led_cdev->brightness_set_blocking = tps6131x_brightness_set;
-+	led_cdev->max_brightness = tps6131x->max_torch_current_ma;
-+	led_cdev->flags |= LED_DEV_CAP_FLASH;
-+
-+	init_data.fwnode = tps6131x->led_node;
-+	init_data.devicename = NULL;
-+	init_data.default_label = NULL;
-+	init_data.devname_mandatory = false;
-+
-+	ret = devm_led_classdev_flash_register_ext(&tps6131x->client->dev, &tps6131x->fled_cdev,
-+						   &init_data);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+#if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
-+
-+static int tps6131x_flash_external_strobe_set(struct v4l2_flash *v4l2_flash, bool enable)
-+{
-+	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
-+	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
-+
-+	guard(mutex)(&tps6131x->lock);
-+
-+	return tps6131x_set_mode(tps6131x, enable ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
-+				 false);
-+}
-+
-+static const struct v4l2_flash_ops tps6131x_v4l2_flash_ops = {
-+	.external_strobe_set = tps6131x_flash_external_strobe_set,
-+};
-+
-+static int tps6131x_v4l2_setup(struct tps6131x *tps6131x)
-+{
-+	struct v4l2_flash_config v4l2_cfg = { 0 };
-+	struct led_flash_setting *intensity = &v4l2_cfg.intensity;
-+
-+	intensity->min = tps6131x->step_torch_current_ma;
-+	intensity->max = tps6131x->max_torch_current_ma;
-+	intensity->step = tps6131x->step_torch_current_ma;
-+	intensity->val = intensity->min;
-+
-+	strscpy(v4l2_cfg.dev_name, tps6131x->fled_cdev.led_cdev.dev->kobj.name,
-+		sizeof(v4l2_cfg.dev_name));
-+
-+	v4l2_cfg.has_external_strobe = true;
-+	v4l2_cfg.flash_faults = LED_FAULT_TIMEOUT | LED_FAULT_OVER_TEMPERATURE |
-+				LED_FAULT_SHORT_CIRCUIT | LED_FAULT_UNDER_VOLTAGE |
-+				LED_FAULT_LED_OVER_TEMPERATURE;
-+
-+	tps6131x->v4l2_flash = v4l2_flash_init(&tps6131x->client->dev, tps6131x->led_node,
-+					       &tps6131x->fled_cdev, &tps6131x_v4l2_flash_ops,
-+					       &v4l2_cfg);
-+	if (IS_ERR(tps6131x->v4l2_flash)) {
-+		dev_err(&tps6131x->client->dev, "v4l2_flash_init failed\n");
-+		return PTR_ERR(tps6131x->v4l2_flash);
-+	}
-+
-+	return 0;
-+}
-+
-+#else
-+
-+static int tps6131x_v4l2_setup(struct tps6131x *tps6131x)
-+{
-+	return 0;
-+}
-+
-+#endif
-+
-+static int tps6131x_probe(struct i2c_client *client)
-+{
-+	struct tps6131x *tps6131x;
-+	int ret;
-+
-+	tps6131x = devm_kzalloc(&client->dev, sizeof(*tps6131x), GFP_KERNEL);
-+	if (!tps6131x)
-+		return -ENOMEM;
-+
-+	tps6131x->client = client;
-+	i2c_set_clientdata(client, tps6131x);
-+	mutex_init(&tps6131x->lock);
-+	INIT_DELAYED_WORK(&tps6131x->torch_refresh_work, tps6131x_torch_refresh_handler);
-+
-+	ret = tps6131x_parse_node(tps6131x);
-+	if (ret)
-+		return -ENODEV;
-+
-+	tps6131x->regmap = devm_regmap_init_i2c(client, &tps6131x_regmap);
-+	if (IS_ERR(tps6131x->regmap)) {
-+		ret = PTR_ERR(tps6131x->regmap);
-+		dev_err(&client->dev, "Failed to allocate register map\n");
-+		return ret;
-+	}
-+
-+	tps6131x->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
-+	ret = tps6131x_reset_chip(tps6131x);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret, "Failed to reset LED controller\n");
-+
-+	ret = tps6131x_init_chip(tps6131x);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret, "Failed to initialize LED controller\n");
-+
-+	ret = tps6131x_led_class_setup(tps6131x);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret, "Failed to setup led class\n");
-+
-+	ret = tps6131x_v4l2_setup(tps6131x);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret, "Failed to setup v4l2 flash\n");
-+
-+	return 0;
-+}
-+
-+static void tps6131x_remove(struct i2c_client *client)
-+{
-+	struct tps6131x *tps6131x = i2c_get_clientdata(client);
-+
-+	v4l2_flash_release(tps6131x->v4l2_flash);
-+
-+	cancel_delayed_work_sync(&tps6131x->torch_refresh_work);
-+}
-+
-+static const struct of_device_id of_tps6131x_leds_match[] = {
-+	{ .compatible = "ti,tps61310" },
-+	{ .compatible = "ti,tps61311" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, of_tps6131x_leds_match);
-+
-+static struct i2c_driver tps6131x_i2c_driver = {
-+	.driver = {
-+		.name = "tps6131x",
-+		.of_match_table = of_tps6131x_leds_match,
-+	},
-+	.probe = tps6131x_probe,
-+	.remove = tps6131x_remove,
-+};
-+module_i2c_driver(tps6131x_i2c_driver);
-+
-+MODULE_DESCRIPTION("Texas Instruments TPS6131X flash LED driver");
-+MODULE_AUTHOR("Matthias Fend <matthias.fend@emfend.at>");
-+MODULE_LICENSE("GPL");
+Hello Abel,
 
--- 
-2.34.1
+On Fri, Feb 28, 2025 at 10:59:09AM +0200, Abel Vesa wrote:
+> On 25-02-27 19:09:39, Uwe Kleine-K=C3=B6nig wrote:
+> > On Thu, Feb 27, 2025 at 07:05:14PM +0200, Abel Vesa wrote:
+> > > On 25-02-27 18:32:41, Abel Vesa wrote:
+> > > > On 25-02-27 17:44:35, Abel Vesa wrote:
+> > > > > On 25-02-27 16:25:06, Uwe Kleine-K=C3=B6nig wrote:
+> > > > > > Hello Abel,
+> > > > > >=20
+> > > > > > On Thu, Feb 27, 2025 at 04:26:14PM +0200, Abel Vesa wrote:
+> > > > > > > On 25-02-27 10:58:47, Uwe Kleine-K=C3=B6nig wrote:
+> > > > > > > > Can you please enable CONFIG_PWM_DEBUG, enable pwm tracing (
+> > > > > > > >=20
+> > > > > > > > 	echo 1 > /sys/kernel/debug/tracing/events/pwm/enable
+> > > > > > > >=20
+> > > > > > > > ) then reproduce the problem and provide the output of
+> > > > > > > >=20
+> > > > > > > > 	cat /sys/kernel/debug/tracing/trace
+> > > > > > > >=20
+> > > > > > > > .
+> > > > > > >=20
+> > > > > > > $ cat trace
+> > > > > > > # tracer: nop
+> > > > > > > #
+> > > > > > > # entries-in-buffer/entries-written: 13/13   #P:12
+> > > > > > > #
+> > > > > > > #                                _-----=3D> irqs-off/BH-disab=
+led
+> > > > > > > #                               / _----=3D> need-resched
+> > > > > > > #                              | / _---=3D> hardirq/softirq
+> > > > > > > #                              || / _--=3D> preempt-depth
+> > > > > > > #                              ||| / _-=3D> migrate-disable
+> > > > > > > #                              |||| /     delay
+> > > > > > > #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> > > > > > > #              | |         |   |||||     |         |
+> > > > > > >         modprobe-203     [000] .....     0.938668: pwm_get: p=
+wmchip0.0: period=3D1066407 duty_cycle=3D533334 polarity=3D0 enabled=3D1 er=
+r=3D0
+> > > > > > >         modprobe-203     [000] .....     0.938775: pwm_apply:=
+ pwmchip0.0: period=3D5000000 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > > > >         modprobe-203     [000] .....     0.938821: pwm_get: p=
+wmchip0.0: period=3D4266537 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=3D0
+> > > > > > >         modprobe-203     [000] .....     0.938936: pwm_apply:=
+ pwmchip0.0: period=3D4266537 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=
+=3D0
+> > > > > > >         modprobe-203     [000] .....     0.938982: pwm_get: p=
+wmchip0.0: period=3D4266537 duty_cycle=3D0 polarity=3D0 enabled=3D1 err=3D0
+> > > > > > >         modprobe-203     [000] .....     0.939274: pwm_apply:=
+ pwmchip0.0: period=3D5000000 duty_cycle=3D921458 polarity=3D0 enabled=3D1 =
+err=3D0
+> > > > > > >         modprobe-203     [000] .....     0.939320: pwm_get: p=
+wmchip0.0: period=3D4266537 duty_cycle=3D921355 polarity=3D0 enabled=3D1 er=
+r=3D0
+> > > > > > >         modprobe-203     [000] .....     0.939434: pwm_apply:=
+ pwmchip0.0: period=3D4266537 duty_cycle=3D921355 polarity=3D0 enabled=3D1 =
+err=3D0
+> > > > > > >         modprobe-203     [000] .....     0.939480: pwm_get: p=
+wmchip0.0: period=3D4266537 duty_cycle=3D921355 polarity=3D0 enabled=3D1 er=
+r=3D0
+> > > > > > >  systemd-backlig-724     [006] .....     9.079538: pwm_apply:=
+ pwmchip0.0: period=3D5000000 duty_cycle=3D5000000 polarity=3D0 enabled=3D1=
+ err=3D0
+> > > > > > >  systemd-backlig-724     [006] .....     9.079585: pwm_get: p=
+wmchip0.0: period=3D4266537 duty_cycle=3D4266537 polarity=3D0 enabled=3D1 e=
+rr=3D0
+> > > > > > >  systemd-backlig-724     [006] .....     9.079698: pwm_apply:=
+ pwmchip0.0: period=3D4266537 duty_cycle=3D4266537 polarity=3D0 enabled=3D1=
+ err=3D0
+> > > > > > >  systemd-backlig-724     [006] .....     9.079750: pwm_get: p=
+wmchip0.0: period=3D4266537 duty_cycle=3D4266537 polarity=3D0 enabled=3D1 e=
+rr=3D0
+> > > > > > > $
+> > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > I didn't take a deeper dive in this driver combination, but=
+ here is a
+> > > > > > > > description about what *should* happen:
+> > > > > > > >=20
+> > > > > > > > You're talking about period in MHz, the PWM abstraction uses
+> > > > > > > > nanoseconds. So your summary translated to the PWM wording =
+is (to the
+> > > > > > > > best of my understanding):
+> > > > > > > >=20
+> > > > > > > >   1. PWM backlight driver requests PWM with .period =3D 200=
+ ns and
+> > > > > > > >      .duty_cycle =3D 200 ns.
+> > > > > > > >=20
+> > > > > > > >   2. leds-qcom-lpg cannot pick 200 ns exactly and then choo=
+ses .period =3D
+> > > > > > > >      1000000000 / 4.26666 MHz =3D 234.375 ns
+> > > > > > > >     =20
+> > > > > > > >   3. leds-qcom-lpg then determines setting for requested .d=
+uty_cycle
+> > > > > > > >      based on .period =3D 200 ns which then ends up with so=
+mething bogus.
+> > > > > >=20
+> > > > > > The trace looks better than what I expected. 2. is fine here be=
+cause it
+> > > > > > seems when Sebastian wrote "driver requests PWM with 5 MHz peri=
+od" that
+> > > > > > meant period =3D 5000000 ns. That was then rounded down to 4266=
+537 ns. And
+> > > > > > the request for period =3D 5000000 ns + duty_cycle =3D 5000000 =
+ns was
+> > > > > > serviced by configuring period =3D 4266537 ns + duty_cycle =3D =
+4266537 ns.
+> > > > > > So that's a 100 % relative duty configuration as intended.
+> > > > > >=20
+> > > > > > So just from the traces I don't spot a problem. Do these logs n=
+ot match
+> > > > > > what actually happens on the signal?
+> > > > >=20
+> > > > > What I do not get is why do we expect 2 pwm_get() and 2 pwm_apply=
+()
+> > > > > calls each time ?
+> > > >=20
+> > > > OK, so the second pwm_apply() is due to CONFIG_PWM_DEBUG.
+> >=20
+> > ack. This is done just for the tests implemented in CONFIG_PWM_DEBUG, as
+> > are the two pwm_get()s.
+> >=20
+> > > > But still, the first pwm_apply() requests duty cycle of 5MHz:
+> >=20
+> > 5 ms, yes. But it cannot give you 5 ms and so you get 4.266 ns.
+> >=20
+> > > > systemd-backlig-724     [006] .....     9.079538: pwm_apply: pwmchi=
+p0.0: period=3D5000000 duty_cycle=3D5000000 polarity=3D0 enabled=3D1 err=3D0
+> > > >=20
+> > > > So since the period is 4.26MHz, due to the knobs selected by the
+> > > > provider, this duty cycle will result in a PWM value that is above =
+the
+> > > > selected resolution, as I already mentioned.
+> >=20
+> > "above the selected resolution"? Do you mean you don't get the exact
+> > value that you requested?
+>=20
+> I think I understand your point now.
+>=20
+> You expectation is that the provider would remap the entire range of the
+> period to whatever the HW can do.
 
+If I understand you correctly, that's right. For a given hardware there
+is a set of possible periods P. .apply() should pick=20
+max{ p =E2=88=88 P | p =E2=89=A4 state->period }.
+
+And similar for duty_cycle: After choosing a possible period p =E2=88=88 P,
+there is a set D(p) of duty_cycles that the hardware can implement in
+combination to period p. .apply() should pick
+max{ d =E2=88=88 D(p) | d =E2=89=A4 state->duty_cycle }.
+
+> So in this case, when 5ms is requested as duty cycle from consumer, the=
+=20
+> provider will select the max value.
+
+Yes.
+
+> What the current implementation of the leds-qcom-lpg does is that will
+> expect a duty cycle request of up to 4.26ms. And according to you, even
+> if the consumer requests 5ms, the leds-qcom-lpg driver should write the
+> value of 255 (which is what the selected resolution allows (1 << 8) ) and
+> not compute a higher value.
+
+If the period is 4.26 ms, duty_cycle cannot be bigger than 4.26 ms. So
+yes, that's what the driver should do.
+
+> I think this is wrong though. The fact that the pwm generic framework
+> reports 5ms when it is actually 4.26ms should be considered wrong.
+
+After pwm_apply_might_sleep(mypwm, { .period =3D 5000000, .duty_cycle =3D
+5000000, .enabled =3D true }), pwm_get_state() gives you 5000000 and
+pwm_get_state_hw() gives you 4266537. You could argue that the
+functions's names and semantic are not optimal. Changing that is hard,
+see my failed attempt in 01ccf903edd6 ("pwm: Let pwm_get_state() return
+the last implemented state") + 40a6b9a00930 ("Revert "pwm: Let
+pwm_get_state() return the last implemented state"")
+
+So I don't see how the PWM framework is wrong here. Depending on what
+value you want to get, pick pwm_get_state() or pwm_get_state_hw().
+
+> For cases where the exact value of the duty cycle matters, this would
+> not even make sense.
+
+What is "this"? pwm_get_state() returning the last requested value? If
+you're interested in the last requested value, it does make sense.
+=20
+> Correct me if I'm wrong, but the pwm API should behave more like:
+> The consumer should ask for the closest period the HW can actually do
+> and then use that closest period from there on for every duty cycle
+> request.
+
+You can do that today using pwm_round_waveform_might_sleep() (however
+that needs some glue in the leds-qcom-lpg driver).
+
+And note that most in-kernel users don't care about exactness a lot. So
+the fire-and-forget approach is fine and it shouldn't be made more
+complicated for those.
+
+> This way, if the consumer initially wants 5ms but the provider
+> can do only 4.26ms instead, at least the consumer would be able to
+> correct its duty cycle requests based on what the HW says it can do.
+
+I agree that the consumer should be able to make an informed choice, and
+that was my focus when designing the waveform API. But I intend to not
+force that on (e.g.) the leds-pwm driver if that doesn't care about
+getting 4.26 ms or 5 ms.
+
+> > > On top of that, the duty cycle in debugfs is also reported as 5000000=
+ns
+> > > when in fact it is 4266666ns, as the trace shows.
+> >=20
+> > Yes. Consider that a relict from the times when there was no
+> > pwm_get_state_hw(). Both values are interesting in different situations.
+> > So just telling the real parameters isn't the optimal way forward
+> > either.
+> >=20
+> > Something like the patch I showed in
+> > https://lore.kernel.org/all/7bcnckef23w6g47ll5l3bktygedrcfvr7fk3qjuq2sw=
+toffhec@zs4w4tuh6qvm/
+>=20
+> And this patchset only adds the info of actual value that the HW is actua=
+lly doing.
+
+"only"? Yes, that's the intention of that patch. What should it do more?
+
+> So basically, the already existing state in this case will represent the
+> "desired" state.
+
+Yes, pwm->state tracks the state that was last passed to
+pwm_apply_might_sleep() (most of the time).
+=20
+> > would make you a bit luckier I guess. Feel free to polish that one a bit
+> > (e.g.  by checking the return value of pwm_get_state_hw() and acting
+> > sensible in reply to it) and send a proper patch. (A Suggested-by for me
+> > is enough for such a patch, grab authorship yourself.)
+> >=20
+> > > > > Need to dig a bit further.
+> > > > >=20
+> > > > > But meanwhile, if the first pwm_apply() call goes all the way to =
+the
+> > > > > provider, then the duty cycle value, when translated to the actua=
+l PWM
+> > > > > value that gets written to reg, will overflow.
+> >=20
+> > No it will not. The .duty_cycle value (also 5000000 ns) will reach the
+> > lowlevel PWM driver together with .period =3D 5000000 ns. Both are roun=
+ded
+> > down to 4266666ns. I see no overflow.=20
+>=20
+> Again, the consumer is being lied to. It expects 5ms and gets 4.26ms
+> instead.
+
+I see what you mean, but I don't agree. The semantic of
+pwm_apply_might_sleep() is: "Configure the state that is nearest to the
+passed state" (for some metric that defines "nearest"). The function
+returning 0 means: The hardware now has this nearest state.
+
+The semantic of pwm_get_state() is approximately: "What state was
+requested before?" So it will give you .period =3D 5000000 ns and
+=2Eduty_cycle =3D 5000000 ns.
+
+The semantic of pwm_get_state_hs() is: "What state is the hardware in?"
+So it will give you .period =3D 4266666 ns and .duty_cycle =3D 4266666 ns.
+
+So there are no lies, just wrong expectations about the semantic of
+these functions.
+
+And if you think that pwm_apply_might_sleep() should fail when 5000000
+ns is requested and it can only do 4266537 ns: Where should the line
+drawn that decides between "4977777 ns is still ok" and "4977777 ns is
+too far from 5000000 ns"?
+
+> Imagine a device that is controlled via PWM and needs exact duty cycle
+> values in ms, what would the consumer driver do in this case?
+
+Traditionally it would need some hardware specific extra information.
+Today it could work out the needed details with the waveform API
+functions (though this is hard because there are only two supported
+lowlevel drivers and no helper functions yet).
+
+> And to make things worse, when the consumer is asking for duty cycle of
+> 4ms while the period requested is 5ms (which would be 80%), the period
+> the provider will do is actually 4.26ms while the duty cycle would be
+> ~3.41ms, which if the pwm step (reg value) doesn't allow, it will probably
+> result in an actual value that is even further than what the consumer
+> is expecting.
+
+Where does ~3.41 ms come from? (I guess that's 0.8 * 4.26 ms.) Note that
+if you request .period =3D 5 ms and .duty_cycle =3D 4 ms, you get .period =
+=3D
+4.26 ms and the biggest duty_cycle not bigger than 4 ms that is possible
+with .period =3D 4.26 ms. So most likely not a 80% relative duty_cycle.
+
+> So I'm thinking maybe the pwm should probably even ask the provider
+> for what duty cycle it will provide based on provider's provided period
+> and then decide if the resulting duty cycle is what it really wants.
+
+Look into the waveform functions. The basic building blocks for what you
+want should be there.
+
+> IIRC, this is more in line with what the CCF (common clocks framework)
+> currently does.
+
+It does? There is clk_round_rate() but that is really hard to use
+because there are virtually no promises in that function. Consider you
+want a clock to run at 666666 Hz and clk_round_rate(yourclk, 666666)
+gives you 500000 Hz. What would you do? Even: What is the rate above
+666666 Hz that is as good as 500000 Hz for your usecase? Is it 833332 Hz
+or 888888 Hz? And do you want 666666 Hz or 666666.666666667 Hz and how
+does that influence your search for the right clkrate? And it has the
+same problem as the pwm waveform functions: Just because
+clk_round_rate(yourclk, 666666) returned 500000 200 ms ago, it doesn't
+mean that if I ask for 666666 now the world didn't change.
+
+Best regards
+Uwe
+
+--q67kilu5fjsok7m4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmfBmyEACgkQj4D7WH0S
+/k5NqAf/WApytnmHkQ66Co0aOUfhi42qw8eidGd2qhphO8rfJy+Ze2E9cYJMvVlw
+XfJGUdb5jIlCEp4FVPkr93dyOjIiczbx7x8dreARGUuvtfTb7dMF3+C4J1yJ8m+j
+42w1ZGCNNbUrU27vCCspiWkwsMuBz2ktAULCb9n+GtbfqUZtPto6jL7x40D14gqa
+GoAZ8Ak3OQrQr/hgvXCwq80p6diyz8oM3hlc+QeNQWRJ4ftEiyCBWQuKMEPRyst+
+7+1hS2S0ifHTf60mofwC9c5hUczTz8QAyXFllObCSbfpBP36KYiJo6NFhLlUzgEd
+bJuDM96lGOSmfyxKmbNRnqZR6/BGWg==
+=tLsR
+-----END PGP SIGNATURE-----
+
+--q67kilu5fjsok7m4--
 
