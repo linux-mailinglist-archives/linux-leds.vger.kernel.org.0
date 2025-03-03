@@ -1,121 +1,154 @@
-Return-Path: <linux-leds+bounces-4138-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4139-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A0AA4CC30
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Mar 2025 20:48:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B67FCA4CEAE
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Mar 2025 23:46:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A68C1740CB
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Mar 2025 19:48:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFF2F16A0A9
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Mar 2025 22:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F180D23312D;
-	Mon,  3 Mar 2025 19:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5202135C7;
+	Mon,  3 Mar 2025 22:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/EvZNex"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yj80RDLK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD1D230BCC;
-	Mon,  3 Mar 2025 19:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA6CEC4;
+	Mon,  3 Mar 2025 22:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741031332; cv=none; b=CKusIRONI2F0ClMJyhFqNvqPHVOVRzNycqc4NrlqNTLcym0JhP9iOrBQN1vm+22vfAng8F86ygjSflaWlwGeX+6lXRNSPuqnjF/gxR9sQZgrMUP39MwxAENO3fTKiODWdYkGHC5Weiw4R7TF/ziHVdhvq5VlO82+CMPjVfqXo0A=
+	t=1741042004; cv=none; b=Y6sf7TABLyH8DR8FX6v5xPfRIW+SUOr2Q+aWaORfah+t/8EUW3FXXPxJc0RKTIHHVl6j+/xJGVpNjxmcBx/hgExxpEQ2Kn1AGPVN17lDQNjgMZnSczp/D0XnMEhm08BVwcUOpuBE+WSdkfQ7Mkj2BMN2IYuvv5JYAgVNmYwZqz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741031332; c=relaxed/simple;
-	bh=lBzLxz9LoAQhSV4qYBwW+SfQKCXYH6lsg4FbRLNjFV8=;
+	s=arc-20240116; t=1741042004; c=relaxed/simple;
+	bh=OW5D+p+/vduzBlWS3j6sL24B87Evh3Ge81TPLw8Nuls=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C+57TDWKOJtKPIixskSipxdTZOPVIekzIRHk30FplaDmgUtlUr89BQ/26gWA4Be3ZFx7FElDGAvoo/yrgkawIoKi7Ohb1RXkDprHPt73264ABhaCnx2GqIAtgRxTB0ODHi+S4xWj90lDmWKBdRtWb0wiV1QQCwQZVgkjrOvqGsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/EvZNex; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741031331; x=1772567331;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lBzLxz9LoAQhSV4qYBwW+SfQKCXYH6lsg4FbRLNjFV8=;
-  b=X/EvZNexwEYWSYVX+BU+pWcGo20q9FsbxjsrLKb6QIbVOvlCxIVTnxNX
-   u1W12iJHaMTTP7IZAITSXFqHp6PY8R0VpC2N35+f+5HvcA7I1yKHKHJG6
-   pk2eyBE2zXd4DDzSH3CBO2+Z/tu1L84ghZIMg+v5En9151xNT9A4771kU
-   dL4lEMlkM/u7j1k6+zHwlcZjC1N0MqJlKzJNkS8J5HX/x81q1D2UeeiT3
-   KbbaHUCQ3oXpjLEKG4DFHUBF5qrMe8JruftINYNdtkYzrVtYcbKxLGaA7
-   D5axlfHG0cHRwJ1HxgyJ0X5o+R08zVAGe2pAYjkuchScsWjWVanznNcFp
-   w==;
-X-CSE-ConnectionGUID: UJd82ISCR3yLqRBfSGQJbA==
-X-CSE-MsgGUID: EJMW1Pu4QAOh4tCw48IFuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="53329438"
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="53329438"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 11:48:50 -0800
-X-CSE-ConnectionGUID: f0lih0fqSzWhfKMbfsMU2A==
-X-CSE-MsgGUID: QIYx0h9mR3CtXinwurqg0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="118135060"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Mar 2025 11:48:48 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tpBmQ-000Isc-0p;
-	Mon, 03 Mar 2025 19:48:46 +0000
-Date: Tue, 4 Mar 2025 03:48:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nam Tran <trannamatk@gmail.com>, pavel@kernel.org, lee@kernel.org,
-	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Nam Tran <trannamatk@gmail.com>
-Subject: Re: [PATCH v2 2/2] leds: add new LED driver for TI LP5812
-Message-ID: <202503040306.gen0Ui0l-lkp@intel.com>
-References: <20250225170601.21334-3-trannamatk@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sC8is+Nvj0ilYcwLcez69wzx4SC61mdo3e7NIRSFsxaBXCg/w/iCjA8S8zpLHCVfIulZ1T6Bz2qVaXEQRfGRlF/zmPhh2bp+jgnp308CvmIQayTaBlxgC+Hou534FsLhwqlCsUr9Kwae+50ZKuumN6bAzi4B/EdVDetC725o/RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yj80RDLK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A159C4CED6;
+	Mon,  3 Mar 2025 22:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741042003;
+	bh=OW5D+p+/vduzBlWS3j6sL24B87Evh3Ge81TPLw8Nuls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yj80RDLKKAlItSxFxz/tavuWKeTcL4wFMO3pcUjc1eJkryWusxiwJbiCU8DR4JY/c
+	 AbSKlq1+rDe3faQnVCPpVqJ5vtGZtSIPNW0fBb9ox8oyObdR2yiK0OGj3AgRHFK5T3
+	 E9Vl3YXSFcwI2rW9UGncLRB1j4UcfKCYAqX98b4kVo3JFWJLS4ZOHg8wusCXTQ94mX
+	 GP3ovEiwZVGHToZMsqdGwQaVXsq4FRQe1DUyqhDx8m4A3gePVRkfawpb3fA8GN1u8g
+	 qs2gTchu9Jhu5g1STeTpsCUcljIA6zk6Q67dihWXBB3dOLJvrh1pvTNItIhkpHwDCA
+	 1RZR5SBjHTTkA==
+Received: by venus (Postfix, from userid 1000)
+	id 19FCF1806F5; Mon, 03 Mar 2025 23:46:41 +0100 (CET)
+Date: Mon, 3 Mar 2025 23:46:40 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	Kamal Wadhwa <quic_kamalw@quicinc.com>, Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] leds: rgb: leds-qcom-lpg: Fix pwm resolution max
+ for normal PWMs
+Message-ID: <h2ipg2qfr7sjpasxxxhmular6fileku3lhrzamvuk6ltzr4fvp@4na3kpmhcmsp>
+References: <20250303-leds-qcom-lpg-fix-max-pwm-on-hi-res-v3-0-62703c0ab76a@linaro.org>
+ <20250303-leds-qcom-lpg-fix-max-pwm-on-hi-res-v3-1-62703c0ab76a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xqwo236sf227nizw"
 Content-Disposition: inline
-In-Reply-To: <20250225170601.21334-3-trannamatk@gmail.com>
+In-Reply-To: <20250303-leds-qcom-lpg-fix-max-pwm-on-hi-res-v3-1-62703c0ab76a@linaro.org>
 
-Hi Nam,
 
-kernel test robot noticed the following build errors:
+--xqwo236sf227nizw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/3] leds: rgb: leds-qcom-lpg: Fix pwm resolution max
+ for normal PWMs
+MIME-Version: 1.0
 
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on robh/for-next linus/master v6.14-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-Add-LP5812-LED-driver-bindings/20250226-011634
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250225170601.21334-3-trannamatk%40gmail.com
-patch subject: [PATCH v2 2/2] leds: add new LED driver for TI LP5812
-config: x86_64-randconfig-006-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040306.gen0Ui0l-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040306.gen0Ui0l-lkp@intel.com/reproduce)
+On Mon, Mar 03, 2025 at 01:52:50PM +0200, Abel Vesa wrote:
+> Ideally, the requested duty cycle should never translate to a PWM
+> value higher than the selected resolution (PWM size), but currently the
+> best matched period is never reported back to the PWM consumer, so the
+> consumer will still be using the requested period which is higher than
+> the best matched one. This will result in PWM consumer requesting
+> duty cycle values higher than the allowed PWM value.
+>=20
+> In case of normal PWMs (non Hi-Res), the current implementation is
+> capping the PWM value at a 9-bit resolution, even when the 6-bit
+> resolution is selected.
+>=20
+> Fix the issue by capping the PWM value to the maximum value allowed by
+> the selected resolution.
+>=20
+> Fixes: 7a3350495d9a ("leds: rgb: leds-qcom-lpg: Add support for 6-bit PWM=
+ resolution")
+> Suggested-by: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503040306.gen0Ui0l-lkp@intel.com/
+Reviewed-by: Sebastian Reichel <sre@kernel.org>
 
-All errors (new ones prefixed by >>):
+Greetings,
 
->> ld.lld: error: undefined symbol: i2c_register_driver
-   >>> referenced by leds-lp5812.c:2313 (drivers/leds/leds-lp5812.c:2313)
-   >>>               vmlinux.o:(lp5812_driver_init)
---
->> ld.lld: error: undefined symbol: i2c_del_driver
-   >>> referenced by leds-lp5812.c:2313 (drivers/leds/leds-lp5812.c:2313)
-   >>>               vmlinux.o:(lp5812_driver_exit)
+-- Sebastian
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  drivers/leds/rgb/leds-qcom-lpg.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qco=
+m-lpg.c
+> index 4e5c56ded1f0412c9913670699e912b24f3408bd..4454fc6a38480b61916318dd1=
+70f3eddc32976d6 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -533,7 +533,7 @@ static void lpg_calc_duty(struct lpg_channel *chan, u=
+int64_t duty)
+>  		max =3D LPG_RESOLUTION_15BIT - 1;
+>  		clk_rate =3D lpg_clk_rates_hi_res[chan->clk_sel];
+>  	} else {
+> -		max =3D LPG_RESOLUTION_9BIT - 1;
+> +		max =3D BIT(lpg_pwm_resolution[chan->pwm_resolution_sel]) - 1;
+>  		clk_rate =3D lpg_clk_rates[chan->clk_sel];
+>  	}
+> =20
+>=20
+> --=20
+> 2.34.1
+>=20
+
+--xqwo236sf227nizw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmfGMUkACgkQ2O7X88g7
++ppe6A//bmFPDK8S9OKGe9vWPeq76fum0q/zWVog39gSifCJV0gdgXmMnv3nqnW7
+70TDNOaHiZHGLdH04txxuSfivSpM0/q8U8a/Ils3JldLs7JXzDPKAfXCqIbQhiik
+JsCMf9CcdezSj5jcRxBIEz9IXfJx3uy4KKJK2Iyz8AJWnyG2TKLTgYBIwxCExowN
+jmRmJES9R4qK3k8HFCMU1rU5zizb6vcOIYjhuzWI88xhD5Z2QCdGuoPGd8AmZFbT
+CAx08AY7yzC1OJUd4dJSwQxFMaHXgc5UyMzYJ+uLMKvwqAEfAMGYhVHBTb0XxCji
+P81sl6MRyHBApZlhtw48Wz1RwG2JnEfqQXGQydCLx1+i/Bkp9Bn5ofNwvi/wC87n
+qKJSdnDKClEVMEEz6+tk5NlhIoLnQyWelhLzYozw0vEAf639t7+pjf2kGypv0lWY
+HweBk5WyuEwydLuc/Jf0i1NBCLWMpHt84QgorYr+vai87gaovcRGsLHvhujQLnjw
+kG2+VM8M3xk67lb74ggKJhYEFr2iPHW5we3kyN6eiiz5SznSodhXK3iSinlNJz3+
+QQfnrucH86osNA/o/SJBDd/okQsaYJOzA6nuu3q1kJlSqYCd53US4j/Fe9lVrwDj
+tj4/hW94osfUfepUPa9jwL2Rl7gRV0Fln99sVZqXdGw3gS1haPw=
+=UN9N
+-----END PGP SIGNATURE-----
+
+--xqwo236sf227nizw--
 
