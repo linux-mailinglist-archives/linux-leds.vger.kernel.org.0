@@ -1,651 +1,331 @@
-Return-Path: <linux-leds+bounces-4178-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4179-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF97A55620
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Mar 2025 20:03:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2673A559D5
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Mar 2025 23:34:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96BD81605F8
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Mar 2025 19:03:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE9693B1D47
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Mar 2025 22:33:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B2B326D5A7;
-	Thu,  6 Mar 2025 19:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FE1827C840;
+	Thu,  6 Mar 2025 22:34:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="A3lXl5tt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXpdDUed"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D2825A2B5;
-	Thu,  6 Mar 2025 19:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C231F4185;
+	Thu,  6 Mar 2025 22:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741287785; cv=none; b=fPgAMex//r5w1xeNlxkRJBXnG5V1jP3zsH8UT7XqRm5kd4gDludRAWpTMJRKn8nz/GlvkIBAxXVg4pbLFJLazqHp3bzjbXC5Ma57CS7muqciGe87R9J5XWF/biOTo3J1cU0BbvbehQNV48XemLdoTG40eguUqZz49MmVfQ4euDc=
+	t=1741300448; cv=none; b=QzvUuBsraGUo4ONYqQ+CfCNF78z33hdnTDrYpzmN7i9rDYMVaq/BtI/SxW/nuS+nuzElwj25IZs+pmWtSoQMpR37OssAzt7jsVBGSFH9Fk7bKUlus8+ztHC+2Ew31hfIOF5RkY/qsBKXCL0SHviUjVmdG90BdYACsxsO0niT2ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741287785; c=relaxed/simple;
-	bh=kj5Vmw4cKQN/TQ8VqYNYKR0rJdxfE93ognsDe1M3Pfo=;
-	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
-	 In-Reply-To:Content-Type; b=bu4sHwZIYDV6mhHdtDeQem2d6MpTdQZoPghz1e+kcALmAbk5IfEsNxvljL9H0I+XCT4IQSGXNP8fBc/8VeWm/c7pY2x0+7wO7JlMRhG36xUsyoZImJiJQ1n1lPi7tDs7c+hD289TXf01fvHvQhI/YeJ2xB3UAlLKBuRo1gufhBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=A3lXl5tt; arc=none smtp.client-ip=80.12.242.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id qGLut4db0nwqeqGLxtYKJ1; Thu, 06 Mar 2025 19:53:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1741287234;
-	bh=yHhGP/Jm26P5uwbDPOENf49unxj+shHxyBA4UaYTmg0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To;
-	b=A3lXl5ttdRliA8u3heg1nxTFfnbcfzmZAqrviLjz+wZT7ZQ280NqTrvStqzG9QwWC
-	 +U5EdOw7ARIB+kvkQe5IzqnqwihoI6xPmZ4yEwDYF0L5/BroNobYKagD44W6cBjJ2O
-	 fGw5PGUJSZwzGX18h6bE//RwvsqaaIOMBuVvpGAJUw3FyWcp8EcJNO6DQgljwOAWpx
-	 mM8h8PVK77wa5FqUGG5f9tALK8/2xHIIiCgfu5u4mSK/i7viwRYmdooeRPrpPmmwQX
-	 19mdRHwv8bJhHKcIXFuHzvSyE+I6Of+8t0tys9q2c+52kZmIstqp/RMgGmqjb7LIpm
-	 PJETLfqstm/Uw==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Thu, 06 Mar 2025 19:53:54 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <50dab2fb-27ad-4a29-8af9-a0f07098cec2@wanadoo.fr>
-Date: Thu, 6 Mar 2025 19:53:49 +0100
+	s=arc-20240116; t=1741300448; c=relaxed/simple;
+	bh=CXCKeZkp6dZsmf/hiWK30FF5AgD2Ai6Q0+7StDdRcMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cg7oWiV//jDtNbxL7aEcBZ62wdoIznG2XjVO44ncKOTfztFJlfi2bYyRmfjN2AM9+P54MNRXG6d58aH3SrXGe4kjqeqMRbP548rrE8CtKOoiDgvu/lVY35xgUps0HwYe5sevN9Y/bnVBHuNm2CI/W/oU+xsejNVsN2KH+fLaxr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXpdDUed; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7C4C4CEE0;
+	Thu,  6 Mar 2025 22:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741300447;
+	bh=CXCKeZkp6dZsmf/hiWK30FF5AgD2Ai6Q0+7StDdRcMY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bXpdDUedTk+W+Me0w8gH+5QKskkivlz9zFAWKMHGDU/4f4zoCpwAzcx73uMcOYxjC
+	 gS5r+t1IlVxZ+KFqVW0qEmproX4Kwwh4KvKh1sw3TyGupseCn4Z7uRx9TlxIW4wupb
+	 w6eia0vtwQoOWQU4SywH+efsg3khqKYHJ2213ATsQa9q3UFE3NvwwSKzZaUSxGYPnt
+	 SDC59ggUXSqxYnf3gGdB7Lq1jy5IunpcUXVXNTxOAiyOIwsyYUdZEO1KyTOIt/R+/1
+	 7btsw9s3/SMVG33gFxfmO0euvst7prNjh38A3lDgae35FGd4UnMRxG/YWmNXkOasfC
+	 8TqbjXVw8zkow==
+Date: Thu, 6 Mar 2025 23:34:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: neil.armstrong@linaro.org
+Cc: Abel Vesa <abel.vesa@linaro.org>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>, 
+	Kamal Wadhwa <quic_kamalw@quicinc.com>, Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Sebastian Reichel <sre@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] leds: rgb: leds-qcom-lpg: Compute PWM value based on
+ period instead
+Message-ID: <6abeyzvb6iyqd2z3phemoesk3c7n7ye5ybcpe6wtlepl3jhimu@g74ptgnq5wkv>
+References: <20250303-leds-qcom-lpg-compute-pwm-value-using-period-v1-1-833e729e3da2@linaro.org>
+ <ylnkjxnukss7askv7ip5htrb4tyjzhpw7jim2se6rloleq5h6w@ngk7lbk26hxj>
+ <Z8bGHV4PIkY4te6V@linaro.org>
+ <5uk75v3cpy2hymdgjyvqdwyda34t2pn7jqyupyvhmqgo3wlxkl@uim4lth7lipa>
+ <Z8hgj11p+TY1546x@linaro.org>
+ <997d4cf8-5256-4413-8059-569451962a83@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] leds: add new LED driver for TI LP5812
-References: <20250306172126.24667-1-trannamatk@gmail.com>
- <20250306172126.24667-4-trannamatk@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: trannamatk@gmail.com
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
- lee@kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- pavel@kernel.org, robh@kernel.org
-In-Reply-To: <20250306172126.24667-4-trannamatk@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a7hxg7ecmf44lnyx"
+Content-Disposition: inline
+In-Reply-To: <997d4cf8-5256-4413-8059-569451962a83@linaro.org>
 
-Le 06/03/2025 à 18:21, Nam Tran a écrit :
-> The chip can drive LED matrix 4x3.
-> This driver enables LED control via I2C.
-> 
-> The driver is implemented in two parts:
-> - Core driver logic in leds-lp5812.c
-> - Common support functions in leds-lp5812-common.c
-> 
-> Signed-off-by: Nam Tran <trannamatk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
 
-A few comments/nitpicks.
+--a7hxg7ecmf44lnyx
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC] leds: rgb: leds-qcom-lpg: Compute PWM value based on
+ period instead
+MIME-Version: 1.0
 
-Some of them can be applied in several places, I've not spotted all of 
-them, but you get the idea.
+Hello Neil,
 
-Hoping, this will help to clean the code and help other reviewers.
+On Wed, Mar 05, 2025 at 03:42:56PM +0100, neil.armstrong@linaro.org wrote:
+> On 05/03/2025 15:32, Abel Vesa wrote:
+> > On 25-03-04 16:38:57, Uwe Kleine-K=C3=B6nig wrote:
+> > > On Tue, Mar 04, 2025 at 11:21:33AM +0200, Abel Vesa wrote:
+> > > > On 25-03-04 07:24:32, Uwe Kleine-K=C3=B6nig wrote:
+> > > > > I guess you spend some time understanding the workings of the dri=
+ver and
+> > > > > you also have an example request that results in a hardware
+> > > > > configuration you don't like. Please share the latter to a) suppo=
+rt your
+> > > > > case and b) make it easier for your reviewers to judge if your ch=
+ange is
+> > > > > indeed an improvement.
+> > > >=20
+> > > > Sure, will bring up the 5ms period scenario again.
+> > > >=20
+> > > > When the consumer requests a period of 5ms, the closest the HW can =
+do in
+> > > > this case is actually 4.26ms. Since the PWM API will continue to as=
+k for
+> > > > duty cycle values based on the 5ms period, for any duty cycle value
+> > > > between 4.26ms and 5ms, the resulting PWM value will be above 255, =
+which
+> > > > has been selected as best resolution for the 4.26ms best matched pe=
+riod.
+> > > >=20
+> > > > For example, when 5ms duty cycle value is requested, it will result=
+ in a
+> > > > PWM value of 300, which overflows the 255 selected resolution.
+> > >=20
+> > > this is the bug you have to fix then. The PWM value (that defines the
+> > > duty cycle) has to be calculated based on .period =3D 4.26 ms and cap=
+ped
+> > > at 255. So assuming that 0 yields a duty cycle of 0 ms and 255 yields
+> > > 4.26 ms, a request for .duty_cycle =3D 4; + .period =3D 5 should resu=
+lt in an
+> > > actual .duty_cycle =3D 239 / 255 * 4.26 ms =3D 3.992705882352941 ms;
+> > > + .period =3D 4.26 ms.
+> >=20
+> > OK then. The patchset that fixes this according to your suggestion is
+> > already on the list (re-spun):
+> >=20
+> > https://lore.kernel.org/all/20250305-leds-qcom-lpg-fix-max-pwm-on-hi-re=
+s-v4-0-bfe124a53a9f@linaro.org/
 
-> +
-> +static ssize_t led_mode_store(struct kobject *kobj,
-> +		struct kobj_attribute *attr, const char *buf, size_t count)
-> +{
-> +	int val, ret;
-> +	struct lp5812_led *led = to_lp5812_led(kobj);
-> +	struct lp5812_chip *chip = led->priv;
-> +
-> +	if (sysfs_streq(buf, "manual")) {
-> +		/* Remove AEU sysfs interface for current led in manual mode */
-> +		aeu_remove_multi_sysfs_groups(led);
-> +		val = 0;
+Yeah, I thought so. It's in my review queue.
 
-Maybe use AUTONOMOUS or MANUAL directly.
+> > > > > > So change the way the PWM value is determined as a ratio betwee=
+n the
+> > > > > > requested period and duty cycle, mapped on the resolution inter=
+val.
+> > > > >=20
+> > > > > Is the intention here that (for the picked period) a duty_cycle is
+> > > > > selected that approximates the requested relative duty_cycle (i.e.
+> > > > > .duty_cycle / .period)?
+> > > >=20
+> > > > Yes, that exactly what the intention is.
+> > > >=20
+> > > > > If it's that: Nack. This might be the right thing for your use ca=
+se, but
+> > > > > it's wrong for others, it complicates the driver because you have=
+ spend
+> > > > > more effort in the calculation and (from my POV even worse) the d=
+river's
+> > > > > behaviour deviates from the usual one for pwm drivers. I admit th=
+ere are
+> > > > > some other lowlevel pwm drivers that are not aligned to the proce=
+dure I
+> > > > > described that should be used to determine the register settings =
+for a
+> > > > > given request. But I target a common behaviour of all pwm drivers
+> > > > > because that is the only way the pwm API functions can make a pro=
+mise to
+> > > > > its consumers about the resulting behaviour. Reaching this is dif=
+ficult,
+> > > > > because some consumers might depend on the "broken" behaviour of =
+a given
+> > > > > lowlevel driver (and also because analysing a driver to check and=
+ fix
+> > > > > its behaviour is an effort). But "fixing" a driver to deviate fro=
+m the
+> > > > > declared right behaviour is wrong and includes all downsides that=
+ make
+> > > > > me hesitate to align the old drivers to the common policy.
+> > > >=20
+> > > > OK, fair enough. But I still don't get what you expect from the pro=
+vider
+> > > > that can't give the exact requested period. Do you expect the consu=
+mer
+> > > > to request a period, then provider compute a best matched one, whic=
+h in
+> > > > our case is pretty far, and then still give exact duty cycle values=
+ ?
+> > > >=20
+> > > > Like: request 5ms period, get 4.26ms instead, then request 4ms duty
+> > > > cycle and get exact 4ms duty cycle when measured, instead of a
+> > > > proportional value to the best matched period?
+> > >=20
+> > > Yes.
+> > > > If so, then what happens when consumer asks for 5ms duty cycle?
+> > > > Everything above the 4.26ms will just represent 100% duty cycle.
+> > >=20
+> > > Yes.
+> >=20
+> > I still think this is wrong.
 
-> +	} else if (sysfs_streq(buf, "autonomous")) {
-> +		val = 1;
-> +	} else {
-> +		return -EINVAL;
-> +	}
-> +
-> +	mutex_lock(&chip->lock);
-> +	ret = lp5812_set_led_mode(chip, led->led_number,
-> +			val ? AUTONOMOUS : MANUAL);
-> +	if (ret) {
-> +		ret = -EIO;
-> +		goto out;
-> +	}
-> +
-> +	ret = aeu_create_multi_sysfs_groups(led);
-> +	if (ret) {
-> +		dev_err(chip->dev, "aeu_create_multi_sysfs_groups() failed\n");
-> +		goto out;
-> +	}
-> +
-> +	mutex_unlock(&chip->lock);
-> +	return count;
-> +out:
-> +	mutex_unlock(&chip->lock);
-> +	return ret;
-> +}
+Well, if you asked for .period =3D 5ms and .duty_cycle =3D 5ms you even
+asked for a 100% relative duty cycle. So while I agree that you don't
+usually get exactly what you requested, this is a bad example to rant
+about.
 
-...
+> I also think this is very wrong, duty_cycle is a factor of the period,
+> so if the HW gives a lower period, the term Pulse Width Modulation implies
+> the ratio between the "duty_cycle" and the period is important,
+> not the exact duration of the components of the modulation.
 
-> +static ssize_t led_manual_pwm_store(struct kobject *kobj,
-> +		struct kobj_attribute *attr, const char *buf, size_t count)
-> +{
-> +	int manual_pwm;
-> +	int ret;
-> +	struct lp5812_led *led = to_lp5812_led(kobj);
-> +	struct lp5812_chip *chip = led->priv;
-> +
-> +	ret = kstrtoint(buf, 0, &manual_pwm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (manual_pwm < 0 || manual_pwm > 255)
-> +		return -EINVAL; /* Invalid argument */
+In Linux .duty_cycle was expressed in ns and not relative to period.
+Apart from that being a historic choice that is hard to change, IMHO
+this is a sane choice because in the kernel we have to stick to integer
+math and then if you want to express a relative duty_cycle you probably
+have to pick a divisor D such that .rel_duty_cycle =3D n represents a
+relative duty_cycle of n / D. What to pick for D? 100 to get percent as
+unit? Something bigger to increase precision? A power of two to match
+usual hardwares but make it less intuitive for humans? Also note that
+for some hardwares the "natural" divisor is 255.
+=20
+> So is this a defect of the PWM API ? why would the API insist on
+> having an exact duty_cycle and a random period ?
 
-Useless comment (here and in several other places)
+The way to determine the actual hardware dependent settings for a
+requested pair of duty_cycle and period is IMHO straight forward, so
+duty_cycle selection isn't more exact than the one for period and period
+isn't more random than the one for duty_cycle. It can also happen the
+other way round that your request results in an near exact match for
+period and a big deviation for duty_cycle. So judging the defects of the
+PWM API from just one example is short-sighted.
 
-> +
-> +	/* set to hardware */
-> +	mutex_lock(&chip->lock);
-> +	if (lp5812_manual_dc_pwm_control(chip, led->led_number,
-> +		manual_pwm, PWM)) {
-> +		mutex_unlock(&chip->lock);
-> +		return -EIO;
-> +	}
-> +	mutex_unlock(&chip->lock);
-> +
-> +	return count;
-> +}
+But still I hear you and the rules were defined as they are as a
+trade-off between consumer needs, needed complexity in lowlevel
+drivers and what most drivers already did at that time.
 
-...
+Regarding consumer needs: I agree that most consumers care about the
+relative duty_cycle. But there are exceptions. I remember a motor where
+the absolute length of the duty_cycle defines the rotation speed and the
+period was more or less irrelevant. While here the point mostly goes to
+"keep relative duty_cycle", it's still a "you cannot please everyone"
+situation.
 
-> +static ssize_t led_auto_dc_store(struct kobject *kobj,
-> +		struct kobj_attribute *attr, const char *buf, size_t count)
-> +{
-> +	int auto_dc;
-> +	int ret;
-> +	struct lp5812_led *led = to_lp5812_led(kobj);
-> +	struct lp5812_chip *chip = led->priv;
-> +
-> +	ret = kstrtoint(buf, 0, &auto_dc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (auto_dc < 0 || auto_dc > 255)
-> +		return -EINVAL; /* Invalid argument */
+Regarding complexity: A simple PWM typically has a fixed clock input and
+there is a register to define the period as a number of clock cycles.
+Then there are essentially two subtypes:
 
-Useless comment
+ a) the duty_cycle register uses the same time base as the period
+    register; and
+ b) the duty_cycle register unit is relative to the period length.
 
-> +
-> +	/* set to hardware */
-> +	mutex_lock(&chip->lock);
-> +	if (lp5812_autonomous_dc_pwm_control(chip, led->led_number,
-> +			auto_dc, ANALOG)) {
-> +		mutex_unlock(&chip->lock);
-> +		return -EIO;
-> +	}
-> +	mutex_unlock(&chip->lock);
-> +
-> +	return count;
-> +}
+Let's assume a clock input rate of 32768 Hz, so one cycle tick is
+q :=3D 1 / (32768 Hz) =E2=89=85 0.030517578125 ms. So the typical PWM of ty=
+pe a)
+has a 16 bit register for period and another one for duty_cycle. I think
+it's quite obvious that the chosen policy is very simple to implement
+for such a device, so I won't go into that further. Considering the
+"keep relative duty_cycle + round down" policy instead and a
+request .period =3D 5ms and .duty_cycle =3D 3ms. The best match for .period
+is 163q =E2=89=85 4.974365234375 ms. Then to calculate the duty_cycle you h=
+ave
+do determine: 163q * 3 / 5 =3D 97q =E2=89=85 2.960205078125 ms giving an ac=
+tual
+relative duty_cycle of 0.5950920245398773. This is quite a good fit.
+Using the "use the absolute values" policy we end up with duty_cycle =3D
+98q =E2=89=85 2.99072265625 (and the same period) which gives a relative
+duty_cycle of 0.6012269938650306. The result is somewhat similar (with
+0.6012269938650306 being a slightly better result as
+0.5950920245398773?), but the calculation needed for the "use the
+absolute values" is a bit simpler. In summary we can say that it's
+quite natural to round down both values in the "use the absolute values"
+case independent of your preferred policy, while rounding down in
+combination with the "keep relative duty_cycle" policy is tends to be
+worse because the duty_cycle register value is rounding down the result
+of a calculation that has a rounded value as input, so precision
+suffers. If your reflex now is to not always round down but sometimes(?)
+round up, please consider maintenance effort: This must be reviewed and
+it must be explained to driver authors. So that's not a good idea.
 
-...
+Now let's consider a PWM of type b) with the same input clock freq. To
+be able to define the duty cycle in time units relative to the period,
+the period can be a multiple of 256q and the .duty_cycle register is an
+8 bit one. 256q is already above 5 ms, so to get a fairer comparison
+let's assume a request of .period =3D 1280 ms and .duty_cycle =3D 768 ms
+(which is the above request just scaled by 256). So period ends up being
+163 * 256q =3D 1273.4375 ms. With the "use the absolute values" policy we
+end up with .duty_cycle =3D 163 * 154q =E2=89=85 766.05224609375 ms giving =
+an
+relative duty_cycle of 0.6015625 and with the "keep relative duty_cycle"
+policy you end up with .duty_cycle =3D 163 * 153q =E2=89=85 761.07788085937=
+5 ms
+and a relative duty_cycle of 0.59765625. In summary for b) there is
+again not much difference in the resulting configurations and complexity
+is again similar with a slight advantage for "keep relative duty_cycle".
 
-> +static int parse_autonomous_animation_config(struct lp5812_led *led,
-> +		const char *user_buf)
-> +{
-> +	int ret;
-> +	int i;
-> +	char *str;
-> +	char *sub_str;
-> +	int aeu_select, start_pause_time, stop_pause_time, led_playback_time;
-> +
-> +	str = kmalloc(strlen(user_buf) + 1, GFP_KERNEL);
+Without having done a complete survey back when I decided about the
+policy to pick my impression was that PWMs of type a) were more common.
+Also in my impression back then the difference in complexity between the
+two policies to chose among is smaller for type b) than for type a)
+which gives another slight advantage to "use the absolute values".
 
-kstrdup()?
+Also looking at the drivers back then, "use the absolute values" policy
+was the more common one. Additionally I didn't like the fact that for
+the "keep relative duty_cycle" policy you have to base the calculation
+of duty_cycle on rounded values.
+So overall this made me pick the "use the absolute values" policy. And
+please believe me when I say this wasn't a whim of the moment decision
+but I invested quite some thought.
 
-> +	if (!str)
-> +		return -ENOMEM;
-> +	strscpy(str, user_buf, strlen(user_buf) + 1);
-> +
-> +	/* parse aeu_select */
-> +	sub_str = strsep(&str, ":");
-> +	ret = kstrtoint(sub_str, 0, &aeu_select);
-> +	if (ret)
-> +		return ret;
-> +	if (aeu_select < 1 || aeu_select > 3)
-> +		return -EINVAL;
-> +
-> +	aeu_remove_multi_sysfs_groups(led);
-> +
-> +	for (i = 0; i < aeu_select; i++)
-> +		aeu_create_sysfs_group(&led->aeu[i]);
-> +	led->led_playback.s_led_playback.aeu_selection = aeu_select - 1;
-> +
-> +	/* parse start_pause_time */
-> +	sub_str = strsep(&str, ":");
-> +	if (sub_str) {
-> +		ret = kstrtoint(sub_str, 0, &start_pause_time);
-> +		if (ret)
-> +			return ret;
-> +		if (start_pause_time < 0 || start_pause_time > 15)
-> +			return -EINVAL;
-> +		led->start_stop_pause_time.s_time.second = start_pause_time;
-> +	} else {
-> +		led->start_stop_pause_time.s_time.second = 15;
-> +	}
-> +
-> +	/* parse stop_pause_time */
-> +	sub_str = strsep(&str, ":");
-> +	if (sub_str) {
-> +		ret = kstrtoint(sub_str, 0, &stop_pause_time);
-> +		if (ret)
-> +			return ret;
-> +		if (stop_pause_time < 0 || stop_pause_time > 15)
-> +			return -EINVAL;
-> +		led->start_stop_pause_time.s_time.first = stop_pause_time;
-> +	} else {
-> +		led->start_stop_pause_time.s_time.first = 15;
-> +	}
-> +
-> +	/* parse led_playback_time */
-> +	sub_str = strsep(&str, ":");
-> +	if (sub_str) {
-> +		ret = kstrtoint(sub_str, 0, &led_playback_time);
-> +		if (ret)
-> +			return ret;
-> +		if (led_playback_time < 0 || led_playback_time > 15)
-> +			return -EINVAL;
-> +		led->led_playback.s_led_playback.led_playback_time =
-> +			led_playback_time;
-> +	} else {
-> +		led->led_playback.s_led_playback.led_playback_time = 15;
-> +	}
-> +
-> +	return 0;
-> +}
+The example you gave is somewhat a corner case because the requested and
+the actual period quite a lot---as you noticed yourself---and can be
+worked around by picking a better value for .period as I wrote in my
+previous mail. And no matter which policy you pick, depending on the use
+case for your consumer you will be able to find such degenerated
+examples.
 
-...
+Having said all that (and hoping that this made it better understandable
+why we're where we are), there is an effort to improve here and to give
+consumers a better control over what they get. (But for the needs of a
+backlight this is probably overkill, so I refer again to the suggestion
+to pick a period that better matches the hardware.)
 
-> +static ssize_t led_auto_animation_show(struct kobject *kobj,
-> +		struct kobj_attribute *attr, char *buf)
-> +{
-> +	int ret;
-> +	char tmp_str[256] = {};
-> +	char usage[128] = {};
-> +	char *aeu_select = "AEU Select: ";
-> +	char *start_pause_time = "Start pause time: ";
-> +	char *stop_pause_time = "; Stop pause time: ";
-> +	char *led_playback_time = "; LED Playback time: ";
-> +	int aeu_selection, playback_time, start_pause, stop_pause;
-> +	struct lp5812_led *led = to_lp5812_led(kobj);
-> +	struct lp5812_chip *chip = led->priv;
-> +
-> +	sprintf(usage, "%s%s",
-> +	"Command usage: echo (aeu number):(start pause time):",
-> +	"(stop pause time):(playback time) > autonomous_animation");
-> +
-> +	mutex_lock(&chip->lock);
-> +	ret = led_get_autonomous_animation_config(led);
-> +	if (ret) {
-> +		ret = -EIO;
-> +		goto out;
-> +	}
-> +
-> +	/* parse config and feedback to userspace */
-> +	aeu_selection = led->led_playback.s_led_playback.aeu_selection;
-> +	playback_time = led->led_playback.s_led_playback.led_playback_time;
-> +	start_pause = led->start_stop_pause_time.s_time.second;
-> +	stop_pause = led->start_stop_pause_time.s_time.first;
-> +	if (aeu_selection == ONLY_AEU1) {
-> +		sprintf(tmp_str, "%s%s%s%s%s%s%s%s\n", aeu_select,
+Best regards
+Uwe
 
-Maybe add a least 1 tab for all this parameters, to improve readability?
+--a7hxg7ecmf44lnyx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +		"Only use AEU1; ", start_pause_time,
-> +		time_name_array[start_pause], stop_pause_time,
-> +		time_name_array[stop_pause], led_playback_time,
-> +		led_playback_time_arr[playback_time]);
-> +	} else if (aeu_selection == AEU1_AEU2) {
-> +		sprintf(tmp_str, "%s%s%s%s%s%s%s%s\n", aeu_select,
-> +		"Use AEU1 and AEU2; ", start_pause_time,
-> +		time_name_array[start_pause], stop_pause_time,
-> +		time_name_array[stop_pause], led_playback_time,
-> +		led_playback_time_arr[playback_time]);
-> +	} else {
-> +		sprintf(tmp_str, "%s%s%s%s%s%s%s%s\n", aeu_select,
-> +		"Use AEU1,AEU2 and AEU3; ", start_pause_time,
-> +		time_name_array[start_pause], stop_pause_time,
-> +		time_name_array[stop_pause], led_playback_time,
-> +		led_playback_time_arr[playback_time]);
-> +	}
-> +	strcat(tmp_str, usage);
-> +	mutex_unlock(&chip->lock);
-> +	return sprintf(buf, "%s\n", tmp_str);
-> +
-> +out:
-> +	mutex_unlock(&chip->lock);
-> +	return ret;
-> +}
+-----BEGIN PGP SIGNATURE-----
 
-...
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmfKIs4ACgkQj4D7WH0S
+/k5G3Qf+LfPLUXjSugs3vSShRzDqiuv/8qLb3jpHnqA1pJg8wJixQ3MOVFSlWP/n
+jyJbGRMO8C5fyz7EaBhhSw+HByEmhIku6zoVgVdnJzY6FHkl+ekWmxfgFflmVTEI
+8OEf3TcAlVR1VsIGrj1YDorfGnjyAjhBC676mGoGxxlIEFcDzBZxqrSdeF28851n
+t4gxDYoWU756+7AWBKqeQmsaK5CU9bQNj1ssayaw02oEUDwBUd7qTcogm3Iy8/uy
+t752QOOkuZnaugmBf6viquQ6gf8sfVJ3CeSsaukLIO9uSSGTxiibOM4OloQcq2qo
+f49rq9XZc3ymvBsUZa+NcLTQz61n9Q==
+=T6yp
+-----END PGP SIGNATURE-----
 
-> +static ssize_t led_pwm_dimming_scale_store(struct kobject *kobj,
-> +		struct kobj_attribute *attr, const char *buf, size_t count)
-> +{
-> +	int val, ret;
-> +	struct lp5812_led *led = to_lp5812_led(kobj);
-> +	struct lp5812_chip *chip = led->priv;
-> +
-> +	if (sysfs_streq(buf, "linear"))
-> +		val = 0;
-
-Maybe use directly LINEAR or EXPONENTIAL to simplify the code?
-
-> +	else if (sysfs_streq(buf, "exponential"))
-> +		val = 1;
-> +	else
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&chip->lock);
-> +	ret = lp5812_set_pwm_dimming_scale(chip, led->led_number,
-> +			val ? EXPONENTIAL : LINEAR);
-> +	mutex_unlock(&chip->lock);
-> +	if (ret)
-> +		return -EIO;
-> +
-> +	return count;
-> +}
-
-...
-
-> +static struct attribute *led_kobj_attributes[] = {
-> +	&kobj_attr_enable.attr,
-> +	&kobj_attr_mode.attr,
-> +	&kobj_attr_manual_dc.attr,
-> +	&kobj_attr_manual_pwm.attr,
-> +	&kobj_attr_autonomous_dc.attr,
-> +	&kobj_attr_autonomous_animation.attr,
-> +	&kobj_attr_lod_lsd.attr,
-> +	&kobj_attr_auto_pwm_val.attr,
-> +	&kobj_attr_aep_status.attr,
-> +	&kobj_attr_pwm_phase_align.attr,
-> +	&kobj_attr_pwm_dimming_scale.attr,
-> +	NULL,
-
-Nitpick: unneeded comma after a terminator
-
-> +};
-
-...
-
-> +static ssize_t aeu_pwm4_store(struct kobject *kobj,
-> +		struct kobj_attribute *attr, const char *buf, size_t count)
-> +{
-> +	int val = 0;
-> +	int ret = 0;
-> +	struct anim_engine_unit *aeu = to_anim_engine_unit(kobj);
-> +	struct lp5812_chip *chip = aeu->led->priv;
-> +
-> +	ret = kstrtoint(buf, 0, &val);
-> +	if (ret)
-> +		return -EINVAL;
-> +	if (val < 0 || val > 255)
-> +		return -EINVAL; /* Invalid argument */
-
-This comment is not really useful.
-
-> +
-> +	mutex_lock(&chip->lock);
-> +	ret = led_aeu_pwm_set_val(aeu, val, PWM4);
-> +	if (ret != 0) {
-> +		mutex_unlock(&chip->lock);
-> +		return -EIO;
-> +	}
-> +	mutex_unlock(&chip->lock);
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t aeu_pwm4_show(struct kobject *kobj,
-> +		struct kobj_attribute *attr, char *buf)
-> +{
-> +	int ret = 0;
-> +	u8 val = 0;
-> +	struct anim_engine_unit *aeu = to_anim_engine_unit(kobj);
-> +	struct lp5812_chip *chip = aeu->led->priv;
-> +
-> +	mutex_lock(&chip->lock);
-> +	ret = led_aeu_pwm_get_val(aeu, &val, PWM4);
-> +	mutex_unlock(&chip->lock);
-> +	if (ret)
-> +		return -EIO;
-> +
-> +	return sprintf(buf, "%d\n", val);
-> +
-
-Maybe the core of aeu_pwm|14]_store() and aeu_pwm[14]_show() could be 
-implemented only once, with an additional parameter for PWx?
-
-}
-
-...
-
-> +static ssize_t aeu_playback_time_show(struct kobject *kobj,
-> +		struct kobj_attribute *attr, char *buf)
-> +{
-> +	int ret = 0;
-> +	u8 val = 0;
-> +	struct anim_engine_unit *aeu = to_anim_engine_unit(kobj);
-> +	struct lp5812_chip *chip = aeu->led->priv;
-> +
-> +	mutex_lock(&chip->lock);
-> +	ret = led_aeu_playback_time_get_val(aeu, &val);
-> +	if (ret != 0) {
-> +		mutex_unlock(&chip->lock);
-> +		return -EIO;
-> +	}
-> +	mutex_unlock(&chip->lock);
-> +
-> +	return sprintf(buf, "%d\n", val);
-
-sysfs_emit? (here and in mayne places)
-
-> +}
-> +
-> +static LP5812_KOBJ_ATTR_RW(pwm1, aeu_pwm1_show, aeu_pwm1_store);
-> +static LP5812_KOBJ_ATTR_RW(pwm2, aeu_pwm2_show, aeu_pwm2_store);
-> +static LP5812_KOBJ_ATTR_RW(pwm3, aeu_pwm3_show, aeu_pwm3_store);
-> +static LP5812_KOBJ_ATTR_RW(pwm4, aeu_pwm4_show, aeu_pwm4_store);
-> +static LP5812_KOBJ_ATTR_RW(pwm5, aeu_pwm5_show, aeu_pwm5_store);
-> +static LP5812_KOBJ_ATTR_RW(slope_time_t1, aeu_slope_time_t1_show,
-> +		aeu_slope_time_t1_store);
-> +static LP5812_KOBJ_ATTR_RW(slope_time_t2, aeu_slope_time_t2_show,
-> +		aeu_slope_time_t2_store);
-> +static LP5812_KOBJ_ATTR_RW(slope_time_t3, aeu_slope_time_t3_show,
-> +		aeu_slope_time_t3_store);
-> +static LP5812_KOBJ_ATTR_RW(slope_time_t4, aeu_slope_time_t4_show,
-> +		aeu_slope_time_t4_store);
-> +static LP5812_KOBJ_ATTR_RW(playback_time, aeu_playback_time_show,
-> +		aeu_playback_time_store);
-> +
-> +static struct attribute *aeu_kobj_attributes[] = {
-> +	&kobj_attr_pwm1.attr,
-> +	&kobj_attr_pwm2.attr,
-> +	&kobj_attr_pwm3.attr,
-> +	&kobj_attr_pwm4.attr,
-> +	&kobj_attr_pwm5.attr,
-> +	&kobj_attr_slope_time_t1.attr,
-> +	&kobj_attr_slope_time_t2.attr,
-> +	&kobj_attr_slope_time_t3.attr,
-> +	&kobj_attr_slope_time_t4.attr,
-> +	&kobj_attr_playback_time.attr,
-> +	NULL,
-
-Nitpick: unneeded comma after a terminator
-
-> +};
-> +
-> +static void aeu_init_properties(struct lp5812_led *led)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < MAX_AEU; i++) {
-> +		led->aeu[i].aeu_name = aeu_name_array[i];
-> +		led->aeu[i].aeu_number = i + 1;
-> +		led->aeu[i].led = led;
-> +		led->aeu[i].enabled = 0;
-> +		led->aeu[i].attr_group.attrs = aeu_kobj_attributes;
-> +		kobject_init(&led->aeu[i].kobj, &aeu_ktype);
-> +	}
-> +}
-> +
-> +static int lp5812_probe(struct i2c_client *client)
-> +{
-> +	struct lp5812_chip *chip;
-> +	int i;
-> +	int ret;
-> +	u8 val;
-> +
-> +	chip = devm_kzalloc(&client->dev, sizeof(struct lp5812_chip),
-> +			GFP_KERNEL);
-> +	if (!chip)
-> +		return -ENOMEM;
-> +	mutex_init(&chip->lock);
-> +	chip->i2c_cl = client;
-> +	chip->dev = &client->dev;
-> +	chip->regs = &regs;
-> +	chip->command = NONE;
-> +	chip->total_leds = MAX_LEDS;
-> +	chip->attr_group.name = "lp5812_chip_setup";
-> +	chip->attr_group.attrs = lp5812_chip_attributes;
-> +	chip->chip_leds_map = chip_leds_map;
-> +	chip->u_drive_mode.drive_mode_val = 0x10;
-> +	chip->u_scan_order.scan_order_val = 0x00;
-> +
-> +	/* initialize property for each led */
-> +	for (i = 0; i < MAX_LEDS; i++) {
-> +		chip->leds[i].led_name = led_name_array[i];
-> +		chip->leds[i].led_number = i;
-> +		chip->leds[i].anim_base_addr = anim_base_addr_array[i];
-> +		chip->leds[i].enable = 0; /* LED disable as default */
-> +		chip->leds[i].mode = MANUAL; /* manual mode as default */
-> +		chip->leds[i].priv = chip;
-> +		chip->leds[i].total_aeu = MAX_AEU;
-> +		chip->leds[i].led_playback.led_playback_val = 0;
-> +		chip->leds[i].start_stop_pause_time.time_val = 0;
-> +		/* sysfs for this led not be created */
-> +		chip->leds[i].is_sysfs_created = 0;
-> +		chip->leds[i].attr_group.attrs = led_kobj_attributes;
-> +		kobject_init(&chip->leds[i].kobj, &led_ktype);
-> +
-> +		/* init animation engine unit properties */
-> +		aeu_init_properties(&chip->leds[i]);
-> +
-> +		/* set autonomous animation config as default for all LEDs */
-> +		led_set_autonomous_animation_config(&chip->leds[i]);
-> +	}
-> +
-> +	i2c_set_clientdata(client, chip);
-> +
-> +	ret = sysfs_create_group(&chip->dev->kobj, &chip->attr_group);
-> +	if (ret) {
-> +		dev_err(chip->dev, "sysfs_create_group failed\n");
-
-Maybe return dev_err_probe?
-
-> +		return ret;
-> +	}
-> +
-> +	ret = lp5812_init_dev_config(chip, "tcmscan:4:0:1:2:3", 0);
-> +	if (ret) {
-> +		dev_err(chip->dev, "%s: lp5812_init_dev_config failed\n",
-> +			__func__);
-
-Maybe return dev_err_probe?
-
-> +		return ret;
-> +	}
-> +	/* initialize lp5812 chip */
-
-Nitpick: this comment is not really useful, IMHO, the line just after 
-should be enough
-
-> +	ret = lp5812_initialize(chip);
-
-Missing error handling?
-
-> +
-> +	/* code to verify i2c read/write ok or not */
-> +	lp5812_read(chip, (u16)DEV_CONFIG2, &val);
-> +
-> +	lp5812_write(chip, (u16)LED_A1_AUTO_BASE_ADRR, 0x14);
-> +	lp5812_read(chip, (u16)LED_A1_AUTO_BASE_ADRR, &val);
-> +	/* End code to verify i2c read/write*/
-> +
-> +	return 0;
-> +}
-> +
-> +static void lp5812_remove(struct i2c_client *client)
-> +{
-> +	struct lp5812_chip *chip = i2c_get_clientdata(client);
-> +
-> +	mutex_destroy(&chip->lock);
-> +	leds_remove_existed_sysfs(chip);
-> +	sysfs_remove_group(&chip->dev->kobj, &chip->attr_group);
-> +
-> +	/* Disable all Leds */
-
-Nitpick: this comment is not really useful, IMHI, the line just after 
-should be enough
-
-> +	lp5812_disable_all_leds(chip);
-> +
-> +	/* Disable lp5812 device */
-> +	lp5812_enable_disable(chip, 0);
-> +}
-> +
-> +static const struct i2c_device_id lp5812_id[] = {
-> +	{ "lp5812", 0 },
-
-Nitpick: unneeded explicit 0
-
-> +	{ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(i2c, lp5812_id);
-> +
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id of_lp5812_match[] = {
-> +	{ .compatible = "ti,lp5812", },
-> +	{/* NULL */},
-
-Nitpick: unneeded comma after a terminator
-
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, of_lp5812_match);
-> +#endif
-> +
-> +static struct i2c_driver lp5812_driver = {
-> +	.driver = {
-> +		.name   = "lp5812",
-> +		.of_match_table = of_match_ptr(of_lp5812_match),
-> +	},
-> +	.probe          = lp5812_probe,
-> +	.remove         = lp5812_remove,
-> +	.id_table       = lp5812_id,
-> +};
-> +
-> +module_i2c_driver(lp5812_driver);
-> +
-> +MODULE_DESCRIPTION("Texas Instruments LP5812 LED Driver");
-> +MODULE_AUTHOR("Jared Zhou");
-> +MODULE_LICENSE("GPL");
-
+--a7hxg7ecmf44lnyx--
 
