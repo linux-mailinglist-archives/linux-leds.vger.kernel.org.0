@@ -1,322 +1,691 @@
-Return-Path: <linux-leds+bounces-4160-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4161-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016A8A50283
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Mar 2025 15:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB989A549EA
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Mar 2025 12:48:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB0291885AB0
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Mar 2025 14:43:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A291B18872D8
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Mar 2025 11:47:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FFC24E006;
-	Wed,  5 Mar 2025 14:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5242040BD;
+	Thu,  6 Mar 2025 11:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hs1AY+IA"
+	dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b="ME/KzrKH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D2A2356A8
-	for <linux-leds@vger.kernel.org>; Wed,  5 Mar 2025 14:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741185781; cv=none; b=CHTO+VVUfAvwnVNhMr7kKkrI1Gy6ZyXi3au6Yo0NNhtftLoYxE+cf4C9KiPSgm4Gi3owOr/zBeTBrPE7Ai21ya9gTEg7PfgHRAeAUTkpfXsC98SSGl8ztkptvTeZu//5V+I5WMv3LPHIcLqXi26gtyqiVlrtADN2F6W7GEOdM50=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741185781; c=relaxed/simple;
-	bh=W/cFTtjUPjloF/TEE1KZm3u7DpwmHS8nwZr4v423BxE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FboQ9PElrKvfEtgIgVZ24gRSn+cnbGnZq+kACUw6VJfUP0S/GSwjhtEAplIBrfU2f8okFdnKE2/6lhA/5eecu9lE9vnBdIWjumLRGPaDxTQJ1rr+xyOsxdxGhqhDWOIMI//m609gBNIwFJ5odGBYXlLZWi2ttplBoC7qGz5Hmoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hs1AY+IA; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38dcac27bcbso629002f8f.0
-        for <linux-leds@vger.kernel.org>; Wed, 05 Mar 2025 06:42:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741185778; x=1741790578; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FRLdSry5OGKnrSFvS+LP96NBp0+rBD/EpukWTUX58+k=;
-        b=Hs1AY+IA6SS+nB9EnL97q9Hs0RU1ENouP1YrjQ5xi7TCwsM5r3b5bVu1Ubl6k4TIA2
-         sssFz//TjQq/jdgOueUgXLUChM5mIPxyWRLkoCZmQRqwS5Up8KxSXnhhpC32aeQv5mpS
-         GGfXjtcOmnk+1JTFQmcKJTdUhVvSvbjeOspm08BJ3Zm/pXaKnXE+wLxxDEF/Mi9FXFs0
-         dWnxT2Pp/w4FpCwdtDBPyEUCtbLmL28hQWUVXigqZCNQZtKtI+a3cAj2ownIwGLyeylJ
-         aUO8C23Zef8OgXyahWrr8xWXrUPsuIqqq/YSLKRn+43i2VaukQWeSVKH4vyGBhn1IaQg
-         Y5LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741185778; x=1741790578;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FRLdSry5OGKnrSFvS+LP96NBp0+rBD/EpukWTUX58+k=;
-        b=PnfrYvu/fThYkyTkOx/i3eZhH5iGHlZ3K+6SmJLeuPAJaXG4famxHuOp6ZjDvgFn8F
-         djdCmHcW1CDmtUF0edunkqdsmHB2eQUe+j1oUHLpmnrH5yUFDy9i47T9Ycsm7jXSQg0U
-         Yw3JMNTc1909Dpqx31WtL5xKTPJ3+7WniS56/oFyU/BwvuGhvfo3FRP8KJ4vvYb6r/AV
-         +Lg+JWlM8LoBgfJMXOxQM7SfIKJklM9NlZjbiGHtOHikPsXZATjus/D+yxHS90xmhrUi
-         PHLUXB6G2SQfO039z5sxn7QnDA9lMnlBNUBqQwVX+KQuvHUDd4YdIxBwFha4l63oY5cp
-         oxmA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6HHTo4vKO04yRLpbUWy15X+ddWx+6Wdwi5tqCa3IzJwIIz+nijfRSbFq8btcHV2WyS8SbZ8SDBo/h@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrGLYVseHenH9DaJAaNhIeuBLbkJwQjkfcbex+ana83Xr6DmGq
-	S0/hu4NUiijKM5jRez9ixHzHwzObiViq2UCM4KNsjC9YWp5vUs2PYZVF7719zew=
-X-Gm-Gg: ASbGncvpwhfz8V1d34BNp6HFwcAFMZOKfNkHdUrwUcXulbd5sH+UFsKmxl70TkgHX2d
-	DvIavJHuNXdTnORXr1VdzTrJx/arM8CzCU4Dld1wTF5L5kx2Q29xdrZn39TWAomzTgM71ba9KQ/
-	XcM96GFsm1FJTSIGhQ1x6eUZsprE2Ns7L0g6nz6yDH/43jsgkTfqrKcG8mYoRJkqDK6dETrjdb+
-	IASU4zMJuPRRb3URzXeTlMtxNAJkbhxVh6O4b/h4Rt9MMoxPZKJLYmEbCo6rS18KkjTBFYxAs12
-	N0fXQBh6x5O5EBZMENS9Rl1758LM6hQNDgymyfSk0iyo9u6ghs0WG6TcBFGUXBbYTcnq84SE09Z
-	mOc/9okZPtJafuaGUHdV2OA==
-X-Google-Smtp-Source: AGHT+IFiP6nXyFE7qfLHUsJAhYeWZSHp1CwIttpP4iE2kEDTy//u5ccfQX8sVcUhQe610fRL8SqZzw==
-X-Received: by 2002:a5d:64ab:0:b0:391:952:c74a with SMTP id ffacd0b85a97d-391155ffd95mr5535609f8f.8.1741185777755;
-        Wed, 05 Mar 2025 06:42:57 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:d001:4ab2:d11a:658b? ([2a01:e0a:982:cbb0:d001:4ab2:d11a:658b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e4795d30sm21510078f8f.10.2025.03.05.06.42.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 06:42:57 -0800 (PST)
-Message-ID: <997d4cf8-5256-4413-8059-569451962a83@linaro.org>
-Date: Wed, 5 Mar 2025 15:42:56 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6801FC7E7
+	for <linux-leds@vger.kernel.org>; Thu,  6 Mar 2025 11:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741261615; cv=pass; b=RNV2PFoEoZ1mVZL9cOmO0nOjirBVH7z5xhQa86eRk/umnXO5VBn9Ci7EGLH7WWV4ebDjKUQoiOPgmP6+juLrgPgfUEB9Jp6U5RqwdH9WkLrg4n23fmegBOz1zTbcrRxr382NRSbjHHX+9kpF+kA9YUzJIF1qt3ssvQ++5xAkVMg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741261615; c=relaxed/simple;
+	bh=zavRmVxYjPhQYJnj0OajdbN1d68PVP9o1DujpIFCayU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dc2sSb4dYR3ikctagBUnj9TrUfPUGacBADmEumWbT7MKkl6qcfJu0FzlWW3nRjzjcZlGLfWVL9q+9Qw3il3lCsZ6hbRtmAq5aj1yRtLCPN6KWlorfH6/25relFs+3Og1VWIfzmfotn0EGFgocoVZVo620PuoTqSl3KZqSMWEd3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au; spf=pass smtp.mailfrom=mcqueen.au; dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b=ME/KzrKH; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mcqueen.au
+ARC-Seal: i=1; a=rsa-sha256; t=1741261609; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=a38A1kAv0hYqPmgHYh5O3FlYMIoEHnOvpruRaCfSitFbVGn0j05KyTJAYvKF4RclAepNkzrer4HogJaMC1GZ0RQUVxcGkpyN7aMT9yQMzvpfnOLehDH7yGpzEWwOElxiQURV3O+gcgjxKP8muEp6wmPvMEI1bQ/RtTww4AP+6YY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1741261609; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=VI7ET+T2b7Xrf6C1ejtNtFR2SWrHW9Q9WoyguAEr9FM=; 
+	b=kCIkV+4bDX8vC+9VaJSu29m0n3J68JyvVGc5u6hxpMtEv8S4va9mYe5TvNmfnCz8d5oS3l8lJ1gIP0kUEO4nGfRfqhNxen109gu4RCYoj6AU0h/5l/vucLT00sx/tGQ/jzqFCFdmPrqIn93DUpXE153Wqk6D6YO8snt3bDU/h1o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=mcqueen.au;
+	spf=pass  smtp.mailfrom=craig@mcqueen.au;
+	dmarc=pass header.from=<craig@mcqueen.au>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741261609;
+	s=zmail; d=mcqueen.au; i=craig@mcqueen.au;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=VI7ET+T2b7Xrf6C1ejtNtFR2SWrHW9Q9WoyguAEr9FM=;
+	b=ME/KzrKHNhMVVY6mikwgUN5KvWbxmA+ZSry+IdD4jUbU0BYDZEj0pJdQLm5e6EnZ
+	EIOBYkPdLENK/RsVmXV8m0j4H5VUJtvsyumdqecFvMgtAljaBvELXTtoyod62S7/coZ
+	+MHutr9CX66DlmQdANY+7ZNdhHhJSz680LgKeyoE=
+Received: by mx.zohomail.com with SMTPS id 1741261607676118.49704133724515;
+	Thu, 6 Mar 2025 03:46:47 -0800 (PST)
+From: Craig McQueen <craig@mcqueen.au>
+To: linux-leds@vger.kernel.org
+Cc: Craig McQueen <craig@mcqueen.au>
+Subject: [PATCH] leds: Introduce userspace LED triggers driver
+Date: Thu,  6 Mar 2025 22:46:39 +1100
+Message-ID: <20250306114640.313793-1-craig@mcqueen.au>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFC] leds: rgb: leds-qcom-lpg: Compute PWM value based on
- period instead
-To: Abel Vesa <abel.vesa@linaro.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>,
- Kamal Wadhwa <quic_kamalw@quicinc.com>,
- Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250303-leds-qcom-lpg-compute-pwm-value-using-period-v1-1-833e729e3da2@linaro.org>
- <ylnkjxnukss7askv7ip5htrb4tyjzhpw7jim2se6rloleq5h6w@ngk7lbk26hxj>
- <Z8bGHV4PIkY4te6V@linaro.org>
- <5uk75v3cpy2hymdgjyvqdwyda34t2pn7jqyupyvhmqgo3wlxkl@uim4lth7lipa>
- <Z8hgj11p+TY1546x@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <Z8hgj11p+TY1546x@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 05/03/2025 15:32, Abel Vesa wrote:
-> On 25-03-04 16:38:57, Uwe Kleine-König wrote:
->> On Tue, Mar 04, 2025 at 11:21:33AM +0200, Abel Vesa wrote:
->>> On 25-03-04 07:24:32, Uwe Kleine-König wrote:
->>>> Hello Abel,
->>>>
->>>> On Mon, Mar 03, 2025 at 06:14:36PM +0200, Abel Vesa wrote:
->>>>> Currently, the implementation computes the best matched period based
->>>>> on the requested one, by looping through all possible register
->>>>> configurations. The best matched period is below the requested period.
->>>>
->>>> The best matched period *isn't above* the requested one. An exact match
->>>> is fine.
->>>>
->>>
->>> Yep, that's better. Will re-word.
->>>
->>>>> This means the PWM consumer could request duty cycle values between
->>>>> the best matched period and the requested period, which with the current
->>>>> implementation for computing the PWM value, it will result in values out
->>>>> of range with respect to the selected resolution.
->>>>
->>>> I still don't understand what you mean with resolution here.
->>>
->>> Resolution in this context means the number of bits the PWM value
->>> (register value) is represented in. Currently, the driver supporst two PWM
->>> HW subtypes: normal and Hi-Res. Normal ones recently got support for changing
->>> the resolution between 6 bits or 9 bits. The high resolution ones support
->>> anything between 8 bits and 15 bits.
->>>
->>>>
->>>> I guess you spend some time understanding the workings of the driver and
->>>> you also have an example request that results in a hardware
->>>> configuration you don't like. Please share the latter to a) support your
->>>> case and b) make it easier for your reviewers to judge if your change is
->>>> indeed an improvement.
->>>
->>> Sure, will bring up the 5ms period scenario again.
->>>
->>> When the consumer requests a period of 5ms, the closest the HW can do in
->>> this case is actually 4.26ms. Since the PWM API will continue to ask for
->>> duty cycle values based on the 5ms period, for any duty cycle value
->>> between 4.26ms and 5ms, the resulting PWM value will be above 255, which
->>> has been selected as best resolution for the 4.26ms best matched period.
->>>
->>> For example, when 5ms duty cycle value is requested, it will result in a
->>> PWM value of 300, which overflows the 255 selected resolution.
->>
->> this is the bug you have to fix then. The PWM value (that defines the
->> duty cycle) has to be calculated based on .period = 4.26 ms and capped
->> at 255. So assuming that 0 yields a duty cycle of 0 ms and 255 yields
->> 4.26 ms, a request for .duty_cycle = 4; + .period = 5 should result in an
->> actual .duty_cycle = 239 / 255 * 4.26 ms = 3.992705882352941 ms;
->> + .period = 4.26 ms.
-> 
-> OK then. The patchset that fixes this according to your suggestion is
-> already on the list (re-spun):
-> 
-> https://lore.kernel.org/all/20250305-leds-qcom-lpg-fix-max-pwm-on-hi-res-v4-0-bfe124a53a9f@linaro.org/
-> 
->>
->>>>> So change the way the PWM value is determined as a ratio between the
->>>>> requested period and duty cycle, mapped on the resolution interval.
->>>>
->>>> Is the intention here that (for the picked period) a duty_cycle is
->>>> selected that approximates the requested relative duty_cycle (i.e.
->>>> .duty_cycle / .period)?
->>>
->>> Yes, that exactly what the intention is.
->>>
->>>> If it's that: Nack. This might be the right thing for your use case, but
->>>> it's wrong for others, it complicates the driver because you have spend
->>>> more effort in the calculation and (from my POV even worse) the driver's
->>>> behaviour deviates from the usual one for pwm drivers. I admit there are
->>>> some other lowlevel pwm drivers that are not aligned to the procedure I
->>>> described that should be used to determine the register settings for a
->>>> given request. But I target a common behaviour of all pwm drivers
->>>> because that is the only way the pwm API functions can make a promise to
->>>> its consumers about the resulting behaviour. Reaching this is difficult,
->>>> because some consumers might depend on the "broken" behaviour of a given
->>>> lowlevel driver (and also because analysing a driver to check and fix
->>>> its behaviour is an effort). But "fixing" a driver to deviate from the
->>>> declared right behaviour is wrong and includes all downsides that make
->>>> me hesitate to align the old drivers to the common policy.
->>>
->>> OK, fair enough. But I still don't get what you expect from the provider
->>> that can't give the exact requested period. Do you expect the consumer
->>> to request a period, then provider compute a best matched one, which in
->>> our case is pretty far, and then still give exact duty cycle values ?
->>>
->>> Like: request 5ms period, get 4.26ms instead, then request 4ms duty
->>> cycle and get exact 4ms duty cycle when measured, instead of a
->>> proportional value to the best matched period?
->>
->> Yes.
->>   
->>> If so, then what happens when consumer asks for 5ms duty cycle?
->>> Everything above the 4.26ms will just represent 100% duty cycle.
->>
->> Yes.
-> 
-> I still think this is wrong.
+This driver creates a userspace LED triggers driver similar to
+uleds and uinput.
 
-I also think this is very wrong, duty_cycle is a factor of the period,
-so if the HW gives a lower period, the term Pulse Width Modulation implies
-the ratio between the "duty_cycle" and the period is important,
-not the exact duration of the components of the modulation.
+New LED triggers s are created by opening /dev/uledtriggers and writing
+a uledtriggers_user_dev struct. A new LED trigger is registered with the
+name given in the struct.
 
-So is this a defect of the PWM API ? why would the API insist on
-having an exact duty_cycle and a random period ?
+After the initial setup, writing an int value will set the trigger's
+brightness, equivalent to calling led_trigger_event().
 
-I mean if you look at the basis of PWM :
-https://en.wikipedia.org/wiki/Pulse-width_modulation
+Alternatively, there are ioctls for setup, changing trigger brightness,
+or doing blinking.
 
-The duty_cycle is expressed as a percentage of the period, because
-this is the key feature of PWM here, can you explain more in detail
-why we can't make an extra effort to keep the duty_cycle/period ratio ?
+Closing the file handle to /dev/uledtriggers will remove the LED
+trigger.
+---
+ Documentation/leds/uledtriggers.rst |  36 +++
+ drivers/leds/Kconfig                |   9 +
+ drivers/leds/Makefile               |   1 +
+ drivers/leds/uledtriggers.c         | 384 ++++++++++++++++++++++++++++
+ include/uapi/linux/uledtriggers.h   | 123 +++++++++
+ 5 files changed, 553 insertions(+)
+ create mode 100644 Documentation/leds/uledtriggers.rst
+ create mode 100644 drivers/leds/uledtriggers.c
+ create mode 100644 include/uapi/linux/uledtriggers.h
 
-Neil
-
-> 
-> I do agree with the exact value. I advocated for it on the other
-> thread.
-> 
-> But the fact that the API allows requests with values above what the
-> provider can do is wrong.
-> 
-> In this specific case, we are talking about top 15% that it just
-> thrown away. But it becomes even worse for others.
-> 
->>
->>>> The policy to pick a hardware setting is a compromise between consumer
->>>> needs and what is straight forward to implement for (most) hardware
->>>> drivers. Please stick to that. If you want more flexibility and
->>>> precision in your consumer, please consider converting the pwm driver to
->>>> the waveform API.
->>>
->>> That means the pwm_bl driver will have to switch to waveform API, IIUC.
->>
->> Yes, if the pwm_bl driver cares about that precision it has to switch.
->>
->> While the waveform API isn't expressive enough, just use 4260000 as
->> period in the pwm_bl device, or ignore the missing precision.
->>
->>> That might break other providers for the pwm_bl consumer, wouldn't it?
->>
->> Given that the consumer side of the waveform API only works with drivers
->> that are converted: maybe. You could fall-back to the legacy API.
-> 
-> Based on the provider's best matched period? Hm.
-> 
->>   
->>>>> [...]
->>>>> ---
->>>>> base-commit: 0067a4b21c9ab441bbe6bf3635b3ddd21f6ca7c3
->>>>
->>>> My git repo doesn't know that commit. Given that you said your patch
->>>> bases on that other series, this isn't surprising. Please use a publicly
->>>> available commit as base parameter, otherwise you (and I) don't benefit
->>>> from the armada of build bots because they just silently fail to test in
->>>> this case.
->>>
->>> Well, this is a pretty common practice. When the patch relies on other
->>> patches that haven't been merged yet, but are still on the list, you
->>> can't really base it on a publicly available commit.
->>>
->>> And the fixes patchset that this is based on is needed for this to work.
->>>
->>> So I really don't get how this can be done differently.
->>
->> You can still use --base=$newestpubliccommit and git-format-patch will
->> at least give a chance to the build bots by emitting patch-ids for all
->> the commits between the public base and the start of your patch series.
-> 
-> Got it. I use b4 for most patches nowadays. I'll try to make use of it's
-> --edit-deps and see where that lands.
-> 
->>
->> Best regards
->> Uwe
-> 
-> Thanks,
-> Abel
-> 
+diff --git a/Documentation/leds/uledtriggers.rst b/Documentation/leds/uledtriggers.rst
+new file mode 100644
+index 000000000000..6ec5cbf8f13e
+--- /dev/null
++++ b/Documentation/leds/uledtriggers.rst
+@@ -0,0 +1,36 @@
++======================
++Userspace LED Triggers
++======================
++
++The uledtriggers driver supports userspace LED triggers. This can be useful
++to create a more flexible architecture for applications to control LEDs.
++
++
++Usage
++=====
++
++When the driver is loaded, a character device is created at /dev/uledtriggers.
++To create a new LED trigger, open /dev/uledtriggers and write a
++uledtriggers_user_dev structure to it (found in kernel public header file
++linux/uledtriggers.h)::
++
++    #define LED_TRIGGER_MAX_NAME_SIZE 50
++
++    struct uledtriggers_user_dev {
++	char name[LED_TRIGGER_MAX_NAME_SIZE];
++    };
++
++A new LED trigger will be created with the name given. The name can consist of
++alphanumeric, hyphen and underscore characters.
++
++After the initial setup, writing an int value will set the trigger's
++brightness, equivalent to calling led_trigger_event().
++
++Alternatively, there are ioctls (defined in the public header file) for setup,
++changing trigger brightness, or doing blinking.
++
++The LED trigger will be removed when the open file handle to /dev/uledtriggers
++is closed.
++
++Multiple LED triggers are created by opening additional file handles to
++/dev/uledtriggers.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 2b27d043921c..7cd2fbcb1aa5 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -921,6 +921,15 @@ config LEDS_USER
+ 	  support in kernel. To compile this driver as a module, choose 'm' here:
+ 	  the module will be called uleds.
+ 
++config LED_TRIGGERS_USER
++	tristate "Userspace LED triggers support"
++	depends on LEDS_CLASS
++	select LEDS_TRIGGERS
++	help
++	  This option enables support for userspace LED triggers. Say 'y' to enable
++	  this support in kernel. To compile this driver as a module, choose 'm'
++	  here: the module will be called uledtriggers.
++
+ config LEDS_NIC78BX
+ 	tristate "LED support for NI PXI NIC78bx devices"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 6ad52e219ec6..c71569a59b15 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -108,6 +108,7 @@ obj-$(CONFIG_LEDS_SPI_BYTE)		+= leds-spi-byte.o
+ 
+ # LED Userspace Drivers
+ obj-$(CONFIG_LEDS_USER)			+= uleds.o
++obj-$(CONFIG_LED_TRIGGERS_USER)			+= uledtriggers.o
+ 
+ # Flash and Torch LED Drivers
+ obj-$(CONFIG_LEDS_CLASS_FLASH)		+= flash/
+diff --git a/drivers/leds/uledtriggers.c b/drivers/leds/uledtriggers.c
+new file mode 100644
+index 000000000000..4fdb8cf4c82d
+--- /dev/null
++++ b/drivers/leds/uledtriggers.c
+@@ -0,0 +1,384 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Userspace LED triggers driver
++ *
++ * Copyright (C) 2025 Craig McQueen <craig@mcqueen.au>
++ */
++#include <linux/ctype.h>
++#include <linux/fs.h>
++#include <linux/init.h>
++#include <linux/leds.h>
++#include <linux/miscdevice.h>
++#include <linux/module.h>
++
++#include <uapi/linux/uledtriggers.h>
++
++#define ULEDTRIGGERS_NAME	"uledtriggers"
++
++enum uledtriggers_state {
++	ULEDTRIGGERS_STATE_UNKNOWN,
++	ULEDTRIGGERS_STATE_REGISTERED,
++};
++
++enum uledtriggers_trig_state {
++	TRIG_STATE_EVENT,
++	TRIG_STATE_BLINK,
++};
++
++struct uledtriggers_device {
++	struct uledtriggers_user_dev	user_dev;
++	struct led_trigger	led_trigger;
++	struct mutex		mutex;
++	enum uledtriggers_state	state;
++	enum uledtriggers_trig_state	trig_state;
++	int			brightness;
++	unsigned long		trig_delay_on;
++	unsigned long		trig_delay_off;
++};
++
++static struct miscdevice uledtriggers_misc;
++
++static int set_led_trigger(struct uledtriggers_device *udev)
++{
++	int retval = 0;
++	enum uledtriggers_trig_state trig_state;
++
++	retval = mutex_lock_interruptible(&udev->mutex);
++	if (retval)
++		return retval;
++
++	trig_state = udev->trig_state;
++	switch (trig_state) {
++	default:
++	case TRIG_STATE_EVENT:
++		led_trigger_event(&udev->led_trigger, udev->brightness);
++		break;
++	case TRIG_STATE_BLINK:
++		led_trigger_blink(&udev->led_trigger, udev->trig_delay_on, udev->trig_delay_off);
++		break;
++	}
++	mutex_unlock(&udev->mutex);
++
++	return retval;
++}
++
++/*
++ * When an LED is connected to the trigger, this 'activate' function runs and
++ * sets the initial state of the LED.
++ */
++static int uledtriggers_trig_activate(struct led_classdev *led_cdev)
++{
++	struct led_trigger		*trig;
++	struct uledtriggers_device	*udev;
++
++	trig = led_cdev->trigger;
++	udev = container_of(trig, struct uledtriggers_device, led_trigger);
++	return set_led_trigger(udev);
++}
++
++static int uledtriggers_open(struct inode *inode, struct file *file)
++{
++	struct uledtriggers_device *udev;
++
++	udev = kzalloc(sizeof(*udev), GFP_KERNEL);
++	if (!udev)
++		return -ENOMEM;
++
++	mutex_init(&udev->mutex);
++	udev->state = ULEDTRIGGERS_STATE_UNKNOWN;
++
++	file->private_data = udev;
++	stream_open(inode, file);
++
++	return 0;
++}
++
++/*
++ * Name validation: Allow only alphanumeric, hyphen or underscore.
++ */
++static bool is_trigger_name_valid(const char * name)
++{
++	size_t i;
++
++	if (name[0] == '\0')
++		return false;
++
++	for (i = 0; i < TRIG_NAME_MAX; i++) {
++		if (name[i] == '\0')
++			break;
++		if (!isalnum(name[i]) && name[i] != '-' && name[i] != '_')
++			return false;
++	}
++	/* Length check. */
++	return (i < TRIG_NAME_MAX);
++}
++
++static int dev_setup(struct uledtriggers_device *udev, const char __user *buffer)
++{
++	const char *name;
++	int retval;
++
++	retval = mutex_lock_interruptible(&udev->mutex);
++	if (retval)
++		return retval;
++
++	if (udev->state == ULEDTRIGGERS_STATE_REGISTERED) {
++		retval = -EBUSY;
++		goto out;
++	}
++
++	if (copy_from_user(&udev->user_dev, buffer,
++			   sizeof(struct uledtriggers_user_dev))) {
++		retval = -EFAULT;
++		goto out;
++	}
++
++	name = udev->user_dev.name;
++	if (!is_trigger_name_valid(name)) {
++		retval = -EINVAL;
++		goto out;
++	}
++
++	udev->led_trigger.name = udev->user_dev.name;
++	udev->led_trigger.activate = uledtriggers_trig_activate;
++	retval = led_trigger_register(&udev->led_trigger);
++	if (retval < 0) {
++		udev->led_trigger.name = NULL;
++		goto out;
++	}
++
++	udev->state = ULEDTRIGGERS_STATE_REGISTERED;
++
++out:
++	mutex_unlock(&udev->mutex);
++
++	return retval;
++}
++
++static int write_brightness(struct uledtriggers_device *udev, const char __user *buffer)
++{
++	int retval;
++	int brightness;
++
++	retval = mutex_lock_interruptible(&udev->mutex);
++	if (retval)
++		return retval;
++
++	if (udev->state != ULEDTRIGGERS_STATE_REGISTERED) {
++		retval = -EBUSY;
++		goto out;
++	}
++
++	if (copy_from_user(&brightness, buffer,
++			   sizeof(brightness))) {
++		retval = -EFAULT;
++		goto out;
++	}
++
++	udev->trig_delay_on = 0u;
++	udev->trig_delay_off = 0u;
++	udev->brightness = brightness;
++	udev->trig_state = TRIG_STATE_EVENT;
++	led_trigger_event(&udev->led_trigger, brightness);
++
++out:
++	mutex_unlock(&udev->mutex);
++
++	return retval;
++}
++
++static ssize_t uledtriggers_write(struct file *file, const char __user *buffer,
++	size_t count, loff_t *ppos)
++{
++	struct uledtriggers_device *udev = file->private_data;
++	int retval;
++
++	if (count == 0)
++		return 0;
++
++	switch (udev->state) {
++	case ULEDTRIGGERS_STATE_UNKNOWN:
++		if (count != sizeof(struct uledtriggers_user_dev)) {
++			return -EINVAL;
++		}
++		retval = dev_setup(udev, buffer);
++		if (retval < 0)
++			return retval;
++		return count;
++	case ULEDTRIGGERS_STATE_REGISTERED:
++		if (count != sizeof(int)) {
++			return -EINVAL;
++		}
++		retval = write_brightness(udev, buffer);
++		if (retval < 0)
++			return retval;
++		return count;
++	default:
++		return -EBADFD;
++	}
++}
++
++static long uledtriggers_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++{
++	struct uledtriggers_device *udev = file->private_data;
++	struct uledtriggers_blink blink;
++	struct uledtriggers_blink_oneshot blink_oneshot;
++	int brightness;
++	int retval = 0;
++
++	/*
++	 * the direction is a bitmask, and VERIFY_WRITE catches R/W
++	 * transfers. `Direction' is user-oriented, while
++	 * access_ok is kernel-oriented, so the concept of "read" and
++	 * "write" is reversed
++	 */
++	retval = 0;
++	if (_IOC_DIR(cmd) & _IOC_READ)
++		retval = !access_ok((void __user *)arg, _IOC_SIZE(cmd));
++	else if (_IOC_DIR(cmd) & _IOC_WRITE)
++		retval = !access_ok((void __user *)arg, _IOC_SIZE(cmd));
++	if (retval)
++		return -EFAULT;
++
++	switch (cmd) {
++	case ULEDTRIGGERS_IOC_DEV_SETUP:
++		retval = dev_setup(udev, (const char __user *)arg);
++		break;
++
++	case ULEDTRIGGERS_IOC_OFF:
++		retval = mutex_lock_interruptible(&udev->mutex);
++		if (retval)
++			return retval;
++		if (udev->state != ULEDTRIGGERS_STATE_REGISTERED) {
++			mutex_unlock(&udev->mutex);
++			return -EINVAL;
++		}
++		udev->trig_delay_on = 0u;
++		udev->trig_delay_off = 0u;
++		udev->brightness = 0;
++		udev->trig_state = TRIG_STATE_EVENT;
++		led_trigger_event(&udev->led_trigger, LED_OFF);
++		mutex_unlock(&udev->mutex);
++		break;
++
++	case ULEDTRIGGERS_IOC_ON:
++		retval = mutex_lock_interruptible(&udev->mutex);
++		if (retval)
++			return retval;
++		if (udev->state != ULEDTRIGGERS_STATE_REGISTERED) {
++			mutex_unlock(&udev->mutex);
++			return -EINVAL;
++		}
++		udev->trig_delay_on = 0u;
++		udev->trig_delay_off = 0u;
++		udev->brightness = LED_FULL;
++		udev->trig_state = TRIG_STATE_EVENT;
++		led_trigger_event(&udev->led_trigger, LED_FULL);
++		mutex_unlock(&udev->mutex);
++		break;
++
++	case ULEDTRIGGERS_IOC_EVENT:
++		retval = copy_from_user(&brightness,
++			(int __user *)arg,
++			sizeof(brightness));
++		if (retval)
++			return retval;
++		retval = mutex_lock_interruptible(&udev->mutex);
++		if (retval)
++			return retval;
++		if (udev->state != ULEDTRIGGERS_STATE_REGISTERED) {
++			mutex_unlock(&udev->mutex);
++			return -EINVAL;
++		}
++		udev->trig_delay_on = 0u;
++		udev->trig_delay_off = 0u;
++		udev->brightness = brightness;
++		udev->trig_state = TRIG_STATE_EVENT;
++		led_trigger_event(&udev->led_trigger, brightness);
++		mutex_unlock(&udev->mutex);
++		break;
++
++	case ULEDTRIGGERS_IOC_BLINK:
++		retval = copy_from_user(&blink,
++			(struct uledtriggers_blink __user *)arg,
++			sizeof(blink));
++		if (retval)
++			return retval;
++		retval = mutex_lock_interruptible(&udev->mutex);
++		if (retval)
++			return retval;
++		if (udev->state != ULEDTRIGGERS_STATE_REGISTERED) {
++			mutex_unlock(&udev->mutex);
++			return -EINVAL;
++		}
++		udev->trig_delay_on = blink.delay_on;
++		udev->trig_delay_off = blink.delay_off;
++		udev->brightness = LED_FULL;
++		udev->trig_state = TRIG_STATE_BLINK;
++		led_trigger_blink(&udev->led_trigger, blink.delay_on, blink.delay_off);
++		mutex_unlock(&udev->mutex);
++		break;
++
++	case ULEDTRIGGERS_IOC_BLINK_ONESHOT:
++		retval = copy_from_user(&blink_oneshot,
++			(struct uledtriggers_blink_oneshot __user *)arg,
++			sizeof(blink_oneshot));
++		if (retval)
++			return retval;
++		if (blink_oneshot.__unused)
++			return -EINVAL;
++		retval = mutex_lock_interruptible(&udev->mutex);
++		if (retval)
++			return retval;
++		if (udev->state != ULEDTRIGGERS_STATE_REGISTERED) {
++			mutex_unlock(&udev->mutex);
++			return -EINVAL;
++		}
++		udev->trig_delay_on = 0u;
++		udev->trig_delay_off = 0u;
++		udev->brightness = blink_oneshot.invert ? LED_FULL : LED_OFF;
++		udev->trig_state = TRIG_STATE_EVENT;
++		led_trigger_blink_oneshot(&udev->led_trigger, blink_oneshot.delay_on, blink_oneshot.delay_off, blink_oneshot.invert);
++		mutex_unlock(&udev->mutex);
++		break;
++
++	default:
++		retval = -ENOIOCTLCMD;
++		break;
++	}
++
++	return retval;
++}
++
++static int uledtriggers_release(struct inode *inode, struct file *file)
++{
++	struct uledtriggers_device *udev = file->private_data;
++
++	if (udev->state == ULEDTRIGGERS_STATE_REGISTERED) {
++		udev->state = ULEDTRIGGERS_STATE_UNKNOWN;
++		led_trigger_unregister(&udev->led_trigger);
++	}
++	kfree(udev);
++
++	return 0;
++}
++
++static const struct file_operations uledtriggers_fops = {
++	.owner		= THIS_MODULE,
++	.open		= uledtriggers_open,
++	.release	= uledtriggers_release,
++	.write		= uledtriggers_write,
++	.unlocked_ioctl	= uledtriggers_ioctl,
++};
++
++static struct miscdevice uledtriggers_misc = {
++	.fops		= &uledtriggers_fops,
++	.minor		= MISC_DYNAMIC_MINOR,
++	.name		= ULEDTRIGGERS_NAME,
++};
++
++module_misc_device(uledtriggers_misc);
++
++MODULE_AUTHOR("Craig McQueen <craig@mcqueen.au>");
++MODULE_DESCRIPTION("Userspace LED triggers driver");
++MODULE_LICENSE("GPL");
+diff --git a/include/uapi/linux/uledtriggers.h b/include/uapi/linux/uledtriggers.h
+new file mode 100644
+index 000000000000..251fa0a31861
+--- /dev/null
++++ b/include/uapi/linux/uledtriggers.h
+@@ -0,0 +1,123 @@
++/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
++/*
++ * Userspace LED triggers driver support
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ */
++#ifndef _UAPI__ULEDTRIGGERS_H_
++#define _UAPI__ULEDTRIGGERS_H_
++
++/* See TRIG_NAME_MAX in linux/leds.h */
++#define LED_TRIGGER_MAX_NAME_SIZE	50
++
++/*
++ * Struct for initial write to setup, or ioctl ULEDTREGGERS_IOC_DEV_SETUP.
++ */
++struct uledtriggers_user_dev {
++	char name[LED_TRIGGER_MAX_NAME_SIZE];
++};
++
++/*
++ * Brightness levels for writes of int values, or for use with ULEDTRIGGERS_IOC_EVENT.
++ * These correspond to Linux kernel internal enum led_brightness in linux/leds.h.
++ */
++enum uledtriggers_brightness {
++	ULEDTRIGGERS_OFF		= 0,
++	ULEDTRIGGERS_ON			= 1,
++	ULEDTRIGGERS_HALF		= 127,
++	ULEDTRIGGERS_FULL		= 255,
++};
++
++/*
++ * Struct for ioctl ULEDTRIGGERS_IOC_BLINK.
++ */
++struct uledtriggers_blink {
++	unsigned long delay_on;
++	unsigned long delay_off;
++};
++
++/*
++ * Struct for ioctl ULEDTRIGGERS_IOC_BLINK_ONESHOT.
++ * Note padding at the end due to alignment (for 64-bit kernels). Ensure it's set to 0.
++ */
++struct uledtriggers_blink_oneshot {
++	unsigned long delay_on;
++	unsigned long delay_off;
++	int invert;
++	int __unused;
++};
++
++
++/* ioctl commands */
++
++#define ULEDTRIGGERS_IOC_MAGIC			't'
++
++/*
++ * Initial setup.
++ * E.g.:
++ *	int retval;
++ *	struct uledtriggers_user_dev dev_setup = { "transmogrifier" };
++ *	retval = ioctl(fd, ULEDTRIGGERS_IOC_DEV_SETUP, &dev_setup);
++ */
++#define ULEDTRIGGERS_IOC_DEV_SETUP	_IOW(ULEDTRIGGERS_IOC_MAGIC, 0x01, struct uledtriggers_user_dev)
++
++/*
++ * Turn the trigger off.
++ * E.g.:
++ *	int retval;
++ *	retval = ioctl(fd, ULEDTRIGGERS_IOC_OFF);
++ */
++#define ULEDTRIGGERS_IOC_OFF		_IO(ULEDTRIGGERS_IOC_MAGIC, 0x10)
++
++/*
++ * Turn the trigger on.
++ * E.g.:
++ *	int retval;
++ *	retval = ioctl(fd, ULEDTRIGGERS_IOC_ON);
++ */
++#define ULEDTRIGGERS_IOC_ON		_IO(ULEDTRIGGERS_IOC_MAGIC, 0x11)
++
++/*
++ * Set the LED trigger to a specified brightness.
++ * Refer to enum uledtriggers_brightness.
++ * E.g.:
++ *	int retval;
++ *	int brightness = ULEDTRIGGERS_FULL;
++ *	retval = ioctl(fd, ULEDTRIGGERS_IOC_EVENT, &brightness);
++ */
++#define ULEDTRIGGERS_IOC_EVENT		_IOW(ULEDTRIGGERS_IOC_MAGIC, 0x12, int)
++
++/*
++ * Set the LED trigger to blink continuously.
++ * E.g.:
++ *	int retval;
++ *	struct uledtriggers_blink blink;
++ *      blink.delay_on = 100;
++ *      blink.delay_off = 400;
++ *	retval = ioctl(fd, ULEDTRIGGERS_IOC_BLINK, &blink);
++ */
++#define ULEDTRIGGERS_IOC_BLINK		_IOW(ULEDTRIGGERS_IOC_MAGIC, 0x20, struct uledtriggers_blink)
++
++/*
++ * Set the LED trigger to blink once.
++ * E.g.:
++ *	int retval;
++ *	struct uledtriggers_blink_oneshot blink_oneshot;
++ *      blink_oneshot.delay_on = 100;
++ *      blink_oneshot.delay_off = 400;
++ *      blink_oneshot.invert = false;
++ *      blink_oneshot.__unused = 0;
++ *	retval = ioctl(fd, ULEDTRIGGERS_IOC_BLINK_ONESHOT, &blink_oneshot);
++ */
++#define ULEDTRIGGERS_IOC_BLINK_ONESHOT	_IOW(ULEDTRIGGERS_IOC_MAGIC, 0x21, struct uledtriggers_blink_oneshot)
++
++
++#endif /* _UAPI__ULEDTRIGGERS_H_ */
+-- 
+2.48.1
 
 
