@@ -1,79 +1,79 @@
-Return-Path: <linux-leds+bounces-4196-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4197-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945A9A56E57
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Mar 2025 17:51:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6770A56EC4
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Mar 2025 18:11:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE740167E9A
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Mar 2025 16:51:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F124C169A52
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Mar 2025 17:11:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35A03240608;
-	Fri,  7 Mar 2025 16:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC05423F262;
+	Fri,  7 Mar 2025 17:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eM3Clv7b"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giN/5gNc"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54A21C162
-	for <linux-leds@vger.kernel.org>; Fri,  7 Mar 2025 16:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAC6664C6
+	for <linux-leds@vger.kernel.org>; Fri,  7 Mar 2025 17:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741366249; cv=none; b=cV1pcWWMuLtqyJFuPVRiyLHFkZe1Moch8/fxo/yPlg9hkE05UOM3ZVUI48j3VMPYipnNe01YWpwKiZChTWQNOXkeFGxiKipDVKvHU3vgCIcL8omOoo+mf6Ogz3CeuF7qOXssyaGR8hU4dDb7zP6KL8e4wtSisUSXR+wo2dCXO2o=
+	t=1741367455; cv=none; b=Cb2eynXj/RPZLJ+CrDz5G9Hu5lvuD34qKB3GeMaXA3B0DKBzVNjWuKIMOxee85wBfvi1SsNMqicotzhvtrSZNEo0oESDgAPgVxi4WlLkG3cP6nqejc+UwFIGW0CdPkQhV+LnTKYEwCt1VHIyN/DxX99c+hDk3rbn8QySuHB6zlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741366249; c=relaxed/simple;
-	bh=jj7dx71kMu9MkyZWfYeYweZt7N0XXCoXl2tEtTomwSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qQMFDVvGeeW9yuemodkoB9JLy7Laj1DSYMNHze1xZph/Jtg72UvAboYDk5Evvmm5x8RC048eIGKDLhEb4cNaflQxktEO5YGIQ7IFG/QebyQfn+ry2woXFV4Bnhhph+fSb/bAFrl/WTFaBAlaDWMIqhyNjc2crQzdODZZAb0u6wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eM3Clv7b; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1741367455; c=relaxed/simple;
+	bh=ONYowQ21CajVTevfced1RzaPfukVNFUpj3cERbCpvPY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=PjvJz87f38y3x3C/UDdnfa19hve9eSq+x0c4yjdRSBaZSVIEBzWvF1rScqV930Z3mpaMNOR32j2akGeeZ9XxSiKb/iY4nYN86M1JiX0FwadE9Nmq5a/cIuY3aUoP3O0NyzR1d/gVIpUQ9vAaUs4dm5CXXzphMMjo+DCotkheL6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=giN/5gNc; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac25d2b2354so125497166b.1
-        for <linux-leds@vger.kernel.org>; Fri, 07 Mar 2025 08:50:47 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abbd96bef64so327782666b.3
+        for <linux-leds@vger.kernel.org>; Fri, 07 Mar 2025 09:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741366246; x=1741971046; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=gmail.com; s=20230601; t=1741367452; x=1741972252; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yzAYnfrrq+6Rme6B+Rynna6LB2QKY/LMmZNNcKZufyM=;
-        b=eM3Clv7bT3abmZ2+327fZrvBMnpeck6OkeDS06SiZw1r8IxRtDvV3zMfqqrjco6+NA
-         bAl4KVB+O0YlkT5rRknANMl9DQSw6pft0hkFC2dVvdjkNyUIttAOZpDKPJ+HA3eQr3ar
-         pvn0C2B5LCRagIn1oc+Bu+C32btz23X7Ht6QI2wJ4a1YWhXm3+DYj2jXMZcCCFhuGMnX
-         2RklQcKcJMqMPSXwHDgZpWDeX8QnAodrv79CONp8bEnDCWx75MR6hkN9xfIwxe0TqEy8
-         Wi2bg1/BVxnxb4MFr4JRMq6zA9RSAxc0GK8mcsaoonW+MZX9Cg4kiDNzFn3+CUiELDMv
-         YBLw==
+        bh=M9GWE9a4KzzowCZ//8InOwQzplXXDaLc1+h2aYuUNRg=;
+        b=giN/5gNc56PXgVU3qJPbu7mnkZfbMC9/XHufGwLWBUHETwj8JGTzWJPb7DlyPNWiSZ
+         3cjbWD07vZ3ACE8FHhcc+1N6WRnX218C9ioQc8Zm9FG+80F9h4Z7/I4/CvmdJXYDJ4PU
+         IQ8TrgeDnQLdrt/1kkJCsGKhNvIzGeM+wbM9nDOVPD3DgbUKahm5phXmT/2QwlOSqgjd
+         idhTmt/anHyaV0RD6eaCeM+y8egl0WW/9LUWqr3hjQ3lwZ9FMSFd9NyxvIG4UAf3NYLn
+         5RUBUn+rJJhUuSP17zoyPSOQf3Gk+8AWLcCxkBy0PqCajDEv1Q+fnXEdyN81/9IyKfHj
+         PEaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741366246; x=1741971046;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20230601; t=1741367452; x=1741972252;
+        h=content-transfer-encoding:in-reply-to:references:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yzAYnfrrq+6Rme6B+Rynna6LB2QKY/LMmZNNcKZufyM=;
-        b=Mpqv0s8ikXxEYY5VTTg1ceRli1iEsNbAOTntxWAMjLh3xias1asoS+Y121iuWL5Wd2
-         BR4cc8HnxQLevrceZ0EqYmpQFvkta5XGhxiLEG5mGh5C4api0bBHTdLhG6hZzpQPspHH
-         G6uZS3zgMrdxksGIaZWfoLc+eGBHtgiT8xVKiAxqKYf85lC/AkTuceXwnvRH2meFFtxF
-         mOS7DiJ7flM+0K+rz2uR3YbQTH90yUVUY9SHlsQc8V5yn+PFdY7rUTWxJEg9vMcKEhXe
-         j91leX0alV1XNoEG1FAkpN3oCZB7n+Dl8Z41NOILwBatpY91V9uv58bO4k+Ly7PTX9wO
-         2vXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXh0KwdKpzphklDCJ3UUPvOuxxNCVW9nN7f6Tr1w1WPRmtf/IqDzLkAvzXwR+wOqVuxWQNBFxO7ipiB@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSn9PG5ygWkctM828AfVycKghTg+PneoAgzMO+/TcNzIaqbUlD
-	N0Ep6v3lHbAhlWZoC88tCSyJR8R5xd67hx3o+Jul5lPxpElPa+JtDyXcKQ==
-X-Gm-Gg: ASbGncst1vRCkio9NGTe9ligLBNHDscF6mNuvBeQqbr6mGDNqph8qFeaOHnrpDIfV9k
-	2CuKTN5byNfde2tpn7ViJf7RV2y05jQd+W5LBs3Q9sJ1xn1EHtEJymhhKkJnRLmpg5vKUWkrFvb
-	3qi4LaRXsOhRbnLEk6CS4CUqTaLX61RLeHTMzLPg1CCw+rKAj+UZhJXOEnRT/sPQmoE9S3kPeB2
-	Gmw4cYVY+UVtVLvHrgXEgMhKVjopC+z0+EcabZtX/KfKApkToqzRbhOXbdQ4IyyUYTkhjjisRvD
-	lAT7MpMNd8keZccaISt9PDNUT4hKDK663T/T0kjQVU9S72b+xfzW5xvMfQ==
-X-Google-Smtp-Source: AGHT+IGSttZmJwSOUpc7WBJVDikQ0kX2Z2UrwuDM1EwKFiQJ/jFBgyqrNF78amSzVGKvFqW80L/S2A==
-X-Received: by 2002:a17:907:7ba4:b0:ac1:e2e0:f8d8 with SMTP id a640c23a62f3a-ac2525e052dmr516999466b.10.1741366245388;
-        Fri, 07 Mar 2025 08:50:45 -0800 (PST)
+        bh=M9GWE9a4KzzowCZ//8InOwQzplXXDaLc1+h2aYuUNRg=;
+        b=Xo+ioFFD+m+7aUDVRvFlqGAgWo/piiAge01GBPEGAdkFhHHnsql6HV9PpS33FbCitK
+         d1wnwOqfS6/U9yNwG5VCPw+P4H703NMjsZzZWzY0QbR9Wi8GTs8t1fKaNWb4Xamk9/k1
+         Z/gPtH0GDabELmDAOsZ0E3soNVQIJEC5IYP8z/KBfd2/aOF2gyulU9r34NcQy5l3ctqN
+         HEdyin1TI2X8wDdnrxOydPVL0pnTsstJsvlsSK8wpjBm9PidMfwflF2Q27N22Z38d1RK
+         WOuWD1avJNc423p5dcJkiX//kUYUtdLbV0TKILOIAUuBu2HAfwAVPDgaX6ccyj0qFI2j
+         Qdtw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1qPZlYUHKFaxKOv6QBRw1QIxXC+CptKpIXKYcRQTSMKj581NJbLUFpfRv9gqufGmJzEnwuptTyQsh@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+0YVMzKlrA1QywxZr25H2jEhD37wCEB647zfVwZqnV4t6Evfm
+	HR58GNQZ2WoyIKZXmAYWM3Bug8OLSFZD3jfhttNDGsWR4Lr094mVfm4vkA==
+X-Gm-Gg: ASbGncvNOgqv5fcnTMzoB3HdSZSD2RpwPJ6xXw42nysOpgJcMFH5CyNl7nik+rO1fzW
+	lZxRXKpYaLh/dVBWTaVHegMpZVgfqCwctT5gz3ui0piZ8bvwOkk5kjiYUsYaki2tvCkCOr2Sv7O
+	HOxHsqVSh6ApGwxB8kWrjK0LU3NmkuRZxROc07TbpahFcrJ3cM0vHgExTGyuI8AO9J7fmJmLAuz
+	nnNeYNg/QSi5MB6hVXbL8nV8D7icyJf+SH4bHDYZXjUiylBi0NzI1deWlONaQSUJ8mUvijC5Agw
+	tnHqUr9I0IDZ1gCiFMaqYDgimvm7e1+mQ+FBc/2aj2pROnJIQHYUpjhp+w==
+X-Google-Smtp-Source: AGHT+IHYNpQGJh0EMIDMrSI7Mxhm1fEiucl34klxZXb85sXsQqR/lTCe1Xbxn7IjIJUlsnwJse3a4g==
+X-Received: by 2002:a17:907:6e8e:b0:ab7:1012:3ccb with SMTP id a640c23a62f3a-ac252628ecamr480911366b.14.1741367451503;
+        Fri, 07 Mar 2025 09:10:51 -0800 (PST)
 Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac239488445sm301337666b.72.2025.03.07.08.50.44
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5c74a9315sm2807580a12.46.2025.03.07.09.10.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Mar 2025 08:50:44 -0800 (PST)
-Message-ID: <7ba6f144-0e5c-1d35-5ae0-9dc54751364b@gmail.com>
-Date: Fri, 7 Mar 2025 17:50:43 +0100
+        Fri, 07 Mar 2025 09:10:50 -0800 (PST)
+Message-ID: <3c63272f-681b-5fa1-0319-497343fb7acc@gmail.com>
+Date: Fri, 7 Mar 2025 18:10:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -85,43 +85,54 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
 Subject: Re: [PATCH] led-triggers: accept "default" written to sysfs trigger
  attr
 Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To: Craig McQueen <craig@mcqueen.au>, linux-leds@vger.kernel.org
 References: <20250306225524.318562-1-craig@mcqueen.au>
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20250306225524.318562-1-craig@mcqueen.au>
+ <7ba6f144-0e5c-1d35-5ae0-9dc54751364b@gmail.com>
+In-Reply-To: <7ba6f144-0e5c-1d35-5ae0-9dc54751364b@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Craig,
-
-On 3/6/25 23:55, Craig McQueen wrote:
-> If the text "default" is written to the LED's sysfs 'trigger' attr, then
-> call led_trigger_set_default() to set the LED to its default trigger.
-> ---
->   drivers/leds/led-triggers.c | 5 +++++
->   1 file changed, 5 insertions(+)
+On 3/7/25 17:50, Jacek Anaszewski wrote:
+> Hi Craig,
 > 
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index b2d40f87a5ff..f2bc3bb5062d 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -54,6 +54,11 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->   		goto unlock;
->   	}
->   
-> +	if (sysfs_streq(buf, "default")) {
-> +		led_trigger_set_default(led_cdev);
-> +		goto unlock;
-> +	}
-> +
->   	down_read(&triggers_list_lock);
->   	list_for_each_entry(trig, &trigger_list, next_trig) {
->   		if (sysfs_streq(buf, trig->name) && trigger_relevant(led_cdev, trig)) {
+> On 3/6/25 23:55, Craig McQueen wrote:
+>> If the text "default" is written to the LED's sysfs 'trigger' attr, then
+>> call led_trigger_set_default() to set the LED to its default trigger.
+>> ---
+>>   drivers/leds/led-triggers.c | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+>> index b2d40f87a5ff..f2bc3bb5062d 100644
+>> --- a/drivers/leds/led-triggers.c
+>> +++ b/drivers/leds/led-triggers.c
+>> @@ -54,6 +54,11 @@ ssize_t led_trigger_write(struct file *filp, struct 
+>> kobject *kobj,
+>>           goto unlock;
+>>       }
+>> +    if (sysfs_streq(buf, "default")) {
+>> +        led_trigger_set_default(led_cdev);
+>> +        goto unlock;
+>> +    }
+>> +
+>>       down_read(&triggers_list_lock);
+>>       list_for_each_entry(trig, &trigger_list, next_trig) {
+>>           if (sysfs_streq(buf, trig->name) && 
+>> trigger_relevant(led_cdev, trig)) {
+> 
+> Makes sense for me, this would be the second half of the feature that is
+> now available only from DT level.
+> 
+> Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> 
 
-Makes sense for me, this would be the second half of the feature that is
-now available only from DT level.
+But after re-thinking it - we need to return -EINVAL in case
+LED class device does not define default trigger, so that the user
+had proper feedback.
 
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+So, led_trigger_set_default() needs to be extended to return error
+in case of !led_cdev->default_trigger or !found.
 
 -- 
 Best regards,
