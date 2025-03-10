@@ -1,125 +1,241 @@
-Return-Path: <linux-leds+bounces-4204-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4207-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861C6A589E8
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 02:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50C9A58D3D
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 08:48:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 502593ABE90
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 01:21:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A26EF3AB17E
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 07:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BDA2130A73;
-	Mon, 10 Mar 2025 01:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF54F21ABDC;
+	Mon, 10 Mar 2025 07:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/0w8Obw"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="ec2DCLHu"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9DD3597B;
-	Mon, 10 Mar 2025 01:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B4A1BBBE5;
+	Mon, 10 Mar 2025 07:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741569712; cv=none; b=G2VoMXfztteEhMBzqqHwxMQkuh+47kfPnbQKwd54yazHsjV0WEhlR0iZ2OE+b87moAkWSl8NXEN6rjgRPjScOkGaCBCc8brOA+Lp3urV0Nh9aTjFlnScA2eDiFfvjXB+NgCMn3W/yRfQq+I6JkKplMUubD461DLZHguHZ35vhKM=
+	t=1741592922; cv=none; b=ba1wdnhRYNUMe997nMGoyWPW6O75kBK9Ld+mN9I+9JW18p94UiRHM04Uh4ktcF/4OTkwNYFigqnMeZURcHlUL/IZeP8P/ROWYgQDyQ7Kt9lGxhVPbP6NQFB2viK1oQOxUM4+q8YHavxfqgIj78aaQd1JgyAgYIPMFGG6z+/vOEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741569712; c=relaxed/simple;
-	bh=z8QdkKRYlOpmTs+ivZoED/+3/x2JDmVV+mfVt3piMxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YP4D794QGKjN5GSnD/VUlXTVCJdWgQJ2JH0VcHDJIaR3m/soMK8k3Oe1Hun4lDOcaNmwowLKBf9hOhP4d7rKETPRjt2JUrhJ52+LIpUqgbTnA4TRz01IekxA080RmsGwEK8WaqBw0HFjtHLwVh83sOYn1d8PwYJAY5QxaJAi90Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/0w8Obw; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741569710; x=1773105710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z8QdkKRYlOpmTs+ivZoED/+3/x2JDmVV+mfVt3piMxQ=;
-  b=l/0w8Obw4iPo2fcIyV75TtHLFdxAepTQ+9iRhfnYCqCDGZnuSPjnAgsL
-   vXMbHKH9IOwUGk+p8Dbhw4hqGu6xBwvBrNUD9RmG6pbJ1YtbPCFVG6uqC
-   HCbtFJHCFWFgqI92oSr3gkgczBg100zFJTwvPvSlEuHLIPbm+9tlsjp2f
-   yNKTcCHsnEujRmCqW2gGCcglcGrvAOLvz+EZq0vAEiCIgiD6aa35LFGN1
-   eOpZv+9Vp0oA1lgqB18RZ/0k7QAEOqCJwdYqqHDevrtck2urcLSpiBhEa
-   ikwFCrogys3YnJaA5WA8tMK6QWELu9uM1i8oufnXioMGtpJervIoyRrKx
-   g==;
-X-CSE-ConnectionGUID: UbIGbG9+R7KTeD7YuseYXg==
-X-CSE-MsgGUID: 9doK0O2eRu+C7RODITgmFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="53929401"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="53929401"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 18:21:50 -0700
-X-CSE-ConnectionGUID: ZNSrZuboRGCjuTdXMONxgA==
-X-CSE-MsgGUID: Gx/TtrTmTz27T9IJebfdUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="119839028"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Mar 2025 18:21:46 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trRpw-0003fw-1Z;
-	Mon, 10 Mar 2025 01:21:44 +0000
-Date: Mon, 10 Mar 2025 09:21:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nam Tran <trannamatk@gmail.com>, pavel@kernel.org, lee@kernel.org,
-	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Nam Tran <trannamatk@gmail.com>
-Subject: Re: [PATCH v3 3/3] leds: add new LED driver for TI LP5812
-Message-ID: <202503100925.eZz1D0kw-lkp@intel.com>
-References: <20250306172126.24667-4-trannamatk@gmail.com>
+	s=arc-20240116; t=1741592922; c=relaxed/simple;
+	bh=7J/AqRAt74cKmUNfaN9qV/4SLC68LKViiljhp7ABqlg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aGusvQOBcOe8cUur3QxgcYgVEbMt6T/sA6d/0EzDP7gvSgGzb5JCkvoKgBogq38nSqtDerrf0JeEuLw7nrADzq9pyL4GnwXuBfm+hPZ5bbnKrUFSljiNrex/OozUcdMg6Q60JSBoZjdl8cLD2GTdcD1FMFwq8HnBy2hwNlQ9Kx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=ec2DCLHu; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
+	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=pOu5saDPfrFBVdo11dFqR8ynsYHet3YtuqUt+9ehiS8=; b=ec2DCLHuzy+3VS3CURJ6Erpt/4
+	+g8DlS7tVi7wcqzyivixGBT2rebERwS77F85EErdz3ODqrovY19a46kpPVr/e82/Odz3pHgjjHL5I
+	vAtWsF2gdXXXmhI5bBvuKqRgCrPWlqMs6gKSiCQ95p60xW1CJGvxKV+xX0GFqHSCox1A=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:51473 helo=[192.168.0.218])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1trXRe-000KEN-Dn; Mon, 10 Mar 2025 08:21:03 +0100
+Message-ID: <025cf7b9-2aa5-4651-91f5-d4b596d654ed@emfend.at>
+Date: Mon, 10 Mar 2025 08:20:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306172126.24667-4-trannamatk@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: leds: add Texas Instruments TPS6131x
+ flash LED driver
+To: Conor Dooley <conor@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bsp-development.geo@leica-geosystems.com
+References: <20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at>
+ <20250228-leds-tps6131x-v1-1-d1071d90f9ea@emfend.at>
+ <20250228-zipfile-net-69e4bbebd8d6@spud>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <20250228-zipfile-net-69e4bbebd8d6@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-Hi Nam,
+Hi Conor,
 
-kernel test robot noticed the following build errors:
+Am 28.02.2025 um 19:24 schrieb Conor Dooley:
+> On Fri, Feb 28, 2025 at 11:31:23AM +0100, Matthias Fend wrote:
+>> Document Texas Instruments TPS61310/TPS61311 flash LED driver devicetree
+>> bindings.
+>>
+>> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+>> ---
+>>   .../devicetree/bindings/leds/ti,tps6131x.yaml      | 123 +++++++++++++++++++++
+>>   1 file changed, 123 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/ti,tps6131x.yaml b/Documentation/devicetree/bindings/leds/ti,tps6131x.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..c08b3cef7abcec07237d3271456ff1f888b2b809
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/ti,tps6131x.yaml
+> 
+> With a filename matching one of the compatibles in the file,
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on robh/for-next linus/master v6.14-rc5 next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+thank you very much for your feedback.
+Since I found different variants in the LED bindings, I wasn't quite 
+sure here.
+So is it okay if I simply rename the file to 'ti,tps61310.yaml', even 
+though there are multiple compatible strings and the driver is called 
+leds-tps6131x?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-Add-LP5812-LED-driver/20250307-012604
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250306172126.24667-4-trannamatk%40gmail.com
-patch subject: [PATCH v3 3/3] leds: add new LED driver for TI LP5812
-config: x86_64-randconfig-005-20250310 (https://download.01.org/0day-ci/archive/20250310/202503100925.eZz1D0kw-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503100925.eZz1D0kw-lkp@intel.com/reproduce)
+Thanks
+  ~Matthias
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503100925.eZz1D0kw-lkp@intel.com/
+> 
+> Cheers,
+> Conor.
+> 
+>> @@ -0,0 +1,123 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/leds/ti,tps6131x.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Texas Instruments TPS6131X flash LED driver
+>> +
+>> +maintainers:
+>> +  - Matthias Fend <matthias.fend@emfend.at>
+>> +
+>> +description: |
+>> +  The TPS61310/TPS61311 is a flash LED driver with I2C interface.
+>> +  Its power stage is capable of supplying a maximum total current of roughly 1500mA.
+>> +  The TPS6131x provides three constant-current sinks, capable of sinking
+>> +  up to 2 × 400mA (LED1 and LED3) and 800mA (LED2) in flash mode.
+>> +  In torch mode, each sink (LED1, LED2, LED3) supports currents up to 175mA.
+>> +
+>> +  The data sheet can be found at:
+>> +    https://www.ti.com/lit/ds/symlink/tps61310.pdf
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ti,tps61310
+>> +      - ti,tps61311
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  '#address-cells':
+>> +    const: 1
+>> +
+>> +  '#size-cells':
+>> +    const: 0
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +    description: GPIO connected to NRESET pin
+>> +
+>> +  ti,valley-current-limit:
+>> +    type: boolean
+>> +    description:
+>> +      Reduce the valley peak current limit from 1750mA to 1250mA (TPS61310) or
+>> +      from 2480mA to 1800mA (TPS61311).
+>> +
+>> +  led:
+>> +    type: object
+>> +    $ref: common.yaml#
+>> +    unevaluatedProperties: false
+>> +
+>> +    properties:
+>> +      led-sources:
+>> +        allOf:
+>> +          - minItems: 1
+>> +            maxItems: 3
+>> +            items:
+>> +              enum: [1, 2, 3]
+>> +
+>> +      led-max-microamp:
+>> +        anyOf:
+>> +          - minimum: 25000
+>> +            maximum: 350000
+>> +            multipleOf: 50000
+>> +          - minimum: 25000
+>> +            maximum: 525000
+>> +            multipleOf: 25000
+>> +
+>> +      flash-max-microamp:
+>> +        anyOf:
+>> +          - minimum: 25000
+>> +            maximum: 800000
+>> +            multipleOf: 50000
+>> +          - minimum: 25000
+>> +            maximum: 1500000
+>> +            multipleOf: 25000
+>> +
+>> +      flash-max-timeout-us:
+>> +        enum: [ 5300, 10700, 16000, 21300, 26600, 32000, 37300, 68200, 71500,
+>> +                102200, 136300, 170400, 204500, 340800, 579300, 852000 ]
+>> +
+>> +    required:
+>> +      - led-sources
+>> +      - led-max-microamp
+>> +      - flash-max-microamp
+>> +      - flash-max-timeout-us
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - '#address-cells'
+>> +  - '#size-cells'
+>> +  - led
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/leds/common.h>
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +
+>> +    i2c {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <0>;
+>> +
+>> +      led-controller@33 {
+>> +        compatible = "ti,tps61310";
+>> +        reg = <0x33>;
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        reset-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+>> +
+>> +        tps61310_flash: led {
+>> +          function = LED_FUNCTION_FLASH;
+>> +          color = <LED_COLOR_ID_WHITE>;
+>> +          led-sources = <1>, <2>, <3>;
+>> +          led-max-microamp = <525000>;
+>> +          flash-max-microamp = <1500000>;
+>> +          flash-max-timeout-us = <852000>;
+>> +        };
+>> +      };
+>> +    };
+>>
+>> -- 
+>> 2.34.1
+>>
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "led_set_autonomous_animation_config" [drivers/leds/leds-lp5812.ko] undefined!
->> ERROR: modpost: "lp5812_initialize" [drivers/leds/leds-lp5812.ko] undefined!
-ERROR: modpost: "lp5812_read" [drivers/leds/leds-lp5812.ko] undefined!
->> ERROR: modpost: "lp5812_write" [drivers/leds/leds-lp5812.ko] undefined!
-ERROR: modpost: "lp5812_disable_all_leds" [drivers/leds/leds-lp5812.ko] undefined!
-ERROR: modpost: "lp5812_enable_disable" [drivers/leds/leds-lp5812.ko] undefined!
->> ERROR: modpost: "lp5812_device_command" [drivers/leds/leds-lp5812.ko] undefined!
->> ERROR: modpost: "lp5812_reset" [drivers/leds/leds-lp5812.ko] undefined!
->> ERROR: modpost: "lp5812_update_regs_config" [drivers/leds/leds-lp5812.ko] undefined!
->> ERROR: modpost: "lp5812_fault_clear" [drivers/leds/leds-lp5812.ko] undefined!
-WARNING: modpost: suppressed 23 unresolved symbol warnings because there were too many)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
