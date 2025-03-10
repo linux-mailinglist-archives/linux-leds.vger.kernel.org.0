@@ -1,34 +1,34 @@
-Return-Path: <linux-leds+bounces-4209-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4210-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BBAA58D9D
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 09:05:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B02EA58E56
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 09:40:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A3F7164803
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 08:05:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F87C188616F
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 08:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A738922332E;
-	Mon, 10 Mar 2025 08:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C492236ED;
+	Mon, 10 Mar 2025 08:40:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="FawhFLw7"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="nRQIVFB/"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3C1209F5B;
-	Mon, 10 Mar 2025 08:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200B3F9CB;
+	Mon, 10 Mar 2025 08:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741593903; cv=none; b=EolymxrwqVYmQ1Mm2b01uVivS8OvhQNCur9IW4WtD2UkK1It3DeJzzfIdoKX2JyA2shdXbFglargRnpE/g1vqAMV8T+5naF98QID8hUpXG05QKNFFtuC3HPf5yi7NX6Q3HV9Xzl5DcwmHwMGWiSUylN6KcEka3K+JXIJRvC4TWY=
+	t=1741596010; cv=none; b=OlfSn0lqpEqbVpqC6BfTgw6K00fZ7XNRL9wAd1UASfotQ4ffxXNj8I1sjf+WKK7+8fp5utVqDBTVymrNf4ZorEnEyaBUN8hWa/WDrT2q2I60wnuZvUTHHk2qb79eeMZTmIzhGDF+u9CG0/SE3yREMNXVpJ2h5SYSlgoOMsR2OCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741593903; c=relaxed/simple;
-	bh=DHlfY57p6h6SKmE8ssHMDa5+6tjkTUcm/QHAqHKbtYU=;
+	s=arc-20240116; t=1741596010; c=relaxed/simple;
+	bh=3wxr9r1c2sMNiyyDmj1lzAXoDx6frVlS+T/98Uyt41o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hnKyb5Vjqu2c8K1D/K6ViNAOqbG684VZo/7dBTbYXmWN31HxMyIgnWSXk5Uuj+cIKkAJkANJjOvNxTuYGHvHCclPeNnnW13Uw/L6eWVwLuG2lp7pGd2sc77+qywGnl2u5zfvl87JA9ANf0aPFpep0lC5302xyi89tPJ+UXYD3lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=FawhFLw7; arc=none smtp.client-ip=168.119.41.54
+	 In-Reply-To:Content-Type; b=Ly0lDEy/nf4oo6SCFskJq+5ilasuM0yuPaHmvSwvUuluo5dUbCTbdx5MpTrHWBsHtbdBCSbTgAlqw2VjINp5qNI72YiuuOGvx8n9hERFQd+fEIhci9jjPwl7VDayftMvXmUcM2bAd9vgMgh0KNS59Wt3YippgSJE/sOuc+m5YPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=nRQIVFB/; arc=none smtp.client-ip=168.119.41.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
@@ -37,16 +37,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=y1UGZfwMxMzHKFzr1JvXBywioLUm+BvcV2Z76x1etEc=; b=FawhFLw7Og8aaRtmS7FqI5xCke
-	+grr16xbVC+Egw1Ar7NT74qmowzCtgTmnylfG3OinfuFGGydOlF+G1IWaFf9xpanQEJ9BBsp5lfjk
-	Og0CN54nWYRe+arxzUbFBvjMg2FmlmEefomaxGKQd2YG7L0+dy8PTXwydoX6PdU4kHJo=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:62820 helo=[192.168.0.218])
+	bh=XcSmxEDuu6+MebmvTMCyIi9Zy3QJJu+tJfjO1pOs2iU=; b=nRQIVFB/GiTBJ3B/be2kEmeT3d
+	1DDe+IIcUPv7swizTIyOT2LJoP8LOTf891mGY6nmcjOuVZg0jJDjO3XNB2yOUHCAuoQNYIwCESQmG
+	vajsCWiS15pdw04wa4EXrVwZ5/doKJDxj6yzCXd817cQ8sKeWOHCV/o2Ilh3z2ubDpws=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:62899 helo=[192.168.0.218])
 	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
 	(Exim 4.93)
 	(envelope-from <matthias.fend@emfend.at>)
-	id 1trY84-001kgr-Jl; Mon, 10 Mar 2025 09:04:52 +0100
-Message-ID: <597be0ca-ab3e-4313-8b35-57d2ce52f156@emfend.at>
-Date: Mon, 10 Mar 2025 09:04:50 +0100
+	id 1trYg8-0025rq-Gx; Mon, 10 Mar 2025 09:40:05 +0100
+Message-ID: <d30e5994-9e7a-4f0c-96e6-14fe6f132f5f@emfend.at>
+Date: Mon, 10 Mar 2025 09:40:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -54,75 +54,182 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] leds: tps6131x: add support for Texas Instruments
- TPS6131X flash LED driver
+Subject: Re: [PATCH 1/2] dt-bindings: leds: add Texas Instruments TPS6131x
+ flash LED driver
 To: Krzysztof Kozlowski <krzk@kernel.org>, Pavel Machek <pavel@ucw.cz>,
  Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, bsp-development.geo@leica-geosystems.com
 References: <20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at>
- <20250228-leds-tps6131x-v1-2-d1071d90f9ea@emfend.at>
- <554823f8-be69-452d-908d-a7c7a80bcd9e@kernel.org>
+ <20250228-leds-tps6131x-v1-1-d1071d90f9ea@emfend.at>
+ <d5e73894-0e30-499f-a723-2ada72d3b864@kernel.org>
 Content-Language: de-DE
 From: Matthias Fend <matthias.fend@emfend.at>
-In-Reply-To: <554823f8-be69-452d-908d-a7c7a80bcd9e@kernel.org>
+In-Reply-To: <d5e73894-0e30-499f-a723-2ada72d3b864@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Score: 
 X-Spam-Bar: 
 X-Spam-Report: 
 
 Hi Krzysztof,
 
-Am 10.03.2025 um 08:46 schrieb Krzysztof Kozlowski:
-> On 28/02/2025 11:31, Matthias Fend wrote:
->> +	tps6131x->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
->> +	ret = tps6131x_reset_chip(tps6131x);
->> +	if (ret)
->> +		return dev_err_probe(&client->dev, ret, "Failed to reset LED controller\n");
->> +
->> +	ret = tps6131x_init_chip(tps6131x);
->> +	if (ret)
->> +		return dev_err_probe(&client->dev, ret, "Failed to initialize LED controller\n");
->> +
->> +	ret = tps6131x_led_class_setup(tps6131x);
->> +	if (ret)
->> +		return dev_err_probe(&client->dev, ret, "Failed to setup led class\n");
->> +
->> +	ret = tps6131x_v4l2_setup(tps6131x);
->> +	if (ret)
->> +		return dev_err_probe(&client->dev, ret, "Failed to setup v4l2 flash\n");
->> +
->> +	return 0;
->> +}
->> +
->> +static void tps6131x_remove(struct i2c_client *client)
->> +{
->> +	struct tps6131x *tps6131x = i2c_get_clientdata(client);
->> +
->> +	v4l2_flash_release(tps6131x->v4l2_flash);
->> +
->> +	cancel_delayed_work_sync(&tps6131x->torch_refresh_work);
->> +}
->> +
->> +static const struct of_device_id of_tps6131x_leds_match[] = {
->> +	{ .compatible = "ti,tps61310" },
->> +	{ .compatible = "ti,tps61311" },
-> 
-> 
-> No differences? So devices are fully compatible? Then it should be
-> expressed in the binding with fallback. Or the binding description or
-> commit msg should explain why they are not compatible.
+thanks for your review.
 
-Yes, from a software perspective both are identical.
-The only difference I found between the two variants are different 
-valley current limits. These are described in the bindings.
+Am 10.03.2025 um 08:49 schrieb Krzysztof Kozlowski:
+> On 28/02/2025 11:31, Matthias Fend wrote:
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ti,tps61310
+>> +      - ti,tps61311
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  '#address-cells':
+>> +    const: 1
+>> +
+>> +  '#size-cells':
+>> +    const: 0
+> 
+> Why do you need these two?
+
+As a template, I also used recently added bindings 
+(silergy,sy7802.yaml). These entries come from there, but as I 
+understand it, they are supposed to be removed, right?
+
+> 
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +    description: GPIO connected to NRESET pin
+>> +
+>> +  ti,valley-current-limit:
+>> +    type: boolean
+>> +    description:
+>> +      Reduce the valley peak current limit from 1750mA to 1250mA (TPS61310) or
+>> +      from 2480mA to 1800mA (TPS61311).
+>> +
+>> +  led:
+> 
+> Why do you have only one led node? Description says three: LED1-3,
+> unless these are just sinks which always have to be connected to the
+> same LED?
+
+That is basically correct. If you just want to switch the 3 LEDs on or 
+off, you could map that accordingly.
+In detail, however, the 3 channels are not really independent of each 
+other. All channels share, for example, the flash controller, the safety 
+timers and the operating mode. In addition, two channels share the 
+configuration registers. It is therefore not possible to use one channel 
+as a flash and another as a normal LED.
+For use as an LED flash controller (what the chip actually is), it 
+therefore only makes sense if one or more channels are combined.
+
+> 
+>> +    type: object
+>> +    $ref: common.yaml#
+>> +    unevaluatedProperties: false
+>> +
+>> +    properties:
+>> +      led-sources:
+>> +        allOf:
+> 
+> Drop allOf
+> 
+>> +          - minItems: 1
+>> +            maxItems: 3
+>> +            items:
+>> +              enum: [1, 2, 3]
+>> +
+>> +      led-max-microamp:
+>> +        anyOf:
+> 
+> oneOf
+> 
+>> +          - minimum: 25000
+>> +            maximum: 350000
+>> +            multipleOf: 50000
+>> +          - minimum: 25000
+>> +            maximum: 525000
+> 
+> Why two different values?
+
+The channels can in principle be configured in 25mA steps.
+If only the two channels that share the configuration register are used, 
+the step size doubles to 50mA. The maximum current values ​​for such a 
+configuration are also different.
+There are of course several other combinations of channels that would 
+result in different maximum values, but since the step size is an 
+important value for the API, I wanted to describe these two cases 
+explicitly.
 
 Best regards
   ~Matthias
 
 > 
+>> +            multipleOf: 25000
+>> +
+>> +      flash-max-microamp:
+>> +        anyOf:
+> 
+> oneOf
+> 
+>> +          - minimum: 25000
+>> +            maximum: 800000
+>> +            multipleOf: 50000
+>> +          - minimum: 25000
+> 
+> Same question
+> 
+>> +            maximum: 1500000
+>> +            multipleOf: 25000
+>> +
+>> +      flash-max-timeout-us:
+>> +        enum: [ 5300, 10700, 16000, 21300, 26600, 32000, 37300, 68200, 71500,
+>> +                102200, 136300, 170400, 204500, 340800, 579300, 852000 ]
+>> +
+>> +    required:
+>> +      - led-sources
+>> +      - led-max-microamp
+>> +      - flash-max-microamp
+>> +      - flash-max-timeout-us
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - '#address-cells'
+>> +  - '#size-cells'
+> 
+> Why?
+> 
+>> +  - led
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/leds/common.h>
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +
+>> +    i2c {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <0>;
+>> +
+>> +      led-controller@33 {
+>> +        compatible = "ti,tps61310";
+>> +        reg = <0x33>;
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        reset-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+>> +
+>> +        tps61310_flash: led {
+> 
+> Drop unused label
 > 
 > Best regards,
 > Krzysztof
