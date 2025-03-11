@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-4224-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4225-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A215A5BC8D
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 10:44:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1736BA5BC9F
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 10:48:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB9AC16458D
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 09:44:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF5BF3A7013
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 09:48:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CED3A4431;
-	Tue, 11 Mar 2025 09:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFFE922576C;
+	Tue, 11 Mar 2025 09:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b="cA+ByDG2"
+	dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b="G6y+/L8s"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410D51E32D6
-	for <linux-leds@vger.kernel.org>; Tue, 11 Mar 2025 09:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA51222F384
+	for <linux-leds@vger.kernel.org>; Tue, 11 Mar 2025 09:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741686268; cv=pass; b=IYgWidYZuISZo6LOiSu9B9qPG2WcRggpHoMPkwJz6DvoseE9KnCQ4Z7i/OJLJ4gkZY1MGHtWc0eQx/kZODbR295xjDF+HZaMLU6950DGbz6clb1nMVaX+URfoJAUNH+XK4ez8DS65RoEzlUX+yYDQfgACvWzOx/bQ2y7OUsNi+I=
+	t=1741686498; cv=pass; b=eXqYKaba3W3qFD8IHWrB/tU2il8TEqwV+ESuFxw3IGo/P5X7wyvjzl7ub/TQ2Uapg2GjOT1nVIX/1X6Rz0rEmq9vsyXAHBcKx70NhxSsl8qAgdBOPA70eHceOO83g3FlO9DiGNfHCbAQ5OBVLb/xjG9AdFvO+voMpkXjqvGXXhs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741686268; c=relaxed/simple;
-	bh=afoCK48jmBf5RNvVH90wf9Y6HdWOU5MrJXje3qAuhOk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JGxkjxY3t9+3tXGh/adUhktOu1rD+r5AHjU7yVIF3uZNlqzENXzlN7lhbbVETc7sJUnTeA1cELuotwqdGylFjncQDjmPlFnxpdlXsj7mIpHh2qOF411yH5XIFTI5Dr73JIPS0R2Ny3CtKbfTJt0oaMWsHJw5HlrSoUkqs0a3U2w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au; spf=pass smtp.mailfrom=mcqueen.au; dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b=cA+ByDG2; arc=pass smtp.client-ip=136.143.188.12
+	s=arc-20240116; t=1741686498; c=relaxed/simple;
+	bh=WhY6HgoYHnSsBr1saBLHsiLDUs3zfdrtktFsbndceCE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rARaKuo2uXl6trCAQv+vqC8H2+XDArpOwfJjAcYJZsG9Dhiuwp0FBvWDRWPeWdyrwmcDvHRk2lPPENH5S/VPJufIr8Ay/bvSUECc4FpfJIf+8E54XI4aB+M+eY7Fhczd/oBR54gEZrNGSMHW6VW5r73nQu76sYpSTAsyhxLJdow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au; spf=pass smtp.mailfrom=mcqueen.au; dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b=G6y+/L8s; arc=pass smtp.client-ip=136.143.188.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mcqueen.au
-ARC-Seal: i=1; a=rsa-sha256; t=1741686264; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1741686493; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=d2oGpwm7HFtWmU84QzfMwKHoLtSJ2bvEc/a6Ezq0gnK+PsT3XME3jmRzJwUKpT7REZxpCs/6BdeWuBuNU795iqik4A8UnwJXqOdqL7WYm+RjxtA/GN/jn2BzHVmxVIg9UKkjZe7Br7JBsPeYebfEtsWEKErFSJpzK6jcNe5j1D8=
+	b=dYpW+isJQAQ0nkAw3l4gTXSfzYLsBgATaJ+hdxE0VpjQ8LZK80rEMJ61saCqqxUQKwI4z9pU+lMqdmD7IlSAG8u7NTwAM4YXEhn3H2OeRXwb9rdtegjjHuk9WCtraJZSazgVA2lx6BoID1A1ofKO0HUsaG+wlxn56KROTTrusFM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741686264; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=YQ/nJtMEF9VzdVoSIVSXEVbz9bxmX1173rlFn3+WpZU=; 
-	b=Kfac5pB4GnNs3VZyi8Ym94YtQ5wSt7I9zVCDIE6RcHHa01o6L9UAoV07y1tjVqU7pz968YyK3MidHYVQeYcdGaYnOM87gBYW7zJwSnC0mku9y8m7qwJqremra69lJNPnsBSN2yfX/jqg1ODdX3y9KZEjQmnAVjHcUihEJyyCBxU=
+	t=1741686493; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=enIgdSTc3twHtbGxiYn14iOtZlaVY9/GV9vMbsEcdKM=; 
+	b=NqXouICHVjJFp6ShUcLS52r+2qlEmUXg8A1liHAzi0jLIkFOJwnJD9siaPRAxot9QPOMiBdLb+BjCBXaMuYWiuhzevo3LEDWZsym1SYXl1DM/37jc88y4dI49bX1FznUz0wWH2kF+pQlYBZqrUwfeOOCB6DAOiutEJyJK6tR55o=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=mcqueen.au;
 	spf=pass  smtp.mailfrom=craig@mcqueen.au;
 	dmarc=pass header.from=<craig@mcqueen.au>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741686264;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741686493;
 	s=zmail; d=mcqueen.au; i=craig@mcqueen.au;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=YQ/nJtMEF9VzdVoSIVSXEVbz9bxmX1173rlFn3+WpZU=;
-	b=cA+ByDG2fhJ8QCA0g2hzXO0go5fFo3hyvHbHL1GdMOmwlZ6ffFYkvWfFpxspPnzu
-	eJ26GcuQ2r4nlaZSikaHqm2CyStehje8CmlWBdc2V2acMNepYLljm2rNVAtByEtdEUY
-	7BpHeHojydbEcEUwGChKA0cJKtnrm29tLQUge6EA=
-Received: by mx.zohomail.com with SMTPS id 1741686261796581.3869870803737;
-	Tue, 11 Mar 2025 02:44:21 -0700 (PDT)
+	bh=enIgdSTc3twHtbGxiYn14iOtZlaVY9/GV9vMbsEcdKM=;
+	b=G6y+/L8s8E3+BfI244ic6+VZUAKP2U+CFPdMSJdmSOMWhKL+AMEr20j1DgbxyYrd
+	osW7k7Z8i7BHioQ12QlhUCWYI2wKi3XSwFtYw35Nkl2VRpvhu7v+3ADK9oFJDYgQ5F+
+	HH8TCGpD0ZXd2RkIEFgCvFv+qGojKA3hpHzliy88=
+Received: by mx.zohomail.com with SMTPS id 1741686489753407.95326069971395;
+	Tue, 11 Mar 2025 02:48:09 -0700 (PDT)
 From: Craig McQueen <craig@mcqueen.au>
 To: linux-leds@vger.kernel.org
 Cc: Craig McQueen <craig@mcqueen.au>
-Subject: [PATCH] leds: Add some setup ioctls to uleds driver
-Date: Tue, 11 Mar 2025 20:44:07 +1100
-Message-ID: <20250311094408.376186-1-craig@mcqueen.au>
+Subject: [PATCH v2] leds: Add some setup ioctls to uleds driver
+Date: Tue, 11 Mar 2025 20:48:02 +1100
+Message-ID: <20250311094803.376360-1-craig@mcqueen.au>
 X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -72,8 +72,8 @@ X-ZohoMailClient: External
 ---
  Documentation/leds/uleds.rst |   6 ++
  drivers/leds/uleds.c         | 124 ++++++++++++++++++++++++++++-------
- include/uapi/linux/uleds.h   |  31 ++++++++-
- 3 files changed, 137 insertions(+), 24 deletions(-)
+ include/uapi/linux/uleds.h   |  30 ++++++++-
+ 3 files changed, 136 insertions(+), 24 deletions(-)
 
 diff --git a/Documentation/leds/uleds.rst b/Documentation/leds/uleds.rst
 index 4077745dae00..0512e577d63a 100644
@@ -285,16 +285,15 @@ index 374a841f18c3..2674c7491542 100644
  
  static struct miscdevice uleds_misc = {
 diff --git a/include/uapi/linux/uleds.h b/include/uapi/linux/uleds.h
-index 4d32a39965f8..3b9d7f46df44 100644
+index 4d32a39965f8..0e9861a8c31f 100644
 --- a/include/uapi/linux/uleds.h
 +++ b/include/uapi/linux/uleds.h
-@@ -15,11 +15,40 @@
+@@ -15,11 +15,39 @@
  #ifndef _UAPI__ULEDS_H_
  #define _UAPI__ULEDS_H_
  
 -#define LED_MAX_NAME_SIZE	64
 +#define LED_MAX_NAME_SIZE		64
-+/* See TRIG_NAME_MAX in linux/leds.h */
 +#define ULEDS_TRIGGER_MAX_NAME_SIZE	64
  
  struct uleds_user_dev {
