@@ -1,198 +1,96 @@
-Return-Path: <linux-leds+bounces-4219-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4220-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351CBA5A4C4
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 21:20:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2E4A5B5E1
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 02:32:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E34A188B1A8
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Mar 2025 20:20:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68C51170978
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 01:32:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE371DF24A;
-	Mon, 10 Mar 2025 20:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B0D72AD04;
+	Tue, 11 Mar 2025 01:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q9vhmpwa"
+	dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b="AT1JhkF0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058A81CB332
-	for <linux-leds@vger.kernel.org>; Mon, 10 Mar 2025 20:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741637903; cv=none; b=DeBZYAoqFafMgyWAMkwLbAWCFdmEiwgqjWvJpNXLgjqKmf0Lkw3h44Tri4IyTmGWfiA4Q61jQ1WHat5QoJtclzpL/xss9XGhBgsRr1CUxiQL2eEHwI0wXh6QH0pzFoARr3uyU/pSUoT2Q/Lu3OCZy9LAFz3dU4aGfd50JDvnMag=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741637903; c=relaxed/simple;
-	bh=QMXL4XRMMj+KCWBCYxhaw7vX9n5PbFNVb0Ir/6BW5pQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UwoTiQoD2NPHLq/7UAUamy2qTjqD6+7gFCwVvK6HDr053b3lR4LT6QUpAxraVN5vQIupxK+oG0v/zR2CTAYxuKgPgAoyS0XHsfZhL3BF7MVtP5Z5Eg7zNG3Jad73GXg9RqpXM+pbQPaTHXUfWwMAw0nJCFwkVwEVfrYOa+APeRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q9vhmpwa; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac29fd22163so248658566b.3
-        for <linux-leds@vger.kernel.org>; Mon, 10 Mar 2025 13:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741637900; x=1742242700; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=j7OUFWXSgaQxV7EszR81qQwqa2D/ipQaey5q6klFC1Q=;
-        b=Q9vhmpwatKGp0OHB67iTyv8PmAblaqC85TFQ0I7K3x/mEr95b44KWyNja4emzC6Ui2
-         KdUmGCalGwarRLvVYSA7KhDFPLJXgrdUuxpLNRYf70jlz4O0/eB6tfqmq1oSxoudpKXh
-         6H/pQTRD811drukd7fsToCnQTqenYzGlbHBKd69LDb3nhcy9bq0K8f3sVLmhtKHePito
-         umIQtgKgEVuKDrQKfVe/WVvOrJRZtOeYPm+sMHNPfEOB9rwgbnPUbAjwfmhLl/rv4Hgh
-         VvutNtEh69kgomXd7vcu184XvxqubOPUQwuQ2CG044RfUqxxSgBAyUqcTpKv1FmFGzkh
-         HN0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741637900; x=1742242700;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j7OUFWXSgaQxV7EszR81qQwqa2D/ipQaey5q6klFC1Q=;
-        b=lYlWdd1Wwsu6OIJILp+H8BKM77ZqqZ4cYQXXjwQWHPDwweChLJOxbm493WwqIxOcHO
-         v2+qGYfF7vzQ5QMg/cMZFS34VJzdATyiWZUAPiaW2/0iXa+OLI7+6IlDUfYSXMy+b6ye
-         +LYkRYGPlqAizJtjuwusvlcIYl5VJCkdbd/mz27vSLYz7k1NsfYO2tY44e5ugJ9hu0BQ
-         BpLMi+HsB9e8U1104QgUY+8HcXqh1eHAAqj7cuq+8MDGkAdzFSP4FhKh46M7eVQeAJKl
-         2BYODuSMMR6lOmXomKaBsh3e6qlwWgL50FNWIC+qoWARgTxTc7MsUjJnq21K+LS+f5Wx
-         D2QQ==
-X-Gm-Message-State: AOJu0Yzej/w0FQ6k3QHrPw6tXsLJoriLbLsLFi9IfgZY7XzesdG5yYWx
-	258I5DhhV2Nt/fuEtL00pghPpu2TdpwzQr25LUZoNzkcmLY4jpgD48VzwA==
-X-Gm-Gg: ASbGnct9ArpTn3uieodH8ncLZKpmslYPiTxuW41qiVakxdYPqxxQv82U/PhsZEnY9YY
-	kRASZqswePAsYxK3EPs3gLFuPbAyE8xxAwPMZA71htM/eTFqvx9kte22Tn7BL9Z2n13w4P2O/nM
-	aI/Allhv7RMy2Ry13hikqsug5Unp60WyEFxwvsfQJAxOiZBPQ+eq//FcE6Nq5wROvGj7Y7DQAPs
-	ArjQXUlxWY+spjbCZKhSnV5QYuADmIrsj+odEofOKTlode8QvQTQycKfDvc2TWAZvl5mcyFXpJU
-	clwvq9IvzUDrFXrUQ4jU+sDK958bM5oYQ4rlS9RMxcNxgfGr57h76dza8Q==
-X-Google-Smtp-Source: AGHT+IGX0fTcnriB5BhVYiCVAh0qYdJHAqCt9YfZwglVFNMAwl6aIp2UwWP2scJldUnjejI33jB/DQ==
-X-Received: by 2002:a17:907:3608:b0:abf:6bf6:a397 with SMTP id a640c23a62f3a-ac252a9e1afmr1573128266b.15.1741637899982;
-        Mon, 10 Mar 2025 13:18:19 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac2a385e16dsm199125466b.34.2025.03.10.13.18.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 13:18:19 -0700 (PDT)
-Message-ID: <a5a1b224-8f9f-4b66-ab7e-fe388a82ecc5@gmail.com>
-Date: Mon, 10 Mar 2025 21:18:18 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539BF5258
+	for <linux-leds@vger.kernel.org>; Tue, 11 Mar 2025 01:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741656717; cv=pass; b=r8uFN0E9LWbgoOjs5yvR6GCLhfvks+gobA6as74FHnM8g26XqTO3vyPoGAuM9Qy2qZ4GJbWFyd20NaCaDw0QW5u8R6GokYDTcO+W9Jxc19lb0rV0hfBMRWCMUxRK2dFmOORDgBk+T1rHU/HwEFt0/YYx5YDQFGXRDPccFr52A9I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741656717; c=relaxed/simple;
+	bh=LSMCgpWTFasfp9l5VKL/D5o9zDnwsKoDkOvhfFF5KgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ffn8UkYnCFk52efWWf3NCCGUjSkpMTqXF0KIacRItqsie9eW84+uLjvsS1yPtMWYRn3xlpbCzOnGE41lKqV5yTBRXswn29b/bMnizKfwA5HPIdLTG0/YGm7txXNjOOId9LlBcb3QI3T50OukPTRUdjo0Bv/yArkKzhX1OHCJZJ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au; spf=pass smtp.mailfrom=mcqueen.au; dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b=AT1JhkF0; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mcqueen.au
+ARC-Seal: i=1; a=rsa-sha256; t=1741656713; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UyoJD+MulFJ/SbuaV81cvxE6SZxQMgwr4B2cuxCZGPmKmaIGAG2dx7Jt1SC20iQbpb35EavqHlz4jzHDr7EirduPO+jvW7AIuM2qwLYxiVXdyJLHxYafMvFw1udMh5NmukVeZo5Uq/ol6DWowNe/c8oqe2WKiDDm4fm1p04vC/Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1741656713; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=gXkoJz0BHEpL72MVOldGyUT4FDBdKpJJR0DuMpisB80=; 
+	b=Jq+v/maLM/o3mkFJRPxx5AdEKeKAc6JJbHPZ5eOI8l0b4Qccv1Ra8l8YphKPBWgMX+HGsGhXsl0arPI0c5gxNx9nc9uWsEWFMVevCQz8+1MUEJCSnoolWV3cLqYkZvdiOxu7S65xlW3/4tjxLJ033sie1NYZVIh5xuvsB5mRjYE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=mcqueen.au;
+	spf=pass  smtp.mailfrom=craig@mcqueen.au;
+	dmarc=pass header.from=<craig@mcqueen.au>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741656713;
+	s=zmail; d=mcqueen.au; i=craig@mcqueen.au;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=gXkoJz0BHEpL72MVOldGyUT4FDBdKpJJR0DuMpisB80=;
+	b=AT1JhkF0g0eKsU9SM65s42qvELCqLVz51O50V5lHiGvPE3t7i8ycuLefbTD5vRiJ
+	bHyZGsaiKPGaSeL9VX+FXEb4ZgPLfs54SVzh6zejTiC2AMmgcjAmwwzKQfsPApLIzdb
+	+Vvs36A9asW8HMbLqJAhRh5EQNG5G2acQQCXVGyM=
+Received: by mx.zohomail.com with SMTPS id 1741656710141657.3336224073742;
+	Mon, 10 Mar 2025 18:31:50 -0700 (PDT)
+From: Craig McQueen <craig@mcqueen.au>
+To: linux-leds@vger.kernel.org
+Cc: Craig McQueen <craig@mcqueen.au>
+Subject: [PATCH v2 0/1] Introduce userspace LED triggers driver
+Date: Tue, 11 Mar 2025 12:28:06 +1100
+Message-ID: <20250311013143.371930-1-craig@mcqueen.au>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] led-triggers: accept "default" written to sysfs trigger
- attr
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-To: Craig McQueen <craig@mcqueen.au>
-Cc: linux-leds <linux-leds@vger.kernel.org>
-References: <20250306225524.318562-1-craig@mcqueen.au>
- <7ba6f144-0e5c-1d35-5ae0-9dc54751364b@gmail.com>
- <3c63272f-681b-5fa1-0319-497343fb7acc@gmail.com>
- <1957aae44d5.c26ebfad443381.7757757126392409874@mcqueen.au>
- <f1819943-ab2e-4a37-a4be-88a4a5f42437@gmail.com>
-Content-Language: en-US
-In-Reply-To: <f1819943-ab2e-4a37-a4be-88a4a5f42437@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 3/9/25 19:50, Jacek Anaszewski wrote:
-> 
-> 
-> On 3/9/25 12:33, Craig McQueen wrote:
->> On Sat, 08 Mar 2025 04:10:49 +1100 Jacek Anaszewski  wrote:
->>   > On 3/7/25 17:50, Jacek Anaszewski wrote:
->>   > > Hi Craig,
->>   > >
->>   > > On 3/6/25 23:55, Craig McQueen wrote:
->>   > >> If the text "default" is written to the LED's sysfs 'trigger' 
->> attr, then
->>   > >> call led_trigger_set_default() to set the LED to its default 
->> trigger.
->>   > >> ---
->>   > >>   drivers/leds/led-triggers.c | 5 +++++
->>   > >>   1 file changed, 5 insertions(+)
->>   > >>
->>   > >> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led- 
->> triggers.c
->>   > >> index b2d40f87a5ff..f2bc3bb5062d 100644
->>   > >> --- a/drivers/leds/led-triggers.c
->>   > >> +++ b/drivers/leds/led-triggers.c
->>   > >> @@ -54,6 +54,11 @@ ssize_t led_trigger_write(struct file *filp, 
->> struct
->>   > >> kobject *kobj,
->>   > >>           goto unlock;
->>   > >>       }
->>   > >> +    if (sysfs_streq(buf, "default")) {
->>   > >> +        led_trigger_set_default(led_cdev);
->>   > >> +        goto unlock;
->>   > >> +    }
->>   > >> +
->>   > >>       down_read(&triggers_list_lock);
->>   > >>       list_for_each_entry(trig, &trigger_list, next_trig) {
->>   > >>           if (sysfs_streq(buf, trig->name) &&
->>   > >> trigger_relevant(led_cdev, trig)) {
->>   > >
->>   > > Makes sense for me, this would be the second half of the feature 
->> that is
->>   > > now available only from DT level.
->>   > >
->>   > > Reviewed-by: Jacek Anaszewski jacek.anaszewski@gmail.com>
->>   > >
->>   >
->>   > But after re-thinking it - we need to return -EINVAL in case
->>   > LED class device does not define default trigger, so that the user
->>   > had proper feedback.
->>   >
->>   > So, led_trigger_set_default() needs to be extended to return error
->>   > in case of !led_cdev->default_trigger or !found.
->>
->> In systems I've worked on, some LEDs have a default trigger, while 
->> others don't. I.e. it seems normal for an LED to have a default 
->> trigger of "none". I don't think of this as an error condition, but a 
->> normal operation to set an LED's trigger back to "none".
->>
->> The not-found case is an interesting corner case. It might be that a 
->> kernel module that provides a trigger is presently not loaded, so the 
->> trigger is not currently available -- but will be available if the 
->> kernel module is loaded again.
-> 
-> Fair enough.
-> It would be good to add this description to the entry related to
-> "trigger" file in Documentation/ABI/testing/sysfs-class-led.
-> 
+I've done some significant rework since my original submission of this.
 
-Forgot to answer to the below sequence.
+* Moved and renamed driver to drivers/leds/trigger/ledtrig-user.c, 
+following kernel arrangement of trigger drivers.
+But note the char device name and uapi header file are still named 
+'uledtriggers'.
+* Fixed a mutex reentrancy issue with the 'activate' function.
+* Code refactoring and add comments.
+* Add new documentation page to index.
 
->> 1. LED has a default trigger "moduletrigger".
->> 2. Module that provides that trigger "moduletrigger" is unloaded.
+Craig McQueen (1):
+  leds: Introduce userspace LED triggers driver
 
-Now led_trigger_unregister() is called, the trigger is being removed
-from trigger_list and LED class devices having it set, have their
-trigger property set to NULL.
-
->> 3. LED has trigger set to something else, "othertrigger".
-
-LED class device trigger property is being initialized with a pointer
-to the related struct led_trigger.
-
->> 4. led_trigger_set_default() is called for that LED.
->>      Will the LED's trigger be effectively "none", or stay at 
->> "othertrigger"?
-
-Will stay at "othertrigger", since led_trigger_set_default() will end up
-in !found state.
-
->> 5. Module that provides "moduletrigger" is loaded again.
->>      Will the LED be connected to its default trigger "moduletrigger", 
->> or remain at "none"?
-
-Will remain at "othertrigger". led_trigger_register() would set default
-trigger for LED class device only if no trigger is set for the LED,
-and the name matches LED's default trigger
-
+ Documentation/leds/index.rst        |   1 +
+ Documentation/leds/ledtrig-user.rst |  36 +++
+ drivers/leds/trigger/Kconfig        |  10 +
+ drivers/leds/trigger/Makefile       |   1 +
+ drivers/leds/trigger/ledtrig-user.c | 348 ++++++++++++++++++++++++++++
+ include/uapi/linux/uledtriggers.h   | 123 ++++++++++
+ 6 files changed, 519 insertions(+)
+ create mode 100644 Documentation/leds/ledtrig-user.rst
+ create mode 100644 drivers/leds/trigger/ledtrig-user.c
+ create mode 100644 include/uapi/linux/uledtriggers.h
 
 -- 
-Best regards,
-Jacek Anaszewski
+2.48.1
 
 
