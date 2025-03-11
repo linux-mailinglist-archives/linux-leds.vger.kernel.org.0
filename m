@@ -1,117 +1,105 @@
-Return-Path: <linux-leds+bounces-4232-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4233-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4064A5BFE8
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 13:01:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D56A5C089
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 13:18:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B22D3A6BB9
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 12:00:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12968179435
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 12:14:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54138221F03;
-	Tue, 11 Mar 2025 12:01:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE19C25A2BE;
+	Tue, 11 Mar 2025 12:05:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="DFYWG/si"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Eh2YWVF/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3073597C;
-	Tue, 11 Mar 2025 12:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804E42566DA;
+	Tue, 11 Mar 2025 12:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741694462; cv=none; b=ASGBK845XRmsI91DvfOsMw6ZgvsQiPKecTUQu8zPsbnYP+mV540gVl75VA76/1eGsXuvTrZfJ/NAGR0vSIa9V67wb2pe8hvojeBBCdvuB6C+6eeDYxEsNScsTyXesgqhjVnJtsNAubBJT+d9JJdAjO7UVKXCqiRnxJ5A0kaPLlk=
+	t=1741694758; cv=none; b=c+OyHVJ0e1RqHE4GUcdftwLa2oYHzmfMeOeQpJbe3nFaeDGU+Edqbs2wUmWZgwoGQbPq3geylhab8ytcaE2m7w4if7eYAWyRd4jKxN7OIjwqHR7BE08leRrtUoLuj2F92EJcvqZ3+EGxbdpSepGV4qANNkMLPeDTKp33q2hvWqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741694462; c=relaxed/simple;
-	bh=1po9kPpQ5NSe95BZBG3yLS0Kw6JEa7dbgysMQJ2FGYA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C05xlg0lRYTNdYa96GGzt2rASu3dS8HDAaZf5rmwhwxC48apN1FCZWta3I83BPM6u/Srr+sw79rCT5LKM/+J7oz+5T4p6dDsHK77gl2gjxnu1gMNNy/PTjV++9IUGcjw7QxjoBu8RMnxMpZrhahXOWI0jbJ2zrdiDfTpDO6jbcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=DFYWG/si; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1741694421; x=1742299221; i=markus.elfring@web.de;
-	bh=1po9kPpQ5NSe95BZBG3yLS0Kw6JEa7dbgysMQJ2FGYA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=DFYWG/siRh0Mh/2be3tAPCHYrqeeu0/+cHC14EWXnBOem63oJzDXMoohArMYAT0P
-	 utdEpb3PlH/NH4mHcvvApNBhWZyEMXqUx66l8VnTqDt+9zkMgHlZ2Svmh5LslMC9H
-	 CsAst5VWlRAYT/3McvxAmqzg9G3Z3XUfEix1etePWq3elzVe6U34HhS/iqRb/Zrwg
-	 pUu9tyoyiM9n0QTYUnEV9vq+nWLo81HkG6caRbHxeE0oxIFrQ0X2y0mXWBB+b52vc
-	 aduFyui07XuG+hVWr0vOpUhp0ijBP3VBkt2TDCK2oTqmD84qSxArWhWQj8ZgFUrCG
-	 mfa5++zL1WOlYlXcAQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.40]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MP3CC-1tZMWv1jqO-00VlJ9; Tue, 11
- Mar 2025 13:00:21 +0100
-Message-ID: <bf26ba74-ff44-4642-864e-2c54d49ead74@web.de>
-Date: Tue, 11 Mar 2025 13:00:16 +0100
+	s=arc-20240116; t=1741694758; c=relaxed/simple;
+	bh=0cWb21nqnB2z8EJJlmAU3Y6DZrRZsqCDg8wtqbR+R74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WpzgfX/HMLbEsEEM88vtxzcEi5F2/mJrX2/d3gdGQ5b0RQ9cpWe3fWN0u2J92rjN/lRQOmiCYjj6XTPY9fWafTb9T8+EnkrvXwYygjelR1CnkrBKZM3fKc9vSnGKR0vN+LLgVYbgV1CXnP5XgrKhh4pihykkGGFQGKRjHo1WGfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Eh2YWVF/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC1AC4CEE9;
+	Tue, 11 Mar 2025 12:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1741694758;
+	bh=0cWb21nqnB2z8EJJlmAU3Y6DZrRZsqCDg8wtqbR+R74=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eh2YWVF/LRUQN9pp79HQAyBs/+OdziLshIcq5UGoEN4qDij1LMwlLrR1dSaz4Pywv
+	 nlfJZ6GjiUge8nTzmukbaUS097jz3/5Uy8OajQ+YGQ517Q1M2Vk62TrEqm2pCDznux
+	 9sWIc3Va5HwLqeQCWqzOz6smPCdtP5c2cPexbdl8=
+Date: Tue, 11 Mar 2025 13:05:55 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-acpi@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Rob Herring <robh@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Pavel Machek <pavel@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 1/4] device property: Split fwnode_get_child_node_count()
+Message-ID: <2025031151-camcorder-sandstone-bd1c@gregkh>
+References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
+ <20250310150835.3139322-2-andriy.shevchenko@linux.intel.com>
+ <bf26ba74-ff44-4642-864e-2c54d49ead74@web.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] device property: Split fwnode_get_child_node_count()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-acpi@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Jakob Riepler <jakob+lkml@paranoidlabs.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, Rob Herring <robh@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Danilo Krummrich <dakr@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lee Jones <lee@kernel.org>, Matti Vaittinen <mazziesaccount@gmail.com>,
- Pavel Machek <pavel@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
- <20250310150835.3139322-2-andriy.shevchenko@linux.intel.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250310150835.3139322-2-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Q/a3GCeWD3iUFv6+3kpvObqx+Bs4+4nh6EgTLERJ3lTZ1L52yrg
- Q2VwG9XADV/Ol9rBvkHE9v7/VSYnZeBq+K12f5MpvIUNTVqFeExkLvdolfJKEN1vU5XPP1I
- oeEf8/hlStMfKsV6QZRn7ejw42fIEuDEbzUmonLDw+2E03UJ7UkHaBHIt6wvvfOazNW4Wem
- q3vahFzBH9NvO9iYRb5CA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:M0Vtme7G86E=;Z4oV0SEqDKd1dI2BbPj5sTxr7dv
- 9kx9rhCJNbUFO7cYtCYt12hgM20h1d5bcYz9n/9Z5XW0shX9AJZ78iKFb4wcH9Ir2rdUcTVVo
- PRz2SysCb/frPHYUA/TNQoPI91FJzflnEvtLj3DvX3v+ULH1qtgUzcLroRWOGm7GdFFjL2lYT
- s2aqDca1l4mGYB9J4MyxdmPykJtpFtnZRzSnlu+w6KdvgZX+k8jA4sYX2Ad0Ba3NHWlrZqB4x
- IjZMOnqNJBEiSN8lbfYPsUL0C3M5UEQwIZlBX4iVc5qcX/K42ChZudsL7JlC19sNIESmCMcLv
- wZn9AXGROECKN9JtDnuLJtXTl3Imkos7T6pROa7YaJo1JfcWS11dTeR20ovhHXquLkZz35YJV
- vVKnxittJ6rv4xfYcoey1sFk0yVPGa09OzzkyLniYoOo6hBfmRkjEn3PQ/0BPzpI/tNs+4kHb
- YC9a9gIaIGVYBsJEEzXltXqOhlH2kAm5Ai+uD74LTatv+rX5URneTV9jddiXggcSmoBa56SvT
- 60yRlhwWsA5gWRnDPsWDHYTimTqTz24ARvRgWmJ6f05QGdtrC9YYxs4uFz/Twga1h1XSov7VO
- 4otoTQDBh2KWhX64CsC7/bq3HSrHAeAOELyPGm2CA+xXnNnSPem735RzBgMqTdvCt/Mtf4/e+
- JVy8K7QJkUEAInDt66QZUrSYpZVH9WecY9TLD6QAai7D9mAqUDGcMEb+PKATbua/zpzMCy3w/
- TixFfrOJNpQvTpsrSREN+hzn1XVuISafELT5B4xUkQFYVXGS8P7SQhLaR7QUKd2APX81fqD1A
- J56oET7hkOFagf2Jo7kx4NBy/bd1gKzh8R5n1A1A8k0hKwaHmGZOXa7hoTiWiWCVVBfVnOuo/
- 8dxm5R+2nS5MO0nU5CHrfNACy55eSUCNcZEvEYPwJd1V7Pv5V9/QqCosA6D4hU2/z/HUjAf4M
- b/x2EQJyJVWuS8h38RNPrDSqwLOhMOTE/MFIQ0mmKcZJ2i1SNM3vdTDN7qGLdTCpopG5/J6j+
- FNQlw4NjtoS9eMo1rrD5q7Loe1QhXleQ34VdP1iXs5x87i4AzjYWoc7PmbEitItF64UAgKfP3
- TpGUCz+4Nju6sKJsVBs6TbitlVQNmQ18xXGnXMnD4AAATq5BH4nyhEL9zxirrufwRJEdeyQA3
- is2CXBAERevsmiSGxF0MhTrHvX2QJC8OfoKi17zo4sXSZ3g5c0D4LY875A8rJkcF0X/qjrHJa
- CTFA7kD4NueAwZodu9RxIJmrm3jr2xOCNXlKE6O7E1e7R0m3qJ+H+kiNkQUE4cB2vSQ9SG9Ko
- Jiq3qZCOlWVD6om6KyH/jM8TbpOkHDnMHmbbfHYnFNr6NWJ22L8SlfqLdhX0JikbxQgTNVrr0
- RDE4B3D8TgHKlT0sT8AfeB9zyU7HeSmjRZp9tSNKMFSpGs2RITDORU5oNSmCta+LN6WcdWJS9
- 8xaNWEg==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bf26ba74-ff44-4642-864e-2c54d49ead74@web.de>
 
-> The new helper is introduced to allow counting the child firmware nodes
-> of their parent without requiring a device to be passed. =E2=80=A6
+On Tue, Mar 11, 2025 at 01:00:16PM +0100, Markus Elfring wrote:
+> > The new helper is introduced to allow counting the child firmware nodes
+> > of their parent without requiring a device to be passed. …
+> 
+> See also:
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14-rc6#n94
+> 
+> Regards,
+> Markus
+> 
 
-See also:
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/process/submitting-patches.rst?h=3Dv6.14-rc6#n94
+Hi,
 
-Regards,
-Markus
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
+
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
+
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
+
+thanks,
+
+greg k-h's patch email bot
 
