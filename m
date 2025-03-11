@@ -1,65 +1,69 @@
-Return-Path: <linux-leds+bounces-4233-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4234-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D56A5C089
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 13:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B751EA5C2DE
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 14:41:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12968179435
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 12:14:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0B41176A74
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Mar 2025 13:40:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE19C25A2BE;
-	Tue, 11 Mar 2025 12:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C68D1C5F39;
+	Tue, 11 Mar 2025 13:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Eh2YWVF/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQmvbkQ+"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804E42566DA;
-	Tue, 11 Mar 2025 12:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7751917F4;
+	Tue, 11 Mar 2025 13:40:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741694758; cv=none; b=c+OyHVJ0e1RqHE4GUcdftwLa2oYHzmfMeOeQpJbe3nFaeDGU+Edqbs2wUmWZgwoGQbPq3geylhab8ytcaE2m7w4if7eYAWyRd4jKxN7OIjwqHR7BE08leRrtUoLuj2F92EJcvqZ3+EGxbdpSepGV4qANNkMLPeDTKp33q2hvWqg=
+	t=1741700455; cv=none; b=FbATwkyBlH01sJKsMBsFyelmwZ+J83U9PdbgmbRnn8lsuhjMByaNySW1m0+esV8u0dNTTff4yMgWuplXqP6RpUGo3M7tmy39kk+S8sYcfVBF5yrhIGa+sJJ0LKy4kWt9/TiQYN2jYr6YLaMw90Ba0zxGLs/X8hWyrly+CbE7zSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741694758; c=relaxed/simple;
-	bh=0cWb21nqnB2z8EJJlmAU3Y6DZrRZsqCDg8wtqbR+R74=;
+	s=arc-20240116; t=1741700455; c=relaxed/simple;
+	bh=Gf0R7gditoYzuwPdbW2qqyMvm9Ccy9LeE68JuPxBAD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WpzgfX/HMLbEsEEM88vtxzcEi5F2/mJrX2/d3gdGQ5b0RQ9cpWe3fWN0u2J92rjN/lRQOmiCYjj6XTPY9fWafTb9T8+EnkrvXwYygjelR1CnkrBKZM3fKc9vSnGKR0vN+LLgVYbgV1CXnP5XgrKhh4pihykkGGFQGKRjHo1WGfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Eh2YWVF/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC1AC4CEE9;
-	Tue, 11 Mar 2025 12:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1741694758;
-	bh=0cWb21nqnB2z8EJJlmAU3Y6DZrRZsqCDg8wtqbR+R74=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/47Mv/Y9jwWtFZRcjbzY7cI3Ur4QWLh6Ko6Unxr7ghRIpeepAjlL3UmzIlf8bR6hkex73IbSLd9Oc5aMGGVGHawQC5rom/ml98PJo64+6QeJpkJat3QORwSDoQ/CLGxSqkgtdMtt9zr9AaGcYdXU54Jfwj5wobvnEGv2ZcTnyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQmvbkQ+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A681C4CEE9;
+	Tue, 11 Mar 2025 13:40:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741700454;
+	bh=Gf0R7gditoYzuwPdbW2qqyMvm9Ccy9LeE68JuPxBAD0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eh2YWVF/LRUQN9pp79HQAyBs/+OdziLshIcq5UGoEN4qDij1LMwlLrR1dSaz4Pywv
-	 nlfJZ6GjiUge8nTzmukbaUS097jz3/5Uy8OajQ+YGQ517Q1M2Vk62TrEqm2pCDznux
-	 9sWIc3Va5HwLqeQCWqzOz6smPCdtP5c2cPexbdl8=
-Date: Tue, 11 Mar 2025 13:05:55 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-acpi@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Rob Herring <robh@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Pavel Machek <pavel@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH 1/4] device property: Split fwnode_get_child_node_count()
-Message-ID: <2025031151-camcorder-sandstone-bd1c@gregkh>
-References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
- <20250310150835.3139322-2-andriy.shevchenko@linux.intel.com>
- <bf26ba74-ff44-4642-864e-2c54d49ead74@web.de>
+	b=NQmvbkQ+bgaQDX3OpuW57y4xyHeLysL04t7l+qbl2gQwaq+6lFkGniI2kgXzNfDGr
+	 6XxC+R1it1TlfnrxXjxdC3JsN8NLxU+BoOf9Wz/tJfUV6QQjZzwYER2KUAhzP08sK6
+	 rFGmsQB2TJl3RO7eR6hNfNWh+gl5rNJDJMPUM1Jsa2nwZ05Cjw954c7Aqazl8WxhA1
+	 aQGqZNl5BuXlrrJV/g5rOZCux0HvpgX4hPYkDIhaLA04KJqNqevslxdzSqmeW4WUuk
+	 dFAQlMyXvPMhIl4a0DPXGAyw/oeP2lZcAWoP4ckSogqhn3YxKQdudaTiavuPj8Dj1q
+	 fh5X6tdu43v+A==
+Date: Tue, 11 Mar 2025 13:40:48 +0000
+From: Lee Jones <lee@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] mfd: lm3533: convert to use OF
+Message-ID: <20250311134048.GI8350@google.com>
+References: <20250224114815.146053-1-clamor95@gmail.com>
+ <20250224114815.146053-3-clamor95@gmail.com>
+ <20250228085927.GM824852@google.com>
+ <CAPVz0n0jaR=UM7WbBs3zM-cZzuaPVWBjf4Q7i82hvxtXg2oCzQ@mail.gmail.com>
+ <20250305134455.2843f603@jic23-huawei>
+ <CAPVz0n3Qt00my1ejoyEgxTRi-mQszHybwhPq70eO=94oxMfECQ@mail.gmail.com>
+ <20250308171932.2a5f0a9b@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,37 +73,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bf26ba74-ff44-4642-864e-2c54d49ead74@web.de>
+In-Reply-To: <20250308171932.2a5f0a9b@jic23-huawei>
 
-On Tue, Mar 11, 2025 at 01:00:16PM +0100, Markus Elfring wrote:
-> > The new helper is introduced to allow counting the child firmware nodes
-> > of their parent without requiring a device to be passed. …
+On Sat, 08 Mar 2025, Jonathan Cameron wrote:
+
+> On Wed, 5 Mar 2025 16:18:38 +0200
+> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 > 
-> See also:
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.14-rc6#n94
+> > ср, 5 бер. 2025 р. о 15:45 Jonathan Cameron <jic23@kernel.org> пише:
+> > >
+> > > On Fri, 28 Feb 2025 11:30:51 +0200
+> > > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > >  
+> > > > пт, 28 лют. 2025 р. о 10:59 Lee Jones <lee@kernel.org> пише:  
+> > > > >
+> > > > > On Mon, 24 Feb 2025, Svyatoslav Ryhel wrote:
+> > > > >  
+> > > > > > Remove platform data and fully relay on OF and device tree
+> > > > > > parsing and binding devices.
+> > > > > >
+> > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > > ---
+> > > > > >  drivers/iio/light/lm3533-als.c      |  40 ++++---
+> > > > > >  drivers/leds/leds-lm3533.c          |  46 +++++---
+> > > > > >  drivers/mfd/lm3533-core.c           | 159 ++++++++--------------------
+> > > > > >  drivers/video/backlight/lm3533_bl.c |  71 ++++++++++---
+> > > > > >  include/linux/mfd/lm3533.h          |  35 +-----
+> > > > > >  5 files changed, 164 insertions(+), 187 deletions(-)
+> > > > > >  
+> > ...
+> > > > > >       /* ALS input is always high impedance in PWM-mode. */
+> > > > > > -     if (!pdata->pwm_mode) {
+> > > > > > -             ret = lm3533_als_set_resistor(als, pdata->r_select);
+> > > > > > +     if (!als->pwm_mode) {
+> > > > > > +             ret = lm3533_als_set_resistor(als, als->r_select);  
+> > > > >
+> > > > > You're already passing 'als'.
+> > > > >
+> > > > > Just teach lm3533_als_set_resistor that 'r_select' is now contained.
+> > > > >  
+> > > >
+> > > > This is not scope of this patchset. I was already accused in too much
+> > > > changes which make it unreadable. This patchset is dedicated to
+> > > > swapping platform data to use of the device tree. NOT improving
+> > > > functions, NOT rewriting arbitrary mechanics. If you feed a need for
+> > > > this change, then propose a followup. I need from this driver only one
+> > > > thing, that it could work with device tree. But it seems that it is
+> > > > better that it just rots in the garbage bin until removed cause no one
+> > > > cared.  
+> > >
+> > > This is not an unreasonable request as you added r_select to als.
+> > > Perhaps it belongs in a separate follow up patch.  
+> > 
+> > I have just moved values used in pdata to private structs of each
+> > driver. Without changing names or purpose.
+> > 
+> > > However
+> > > it is worth remembering the motivation here is that you want get
+> > > this code upstream, the maintainers don't have that motivation.  
+> > 
+> > This driver is already upstream and it is useless and incompatible
+> > with majority of supported devices. Maintainers should encourage those
+> > who try to help and instead we have what? A total discouragement. Well
+> > defined path into nowhere.
 > 
-> Regards,
-> Markus
+> That is not how I read the situation. A simple request was made to
+> result in more maintainable code as a direct result of that
+> improvement being enabled by code changes you were making.
+> I'm sorry to hear that discouraged you.
 > 
+> > 
+> > >
+> > > Greg KH has given various talks on the different motivations in the
+> > > past. It maybe worth a watch.
+> > >
+> > >  
+> > > >  
+> > > > > >               if (ret)
+> > > > > >                       return ret;
+> > > > > >       }
+> > > > > > @@ -828,22 +833,16 @@ static const struct iio_info lm3533_als_info = {
+> > > > > >
+> > > > > >  static int lm3533_als_probe(struct platform_device *pdev)
+> > > > > >  {
+> > > > > > -     const struct lm3533_als_platform_data *pdata;
+> > > > > >       struct lm3533 *lm3533;
+> > > > > >       struct lm3533_als *als;
+> > > > > >       struct iio_dev *indio_dev;
+> > > > > > +     u32 val;  
+> > > > >
+> > > > > Value of what, potatoes?
+> > > > >  
+> > > >
+> > > > Oranges.  
+> > >
+> > > A well named variable would avoid need for any discussion of
+> > > what it is the value of.
+> > >  
+> > 
+> > This is temporary placeholder used to get values from the tree and
+> > then pass it driver struct.
+> 
+> Better if it is a temporary placeholder with a meaningful name.
+> 
+> > 
+> > > >  
+> > > > > >       int ret;
+> > > > > >
+> > > > > >       lm3533 = dev_get_drvdata(pdev->dev.parent);
+> > > > > >       if (!lm3533)
+> > > > > >               return -EINVAL;
+> > > > > >
+> > > > > > -     pdata = dev_get_platdata(&pdev->dev);
+> > > > > > -     if (!pdata) {
+> > > > > > -             dev_err(&pdev->dev, "no platform data\n");
+> > > > > > -             return -EINVAL;
+> > > > > > -     }
+> > > > > > -
+> > > > > >       indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*als));
+> > > > > >       if (!indio_dev)
+> > > > > >               return -ENOMEM;
+> > > > > > @@ -864,13 +863,21 @@ static int lm3533_als_probe(struct platform_device *pdev)
+> > > > > >
+> > > > > >       platform_set_drvdata(pdev, indio_dev);
+> > > > > >
+> > > > > > +     val = 200 * KILO; /* 200kOhm */  
+> > > > >
+> > > > > Better to #define magic numbers; DEFAULT_{DESCRIPTION}_OHMS
+> > > > >  
+> > > >
+> > > > Why? that is not needed.  
+> > > If this variable had a more useful name there would be no need for
+> > > the comment either.
+> > >
+> > >         val_resitor_ohms = 200 * KILLO;
+> > >
+> > > or similar.
+> > >  
+> > 
+> > So I have to add a "reasonably" named variable for each property I
+> > want to get from device tree? Why? It seems to be a bit of overkill,
+> > no? Maybe I am not aware, have variables stopped being reusable?
+> 
+> Lets go with yes if you want a definitive answer. In reality it's
+> a question of how many are needed.  If 10-100s sure reuse is fine,
+> if just a few sensible naming can remove the need for comments
+> and improve readability.
+> 
+> Jonathan
 
-Hi,
+You clearly have more patience for this than I do!  =;-)
 
-This is the semi-friendly patch-bot of Greg Kroah-Hartman.
-
-Markus, you seem to have sent a nonsensical or otherwise pointless
-review comment to a patch submission on a Linux kernel developer mailing
-list.  I strongly suggest that you not do this anymore.  Please do not
-bother developers who are actively working to produce patches and
-features with comments that, in the end, are a waste of time.
-
-Patch submitter, please ignore Markus's suggestion; you do not need to
-follow it at all.  The person/bot/AI that sent it is being ignored by
-almost all Linux kernel maintainers for having a persistent pattern of
-behavior of producing distracting and pointless commentary, and
-inability to adapt to feedback.  Please feel free to also ignore emails
-from them.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+Lee Jones [李琼斯]
 
