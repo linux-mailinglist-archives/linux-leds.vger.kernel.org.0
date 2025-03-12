@@ -1,159 +1,145 @@
-Return-Path: <linux-leds+bounces-4236-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4237-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325E4A5D3DF
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 02:12:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 065C2A5D4BC
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 04:30:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9005189BF1C
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 01:12:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 107967A9D1D
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 03:29:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FEDF13AD38;
-	Wed, 12 Mar 2025 01:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C138F19DF52;
+	Wed, 12 Mar 2025 03:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b="SogET6NT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SCdnctzN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF788635B
-	for <linux-leds@vger.kernel.org>; Wed, 12 Mar 2025 01:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741741918; cv=pass; b=dCWSJ8589Njl0ZN8nuZFPo4ULFsg0fbrTFUT4NdygJAWsr2VscXQmPwBCEfDOX+hE81i/DiDFsVKaLUaPY6cfCV111n2q/MO7PsZR/z50SIX2jx32hxDZDtS02IRuIUxT1LJSwA2egSe+LaaRI4s8KSurbber/LRZKNZe/bayDM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741741918; c=relaxed/simple;
-	bh=teAVtI3URCNbzOocDOzCFMGg7ZQcP1vkIrr88RnyhBo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jo34n0duxLbv4XQE2U50tL6dizTAdEOTJwiqefe0y1urCjGXSYMSJ0nU7j0lwtNPGEH3r3llDcbGjridfN9GWC5YiZbHaC+SM6THiM3W8eRYgwsl0b72qoE8UzYmXVElFfOx/TfoQuDERiDSXLUi/jROKvYmc7qzroLzM3mgadY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au; spf=pass smtp.mailfrom=mcqueen.au; dkim=pass (1024-bit key) header.d=mcqueen.au header.i=craig@mcqueen.au header.b=SogET6NT; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mcqueen.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mcqueen.au
-ARC-Seal: i=1; a=rsa-sha256; t=1741741913; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=DEo+Mg1E9+2gVYRnCpAlDMJf5XS5pNW3TePAQzHGUGzE7R1kYcDKp/oNorbcZCqAlNgshmAg/DDVoeUu+lbBTuST21HW/0Y9FYzG3/ZBTp9qkX48/W+5x2sOYgguTWzUoM4mKfr/DPBPvYLRl1qNHBMCSnW54uX1xWwTCtuuDtU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741741913; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=cOHA8VDABXhA1mR8+v4wGvUh5fzz/32jTavn3rF9vqQ=; 
-	b=al5HFPx0EpB9SLjQrrsv6BwJON5jecK3bIXFUrKoY8b6VO8Np7lDr8XO5rpsPvcdAzRRPufYkEyc2L6E4GS0m2nJhZsMMMszwcmc/CRl5BT2CuQkJ2PEoNq14bBiVWSA3b7kEFta4/1nQrUHV7/Jg3NMTBX9NFTyt2s8Q6CSAmE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=mcqueen.au;
-	spf=pass  smtp.mailfrom=craig@mcqueen.au;
-	dmarc=pass header.from=<craig@mcqueen.au>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741741913;
-	s=zmail; d=mcqueen.au; i=craig@mcqueen.au;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=cOHA8VDABXhA1mR8+v4wGvUh5fzz/32jTavn3rF9vqQ=;
-	b=SogET6NTJqpIWVoefdW1xk0nUeo8thVZft2bk/JlaCqRBjDh6YWUcf/jsrbx0Mqn
-	lAAKx8t+QDGAER3tT5cyhw6lI54fmop52tV/90OEwjW6FZLPXfJc4xsk2lNnGk6zw/P
-	4eLC/lIfFYa8CxC2TXAvmaukGWZ7LI490IYodyko=
-Received: by mx.zohomail.com with SMTPS id 1741741907981761.1289745040816;
-	Tue, 11 Mar 2025 18:11:47 -0700 (PDT)
-From: Craig McQueen <craig@mcqueen.au>
-To: linux-leds@vger.kernel.org
-Cc: Craig McQueen <craig@mcqueen.au>
-Subject: [PATCH v2] leds: led-triggers: Improvements for default trigger
-Date: Wed, 12 Mar 2025 12:11:35 +1100
-Message-ID: <20250312011136.380647-1-craig@mcqueen.au>
-X-Mailer: git-send-email 2.48.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9BF1AF4E9
+	for <linux-leds@vger.kernel.org>; Wed, 12 Mar 2025 03:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741750205; cv=none; b=n2iyOpWpCiYcjLrWgNsXVpb2nrKFSUfTqyqPTUyKx/+e17AOLVk2BMiLF6kxYfgFXcM8xw8vYKVl8WkarRwBwMpnp9cxJo0+wZIrKItopO25m8NuylvqYLrwgqiPlqbI/WoYRoZLu4ytZ/xugxOBufwJvhn30jtETISZoIaBCUE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741750205; c=relaxed/simple;
+	bh=8lKtlD878CpQP9xdYqFaFtx3UJlB12BxxXmMp7FSGqs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZYclgDj+cewShO4L9tGWcSNvQT4hPBm0xn9Rq1M3bDH8aV4aYHdK/6GXBEHm/kMfiynlEA0ygoWNJGSEqk6AnQGsFRJC0z2MvkMwHXm+R/ZuN2fwT8QWmAcicWJkI0f3734LBw96NuplRGK0xoGZYQwwryGXhU1GU4D5BF/A2c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SCdnctzN; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5499c8c95beso2988e87.0
+        for <linux-leds@vger.kernel.org>; Tue, 11 Mar 2025 20:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741750202; x=1742355002; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RTC6q0jJyCwm0Ms6LHn8x6WPWhr3FL+RLBtkQPmtIBA=;
+        b=SCdnctzNnSQ6OV94jeyRzz30MMnwKbd/5DR3O/n9/ZAEWRmHwSq23ZieiscVfXd2k3
+         XfDPJcXyI2Uh8RWOWMcINcUSEi3w8miJif/NMwqoe0UtaeFSnZGhiQ354mOz47F0p31l
+         W/QEpUcu2lHpBvpzhHyADnj9J6nnw1xqCBquRj064VT3P57hjd3UZmuXiDkXsbpwD7WY
+         RUn73/+1gs0JdvtLneFsbO9XZ0+m1/oufcO8FxdUIRlgsi7kVvX0rPj31/zpSqbZc961
+         VGFQdIm0flEBAuAqgblCOp6SXqv1qj5NrFd7mdUO61wO01BqhrPl1mCk/6501yb6wtHB
+         sorA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741750202; x=1742355002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RTC6q0jJyCwm0Ms6LHn8x6WPWhr3FL+RLBtkQPmtIBA=;
+        b=XrQOgxVrTmkz55i8WM86Df2MX1os3+zLUD+LFxipyGky8ayITamb7fEGpGKEXMn5gH
+         aGhQC2Ooj5W4qudq66hG6rg8mXghAYY/a9Cr4gqAES1fgoGPrADI9O9v8RiwXJ7kHs6U
+         Njx8ggn8+MbdjmnUzWFmsKEWI4zvomTdPKInjEqF5hCBJ1xtsqpzXSVJ9V0QQpMGthFr
+         HqLKaEwXlUuQAtvOdBDfy706SRuxWE2pynxb6JR4vglfasVSoJAPUU7gCstsLPvbp3+2
+         Ofs+UKPZWC0QlU59z9GO6ppck05INb7FedInB+FDhvaicltWb7PXcCJWFqVxIf4aou+K
+         5vtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWq4GMjEERS4UuqB2puOsYzsT1KiXOFCIYrsLc+gH7Q5tI+OotYB/IHXwno07ff6/FYTZYwxyH9QRp/@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoCyWqVleN/n+l94fZimRCDBK4bO0Z3oXxvUlLAnh1Edz1AGon
+	FX3IVqX1+gR4cSNxP8SZuaa2sEE80nxKILuGMBMFHOp+q/MK/1PV1snAJa4mE1zyJyQnFD33RaS
+	84hYpY1XPd2DQhQtGjcwjbcmZdtTJsYS1y5RB
+X-Gm-Gg: ASbGncs2W86+71IhHVEQF5meazSIbNsDWTmNJ/aHQypf8QkyriD29LWTxiqKJsvrP0e
+	AaVCmT51IPa3B+x0R4eQZDzuJjm+YXGfzcfSLOq76peXTFTXm+O4TXV9Tp6Kx8x/TmjllRa5xva
+	lUolric2Y5qC7lkYx+RybZjijxTOYMCeUiV/nteKrggU48h575e9HBBHB3
+X-Google-Smtp-Source: AGHT+IGP1YVSO5G5A7NPOF9hu8UMZmUxtP+Fj7fvYTNYvV5zNSe928DhT3IQzPqsLEwOPja96dJF23KWfgwjHorjZPM=
+X-Received: by 2002:a05:6512:3c96:b0:545:1dea:7b2e with SMTP id
+ 2adb3069b0e04-549b1c370camr195846e87.6.1741750201654; Tue, 11 Mar 2025
+ 20:30:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com> <20250310150835.3139322-5-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20250310150835.3139322-5-andriy.shevchenko@linux.intel.com>
+From: Kyle Tso <kyletso@google.com>
+Date: Wed, 12 Mar 2025 11:29:45 +0800
+X-Gm-Features: AQ5f1JqezutAuLR9RCiDwHugv6YDAlJdEYt9fLJCmtrMads3aQIZSAKhgQtQ5Ys
+Message-ID: <CAGZ6i=0GuBvEU41Offobn1MzMuFumn9F6JLHXsKppPidkjCLVw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] usb: typec: tcpm: Use fwnode_get_child_node_count()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rob Herring (Arm)" <robh@kernel.org>, 
+	Markus Elfring <elfring@users.sourceforge.net>, Jakob Riepler <jakob+lkml@paranoidlabs.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-usb@vger.kernel.org, Daniel Scally <djrscally@gmail.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, Jonathan Cameron <jic23@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Accept "default" written to sysfs trigger attr.
-If the text "default" is written to the LED's sysfs 'trigger' attr, then
-call led_trigger_set_default() to set the LED to its default trigger.
+On Mon, Mar 10, 2025 at 11:09=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> Since fwnode_get_child_node_count() was split from its device property
+> counterpart, we may utilise it in the driver and drop custom implementati=
+on.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-If the default trigger is set to "none", then led_trigger_set_default()
-will remove a trigger. This is in contrast to the default trigger being
-unset, in which case led_trigger_set_default() does nothing.
----
- Documentation/ABI/testing/sysfs-class-led |  6 ++++++
- drivers/leds/led-triggers.c               | 26 ++++++++++++++++++++++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
+Acked-by: Kyle Tso <kyletso@google.com>
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
-index 2e24ac3bd7ef..0313b82644f2 100644
---- a/Documentation/ABI/testing/sysfs-class-led
-+++ b/Documentation/ABI/testing/sysfs-class-led
-@@ -72,6 +72,12 @@ Description:
- 		/sys/class/leds/<led> once a given trigger is selected. For
- 		their documentation see `sysfs-class-led-trigger-*`.
- 
-+		Writing "none" removes the trigger for this LED.
-+
-+		Writing "default" sets the trigger to the LED's default trigger
-+		(which would often be configured in the device tree for the
-+		hardware).
-+
- What:		/sys/class/leds/<led>/inverted
- Date:		January 2011
- KernelVersion:	2.6.38
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index b2d40f87a5ff..00c898af9969 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -49,11 +49,21 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
- 		goto unlock;
- 	}
- 
-+	/* Empty string. Do nothing. */
-+	if (sysfs_streq(buf, "")) {
-+		goto unlock;
-+	}
-+
- 	if (sysfs_streq(buf, "none")) {
- 		led_trigger_remove(led_cdev);
- 		goto unlock;
- 	}
- 
-+	if (sysfs_streq(buf, "default")) {
-+		led_trigger_set_default(led_cdev);
-+		goto unlock;
-+	}
-+
- 	down_read(&triggers_list_lock);
- 	list_for_each_entry(trig, &trigger_list, next_trig) {
- 		if (sysfs_streq(buf, trig->name) && trigger_relevant(led_cdev, trig)) {
-@@ -98,6 +108,9 @@ static int led_trigger_format(char *buf, size_t size,
- 	int len = led_trigger_snprintf(buf, size, "%s",
- 				       led_cdev->trigger ? "none" : "[none]");
- 
-+	if (led_cdev->default_trigger && led_cdev->default_trigger[0])
-+		len += led_trigger_snprintf(buf + len, size - len, " default");
-+
- 	list_for_each_entry(trig, &trigger_list, next_trig) {
- 		bool hit;
- 
-@@ -278,9 +291,20 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
- 	struct led_trigger *trig;
- 	bool found = false;
- 
--	if (!led_cdev->default_trigger)
-+	/* NULL pointer or empty string. Do nothing. */
-+	if (!led_cdev->default_trigger || !led_cdev->default_trigger[0])
- 		return;
- 
-+	/* This case isn't sensible. Do nothing. */
-+	if (!strcmp(led_cdev->default_trigger, "default"))
-+		return;
-+
-+	/* Remove trigger. */
-+	if (!strcmp(led_cdev->default_trigger, "none")) {
-+		led_trigger_remove(led_cdev);
-+		return;
-+	}
-+
- 	down_read(&triggers_list_lock);
- 	down_write(&led_cdev->trigger_lock);
- 	list_for_each_entry(trig, &trigger_list, next_trig) {
--- 
-2.48.1
-
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.=
+c
+> index 9c455f073233..8ca2e26752fb 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -7166,7 +7166,7 @@ static void tcpm_fw_get_timings(struct tcpm_port *p=
+ort, struct fwnode_handle *fw
+>
+>  static int tcpm_fw_get_caps(struct tcpm_port *port, struct fwnode_handle=
+ *fwnode)
+>  {
+> -       struct fwnode_handle *capabilities, *child, *caps =3D NULL;
+> +       struct fwnode_handle *capabilities, *caps =3D NULL;
+>         unsigned int nr_src_pdo, nr_snk_pdo;
+>         const char *opmode_str;
+>         u32 *src_pdo, *snk_pdo;
+> @@ -7232,9 +7232,7 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,=
+ struct fwnode_handle *fwnode
+>         if (!capabilities) {
+>                 port->pd_count =3D 1;
+>         } else {
+> -               fwnode_for_each_child_node(capabilities, child)
+> -                       port->pd_count++;
+> -
+> +               port->pd_count =3D fwnode_get_child_node_count(capabiliti=
+es);
+>                 if (!port->pd_count) {
+>                         ret =3D -ENODATA;
+>                         goto put_capabilities;
+> --
+> 2.47.2
+>
+>
 
