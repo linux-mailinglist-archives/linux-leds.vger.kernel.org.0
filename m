@@ -1,135 +1,202 @@
-Return-Path: <linux-leds+bounces-4240-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4241-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBD0A5DBAE
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 12:36:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008ABA5E4A0
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 20:40:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 872E13B9E54
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 11:36:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAB911898A3C
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Mar 2025 19:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FC2F23C8A1;
-	Wed, 12 Mar 2025 11:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39BE92571A4;
+	Wed, 12 Mar 2025 19:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NTKDesOH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LeV7OZCQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB2B125B9;
-	Wed, 12 Mar 2025 11:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2B71E8353
+	for <linux-leds@vger.kernel.org>; Wed, 12 Mar 2025 19:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741779414; cv=none; b=BTANKzYkG3RrI0uhQxQ9vEf6G0q3Q/mZdK/XUv4+kWt7fiJFz/O9+PKWJ9nt0j8X3kjDbxLbOCA5ZhqDsRIjOs9ENptQsThVX/OyBGqYxfEotIN46dsTL84J8V0DgnM/72FJcfOGu1GktwHX79I9WQmGMpyneQrlzfK6nAFuhI8=
+	t=1741808443; cv=none; b=aug8UM6VDOpLz2TCpKitGq5ckVX9Ec7PZPz5a2/EoYksAqfNh2pfyQfs/1AGTOFSJYWnz6bWgIUJTfDhV2tSY9qQjFqUE06IOgWy2dquUn4785To70ewcfKVdCYyqiBb4KtlgbuEYQp7XnmqkAJD7bOi0wFFQQpoS5t94TnUs+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741779414; c=relaxed/simple;
-	bh=FroqwxIZyxWRy8NxvaPvPbyYXAPIL2q9WyJPpH0RPSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fA25mca34MXTKZ21bvPcZoi18V/FRMlXU557NzQDoRIOHQAR7FkAxjkx+Vnayr/BZDdu0JUxo+MRxzEfl5gj5iITzTzeTtP3tnT9JdGU2RQcz/v8Y0rd3UpgUMX09W93jk7yjE8cLGn9na7vl1zNXwGi21cyjBceteZ+FX4Rgoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NTKDesOH; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741779412; x=1773315412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FroqwxIZyxWRy8NxvaPvPbyYXAPIL2q9WyJPpH0RPSg=;
-  b=NTKDesOHtbZwDpTgRd4Q0t053owpfPIhIaGmFb6OD9mc0wTtmi1sEWIv
-   HwEnf4zQEMRuxGcEMMrDrwx2CTfqYznJ3WpPpUrTystEOSezqdo29lzlH
-   Wna1Cqqt29OUWPTdivLOaqnlPz3tns/kI1+DOdfntkmW6UIWpmLbnNqMK
-   uCssiWMME2OnMXemlW1g52fkWyM4SaIJSQfxq6TAUeMoOzLY5Xk0kooIA
-   v47rfh8c2DXpCRu816jjVIf5GZZnINKQW5UEt+AVI57QnqpM8qCWo4dXb
-   OIBNDKIoBrrPomomvN/ILQ1PxzD3UDtUeIc2BPiyjrey6LyTuow7j74Oo
-   Q==;
-X-CSE-ConnectionGUID: bGJizVzWQ+OKLs+IrFuQ9g==
-X-CSE-MsgGUID: +yLE7NjjTvOiF0GyFsGZlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="30435652"
-X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; 
-   d="scan'208";a="30435652"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 04:36:51 -0700
-X-CSE-ConnectionGUID: fGXdclrDSciibe9q+Rtoxw==
-X-CSE-MsgGUID: sx2y6Q16R1eOzj0C7o4Ymw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; 
-   d="scan'208";a="120635886"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by fmviesa007.fm.intel.com with SMTP; 12 Mar 2025 04:36:45 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 12 Mar 2025 13:36:44 +0200
-Date: Wed, 12 Mar 2025 13:36:44 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Markus Elfring <elfring@users.sourceforge.net>,
-	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-usb@vger.kernel.org,
-	Daniel Scally <djrscally@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v1 4/4] usb: typec: tcpm: Use
- fwnode_get_child_node_count()
-Message-ID: <Z9FxzECvo5o7zaVH@kuha.fi.intel.com>
-References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
- <20250310150835.3139322-5-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1741808443; c=relaxed/simple;
+	bh=jFvT1ZNraTaBWiyEOX5Goa7CmEPuO/l9AMGMEG1kRCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=JJZoqaYFMB0yrf7TUjuKFPNotyBcC5aYqAKS2FvAS9HFMLknpF6KS90IFHGRQsIRn34kD/Ep+5rJuZq9b3oVKCPChS540Cworz1Rgc9o6g3mCSDyvz6NtMpaHJt66Hlr1CDsE/662OeJGNoUB44jGgSvwWlqf7CiS4owodhzHyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LeV7OZCQ; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e5e7fd051bso201742a12.0
+        for <linux-leds@vger.kernel.org>; Wed, 12 Mar 2025 12:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741808438; x=1742413238; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pqlExC3chzoryxcLHVCJ2t65bQfhESdCNW8dB3gLDlc=;
+        b=LeV7OZCQtdq8t7UyjSWc5AFDNxAkaJHMxoRR1yXFX4N9bUiYkc6zuZHqw5cK7KJ2Je
+         lOsnPGQrIe8xCTCFXmFO02a1aNFVGbydd2ENxdNq4D1FiLAWZH39qxs6QbHE1vpnNBFN
+         2Uq9xBFHK51B+vik4BD7uPhq7Pu+PF+o6kHFJ23ChaziYwN+K3O8CqhQtA11yYX+9nxh
+         lpIcOaUyiGCpWhllJwtLhAKjm9IKKJA2jxUX2zaHLDZWCZmyx+ge3+BOkQF5NfnQhNah
+         /+89lXyeld1KaHZjTBOUBIC7ru6oGghNmVQ+sunfsEUTbyt+xltqw6IYfRB3XJrUxzP2
+         BxEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741808438; x=1742413238;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pqlExC3chzoryxcLHVCJ2t65bQfhESdCNW8dB3gLDlc=;
+        b=eBh/pdOE3KVO8YqV6kURQIJ0aFQQkLT7euWBPUcKSzsg7FMFQ5pg8RzbHtYLwzB6V5
+         QeKGnVIEMYV0+9oOO2fJFcjt9fwd+cTcPgpdM5p4zcz/EFKuMABCx762FRqC/1EZyTmW
+         DpR/GwC5nwSpNSnSMmGWWUBFxZCbVFLXgZB9yUnhzdZovUmIPlfqPZ2o1KXm/wUnCb7H
+         5s4b/8PqbRLiN2yYc0qv6wzOsDjTMH1WEcbs8XY1AI4buAZ437oHf/ovlM3BPH7QqBgW
+         fpKnBRNPn+Ph0NiK8Oec5XwrjuaoRFu35k9HAMLDehxp82bD+bWbcRzhylrg1XDXo2dH
+         u/zw==
+X-Forwarded-Encrypted: i=1; AJvYcCXdTy9U+5w67hUrl7Ys8rJ+05RrUJiil/MWcR6UW0iia63GcjkvZpBSGfrhQ7nINfcA0PoP5T0V+myF@vger.kernel.org
+X-Gm-Message-State: AOJu0YwC19wTzx8tDdx0fkhJhq9xg3Otnx34Tomn3wKgo7khj69BckrJ
+	R9252IuEoRNbxYf0WiyzzGA6jmDQF7anhHtxxwIfHDqAmO5Q9D8Z
+X-Gm-Gg: ASbGnctlsYqGM5Q8v/e5fX2KJaFHnb7Tvfm7rsfTj0ahPXAxDPU944CJSoj9FnNXxmy
+	X4R2yvZeR8P9wwUYjA312ezFLi/AZDW5Oz/kGfyoIuhIdGFDh0g8YG+ZkkHTJ8czXxtfNT3ughX
+	XqUv06npf+geM5EeEcB7r6bWRzBPCYXXbjMjvx3hcrVSvZRzvLC7DQsYVeWHRG1zafPS/EpdU97
+	xlbmQrKMZeIeQosTxLMRYp0zf9Ws6JmqFB07HnxRiHSuh9bWa1uMKWjUT2haMlHJZ1ed13I7TrR
+	7UUHLNs0nOmJb0eaMRXSKRqVVmZXktR1sSYBhlwNblmFInpj1D0fdWd1jg==
+X-Google-Smtp-Source: AGHT+IFGBQNn+EF7zvz5Y+zlTD+6mi+yllCbRriALoOlhsTDhpDKNdS9PP+jtPsJzZ8S6/SoA1DutQ==
+X-Received: by 2002:a05:6402:4489:b0:5e7:8848:f567 with SMTP id 4fb4d7f45d1cf-5e78848f991mr10005751a12.20.1741808438267;
+        Wed, 12 Mar 2025 12:40:38 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5c74a960esm10212650a12.45.2025.03.12.12.40.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Mar 2025 12:40:37 -0700 (PDT)
+Message-ID: <982cd574-d0ca-4ce9-851c-f85d86a9b886@gmail.com>
+Date: Wed, 12 Mar 2025 20:40:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250310150835.3139322-5-andriy.shevchenko@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] leds: led-triggers: Improvements for default trigger
+To: Craig McQueen <craig@mcqueen.au>, linux-leds@vger.kernel.org
+References: <20250312011136.380647-1-craig@mcqueen.au>
+Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20250312011136.380647-1-craig@mcqueen.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 10, 2025 at 04:54:54PM +0200, Andy Shevchenko wrote:
-> Since fwnode_get_child_node_count() was split from its device property
-> counterpart, we may utilise it in the driver and drop custom implementation.
+Hi Craig,
+
+Thanks for the update.
+
+On 3/12/25 02:11, Craig McQueen wrote:
+> Accept "default" written to sysfs trigger attr.
+> If the text "default" is written to the LED's sysfs 'trigger' attr, then
+> call led_trigger_set_default() to set the LED to its default trigger.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> If the default trigger is set to "none", then led_trigger_set_default()
+> will remove a trigger. This is in contrast to the default trigger being
+> unset, in which case led_trigger_set_default() does nothing.
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>   Documentation/ABI/testing/sysfs-class-led |  6 ++++++
+>   drivers/leds/led-triggers.c               | 26 ++++++++++++++++++++++-
+>   2 files changed, 31 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 9c455f073233..8ca2e26752fb 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -7166,7 +7166,7 @@ static void tcpm_fw_get_timings(struct tcpm_port *port, struct fwnode_handle *fw
->  
->  static int tcpm_fw_get_caps(struct tcpm_port *port, struct fwnode_handle *fwnode)
->  {
-> -	struct fwnode_handle *capabilities, *child, *caps = NULL;
-> +	struct fwnode_handle *capabilities, *caps = NULL;
->  	unsigned int nr_src_pdo, nr_snk_pdo;
->  	const char *opmode_str;
->  	u32 *src_pdo, *snk_pdo;
-> @@ -7232,9 +7232,7 @@ static int tcpm_fw_get_caps(struct tcpm_port *port, struct fwnode_handle *fwnode
->  	if (!capabilities) {
->  		port->pd_count = 1;
->  	} else {
-> -		fwnode_for_each_child_node(capabilities, child)
-> -			port->pd_count++;
-> -
-> +		port->pd_count = fwnode_get_child_node_count(capabilities);
->  		if (!port->pd_count) {
->  			ret = -ENODATA;
->  			goto put_capabilities;
-> -- 
-> 2.47.2
+> diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
+> index 2e24ac3bd7ef..0313b82644f2 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led
+> +++ b/Documentation/ABI/testing/sysfs-class-led
+> @@ -72,6 +72,12 @@ Description:
+>   		/sys/class/leds/<led> once a given trigger is selected. For
+>   		their documentation see `sysfs-class-led-trigger-*`.
+>   
+> +		Writing "none" removes the trigger for this LED.
+> +
+> +		Writing "default" sets the trigger to the LED's default trigger
+> +		(which would often be configured in the device tree for the
+> +		hardware).
+> +
+>   What:		/sys/class/leds/<led>/inverted
+>   Date:		January 2011
+>   KernelVersion:	2.6.38
+> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> index b2d40f87a5ff..00c898af9969 100644
+> --- a/drivers/leds/led-triggers.c
+> +++ b/drivers/leds/led-triggers.c
+> @@ -49,11 +49,21 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>   		goto unlock;
+>   	}
+>   
+> +	/* Empty string. Do nothing. */
+> +	if (sysfs_streq(buf, "")) {
+> +		goto unlock;
+> +	}
+> +
+
+Do we need this? It seems to be the same case as any other arbitrary
+string, for which we obviously don't have special handling.
+
+>   	if (sysfs_streq(buf, "none")) {
+>   		led_trigger_remove(led_cdev);
+>   		goto unlock;
+>   	}
+>   
+> +	if (sysfs_streq(buf, "default")) {
+> +		led_trigger_set_default(led_cdev);
+> +		goto unlock;
+> +	}
+> +
+>   	down_read(&triggers_list_lock);
+>   	list_for_each_entry(trig, &trigger_list, next_trig) {
+>   		if (sysfs_streq(buf, trig->name) && trigger_relevant(led_cdev, trig)) {
+> @@ -98,6 +108,9 @@ static int led_trigger_format(char *buf, size_t size,
+>   	int len = led_trigger_snprintf(buf, size, "%s",
+>   				       led_cdev->trigger ? "none" : "[none]");
+>   
+> +	if (led_cdev->default_trigger && led_cdev->default_trigger[0])
+> +		len += led_trigger_snprintf(buf + len, size - len, " default");
+> +
+>   	list_for_each_entry(trig, &trigger_list, next_trig) {
+>   		bool hit;
+>   
+> @@ -278,9 +291,20 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+>   	struct led_trigger *trig;
+>   	bool found = false;
+>   
+> -	if (!led_cdev->default_trigger)
+> +	/* NULL pointer or empty string. Do nothing. */
+> +	if (!led_cdev->default_trigger || !led_cdev->default_trigger[0])
+>   		return;
+>   
+> +	/* This case isn't sensible. Do nothing. */
+> +	if (!strcmp(led_cdev->default_trigger, "default"))
+> +		return;
+
+This is rather validation of the default trigger name obtained from DT,
+which, if at all, should be done after parsing DT property in
+led_classdev_register_ext(). I'd skip it anyway.
+
+> +	/* Remove trigger. */
+> +	if (!strcmp(led_cdev->default_trigger, "none")) {
+> +		led_trigger_remove(led_cdev);
+
+This will be handled be led_trigger_set() called from
+led_match_default_trigger() below.
+
+> +		return;
+> +	}
+> +
+>   	down_read(&triggers_list_lock);
+>   	down_write(&led_cdev->trigger_lock);
+>   	list_for_each_entry(trig, &trigger_list, next_trig) {
 
 -- 
-heikki
+Best regards,
+Jacek Anaszewski
+
 
