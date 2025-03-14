@@ -1,160 +1,149 @@
-Return-Path: <linux-leds+bounces-4287-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4288-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2ECA61C44
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 21:15:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE29A61D92
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 22:06:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DF5D3A91C2
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 20:14:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2A767A2AAD
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 21:05:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 241FB20550D;
-	Fri, 14 Mar 2025 20:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8607B1AAA1D;
+	Fri, 14 Mar 2025 21:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWvsYNgj"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="DJi/IKUS"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EB7204C2B;
-	Fri, 14 Mar 2025 20:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE71190676;
+	Fri, 14 Mar 2025 21:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741983191; cv=none; b=F3ASRmYkLdwjHawYTkiMzytutqBuvnZrTO/bnxMgSmjCGZDDkecsGW8XzM1PKnIDMlVAloZjdwHd+IhqdQhKLgJIfT+DNKd3xSy3UEeGLWh8ZSIDCbrBmJmLpk07x16cVfVD74BIm3ufyr5nvyht3SSeZLyI733sZjKUS0Eg8Iw=
+	t=1741986408; cv=none; b=dE5fuIu5k/pZk3amf0aowFkNUQ2fszjcWCLzPgyNkVy8Orr5Xk3NS79HX+JKUCLsM18pDtUeVfqqEPKCFeotBZndZcUF6RIvia6V+dmaPI/A+6FbzuluJq85916JaoFddnVlqSfQiE90EKKz57f+BH4HSBClHG5CXI2kVYui1Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741983191; c=relaxed/simple;
-	bh=SRZhjkmehzZBEvC3oDCw/sRygUrcVGuFKOmk99vqfVA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=raVNpsp4hTo575/HwswrsRqC5n3V1BcbgSHngEyIj1IOikCUyB/Ernh1p+zVjxa4e0Mb1F1tT3mCI0wBfHyFfJ0iKoaDT0hnyP5Fg8xuhGAfCEnpx8jYkaw11Y7QrmKp7EKsGnFFmgAFhq1/CZLsb1xXYqU+YMOtsOqWaD0KzaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWvsYNgj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80F2C4CEEF;
-	Fri, 14 Mar 2025 20:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741983190;
-	bh=SRZhjkmehzZBEvC3oDCw/sRygUrcVGuFKOmk99vqfVA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZWvsYNgjITiLsZdrePpvv4CT67dqQ6hEUqye9FvJRdvxZ4W+chZq1KUDQ7O3O+Twp
-	 fKGNbDqle/CKOZLWFonJrcvM5Sol34jmlJwin6l83EvVNpbBSYmlokZc7FBdY+S/Ls
-	 zYfXxQj7mCTcBDYyrdgXg/BgSbr5hMDxm+SM1VP+3K51nlcHr2GyTNPrQChuhriHFX
-	 qOsnM/2tzA7JEVWGgW3N1b3tDR1SqLy2gvUbxkj772PlP0bBAw1vZz2pDqj8d80/py
-	 XvszV+FY7hxcPzkmBG7Bf3dynEYkLZ7MK5dUxKoT95i7XPXr6/zYZWGueEfu/zAhQW
-	 LrTHZLyEZWIEg==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2bcbd92d5dbso1351142fac.2;
-        Fri, 14 Mar 2025 13:13:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUez7rHefhnujfUf3IMtcQa+Ox64l3KNAoJX7b/yqSs4k/uCZTTs6aoXt5TnSEioEQIhtARI+KHktgTiw==@vger.kernel.org, AJvYcCVT52RWW1Zfekt/Pv9Fz+juHLLu+/dTnYhDBUDoLP1ld90KI5VD311DN93ktU2Ac57O88VLjB1PMFMB@vger.kernel.org, AJvYcCWdXzryswf4rnCdxy5j1eZiY1VOolDlFfXxY7AtxwyFIOpgs1FFYoH05Nhrqa0RTzvOciG/kITJ6Ijbptyp@vger.kernel.org, AJvYcCXdMHgn7g7t/gyHeQIfcMwu4vXoysCtkkL/7bxGLGwjMBjrn1CbJpq8jwsEzFjEA445hpoPBOQuL02P@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJC6k+K48IlWTY4JFtFObvDGGFmD3eIieIy0UIFS2FbamAo92O
-	CQB8c5RIyIseOuh9Nec8mHH6Vq7++uLbOTDt6MLKU241qyu/kK6OQ1yj2VNJj/tWBQa/PhYbKYN
-	D31Kfu2Lq6tfkmSMAmqd3dsD5CDo=
-X-Google-Smtp-Source: AGHT+IGmABUgq93wpmmAX1OWd3S8vWyNXtmmbOZA3gPdYnN68o8ZqrNHt+4lqcxj/RC+Zxg7dvl5ge06ELPI4Pgy6zA=
-X-Received: by 2002:a05:6871:4145:b0:2c2:5028:70bd with SMTP id
- 586e51a60fabf-2c691140b7fmr2149180fac.24.1741983189940; Fri, 14 Mar 2025
- 13:13:09 -0700 (PDT)
+	s=arc-20240116; t=1741986408; c=relaxed/simple;
+	bh=6LYyJEQSRLfRi3eWvEUXDA8dkKvwR9DDtj4F2tbzI8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JI8B/9v8eaTgJE30kLMSc1D41uBMVN5y7kIBnBMQyXMECbaGuO5VXP3R5guMolWLZXTLl8Yrscf6gT3Vwer4CpYENvOSFjVZjauqLXcQPSyT3d2KuSGiqqQwqpwkWYCmxOvpKSaW+DvInwNRS22OZR7RtyAfIiNX1lZcj+iva/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=DJi/IKUS; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 24C141C00B2; Fri, 14 Mar 2025 22:06:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1741986403;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=smPhwJATKEjWQ+pl7R6bsg4CgAkcIEX5UUZ9M/FhqZE=;
+	b=DJi/IKUSvjJ2MP//YCjTNZjs/ita0pUBnuUuS7aGK4JeC/seuTz+RW7jJro2VKTnBHsvpE
+	NMKSF3lW3eK/OR5z8bRq23Zin1mzdpQxO1mcGqi84VEktTeW5b+3zI1ZV8eJ5HdwtHrVy+
+	RICi0A+z73e+F+oj/RUvNljmne5pHIQ=
+Date: Fri, 14 Mar 2025 22:06:42 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, bentiss@kernel.org,
+	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+	lee@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+	onitake@gmail.com, cs@tuxedo.de,
+	platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <Z9SaYi5sKOeKTvRA@duo.ucw.cz>
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+ <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
+ <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+ <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com> <20250310150835.3139322-2-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20250310150835.3139322-2-andriy.shevchenko@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 14 Mar 2025 21:12:58 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0ia-K1bPT-A3TbmZ6T18nbrJ8aUsdU2zbbTfvS0eGbwOw@mail.gmail.com>
-X-Gm-Features: AQ5f1JpD27XX7GKH0JoAJhN4-R5SwlqrRghlvbqZvTkUxcM_j5DPO_HuD4OL0N4
-Message-ID: <CAJZ5v0ia-K1bPT-A3TbmZ6T18nbrJ8aUsdU2zbbTfvS0eGbwOw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] device property: Split fwnode_get_child_node_count()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rob Herring (Arm)" <robh@kernel.org>, 
-	Markus Elfring <elfring@users.sourceforge.net>, Jakob Riepler <jakob+lkml@paranoidlabs.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-usb@vger.kernel.org, Daniel Scally <djrscally@gmail.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="75ovjfMpliKM0pqD"
+Content-Disposition: inline
+In-Reply-To: <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
+
+
+--75ovjfMpliKM0pqD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 10, 2025 at 4:08=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> The new helper is introduced to allow counting the child firmware nodes
-> of their parent without requiring a device to be passed. This also makes
-> the fwnode and device property API more symmetrical with the rest.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi!
 
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+> > Comments from previous review were not addressed.
+> >=20
+> > Most importantly, this is not a way to do kernel interface. We want
+> > reasonable interface that can be documented and modified as needed. We
+> > want to pass /dev/input to userspace, not raw HID. This is not ok.
+>=20
+> There are already 2 endless discussions about this:
+>=20
+> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedoco=
+mputers.com/
+>=20
+> https://lore.kernel.org/all/73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedoco=
+mputers.com/
+>=20
+> And a shorter one before that:
+>=20
+> https://lore.kernel.org/all/30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedoco=
+mputers.com/
+>=20
+> The brief:
+>=20
+> - LampArray is a standard that will hit the Linux world anyway.
 
-> ---
->  drivers/base/property.c  | 12 ++++++------
->  include/linux/property.h |  7 ++++++-
->  2 files changed, 12 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index c1392743df9c..805f75b35115 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -928,22 +928,22 @@ bool fwnode_device_is_available(const struct fwnode=
-_handle *fwnode)
->  EXPORT_SYMBOL_GPL(fwnode_device_is_available);
->
->  /**
-> - * device_get_child_node_count - return the number of child nodes for de=
-vice
-> - * @dev: Device to count the child nodes for
-> + * fwnode_get_child_node_count - return the number of child nodes for a =
-given firmware node
-> + * @fwnode: Pointer to the parent firmware node
->   *
-> - * Return: the number of child nodes for a given device.
-> + * Return: the number of child nodes for a given firmware node.
->   */
-> -unsigned int device_get_child_node_count(const struct device *dev)
-> +unsigned int fwnode_get_child_node_count(const struct fwnode_handle *fwn=
-ode)
->  {
->         struct fwnode_handle *child;
->         unsigned int count =3D 0;
->
-> -       device_for_each_child_node(dev, child)
-> +       fwnode_for_each_child_node(fwnode, child)
->                 count++;
->
->         return count;
->  }
-> -EXPORT_SYMBOL_GPL(device_get_child_node_count);
-> +EXPORT_SYMBOL_GPL(fwnode_get_child_node_count);
->
->  bool device_dma_supported(const struct device *dev)
->  {
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index e214ecd241eb..bc5bfc98176b 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -208,7 +208,12 @@ DEFINE_FREE(fwnode_handle, struct fwnode_handle *, f=
-wnode_handle_put(_T))
->  int fwnode_irq_get(const struct fwnode_handle *fwnode, unsigned int inde=
-x);
->  int fwnode_irq_get_byname(const struct fwnode_handle *fwnode, const char=
- *name);
->
-> -unsigned int device_get_child_node_count(const struct device *dev);
-> +unsigned int fwnode_get_child_node_count(const struct fwnode_handle *fwn=
-ode);
-> +
-> +static inline unsigned int device_get_child_node_count(const struct devi=
-ce *dev)
-> +{
-> +       return fwnode_get_child_node_count(dev_fwnode(dev));
-> +}
->
->  static inline int device_property_read_u8(const struct device *dev,
->                                           const char *propname, u8 *val)
-> --
-> 2.47.2
->
+Maybe. Still have to see device implementing that. LampArray will
+still need /sys/class/leds for compatibility. LampArray still does not
+solve effects. More importantly, it is not okay to say "kernel
+interface is specified by that crazy document from 3rd party".
+
+> - The alternative proposal via a led matrix does not even really fit
+> keyboards, and does not at all fit all other device types.
+
+We are solving keyboards, not the other device types. The other devices
+can likely be handled by existing /sys/class/leds interfaces.
+
+> Hans and Benjamin already agree with me that LampArray is the way to go.
+>=20
+> So after over 2 years can I please have a final decision on how to implem=
+ent this?
+
+For final decisions, you'd have to talk to Linus.
+
+(And sorry for the delay, btw).
+
+If you want to move this forward, place a driver in
+drivers/leds/keyboard. Implement /sys/class/leds interface, but make
+sure interface is clearly separated from the code talking to the
+firmware. Then we can review that, perhaps merge, so users will have
+something, and decide what interface to use for per-key control.
+
+LampArray is no-go. Other options are open.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--75ovjfMpliKM0pqD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZ9SaYgAKCRAw5/Bqldv6
+8iwJAJ9mnjTAm2a5BD6DI5p8cmuCHFDsmgCfQXGzc5tidZGm75RqL1iGB0UMvPw=
+=uU6V
+-----END PGP SIGNATURE-----
+
+--75ovjfMpliKM0pqD--
 
