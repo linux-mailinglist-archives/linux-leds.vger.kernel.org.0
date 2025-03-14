@@ -1,176 +1,136 @@
-Return-Path: <linux-leds+bounces-4252-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4255-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06ADA60BEA
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 09:40:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2905EA60C16
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 09:50:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5855B7A35DA
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 08:39:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D1AF17F5F1
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 08:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B3BA1AAA1B;
-	Fri, 14 Mar 2025 08:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8FB41DAC81;
+	Fri, 14 Mar 2025 08:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="VX7H3XTv"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="l+hLp5QE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A9C1953A2
-	for <linux-leds@vger.kernel.org>; Fri, 14 Mar 2025 08:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DD71C8FBA;
+	Fri, 14 Mar 2025 08:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741941605; cv=none; b=d4MfaxKEILmHPIWiZ2tXn4Xw1w4xh4MIswtw+sswJcm/U5XwAHXdyqyO9j+b+Rajo2YfYracSTBlKrB0kmypM/q/RPa7MOrVka3ZqNPtnpb8WdPzgHiKv8xO9vmi1DwKHTmPRST4ID0HL49vGllCcQF+Pbd8VFxFI05Y98N6PLk=
+	t=1741942205; cv=none; b=tv9PXfqCAzagjuFNg04qUPQpVUQy4XtMl2tFtmpRqxY3nHoi4WFoe9qq2+Rt7lXOh99eEp4N9/DOp9+ZT3/v4XYycSjBA/mwkv4IAtx7541XAwMD+QfBgUlAGZ6Yxh6TJvSbvX+AjiXrMUJdDDds6wdsFRkTn1/M8vKipimywVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741941605; c=relaxed/simple;
-	bh=5i8E/MG/ET8Y/f8RgRL9nj5/2/2eqNKKd+MBxazAWD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YzVTgjKVAgRBlt1p6xwrMw2L9aYAXV0i8X/LtQTKOsRp++YyjY5BC11tYEa+jKkoKxsUYUuH1hlxIoc4HHif7PfetFLF1f1yziQsnLnJNCUam2X0Nl8l4mdkXlXUrF6ZjuLg8jhId+SiKR9AiIDKFlvmCIdr0QvT9ycugTOZsNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=VX7H3XTv; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso1883041f8f.1
-        for <linux-leds@vger.kernel.org>; Fri, 14 Mar 2025 01:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1741941602; x=1742546402; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zTD8i7ehrtWGXAGvlrD7ICGK3PvUyLJ6pHY0HnCJJW4=;
-        b=VX7H3XTvtr4WB15Af/SGQVpQ5E7er5KY9WmsCUlVwiMGuur0jlMUht9KT4eEUcbjNu
-         MR072FjmITNThvn3SkfqU3vMB44XVPLuZi32nzb1unXn6Eeu7UeNixztTOMFDuDKE8cU
-         7lF1Mh6ERMWuSASij1GGNylKHUPiO+PTsUqjI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741941602; x=1742546402;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zTD8i7ehrtWGXAGvlrD7ICGK3PvUyLJ6pHY0HnCJJW4=;
-        b=Oeigh8LwhO3HQhqYzin9IwNLWnX9IzKAXG+yS7QiOIwOQnVWIIWMrOi2Lf2zPy7Xnv
-         lMVwR1EtqryOcMn7m/Y0hx1l2uZrTcTSf+hu6hzkWvmLFGiFM4oWkb4xCgfmQquIFrCl
-         be7lu22u9jrwBMJ+8XLBdALsPxlbNrPU9qOyJW1T/uFPUhg8xl+VAmJRUorn98N++NeH
-         hjVjQvfNByh0aW9nBIhv7RqxSIvmo8gue1DEB+TdbwNeYySbdhER+2zpbU92IdJgHL3A
-         QHbjGDBJ5u71m/nVqR5k547F5Ao0wrUEQ/FErNK6M6DhTCOGox5CRFpmm49nRLZ/0e2G
-         42Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCU3iTf3ImL3GBcH2B3QZjvdgyB6LTRJ0aFAhgfDjSxNX3F61/NmcuR1ZWp/bOy6LDoXS+yykBerXZNW@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywym+A77Uf8QLauagmvrCo4azfVH0fOpRo2nZySWaYiddxmjCeY
-	OFC/0FejjC0fW3cYgsGtQOnB7xaxsSqgLIey39w2w7gl7tAWn7sDLuDg2tzXEE4=
-X-Gm-Gg: ASbGncuODKWV584FLDsvKDOA7UxrR4Di6eg6mKWqq3QDD2WqZSgcgsTCHcbwIRm+P0O
-	WyufOm2ZqIKveH6n+Gp9/L+64SKrZFl9KfmWPWrNCFI6Y9mnbYn5DJCAU6OQ7Kg4nW1SAo2sEvW
-	83VrFjnOVrqkRd9m0oWs+YTpQsZ46X077/CrRw0BsGtPcq5V8H6baCblSULDQaO6W/F9GnX8Ko6
-	hNvbIHnETbf4UYjIp5/w6ArmVVMDirtOAfvHfHNge+8fDbxvAxjbsFcNSdcvnaR5O9FErTmJywB
-	Q1VRGyoSuUVPCGcq2RKAdyDHZjr39apwH7u8MArGCkwP+XlqqzNd+aUg
-X-Google-Smtp-Source: AGHT+IF3El0IcCegrk7kxsLbPhk6T5yA/RlbcCrLwdVepuvGVFRDQsO8rTnEsFvIbEpHMtRzd+Cu8w==
-X-Received: by 2002:a5d:64e8:0:b0:390:df83:1f22 with SMTP id ffacd0b85a97d-395b9b10ed6mr5683819f8f.25.1741941601570;
-        Fri, 14 Mar 2025 01:40:01 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1ffbfa90sm9932745e9.16.2025.03.14.01.40.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 01:40:00 -0700 (PDT)
-Date: Fri, 14 Mar 2025 09:39:59 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Lee Jones <lee@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, pavel@ucw.cz,
-	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
-	simona@ffwll.ch, linux-leds@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 00/11] backlight, lcd, led: Remove fbdev dependencies
-Message-ID: <Z9PrX6Qz4io3M9xs@phenom.ffwll.local>
-References: <20250306140947.580324-1-tzimmermann@suse.de>
- <20250313165151.GE3645863@google.com>
+	s=arc-20240116; t=1741942205; c=relaxed/simple;
+	bh=rqp2L1FPvC+8QaER5l0esA53LaknxYXKqXyPMJSYBek=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Zh32HtHx8KwgdiyyAZh7TiH4wWf6y6Em8ebDBdjlxqFCdLL1mVaGBW18TpVs5toSDmuldJl66fKeapOHAWRrn44FeTRNPcxD2bACqI2u9m4MrVyQgaKPONtJAua8UtqM9WWtMJHhrfCUveBUJY14AI6TDKVh9iC/uOqDZ/OFwEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=l+hLp5QE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 08EFBC4CEE5;
+	Fri, 14 Mar 2025 08:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1741942205; bh=rqp2L1FPvC+8QaER5l0esA53LaknxYXKqXyPMJSYBek=;
+	h=From:Subject:Date:To:Cc:From;
+	b=l+hLp5QE/I6QYFLqhEJuLCi7tBC+3+fA364fSZG0c/3Er1OQD3k4B/eJ7IRwXrVQm
+	 4wbpiymz8+lVi543YjeIx8J18fJMSKhsCSOnzzRI7D5zZBNzsYgTliJYBrbWUBp6wP
+	 DAYcYGpBGftVAnY37zP8uP/JGsYycCiClGd161xs=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE66C28B2F;
+	Fri, 14 Mar 2025 08:50:04 +0000 (UTC)
+From: Richard Leitner <richard.leitner@linux.dev>
+Subject: [PATCH v2 0/8] Add strobe/flash duration v4l2 ctrl & use it for
+ ov9282
+Date: Fri, 14 Mar 2025 09:49:54 +0100
+Message-Id: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250313165151.GE3645863@google.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+X-B4-Tracking: v=1; b=H4sIALPt02cC/33OTQ6CMBAF4KuYrh3TForCynsYFv2ZQhMC2kKDI
+ dzdAjHuXL6XzDdvIQG9w0Cq00I8Rhfc0KfAzyeiW9k3CM6kTDjlgmY0gyGW/MbBdjK0EEY/KAS
+ pC2Uo1aXBgqTLp0fr5l191Ef2+JoSPh7lz06vNplzASr/4o10PaBl2kglhbKmioxsUOvCOPj3v
+ jZVm/R3WGRAgVojrpKJIlfy3rl+mi8GI6nXdf0AI382p/8AAAA=
+X-Change-ID: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Richard Leitner <richard.leitner@linux.dev>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741942203; l=2667;
+ i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
+ bh=rqp2L1FPvC+8QaER5l0esA53LaknxYXKqXyPMJSYBek=;
+ b=TwXF/ul/KWwPp3yu6cHBf3n9AK+UlYRkIq6pVfSOlOCGFGmLRAIn6avWBvkBnT4WesDcyao8J
+ kiesTSWai+ZCD3l8g1v7k3wTWXxEOVPxjidDPwmTMrTGW8vhKckWOED
+X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
+ pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
+X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
+ with auth_id=350
 
-On Thu, Mar 13, 2025 at 04:51:51PM +0000, Lee Jones wrote:
-> On Thu, 06 Mar 2025, Thomas Zimmermann wrote:
-> 
-> > This series removes the remaining dependencies on fbdev from the
-> > backlight, lcd and led subsystems. Each depends on fbdev events to
-> > track display state. Make fbdev inform each subsystem via a dedicated
-> > interface instead.
-> > 
-> > Patches 1 to 3 make fbdev track blank state for each display, so that
-> > backlight code doesn't have to.
-> > 
-> > Patches 4 to 6 remove fbdev event handling from backlight code. Patches
-> > 7 and 8 remove fbdev event handling from lcd code and patches 9 and 10
-> > do the same for led's backlight trigger.
-> > 
-> > The final patch removes the event constants from fbdev.
-> > 
-> > With the series applied, the three subsystems do no longer depend on
-> > fbdev. It's also a clean up for fbdev. Fbdev used to send out a large
-> > number of events. That mechanism has been deprecated for some time and
-> > converted call to dedicated functions instead.
-> > 
-> > Testing is very welcome, as I don't have the hardware to test this
-> > series.
-> > 
-> > v3:
-> > - export several symbols
-> > - static-inline declare empty placeholders
-> > v2:
-> > - avoid IS_REACHABLE() in source file (Lee)
-> > - simplify several interfaces and helpers
-> > - use lock guards
-> > - initialize global lists and mutices
-> > 
-> > Thomas Zimmermann (11):
-> >   fbdev: Rework fb_blank()
-> >   fbdev: Track display blanking state
-> >   fbdev: Send old blank state in FB_EVENT_BLANK
-> >   backlight: Implement fbdev tracking with blank state from event
-> >   backlight: Move blank-state handling into helper
-> >   backlight: Replace fb events with a dedicated function call
-> >   backlight: lcd: Move event handling into helpers
-> >   backlight: lcd: Replace fb events with a dedicated function call
-> >   leds: backlight trigger: Move blank-state handling into helper
-> >   leds: backlight trigger: Replace fb events with a dedicated function
-> >     call
-> >   fbdev: Remove constants of unused events
-> > 
-> >  drivers/leds/trigger/ledtrig-backlight.c |  48 +++++-----
-> >  drivers/video/backlight/backlight.c      |  93 +++++--------------
-> >  drivers/video/backlight/lcd.c            | 108 +++++++++--------------
-> >  drivers/video/fbdev/core/fb_backlight.c  |  12 +++
-> >  drivers/video/fbdev/core/fb_info.c       |   1 +
-> >  drivers/video/fbdev/core/fbmem.c         |  82 ++++++++++++++---
-> >  drivers/video/fbdev/core/fbsysfs.c       |   8 +-
-> >  include/linux/backlight.h                |  22 ++---
-> >  include/linux/fb.h                       |  12 +--
-> >  include/linux/lcd.h                      |  21 ++++-
-> >  include/linux/leds.h                     |   6 ++
-> >  11 files changed, 205 insertions(+), 208 deletions(-)
-> 
-> No immediately obvious issues from the LEDs side.
-> 
-> Still needs reviews from Backlight and fbdev.
+This series adds a new v4l2 controls named "strobe duration" with id
+V4L2_CID_FLASH_DURATION. This control enables setting a desired
+flash/strobe length/duration in µs.
 
-I looked throught the series and it's a small step, but I think it's the
-right direction for where we want backlight/fbdev/drm-kms to head towards
-long-term. So on the series:
+As a first user of this new control add basic flash/strobe support for
+ov9282 sensors using their "hardware strobe output". The duration
+calculation is only interpolated from various measurements, as no
+documentation was found.
 
-Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+Further flash/strobe-related controls as well as a migration to v4l2-cci
+helpers for ov9282 will likely be implemented in future series.
 
-Cheers, Sima
+All register addresses/values are based on the OV9281 datasheet v1.53
+(january 2019). This series was tested using an ov9281 VisionComponents
+camera module.
 
-> 
-> -- 
-> Lee Jones [李琼斯]
+Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+---
+Changes in v2:
+- remove not needed controls in struct ov9282 (thanks Dave)
+- Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
+- Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
+- Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
+- Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
+- Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
 
+---
+Richard Leitner (8):
+      media: v4l: ctrls: add a control for flash/strobe duration
+      media: v4l2-flash: add support for flash/stobe duration
+      media: v4l2-flash: fix flash_timeout comment
+      Documentation: uAPI: media: add V4L2_CID_FLASH_DURATION
+      media: i2c: ov9282: add output enable register definitions
+      media: i2c: ov9282: add led_mode v4l2 control
+      media: i2c: ov9282: add strobe_duration v4l2 control
+      media: i2c: ov9282: add strobe_source v4l2 control
+
+ .../userspace-api/media/v4l/ext-ctrls-flash.rst    |  5 ++
+ drivers/leds/led-class-flash.c                     | 15 ++++
+ drivers/media/i2c/ov9282.c                         | 92 +++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  1 +
+ drivers/media/v4l2-core/v4l2-flash-led-class.c     | 13 +++
+ include/linux/led-class-flash.h                    | 18 ++++-
+ include/uapi/linux/v4l2-controls.h                 |  1 +
+ 7 files changed, 141 insertions(+), 4 deletions(-)
+---
+base-commit: 9fc81f92bc8a84772e4a4094649601e7665a6092
+change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+prerequisite-change-id: 20250225-b4-ov9282-gain-ef1cdaba5bfd:v1
+prerequisite-patch-id: 86f2582378ff7095ab65ce4bb25a143eb639e840
+prerequisite-patch-id: b06eb6ec697aaf0b3155b4b2370f171d0d304ae2
+prerequisite-patch-id: b123047d71bfb9b93f743bbdd6893d5a98495801
+
+Best regards,
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Richard Leitner <richard.leitner@linux.dev>
+
+
 
