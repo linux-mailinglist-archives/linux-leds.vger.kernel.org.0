@@ -1,92 +1,183 @@
-Return-Path: <linux-leds+bounces-4280-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4281-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B38DA61198
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 13:40:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 272DCA612C3
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 14:35:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A52A31778A0
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 12:39:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC1517A92E9
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 13:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1AC21FECC5;
-	Fri, 14 Mar 2025 12:39:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660301FF613;
+	Fri, 14 Mar 2025 13:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOSSlmn7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHP4SRgi"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FEC1CBE8C;
-	Fri, 14 Mar 2025 12:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534B21FF5F7;
+	Fri, 14 Mar 2025 13:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741955982; cv=none; b=kIm6wroZuERzjLjJqEUeFwbIAnCw3a28mzEA56uhV7I8qkfXl6KI5uF3t4NxrTxJHhTNa9MeDrTvcVzjZRU+G+0y3bLihFdBhx9QL3l3/FRq6LtHSPoe2NEBbPISuJJyvTzjAKCdfTiuEyw8TVZv9ghCpwUh42BdOvr0w9zKNOE=
+	t=1741959255; cv=none; b=GimLEmIqoMGR7GKBgiuvcoZd3zJDy840t0yTNiVl2eY+8qVl2gTIgVCshWCl9tpZu4URYHXj29dxNKRsZGqtHHdXiu3GTsmUh2gGzoL1Sfx8u/JO2i2baiUqZ7cxwN7VQOwCAGom75vYvC+sXK+SKcMBNaRuu9VwUH6m3GbtcuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741955982; c=relaxed/simple;
-	bh=BBoR7Cvr0quUh1pJlkxJOFVg6IyHFlY/4eyXtRxd0Mw=;
+	s=arc-20240116; t=1741959255; c=relaxed/simple;
+	bh=AblPfx8eF6BCp+Mvn4xq9FAZ1hinMSOmBuNT9HtKsL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DYuxRqa0oIpKXTrdFc0MYYIQBEktGGRJyiQVHiWYJAfeoMISGD4aWMKENNEzBcajg55D9FtMMAlcNqa+WcivlS+LXf0vhEzOuZsxvSoJBFbUb+wC0PxD1kQ94IrYBn088QZ722yAz9HFA8g534WTWjexAjZPC3S7A7mEPcYdrE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOSSlmn7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA1AC4CEE3;
-	Fri, 14 Mar 2025 12:39:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741955982;
-	bh=BBoR7Cvr0quUh1pJlkxJOFVg6IyHFlY/4eyXtRxd0Mw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kOSSlmn7OWF/K0NuxmYNLNLXcwhFapishtiK6ZSTfHgvm5//v7pH1ce7y8zVY0UuF
-	 tR1NZRjrIAQhmFX88h2IY5L5PKzUx6IajrJ0/299XFDbjuTHSdmhO7DqtOBfudw06M
-	 x3kh/iSP2H0+zI5912kOUMbF+RObwOqCuX1NHdDHIsDoorPq/uR3c2SLsdBbPS60cX
-	 NS9+iw2DURwPbiZna+8fE+IgdwSt+4DeCCwJKJzSB0Ey5+WbKRNNcoGpsUOfTYBmxp
-	 G+br+L4DiCfwoe7lUh2vuQVK9WyENCYU2ki6Dv8Ddg9xUqb695kgwixlm7c7d/5jlB
-	 o4Ow/EtjeElVA==
-Date: Fri, 14 Mar 2025 12:39:36 +0000
-From: Lee Jones <lee@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Markus Elfring <elfring@users.sourceforge.net>,
-	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-usb@vger.kernel.org,
-	Daniel Scally <djrscally@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v1 0/4] leds: Introduce and use
- fwnode_get_child_node_count()
-Message-ID: <20250314123936.GO3890718@google.com>
-References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ctHnOqV0sTQ6p6oYsfamv5Kc2DtL5MVR2zpdrpd+QG1g+B4c5ybdehy5HJ4iMCubZvVNo4qTdUN+XJEIARetMmBE1s/A8n4UxhB8RQO9AaxaZL7QKIepSQ8DIPZvhvaybh1Q1D82WkhJe0i/NNaZJYdaBvIL4Mt6apncOERkQgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHP4SRgi; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741959253; x=1773495253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AblPfx8eF6BCp+Mvn4xq9FAZ1hinMSOmBuNT9HtKsL8=;
+  b=JHP4SRgiRuZ1KzM1RY8i4mMfcOcWxgpZ8KBnXv9z5PW26Hsz9MCzRWCl
+   911Vr0KdsdNaescgwBlB8NQtHJgMhTd0f4p4CGWidWfiWELy0Set8hpYI
+   uo5H9FB/0tLfF5086lcc3rXcEgy9eXJroS0tpKdUUMd7UTV7CIFBcsbtb
+   AGLNvFSLQdAW5b49sjHH5WeC1Rbwa56o/GbAq3PG0ddILNc/IGZyjU6QH
+   Zc8EKlaZTwMe4w+mwQKJgCQ2b72nRk09g6h1o79tFfkoAsqoPFywIiWrg
+   cFizc9hEiqdbwI3CQdKmMzw3CdfPLtZ3bETPqcfYMRGvawio6nSypAu1E
+   w==;
+X-CSE-ConnectionGUID: /7ApU5LRToeDVI2jvihZUw==
+X-CSE-MsgGUID: tNmRk6yzTE6SHyogM8tCRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="54481546"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="54481546"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 06:34:12 -0700
+X-CSE-ConnectionGUID: SCd4GhAlSKiktkieOaEWjw==
+X-CSE-MsgGUID: Q7DxYn/JQ9qGh59tIhlJrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="121279893"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 06:34:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 21C6D11F944;
+	Fri, 14 Mar 2025 15:34:07 +0200 (EET)
+Date: Fri, 14 Mar 2025 13:34:07 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe
+ duration
+Message-ID: <Z9QwT7n7D09BEfqa@kekkonen.localdomain>
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
+ <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
 
-On Mon, 10 Mar 2025, Andy Shevchenko wrote:
+Hi Richard,
 
-> This series was inspired during review of "Support ROHM BD79124 ADC" [1].
-> The three conversion patches are the examples of the new API in use.
+On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
+> On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> > Hi Richard,
+> > 
+> > Thanks for the set.
 > 
-> Since the first two examples of LEDS, in case of posotove response it may
-> be routed via that tree and immutable branch/tag shared with others, e.g.,
-> IIO which Matti's series is targeting and might be dependent on. The USB
-> patch can be applied later separately, up to the respective maintainers.
+> Hi Sakari,
+> thanks for the quick response!
+> 
+> > 
+> > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > > control, as the timeout defines a limit after which the flash is
+> > > "forcefully" turned off again.
+> > > 
+> > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > > of the flash/strobe pulse
+> > 
+> > What's the actual difference between the two? To me they appear the same,
+> > just expressed in a different way.
+> 
+> According to FLASH_TIMEOUT documentation:
+> 
+> 	Hardware timeout for flash. The flash strobe is stopped after this
+> 	period of time has passed from the start of the strobe. [1]
+> 
+> This is a little bit unspecific, but as also discussed with Dave [2]
+> according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+> be targeted at providing a "real timeout" control, not settings the
+> desired duration:
+> 
+> 	The flash strobe was still on when the timeout set by the user
+> 	--- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+> 	controllers may set this in all such conditions. [1]
+> 
+> If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+> use-case. But tbh I think FLASH_DURATION would be more specific.
+> 
+> As this still seems unclear: Should the documentation be
+> changed/rewritten if we stick with the FLASH_DURATION approach?
+> 
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+> [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
 
-Ah, just seen this.
+Right, I think I can see what you're after.
 
-I'm okay with that, but need Acks for the other patches.
+How does the sensor determine when to start the strobe, i.e. on which frame
+and which part of the exposure of that frame?
+
+> 
+> > 
+> > > 
+> > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+> > >  include/uapi/linux/v4l2-controls.h        | 1 +
+> > >  2 files changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > index 1ea52011247accc51d0261f56eab1cf13c0624a0..f9ed7273a9f3eafe01c31b638e1c8d9fcf5424af 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > @@ -1135,6 +1135,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > >  	case V4L2_CID_FLASH_FAULT:		return "Faults";
+> > >  	case V4L2_CID_FLASH_CHARGE:		return "Charge";
+> > >  	case V4L2_CID_FLASH_READY:		return "Ready to Strobe";
+> > > +	case V4L2_CID_FLASH_DURATION:		return "Strobe Duration";
+> > >  
+> > >  	/* JPEG encoder controls */
+> > >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > > index 974fd254e57309e6def95b4a4f8e4de13a3972a7..80050cadb8377e3070ebbadc493fcd08b2c12c0b 100644
+> > > --- a/include/uapi/linux/v4l2-controls.h
+> > > +++ b/include/uapi/linux/v4l2-controls.h
+> > > @@ -1173,6 +1173,7 @@ enum v4l2_flash_strobe_source {
+> > >  
+> > >  #define V4L2_CID_FLASH_CHARGE			(V4L2_CID_FLASH_CLASS_BASE + 11)
+> > >  #define V4L2_CID_FLASH_READY			(V4L2_CID_FLASH_CLASS_BASE + 12)
+> > > +#define V4L2_CID_FLASH_DURATION			(V4L2_CID_FLASH_CLASS_BASE + 13)
+> > >  
+> > >  
+> > >  /* JPEG-class control IDs */
+> > > 
+> > 
 
 -- 
-Lee Jones [李琼斯]
+Regards,
+
+Sakari Ailus
 
