@@ -1,89 +1,153 @@
-Return-Path: <linux-leds+bounces-4264-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4265-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADED6A60DE7
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 10:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9689A60EC4
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 11:25:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 05E3A3A8722
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 09:51:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C6B93AF9D0
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Mar 2025 10:25:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A151EEA2C;
-	Fri, 14 Mar 2025 09:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467A41F4282;
+	Fri, 14 Mar 2025 10:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uyb2ldtz"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OjtptIuu"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F791DE89E;
-	Fri, 14 Mar 2025 09:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002EC1F416F
+	for <linux-leds@vger.kernel.org>; Fri, 14 Mar 2025 10:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741945911; cv=none; b=NkGxVlOT2T2AC+L9ugtELtK0fx45RzaGn+n0vHljGfhGCiAeoSHVkRcoimKYad9/CgDMWQuA1DiI40gozFk8Ax/Uez3LFT10TL6n4IZ/k9v2cWMcA2D4NeNc+ESmHkZlWvxBN06TrfuBNeutYaARsHbSrHqCHM8UTn6f7xe5EnE=
+	t=1741947931; cv=none; b=Brx7s3P/ISrHcsjRIh1w73uwMqYc3lsbORU2eXB6wv62Ly1gEKoY1gDaCJ1W9RXJ7EznbHBlk2ELpA98uhf1n6K0HUo7nbQpIOVWkzT2TOEsg3NUP5/CCDPGtVqXD4vq0ysiCDRLbrunN8Hk5Iqe1XtAP7bsPZJWBTELLbTBu0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741945911; c=relaxed/simple;
-	bh=WpB2wH8Zin+yYdBUElyhYpBTcPdHwyyhajffqrlOWoU=;
+	s=arc-20240116; t=1741947931; c=relaxed/simple;
+	bh=5u1ZkrdqkYX+wTwH8HmCGZQpoR5zbk8KhmDs/eMDIno=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJ4Xx9sBG0/UgTc7/do702n+F3PN2wcVMxVjdT2fZHYQhS8JAoF+euZ00VKrwB48YQW1WDEHOYNo8+XIBnWWtcA1lcuR8VPF/1p6Xd/YFwcpPP6xzrWuE1EEKlDwEH073u7kZ5au840k1XYrF7xuhCxFRN+7P0j4qfBdDiEUfNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uyb2ldtz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DCB3C4CEE3;
-	Fri, 14 Mar 2025 09:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741945911;
-	bh=WpB2wH8Zin+yYdBUElyhYpBTcPdHwyyhajffqrlOWoU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uyb2ldtzuogLO1GwtKSivq1GMlnydy8JV7m/HiEGhJvV9X8Alr2macKfazrpeIVxF
-	 aoKQYezFDr+m2tHphlOoiIPW/gBucybq4FBjOfoY6KBRd7qYndJ2G63Z5seEIvqks3
-	 sSevNXjTR5trP12tcqLCwaQnxI2WKIKHI2yKs4WW0gDN7XNNQL7VL4xfDSR0aU0kbG
-	 SM5TPV9suth1jlPV1qabaIbU6PC1I3Bw4OB7NufDhRSkOi47RFvuCh7hwBz0vEFcjp
-	 sGBHLJdmcQvG5rhy08Axw2g3Wzf9DBe1ijxQE1S5Ov+HNeXxCbZVh+Ys+D0s1cqHVI
-	 omCrDDBpnkmzg==
-Date: Fri, 14 Mar 2025 09:51:46 +0000
-From: Lee Jones <lee@kernel.org>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+GDOhkh6jqv2Kil0I5URIeDUkbpLpXRKZy3L8gGEolrqhKzog4U3zTeVpDlLXOvxgm78cXBQ8ZeBqcvqx0lnr52x9pbyodb88+LOKfJu9xA7+oT9Q17wE050nl8zMIX6O3bzBa6pqC0ZfX0LMeiT7DMbFemRMEbL87JxmEeelU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OjtptIuu; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Fri, 14 Mar 2025 11:25:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1741947914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pvHzbCuCDD8ylI8fTMIt04hPeYHC4OaA5IgyIuhTOI0=;
+	b=OjtptIuuWp6g9EEZrDzT1PUFkLtcofVKGG75OTV2rlmf25VKP60kSapqVcHKeIhv6tOxDk
+	qpLpm3JpuzkhfI4dF//REJRN2wvtHTPaVaLPJubh9+Y9sc67AKQUvWy7OpdMhFPmYaA6aC
+	eQFLUued3qJzBM+AwWAK0ymfW3bD1Lg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 2/8] media: v4l2-flash: add support for flash/stobe
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe
  duration
-Message-ID: <20250314095146.GB3890718@google.com>
+Message-ID: <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
 References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
- <20250314-ov9282-flash-strobe-v2-2-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250314-ov9282-flash-strobe-v2-2-14d7a281342d@linux.dev>
+In-Reply-To: <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 14 Mar 2025, Richard Leitner wrote:
-
-> Add support for the new V4L2_CID_FLASH_DURATION control to the v4l2
-> led flash class.
+On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> Hi Richard,
 > 
-> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> ---
->  drivers/leds/led-class-flash.c                 | 15 +++++++++++++++
->  include/linux/led-class-flash.h                | 16 ++++++++++++++++
+> Thanks for the set.
 
-This should be a separate patch.
+Hi Sakari,
+thanks for the quick response!
 
-Then Mauro and I will have to come up with a merge-plan for the series.
+> 
+> On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > control, as the timeout defines a limit after which the flash is
+> > "forcefully" turned off again.
+> > 
+> > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > of the flash/strobe pulse
+> 
+> What's the actual difference between the two? To me they appear the same,
+> just expressed in a different way.
 
->  drivers/media/v4l2-core/v4l2-flash-led-class.c | 13 +++++++++++++
->  3 files changed, 44 insertions(+)
+According to FLASH_TIMEOUT documentation:
 
--- 
-Lee Jones [李琼斯]
+	Hardware timeout for flash. The flash strobe is stopped after this
+	period of time has passed from the start of the strobe. [1]
+
+This is a little bit unspecific, but as also discussed with Dave [2]
+according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+be targeted at providing a "real timeout" control, not settings the
+desired duration:
+
+	The flash strobe was still on when the timeout set by the user
+	--- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+	controllers may set this in all such conditions. [1]
+
+If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+use-case. But tbh I think FLASH_DURATION would be more specific.
+
+As this still seems unclear: Should the documentation be
+changed/rewritten if we stick with the FLASH_DURATION approach?
+
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+[2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
+
+> 
+> > 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+> >  include/uapi/linux/v4l2-controls.h        | 1 +
+> >  2 files changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 1ea52011247accc51d0261f56eab1cf13c0624a0..f9ed7273a9f3eafe01c31b638e1c8d9fcf5424af 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1135,6 +1135,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_FLASH_FAULT:		return "Faults";
+> >  	case V4L2_CID_FLASH_CHARGE:		return "Charge";
+> >  	case V4L2_CID_FLASH_READY:		return "Ready to Strobe";
+> > +	case V4L2_CID_FLASH_DURATION:		return "Strobe Duration";
+> >  
+> >  	/* JPEG encoder controls */
+> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index 974fd254e57309e6def95b4a4f8e4de13a3972a7..80050cadb8377e3070ebbadc493fcd08b2c12c0b 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1173,6 +1173,7 @@ enum v4l2_flash_strobe_source {
+> >  
+> >  #define V4L2_CID_FLASH_CHARGE			(V4L2_CID_FLASH_CLASS_BASE + 11)
+> >  #define V4L2_CID_FLASH_READY			(V4L2_CID_FLASH_CLASS_BASE + 12)
+> > +#define V4L2_CID_FLASH_DURATION			(V4L2_CID_FLASH_CLASS_BASE + 13)
+> >  
+> >  
+> >  /* JPEG-class control IDs */
+> > 
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
+
+Thanks!
+Richard
 
