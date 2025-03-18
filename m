@@ -1,218 +1,156 @@
-Return-Path: <linux-leds+bounces-4318-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4319-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66673A679C6
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 17:39:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB2DA67C52
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 19:54:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7D281645BC
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 16:39:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAAE21892E11
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 18:54:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 977C1210192;
-	Tue, 18 Mar 2025 16:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A01E41DD88D;
+	Tue, 18 Mar 2025 18:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ZeyWipRT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tgr1jxaU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3E618EFD1
-	for <linux-leds@vger.kernel.org>; Tue, 18 Mar 2025 16:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C741898FB;
+	Tue, 18 Mar 2025 18:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742315967; cv=none; b=jC+LD4C8WhecJTSZMb3SN/NuParLr0RbYY8CfczV/+EApQj3i0KM/KUJZqAw0q0wrDr5q5EmTLTlSh+UcQhKAo8YiwYrySPXXE9+4xRB4y/u4VyDCIawTCaGA0dGMQRu4RoeKtGkrs6nqlCGGybEr19f0ECD2TKf0nMtE47w+wI=
+	t=1742324060; cv=none; b=TLn0X9m3zV5K6+u5PdvDFpTNltdN7E1nHl0o1/qC2pfYkcCa20Ox2maJEVfNZ34jakk1SezQ9xWaozlEvEF2e8S7XH0FKQhxxnkMKCmsWf3vfbY4qB15sN2lsDRtWNz/dvHK3CCk+j6N5vijafjlXzUzRQTFex7WviOPvRjdeRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742315967; c=relaxed/simple;
-	bh=Y4GaTWIXYkP1Wp5MBq5OZrPIS2IaOnZYMEx/7ruy0Uo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p3HQ2PJzaA776fznZEa3h8s5O1Nj2sgyjRmaPox2b62++yjmeFGbaR++hiv1hRS21f/cyIQMliTlbfggEC8QYjdWtXlD8kZpF54NBlgncBWH3K869+igGrt8FZtiXxtAKTRNEO+oNHZIiydw+pfnurE7XM6WNPXIyD0Pq1s03DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ZeyWipRT; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6f6c90b51c3so62553237b3.2
-        for <linux-leds@vger.kernel.org>; Tue, 18 Mar 2025 09:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1742315964; x=1742920764; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+wKjasBMPgoT2rFalGXd6BBeR4y99deeJSGyhMPOVds=;
-        b=ZeyWipRTOMMHiBnMG5fyKu0ZRk0PBQ4+3Lagmd7GXN12bybZAtmGbC37GUJ/7a8fxA
-         lwfFnRVeJCCF2ySDCOI47oamb2UoIuOyxyr+507eGNFowKb6B9yETGUksEq7+9Jl4MsD
-         rtSSYEneu8bU6rZpt0D9HoDU517hmqMscq/dVz7/w+LyUbrked8rCfnIFZ4Fx5HobJBu
-         AZirtrGki2vljwwUtJzAuHBr66VIEFRpg6y+cAEvvwimiu0yMgdSw07G6BO/kQ3S8AsH
-         Oxv4ua10PzDqziKNxPvMFgW33wAKawUCGmAmnmzZhLhAz6z0pdk39deSnzC73syfZmv1
-         aqxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742315964; x=1742920764;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+wKjasBMPgoT2rFalGXd6BBeR4y99deeJSGyhMPOVds=;
-        b=GT1ViSnRuyQ2X1YAwLmeiWz54AeXa9ucyMyy5b1t5Mv94vxSa9npcTDF7zhdMsjfFN
-         4lhjwqeijOROR3vi4mn/T7hB3rX+/BK6Mqd8+8oW+ZUTXz9HrU5obr8VFjht/KaKfAaN
-         k39x807axHbKy+6qNfHyFSIhpxHAeV+s9JSTA14nOdQ40CI14sdf9wI2loi9A91w2E2R
-         uagDqc//fKRX7w607hC/Ds5YToykNW7bUJHnO9xE6LymNmnvt5XfHD90RGek3f7BldnR
-         9jzxINpUDt615CWym4IfCstQDxsJVcTAtp2T9m5Em++4fIwe6b8Ztij4oteIN2d+ccDy
-         krzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfhS8W7D0EOnp3o7pqYqyeGWQZ0loMX+38tln46wz3242/5vmovW5uKQoKnlEYAlb7s4nSPRNKPb6M@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUN3husRj106ZE7os1iVzVxaYXSXUmK8SixTctkxXoxDg0Ja3L
-	NYe0JdkhCGtSOHy0aPabUy33AYkiOalUWKSx/JBfHgHWYIE9PvCiBDP5PdpFwe0y7vHkdT60DDQ
-	F2u627d++1K8ygNJ7cxVCEyRuFkGcLU+nQGTJ9w==
-X-Gm-Gg: ASbGncv+8AhPbjAENXMEytyZwLa95W5U+XyT74so8xRjx/muFxxLn5dx7bSLmtlxh3a
-	ekUpoKoPKeGWUQkxh//RvIZMU4nXqb669k6yfoi2Tzfk+4W4+OTNXw7i9hio2ZXPfkskPJhR4GZ
-	3Y9BCRt8LLFxcZulqJ5to+kw/+0SwMeBRPD/CUIXmzS9AOiSN78zD76Xds
-X-Google-Smtp-Source: AGHT+IEAIuZBtCdDszWtXzHCJJeW4LXwXcjtps3dupT+KLXpxevhe4+sxD9wCYgo8/fgc4cU/MpsDqaQ6wQ3z5JY1Gg=
-X-Received: by 2002:a05:690c:4902:b0:6ef:4a57:fc98 with SMTP id
- 00721157ae682-6ff45fa0641mr217311797b3.16.1742315964086; Tue, 18 Mar 2025
- 09:39:24 -0700 (PDT)
+	s=arc-20240116; t=1742324060; c=relaxed/simple;
+	bh=O23vvaesE9TG13bOJkKyDesmG9gO+6GvQMeyiKeQed4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s5+dk2C0mrdOTMhpLxqCEqo9cIFVekLnkIV4MAw4hQ07MGbQJSpyDpqfwkHhAWmuTJrGWHgcxSriVGp7LdhCbZjkz4DGgKk6Qh7IyRS5Ni9XKoZb8nX1xHL4q2yOgHGeHPOrqnDR4ggLp7knojWEWtx5SeDGQTn0absQU+9hPe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tgr1jxaU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECC03C4CEDD;
+	Tue, 18 Mar 2025 18:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742324060;
+	bh=O23vvaesE9TG13bOJkKyDesmG9gO+6GvQMeyiKeQed4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Tgr1jxaUKVydwCBocumoth6rTi/HDOLe4qshroG++A7dtTAu02N3OOpevzLUf2bqT
+	 GnbgMdL38vST3fAnyr2RIlvqCPo9kRoaLcJOOZvK7Cs4R5sQQWUgUX1oJpW572k8ft
+	 kVESDRzg/zU6Qw48txNKYu4Wjah3LyLFhTsJ2HKtexJJTKcNPQqBBOLts5NUuwMl9Z
+	 ulWp8SYe4zboMHuM5kKxByjr+B03Drsn35qNLLbNmuEUjU6V6U4pQKiyHAUU3XPxSh
+	 0ETZ2cha0EZoIkQiHX35w+rRpMBCMlLIyF91L7ecklG+ehbnE3HC+OzrwbTMfU0FgV
+	 j1TpGt1+1jocw==
+Message-ID: <2507f003-c4f1-44be-93cd-176697f0bc8c@kernel.org>
+Date: Tue, 18 Mar 2025 19:54:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
- <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
- <Z9P01zU_Kg0U62wa@kekkonen.localdomain> <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
- <Z9QwT7n7D09BEfqa@kekkonen.localdomain> <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
- <Z9l04b5ZGy877j32@kekkonen.localdomain> <myyn53owptzx3dm3qmudtm4pmnon7axmjks2u5adno6ywktd3t@qriiifsitqoh>
- <Z9l9-tEwHRtXnz1a@kekkonen.localdomain> <s76b7q2cvcuk32n3jpsijyrhxhtstk6fewb5drkxdeopvt5grj@p4mcqltiza36>
- <Z9mNKG07sJcbnk3Z@kekkonen.localdomain>
-In-Reply-To: <Z9mNKG07sJcbnk3Z@kekkonen.localdomain>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 18 Mar 2025 16:39:05 +0000
-X-Gm-Features: AQ5f1JpzPvC5kCimBdTH6JyyA_xL5QWl48RuiHB061pvN72a0BBg78Q-tkCMXUk
-Message-ID: <CAPY8ntDzA+j97XB4VUfBtSH0RgpVKSdKxS1o5LnmoNDE1h=eyw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe duration
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Richard Leitner <richard.leitner@linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] leds: add new LED driver for TI LP5812
+To: Nam Tran <trannamatk@gmail.com>, krzk+dt@kernel.org
+Cc: pavel@kernel.org, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250306172126.24667-4-trannamatk@gmail.com>
+ <20250318133508.4531-1-trannamatk@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250318133508.4531-1-trannamatk@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari
+On 18/03/2025 14:35, Nam Tran wrote:
+> From: Nam Tran <trannamatk@gmail.com>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org> Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+> 
+> I sincerely apologize for not addressing all of your previous comments earlier. That was not my intention, and I truly appreciate the time and effort you have put into reviewing my patch. Below, I would like to properly address your concerns.
+> 
+> On Fri, Mar 07, 2025 at 12:21:26AM +0700, Nam Tran wrote:
+>> The chip can drive LED matrix 4x3.
+>> This driver enables LED control via I2C.
+> 
+> You still did not respond to comments from v1. I don't see it being addressed.
+> 
+> Nam: I am sorry. This is my mistake. I think that I just need to update source code based on your comments and submit a new patch. This is the first time I try to update a new thing to the Linux Kernel. I will give answer inline your message for tracing easily.
+> 
+> In previous comment you have a question
+>  "Why none of the 10 existing drivers fit for your device?"
+> 
+> Nam: I have carefully reviewed the existing LED drivers in the kernel, but none of them fully support the advanced capabilities of the LP5812. Unlike basic LED controllers, the LP5812 has difference features and register
+> For more detail, please refer to this documentation https://www.ti.com/lit/ds/symlink/lp5812.pdf?ts=1741765622088&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FLP5812
 
-On Tue, 18 Mar 2025 at 15:11, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> Hi Richard,
->
-> On Tue, Mar 18, 2025 at 03:46:18PM +0100, Richard Leitner wrote:
-> > On Tue, Mar 18, 2025 at 02:06:50PM +0000, Sakari Ailus wrote:
-> > > Hi Richard,
-> > >
-> > > On Tue, Mar 18, 2025 at 02:42:53PM +0100, Richard Leitner wrote:
-> > > > On Tue, Mar 18, 2025 at 01:28:01PM +0000, Sakari Ailus wrote:
-> > > > > Hi Richard,
-> > > > >
-> > > > > On Fri, Mar 14, 2025 at 05:08:16PM +0100, Richard Leitner wrote:
-> > > > > > Hi Sakari,
-> > > > > >
-> > > > > > On Fri, Mar 14, 2025 at 01:34:07PM +0000, Sakari Ailus wrote:
-> > > > > > > Hi Richard,
-> > > > > > >
-> > > > > > > On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
-> > > > > > > > On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
-> > > > > > [...]
-> > > > > > > > > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
-> > > > > > > > > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
-> > > > > > > > > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
-> > > > > > > > > > control, as the timeout defines a limit after which the flash is
-> > > > > > > > > > "forcefully" turned off again.
-> > > > > > > > > >
-> > > > > > > > > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
-> > > > > > > > > > of the flash/strobe pulse
-> > > > > > > > >
-> > > > > > > > > What's the actual difference between the two? To me they appear the same,
-> > > > > > > > > just expressed in a different way.
-> > > > > > > >
-> > > > > > > > According to FLASH_TIMEOUT documentation:
-> > > > > > > >
-> > > > > > > >   Hardware timeout for flash. The flash strobe is stopped after this
-> > > > > > > >   period of time has passed from the start of the strobe. [1]
-> > > > > > > >
-> > > > > > > > This is a little bit unspecific, but as also discussed with Dave [2]
-> > > > > > > > according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
-> > > > > > > > be targeted at providing a "real timeout" control, not settings the
-> > > > > > > > desired duration:
-> > > > > > > >
-> > > > > > > >   The flash strobe was still on when the timeout set by the user
-> > > > > > > >   --- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
-> > > > > > > >   controllers may set this in all such conditions. [1]
-> > > > > > > >
-> > > > > > > > If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
-> > > > > > > > use-case. But tbh I think FLASH_DURATION would be more specific.
-> > > > > > > >
-> > > > > > > > As this still seems unclear: Should the documentation be
-> > > > > > > > changed/rewritten if we stick with the FLASH_DURATION approach?
-> > > > > > > >
-> > > > > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
-> > > > > > > > [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
-> > > > > > >
-> > > > > > > Right, I think I can see what you're after.
-> > > > > > >
-> > > > > > > How does the sensor determine when to start the strobe, i.e. on which frame
-> > > > > > > and which part of the exposure of that frame?
-> > > > > >
-> > > > > > In general I think it's not part of V4L2_CID_FLASH_DURATION to take any
-> > > > > > assumptions on that, as that's sensor/flash specific IMHO.
-> > > > > >
-> > > > > > In case of the ov9282 sensor driver (which is also part of this series)
-> > > > > > the strobe is started synchronously with the exposure on each frame
-> > > > > > start.
-> > > > > > Being even more specific on the ov9292, the sensor also offers the
-> > > > > > possibility to shift that strobe start in in either direction using a
-> > > > > > register. Implementing this "flash shift" (as it's called in the sensors
-> > > > > > datasheet) is currently under test on my side. I will likely send a
-> > > > > > series for that in the coming weeks.
-> > > > >
-> > > > > Ok, so you get a single frame exposed with a flash when you start
-> > > > > streaming, is that correct?
-> > > >
-> > > > Correct. The flash is switched on for the configured duration at every
-> > > > frame exposure (the sensor has a global shutter) as long as the camera is
-> > > > streaming.
-> > > >
-> > > > Maybe to following visualization of configured flash and exposure times help:
-> > > >
-> > > >              _________        _________        _________
-> > > > exposure: __|         |______|         |______|         |__
-> > > >
-> > > >              __               __               __
-> > > > flash:    __|  |_____________|  |_____________|  |_________
-> > > >             ^^^^
-> > > >       strobe_duration
-> > >
-> > > That diagram would work for global shutter but not for the much, much more
-> > > common rolling shutter operation. Does the driver use the sensor in rolling
-> > > shutter mode? This isn't very common with LED flashes.
-> >
-> > The ov9282 driver uses the sensor in global shutter mode.
-> >
-> > I totally agree with your statement. This pattern is only useful for
-> > global shutter operation.
->
-> I think (nearly?) all supported sensors use a rolling shutter.
+So you read my question and decided to not give an answer. Great.
 
-You've got at least two other global shutter sensors supported in
-mainline - Omnivision ov7251 and Sony imx296.
-Patches have been posted for OnSemi ar0144 (Laurent) and ar0234
-(Dongcheng), which are also both global shutter sensors.
+The burden of proving this is on you. Do not expect me to read this and
+10 other datasheets for existing LP devices. Maybe they fit, maybe they
+don't but based on style of this submission and style of the code I feel
+you just want to push your patches instead of integrate.
 
-So yes they are in the minority, but not that uncommon.
-
-  Dave
+That's not how it works.
 
 
 
-> Could you include a comment on this to the driver?
->
-> I wonder what Laurent thinks.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+> 
+>>
+>> The driver is implemented in two parts:
+>> - Core driver logic in leds-lp5812.c
+>> - Common support functions in leds-lp5812-common.c
+> 
+> Why do you make two modules? This looks really unneccessary. Just compile them into one module. No, use proper kerneldoc Missing kerneldoc. Every exported symbol must have kerneldoc. Why this is not static?
+> 
+> Nam: I will merge source code into a file only. Therefore, I don’t need to export symbols here.
+
+I cannot parse this. Use standard email quotes and replies. Like every
+email client since 30 years.
+
+Best regards,
+Krzysztof
 
