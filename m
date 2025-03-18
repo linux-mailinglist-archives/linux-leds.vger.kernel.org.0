@@ -1,81 +1,85 @@
-Return-Path: <linux-leds+bounces-4307-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4308-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAC0A671A7
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 11:43:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB181A67518
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 14:28:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36A1D1638B7
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 10:43:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5B0B18960AA
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 13:28:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56AB2208960;
-	Tue, 18 Mar 2025 10:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 538EF20C46A;
+	Tue, 18 Mar 2025 13:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k099dM24"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KoXOBXwZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4882F206F3F;
-	Tue, 18 Mar 2025 10:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3F417A311;
+	Tue, 18 Mar 2025 13:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742294492; cv=none; b=UZOK0WlCUSvmWB/3410qzNS3UElk9aT6rgWApxy9URgEjSz0A1IgoTAABkodNCSZCx7Jx1oweQUYnJBT9HqpKYf1BFGaJwchDEpXHTW2p31ZsbIsVklEKwhMiB91la0tJVie/EyC+pwUvAn1W6bf2Z937CUHYYBMBGdHtA661tQ=
+	t=1742304489; cv=none; b=co2bJzsmFNzXYTUdHRYbZkppAFvDBTbru9Sifm1GHYkuo1nSza4DUKpzEne4Vzeww/LlW+NlnwMwV+eD8DYVj1LpvCP/HeTgvD6LIKOxqZxzlfCnrINUB1P6ltJu3lQDrXDlLiTDLI2OrnuRxhG5PvYYUioLJyylASMeF7no/GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742294492; c=relaxed/simple;
-	bh=aOjgQK7Ude80JfmikgpQVtFWBZtq85DlKjHiQLOg0YA=;
+	s=arc-20240116; t=1742304489; c=relaxed/simple;
+	bh=XIFQgKXLvgcn11mpSEh8HygsxPKLUzk5wzTI0vGCpj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BbE5Ypsu2woMrXMo271K9nDzUFhWCML6I1q9u9dc4GxLVMGfxgZkneEWz2zYcomfC2pJcsc4TmULeFeBk0PBc3NyZHXFLLj7wgESKQQqYaS4ru9NIwdGmRaFhavjbSQievi3xzOe0bIQfyTmjcWytri9l97yf40F305USBH2br8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k099dM24; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxa960/jhpjpbHAOZ7ipjXS8wN8fHFueEpAhSvHXGrn2Pk1hmmAEXlNLLrXYWi/3bmfu/HKzeFpCtrv7bRY0zN0Ysz1d/W/HAbn/XdTzpr81+d4ABJHBe26kyVS5YV33F84FhawBvdR94tfVKScMdYD3XrLraoXGj9fWX85vuR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KoXOBXwZ; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742294490; x=1773830490;
+  t=1742304488; x=1773840488;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aOjgQK7Ude80JfmikgpQVtFWBZtq85DlKjHiQLOg0YA=;
-  b=k099dM24GWpYxTc9h2pE1Qgco0pMlLqbf0gmkEgmJ4jzv3/8UH8aziXQ
-   CTpHxIYrRINxodEMPVhxhlcFqJBsvHkzinWksFV0gZi1XJj/OgZPFQm5v
-   ExOGmgUNb98diniXo+zbtl61wv7RjzC/HwkwuxUp8eUkq67WyyNqcG3iz
-   ifzaioiAUWqpHW2/8gERY5RqQk9pWXI2Rc6QQjCZsrb/CkoYbOTAz73OX
-   awluvxCn8sruaVaGr0+eaCwVC8oYlPXJvfAC+SjBKLD+of7rfiDRPTUKW
-   ef7KSDDT8ncawlyv4N7m0w0ADjBDyX/ses8LDXkqsVO5+yH4Ws3HfWadU
+  bh=XIFQgKXLvgcn11mpSEh8HygsxPKLUzk5wzTI0vGCpj0=;
+  b=KoXOBXwZvBR5cdic/RJjGUzuPsGQGlajSY+ktNXoLYaaIIlcYbjMxw9K
+   w4hK+A9HFzzm3zJ9IJpJpd3FGx1m49Zmd3RILW5mOMn26Abaq1J/kY5d+
+   ltTBKnEIuvErTV3aWNNOU2puuashqv26zeKweyRZsVVxlLOpHHeFNFSUr
+   YCSTvBNalsG3oM7/ofl2HY+cYM6v3om13xVMsisjKJZ6iJiKASHdCyLnG
+   7Eqx9DZBB01ho/i3vFcB0sYzCxwMr7/vsec71bnjlK5zJJQCCCmFq0GxQ
+   I4abQU6Yp9qWpLZlJewt2yMwKLCDIRFaQWpORDuZKomtM015NL4q8ODGC
    w==;
-X-CSE-ConnectionGUID: JDYfnDXqQACrZ6Ikg0M6BQ==
-X-CSE-MsgGUID: +MynRS48QI+onKlTuoNQAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="47315403"
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="47315403"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 03:41:30 -0700
-X-CSE-ConnectionGUID: euXp82s9S3yMC/+STDo4lA==
-X-CSE-MsgGUID: 3iwXdJFWQq+PDsarHJGZDA==
+X-CSE-ConnectionGUID: bZ5XA+thQJSrj/jvS54P2Q==
+X-CSE-MsgGUID: Z4SzYWYNRKy2ikulIWylIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43460093"
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
+   d="scan'208";a="43460093"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 06:28:07 -0700
+X-CSE-ConnectionGUID: /FznNnb4Tve6hnL8E3lqIQ==
+X-CSE-MsgGUID: HGQqv6VLQz+AyRL+jqpLHw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="159390807"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 03:41:27 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tuUNw-000Dfn-1q;
-	Tue, 18 Mar 2025 10:41:24 +0000
-Date: Tue, 18 Mar 2025 18:41:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthias Fend <matthias.fend@emfend.at>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Matthias Fend <matthias.fend@emfend.at>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v2 2/2] leds: tps6131x: add support for Texas Instruments
- TPS6131X flash LED driver
-Message-ID: <202503181835.693ZAgp6-lkp@intel.com>
-References: <20250318-leds-tps6131x-v2-2-bc09c7a50b2e@emfend.at>
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
+   d="scan'208";a="153245820"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 06:28:04 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EF65611F74E;
+	Tue, 18 Mar 2025 15:28:01 +0200 (EET)
+Date: Tue, 18 Mar 2025 13:28:01 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe
+ duration
+Message-ID: <Z9l04b5ZGy877j32@kekkonen.localdomain>
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
+ <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
+ <Z9QwT7n7D09BEfqa@kekkonen.localdomain>
+ <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -84,37 +88,85 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318-leds-tps6131x-v2-2-bc09c7a50b2e@emfend.at>
+In-Reply-To: <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
 
-Hi Matthias,
+Hi Richard,
 
-kernel test robot noticed the following build warnings:
+On Fri, Mar 14, 2025 at 05:08:16PM +0100, Richard Leitner wrote:
+> Hi Sakari,
+> 
+> On Fri, Mar 14, 2025 at 01:34:07PM +0000, Sakari Ailus wrote:
+> > Hi Richard,
+> > 
+> > On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
+> > > On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> [...]
+> > > > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > > > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > > > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > > > > control, as the timeout defines a limit after which the flash is
+> > > > > "forcefully" turned off again.
+> > > > > 
+> > > > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > > > > of the flash/strobe pulse
+> > > > 
+> > > > What's the actual difference between the two? To me they appear the same,
+> > > > just expressed in a different way.
+> > > 
+> > > According to FLASH_TIMEOUT documentation:
+> > > 
+> > > 	Hardware timeout for flash. The flash strobe is stopped after this
+> > > 	period of time has passed from the start of the strobe. [1]
+> > > 
+> > > This is a little bit unspecific, but as also discussed with Dave [2]
+> > > according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+> > > be targeted at providing a "real timeout" control, not settings the
+> > > desired duration:
+> > > 
+> > > 	The flash strobe was still on when the timeout set by the user
+> > > 	--- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+> > > 	controllers may set this in all such conditions. [1]
+> > > 
+> > > If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+> > > use-case. But tbh I think FLASH_DURATION would be more specific.
+> > > 
+> > > As this still seems unclear: Should the documentation be
+> > > changed/rewritten if we stick with the FLASH_DURATION approach?
+> > > 
+> > > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+> > > [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
+> > 
+> > Right, I think I can see what you're after.
+> > 
+> > How does the sensor determine when to start the strobe, i.e. on which frame
+> > and which part of the exposure of that frame?
+> 
+> In general I think it's not part of V4L2_CID_FLASH_DURATION to take any
+> assumptions on that, as that's sensor/flash specific IMHO.
+> 
+> In case of the ov9282 sensor driver (which is also part of this series)
+> the strobe is started synchronously with the exposure on each frame
+> start.
+> Being even more specific on the ov9292, the sensor also offers the
+> possibility to shift that strobe start in in either direction using a
+> register. Implementing this "flash shift" (as it's called in the sensors
+> datasheet) is currently under test on my side. I will likely send a
+> series for that in the coming weeks.
 
-[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
+Ok, so you get a single frame exposed with a flash when you start
+streaming, is that correct?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthias-Fend/dt-bindings-leds-add-Texas-Instruments-TPS6131x-flash-LED-driver/20250318-154318
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250318-leds-tps6131x-v2-2-bc09c7a50b2e%40emfend.at
-patch subject: [PATCH v2 2/2] leds: tps6131x: add support for Texas Instruments TPS6131X flash LED driver
-reproduce: (https://download.01.org/0day-ci/archive/20250318/202503181835.693ZAgp6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181835.693ZAgp6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/ti,tps6131x.yaml
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
+> 
+> > > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > > > ---
+> > > > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+> > > > >  include/uapi/linux/v4l2-controls.h        | 1 +
+> > > > >  2 files changed, 2 insertions(+)
+> [...]
+> > 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Sakari Ailus
 
