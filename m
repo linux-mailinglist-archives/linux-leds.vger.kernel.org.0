@@ -1,186 +1,218 @@
-Return-Path: <linux-leds+bounces-4317-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4318-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075FDA678B8
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 17:07:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66673A679C6
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 17:39:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E63818878F9
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 16:05:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7D281645BC
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Mar 2025 16:39:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFE7B20F075;
-	Tue, 18 Mar 2025 16:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 977C1210192;
+	Tue, 18 Mar 2025 16:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+JC3czt"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ZeyWipRT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF0E17A2F5;
-	Tue, 18 Mar 2025 16:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3E618EFD1
+	for <linux-leds@vger.kernel.org>; Tue, 18 Mar 2025 16:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742313942; cv=none; b=DHmUsGfqWZ0RgOH6ugc5JIVtGxYGSzv+q+3VFiq6MImuoUXC4yj88v9qQjrOMA1vyvAKqpjAaC+QM1x3bV8drs7M+uvl6Q/fg7W5Rv7N5jC4hMKGsWbz++wvczqWrj5prKEZsZwKcRh4tLY23h7PCq7/fV9eoU8Y8F81hRK5TBs=
+	t=1742315967; cv=none; b=jC+LD4C8WhecJTSZMb3SN/NuParLr0RbYY8CfczV/+EApQj3i0KM/KUJZqAw0q0wrDr5q5EmTLTlSh+UcQhKAo8YiwYrySPXXE9+4xRB4y/u4VyDCIawTCaGA0dGMQRu4RoeKtGkrs6nqlCGGybEr19f0ECD2TKf0nMtE47w+wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742313942; c=relaxed/simple;
-	bh=xCYCkWIy1bqtJ2g5wymm+wgMQTxLqmccTV+KFBA5kY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YdCxf6rh9CDfCVW2/miilDZzUZvQsT3805mV6AxOZaFwU+93zDu3ItIY74OzvFY0r8FpjpdgSI3cyuOHevS5MnP48wnhnIhnCaJ6tWjuIB72GCPJF+dfFBAoVkEWIbV1nfnn8lFZ1V7hQmSIkOBDo3YNoD4Apbf0wl3ud8fWvuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N+JC3czt; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742313941; x=1773849941;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xCYCkWIy1bqtJ2g5wymm+wgMQTxLqmccTV+KFBA5kY4=;
-  b=N+JC3cztruChaRY5/QX8JJ0eg8wifyAXs17gWkvWd9ThMy3kPyh6ZBH7
-   M2WDSnMZp1Cc9piuv33NvqoeuPWDl5e84qqeYnog6e8SoIoUxbp5Pi9hD
-   ebOms2VT3wWdw+rW8taEF7oBB2a3aPHUukvU3HiBQ7jQKcH1WDVhuHUIX
-   bn0uTmkneP8T7Fsji4ILlwlLsKBBCKLIOgdj8chbVlBeE0HWsA3mPHtMX
-   tHymjtUwOtMmf3sMPMnRciRRyjp35LqNaqCsyYI5gBx3f0NKYBJUnvtvp
-   bAwib4OGOSi38viZJZhJDq9mipUYhXxjItcWVGCkpGk/5ccjD4WSHzZC8
-   A==;
-X-CSE-ConnectionGUID: njjt/k+SSFCjkE2jKBEFWA==
-X-CSE-MsgGUID: shaetvUGSESsm3xD95kTmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="53679386"
-X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
-   d="scan'208";a="53679386"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 09:05:37 -0700
-X-CSE-ConnectionGUID: 7Oso3uq0Q6qDn9duezwTbQ==
-X-CSE-MsgGUID: jddoNA1jRjuyOI1Mr7hdLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
-   d="scan'208";a="122481526"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Mar 2025 09:05:27 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 8FAB31D7; Tue, 18 Mar 2025 18:05:25 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Pavel Machek <pavel@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 1/1] leds: core: Bail out when composed name can't fit the buffer
-Date: Tue, 18 Mar 2025 18:04:29 +0200
-Message-ID: <20250318160524.2979982-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1742315967; c=relaxed/simple;
+	bh=Y4GaTWIXYkP1Wp5MBq5OZrPIS2IaOnZYMEx/7ruy0Uo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p3HQ2PJzaA776fznZEa3h8s5O1Nj2sgyjRmaPox2b62++yjmeFGbaR++hiv1hRS21f/cyIQMliTlbfggEC8QYjdWtXlD8kZpF54NBlgncBWH3K869+igGrt8FZtiXxtAKTRNEO+oNHZIiydw+pfnurE7XM6WNPXIyD0Pq1s03DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ZeyWipRT; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6f6c90b51c3so62553237b3.2
+        for <linux-leds@vger.kernel.org>; Tue, 18 Mar 2025 09:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1742315964; x=1742920764; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+wKjasBMPgoT2rFalGXd6BBeR4y99deeJSGyhMPOVds=;
+        b=ZeyWipRTOMMHiBnMG5fyKu0ZRk0PBQ4+3Lagmd7GXN12bybZAtmGbC37GUJ/7a8fxA
+         lwfFnRVeJCCF2ySDCOI47oamb2UoIuOyxyr+507eGNFowKb6B9yETGUksEq7+9Jl4MsD
+         rtSSYEneu8bU6rZpt0D9HoDU517hmqMscq/dVz7/w+LyUbrked8rCfnIFZ4Fx5HobJBu
+         AZirtrGki2vljwwUtJzAuHBr66VIEFRpg6y+cAEvvwimiu0yMgdSw07G6BO/kQ3S8AsH
+         Oxv4ua10PzDqziKNxPvMFgW33wAKawUCGmAmnmzZhLhAz6z0pdk39deSnzC73syfZmv1
+         aqxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742315964; x=1742920764;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+wKjasBMPgoT2rFalGXd6BBeR4y99deeJSGyhMPOVds=;
+        b=GT1ViSnRuyQ2X1YAwLmeiWz54AeXa9ucyMyy5b1t5Mv94vxSa9npcTDF7zhdMsjfFN
+         4lhjwqeijOROR3vi4mn/T7hB3rX+/BK6Mqd8+8oW+ZUTXz9HrU5obr8VFjht/KaKfAaN
+         k39x807axHbKy+6qNfHyFSIhpxHAeV+s9JSTA14nOdQ40CI14sdf9wI2loi9A91w2E2R
+         uagDqc//fKRX7w607hC/Ds5YToykNW7bUJHnO9xE6LymNmnvt5XfHD90RGek3f7BldnR
+         9jzxINpUDt615CWym4IfCstQDxsJVcTAtp2T9m5Em++4fIwe6b8Ztij4oteIN2d+ccDy
+         krzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfhS8W7D0EOnp3o7pqYqyeGWQZ0loMX+38tln46wz3242/5vmovW5uKQoKnlEYAlb7s4nSPRNKPb6M@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUN3husRj106ZE7os1iVzVxaYXSXUmK8SixTctkxXoxDg0Ja3L
+	NYe0JdkhCGtSOHy0aPabUy33AYkiOalUWKSx/JBfHgHWYIE9PvCiBDP5PdpFwe0y7vHkdT60DDQ
+	F2u627d++1K8ygNJ7cxVCEyRuFkGcLU+nQGTJ9w==
+X-Gm-Gg: ASbGncv+8AhPbjAENXMEytyZwLa95W5U+XyT74so8xRjx/muFxxLn5dx7bSLmtlxh3a
+	ekUpoKoPKeGWUQkxh//RvIZMU4nXqb669k6yfoi2Tzfk+4W4+OTNXw7i9hio2ZXPfkskPJhR4GZ
+	3Y9BCRt8LLFxcZulqJ5to+kw/+0SwMeBRPD/CUIXmzS9AOiSN78zD76Xds
+X-Google-Smtp-Source: AGHT+IEAIuZBtCdDszWtXzHCJJeW4LXwXcjtps3dupT+KLXpxevhe4+sxD9wCYgo8/fgc4cU/MpsDqaQ6wQ3z5JY1Gg=
+X-Received: by 2002:a05:690c:4902:b0:6ef:4a57:fc98 with SMTP id
+ 00721157ae682-6ff45fa0641mr217311797b3.16.1742315964086; Tue, 18 Mar 2025
+ 09:39:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain> <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
+ <Z9QwT7n7D09BEfqa@kekkonen.localdomain> <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
+ <Z9l04b5ZGy877j32@kekkonen.localdomain> <myyn53owptzx3dm3qmudtm4pmnon7axmjks2u5adno6ywktd3t@qriiifsitqoh>
+ <Z9l9-tEwHRtXnz1a@kekkonen.localdomain> <s76b7q2cvcuk32n3jpsijyrhxhtstk6fewb5drkxdeopvt5grj@p4mcqltiza36>
+ <Z9mNKG07sJcbnk3Z@kekkonen.localdomain>
+In-Reply-To: <Z9mNKG07sJcbnk3Z@kekkonen.localdomain>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 18 Mar 2025 16:39:05 +0000
+X-Gm-Features: AQ5f1JpzPvC5kCimBdTH6JyyA_xL5QWl48RuiHB061pvN72a0BBg78Q-tkCMXUk
+Message-ID: <CAPY8ntDzA+j97XB4VUfBtSH0RgpVKSdKxS1o5LnmoNDE1h=eyw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe duration
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Richard Leitner <richard.leitner@linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-GCC compiler complains about snprintf() calls that may potentially cut
-the output:
+Hi Sakari
 
- drivers/leds/led-core.c:551:78: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
- drivers/leds/led-core.c:554:78: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
- ...
+On Tue, 18 Mar 2025 at 15:11, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Richard,
+>
+> On Tue, Mar 18, 2025 at 03:46:18PM +0100, Richard Leitner wrote:
+> > On Tue, Mar 18, 2025 at 02:06:50PM +0000, Sakari Ailus wrote:
+> > > Hi Richard,
+> > >
+> > > On Tue, Mar 18, 2025 at 02:42:53PM +0100, Richard Leitner wrote:
+> > > > On Tue, Mar 18, 2025 at 01:28:01PM +0000, Sakari Ailus wrote:
+> > > > > Hi Richard,
+> > > > >
+> > > > > On Fri, Mar 14, 2025 at 05:08:16PM +0100, Richard Leitner wrote:
+> > > > > > Hi Sakari,
+> > > > > >
+> > > > > > On Fri, Mar 14, 2025 at 01:34:07PM +0000, Sakari Ailus wrote:
+> > > > > > > Hi Richard,
+> > > > > > >
+> > > > > > > On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
+> > > > > > > > On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> > > > > > [...]
+> > > > > > > > > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > > > > > > > > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > > > > > > > > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > > > > > > > > > control, as the timeout defines a limit after which the flash is
+> > > > > > > > > > "forcefully" turned off again.
+> > > > > > > > > >
+> > > > > > > > > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > > > > > > > > > of the flash/strobe pulse
+> > > > > > > > >
+> > > > > > > > > What's the actual difference between the two? To me they appear the same,
+> > > > > > > > > just expressed in a different way.
+> > > > > > > >
+> > > > > > > > According to FLASH_TIMEOUT documentation:
+> > > > > > > >
+> > > > > > > >   Hardware timeout for flash. The flash strobe is stopped after this
+> > > > > > > >   period of time has passed from the start of the strobe. [1]
+> > > > > > > >
+> > > > > > > > This is a little bit unspecific, but as also discussed with Dave [2]
+> > > > > > > > according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+> > > > > > > > be targeted at providing a "real timeout" control, not settings the
+> > > > > > > > desired duration:
+> > > > > > > >
+> > > > > > > >   The flash strobe was still on when the timeout set by the user
+> > > > > > > >   --- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+> > > > > > > >   controllers may set this in all such conditions. [1]
+> > > > > > > >
+> > > > > > > > If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+> > > > > > > > use-case. But tbh I think FLASH_DURATION would be more specific.
+> > > > > > > >
+> > > > > > > > As this still seems unclear: Should the documentation be
+> > > > > > > > changed/rewritten if we stick with the FLASH_DURATION approach?
+> > > > > > > >
+> > > > > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+> > > > > > > > [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
+> > > > > > >
+> > > > > > > Right, I think I can see what you're after.
+> > > > > > >
+> > > > > > > How does the sensor determine when to start the strobe, i.e. on which frame
+> > > > > > > and which part of the exposure of that frame?
+> > > > > >
+> > > > > > In general I think it's not part of V4L2_CID_FLASH_DURATION to take any
+> > > > > > assumptions on that, as that's sensor/flash specific IMHO.
+> > > > > >
+> > > > > > In case of the ov9282 sensor driver (which is also part of this series)
+> > > > > > the strobe is started synchronously with the exposure on each frame
+> > > > > > start.
+> > > > > > Being even more specific on the ov9292, the sensor also offers the
+> > > > > > possibility to shift that strobe start in in either direction using a
+> > > > > > register. Implementing this "flash shift" (as it's called in the sensors
+> > > > > > datasheet) is currently under test on my side. I will likely send a
+> > > > > > series for that in the coming weeks.
+> > > > >
+> > > > > Ok, so you get a single frame exposed with a flash when you start
+> > > > > streaming, is that correct?
+> > > >
+> > > > Correct. The flash is switched on for the configured duration at every
+> > > > frame exposure (the sensor has a global shutter) as long as the camera is
+> > > > streaming.
+> > > >
+> > > > Maybe to following visualization of configured flash and exposure times help:
+> > > >
+> > > >              _________        _________        _________
+> > > > exposure: __|         |______|         |______|         |__
+> > > >
+> > > >              __               __               __
+> > > > flash:    __|  |_____________|  |_____________|  |_________
+> > > >             ^^^^
+> > > >       strobe_duration
+> > >
+> > > That diagram would work for global shutter but not for the much, much more
+> > > common rolling shutter operation. Does the driver use the sensor in rolling
+> > > shutter mode? This isn't very common with LED flashes.
+> >
+> > The ov9282 driver uses the sensor in global shutter mode.
+> >
+> > I totally agree with your statement. This pattern is only useful for
+> > global shutter operation.
+>
+> I think (nearly?) all supported sensors use a rolling shutter.
 
-Fix these by checking for the potential overflow. This requires
-to align all the branches to use the same callee, i.e. snprintf(),
-otherwise the code will be blown up and return different error codes
-for the different branches.
+You've got at least two other global shutter sensors supported in
+mainline - Omnivision ov7251 and Sony imx296.
+Patches have been posted for OnSemi ar0144 (Laurent) and ar0234
+(Dongcheng), which are also both global shutter sensors.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+So yes they are in the minority, but not that uncommon.
 
-v2: avoided changing specifier for the case of the OF node name
+  Dave
 
- drivers/leds/led-core.c | 45 +++++++++++++++++++++++------------------
- 1 file changed, 25 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-index f6c46d2e5276..bbb03024665f 100644
---- a/drivers/leds/led-core.c
-+++ b/drivers/leds/led-core.c
-@@ -515,6 +515,7 @@ int led_compose_name(struct device *dev, struct led_init_data *init_data,
- 	struct led_properties props = {};
- 	struct fwnode_handle *fwnode = init_data->fwnode;
- 	const char *devicename = init_data->devicename;
-+	int n;
- 
- 	if (!led_classdev_name)
- 		return -EINVAL;
-@@ -528,45 +529,49 @@ int led_compose_name(struct device *dev, struct led_init_data *init_data,
- 		 * Otherwise the label is prepended with devicename to compose
- 		 * the final LED class device name.
- 		 */
--		if (!devicename) {
--			strscpy(led_classdev_name, props.label,
--				LED_MAX_NAME_SIZE);
-+		if (devicename) {
-+			n = snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
-+				     devicename, props.label);
- 		} else {
--			snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
--				 devicename, props.label);
-+			n = snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s", props.label);
- 		}
- 	} else if (props.function || props.color_present) {
- 		char tmp_buf[LED_MAX_NAME_SIZE];
- 
- 		if (props.func_enum_present) {
--			snprintf(tmp_buf, LED_MAX_NAME_SIZE, "%s:%s-%d",
--				 props.color_present ? led_colors[props.color] : "",
--				 props.function ?: "", props.func_enum);
-+			n = snprintf(tmp_buf, LED_MAX_NAME_SIZE, "%s:%s-%d",
-+				     props.color_present ? led_colors[props.color] : "",
-+				     props.function ?: "", props.func_enum);
- 		} else {
--			snprintf(tmp_buf, LED_MAX_NAME_SIZE, "%s:%s",
--				 props.color_present ? led_colors[props.color] : "",
--				 props.function ?: "");
-+			n = snprintf(tmp_buf, LED_MAX_NAME_SIZE, "%s:%s",
-+				     props.color_present ? led_colors[props.color] : "",
-+				     props.function ?: "");
- 		}
--		if (init_data->devname_mandatory) {
--			snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
--				 devicename, tmp_buf);
--		} else {
--			strscpy(led_classdev_name, tmp_buf, LED_MAX_NAME_SIZE);
-+		if (n >= LED_MAX_NAME_SIZE)
-+			return -E2BIG;
- 
-+		if (init_data->devname_mandatory) {
-+			n = snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
-+				     devicename, tmp_buf);
-+		} else {
-+			n = snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s", tmp_buf);
- 		}
- 	} else if (init_data->default_label) {
- 		if (!devicename) {
- 			dev_err(dev, "Legacy LED naming requires devicename segment");
- 			return -EINVAL;
- 		}
--		snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
--			 devicename, init_data->default_label);
-+		n = snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
-+			     devicename, init_data->default_label);
- 	} else if (is_of_node(fwnode)) {
--		strscpy(led_classdev_name, to_of_node(fwnode)->name,
--			LED_MAX_NAME_SIZE);
-+		n = snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s",
-+			     to_of_node(fwnode)->name);
- 	} else
- 		return -EINVAL;
- 
-+	if (n >= LED_MAX_NAME_SIZE)
-+		return -E2BIG;
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(led_compose_name);
--- 
-2.47.2
 
+> Could you include a comment on this to the driver?
+>
+> I wonder what Laurent thinks.
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
