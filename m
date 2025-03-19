@@ -1,52 +1,48 @@
-Return-Path: <linux-leds+bounces-4324-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4325-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B59A694D4
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Mar 2025 17:26:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 901FAA6993F
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Mar 2025 20:28:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F4973A5272
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Mar 2025 16:25:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 549E37A07E9
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Mar 2025 19:27:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F06491DE3AE;
-	Wed, 19 Mar 2025 16:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F6E212FBD;
+	Wed, 19 Mar 2025 19:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="HHzhz4au"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4nl5dZV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274B51DE89C;
-	Wed, 19 Mar 2025 16:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980AB1AF0D7;
+	Wed, 19 Mar 2025 19:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742401535; cv=none; b=Y0EnewU5+pCU18ppwiGKQwvci9sPXMinAdi8sHYMBQPWKpSsaBZjDJ9fslfeIFS3LjlqIq5/XEWnqZ6bC6NSrqpI/ZSCk4s5/T47YxHb8WFd8pstbRDtlDHfMJU1XkAI+Fkikn0bFqN66vlMGF63NTNSovPDNlsUjJ3TKMvEWNU=
+	t=1742412492; cv=none; b=dZYniQ7MeEx6Sf5eECkwLaUc+mbJE/sjNyzBpWGdtAzaH+FTUl1+9zTi8fEWPixl9GNc4C0ls0lbYQzxA5lL3lSF/8Oy/18RG0uyR97cUB1cotRYmruPulrgVtfxD8hAuhutjOCg9pJBxlgw4eSTdWj6YP0KeqVjuJM+lRL0VuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742401535; c=relaxed/simple;
-	bh=zKiobP2hmOBXYMn5j5zuAnZcQ7VT7oB3a67mgERxZ+4=;
+	s=arc-20240116; t=1742412492; c=relaxed/simple;
+	bh=xVpheGEMSdvufAyA000NnxguGemRFVyG24RA4OWDHBo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EuNlAm1XVyWpyx3Ps/12mSAP0oolxS9m56ZlkypmDUGfDcrezCMtg5OMo437PHuS7xLQwUDZki+6CWwpbahaD/7Wq41qqY+BuCZsZrhDomHcwLt2dKNnsqBeWWS8yMlDkI8hgTSPGC8CvvmPtMjXDC+eWHu1rYzYMFKJvWjZr1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=HHzhz4au; arc=none smtp.client-ip=168.119.41.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
-	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=lX8YsY5jRiFngBKXnH10duTwRpUJww1JCDeLMhQjXnY=; b=HHzhz4auCF6qEkDVePSWFB91mT
-	nnh8XO00s7i1d4IJJd1F7EgW1mbdtRlsY0TAp5i2+XJ8Em+z0apzdHBercJJ+6awhmgFsT9OPqsqS
-	S2kFRiNcTogwKOcNrroAefNMhjUKBFSf69uWPdSHloT/towfZgekG3brEE3oLgX6uAZA=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:57302 helo=[192.168.0.218])
-	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
-	(Exim 4.93)
-	(envelope-from <matthias.fend@emfend.at>)
-	id 1tuwEL-00HYlk-DS; Wed, 19 Mar 2025 17:25:22 +0100
-Message-ID: <9a470dfd-8d7b-4529-b54b-289754b9eed6@emfend.at>
-Date: Wed, 19 Mar 2025 17:25:18 +0100
+	 In-Reply-To:Content-Type; b=QNu9GdV9hApZlRwAOa9b7blhILDgznV55PhArXenxBJby1LAEo5LbaMwDkCGu8ByqvnWCp6lxK+YsMDqEUyNHr2rBVRoJrjzSP5Rm9sPqyWtj1BTeNC+dr1kd2WQA38vT8mq1B8dSUlf8eB2oYHnbJoP7f+EMgQR0Jr1ii69zzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4nl5dZV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919ABC4CEE4;
+	Wed, 19 Mar 2025 19:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742412492;
+	bh=xVpheGEMSdvufAyA000NnxguGemRFVyG24RA4OWDHBo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b4nl5dZV887CaDJswTbT6ngspDFBwC65oJ8cHOO5Bc1ehoUoyaPBY/Y+m6OeMLaMa
+	 9oqITyqpZs6oRMEZXT9ouL2YLzHyBt5h+EVAI+VKH9b1wIJhBSsg2+Vh7D34pJjRCM
+	 95WcHcA2Esprmkb6UX2CdgCzR6kSnqgTaxg2cAjQEnh0uoB5ek50QOJfKLv/393TpE
+	 llqixryAVzFNrXF/B8OTSAUzVirPLjBN6SVQCGbbDO739igp7abfmbWZKjGHwfDmq/
+	 wAbVNs7Ds8IyhMYr1C7pzoNzRrl4FpxpPzlU8GN/iSLN34DQzM8VIXGMFnbUkMYQ86
+	 omZfYBLPVwo0Q==
+Message-ID: <92d8d240-5156-414f-b58b-a957e27eb30c@kernel.org>
+Date: Wed, 19 Mar 2025 20:28:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -56,7 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] leds: tps6131x: add support for Texas Instruments
  TPS6131X flash LED driver
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Matthias Fend <matthias.fend@emfend.at>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
@@ -65,465 +61,146 @@ Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 References: <20250318-leds-tps6131x-v2-0-bc09c7a50b2e@emfend.at>
  <20250318-leds-tps6131x-v2-2-bc09c7a50b2e@emfend.at>
  <20250319-tall-ruddy-flamingo-a12fcc@krzk-bin>
-Content-Language: de-DE
-From: Matthias Fend <matthias.fend@emfend.at>
-In-Reply-To: <20250319-tall-ruddy-flamingo-a12fcc@krzk-bin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <9a470dfd-8d7b-4529-b54b-289754b9eed6@emfend.at>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <9a470dfd-8d7b-4529-b54b-289754b9eed6@emfend.at>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: 
-X-Spam-Bar: 
-X-Spam-Report: 
 
-Hi Krzysztof,
-
-thank you very much for your review!
-
-Am 19.03.2025 um 10:03 schrieb Krzysztof Kozlowski:
-> On Tue, Mar 18, 2025 at 08:28:58AM +0100, Matthias Fend wrote:
->> +
->> +static int tps6131x_reset_chip(struct tps6131x *tps6131x)
->> +{
->> +	int ret;
->> +
->> +	if (IS_ERR_OR_NULL(tps6131x->reset_gpio)) {
+On 19/03/2025 17:25, Matthias Fend wrote:
+>>> +
+>>> +	if (reg3 & TPS6131X_REG_3_HPFL)
+>>> +		*fault |= LED_FAULT_SHORT_CIRCUIT;
+>>> +
+>>> +	if (reg3 & TPS6131X_REG_3_SELSTIM_TO)
+>>> +		*fault |= LED_FAULT_TIMEOUT;
+>>> +
+>>> +	if (reg4 & TPS6131X_REG_4_HOTDIE_HI)
+>>> +		*fault |= LED_FAULT_OVER_TEMPERATURE;
+>>> +
+>>> +	if (reg6 & (TPS6131X_REG_6_LEDHOT | TPS6131X_REG_6_LEDWARN))
+>>> +		*fault |= LED_FAULT_LED_OVER_TEMPERATURE;
+>>> +
+>>> +	if (!(reg6 & TPS6131X_REG_6_LEDHDR))
+>>> +		*fault |= LED_FAULT_UNDER_VOLTAGE;
+>>> +
+>>> +	if (reg6 & TPS6131X_REG_6_LEDHOT) {
+>>> +		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_6,
+>>> +					      TPS6131X_REG_6_LEDHOT, 0, NULL, false, true);
+>>
+>> And this is not locked?
 > 
-> No, only check for non-null, see comment in probe().
+> The read modify write operation is protected by regmap. Since this 
+> operation does not interact with any other functions, no lock is needed 
+> here.
 
-ACK
 
-> 
->> +		ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_0, TPS6131X_REG_0_RESET,
->> +					 TPS6131X_REG_0_RESET);
->> +		if (ret)
->> +			return ret;
->> +
->> +		fsleep(100);
->> +
->> +		ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_0, TPS6131X_REG_0_RESET, 0);
->> +		if (ret)
->> +			return ret;
->> +	} else {
->> +		gpiod_set_value_cansleep(tps6131x->reset_gpio, 1);
->> +		fsleep(10);
->> +		gpiod_set_value_cansleep(tps6131x->reset_gpio, 0);
->> +		fsleep(100);
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_init_chip(struct tps6131x *tps6131x)
->> +{
->> +	u32 reg4, reg5, reg6;
->> +	int ret;
->> +
->> +	reg4 = tps6131x->valley_current_limit ? TPS6131X_REG_4_ILIM : 0;
->> +	ret = regmap_write(tps6131x->regmap, TPS6131X_REG_4, reg4);
->> +	if (ret)
->> +		return ret;
->> +
->> +	reg5 = TPS6131X_REG_5_ENPSM | TPS6131X_REG_5_STSTRB1_DIR | TPS6131X_REG_5_GPIOTYPE;
->> +	if (tps6131x->chan1_en)
->> +		reg5 |= TPS6131X_REG_5_ENLED1;
->> +
->> +	if (tps6131x->chan2_en)
->> +		reg5 |= TPS6131X_REG_5_ENLED2;
->> +
->> +	if (tps6131x->chan3_en)
->> +		reg5 |= TPS6131X_REG_5_ENLED3;
->> +	ret = regmap_write(tps6131x->regmap, TPS6131X_REG_5, reg5);
->> +	if (ret)
->> +		return ret;
->> +
->> +	reg6 = TPS6131X_REG_6_ENTS;
->> +	ret = regmap_write(tps6131x->regmap, TPS6131X_REG_6, reg6);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_set_mode(struct tps6131x *tps6131x, enum tps6131x_mode mode, bool force)
->> +{
->> +	u8 val;
->> +
->> +	val = mode << TPS6131X_REG_1_MODE_SHIFT;
->> +
->> +	return regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_1, TPS6131X_REG_1_MODE, val,
->> +				       NULL, false, force);
->> +}
->> +
->> +static void tps6131x_torch_refresh_handler(struct work_struct *work)
->> +{
->> +	struct tps6131x *tps6131x = container_of(work, struct tps6131x, torch_refresh_work.work);
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	tps6131x_set_mode(tps6131x, TPS6131X_MODE_TORCH, true);
->> +
->> +	schedule_delayed_work(&tps6131x->torch_refresh_work,
->> +			      TPS6131X_TORCH_REFRESH_INTERVAL_JIFFIES);
->> +}
->> +
->> +static int tps6131x_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
->> +{
->> +	struct led_classdev_flash *fled_cdev = lcdev_to_flcdev(cdev);
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +	u32 num_chans;
->> +	u32 steps_chan13, steps_chan2;
->> +	u32 steps_remaining;
->> +	u8 reg0;
->> +	int ret;
->> +
->> +	cancel_delayed_work_sync(&tps6131x->torch_refresh_work);
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	/*
->> +	 * The brightness parameter uses the number of current steps as the unit (not the current
->> +	 * value itself). Since the reported step size can vary depending on the configuration,
->> +	 * this value must be converted into actual register steps.
->> +	 */
->> +	steps_remaining = (brightness * tps6131x->step_torch_current_ma) / TPS6131X_TORCH_STEP_I_MA;
->> +
->> +	num_chans = tps6131x->chan1_en + tps6131x->chan2_en + tps6131x->chan3_en;
->> +
->> +	/*
->> +	 * The currents are distributed as evenly as possible across the activated channels.
->> +	 * Since channels 1 and 3 share the same register setting, they always use the same current
->> +	 * value. Channel 2 supports higher currents and thus takes over the remaining additional
->> +	 * portion that cannot be covered by the other channels.
->> +	 */
->> +	steps_chan13 = min_t(u32, steps_remaining / num_chans,
->> +			     TPS6131X_TORCH_MAX_I_CHAN13_MA / TPS6131X_TORCH_STEP_I_MA);
->> +	if (tps6131x->chan1_en)
->> +		steps_remaining -= steps_chan13;
->> +	if (tps6131x->chan3_en)
->> +		steps_remaining -= steps_chan13;
->> +
->> +	steps_chan2 = min_t(u32, steps_remaining,
->> +			    TPS6131X_TORCH_MAX_I_CHAN2_MA / TPS6131X_TORCH_STEP_I_MA);
->> +
->> +	reg0 = (steps_chan13 << TPS6131X_REG_0_DCLC13_SHIFT) |
->> +	       (steps_chan2 << TPS6131X_REG_0_DCLC2_SHIFT);
-> 
-> Looks like guard should start here... or you are not synchronizing
-> hardware access but more.
+Following that logic no lock is needed in the first place. Define what
+is the purpose of this lock, not just "hardware access". I assumed you
+want to keep consistent hardware state between multiple updates. If
+that's correct, how did you prevent returning value from reads happening
+in the middle of concurrent update? Or how this update_bits_base is
+prevented from happening while you are in the middle of earlier calls
+which are protected by your lock?
 
-I just found it clearer to have the lock at the beginning.
-But of course, I can easily move the lock to this position.
+That's confusing lock, considering also too short comment explaining its
+purpose.
 
 > 
->> +	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_0,
->> +				 TPS6131X_REG_0_DCLC13 | TPS6131X_REG_0_DCLC2, reg0);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = tps6131x_set_mode(tps6131x, brightness ? TPS6131X_MODE_TORCH : TPS6131X_MODE_SHUTDOWN,
->> +				true);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	/*
->> +	 * In order to use both the flash and the video light functions purely via the I2C
->> +	 * interface, STRB1 must be low. If STRB1 is low, then the video light watchdog timer
->> +	 * is also active, which puts the device into the shutdown state after around 13 seconds.
->> +	 * To prevent this, the mode must be refreshed within the watchdog timeout.
->> +	 */
->> +	if (brightness)
->> +		schedule_delayed_work(&tps6131x->torch_refresh_work,
->> +				      TPS6131X_TORCH_REFRESH_INTERVAL_JIFFIES);
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_strobe_set(struct led_classdev_flash *fled_cdev, bool state)
->> +{
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +	int ret;
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	ret = tps6131x_set_mode(tps6131x, state ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
->> +				true);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	if (state) {
->> +		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_3, TPS6131X_REG_3_SFT,
->> +					      TPS6131X_REG_3_SFT, NULL, false, true);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_3, TPS6131X_REG_3_SFT, 0, NULL,
->> +				      false, true);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_flash_brightness_set(struct led_classdev_flash *fled_cdev, u32 brightness)
->> +{
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +	u32 num_chans;
->> +	u32 steps_chan13, steps_chan2;
->> +	u32 steps_remaining;
->> +	int ret;
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	steps_remaining = brightness / TPS6131X_FLASH_STEP_I_MA;
->> +	num_chans = tps6131x->chan1_en + tps6131x->chan2_en + tps6131x->chan3_en;
->> +	steps_chan13 = min_t(u32, steps_remaining / num_chans,
->> +			     TPS6131X_FLASH_MAX_I_CHAN13_MA / TPS6131X_FLASH_STEP_I_MA);
->> +	if (tps6131x->chan1_en)
->> +		steps_remaining -= steps_chan13;
->> +	if (tps6131x->chan3_en)
->> +		steps_remaining -= steps_chan13;
->> +	steps_chan2 = min_t(u32, steps_remaining,
->> +			    TPS6131X_FLASH_MAX_I_CHAN2_MA / TPS6131X_FLASH_STEP_I_MA);
->> +
+>>
+>>> +		if (ret < 0)
+>>> +			return ret;
+>>> +	}
+>>> +
+>>
+>> ...
+>>
+>>> +
+>>> +static int tps6131x_flash_external_strobe_set(struct v4l2_flash *v4l2_flash, bool enable)
+>>> +{
+>>> +	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
+>>> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
+>>> +
+>>> +	guard(mutex)(&tps6131x->lock);
+>>> +
+>>> +	return tps6131x_set_mode(tps6131x, enable ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
+>>> +				 false);
+>>> +}
+>>> +
+>>> +static const struct v4l2_flash_ops tps6131x_v4l2_flash_ops = {
+>>> +	.external_strobe_set = tps6131x_flash_external_strobe_set,
+>>> +};
+>>> +
+>>> +static int tps6131x_v4l2_setup(struct tps6131x *tps6131x)
+>>> +{
+>>> +	struct v4l2_flash_config v4l2_cfg = { 0 };
+>>> +	struct led_flash_setting *intensity = &v4l2_cfg.intensity;
+>>> +
+>>> +	if (!IS_BUILTIN(CONFIG_V4L2_FLASH_LED_CLASS))
+>>
+>> Why builtin? That's a tristate, so I don't get why driver and v4l flash
+>> cannot be modules. You wanted REACHABLE probably... but then it is
+>> anyway discouraged practice leading to runtime debugging. So actually
+>> you want CONFIG_V4L2_FLASH_LED_CLASS || !CONFIG_V4L2_FLASH_LED_CLASS
+>> dependency.
 > 
-> Same here
+> Okay, I'll add 'depends on V4L2_FLASH_LED_CLASS || 
+> !V4L2_FLASH_LED_CLASS' to the Kconfig entry and do the check in the 
+> driver like this:
 
-ACK
+Only this
 
+>    if (!IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS))
+>      return 0;
 > 
->> +	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_2, TPS6131X_REG_2_FC13,
->> +				 steps_chan13 << TPS6131X_REG_2_FC13_SHIFT);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_1, TPS6131X_REG_1_FC2,
->> +				 steps_chan2 << TPS6131X_REG_1_FC2_SHIFT);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	fled_cdev->brightness.val = brightness;
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_flash_timeout_set(struct led_classdev_flash *fled_cdev, u32 timeout_us)
->> +{
->> +	const struct tps6131x_timer_config *timer_config;
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +	u8 reg3;
->> +	int ret;
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	timer_config = tps6131x_find_closest_timer_config(timeout_us);
->> +
->> +	reg3 = timer_config->val << TPS6131X_REG_3_STIM_SHIFT;
->> +	if (timer_config->range)
->> +		reg3 |= TPS6131X_REG_3_SELSTIM_TO;
->> +
->> +	ret = regmap_update_bits(tps6131x->regmap, TPS6131X_REG_3,
->> +				 TPS6131X_REG_3_STIM | TPS6131X_REG_3_SELSTIM_TO, reg3);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	fled_cdev->timeout.val = timer_config->time_us;
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_strobe_get(struct led_classdev_flash *fled_cdev, bool *state)
->> +{
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +	unsigned int reg3;
->> +	int ret;
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_3, &reg3);
->> +	if (ret)
->> +		return ret;
->> +
->> +	*state = !!(reg3 & TPS6131X_REG_3_SFT);
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_flash_fault_get(struct led_classdev_flash *fled_cdev, u32 *fault)
->> +{
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +	unsigned int reg3, reg4, reg6;
->> +	int ret;
->> +
->> +	*fault = 0;
->> +
-> 
-> Why no lock here?
+> Is this solution okay for you?
 
-The individual regmap operations are already protected by the internal 
-lock. If reading from a register has no other problematic effects on the 
-overall function, then no additional lock is needed.
+This should should not be needed, because there are v4l2 stubs.
 
-I noticed that the lock in tps6131x_strobe_get() is no longer needed. 
-I'll removed that as well.
-
-> 
->> +	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_3, &reg3);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_4, &reg4);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = regmap_read_bypassed(tps6131x->regmap, TPS6131X_REG_6, &reg6);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	if (reg3 & TPS6131X_REG_3_HPFL)
->> +		*fault |= LED_FAULT_SHORT_CIRCUIT;
->> +
->> +	if (reg3 & TPS6131X_REG_3_SELSTIM_TO)
->> +		*fault |= LED_FAULT_TIMEOUT;
->> +
->> +	if (reg4 & TPS6131X_REG_4_HOTDIE_HI)
->> +		*fault |= LED_FAULT_OVER_TEMPERATURE;
->> +
->> +	if (reg6 & (TPS6131X_REG_6_LEDHOT | TPS6131X_REG_6_LEDWARN))
->> +		*fault |= LED_FAULT_LED_OVER_TEMPERATURE;
->> +
->> +	if (!(reg6 & TPS6131X_REG_6_LEDHDR))
->> +		*fault |= LED_FAULT_UNDER_VOLTAGE;
->> +
->> +	if (reg6 & TPS6131X_REG_6_LEDHOT) {
->> +		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_6,
->> +					      TPS6131X_REG_6_LEDHOT, 0, NULL, false, true);
-> 
-> And this is not locked?
-
-The read modify write operation is protected by regmap. Since this 
-operation does not interact with any other functions, no lock is needed 
-here.
-
-> 
->> +		if (ret < 0)
->> +			return ret;
->> +	}
->> +
-> 
-> ...
-> 
->> +
->> +static int tps6131x_flash_external_strobe_set(struct v4l2_flash *v4l2_flash, bool enable)
->> +{
->> +	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
->> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->> +
->> +	guard(mutex)(&tps6131x->lock);
->> +
->> +	return tps6131x_set_mode(tps6131x, enable ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
->> +				 false);
->> +}
->> +
->> +static const struct v4l2_flash_ops tps6131x_v4l2_flash_ops = {
->> +	.external_strobe_set = tps6131x_flash_external_strobe_set,
->> +};
->> +
->> +static int tps6131x_v4l2_setup(struct tps6131x *tps6131x)
->> +{
->> +	struct v4l2_flash_config v4l2_cfg = { 0 };
->> +	struct led_flash_setting *intensity = &v4l2_cfg.intensity;
->> +
->> +	if (!IS_BUILTIN(CONFIG_V4L2_FLASH_LED_CLASS))
-> 
-> Why builtin? That's a tristate, so I don't get why driver and v4l flash
-> cannot be modules. You wanted REACHABLE probably... but then it is
-> anyway discouraged practice leading to runtime debugging. So actually
-> you want CONFIG_V4L2_FLASH_LED_CLASS || !CONFIG_V4L2_FLASH_LED_CLASS
-> dependency.
-
-Okay, I'll add 'depends on V4L2_FLASH_LED_CLASS || 
-!V4L2_FLASH_LED_CLASS' to the Kconfig entry and do the check in the 
-driver like this:
-   if (!IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS))
-     return 0;
-
-Is this solution okay for you?
-
-> 
-> See Kconfig description.
-> 
->> +		return 0;
->> +
->> +	intensity->min = tps6131x->step_torch_current_ma;
->> +	intensity->max = tps6131x->max_torch_current_ma;
->> +	intensity->step = tps6131x->step_torch_current_ma;
->> +	intensity->val = intensity->min;
->> +
->> +	strscpy(v4l2_cfg.dev_name, tps6131x->fled_cdev.led_cdev.dev->kobj.name,
->> +		sizeof(v4l2_cfg.dev_name));
->> +
->> +	v4l2_cfg.has_external_strobe = true;
->> +	v4l2_cfg.flash_faults = LED_FAULT_TIMEOUT | LED_FAULT_OVER_TEMPERATURE |
->> +				LED_FAULT_SHORT_CIRCUIT | LED_FAULT_UNDER_VOLTAGE |
->> +				LED_FAULT_LED_OVER_TEMPERATURE;
->> +
->> +	tps6131x->v4l2_flash = v4l2_flash_init(tps6131x->dev, tps6131x->led_node,
->> +					       &tps6131x->fled_cdev, &tps6131x_v4l2_flash_ops,
->> +					       &v4l2_cfg);
->> +	if (IS_ERR(tps6131x->v4l2_flash)) {
->> +		dev_err(tps6131x->dev, "Failed to initialize v4l2 flash LED\n");
->> +		return PTR_ERR(tps6131x->v4l2_flash);
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int tps6131x_probe(struct i2c_client *client)
->> +{
->> +	struct tps6131x *tps6131x;
->> +	int ret;
->> +
->> +	tps6131x = devm_kzalloc(&client->dev, sizeof(*tps6131x), GFP_KERNEL);
->> +	if (!tps6131x)
->> +		return -ENOMEM;
->> +
->> +	tps6131x->dev = &client->dev;
->> +	i2c_set_clientdata(client, tps6131x);
->> +	mutex_init(&tps6131x->lock);
->> +	INIT_DELAYED_WORK(&tps6131x->torch_refresh_work, tps6131x_torch_refresh_handler);
->> +
->> +	ret = tps6131x_parse_node(tps6131x);
->> +	if (ret)
->> +		return -ENODEV;
->> +
->> +	tps6131x->regmap = devm_regmap_init_i2c(client, &tps6131x_regmap);
->> +	if (IS_ERR(tps6131x->regmap)) {
->> +		ret = PTR_ERR(tps6131x->regmap);
->> +		dev_err(&client->dev, "Failed to allocate register map\n");
->> +		return ret;
-> 
-> Syntax is:
-> 
-> return dev_err_probe
-
-Of course. ACK
-
-> 
->> +	}
->> +
->> +	tps6131x->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
-> 
-> You should handle IS_ERR
-
-ACK
-
-Thanks!
-  ~Matthias
-
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
+Best regards,
+Krzysztof
 
