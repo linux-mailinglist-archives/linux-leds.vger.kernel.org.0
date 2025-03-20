@@ -1,206 +1,102 @@
-Return-Path: <linux-leds+bounces-4325-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4326-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901FAA6993F
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Mar 2025 20:28:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD7A6AA4E
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 16:50:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 549E37A07E9
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Mar 2025 19:27:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F58E1887133
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 15:50:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F6E212FBD;
-	Wed, 19 Mar 2025 19:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBBAB1E9B0F;
+	Thu, 20 Mar 2025 15:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4nl5dZV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FUT6uO7d"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980AB1AF0D7;
-	Wed, 19 Mar 2025 19:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C36C1E5201;
+	Thu, 20 Mar 2025 15:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742412492; cv=none; b=dZYniQ7MeEx6Sf5eECkwLaUc+mbJE/sjNyzBpWGdtAzaH+FTUl1+9zTi8fEWPixl9GNc4C0ls0lbYQzxA5lL3lSF/8Oy/18RG0uyR97cUB1cotRYmruPulrgVtfxD8hAuhutjOCg9pJBxlgw4eSTdWj6YP0KeqVjuJM+lRL0VuY=
+	t=1742485817; cv=none; b=HjTWKUvRRZJxewMGj7wEFvw9lDwpL/tFE7NT1lNYCzITps0Q8I1dBVkGCozUQwX4gYwHPvxgUnMER1g0/b+sjHdNFIWJGljq7jzwnNsoKSVFgjgAkVAc4QzO82RBPTQh4IhYiGS5+CfHz9Q6EFMfol1LEq8XxitG5SmL/48seFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742412492; c=relaxed/simple;
-	bh=xVpheGEMSdvufAyA000NnxguGemRFVyG24RA4OWDHBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QNu9GdV9hApZlRwAOa9b7blhILDgznV55PhArXenxBJby1LAEo5LbaMwDkCGu8ByqvnWCp6lxK+YsMDqEUyNHr2rBVRoJrjzSP5Rm9sPqyWtj1BTeNC+dr1kd2WQA38vT8mq1B8dSUlf8eB2oYHnbJoP7f+EMgQR0Jr1ii69zzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4nl5dZV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919ABC4CEE4;
-	Wed, 19 Mar 2025 19:28:08 +0000 (UTC)
+	s=arc-20240116; t=1742485817; c=relaxed/simple;
+	bh=pyAJ9pTMRfAZijv4b+LgLfdzavNILKNsBgVkyl/TfU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R7hxYHpWiFOpt+8vILtJhl7G7+iu5QWVpXpJuwbrD4q67XveKHSw82Xj5qpAuBwvWkmb9jWb39iIwrRY+iux52qmvFospkS4uoaqtlM1EUXu9PHZI37CdQmS3ky57Kz93XcuKVFC+UcheTpcBc8uFLB4QDf3KygML0ncXUgRo5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FUT6uO7d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E14C4CEDD;
+	Thu, 20 Mar 2025 15:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742412492;
-	bh=xVpheGEMSdvufAyA000NnxguGemRFVyG24RA4OWDHBo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b4nl5dZV887CaDJswTbT6ngspDFBwC65oJ8cHOO5Bc1ehoUoyaPBY/Y+m6OeMLaMa
-	 9oqITyqpZs6oRMEZXT9ouL2YLzHyBt5h+EVAI+VKH9b1wIJhBSsg2+Vh7D34pJjRCM
-	 95WcHcA2Esprmkb6UX2CdgCzR6kSnqgTaxg2cAjQEnh0uoB5ek50QOJfKLv/393TpE
-	 llqixryAVzFNrXF/B8OTSAUzVirPLjBN6SVQCGbbDO739igp7abfmbWZKjGHwfDmq/
-	 wAbVNs7Ds8IyhMYr1C7pzoNzRrl4FpxpPzlU8GN/iSLN34DQzM8VIXGMFnbUkMYQ86
-	 omZfYBLPVwo0Q==
-Message-ID: <92d8d240-5156-414f-b58b-a957e27eb30c@kernel.org>
-Date: Wed, 19 Mar 2025 20:28:06 +0100
+	s=k20201202; t=1742485817;
+	bh=pyAJ9pTMRfAZijv4b+LgLfdzavNILKNsBgVkyl/TfU8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FUT6uO7d+E+EbjUhPjhUvxl1mK288J+YHWF5YEAgeHdcT+mk+FpA39s3fLwcotEV8
+	 otjDqPlKZ8NBq17P5ETmKkV4zEWjSkaO1+/Z8N5vxbZfBEqMk91I0TBfHoad8sf8oZ
+	 fQb52G4oaiUSMcSbGT0ZANhf8IcZ4YU4HWzNLiZdQ020oF7kdutrWKp+YOb7cN35aj
+	 MQiNZ1Akm2pc+TF4WrRvb//mtkZn0ZYjtSXr7A+nq2PAX7CNlmozVroQ76tGC0HMmz
+	 eN/oEZ+0wKHLYtnXFzIfsQIakvIU5ZlSqjKlG524z9ICOcsX4DFlVbcdTWDOozEaDg
+	 TovGf/lWmzHuw==
+Date: Thu, 20 Mar 2025 15:50:12 +0000
+From: Lee Jones <lee@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: krzk+dt@kernel.org, pavel@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] leds: add new LED driver for TI LP5812
+Message-ID: <20250320155012.GT3890718@google.com>
+References: <20250306172126.24667-4-trannamatk@gmail.com>
+ <20250318133508.4531-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] leds: tps6131x: add support for Texas Instruments
- TPS6131X flash LED driver
-To: Matthias Fend <matthias.fend@emfend.at>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- bsp-development.geo@leica-geosystems.com
-References: <20250318-leds-tps6131x-v2-0-bc09c7a50b2e@emfend.at>
- <20250318-leds-tps6131x-v2-2-bc09c7a50b2e@emfend.at>
- <20250319-tall-ruddy-flamingo-a12fcc@krzk-bin>
- <9a470dfd-8d7b-4529-b54b-289754b9eed6@emfend.at>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <9a470dfd-8d7b-4529-b54b-289754b9eed6@emfend.at>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250318133508.4531-1-trannamatk@gmail.com>
 
-On 19/03/2025 17:25, Matthias Fend wrote:
->>> +
->>> +	if (reg3 & TPS6131X_REG_3_HPFL)
->>> +		*fault |= LED_FAULT_SHORT_CIRCUIT;
->>> +
->>> +	if (reg3 & TPS6131X_REG_3_SELSTIM_TO)
->>> +		*fault |= LED_FAULT_TIMEOUT;
->>> +
->>> +	if (reg4 & TPS6131X_REG_4_HOTDIE_HI)
->>> +		*fault |= LED_FAULT_OVER_TEMPERATURE;
->>> +
->>> +	if (reg6 & (TPS6131X_REG_6_LEDHOT | TPS6131X_REG_6_LEDWARN))
->>> +		*fault |= LED_FAULT_LED_OVER_TEMPERATURE;
->>> +
->>> +	if (!(reg6 & TPS6131X_REG_6_LEDHDR))
->>> +		*fault |= LED_FAULT_UNDER_VOLTAGE;
->>> +
->>> +	if (reg6 & TPS6131X_REG_6_LEDHOT) {
->>> +		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_6,
->>> +					      TPS6131X_REG_6_LEDHOT, 0, NULL, false, true);
->>
->> And this is not locked?
+On Tue, 18 Mar 2025, Nam Tran wrote:
+
+> From: Nam Tran <trannamatk@gmail.com>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org> Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
 > 
-> The read modify write operation is protected by regmap. Since this 
-> operation does not interact with any other functions, no lock is needed 
-> here.
-
-
-Following that logic no lock is needed in the first place. Define what
-is the purpose of this lock, not just "hardware access". I assumed you
-want to keep consistent hardware state between multiple updates. If
-that's correct, how did you prevent returning value from reads happening
-in the middle of concurrent update? Or how this update_bits_base is
-prevented from happening while you are in the middle of earlier calls
-which are protected by your lock?
-
-That's confusing lock, considering also too short comment explaining its
-purpose.
-
+> I sincerely apologize for not addressing all of your previous comments earlier. That was not my intention, and I truly appreciate the time and effort you have put into reviewing my patch. Below, I would like to properly address your concerns.
 > 
->>
->>> +		if (ret < 0)
->>> +			return ret;
->>> +	}
->>> +
->>
->> ...
->>
->>> +
->>> +static int tps6131x_flash_external_strobe_set(struct v4l2_flash *v4l2_flash, bool enable)
->>> +{
->>> +	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
->>> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
->>> +
->>> +	guard(mutex)(&tps6131x->lock);
->>> +
->>> +	return tps6131x_set_mode(tps6131x, enable ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
->>> +				 false);
->>> +}
->>> +
->>> +static const struct v4l2_flash_ops tps6131x_v4l2_flash_ops = {
->>> +	.external_strobe_set = tps6131x_flash_external_strobe_set,
->>> +};
->>> +
->>> +static int tps6131x_v4l2_setup(struct tps6131x *tps6131x)
->>> +{
->>> +	struct v4l2_flash_config v4l2_cfg = { 0 };
->>> +	struct led_flash_setting *intensity = &v4l2_cfg.intensity;
->>> +
->>> +	if (!IS_BUILTIN(CONFIG_V4L2_FLASH_LED_CLASS))
->>
->> Why builtin? That's a tristate, so I don't get why driver and v4l flash
->> cannot be modules. You wanted REACHABLE probably... but then it is
->> anyway discouraged practice leading to runtime debugging. So actually
->> you want CONFIG_V4L2_FLASH_LED_CLASS || !CONFIG_V4L2_FLASH_LED_CLASS
->> dependency.
+> On Fri, Mar 07, 2025 at 12:21:26AM +0700, Nam Tran wrote:
+> > The chip can drive LED matrix 4x3.
+> > This driver enables LED control via I2C.
 > 
-> Okay, I'll add 'depends on V4L2_FLASH_LED_CLASS || 
-> !V4L2_FLASH_LED_CLASS' to the Kconfig entry and do the check in the 
-> driver like this:
-
-Only this
-
->    if (!IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS))
->      return 0;
+> You still did not respond to comments from v1. I don't see it being addressed.
 > 
-> Is this solution okay for you?
+> Nam: I am sorry. This is my mistake. I think that I just need to update source code based on your comments and submit a new patch. This is the first time I try to update a new thing to the Linux Kernel. I will give answer inline your message for tracing easily.
 
-This should should not be needed, because there are v4l2 stubs.
+For the record, I find this format pretty unreadable.
 
-Best regards,
-Krzysztof
+Please reply directly to the email you are responding to.  This response
+looks as though you're replying to the patch itself.
+
+Configure your mailer to refrain from placing header information (To:
+Cc: From: etc) in the body of the mail.
+
+If your mailer conducts quoting correctly, there should be no need for
+"Nam:" comments.  For me it looks as though you authored both the review
+comment and the response, since your mailer currently does not handle
+quoting correctly.
+
+It would help everyone out if you could configure your mailer correctly.
+
+Maybe this document has additional hints for you particular mailer:
+
+  Documentation/process/email-clients.rst
+
+-- 
+Lee Jones [李琼斯]
 
