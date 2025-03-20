@@ -1,131 +1,91 @@
-Return-Path: <linux-leds+bounces-4329-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4330-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BE2A6AB0E
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 17:30:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D21A6AEA5
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 20:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E788F8A2EC2
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 16:29:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DED1A1883EDC
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 19:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA5E62144C9;
-	Thu, 20 Mar 2025 16:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD3E1EB5CF;
+	Thu, 20 Mar 2025 19:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIKIi3lh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4/xuAUi"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4288111AD;
-	Thu, 20 Mar 2025 16:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE3C1E5B7E
+	for <linux-leds@vger.kernel.org>; Thu, 20 Mar 2025 19:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742488186; cv=none; b=enBTwZYpJxo22d8xQ1xRdvG2RWlXZvHlyKC253hfJhI6prMGRKE2I5TgbxP5mEcWFHjYqvqzW7TyDfq11euEm9i0OFA7/aaeJDWWty6a1mB1Pme7v6tK4Ilqvpg2nIvrX36LN4fHNbhcbnDMRJbwM+Ni7T+TaQCKsKv/0DAwP+U=
+	t=1742499562; cv=none; b=B/KacNgVD8gfbIxX9kR9W5KU21jFm7dgT7khzV6BZaD+UtUo16CPm7J/AuH0hc9D7YLsfvpsstjYGs1m4A4W+LZdZscAb5hg8tkqgG2pGV9jegsy0Del1HoPORsHVEGOtQ1cQ5E7Tgj3x/1nwnvb7pVeQZfGC9aDSy0jsW/pjc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742488186; c=relaxed/simple;
-	bh=7V0u0HkvjVD+x4Ssr98QbMmTx6KapobH/hb8F7yRjLE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGcv/TEqkMLXnx/ZD4UFPLX+RolYCbVjj7YqfduWFIY6s/sUcDDhgAZBuW1Fzd7xNz8TpMrBM0r7r8WIhq+Y3EylqTFw57aMBsm29HbuFbg3D0H9aKjkPUYrqHsSWlz52+bhHBtTU1fPhJ/vKuzyN6wH61aBic5pCKAZfjh6/0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIKIi3lh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6480C4CEDD;
-	Thu, 20 Mar 2025 16:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742488186;
-	bh=7V0u0HkvjVD+x4Ssr98QbMmTx6KapobH/hb8F7yRjLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oIKIi3lhHLh7Rpu3EfVyWlUif0gNuwBIoXH1W8YH/iJZtxq2V72hN9bzfmUNgQkvz
-	 lfQQphM5NoPfCPtj2LAuDWIKHHotcITbnqCcI/bPhvnxZVEbCK07X4CIKBFlsl9Dls
-	 HmIrOYsNbhBN+i/n6Wt4kV5mfPy/FLLe83W0yvMlrQ6hcjb5tqb3V3ds6rASTsT5gr
-	 04gA1KJL+4eeOILZIRkQ2ZbseJyjakpEItiJrGmKhf8Isfq1PeFWCUaMkdAWOB+Suk
-	 P1m+Wc4LFM4UdLOye76XqauFpKCGRWXC4CPtwDdOMYeGnOg1biHEYE4uUqSctId4RD
-	 0cUrMZqcXFOEA==
-Date: Thu, 20 Mar 2025 16:29:39 +0000
-From: Lee Jones <lee@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Dzmitry Sankouski <dsankouski@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [GIT PULL] Immutable branch between MFD, Input, LEDs and Power
- due for the v6.15 merge window
-Message-ID: <20250320162939.GA1750245@google.com>
-References: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
- <20250221160322.GE824852@google.com>
- <CAL_Jsq+f23KniKZuTHkOq5a7WL=pBy6PwuQwXmbPXMjq3Qax4A@mail.gmail.com>
- <20250320155510.GU3890718@google.com>
- <2e6948e3-76f4-4257-b421-db9afb192bbf@kernel.org>
+	s=arc-20240116; t=1742499562; c=relaxed/simple;
+	bh=6kwDHjfzF8/F6PrR1F4YZ6OvJBBdgeudyzo9o0KXRxM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=b6vZDHjdeQgVnbNkNhRKKun1ya+c/JWqGyk5YDBtm3Yuu0uaNNH5HKV1NgbqoHKWsqZ8LvttCEN2m5IOgjZXrVQ11umtsevAGcNuF4JaaPFgKfl39M9cujY9jfsIlXn3+VbAspdRCkg71KoYuV9c7FNxfCleuCN0kuj5fR6pHN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4/xuAUi; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac25d2b2354so218218566b.1
+        for <linux-leds@vger.kernel.org>; Thu, 20 Mar 2025 12:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742499558; x=1743104358; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6kwDHjfzF8/F6PrR1F4YZ6OvJBBdgeudyzo9o0KXRxM=;
+        b=S4/xuAUiFWOb3UFmKvyryOLc/p7LakOjW1DYbFlQRwHbydeeI9XjxzRnihAWpnB2Dy
+         +YtU4YcO8ow+v4tp98PWUX4L0i+yQag12I7m800Lky8aRdrEII364dVch79mivY2LMlJ
+         QoymHSPzH0xOQ4nBvyY9HOpPex/RJKqO56bhf+y6yCyJZ6lnd3NQQFhQ8FuYXqFw2kpy
+         gHchlLQugbpbw6DFSNHO4WyAUNufSaaURxxEH8qp9NtSL5Z/LfPqL805Q84mG6GXJ2wy
+         JfrbP15LuW6IVxq7G8pjHZ2vcRL0qnoHzyM3Zj081vIXEG3IuxPzwwXt2TrVaNLEskGh
+         fMQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742499558; x=1743104358;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6kwDHjfzF8/F6PrR1F4YZ6OvJBBdgeudyzo9o0KXRxM=;
+        b=Gaeu0LaM1wDC+zsXkKDEecGSfgjuYBQZNLumkOU/TEs4A8fk7gLC5w4Vdf81mHoq9J
+         cAhoobC42JyXFRSY8B4ZHVJE9FxoQ/YWa4n1acsvNmCnkqeN2x4x8YbBCHkcpU44x9kt
+         EoxoXJ6ha4O+ywaVQZ/eQiyoliUTuaWCQ9uljyhUyvytxGtENilzPAzZOSwHHjGwBirl
+         k4N8S3yiyOl0ID+qupClYGmo4yoPElGaIm0rNp0a2Nf7Uxew2JjL4BulEVndemRhJHQL
+         djJtIJJlxy5AE1R9gJ6HgMhK9UbHVAPdiBMRHTD1HSwZk7DeRG/dM24OlEzkOHottFiH
+         EU0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWM6n0JWRZ+sWOHO9UkNt7l4q26MKc1ECWQT9KQ4/yT3fq5x9TwuU8wU+qui1mh3lbh3EI0nERYGQ/y@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCecdubIonJgS59fWE7PpHtiO526ugQ2XXcbrVydbj7l+RNuGJ
+	IJGq+yWUyzBWQUZhrgu95pfdrJu1EevuAXfvMZyjbVaaphhCsMew/OcWlWXcgwHWU73yiJh7URg
+	/VbPvukuo8E7kSjQyfP3iOpynWgo=
+X-Gm-Gg: ASbGncvDd+JbM+C0OoyIew13frvaA5+9PX96JDaI04YvCNvCtxtFOC5pRimy2JDbO3v
+	mGSX/CdvfGsOM36CUEJEnJLeatYvgtRENLuMDLq1SPW7TgHASRJ0duYE4UvUj+Z1mOKjwnKyZ55
+	9ztQoXNAYNlRKx7P950tqWZYX9u9mJKgAbU69P
+X-Google-Smtp-Source: AGHT+IGVDLoWM7BsOAagwk+l0NVxdiIY8SVxAFjOL11hrYI7wbsZIYBSCWQRzHqcvbqvErJd2solHhUeevB8Sr6XS5g=
+X-Received: by 2002:a17:907:f14a:b0:ac1:e1e1:1f30 with SMTP id
+ a640c23a62f3a-ac3f2456d20mr51931366b.38.1742499557727; Thu, 20 Mar 2025
+ 12:39:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2e6948e3-76f4-4257-b421-db9afb192bbf@kernel.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 20 Mar 2025 21:38:41 +0200
+X-Gm-Features: AQ5f1JqXjZ8Qo1sf85UYloushEag5DTuPVLvljtriDjKgZoStSNKYWQ6dMEnPb4
+Message-ID: <CAHp75Vfe1KWDeHGYMbXdExF-7mwA_vXHL-3_TBGyyvMZwgjrJA@mail.gmail.com>
+Subject: broken Simatic leds
+To: Lee Jones <lee@kernel.org>, Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 20 Mar 2025, Krzysztof Kozlowski wrote:
+This broke build
 
-> On 20/03/2025 16:55, Lee Jones wrote:
-> > On Mon, 17 Mar 2025, Rob Herring wrote:
-> > 
-> >> On Fri, Feb 21, 2025 at 10:03 AM Lee Jones <lee@kernel.org> wrote:
-> >>>
-> >>> Enjoy!
-> >>>
-> >>> The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
-> >>>
-> >>>   Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-input-leds-power-v6.15
-> >>>
-> >>> for you to fetch changes up to aebb5fc9a0d87916133b911e1ef2cc04a7996335:
-> >>>
-> >>>   leds: max77705: Add LEDs support (2025-02-20 16:38:37 +0000)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> Immutable branch between MFD, Input, LEDs and Power due for the v6.15 merge window
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> Dzmitry Sankouski (7):
-> >>>       dt-bindings: power: supply: add maxim,max77705 charger
-> >>>       dt-bindings: mfd: Add maxim,max77705
-> >>>       power: supply: max77705: Add charger driver for Maxim 77705
-> >>>       mfd: simple-mfd-i2c: Add MAX77705 support
-> >>>       mfd: Add new driver for MAX77705 PMIC
-> >>>       Input: max77693 - add max77705 haptic support
-> >>>       leds: max77705: Add LEDs support
-> >>
-> >> None of this seems to be in linux-next, but now we have users in .dts files.
-> > 
-> > None of what is in -next?  All of these patches are applied and pushed.
-> 
-> 
-> Next from 17th March has them. Next from 14th Match did not have them,
-> even though you sent this pull request on 21st Feb.
-> 
-> So report was correct - you did not update for-next that time.
+https://web.git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?h=for-leds-next&id=f33c17919d4489ccff3dd20adc5c02dad5139f09
 
-Ah, gotcha.  Yes, that's entirely possible.
+Obviously you forgot to update parent Kconfig and Makefile.
 
-The point of the PR is that anyone can pull and apply it.
-
-In the worse case, all would have come good during the merge-window.
-
--- 
-Lee Jones [李琼斯]
+--
+With Best Regards,
+Andy Shevchenko
 
