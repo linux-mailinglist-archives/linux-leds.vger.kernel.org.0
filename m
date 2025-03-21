@@ -1,91 +1,306 @@
-Return-Path: <linux-leds+bounces-4330-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4331-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D21A6AEA5
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 20:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739E2A6B5D7
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Mar 2025 09:13:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DED1A1883EDC
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Mar 2025 19:39:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C514118916A1
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Mar 2025 08:13:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD3E1EB5CF;
-	Thu, 20 Mar 2025 19:39:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A25041EFF8F;
+	Fri, 21 Mar 2025 08:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4/xuAUi"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hv1tDtBQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FtPldCG7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hv1tDtBQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FtPldCG7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE3C1E5B7E
-	for <linux-leds@vger.kernel.org>; Thu, 20 Mar 2025 19:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CAF1EEA39
+	for <linux-leds@vger.kernel.org>; Fri, 21 Mar 2025 08:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742499562; cv=none; b=B/KacNgVD8gfbIxX9kR9W5KU21jFm7dgT7khzV6BZaD+UtUo16CPm7J/AuH0hc9D7YLsfvpsstjYGs1m4A4W+LZdZscAb5hg8tkqgG2pGV9jegsy0Del1HoPORsHVEGOtQ1cQ5E7Tgj3x/1nwnvb7pVeQZfGC9aDSy0jsW/pjc0=
+	t=1742544794; cv=none; b=lAZUf/ahX7gvPaJV9F/SPRiuOqTW5kSqD4aHWhV27Co+AJmC452hhWgKEEmVtuAl85uyuGE0asjjMkARRawdCsSzocQzNbsLw9VUo0Mgrxzy4/UmUi0WxQJ7y9ljbYA0c34EqE331gT6KJ8gveH1W2yVI6cn82ffE7XbqU4OxwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742499562; c=relaxed/simple;
-	bh=6kwDHjfzF8/F6PrR1F4YZ6OvJBBdgeudyzo9o0KXRxM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=b6vZDHjdeQgVnbNkNhRKKun1ya+c/JWqGyk5YDBtm3Yuu0uaNNH5HKV1NgbqoHKWsqZ8LvttCEN2m5IOgjZXrVQ11umtsevAGcNuF4JaaPFgKfl39M9cujY9jfsIlXn3+VbAspdRCkg71KoYuV9c7FNxfCleuCN0kuj5fR6pHN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4/xuAUi; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac25d2b2354so218218566b.1
-        for <linux-leds@vger.kernel.org>; Thu, 20 Mar 2025 12:39:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742499558; x=1743104358; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6kwDHjfzF8/F6PrR1F4YZ6OvJBBdgeudyzo9o0KXRxM=;
-        b=S4/xuAUiFWOb3UFmKvyryOLc/p7LakOjW1DYbFlQRwHbydeeI9XjxzRnihAWpnB2Dy
-         +YtU4YcO8ow+v4tp98PWUX4L0i+yQag12I7m800Lky8aRdrEII364dVch79mivY2LMlJ
-         QoymHSPzH0xOQ4nBvyY9HOpPex/RJKqO56bhf+y6yCyJZ6lnd3NQQFhQ8FuYXqFw2kpy
-         gHchlLQugbpbw6DFSNHO4WyAUNufSaaURxxEH8qp9NtSL5Z/LfPqL805Q84mG6GXJ2wy
-         JfrbP15LuW6IVxq7G8pjHZ2vcRL0qnoHzyM3Zj081vIXEG3IuxPzwwXt2TrVaNLEskGh
-         fMQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742499558; x=1743104358;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6kwDHjfzF8/F6PrR1F4YZ6OvJBBdgeudyzo9o0KXRxM=;
-        b=Gaeu0LaM1wDC+zsXkKDEecGSfgjuYBQZNLumkOU/TEs4A8fk7gLC5w4Vdf81mHoq9J
-         cAhoobC42JyXFRSY8B4ZHVJE9FxoQ/YWa4n1acsvNmCnkqeN2x4x8YbBCHkcpU44x9kt
-         EoxoXJ6ha4O+ywaVQZ/eQiyoliUTuaWCQ9uljyhUyvytxGtENilzPAzZOSwHHjGwBirl
-         k4N8S3yiyOl0ID+qupClYGmo4yoPElGaIm0rNp0a2Nf7Uxew2JjL4BulEVndemRhJHQL
-         djJtIJJlxy5AE1R9gJ6HgMhK9UbHVAPdiBMRHTD1HSwZk7DeRG/dM24OlEzkOHottFiH
-         EU0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWM6n0JWRZ+sWOHO9UkNt7l4q26MKc1ECWQT9KQ4/yT3fq5x9TwuU8wU+qui1mh3lbh3EI0nERYGQ/y@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCecdubIonJgS59fWE7PpHtiO526ugQ2XXcbrVydbj7l+RNuGJ
-	IJGq+yWUyzBWQUZhrgu95pfdrJu1EevuAXfvMZyjbVaaphhCsMew/OcWlWXcgwHWU73yiJh7URg
-	/VbPvukuo8E7kSjQyfP3iOpynWgo=
-X-Gm-Gg: ASbGncvDd+JbM+C0OoyIew13frvaA5+9PX96JDaI04YvCNvCtxtFOC5pRimy2JDbO3v
-	mGSX/CdvfGsOM36CUEJEnJLeatYvgtRENLuMDLq1SPW7TgHASRJ0duYE4UvUj+Z1mOKjwnKyZ55
-	9ztQoXNAYNlRKx7P950tqWZYX9u9mJKgAbU69P
-X-Google-Smtp-Source: AGHT+IGVDLoWM7BsOAagwk+l0NVxdiIY8SVxAFjOL11hrYI7wbsZIYBSCWQRzHqcvbqvErJd2solHhUeevB8Sr6XS5g=
-X-Received: by 2002:a17:907:f14a:b0:ac1:e1e1:1f30 with SMTP id
- a640c23a62f3a-ac3f2456d20mr51931366b.38.1742499557727; Thu, 20 Mar 2025
- 12:39:17 -0700 (PDT)
+	s=arc-20240116; t=1742544794; c=relaxed/simple;
+	bh=ycfDUt9kf6KT8Xz5/xXWAZUYbEbNI3rilIn4ZECK4xY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aSsptW8BTA0fvzQhBgZgQi41ru8n/miKy1BpCFTX/rXjO+zGieyk3EFZKxuB/Ayz7l34R9+HxcOgwvlEvbnD+BsuV+ZPXjZT3ksqmn/lS/Y14lN0MuVJV/8FQg2cubqgbA/W+qAbaD9b3BBXRN+gSzTreUSoUsaq4Q6hV0wnQEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hv1tDtBQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FtPldCG7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hv1tDtBQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FtPldCG7; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C92D521D09;
+	Fri, 21 Mar 2025 08:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742544789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9lKHsMLQuHW+59wM6VO9frsl+9XDBKKKHZu3m5/3Fw8=;
+	b=Hv1tDtBQ2zTVemGWxinHXN3PGJ5d1H3xGVRLWATfApiPd5NGhNRLaP8vbcK0X4qF6Z5NFY
+	9konii/VJtanV52YHQRU8SM1d8FhppULrsL9FMXZcTm+ZTBOkU7b9nrSZliiC4Y/gLYh5Z
+	vjxyJxhiSourZUYm7XvYO52WIMJx8eA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742544789;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9lKHsMLQuHW+59wM6VO9frsl+9XDBKKKHZu3m5/3Fw8=;
+	b=FtPldCG7Lm5S8e5iddJH3y7eQ+VaMhHG/86RqJRiBQF+VRslHb+1Ap0jzG+/wMz6eGjUut
+	9RTr5V39KQow31Dw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Hv1tDtBQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FtPldCG7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742544789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9lKHsMLQuHW+59wM6VO9frsl+9XDBKKKHZu3m5/3Fw8=;
+	b=Hv1tDtBQ2zTVemGWxinHXN3PGJ5d1H3xGVRLWATfApiPd5NGhNRLaP8vbcK0X4qF6Z5NFY
+	9konii/VJtanV52YHQRU8SM1d8FhppULrsL9FMXZcTm+ZTBOkU7b9nrSZliiC4Y/gLYh5Z
+	vjxyJxhiSourZUYm7XvYO52WIMJx8eA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742544789;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9lKHsMLQuHW+59wM6VO9frsl+9XDBKKKHZu3m5/3Fw8=;
+	b=FtPldCG7Lm5S8e5iddJH3y7eQ+VaMhHG/86RqJRiBQF+VRslHb+1Ap0jzG+/wMz6eGjUut
+	9RTr5V39KQow31Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D44E13A2C;
+	Fri, 21 Mar 2025 08:13:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4aUvIZUf3WekfwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 21 Mar 2025 08:13:09 +0000
+Message-ID: <cca37e5d-408a-414c-a05d-cee31ba3e1ff@suse.de>
+Date: Fri, 21 Mar 2025 09:13:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 20 Mar 2025 21:38:41 +0200
-X-Gm-Features: AQ5f1JqXjZ8Qo1sf85UYloushEag5DTuPVLvljtriDjKgZoStSNKYWQ6dMEnPb4
-Message-ID: <CAHp75Vfe1KWDeHGYMbXdExF-7mwA_vXHL-3_TBGyyvMZwgjrJA@mail.gmail.com>
-Subject: broken Simatic leds
-To: Lee Jones <lee@kernel.org>, Linux LED Subsystem <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/11] backlight: Replace fb events with a dedicated
+ function call
+To: Daniel Thompson <danielt@kernel.org>
+Cc: lee@kernel.org, pavel@ucw.cz, jingoohan1@gmail.com, deller@gmx.de,
+ simona@ffwll.ch, linux-leds@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20250306140947.580324-1-tzimmermann@suse.de>
+ <20250306140947.580324-7-tzimmermann@suse.de> <Z9k7nAXNGDaQMnMO@aspen.lan>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <Z9k7nAXNGDaQMnMO@aspen.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: C92D521D09
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 
-This broke build
+Hi
 
-https://web.git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?h=for-leds-next&id=f33c17919d4489ccff3dd20adc5c02dad5139f09
+Am 18.03.25 um 10:23 schrieb Daniel Thompson:
+> On Thu, Mar 06, 2025 at 03:05:48PM +0100, Thomas Zimmermann wrote:
+>> Remove support for fb events from backlight subsystem. Provide the
+>> helper backlight_notify_blank_all() instead. Also export the existing
+>> helper backlight_notify_blank() to update a single backlight device.
+>>
+>> In fbdev, call either helper to inform the backlight subsystem of
+>> changes to a display's blank state. If the framebuffer device has a
+>> specific backlight, only update this one; otherwise update all.
+>>
+>> v3:
+>> - declare empty fb_bl_notify_blank() as static inline (kernel test robot)
+> Looks like there are still configs where we get build failure.
+>
+>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Other than the build issues, generally this looks great. Just a couple
+> of small issues below.
+>
+>
+>> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+>> index 1c43f579396f..9dc93c5e480b 100644
+>> --- a/drivers/video/backlight/backlight.c
+>> +++ b/drivers/video/backlight/backlight.c
+>> @@ -78,11 +77,8 @@ static const char *const backlight_scale_types[] = {
+>>   	[BACKLIGHT_SCALE_NON_LINEAR]	= "non-linear",
+>>   };
+>>
+>> -#if defined(CONFIG_FB_CORE) || (defined(CONFIG_FB_CORE_MODULE) && \
+>> -				defined(CONFIG_BACKLIGHT_CLASS_DEVICE_MODULE))
+>> -static void backlight_notify_blank(struct backlight_device *bd,
+>> -				   struct device *display_dev,
+>> -				   bool fb_on, bool prev_fb_on)
+>> +void backlight_notify_blank(struct backlight_device *bd, struct device *display_dev,
+>> +			    bool fb_on, bool prev_fb_on)
+>>   {
+>>   	guard(mutex)(&bd->ops_lock);
+>>
+>> @@ -103,68 +99,18 @@ static void backlight_notify_blank(struct backlight_device *bd,
+>>   		}
+>>   	}
+>>   }
+>> +EXPORT_SYMBOL(backlight_notify_blank);
+> Should this be EXPORT_SYMBOL_GPL()?
 
-Obviously you forgot to update parent Kconfig and Makefile.
+The other symbols in this source file are exported with EXPORT_SYMBOL().
 
+Best regards
+Thomas
+
+>
+>
+>> -/*
+>> - * fb_notifier_callback
+>> - *
+>> - * This callback gets called when something important happens inside a
+>> - * framebuffer driver. The backlight core only cares about FB_BLANK_UNBLANK
+>> - * which is reported to the driver using backlight_update_status()
+>> - * as a state change.
+>> - *
+>> - * There may be several fbdev's connected to the backlight device,
+>> - * in which case they are kept track of. A state change is only reported
+>> - * if there is a change in backlight for the specified fbdev.
+>> - */
+>> -static int fb_notifier_callback(struct notifier_block *self,
+>> -				unsigned long event, void *data)
+>> +void backlight_notify_blank_all(struct device *display_dev, bool fb_on, bool prev_fb_on)
+>>   {
+>>   	struct backlight_device *bd;
+>> -	struct fb_event *evdata = data;
+>> -	struct fb_info *info = evdata->info;
+>> -	const int *fb_blank = evdata->data;
+>> -	struct backlight_device *fb_bd = fb_bl_device(info);
+>> -	bool fb_on, prev_fb_on;
+>> -
+>> -	/* If we aren't interested in this event, skip it immediately ... */
+>> -	if (event != FB_EVENT_BLANK)
+>> -		return 0;
+>> -
+>> -	bd = container_of(self, struct backlight_device, fb_notif);
+>> -
+>> -	if (fb_bd && fb_bd != bd)
+>> -		return 0;
+>> -
+>> -	fb_on = fb_blank[0] == FB_BLANK_UNBLANK;
+>> -	prev_fb_on = fb_blank[1] == FB_BLANK_UNBLANK;
+>> -
+>> -	backlight_notify_blank(bd, info->device, fb_on, prev_fb_on);
+>> -
+>> -	return 0;
+>> -}
+>> -
+>> -static int backlight_register_fb(struct backlight_device *bd)
+>> -{
+>> -	memset(&bd->fb_notif, 0, sizeof(bd->fb_notif));
+>> -	bd->fb_notif.notifier_call = fb_notifier_callback;
+>>
+>> -	return fb_register_client(&bd->fb_notif);
+>> -}
+>> +	guard(mutex)(&backlight_dev_list_mutex);
+>>
+>> -static void backlight_unregister_fb(struct backlight_device *bd)
+>> -{
+>> -	fb_unregister_client(&bd->fb_notif);
+>> -}
+>> -#else
+>> -static inline int backlight_register_fb(struct backlight_device *bd)
+>> -{
+>> -	return 0;
+>> +	list_for_each_entry(bd, &backlight_dev_list, entry)
+>> +		backlight_notify_blank(bd, display_dev, fb_on, prev_fb_on);
+>>   }
+>> -
+>> -static inline void backlight_unregister_fb(struct backlight_device *bd)
+>> -{
+>> -}
+>> -#endif /* CONFIG_FB_CORE */
+>> +EXPORT_SYMBOL(backlight_notify_blank_all);
+> Same here.
+>
+>
+> Daniel.
+
+-- 
 --
-With Best Regards,
-Andy Shevchenko
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
