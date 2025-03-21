@@ -1,90 +1,115 @@
-Return-Path: <linux-leds+bounces-4351-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4352-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB40A6B9E1
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Mar 2025 12:27:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6EEA6BBB1
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Mar 2025 14:25:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3DC2189EF3C
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Mar 2025 11:27:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0D4B462944
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Mar 2025 13:25:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFC6F222574;
-	Fri, 21 Mar 2025 11:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FC6A22A7E6;
+	Fri, 21 Mar 2025 13:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSsMPZ2X"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZrCFR4Kh"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CE72AE6A;
-	Fri, 21 Mar 2025 11:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1811F2BB5
+	for <linux-leds@vger.kernel.org>; Fri, 21 Mar 2025 13:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742556449; cv=none; b=FWSKvBFFW64vo6/5txkhM2TE2cWRZ8bcQcMEGWPDx1ZnFxp5ZQrz8iRuSLdNwwp4KQZMG6kQuGAQuuWtMHCGrEqKB23LI/P1MzVPzizzo3Yt7ddOv2Y1ENQceF4fJPlzfsCvU7LtiVdefjIGprPlfXTo8UKLK4+2uuTvVCE7U5k=
+	t=1742563513; cv=none; b=RqdqtFxBTA9NxGuwTjn0d2MbEZ3H/JyVn49fzz6S52VFTkr/ux5w5FQXAdfjEn8IPw521XUXEuhMJOTBOK9LlGE62d44LkYV/nk3ebW7yRWJPPwbFAfJpYcuFDaLYx2j9NjjXXWwaydhS3bKbOkrZU3XQo9zmAeb+oyEZ7hBR4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742556449; c=relaxed/simple;
-	bh=rvjzcfTIqsBtdQ3O3s16B5g9KwEuLjN4A+GexIfIzZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upmBmNzwNh7+2CML8FhOGXZYepWk7mWrtQ8fd/YZPTKjmNIbQYM/sZVBULkWEqmkhC720MqnhSLw+obYd1JD582NqwN8chblwMferuZc0m89XTpmd3DFrBI+rp/wAxC+zGHzZGyiwb8irjXz/PCTNuWXYAjdM5nLpfYLsl03SRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSsMPZ2X; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00132C4CEE3;
-	Fri, 21 Mar 2025 11:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742556449;
-	bh=rvjzcfTIqsBtdQ3O3s16B5g9KwEuLjN4A+GexIfIzZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RSsMPZ2X1nNcVAJSFt7oZI9povVzRcXbTJFMcT831k7xReWgUtSWrQH9GTWOJa3pg
-	 ALsqL8vlJ0n74DbHxSAZPBE/RHnCaIPoZ52E2vuLPQSLiEf5LV4k3c0cgU3v3+lIGm
-	 tAPfqpHAVE5cZqgOD68wqCCptLgOhVxBPaSQbBDvbK3cfyEQe2vS/BCio3+SB785CT
-	 Ce0sYCMuL+/tSrInQ/UjhPWmnco37Vrs7G2zuOVThx3Q+AhHUU70N66tYlceb0S4DL
-	 vHDt9Biy88k2WpwV8axwpnFohs7OOyKy2s0rR+G7N18osea+0KjPBtNBz21XQqXYa9
-	 s4w3+6m2O/FcA==
-Date: Fri, 21 Mar 2025 11:27:24 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, pavel@ucw.cz, jingoohan1@gmail.com, deller@gmx.de,
-	simona@ffwll.ch, linux-leds@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 08/11] backlight: lcd: Replace fb events with a
- dedicated function call
-Message-ID: <Z91NHP65X9GFIYOe@aspen.lan>
-References: <20250321095517.313713-1-tzimmermann@suse.de>
- <20250321095517.313713-9-tzimmermann@suse.de>
+	s=arc-20240116; t=1742563513; c=relaxed/simple;
+	bh=otsrzQxRTrqYhnDBlDSlkJtC96Ekh1UMsy454LoW+Z4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pjdJSvANhh8J/3El75ezMB1PMXQ8kmTRuo6eWsyAxMan5OzUY6qEGTLZ3NgHRTmgV/sZfujVvpYtlvVEcQgZebyVGDh69lMiq9HuWXqMW6n/bOVlK9WusDTuAl8w0GNfodch1EPRVszV5qCB6AfJMmpPQsxA2gdd/XLpIbD+Zwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZrCFR4Kh; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso176344166b.0
+        for <linux-leds@vger.kernel.org>; Fri, 21 Mar 2025 06:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742563510; x=1743168310; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jWDq6saVyLP87b/VWb+QoYhbvXxSSgJnz8WE5RXFajI=;
+        b=ZrCFR4KhO5x82i0mbM6jggSRh1tCcZvnRc7VHvfaYApmSVzqcf21boty5mHRmJI1Ya
+         ZJx2ZiBaPYEW2ghmApfHfx4AAV3yvpWRIpLRDuDSTFb8ma3FBgxOAmYdaWBwFRH+3V3w
+         e504qohDiFEUYTLofVLTD/+qEztCVaS5p9/VOd7MHLX5NnSFHjHlDwhtW3jNwC7B9AFW
+         lG6EiOkY8joftTP3Ux8ua6AJCL978zLSKgQZqeInagHlYvlZoc/2MrYfZUcqZYFS30tA
+         3/n4DMgT4B01/dUNCwfj2wuwvffVhjHe4wlFEr9OcNgS8FNfWc3ojC5PMQP+SoIRpUpT
+         Pd6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742563510; x=1743168310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jWDq6saVyLP87b/VWb+QoYhbvXxSSgJnz8WE5RXFajI=;
+        b=XOsQgFHdQNwUeBxYNpUWW3sJmZ7kgUYKRVmsF9oHNVIdwTP3IT5keYft073EGYOk80
+         dQsx1VXWlD/yjc4Cf7rzvh194Vzw2ZtifqBlbAtP277nw1oJCYZ1ChY2Pm59tasujuaQ
+         L6Iuh3NRn2VTMBhJGctANkPD3E/pH23Op4zTXRiHx5Bw33it0cD0dfV/AGX5Ov8fjKYu
+         Dbgc7v8hMcDDyaMJuxK/uD4X0W273dk7+pbWVeRbz3KatmLEbGfBvZHgY2wUAXAoj4Np
+         1b9eXgRMDfJIWrsZaw/S9Z6mYxNw8yceXVppMQeJB/xSM1cgt7eRS0KskN4vZXD8MbAB
+         Ex8w==
+X-Gm-Message-State: AOJu0YxXxL63/5TorM9wDl+VZ9jDtvCIOI41tcEGTwrtYzTAriCZW6An
+	xFkj6QQA/mJRIAq4GrSXreUe6cA8kflFsdfKjU8WRF1lEJvCgoHeHpE1W0P5vDqPo8fq66dv4yt
+	osQX5IuKcBFXt2Wv0mrDOJ/4gjPARngLL
+X-Gm-Gg: ASbGncuxWRFwbC9PFEXHx1og4anrtFmAwX7DJREU6Kd/f6ps+eDhwmMYHqiV4yaqS4X
+	r80Brt7g8xjX6RoB6pwCGUqf4NXNVL8XAgqRUuqlGiP7/VI6IcdSHzaq5tg/wKG4UMAvcOV/FDo
+	6NmlvkmXxsVYAahyn6a2O53XRNgruA
+X-Google-Smtp-Source: AGHT+IE22NUlpEi/CnDUHBH4lWq+myij6TzRRR3ZqEMtqA6PtG6VvbA3bvBSOl2Re/89VWHc14C+FM8e9RxVCKFObwQ=
+X-Received: by 2002:a17:907:c23:b0:ac3:422b:48bb with SMTP id
+ a640c23a62f3a-ac3f25835aamr320655066b.49.1742563509388; Fri, 21 Mar 2025
+ 06:25:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321095517.313713-9-tzimmermann@suse.de>
+References: <CAHp75Vfe1KWDeHGYMbXdExF-7mwA_vXHL-3_TBGyyvMZwgjrJA@mail.gmail.com>
+ <20250321092257.GD1750245@google.com> <20250321092326.GE1750245@google.com>
+In-Reply-To: <20250321092326.GE1750245@google.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 21 Mar 2025 15:24:32 +0200
+X-Gm-Features: AQ5f1Jrar9QxeOBuIPGo880q2g1_6zvegcEvouh1Uvayvta3Rvyf4jXe8BN9y9o
+Message-ID: <CAHp75VfN5Acf9LzKkrZgBoL4aK3+oz-sRSpHC-cTfuLrUnFPxA@mail.gmail.com>
+Subject: Re: broken Simatic leds
+To: Lee Jones <lee@kernel.org>
+Cc: Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 21, 2025 at 10:54:01AM +0100, Thomas Zimmermann wrote:
-> Remove support for fb events from the lcd subsystem. Provide the
-> helper lcd_notify_blank_all() instead. In fbdev, call
-> lcd_notify_blank_all() to inform the lcd subsystem of changes
-> to a display's blank state.
+On Fri, Mar 21, 2025 at 11:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
-> Fbdev maintains a list of all installed notifiers. Instead of fbdev
-> notifiers, maintain an internal list of lcd devices.
+> On Fri, 21 Mar 2025, Lee Jones wrote:
 >
-> v3:
-> - export lcd_notify_mode_change_all() (kernel test robot)
-> v2:
-> - maintain global list of lcd devices
-> - avoid IS_REACHABLE() in source file
-> - use lock guards
-> - initialize lcd list and list mutex
+> > On Thu, 20 Mar 2025, Andy Shevchenko wrote:
+> >
+> > > This broke build
+> > >
+> > > https://web.git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/comm=
+it/?h=3Dfor-leds-next&id=3Df33c17919d4489ccff3dd20adc5c02dad5139f09
+> > >
+> > > Obviously you forgot to update parent Kconfig and Makefile.
+> >
+> > Thanks for the report.
+> >
+> > I have pushed a fix.  Please could you GTAL?
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?=
+h=3Dfor-leds-next&id=3D835a0c10d33b54607f49edffbbeaea4c4cdcc49c
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+LGTM, it builds.
 
 
-Daniel.
+--=20
+With Best Regards,
+Andy Shevchenko
 
