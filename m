@@ -1,201 +1,215 @@
-Return-Path: <linux-leds+bounces-4354-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4355-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F252A6C95E
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Mar 2025 11:33:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 007E2A6CF1B
+	for <lists+linux-leds@lfdr.de>; Sun, 23 Mar 2025 13:04:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A4757AAF26
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Mar 2025 10:31:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B07E3B5881
+	for <lists+linux-leds@lfdr.de>; Sun, 23 Mar 2025 12:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3A4BE4E;
-	Sat, 22 Mar 2025 10:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F9B204C00;
+	Sun, 23 Mar 2025 12:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TyEv+qss"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="Ry4mzZmw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A4F13CA97
-	for <linux-leds@vger.kernel.org>; Sat, 22 Mar 2025 10:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F0E1DE4CE;
+	Sun, 23 Mar 2025 12:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742639552; cv=none; b=UwRYVarpmsUr2d/wcVcPiwQUAIo4bMecVsJDixG55GfwmgTqN8FWA5q7m731DvRIaV9oBKreVjcTa1HgUN6yobiIsP7TYUbpSeN9lCxMczA0mhJTQMVOW4d4cyqFnYkbOqex1dMkAOxgtRqERpFLYmMKThuEHQqST77BUjNj4rc=
+	t=1742731477; cv=none; b=mqbsgyinpFR+iYNmP4w/ETw6jojmpYE4m7pA+MCZwy0LHou7yIAIVmYTd0Ab1HS6Tc2MhRY55b5g01k6JrQzPZNgtm2l9drykITO/1b1mP6+AgE2DkjWoStch9xcDab4aOOx8lPMEn7AcCkQyigcqmduTwso1Ig+s1+SVx4zIYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742639552; c=relaxed/simple;
-	bh=L8FxnNlGV9ipHvxdbMPuz6RYx/3QWuDJ4+DTEfVFAqw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dyaJOImuj2LU1Joz8k5ROUyRNJ5cL0egGaOCc9eiyTp8RAR0ORMqVAKetsOYtbxRqZBFmpsa+sC6wJRnnM+WUAchg2jKC5M8sIbuTylH24jed+blvO8O2I5evWS0DtoYeJF5MR/ic7cCctYPqxOoSJEt75Fu0oYfFNOY5URPQgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TyEv+qss; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742639551; x=1774175551;
-  h=date:from:to:cc:subject:message-id;
-  bh=L8FxnNlGV9ipHvxdbMPuz6RYx/3QWuDJ4+DTEfVFAqw=;
-  b=TyEv+qss19jZcqOPHBNOTKl/hc7+DX4eS5uyebM1rDrC8dRBed0W63Pw
-   mTcccPAU+O61TUrNN5pasHo2pf6bVcy70k+roTuSjUQw6xLtRm4o0OqQd
-   p+7Oau/WzwYAUSgEbtPfbha3UcXc2w0uzHeOhpkEFTjDSpjmpRcVVHMEG
-   yEHpZIH8j4yXAAJ11Hr/wkjKDSdBOzF6xV86gGN6kzAeJ9UXR/WuJXMaz
-   Emlm8N9Tkz8/enSU7j+hX3rQj04af+uI09zRPARPskx7V55Iw3fuFmXqt
-   +t94XbIc83+oHOwMYQZqE9hbkvkRS929bFmfoPw79M7lx3lwdfaaOy3L4
-   w==;
-X-CSE-ConnectionGUID: 29SBjkqJR+yDYVdVG/86NA==
-X-CSE-MsgGUID: ExTJ9jObS36DHWfCwGSAfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="46643281"
-X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="46643281"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 03:32:30 -0700
-X-CSE-ConnectionGUID: N+1bKH8qQ2eds8thaD5FUA==
-X-CSE-MsgGUID: Gm7begT5So6ZsSsWbM2yoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="128837813"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 22 Mar 2025 03:32:29 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvw9S-00025l-25;
-	Sat, 22 Mar 2025 10:32:26 +0000
-Date: Sat, 22 Mar 2025 18:31:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 2528eec7da0ec58fcae6d12cfa79a622c933d86b
-Message-ID: <202503221847.gu1O0aNT-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1742731477; c=relaxed/simple;
+	bh=X2RSEHB/5njtNQnNQiWqwYC92KV+t70soDX2ZBnv1vk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DuAVe6i90x5yekWLDgpGqyE3gggMb5jMrWrfCNcCIHroq7jMWvKRlaos5RRexXzlKZjVYDZEndxXMTLGYlXO65lwrLHvjyopckDCl/Nt+v/+VraOA5+42qrDxMVnYzNm+BDXBzULgHMDngO4Ud8Jh9+FfUhagrY4tHMPQQTbojQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=Ry4mzZmw; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
+	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=MhzW9XC5Y8y5pf0coMzUl18/0PB+2d7VJu+1Gai3U0Y=; b=Ry4mzZmw+NuF9RUZXN0EyUuaZM
+	mTeAIVfrsIGRFL5BGgwhmqq6cZNSiSyBWPtbd2GytdKWIb9dW49tL7sp9rxgQ9031sB+EkuBOI7Bm
+	pFlsK3IhAxtOvqsICO1wtrHqJi3JEi33QSu/09ULhSLilY7t0muWswsul17FeT0eLRM8=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:63453 helo=[192.168.0.218])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1twK40-007n4A-Ki; Sun, 23 Mar 2025 13:04:25 +0100
+Message-ID: <0ecfd0be-8ab4-48b3-8798-ba1ce0d3e939@emfend.at>
+Date: Sun, 23 Mar 2025 13:04:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] leds: tps6131x: add support for Texas Instruments
+ TPS6131X flash LED driver
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bsp-development.geo@leica-geosystems.com
+References: <20250318-leds-tps6131x-v2-0-bc09c7a50b2e@emfend.at>
+ <20250318-leds-tps6131x-v2-2-bc09c7a50b2e@emfend.at>
+ <20250319-tall-ruddy-flamingo-a12fcc@krzk-bin>
+ <9a470dfd-8d7b-4529-b54b-289754b9eed6@emfend.at>
+ <92d8d240-5156-414f-b58b-a957e27eb30c@kernel.org>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <92d8d240-5156-414f-b58b-a957e27eb30c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 2528eec7da0ec58fcae6d12cfa79a622c933d86b  leds: rgb: leds-qcom-lpg: Fix calculation of best period Hi-Res PWMs
+Hi Krzysztof,
 
-elapsed time: 1453m
+Am 19.03.2025 um 20:28 schrieb Krzysztof Kozlowski:
+> On 19/03/2025 17:25, Matthias Fend wrote:
+>>>> +
+>>>> +	if (reg3 & TPS6131X_REG_3_HPFL)
+>>>> +		*fault |= LED_FAULT_SHORT_CIRCUIT;
+>>>> +
+>>>> +	if (reg3 & TPS6131X_REG_3_SELSTIM_TO)
+>>>> +		*fault |= LED_FAULT_TIMEOUT;
+>>>> +
+>>>> +	if (reg4 & TPS6131X_REG_4_HOTDIE_HI)
+>>>> +		*fault |= LED_FAULT_OVER_TEMPERATURE;
+>>>> +
+>>>> +	if (reg6 & (TPS6131X_REG_6_LEDHOT | TPS6131X_REG_6_LEDWARN))
+>>>> +		*fault |= LED_FAULT_LED_OVER_TEMPERATURE;
+>>>> +
+>>>> +	if (!(reg6 & TPS6131X_REG_6_LEDHDR))
+>>>> +		*fault |= LED_FAULT_UNDER_VOLTAGE;
+>>>> +
+>>>> +	if (reg6 & TPS6131X_REG_6_LEDHOT) {
+>>>> +		ret = regmap_update_bits_base(tps6131x->regmap, TPS6131X_REG_6,
+>>>> +					      TPS6131X_REG_6_LEDHOT, 0, NULL, false, true);
+>>>
+>>> And this is not locked?
+>>
+>> The read modify write operation is protected by regmap. Since this
+>> operation does not interact with any other functions, no lock is needed
+>> here.
+> 
+> 
+> Following that logic no lock is needed in the first place. Define what
+> is the purpose of this lock, not just "hardware access". I assumed you
+> want to keep consistent hardware state between multiple updates. If
+> that's correct, how did you prevent returning value from reads happening
+> in the middle of concurrent update? Or how this update_bits_base is
+> prevented from happening while you are in the middle of earlier calls
+> which are protected by your lock?
+> 
+> That's confusing lock, considering also too short comment explaining its
+> purpose.
 
-configs tested: 108
-configs skipped: 5
+Registers 0, 1, 2, and 3 control parts of the controller that are not 
+completely independent of each other.
+For some operations, it is therefore necessary to write to the registers 
+in a specific order to avoid unwanted side effects.
+Therefore, I protected write access to these registers with a lock. The 
+RMW sequence in regmap_update_bits_base uses the cached value of the 
+register and does not read from the hardware.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Explicit reads to the status registers can be performed at any time. If 
+a flag is set, this can be reported.
+Since regmap_read_bypassed actually reads from the hardware but doesn't 
+update the cache, this isn't a problem either.
+Therefore, I don't see any need for a lock here.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-14.2.0
-arc                   randconfig-001-20250321    gcc-13.3.0
-arc                   randconfig-002-20250321    gcc-11.5.0
-arc                           tb10x_defconfig    gcc-14.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-14.2.0
-arm                   randconfig-001-20250321    clang-19
-arm                   randconfig-002-20250321    gcc-9.3.0
-arm                   randconfig-003-20250321    gcc-5.5.0
-arm                   randconfig-004-20250321    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250321    gcc-5.5.0
-arm64                 randconfig-002-20250321    gcc-5.5.0
-arm64                 randconfig-003-20250321    clang-20
-arm64                 randconfig-004-20250321    clang-21
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250321    gcc-13.3.0
-csky                  randconfig-002-20250321    gcc-13.3.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250321    clang-21
-hexagon               randconfig-002-20250321    clang-16
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250321    clang-20
-i386        buildonly-randconfig-002-20250321    clang-20
-i386        buildonly-randconfig-003-20250321    clang-20
-i386        buildonly-randconfig-004-20250321    clang-20
-i386        buildonly-randconfig-005-20250321    clang-20
-i386        buildonly-randconfig-006-20250321    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250321    gcc-14.2.0
-loongarch             randconfig-002-20250321    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                        m5272c3_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250321    gcc-13.3.0
-nios2                 randconfig-002-20250321    gcc-7.5.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250321    gcc-8.5.0
-parisc                randconfig-002-20250321    gcc-6.5.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-21
-powerpc               randconfig-001-20250321    clang-21
-powerpc               randconfig-002-20250321    gcc-7.5.0
-powerpc               randconfig-003-20250321    gcc-7.5.0
-powerpc64             randconfig-001-20250321    gcc-5.5.0
-powerpc64             randconfig-002-20250321    clang-16
-powerpc64             randconfig-003-20250321    gcc-7.5.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-16
-riscv                 randconfig-001-20250321    clang-21
-riscv                 randconfig-002-20250321    clang-21
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-15
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250321    clang-16
-s390                  randconfig-002-20250321    gcc-8.5.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250321    gcc-7.5.0
-sh                    randconfig-002-20250321    gcc-7.5.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250321    gcc-12.4.0
-sparc                 randconfig-002-20250321    gcc-6.5.0
-sparc64               randconfig-001-20250321    gcc-10.5.0
-sparc64               randconfig-002-20250321    gcc-6.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250321    gcc-12
-um                    randconfig-002-20250321    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250321    clang-20
-x86_64      buildonly-randconfig-002-20250321    clang-20
-x86_64      buildonly-randconfig-003-20250321    gcc-12
-x86_64      buildonly-randconfig-004-20250321    clang-20
-x86_64      buildonly-randconfig-005-20250321    clang-20
-x86_64      buildonly-randconfig-006-20250321    clang-20
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250321    gcc-6.5.0
-xtensa                randconfig-002-20250321    gcc-10.5.0
+My suggestion would be to expand the comment as follows:
+/* Hardware access lock for register 0, 1, 2 and 3 */
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+and add this additional note before it:
+/*
+  * Registers 0, 1, 2, and 3 control parts of the controller that are 
+not completely
+  * independent of each other. Since some operations require the 
+registers to be written in
+  * a specific order to avoid unwanted side effects, they are 
+synchronized with a lock.
+  */
+
+Do you think that's acceptable?
+
+> 
+>>
+>>>
+>>>> +		if (ret < 0)
+>>>> +			return ret;
+>>>> +	}
+>>>> +
+>>>
+>>> ...
+>>>
+>>>> +
+>>>> +static int tps6131x_flash_external_strobe_set(struct v4l2_flash *v4l2_flash, bool enable)
+>>>> +{
+>>>> +	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
+>>>> +	struct tps6131x *tps6131x = fled_cdev_to_tps6131x(fled_cdev);
+>>>> +
+>>>> +	guard(mutex)(&tps6131x->lock);
+>>>> +
+>>>> +	return tps6131x_set_mode(tps6131x, enable ? TPS6131X_MODE_FLASH : TPS6131X_MODE_SHUTDOWN,
+>>>> +				 false);
+>>>> +}
+>>>> +
+>>>> +static const struct v4l2_flash_ops tps6131x_v4l2_flash_ops = {
+>>>> +	.external_strobe_set = tps6131x_flash_external_strobe_set,
+>>>> +};
+>>>> +
+>>>> +static int tps6131x_v4l2_setup(struct tps6131x *tps6131x)
+>>>> +{
+>>>> +	struct v4l2_flash_config v4l2_cfg = { 0 };
+>>>> +	struct led_flash_setting *intensity = &v4l2_cfg.intensity;
+>>>> +
+>>>> +	if (!IS_BUILTIN(CONFIG_V4L2_FLASH_LED_CLASS))
+>>>
+>>> Why builtin? That's a tristate, so I don't get why driver and v4l flash
+>>> cannot be modules. You wanted REACHABLE probably... but then it is
+>>> anyway discouraged practice leading to runtime debugging. So actually
+>>> you want CONFIG_V4L2_FLASH_LED_CLASS || !CONFIG_V4L2_FLASH_LED_CLASS
+>>> dependency.
+>>
+>> Okay, I'll add 'depends on V4L2_FLASH_LED_CLASS ||
+>> !V4L2_FLASH_LED_CLASS' to the Kconfig entry and do the check in the
+>> driver like this:
+> 
+> Only this
+> 
+>>     if (!IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS))
+>>       return 0;
+>>
+>> Is this solution okay for you?
+> 
+> This should should not be needed, because there are v4l2 stubs.
+
+True, it works that way too, you're right, of course.
+I was initially tempted by the many 
+'IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)' in the other drivers, and then 
+by the requested switch to an early return.
+I will now remove the remaining early return as well.
+
+Thanks!
+  ~Matthias
+
+> 
+> Best regards,
+> Krzysztof
+
 
