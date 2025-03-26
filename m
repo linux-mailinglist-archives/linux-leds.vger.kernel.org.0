@@ -1,83 +1,89 @@
-Return-Path: <linux-leds+bounces-4367-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4368-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4EDA71A75
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Mar 2025 16:35:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 703E4A71A78
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Mar 2025 16:36:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFC1916473B
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Mar 2025 15:35:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 869F5164C1B
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Mar 2025 15:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845AA1F4178;
-	Wed, 26 Mar 2025 15:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B60D81F4170;
+	Wed, 26 Mar 2025 15:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=smile.fr header.i=@smile.fr header.b="JR9uKVEX"
+	dkim=pass (1024-bit key) header.d=smile.fr header.i=@smile.fr header.b="gJKTJK32"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942EE1624D2
-	for <linux-leds@vger.kernel.org>; Wed, 26 Mar 2025 15:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3561DDC1E
+	for <linux-leds@vger.kernel.org>; Wed, 26 Mar 2025 15:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743003344; cv=none; b=l1OyUZgIpRhJIeSbWT/6lmW8BgTkREakFMk7DHWHgWzwxs6uA1QkwHWsVMCjNmY1TK7iwHfEs71HN70voOwkXd9h1beKO9GMkLAZ9/2133OWJupPFLMdf90Gnthhe58eJrEwSP81cqDFiYZ/g+X87rQSMqD56VT8qSoZ+eCn7YQ=
+	t=1743003353; cv=none; b=MrGf8dZlsiM92BhUmIh2Qwt7CG6FRrX6+XveqpjH2TzwlvWtWSdI+gbm+x2/T+NZts3Q66d+8gkM2wEjfU/8AtIsIxBwjSF9l762o+aXdZ3fwEdwiMRUYHn05AuN9HJc7XQK+vJnq/87NqitWS8xQWclEnmP5p6AmZzBg2ClZDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743003344; c=relaxed/simple;
-	bh=jJ/2R3ltui6w1dmVHZ7fwXENb5/R7XMqufWtiYakBSE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eiVjNyuOAAdC71HlVGafwXRWbfNgj6WaR7cnq5KxQFBYRZEko5VMPQCTokmfrTrusxPAeNZLaCMLYuDmIU514ZR0R8Be5kXMF/HPggWe1RBIRydMRus3ngzojxU+hii/QUK/5LOH6CPcGviIQ1qZR4NRkpVylzIfTqyfICbPgVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (1024-bit key) header.d=smile.fr header.i=@smile.fr header.b=JR9uKVEX; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1743003353; c=relaxed/simple;
+	bh=zWS37NwBQynY8d7fVOe2aEY/kflnlB7Z831LkNsWMCI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CfM1dX/2YZolf7ME4Zs8rRkIFiEPULKExHHo0neZYJR8nnpRcaDHstT9lj0JWBGmKT4vrCKjTrZUC6EMFp6dSoi1imwoafwv9gn9OomKPZWDU+Fy+crp2B/mttV4un7UNvnsFZzQ2HafSyap/um6abtvGZxNtU08jCdf3Wmnjp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (1024-bit key) header.d=smile.fr header.i=@smile.fr header.b=gJKTJK32; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smile.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3996af42857so742514f8f.0
-        for <linux-leds@vger.kernel.org>; Wed, 26 Mar 2025 08:35:41 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso54230225e9.2
+        for <linux-leds@vger.kernel.org>; Wed, 26 Mar 2025 08:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1743003340; x=1743608140; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ADMLF79/vx5jNyFYG7amyuGOGTGpcPIUlf/pqxayCOI=;
-        b=JR9uKVEX2w/ZIW5GJ9asNK7gNUpS6FYmKdNffpJXaq+dLTRpbntNYwtU1Toz75ohXc
-         lfqa+WmmJ5Uf8PYmzLMN3Pbofx7WLasHzj0Yx5RCuILIuSqRkLIZs1gUP3jLnrEkAjct
-         zWG/ytl+Ix0F/R3QdCuUP4JWsXt4ZBg5BiGwQ=
+        d=smile.fr; s=google; t=1743003350; x=1743608150; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ryoKDomEM8QC52XTS10f6105+9enq22DIQJhjcBG4KE=;
+        b=gJKTJK32wDDkHPs8Ndf818qgwr5syJFeKEZxT9Hva9ZeIfXKIySBBv21xTltKNEVNy
+         sO1YCBL6NxTtDmJBKbMGc4MpP3ex4PWlHCYU50HteSrCYP8iBLcL4inEbHdhd0NUNukY
+         swNfgaqA9wH4VpNJkjfcIbQth+zWVFOVFsEdI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743003340; x=1743608140;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ADMLF79/vx5jNyFYG7amyuGOGTGpcPIUlf/pqxayCOI=;
-        b=YngujtYDe9hnCf72vdOkAnHgpMjd6C+LhMVFuy8qiqz0lPe8eb0bF14wNJAWS7LH5d
-         jec2hxfVJWrO0EPFcbuWfoOXbH+lss3CdJUc5KVXQFRjtF+w2RRgxVJR57fWdg/TF4Bh
-         D2WH8ohEirf1L3H5xc+r4rV7lxd6mk8bL95rQWnlxQOCuPWH9AeglT8e2u95Dyml0+BU
-         FRdo++rlntEivzlThqTVvkmGRnE+X+I40jVGx4HsEmMuQ//kVSQFU+gCJu1D0gdSUcTj
-         pujm0ICdezlUYLzfO2BHgCQoV1RD+epmBuYZfrWI3GtrfNEXNJ48P0E8p+Hk+TPe0j+h
-         NScw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRaJODDlDzOv6ZHa2FZQ5lYA64TUzQXgWGQOKyiYS9ox+JyYIVYYjyj+Wms4v0GdSqCp1nWSvU799q@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7zWV0me5pA/MQCxCkLbJbp72kEnV+M8Yz1gNjtlKo5uax8sq8
-	Kb5JQk2eC/QzapkH3y876VZ6LV9j5LIsWwEwfv9q7iTyrqxQfJJfGUmZPGgRXFc=
-X-Gm-Gg: ASbGncuQuwAdO2xre9ksTgcsY+EF504kwddHTA3K/p5bzGfgHB7iOCBMba8uKwSDVRo
-	kGrlloK7uMZUoewdN+z9y07yiZXm0W6uW15hbVcWpGbn/ykh5ULBIexbv7Ecv1m6soCPvRVG0bL
-	jlbk8aHdrHOQEdbuejSQntvd5h/W+znnBpWwqPrOJTdFReH39mHvCoPtxg8pc6ZCRnRizqX35AZ
-	dzlDx+7o4JVkiQmtbzQ5tGUx1vowFzE6VW0ktZjPZsDnGb3sgF1yZmaqzZU9D8Bccl3Le0h1WgX
-	M1eGq/m8fef5tyvQch5dTvq0XlebMQ7e5aN6YPqM4+7m6EQbiPq21NStq6OIpdR1M9q7dEOwrw=
-	=
-X-Google-Smtp-Source: AGHT+IEPxk1dGiXAuVyC+ufZqlzFLjHQ6SatSuyBz9yy5jGowVXvYNlAOr2I/pdLQg3aJHAq9HL3Tw==
-X-Received: by 2002:a5d:6daf:0:b0:39a:ca59:a613 with SMTP id ffacd0b85a97d-39ad1523326mr192803f8f.26.1743003339684;
-        Wed, 26 Mar 2025 08:35:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743003350; x=1743608150;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ryoKDomEM8QC52XTS10f6105+9enq22DIQJhjcBG4KE=;
+        b=K8+vzJ8Spj0AAM4fYe+Dy8IpnGFvCXQO9kpqJMChHYofNqRuqTBE73SPd+3ACU6sF8
+         IA58UzquPYXT4omtgHvRvxZ5TMijf0aOsXbU4eHvrihjo2LYZLdhAtXdTgVrLdlQgl6X
+         5M6t9x4xsw3maYjihnIY0wymspKF0qJ7swOboIlS5wrG/16tBltWFhHJodVfWeSu4eTw
+         btljx3LJ3Pc/qVLLV5x0C0kNd1PpcVfkKpRSBcbyagQzn4Qv86+MCElXRXVLJ57iQ7jW
+         N38KZQNUFja5SGR3of3GHRWY5XTmz3J44lLX8J7kHrnChfnP3XINnr95whYO3zu3shYD
+         Kn2w==
+X-Gm-Message-State: AOJu0YxSHmYeO0JYxhRtZ1BxSFcQPvBpiou3UrkmKpqjB83kM+c5aRra
+	oUJndIFTi1VJ+oKdyVNG8bbgHBkinXzpaaObUoviJ5iNdchUFyrYxQ/ohd2aYS4=
+X-Gm-Gg: ASbGncsvQEKiJMsaIHfrgOCnY9J3klVaEEadJ89+yL/hthIyua8/PhGxwJ8GnVF5gF4
+	UrJ5/RdD7ESkCY+fQYGi5m0eN07E+AXaycuBYEjGcFD1elqsI+JshAIjNpmakfd5F7Easkvolve
+	a5pvqMTxBMhltXN2FYHV4CD+ZkyP60jOO05+XveXcub44+dz+pflB8LdqDvnl0tuMhS8kqbJOjL
+	KFwNvftW/6C7DP9U26oGTIxPPLmm1rs8lLz97a1u8rS2+BZU+dsCvHpZnYo1gYsysHgqzWf6UbR
+	v38D1vb3WV6nOxLm0PvHs/ack7N1V/VV0fmFQY93LmnFOekonaao9o/90B8UEYw=
+X-Google-Smtp-Source: AGHT+IG+gKYpgpOhUJRwdwD+l4A2600bYtEYFYwQWPHBA42eyZhpvsPB1Ox0uvb35nLOjc9QtMB5/w==
+X-Received: by 2002:a5d:64e4:0:b0:390:f9d0:5e3 with SMTP id ffacd0b85a97d-3997f8f6450mr21534753f8f.1.1743003349659;
+        Wed, 26 Mar 2025 08:35:49 -0700 (PDT)
 Received: from heaven.lanfs.local ([62.161.254.42])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9eff6esm17141771f8f.100.2025.03.26.08.35.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9eff6esm17141771f8f.100.2025.03.26.08.35.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 08:35:39 -0700 (PDT)
+        Wed, 26 Mar 2025 08:35:49 -0700 (PDT)
 From: Corentin Guillevic <corentin.guillevic@smile.fr>
 To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>
-Cc: Corentin Guillevic <corentin.guillevic@smile.fr>,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH 1/2] leds: tlc5928: Driver for the TI 16 Channel spi LED driver
-Date: Wed, 26 Mar 2025 16:35:32 +0100
-Message-ID: <20250326153535.158137-1-corentin.guillevic@smile.fr>
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Corentin Guillevic <corentin.guillevic@smile.fr>
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] dt-bindings: leds: Add TI TLC5928 LED
+Date: Wed, 26 Mar 2025 16:35:33 +0100
+Message-ID: <20250326153535.158137-2-corentin.guillevic@smile.fr>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250326153535.158137-1-corentin.guillevic@smile.fr>
+References: <20250326153535.158137-1-corentin.guillevic@smile.fr>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -86,308 +92,232 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TLC59928 is an SPI-connected bus controlled 16-channel LED driver.
-A single 16-bit register handles the whole LEDs. Following a write, a
-latch GPIO applies the new LED configuration. An "enable" GPIO (blank
-in the TLC59928 datasheet) turns off the whole LEDs when active/high.
-
-This driver is able to handle a daisy-chain case, so when several
-TLC59928 controllers are connected in serie.
+Document Texas Instruments TLC5928 LED driver devicetree bindings.
 
 Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
 ---
- drivers/leds/Kconfig        |   9 ++
- drivers/leds/Makefile       |   1 +
- drivers/leds/leds-tlc5928.c | 248 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 258 insertions(+)
- create mode 100644 drivers/leds/leds-tlc5928.c
+ .../bindings/leds/leds-tlc5928.yaml           | 212 ++++++++++++++++++
+ 1 file changed, 212 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-tlc5928.yaml
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b784bb74a837..f429214dd9c2 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -747,6 +747,15 @@ config LEDS_TLC591XX
- 	  This option enables support for Texas Instruments TLC59108
- 	  and TLC59116 LED controllers.
- 
-+config LEDS_TLC5928
-+	tristate "LED driver for TLC5928 controller"
-+	depends on LEDS_CLASS && SPI
-+	depends on GPIOLIB
-+	select REGMAP_SPI
-+	help
-+	  This option enables support for Texas Instruments TLC5928
-+	  LED controller.
-+
- config LEDS_MAX77650
- 	tristate "LED support for Maxim MAX77650 PMIC"
- 	depends on LEDS_CLASS && MFD_MAX77650
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 18afbb5a23ee..085d4917232a 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -87,6 +87,7 @@ obj-$(CONFIG_LEDS_SYSCON)		+= leds-syscon.o
- obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
- obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
- obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
-+obj-$(CONFIG_LEDS_TLC5928)		+= leds-tlc5928.o
- obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
- obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
- obj-$(CONFIG_LEDS_WM831X_STATUS)	+= leds-wm831x-status.o
-diff --git a/drivers/leds/leds-tlc5928.c b/drivers/leds/leds-tlc5928.c
+diff --git a/Documentation/devicetree/bindings/leds/leds-tlc5928.yaml b/Documentation/devicetree/bindings/leds/leds-tlc5928.yaml
 new file mode 100644
-index 000000000000..5d6663d5d3f3
+index 000000000000..0d857c9b1feb
 --- /dev/null
-+++ b/drivers/leds/leds-tlc5928.c
-@@ -0,0 +1,248 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright 2025 Corentin Guillevic <corentin.guillevic@smile.fr>
-+ */
++++ b/Documentation/devicetree/bindings/leds/leds-tlc5928.yaml
+@@ -0,0 +1,212 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-tlc5928.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#include <linux/gpio/consumer.h>
-+#include <linux/delay.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/slab.h>
-+#include <linux/spi/spi.h>
++title: LED driver for TLC5928 from Texas Instruments.
 +
-+#define TLC5928_MAX_LEDS	16
++maintainers:
++  - Corentin Guillevic <corentin.guillevic@smile.fr>
 +
-+#define ldev_to_led(c)		container_of(c, struct tlc5928_led, ldev)
++description: |
++  The TLC5928 is a LED controller handling up to 16 LEDs. It can
++  control LED on/off using a SPI-compatible interface, and has an
++  on/off control data shift register (blank) and data latch.
 +
-+struct tlc5928_led {
-+	bool active;
-+	unsigned int led_no;
-+	struct led_classdev ldev;
-+	struct tlc5928_chip *chip;
-+};
++  This driver also supports the daisy-chaining of several TLC5928
++  chips, as illustrated by the diagram below (with two controllers):
 +
-+struct tlc5928_chip {
-+	struct gpio_desc *enable_gpio;
-+	struct tlc5928_led leds[TLC5928_MAX_LEDS];
-+	struct list_head list;
-+	struct tlc5928_priv *priv;
-+	u16 leds_state;
-+};
++  +--------------+           +--------------+
++  |          SCLK|-----+---->|SCLK     BLANK|--
++  |              |     |     |              |
++  |  SPI     MOSI|-----|---->|MOSI  TLC5928 |
++  | Master       |     |     |        (1)   |
++  |          MISO|<--+ |  +--|MISO          |
++  |              |   | |  |  |              |
++  |      CS/LATCH|-+-|-|--|->|LATCH         |
++  +--------------+ | | |  |  +--------------+
++                   | | |  |  +--------------+
++                   | | +--|->|SCLK     BLANK|--
++                   | |    |  |              |
++                   | |    +->|MOSI  TLC5928 |
++                   | |       |        (2)   |
++                   | +-------|MISO          |
++                   |         |              |
++                   +-------->|LATCH         |
++                             +--------------+
 +
-+struct tlc5928_priv {
-+	struct spi_device *spi;
-+	struct gpio_desc *latch_gpio;
-+	struct list_head chips_list;
-+	struct mutex lock;
-+};
++  For more product information please see the link below:
++  https://www.ti.com/product/TLC5928/part-details/TLC5928PWPR
 +
-+static int
-+tlc5928_set_ledout(struct tlc5928_led *led, bool val)
-+{
-+	struct tlc5928_chip *chip;
-+	struct tlc5928_chip *chip_owner = led->chip;
-+	struct tlc5928_priv *priv = chip_owner->priv;
-+	int ret;
++properties:
++  compatible:
++    const: ti,tlc5928
 +
-+	mutex_lock(&priv->lock);
++  "#address-cells":
++    const: 1
 +
-+	if (val)
-+		chip_owner->leds_state |= (1 << led->led_no);
-+	else
-+		chip_owner->leds_state &= ~(1 << led->led_no);
++  "#size-cells":
++    const: 0
 +
-+	list_for_each_entry_reverse(chip, &priv->chips_list, list) {
-+		u16 leds_state = cpu_to_be16(chip->leds_state);
++  reg:
++    maxItems: 1
++    description:
++      SPI slave address
 +
-+		ret = spi_write(priv->spi, &(leds_state), sizeof(leds_state));
++  enable-gpios:
++    description: |
++      Array of GPIO specifiers, referring to the GPIO pins to enable/disable
++      each device (active high to disable). In the daisy chain case, each
++      GPIO has to be in the same sequence than the devices.
 +
-+		if (ret)
-+			return ret;
-+	}
++  latch-gpio:
++    maxItems: 1
++    description: Latch GPIO (SPI chip select)
 +
-+	gpiod_set_value(priv->latch_gpio, 0);
-+	udelay(1);
-+	gpiod_set_value(priv->latch_gpio, 1);
++patternProperties:
++  "^spi-chip@[0-9]$":
++    type: object
++    unevaluatedProperties: false
++    description: Properties for a TLC5928 controller.
 +
-+	mutex_unlock(&priv->lock);
++    properties:
++      '#address-cells':
++        const: 1
 +
-+	return 0;
-+}
++      '#size-cells':
++        const: 0
 +
-+static int
-+tlc5928_brightness_set(struct led_classdev *led_cdev,
-+			enum led_brightness brightness)
-+{
-+	struct tlc5928_led *led = ldev_to_led(led_cdev);
++    patternProperties:
 +
-+	/* TLC5928 only allows on/off, no brightness */
-+	return tlc5928_set_ledout(led, !!brightness);
-+}
++      "^led@[0-9a-f]+$":
++        type: object
++        $ref: common.yaml#
++        unevaluatedProperties: false
++        description:
++          Properties for a single LED.
 +
-+static const struct of_device_id of_tlc5928_leds_match[] __maybe_unused = {
-+	{ .compatible = "ti,tlc5928" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_tlc5928_leds_match);
++        properties:
++          reg:
++            description: Index of the LED.
++            minimum: 0
++            maximum: 15
 +
-+static int tlc5928_probe_chip_dt(struct device *dev, struct device_node *node,
-+		struct tlc5928_chip *chip)
-+{
-+	struct device_node *child;
-+	int count, err, reg;
++        required:
++          - reg
 +
-+	count = of_get_available_child_count(node);
-+	if (!count)
-+		return -EINVAL;
++    required:
++      - "#address-cells"
++      - "#size-cells"
 +
-+	chip->leds_state = 0;
++required:
++  - compatible
++  - reg
++  - latch-gpio
 +
-+	for_each_available_child_of_node(node, child) {
-+		struct tlc5928_led *led;
-+		struct led_init_data init_data = {};
++unevaluatedProperties: false
 +
-+		init_data.fwnode = of_fwnode_handle(child);
++examples:
++  # Single controller
++  - |
++	#include <dt-bindings/leds/common.h>
 +
-+		err = of_property_read_u32(child, "reg", &reg);
-+		if (err) {
-+			dev_err(dev, "%pOF: failed to read reg\n", child);
-+			of_node_put(child);
-+			return err;
-+		}
++	tlc5928@0 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "ti,tlc5928";
++		reg = <0x0>;
 +
-+		if (reg < 0 || reg >= TLC5928_MAX_LEDS ||
-+				chip->leds[reg].active) {
-+			of_node_put(child);
-+			return -EINVAL;
-+		}
++		enable-gpios = <&gpiof 10 GPIO_ACTIVE_HIGH>;
++		latch-gpio = <&gpiof 3 GPIO_ACTIVE_HIGH>;
 +
-+		led = &chip->leds[reg];
++		spi-chip@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+		led->active = true;
-+		led->chip = chip;
-+		led->led_no = reg;
-+		led->ldev.brightness_set_blocking = tlc5928_brightness_set;
-+		err = devm_led_classdev_register_ext(dev, &led->ldev,
-+							 &init_data);
-+		if (err < 0) {
-+			of_node_put(child);
-+			dev_err(dev, "Failed to register LED for node %pfw\n",
-+				init_data.fwnode);
-+			return err;
-+		}
-+	}
++			led@0 {
++				label = "tlc5928:led0";
++				led = <LED_COLOR_ID_WHITE>;
++				reg = <0x0>;
++			};
 +
-+	return 0;
-+}
++			led@1 {
++				label = "tlc5928:led1";
++				led = <LED_COLOR_ID_RED>;
++				reg = <0x1>;
++			};
 +
-+static int tlc5928_probe(struct spi_device *spi)
-+{
-+	struct device_node *node, *child;
-+	struct device *dev = &spi->dev;
-+	struct list_head *pos;
-+	struct tlc5928_chip *chip;
-+	struct tlc5928_priv *priv;
-+	int count, err, i;
++			led@f {
++				label = "tlc5928:led15";
++				led = <LED_COLOR_ID_GREEN>;
++				reg = <0xf>;
++			};
++		};
++	};
 +
-+	node = dev_of_node(dev);
-+	if (!node)
-+		return -ENODEV;
++  # Two controllers, in daisy chain
++  - |
++	#include <dt-bindings/leds/common.h>
 +
-+	count = of_get_available_child_count(node);
-+	if (!count)
-+		return -EINVAL;
++	tlc5928@0 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "ti,tlc5928";
++		reg = <0x0>;
 +
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
++		enable-gpios = <&gpiof 10 GPIO_ACTIVE_HIGH>, /* OUT_EN_1 */
++			<&gpiof 9 GPIO_ACTIVE_HIGH>; /* OUT_EN_2 */
++		latch-gpio = <&gpiof 3 GPIO_ACTIVE_HIGH>;
 +
-+	priv->spi = spi;
-+	priv->latch_gpio = devm_gpiod_get(dev, "latch", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->latch_gpio))
-+		return dev_err_probe(dev, PTR_ERR(priv->latch_gpio),
-+				     "Failed to get latch GPIO\n");
++		spi-chip@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+	mutex_init(&priv->lock);
-+	INIT_LIST_HEAD(&priv->chips_list);
++			led@0 {
++				label = "tlc5928:0:led0";
++				led = <LED_COLOR_ID_WHITE>;
++				reg = <0x0>;
++			};
 +
-+	i = 0;
-+	for_each_available_child_of_node(node, child) {
-+		chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
-+		if (!chip)
-+			return -ENOMEM;
++			led@1 {
++				label = "tlc5928:0:led1";
++				led = <LED_COLOR_ID_RED>;
++				reg = <0x1>;
++			};
 +
-+		list_add_tail(&chip->list, &priv->chips_list);
-+		chip->priv = priv;
-+		chip->enable_gpio = devm_gpiod_get_index_optional(dev, "enable", i,
-+				GPIOD_OUT_HIGH);
-+		if (IS_ERR(chip->enable_gpio)) {
-+			dev_err(dev, "Error getting enable GPIO %i property: %ld\n", i,
-+					PTR_ERR(chip->enable_gpio));
-+			return PTR_ERR(chip->enable_gpio);
-+		}
++			led@f {
++				label = "tlc5928:0:led15";
++				led = <LED_COLOR_ID_GREEN>;
++				reg = <0xf>;
++			};
++		};
 +
-+		err = tlc5928_probe_chip_dt(dev, child, chip);
-+		if (err)
-+			return err;
++		spi-chip@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+		i++;
-+	}
++			led@0 {
++				label = "tlc5928:1:led0";
++				led = <LED_COLOR_ID_BLUE>;
++				reg = <0x0>;
++			};
 +
-+	list_for_each(pos, &priv->chips_list) {
-+		chip = container_of(pos, struct tlc5928_chip, list);
-+		if (chip->enable_gpio)
-+			gpiod_set_value(chip->enable_gpio, 0);
-+	}
++			led@1 {
++				label = "tlc5928:1:led1";
++				led = <LED_COLOR_ID_AMBER>;
++				reg = <0x1>;
++			};
 +
-+	spi_set_drvdata(spi, priv);
++			led@2 {
++				label = "tlc5928:1:led2";
++				led = <LED_COLOR_ID_VIOLET>;
++				reg = <0x2>;
++			};
 +
-+	return 0;
-+}
-+
-+static int tlc5928_remove(struct spi_device *spi)
-+{
-+	struct list_head *pos;
-+	struct tlc5928_priv *priv = spi_get_drvdata(spi);
-+	int i;
-+
-+	list_for_each(pos, &priv->chips_list) {
-+		struct tlc5928_chip *chip = container_of(pos, struct tlc5928_chip,
-+				list);
-+
-+		for (i = 0; i < TLC5928_MAX_LEDS; i++) {
-+			if (chip->leds[i].active)
-+				devm_led_classdev_unregister(&spi->dev,
-+					     &chip->leds[i].ldev);
-+		}
-+
-+		if (chip->enable_gpio) {
-+			gpiod_set_value(chip->enable_gpio, 1);
-+			gpiod_put(chip->enable_gpio);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct spi_device_id tlc5928_id[] = {
-+	{ "tlc5928" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(spi, tlc5928_id);
-+
-+static struct spi_driver tlc5928_driver = {
-+	.driver = {
-+		.name = "tlc5928",
-+		.of_match_table = of_match_ptr(of_tlc5928_leds_match),
-+	},
-+	.probe = tlc5928_probe,
-+	.remove = tlc5928_remove,
-+	.id_table = tlc5928_id,
-+};
-+
-+module_spi_driver(tlc5928_driver);
-+
-+MODULE_AUTHOR("Corentin Guillevic <corentin.guillevic@smile.fr>");
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("TLC5928 LED driver");
++			led@f {
++				label = "tlc5928:1:led15";
++				led = <LED_COLOR_ID_YELLOW>;
++				reg = <0xf>;
++			};
++		};
++	};
 -- 
 2.45.2
 
