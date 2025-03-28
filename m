@@ -1,58 +1,60 @@
-Return-Path: <linux-leds+bounces-4372-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4373-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000E4A74541
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 09:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AFDA7459D
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 09:42:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B45013B00BA
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 08:20:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A3AE3AA330
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 08:42:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448781AE01C;
-	Fri, 28 Mar 2025 08:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02F7212FAA;
+	Fri, 28 Mar 2025 08:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+wQip0F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCGo3RDt"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ACB18871F;
-	Fri, 28 Mar 2025 08:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A752D212B39;
+	Fri, 28 Mar 2025 08:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743150035; cv=none; b=h1knmDyYSiFs6MYkYPy18zWath3Tm4/3Pyww1W4aASmj3xjV5WhaYb4MRObI2rkowWYpfBpFSyJVZEAfenyhcrthlvtOxQDuYYdTv61wG9rjuyDBzT9nbyKDQeYFuR3gGyOkoqpsiu8My8TjleAQmlxq2manUB5aeP2l9x9yqno=
+	t=1743151365; cv=none; b=hNhPrcEV5aW3Bo6Z1Y5S/vTgXaNbmUbLAfHFgpBpNVYuyg57UHIR2StqrTR9Y/qau/ygBT3k+kIHjmWa82AnYs712D8xYho3SqPuXODPqXzBthAJEkTrNKMZ493+jDXKtXcxW2KxOpfKtnJ8/N94pS8WjAwSjOSfHZJ4IvFdNNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743150035; c=relaxed/simple;
-	bh=f8M7mTbtvhkQW6bkNjKahwsuKAxAI9kl7KWwcre5Gpg=;
+	s=arc-20240116; t=1743151365; c=relaxed/simple;
+	bh=eKiysfOtXP1WtvpY1AV0YfA4J7E/PtTyWO4U4gpCiT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ABDZj9dJrpYQLYBcjDvsk4NYDzRvoyIX6pc7hM+7Go8NPff6j4BAr6pBN3LEiMCHifi+H5pfHd4L/ChrjrIIESvADzlPxK9J+1nFtoxUwQMCPdacvDSX/9jvu1QjaXReeVh0FRGQUjS2h//FGJjh61aJTgxNO+NaslIiNh0BpZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+wQip0F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5928FC4CEE4;
-	Fri, 28 Mar 2025 08:20:33 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LDIAfG3ifhVWflBreYHr04QAtthQJj62SWSUA7b1legmzZbTCQl0puKEmMtPuyCvtiM4KdtEMQ+mMQ3F7UOod7TbHy0N7yJ3ET7QWkh3jlSNSJ24keadecWq1fFgXZilhOutQsWdi+4RPKCBf5Syro1YLVycLKE/GniaoGGtlzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCGo3RDt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819DBC4CEE4;
+	Fri, 28 Mar 2025 08:42:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743150034;
-	bh=f8M7mTbtvhkQW6bkNjKahwsuKAxAI9kl7KWwcre5Gpg=;
+	s=k20201202; t=1743151365;
+	bh=eKiysfOtXP1WtvpY1AV0YfA4J7E/PtTyWO4U4gpCiT0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P+wQip0F5maaYYGLwTdNCTFUtix4kgzNHs7WoSoC3p5sKHStZtzivdrkWEImT8SR1
-	 gL1lz7DxU0u5Nk+PEg77zb0uCSoovuGWtIAjn7f+ODfSKjzEOOoJ0wzHXPb2/C4zGw
-	 uCjqgE+icnBLSg+CNCnAKE7axv1yfOsXtzs4V2m1vj5z4LeUuGHyJAficfOLiS6ndR
-	 SfZ2oTDXP2eBakXxX/Xi46ScYahC3X0paWLzySpkzGgSXwNNccFhGwDzoaH18lui09
-	 b5En5lLy6VSHFJjeM6keGtC4XmPCHBrBsytf4sqwXEhzXFGjdiJiQpoaYzKcMx3qvp
-	 tR6r7BX7K2r6w==
-Date: Fri, 28 Mar 2025 08:20:30 +0000
+	b=oCGo3RDtIzVH0sJT2bwZHE5CvaoGNME4l1ssBly4wNuIPPtDzjGuRKA3tBSu8L5qG
+	 vB5lQ9Tfh11RGt31s5jYzl310aI+LSHajyBPozzAdXi8HeifobRt8RYV5T7NvJ7OEb
+	 Ff8+l4ODqmMffdxeryXMuVMu+t6g85cE81scqBR/UeQpjOsKtlUJIl7lpER7oY3bqm
+	 1fZFb7WbEuhH2uekwJeX6Yvd7zuEukrQbMzUk5fzyZelipzpGH9LBs5swJS2qU9ZnY
+	 b+uXu1XJLCnVPShrvUImpVkkkhU2E5sgsNeejmBLBppQ3M4GFO8F0W70pqn+Lwoysg
+	 lIIInw8veY/AA==
+Date: Fri, 28 Mar 2025 08:42:40 +0000
 From: Lee Jones <lee@kernel.org>
-To: Manuel Fombuena <fombuena@outlook.com>
-Cc: pavel@ucw.cz, corbet@lwn.net, vicentiu.galanopulo@remote-tech.co.uk,
-	linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: leds: remove .rst extension for
- leds-st1202 on index
-Message-ID: <20250328082030.GB585744@google.com>
-References: <CWLP123MB5473552E76AE71CDE3085DA9C5C32@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
- <CWLP123MB5473137572529F99746F4AC4C5C32@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
- <CWLP123MB54738759F49D377A9F080AA0C5A62@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Thompson <danielt@kernel.org>, pavel@ucw.cz,
+	jingoohan1@gmail.com, deller@gmx.de, simona@ffwll.ch,
+	linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v4 08/11] backlight: lcd: Replace fb events with a
+ dedicated function call
+Message-ID: <20250328084240.GD585744@google.com>
+References: <20250321095517.313713-1-tzimmermann@suse.de>
+ <20250321095517.313713-9-tzimmermann@suse.de>
+ <Z91NHP65X9GFIYOe@aspen.lan>
+ <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -62,41 +64,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CWLP123MB54738759F49D377A9F080AA0C5A62@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+In-Reply-To: <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
 
-On Wed, 26 Mar 2025, Manuel Fombuena wrote:
+On Mon, 24 Mar 2025, Thomas Zimmermann wrote:
 
-> On Tue, 25 Feb 2025, Manuel Fombuena wrote:
+> Hi
 > 
-> > No other LED driver is listed on index.rst with the extension .rst.
-> > Remove it.
-> > 
-> > Fixes: b1816b22381b ("Documentation:leds: Add leds-st1202.rst")
-> > Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
-> > ---
-> >  Documentation/leds/index.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-> > index 0ab0a2128a11..76fae171039c 100644
-> > --- a/Documentation/leds/index.rst
-> > +++ b/Documentation/leds/index.rst
-> > @@ -28,5 +28,5 @@ LEDs
-> >     leds-mlxcpld
-> >     leds-mt6370-rgb
-> >     leds-sc27xx
-> > -   leds-st1202.rst
-> > +   leds-st1202
-> >     leds-qcom-lpg
-> > -- 
-> > 2.48.1
-> > 
-> > 
+> Am 21.03.25 um 12:27 schrieb Daniel Thompson:
+> > On Fri, Mar 21, 2025 at 10:54:01AM +0100, Thomas Zimmermann wrote:
+> > > Remove support for fb events from the lcd subsystem. Provide the
+> > > helper lcd_notify_blank_all() instead. In fbdev, call
+> > > lcd_notify_blank_all() to inform the lcd subsystem of changes
+> > > to a display's blank state.
+> > > 
+> > > Fbdev maintains a list of all installed notifiers. Instead of fbdev
+> > > notifiers, maintain an internal list of lcd devices.
+> > > 
+> > > v3:
+> > > - export lcd_notify_mode_change_all() (kernel test robot)
+> > > v2:
+> > > - maintain global list of lcd devices
+> > > - avoid IS_REACHABLE() in source file
+> > > - use lock guards
+> > > - initialize lcd list and list mutex
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 > 
-> Now that 6.14 is out, should I re-send this for 'for-leds-next' or there 
-> is no need?
+> Thanks for reviewing.  There are reviews of all patches. If nothing else
+> comes in, feel free to merge it via the backlight tree.  I can also take the
+> series into dri-devel.
 
-If this is still relevant and still applies cleanly, I'll take it from here.
+I plan to take this in via the Backlight tree.  Once applied, I'll send
+out a pull-request for other maintainers to pull from.
+
+For the record, just so we're clear, this will not make v6.15.
 
 -- 
 Lee Jones [李琼斯]
