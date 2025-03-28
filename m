@@ -1,217 +1,125 @@
-Return-Path: <linux-leds+bounces-4375-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4376-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF3A74A7C
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 14:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E3CA74CE3
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 15:38:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B060B171735
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 13:18:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC3CB173D62
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Mar 2025 14:33:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6767A487BE;
-	Fri, 28 Mar 2025 13:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8C424B34;
+	Fri, 28 Mar 2025 14:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q9G+1EAp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OJYdJxf5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q8/CzdqD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MdYDg+T6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQL65rkv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE6F1DFDE
-	for <linux-leds@vger.kernel.org>; Fri, 28 Mar 2025 13:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25080DDC5;
+	Fri, 28 Mar 2025 14:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743167916; cv=none; b=e39o+8M3cU6lK0zNPWqvbv7qMHcPlNz/VqF7lqfdVA7sLoghbGcyZjwukH6X2Y6BFi87ptfB52CcJ1WscWlGT2p14BntCmrE4s9y2XA1kJbkMs5U10QqZcvBpsB+sNTIBhO1ZMlttWAGqcx1RWtbZ4yDkPnHlVgRXua3NmGaPGw=
+	t=1743172406; cv=none; b=N87snSCe8194S9Ozv4FObyITezNuOMGMf9hcq6sb2MX8iCv/5qbRfARCVdyIxxVGSfPAK4dfGZ2VSvkjqe7KkNyh/qHXQKR5+20CKf43RF3XK6pkRr/XJj/hJPoEf2OHbvI71HGbvnPFKlMoooXRXX98rN2TwyBQmdGrY4MuYy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743167916; c=relaxed/simple;
-	bh=HBol3S9EMf59+1FHPLuGAtIdzoDMMtONIPxaOeuA0p4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LcOHcfpMw0RlP46ixhHZZBZ6zwQIB2KS7Y1f/IW+VRF3s2HrX4NR6JhTtKF/X79Ifhr5T2SbGrsyG+ZBma0NwJ1ifSpw6pV2MTNHXCMDjVaFCD1Ty3oo0cKdXmMCsgrokNL2cD5+iAmre+INuaWH+Bf/a7+DYJlzu6MfqX3Z0EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q9G+1EAp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OJYdJxf5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q8/CzdqD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MdYDg+T6; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D746E1F388;
-	Fri, 28 Mar 2025 13:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743167913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
-	b=q9G+1EApP87Li9LqZ9tNT7ffxKyy+w57xFiXdpDFCwiauMDbmHQX+fjkf50sYL8yGd1lR3
-	nc9ZZf9VwwjMveBJxK47J9y6jY+ULu18gNd5QIVQqucysHJUdC0Lx+5quFGcp2hqOdCc8I
-	w9CrSaGk+bDZUhugXMyDoJ+l2tWDdf0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743167913;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
-	b=OJYdJxf5zZ3Yh5YLqjTziUp5W2XWk5+0S6M0+53ZzGDTpYS3m/P0fScyVjSE6h8XRmdusl
-	kq4Z1nGo6CoZbFAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743167912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
-	b=q8/CzdqDKbykRtQuxwRNzI4ZioFocno7/Xx3H2jQ7PPLtOn+MBjdkfR6Cn+Kjw4IX8lgot
-	47jeTCuwubUaREL1xRTaLBuU0JRYXZNNj1KcjE11YhDWVv523SsYUZQUGUM0odHHDVxPJ1
-	In/Hsr9PAavTgsPK+mRHvkBMBt2VLsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743167912;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
-	b=MdYDg+T6WDahQ/+kFgw5gNORCJCLgX/+D+mifG+QddA6846lPKfzZ8uZ5DGV5a9aSTDn40
-	j4hBPERmaiTJIwCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94D8A13927;
-	Fri, 28 Mar 2025 13:18:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XtYII6ih5mcBYAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 28 Mar 2025 13:18:32 +0000
-Message-ID: <75afa0eb-6aac-41c3-a0f6-2245ef380800@suse.de>
-Date: Fri, 28 Mar 2025 14:18:32 +0100
+	s=arc-20240116; t=1743172406; c=relaxed/simple;
+	bh=exiAf3JTR79CnexHmDH248L4l9xNspbe/I1gW2NbaE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HUvvvCfqCcRlU+qm5HgGwNNnyEdoPl9NyhF1vykC4X3TzhDBGOiDhukaGIs781xXHvHAfzOWPKBeutj/2VxyWpr8yIZNA1r91PhaHywAB1eOLASJBN8S5M3IxBNI6w+hXVPud6/JB4pKh43cXU69xCsx8g6ZKlfCkQQf01ARrnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQL65rkv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE05C4CEE5;
+	Fri, 28 Mar 2025 14:33:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743172405;
+	bh=exiAf3JTR79CnexHmDH248L4l9xNspbe/I1gW2NbaE4=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ZQL65rkvLNsYajUVehOZdQvoqim9PhQFwVSbc+IjFidxLmlBGf1/d31zFcEMgxJ7o
+	 aajh69zIdetdVvULoWVr0kyHctvuaZJO0DE9P2ejYunk1ZnqqfFuLmelBKsbdiwReF
+	 X5NOXtxWWdTjCLJ5uLF6giW/EHDxrpLoQmbzsUpF1llG/rmG8AZ6abK9oMplaQv4WO
+	 McCEVKJwnNz3wOn1iqk3L8QF9AgS4qCWhX5hSLNgvRETmQMfzjNz8gOSbe/ttR2s7x
+	 kFlQO7850P0Sn5wRUUf9Q3FIk1pINtNntM9ZHa6pSnbCcTX8EafV8wzA2r5stPq8ta
+	 X6sI9vy9ViQSQ==
+Date: Fri, 28 Mar 2025 08:33:22 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] leds: Avoid -Wflex-array-member-not-at-end warning
+Message-ID: <Z-azMlPnP7nPPJrY@kspp>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/11] backlight: lcd: Replace fb events with a
- dedicated function call
-To: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <danielt@kernel.org>, pavel@ucw.cz, jingoohan1@gmail.com,
- deller@gmx.de, simona@ffwll.ch, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20250321095517.313713-1-tzimmermann@suse.de>
- <20250321095517.313713-9-tzimmermann@suse.de> <Z91NHP65X9GFIYOe@aspen.lan>
- <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
- <20250328084240.GD585744@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250328084240.GD585744@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Am 28.03.25 um 09:42 schrieb Lee Jones:
-> On Mon, 24 Mar 2025, Thomas Zimmermann wrote:
->
->> Hi
->>
->> Am 21.03.25 um 12:27 schrieb Daniel Thompson:
->>> On Fri, Mar 21, 2025 at 10:54:01AM +0100, Thomas Zimmermann wrote:
->>>> Remove support for fb events from the lcd subsystem. Provide the
->>>> helper lcd_notify_blank_all() instead. In fbdev, call
->>>> lcd_notify_blank_all() to inform the lcd subsystem of changes
->>>> to a display's blank state.
->>>>
->>>> Fbdev maintains a list of all installed notifiers. Instead of fbdev
->>>> notifiers, maintain an internal list of lcd devices.
->>>>
->>>> v3:
->>>> - export lcd_notify_mode_change_all() (kernel test robot)
->>>> v2:
->>>> - maintain global list of lcd devices
->>>> - avoid IS_REACHABLE() in source file
->>>> - use lock guards
->>>> - initialize lcd list and list mutex
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
->>> Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
->> Thanks for reviewing.  There are reviews of all patches. If nothing else
->> comes in, feel free to merge it via the backlight tree.  I can also take the
->> series into dri-devel.
-> I plan to take this in via the Backlight tree.  Once applied, I'll send
-> out a pull-request for other maintainers to pull from.
->
-> For the record, just so we're clear, this will not make v6.15.
+Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
+a flexible structure where the size of the flexible-array member
+is known at compile-time, and refactor the rest of the code,
+accordingly.
 
-Makes sense. Thanks a lot.
+So, with these changes, fix the following warning:
 
-Best regards
-Thomas
+drivers/leds/leds-cros_ec.c:70:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 
->
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/leds/leds-cros_ec.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
+index 275522b81ea5..6eab0474f52d 100644
+--- a/drivers/leds/leds-cros_ec.c
++++ b/drivers/leds/leds-cros_ec.c
+@@ -66,24 +66,20 @@ static int cros_ec_led_send_cmd(struct cros_ec_device *cros_ec,
+ 				union cros_ec_led_cmd_data *arg)
+ {
+ 	int ret;
+-	struct {
+-		struct cros_ec_command msg;
+-		union cros_ec_led_cmd_data data;
+-	} __packed buf = {
+-		.msg = {
+-			.version = 1,
+-			.command = EC_CMD_LED_CONTROL,
+-			.insize  = sizeof(arg->resp),
+-			.outsize = sizeof(arg->req),
+-		},
+-		.data.req = arg->req
+-	};
+-
+-	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
++	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
++			sizeof(union cros_ec_led_cmd_data));
++
++	msg->version = 1;
++	msg->command = EC_CMD_LED_CONTROL;
++	msg->insize  = sizeof(arg->resp);
++	msg->outsize = sizeof(arg->req);
++	*(struct ec_params_led_control *)msg->data = arg->req;
++
++	ret = cros_ec_cmd_xfer_status(cros_ec, msg);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	arg->resp = buf.data.resp;
++	arg->resp = *(struct ec_response_led_control *)msg->data;
+ 
+ 	return 0;
+ }
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.43.0
 
 
