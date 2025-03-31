@@ -1,48 +1,55 @@
-Return-Path: <linux-leds+bounces-4382-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4383-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA80EA76B61
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Mar 2025 17:57:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C0FA76C05
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Mar 2025 18:35:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB89B3B5F49
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Mar 2025 15:43:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83B2216A476
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Mar 2025 16:35:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDC11DE2C6;
-	Mon, 31 Mar 2025 15:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A530210186;
+	Mon, 31 Mar 2025 16:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+Ul9BTc"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="GPUeFo9x"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA613234;
-	Mon, 31 Mar 2025 15:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0785D2B9A8;
+	Mon, 31 Mar 2025 16:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743435743; cv=none; b=EpXQPtS51+4uiRZ0jTXUqv7e6OZaKc7JOwlXt0u7NCc++rp68xyvBwV1axDRuFlo8ODUONy/DKbTgX6S/bodtLeTT8LPIY9+qS6Wt/hKhCPjpk9XjY1Kt4zTfM/w2C+4gSyA+QdKOEedAdXKui4hEUOROZNk4zzZZUgRz016jLk=
+	t=1743438946; cv=none; b=td4U5/J60sB5rptiWPv+Ufxieq3WOk3v14phSPoTuDUNyq0d6CngL/ZhiSvXIxRNsY5w+dsk46xcO3vkp0zkEFALPJDFxan9Fv+41bhS99wQ+31xE5jDUvt3aMIuRGgjXD0LTrIWuj2Dr/HqhhEDdS/ZeR7F+k/UaxP3Kp9x+dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743435743; c=relaxed/simple;
-	bh=PxIna1x9A+YmAFcW7MUXz8P+5VIlWKjWh4D/FIWEcoM=;
+	s=arc-20240116; t=1743438946; c=relaxed/simple;
+	bh=Y5jbM88MAgn3wl6VGv2T/3V8FXFl/Ja/r03cNLJAc9E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KpjUvLs5KlHDwTrjmQEPTre72Xb359vDK3YUxcU/BVFJRWvFcJNBwlyAMZuq24o38VbJozbdO5mudrmdd7Q2VmE0fL5DuVsmiROvMMcUqGEcbE2F0yNGrSoT5HviYUnSjpjuVpr2lXeQbtXhzTs6pAOTjAjEIAsikqGbrXzk4G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+Ul9BTc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBE43C4CEE3;
-	Mon, 31 Mar 2025 15:42:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743435743;
-	bh=PxIna1x9A+YmAFcW7MUXz8P+5VIlWKjWh4D/FIWEcoM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H+Ul9BTcuXRu7vbVGhS2GqGATopSBcCaM8yxh7Ddtg+ahIqmqKncSaWCqKCEG0wLU
-	 JTPVSSe+YQg/ET6ctNzIhRY9QHctiJMYC9JjWKruzdjWVB0+H2s+LIjI17urhnN/Gr
-	 rn51AJ5SMTZkrHxMy7T1ktbXBoBmXhaZcsedLNWNecMRTPrHpdfnxeZf+UxgsyB7wE
-	 8mYR3vDIMJFQM/rhcETtvoZsZtVb6J/xZ1yFlpuvZXWf85D9d0F9CKveS0dsxTbZhI
-	 S7+2eJjeHAM8Ixt70i1xkCwGbCHl+HrbwL9vCK72oQ0URI51nJrMvIW4apt9yn61eV
-	 fg/v6Zq+YZqjg==
-Message-ID: <8d9f077b-e656-438c-a9bd-76915d135e24@kernel.org>
-Date: Mon, 31 Mar 2025 17:42:17 +0200
+	 In-Reply-To:Content-Type; b=rf9MVPPzYDAt6qlzX3QEHaRUngGvAZi5F6GHCvPS51aH12FYSlScWokd1M9wui59Fn1iMmP+Dgopc+FkU/BapfEFysnTxEMjHh8Bt2JlYv6VV0T9KqcOC0Pshg3TMYmVrSL8RC+z+2qhDIVhNS+rAuFSWzF0jWABrLPMezCV6hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=GPUeFo9x; arc=none smtp.client-ip=80.12.242.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id zI6htGlLKjmO8zI6ltQDaO; Mon, 31 Mar 2025 18:35:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1743438932;
+	bh=lY7BeyveUH3AXOWViZpRYutnAaNNZPsSe/bRA8mdx0c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=GPUeFo9xbQmzMQIIAaUMa7wDOXL3m658gUV3uNppLE896pHfTlFMG9rSARiJvzbwp
+	 G2LOKluvti6Iau9HYX1trNfd4g4aav2Wo/6W6sMrh69AkfV3xLNXIwDASW/Cyp+mdC
+	 jTEo8tXJV3Gw1FS6i4pWC9HxPrBlKaSzdpt7/CUnB+7gijjhWjOuT292OBaSpwF9AC
+	 gg7i9e5ruTnW6q969Pnj0YLjuR4wVKekAxqowGhtcuOCvvdED5pHR1XtV50It4A1E2
+	 R5dPVkZLUJJMPxkFhMn9myoI2WAEZjP8RxDIJmf5HfhzT4MQ0bin43DcNGItrvQ2xp
+	 +DhYQq1mF9ASA==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Mon, 31 Mar 2025 18:35:32 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <3be3ca59-157d-4ceb-81bd-4a1acdbccb9c@wanadoo.fr>
+Date: Mon, 31 Mar 2025 18:35:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,98 +57,263 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: leds: Add LP5812 LED driver
-To: Nam Tran <trannamatk@gmail.com>, krzk+dt@kernel.org
-Cc: pavel@kernel.org, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <59c3c5f6-98a3-4c02-8622-9bad2a06c6f1@kernel.org>
- <20250331153138.52539-1-trannamatk@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250331153138.52539-1-trannamatk@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 1/2] leds: tlc5928: Driver for the TI 16 Channel spi LED
+ driver
+To: Corentin Guillevic <corentin.guillevic@smile.fr>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20250326153535.158137-1-corentin.guillevic@smile.fr>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20250326153535.158137-1-corentin.guillevic@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 31/03/2025 17:31, Nam Tran wrote:
->>>
->>>> +
->>>> +  "#address-cells":
->>>> +    const: 1
->>>> +
->>>> +  "#size-cells":
->>>> +    const: 0
->>>
->>> What are these?
->>>
->>> Nam: I included the #address-cells and #size-cells properties to resolve a warning encountered when running:
->>> make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/leds/ti,lp5812.yaml
->>> The specific warning was:
->>> Documentation/devicetree/bindings/leds/ti,lp5812.example.dts:23.17-30: Warning (reg_format): /example-0/i2c/led-controller@1b:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
->>
->> This makes no sense.
->>
->>> This warning suggests that the default values for #address-cells and #size-cells in the schema context are not aligned with the LP5812's expected usage. To explicitly define the correct values, I set these properties as mentioned.
->>> This ensures that the binding schema validation passes without warnings. If you believe a different approach is more appropriate, I’m happy to adjust the binding accordingly.
->>
->> I can barely parse your messages. They are neither properly quoting my
->> replies, nor wrapped according to email style. Use standard format,
->> expressed in countless guides bout netiquette and mailing lists.
->>
->> You added properties to hide warning, instead of fixing the warning, but
->> these properties make nos sense here.
+Le 26/03/2025 à 16:35, Corentin Guillevic a écrit :
+> The TLC59928 is an SPI-connected bus controlled 16-channel LED driver.
+> A single 16-bit register handles the whole LEDs. Following a write, a
+> latch GPIO applies the new LED configuration. An "enable" GPIO (blank
+> in the TLC59928 datasheet) turns off the whole LEDs when active/high.
 > 
-> #address-cells is 1 because I only one cell to define address of a child node of LP5812
-> #size-cells is 0 because I don't need to define size of reg properly of child node.
-> Reg properly of child node is describe for address only.
+> This driver is able to handle a daisy-chain case, so when several
+> TLC59928 controllers are connected in serie.
+> 
+> Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
+> ---
 
+...
 
-Please do not explain me how DT works, we all know. You do not have
-child node. If you disagree - point me to the line in schema having it.
+> +static int
+> +tlc5928_set_ledout(struct tlc5928_led *led, bool val)
+> +{
+> +	struct tlc5928_chip *chip;
+> +	struct tlc5928_chip *chip_owner = led->chip;
+> +	struct tlc5928_priv *priv = chip_owner->priv;
+> +	int ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	if (val)
+> +		chip_owner->leds_state |= (1 << led->led_no);
+> +	else
+> +		chip_owner->leds_state &= ~(1 << led->led_no);
+> +
+> +	list_for_each_entry_reverse(chip, &priv->chips_list, list) {
+> +		u16 leds_state = cpu_to_be16(chip->leds_state);
+> +
+> +		ret = spi_write(priv->spi, &(leds_state), sizeof(leds_state));
+> +
+> +		if (ret)
 
-Best regards,
-Krzysztof
+Missing unlock.
+Or use guard()?
+
+> +			return ret;
+> +	}
+> +
+> +	gpiod_set_value(priv->latch_gpio, 0);
+> +	udelay(1);
+> +	gpiod_set_value(priv->latch_gpio, 1);
+> +
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +tlc5928_brightness_set(struct led_classdev *led_cdev,
+> +			enum led_brightness brightness)
+> +{
+> +	struct tlc5928_led *led = ldev_to_led(led_cdev);
+> +
+> +	/* TLC5928 only allows on/off, no brightness */
+> +	return tlc5928_set_ledout(led, !!brightness);
+> +}
+> +
+> +static const struct of_device_id of_tlc5928_leds_match[] __maybe_unused = {
+> +	{ .compatible = "ti,tlc5928" },
+> +	{},
+
+Unneeded trailing ,
+
+> +};
+> +MODULE_DEVICE_TABLE(of, of_tlc5928_leds_match);
+> +
+> +static int tlc5928_probe_chip_dt(struct device *dev, struct device_node *node,
+> +		struct tlc5928_chip *chip)
+> +{
+> +	struct device_node *child;
+> +	int count, err, reg;
+> +
+> +	count = of_get_available_child_count(node);
+> +	if (!count)
+> +		return -EINVAL;
+> +
+> +	chip->leds_state = 0;
+> +
+> +	for_each_available_child_of_node(node, child) {
+
+for_each_available_child_of_node_scoped()?
+
+> +		struct tlc5928_led *led;
+> +		struct led_init_data init_data = {};
+> +
+> +		init_data.fwnode = of_fwnode_handle(child);
+> +
+> +		err = of_property_read_u32(child, "reg", &reg);
+> +		if (err) {
+> +			dev_err(dev, "%pOF: failed to read reg\n", child);
+> +			of_node_put(child);
+> +			return err;
+> +		}
+> +
+> +		if (reg < 0 || reg >= TLC5928_MAX_LEDS ||
+> +				chip->leds[reg].active) {
+> +			of_node_put(child);
+> +			return -EINVAL;
+> +		}
+> +
+> +		led = &chip->leds[reg];
+> +
+> +		led->active = true;
+> +		led->chip = chip;
+> +		led->led_no = reg;
+> +		led->ldev.brightness_set_blocking = tlc5928_brightness_set;
+> +		err = devm_led_classdev_register_ext(dev, &led->ldev,
+> +							 &init_data);
+> +		if (err < 0) {
+> +			of_node_put(child);
+> +			dev_err(dev, "Failed to register LED for node %pfw\n",
+> +				init_data.fwnode);
+> +			return err;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tlc5928_probe(struct spi_device *spi)
+> +{
+> +	struct device_node *node, *child;
+> +	struct device *dev = &spi->dev;
+> +	struct list_head *pos;
+> +	struct tlc5928_chip *chip;
+> +	struct tlc5928_priv *priv;
+> +	int count, err, i;
+> +
+> +	node = dev_of_node(dev);
+> +	if (!node)
+> +		return -ENODEV;
+> +
+> +	count = of_get_available_child_count(node);
+> +	if (!count)
+> +		return -EINVAL;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->spi = spi;
+> +	priv->latch_gpio = devm_gpiod_get(dev, "latch", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->latch_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(priv->latch_gpio),
+> +				     "Failed to get latch GPIO\n");
+> +
+> +	mutex_init(&priv->lock);
+
+Maybe:
+err = devm_mutex_init(...);
+if (err)
+	return err;
+
+?
+
+> +	INIT_LIST_HEAD(&priv->chips_list);
+> +
+> +	i = 0;
+> +	for_each_available_child_of_node(node, child) {
+> +		chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
+> +		if (!chip)
+> +			return -ENOMEM;
+> +
+> +		list_add_tail(&chip->list, &priv->chips_list);
+> +		chip->priv = priv;
+> +		chip->enable_gpio = devm_gpiod_get_index_optional(dev, "enable", i,
+> +				GPIOD_OUT_HIGH);
+> +		if (IS_ERR(chip->enable_gpio)) {
+> +			dev_err(dev, "Error getting enable GPIO %i property: %ld\n", i,
+> +					PTR_ERR(chip->enable_gpio));
+> +			return PTR_ERR(chip->enable_gpio);
+> +		}
+> +
+> +		err = tlc5928_probe_chip_dt(dev, child, chip);
+> +		if (err)
+> +			return err;
+> +
+> +		i++;
+> +	}
+> +
+> +	list_for_each(pos, &priv->chips_list) {
+
+list_for_each_entry()?
+
+> +		chip = container_of(pos, struct tlc5928_chip, list);
+> +		if (chip->enable_gpio)
+> +			gpiod_set_value(chip->enable_gpio, 0);
+> +	}
+> +
+> +	spi_set_drvdata(spi, priv);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tlc5928_remove(struct spi_device *spi)
+> +{
+> +	struct list_head *pos;
+> +	struct tlc5928_priv *priv = spi_get_drvdata(spi);
+> +	int i;
+> +
+> +	list_for_each(pos, &priv->chips_list) {
+
+list_for_each_entry()?
+
+> +		struct tlc5928_chip *chip = container_of(pos, struct tlc5928_chip,
+> +				list);
+> +
+> +		for (i = 0; i < TLC5928_MAX_LEDS; i++) {
+> +			if (chip->leds[i].active)
+> +				devm_led_classdev_unregister(&spi->dev,
+> +					     &chip->leds[i].ldev);
+
+Why is it needed?
+devm_led_classdev_register_ext() was used.
+
+> +		}
+> +
+> +		if (chip->enable_gpio) {
+> +			gpiod_set_value(chip->enable_gpio, 1);
+> +			gpiod_put(chip->enable_gpio);
+
+Why is it needed?
+devm_gpiod_get_index_optional() was used.
+
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct spi_device_id tlc5928_id[] = {
+> +	{ "tlc5928" },
+> +	{},
+
+Unneeded trailing ,
+
+> +};
+> +MODULE_DEVICE_TABLE(spi, tlc5928_id);
+
+...
+
+CJ
+
 
