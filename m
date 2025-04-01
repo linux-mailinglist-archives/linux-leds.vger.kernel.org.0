@@ -1,69 +1,92 @@
-Return-Path: <linux-leds+bounces-4387-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4388-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124E4A777C4
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Apr 2025 11:30:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 768DCA77DC6
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Apr 2025 16:31:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED197188BC7D
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Apr 2025 09:30:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 761EA1891A2B
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Apr 2025 14:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84CBB1E5B70;
-	Tue,  1 Apr 2025 09:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3618204F85;
+	Tue,  1 Apr 2025 14:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DbvgWOY2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA721E0E0B
-	for <linux-leds@vger.kernel.org>; Tue,  1 Apr 2025 09:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743499810; cv=pass; b=A8EHSQP8jKlZApnM8Ma5aljXbVfLmvRnqb/tWqBFrCxEyH6IbTigcIUsf9h9uOLGhZEcMlFaZOT/9nen/OhcsdM51SdV9aK3qM+N2i5B9JeY0OqZn6w4qlypn1hw2Coj4u4vjEtcsE57NTmP3lMbXxz/rTuaTKTUxos5ykd9DVA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743499810; c=relaxed/simple;
-	bh=Hp8Ak02cLoU2sa7JhI3D5/TMpJi0kGWEkYNCde/7LIc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j9GwWdiho/nnDn6xGQ8sgB5jgwTcf2RBDO3zGnP3XaLcFN6BuJn+FOHKDQsTTqiw0t/6g4vlbuOTFh/1DjGdQqwlEMGRZ3hkqckO6VF2WZzHESxC5+q7G2bXkDU6gtpskRkxsVqCgbeNTAZlbmMV7m5goMueYbWmKyuwrSCtYmI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de; spf=pass smtp.mailfrom=inhub.de; arc=pass smtp.client-ip=85.215.255.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inhub.de
-ARC-Seal: i=1; a=rsa-sha256; t=1743497403; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=hcrpdFAEJ64K+03O8rpSiUD8cc2U3Vc2Idc3qJouvA68OTOmbUlexNv/FjUxnX1zbD
-    jL1OXewO/Mnzxlhy/2XL9mDytVl0U8pBTYdtFkZQYeOcT308MU6es5Us4OQXPVukE4PA
-    nW9TkF1o7u76feKCS7vRlIRZngF1Ijvofj7EkY9Eg9iaknawaL+DsrneJhiizypvTGqj
-    awi+Xuj4kMNTL/U3inlsTCT+2Xwy5OojEYPcXxligNlLl+ObszRW7yucmJrKYGpyrJGO
-    d7gZlxGg6YZOw5enzllMW1drZYeqjUf5TMFbMzPEJkJlyUkqkRHyRly0IhcKFGf0e5kg
-    8SVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1743497403;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=SS2MSXN2UcJXj2p3GXt3FN0Tj/+nje2uyZbonWYd12M=;
-    b=hUL8yGX0kEq7ZFMn74qMXn7bgIiJr/X3fay8P5ClGScP2eGxiwHOCbZq5Xb+FdoA4O
-    OADh0vl/pt6ko08zGMpjPvflWPXO2JZmN67vpoMA2oVC4uXJVUpORxACmdfLCvGVSPwL
-    iP8mgjsTCm5+VGAY0TlHozFCxDHCy82l3oZiyJ5JThDS4gYoBPtwTAyGp3Uhe9aJMlBy
-    OnzTN2XWm5ExHGgJ9Ao8xcXrp12uDa8HLwVpvWp36f1nvjVzOgEidzKY5I1h3L9YEcuC
-    iosIirYjp83iz4dbDrDEkbOduneU45G0G4K117BP1MvwqGIM178MRMH0+VVm/ajR3Rim
-    8rJw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgaKe3jg5kqErvsv7wxhn7R+CZYOGugK8="
-Received: from crypto.lan.inhub.de
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id J569d71318o3zRt
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Tue, 1 Apr 2025 10:50:03 +0200 (CEST)
-From: Tobias Junghans <tobias.junghans@inhub.de>
-To: linux-leds@vger.kernel.org
-Cc: Tobias Junghans <tobias.junghans@inhub.de>
-Subject: [PATCH] leds: trigger: netdev: Match net in netdev_trig_notify()
-Date: Tue,  1 Apr 2025 10:49:59 +0200
-Message-ID: <20250401085002.492904-1-tobias.junghans@inhub.de>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4935F204C0B;
+	Tue,  1 Apr 2025 14:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743517804; cv=none; b=MznTs9XW9WFjlc+QclqyWDkT7rAXOwXHGG22iWdnXNo++3S+v5SlzgFNP3HzxLX51HtQbUuMX9KhJ0MqgCBp8ZUaXBQRmiHzDp5ibhmxdsN25vAk8Q7Mymt/7K0Flcna0tZwPKN1B3mZx8eBDINeIMHxSryiouve+pmDWTnJl5Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743517804; c=relaxed/simple;
+	bh=5aT0Vi1k+xqWtEzhocv4+cEoo/Fhlmc15jH+tEVAXik=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=t265azP+ofStxMPz6QBjvxLI6y8gD5gXJ2s6Ry/gC8yF1KBR2mu56h8LcMRB4NfrB1dLrEM3NnBK9iLs48SPkjz0hdEs5J1/JrKo5/GeQuClimBetLTssTubsL5Iy4wmMUYJGse4X1tFCQvAMm18LfhfnAetbOZ+uPnwjaMMNt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DbvgWOY2; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2279915e06eso114874645ad.1;
+        Tue, 01 Apr 2025 07:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743517802; x=1744122602; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rVsBRCp8zVFqM6Ir5qAGimm+EcciqA65qMc7SI4hE8I=;
+        b=DbvgWOY2fJrCqnA43KiCs9Uf0L2G+gOeUZCMHk2RFlLy1Lp2oL36vnrTr6AU/2GC9J
+         +XfR1MQbqo2vnvSuL6V6qFb6ZCDqdJnadCS7AStO1QLzEcqGqOU+cA3Vl9MvdZVNUkNY
+         I4L50oecNizSQOvcakGTRSLuxkDIOSZvH4nDDEU+3bnQbSsa84EEinR43496VxU2vFmo
+         C5PLj3KOmzLCQMTaYhmOsKiazaekPaUB41WGO7gNXg3+JMKhvSA6PSEJU6LjinagvX4I
+         eFGjyWWXySawBrnYp0U4o8fUGY9ScpthgBP64HtRjo9mB10UVRzXKJLpq4AvF0WT6Ila
+         Bi9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743517802; x=1744122602;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rVsBRCp8zVFqM6Ir5qAGimm+EcciqA65qMc7SI4hE8I=;
+        b=HMn5D+VqEqBlYMiTEeMQH/67SPRdFCHpaCNvkfJQSG+qBZ80eV9wAjqUSxYQuk+2oJ
+         js+2NQCaYV2QIhl1stAtr2vsMGu7pvqkgQU61VsFlXccuOz6RcJKWrWrcQAbcyBf0OjX
+         WShibP9s8Y130b3W/jyexjZcUKI0hYzLiKExRxg/TDB5GDk8NkPP+M58A9n6IudDJs5w
+         4dhHmAuHzozNJOyB6dyhutYg85CjkffuELqwCSlWweKSFsHJwTCoHIfYTzm+WWz+rfz1
+         VFw01ueeakPmrwUjFU25edBb85VOKZA8tWLYSkd6RRIdb/uWn44Cmg82yhq6kobmou44
+         rSSA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFi+LJ054DYg0BZYBW0KZ5NQLOPVgYah1owqWpSWknz4hdX4HVA1nh8NvevtUNKhent0W23yQLcRBZog==@vger.kernel.org, AJvYcCWw1U5p1w+Mn4HzMgxycKb0pn3jWVuwZgVM+yGIcRz1UPy/IHzkvSdP0gU4ejVlTUfFSsmikMTwT1oy6Dj/@vger.kernel.org, AJvYcCXz30iCTuCvFlGnRZaS6c0ik/VeDdbKsx7VeITPRpEF8LzDVuONiasCP8TbAyhYMzmKWfCsSuGyxkGS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1lS9lWr2X9LSNy/TTLdDwYspep3hWapHqVMd7F5sxkm9q+mxR
+	NfxLKvXpf7UVf/D5ZSz6CagjmRFU70zNHQvudo9/YtzyFmRpEZbx
+X-Gm-Gg: ASbGnctclMmOTm/7SzyRdVmidAxnLZy9iqsrYjxHIGhJNjal90/9PmAA/dzwFkA6OJH
+	5FDC/baAwf+wrEfAABO03dUk0G56PmxYxlZjGYd2ioo6RlX4vBkmJ5ia5FcVMxYBS3diIdrEy90
+	NRrNtEImFoZSo5DG0FCu1fEua1PKVrefxwh+RwM+6bSW91ZUNbVJs61YkdVqzcP8Tn/kdXA192i
+	vsp2rf/1oU7ctroJ15Uwf7knxsJj8wyPltE8eZD71VA4EYbBFfPlUxqfWGPjihQwCRYLfr98tKg
+	6bW9PA7Uv1tnb0UQt1QIE22dw21t4Jr+yjOKCMWbGhqEwNoUdfHN7BIRPclqKNSFnO1l
+X-Google-Smtp-Source: AGHT+IG+94AfeekEAG6y/22oBIgghPbGZmP0jjSCOSTaY1D8CCsKfb/87Ko5NqqbHw5HJ40H0Ay/cw==
+X-Received: by 2002:a17:902:ef4d:b0:224:2200:5940 with SMTP id d9443c01a7336-2292f9d4e35mr245160495ad.38.1743517801786;
+        Tue, 01 Apr 2025 07:30:01 -0700 (PDT)
+Received: from localhost.localdomain ([123.16.133.44])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee210csm89356995ad.70.2025.04.01.07.29.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 07:30:01 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: krzk+dt@kernel.org
+Cc: pavel@kernel.org,
+	lee@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: leds: Add LP5812 LED driver
+Date: Tue,  1 Apr 2025 21:29:35 +0700
+Message-Id: <20250401142935.50906-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <8d9f077b-e656-438c-a9bd-76915d135e24@kernel.org>
+References: <8d9f077b-e656-438c-a9bd-76915d135e24@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,102 +94,132 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
 
-Different network devices may have the same device name if they are in
-different network namespaces. This confuses ledtrig-netdev and leads to
-undesired effects in certain situations.
+On Mon, 31 Mar 2025, Krzysztof Kozlowski wrote:
 
-When setting device_name to eth0, the trigger is attached to the
-corresponding (physical) network device. Later a Docker container is
-started. Docker now creates a virtual Ethernet interface (vethXXXX),
-moves it to the container's net namespace and renames it to "eth0".
-Subsequently ledtrig-netdev receives a NETDEV_CHANGENAME notification,
-recognizes "eth0" as device and and switches its activity over to this
-device. As a result the LED no longer blinks for the original (physical)
-network device.
+>Please do not explain me how DT works, we all know. You do not have
+>child node. If you disagree - point me to the line in schema having it.
 
-The described erroneous behavior can be fixed by tracking and comparing
-the network namespaces of network devices.
+Thank you for your feedback.
+I now understand that my schema does not define child nodes, so #address-cells and #size-cells should not be included.
+I will update the schema accordingly as shown below.
 
-Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+%YAML 1.2
 ---
- drivers/leds/trigger/ledtrig-netdev.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+$id: http://devicetree.org/schemas/leds/ti,lp5812.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 4b0863db901a..1d620149c071 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -62,6 +62,7 @@ struct led_netdev_data {
- 
- 	struct led_classdev *led_cdev;
- 	struct net_device *net_dev;
-+	struct net *net;
- 
- 	char device_name[IFNAMSIZ];
- 	atomic_t interval;
-@@ -274,6 +275,7 @@ static int set_device_name(struct led_netdev_data *trigger_data,
- 	if (trigger_data->net_dev) {
- 		dev_put(trigger_data->net_dev);
- 		trigger_data->net_dev = NULL;
-+		trigger_data->net = NULL;
- 	}
- 
- 	memcpy(trigger_data->device_name, name, size);
-@@ -284,6 +286,8 @@ static int set_device_name(struct led_netdev_data *trigger_data,
- 	if (trigger_data->device_name[0] != 0)
- 		trigger_data->net_dev =
- 		    dev_get_by_name(&init_net, trigger_data->device_name);
-+	if (trigger_data->net_dev)
-+		trigger_data->net = dev_net(trigger_data->net_dev);
- 
- 	trigger_data->carrier_link_up = false;
- 	trigger_data->link_speed = SPEED_UNKNOWN;
-@@ -573,15 +577,16 @@ static int netdev_trig_notify(struct notifier_block *nb,
- 	struct led_netdev_data *trigger_data =
- 		container_of(nb, struct led_netdev_data, notifier);
- 	struct led_classdev *led_cdev = trigger_data->led_cdev;
-+	bool same_net = trigger_data->net == NULL || (dev && net_eq(dev_net(dev), trigger_data->net));
- 
- 	if (evt != NETDEV_UP && evt != NETDEV_DOWN && evt != NETDEV_CHANGE
- 	    && evt != NETDEV_REGISTER && evt != NETDEV_UNREGISTER
- 	    && evt != NETDEV_CHANGENAME)
- 		return NOTIFY_DONE;
- 
--	if (!(dev == trigger_data->net_dev ||
--	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name)) ||
--	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name))))
-+	if (!((dev == trigger_data->net_dev && same_net) ||
-+	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name) && same_net) ||
-+	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name) && same_net)))
- 		return NOTIFY_DONE;
- 
- 	cancel_delayed_work_sync(&trigger_data->work);
-@@ -597,12 +602,14 @@ static int netdev_trig_notify(struct notifier_block *nb,
- 		dev_put(trigger_data->net_dev);
- 		dev_hold(dev);
- 		trigger_data->net_dev = dev;
-+		trigger_data->net = dev_net(dev);
- 		if (evt == NETDEV_CHANGENAME)
- 			get_device_state(trigger_data);
- 		break;
- 	case NETDEV_UNREGISTER:
- 		dev_put(trigger_data->net_dev);
- 		trigger_data->net_dev = NULL;
-+		trigger_data->net = NULL;
- 		break;
- 	case NETDEV_UP:
- 	case NETDEV_CHANGE:
-@@ -702,6 +709,7 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
- 
- 	trigger_data->led_cdev = led_cdev;
- 	trigger_data->net_dev = NULL;
-+	trigger_data->net = NULL;
- 	trigger_data->device_name[0] = 0;
- 
- 	trigger_data->mode = 0;
--- 
-2.43.0
+title: TI/National Semiconductor LP5812 LED Driver
 
+maintainers:
+  - Nam Tran <trannamatk@gmail.com>
+
+description: |
+  The LP5812 is an I2C LED Driver that can support LED matrix 4x3.
+  For more product information please see the link below:
+  https://www.ti.com/product/LP5812#tech-docs
+
+properties:
+  compatible:
+    const: ti,lp5812
+
+  reg:
+    maxItems: 1
+    description:
+      I2C slave address
+      lp5812/12- 0x1b
+
+patternProperties:
+  "^led@[0-9a-b]$":
+    type: object
+    $ref: common.yaml#
+    unevaluatedProperties: false
+
+    properties:
+      reg:
+        minimum: 0
+        maximum: 0xb
+
+      chan-name:
+        $ref: /schemas/types.yaml#/definitions/string
+        description: LED channel name
+
+    required:
+      - reg
+
+required:
+  - compatible
+  - reg
+
+additionalProperties: false
+
+examples:
+  - |
+    #include <dt-bindings/leds/common.h>
+
+    i2c {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        led-controller@1b {
+            compatible = "ti,lp5812";
+            reg = <0x1b>;
+
+            led@0 {
+                    reg = <0x0>;
+                    chan-name = "a0";
+            };
+            led@1 {
+                    reg = <0x1>;
+                    chan-name = "a1";
+            };
+            led@2 {
+                    reg = <0x2>;
+                    chan-name = "a2";
+            };
+            led@3 {
+                    reg = <0x3>;
+                    chan-name = "b0";
+            };
+            led@4 {
+                    reg = <0x4>;
+                    chan-name = "b1";
+            };
+            led@5 {
+                    reg = <0x5>;
+                    chan-name = "b2";
+            };
+            led@6 {
+                    reg = <0x6>;
+                    chan-name = "c0";
+            };
+            led@7 {
+                    reg = <0x7>;
+                    chan-name = "c1";
+            };
+            led@8 {
+                    reg = <0x8>;
+                    chan-name = "c2";
+            };
+            led@9 {
+                    reg = <0x9>;
+                    chan-name = "d0";
+            };
+            led@a {
+                    reg = <0xa>;
+                    chan-name = "d1";
+            };
+            led@b {
+                    reg = <0xb>;
+                    chan-name = "d2";
+            };
+        };
+    };
+
+...
+
+
+Best regards,
+Nam Tran
 
