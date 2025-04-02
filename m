@@ -1,136 +1,150 @@
-Return-Path: <linux-leds+bounces-4389-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4390-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F834A77E82
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Apr 2025 17:05:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69507A796E3
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Apr 2025 22:53:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 91666189238F
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Apr 2025 15:04:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F214F7A4628
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Apr 2025 20:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204CB205E2F;
-	Tue,  1 Apr 2025 15:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F1BD1EBFF9;
+	Wed,  2 Apr 2025 20:53:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcmsIu9+"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vDllKtZD";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oqQFri5k"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69E8205E23;
-	Tue,  1 Apr 2025 15:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FD1193436
+	for <linux-leds@vger.kernel.org>; Wed,  2 Apr 2025 20:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743519883; cv=none; b=nZe5OyoXsbjnHl8vSQ30ZGZWiAdENJGimeZOHhoaTbPYMAjeFiQ+n8xSGXaSy4Sr3lmX5sId6QzKcr3GFDtJMXTJInI7mprr4DNMhqVigt4HVagOhQc/npPd0val7ToeIQuKaGvKChpjF9LlZ+t/Da5k51AacPCKlvFTLgGf4TI=
+	t=1743627224; cv=none; b=qkyAMX6vsC/upMRkqWicNWIPjKoGwm/+eggqooNQdLYBL+ZrJ8uqGfFHlBURS3AU1XDeC4Lua3p8ZORiDvElWAsNHO0oJrINuJrBsveHP+LNyN7j9dIgphqeQ6sYK4ev5CPFTTvRBo2DKQZAB+1lVV+tmX4dKkUdsmdQFw0Ov7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743519883; c=relaxed/simple;
-	bh=tYBkQYn28fMJpqKqiWHP4r5QxmH5CbUG0fikdc5QbI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rfq5hWkBg+B486d4cI//DrLSExFwUgU+yhE+aXtjnrloMplsO4snK/rXbj3OJR5C1jnnMfZRin2JJy7QfxiA10o9E85oY+FFFPCA/jPTVeoWPAZfpJY6m+Ob3X/iyB92Q6coFhN8CBclMDEYV9NahixDEan8cH0AeI33qkyEdZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GcmsIu9+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF1C5C4CEE5;
-	Tue,  1 Apr 2025 15:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743519882;
-	bh=tYBkQYn28fMJpqKqiWHP4r5QxmH5CbUG0fikdc5QbI8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GcmsIu9+5YTQoV5gb401fXrHTApHg3bWcamxbyHvSixSzkO9DaH9Iw1Jmprb4Fidp
-	 uDUhwmW4Tc/B7dISFX1smmr0tggqQfLTZa3If+lqbMLI07Q3Y8V/5K+4Ba+FcRoW0b
-	 AVXboW7i9khxz06LcAFSi3bNspb2Y9BM4ybn4q/9JS+O/vlAyviXFpdAOuoHo+3CrE
-	 OJowizjg3XtV2cd0Ky3iBL2OPg8aecE12NsQhS83SK3c7AamJQyfmXsul/I1w4Gtya
-	 ux/G+h6cv2oO8Mi0GtUyJHYWbV4Ot78Orp9UI/u/CFauR8aWIU+WMsrFi3QdUaOSPV
-	 7e7v84kaJQAiQ==
-Message-ID: <c39e5f6a-8e5b-496f-a284-74f7bc758ddd@kernel.org>
-Date: Tue, 1 Apr 2025 17:04:36 +0200
+	s=arc-20240116; t=1743627224; c=relaxed/simple;
+	bh=jJxHD201EE1bxlVicENB1R66Qenyltkn7Hq2jmpLLlc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PauIraLvGADb02Y2/+glidiUuoEjAUHbyiEWXhemq7DQaWDtCl7ZomZbmlwV4EIwIsCyBvVE25wldZpRl4GB6c8fa8EaGdfEiK01qkwsZqO4bNYzbsvjivvr2dekqR6NKR68TKOoYhgdFA0l7yf58tz6Fz502JNxipa9dq0SkIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vDllKtZD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oqQFri5k; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Wed, 2 Apr 2025 22:53:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1743627221;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S3h2RNZEtD5JtVHuyXHQPw7Z9/ejcfthHJuF+NPPd30=;
+	b=vDllKtZDLOorzh4AIZmjK+zIV9/Mm3L0/wEBJGxpNrwjr/Kl3n8Ove/cCyRijhFMURPnJ8
+	9PHUv2FsfxqlK9aRXbvqnCD7Hyx+I20xn40KsWGfmB3mTSFaRTfshqdtoVfaBGHEBRoN6D
+	RnQuYKQR3rFV54Kq3WiqTxJKW6nC/nLIxiD1FDQ5DPtA7WF6vsGyUAk6fxP23yZRBLYq5U
+	K8UTR0UUQO8G9TIprEpFMGDSIlbe5NThjfjMj6T/jq4MH+JXo26DT5bYL4VwEijl4tjvtf
+	7vDeunOVD440jt3QTRMaLuHHS7Ht+ajy/fNnaxUywh6A1VuyKTFtrxaovAQ7sw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1743627221;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S3h2RNZEtD5JtVHuyXHQPw7Z9/ejcfthHJuF+NPPd30=;
+	b=oqQFri5kYPnLGjxyXMgTwiW31B9iPbyKPRZF3wyCZsiJioVYXU8RMmRgB4NYum7tZ7b1ts
+	BZrb05R6JDXkdVDw==
+From: Tobias Deiminger <tobias.deiminger@linutronix.de>
+To: linux-leds@vger.kernel.org
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Subject: Re: [PATCH RESEND v2] led: multicolor: Fix intensity setting while
+ SW blinking
+Message-ID: <20250402205340.qdp5dw3p2cxv2pvq@schlupp.tec.linutronix.de>
+Mail-Followup-To: linux-leds@vger.kernel.org,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+References: <20220627133110.271455-1-sven@svenschwermer.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: leds: Add LP5812 LED driver
-To: Nam Tran <trannamatk@gmail.com>, krzk+dt@kernel.org
-Cc: pavel@kernel.org, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <8d9f077b-e656-438c-a9bd-76915d135e24@kernel.org>
- <20250401142935.50906-1-trannamatk@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250401142935.50906-1-trannamatk@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220627133110.271455-1-sven@svenschwermer.de>
 
-On 01/04/2025 16:29, Nam Tran wrote:
-> On Mon, 31 Mar 2025, Krzysztof Kozlowski wrote:
+Hi Lee and Pavel,
+
+this is still an issue. Sven's patch still applies and fixes the bug.
+Would you mind having another look?
+
+Minimal reproducer:
+
+ echo timer > trigger
+ echo 255 > brightness
+ echo 255 255 255 > multi_intensity  # stops blinking with 50% probability
+
+I encountered this independently and found the thread in hindsight. See review
+comments below.
+
+Am Mo, 27. Jun 22 15:31 schrieb Sven Schwermer <sven@svenschwermer.de>:
+> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 > 
->> Please do not explain me how DT works, we all know. You do not have
->> child node. If you disagree - point me to the line in schema having it.
+> When writing to the multi_intensity file, don't unconditionally call
+> led_set_brightness. By only doing this if blinking is inactive we
+> prevent blinking from stopping if the blinking is in its off phase while
+> the file is written.
 > 
-> Thank you for your feedback.
-> I now understand that my schema does not define child nodes, so #address-cells and #size-cells should not be included.
-> I will update the schema accordingly as shown below.
+> Instead, if blinking is active, the changed intensity values are applied
+> upon the next blink. This is consistent with changing the brightness on
+> monochrome LEDs with active blinking.
+> 
+> Suggested-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Tested-by: Sven Schuchmann <schuchmann@schleissheimer.de>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+> ---
+> 
+> Notes:
+>     V1->V2: Change title, add tags
+> 
+>  drivers/leds/led-class-multicolor.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+> index e317408583df..5b1479b5d32c 100644
+> --- a/drivers/leds/led-class-multicolor.c
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -59,7 +59,8 @@ static ssize_t multi_intensity_store(struct device *dev,
+>  	for (i = 0; i < mcled_cdev->num_colors; i++)
+>  		mcled_cdev->subled_info[i].intensity = intensity_value[i];
+>  
+> -	led_set_brightness(led_cdev, led_cdev->brightness);
+> +	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
+> +		led_set_brightness(led_cdev, led_cdev->brightness);
 
+Had my own debugging session and ended up with the very same conclusion. Seems
+solid and consistent.
 
-This has... What are we talking here about? I commented only about that
-patch.
+Reviewed-by: Tobias Deiminger <tobias.deiminger@linutronix.de>
 
-You claimed:
->Nam: I included the #address-cells and #size-cells properties to
-resolve a warning encountered when running:
+Btw, my initial attempt to fix it was to have two led_get_brightness variants.
+The existing variant gets the timer-aware momentary brightness, and a new one
+would get the timer-agnostic on-value. The latter variant could then be used to
+call led_set_brightness without the risk of resetting blinking. Worked, but got
+overly complicated.
 
-which was obviously not true. You could not have such errors, because
-you did not have children. You disagreed with me so you got response
-like that.
+Best regards
+Tobias
 
-If you decide to add children, then you will need address and size
-cells, but that's a different patch.
-
-Best regards,
-Krzysztof
+>  	ret = size;
+>  err_out:
+>  	mutex_unlock(&led_cdev->led_access);
+> 
+> base-commit: 210e04ff768142b96452030c4c2627512b30ad95
+> -- 
+> 2.36.1
+> 
 
