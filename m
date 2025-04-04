@@ -1,94 +1,168 @@
-Return-Path: <linux-leds+bounces-4402-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4403-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9ECA7C022
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 17:03:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7036A7C049
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 17:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD005174E18
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 15:03:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C5DC3B633A
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 15:10:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55C41EF368;
-	Fri,  4 Apr 2025 15:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1273C1EFFB4;
+	Fri,  4 Apr 2025 15:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Ui3IjQva"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAaORcKG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1DA1DFD96;
-	Fri,  4 Apr 2025 15:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B281EF0AE
+	for <linux-leds@vger.kernel.org>; Fri,  4 Apr 2025 15:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743779012; cv=none; b=IfmvBooEQC1LRXgE6r3wd0YduCmaMosteehu+4t4Ye+Ogv+OjEN0AOWa6rns9ddB3MVVp64zbea25u2EuSNFRwarPMA2EubqdDvIa2uSwHWUzHglJX7t2SRKyQo2rd/9Ff06eOQXKzWOATjIZEgPHI5KCky2YbqitdvD+YomUWg=
+	t=1743779447; cv=none; b=qKT1P8jvPrm0BijIMvRdNhfG+dVFTDIBDtDSEpXoW7jsGA928osfRqkGxkKSmuj0MMj7U48C8b+mU3icEQmqsgsq4rWat4+M21x/onfLsK+EihQcco4T0f7by+T2L1aSW1usm9UMp/hlhkGKVoMONiphRkX6Oc06u7XyE0p7ul4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743779012; c=relaxed/simple;
-	bh=Vqld1k1EanQqrRXMnKxKlA0j8qbBI1c4ZSiKwVV38Pg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rTq2OOxPZxvSI6FhKg1RWzC+JV5TKzLr8vJSDU4mU4dXMXUSmUbJ5NsNDqM+GWGM/2z0ZbwvrSxdVPpyE4HzMJgEDsYwpNuSzgLdYMkxVCZU/aMUQSgszbazIizFYXQVLUZ5McpKVDQa/UPzaiaT3/XctRgOjQzJgIMXmHw9Fro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Ui3IjQva; arc=none smtp.client-ip=80.12.242.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id 0iR3uAdvnEroE0iR6uXbk1; Fri, 04 Apr 2025 16:54:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1743778466;
-	bh=Vxe3vXGex7NwadU5R8+v9L4U75CtPL0nqPRxaiu24j0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=Ui3IjQvao55HGypaHwZMvMentJwuTYqqQax5pbxZvDEYFveIQUi5iluKjkjN6Q1lC
-	 TH71h9Jmqo8Mw6ojzKX7zV7LfTQcZENtE8EkjusFw/TIwU4XWPVTeMktdtkGa/yrB1
-	 jo6N4iY/OrjyfMxGDAf+wmstJcdjnn6ybScnwM6DNgHbip7sk5tggZC5WAF1OtemE0
-	 Xq+eUYG3u8xM9k20S7haDi5AOFEXwTaoOZ8DrDl2z48zdxmNQAOfzlZhXfze/SubI+
-	 WEd0goIi2A6E7NkqhuFjHlgMzUTlTquRBkRcb6KdnyqLHriqMUicPiGGZIDnC+Low/
-	 lqG8K6i45/Pfw==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 04 Apr 2025 16:54:26 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <ec9810f1-a830-4a9e-b573-4003f94259df@wanadoo.fr>
-Date: Fri, 4 Apr 2025 16:54:21 +0200
+	s=arc-20240116; t=1743779447; c=relaxed/simple;
+	bh=Q9JPyfv6LpHrebW9/7QuXE1It8xryL7t1lC3Ya0E5yY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XsyRGFBaqkRXrVDmqnlqNjMM/PvAHEegaFsiyUjSKXNNOQRQ5XkayaXiSJRWMb3XRWfw0uiJ8NSS9PoFEwDGtz1rhTQwPjAo1kmB70DmpYICJ6v0YBJKJ8/yXRKBdXZWDZAKRS4OUuW0HpcXPKqaLizZg6oKbmrtYFIFOql9XXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FAaORcKG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD4CC4CEDD;
+	Fri,  4 Apr 2025 15:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743779445;
+	bh=Q9JPyfv6LpHrebW9/7QuXE1It8xryL7t1lC3Ya0E5yY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FAaORcKGjRayvr1AE30OO/5HBP+U7m+4FKppbIf5z8Pa5A7cj2PS2PHLH2AiaxHIN
+	 bNXaTHMPka231G6/7F4P2uatk+tMQ89NhexFl1Nk4pzS5xaOp336E5yLM1ajF53ZDG
+	 c5rYyyA2OBsrhBGoNOR/192RBXuwnzdLfOFxxEjqCCCVGQ5EylOvRY5rroQNbaJtQL
+	 XYRIif6jS0kqiRhdegUr+EUQCrAbbkj3917040WtNezPp62x/9IIixTdaYWRpe6QTU
+	 A4+t+oHWdBDCHggDhNaZOLVZVUoRgZE6LxBjapJADsAzoHtU9jQJxqrFpts9uQCoGU
+	 w+S9SPbxSS5sg==
+Date: Fri, 4 Apr 2025 16:10:42 +0100
+From: Lee Jones <lee@kernel.org>
+To: Tobias Junghans <tobias.junghans@inhub.de>
+Cc: linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: netdev: Match net in netdev_trig_notify()
+Message-ID: <20250404151042.GC372032@google.com>
+References: <20250401085002.492904-1-tobias.junghans@inhub.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] leds: tlc5928: Driver for the TI 16 Channel spi LED
- driver
-To: Corentin GUILLEVIC <corentin.guillevic@smile.fr>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20250326153535.158137-1-corentin.guillevic@smile.fr>
- <3be3ca59-157d-4ceb-81bd-4a1acdbccb9c@wanadoo.fr>
- <CAMFqQmpJB4WeOM7GF1dEuJDb27rf=CBC4UuROWA+AH2+ZbJE8w@mail.gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <CAMFqQmpJB4WeOM7GF1dEuJDb27rf=CBC4UuROWA+AH2+ZbJE8w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250401085002.492904-1-tobias.junghans@inhub.de>
 
-Le 04/04/2025 à 15:54, Corentin GUILLEVIC a écrit :
-> Hi,
+On Tue, 01 Apr 2025, Tobias Junghans wrote:
+
+> Different network devices may have the same device name if they are in
+> different network namespaces. This confuses ledtrig-netdev and leads to
+> undesired effects in certain situations.
 > 
-> Thank you for your review! I've fixed everything (new patch is
-> coming), but I have issue for some of them: I can't use the suggested
-> functions (guard(), for_each_available_child_of_node_scoped() and
-> devm_mutex_init()) because the kernel version used on my device is too
-> old (v5.15). No way to test with a newer version...
+> When setting device_name to eth0, the trigger is attached to the
+> corresponding (physical) network device. Later a Docker container is
+> started. Docker now creates a virtual Ethernet interface (vethXXXX),
+> moves it to the container's net namespace and renames it to "eth0".
+> Subsequently ledtrig-netdev receives a NETDEV_CHANGENAME notification,
+> recognizes "eth0" as device and and switches its activity over to this
+> device. As a result the LED no longer blinks for the original (physical)
+> network device.
 > 
-> Should I let the "old" functions because of my kernel version?
+> The described erroneous behavior can be fixed by tracking and comparing
+> the network namespaces of network devices.
+> 
+> Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
+> ---
+>  drivers/leds/trigger/ledtrig-netdev.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index 4b0863db901a..1d620149c071 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -62,6 +62,7 @@ struct led_netdev_data {
+>  
+>  	struct led_classdev *led_cdev;
+>  	struct net_device *net_dev;
+> +	struct net *net;
+>  
+>  	char device_name[IFNAMSIZ];
+>  	atomic_t interval;
+> @@ -274,6 +275,7 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+>  	if (trigger_data->net_dev) {
+>  		dev_put(trigger_data->net_dev);
+>  		trigger_data->net_dev = NULL;
+> +		trigger_data->net = NULL;
+>  	}
+>  
+>  	memcpy(trigger_data->device_name, name, size);
+> @@ -284,6 +286,8 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+>  	if (trigger_data->device_name[0] != 0)
+>  		trigger_data->net_dev =
+>  		    dev_get_by_name(&init_net, trigger_data->device_name);
+> +	if (trigger_data->net_dev)
+> +		trigger_data->net = dev_net(trigger_data->net_dev);
+>  
+>  	trigger_data->carrier_link_up = false;
+>  	trigger_data->link_speed = SPEED_UNKNOWN;
+> @@ -573,15 +577,16 @@ static int netdev_trig_notify(struct notifier_block *nb,
+>  	struct led_netdev_data *trigger_data =
+>  		container_of(nb, struct led_netdev_data, notifier);
+>  	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> +	bool same_net = trigger_data->net == NULL || (dev && net_eq(dev_net(dev), trigger_data->net));
 
-No strong opinion on my side on this.
+Doesn't looks like 'dev' can be NULL, so:
 
-The proposed changes were just to have a slightly less verbose code. I 
-guess that having a tested code worth much more than using some 
-convenience functions to save a few lines of code.
+  !trigger_data->net || net_eq(dev_net(dev), trigger_data->net);
 
-Let see the position of maintainers on it.
+>  	if (evt != NETDEV_UP && evt != NETDEV_DOWN && evt != NETDEV_CHANGE
+>  	    && evt != NETDEV_REGISTER && evt != NETDEV_UNREGISTER
+>  	    && evt != NETDEV_CHANGENAME)
+>  		return NOTIFY_DONE;
+>  
+> -	if (!(dev == trigger_data->net_dev ||
+> -	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name)) ||
+> -	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name))))
+> +	if (!((dev == trigger_data->net_dev && same_net) ||
+> +	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name) && same_net) ||
+> +	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name) && same_net)))
+>  		return NOTIFY_DONE;
+>  
+>  	cancel_delayed_work_sync(&trigger_data->work);
+> @@ -597,12 +602,14 @@ static int netdev_trig_notify(struct notifier_block *nb,
+>  		dev_put(trigger_data->net_dev);
+>  		dev_hold(dev);
+>  		trigger_data->net_dev = dev;
+> +		trigger_data->net = dev_net(dev);
+>  		if (evt == NETDEV_CHANGENAME)
+>  			get_device_state(trigger_data);
+>  		break;
+>  	case NETDEV_UNREGISTER:
+>  		dev_put(trigger_data->net_dev);
+>  		trigger_data->net_dev = NULL;
+> +		trigger_data->net = NULL;
+>  		break;
+>  	case NETDEV_UP:
+>  	case NETDEV_CHANGE:
+> @@ -702,6 +709,7 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
+>  
+>  	trigger_data->led_cdev = led_cdev;
+>  	trigger_data->net_dev = NULL;
+> +	trigger_data->net = NULL;
+>  	trigger_data->device_name[0] = 0;
+>  
+>  	trigger_data->mode = 0;
+> -- 
+> 2.43.0
+> 
+> 
 
-CJ
+-- 
+Lee Jones [李琼斯]
 
