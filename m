@@ -1,113 +1,86 @@
-Return-Path: <linux-leds+bounces-4396-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4397-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD7EA7BD47
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 15:11:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA69A7BD62
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 15:15:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D0A617AAE5
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 13:11:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76A7B7A6B6A
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Apr 2025 13:14:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CBAD1EB5DA;
-	Fri,  4 Apr 2025 13:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D8531EFF87;
+	Fri,  4 Apr 2025 13:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UyCtCsPo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jilCrT/T"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F6D1E1DFF;
-	Fri,  4 Apr 2025 13:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AE81EF368;
+	Fri,  4 Apr 2025 13:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743772269; cv=none; b=OT/di5Uh0ZE+LSpf/jjuDk4STlMDiX9QIT6uCcYq5SVZXtUfbJdctj0+laG0siou9Y4yPjw3Ds/BMgwdixnnpU3h072A5ani91yqKe1m508s6YhTSzv9ViEut7ue8MzTvG4U1qk+DlIHE7QtYKZquQT6aKhFzhCjR9JdA328EOk=
+	t=1743772515; cv=none; b=WsU/cZznWZASyniJ8GSGxrEohsdv+gaqPLeDAhFkV0gwI2PlSUnm+uOKekHRGeYDQ4BJNXE4eoZOKRRhcqqI3Vtac4Tg6xTtyrtZyu6pGr1MrKuZuJI1SNFSF7BWg09uYBIVmTQNPll+PZbwzX/y9nUM8/SSxOOeWjFzf7KD1ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743772269; c=relaxed/simple;
-	bh=nz3b45f2kDp8g3yCmdG1yNvTfsTyA35b7QwNerR+WzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BXBH9zKKdiE2ozUbwRN7bPNUGJazsE+El7Jx43mzjpTW7lBw5MHrHEjJ+uTNG1x2m0YiklCLj4QsmMbQdUsBbrbUCKH67qpoLudgXF23QMoeF2mtCeMXBml+NvofDbUf7dSa9kkm4F0Jg+xzyVYf2d4Fvlfil6e589quJjP+beU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UyCtCsPo; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F15FA44401;
-	Fri,  4 Apr 2025 13:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1743772262;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AXf1qMWKVsb2hFlQVhByp9Af9uko8h3RHpXqX39vRM0=;
-	b=UyCtCsPoIDFSt+Ts9rHyPDYFOVWB4NLcKaKPC6vBqHgNFQEGKn7FOga+sbj3myHATaAni2
-	LMPTbMjjePmMh7+I+RoIeLKNCP94fB/p82u0Mpc17Rtb5TRnZVm2lEmlL8ypR6SzNAB2Wd
-	F4DqM+5KXqjGo/DvHT1dk7dYLQOP0ugrjr5Wc5OhPUN0wO6t7/iU/O8yTLp4riAI3T+sDc
-	52GfBREK0SqZdqlYRrcUXGZZHj8y0DMUxpdoKCLLDXpRCrNMfSgHJ1TJE4rsCWaUDGeRjY
-	ErDdIcL+ADNMP/BbsFc5rNzR2Vj1uLHFdAcItqnkTNRb41PxNTaQAUax+2Sh0g==
-Message-ID: <cb07335e-8dc0-4cf1-8524-40770d5419cc@bootlin.com>
-Date: Fri, 4 Apr 2025 15:11:00 +0200
+	s=arc-20240116; t=1743772515; c=relaxed/simple;
+	bh=IGxrL5BgZiFH0dJXB5NE1pa/a7srB8M2GbffBihs6gA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UgScQuAsG7wtAlgxfidSsGo/siPT9MjrCBQ4P6Ua33uIqMzpk/E0XC/Yn1sO0Ftkh9A9wSq7z7SpDQWsmd7FtFtACfZW7hH+Xa0fIq3qDns9hgRFTt7W3nnJPZ0LrCrW5ED5xynY72MXLdkXQSosZhaQFu9gJrmHOePGmWrr5e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jilCrT/T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993ACC4CEE8;
+	Fri,  4 Apr 2025 13:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743772514;
+	bh=IGxrL5BgZiFH0dJXB5NE1pa/a7srB8M2GbffBihs6gA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jilCrT/TCEnmAQsWhuVTpyBVa1iRojZvC8Wn6tbKmshZu62JmURX11vI0PvcMeA0o
+	 Vl1IFZSvYeac0qVknGpYym3bvYhS6oMmFDZO0QnZLkbBn1jatpZYnZ3O2sUa1LGY5L
+	 QaXY4wzHibviBDtWHFpbkMWmtahZTnA1i4k4C8Kki083swoRPJ5ueQhoeCVFZDHIJT
+	 QHRG963XkHDg2O+LbUdtPzB2QkwLwjO1UWxCL/9aUUKt9VV1MuWs2A5BaCtPIJw6UT
+	 KOg/AWw/DzIzj92hivbfnsdGZCvt+mkzgJnLgpD2J5nctniRbMRbxYEDb5INrKhoEo
+	 KujK2tq5KNp1Q==
+From: Lee Jones <lee@kernel.org>
+To: Bao Cheng Su <baocheng.su@siemens.com>, 
+ Benedikt Niedermayr <benedikt.niedermayr@siemens.com>, 
+ Tobias Schaffner <tobias.schaffner@siemens.com>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org, 
+ Lukas Bulwahn <lbulwahn@redhat.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>
+In-Reply-To: <20250325092159.213463-1-lukas.bulwahn@redhat.com>
+References: <20250325092159.213463-1-lukas.bulwahn@redhat.com>
+Subject: Re: (subset) [PATCH] MAINTAINERS: adjust the file entry in SIEMENS
+ IPC LED DRIVERS
+Message-Id: <174377251236.332082.7427238985144785833.b4-ty@kernel.org>
+Date: Fri, 04 Apr 2025 14:15:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] pinctrl: Add pin controller driver for AAEON UP
- boards
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- thomas.petazzoni@bootlin.com, DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
-References: <CACRpkdZ6kmPn9TfO40drJ+vwM2GNKfNaP21R_gEvugg+GJiF1w@mail.gmail.com>
- <7e96dd60-8f72-48f9-a393-5a8a7e5c6b18@bootlin.com>
- <Z4Tg-uTVcOiYK2Dr@smile.fi.intel.com>
- <b50444f7-4dd1-4440-af36-783b1b4f8625@bootlin.com>
- <Z4jNZPcDd89-HfAd@smile.fi.intel.com>
- <e273428e-3ebd-4116-b317-9aae0c8c603b@bootlin.com>
- <Z4j8NmKMEL7PALmw@smile.fi.intel.com>
- <8b9dd766-ae7e-4817-a093-536ae9646cd3@bootlin.com>
- <Z4kUWxR9VWkzQ9aW@smile.fi.intel.com>
- <5e5f7635-86ed-4814-b26f-b1c45fa4f29a@bootlin.com>
- <Z6NOfUG3QZyYW0rw@smile.fi.intel.com>
-Content-Language: en-US
-From: Thomas Richard <thomas.richard@bootlin.com>
-In-Reply-To: <Z6NOfUG3QZyYW0rw@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduleduheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepvfhhohhmrghsucftihgthhgrrhguuceothhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekveeiveeguddtteelhfeuueduieelheetudeujedufeduvddutedufeehhfeigfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedvrgdtudemtggsudegmehfgedtmegsfhdttdemfhdtheegmegtlegtvdemvddutgefmeduheeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmehfgedtmegsfhdttdemfhdtheegmegtlegtvdemvddutgefmeduheeiiedphhgvlhhopeglkffrggeimedvrgdtudemtggsudegmehfgedtmegsfhdttdemfhdtheegmegtlegtvdemvddutgefmeduheeiiegnpdhmrghilhhfrhhomhepthhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmp
- dhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopegsrhhglhessghguggvvhdrphhlpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrvhgvlhesuhgtfidrtgiipdhrtghpthhtoheplhhinhhugidqghhpihhosehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-GND-Sasl: thomas.richard@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-510f9
 
-Hi Andy,
-
-On 2/5/25 12:41, Andy Shevchenko wrote:
-> On Wed, Feb 05, 2025 at 12:17:29PM +0100, Thomas Richard wrote:
->> On 1/16/25 15:14, Andy Shevchenko wrote:
+On Tue, 25 Mar 2025 10:21:59 +0100, Lukas Bulwahn wrote:
+> Commit 835a0c10d33b ("leds: Rename simple directory to simatic") renames
+> the driver's directory to drivers/leds/simatic, but misses to adjust the
+> SIEMENS IPC LED DRIVERS section in MAINTAINERS.
 > 
-> ...
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+> broken reference. Adjust the file entry to this renaming.
 > 
->> So I'm not really convinced by all this complexity for only one driver.
-> 
-> I am not sure if I asked you to show the excerpt from DSDT for this device.
-> Is there any link I can browse the ASL code (for that particular device,
-> most likely I wouldn't need the full DSDT)?
-> 
+> [...]
 
-I'm currently working on the V3, and I just remembered that you asked me
-DSDT file. So for the UP Squared board, please find the full DSDT, and
-also SSDT1 (which contains the FPGA declaration).
+Applied, thanks!
 
-DSDT: https://gist.github.com/thom24/4d24c2a2f58d93f799e512c2485efd45
-SSDT1: https://gist.github.com/thom24/2da44ef86eacfa5d2d492ce43fa41aa4
+[1/1] MAINTAINERS: adjust the file entry in SIEMENS IPC LED DRIVERS
+      commit: 1c40901331f1cec434407cbb53986505092b50b4
 
-Best Regards,
+--
+Lee Jones [李琼斯]
 
-Thomas
 
