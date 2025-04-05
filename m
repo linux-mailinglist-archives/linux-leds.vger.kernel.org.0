@@ -1,94 +1,68 @@
-Return-Path: <linux-leds+bounces-4413-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4414-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEA4A7CB7B
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Apr 2025 20:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5731DA7CBA0
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Apr 2025 21:10:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 728C4170E6B
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Apr 2025 18:34:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12E6816BCD6
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Apr 2025 19:10:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEE851DF263;
-	Sat,  5 Apr 2025 18:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 627271A9B4D;
+	Sat,  5 Apr 2025 19:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjVC5mk1"
+	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="uHDwMULZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx3.wp.pl (mx3.wp.pl [212.77.101.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0161A9B32;
-	Sat,  5 Apr 2025 18:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778791A7044
+	for <linux-leds@vger.kernel.org>; Sat,  5 Apr 2025 19:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743878027; cv=none; b=GJBUq5x8OaVUqyj+4W2+wrazOlBIytroOLzKRlwF2pl61MZbWiCvbYwZLWM2ds6zbpQSrk5eKRlseiv6a6Y/xcGTV0c+riQTpFOlCgPJfN0uxy4q+YlCcUekd+5ebnNf0myiWjyA9N9zvx1yRVa4c3eYG+UMxfomNjnCJC6gkXI=
+	t=1743880201; cv=none; b=QSvuk774YNFCDJeWxd0y+oHjZUeLACuErQCfDjONYXvmTazbFC/fXE49mGYhs8yDgvQ1Fnp7dm958ejg7xsByg/S7pBmW8M+eIk7h6pmaGR0+tqqoApV/WR8DvHezmfqwz+cwMiYsa56+J//7yLWeb8CE5qzHLj7JPXBCHNvHck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743878027; c=relaxed/simple;
-	bh=adlsqi9cDh5CUVWqlUkH6jJ1oXdf11spKwjGarcFbFY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BzQSnXHgHR6/6NXKtN2DiXg51TsDffFKvYLyFnIdswhfOebISsbiZ08HRIivRG9zHAyNZzfvTnHoLHFRwtDz0wkO235HTDgk7sfcSTnjG1OQ1OcInWIMlq2LZ1OPPf7vBsP4+z8TumSYqm9AgY9rdqf8hVtP3nFG6nXyuUsJq9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UjVC5mk1; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22438c356c8so30415295ad.1;
-        Sat, 05 Apr 2025 11:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743878025; x=1744482825; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lah29CGR6ZmLIrH0ggK8Bgi5lyRmbNLxjK/+B6OWkPE=;
-        b=UjVC5mk1cdEVQs6V18XSERHIORavmRgOurs82IgMuujwdaq0cx+kgPqIPPnLdvGYT4
-         LGDEuGfVXnyuwrmdiFEjgIbhN7MXIMkuav2s9rZCjKxUnY4EcrC0I4Bygd2nH6bzKnsA
-         WrZ4bbenZS+2WQP9Hx2szl0sMdpIQMpAaydFBeDZ7Jr8tWlbJBIFhIxSms2zrpW4JHrr
-         HauYh6E1xdtj747Qb99rmn/vXOB3Hh9uGEAkjC6KJIYISFoARHX1xAG98FSzOzKrnh7K
-         /3XszpaVWT/cpUz/rtrPcHTuKH1P7NkVVE+l/XHfuvbrg3jpM4VdcwD63NeMYBCxNFXc
-         Sk8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743878025; x=1744482825;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lah29CGR6ZmLIrH0ggK8Bgi5lyRmbNLxjK/+B6OWkPE=;
-        b=tJvZnZ0CKdSK7EX5QfrRjL/oGCmfMyRRSX6GlKlCoxuzVr6A0dFHRx/+byuesGF57U
-         yuQXcb0x/NDf1O5HkJavylAdEG77b0E2VC7t6qnQvUr8ZiaT0WYyM3J5xMwptj8zZs/O
-         Cg78b2lZTmdRCmBz6WbbGuV5sbNBTYZizOyDJfgjMAo8NnMqxl1PW8SgbuoPPjZqFp/Y
-         NNKwMqx6JEYEz7YoxRajjRJDmUEWWbhSYjgzh10nTKBL1O/7zRuvbkQvBcqxsqN0Ftiu
-         /fGOriUkqdS/EY4uG6Et8ajFXOJv+v0xy+INGAnsL8SuvEy7tPjbYzDRCdd+0ZP+Fhzu
-         3Izg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcsvhrFmaB16E8zL0L5HyeW5QA5A3MhwxGRXo/qwPvDuWZTJd1bweOlJ3oWWjh/bbFu1G/eYnOw9SGQrY=@vger.kernel.org, AJvYcCVkTPH953ns0y5FefZGNdMbj18B+MbuoLMWXOUa//Tz5+X17GPYq9wjOPOlR/wug5ctaeqrgDkqpqwzZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWoVCEOjK42oFHybsLMjmULBLJgAv4IDfsJHrd2BopHGlqXfTF
-	Z59bIqLcf5qtYHjb1PGGmlt3wz/Lw1ZzP1/vAGJzIy2UpVCq5EFZsH/zTMpL
-X-Gm-Gg: ASbGncvl5ywvzNScjXfZZgSFviyx1e27wCyKzNfjE6z8jHAz8ocSICO/wOMSE+oQNUY
-	77vtVDpGxv2eKUPaSFbX5P8RvZ7P+XSsr7aFz3Ccka2mb40MrC3erCAqDf8vOAUBaqA3kEq7EuQ
-	9a53bclAA2EXUzoT9dH8Tj/ZOe7VpMK7qKkFWvXU4Hz0D0LgkuAaQO5rnDnuKSTVOlXwUDvtAoh
-	cohSW5Dw8T8aLSe/8jKva8vYjyVDqKOFryMS+WpoAWDEjIBNMzEv5GVWdCnFfvDtJpzLWdtn+5W
-	lKnWo216626J5U8vl5zcEX8kL9f6FL6UJgM1EL2mZEjsDOul9kR+UJTQ
-X-Google-Smtp-Source: AGHT+IEL3uFEaa2KMYtGNodtvxv53/uyoItq+AHWxgI7PROekxe/jguHwe72D9Lp0b0kkWZqIVIh4g==
-X-Received: by 2002:a17:903:1c9:b0:223:54aa:6d15 with SMTP id d9443c01a7336-22a8a8657f7mr113783795ad.12.1743878025496;
-        Sat, 05 Apr 2025 11:33:45 -0700 (PDT)
-Received: from localhost.localdomain ([123.17.0.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e61dsm52980965ad.190.2025.04.05.11.33.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 11:33:45 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: pavel@kernel.org,
-	lee@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net
-Cc: devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org,
+	s=arc-20240116; t=1743880201; c=relaxed/simple;
+	bh=XBVYnSEdtaqyZtn3CoP3og85kPWuoDdRWzQInijuTwA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ur43MhxgpbGBF0fRE9qWFz9rBKfzZu6ti7D9/VRb6W/zJ65Iv4DFj5FlXzzmf9YuZqlqi3eLBJnrot0Xy57a+iNsCEF8AkwgZVgBkJXwv/SSf7xu68UKm/tTTXa2y1ItIjzqUrluNHxF4iDcUtXQQ65x+qaSbsFKJ9eTtKBzOlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=uHDwMULZ; arc=none smtp.client-ip=212.77.101.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
+Received: (wp-smtpd smtp.wp.pl 45658 invoked from network); 5 Apr 2025 21:09:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
+          t=1743880196; bh=QYBX4vu5I37sHQVuEXp0KOgYOqzFy606Yl2aFs6b+hw=;
+          h=From:To:Cc:Subject;
+          b=uHDwMULZKu0OvXuxaJ1BM9L2BVb2/xVrnEMOiCESiVcTyps7aONw6Mk5ByHdixBq3
+           lt0Mmg77uZSDR+IAeSIhqE0J/ctrya+VyrzdgDTPiqgplvOE/RoH30ibJtgG7iU+gc
+           5LdLVb62NhS4j+x0iQMbEXmkJh3DDIR7PXnrIGdMTPUWoFkPuxVJD5xoBgshMT5z5y
+           ScWeNpzPOUIcmj6aJavZhKTN0yjGBM+awbvKyAiZ7h9mtJf2bveQAqgRU3eKI1KemP
+           2p9G/p+a8DF8WqOJvVniThfLT2XImgHaaNDngkzzISvpQ8FWqOeiYPLWa1vQDVwXMb
+           IF73REanOODxQ==
+Received: from 83.5.244.88.ipv4.supernova.orange.pl (HELO laptop-olek.home) (olek2@wp.pl@[83.5.244.88])
+          (envelope-sender <olek2@wp.pl>)
+          by smtp.wp.pl (WP-SMTPD) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
+          for <lxu@maxlinear.com>; 5 Apr 2025 21:09:56 +0200
+From: Aleksander Jan Bajkowski <olek2@wp.pl>
+To: lxu@maxlinear.com,
+	andrew@lunn.ch,
+	hkallweit1@gmail.com,
+	linux@armlinux.org.uk,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v4 5/5] arm64: dts: Add LP5812 LED node for Raspberry Pi 4 Model B
-Date: Sun,  6 Apr 2025 01:32:46 +0700
-Message-Id: <20250405183246.198568-6-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250405183246.198568-1-trannamatk@gmail.com>
-References: <20250405183246.198568-1-trannamatk@gmail.com>
+	lee@kernel.org,
+	linux-leds@vger.kernel.org
+Cc: Aleksander Jan Bajkowski <olek2@wp.pl>,
+	Daniel Golle <daniel@makrotopia.org>
+Subject: [PATCH net-next,v2 1/2] net: phy: add LED dimming support
+Date: Sat,  5 Apr 2025 21:09:53 +0200
+Message-Id: <20250405190954.703860-1-olek2@wp.pl>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -96,87 +70,60 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-WP-MailID: 1f0438803e2afca918208c5071d2c27d
+X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
+X-WP-SPAM: NO 000000B [YdO0]                               
 
-Add the LP5812 LED driver node to the Device Tree for Raspberry Pi 4 B.
-This enables the LED connected to the LP5812 to be controlled via I2C.
+Some PHYs support LED dimming. The use case is a router that dims LEDs
+at night. PHYs from different manufacturers support a different number of
+brightness levels, so it was necessary to extend the API with the
+led_max_brightness() function. If this function is omitted, a default
+value is used, assuming that only two levels are supported.
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
+Signed-off-by: Aleksander Jan Bajkowski <olek2@wp.pl>
+Reviewed-by: Daniel Golle <daniel@makrotopia.org>
 ---
- .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts | 60 +++++++++++++++++++
- 1 file changed, 60 insertions(+)
+ drivers/net/phy/phy_device.c | 7 ++++++-
+ include/linux/phy.h          | 7 +++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
-index 353bb50ce542..511d358f7692 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
-+++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
-@@ -152,6 +152,66 @@ &hdmi1 {
- 	status = "okay";
- };
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 675fbd225378..4011ececca70 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -3106,7 +3106,12 @@ static int of_phy_led(struct phy_device *phydev,
  
-+&i2c1 {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
+ 	cdev->hw_control_get_device = phy_led_hw_control_get_device;
+ #endif
+-	cdev->max_brightness = 1;
++	if (phydev->drv->led_max_brightness)
++		cdev->max_brightness =
++			phydev->drv->led_max_brightness(phydev, index);
++	else
++		cdev->max_brightness = 1;
 +
-+		led-controller@1b {
-+				compatible = "ti,lp5812";
-+				reg = <0x1b>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				led@0 {
-+						reg = <0x0>;
-+						chan-name = "a0";
-+				};
-+				led@1 {
-+						reg = <0x1>;
-+						chan-name = "a1";
-+				};
-+				led@2 {
-+						reg = <0x2>;
-+						chan-name = "a2";
-+				};
-+				led@3 {
-+						reg = <0x3>;
-+						chan-name = "b0";
-+				};
-+				led@4 {
-+						reg = <0x4>;
-+						chan-name = "b1";
-+				};
-+				led@5 {
-+						reg = <0x5>;
-+						chan-name = "b2";
-+				};
-+				led@6 {
-+						reg = <0x6>;
-+						chan-name = "c0";
-+				};
-+				led@7 {
-+						reg = <0x7>;
-+						chan-name = "c1";
-+				};
-+				led@8 {
-+						reg = <0x8>;
-+						chan-name = "c2";
-+				};
-+				led@9 {
-+						reg = <0x9>;
-+						chan-name = "d0";
-+				};
-+				led@a {
-+						reg = <0xa>;
-+						chan-name = "d1";
-+				};
-+				led@b {
-+						reg = <0xb>;
-+						chan-name = "d2";
-+				};
-+		};
-+};
+ 	init_data.devicename = dev_name(&phydev->mdio.dev);
+ 	init_data.fwnode = of_fwnode_handle(led);
+ 	init_data.devname_mandatory = true;
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index a2bfae80c449..94da2b6607a4 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -1172,6 +1172,13 @@ struct phy_driver {
+ 	int (*led_brightness_set)(struct phy_device *dev,
+ 				  u8 index, enum led_brightness value);
+ 
++	/**
++	 * @led_max_brightness: Maximum number of brightness levels
++	 * supported by hardware. When only two levels are supported
++	 * i.e. LED_ON and LED_OFF the function can be omitted.
++	 */
++	int (*led_max_brightness)(struct phy_device *dev, u8 index);
 +
- &led_act {
- 	gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;
- };
+ 	/**
+ 	 * @led_blink_set: Set a PHY LED blinking.  Index indicates
+ 	 * which of the PHYs led should be configured to blink. Delays
 -- 
-2.25.1
+2.39.5
 
 
