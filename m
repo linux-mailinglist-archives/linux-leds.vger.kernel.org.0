@@ -1,60 +1,78 @@
-Return-Path: <linux-leds+bounces-4420-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4421-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55614A7CDD7
-	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 14:21:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 843E9A7CDEB
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 14:37:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 701A97A4445
-	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 12:19:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 286E13A7BA2
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 12:37:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B569321773D;
-	Sun,  6 Apr 2025 12:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B30821770D;
+	Sun,  6 Apr 2025 12:37:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WbnKyLyF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1MP2YPR"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D7B217666;
-	Sun,  6 Apr 2025 12:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC08238FA3;
+	Sun,  6 Apr 2025 12:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743942055; cv=none; b=WmXit8Z+mhhyDFUpi9YFlBdpbdEHb84vwZg8vi35WHLpTuv4BRa8X67tk4PgRyenbMWaqJcfm4su8awbX7ZrIe8gaEcRCWiSlixVKm6ypRrFjG7LB1sOOYpIuFDet7l5k73nzaBuOtoeL3sdQNCMuy4v/CyLmGvBSKjTrPpzW00=
+	t=1743943064; cv=none; b=HMtiLh27bJvBgp7Fjdiuk3HLcUHhtGUNrnoGVdU6iOdefq/sFAPcX2Ft4e9Ds5giv4E0i6MHqjNvz3ybZ30PcsUIF8+sp8Rj1byXoJ6q5wIxqSrefnFTTKrgoM2zGWcd5U4RPH2kJoJzl/F82XkKXNFBZEKfZrQkVWCpwdYf/JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743942055; c=relaxed/simple;
-	bh=DnM46jWhUg1L8UXNlPgFVYi1A+ruLQXnjhaJY6gJyqI=;
+	s=arc-20240116; t=1743943064; c=relaxed/simple;
+	bh=sXA9qv75igJGtLZcRB/vSFTExIhtqUFpo52VyF6a9wQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oJztmL/UhxWp5EoWCTGo4xNLpcp6ceeIPaeB4OWpxjF8fAuHMu4yqw0/mDdj3H3sQOSZFF2YVIbhqkrz1QPpdtwDqpU5EV8PF+PFc/hxr9ipYex3j/qPtk5NykCLquRPdKWt0cldJW/LiGJ4/gMaAHEKLSGYGX0xtPC7O/jQZg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WbnKyLyF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6F3C4CEE3;
-	Sun,  6 Apr 2025 12:20:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743942055;
-	bh=DnM46jWhUg1L8UXNlPgFVYi1A+ruLQXnjhaJY6gJyqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WbnKyLyFLoAmN4sggRgJTWUVO2qcn9YN6acZiN/8MvUyGB7gSPq9jSm49hXidBS8X
-	 HISg6PQfWw3VvxGL8nBPcuWdLcfM2V/BoKvlFeTOFJWa5++j2PFI8TP387I5BjgAlb
-	 VmWwDDDR0Hi95Gi0A0aZ6OCo1UfEaCJTA95th25HgPwBYgeQP1Mdun54MHdc6jZPVo
-	 67WBInJ79NC2Vutlc9gwDBU4eli6G04uIC3OmSTVZh6Xgm8NPX8OBAdkzYDGbHxbd0
-	 9vlfdrSqAbHqAnRdkxFAfrtFRtPHXsVqbkhUagI2Nh905rk7itUvtKWDtbZLQEWjNI
-	 yMuwIXSkI+txw==
-Date: Sun, 6 Apr 2025 14:20:49 +0200
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Aleksander Jan Bajkowski <olek2@wp.pl>, lxu@maxlinear.com, 
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, lee@kernel.org, linux-leds@vger.kernel.org, 
-	Daniel Golle <daniel@makrotopia.org>
-Subject: Re: [PATCH net-next,v2 2/2] net: phy: mxl-gpy: add LED dimming
- support
-Message-ID: <ne2yghzgmsvmucepsvdfpcobumucoijtbgczdhb64kuvkbk7d3@3s5xew72bri4>
-References: <20250405190954.703860-1-olek2@wp.pl>
- <20250405190954.703860-2-olek2@wp.pl>
- <36ab1cd6-65fa-4124-b9a0-f4082936e04f@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YMhAGeH04KHSZW/iKiXJd7B85rlKHQ5szeESt1tz7ZEvuSCdsyl90Y3Q4Cn8ESBR/1yVCQwTH59Y3RG+zGoSn4gS0wA3V13x3qh0VpWVlDL8abMG/cvbgsdLxxIG3VgIIionM5ba0WpCIq1pqFfjpVIO4XUBsenQOlME5sy+gzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1MP2YPR; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743943063; x=1775479063;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sXA9qv75igJGtLZcRB/vSFTExIhtqUFpo52VyF6a9wQ=;
+  b=A1MP2YPRAGG9two5HcWixo7k27aYmwdw4RgqPpzJCPsh/lakzq0zLj5u
+   2yIyq4h5y47a2IMSZfsVYFdAv8izyij3pqRQ6slQZFuIFte9KNojL4EFm
+   vk1TKqXHObxluyBppit3y1xfo5RRet5Lx9auYgLtDaMRMp/P+/U9Dtv4A
+   s3XtI1voaVgevtTDZC0nENXva9pqKb09UiC6Y5iEYAwzze0UhejvPRDeM
+   ztHkAjbFaBz6KM7KEmrRC6uhHRM85NNPCHFUSgPSg7FsySBsLtopmK7y5
+   xq3mxfErsgsGNe6tMH5fxGNMGExEbiOgtVogg2HPLrC5jqC5iSPO8UYC4
+   g==;
+X-CSE-ConnectionGUID: prbVtzyySiidnH9ijzMBPw==
+X-CSE-MsgGUID: NRJFVEziSIO56BhjFlz7Kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="45348430"
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="45348430"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 05:37:43 -0700
+X-CSE-ConnectionGUID: yvoGIRNCR8KJj21q9gKvDw==
+X-CSE-MsgGUID: E09wiPGEQSCfreJE5TRGLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="164900186"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 05:37:40 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u1PFp-00000009kLi-2xzN;
+	Sun, 06 Apr 2025 15:37:37 +0300
+Date: Sun, 6 Apr 2025 15:37:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Subject: Re: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when
+ filling default_label
+Message-ID: <Z_J1kV6P3CgaE5WF@smile.fi.intel.com>
+References: <20250404162849.3650361-1-andriy.shevchenko@linux.intel.com>
+ <202504050256.SYq06TxB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,64 +81,52 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <36ab1cd6-65fa-4124-b9a0-f4082936e04f@lunn.ch>
+In-Reply-To: <202504050256.SYq06TxB-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, Apr 05, 2025 at 09:52:43PM +0200, Andrew Lunn wrote:
-> On Sat, Apr 05, 2025 at 09:09:54PM +0200, Aleksander Jan Bajkowski wrote:
-> > Some PHYs support LED dimming. The use case is a router that dims LEDs
-> > at night. In the GPY2xx series, the PWM control register is common to
-> > all LEDs. To avoid confusing users, only the first LED used has
-> > brightness control enabled.
+On Sat, Apr 05, 2025 at 02:58:17AM +0800, kernel test robot wrote:
+> Hi Andy,
 > 
-> I don't know the LED subsystem very well. But struct led_classdev has:
+> kernel test robot noticed the following build warnings:
 > 
->         /* Get LED brightness level */
->         enum led_brightness (*brightness_get)(struct led_classdev *led_cdev);
+> [auto build test WARNING on v6.14]
+> [cannot apply to lee-leds/for-leds-next linus/master next-20250404]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> The fact this exists, suggests the LED brightness can change outside
-> of the control of Linux. Maybe even your very use cases of one PWM for
-> multiple LEDs? You might get a more consistent user experience if you
-> allow the brightness bet set with all the LEDs, and implement this
-> callback so the current brightness can be reported per LED?
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-pca955x-Avoid-potential-overflow-when-filling-default_label/20250405-003054
+> base:   v6.14
+> patch link:    https://lore.kernel.org/r/20250404162849.3650361-1-andriy.shevchenko%40linux.intel.com
+> patch subject: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when filling default_label
+> config: powerpc-randconfig-003-20250405 (https://download.01.org/0day-ci/archive/20250405/202504050256.SYq06TxB-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050256.SYq06TxB-lkp@intel.com/reproduce)
 > 
-> Lets see what the LED subsystem people say?
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504050256.SYq06TxB-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/leds/leds-pca955x.c: In function 'pca955x_probe':
+> >> drivers/leds/leds-pca955x.c:554:53: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+>         snprintf(default_label, sizeof(default_label), "%u", i);
+>                                                         ^~
+>    drivers/leds/leds-pca955x.c:554:52: note: directive argument in the range [0, 4294967294]
+>         snprintf(default_label, sizeof(default_label), "%u", i);
+>                                                        ^~~~
+>    drivers/leds/leds-pca955x.c:554:5: note: 'snprintf' output between 2 and 11 bytes into a destination of size 8
+>         snprintf(default_label, sizeof(default_label), "%u", i);
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Regardless of whether LED class device blinking is offloaded to HW or
-not, it should behave the same way as it does when controlled by
-software.
+Nice, different GCC have different level of issue here. I will address this
+in v2.
 
-The sysfs brightness file controls the brightness of the LED.
-When no trigger is enabled on the LED, this is very simple:
-- setting brightness to 0 disables the LED
-- setting brightness to the value max_brightness lights the LED
-  to maximum possible brightness
-- values between 0 and max_brightness can be also used, to light
-  the LED in some in-between value
+-- 
+With Best Regards,
+Andy Shevchenko
 
-When a trigger is set, this can get a little bit more complicated,
-but not for the netdev trigger. The netdev trigger only blinks
-the LED, which means that it changes it between two states:
-- disabled
-- brightness that was set into sysfs brightness file
 
-So if netdev is blinking with LED, you are supposed to be able to
-change the ON state brightness by writing to the sysfs brightness
-file.
-
-If you enable the netdev trigger on a LED (echo netdev >trigger)
-while current brightness is set to a non-zero value, then this
-non-zero value should be used for the ON state when blinking.
-If you enable it while current brightness is zero, then
-max_brightness is used. This is done in the set_baseline_state()
-function, the blinking brightness is stored into the
-led_cdev->blink_brightness member.
-
-And also, when writing new code, or refactoring old one, stop using
-the LED_OFF, LED_ON and LED_HALF and LED_FULL constants.
-They are deprecated.
-
-We should get rid of the whole enum led_brightness and use an
-unsigned int instead.
-
-Marek
 
