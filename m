@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4418-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4419-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D0AA7CDC4
-	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 14:00:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8349DA7CDC9
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 14:08:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71C36172FDB
-	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 12:00:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20BAD188D3EA
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Apr 2025 12:08:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3634202966;
-	Sun,  6 Apr 2025 12:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EA95216E32;
+	Sun,  6 Apr 2025 12:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b84bkGUX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mRTyXgcU"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22FA2AEF5;
-	Sun,  6 Apr 2025 11:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094051A5BA6;
+	Sun,  6 Apr 2025 12:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743940800; cv=none; b=QUYL1KqNlZT1ZCJAaxVxauVMm2KwFAXab71jDkVRQxxmBYorII4caEISYEjQezkzJt6QVa9TOsbDk7iUKJdJJy1VXIh3cF82sXzGX0R0RsomWQsmgg3+k97NiieGasTl5fuo0E02Vsn51wACx38V58JKst1HJ2LuF0QiagLekiA=
+	t=1743941299; cv=none; b=IiLv+vlZFH3w4aO5F8R+miXG/SkafFXAeGHLqUdzOx/+PY+vkEnxBK0hnHM7Qw7CHpbSCbAnxrARXDds411jBm5LFQebuPQsbLmRBTtD5IfX4W9F4n7cHi8s+XEbFhqKFgTdbTPxdHWwjxxNw+G4zO+TdS7z5y60TsacxcObEcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743940800; c=relaxed/simple;
-	bh=7N8oo4TYDHzNq/47YKx06MEKsPixGmEO4o/eFLqLlI0=;
+	s=arc-20240116; t=1743941299; c=relaxed/simple;
+	bh=q906i6obTio2b46mqbSb4jzWO7GgK8exn993sMTYMtA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GsEjb61lZOTgvIUiDj20YLuGx7gKzu8OeyzcC3MUgS0X0ol5NVUgbQQGfOF2NrDbm4zqMH0b+C6HjYrYqCtcytE+ABifH++ISYX6G9A2B+ZaqmZgD5nBBlaE14wNtnV5IVvoAXynMXgaHgGSkvXuRp7CdInXwUAYUpbfzAWLS2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b84bkGUX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A41BCC4CEE3;
-	Sun,  6 Apr 2025 11:59:55 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=GOxeNWqDnrgxW2jl/BfWneuiJ27mD31enF7rl1NSlo2Yxw/sCQwIFLtNnPMdZPbeKaJNOIYeYVzGndhAWBan3LIIb2eSdZ1E8lxCntBVWD2WeFNxr0mkiM9W4yr94UOEmS+B8A3Au9WYhkhpMO+zH3E3Tv6lni6FgrnvYDOBHTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mRTyXgcU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8F6C4CEE3;
+	Sun,  6 Apr 2025 12:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743940798;
-	bh=7N8oo4TYDHzNq/47YKx06MEKsPixGmEO4o/eFLqLlI0=;
+	s=k20201202; t=1743941298;
+	bh=q906i6obTio2b46mqbSb4jzWO7GgK8exn993sMTYMtA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b84bkGUXWuf2i+9SG9VAZtN98oUGA2lCRaS7DtWPegeH3fTiM2V+zCKZA5AB6U2LI
-	 v1mtAjSe9GqOei3PGMoPv24maEPjVselu8dfCLVAtt/yDU4feSCgVsVV4BABmBuTAA
-	 sqF5K7If3fWNICE4vRxcoic6+oTZLgXhU5YSq6NyD66JwJ9d8logz0BHZjQXNYrg4J
-	 s6RjN1pRU8gnZwnTGuVmfEFl77qLs2E776VzwIOzGQnwK656p6+iTbcRUnJp6Y2mgm
-	 wdzpwjYi2VqDDi5A30s2XbVmeC2fQ1vfsKIwxr7ksmjdzClyS5A0B84sGdky9idlay
-	 fGFaupSMYHZlQ==
-Message-ID: <eac877d0-2fd3-44cf-8917-910042cdcec9@kernel.org>
-Date: Sun, 6 Apr 2025 13:59:53 +0200
+	b=mRTyXgcUkl6F9QjD/4KG4fA46qLlKPEpMK/iT5XFuysyHGRomaormScyk0k0QeZfq
+	 wrhF8H8meNcw+xdnHf4lZ4vFdNnvhdvjQI8tu2+ACzdv6FE+HmMgWLZ+wMtF0pD92Q
+	 pg5aP5k7p2Cvwk7ciFlVMKqiJmyro5V0S25X/oHlWfwlFXDusAtf4vNg60rhJgsH0t
+	 VnA9nrikOOdm4opFUJL2SCdTU3/tE2a4wyXtwnrxPKx6xEPp5i+Suetnm1t3PSawfi
+	 SqqlSd0lVzf5NpJiEnnS00qiKq9wymL3bsTHpbTxWyP46DoGQMNe+tnDgX1HnR5Y1c
+	 /MgprV3B9m+YA==
+Message-ID: <707dc912-12d2-4b50-b934-0c1d1f5efe6b@kernel.org>
+Date: Sun, 6 Apr 2025 14:08:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,14 +50,13 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] dt-bindings: leds: add TI/National Semiconductor
- LP5812 LED Driver
+Subject: Re: [PATCH v4 3/5] docs: ABI: Document LP5812 LED sysfs interfaces
 To: Nam Tran <trannamatk@gmail.com>, pavel@kernel.org, lee@kernel.org,
  krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org, corbet@lwn.net
 Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250405183246.198568-1-trannamatk@gmail.com>
- <20250405183246.198568-2-trannamatk@gmail.com>
+ <20250405183246.198568-4-trannamatk@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,84 +102,210 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250405183246.198568-2-trannamatk@gmail.com>
+In-Reply-To: <20250405183246.198568-4-trannamatk@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 05/04/2025 20:32, Nam Tran wrote:
-> +properties:
-> +  compatible:
-> +    const: ti,lp5812
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
-> +      I2C slave address
-> +      lp5812/12- 0x1b
+> The LP5812 is a 4 × 3 matrix RGB LED driver
+> with autonomous animation engine control.
+> 
+> The driver provides interfaces to configure
+> LED modes manual/autonomous, set PWM/DC values,
+> and manage autonomous animation engines.
+> 
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+>  .../ABI/testing/sysfs-bus-i2c-devices-lp5812  | 150 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 151 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812 b/Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+> new file mode 100644
+> index 000000000000..e745f0f936c5
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+> @@ -0,0 +1,150 @@
+> +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/device_enable
 
-Drop description, redundant.
+I do not see reason for such ABI. If you want to disable, just unbind it.
+
+> +Date:		April 2025
+
+Not possible...
+
+> +KernelVersion:	6.14
+
+You cannot go to the past. 6.14 was released. This will be v6.16 or later.
+
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Enables or disables the LP5812 device. (RW)
+> +        0 - Disable
+> +        1 - Enable
+> +
+> +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/dev_config
+
+Looks like wrong path here and everywhere else. I think other name it as
+led driver, e.g.
+Documentation/ABI/testing/sysfs-class-led-driver-lm3533
+
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Configures drive mode and scan order. (RW)
+> +        Some valid values: tcmscan:4:0:1:2:3 (default), tcmscan:3:0:1:2, mixscan:2:2:0:3, mixscan:3:0:1:2:3
+> +
+> +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/device_command
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Issues device-level commands. (WO)
+> +        Valid values: "update", "start", "stop", "pause", "continue"
+> +
+> +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/device_reset
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Triggers a software reset of the device. (WO)
+> +        1 - resets device
+> +        0 - does not reset device
+
+I do not see kernel exposing it for other devices, drop.
+
 
 > +
-> +  "#address-cells":
-> +    const: 1
+> +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/fault_clear
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Clears fault status. (WO)
+> +        1 - clears fault status
+> +        0 - does not clear fault status
 > +
-> +  "#size-cells":
-> +    const: 0
+> +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/tsd_config_status
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Report the current thermal shutdown config status. (RO)
 > +
-> +patternProperties:
-> +  "^led@[0-9a-b]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      reg:
-> +        minimum: 0
-> +        maximum: 0xb
-> +
-> +      chan-name:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        description: LED channel name
+> +What:		/sys/bus/i2c/devices/.../led_<id>/enable
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Enables or disables the specified LED channel. (RW)
+> +        1 - Enable
+> +        0 - Disable
 
-Isn't this existing label property? Or node name? You don't need this
-and instead whatever currently LED subsystem is expecting (label got
-discouraged so maybe there is something else now).
-
-
-There is no multi-led support in the device? Datasheet this can work as
-matrix and as direct drive of 4 LEDs, so binding looks incomplete. Not
-sure what you exactly miss here - check other recent devices with
-similar features.
+No, you already have standard ABI for this. I also already told you that
+you cannot duplicate existing kernel interface.
 
 > +
-> +    required:
-> +      - reg
+> +What:		/sys/bus/i2c/devices/.../led_<id>/mode
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Selects LED operation mode. (RW)
+> +        Valid values: "manual", "autonomous"
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@1b {
-> +            compatible = "ti,lp5812";
-> +            reg = <0x1b>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            led@0 {
-> +                    reg = <0x0>;
-> +                    chan-name = "a0";
+> +What:		/sys/bus/i2c/devices/.../led_<id>/manual_dc
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        DC current level in manual mode. (RW)
+> +        Valid values: 0 - 255
 
-Mixed up indentation.
+NAK, duplicating existing brightness.
+
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/manual_pwm
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        PWM duty cycle in manual mode. (RW)
+> +        Valid values: 0 - 255
+> +> +What:		/sys/bus/i2c/devices/.../led_<id>/autonomous_dc
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        DC current level used in autonomous mode. (RW)
+> +        Valid values: 0 - 255
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/autonomous_dc
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        DC current level used in autonomous mode. (RW)
+> +        Valid values: 0 - 255
+
+Also duplicating brigthness.
+
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/pwm_dimming_scale
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        PWM dimming scale type. (RW)
+> +        Valid values: "linear", "exponential"
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/pwm_phase_align
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Configures PWM phase alignment. (RW)
+> +        Valid values: "forward", "middle", "backward"
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/autonomous_animation
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Controls AEU configuration and playback. (RW)
+> +        Format: (aeu number):(start pause time):(stop pause time):(playback time)
+> +        with aeu number 1, 2, 3; playback time 0 - 15
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/aep_status
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Shows current animation pattern status, value from 0 to 7. (RO)
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/auto_pwm_val
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        Shows the pwm value in autonomous mode when pause the animation, value from 0 to 255. (RO)
+> +
+> +What:		/sys/bus/i2c/devices/.../led_<id>/lod_lsd
+> +Date:		April 2025
+> +KernelVersion:	6.14
+> +Contact:	Nam Tran <trannamatk@gmail.com>
+> +Description:
+> +        0 0 mean no lod and lsd fault detected, 1 1 mean lod and lsd fault detected (RO)
+> +
+> +
+> +
+> +
+> +
+> +
+
+Why so many blank lines? Drop
 
 
 Best regards,
