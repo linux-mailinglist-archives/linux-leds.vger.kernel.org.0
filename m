@@ -1,77 +1,77 @@
-Return-Path: <linux-leds+bounces-4427-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4428-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F12EA7DA6B
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 11:56:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 074D8A7DA57
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 11:55:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99FF016882B
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 09:54:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 194CE188E687
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 09:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7A68234964;
-	Mon,  7 Apr 2025 09:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05E44230996;
+	Mon,  7 Apr 2025 09:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWW1g7qZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZD9/+jl"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DE23372D;
-	Mon,  7 Apr 2025 09:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE7022FF21;
+	Mon,  7 Apr 2025 09:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744019649; cv=none; b=N5fNbyLeGrIUBtDvDPmLk7DcZtW0plQKbFw6urYJGzH4Yq9xAgdOfxyRTg8590ktneYuNnwM67TMpSFnXwVlmYPsP/xYhRs9S32PsHHt8XJRkIpL/KN0KJdNWhjxJiUNF+Jj6xeYlQaje8xJwMpRTL8JK/JzitTWheX4sNfRgPU=
+	t=1744019660; cv=none; b=chUX3Fp4gDgc+lZzU433LCwdlQ0WKPxfqrY0f4F3QMyuR1Uxmq10wiNhtGSvA7kpEVD3XZ5TF4gEao+CJZa27iDaZi4iQzA+AH1yA+Q+R6LI0MuEl8e3OW03mtTskPuZqbIyDkCeRTR2sjWkdh2RIKgzzYOxXGEAzBOt+I59UsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744019649; c=relaxed/simple;
-	bh=/62GKGmmu3E9YZWHOM6Xl3Z0iVTLdRYw5PPueeHH5Dg=;
+	s=arc-20240116; t=1744019660; c=relaxed/simple;
+	bh=U16ykuJVW+RZ2Mtnpc0kC6WlrFpzsu8T5Gn3Qu7BLgQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NP4O+FjyrCU5WkembweZO05p0zwU40IcOyp5tJ3H0u26/KSEc1dxtEysItnFtZNDI7TJFOkHwW/zhVQB/gM6NGQ3mxS7zMfPrTgWqJVxSnkHPYkNQySD769PFBgM3SYi0AEQhwit1ll3Vr6iTgX61Q1OBcdQk5UKXYaJr0h4QgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWW1g7qZ; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=uy8OmQMFFX0HIiPo32xgZ0Ali6XVijbcNpLV4/4LbIuIIfH6E14OlnCa22WyYOO/NN8vsf6XxRp20t+/vHlH35JQHn8HUZ8C6SqlGbLMrwmW1trMSgQlFiK8vZfCxryEYH0hHrzdEHite25wdONR0zQxGVdWw3V03Yf7CtyExLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cZD9/+jl; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227d6b530d8so33591965ad.3;
-        Mon, 07 Apr 2025 02:54:08 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2295d78b433so36905685ad.2;
+        Mon, 07 Apr 2025 02:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744019647; x=1744624447; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1744019658; x=1744624458; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O8diRuAQehXi7R+D5qp01L9GbmQB2F98eyfpHLigrsU=;
-        b=jWW1g7qZi8bAlcPd31sLQt6Ib7Ve4MRbkCbN+3CmqOdrbNKGT64XITBS/MdgX3oD08
-         sExi1nvxknXBLtGovey/rcZ8imvQZEQc/iXL5w+afyIB2nhNdIosG3tSVKjW8YvTnrHE
-         OlNEfZT+89qzolyM0jApTMEXyDzQsLmX06aIfo8rKYHHY8F9zvqoC8WREOlPdTM9bOiE
-         oVQgJYFVMJLHTxpNrHsAHUW/WO9LIs8WAKtDbQcyO3AHHh1nWsJ4Iz01IS1qkx4HZuU6
-         NyyAmhfYZWGZUOVHwfe4X1RIuQ6n/JyjR7n/AWZ6tDn/dB8pnJ8QkpZvi9Y1evWMYl8j
-         hg2A==
+        bh=LkqbTBwPGVLrWizLUawPs+MSKpssOAtGiDagVUV4NJ4=;
+        b=cZD9/+jlbP6IlZPtiInB6s64EYv7fbSsqD2Iqxzjc42i/E5k3gh8gyWMAFX00McSVA
+         DKnac0aVy26/zwgaGqR/wRGdxdURbuSbSJXlLmpgRxdOZoapBvrmdtM7hWqoDG8e9O4a
+         +fc6s2YBWtFPSyzm4y9IYWJwUbbBMzb53/ZDyt+K0dvsONe9cU4tSmEKY+FzbsrY9TXN
+         Che+R4QJHx9JlyCqe0RvcFTkWjWqe0iBR2Cjes6OzFoCaemjEVD1/ZNwhIbnRoIOAIIy
+         0IEv+zkv7aKoWJ59AueSGxmf1ObETA1Vfvn9QJo7SD+ozxrYRrPGN/YTR0ZO1B3sJZQz
+         xfjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744019647; x=1744624447;
+        d=1e100.net; s=20230601; t=1744019658; x=1744624458;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O8diRuAQehXi7R+D5qp01L9GbmQB2F98eyfpHLigrsU=;
-        b=v9A0iYT1Vc9ZVt+8jDvYfHsI8X30P+mPifi72rwL0/EJeG1iKXevnLl01FIrXvkMhi
-         IGvmmIn5v3Prj7nPujE0I9eSHXJ+bjdP2HCeHRGo/Zn0F6TetiMQTC/QX9zEnFhQ3fwo
-         KG7ioOwLBMFNmdf1q+L47rESwOYB+lHy0hmmm3Ha9WpRqtXV/3Hr3hD0Ta4I1sqFtX7H
-         nTygRk2nctB5sOIxOYIfbzr7AJbDkHqGBQiRVT33Tiz+2Iq+FmIrNSJPYC/ID9MEuxje
-         csnt4IscO72MjYH6vc9HVOkz3V9MP7xLc1QNM48JzXlZ9DQnGFXHh1Fsj6iIGnmWx0aR
-         CiUg==
-X-Forwarded-Encrypted: i=1; AJvYcCVnB5277Rg5MzH9czlwj4q8c6OIdcNhuoTRnKouJmklUeTk32RS+okVJjBW0AxVV3rBN9d1Mp9PpTRPHQ==@vger.kernel.org, AJvYcCXHRb0uK6XvUo+yBuur3fu8KO4dANKIHjLOe0SpvyuKULt1BtfCSYY0J2mR/UYGc8CNdigM3qNzWqPHXslO@vger.kernel.org, AJvYcCXZmgv0e2C++sbzFnny5qnfZWGiXMze9eMhmOjezeD2m6vusAaQxaiYEg04I8MUIRJ1f4POV4/pajd4qSc=@vger.kernel.org, AJvYcCXdP/oGt69JMH4ZoWWExyAtQG+Czn+ZD2PjfXElYMYyo0HJnBxUUcq/yMwZhcGvDo6EbRNN5BNZ0mwF@vger.kernel.org
-X-Gm-Message-State: AOJu0YyECW4TMR7koTRjh7qZs4DTR7kLr23l5dTY0sQOMwSPik22RSmc
-	71lVz4j4gX4w0I4ZhJzak2LjlcALoGkuB8YkQCIvfKMaTSYrEfJetlpB/HWNxbI=
-X-Gm-Gg: ASbGncvByYk0DLR9/I/QF6YUJPSf1lUv1lFQWDO4dZmc7XetmQ/EPT8Cde5Py/4uzRQ
-	kHMmpB1yGrY13RRbuqOpYN7Ut8ayt5FsPLCPYuRTWBrHpZ8iIUAyWm5NYv8MMmuwSL3hS3rMiEN
-	LKzXSj98d8kwpA1HDEcEc/YVJlfLqg876IYU2ATH2KToZb6PElh+WYpim8lCuQyJKcAUxkwWUHZ
-	+ccqy2V1u/FNJq8Xj/GSKDfRbqci1jdbSEagDn7k2hYg7Yc1vKn17VqTfYdxJsDFNtixw4nQ9wE
-	a/H+8cxPivGvlRISkbC4wT9rMtMP/8X1cXlyLO63sIs=
-X-Google-Smtp-Source: AGHT+IEZza3sL31uGEXE9GqOZmRwDZovRtw/5y2xgKCiRmfb48lzBMArT3fRLQbnoTwMSm5KJMfMfw==
-X-Received: by 2002:a17:903:18d:b0:225:abd2:5e4b with SMTP id d9443c01a7336-22a8a05e84fmr162795925ad.16.1744019647625;
-        Mon, 07 Apr 2025 02:54:07 -0700 (PDT)
+        bh=LkqbTBwPGVLrWizLUawPs+MSKpssOAtGiDagVUV4NJ4=;
+        b=oHxApk9jZrSFwlzg39YzNXeTjHjKnpfXJDpHSxfOGm6QLWXSJ1G6UzagWBJNK5sjLZ
+         XcvNW+l+3Ur9ATupSnZwonxWeuuZuoXaqoVwVrwSpT5R2CXT2KbVtrU70qqPxn2L/SOQ
+         pIeyn0w2v+tIi7d43dgeBfbgY3E/4fD9TG58/5hXUhPPYg/7hBsmm4D4Z02zSn5pPJ4w
+         prXHWu7pM8zBePE/PTwnlmmlxI1iaqwoMr6hxe+MSeKkqBeY3CMeeWgQk7VLLSpAXum+
+         vmcnuFFPlz3Tv/rwat5ZtI1rF3kvIpWNdq47UT2qVFYLlF13+svnUZfV8vTnctXB7JFW
+         REWw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWAzVNs8sYAXMZ1UsLj/I6nFtVrqFQ4Fa1tXs8NNIHwntBsszuhmDG1/+ovPfbxyTdjb70fRJA0OEe@vger.kernel.org, AJvYcCVawFQdheiTzNkozB9KzAtSxUMrPi6GNqTU4MCf2+nQ+cpH9NFV9smVvUs+sFzTAg5ftIqKcc5AveaaVeo=@vger.kernel.org, AJvYcCWKR1/elTRLd6bt1eGw1VGYy/3XozAS1BVipeb86FSK05Dtx2psrAoh3/OYUisgAkvJuhJmLS8ouChrXg==@vger.kernel.org, AJvYcCWQ2/l3XcqF08POv1+QiGnEVp5zb8jVSjmrCE4DUuwe/hqP5c7E3tzp4eMRT70ZS27uvHg0vHKt86zHW4FV@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9DoXvZ2Gu8GvDw2NgZr04kJQ1914p/DfVZ55g5FN2ez+fdNyl
+	4X5gYh8aRFuPefRN6J6V8df/XhY62WC6n1UjCTlIJ6jyrwWfJ1Qn
+X-Gm-Gg: ASbGnctbd8jVnYuWwyr6wGEoO0o5JdTwXMtS3ObDtYMWNzZwSVuYNvmiaSGSlHdq91J
+	RzgC9GTtOPhrij2saeGvr0jOP8DwfBeWR4IRWy3eOwKwK5PBAgRTi9P8S2o8HR4YEgbYA7wODSX
+	xy+zkvoRnb1aujdh1RCcutUY91xAPEpryQRapZ96gWwQwCTQBkox9mdJrwzai6TAA98Bz34Xu07
+	6P5YbFg23veggtviStrtivkqpJTTuhlnzmqOfEjtsHq9YaT0l9O+w8e3qmb8ylMboY6aLkWCMcm
+	TjV2u62+hw3jdh/NkT1wo09TbgegLqtxhN74yQTACWE=
+X-Google-Smtp-Source: AGHT+IH9E8XsbCxLfsVsslPNMo/cSHYFTOjiDQDxMCuBzObL12vZxjJVRmA/QuSkAieMl45UO5T2kA==
+X-Received: by 2002:a17:903:2ce:b0:215:9bc2:42ec with SMTP id d9443c01a7336-22a8a0b3744mr133132005ad.47.1744019657677;
+        Mon, 07 Apr 2025 02:54:17 -0700 (PDT)
 Received: from nuvole.. ([144.202.86.13])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.53.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.54.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 02:54:07 -0700 (PDT)
+        Mon, 07 Apr 2025 02:54:16 -0700 (PDT)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Jianhua Lu <lujianhua000@gmail.com>,
 	Lee Jones <lee@kernel.org>,
@@ -88,9 +88,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-fbdev@vger.kernel.org,
 	Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
-Date: Mon,  7 Apr 2025 17:51:18 +0800
-Message-ID: <20250407095119.588920-4-mitltlatltl@gmail.com>
+Subject: [PATCH 4/4] backlight: ktz8866: add definitions to make it more readable
+Date: Mon,  7 Apr 2025 17:51:19 +0800
+Message-ID: <20250407095119.588920-5-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250407095119.588920-1-mitltlatltl@gmail.com>
 References: <20250407095119.588920-1-mitltlatltl@gmail.com>
@@ -102,64 +102,47 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I polled all registers when the module was loading, found that
-current sinks have already been configured. Bootloader would set
-when booting. So checking it before setting the all channels.
+LSB, MSB and their handling are slightly confused, so improve it.
 
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
- drivers/video/backlight/ktz8866.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ drivers/video/backlight/ktz8866.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
-index 017ad80dd..b67ca136d 100644
+index b67ca136d..5364ecfc0 100644
 --- a/drivers/video/backlight/ktz8866.c
 +++ b/drivers/video/backlight/ktz8866.c
-@@ -46,6 +46,8 @@
- #define LCD_BIAS_EN 0x9F
+@@ -24,7 +24,9 @@
+ #define DEVICE_ID 0x01
+ #define BL_CFG1 0x02
+ #define BL_CFG2 0x03
++/* least significant byte */
+ #define BL_BRT_LSB 0x04
++/* most significant byte */
+ #define BL_BRT_MSB 0x05
+ #define BL_EN 0x08
+ #define LCD_BIAS_CFG1 0x09
+@@ -47,6 +49,8 @@
  #define PWM_HYST 0x5
  
-+#define CURRENT_SINKS_MASK GENMASK(5, 0)
-+
+ #define CURRENT_SINKS_MASK GENMASK(5, 0)
++#define LOWER_BYTE GENMASK(2, 0)
++#define HIGHER_BYTE GENMASK(10, 3)
+ 
  struct ktz8866_slave {
  	struct i2c_client *client;
- 	struct regmap *regmap;
-@@ -65,6 +67,12 @@ static const struct regmap_config ktz8866_regmap_config = {
- 	.max_register = REG_MAX,
- };
+@@ -105,8 +109,8 @@ static int ktz8866_backlight_update_status(struct backlight_device *backlight_de
+ 	}
  
-+static inline void ktz8866_read(struct ktz8866 *ktz, unsigned int reg,
-+				unsigned int *val)
-+{
-+	regmap_read(ktz->regmap, reg, &val);
-+}
-+
- static void ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
- 			  unsigned int val)
- {
-@@ -112,11 +120,18 @@ static void ktz8866_init(struct ktz8866 *ktz)
- {
- 	unsigned int val = 0;
+ 	/* Set brightness */
+-	ktz8866_write(ktz, BL_BRT_LSB, brightness & 0x7);
+-	ktz8866_write(ktz, BL_BRT_MSB, (brightness >> 3) & 0xFF);
++	ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
++	ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
  
--	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
-+	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val)) {
- 		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
--	else
--		/* Enable all 6 current sinks if the number of current sinks isn't specified. */
--		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
-+	} else {
-+		/*
-+		 * Enable all 6 current sinks if the number of current
-+		 * sinks isn't specified and the bootloader didn't set
-+		 * the value.
-+		 */
-+		ktz8866_read(ktz, BL_EN, &val);
-+		if (!(val && CURRENT_SINKS_MASK))
-+			ktz8866_write(ktz, BL_EN, CURRENT_SINKS_MASK);
-+	}
- 
- 	if (!of_property_read_u32(ktz->client->dev.of_node, "kinetic,current-ramp-delay-ms", &val)) {
- 		if (val <= 128)
+ 	return 0;
+ }
 -- 
 2.49.0
 
