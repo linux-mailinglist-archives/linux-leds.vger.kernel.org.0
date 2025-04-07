@@ -1,189 +1,160 @@
-Return-Path: <linux-leds+bounces-4434-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4435-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B585DA7E486
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 17:33:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56F7A7E63E
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 18:24:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F35C4250FD
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 15:16:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CEB73189A692
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 16:18:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D837E1FAC37;
-	Mon,  7 Apr 2025 15:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA572135D7;
+	Mon,  7 Apr 2025 16:13:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKCzY6Il"
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="VUkcGvdZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EAF1F582C;
-	Mon,  7 Apr 2025 15:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ED7209F47
+	for <linux-leds@vger.kernel.org>; Mon,  7 Apr 2025 16:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744038887; cv=none; b=TrNxjOyyoWiKv1z2e9NKWOv+HRA3k2mo4zaU33L61rgCxvzMMk8NVdp1DNeImXc+R0LYtzRNa2gvKteM3gNSzhonpoh4piwtUCZh7xqywVHdU8wHjozxRpG6LtsyhZzJniX3nSw+WktHp6HdCTXbCLMlUNj7bdBk1J5SUKqFFhE=
+	t=1744042433; cv=none; b=HPJ5wpRbT6X4f5mfF3N/IN9Yo2D+fyroJ0Zk8PIPTSu7wJ/eYhJ1q6ANHfPBb0v/g4VD8UbCWcPUGWW65Pz2nwOnLABaNbeY2qpyjHfT1dRRJAbSBJUwef1JDxq86/Rw87RtRF7B81uvV9uDyTpOMCPon+J52njuapjFw63gPFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744038887; c=relaxed/simple;
-	bh=R7dIKDlAXXIkueZ+e/t+5gOmT9XoywQLk9xPz/ZXP6U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pf7g/+9FzDmgnujeSMRrL8ZuwJ92vYVQCkjNVV+O2/8kCYH+CDHQzItiGzwww90lte1TmZAPNUCCie9G0uR9HDswIRnatBhLfbl5Uf0rf2+drhVOqL4GhrDV61t7IsdUF/TXFM5g19DQKM6v4bNiHVLPFH4/4Mlt962fCeFXByg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKCzY6Il; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744038886; x=1775574886;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=R7dIKDlAXXIkueZ+e/t+5gOmT9XoywQLk9xPz/ZXP6U=;
-  b=kKCzY6Ilrf2zX3j6l3pfSX8QGxcU/4F3GcNFcUOf6ilKgN8JFAxkfyGV
-   +xjNpZq1CAr7DBqVeD3MGzNG82tMaA5bxgyaTdj/fXxS4HB90aIcmlkz9
-   LdDK5ZKF4Tnoxuum/PNaOUQ7Cv30xxe4EP6KZa3xjPEnx+2c/5XRUt5CZ
-   81cTez2ZIKTLa/Y4uznfX555Z93P4/LZkpqxrABhSS6EGMgBhZUk4ld6n
-   7Brpj3tGNIzGtvj7hhniBQttm/wAIXtIeagkvLxPKYi2eNb02mkNcqGNV
-   CeruCM9ki0CZPAQHAkkre83hhXTVa4gu1Ah62UqzlMXY9eEhP3BK2DdPH
-   w==;
-X-CSE-ConnectionGUID: D1HYJKfnRL+ymfpl/YkfDA==
-X-CSE-MsgGUID: lsrZiq97T0Gq6+eXlLOVYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45567954"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="45567954"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:14:45 -0700
-X-CSE-ConnectionGUID: rBrQmG8kSRaDo1uLnTNRHw==
-X-CSE-MsgGUID: eKpg1ryjRj6ASOkWW/BRqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="127962510"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP; 07 Apr 2025 08:14:44 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 194EEF0; Mon, 07 Apr 2025 18:14:42 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Eddie James <eajames@linux.ibm.com>,
-	Lee Jones <lee@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Pavel Machek <pavel@kernel.org>
-Subject: [PATCH v3 1/1] leds: pca955x: Avoid potential overflow when filling default_label
-Date: Mon,  7 Apr 2025 18:13:26 +0300
-Message-ID: <20250407151441.706378-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1744042433; c=relaxed/simple;
+	bh=momMVb5vlwB7w7QBIrh4FuJxBMr+DXof5tHLvIxbILc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZgZyn1B7DdoHrcIRmrbevElBeBt4Dgfng+n0QmAfywY1zgtWucrKANkWHwsvrFwTvEoxfN58fr5r/FUzouVsWcbb+pbWmC62HBlBy7YwfKwZMs7I0wLVy8jDk849IROS89sw/+ayJs4cqUXNaRVP+r4QsU1k+OQ1Cam+BcfH5TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=VUkcGvdZ; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so44101015e9.2
+        for <linux-leds@vger.kernel.org>; Mon, 07 Apr 2025 09:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1744042428; x=1744647228; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hAlufBsPlnjuTWbgusP8CYnzhAGj3Mnwll46JdWGBbE=;
+        b=VUkcGvdZWUbu9OzL8xb/T9nIPABJp+EpwUB25HeDeqsIYBWHw/KxG+9HzB6zJ25efA
+         IEVWesGAkZXnsKnEEQm5RrjsBBy/tM0vuvAVzxUKgGOfI/2MnZRk9eU1buIVmNaD/vyl
+         7ohlvYtihiG99nc1Pjalgx9Cg3PhduK3ocW9+yDw355ftfxGvBo3YocEdBwq8pF8+NYx
+         lMdNCYIYwmRxY1Ub0vqMljGY5ITbfI0syUZ0bCM41CmNbN56FnpgJML2mZso6zE4ctdw
+         GGWGXp/DxpbSRR2/MomVoMl/GluMdqLScFL5xdZU1NcCHhUkH0KM61p8FLLG8T+nyt1b
+         kttQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744042428; x=1744647228;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hAlufBsPlnjuTWbgusP8CYnzhAGj3Mnwll46JdWGBbE=;
+        b=iDWQ4ceiZE+SD3SSjq8L20t8ExJV0JBt2Le9toLJ9iESbYVsk1E72dVSZEQ05JHLr8
+         ug1o7nh/4j5Y22vNbugXGnJxz8dkvhvb1OzLs738uvHb5AO1MwTdai1+zrUT8tnPnZ5q
+         MKqsHG5wqDWp31CmER0x5aFyQLQiAM8Q7w8Nqgdec8q0U87beApp3tbfBbKqHNmS3xyK
+         6/1NMG3koKKyOZXCJfLCfOJfY0yNrUpOub+oubLFB4PLM8AemJGwwrjGsPUAoahnLJTq
+         16nMjYXas8IYnGMwsVpDekKPM+aAG/haRwwanVM2S3m66Qvr7+GYpMEeQMwezxV9UO8C
+         fY3g==
+X-Forwarded-Encrypted: i=1; AJvYcCW/TkRdsEmyhge75q95+jXjkC/gArb5hjhlzfZGCqjN/xFT72hZKv4GUUhk66vBfUwVh6uljI1bo3FQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXPNAhVn0NPa0sza2/qgvy/TebbHMZhu2DmsSRUBlegJtyO7r4
+	hSD5b6xbwSHyfa3VdbV4gSRURpMX4aJJRg4vYYMb6ATufisfjy9OP4HOambqlPo=
+X-Gm-Gg: ASbGncujOLwLjLl5+5SKRjsdR8sPbUJhMQ+LkiRGFbE/hvoMYxcbIJCOU1v/tsCVJuo
+	4u4voqH0jEzJgbMcxwNK2VZpesEMK+n6QuUuKzgKAAGwKFfrCCUU/7Cisze2vMv+CROZgPycpaB
+	6BGsMi452C+hiBS+XRifmxsGGzeFTDVvloMkQCXHOEjXONy3WRzw2mTvTWUpwqJAHsNMfpJmJw7
+	K+5Lwe86j/VqR2qkdDZqlqSRQF/SjC0DadUUoUvnnE/YjToDOsGZFn/spVySwX3qqPmFszj3iMe
+	k8KhqslILCSa95r4uHSHR6MYWnyyUhFcY4bznEIVSATeY28VQDpeLGAqnT+UvCdfxjQPYdl8XOq
+	z7Rcm1VmkrIChtb3Y13aNidJpHqM=
+X-Google-Smtp-Source: AGHT+IF9E+Yu68SivmKTZ/2oBu6XpMDyufJhLClsxWUTbSHDLDqi5DwsmXJhaL8CEGG/v/moBPNDvw==
+X-Received: by 2002:a05:600c:1d28:b0:43c:fad6:fa5a with SMTP id 5b1f17b1804b1-43ed0d9ce1dmr107471025e9.24.1744042427942;
+        Mon, 07 Apr 2025 09:13:47 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec1630ddesm137924675e9.5.2025.04.07.09.13.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 09:13:46 -0700 (PDT)
+Date: Mon, 7 Apr 2025 17:13:44 +0100
+From: Daniel Thompson <daniel@riscstar.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
+Message-ID: <Z_P5uLrGiQWez0jv@aspen.lan>
+References: <20250407095119.588920-1-mitltlatltl@gmail.com>
+ <20250407095119.588920-4-mitltlatltl@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407095119.588920-4-mitltlatltl@gmail.com>
 
-GCC compiler (Debian 14.2.0-17) is not happy about printing
-into a too short buffer (when build with `make W=1`):
+On Mon, Apr 07, 2025 at 05:51:18PM +0800, Pengyu Luo wrote:
+> I polled all registers when the module was loading, found that
+> current sinks have already been configured. Bootloader would set
+> when booting. So checking it before setting the all channels.
 
-  drivers/leds/leds-pca955x.c:554:33: note: ‘snprintf’ output between 2 and 12 bytes into a destination of size 8
+Can you rephrase this so the problem and solution are more clearly
+expressed. Perhaps template Ingo suggests here would be good:
+https://www.spinics.net/lists/kernel/msg1633438.html
 
-Indeed, the buffer size is chosen based on some assumptions,
-while in general the assigned value might not fit (GCC can't
-prove it does).
 
-Fix this by changing the bits field in the struct pca955x_chipdef to u8,
-with a positive side effect of the better memory footprint, and convert
-loop iterator to be unsigned. With that done, update format specifiers
-accordingly.
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> ---
+>  drivers/video/backlight/ktz8866.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+> index 017ad80dd..b67ca136d 100644
+> --- a/drivers/video/backlight/ktz8866.c
+> +++ b/drivers/video/backlight/ktz8866.c
+> @@ -46,6 +46,8 @@
+>  #define LCD_BIAS_EN 0x9F
+>  #define PWM_HYST 0x5
+>
+> +#define CURRENT_SINKS_MASK GENMASK(5, 0)
+> +
 
-In one case join back string literal as it improves the grepping over the code
-based on the message and remove duplicating information (the driver name is
-printed as pert of the dev_*() output [1]) as we touch the same line anyway.
+Call this BL_EN_CURRENT_SINKS_MASK and keep it next to the register it
+applies to.
 
-Link: https://lore.kernel.org/r/4ac527f2-c59e-70a2-efd4-da52370ea557@dave.eu/ [1]
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
 
-v3: reworked again to satisfy both compilers (LKP)
-v2: updated format specifier once again (LKP)
+>  struct ktz8866_slave {
+>  	struct i2c_client *client;
+>  	struct regmap *regmap;
+> @@ -112,11 +120,18 @@ static void ktz8866_init(struct ktz8866 *ktz)
+>  {
+>  	unsigned int val = 0;
+>
+> -	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
+> +	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val)) {
+>  		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
+> -	else
+> -		/* Enable all 6 current sinks if the number of current sinks isn't specified. */
+> -		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
+> +	} else {
+> +		/*
+> +		 * Enable all 6 current sinks if the number of current
+> +		 * sinks isn't specified and the bootloader didn't set
+> +		 * the value.
+> +		 */
+> +		ktz8866_read(ktz, BL_EN, &val);
+> +		if (!(val && CURRENT_SINKS_MASK))
 
- drivers/leds/leds-pca955x.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+This is the wrong form of AND.
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index e9cfde9fe4b1..24a40a1cdb15 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -73,7 +73,7 @@ enum pca955x_type {
- };
- 
- struct pca955x_chipdef {
--	int			bits;
-+	u8			bits;
- 	u8			slv_addr;	/* 7-bit slave address mask */
- 	int			slv_addr_shift;	/* Number of bits to ignore */
- 	int			blink_div;	/* PSC divider */
-@@ -142,13 +142,13 @@ struct pca955x_platform_data {
- };
- 
- /* 8 bits per input register */
--static inline int pca955x_num_input_regs(int bits)
-+static inline u8 pca955x_num_input_regs(u8 bits)
- {
- 	return (bits + 7) / 8;
- }
- 
- /* 4 bits per LED selector register */
--static inline int pca955x_num_led_regs(int bits)
-+static inline u8 pca955x_num_led_regs(u8 bits)
- {
- 	return (bits + 3)  / 4;
- }
-@@ -581,14 +581,14 @@ static int pca955x_probe(struct i2c_client *client)
- 	struct led_classdev *led;
- 	struct led_init_data init_data;
- 	struct i2c_adapter *adapter;
--	int i, bit, err, nls, reg;
-+	u8 i, nls, psc0;
- 	u8 ls1[4];
- 	u8 ls2[4];
- 	struct pca955x_platform_data *pdata;
--	u8 psc0;
- 	bool keep_psc0 = false;
- 	bool set_default_label = false;
- 	char default_label[8];
-+	int bit, err, reg;
- 
- 	chip = i2c_get_match_data(client);
- 	if (!chip)
-@@ -610,16 +610,15 @@ static int pca955x_probe(struct i2c_client *client)
- 		return -ENODEV;
- 	}
- 
--	dev_info(&client->dev, "leds-pca955x: Using %s %d-bit LED driver at "
--		 "slave address 0x%02x\n", client->name, chip->bits,
--		 client->addr);
-+	dev_info(&client->dev, "Using %s %u-bit LED driver at slave address 0x%02x\n",
-+		 client->name, chip->bits, client->addr);
- 
- 	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
- 		return -EIO;
- 
- 	if (pdata->num_leds != chip->bits) {
- 		dev_err(&client->dev,
--			"board info claims %d LEDs on a %d-bit chip\n",
-+			"board info claims %d LEDs on a %u-bit chip\n",
- 			pdata->num_leds, chip->bits);
- 		return -ENODEV;
- 	}
-@@ -694,8 +693,7 @@ static int pca955x_probe(struct i2c_client *client)
- 			}
- 
- 			if (set_default_label) {
--				snprintf(default_label, sizeof(default_label),
--					 "%d", i);
-+				snprintf(default_label, sizeof(default_label), "%u", i);
- 				init_data.default_label = default_label;
- 			} else {
- 				init_data.default_label = NULL;
--- 
-2.47.2
+> +			ktz8866_write(ktz, BL_EN, CURRENT_SINKS_MASK);
+> +	}
 
+
+Daniel.
 
