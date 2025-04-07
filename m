@@ -1,175 +1,114 @@
-Return-Path: <linux-leds+bounces-4431-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4432-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A58A7DB83
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 12:51:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49025A7DE1B
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 14:49:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 252E0188D987
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 10:51:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C14C179ED8
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Apr 2025 12:48:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8174123816E;
-	Mon,  7 Apr 2025 10:50:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC3D82512DB;
+	Mon,  7 Apr 2025 12:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llvNHHMo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UbxisBFp"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF5023815A;
-	Mon,  7 Apr 2025 10:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06B0250C1E;
+	Mon,  7 Apr 2025 12:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744023040; cv=none; b=fDLOioB+IiW3PNhSdo6+JamFQcRnMEKrKlWrNQAWzHbvxyy12m1lzeeTH08mK66qL5ZQt75ysUyd7JxeW89DBuS1An9hthsRoP9mCmhFkWkQGaDnLwgJDIF0wHx/bBDXMQ8JGtkkbump4X2cHjL4wm3DnaqSNyzeehzO3GaEceU=
+	t=1744030077; cv=none; b=iYROg6uEW5SP8WWdhd4EOzzQYPp7rrRlC10LoX0K7lNiATq0FM6HhqxFUylVYvTf0vu6iluNjHIkpShnoPgrFMDbM5dc1bBnZHRpWO811/6BEMZNMdOacVAVVkDdHeQ7xKTgOZdXAIPGWMJfrbyP0YxCzBHxtkv8v5BW606ej2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744023040; c=relaxed/simple;
-	bh=h09H0mVo+a/xhXkOSI8OnmS+1oWns5vRt4sP272clcs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DSO9jDtUzqvo0ocyk7djW9f4YxsZSidicJ/g6R7EvysHyV9y50+qRSskpAP4aye56hWDIFrozfhH5hha9RFCMu/UpuwTFzL0lxv8p699gUhD1mNudkkiASQOHd2j410pED/OOy0xfuU2+uX7OHRuMdFh0Zu5Q0OyYXUG6zEyHwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llvNHHMo; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744023039; x=1775559039;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=h09H0mVo+a/xhXkOSI8OnmS+1oWns5vRt4sP272clcs=;
-  b=llvNHHMo84LWJWTBkyHJc33vuakuL8dXX2C6qyit/pu4T6ggq53+w49q
-   Gi9RRtVir/pWViaU0uBCSgnmaP2GPqt8sZMUVPxUfq1fVarOR3FAOL+Jw
-   FheX5t/3lipmpZhTYmzHRDGtjFJsUtKyNnqsoi60B4eioAy6VlVn7Fcbr
-   Qka0tx1eYhGDZOt4wMB0MyActvtxePd/Xx0OE4RFXuNxfaf9Vnz22bdCL
-   g7eu73s6Jg/0W40ibTaYBCYk5xggFbLgD0uYkZxXUp0PhZwekbkr73ROq
-   9ORHPM1RzMEUUOjY2n1o2oJpSid+/cJ6kLZjl2Qlf05LIlSH7OJh3MVyQ
-   w==;
-X-CSE-ConnectionGUID: 06WyhrNrTN2V3lLhgG1KHw==
-X-CSE-MsgGUID: kMbKFKHmRT6JvNOdo0PAag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="62947720"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="62947720"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 03:50:38 -0700
-X-CSE-ConnectionGUID: joj3L2zQSP6xc7/XnLV2Qg==
-X-CSE-MsgGUID: H+IhcpiRRhWwWK0XPvYUyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="128793016"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Apr 2025 03:50:36 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 3AB7C26A; Mon, 07 Apr 2025 13:50:34 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Eddie James <eajames@linux.ibm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Pavel Machek <pavel@kernel.org>
-Subject: [PATCH v2 1/1] leds: pca955x: Avoid potential overflow when filling default_label
-Date: Mon,  7 Apr 2025 13:49:58 +0300
-Message-ID: <20250407105033.324789-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1744030077; c=relaxed/simple;
+	bh=8pg0IaAVYZFUC95tFMo4ZQZdSqJpqLsdAE8soxBwgso=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=UXD2GQzUoG8tqxtmtnjGEu/Ocy+udXlZ673d2TSjz0b6rfrFoPODz4eGu2iyyml0Nl0SSCCkzpJOEFQQBTjeys9PLnaI/HD8nepd14dEgHOcNQPVFkDWOhGvtHdazagbRGBzHVdMVc77NMqCA+OxxUOE9kjEpPivTcFsaqhbeBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UbxisBFp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59F03C4CEE9;
+	Mon,  7 Apr 2025 12:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744030077;
+	bh=8pg0IaAVYZFUC95tFMo4ZQZdSqJpqLsdAE8soxBwgso=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=UbxisBFpNniJeAn7s9ciXKDlEKSn/dko3/G/IS+qreBSlrZFvLpLIoWyOo/ODkv3L
+	 9WMEdeDouKvLldhEuhRmz1JWi+bXlpR4+93pLOuikjUeIF2ZADnUw4cuYkudNOqA76
+	 3RZBptpjE/B1jV4TatHbuEhXQN2OPaXUYgG/AoiaMPQ3Qp+fKF/HLM5GJk8TjArEwF
+	 +BNmcpSqQtSmVktigkF/+RFaU483DWFH+6fuB8goi95RgFcwUSKSUbdDmiNyGNdvCr
+	 +6pIvlzB6AiwxmDkyC+ENxNt9x0HgPZ5lcCB5WeZMbLQOlm/gf/8/HNZXtQ1b2vD+2
+	 0qa24HwMDP3rA==
+Date: Mon, 07 Apr 2025 07:47:56 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: pavel@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, 
+ corbet@lwn.net, linux-kernel@vger.kernel.org, lee@kernel.org, 
+ linux-leds@vger.kernel.org, krzk+dt@kernel.org
+To: Nam Tran <trannamatk@gmail.com>
+In-Reply-To: <20250405183246.198568-1-trannamatk@gmail.com>
+References: <20250405183246.198568-1-trannamatk@gmail.com>
+Message-Id: <174402971830.1782904.14648060042339616468.robh@kernel.org>
+Subject: Re: [PATCH v4 0/5] leds: add new LED driver for TI LP5812
 
-GCC compiler (Debian 14.2.0-17) is not happy about printing
-into a too short buffer (when build with `make W=1`):
 
-  drivers/leds/leds-pca955x.c:554:33: note: ‘snprintf’ output between 2 and 12 bytes into a destination of size 8
+On Sun, 06 Apr 2025 01:32:41 +0700, Nam Tran wrote:
+> This patch series adds support for the Texas Instruments LP5812 LED driver.
+> Patch 1 adds the Device Tree (DT) bindings documentation.
+> Patch 2 introduces the core driver implementation.
+> Patch 3 adds documentation of sysfs ABI interfaces.
+> Patch 4 adds Driver documentation in reStructuredText format.
+> Patch 5 adds the LP5812 device tree node for Raspberry Pi 4B.
+> 
+> Changes in v4:
+> - Merge leds-lp5812-common.c into leds-lp5812.c
+> - Implemented the core of aeu_pwm[1-4]_{store, show}()
+> - Used kstrdup() instead of kmalloc() for allocating characters array
+> - Add sysfs ABI documentation
+> - Updated device tree binding documentation
+> 
+> Best regards,
+> Nam
+> 
+> 
 
-Indeed, the buffer size is chosen based on some assumptions,
-while in general the assigned value might not fit (GCC can't
-prove it does).
 
-Fix this by changing the bits field in the struct pca955x_chipdef to u8,
-with a positive side effect of the better memory footprint, and convert
-loop iterator to be unsigned. With that done, update format specifiers
-accordingly. Note, the choice of the format specifier is made deliberately
-like that because some of (old) GCC versions (powerpc-linux-gcc (GCC) 8.5.0)
-are not happy otherwise.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-In one case join back string literal as it improves the grepping over the code
-based on the message and remove duplicating information (the driver name is
-printed as pert of the dev_*() output [1]) as we touch the same line anyway.
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-Link: https://lore.kernel.org/r/4ac527f2-c59e-70a2-efd4-da52370ea557@dave.eu/ [1]
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-v2: updated format specifier once again (LKP)
+  pip3 install dtschema --upgrade
 
- drivers/leds/leds-pca955x.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index e9cfde9fe4b1..b71c1580f4bb 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -73,7 +73,7 @@ enum pca955x_type {
- };
- 
- struct pca955x_chipdef {
--	int			bits;
-+	u8			bits;
- 	u8			slv_addr;	/* 7-bit slave address mask */
- 	int			slv_addr_shift;	/* Number of bits to ignore */
- 	int			blink_div;	/* PSC divider */
-@@ -581,7 +581,6 @@ static int pca955x_probe(struct i2c_client *client)
- 	struct led_classdev *led;
- 	struct led_init_data init_data;
- 	struct i2c_adapter *adapter;
--	int i, bit, err, nls, reg;
- 	u8 ls1[4];
- 	u8 ls2[4];
- 	struct pca955x_platform_data *pdata;
-@@ -589,6 +588,9 @@ static int pca955x_probe(struct i2c_client *client)
- 	bool keep_psc0 = false;
- 	bool set_default_label = false;
- 	char default_label[8];
-+	int bit, nls, reg;
-+	unsigned int i;
-+	int err;
- 
- 	chip = i2c_get_match_data(client);
- 	if (!chip)
-@@ -610,16 +612,15 @@ static int pca955x_probe(struct i2c_client *client)
- 		return -ENODEV;
- 	}
- 
--	dev_info(&client->dev, "leds-pca955x: Using %s %d-bit LED driver at "
--		 "slave address 0x%02x\n", client->name, chip->bits,
--		 client->addr);
-+	dev_info(&client->dev, "Using %s %u-bit LED driver at slave address 0x%02x\n",
-+		 client->name, chip->bits, client->addr);
- 
- 	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
- 		return -EIO;
- 
- 	if (pdata->num_leds != chip->bits) {
- 		dev_err(&client->dev,
--			"board info claims %d LEDs on a %d-bit chip\n",
-+			"board info claims %d LEDs on a %u-bit chip\n",
- 			pdata->num_leds, chip->bits);
- 		return -ENODEV;
- 	}
-@@ -694,8 +695,7 @@ static int pca955x_probe(struct i2c_client *client)
- 			}
- 
- 			if (set_default_label) {
--				snprintf(default_label, sizeof(default_label),
--					 "%d", i);
-+				snprintf(default_label, sizeof(default_label), "%hhu", i);
- 				init_data.default_label = default_label;
- 			} else {
- 				init_data.default_label = NULL;
--- 
-2.47.2
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/v6.14-1107-g406fad7698f5 (exact match)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/broadcom/' for 20250405183246.198568-1-trannamatk@gmail.com:
+
+arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dtb: /soc/i2s@7e203000: failed to match any schema with compatible: ['brcm,bcm2835-i2s']
+
+
+
+
 
 
