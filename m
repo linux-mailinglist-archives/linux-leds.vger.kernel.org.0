@@ -1,332 +1,179 @@
-Return-Path: <linux-leds+bounces-4455-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4456-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E27A8499A
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Apr 2025 18:27:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3812A84E4C
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Apr 2025 22:39:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6986C4A6EB2
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Apr 2025 16:26:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 112519A609E
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Apr 2025 20:39:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184E01EE02F;
-	Thu, 10 Apr 2025 16:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7040928FFFC;
+	Thu, 10 Apr 2025 20:39:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcI8l2aw"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wJKaM7wE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9AA1EE031;
-	Thu, 10 Apr 2025 16:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0755290086;
+	Thu, 10 Apr 2025 20:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744302345; cv=none; b=YGg4m7HIAo9HvZgqMPx7zrjkkD3LQ5ffB49kvPjnJ5U4q1HSLiUpVM50flg+GkP2mCJlQOtX6OSZ67EU/FnsnAnsMcecgga9k85IxotWynY4zdbsTyWU8rjSq2pvW8eewJnKcrVliCaNKbqAceICLgQkLrjqP1kQI+ei0o+cBro=
+	t=1744317585; cv=none; b=dkCbllSLH/IsC02I23DMGCXludYBWY3mOVjDSMz5X0SL8KinPYsr4ni2x4X+rjOu8kTseWJr5VxpKXeKvABiLpSll4OEGWTIWr5yKwqmCuhv7CaslOs/a6AVwOBUUS2o5S0jXjdPV0AAIY50roX5j65WBgg9a1hHajmipsc6eHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744302345; c=relaxed/simple;
-	bh=x/bO77EEyI3OCt62DbSrYycKBhh5jpMg4E8TC+wQ+a8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bnKiHz/8rR+JvzCCh5i2O9M+FTuwRdyZKbYDarCq5wBPoa5qGHK/LxHKcCOy4k3sPJ+WpnhSX0YkkDI4lIj/0Cs80dN17GalL3zoaxBsAEonHm88XVwkFB3n0FhOH5hcL4mYA5nrJ8claPd1qwKFRQJKY4SZIh+51r+8LOQ2QXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mcI8l2aw; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-224100e9a5cso12064615ad.2;
-        Thu, 10 Apr 2025 09:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744302342; x=1744907142; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DpU2k3vR3N9darrIRQy4VUCi59YBugQwxClUhu0eWlo=;
-        b=mcI8l2awE6sl4FPgnfoa79thHMkCJP8b3Dm50QL4Jf2Gl6ibxWbGw+cMQqXSLSJ7v0
-         H8rxx9BqMj8+VDgE3wLfCjl/8UkRQZQb8KNEzAk+SMSID6Fw/7QE0mj6ybf39SUNd9dr
-         fEZ1RvquzlgattzsdvHbsQ2guZ9YS3UT9BvkFRCXzMWV4P6TYd735u1BgRJxFP63sk5E
-         ktnGv88kDYHBAC+ev6bkAo8DnnxgqvMpmZvpwLyGTVt4Xnwh6vZpqFeP9RisiKvlUkJh
-         IowvlWxgHscd6qnIYjiBl20A1N/BtofWqUaS7dhAPuioVqqSXjLjePd+SE/N4eSS2mGl
-         XlEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744302342; x=1744907142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DpU2k3vR3N9darrIRQy4VUCi59YBugQwxClUhu0eWlo=;
-        b=JeZlRy87c/ywjtsqsolTdSjPVEzYyctSIObkomQlwWMDYOwba9Lv18v+sTuIJJcgX6
-         2UOFI6BCWrQp6IPF9cRiQiXcJvmrBdONcigwgOUZeSvFyMzPcvhSDas+QmUUBICbwI6W
-         XCBEqh6VJ5Wow/xgso1IRQF0JuAOpcCefZqfWEsLs07lcuE5niRE1RGI+dWylBTixNfA
-         yMTlMMI1DrVN6oFFmbD0vLGHQ1i5usp3XHS9GkI19P9dn2NEH4DSXejKVjZ0EU5LPUxa
-         PVTEjjo2aEf8M75ibXO9vWVGGyLwgrHzE/5pfISFDm1UOb52PZUXALKrj2TNDgMB0kc6
-         rkOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU34s1h2g4/KaPQ9U9on3Hp4GskDrqzAeL2IxN/v7ywWQqJ38EidNyRzYypjU1CyGa1OWEH0cc9VGsiyQ==@vger.kernel.org, AJvYcCUc2VHsbqUDEceZfj0c8yCDnCUQAkJx/2ACA8B5lpPrPSr+m4JKZ1lUFkMHQxw4Frtm/k9mehxdicLewnIH@vger.kernel.org, AJvYcCVCX4e1YIpOug8wkfksrUn7onMzrt+idtwaB3gjC194+WJQQXuYnr+GXIr8BDZ+0DCklebyCDixmaZ/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxm/7kEBDZROHnEmhEUnX0nf5J0/vhx4sShR6eiraQt8Jmwlsxe
-	7umTGnbO64Zv04tlBbUn3darDZu4icYAVdmV2wdZrdOETGRELcA3
-X-Gm-Gg: ASbGncv4/eMKObCW55bL215h83gZnovjJ36jIbu6B5lyAEHIVFdXbbWh2dzX622YI2I
-	6ruR+NH2bjM+hQAILCsgi213LMOPBxE9XWr2n0nanlIa95mnkFs3SfsJgZdZ1lH38GcjOmHh+A7
-	pAq083F63mK/2HuTuS50Ai42sXhKjTJVygKbApzg5VXAZvBwXxgZ/U7Y7H+/qhc4gE3+IU4RNTt
-	kiCFCaBD7V/sVUYrOVvR3s2PzmjYkyql+0cuICNen/LVlsNtnK6osoS7uxiYYKVr6mBUhIEJrOT
-	hSm4Zi4EnQuhK2tTcgIBKVtsi+h9sBQ39gt0W9I2q+uSNIiVYm8soZBxP0iMlfFi
-X-Google-Smtp-Source: AGHT+IF9Guim8/3coeLyjnCmE0Ple3bGkG9MUpXvj2ZI58J0waQlGLnDCVLUK79LBO5EQaK4P+eDYA==
-X-Received: by 2002:a17:903:186:b0:21f:988d:5758 with SMTP id d9443c01a7336-22be03902c8mr44157485ad.35.1744302342281;
-        Thu, 10 Apr 2025 09:25:42 -0700 (PDT)
-Received: from localhost.localdomain ([123.16.133.44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7ccbf62sm32617685ad.244.2025.04.10.09.25.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 09:25:41 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: krzk+dt@kernel.org
-Cc: pavel@kernel.org,
-	lee@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	devicetree@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/5] docs: ABI: Document LP5812 LED sysfs interfaces
-Date: Thu, 10 Apr 2025 23:25:17 +0700
-Message-Id: <20250410162517.10074-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <707dc912-12d2-4b50-b934-0c1d1f5efe6b@kernel.org>
-References: <707dc912-12d2-4b50-b934-0c1d1f5efe6b@kernel.org>
+	s=arc-20240116; t=1744317585; c=relaxed/simple;
+	bh=2PzKMo4/Mmm0djd3Z1rt2RMSVKmRTqQOhJRhq6bOAOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J3qbUaKd5AOTCITfBlQLFQ01zHwl13Vjpk5SIcm78MMIBOxZonWeYQXhqEgd1iEOi8RDjbD8augHb9QWl9/4q6I553GJG59FKR4WqOgNxzhQcyturJjPp/SozYX0zBM8wEUC/1NsdzWfdZMRoppTbeFB+ueQ8jqGHt/9RzmcSno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=wJKaM7wE; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=nyVxhwk8khAAGT0GsMYgITxfdJKZP7FZgRCWrgQbIxg=; b=wJKaM7wEEO2RhHUXQTFtTrw1Z4
+	fvhxB6xDBGOVeQNxhrl0wD5/QviPBwfYjjK5yda1N/+VWtnj5FnSjjhWsjnc/1d4OaLNbSpfPZ0BB
+	ksABJzU2xppKIcGva4J3iaYiV4nUrinAhIcusycNrqku0UG2gXVDEJKDtB9MR0Rp+yMQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u2ygU-008j9H-D1; Thu, 10 Apr 2025 22:39:38 +0200
+Date: Thu, 10 Apr 2025 22:39:38 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Lee Jones <lee@kernel.org>
+Cc: Tobias Junghans <tobias.junghans@inhub.de>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2] leds: trigger: netdev: Match net in
+ netdev_trig_notify()
+Message-ID: <45822bb5-a408-42c1-85b7-e179789d586a@lunn.ch>
+References: <20250404151042.GC372032@google.com>
+ <20250407090455.677846-1-tobias.junghans@inhub.de>
+ <20250410101759.GT372032@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250410101759.GT372032@google.com>
 
-On Sun, 6 Apr 2025, Krzysztof Kozlowski wrote:
+On Thu, Apr 10, 2025 at 11:17:59AM +0100, Lee Jones wrote:
+> Andrew et al., please could you verify for sanity?
 
-> On 05/04/2025 20:32, Nam Tran wrote:
-> > The LP5812 is a 4 × 3 matrix RGB LED driver
-> > with autonomous animation engine control.
+Sorry, i did not see this before.
+
+Maybe we need a new MAINTAINER entry for
+drivers/leds/triggers/ledtrig-timer.c which points to the netdev list?
+
+Humm:
+
+./scripts/get_maintainer.pl drivers/leds/trigger/ledtrig-netdev.c 
+Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM,commit_signer:4/4=100%)
+Pavel Machek <pavel@kernel.org> (maintainer:LED SUBSYSTEM)
+Andrew Lunn <andrew@lunn.ch> (commit_signer:2/4=50%)
+Marek Vasut <marex@denx.de> (commit_signer:2/4=50%,authored:2/4=50%,added_lines:15/36=42%,removed_lines:3/8=38%)
+Heiner Kallweit <hkallweit1@gmail.com> (commit_signer:1/4=25%,authored:1/4=25%,removed_lines:2/8=25%)
+Lukasz Majewski <lukma@denx.de> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:21/36=58%,removed_lines:3/8=38%)
+linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+linux-kernel@vger.kernel.org (open list)
+
+
+So i should of been Cc:ed.
+
+Network names spaces and files in /sysfs probably need netdev
+involved, in order to get a good review.
+
+> 
+> On Mon, 07 Apr 2025, Tobias Junghans wrote:
+> 
+> > Different network devices may have the same device name if they are in
+> > different network namespaces. This confuses ledtrig-netdev and leads to
+> > undesired effects in certain situations.
 > > 
-> > The driver provides interfaces to configure
-> > LED modes manual/autonomous, set PWM/DC values,
-> > and manage autonomous animation engines.
-> > 
-> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > When setting device_name to eth0, the trigger is attached to the
+> > corresponding (physical) network device. Later a Docker container is
+> > started. Docker now creates a virtual Ethernet interface (vethXXXX),
+> > moves it to the container's net namespace and renames it to "eth0".
+> > Subsequently ledtrig-netdev receives a NETDEV_CHANGENAME notification,
+> > recognizes "eth0" as device and and switches its activity over to this
+> > device. As a result the LED no longer blinks for the original (physical)
+> > network device.
+
+O.K. That make sense. So far, this has most been used in the embedded
+world, which does not normally have containers etc.
+
+> > The described erroneous behavior can be fixed by tracking and comparing
+> > the network namespaces of network devices.
+
+I think we need to go through the use cases, because i'm not sure the
+netns is always obvious. When device_name_store() is called, what
+netns is being referenced? Only some parts of /sysfs are netns aware.
+
+I partially agree with tracking the network name space of
+device. However, a struct net_device is unique. An LED trigger bound
+to that netdev should follow that netdev as it moves between name
+spaces. The trigger itself has no real concept of a name space, it is
+the netdev which is in the name space. So where ever possible,
+comparisons should be made based on struct netdev.
+
+In order to make this easier to understand, it might be necessary to
+break up netdev_trig_notify(). UNREGISTER, UP and CHANGE should match
+based on netdev, and the name should not matter.
+
+REGISTER is used to associate a netdev to a trigger, when all we know
+is the name of the netdev, but don't yet have a pointer to it. Here i
+agree we need to somehow know the netns:name tuple in order for the
+match to work.
+
+CHANGENAME falls into both camps. It could be a netdev associated to a
+trigger which is changing name, so we need to follow that name
+change. Or it could be a trigger which is not yet associated to a
+netdev, and the new name of the netdev now matches the trigger, and so
+the netdev needs to be associated to the trigger.
+
+So i think in order to get a good understanding of what is going on,
+it might be necessary to break this patch up, and have good commit
+messages explaining what use cases each patch is addressing.
+
+> > Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
 > > ---
-> >  .../ABI/testing/sysfs-bus-i2c-devices-lp5812  | 150 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 151 insertions(+)
-> >  create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+> >  drivers/leds/trigger/ledtrig-netdev.c | 14 +++++++++++---
+> >  1 file changed, 11 insertions(+), 3 deletions(-)
 > > 
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812 b/Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
-> > new file mode 100644
-> > index 000000000000..e745f0f936c5
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
-> > @@ -0,0 +1,150 @@
-> > +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/device_enable
-> 
-> I do not see reason for such ABI. If you want to disable, just unbind it.
+> > diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> > index 4b0863db901a..72bcb86cdcdb 100644
+> > --- a/drivers/leds/trigger/ledtrig-netdev.c
+> > +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> > @@ -62,6 +62,7 @@ struct led_netdev_data {
+> >  
+> >  	struct led_classdev *led_cdev;
+> >  	struct net_device *net_dev;
+> > +	struct net *net;
+> >  
+> >  	char device_name[IFNAMSIZ];
+> >  	atomic_t interval;
+> > @@ -274,6 +275,7 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+> >  	if (trigger_data->net_dev) {
+> >  		dev_put(trigger_data->net_dev);
+> >  		trigger_data->net_dev = NULL;
+> > +		trigger_data->net = NULL;
+> >  	}
+> >  
+> >  	memcpy(trigger_data->device_name, name, size);
+> > @@ -284,6 +286,8 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+> >  	if (trigger_data->device_name[0] != 0)
+> >  		trigger_data->net_dev =
+> >  		    dev_get_by_name(&init_net, trigger_data->device_name);
 
-I think the name is confusing, it is Chip_EN register. It is used to "enable the internal circuits".
-The hardware supports low power consumption.
-When we write 0 to the bit, it will save all configurations and go to save power mode.
-When we write 1, it will restore. Therefore, I support the end user in controlling this register.
+Given we are talking about network name spaces, is the usage of
+init_net correct here?
 
-> > +Date:		April 2025
-> 
-> Not possible...
-
-Sorry, I understand now. Should I use the current date or the date when the patch is accepted?
-
-> > +KernelVersion:	6.14
-> 
-> You cannot go to the past. 6.14 was released. This will be v6.16 or later.
-
-It is my mistake. I will update the KernelVersion to v6.16 or later accordingly.
-
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Enables or disables the LP5812 device. (RW)
-> > +        0 - Disable
-> > +        1 - Enable
-> > +
-> > +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/dev_config
-> 
-> Looks like wrong path here and everywhere else. I think other name it as
-> led driver, e.g.
-> Documentation/ABI/testing/sysfs-class-led-driver-lm3533
-
-The LP5812 driver is basically an I2C driver.
-It doesn't work as current common or multi-LEDs supported by the Kernel framework.
-However, the LP5812 driver still supports LED functions.
-
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Configures drive mode and scan order. (RW)
-> > +        Some valid values: tcmscan:4:0:1:2:3 (default), tcmscan:3:0:1:2, mixscan:2:2:0:3, mixscan:3:0:1:2:3
-> > +
-> > +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/device_command
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Issues device-level commands. (WO)
-> > +        Valid values: "update", "start", "stop", "pause", "continue"
-> > +
-> > +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/device_reset
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Triggers a software reset of the device. (WO)
-> > +        1 - resets device
-> > +        0 - does not reset device
-> 
-> I do not see kernel exposing it for other devices, drop.
-
-This is sw_reset register of hardware. It is used to request the hardware reset.
-I think I will change the name to "sw_reset" to make it clearly.
-
-> > +
-> > +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/fault_clear
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Clears fault status. (WO)
-> > +        1 - clears fault status
-> > +        0 - does not clear fault status
-> > +
-> > +What:		/sys/bus/i2c/devices/.../lp5812_chip_setup/tsd_config_status
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Report the current thermal shutdown config status. (RO)
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/enable
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Enables or disables the specified LED channel. (RW)
-> > +        1 - Enable
-> > +        0 - Disable
-> 
-> No, you already have standard ABI for this. I also already told you that
-> you cannot duplicate existing kernel interface.
-
-According to function of led and register, I will change it to "activate" interface.
-
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/mode
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Selects LED operation mode. (RW)
-> > +        Valid values: "manual", "autonomous"
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/manual_dc
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        DC current level in manual mode. (RW)
-> > +        Valid values: 0 - 255
-> 
-> NAK, duplicating existing brightness.
-
-There are some brighness mode in this hardware. manual_dc is a interface to to control dc current in manual mode.
-
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/manual_pwm
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        PWM duty cycle in manual mode. (RW)
-> > +        Valid values: 0 - 255
-> > +> +What:		/sys/bus/i2c/devices/.../led_<id>/autonomous_dc
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        DC current level used in autonomous mode. (RW)
-> > +        Valid values: 0 - 255
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/autonomous_dc
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        DC current level used in autonomous mode. (RW)
-> > +        Valid values: 0 - 255
-> 
-> Also duplicating brigthness.
-
-It is not brightness only. It is another registers.
-It is used for autonomous_dc that mean the led will blink with several brighness levels automotically.
-
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/pwm_dimming_scale
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        PWM dimming scale type. (RW)
-> > +        Valid values: "linear", "exponential"
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/pwm_phase_align
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Configures PWM phase alignment. (RW)
-> > +        Valid values: "forward", "middle", "backward"
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/autonomous_animation
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Controls AEU configuration and playback. (RW)
-> > +        Format: (aeu number):(start pause time):(stop pause time):(playback time)
-> > +        with aeu number 1, 2, 3; playback time 0 - 15
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/aep_status
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Shows current animation pattern status, value from 0 to 7. (RO)
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/auto_pwm_val
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        Shows the pwm value in autonomous mode when pause the animation, value from 0 to 255. (RO)
-> > +
-> > +What:		/sys/bus/i2c/devices/.../led_<id>/lod_lsd
-> > +Date:		April 2025
-> > +KernelVersion:	6.14
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +        0 0 mean no lod and lsd fault detected, 1 1 mean lod and lsd fault detected (RO)
-> > +
-> > +
-> > +
-> > +
-> > +
-> > +
-> 
-> Why so many blank lines? Drop
-
-It's my mistake. I will remove the blank lines.
-
-Thanks for your detailed review.
-Appreciate your time and feedback!
-
-Best regards,
-Nam Tran
+	Andrew
 
