@@ -1,109 +1,87 @@
-Return-Path: <linux-leds+bounces-4457-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4458-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B863A855B4
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 09:44:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 707B9A85733
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 11:01:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1C8C7B0D5E
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 07:43:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D44D1BA371C
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 09:02:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4123028EA65;
-	Fri, 11 Apr 2025 07:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BE5298983;
+	Fri, 11 Apr 2025 09:01:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e9bFFkBq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rBwIZNop"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DE928EA47;
-	Fri, 11 Apr 2025 07:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5522980DF;
+	Fri, 11 Apr 2025 09:01:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744357466; cv=none; b=WKn63zV0ldBynLGHH3JWOaCmIJOMVHMC+OEBHXY4/87AIoeYIoJtX11IkBzMwtiKTb1uCI7pxt18tEyvLzxXRmdcj9r5o7IK40FNFN1+4ff9vIQntLCTAf71eS70gXFwq2GU0DOWzWGC5vhhjn7Jnyyi593URWfrFy0/r7jj7tc=
+	t=1744362101; cv=none; b=ob9K4GK2/0O2wT9LFNS+rAU4Jmal+CEUAnQlqp3A4ybBVVkVmLaxB2DWV4jEd1FbhOKYIS8oEpPSWUv1ub8w1V2US4WZTgHZa/foBf2GryyghB14oZ7icUo3tngezn5OLZ2O/hO7VaGPu4+XDmkyL82A3s2PMPMT0H0eIGjb7Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744357466; c=relaxed/simple;
-	bh=eeGi5FHrussqjXJDXvSlD61fZk1xGJB5mzvOHjRnd0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q3j+ZHP9sayC+4cMNS+IdoTYjKSz9fV7DmxjVyswcY7da48k9IYu5u76Zrxopk0wesy/VVp61G8TCqdyiafCXZy9f7M0fDp3rxWPZ68yotVAsdM/+tXrhmfosHMq3iBIj4SMOcE8+FDxbQGaaGIIBNz75FejgZN3Xibpunaps7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e9bFFkBq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520B5C4CEE7;
-	Fri, 11 Apr 2025 07:44:24 +0000 (UTC)
+	s=arc-20240116; t=1744362101; c=relaxed/simple;
+	bh=C8WRrehvFxOy56Znw0l8VZJoxOKVE0NyfCg5AVvsocg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nRI6grfsKaYvQB249Nqrlogzlfge8EhA+ddMyo9nKWzq8nvxeoWS0iDkfDxoVHHP7LyXqc7dCy59UuePG/GN2Y3Bz4WKSLt2g3WSOyrvrwhbiBHvvs7D76duW7mmPTd87Y9Yr5W5Xcn5o4qri8X5fp5MxMmhwtqaPtpM1Q7BjQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rBwIZNop; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A24FC4CEE2;
+	Fri, 11 Apr 2025 09:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744357465;
-	bh=eeGi5FHrussqjXJDXvSlD61fZk1xGJB5mzvOHjRnd0Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e9bFFkBqJ6G9Djt6wkd41LeYJK6ZmoePib13Ifx+fwUBJYyNENvG/A+mJ4tUNafyl
-	 XEejg10l76J+Ct12dBBEnXXnVofkQ/R1pe33YTQOs22oPBRip1dXj1Z19xlDEdd7U1
-	 9dnMxGT3BQaFjZ/gh37HEWfqzIEowbfGZlpgLt2yxhEtimBk7kJJVY6bBe9/hRzZEw
-	 JhTeA6W4z1H79UmgkcY5kRpDRNSpIlF7gxVIgHYy/A4GX6JJrTLlctGLeziUUXUBpB
-	 x8IYK0UPGgsT3Luqaq7G3E12jWNaR/UliciLEmkJulOoSKMsJEFfqv//0H09dsaum6
-	 nhjGlvu0sHl8Q==
-Date: Fri, 11 Apr 2025 08:44:21 +0100
+	s=k20201202; t=1744362100;
+	bh=C8WRrehvFxOy56Znw0l8VZJoxOKVE0NyfCg5AVvsocg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rBwIZNopcMhGjgjpHTP8g8YGFD+PPKXklhfrp9goyeTwB2B3BYk6m+CZeBWFvkdMV
+	 VZXxC4OzOnymFqhOMykau39d6j2y4fM14Lm7Zf224CC/kaTmeXjlZQt35xMJ1/4w0H
+	 zd6LQ9z7y1KYX8arUxcWyRB/RL7HPlWfwPytnBcjlrPkGMLx+Y01flJmXvAnAPt7Ww
+	 W19LZnxCmOp3IA578Xk69h0OYTnfAMJ1H0jSlt55Rt1nB8Pp/jFzBP8UG/M76dG9Fv
+	 9yK9u9i7rvX3XDkVit4S2y70AvNVxnjr0Rv1npccGGPaUo2WaAJdSOj6cQZFMJbWPq
+	 2LhJBIfYMb17A==
 From: Lee Jones <lee@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Tobias Junghans <tobias.junghans@inhub.de>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-leds@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2] leds: trigger: netdev: Match net in
- netdev_trig_notify()
-Message-ID: <20250411074421.GV372032@google.com>
-References: <20250404151042.GC372032@google.com>
- <20250407090455.677846-1-tobias.junghans@inhub.de>
- <20250410101759.GT372032@google.com>
- <45822bb5-a408-42c1-85b7-e179789d586a@lunn.ch>
+To: Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Andrew Davis <afd@ti.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250407183555.409687-1-afd@ti.com>
+References: <20250407183555.409687-1-afd@ti.com>
+Subject: Re: [PATCH 1/6] leds: lp8860: Use regmap_multi_reg_write for
+ EEPROM writes
+Message-Id: <174436209877.2243005.12744981743232234297.b4-ty@kernel.org>
+Date: Fri, 11 Apr 2025 10:01:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <45822bb5-a408-42c1-85b7-e179789d586a@lunn.ch>
+X-Mailer: b4 0.15-dev-510f9
 
-On Thu, 10 Apr 2025, Andrew Lunn wrote:
-
-> On Thu, Apr 10, 2025 at 11:17:59AM +0100, Lee Jones wrote:
-> > Andrew et al., please could you verify for sanity?
+On Mon, 07 Apr 2025 13:35:50 -0500, Andrew Davis wrote:
+> This helper does the same thing as manual looping, use it instead.
 > 
-> Sorry, i did not see this before.
 > 
-> Maybe we need a new MAINTAINER entry for
-> drivers/leds/triggers/ledtrig-timer.c which points to the netdev list?
 
-I assume you mean:
+Applied, thanks!
 
-  drivers/leds/trigger/ledtrig-netdev.c
+[1/6] leds: lp8860: Use regmap_multi_reg_write for EEPROM writes
+      commit: 868242c7dca3b5625e08b9e682ed56aa63e74e29
+[2/6] leds: lp8860: Use new mutex guards to cleanup function exits
+      commit: c20b0f27b352e9d26b12f16e7214f397e7ef1cd1
+[3/6] leds: lp8860: Remove default regs when not caching
+      commit: f4a9dd5a9a67d813b89ca4ccfdd61f7a3aaf5afa
+[4/6] leds: lp8860: Enable regulator using enable_optional helper
+      commit: fa604baf13ced084636afbfa8d93f030ad8b593c
+[5/6] leds: lp8860: Only unlock in lp8860_unlock_eeprom()
+      commit: 16df093d79e43babdb8a35f66291f382402a414b
+[6/6] leds: lp8860: Disable GPIO with devm action
+      commit: e9bde6230972ad76fc91279850edd8dbc6f1cb4d
 
-In which case, sure, I'm all for that.
-
-Add it to your MAINTAINERS entry and I will Ack it.
-
-> Humm:
-> 
-> ./scripts/get_maintainer.pl drivers/leds/trigger/ledtrig-netdev.c 
-> Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM,commit_signer:4/4=100%)
-> Pavel Machek <pavel@kernel.org> (maintainer:LED SUBSYSTEM)
-> Andrew Lunn <andrew@lunn.ch> (commit_signer:2/4=50%)
-> Marek Vasut <marex@denx.de> (commit_signer:2/4=50%,authored:2/4=50%,added_lines:15/36=42%,removed_lines:3/8=38%)
-> Heiner Kallweit <hkallweit1@gmail.com> (commit_signer:1/4=25%,authored:1/4=25%,removed_lines:2/8=25%)
-> Lukasz Majewski <lukma@denx.de> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:21/36=58%,removed_lines:3/8=38%)
-> linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
-> linux-kernel@vger.kernel.org (open list)
-> 
-> So i should of been Cc:ed.
-
-To be fair to the contributor, I don't always add commit signers either.
-
-> Network names spaces and files in /sysfs probably need netdev
-> involved, in order to get a good review.
-
-Definitely.
-
--- 
+--
 Lee Jones [李琼斯]
+
 
