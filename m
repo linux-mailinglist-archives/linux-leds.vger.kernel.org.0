@@ -1,130 +1,104 @@
-Return-Path: <linux-leds+bounces-4461-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4462-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17790A85CC3
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 14:17:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EDAA8635C
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 18:34:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 220AE9A1D98
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 12:14:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5E101BA7449
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Apr 2025 16:35:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB7A5208A9;
-	Fri, 11 Apr 2025 12:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC98921D5AE;
+	Fri, 11 Apr 2025 16:34:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfBY2Rkr"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LPuy27Sd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09F5298CD0
-	for <linux-leds@vger.kernel.org>; Fri, 11 Apr 2025 12:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C57E2367D9;
+	Fri, 11 Apr 2025 16:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744373530; cv=none; b=Jm52SG+q2Jv0vYqBUYfjAeuhpku/StmS9Cne0y9zI7BbpWnAzlI1kmx9WKpC0f58eB9U7cKhS78Zc4dn+Q1n8TphZLzs6XanGIUO/HYijdOq+umjlVRbbRUqiLI6qbwzuWrsemMnCgaKPey+C7CQYgvnem6pfTm7+6gi1NQdhDE=
+	t=1744389278; cv=none; b=WWwhtsSTwteNDKiT4fmKW9xW+qO/DHuAmAQgyIe8MdUY0K4EQr7LxtPXvub3aMm6ug1QOtTml0Mr8H+G6N2LW1ni3Z+EVqWcq83XxGnU74I7wLrn8ZX8B0no/fkRe2C0a1/6DasYfCLX+tse9WNe+dgZ0r97C4o7QHoU95xLJ7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744373530; c=relaxed/simple;
-	bh=TDJhpY7Hej3tcVAalIVnCRg8/TAzGWJ4eomNFY+33LU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oRBBuuWNQe2Oa9pmztAtW+KAVBUe/2uaqKYExzgJIXusT1AvpCgnEx+5HxWqgqfXrSBNJLs3dm8fbSMyZthp93kUP+/ZxNBL0tyI+mno958HkciOBlC8OiELb2VCZN+/rctx5lV+LdReNXt4UZr2W/PyWNIQqR6iOjLPK8PZ/3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfBY2Rkr; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744373529; x=1775909529;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TDJhpY7Hej3tcVAalIVnCRg8/TAzGWJ4eomNFY+33LU=;
-  b=NfBY2RkrkFc8/SRvkPo4gkOm07RVrBY0PgMQTXfjs3JHDXIQdnKseV1+
-   gPBXSK07u0C20YskQLnh8gwe75w7tcCySIHmrTOOskj6unwnM60Pqlw1c
-   bvq0zut9y6J86I0U55fFsPivvZzY3vrVMBZMCRFScZ+WyEAXDEE8dELoV
-   ZszkjW13ZkJOMuPfChH0HBKmnrKubr4OJRldKp+2rZLq+5HqKMErpP+kw
-   0RKodFIQDdvv43mIRsLFiAhRQrfThKwJX9fnMFn09AtJNUCiI76n0d2gA
-   PJqN0Ywh/cJUs1Mju1j0rv4F7eTOrh2rkIiTO2ihWOCH+0CCmq3PIpoNA
-   w==;
-X-CSE-ConnectionGUID: nMoVJGtnRyqO9O4qeck5Qw==
-X-CSE-MsgGUID: q0HILJdDS7iL3moG+EdYTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="71309681"
-X-IronPort-AV: E=Sophos;i="6.15,205,1739865600"; 
-   d="scan'208";a="71309681"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 05:12:07 -0700
-X-CSE-ConnectionGUID: G1M2IF1OROqmZckF7IRfPQ==
-X-CSE-MsgGUID: kqut3c30RXuS8Sc8Jtsrcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,205,1739865600"; 
-   d="scan'208";a="128951131"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Apr 2025 05:12:06 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u3DEp-000B4g-1N;
-	Fri, 11 Apr 2025 12:12:03 +0000
-Date: Fri, 11 Apr 2025 20:11:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>
-Subject: [lee-leds:for-leds-next 12/12] drivers/leds/leds-lp8860.c:102:
- warning: Excess struct member 'enable_gpio' description in 'lp8860_led'
-Message-ID: <202504112024.AFtTNUuX-lkp@intel.com>
+	s=arc-20240116; t=1744389278; c=relaxed/simple;
+	bh=bOd1S6WkB3HWgKwH+/dZwxloPfCnqa0DEn4j+PlR4es=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MUmzzSV6lGEzY3amFJvrlvWW6BOF2Xrdc6showvQuxlSa5fYUGgpFXT+v6IePn+xcc76jzufQymPFuAIqpfh7QwTeuWoH2ik2guHmhZJIh4X1cKNlfxXWMxmSyjtml/Ys9O+SVIpth4PhvhP8WobqyN/kXX/VO/lu+Qfp+dV8DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=LPuy27Sd; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53BGYUaR2131385
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 11 Apr 2025 11:34:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1744389270;
+	bh=gueCorUWNnifGsIBAt1Z9xNc0USB9Zc2kP2+96PYWPg=;
+	h=From:To:CC:Subject:Date;
+	b=LPuy27SdMlWwA9HAnyTnokUxGJgnA9GQii2t8rx3N1kHeVtWNaGwUNaJFn1NWcRck
+	 OIw7f26s5M90Ykcvv/UTagjzBCvgKkn6piojrhUCTaZSRrLhHmtvqcrUrxB34z0bDR
+	 gvo3BTz7VWh4cXituCdYumtiQTj56yXrKL7VzDEg=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53BGYUMI012553
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 11 Apr 2025 11:34:30 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 11
+ Apr 2025 11:34:29 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 11 Apr 2025 11:34:29 -0500
+Received: from lelvsmtp6.itg.ti.com ([10.250.35.60])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53BGYTYP063143;
+	Fri, 11 Apr 2025 11:34:29 -0500
+From: Andrew Davis <afd@ti.com>
+To: Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>
+CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Andrew Davis
+	<afd@ti.com>
+Subject: [PATCH] leds: lp8860: Remove struct member regulator description
+Date: Fri, 11 Apr 2025 11:34:28 -0500
+Message-ID: <20250411163428.897582-1-afd@ti.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   e9bde6230972ad76fc91279850edd8dbc6f1cb4d
-commit: e9bde6230972ad76fc91279850edd8dbc6f1cb4d [12/12] leds: lp8860: Disable GPIO with devm action
-config: arm-randconfig-002-20250411 (https://download.01.org/0day-ci/archive/20250411/202504112024.AFtTNUuX-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504112024.AFtTNUuX-lkp@intel.com/reproduce)
+The device local struct regulator was removed, remove the documentation
+description for the same.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504112024.AFtTNUuX-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504111959.7WtsLney-lkp@intel.com/
+Fixes: fa604baf13ce ("leds: lp8860: Enable regulator using enable_optional helper")
+Signed-off-by: Andrew Davis <afd@ti.com>
+---
+ drivers/leds/leds-lp8860.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/leds/leds-lp8860.c:102: warning: Excess struct member 'enable_gpio' description in 'lp8860_led'
-   drivers/leds/leds-lp8860.c:102: warning: Excess struct member 'regulator' description in 'lp8860_led'
-
-
-vim +102 drivers/leds/leds-lp8860.c
-
-99ca0ea5730971 Jacek Anaszewski 2019-06-09   85  
-7a8685accb9580 Dan Murphy       2014-11-19   86  /**
-46cc5941a091bd Lee Jones        2021-05-28   87   * struct lp8860_led
-46cc5941a091bd Lee Jones        2021-05-28   88   * @lock: Lock for reading/writing the device
-46cc5941a091bd Lee Jones        2021-05-28   89   * @client: Pointer to the I2C client
-46cc5941a091bd Lee Jones        2021-05-28   90   * @led_dev: led class device pointer
-46cc5941a091bd Lee Jones        2021-05-28   91   * @regmap: Devices register map
-46cc5941a091bd Lee Jones        2021-05-28   92   * @eeprom_regmap: EEPROM register map
-46cc5941a091bd Lee Jones        2021-05-28   93   * @enable_gpio: VDDIO/EN gpio to enable communication interface
-46cc5941a091bd Lee Jones        2021-05-28   94   * @regulator: LED supply regulator pointer
-8a7a76c8004387 Dan Murphy       2017-11-15   95   */
-7a8685accb9580 Dan Murphy       2014-11-19   96  struct lp8860_led {
-7a8685accb9580 Dan Murphy       2014-11-19   97  	struct mutex lock;
-7a8685accb9580 Dan Murphy       2014-11-19   98  	struct i2c_client *client;
-7a8685accb9580 Dan Murphy       2014-11-19   99  	struct led_classdev led_dev;
-7a8685accb9580 Dan Murphy       2014-11-19  100  	struct regmap *regmap;
-7a8685accb9580 Dan Murphy       2014-11-19  101  	struct regmap *eeprom_regmap;
-7a8685accb9580 Dan Murphy       2014-11-19 @102  };
-7a8685accb9580 Dan Murphy       2014-11-19  103  
-
-:::::: The code at line 102 was first introduced by commit
-:::::: 7a8685accb95801bb29ab85d5b370999d3fb8e32 leds: lp8860: Introduce TI lp8860 4 channel LED driver
-
-:::::: TO: Dan Murphy <dmurphy@ti.com>
-:::::: CC: Bryan Wu <cooloney@gmail.com>
-
+diff --git a/drivers/leds/leds-lp8860.c b/drivers/leds/leds-lp8860.c
+index 7a9eb9a247ae7..86db81675e7dc 100644
+--- a/drivers/leds/leds-lp8860.c
++++ b/drivers/leds/leds-lp8860.c
+@@ -91,7 +91,6 @@
+  * @regmap: Devices register map
+  * @eeprom_regmap: EEPROM register map
+  * @enable_gpio: VDDIO/EN gpio to enable communication interface
+- * @regulator: LED supply regulator pointer
+  */
+ struct lp8860_led {
+ 	struct mutex lock;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
 
