@@ -1,548 +1,138 @@
-Return-Path: <linux-leds+bounces-4467-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4471-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1DDA8846D
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Apr 2025 16:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2A5A88640
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Apr 2025 17:04:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAF3E1746A5
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Apr 2025 14:12:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 791A017394E
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Apr 2025 14:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 576CC28B4F2;
-	Mon, 14 Apr 2025 13:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78706279795;
+	Mon, 14 Apr 2025 14:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helmholz.de header.i=@helmholz.de header.b="d0TkDnFA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feS+ofW/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from www253.your-server.de (www253.your-server.de [188.40.28.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A76B2472B7;
-	Mon, 14 Apr 2025 13:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.28.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AD660DCF;
+	Mon, 14 Apr 2025 14:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744638389; cv=none; b=ixESazQ5yMgXtOoS19Xf/An5DoyJghWoc8hg9oVytk5izdO5soCfXzrZSi6ZkLK7WLxBXEla4M5bHDUsHNMtPlcJw29DJxLPPT4+YtyEYO5v6Znmhr8ld4i3Apd4XpsnJGxP2Hq/e+VyvKpJUPQ/2uL8zLbazv2Q76XISoLHewU=
+	t=1744642692; cv=none; b=VZwGotLoP2kO2zLxJqSrhSasecPpzBScpsd7HY2/KvK8naGLYxQ21V4fiHqw8B3jENw7f7MFprDqFP4jLEIV/T4PhA2LGx3v/N86a2JbIKnwTZdILqZ4vK/LfxTiqgTa6MZsCj/lAlK75IxuBzRCeO+yvCF3cIfflpYYpPUwTRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744638389; c=relaxed/simple;
-	bh=xmsOnDOjo3Gh0c8VjCn6ItGeDlnjjCWP+KrNE+An+XU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 In-Reply-To:References; b=p3b2N3rS9ss4raaOD3lnMAScCo+jbWYomIdFqA9dDlLobbCzreFXOwVugH3D24SrwvXgwgSxY+xhDoCSTAp6p9XJIgy9saq2guw3C8xoQ13ZLQEWN4DfCL5PKPec71wd7DTUC1uuDs4Z+3/W/YZjvOR1YJlHTpe/WkFF0sBy/vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=helmholz.de; spf=fail smtp.mailfrom=helmholz.de; dkim=pass (2048-bit key) header.d=helmholz.de header.i=@helmholz.de header.b=d0TkDnFA; arc=none smtp.client-ip=188.40.28.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=helmholz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=helmholz.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=helmholz.de
-	; s=default2501; h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=BHZt5LYaNN8WM8VT/BDNr4lbPIgy0/I77v+TYnQnxow=; b=d0TkDnFAaY4lQ+DVtf2MbRPeXm
-	oHEYwJkcJ3eGfMxOn88OKkV9ubIquhun9Iw4JHdmyX8hR5IagNh5Q7AB/kA69LtMFOTdKKSqHbN96
-	nK9ax4EOXTZ/5y36IiaJTwzy25YjX1SC/ZJVZLOeLb1BCGhFpUiF60lzmtXMZCD0bHLCVMgIvR7Nh
-	y+3SJdtyC4Pb92COPBYoCy8AU3wiih0fpEZYRhSlaOjoyZOoBb2ufWURVXRKj0d5/OvqUFzDSCeUf
-	QfSU4ECxnc3u6qkiKARFAko9FE2eTEftZDYYD8KMKD/XrU4RA50bmcD631TxttDHEUaDHxI9GGdz0
-	JKxcuLFQ==;
-Received: from sslproxy08.your-server.de ([78.47.166.52])
-	by www253.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <ante.knezic@helmholz.de>)
-	id 1u4JsV-0008nn-07;
-	Mon, 14 Apr 2025 15:29:35 +0200
-Received: from [217.6.86.34] (helo=linuxdev.helmholz.local)
-	by sslproxy08.your-server.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
-	(Exim 4.96)
-	(envelope-from <ante.knezic@helmholz.de>)
-	id 1u4JsU-000Eer-1p;
-	Mon, 14 Apr 2025 15:29:34 +0200
-From: Ante Knezic <ante.knezic@helmholz.de>
-To: linux-leds@vger.kernel.org
-Cc: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
+	s=arc-20240116; t=1744642692; c=relaxed/simple;
+	bh=1XMVM/k9n06TLsEdZyzAP6OwsHeopzBPsGQnSjzIFRo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=VXBgV90Jhm4rXKFUXZetjyIX8UmQKdX2dFe19iGo3N9xhMvv4S040E69eh3faCfkOFJzRZQRY86+IASLkz8a2ojRn1tuZeKDjzBZ6zBlOB+9IsHaXWY7cRyVmxaLSd5R1Uc11WJ09RJcLm4QsdNAlanHYUEhvm815vvu2dvIBB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=feS+ofW/; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7376dd56f8fso5387377b3a.2;
+        Mon, 14 Apr 2025 07:58:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744642690; x=1745247490; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7BREEgtK98b0xyilJAZ33FfSZORAv8N7MvFY8lDiD8g=;
+        b=feS+ofW/QeEoa3gIN8t5zQ6AGFFj+2YEAonAapROKjwVaw5ZGQk3EI+FwqXS83E+Aj
+         Ysf7AxWaT3zhE8fOwzjT6+uFFsfZtbfzhAiMt8H0i7e3Fkx9wesx5+PkyFPDqqPNahqR
+         DYvy19KQjwzC8XMw7IKt+i/lUnsILFEv0/yXaMWgsjzmWEyCgZ08OAPNYYTdxPwzoVjm
+         gcxdH5l8HHFOWKwd0Ho0QWO8fOATmuIDClm3b5NxZrCx4UOVBA6MAPFhtlj7ONaFoVJ2
+         Hi2KSBVponIZMppgRXarZf0KQ+ZJVaym4xjvK//OAwwZl89O3WU2x9MBRkxowxhHIcOI
+         8QHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744642690; x=1745247490;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7BREEgtK98b0xyilJAZ33FfSZORAv8N7MvFY8lDiD8g=;
+        b=SC/HIeyj8gOTfYTRyMzyCchZnQifsbRAg6DrsaZgPpYOQs81XbHq4sJGQ5LPJWRIdx
+         ZKfYfBvfKwQLTGxn/bcX+TKdqyMw2VAFEYnRJ229NyjfKaD+vPgt2dR7pT5hTbJV7nhf
+         63AKnoTg1GnCsUMFgFVetej19ok0jH0olHcxC3pRntqt228e3lFqG4y8wVWSlbTvlkPd
+         XrWYqOUgMp0LFUrqTWPIr5KjaiLPMwJ1OuPKs9XX2Qwk0XJa6kexapaFgr7FrKBaBRcL
+         C5WFu0icLl8HoTE99ZQXfDJTw6xrWmLS9ZifyZ7Mmb6bEJ14eTJXm7ix9eBXFuE02aQx
+         tS6A==
+X-Forwarded-Encrypted: i=1; AJvYcCW76le12Sdz6nQdLvaIXX5uOMK7/TnXmq8EyIwHXrN+A4FQveOPWts9ALCkRf7hGRoPYT07Ny/KT4FZ8g==@vger.kernel.org, AJvYcCXgUe2lgIDqSBmvzbyyWdAH+g2PnU3IDAJJPqHYwqK/JiWmLXN0PqLXqrZhJNvkW9X8OQzcWK33LD7B8Mw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7OS8gBTrLCzYCLK4J5pIP28D/1K1xyM1HleDNWUJN7/eLbsAe
+	eDxvv7AsBuS58K5yd3dyNKqTOtzl4jKohaQpVBmmpGM7SDN8EJeleN0gChR/
+X-Gm-Gg: ASbGncuMLpQdIS1rEsue7qTie6eY/Z6P0s5aR+Z+/RJL1f5NAQq+M60cO4W01ePnUMq
+	a7b94NqLZCGYPoJZmAc00AwNN2JQMXltuj5cTum92eoNG20AipSzxyrYh1M+hMrZkrx+jucv/7m
+	xtwNZa0K+qh/MtmSW7yt7+ZVpU6gNAQycmJvNMHEInJidp8xKWGmIdBXZTiTUWIUY71R4k4KFpL
+	ZCDZvGAg9vLKFpjedMID06SyJFYjOxP4JL99UgMfL7XUOYrN7c9dhEn1/jSjk6XkBDozJMOipd+
+	6JFVMH7Ffdc2GK6IkRjwXGglg/l8cmoBegUsDqePT7a51PqngseoIosLbUMazjT/
+X-Google-Smtp-Source: AGHT+IG/bX7LtHk0tsqXViGfziYN9ednke428t8UbxQHuLM7MS4ScfFIyz8kt7tz5/ePCQMmI3sRqA==
+X-Received: by 2002:a05:6a00:2348:b0:736:457b:9858 with SMTP id d2e1a72fcca58-73bd11c6780mr17471472b3a.10.1744642689758;
+        Mon, 14 Apr 2025 07:58:09 -0700 (PDT)
+Received: from localhost.localdomain ([123.16.133.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd22f1071sm6632165b3a.120.2025.04.14.07.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Apr 2025 07:58:09 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: pavel@kernel.org,
+	lee@kernel.org,
 	krzk+dt@kernel.org,
+	robh@kernel.org,
 	conor+dt@kernel.org,
-	corbet@lwn.net,
-	knezic@helmholz.com,
-	devicetree@vger.kernel.org,
+	corbet@lwn.net
+Cc: devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 3/3] leds: add WL-ICLED SPI driver
-Date: Mon, 14 Apr 2025 15:28:51 +0200
-Message-Id: <d8c165eb992b73f58c2fd7dc6c4ac3b2db38248f.1744636666.git.knezic@helmholz.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1744636666.git.knezic@helmholz.com>
-References: <cover.1744636666.git.knezic@helmholz.com>
-In-Reply-To: <cover.1744636666.git.knezic@helmholz.com>
-References: <cover.1744636666.git.knezic@helmholz.com>
-X-Authenticated-Sender: knezic@helmholz.com
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27608/Mon Apr 14 10:34:28 2025)
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v5 0/5] leds: add new LED driver for TI LP5812
+Date: Mon, 14 Apr 2025 21:57:37 +0700
+Message-Id: <20250414145742.35713-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Ante Knezic <knezic@helmholz.com>
+This patch series adds support for the TI/National Semiconductor LP5812
+4x3 matrix RGB LED driver. The driver supports features such as autonomous
+animation and time-cross-multiplexing (TCM) for dynamic LED effects.
 
-Add support for WL-ICLED RGB LEDs with integrated controller.
-Device enables individual color control via SPI interface and
-can be interfaced via single wire connection (MOSI line only)
-or by two wire connection (MOSI and CLK).
-
-Signed-off-by: Ante Knezic <knezic@helmholz.com>
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
 ---
- drivers/leds/Kconfig         |  10 +
- drivers/leds/Makefile        |   1 +
- drivers/leds/leds-wl-icled.c | 406 +++++++++++++++++++++++++++++++++++
- 3 files changed, 417 insertions(+)
- create mode 100644 drivers/leds/leds-wl-icled.c
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index a104cbb0a001..a8100a7ee72b 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -950,6 +950,16 @@ config LEDS_SPI_BYTE
- 	  for controlling the brightness. Currently the following controller is
- 	  supported: Ubiquiti airCube ISP microcontroller based LED controller.
- 
-+config LEDS_WL_ICLED
-+	tristate "LED Support for WL-ICLED RGB LEDs"
-+	depends on LEDS_CLASS
-+	depends on SPI
-+	depends on OF
-+	depends on LEDS_CLASS_MULTICOLOR
-+	help
-+	  Say yes to get support for the Wurth Elektronik WL-ICLED series RGB
-+	  LEDs with integrated controller.
-+
- config LEDS_TI_LMU_COMMON
- 	tristate "LED driver for TI LMU" if COMPILE_TEST
- 	select REGMAP
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 2f170d69dcbf..42e8849fa619 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -106,6 +106,7 @@ obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
- obj-$(CONFIG_LEDS_DAC124S085)		+= leds-dac124s085.o
- obj-$(CONFIG_LEDS_EL15203000)		+= leds-el15203000.o
- obj-$(CONFIG_LEDS_SPI_BYTE)		+= leds-spi-byte.o
-+obj-$(CONFIG_LEDS_WL_ICLED)		+= leds-wl-icled.o
- 
- # LED Userspace Drivers
- obj-$(CONFIG_LEDS_USER)			+= uleds.o
-diff --git a/drivers/leds/leds-wl-icled.c b/drivers/leds/leds-wl-icled.c
-new file mode 100644
-index 000000000000..ce44ed4d1fe5
---- /dev/null
-+++ b/drivers/leds/leds-wl-icled.c
-@@ -0,0 +1,406 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// LED driver for Wurth Elektronik WL-ICLED
-+// Copyright (C) Systeme Helmholz - https://www.helmholz.de
-+
-+#include <linux/leds.h>
-+#include <linux/spi/spi.h>
-+#include <linux/led-class-multicolor.h>
-+
-+#define WL_ICLED_LEDS_PER_IC 3
-+#define WL_ICLED_MAX_BRIGHTNESS 255
-+
-+#define WL_ICLED_32E_CMD_WRITE 0x7
-+#define WL_ICLED_32E_CMD_SLEEP 0x5
-+#define WL_ICLED_32E_CMD_SHIFT 5
-+#define WL_ICLED_32E_MAX_GAIN 31
-+#define WL_ICLED_32E_GAIN_MASK 0x1f
-+#define WL_ICLED_32E_START_FRAME_SIZE 4
-+
-+#define WL_ICLED_48E_MAX_GAIN 15
-+#define WL_ICLED_48E_MAX_PWM 4095
-+#define WL_ICLED_48E_GAIN_SHIFT 12
-+#define WL_ICLED_48E_PWM_MASK 0xfff
-+
-+enum wl_icled_type {
-+	WL_ICLED_SINGLE_WIRE,
-+	WL_ICLED_TWO_WIRE,
-+};
-+
-+struct wl_icled_led {
-+	struct led_classdev_mc	mc_cdev;
-+	struct wl_icled	*priv;
-+	int brightness;
-+};
-+
-+struct wl_icled_info {
-+	int model_id;
-+	int color_sequence[WL_ICLED_LEDS_PER_IC];
-+	void (*encode)(u8 *buf, struct wl_icled_led *led);
-+	enum wl_icled_type type;
-+	size_t bytes_per_led;
-+	unsigned int speed_hz;
-+};
-+
-+enum wl_icled_model {
-+	WL1315X246,     /*1315050930246 */
-+	WL1315X002,     /*1315050930002*/
-+	WL131X000,      /*1313210530000*/
-+			/*1312020030000*/
-+	WL131161X,      /*1311610030140 */
-+	WL131212X,      /*1312121320437 */
-+};
-+
-+struct wl_icled {
-+	const struct wl_icled_info *icled_info;
-+	struct device *dev;
-+	struct mutex lock;
-+	struct spi_device *spi;
-+	size_t count;
-+	u8 *buf;
-+	struct wl_icled_led leds[];
-+};
-+
-+static void wl_icled_encode_24bit(u8 *buf, struct wl_icled_led *led)
-+{
-+ /* WE 1315050930002, 1313210530000 and 1312020030000 control sequence:
-+  * +---------------------------+---+----------------------------+
-+  * |            LED 1          |...|         LED n              |
-+  * +---------------------------+--------------------------------+
-+  * |  GREEN  |  RED   |  BLUE  |...|  GREEN   |  RED   |  BLUE  |
-+  * +---------+--------+--------+--------------+--------+--------+
-+  * |    8    |   8    |    8   |...|     8    |   8    |    8   |
-+  * +---------------------------+---+----------------------------+
-+  */
-+	u8 pattern_true, pattern_false;
-+	int i, j;
-+
-+	pattern_false = 0xc0;
-+	pattern_true = (led->priv->icled_info->model_id == WL1315X002) ?
-+			0xf0 : 0xfc;
-+
-+	for (i = 0; i < WL_ICLED_LEDS_PER_IC; i++) {
-+		for (j = 7; j >= 0; j--, buf++)
-+			*buf = led->mc_cdev.subled_info[i].brightness & BIT(j) ?
-+			       pattern_true : pattern_false;
-+	}
-+}
-+
-+static void wl_icled_encode_48bit(u8 *buf, struct wl_icled_led *led)
-+{
-+ /* WE-1312121320437 control sequence:
-+  * +--------------------------+---+--------------------------+
-+  * |            LED 1         |...|            LED n         |
-+  * +--------------------------+---+--------------------------+
-+  * |  RED   |  GREEN |  BLUE  |...|  RED   |  GREEN |  BLUE  |
-+  * +--------+--------+--------+---+--------+--------+--------+
-+  * |GAIN|PWM|GAIN|PWM|GAIN|PWM|...|GAIN|PWM|GAIN|PWM|GAIN|PWM|
-+  * +----+---+----+---+----+---+---+----+---+----+---+----+---|
-+  * | 4  |12 | 4  |12 | 4  |12 |...| 4  |12 | 4  |12 | 4  |12 |
-+  * +---------------------------------------------------------+
-+  */
-+	u8 pattern_true, pattern_false;
-+	int i, j;
-+
-+	pattern_false = 0xc0;
-+	pattern_true = 0xfc;
-+
-+	for (i = 0; i < WL_ICLED_LEDS_PER_IC; i++) {
-+		unsigned int brightness;
-+		u16 led_sequence;
-+
-+		brightness = led->mc_cdev.subled_info[i].brightness;
-+
-+		led_sequence = ((brightness * WL_ICLED_48E_MAX_PWM)/
-+				WL_ICLED_MAX_BRIGHTNESS) &
-+				WL_ICLED_48E_PWM_MASK;
-+		led_sequence |= ((brightness * WL_ICLED_48E_MAX_GAIN)/
-+				WL_ICLED_MAX_BRIGHTNESS) <<
-+				WL_ICLED_48E_GAIN_SHIFT;
-+
-+		for (j = 15; j >= 0; j--, buf++)
-+			*buf = led_sequence & BIT(j) ?
-+			       pattern_true : pattern_false;
-+	}
-+
-+}
-+
-+static void wl_icled_encode_32bit(u8 *buf, struct wl_icled_led *led)
-+{
-+ /* WE 1315050930246 and 1311610030140 control sequence:
-+  * |--------------+------+------+-----------------------+-------------+
-+  * |  Start Frame | Flag | Gain |      PWM  level       |  End Frame  |
-+  * +--------------+------+------+-----------------------+-------------+
-+  * |              |             |LED1 | LED2| LED3| LEDn|             |
-+  * |              +-------------+-----+-----+-----+-----+             |
-+  * |              | 3bit | 5bit |B|G|R|B|G|R|B|G|R|B|G|R|             |
-+  * +--------------+-------------+-----------------------+-------------+
-+  * |   3 bytes    |    1 byte   |        n * 3 bytes    |(n+7)/8bytes |
-+  * +--------------+-------------+-----------------------+-------------+
-+  */
-+	int i;
-+
-+	*buf = (WL_ICLED_32E_CMD_WRITE << WL_ICLED_32E_CMD_SHIFT) |
-+	       (((led->brightness * WL_ICLED_32E_MAX_GAIN)/
-+		WL_ICLED_MAX_BRIGHTNESS) & WL_ICLED_32E_GAIN_MASK);
-+	buf++;
-+
-+	for (i = 0; i < WL_ICLED_LEDS_PER_IC; i++, buf++)
-+		*buf = led->mc_cdev.subled_info[i].brightness;
-+}
-+
-+static const struct wl_icled_info wl_icled_info_tbl[] = {
-+
-+	[WL1315X246] = {/* 1315050930246 */
-+		.model_id = WL1315X246,
-+		.color_sequence = { LED_COLOR_ID_BLUE,
-+				    LED_COLOR_ID_GREEN,
-+				    LED_COLOR_ID_RED },
-+		.bytes_per_led = 4,
-+		.encode = wl_icled_encode_32bit,
-+		.type = WL_ICLED_TWO_WIRE,
-+	},
-+	[WL1315X002] = { /*1315050930002*/
-+		.model_id = WL1315X002,
-+		.color_sequence = { LED_COLOR_ID_GREEN,
-+				    LED_COLOR_ID_RED,
-+				    LED_COLOR_ID_BLUE },
-+		.bytes_per_led = 24,
-+		.encode = wl_icled_encode_24bit,
-+		.speed_hz = 5333333,
-+		.type = WL_ICLED_SINGLE_WIRE,
-+	},
-+	[WL131X000] = { /*1313210530000*/ /*1312020030000*/
-+		.model_id = WL131X000,
-+		.color_sequence = { LED_COLOR_ID_GREEN,
-+				    LED_COLOR_ID_RED,
-+				    LED_COLOR_ID_BLUE },
-+		.bytes_per_led = 24,
-+		.encode = wl_icled_encode_24bit,
-+		.speed_hz = 6666666,
-+		.type = WL_ICLED_SINGLE_WIRE,
-+	},
-+	[WL131161X] = { /*1311610030140 */
-+		.model_id = WL131161X,
-+		.color_sequence = { LED_COLOR_ID_GREEN,
-+				    LED_COLOR_ID_BLUE,
-+				    LED_COLOR_ID_RED },
-+		.bytes_per_led = 4,
-+		.encode = wl_icled_encode_32bit,
-+		.type = WL_ICLED_TWO_WIRE,
-+	},
-+	[WL131212X] = { /*1312121320437 */
-+		.model_id = WL131212X,
-+		.color_sequence = { LED_COLOR_ID_RED,
-+				    LED_COLOR_ID_GREEN,
-+				    LED_COLOR_ID_BLUE },
-+		.bytes_per_led = 48,
-+		.encode = wl_icled_encode_48bit,
-+		.speed_hz = 6666666,
-+		.type = WL_ICLED_SINGLE_WIRE,
-+	},
-+};
-+
-+static int wl_icled_sync(struct wl_icled *priv)
-+{
-+	size_t i, len;
-+	int ret;
-+	u8 *buf;
-+
-+	buf = priv->buf;
-+	len = priv->icled_info->bytes_per_led * priv->count;
-+
-+	if (priv->icled_info->type == WL_ICLED_TWO_WIRE) {
-+		/* Prepare start frame: 4 bytes of 0 */
-+		for (i = 0; i < WL_ICLED_32E_START_FRAME_SIZE; i++, buf++)
-+			*buf = 0;
-+
-+		/* Prepare end frame: N/2 bits (rounded to first byte) of 1s */
-+		buf += priv->icled_info->bytes_per_led * priv->count;
-+		for (i = 0; i < (priv->count + 15)/16; i++, buf++)
-+			*buf = 0xff;
-+
-+		len = buf - priv->buf;
-+		buf = priv->buf + WL_ICLED_32E_START_FRAME_SIZE;
-+	}
-+
-+	for (i = 0; i < priv->count; i++)
-+		priv->icled_info->encode(buf +
-+					(priv->icled_info->bytes_per_led * i),
-+					 &priv->leds[i]);
-+
-+	if (priv->icled_info->type == WL_ICLED_SINGLE_WIRE) {
-+		struct spi_transfer t = {
-+			.tx_buf	= priv->buf,
-+			.len = len,
-+			.speed_hz = priv->icled_info->speed_hz,
-+			.bits_per_word = SPI_NBITS_OCTAL,
-+		};
-+		struct spi_message m;
-+
-+		spi_message_init(&m);
-+		spi_message_add_tail(&t, &m);
-+
-+		ret = spi_sync(priv->spi, &m);
-+	} else {
-+		ret = spi_write(priv->spi, priv->buf, len);
-+	}
-+
-+	return ret;
-+}
-+
-+static int wl_icled_set_brightness(struct led_classdev *cdev,
-+				   enum led_brightness brightness)
-+{
-+	struct led_classdev_mc *mc_dev = lcdev_to_mccdev(cdev);
-+	struct wl_icled_led *led = container_of(mc_dev,
-+						struct wl_icled_led,
-+						mc_cdev);
-+	int ret;
-+
-+	mutex_lock(&led->priv->lock);
-+	led->brightness = brightness;
-+	led_mc_calc_color_components(&led->mc_cdev, brightness);
-+	ret = wl_icled_sync(led->priv);
-+	mutex_unlock(&led->priv->lock);
-+
-+	return ret;
-+}
-+
-+static int wl_icled_probe_dt(struct wl_icled *priv, size_t count)
-+{
-+	struct led_init_data init_data = {};
-+	struct mc_subled *mc_led_info;
-+	struct fwnode_handle *child;
-+	struct wl_icled_led *led;
-+	int ret, i;
-+	u32 reg;
-+
-+	device_for_each_child_node(priv->dev, child) {
-+
-+		ret = fwnode_property_read_u32(child, "reg", &reg);
-+		if (ret < 0 || reg >= count) {
-+			dev_err(priv->dev, "reg property is invalid\n");
-+			fwnode_handle_put(child);
-+
-+			return ret ? -EINVAL : ret;
-+		}
-+
-+		led = &priv->leds[reg];
-+		led->priv = priv;
-+		led->mc_cdev.num_colors = WL_ICLED_LEDS_PER_IC;
-+		led->mc_cdev.led_cdev.brightness_set_blocking =
-+							wl_icled_set_brightness;
-+
-+		mc_led_info = devm_kcalloc(priv->dev,
-+					   led->mc_cdev.num_colors,
-+					   sizeof(*mc_led_info), GFP_KERNEL);
-+		if (!mc_led_info) {
-+			fwnode_handle_put(child);
-+			return -ENOMEM;
-+		}
-+
-+		for (i = 0; i < WL_ICLED_LEDS_PER_IC; i++)
-+			mc_led_info[i].color_index =
-+				priv->icled_info->color_sequence[i];
-+
-+		led->mc_cdev.subled_info = mc_led_info;
-+		init_data.fwnode = child;
-+		ret = devm_led_classdev_multicolor_register_ext(priv->dev,
-+								&led->mc_cdev,
-+								&init_data);
-+		if (ret) {
-+			dev_err(priv->dev,
-+				"failed to register LED device, err %d", ret);
-+			fwnode_handle_put(child);
-+			return ret;
-+		}
-+	}
-+
-+	for (i = 0; i < count; i++) {
-+		/* make sure all leds got assigned */
-+		if (priv->leds[i].priv != priv) {
-+			dev_err(priv->dev, "reg property is invalid\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int wl_icled_probe(struct spi_device *spi)
-+{
-+	struct wl_icled	*dev;
-+	size_t count, buf_len;
-+	int ret;
-+
-+	count = device_get_child_node_count(&spi->dev);
-+	if (!count) {
-+		dev_err(&spi->dev, "LEDs are not defined in device tree!");
-+		return -ENODEV;
-+	}
-+
-+	dev = devm_kzalloc(&spi->dev, struct_size(dev, leds, count),
-+			    GFP_KERNEL);
-+	if (!dev)
-+		return -ENOMEM;
-+
-+	mutex_init(&dev->lock);
-+	dev->count	= count;
-+	dev->dev	= &spi->dev;
-+	dev->spi	= spi;
-+
-+	dev->icled_info = device_get_match_data(&spi->dev);
-+
-+	buf_len = count * dev->icled_info->bytes_per_led;
-+
-+	if (dev->icled_info->model_id == WL131161X ||
-+	    dev->icled_info->model_id == WL1315X246) {
-+		/* account for START and END frames */
-+		buf_len += WL_ICLED_32E_START_FRAME_SIZE;
-+		buf_len += (count + 15)/16;
-+	}
-+
-+	dev->buf = devm_kzalloc(&spi->dev, buf_len, GFP_KERNEL);
-+	if (!dev->buf)
-+		return -ENOMEM;
-+
-+	ret = wl_icled_probe_dt(dev, count);
-+	if (ret)
-+		return ret;
-+
-+	spi_set_drvdata(spi, dev);
-+
-+	return 0;
-+}
-+
-+static void wl_icled_remove(struct spi_device *spi)
-+{
-+	struct wl_icled *priv = spi_get_drvdata(spi);
-+
-+	mutex_destroy(&priv->lock);
-+}
-+
-+static const struct of_device_id wl_icled_dt_ids[] = {
-+	{ .compatible = "we,1315x246", .data = &wl_icled_info_tbl[WL1315X246]},
-+	{ .compatible = "we,1315x002", .data = &wl_icled_info_tbl[WL1315X002]},
-+	{ .compatible = "we,131x000", .data = &wl_icled_info_tbl[WL131X000]},
-+	{ .compatible = "we,131161x", .data = &wl_icled_info_tbl[WL131161X]},
-+	{ .compatible = "we,131212x", .data = &wl_icled_info_tbl[WL131212X]},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, wl_icled_dt_ids);
-+
-+static struct spi_driver wl_icled_driver = {
-+	.probe		= wl_icled_probe,
-+	.remove		= wl_icled_remove,
-+	.driver = {
-+		.name		= KBUILD_MODNAME,
-+		.of_match_table	= wl_icled_dt_ids,
-+	},
-+};
-+
-+module_spi_driver(wl_icled_driver);
-+
-+MODULE_DESCRIPTION("LED driver for Wurth Elektronik WL-ICLEDs");
-+MODULE_AUTHOR("Ante Knezic <knezic@helmholz.com>");
-+MODULE_LICENSE("GPL");
+---
+Nam Tran (5):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add TI/National Semiconductor LP5812 LED Driver
+  docs: ABI: Document LP5812 LED sysfs interfaces
+  docs: leds: Document TI LP5812 LED driver
+  arm64: dts: Add LP5812 LED node for Raspberry Pi 4 Model B
+
+ .../ABI/testing/sysfs-bus-i2c-devices-lp5812  |  144 +
+ .../devicetree/bindings/leds/ti,lp5812.yaml   |  119 +
+ Documentation/leds/leds-lp5812.rst            |   79 +
+ MAINTAINERS                                   |   12 +
+ .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts |   60 +
+ drivers/leds/Kconfig                          |   16 +
+ drivers/leds/Makefile                         |    1 +
+ drivers/leds/leds-lp5812.c                    | 2797 +++++++++++++++++
+ drivers/leds/leds-lp5812.h                    |  350 +++
+ 9 files changed, 3578 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/leds-lp5812.c
+ create mode 100644 drivers/leds/leds-lp5812.h
+
+
+base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
 -- 
-2.48.1
+2.25.1
 
 
