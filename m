@@ -1,109 +1,78 @@
-Return-Path: <linux-leds+bounces-4486-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4487-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE035A8A4BF
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 18:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1770A8A4D4
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 19:01:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDDFC177CBC
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 16:57:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 002B9440161
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 17:01:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E9ED29A3F8;
-	Tue, 15 Apr 2025 16:57:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037F213B7A3;
+	Tue, 15 Apr 2025 17:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWseol79"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkCZLFnj"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F241494A3;
-	Tue, 15 Apr 2025 16:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8F64D8CE;
+	Tue, 15 Apr 2025 17:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744736245; cv=none; b=hDaD/5nWvgOeGoYIZ5Wf9q3l1YNDKUCT3r4dqU5Ci8b4CKkDLeP8SiSFjoxaIq4JoRx5zrv7eW40cF4gm+wiy7Ki1RqIzAJ9ez8nuczeSWka10EPc1Kz77ipLqjCycya1ljkNiljyWEir0TWY6c8o61xjf9bEDICTd/1/hIWaYQ=
+	t=1744736488; cv=none; b=lvCWn8noOjTGjGINjyMSRhI0QmghmDpsBvedqrocdIk1ywi8kdPcTWc6ZrLjJc9rgDFj/H5lS6ieUF+iPOsSA8wBtGduU/mjFgJ/WXd6AfPujjQN7AT80PlLe85a29hWtpxL7H6wvV9BWia+xRajH9qLSS5r9dvv7o0fRYA9yG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744736245; c=relaxed/simple;
-	bh=alrqyRm48WLvuQGl7bdKf6c5+gS/YVlNrjKResCyAEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EfxQxXWkW/cGcknNfWtMiwyr34Vm67Oze4SaLf/w3xJvKLg8K0YZ7XkxdYKyWJiaMSu7MBX9Ucgyo5fjiBO18K67e+KG63JsXO11eX9NTcoTmJ7vr76PQ186hT7QZuqgUicHqZgnAdoOiyI3yNygYTHo/B/JvkHqrvpZwe1lKJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWseol79; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09765C4CEEC;
-	Tue, 15 Apr 2025 16:57:20 +0000 (UTC)
+	s=arc-20240116; t=1744736488; c=relaxed/simple;
+	bh=BxoRJbK3LjBqCSGzXlhs/h9cYgB2mhJPF0X/UK6Z85g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bGngmaOqjIyc6jQNeK0aHPgGrf3r+ylHWP67QUBsO77sUtt4L585ZGfipSkxPmqdKKFgz0e68UGFp3t9ijr2CH1nuKLg5oUs1/lKvnNRQwkDrSsLEEAmVCwiNkMEsvxJrH4dQ8M5wNfVG/CZAF3hRpvfAxiiXvhhGChiKcyeP1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkCZLFnj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57B63C4CEEB;
+	Tue, 15 Apr 2025 17:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744736244;
-	bh=alrqyRm48WLvuQGl7bdKf6c5+gS/YVlNrjKResCyAEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OWseol79z9zlW3qeKH2e1414IzoPScAHm/xoOlgnJbs7ifNe0VjvhmbliVeuciJyP
-	 NL3opYM7EzfJhQz6udIdKUWdB7WauReNmd//ID5vBSkjPqX266swTfdWguRgphuVds
-	 TuyRe4P2FurS0SroE9syQ3twm5SR9ZAc+RTCZrnRp129b18vhv4eVDDraYUdh2TaaK
-	 LKJ2vU2D+vRhXTJfOglrO8kgCMz+urdmTc3kB2dLUfGmnDuOrsPYAVoCQaNTSxMHO/
-	 02jUSqqmmSAgy6rJBWWnrtVq4dTQ02RR8W9PboFpqxiJapMR0DzZga2E0Y4iei6J0/
-	 6CFLAb01/d8nA==
-Date: Tue, 15 Apr 2025 17:57:18 +0100
+	s=k20201202; t=1744736488;
+	bh=BxoRJbK3LjBqCSGzXlhs/h9cYgB2mhJPF0X/UK6Z85g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jkCZLFnjHe90LKqrjMJxYOoSje9jtS5Du7AgmoAE5sB3Xh0bQjrjMfgdt22nhbnF0
+	 o6etEANUOhFdXvHBBmMtfbzvJ2y/HhcklDi5y7I5GuDHT6l8SVSSp8fkRwSQiAvx3v
+	 XXZGHi96hIR+m/55nC42RqlrXoXkOpgzWAy9tJXMfr+7msUXeMPQbMrVx9ie0Vo4NW
+	 WDc0bsDeoVnPVNr3afR7pf/ojEarJQDXWHkTomOk0sY+nVxmB54gDBlI8bnvhEL7i6
+	 PqJpLi0Nfdj2TsM1dccb09ZNVyA6eWsVz6Q0c4C46VSIUF+RuOGiy9+gr0IiXEWbQo
+	 LeiceQyUL2Yjg==
 From: Lee Jones <lee@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Markus Elfring <elfring@users.sourceforge.net>,
-	Jakob Riepler <jakob+lkml@paranoidlabs.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-usb@vger.kernel.org,
-	Daniel Scally <djrscally@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: [GIT PULL] Immutable branch between LEDS, Base and USB due for the
- v6.16 merge window
-Message-ID: <20250415165718.GC372032@google.com>
-References: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
+To: Pavel Machek <pavel@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Andrew Davis <afd@ti.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250411163428.897582-1-afd@ti.com>
+References: <20250411163428.897582-1-afd@ti.com>
+Subject: Re: (subset) [PATCH] leds: lp8860: Remove struct member regulator
+ description
+Message-Id: <174473648708.3001100.5766515898969039785.b4-ty@kernel.org>
+Date: Tue, 15 Apr 2025 18:01:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250310150835.3139322-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: b4 0.15-dev-510f9
 
-Enjoy!
+On Fri, 11 Apr 2025 11:34:28 -0500, Andrew Davis wrote:
+> The device local struct regulator was removed, remove the documentation
+> description for the same.
+> 
+> 
 
-The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
+Applied, thanks!
 
-  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
+[1/1] leds: lp8860: Remove struct member regulator description
+      commit: 9cd727847ae34515fe8596d11e06a9730a773353
 
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/leds.git tags/ib-leds-base-usb-v6.16
-
-for you to fetch changes up to 08ca89e98620c08d68b7e7aed6c9294698e214e1:
-
-  usb: typec: tcpm: Use fwnode_get_child_node_count() (2025-04-10 10:12:28 +0100)
-
-----------------------------------------------------------------
-Immutable branch between LEDS, Base and USB due for the v6.16 merge window
-
-----------------------------------------------------------------
-Andy Shevchenko (4):
-      device property: Split fwnode_get_child_node_count()
-      leds: pwm-multicolor: Use fwnode_get_child_node_count()
-      leds: ncp5623: Use fwnode_get_child_node_count()
-      usb: typec: tcpm: Use fwnode_get_child_node_count()
-
- drivers/base/property.c                | 12 ++++++------
- drivers/leds/rgb/leds-ncp5623.c        |  5 ++---
- drivers/leds/rgb/leds-pwm-multicolor.c |  7 +++----
- drivers/usb/typec/tcpm/tcpm.c          |  6 ++----
- include/linux/property.h               |  7 ++++++-
- 5 files changed, 19 insertions(+), 18 deletions(-)
-
--- 
+--
 Lee Jones [李琼斯]
+
 
