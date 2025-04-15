@@ -1,190 +1,162 @@
-Return-Path: <linux-leds+bounces-4482-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4483-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D21A895BC
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 09:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DCEA898C2
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 11:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D62243A8B87
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 07:55:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE0EC3B435F
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 09:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A2552741D6;
-	Tue, 15 Apr 2025 07:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26EEA288CB7;
+	Tue, 15 Apr 2025 09:54:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KAMWoD50"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8b3qWxF"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFB2194C86;
-	Tue, 15 Apr 2025 07:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968392820D0;
+	Tue, 15 Apr 2025 09:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744703738; cv=none; b=dygVGLhAp8bS4VvnA/RCvAVWqi5TfK7je5xp7C45H/qnNZNXrob0cAo7vDFtjh+mYM/60oGYGhJ+LvYdKFnkLL1TFKIU5x4MMRaJ5JNTxUfsU1KihUTfQO+rgJzLTPtROJTN9BvbjNJZ5xN+/QQc3Pm70c/qAMJW9Ud+SlA/LJY=
+	t=1744710867; cv=none; b=soqajfzSsVtp0uYRp7iYhCqSUhlg66Qbze8VP08OLqjM04SYH0tJRQejy/DyM30zk9VIHRWWB9pEQRzLpKN1dmZ5WkjEVF09jA358vrUXEubM8c4Q0Rk3DD1sQcDOA/XwHlzugbMIcpsro5lbNcX9B2CWgc7/el4uKuVk+DP4bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744703738; c=relaxed/simple;
-	bh=SfLVHsoY/QAXKrai3AX+QQVNRS3TPHWbMePbzgi022w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fJVBbjbc+MDoYmZNSHpZ+RruB8g2UMHsg/E7N7sL2jqxJchJuFoD0q92+hmdL7+dGFgZJ7p+eYaslCv0YS2Xq7VqTP4EtYvG5A6HJ6826myOPeS9mlJh/MOnjGV/5vwq1NCit4jxHAWb2W1Iu9hfimp7y8qVQv6Fow64MHLE8RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KAMWoD50; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5D2CC4CEDD;
-	Tue, 15 Apr 2025 07:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744703738;
-	bh=SfLVHsoY/QAXKrai3AX+QQVNRS3TPHWbMePbzgi022w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KAMWoD50iF7dn8HbeSqrfhwq+k9/9WTxoioDlcoI10nMivxsaWqAAVXVBuxHciHwV
-	 XJdR7nPdSOZWwfygd0dvIwqMdg3+SAroKSM27h6W8jlh+Z7GAG/CgFmHt21H4RIJsA
-	 7Dc9yoZx2cKuZoxm/Sbmn5apFOG0N+6jFjbuy0LzFeLI3+piR55KfICWJ0/WnM5w/1
-	 2aqqH1LpOw6iMKenTWjI8HlfUdziQfVqvTnIaQFxiIK5YjmskW3Bi2unk0obcLYK5o
-	 HXD61Q737t8VqyaGhcpd7ulnabhOG5iDK7GPoyWaltb6BmXts/MYp9KTxOVfroIPls
-	 l+Gcrm/BOOXBw==
-Date: Tue, 15 Apr 2025 09:55:33 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ante Knezic <ante.knezic@helmholz.de>
-Cc: linux-leds@vger.kernel.org, lee@kernel.org, pavel@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	knezic@helmholz.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: leds: add binding for WL-ICLED
-Message-ID: <20250415-dashing-impartial-baboon-70d086@shite>
-References: <cover.1744636666.git.knezic@helmholz.com>
- <35c7f697070b3939727f1115d3a279e280f72cd6.1744636666.git.knezic@helmholz.com>
+	s=arc-20240116; t=1744710867; c=relaxed/simple;
+	bh=lK37py1zOsfETjH0W+RywbZi9Hhk9oH0kO5ktf/YyEc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GlEEyPDArVq5uCAoTtwCNDGZ8euOBcyaEgilsO9lOqmv3w+yA5zNMLVPczzq5diVAckYeiMiKhmypwnhkENAdq3bfMzeSo+7Iz+p1RXpXKijjF6lUCOm/J8IrIGZvahPzIBpaBHn99CP/nkLVkuyRbiEyqZpn5P5F9ganCLjB88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m8b3qWxF; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-736b350a22cso4467869b3a.1;
+        Tue, 15 Apr 2025 02:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744710865; x=1745315665; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nYpGhwmmgnLY8txDgIEQRH5jdUdNpNJ3RHDmtFvhBCk=;
+        b=m8b3qWxFJHpIekW8/0L/S6uaaoqhB1HwoZo+KtH3WIT0bsurI5UsKhGjNqr54VH/AD
+         pYoXrI1A5F6Zfu4W0J0TQGnH8i5KuUy7Y/lBq9cQQh08nnYW373AuqIPR53alvfQtGEw
+         PzSX832pQ26YKbekAW++zGsXcCA9q6r4b+3gF/EomJ8qhamC0/Z0ZaeQMnvrf/+xBeGx
+         G5oRdbabl2rHG6kbniS9ZKUJZyji1MBhCKgvqoYPQAItC3UxGCU/4q+cE6/ZQslfCFh6
+         SklmANm2FYTvlaYpR2JIXqfNFPszrDGtI+P+CmqsPJ0HE+rm5+BRsdPlXgDKf5i2O0h8
+         THKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744710865; x=1745315665;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nYpGhwmmgnLY8txDgIEQRH5jdUdNpNJ3RHDmtFvhBCk=;
+        b=BAyHCc6Ac7uTx0vPcowphD0wo0IegwEZKNWZ5wX4+RWdsyik71YLhjJhruodHmrzH+
+         EApLfE0gw03jWsyPDXkR4Ueo2LpwhXaJWoyGYB6jLCX/JnI7WmcBYQiltv1JuFt6BqKC
+         FfO6W3cmtI72m6PPL13f/tKUknSGmC7MEI0+/TMdmfEcZzfoYgDrrktGI54psFoVHE5u
+         QcSFabhyG9U+L+B3ma5ymTV9ox/3LfolGXl8Kq6BZ2uh7MmdksK9++gmE+m+5dHU2JEb
+         aw2sfVMIb/1QQTpd+2FesaVGWTp/qtdXvTe3yIgzZQoQ8DnTQP7EFCyzycxZ4lBXRd5K
+         ChDw==
+X-Forwarded-Encrypted: i=1; AJvYcCU1jtYjoQADk6k6jPJ9TO5RrIBzw5ahgQ6Nk1E7ZuSgIzrHcsIsCRyiaCl2zrP/QSHidBPB1Ak0S3YxKgPH@vger.kernel.org, AJvYcCU4opwbDLi1JYWTYnNTEEa5KNS5DPSDopL5gn3S/V8+akUh3zBHOcusRQTyAKuJRXSjG1fZ4lql1FaX@vger.kernel.org, AJvYcCXDW9sX6fwpg45ZtZOmgAPqVKQ66oVKVH6pmBn/qhX0Mb/IsbOtCyZ9XKIlfANt+y136IrJuj3/dH1rqw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYkb7FyX3s9DXJQuCRlRzGwRMGsCLDoUYSswH8sv3CrmUrto3m
+	IysB8YgdnLzguatdkQdDtX63u0ZwXWQmx3FIxSbUG1auwmuEYQue7pD3FA==
+X-Gm-Gg: ASbGnctBNITVCIw9gO75h+zrRSOFY8NuITVUhBEMCL7LRm9CBhpRHVBdo70iV/Jld6x
+	Ee32cwemDfVs+vVMIx7FDxIy4UVXOKmuglW+BKgTx7iutnZVipBq7bULTaxLfIi1ME4v6LRVchI
+	gMI+L5A7jj9l8o8ptkBlsttzvReWlyxiuJX8WVfSO1DjjZsDwPiX3kebAOFwFno2hMgZlJKTnxT
+	LMuA+rY/aK+ZlCnZiwQNVXY9rpcIBSgSQXToSkWQ4j5wsVYvGMDX880vBVmGKDKXKrg/DUpvdnI
+	1R3+Xl7EO9ijMS6UbQ20L4havxfK+ada5bx5HusCML0gVoYPmJo22OM=
+X-Google-Smtp-Source: AGHT+IFjNHbcTufXh8fFzrFcTeMoEjvYjAzqkO8JWy4aZMguP6+TutUuL10puZf3uD4t34dThiEozg==
+X-Received: by 2002:a05:6a00:4fc7:b0:737:9b:582a with SMTP id d2e1a72fcca58-73bd12b3127mr24417976b3a.24.1744710864577;
+        Tue, 15 Apr 2025 02:54:24 -0700 (PDT)
+Received: from localhost.localdomain ([116.106.96.242])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd21c335asm8335575b3a.50.2025.04.15.02.54.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 02:54:24 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: krzk+dt@kernel.org
+Cc: pavel@kernel.org,
+	lee@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/5] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+Date: Tue, 15 Apr 2025 16:53:58 +0700
+Message-Id: <20250415095358.8044-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2badc360-9bfa-400a-acca-ab82f8cc5a95@kernel.org>
+References: <2badc360-9bfa-400a-acca-ab82f8cc5a95@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <35c7f697070b3939727f1115d3a279e280f72cd6.1744636666.git.knezic@helmholz.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 14, 2025 at 03:28:50PM GMT, Ante Knezic wrote:
-> From: Ante Knezic <knezic@helmholz.com>
+On Mon, 14 Apr 2025, Krzysztof Kozlowski wrote:
+
+> On 14/04/2025 16:57, Nam Tran wrote:
+> > +
+> > +description: |
+> > +  The LP5812 is an I2C LED Driver that can support LED matrix 4x3.
+> > +  For more product information please see the link below:
+> > +  https://www.ti.com/product/LP5812#tech-docs
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ti,lp5812
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
 > 
-> WL-ICLED is a RGB LED with integrated IC from Wurth Elektronik.
-> Individual color brightness can be controlled via SPI protocol.
+> No need for supply?
+
+Since the hardware uses an external power supply,
+we decide not to include the supply property in the binding.
+
+> > +
+> > +patternProperties:
+> > +  "^led@[0-9a-b]$":
+> > +    type: object
+> > +    $ref: common.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      reg:
+> > +        minimum: 0
+> > +        maximum: 0xb
+> > +
+> > +      chan-name:
+> > +        $ref: /schemas/types.yaml#/definitions/string
+> > +        description: LED channel name
 > 
-> Signed-off-by: Ante Knezic <knezic@helmholz.com>
-> ---
->  .../bindings/leds/leds-wl-icled.yaml          | 88 +++++++++++++++++++
+> My comment stay valid. I don't think LEDs have channels, datasheet also
+> has nothing about channels, so again - use existing properties. Or
+> better drop it - I don't see any point in the name. The reg already
+> defines it.
 
-Filename based on compatible. Choose one compatible and use it here.
+The channel was named for the output channel to each LED, not the LED channels.
+They are not required properties because we can control entirely the LEDs of LP5812 through the indexes (regs property),
+but the person who wants to develop LP5812's matrix-related features can use the "channels" for easy mapping.
 
->  1 file changed, 88 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-wl-icled.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-wl-icled.yaml b/Documentation/devicetree/bindings/leds/leds-wl-icled.yaml
-> new file mode 100644
-> index 000000000000..bf79c7a1719b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-wl-icled.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-wl-icled.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LED driver for WL-ICLEDs from Wurth Elektronik.
+> However after dropping this, your example has nodes with only reg -
+> what's the point of them? Why no properties from common.yaml are
+> applicable? If they are not applicable, then the entire subnode should
+> be dropped - you don't need them to describe the hardware.
 
-driver as Linux driver? Then drop and describe hardware.
-
-Also drop full stop
-
-> +
-> +maintainers:
-> +  - Ante Knezic <ante.knezic@helmholz.de>
-> +
-> +description: |
-> +  The WL-ICLEDs are RGB LEDs with integrated controller that can be
-> +  daisy-chained to arbitrary number of LEDs. Communication with LEDs is
-> +  via SPI interface and can be single or two wire, depending on the model.
-> +  For more product information please see the link below:
-> +  https://www.we-online.com/en/components/products/WL-ICLED
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - we,1315x246
-> +      - we,1315x002
-> +      - we,131x000
-> +      - we,131161x
-> +      - we,131212x
-
-Is that a wildcard in each compatible?
-
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +patternProperties:
-> +  '^led@[0-9a-f]$':
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +        description:
-> +          This property denotes the LED position in the daisy chain
-> +          series. It is a zero based LED identifier.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-
-Missing ref to spi periph schema. See other bindings.
-
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        icled@1 {
-
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-led-controller
-
-> +            compatible = "we,131x000";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            reg = <1>;
-> +            cs-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
-> +
-> +            led@0 {
-> +                reg = <0>;
-> +                color = <LED_COLOR_ID_RGB>;
-> +                function = "error";
-
-Use standard defines.
-
-> +            };
-> +
-> +            led@1 {
-> +                reg = <1>;
-> +                color = <LED_COLOR_ID_RGB>;
-> +                function = "warning";
+Actually, the "color" property can be applied, but the LP5812 is a matrix LED,
+so specifying a particular LED color is not necessary when developing LP5812 features.
 
 Best regards,
-Krzysztof
-
+Nam Tran
 
