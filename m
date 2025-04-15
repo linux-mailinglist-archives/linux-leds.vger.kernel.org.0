@@ -1,77 +1,77 @@
-Return-Path: <linux-leds+bounces-4483-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4484-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DCEA898C2
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 11:54:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 475F9A898F7
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 11:58:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE0EC3B435F
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 09:54:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E62817F14D
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Apr 2025 09:57:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26EEA288CB7;
-	Tue, 15 Apr 2025 09:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690BA28BAAE;
+	Tue, 15 Apr 2025 09:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8b3qWxF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kIwkF4FW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968392820D0;
-	Tue, 15 Apr 2025 09:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25E928B4F1;
+	Tue, 15 Apr 2025 09:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744710867; cv=none; b=soqajfzSsVtp0uYRp7iYhCqSUhlg66Qbze8VP08OLqjM04SYH0tJRQejy/DyM30zk9VIHRWWB9pEQRzLpKN1dmZ5WkjEVF09jA358vrUXEubM8c4Q0Rk3DD1sQcDOA/XwHlzugbMIcpsro5lbNcX9B2CWgc7/el4uKuVk+DP4bw=
+	t=1744710994; cv=none; b=aIhsiqhbM9PItXnqS+w6Mx8gwDtTKkGcf9Uk58xz21V6NYHV1MZthAJzgG7QTQyGs9XPxTi8DwdXectgwGH52nPveRFEAvK+WKsEFuHKGVM/3aHO5ouaJW1PJYXJtz/X+8OaS15gQ39T/p+SLGL8S2VOG5+0Wv32/FQDMukMq+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744710867; c=relaxed/simple;
-	bh=lK37py1zOsfETjH0W+RywbZi9Hhk9oH0kO5ktf/YyEc=;
+	s=arc-20240116; t=1744710994; c=relaxed/simple;
+	bh=zexSfGF/hZ/8AIoMKghvNwSydHnZfbFtGkCUys09DYw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GlEEyPDArVq5uCAoTtwCNDGZ8euOBcyaEgilsO9lOqmv3w+yA5zNMLVPczzq5diVAckYeiMiKhmypwnhkENAdq3bfMzeSo+7Iz+p1RXpXKijjF6lUCOm/J8IrIGZvahPzIBpaBHn99CP/nkLVkuyRbiEyqZpn5P5F9ganCLjB88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m8b3qWxF; arc=none smtp.client-ip=209.85.210.175
+	 MIME-Version; b=KfTfG7EL7ML6ue1P9CAMbHZ1GhYaLrJGCRD+cS8j55DFBPSjF/kvyf3auUQwCKoQCdWwBjaQSqkdCkQVHymqJkzPZNlZMHM8E3yK1r8y427O0zeKkz2lfqtngaXkCeORNr4v+qa0b1ogv3M6JjWxD1JhrN8b1gfUYhWPxQyx69Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kIwkF4FW; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-736b350a22cso4467869b3a.1;
-        Tue, 15 Apr 2025 02:54:25 -0700 (PDT)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-30384072398so4757813a91.0;
+        Tue, 15 Apr 2025 02:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744710865; x=1745315665; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1744710992; x=1745315792; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nYpGhwmmgnLY8txDgIEQRH5jdUdNpNJ3RHDmtFvhBCk=;
-        b=m8b3qWxFJHpIekW8/0L/S6uaaoqhB1HwoZo+KtH3WIT0bsurI5UsKhGjNqr54VH/AD
-         pYoXrI1A5F6Zfu4W0J0TQGnH8i5KuUy7Y/lBq9cQQh08nnYW373AuqIPR53alvfQtGEw
-         PzSX832pQ26YKbekAW++zGsXcCA9q6r4b+3gF/EomJ8qhamC0/Z0ZaeQMnvrf/+xBeGx
-         G5oRdbabl2rHG6kbniS9ZKUJZyji1MBhCKgvqoYPQAItC3UxGCU/4q+cE6/ZQslfCFh6
-         SklmANm2FYTvlaYpR2JIXqfNFPszrDGtI+P+CmqsPJ0HE+rm5+BRsdPlXgDKf5i2O0h8
-         THKg==
+        bh=0jYOl+e48RHYcQrG4+rIw5B0RujAReV4wdPNmp/H9/0=;
+        b=kIwkF4FWDT/OvlAg0B1cHkv6Vfl4K7Flml0QUp5pELxKyWu/48VzFn9GccVsEqlGSc
+         ih4lpVwtMMzp+6TT2jFsliOLhvN2FFgWN2cXxJ+GBlggqGsc2W6OMqGvoTX4nxOHqKBl
+         KJZFNoPXMREwbCjCm9c73fX0llwgWG6zvSGkyFNQouRKlqs7HRLQgBbLeFDC5MPlytGl
+         X28e7CaGXIZIJUPDuoo+dxza2mtQOJGMjZYKwX/0roWJWAGUyMyQ8lKvr9H9c2R8CUGT
+         /4iYqRss0F1ukEFthqotplC0VXtoK+/SSgzcnQxxPQc8fkjmX9poMC+EnaS8o5cV3ku7
+         98gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744710865; x=1745315665;
+        d=1e100.net; s=20230601; t=1744710992; x=1745315792;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nYpGhwmmgnLY8txDgIEQRH5jdUdNpNJ3RHDmtFvhBCk=;
-        b=BAyHCc6Ac7uTx0vPcowphD0wo0IegwEZKNWZ5wX4+RWdsyik71YLhjJhruodHmrzH+
-         EApLfE0gw03jWsyPDXkR4Ueo2LpwhXaJWoyGYB6jLCX/JnI7WmcBYQiltv1JuFt6BqKC
-         FfO6W3cmtI72m6PPL13f/tKUknSGmC7MEI0+/TMdmfEcZzfoYgDrrktGI54psFoVHE5u
-         QcSFabhyG9U+L+B3ma5ymTV9ox/3LfolGXl8Kq6BZ2uh7MmdksK9++gmE+m+5dHU2JEb
-         aw2sfVMIb/1QQTpd+2FesaVGWTp/qtdXvTe3yIgzZQoQ8DnTQP7EFCyzycxZ4lBXRd5K
-         ChDw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1jtYjoQADk6k6jPJ9TO5RrIBzw5ahgQ6Nk1E7ZuSgIzrHcsIsCRyiaCl2zrP/QSHidBPB1Ak0S3YxKgPH@vger.kernel.org, AJvYcCU4opwbDLi1JYWTYnNTEEa5KNS5DPSDopL5gn3S/V8+akUh3zBHOcusRQTyAKuJRXSjG1fZ4lql1FaX@vger.kernel.org, AJvYcCXDW9sX6fwpg45ZtZOmgAPqVKQ66oVKVH6pmBn/qhX0Mb/IsbOtCyZ9XKIlfANt+y136IrJuj3/dH1rqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYkb7FyX3s9DXJQuCRlRzGwRMGsCLDoUYSswH8sv3CrmUrto3m
-	IysB8YgdnLzguatdkQdDtX63u0ZwXWQmx3FIxSbUG1auwmuEYQue7pD3FA==
-X-Gm-Gg: ASbGnctBNITVCIw9gO75h+zrRSOFY8NuITVUhBEMCL7LRm9CBhpRHVBdo70iV/Jld6x
-	Ee32cwemDfVs+vVMIx7FDxIy4UVXOKmuglW+BKgTx7iutnZVipBq7bULTaxLfIi1ME4v6LRVchI
-	gMI+L5A7jj9l8o8ptkBlsttzvReWlyxiuJX8WVfSO1DjjZsDwPiX3kebAOFwFno2hMgZlJKTnxT
-	LMuA+rY/aK+ZlCnZiwQNVXY9rpcIBSgSQXToSkWQ4j5wsVYvGMDX880vBVmGKDKXKrg/DUpvdnI
-	1R3+Xl7EO9ijMS6UbQ20L4havxfK+ada5bx5HusCML0gVoYPmJo22OM=
-X-Google-Smtp-Source: AGHT+IFjNHbcTufXh8fFzrFcTeMoEjvYjAzqkO8JWy4aZMguP6+TutUuL10puZf3uD4t34dThiEozg==
-X-Received: by 2002:a05:6a00:4fc7:b0:737:9b:582a with SMTP id d2e1a72fcca58-73bd12b3127mr24417976b3a.24.1744710864577;
-        Tue, 15 Apr 2025 02:54:24 -0700 (PDT)
+        bh=0jYOl+e48RHYcQrG4+rIw5B0RujAReV4wdPNmp/H9/0=;
+        b=jkdLuhIZaM2fSbx9Q4T4dnBFwmRqKm/pKLmyzUbIbB45YAFAolqbyhS4xteNGoiswU
+         pL0BpY+hwHMTlyqPd8wgtWiM7wjU3ejGoD/ghIg/JobMqHTcVLxEceGWKwYWm2JrW0LH
+         +VqC9qbvehpDnES++VhWBKaVB6HZSSh0KM13I/T8zQwU3ZZuN2CYZSH/S26gDtWShaCc
+         /7h+OiGTonQ5DdbgliGK+ecH7m2PjIv4YZtbzU/n971UFpryxtauOb8yaB1GABemXR/f
+         ZeQLMwuUagOz/kOzK4Jger6gpi3qjkFzytg9/mpuMeJwp65Z5/UZdW5NCyj5W+C9PHwO
+         Tm1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUQVJW32hg58BlzqxDtcvJCsrWo9n1dIotm7F/XyEcpMUbD+A/J1+GNUvvTFz+bTSUSBqUGBtzoaZErvA==@vger.kernel.org, AJvYcCUtKOdyCbTCglC9CgfaNnWxIv2VQiVqyR7sb2tEfMSLhe7XMUxvRepTHF/bWrMSJWZUKUSh0cPVWoNsOjF0@vger.kernel.org, AJvYcCXooWTMixHoRzSJf7oZr1elNgrsGLwrjW9Ahn+vStq2w/G/Br5uB2ZjVcRxx5xaT3dzGMqfPrlMa+sl@vger.kernel.org
+X-Gm-Message-State: AOJu0YweokMi0sFOKKBAZKmlmdtJc0p2Ynlx/YaDBt9gVE9pThe3cMIb
+	sJvNaVc0Vr/epdLkdHXSp2tnD1JLtVhQAj0Sd2rUU75VLZWdP7uD
+X-Gm-Gg: ASbGncsg93BI5O7QeU0nCkN0O2pH0J3s7K9wPhyj+3QSjKBi8KxlUpmOqD7Au7FqUEt
+	EBbKhegG47ADKPhtxXcquMurimrE7t+sGcA0VViurPB1rEgxQ1/SSbg1MaaEzlX9oNNbzEvQrcJ
+	EFsLRjYQ77jE8TJCY3pE13smUmaw918IEfY8kcQtIY7QgwOUerS29k89IgqY5Mrod4hm3s3i0Zn
+	YNJC9CjSDeR0nm6Q8Xaqj3rSiuZSnAn1/OmzllSKJ2t1asvDANl7HAu2HDjw9RkVuREDnSoffuZ
+	jfHoewVQgTFwrPY2YSXzsPAOWtl/FkNhWHE4V8rraTrt6loo6KMF/EM=
+X-Google-Smtp-Source: AGHT+IGm+bI7J2BAiLTWgyyBanXYuxf3KQgBZkGMSTMoP/XRp7sbFqPBAo3izpZAhlK9Jv46apiJZQ==
+X-Received: by 2002:a17:90b:224c:b0:2fe:8902:9ecd with SMTP id 98e67ed59e1d1-30823675d12mr20474980a91.1.1744710991907;
+        Tue, 15 Apr 2025 02:56:31 -0700 (PDT)
 Received: from localhost.localdomain ([116.106.96.242])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd21c335asm8335575b3a.50.2025.04.15.02.54.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306dd10c3dasm12843617a91.4.2025.04.15.02.56.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 02:54:24 -0700 (PDT)
+        Tue, 15 Apr 2025 02:56:31 -0700 (PDT)
 From: Nam Tran <trannamatk@gmail.com>
 To: krzk+dt@kernel.org
 Cc: pavel@kernel.org,
@@ -82,12 +82,12 @@ Cc: pavel@kernel.org,
 	devicetree@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/5] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-Date: Tue, 15 Apr 2025 16:53:58 +0700
-Message-Id: <20250415095358.8044-1-trannamatk@gmail.com>
+Subject: Re: [PATCH v5 5/5] arm64: dts: Add LP5812 LED node for Raspberry Pi 4 Model B
+Date: Tue, 15 Apr 2025 16:56:05 +0700
+Message-Id: <20250415095605.8607-1-trannamatk@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <2badc360-9bfa-400a-acca-ab82f8cc5a95@kernel.org>
-References: <2badc360-9bfa-400a-acca-ab82f8cc5a95@kernel.org>
+In-Reply-To: <6e054aad-8e2d-46d9-a45b-e334f7826f5d@kernel.org>
+References: <6e054aad-8e2d-46d9-a45b-e334f7826f5d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -99,63 +99,35 @@ Content-Transfer-Encoding: 8bit
 On Mon, 14 Apr 2025, Krzysztof Kozlowski wrote:
 
 > On 14/04/2025 16:57, Nam Tran wrote:
+> > Add the LP5812 LED driver node to the Device Tree for Raspberry Pi 4 B.
+> > This enables the LED connected to the LP5812 to be controlled via I2C.
+> > 
+> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > ---
+> >  .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts | 60 +++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> > 
+> > diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
+> > index 353bb50ce542..0dec6ce44c6c 100644
+> > --- a/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
+> > +++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
+> > @@ -152,6 +152,66 @@ &hdmi1 {
+> >  	status = "okay";
+> >  };
+> >  
+> > +&i2c1 {
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
 > > +
-> > +description: |
-> > +  The LP5812 is an I2C LED Driver that can support LED matrix 4x3.
-> > +  For more product information please see the link below:
-> > +  https://www.ti.com/product/LP5812#tech-docs
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ti,lp5812
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
+> > +		led-controller@1b {
+> > +				compatible = "ti,lp5812";
+> > +				reg = <0x1b>;
 > 
-> No need for supply?
+> Messed indentation... You already got such comment about your DTS in the
+> binding. :/
 
-Since the hardware uses an external power supply,
-we decide not to include the supply property in the binding.
-
-> > +
-> > +patternProperties:
-> > +  "^led@[0-9a-b]$":
-> > +    type: object
-> > +    $ref: common.yaml#
-> > +    unevaluatedProperties: false
-> > +
-> > +    properties:
-> > +      reg:
-> > +        minimum: 0
-> > +        maximum: 0xb
-> > +
-> > +      chan-name:
-> > +        $ref: /schemas/types.yaml#/definitions/string
-> > +        description: LED channel name
-> 
-> My comment stay valid. I don't think LEDs have channels, datasheet also
-> has nothing about channels, so again - use existing properties. Or
-> better drop it - I don't see any point in the name. The reg already
-> defines it.
-
-The channel was named for the output channel to each LED, not the LED channels.
-They are not required properties because we can control entirely the LEDs of LP5812 through the indexes (regs property),
-but the person who wants to develop LP5812's matrix-related features can use the "channels" for easy mapping.
-
-> 
-> However after dropping this, your example has nodes with only reg -
-> what's the point of them? Why no properties from common.yaml are
-> applicable? If they are not applicable, then the entire subnode should
-> be dropped - you don't need them to describe the hardware.
-
-Actually, the "color" property can be applied, but the LP5812 is a matrix LED,
-so specifying a particular LED color is not necessary when developing LP5812 features.
+Thank you for pointing it out. I fixed the indentation in the binding file but overlooked it here.
+I'll make sure it's corrected in the next version.
 
 Best regards,
 Nam Tran
