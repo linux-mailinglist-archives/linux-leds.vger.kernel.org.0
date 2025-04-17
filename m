@@ -1,151 +1,210 @@
-Return-Path: <linux-leds+bounces-4494-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4495-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D5AA912EE
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Apr 2025 07:43:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86571A91334
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Apr 2025 07:46:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8C5C443BC5
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Apr 2025 05:43:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E880E3A1338
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Apr 2025 05:45:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08CA21E1A3F;
-	Thu, 17 Apr 2025 05:43:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 725F0179A7;
+	Thu, 17 Apr 2025 05:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gTVHKvWW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgYlASUQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10FC1DF26E;
-	Thu, 17 Apr 2025 05:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AC879C4
+	for <linux-leds@vger.kernel.org>; Thu, 17 Apr 2025 05:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744868604; cv=none; b=mJZZuq57PPF6ag+0hm+zDPyILIt4k2Ynss4wxh1fyDkbsaJ9ru6a3yn6zwo7mLZFIps0W/i3TLEHrR3Dj3GkwQPY8ISAqhGQAHk3tvzZBzc9DXjqjVzb6YMuFWe781hYj+Jhi9DEUoIO5YYz8wsGOEpzdQ6bgPjSk0iaz7l3Gw4=
+	t=1744868769; cv=none; b=CGFieAt9ozE4kSBM0sWDVXutne25R8onVQbVEMcFIZZDCtVwuaOZoNFUL84h8WPHk0rclPBKvnJiwtnbtRX4ERIPMqQaeiUclit7gEBs59DhRMlHlGzgEDsHvMJ4IMzt8hrCkIr/eg4NRLA63kRzKF8fDY6JkjHQQMFOQ2sTS5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744868604; c=relaxed/simple;
-	bh=+H6GJqZe88wszfPLN3DOELIGl3ZeXdSBFTpQYHbYMJY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QPMDGC1XjBO706+o6HrSDECuGQGEzwnY0+LqBbYQpYF/KWXUZ95XuBE1ei1p3jdKj7ZZh4XsQAKdbkJs9yQ9NyhbbRCAQik+aPVAeRTbbF9VSzgmTwfH++F6w4xvRHUzl2ME1xkj1KLkvkal6ttluEbye2n0GoyabrZVz9QaZS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gTVHKvWW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07C9AC4CEE4;
-	Thu, 17 Apr 2025 05:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744868604;
-	bh=+H6GJqZe88wszfPLN3DOELIGl3ZeXdSBFTpQYHbYMJY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gTVHKvWWe2zc88whVLBSepXdn6Sn3GQNc6QGHyCp5jebMJIOQXF5eYdd/jVtZ/PHM
-	 PMxfUF5agQAe0MW4c1w3M9GxgXoe5+44sPjsZRU0NV03Oski9Hme2rHPW7Ep9se0QQ
-	 9ZkqF4ijt397cReOmB9CxqpU0SBRubQG/lO2YA86JsHkqKAypHQQE9rNSUuZiP7h+O
-	 lBndNZZ049UxR92FHv/d3A3QYqdciiYR5b7tlcr40mfetZt7FTXrMal1K33rRLxkth
-	 Lw3Jcxnu8SaCRySwYhdax6rlxHFRIkldygthqpvxFUTdatyKWLQnLOQkLNzWfCp9lP
-	 /9LeLxBiMBTSA==
-Message-ID: <878933d0-7062-4b91-ac32-efd5ea190702@kernel.org>
-Date: Thu, 17 Apr 2025 07:43:18 +0200
+	s=arc-20240116; t=1744868769; c=relaxed/simple;
+	bh=Z5ylSX4B/CBBc0CVSw3eALGaSMu9jiHEmDDhNe8abi4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gSfpwwegvAfpcKe8hoXOKNeqgRb+On+U6vHxy9WVRa4g1oJkIrvCNNlNNBHZCThi/03AgEN/ChE7FYhPKdSZMLLWabyFIgNd9ikxS/i70PTDjTQo4Hkjj+HgSSiuosQQiEbH9esumWcE3/ytQKVpLI5Eu2H8xV44TfwIC4O49fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgYlASUQ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744868766; x=1776404766;
+  h=date:from:to:cc:subject:message-id;
+  bh=Z5ylSX4B/CBBc0CVSw3eALGaSMu9jiHEmDDhNe8abi4=;
+  b=NgYlASUQKMN7aZ/11vPymdMy668h7SkMEevsvlfJ/jCEsgA9TL4LZAvB
+   vlqFm7Mfp8n7Ah+U8WgYbgNe1B7EaJO9O49rSxZyK1gI7h6syViePdF5C
+   bQbxOkA+mHm9EuYv3GqhAYEJHe5wZgZT6RDqE6pWjv21FH8zK7rWDqwst
+   er/5/5WdnsSjWZ4tDcPmJyoa2uCf/j/X18cPnnlmfIsbI7F2AlgAh25p1
+   ECpvOp+n1lnEhROtMAsd5iWLT4uF1374cYtM/o2ywnu0pdNRImSnYQnZJ
+   dnrJ1aE3FzqsoWC6iNCPZZreUzw09E/NAxQQHSmX4yj2ryGU7uCF3uTsS
+   Q==;
+X-CSE-ConnectionGUID: rF3dlyw1QOagS8/651ZyDA==
+X-CSE-MsgGUID: gHzK3gw9QNKnkBVjw2ITrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46325579"
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
+   d="scan'208";a="46325579"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 22:46:05 -0700
+X-CSE-ConnectionGUID: 4AYZW2SsQwq74LxR0AZm4A==
+X-CSE-MsgGUID: IXqKpey3TmaK3+YbWzT0Cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
+   d="scan'208";a="131602049"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 16 Apr 2025 22:46:05 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u5I4X-000LRO-1p;
+	Thu, 17 Apr 2025 05:46:01 +0000
+Date: Thu, 17 Apr 2025 13:45:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ cd704688cb842a898f51a0a07c91454ab578c96f
+Message-ID: <202504171332.KqnPr7P7-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/5] dt-bindings: leds: add TI/National Semiconductor
- LP5812 LED Driver
-To: Nam Tran <trannamatk@gmail.com>, krzk+dt@kernel.org
-Cc: pavel@kernel.org, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org,
- corbet@lwn.net, devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <a22eff98-86db-47db-a310-5d00dcba14fa@kernel.org>
- <20250417020622.1562-1-trannamatk@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250417020622.1562-1-trannamatk@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 17/04/2025 04:06, Nam Tran wrote:
-> 
->>>
->>>>> +
->>>>> +patternProperties:
->>>>> +  "^led@[0-9a-b]$":
->>>>> +    type: object
->>>>> +    $ref: common.yaml#
->>>>> +    unevaluatedProperties: false
->>>>> +
->>>>> +    properties:
->>>>> +      reg:
->>>>> +        minimum: 0
->>>>> +        maximum: 0xb
->>>>> +
->>>>> +      chan-name:
->>>>> +        $ref: /schemas/types.yaml#/definitions/string
->>>>> +        description: LED channel name
->>>>
->>>> My comment stay valid. I don't think LEDs have channels, datasheet also
->>>> has nothing about channels, so again - use existing properties. Or
->>>> better drop it - I don't see any point in the name. The reg already
->>>> defines it.
->>>
->>> The channel was named for the output channel to each LED, not the LED channels.
->>
->> I don't understand what you want to say. Please explain why existing
->> label property is not correct here.
-> 
-> I understand that the label property is deprecated and that the preferred approach now is to use function and color instead.
-> However, in the case of the LP5812, which is a matrix LED driver, these properties are not a good fit.
-> The LP5812 does not associate each output with a specific function (like "status", "activity"),
-> and the LEDs driven by LP5812 are not fixed to a particular color.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: cd704688cb842a898f51a0a07c91454ab578c96f  leds: lp8860: Disable GPIO with devm action
 
-Then use label instead of creating another property. If label is
-deprecated, how creating another property which duplicates the label
-solves anything?
+elapsed time: 1464m
 
+configs tested: 117
+configs skipped: 2
 
-Best regards,
-Krzysztof
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                   randconfig-001-20250416    gcc-12.4.0
+arc                   randconfig-002-20250416    gcc-10.5.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                         bcm2835_defconfig    clang-21
+arm                          gemini_defconfig    clang-20
+arm                         lpc18xx_defconfig    clang-21
+arm                          moxart_defconfig    gcc-14.2.0
+arm                       multi_v4t_defconfig    clang-16
+arm                   randconfig-001-20250416    clang-17
+arm                   randconfig-002-20250416    gcc-7.5.0
+arm                   randconfig-003-20250416    clang-21
+arm                   randconfig-004-20250416    clang-19
+arm                           sama7_defconfig    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250416    gcc-8.5.0
+arm64                 randconfig-002-20250416    clang-21
+arm64                 randconfig-003-20250416    gcc-6.5.0
+arm64                 randconfig-004-20250416    gcc-8.5.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250416    gcc-14.2.0
+csky                  randconfig-002-20250416    gcc-14.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250416    clang-21
+hexagon               randconfig-002-20250416    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250416    clang-20
+i386        buildonly-randconfig-002-20250416    gcc-12
+i386        buildonly-randconfig-003-20250416    gcc-12
+i386        buildonly-randconfig-004-20250416    gcc-11
+i386        buildonly-randconfig-005-20250416    clang-20
+i386        buildonly-randconfig-006-20250416    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250416    gcc-14.2.0
+loongarch             randconfig-002-20250416    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250416    gcc-6.5.0
+nios2                 randconfig-002-20250416    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250416    gcc-11.5.0
+parisc                randconfig-002-20250416    gcc-7.5.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-21
+powerpc                   bluestone_defconfig    clang-21
+powerpc               randconfig-001-20250416    gcc-8.5.0
+powerpc               randconfig-002-20250416    clang-21
+powerpc               randconfig-003-20250416    clang-21
+powerpc64             randconfig-001-20250416    clang-21
+powerpc64             randconfig-002-20250416    clang-21
+powerpc64             randconfig-003-20250416    gcc-6.5.0
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-16
+riscv                    nommu_k210_defconfig    clang-21
+riscv                 randconfig-001-20250416    clang-20
+riscv                 randconfig-002-20250416    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    clang-21
+s390                  randconfig-001-20250416    clang-21
+s390                  randconfig-002-20250416    gcc-6.5.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                         ecovec24_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250416    gcc-14.2.0
+sh                    randconfig-002-20250416    gcc-6.5.0
+sh                          rsk7201_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250416    gcc-11.5.0
+sparc                 randconfig-002-20250416    gcc-11.5.0
+sparc64               randconfig-001-20250416    gcc-5.5.0
+sparc64               randconfig-002-20250416    gcc-11.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250416    clang-21
+um                    randconfig-002-20250416    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250416    gcc-12
+x86_64      buildonly-randconfig-002-20250416    gcc-12
+x86_64      buildonly-randconfig-003-20250416    gcc-12
+x86_64      buildonly-randconfig-004-20250416    clang-20
+x86_64      buildonly-randconfig-005-20250416    clang-20
+x86_64      buildonly-randconfig-006-20250416    clang-20
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250416    gcc-7.5.0
+xtensa                randconfig-002-20250416    gcc-9.3.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
