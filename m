@@ -1,75 +1,77 @@
-Return-Path: <linux-leds+bounces-4506-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4507-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F196DA94517
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Apr 2025 20:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F376A9451B
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Apr 2025 20:44:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20CB73AD7E2
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Apr 2025 18:43:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCCBD3AE753
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Apr 2025 18:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F2A91DED54;
-	Sat, 19 Apr 2025 18:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57ECB1DF991;
+	Sat, 19 Apr 2025 18:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TjnTq48V"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWgwa2f9"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65041C84C7;
-	Sat, 19 Apr 2025 18:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98A61D5176;
+	Sat, 19 Apr 2025 18:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745088244; cv=none; b=s55ZZW+mHg0U8b8No8Ol3rQpMdV0GEgJiy0NAdyTTtsyJV7jzCwZgwN4ynfRYWg87n615B2o2qSjkCy9YVa955yxhaTE+cbPveUq4aA46o2aj+fwj5cbpbN73h6XvWisYNYHHLGKdJ4kZDowUP26qCnD1CSicqq/Y5WNcxtB+3Y=
+	t=1745088258; cv=none; b=P8+M1UF+Z22GdAheaK33vmjkw6MrC5Fs8BYV38FDcbG2s06EI2gC8Vlyt2YmOAWoTfKIJYEOSTDgKu3lq3Rk7Da52QvXW9U1MZmRxk1zd+1Z++hoS+WZqNelqkGxOLB3rNruvT47/iMlCjLzYgJCaUl6P+D+uiRULXlGpaBMfBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745088244; c=relaxed/simple;
-	bh=xN9R9QHlggheOZhKFP5TaJueN4ygvkm+pTmL2UM3tzY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Lww0y+7kKsbm99kSAfSyPtXutTb1AbE/pIla9VAEspb89XGREw4zX4NapZo74wP7n63ig4x4MO4/WjttC9a72whBNPvfmZp5uLCHCVM73/p2uUZCSE/J/GR0qHDyhbu4cm2mvx6SfjdkAysUPdUE/JshFGlFYQ73l7wzFDKpbsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TjnTq48V; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1745088258; c=relaxed/simple;
+	bh=4LimvYxESNA0NXYQWn+IF7E/ejjKw5iYLV/aPbA8Qi0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FEOgFmYjKyvjTGfvPzbCVjgNXFYyfhSpcwUSqBpRC1zNI57/Yd9klUVlr/b3ARaq0YDEZpwqs87E8BSd57IpjPBTl3Zl3wBCDQX8cNt47Qhw1nUkma25h7S/qyqggh5Sp6sd5JEc+lL7zA1uV9Qw9NZ8WHZXPtM59FOaZOWnvas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GWgwa2f9; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-30384072398so2354928a91.0;
-        Sat, 19 Apr 2025 11:44:02 -0700 (PDT)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso1964777a91.2;
+        Sat, 19 Apr 2025 11:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745088242; x=1745693042; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ijbkwuJz3JBQMyLg3M9/k4WnhScokz0mU3Vgn1ijLyE=;
-        b=TjnTq48VW2xLvuNJV1hEq0qT2Ok4KwMw/KPgDvui8kEJpAXgbQkD2+yf6G8+uz3gQ4
-         D+8FZTHYwgX72O2g68Fd6UGYh7+K+wGmaM+/FLczixjFlshBFQyjNd0Dzr1DL7vl7I1D
-         n+yb848eKxNM+OzPXDrXbw7pBXX/C/sdq0BWxdjJftWzztoE60N1fdEu4llLi85dnc1c
-         NASXsygDRNzyGZq3tNky6gWSvxI0wQrbZLKfMfOe2NfzAmaDa7JoplfUQhd6X1Xzlbim
-         8G7VNF8ux3TAMuBh2NEIGiXmLVDIB/fQ9vsdrV3Po8BrXzRoNcwikXQj1VtxzYIFuVL4
-         9U5g==
+        d=gmail.com; s=20230601; t=1745088253; x=1745693053; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4nZ2sGH9m8YRYJglY9thI57B2sIysH+IbvXMayQluKg=;
+        b=GWgwa2f9/eonSF6X0+LK7N1zP3ZGlzXWpaZ5tSONOHzkTSfsY5j1S4yGYIiBOdIpxv
+         MYx4YNP0Oompw1/YfvzJwZ9q2ZdLFTzpVi3RYiKqToKOhfq0hfFUe3BRe0IDJmnUSDpn
+         lhCAZjY8Aw0RylSpSgRHnsyFmCsFSygWEbZ5ggvV+SALFQDyDaSO2ZRpJIRn5f9eL1Kz
+         ZbRcXv4Lx8VPOkyEpVuAX7OStjaeU1RxWcG7I5jspi/Be7DFrQJIpk8kG7YppampUb5v
+         VEujXm6I4+4tBDVSkBffZILXaofJi0Yb70ZabPWHB1afUYB6W5X+1QevYcDVOH5KYyVp
+         QH9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745088242; x=1745693042;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ijbkwuJz3JBQMyLg3M9/k4WnhScokz0mU3Vgn1ijLyE=;
-        b=FtoHoa7jQ0iPxc/Cpo6e2MFeHdF7ID36WwIJMUyGSRHe6eGGFS+6/7cVrLOPrbEq/f
-         U6FitQIRvt4UmbFe8B2ruQHWXfRSTEFWecibmb+yodbqNQdzVNP5fC+OTaZU9FYAidt5
-         1VVaULqgulsY8zsMwFOpyUH8lZupK5i401IYm5RKTfAOVXPZRxAwAFYOsbItKt0axSo3
-         1B4svoofbQ8KTQ2/Q67I2y7SLRDyUyS/AI/o33HtjWQw36MjHLW50OrrjLy5vXyS30w1
-         eenzHFMFQSmTAwCUbFTmZL9tjlQlniekh7r4cYA9hZahVNGbBfPL5C5aB+SVyDlHKklX
-         yjsg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1J84FDvnhdxJhzNs6ICZWCZ4TqGwWiH5lJG/yxdNX/5uNxd/kU+a4UXflVSzPrxJ0MnTEVPygYXV7BIE=@vger.kernel.org, AJvYcCW2oZ5K7r/fbUjNgqOEAA5sfAUuSVZjgo+UwjD8OrWmz59tFKf+4lDB4s6iA/XQ8dGa5dyMpT31yBhR5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxc7AjCjLrcU9NzbF8fqBig7UlQTL6CZgXUFA1NAU5YVCgmu083
-	n2tRMgfwxTaRc5Q4pnpC8d4gW0t/a5x9CzvDjbTxV+f0vdCV9Ay9
-X-Gm-Gg: ASbGncvGz5gLrCntmh0w0Iv0RsNKllOYzTOrkqjnYFr/5ed6zOaUAvp09n5+Q4QOoVZ
-	mV+PhvbFKcS8mR6NdEzKovUSr3qi5Kf8whbDIlys9rSBH1L01pksveuVpIN0uloCXSYiWHDQ+fS
-	NXFeRYm1QFwJq8/KeUzb15n/QL4ZbdOOaJQBLgF3bbv1bAWP1g/3LklokLWNwhLI5KiacLH5WRO
-	1gRM+95tZkLu8qf2idQHqgNuKSq2nlDgvLZ3iAbyxst+On7rQUcHRflZXNKjZjCLSlGk3IfBwKv
-	YbkH4exJis+feut/sMxxDGfk9kDwBfvvLK0SKOy/LJgqqR5y5YM5
-X-Google-Smtp-Source: AGHT+IErrjvrMdRDEriBQfqCq9LilN6m+1YPbXhICEem4Y7dsW+Gxc8R4w3pmLq8AZhFoW2onRBHnA==
-X-Received: by 2002:a17:90b:498d:b0:2ff:4e90:3c55 with SMTP id 98e67ed59e1d1-3087bbaeb22mr9109796a91.27.1745088241850;
-        Sat, 19 Apr 2025 11:44:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745088253; x=1745693053;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4nZ2sGH9m8YRYJglY9thI57B2sIysH+IbvXMayQluKg=;
+        b=vKiS0YT00ypUG3uOGTqFjLuiDga5chVI75m1XudCBBaSK/2vBRkq6tbcqu1iaW+ao5
+         PGgcLiStgg4SYaZBUrYHmUj6e3OcgCpnz+5wL/3rsqHMQF5/DhWqmv8e22glV9D7MD9N
+         Yh/Zmhv5dGlTeztuIyJP8S8hMBzON5soh/vZlC/1HKL4MtVXyCusv8JDaMvHAkw/S8l4
+         A0GjSFd2mdjtrbfnsu0S5A8wb++OR7YUdD303KHM/DGUcGkv7cNr6go2AxX0vnWaGHKM
+         z8kjVUw1zuUbwWDPCiBKWDiDEz2qoTGgJ9mLwst1U8VoDJ6/B0TFi+5uBd8uJOaEcHVc
+         dmJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEKiXPEh5VD6fqHx9COL1ig4EUa2QPDo00KHGMkgeuWg7f2qgB5H+swUtpeAZcm5Mtkh9zgzQec3wzlA==@vger.kernel.org, AJvYcCWsaXXvCi4BWaaJxnmSt9Ixd5nmRhbk5pAIizjM7NGK96/I9gdm/cdEw3Ub1pcJFnEWTCyQRZ8aoN6M8Q0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynLecMGfyWpQpLytiG01T/h6qW6caqJ/Ql1CiF3pdgU5e01/Yv
+	QWX9PuwNJsx+QAAchODRiLVHCQ63kGaugiqVfgKntGo0vRGRAWPa
+X-Gm-Gg: ASbGnctjmoKHp+itszYhGiogKjRL8Zm/MKNuOj8gpqsy/MCzZiBNB1w5SWiAP5HuCRH
+	eIUCxOirDeAmTXN8ar8+IMvz6lMawb0fqrn9zFd48rlUxxR7+c8qle96sw43Gsd+3zsE1UdyPeu
+	P7W+tt8Uchr0Tsh1ndOfG5VJT3f4cfrU5eXZIfcOHfcAwe5D/OUYOZqJKqxekRzN+oI5plLpsN/
+	Cb4c9Ab2TKhCxe4i8DM3iV2uhm4AOMY8zN5eXm5D2EVJCKDmPeMuxElLpCbyHr2ahBusyO1vXHN
+	SBvpq+Nj51lGD8iSsKvvFFj/tCyXfkU8PFShwP1M4nLLJWYGeh5R
+X-Google-Smtp-Source: AGHT+IFrdDGKh3njVbvpawTlMHtI+eN7MLm9RXkHu6p9Opf8uFpXmvGtJkVCv/3TYsGr932u1ipjXg==
+X-Received: by 2002:a17:90b:540e:b0:305:5f55:899 with SMTP id 98e67ed59e1d1-3087bb48f40mr9974040a91.11.1745088252957;
+        Sat, 19 Apr 2025 11:44:12 -0700 (PDT)
 Received: from localhost.localdomain ([123.17.0.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3087e1149b1sm3383052a91.40.2025.04.19.11.43.58
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3087e1149b1sm3383052a91.40.2025.04.19.11.44.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Apr 2025 11:44:01 -0700 (PDT)
+        Sat, 19 Apr 2025 11:44:12 -0700 (PDT)
 From: Nam Tran <trannamatk@gmail.com>
 To: pavel@kernel.org,
 	lee@kernel.org,
@@ -81,10 +83,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v6 0/5] leds: add new LED driver for TI LP5812
-Date: Sun, 20 Apr 2025 01:43:28 +0700
-Message-Id: <20250419184333.56617-1-trannamatk@gmail.com>
+Subject: [PATCH v6 1/5] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+Date: Sun, 20 Apr 2025 01:43:29 +0700
+Message-Id: <20250419184333.56617-2-trannamatk@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250419184333.56617-1-trannamatk@gmail.com>
+References: <20250419184333.56617-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -94,50 +98,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch series adds support for the TI/National Semiconductor LP5812
-4x3 matrix RGB LED driver. The driver supports features such as autonomous
-animation and time-cross-multiplexing (TCM) for dynamic LED effects.
+The LP5812 is a 4×3 RGB LED driver with an autonomous animation engine
+and time-cross-multiplexing (TCM) support for up to 12 LEDs.
+It supports both analog (256 levels) and PWM (8-bit) dimming,
+including exponential PWM for smooth brightness control.
 
 Signed-off-by: Nam Tran <trannamatk@gmail.com>
 ---
-Changes in v6:
-- Add `vcc-supply` property to describe the LP5812 power supply.
-- Remove `chan-name` property and entire LED subnodes, as they are not needed.
-- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
-- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
-
-Changes in v5:
-- Rebase on v6.15-rc2
-- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
-- Address Krzysztof's review comments
-- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
----
-
-Nam Tran (5):
-  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-  leds: add TI/National Semiconductor LP5812 LED Driver
-  docs: ABI: Document LP5812 LED sysfs interfaces
-  docs: leds: Document TI LP5812 LED driver
-  arm64: dts: Add LP5812 LED node for Raspberry Pi 4 Model B
-
- .../ABI/testing/sysfs-bus-i2c-devices-lp5812  |  144 +
- .../devicetree/bindings/leds/ti,lp5812.yaml   |   46 +
- Documentation/leds/leds-lp5812.rst            |   79 +
- MAINTAINERS                                   |   12 +
- .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts |   10 +
- drivers/leds/Kconfig                          |   16 +
- drivers/leds/Makefile                         |    1 +
- drivers/leds/leds-lp5812.c                    | 2797 +++++++++++++++++
- drivers/leds/leds-lp5812.h                    |  350 +++
- 9 files changed, 3455 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+ .../devicetree/bindings/leds/ti,lp5812.yaml   | 46 +++++++++++++++++++
+ MAINTAINERS                                   |  6 +++
+ 2 files changed, 52 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
- create mode 100644 Documentation/leds/leds-lp5812.rst
- create mode 100644 drivers/leds/leds-lp5812.c
- create mode 100644 drivers/leds/leds-lp5812.h
 
-
-base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+diff --git a/Documentation/devicetree/bindings/leds/ti,lp5812.yaml b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+new file mode 100644
+index 000000000000..28cba25713be
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+@@ -0,0 +1,46 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/ti,lp5812.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI/National Semiconductor LP5812 LED Driver
++
++maintainers:
++  - Nam Tran <trannamatk@gmail.com>
++
++description: |
++  The LP5812 is an I2C LED Driver that can support LED matrix 4x3.
++  For more product information please see the link below:
++  https://www.ti.com/product/LP5812#tech-docs
++
++properties:
++  compatible:
++    const: ti,lp5812
++
++  reg:
++    maxItems: 1
++
++  vcc-supply:
++    description: Regulator providing power to the 'VCC' pin.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@1b {
++            compatible = "ti,lp5812";
++            reg = <0x1b>;
++            vcc-supply = <&vdd_3v3_reg>;
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c59316109e3f..3901c04b9734 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23934,6 +23934,12 @@ S:	Supported
+ F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml
+ F:	drivers/iio/dac/ti-dac7612.c
+ 
++TEXAS INSTRUMENTS' LP5812 LED DRIVER
++M:	Nam Tran <trannamatk@gmail.com>
++L:	linux-leds@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
++
+ TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+ M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+ L:	linux-leds@vger.kernel.org
 -- 
 2.25.1
 
