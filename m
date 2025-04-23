@@ -1,159 +1,113 @@
-Return-Path: <linux-leds+bounces-4534-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4535-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1742AA98AAA
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 15:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F118A996E2
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 19:41:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8336B444811
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 13:17:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C11F317A4E0
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 17:41:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B4E89460;
-	Wed, 23 Apr 2025 13:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23EFC28BA93;
+	Wed, 23 Apr 2025 17:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGN3gDJn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C766E175D39;
-	Wed, 23 Apr 2025 13:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745414208; cv=pass; b=QD9zY08wVhcDoxaFQMh5Ka3CqCflcqpkYJ1WsQPZTG8LgEEsBcWWcpPtVA/sNze8ccImNCBV2njq/X1zxD7ZalaKTXmFpyhH+vgfzymmV/nzfTPF2CJbHCLKEXXib1XvFATQ5dy7X4lnn7WH0p4xqSdf5bN6TCeYXMG0TGLszJk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745414208; c=relaxed/simple;
-	bh=kNayzEzkjCs1/4pm8otoqw4jLJ+GydTPyP6NPwYg2WQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VS2L7+y+JXian2aDEu1zIgUpkjMfrLc6GWJd6i6iQgUL0DBGcscP2GrokZmbVyonG+JV5t4uV/1t+QmNUdFbsvDgqjx4CLpf002Dey/eL28QfYls5i3mfuN09WK8NaBHfhNg+1xvp5zLw7xR0I3zpM2WU0YQDYxchTl3x785dtI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de; spf=pass smtp.mailfrom=inhub.de; arc=pass smtp.client-ip=85.215.255.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inhub.de
-ARC-Seal: i=1; a=rsa-sha256; t=1745414009; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=HRXU7wGshUu532ZxcY7tV+qEp6mFzKOi4q/UyV+bq+RHQ3YKgsrvEX0AsJqaT9lYIL
-    eTKwDacEjzKu/PanfGqCGE32rt9JzMpzJGR/CA4LHaueFgZsP+4SIUtuZyNnlhrjxkjn
-    K2yVWy24OLn/MimBQOU37zGZWBgtJ3kFcO0Wt5531/Vxx+WHd9azzx1lbOcdg9RgQg1j
-    96SIjXO7i+LLks1+PFgncERV7w75ynKDGId+s344H/mhjujKyAV4Uzrzp1mvCZfZbYdI
-    CvBcL7tEts0aJM5D+WvVOi3fgDp+nsqsRFTlG/DDlI7LMnRURfz9P36siji+6czrS/0i
-    vUzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1745414009;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=BMg4HvcYreT+0C+HGW4OV8l9drZXEa9SFupW3ExIgjk=;
-    b=ld+7wWGKC+MkrJzPSqFypwET8M672NqOWOemuPnDz7ExKkXg84HHp2GZMAjdspjcxO
-    PGtFOnP0dSKQJoEK6oVGpLUHoDlaUUddQzUhM9hYLx++fcINKCdkOE4eiowO+GwmNt8/
-    BjEuidcPxYBEsWyFtICEoSxW0TbZnDCt6YnH25YoeP8J0LxJ76CJ+YfzdvgX+JOEedcB
-    9JxQ0WA975v0iQag9WpEW/j5TQMYAgEncY1/pZdJlGprWgxf+GV7p/lo4cH61s6MBDbk
-    OBIsE3sHz81rZFFa2LK+iKmHAT/WucN+wA4TLcLQuoDNm1+SyC9k0kTrHgDPGFIXhLVz
-    qhpw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgaKe3jg5kqErvsv7wxhn7R+CZYOGugK8="
-Received: from crypto.lan.inhub.de
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id J569d713NDDTBQz
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Wed, 23 Apr 2025 15:13:29 +0200 (CEST)
-From: Tobias Junghans <tobias.junghans@inhub.de>
-To: Lee Jones <lee@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	linux-leds@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Tobias Junghans <tobias.junghans@inhub.de>
-Subject: [PATCH v2] leds: trigger: netdev: refactor dev matching in netdev_trig_notify()
-Date: Wed, 23 Apr 2025 15:13:23 +0200
-Message-ID: <20250423131325.235098-1-tobias.junghans@inhub.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250411074421.GV372032@google.com>
-References: <20250411074421.GV372032@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D8A289373
+	for <linux-leds@vger.kernel.org>; Wed, 23 Apr 2025 17:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745430022; cv=none; b=MBNN8S4inYFDWSg0ApQjm4vK/WpbXU8t3xvAEkkBk1n6E1xdxBoaTTIC2sd9nDYjVySSIjkIj4lQGQbywvm+WE1sOlp8mPif9cRjbPcFOB8yUvZqqVClyIFl6KgFem4BoX8HEBtfegXqZnHuFkVsuGRnVdtL6hblE+DqfkVkZrw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745430022; c=relaxed/simple;
+	bh=gq0lJxz5PvsTljDzovSHYsWFyp28Vf8lY/vlKTTOIEc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b/vrj0XBW0pUZRpMei5emNq8Q1s9W9BrxcFwWTW23312kLJd666OQWdUj322IJ+yp9iTez3VE/z0rYtOJbcD8dC/ga78Na8T3FATrEg/U1KWgn9TynMElz4jXj7czJqUicn5r6nhtGTzBJu4RyBrJPnGKmzA2WBzopuYbvlA8Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JGN3gDJn; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ac2a81e41e3so26957766b.1
+        for <linux-leds@vger.kernel.org>; Wed, 23 Apr 2025 10:40:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745430019; x=1746034819; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nVGWJ1dr5AYSO3m4fnqiIeoBn0aY9z8ooa7ipZf1hvw=;
+        b=JGN3gDJnCf5zg0aqfjdZQh/D5iplPv3Y+pW0f/M75j8XAsNOUut3z1m8B/pAypS0kc
+         +p2ij1V6a4jnpAoRhqU6qL2iS/8KUplOtjfegrwRw64WdX8Bv6xwCacQZ6uur/ksRQaP
+         T81vilzNH6jAw7Duv7pREI+8sHfpg4VgJx2k75Az3jE0bCaBcn55HJF2KRy0tSAQ6UQb
+         twdlVFsZ8ZDd+wT1RBt3iWpX/ipLywGEYA8ATiS84ntOo9RK0Aa5b5uq5f0Fga8My4aj
+         Px67ZJ468cJI+6OvWQ5oNsgr8Ph98oKZpns62zQyf2GjmcOeqXiEjAJrRltFFKMeP/FL
+         fdWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745430019; x=1746034819;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVGWJ1dr5AYSO3m4fnqiIeoBn0aY9z8ooa7ipZf1hvw=;
+        b=Wzeg3NXbOkMbc8ibASxEMuHoDTyICITwCwO/J/xOqv361U5cglyTGu4NxCTvmUspve
+         9DzW/kGL6sn3Of2jwpzdSUUnN2UYUy5lSnVwVnnZIZWTQBeiQF5zkbRd/PWCWzuStD7d
+         DMYK8eys6ykok63vDQqJVcezs/zuGVbYr75jM/2zUro+g+tO/cGjbht66yK0ZgTZ8Rs3
+         setnms45EOIyS+BZVyln/WfmLSfCr2pLVWMRw1AIVUgMXf4OMcZAa6vAwb8l+NyZq8oe
+         yveji8O5KjsPJv8TqCjmuqwNXvoJphZ00JV1VlPTqbDAVTX+eU6xC72SK8dfVgZo+J2y
+         XLPw==
+X-Gm-Message-State: AOJu0YxhvnXQpNtmXf41CU+XG/D5L3Csw+SZBS0u1tTF91stnLqBuUQe
+	NonGeRzaIPHlq/ax/m7o9Q6vyq1ehwPBPXrN2SpFcpDh/LhcCb7ZX4QUMA==
+X-Gm-Gg: ASbGnctpITT9r+/nVo/aYCKJk1E5fLlfasdjewk4RR1KsWmuM9gm5h+mHjVDbpw4/fu
+	VVMFh5BQkhTae2HffYvTT1Ch29vfh+oMMXHJLNBIAYSpXVgrZfAD8CwcKJwwmuyRgW8afn4ZOcd
+	yyKp98Y+dyJhqpECJmJevl7coJ0SCRQ2aexOIdrdCQ+8UBUGNTqd0SuTalCta7Xm13k8YSOtnvd
+	gFC3LMHjnzYIKOXy+K99FHVCNL8ypvOLwfT5rYnbT2S1laK1in+uQBKeT1E6+5b1VOF+GON4BPz
+	0aEOEX+0hfPad/LoNL1hYxvnrZd+vxYCE7v9cnoND99siFtro+wx1w==
+X-Google-Smtp-Source: AGHT+IGYkfSMjhRFjvz/O7d85i/mfvDBdN2RINXnmLLwXUOj6CrpVt2QaBVpG6UJetDRL5+PanJ1bw==
+X-Received: by 2002:a17:907:26c3:b0:acb:b1be:4873 with SMTP id a640c23a62f3a-ace54e6ccc8mr1038166b.2.1745430018466;
+        Wed, 23 Apr 2025 10:40:18 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ef468dfsm826621266b.133.2025.04.23.10.40.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 10:40:17 -0700 (PDT)
+Message-ID: <2481f089-7da5-44fe-9e74-7dbcd64e486f@gmail.com>
+Date: Wed, 23 Apr 2025 19:40:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: LEDs Testing Framework
+To: Lee Jones <lee@kernel.org>, pavel@kernel.org
+Cc: linux-leds@vger.kernel.org
+References: <20250423092551.GA8734@google.com>
+Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20250423092551.GA8734@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If there are network devices with the same name in different
-namespaces, ledtrig-netdev gets confused easily and switches between
-these devices whenever there are NETDEV_CHANGENAME/NETDEV_REGISTER
-notifications.  This happens since ledtrig-netdev only checks for
-device name equality regardless of previous associations with another
-network device with the same name.
+Hi Lee,
 
-Real world example: eth0 is the primary physical network interface and
-ledltrig-netdev is associated with that interface. If now Docker creates
-a virtual Ethernet interface (vethXXXX), moves it to the
-container's net namespace and renames it to eth0, ledtrig-netdev
-switches to this device and the LED no longer blinks for the original
-(physical) network device.
+On 4/23/25 11:25, Lee Jones wrote:
+> Good morning Pavel, et al.,
+> 
+> Is anyone aware of any LED testing frameworks?
+> 
+> I would like to author one, but I'm hesitant to reinvent the wheel.
+> 
+> Kind regards,
+> Lee
+> 
 
-Fix this by refactoring the conditions under which to return early with
-NOTIFY_DONE inside netdev_trig_notify():
+AFAIK there is only tools/leds/get_led_device_info.sh script written by
+me few years ago, while working on LED naming standardization.
 
-- For processing NETDEV_REGISTER events, the device name has to match
-  and no association with a net_dev must exist.
-
-- For processing NETDEV_CHANGENAME events, the associated and notified
-  network device have to match. Alternatively the device name has to
-  match and no association with a net_dev must exist.
-
-- For all other events, the associated and notified network device have
-  to match.
-
-Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
----
- drivers/leds/trigger/ledtrig-netdev.c | 29 +++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 4b0863db901a..75d8c8fe9afc 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -574,15 +574,28 @@ static int netdev_trig_notify(struct notifier_block *nb,
- 		container_of(nb, struct led_netdev_data, notifier);
- 	struct led_classdev *led_cdev = trigger_data->led_cdev;
- 
--	if (evt != NETDEV_UP && evt != NETDEV_DOWN && evt != NETDEV_CHANGE
--	    && evt != NETDEV_REGISTER && evt != NETDEV_UNREGISTER
--	    && evt != NETDEV_CHANGENAME)
--		return NOTIFY_DONE;
--
--	if (!(dev == trigger_data->net_dev ||
--	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name)) ||
--	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name))))
-+	switch (evt) {
-+	case NETDEV_REGISTER:
-+		if (trigger_data->net_dev ||
-+		    strcmp(dev->name, trigger_data->device_name))
-+			return NOTIFY_DONE;
-+		break;
-+	case NETDEV_CHANGENAME:
-+		if (trigger_data->net_dev != dev &&
-+		    (trigger_data->net_dev ||
-+		     strcmp(dev->name, trigger_data->device_name)))
-+			return NOTIFY_DONE;
-+		break;
-+	case NETDEV_UNREGISTER:
-+	case NETDEV_UP:
-+	case NETDEV_DOWN:
-+	case NETDEV_CHANGE:
-+		if (trigger_data->net_dev != dev)
-+			return NOTIFY_DONE;
-+		break;
-+	default:
- 		return NOTIFY_DONE;
-+	}
- 
- 	cancel_delayed_work_sync(&trigger_data->work);
- 
 -- 
-2.43.0
+Best regards,
+Jacek Anaszewski
 
 
