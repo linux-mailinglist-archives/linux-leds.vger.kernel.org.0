@@ -1,134 +1,132 @@
-Return-Path: <linux-leds+bounces-4523-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4526-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217FDA97E10
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 07:30:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5656A9818A
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 09:50:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A965189BF63
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 05:30:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E049F1894A09
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Apr 2025 07:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4032F263F38;
-	Wed, 23 Apr 2025 05:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 569EC26B0AD;
+	Wed, 23 Apr 2025 07:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b="FPivEqvB"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="mmk4QKMI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BC726659B;
-	Wed, 23 Apr 2025 05:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D13E26B2A1;
+	Wed, 23 Apr 2025 07:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745386214; cv=none; b=Y0limrKqbb7oKQmb9EwsPcKwTLS7dNjGwyhWUx+iTFBvWuLYNgyeenzkiECbetV5l2IQwRPU8zXLzLXLnMXkJLs1kC+GzQdPV9gGdXpRdVkmqRwFEaPaDvI+zBJXAzBj95dIg4nuJVLPVjDdRoL3Yt/8D9Ik60CHviiRA7Qz1jA=
+	t=1745394535; cv=none; b=NhMbbkpIDA6oys7eZbEEV/DklhNmFiJfbC7H9G55II72ovm7rndjbS0SJe7ttAjjvsky2fGVqRhFY85V3iTVRREc33/3J0zm+dpJQr0H/ik9/WsMwr25gL0IJCU9Z9HrXP4kEUe7us+fLVv7wm4Bu3WSnm+D6ZHanmi7PlDvUgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745386214; c=relaxed/simple;
-	bh=FlriVym+Js+dNVuPnyNYfAgam4ZC1vp+i/CRui2G3sg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EiNFPI4B4B53Cr1eG4IRUw/RYD9KoZsyr6N4py2kyEediSE5z/B10Bb0K8wuZ2wE5u9/d33mbVM90bdv0Dv13TDCb21cIYz3jTZYv47OzAM8j8ImXjJZxz7J9kBc4r+M2WMpJFnTqiMBnzMbHDAiqIGWI1EELoAOkDBlCYnhz5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yoseli.org; spf=none smtp.mailfrom=yoseli.org; dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b=FPivEqvB; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yoseli.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=yoseli.org
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0424743A3A;
-	Wed, 23 Apr 2025 05:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yoseli.org; s=gm1;
-	t=1745386209;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RvQcDheIAFurSmOQdGUk8xpL5w1EwUFvHhEtcJWMar4=;
-	b=FPivEqvBosI4uRVdEGLIEh6h9o8eGiBwF9OwgqoFKwYP9oTRB38ocxcOCxJL7odPXt5VIU
-	AlFvtorWE6gagqPL5GG47uMYpfQQPiqTBYLdnE0xI/qP+QtjERYfytjy9HF5KH2zDoF+zf
-	gfVeMXLD1ms0Cng4um79k7TVBMT3n/z4pzR6F3kem8v45wVTg+qE05mlEwVAJP18HTwYzw
-	EtBNkuFonQ81SEGnVm7ax1Au8KXts3nFpluOQdsSwQX48BDMDKQo5kM2Sfq+UcmMs+R8Dj
-	1zbM0tP2PDonalESMZPlhXt0r+uHXnlrUY4P3TMW3iufmxJGaOQt0ruItgyREA==
-Message-ID: <a1c58126-8a1e-41dd-8bf7-b2d721421dbb@yoseli.org>
-Date: Wed, 23 Apr 2025 07:30:08 +0200
+	s=arc-20240116; t=1745394535; c=relaxed/simple;
+	bh=/Wub9CFRtt0AtAxGPFB10GQcM5GZazbfFhA0jn7wydg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KGg9cXzfsU+rDTQsTBUvbzUMJS7Bjk/fuuf/TUJxuHrzoHfh3Fke2wGVnxI3omm4o+dC+4L6XbYyitYVzm3Zk7JffPd4uxuRthBGaVsNCM2q8aC1yf9GCQRHLN+RjNeKs3hg+emQQg7yBo811Bg1uqe00meVrPB37aXfcNzBMGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=mmk4QKMI; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=2nkAQ7fLyP2LfmpJZMBXSQZ/uaucc6/NS2Ynh8Ha9jc=; b=mmk4QKMIi/tOv5r14sFA2O/Bl/
+	aF6p3CEoOGGbIBKOBeiL9+HMFtS4JfU1JiWS9qNBXJw1q9HxupoLxZwNaQTe9lUc5mXwmPXTtxltu
+	fKLG0C7bRe5uoRMKnvuLyLRyDLP431foY+yE61+2bVMup2lzm6xDU9ZTFID3pxP/jcVE=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:55820 helo=[127.0.1.1])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1u7UHr-0063ZQ-2L; Wed, 23 Apr 2025 09:12:51 +0200
+From: Matthias Fend <matthias.fend@emfend.at>
+Subject: [PATCH v3 0/2] Support for Texas Instruments TPS6131X flash LED
+ driver
+Date: Wed, 23 Apr 2025 09:12:48 +0200
+Message-Id: <20250423-leds-tps6131x-v3-0-ca67d346a4ea@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: leds: improve readibility of multicolor
- doc
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250421-leds-doc-v1-1-9a32df7fc6f4@yoseli.org>
- <aAhYDY2DBxFW0yI_@archie.me>
-Content-Language: en-US
-From: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-In-Reply-To: <aAhYDY2DBxFW0yI_@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeehjeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheplfgvrghnqdfoihgthhgvlhcujfgruhhtsghoihhsuceojhgvrghnmhhitghhvghlrdhhrghuthgsohhisheshihoshgvlhhirdhorhhgqeenucggtffrrghtthgvrhhnpeefieetgeehvdeggffgffetheehhfetkeefhefhgeeuheetueffueeikefgffffteenucfkphepledurdduieehrdduieehrdduleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledurdduieehrdduieehrdduleejpdhhvghloheplgduledvrdduieekrddurdeingdpmhgrihhlfhhrohhmpehjvggrnhhmihgthhgvlhdrhhgruhhtsghoihhsseihohhsvghlihdrohhrghdpnhgspghrtghpthhtohepjedprhgtphhtthhopegsrghgrghsughothhmvgesghhmrghilhdrtghomhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdhlvggushesvhhgvghrrdhkvghrnhgvlhdro
- hhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-GND-Sasl: jeanmichel.hautbois@yoseli.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPCSCGgC/2XM0QqCMBTG8VeJXbc450ybdtV7RBfTHXNQKpsMQ
+ 3z3phBFXX4f/H+zCOwdB3HazcJzdMH1XRpqvxN1a7obS2fTFgSUA5GWd7ZBjkM4osJJGp0pXRS
+ KMwCRmsFz46bNu1zTbl0Ye//c+Ijr+5aKHymiBGkRNNoSmpLNmR8Nd/ZgRrFKkT61wr+aUl3VU
+ Nba5FARf9fLsrwAZPl90ugAAAA=
+X-Change-ID: 20250227-leds-tps6131x-a7437883e400
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
+ bsp-development.geo@leica-geosystems.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-Hi Bagas,
+The TPS61310/TPS61311 is a flash LED driver with I2C interface. Its power
+stage is capable of supplying a maximum total current of roughly 1500mA.
+The TPS6131x provides three constant-current sinks, capable of sinking up
+to 2 × 400mA (LED1 and LED3) and 800mA (LED2) in flash mode. In torch mode
+each sink (LED1, LED2, LED3) supports currents up to 175m
 
-On 23/04/2025 05:01, Bagas Sanjaya wrote:
-> On Mon, Apr 21, 2025 at 06:48:10PM +0200, Jean-Michel Hautbois wrote:
->> +.. code-block:: console
->> +
->> +    root:/sys/class/leds/multicolor:status# ls -lR
-> 
-> The equivalent is ``ls -lR /sys/class/leds/multicolor``.
-> 
+Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+---
+Changes in v3:
+- Add comment for locking
+- Drop handling based on CONFIG_V4L2_FLASH_LED_CLASS
+- Stop if getting reset GPIO fails
+- Optimize locks
+- Fix type of num_channels (u32 -> int)
+- Convert a remaining return sequence to dev_err_probe
+- Link to v2: https://lore.kernel.org/r/20250318-leds-tps6131x-v2-0-bc09c7a50b2e@emfend.at
 
-This patch was only to add markups, I did not want to change the content 
-more than that. The result of ls -lR must also be in the same 
-code-block, so I am not certain your proposal is equivalent ?
+Changes in v2:
+- Bindings: Extend device description
+- Bindings: Drop unused address/size cells
+- Bindings: Use fallback compatible 
+- Bindings: Corrected minimum current for 50mA steps
+- Bindings: Drop node label
+- Fix name of REGISTER4 INDC shift define
+- Save device instead i2c_client in private data
+- Add comment for mutex
+- Use macro to convert from uA to mA
+- Use defines to describe initial register values
+- Add safety delay during reset sequence
+- Use fixed value enum to set the mode
+- Renamed some local variables
+- Re-sorted local variables
+- Replaced ifdefs for V4L2_FLASH_LED_CLASS
+- Improved some error messages
+- Link to v1: https://lore.kernel.org/r/20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at
 
->> +    -rw-r--r--    1 root     root          4096 Oct 19 16:16 brightness
->> +    -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
->> +    -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
->> +    -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
->> +
->> +..
->>   
->> <snipped>...
->>
->> @@ -71,16 +79,28 @@ may want to dim the LED color group to half.  The user would write a value of
->>   128 to the global brightness file then the values written to each LED will be
->>   adjusted base on this value.
->>   
->> -cat /sys/class/leds/multicolor:status/max_brightness
->> -255
->> -echo 128 > /sys/class/leds/multicolor:status/brightness
->> +.. code-block:: console
->> +
->> +    # cat /sys/class/leds/multicolor:status/max_brightness
->> +    255
->> +    # echo 128 > /sys/class/leds/multicolor:status/brightness
->>   
->> -adjusted_red_value = 128 * 138/255 = 69
->> -adjusted_green_value = 128 * 43/255 = 21
->> -adjusted_blue_value = 128 * 226/255 = 113
->> +..
->> +
->> +.. code-block:: none
->> +
->> +    adjusted_red_value = 128 * 138/255 = 69
->> +    adjusted_green_value = 128 * 43/255 = 21
->> +    adjusted_blue_value = 128 * 226/255 = 113
->> +
->> +..
-> 
-> Are these adjusted values intended to be part of previous block on brightness
-> status? If not, I'd like to interleave these two blocks with "The adjusted
-> values are now::".
+---
+Matthias Fend (2):
+      dt-bindings: leds: add Texas Instruments TPS6131x flash LED driver
+      leds: tps6131x: add support for Texas Instruments TPS6131X flash LED driver
 
-Interesting, yes, it could be added.
+ .../devicetree/bindings/leds/ti,tps61310.yaml      | 120 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/leds/flash/Kconfig                         |  11 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-tps6131x.c                 | 798 +++++++++++++++++++++
+ 5 files changed, 937 insertions(+)
+---
+base-commit: bc3372351d0c8b2726b7d4229b878342e3e6b0e8
+change-id: 20250227-leds-tps6131x-a7437883e400
 
-Thanks !
-JM
+Best regards,
+-- 
+Matthias Fend <matthias.fend@emfend.at>
+
 
