@@ -1,124 +1,155 @@
-Return-Path: <linux-leds+bounces-4543-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4544-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B75A9C4D1
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Apr 2025 12:11:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9973CA9CA17
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Apr 2025 15:21:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41FC43B121E
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Apr 2025 10:11:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5F153BAFD5
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Apr 2025 13:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38DE123315E;
-	Fri, 25 Apr 2025 10:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mS24obDf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A74B2550B7;
+	Fri, 25 Apr 2025 13:21:23 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085AB22F75A;
-	Fri, 25 Apr 2025 10:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745575881; cv=none; b=glTbWnVqbC3iBnCjbry6Bndg51C3Bv8mr4vmGtSE7kUzgaLsAK1+uoqiVkzGlqUGERSZ34lUKa/R3BEzfpz5pm4dOssdZ8xIfA0LvGZDso5A6sS9pcNYFyIU+h676HGlL+ZMyyPLDsMwjzZ9YS1fvGFhJzM7Ien76iEv/5Maptw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745575881; c=relaxed/simple;
-	bh=kvvnHvigW0VQbIe0ZGV9v0oum5k9cSu8YzHMjbx3H6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h9VB5X6tkpt/ixWCVtUm8JFUSHKiXRbldEa604JxaMe/vbPd2WEJfvBMu3njxiRYOI4LPEP0EZYRvfMKSZSyHnwgVWSFX34vZz99vC8RqndOdV41RMtUDUjunrSy/skx1A3Uijg7+ZChlf56f9P/KbfFrX91Z4VuV6GEEky6SMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mS24obDf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7230BC4CEEB;
-	Fri, 25 Apr 2025 10:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745575877;
-	bh=kvvnHvigW0VQbIe0ZGV9v0oum5k9cSu8YzHMjbx3H6k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mS24obDflvZCOBToupjgcFflGEET7oy3pnjXDwArZ3/F0z5+giauG00F+eIlB9Hfq
-	 j0Ihhc5pWkdBTlgEz009tUXKAlE001tYI6aockGWu8b0Taf4mD4ge60FW6WhBukP8m
-	 S73o1gCe2hC2pWdvT56nNCsaF0Id5DEy3lU6U9vAT9gLwDFOWGYHVllGDUevXjwoPI
-	 OmLkfmx0nIr74pNxQuzAOTwiks8+7PLbScWIgoZuR2Y9qMEFznpXcFwIxc8ljCSnmM
-	 a+NY0FoQ/IRgWNVK+TE4dJGGo+hg6F4HwyoOYEuey2AJ5CiF+mVCunpxt0KdFFwteg
-	 W6GtTyChAUEbw==
-Date: Fri, 25 Apr 2025 11:11:12 +0100
-From: Lee Jones <lee@kernel.org>
-To: Nam Tran <trannamatk@gmail.com>
-Cc: pavel@kernel.org, christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org,
-	robh@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] leds: add new LED driver for TI LP5812
-Message-ID: <20250425101112.GB1567507@google.com>
-References: <20250422190121.46839-1-trannamatk@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277C6253926;
+	Fri, 25 Apr 2025 13:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745587283; cv=pass; b=Gah+osQ0cSku4TUm0znUynHI4MvTOrSmqKnWJF7tweIZnHrhxnjHHXXavXMKwyynAHqXF8aCmBFVnf3OqgA5mtzTQpIjw6W+mUe15RQcdFsu4JCK//fcxNZgvYH2xPK+xC4vAN+x3KPV+2AQo5wZZuF28btGA1CHFeLmvIw7iGk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745587283; c=relaxed/simple;
+	bh=kNayzEzkjCs1/4pm8otoqw4jLJ+GydTPyP6NPwYg2WQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SR1YDKIVmdesvUFhMxbG5G/tY4Ph3wVlLrejSmSU6zDNkX2yp7sRwV8eIPG2cqKgyEfbrW3QpK7vIPiO5NHY6o+byZ7GOuxxicbLakL6t32D89g6P+rVTyKSJoyda/q4UHPpe4WnXpcpH2LXNpx0DjnZCgYbQXeaH4A+qbuGdUk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de; spf=pass smtp.mailfrom=inhub.de; arc=pass smtp.client-ip=85.215.255.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inhub.de
+ARC-Seal: i=1; a=rsa-sha256; t=1745587270; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=g31HPvacq0H8zPyUvuFlEzMqfZd4m5Ll8g5QDaxpllyQdvAAiMyXt9n1iCHCpQIrzX
+    qEPD5mJfgFfNLQM938v8i3vYBvLKltWBFTzsKLZNTQmxIUdc28Seg3bEeGhVJTogBVIh
+    e9/bKPKO82umK7kKPier6pCn9vgW8ok1JjrdPBkv3+J98MYYOFwPwIYCDkeeiw2C4Mva
+    OyP3rUZSe5JrJU+zpgLvcdH+LSep2v13wiKcgZs3LzaIEzoqjoz3cSEHIdvSvd+/XLR8
+    Ivd3bRXEfaTp12pCIjPsVrbazBTuaTyCg/V0NrQ6gqfXIcN/FT0tl/DVIsAYSMJfxMO9
+    gwHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1745587270;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=BMg4HvcYreT+0C+HGW4OV8l9drZXEa9SFupW3ExIgjk=;
+    b=emqJjyAwNoX25qsG2wyw+LrbNJwphr7xJDSIuPk9c6Qd4c32JJEsrUbg2sH9nNCtpJ
+    QlGUNXA5PmWpFNorhA1gJh36/vB/aczBHdOKDiGfxhWokwP9WT/caqCZPv/25fYujSIU
+    oZNKws5a6KwOF8rQq4PYQrWUwrzTewz7DaOwfWpAE0ULDDOx81wrJBmdMm6aAoDhzXb9
+    yybuQE20R6yPUxnyUungv+Ht1qIjt/arGxTPo7SCjsxGecaNUqfBwjcQh00qW8fa5aer
+    p7k+jh1OWapeP3v+AeYe+UOQEShdKTlwam2Ooc3uYwlbfJk2P7dbvIK2leB1jdrrvE5n
+    tD4A==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgaKe3jg5kqErls+DxzE7mTFa0c128qaiSM/ViZgIbdU4Zj81TtbSyYrdxXLA="
+Received: from crypto.fritz.box
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id J569d713PDL9KSk
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Fri, 25 Apr 2025 15:21:09 +0200 (CEST)
+From: Tobias Junghans <tobias.junghans@inhub.de>
+To: Lee Jones <lee@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: Tobias Junghans <tobias.junghans@inhub.de>
+Subject: [PATCH v3] leds: trigger: netdev: refactor dev matching in netdev_trig_notify()
+Date: Fri, 25 Apr 2025 15:20:45 +0200
+Message-ID: <20250425132059.393144-1-tobias.junghans@inhub.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250422190121.46839-1-trannamatk@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 23 Apr 2025, Nam Tran wrote:
+If there are network devices with the same name in different
+namespaces, ledtrig-netdev gets confused easily and switches between
+these devices whenever there are NETDEV_CHANGENAME/NETDEV_REGISTER
+notifications.  This happens since ledtrig-netdev only checks for
+device name equality regardless of previous associations with another
+network device with the same name.
 
-> This patch series adds support for the TI/National Semiconductor LP5812
-> 4x3 matrix RGB LED driver. The driver supports features such as autonomous
-> animation and time-cross-multiplexing (TCM) for dynamic LED effects.
-> 
-> Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> ---
-> Changes in v7:
-> - Mark `chip_leds_map` as const.
-> - Use consistent `ret` initialization.
-> - Simplify the function `set_mix_sel_led()`.
-> - Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
-> - Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
-> - Remove `total_leds` and `total_aeu`.
-> - Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
-> 
-> Changes in v6:
-> - Add `vcc-supply` property to describe the LP5812 power supply.
-> - Remove `chan-name` property and entire LED subnodes, as they are not needed.
-> - Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
-> - Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
-> 
-> Changes in v5:
-> - Rebase on v6.15-rc2
-> - Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
-> - Address Krzysztof's review comments
-> - Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
-> ---
-> 
-> Nam Tran (5):
->   dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
->   leds: add TI/National Semiconductor LP5812 LED Driver
->   docs: ABI: Document LP5812 LED sysfs interfaces
->   docs: leds: Document TI LP5812 LED driver
->   arm64: dts: Add LP5812 LED node for Raspberry Pi 4 Model B
-> 
->  .../ABI/testing/sysfs-bus-i2c-devices-lp5812  |  144 +
->  .../devicetree/bindings/leds/ti,lp5812.yaml   |   46 +
->  Documentation/leds/leds-lp5812.rst            |   79 +
->  MAINTAINERS                                   |   12 +
->  .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts |   10 +
->  drivers/leds/Kconfig                          |   16 +
->  drivers/leds/Makefile                         |    1 +
->  drivers/leds/leds-lp5812.c                    | 2736 +++++++++++++++++
->  drivers/leds/leds-lp5812.h                    |  348 +++
->  9 files changed, 3392 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
->  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
->  create mode 100644 Documentation/leds/leds-lp5812.rst
->  create mode 100644 drivers/leds/leds-lp5812.c
->  create mode 100644 drivers/leds/leds-lp5812.h
+Real world example: eth0 is the primary physical network interface and
+ledltrig-netdev is associated with that interface. If now Docker creates
+a virtual Ethernet interface (vethXXXX), moves it to the
+container's net namespace and renames it to eth0, ledtrig-netdev
+switches to this device and the LED no longer blinks for the original
+(physical) network device.
 
-Nothing about this driver has anything to do with the LEDs subsystem.
+Fix this by refactoring the conditions under which to return early with
+NOTIFY_DONE inside netdev_trig_notify():
 
-Suggest moving it to drivers/auxdisplay instead.
+- For processing NETDEV_REGISTER events, the device name has to match
+  and no association with a net_dev must exist.
 
+- For processing NETDEV_CHANGENAME events, the associated and notified
+  network device have to match. Alternatively the device name has to
+  match and no association with a net_dev must exist.
+
+- For all other events, the associated and notified network device have
+  to match.
+
+Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
+---
+ drivers/leds/trigger/ledtrig-netdev.c | 29 +++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index 4b0863db901a..75d8c8fe9afc 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -574,15 +574,28 @@ static int netdev_trig_notify(struct notifier_block *nb,
+ 		container_of(nb, struct led_netdev_data, notifier);
+ 	struct led_classdev *led_cdev = trigger_data->led_cdev;
+ 
+-	if (evt != NETDEV_UP && evt != NETDEV_DOWN && evt != NETDEV_CHANGE
+-	    && evt != NETDEV_REGISTER && evt != NETDEV_UNREGISTER
+-	    && evt != NETDEV_CHANGENAME)
+-		return NOTIFY_DONE;
+-
+-	if (!(dev == trigger_data->net_dev ||
+-	      (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name)) ||
+-	      (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name))))
++	switch (evt) {
++	case NETDEV_REGISTER:
++		if (trigger_data->net_dev ||
++		    strcmp(dev->name, trigger_data->device_name))
++			return NOTIFY_DONE;
++		break;
++	case NETDEV_CHANGENAME:
++		if (trigger_data->net_dev != dev &&
++		    (trigger_data->net_dev ||
++		     strcmp(dev->name, trigger_data->device_name)))
++			return NOTIFY_DONE;
++		break;
++	case NETDEV_UNREGISTER:
++	case NETDEV_UP:
++	case NETDEV_DOWN:
++	case NETDEV_CHANGE:
++		if (trigger_data->net_dev != dev)
++			return NOTIFY_DONE;
++		break;
++	default:
+ 		return NOTIFY_DONE;
++	}
+ 
+ 	cancel_delayed_work_sync(&trigger_data->work);
+ 
 -- 
-Lee Jones [李琼斯]
+2.43.0
+
 
