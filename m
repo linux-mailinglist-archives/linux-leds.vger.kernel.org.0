@@ -1,116 +1,97 @@
-Return-Path: <linux-leds+bounces-4557-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4558-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92974AA0C78
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Apr 2025 14:59:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3F7AA1AED
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Apr 2025 20:50:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF0277AFB5C
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Apr 2025 12:58:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D65661BC05A2
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Apr 2025 18:50:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE8072D1936;
-	Tue, 29 Apr 2025 12:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CFDE245006;
+	Tue, 29 Apr 2025 18:50:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H5axyzlz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFaUaECC"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827E72D1901;
-	Tue, 29 Apr 2025 12:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69D1367;
+	Tue, 29 Apr 2025 18:50:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745931557; cv=none; b=UGmjACTVayfTfgDoFV/rsmS3uvEK3oAXk1krF6YUsC4oWEyhBoAtmz32DpcOUu5xxmOZxc5+JLQ7p9if2nfpvceTBzGb73clF39dhHaJZmLg+5IlAI3ZCkg7ziSqzj5FhV5BI1q+cuG/vyCtQxh9FiWtZinWfDkkPmJuxs86l8o=
+	t=1745952609; cv=none; b=RLABrxyYPp4tMTvs5nvu7AvVBsFyfJdRNcttVCI/sMHxpRtreswjl2+cU6lKRaMQvoeVJ0G77gR6QAP29NSOf5BYZUX61LQ6wzXygI11f39NMS/x9jmmIP26bUfKdrY6jo2xBmRApHf/QJjV0olpd1u1pYQd2Cgc0tBPcTGvUwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745931557; c=relaxed/simple;
-	bh=XEA7eOKnFQPnS5jigwSOQXrETAAO0hBpVmtM8cu5xnQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RhTQl7y8x+TUAeH6UytlT3HqbeJKugBwT8h1iVXBoG1/7Ifvy8DF/u0sPrbQP4gv7tD6IA+0/R537VVf2QBspOiO+01fz/rWozmTQ49GyYKiiybMaUbReqPPzEzKlHTSs/phw7uZewFHHeAiTimxxcv5UgF1DpI5gpttA17uJfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H5axyzlz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C1254C2BC9E;
-	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1745931556; bh=XEA7eOKnFQPnS5jigwSOQXrETAAO0hBpVmtM8cu5xnQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=H5axyzlzhcx9TtD2sC3uKQcmAWsDcx2DxglLDHqdqr8XZVcQRDPGHtEnTGR+3MACi
-	 0EuplDnN6ZYfiuoYFdl+E0eRQG8XliK2TBVP0nB0SCgBn9zRhYUWpa5fu71jr6BTgZ
-	 /5LueXIpzQpKcMnMM2Q3n/PLvslSYhxkPAXtU9Hk=
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B9EC3ABB5;
-	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
-From: Richard Leitner <richard.leitner@linux.dev>
-Date: Tue, 29 Apr 2025 14:59:14 +0200
-Subject: [PATCH v3 9/9] media: i2c: ov9282: add strobe_source v4l2 control
+	s=arc-20240116; t=1745952609; c=relaxed/simple;
+	bh=gUTlekWoOXWSqClwmax5ebx7LlIR/bJhdqMP6ILtIgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bYov/KEqwL9liTQax/rGVZF34YytbDY6vuMqjZPQWvaYZLQWkFeq9HLVWlvyi78r9Z8jo8hU2snFZM/o26AfgkaCnQv8FetL+atOGZUpNOTy/0+0b7siVZTO1jElJWMViOcp8a2/rQDEMTt+PrGLD5l5npSYHM6JUjxj0/T+hzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFaUaECC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80442C4CEE3;
+	Tue, 29 Apr 2025 18:50:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745952608;
+	bh=gUTlekWoOXWSqClwmax5ebx7LlIR/bJhdqMP6ILtIgE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oFaUaECCbl+tVPZx685vvTxIODoSj/3bqA4MtbU6jhJW88pULu4yP2BREteSHfHny
+	 BPZRX4rNAnuJWF2RUTINKH0M9tx2E8oL6aWkwubaMOW8QhZJWzWbkGAxN4y5jfKKHW
+	 /Cg5cjvXyJc0t6qNGMxKdsts/coZz97zxExv8eQx76Ns6o70rxgXrKLkQn+VCPHc5r
+	 hAs0WUiod1gK/BSbZ9IwYogtqFdb/E8+fBFWBvTH3gqDsIO+BSaV6tLXhDUu1lC5W/
+	 yTu0qKqV4od8R6weL3kJm2F8XEIScuvTMRmrBlLdHJexI+0Z3rSPIr9SD5VI/nsukW
+	 ExX76Iv5Bfy6A==
+Date: Tue, 29 Apr 2025 11:50:07 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tobias Junghans <tobias.junghans@inhub.de>
+Cc: Lee Jones <lee@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3] leds: trigger: netdev: refactor dev matching in
+ netdev_trig_notify()
+Message-ID: <20250429115007.12f8af38@kernel.org>
+In-Reply-To: <20250425132059.393144-1-tobias.junghans@inhub.de>
+References: <20250425132059.393144-1-tobias.junghans@inhub.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-ov9282-flash-strobe-v3-9-2105ce179952@linux.dev>
-References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
-In-Reply-To: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- Richard Leitner <richard.leitner@linux.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745931554; l=1520;
- i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=XEA7eOKnFQPnS5jigwSOQXrETAAO0hBpVmtM8cu5xnQ=;
- b=G943Q5rMrjMVhETxHQsNfxhFguRPkjvBIpdTCRSMAOGxjlQcMv3+Boxr4o2GjWUhOBi9+5JZ6
- Ltei845X9whB6qJ45gzW850L1g4sbaFIqm312RqHYxMIOgZdS6cl8hf
-X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
- pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
-X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
- with auth_id=350
 
-Add read-only V4L2_CID_FLASH_STROBE_SOURCE control. Its value is fixed
-to V4L2_FLASH_STROBE_SOURCE_EXTERNAL as the camera sensor triggers the
-strobe based on its register settings.
+On Fri, 25 Apr 2025 15:20:45 +0200 Tobias Junghans wrote:
+> If there are network devices with the same name in different
+> namespaces, ledtrig-netdev gets confused easily and switches between
+> these devices whenever there are NETDEV_CHANGENAME/NETDEV_REGISTER
+> notifications.  This happens since ledtrig-netdev only checks for
+> device name equality regardless of previous associations with another
+> network device with the same name.
+> 
+> Real world example: eth0 is the primary physical network interface and
+> ledltrig-netdev is associated with that interface. If now Docker creates
+> a virtual Ethernet interface (vethXXXX), moves it to the
+> container's net namespace and renames it to eth0, ledtrig-netdev
+> switches to this device and the LED no longer blinks for the original
+> (physical) network device.
+> 
+> Fix this by refactoring the conditions under which to return early with
+> NOTIFY_DONE inside netdev_trig_notify():
+> 
+> - For processing NETDEV_REGISTER events, the device name has to match
+>   and no association with a net_dev must exist.
+> 
+> - For processing NETDEV_CHANGENAME events, the associated and notified
+>   network device have to match. Alternatively the device name has to
+>   match and no association with a net_dev must exist.
+> 
+> - For all other events, the associated and notified network device have
+>   to match.
 
-Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
----
- drivers/media/i2c/ov9282.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 5ddbfc51586111fbd2e17b739fb3d28bfb0aee1e..34ea903a18dadeeebd497a4a8858abf12b598717 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -1367,6 +1367,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 	struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
- 	const struct ov9282_mode *mode = ov9282->cur_mode;
- 	struct v4l2_fwnode_device_properties props;
-+	struct v4l2_ctrl *ctrl;
- 	u32 hblank_min;
- 	u32 lpfr;
- 	int ret;
-@@ -1446,6 +1447,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
- 			  0, 13900, 1, 8);
- 
-+	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
-+				      V4L2_CID_FLASH_STROBE_SOURCE,
-+				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL,
-+				      ~(1 << V4L2_FLASH_STROBE_SOURCE_EXTERNAL),
-+				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL);
-+	ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
- 	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
- 	if (!ret) {
- 		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
-
--- 
-2.47.2
-
-
+Could you split this into two patches for ease of review?
+First which factors out all the logic related to deciding if the event
+needs to be handled, move it to a new helper which takes the relevant
+args are turns bool of whether we should return NOTIFY_DONE immediately
+or not. And then a second patch which modifies this logic.
+Having the refactor squashed with the change makes it harder to review.
 
