@@ -1,110 +1,82 @@
-Return-Path: <linux-leds+bounces-4563-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4564-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D3FAA45B6
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Apr 2025 10:42:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 444EEAA460B
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Apr 2025 10:56:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A673A9C0786
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Apr 2025 08:41:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15D431887512
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Apr 2025 08:56:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12AA216605;
-	Wed, 30 Apr 2025 08:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C96DF218EB9;
+	Wed, 30 Apr 2025 08:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RlvlwNHz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9z1rL7c"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9C9213E61;
-	Wed, 30 Apr 2025 08:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28A21E4110;
+	Wed, 30 Apr 2025 08:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746002498; cv=none; b=rqAyxP5vhCsC+LACLVS2F8DFTnzbNjgM1qDgyXi7u/X+xGy3wZvnAmpe3twXBmosOW06wxtlFNBb92Q9qixNX1KQ89CJ3nSvOPS5V0GoX2hL5hBB1MjnUmODuDLPLQX/LYDYm82gvrbNS0rWhc83u5DnNITALJ93RRqCrqhUit4=
+	t=1746003394; cv=none; b=mGpA9V1oTMb7VP8CB3B1Vbmb+9tuC/iToEGVaPeTYua/QOAoT3mynH2ThS9JHKdUPqwiYsTuSOW37j90xMoAo2Z8NAmFicm6mCJOZmpProvgLNtFIhRzD+aP2IxSXUudYCgEtoHNm9FkmH6jCONn2aonay7TCuU6uXma6qR+sco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746002498; c=relaxed/simple;
-	bh=0qEn7MJfVbxaANYajFwdnrNgy4w0+YWWm/KA1BB7luI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozHSDYe3271HPdrsR0uinNSdpcijL5eMEGuttAsAPtK8GhbcaaV/kLC7e0dOfkH5St0vZ6PK5xCsARQH40F9mdXZQzz/XGYcMytReYVlaV775rAwh9Tw/FEzggcT62VgiUq5Qgasb4NNBFkOAUWIICmlmTdRoLfyw0EptboZwlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RlvlwNHz; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746002497; x=1777538497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0qEn7MJfVbxaANYajFwdnrNgy4w0+YWWm/KA1BB7luI=;
-  b=RlvlwNHzDyZEwv4btDC4XfwbKrJhLr3oaV+hjdc2gmjDbeMo9eygVcWj
-   QjnbEpTiZp8zU1cVKn9T0yGzWO00WAHrozPaoZrIyXMGtlZRkaSotsrjL
-   Vt8Oao19FNkG4I5Jn3ChQnMEFMYsCMePMjalj5oGhE6q+1gsEroPoEcfG
-   mKi8ol029R4YMsKva06q9mtHWU6w6uvYUiN4hESkOD+0YJRPaFiW9DA77
-   EP6dI6VzJfIfejSNi587lIgPRIKbCiThC50Yh3SicEzII+c0/plW3jcQ6
-   2eUSovciKMLQBMeqUWoHT/mb6nZvxdPEUQGODLdkgTFXI9/hyVMsrKJSS
-   Q==;
-X-CSE-ConnectionGUID: clCHO2QgSoyY0A5xTv8jdA==
-X-CSE-MsgGUID: h8B5wR+yShWM4qEzNc8J7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47534985"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="47534985"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:41:36 -0700
-X-CSE-ConnectionGUID: Ocus3NRtQ16MyjW9Ik4wDg==
-X-CSE-MsgGUID: mJisz17zQVC6+ZNPg2uAvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="139039491"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:41:35 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id CB95411F7E7;
-	Wed, 30 Apr 2025 11:41:31 +0300 (EEST)
-Date: Wed, 30 Apr 2025 08:41:31 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 3/9] media: v4l2-flash: add support for flash/strobe
- duration
-Message-ID: <aBHiO6aIeLP6NSgr@kekkonen.localdomain>
-References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
- <20250429-ov9282-flash-strobe-v3-3-2105ce179952@linux.dev>
- <aBHeIBbFRkZ4P82E@kekkonen.localdomain>
- <zpmfhi6fzg3zhwifpi2kmstn4soex4fvg5jhha2me73r76bhgo@j2bfwdza23xs>
+	s=arc-20240116; t=1746003394; c=relaxed/simple;
+	bh=t0sNMjfpZFZ/tkTiw1mOgfiMQQ17CSRGsWtVuNG7b3M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=quHky3MPSp1AKqwIrQhJkv3iH6XstEsJMV5qNivB+Kul9JE3d7bP9eS9v71Hne6mwywR35Pg1K8iJfkJzgTVheUevCIWeEyRxsf5ELPwjQsV1Ic+UQlzBj3mSTvIOiXCMn5bsf0JRM/xsbEwxtfvQGqnCeky4je2TZ/Do6ExeiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9z1rL7c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6A8C4CEE9;
+	Wed, 30 Apr 2025 08:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746003394;
+	bh=t0sNMjfpZFZ/tkTiw1mOgfiMQQ17CSRGsWtVuNG7b3M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=c9z1rL7cXAvea45Uyb1S7z/e1pr/opZE+xb/RnFZg415G2WHkhlO79SJESttOR1cK
+	 alsnzzGFp1a9vglABQHYufpsaENCJReoJKYvw3rW1P07pDyxuhNrJB9Hv2whY1zbkQ
+	 LICYFqpXcVDuBQXUuZxsqmjbQ+nrxekwNLz3cOk6+qM0ZRCJqUkckAW6wgYSduieV9
+	 ssF00vMrT6XJMDO/lH4XtKFB/rYrLyqyMyHBWtbEx/dBET/flRENE5zKIJC/8UvaQb
+	 iwDi3/lzR6+L0I0gWgGd0oGK8yAmKjVqEXuMz/y1bjUX5VRloiKFKN34tDJQpBNAgH
+	 CepiUEM7FPWfA==
+From: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>
+Cc: jacek.anaszewski@gmail.com
+In-Reply-To: <20250424144544.1438584-1-lee@kernel.org>
+References: <20250424144544.1438584-1-lee@kernel.org>
+Subject: Re: (subset) [PATCH 1/1] leds: Provide skeleton KUnit testing for
+ the LEDs framework
+Message-Id: <174600339289.3131178.10970055458890624899.b4-ty@kernel.org>
+Date: Wed, 30 Apr 2025 09:56:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zpmfhi6fzg3zhwifpi2kmstn4soex4fvg5jhha2me73r76bhgo@j2bfwdza23xs>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-510f9
 
-On Wed, Apr 30, 2025 at 10:37:48AM +0200, Richard Leitner wrote:
-> > > +	/* Init FLASH_DURATION ctrl data */
-> > > +	if (has_flash_op(fled_cdev, timeout_set)) {
-> > > +		ctrl_init_data[FLASH_DURATION].cid = V4L2_CID_FLASH_DURATION;
-> > > +		ctrl_cfg = &ctrl_init_data[FLASH_DURATION].config;
-> > > +		__lfs_to_v4l2_ctrl_config(&fled_cdev->duration, ctrl_cfg);
-> > > +		ctrl_cfg->id = V4L2_CID_FLASH_DURATION;
-> > 
-> > Has this been compile tested? :-)
+On Thu, 24 Apr 2025 15:45:38 +0100, Lee Jones wrote:
+> Apply a very basic implementation of KUnit LED testing.
 > 
-> Oooh... Damn. That's embarrasing. SORRY! There should have been at least
-> another '}' in this patch.... Seems I somehow messed up my last rebase.
+> More tests / use-cases will be added steadily over time.
 > 
-> Will fix that in v4. Sorry again :-/
+> CMD:
+>   tools/testing/kunit/kunit.py run --kunitconfig drivers/leds
+> 
+> [...]
 
-No worries, it happens to everyone sometimes.
+Applied, thanks!
 
--- 
-Sakari Ailus
+[1/1] leds: Provide skeleton KUnit testing for the LEDs framework
+      commit: 72a3aadde656a6df096221c3d7fecb76ccb5619f
+
+--
+Lee Jones [李琼斯]
+
 
