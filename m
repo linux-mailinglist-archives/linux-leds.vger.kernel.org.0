@@ -1,122 +1,89 @@
-Return-Path: <linux-leds+bounces-4566-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4567-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288F2AA46AC
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Apr 2025 11:16:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F351AA5C06
+	for <lists+linux-leds@lfdr.de>; Thu,  1 May 2025 10:19:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 396B27B76E7
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Apr 2025 09:15:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3FAA463E47
+	for <lists+linux-leds@lfdr.de>; Thu,  1 May 2025 08:19:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4B32222CA;
-	Wed, 30 Apr 2025 09:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D89B41DE8B4;
+	Thu,  1 May 2025 08:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N61W9ia8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijsjpsQa"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1BD2222A9
-	for <linux-leds@vger.kernel.org>; Wed, 30 Apr 2025 09:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE84C1411DE;
+	Thu,  1 May 2025 08:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746004516; cv=none; b=PE+F9i+h0aQhiGDp5LBr4tH+6xQAUX3tQObKcU3WYXoeMynsfTQCkDUnemZcQviGqFuCg7sPmMaDV9rTuWrTDHosaL2ErDI2Lak9k2nZKKrix0sBTcq4hrLupavKLpZEKZa86hTROgFW15kSrFwFj/OmYhmHtciEgQPFil4Ai6g=
+	t=1746087568; cv=none; b=JX1iiSDHI4DfrY/FpKSUPuy4NmDj0BuVjwoOpnvpEORA4jcw7PIzXlYskUlCwWfmjXH55/++7pD7LwmWonw4Pv4tgJYIx70y2tPfi7ZTfT9/e+pN8H8+NMbWjNyBkMsRJFaMUWlzPsUKOX29KXtB7EdNwIn7BN6VB8IuTM3UWaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746004516; c=relaxed/simple;
-	bh=fIHnNSFJTdbi9iK1x/daqwAm+XfYvJeK//5NIoVEN3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sFgpBV0Y43mat6BtYNOQj/YU3V7nkLQLvWPDmGngHp4OtUB2X+0KXG7OFggBMXUI2XQm37EWHZE0o6qV4zTgeyc1hRtQ+oIPAU7VIGdXioi4t7JAzwhH/L6661bK65URIL4m+6hbB/QoHm217Q+ZIgcqZJiYdKUoUpbSkwor728=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N61W9ia8; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 30 Apr 2025 11:15:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746004511;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hl3rwiSgW5ZHuokF2/OswWCYniG/EBnE+RTr8A4w/KE=;
-	b=N61W9ia87mKXUx37pCW2HfITVRF2NtRUvVUSeExOg5gmYMuNZoZUZYlwRGtSI0uPpoaX7h
-	MjFwC1F27H6IAw0bnUr5i3LtAprpFpCDaEYER3bvblBJMFOhKXTA9a7A6AMCdDZNQykErF
-	UwgnRB2F5glApiB70k3O0D5ILz4o1Jg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 9/9] media: i2c: ov9282: add strobe_source v4l2 control
-Message-ID: <3pnxcrz3xzuonilqnkkxrdelwyuu2zr4dacr4snwq666guupty@z3txo76p35ur>
-References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
- <20250429-ov9282-flash-strobe-v3-9-2105ce179952@linux.dev>
- <aBHhz85RVEBrAu56@kekkonen.localdomain>
+	s=arc-20240116; t=1746087568; c=relaxed/simple;
+	bh=nsILDRc0lseFd1tlQC6e7X/eWY6LuFYiZUFOmwhwPYE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hx4sGZc9Cf1CbFbsDoNI7bJ8rOxGhKTTTAbdhvvys+0tnZP/mLBRPjRtJwJcHG12FuhNAkonJ5xCAbWkecKL5mOiAyqsLz4hYrAFKWskZKtuGYVbJ2OJF0iW044mNI230SnO0lSJBXZqYAMCxGCsj4cb10doDrEV0RTqwf5Ck0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ijsjpsQa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC08C4CEE3;
+	Thu,  1 May 2025 08:19:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746087568;
+	bh=nsILDRc0lseFd1tlQC6e7X/eWY6LuFYiZUFOmwhwPYE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ijsjpsQa9nUP09i3NbUmko8kELXkwW6d9SJiLSpNUXPUYsHYqsINtbFuSCVKl+R9R
+	 /4D23oAObhilbCbnah9nycKPdp0BUQj3ydJnWJ2n+Q9mJ4ztNxH5SopBxx4MB99gqm
+	 vlTYwGLT26LyH3N57k398jsxW1w2Jbqh+tsxYT6fa/6q3mvNZI8psXxXyzBLLTj/mN
+	 bRwKUZektBBG1Pr8hsNj718tXNaEote2dnkgv+XEBagNrEiW2Xbq57AW8Jaz3k/PHU
+	 i8rCQTSwSFcds8QBegQzK9o6OHjMupejjvClocFDCnIlyFVVQi45bvIwwlAneXqaeO
+	 rjvU7pAtKgQMQ==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	Pavel Machek <pavel@kernel.org>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: bettyzhou@google.com,
+	ynaffit@google.com,
+	tkjos@google.com,
+	jacek.anaszewski@gmail.com
+Subject: [PATCH 1/3] led: led-test: Remove standard error checking after KUNIT_ASSERT_*()
+Date: Thu,  1 May 2025 09:19:11 +0100
+Message-ID: <20250501081918.3621432-1-lee@kernel.org>
+X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aBHhz85RVEBrAu56@kekkonen.localdomain>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+If a KUNIT_ASSERT_*() call ends up in an assertion, the test is marked
+as a failure and the subsequent error checking is never executed, making
+it superfluous.  Remove it for simplicity and to avoid confusion.
 
-thanks for your comment!
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ drivers/leds/led-test.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-On Wed, Apr 30, 2025 at 08:39:43AM +0000, Sakari Ailus wrote:
-> Hi Richard,
-> 
-> On Tue, Apr 29, 2025 at 02:59:14PM +0200, Richard Leitner wrote:
-> > Add read-only V4L2_CID_FLASH_STROBE_SOURCE control. Its value is fixed
-> > to V4L2_FLASH_STROBE_SOURCE_EXTERNAL as the camera sensor triggers the
-> > strobe based on its register settings.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index 5ddbfc51586111fbd2e17b739fb3d28bfb0aee1e..34ea903a18dadeeebd497a4a8858abf12b598717 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -1367,6 +1367,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
-> >  	const struct ov9282_mode *mode = ov9282->cur_mode;
-> >  	struct v4l2_fwnode_device_properties props;
-> > +	struct v4l2_ctrl *ctrl;
-> >  	u32 hblank_min;
-> >  	u32 lpfr;
-> >  	int ret;
-> > @@ -1446,6 +1447,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> >  			  0, 13900, 1, 8);
-> >  
-> > +	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
-> > +				      V4L2_CID_FLASH_STROBE_SOURCE,
-> > +				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL,
-> > +				      ~(1 << V4L2_FLASH_STROBE_SOURCE_EXTERNAL),
-> > +				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL);
-> > +	ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> 
-> Note that v4l2_ctrl_new_std_menu() may return NULL.
+diff --git a/drivers/leds/led-test.c b/drivers/leds/led-test.c
+index 068c9d0eb683..23820189abe3 100644
+--- a/drivers/leds/led-test.c
++++ b/drivers/leds/led-test.c
+@@ -26,8 +26,6 @@ static void led_test_class_register(struct kunit *test)
+ 
+ 	ret = devm_led_classdev_register(dev, cdev);
+ 	KUNIT_ASSERT_EQ(test, ret, 0);
+-	if (ret)
+-		return;
+ }
+ 
+ static struct kunit_case led_test_cases[] = {
+-- 
+2.49.0.906.g1f30a19c02-goog
 
-Good catch. Thanks! Will add a check in v4.
-
-> 
-> > +
-> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> >  	if (!ret) {
-> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
-> > 
-> 
-> -- 
-> Sakari Ailus
-
-regards;rl
 
