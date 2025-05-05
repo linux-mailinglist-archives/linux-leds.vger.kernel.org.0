@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-4576-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4577-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D04AAA1F9
-	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 00:53:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5ADAAA20A
+	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 00:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A720C7AFF51
-	for <lists+linux-leds@lfdr.de>; Mon,  5 May 2025 22:51:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B50DF1A85219
+	for <lists+linux-leds@lfdr.de>; Mon,  5 May 2025 22:53:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 584102D3FA5;
-	Mon,  5 May 2025 22:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9CA2D3FBE;
+	Mon,  5 May 2025 22:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RoAAFJVa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLrMek3K"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8FA1C1F05;
-	Mon,  5 May 2025 22:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0055E2D3FB3;
+	Mon,  5 May 2025 22:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483645; cv=none; b=tFq/j2799VkNAI3EimEnkJvnA0pw8hOxXn6wFzsxw7IQXZmIgrZ+oyhvpXmaMm+HsuDfgkz8vmKf31wd8aBKTqRbF/FloDstDIYqlTnCM7Hc9G/o2kxR6uaseG2IAP2W45gsOo/0Akzkmnpw/nyZF4RemnHA9tFweXEHwKefuz8=
+	t=1746483646; cv=none; b=hL8CagBVUyx9GnqYUsGoOlx3JuUjyRbaVhdpZs/H7h7lFHcSjxdxBerAZlzePgQ80kBw/IQwNL1r1wBEP8sfbB+9qCOYGAC6gLKfINp62lYH1c+d+27eItYf4ib49ZH6lZiZEktUbiFG0O1UIXsW1Y+VZBgu/2aAkY5qWvgI63A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483645; c=relaxed/simple;
-	bh=fVvvLKogYm++tZvMxX2B3Xw5iybaZOLuQ6ee6V4DCSc=;
+	s=arc-20240116; t=1746483646; c=relaxed/simple;
+	bh=FzkpaZBex9eLiv80aistErotSyM4GacvIqRXkFUGRR4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HMBoGwBYyDautOqpOmoHad5QElz0+FHKOShlCdU7Jui1hu/+nOCmXChNY+RYTAjTfLfzogERsfCyOPgLh7FT5Euk75Fu16VfxZW2xc1wNqJgA37QT+SYJZSoeSRh/QDYJ3QO/Z3U7pr8MCLSmz4v5ncql/Hk7kMdGdr6drPOMXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RoAAFJVa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA02C4CEE4;
-	Mon,  5 May 2025 22:20:43 +0000 (UTC)
+	 MIME-Version; b=mrtlbW4Nd9K0XwmYz4ySpv69VgytjOMyYMXaOFwO8pbJ4VmRi+Fct1PGQ8Jv3uXdkF4Q4W4W54PRfWBhC2Km0TQCLG7c3JdfRZVjlSZWMzmzJkP974hgOSTloYgrf05RiS7N2LEfXEXKnupVsnDuuCn2KES/AhanJbP03PuE+xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLrMek3K; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128F4C4CEED;
+	Mon,  5 May 2025 22:20:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483644;
-	bh=fVvvLKogYm++tZvMxX2B3Xw5iybaZOLuQ6ee6V4DCSc=;
+	s=k20201202; t=1746483645;
+	bh=FzkpaZBex9eLiv80aistErotSyM4GacvIqRXkFUGRR4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RoAAFJVaV0oqJe2fzdVeB4FESuFJQQEr1hdrdHqOlLq9U3qRjmenthHsxQsn5Nl84
-	 qbprbFQnwgXw7s1t/6pQWvga5ogzwN77RfOSLJcMEkIsFj2gKQdLrX+RtcSzAGUOjG
-	 Pwztko3qPYEhHLjmqpXA8kMB72PTSYslnl56uh64BpvleT6yHvpd3eQe66tUMw7tPI
-	 vd7A0GIJeSSmnp8Tqf8O1vTwu9FuLPfh9P5Aiwzm5W2OPhIKFoLrY0oIM1uySvrQrU
-	 Hf2spY37oUvpB/gbAWI7HUfhWpTpzbNPy4CLM3LsuOCopI45MafhsE2j3qE3JXLE+3
-	 kumby/Ms7W3Pg==
+	b=KLrMek3K+p4qw0WJMRnqyuBr3SkzPHU/IjNFohUVtar6PQNm4Bncsygjxh3yY0/RP
+	 aJdmZWubs1sSTsJxmYbjDUAIKE2bqUXBSqnLH0LqxgLzTPwji0qev1X7DZJKPjeUoS
+	 ogrRWVaE2sLT2vm6wTJR5NQUeY80SCIz4V2yc4xh1nVbGXqp56TkdnVholxHUprVdR
+	 Adnq1u4H7Msfru6wsPhFxwXl79OA/uMliOpx+PTSx1XwLiexQJfdx1U53qsO/0zhn5
+	 QT/zevJw9xfA4u6zXhdpnhybAJM2ya0ubor5WQsVx4XzdUosjY+tBu9MR+KFtNqF9Y
+	 np3Gn7wl9yEfw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,9 +49,9 @@ Cc: Manuel Fombuena <fombuena@outlook.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 157/642] leds: Kconfig: leds-st1202: Add select for required LEDS_TRIGGER_PATTERN
-Date: Mon,  5 May 2025 18:06:13 -0400
-Message-Id: <20250505221419.2672473-157-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 158/642] leds: leds-st1202: Initialize hardware before DT node child operations
+Date: Mon,  5 May 2025 18:06:14 -0400
+Message-Id: <20250505221419.2672473-158-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -68,47 +68,52 @@ Content-Transfer-Encoding: 8bit
 
 From: Manuel Fombuena <fombuena@outlook.com>
 
-[ Upstream commit be2f92844d0f8cb059cb6958c6d9582d381ca68e ]
+[ Upstream commit a17d9e736ddd78323e77d3066c1e86371a99023c ]
 
-leds-st1202 requires the LED Pattern Trigger (LEDS_TRIGGER_PATTERN), which
-is not selected when LED Trigger support is (LEDS_TRIGGERS).
+Arguably, there are more chances of errors occurring during the
+initialization of the hardware, so this should complete successfully
+before the devicetree node's children are initialized.
 
-To reproduce this:
+st1202_dt_init() fills the led_classdev struct.
 
-- make menuconfig KCONFIG_CONFIG=
-- select LEDS_ST1202 dependencies OF, I2C and LEDS_CLASS.
-- select LEDS_ST1202
-- LEDS_TRIGGERS is selected but LEDS_TRIGGER_PATTERN isn't.
+st1202_setup() initializes the hardware. Specifically, resets the chip,
+enables its phase-shift delay feature, enables the device and disables all
+the LEDs channels. All that writing to registers, with no input from
+st1202_dt_init().
 
-The absence of LEDS_TRIGGER_PATTERN explicitly required can lead to builds
-in which LEDS_ST1202 is selected while LEDS_TRIGGER_PATTERN isn't. The direct
-result of that would be that /sys/class/leds/<led>/hw_pattern wouldn't be
-available and there would be no way of interacting with the driver and
-hardware from user space.
+Real-world testing corroborates that calling st1202_setup() before
+st1202_dt_init() doesn't cause any issue during initialization.
 
-Add select LEDS_TRIGGER_PATTERN to Kconfig to meet the requirement and
-indirectly document it as well.
+Switch the order of st1202_dt_init() and st1202_setup() to ensure the
+hardware is correctly initialized before the led_classdev struct is
+filled.
 
 Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
-Link: https://lore.kernel.org/r/CWLP123MB5473F4DF3A668F7DD057A280C5C22@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
+Link: https://lore.kernel.org/r/CWLP123MB54731877A8DC54EDD33F0229C5C22@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
 Signed-off-by: Lee Jones <lee@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/leds/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/leds/leds-st1202.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 2b27d043921ce..8859e8fe292a9 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -971,6 +971,7 @@ config LEDS_ST1202
- 	depends on I2C
- 	depends on OF
- 	select LEDS_TRIGGERS
-+	select LEDS_TRIGGER_PATTERN
- 	help
- 	  Say Y to enable support for LEDs connected to LED1202
- 	  LED driver chips accessed via the I2C bus.
+diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
+index 4cebc0203c227..ccea216c11f9b 100644
+--- a/drivers/leds/leds-st1202.c
++++ b/drivers/leds/leds-st1202.c
+@@ -350,11 +350,11 @@ static int st1202_probe(struct i2c_client *client)
+ 		return ret;
+ 	chip->client = client;
+ 
+-	ret = st1202_dt_init(chip);
++	ret = st1202_setup(chip);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = st1202_setup(chip);
++	ret = st1202_dt_init(chip);
+ 	if (ret < 0)
+ 		return ret;
+ 
 -- 
 2.39.5
 
