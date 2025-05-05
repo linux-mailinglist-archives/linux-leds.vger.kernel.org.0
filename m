@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-4580-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4581-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33996AAAA26
-	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 03:30:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B63AAAAE9
+	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 03:47:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C859188BDDB
-	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 01:27:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3320F1883EC3
+	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 01:44:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E223754DE;
-	Mon,  5 May 2025 22:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DC9A38AC5C;
+	Mon,  5 May 2025 23:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pM58Rv2G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPhY3NYc"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FF8375334;
-	Mon,  5 May 2025 22:47:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF893379413;
+	Mon,  5 May 2025 23:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485268; cv=none; b=Kcjj0s+GZmDhOF89dcqQ2evANi2LcujURt8ijDbzRhLG1lij291zjctUhyhtignwAwcfxBUnLvUUUV9bYekN4q7WxZUkmVjKk3/1U9erPD8il3uCl2oSQxSMXgmSoAY5ekC3AIXSh/ond/1orI1AAkgSuevF7U2mpMtOMsWP/Mk=
+	t=1746486086; cv=none; b=fOfWPu5GmdJJXL/DFr7WKd6CA7xNtuWM895cJvFmHA57cU6byO5hKwz5U9ulgdY3SNaoKbqKFyRMf3HFVUSwT5I8a+9PNZdbdD56R0wJwOdzrByGz9n5IuZsqwRAoyMiwDVxIAV3fv5YPNMmLEHuncFKliMunu7kLvc8jielXyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485268; c=relaxed/simple;
+	s=arc-20240116; t=1746486086; c=relaxed/simple;
 	bh=jY2bLFrM4OmbAvQoCMBjY6y3zOJ5tAN7yOeLduNkcfk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dUyc+gEN5C8Gw/oe1fUVilNMNWOIL+go2Wpi7OzTPv7JLWq1G4VjWvMpWNAiyO/iNQP96qRYgrFNVs0/o5H+KcGcZ+r/4aEaBEInd30SZratPoHNtDZE4L/wHsEMS8qIBl8xhQ23IY5qzW7BdXYHgZbLapo4FGkFst0Y9vceS7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pM58Rv2G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A374C4CEEF;
-	Mon,  5 May 2025 22:47:46 +0000 (UTC)
+	 MIME-Version; b=Uk0hf7kRdafD4BuTxcZbCAyKBA07fv5JVUlxDQgJP6CJaJKsadSExQtqpaEOLrrLGprsA3uc2lRtZtWY+jEVKvnGikhVMEcQB6opKw2KumJu3JRYCHa8D5dVQIBhf8y6lvdQ5/6YCPdMsEc4nHLZCQ4AHddfU+NdPXAe6Vx0XUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPhY3NYc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB63C4CEEF;
+	Mon,  5 May 2025 23:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485267;
+	s=k20201202; t=1746486084;
 	bh=jY2bLFrM4OmbAvQoCMBjY6y3zOJ5tAN7yOeLduNkcfk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pM58Rv2Ghm95XC7FRQ13z0rIn2QQ6fqF6M5C/6XwXSiUMbhdCIs3IXxbzeVfuLMl2
-	 12gX4E/rFjxdkdfUK1REl7kcACmWOpsf9qyq2tg2S9UnAzj5NY3mf4xlOBQddb3KR1
-	 L8aY/SfSAthlxx1dpJjjOj94Mu389L9spsZJ548ac5kV9A8IcNaYkV3hKRfBzXLw6g
-	 y08Umt/B0Hotic6iq/W0MmqbThcjT19RtIHdiwaa3ALGM2KtdaEjyhLupZY+tqIiWl
-	 iDLNMWGoD2cwbVnt3G+1P0dlLFw2R8zNud/CnRSzZDqixdMWzi2uVmiJtob4dqk30P
-	 MKgzRt3V/BXlQ==
+	b=XPhY3NYcR8xIsUbBJec5NnmJSCv9bsQ9102qmyB/86lOU/w8l527YFOImpbKbriIM
+	 igp7rznqv+/iXA1Qx2Xjj6RpDwo5kelIJUnMUIwSUz8w9mLqN9L0CUpmaLqhYTN3kn
+	 lCy3fNo0ZTeOYtloeJLBN5CKyIF9S4mMDkTlcAqvoLCEk7OMcSkAI69iygZlmNC+1y
+	 PSoFQL0B7zaWYxiHjY+zkGIloCLlxr0CBgQk6Zdg1JQ4lmEjluXscqpgfqYmSMdJO7
+	 qlrvJyzLXRzNYftAGEMUEgwNzsMeLn+NThz3hkA+3qhVLSB/UkaM3HxDoXy7ExW/hQ
+	 xzM0x38z5XM9Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: Yuanjun Gong <ruc_gongyuanjun@163.com>,
 	jakob+lkml@paranoidlabs.org,
 	u.kleine-koenig@baylibre.com,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 243/486] leds: pwm-multicolor: Add check for fwnode_property_read_u32
-Date: Mon,  5 May 2025 18:35:19 -0400
-Message-Id: <20250505223922.2682012-243-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 147/294] leds: pwm-multicolor: Add check for fwnode_property_read_u32
+Date: Mon,  5 May 2025 18:54:07 -0400
+Message-Id: <20250505225634.2688578-147-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
+References: <20250505225634.2688578-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
+X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
 From: Yuanjun Gong <ruc_gongyuanjun@163.com>
