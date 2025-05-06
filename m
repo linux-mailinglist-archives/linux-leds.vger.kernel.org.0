@@ -1,150 +1,103 @@
-Return-Path: <linux-leds+bounces-4584-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4585-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB05AAB1FE
-	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 06:10:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80259AABFF8
+	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 11:40:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1F011883293
-	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 04:08:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C93A23A460A
+	for <lists+linux-leds@lfdr.de>; Tue,  6 May 2025 09:38:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8027941DA18;
-	Tue,  6 May 2025 00:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2240268684;
+	Tue,  6 May 2025 09:38:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEKc0tZi"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kjMo+lJx"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B202D47C6;
-	Mon,  5 May 2025 22:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9E224E4CE
+	for <linux-leds@vger.kernel.org>; Tue,  6 May 2025 09:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485642; cv=none; b=fyi+LiM8zFuCRF7wQHfT9QxfTpTZSgl1E/1DKup3MOZR6e3pqGsOwLOqR/HyjU9BbPvf++k2SEblOX+pDuw0MXQ7xcDrs6W/n4ruNDj4bE9EbUsupkp5hqndz9oZviW6UYcdtNiF1jS/Eps0hABzKNuy/G5zgHqpzUG3MLM75IE=
+	t=1746524282; cv=none; b=U34Bznq5rqctXqo346nxv4m6mHIDDIi7lx1U/r7fQWiFVACRoFI+cBRBdXFA2yzPUi2q5CBcsFlh4g3Yxvdkd4sgUz+O5yDSvf8xPhz6XpvgyuueANwPhluMOBEBehdS5SlfNZ69FJe/vKOO43TYqRpqCC2sEwylA8ugoni0tSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485642; c=relaxed/simple;
-	bh=5VC5trwgL58pOlCEvy6EgNbNTSJ0i7Tyy7yTSO/wics=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dnUCpy69q9X9XWbnu2FLm2vIWk1QBnVI8FU2tWTf2pBB7DpWtEGfzJGdhtqEJOIivRh3KgssNnKxLv4Y8DWUJZNq/1j5EPbwtAfveRbtCtV8b/ruJnM1HrdtdtaMGvQp5lzUecovEDdMmSE1kgM/mhB0YYWpj3gjmlw/hqKJfU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TEKc0tZi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26D8FC4CEE4;
-	Mon,  5 May 2025 22:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485642;
-	bh=5VC5trwgL58pOlCEvy6EgNbNTSJ0i7Tyy7yTSO/wics=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TEKc0tZi7Q1+GVloCPgojG/9YY8Fr+3mKAUDHJNhXBO4Mrh0LIZ6lQVYOETS7Jo4H
-	 nXw98H4A8Ahw8OjVKKI4d+MJrW5AAuAbP+0PQfmdHHRpeqhWWkIcVWhClDOt7QNhSY
-	 S0+G8T14cVMgnE40hevMmv2YSdmoHlucV0pYDZ+ho+Gm8/r2cfNsqpd1NgrVfR9/+f
-	 BS/3MVuZnpZhlZPen5oB3xG+2V9r+2cli/+OTLoVfs41O7RAnuztQPdxLUjPcmgUeG
-	 L/VPYYmhyJEYsQhVIZ8Q+2bVVYDBoobUL/x2h9cGxt56hjz1Jc0Gn78hmQ0rqZHr9m
-	 V8JeeoUajEHrA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>,
-	Lee Jones <lee@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	pavel@kernel.org,
-	andrew@lunn.ch,
-	lukma@denx.de,
-	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 401/486] leds: trigger: netdev: Configure LED blink interval for HW offload
-Date: Mon,  5 May 2025 18:37:57 -0400
-Message-Id: <20250505223922.2682012-401-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+	s=arc-20240116; t=1746524282; c=relaxed/simple;
+	bh=td4KxZJj9ZC3lfXVR+NV6kF/R+poHYOhA0qBFY0XCc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOpvPG3T83nICtywDNe7qcIih0u45MAA4pp32knef844GJdCM1CsZFnTGZfa4MyIPv5Kymx/ftReD6h/wWP6zvcI7QD7zoU7Ln2zzVjEVEt7OJxgrd4jZiLz2ldtI+pQjbWA4wh/o1j/rThiBYaJQbanZeCeqyvWB8jqB1fUOH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kjMo+lJx; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 6 May 2025 11:37:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1746524278;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cfsYpFsr9RNeBOeKfu7LBceF449mTxPSBw5DxWmK0vU=;
+	b=kjMo+lJxglyW+HW6SVJc9/Qgl7puu+4gNLdj9xSsU+k8J5oz/cCKpCuNLRg3gFfNVRoIlk
+	DXFSLPynfZN/Q8AzbRBy9xKmlN0czDA0QC/m7yRShUgMi1r4VI78J3ye5PG+qxRparfFhj
+	UUuTRyhSBg7BI4Evi9GOpioG8bYxSdI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v3 8/9] media: i2c: ov9282: add strobe_duration v4l2
+ control
+Message-ID: <33ocihn7niukhio2b4zpw6sh224q6p6lmrsfvpsca6bzbzddzm@m5dzx4uponxq>
+References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
+ <20250429-ov9282-flash-strobe-v3-8-2105ce179952@linux.dev>
+ <aBHe-55_U3bYTXyG@kekkonen.localdomain>
+ <t7lnqmhufsyf5ygfkfyllvxpm4h2qdxotgi2lcfoxlhxjpejjd@mf2poxik2zje>
+ <aBP0Lioy6Qi0Iw66@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBP0Lioy6Qi0Iw66@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-From: Marek Vasut <marex@denx.de>
+On Thu, May 01, 2025 at 10:22:38PM +0000, Sakari Ailus wrote:
+> Hi Richard,
+> 
+> On Wed, Apr 30, 2025 at 11:09:30AM +0200, Richard Leitner wrote:
+> > Hi Sakari,
+> > 
+> > thanks for the review!
+> 
+> You're welcome.
+> 
+> > > > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> > > 
+> > > Should the number of controls in the handler be updated?
+> > 
+> > What do you mean by "number of controls in the handler" exactly? Which
+> > handler?
+> 
+> A number of buckets allocated in control handler's initialisation is based
+> on the number of controls given to the init function. You should update
+> that number when adding controls.
 
-[ Upstream commit c629c972b310af41e9e072febb6dae9a299edde6 ]
+Ah, now I got it. :-)
 
-In case a PHY LED implements .blink_set callback to set LED blink
-interval, call it even if .hw_control is already set, as that LED
-blink interval likely controls the blink rate of that HW offloaded
-LED. For PHY LEDs, that can be their activity blinking interval.
+Thanks for the clarification. Will fix that in v4 for all newly added
+controls!
 
-The software blinking is not affected by this change.
+regards;rl
 
-With this change, the LED interval setting looks something like this:
-$ echo netdev > /sys/class/leds/led:green:lan/trigger
-$ echo 1 > /sys/class/leds/led:green:lan/brightness
-$ echo 250 > /sys/class/leds/led:green:lan/interval
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Link: https://lore.kernel.org/r/20250120113740.91807-1-marex@denx.de
-Signed-off-by: Lee Jones <lee@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/leds/trigger/ledtrig-netdev.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 4b0863db901a9..356a55ced2c28 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -68,6 +68,7 @@ struct led_netdev_data {
- 	unsigned int last_activity;
- 
- 	unsigned long mode;
-+	unsigned long blink_delay;
- 	int link_speed;
- 	__ETHTOOL_DECLARE_LINK_MODE_MASK(supported_link_modes);
- 	u8 duplex;
-@@ -86,6 +87,10 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
- 	/* Already validated, hw control is possible with the requested mode */
- 	if (trigger_data->hw_control) {
- 		led_cdev->hw_control_set(led_cdev, trigger_data->mode);
-+		if (led_cdev->blink_set) {
-+			led_cdev->blink_set(led_cdev, &trigger_data->blink_delay,
-+					    &trigger_data->blink_delay);
-+		}
- 
- 		return;
- 	}
-@@ -454,10 +459,11 @@ static ssize_t interval_store(struct device *dev,
- 			      size_t size)
- {
- 	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-+	struct led_classdev *led_cdev = trigger_data->led_cdev;
- 	unsigned long value;
- 	int ret;
- 
--	if (trigger_data->hw_control)
-+	if (trigger_data->hw_control && !led_cdev->blink_set)
- 		return -EINVAL;
- 
- 	ret = kstrtoul(buf, 0, &value);
-@@ -466,9 +472,13 @@ static ssize_t interval_store(struct device *dev,
- 
- 	/* impose some basic bounds on the timer interval */
- 	if (value >= 5 && value <= 10000) {
--		cancel_delayed_work_sync(&trigger_data->work);
-+		if (trigger_data->hw_control) {
-+			trigger_data->blink_delay = value;
-+		} else {
-+			cancel_delayed_work_sync(&trigger_data->work);
- 
--		atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
-+			atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
-+		}
- 		set_baseline_state(trigger_data);	/* resets timer */
- 	}
- 
--- 
-2.39.5
-
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
