@@ -1,82 +1,115 @@
-Return-Path: <linux-leds+bounces-4604-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4605-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743ADAAFD47
-	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 16:37:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C161AAFD2F
+	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 16:35:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D72A9C1811
-	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 14:33:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54B887B9EA6
+	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 14:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92F972741C7;
-	Thu,  8 May 2025 14:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19435272E5F;
+	Thu,  8 May 2025 14:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNphbLh+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="slGT59Rp"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66139272E6F;
-	Thu,  8 May 2025 14:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E586A272E5E;
+	Thu,  8 May 2025 14:34:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746714779; cv=none; b=gDjrB58PVRGlwN+4fLJG9+aoPGkgONCZTOmnAFp45q+EkYhofJOj5B9YidUhD8rkjVydFoKHJ9XiQ8Vd+LmGExAdiVutCd6ZjL2B6kx3IepyFLt9Qc/LZF1UPDW7EPIl0123Ct01BPGt5yg/tE3DnhQfS9MaTW+A6dR+I/N57Rw=
+	t=1746714896; cv=none; b=HHuaCqgZkvMuBT3fbNLQ8ornraAIsglM2lWj1zAaPzwqvTlD3+2prsJVXlOFlW3bbqvyyDrnHYPDvuMwU3rOTNeG1j4nKt/cQNLh2xvbG4NAKFq4lEnT82vVFwGI9ZDdy7/drqvVmQknOFUVBIV8ZEOljbzjm1Fa75hKtA6lMnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746714779; c=relaxed/simple;
-	bh=NxGW7N90fDSOJso1seyJ02kkBD8Q8q5t1i2zP+DewbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UazF6K9vUodirN12VAXy8dgdDf3yXKqrZ33j1xoy0Yu14zngPiMTTKZ6qSTKsqjJEUxRNou7qzhYPiYXmIh+QEmz7j5ARUqozDVjg4S7RPSB16bVhWieu0CFT+gkddru78c3KwwA+xCOqNysZkN4cHddXxyTlgZQO8ywNMtzc0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNphbLh+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03CB0C4CEE7;
-	Thu,  8 May 2025 14:32:56 +0000 (UTC)
+	s=arc-20240116; t=1746714896; c=relaxed/simple;
+	bh=K0M7IMdnkdru4b3GA+is4PSIHP8NkQLHYlg039Zu5Tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n3WvLuN3RJTYH/QoNyvUP2eoZ2dNzsfU/vtJ1dKE6UuCQ2gciDQO66UPTkr7kwbf9ZTasKbC+n1kG5nUf0IWHkHlVkIP1ewqZ+mwHkEFLMHp2D7paMcPNl5G00Fc9HAKUi0Ypxzd5tAdSNCFdrPn0KtgUvqQO6Rpzmdqcrw26hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=slGT59Rp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB024C4CEE7;
+	Thu,  8 May 2025 14:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746714778;
-	bh=NxGW7N90fDSOJso1seyJ02kkBD8Q8q5t1i2zP+DewbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FNphbLh+p/iHJGO4w1vz+b+pnDN8vnpU1X/khuU1FqyyQqtMF8Y1NNiPwv50TXq2+
-	 i2OnOQOsktJSkWMGlwy5A3v0ZMJq8dIL0eu0FoFnI09BpNRyGNQtrbQadE3Ntnb6iU
-	 h5kTmoFA0Us1pEpAkjaZHi/aK08Dbid9571r64KdpvzwrjBNS9Ymq1Gj17EIhNibG/
-	 AZIbeLlwbBS4g/VsrQWCHrLbAuckzEPF22Ylxm7Uh40BseiZbMVk13qwgXp/F+0SXD
-	 J571fk6toXXaiG/oWU9+r4ZdIxqermazZoszKU1xDFJ18NW31t93n6QedfYRL/u/Ic
-	 LMeywq/Uv1/TA==
+	s=k20201202; t=1746714895;
+	bh=K0M7IMdnkdru4b3GA+is4PSIHP8NkQLHYlg039Zu5Tc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=slGT59RpZc7gVbegOHKVuxvc+cBPwbM4liR0rlCc+Egr2qgXuaxVfZBDCYei7MwDp
+	 V5tz7yA3K6ntmziS4GeztdbkHsBm3ULPlxXbfmDOCgCpiKEBJZ2pQGv2jakpaufB95
+	 RpyBybpvaBiAqfqo0dMEMgYa4nfr6O/ADYWjXcC0OsF2gCIfwdh4RJoyDO6afzf1iN
+	 8jcIxNCm3MPa9GHwvNjDY5hRR1taFLAq2/l8+EJVqsxiEdoaMrBjM6j8M8VfhJp8EO
+	 uvDtkHY0egUXswMAJ7QVdmorEtL7dXejPZVMfT/8ZJ45dNV0fLhUmXx/KdkQy0B17v
+	 F/HDICT1ibMdg==
+Date: Thu, 8 May 2025 15:34:51 +0100
 From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <1ce4245107e0a51dce502a007a69899bda018d5f.1746197460.git.christophe.jaillet@wanadoo.fr>
-References: <1ce4245107e0a51dce502a007a69899bda018d5f.1746197460.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: (subset) [PATCH] leds: rgb: leds-mt6370-rgb: Improve
- definition of some struct linear_range
-Message-Id: <174671477676.2472260.13790392166774211195.b4-ty@kernel.org>
-Date: Thu, 08 May 2025 15:32:56 +0100
+To: Ivan Stepchenko <sid@itb.spb.ru>
+Cc: Pavel Machek <pavel@kernel.org>, David Lechner <david@lechnology.com>,
+	Jacek Anaszewski <j.anaszewski@samsung.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] leds: uleds: fix unchecked copy_to_user() in uleds_read()
+Message-ID: <20250508143451.GQ3865826@google.com>
+References: <20250505081342.3855-1-sid@itb.spb.ru>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-39345
+In-Reply-To: <20250505081342.3855-1-sid@itb.spb.ru>
 
-On Fri, 02 May 2025 16:51:22 +0200, Christophe JAILLET wrote:
-> Use LINEAR_RANGE() instead of hand-writing it. It is more robust, should
-> the layout of the structure change one day.
+On Mon, 05 May 2025, Ivan Stepchenko wrote:
+
+> The copy_to_user() is annotated with __must_check, indicating that
+> its return value must be checked by the caller. Currently, uleds_read()
+> ignores it. If the userspace buffer is invalid and copy_to_user() fails,
+> the userspace application may assume it has received fresh data, while
+> in fact copying has failed. This can leave applications out of sync
+> with the actual device state.
 > 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: e381322b0190 ("leds: Introduce userspace LED class driver")
+> Signed-off-by: Ivan Stepchenko <sid@itb.spb.ru>
+> ---
+>  drivers/leds/uleds.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/leds/uleds.c b/drivers/leds/uleds.c
+> index 374a841f18c3..41bfce43136c 100644
+> --- a/drivers/leds/uleds.c
+> +++ b/drivers/leds/uleds.c
+> @@ -147,10 +147,13 @@ static ssize_t uleds_read(struct file *file, char __user *buffer, size_t count,
+>  		} else if (!udev->new_data && (file->f_flags & O_NONBLOCK)) {
+>  			retval = -EAGAIN;
+>  		} else if (udev->new_data) {
+> -			retval = copy_to_user(buffer, &udev->brightness,
+> -					      sizeof(udev->brightness));
+> -			udev->new_data = false;
+> -			retval = sizeof(udev->brightness);
+> +			if (copy_to_user(buffer, &udev->brightness,
+> +					 sizeof(udev->brightness))) {
+
+This is not good.
+
+Please store the result into a variable and return that instead.
+
+> +				retval = -EFAULT;
+> +			} else {
+> +				udev->new_data = false;
+> +				retval = sizeof(udev->brightness);
+> +			}
+>  		}
+>  
+>  		mutex_unlock(&udev->mutex);
+> -- 
+> 2.39.5
 > 
 
-Applied, thanks!
-
-[1/1] leds: rgb: leds-mt6370-rgb: Improve definition of some struct linear_range
-      commit: 4e055c846de470cb4a9bf4be0811c7d624785abc
-
---
+-- 
 Lee Jones [李琼斯]
-
 
