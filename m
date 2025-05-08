@@ -1,142 +1,183 @@
-Return-Path: <linux-leds+bounces-4606-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4607-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916A1AAFE08
-	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 17:00:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75100AAFF17
+	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 17:24:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1495516EC61
-	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 14:59:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A9873A9FB2
+	for <lists+linux-leds@lfdr.de>; Thu,  8 May 2025 15:21:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E49142798F5;
-	Thu,  8 May 2025 14:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E22221D90;
+	Thu,  8 May 2025 15:21:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SlHhKS0w"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lechnology.com header.i=@lechnology.com header.b="faLioyyP"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD742797A0;
-	Thu,  8 May 2025 14:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC0B1BD4F7;
+	Thu,  8 May 2025 15:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.142.107.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746716253; cv=none; b=Shu9n/gIj4PtMtEq0iAXYjmwcVIBqM7hXePLIV10YfH0P01MxLtbTw0wAclyjtNz75f1fR+nYpFxwr2VdTtFyfQP0DW93C4jTatGfcX5ql4Ft60lC1X+VdUC46skoGTLGKcGr/ZiXvf97vN6GUlEPKjEqZuZfk5r7MkAor1zNkQ=
+	t=1746717701; cv=none; b=Ea1PhgvK0l4C1mVuLVYEG+5R8+i/KUyRLo7TMJvaSQ6MOT4Nacnd/DJ4lMASVeuxjLNHxcEGeQBjH00zlbQQ9v+Z1+AOBOyUNdjW4+TSwV0ZzSwBCHnlnh8oo7Fj6cuahJJBLkSASiV/cWhp2eiX1ueFcLqqo/q2f81ikiPP7+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746716253; c=relaxed/simple;
-	bh=6iHhw5qFT/tUA3m1akQE4BAydwJFznjhgGJU3QAL6ww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WaPeSzQCyyc2zf3luulOJeyOu6odehNpzi2ncP/HmKAc1s6lPoqiUWmjp2ZANIe504gqPWqHBWBZzTnYXFaWqvBNyO5Au7rm/LEq1CgE1xLoKM/rIwZAKvhTPcTFxdma7dYlDPC65Mj1fAKp8HqIB4gxUvBH9HiWOME84b8BMao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SlHhKS0w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA32DC4CEEF;
-	Thu,  8 May 2025 14:57:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746716253;
-	bh=6iHhw5qFT/tUA3m1akQE4BAydwJFznjhgGJU3QAL6ww=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SlHhKS0wdh1rO5+aBOBNJAGvvHuvASSuFyJJAvEKq59Yo90yNzSmciNTXSZbcoopU
-	 rwYGoMjQnrQaAYrMJY6u57Z2qMuTbPK9+HZPX613hqQRlmRqhNw6G1zx+SFY09mmwW
-	 ErXC9bcqRol73azhn9rAZfgR9GG3yJFVy5qETy0gg1CvC24c0uxVeApjewy44KIW9s
-	 YIWhTm0lBFa/hKv0now+gl8E8l4qritWLbfF/HIpdCGgYsxGal11FNjFql3kRE7rps
-	 aiPqc27ke+Fqj27wDeYjgRMvYLTCpZ6egAuBtsp/9/zRKyzI5vximbyrqnmmxjNm8H
-	 2tlewhWR4zmig==
-Date: Thu, 8 May 2025 15:57:29 +0100
-From: Lee Jones <lee@kernel.org>
-To: Johan Adolfsson <johan.adolfsson@axis.com>
-Cc: Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@axis.com
-Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct
- multi_index
-Message-ID: <20250508145729.GR3865826@google.com>
-References: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
+	s=arc-20240116; t=1746717701; c=relaxed/simple;
+	bh=UK1pyBSP6cnOEUNhCJEzF4QCBjLicUgO5zbNc1oDH28=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l2axoB1sfS7Mh/eKvPv6nwbMBkfk1LWAwHeEabY4tQWo1jSHmgu9fCmHb1nWatw1YWxmBf5mczNxVdNXdHAgkfRrCI8k2O1q5N/nNaw5WtxGeiShpJ7t2Bl/MsIdqAdA4fdugRPK0QbLMRCSo0amg22Z1ubVlQuv9HMdqJXnQQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lechnology.com; spf=pass smtp.mailfrom=lechnology.com; dkim=pass (2048-bit key) header.d=lechnology.com header.i=@lechnology.com header.b=faLioyyP; arc=none smtp.client-ip=98.142.107.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lechnology.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lechnology.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=LA0jiwSe+AcbAnMB83EVPyLYZNhKqox30NsMzUL+r88=; b=faLioyyPDxhoxxZkhwpRhpq+CE
+	r7crjGoLIywBtaGfSkiDc4FGJUGvfAsH3DxMBSP39qT+d6vgLuUwrRX1RvdD48TwsoLhnwlLMWQVh
+	Z7pB0/yc+ZivFyN1E49ZpQfEE13xxKOqK5b+0IgCr1UtgCH0xwoYvGwA2A7VlcCwSXPU/PBS45fuP
+	U3U5rVvYT8oTE9u7vnYFhdCSNh1RsE81Qq7eIUvoQ5h6ZVPUyikNX5r+Uc1P6lGuXxbT5sI5pacm5
+	mCy/UDnvWFO7ph5dlWE/7ZbevL9ecaIlTb0F2YNwlkVUQ2L3Hz4G5zbAVZw2onlAyryCpc//fprwI
+	G5R1GqVg==;
+Received: from [2600:8803:e7e4:1d00:1120:d1cf:c64a:ac7e] (port=48630)
+	by vern.gendns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.1)
+	(envelope-from <david@lechnology.com>)
+	id 1uD2p3-0000000024m-0AGg;
+	Thu, 08 May 2025 11:03:12 -0400
+Message-ID: <037fc605-3401-4e68-b452-b5e4882d56bc@lechnology.com>
+Date: Thu, 8 May 2025 10:03:09 -0500
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: uleds: fix unchecked copy_to_user() in uleds_read()
+To: Lee Jones <lee@kernel.org>, Ivan Stepchenko <sid@itb.spb.ru>
+Cc: Pavel Machek <pavel@kernel.org>,
+ Jacek Anaszewski <j.anaszewski@samsung.com>, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+References: <20250505081342.3855-1-sid@itb.spb.ru>
+ <20250508143451.GQ3865826@google.com>
+From: David Lechner <david@lechnology.com>
+Content-Language: en-US
+Autocrypt: addr=david@lechnology.com; keydata=
+ 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
+In-Reply-To: <20250508143451.GQ3865826@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Tue, 06 May 2025, Johan Adolfsson wrote:
+On 5/8/25 9:34 AM, Lee Jones wrote:
+> On Mon, 05 May 2025, Ivan Stepchenko wrote:
+> 
+>> The copy_to_user() is annotated with __must_check, indicating that
+>> its return value must be checked by the caller. Currently, uleds_read()
+>> ignores it. If the userspace buffer is invalid and copy_to_user() fails,
+>> the userspace application may assume it has received fresh data, while
+>> in fact copying has failed. This can leave applications out of sync
+>> with the actual device state.
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>>
+>> Fixes: e381322b0190 ("leds: Introduce userspace LED class driver")
+>> Signed-off-by: Ivan Stepchenko <sid@itb.spb.ru>
+>> ---
+>>  drivers/leds/uleds.c | 11 +++++++----
+>>  1 file changed, 7 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/leds/uleds.c b/drivers/leds/uleds.c
+>> index 374a841f18c3..41bfce43136c 100644
+>> --- a/drivers/leds/uleds.c
+>> +++ b/drivers/leds/uleds.c
+>> @@ -147,10 +147,13 @@ static ssize_t uleds_read(struct file *file, char __user *buffer, size_t count,
+>>  		} else if (!udev->new_data && (file->f_flags & O_NONBLOCK)) {
+>>  			retval = -EAGAIN;
+>>  		} else if (udev->new_data) {
+>> -			retval = copy_to_user(buffer, &udev->brightness,
+>> -					      sizeof(udev->brightness));
+>> -			udev->new_data = false;
+>> -			retval = sizeof(udev->brightness);
+>> +			if (copy_to_user(buffer, &udev->brightness,
+>> +					 sizeof(udev->brightness))) {
+> 
+> This is not good.
+> 
+> Please store the result into a variable and return that instead.
 
-> mc_subled used for multi_index needs well defined array indexes,
-> to guarantee the desired result, optionally use reg for that.
-> 
-> If devicetree child nodes is processed in random or reverse order
-> you may end up with multi_index "blue green red" instead of the expected
-> "red green blue".
-> If user space apps uses multi_index to deduce how to control the leds
-> they would most likely be broken without this patch if devicetree
-> processing is reversed (which it appears to be).
-> 
-> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-> but I don't see how it can have worked without this change.
-> 
-> If reg is not set, the previous behavior is kept, index will be in
-> the order nodes are processed.
-> 
-> Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
-> ---
-> Since devicetree nodes are (sometimes?) processed in reverse order,
-> support reg as the actual multi_index index so yo get well defined
-> color order presented in the multi_index file.
-> Not sure if reusing reg for this is the correct way or if another
-> property such as "multi_index" or similar should be used instead.
-> Looks like reg is used for similar things at least.
-> Or should the whole "reverse the devicetree" problem be fixed instead?
-> ---
->  drivers/leds/leds-lp50xx.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index 02cb1565a9fb..48db024081f5 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->  			return -ENOMEM;
->  
->  		fwnode_for_each_child_node(child, led_node) {
-> +			int multi_index = num_colors;
->  			ret = fwnode_property_read_u32(led_node, "color",
->  						       &color_id);
->  			if (ret) {
-> @@ -483,8 +484,15 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->  				dev_err(priv->dev, "Cannot read color\n");
->  				return ret;
->  			}
-> +			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-> +			if (ret) {
-> +				multi_index = num_colors;
+Every other caller of copy_to_user() in the kernel I've seen ignores the actual
+return value and returns -EFAULT, so I thought this looked correct and it was
+just a quirk of copy_to_user().
 
-Didn't we already initialise this?
-
-> +			} else if (multi_index >= LP50XX_LEDS_PER_MODULE) {
-> +				dev_warn(priv->dev, "reg %i out of range\n", multi_index);
-
-This should probably fail outright.
-
-> +				multi_index = num_colors;
-> +			}
->  
-> -			mc_led_info[num_colors].color_index = color_id;
-> +			mc_led_info[multi_index].color_index = color_id;
->  			num_colors++;
->  		}
->  
 > 
-> ---
-> base-commit: 38fec10eb60d687e30c8c6b5420d86e8149f7557
-> change-id: 20250225-led-fix-444fb544584a
-> 
-> Best regards,
-> -- 
-> Johan Adolfsson <johan.adolfsson@axis.com>
+>> +				retval = -EFAULT;
+>> +			} else {
+>> +				udev->new_data = false;
+>> +				retval = sizeof(udev->brightness);
+>> +			}
+>>  		}
+>>  
+>>  		mutex_unlock(&udev->mutex);
+>> -- 
+>> 2.39.5
+>>
 > 
 
--- 
-Lee Jones [李琼斯]
 
