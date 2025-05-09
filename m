@@ -1,54 +1,54 @@
-Return-Path: <linux-leds+bounces-4611-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4612-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59932AB1030
-	for <lists+linux-leds@lfdr.de>; Fri,  9 May 2025 12:14:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC5AAB103F
+	for <lists+linux-leds@lfdr.de>; Fri,  9 May 2025 12:15:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 846D51C263DB
-	for <lists+linux-leds@lfdr.de>; Fri,  9 May 2025 10:14:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBCCE9E50F8
+	for <lists+linux-leds@lfdr.de>; Fri,  9 May 2025 10:14:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D03BF28F505;
-	Fri,  9 May 2025 10:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9DC728F53F;
+	Fri,  9 May 2025 10:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="Yk8uJ4NM"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="gFNJfW1L"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF543274674;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD5628EA48;
 	Fri,  9 May 2025 10:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746785639; cv=none; b=vGpZDpAIS+1mTMT20NycMOHFB1HSDxs17+AJvsgHJt0X/aF+r2Mjlr+UR/nIVam+o+DIaTfhNarb2tOoVwqQdStN37r8wOF/U/MxGLqNUtZoDyFf4j67QPDhiG/CYQZPazbUQFr/8T4VXnJq8oBCCMMBDGCN89EOZz162FVWRh4=
+	t=1746785640; cv=none; b=a0xhKOWrXiwveOjjJuTadmX7FOC0Xu2vvxw7kTb4v3ucJv+U0RqI40iR1382kn927+m8J/Z5YocmwPc/IfsMUAjanJBWT/E2N4bjRMxxVYRu7yx89Kf0vlmKOfWbgZZs0IyotNzfwXlEeznoDDaYpQ+yu9n5WqRk2EvYb/ygNLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746785639; c=relaxed/simple;
-	bh=AU/evyLY36h6heLli8/0jOoKd69aELP0vtO9uBIR2Lg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=swBxGvvuOU/VhLkCgFvNOxB3Rx2tm6y5ODXG5Ly5ElYWwwIzzrNzNruhLcjoQ7kp2p8F5C/TBDriPfMeqk22uBH76FOBvMle/5VrP4jX5rwnxyseZ/hOxaR0kIPq3Bz+3zcXkxq6gGgcQBLirpP9KU2y71YtcUEyi5iZih8V9BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=Yk8uJ4NM; arc=none smtp.client-ip=168.119.41.54
+	s=arc-20240116; t=1746785640; c=relaxed/simple;
+	bh=2rybtEtSnHp1L55DE1SNTbFRr5L1knAygEYcRmKOZtM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=S4ZzulbcSzcLgk60gjH1QKu6LYs7LJIKBe+Q/Wrn4e1uHgAD/pV5MezHcG6nT+ADJOi2q7I5264FO3pdoMeG1L0OvMJCYA3kA7PuFa24rWnqOKwvE7/tKMhInaFjriaHf7FSH8ErBKIREcYsM6KrqjSVYzAeXTrk6PZL7iDuCMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=gFNJfW1L; arc=none smtp.client-ip=168.119.41.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	 s=mail; h=Cc:To:In-Reply-To:References:Message-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=nAfoWVNuZUaaIrzJ/KTAH5X5jAijWISwnD0nCOplMzE=; b=Yk8uJ4NMd3wjcpnvWtoeavtXMC
-	NQZkPY7+0+V8Vip0kgom6HDMFU1+vKqHoVMghH4oHNDSmSeP4WSyj5/92H0+XysIUrB2KQaWhI97L
-	ArnKc3Kzn7FqiB40YMPniLv7l83EarqNf+47u9hB0i4qi/tIEet0QKweu6BO0fKvp0nY=;
+	bh=goPStM+OHyszIMkIuQDRqTecOxbPHrLiRh4AOrQUaAk=; b=gFNJfW1L+fJe0aOoJODM6QCWRF
+	9ekx8hGD4usq4+7iG9D/Vhkuc/U215ftZlhL+cWZj9ldSXTqiijLZ+aOHqrr7XhFchUYopyQLRojt
+	FhDhus/ZMTKPqYrGM64k72k7udFaRImZVf+PWWn1sMBdOQMegQIEiiBFo25Ju5gjIYck=;
 Received: from 194-208-208-245.tele.net ([194.208.208.245]:56672 helo=[127.0.1.1])
 	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <matthias.fend@emfend.at>)
-	id 1uDKjp-001ghk-L1; Fri, 09 May 2025 12:13:54 +0200
+	id 1uDKjq-001ghk-DR; Fri, 09 May 2025 12:13:55 +0200
 From: Matthias Fend <matthias.fend@emfend.at>
-Subject: [PATCH v4 0/2] Support for Texas Instruments TPS6131X flash LED
- driver
-Date: Fri, 09 May 2025 12:13:41 +0200
-Message-Id: <20250509-leds-tps6131x-v4-0-2c9563f5b67c@emfend.at>
+Date: Fri, 09 May 2025 12:13:42 +0200
+Subject: [PATCH v4 1/2] dt-bindings: leds: add Texas Instruments TPS6131x
+ flash LED driver
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -57,11 +57,9 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAFfVHWgC/2XNTQqDMBCG4atI1k2Z/Gi0q96jdBGTsQZalUSCR
- bx7o1CkdvkNPO/MJKB3GMglm4nH6ILruzTkKSOm1d0DqbNpEw48B84VfaINdBxCwQSbqFZSqLI
- UKAFIMoPHxk1b73ZPu3Vh7P17y0e2Xr+l8lCKjAK1DBSzFTQV6iu+GuzsWY9kLUW+a8H+NE+6N
- lAZpXOoOR612LXk4qhF0kYXygpZaPn7e1mWDxp7Sp0mAQAA
-X-Change-ID: 20250227-leds-tps6131x-a7437883e400
+Message-Id: <20250509-leds-tps6131x-v4-1-2c9563f5b67c@emfend.at>
+References: <20250509-leds-tps6131x-v4-0-2c9563f5b67c@emfend.at>
+In-Reply-To: <20250509-leds-tps6131x-v4-0-2c9563f5b67c@emfend.at>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>
@@ -70,71 +68,165 @@ Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  bsp-development.geo@leica-geosystems.com, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Spam-Score: 
-X-Spam-Bar: 
-X-Spam-Report: 
+X-Spam-Score: -1.0
+X-Spam-Bar: -
+X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hosting",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ 
+ Content preview:  The TPS61310/TPS61311 is a flash LED driver with I2C interface.
+    Its power stage is capable of supplying a maximum total current of roughly
+    1500mA. The TPS6131x provides three constant-current sinks, c [...] 
+ 
+ Content analysis details:   (-1.0 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+  0.0 TVD_RCVD_IP            Message was received from an IP address
+  0.0 Local_hs1_NotHoststar  Sender is not from hoststar.ch|de|com
+  0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
+                             Alignment
 
-The TPS61310/TPS61311 is a flash LED driver with I2C interface. Its power
-stage is capable of supplying a maximum total current of roughly 1500mA.
-The TPS6131x provides three constant-current sinks, capable of sinking up
-to 2 × 400mA (LED1 and LED3) and 800mA (LED2) in flash mode. In torch mode
-each sink (LED1, LED2, LED3) supports currents up to 175m
+Document Texas Instruments TPS61310/TPS61311 flash LED driver devicetree
+bindings.
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 ---
-Changes in v4:
-- Added/removed/adjusted comments
-- Use defines for register defaults
-- Updated source format
-- Check for error in torch refresh timer
-- Return error from tps6131x_parse_node()
-- Link to v3: https://lore.kernel.org/r/20250423-leds-tps6131x-v3-0-ca67d346a4ea@emfend.at
+ .../devicetree/bindings/leds/ti,tps61310.yaml      | 120 +++++++++++++++++++++
+ 1 file changed, 120 insertions(+)
 
-Changes in v3:
-- Add comment for locking
-- Drop handling based on CONFIG_V4L2_FLASH_LED_CLASS
-- Stop if getting reset GPIO fails
-- Optimize locks
-- Fix type of num_channels (u32 -> int)
-- Convert a remaining return sequence to dev_err_probe
-- Link to v2: https://lore.kernel.org/r/20250318-leds-tps6131x-v2-0-bc09c7a50b2e@emfend.at
+diff --git a/Documentation/devicetree/bindings/leds/ti,tps61310.yaml b/Documentation/devicetree/bindings/leds/ti,tps61310.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..1f631889a06a70185bb7ca2cef531e2618f83765
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/ti,tps61310.yaml
+@@ -0,0 +1,120 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/ti,tps61310.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TPS6131X flash LED driver
++
++maintainers:
++  - Matthias Fend <matthias.fend@emfend.at>
++
++description: |
++  The TPS61310/TPS61311 is a flash LED driver with I2C interface.
++  Its power stage is capable of supplying a maximum total current of roughly 1500mA.
++  The TPS6131x provides three constant-current sinks, capable of sinking
++  up to 2 × 400mA (LED1 and LED3) and 800mA (LED2) in flash mode.
++  In torch mode, each sink (LED1, LED2, LED3) supports currents up to 175mA.
++  Since the three current sinks share most of the control components such as
++  flash timer, control logic, safety timer and the operating mode, they cannot
++  be used completely independently of each other. Therefore, only one LED is
++  supported, but the current sinks can be combined accordingly.
++
++  The data sheet can be found at:
++    https://www.ti.com/lit/ds/symlink/tps61310.pdf
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - ti,tps61311
++          - const: ti,tps61310
++      - items:
++          - const: ti,tps61310
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to NRESET pin
++
++  ti,valley-current-limit:
++    type: boolean
++    description:
++      Reduce the valley peak current limit from 1750mA to 1250mA (TPS61310) or
++      from 2480mA to 1800mA (TPS61311).
++
++  led:
++    type: object
++    $ref: common.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      led-sources:
++        minItems: 1
++        maxItems: 3
++        items:
++          enum: [1, 2, 3]
++
++      led-max-microamp:
++        oneOf:
++          - minimum: 50000
++            maximum: 350000
++            multipleOf: 50000
++          - minimum: 25000
++            maximum: 525000
++            multipleOf: 25000
++
++      flash-max-microamp:
++        oneOf:
++          - minimum: 50000
++            maximum: 800000
++            multipleOf: 50000
++          - minimum: 25000
++            maximum: 1500000
++            multipleOf: 25000
++
++      flash-max-timeout-us:
++        enum: [ 5300, 10700, 16000, 21300, 26600, 32000, 37300, 68200, 71500,
++                102200, 136300, 170400, 204500, 340800, 579300, 852000 ]
++
++    required:
++      - led-sources
++      - led-max-microamp
++      - flash-max-microamp
++      - flash-max-timeout-us
++
++required:
++  - compatible
++  - reg
++  - led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      led-controller@33 {
++        compatible = "ti,tps61311", "ti,tps61310";
++        reg = <0x33>;
++
++        reset-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
++
++        led {
++          function = LED_FUNCTION_FLASH;
++          color = <LED_COLOR_ID_WHITE>;
++          led-sources = <1>, <2>, <3>;
++          led-max-microamp = <525000>;
++          flash-max-microamp = <1500000>;
++          flash-max-timeout-us = <852000>;
++        };
++      };
++    };
 
-Changes in v2:
-- Bindings: Extend device description
-- Bindings: Drop unused address/size cells
-- Bindings: Use fallback compatible 
-- Bindings: Corrected minimum current for 50mA steps
-- Bindings: Drop node label
-- Fix name of REGISTER4 INDC shift define
-- Save device instead i2c_client in private data
-- Add comment for mutex
-- Use macro to convert from uA to mA
-- Use defines to describe initial register values
-- Add safety delay during reset sequence
-- Use fixed value enum to set the mode
-- Renamed some local variables
-- Re-sorted local variables
-- Replaced ifdefs for V4L2_FLASH_LED_CLASS
-- Improved some error messages
-- Link to v1: https://lore.kernel.org/r/20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at
-
----
-Matthias Fend (2):
-      dt-bindings: leds: add Texas Instruments TPS6131x flash LED driver
-      leds: tps6131x: add support for Texas Instruments TPS6131X flash LED driver
-
- .../devicetree/bindings/leds/ti,tps61310.yaml      | 120 +++
- MAINTAINERS                                        |   7 +
- drivers/leds/flash/Kconfig                         |  11 +
- drivers/leds/flash/Makefile                        |   1 +
- drivers/leds/flash/leds-tps6131x.c                 | 815 +++++++++++++++++++++
- 5 files changed, 954 insertions(+)
----
-base-commit: 9c69f88849045499e8ad114e5e13dbb3c85f4443
-change-id: 20250227-leds-tps6131x-a7437883e400
-
-Best regards,
 -- 
-Matthias Fend <matthias.fend@emfend.at>
+2.34.1
 
 
