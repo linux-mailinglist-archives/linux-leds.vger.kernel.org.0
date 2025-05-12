@@ -1,188 +1,215 @@
-Return-Path: <linux-leds+bounces-4617-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4618-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB63CAB3056
-	for <lists+linux-leds@lfdr.de>; Mon, 12 May 2025 09:14:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7EFAB3583
+	for <lists+linux-leds@lfdr.de>; Mon, 12 May 2025 13:03:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B9867A229E
-	for <lists+linux-leds@lfdr.de>; Mon, 12 May 2025 07:12:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E47738642AC
+	for <lists+linux-leds@lfdr.de>; Mon, 12 May 2025 10:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05A552566C4;
-	Mon, 12 May 2025 07:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A04826868E;
+	Mon, 12 May 2025 10:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="IqP2gIck"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013045.outbound.protection.outlook.com [52.101.67.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7212550CC;
-	Mon, 12 May 2025 07:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747034035; cv=none; b=ZUf9yY7WSTaO18qc/0STizTtc2tH9ti7jry+XxnhZ6WXQ9OvQi0a7jKB0i9+wP8uQI1IfPk3sCg+S9KNOziuK/vBccEnZu2DZcaqsQW5L2f+RYu4qx3iCZYeYfsDB18dZtIgdv65lVozdw3iuVT5MMAw81CY7CCKC6q3cR7LdZ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747034035; c=relaxed/simple;
-	bh=MiHYB400XPXzuVuSmbmy6Ae2GnTT2SFpWdfVL+mLBH8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qsdnJHCrf+SDLL7Hi2Nuev0aMi/a4hLxwquHPePAX0rYYsSigwHBKBtkh6j3zuwX9Ltsu3AEo2e+DlbRvFiXxwRE8ERxvXz9TvzBx4iVinOqDS12RPJ96EidxXAniZwNitXXgr59/tK9c0zO4Gp6gEoencxYBaDDpn0VnOWm3q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4ddbb0fc1e7so1173100137.2;
-        Mon, 12 May 2025 00:13:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747034032; x=1747638832;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GXUxCsC3gl+d/1qqVBV5rMq7iPm0soQTOdcW0w9ozEo=;
-        b=RLa1AD7Tj6fL75udwKEtw0aLkanSxMbnpK6n9uhNau7Sz8oaAbCySO5ZfGYYHpTmVm
-         5BxYZIbgxKdJoOVV4unmISUw3WnsJR0+6i7bCTgkVWYTcyYqR+ynHjUjHnNBgxToQON2
-         +gtLvBvQLm/5dLF8v4oJ+fAVv88fQCZfTLjbwfqTxRlp99NbxG2M44nJre/KvFj8qNZ6
-         RLNBT4FDTLOxQkMaPu9DAL71k2Y/KNl5cgsbHlTgkRlaMC/EeClHHUGxFbPDmf5AdBlE
-         YQT/isS1tha1piZdr06a6wJ36AvbJb6pLNRUCefuSMW5j2D9hKFLYg4MbZc2vubX//q9
-         gnwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWT333K7rOZjaqfbopu99/CL1lU/9aiy8ImwCeml4C0hHxSrAR2gLnZ75FxI8+RdqYi3rWft0/59uoIOg==@vger.kernel.org, AJvYcCX7m3XwxAOlHOZsLwFgWn9m8Rz0GECG+PkYtNPNV8v89Ib61I50LKYWxweYJ1Y18o+asoDK+ijhOhMQnezgurXm+r4=@vger.kernel.org, AJvYcCXRGvbz/SdjViyavDsjAFejRl1jiQgz5shz8D82FvSe0TsgawgrFTMo6HeVo6z+/sWIAglzinBR7wZi@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYiWZQ9PzymHap79VBikpG4VRj7cxckbpWHdiwemnCrLKeYMCe
-	Gu3SVuIjt8qCMde++lWoIwV1OzjsTGpZZr4GHDGWlZ9pR0+kDMFVC/k71IEY
-X-Gm-Gg: ASbGncuIqihY2Cmlw8tze+lUuubLnjulVN2Cauu3b3fGg9MQgwQmC3b1jsVfV8TYcRc
-	4eBMMIYhl5xqyTzyUgF+2VD9xntC9OIqUosvthXze1fRZ6207OEZHMtzdySmfvM6DWbsAoR3B95
-	yqM7PA9EBdEMXcZwV4H/JfeQ6v2MBrwKaPyZ197Q94wcFXXXZsoX9qJpeGop77AUHAXiT0OEsxI
-	VrxC+u7Dz85jU1a4TymazkZ4UehMkCYfyOw0sZ99PZNmN36EWFwdBhoZgREQTyRbQJYsZ2LERiT
-	HOxyVNAhAX+D/mLgXfdxwZrzcNvb6XgfJvx9ZHeIrQKnOIuw5AwmAXu9tk1/mhG8mza8TZbKdvl
-	hMR+7dUiDQEMorQ==
-X-Google-Smtp-Source: AGHT+IFMe26aLVTNktEBUTpQ9150F7qv/ZkZcYYEfF0do5NNkPXSizjfd9HA+hM7PO4Vf5tc9X6vfw==
-X-Received: by 2002:a05:6102:2b99:b0:4cb:5e02:754a with SMTP id ada2fe7eead31-4deed367340mr10432804137.11.1747034031905;
-        Mon, 12 May 2025 00:13:51 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-879f613b570sm4690679241.7.2025.05.12.00.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 00:13:51 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4c9cea30173so1546487137.3;
-        Mon, 12 May 2025 00:13:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVlp7/CVaq1AJCrGGn3oxC/apmBFKKEclykcPDCA9KftLg2b5935RellWy6a+UUWxCTMmdzHt85RWBW@vger.kernel.org, AJvYcCWIT99DbMUetk/xYnODv28+KuhStuA9cFKZ+3rnAlARwI/c9evM3TFFydXCEh+zLKWiB7ypbxZmfpIZ6w==@vger.kernel.org, AJvYcCXjBnvDUnGwUsbO5nybOlr5SFxBdDflBYFuyWsVtDDaxoZQfbW+uF40IbdgSI8ErVUvmXZr6cG0sHLt11Am6LT2u6g=@vger.kernel.org
-X-Received: by 2002:a05:6102:15a0:b0:4c1:a66f:a468 with SMTP id
- ada2fe7eead31-4deed3ec0c3mr9681496137.22.1747034031568; Mon, 12 May 2025
- 00:13:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FF5267F70;
+	Mon, 12 May 2025 10:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747047563; cv=fail; b=TQozWwtcHuFG6rtE2zODAp7ehR3D5UWgtZyqeKtM/LvndqMGw7h793+toypN/Z9LJb18MHqkndFcG5C6CozGPBytwNhsTOgYotXSoWspe/zWUXjv8jWtw2qrqk6igWDGRA8L0kAxk/VW84RBCF4qW1ZGJk57aitmOwtR3KxfHPI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747047563; c=relaxed/simple;
+	bh=X8qIleXhBQ1KUgr1XacQeAPjdSL7YNukie7yCob3W2Q=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=GjkXqXFZPs13653MSPkKMsPJw6vfGTvuy4G4ltpn+JGsCRY0taYhrkB5UwVZFzvWW76a5CwDgyvtK4ZX+wuFLI30mg8RzFKOb6zIvz2pJzyUGM8o+wlcx8ufdM5oI8W7XLH9++STHVH0zlUTxK0wwBe/cWmJ4FxoN6gPp2osUbk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=IqP2gIck; arc=fail smtp.client-ip=52.101.67.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O3ck79/+k9M9Ezp9uQNR0vLsmT3QYo+cDDCLeDs8Z3I0hj8EvmSfgXIq19HLci99tMM18z6eonlbQgqAgrG7MRiaAO3ShphRVRf9tV+8IWiBtMaNpYD5icraaW86a/v/HD4HjTmCMU3kf3ocrurjeSGJDNCcDQ/guIkb14MERsQ2XlEtaXn8oZ5tVn9HO8o+LCJsxo1JNNJoIRxNwgI8WF6F43qQF1wXsI+wlqTVApc64Yjej3Y2a9MhU7A+Wjp+a7jTWBjEeRzd0uxsLZyPoSZeoz7UMkNgrIVh/snZHKp0USJgZOEpZ2eIFhlwermSUmvyorl/oA3Wrt0MfztzPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X8qIleXhBQ1KUgr1XacQeAPjdSL7YNukie7yCob3W2Q=;
+ b=pQ/E4AxykCqknZw3oSlvAWpCHOmjL4niLfKkfKysFkRe5yWrvhLtHI648uBW1XArH8DDz2Qb/x2dgiLOQOV3Hx9VgmNLehW7w7XVs757GjSq0e75eO/PPg/usanlSOBbdfOCBwvfDwEf+sNz2ksFO6mW5oCdxiyCa90lsWHRx9T5txg3QN7A7Hj+JtFAUzkfLeNzQneX6MFB4S/O72OBEUgCK6vPSppxGx44w9q4q3aVTXOcp7hr/UWJp/40OR7KZ2Azwt2mjqAmvUi1KIOxrhdP19KfKMjQD5TrUkdMHZ7VTT2d7a+2EIijs987B4d6ONBnNOaozUM7fmXlzB+CkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X8qIleXhBQ1KUgr1XacQeAPjdSL7YNukie7yCob3W2Q=;
+ b=IqP2gIckBnzbRywh9HIY7uiGHU/iiggZiETBbGy1ldUfhU/GFqtfaM5gDN8x/YK1FUS3eENr/7m2lsIp+Uqe6pBn49TECrcv+xsKJne8BwliBOjGny0X4naxg6oKBdr/ayf56gFowxEL02TJrgNKEGDS07H/hmNb1Vy3mVqBriw=
+Received: from PAWPR02MB9281.eurprd02.prod.outlook.com (2603:10a6:102:330::10)
+ by AS8PR02MB8709.eurprd02.prod.outlook.com (2603:10a6:20b:572::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.21; Mon, 12 May
+ 2025 10:59:17 +0000
+Received: from PAWPR02MB9281.eurprd02.prod.outlook.com
+ ([fe80::87f6:1bcb:22bd:b050]) by PAWPR02MB9281.eurprd02.prod.outlook.com
+ ([fe80::87f6:1bcb:22bd:b050%5]) with mapi id 15.20.8722.027; Mon, 12 May 2025
+ 10:59:17 +0000
+From: Johan Adolfsson <Johan.Adolfsson@axis.com>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Kernel
+	<Kernel@axis.com>, Johan Adolfsson <Johan.Adolfsson@axis.com>
+Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct
+ multi_index
+Thread-Topic: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct
+ multi_index
+Thread-Index: AQHbvnMzuEeJRwGRtkiTeZxACDeeErPMBIqAgAKi8eM=
+Date: Mon, 12 May 2025 10:59:17 +0000
+Message-ID:
+ <PAWPR02MB92814A311B18A6FD8A448D249B97A@PAWPR02MB9281.eurprd02.prod.outlook.com>
+References: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
+ <62a74e0e-f5a1-40b5-a855-6e9bd620cbd5@gmail.com>
+In-Reply-To: <62a74e0e-f5a1-40b5-a855-6e9bd620cbd5@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAWPR02MB9281:EE_|AS8PR02MB8709:EE_
+x-ms-office365-filtering-correlation-id: 5b50a17e-7450-4eb7-09e4-08dd91440a8e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?GInERrqtGJF8WrkRvS2F05YvN0sLT3lc73ybliH+/m+kUKjVJ8XnUrup5G?=
+ =?iso-8859-1?Q?nH0BQr7our/lduyffTZbZ4Ei7bgcxZARob3b46eXre9LtlQ6vvAtLsnIsa?=
+ =?iso-8859-1?Q?BrfmvUo2cxJrgQDw+rYb+PVQh76RXEGxkLM+VQRJ41du7TopKfISq8RMkO?=
+ =?iso-8859-1?Q?e+z7/33cHYCLQeJzPzAxw69SaXl3ScP1sLWuSHHy0PSvRxZRstRorfMN5s?=
+ =?iso-8859-1?Q?SWGeV+lhCQBouKJ0gO7w5I/Tt3yfszLPHkMI9lLafRin53cXYQ3oX9yVUP?=
+ =?iso-8859-1?Q?ox4H1pLfgIMXVGbJJ1ZAJYyLi0zU4auK7qE7quO0eoFlkKSCaKwZpNPbva?=
+ =?iso-8859-1?Q?iKXgIU/R+62mE8bWF25QBs4ZrjBXH3XKnOcE3eq3G63+/Rb6g7e4muIHAv?=
+ =?iso-8859-1?Q?1xsQNAqujlI40J6Oc56RsvwRqnebFT+s127nJioCcFM3I/fq9bKQLL6GMw?=
+ =?iso-8859-1?Q?pfLMsCh03cSMjMHh6cCMs3cLbIE++yghLu3xAmHrF4AqRaAcg2hk1PhhmP?=
+ =?iso-8859-1?Q?s8aiBVjDQ6QhrqnTT2pVKHhzVz0HeFT5qNmef+NUq+fyG77ruWMKvnUUK+?=
+ =?iso-8859-1?Q?T9oIZ3MtO0uzH11ntiK+YdrMaF3cvcgNIlDc2sWXCRoxC9rAGk6Nzx9c/n?=
+ =?iso-8859-1?Q?ptlbvia2NnIobnbmTfU2hcMJHIrCvIJVMSDU2hkaZU4hO1770LI4L52g5F?=
+ =?iso-8859-1?Q?LcPMfPYFvJucxxilgLahFlPlHqPO5FvtBPzYuJuZ5F0BHR6Sq6fxVWrBJW?=
+ =?iso-8859-1?Q?IRodEGL2BhY4hG94WoWgC7kw9joJNofxw2s+YYpyOca48bvHx9/7EX0wr3?=
+ =?iso-8859-1?Q?ahm14PTnkLKTmWfD245rEMM4Y8iSr7CH3227e4ebSx+6TO5dAY3mTIvO8D?=
+ =?iso-8859-1?Q?6UGA/WqL542Psy+UQQpvGtTLtvxhITjXnmVtYos0lEx9i2AcnefINqh+Pr?=
+ =?iso-8859-1?Q?eOcsydDoZ3rOcE4quKTh50fpaeHEUzCvhTL+u9TzAJ3Xa2lJ1t7CBvIrz5?=
+ =?iso-8859-1?Q?LE5hVk9C273+oX+37lVCPlKiurcHiHGSJDU8gyUhMGwilp3DIlKvbw7l9L?=
+ =?iso-8859-1?Q?GLKv9Fj7HYucEis/GMcFK7O+dOcFNWn4gGu36rEose+Gu96nBvfcMioJLf?=
+ =?iso-8859-1?Q?CipK2eFvTPWirw3+Qby7x4BMQ/bCBO7q0Omk4Cbi49F+UOL6kz/VjXoO0d?=
+ =?iso-8859-1?Q?9XzTWv2xkfCwSdwTFxxkEluSFCII42Infi2FMcIWIUkiBYbjEuuzT8NPx0?=
+ =?iso-8859-1?Q?BmzKPmQ08uuUWh3PkLbZmMyYsO/L9hllLMztdRF4vYQKXlSSgpEX161ykc?=
+ =?iso-8859-1?Q?H0HVUErMJloRf9udfCzz7iBGMsKhwB7uzFE6lvUKRgo1HbN1rhdKVzkzG2?=
+ =?iso-8859-1?Q?S01rqDDDYGzdIAxZoDRI8vPHtbbRUNhX+XgHKZNZx2uiM/lWJDHDCiJuvJ?=
+ =?iso-8859-1?Q?rvY2WQIobHuHCiATk+0+2tgnC35sQ2wYNbcyFOptJSEMHfzEbgoQQlSvCF?=
+ =?iso-8859-1?Q?pDaSuDTov1ig3BRi/NoaGPVSgkArmW1CCn8ptZIhGReXmcVzadiFqJXkpZ?=
+ =?iso-8859-1?Q?zk0898s=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWPR02MB9281.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?93lHDav8tqtPgAQL9a6ZkM+ItkmVc5vcyq8WazB1Gg+XEwz9Im12x1miIL?=
+ =?iso-8859-1?Q?/Csi4jcdKK+4DDZW3LnnzsFo64cClrjqPW+U4iH7XQc8BU98CzZQv5rg8T?=
+ =?iso-8859-1?Q?+ImlQH1hAyXfuc/nEvUR6pYPb/mg9w+SDuCBNHLkjI7TAdSitJgESCTXeF?=
+ =?iso-8859-1?Q?smEfnLTLETsMbIrYY2KrrlZ2W/eP/7nuV8nGSc+6rqulTjmEy6KnkNxfPu?=
+ =?iso-8859-1?Q?cN0WF5L2mfKSHnU3ow7IuzE1ysVIKw5kB+f1brfVaQ9RZedZ6eHK7aUNNk?=
+ =?iso-8859-1?Q?s52A4I5oo4vT+XLawP0dqZ13xbpC3aB5UkkyPbIHgzAZqYoB5Vjgwl2F7o?=
+ =?iso-8859-1?Q?fElfDglCe3Z0U071MDQ5uk3EUkvYp0NtfeUtfqWdRrdrg7qTKGBtSQyI+8?=
+ =?iso-8859-1?Q?XPQXdqQ24oaD3UksozKN4XCS9jN8V0WRUzlL7/Eap54rZGMCFi6n6xx+9X?=
+ =?iso-8859-1?Q?Ou70TARhY9Sh/cdnNv4f9MGOftzzbatB/8BM6RU5RQggrTRVJ8yOhY6myv?=
+ =?iso-8859-1?Q?baTmbevaU+0cwRPuep7uFFurhVeo/E+LXky9zbZ3PEeLJV0efeQ5JGn7CO?=
+ =?iso-8859-1?Q?jp60DAKIVoB2AZ7hBcbHJ93MmxvuD4FRwgTb4YOPkW5Ai8yHOyEsodwdx7?=
+ =?iso-8859-1?Q?6v8smMIXuUNhew3+i8Tr6A4NgT3PfLL9EuM6OnDawxJuvhjMHfZ4JsDEBU?=
+ =?iso-8859-1?Q?egd55Hau5ZOYerHh5j2Cr8CiEYcCz3xiOJ6Z7Wx9h1Y9Q3NoSt1RReve3K?=
+ =?iso-8859-1?Q?9wqaM4MjD1lS2EQBxCTfTuxuUxHYRsdYbNsQC8oBzQYNlu+MDRqJ7hdOm+?=
+ =?iso-8859-1?Q?S28JfmqpkPWP19W6z2zFzynV+2YD/p10KL37gy1ejtvP0WgCpe7topoDxK?=
+ =?iso-8859-1?Q?D81BpDeuyktODq9gKrqvAk8L73whjecCDMqsnG86MPFq3TfUsyJnae3/tT?=
+ =?iso-8859-1?Q?e9Nz4Fn5SmrXOCYo20KhUP11l2bTHSRkCpKt26Vya3onmRe2uNshhHMM7E?=
+ =?iso-8859-1?Q?U6OaXB/0f1oJs2cPIR0XxTFatcDhG4l/w4jEEBUi+xN1MyUIk6jpnwHa3d?=
+ =?iso-8859-1?Q?jLhZTK47HVNxjjDROCCYSxL77zdb33AuM5PppRTWXHsNXFQGomS7Kra11G?=
+ =?iso-8859-1?Q?CJv5bw2BjR2txZ8Ihiry3F2uldGAFZ4P0HUZRvFD5IOw8E2IicE10a/5hU?=
+ =?iso-8859-1?Q?PPc4hx8SJG7/BJ9P4VrSjcQRoMEVYWelOs6n32du0FVx8P7BW2lGzvamzA?=
+ =?iso-8859-1?Q?JIJHgcb5U5VCbuqWVtBdV0NYNx8+OGPjEo7v1S6WHRibS+Uyvw+g6Obn8K?=
+ =?iso-8859-1?Q?5gNkn+fYHyMkFFnpSaduOVt9zVyeAA8pTz/cy7yAc1n5rM+uu3bR0GBTi8?=
+ =?iso-8859-1?Q?10NRGVEEGL76IvZZlKX9iUNFiYYTU+AHZv8irPgS9n07gZVRcvfgb2Uu8T?=
+ =?iso-8859-1?Q?BedKOD+qXPRMtkwdQ7su0FcGXaQFnOnPabgCfIjdha3fzc55lLOrkSStDH?=
+ =?iso-8859-1?Q?NblJCMpKa3Qusdu3QDmA+2VDrrQMbf1mid3yKwtHWuSev/ZywKO4GC0GTT?=
+ =?iso-8859-1?Q?ytky1xvwBQDeOLZEFYNh06PxrwfoXPihlqcv7a0eF4NG+Cu/DjsfEx14TY?=
+ =?iso-8859-1?Q?OBe3yDQLD5ORI=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
- <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com> <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
-In-Reply-To: <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 May 2025 09:13:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
-X-Gm-Features: AX0GCFsUkDUlBrPJqlQydDJkEnvu_GkmiELRETEKx3ApDmYs_k_btrWooRQ2Qa4
-Message-ID: <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
-Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- Debug LEDs
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
-	linux-leds <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAWPR02MB9281.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b50a17e-7450-4eb7-09e4-08dd91440a8e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2025 10:59:17.7251
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lDdzkV81uud1ZnLnZB/IlzcqqkIuXOL7uNmMgCU5QgAmsY402U1MYqHNiOrB63SX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB8709
 
-Hi Jacek,
-
-Thanks for your answer!
-
-On Sat, 10 May 2025 at 14:43, Jacek Anaszewski
-<jacek.anaszewski@gmail.com> wrote:
-> On 5/8/25 15:49, Lee Jones wrote:
-> > On Thu, 08 May 2025, Wolfram Sang wrote:
-> >> On Thu, Apr 17, 2025 at 01:39:14PM +0200, Geert Uytterhoeven wrote:
-> >>> On Thu, 17 Apr 2025 at 11:33, Wolfram Sang
-> >>> <wsa+renesas@sang-engineering.com> wrote:
-> >>>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >>>> ---
-> >>>>
-> >>>> Changes since v2:
-> >>>> * using function, color, function-enumerator properties now
-> >>>>
-> >>>> Honestly, this is better than using node names? With V2, the LEDs were
-> >>>> named as in the schematics, now they are called:
-> >>>>
-> >>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
-> >>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
-> >>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
-> >>>> ...
-> >>>>
-> >>>> Which gets even more confusing if we might later add LEDs not on this
-> >>>> board, but on the expansion board. 'green:programming-8' sits where?
-> >>>>
-> >>>> I really wonder, but if this is the official way now...
-> >>>
-> >>> Good point!  So I'm inclined to take v2...
-> >>>
-> >>> Let's raise this with the LED people. I don't want to fight Pavel when
-> >>> v2 hits the CiP tree ;-)
-> >>
-> >> So, if there is no other opinion here, can we remove function, color,
-> >> function-enumerator and just use the node names which match the
-> >> schematics? Basically apply V2?
-> >
-> > I didn't author the semantics nor the rules surrounding them, but I am
-> > obliged to enforce them.  Therefore "LED people" say, please stick to
-> > convention as stated in the present documentation:
-> >
-> > https://docs.kernel.org/leds/leds-class.html#led-device-naming
-> >
-> > Please note that a "debug" (LED_FUNCTION_DEBUG) option already exists if
-> > that is more appropriate to your use-case.
-> >
-> > Let's also bring Jacek into the conversion, since I know that he did a
-> > bunch of work around this topic.
->
-> The question is if the LED name from the schematics tells anything to
-> the user of the equipment?
-
-As this is a development board and not a finished product, I would
-answer yes.
-
-> The idea behind LED naming is to facilitate matching the LED class
-> device name as reported by the system with the LED location on the
-> equipment.
->
-> The LED naming standardization intended to enforce consistent
-> LED naming, and not allowing to add multiple interchangeable
-> names like wifi/wlan. It also helps to keep LED name sections order in
-> accordance with Linux documentation, which before had been often
-> abused by allowing to assign anything to the now deprecated 'label'
-> DT property.
-
-I agree this all makes perfect sense for a final product, where the
-purpose of each LED is clear, and sometimes indicated by an icon
-on the case.
-For a development board, some LEDs may have a fixed purpose.
-But typically there is also a collection of generic user LEDs, which
-do not have a fixed purpose, and are identified by a label on the
-schematics.  Imposing an arbitrary numbering scheme on the latter is
-confusing for the user (developer).
-
-> Regarding expansion boards - we never have control over what
-> LED names DT overlays will define, thus LED core adds numeric suffix to
-> the LED class device name in case of the name clash.
-
-FTR, the RZN1D400 Expansion Board does not use a DT overlay.
-Linux carries a DTS for it, which just includes the base board .dts,
-and treats it as a single system.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+=0A=
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>=0A=
+Sent: Saturday, May 10, 2025 17:32=0A=
+To: Johan Adolfsson; Lee Jones; Pavel Machek=0A=
+Cc: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; Kernel=0A=
+Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct multi=
+_index=0A=
+=0A=
+>Hi Johan,=0A=
+>=0A=
+>On 5/6/25 12:39, Johan Adolfsson wrote:=0A=
+>> mc_subled used for multi_index needs well defined array indexes,=0A=
+>> to guarantee the desired result, optionally use reg for that.=0A=
+>>=0A=
+>> If devicetree child nodes is processed in random or reverse order=0A=
+>> you may end up with multi_index "blue green red" instead of the expected=
+=0A=
+>> "red green blue".=0A=
+>> If user space apps uses multi_index to deduce how to control the leds=0A=
+>> they would most likely be broken without this patch if devicetree=0A=
+>> processing is reversed (which it appears to be).=0A=
+>=0A=
+>Are you trying to solve some real problem that occurred to you?=0A=
+=0A=
+Yes! Since the subled is indexed by the processing order, it gets reversed =
+if devicetree processing is reversed=0A=
+(which I understand is a "feature"), so instead of "red green blue" I would=
+ get "blue green red" in the multi_index file without this patch.=0A=
+The mapping to the hardware does not match that, so writing "255 0 0" to mu=
+lti_intensity will give me red and not blue.=0A=
+=0A=
+>The order of DT nodes parsing is not a problem here - we save=0A=
+>color index in subled_info to be able to figure out which color=0A=
+>is on which position. This information can be retrieved in sysfs=0A=
+>by reading multi_index file.=0A=
+=0A=
+Maybe the bug is somewhere else in the leds-lp50xx if that is supposed to w=
+ork,=0A=
+but I still think it's a good thing to be able to get the expected order in=
+ the multi_index file.=0A=
+=0A=
+>=0A=
+>--=0A=
+>Best regards,=0A=
+>Jacek Anaszewski=0A=
+=0A=
+Best regards=0A=
+/Johan=
 
