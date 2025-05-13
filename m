@@ -1,147 +1,84 @@
-Return-Path: <linux-leds+bounces-4620-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4621-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75125AB42EF
-	for <lists+linux-leds@lfdr.de>; Mon, 12 May 2025 20:28:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F993AB51CA
+	for <lists+linux-leds@lfdr.de>; Tue, 13 May 2025 12:20:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72593188DCB1
-	for <lists+linux-leds@lfdr.de>; Mon, 12 May 2025 18:27:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37D611B4754C
+	for <lists+linux-leds@lfdr.de>; Tue, 13 May 2025 10:19:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27FFE29A313;
-	Mon, 12 May 2025 18:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B50727CB1B;
+	Tue, 13 May 2025 10:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkPMOGuT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SiVOhcJn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBD023C4E7;
-	Mon, 12 May 2025 18:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABB027B51A;
+	Tue, 13 May 2025 10:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747073410; cv=none; b=oFW5zP1mAN8oAz8WsvJfiLMu7NBWHAsNUs/fQ1nQ+K1dp/ph16wHB0MbyOr6Rx18lRwUC7fyGHNzbuQdyU5As2DVrjieVNEY0YUC1tmSgShsPWhbZ92z8VI89SeFPVCYpJydIQdkPJYchpIIHkPcktG50M6QxUox/BAREwM424Y=
+	t=1747130887; cv=none; b=B8MiR8PxNVdJTWVrl9QnpQbdHaOaiKq/T3y0SAhWHuDFUEys1K4OnAbvWge8Pgmd0SH8HfRLEDf9IaIqrqhxNS0SxSzVv7Kdjfy1kCszob6p4tEZBWWaEuIDJd+YIR8JBZck3PFBMWWF5n2EE2PMKEvKPrkYcy1XRI5bPhvqvCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747073410; c=relaxed/simple;
-	bh=uFUaSVYNAvXIYAUNz+Rx/NPSaWzGUE/AKMdPflMdRX0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GC5EOWXJiTK1MoNPnRdhpX+ajEEp63TfTLgv8YjannDxubk/6McI0ymvHWNnxrxn410HBnmWerR5nMu6DyKsVB6CrlZa/+QDog+9ZkjM0kLxDLQGPdDWfSWbiQEjgSILRQj3KcgHukEOcqCidf4i/BUBrLTXJuKuB6LmeaTx3yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkPMOGuT; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad24677aaf6so242798366b.2;
-        Mon, 12 May 2025 11:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747073406; x=1747678206; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZmBBbW75s2tlX7b8l6/8ObAx8ZWM6smBqykkodUDjYg=;
-        b=fkPMOGuTPO+VnZhJWW+v1co8w5t7ZUxNi/kjz+bMbSHWtT0+Aby66U4jDa8mcG5fz0
-         2zP79ZxTzhB/r4qTmx3PgFf/3gZoI8R4vBLgzjJnzZ9orLtkf2CO6FieiQNW207iG7cb
-         9Hq4jHVVGlEXQEYwmyQSCtyRMWMqrhpViIq640LmzBZNPy7bUJcksPcbjLNUPVISfTzl
-         I0MGhNf7FEwjIG5WVIeYvjHT4hYNEMNEnvvMOjGr+wMSJuZD/HtpdkccLH+EjRxa2e/N
-         lUooAhtRPwD0c2R5JwqJFCY1NIUiZT9SPO3AuHlw4/Wtbe+zhQRwsALjzwpFTY1xF1Vs
-         Pc/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747073406; x=1747678206;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZmBBbW75s2tlX7b8l6/8ObAx8ZWM6smBqykkodUDjYg=;
-        b=G4qFiCWoDRK5ZW7rBiXuygafjZVxYTfRas8CEQKVaD4zq6jnN/l9hfaTohorGzLIFG
-         jN6OOEbdbw41YrEm15QuRYhM5kfTQU+i1BzxD12OBMfLhoCSeL/rW3SYoJGRWe+Z1JHI
-         zZ6C/osnHqk6rL2Vh4ADVTRZUbicQadfq0ijDyWn0hwjkGH33QMEIsJ9321IN+SYnqUc
-         Ho+YIgrKS0XJuJIVzEX9ZQUcGIg1tUK3rrs1XxU0SBO6fM9C0zh8EyolT6hOoth/09LY
-         cw1wEMkDKkEHwxMXLZVx6aO4F5pAR4K4cfV4WwxxZkbgg03fj2OuKDo1qVQO6qKv/CPN
-         OaNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWm2eSN2DZ/7Q+w3DR2XUGVo7uUL7aPTjFKJ3bV+JRXVurze2I/r7Ub4ZPnp8/+AqPTFCC2z3iK8X6NMok=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoXJVcViLl9kOYZl8uYy6aeG8hYT5pyrsQNIhMlra2ZRzWngd5
-	SyLhN7Tb9S3TBSC7rzTpe4lVsvatWX7/ZnyxiWBLE557pE5YmnHx
-X-Gm-Gg: ASbGncux+zuWgVlUBrf7y8xba/VKGR747V1cGiei9jzHyHECK39NKjHbAj+KkDrjnmL
-	T/FyDJO+dJXWkJShOcFL91LkXL35VFPEsO9M2lBboJNg2zg/+ViNFbJFp8NJxDYKyX2ftpGAEVZ
-	kQoEQdyb649q38+xapZDesMCAXqI1BYz3f0abeCmh1JeW7tpwCaCgl+OoJq5mENqPWrGaWa1fKO
-	6G0RDTo+v0iizl+W4/23RjNzFevJmNtPcZ580dyX1dRM8bQ+9WSdiIJkU7rf36p9hQwst1RYXqA
-	T+B/QyY+VlobT52mkAjed91njlzgw7pCAjP49jwiWjAh+4ZkfiqUsgxpBfNXQY5t
-X-Google-Smtp-Source: AGHT+IHPlyAlfrTqN1w3LVNPrQcr8DnOtPZtyVS9h3hXu/7aJDgKkYIIkXZJU+QeSspXhQoWh6PZ0Q==
-X-Received: by 2002:a17:907:9453:b0:aca:a3da:80b8 with SMTP id a640c23a62f3a-ad21917d128mr1642453866b.55.1747073406421;
-        Mon, 12 May 2025 11:10:06 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad24085b44fsm391903966b.149.2025.05.12.11.10.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 11:10:05 -0700 (PDT)
-Message-ID: <0bf10848-0fa2-438a-92dc-6d3b29760b64@gmail.com>
-Date: Mon, 12 May 2025 20:10:04 +0200
+	s=arc-20240116; t=1747130887; c=relaxed/simple;
+	bh=H0y27dOg2P0MQDU3OpxlLzjXcVSh03yvSfMo9m4F6pM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=h82Y+nuq8k6eNDS4KoFJy/jNrnpkW8qQHgnhTB0dhXUyzBX3Get60GW/OWXCt2LBt0KR0AjqL7fEqSUBTOaCvR0VnpNiNgyDT0H8x7CA+MZWFbVYvza+DfeH8IlnTEjDLR7m2uujO611+rbBl9ZQ+G4QhKSzMqw8+v2N7G5wvsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SiVOhcJn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA164C4CEF3;
+	Tue, 13 May 2025 10:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747130886;
+	bh=H0y27dOg2P0MQDU3OpxlLzjXcVSh03yvSfMo9m4F6pM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SiVOhcJnZXUr590y1SdNJcqg7z0YRhw09CgyQpn7Vm91BPjS/rrTrFKWKh4FbYTlw
+	 ABGsufY7qAo9jHRSwmEaHrHz8R3Se1IPKORd9eVuDQAglq5kro7uUv590SG7w8/3QE
+	 H043DqCd7uNNIKUQfl/lm6xWGRdkuiw8eSroRErNU3VfzK/OVcL2bqWYxrgtXPCO9f
+	 8FoGXhOpsTvI8TEUmwitBAjnw36ruqG2xG0PpfPMBWkbmbNsSzibW37g5yykpZ2M3w
+	 EGkvyTYlhQbarGeWgMNqeFuUD0coS0wu6eo35hncsufVHe8H2I6vMuSjfDldCrOwa8
+	 HVNjvwUWWcfmA==
+From: Lee Jones <lee@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Richard Leitner <richard.leitner@linux.dev>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+In-Reply-To: <20250507-ov9282-flash-strobe-v4-2-72b299c1b7c9@linux.dev>
+References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
+ <20250507-ov9282-flash-strobe-v4-2-72b299c1b7c9@linux.dev>
+Subject: Re: (subset) [PATCH v4 02/10] leds: flash: add support for
+ flash/stobe duration
+Message-Id: <174713088439.4152099.12343512351616334508.b4-ty@kernel.org>
+Date: Tue, 13 May 2025 11:08:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct
- multi_index
-To: Johan Adolfsson <Johan.Adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Kernel <Kernel@axis.com>
-References: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
- <62a74e0e-f5a1-40b5-a855-6e9bd620cbd5@gmail.com>
- <PAWPR02MB92814A311B18A6FD8A448D249B97A@PAWPR02MB9281.eurprd02.prod.outlook.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <PAWPR02MB92814A311B18A6FD8A448D249B97A@PAWPR02MB9281.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-b75d9
 
-On 5/12/25 12:59, Johan Adolfsson wrote:
+On Wed, 07 May 2025 09:51:31 +0200, Richard Leitner wrote:
+> Add support for the new V4L2_CID_FLASH_DURATION control to the leds
+> driver.
 > 
-> From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Sent: Saturday, May 10, 2025 17:32
-> To: Johan Adolfsson; Lee Jones; Pavel Machek
-> Cc: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; Kernel
-> Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct multi_index
 > 
->> Hi Johan,
->>
->> On 5/6/25 12:39, Johan Adolfsson wrote:
->>> mc_subled used for multi_index needs well defined array indexes,
->>> to guarantee the desired result, optionally use reg for that.
->>>
->>> If devicetree child nodes is processed in random or reverse order
->>> you may end up with multi_index "blue green red" instead of the expected
->>> "red green blue".
->>> If user space apps uses multi_index to deduce how to control the leds
->>> they would most likely be broken without this patch if devicetree
->>> processing is reversed (which it appears to be).
->>
->> Are you trying to solve some real problem that occurred to you?
-> 
-> Yes! Since the subled is indexed by the processing order, it gets reversed if devicetree processing is reversed
-> (which I understand is a "feature"), so instead of "red green blue" I would get "blue green red" in the multi_index file without this patch.
-> The mapping to the hardware does not match that, so writing "255 0 0" to multi_intensity will give me red and not blue.
 
-You are expected to write intensities to the multi_intensity file
-according to the order of colors listed in multi_index file.
+Applied, thanks!
 
->> The order of DT nodes parsing is not a problem here - we save
->> color index in subled_info to be able to figure out which color
->> is on which position. This information can be retrieved in sysfs
->> by reading multi_index file.
-> 
-> Maybe the bug is somewhere else in the leds-lp50xx if that is supposed to work,
-> but I still think it's a good thing to be able to get the expected order in the multi_index file.
+[02/10] leds: flash: add support for flash/stobe duration
+        commit: 4cad0552415aa8c43af8d8d5924226c9b4c83889
 
-Please make sure you read Documentation/leds/leds-class-multicolor.rst.
-There is no such term as "expected order in the multi_index file".
-The framework is called multicolor, not rgb. The order of colors does
-not need to be RGB.
-
--- 
-Best regards,
-Jacek Anaszewski
+--
+Lee Jones [李琼斯]
 
 
