@@ -1,174 +1,145 @@
-Return-Path: <linux-leds+bounces-4625-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4626-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20815AB5D6C
-	for <lists+linux-leds@lfdr.de>; Tue, 13 May 2025 21:52:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FC8AB686C
+	for <lists+linux-leds@lfdr.de>; Wed, 14 May 2025 12:10:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F72F4A7859
-	for <lists+linux-leds@lfdr.de>; Tue, 13 May 2025 19:52:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E0F91B67C6A
+	for <lists+linux-leds@lfdr.de>; Wed, 14 May 2025 10:10:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA09B2BF974;
-	Tue, 13 May 2025 19:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720C926FDA9;
+	Wed, 14 May 2025 10:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2jjEciC"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="exE0FeBA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA98E1F0E50;
-	Tue, 13 May 2025 19:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F383A26FD9D;
+	Wed, 14 May 2025 10:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747165927; cv=none; b=NL7DnVB9aPz1AR/yTAbOe/23fSU5wZH2Eiy5jhvEW0g8aL4c17mS55+aThHWr5+82JfX2VFWZlf21suhmsLiU8p0nqVtRreObZMYeBuXKGbry6o+1pHIrSVPky7EJ//NgYHjc1kM8UexptFYPhf09Ye7OZgm2Vl74BHm9IQ8Jp8=
+	t=1747217441; cv=none; b=kWjMQ8aVcss+dzXKeTXP0UGlJfsM7Rhzli+1oiNjqXL1t4pAP44W4qAVtgaKR+OJydC7MtaeUtIaz1JymVwvdjTomWXqZg8ZaRABE/rRhOWiFozccGr+D5oys9xJU2Ja972MB5RcGCtf02gfEnsIujLer2hoU65r87lI079/1Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747165927; c=relaxed/simple;
-	bh=wDKLVHcaFWJvD80XRm4s+U6HKYt0lP4FyZVjvthChIA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=flBeC576sCfShOwIYbLNAPR+3T9OKZl8RKZbPval4m/MBVPJRrheq2DDgQPbcZmo0SBTvk1TjZEcRwEujSwzUani95bVEXfKWS/Thi81VLWdwUTohxdJO08E9DuDL/NiXSsWQl/nBFVjBuCa+rRQlR9mjejj7mVYSU5vFUaoToE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2jjEciC; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5fcc96b6a64so7482203a12.0;
-        Tue, 13 May 2025 12:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747165924; x=1747770724; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EPKRGQ6ZTLCpIXOor5B3gE08zTZPi+lkFI2gMZtKNWQ=;
-        b=S2jjEciCRcR5vGjRSz1i1EpchiOGa4+Zr6MbpeTHvMqW9OMSEjDLPaoQbMzypOepOw
-         VIy2XVGKPD2cznwfOOsFFvmpLeFXCNW9CSIW+aOgy+nfCssYO0vowEOPdFj1Ghy8Qd3D
-         6vBZQxyI9m/NRa8ADSWwbLNMnbFtI9cQ2aIn9z2CLKoEhtlZAiN8/PrTli6/ybhu2Y67
-         tBxeWECnvMuM8XRnz0LXs1shWV+lik4LbJcaPo7ap1eQMPMz9KLafcbjpDNp8+ofYTs1
-         /yLG0x+5KRqvCRSwFoXDLQL9irwJwyGjNoIpAwQ1XhBZAFSnr7RGRFwlnzobsPViqhnY
-         R4BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747165924; x=1747770724;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EPKRGQ6ZTLCpIXOor5B3gE08zTZPi+lkFI2gMZtKNWQ=;
-        b=ELrmI26FFG6X5Q9SfxAsLB989iAj797OxtP3D2wp0/cfDAEJEmCCTA0HApQG8aCf5Q
-         Ajq94/BA+NV7UVG8n8MQGSEHF9BLAzPSQM7Z0+yBalV4viFqbwi0JQq4U5fVu7VYBslh
-         kIeTVMtF10zvkPDSwnqzOQ5ieJ43qWXVrhhNiZhRBeVlsFgyhD+uFAzlixyh3793/pL4
-         bR1j2uWAA8hiI6VKkFgYboM+ixRHJXBZDc3qFjHmMcei7WEONjFM2L5fqa/Y+rBduv83
-         Vy2jcBLpw747chryrfFLGg+DRpu5YPLh4Lak8wu0iKWo8n6OKpR7/s1KNk+GIZtzuDER
-         It4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWWojO3vvemmqKWx6P3I+q8fQQg8gxe8M1qpG7RQ02x8xQEDJdw3GENJ+PcaDRV9BqDAIEzFZOy6nk0eQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVg9G/wpKiH5OiCCqxOng0jKYrlBpBCCEgZHPe95VxKt+QWcF7
-	hUtOo2c1Ok7rlCDoEJLNpU+TXLxGeiAPsloqN/8hhOr/IkS997Sb
-X-Gm-Gg: ASbGncvG5aTbjIJ/L+Nf6J1KmXVsGb6zCaHVd668f9YsgoIAa+I6iSDnHbkRA1Sep4k
-	6a3Ik198Jf2GWUUIUhVDetSubENNKlaGxbU5xPR/fsf6+jPNry11mLMXsT0zOm9SiMlI4h46kE3
-	viHYhFPJmINDsh2iVoSKXmgySKMaQ55qxWFiHdfQwKomvnLHLf5zCiZn0fbfCSmyuAY3S1WJM2U
-	Gk4+zPIT4Jh+MYQHponBTN85AnEU+JSglcf6XAsJC77N4Db7Ug9/4UUKvEDwjgnrhGIipSu4aeW
-	79qVhcDX944w4vTaGKJZvJJm8WulBYveggN1x/YFEP0pW/JhbYID84bE5lolCjv1
-X-Google-Smtp-Source: AGHT+IEiFRYEfLJINFIWkhwduyVSeg0GKORGlrbshmeJjh33oH/QgGIMWgxSku3B+cM7D1WHcVI98Q==
-X-Received: by 2002:a05:6402:4309:b0:5de:39fd:b2f5 with SMTP id 4fb4d7f45d1cf-5ff986a68aamr343658a12.1.1747165923761;
-        Tue, 13 May 2025 12:52:03 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9cbe4993sm7626580a12.9.2025.05.13.12.52.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 12:52:03 -0700 (PDT)
-Message-ID: <5d34aec7-5027-4575-b860-afdf7b2c0757@gmail.com>
-Date: Tue, 13 May 2025 21:52:01 +0200
+	s=arc-20240116; t=1747217441; c=relaxed/simple;
+	bh=ACqCtG4WzNlB3BOKU+j/uslBcSJY1nIONS2nzudYcQs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eW+/8MlEnA0KTjCXUfy9IyO4HfhxfoB1dwod6lBriCY6fvnpZp06As4hEywh6xyb2IMB7e/L7yU/47gssPDiA9s4gytdBIERugkjFuZ5KwZoj8HsB6yB72KNneMXe24oiyT9uz/dYzi0UBNXy1H4YyuwxPQfrdRlP41kxGJuz/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=exE0FeBA; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=Ty0fNrW4X0KC1Oj7q3eUuAd1SAn7ztwniS+Af/+2WTk=; b=exE0FeBAxE5N8bcCgRz+I/KoaP
+	oCo5QRk9Ur+hwMv9U/6f/xA5x5fukhxIyRl8Fbmmhp+oM4Fb/jEIyCqKz2jQiIubpCBinPWGQeu0F
+	6tfIr3IolM0vW2pNMX/ttw4vnKhzRRuPWljbspzowDXkWbNrfCvmyktlGSMx+zXzBtJM=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:54044 helo=[127.0.1.1])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1uF94H-00ABvu-MP; Wed, 14 May 2025 12:10:30 +0200
+From: Matthias Fend <matthias.fend@emfend.at>
+Subject: [PATCH v5 0/2] Support for Texas Instruments TPS6131X flash LED
+ driver
+Date: Wed, 14 May 2025 12:10:06 +0200
+Message-Id: <20250514-leds-tps6131x-v5-0-a4fb9e7f2c47@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct
- multi_index
-To: Johan Adolfsson <johan.adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, kernel@axis.com
-References: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP5rJGgC/2XN3YrCMBCG4VuRHBuZzOSn8cj7kD1Ik6kGtEpTi
+ ov03jcKS6UefgPPO09ReMhcxH7zFANPueRbX4fZbkQ8h/7EMqe6BQIaQHTywqnI8V6sIvWQwWl
+ yTUOsAUQ194G7/Hj3jj91n3MZb8PvOz+p1/W/1KxKk5IgkwKnkofOczjwteM+7cIoXqUJF03qS
+ 2PVbQQfXTDQIq81LVojrTVVHYN1ibQN+vu3XrQBv9a6aozeWOpMa1381PM8/wE2ILm8ZAEAAA=
+ =
+X-Change-ID: 20250227-leds-tps6131x-a7437883e400
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
+ bsp-development.geo@leica-geosystems.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-Hi Johan,
+The TPS61310/TPS61311 is a flash LED driver with I2C interface. Its power
+stage is capable of supplying a maximum total current of roughly 1500mA.
+The TPS6131x provides three constant-current sinks, capable of sinking up
+to 2 x 400mA (LED1 and LED3) and 800mA (LED2) in flash mode. In torch mode
+each sink (LED1, LED2, LED3) supports currents up to 175m
 
-On 5/6/25 12:39, Johan Adolfsson wrote:
-> mc_subled used for multi_index needs well defined array indexes,
-> to guarantee the desired result, optionally use reg for that.
-> 
-> If devicetree child nodes is processed in random or reverse order
-> you may end up with multi_index "blue green red" instead of the expected
-> "red green blue".
-> If user space apps uses multi_index to deduce how to control the leds
-> they would most likely be broken without this patch if devicetree
-> processing is reversed (which it appears to be).
-> 
-> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-> but I don't see how it can have worked without this change.
-> 
-> If reg is not set, the previous behavior is kept, index will be in
-> the order nodes are processed.
-> 
-> Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
-> ---
-> Since devicetree nodes are (sometimes?) processed in reverse order,
-> support reg as the actual multi_index index so yo get well defined
-> color order presented in the multi_index file.
-> Not sure if reusing reg for this is the correct way or if another
-> property such as "multi_index" or similar should be used instead.
-> Looks like reg is used for similar things at least.
-> Or should the whole "reverse the devicetree" problem be fixed instead?
-> ---
->   drivers/leds/leds-lp50xx.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index 02cb1565a9fb..48db024081f5 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   			return -ENOMEM;
->   
->   		fwnode_for_each_child_node(child, led_node) {
-> +			int multi_index = num_colors;
->   			ret = fwnode_property_read_u32(led_node, "color",
->   						       &color_id);
->   			if (ret) {
-> @@ -483,8 +484,15 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   				dev_err(priv->dev, "Cannot read color\n");
->   				return ret;
->   			}
-> +			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-> +			if (ret) {
-> +				multi_index = num_colors;
+Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+---
+Changes in v5:
+- Removed unicode characters
+- Link to v4: https://lore.kernel.org/r/20250509-leds-tps6131x-v4-0-2c9563f5b67c@emfend.at
 
-Why not to fail if 'reg' parsing fails?
-It is marked required in DT bindings [0].
+Changes in v4:
+- Added/removed/adjusted comments
+- Use defines for register defaults
+- Updated source format
+- Check for error in torch refresh timer
+- Return error from tps6131x_parse_node()
+- Link to v3: https://lore.kernel.org/r/20250423-leds-tps6131x-v3-0-ca67d346a4ea@emfend.at
 
-> +			} else if (multi_index >= LP50XX_LEDS_PER_MODULE) {
-> +				dev_warn(priv->dev, "reg %i out of range\n", multi_index);
-> +				multi_index = num_colors;
-> +			}
->   
-> -			mc_led_info[num_colors].color_index = color_id;
-> +			mc_led_info[multi_index].color_index = color_id;
->   			num_colors++;
->   		}
->   
-> 
-> ---
-> base-commit: 38fec10eb60d687e30c8c6b5420d86e8149f7557
-> change-id: 20250225-led-fix-444fb544584a
-> 
-> Best regards,
+Changes in v3:
+- Add comment for locking
+- Drop handling based on CONFIG_V4L2_FLASH_LED_CLASS
+- Stop if getting reset GPIO fails
+- Optimize locks
+- Fix type of num_channels (u32 -> int)
+- Convert a remaining return sequence to dev_err_probe
+- Link to v2: https://lore.kernel.org/r/20250318-leds-tps6131x-v2-0-bc09c7a50b2e@emfend.at
 
-[0] Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+Changes in v2:
+- Bindings: Extend device description
+- Bindings: Drop unused address/size cells
+- Bindings: Use fallback compatible 
+- Bindings: Corrected minimum current for 50mA steps
+- Bindings: Drop node label
+- Fix name of REGISTER4 INDC shift define
+- Save device instead i2c_client in private data
+- Add comment for mutex
+- Use macro to convert from uA to mA
+- Use defines to describe initial register values
+- Add safety delay during reset sequence
+- Use fixed value enum to set the mode
+- Renamed some local variables
+- Re-sorted local variables
+- Replaced ifdefs for V4L2_FLASH_LED_CLASS
+- Improved some error messages
+- Link to v1: https://lore.kernel.org/r/20250228-leds-tps6131x-v1-0-d1071d90f9ea@emfend.at
 
--- 
+---
+Matthias Fend (2):
+      dt-bindings: leds: add Texas Instruments TPS6131x flash LED driver
+      leds: tps6131x: add support for Texas Instruments TPS6131X flash LED driver
+
+ .../devicetree/bindings/leds/ti,tps61310.yaml      | 120 +++
+ MAINTAINERS                                        |   7 +
+ drivers/leds/flash/Kconfig                         |  11 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-tps6131x.c                 | 815 +++++++++++++++++++++
+ 5 files changed, 954 insertions(+)
+---
+base-commit: 9c69f88849045499e8ad114e5e13dbb3c85f4443
+change-id: 20250227-leds-tps6131x-a7437883e400
+
 Best regards,
-Jacek Anaszewski
+-- 
+Matthias Fend <matthias.fend@emfend.at>
 
 
