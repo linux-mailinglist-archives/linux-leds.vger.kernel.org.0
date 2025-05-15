@@ -1,100 +1,137 @@
-Return-Path: <linux-leds+bounces-4674-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4675-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170A0AB8D63
-	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 19:15:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF38CAB903A
+	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 21:54:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51870179FE1
-	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 17:14:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91FDB16C857
+	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 19:54:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 799652561B3;
-	Thu, 15 May 2025 17:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FD225A646;
+	Thu, 15 May 2025 19:54:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwK8HXO4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QoKWDcnI"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B5F255F55;
-	Thu, 15 May 2025 17:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483931E480;
+	Thu, 15 May 2025 19:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747329286; cv=none; b=dw8N4uLCzu4u5mhh/yI0U0ASDGIDiDr4XkGZSaQeDei/Eezb2W669TkM1tz1NHD88cli50+r6DOxYw9oJYObwbsv0yYJjPfF66KJRml6zIOwiD/Yxq+hlbjW6hlnwKbPf5h/xziOe1fTgw3HWH2MonSIt1ohA0g2zU87b5LXCMc=
+	t=1747338844; cv=none; b=i3ZNXiJJ9uaRZe1NWx4VYBdNd372khanUX5Rla33wcZkg0OZ5MuC2CPoUQ01hO9Kpr/Ad60fb3jXbZaVP93l4lrYofKfy4K4Olp1irRPSmDWKErPBOOzYuro0SMoJm/iDwn9XWf3EPWLlXbHKVdRrq0ShiVWPa2Nw8IZyfSeJ0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747329286; c=relaxed/simple;
-	bh=nnM2Yxfy6SvDhbcADSk+0ey43o1zPShMFIO10useVYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rb83V6WuPpm/FG3n4hdEzH3Gwha6PbnlORGxhLrvFuXSLFAreTmwvZ/J9WGC/R7WcWQANUTynNIhAE0fMYPk+dFiKr4rT2eHJkkfF6ZcEvDeVTbvffxrPY4x01inxb0yAOSrNPmNNoN4py8oYdECUQypJVFWa2rqt7kzQ290J+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwK8HXO4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E092C4CEE7;
-	Thu, 15 May 2025 17:14:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747329285;
-	bh=nnM2Yxfy6SvDhbcADSk+0ey43o1zPShMFIO10useVYI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pwK8HXO4uggupbL/lw5z5EwiF4qgCO22Gfye6S082uMvMxfUl/rbQ9uKrDglVdzzu
-	 5sFz8nzyPO7pLlqofWtRAFDQG01LrTDxriCHp1RfU8Wsg3P6aHCkzGT+ViE2tjlpE2
-	 8QtdofQ2Y3lSo8jtXNXtfEf9Lx6jwqj6XrG7bMapI+9uMecGodDIfZSmneX+ed+5re
-	 3VFQvTGMURgWSI6DAs/W30drIL1DSgVmxz2NNhcaO9BnizFsSsZIXfYy9unKyWNQ6g
-	 JiZzGxWavhTMOQ/sxrpeV366Tb/yH8s+vV+VFORpERT+HYRZi6L9NZ1lTHkPI+GRnA
-	 6jq7rLaAevoZg==
-Date: Thu, 15 May 2025 18:14:25 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Alexandru Soponar <asoponar@taladin.ro>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-watchdog@vger.kernel.org, jdelvare@suse.com, linux@roeck-us.net,
- pavel@ucw.cz, lee@kernel.org, baocheng.su@siemens.com,
- wim@linux-watchdog.org, tobias.schaffner@siemens.com,
- angelogioacchino.delregno@collabora.com, benedikt.niedermayr@siemens.com,
- matthias.bgg@gmail.com, aardelean@baylibre.com, contact@sopy.one
-Subject: Re: [PATCH 12/16] iio: max44009: Fix type incompatibility with
- non-macro find_closest
-Message-ID: <20250515181425.6a16455c@jic23-huawei>
-In-Reply-To: <20250515081332.151250-13-asoponar@taladin.ro>
-References: <20250515081332.151250-1-asoponar@taladin.ro>
-	<20250515081332.151250-13-asoponar@taladin.ro>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1747338844; c=relaxed/simple;
+	bh=Qkswu8ueaXe8iFWpGCysr/lnl/OObmpOx3mPF9UNa/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=NhK14UJf+W09JtMJ1GtwZh/TRPhb6t+GNtNDveCrZxwi8EmLdpk63mJteBoxGSRaIrC/CnQS+rFwHpcZlEt8+CVL6hMnWGmEep9FaGERCMxmTeu7DelhjL0R6qaq7naM06ikfziTw+xcihy1NHDh+OiSGLZcigPY7eyQjvdskcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QoKWDcnI; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5fbeadf2275so2567606a12.2;
+        Thu, 15 May 2025 12:54:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747338841; x=1747943641; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=v2Rd/PEEQGJgWudCDjVM05iahq1IhHT9MZFa3pCPmmA=;
+        b=QoKWDcnIVqKvMyTHHZxeTjvbwlh8kgtA02VTHs2XZsjVEm7PfZxBZA3htKeltIO0kl
+         A4bHdbCjpN36Zj0ijgpaBbv4qvk0C3bYj7F1N9JpFBRGQ3Wpv2GGAwAtEeFjhQr2tRuw
+         OImmwkUBHGdUxhtc9D9TF2UlVvkmA+kNQ9cakmYqH6HUSm04z15DaH3i6UriwzLxHOJj
+         LzzAPvHClZyfO76EuDx1vEykGfH2a6p0piQm9VmyTvGyx1RmddHeAlpHAYbjSnHz5YWl
+         NphxOZOuZqidpmgqj7Vf5vkXVFMxUP+9pnrR0tsQ/J6x27vJ7lA9+A6s8qcuuJM0KIap
+         4tyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747338841; x=1747943641;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2Rd/PEEQGJgWudCDjVM05iahq1IhHT9MZFa3pCPmmA=;
+        b=sTrCH5qnjLe/w9h9tmgGXr6CNXavzx35Vp+LXGE2qVxhn321DWhOta54Uwq0ZdKEGk
+         SXk8KTwnEOrUrwdB0ms+/nmmJtYCaKD997Yq36swVALs4MDVEM2YOZx0C7tI0MqGMLTB
+         McrpsmQTmFd+efB60eg1OhiV3aZuuYNwbIBBcIPh52Thd5u34CjykVY0REISwsKfQrDF
+         KNTXAxjpWBF+/sN6nTNCgkLR13iV4K3/92RJCmJmQxeC9Cxfa7X+V8eMw+05FBjUnOcX
+         9TNrVvdT/OiOTMgLo1nG1PiOazNHSDALWXJRKBVToZtrhetCtEXi8qSlUma3sPrV4djK
+         B1Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUby7ZSFZ+fogfKeNUNiB+WeuH1e8fOgc8hWOfKhCe00VQSmZ0qy3DWYnvMK6cJXL2VtEoh/WEaJ60e/4iWPqO2VCI=@vger.kernel.org, AJvYcCUqkcY201CivevtzRFsx34JjBajfJkmcyh1sAyz+VmAD3mcFVrd9wf4Myak9JdHDfz3Do5kxHx/ECX6@vger.kernel.org, AJvYcCVibu5JIH2qoUnyDei3FUffKV8BRTQe0BAnnn2+0Kw2uPTyZY8wlJ3c7tfn9rxAppwh0vGPCdqox/puqw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXIwBTG6Y12YRcLjdpH5+2cE4+zvIGUp0SgTUmWg9VSutD1FlF
+	zYnM+Ff1CPYZyMgkGGrr/LnHKTT+QOzFHaXoEMlzVHLtERnUKZCL9s0U
+X-Gm-Gg: ASbGncuXy/Umn6S0qLvWVmWASX1g16WvxSjj89DMVrN87sJiQwL7j3QCq3dxfR2/igZ
+	fRH0Y5cHArupK766swN8aGXGxkB+5q9mX+fuMb1qfJUBZwgOMmcEjC4LuWm0HgfX8OGjk9SC1lg
+	L89IvMxuJHiwzbX5qdIog5jid0Gd4BJFLCM8Pq7iblLC269uRNkhYIbWLSyROQenarZ1Q6PRwN+
+	qHU7o6lYvY9eYfA9zH9BLUPKL2aeAHxdz/NSN5v2T52nnU5OQoZmmqak3gdCoA72tQ7DyHgvKzj
+	OFvI7uuon1y5pKvS+Opy+6Y1Ni1wU0nRyM0RXoDNO78pshADkQqXmTU+zugg8N11
+X-Google-Smtp-Source: AGHT+IGsRjuQopXhMad2zCDx9I1i3hVya5ii9kcbMVH4RCaOBV8ojym80d9AHpekvnGbGugM4XsMbg==
+X-Received: by 2002:a05:6402:5245:b0:5f4:cf0a:84a1 with SMTP id 4fb4d7f45d1cf-60114069957mr15413a12.7.1747338841269;
+        Thu, 15 May 2025 12:54:01 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6005a6e019asm251735a12.36.2025.05.15.12.54.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 May 2025 12:54:00 -0700 (PDT)
+Message-ID: <1945f0d2-5e29-467b-8208-adf4e8560e8c@gmail.com>
+Date: Thu, 15 May 2025 21:53:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ Debug LEDs
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Lee Jones <lee@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Pavel Machek <pavel@kernel.org>, linux-leds <linux-leds@vger.kernel.org>
+References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
+ <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com>
+ <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+ <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
+ <ebb257c6-33f9-4841-b9af-c2744b59e513@gmail.com>
+ <20250514152852.GA2936510@google.com>
+ <a26c7cce-df72-47a7-b501-1b66faa3e38f@gmail.com> <aCWlenAtx2uaQhcE@shikoro>
+Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <aCWlenAtx2uaQhcE@shikoro>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 15 May 2025 11:13:28 +0300
-Alexandru Soponar <asoponar@taladin.ro> wrote:
+Hi Wolfram,
 
-> The max44009_int_time_ns_array array was previously declared as u32 but
-> used with find_closest(). With find_closest() now implemented as a
-> function taking signed int parameters instead of a macro, passing unsigned
-> arrays causes type incompatibility errors. This patch changes the arrays
-> type from u32 to int to ensure compatibility with the function signature
-> and prevent compilation errors.
+On 5/15/25 10:27, Wolfram Sang wrote:
+> Hi all,
 > 
-> Signed-off-by: Alexandru Soponar <asoponar@taladin.ro>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  drivers/iio/light/max44009.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> thank you for providing all this input. I appreciate this a lot. And
+> please excuse the slow response. I am currently at the EmbeddedRecipes
+> conference which needed a bit of preparation on my side.
 > 
-> diff --git a/drivers/iio/light/max44009.c b/drivers/iio/light/max44009.c
-> index 8cd7f5664e5b..d274224fc210 100644
-> --- a/drivers/iio/light/max44009.c
-> +++ b/drivers/iio/light/max44009.c
-> @@ -55,7 +55,7 @@
->  /* The fixed-point fractional multiplier for de-scaling threshold values */
->  #define MAX44009_FRACT_MULT 1000000
->  
-> -static const u32 max44009_int_time_ns_array[] = {
-> +static const int max44009_int_time_ns_array[] = {
->  	800000000,
->  	400000000,
->  	200000000,
+>> So the node would look like this, for the pca1 LED:
+>>
+>> led-1 {
+>> 	function = "pca1";
+>> 	color = <LED_COLOR_GREEN>;
+>> 	default-state = "keep";
+>> };
+> 
+> This looks optimal to me, if this is acceptable. I totally understand
+> the advantages and desire to unify LED naming. The main problem for me
+> here is that the GPIO-driven LEDs have no 'device' part in the generic
+
+Actually devicename section is expected mostly for LEDs that are somehow
+associated with other devices. In most cases it can be skipped, see [0].
+
+[0] 
+https://github.com/torvalds/linux/blob/master/Documentation/leds/leds-class.rst#led-device-naming
+
+-- 
+Best regards,
+Jacek Anaszewski
 
 
