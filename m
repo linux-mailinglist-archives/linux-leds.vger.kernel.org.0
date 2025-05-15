@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-4650-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4651-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA8CAB80BE
-	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 10:32:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B35CAB80CE
+	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 10:34:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B41F4E1A33
-	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 08:32:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A056A3A7A10
+	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 08:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BCFB2980C6;
-	Thu, 15 May 2025 08:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C545298247;
+	Thu, 15 May 2025 08:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEFj6xOu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETvrG/hz"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F6F288C80;
-	Thu, 15 May 2025 08:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E8B298244;
+	Thu, 15 May 2025 08:29:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747297777; cv=none; b=Nf/1m5JC/RMZhKDWDUxPZGVWEzR+u7EetGUDybPKGPIgDwrrjYQla/Ku172ONI72uIG3XncsPqjfiw75/6b9hLv5eADnjJrhzEqibLyYAlaVES45enjwaKMAM+RKik2eYqbD9cb84KdP7vcuFyugg90NnlqLdMxmJ5V5lgeZCHw=
+	t=1747297779; cv=none; b=lgpvn5QjlQch+5dV898WUgC1ghLsb/uJnislI8P8kuNF1RNTHFlU8eJHpqGqSHzljdeDvphanEdvMRuPQstRS3zN70YgMLX3IH5ldLIVUOak0nljMZlQL1nsPANAZPPqXYWMYD7LzbkPcOhn2t0OLiOwDs1Gk3wtCkuGLksVAoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747297777; c=relaxed/simple;
-	bh=C/ny+BNIPWcqRm+PTf4xhqG3xTGLDJv0F0ZAltq3x3U=;
+	s=arc-20240116; t=1747297779; c=relaxed/simple;
+	bh=KkrCkIrNoINcDGVsoaeXs/3WVDpp0D897mQKNrzpRZA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rixEJD59zKcZGjcfZDzhtrY3xmCqLsuVyq+NYRiIqDed/xlJemfDqrDA3a5ioTtRXwqp55z5LczrjSZW2KNA3E0/fRGC15VVYk1bpl7e58m3YJF4qOo6ILD+CxA8O3CfcZlPb5XXwdXZ5opjRaQrLnnZdMLoFJH5rDj63FbTV+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pEFj6xOu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6325C4CEE7;
-	Thu, 15 May 2025 08:29:34 +0000 (UTC)
+	 MIME-Version; b=ifHngiHJP1Pi0JSNSvSK2a5m2lYlkfdte4wxdZVvDqIBjctssLAQJkhJGutEfj8mgIWKZhrOB1eSiI5wVasWtdAjnmXyCF0JLWMBK5erJijOUvnGrKxInTshFlxe3YRH98HCCMd2mJGuAgRBKo8/E5gYoxhiprqyorq62UZMxxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETvrG/hz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2058DC4CEEF;
+	Thu, 15 May 2025 08:29:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747297776;
-	bh=C/ny+BNIPWcqRm+PTf4xhqG3xTGLDJv0F0ZAltq3x3U=;
+	s=k20201202; t=1747297778;
+	bh=KkrCkIrNoINcDGVsoaeXs/3WVDpp0D897mQKNrzpRZA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pEFj6xOuvQSidx2R1B8jW1FsTZ4p00Lf/vRSCaofxlPnekiqUQrAnOkdkoiOVFAsJ
-	 5QoP7UKd6RlFiLl/ycaiX06zhR43V44DFUlaLOb61Mtfk6W5cOA+KjguMAtWYebtNy
-	 8spi2LOhnf09hzCelUPPiPta/dpC0PuGIhMdppxU3GYkNrz5oFlYIJzcc25u8S8Aua
-	 FmMbpwIPy/AwQiC9KFIFytWuExw9/06ZuF0WjPImdyhdF76uHba8zNVV3Z5qMl6WwC
-	 5UBQMIz+59gR0qEwSIig0rsSMAt0ROEJKJggdWwIw03RRFlmsRSP/pNywoccIcnA4p
-	 MJWiMX50F1Z2Q==
+	b=ETvrG/hz9wfXOG7XhzO/I5ViijNzRSFbFfj6k7H+ypXSQdLJADGod9d3SPn1RXFG4
+	 94fqO+dRDfEU98rCaybUi4tRO9D9iYDmcFbIoJNXOYsmftNgeLXvKGZJMnrAQxxe0q
+	 iLXXW10XJ19wWsNDF02kHJS1t55mp0JxmkIRYhTMAqmMJLJA2iadFnoI+wah55YK8K
+	 ydffAV4/AQ3MTtw9Yy9LhxU7ZI5wWKPJXn2y8AQ7/x17atg/UWyfbMvKuliE7dRVX7
+	 SkQ+viAPnw/D4MEykj/uHmx2YXPvfdfHinJEZIm7iHIHOV37hlXXSFFw7p+nMk8N6t
+	 C7lfO5diKuaiw==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	Pavel Machek <pavel@kernel.org>,
@@ -50,9 +50,9 @@ Cc: bettyzhou@google.com,
 	ynaffit@google.com,
 	tkjos@google.com,
 	jacek.anaszewski@gmail.com
-Subject: [PATCH v2 2/5] leds: led-test: Provide test for registration with missing default_label
-Date: Thu, 15 May 2025 09:28:01 +0100
-Message-ID: <20250515082830.800798-3-lee@kernel.org>
+Subject: [PATCH v2 3/5] leds: led-test: Provide test for registration with missing devicename
+Date: Thu, 15 May 2025 09:28:02 +0100
+Message-ID: <20250515082830.800798-4-lee@kernel.org>
 X-Mailer: git-send-email 2.49.0.1101.gccaa498523-goog
 In-Reply-To: <20250515082830.800798-1-lee@kernel.org>
 References: <20250515082830.800798-1-lee@kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Insist on legacy (non-DT) registration and omit the default_label, which
+Insist on legacy (non-DT) registration and omit the devicename, which
 should fail with an invalid argument error.
 
 Signed-off-by: Lee Jones <lee@kernel.org>
@@ -73,14 +73,14 @@ Signed-off-by: Lee Jones <lee@kernel.org>
  1 file changed, 16 insertions(+)
 
 diff --git a/drivers/leds/led-test.c b/drivers/leds/led-test.c
-index 0f152fb12dfb..760c393f5c5d 100644
+index 760c393f5c5d..d378c905546b 100644
 --- a/drivers/leds/led-test.c
 +++ b/drivers/leds/led-test.c
-@@ -93,9 +93,25 @@ static void led_test_class_add_lookup_and_get(struct kunit *test)
- 	led_remove_lookup(&lookup);
+@@ -108,10 +108,26 @@ static void led_test_class_init_data_missing_default_label(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
  }
  
-+static void led_test_class_init_data_missing_default_label(struct kunit *test)
++static void led_test_class_init_data_missing_devicename(struct kunit *test)
 +{
 +	struct led_test_ddata *ddata = test->priv;
 +	struct led_classdev *cdev = &ddata->cdev;
@@ -88,7 +88,7 @@ index 0f152fb12dfb..760c393f5c5d 100644
 +	int ret;
 +
 +	struct led_init_data init_data = {
-+		.devicename = "led-test-devicename",
++		.default_label = "led-test-label",
 +	};
 +
 +	ret = devm_led_classdev_register_ext(dev, cdev, &init_data);
@@ -98,7 +98,8 @@ index 0f152fb12dfb..760c393f5c5d 100644
  static struct kunit_case led_test_cases[] = {
  	KUNIT_CASE(led_test_class_register),
  	KUNIT_CASE(led_test_class_add_lookup_and_get),
-+	KUNIT_CASE(led_test_class_init_data_missing_default_label),
+ 	KUNIT_CASE(led_test_class_init_data_missing_default_label),
++	KUNIT_CASE(led_test_class_init_data_missing_devicename),
  	{ }
  };
  
