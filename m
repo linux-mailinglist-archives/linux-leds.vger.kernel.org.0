@@ -1,164 +1,211 @@
-Return-Path: <linux-leds+bounces-4643-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4644-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE731AB763C
-	for <lists+linux-leds@lfdr.de>; Wed, 14 May 2025 21:55:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E440FAB7E4E
+	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 08:53:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2231866A7D
-	for <lists+linux-leds@lfdr.de>; Wed, 14 May 2025 19:55:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84D581B661D4
+	for <lists+linux-leds@lfdr.de>; Thu, 15 May 2025 06:53:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF9251D2F42;
-	Wed, 14 May 2025 19:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8CC9295D89;
+	Thu, 15 May 2025 06:53:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxYkzVLg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZ8DzHf7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DB818DB2F;
-	Wed, 14 May 2025 19:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D991C27;
+	Thu, 15 May 2025 06:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747252549; cv=none; b=Ujk8HFijSzc+H/fxR7FJrYh61vi+6Cup8ApJeWewJtmQZQce4NMBMjrHjzCdEh/ITy6HVANOkTivu+6AHMGkCVKfF6UVmznqVWSDa7Mn2KbQk7gU3BdfgX+MNoDWsnSwhEbhmCHIWcFG1D00ePksNaRR3uhXWkxGuTibtPLSc+U=
+	t=1747291991; cv=none; b=o+lSzBXhAe0KhfnUcF8KdXY5OErY+5fSBxXdgRObBPMZMfrLDRhtR6545K9VSE2aI7r69RWm7KDUd6oIhRBOZsYuHafhgM5hNA/6xRMBcnydgRiLZN19Hf4RS+dZJhoJoj2xCLg6ixijwcne7o5h1dGdOxO4h202hFiOWQjeU5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747252549; c=relaxed/simple;
-	bh=JZLzcttBqgNUx4bsAMzaO3A/KL7m0UzGC4lYkWkPjxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mrnQkpD9cuULzyxV6bg/O0ecM1jsep0yTIKxCBpjI1/lvXOqNF1CZ99NK6eKWQjNkhTS721iCEZta9+fIRP0MuVrxtNJa4q28yALrxDO20VT9K3wv8KTnj+1M4UTxc9WlFo7H2odvt6sEEsef2nj5BFf2BvVpMFHP4AaGrbvVQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxYkzVLg; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5fbe7a65609so417519a12.0;
-        Wed, 14 May 2025 12:55:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747252546; x=1747857346; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+O0+opsInUOmBnYBdK6LRXgW6r8ZAFurB6LRvWWPYB0=;
-        b=VxYkzVLgb3iXMRH5v4rbkmRldfQTWOL5609ROdgOe/RWHrsR3nR0GwaC1cx/9GDBjj
-         FaYV3bQQt9JXyjYC1bRYDeOBI+IDlfTc5/Z8us6BsNANNbiD/q7anLQ224JFBzm1Zd2I
-         pRHjejvftfq/MEcslwKTZAmD1UmGG3JnOPESClDnTqvU9Y0M7aeZWq+BLOD8BoM9JZkk
-         g4R8kynJNHPp0Jd0jqM9JfoTErYsrEbXLc8J954vcafWPE+Q2xcxEfc+2ni33A+NwjHI
-         6Ejct11vJvFpO5Mpsbxd0u6nQQHi4tJLxGqbUbQ6FmjQJ5QqYfoJ4f0gBpUgw7EQoCPL
-         lS4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747252546; x=1747857346;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+O0+opsInUOmBnYBdK6LRXgW6r8ZAFurB6LRvWWPYB0=;
-        b=LjjNQ7LUSTbszLERaHvFVxlWFldqtGb/4fGN3bF1qyL+VFTAp8K8jlM89j9236vsuJ
-         mZ5UxEu2UKANYEKb4V2oTaPeXn0CFSgJ3X0kiSQ5MzeejLMjhX67zp9J4TXliGk2/fyD
-         TOGLLvJQiCQSCN/UH/sPkUrop2tRSeeGBo5Cf50IGOlUtkmYE5zujVrP02dFtfRq4yX+
-         uKMG/j6HbHsXodOR9s0tprTcepLXvc5cLKUjc271afXRydFZv8aR7/1sNNKVcBXMeKYi
-         YBwpIBAqSQxPk/QO0Gvg+CP1lU+hMVi2R1y/SyB1zkUVNYPZDYIL8RNpLCBi6Rkq7m2z
-         Pfhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWpTgXPepIxT6qS8jPDWdIEnfd1+B5VGBPiBX9exAydJiLWca4OJZxGquUm2kaub9ivbkmhGd9pcb8hlC4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqBdbxJOCByx9CV1LxipfYME1ujnMGIa6L11JzZbX9M+Yi2D40
-	ohg0i1aPK3SGmkTG3qUff25EiwW8sZxisHnOionMZmf5IOpTXCSY
-X-Gm-Gg: ASbGncviVjmS6MvRTLUqoQ/JgVXeqGCKBExRwRyW/6zQMqyF5M/TV2TJrwK2YAr4McX
-	gU++Kp5dvEd+fdQE8fSeMTMZGX0gY5roymmszn6snBaWqdJw7RNK5Vo3450Sj2TAu6qjwYCyaeo
-	ccg44LCp5AJkpotlF2qi/CTruOdE6rR66Wr1SXBnOJSinPKF1SJROOxX7V99/Ri209heFuDK45G
-	Tg7a57FzpGeupBS+9wF4RN1akKO3V3iFqxlEr4kUM9NI9YtQmeHY4w7bzO0CQr99t3TSFYA/KXk
-	5lPDW4o+V/HmgwVUx09qD4GZqr0CssIqrTPlUN3IhQh2YyHI1oRjfhvUhg8aWurB
-X-Google-Smtp-Source: AGHT+IHWqFNy5dqLdzGXWHocJYS3intKZp5bWh8LrVE+yaimhMSqUfC4GwMMYkCwDcyzr+pSfzbPhA==
-X-Received: by 2002:a17:907:724e:b0:ad4:d32e:b571 with SMTP id a640c23a62f3a-ad4f71aa5e7mr503430566b.24.1747252546208;
-        Wed, 14 May 2025 12:55:46 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad23fc53241sm733558966b.51.2025.05.14.12.55.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 May 2025 12:55:45 -0700 (PDT)
-Message-ID: <449cf572-f637-42c9-b804-aaf74178e96b@gmail.com>
-Date: Wed, 14 May 2025 21:55:43 +0200
+	s=arc-20240116; t=1747291991; c=relaxed/simple;
+	bh=IDARqzmRC87jrTAbiTa95jja9EP2sda/hbrRU+iqIRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T+wGaYwVzjqHsSIv46wyNGMUMp6mCumx0oLSLhhBIXtE6WTsuGpdTLR/EgjjERhsts6MxPNtTAr5nHShBgS6vrdCAPOtx/rnQRRtdSIdOit+PDTdUNHGrppfVqvdCaFdODbeyzTUa2gDgsrK5wVHx1zZh2iDJUtGudnj0x95YVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZ8DzHf7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0DE5C4CEE7;
+	Thu, 15 May 2025 06:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747291991;
+	bh=IDARqzmRC87jrTAbiTa95jja9EP2sda/hbrRU+iqIRQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gZ8DzHf7+BZrNUJPiMN6iAqYHC4Fqlqbs8v3exaSGHWNkzKy7EkizIlcodClooteb
+	 KeCofG85v19ZpcVH6ZSfzYJBYyW6ptHYGOI9zZULrD53kxtrGBOb72i3qz32+qwJXb
+	 /onYFK559CCbUTN47NGinSapo75BcQSCh106h++Ld238Nyf+DuT7QCZdYr9aYsVV/h
+	 35PRt69Qdd1Vs+W9Dr77Gz4l6fPND+CUd/ftOEZNpPtVUJ1tD7OHksdjSWjw+AGNev
+	 CkRsBaQ7qt/Kl39QitlzfcVKWRz+OS2y2zcrouct/bqiwD6k6UCrcDzFgi6otcaCv2
+	 ldjs3/30ue7lQ==
+Date: Thu, 15 May 2025 07:53:05 +0100
+From: Lee Jones <lee@kernel.org>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Pavel Machek <pavel@kernel.org>,
+	linux-leds <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ Debug LEDs
+Message-ID: <20250515065305.GB2936510@google.com>
+References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
+ <aBxjvofZCEi_1Fna@shikoro>
+ <20250508134930.GM3865826@google.com>
+ <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+ <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
+ <ebb257c6-33f9-4841-b9af-c2744b59e513@gmail.com>
+ <20250514152852.GA2936510@google.com>
+ <a26c7cce-df72-47a7-b501-1b66faa3e38f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct
- multi_index
-To: Johan Adolfsson <Johan.Adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Kernel <Kernel@axis.com>
-References: <20250506-led-fix-v1-1-56a39b55a7fc@axis.com>
- <5d34aec7-5027-4575-b860-afdf7b2c0757@gmail.com>
- <PAWPR02MB92815DC59F65E90956269EEC9B91A@PAWPR02MB9281.eurprd02.prod.outlook.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <PAWPR02MB92815DC59F65E90956269EEC9B91A@PAWPR02MB9281.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a26c7cce-df72-47a7-b501-1b66faa3e38f@gmail.com>
 
-Hi Johan,
+On Wed, 14 May 2025, Jacek Anaszewski wrote:
 
-On 5/14/25 16:34, Johan Adolfsson wrote:
-> From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Sent: Tuesday, May 13, 2025 21:52
-> To: Johan Adolfsson; Lee Jones; Pavel Machek
-> Cc: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; Kernel
-> Subject: Re: [PATCH RFC] leds: leds-lp50xx: Handle reg to get correct multi_index
-> ..
->>>                        }
->>> +                     ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
->>> +                     if (ret) {
->>> +                             multi_index = num_colors;
->>
->> Why not to fail if 'reg' parsing fails?
->> It is marked required in DT bindings [0].
+> On 5/14/25 17:28, Lee Jones wrote:
+> > On Mon, 12 May 2025, Jacek Anaszewski wrote:
+> > 
+> > > Hi Geert,
+> > > 
+> > > On 5/12/25 09:13, Geert Uytterhoeven wrote:
+> > > > Hi Jacek,
+> > > > 
+> > > > Thanks for your answer!
+> > > 
+> > > You're welcome.
+> > > 
+> > > > On Sat, 10 May 2025 at 14:43, Jacek Anaszewski
+> > > > <jacek.anaszewski@gmail.com> wrote:
+> > > > > On 5/8/25 15:49, Lee Jones wrote:
+> > > > > > On Thu, 08 May 2025, Wolfram Sang wrote:
+> > > > > > > On Thu, Apr 17, 2025 at 01:39:14PM +0200, Geert Uytterhoeven wrote:
+> > > > > > > > On Thu, 17 Apr 2025 at 11:33, Wolfram Sang
+> > > > > > > > <wsa+renesas@sang-engineering.com> wrote:
+> > > > > > > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > > > > > > > ---
+> > > > > > > > > 
+> > > > > > > > > Changes since v2:
+> > > > > > > > > * using function, color, function-enumerator properties now
+> > > > > > > > > 
+> > > > > > > > > Honestly, this is better than using node names? With V2, the LEDs were
+> > > > > > > > > named as in the schematics, now they are called:
+> > > > > > > > > 
+> > > > > > > > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
+> > > > > > > > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
+> > > > > > > > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
+> > > > > > > > > ...
+> > > > > > > > > 
+> > > > > > > > > Which gets even more confusing if we might later add LEDs not on this
+> > > > > > > > > board, but on the expansion board. 'green:programming-8' sits where?
+> > > > > > > > > 
+> > > > > > > > > I really wonder, but if this is the official way now...
+> > > > > > > > 
+> > > > > > > > Good point!  So I'm inclined to take v2...
+> > > > > > > > 
+> > > > > > > > Let's raise this with the LED people. I don't want to fight Pavel when
+> > > > > > > > v2 hits the CiP tree ;-)
+> > > > > > > 
+> > > > > > > So, if there is no other opinion here, can we remove function, color,
+> > > > > > > function-enumerator and just use the node names which match the
+> > > > > > > schematics? Basically apply V2?
+> > > > > > 
+> > > > > > I didn't author the semantics nor the rules surrounding them, but I am
+> > > > > > obliged to enforce them.  Therefore "LED people" say, please stick to
+> > > > > > convention as stated in the present documentation:
+> > > > > > 
+> > > > > > https://docs.kernel.org/leds/leds-class.html#led-device-naming
+> > > > > > 
+> > > > > > Please note that a "debug" (LED_FUNCTION_DEBUG) option already exists if
+> > > > > > that is more appropriate to your use-case.
+> > > > > > 
+> > > > > > Let's also bring Jacek into the conversion, since I know that he did a
+> > > > > > bunch of work around this topic.
+> > > > > 
+> > > > > The question is if the LED name from the schematics tells anything to
+> > > > > the user of the equipment?
+> > > > 
+> > > > As this is a development board and not a finished product, I would
+> > > > answer yes.
+> > > 
+> > > OK.
+> > > 
+> > > > > The idea behind LED naming is to facilitate matching the LED class
+> > > > > device name as reported by the system with the LED location on the
+> > > > > equipment.
+> > > > > 
+> > > > > The LED naming standardization intended to enforce consistent
+> > > > > LED naming, and not allowing to add multiple interchangeable
+> > > > > names like wifi/wlan. It also helps to keep LED name sections order in
+> > > > > accordance with Linux documentation, which before had been often
+> > > > > abused by allowing to assign anything to the now deprecated 'label'
+> > > > > DT property.
+> > > > 
+> > > > I agree this all makes perfect sense for a final product, where the
+> > > > purpose of each LED is clear, and sometimes indicated by an icon
+> > > > on the case.
+> > > > For a development board, some LEDs may have a fixed purpose.
+> > > > But typically there is also a collection of generic user LEDs, which
+> > > > do not have a fixed purpose, and are identified by a label on the
+> > > > schematics.  Imposing an arbitrary numbering scheme on the latter is
+> > > > confusing for the user (developer).
+> > > 
+> > > Using DT child node name for LED class device name is only
+> > > a last resort fallback. However if it is devboard and we want to have
+> > > a reference to the schematics then I'd say it makes sense to take
+> > > LED names from DT nodes. What about the colors? Are the LEDs replaceable
+> > > or soldered?
+> > 
+> > Looks like this option does what you want:
+> > 
+> > https://github.com/torvalds/linux/blob/master/drivers/leds/led-core.c#L578
+> > 
+> > For this to execute you need to provide init_data when calling
+> > *led_classdev_register*(), omit the; label, function, color_present DT
+> > properties and also init_data's default_label attribute.  At which point
+> > the DT node name should be taken as the LED class name.
 > 
-> I didn't want to start failing if reg is missing since it has never been handled until now, despite what the doc says since 2022...
+> Yep, I know how it works, I wrote that code after all.
 
-There is one in-tree user [0], and we will need to patch it as well,
-because it uses reg 0,1,2 for each RGB LED module, instead of iout
-numbers as it will be after your change.
+Sorry for the ambiguity.  I was attempting to address Wolfram.
 
-We will need to also state clearly in the bindings that 'reg' property
-maps to iouts for the non-banked RGB LED modules.
+> Here, I wanted to clarify whether it wouldn't make sense to stick to
+> the approach with 'function' and 'color' properties if LEDs are fixed
+> on the board and the colors are known.
+> 
+> From [0] I infer that LEDs are green, so we should use 'color' DT
+> property definitely. And as a 'function' we can assign plain text "pcaN"
+> if you feel it makes sense for that board.
 
-For banked RGB LED modules it is more tricky, because there is one
-LED multicolor class device created for them. Probably to be correct
-we would need make the 'reg' properties in the subnodes also arrays
-reflecting iouts that will be governed by BANK_A_Color, BANK_B_Color,
-and BANK_C_Color registers respectively. And DT parser in the driver
-would need to enforce proper iout definition for the banked modules
+The 'function' documentation specifically says to use one of the
+predefined LED_FUNCTION_* entries.  If we are officially accepting
+caveats to that, we should probably update it.
 
-E.g. the multi-led@3 node from the example should look like below:
-
-             multi-led@3 {
-                 #address-cells = <1>;
-                 #size-cells = <0>;
-                 reg = <0x3>, <0x4>, <0x5>;
-                 color = <LED_COLOR_ID_RGB>;
-                 function = LED_FUNCTION_STANDBY;
-
-                 led@9 {
-                     reg = <0x9>, <0xc>, <0xf>;
-                     color = <LED_COLOR_ID_RED>;
-                 };
-
-                 led@a {
-                     reg = <0xa>, <0xd>, <0x10>;
-                     color = <LED_COLOR_ID_GREEN>;
-                 };
-
-                 led@b {
-                     reg = <0xb>, <0xe>, <0x11>;
-                     color = <LED_COLOR_ID_BLUE>;
-                 };
-
-
-[0] arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts
+> This way you'll get LED name "pcaN:green", that will be according to
+> the naming standard.
+> 
+> So the node would look like this, for the pca1 LED:
+> 
+> led-1 { function = "pca1"; color = <LED_COLOR_GREEN>; default-state =
+> "keep"; };
+> 
+> [0]
+> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20250328153134.2881-11-wsa+renesas@sang-engineering.com/#26336000
 
 -- 
-Best regards,
-Jacek Anaszewski
-
+Lee Jones [李琼斯]
 
