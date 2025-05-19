@@ -1,80 +1,79 @@
-Return-Path: <linux-leds+bounces-4686-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4687-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF72ABC4A5
-	for <lists+linux-leds@lfdr.de>; Mon, 19 May 2025 18:35:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA0AABC8ED
+	for <lists+linux-leds@lfdr.de>; Mon, 19 May 2025 23:14:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 356953B23C2
-	for <lists+linux-leds@lfdr.de>; Mon, 19 May 2025 16:35:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 584AD7A4C77
+	for <lists+linux-leds@lfdr.de>; Mon, 19 May 2025 21:12:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C947928641D;
-	Mon, 19 May 2025 16:35:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A6F121ABD7;
+	Mon, 19 May 2025 21:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="hY3aAFwM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R75yD/ph"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE86286D65
-	for <linux-leds@vger.kernel.org>; Mon, 19 May 2025 16:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7B42116F2;
+	Mon, 19 May 2025 21:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747672553; cv=none; b=iq0mrjT4eDYnT0myY5IUZ0rloSPq8mnsWI/zkqNQQqxRV9UWqcZ5XXjR9LFa3x5WV3wKrp4bukiDeP6VblLQ1X39UgrGI1nWwjCsiObwkD/VS9o5dQGuomULl7XglbcDhWoxpEtXIDpGaWpxRITJs56z3M/PPs5GP89Y6erEe+c=
+	t=1747689249; cv=none; b=I72Jt6Mx5FMMdWC0XBAEnE/4dBJLybH86b+l296U1J8bFhRS8WHx4ssLuxQaWNcSVKpNV7vYMoQXyfE/bqtTr27hsJnPN9ycMDrG3ccJgiBqE/3ZS9weqmvT+xI3ZRVqr0Ebbrb0d9MG5zb7mqtnHXndlpiZJe2na7O2IfLt064=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747672553; c=relaxed/simple;
-	bh=0QbvWiCAa+GioZRtVuR1peg4Ser/UC7UOzTp8JIZmZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BQS9pYhSF7J7LbU/vuKvKjqgW3s2mtVB/KPT//MNeLq7BX6+CaD1thCYC7QudiZSdsMbd0At55ZktlQrOGFhMVgSZvT2zHArhJ5VFMgSfaVZjR0+Tlr6tUmXEnluJbNb3V/lZEGAqxihufIb2hI0/pWmhly+kNCnUeQmlgRIPOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=hY3aAFwM; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2cc82edcf49so816263fac.1
-        for <linux-leds@vger.kernel.org>; Mon, 19 May 2025 09:35:51 -0700 (PDT)
+	s=arc-20240116; t=1747689249; c=relaxed/simple;
+	bh=OU+Jakld/TMTxxVKfdhF3ggOCo2ZBgkGEtx8OrbGD7w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=BUnPMjPV/HCWaSB6SJ6aOxqtSUiaHlq1/nRuhtqfe7/kwoVvqSe7TREAr9wx4k2whOYSJ/Vp0vjLZElGxQdAiGiQyZMewHuQtoW3+IJEXOmW9HHiyFwpXtKeOAqBvIwmJTSbhqgbte5eZFnqjteShpU4ZbV8yWwm3FIdB2GYXAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R75yD/ph; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ace333d5f7bso794874366b.3;
+        Mon, 19 May 2025 14:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747672550; x=1748277350; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747689246; x=1748294046; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W58GfmIWiZ3U0eNBo2ssjSmziqMleoXnnwt1PGdnFxg=;
-        b=hY3aAFwMukUfRB4AEd3dg6nw0Qs+GhudysQ/b7DPD6wJ1IDksewyTz7pA7Xiu4wBsC
-         MdCc81yOBJZ5HMK3/TqeQaPyH8yLJmvyU3rW1mN96Y2d0AIJHZPI8++eTkfrj86/ZjXy
-         3j8xWG9XVMpO15C6FKlCxVwPju6N5yWS9gdZy1ADxJghtsX18J/c3vnfYNWmiySrNc3t
-         0s0NP5/TMh6Nc5m2ly6XV+2GDT9mu1cf0N9BxJfHih+0X9r2HcUfBcyM3+T5O3E85oKB
-         EIF2F0yxJsExwNsc8BcUkUF8gO6w5aZNt64W7FcA0fdYz2VecfhatUXstNNyhlQouFzV
-         d+tQ==
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=INlfNClito0M/A1g5VdM/y65CyhnXKxSbDbKHIJcYNY=;
+        b=R75yD/phve7idB4z+uKmjLGHgUSwGhnZMv7aNJuY5x2moYO+xQ5NnSOKcPxc8V+rgT
+         YJBeO18tn5ZT+bfG2UavcXe96QjpI1wFi/YMWbkajyneUBHPCgCiKSg4zhT12jUegRZn
+         m/n0HZgqW+JkElnqvmlgjTRTZWOtXoJ0w+3dutvC17DLpnmZlsRBU7pF2IyJnGN+e0c7
+         KVY4cmNQY6lYb4ixC/lran4c6zuw5yQHVkv3oOGZjeDK2A9YRQlZKczovb1dJTu94Gge
+         Vfz8Xa8esw0wG2urR/sJ/1nC1iJMhckcGRRXVKzoMRl5Mf0plasctLchwR320Ax+EfnS
+         B/yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747672550; x=1748277350;
+        d=1e100.net; s=20230601; t=1747689246; x=1748294046;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W58GfmIWiZ3U0eNBo2ssjSmziqMleoXnnwt1PGdnFxg=;
-        b=VrvObuyBDqN6HoDNe+AsJrvHW6r3bJEXXDYdsqa15Iap3X84atWql3Oy3sjN/vZoRX
-         qh0TSOcYaOApYmeYe8ClyER3Eiok1CPtI3dDM8agx8Y5aiRVkgkWUD/Gm3qx+LYeoW50
-         h9vRVYPn/6aD7tVxL8JPqPoplcKcW4bjCN4bu+FzpwKmNN9g6VHSRDQJUDztDy6S/Hwi
-         CbOz9gNm2Ntk+UbfwRrcjhAV7GXn9Q43BhhZAcgfWBcnPiCXgkuOQzSahULNUgrwEhw5
-         dtP9bmebru6slc7VdQQYOaxvSM9R0w/uIe9TK8cxSE9TLsfST+Y89Pnbo2hT7hIyqdG/
-         QpbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW02z4nbIcguvQ5jZWoEJzvkH+rAz1Ui2M96cfksAbn3jfdaD6kMBfi9lG/aAY+8thXdlvu7uTqC2h9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3mgS60X4IjsdSlisV2Mb0bcMAhSEYTVHqrXUgwNlwSjRSNF64
-	e6aImuethWMfBaC0UMigNKn90FEoVzVGz/ale9wcKGPjr/kB2yqVFeL6yY3hdGiYvwI=
-X-Gm-Gg: ASbGncsjm9OhAdqcs7JR3s6gyjwtXEK/1GQos9W8tugfZC0LzcXSqeMD3zKy3qyhe9v
-	pp9uKf5KxBtPQDC5zrN0SVXKItmz6WSWPZ2DowJBEougbT2E5UKFTntc8X9OaJ580J6kzYBNsW2
-	qjFJPHXcqU/xU0CFV5yGgWIHfJ3mgP33/g5df916PE03YmjG70Ps0UeykHDLKmp4xWViWreeLLS
-	3s4GDhv5mrKJ2rbBwRAflkFc1t9JSYysWUyFj8FTuaREZmF8X+WQJWsHNvfIH+cJSHXTKY80ZVt
-	dXfy+dcTY7mMMPOywbLMOFXuhXWqlBO0S9g+bnGYYy7EwqApOyEVD82h6orso5ggSTCvIpzFa6E
-	brxysKtGxGjxGTxw7e4Ib5BkX8+bB1feLGZ2R
-X-Google-Smtp-Source: AGHT+IEqxryGUIrvlFRjjbZt/fpBB4e1H0kstalMU3B2lw3tKXhvZEegqt/3++j3ZSdhGSKMO3o38w==
-X-Received: by 2002:a05:6870:ad97:b0:2d9:45b7:8ffc with SMTP id 586e51a60fabf-2e3c817196amr7065629fac.3.1747672550446;
-        Mon, 19 May 2025 09:35:50 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:a628:91ca:eb5:d6f5? ([2600:8803:e7e4:1d00:a628:91ca:eb5:d6f5])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e3c06baca3sm1795657fac.19.2025.05.19.09.35.49
+        bh=INlfNClito0M/A1g5VdM/y65CyhnXKxSbDbKHIJcYNY=;
+        b=G0J/Sbrb+kFmLWU6yZ782D8jsV3TuFEXPG2Me4p9b/c5zDpnsS+3+y5fd+9bgjIG6T
+         eCmz2S8Cw3ZLAzPZLaIvrxGWjfpvF/QCO96XJvxUKTqp6zpJFe+2rvm7lXOkIYAM4XFD
+         CZVeVTuL5x7epbOLicu79AXBY5t93uJ96nWo6G1cALMHdIzi9YTlPVLUyxT9QbBfo1a2
+         JF8I5RigvsBkOqlJbZDyrgzBl6QxmOF9f7dQf3oRsCrERZwCT+l2Pj8X3SvNAz7FmHuq
+         wcThuU59caTUBkJ/kPPR3nzG2wHZUhFIhXuMvVBtfML5o+TzBnB0xsuHUXY1VYk5BGBg
+         +hcA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7CqzXnwSOXchxCqy7dRqY34e/lts8KLOuCEX0IhnPgv8m1lT6oOQ/Oen4NdgSiJOoyJjCfTEmnHEh@vger.kernel.org, AJvYcCVB8hC0mixDV9+9Q+3hfKc2lyeRJjHnIOsfFiwts9DF+j9T6ifRjwkon6r+0HWWni3iNVjpAWoWe1PJFg==@vger.kernel.org, AJvYcCXE+8ksFh5ukU9yEv84z0KLGIzDOOWjiD1VgHgIpwyWQlpqI155W5zwknVKPNOEzbO70VetAl27nhjQOKC+a8Yuiwo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB5SkM6m/wljpB5tuIxsE5w07Soln6o1GWJvyC7FI2mhk5DaPx
+	wACCnvrYaqOD5zQwT2PGUZ5XFxuEi43aPJAHTFtEXLH+YQB+0QVTvRO42UzzMgLq
+X-Gm-Gg: ASbGncufonQeXWOxWcyLmmW38XDa/XQlVmGxFseyxBwwhJMa+Z7g7i+ZThu9IySMqEC
+	+hzdFTEQv83yYS4135Mpk0235gMaIGLHUV6TVInDuQ5Z5wPxF4P3V68AIBvJlj3x4wRRFCux6I9
+	+PwfGDIrWq6J1ds2QYEhvdNlSf3oQj3JUilwCZQLLDNgtUJfe3sGiDLA+cR8O9YI2iXq5m3dshL
+	S2xsO5kRIHy/fNb6uD228lWM8nsmgW62qZm4Puq3in5WJ+haRunAg5mXduJB8liJOXcGrBFvp5D
+	tp/GoWFaI1ffWOhNnjqbaaRrlH/CzM4dC2weUOG7FxskHTE6iiVnFe9QNwy7oGJv
+X-Google-Smtp-Source: AGHT+IG8bk+kyT5BXR3K5trGf85iSP8MErm8cm8b1N3d+t2LIPk1iILutdL42LORJGY9jBjPWswf/Q==
+X-Received: by 2002:a17:907:9408:b0:ad5:27f5:7189 with SMTP id a640c23a62f3a-ad536bbf095mr1062199366b.13.1747689245753;
+        Mon, 19 May 2025 14:14:05 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d498d05sm646996166b.149.2025.05.19.14.14.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 09:35:50 -0700 (PDT)
-Message-ID: <ba79221f-9acd-4919-abe9-e2c49e80fb6c@baylibre.com>
-Date: Mon, 19 May 2025 11:35:48 -0500
+        Mon, 19 May 2025 14:14:05 -0700 (PDT)
+Message-ID: <83d527cc-36ce-449c-9e7a-29c47cbc7822@gmail.com>
+Date: Mon, 19 May 2025 23:14:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -82,155 +81,131 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/16] lib: move find_closest() and
- find_closest_descending() to lib functions
-To: Alexandru Soponar <asoponar@taladin.ro>, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org
-Cc: jdelvare@suse.com, linux@roeck-us.net, jic23@kernel.org, pavel@ucw.cz,
- lee@kernel.org, baocheng.su@siemens.com, wim@linux-watchdog.org,
- tobias.schaffner@siemens.com, angelogioacchino.delregno@collabora.com,
- benedikt.niedermayr@siemens.com, matthias.bgg@gmail.com,
- aardelean@baylibre.com, contact@sopy.one
-References: <20250515081332.151250-1-asoponar@taladin.ro>
- <20250515081332.151250-17-asoponar@taladin.ro>
+Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ Debug LEDs
+To: Lee Jones <lee@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Pavel Machek <pavel@kernel.org>, linux-leds <linux-leds@vger.kernel.org>
+References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
+ <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com>
+ <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+ <20250516-plating-early-c5f8017b7466@thorsis.com>
+ <c9c6b734-30c4-467c-bd5b-b73784aa0f27@gmail.com>
+ <20250519-crudeness-hatchery-3c9f02fc95ad@thorsis.com>
 Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20250515081332.151250-17-asoponar@taladin.ro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20250519-crudeness-hatchery-3c9f02fc95ad@thorsis.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 5/15/25 3:13 AM, Alexandru Soponar wrote:
-> Move the utility macros find_closest() and find_closest_descending()
-> from inline macros to proper library functions in lib/.
+On 5/19/25 09:37, Alexander Dahl wrote:
+> Hello Jacek,
 > 
-> Signed-off-by: Alexandru Soponar <asoponar@taladin.ro>
-> ---
->  include/linux/find_closest.h | 13 +++++++
->  include/linux/util_macros.h  | 61 +------------------------------
->  lib/Makefile                 |  2 +-
->  lib/find_closest.c           | 71 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 86 insertions(+), 61 deletions(-)
->  create mode 100644 include/linux/find_closest.h
->  create mode 100644 lib/find_closest.c
+> Am Sun, May 18, 2025 at 04:36:52PM +0200 schrieb Jacek Anaszewski:
+>> Hi Alexander,
+>>
+>> On 5/16/25 09:35, Alexander Dahl wrote:
+>>> Hei hei,
+>>>
+>>> just wanted to create a new thread on a similar topic, but this is so
+>>> close, just hooking in here …
+>>>
+>>> Am Sat, May 10, 2025 at 02:43:45PM +0200 schrieb Jacek Anaszewski:
+>>>> Hi all,
 > 
-> diff --git a/include/linux/find_closest.h b/include/linux/find_closest.h
-> new file mode 100644
-> index 000000000000..28a5c4d0c768
-> --- /dev/null
-> +++ b/include/linux/find_closest.h
-> @@ -0,0 +1,13 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Find closest element functions
-> + */
-> +#ifndef _LINUX_FIND_CLOSEST_H_
-> +#define _LINUX_FIND_CLOSEST_H_
-> +
-> +#include <linux/types.h>
+> […]
+> 
+>>>> The question is if the LED name from the schematics tells anything to
+>>>> the user of the equipment?
+>>>>
+>>>> The idea behind LED naming is to facilitate matching the LED class
+>>>> device name as reported by the system with the LED location on the
+>>>> equipment.
+>>>>
+>>>> The LED naming standardization intended to enforce consistent
+>>>> LED naming, and not allowing to add multiple interchangeable
+>>>> names like wifi/wlan. It also helps to keep LED name sections order in
+>>>> accordance with Linux documentation, which before had been often
+>>>> abused by allowing to assign anything to the now deprecated 'label'
+>>>> DT property.
+>>>
+>>> You see devicetree changes frequently which change the sysfs path of
+>>> existing LEDs, last example I saw today:
+>>>
+>>> https://lore.kernel.org/linux-devicetree/20250513170056.96259-1-didi.debian@cknow.org/
+>>>
+>>> Consider this change:
+>>>
+>>>    		led-lan1 {
+>>>    			color = <LED_COLOR_ID_GREEN>;
+>>> +			default-state = "off";
+>>>    			function = LED_FUNCTION_LAN;
+>>>    			function-enumerator = <1>;
+>>>    			gpios = <&gpio3 RK_PD6 GPIO_ACTIVE_HIGH>;
+>>> +			label = "LAN-1";
+>>
+>> So this change was made without understanding how LED naming works,
+>> and without reading LED common bindings [0], which clearly states
+>> that 'label' property is deprecated. It makes no sense to add 'label'
+>> when there are already 'function' and 'color' properties present.
+>> Label takes precedence to keep backwards compatibility.
+>>
+>>> +			linux,default-trigger = "netdev";
+>>>    		};
+>>>
+>>> Before the sysfs path probably was /sys/class/leds/green:lan-1 and
+>>> with the addition of the label property now it's probably
+>>> /sys/class/leds/LAN-1 … so it changed.  This might break userspace,
+>>> which relies on certain sysfs paths, maybe.
+>>>
+>>> The main question is: Is that sysfs path considered to be a stable
+>>> interface for accessing a particular LED or not?
+>>
+>> It should be stable, but since LED sysfs interface is influenced by
+>> DT implementation, then the responsibility for keeping it stable is on
+>> given dts file maintainer.
+> 
+> Okay thanks for clarification.
+> 
+> Follow-up question: should the linux-leds list be included in Cc if
+> someone changes LED related DTS properties?  This is often not the
+> case, like in the case quoted above.
 
-Is this header really needed?
+It would for sure allow to limit improper application of
+LED common bindings.
 
-> +
-> +unsigned int find_closest(int x, const int *a, unsigned int as);
-> +unsigned int find_closest_descending(int x, const int *a, unsigned int as);
-> +
-> +#endif /* _LINUX_FIND_CLOSEST_H_ */
+>>> I've seen this pattern also the other way round, were an old dts only
+>>> has the node name determing the sysfs path, people change the node
+>>> name or add color/function properties, gone is the supposedly stable
+>>> path.
+>>>
+>>> New idea: what about making this somewhat more flexible and less
+>>> suprising by _always_ creating the standardized sysfs entry based on
+>>> color/function by default, and let label only create an additional
+>>> symlink linking to that?
+>>>
+>>> So in the above example /sys/class/leds/green:lan-1 would be the
+>>> canonical name/path of that LED, and /sys/class/leds/LAN-1 would only
+>>> be a symlink on it?
+>>
+>> IMO it would be cheaper to keep DTS implementation stable.
+>>
+>> [0] Documentation/devicetree/bindings/leds/common.yaml
+> 
+> Ack.  Sounds for me like it would be okay to point users to those
+> bindings and the deprecation notice, if one stumbles over such changes
+> on the devicetree list?
 
-...
+LED common bindings should be always the main source of truth when
+adding LED controller node to a dts file.
 
-> diff --git a/lib/find_closest.c b/lib/find_closest.c
-> new file mode 100644
-> index 000000000000..d481625cae9d
-> --- /dev/null
-> +++ b/lib/find_closest.c
-> @@ -0,0 +1,71 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Find closest element functions
-> + *
-> + * Based on previous util_macros.h implementation
-> + */
-> +
-> +#include <linux/find_closest.h>
-> +#include <linux/module.h>
-> +
-> +/**
-> + * find_closest - locate the closest element in a sorted array
-> + * @x: The reference value.
-> + * @a: The array in which to look for the closest element. Must be sorted
-> + *  in ascending order.
-> + * @as: Size of 'a'.
-> + *
-> + * Returns the index of the element closest to 'x'.
-
-s/Returns/Returns:/
-
-for kernel-doc semantics
-
-> + */
-> +unsigned int find_closest(int x, const int *a, unsigned int as)
-> +{
-> +	unsigned int array_size = as - 1;
-> +	int mid_x, left, right;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < array_size; i++) {
-> +		mid_x = (a[i] + a[i + 1]) / 2;
-> +		if (x <= mid_x) {
-> +			left = x - a[i];
-> +			right = a[i + 1] - x;
-> +			if (right < left)
-> +				i++;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return i;
-> +}
-> +EXPORT_SYMBOL_GPL(find_closest);
-> +
-> +/**
-> + * find_closest_descending - locate the closest element in a sorted array
-> + * @x: The reference value.
-> + * @a: The array in which to look for the closest element. Must be sorted
-> + *  in descending order.
-> + * @as: Size of 'a'.
-> + *
-
-Would repeat the Returns: section here for completeness.
-
-> + * Similar to find_closest() but 'a' is expected to be sorted in descending
-> + * order.
-
-This seems redundant since @a already says this.
-
->             The iteration is done in reverse order, so that the comparison> + * of 'right' & 'left' also works for unsigned numbers.
-
-This seems like an implementation detail so would be better as a comment inside
-the function. Although, since @a is always signed, is this comment actually
-still applicable?
-
-> + */
-> +unsigned int find_closest_descending(int x, const int *a, unsigned int as)
-> +{
-> +	unsigned int array_size = as - 1;
-> +	int mid_x, left, right;
-> +	unsigned int i;
-> +
-> +	for (i = array_size; i >= 1; i--) {
-> +		mid_x = (a[i] + a[i - 1]) / 2;
-> +		if (x <= mid_x) {
-> +			left = x - a[i];
-> +			right = a[i - 1] - x;
-> +			if (right < left)
-> +				i--;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return i;
-> +}
-> +EXPORT_SYMBOL_GPL(find_closest_descending);
+-- 
+Best regards,
+Jacek Anaszewski
 
 
