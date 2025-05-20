@@ -1,211 +1,226 @@
-Return-Path: <linux-leds+bounces-4687-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4688-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA0AABC8ED
-	for <lists+linux-leds@lfdr.de>; Mon, 19 May 2025 23:14:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51764ABE633
+	for <lists+linux-leds@lfdr.de>; Tue, 20 May 2025 23:35:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 584AD7A4C77
-	for <lists+linux-leds@lfdr.de>; Mon, 19 May 2025 21:12:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5A163BB774
+	for <lists+linux-leds@lfdr.de>; Tue, 20 May 2025 21:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A6F121ABD7;
-	Mon, 19 May 2025 21:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BA825E458;
+	Tue, 20 May 2025 21:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R75yD/ph"
+	dkim=pass (2048-bit key) header.d=llnl.gov header.i=@llnl.gov header.b="Ii5LPulM";
+	dkim=pass (1024-bit key) header.d=doellnl.onmicrosoft.com header.i=@doellnl.onmicrosoft.com header.b="YcvHZZgo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0e-00379502.gpphosted.com (mx0e-00379502.gpphosted.com [67.231.147.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7B42116F2;
-	Mon, 19 May 2025 21:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747689249; cv=none; b=I72Jt6Mx5FMMdWC0XBAEnE/4dBJLybH86b+l296U1J8bFhRS8WHx4ssLuxQaWNcSVKpNV7vYMoQXyfE/bqtTr27hsJnPN9ycMDrG3ccJgiBqE/3ZS9weqmvT+xI3ZRVqr0Ebbrb0d9MG5zb7mqtnHXndlpiZJe2na7O2IfLt064=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747689249; c=relaxed/simple;
-	bh=OU+Jakld/TMTxxVKfdhF3ggOCo2ZBgkGEtx8OrbGD7w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=BUnPMjPV/HCWaSB6SJ6aOxqtSUiaHlq1/nRuhtqfe7/kwoVvqSe7TREAr9wx4k2whOYSJ/Vp0vjLZElGxQdAiGiQyZMewHuQtoW3+IJEXOmW9HHiyFwpXtKeOAqBvIwmJTSbhqgbte5eZFnqjteShpU4ZbV8yWwm3FIdB2GYXAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R75yD/ph; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ace333d5f7bso794874366b.3;
-        Mon, 19 May 2025 14:14:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C860E1A238F;
+	Tue, 20 May 2025 21:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.147.129
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747776928; cv=fail; b=rsNUcJY6qG59OxbSz9lgENJtFO1oRr56eMWEoEVpf/AkrD26B+i1vK/JqEfAGWIg6tD05OHu6IH75xEl2mV7BLpF6t2G2ZceWJanyg8VOXU9WO4aQnePAvx5b2JaVCMyBpUV20WL1S0LRbUU0rH0qlbwhj6sIqRg80xQGk9VE9A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747776928; c=relaxed/simple;
+	bh=PGn6+6VqbUGP/n3ciGCVzLiBrmKSF/OBUNAQEMZ6nfw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Y4a/lsKVEMyN868ThOQ2+G5IoWBM0emDUcH/InVH7P+XMsJ9EIlumQxrvoRAja+489ezV/4PZzFJosde4dNKQCIpk47itizSWsyLlNxHK64RJX2LlUs6E4h1ml2awPcro//okx232bXt9jf7ZouUn9vVlXjT9+RpU4WFktowOBs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=llnl.gov; spf=pass smtp.mailfrom=llnl.gov; dkim=pass (2048-bit key) header.d=llnl.gov header.i=@llnl.gov header.b=Ii5LPulM; dkim=pass (1024-bit key) header.d=doellnl.onmicrosoft.com header.i=@doellnl.onmicrosoft.com header.b=YcvHZZgo; arc=fail smtp.client-ip=67.231.147.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=llnl.gov
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=llnl.gov
+Received: from pps.filterd (m0218361.ppops.net [127.0.0.1])
+	by mx0f-00379502.gpphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54KJ3vN6020254;
+	Tue, 20 May 2025 14:26:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=llnl.gov; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=02022021-podllnl;
+ bh=Q5aX5QiRYYCELFWWce4tDXjDVRFJmWunlR/j4Loovpg=;
+ b=Ii5LPulMhCbf5XitSI60exq1NINqdnhBZDoY2uzhNwQRTDN42cppWYEi4XN47hD5Q44z
+ AmgRgYIE/sLQMJ+/LIapNUqqLDLIaqcD4tDZNceX1ZRr9+gbQipm2CZlsV0dgGqqRLoz
+ aUrQ4gzNs68s/dKEZnZgvqa+NWvx7l2rvjHoCwbTMueyexKpswzSB8NneJa+ffsyENAj
+ 0BDwrWlzVgtQYNKQhUySjH6OgC73C9ZoFGjfysEWF7rlVJAX4heu75tNaGltKH9jvTZR
+ sMsoG6PFbqttEPc0//PdQXW+G2WQaGWighTK1WBliBzLr0ukdjHHdAgehbcpHyeY0a5f hw== 
+Received: from ch1pr09cu001.outbound.protection.outlook.com (mail-northcentralusazlp17011026.outbound.protection.outlook.com [40.93.20.26])
+	by mx0f-00379502.gpphosted.com (PPS) with ESMTPS id 46ryjdr9r2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 May 2025 14:26:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jGjQhO4PmwAFXnqNPD7iP/eybqpjTKZ3t2Z71k9EiGmDTgFQFdkjsXyL08ghDBSIxvN+nLprxdH5PAVDtTPMTzkUAOpCFWr0hw46EeCtYMNgzPDEpvA9bxPNaOIcmkXUBRoKKIP23+JSHJ43+iIY0MDWNzz4KVfpKYWS3osm6SnhWXuNqew/0Zl35qjy3fdKz/lL0IUv7I39k1zLIzAOkdoETY7DETqS+ckyjNKjFNWLpacpLpHASx2lVKRf2eLZHebaLnWf02HqwqID7bk96jYSSK+gaWFxCHgD5njLm65ZMYKv/4YuG8A7W+XJmaxcUd0FAwsdF0DbGTuHsnA7nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q5aX5QiRYYCELFWWce4tDXjDVRFJmWunlR/j4Loovpg=;
+ b=arMMOveG3ss7AhAcBu2EuaX1KBAqFH+4jCvJzpz8KcTSU0yUYD57/HtmE96EYlzFShVKYJoSQwl615CEjihrf5V9YUBAibbaKm3frfJPerNq+9jkI1dBxNonKpjg11+GnJudwRo9Moe5owd+WdSibh6j7SKdI51+/a0HS2M0syB6vPVBoFDSi09Ic5/0HtJuMSCaxnJ3QDNM/hdrWdnx/3YI0Z+lnzO6r28BaN47jvDVmClr1NeSnVQhMQClUEEwGfY45+5EIRHFecJ2cvAyBZjNBZ4PEBE7HysCWOdDfrAy7OVvACrB1SUP42l60gbFd9tpkK02Nuz7DEh/Y/gCRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=llnl.gov; dmarc=pass action=none header.from=llnl.gov;
+ dkim=pass header.d=llnl.gov; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747689246; x=1748294046; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=INlfNClito0M/A1g5VdM/y65CyhnXKxSbDbKHIJcYNY=;
-        b=R75yD/phve7idB4z+uKmjLGHgUSwGhnZMv7aNJuY5x2moYO+xQ5NnSOKcPxc8V+rgT
-         YJBeO18tn5ZT+bfG2UavcXe96QjpI1wFi/YMWbkajyneUBHPCgCiKSg4zhT12jUegRZn
-         m/n0HZgqW+JkElnqvmlgjTRTZWOtXoJ0w+3dutvC17DLpnmZlsRBU7pF2IyJnGN+e0c7
-         KVY4cmNQY6lYb4ixC/lran4c6zuw5yQHVkv3oOGZjeDK2A9YRQlZKczovb1dJTu94Gge
-         Vfz8Xa8esw0wG2urR/sJ/1nC1iJMhckcGRRXVKzoMRl5Mf0plasctLchwR320Ax+EfnS
-         B/yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747689246; x=1748294046;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=INlfNClito0M/A1g5VdM/y65CyhnXKxSbDbKHIJcYNY=;
-        b=G0J/Sbrb+kFmLWU6yZ782D8jsV3TuFEXPG2Me4p9b/c5zDpnsS+3+y5fd+9bgjIG6T
-         eCmz2S8Cw3ZLAzPZLaIvrxGWjfpvF/QCO96XJvxUKTqp6zpJFe+2rvm7lXOkIYAM4XFD
-         CZVeVTuL5x7epbOLicu79AXBY5t93uJ96nWo6G1cALMHdIzi9YTlPVLUyxT9QbBfo1a2
-         JF8I5RigvsBkOqlJbZDyrgzBl6QxmOF9f7dQf3oRsCrERZwCT+l2Pj8X3SvNAz7FmHuq
-         wcThuU59caTUBkJ/kPPR3nzG2wHZUhFIhXuMvVBtfML5o+TzBnB0xsuHUXY1VYk5BGBg
-         +hcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7CqzXnwSOXchxCqy7dRqY34e/lts8KLOuCEX0IhnPgv8m1lT6oOQ/Oen4NdgSiJOoyJjCfTEmnHEh@vger.kernel.org, AJvYcCVB8hC0mixDV9+9Q+3hfKc2lyeRJjHnIOsfFiwts9DF+j9T6ifRjwkon6r+0HWWni3iNVjpAWoWe1PJFg==@vger.kernel.org, AJvYcCXE+8ksFh5ukU9yEv84z0KLGIzDOOWjiD1VgHgIpwyWQlpqI155W5zwknVKPNOEzbO70VetAl27nhjQOKC+a8Yuiwo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB5SkM6m/wljpB5tuIxsE5w07Soln6o1GWJvyC7FI2mhk5DaPx
-	wACCnvrYaqOD5zQwT2PGUZ5XFxuEi43aPJAHTFtEXLH+YQB+0QVTvRO42UzzMgLq
-X-Gm-Gg: ASbGncufonQeXWOxWcyLmmW38XDa/XQlVmGxFseyxBwwhJMa+Z7g7i+ZThu9IySMqEC
-	+hzdFTEQv83yYS4135Mpk0235gMaIGLHUV6TVInDuQ5Z5wPxF4P3V68AIBvJlj3x4wRRFCux6I9
-	+PwfGDIrWq6J1ds2QYEhvdNlSf3oQj3JUilwCZQLLDNgtUJfe3sGiDLA+cR8O9YI2iXq5m3dshL
-	S2xsO5kRIHy/fNb6uD228lWM8nsmgW62qZm4Puq3in5WJ+haRunAg5mXduJB8liJOXcGrBFvp5D
-	tp/GoWFaI1ffWOhNnjqbaaRrlH/CzM4dC2weUOG7FxskHTE6iiVnFe9QNwy7oGJv
-X-Google-Smtp-Source: AGHT+IG8bk+kyT5BXR3K5trGf85iSP8MErm8cm8b1N3d+t2LIPk1iILutdL42LORJGY9jBjPWswf/Q==
-X-Received: by 2002:a17:907:9408:b0:ad5:27f5:7189 with SMTP id a640c23a62f3a-ad536bbf095mr1062199366b.13.1747689245753;
-        Mon, 19 May 2025 14:14:05 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d498d05sm646996166b.149.2025.05.19.14.14.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 14:14:05 -0700 (PDT)
-Message-ID: <83d527cc-36ce-449c-9e7a-29c47cbc7822@gmail.com>
-Date: Mon, 19 May 2025 23:14:03 +0200
+ d=doellnl.onmicrosoft.com; s=selector1-doellnl-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q5aX5QiRYYCELFWWce4tDXjDVRFJmWunlR/j4Loovpg=;
+ b=YcvHZZgo4UQlv8No96nPx0P7Vgm7c2xyptgjamUbycunA7FhDQsshHuhnh9Ku+t+FfeEHEUyvOWPZ1cBQY5iatOYXra/AyHABD31kq3tI9hwRNclp2n+EYi6UJRCK1DqyuwBaDx4EN6OJ7fscC/nQFeUWO2fsEnYC103DqxG4Jc=
+Received: from BY3PR09MB8834.namprd09.prod.outlook.com (2603:10b6:a03:346::22)
+ by SJ0PR09MB10881.namprd09.prod.outlook.com (2603:10b6:a03:519::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.32; Tue, 20 May
+ 2025 21:26:47 +0000
+Received: from BY3PR09MB8834.namprd09.prod.outlook.com
+ ([fe80::9fcf:fc76:1d:f39]) by BY3PR09MB8834.namprd09.prod.outlook.com
+ ([fe80::9fcf:fc76:1d:f39%7]) with mapi id 15.20.8746.031; Tue, 20 May 2025
+ 21:26:47 +0000
+Message-ID: <d60fc671-b027-4cc5-8688-ca5438a3397d@llnl.gov>
+Date: Tue, 20 May 2025 14:26:42 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 RESEND] PCI: Introduce Cray ClusterStor E1000 NVMe slot
+ LED driver
+To: Pavel Machek <pavel@ucw.cz>
+Cc: linux-leds@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+        Lukas Wunner <lukas@wunner.de>, mariusz.tkaczyk@linux.intel.com,
+        minyard@acm.org, linux-pci@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <553813b6-1d44-488c-b41b-4be08e1c1733@llnl.gov>
+ <aCsNMvfSWptltx5k@duo.ucw.cz>
+Content-Language: en-US
+From: Tony Hutter <hutter2@llnl.gov>
+In-Reply-To: <aCsNMvfSWptltx5k@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY3PR05CA0045.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::20) To BY3PR09MB8834.namprd09.prod.outlook.com
+ (2603:10b6:a03:346::22)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- Debug LEDs
-To: Lee Jones <lee@kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Pavel Machek <pavel@kernel.org>, linux-leds <linux-leds@vger.kernel.org>
-References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
- <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com>
- <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
- <20250516-plating-early-c5f8017b7466@thorsis.com>
- <c9c6b734-30c4-467c-bd5b-b73784aa0f27@gmail.com>
- <20250519-crudeness-hatchery-3c9f02fc95ad@thorsis.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20250519-crudeness-hatchery-3c9f02fc95ad@thorsis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY3PR09MB8834:EE_|SJ0PR09MB10881:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49b20cb4-6c36-486c-4f09-08dd97e50694
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cmtFQmNtaXdOL2orbUFYTVFuUUYzTGFZMXZWUElraFJEREsxT3NOMTlDQ2lm?=
+ =?utf-8?B?Si9mZ3dQNEpGT092N2hVLzZkazBRb1Jrdnl0V3BXRjlqekV2WDVoNnJ3Z2po?=
+ =?utf-8?B?WHJ5NWcvYTlvdktteE5iTzFueGVKcFNpdEU0V2FwTFFTTTBoQ2o1TmNNMlpy?=
+ =?utf-8?B?VlgrejJqSzZpN1dxejhpaEdLc0s4dlNTaDBHNWZFTElMMnA4TlhUSFI1QTBL?=
+ =?utf-8?B?Q3UxUjhXOEhzV0hQUlVlaStQdlAyZC9YaUtKSTk3WVlULzhLRVJVOThpQ1lE?=
+ =?utf-8?B?aUJFNUlvSXRkZWsyaTlXMDRKRFJ2bnMzTy9Ed0ltQllxSFRRVi9zL3NpemMz?=
+ =?utf-8?B?amVhTkk0RGpwcWhscFVEU1daL3dib2tPcjhzNXVyTGtIQ3ZPWml5KzVjVWd2?=
+ =?utf-8?B?T3A3T21PbVlyZXNSYS9PelhSSG8vSmNOUlM3YWxjYVc4TmxrQ0E4b25KY0kr?=
+ =?utf-8?B?MTNZeXBkbnZPVitPUCs4Z01TNTBGNEFTa3VqYmVrTThFU0ZicXlDcG1RWGtY?=
+ =?utf-8?B?U0R3QTVkekU5aVhnYUQ4eUk0cGI3NWVkQS9PSnRFb2hBQXlZRVlUZG82MWlt?=
+ =?utf-8?B?M0pYYW1OMDRzd1Y4Ukx1OFRKWEpJbGNKN1YvaU9LRm1xNW9pWGtuUERJU21Y?=
+ =?utf-8?B?M1JGclJJT0lhbjJJU0RndEQ0NlJMQlU3VGN3d2FXRXVpK3lhNXg4czI5bFNQ?=
+ =?utf-8?B?ZUtzekViQ3BCVnNsUDJYWW84Z3grcEN0UEUvNUhISHN0ME9OYkE1QXQ2aStq?=
+ =?utf-8?B?dlgralYzaUhvQ2RhZUNnRlYzUy90aS8zV1MwM2loeEJlY3NacE9KR29ZYitE?=
+ =?utf-8?B?QTdqeW5qMlJWNnIra0QyZTd5MUZGbnRsdE0wY0lVdG5VVUJVODRYclUzTThj?=
+ =?utf-8?B?RnZCNVJ1WCtJL0tlRXdVcXZ4MzNMVTZuOU91cDhzdGFuK29zSWpvQnduVzhR?=
+ =?utf-8?B?Y2UwVXd3dG53SVNRRENveHhZcVdIMHA2U1FiSDBMc0MyWWdFOGRHUm1IK3l1?=
+ =?utf-8?B?V0NHZFJhNGFQbGVLRUJIMkpDd3F5R1Q0RUJXQitMenZDNEZNMTFEZVhnVHB3?=
+ =?utf-8?B?dnFibk9jU1FZZzJ0OE9MNVdhVHFtTGRjdEZ0aThneHVRcENvYy9yZ3JVQStX?=
+ =?utf-8?B?ZjY0czZFUlhEMkhyU3RjbUpsY2hhbHpJUTJQZHAxcW9YV0toaFZDTEplY1dj?=
+ =?utf-8?B?Z0t0S0RQWWxkMnFCTk9JV01QZWVBYjlvYkFCcVNKcUpyamZudVJuc3FTOGhH?=
+ =?utf-8?B?ZVJlV1BPbllIR2t1b0lTVjg1K0Vvc25pdG50T2dXZXRnZlJrdmljOTBFTDNT?=
+ =?utf-8?B?bzJWQnZENGxyMTAvci9jVmxIbWt1WTEzMnJvK1dKNURybzEwaVNYK09WS0Zp?=
+ =?utf-8?B?THJWZzRpTStHdDFHb01aci82WUZGR1grdkQ5ZmZiKzJGSzFLelowcHNDSnd1?=
+ =?utf-8?B?WHRZOEJFbXp4anlFSGE3TlJoZ1poMkxZclExTnp4anhIU3gyVU4xUDZ3OStu?=
+ =?utf-8?B?SVl1QWlUTDEvUGhESUtvRGwrNXZwOGJIakk1c2JwMVdrMHVrZ0E0dElEbTlS?=
+ =?utf-8?B?aXNvcVBlcDgvemh1azVOdlhyd2R5UW5oaHk5NWtWWDJ5OGUvbHYvYm9mWnR5?=
+ =?utf-8?B?RmxnTU04NFA0bDVLWVhxVnBFMW9KWUpPaWhic0xJYXc1VHBOT2hZa083N3Fo?=
+ =?utf-8?B?d0ZDNXZwWVNHZEd0OFpiMExBS1BoTER4Z2VzK2RWTksxQ0dWNWs5MkQ0SDdL?=
+ =?utf-8?B?RHBpSHRCQVNaMUk2N2Y5WFpRK1U3Qi9TWFhZdk9uSDVTVmIrWkdoNUJSLzRX?=
+ =?utf-8?B?L3BmcVJGOG5nWHIxYWxqQmxFZ3ZJOUMvd0U4aCtlVE1heWwrNTBlOTBWV3U4?=
+ =?utf-8?B?TU9iWWtsTFpQVUZvTU15RXhUeHNpYWhpRWpLbEZkNm54RGVBME95ejNJbjBr?=
+ =?utf-8?Q?ICOrbz/hw0g=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR09MB8834.namprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bnJVMkpZT00rWld3SGFqYUc1V25RMnR0bEcxTFVOc2sreDdGd2Fqd24zczEw?=
+ =?utf-8?B?OUt6NGNuRTZuc28waGJtZGNFT2JMa2Yzc0dMdjI2aHZGaGN6MDFhZHRVUFVF?=
+ =?utf-8?B?UGdONEtqQlBoZVBobHY5S0FjZjFBRW1oeXlvUUx5ZHhlcmx1aFhBYzFLUUZy?=
+ =?utf-8?B?VlJsTDFiYU5MckRZNTVXUnJIdzIyM3pjdVc0S0lLZFB3RmNyK2FoYm5sNHF1?=
+ =?utf-8?B?Q3NCbTFDNlV1TFZBZzlSamt1aDJrQ2xsUUVGNnk4bVlsYW5LbEJ4RVF5a1Zp?=
+ =?utf-8?B?Yk9LZ25GOFlwOWYzVUhUeUN3MUFYRllmZ2FkZDF4WWo0L1A5ZWhzSkJSWWtV?=
+ =?utf-8?B?YlI5Tk9YcWFtR1FGcmpuM3dyNEh5MEwvNTE2bjJZWjhrSlkxNGFXcXVjejRE?=
+ =?utf-8?B?V1BNTCtRTGsrbkJHemZOWEYxQkJ3RWNRK1BXZlRTWlRWZUVoZE1KSURMd2J5?=
+ =?utf-8?B?UnpVZTNPUEcxNVEramcrclNzTHhJdm9nb0JFZVpra0lrTEFqL0hKSVJ0T1RW?=
+ =?utf-8?B?akszMTZ2ZHBBVzMwd0sySHBIOWU3a3ZScnNYa3RWU2pyUmZTWE5iZmhiNlRu?=
+ =?utf-8?B?ZFptYitrTVU3eHF5SmNkakl1TkhwVWdlbnA3TXQ5b1F4N0h1ZlpRV1ZkRElB?=
+ =?utf-8?B?S1pWVFZLLzFHajJuQmVIUG1QL3g1TXlOencreGh5d0xkem04Q1hZRlA1Sjho?=
+ =?utf-8?B?SzlDd2dYYks1Lzh5UlpnbGt1TEV6R2RiUHVoUUVrdlc4c3dGN0ZJV0I5NkxD?=
+ =?utf-8?B?bHFyRHE0c0dsc3JicUwySlR1VjEzaGs2R25aaVV4MWl0YUJUS1hWSnpJdkE3?=
+ =?utf-8?B?aVArT3k3S1BlQlhCd2ZDRGtkUGFjUjVPVlh1UmgvQUR5WHJKOWhMTTRKa2FN?=
+ =?utf-8?B?TVNkTmFPSlBidXBUblRGV3YzNVRMeXZUUWIwLzRxTENyaThyOE9kVER3aDM4?=
+ =?utf-8?B?TG0vU1oxWC9nWmdUVEc5OVY0aVpGQS9xT0tyc1JRcG83MWUyYklabXVOSEs2?=
+ =?utf-8?B?WTJab0JWNGdkZVhwWjRrL1QvUUg2ZytXSnRDU1Q1cENOVzkzVVJZOFgzSk9O?=
+ =?utf-8?B?dDJKcXNqRSsycjB6ZXdwaTVsSDJvQU11aFR2WkVPY0srdS9CZXVKWXNjcjMr?=
+ =?utf-8?B?SFJBdyt0aDhqdDZCcmNmZ081dU1JU1cxaWV1d0ErOTZVZUFhUklzc0swQU5m?=
+ =?utf-8?B?T3MyOENteG5lUjVEKzBDbUJ1T3JjQm9QZGtTWVpORGVLYzBXMkloeWtaNHRC?=
+ =?utf-8?B?dHh5WjRMYjAyb1FhZ1dBUjFvWmdDdWVGd1JWNGx0MGpDK2pIY0xZMWNFaW1U?=
+ =?utf-8?B?OUZjbDlCaFZpNjZDb1ZJbnYvWkI2L1lEN2U3Y0dTZ3R2ZXJSdWVDVTFvd2da?=
+ =?utf-8?B?U29mZ2JodnV3NlBZYXREMWJvZU5xOUFuZ2xTU1VUK3JBZWFYWHlxSnB4NmFD?=
+ =?utf-8?B?T0JpSzFYeFozYjZvQWQ2dS91WnFTa1pma0dWSDJpbTZkTERmdDNJN0s2S202?=
+ =?utf-8?B?bUFPeVRmUS9PU1dQK0Z5MTUwWnlmWjZRYytVVERadTdpUTVtaC9NbmlXOVZX?=
+ =?utf-8?B?SG92UkJtajN1Q0R3V0psN2xiK0tKek0yZWlWT000Ym96clYxQTRtdVo5L0xq?=
+ =?utf-8?B?eFgwa0krdDVzQzUvZGFQSUtETDRlRjZHcy9JNEovTXVBYXpTQWg1M0lvdG5j?=
+ =?utf-8?B?eDNZK3pFdHc2SmNsVWJZT0FzRENGNzByN2w5RFZITDRrVkZKQk9SczNhYVpJ?=
+ =?utf-8?B?Vnk5SkFxOWlqSjhwMUJ2eVZveGxzR2ltekJZVEtVSzgvaG1MdW93Ymo2VkdD?=
+ =?utf-8?B?OWQvazRVZjZuRXl4andOVlZlcEkvNjFsOWVLZERuQWRCT21oWEJERE1CNGdE?=
+ =?utf-8?B?TlFkMWFKcTlKaXU2OERSZWVHemo4WWcwYy9hdnZzekFiMFhBNmh1cE04M1pB?=
+ =?utf-8?B?NzcvQURQeFdNSUVFYUpJNTQrRE11LzFKQUZucmhEZXpHRWNnbWx5Q3hKWDFn?=
+ =?utf-8?B?dko0Y21vZmJQcktrb1M0U0trZVh6QVVicHgvUlVDdWRuS1NydHptdDUxdllH?=
+ =?utf-8?B?T0xKUlVuMlRidWx6WHVHL0dyZVN4SFhyenZkWmtCOHZHeVY1dkYwdzNhVTVO?=
+ =?utf-8?Q?xR5/QcEDmbNTT/ND1793nCAsW?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	/wSnomQ5kCkO45D7WYaoIHKM74cp4OEQ3uB4/q3kP1NRlr+zH9Os4wNqikviQ6PDDYUlrsvXtrJTuLWDOL9/ZFcAy3kL9GV0cbTRJc8yRHJVZBUrJVHCksUnDqLU1G2Bt6lcuQr6iEhLqsfcTf7Xc86YCWD+VyglbZ9AORdYwoWeCXoKLIGrs+y4TkR2LhNtjTbowShIolHRZ9cyuQT2efXlonhlw8Ct9yCwwPVW2vokgnELaQqF4mlZhTOwWzOD4aYZDJ69JpqJ3PII9c+UMwijeV6QB74K5RD0NYTfFEj8yAAIs6TBr4FsIR5JuOlpmfxlJP+yM1TfP3h6BTLF+Ep/BiVpxix5zPNTDcgavLIf9lW8UBD5wmhp0B+XdCuUOPZGdAlDI0FD3ZdGjHL+fpMaMI9Ftzzu8T7vY7fjaGPdgcwzbdvZRpLR8rUke4HLvgb7/Jq9TGlt2trth+kMOcVqlX0Jm01aPCE5TQO1hzxWRMu+Ws1rB9Nkq49MNb2CyHFG4WnFOdoFY1KFBSgydzW22im+RA3vnHFgiAx7iZTDZe2cxGn9AllGvOOYGGNAyYm34AWdrAvdTOJf8ywb7XHd0/32DmsWx0U3yhjrMqFQHOiD+axJWesAzlW/AqSFkJAOjDbIUH7tNMfNCi67+A==
+X-OriginatorOrg: llnl.gov
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49b20cb4-6c36-486c-4f09-08dd97e50694
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR09MB8834.namprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 21:26:47.1545
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a722dec9-ae4e-4ae3-9d75-fd66e2680a63
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR09MB10881
+X-Proofpoint-ORIG-GUID: 33RvXsXSgBS6JsMAQf6CTicGo4Wsyik2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDE3MyBTYWx0ZWRfX4wt6NATUwIte bFij+nBw+uhkN7osZ9SHR6AvihvjnHNFNb+WGhfqeBo90rJ3iziv72ghOjd8nndt+3xgZkgeeeU 8+FfeJ3wQaUh22CluhNOHirlY9ysVPp8NxvTq3J4lGbOwd9J4Pc6Ks30n9w7CFtMAYda2IqZTSF
+ 57qqfNjqxhW/qr1lM++p/jtvjc2Lp1XJnGD2dLs2+p2vRoEiAJSVxX/pK3RZOXEx2BzZc62wcTv FYxgbKsSe2h7c7+mWJBCqq1VttpKV1drs3Bk7MCP0CLEl1mS9TY3BP/6huziI+rF/eiwUiPIHjd ReK5TOnUO31hhozmyaSr7YJb/kVSpTpF37jlIFNNITyBDv19hY7zKBTDA2WV4PwD2VyPH6aHlak yVMRYMjG
+X-Proofpoint-GUID: 33RvXsXSgBS6JsMAQf6CTicGo4Wsyik2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-20_09,2025-05-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 bulkscore=0 mlxlogscore=650 adultscore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2504070000 definitions=main-2505200173
 
-On 5/19/25 09:37, Alexander Dahl wrote:
-> Hello Jacek,
-> 
-> Am Sun, May 18, 2025 at 04:36:52PM +0200 schrieb Jacek Anaszewski:
->> Hi Alexander,
->>
->> On 5/16/25 09:35, Alexander Dahl wrote:
->>> Hei hei,
->>>
->>> just wanted to create a new thread on a similar topic, but this is so
->>> close, just hooking in here …
->>>
->>> Am Sat, May 10, 2025 at 02:43:45PM +0200 schrieb Jacek Anaszewski:
->>>> Hi all,
-> 
-> […]
-> 
->>>> The question is if the LED name from the schematics tells anything to
->>>> the user of the equipment?
->>>>
->>>> The idea behind LED naming is to facilitate matching the LED class
->>>> device name as reported by the system with the LED location on the
->>>> equipment.
->>>>
->>>> The LED naming standardization intended to enforce consistent
->>>> LED naming, and not allowing to add multiple interchangeable
->>>> names like wifi/wlan. It also helps to keep LED name sections order in
->>>> accordance with Linux documentation, which before had been often
->>>> abused by allowing to assign anything to the now deprecated 'label'
->>>> DT property.
->>>
->>> You see devicetree changes frequently which change the sysfs path of
->>> existing LEDs, last example I saw today:
->>>
->>> https://lore.kernel.org/linux-devicetree/20250513170056.96259-1-didi.debian@cknow.org/
->>>
->>> Consider this change:
->>>
->>>    		led-lan1 {
->>>    			color = <LED_COLOR_ID_GREEN>;
->>> +			default-state = "off";
->>>    			function = LED_FUNCTION_LAN;
->>>    			function-enumerator = <1>;
->>>    			gpios = <&gpio3 RK_PD6 GPIO_ACTIVE_HIGH>;
->>> +			label = "LAN-1";
->>
->> So this change was made without understanding how LED naming works,
->> and without reading LED common bindings [0], which clearly states
->> that 'label' property is deprecated. It makes no sense to add 'label'
->> when there are already 'function' and 'color' properties present.
->> Label takes precedence to keep backwards compatibility.
->>
->>> +			linux,default-trigger = "netdev";
->>>    		};
->>>
->>> Before the sysfs path probably was /sys/class/leds/green:lan-1 and
->>> with the addition of the label property now it's probably
->>> /sys/class/leds/LAN-1 … so it changed.  This might break userspace,
->>> which relies on certain sysfs paths, maybe.
->>>
->>> The main question is: Is that sysfs path considered to be a stable
->>> interface for accessing a particular LED or not?
->>
->> It should be stable, but since LED sysfs interface is influenced by
->> DT implementation, then the responsibility for keeping it stable is on
->> given dts file maintainer.
-> 
-> Okay thanks for clarification.
-> 
-> Follow-up question: should the linux-leds list be included in Cc if
-> someone changes LED related DTS properties?  This is often not the
-> case, like in the case quoted above.
+Hi Pavel
 
-It would for sure allow to limit improper application of
-LED common bindings.
+> We have LED subsystem.
+>
+> And this should use it.
 
->>> I've seen this pattern also the other way round, were an old dts only
->>> has the node name determing the sysfs path, people change the node
->>> name or add color/function properties, gone is the supposedly stable
->>> path.
->>>
->>> New idea: what about making this somewhat more flexible and less
->>> suprising by _always_ creating the standardized sysfs entry based on
->>> color/function by default, and let label only create an additional
->>> symlink linking to that?
->>>
->>> So in the above example /sys/class/leds/green:lan-1 would be the
->>> canonical name/path of that LED, and /sys/class/leds/LAN-1 would only
->>> be a symlink on it?
->>
->> IMO it would be cheaper to keep DTS implementation stable.
->>
->> [0] Documentation/devicetree/bindings/leds/common.yaml
-> 
-> Ack.  Sounds for me like it would be okay to point users to those
-> bindings and the deprecation notice, if one stumbles over such changes
-> on the devicetree list?
+This came up in an earlier discussion, and I touched on it in my changelog:
 
-LED common bindings should be always the main source of truth when
-adding LED controller node to a dts file.
+ - Kept the /sys/bus/pci/slots/<slot>/attention interface rather
+   than using NPEM/_DSM or led_classdev as suggested.  The "attention"
+   interface is more beneficial for our site, since it allows us to
+   control the NVMe slot LEDs agnostically across different enclosure
+   vendors and kernel versions using the same scripts.
 
--- 
-Best regards,
-Jacek Anaszewski
+Basically, /sys/bus/pci/slots/<slot>/attention is already the standard way to control PCI slot LEDs.  Our management scripts have used it for years to mark faulted drives for replacement.
 
+I think you can make the case that the PCI hotplug subsystem itself should be updated to export their "attention" values via the LED subsystem.  Then all PCI hotplug slots (including Cray E1000) would be exported via the LED subsystem.  That work goes beyond the scope of this driver though.
+
+-Tony
 
