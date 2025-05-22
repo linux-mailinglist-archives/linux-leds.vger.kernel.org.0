@@ -1,114 +1,86 @@
-Return-Path: <linux-leds+bounces-4695-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4696-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02AFAC0692
-	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 10:08:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EB2AC06FA
+	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 10:24:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B13E81BC3ACC
-	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 08:08:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 476A39E1C0D
+	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 08:24:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A49A264625;
-	Thu, 22 May 2025 08:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4073C25B66D;
+	Thu, 22 May 2025 08:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wsr3WgRN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cBoMbNjW"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024CF264614;
-	Thu, 22 May 2025 08:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EAA24EF8C;
+	Thu, 22 May 2025 08:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747901245; cv=none; b=R6khdk9awer/XHBGmG1hcSgIU74YhIcqKNdZ96pPFDh+vSgyu4M7O7DsfJ54aHV4vhY9CTKf0MLEw14T9tZenX/V0A1IHPgVlm93YmMAcAnbTbcCuFFkVJPJvzq3iPCDhuizl1v6IcHK2cQJmSO2agzLuLmv7Ovw4ovykeXoJj8=
+	t=1747902270; cv=none; b=pxQDuv9I0AHrRJHYBPpi93o5nhwc66srblEILNvicj3sTJ7u/xktwlLQHDRTOJONkbGz53hEPpgDxg88m+0+LXGlJtSAy/Z3OD278GNhjaoVEaTxrhG2Xq/LiZRoK/db7Hc6YiXdtnaZLuaraWrhsnLaMxyulGbnbeDOaG7Xtis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747901245; c=relaxed/simple;
-	bh=EPm96wo2mbVeci4pRjlD4z0kcMc1ORV0rQunhCIxSpY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BZn9CQ3yG/imngQ77tY5Wt/kDr3Df4R6f+gSvJrrtSNgArcCsW7FEo/iEjZZ2Ry8MaBcam/l/RiJMw7ma7I7DkBHfM0/L/zuh7d026p6zN3ZufQybYuedUkoerRzFMf8L/vdJqnm0vmvK8hMeVLfKHFokTmIP3Cc90iEbcgicJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wsr3WgRN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21F0C4CEE4;
-	Thu, 22 May 2025 08:07:22 +0000 (UTC)
+	s=arc-20240116; t=1747902270; c=relaxed/simple;
+	bh=DizkJHYZ1CgEO+V0Smq2zv9ucg5Zg07spjgOPbbPeQI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TqwC1GLiNmOXJMonnP9WNlLZEDbpFSrNOZRb5PkX6x61AqqsMUjG0yJ1Olil7JzTbTVX1b2gl0an/bhK/+nFncORrnwg9ldSCSOLgh4fIiLlT6cft1lDFcgCTKlrO/EFKRe/nuMnkGGISkLxX7mb6+93cHEJXWrcVbb4LiH+xa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cBoMbNjW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990FDC4CEE4;
+	Thu, 22 May 2025 08:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747901244;
-	bh=EPm96wo2mbVeci4pRjlD4z0kcMc1ORV0rQunhCIxSpY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Wsr3WgRNwI4VnohI5Q1/10nRD0fdiMw2ahLFR9HN8Gn7p0HvxnHAvyVMoZHOIjTSt
-	 /1CdlAqCBs90adooUd5EZRThdVh99mw4/FUGqf1hSoWIPMYZcrmvFUJ+/1cALL7nmZ
-	 6FT042++cOfCw85muulO2gDzr6y+1iMLK77QQjsmg2FB/JfLleaijBbJ/77sHkuX/t
-	 AWwvsqk+jXAWgHQbZeVzr0b3MYcBnMY93lWzYdY6p2xXNNsxjVRCD82vYr1aevPGW9
-	 prR13LKduiKygxKg4xFrQkLaR/UVd9bYOzpKhBuzSKDkV5QtwjF4gBkpP+gCEK5VkR
-	 2HcOsBn2yK/sA==
+	s=k20201202; t=1747902269;
+	bh=DizkJHYZ1CgEO+V0Smq2zv9ucg5Zg07spjgOPbbPeQI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cBoMbNjW6vGM6uq9rvwzVisbWvVb2zFhxAEKwKWI7Gd5aY3fu+t0ZsvTfDPiwtNTp
+	 aNUA5jFqZ308LoTlJYMpgmVg53gImWpuFJgNNUsUcQ8tVa2fQlJ0/lKcb8JHFiwuQT
+	 RnEtAW3HlaRO5E8eSd6MV2iggoHYGzurxNY91FCee8+WwMBwSrTCThcOOIz1q48PIT
+	 OcFZMhjfl2Jy/b/pYXSBgokLVmA2f6x5+4MWfMEH2QvF+ge3dNcPIMlPInYONGKMeZ
+	 UTEZYTu7kErnjXIC7t6HCm3lZyPril3FL/I/zZSDTNtgU01RmtcSYu8/koQiT5sYEU
+	 fHB1Xev5VgNGg==
 From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org,
-	Pavel Machek <pavel@kernel.org>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: bettyzhou@google.com,
-	ynaffit@google.com,
-	tkjos@google.com,
-	jacek.anaszewski@gmail.com
-Subject: [PATCH v3 5/5] leds: led-test: Provide test for successful registration using init_data
-Date: Thu, 22 May 2025 09:06:52 +0100
-Message-ID: <20250522080656.1215457-5-lee@kernel.org>
-X-Mailer: git-send-email 2.49.0.1143.g0be31eac6b-goog
-In-Reply-To: <20250522080656.1215457-1-lee@kernel.org>
-References: <20250522080656.1215457-1-lee@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Matthias Fend <matthias.fend@emfend.at>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bsp-development.geo@leica-geosystems.com
+In-Reply-To: <20250514-leds-tps6131x-v5-2-a4fb9e7f2c47@emfend.at>
+References: <20250514-leds-tps6131x-v5-0-a4fb9e7f2c47@emfend.at>
+ <20250514-leds-tps6131x-v5-2-a4fb9e7f2c47@emfend.at>
+Subject: Re: (subset) [PATCH v5 2/2] leds: tps6131x: add support for Texas
+ Instruments TPS6131X flash LED driver
+Message-Id: <174790226736.1225719.12154527587513247088.b4-ty@kernel.org>
+Date: Thu, 22 May 2025 09:24:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-b75d9
 
-This time both the default_label and devicename are provided such that
-when concatenated together result in a device name that is acceptable.
-In this case registration should succeed.
+On Wed, 14 May 2025 12:10:08 +0200, Matthias Fend wrote:
+> The TPS61310/TPS61311 is a flash LED driver with I2C interface. Its power
+> stage is capable of supplying a maximum total current of roughly 1500mA.
+> The TPS6131x provides three constant-current sinks, capable of sinking up
+> to 2 x 400mA (LED1 and LED3) and 800mA (LED2) in flash mode. In torch mode
+> each sink (LED1, LED2, LED3) supports currents up to 175mA.
+> 
+> 
+> [...]
 
-Signed-off-by: Lee Jones <lee@kernel.org>
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
----
- drivers/leds/led-test.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Applied, thanks!
 
-diff --git a/drivers/leds/led-test.c b/drivers/leds/led-test.c
-index d5017c6dca08..9bdebbe04462 100644
---- a/drivers/leds/led-test.c
-+++ b/drivers/leds/led-test.c
-@@ -139,12 +139,29 @@ static void led_test_class_init_data_name_too_long(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, ret, -E2BIG);
- }
- 
-+static void led_test_class_init_data(struct kunit *test)
-+{
-+	struct led_test_ddata *ddata = test->priv;
-+	struct led_classdev *cdev = &ddata->cdev;
-+	struct device *dev = ddata->dev;
-+	int ret;
-+
-+	struct led_init_data init_data = {
-+		.devicename = "led-test-devicename",
-+		.default_label = "led-test-label",
-+	};
-+
-+	ret = devm_led_classdev_register_ext(dev, cdev, &init_data);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+}
-+
- static struct kunit_case led_test_cases[] = {
- 	KUNIT_CASE(led_test_class_register),
- 	KUNIT_CASE(led_test_class_add_lookup_and_get),
- 	KUNIT_CASE(led_test_class_init_data_missing_default_label),
- 	KUNIT_CASE(led_test_class_init_data_missing_devicename),
- 	KUNIT_CASE(led_test_class_init_data_name_too_long),
-+	KUNIT_CASE(led_test_class_init_data),
- 	{ }
- };
- 
--- 
-2.49.0.1143.g0be31eac6b-goog
+[2/2] leds: tps6131x: add support for Texas Instruments TPS6131X flash LED driver
+      commit: 5a2c42a172f92a84ee15efbd630211c4a2817494
+
+--
+Lee Jones [李琼斯]
 
 
