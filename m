@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-4698-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4699-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4A1AC0DD4
-	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 16:15:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEC5AC0DD6
+	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 16:15:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CC917A6075
-	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 14:13:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C0CE169A42
+	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 14:15:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A5728C2A9;
-	Thu, 22 May 2025 14:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D1A28C5A8;
+	Thu, 22 May 2025 14:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="Y3+1IS0z"
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="mvvxM8f4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013057.outbound.protection.outlook.com [40.107.162.57])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010053.outbound.protection.outlook.com [52.101.69.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2961F09B3;
-	Thu, 22 May 2025 14:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6D428A700;
+	Thu, 22 May 2025 14:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747923300; cv=fail; b=mzxOHZK9PjQxTXT++8yFW+lTHiJTQpItXVqDvA9tGT1s4l2B2V6sad72cMLUIHPTNpfIhv1ggAOG5V2EGboAMTWVLSYapDDLQzdIwGX2gjqaxLTdFPl03mYPcxwSpyzOEsug4wHoaHFO5OT2Buv/TNiq41H/h5tH9qFLJHR5WpY=
+	t=1747923301; cv=fail; b=uaPv3HK1gQB8EA7fXOsTegmJHBjWYW2posWXlYJgYgXlTP5s3klO1j2XBA4Y32ZbX7lsl8r2T7qY575//1oyT4TJmK3L5tjSoK1nTYN99e4zSUUVpPldejxYmBsbL62SZ9NcEh7mHV1AFP8EaBLOHt3uPAdD/PcdKAQqAn/ok40=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747923300; c=relaxed/simple;
-	bh=rpBEWzAMTtwOLzgJONSLm3+B6XKYf8u3EQiAzYtPVas=;
+	s=arc-20240116; t=1747923301; c=relaxed/simple;
+	bh=nYFrhXcu/vwQhddH5Qjkjz8KaUNGAFNxIKj20+OiEts=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=tUTq1AVj+6kZSV1cAZlbUP5N61LZFakEsn5C8hzozTusUGhJStSbi41Og7aZc5WLfyr7Om6mWRcIrl7CrvaMPLP+mKbuNc5hgCiBysBEUNpq+BgUKCuP/2wZAw6otb4B8rCgBYSchZ1jrUpceQhhckjca3dCyqFcb4SruJcCt88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=Y3+1IS0z; arc=fail smtp.client-ip=40.107.162.57
+	 In-Reply-To:To:CC; b=LOYMGgqW5BHm+cXJHW0IeltnRY3Oir/N6OOqDXU3VEX+WVDIkUJTdGi3mplZH7KxE5bPWD98enG1HoOtDibsTBxsI1xVo1rY9jN4VwholbuM5bGmjWA1C01Ey4k7pomQGt3N5R82YiGIybkAYif02eVm3Ez09OMm1J0e58RHr9A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=mvvxM8f4; arc=fail smtp.client-ip=52.101.69.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I7kMl29MBXw6hUh7A42sVGgPdIVG3sFGZCtX6W3viF7ktLMpOFFHpsijUb+NBRsCVh9Lk87XKGhAQECK9wcCGm0mJUn/YwLybixXvPbRusQFNnXBpedQbzSGhiEo8XCIcU4wGJy2yLA7KKpRlOjUx+Rh2Fb06Nw2BowcgGjDET2k7do0HXdy9TzfBOSj3ZheuZgTG8eCTIp5Z736n/lUMlVOdmBzpurLbtE5H/ZEvQ+qaNuFxuJhRFFdXlZg8K3vMR4y2WaTtKCgDls9sfz+USrnwKmOn9/+lvLTyfCj4Xj8Ajjc7faNp7aSCX43+ki6sWqCx5oyefcE7LzATCNeyQ==
+ b=ZWlrKniOn+Mng/PbGCqdCZqu8m6GWwaNDQb2h4EQtzd07Vj2WyDWUZMwhsWrKSDSkgGcs6gBkgguUow5Ms/+Z1lifBoO1RfREky/CBYgVMKB8uWBqLejgjzbBJv1Bvpt+ccGc6zp5t6FKRkINoZDqClhRw+ocDVDJkgWUiqnO7yRlPd6F+yf8QHmPE2uwZH5vzzpJgHEOUfJOSjk/kHGBKIaGMkorCzfDWMmMBkaPo58slFULIg/8nsonVy7x0YvVrAmfxS0thb6EGEygzKUz7lyNrB0X0ojBX+wKhvufflVTpEGIysbqrwHW6+FItaUns/bh8JDGLo5c7o4k7NSvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=St2MUIDS4Ve8WSUS/6sGoU0M7rest9FRet7CC4wN/U8=;
- b=mcuNXPaBUumG1YplbwQIny/JUe0wRdCT0lalqv4qabJQgDFyLPOXc8d/hTH5kHt/uGFgIXj6mX5KBBVFraNS/cjTuFCBgLk27YdZezfMtaIROYA92vU3Pl2pLlmm2UjaoJrj48yaMLXBUItGUcfkroPebxyJmzgxnPZwkZGN9sLQhDz5qS1VzyXwNtJVGeuXonWXnHYzuFu4YUfaMGqigiNKtLI3vpu3ivUZxGGbRFsYQ6Q7wqekzlxxb07cn22Fjc+HrArwaGwklFRfifn530YkfUN7x4DypHETdYRo1frlMJpYUavVQ9YvS6f6XCwSa2lf7SDHTk9MZbJLBLoNrg==
+ bh=dV+OAG0WWT9htGsAyw/ZW8Xg7u5yx6fjq9oImNEHCKE=;
+ b=Tn4Q8kg+hLIVJ/+WElMgdIfnNFPb6V7u6RcQu3ociX2gzR5+0vG1ks6992CKaM4gNpPhM+F8jgI9fR4bCKpMVl+W7tN+dfVOj7KQvgwmIRtoQp7yipeIk53juGm6kx9c5AKj9vxT5sHWjjQyBW+OAgFzjNPiLh4Xc1qeXOairM8P9fj72kUyXvxyucJiS/coDA4VtbtCMHABntFULcg2rqN+skHL9Vuryy7+9wq4hF7q3fi6ENc3r3gXA4Y9H0XbCfK7BylAQL7hgPgG8yGTgPo4g02OWH/CWEI8TZO4o8ntr4hcWaAXbYzuqx/pfWVcT1a2IsZnFDsrgt+SgYLccw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  195.60.68.100) smtp.rcpttodomain=gmail.com smtp.mailfrom=axis.com; dmarc=pass
  (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
  not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=St2MUIDS4Ve8WSUS/6sGoU0M7rest9FRet7CC4wN/U8=;
- b=Y3+1IS0zPLGGTKb2gsGUDFwn1+9QqMM3q8v0skOivez4I/gP+IqriNgqJl+cpOyRyoSq5bRFkx5Dx3/FTc59FjDtIsSTcsy5bA5+dYLmnuk3prX/q6qhuPBFE3JoLhOwGEOj+eSBPl/is/UtcEMdJ5luXZgcLwkdJ9umkOnhMhA=
-Received: from DU2PR04CA0251.eurprd04.prod.outlook.com (2603:10a6:10:28e::16)
- by DBAPR02MB6214.eurprd02.prod.outlook.com (2603:10a6:10:193::10) with
+ bh=dV+OAG0WWT9htGsAyw/ZW8Xg7u5yx6fjq9oImNEHCKE=;
+ b=mvvxM8f4sO6vhEnU1ZApChYfqPePvcZjHoCI///vmolJ6Usu4T/IkhZoQ+ldWJO5Aivjs/joUsuSzORndZ6L7OHSUuCD3LdLbvnPfDMC3BE7SgiVaujGDSNZ/XVMUBhtwxPdH+qWgRIzJr1V0CD4AuSqUiGtJ8tAf5qhC75xsSU=
+Received: from DU2PR04CA0270.eurprd04.prod.outlook.com (2603:10a6:10:28e::35)
+ by AS4PR02MB7854.eurprd02.prod.outlook.com (2603:10a6:20b:4c1::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Thu, 22 May
- 2025 14:14:55 +0000
+ 2025 14:14:56 +0000
 Received: from DB1PEPF00050A01.eurprd03.prod.outlook.com
- (2603:10a6:10:28e:cafe::cd) by DU2PR04CA0251.outlook.office365.com
- (2603:10a6:10:28e::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.27 via Frontend Transport; Thu,
- 22 May 2025 14:14:55 +0000
+ (2603:10a6:10:28e:cafe::2) by DU2PR04CA0270.outlook.office365.com
+ (2603:10a6:10:28e::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.21 via Frontend Transport; Thu,
+ 22 May 2025 14:14:56 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
  smtp.mailfrom=axis.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=axis.com;
@@ -65,27 +65,27 @@ Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
 Received: from mail.axis.com (195.60.68.100) by
  DB1PEPF00050A01.mail.protection.outlook.com (10.167.242.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Thu, 22 May 2025 14:14:55 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail01w.axis.com
+ 15.20.8769.18 via Frontend Transport; Thu, 22 May 2025 14:14:56 +0000
+Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail01w.axis.com
  (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Thu, 22 May
  2025 16:14:54 +0200
-Received: from se-mail02w.axis.com (10.20.40.8) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
+Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAILARCH01W.axis.com
+ (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Thu, 22 May
  2025 16:14:54 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
  Transport; Thu, 22 May 2025 16:14:54 +0200
 Received: from pc51235-2237.se.axis.com (pc51235-2237.se.axis.com [10.96.29.3])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 5997E2F54;
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 64FA027E5;
 	Thu, 22 May 2025 16:14:54 +0200 (CEST)
 Received: by pc51235-2237.se.axis.com (Postfix, from userid 3319)
-	id 603524034D5F; Thu, 22 May 2025 16:14:54 +0200 (CEST)
+	id 621B940364CF; Thu, 22 May 2025 16:14:54 +0200 (CEST)
 From: Johan Adolfsson <johan.adolfsson@axis.com>
-Date: Thu, 22 May 2025 16:14:48 +0200
-Subject: [PATCH RFC v2 1/2] leds: leds-lp50xx: Handle reg to get correct
- multi_index
+Date: Thu, 22 May 2025 16:14:49 +0200
+Subject: [PATCH RFC v2 2/2] dt-bindings: leds: lp50xx: Document child reg,
+ fix example
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -94,7 +94,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250522-led-fix-v2-1-652046323ec3@axis.com>
+Message-ID: <20250522-led-fix-v2-2-652046323ec3@axis.com>
 References: <20250522-led-fix-v2-0-652046323ec3@axis.com>
 In-Reply-To: <20250522-led-fix-v2-0-652046323ec3@axis.com>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, "Jacek
@@ -104,112 +104,107 @@ CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Johan
 X-Mailer: b4 0.13.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF00050A01:EE_|DBAPR02MB6214:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8188d45-474f-42d6-12ba-08dd993b0724
+X-MS-TrafficTypeDiagnostic: DB1PEPF00050A01:EE_|AS4PR02MB7854:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77aee130-4027-40bd-4c3f-08dd993b07b5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
+	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OThOK21LR3RtSXdubTk1enBtT1RTVyt6TGtuNFRLOWJLMEVVVWN2L1RUY1h3?=
- =?utf-8?B?d2N3NDJRMFNIRUNsK1RCUytsMzc5TmR4UTBYR08vVWYxZFU1NjcwSmtVY0Y1?=
- =?utf-8?B?S2JPeFN0bkIyOGhoc2JsazdRR3pQQ2U5VzhLQWVjSm1BZW0rM3AwWmp2UE9L?=
- =?utf-8?B?b2h6SWQ4ZEJod3Z0K01kaXhXNERiMTlNT0MrRHVCM01ubStvVjczRmhZdmZI?=
- =?utf-8?B?aFZMTnFZM2FlYzliaXNOeEhWMlpxQkRrbm5LYVkyM21IMjQramdVakRVZEw5?=
- =?utf-8?B?bTVmOE9heXF3dG43QzNmSytUUkNLa29NVE5aZUNSODgvSVROTW1ZZkRRYWtN?=
- =?utf-8?B?UU1mMlZkd3VmV1RwY3RJTVlNbnhVNm0relpMVDhQUUNrSVFzNGpzK0UzT3By?=
- =?utf-8?B?SW1JdUl1RXhMUzZrSmZESDAwaFd2bjBpQjlhankvUnhvaFhBTVhvYUs3b0tZ?=
- =?utf-8?B?NFpGQTBmZzJjWHJOdHZhbkcyU3VFeXdHL0pndmZWMHcvU0g2bm1zUGpWbkxh?=
- =?utf-8?B?N08yRkoxcyt4Q3VJUlZteWpDVUdqU3pFRHNieTIvQWlseTU3Y2dtSElzdmtS?=
- =?utf-8?B?dmZOQnJndmlDSWN6cFBWR1gxeFlpdzhISmlLZ2cyRytvNkRPWlc0QWVyTDFp?=
- =?utf-8?B?UGRUTTQvU1hTb1M3MmNkTzJudU1MaUhYT1VRUWZ2bFVSV2hNN01HcHdMY01O?=
- =?utf-8?B?eVdqbDI1K0F5M0dnRGVNN2djdExlQmJBa1Z4YWFXdXF0ZURSTm5yMktKR1M0?=
- =?utf-8?B?MHpsUFJwb2o4R3FyNnQyOXhodjFMbFRENEpqc3lRSEdYMkNKeVpid1dEQ3hy?=
- =?utf-8?B?R1M2MHZhVlpobVlHb3J5NlhHZkplMjZudGk3YlF5RWd3VEN3QVJkdmcrcEVi?=
- =?utf-8?B?eDZVckgzVWZ1aDRPMjgzNnJKRy9xV1BLV2srb2tXUlM3ZDNySy9oN0lTSGRR?=
- =?utf-8?B?eWlzYUx2VG1BRHFkRTJZc2V0QVBFZURjVzNvQWpUOW55eDV6dmhLQXNpY2sv?=
- =?utf-8?B?dFZKYXNFMWpqZjlvM0pDZUlRYnFEOC9CRTZ5ejlISE8vN1Z6S0FpbCt0ejZ3?=
- =?utf-8?B?aFF4T212akphQytFOE5aWEFNc0FQWFZGSnV2MUJHZCtRQ1RyU0JQWkNsZWtM?=
- =?utf-8?B?S25QcW5QbmkyMXR1SEhWTkdrNy9FNkRtQTEyOXFKQ05iTTRMOFUxcUM5d2M1?=
- =?utf-8?B?RWpaeWs3TjJ4YlJmbk8wQ0RYWFFzV1hGZVM5aDk5WmY5dk1VSnJRU3p5Q3ln?=
- =?utf-8?B?Q1F2NVVpUUEzdWRMZW1WeThTdFppcmkyNCtKaCtLRUt0WVdTMzQ0QVcyMXlG?=
- =?utf-8?B?b09ETWhKRXQ1emhtcHJlcWhsSjd1RlIwek5lNjJsUEl4T1B0VGcrVFNreEdV?=
- =?utf-8?B?dndvVk9HTmwwUVNDbVV1RStDeTZLbG51VDhDZzJQRkJkT2xZSDJ3c1A0K2Vw?=
- =?utf-8?B?VXh5M0JZQ1U5MURPcVg0QnVTcldiYXh3bldwTU1JdENlTFBZeUwva2MvT1lS?=
- =?utf-8?B?VldUR1YrcnhmaWc1YXF5Q2V2VWtidXd0cnFCbFdsT0c4U0VkRk5NYWZ1WjF2?=
- =?utf-8?B?ZVJmVnZlcnRVa0lManFlYS9adWl4c0hyWjl4QXA5TW1Od0xQUmRnN1N2cUJJ?=
- =?utf-8?B?czE5RlpqMmJiaFJ3dDlzaTloT2ZzcUFXNVFBMWxQeFlINmc5Q3UydXV3bVpM?=
- =?utf-8?B?V2I3UjAzZE8zK29ERmlaa21YOGE3UjFWUEwvNWN0bkdYYkdETDlnemx1blNl?=
- =?utf-8?B?N0EzWEo0VkJRY2FRODBSdisvd2d0M3YwS0RROFR3bldnU3FhUS9rQ1NvclI5?=
- =?utf-8?B?QmZaOTFmZEFvTk0xRkhDcU5JeFhRVlljeU4xQm5DcEJxVjEvamZOR1ZsSkVN?=
- =?utf-8?B?UFVTT3BwdWR1aG43c3FGdU4zZ2k0encyQnBDTm9kTDdkZVVmYW9wVDdWTjIv?=
- =?utf-8?B?VHkycXNHTHBIbDg5S1FTdlVXV3lpUzRvTUdtL1pibGNDUEdkNnZjS3J5VUxw?=
- =?utf-8?B?OURwUVk0QmU4dm1QZFF4dmJsSmJXMHZHUVp6SDFIZy9ib0xVdHdqWTlZK0lp?=
- =?utf-8?Q?Mhra84?=
+	=?utf-8?B?cEo3OGlxZC82dDcwczlBNGZqVjhYR3hXZEN4YnBqNm8rUHVEdmt3Y2xwR2N4?=
+ =?utf-8?B?NDR4OG1WUGN0SGwxSlArRFhVZjFyREx0U1U3VzJSLzNRMUFrWHNGNDNYWVp1?=
+ =?utf-8?B?QTB3TGQ5Y3hyOE5rZkMvdUk0QVNxVFphYzRzVHBXR1pVMGpxNGZXUHN4Ynoz?=
+ =?utf-8?B?UEtvUCt5NXhUWC9NTXNSNmNQQ2xSbWhrTHhySzJXRTg4aG1hUVU3Q2d5L0VZ?=
+ =?utf-8?B?NHdjaVJLT1lLYTUzd1hDTjdESGl1SUpGYjZYd2pvWEtUNzlmd2tIWGlCZHJF?=
+ =?utf-8?B?cm1nMVczdkpja1l0NlRXbTZVb3VudkhPVGF2ZnRuWDkrVWVtNFdjUFBwZ0tH?=
+ =?utf-8?B?NjBjTmk0YjR1YnlUNngrN05ZbnNHNkJQM3FWdUVEanZ2U1g4ak5VMlJSbng0?=
+ =?utf-8?B?VTdMTVlkaXFJbUFBdFZoZ0k4UWNYbnJMaFRvQjl2OHFPUWNiOWllQm10cngz?=
+ =?utf-8?B?ZkQ2UUlZWUNQRVZtM1phYUg3a0FiSkM0NmFiK0dhbTEyKytXT3BjSEpRS0Uy?=
+ =?utf-8?B?Vm9zaHcxN0NpY1pMZGZOQ2JUakZBanZTZ2NhK21xcENKcXVVc3lvRFJhbDhG?=
+ =?utf-8?B?Vld5b2E4YU5jSXg1S0dTZ295a0QrczNmd1BZV0wrRWhEVk9Xb0xBdlBHWnFh?=
+ =?utf-8?B?dWtEWDFQVnBmcHM0bVVLa0Q0dkhOSEtrR21sTXlGZWkzNkloZU9lNklYeElC?=
+ =?utf-8?B?aHlFdng0TVBnMUNKN00yM2RJMGR5dmlrWVlpd1RrcGNyNjVsZmREVEVoOTZq?=
+ =?utf-8?B?UGg1VDgzS1FKR2x5bUFQR1gyRmhkR2dCZFJFNmJkL0sxR0dadU1tK2g3dWNj?=
+ =?utf-8?B?MTJ1cFYxSmVFT3lkNTc1SUdMN2FMS1ViQ051am5LeGVjSkV6aVhqZGZmeWtO?=
+ =?utf-8?B?VzM4MlJpRXVyaWVNMWYrWFgvRVkrWFVtVUh1TXhYZHNsbnpBL2pNZ1prM3U1?=
+ =?utf-8?B?aW9Gd2NaRkR4QlZXVW42LzUvV3NPV2wyZFVCOGdQZE1YNmtTVVlkVjA4MUhZ?=
+ =?utf-8?B?aFNyaXBORnJ5UjR2VWlobmdWK0p4eGpoK21qVmUzYUNYNkthcEJWSStOa1Bt?=
+ =?utf-8?B?S2xTTmtpMFBuOWk1ZTBDWWJlMk1WMTVrNHZ5cElwNmMyL3IwejdYRDd0TjVM?=
+ =?utf-8?B?NWZpNTJKSE5ra3ovVVFTdUxLd3hJdFlRQjRSeTF3ajNPcnJHUm0xckhudE05?=
+ =?utf-8?B?M25hQUNORFRUWjc0ZnphUDFzQ3UyV3ptWGhMR2lrQlNKMkxLMG1UcXEra20r?=
+ =?utf-8?B?WTNHVUlDcDRFS2JjR3hVOWcwbDFoMS8xMmplZ1Blek94dUFBYm1ZcUZHZW9o?=
+ =?utf-8?B?bUxTT3hWYTZzUDhRTjRzN3JSbFVWSE4wZTdIWGJuNXJwc0ROcExycE1hU3Yx?=
+ =?utf-8?B?V1FoTmphamQ5ZTEzK1pVd21lK1EwTUh6bGZsWFE3dHlDN2lscklRak1wbjlh?=
+ =?utf-8?B?aGhIMytKM25hU1ZrTkVjWUltRjRIbXVMNU13V0FXNFZXU0g4bHpxaWJkY2w2?=
+ =?utf-8?B?ZnNCcG9hWWk1dHFHLzMwSUZPMUtPeDZOVkZqbTBnaGJ6L0g0eGdnbFVvL1U4?=
+ =?utf-8?B?cnpOZTJZTW9PaGhycFEzVnJ6RCs3eEpXTXhCS2xhaDhDdVBFS01QVEJvaXdp?=
+ =?utf-8?B?dUljZTUwMGE3V0UwSjFrNFl6aHZGbUNCazdqWHB6TThnMEMwajRaSU40bU9M?=
+ =?utf-8?B?ZVRMN3BBdmpuUzI0cFU4eWx1TlVlZmlNTmx5Wm1peXlDVkNLcDFaNlA4eVhi?=
+ =?utf-8?B?YnhwbDVqYzF3aXVBc0dsZ0xSVEo2K2kyZktIc2xWVjRsalNMUEYyWDAyeVY0?=
+ =?utf-8?B?MzZ3dUhJMHd5ZFBrQ3FOd0paRWN2Ymh0ZW9pSEpsdDg1SjRaNE5hbjh4QlM1?=
+ =?utf-8?B?djNZaHhTODZ3bG5rMlpoaHFLb3ZBSDNDTFV1Zk5BcEdBN3FKZktnUlJNMlRO?=
+ =?utf-8?B?VW5wNmI3Z2ltVFkzditTN0paVUxIT1NDZUF5cjlROVh1OGhvUnUxM1Ywc25y?=
+ =?utf-8?B?ei9rT0dNVGJ6NlhGbEoxVFhoMWdXaXAxa3hlbzFFN3lVMjdQaXhYaytMSjdm?=
+ =?utf-8?Q?he+Lzc?=
 X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 14:14:55.7907
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 14:14:56.7418
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8188d45-474f-42d6-12ba-08dd993b0724
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77aee130-4027-40bd-4c3f-08dd993b07b5
 X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	DB1PEPF00050A01.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR02MB6214
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR02MB7854
 
-mc_subled used for multi_index needs well defined array indexes,
-to guarantee the desired result, optionally use reg for that.
-
-If devicetree child nodes is processed in random or reverse order
-you may end up with multi_index "blue green red" instead of the expected
-"red green blue".
-If user space apps uses multi_index to deduce how to control the leds
-they would most likely be broken without this patch if devicetree
-processing is reversed (which it appears to be).
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-but I don't see how it can have worked without this change.
-
-If reg is not set, the previous behavior is kept, index will be in
-the order nodes are processed.
-If reg is out of range, an error is returned.
-reg within led child nodes starts with 0, to map to the iout in each bank.
+The led child reg node is the index within the bank, document that
+and update the example accordingly.
 
 Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
 ---
- drivers/leds/leds-lp50xx.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/leds/leds-lp50xx.yaml | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-index 02cb1565a9fb..8067aaa916bf 100644
---- a/drivers/leds/leds-lp50xx.c
-+++ b/drivers/leds/leds-lp50xx.c
-@@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 			return -ENOMEM;
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+index 402c25424525..8ce327d00c2d 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+@@ -82,6 +82,11 @@ patternProperties:
+         properties:
+           reg:
+             maxItems: 1
++            description:
++              This property denotes the index within the LED bank, 0, 1 or 2.
++              The value is actually optional for backward compatibility reasons
++              but is highly recommended to handle reversed devicetree
++              processing properly.
  
- 		fwnode_for_each_child_node(child, led_node) {
-+			int multi_index = num_colors;
- 			ret = fwnode_property_read_u32(led_node, "color",
- 						       &color_id);
- 			if (ret) {
-@@ -483,8 +484,13 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 				dev_err(priv->dev, "Cannot read color\n");
- 				return ret;
- 			}
-+			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-+			if (ret == 0 && multi_index >= LP50XX_LEDS_PER_MODULE) {
-+				dev_err(priv->dev, "reg %i out of range\n", multi_index);
-+				return -EINVAL;
-+			}
+         required:
+           - reg
+@@ -139,17 +144,17 @@ examples:
+                 function = LED_FUNCTION_STANDBY;
  
--			mc_led_info[num_colors].color_index = color_id;
-+			mc_led_info[multi_index].color_index = color_id;
- 			num_colors++;
- 		}
+                 led@3 {
+-                    reg = <0x3>;
++                    reg = <0x0>;
+                     color = <LED_COLOR_ID_RED>;
+                 };
  
+                 led@4 {
+-                    reg = <0x4>;
++                    reg = <0x1>;
+                     color = <LED_COLOR_ID_GREEN>;
+                 };
+ 
+                 led@5 {
+-                    reg = <0x5>;
++                    reg = <0x2>;
+                     color = <LED_COLOR_ID_BLUE>;
+                 };
+             };
 
 -- 
 2.30.2
