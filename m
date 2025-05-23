@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-4707-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4706-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D11BAC2663
-	for <lists+linux-leds@lfdr.de>; Fri, 23 May 2025 17:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D31AC2661
+	for <lists+linux-leds@lfdr.de>; Fri, 23 May 2025 17:26:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62D6B3ADBB3
-	for <lists+linux-leds@lfdr.de>; Fri, 23 May 2025 15:26:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B6273AC4C4
+	for <lists+linux-leds@lfdr.de>; Fri, 23 May 2025 15:26:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB76B22155B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F1C22127B;
 	Fri, 23 May 2025 15:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="k3iVTxmR"
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="CcIwvqzU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2076.outbound.protection.outlook.com [40.107.249.76])
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2051.outbound.protection.outlook.com [40.107.103.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0900D21B9E5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2753128819;
 	Fri, 23 May 2025 15:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.76
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748014002; cv=fail; b=kLR37ggMDyyNajc5bLBS3g7o7Rv+MR+DxKNJ1SQyCs/2bOb+RsM6AsmDDGXsBf0fx6Sa6dxYKeOW8uD4c2mk54kSTczHTzhg/UARx5RtFoNXk4ak76QXImzEi3DWOProMg9ksuB/47gT15QdZRtdbtaAgM03QbpWtQuhh2W0LX8=
+	t=1748014002; cv=fail; b=bM2fnbch88U/9ngyuhUYJNJWbJ+0HecddnYaX3EtMLLOJ5n7JvC0NKCi6mkWXpuv3Oy/UwMs040OWQpjuyajAIdtuE/uzIVhm8ZmqjY/5efrTSqXNMpyyJ/tcQdVghqXWG5L3jJhasHqwJ74BJ+dFL7e5IjO/QtnuoN6wAmg+P0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1748014002; c=relaxed/simple;
-	bh=rpBEWzAMTtwOLzgJONSLm3+B6XKYf8u3EQiAzYtPVas=;
+	bh=yVQk/aDCqy3+ve1iH0j2cGrtfFjTKF7BBOA82Z9gW/U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=qXYMrO1LddoRodnaAVQr3dt7uEFy8C1NqebfOMbJSDooV0cRs4ygHQ4hymtIQey//mcbzZSq5JsaMVpSDI9C91urv9JKKV0XN9KUKEG/NmHVa7T0h2YP/QuGYsUuOj7FsVpl8obgZqmOU+lilXzTHcyv3TkZ8fuDqe0UvOqQFAE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=k3iVTxmR; arc=fail smtp.client-ip=40.107.249.76
+	 In-Reply-To:To:CC; b=Jm79927AhhErkdNxJH2gvEEr7tvYg0bfaoHxrLWXh8LdpO3YlV+/RfdURQD3sbiyvt17FjKJzfKXwTY2UrmDNtHwy839Z1Zf04tEYJVrLouxQ3dbUFe8izPpA1gWHEFBW4iTY1cjs38mnt2a+UYo5EpFPNK4OYUdN24DHLceu9E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=CcIwvqzU; arc=fail smtp.client-ip=40.107.103.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cMPrn4fWcL5HuXbey4Uck0K0ptel7nqSkRkMnLGAapVcPNOjgzA2KYV6xWCcxqknFW66TCSYUVV/0oX65iliZdqyFTdAgtuNQEUv3N71MZeT8ntsOGDHIIff1kjuga2OmaEEEfq4xS+6JyfsgJhjIj5FKSa/UOtTEv6UDFmF2f55i0dMMmLA9yZEwV9PW5zbEZfP8QFrefyMGhD4XoJT98eDwpvjm2ejMq+/yjApxxG4IdfVSiz5/YLo80Ezkkq0dGDv9T8KiamSc88t4Qp8r7G6rOGp28O/28DXp/oXoDRHeD9Pu8pg16Hg2LddRho7dnSiO9kyxc9uV1Nqh4L4ng==
+ b=kImDf22JxGO6TMuKG3cVKdD/uZyFs9rMZxUECcJ5mHGo5ahyE1hp62YAcqzVm3tUIadPK60ohdBcDqlMehBiduZDu7o8dKg9drnOyplS8BcwC0BU2osKEU0aRTxsUpCeeBXZvyXGuSexejsKypx+sziJtbfzLAVYhDvCyN7tlVnbUgUClhnrEVqDi2WonmWW27xwB+bhlZSLtaiMXj+QqSDdRvzbKArPLQbHNdNA0/bMdI0434ajYPth44DBfXnFlO8CKvIEbMZ3Ih4MnJCeLoyXSOMU+Hs4ogJb763kgT1Jxu5bXAa9ZdKGcmVIq5/i8rjet930MzBRf8/XR/EUQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=St2MUIDS4Ve8WSUS/6sGoU0M7rest9FRet7CC4wN/U8=;
- b=NR0rdewPcWdQQ7i4260JYpwDZdaje9mrtM+6fC8Bkb87GVH+mjE/SnLcAT5UoDONsQOYeCOrAhNolyq2ykXi05d5wErxcLIwnPQZ2s/V/jKndcMAoBq1wrrVVHZGtRRihvFoEw5dNuX0mfOIq1UEwF7NaNKjFup/oLz6RYXj8xm4+dt1Rpud2Sc1c+entoseiFdv8sy4YR1yl9DeSiVE9ggc0BttXPQFjLKNDxjvNSsvg17ZSRFi7698MQsvVFnvhTPeM40rJUL8vYFlM/edkniAMTV6zuy0TBqiZ9JJcYtDwPiif9t/CgSM235CIH2ncJeb5ZBFyVZHeFmv+AUgmA==
+ bh=MhdbDi+aRHt7jsxtxO5J6n3+C61wT+1ITJLlT9AgoDY=;
+ b=KDK1Ar2hLErL/ruKNSCGeT+TIZndhj3JSoB2OcLcgvQCS7sfG5Kmep2P4n9H/FW7EglURbRc83Wc5wsFEwnSP8vmMRYOauRsGWu2ir2ubTUJqijG3NFsGmAHGMexfa7pQv/VEXUTrClB04gRRhg1kauBJlXcVdQ/rDgT2SQRzCLoy0iHIfCynIgPu5DX5HsRKXAejzcp0VHQR4eqtB904F8hC6+iKCXrYcc8L8iS1YFzHN3EdmtQkLGGiejaO71zb4TQ/ZlQAtLTEulqXHfc+5qCpp9rHZ0lnpXy8I5H1Udd8psIxplPijyFppzup6NJwk8Q+TDHoHPD24/+Q+Vyww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  195.60.68.100) smtp.rcpttodomain=gmail.com smtp.mailfrom=axis.com; dmarc=pass
  (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
  not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=St2MUIDS4Ve8WSUS/6sGoU0M7rest9FRet7CC4wN/U8=;
- b=k3iVTxmR6MI9JMOKJ6c5ha1nk8jH+UVRjQ0uAt6aBpokL72HTkzQ2uG+Ytyg8sHmSbzq5oQHzTHPNteMNqUg0TY+r1XPi/OvSz1S4LPDxC+aQtWR0g67F7B1VNJu47FxQlyURwErX6/A5YWqosb18DouRxNvBL/pcR+7rM4/BGE=
-Received: from DUZPR01CA0028.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::7) by DB4PR02MB9310.eurprd02.prod.outlook.com
- (2603:10a6:10:3fe::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Fri, 23 May
+ bh=MhdbDi+aRHt7jsxtxO5J6n3+C61wT+1ITJLlT9AgoDY=;
+ b=CcIwvqzUIoW1/1jNNb8cekx/cab6sZI+Yys3whdIuznWOwl1JUMFhhaBRgpnj/9ve4XRKpOr23DTetJbAkaSkoJs5we2oNtWoB4rkoiy/GFjq7UjeSUTf5PvhGld+sfmqXSpfUVy0r8Drb04cnPewWyp/ApctE+LkGmX4ofw6X0=
+Received: from DUZPR01CA0018.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46b::6) by AS8PR02MB7336.eurprd02.prod.outlook.com
+ (2603:10a6:20b:3b3::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.26; Fri, 23 May
  2025 15:26:36 +0000
 Received: from DB5PEPF00014B95.eurprd02.prod.outlook.com
- (2603:10a6:10:46b:cafe::92) by DUZPR01CA0028.outlook.office365.com
- (2603:10a6:10:46b::7) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:10:46b:cafe::45) by DUZPR01CA0018.outlook.office365.com
+ (2603:10a6:10:46b::6) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Fri,
- 23 May 2025 15:26:41 +0000
+ 23 May 2025 15:26:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
  smtp.mailfrom=axis.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=axis.com;
@@ -66,22 +66,22 @@ Received: from mail.axis.com (195.60.68.100) by
  DB5PEPF00014B95.mail.protection.outlook.com (10.167.8.233) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.8769.18 via Frontend Transport; Fri, 23 May 2025 15:26:36 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail01w.axis.com
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail01w.axis.com
  (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Fri, 23 May
  2025 17:26:35 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
  Transport; Fri, 23 May 2025 17:26:35 +0200
 Received: from pc51235-2237.se.axis.com (pc51235-2237.se.axis.com [10.96.29.3])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 61A183145;
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 701DD2921;
 	Fri, 23 May 2025 17:26:35 +0200 (CEST)
 Received: by pc51235-2237.se.axis.com (Postfix, from userid 3319)
-	id 5BCE54033C86; Fri, 23 May 2025 17:26:35 +0200 (CEST)
+	id 5D0EB40364CF; Fri, 23 May 2025 17:26:35 +0200 (CEST)
 From: Johan Adolfsson <johan.adolfsson@axis.com>
-Date: Fri, 23 May 2025 17:26:27 +0200
-Subject: [PATCH RFC v3 1/2] leds: leds-lp50xx: Handle reg to get correct
- multi_index
+Date: Fri, 23 May 2025 17:26:28 +0200
+Subject: [PATCH RFC v3 2/2] dt-bindings: leds: lp50xx: Document child reg,
+ fix example
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250523-led-fix-v3-1-86d2690d2698@axis.com>
+Message-ID: <20250523-led-fix-v3-2-86d2690d2698@axis.com>
 References: <20250523-led-fix-v3-0-86d2690d2698@axis.com>
 In-Reply-To: <20250523-led-fix-v3-0-86d2690d2698@axis.com>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
@@ -103,112 +103,112 @@ CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 X-Mailer: b4 0.13.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B95:EE_|DB4PR02MB9310:EE_
-X-MS-Office365-Filtering-Correlation-Id: d433f45f-306d-4ddb-b0e1-08dd9a0e3520
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B95:EE_|AS8PR02MB7336:EE_
+X-MS-Office365-Filtering-Correlation-Id: 585ab02c-e6fc-4cdf-555f-08dd9a0e34d8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|7416014;
+	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RjlXbkxaeVQ3c3YweE0ybTZyY25JWXQ5Rk4yeFI5dVVUQ0d1SWlEdmlOSVRn?=
- =?utf-8?B?TWI4Z1JwT3N2THRxVnNVeFgzdTluK204eG9Id2x5amZkK1FjbEhLalBZdnZP?=
- =?utf-8?B?UjlSV2w0NnZNSnhjWi96a0xBQXp2MjBwRVdHM2lkRHhNWlU0VHA3Uk5nT2ZU?=
- =?utf-8?B?VXp4aFdpUlordlNzWWg2NlZGaTBocFlMcXk0RkpNbytkOU1FL3U1UG92cUxZ?=
- =?utf-8?B?R1FINW9tS00ya1FENmIzZENPeGZzdTJNTEpoOFRBQVluckNzUGhKWEVIci9l?=
- =?utf-8?B?MDFwdmtrVDlKcHkyRjlPb3VYVnJoRWtyUnp0Nmk2cmpMZVpZOEZvNFNpKzdW?=
- =?utf-8?B?RGxKeDBFMXJHbHJISXpZMHRuWGdiTlg1bjZraXV2TEZ2aGllRCs3NEpaUVIw?=
- =?utf-8?B?Mnd0blBlSUFWUGpRMDlNTTd1T2lEbGhDTDJQbHZ5QStNd05oOU5SNEFNRUlu?=
- =?utf-8?B?UVVnUVkwVi8xRzB6K2YrbEtJd3ZpWTVhMm9hc3kzTm5YZVZZSG9pcGNYb1ZQ?=
- =?utf-8?B?TEhtd3pxMWFVQWt4aW5uRGNOTWRzNnoxQzFldjBhT0xOUUhlTHF0Z3RaRWJx?=
- =?utf-8?B?SE1sS3Zxb1JSYTFOeTQyeDN2Y1NmODI4ZTR4M2JGOHpseEp6RTdyTEJtOVJQ?=
- =?utf-8?B?NWp4d1pNOWxvVlIzVlUzc1lJS3VNZTdtZmxDT1VwNnhxSTJHcmNIbktORTF0?=
- =?utf-8?B?RHJLUTdTQ3VlR2hPSG52QlV4dHlMWVhveTZVWTZTVm55VGt1cU5IVXlHY3Ur?=
- =?utf-8?B?dFIxb2R1cElUc0F5b0NDMTNXWGV3bVlBc1VXRVNSdkFOd0ZuM2NjYytXZWs1?=
- =?utf-8?B?WHJyYXJQQXZDejduRU9NNTRSTWNnT2wrWmpJdjdaRkRCS1I5dXRScE41T3p6?=
- =?utf-8?B?U1J5M3h0SS9EUlhmMURVcktOTkZiWWpLYTkrOVYwbnhQRU9wVllSejFsZXlv?=
- =?utf-8?B?empXczFqcStXSW5CNlRRbEFLWDNLaUQ4R3p1SjA0ZDdvd2cyTWRxSXVHRENj?=
- =?utf-8?B?TmVBYVlBYUJJMnNBU0ZNOE40NEdQS0d6cGswM1c3MUNsY3hCdTJXVGMxSUJq?=
- =?utf-8?B?MExoSURYcGNwbGJHNkFkMG1LK1VQZ0Q1YmZHek52ODNQZkIyb2t2aHdraHMw?=
- =?utf-8?B?QUxadnUzN1ZVSVRGM1ZaT3grdzBEWnlTYTF0TkJ4MG52SGk1bU9FWDN0QzJh?=
- =?utf-8?B?VlNjdVdHaXZFTzR0TmlxYnJyNkJPL0lidDVsdTlBcUlORjYwdFlzTFhQM1lt?=
- =?utf-8?B?L2V1Mk4xcXJUMHZZR1NqNC8xZEJ5V3lrVldRZG1aVERKVUY4NE5jWkRoUk9U?=
- =?utf-8?B?bHcwR3ZEZFpsVVllUTFoTWZoTUZsakl2OXRvdml5MEhKZWJXUGNZMkJVYkN3?=
- =?utf-8?B?bWFicGh1SHZLU0VQZXFQNHJRZFRxWFE2UVZYVUQzUlFRRWhsSGl0Ulo0dVZY?=
- =?utf-8?B?c1NlV21wT3I3bjRwWHM1T0NFRFFJU3VvTUwwYW1nVWJpR05CdVdQVHBzSE1O?=
- =?utf-8?B?UDZVVlBPd0dvZnk2UU9GOWJrQndSeDdYSVFSYUtkeVNPZVdCczQ3YVREbEtl?=
- =?utf-8?B?SU9pWHE1dDJwbksybWpmcm53REtYd2JZZk50a1FjOTUzTytlMC90L2JJM2NX?=
- =?utf-8?B?UDc4SmoyUEF4dWc3NE5weGE5S014aUFUeVdvaFE3MGhPNGNuWDlKR0krbC9q?=
- =?utf-8?B?UEt6dmswYTNBOEgzaXhNb2xISSsrdFZDcVcrVUx1TlhvL1lKSWFkOEFDaUM2?=
- =?utf-8?B?VEszdUhVVi9SKzZhMGllejVPSUM3N0gyOEYxaEtnMzhnc0tlUjdUQklWTE1m?=
- =?utf-8?B?bDFuc0dLYTR2NUFkazY3bExIOG5qN1pObTJNdWFKSkc3Y2w5NXBJeUpKbzlY?=
- =?utf-8?B?aDBkN2JMN3huQkh3T2J4WHEraWJvbnVaUndDR0ZqczNwbk1JWWdnUTNFL0sw?=
- =?utf-8?B?cURMNURaUE8xbzVKbDdORWFhQnc1bVEyaFRqalJoOFV1SGpWRlU5MnBUTE1j?=
- =?utf-8?B?c0pqNU9PUDFwTnNHdU1mY0Y2T1p6VDJkeTZLOFdOdXFyejdOa0VFai9mZHE1?=
- =?utf-8?Q?KhM2y7?=
+	=?utf-8?B?aEJ5MlY2WVdLaDk5ZDEwcHF0VE8vUExOekdKbW1mVWRwQ0FHNmI3V1cvMkwr?=
+ =?utf-8?B?bWFBbStWRy9xd25GZEY0SWk5b2JUVGhsVmh1V3ozNUVNdnFxOTVYS1Zqa24y?=
+ =?utf-8?B?MFlVRnluRjZ1UWRDM3NpeFhPZmNTWGVyT0ZRKzdSVlQ1ZDdMVU5EUHlRbHJn?=
+ =?utf-8?B?eXE0QVNQQkRrRno3bG5CT1RpaGwyOVNDU25RUDZTZnBIOWZvZHJTVWY5bVZi?=
+ =?utf-8?B?TkhJNXpZbkE1ZTJzSVlqcG1WcWN3dnBjVXNvVllZTHNabmY4cWdVV1RpZGJN?=
+ =?utf-8?B?eHJ6Rnl0aitQZXg2Y3RXaUVKOVNlMXVWRllYbHhQUDZRM1NaQzV5NHIwbTJZ?=
+ =?utf-8?B?QlR2OGVRZ3JRTmpzcmdldU54NjVnVXBLNkcyaUprWVlyYXZGUXdVNWhSNDVJ?=
+ =?utf-8?B?ZTRjdk9hbTA5Vm5oSjlxNDl0V28wbjljYU41S0xVUytpclV0dXdla1lNVTUy?=
+ =?utf-8?B?cXdkalBGbXpWZjNvUVRWYmRWdXR3K2ZwbFNhVmV4ellLelowSlpGeXd0UWVI?=
+ =?utf-8?B?WHozMXFRNnEwYW9ucldXV2RBK1VlSzFvbXZvQmgwdG1Xd2N5aWFRbjlDUXkv?=
+ =?utf-8?B?UGVTY0tJN3dtckhRSC8wNFkxRzNwbWNkUklTdEZRTmlBWFZ2b3JleUxMYlYw?=
+ =?utf-8?B?Yi92YjdLaEVNbXF5b0RTR2p1VGtVdklDWlJ5ME1rVHozSHFpb1UzR09YNTZq?=
+ =?utf-8?B?a21rYmdxcEJHWE9WY3BVV3E1WlBmYnJ5SWtLZjVSNlh1QWFQS1VwQVAyOWNN?=
+ =?utf-8?B?dktrVkJSdTNxb3I4Y25KSXhnbnJ3Z2JkZExlcGllbUo1MmZ2UFhYellobkpk?=
+ =?utf-8?B?UWtXd2lXSElpZDI5d3NLeXV6amErU0N6VW1MWnZ0UTdROTdHOXZtUldpbWxm?=
+ =?utf-8?B?bnQ4WWNlSE5HblhRMjlnK0dsaVFUUWFJeTE0WEVnUUNpNG5tZ0NtWEJSSWpK?=
+ =?utf-8?B?RkY0QzF2WXV3clFrSThZTXY0K09kc3JGRlFYTHZaTHpVMU5tL0lycW9DSkZl?=
+ =?utf-8?B?TTdOMndCSmh3MnBrNGhISXFYM0tKbDBXVXRHOFlHME5aZmY5VURaMnpNQmVL?=
+ =?utf-8?B?SVlsSHo0eXkxMzgyT01rNnQwbVhWcHBseUJYcXRtY0xNbDU5WW5GZWFjb054?=
+ =?utf-8?B?S3ZPU09MTnhjcm1KeU9ZOThNVkI3eHk2d1NLRDd1SXZEOVdQVWV0eTBoaGpQ?=
+ =?utf-8?B?U01BUDY5aVRNYjN3ak4ramFWSjU0aHExOERRYmxoV3VxNUJPU2tzcnlhUlhG?=
+ =?utf-8?B?N2UwcjdMUm9IN1NUQ2lWZmxtaDBEdUpFL3JGQVJMaHgyTFV0YlVCcXRhZ25X?=
+ =?utf-8?B?d0FIbDZVd1dEanhSWTZuUUtvSEFhbW5janowQ2xsbklONlMzeE55M0RwVXZ3?=
+ =?utf-8?B?dEp4U1paUHhXbkZLVmhQQ3hzMnJicUlNaFdROTI3eVBJaWI1VWx2elo2cHNW?=
+ =?utf-8?B?bWVhQ1l1VE1hbGFHTXpxRldraEplV1RuUHl1MW9mMnk2RWJRODF6US8yN0xr?=
+ =?utf-8?B?a1ozaUVmaGhUTi9veVFRQTlIdElLMjZPbTEyTGdmOG11SXhiZ0l5TEo4K1ds?=
+ =?utf-8?B?OTFUdGt2MkUybVFZVVN2b0F0c2VFVkZyTXVhdE9QOXNURWVhYjg0Mk1zblBJ?=
+ =?utf-8?B?T3BkaFN0RVdBYmZYSFRDV0RYUGJnUXFFWDRxU1FNMUd6RUNFeWMwMEhrNitT?=
+ =?utf-8?B?STVoaG1yV1pDei9pT2MxQ2pPUGw4Ryt3bDJXNk5iNk5QWnVLQ0V4NlUzdUx5?=
+ =?utf-8?B?VDFNNENPSFF2b3AxNHoyMkg3a1AxVVUrd3JFdS9qN2IxSDQzNnE3N3AzeFli?=
+ =?utf-8?B?MlB4MmRWMTk3aU9uWWNSSzYzdm1CQ1prOTZQeVlpVGlPbHlZUUlRU2xrSXRL?=
+ =?utf-8?B?cE9qTzRaaUxhVVlRa3RHK01kRHAyTy9sVXFqUEhuUkNERlZYbDBja0NFT2dl?=
+ =?utf-8?B?OVVIdWdWLzV4eEkxZG9JR09pengzNE9WZHU5aktSOHZlN3M1L0svdTF4aWlR?=
+ =?utf-8?B?M0JEbVRINHBKWmp6Mm1rZGtwVEp3eTg3dU90Qis0bE5WVFFsTXFwYnJGTGFv?=
+ =?utf-8?Q?c1YwUo?=
 X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2025 15:26:36.7535
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2025 15:26:36.2771
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d433f45f-306d-4ddb-b0e1-08dd9a0e3520
+X-MS-Exchange-CrossTenant-Network-Message-Id: 585ab02c-e6fc-4cdf-555f-08dd9a0e34d8
 X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	DB5PEPF00014B95.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR02MB9310
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB7336
 
-mc_subled used for multi_index needs well defined array indexes,
-to guarantee the desired result, optionally use reg for that.
-
-If devicetree child nodes is processed in random or reverse order
-you may end up with multi_index "blue green red" instead of the expected
-"red green blue".
-If user space apps uses multi_index to deduce how to control the leds
-they would most likely be broken without this patch if devicetree
-processing is reversed (which it appears to be).
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-but I don't see how it can have worked without this change.
-
-If reg is not set, the previous behavior is kept, index will be in
-the order nodes are processed.
-If reg is out of range, an error is returned.
-reg within led child nodes starts with 0, to map to the iout in each bank.
+The led child reg node is the index within the bank, document that
+and update the example accordingly.
 
 Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
 ---
- drivers/leds/leds-lp50xx.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/leds/leds-lp50xx.yaml          | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-index 02cb1565a9fb..8067aaa916bf 100644
---- a/drivers/leds/leds-lp50xx.c
-+++ b/drivers/leds/leds-lp50xx.c
-@@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 			return -ENOMEM;
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+index 402c25424525..15dcda96e867 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+@@ -82,6 +82,12 @@ patternProperties:
+         properties:
+           reg:
+             maxItems: 1
++            minimum: 0
++            maximum: 2
++            description:
++              This property denotes the index within the LED bank.
++              The value will act as the index in the multi_index file to give
++              consistent result independent of devicetree processing order.
  
- 		fwnode_for_each_child_node(child, led_node) {
-+			int multi_index = num_colors;
- 			ret = fwnode_property_read_u32(led_node, "color",
- 						       &color_id);
- 			if (ret) {
-@@ -483,8 +484,13 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 				dev_err(priv->dev, "Cannot read color\n");
- 				return ret;
- 			}
-+			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-+			if (ret == 0 && multi_index >= LP50XX_LEDS_PER_MODULE) {
-+				dev_err(priv->dev, "reg %i out of range\n", multi_index);
-+				return -EINVAL;
-+			}
+         required:
+           - reg
+@@ -138,18 +144,18 @@ examples:
+                 color = <LED_COLOR_ID_RGB>;
+                 function = LED_FUNCTION_STANDBY;
  
--			mc_led_info[num_colors].color_index = color_id;
-+			mc_led_info[multi_index].color_index = color_id;
- 			num_colors++;
- 		}
+-                led@3 {
+-                    reg = <0x3>;
++                led@0 {
++                    reg = <0x0>;
+                     color = <LED_COLOR_ID_RED>;
+                 };
  
+-                led@4 {
+-                    reg = <0x4>;
++                led@1 {
++                    reg = <0x1>;
+                     color = <LED_COLOR_ID_GREEN>;
+                 };
+ 
+-                led@5 {
+-                    reg = <0x5>;
++                led@2 {
++                    reg = <0x2>;
+                     color = <LED_COLOR_ID_BLUE>;
+                 };
+             };
 
 -- 
 2.30.2
