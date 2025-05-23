@@ -1,177 +1,275 @@
-Return-Path: <linux-leds+bounces-4702-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4703-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DA5AC124B
-	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 19:41:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5FEAC1FE0
+	for <lists+linux-leds@lfdr.de>; Fri, 23 May 2025 11:40:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D14B1BC8450
-	for <lists+linux-leds@lfdr.de>; Thu, 22 May 2025 17:41:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3D91174D29
+	for <lists+linux-leds@lfdr.de>; Fri, 23 May 2025 09:40:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D416B1993BD;
-	Thu, 22 May 2025 17:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6902253E0;
+	Fri, 23 May 2025 09:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNjL/vo5"
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="nt97+XxB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1B2199223;
-	Thu, 22 May 2025 17:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54E213DDAE;
+	Fri, 23 May 2025 09:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747935655; cv=none; b=Puofy7Z5VhVRsxMi+oxW/mQPtBh0b5XJz5ZHtKArUQqClGI4evwQau8OWK327AaZRtFd/LJ/bD+nEtKgG1wuUmVxdpOm6th08ZQ9C2m6SGQ2kJrZgP3njTctJYhShPR5qgXaINKsER/bpbwZIu8itpnp/CZHUnZwl9nYwK4xveY=
+	t=1747993205; cv=none; b=WFmY7qZN3D8FWVieYRoQz5B8KwweUHkziuv+s4agEbi/kgW7eZMCfg4s4aCvG7Ftv+8OCk/iBhsXNkBLqvJSvvg75qgezcP2tEYmwHyPzUg13OQjhXo0pIGoMojEO6Z8vzYVM50+dAAgRnUQAVkIq/rNda8gCTN6eFQtkZ1jGA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747935655; c=relaxed/simple;
-	bh=be+OHwazIl+Fe6S2ppgzwUZso2vzakG++zIJxWtQR74=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HUnVC0HObn1uEgb+KbOddEq7sTAMCnFS2SgFtHfJke7w5HCsUHxoG0djORuHoqDjHmmEi4kBuSjFW9VJYx+oq8akKgAs+nROhZItVCT7VbRuzvLB/9dZTfZ1SKiSYaY3Zu4KJdPnMu+Xf8jdl3YWTsmJAI09xasm+4GJjrIzOGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNjL/vo5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 576D9C4CEE4;
-	Thu, 22 May 2025 17:40:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747935655;
-	bh=be+OHwazIl+Fe6S2ppgzwUZso2vzakG++zIJxWtQR74=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lNjL/vo58QMoJU8AANQEmnmUyIZzAm6cCNqy4vlrkiQ5sxXVYhioQ1xt28/aQvC7D
-	 ew7N5dlLYiCCan9LqnQ9gXd0O5xGkUA2kGC4Dl+v0V9RDXiL9mOnSEPIH3n1JXDpBP
-	 sDU5qQ1/bK+f4yVFAmwF7fauXKkZz6b8d8VAO86Yv4USCy3sw8eCJQ1fkCAhsd4ZWn
-	 /LYTOHz7/wOwnxC4Y/4jcMAlqemgCGIz88NZbY9w9uHWVWCR0Dg2SIdVOt+o+sM7Ph
-	 OB/NYy+kHtUeaNJQNpOH2H0EjDPyu8eeEgiU8vcrw2GA5aqo2mO6mBLcEHvcNwtdNQ
-	 llCohwW2JIyVg==
-Message-ID: <522af2fb-6c85-462d-978a-cd03fb5bb76c@kernel.org>
-Date: Thu, 22 May 2025 19:40:51 +0200
+	s=arc-20240116; t=1747993205; c=relaxed/simple;
+	bh=ATCmv+viaSTlbE4KIivxj5Ss1BYqbwk6eKwZ+NfLHCc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GpQ8+Oee+lK++novcrzps1QyzAx8X3QdA1nOVpaX7m81TXU4a9I6LgCbsaTFmIdFo3XFQb6j6IP/Nk5CheOcLl3DMMUsq2OWYpf9XPrFdHzDQLduiwC0899WApKN8SLDZSG3ARx6xVsLZiMIGkAF9EhHnxonAlUTEeKHLd27Yvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=nt97+XxB; arc=none smtp.client-ip=81.19.3.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+	s=20160406-ysoft-com; t=1747992710;
+	bh=VRpPV5g4he+YcYXUfxjf8IDAnRq5aEEdOdqOxeA95yg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nt97+XxB8/y+OIvwqIGSaIPLKOId7kGUtAWy/H5NMvEzfsvyQfD1gQjbTt7lylK5h
+	 WR7RAlClYfqmxonD2+7JJQV7uBC3KijsjKRcBkRmZlA4YxqTdQqAxHCWrqQCWUfw2b
+	 FPjmHyhVGiWgrMSyEdMkdj2WsIo83UosbfqQbR9w=
+Received: from vokac-nb.ysoft.local (unknown [10.1.8.111])
+	by uho.ysoft.cz (Postfix) with ESMTP id E50A6A021E;
+	Fri, 23 May 2025 11:31:49 +0200 (CEST)
+From: =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: Christian Marangi <ansuelsmth@gmail.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	=?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+Subject: [RFC RESEND] leds: lp55xx: led-cur property is not properly applied to multi-led
+Date: Fri, 23 May 2025 11:31:42 +0200
+Message-ID: <20250523093142.1498846-1-michal.vokac@ysoft.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 2/2] dt-bindings: leds: lp50xx: Document child reg,
- fix example
-To: Johan Adolfsson <johan.adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, kernel@axis.com
-References: <20250522-led-fix-v2-0-652046323ec3@axis.com>
- <20250522-led-fix-v2-2-652046323ec3@axis.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250522-led-fix-v2-2-652046323ec3@axis.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/05/2025 16:14, Johan Adolfsson wrote:
-> The led child reg node is the index within the bank, document that
-> and update the example accordingly.
-> 
-> Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
+Hi,
 
+I am trying to wrap my head around the implementation of the multicolor
+LED support in the lp55xx family drivers.
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+The situation is quite straight forward when each LED is registered
+and controlled individually but it gets quite messy once you use
+the multi-color LED binding.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
+I am working with the imx6dl-yapp43-pegasus.dts board (in-tree). There
+is one RGB LED driven by a LP5562 LED controller. Currently the RGB LED
+is modeled as three separate LEDs and each of the LEDs has
+individually tuned led-cur property. I would like to change the device
+tree and use the multi-led binding to be able to use triggers on a chosen
+RGB color.
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
+When I was experimenting with that, I realized there is something wrong
+with the colors and identified that the led-cur property is not properly
+applied in case the multi-led binding is used. What ultimately happens is
+that the led_current of the first LED in the multi-led group is set to
+the value of led-cur property of the last LED in the group.
+All the other LEDs in the group are left with the default reset value
+of the controller (0xaf in my case).
 
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
+Example:
 
+led-controller@30 {
+	compatible = "ti,lp5562";
+	reg = <0x30>;
+	clock-mode = /bits/ 8 <1>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "disabled";
 
-> ---
->  Documentation/devicetree/bindings/leds/leds-lp50xx.yaml | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-> index 402c25424525..8ce327d00c2d 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-> @@ -82,6 +82,11 @@ patternProperties:
->          properties:
->            reg:
->              maxItems: 1
-> +            description:
-> +              This property denotes the index within the LED bank, 0, 1 or 2.
+	multi-led@0 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		color = <LED_COLOR_ID_RGB>;
+		function = LED_FUNCTION_INDICATOR;
 
-Do not open code constraints. You probably wanted minimum/maximum
-instead of above syntax.
+		led@0 {
+			led-cur = /bits/ 8 <0x6e>;
+			max-cur = /bits/ 8 <0xc8>;
+			reg = <0>;
+			color = <LED_COLOR_ID_RED>;
+		};
 
-> +              The value is actually optional for backward compatibility reasons
+		led@1 {
+			led-cur = /bits/ 8 <0xbe>;
+			max-cur = /bits/ 8 <0xc8>;
+			reg = <1>;
+			color = <LED_COLOR_ID_GREEN>;
+		};
 
-No, it is not optional - see schema.
+		led@2 {
+			led-cur = /bits/ 8 <0xbe>;
+			max-cur = /bits/ 8 <0xc8>;
+			reg = <2>;
+			color = <LED_COLOR_ID_BLUE>;
+		};
+	};
 
-> +              but is highly recommended to handle reversed devicetree
-> +              processing properly.
->  
->          required:
->            - reg
-> @@ -139,17 +144,17 @@ examples:
->                  function = LED_FUNCTION_STANDBY;
->  
->                  led@3 {
-> -                    reg = <0x3>;
-> +                    reg = <0x0>;
+Result (values read out directly with i2cget)
 
-Mismatched unit address.
+led@0 current = 0xbe, should be 0x6e
+led@1 current = 0xaf, should be 0xbe
+led@2 current = 0xaf, should be 0xbe
 
+I tried to describe the steps that led to my discovery in the comments to
+the file. Unfortunately I could not really figure out how this could be
+properly fixed.
 
-Best regards,
-Krzysztof
+I would appreciate any comments to this problem and hopefully some ideas
+how it could be solved.
+
+Thank you,
+Michal
+---
+ drivers/leds/leds-lp55xx-common.c | 34 +++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+index e71456a56ab8..d2fd2d296049 100644
+--- a/drivers/leds/leds-lp55xx-common.c
++++ b/drivers/leds/leds-lp55xx-common.c
+@@ -1060,12 +1060,17 @@ static int lp55xx_register_leds(struct lp55xx_led *led, struct lp55xx_chip *chip
+ 		return -EINVAL;
+ 	}
+ 
++	// Step 8
++	// num_channels = 1
+ 	for (i = 0; i < num_channels; i++) {
+ 
+ 		/* do not initialize channels that are not connected */
+ 		if (pdata->led_config[i].led_current == 0)
+ 			continue;
+ 
++		// The pdata->led_config[0].led_current contains the led-cur
++		// property value of the last LED from the multi-led node.
++		// Here we store that value to the first LED in that node.
+ 		led_current = pdata->led_config[i].led_current;
+ 		each = led + i;
+ 		ret = lp55xx_init_led(each, chip, i);
+@@ -1119,8 +1124,16 @@ static int lp55xx_parse_common_child(struct device_node *np,
+ 				     struct lp55xx_led_config *cfg,
+ 				     int led_number, int *chan_nr)
+ {
++	// Step 6
++	// This is called 3-times (n-times in general, for each LED in the multi-led node)
++	// led_number = 0
++	// np = led@[0,1,2]
+ 	int ret;
+ 
++	// Size of the cfg is "1 lp55xx_led_config"
++	// led_number = 0 for each of the n-calls
++	// So the name, led_current and max_current variables are being
++	// overwritten until values from the last led@ subnode are stored.
+ 	of_property_read_string(np, "chan-name",
+ 				&cfg[led_number].name);
+ 	of_property_read_u8(np, "led-cur",
+@@ -1139,6 +1152,11 @@ static int lp55xx_parse_multi_led_child(struct device_node *child,
+ 					 struct lp55xx_led_config *cfg,
+ 					 int child_number, int color_number)
+ {
++	// Step 5
++	// This is called 3-times (n-times in general, for each LED in the multi-led node)
++	// child_number = 0
++	// color_number = [0,1,2]
++	// child = led@[0,1,2]
+ 	int chan_nr, color_id, ret;
+ 
+ 	ret = lp55xx_parse_common_child(child, cfg, child_number, &chan_nr);
+@@ -1159,6 +1177,10 @@ static int lp55xx_parse_multi_led(struct device_node *np,
+ 				  struct lp55xx_led_config *cfg,
+ 				  int child_number)
+ {
++	// Step 4
++	// This is called just once
++	// child_number = 0
++	// np = multi-led node
+ 	int num_colors = 0, ret;
+ 
+ 	for_each_available_child_of_node_scoped(np, child) {
+@@ -1169,6 +1191,7 @@ static int lp55xx_parse_multi_led(struct device_node *np,
+ 		num_colors++;
+ 	}
+ 
++	// num_colors = 3
+ 	cfg[child_number].num_colors = num_colors;
+ 
+ 	return 0;
+@@ -1178,6 +1201,10 @@ static int lp55xx_parse_logical_led(struct device_node *np,
+ 				   struct lp55xx_led_config *cfg,
+ 				   int child_number)
+ {
++	// Step 3
++	// This is called just once
++	// child_number = 0
++	// np = multi-led node
+ 	int led_color, ret;
+ 	int chan_nr = 0;
+ 
+@@ -1189,6 +1216,7 @@ static int lp55xx_parse_logical_led(struct device_node *np,
+ 		return ret;
+ 
+ 	if (led_color == LED_COLOR_ID_RGB)
++		// We go this way
+ 		return lp55xx_parse_multi_led(np, cfg, child_number);
+ 
+ 	ret =  lp55xx_parse_common_child(np, cfg, child_number, &chan_nr);
+@@ -1215,18 +1243,22 @@ static struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+ 	if (!pdata)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	// Step 2
++	// One RGB multiled, num_channels = 1
+ 	num_channels = of_get_available_child_count(np);
+ 	if (num_channels == 0) {
+ 		dev_err(dev, "no LED channels\n");
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
++	dev_err(dev, "LED channels: %d\n", num_channels);
+ 	cfg = devm_kcalloc(dev, num_channels, sizeof(*cfg), GFP_KERNEL);
+ 	if (!cfg)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	pdata->led_config = &cfg[0];
+ 	pdata->num_channels = num_channels;
++	// LP5562 max_channel = 4
+ 	cfg->max_channel = chip->cfg->max_channel;
+ 
+ 	for_each_available_child_of_node(np, child) {
+@@ -1277,6 +1309,7 @@ int lp55xx_probe(struct i2c_client *client)
+ 
+ 	if (!pdata) {
+ 		if (np) {
++			// Step 1
+ 			pdata = lp55xx_of_populate_pdata(&client->dev, np,
+ 							 chip);
+ 			if (IS_ERR(pdata))
+@@ -1316,6 +1349,7 @@ int lp55xx_probe(struct i2c_client *client)
+ 
+ 	dev_info(&client->dev, "%s Programmable led chip found\n", id->name);
+ 
++	// Step 7
+ 	ret = lp55xx_register_leds(led, chip);
+ 	if (ret)
+ 		goto err_out;
+-- 
+2.43.0
+
 
