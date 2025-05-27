@@ -1,79 +1,48 @@
-Return-Path: <linux-leds+bounces-4721-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4722-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBD3AC4502
-	for <lists+linux-leds@lfdr.de>; Mon, 26 May 2025 23:54:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD69EAC47C8
+	for <lists+linux-leds@lfdr.de>; Tue, 27 May 2025 07:48:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA8D5189DBD5
-	for <lists+linux-leds@lfdr.de>; Mon, 26 May 2025 21:54:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6D6B1673D2
+	for <lists+linux-leds@lfdr.de>; Tue, 27 May 2025 05:48:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D53240604;
-	Mon, 26 May 2025 21:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D87AE1D5145;
+	Tue, 27 May 2025 05:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0hoZhLG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pa6p0rj1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92E13C465;
-	Mon, 26 May 2025 21:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD5613AD3F;
+	Tue, 27 May 2025 05:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748296467; cv=none; b=OoPfqyM6lw6ownINqjIB2ibrJjxEM2JFmZHCIOo+FwmESrVYLc0ddpogC82OWPCua3QL0A1lkhhmDmVgFV8+zWHJkY6T6+r1JRutKLfcWgg3CxJJQJ7d3R7K/3eITboYwx47A7c7Wh6KlJNOAIz2k9VzPP0jMKFaP1x2qlWgeHA=
+	t=1748324912; cv=none; b=Tm62C2HWZJKfQ4B9RcBeACYrNU8bFCBReGbp3vlDDZS6H0lFUAK8ereGNTwK5c3++UCOFWnpMwdgCapUUPXlexQd+U/phVFZfu2Z5kSKQuzRKExn+plW7kBSmV0jdkr+l4E0TTExObFJQrr0i1XNOMLLjo7sQfZr/hI+IwobahU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748296467; c=relaxed/simple;
-	bh=wM2RVoV5PeQJuBONoCyEKLP9gwI/gzEx3XOUbDgN27c=;
+	s=arc-20240116; t=1748324912; c=relaxed/simple;
+	bh=oz4aj9eSv0gKdBb78Dx/yRWEe0zfmxTCcxaG9VDnPgY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kwoX3SdOh+5CpCF5WV0hu2ipEta6v6PLNIpGH/erwjQELuULBQxaR5RaenqO6A2y4/DKKPg4Xf7zWEPXz1W8g8sKiRDWb3c+xRsvdZT8o1xC0S6nAceBsJwMRFywWmuDFVMfjQwZF3xHBNHo4DwacEUHttAGlzsO24Wa/SGq6Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H0hoZhLG; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6045a8a59c5so3342818a12.1;
-        Mon, 26 May 2025 14:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748296464; x=1748901264; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fRO5OSJpgjMod/7ANe8AmG9ngge68ETrJtkbxthmkuM=;
-        b=H0hoZhLGQwVDszrz0Lz79pDZEPKGrXuE1bVBmWSC+PguZpAaw3v9Jf6shaGZtjhxda
-         XX2HpnrZKpUeeaJUOTjFZ8QXsy+kM1lFTYDK1y1aSbJuCcWFojSHreDjjaPeK4esC722
-         wj9wFnJxwfFjUcchFqm3ZRunEoKRJP2XEwlmxTPpD+v3hctZgn6kNljaRDS0QeP3KAG8
-         8zwotY+niK8IAVVaSgB6gp7fDcT9/hZ6bM1Jx9In1uJBA/w1IyryaZRAAwFk8cwOf5ym
-         NbicpH/UHjzLBz/D1geqK2RJwcHHxnw31dqPTl4TkpYd+Qj/nAmENxp8puQYAVida2u2
-         e/qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748296464; x=1748901264;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fRO5OSJpgjMod/7ANe8AmG9ngge68ETrJtkbxthmkuM=;
-        b=R9jwhSw0TZp65MxPxtyVzDgFqdKuG47yXZZJH4z6kS63P97KltkhkuML++bjaIr6aT
-         Wpz0KDc+cD0iz4pX0yMlZ+VWocd3PMTXZUnIJG6vvDr2lm5ju9wCQgzKoSvM4lRrZPob
-         QPrxQ9B13aew3g4iSiluL2KexRAcBA0k8WCb8zxp+NUN0NrWPPhJozKUb+24MvjDcU1X
-         Qu01FFUos8myTsrorQsRQMYzQmjj9AEBSLJLF6wLPqm1yFcsz36ZEXx4yBDtGXROF0wV
-         QaWRoouRMEwff3H9mwpPi3yp8Skj2Ew1PrCCeDm2qR9sEFqfcsBjde5C/nGbcagQ5N2K
-         SwMA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4jKBE/QHUz7uugS9o8QFXGSq6OmeKHA8KsRnZIO1XF56UHdUxaKGY7nUA20w6CPFhtVN/ZEG/xQiP@vger.kernel.org, AJvYcCVMAuAEmSaYSwLtn4JBzyY9NmYwQ+YZGXMaMiiDUUQ8hu5LbFj66FqE+yH3vcwvDB0TnrPEw1brpco9Mx2r@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyr8KTtwllde97M+zMtraFEELAOosDvUtU53V/m26C1rtW6DPri
-	5gkIGIxvxNcPRmDUd2xM2jgF6rwDQ6Ys+hS6g9c8EIS0S+2LP7Nf4c8C
-X-Gm-Gg: ASbGncsNdLb5/CtS2NBLlQIA2wFzOyugF9HIegrE4aNyg5vUmFkoWIOjmCY5QZkHdHY
-	FDcTNneFRvt3sPL4ug8xdyaOEjxRrLG/pLGUT7KB7QqjnGFpK+PPnsoV/IURZaXRAnfi9+h4N2P
-	mfdht2NB5pTsPp/FaASQh/xXM498p9IwkMkotnxzmTckugsRw6kp6mYAIXPH9m18VxmrCWlu4vW
-	efGiMU2/2EEaf37rU8C31KquUzPNjziEUFiNCg4shoH78BAcrU3JXotII3CZ7/6GxAitXJK1Zv/
-	moXrJcZxKN2gjcCHZiWtZgbsSa5jBBlxgtrhMf5r59VZo/w+uT+c+aVx9Q9jubFZ
-X-Google-Smtp-Source: AGHT+IGq7BSWVS2uzAdvuw507TsKTYNDL6q4SDe7LSbons5DqTVWcYb+fw0FzYdiJsed/ZB3d6o1kQ==
-X-Received: by 2002:a17:907:7faa:b0:ad1:8f1f:6961 with SMTP id a640c23a62f3a-ad85b3071a2mr1003392566b.43.1748296464003;
-        Mon, 26 May 2025 14:54:24 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d4ca827sm1731141366b.163.2025.05.26.14.54.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 May 2025 14:54:23 -0700 (PDT)
-Message-ID: <2bb62450-df35-4063-ac5e-60bc1ef8f5e7@gmail.com>
-Date: Mon, 26 May 2025 23:54:21 +0200
+	 In-Reply-To:Content-Type; b=fDWPU4NUDQNadFksNJKX/ljzsMznl+8PI52+B8vge7jLzcRHn1Cgre21HnIlAGw8XegAZdSzGDAmall63wB2PHcOS5Xp7tybAfWb4Frudef8YWylmeZcBySxJ9lU3V8AgVajSbYvHmubDk3++MusUgI6YxeJP7owkZPg3VXnd/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pa6p0rj1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A609DC4CEEA;
+	Tue, 27 May 2025 05:48:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748324911;
+	bh=oz4aj9eSv0gKdBb78Dx/yRWEe0zfmxTCcxaG9VDnPgY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Pa6p0rj1Ho9v/trhNivn7u/iCleXdqW6CFRV5Iv/M2LVudis9vaVlK6+JGyJbWSbe
+	 eV4YKsE/qbMO+7CU7DFHettAEDMXPg0QOC03maI6tZ3arAZpejZia32nHXbF59oIQZ
+	 xM+6CKnMc+w+J+HNIyjzfgKm62l3aBRJ9HbiL6hEnSvACL3qPguNb4y0XOtXwVa/mV
+	 cZer5qglwrxmTrsPxm86tSyZFc19j01TB9csu2KLgMq1VwMC/7ThUo24NjsW3EChAJ
+	 UQqbmWakKW8QAOyGBIprL5pTQ7pITSjOSXKljkZ2970ev7V4Q+wa4bqX1jLvolMSGR
+	 tijA+DLcNh5jA==
+Message-ID: <876916ad-1042-4750-a010-4a46c2e5942d@kernel.org>
+Date: Tue, 27 May 2025 07:48:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -81,90 +50,98 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v4 1/2] leds: leds-lp50xx: Handle reg to get correct
- multi_index
-To: Johan Adolfsson <johan.adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
+Subject: Re: [PATCH RFC v4 2/2] dt-bindings: leds: lp50xx: Document child reg,
+ fix example
+To: Johan Adolfsson <Johan.Adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
  Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kernel@axis.com
+ <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Kernel <Kernel@axis.com>
 References: <20250526-led-fix-v4-0-33345f6c4a78@axis.com>
- <20250526-led-fix-v4-1-33345f6c4a78@axis.com>
+ <20250526-led-fix-v4-2-33345f6c4a78@axis.com>
+ <128e3853-7192-4e90-bbb6-cb0b6e1aec3b@kernel.org>
+ <AS8PR02MB92881DA3213861C52AB0EC729B65A@AS8PR02MB9288.eurprd02.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20250526-led-fix-v4-1-33345f6c4a78@axis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <AS8PR02MB92881DA3213861C52AB0EC729B65A@AS8PR02MB9288.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Johan,
+On 26/05/2025 18:42, Johan Adolfsson wrote:
+>>> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>>> index 402c25424525..a7b2d87cc39d 100644
+>>> --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>>> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>>> @@ -81,7 +81,12 @@ patternProperties:
+>>>
+>>>          properties:
+>>>            reg:
+>>> -            maxItems: 1
+>>> +            minimum: 0
+>>> +            maximum: 2
+>> "not compatible with minimum
+>>  and maximum."
+>>
+>> No, it is compatible. Just do:
+>>
+>> items:
+>  > - minimum: 0
+>   >  maximum: 2
+> 
+> I have tried every variant of that I can think of and can't make it pass the check:
+> DT_SCHEMA_FILES="Documentation/devicetree/bindings/leds/leds-lp50xx.yaml" make dt_binding_check
+> 
+> Exactly how should it look like? 
 
-On 5/26/25 16:54, Johan Adolfsson wrote:
-> mc_subled used for multi_index needs well defined array indexes,
-> to guarantee the desired result, optionally use reg for that.
-> 
-> If devicetree child nodes is processed in random or reverse order
-> you may end up with multi_index "blue green red" instead of the expected
-> "red green blue".
-> If user space apps uses multi_index to deduce how to control the leds
-> they would most likely be broken without this patch if devicetree
-> processing is reversed (which it appears to be).
-> 
-> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-> but I don't see how it can have worked without this change.
-> 
-> If reg is not set, the previous behavior is kept, index will be in
-> the order nodes are processed.
+I pasted the exact syntax.
 
-This is a bug and I don't see any value in keeping buggy code.
-Just expect reg to be present and make sure that all in-tree
-dts files using these bindings use them in a proper way.
-
-To not break existing users of stable releases, if any of them
-implement DT subnodes without 'reg' property, we can just not mark this
-commit with "Fixed" tag, so that it wasn't applied to stable releases.
-Although I am not sure if we should not fix it there as well.
-I'm leaving it to Lee.
-
-> If reg is out of range, an error is returned.
-> reg within led child nodes starts with 0, to map to the iout in each bank.
-> 
-> Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
-> ---
->   drivers/leds/leds-lp50xx.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index 02cb1565a9fb..8067aaa916bf 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   			return -ENOMEM;
->   
->   		fwnode_for_each_child_node(child, led_node) {
-> +			int multi_index = num_colors;
->   			ret = fwnode_property_read_u32(led_node, "color",
->   						       &color_id);
->   			if (ret) {
-> @@ -483,8 +484,13 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   				dev_err(priv->dev, "Cannot read color\n");
->   				return ret;
->   			}
-> +			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-> +			if (ret == 0 && multi_index >= LP50XX_LEDS_PER_MODULE) {
-> +				dev_err(priv->dev, "reg %i out of range\n", multi_index);
-> +				return -EINVAL;
-> +			}
->   
-> -			mc_led_info[num_colors].color_index = color_id;
-> +			mc_led_info[multi_index].color_index = color_id;
->   			num_colors++;
->   		}
->   
-> 
-
--- 
 Best regards,
-Jacek Anaszewski
-
+Krzysztof
 
