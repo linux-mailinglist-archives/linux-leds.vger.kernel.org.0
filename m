@@ -1,191 +1,181 @@
-Return-Path: <linux-leds+bounces-4726-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4727-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B939AC68F8
-	for <lists+linux-leds@lfdr.de>; Wed, 28 May 2025 14:15:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E19AC71A6
+	for <lists+linux-leds@lfdr.de>; Wed, 28 May 2025 21:46:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4165A1BC6C91
-	for <lists+linux-leds@lfdr.de>; Wed, 28 May 2025 12:16:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DD87A27E2B
+	for <lists+linux-leds@lfdr.de>; Wed, 28 May 2025 19:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 890532139B0;
-	Wed, 28 May 2025 12:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2816B220F28;
+	Wed, 28 May 2025 19:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="btONvrwB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S/9e29Q/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4121531E3
-	for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 12:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9F4220F27
+	for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 19:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748434545; cv=none; b=mE3zzAjEFTTAXzNhT0FJVSha9eFmlUIwdo7Qvvkf2xypdZ1ALhQh6H2qwyHoSszoMKi7AhgQbHhsYrAn0p0uc0IpqAav7aU+9L8+dHm4UvalDxJ3tIgJzMMxx3id5vwvT1cgmyewBpdNKjDnpbEtGUmFGvSN2nQyIUdMwWhWbPA=
+	t=1748461477; cv=none; b=I4g1yePNGNHbqskY4iibhZEtRD6P2W304GIyfav3kBZTrY5JU5idwYKpcAUB36majn4VWrh2CtQ4p7ob/D9jpW9Ohv0VG2LzDKEf1r2NiySJyCns/Tf1R5/n5wuCrS+6lui62QXkTd1rAMo6BhDCHPcTPC7DgwZV4zfuMuJbVLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748434545; c=relaxed/simple;
-	bh=anNOxNhTmr/QW22GBuugjQkfUTz6mqXQB+pAiBjysSE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LNg5+crKCI4qnplggTFh5428+IZnTY8bzRvJ68jQ3wZwk30I8l8vDVV1UrHZpCl+FjmsI19weyaJdIgjJsVV9vQwEwV4dx87jjwyjQl7xxePFkz75tYI5OjqtTJWszU6G1pwEFJQ5lSbrY8MIb4pnQ8NakulNgbB9ABMLZ1rrO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=btONvrwB; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 28 May 2025 14:15:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748434538;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F5dbCg1gXdtP3wVHnkQdduOjmohgVv2E1pqRMKiFkFE=;
-	b=btONvrwBrnIzQe3VF8Tz5lvz+LWsW0C9DgizsnehcMNebYn74vVCsrE6oVFe1PZKGDhCgS
-	Xffdnp0Odh9Xk74GrYpqNHsP75mTQ9qqJQEBavrD1pNy7trG2g8glPaUvJp52AepkcyIDd
-	yn5mQNpmt46mmzncsfYo4foEJU0ru9o=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 07/10] media: i2c: ov9282: add led_mode v4l2 control
-Message-ID: <ns3aybw7nvxrcowprdwbwcn6zpuybkbfmtv44emy567dryszih@yp4hgpgtbvnt>
-References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
- <20250507-ov9282-flash-strobe-v4-7-72b299c1b7c9@linux.dev>
- <aDTR5JrYIvj2gxHR@kekkonen.localdomain>
+	s=arc-20240116; t=1748461477; c=relaxed/simple;
+	bh=xZUOsMsyjcZ1qewKlqP/KKWUHO3l+hPWlf0MlhF4mH8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HZw/jwdsirPduKwEp97cDa3ZlqmCUonH4uEL6MHhop4BFszYv6TQ/mX8uazYWmTGd3bI1NcEGtR/7SZ+L3ymHFpezlMhV0SXeuo5HK1kdsNfWs9IZpgostwMtcB4rGHouXHbtLqqeyIuN9BUS/WiH91pApZiXDZEsaucuXCOYs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S/9e29Q/; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a4e62619afso25158f8f.1
+        for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 12:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748461473; x=1749066273; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MrefH7AMNRY3M6Eds2DAfAOBM+dHe6KTACIdZZtLeZg=;
+        b=S/9e29Q/6fSKBwMw+alBjJOdyaCc0ai0p8HtGAit3//Wo1jKlSQIcBAKAzy5hctG9X
+         qBTvrKXiaKi0qL5i64S+S/MtU9S4tY4NUeEGcwTd9guDODUMmqFktDevv3ZOktj5vjPo
+         pRATjDgDHcnXFZ1XxnvDamqePrQg6gvCtGoR4UfRz57ZmJY9uworDyXoswZjtkKxlv2G
+         4TdhMDbYdG/gdRDhTATlhuVyG5icMTNr/tzJDJguGJvQqt2a7iPMyt+QRvq/FxnxaLa9
+         OsSgkiLz1Jg24dvYFoxLOdxIxs63oura9AcKo1lN+xOcyMmcV1fg1p3ZofyNEGLZeJeD
+         2bsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748461473; x=1749066273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MrefH7AMNRY3M6Eds2DAfAOBM+dHe6KTACIdZZtLeZg=;
+        b=vUkE8niHUeRwbYgzkJSfXWWJfaW+6uQZrSR3R6T9NjCkRMbS9I4PNQGUmgKtl3ENxw
+         jNgDBSdEg+teQVPqkJE8Dutt0vZXSziTLa6jhNU7x1ggtm1vh4o5GP7lm2dSLUI2gfgy
+         m3/QlpCYUuuiaWbLMfjbchOpe09a5HAa4hpnNbL4d2bW2kLK10dhT446PtpKNIVWSTLX
+         e6KOsKDr+GIZPAmu47Ibap+hOksbkWOX79Ic7Kbuov+AGGSb2guf7c7UuH99VXnAGcFP
+         zuICarY2bh2gnslmTx80DNuUIxv/f/ewhi2AfbKUQAtbqLVLl6nnaIEQdLFu+K7gMcIQ
+         MHJg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXAze39N3vfTGNPMPlZXECSbsQb1j6PqujTVfgEkJFZA7NfNAE8AA4zlSIN2g4UIAbBD88quMDa6JE@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqrRcFIvdhlHhLNu2BOEPU6ywvFYw070m5uzO8fMX1BqH09+6m
+	TU0Y9H/s7glYV7jya9RudLzKnoiK9DY2w3+K+nj1tRI0Gr9cVg+tLl1gejopvwLFMn8=
+X-Gm-Gg: ASbGncubZHh1xD5SHZwlNAk2WxxskTX14LJKqq7NP2mwloMqwqmAVDkVmaMZgp1NK5d
+	USR4NfklvvHqB6s0Evon8uEuvR7ehWLk/snrDfl+dUtg2XSUOR3VQTJj6aOU7igsHqeLW5Msx86
+	VfEwheg6Ir9jqGYL2D81ZhBrckoLYVdFJlfCG4atT4PxmQehNI15JbGg1+QqGFX7fG7ba0MguxL
+	VU6Jpq+tHIa2fXZH5CmEZpGrIiIHS2V30ZE6uKRDi0vTirifySUisXkiVHTiJQMrHE8XBM7z1EF
+	NwWckAGNGpkSp5r4agQlKmidm74No/lJrDGOLQSIzJkLmQL2evmzMXy3uOWr+g==
+X-Google-Smtp-Source: AGHT+IGvxvb7++yzRa5veyRGs3Zx8MyIdj7JiaUbu6/iQeE+/SATCIw2rNK1UiqXpTlixKSR25x1LQ==
+X-Received: by 2002:a05:6000:420f:b0:3a3:6ab0:8863 with SMTP id ffacd0b85a97d-3a4e889eb28mr1188805f8f.16.1748461473317;
+        Wed, 28 May 2025 12:44:33 -0700 (PDT)
+Received: from kuoka.. ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfbf498bsm456825e9.1.2025.05.28.12.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 12:44:32 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Fenglin Wu <quic_fenglinw@quicinc.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] leds: flash: leds-qcom-flash: Fix registry access after re-bind
+Date: Wed, 28 May 2025 21:44:26 +0200
+Message-ID: <20250528194425.567172-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aDTR5JrYIvj2gxHR@kekkonen.localdomain>
-X-Migadu-Flow: FLOW_OUT
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2830; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=xZUOsMsyjcZ1qewKlqP/KKWUHO3l+hPWlf0MlhF4mH8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN2eaz7n8pPjPnbi145qnYfYgaQHvOCqX2u977
+ 76YTVyTGoKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDdnmgAKCRDBN2bmhouD
+ 1/MTD/4v9AfAXDInQwz5wRgjEGH1dJLIxSqTY/BFyhTxRZ8A9tu/zhi5vjHtGelpAM3NLeWt5t/
+ vMq5UiUIfLBHQnl8/PBDCSiTijAkVetgZ/aCAG+fGBp/IKzFH5jvoDJdJzDye0Pm/3Pz1rl+xOb
+ cgGISxdSSkZh7cIBW2U+YDqziYH+lAonOWY0lYDyTUJgnpqEidnGpHtFJeA7OjxsuiQm/oW50Us
+ 2cz73IsdmpfkRgw7qzKQGuDGHuWXTiDEwHS/hxbgpPBx/yi9WFV5TVaXLPe4JF9iZFdrCnnzmlt
+ 7zoEojhXgciN9jQd4WoPTGymAgoVZFZNmG5rH+7dO3gUBdgv0f+ejNKidALCZd4zpwlkNn1Eg54
+ jjPnues6VZx3d8JESDR/qZFSejWaa+Bj/mv7cF6W32J1NsJzA1oyzB1POjS+sFkztfEsbYVvrvk
+ vM4rLrcezJZ3fyWgfDOELRj7urSMSTuWwt8cCy5abaA/JRIgEzr5dws/0zJdo3810WlQ/PJj7Ab
+ AWwrPL/hMc6hlUxg5kJXoIarXEyx8dmpr3BU5+Xg7ztAnajdSO1kQ0xoz8s6iCUv24fjvWnd1Gn
+ E1TS9Ax4vfI8nlV1iF6LxhcPaNfp8jagm5kpT8F7VfOkxGl9VmN1infFYcP+/1L6dnpygYtmRu2 MHcVDn/sNj3FEDw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+Driver in probe() updates each of 'reg_field' with 'reg_base':
 
-On Mon, May 26, 2025 at 08:41:08PM +0000, Sakari Ailus wrote:
-> Hi Richard,
-> 
-> On Wed, May 07, 2025 at 09:51:36AM +0200, Richard Leitner wrote:
-> > Add V4L2_CID_FLASH_LED_MODE support using the "strobe output enable"
-> > feature of the sensor. This implements following modes:
-> 
-> The flash LED mode control is, well, setting the flash LED mode. There's no
-> LED on the sensor so I think I'd add a new control for this.
-> 
-> I'd call it V4L2_FLASH_LED_STROBE_ENABLE, and make it a boolean control.
-> 
-> (My apologies for not giving a better review for this set earlier on.)
+	for (i = 0; i < REG_MAX_COUNT; i++)
+		regs[i].reg += reg_base;
 
-No problem. I'm open for discussions all the time ;-)
+'reg_field' array (under variable 'regs' above) is statically allocated,
+this each re-bind would add another 'reg_base' leading to bogus
+register addresses.  Constify the local 'reg_field' array and duplicate
+it in probe to solve this.
 
-I'm basically fine with renaming this, but is there any benefit we get
-by introducing such a new control?
+Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-IMHO V4L2_CID_FLASH_LED_MODE and V4L2_FLASH_LED_STROBE_ENABLE sound
-pretty similar and I'm not sure this is "worth" a new v4l2 control.
+---
 
-But of course, you guys are the domain expert, so please feel free to
-"overrule" my gut feeling. ;-)
+This is a nice example why constifying static memory is useful.
+---
+ drivers/leds/flash/leds-qcom-flash.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-> 
-> How does this sensor make use the information? E.g. what's the latching
-> point this setting in relation to a given frame?
+diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+index b4c19be51c4d..b8a48c15d797 100644
+--- a/drivers/leds/flash/leds-qcom-flash.c
++++ b/drivers/leds/flash/leds-qcom-flash.c
+@@ -117,7 +117,7 @@ enum {
+ 	REG_MAX_COUNT,
+ };
+ 
+-static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
++static const struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x08, 0, 7),			/* status1	*/
+ 	REG_FIELD(0x09, 0, 7),                  /* status2	*/
+ 	REG_FIELD(0x0a, 0, 7),                  /* status3	*/
+@@ -132,7 +132,7 @@ static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x58, 0, 2),			/* therm_thrsh3 */
+ };
+ 
+-static struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
++static const struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x06, 0, 7),			/* status1	*/
+ 	REG_FIELD(0x07, 0, 6),			/* status2	*/
+ 	REG_FIELD(0x09, 0, 7),			/* status3	*/
+@@ -854,11 +854,17 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 	if (val == FLASH_SUBTYPE_3CH_PM8150_VAL || val == FLASH_SUBTYPE_3CH_PMI8998_VAL) {
+ 		flash_data->hw_type = QCOM_MVFLASH_3CH;
+ 		flash_data->max_channels = 3;
+-		regs = mvflash_3ch_regs;
++		regs = devm_kmemdup(dev, mvflash_3ch_regs, sizeof(mvflash_3ch_regs),
++				    GFP_KERNEL);
++		if (!regs)
++			return -ENOMEM;
+ 	} else if (val == FLASH_SUBTYPE_4CH_VAL) {
+ 		flash_data->hw_type = QCOM_MVFLASH_4CH;
+ 		flash_data->max_channels = 4;
+-		regs = mvflash_4ch_regs;
++		regs = devm_kmemdup(dev, mvflash_4ch_regs, sizeof(mvflash_3ch_regs),
++				    GFP_KERNEL);
++		if (!regs)
++			return -ENOMEM;
+ 
+ 		rc = regmap_read(regmap, reg_base + FLASH_REVISION_REG, &val);
+ 		if (rc < 0) {
+@@ -880,6 +886,7 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 		dev_err(dev, "Failed to allocate regmap field, rc=%d\n", rc);
+ 		return rc;
+ 	}
++	devm_kfree(dev, regs); /* devm_regmap_field_bulk_alloc() makes copies */
+ 
+ 	platform_set_drvdata(pdev, flash_data);
+ 	mutex_init(&flash_data->lock);
+-- 
+2.45.2
 
-I'm not sure if I understand you correctly, but the strobe pulse
-"starting time" is configurable using registers on the sensor. To keep
-this patchset small I've decided to not include this
-"strobe_frame_shift" setting (which may be positive or negative) here.
-
-Nonetheless I'm planning to send another series adding more features of
-the sensors as soon as this got merged.
-
-IMHO we would need another new v4l2 control for this then (something
-like V4L2_FLASH_LED_STROBE_SHIFT).
-
-Does that answer your question?
-
-> 
-> > 
-> >  - V4L2_FLASH_LED_MODE_NONE, which disables the strobe output
-> >  - V4L2_FLASH_LED_MODE_FLASH, which enables the strobe output
-> > 
-> > All values are based on the OV9281 datasheet v1.53 (january 2019) and
-> > tested using an ov9281 VisionComponents module.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 29 ++++++++++++++++++++++++++++-
-> >  1 file changed, 28 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index f42e0d439753e74d14e3a3592029e48f49234927..b6de96997426f7225a061bfdc841aa062e8d0891 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -670,6 +670,23 @@ static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
-> >  				current_val);
-> >  }
-> >  
-> > +static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
-> > +{
-> > +	u32 current_val;
-> > +	int ret = ov9282_read_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
-> > +				  &current_val);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	if (mode == V4L2_FLASH_LED_MODE_FLASH)
-> > +		current_val |= OV9282_OUTPUT_ENABLE6_STROBE;
-> > +	else
-> > +		current_val &= ~OV9282_OUTPUT_ENABLE6_STROBE;
-> > +
-> > +	return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
-> > +				current_val);
-> > +}
-> > +
-> >  /**
-> >   * ov9282_set_ctrl() - Set subdevice control
-> >   * @ctrl: pointer to v4l2_ctrl structure
-> > @@ -736,6 +753,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
-> >  				       (ctrl->val + ov9282->cur_mode->width) >> 1);
-> >  		break;
-> > +	case V4L2_CID_FLASH_LED_MODE:
-> > +		ret = ov9282_set_ctrl_flash_led_mode(ov9282, ctrl->val);
-> > +		break;
-> >  	default:
-> >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> >  		ret = -EINVAL;
-> > @@ -1326,7 +1346,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	u32 lpfr;
-> >  	int ret;
-> >  
-> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
-> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > @@ -1391,6 +1411,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  						OV9282_TIMING_HTS_MAX - mode->width,
-> >  						1, hblank_min);
-> >  
-> > +	/* Flash/Strobe controls */
-> > +	v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
-> > +			       V4L2_CID_FLASH_LED_MODE,
-> > +			       V4L2_FLASH_LED_MODE_TORCH,
-> > +			       (1 << V4L2_FLASH_LED_MODE_TORCH),
-> > +			       V4L2_FLASH_LED_MODE_NONE);
-> > +
-> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> >  	if (!ret) {
-> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
-> > 
-> 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
 
