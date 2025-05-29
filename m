@@ -1,174 +1,184 @@
-Return-Path: <linux-leds+bounces-4729-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4730-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2022EAC78B1
-	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 08:31:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91543AC790F
+	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 08:38:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE8D61C03A9E
-	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 06:31:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB621A6034B
+	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 06:38:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F1620E021;
-	Thu, 29 May 2025 06:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57577261378;
+	Thu, 29 May 2025 06:33:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yQeTN6q7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H4KojXUf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FFA13D8A3
-	for <linux-leds@vger.kernel.org>; Thu, 29 May 2025 06:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632762586E8
+	for <linux-leds@vger.kernel.org>; Thu, 29 May 2025 06:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748500283; cv=none; b=JKpBy1S7zHROog2VFgcf2Cp5saOLo+0k0JhryiQm0adkz6ZqWX+efrwWgUWBkm+bifSkWIQ0w51O4QWM5w/XQxyxYmg0iUra9f3HaeKhkkbeirFVXy1a+Zk9gsF/yNv9Pm+YkE/3e4YW6D0eYXVck4/Cv0YtICVMQ/9XojByDB8=
+	t=1748500429; cv=none; b=eQGlfwa6qIGfuRwcuogYyxDqoRn+LgtvQiUOA43z7eeEhwJI89nPAzLzxfWJYwZe2S2ORzgY4zEvjg9DoSLwpZNmlGPiYyGJVKrgnpkciUUavUMC7iYQqn8mZ0nOJgt3fmLZPdSH6LvUvgQ1g8VGP5yL2laGZRKkVIasJF7vpX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748500283; c=relaxed/simple;
-	bh=j8BqjmjHZNv71a5DNyE9aKkxJqPzWFLn/6qs1DPKhuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VtS9m9STXO68WGhXB+eZYxEe4gXUxo0M5r4nHR44qBvMTBwsLIrvCr4KMjOVXR7GVk+1VvGaIo+F+OMoYgoL2Q73OshEf1PjT+ic7NJ4vTfnyqhGvLOZpJ3fHWxDSLZ/CvHLssE7ElY3CKi77Ymo3odvhxBhUQHRITACaO8gVh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yQeTN6q7; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1748500429; c=relaxed/simple;
+	bh=7b378+3r0+KWEehULfd4J/Tt+ZUTOYUqhTFUYPGmOiI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uJTVEoaFezHSrzdrJgm7wf8h/CE+n5wGTwbbsMTR6O4W4fhDcLCyeitMiOS8Fuff5UvlAnxuipX9jw499FSwzjiU58W3dlGb1pSuSs9XPQOKX0FHjPNaWkBZ3lFRhleEjYB1nAboTW3IyY4vm9IXFLbrQR5TFS7oA6CPnz0lczc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H4KojXUf; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-60462031113so113606a12.0
-        for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 23:31:20 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60472d90787so143633a12.1
+        for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 23:33:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748500279; x=1749105079; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=rt6mhCx+Xta4pmHm0wtc8Qz2ggrm33jLnwirmmfkTiM=;
-        b=yQeTN6q7zQAG1AVIIuU3mZTZ3x3/RBONr/Xz0AbM+dmGuZKpJo+z6O+hSF23vXwZn+
-         aEnKLGZNtKNyWpkVWakJ/ImUV9M8CRBMIWcKA75oq5iV40p5haf4m9EtyqM2DdbgK6E8
-         DAwC6x3yQ62SytDc1TVarnKLuFitwPlLKz7RjdlxIvgssTfon89Sdp6lxkdZxag7BlAd
-         I17uoQJ58YMtxhAgKEm8b5R45pV5nCD/zoq5QIL+Fis3dUi1c5WmCdhWNaA5DkuDTGvp
-         yZ/giVOyofizM3q8m4bNk1G+zYTDwo9jUQTSw+hdQTJVoOXwuxf3xU3C7i6xfGTvEbXR
-         qwTg==
+        d=linaro.org; s=google; t=1748500424; x=1749105224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SBsN2M5plJXvWWWmLLNmPiCk2P2hllHuLwIt4QtOdi8=;
+        b=H4KojXUfNJGZVXgtxOYWz4OqGl4MldNnJo7qsB3SrjeRoFwYc1NcMZ69+IP22yulGd
+         mnc3AepzmYrC408YkHLF65LMz0PEynz6QY8abEfFSGUEF0m+APW2sPX+64/BZQJFnczZ
+         l4UijyXG6TKl43cg79vRdSceuMAjUqC+f77xunbtZkEXz0Wbi3o/uCkat4Q2mGyiNpy+
+         Gbno4tIYnmTWPifVcJqJ4ols4akyCDg2l0dOqA0pAQSJiQUtIqya2r2QlHbPbnjaGgk3
+         XZs89onozPEmftOv4O569airGsmJwVxaayPHMxGsfSobd84FwBc1ry07uYWLHkjhTRV5
+         znRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748500279; x=1749105079;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748500424; x=1749105224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rt6mhCx+Xta4pmHm0wtc8Qz2ggrm33jLnwirmmfkTiM=;
-        b=U9uEjvSklkoxUV2nO6M12bM9S1K0rJvofRCW6eFRXx6vX8U/jIPPoPf4S2R4T1UWy/
-         9AL7UzbSOqjXLLN0fzadc0kck/h61HhIkLYPFRmpxRUMixx1URdylLYP30gQJ+L/9bvc
-         0lDvwr7GTyVcuWWX5bG3oRw00I3w5k9V0ZH5AqdyF7+hiiXouRz5u8wqQ4t5OnVuf25c
-         LYHuJN31l5PnTQXPHzAl8vP/txYnnJKnPvsHovrAIpi3/VhzqtQIkx4ZuTHedYX4Cp3b
-         HqFXlcMTSrGMQ87puVjZ8wSxKkvv9k3RDZ3C2+EBl2pyLg972G1NauEWkzm+9QUp05ZW
-         0EKg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ9lfRw5jIxNCCX8vreJgbevSM860/Ao1Gtt3u6lmb8zUo4rldy/LSXjWLuixmC8rR2g9fSJX9Z553@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxz81WBlJwhH4lD6e0ODUOIzKCNTKa6rZQ0E53Luu4BIS8IU6Qt
-	rygFSkqjk3isWL8L/C/ACCiBa1lcyEdaRyZRz8QVYcA3jub7UN4MGhr72MSl5PC+BdM=
-X-Gm-Gg: ASbGncuyjeahurE901rUqCizTBKrJRdzXphQkKnGbG1l4xoeJ64+XTQBMVFK/5oGLRR
-	GmesUEecOuQqY2D61mTz7Fw9/lrYeuRfUP0FmshsGglCBm+xJwgQaC73/Js0cx+Kqiv3Rz4h4kR
-	ApvETv2bGw5p3CDwws+IvZuRZbWf79BeKh6bo8z/HsdlIqmKIMbiRO+wIl5DW8b0g+ZYZ/w++OP
-	mys9a3CUvZH2CPrOE8IeJQD7XPm4UaCCk8qYrDpwXgrukXzOqbTcVQu+ldhFkKmrXQc/ubRDWw6
-	ofHPhfJYN2zF1hb+wukjMXZm4VVW/DceRSCf6qb/5RFZA5RRCu/7eDrvxMstTCOmJFmz0u0=
-X-Google-Smtp-Source: AGHT+IHBoTLt2zj07UfvDpduyo6VwGS6VJkEDnEAwKaxoqBhRhFaLtslOtTaIwBlX2xZrWOmGrIukw==
-X-Received: by 2002:a05:6402:51d2:b0:602:a0:1f27 with SMTP id 4fb4d7f45d1cf-60518ce9f36mr1664563a12.1.1748500279313;
-        Wed, 28 May 2025 23:31:19 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d7fee1esm83489266b.25.2025.05.28.23.31.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 23:31:18 -0700 (PDT)
-Message-ID: <8b2f664d-8e89-460f-a8df-d3fab13fe889@linaro.org>
-Date: Thu, 29 May 2025 08:31:17 +0200
+        bh=SBsN2M5plJXvWWWmLLNmPiCk2P2hllHuLwIt4QtOdi8=;
+        b=QQJsNb5osWysBawQyuk4MUH2HfucNCNuhZeT9NwT5g5mtoJTNrVwXQN/RWlTTzRann
+         r/u/CG1QnPxzu/QewD07Cu3ANYqk8g1tp94+9zoOTWLK/tCMvmuDqfBAHDNJff/RyurJ
+         MrscR4ggwgsxaJLrFLdWve7G6uNsnFxYMg2k2WsA1az5goiek+zGCaNFR/AuzJpLrI7J
+         /wM0Metzy0+c4KGc61ojFmsAfRp/UgmelVhjzGP2HzQUyH1wU9bIYky2tYU6rOk8F37P
+         PlQCGGcs6yjqorNLrLjjfk0ZD466CYVDNyYeIEpFUoBsijUDw3L2dmQuT/avS4jKJnls
+         PUqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWkeNgmbmnIbTlpFxq3/2xF2tEgEuxVnB3Sn/kUH8Da/OAx/O7k5BmXs7nuhML53GzqcVmBUH1tTB28@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkpzR1b3zt2jchHt1j8yTygVQDKkJw9DC4QYV6ZQCCyfPn0oOi
+	r84QTpj+qxsrBDKLhWAXFCnufiFJIxWI/v3AfnPF0/M23j6665fLCR7E4k4oLCu7plU=
+X-Gm-Gg: ASbGncsuDnZ9CxQsGBZuivIkZAi75HglgWR0f9+9hPhFkXUiY3woX4c/W7hbXX9guQm
+	CXerCa02ODgH5JuY/J0XiFfFhA24iYWdZQ2eg4VuIkmNSAgbggXKWSPRDqNsHT3Tzw5TDMyC9dx
+	GpMg650dt/GzYKzxS6K75+X8t4PxX3lE+W0Sf0WSxuo6wYJ295askmsWJxse0eb632tRbBKm9Az
+	9GYFJxvWXRJ2TMYVFexIU556wqH7r1iadHRPqxs454B5QeyADK4bOnVdlK7aWMiHWOaF5ZLuY1c
+	vYo+VE5Gxq0kbIPgkO/WHQf/jqFIOuJoVJcAbMIpzboro/dD5cVwdRkAArQPRA==
+X-Google-Smtp-Source: AGHT+IG+2/O+2ZJBt/UVY6s6MTq2JMb3gjEh9I1cjlAGWV8qiz6P8CgGN3urpopaSLsBQ3Rzphej4w==
+X-Received: by 2002:a17:907:7ba3:b0:ad8:8189:2563 with SMTP id a640c23a62f3a-ad881892688mr429545966b.12.1748500424567;
+        Wed, 28 May 2025 23:33:44 -0700 (PDT)
+Received: from kuoka.. ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d82d97csm83083966b.60.2025.05.28.23.33.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 23:33:43 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Fenglin Wu <quic_fenglinw@quicinc.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] leds: flash: leds-qcom-flash: Fix registry access after re-bind
+Date: Thu, 29 May 2025 08:33:36 +0200
+Message-ID: <20250529063335.8785-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: flash: leds-qcom-flash: Fix registry access after
- re-bind
-To: Fenglin Wu <fenglin.wu@oss.qualcomm.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-References: <20250528194425.567172-2-krzysztof.kozlowski@linaro.org>
- <42be0934-2e97-4d02-98df-b5a03195e8ae@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <42be0934-2e97-4d02-98df-b5a03195e8ae@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2887; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=7b378+3r0+KWEehULfd4J/Tt+ZUTOYUqhTFUYPGmOiI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN/+/tDqCl4lA2lvhDWUP21ndaCSqzhLp82GTZ
+ /yRK3QzeOOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDf/vwAKCRDBN2bmhouD
+ 1wwyD/46PZAK5YWqFkYuY2KPmKMDVO2FnM6uM/TnbjMZJmvWS8VyyaXctFifhG4+l82SSZduf9R
+ 30A+GCAuN27v+wRjjZ2uYlz1876muO8PzIh0mATcjS4VABBwMP7uXDe5aiP8XNUSni9gI9h/g6J
+ gL2X0PrryiluyeiOB5yMioUYpRAqqRVEW0NYqvceCVQA3Q6+bY1czWNfEQJXV1QiE3W3xHF661W
+ hi2saekDSqiReXzSfPsIPUIbfkux+wi4R+oymfpCa4/zFF54lclu+5uXqVkXvNhYRDksiyBVAdS
+ 3EgQdFg8EP9SJdWLf6lnPNmxD3rrwiQxAWD4mR2Xe1oozLvcPysAmU5Cj2r3Ix9rhAxYp4dp9j7
+ IWsxGp7NvqDuTgLnvnbdSciUaKPYfrapVOa2atkbC8zVQlOQNBI+MvulyuU3nQK5i9wvloDChti
+ RZ2Fd0aZhB7aBfEOZCz9v/HcAX8C4XS+Vm1ifT0c1SYIvqwuc0qVCvlreZMX2AbpZ+wedt6dXwy
+ zyEHXL0bVXqqWA79RE/Em26mFnkNMkvnineYjFDjkDVtyQUAzY/OPtJvg5KCDZh4Swu1+uX5fsi
+ yVOIcrXbrC5kzGJh2o2dZ1KhoBKqUJ9EGfMAEbIi2GpebPHWDvYdLaZZGmu3e593iNvlhfsqf2x jJA2Dx7qO5CSv+A==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-On 29/05/2025 05:11, Fenglin Wu wrote:
->> -static struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
->> +static const struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
->>   	REG_FIELD(0x06, 0, 7),			/* status1	*/
->>   	REG_FIELD(0x07, 0, 6),			/* status2	*/
->>   	REG_FIELD(0x09, 0, 7),			/* status3	*/
->> @@ -854,11 +854,17 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
->>   	if (val == FLASH_SUBTYPE_3CH_PM8150_VAL || val == FLASH_SUBTYPE_3CH_PMI8998_VAL) {
->>   		flash_data->hw_type = QCOM_MVFLASH_3CH;
->>   		flash_data->max_channels = 3;
->> -		regs = mvflash_3ch_regs;
->> +		regs = devm_kmemdup(dev, mvflash_3ch_regs, sizeof(mvflash_3ch_regs),
->> +				    GFP_KERNEL);
->> +		if (!regs)
->> +			return -ENOMEM;
->>   	} else if (val == FLASH_SUBTYPE_4CH_VAL) {
->>   		flash_data->hw_type = QCOM_MVFLASH_4CH;
->>   		flash_data->max_channels = 4;
->> -		regs = mvflash_4ch_regs;
->> +		regs = devm_kmemdup(dev, mvflash_4ch_regs, sizeof(mvflash_3ch_regs),
-> 
-> Minor: sizeof(mvflash_4ch_regs)
+Driver in probe() updates each of 'reg_field' with 'reg_base':
 
-Copy paste, thanks.
+	for (i = 0; i < REG_MAX_COUNT; i++)
+		regs[i].reg += reg_base;
 
-> 
+'reg_field' array (under variable 'regs' above) is statically allocated,
+thus each re-bind would add another 'reg_base' leading to bogus
+register addresses.  Constify the local 'reg_field' array and duplicate
+it in probe to solve this.
 
+Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+---
 
-Best regards,
-Krzysztof
+Changes in v2:
+1. Fix sizeof() argument (Fenglin Wu)
+
+This is a nice example why constifying static memory is useful.
+---
+ drivers/leds/flash/leds-qcom-flash.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+index b4c19be51c4d..89cf5120f5d5 100644
+--- a/drivers/leds/flash/leds-qcom-flash.c
++++ b/drivers/leds/flash/leds-qcom-flash.c
+@@ -117,7 +117,7 @@ enum {
+ 	REG_MAX_COUNT,
+ };
+ 
+-static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
++static const struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x08, 0, 7),			/* status1	*/
+ 	REG_FIELD(0x09, 0, 7),                  /* status2	*/
+ 	REG_FIELD(0x0a, 0, 7),                  /* status3	*/
+@@ -132,7 +132,7 @@ static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x58, 0, 2),			/* therm_thrsh3 */
+ };
+ 
+-static struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
++static const struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
+ 	REG_FIELD(0x06, 0, 7),			/* status1	*/
+ 	REG_FIELD(0x07, 0, 6),			/* status2	*/
+ 	REG_FIELD(0x09, 0, 7),			/* status3	*/
+@@ -854,11 +854,17 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 	if (val == FLASH_SUBTYPE_3CH_PM8150_VAL || val == FLASH_SUBTYPE_3CH_PMI8998_VAL) {
+ 		flash_data->hw_type = QCOM_MVFLASH_3CH;
+ 		flash_data->max_channels = 3;
+-		regs = mvflash_3ch_regs;
++		regs = devm_kmemdup(dev, mvflash_3ch_regs, sizeof(mvflash_3ch_regs),
++				    GFP_KERNEL);
++		if (!regs)
++			return -ENOMEM;
+ 	} else if (val == FLASH_SUBTYPE_4CH_VAL) {
+ 		flash_data->hw_type = QCOM_MVFLASH_4CH;
+ 		flash_data->max_channels = 4;
+-		regs = mvflash_4ch_regs;
++		regs = devm_kmemdup(dev, mvflash_4ch_regs, sizeof(mvflash_4ch_regs),
++				    GFP_KERNEL);
++		if (!regs)
++			return -ENOMEM;
+ 
+ 		rc = regmap_read(regmap, reg_base + FLASH_REVISION_REG, &val);
+ 		if (rc < 0) {
+@@ -880,6 +886,7 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
+ 		dev_err(dev, "Failed to allocate regmap field, rc=%d\n", rc);
+ 		return rc;
+ 	}
++	devm_kfree(dev, regs); /* devm_regmap_field_bulk_alloc() makes copies */
+ 
+ 	platform_set_drvdata(pdev, flash_data);
+ 	mutex_init(&flash_data->lock);
+-- 
+2.45.2
+
 
