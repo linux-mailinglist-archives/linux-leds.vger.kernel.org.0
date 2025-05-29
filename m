@@ -1,184 +1,152 @@
-Return-Path: <linux-leds+bounces-4730-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4731-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91543AC790F
-	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 08:38:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70835AC792D
+	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 08:47:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB621A6034B
-	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 06:38:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53B517A8042
+	for <lists+linux-leds@lfdr.de>; Thu, 29 May 2025 06:45:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57577261378;
-	Thu, 29 May 2025 06:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA59256C6F;
+	Thu, 29 May 2025 06:47:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H4KojXUf"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oEc/H7ae"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632762586E8
-	for <linux-leds@vger.kernel.org>; Thu, 29 May 2025 06:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B165B24C66F
+	for <linux-leds@vger.kernel.org>; Thu, 29 May 2025 06:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748500429; cv=none; b=eQGlfwa6qIGfuRwcuogYyxDqoRn+LgtvQiUOA43z7eeEhwJI89nPAzLzxfWJYwZe2S2ORzgY4zEvjg9DoSLwpZNmlGPiYyGJVKrgnpkciUUavUMC7iYQqn8mZ0nOJgt3fmLZPdSH6LvUvgQ1g8VGP5yL2laGZRKkVIasJF7vpX0=
+	t=1748501220; cv=none; b=PomVU6FpfPGImAwMy9zu74h0YkKL3KKxCQC8Vd1jTwjahQKdGMsZUD4OVt36tXMOSHxjjgOBGtS0FIQuozuiGfXqex+AM5uQ1Nr6fXucsrk0LhJMOIxGaNyZujaj/6UiCdBRNT656xbdTd5TUndR2dWmct7OrYmVULez8CC0aU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748500429; c=relaxed/simple;
-	bh=7b378+3r0+KWEehULfd4J/Tt+ZUTOYUqhTFUYPGmOiI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uJTVEoaFezHSrzdrJgm7wf8h/CE+n5wGTwbbsMTR6O4W4fhDcLCyeitMiOS8Fuff5UvlAnxuipX9jw499FSwzjiU58W3dlGb1pSuSs9XPQOKX0FHjPNaWkBZ3lFRhleEjYB1nAboTW3IyY4vm9IXFLbrQR5TFS7oA6CPnz0lczc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H4KojXUf; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60472d90787so143633a12.1
-        for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 23:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748500424; x=1749105224; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SBsN2M5plJXvWWWmLLNmPiCk2P2hllHuLwIt4QtOdi8=;
-        b=H4KojXUfNJGZVXgtxOYWz4OqGl4MldNnJo7qsB3SrjeRoFwYc1NcMZ69+IP22yulGd
-         mnc3AepzmYrC408YkHLF65LMz0PEynz6QY8abEfFSGUEF0m+APW2sPX+64/BZQJFnczZ
-         l4UijyXG6TKl43cg79vRdSceuMAjUqC+f77xunbtZkEXz0Wbi3o/uCkat4Q2mGyiNpy+
-         Gbno4tIYnmTWPifVcJqJ4ols4akyCDg2l0dOqA0pAQSJiQUtIqya2r2QlHbPbnjaGgk3
-         XZs89onozPEmftOv4O569airGsmJwVxaayPHMxGsfSobd84FwBc1ry07uYWLHkjhTRV5
-         znRQ==
+	s=arc-20240116; t=1748501220; c=relaxed/simple;
+	bh=psTx5DnqTcqc7rdga6X9dADCvyDhDYFwQMHtamg1P1c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ahIz9L6V2ufNQ+D6igMkNAZ0GSeNRStfThsxBJ0hAl8IDHMarCIkMZM2IepJqffEVqGXG+ZgsDhX5m/selquc1jQXA7as3ASMDW42uKIpBnHBqxReikXhaiRHv6wouX+GT7wgw0AB9CjqU3qHQQ8nWgsE/8CvkS5Yn8QVEHE7fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oEc/H7ae; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54T2J42Q013944
+	for <linux-leds@vger.kernel.org>; Thu, 29 May 2025 06:46:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	T8PGsXyBDZ5H+JaRIX2npxMFHOrT7ZZSDbAslLTPf2k=; b=oEc/H7aedWKsUc3D
+	2rSog4WRZQP6dVmuO16IWE+UffwL7cHKyDWipnoKE/GreAM3eyrw32j+Eilhoxoi
+	yS8wJISqBvEx9IEWJdFDZJLEyvFJwjNqy1M1EY0l/eSZ4cesxxwfRnDYdQbTjhbM
+	YVuI+VvB87LcdZ/GxMLHUlmgcYNbW679a8rg6TkmXFCLdnjBCNVbAA6PqTT5UIcu
+	qAAujQ3ZMjcSkK0CA1gVSGqQn5jkW2XbfmcQkHBJc0hinmQtm2lKK9q/a4qGyIKf
+	gmItCi9bSKsJUCPC8LObmC2AiNj4mLJPWqDrtwmdfyN3picgfaz5AgQr9kHQEPIp
+	ecLnsg==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u549mqg6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Thu, 29 May 2025 06:46:56 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-311ef4fb5eeso558418a91.1
+        for <linux-leds@vger.kernel.org>; Wed, 28 May 2025 23:46:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748500424; x=1749105224;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SBsN2M5plJXvWWWmLLNmPiCk2P2hllHuLwIt4QtOdi8=;
-        b=QQJsNb5osWysBawQyuk4MUH2HfucNCNuhZeT9NwT5g5mtoJTNrVwXQN/RWlTTzRann
-         r/u/CG1QnPxzu/QewD07Cu3ANYqk8g1tp94+9zoOTWLK/tCMvmuDqfBAHDNJff/RyurJ
-         MrscR4ggwgsxaJLrFLdWve7G6uNsnFxYMg2k2WsA1az5goiek+zGCaNFR/AuzJpLrI7J
-         /wM0Metzy0+c4KGc61ojFmsAfRp/UgmelVhjzGP2HzQUyH1wU9bIYky2tYU6rOk8F37P
-         PlQCGGcs6yjqorNLrLjjfk0ZD466CYVDNyYeIEpFUoBsijUDw3L2dmQuT/avS4jKJnls
-         PUqA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkeNgmbmnIbTlpFxq3/2xF2tEgEuxVnB3Sn/kUH8Da/OAx/O7k5BmXs7nuhML53GzqcVmBUH1tTB28@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkpzR1b3zt2jchHt1j8yTygVQDKkJw9DC4QYV6ZQCCyfPn0oOi
-	r84QTpj+qxsrBDKLhWAXFCnufiFJIxWI/v3AfnPF0/M23j6665fLCR7E4k4oLCu7plU=
-X-Gm-Gg: ASbGncsuDnZ9CxQsGBZuivIkZAi75HglgWR0f9+9hPhFkXUiY3woX4c/W7hbXX9guQm
-	CXerCa02ODgH5JuY/J0XiFfFhA24iYWdZQ2eg4VuIkmNSAgbggXKWSPRDqNsHT3Tzw5TDMyC9dx
-	GpMg650dt/GzYKzxS6K75+X8t4PxX3lE+W0Sf0WSxuo6wYJ295askmsWJxse0eb632tRbBKm9Az
-	9GYFJxvWXRJ2TMYVFexIU556wqH7r1iadHRPqxs454B5QeyADK4bOnVdlK7aWMiHWOaF5ZLuY1c
-	vYo+VE5Gxq0kbIPgkO/WHQf/jqFIOuJoVJcAbMIpzboro/dD5cVwdRkAArQPRA==
-X-Google-Smtp-Source: AGHT+IG+2/O+2ZJBt/UVY6s6MTq2JMb3gjEh9I1cjlAGWV8qiz6P8CgGN3urpopaSLsBQ3Rzphej4w==
-X-Received: by 2002:a17:907:7ba3:b0:ad8:8189:2563 with SMTP id a640c23a62f3a-ad881892688mr429545966b.12.1748500424567;
-        Wed, 28 May 2025 23:33:44 -0700 (PDT)
-Received: from kuoka.. ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d82d97csm83083966b.60.2025.05.28.23.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 23:33:43 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Fenglin Wu <quic_fenglinw@quicinc.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] leds: flash: leds-qcom-flash: Fix registry access after re-bind
-Date: Thu, 29 May 2025 08:33:36 +0200
-Message-ID: <20250529063335.8785-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1748501215; x=1749106015;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T8PGsXyBDZ5H+JaRIX2npxMFHOrT7ZZSDbAslLTPf2k=;
+        b=FqBy5hW+GTPFpfRtDTcwLjcdRfc6O8CwPR2DHc99ovi2VaHCQ6H+nFe50O7DNnIlsy
+         n2KJ5z0nFaPcQklIqJdpRwkRAhcVzv8WOrvogv1FHGc+rG9oEExypb/ejiqTj9FU3js5
+         aaPBe2FJscIWLbn8eSCcRxuVtPuQCDYriFAsKhibcwWLyoMRS23dU4YSiYPyyn38YagM
+         jEDitRWrpex8CubxsshofEPMA8l1Cw78tQZ0XrkJ87WNkYmG4VCI6jMalqsP8K1d8cWF
+         gTJLxSVxGh4PvCAyBQyEEDp2dmJv2IzzXYvVLbP9lL/JZ0t58/CS6Ogov/sbLYDNaPMo
+         6lKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvxJAA1utUrQStJah/Q2+gP6fMhaPgc9W8U6MvzYlsJOcV3YegKayxUNCauVOeHLgx4vY3WHhVjmPr@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoANJsN5gV1l+I46DAjKLBMnuDZiijc4gFBphUpZMvv8pdg/8q
+	l54tix6cyoj8H02O5TzY0/gm/tYj5YDAnHGLjGir0sMFM/IYg7X7vrjIiU/bJTuE/2m9yuFRKWq
+	meb7XRM7OPcTTYLRjnAtcgzy7ce+FSNNB3cqKGC2FV+MN3P2BnlpxPXcEq3yjSL1z
+X-Gm-Gg: ASbGncuV6Zvt74xIdP98O7s0s9Gh4RZ6Ei9hw9VMxaVMswFOcHG+HNnTiF8OXol7ktN
+	M1Ms5KXIar2ySddX1dPz7zfDzqZMyHWT2/7NxZHNMLmjRlXx5GJp5sT6veEv0r3PtNZscrfGP5b
+	nab0ou/X8qvoJQqT8K706/+J4QmtSIoWXV7QMff5TSKRjipBK70pZUZPReYc4DCApV9Dx64jrqm
+	Y5eggpj1U3DHVRjPXqG9oxH26tJeTBJY0kFKTf8Fcx4hGQHH3RbtzCwLUr1MciWVuq9OiIveAyX
+	Ncewy06q4CSZbDgB+lkz4k/iUyWevH2shNcMaysT5xQJDtuQDYmyRN/xt11feOFzVrBzPsxk8k5
+	F
+X-Received: by 2002:a17:90a:ec8f:b0:30e:5c74:53c9 with SMTP id 98e67ed59e1d1-31214e70c6fmr3707565a91.11.1748501215067;
+        Wed, 28 May 2025 23:46:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG3+tA0etXLR8LyoSKB3yEpu2iofzywi/K5UpRcAuWOpAuxadNSDcNeFAVT33hT++YFoC4ufA==
+X-Received: by 2002:a17:90a:ec8f:b0:30e:5c74:53c9 with SMTP id 98e67ed59e1d1-31214e70c6fmr3707541a91.11.1748501214650;
+        Wed, 28 May 2025 23:46:54 -0700 (PDT)
+Received: from [10.133.33.104] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3121b91b063sm710878a91.21.2025.05.28.23.46.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 May 2025 23:46:54 -0700 (PDT)
+Message-ID: <a9f260e1-c632-4955-b7d4-98fb024e2989@oss.qualcomm.com>
+Date: Thu, 29 May 2025 14:46:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2887; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=7b378+3r0+KWEehULfd4J/Tt+ZUTOYUqhTFUYPGmOiI=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN/+/tDqCl4lA2lvhDWUP21ndaCSqzhLp82GTZ
- /yRK3QzeOOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDf/vwAKCRDBN2bmhouD
- 1wwyD/46PZAK5YWqFkYuY2KPmKMDVO2FnM6uM/TnbjMZJmvWS8VyyaXctFifhG4+l82SSZduf9R
- 30A+GCAuN27v+wRjjZ2uYlz1876muO8PzIh0mATcjS4VABBwMP7uXDe5aiP8XNUSni9gI9h/g6J
- gL2X0PrryiluyeiOB5yMioUYpRAqqRVEW0NYqvceCVQA3Q6+bY1czWNfEQJXV1QiE3W3xHF661W
- hi2saekDSqiReXzSfPsIPUIbfkux+wi4R+oymfpCa4/zFF54lclu+5uXqVkXvNhYRDksiyBVAdS
- 3EgQdFg8EP9SJdWLf6lnPNmxD3rrwiQxAWD4mR2Xe1oozLvcPysAmU5Cj2r3Ix9rhAxYp4dp9j7
- IWsxGp7NvqDuTgLnvnbdSciUaKPYfrapVOa2atkbC8zVQlOQNBI+MvulyuU3nQK5i9wvloDChti
- RZ2Fd0aZhB7aBfEOZCz9v/HcAX8C4XS+Vm1ifT0c1SYIvqwuc0qVCvlreZMX2AbpZ+wedt6dXwy
- zyEHXL0bVXqqWA79RE/Em26mFnkNMkvnineYjFDjkDVtyQUAzY/OPtJvg5KCDZh4Swu1+uX5fsi
- yVOIcrXbrC5kzGJh2o2dZ1KhoBKqUJ9EGfMAEbIi2GpebPHWDvYdLaZZGmu3e593iNvlhfsqf2x jJA2Dx7qO5CSv+A==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] leds: flash: leds-qcom-flash: Fix registry access
+ after re-bind
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        fenglin.wu@oss.qualcomm.com
+Cc: stable@vger.kernel.org
+References: <20250529063335.8785-2-krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+In-Reply-To: <20250529063335.8785-2-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: HPIIzbey9_WB36BJAtjeQ8ZG8POgZYnL
+X-Authority-Analysis: v=2.4 cv=E9nNpbdl c=1 sm=1 tr=0 ts=683802e0 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
+ a=EUspDBNiAAAA:8 a=nBHSmvIfuyYwa36IIZEA:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI5MDA2NSBTYWx0ZWRfX0Tb1Pvlz2nbu
+ exQkMq8a29VtqwM8u8SIGmLYvDeUGUdohjjBshz2ZCYWsXi30K4HTQhsmGoRL76pHF9SmrpfvFp
+ Y7xVwqfPIfuw/EjF7Qd1fGJrniLdoO9dChTcYljvvxRhE7ou9ndL7meBbl74ycoD5Jc+j485yZ+
+ N/yeHk4uMKmSfQyafle5Ezgd8DHqE9FY+va1g1Wa5ALYscML/opxKhc0uSUPEdUuW65VipvdCgE
+ EdehO5/D6jtejGYFhMxnEV+ld6qm9tp7KbL504NPy1jG/fncwGAYmqcco9uqoMnI1o97x3fgE4M
+ tXRz2rnHInGh5xczB77cSZkg2KpFeLFXAymXwroqTgnaO+G1b1hwr+HdNiSR/hIkNOhB9+8dEjn
+ AhkFIJyLA3DUe9AIB8HpFhKQZsNm0f5SVAlHRLCK/VBbpbYEgtKhryOdZdC8DkwzIrbC2LQ7
+X-Proofpoint-ORIG-GUID: HPIIzbey9_WB36BJAtjeQ8ZG8POgZYnL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-29_03,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=579 spamscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505290065
 
-Driver in probe() updates each of 'reg_field' with 'reg_base':
 
-	for (i = 0; i < REG_MAX_COUNT; i++)
-		regs[i].reg += reg_base;
 
-'reg_field' array (under variable 'regs' above) is statically allocated,
-thus each re-bind would add another 'reg_base' leading to bogus
-register addresses.  Constify the local 'reg_field' array and duplicate
-it in probe to solve this.
+On 5/29/2025 2:33 PM, Krzysztof Kozlowski wrote:
+> Driver in probe() updates each of 'reg_field' with 'reg_base':
+> 
+> 	for (i = 0; i < REG_MAX_COUNT; i++)
+> 		regs[i].reg += reg_base;
+> 
+> 'reg_field' array (under variable 'regs' above) is statically allocated,
+> thus each re-bind would add another 'reg_base' leading to bogus
+> register addresses.  Constify the local 'reg_field' array and duplicate
+> it in probe to solve this.
+> 
+> Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
 
-Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 
----
-
-Changes in v2:
-1. Fix sizeof() argument (Fenglin Wu)
-
-This is a nice example why constifying static memory is useful.
----
- drivers/leds/flash/leds-qcom-flash.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
-index b4c19be51c4d..89cf5120f5d5 100644
---- a/drivers/leds/flash/leds-qcom-flash.c
-+++ b/drivers/leds/flash/leds-qcom-flash.c
-@@ -117,7 +117,7 @@ enum {
- 	REG_MAX_COUNT,
- };
- 
--static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
-+static const struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
- 	REG_FIELD(0x08, 0, 7),			/* status1	*/
- 	REG_FIELD(0x09, 0, 7),                  /* status2	*/
- 	REG_FIELD(0x0a, 0, 7),                  /* status3	*/
-@@ -132,7 +132,7 @@ static struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
- 	REG_FIELD(0x58, 0, 2),			/* therm_thrsh3 */
- };
- 
--static struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
-+static const struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
- 	REG_FIELD(0x06, 0, 7),			/* status1	*/
- 	REG_FIELD(0x07, 0, 6),			/* status2	*/
- 	REG_FIELD(0x09, 0, 7),			/* status3	*/
-@@ -854,11 +854,17 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
- 	if (val == FLASH_SUBTYPE_3CH_PM8150_VAL || val == FLASH_SUBTYPE_3CH_PMI8998_VAL) {
- 		flash_data->hw_type = QCOM_MVFLASH_3CH;
- 		flash_data->max_channels = 3;
--		regs = mvflash_3ch_regs;
-+		regs = devm_kmemdup(dev, mvflash_3ch_regs, sizeof(mvflash_3ch_regs),
-+				    GFP_KERNEL);
-+		if (!regs)
-+			return -ENOMEM;
- 	} else if (val == FLASH_SUBTYPE_4CH_VAL) {
- 		flash_data->hw_type = QCOM_MVFLASH_4CH;
- 		flash_data->max_channels = 4;
--		regs = mvflash_4ch_regs;
-+		regs = devm_kmemdup(dev, mvflash_4ch_regs, sizeof(mvflash_4ch_regs),
-+				    GFP_KERNEL);
-+		if (!regs)
-+			return -ENOMEM;
- 
- 		rc = regmap_read(regmap, reg_base + FLASH_REVISION_REG, &val);
- 		if (rc < 0) {
-@@ -880,6 +886,7 @@ static int qcom_flash_led_probe(struct platform_device *pdev)
- 		dev_err(dev, "Failed to allocate regmap field, rc=%d\n", rc);
- 		return rc;
- 	}
-+	devm_kfree(dev, regs); /* devm_regmap_field_bulk_alloc() makes copies */
- 
- 	platform_set_drvdata(pdev, flash_data);
- 	mutex_init(&flash_data->lock);
--- 
-2.45.2
 
 
