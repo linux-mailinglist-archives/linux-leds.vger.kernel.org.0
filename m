@@ -1,133 +1,119 @@
-Return-Path: <linux-leds+bounces-4743-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4744-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FCBACEA12
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Jun 2025 08:21:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CC7ACEA6F
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Jun 2025 08:49:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86CF7160739
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Jun 2025 06:21:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1090E189B1AD
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Jun 2025 06:49:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5391C3314;
-	Thu,  5 Jun 2025 06:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10A411DED70;
+	Thu,  5 Jun 2025 06:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RpHB0y5R"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="LI9scScH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0552566;
-	Thu,  5 Jun 2025 06:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060571A00F0;
+	Thu,  5 Jun 2025 06:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749104504; cv=none; b=G2qGlYkDHR/awpgSLgjKPS4x6i+Wn+e1amyPCDzvuATheWLzMUGv4qlhFEpaKAUxlNbdMADd+GVMfQGcgGkrp8Jlnz6JXbbxaryEoslG1hwzCQYAWiCb6Kpo4BKmK0EYSDE0KbRpBVw6eh3s0MoM7uRuQ5gYEm7nOA7aHeHCJek=
+	t=1749106122; cv=none; b=PDDkIVIy7+Ihc18L2T8+Gv450pVK1QXKyEIm/dn9ZF05/KbIW6SGhsiRFnpyJvcCSfR9mxWamQludZrkkTHlkuseFCCAZ5uThiq8XROav/V9vr+8i038eUH3/F/1dC7JvoLHHo9g2Smw9UT4KyXDP7uUXvzIJgTXBXX0MThoGDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749104504; c=relaxed/simple;
-	bh=+Redz4ifkRkx64frRMoX7dOYX5AJN+Q/ArPYmvxEyPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qtigZH51Ssl9Yy1MFNLbFCmqkV6soDW9+atHMKJZTh6AGVPWkS5F+1PN2ArKyF3tuGxJC1aoP5FwUhEfOM9lWAgCrcQGUj0IbiV7MvLagR6TjaP3vRORdUzez0tjw3CQ29taqrpnpj6B3GlhqPgPqJadK/m47xLgvXyixho1a8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RpHB0y5R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1271C4CEE7;
-	Thu,  5 Jun 2025 06:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749104504;
-	bh=+Redz4ifkRkx64frRMoX7dOYX5AJN+Q/ArPYmvxEyPc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RpHB0y5Ra2FIpz9VgGLS53mxOfVMAIYqacJek1YYOjiIK68AYA+laSiYRBvxmXbya
-	 hnJy//xgXODlHJYv3jCjpYD3peZV8eJMilgHHNzMoM6HWjz3ZV75w6Y6B2cwrbo8wB
-	 vBKfKwm47IhwMJ/my3pAsa55ftxFNeYGTAoShHQi8GNHfCkruvz/0Ek2z5DOgJSUz9
-	 MetvBMahFWXn23VTcIJQBrY5d7N3Csdg2JEeZJyMP/u/ZeOmeHUHU2w4cuRm2wiufE
-	 m+rEx0MdwqPAMDfmyWjwHuz/0Lt1kuETWGqydDGZJmm6KhptVX0EF4EBW7vCbGKT2h
-	 nbtBBkx7RZRxA==
-Date: Thu, 5 Jun 2025 08:21:41 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Lukas Timmermann <linux@timmermann.space>
-Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] dt-bindings: leds: Add new as3668 support
-Message-ID: <20250605-poised-furry-elephant-cadd08@kuoka>
-References: <20250604225838.102910-1-linux@timmermann.space>
- <20250604225838.102910-3-linux@timmermann.space>
+	s=arc-20240116; t=1749106122; c=relaxed/simple;
+	bh=v1VbwHn9X/vcgpehSlsORSX2h1I1ZC7wmEKLIY4Dtio=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y6y3EVDFQbadbw1XuShlyU87tA5XntbN7QmxA3PLbrJWAWjs6CEgc1+wRCftE4eOhj5oAoPrBcVPmWYCi9Te+4TAmOnmo34I6sun+ZZQUmG3Kec609x0rxaHj0b4GngLjh+uLpt/XJIQ4ReuDQpXrldGa27C8IAjZcpekGAjtSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=LI9scScH; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
+	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=vw3Uk3105LnqEXM8kkjyZCQuG6ZyTrE+YY65qSzjcI0=; b=LI9scScHpRzQVwEG4A4uDjhr49
+	6LbDw9dbugxOSGcz/8BfYC1xZqGbW8II8ipnio9no12FR8hV8l9NPyW8nxD4pNvPaxFRt9IN9UTE2
+	7uX122hebeivEf4yr/bsLoXxhYxV0VZrMwJkZw1LBOMDUdvINYVQ6A7grHBq5G71yEMw=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:62185 helo=[192.168.0.218])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+	(Exim 4.93)
+	(envelope-from <matthias.fend.oss@emfend.at>)
+	id 1uN47t-00BsXS-Cj; Thu, 05 Jun 2025 08:30:57 +0200
+Message-ID: <ea382833-3782-4203-b31c-7f1a364f671d@emfend.at>
+Date: Thu, 5 Jun 2025 08:30:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250604225838.102910-3-linux@timmermann.space>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: adjust file entry in TPS6131X FLASH LED
+ DRIVER
+To: Lukas Bulwahn <lbulwahn@redhat.com>,
+ Matthias Fend <matthias.fend@emfend.at>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>
+References: <20250527065434.202622-1-lukas.bulwahn@redhat.com>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend.oss@emfend.at>
+In-Reply-To: <20250527065434.202622-1-lukas.bulwahn@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-On Thu, Jun 05, 2025 at 12:58:38AM GMT, Lukas Timmermann wrote:
-> Document Osram as3668 LED driver devicetree bindings.
+Hi Lukas,
+
+thanks for the patch!
+The filename changed during the review and I actually forgot to update 
+it at this point.
+
+Am 27.05.2025 um 08:54 schrieb Lukas Bulwahn:
+> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 > 
-> Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+> Commit 0d12bb1a7fb6 ("dt-bindings: leds: Add Texas Instruments TPS6131x
+> flash LED driver") adds the device-tree binding file ti,tps61310.yaml,
+> whereas the commit b338a2ae9b31 ("leds: tps6131x: Add support for Texas
+> Instruments TPS6131X flash LED driver") from the same patch series adds the
+> section TEXAS INSTRUMENTS TPS6131X FLASH LED DRIVER in MAINTAINERS,
+> referring to the file ti,tps6131x.yaml. Note the subtle difference between
+> the two file names. Hence, ./scripts/get_maintainer.pl --self-test=patterns
+> complains about a broken reference.
+> 
+> Adjust the file reference to the intended file.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Please organize the patch documenting compatible (DT bindings) before their user.
-See also: https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
+Reviewed-by: Matthias Fend <matthias.fend@emfend.at>
+
+Thanks
+  ~Matthias
 
 > ---
->  .../devicetree/bindings/leds/leds-as3668.yaml | 76 +++++++++++++++++++
->  1 file changed, 76 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-as3668.yaml
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-as3668.yaml b/Documentation/devicetree/bindings/leds/leds-as3668.yaml
-> new file mode 100644
-> index 000000000000..a9d698eb87d2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-as3668.yaml
-
-Filename matching compatible. ams,as3668.yaml
-
-
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-as3668.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Osram 4-channel i2c LED driver.
-
-Drop full stop
-
-> +
-> +maintainers:
-> +  - Lukas Timmermann <linux@timmermann.space>
-> +
-> +description: |
-
-Drop |, Do not need '|' unless you need to preserve formatting.
-
-> +  This IC can drive up to four separate LEDs.
-> +  Having four channels suggests it could be used with a single RGBW LED.
-> +
-> +properties:
-> +  compatible:
-> +    const: ams,as3668
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
-> +      I2C slave address
-
-Drop description, obvious.
-
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-
-Missing gpio / pwm / audio input. I guess you omitted it because you do
-not know how to implement the audio input part? Bindings should be
-complete, so at least mention this in commit msg.
-
-Best regards,
-Krzysztof
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e20de38ffa54..0c4f0eb7f49c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -24518,7 +24518,7 @@ TEXAS INSTRUMENTS TPS6131X FLASH LED DRIVER
+>   M:	Matthias Fend <matthias.fend@emfend.at>
+>   L:	linux-leds@vger.kernel.org
+>   S:	Maintained
+> -F:	Documentation/devicetree/bindings/leds/ti,tps6131x.yaml
+> +F:	Documentation/devicetree/bindings/leds/ti,tps61310.yaml
+>   F:	drivers/leds/flash/leds-tps6131x.c
+>   
+>   TEXAS INSTRUMENTS' DAC7612 DAC DRIVER
 
 
