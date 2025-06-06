@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-4746-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4747-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25822AD0578
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 17:43:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 969FDAD059F
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 17:44:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 752363B1E45
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 15:42:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0E03179CDA
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 15:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C3B19D071;
-	Fri,  6 Jun 2025 15:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EEC228A1C4;
+	Fri,  6 Jun 2025 15:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3IWSPpP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QVuPNhqu"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70094193077;
-	Fri,  6 Jun 2025 15:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DBA17C219;
+	Fri,  6 Jun 2025 15:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749224532; cv=none; b=d2XdiKSRpEaKLs0bicJ06Oy+oS1qq0GBt5zzJF7jXA6J2m9M2YwpyLqZ6i/qpGFa3onpDp4Cy/4vACjO34BtvaowCNjF9aXv18xAmHmOY83sBukCahquCWeTw5dCFV7pwzf9Oly6U0gAXZSElCPZl5jB5yQXiLhJuH8ijE18s78=
+	t=1749224569; cv=none; b=izAQbQPOIB9ALZvvS/j0tdBd83DWH5SpLt50//iFQGe7FsWUb2LfsvxPxSSZKTK0QbHcUUJXeRkBY65H7PPpQY7gV/wI4CP5sc2sazjpGo6GyR4jJ+rcSn1rcpZH9OLzrZyjKlC7zpcQyf1vhMDQJzpDCtxC4MYVBEmEA6ZCjNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749224532; c=relaxed/simple;
+	s=arc-20240116; t=1749224569; c=relaxed/simple;
 	bh=Q/9t3W0Akn7JDP7lgH6Ojq2c7DcD93Wg1AQsXJMpUXQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gtT2a0cfFDGZYNcI2EvnZHUHQ8lWSdhUIL3rCO93ouGeVcuLujTMH0ts2IAECqY6rb7do1qbWVoIqIfnfgrhPKvtTsk/6OP8AnqGAL9suiVZsw4zQZPhE/j12AfnuoPMBGhHEabJqK0yJkoLFz0VGo/gObgEcje5nZaBMZ5Ijps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3IWSPpP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2F7EC4CEF1;
-	Fri,  6 Jun 2025 15:42:10 +0000 (UTC)
+	 MIME-Version; b=PDvChTtJRdVrIzr17tZKMwYlI+EWiWtMwrzByy3noPgnQx0LtTsp3eFtCOE4LRYmWp+SydZzc1Lm93NWN0H9beDjBcuJseMF5uJoaXKS4pf9qqJcyHVeUm94uSGVRXOy2UBGvlypKOgOP24n7IbO4bTyaP/rM49PGw1PK7vMZCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QVuPNhqu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 757DDC4CEEB;
+	Fri,  6 Jun 2025 15:42:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749224532;
+	s=k20201202; t=1749224568;
 	bh=Q/9t3W0Akn7JDP7lgH6Ojq2c7DcD93Wg1AQsXJMpUXQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F3IWSPpPASOyoVrj2eJKMXClJyNL9h/LzjDuP06l64iKb3udB7Gv7+vQam+SmqoGW
-	 Xwldr7HBHm5CBAxWldnIeuylh7rN2ziRNdwnjlSdM6CK5KCJyHrltd4WGE0tMY9B0m
-	 icdgddygSxI+oKrGu+FBvCH2w8T33Fk0f22reHhXAQzLpDVGs8jwQIyekU31sh6QW6
-	 PCdlGN7wSqYnJ037n8onDuxrzatVRgQnBlQA6qeK4tCHEdrH9w0HQI7lLQJQ+McFwQ
-	 7+HED7YBvahaUPa3+ET0DeshuIz2MQgtobDPM2K27XjZVWSgbDtRfrURNutLQdqxTk
-	 n4/39o0oz6EfA==
+	b=QVuPNhqu0fRN4O87ALyudhSzv8mObRRVQEDxJ1tnbFVH4DiBYRqFAuaOKUFAbh+f+
+	 yhBi/Bho7bYSqE9KTNI3o1BFvACDTRpFHGdZOAUPaGCfPbIBYE5KaPRczy6fuFoKr1
+	 /gFraGXx+tM6dXRQ7aU7Rilw2Tdxe9nc1ZZuJLWfOotjga+76T5LzgtJHtA2ce4b/U
+	 jzYfFeabKS3KmbELKEw9eb15yflYwl6VsuuP67Ogxbl7wlkVStRU7NWA6InWvCHcr/
+	 Bsti8eh06Y1wQ8WwzrNBIoBHe02ErRZCZpY3aAf1URZTR9huUyi0jVOt5GRAoxAlJz
+	 Hcwk170xUsORw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 16/21] leds: multicolor: Fix intensity setting while SW blinking
-Date: Fri,  6 Jun 2025 11:41:41 -0400
-Message-Id: <20250606154147.546388-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 15/19] leds: multicolor: Fix intensity setting while SW blinking
+Date: Fri,  6 Jun 2025 11:42:21 -0400
+Message-Id: <20250606154225.546969-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250606154147.546388-1-sashal@kernel.org>
-References: <20250606154147.546388-1-sashal@kernel.org>
+In-Reply-To: <20250606154225.546969-1-sashal@kernel.org>
+References: <20250606154225.546969-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.15.1
+X-stable-base: Linux 6.14.10
 Content-Transfer-Encoding: 8bit
 
 From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
