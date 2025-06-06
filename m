@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-4751-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4752-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E596FAD0603
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 17:49:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D81AD0604
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 17:49:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C6D13B3E7F
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 15:48:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1AC7C17BF1B
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 15:49:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED9A328D8C7;
-	Fri,  6 Jun 2025 15:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B1728DB58;
+	Fri,  6 Jun 2025 15:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LXkEaMYe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VnmH9aI5"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A9C28D8C6;
-	Fri,  6 Jun 2025 15:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03B728DB40;
+	Fri,  6 Jun 2025 15:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749224657; cv=none; b=EmMf0EUM0JBYOxRwso4pb+s/++P4u4Vzqa6oI8AU6+wcxlAV/+ILKYZiDAiQaBmAdn0viaO6xwuLa8cXthtcTSPPIJv3m0BJgRlziXGu5b9T+FDXB0pWsvv7nRmdXIi00bt9jYv0lkgga66s2RHlviQckrWyaBoElDZG/2aXblI=
+	t=1749224669; cv=none; b=Ah+ynadDoyKVmiFUBZAk8EP5Ur0nSxuXbubS01fWOTKdILcsyONdYX/7iaBzOy0QxGkd6aYS51o/hsTE43E9oB5m+HJYAX+wl2pPLtACnQ2+FEfzMSo3nrPy/u0ZVhI2pmB2A+UGOOApoQO/6TsPcjEaK+PXvGxyaWVD3za58XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749224657; c=relaxed/simple;
-	bh=VBYYKDLJM0I51mdHNd3IaGT7PgmJzLlVNj2YChC6Ds8=;
+	s=arc-20240116; t=1749224669; c=relaxed/simple;
+	bh=vmIYejE/rvDMJpOeYs5jeNXeUcX9QW6fvDXUdJqx2bg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FCWi7MdlZkh/BExSnayYMWUtYGccXoDrOhrm6PmKgFuM64+AvGI/THEPwuLC15CISHyi8qjUB3d709lqElel9iZ2QLqo2j6tdNa6WR2USptOF3QnK8bQ6iLS3aS5sTxJjW/yUn7r7/J95NhJbu8Jnfa0tHmsd3mE5LRdjOkzm3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LXkEaMYe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E24CC4CEEB;
-	Fri,  6 Jun 2025 15:44:16 +0000 (UTC)
+	 MIME-Version; b=H6EE94JW/A9KSghyE1Rh0hby88X+iaLVgzH0IszJPvrw4y5H9Wj8aGk8s7dcoTo2L36NH9mpIrmeQggbJqBcRJ3zeX0SM8lCtbpPouyOsI3qNJxiAZ79WlTgnVdWI0UvDJ5u82YDV1/OV7QywiM7FDR8SRB2CjvlMj9wQn2W/e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VnmH9aI5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3028AC4CEEB;
+	Fri,  6 Jun 2025 15:44:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749224657;
-	bh=VBYYKDLJM0I51mdHNd3IaGT7PgmJzLlVNj2YChC6Ds8=;
+	s=k20201202; t=1749224669;
+	bh=vmIYejE/rvDMJpOeYs5jeNXeUcX9QW6fvDXUdJqx2bg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LXkEaMYemSPYk8qE3T3MVoGUWW81GmECr9/kWYFe0L2TOD/FKvbNe2HdIxaiCJe6A
-	 Ow3JdZXsKhFUljiwcpZffWGK18nCXJQjvva6Tp2xvrJNFU1HcnFPzw9QUFcBih6i1j
-	 C3fv5SmFbV5uGC1SNiQncDd9SjqpyFgSDIDjNBjs8titavtOPCiixhaiXDJhwA4Lmz
-	 72JXPs46VJnJyX7SpSbsQu/Fzrv1bo5zWgdp+YjExFQhLni2UKuLhE+fmabyZ+bpEK
-	 oVi/4LyM7s5R8oJ+7Xmbk2d/8jVySM/jOV40LYQ0yNmd0cMTVa8JsW8j56nSvShXm0
-	 vGJjb5R7DhF5g==
+	b=VnmH9aI5rQou1gduoxnxRczlBfCXnZfY4UoLHo9ktwHUmEsfvkkK9TChJseOStZrc
+	 XV3edrHoZDLVwgVVG3EEVy/klloQ4A28DoDegd9js3OGfetORqpWEw0neVTmDFJPRK
+	 v+edPCMUkOuaduIGNPUwHIutHNaE8zDixokM2NkYrL2L93AFdTuMKb8oNRCnOEpaVw
+	 Aymp/WhiGKlF0Y/hSIvc8wJglgzPn5Ypyrg3XaKok+Jik2sU4byDm7gfo81ZUpUEdy
+	 Z6CisS7Laj4Ai5mK8YgAsmc56AKcaXPHwM6037rBcTtw5qu/pL6EESx7CwSqjMriOc
+	 2giHDUacy0+9g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 6/7] leds: multicolor: Fix intensity setting while SW blinking
-Date: Fri,  6 Jun 2025 11:44:06 -0400
-Message-Id: <20250606154408.548320-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 5/6] leds: multicolor: Fix intensity setting while SW blinking
+Date: Fri,  6 Jun 2025 11:44:19 -0400
+Message-Id: <20250606154421.548570-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250606154408.548320-1-sashal@kernel.org>
-References: <20250606154408.548320-1-sashal@kernel.org>
+In-Reply-To: <20250606154421.548570-1-sashal@kernel.org>
+References: <20250606154421.548570-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.185
+X-stable-base: Linux 5.10.238
 Content-Transfer-Encoding: 8bit
 
 From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
@@ -165,10 +165,10 @@ that stable trees are designed to address.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-index ec62a48116135..e0785935f4ba6 100644
+index e317408583df9..5b1479b5d32ca 100644
 --- a/drivers/leds/led-class-multicolor.c
 +++ b/drivers/leds/led-class-multicolor.c
-@@ -61,7 +61,8 @@ static ssize_t multi_intensity_store(struct device *dev,
+@@ -59,7 +59,8 @@ static ssize_t multi_intensity_store(struct device *dev,
  	for (i = 0; i < mcled_cdev->num_colors; i++)
  		mcled_cdev->subled_info[i].intensity = intensity_value[i];
  
