@@ -1,46 +1,46 @@
-Return-Path: <linux-leds+bounces-4749-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4750-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C31AD05E6
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 17:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EF3AD05F2
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 17:48:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B586B189F26E
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 15:46:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D9E2188C0D3
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Jun 2025 15:47:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6390F28C004;
-	Fri,  6 Jun 2025 15:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50A6628C5BE;
+	Fri,  6 Jun 2025 15:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H/N61JQX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axKo7SpK"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1E28BA84;
-	Fri,  6 Jun 2025 15:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E36289E3D;
+	Fri,  6 Jun 2025 15:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749224621; cv=none; b=g+jnJecZSKQ1s8bBi6SjUoxhGDi4w7TJOMsi8A08JrwgFvvH9Xg0Nht/pb4rvQMoULOYpQkzvoX9uy5p45BlWN9ZdYhkfDHaP/QTniGyKna15AzoBBfc4el3BK2c9vUar2Vk6d85RWmxnKvT6Bl2/dcwRjqd517IKQxpuog/PQ8=
+	t=1749224642; cv=none; b=BOzlurw4j9bcZ9XGRv8OHSW//hjJ8ugOOdRy/QhCaI9bjtkO5/ZesT/rHqfrQCitNhANYoVl8wpZHAXVlCTEMoJfBF1waqi9m88rXJzj2w1Yte5kKudlcCosHZhp6aeDZx5Vn0BEzuGJh1dyLxOEfKi7W8+gKqXWn56IAiIO3LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749224621; c=relaxed/simple;
+	s=arc-20240116; t=1749224642; c=relaxed/simple;
 	bh=VBYYKDLJM0I51mdHNd3IaGT7PgmJzLlVNj2YChC6Ds8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G0d5jSu2XvaNOrfxQBhfo/W2wLbVX7cz6NTvnLjcGxuEwxyiuO5URUqOW/xPanZM/CcZ9FAli7oFvBsyrmijNIMVOIE89zgRHdRwQ8hr7tbtWAuApKjbkanpjyKMHtBReX4AeKGwtvJE9fb6MAREnIOvJDtISM5TA1oFo7nENSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H/N61JQX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9D5C4CEED;
-	Fri,  6 Jun 2025 15:43:39 +0000 (UTC)
+	 MIME-Version; b=uV3Qs0DAXOi0Y2uqENCYLDCwlmddRnqUjKJd4jnfO6ma+WOJG3i5StT6KwH3m6WDyMVXQUCLkGppZo0eZglgS0qD6Xkser3j/Un8NW96H1YEb3Hc6dI6cBfiXI1903p60kZUU6GSgdR/U32gtQF17NXFGxjo3uuu7/YfDn3ygEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axKo7SpK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABE7DC4CEF4;
+	Fri,  6 Jun 2025 15:44:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749224621;
+	s=k20201202; t=1749224642;
 	bh=VBYYKDLJM0I51mdHNd3IaGT7PgmJzLlVNj2YChC6Ds8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H/N61JQXEBOUFhk5hLFAhUKykcMZSNgltmoFDYnSdq3UWGEl4HbVH5uXzSKOzSZWX
-	 3yOnppLWb8Rc6CKNt33TGs+2kyiFZ9b9C6biXDdsti892iwb17110sDPSqpNrhEOq5
-	 6Ktgz5rAsmYPk+H5X93QskCi/OF8+2I4/ATRnZEKIJfRlLMBRSCLNv5PpYA121FQ6o
-	 sM6z4EpibqjrRPEuvJhlum2ZFaU/pnvGItf6bhgey9Zo5rzrzLKCDfuNq59ZMcuYAo
-	 /ZIdOKBSQuQbGWlmncO6say8IEuDlUzPROnbvlybe+fwqdFAS7v+g19HwJYM9XYGq6
-	 jvdPZbP4P55ZA==
+	b=axKo7SpK2AbU55+kBTMOQRKvy01Abpde67fJ1sbiBO9nFjluDinNyEVHH4tpVUm0d
+	 2tiHCw2ah2EvXz5Vrm7Dk8XtsM5AQtDnCktUnblqKPTOa+SSbP2DyiQdE9W5LL6aM+
+	 SX1MyQByGqGgokhnJDz3tpTIabcMMt7SOW1A/pZEch7u+j0uesk8XD+ceM6lPtav1Q
+	 ZwDZ3TGZ1o7UzpD8c5fTyxbPIt1LifePr0HBD19UN7LvR2Oods+amwnSQFvHdBtWAb
+	 LJTkkCRWq7ppvKixsYPairNsN3g1aOfC2Jgx/hxgmww10topI+5ckX7ieDpW0gQy5E
+	 /3oWGrTLserUQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
 	Sasha Levin <sashal@kernel.org>,
 	pavel@kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 09/13] leds: multicolor: Fix intensity setting while SW blinking
-Date: Fri,  6 Jun 2025 11:43:22 -0400
-Message-Id: <20250606154327.547792-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 7/9] leds: multicolor: Fix intensity setting while SW blinking
+Date: Fri,  6 Jun 2025 11:43:48 -0400
+Message-Id: <20250606154350.548104-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250606154327.547792-1-sashal@kernel.org>
-References: <20250606154327.547792-1-sashal@kernel.org>
+In-Reply-To: <20250606154350.548104-1-sashal@kernel.org>
+References: <20250606154350.548104-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.93
+X-stable-base: Linux 6.1.141
 Content-Transfer-Encoding: 8bit
 
 From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
