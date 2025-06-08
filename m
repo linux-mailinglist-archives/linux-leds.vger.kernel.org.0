@@ -1,78 +1,78 @@
-Return-Path: <linux-leds+bounces-4756-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4757-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5897BAD118C
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 10:24:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD7EAD11BE
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 11:47:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18F01169350
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 08:24:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C4EA3ABEDC
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 09:47:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 706F51F4174;
-	Sun,  8 Jun 2025 08:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F38B91FBEBE;
+	Sun,  8 Jun 2025 09:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5ga3o4F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDPPac+P"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C651F4608;
-	Sun,  8 Jun 2025 08:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02188EEBB;
+	Sun,  8 Jun 2025 09:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749371087; cv=none; b=OQSO+3z5+nroTgbjWOLW0nHXINWzJjT8qK5TFiblVdpcHzgoFA8U0z6WA7Y+DaUHX6KmhzLyIO+wMlVpLqy52cTtVVqnQ1JpdxnxotUI70LfJGTJyT1rY0x9qv2Epp/Hs+LmWu+6LVSi+nTWCgtYHnBZ7j2KrWV8Jqy4IfnDN54=
+	t=1749376072; cv=none; b=KhuhmKEfWhN1/wvWtr1hOh5ggJeSXGfHaQGzcHggj9E3QN0+4QHxZjTi5OAes3WITBTsZMv4Ga4+eSxc6sLVnuqA0WPyLj9eR6s2cGAYHqHfwsYXki3o65ZWRU2Xk6Xww3RxJmIgrbWfeU1RjExdVN1vbgnoIIRbQwg83IPYpuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749371087; c=relaxed/simple;
-	bh=pzcUpgNfL5aXJSUVhcbhvobo76CDYDOSkRzo00jG1kw=;
+	s=arc-20240116; t=1749376072; c=relaxed/simple;
+	bh=rpNI3IMbC6DwEi4B7NJPMihppGsO9Qhp2pkATeCsjOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GoNcoc7n9+wlzy+qiyRYZD+ppYoZh9NwsqmEdHdUwzAoTyzHpiB6Fffb0lRkfXVZJmPdn8uNhrIdrh0T9uVROnf6QKcqmoPMTLg9UyTDjtSIvx2lCZBISJmeST+x3jbDHo0Lrtap+gjrW+mJ8a9Y9ziShlxyzIVdXIz2vSJxZM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5ga3o4F; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=JahFb958e2IQI7juifkCTBczhyrTKQVkOfMGahaXzV9K+gJudPj0TDgZcUa26xzC2N/hzru/FHqlzOa7LGs0E1jUyl1nIq8Po+WxRyc/Yr3h6IOFmAZn3eFAS7HdiN8tElsofiWb4/gIhgCrUwXF4KFVY2JCmZ6YOYE46tPmkk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDPPac+P; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749371085; x=1780907085;
+  t=1749376070; x=1780912070;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pzcUpgNfL5aXJSUVhcbhvobo76CDYDOSkRzo00jG1kw=;
-  b=g5ga3o4FLfd7fuc9GqUker0/mcwPirrK1b+aQ3x/h1EQjX5u0yNWt9VQ
-   8eiGbuysnC86Smj3R1DPip0f2ZN5rmebQKEsB6ffVDKNC4tLb1tKx/0Bd
-   LKqchi1jA9nsiJeEoJ2owtbZLja6org3KyOCdI8DJZRQuQeWs1nzlVbpJ
-   mDvuheYIrbtcFMXvbtahVpBy94Q3ZQiQCqVO9Ak5O1K2IYFPEVJBId47h
-   j88XfYR3kCrjELTXUL+MJSjUB8NpOB+tHyL7R2hMuiQ/IS0ezs+UNw3Xk
-   SD+NX1EV1QQCfwKW2C8HYi6y9GY4Kac6PkEP0Exidr+vU0HqZUeQyyFMv
+  bh=rpNI3IMbC6DwEi4B7NJPMihppGsO9Qhp2pkATeCsjOE=;
+  b=JDPPac+PePkgqKXKANs3XSVK8Qt1BCz0oUe+TAg3qJ2L29StitRfVKAN
+   BRf7q/L+rybwyj9QGoxy/NwE4QUI/yc+DUuIaLKV5eVRJMz7piEejVY2e
+   F3OqkorRUlG5o6Kh9OC/Zygp1rd0lLMtWrcKRXLF4+9UBOtJuNRcy0ua8
+   p1L6prsTuQHgiuBEIyYvTSheidYGAnHwLEomtJkH4bqL73UumSx2zWCT2
+   f0bXHaIHsGq/4sIS7mjl0qzTawym4RZFV246jafYKPRdkagm1r9uFkMcT
+   SZZjnLy1fuk16inyYM3sGG4cVvw9czkBxPO5lDhS1ZO3vrV+Q/sfWXQgJ
    Q==;
-X-CSE-ConnectionGUID: zMCGhJfmQaqmbBVcnMzDHQ==
-X-CSE-MsgGUID: 4UXvILeHTpKFCZLUmSouKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="51331092"
+X-CSE-ConnectionGUID: lnJs9U4CRCKBtgb0JhosLA==
+X-CSE-MsgGUID: oiQkpsc2SiK2xG5db/EYcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="55261174"
 X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="51331092"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 01:24:44 -0700
-X-CSE-ConnectionGUID: O4Si8lL5Tb+AY/qsGPs3IA==
-X-CSE-MsgGUID: ap//mOuiTXO32dX0BDJp/Q==
+   d="scan'208";a="55261174"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 02:47:49 -0700
+X-CSE-ConnectionGUID: 65JjCYvHRB67cFOYb1OaCw==
+X-CSE-MsgGUID: kOnhTtSkQtSNSZY0g05BbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="146815666"
+   d="scan'208";a="151107146"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Jun 2025 01:24:41 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2025 02:47:47 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOBKZ-0006I1-0h;
-	Sun, 08 Jun 2025 08:24:39 +0000
-Date: Sun, 8 Jun 2025 16:24:19 +0800
+	id 1uOCcy-0006JF-1v;
+	Sun, 08 Jun 2025 09:47:44 +0000
+Date: Sun, 8 Jun 2025 17:47:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Timmermann <linux@timmermann.space>, lee@kernel.org,
 	pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
 	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@timmermann.space
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux@timmermann.space
 Subject: Re: [PATCH v4 2/2] leds: as3668: Driver for the ams Osram 4-channel
  i2c LED driver
-Message-ID: <202506081650.eFkFkBP7-lkp@intel.com>
+Message-ID: <202506081754.yXYFC7WL-lkp@intel.com>
 References: <20250607215049.29259-3-linux@timmermann.space>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -86,10 +86,10 @@ In-Reply-To: <20250607215049.29259-3-linux@timmermann.space>
 
 Hi Lukas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.15 next-20250606]
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on linus/master v6.15 next-20250606]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -98,138 +98,71 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Timmermann/dt-bindi
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
 patch link:    https://lore.kernel.org/r/20250607215049.29259-3-linux%40timmermann.space
 patch subject: [PATCH v4 2/2] leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250608/202506081650.eFkFkBP7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506081650.eFkFkBP7-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250608/202506081754.yXYFC7WL-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506081754.yXYFC7WL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506081650.eFkFkBP7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506081754.yXYFC7WL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/leds/leds-as3668.c:8:
-   drivers/leds/leds-as3668.c: In function 'as3668_write_value':
->> drivers/leds/leds-as3668.c:55:39: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 3 has type 'int' [-Wformat=]
-      55 |                 dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/leds/leds-as3668.c:55:17: note: in expansion of macro 'dev_err'
-      55 |                 dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-         |                 ^~~~~~~
-   drivers/leds/leds-as3668.c:55:65: note: format string is defined here
-      55 |                 dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-         |                                                               ~~^
-         |                                                                 |
-         |                                                                 long unsigned int
-         |                                                               %x
-   drivers/leds/leds-as3668.c: In function 'as3668_probe':
-   drivers/leds/leds-as3668.c:133:62: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 4 has type 'int' [-Wformat=]
-     133 |                                 "chip reported wrong id: 0x%tx\n", chip_id1);
-         |                                                            ~~^     ~~~~~~~~
-         |                                                              |     |
-         |                                                              |     int
-         |                                                              long unsigned int
-         |                                                            %x
-   drivers/leds/leds-as3668.c:137:23: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+>> drivers/leds/leds-as3668.c:137:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      137 |         chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
-         |                       ^~~~~~~~~
-   In file included from include/linux/printk.h:616,
-                    from include/asm-generic/bug.h:22,
-                    from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13:
-   drivers/leds/leds-as3668.c:145:17: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 4 has type 'int' [-Wformat=]
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/leds/leds-as3668.c:144:9: note: in expansion of macro 'dev_dbg'
-     144 |         dev_dbg(&client->dev,
-         |         ^~~~~~~
-   drivers/leds/leds-as3668.c:145:31: note: format string is defined here
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                             ~~^
-         |                               |
-         |                               long unsigned int
-         |                             %x
-   drivers/leds/leds-as3668.c:145:17: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 5 has type 'int' [-Wformat=]
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/leds/leds-as3668.c:144:9: note: in expansion of macro 'dev_dbg'
-     144 |         dev_dbg(&client->dev,
-         |         ^~~~~~~
-   drivers/leds/leds-as3668.c:145:49: note: format string is defined here
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                                               ~~^
-         |                                                 |
-         |                                                 long unsigned int
-         |                                               %x
-   drivers/leds/leds-as3668.c:145:17: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 6 has type 'int' [-Wformat=]
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+         |                       ^
+   1 error generated.
 
 
-vim +55 drivers/leds/leds-as3668.c
+vim +/FIELD_GET +137 drivers/leds/leds-as3668.c
 
-    49	
-    50	static int as3668_write_value(struct i2c_client *client, u8 reg, u8 value)
-    51	{
-    52		int err = i2c_smbus_write_byte_data(client, reg, value);
-    53	
-    54		if (err)
-  > 55			dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-    56	
-    57		return err;
-    58	}
-    59	
+   117	
+   118	static int as3668_probe(struct i2c_client *client)
+   119	{
+   120		u8 chip_id1, chip_id2, chip_serial, chip_rev;
+   121		struct as3668 *as3668;
+   122	
+   123		/* Check for sensible i2c address */
+   124		if (client->addr != 0x42)
+   125			return dev_err_probe(&client->dev, -EFAULT,
+   126					     "unexpected address for as3668 device\n");
+   127	
+   128		/* Read identifier from chip */
+   129		chip_id1 = as3668_read_value(client, AS3668_CHIP_ID1);
+   130	
+   131		if (chip_id1 != AS3668_CHIP_IDENT)
+   132			return dev_err_probe(&client->dev, -ENODEV,
+   133					"chip reported wrong id: 0x%tx\n", chip_id1);
+   134	
+   135		/* Check the revision*/
+   136		chip_id2 = as3668_read_value(client, AS3668_CHIP_ID2);
+ > 137		chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
+   138		chip_rev = FIELD_GET(AS3668_CHIP_ID2_REV_MASK, chip_id2);
+   139	
+   140		if (chip_rev != AS3668_CHIP_REV1)
+   141			dev_warn(&client->dev, "unexpected chip revision\n");
+   142	
+   143		/* Print out information about the chip */
+   144		dev_dbg(&client->dev,
+   145			"chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
+   146			chip_id1, chip_id2, chip_serial, chip_rev);
+   147	
+   148		as3668 = devm_kzalloc(&client->dev, struct_size(as3668, leds, AS3668_MAX_LEDS), GFP_KERNEL);
+   149		as3668->client = client;
+   150	
+   151		as3668_dt_init(as3668);
+   152	
+   153		/* Initialize the chip */
+   154		as3668_write_value(client, AS3668_CURRX_CONTROL, 0x55);
+   155		as3668_write_value(client, AS3668_CURR1, 0x00);
+   156		as3668_write_value(client, AS3668_CURR2, 0x00);
+   157		as3668_write_value(client, AS3668_CURR3, 0x00);
+   158		as3668_write_value(client, AS3668_CURR4, 0x00);
+   159	
+   160		return 0;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
