@@ -1,170 +1,149 @@
-Return-Path: <linux-leds+bounces-4757-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4758-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD7EAD11BE
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 11:47:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8844AAD12B1
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 16:41:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C4EA3ABEDC
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 09:47:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57C05168AE9
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Jun 2025 14:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F38B91FBEBE;
-	Sun,  8 Jun 2025 09:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 258C824DFE4;
+	Sun,  8 Jun 2025 14:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDPPac+P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EA4+Xhx/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02188EEBB;
-	Sun,  8 Jun 2025 09:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B6622B595;
+	Sun,  8 Jun 2025 14:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749376072; cv=none; b=KhuhmKEfWhN1/wvWtr1hOh5ggJeSXGfHaQGzcHggj9E3QN0+4QHxZjTi5OAes3WITBTsZMv4Ga4+eSxc6sLVnuqA0WPyLj9eR6s2cGAYHqHfwsYXki3o65ZWRU2Xk6Xww3RxJmIgrbWfeU1RjExdVN1vbgnoIIRbQwg83IPYpuk=
+	t=1749393712; cv=none; b=buBjRrnqcFZS6FdGIDYBrduP94VErjzRHD1ZEg/4JOxkGY0lUa2/tu8c5DdAm8T21K/QYb+6j+DcU1yNmDjRQqPo0UFgM3+J5jDT7onB/t3uDA5nsHSFmD3CstnTInv9NTjaqiOOTWVARZAsMXFlDt9FBinX8bxnpcNPtbR4CA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749376072; c=relaxed/simple;
-	bh=rpNI3IMbC6DwEi4B7NJPMihppGsO9Qhp2pkATeCsjOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JahFb958e2IQI7juifkCTBczhyrTKQVkOfMGahaXzV9K+gJudPj0TDgZcUa26xzC2N/hzru/FHqlzOa7LGs0E1jUyl1nIq8Po+WxRyc/Yr3h6IOFmAZn3eFAS7HdiN8tElsofiWb4/gIhgCrUwXF4KFVY2JCmZ6YOYE46tPmkk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDPPac+P; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749376070; x=1780912070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rpNI3IMbC6DwEi4B7NJPMihppGsO9Qhp2pkATeCsjOE=;
-  b=JDPPac+PePkgqKXKANs3XSVK8Qt1BCz0oUe+TAg3qJ2L29StitRfVKAN
-   BRf7q/L+rybwyj9QGoxy/NwE4QUI/yc+DUuIaLKV5eVRJMz7piEejVY2e
-   F3OqkorRUlG5o6Kh9OC/Zygp1rd0lLMtWrcKRXLF4+9UBOtJuNRcy0ua8
-   p1L6prsTuQHgiuBEIyYvTSheidYGAnHwLEomtJkH4bqL73UumSx2zWCT2
-   f0bXHaIHsGq/4sIS7mjl0qzTawym4RZFV246jafYKPRdkagm1r9uFkMcT
-   SZZjnLy1fuk16inyYM3sGG4cVvw9czkBxPO5lDhS1ZO3vrV+Q/sfWXQgJ
-   Q==;
-X-CSE-ConnectionGUID: lnJs9U4CRCKBtgb0JhosLA==
-X-CSE-MsgGUID: oiQkpsc2SiK2xG5db/EYcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="55261174"
-X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="55261174"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 02:47:49 -0700
-X-CSE-ConnectionGUID: 65JjCYvHRB67cFOYb1OaCw==
-X-CSE-MsgGUID: kOnhTtSkQtSNSZY0g05BbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="151107146"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2025 02:47:47 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uOCcy-0006JF-1v;
-	Sun, 08 Jun 2025 09:47:44 +0000
-Date: Sun, 8 Jun 2025 17:47:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Timmermann <linux@timmermann.space>, lee@kernel.org,
-	pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux@timmermann.space
-Subject: Re: [PATCH v4 2/2] leds: as3668: Driver for the ams Osram 4-channel
- i2c LED driver
-Message-ID: <202506081754.yXYFC7WL-lkp@intel.com>
-References: <20250607215049.29259-3-linux@timmermann.space>
+	s=arc-20240116; t=1749393712; c=relaxed/simple;
+	bh=SEVxqWYLI5gH7l4hRWpGhLGXhILHIQnxl/8LtaFFPaM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XO00z9hWDSsFFDtaCdYmEceCbizmM0uxpnOfneeSX0HRyutzi13R8HGEiar6DQd62vmK1fUSTJuYZWTGjWMhkToDB3zpq1ai9zMh/h+tTzuNUIx9E1c9T2z/c39wc7M+B3y/zJphBRjWp67Su/e1xiBa5SA6/f6NwTwtr+RtZOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EA4+Xhx/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43757C4CEEE;
+	Sun,  8 Jun 2025 14:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749393711;
+	bh=SEVxqWYLI5gH7l4hRWpGhLGXhILHIQnxl/8LtaFFPaM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EA4+Xhx/Z1AWIeqlbFrA8ETWQhSs6pAffOedSzm7AOSKVForTBEt9BFiPCgO90Oev
+	 zmEr4GLn5A+hbHoZXUGQoEIt0jQiEy5ZhsmY9WE3Fng4XJCg9bfsek6fubiigR8y3c
+	 kJMhJGOGukOnHDFmZpBwajH3/aHgH7RpxPzlq9E1GfS///RgQ486m5pZjTeQGBqYzS
+	 DJ66LSDE9kFiPKb0fqf7hBlF3Vw+lJgkV72706LHdUGWiHecWffMGho0LeWsQffzrR
+	 vZxyy7qrylH3++QGrvgMisw/wHsd7LZkaRcSlwAx6MJwHRh3/hi7rGF1qkIcBIshbT
+	 r7kGGllRNVDDQ==
+Message-ID: <c3e1e527-07e4-4288-a446-19fdcfd57733@kernel.org>
+Date: Sun, 8 Jun 2025 16:41:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250607215049.29259-3-linux@timmermann.space>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] dt-bindings: leds: Add new as3668 support
+To: Lukas Timmermann <linux@timmermann.space>, lee@kernel.org,
+ pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250607215049.29259-1-linux@timmermann.space>
+ <20250607215049.29259-2-linux@timmermann.space>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250607215049.29259-2-linux@timmermann.space>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Lukas,
+On 07/06/2025 23:50, Lukas Timmermann wrote:
+> This patch documents the device tree bindings for
 
-kernel test robot noticed the following build errors:
+Your previous style was correct. I don't get why you changed it to
+incorrect "This patch".
 
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on linus/master v6.15 next-20250606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+See longer explanation here:
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Timmermann/dt-bindings-leds-Add-new-as3668-support/20250608-055330
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250607215049.29259-3-linux%40timmermann.space
-patch subject: [PATCH v4 2/2] leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250608/202506081754.yXYFC7WL-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506081754.yXYFC7WL-lkp@intel.com/reproduce)
+> the OSRAM AS3668 LED driver. Note that the bindings
+> are not entirely complete, as the GPIO/Audio Input pin
+> is undocumented. The hardware used for testing this patch series
+> does not allow modification, so this pin has been omitted.
+> 
+> Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+> ---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506081754.yXYFC7WL-lkp@intel.com/
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-All errors (new ones prefixed by >>):
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, just skip it entirely
+(please do not feel offended by me posting it here - no bad intentions
+intended, no patronizing, I just want to avoid wasted efforts). If you
+do not know the process, here is a short explanation:
 
->> drivers/leds/leds-as3668.c:137:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     137 |         chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
-         |                       ^
-   1 error generated.
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
+of patchset, under or above your Signed-off-by tag, unless patch changed
+significantly (e.g. new properties added to the DT bindings). Tag is
+"received", when provided in a message replied to you on the mailing
+list. Tools like b4 can help here ('b4 trailers -u ...'). However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for tags received on the version they apply.
 
+Full context and explanation:
+https://elixir.bootlin.com/linux/v6.15/source/Documentation/process/submitting-patches.rst#L591
+</form letter>
 
-vim +/FIELD_GET +137 drivers/leds/leds-as3668.c
-
-   117	
-   118	static int as3668_probe(struct i2c_client *client)
-   119	{
-   120		u8 chip_id1, chip_id2, chip_serial, chip_rev;
-   121		struct as3668 *as3668;
-   122	
-   123		/* Check for sensible i2c address */
-   124		if (client->addr != 0x42)
-   125			return dev_err_probe(&client->dev, -EFAULT,
-   126					     "unexpected address for as3668 device\n");
-   127	
-   128		/* Read identifier from chip */
-   129		chip_id1 = as3668_read_value(client, AS3668_CHIP_ID1);
-   130	
-   131		if (chip_id1 != AS3668_CHIP_IDENT)
-   132			return dev_err_probe(&client->dev, -ENODEV,
-   133					"chip reported wrong id: 0x%tx\n", chip_id1);
-   134	
-   135		/* Check the revision*/
-   136		chip_id2 = as3668_read_value(client, AS3668_CHIP_ID2);
- > 137		chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
-   138		chip_rev = FIELD_GET(AS3668_CHIP_ID2_REV_MASK, chip_id2);
-   139	
-   140		if (chip_rev != AS3668_CHIP_REV1)
-   141			dev_warn(&client->dev, "unexpected chip revision\n");
-   142	
-   143		/* Print out information about the chip */
-   144		dev_dbg(&client->dev,
-   145			"chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-   146			chip_id1, chip_id2, chip_serial, chip_rev);
-   147	
-   148		as3668 = devm_kzalloc(&client->dev, struct_size(as3668, leds, AS3668_MAX_LEDS), GFP_KERNEL);
-   149		as3668->client = client;
-   150	
-   151		as3668_dt_init(as3668);
-   152	
-   153		/* Initialize the chip */
-   154		as3668_write_value(client, AS3668_CURRX_CONTROL, 0x55);
-   155		as3668_write_value(client, AS3668_CURR1, 0x00);
-   156		as3668_write_value(client, AS3668_CURR2, 0x00);
-   157		as3668_write_value(client, AS3668_CURR3, 0x00);
-   158		as3668_write_value(client, AS3668_CURR4, 0x00);
-   159	
-   160		return 0;
-   161	}
-   162	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
 
