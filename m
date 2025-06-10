@@ -1,77 +1,77 @@
-Return-Path: <linux-leds+bounces-4776-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4777-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD29CAD4116
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 19:44:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6936BAD4112
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 19:44:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9137F189D9BA
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 17:44:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28AE33A3F58
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 17:43:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23231245028;
-	Tue, 10 Jun 2025 17:43:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E947247280;
+	Tue, 10 Jun 2025 17:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fg5cWDSk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WDNcxv8t"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66AE246796;
-	Tue, 10 Jun 2025 17:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011C6245038;
+	Tue, 10 Jun 2025 17:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749577424; cv=none; b=hbX8AFPHt1DUPsntCFsuDZRP47plrMGv9EXm7SeXrlRnDybFmjjbDrOLMMDopyXANDpBF8ozNCVyZGDxQ+AmmIyqZrs/U6BtNxHdhGrGJ4sWbpg3Ll0pOjvySzxyVQq/SqkzwVCJNwMSowK/U5aLAlwjwOhGWF6XwGEjXc1ANQo=
+	t=1749577429; cv=none; b=H2VTuiuAo/rv45S2N/SOwe8eCW5nqsxSWDBNmax0y7W9lpCkJHpODaC9weKozXKodtqWGmz9m/HgCv7GwZZCocqESi0g0O7GHlGt4Lhc2+yPH+FXpyqZVOKqINDIyyEobl3+9YneHht3h9XqfrWaUmcLtTXGuQZgQ1qddd79h0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749577424; c=relaxed/simple;
-	bh=qBgWsvvo+eH7NI8yAFLBwsQg8tAW9QqcKFBfezjQfvM=;
+	s=arc-20240116; t=1749577429; c=relaxed/simple;
+	bh=A5tPkRGvZJgm+gTzBXZ+TaX3KruGvQJ7pgosTfV2m94=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rvYnVw3HXeRAc6F6dbL8na3DV+7V+fPxTAUIax+w2DzfR3TpehZ1/c7dknAVlz0gyJHlvlKyAAO+4v5dEkzRQOYcrys25egoldbstmngFdTIQVhPyNTUGzT+Q+R1KG5m+5vzVTWg2p7cnBmVKKhY67kBWzAmJAmgYGbK9XL8d3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fg5cWDSk; arc=none smtp.client-ip=209.85.215.170
+	 MIME-Version:Content-Type; b=ttdIJfWyENMcsPazzU8f+mCSVV4g1owa2GjpqJTA0N0kYo/0iAqu5oHbejEM1eo5lWh6dEshCMe5aLJeOgFZ5iiqFwOAnXtbJxyzPz678rlVlzZAd5kbltUnTgypc2fmnums+RwSlNu1R59NpBUFkaDpYryRDFZ6DxAs2tfW8zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WDNcxv8t; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b2c3c689d20so3668943a12.3;
-        Tue, 10 Jun 2025 10:43:40 -0700 (PDT)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3122368d7c4so4673009a91.1;
+        Tue, 10 Jun 2025 10:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749577420; x=1750182220; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749577425; x=1750182225; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4xOsQx0RpjTscY2ihSii/Sml1xpWONFR2IS8ZBwQ8nw=;
-        b=Fg5cWDSkGRYAGG7oclTgtelFmGg/gYM203xM2nfZG/tMl1iEyWBhAI1QV/RU0jyO0B
-         PjBHouPjF+7BjOKhed7xTpPezMO88/R15Cs8q7BxNCKu6+PiuUvpNVNjGZtwr227TIjo
-         S++urmuu1TwVDp8n2Vsem+bdi5L5LRzCU9AEB9G6DwumLe7NBP9bhZX8VEcGQbvX/VCc
-         gosStZSn6yf/xU7oMphLp6NSZni9iv8kHuaGSkmvVWl4OoR9cdkzLtmE/n0uexTdTL1x
-         rTuXoH0wsZMaMQTEuamLzJkT6FwtfnIkoGwvhIWPdNLwaGYNt9yec9Hi8WdjJkPKkK1X
-         W30Q==
+        bh=SsijXrtvajxAdLgKuyIPgDIdU+gaLTwTdWA4gXslCX0=;
+        b=WDNcxv8t9ttpg7iyXI85B0jRg4RZEe0rwjXZPI9ucDyLlkSdQuUxgClSREyruGcwwE
+         h6VrSG5odbl1DaM20VKVK0sZ+gtMC7Fosv+Ojqfx9S2ZBPioVgT1hV75pFnBZaS2TWe5
+         gqps7yn5CMwsYpLKRL4xyUlntF2dJe5R+uvyygHMaAnjT2vJMdt7aIl32OvvxVQsdpcj
+         5s9GuPFAjwrRjW+wU5kgW30iId1sEAl5hFMTDLAGuvWSX9FtKn2qjnbnTmeiZQNx7Z+M
+         x3fqeyERCyFhbL5A6B3W2et+Uhv+gDsu+KB19vPhYkPMfZfxqOCfHExvIplXiOuZVt4k
+         ZFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749577420; x=1750182220;
+        d=1e100.net; s=20230601; t=1749577425; x=1750182225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4xOsQx0RpjTscY2ihSii/Sml1xpWONFR2IS8ZBwQ8nw=;
-        b=KfUcax6CEljldFKAbxC38UFAOnRI4QSUaMLufPa5fIqB0jI7UW9XfoZMthCxuSUq0Z
-         bBce0OhIEAyXITiKc5GnYuW2JP6P7uDLavcEdEGXuI+6cdUYuWD4EKsc/IeewmRZ6swF
-         YPvqnbMBYqZMgesUW8cF+RkmI2bzqAYCDDGpF0PNVyWeAPcQWF3MdLgS9cPaORaPS0NE
-         rkGKbL0qFKRHgcSWwo4b3K51vec8cRsTDTxr9B+cpH/SdgKnoai1ijvOjHY3n4p1fm2S
-         vQwAgOe2MZSoCTxK3XXgmnXUZdHBspS8piLxD/9xXrFiEAWZz70XVbrtqEODps5jOQ6S
-         OXvw==
-X-Forwarded-Encrypted: i=1; AJvYcCU42VbuWMgNPCyapd2Jh+YePAVN5x/FJtmm6kkOMIIBgQcx2nDimJ6h9gdrKtk3LAHl6tHUDa0D0MAyrbz7@vger.kernel.org, AJvYcCUwS5/M0kk6aaidJvKNpjjVbwL5EZDiKDtbEtwmmjmySz0HKEUTbUjyZa7Ev65EivVPMCU5ec3/Uk87cA==@vger.kernel.org, AJvYcCUyRj0MMjJ+LK7LtF+kLtY8tNm/7LFBuLRQoIEXZ8wmfy8BxwNtaKuFP3+qxoEBOd44KBYOwWOekPbl@vger.kernel.org, AJvYcCWUxtb9Z9rxose/j+v7Uw6si8yhQBohBZ1NmYNKK1cgL74p5TfFuqESwlSdHPUnnafTOwqsJUNNu35g@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtBpzMK4vqh5itWwWhb62Xb/ir2+yw218nvUASKVWKPG87BxX7
-	QNC/GjamDYIZ1g+Emt3khLd4yZlX6XkqBH9NwlgmVx7BWjZZwDHGjOxa
-X-Gm-Gg: ASbGncuY1Gd6PibNNAnfv4LoJw+vPsZQOaGmfymhP7qmXix8HEiA5ueYvp2uRehMN9F
-	deQfPKzQuUZiNi30a7YRfCVfUathTFVsZl0jj8VAq2StQpkX9TxYrs4Y5wSgQIqo3I3xncEeO+2
-	bqMfp9wrl0PdKB+kEa+XlmvlcOT4aLJI/7R8sHOA1RrP4Vie9afEb5nAjiTXkxM0eLKeKf6ESyR
-	LSwflTw/c69HxQShS+vo5KUPiIKIRaaXzqPWbubdG6UPl9X0NB2U79Z8Nf3Pg88jxO+zJIEVa/k
-	u35yAOD7JanJRIFTi0x52P8UG4RKhk4gKJ1khs+aD4W3/FpYjvipMxcvSNHBVntsfdpNWTff
-X-Google-Smtp-Source: AGHT+IEApQkKFgNhX2+4fMsz5zh3jLfhEVSs7zTHW5iTq1i5USCHrx8VvYBj3o/m0uKedNO1DRbpXw==
-X-Received: by 2002:a17:90b:4b84:b0:312:2bb:aa89 with SMTP id 98e67ed59e1d1-313af19697cmr490904a91.20.1749577419650;
-        Tue, 10 Jun 2025 10:43:39 -0700 (PDT)
+        bh=SsijXrtvajxAdLgKuyIPgDIdU+gaLTwTdWA4gXslCX0=;
+        b=nfbInfR3YdyDcMp450JiE8LQlo/Ku7Yj/IYrUPYSJcsRlBZCJ9+RWC/o4fpkf0HBO0
+         qRqOn5CI+S6ezYPl/uFWuF0apl+O1FK0YrJYgifhOSjJq3NAU236jegp1flDIL2xB+wC
+         7iFvFpdxzzHcbuZt9Dkmse2e3EL3JCL2nkV51raeh+hflKmt1gdzOqLho5U9YOSgNIG3
+         9r2+YDhVtnciCb8BVF5dUmoRBjLucHRq3t+TPGP202lYJoB5Lp3rFdh+POzMJTQHxdcb
+         Pe3UCP0tIHYM+f4hllPNqknDSXJNH4AhgG9RZCaAQ0vIHbjJpsR71VtWvbQNQYMaB21y
+         PPBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDd9xgNX+We1ojIeEX3Di4Nfxo+v7ewio6HKxhkcTN7kwTjkywYN7bknIk1Ee618ZR702KS03oKGxg@vger.kernel.org, AJvYcCUoBGGrQylNLEtdqAjLwgWdp7e8CSigWfRP2d9dmcxfrwuUO3MZmeLzJlwyA1g2PGDDor42XhvzgWld1cek@vger.kernel.org, AJvYcCVqEpMT4YckglQzrmbAQDvVX8Nqe/0l1p2PLZ9CGn4FJwIusfOCX/SQT8Y3aDouxyWIbG2VRED6kXmvJQ==@vger.kernel.org, AJvYcCXV7sEEht0VI2aIldhdgFBZdsPGkV2ooz7dkW3idi1XNu7lofJGSRgYBhM9t+nvUAG+BQRDjeEdmzq9@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7Juo1acmqSlwZngRKUIVXc4XhAdYdH0N0CiXZA1B51y0X+FlY
+	LpK9V59AqiZKOY6Vt649VWs5JdxUjptyeTJ/rvtPHLLWKaLzrAVM13ma
+X-Gm-Gg: ASbGncu8GZhlZznWnOedkgAlscR1IUJC2aQjM4caxSFazV3Qi1I1tq5P6v9IbOTd2ge
+	uZWdeGkQhnvStHY5UIf8RZMhCjBdA5MPbMAKU9dFzHhjGfaPHdGDsCBC2t+nTUgs6JAJ/WPBJgN
+	yLn5/Ae+7Tfv6DQZSxaVhIab9cqUwk7cbBfv9GWXMsA/dwMVBcqtIDnM5byfqliWKgwEFwh5A8K
+	0C6JkGLpGBvducAcSeiEktOqHOBQWOCEg/joUI3jUzeQSc7paPvExFe5rOvQKzhPdhvYVFuNfx2
+	fQ/zgJT2+QMzaNLbPQbWfgZEokWxnaQqtu/NqER7h+tiRioF7NybIq1xy5v+KZli2KGfik9H
+X-Google-Smtp-Source: AGHT+IEK3WLawIWgFyoeH8uLhZdOMkspPRhx8J3PvsGze4KMXviDdDOdqTHQ7r1z3J8D08XeqH7KeQ==
+X-Received: by 2002:a17:90b:268e:b0:312:f263:954a with SMTP id 98e67ed59e1d1-313af0fce22mr534647a91.5.1749577424537;
+        Tue, 10 Jun 2025 10:43:44 -0700 (PDT)
 Received: from DESKTOP-P76LG1N.lan ([42.113.163.91])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3134b044d91sm7470668a91.2.2025.06.10.10.43.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3134b044d91sm7470668a91.2.2025.06.10.10.43.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 10:43:39 -0700 (PDT)
+        Tue, 10 Jun 2025 10:43:44 -0700 (PDT)
 From: Nam Tran <trannamatk@gmail.com>
 To: lee@kernel.org
 Cc: pavel@kernel.org,
@@ -84,9 +84,9 @@ Cc: pavel@kernel.org,
 	devicetree@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v5] test
-Date: Wed, 11 Jun 2025 00:43:16 +0700
-Message-Id: <20250610174319.183375-3-trannamatk@gmail.com>
+Subject: [PATCH v9 2/4] leds: add TI/National Semiconductor LP5812 LED Driver
+Date: Wed, 11 Jun 2025 00:43:17 +0700
+Message-Id: <20250610174319.183375-4-trannamatk@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250610174319.183375-1-trannamatk@gmail.com>
 References: <20250610174319.183375-1-trannamatk@gmail.com>
@@ -96,21 +96,82 @@ List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The LP5812 is a 4×3 matrix RGB LED driver with an autonomous animation
+engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
+4 RGB LEDs. Each LED can be configured through the related registers
+to realize vivid and fancy lighting effects.
+
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
 ---
- drivers/leds/rgb/leds-lp5812.c | 1934 ++++++++++++++++++++++++++++++++
- drivers/leds/rgb/leds-lp5812.h |  230 ++++
- 2 files changed, 2164 insertions(+)
+ MAINTAINERS                    |    4 +
+ drivers/leds/rgb/Kconfig       |   13 +
+ drivers/leds/rgb/Makefile      |    1 +
+ drivers/leds/rgb/leds-lp5812.c | 1946 ++++++++++++++++++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h |  228 ++++
+ 5 files changed, 2192 insertions(+)
  create mode 100644 drivers/leds/rgb/leds-lp5812.c
  create mode 100644 drivers/leds/rgb/leds-lp5812.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 83a779dc9bcd..b4eb3265c800 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -24566,6 +24566,10 @@ M:	Nam Tran <trannamatk@gmail.com>
+ L:	linux-leds@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
++F:	drivers/leds/rgb/Kconfig
++F:	drivers/leds/rgb/Makefile
++F:	drivers/leds/rgb/leds-lp5812.c
++F:	drivers/leds/rgb/leds-lp5812.h
+ 
+ TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+ M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+index 222d943d826a..becee5c1d21c 100644
+--- a/drivers/leds/rgb/Kconfig
++++ b/drivers/leds/rgb/Kconfig
+@@ -26,6 +26,19 @@ config LEDS_KTD202X
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called leds-ktd202x.
+ 
++config LEDS_LP5812
++	tristate "LED support for Texas Instruments LP5812"
++	depends on I2C
++	help
++	  If you say Y here you get support for TI LP5812 LED driver.
++	  The LP5812 is a 4 × 3 matrix RGB LED driver with autonomous
++	  animation engine control.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called leds-lp5812.
++
++	  If unsure, say N.
++
+ config LEDS_NCP5623
+ 	tristate "LED support for NCP5623"
+ 	depends on I2C
+diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
+index a501fd27f179..be45991f63f5 100644
+--- a/drivers/leds/rgb/Makefile
++++ b/drivers/leds/rgb/Makefile
+@@ -2,6 +2,7 @@
+ 
+ obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
+ obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
++obj-$(CONFIG_LEDS_LP5812)		+= leds-lp5812.o
+ obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
+ obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+ obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
 diff --git a/drivers/leds/rgb/leds-lp5812.c b/drivers/leds/rgb/leds-lp5812.c
 new file mode 100644
-index 000000000000..6edaef4a6ae0
+index 000000000000..00d33286414e
 --- /dev/null
 +++ b/drivers/leds/rgb/leds-lp5812.c
-@@ -0,0 +1,1934 @@
+@@ -0,0 +1,1946 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * LP5812 LED driver
@@ -586,6 +647,7 @@ index 000000000000..6edaef4a6ae0
 +				    const char *buf, size_t len)
 +{
 +	struct lp5812_led *led = i2c_get_clientdata(to_i2c_client(dev));
++	struct lp5812_chip *chip = led->chip;
 +	enum device_command cmd;
 +
 +	if (sysfs_streq(buf, "update"))
@@ -601,6 +663,7 @@ index 000000000000..6edaef4a6ae0
 +	else
 +		return -EINVAL;
 +
++	guard(mutex)(&chip->lock);
 +	lp5812_device_command(led->chip, cmd);
 +	return len;
 +}
@@ -878,6 +941,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		reg = LP5812_AUTO_PAUSE_ADDR(led_cfg->led_id[i]);
 +
@@ -993,6 +1057,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		ret = lp5812_set_led_mode(chip, led_cfg->led_id[i], val[i]);
 +		if (ret)
@@ -1034,6 +1099,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		if (led_cfg->led_id[i] < 0x8)
 +			reg = chip->cfg->reg_led_en_1.addr;
@@ -1097,6 +1163,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		ret = lp5812_set_pwm_dimming_scale(chip, led_cfg->led_id[i], val[i]);
 +		if (ret)
@@ -1149,6 +1216,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		ret = lp5812_set_phase_align(chip, led_cfg->led_id[i], val[i]);
 +		if (ret)
@@ -1188,6 +1256,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		ret = lp5812_get_led_mode(chip, led_cfg->led_id[i], &mode);
 +		if (ret)
@@ -1225,6 +1294,7 @@ index 000000000000..6edaef4a6ae0
 +	chip = led->chip;
 +	led_cfg = &chip->pdata->led_config[chan_nr];
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		ret = lp5812_read_lsd_status(chip, led_cfg->led_id[i], &lsd_status);
 +		if (!ret)
@@ -1253,6 +1323,8 @@ index 000000000000..6edaef4a6ae0
 +		led = dev_to_lp5812_led_mc(dev);
 +
 +	chip = led->chip;
++
++	guard(mutex)(&chip->lock);
 +	lp5812_read(chip, chip->cfg->reg_dev_config_0.addr, &val);
 +	return sysfs_emit(buf, "%d\n", (val & 0x01));
 +}
@@ -1301,6 +1373,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		reg = LP5812_AUTO_PLAYBACK_ADDR(led_cfg->led_id[i]);
 +
@@ -1349,6 +1422,7 @@ index 000000000000..6edaef4a6ae0
 +			return -EINVAL;
 +	}
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		reg = LP5812_AUTO_PLAYBACK_ADDR(led_cfg->led_id[i]);
 +
@@ -1397,6 +1471,7 @@ index 000000000000..6edaef4a6ae0
 +	if (kstrtoint(&sub_str[3], 0, &aeu))
 +		return -EINVAL;
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		sub_str = strsep(&str, " ");
 +		if (!sub_str)
@@ -1452,6 +1527,7 @@ index 000000000000..6edaef4a6ae0
 +
 +	pr_info("AEU = %d", aeu);
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		sub_str = strsep(&str, " ");
 +		if (!sub_str)
@@ -1539,6 +1615,7 @@ index 000000000000..6edaef4a6ae0
 +
 +	pr_info("AEU = %d", aeu);
 +
++	guard(mutex)(&chip->lock);
 +	for (i = 0; i < led_cfg->num_colors; i++) {
 +		sub_str = strsep(&str, " ");
 +		if (!sub_str)
@@ -1676,9 +1753,6 @@ index 000000000000..6edaef4a6ae0
 +	char name[32];
 +	int i, ret = 0;
 +
-+	if (pdata->led_config[chan].led_current == 0)
-+		return 0;
-+
 +	if (pdata->led_config[chan].name) {
 +		led->cdev.name = pdata->led_config[chan].name;
 +	} else {
@@ -1711,8 +1785,6 @@ index 000000000000..6edaef4a6ae0
 +	}
 +
 +	led->cdev.groups = lp5812_led_groups;
-+	led->led_current = pdata->led_config[chan].led_current[0];
-+	led->max_current = pdata->led_config[chan].max_current[0];
 +	led->chan_nr = chan;
 +
 +	if (pdata->led_config[chan].is_sc_led) {
@@ -1898,6 +1970,7 @@ index 000000000000..6edaef4a6ae0
 +};
 +
 +static const struct attribute_group lp5812_group = {
++	.name = "lp5812_chip_setup",
 +	.attrs = lp5812_chip_attributes,
 +};
 +
@@ -2047,10 +2120,10 @@ index 000000000000..6edaef4a6ae0
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/leds/rgb/leds-lp5812.h b/drivers/leds/rgb/leds-lp5812.h
 new file mode 100644
-index 000000000000..4b524ca6604e
+index 000000000000..64ae452a3891
 --- /dev/null
 +++ b/drivers/leds/rgb/leds-lp5812.h
-@@ -0,0 +1,230 @@
+@@ -0,0 +1,228 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * LP5812 Driver Header
@@ -2266,16 +2339,14 @@ index 000000000000..4b524ca6604e
 +	struct mutex lock; /* Protects reg access */
 +	struct lp5812_data *pdata;
 +	const struct lp5812_device_config *cfg;
-+	u_scan_order_t u_scan_order;
-+	u_drive_mode_t u_drive_mode;
++	union u_scan_order u_scan_order;
++	union u_drive_mode u_drive_mode;
 +};
 +
 +struct lp5812_led {
 +	int chan_nr;
 +	struct led_classdev cdev;
 +	struct led_classdev_mc mc_cdev;
-+	u8 led_current;
-+	u8 max_current;
 +	u8 brightness;
 +	struct lp5812_chip *chip;
 +};
