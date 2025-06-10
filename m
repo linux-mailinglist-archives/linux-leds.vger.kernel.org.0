@@ -1,159 +1,112 @@
-Return-Path: <linux-leds+bounces-4773-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4772-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D732AD354B
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 13:46:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD204AD3549
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 13:46:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 154681750C6
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 11:46:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 94DEF7A10AA
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 11:45:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 679A0217657;
-	Tue, 10 Jun 2025 11:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9098020FA97;
+	Tue, 10 Jun 2025 11:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dq4G5RF7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0219421B9F7;
-	Tue, 10 Jun 2025 11:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.217
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749556013; cv=pass; b=BZhbwsRKm3MoD74JbvnZWO4DVPew9GehrvcsK8k7i4GF2u5AJLa+B9STTz6/Vo6iFvlYCB90oy4SKJzcIjgvMjCBBhnK++5iNCYGzcG2BKowNEYu7PvBFoIrRuctBdcdMwr7dyJjDzCUniuDfcUWl3pkYJ/nv2gP9g16KgRljqQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749556013; c=relaxed/simple;
-	bh=uHJX0DxWeFqVosoMPeKr16q7fAhmSfsN6OaFvUHtD08=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nc1bOQ4dLGKlRTkxp33yvYvVh4oEZv33soE4q0tymsrJLa9NKK/MtVykXHHY05sv4HYqmU4nDDhR1Pllzkq7mbJrMtAiBiV2Tfvi3F+7VFJvXQCcJ+Pxzm3nFT/o3sLiU5MRRlt9BH2YM0QgRn2A1WYtxWCSQPpc7nkX9jGlS1Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de; spf=pass smtp.mailfrom=inhub.de; arc=pass smtp.client-ip=81.169.146.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inhub.de
-ARC-Seal: i=1; a=rsa-sha256; t=1749555649; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=Evh0aWvulWGMvk/ec2Ra1bRNhjCgyglFzo9ECK+/MjvM7bn0quUl30F8Jgy4kI6iMy
-    RW3KTtvbIoehlVfEVhGj5785lCszP6c7BGOSN5NJ2lV2tUHrOb3tn/A3WoNeGobxcy3y
-    0T58BI23nxCdOCxOi43jZgtikCDZpA3j3C3kPIucDZL+6nEePO1D96ySVE9kQ1dRWXg7
-    WXlRKXGzFdqyOtJV0O2cQRBgR+bPRdXLJpSJnqFSdZ28CFaSobEpY6Ayl6SUDTg6NyEt
-    o/a/dNNbU+Bvq7GCYBJSDHwuqtORqhkwlTUKGAkPF/fcMrFeOZJaH1rmR7eOl6NLDyD8
-    li9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1749555649;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=eIpbhmNUjy3O7tv0PtPRwrwhNYwNcqRDWPgwFL0PBm8=;
-    b=qWfkXyo+oyR1rIg1fH4gzCzAMnWmP+gkQ9Fl50Vzx73Lv9Hnp7jwglD+d3GCyPjj1c
-    OG/8lkhZf8l50wudwqKBPwPpBi0M7esL1WbvuaX9rl5+hUxJLNzPD2Gut87A5Ig9wzoO
-    naaqZhN6fc5ULK13l740wR0UsQkg3rhfjNoXzSKj3RfldkfMSqU7ao7DB9A6Oei0T28o
-    mAVM9nT61YlTZjNcmd24gAXCU5uHV+No5ITa/72AFIA7X/vyZ1zieIi2LB0mEj6SPnIZ
-    bLegrHMoP2ytLczhfdUV5zlMpaktcL1SoBACX43oQpnQm35BkUpfFSdCrkM2sToR2xp/
-    /tyw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgaKe3jg5kqErvsv7wxhn7R+CZYOGugK8="
-Received: from crypto.lan.inhub.de
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id J569d715ABen5yb
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Tue, 10 Jun 2025 13:40:49 +0200 (CEST)
-From: Tobias Junghans <tobias.junghans@inhub.de>
-To: Lee Jones <lee@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	linux-leds@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Tobias Junghans <tobias.junghans@inhub.de>
-Subject: [PATCH 2/2] leds: trigger: netdev: refactor netdev_event_requires_handling()
-Date: Tue, 10 Jun 2025 13:40:20 +0200
-Message-ID: <20250610114029.268938-3-tobias.junghans@inhub.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250610114029.268938-1-tobias.junghans@inhub.de>
-References: <20250610114029.268938-1-tobias.junghans@inhub.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E33184F;
+	Tue, 10 Jun 2025 11:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749555979; cv=none; b=bIKoZ+klkCKGBfGHdOG9SmDapdEhM9x1OZ3IMaF7OerqUuxf2turYY7eR31YJx6NQ9rupQFBZ5jesPnxLQjIrgTVz2orQJUq8Cr4z3UmDg/Xw35Sf6fxYcVwtL/W2Q41Cs1vqzZPTzaAFChinPJUq48tiiBYbqvvVzRAercGjv0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749555979; c=relaxed/simple;
+	bh=YibikXW00JUDmSUtGKV75M+LUkgeqXyZelMhzVfCmDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZMrOX/7p91AH5vZef6aWa2VzOe/j4/tzF4CKzqGwWrCc25xw33zlMlfEojJEeHXeC22u1UQYrVkOT0spw0V/BsgmGk2WubMVl31ntA783ShZl/bZiH1JRaMKfOFe0tanhPnZt1cypRNYVWKdHmC+gRQGPRjs49ozUtMg6Qdtlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dq4G5RF7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28407C4CEED;
+	Tue, 10 Jun 2025 11:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749555978;
+	bh=YibikXW00JUDmSUtGKV75M+LUkgeqXyZelMhzVfCmDI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dq4G5RF7Eu+/4EdP/i+nSGo4QP47NeIsw0NQT77QTHds0si3J2dpCd9ZiDwMrVjMr
+	 JgIYC/IycMwYHphJSCMv8/9lgst1D9qKNByLJoeIwzE+gX4BcgvS9wpSqVpdJ0M5Sz
+	 tpYYyyJ2QxaVkQa/69wRCDTps5J2SGRiHCg00N7lw8zbsbMdQgBiCUEcVmC1Pf7ZDo
+	 BQXUspMcWpT7UZMdWJykQTIy1cCKxNSTyJU00aRnbT9wjTYzy10NYaXTyCOM4yLQA/
+	 qC0zXvB84Ir6m9+t3zWXysAlvZLhtaNL00AtkiHuX0zzh4gxwdCESOGSFUYTjDQ4ZY
+	 FMBo7ixuE//7g==
+Date: Tue, 10 Jun 2025 12:46:12 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	Will Deacon <will@kernel.org>, Han Xu <han.xu@nxp.com>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Yogesh Gaur <yogeshgaur.83@gmail.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Andrew Davis <afd@ti.com>,
+	linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-spi@vger.kernel.org, imx@lists.linux.dev,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] spi: spi-nxp-fspi: check return value of
+ devm_mutex_init()
+Message-ID: <d8d1ee94-ee95-461f-a5d8-040bb2a1cfee@sirena.org.uk>
+References: <20250609-must_check-devm_mutex_init-v6-0-9540d5df9704@weissschuh.net>
+ <20250609-must_check-devm_mutex_init-v6-1-9540d5df9704@weissschuh.net>
+ <7afc214a-affd-4a99-8528-c58c31fbcc59@sirena.org.uk>
+ <aEgBkROmEV2df4rA@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qlddIJtm5jpvAAgD"
+Content-Disposition: inline
+In-Reply-To: <aEgBkROmEV2df4rA@smile.fi.intel.com>
+X-Cookie: When in doubt, follow your heart.
 
-If there are network devices with the same name in different
-namespaces, ledtrig-netdev gets confused easily and switches between
-these devices whenever there are NETDEV_CHANGENAME/NETDEV_REGISTER
-notifications.  This happens since ledtrig-netdev only checks for
-device name equality regardless of previous associations with another
-network device with the same name.
 
-Real world example: eth0 is the primary physical network interface and
-ledltrig-netdev is associated with that interface. If now Docker creates
-a virtual Ethernet interface (vethXXXX), moves it to the
-container's net namespace and renames it to eth0, ledtrig-netdev
-switches to this device and the LED no longer blinks for the original
-(physical) network device.
+--qlddIJtm5jpvAAgD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix this by refactoring the conditions under which to handle netdev
-events:
+On Tue, Jun 10, 2025 at 12:57:37PM +0300, Andy Shevchenko wrote:
+> On Mon, Jun 09, 2025 at 09:59:46PM +0100, Mark Brown wrote:
 
-- For processing NETDEV_REGISTER events, the device name has to match
-  and no association with a net_dev must exist.
+> > I don't understand the comment about leaking here?  We might end up with
+> > an unitialised mutex but how would we leak anything?
 
-- For processing NETDEV_CHANGENAME events, the associated and notified
-  network device have to match. Alternatively the device name has to
-  match and no association with a net_dev must exist.
+> In case if the mutex_init() allocates something that needs to be freed
+> (in the future).
 
-- For all other events, the associated and notified network device have
-  to match.
+I don't see how checking the return value impacts that?  The management
+via devm is still there either way.
 
-Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
----
- drivers/leds/trigger/ledtrig-netdev.c | 29 +++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+--qlddIJtm5jpvAAgD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 6e16619719fe..a3f30e6f74b4 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -578,15 +578,28 @@ static const struct attribute_group *netdev_trig_groups[] = {
- static bool netdev_event_requires_handling(unsigned long evt, struct net_device *dev,
- 					   struct led_netdev_data *trigger_data)
- {
--	if (evt != NETDEV_UP && evt != NETDEV_DOWN && evt != NETDEV_CHANGE
--	    && evt != NETDEV_REGISTER && evt != NETDEV_UNREGISTER
--	    && evt != NETDEV_CHANGENAME)
--		return false;
--
--	if (!(dev == trigger_data->net_dev ||
--	     (evt == NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data->device_name)) ||
--	     (evt == NETDEV_REGISTER && !strcmp(dev->name, trigger_data->device_name))))
-+	switch (evt) {
-+	case NETDEV_REGISTER:
-+		if (trigger_data->net_dev ||
-+		    strcmp(dev->name, trigger_data->device_name))
-+			return false;
-+		break;
-+	case NETDEV_CHANGENAME:
-+		if (trigger_data->net_dev != dev &&
-+		    (trigger_data->net_dev ||
-+		     strcmp(dev->name, trigger_data->device_name)))
-+			return false;
-+		break;
-+	case NETDEV_UNREGISTER:
-+	case NETDEV_UP:
-+	case NETDEV_DOWN:
-+	case NETDEV_CHANGE:
-+		if (trigger_data->net_dev != dev)
-+			return false;
-+		break;
-+	default:
- 		return false;
-+	}
- 
- 	return true;
- }
--- 
-2.43.0
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhIGwMACgkQJNaLcl1U
+h9DndAf+IDszF0KDE41cdqFp7QzU28ehipRQZ/2ImAVdikU6XvsSlqXgulFgPanN
+lfk3V9B/9okKYjokFS+cc2d40vlbrE0UMsceGwnQfySoVqrdD62K43POtx1Jgo8/
+qMKE5FwtNzZnq6dkuy3bLDH/8I+v2jhWs1mozB+euPHs6F1AgpREbYeIBhv6h0d2
+Bd6o+qXpvuoxVEOmOS0cABcxvSHl+Tg6gZk7rM6VJKSEaxPlznwnJ+tJdK2Fv8WU
+QOtRl595cqKywMdRyWTuQcdI3iS8mTIu7twIl0Wm/+S1TleZqZZb3trTsTyzfSRr
+R3GugZLFMOZU8mXSwRxZltFqDKKMfg==
+=POCg
+-----END PGP SIGNATURE-----
+
+--qlddIJtm5jpvAAgD--
 
