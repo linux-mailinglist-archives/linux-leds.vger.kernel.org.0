@@ -1,116 +1,100 @@
-Return-Path: <linux-leds+bounces-4769-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4771-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C250AD32ED
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 11:58:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4D4AD3543
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 13:44:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8E5B3B10AD
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 09:57:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5660417587A
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Jun 2025 11:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D377328C00D;
-	Tue, 10 Jun 2025 09:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKHygNYQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A7C28D854;
+	Tue, 10 Jun 2025 11:43:58 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A92B28C013;
-	Tue, 10 Jun 2025 09:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749549468; cv=none; b=GBakR3LZnRgstDVDk2my5sTc3HmduVBjMPrSwtJ/UsOokRn8t3BpJbXDVUf9Vr2HvOtfPSGKYlksx71Kn5c/PnDJlw3Qi+lTlHHRtWzfQL6aa5XjklfoRuHhj3l2yHR5jFicqZJBtCGt+lmTprW+DJcZ8QT4IDmuwahaIsQh3U4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749549468; c=relaxed/simple;
-	bh=ImjjDdcR0PDR/B0hW6U6b9uAanK0m2+0ZrpHzZLv2xM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dPupk8Dp6ROHD+tbRZwDb5GQvLaxek2VUhhDaGw7q8Zycn8bfMxJXNrTgWY2HbHkj21YfEVDXhtfSnx3gZaPakmJwDA7+pxUCK65nnMBfrUXyMXIKa29TXBc7UC8Mv96EGV5/JsB8hCEseQZVNQaHKDPWyUH0Y2/sfA1nk/JIa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKHygNYQ; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749549467; x=1781085467;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ImjjDdcR0PDR/B0hW6U6b9uAanK0m2+0ZrpHzZLv2xM=;
-  b=PKHygNYQdI9D4flMuzw7JPdbRKP0Zkw75AdmARP6p0LIroSZjc4uyyJI
-   VNmfIQVOwqy1o2Q05S55tv36fQZUnd36QOSVMCf4ArXfoukWJxlqpppSa
-   8cHrJ9ee7rAKTFP9J62Cdxoj7Xgv2PKNbYe7MfaW7DVqMtm/lO8+TWzsu
-   tDsB2hMb2kUZBHoHZKP+mcoImdBQkzZdDruFj7EaasQE2ExJm+qxzr94+
-   PpZLTHDLCq3QNmDlcITE+2bVotMyEUDck4HUKonw+8z7+8eAppo1xzTcT
-   WfGrIClVmei8Qe+7UA9gThZsV/C8cwni8IYWuBiqcA4ZUiMCgsBImhjFp
-   g==;
-X-CSE-ConnectionGUID: PFfajYLTTS+59hOIqLhJ/A==
-X-CSE-MsgGUID: NfZttT+aRY6DY4YPHL+3Qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="74184743"
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="74184743"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 02:57:46 -0700
-X-CSE-ConnectionGUID: 5j80a83bTXmxzQIG+3ulhA==
-X-CSE-MsgGUID: 2r67tEUWSUKZ8gLPPEVWxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="177719736"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 02:57:41 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uOvjd-00000005JZB-3lD4;
-	Tue, 10 Jun 2025 12:57:37 +0300
-Date: Tue, 10 Jun 2025 12:57:37 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	Will Deacon <will@kernel.org>, Han Xu <han.xu@nxp.com>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Andrew Davis <afd@ti.com>,
-	linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-spi@vger.kernel.org, imx@lists.linux.dev,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v6 1/3] spi: spi-nxp-fspi: check return value of
- devm_mutex_init()
-Message-ID: <aEgBkROmEV2df4rA@smile.fi.intel.com>
-References: <20250609-must_check-devm_mutex_init-v6-0-9540d5df9704@weissschuh.net>
- <20250609-must_check-devm_mutex_init-v6-1-9540d5df9704@weissschuh.net>
- <7afc214a-affd-4a99-8528-c58c31fbcc59@sirena.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACAB226D07;
+	Tue, 10 Jun 2025 11:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.216
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749555838; cv=pass; b=AZoeTnYbCL6wWX2SchVdC4z15Ftb41ziYItAvWoYL9PlCdvv33K/zg1RNaK1Qib8BDZrIL0drMUZiUmrDkgEikmorVplCEjZL9cgH+PioBXeEtaHZoj5vmU+L4B/1eh4KVZ6Ib+j1z//bSEzN4EaIwHxzpDqP2wkZLImlUCp3Yk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749555838; c=relaxed/simple;
+	bh=uiITjteoxkaeAuq1hjBPppcndqOMCUH+QZXMDGdZR/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lU5NEzHWKV1EdTbhSqp+0yYBrwFofiVzCw+lKKh2Za+Nm5Si4in+9qNENk67Ww5D35V2Ut57f9QIdHIcS8oy+KCIqobvO/Qt21Nuq+j61KneWjSSAFVEsNDK3yv9ntwZ9xjSeCZ1SPkW/rVsCEaZJFT39pIdVUd5qKJChDHm+eI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de; spf=pass smtp.mailfrom=inhub.de; arc=pass smtp.client-ip=81.169.146.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inhub.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inhub.de
+ARC-Seal: i=1; a=rsa-sha256; t=1749555645; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=GSJbHVVXfiFocmAbCNc1BiCOuG4pSUxEwOCWR/uVL71ziE0ixT8c/+9su8PLV7XTW0
+    7ZkXy5ZSxj+rfd66IvWPo0JkdEg3fP6xdlVmPrxQH//XDnQazN0wnkiE2aD4wzf/8dFu
+    PWXefsScr/A5m1CCJY7vRBuMBCWZ0fFesR1eLqq9zhGNL7029TpXLodkRNsbILPX0KYE
+    NdMfYvAKTfL3+pGF7wC/ICWNNVDLk2j29tblnfbncolM+XttLYhFQKe5eZVSNPOUaBsU
+    lmZtPVA4vfLSd4otyt8wafRFjMmqt8ta5EKGqjmdV7/HR5t+Rop7mTFkEnIlF/GCJjYV
+    ECCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1749555645;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=z0j/rSmihpzXd5aYpATr1YjCDRitMRewVaq3O4GQK0s=;
+    b=BiiLCWt0GlVQcoXb3URwJBXtNaq6dvf3vjjOHg9vore3uKqwZrC7bTXFlsp+0+UzYr
+    vV7mDRis437K46lOFJZ2U49WJ1SU4+7odAUqNqCz9AwpHZLBuymtGZrvN0iVHP1v13l7
+    zrRHxSBAFG01l9amzjPvbbeeJUoDj059BpwDV5BExgZl6loPXXKFyqdo65r66skAucRI
+    Nou2/K6p64TGY0jYTQa8YpVYBpuAilFeZXucoia76km/zMYFr/M/3geIlB3+EIxLhljE
+    uCp19/0flSLexIs85UDOIFvoTUoSAwBKRyhioPXlVtpmDhtvm+PiyE3LoKONImK8A5SZ
+    iRSg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgaKe3jg5kqErvsv7wxhn7R+CZYOGugK8="
+Received: from crypto.lan.inhub.de
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id J569d715ABej5yY
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Tue, 10 Jun 2025 13:40:45 +0200 (CEST)
+From: Tobias Junghans <tobias.junghans@inhub.de>
+To: Lee Jones <lee@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: Tobias Junghans <tobias.junghans@inhub.de>
+Subject: [PATCH 0/2]  leds: trigger: netdev: refactor event handling
+Date: Tue, 10 Jun 2025 13:40:18 +0200
+Message-ID: <20250610114029.268938-1-tobias.junghans@inhub.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7afc214a-affd-4a99-8528-c58c31fbcc59@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Jun 09, 2025 at 09:59:46PM +0100, Mark Brown wrote:
-> On Mon, Jun 09, 2025 at 10:38:37PM +0200, Thomas Weißschuh wrote:
-> > Even if it's not critical, the avoidance of checking the error code
-> > from devm_mutex_init() call today diminishes the point of using devm
-> > variant of it. Tomorrow it may even leak something.
-> 
-> I don't understand the comment about leaking here?  We might end up with
-> an unitialised mutex but how would we leak anything?
+This series fixes issues in the netdev event handling code which lead to
+erroneous netdev associations if e.g. net devices in different net
+namespaces have the same name before or after being renamed.
 
-In case if the mutex_init() allocates something that needs to be freed
-(in the future).
+The series based on different previous approaches:
+- https://lore.kernel.org/linux-leds/20250401085002.492904-1-tobias.junghans@inhub.de/
+- https://lore.kernel.org/linux-leds/20250425132059.393144-1-tobias.junghans@inhub.de/
+
+Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
+
+---
+Tobias Junghans (2):
+  leds: trigger: netdev: separate event checks
+  leds: trigger: netdev: refactor netdev_event_requires_handling()
+
+ drivers/leds/trigger/ledtrig-netdev.c | 38 +++++++++++++++++++++------
+ 1 file changed, 30 insertions(+), 8 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
 
