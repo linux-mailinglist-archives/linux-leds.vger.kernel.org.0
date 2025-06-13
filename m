@@ -1,58 +1,58 @@
-Return-Path: <linux-leds+bounces-4797-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4798-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6598EAD8D8D
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Jun 2025 15:47:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1324AAD8F8A
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Jun 2025 16:29:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F18127B153E
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Jun 2025 13:45:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29682188F118
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Jun 2025 14:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C1019007D;
-	Fri, 13 Jun 2025 13:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5034C111BF;
+	Fri, 13 Jun 2025 14:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvyzoAtz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jk+XKMKM"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3818DB24;
-	Fri, 13 Jun 2025 13:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C9E2E11A3;
+	Fri, 13 Jun 2025 14:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749822369; cv=none; b=dsUNQdcKzQvp2VRhEeDjf5Cws2Ky12DF/YZAS9w4NmX9p6GDxujpmg9A9YXECNTM88bwasgcY8/07x5fnUtfUnz6S9vKn0wEApx+fJYiTGYz4jNWe4QGQJB+bAWxr+aBdOIuVpFDEQurZPVf5+2gaZ2LnFAfSck8IWdCqBEwT34=
+	t=1749824759; cv=none; b=YJzghrQoiiriSQqzxFSv46+IfuHDDewsCV/JB3JoQ/aLgTiklwdxh6Z92X9l+1qdXsbZ5eaZIODsA3J+i8hbMP165r5DJyq1pCl+9gsZPuuJslpjX4EcfpcpncYYqytefSJKsopzoeTsGMqRA9kZ6xNPd6AIJcdwuNdGVmroPFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749822369; c=relaxed/simple;
-	bh=l3KlaDgTioax3Nlz5KXRXJnNHjo/8LCMbwIJ3eWHe1E=;
+	s=arc-20240116; t=1749824759; c=relaxed/simple;
+	bh=SMIGOvIv4UOgB6nUZsvM8VVKF0tt57JCf5DapqyJgUk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RfSWnfhwwngLcmutT4lCGx71NWDrQBx3YM3SbreU3n8V0h/pI8JQKnwjEPTZzY/aVW1BC1yu9QUTUYgz2qQNe+JfmjnvGS+/zPihJ/OhY6cRoADOFEAUyLW3rmPoXih4BArdfaaQBO15Ya19rZ+CCiFShAfzgstP0aEERB2HM0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pvyzoAtz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB8BC4CEE3;
-	Fri, 13 Jun 2025 13:46:07 +0000 (UTC)
+	 MIME-Version:Content-Type; b=thfTBSa5vyDN30mETJk4/wszd27kXFPMAeRe+hAKdykqRizao0D9uIYxSLX790ZjMpbejxNmFSVyUMLYwsl9/Ls+OixiNR8HdzZ9cbLev+3Y2YalvyxnPcv5cO1KtSvfJVTTxTdphVZyl2Q4EDZ+86fNnXCnX4iTDRSCe1ckN/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jk+XKMKM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 463EFC4CEE3;
+	Fri, 13 Jun 2025 14:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749822369;
-	bh=l3KlaDgTioax3Nlz5KXRXJnNHjo/8LCMbwIJ3eWHe1E=;
+	s=k20201202; t=1749824758;
+	bh=SMIGOvIv4UOgB6nUZsvM8VVKF0tt57JCf5DapqyJgUk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pvyzoAtzSzYxuPMKbala3dBzIzyeFEXlpFuO+NqiPtTpLwq7npxmkb1xQ2FxnfrvB
-	 mSzWdoI7D4l5q375CQQ6HLGmliUGd546I/BF0xGVwWGxGEUwIztFNetKYWyf9ZdX0G
-	 8qoxNpA/X2abvWISzW2JyB38faKznHrAkQhR+Mp0dLNZDlAa4XXTzS58aWyuZRkj7N
-	 kWLgJ9/BSbepv2RYiVJX8qmOeWLdwns1/ZwT38VSGwBpYacYeRzw79k6yllRonLfEL
-	 JwhEQ/k0rSGzGBNmVS9c6+lrwxz47lrljDxV1xd70kPdqrTIB0/y3BuMJqSXe3+TTq
-	 u2L5FKuNMZ+zg==
+	b=Jk+XKMKMiNUQm+1jlgiXEUyoPQWnCKm2noZjDKbOynSPhNlWu9ixIuA4RnfT/FrPt
+	 nOTWl6a9fl49dCBL6KzZLuJh+21BFgA4O+XrlvResEt9eR0OmOsyEuiMQz40EK+pMB
+	 rn+sPNTQEudDHH3XsDtfe1pYghZ9KsvJFzy5OYqn9Ksy+rCyBC5YC42VD45kHRb564
+	 TKcyNBZO63PdHfjKQWoVY1fPnM3MD1qscLiXVQmEIuKkVY0UvvrtJgqpJSzBNh3aOY
+	 gluP8yzdz/c7ue9zYBYw6Z8h8AxGkKYVs+woJ9mlKT0PIiLuQvZZoXbH5uv+npex/q
+	 vqpECc/u6R7Vg==
 From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Fenglin Wu <quic_fenglinw@quicinc.com>, linux-leds@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: stable@vger.kernel.org
-In-Reply-To: <20250529063335.8785-2-krzysztof.kozlowski@linaro.org>
-References: <20250529063335.8785-2-krzysztof.kozlowski@linaro.org>
-Subject: Re: (subset) [PATCH v2] leds: flash: leds-qcom-flash: Fix registry
- access after re-bind
-Message-Id: <174982236738.906599.2474133054869999823.b4-ty@kernel.org>
-Date: Fri, 13 Jun 2025 14:46:07 +0100
+To: Matthias Fend <matthias.fend@emfend.at>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org, 
+ Lukas Bulwahn <lbulwahn@redhat.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>
+In-Reply-To: <20250527065434.202622-1-lukas.bulwahn@redhat.com>
+References: <20250527065434.202622-1-lukas.bulwahn@redhat.com>
+Subject: Re: (subset) [PATCH] MAINTAINERS: adjust file entry in TPS6131X
+ FLASH LED DRIVER
+Message-Id: <174982475603.946253.15625144456457817574.b4-ty@kernel.org>
+Date: Fri, 13 Jun 2025 15:25:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -63,23 +63,22 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-459a0
 
-On Thu, 29 May 2025 08:33:36 +0200, Krzysztof Kozlowski wrote:
-> Driver in probe() updates each of 'reg_field' with 'reg_base':
-> 
-> 	for (i = 0; i < REG_MAX_COUNT; i++)
-> 		regs[i].reg += reg_base;
-> 
-> 'reg_field' array (under variable 'regs' above) is statically allocated,
-> thus each re-bind would add another 'reg_base' leading to bogus
-> register addresses.  Constify the local 'reg_field' array and duplicate
-> it in probe to solve this.
+On Tue, 27 May 2025 08:54:34 +0200, Lukas Bulwahn wrote:
+> Commit 0d12bb1a7fb6 ("dt-bindings: leds: Add Texas Instruments TPS6131x
+> flash LED driver") adds the device-tree binding file ti,tps61310.yaml,
+> whereas the commit b338a2ae9b31 ("leds: tps6131x: Add support for Texas
+> Instruments TPS6131X flash LED driver") from the same patch series adds the
+> section TEXAS INSTRUMENTS TPS6131X FLASH LED DRIVER in MAINTAINERS,
+> referring to the file ti,tps6131x.yaml. Note the subtle difference between
+> the two file names. Hence, ./scripts/get_maintainer.pl --self-test=patterns
+> complains about a broken reference.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: flash: leds-qcom-flash: Fix registry access after re-bind
-      commit: fab15f57360b1e6620a1d0d6b0fbee896e6c1f07
+[1/1] MAINTAINERS: adjust file entry in TPS6131X FLASH LED DRIVER
+      commit: 3bc1740d3157c9a9d30614371400f490dbbffd62
 
 --
 Lee Jones [李琼斯]
