@@ -1,168 +1,194 @@
-Return-Path: <linux-leds+bounces-4812-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4813-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3B8ADBBF3
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Jun 2025 23:30:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74541ADBCAC
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Jun 2025 00:12:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6265B188A961
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Jun 2025 21:30:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19D97173620
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Jun 2025 22:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270A021882F;
-	Mon, 16 Jun 2025 21:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A5A6221F11;
+	Mon, 16 Jun 2025 22:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jiyJ9D4I"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TDKuN8hZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BD91E9B08;
-	Mon, 16 Jun 2025 21:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12C9225A3B
+	for <linux-leds@vger.kernel.org>; Mon, 16 Jun 2025 22:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750109400; cv=none; b=rNT5lLOxhj2CiJmUV3oAUBsBBV+o14RpBBquFa0GxPX5xtwNY+3FYg+2nQXHC9YyEHh6vpGAs2wSruiFtWiHNuRL3VJMKv0Z3x9xb3AmIS/jgJQFmv2zCWM6vD1HM6n2KLw4uG9kcRU7hB+rInRmgGypkN7oT1I14evl8FDOG+I=
+	t=1750111932; cv=none; b=mPRSWoGStubIGbVl728VuEJ5/KDkH18nRxCCUd0kbWAO+LBCUORv4va716xAogPhlycw1T+U+988zqNeLZT4P0+s+gLhNK76ZOieFzOJRLsxYRjYmQveyxwBJX6koxQywc9u/z8GEmZ7Ig3fBlcgj6myJc6FF42f+WbAZmHZbWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750109400; c=relaxed/simple;
-	bh=5VNEAsouBPOdh+XbkYS939nzg7JPX/5s9z7ACizdbBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q5+annkF8wmBGxm344GxBAbijAIVqMSwk9b/5CXBVCIQEW8NNJVBCrAcJqUmbwFijb1LohAi26yvv2OVBLISiTeHQWet2g7t1+74+2XVyqlDDsyD/w8whTMDzjjp4MFNAHSVrvTzkOudIQeEkzhxb1aCqzI58coHMianx6pEaZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jiyJ9D4I; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-55351af2fc6so5534055e87.0;
-        Mon, 16 Jun 2025 14:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750109396; x=1750714196; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Do1hnaS0CtOsHIBnhi/95bfarKr7zXabMa9k9C0FL1k=;
-        b=jiyJ9D4IHVCLjtzlMyijudRVRx+fUz1mxS4wdCCIG6v4O0+ZIChu1b0t6Fub6AMRpn
-         U8xElmIoXvjftpSHUIanOgAM2bR/3i4381wKCf5YP1rw+LQ+ARS7eQAHLe5giSRbUUdh
-         V++oK/cfr/oWqKY/rYoPiwelVd4+jT3nFTPFak9lGmuO2P5tdgqAOP7uEb2IaL0s8pEm
-         LA+tcYLtrbblyP+XNfBzeXSfgGQAK3L9ydigvCTyFrrbWOCpLDoIBdQd1uERqIIxNNMe
-         tW0tzwH3UAIvzhc2hqG+5z1xAxTujoD3viT6gcc8PffMhQtiiuTvXl02sy0a3aL/+bRO
-         AOsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750109396; x=1750714196;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Do1hnaS0CtOsHIBnhi/95bfarKr7zXabMa9k9C0FL1k=;
-        b=Qwi3yBOXoH+Ys3Yw7hBsD8aVrwv2l6wRpcfTjKtit3k8oxWxTlIwM8r/kBegXbFBKu
-         qEwDQJZyDNqDhIm1rqYzrjykZaxJp/1jUhNcGIcsGr59kB3F7J4qdaOKjJhuYBNrxU3b
-         azJ3lw7K4YjltrBHk8sPK8SashCJFNUGiDxnkmaV3aSB2v/Zx4fCQR8CFPvjHxoam6fM
-         gKY8BlPsK1vpJKu71zkfqwIW+kcteZwKnB1k1eZz8Etm7EnTXDCuj2zG4hhpCJZ9jjAE
-         kjDfHzwgiQ5StdMq0IkavUy0tdmyk9y0AuwtVQzNW/plAwklfXNK9vauQmFkD2HLydQN
-         bELw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4TWv9FSpqEPJjxGWqCIP2f5JiQ6uin2MVEdrTCZOQV7VTcJCUbxf0Su9Uy7Jq0goZmNEbqnS4FcWR8Z6y@vger.kernel.org, AJvYcCXsXFU9YmuynY5NOoxr+APOIgh9lv9Ovpq+B9DwByemuCUJbBdM6oN88XUsAbRKoxAagWhyr0UGevMX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2Ow6jkycZEBMmcOxv8cfGXLONwxE4P7P+YRr+vp+oNO4nZAXC
-	B4t2fGpqs4IadIoHvkElPcZtsupKM0d6JJnlPkDu6ijxwZrg1VUOwACv5EXcrg==
-X-Gm-Gg: ASbGncvl6/FZw5zo/XB5p6lse4L9DoqBOeGV8KdiVEItEJcsjfqFSOfNZngbVh2Z2p7
-	LBLGFRApqSW7CecZCiGubG3TluyGRfcCqR4/o9OxQWN1qaQn0dgaa0erjwxONNs+2xSUfffcpUh
-	kywq3KzQ7amMX4QLrCww5zAQjeG1ZKrXjIunczvva8CKuQZbzC+Y95i2zsrQIW0Z68OmLgrNPKg
-	YBrYimNxsiU0DhG0EtEVqbzz/zmy9ItPj3651TIzvEEEzBBcA6Ezw8SKz3VbXRX2x+gxmcz3PZx
-	rNTRlPdpLpAkfOY7drxqjaus8oVwF23gWb/Og7mlkANjrNeyZl+NwRjkPpNyNB3+iKhMmhtBTtI
-	=
-X-Google-Smtp-Source: AGHT+IGhwIZMcrkhFiRHEIrnrhxRgJNzXCaRo1/fa29XUEToVqntPMdQrO6BrBhWFHdNRTJJyM8K2g==
-X-Received: by 2002:a05:6512:3092:b0:549:8675:c388 with SMTP id 2adb3069b0e04-553b6f5fa33mr2870026e87.52.1750109396075;
-        Mon, 16 Jun 2025 14:29:56 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac11ff47sm1671073e87.25.2025.06.16.14.29.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 14:29:54 -0700 (PDT)
-Message-ID: <eb8c858d-fde8-4916-b36c-f386242b10c4@gmail.com>
-Date: Mon, 16 Jun 2025 23:29:52 +0200
+	s=arc-20240116; t=1750111932; c=relaxed/simple;
+	bh=z27b+y8IAQVhC5dT+anpQ1qNUaOyNff9dkszwQOUIik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X8aynFUGApU4v3dZ1dBpVZdOcelGgS58fQZLyF246efvzlokxsdaVD87yJELJxShFs82Rt9lCUiExmFH5+ZevSoWp8dCAy+yiKNZh+LvOjYpaJ03XOqdr/uUSXL6dpPInNoSD+p5yniFkR0Wdv878LXGeAyrFGS+XiuoTFoj914=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TDKuN8hZ; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 17 Jun 2025 00:11:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1750111917;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4pbm1b9LBgDfXKudtas1By4N/SakHI/JM8t8mVTU1hE=;
+	b=TDKuN8hZ097Ub/FhBuz7VWmhzzl8zAWBw/2k5gomhb8wUCpfEaJg/xWigwZ/IhBMQIw6uV
+	U8/3MH+9BxKcx9qcUPG9/wvUQyqrD+kRJOtPMQjAWkdNTCQu8p/2c8dMikTMaWii4ekyUV
+	L+5FR3Ibm9e1uMvQTUhHBnHFaQtakFw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 08/10] media: i2c: ov9282: add strobe_duration v4l2
+ control
+Message-ID: <iszi4xwmlefn2bz5k4kmlxqhcwrm7trzkr56z73rkwgbsj2e7u@rhxbkwaztrq6>
+References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
+ <20250507-ov9282-flash-strobe-v4-8-72b299c1b7c9@linux.dev>
+ <aDTOsR_ctSsySEsr@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] leds: leds-lp50xx: Handle reg to get correct
- multi_index
-To: Johan Adolfsson <johan.adolfsson@axis.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kernel@axis.com
-References: <20250616-led-fix-v6-0-b9df5b63505d@axis.com>
- <20250616-led-fix-v6-1-b9df5b63505d@axis.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20250616-led-fix-v6-1-b9df5b63505d@axis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aDTOsR_ctSsySEsr@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Johan,
+Hi Sakari,
 
-On 6/16/25 13:25, Johan Adolfsson wrote:
-> mc_subled used for multi_index needs well defined array indexes,
-> to guarantee the desired result, use reg for that.
+thanks also for reviewing this patch :-)
+
+On Mon, May 26, 2025 at 08:27:29PM +0000, Sakari Ailus wrote:
+> Hi Richard,
 > 
-> If devicetree child nodes is processed in random or reverse order
-> you may end up with multi_index "blue green red" instead of the expected
-> "red green blue".
-> If user space apps uses multi_index to deduce how to control the leds
-> they would most likely be broken without this patch if devicetree
-> processing is reversed (which it appears to be).
+> On Wed, May 07, 2025 at 09:51:37AM +0200, Richard Leitner wrote:
+> > Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
+> > feature of the sensor. This is implemented by transforming the given µs
+> > value by an interpolated formula to a "span step width" value and
+> > writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
+> > PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
+> > 
+> > The maximum control value is set to the period of the current default
+> > framerate.
+> > 
+> > All register values are based on the OV9281 datasheet v1.53 (jan 2019)
+> > and tested using an ov9281 VisionComponents module.
+> > 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > ---
+> >  drivers/media/i2c/ov9282.c | 31 ++++++++++++++++++++++++++++++-
+> >  1 file changed, 30 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index b6de96997426f7225a061bfdc841aa062e8d0891..0bbdf08d7cda8f72e05fdc292aa69a4c821e4e03 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -97,6 +97,10 @@
+> >  #define OV9282_REG_MIPI_CTRL00	0x4800
+> >  #define OV9282_GATED_CLOCK	BIT(5)
+> >  
+> > +/* Flash/Strobe control registers */
+> > +#define OV9282_REG_FLASH_DURATION	0x3925
+> > +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001A
 > 
-> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-> but I don't see how it can have worked without this change.
+> Lower case hexadecimals are preferred.
+
+Sure. Will fix that in v5.
+
 > 
-> If reg is not set, an error is returned,
-> If reg is out of range, an error is returned.
-> reg within led child nodes starts with 0, to map to the iout in each bank.
+> > +
+> >  /* Input clock rate */
+> >  #define OV9282_INCLK_RATE	24000000
+> >  
+> > @@ -687,6 +691,25 @@ static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
+> >  				current_val);
+> >  }
+> >  
+> > +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, int value)
 > 
-> Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
-> ---
->   drivers/leds/leds-lp50xx.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
+> I'd use u32 for the value here.
+
+Sounds legit. Will adapt that in v5.
+
 > 
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index 02cb1565a9fb..344791b6c575 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   			return -ENOMEM;
->   
->   		fwnode_for_each_child_node(child, led_node) {
-> +			int multi_index = num_colors;
-
-Any specific reason for initializing this to num_colors?
-
->   			ret = fwnode_property_read_u32(led_node, "color",
->   						       &color_id);
->   			if (ret) {
-> @@ -483,8 +484,16 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   				dev_err(priv->dev, "Cannot read color\n");
->   				return ret;
->   			}
-> +			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-> +			if (ret != 0) {
-> +				dev_err(priv->dev, "reg must be set\n");
-> +				return -EINVAL;
-> +			} else if (multi_index >= LP50XX_LEDS_PER_MODULE) {
-> +				dev_err(priv->dev, "reg %i out of range\n", multi_index);
-> +				return -EINVAL;
-> +			}
->   
-> -			mc_led_info[num_colors].color_index = color_id;
-> +			mc_led_info[multi_index].color_index = color_id;
->   			num_colors++;
->   		}
->   
+> > +{
+> > +	/*
+> > +	 * Calculate "strobe_frame_span" increments from a given value (µs).
+> > +	 * This is quite tricky as "The step width of shift and span is
+> > +	 * programmable under system clock domain.", but it's not documented
+> > +	 * how to program this step width (at least in the datasheet available
+> > +	 * to the author at time of writing).
+> > +	 * The formula below is interpolated from different modes/framerates
+> > +	 * and should work quite well for most settings.
+> > +	 */
+> > +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
+> > +
+> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
+> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
+> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
+> > +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
+> > +}
+> > +
+> >  /**
+> >   * ov9282_set_ctrl() - Set subdevice control
+> >   * @ctrl: pointer to v4l2_ctrl structure
+> > @@ -756,6 +779,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  	case V4L2_CID_FLASH_LED_MODE:
+> >  		ret = ov9282_set_ctrl_flash_led_mode(ov9282, ctrl->val);
+> >  		break;
+> > +	case V4L2_CID_FLASH_DURATION:
+> > +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
+> > +		break;
+> >  	default:
+> >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+> >  		ret = -EINVAL;
+> > @@ -1346,7 +1372,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	u32 lpfr;
+> >  	int ret;
+> >  
+> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > @@ -1418,6 +1444,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  			       (1 << V4L2_FLASH_LED_MODE_TORCH),
+> >  			       V4L2_FLASH_LED_MODE_NONE);
+> >  
+> > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> > +			  0, 13900, 1, 8);
 > 
+> It'd be nice to calculate the limits based on the relevant parameters
+> rather than use a hard-coded value here.
 
+Ok :-)
+I will send an updated v5 where the maximum flash duration is set to the
+current exposure time in µs tomorrow.
 
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> 
+> > +
+> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+> >  	if (!ret) {
+> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> > 
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
--- 
-Best regards,
-Jacek Anaszewski
-
+thanks & regards;rl
 
