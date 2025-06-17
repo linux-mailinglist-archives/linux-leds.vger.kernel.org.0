@@ -1,194 +1,213 @@
-Return-Path: <linux-leds+bounces-4813-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4814-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74541ADBCAC
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Jun 2025 00:12:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7022ADC332
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Jun 2025 09:23:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19D97173620
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Jun 2025 22:12:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0394188D1F3
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Jun 2025 07:24:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A5A6221F11;
-	Mon, 16 Jun 2025 22:12:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA58E28D8E4;
+	Tue, 17 Jun 2025 07:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TDKuN8hZ"
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="T8kzh5dK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012010.outbound.protection.outlook.com [52.101.66.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12C9225A3B
-	for <linux-leds@vger.kernel.org>; Mon, 16 Jun 2025 22:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750111932; cv=none; b=mPRSWoGStubIGbVl728VuEJ5/KDkH18nRxCCUd0kbWAO+LBCUORv4va716xAogPhlycw1T+U+988zqNeLZT4P0+s+gLhNK76ZOieFzOJRLsxYRjYmQveyxwBJX6koxQywc9u/z8GEmZ7Ig3fBlcgj6myJc6FF42f+WbAZmHZbWE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750111932; c=relaxed/simple;
-	bh=z27b+y8IAQVhC5dT+anpQ1qNUaOyNff9dkszwQOUIik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8aynFUGApU4v3dZ1dBpVZdOcelGgS58fQZLyF246efvzlokxsdaVD87yJELJxShFs82Rt9lCUiExmFH5+ZevSoWp8dCAy+yiKNZh+LvOjYpaJ03XOqdr/uUSXL6dpPInNoSD+p5yniFkR0Wdv878LXGeAyrFGS+XiuoTFoj914=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TDKuN8hZ; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 17 Jun 2025 00:11:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750111917;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pbm1b9LBgDfXKudtas1By4N/SakHI/JM8t8mVTU1hE=;
-	b=TDKuN8hZ097Ub/FhBuz7VWmhzzl8zAWBw/2k5gomhb8wUCpfEaJg/xWigwZ/IhBMQIw6uV
-	U8/3MH+9BxKcx9qcUPG9/wvUQyqrD+kRJOtPMQjAWkdNTCQu8p/2c8dMikTMaWii4ekyUV
-	L+5FR3Ibm9e1uMvQTUhHBnHFaQtakFw=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 08/10] media: i2c: ov9282: add strobe_duration v4l2
- control
-Message-ID: <iszi4xwmlefn2bz5k4kmlxqhcwrm7trzkr56z73rkwgbsj2e7u@rhxbkwaztrq6>
-References: <20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev>
- <20250507-ov9282-flash-strobe-v4-8-72b299c1b7c9@linux.dev>
- <aDTOsR_ctSsySEsr@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0586C28B3F7;
+	Tue, 17 Jun 2025 07:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750145033; cv=fail; b=T6qENAw+LxJZ1E4W9H42DNNq9nDCRInngatTLuxixtc7kBYwH+gwohOqZ296pqHva5IFPAJQefzm5HFCSb6Zb2u4Q3mnNCASY0Q89xBWuy5vfEyU97dp6YkyUg/UBN2AV2DS/s4a1uZRHO3bqoRlM+hHR5amNN2Qu/moU/P6hnQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750145033; c=relaxed/simple;
+	bh=FgP2sCAu4sS71Fig5Qg9GLoWZhkfbpujpD4/oULdKDs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gD7Ze/3eT+3TQaUVdgwbKEegpf3ES5WHw3COs/IjhRhJ0ri6vrnppmTcfky8tgJZaegTEgOHmT9KDueOGqczKTAN9Z5k1vfpgzFbDuJE0dlOX6Jv6UhcwmCVSidLktw1j3sf1odzEReR3fqMnEUjPohz28ofBlFHNmBRWFWWLQg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=T8kzh5dK; arc=fail smtp.client-ip=52.101.66.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tQCrqmAJo2SM80QYj8RNtVzbx7eLSmCi1crqzAQPBcApjPZ795esD3tZFYjherKj+PcYuONkRsIfxHYwMCSEpFqYz9hyZCjXnMzjfyk5rqfAQ2A1UbqJ369oxU3mddAdUxi5uB93L/QP96DHiJfDokA7AgFmdRNL/gKgGoy95yD/5+JqBo979PuRHQYRPLWx2lD6zs//c/f8u1tJASk26Kn7ak7gJuf/ETigNAANSSlwSuUtBzXJZjqEWv5/qhQfXH4+yCZccVQMu5VbkGQbjP/c7szWW3wMSRDDq2SpCR0cweP32SOsCqrx3LhS01hvShJcgxjKGSS61rrSOx6msQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kgrTl9JX0uY5kshoBGQ1vzmeDJIYPMEAtqc1CzsKXMY=;
+ b=xfLodDIANXq2KNkKGImYpDvt5txQzpgaOaIw+YxHqP+FzZL1XIfUBGCiFfqgJmbs76miRmwc9y/Z0dEEOhpVgBtaJSRTXupBc3tRiydbT5IULdIeBO8Er7qqkB6nc6v7qHK9kYY+x4G9f/wk9hkF4XuV0Tfgr3JmiBM5T1JjGhlJ34QvhfmWSZeo9xkGr0BJDSWTfF2yW4bbgLybff6guyTR9b0Y0mCXGuhkpMV2WPTtqIpj3ZrSooUKG8RACf1cwPyRzURloDkwHJKVzGKoPdo53L4kNKzmFUsOIGAaN3Qm+X56D2dNKjH7NhHVFrhq4Alm4ThLkh0VumqmbCPIKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kgrTl9JX0uY5kshoBGQ1vzmeDJIYPMEAtqc1CzsKXMY=;
+ b=T8kzh5dKtWmdidnROPsFFj789wL71Uri44V1n6icPGD9fOCKzOzcTVhCVhqfAd/K8TMfz7yJHiu873lcDHBCJiOx1xKqP8Ed2lVLYNZT1R2eOKvaUMC1OETGnmOnr//S5Qgq08ScO66mGaR6PzQiBN5NSooT+foOzN7t3bnUSKU=
+Received: from PAWPR02MB9281.eurprd02.prod.outlook.com (2603:10a6:102:330::10)
+ by PAXPR02MB7328.eurprd02.prod.outlook.com (2603:10a6:102:1c6::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Tue, 17 Jun
+ 2025 07:23:49 +0000
+Received: from PAWPR02MB9281.eurprd02.prod.outlook.com
+ ([fe80::87f6:1bcb:22bd:b050]) by PAWPR02MB9281.eurprd02.prod.outlook.com
+ ([fe80::87f6:1bcb:22bd:b050%4]) with mapi id 15.20.8835.025; Tue, 17 Jun 2025
+ 07:23:49 +0000
+From: Johan Adolfsson <Johan.Adolfsson@axis.com>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andrew
+ Davis <afd@ti.com>
+CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Kernel
+	<Kernel@axis.com>, Johan Adolfsson <Johan.Adolfsson@axis.com>
+Subject: Re: [PATCH v6 1/2] leds: leds-lp50xx: Handle reg to get correct
+ multi_index
+Thread-Topic: [PATCH v6 1/2] leds: leds-lp50xx: Handle reg to get correct
+ multi_index
+Thread-Index: AQHb3rFidkI/UDwrFEiIPPe9koP59bQGTjQAgACelfc=
+Date: Tue, 17 Jun 2025 07:23:48 +0000
+Message-ID:
+ <PAWPR02MB92819222B0EFBDE604D6798A9B73A@PAWPR02MB9281.eurprd02.prod.outlook.com>
+References: <20250616-led-fix-v6-0-b9df5b63505d@axis.com>
+ <20250616-led-fix-v6-1-b9df5b63505d@axis.com>
+ <eb8c858d-fde8-4916-b36c-f386242b10c4@gmail.com>
+In-Reply-To: <eb8c858d-fde8-4916-b36c-f386242b10c4@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAWPR02MB9281:EE_|PAXPR02MB7328:EE_
+x-ms-office365-filtering-correlation-id: 58bfb2e3-04b2-47b6-c679-08ddad6fe752
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?F23SqX5noBDMGF83DwxxTRxr3NJAWUcYt0AoePo96xmGBbKdytUZi0wFj7?=
+ =?iso-8859-1?Q?XBOa+eaqOap/mtVxgh17BO2nQd4bITLibMc3QNr3GKcN8/KEKw3uYaUJae?=
+ =?iso-8859-1?Q?eAAENP3ume1+mQCOthSzsg9y+iPOHuTLR+2QPmBn7nCcuk47uysCm5H/NI?=
+ =?iso-8859-1?Q?l/DU1sP6I6m57UPjPeUKiLE9O1TKVQ71VBw2CLjVmEFPSJkjZ73IMH5HoA?=
+ =?iso-8859-1?Q?WLSAuOs4TilouW8Q3ZU5YUQ0xiqenz5pODHyLFvn1h/4gC/87nD/KqFwhH?=
+ =?iso-8859-1?Q?pjoioQc0PUMbL240RkA5ElOaA4t7ANe0DGZrb+t6eU3w3f1PcQcdC0C+7+?=
+ =?iso-8859-1?Q?PtLk2Nzw9pzNfcGhc1tulgCw6r+sVjw/l+MCpkt8ww/ogKRdnwTx/6mlUv?=
+ =?iso-8859-1?Q?oWMEQaJStF5MbOxypogjGKQ4OQOOmyv2qPIEdtvQUxDtYwJlJYP6aPe2fS?=
+ =?iso-8859-1?Q?nj53XC7nQFGv54ceu0c7XYQhVO26tAGMyyRv9Oc62iyUKCphGePQkCUxxc?=
+ =?iso-8859-1?Q?bMIfTfhVqaTu+mvguXc84CKcFLmmtDLjQ2RRBE2tL1M36acXimBCaej6Ee?=
+ =?iso-8859-1?Q?D4wWMquH0cOtduATSIRQf1iyY7EDrdmLLsOZ/tZHeA7r5PcTZjlfTXXhzL?=
+ =?iso-8859-1?Q?FYKXe2fQbxuAdmBPyhxEwOUTzTReeJiCwNWU1yfnb/vjYpKYEABYgkNBr+?=
+ =?iso-8859-1?Q?Isb+gfspuyE6ij5ZEaQkktkZIBx/u+btw2A5QL04bHI5cGDgAQEwiWDCzg?=
+ =?iso-8859-1?Q?J0YE4G6Avlb2DsFBKDGn03Sufqtmo4+PbBQ32sSrmXEUXSOi0PNyZQSKwa?=
+ =?iso-8859-1?Q?28EMHEpqTX6QZ7wAzR7ihuh0R6Og8mAIcLn8O3qeDn+mlhmbPaTEMDgeZ0?=
+ =?iso-8859-1?Q?RbYj7UksUSFWf1/s7Elok3hI48QJryNcFcm/Ap1eItxF/Rua+QAbgvKnpY?=
+ =?iso-8859-1?Q?nOe1qM1xfxR9yuqPqQQb53DMLwANMZnXfpo7lZSFfyTR7psrSU0c7hi2iX?=
+ =?iso-8859-1?Q?INRTadttkdhRbrRJVPhQKQkpGgCoZWM6B5VWVvPLwGaPnsw7zoyxAqGuik?=
+ =?iso-8859-1?Q?K+nulSezy+FzTMyfD6/d0M25TUBP7cgB6257cjfkCRD+6IDQKeK/8ie2Np?=
+ =?iso-8859-1?Q?Hur8aqNtZpeT4EjE6CyNg9yfPRvNbLR2FCCTXuU/wO3IH2xx95p84gMv7Q?=
+ =?iso-8859-1?Q?Y5wf6ZPcUOXX0nfkflp5mBKXYruzAtQlPLbQO/50+SfZD0OkDNy8SQaEdW?=
+ =?iso-8859-1?Q?RuVGGvvymBSffxtPAbB1aiQXkg9jUqZMfg3F04x7zp7sljuKLDdGKTwAIu?=
+ =?iso-8859-1?Q?gHaQTvRaAsz3VFmS+cUrPA9ti0oFv9fMCQN0LlbQJ4kEqmX3u7DvuyNlzu?=
+ =?iso-8859-1?Q?OqlimxVqcFzuPTRnU1uCj61AUopPbEiOOlSizDTnSCqc3O84FEgaWfJJMG?=
+ =?iso-8859-1?Q?5HNXZlWRE3vGeJLB79UjSRxvg9gZDEkPkSA7RmNfd7EDgqBjFvIgvGVRVb?=
+ =?iso-8859-1?Q?vvl/8Qo/E/K55GspvIfzL9NJortnSW9soWhVZBj4wFLQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWPR02MB9281.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?zZkN1rroGP12VSeBxZM8xLHkDbK08SofUHg6YGOHxR/NGVf5jkKttHfLCU?=
+ =?iso-8859-1?Q?4MUsdbL93EIc9S4Aff8A6XHv5A+woMfHkKazilOoP7XOw5GJJYs/2IxEHG?=
+ =?iso-8859-1?Q?wY06nFwJTbPuY9mHcOeLz6qjeVZZQq7jbTEwji1V+Siqm4AsgFlmnMV0Cq?=
+ =?iso-8859-1?Q?GBYNixLGd6/TFWSIHrWMgEwJngtGFoTSRzy962pRCxv2GxNj8p/E7NIZ52?=
+ =?iso-8859-1?Q?vBP8JIx5RRdLyyhzVW1Tr/f1brHoRqhKSOyMSLV9A+ctYb7+baybYGiV8z?=
+ =?iso-8859-1?Q?APaPgtE5QU4jakVQzeZFTaNb+T7V5NSuvjJ7jri3t7ZwjeNFcnKh5lXkIo?=
+ =?iso-8859-1?Q?giQTPJz9nCJrkvgu5dcVL7RQJTL3dxw1iYlNCAQRJjzbBqO3uE5y29zq+k?=
+ =?iso-8859-1?Q?kpggxLrWYzBt6q9zzroNcW0KJUncPyB11MI0EwEEZYq1K/QUNlXjo0DLcN?=
+ =?iso-8859-1?Q?WAYOGI23K+KC0a3d6eb9/3Iwmj/XcjblsQCvPQQ01xTTbIgaxYRbvcbEa0?=
+ =?iso-8859-1?Q?e43e+lhkHlD1qviIEZ/yt4WElyIeiQNtE/zghU1L7nHsjkt6M2joFd8lET?=
+ =?iso-8859-1?Q?nbYbA+CRNs4BTk5nsuIaekuSNNiNQWvVNWEEkD8+qMBPXQyh4Fm8jpOMdU?=
+ =?iso-8859-1?Q?cOa3Y4Efr3apALqZgxBx117rvLVAEBrZxszzfmiWC8uWWGdra6sCEmHuLl?=
+ =?iso-8859-1?Q?siunJnLQ8HTRxLTiZG0w0yP7r1TkeYS6O6Zv9QPC8nY8Db6u/mm2tOtfji?=
+ =?iso-8859-1?Q?cbKjAm0TphQwVAM4MgyjhCm+tZuojM7J6n3jXr6C6iQ9D+oJvrjbBqWxft?=
+ =?iso-8859-1?Q?y+m1sEnFPN9PsubZfSlK9Un7kyKAwSb/Tkcautx81F7xiTiaAHekXkYT2g?=
+ =?iso-8859-1?Q?9wCEIuzDew9p7/ipSHVQioILCwjp+8Il2kv/S2E978t56DK4A2cQ6jadLI?=
+ =?iso-8859-1?Q?Xtv5c1Hd1RQeBpPZu+Oyw2TMAeVEVIiqYLx4pPA7E+t9xMDhWOR0B66jTK?=
+ =?iso-8859-1?Q?4U4FGdojOACcqU8Sw5Xd4SEpcW4EjS8yTunfW4K6VfwkwBp4pCX7J0IZdy?=
+ =?iso-8859-1?Q?SHmVhRmK5sM7LCprYe7fT8bgxMhi2R3geAnPwLEocUtn7kZECGXtCtEuMr?=
+ =?iso-8859-1?Q?CEKn0IIiGAbzbx6RSAYrLiK8iSCkezIlXIJtK8RRkd5zaviX/4ijjxGwZl?=
+ =?iso-8859-1?Q?gLSXrRdSt6D1h+1MfhjsU+0TUfC4utDHzl+0Cd/I0U6qJggZpjAPpbKuuT?=
+ =?iso-8859-1?Q?Ff0YGcIv68QXx1GGO4w+NTPAlPrbVrq+/p9GM4MDZv3cXl+lXzYjH/dvC6?=
+ =?iso-8859-1?Q?YXlaw5QCx8weYo8q0JSPOeOvbDJ3sZh+VnXU33HKEtKmp0RlUa7euGSWzf?=
+ =?iso-8859-1?Q?AFv7IbArXRdKTbiPA9khhkYK7VUXgaW/awjS1NptPE/CMokfjOBwPvTjcs?=
+ =?iso-8859-1?Q?/3rLd9IqSH3hnNvCWZmyhZgknlh9ABBAPBqtPm4ecIWe0SmezFoVM4faBk?=
+ =?iso-8859-1?Q?vCgzdJAc7EmO9/7azWhK+csRbL4eBXdnfMtjaksU3haf3ynVuCq2ZRWPXY?=
+ =?iso-8859-1?Q?ZhwKRhQjWBnQVA7krdgfTKLStBPsC6g6os2at9bHqeRq00PP7dexX3o886?=
+ =?iso-8859-1?Q?/l+7QhuAy5yGk=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aDTOsR_ctSsySEsr@kekkonen.localdomain>
-X-Migadu-Flow: FLOW_OUT
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAWPR02MB9281.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58bfb2e3-04b2-47b6-c679-08ddad6fe752
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2025 07:23:49.0108
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QR59oJULro+PNetMl2O9KGQMOyghgbANTYZTZGGVT3SkdrSdXQHfxDpBQeH2VaAj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR02MB7328
 
-Hi Sakari,
-
-thanks also for reviewing this patch :-)
-
-On Mon, May 26, 2025 at 08:27:29PM +0000, Sakari Ailus wrote:
-> Hi Richard,
-> 
-> On Wed, May 07, 2025 at 09:51:37AM +0200, Richard Leitner wrote:
-> > Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
-> > feature of the sensor. This is implemented by transforming the given µs
-> > value by an interpolated formula to a "span step width" value and
-> > writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
-> > PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
-> > 
-> > The maximum control value is set to the period of the current default
-> > framerate.
-> > 
-> > All register values are based on the OV9281 datasheet v1.53 (jan 2019)
-> > and tested using an ov9281 VisionComponents module.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 31 ++++++++++++++++++++++++++++++-
-> >  1 file changed, 30 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index b6de96997426f7225a061bfdc841aa062e8d0891..0bbdf08d7cda8f72e05fdc292aa69a4c821e4e03 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -97,6 +97,10 @@
-> >  #define OV9282_REG_MIPI_CTRL00	0x4800
-> >  #define OV9282_GATED_CLOCK	BIT(5)
-> >  
-> > +/* Flash/Strobe control registers */
-> > +#define OV9282_REG_FLASH_DURATION	0x3925
-> > +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001A
-> 
-> Lower case hexadecimals are preferred.
-
-Sure. Will fix that in v5.
-
-> 
-> > +
-> >  /* Input clock rate */
-> >  #define OV9282_INCLK_RATE	24000000
-> >  
-> > @@ -687,6 +691,25 @@ static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
-> >  				current_val);
-> >  }
-> >  
-> > +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, int value)
-> 
-> I'd use u32 for the value here.
-
-Sounds legit. Will adapt that in v5.
-
-> 
-> > +{
-> > +	/*
-> > +	 * Calculate "strobe_frame_span" increments from a given value (µs).
-> > +	 * This is quite tricky as "The step width of shift and span is
-> > +	 * programmable under system clock domain.", but it's not documented
-> > +	 * how to program this step width (at least in the datasheet available
-> > +	 * to the author at time of writing).
-> > +	 * The formula below is interpolated from different modes/framerates
-> > +	 * and should work quite well for most settings.
-> > +	 */
-> > +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
-> > +
-> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
-> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
-> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
-> > +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
-> > +}
-> > +
-> >  /**
-> >   * ov9282_set_ctrl() - Set subdevice control
-> >   * @ctrl: pointer to v4l2_ctrl structure
-> > @@ -756,6 +779,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  	case V4L2_CID_FLASH_LED_MODE:
-> >  		ret = ov9282_set_ctrl_flash_led_mode(ov9282, ctrl->val);
-> >  		break;
-> > +	case V4L2_CID_FLASH_DURATION:
-> > +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
-> > +		break;
-> >  	default:
-> >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> >  		ret = -EINVAL;
-> > @@ -1346,7 +1372,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  	u32 lpfr;
-> >  	int ret;
-> >  
-> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > @@ -1418,6 +1444,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> >  			       (1 << V4L2_FLASH_LED_MODE_TORCH),
-> >  			       V4L2_FLASH_LED_MODE_NONE);
-> >  
-> > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> > +			  0, 13900, 1, 8);
-> 
-> It'd be nice to calculate the limits based on the relevant parameters
-> rather than use a hard-coded value here.
-
-Ok :-)
-I will send an updated v5 where the maximum flash duration is set to the
-current exposure time in µs tomorrow.
-
-> 
-> > +
-> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> >  	if (!ret) {
-> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
-> > 
-> 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
-
-thanks & regards;rl
+Hi Jacek.=0A=
+=0A=
+>From: Jacek Anaszewski <jacek.anaszewski@gmail.com>=0A=
+>Sent: Monday, June 16, 2025 23:29=0A=
+>To: Johan Adolfsson; Lee Jones; Pavel Machek; Rob Herring; Krzysztof Kozlo=
+wski; Conor Dooley; Andrew Davis=0A=
+>Cc: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; devicetree@v=
+ger.kernel.org; Kernel=0A=
+>Subject: Re: [PATCH v6 1/2] leds: leds-lp50xx: Handle reg to get correct m=
+ulti_index=0A=
+>=0A=
+>Hi Johan,=0A=
+>=0A=
+>On 6/16/25 13:25, Johan Adolfsson wrote:=0A=
+..=0A=
+>>   drivers/leds/leds-lp50xx.c | 11 ++++++++++-=0A=
+>>   1 file changed, 10 insertions(+), 1 deletion(-)=0A=
+>>=0A=
+>> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c=0A=
+>> index 02cb1565a9fb..344791b6c575 100644=0A=
+>> --- a/drivers/leds/leds-lp50xx.c=0A=
+>> +++ b/drivers/leds/leds-lp50xx.c=0A=
+>> @@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)=0A=
+>>                       return -ENOMEM;=0A=
+>>=0A=
+>>               fwnode_for_each_child_node(child, led_node) {=0A=
+>> +                     int multi_index =3D num_colors;=0A=
+=0A=
+>Any specific reason for initializing this to num_colors?=0A=
+=0A=
+Sorry - leftover from initial patch where I kept the original behavior if r=
+eg was not set.=0A=
+Another patch version coming up soon (assuming failing on reg not set is th=
+e agreed upon solution).=0A=
+=0A=
+>>=0A=
+>--=0A=
+>Best regards,=0A=
+>Jacek Anaszewski=0A=
+=0A=
+Best regards=0A=
+/Johan=0A=
 
