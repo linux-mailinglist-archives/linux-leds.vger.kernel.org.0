@@ -1,63 +1,59 @@
-Return-Path: <linux-leds+bounces-4859-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4860-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB600AE0A1E
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 17:18:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9ADAE0A90
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 17:35:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22542168883
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 15:17:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D5F27A06CE
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 15:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C43DD22488B;
-	Thu, 19 Jun 2025 15:17:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4C1230BFD;
+	Thu, 19 Jun 2025 15:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKiX1jRO"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="V1mSIXMW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927263085DB;
-	Thu, 19 Jun 2025 15:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0222116F5;
+	Thu, 19 Jun 2025 15:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750346240; cv=none; b=lV0Q/Nimk/wTifwbGHkjTNc+YAYXIhSn8s8GZ6No8dTLDRx+rGt+Ace5dLn7WXp8sYy4FjGwtCqHi5tyjABPuFz5yr67UMgZtmiU0eaRjpzsTBWahWM3Qp77a4FNAuwWVy3FHzXaBWr3H+DPMCRUj5OeJaEDCJIdHqs6redRzEA=
+	t=1750347297; cv=none; b=KH7DKfGDqrry2DJBA2bvVXU8oGHK3LCjNI7ThUao9XMcm5hd4lx52u/1cwElQSZakwRBxpm9LE2as4+yd9yJtjrw0lZWQEPgICGMEPfq84YJ5RVKoaYp86lf8rqycve5zfu6i+PT4jpioeRtWU+5907fWNQoHWN9nmBiD19ZMLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750346240; c=relaxed/simple;
-	bh=9cHT5F3Iq4DLNV/UcU+5bQAcKLZIjNQZKQaN/qYAq44=;
+	s=arc-20240116; t=1750347297; c=relaxed/simple;
+	bh=HAfTFfbnhb9zgieWmhedggrJA3pUw8GpwtllRC46K58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=harkR+VKSkHTr/HePsgwYMvZum2F/grWvIIZ4ZM0iv+Sa+lRsvx+g0eXalQCIdJiIdlZ9e90ySc4jgHFfsqCQOBrFBUI3/wWeRatV0MQbxqDIlMIVDrVqvFh3WP8qZAYO8CAOU9W0MIoFNzXu7SdrJltkxaWZbnCr45o7yTvpuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKiX1jRO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97502C4CEEA;
-	Thu, 19 Jun 2025 15:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750346240;
-	bh=9cHT5F3Iq4DLNV/UcU+5bQAcKLZIjNQZKQaN/qYAq44=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cw7bvoPOKyD/N7wP9qce6BbVhVGJLDTjy6T3lhwO92vBX4TAv9zC8j+cVyBtX+rTkn93KhRruGE12VGNf76hJCeaxoxL567fECWLadC0PWMen3/7z0oq0y3yaahkKS2TsP6F8t7KK4VGrL1hVOC/OGUghX72KxTUyB+0PCXVNec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=V1mSIXMW; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1750347288;
+	bh=HAfTFfbnhb9zgieWmhedggrJA3pUw8GpwtllRC46K58=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vKiX1jROnvKTvYN3bZ9iGjqOPBAWiJT0wzDfVlBfQ9Js+NUvB+MhZ+vlYpedxozWE
-	 dLJpLKlTpGarBV/xgwtUFw/KjVWIOdzOLAlk2duINgGPIzjwJIJsEP5JzI0NCMn1DL
-	 Z2jGia4zbUfJpdV2vnUx/JdHPL2H08u9//mjrIXLjlSogUZKeCsUqhcZO9KMV2Dyo8
-	 vn/34AXSwfLlyX8nP4NRZdtw8yvPKO8LOzyTJHJ+F/RSFYa2Vg61PWWP91KNxz5tqM
-	 13YEG3JWFaPQRggFRfMYM5bzQYVAXj5kq060KUnE0SSxfHqsWZjebMnpIVOILB5SSi
-	 F3DqfSi31IHyQ==
-Date: Thu, 19 Jun 2025 16:17:14 +0100
-From: Lee Jones <lee@kernel.org>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Werner Sembach <wse@tuxedocomputers.com>,
-	ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
-	chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
-	ggo@tuxedocomputers.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
-Message-ID: <20250619151714.GJ795775@google.com>
-References: <20250615175957.9781-1-W_Armin@gmx.de>
- <20250615175957.9781-3-W_Armin@gmx.de>
- <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
- <d645ba09-1820-4473-96bb-8550ed0b0a26@gmx.de>
- <20250619094757.GB587864@google.com>
- <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
+	b=V1mSIXMWQguS63gpZ2fX+Px3SDHN8EZ7hHlrzrfj9k1mL81yS0Z40guwfXTADy6eg
+	 OwnJN48daEvqIW5wELvz/bTVB3eVl8mKAIMeMCK1tb6UmqunpkaU53LyXIH7+D0KUg
+	 4Ow5jBTyWmV3hqyLjd0KqbYvxM6qPIm45ZcYv/RI=
+Date: Thu, 19 Jun 2025 17:34:46 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Lee Jones <lee@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>, Will Deacon <will@kernel.org>, Han Xu <han.xu@nxp.com>, 
+	Haibo Chen <haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@kernel.org>, Andrew Davis <afd@ti.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	linux-spi@vger.kernel.org, imx@lists.linux.dev, linux-leds@vger.kernel.org
+Subject: Re: (subset) [PATCH v7 2/3] leds: lp8860: Check return value of
+ devm_mutex_init()
+Message-ID: <f1cc8959-d420-4ba3-922f-ed7c6f054f22@t-8ch.de>
+References: <20250617-must_check-devm_mutex_init-v7-2-d9e449f4d224@weissschuh.net>
+ <175033649656.801367.11888454651585197053.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -67,75 +63,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
+In-Reply-To: <175033649656.801367.11888454651585197053.b4-ty@kernel.org>
 
-On Thu, 19 Jun 2025, Hans de Goede wrote:
+Hi Lee,
 
-> Hi Lee,
-> 
-> On 19-Jun-25 11:47 AM, Lee Jones wrote:
-> > On Tue, 17 Jun 2025, Armin Wolf wrote:
+On 2025-06-19 13:34:56+0100, Lee Jones wrote:
+> On Tue, 17 Jun 2025 19:08:13 +0200, Thomas Weißschuh wrote:
+> > devm_mutex_init() can fail. With CONFIG_DEBUG_MUTEXES=y the mutex will be
+> > marked as unusable and trigger errors on usage.
 > > 
-> >> Am 16.06.25 um 14:46 schrieb Werner Sembach:
-> >>
-> >>> Hi, small additon
-> >>>
-> >>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
-> >>>> +        functionality.
-> >>>> +
-> >>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
-> >>>> +Date:        Juni 2025
-> >>>> +KernelVersion:    6.17
-> >>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
-> >>>> +Description:
-> >>>> +        Forces the integrated lightbar to display a rainbow
-> >>>> animation when the machine
-> >>>> +        is not suspended. Writing "enable"/"disable" into this file
-> >>>> enables/disables
-> >>>> +        this functionality.
-> >>>> +
-> >>>> +        Reading this file returns the current status of the rainbow
-> >>>> animation functionality.
-> >>>> +
-> >>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
-> >>>> +Date:        Juni 2025
-> >>>> +KernelVersion:    6.17
-> >>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
-> >>>> +Description:
-> >>>> +        Causes the integrated lightbar to display a breathing
-> >>>> animation when the machine
-> >>>> +        has been suspended and is running on AC power. Writing
-> >>>> "enable"/"disable" into
-> >>>> +        this file enables/disables this functionality.
-> >>>> +
-> >>>> +        Reading this file returns the current status of the
-> >>>> breathing animation
-> >>>> +        functionality.
-> >>>
-> >>> maybe this would be better under the /sys/class/leds/*/ tree if possible
-> >>
-> >> I CCed the LED mailing list so that they can give us advice on which location is the preferred one for new drivers.
-> > 
-> > No need to involve the LED subsystem for a hardware function controlled
-> > by a single register value just because the interface involves an LED.
+> > Add the missed check.
 > 
-> Lee, the question here is where put the sysfs attribute to put the lightbar
-> in breathing mode e.g. which of these 2 should be used?  :
+> Applied, thanks!
 > 
-> 1. /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
-> 2. /sys/class/leds/uniwill-lightbar/breathing_in_suspend
-> 
-> I think this is a fair question and since 2. involves the LED class userspace
-> API I also think that asking for the LED maintainers input is reasonable.
-> 
-> FWIW I'm not sure myself. 2. is the more logical place / path. But 2. adds
-> a custom sysfs attr the LED class device. Whereas 1. adds a custom sysfs attr
-> in a place where these are more or less expected.
+> [2/3] leds: lp8860: Check return value of devm_mutex_init()
+>       commit: 426e0c8e8eed26b67bbbd138483bb5973724adae
 
-Right.  It was a reasonable question.  Did I imply otherwise?
+Thanks, but (as mentioned in the cover letter) these patches should go
+together through the mutex/locking tree.
+Could you drop it on your side and give an Ack instead?
 
-If it wasn't clear, my vote (this is not a dictatorship) is for 1.
 
--- 
-Lee Jones [李琼斯]
+Thomas
 
