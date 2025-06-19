@@ -1,83 +1,87 @@
-Return-Path: <linux-leds+bounces-4857-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4858-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3F2AE089E
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 16:22:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B8AE089F
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 16:23:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FFF716D899
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 14:22:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A39163ADB68
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 14:22:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7DA21A43D;
-	Thu, 19 Jun 2025 14:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DFE11E7C1C;
+	Thu, 19 Jun 2025 14:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="dD+R+TME"
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="SA0yEFB3"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D6B1AF0B5
-	for <linux-leds@vger.kernel.org>; Thu, 19 Jun 2025 14:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C751A21883E
+	for <linux-leds@vger.kernel.org>; Thu, 19 Jun 2025 14:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750342970; cv=none; b=Q0PPfAby1UACTZUVd9WeFmutVmldSlnu+v6JwgvgDynOar6gpRF2XHSeWoGM/dLwZcZXUIW2dfHTCWxPrAVM/beSPuhE76n/W2EwkWvmFxChS2P5w7hHN95epWB+VYl5idWge9vtUkcylPqlanhgpENtYDnpVrdEzixM3AJgPxM=
+	t=1750342978; cv=none; b=YGa54sEsFy60USxLMkrHjuvYVnIRDjV6ANjxO/SqagANzUhScTHPvG5cDC0WfctW42v6QexZVGBjdYAk+09MxLWzPJIt8KU9yuOLiWiwMklQ0BixNbVn+gsmeZmGbbGP50/63aEXBqCIHjt8woG3OJM4YeU3MFWBZI0O+HwONWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750342970; c=relaxed/simple;
-	bh=xxOseSEAmMj2m75IwrSvC2dTIWn8YCFypU5YZJCu0YA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W+rwAci9eXL0vsk/u8uWJ58smZ/0YV9nONI3+9RIahEdQGdgnnN7MvbUW6+dXZEXc/fRkyRnqvhqOEUFxGjUq1+UNgr/sbmXwOZeEPhsU+HAMU7gqjKCya47oPzv/jNEE7654+SJmNqgwwbDHf9WR98uj8QlHw+bip60tp8nYEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=dD+R+TME; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1750342978; c=relaxed/simple;
+	bh=1NqFeX76uOafMoxDzVMr2uIEplDNjowI/9HMi+Nta8E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dK+ppVyv6IsIOn7M4yCC9Ay+/dthB1hajVrN/5RDMAQXpBsrRjou4JPSbT5f7tkG0HfjBu8+MJ5Kbd2xHX84YLt/dnStq51c9l7xOBBaLbIV+k0FP4dw1PRcivLHEXeUSvOUSHxvDLdqOHmKgdRWGGRjPYMtmBOgdx6BUKxU+bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=SA0yEFB3; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-235f9ea8d08so7615685ad.1
-        for <linux-leds@vger.kernel.org>; Thu, 19 Jun 2025 07:22:47 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-234bfe37cccso11898125ad.0
+        for <linux-leds@vger.kernel.org>; Thu, 19 Jun 2025 07:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1750342967; x=1750947767; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lLJwLGd0qPyFTtxZ6LI9ukhQE3/Rm0fiyJO6Oqqj0rw=;
-        b=dD+R+TME75OAuqlVDCzB+Xf74YopfbJA4XRL3kK5hEDxitTM+LVjv45i4hlb9lEHxZ
-         nmdT2IellVVdQyOcpy/p7QiEyBi2Dty7+BHwYEtrLnOQ9nJ+L7LUgUAMhD+VgJm5aC7m
-         ydJ4yQanwLd2jqimlyWGth0CLLSpLUCijgnG8vcrbbxgHj/1Ay4uAewCcm3NGQVgML81
-         nAPKxxzPVRwr1AJby3wCJgSW+B5V2XU0sFi66uzxxjc3xBnnXkgZ74S6OmZJ//siBSsu
-         ASgGz43OxjXiWVcx0iXzc7fzAhhskuz57EaMc+UrX06eWXpNtPNcyOKyvdluhSz9mZrO
-         P+1Q==
+        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1750342976; x=1750947776; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dfkel3uux/niXoASJYOvQixxt3NyKBslvOufdc8FUZg=;
+        b=SA0yEFB3nxQZcmge9Mb7tOQUBTfnjDUhMmfZ1pAAvLgFcqe6LsIelmDHTa8RWwkMIi
+         g/74HjcV9+y/Ww4JY0RZTE5EjI0wsoeBkxpNX/Fa7LzPkEVCTuT0BRQH9U/ivDtmlWrg
+         qRIFuv3bO1clAo29MGFbw8OBjeXQy5nVIDUZhku0RX13hGuuaqJ/Fvf4VmcHTbdObhws
+         l+qg9bIsEVOpX1uUAzImrEDjqQqpmDC53t8lSlu4dH6hYFQQLAAJIC0qBIOrga+HiRcJ
+         XBRWLa3d3eaUxA/Dm5NTi4pc3xA0YO8yIk4+X/y8CJUNqeE5HRO8HlcAoCdy8CDRLPyq
+         ARLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750342967; x=1750947767;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lLJwLGd0qPyFTtxZ6LI9ukhQE3/Rm0fiyJO6Oqqj0rw=;
-        b=Dvx12UObsNxkNrIzoMmUP/m7XxOGR/iTsM424VW1wIHjvoVcDTF+NeU7Xw1t2Xq0Ak
-         /FP7hZzP7MFNEQUxfJoKMgFC2jcvL7MxD6ILM7poZguW2oCcyO9fS5N+0KBzYTsBCVwm
-         tc46DaXe6EA6XHv1i9ds+uSIHyT4kP3I4bL92Nc3OdvEtcWUWkc4MLsoT6W20JS2toeL
-         5oz15U6z/QvigmfuLh5eQ7xZ1g0yyadF6AY1alETcq5xuNsGDIIfvlLI6ZmtqyEoRa5J
-         iXCovCQxMtKLNO3sUM4mmMuNy3bwsW4txbLuo5Xe+ShPYMSCq2cf+2I4LJD3Y0AiX82z
-         d1eg==
-X-Gm-Message-State: AOJu0Yxw84UL+2vJpbaFAlF6YYMmbohpaQCpyQpwn6AoQVnfFTvY8sTn
-	Vi184mmZLMDStJFchhREFhoRiAFh2BvZiyeh3ACYhSnO2xNoLGMnHQ40AJ1YiRlfNSkff/Zn8Ba
-	Gr+XHRDU=
-X-Gm-Gg: ASbGnctrAk5I1z6baN0Op9eyYSwD8JtKR56xxAWicy5F5tWCyDG+GJi8RLihJLjAt9b
-	6FgpubCCVboFXbmftAJvqR5lPCObmq6WbZ6KTCGd6T8DA0Cj+w2GdBHmNapoArB43JDrMWJ+tKR
-	SZhI1CD9+VxKn4FSdOR2LvnFYa2dA+i2T4RFG1RA8nWrUt7fITJ9Rhfjfj4Psv2f+OQQCNuNhvH
-	AMkhO0qP4cHd13dNs84eknnChia6ZnhBvA+J8HXTMds+9l9Z2YandGXCQwmOM56bkGFQ9MqQBGq
-	rVL1Bmta8aTSdp8Q7u58HJxGbQjy+2ftcklI2bW54NJPmsaduHQdT8+VGSPxUoi1jTuh9b7NMV3
-	fA4gG0rIPhMU/OUPe
-X-Google-Smtp-Source: AGHT+IGt1YeJIzXFQEIrWC6aADqIawfgrhdepwm+ykByi4g8krCN1zYKYTlQb0PHea+Ft3FocAEEPg==
-X-Received: by 2002:a17:902:c94e:b0:235:779:ede5 with SMTP id d9443c01a7336-2366b139bb6mr347445305ad.40.1750342966745;
-        Thu, 19 Jun 2025 07:22:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750342976; x=1750947776;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dfkel3uux/niXoASJYOvQixxt3NyKBslvOufdc8FUZg=;
+        b=uw+IQsWncdE4DmWrDPO3irZpfFkWbtT51c+JXKqFhz5m0wiZc++uknK7qZmE64QfSW
+         uOdWJZrsXJDhqGgaENmcLH1uFf6vpto41JZ36MC7PEQ8bbVwm7/cpKTYedFUZTKBb58b
+         GO8hP677BIO6WgqDas7fWrW8xknD4LnM0r1Mp+VPEU8Jmd7kjUZRh45iIprYGJlQQSMt
+         /f8Awkosb5w4FDDkwBq97ZtEK9IAQiXGzshgdvKiroB6gZkUVaGt+9o8xReIcSHsW8QT
+         7QikmKjtv7CrSq2IxeSkHjsktd4mzakaeOiWxwTTio8DjLrViw9iDUsoRIqpTOcc47SC
+         YvVg==
+X-Gm-Message-State: AOJu0YzKscTiQVu1E+Vf51f492RNXqvm+loDUZyR2mMPxuat/huqXSVJ
+	KQgUw8ySNFcZApgyV/qQvIh4kG4TX3VdEkDr3HzP3pxAiGDwozjWI01cKMEH9L+yvSggmiW/tBM
+	IdLsG3A0=
+X-Gm-Gg: ASbGncv98u1RnSwNIH4Y8H2d0P3+HDv05AbOEEdtzi+FRzWW3sERrq1HY2e9K9GuNIV
+	lBy+xEZt6ht7Vvb0ou0PfO1tiw4Zx2OTSpAf8IzPtoQ8TH9O18oJ6W0Ao8/UJNO32rE8zYau9PG
+	j3zmjJqxecCXvGRFFMxXsY80Bg/osqRNGhvO6C7CQ/DssdkXJFPt0Mcv118MontrVslh2gAOnHY
+	1UhALTTG9XlCICkBG3mh3pmR7pfamQtgxNfUeurIpGqpMb0O4Jms2R7JPazwBqX0svvswJx1iRS
+	FWe3+Knni52g8hALz5R4PN40MJMd8z/jPA/PkrUN8tZGQLvNcKhq4jpwmoCQJdirzue6aDEaIdU
+	QoRgM2WzY8E/PtRKc
+X-Google-Smtp-Source: AGHT+IFdNHLXgwj2gO8B7fGrThZg8BFdc9hB6KLv6mpJ+H+BIakpHH5RRkToYraPvgLraVbG38vS2g==
+X-Received: by 2002:a17:902:da2d:b0:235:2375:7ead with SMTP id d9443c01a7336-2366b14d317mr356942265ad.28.1750342975882;
+        Thu, 19 Jun 2025 07:22:55 -0700 (PDT)
 Received: from pawel-TGP.seescan.com ([2a00:23c7:1d1a:9c01:6a9b:79fb:fd3e:b03b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88bfe4sm120259945ad.18.2025.06.19.07.22.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88bfe4sm120259945ad.18.2025.06.19.07.22.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 07:22:46 -0700 (PDT)
+        Thu, 19 Jun 2025 07:22:55 -0700 (PDT)
 From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 To: linux-leds@vger.kernel.org
 Cc: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Subject: [PATCH 1/2] leds/leds-is31fl32xx: add support for is31fl3236a
-Date: Thu, 19 Jun 2025 14:18:59 +0100
-Message-ID: <20250619142233.653273-1-pzalewski@thegoodpenguin.co.uk>
+Subject: [PATCH 2/2] dt-bindigs: leds: is31fl32xx: add optional properties section
+Date: Thu, 19 Jun 2025 14:19:00 +0100
+Message-ID: <20250619142233.653273-2-pzalewski@thegoodpenguin.co.uk>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250619142233.653273-1-pzalewski@thegoodpenguin.co.uk>
+References: <20250619142233.653273-1-pzalewski@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -86,130 +90,37 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This commit is adding an additional and optional control
-register for setting the output PWM frequency to 22kHz.
-The default is 3kHz and this option puts the operational
-frequency outside of the audible range. The control over this
-parameter was added via the device tree parser function,
-as really whether to use this functionality or not would
-depend on the board.
+Add optional support for is31fl3236a PWM frequency switch.
 
 Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 ---
- drivers/leds/leds-is31fl32xx.c | 35 ++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index 8793330dd414..d23260f3f6ce 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -32,6 +32,8 @@
- #define IS31FL3216_CONFIG_SSD_ENABLE  BIT(7)
- #define IS31FL3216_CONFIG_SSD_DISABLE 0
+diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+index 926c2117942c..aa38a0638bad 100644
+--- a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
++++ b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+@@ -7,6 +7,7 @@ Each LED is represented as a sub-node of the device.
+ Required properties:
+ - compatible: one of
+ 	issi,is31fl3236
++	issi,is31fl3236a
+ 	issi,is31fl3235
+ 	issi,is31fl3218
+ 	issi,is31fl3216
+@@ -16,6 +17,11 @@ Required properties:
+ - address-cells : must be 1
+ - size-cells : must be 0
  
-+#define IS31FL32XX_PWM_FREQUENCY_22kHz  0x01
++Optional properties:
++- is31fl32xx,22kHz-pwm : When present, the chip's PWM will operate at
++	~22kHz as opposed to ~3kHz to move the operating frequency out of the
++	audible range.
 +
- struct is31fl32xx_priv;
- struct is31fl32xx_led_data {
- 	struct led_classdev cdev;
-@@ -57,6 +59,7 @@ struct is31fl32xx_priv {
-  * @pwm_registers_reversed: : true if PWM registers count down instead of up
-  * @led_control_register_base : address of first LED control register (optional)
-  * @enable_bits_per_led_control_register: number of LEDs enable bits in each
-+ * @output_frequency_setting_register: address of outupt frequency register (optional)
-  * @reset_func          : pointer to reset function
-  * @sw_shutdown_func    : pointer to software shutdown function
-  *
-@@ -80,6 +83,7 @@ struct is31fl32xx_chipdef {
- 	bool	pwm_registers_reversed;
- 	u8	led_control_register_base;
- 	u8	enable_bits_per_led_control_register;
-+	u8	output_frequency_setting_register;
- 	int (*reset_func)(struct is31fl32xx_priv *priv);
- 	int (*sw_shutdown_func)(struct is31fl32xx_priv *priv, bool enable);
- };
-@@ -93,6 +97,19 @@ static const struct is31fl32xx_chipdef is31fl3236_cdef = {
- 	.pwm_register_base			= 0x01,
- 	.led_control_register_base		= 0x26,
- 	.enable_bits_per_led_control_register	= 1,
-+	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
-+};
-+
-+static const struct is31fl32xx_chipdef is31fl3236a_cdef = {
-+	.channels				= 36,
-+	.shutdown_reg				= 0x00,
-+	.pwm_update_reg				= 0x25,
-+	.global_control_reg			= 0x4a,
-+	.reset_reg				= 0x4f,
-+	.pwm_register_base			= 0x01,
-+	.led_control_register_base		= 0x26,
-+	.enable_bits_per_led_control_register	= 1,
-+	.output_frequency_setting_register = 0x4b,
- };
- 
- static const struct is31fl32xx_chipdef is31fl3235_cdef = {
-@@ -104,6 +121,7 @@ static const struct is31fl32xx_chipdef is31fl3235_cdef = {
- 	.pwm_register_base			= 0x05,
- 	.led_control_register_base		= 0x2a,
- 	.enable_bits_per_led_control_register	= 1,
-+	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
- };
- 
- static const struct is31fl32xx_chipdef is31fl3218_cdef = {
-@@ -115,6 +133,7 @@ static const struct is31fl32xx_chipdef is31fl3218_cdef = {
- 	.pwm_register_base			= 0x01,
- 	.led_control_register_base		= 0x13,
- 	.enable_bits_per_led_control_register	= 6,
-+	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
- };
- 
- static int is31fl3216_reset(struct is31fl32xx_priv *priv);
-@@ -130,6 +149,7 @@ static const struct is31fl32xx_chipdef is31fl3216_cdef = {
- 	.pwm_registers_reversed			= true,
- 	.led_control_register_base		= 0x01,
- 	.enable_bits_per_led_control_register	= 8,
-+	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
- 	.reset_func				= is31fl3216_reset,
- 	.sw_shutdown_func			= is31fl3216_software_shutdown,
- };
-@@ -363,8 +383,21 @@ static struct is31fl32xx_led_data *is31fl32xx_find_led_data(
- static int is31fl32xx_parse_dt(struct device *dev,
- 			       struct is31fl32xx_priv *priv)
- {
-+	const struct is31fl32xx_chipdef *cdef = priv->cdef;
- 	int ret = 0;
- 
-+	if (of_property_read_bool(dev_of_node(dev), "is31fl32xx,22kHz-pwm")
-+	&& (cdef->output_frequency_setting_register != IS31FL32XX_REG_NONE)) {
-+
-+		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_register,
-+							IS31FL32XX_PWM_FREQUENCY_22kHz);
-+
-+		if (ret) {
-+			dev_err(dev, "Failed to write output pwm frequency register\n");
-+			return ret;
-+		}
-+	}
-+
- 	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
- 		struct led_init_data init_data = {};
- 		struct is31fl32xx_led_data *led_data =
-@@ -405,6 +438,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
- 
- static const struct of_device_id of_is31fl32xx_match[] = {
- 	{ .compatible = "issi,is31fl3236", .data = &is31fl3236_cdef, },
-+	{ .compatible = "issi,is31fl3236a", .data = &is31fl3236a_cdef, },
- 	{ .compatible = "issi,is31fl3235", .data = &is31fl3235_cdef, },
- 	{ .compatible = "issi,is31fl3218", .data = &is31fl3218_cdef, },
- 	{ .compatible = "si-en,sn3218",    .data = &is31fl3218_cdef, },
-@@ -466,6 +500,7 @@ static void is31fl32xx_remove(struct i2c_client *client)
-  */
- static const struct i2c_device_id is31fl32xx_id[] = {
- 	{ "is31fl3236" },
-+	{ "is31fl3236a" },
- 	{ "is31fl3235" },
- 	{ "is31fl3218" },
- 	{ "sn3218" },
+ LED sub-node properties:
+ - reg : LED channel number (1..N)
+ - label :  (optional)
 -- 
 2.48.1
 
