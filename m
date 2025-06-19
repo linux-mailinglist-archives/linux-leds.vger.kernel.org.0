@@ -1,138 +1,89 @@
-Return-Path: <linux-leds+bounces-4854-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4855-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4687AE05CF
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 14:30:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BFBAE05FD
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 14:35:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 21CF07AD026
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 12:29:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F136173E74
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jun 2025 12:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3BF23B627;
-	Thu, 19 Jun 2025 12:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 006F0239E78;
+	Thu, 19 Jun 2025 12:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHYdw3a/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oERole0e"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C7522E402;
-	Thu, 19 Jun 2025 12:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C742F229B02;
+	Thu, 19 Jun 2025 12:35:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750336228; cv=none; b=n/p6zeGObzb2kRkHnkZdui0vjSl774ktkIq/Ozdv/g02dw2IGDz1qMB8sY/BMbSN0AqcV+gMd3HKs51KhVBbUZOSOfTGrWRWsZ2WRmFx9B1KApPEj3aP+rgDmnYMb62imlgzOVqTd5ej/1RCYDUVCGg4HP+ffXCiE5tOfoVwzPc=
+	t=1750336500; cv=none; b=C0BirGYxcQ3Uj201RJeXmWPsgUtpORwBvgHz1FeoTITfYZ7XsSi4Q+ai47IMrRlUnVR89dzWoBQx+F4nLA45RRW1yuuxJ05ps+l9IWVKgVIKhOnzNX4vYODP1HKYhpzEZNpKVmm0QWNtUOvaZ+oAsBcAX/bmbr0NrBxh59Re3zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750336228; c=relaxed/simple;
-	bh=Ww2BBz1HgkQfNGABCdYcAVENvhjoK9QiQSPMdEmdNPs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OQ0Nd5b6qRxbb0Pt0h7XOORv9vJUsN+kMwLj73+Ga7OLWYt+0NBIu8X0jyY4NREqI4bBkwdYCu9iLe6joSlnviS/y5R4EzNiPJU57pQGIlu3kYPav9r71POkHMloewmgzsjBiJbMPqWb7Wtw2L4o1DqOSVTW09kl2RzC0z/I1Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHYdw3a/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AA4C4CEEA;
-	Thu, 19 Jun 2025 12:30:25 +0000 (UTC)
+	s=arc-20240116; t=1750336500; c=relaxed/simple;
+	bh=E0VpEwPkOpNi5cm1wY1Ky8bZpc+uZlSPA0Hp6hXdw2Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OCagErGke+6yKgcqPXeETfMkPgVGTTN69OLx4BLn/0zXF75sBSNjM6yqClnzwzWj02ZcjOhvwl0D7TfdYVK3jT3myPT35NJgA48vtdK+tuLjDEXiAYQ8/DqXPwFHCjB/hbQVDQ+Lv0ljLaFYymxxG21FKiRD9DKSgHiU7ZMbYzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oERole0e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA42BC4CEEF;
+	Thu, 19 Jun 2025 12:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750336228;
-	bh=Ww2BBz1HgkQfNGABCdYcAVENvhjoK9QiQSPMdEmdNPs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tHYdw3a/vmx4E7MTGvfkhzPZbCXCyhtdJOxdE1bsjt+dZy9eA6IOWE2vIvTa5idJG
-	 sj982uj8NGfv7X3q5h8ubEvKQheRw7ut3lLOYLtV+D1GSquW9xqXhc+IOb7lOC7Wl8
-	 JR6oeFgiouVmn4ZAcbOUoomWC3ZkAPAw3da5yedtMujWBqSlAB8+qLUMu9SnRc1f4H
-	 SjRYXbuDg5ymUCvtoj/xouZq8X81xJckC4iHfv0OYxtdXoFfkKGVqv7w5H8KmmrdYT
-	 oCMC5xlF7YaSleQrMZzSTVREpqaTEDccRjIHx+dkJwHq9f+fLabH10QBHgLHFRbnin
-	 RHxKmM8/D0aXw==
-Message-ID: <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
-Date: Thu, 19 Jun 2025 14:30:23 +0200
+	s=k20201202; t=1750336500;
+	bh=E0VpEwPkOpNi5cm1wY1Ky8bZpc+uZlSPA0Hp6hXdw2Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oERole0eYLCEPqWujSkraDjuR2cA0fSNCSs663e8zvhqUU+cQSLjR1OdVighE93/o
+	 EYGnahf+Pt9xvhuty/ZwjgFugBT/fE6h6077p0EZuykDan3QvQHMHsPvaQBTeV1eJa
+	 4qsW2dMAt2iXIHG2f+C35cF5X/UBpF3o78t7tBwe3YRYyEApMALpY1RmzKRM7b9HsJ
+	 DJdXIJ3d6OOs5KieBInJ+C4b/FxKOEsb/uchv+C9OmEKP9VE0KBQieXiqzw0W47vSY
+	 iBoDbcZ8qxXcxBg6I1ZxkC1lcl+gdHcGMvrdiivD3o/1zxb8E/erx4PJDkbNYmL6Tg
+	 eKcbnYqal0vPg==
+From: Lee Jones <lee@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>, 
+ Will Deacon <will@kernel.org>, Han Xu <han.xu@nxp.com>, 
+ Haibo Chen <haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Andrew Davis <afd@ti.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, linux-leds@vger.kernel.org
+In-Reply-To: <20250617-must_check-devm_mutex_init-v7-2-d9e449f4d224@weissschuh.net>
+References: <20250617-must_check-devm_mutex_init-v7-2-d9e449f4d224@weissschuh.net>
+Subject: Re: (subset) [PATCH v7 2/3] leds: lp8860: Check return value of
+ devm_mutex_init()
+Message-Id: <175033649656.801367.11888454651585197053.b4-ty@kernel.org>
+Date: Thu, 19 Jun 2025 13:34:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
-To: Lee Jones <lee@kernel.org>, Armin Wolf <W_Armin@gmx.de>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, ilpo.jarvinen@linux.intel.com,
- hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
- ggo@tuxedocomputers.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20250615175957.9781-1-W_Armin@gmx.de>
- <20250615175957.9781-3-W_Armin@gmx.de>
- <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
- <d645ba09-1820-4473-96bb-8550ed0b0a26@gmx.de>
- <20250619094757.GB587864@google.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250619094757.GB587864@google.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-c81fc
 
-Hi Lee,
-
-On 19-Jun-25 11:47 AM, Lee Jones wrote:
-> On Tue, 17 Jun 2025, Armin Wolf wrote:
+On Tue, 17 Jun 2025 19:08:13 +0200, Thomas Weißschuh wrote:
+> devm_mutex_init() can fail. With CONFIG_DEBUG_MUTEXES=y the mutex will be
+> marked as unusable and trigger errors on usage.
 > 
->> Am 16.06.25 um 14:46 schrieb Werner Sembach:
->>
->>> Hi, small additon
->>>
->>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
->>>> +        functionality.
->>>> +
->>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
->>>> +Date:        Juni 2025
->>>> +KernelVersion:    6.17
->>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
->>>> +Description:
->>>> +        Forces the integrated lightbar to display a rainbow
->>>> animation when the machine
->>>> +        is not suspended. Writing "enable"/"disable" into this file
->>>> enables/disables
->>>> +        this functionality.
->>>> +
->>>> +        Reading this file returns the current status of the rainbow
->>>> animation functionality.
->>>> +
->>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
->>>> +Date:        Juni 2025
->>>> +KernelVersion:    6.17
->>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
->>>> +Description:
->>>> +        Causes the integrated lightbar to display a breathing
->>>> animation when the machine
->>>> +        has been suspended and is running on AC power. Writing
->>>> "enable"/"disable" into
->>>> +        this file enables/disables this functionality.
->>>> +
->>>> +        Reading this file returns the current status of the
->>>> breathing animation
->>>> +        functionality.
->>>
->>> maybe this would be better under the /sys/class/leds/*/ tree if possible
->>
->> I CCed the LED mailing list so that they can give us advice on which location is the preferred one for new drivers.
+> Add the missed check.
 > 
-> No need to involve the LED subsystem for a hardware function controlled
-> by a single register value just because the interface involves an LED.
+> 
 
-Lee, the question here is where put the sysfs attribute to put the lightbar
-in breathing mode e.g. which of these 2 should be used?  :
+Applied, thanks!
 
-1. /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
-2. /sys/class/leds/uniwill-lightbar/breathing_in_suspend
+[2/3] leds: lp8860: Check return value of devm_mutex_init()
+      commit: 426e0c8e8eed26b67bbbd138483bb5973724adae
 
-I think this is a fair question and since 2. involves the LED class userspace
-API I also think that asking for the LED maintainers input is reasonable.
-
-FWIW I'm not sure myself. 2. is the more logical place / path. But 2. adds
-a custom sysfs attr the LED class device. Whereas 1. adds a custom sysfs attr
-in a place where these are more or less expected.
-
-Regards,
-
-Hans
-
-
+--
+Lee Jones [李琼斯]
 
 
