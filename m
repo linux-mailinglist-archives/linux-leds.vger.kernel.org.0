@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4863-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4864-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F623AE1337
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jun 2025 07:43:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76B2AE133A
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jun 2025 07:44:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA7CE3BC9FE
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jun 2025 05:43:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5032E3B29BB
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jun 2025 05:43:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D91BE1F09BF;
-	Fri, 20 Jun 2025 05:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A5571EFF92;
+	Fri, 20 Jun 2025 05:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tzlhKcNL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qp9ds4Gz"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38881DED53
-	for <linux-leds@vger.kernel.org>; Fri, 20 Jun 2025 05:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459211DED53
+	for <linux-leds@vger.kernel.org>; Fri, 20 Jun 2025 05:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750398207; cv=none; b=jr+VZ7kk/YFwTg7nMkeRWrIUfDcuQwoshJzUUu5L61EQ9b4UHivNvpR/TWrzVwXtqjt2Y/JG6QIrXOrSb2Z6168u1UBxLOcOxD18EQOeVze8Dq2kKODC+jdfq35H0jD2R4vEND4NGapIcf7Sp6Ddb5iHI3+v1d0+WHK0HsgyNeI=
+	t=1750398246; cv=none; b=kw+ZcAmi7UCcCGbxyMKZhS4fLKBgY86SwEgBEb5pKrGahu1teKvceFv2l7NqLf0x77vQWzguYm4xj57Sa9xSyclnBaOPEC0kjWrrBh0BYEpOqu1hT4Qz6oyVLq9g2ChxIadHsxYirX5D9peQM97hQH7b1VPfpsJpSLJ9ctgPgwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750398207; c=relaxed/simple;
-	bh=He2bekmb4uPze7v5xM4/aduz5qDEvomxJ0LY2cHXQ/c=;
+	s=arc-20240116; t=1750398246; c=relaxed/simple;
+	bh=fSD3nYZpRmXjDfns54h+Zl+X4qYGCHaANBi3lnLLgr0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=QfWs14riAcJiABXl/CCnV4IWaNpCjqqrRracL5HwjHkN8ZfPz6x2vnvls1qc/40NjnlRjeiTjUhn3uHmnw9NqcmfVrW9MHrpMNURzlAAzwKgNn6eDyTARmDLaD28coY8OYCCcCLo8F2xkTaAiXTtxvgozufSUlWtM3dVvgnrNwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tzlhKcNL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E14C4CEE3;
-	Fri, 20 Jun 2025 05:43:26 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=JGWehOv/mHh23kRzcWALif5DDZc5bQLMgStCKLBduxMI9N5uOKQJek59e43bh9VbTwSToaGTxBsS+aGcd5qIYxxS24shj1DmHNYR9gLa4uHFxIdgps5qiJBEFjROLMgxJVZ8B9qxABiZj5cVKJWuYDTxPNVGymAoShK+phw/FvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qp9ds4Gz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4244FC4CEE3;
+	Fri, 20 Jun 2025 05:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750398207;
-	bh=He2bekmb4uPze7v5xM4/aduz5qDEvomxJ0LY2cHXQ/c=;
+	s=k20201202; t=1750398246;
+	bh=fSD3nYZpRmXjDfns54h+Zl+X4qYGCHaANBi3lnLLgr0=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=tzlhKcNLXwmSnKGlewrF73X9ARhnY+1JzcPXOTVtXv9Xun1c4rc6pxzpVdGhVyQv6
-	 BoMCD5TejJoQEt4Qpm8gBPcTihkSwXq/jRBXgUB3q95xFoEiA4sd3wkFZp0tZOXS0R
-	 QBa9+VZrWOHgAtzxyImj+Sa6FvD91lBxblq8JYKNd9MdY68baJIZOXaURzAWfnNkm3
-	 oxhQsnolg3VIH+0vA+Z2LOoVdI3BBNyfzHAmYeOxjW7x5sKNGauqOkoCWr5WEk4qZC
-	 ff3FtafAJOFbMw655Gh1DKIy7LcZRmGWXo99Vwv72gLrVi+Pjr+60ncn7Y/jqpQs7x
-	 Wfh/Qys8aZ3wg==
-Message-ID: <e032ea52-49e2-4bef-bb66-cf5a1cca6e26@kernel.org>
-Date: Fri, 20 Jun 2025 07:43:25 +0200
+	b=Qp9ds4GzvWmXNvLA5jJqU4tTl44aiiw9yBqroEoXQ+4wjJk5l1BEe0rFLvB9604iN
+	 MhqST4Cn6+lp1oycDaeb6Niks8fVKU/2JqD58F+Xzyudlk9FsVJjGH7OfuSy2EPx7R
+	 dxRSpaVqJnxhC4H21KEQz07X1boJSmnCay39Kvi9nnjMKi+2u14rDOAaiIyAvzzaE6
+	 JBTk2zhm5t/Q8Az/jfWNJM6Qv+MHXoVbU206QJ6EcKtWCY3RjAZJhJjJKR+rxDJwLh
+	 GgXh8t5GxybWqT1Wb/07n97f0Wt18TaA1EqquCBKAiMWrB3E/qoB3DjA4aQkCOfW1C
+	 magf4qlfqNBqw==
+Message-ID: <005bb2c3-c665-4145-95d4-eb6a2c735dbb@kernel.org>
+Date: Fri, 20 Jun 2025 07:44:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -111,60 +111,12 @@ On 19/06/2025 15:19, Pawel Zalewski wrote:
 > Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 > ---
 >  Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt | 6 ++++++
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-
 >  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-> index 926c2117942c..aa38a0638bad 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-> +++ b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
-> @@ -7,6 +7,7 @@ Each LED is represented as a sub-node of the device.
->  Required properties:
->  - compatible: one of
->  	issi,is31fl3236
-> +	issi,is31fl3236a
->  	issi,is31fl3235
->  	issi,is31fl3218
->  	issi,is31fl3216
-> @@ -16,6 +17,11 @@ Required properties:
->  - address-cells : must be 1
->  - size-cells : must be 0
->  
-> +Optional properties:
-> +- is31fl32xx,22kHz-pwm : When present, the chip's PWM will operate at
 
-No new properties for TXT. Convert first to DT schema.
-
-Also, there is no such thing as is31fl32xx company.
-
-> +	~22kHz as opposed to ~3kHz to move the operating frequency out of the
-> +	audible range.
-> +
->  LED sub-node properties:
->  - reg : LED channel number (1..N)
->  - label :  (optional)
-
+Eh, plus typo in subject prefix, it is dt-bindings. Please organize the
+patch documenting compatible (DT bindings) before their user.
+See also:
+https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
 
 Best regards,
 Krzysztof
