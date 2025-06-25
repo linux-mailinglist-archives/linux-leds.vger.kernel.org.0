@@ -1,188 +1,216 @@
-Return-Path: <linux-leds+bounces-4877-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4878-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F9BAE7CBB
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 11:28:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD13AE7CCD
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 11:29:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2A1A7B666A
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 09:26:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC168172B5D
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 09:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE3BC2E62B8;
-	Wed, 25 Jun 2025 09:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A909329C33C;
+	Wed, 25 Jun 2025 09:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="NUPWPYap"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1v3gKvl"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14042D6625
-	for <linux-leds@vger.kernel.org>; Wed, 25 Jun 2025 09:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843AA29A323
+	for <linux-leds@vger.kernel.org>; Wed, 25 Jun 2025 09:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750843134; cv=none; b=aGdpJ17U+py35NYbobPQi3PkxAz+kYOrsADbC0yiQ7eFkoOTEuaJDdfCb0NSa1h58bD5xbUu1nHpAg2GabJnAgtQShMmmyLgWN+70/Z6f40YiEgLgyptj1URAlT1JnHejKfzonciTw7YpJbqnD5bxuE0WFNJRLrRBkB3AM+VQhU=
+	t=1750843180; cv=none; b=tsc9oro5SkGQFw2OTPpInZS7JD26P7b+CbNJXzlS31Ms8nqNRTL8wCnxivF/AMXeJ4DSMKfnTablep/Aa+kpuZ6jvViNXosh0LlWqmaAGyvuRPhnOQvzumFogEufxw+YN2v5lMOE3IXnqZF7JE9MTfdufsmIJhwX/UA+holwXOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750843134; c=relaxed/simple;
-	bh=P97hYk/Hj/7qjo1n+kRFwU7+E2ZGne+kwKH4G41eZXs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=un6GcybkLjFeLMYcBT4jGwHzgFsuM9F9eHz26XsCLM5kU/SuURIkNzSTmOg35BVO33aLbSLQmQZ7VTrCVkqfEp/nGryy3xisfBHl+fr0vH68N5AAjuXkywp05BRCnzifRG41f2qW5YR+XO8GRjsJjXChc6Q8R1sPnUH7l4TMx1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=NUPWPYap; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ad891bb0957so234556066b.3
-        for <linux-leds@vger.kernel.org>; Wed, 25 Jun 2025 02:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1750843131; x=1751447931; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4TP0dDIATi4ERrUaMmJ+CWbb1W8kcq9VICfoUhwUDiY=;
-        b=NUPWPYapldcPbk6SKz05L1rJ1Kx+L8QwhlKOuXfEf+RpD99OPI3glSQaDKVlXtJN5s
-         gomXkHCnmDuaEuK/k10HbyUUrJbrOo3POsGhjA+zWi0y1gjiJHYa8E575SOfFrh8p1va
-         adWSaTJB5/+lXjuTNc/YujVstlla42neF7Wn2xdRv6zjUKIcgJra/1Gu6y1J9usr/CV2
-         y1TCSS69uMYJhwyE48wEL7ELAIG07TnH7C9Tih9xdVMOrS4L8qHJXlRWw8st77A+FdYA
-         3oejs9phQSR9ZhZc6AZRT+UrPEOcL621ffHjzNRAs/I0kceuXDKAzbh9t6/qryYOdFXo
-         m3+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750843131; x=1751447931;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4TP0dDIATi4ERrUaMmJ+CWbb1W8kcq9VICfoUhwUDiY=;
-        b=P5v/dJfG76NE4KoOinvrbOf28/919jl1oGZ2nV7klhivx4n7OkydJoqfJ6yEr84wQ0
-         WScFo0T1j8W1TQ4EufENuEwD+/sYg1UMur3kIrtN+maqyvCwtPGlgqcNl//NRYsIk5aU
-         VR/7l0y1RHRIDDhRgzLu+YnDKwAb63zBQZ5rNZS11s5s4IdU2UUj+R6gTxQv/5Awdw2j
-         EHR8K3JsA+TFsqbzlwaxIwqb6SjFkdmSShjuuYokfekgNDqpM1iV3FwZsKq5/kZxlnU/
-         iy+NX85e6WSLnCbHak1pMFJanwiQZf0rC+lqdsxXlrogs2sNdrm1Og4SNbGLUGRXVUPQ
-         Fk/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV5aoQmTEd3XwaDRKTJlgdQmcfI8/0d+dE1QOABn7Wt3GnOF2nM8Kw3MpT+n75lPmJd4APIKqlV7f4Y@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy6sYGX1ON6xT99XkJ2b8aSJjV4BR0QDNx1bhimvlIyuj35kYX
-	LTYgYBgCTyEuvnSzTvNRAeYkClGLwTHwz3eHVQm4Sh1e57V1VSO9XACsct1Bq2NiICg=
-X-Gm-Gg: ASbGncs0Drnh6sDXuOzdlNaCLZSvibbqdlv3F81bjQmR+2ybtd0l8Le7nQ8weo/A/U+
-	EYuV1T5IMIE+UrFXrDEb3OlY0bcCPC1emLc+RFkDkJEJjqvYUDnHhiSoJIDcBkCxSBcSPIghwf5
-	3OwfTVDGH/GlXvBfNVicmL8eyN6zzexsyuneshswKzgM6ASBxpZFcHiffoXkOWFBXXDOHYzSIOt
-	rpSUcUrBWAyXt1v8/F4EMDuiW4Q/NtbloMpVbYa9UZtkbFqAQ0L4hnZGFCx0id124HMAIF+BWYW
-	I7DueG9XeawobGh+qnRYgOQdjb3xTJZzL0/lBrJwJ9nJqnRQQm3264svd7sphsR/OKCsfmveTw8
-	UIgSgq+mjIqsG4dxhHkUeOGYWwyjeHE1Og1F8l+Y35B8=
-X-Google-Smtp-Source: AGHT+IEEGdscEMwvM+aessafAYILSx4LiZ9oh55JoG6lzWaD+B66L6MlI8IYziHgQ7LGeEr53zCpYA==
-X-Received: by 2002:a17:907:940d:b0:ae0:b7c7:e181 with SMTP id a640c23a62f3a-ae0beea8657mr226509466b.41.1750843130955;
-        Wed, 25 Jun 2025 02:18:50 -0700 (PDT)
-Received: from otso.local (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae054209b81sm1029043866b.171.2025.06.25.02.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 02:18:50 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Wed, 25 Jun 2025 11:18:39 +0200
-Subject: [PATCH 3/3] arm64: dts: qcom: Add PMXR2230 PMIC
+	s=arc-20240116; t=1750843180; c=relaxed/simple;
+	bh=2uwflOVUoGvEOCz/aeWN66HNAdDT7T9GtO4qIXw+pjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=orwHiJxzNACUUK3GCtikJkYBhA7gfFsvIkojDo4S741XqmOEovctmbCJJpNp6RhpaPUxKfICil+Wa3CIlZJrZe8FpzVpBqmjt+M7vkq6Wu1ljLpFpaxi/epck7ifhppxeQCU0z4dh+JylVuNcJP3posfIGkqBxvya/tpDFX4Efw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1v3gKvl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB0BC4CEEA;
+	Wed, 25 Jun 2025 09:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750843179;
+	bh=2uwflOVUoGvEOCz/aeWN66HNAdDT7T9GtO4qIXw+pjA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b1v3gKvl/cNL8a9i8Teshx/fk61UqOxAnhJF+29ShI0t/n3kih6/Wnq6aJsN1uLJZ
+	 XengDX8aRHGf8VRh9xs8SUKQcGotBJuFFjFEdIHF3vQWfxPfsQ4v6b18c4adIdnGDp
+	 7iEyhWPlS2fsezNXEtYXbALO76ZDzugDlAHMVGOWGGy5315g1LkQZQFJ7GFeY98knD
+	 NWdi7RfO8OxBk6Z8o37gqBdyuz3vBmVUZhHsTXVKQnhe2FYLCSJ04MgQ021V9dTI96
+	 fGxNZB/KlnLLooX64Y/65sZEoul8E6XWdvM25qAFwsrc7Tob/SmhQGeKaGL9Jl4OZv
+	 50ZS80SwHDLsw==
+Date: Wed, 25 Jun 2025 10:19:35 +0100
+From: Lee Jones <lee@kernel.org>
+To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Cc: linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/2] leds/leds-is31fl32xx: add support for is31fl3236a
+Message-ID: <20250625091935.GS795775@google.com>
+References: <20250619142233.653273-1-pzalewski@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-sm7635-pmxr2230-v1-3-25aa94305f31@fairphone.com>
-References: <20250625-sm7635-pmxr2230-v1-0-25aa94305f31@fairphone.com>
-In-Reply-To: <20250625-sm7635-pmxr2230-v1-0-25aa94305f31@fairphone.com>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Fenglin Wu <quic_fenglinw@quicinc.com>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750843126; l=2003;
- i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=P97hYk/Hj/7qjo1n+kRFwU7+E2ZGne+kwKH4G41eZXs=;
- b=5cKEHZVx1u5i2ve5fJgo3x1rCF2GP3PFrwvP2an7dIvDP5vrvjeu5ua9mRhBFWMTYswaRqpzW
- o4/U/Atpv/vBEvkmZ0W9XBJjxCziWpUp6mk/KFGJjWUSmvsQbZqtgPK
-X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
- pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250619142233.653273-1-pzalewski@thegoodpenguin.co.uk>
 
-Add a dts for the PMIC used e.g. with SM7635 devices.
+On Thu, 19 Jun 2025, Pawel Zalewski wrote:
 
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/pmxr2230.dtsi | 63 ++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+> This commit is adding an additional and optional control
+> register for setting the output PWM frequency to 22kHz.
+> The default is 3kHz and this option puts the operational
+> frequency outside of the audible range. The control over this
+> parameter was added via the device tree parser function,
+> as really whether to use this functionality or not would
+> depend on the board.
+> 
+> Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+> ---
+>  drivers/leds/leds-is31fl32xx.c | 35 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
+> index 8793330dd414..d23260f3f6ce 100644
+> --- a/drivers/leds/leds-is31fl32xx.c
+> +++ b/drivers/leds/leds-is31fl32xx.c
+> @@ -32,6 +32,8 @@
+>  #define IS31FL3216_CONFIG_SSD_ENABLE  BIT(7)
+>  #define IS31FL3216_CONFIG_SSD_DISABLE 0
+>  
+> +#define IS31FL32XX_PWM_FREQUENCY_22kHz  0x01
+> +
+>  struct is31fl32xx_priv;
+>  struct is31fl32xx_led_data {
+>  	struct led_classdev cdev;
+> @@ -57,6 +59,7 @@ struct is31fl32xx_priv {
+>   * @pwm_registers_reversed: : true if PWM registers count down instead of up
+>   * @led_control_register_base : address of first LED control register (optional)
+>   * @enable_bits_per_led_control_register: number of LEDs enable bits in each
+> + * @output_frequency_setting_register: address of outupt frequency register (optional)
+>   * @reset_func          : pointer to reset function
+>   * @sw_shutdown_func    : pointer to software shutdown function
+>   *
+> @@ -80,6 +83,7 @@ struct is31fl32xx_chipdef {
+>  	bool	pwm_registers_reversed;
+>  	u8	led_control_register_base;
+>  	u8	enable_bits_per_led_control_register;
+> +	u8	output_frequency_setting_register;
+>  	int (*reset_func)(struct is31fl32xx_priv *priv);
+>  	int (*sw_shutdown_func)(struct is31fl32xx_priv *priv, bool enable);
+>  };
+> @@ -93,6 +97,19 @@ static const struct is31fl32xx_chipdef is31fl3236_cdef = {
+>  	.pwm_register_base			= 0x01,
+>  	.led_control_register_base		= 0x26,
+>  	.enable_bits_per_led_control_register	= 1,
+> +	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
 
-diff --git a/arch/arm64/boot/dts/qcom/pmxr2230.dtsi b/arch/arm64/boot/dts/qcom/pmxr2230.dtsi
-new file mode 100644
-index 0000000000000000000000000000000000000000..a7650f3230c01422b76ef78e897e5e7ae2f20cc6
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/pmxr2230.dtsi
-@@ -0,0 +1,63 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2025, Luca Weiss <luca.weiss@fairphone.com>
-+ */
-+
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/spmi/spmi.h>
-+
-+/ {
-+	thermal-zones {
-+		pmxr2230_thermal: pmxr2230-thermal {
-+			polling-delay-passive = <100>;
-+
-+			thermal-sensors = <&pmxr2230_temp_alarm>;
-+
-+			trips {
-+				pmxr2230_trip0: trip0 {
-+					temperature = <95000>;
-+					hysteresis = <0>;
-+					type = "passive";
-+				};
-+
-+				pmxr2230_crit: pmxr2230-crit {
-+					temperature = <115000>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&spmi_bus {
-+	pmxr2230: pmic@1 {
-+		compatible = "qcom,pmxr2230", "qcom,spmi-pmic";
-+		reg = <0x1 SPMI_USID>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		pmxr2230_temp_alarm: temp-alarm@a00 {
-+			compatible = "qcom,spmi-temp-alarm";
-+			reg = <0xa00>;
-+			interrupts = <0x1 0xa 0x0 IRQ_TYPE_EDGE_BOTH>;
-+			#thermal-sensor-cells = <0>;
-+		};
-+
-+		pmxr2230_gpios: gpio@8800 {
-+			compatible = "qcom,pmxr2230-gpio", "qcom,spmi-gpio";
-+			reg = <0x8800>;
-+			gpio-controller;
-+			gpio-ranges = <&pmxr2230_gpios 0 0 12>;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
-+
-+		pmxr2230_flash: led-controller@ee00 {
-+			compatible = "qcom,pmxr2230-flash-led", "qcom,spmi-flash-led";
-+			reg = <0xee00>;
-+			status = "disabled";
-+		};
-+	};
-+};
+Line up with the others please </ocd_voice>
+
+> +};
+> +
+> +static const struct is31fl32xx_chipdef is31fl3236a_cdef = {
+> +	.channels				= 36,
+> +	.shutdown_reg				= 0x00,
+> +	.pwm_update_reg				= 0x25,
+> +	.global_control_reg			= 0x4a,
+> +	.reset_reg				= 0x4f,
+> +	.pwm_register_base			= 0x01,
+> +	.led_control_register_base		= 0x26,
+> +	.enable_bits_per_led_control_register	= 1,
+> +	.output_frequency_setting_register = 0x4b,
+
+As above.
+
+>  };
+>  
+>  static const struct is31fl32xx_chipdef is31fl3235_cdef = {
+> @@ -104,6 +121,7 @@ static const struct is31fl32xx_chipdef is31fl3235_cdef = {
+>  	.pwm_register_base			= 0x05,
+>  	.led_control_register_base		= 0x2a,
+>  	.enable_bits_per_led_control_register	= 1,
+> +	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
+
+Here too - and everywhere.
+
+>  };
+>  
+>  static const struct is31fl32xx_chipdef is31fl3218_cdef = {
+> @@ -115,6 +133,7 @@ static const struct is31fl32xx_chipdef is31fl3218_cdef = {
+>  	.pwm_register_base			= 0x01,
+>  	.led_control_register_base		= 0x13,
+>  	.enable_bits_per_led_control_register	= 6,
+> +	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
+>  };
+>  
+>  static int is31fl3216_reset(struct is31fl32xx_priv *priv);
+> @@ -130,6 +149,7 @@ static const struct is31fl32xx_chipdef is31fl3216_cdef = {
+>  	.pwm_registers_reversed			= true,
+>  	.led_control_register_base		= 0x01,
+>  	.enable_bits_per_led_control_register	= 8,
+> +	.output_frequency_setting_register = IS31FL32XX_REG_NONE,
+
+How do you sleep at night!   =;-)
+
+>  	.reset_func				= is31fl3216_reset,
+>  	.sw_shutdown_func			= is31fl3216_software_shutdown,
+>  };
+> @@ -363,8 +383,21 @@ static struct is31fl32xx_led_data *is31fl32xx_find_led_data(
+>  static int is31fl32xx_parse_dt(struct device *dev,
+>  			       struct is31fl32xx_priv *priv)
+>  {
+> +	const struct is31fl32xx_chipdef *cdef = priv->cdef;
+>  	int ret = 0;
+>  
+> +	if (of_property_read_bool(dev_of_node(dev), "is31fl32xx,22kHz-pwm")
+> +	&& (cdef->output_frequency_setting_register != IS31FL32XX_REG_NONE)) {
+
+Please the '&&' and the end of the previous line, then indent this one.
+
+> +
+> +		ret = is31fl32xx_write(priv, cdef->output_frequency_setting_register,
+> +							IS31FL32XX_PWM_FREQUENCY_22kHz);
+
+Line-up with the '('.
+
+> +
+> +		if (ret) {
+> +			dev_err(dev, "Failed to write output pwm frequency register\n");
+
+"PWM"
+
+> +			return ret;
+> +		}
+> +	}
+> +
+>  	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+>  		struct led_init_data init_data = {};
+>  		struct is31fl32xx_led_data *led_data =
+> @@ -405,6 +438,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
+>  
+>  static const struct of_device_id of_is31fl32xx_match[] = {
+>  	{ .compatible = "issi,is31fl3236", .data = &is31fl3236_cdef, },
+> +	{ .compatible = "issi,is31fl3236a", .data = &is31fl3236a_cdef, },
+>  	{ .compatible = "issi,is31fl3235", .data = &is31fl3235_cdef, },
+>  	{ .compatible = "issi,is31fl3218", .data = &is31fl3218_cdef, },
+>  	{ .compatible = "si-en,sn3218",    .data = &is31fl3218_cdef, },
+> @@ -466,6 +500,7 @@ static void is31fl32xx_remove(struct i2c_client *client)
+>   */
+>  static const struct i2c_device_id is31fl32xx_id[] = {
+>  	{ "is31fl3236" },
+> +	{ "is31fl3236a" },
+>  	{ "is31fl3235" },
+>  	{ "is31fl3218" },
+>  	{ "sn3218" },
+> -- 
+> 2.48.1
+> 
+> 
 
 -- 
-2.50.0
-
+Lee Jones [李琼斯]
 
