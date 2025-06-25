@@ -1,112 +1,103 @@
-Return-Path: <linux-leds+bounces-4871-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4872-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3DCAE75A0
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 06:02:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4736AAE7B6A
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 11:05:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2796417A2ED
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 04:02:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E8CE1BC1D48
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Jun 2025 09:05:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901571C1ADB;
-	Wed, 25 Jun 2025 04:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8632877CD;
+	Wed, 25 Jun 2025 09:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mxkYqqnQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rqte5sv6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC16AD58;
-	Wed, 25 Jun 2025 04:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4EE28689C;
+	Wed, 25 Jun 2025 09:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750824155; cv=none; b=Q6fuEK/qdPxpWkQiHcWVr6IaOx8CqCV92SGL57M9/4E85TmE+Kqu3FqM72Xxu8ZZzFIsCu7Wkh8K5NQxybXbNDCQUUC6xpo6kRr2zdFnsoLS7AqQKZkANwTkWA6/RzSk+phv95a98zne3NU4YKaMacU2I8Bauks1TkkRgzwSZhQ=
+	t=1750842286; cv=none; b=aoo1VQTo0DLey/Z8Q9msuQrvx7aKgWOKAhn8YLizAew4FlNoxo+FzjuIET72yNCcP2CFm9wlXrvcV3fzcC/I4T53SgdzgxefAH8FbeUmxcKveLc+Vf15zx4Wanwegg+kdE6rDjnGz3CVS/APXbPebdJd6V9wvXgBEyYMHw6Bj0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750824155; c=relaxed/simple;
-	bh=O21scKjBjCYqhOcRsIeQl446xModxPPXhKh/+5x9Mzk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P8yPHQvYbkQGRF9TYn/Or7VGyAXmCpz818nGxkXOPBIS21O3auSvBDNORoKX+2ZxJJyn68HVsdxSyWH3mgNJslgW0dbd5N+ebJtTEA1EJvUL0euUBZrKmm4LHMTtMKcJA3AhRvQg4yThZatkh3D1sSwVGP3+WXwWar0GSUldUtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mxkYqqnQ; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=ChYOoIrjyn9EZyp3mWMJRayCKpw54Lkx/7MojD3irCA=; b=mxkYqqnQ2wYj1/rtGJOhEslqbm
-	xZMR+RE4yyR6kDjK6ujzwkSrtks//4eyBgwqltxunY5u0FI12Sf1KQzJ1v2bE2l5swl4ga/CLvJva
-	3lrNnDM+iKwApbzubLXhAhV8RVQJ0KU/Am0MLDV4tU/O9NjTepI4l3X/guHwL1l8C9ThGyW52PWuK
-	XapvtVyp4dbPR2JfxZPXsOG7CGWQfGRlbivgBbIIrnYM7ae73zfK5cD3RXAynhg7W+ANFAUDf8SLN
-	yjhrf4YBe1G5VypGlmYSE54aAKjx3DfYF0tkNrZoCHx85o3ign1H3xUbNGopiQkIICLKUsbmESXUI
-	Ns5YuY1A==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHLA-00000008P7Z-0eaD;
-	Wed, 25 Jun 2025 04:02:28 +0000
-Message-ID: <e99773dd-c49e-4a09-bf2c-dacadfdd1c5b@infradead.org>
-Date: Tue, 24 Jun 2025 21:02:25 -0700
+	s=arc-20240116; t=1750842286; c=relaxed/simple;
+	bh=VE6S4IdljfLojze0jkDz8OAExWzhUG5J1Makz+kHkU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rbFuT+qm6Ea/cRHmsQTU9UfLsjynaefbSsUIPYz/Zvgr6Eb8P46gUdq14JkoCprAKd17GRNC7sIDnzt35O6fgqtYSzugHqRDz2mahm7xjM4GUpYV/Qk0A4SKg8qQx3kFtNGQcyu2qkNNOmTXHrd3vDU/cQKfjCPtkfwTKlxKyjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rqte5sv6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18646C4CEEA;
+	Wed, 25 Jun 2025 09:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750842285;
+	bh=VE6S4IdljfLojze0jkDz8OAExWzhUG5J1Makz+kHkU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Rqte5sv6J+gkHvmA7D3NKdMprt8FzCyTpRTZf8mcie7sPp78rbteCQ+1eJbjwgdGn
+	 UJw+wyyD5nKM+mEFYlmfmj+hJiHBGtbllto4diPX78bfNRziCDixfukr3AlViQ1bMi
+	 qF/XuEamC3u/u9Puwl2Z1FYAOz5OMUR11pHZmbfUDS1PbmcH6v+ojFNIkkDZltWRn9
+	 zFLTgaAhiACdCBRcmOj9Zn+cZ0h+vR5ZXzttCggbx6vCWhe2k73fnTwLuBD9wiu9dc
+	 51lCZrgY60/eY7q1UELawOu0JtmdzbSa+/tA6s+gmDQLPcqaEiJOVSVKG3DHqG4Lhj
+	 oLa/cIEnEeRuA==
+Date: Wed, 25 Jun 2025 10:04:39 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	Will Deacon <will@kernel.org>, Han Xu <han.xu@nxp.com>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Yogesh Gaur <yogeshgaur.83@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Andrew Davis <afd@ti.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-spi@vger.kernel.org, imx@lists.linux.dev,
+	linux-leds@vger.kernel.org
+Subject: Re: (subset) [PATCH v7 2/3] leds: lp8860: Check return value of
+ devm_mutex_init()
+Message-ID: <20250625090439.GQ795775@google.com>
+References: <20250617-must_check-devm_mutex_init-v7-2-d9e449f4d224@weissschuh.net>
+ <175033649656.801367.11888454651585197053.b4-ty@kernel.org>
+ <f1cc8959-d420-4ba3-922f-ed7c6f054f22@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: tps6131x: add V4L2_FLASH_LED_CLASS dependency
-To: Arnd Bergmann <arnd@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>
-Cc: Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250620114440.4080938-1-arnd@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250620114440.4080938-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f1cc8959-d420-4ba3-922f-ed7c6f054f22@t-8ch.de>
 
+On Thu, 19 Jun 2025, Thomas Weißschuh wrote:
 
-
-On 6/20/25 4:43 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+> Hi Lee,
 > 
-> This driver can optionally use the v4l2_flash infrastructure, but fails to
-> link built=in if that is in a loadable module:
+> On 2025-06-19 13:34:56+0100, Lee Jones wrote:
+> > On Tue, 17 Jun 2025 19:08:13 +0200, Thomas Weißschuh wrote:
+> > > devm_mutex_init() can fail. With CONFIG_DEBUG_MUTEXES=y the mutex will be
+> > > marked as unusable and trigger errors on usage.
+> > > 
+> > > Add the missed check.
+> > 
+> > Applied, thanks!
+> > 
+> > [2/3] leds: lp8860: Check return value of devm_mutex_init()
+> >       commit: 426e0c8e8eed26b67bbbd138483bb5973724adae
 > 
-> ld.lld-21: error: undefined symbol: v4l2_flash_release
->>>> referenced by leds-tps6131x.c:792 (drivers/leds/flash/leds-tps6131x.c:792)
-> 
-> Add the usual Kconfig dependency for it, still allowing it to be built when
-> CONFIG_V4L2_FLASH_LED_CLASS is disabled.
-> 
-> Fixes: b338a2ae9b31 ("leds: tps6131x: Add support for Texas Instruments TPS6131X flash LED driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Thanks, but (as mentioned in the cover letter) these patches should go
+> together through the mutex/locking tree.
+> Could you drop it on your side and give an Ack instead?
 
-I just made this same patch, so
+There has to be good reasons to do this.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  drivers/leds/flash/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
-> index 55ca663ca506..5e08102a6784 100644
-> --- a/drivers/leds/flash/Kconfig
-> +++ b/drivers/leds/flash/Kconfig
-> @@ -136,6 +136,7 @@ config LEDS_TPS6131X
->  	tristate "LED support for TI TPS6131x flash LED driver"
->  	depends on I2C && OF
->  	depends on GPIOLIB
-> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
->  	select REGMAP_I2C
->  	help
->  	  This option enables support for Texas Instruments TPS61310/TPS61311
+I didn't see any dependents or dependencies in this patch.
 
 -- 
-~Randy
+Lee Jones [李琼斯]
 
