@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4893-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4894-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B25CAEB109
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Jun 2025 10:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C728AEB10C
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Jun 2025 10:14:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 009A116F97F
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Jun 2025 08:14:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EC0917430C
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Jun 2025 08:14:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0968923536A;
-	Fri, 27 Jun 2025 08:14:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 708172356B9;
+	Fri, 27 Jun 2025 08:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sOKwoNkf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjWrgtpI"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53F83C01;
-	Fri, 27 Jun 2025 08:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405AC3C01;
+	Fri, 27 Jun 2025 08:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751012074; cv=none; b=avBFMTm7bArqH7BET4B8qbn8dQJFQOcW2pVR0VmG+e9hr7fPR5iP2uc1hSMGcUQCJgY3StFrQLtSfiTyU6vRNRyABa8OACRMerb9SG6DIipkvqVa7THPo91WDv2P5szQeTO8jy+fIRZck15vWGDRY+1PnQn//ZqOYhGFuMam/S0=
+	t=1751012082; cv=none; b=M9aEOvZMP+Ab+46jae6H2yzLnMF4gvHmdTdLcsgmxVZ/bH/Dpp5DaEm6TIscbjt7j9JIRTwHYo7mG72Q+R+/gi9BJE/F95PBitWwbXPGYLvdb61t1zsbZLkURwSXmQk1Z42rtfe8+j/gtD8Blf+om/6rSgHPY/irioOtXtF03Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751012074; c=relaxed/simple;
-	bh=XAx0w0qIj6lxMzl756cOTRLfX5HxkURSvrdAy+8ZYYk=;
+	s=arc-20240116; t=1751012082; c=relaxed/simple;
+	bh=BnCh389PEx9bJtSanbtzmLueRukA8060w6pkKSdwnaI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MyI+nlor7KYo/mwBck3LrdwRri/lkcKgGlbCnMgmnmCacljSK1ErvSlVpw8YI6690aUNVZACvGQSzA2G6XBGbg7mBMj0Ti4cQdk1mAQcRhDBWLLuZrAuHhJUzRrVEjOkv4j3mpdOHgvDRqt5wmZYberuGdlXDYzl1FFp77ceJ9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sOKwoNkf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EEBC4CEE3;
-	Fri, 27 Jun 2025 08:14:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=XJb75MEnZrpIlUeqzDBYqNa0n0GG76uCpDSIfCOwETNBzlFNXVuZfCjuf3XB6fTHbhCAx+oRQUD/EsotrQOE+S/T2UxNvi+u8BC1KmYWGfpHLWrtK73tqp2sBrz/ZHKojLaoRnSTM0nA2b8APpO12eSeJ6BW+4huOgRsEeEumrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjWrgtpI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF1A5C4CEEB;
+	Fri, 27 Jun 2025 08:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751012074;
-	bh=XAx0w0qIj6lxMzl756cOTRLfX5HxkURSvrdAy+8ZYYk=;
+	s=k20201202; t=1751012081;
+	bh=BnCh389PEx9bJtSanbtzmLueRukA8060w6pkKSdwnaI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sOKwoNkf0p1oYczXQDEbSoR5cCwXYcjKxj5uqiypqUeJgxFHoB9j+l9es2c1W07fi
-	 KrL/GGBR13cyDYTVc9rHmUs6Ih3x8rACYDf9Z7lkIjGGw5tHB50rwA9LKBj/1JNyEn
-	 Q1TxuB194jDejg3mlyQ4ptGn2V72G7F7rhH3Iu2u2euirICc8kW6XocaA9mP0u88mt
-	 s7YEYiKE6aeMReCsdu5Qxl2OCbbv/klStmQycUV9A61LbaRhaR9rl94VzxHLeLh76B
-	 tSGcF+HbuWxQe+1H+qeXMISyGc/wTClVJA+XoWLCrUjCcP42EtHaIGiUBpkKFowdbe
-	 WR5o/G2KWbJ9g==
-Message-ID: <e7c012c6-d5df-4247-b4c2-1b3e787d7576@kernel.org>
-Date: Fri, 27 Jun 2025 10:14:24 +0200
+	b=QjWrgtpICnL1hJ1fOUVDjH2KaBUAF/Ovk4eVAzbNsZlz14vb9OnG1vscI8l1+6bEA
+	 AR6amD9jWaKrXnm2PaRGtwlqs4rO1tXB93rLMgof+hDk5RYbY99Xc7MUuM+k9Y6lAN
+	 Ze1TNP9nWdDAhpucp1+R5n/KOLKiC9YeCsptoKSfzReY0yYRKZi6fc9+vqWQoNUjch
+	 zsP4xvZ/ieRCjNesH9O08gsZaZBtdg+ja76EoB/O10Y4TnPBQlTkcmb1kQJVd1Pu7N
+	 XU09jk5u53D1FAA/BNPK19JNfW1gSoUg6cYkbv1jIJ2JMKS+hP5jSaqmMM2kLotGXv
+	 SYBPMzGFC2q2g==
+Message-ID: <c697c9be-ba14-41b3-84e0-bc36580748bc@kernel.org>
+Date: Fri, 27 Jun 2025 10:14:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: leds: issi,is31fl319x: Drop 'db' suffix
+Subject: Re: [PATCH 2/2] dt-bindings: phy: fsl,imx8mq-usb: Drop 'db' suffix
  duplicating dtschema
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
@@ -65,7 +65,7 @@ Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20250627-dt-bindings-db-v1-0-d5c7072acbee@linaro.org>
- <20250627-dt-bindings-db-v1-1-d5c7072acbee@linaro.org>
+ <20250627-dt-bindings-db-v1-2-d5c7072acbee@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,7 +111,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250627-dt-bindings-db-v1-1-d5c7072acbee@linaro.org>
+In-Reply-To: <20250627-dt-bindings-db-v1-2-d5c7072acbee@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -126,6 +126,7 @@ On 27/06/2025 10:01, Krzysztof Kozlowski wrote:
 > RFC because this depends on dtschema changes and should be accepted
 > after new dtschema is released with this merged:
 > https://github.com/devicetree-org/dt-schema/pull/166
+> ---
 ... and I forgot `b4 prep --add-prefixes RFC`. Please treat as RFC.
 
 Best regards,
