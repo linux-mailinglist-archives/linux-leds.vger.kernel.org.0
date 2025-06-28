@@ -1,78 +1,78 @@
-Return-Path: <linux-leds+bounces-4910-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4911-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566AEAEC8AD
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 18:19:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A788AEC8AB
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 18:19:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F4E91BC13C6
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 16:19:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B88C63AD5AF
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 16:19:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6244E254846;
-	Sat, 28 Jun 2025 16:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1466256C7D;
+	Sat, 28 Jun 2025 16:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRm8kdsn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LsYEPdpn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5744324EA8E;
-	Sat, 28 Jun 2025 16:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483D5253B5C;
+	Sat, 28 Jun 2025 16:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751127539; cv=none; b=FPh+pUp4av4tAa9sscfpoM4i6o2cnn78/kL3SwW4bKRJ17yNuuE9jBbA/qZYXNC8W8bAzDwq8GEFQfTiyK1R6SL/G1uBTe47im8e99pJkzRMbGq7yZagix6GYDlBgq01d+ZMokcFCLvxiIP//b2uH8JiDns37Ls6hNdQ8+feNkI=
+	t=1751127540; cv=none; b=iDKdSpaj1yKepbGf7ENlwGVS0dE5Wo6Zr95/NNvjUuo/NTrXvgNMHbsP0EwO4fZbSOqzpbFW3gH+8FHc7Y34QiZncIKJyEqw9agGeoYwsQyRr8gB4zuLiT2wwhyJHOm5Uv85EcySO8N2h3Hte28Q2RsxK7sZAimuzU9a3Bjcjcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751127539; c=relaxed/simple;
-	bh=v2XAzjfgoGzkdFNzMifDiw3LW48guo2c5O2/eNjtFo0=;
+	s=arc-20240116; t=1751127540; c=relaxed/simple;
+	bh=Bkb0DSpaKgNDotVl98+tkhn35EvYHk5lJQNuHDhpqR8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KIQws3GlVC/YVpMdp7KUZYT4V70CILrt9aLaYTsitMXaxlnd2VhjAzNc0BDSV8WsiTtr7CCykGh8GRKgw5lIQ0qT6qfc3U1iPJzQhbcUo716jmwCDFK4nAUxkUy3QtU4gAX4mO+wGNeUzDHNL8YJcVqpWckOvsrW5tNqfND76WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRm8kdsn; arc=none smtp.client-ip=209.85.222.177
+	 MIME-Version:Content-Type; b=V63LqYS9DENNyWA2r9b7z1hdG5mfwPgAGe1ZAxo1ltfDXlWgoQjc9YI1nSsPyDwk2fYaJ1S6QJ+M/FRZak5Gjl+kbQPULTBq7EurEUTgSbmzLk1S32vIa1aYGjhCZcYttX5BXuXTRrhVplONGwL2Gb1P44pu05Hf0HKDYV+Rgnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LsYEPdpn; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7d3f192a64eso288817985a.2;
-        Sat, 28 Jun 2025 09:18:57 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6faf66905baso9747906d6.2;
+        Sat, 28 Jun 2025 09:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751127536; x=1751732336; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751127538; x=1751732338; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QwEXumjeSgSKL538gxbS9ghqm2KZDoPQ2P9+gjK1hDc=;
-        b=TRm8kdsnpXyz04yh94fzh7yir2iKhUfAqMNyaw9He0uTenX+v2W3nkLoP6t834Ie0Z
-         lrbxRMAIOo9BnxUEuDdW56wCfYjeHRzk4kIHOW6iCIibdpTj4OsbbzvIwqOoBqeMF9G7
-         k0PypbRAG5uLIU4ffTS9y0Lksl7dGUUyx1tV/z/XmIvTDM+EiHg0mW8ZlpVUXXg1otig
-         TKXK5CBlRBhzpp7LIy38hidv7mwFKlKDLEdQ83Um7Pjgya9Zxd9nVRnVABhImEVFih4+
-         kAwYYa2mRG06szIB8GKXPbII/fH0No4rMmlCXIYnnIFEzEjqj7XlStJl53+KQFLKWNRD
-         Ut5A==
+        bh=5LKIa1UkIqEHYKA4TXZ32HlvxWrAPwqU+G93P95AKhM=;
+        b=LsYEPdpnR6TVS2jeGiLXkgSdUMnHstNx4aWfiFo8HUEMKBqjwLXWSOLJKR5/vYeeWt
+         cgnKipfvtd6PiNxierJOqGMdSY/4OQzOs5ytXqPKveP171JrNAYoJ/fJMpI6/Dtn75SQ
+         kHa4MS/qKSKMDNffq6tPWs2AWWzhWHbXDdR5n9faucIz+K9L6AeBHGAoJL4HaspaEsKY
+         JNZwNS1wBfK8cbSBMmhbGMGUiw3nqccrKm3iSKXgF8pYC/npUd2dNlTwcCSSrN/KnQvX
+         1yNkPhRgs0CeLvD7hKatMnz5zYpbl9Wxl9iEbMGwBX/pwpqGCmAMg8gVU+68mOp8fDyF
+         9+PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751127536; x=1751732336;
+        d=1e100.net; s=20230601; t=1751127538; x=1751732338;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QwEXumjeSgSKL538gxbS9ghqm2KZDoPQ2P9+gjK1hDc=;
-        b=bwUiPV6e0ZwQDnG2ERh2xM0X8hJNBTQWbxfOUM7F9duPqY9DvICxRh2juNk+wtP6qD
-         Ddf4hyRxPLHIhC//TetBJzTPI6v0h8QjyWgB6T7Wx14r1diYF3p+aMLdbLuopoeaob8K
-         /BGowMsoPsuwKiZJ6E+Qc67l47J4K+RBCovkQkTZubTNwWZdttGNfwiHz5AFP5Tb4S+c
-         N8vLVSSDX2ioWZkaMA9PG5qLIohTBTZcazAXyt7+hS0RoqV2LHDAnq19tMDNV1BCZCs4
-         CIlOPWAk0yVnF6XNVINXz6wB311ecfTv9p7fP6LqWnhGEpz2p8GQmtgvja9zHQ6GCIXg
-         YHWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUV1L9k+vGfW4m2bFJH+jggm/nRhxoldyAUVh+vEduYAV4uufi9aUje7Psnv4PQ9TU0szno6NyOuJdoOg==@vger.kernel.org, AJvYcCVNWDYAn4wsryVGuGjIGhDjwnvFuAkR1nfyUGjIy2Fw1pnqoAkCaSAi/RHsXY+XkFTq61a/fK8j0S8G7HhE@vger.kernel.org, AJvYcCXb1DvFJaU2KCg4bB8Mx4yNaDFPJbMOXCHtJ/K/uKhjVcYdonK9PaN/mRuVTp57q6L1hpPuLZwtEAqt@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZPYRBb8G2aWvtdjg2I7CkpI3YQjbfb1elOKojQl5BHXDM8C+e
-	FxYwBQiwOMX0eWJw4KyGjqty3hx5R39BywQab8U2X1+r5kpuX7lGZSC5
-X-Gm-Gg: ASbGnctYT2QCOz5FUWP7M3ea/SSCOR6ITU2Lwi6G1Un1kzv7rkJCNwATvRwJlMYXpJj
-	5qJzsvrohdwb4bwxcTelSXGOMuFK7Ux79J5UBfCfR0tvPXk+991Ge2BeLZKu8gYrDtk4RzJnr4e
-	vTYs6xVyvEpmnH/NmUMQokCyTT7/op93KzlCA5bSKcrgtbLp6hkpIJ4JE7i05w20pttDQlWFq4F
-	1+anCtlhmtayOWGbrxs+c4hCdemgKHaBPygdVBzs/O8vvRfSt9SdTDmXpbWzCrOaTqmCwgYb0Ss
-	Ige58j6zCyy3kb1VCp1VVLia3hUzeNEqDk2OfQ3yks66dDuvjKchllSupDc/5q18sSWWf475xKe
-	l1ESkV4gnmdCjwLpeR9w+lN+6Mst15Aru
-X-Google-Smtp-Source: AGHT+IFJAgjjUvJ4Axja2qlG75v6t+zNV/P4Mzv+Z2dNBvvv3XJMOJm6seW8eqzZSXvIOaYI+M+l9A==
-X-Received: by 2002:a05:620a:8197:b0:7d4:4400:d3a0 with SMTP id af79cd13be357-7d44400d4e7mr684665085a.37.1751127536043;
-        Sat, 28 Jun 2025 09:18:56 -0700 (PDT)
+        bh=5LKIa1UkIqEHYKA4TXZ32HlvxWrAPwqU+G93P95AKhM=;
+        b=vBMCz1hd8WfiuGFgZmKJKYot7SjwOr6k6Gej9gVl/sxnKgnndF9YRd+A81ggzOn95n
+         AWHQaL4W0ac9aSrxRjkK0BuliiPJwWolLuR3LeAdHLatsgRQ+XITwMYWilr1OEAGsKHP
+         aL0ieSnWzUU6TrpdbGEk/XmQV5srpQdsOli+Nahq8jsPOee67EYybJ2NMrkqjTgFEZT8
+         QQL2jIsyCpLrRpKXVjga45wAoM4UQrsIL5rumePQheUW5AVCm5rypfF++kAJym6nKVj6
+         6bOzZxV672ts8Tne3ZAE2a/vKAry0MbhsDfOneWHEMwG932sa1LqftmbqS4IY4hnFjY4
+         6EAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVBBCAUVQzigm1KitCyG/AkJTDh/IaEHiX6K4fFpB10Hvew0IIjKPfZTq5z4k0cutkks5ixcGZoV13j@vger.kernel.org, AJvYcCXDgtXm322MbSRGY+pXjspQAU7yRQpT43liQZ6kQhkMAVVVCO9G9j0Btpt2LDplSM3gRy6bNxdJTSSfWg==@vger.kernel.org, AJvYcCXrH5cv0IpS0veIgOCaJMlcGanXQR8bIMF9QYgw4KTg6WpdcSUyourSst/kg6ZvWSBD8IHR5npIw2CAHORE@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKZDBZqRsbhKRncs12kN+72CcWKqcevvwXvwk7OVr2uQH9jaAf
+	8hY4DaeIKzTvFDm73KigyvtAcoLM73XBIl3OXx7F4YyOjJ7TKQzeNbokF2QyGsQc
+X-Gm-Gg: ASbGncstNODg/c/L66kpjSrhDf0Emg0h4U/qGe/bs+nTiOxVeRJXX/sCZ1wn2D829Kb
+	3daZvzcMwbvMiLNBN1pMyZ+SPfPlA+NDabxRZecU+kIeHEdORBRziy5+z/5EcZUUVRUH9h4odNF
+	YaaBCUrfsHjbdRcHhZU5Du/22CguBTwT9uUNTFxxMr6fV21IaUYWJ1/wAARqZQbkT5lbRee6s5F
+	vw3RK2uFagTUzWVuCYs3baJE8KAiFc3vjZjrzZfdRSQKAQdl2E06EA5rLWyHepnNDmgWX2EPz6O
+	CZGfzFYF7oQHGP9k7LOYTk/B4HsfmbSXsqomUFZwkSzeIFgAtFobLf+1K1ZcJ5dKTV8V1HCdA/5
+	I1NJRsDYfLYvhySebo3OtY3+FHZ6jnR8G
+X-Google-Smtp-Source: AGHT+IFnFFs4/zkT06IDPwg/7N+bg2KatyMPdW5mr/p7CmoFo3YzGViLyS7g99n2jiNMjOpqUPKMVg==
+X-Received: by 2002:a05:6214:4308:b0:6fd:76c2:a2fd with SMTP id 6a1803df08f44-700024399acmr145203516d6.4.1751127538199;
+        Sat, 28 Jun 2025 09:18:58 -0700 (PDT)
 Received: from localhost (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d4431345b8sm309110485a.15.2025.06.28.09.18.55
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd771dd8afsm38474476d6.54.2025.06.28.09.18.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Jun 2025 09:18:55 -0700 (PDT)
+        Sat, 28 Jun 2025 09:18:57 -0700 (PDT)
 From: =?UTF-8?q?Jean-Fran=C3=A7ois=20Lessard?= <jefflessard3@gmail.com>
 To: Andy Shevchenko <andy@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -86,11 +86,10 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	Boris Gjenero <boris.gjenero@gmail.com>,
 	Christian Hewitt <christianshewitt@gmail.com>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
-	Paolo Sabatino <paolo.sabatino@gmail.com>,
-	zypeng@titanmec.com
-Subject: [PATCH 2/8] dt-bindings: vendor-prefixes: Add Titan Micro Electronics
-Date: Sat, 28 Jun 2025 12:18:39 -0400
-Message-ID: <20250628161850.38865-3-jefflessard3@gmail.com>
+	Paolo Sabatino <paolo.sabatino@gmail.com>
+Subject: [PATCH 3/8] dt-bindings: vendor-prefixes: Add Princeton Technology Corp
+Date: Sat, 28 Jun 2025 12:18:40 -0400
+Message-ID: <20250628161850.38865-4-jefflessard3@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250628161850.38865-1-jefflessard3@gmail.com>
 References: <20250628161850.38865-1-jefflessard3@gmail.com>
@@ -103,30 +102,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Andreas Färber <afaerber@suse.de>
+Assign vendor prefix "princeton", based on their domain name.
 
-Assign vendor prefix "titanmec", matching their domain name.
-
-Cc: zypeng@titanmec.com
-Signed-off-by: Andreas Färber <afaerber@suse.de>
 Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
 ---
  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 9e4d251e71..d02615496b 100644
+index d02615496b..f03ab02afe 100644
 --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
 +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1550,6 +1550,8 @@ patternProperties:
-     description: Texas Instruments
-   "^tianma,.*":
-     description: Tianma Micro-electronics Co., Ltd.
-+  "^titanmec,.*":
-+    description: Shenzhen Titan Micro Electronics Co., Ltd.
-   "^tlm,.*":
-     description: Trusted Logic Mobility
-   "^tmt,.*":
+@@ -1218,6 +1218,8 @@ patternProperties:
+     description: Prime View International (PVI)
+   "^primux,.*":
+     description: Primux Trading, S.L.
++  "^princeton,.*":
++    description: Princeton Technology Corp.
+   "^probox2,.*":
+     description: PROBOX2 (by W2COMP Co., Ltd.)
+   "^pri,.*":
 -- 
 2.43.0
 
