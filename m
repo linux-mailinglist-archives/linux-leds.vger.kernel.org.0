@@ -1,212 +1,171 @@
-Return-Path: <linux-leds+bounces-4907-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4908-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C794DAEC75B
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 15:20:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9323EAEC8A2
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 18:18:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9A63177A8A
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 13:20:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BD923A52C5
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Jun 2025 16:18:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 513703595B;
-	Sat, 28 Jun 2025 13:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 402FA1C8630;
+	Sat, 28 Jun 2025 16:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP0onz9w"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5ErJL22"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61212629C
-	for <linux-leds@vger.kernel.org>; Sat, 28 Jun 2025 13:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D0A1DFCB;
+	Sat, 28 Jun 2025 16:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751116821; cv=none; b=hC3/kS19wY/C5KgompbWstR3Lbful4ZF3xLBAlSWWWZRECU/8+r2sx7j5Hah6vzymGJXHiLSMpl49g8/1zujCJmRxKOwpSbc2Zp9l4q8x9ja72Y++rr5rVTSRPjyNY9t8GsFgEFKObLBTuZrltSWQXrepL6GXj5JqShCJMIiTAI=
+	t=1751127535; cv=none; b=E+h59pvnILCV7H+vHnOG3/2xcaQuR3gI7AbKFd5mweKu6xge9Nr2JrkVHPl/jwU0r80whHdNqN704gPxnfuak5BM2P1ko3LvA93U70Flgoiectd2GXuq1p83AcEbSRzENhp81HB047BI7pJMm5e5umVWapRUJYtnv1WC0b+UbaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751116821; c=relaxed/simple;
-	bh=Rm9IHVU4RN588lDny01CeDdULLPZ+gIOFmQPIU+KB0I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JGkphaOF/PX9bQm0ge2I7aeuvbOI3+EZM9OeR5W/M+cTabuDUy7CEqfZIwBQ5e40h85tIhca1Dck4tkLCB0H0KRuGU4gQnMH/BxbHANku60n8dCLmiDmJMosJDWjaaJPDQfxCeelWsC6oAt03Kvrc+kwMNHbB0QCHumyB7jDx6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP0onz9w; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751116820; x=1782652820;
-  h=date:from:to:cc:subject:message-id;
-  bh=Rm9IHVU4RN588lDny01CeDdULLPZ+gIOFmQPIU+KB0I=;
-  b=WP0onz9wjrgt0qMKtPjNy2ykm6k2kKY79gepOJxhkKFwlZ2lftKrhTmh
-   naAn96SQrBSNV8BNXItzddQysWhssKRdvj3r+wPsip2AtjNcO9nH6sfml
-   xq0K5ygXid2kNaifx9mHnRv3yMlOLknT0ZmodHG11sk3FLY7phMyM9d01
-   mawaCGJxKiv0oiF5YW4qWGEHnr4Yi4ge71Yoo4gIJ6cbt6QLFdtjWAUml
-   fJwEjEmToGFhsBZCJBlfhOcHd+j28SActMQH+SeWCTfw3KBzs07V8Im3z
-   /sU+oGdG1IYvkQDEKTdMDZJyHq4CqUXu/ZyMseoxwzgsewa+gbKrEYOcG
-   g==;
-X-CSE-ConnectionGUID: U9wwrqoUTbCqdyciMKEBrg==
-X-CSE-MsgGUID: p4k7uqmqQvaMzgSbhOVL5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="53278043"
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="53278043"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 06:20:19 -0700
-X-CSE-ConnectionGUID: 4OWW5mjeTPOsS5v/ymufkg==
-X-CSE-MsgGUID: uFVgBIYGRd6CzbvQtvmUdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="153213504"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Jun 2025 06:20:19 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uVVTc-000X4I-09;
-	Sat, 28 Jun 2025 13:20:16 +0000
-Date: Sat, 28 Jun 2025 21:19:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 1d7a74dfba583a9e8dde1f0234e91a5b49032863
-Message-ID: <202506282118.AujXoRHM-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1751127535; c=relaxed/simple;
+	bh=JyqYQn058ulnVRzRSQFDjebG98r2PEGwzzOV6MZOR+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GgV/YJR1S6mr6PF9hEqXOESCzMmk2IFy+rvsW5wTjqEzXv3+zAhV8M0SWYLJ6UlZKrs9g9YQ1VUFDPjR2hp0nuEsx6zDokpivW2BkBL3z9X3vNAa6ctCBQjoDKPHvF07EmbtbIEctFgeW1pmaev3K8OL4qcYotIxo96XONHwEI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P5ErJL22; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7d44e3a0169so33138085a.0;
+        Sat, 28 Jun 2025 09:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751127532; x=1751732332; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hoDWjObtBuyHoHSuTJOYnR341txLjfdZGnwqbJ9pMIQ=;
+        b=P5ErJL22kyip/dO5qC7BktnHA0nXN4NhtzbccyPci0dii+KZM/OGfQTlDCSKH1lmqr
+         ZQbV3NkfxBaAhux81cWM4OB0eScUS0JoFrYdWngpl2710kEg/Aklo6Be31/zNjyhgZF4
+         kzlB47vCxKbvoBGtbO0hWblMAm46IBOzAY6Nhv99A7x0vlhMZxKMwU9zbSBcqBDwhgRV
+         wOf1d9olEF+Zoe34FQXNWI1D+ux6soGBFjkQmm07fKKfGorGvetMnfYEGsfk798+c8Oj
+         mroKP8hXl9XpXrZUC6laCcMqUF4zuDAuvabtCndBTPPmNWEPJYwn7GdICNe74htjdTZ2
+         J12Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751127532; x=1751732332;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hoDWjObtBuyHoHSuTJOYnR341txLjfdZGnwqbJ9pMIQ=;
+        b=V64pco9pfEkWhk/+BZzOcy2TwXH91UJc6ctJXM7t2xycHzuHSkB/VEztwRU2VVOHQZ
+         x/L8SMKRI6k5oBKd+kXh17pfqc9sCgnQbCXR1UAtwiiBJssm5404/xloBFKdACz7Eqck
+         IlFpEENAt4Q04UjWqazVyIaFYiX52O31Y1uuo1bTFnMvpBFBWlx2d8W9M8FS0uHpby2Q
+         YrjNCz8qO2UsGkX9oDJsn0uEF+LlwdwCx3xRb9T+bdjaDiIE+R8Rd4CDvq1/GgoMjoBx
+         Wg4WjrkeT3YUe3yTbcZWQa4cggvHm6Y0M4Gwb73lYRuY0EBtkundNIElPN1200bQ6CHY
+         Vqzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGfaIf3XK78O75LX8sfgSXBQtpqli7OlcTqjjBuBAxYyZpIMLRQSCl+cwJYYI19UxZNVmc7UHw84pq@vger.kernel.org, AJvYcCVrU15LblBy2c9CEcXBIybdQqI/r2KXf/iiUh/gspfWefCCIacsAZscBuMSodHaWtD2AMQ7HGXtNbg7OA==@vger.kernel.org, AJvYcCXQVihIR69/5UIS5xEW+D499DjXR9SaB8tjuqYZWLWio/QIw6PAV5aDf1t8obExT3luODgxF+sXdrSlYXDR@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoH4o4k2KsLNXHw1IURVX305TsmgVFRn5L6hZj+JJOsRvSl8xd
+	cGUXD8Fg+LAmQuD2WE6ka0W9aqkki1f4L6s9Lxt/9GcqPGmjCMHuGzDX
+X-Gm-Gg: ASbGnctrOyZBoXTvWmboEshGwhwrPRv3oqc4hde5v7u0UlwMueKSmbralNd+cgbBB3K
+	GEKSDRYJKhWmrylgo51JFsDDXqWc0CRPRPDb5isfge0rui3Izz7QLWJAUKlWV8wvZY4TXPGXD5G
+	A+hXjaFD+zmRln+pzKVeEYlw/7633746MqYjgH12t5PEKRNwLVNcvajfQWg37b2iEHSX6l8ySv7
+	H7Oq3yUOCf4n/9peLvgmHFF/GgsMAc4bCwuJCZUIPNNWyoW9OJ9JdOOVzAEohkxQNAuqZu94WtR
+	XP7D5RP19vuMap7e4GmNb84IZ5PkfUY9Z3OG0wLkZyzHPwpSlsfwBgjhdJKBnX3QkiAROU+sydP
+	JJ0TS8NbriHzaTzJihCNkcllB5eUktQxm
+X-Google-Smtp-Source: AGHT+IGTY2pvG5ol2Cbj152OnsbN8xF0jI4x3OzNRTcHC5bddrKrg+nqTSbvNLkrDomfgr7f7lD2xA==
+X-Received: by 2002:a05:620a:2949:b0:7d3:e868:a684 with SMTP id af79cd13be357-7d443a0d4e6mr1040309885a.51.1751127532261;
+        Sat, 28 Jun 2025 09:18:52 -0700 (PDT)
+Received: from localhost (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d4432371d0sm309257185a.102.2025.06.28.09.18.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Jun 2025 09:18:51 -0700 (PDT)
+From: =?UTF-8?q?Jean-Fran=C3=A7ois=20Lessard?= <jefflessard3@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	devicetree@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Boris Gjenero <boris.gjenero@gmail.com>,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Paolo Sabatino <paolo.sabatino@gmail.com>
+Subject: [PATCH 0/8] auxdisplay: Add TM16xx and compatible LED display controllers driver
+Date: Sat, 28 Jun 2025 12:18:37 -0400
+Message-ID: <20250628161850.38865-1-jefflessard3@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 1d7a74dfba583a9e8dde1f0234e91a5b49032863  dt-bindings: leds: lp50xx: Document child reg, fix example
+This patch series introduces a new auxiliary display driver for the TM16xx family of LED controllers and compatible chips, widely used in TV boxes and embedded devices.
 
-elapsed time: 1454m
+Many consumer devices, particularly TV boxes, use auxiliary displays based on TM16xx LED controllers to show status information such as time, network connectivity, and system state. Currently, there is no mainline kernel support for these displays, forcing users to rely on out-of-tree drivers or userspace solutions that directly manipulate GPIO pins.
 
-configs tested: 119
-configs skipped: 5
+This driver provides a unified interface for TM16xx-based auxiliary displays through the Linux LED subsystem. It supports both I2C and SPI communication protocols and integrates with the existing LED class framework, allowing displays to be controlled via standard sysfs interfaces and LED triggers.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Upstreaming this driver will eliminate reliance on out-of-tree drivers and enable standardized auxiliary display support across devices using these controllers.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250627    gcc-8.5.0
-arc                   randconfig-002-20250627    gcc-12.4.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                         assabet_defconfig    clang-18
-arm                            dove_defconfig    gcc-15.1.0
-arm                         orion5x_defconfig    clang-21
-arm                          pxa3xx_defconfig    clang-21
-arm                   randconfig-001-20250627    gcc-15.1.0
-arm                   randconfig-002-20250627    gcc-10.5.0
-arm                   randconfig-003-20250627    clang-21
-arm                   randconfig-004-20250627    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250627    clang-17
-arm64                 randconfig-002-20250627    gcc-10.5.0
-arm64                 randconfig-003-20250627    gcc-12.3.0
-arm64                 randconfig-004-20250627    clang-19
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250628    gcc-14.3.0
-csky                  randconfig-002-20250628    gcc-14.3.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250628    clang-21
-hexagon               randconfig-002-20250628    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250627    gcc-12
-i386        buildonly-randconfig-002-20250627    gcc-12
-i386        buildonly-randconfig-003-20250627    gcc-12
-i386        buildonly-randconfig-004-20250627    gcc-12
-i386        buildonly-randconfig-005-20250627    clang-20
-i386        buildonly-randconfig-006-20250627    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch             randconfig-001-20250628    gcc-12.4.0
-loongarch             randconfig-002-20250628    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                         apollo_defconfig    gcc-15.1.0
-m68k                        m5407c3_defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                      bmips_stb_defconfig    clang-21
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250628    gcc-8.5.0
-nios2                 randconfig-002-20250628    gcc-9.3.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250628    gcc-8.5.0
-parisc                randconfig-002-20250628    gcc-12.4.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                     mpc5200_defconfig    clang-21
-powerpc                         ps3_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250628    gcc-8.5.0
-powerpc               randconfig-002-20250628    clang-19
-powerpc               randconfig-003-20250628    clang-21
-powerpc                      tqm8xx_defconfig    clang-19
-powerpc64             randconfig-001-20250628    clang-20
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250628    clang-21
-riscv                 randconfig-002-20250628    clang-16
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250628    clang-21
-s390                  randconfig-002-20250628    gcc-11.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                         apsh4a3a_defconfig    gcc-15.1.0
-sh                         ecovec24_defconfig    gcc-15.1.0
-sh                     magicpanelr2_defconfig    gcc-15.1.0
-sh                          r7780mp_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250628    gcc-15.1.0
-sh                    randconfig-002-20250628    gcc-9.3.0
-sh                           se7780_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250628    gcc-8.5.0
-sparc                 randconfig-002-20250628    gcc-12.4.0
-sparc64               randconfig-001-20250628    gcc-8.5.0
-sparc64               randconfig-002-20250628    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250628    gcc-12
-um                    randconfig-002-20250628    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250627    clang-20
-x86_64      buildonly-randconfig-002-20250627    clang-20
-x86_64      buildonly-randconfig-003-20250627    clang-20
-x86_64      buildonly-randconfig-004-20250627    clang-20
-x86_64      buildonly-randconfig-005-20250627    gcc-12
-x86_64      buildonly-randconfig-006-20250627    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-18
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250628    gcc-11.5.0
-xtensa                randconfig-002-20250628    gcc-10.5.0
+It is compatible with multiple LED controller families:
+- Titan Micro Electronics: TM1618, TM1620, TM1628, TM1650
+- FUDA HISI Microelectronics: FD620, FD628, FD650, FD655, FD6551
+- i-Core Electronics: AiP650, AiP1618, AiP1628
+- Princeton Technology: PT6964
+- Winrise Technology: HBS658
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Key features:
+- Write-only display support: This initial submission implements display output functionality. Most devices do not wire key scanning lines for input, so key input is left for potential future extensions if needed.
+- 7-segment display support: Full integration with kernel segment mapping helpers for driving standard 7-segment digit displays.
+- Flexible display configuration: Device tree bindings allow board-specific configuration of digit grids, segment mappings, and matrix orientation to accommodate different PCB layouts and wiring designs.
+- LED subsystem integration: Individual display elements (icons) are exposed as LED devices, enabling use of LED triggers for automatic control based on system events (network activity, USB connections, etc.).
+- Dual protocol support: Supports both I2C and SPI communication, with the protocol selected based on device tree configuration.
+
+The device tree bindings provide properties to describe board-specific wiring and display layout, as the controller itself is agnostic to the display configuration:
+- tm16xx,digits: Array defining which controller grids drive digit displays.
+- tm16xx,segment-mapping: Mapping of 7-segment display elements to controller outputs.
+- tm16xx,transposed: Flag for displays with swapped grid/segment orientation.
+- Individual LED definitions for icons and status indicators.
+
+Tested platforms:
+- Multiple TV boxes with Amlogic, Rockchip and Allwinner SoCs.
+- Various display configurations and controller variants.
+- Both I2C and SPI communication modes.
+- LED trigger integration for automatic status indication.
+
+Dependencies:
+- Requires CONFIG_NEW_LEDS=y and CONFIG_LEDS_CLASS=y
+
+Optional LED trigger modules for advanced functionality:
+- CONFIG_LEDS_TRIGGER_TIMER for blinking elements.
+- CONFIG_LEDS_TRIGGER_NETDEV for network activity indication.
+- CONFIG_USB_LEDS_TRIGGER_USBPORT for USB activity indication.
+
+User space clients, including display-service and display-utils for testing and integration, are available at: https://github.com/jefflessard/tm16xx-display
+
+Andreas Färber (2):
+  dt-bindings: vendor-prefixes: Add Fuda Hisi Microelectronics
+  dt-bindings: vendor-prefixes: Add Titan Micro Electronics
+
+Jean-François Lessard (6):
+  dt-bindings: vendor-prefixes: Add Princeton Technology Corp
+  dt-bindings: vendor-prefixes: Add Winrise Technology
+  dt-bindings: vendor-prefixes: Add Wuxi i-Core Electronics
+  dt-bindings: auxdisplay: add Titan Micro Electronics TM16XX
+  auxdisplay: Add support for Titanmec TM16xx 7 segment display
+    controller
+  MAINTAINERS: Add entry for TM16xx driver
+
+ .../bindings/auxdisplay/tm16xx.yaml           |  153 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   10 +
+ MAINTAINERS                                   |    6 +
+ drivers/auxdisplay/Kconfig                    |   18 +
+ drivers/auxdisplay/Makefile                   |    1 +
+ drivers/auxdisplay/tm16xx.c                   | 1305 +++++++++++++++++
+ 6 files changed, 1493 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/auxdisplay/tm16xx.yaml
+ create mode 100644 drivers/auxdisplay/tm16xx.c
+
+-- 
+2.43.0
+
 
