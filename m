@@ -1,76 +1,78 @@
-Return-Path: <linux-leds+bounces-4919-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4920-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0421FAECCAE
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Jun 2025 15:00:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29519AECCB1
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Jun 2025 15:00:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9558B1721B9
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Jun 2025 13:00:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AEAC18947A5
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Jun 2025 13:00:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29347223DFB;
-	Sun, 29 Jun 2025 13:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA8D422488B;
+	Sun, 29 Jun 2025 13:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nj6oEyAT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3YrMbkM"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E18223338;
-	Sun, 29 Jun 2025 13:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1738022370F;
+	Sun, 29 Jun 2025 13:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751202007; cv=none; b=BQxhT2VFA/xNkc0Iu+qCAJfWx34muEQNcLqMTMw38jSNYNXPIZXr5HvwuxKbtRJOd8OumUDJ9EYFgajKDqaSivexw4FrugDehIF7kgWN9a+i56JbPOFAwhGlq2U/GxT4AskqT1eKtheFxMqDTprCM7rkZ1XZl7s5Jj+w4io+PZg=
+	t=1751202008; cv=none; b=R9fYg6FYaAJSBGLhE5mX2erI80mWDzVlMh9fyoP9umSXIBymvQv34cdiTpMoaNUukd2U1QzLDyDptmuFBsH6i0vE9C8/hR2f8zK0uhU0WdPFlu4cVucQLXyJEk1H3xdm3yDjcJZx36uJnnXn8w1IBuaj9bNLg4P+s+JriC2MefI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751202007; c=relaxed/simple;
-	bh=ptQmvEJ8Tuk9psyjbLz+1JBidVCNcdBOgITLBL4kJyU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WJuhpwzAcy46h65JP6W/FLPA+ZrplpbK6AY/cXof1Ae9hgA64a9bUdG0l6BvYr7qfWZNvHWSKnUkkU8uiPuNeaZBEb0YpWrCMONd2P36p540vwhLTKfsaNf9mJE+W46WX++/nZaoQUESuwL7V5hGTIUR7UQBmDqTGUnGN0muhho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nj6oEyAT; arc=none smtp.client-ip=209.85.222.172
+	s=arc-20240116; t=1751202008; c=relaxed/simple;
+	bh=K+WEFJjjIWvHspQTmC84LVv6AkmYWMvLRVPGaxC35mA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ugFVcp5YhiAO+eVi1CB9HsHCio4oifPXAsIBui8EJCk4pg3hVKXyAYpEc5jh0FXrkklDRq7YkycsWPfzhJpyjP15MGxLBpsHkMvc6dpScxxBGgHyQkBwYoR6HydbO/V6Dz0eMQ4xOQRUiISFuKg9/MankxbhzBK2OPoYtNxPnAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E3YrMbkM; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c5b8d13f73so121239985a.0;
-        Sun, 29 Jun 2025 06:00:05 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4a58f79d6e9so51249111cf.2;
+        Sun, 29 Jun 2025 06:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751202004; x=1751806804; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ptQmvEJ8Tuk9psyjbLz+1JBidVCNcdBOgITLBL4kJyU=;
-        b=nj6oEyAT3qirBbRGpasdWrJch3H6FGXs8TKgr+5MElmF2wve3Z+yqFFH5CmI40kyUo
-         QcIHvgOaFzJzr1B2fgj7WNNiYhfIl3KFXSj5N02HhV0bdnL4Aay7qc6g5DmzGf3g2XNv
-         yqyN4qdTBZrIfWaxc+B4ZrWJgXkJtT2bsu7WW4nyxNjaEpz0f3rXzF04jADL43j7JVfZ
-         cO/vo2Ozb1tJX5oj0ZbbUcfSp15ATtO9H+wVW4Y2eF0E7grKT420nLmTa04R14GX7QR0
-         IMhc5e8EXH+r5LM2mZdB40sLxQIgloO6rlotK9CpFMaqgrvuDw5qkVk9Oxr1ml6W7Ppw
-         aJxg==
+        d=gmail.com; s=20230601; t=1751202006; x=1751806806; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TVmynuRCoUKul3boZbYZPMM1R7E70lXz34Kw3eLlkLw=;
+        b=E3YrMbkMiRaDdYBXGIDlFLJ7ABu4ss3GwFk9chVMwWfviMF4vHe7chPDOBcS08d7Xt
+         GfWg0QHE7o8Yn8RkDKsslLAB+dMu2Gt1h/NTIk5p1jHKHn/W2vrb8jCvPH49utMjNNXO
+         F2UZHFZOQjkVlppjjTCoOfVYeRV1Pks3kPdhbgfG+G9khsnvFyJgpIr9q6VdEaPICcHx
+         oJER1wWkyuztqpV5U3Jcrxi3p3GD86ypr7BAtjulwYnRDI2HJV9YVF8P5KjvINA3CYfx
+         O7l9mh9nj/VMv614iF9xWkEfzSHumTGa6eMv9mZKU7boQ7PJX7LDY06O/hnAtqGigMRj
+         Twag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751202004; x=1751806804;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ptQmvEJ8Tuk9psyjbLz+1JBidVCNcdBOgITLBL4kJyU=;
-        b=I6pZCKmtyVZLsThh6IQBYF4Gj2+qsoguiY1j6DBTNTkcojQ7PzsiX+6xwc2FkpVvT0
-         3C8kZSUFpETBEYeoGwyrd6eRpcsAteJSgOarvvswUuJMiZC2LcaeR4MTr37WThpccEuj
-         FEq/GnBuThESK92aDyBw6v4DWPbcivDrPWH06862AOKd33vu6aH9+XNn9gvvTsLt+tuY
-         QOiNlYccJOxoAFCfVMknzvYpipws427mvpMUqv11iRzk9kKm5ni5AF9fTuqZemGY9XT6
-         0GWHfj178Q+5wjpqj3vTeXggm7FIaARyt9Fw0VFa9ZXPRWaBCmLqwOH0mDRbVNx+93UV
-         Asqw==
-X-Forwarded-Encrypted: i=1; AJvYcCU3lH7WJJw8u5UeTqtZukwhunqhCK0JQ+fkoVBKKLCUa3FYZiPVYz8+e3Ul/cnXk2ukXePxaGzo60e8@vger.kernel.org, AJvYcCVlT7ebWZOPOwYCI1sf3KAMQXup6x58OZuimO6MN85f73MJRt2AWSmN8gIvSwsBdjVPDcIPTRhQYYgnJbNY@vger.kernel.org, AJvYcCWJ7QxLfVEa3eBDpWe/Th6KxHh62HmlWwY0ztE+wgwv+szCXvbvCMKYGN9eAEHRYLItOvvxNZhi0dxYMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxA9JoAyEGSWGYRF8FRkbOIePnSdmaDPN98GHzHf7/sh+7lfu7
-	bUeY5jl4hb52GiZYToBIKCKYGGpmsNUQgsQNUN9jalDWNycAUXPB0Yj/
-X-Gm-Gg: ASbGncvpNunNcOEFReDQCWUl+7BVg9ZDDx8PXBFJ6tXYCVXnhFe3SZg64Bd4712Tldh
-	vP8izYr7932z5i/POvpQJwThCoTqE4sUbdBaS40FMRZyQp6Q2TL+fqFSXV8olWu9BknnT+Hkk2s
-	rT0KW7EEzXxDjWDu3HKi3jTGpeRYoMv6k90iCqo5oKtcACL8Fmnw7/2dUvQWoe2sGakLj2V0yRt
-	I+uPJte8cF0WV28IiVYXIh+9R6BbmHKZ2dDhZZmiEqNDsZSqY2IGjNzHrUyFd7E3L0BfN1/kTRw
-	vQxSob2ILMvI/75Xy7yU54BcXksIURonWc1zWyL/jrJVEiHO+Q6QVb1o9joyyD7tOLpCdk1a9Ts
-	dmacb9IiJBX976KSjNibnnY8d1KWtOaSH
-X-Google-Smtp-Source: AGHT+IHwg44Tj8IfSX1MsET4EeUghLP5H8dAFgQqh9PFRCcXn8lY/kB3thBeO6dr8xDoGxMgTjbxog==
-X-Received: by 2002:a05:620a:3728:b0:7d3:f883:6047 with SMTP id af79cd13be357-7d4439ca3e3mr1466751985a.51.1751202004067;
-        Sun, 29 Jun 2025 06:00:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751202006; x=1751806806;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TVmynuRCoUKul3boZbYZPMM1R7E70lXz34Kw3eLlkLw=;
+        b=TFLdBoQeeDEmCk9lsFEukt41aacbV22O89QYSegS2M2UcospgDKBK1ngjF4DVbLVuy
+         JUGdvi6ysf6MSiS7BgIoddLO2cedhkE7Il+Xk+qzuKXA7erJoBl7WFlCmGN9IfoZSWBS
+         W8PS+X+qqOxWmQiTbSaDDAlL1CICm1XvB9hb/15a446+SajR7o7+FFzUXgcYo+3ePTDF
+         n0Wzj5Scdnnvlp9rfd9DPiS1Sn2mAO0/mu3U/gu7JmUpH9HmudwqDoLN4LefJ721f/Vr
+         lovTti9aHCU+jvtZ8xHWiQBaFpnvx+omdTjT6upasyR3tk6+kF6oAE/gE/Fg1EH/KNV2
+         2Mcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNun44zuLUJfFoZyWgkxHb3Ev4y1KM6axI7SDzTMnbw8gpM+Jqi4XFZTFd8cTR2lKgK2Sb5CsBxnpI@vger.kernel.org, AJvYcCUsYTta0dx+hsHuDvFK1KQPjjZDN3iSdAoLJm7MJXpju6UF0Jujf9gJUUNupiGNVXkDKsgkwGtESFUtZm7e@vger.kernel.org, AJvYcCVZlR1tY9sJrhdrrSQj7aOLkMsUZUzbNjJVGgwIWFL/7sXAbpPifT8CNCPlfSj/Z3jnlmSXz+gx6/vMCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8nqqBIqWlocCzGEm6VvVUMA7O7Z2yWzTE5KPUL+iD1jLPZfbu
+	bgE3ahBVLapoRwHpx4wNFNwKld0zRMqa1kDCEnMhsAvjg/dnWxvJlJ9x
+X-Gm-Gg: ASbGnctsqMM/Cy6UJdgKESnxnJ7wGUPHBrTdGRsNoiCi2RS+R6IsusoYCwWxLcdE9oN
+	Yyp94OFQL677LxEqrGMBAI4lkJMV3RUaxzEViL7q4qmrOcMyzWSj+NOspRLuDDvXFq04Tf77HH/
+	c2OMFawwjYflVCT4g/Oc3rwZz4UAyctn3S9Vcsi8TizSM3hJHCyabYTzZPCYaubvocyiB8/9aJt
+	Pd4UP1sS8a4lzbUd4zEPwjWJahoeNrjaKh8G59Os5EJJ7nqql8pe9K6BeCJz8PLJysp/46etEY7
+	bx4f9S8jsiIlvkFLug42lpxPzNhJlr2zKusntjvFmtMwa7z/VNOt/UvmXGBa2smEn1Fh9g3ouhV
+	zuqYDPCgup3lJc4ybVbEQ9mlISDIH2jrw
+X-Google-Smtp-Source: AGHT+IE/3brjX7yxclIrmWbxkpUjIQt8qdYLuN+1INlqRRBTxWp2u29+VyO1TAa6r4JrEXMQwsawkQ==
+X-Received: by 2002:a05:6214:4348:b0:6fd:7577:cee9 with SMTP id 6a1803df08f44-70001c5337fmr160635236d6.2.1751202005823;
+        Sun, 29 Jun 2025 06:00:05 -0700 (PDT)
 Received: from localhost (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d44316d85esm431599585a.35.2025.06.29.06.00.03
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d443201b67sm431628685a.61.2025.06.29.06.00.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 06:00:03 -0700 (PDT)
+        Sun, 29 Jun 2025 06:00:05 -0700 (PDT)
 From: =?UTF-8?q?Jean-Fran=C3=A7ois=20Lessard?= <jefflessard3@gmail.com>
 To: Andy Shevchenko <andy@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -86,15 +88,18 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Paolo Sabatino <paolo.sabatino@gmail.com>
 Subject: [PATCH v2 0/8] auxdisplay: Add TM16xx and compatible LED display controllers driver
-Date: Sun, 29 Jun 2025 08:59:49 -0400
-Message-ID: <20250629130002.49842-1-jefflessard3@gmail.com>
+Date: Sun, 29 Jun 2025 08:59:50 -0400
+Message-ID: <20250629130002.49842-2-jefflessard3@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250629130002.49842-1-jefflessard3@gmail.com>
+References: <20250629130002.49842-1-jefflessard3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 This patch series introduces a new auxiliary display driver for the TM16xx family of LED controllers and compatible chips, widely used in TV boxes and embedded devices.
@@ -144,4 +149,30 @@ User space clients, including display-service and display-utils for testing and 
 v2:
 - Fixed duplicate label in dt-bindings examples
 - Renamed dt properties prefix to match titanmec vendor prefix
+
+Andreas Färber (2):
+  dt-bindings: vendor-prefixes: Add Fuda Hisi Microelectronics
+  dt-bindings: vendor-prefixes: Add Titan Micro Electronics
+
+Jean-François Lessard (6):
+  dt-bindings: vendor-prefixes: Add Princeton Technology Corp
+  dt-bindings: vendor-prefixes: Add Winrise Technology
+  dt-bindings: vendor-prefixes: Add Wuxi i-Core Electronics
+  dt-bindings: auxdisplay: add Titan Micro Electronics TM16XX
+  auxdisplay: Add Titanmec TM16xx 7-segment display controllers driver
+  MAINTAINERS: Add entry for TM16xx driver
+
+ .../bindings/auxdisplay/titanmec,tm16xx.yaml  |  210 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   10 +
+ MAINTAINERS                                   |    6 +
+ drivers/auxdisplay/Kconfig                    |   18 +
+ drivers/auxdisplay/Makefile                   |    1 +
+ drivers/auxdisplay/tm16xx.c                   | 1305 +++++++++++++++++
+ 6 files changed, 1550 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx.yaml
+ create mode 100644 drivers/auxdisplay/tm16xx.c
+
+-- 
+2.43.0
+
 
