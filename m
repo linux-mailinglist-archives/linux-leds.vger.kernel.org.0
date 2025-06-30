@@ -1,147 +1,124 @@
-Return-Path: <linux-leds+bounces-4937-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4938-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FABAED8AD
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 11:27:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C662AED8E8
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 11:40:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B9353AF83F
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 09:27:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02A797A3BBD
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 09:39:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B418D242928;
-	Mon, 30 Jun 2025 09:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 974E224678A;
+	Mon, 30 Jun 2025 09:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GN5vjU4y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NDg/VS9m"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89653204C0C;
-	Mon, 30 Jun 2025 09:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FBAC8CE;
+	Mon, 30 Jun 2025 09:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751275649; cv=none; b=Jm9HN3QVtPt0SgmGhMs2UsJH543kmx9YkPif2dzCm19xXrWH4sRRu0QzxLq7eb85e1nk/Bs+JPi0vXFFCJLi/eqhhjUgqwe74FKdoEUnAcYZfQGRw97XLlDK5vrLsIgtYdHYoj0yiR0+32oTGvPw7K9zJABV23TzkisA3YGyn/w=
+	t=1751276418; cv=none; b=ryKNznM7KBmIhduQB/TezVy8ltUREmRmULO77guijTYM2JZ+Quk/R7HU+lA8JsVG3p23bWJZUPE5x8+AXStIF2fMbAG8hdtMhhGPHGEhuw63QrQyD3jpBvCzZewp0GeNGqTbS8YowlcZS5pvjTqWelIA3u4rC0LguAz/xxNbz2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751275649; c=relaxed/simple;
-	bh=zm7sSwbBU3KTdyOU6aWVyesge/OMlN/HYnC/SZo9Bd4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZDIvqGcx7J8LsEeQWqalbhvjwyDL5FnEFSo55Gchf24+aKbefvNZVwUYkV1SEFhQpIsAjMf5y1fvOECKR1vJlqtUiyNVTJcnM9ub0PhZ/KsyhEduypSV+nbwoQgI0Wg6fCgByP/6/poi5VUhDnuXKX3/8lHMpuIvFZq64JybF7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GN5vjU4y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DE7C4CEE3;
-	Mon, 30 Jun 2025 09:27:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751275649;
-	bh=zm7sSwbBU3KTdyOU6aWVyesge/OMlN/HYnC/SZo9Bd4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GN5vjU4ysAIOSu7LO3VoejhyDUyXelI1owizjJY9ZMKYIq5WLlTzhfije5jOGPnNy
-	 V/Knp/owc/fT9Q3quvE/iKWW0hP8lblYa03SCv1IVdawBwZcL1jUDD95Io20U0JN2T
-	 LCLpXSBtPVlJWm4W1p0qJAGLpg2enNorqyycUrh9/J9RV7lBMKXoFPlAd9WoSgCgmC
-	 2ZqjpeBMebbe+3BNtbGyTY+Qe20Kc7B5RHiBVK4Kjcjy7BzL9FU/31wXK7pRKFA3zA
-	 xVeI7CN9xXF0KFmC0qT6/X+kGvSqmt5IhBG7xTA2RrgutHLoPEQDKGeaE6YU03OKn2
-	 0hWDfgyc5stvQ==
-Message-ID: <57f0289a-7d82-4294-a1dc-c6986da0c5ce@kernel.org>
-Date: Mon, 30 Jun 2025 11:27:21 +0200
+	s=arc-20240116; t=1751276418; c=relaxed/simple;
+	bh=a8BIoSpJulmP8dEpPRPih9G6XOFwJxzxZhEGBuOEH5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vC8iG4mpH6B/36thZAqDjov+2mNypp65IvQgxoMgQAFULEsIdSRTAmct0iY8gCplFTuHjGoZ1wVgbMjwhN2oZ/5IvXRP2NFfw9ojQlvFugjyMpkS1hWQW1GNctc8X43LPIObLcjx8v9ejEm+CFLU/vxi0IOIvJEzimEJ+ueG2fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NDg/VS9m; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751276417; x=1782812417;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a8BIoSpJulmP8dEpPRPih9G6XOFwJxzxZhEGBuOEH5w=;
+  b=NDg/VS9mLUFKNmcnFIijs2tEFsZpp2KS09GOGTawM72jZJ6vu4wTIvsT
+   tTsWQoHnH7wIgc5xOV6IVKWz6WKBE1I4dDYwty80+kgAue2oCJDXfE0SJ
+   gVgWjrLoAIJhHjuZtnJ7PyU4gbSFxXFKpJCu9MOY8GZukAA20XWs0eR8C
+   BcZXJi/kO2foAkCPiGOs4GGcJPhvLobRXs6TGQj3GMyUHKHh4JiCKC+E7
+   ewXkUY4Rb7NUanEBERlunnrxosVrPkBbUyPVMmkUUFCvfHF0ydJRmno+B
+   AwSHnG0w1trmpB5NLT+o/SCq7FgVkphbn/d0l4yScqddyt2Qx7Rq5PvTt
+   g==;
+X-CSE-ConnectionGUID: Bw8pxgEsRjyngDMwRlq5QA==
+X-CSE-MsgGUID: MPLYHB1aQz69K0mXd5Zidw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="63752390"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="63752390"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:39:11 -0700
+X-CSE-ConnectionGUID: UcvK3hX3Q4C313NWFyiBjw==
+X-CSE-MsgGUID: cTlKUx1qTx6DRggmgChIzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="154126324"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa010.fm.intel.com with ESMTP; 30 Jun 2025 02:39:09 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 11D681FE; Mon, 30 Jun 2025 12:39:08 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Lee Jones <lee@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Pavel Machek <pavel@kernel.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when filling default_label (take 2)
+Date: Mon, 30 Jun 2025 12:39:06 +0300
+Message-ID: <20250630093906.1715800-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] auxdisplay: Add Titanmec TM16xx 7-segment display
- controllers driver
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, =?UTF-8?Q?Andreas_F=C3=A4rber?=
- <afaerber@suse.de>, Boris Gjenero <boris.gjenero@gmail.com>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Paolo Sabatino <paolo.sabatino@gmail.com>
-References: <20250629130002.49842-1-jefflessard3@gmail.com>
- <20250629131830.50034-1-jefflessard3@gmail.com>
- <47d24e31-1c6f-4299-aeaf-669c474c4459@kernel.org>
- <aGI8a4iaOpN5HMQe@smile.fi.intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aGI8a4iaOpN5HMQe@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 30/06/2025 09:27, Andy Shevchenko wrote:
-> On Mon, Jun 30, 2025 at 08:12:16AM +0200, Krzysztof Kozlowski wrote:
->> On 29/06/2025 15:18, Jean-François Lessard wrote:
-> 
-> ...
-> 
->>> +	display->leds =
->>> +		devm_kcalloc(dev, display->num_leds, sizeof(*display->leds), GFP_KERNEL);
->>
->> Wrong wrapping. Use kernel style, not clang style.
->>
->>
->>> +	if (!display->leds)
->>> +		return -ENOMEM;
-> 
-> Just wondering how .clang-format is official? Note some of the maintainers even
+GCC compiler v8.5.0 is not happy about printing
+into a too short buffer (when build with `make W=1`):
 
-First time I hear above clang style is preferred. Where is it expected?
-I assume clang-format is half-working and should not be used blindly,
-but fixed to match actual kernel coding style.
+  drivers/leds/leds-pca955x.c:696:5: note: 'snprintf' output between 2 and 11 bytes into a destination of size 8
 
-> prefer (ugly in some cases in my opinion) style because it's generated by the
-> clang-format.
-> 
+Unfortunately this is a false positive from the old GCC versions,
+but we may still improve the code by using '%hhu' format specifier
+and reduce buffer size by 4 bytes.
 
+Fixes: bd3d14932923 ("leds: pca955x: Avoid potential overflow when filling default_label")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202506282159.TXfvorYl-lkp@intel.com/
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/leds/leds-pca955x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
+index 42fe056b1c74..70d109246088 100644
+--- a/drivers/leds/leds-pca955x.c
++++ b/drivers/leds/leds-pca955x.c
+@@ -587,7 +587,7 @@ static int pca955x_probe(struct i2c_client *client)
+ 	struct pca955x_platform_data *pdata;
+ 	bool keep_psc0 = false;
+ 	bool set_default_label = false;
+-	char default_label[8];
++	char default_label[4];
+ 	int bit, err, reg;
+ 
+ 	chip = i2c_get_match_data(client);
+@@ -693,7 +693,7 @@ static int pca955x_probe(struct i2c_client *client)
+ 			}
+ 
+ 			if (set_default_label) {
+-				snprintf(default_label, sizeof(default_label), "%u", i);
++				snprintf(default_label, sizeof(default_label), "%hhu", i);
+ 				init_data.default_label = default_label;
+ 			} else {
+ 				init_data.default_label = NULL;
+-- 
+2.47.2
+
 
