@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4940-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4941-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F94AEDB4C
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 13:39:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DF5AEDCA8
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 14:24:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48DF61898996
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 11:39:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98C441897614
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 12:24:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09CEC2580CA;
-	Mon, 30 Jun 2025 11:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E14288CA6;
+	Mon, 30 Jun 2025 12:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdZ4HX9o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FlZPSVPD"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D150121A455;
-	Mon, 30 Jun 2025 11:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C676A1DFCE;
+	Mon, 30 Jun 2025 12:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751283577; cv=none; b=LwqPuGC7kA7Mh3pLyYSqHX6v7bQyMUW7JhxncKH6shh5WYbR/KG3FOSPJ/WQlMmy+8Z8w8M1tTd2lV8TXE7P3rqFBrf8zi2eJkt84I55UBlYW2AwTnQ3qJR35ACDGJWXjdosnvupRtyetTWcYAILhG1Dk1UXqcDJ99qBFwZDohM=
+	t=1751286270; cv=none; b=ZqcAYh3+mP0IaXbSoy+Km/q/6JftpqB1nfna0DRBf2x5VQbse08Xu6/SKaMkZCgSN189T1uEpesZsrxirUL+QgpkDnGlPN14vb6aDGh9jHPu3HQ1tHw5KUDCD8eCWhUM24hkBn8VmTWrhq5Z37yuOoiGwulqIQDiZRVVJVThMnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751283577; c=relaxed/simple;
-	bh=cw9JAhodZf38QL/wthjad8TavY/xMomZdphnAqT1w1Q=;
+	s=arc-20240116; t=1751286270; c=relaxed/simple;
+	bh=4IItqOEB5sdoqW02jXfufdmvY8F+0X2YA3XbJioRhu4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VA8d+n1m4dUjN/4vZkedp6VQU23QnLS8md8OwiWysniclX4BTLOf0SnozM2AmWY46hA4ir6t8Y7L7JUqpgx/mR77ws6Jm/Rq+v6pI84tei7KMpXhX9vsuBmRYuRe8/AOXZTer/gpyLVdwzMims1rfxkimHavMltt5tZBYvXiw2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdZ4HX9o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 673F5C4CEE3;
-	Mon, 30 Jun 2025 11:39:28 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=M0Vw1r1QnZ1zGuULscE1iPtgwEah9TFPW/GreOUdx5hpX+hgiUiwlXUHUWMTt0nIcb1e0OGi9z9H+k6LmjdPgi8KFvdufBQ/IUcp1LWHBCnVqSb0/pvW4vH6Xg0AIJEeIxOdwTk32mi8K8qSb9IgPYZiracFVWW5E80ZIk2GZg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FlZPSVPD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 885EDC4CEE3;
+	Mon, 30 Jun 2025 12:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751283575;
-	bh=cw9JAhodZf38QL/wthjad8TavY/xMomZdphnAqT1w1Q=;
+	s=k20201202; t=1751286270;
+	bh=4IItqOEB5sdoqW02jXfufdmvY8F+0X2YA3XbJioRhu4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SdZ4HX9oR9A2x5iEhwygY8CwQdJxEaC7Qb/0W4FPM1vfieOTxOrRI6K+GwOmsUWAO
-	 AGG1bu7AtKL7uc2Y2e+yRDfi9JpjoFoYKVxrxm3uqk7iMndwmvTLVqjLks/ks7LtQf
-	 J/ExCMk6EyxRtkfpbm9S4b99xrcyyB60yRxV7QQGxnm1GPjsNBeUMF9uMEZPxw+YzL
-	 0YpviiIrmrU8KZw0RRaWhV0WCSgBJrqS8kcuqHPB2XwqepbjZCNNzbXwrcgc48dSb/
-	 DQANhYp8VVaE1jryQHHtQgMDiefr2iMMQNSdmeeR97F+BrDWHoSwKYAtz/ohRunziP
-	 nS/y1xWza3Ygg==
-Message-ID: <532c88b8-d938-4633-ac09-12bb3080a023@kernel.org>
-Date: Mon, 30 Jun 2025 13:39:25 +0200
+	b=FlZPSVPDMoxzc4FY6W6HO2uY4fBLU9snrWdIUxsk/bWoLHhXqkMd8NI1pAtxTB72P
+	 NzlK4T5XXbebFF35ZkVFMscivyYf5TVc4Os6RRAFfboBOlg1meJkgRLJcAMImm6A11
+	 6EXxTvQPbAZLIDyXPSEfLgRbm+2soklJ6eZMk0uxHkuBmgEhZhoVRRemwDInwM6wms
+	 vGwTN7lLw04ufc5prQmpO/exrBYdq34iUx4Fv8m3R44QqrmLHkXEHw6u+PQEmhvr2K
+	 XymO5nncRxOxpEwE+gP5IM7CrYd/CWUFgSQNz1rLb/zGgqghEhYoElpR/H3NrwH8aV
+	 wUye7E4bAYbkw==
+Message-ID: <779ee1b0-d624-4189-8452-6e27dfcf2684@kernel.org>
+Date: Mon, 30 Jun 2025 14:24:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,25 +50,22 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] auxdisplay: Add Titanmec TM16xx 7-segment display
- controllers driver
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, ojeda@kernel.org
-Cc: =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v2 5/8] dt-bindings: vendor-prefixes: Add Wuxi i-Core
+ Electronics
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, =?UTF-8?Q?Andreas_F=C3=A4rber?=
- <afaerber@suse.de>, Boris Gjenero <boris.gjenero@gmail.com>,
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Boris Gjenero <boris.gjenero@gmail.com>,
  Christian Hewitt <christianshewitt@gmail.com>,
  Heiner Kallweit <hkallweit1@gmail.com>,
  Paolo Sabatino <paolo.sabatino@gmail.com>
 References: <20250629130002.49842-1-jefflessard3@gmail.com>
- <20250629131830.50034-1-jefflessard3@gmail.com>
- <47d24e31-1c6f-4299-aeaf-669c474c4459@kernel.org>
- <aGI8a4iaOpN5HMQe@smile.fi.intel.com>
- <57f0289a-7d82-4294-a1dc-c6986da0c5ce@kernel.org>
- <aGJe2krBnrPXQiU6@smile.fi.intel.com>
+ <20250629130002.49842-7-jefflessard3@gmail.com>
+ <CAMuHMdW+vGr-KyvPr84qr_k1sJV88SFn+oF_oi8_MKJkbyHXbg@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,65 +111,34 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <aGJe2krBnrPXQiU6@smile.fi.intel.com>
+In-Reply-To: <CAMuHMdW+vGr-KyvPr84qr_k1sJV88SFn+oF_oi8_MKJkbyHXbg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 30/06/2025 11:54, Andy Shevchenko wrote:
-> On Mon, Jun 30, 2025 at 11:27:21AM +0200, Krzysztof Kozlowski wrote:
->> On 30/06/2025 09:27, Andy Shevchenko wrote:
->>> On Mon, Jun 30, 2025 at 08:12:16AM +0200, Krzysztof Kozlowski wrote:
->>>> On 29/06/2025 15:18, Jean-François Lessard wrote:
+On 30/06/2025 10:19, Geert Uytterhoeven wrote:
+> Hi Jean-François,
 > 
-> ...
-> 
->>>>> +	display->leds =
->>>>> +		devm_kcalloc(dev, display->num_leds, sizeof(*display->leds), GFP_KERNEL);
->>>>
->>>> Wrong wrapping. Use kernel style, not clang style.
->>>>
->>>>
->>>>> +	if (!display->leds)
->>>>> +		return -ENOMEM;
->>>
->>> Just wondering how .clang-format is official? Note some of the maintainers even
+> On Sun, 29 Jun 2025 at 15:00, Jean-François Lessard
+> <jefflessard3@gmail.com> wrote:
+>> Assign vendor prefix "icore", based on their domain name.
 >>
->> First time I hear above clang style is preferred. Where is it expected?
+>> Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
 > 
-> Documented here:
-> https://www.kernel.org/doc/html/latest/process/coding-style.html#you-ve-made-a-mess-of-it
-
-I mean, which maintainers prefer such style of wrapping. Above I know,
-but it does not solve the discussion we have here - above line wrapping
-preferred by clang and opposite to most of the kernel code.
-
+> Thanks for your patch!
 > 
-> For example, discussed here
-> https://lore.kernel.org/lkml/CAPcyv4ij3s+9uO0f9aLHGj3=ACG7hAjZ0Rf=tyFmpt3+uQyymw@mail.gmail.com/
-
-
-Heh, I read it and two emails earlier and still could not get they
-prefer to wrap at assignment instead of standard checkpatch-preferred
-wrapping at arguments.
-
-> or here
-> https://lore.kernel.org/lkml/64dbeffcf243a_47b5729487@dwillia2-mobl3.amr.corp.intel.com.notmuch/
-
-This is line length, so not the problem discussed here.
-
-
-> or
-> ...
+>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> @@ -694,6 +694,8 @@ patternProperties:
+>>      description: International Business Machines (IBM)
+>>    "^ibm,.*":
+>>      description: International Business Machines (IBM)
+>> +  "^icore,.*":
+>> +    description: Wuxi i-Core Electronics Co., Ltd.
 > 
->> I assume clang-format is half-working and should not be used blindly,
->> but fixed to match actual kernel coding style.
-> 
-> That sounds like the case, at least in accordance with Miguel.
-> 
->>> prefer (ugly in some cases in my opinion) style because it's generated by the
->>> clang-format.
-> 
+> This sounds a bit too generic to me.  What is the domain name?
 
+Good point. icore.com should be but obviously it points somewhere else,
+so this does not follow ticker / domain name style.
 
 Best regards,
 Krzysztof
