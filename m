@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4930-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4931-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD93AED446
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 08:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAEEAED469
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 08:19:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 946143A18B2
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 06:12:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EEA93A6B81
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 06:18:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11C5D1E1DE5;
-	Mon, 30 Jun 2025 06:12:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC821D516F;
+	Mon, 30 Jun 2025 06:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZQR96tQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lgkcU0sU"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BBF126BF1;
-	Mon, 30 Jun 2025 06:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4400539A;
+	Mon, 30 Jun 2025 06:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751263945; cv=none; b=IJcyM/wOt0VuXXymAEy8Pz8FdaRIMgbrz8YoUNcTk5tFbTGslI2d6+j23j0g65s6ncquF+6Vh02XsJj9IoQqkev2KUtU94EM938LtRiAOgNayixI6O+/b2ZyuiLS/qXl2FpcmJyQG9YaaDb17yZAyUxkbLotUONII3/v7QOvqe8=
+	t=1751264359; cv=none; b=ayjp19tOAV07i/57Sca0oZ1ZCHMKVoBZxFwe8yE2HuDPlUPsMzX1Ctcn9iVxzI2OaBMXdPo3DBBRSlnLxWqJSkuzkqPLbeKryqgXYMmssrUOPs+We5USAFQyvEQrsxZBee4KwyonBHaqqnWwTcK4yeJqa8E9iA/jBUJVLwehB1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751263945; c=relaxed/simple;
-	bh=OXC6fK+jEIvZa/zjiKJX+9r79IRQwYdqFYJbvN1VWCo=;
+	s=arc-20240116; t=1751264359; c=relaxed/simple;
+	bh=YNi3rUKfDL2d2tPhS2MhabwQpR8siG4/oYCgsTm5bYo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ti79qg+ANFJ9gZCrW3ycdjyxH+IqjQXoIWLNI7fwS5JQuOlg1c25I+J44dbBuRggWkBIBX4AnPv+9nMhsxRaVCpxJXGOYVTvK9v3xrDbdr+klG0omUy3ioTWBepcubir1D++WI9lwV0lHZTk+tItNHlvc62twxSDfCjdfMXxp/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZQR96tQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD496C4CEE3;
-	Mon, 30 Jun 2025 06:12:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=l0q3zMyr1gqs65rWiW5n/VzoHh+YU1UbEE4cESPSLkrEG2dNloCu/YJ4X/K8PR54YsaO82Xjh6BmyT9v8z8Cqyn1egLXGSHpfGN9wQZ5MJKrrznJtGerj+rA6mWXT0gBAPgZ9arm868OAFsHleSE9skfglcnUC4SoHimcqw5jVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lgkcU0sU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5D26C4CEE3;
+	Mon, 30 Jun 2025 06:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751263944;
-	bh=OXC6fK+jEIvZa/zjiKJX+9r79IRQwYdqFYJbvN1VWCo=;
+	s=k20201202; t=1751264359;
+	bh=YNi3rUKfDL2d2tPhS2MhabwQpR8siG4/oYCgsTm5bYo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pZQR96tQ5sGHjxlRNA3N18PLGWppp1mtWGMNbWQIdgrkUTE1cxRP+MNQVkmWFB91f
-	 FYv1ydC75ttHhFYhrW2qBbS4y/jpSn7Of1BkC0vmPcryPwW4OW+6zkkUtin1EDcbqy
-	 2TdMXgMMDtOULq4cmGG990McSbxg/03ecRqP+jmrQQNp4AmGfZMuMRYk06IxUOOedG
-	 3XOlfqMAVNFSOQnSBt4HVxc31gTvDFoKsHe4vSvCJNDi9qYFcMJjIGkH/xn84AXqzO
-	 WEa408T2M0NP6JtWr8OLPHeXQ6gdWHAQGC+iFTFPOoWS+0WHAUmlPpTPrmKrKHowFL
-	 VIBL2JS+cz/aQ==
-Message-ID: <47d24e31-1c6f-4299-aeaf-669c474c4459@kernel.org>
-Date: Mon, 30 Jun 2025 08:12:16 +0200
+	b=lgkcU0sUYoXyWxCed4o3zUj4ahiLewh6LuRhrswOAr9ygHV7k5nffVxrbdOb1o9l6
+	 z4kc019A6hNE6HUVLV4ggLCyekMAZQb7duMHe32dF2TXH3dkxkGGC0HiIccrh5pGIl
+	 g+6bjkjlU3JjYGteO0qJjqcW3uKNeKgEX4+VnLLtpQT+tB+LmanxQEkMV6jdjDVFU/
+	 EoFCiR4PvDOmserHl2ZYrz4YjLEpAoDbrfCes0jG9fhlZ80o3wpkd8IxN7dKZcAo2K
+	 2FkLauR2alPhNQtj8wA2JcZUmif6NJhmlwlHEHfucvS448Wn9avitxB3V2fxF6GLia
+	 NJ+5pxiMbxGnA==
+Message-ID: <d3d8f72a-e4fe-4f85-8ead-6c104aa32893@kernel.org>
+Date: Mon, 30 Jun 2025 08:19:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] auxdisplay: Add Titanmec TM16xx 7-segment display
- controllers driver
+Subject: Re: [PATCH v2 6/8] dt-bindings: auxdisplay: add Titan Micro
+ Electronics TM16XX
 To: =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>,
  Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
@@ -63,7 +63,7 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>, devicetree@vger.kernel.org,
  Heiner Kallweit <hkallweit1@gmail.com>,
  Paolo Sabatino <paolo.sabatino@gmail.com>
 References: <20250629130002.49842-1-jefflessard3@gmail.com>
- <20250629131830.50034-1-jefflessard3@gmail.com>
+ <20250629130002.49842-8-jefflessard3@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,444 +109,282 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250629131830.50034-1-jefflessard3@gmail.com>
+In-Reply-To: <20250629130002.49842-8-jefflessard3@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 29/06/2025 15:18, Jean-François Lessard wrote:
-> This patch introduces a new auxiliary display driver for TM16XX family LED controllers and compatible chips:
-
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+On 29/06/2025 14:59, Jean-François Lessard wrote:
+> Add documentation for Titanmec TM16XX and compatible LED display controllers.
+> 
+> This patch is inspired by previous work from Andreas Färber and Heiner Kallweit.
 
 Please wrap commit message according to Linux coding style / submission
 process (neither too early nor over the limit):
 https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-> - Shenzhen Titan Micro Electronics: TM1618, TM1620, TM1628, TM1650
-> - Fuzhou Fuda Hisi Microelectronics: FD620, FD628, FD650, FD655, FD6551
-> - Wuxi i-Core Electronics: AiP650, AiP1618, AiP1628
-> - Princeton Technology: PT6964
-> - Shenzhen Winrise Technology: HBS658
 > 
+> Co-developed-by: Andreas Färber <afaerber@suse.de>
+> Co-developed-by: Heiner Kallweit <hkallweit1@gmail.com>
+> Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
+> ---
+>  .../bindings/auxdisplay/titanmec,tm16xx.yaml  | 210 ++++++++++++++++++
+>  1 file changed, 210 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx.yaml b/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx.yaml
+> new file mode 100644
+> index 0000000000..65c43e3ba4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx.yaml
+> @@ -0,0 +1,210 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/auxdisplay/titanmec,tm16xx.yaml#
 
+Why isn't this in leds directory? Everything below describes it as LED
+controller.
 
-...
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Auxiliary displays based on TM16xx and compatible LED controllers
+> +
+> +maintainers:
+> +  - Jean-François Lessard <jefflessard3@gmail.com>
+> +
+> +description: |
+> +  TM16xx controllers manage a matrix of LEDs organized in grids (rows) and segments (columns).
+> +  Each grid or segment can be wired to drive either a digit or individual icons, depending on the
 
-> + * tm16xx_parse_dt - Parse device tree data
-> + * @dev: Pointer to device structure
-> + * @display: Pointer to tm16xx_display structure
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +static int tm16xx_parse_dt(struct device *dev, struct tm16xx_display *display)
-> +{
-> +	struct fwnode_handle *child;
-> +	int ret, i, max_grid = 0;
-> +	u8 *digits;
-> +
-> +	display->transpose_display_data =
-> +		device_property_read_bool(dev, "titanmec,transposed");
+Wrap according to Linux coding style, so at 80.
 
-Wrong wrapping.
+> +  board design.
+> +
+> +  Typical display example:
+> +
+> +           ---    ---       ---    ---
+> +    WIFI  |   |  |   |  -  |   |  |   |  USB  PLAY
+> +           ---    ---       ---    ---
+> +    LAN   |   |  |   |  -  |   |  |   |  BT   PAUSE
+> +           ---    ---       ---    ---
+> +
+> +  The controller itself is agnostic of the display layout. The specific arrangement
+> +  (which grids and segments drive which digits or icons) is determined by the board-level
+> +  wiring. Therefore, these bindings describe hardware configuration at the PCB level
+> +  to enable support of multiple display implementations using these LED controllers.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - titanmec,tm1618
+> +      - titanmec,tm1620
+> +      - titanmec,tm1628
+> +      - titanmec,tm1650
+> +      - fdhisi,fd620
+> +      - fdhisi,fd628
+> +      - fdhisi,fd650
+> +      - fdhisi,fd6551
+> +      - fdhisi,fd655
+> +      - icore,aip650
+> +      - icore,aip1618
+> +      - icore,aip1628
+> +      - princeton,pt6964
+> +      - winrise,hbs658
 
-> +
-> +	ret = device_property_count_u8(dev, "titanmec,digits");
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to count 'titanmec,digits' property: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	display->num_digits = ret;
-> +	dev_dbg(dev, "Number of digits: %d\n", display->num_digits);
-> +
-> +	digits = devm_kcalloc(dev, display->num_digits, sizeof(*digits), GFP_KERNEL);
-> +	if (!digits)
-> +		return -ENOMEM;
-> +
-> +	ret = device_property_read_u8_array(dev, "titanmec,digits", digits,
-> +					    display->num_digits);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to read 'titanmec,digits' property: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	display->digits = devm_kcalloc(dev, display->num_digits, sizeof(*display->digits),
-> +				       GFP_KERNEL);
-> +	if (!display->digits)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < display->num_digits; i++) {
-> +		if (digits[i] >= display->controller->max_grids) {
-> +			dev_err(dev, "Digit grid %d exceeds controller max_grids %d\n",
-> +				digits[i], display->controller->max_grids);
-> +			return -EINVAL;
-> +		}
-> +
-> +		display->digits[i].grid = digits[i];
-> +		max_grid = umax(max_grid, digits[i]);
-> +	}
-> +
-> +	devm_kfree(dev, digits);
-> +
-> +	ret = device_property_read_u8_array(dev, "titanmec,segment-mapping",
-> +					    display->segment_mapping, DIGIT_SEGMENTS);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to read 'titanmec,segment-mapping' property: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	display->digit_bitmask = 0;
-> +	for (i = 0; i < DIGIT_SEGMENTS; i++) {
-> +		if (display->segment_mapping[i] < MIN_SEGMENT ||
-> +		    display->segment_mapping[i] > MAX_SEGMENT) {
-> +			dev_err(dev,
-> +				"Invalid 'titanmec,segment-mapping' value: %d (must be between %d and %d)\n",
-> +				display->segment_mapping[i], MIN_SEGMENT, MAX_SEGMENT);
-> +			return -EINVAL;
-> +		}
-> +
-> +		display->digit_bitmask |= BIT(display->segment_mapping[i]);
-> +	}
-> +
-> +	display->num_leds = 0;
-> +	device_for_each_child_node(dev, child) {
-> +		u32 reg[2];
-> +
-> +		ret = fwnode_property_read_u32_array(child, "reg", reg, 2);
-> +		if (ret < 0) {
-> +			dev_err(dev, "Failed to read 'reg' property of led node: %d\n",
-> +				ret);
-> +			fwnode_handle_put(child);
-> +			return ret;
-> +		}
-> +
-> +		if (reg[0] >= display->controller->max_grids) {
-> +			dev_err(dev, "LED grid %d exceeds controller max_grids %d\n",
-> +				reg[0], display->controller->max_grids);
-> +			fwnode_handle_put(child);
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (reg[1] < MIN_SEGMENT || reg[1] > MAX_SEGMENT) {
-> +			dev_err(dev,
-> +				"LED segment %d is invalid (must be between %d and %d)\n",
-> +				reg[1], MIN_SEGMENT, MAX_SEGMENT);
-> +			fwnode_handle_put(child);
-> +			return -EINVAL;
-> +		}
-> +
-> +		max_grid = umax(max_grid, reg[0]);
-> +		display->num_leds++;
-> +	}
-> +
-> +	dev_dbg(dev, "Number of LEDs: %d\n", display->num_leds);
-> +
-> +	display->display_data_len = max_grid + 1;
-> +	dev_dbg(dev, "Number of display grids: %zu\n", display->display_data_len);
-> +
-> +	display->display_data = devm_kcalloc(dev, display->display_data_len,
-> +					     sizeof(*display->display_data), GFP_KERNEL);
-> +	if (!display->display_data)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * tm16xx_probe - Probe function for tm16xx devices
-> + * @display: Pointer to tm16xx_display structure
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +static int tm16xx_probe(struct tm16xx_display *display)
-> +{
-> +	struct device *dev = display->dev;
-> +	struct fwnode_handle *child;
-> +	int ret, i;
-> +
-> +	ret = tm16xx_parse_dt(dev, display);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	mutex_init(&display->lock);
-> +	INIT_WORK(&display->flush_init, tm16xx_display_flush_init);
-> +
-> +	/* Initialize work structure with appropriate flush function */
-> +	if (display->transpose_display_data) {
-> +		INIT_WORK(&display->flush_display, tm16xx_display_flush_data_transposed);
-> +		dev_info(display->dev, "Operating in transposed mode\n");
-> +	} else {
-> +		INIT_WORK(&display->flush_display, tm16xx_display_flush_data);
-> +	}
-> +
-> +	display->main_led.name = TM16XX_DEVICE_NAME;
-> +	display->main_led.brightness = display->controller->max_brightness;
-> +	display->main_led.max_brightness = display->controller->max_brightness;
-> +	display->main_led.brightness_set = tm16xx_brightness_set;
-> +	display->main_led.groups = tm16xx_main_led_groups;
-> +	display->main_led.flags = LED_RETAIN_AT_SHUTDOWN | LED_CORE_SUSPENDRESUME;
-> +
-> +	ret = devm_led_classdev_register(dev, &display->main_led);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to register main LED: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	display->leds =
-> +		devm_kcalloc(dev, display->num_leds, sizeof(*display->leds), GFP_KERNEL);
-
-Wrong wrapping. Use kernel style, not clang style.
-
-
-> +	if (!display->leds)
-> +		return -ENOMEM;
-> +
-> +	i = 0;
-> +	device_for_each_child_node(dev, child) {
-> +		struct tm16xx_led *led = &display->leds[i];
-> +		struct led_init_data led_init = {
-> +			.fwnode = child,
-> +			.devicename = display->main_led.name,
-> +			.devname_mandatory = true,
-> +		};
-> +		u32 reg[2];
-> +
-> +		ret = fwnode_property_read_u32_array(child, "reg", reg, 2);
-> +		if (ret < 0) {
-> +			fwnode_handle_put(child);
-> +			dev_err(dev, "Failed to read LED reg property: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		led->grid = reg[0];
-> +		led->segment = reg[1];
-> +
-> +		led->cdev.max_brightness = 1;
-> +		led->cdev.brightness_set = tm16xx_led_set;
-> +		led->cdev.flags = LED_RETAIN_AT_SHUTDOWN | LED_CORE_SUSPENDRESUME;
-> +
-> +		ret = devm_led_classdev_register_ext(dev, &led->cdev, &led_init);
-> +		if (ret < 0) {
-> +			fwnode_handle_put(child);
-> +			dev_err(dev, "Failed to register LED %s: %d\n", led->cdev.name,
-> +				ret);
-> +			return ret;
-> +		}
-> +
-> +		i++;
-> +	}
-> +
-> +	ret = tm16xx_display_init(display);
-> +	if (ret < 0) {
-> +		dev_err(display->dev, "Failed to initialize display: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	dev_info(display->dev, "Display initialized successfully\n");
-
-Drop, drivers should be silent on success. See coding style.
-
-> +	return 0;
-> +}
-> +
-> +/* SPI specific code */
-> +static int tm16xx_spi_probe(struct spi_device *spi)
-> +{
-> +	const struct tm16xx_controller *controller;
-> +	struct tm16xx_display *display;
-> +	int ret;
-> +
-> +	controller = of_device_get_match_data(&spi->dev);
-> +	if (!controller)
-> +		return -EINVAL;
-> +
-> +	display = devm_kzalloc(&spi->dev, sizeof(*display), GFP_KERNEL);
-> +	if (!display)
-> +		return -ENOMEM;
-> +
-> +	display->client.spi = spi;
-> +	display->dev = &spi->dev;
-> +	display->controller = controller;
-> +
-> +	spi_set_drvdata(spi, display);
-> +
-> +	ret = tm16xx_probe(display);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static void tm16xx_spi_remove(struct spi_device *spi)
-> +{
-> +	struct tm16xx_display *display = spi_get_drvdata(spi);
-> +
-> +	tm16xx_display_remove(display);
-> +}
-> +
-> +// clang-format off
-
-Drop
-
-> +static const struct of_device_id tm16xx_spi_of_match[] = {
-> +	{ .compatible = "titanmec,tm1618", .data = &tm1618_controller },
-> +	{ .compatible = "titanmec,tm1620", .data = &tm1628_controller },
-> +	{ .compatible = "titanmec,tm1628", .data = &tm1628_controller },
-> +	{ .compatible = "fdhisi,fd620", .data = &tm1628_controller },
-> +	{ .compatible = "fdhisi,fd628", .data = &tm1628_controller },
-> +	{ .compatible = "icore,aip1618", .data = &tm1618_controller },
-> +	{ .compatible = "icore,aip1628", .data = &tm1628_controller },
-> +	{ .compatible = "princeton,pt6964", .data = &tm1628_controller },
-> +	{ .compatible = "winrise,hbs658", .data = &hbs658_controller },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, tm16xx_spi_of_match);
-> +
-> +static const struct spi_device_id tm16xx_spi_id[] = {
-> +	{ "tm1618", 0 },
-> +	{ "tm1620", 0 },
-> +	{ "tm1628", 0 },
-> +	{ "fd620", 0 },
-> +	{ "fd628", 0 },
-> +	{ "aip1618", 0 },
-> +	{ "aip1628", 0 },
-> +	{ "pt6964", 0 },
-> +	{ "hbs658", 0 },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(spi, tm16xx_spi_id);
-> +// clang-format on
-
-Drop
+Several devices are compatible, so express it here and drop redundant
+entries in the driver.
 
 > +
-> +static struct spi_driver tm16xx_spi_driver = {
-> +	.driver = {
-> +		.name = TM16XX_DRIVER_NAME,
-> +		.of_match_table = tm16xx_spi_of_match,
-> +	},
-> +	.probe = tm16xx_spi_probe,
-> +	.remove = tm16xx_spi_remove,
-> +	.shutdown = tm16xx_spi_remove,
-> +	.id_table = tm16xx_spi_id,
-> +};
+> +  reg:
+> +    maxItems: 1
 > +
-> +/* I2C specific code */
-> +static int tm16xx_i2c_probe(struct i2c_client *client)
-> +{
-> +	const struct tm16xx_controller *controller;
-> +	struct tm16xx_display *display;
-> +	int ret;
-> +
-> +	controller = of_device_get_match_data(&client->dev);
-> +	if (!controller)
-> +		return -EINVAL;
-> +
-> +	display = devm_kzalloc(&client->dev, sizeof(*display), GFP_KERNEL);
-> +	if (!display)
-> +		return -ENOMEM;
-> +
-> +	display->client.i2c = client;
-> +	display->dev = &client->dev;
-> +	display->controller = controller;
-> +
-> +	i2c_set_clientdata(client, display);
-> +
-> +	ret = tm16xx_probe(display);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static void tm16xx_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct tm16xx_display *display = i2c_get_clientdata(client);
-> +
-> +	tm16xx_display_remove(display);
-> +}
-> +
-> +// clang-format off
+> +  titanmec,digits:
+> +    description: |
+> +      Array of grid (row) indexes corresponding to specific wiring of digits in the display matrix.
 
-Drop
+What is wiring of digits? This and other descriptions don't tell me much.
 
-> +static const struct of_device_id tm16xx_i2c_of_match[] = {
-> +	{ .compatible = "titanmec,tm1650", .data = &tm1650_controller },
-> +	{ .compatible = "icore,aip650", .data = &tm1650_controller },
-> +	{ .compatible = "fdhisi,fd650", .data = &tm1650_controller },
-> +	{ .compatible = "fdhisi,fd6551", .data = &fd6551_controller },
-> +	{ .compatible = "fdhisi,fd655", .data = &fd655_controller },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, tm16xx_i2c_of_match);
-> +
-> +static const struct i2c_device_id tm16xx_i2c_id[] = {
-> +	{ "tm1650", 0 },
-> +	{ "aip650", 0 },
-> +	{ "fd650", 0 },
-> +	{ "fd6551", 0 },
-> +	{ "fd655", 0 },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, tm16xx_i2c_id);
-> +// clang-format on
+Wrap according to Linux coding style, so at 80.
 
-Drop.
+> +      Defines which grid lines are connected to digit elements.
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    items:
+> +      minimum: 0
+> +      maximum: 7
+> +    minItems: 1
+> +    maxItems: 8
+> +
+> +  titanmec,segment-mapping:
+> +    description: |
 
-> +
-> +static struct i2c_driver tm16xx_i2c_driver = {
-> +	.driver = {
-> +		.name = TM16XX_DRIVER_NAME,
-> +		.of_match_table = tm16xx_i2c_of_match,
-> +	},
-> +	.probe = tm16xx_i2c_probe,
-> +	.remove = tm16xx_i2c_remove,
-> +	.shutdown = tm16xx_i2c_remove,
-> +	.id_table = tm16xx_i2c_id,
-> +};
-> +
-> +static int __init tm16xx_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = spi_register_driver(&tm16xx_spi_driver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = i2c_add_driver(&tm16xx_i2c_driver);
-> +	if (ret) {
-> +		spi_unregister_driver(&tm16xx_spi_driver);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void __exit tm16xx_exit(void)
-> +{
-> +	i2c_del_driver(&tm16xx_i2c_driver);
-> +	spi_unregister_driver(&tm16xx_spi_driver);
-> +}
-> +
-> +module_init(tm16xx_init);
-> +module_exit(tm16xx_exit);
+Do not need '|' unless you need to preserve formatting.
+
+> +      Array of segment (column) indexes specifying the hardware layout mapping used for digit display.
+> +      Each entry gives the segment index corresponding to a standard 7-segment element (a-g).
+
+Wrap according to Linux coding style, so at 80.
+
+This looks like duplicating the reg property.
 
 
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    items:
+> +      minimum: 0
+> +      maximum: 7
+> +    minItems: 7
+> +    maxItems: 7
 > +
-> +MODULE_AUTHOR("Jean-François Lessard");
-> +MODULE_DESCRIPTION("TM16XX Compatible LED Display Controllers");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("spi:tm16xx");
-> +MODULE_ALIAS("i2c:tm16xx");
+> +  titanmec,transposed:
+> +    description: |
+> +      Optional flag indicating if grids and segments are swapped compared to standard matrix orientation.
+> +      This accommodates devices where segments are wired to rows and grids to columns.
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +
+> +  "#address-cells":
+> +    const: 2
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^led@[0-7],[0-7]$":
 
-Drop these two.
+Why do you have two addresses? It's not used in your example.
 
+> +    $ref: /schemas/leds/common.yaml#
+> +    properties:
+> +      reg:
+> +        description: Grid (row) and segment (column) index in the matrix of this individual LED icon
+
+Missing constraints.
+
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - titanmec,digits
+> +  - titanmec,segment-mapping
+> +
+> +additionalProperties: true
+
+No, this cannot be true. Look at any other binding, look at example-schema.
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      display-controller@24 {
+> +        reg = <0x24>;
+> +        compatible = "fdhisi,fd655";
+> +        titanmec,digits = [01 02 03 04];
+> +        titanmec,segment-mapping = [03 04 05 00 01 02 06];
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        led@0,0 {
+> +          reg = <0 0>;
+> +          function = LED_FUNCTION_ALARM;
+> +        };
+> +
+> +        led@0,1 {
+> +          reg = <0 1>;
+> +          function = LED_FUNCTION_USB;
+> +        };
+> +
+> +        led@0,2 {
+> +          reg = <0 2>;
+> +          function = "play";
+> +        };
+> +
+> +        led@0,3 {
+> +          reg = <0 3>;
+> +          function = "pause";
+> +        };
+> +
+> +        led@0,4 {
+> +          reg = <0 4>;
+> +          function = "colon";
+> +        };
+> +
+> +        led@0,5 {
+> +          reg = <0 5>;
+> +          function = LED_FUNCTION_LAN;
+> +        };
+> +
+> +        led@0,6 {
+> +          reg = <0 6>;
+> +          function = LED_FUNCTION_WLAN;
+> +        };
+> +      };
+> +    };
+> +
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    spi {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      display-controller@0 {
+> +        reg = <0x0>;
+> +        compatible = "fdhisi,fd628";
+> +        titanmec,transposed;
+> +        titanmec,digits = [00 01 02 03];
+> +        titanmec,segment-mapping = [00 01 02 03 04 05 06];
+> +        spi-3wire;
+> +        spi-lsb-first;
+> +        spi-rx-delay-us = <1>;
+> +        spi-max-frequency = <500000>;
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        led@4,0 {
+> +          reg = <4 0>;
+> +          function = "apps";
+> +        };
+> +
+> +        led@4,1 {
+> +          reg = <4 1>;
+> +          function = "setup";
+> +        };
+> +
+> +        led@4,2 {
+> +          reg = <4 2>;
+> +          function = LED_FUNCTION_USB;
+> +        };
+> +
+> +        led@4,3 {
+> +          reg = <4 3>;
+> +          function = LED_FUNCTION_SD;
+> +        };
+> +
+> +        led@4,4 {
+> +          reg = <4 4>;
+> +          function = "colon";
+> +        };
+> +
+> +        led@4,5 {
+> +          reg = <4 5>;
+> +          function = "hdmi";
+> +        };
+> +
+> +        led@4,6 {
+> +          reg = <4 6>;
+> +          function = "video";
+> +        };
+> +      };
+> +    };
 
 
 Best regards,
