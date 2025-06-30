@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4941-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4942-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DF5AEDCA8
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 14:24:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A26E1AEDCB2
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 14:25:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98C441897614
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 12:24:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9882F7A934E
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Jun 2025 12:24:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E14288CA6;
-	Mon, 30 Jun 2025 12:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BE828983F;
+	Mon, 30 Jun 2025 12:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FlZPSVPD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fIk8Kes9"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C676A1DFCE;
-	Mon, 30 Jun 2025 12:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCEF289815;
+	Mon, 30 Jun 2025 12:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751286270; cv=none; b=ZqcAYh3+mP0IaXbSoy+Km/q/6JftpqB1nfna0DRBf2x5VQbse08Xu6/SKaMkZCgSN189T1uEpesZsrxirUL+QgpkDnGlPN14vb6aDGh9jHPu3HQ1tHw5KUDCD8eCWhUM24hkBn8VmTWrhq5Z37yuOoiGwulqIQDiZRVVJVThMnE=
+	t=1751286338; cv=none; b=XUQQKv86n6c8TXeGvf+6DRugxPlzv0wPYKcrj8Lo4CFMwRkrYXMzTn2w1EX4UWX8/ORDWEXcUimN/gME0WuI1R1yM/bQ8M7FnbVGQkB0Khjo1M3wi4+20lgcm3P0wt8/u1HHRstEDjoZDDrMHQ/0hFXNmbAWXajR6rZMsNLe9Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751286270; c=relaxed/simple;
-	bh=4IItqOEB5sdoqW02jXfufdmvY8F+0X2YA3XbJioRhu4=;
+	s=arc-20240116; t=1751286338; c=relaxed/simple;
+	bh=u1qBZwPUJKB7PfrNZdflnFo0zj1UNVC0uSjMLkAdAPo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M0Vw1r1QnZ1zGuULscE1iPtgwEah9TFPW/GreOUdx5hpX+hgiUiwlXUHUWMTt0nIcb1e0OGi9z9H+k6LmjdPgi8KFvdufBQ/IUcp1LWHBCnVqSb0/pvW4vH6Xg0AIJEeIxOdwTk32mi8K8qSb9IgPYZiracFVWW5E80ZIk2GZg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FlZPSVPD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 885EDC4CEE3;
-	Mon, 30 Jun 2025 12:24:26 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Bb+x6rq05svQCPcrjq+7hSxQ37lIWJwH0jdKSCx1IzocbDU7IT9ogeJjqI/ybbqgimNob9GOnafC4249X45wMV0UfoB6IYRZEzk4lfTiB82BUlodZNL41RR7vXbk+0cRVyJ/hEHgYBoaVsB18d5nBVifPHq/PpKJIx5LZ3AQn7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fIk8Kes9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08878C4CEE3;
+	Mon, 30 Jun 2025 12:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751286270;
-	bh=4IItqOEB5sdoqW02jXfufdmvY8F+0X2YA3XbJioRhu4=;
+	s=k20201202; t=1751286338;
+	bh=u1qBZwPUJKB7PfrNZdflnFo0zj1UNVC0uSjMLkAdAPo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FlZPSVPDMoxzc4FY6W6HO2uY4fBLU9snrWdIUxsk/bWoLHhXqkMd8NI1pAtxTB72P
-	 NzlK4T5XXbebFF35ZkVFMscivyYf5TVc4Os6RRAFfboBOlg1meJkgRLJcAMImm6A11
-	 6EXxTvQPbAZLIDyXPSEfLgRbm+2soklJ6eZMk0uxHkuBmgEhZhoVRRemwDInwM6wms
-	 vGwTN7lLw04ufc5prQmpO/exrBYdq34iUx4Fv8m3R44QqrmLHkXEHw6u+PQEmhvr2K
-	 XymO5nncRxOxpEwE+gP5IM7CrYd/CWUFgSQNz1rLb/zGgqghEhYoElpR/H3NrwH8aV
-	 wUye7E4bAYbkw==
-Message-ID: <779ee1b0-d624-4189-8452-6e27dfcf2684@kernel.org>
-Date: Mon, 30 Jun 2025 14:24:24 +0200
+	b=fIk8Kes91+J5sLWLMCKFmaITz74B6CaSNphZoSoyVakmD6IdTQ7tgkPKZraWvL3gl
+	 qaoLgss3ePJM3BUISimfjJxCDH8Zsq6VhG2IVyECodCydlRsfEerHN2eRHS4k0rZ0f
+	 U+zWG2lY0vUU+ZBWkGHxI2EwF4JDYmjXIM5+fcXnaNLA/yl16N81jlQNm1+1wT44AK
+	 u1G7YzKs3Wodk1st3QS3TLN6oihDvY3yxQgTqdRjRrYrd5JH/j53wBrrn4KwQQ3wCq
+	 pJTTEGIttpsD8xwyJj1AughFB1BQxQtzNfyHPfRdYIlx3d+KK5MsO6nCwa7MEdv0YX
+	 QmJ0GKF0L1AyQ==
+Message-ID: <c6d0d856-0c49-4ad7-bc6f-1a228dcb2d9d@kernel.org>
+Date: Mon, 30 Jun 2025 14:25:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,13 +50,12 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] dt-bindings: vendor-prefixes: Add Wuxi i-Core
- Electronics
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+Subject: Re: [PATCH v2 4/8] dt-bindings: vendor-prefixes: Add Winrise
+ Technology
+To: =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, devicetree@vger.kernel.org,
  linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
  Boris Gjenero <boris.gjenero@gmail.com>,
@@ -64,8 +63,7 @@ Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
  Heiner Kallweit <hkallweit1@gmail.com>,
  Paolo Sabatino <paolo.sabatino@gmail.com>
 References: <20250629130002.49842-1-jefflessard3@gmail.com>
- <20250629130002.49842-7-jefflessard3@gmail.com>
- <CAMuHMdW+vGr-KyvPr84qr_k1sJV88SFn+oF_oi8_MKJkbyHXbg@mail.gmail.com>
+ <20250629130002.49842-6-jefflessard3@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,34 +109,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAMuHMdW+vGr-KyvPr84qr_k1sJV88SFn+oF_oi8_MKJkbyHXbg@mail.gmail.com>
+In-Reply-To: <20250629130002.49842-6-jefflessard3@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 30/06/2025 10:19, Geert Uytterhoeven wrote:
-> Hi Jean-François,
+On 29/06/2025 14:59, Jean-François Lessard wrote:
+> Assign vendor prefix "winrise", matching their domain name.
 > 
-> On Sun, 29 Jun 2025 at 15:00, Jean-François Lessard
-> <jefflessard3@gmail.com> wrote:
->> Assign vendor prefix "icore", based on their domain name.
->>
->> Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
+> Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Thanks for your patch!
-> 
->> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> @@ -694,6 +694,8 @@ patternProperties:
->>      description: International Business Machines (IBM)
->>    "^ibm,.*":
->>      description: International Business Machines (IBM)
->> +  "^icore,.*":
->> +    description: Wuxi i-Core Electronics Co., Ltd.
-> 
-> This sounds a bit too generic to me.  What is the domain name?
-
-Good point. icore.com should be but obviously it points somewhere else,
-so this does not follow ticker / domain name style.
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index f03ab02afe..a3bf93e5dc 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1711,6 +1711,8 @@ patternProperties:
+>      description: Wingtech Technology Co., Ltd.
+>    "^winlink,.*":
+>      description: WinLink Co., Ltd
+> +  "^winrise,.*":
+> +    description: Shenzhen Winrise Technology Co., Ltd.
+Hm? https://winrise.com/ redirects to https://amdaluminum.com/ for
+fences and other alu products.
 
 Best regards,
 Krzysztof
