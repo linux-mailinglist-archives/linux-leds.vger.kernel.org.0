@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4960-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4961-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F13AF5C2E
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jul 2025 17:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0488AF5C3E
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Jul 2025 17:08:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63D6D4A4889
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jul 2025 15:05:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E746169E86
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Jul 2025 15:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24AA4265632;
-	Wed,  2 Jul 2025 15:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 922A22BDC3B;
+	Wed,  2 Jul 2025 15:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQGNITbX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1in1gCe"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE9917A316;
-	Wed,  2 Jul 2025 15:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BA627A12F;
+	Wed,  2 Jul 2025 15:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751468708; cv=none; b=MbAP98T84i52H4FvcP4ugeTAV376QLnV+ph/hIe39ZFE25udP87erlNXPU3XA13LtXK9CwtVq6JsQrH399js2WcADdMLtCcLO+sfjGwK02Z0c/XrLnzN768JTJE9lEK8V9ewZP5jZQ5celmH9cEls8pNW7FEEn2l9tdA73xTqko=
+	t=1751468832; cv=none; b=HllLueXVZYGw5Od5qQU7q2Aua4zMoNMBIO9TNnASj+d8Bw7Er58GJQriDXbpgqpjMl+lwAyCR7Kq7WCyQwkDbyIwHwTVZZ6LAHZizNdWXWRmZipVVk1/XlkPyLirM+0AWgAFGXi6ffmK/bXfNUrZ/6J4tWYR0JJTZNoeiCn4FXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751468708; c=relaxed/simple;
-	bh=NPSUKasHC9tbkTT8JYPAn0RlP9lrHU+bvQRVcKKzDTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qacuMZHf3VPfON6/ckLRCCXEI6MtX5XdBnh3vPCax8kypAhkEympU2uQ11FHDQRAoDQsEIJIK9U4kt71GJIiL3Z6Y75RGWLajn7X1Ye696iAyu4WFogbKwjkr/2/VMPI9UNTU9W4mlnDVxLI5AqQPNXVoD5EBxTMYXDgXccHZ2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQGNITbX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22CDC4CEE7;
-	Wed,  2 Jul 2025 15:05:02 +0000 (UTC)
+	s=arc-20240116; t=1751468832; c=relaxed/simple;
+	bh=f4d/CHfiq2b/q2UQbSnLq4WkqfHHPzTPdRB/P2xPw+4=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=i7RQX17V/jqZ5cwXdYPBT7f6BNqxqZp0Uju/biOOMWs48TvKj3umnGwB/Ld2FvnFREcRXt6aS610gK4q1XnxyiUcKqEdg/xbHwo0Uai5s/l87/diJg0v/jGJP3aCzVv7ds4Y3R3OJoOBoaR0pYnMacMoD5kgst1QNs2uZwMvCfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1in1gCe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2745DC4CEE7;
+	Wed,  2 Jul 2025 15:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751468707;
-	bh=NPSUKasHC9tbkTT8JYPAn0RlP9lrHU+bvQRVcKKzDTw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NQGNITbX/oHoAYhuSSIoG5XwYg3KxkVI7LHrZVxXLgbuvFl+sWD9uL2F7ofMWfYGJ
-	 IAfJDOoQDPwtVfExc2Ewt7KdVae97IcIJV576t4s3Odev9vql9gFQTHQAIQIy4Rdul
-	 9UCOGk3t9cRcoYJ8C55fW3tnOAb5D3zLiFaHbCRPoPy/f3AB6y4vSe/wj3BiJauMDE
-	 YqlcDQrIVtn4HSfkNVlXqVWs4xZxKhzei/pQMRN9MRsnpUOxu1i8PuYOyusGjhykI/
-	 /GsN7YO6WlJ1GnLiJ4oOWXfOuqJa1x+DFKV4EO8Y+peP2fdg0mPzkiYSNuKfFE4ybC
-	 b0D4zKWFfnfQA==
-Message-ID: <668a149e-f39f-45dc-8c55-d914df116b47@kernel.org>
-Date: Wed, 2 Jul 2025 17:05:00 +0200
+	s=k20201202; t=1751468832;
+	bh=f4d/CHfiq2b/q2UQbSnLq4WkqfHHPzTPdRB/P2xPw+4=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=S1in1gCezUFrfiQNGpZOTj/oAZFDRFgjDAPYQpDRXpHWNBHOjmqqoGkqG6xUQNZSb
+	 PQAwZyCglgqLKiRCunyyFvMiy0ort/I6BAtLt/8m2TuTb9TVsv/W3Wyf6onn8l9tIl
+	 inyPTuBGrche1mqNvzci8jFCtoKwyVfcOhxxze7vKcqeBCvUgN62okYjjKJWnwcDvU
+	 6SY8C06BUv1ohnffzxKP8AEtRSAspodHw+vKSbzvMdYdAwlh74mEyN6KmocL5jXpdR
+	 IfpAai96sjEmr0HK3A7a0sm8BDsrpLpavv5VtxpUa4rwz8Q+aQnDxZ9p/aJnopwY8f
+	 4Mjnls3+yPmFA==
+Message-ID: <42a3fcf1-961b-40de-a9be-e05d0cbb52ee@kernel.org>
+Date: Wed, 2 Jul 2025 17:07:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,14 +50,13 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] auxdisplay: Add Titanmec TM16xx 7-segment display
- controllers driver
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: ojeda@kernel.org, =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?=
- <jefflessard3@gmail.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, devicetree@vger.kernel.org,
+Subject: Re: [PATCH v2 6/8] dt-bindings: auxdisplay: add Titan Micro
+ Electronics TM16XX
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, devicetree@vger.kernel.org,
  linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
  =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
  Boris Gjenero <boris.gjenero@gmail.com>,
@@ -65,14 +64,10 @@ Cc: ojeda@kernel.org, =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?=
  Heiner Kallweit <hkallweit1@gmail.com>,
  Paolo Sabatino <paolo.sabatino@gmail.com>
 References: <20250629130002.49842-1-jefflessard3@gmail.com>
- <20250629131830.50034-1-jefflessard3@gmail.com>
- <47d24e31-1c6f-4299-aeaf-669c474c4459@kernel.org>
- <aGI8a4iaOpN5HMQe@smile.fi.intel.com>
- <57f0289a-7d82-4294-a1dc-c6986da0c5ce@kernel.org>
- <aGJe2krBnrPXQiU6@smile.fi.intel.com>
- <532c88b8-d938-4633-ac09-12bb3080a023@kernel.org>
- <aGKcfuQdNtQjmVC8@smile.fi.intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <20250629130002.49842-8-jefflessard3@gmail.com>
+ <d3d8f72a-e4fe-4f85-8ead-6c104aa32893@kernel.org>
+ <F09B92C5-9FF0-4818-9BF9-EFA4A456399C@gmail.com>
+ <daa343f9-b5eb-4a46-8c3a-f5c07603a9f1@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -117,44 +112,42 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <aGKcfuQdNtQjmVC8@smile.fi.intel.com>
+In-Reply-To: <daa343f9-b5eb-4a46-8c3a-f5c07603a9f1@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 30/06/2025 16:17, Andy Shevchenko wrote:
-> On Mon, Jun 30, 2025 at 01:39:25PM +0200, Krzysztof Kozlowski wrote:
->> On 30/06/2025 11:54, Andy Shevchenko wrote:
->>> On Mon, Jun 30, 2025 at 11:27:21AM +0200, Krzysztof Kozlowski wrote:
->>>> On 30/06/2025 09:27, Andy Shevchenko wrote:
->>>>> On Mon, Jun 30, 2025 at 08:12:16AM +0200, Krzysztof Kozlowski wrote:
->>>>>> On 29/06/2025 15:18, Jean-François Lessard wrote:
-> 
-> ...
-> 
->>>>>>> +	display->leds =
->>>>>>> +		devm_kcalloc(dev, display->num_leds, sizeof(*display->leds), GFP_KERNEL);
->>>>>>
->>>>>> Wrong wrapping. Use kernel style, not clang style.
->>>>>>
->>>>>>
->>>>>>> +	if (!display->leds)
->>>>>>> +		return -ENOMEM;
->>>>>
->>>>> Just wondering how .clang-format is official? Note some of the maintainers even
->>>>
->>>> First time I hear above clang style is preferred. Where is it expected?
->>>
->>> Documented here:
->>> https://www.kernel.org/doc/html/latest/process/coding-style.html#you-ve-made-a-mess-of-it
+On 02/07/2025 17:02, Krzysztof Kozlowski wrote:
 >>
->> I mean, which maintainers prefer such style of wrapping. Above I know,
->> but it does not solve the discussion we have here - above line wrapping
->> preferred by clang and opposite to most of the kernel code.
+>> if:
+>>   properties:
+>>     compatible:
+>>       contains:
+>>         enum:
+>>           - titanmec,tm1618
+>>           - titanmec,tm1620
+>>           - titanmec,tm1628
+>>           - fdhisi,fd620
+>>           - fdhisi,fd628
+>>           - winrise,hbs658
+>> then:
+>>   allOf:
+>>     - $ref: /schemas/spi/spi-peripheral-props.yaml#
 > 
-> IIRC Dan Williams (as you might have deduced already from the links).
-BTW, if that's your preference, then obviously it is perfectly fine.
-It's your subsystem.
+> Why is this conditional? Are these devices with entirely different
+> programming model? Then they usually should not be in the same binding,
+> although depends on differences.
 
+Although I looked again at driver and I think I understand - some of
+these do not have SPI interface. Then fine, just put it in allOf:
+
+allOf:
+  - if:
+    ...
+    then:
+      $ref: ...
+
+Some other example for that:
+https://elixir.bootlin.com/linux/v5.19/source/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml#L152
 
 Best regards,
 Krzysztof
