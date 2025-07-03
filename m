@@ -1,125 +1,96 @@
-Return-Path: <linux-leds+bounces-4988-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4989-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEECAAF7834
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 16:48:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A107AF7D9E
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 18:20:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D21F1C84B00
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 14:47:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AB914A5121
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 16:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FC7B2EF29C;
-	Thu,  3 Jul 2025 14:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D42324DD00;
+	Thu,  3 Jul 2025 16:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iSQKKb5s"
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="nU7vv0+C"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C243F2E7F0B;
-	Thu,  3 Jul 2025 14:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A4B24C060
+	for <linux-leds@vger.kernel.org>; Thu,  3 Jul 2025 16:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751554022; cv=none; b=Q7vyKYEa2v0qQq76bnGM6s+lKKyNs9SmEt/AZj8fESIgxiC/0/l0MnNP/1XGyBQ91liq7Op0DIxVu6FqnXax5Srhm7WGU4KjDp6DlKr9ZXTttlGiDLr5NZH3nWYtWpn/UFMa2h4NgsmEIRSL5cJf5Rm6PAlntaldJBnuVcyPVaI=
+	t=1751559609; cv=none; b=EbNYctyFBa9wYzvXVrWfdEl82eWbCjpO7er5rm/syVzltvQGkrdlG9E4ZkSKQyHAr4FzGdURCMgDwFM2I2skPKGpeSnQQ6L6xmfZIkp0Paah2le8sMGpKZy/iY8CBao7uv4Cae0x+4DIchf8SkxTHs/VUa1AnKV9xrTUwgMFTjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751554022; c=relaxed/simple;
-	bh=OfkYxtrkvAlIT+rtcYk+EDLoNYgxFT8mt+UGJnP4hEQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=shroYZ+bvLV+gNXZ+iDL1ByukUlVB0zT+XCqW1LuaMOBHJTgjzQsOOUxZz8b+hCf94fZ1RSYIFZTJC4KuvjJIRNMLRFZOrYOK/laeykH6mDGaryxkx1+F7TYGsXyuEIJqO/LTHCynJedQvkfm7Om1TipWDHRxZoSW+GR0t5cTP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iSQKKb5s; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-236470b2dceso135095ad.0;
-        Thu, 03 Jul 2025 07:47:00 -0700 (PDT)
+	s=arc-20240116; t=1751559609; c=relaxed/simple;
+	bh=jUo0bz7/9VqLbmKnuHSilXj/iz4VcO9C7Bb8RNU6+Ao=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FUpODrYf4PMnUMhTJrn5D324N91nr3gQtj7b2zsEqcLOIaTOG2DFdJ2kkCNZGMhCpZO97+MZ1kXdxiuwHgbq5u67Wbbj9l2DyYsOKhrMimPlcZcmCBvRJECsISqZaC4Chex45BGTiYRHc7/4ibaAVMo5yk07U0NhWdUknlJ5tXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=nU7vv0+C; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e8275f110c6so4397751276.2
+        for <linux-leds@vger.kernel.org>; Thu, 03 Jul 2025 09:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751554020; x=1752158820; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EbD4zYdOoa8/tJGVQ+bbN7gmx/+fi4I8jcF2rfLZN44=;
-        b=iSQKKb5sBpCz9QjTszy73YxW2Ml5HaN3WcazWMe99iFPM0+S3c0PKR3u3udkEd6E1a
-         07nU2b+UhgxN2enhmtS5B1BpTyom+27A4AfeWpF5k3Lo7f9Bx/xhSNMYavCbg35l9HQk
-         eui2yGcasmyqaBhBXpQCRyk/P6M9vS04gHzB/qakDuJ93y/cnps1UxkPkAWyYh5dZK0L
-         pdWQ9ryOY5HQJQ8PfESmSlUQ3xhSu4G5EGlbFU2JBCX+wTehpSarRNUkorgQk/aDNlOP
-         Xuz108rk4YTYtC/nPK5xVZFoOW2IpQ5DwvXfzVPNdX0jnp5U8GRTaBzzV60Gu+WErEFM
-         F2vw==
+        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1751559607; x=1752164407; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=niF8wOn9GTKmhQIt/vu6p0p8Z3gSuCH+GiDxHVgqCEA=;
+        b=nU7vv0+CWvLUobYkII3uyc+kOF6Eg6O+W7Nllp7+pBahwq0xsliUy7giwMQMNvWgGe
+         tGJdpsRaiOH1RQjYSNw/J+Msr/NjEY7g7kpKzjOK0b6M0njwrccLWE3SoW2iKhNj8IBV
+         79Fd2mbZBiiVDDakxDSewKydg8DLzxVqp+1kKXm3HeJVU6KHCrjNwUDZrwieibSLAXu8
+         drb0XZ15pfrhqfqu6BazEDdxe4jtwNpAANE7lOw1T8BcGW4vLd0J/qTu3GyYfQKZPFkY
+         IeZCZmO8wlnqXXExLzOE0xRgoDt3v4AZCgSE4o6NyOG2FYU5XN9Pf3g733NLDLX3mzN4
+         Ijfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751554020; x=1752158820;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751559607; x=1752164407;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EbD4zYdOoa8/tJGVQ+bbN7gmx/+fi4I8jcF2rfLZN44=;
-        b=gV0G3PKpcH8rUmUjFILueS/bLWMaHRjktoPiUmb02eQxP+Tzc7W8WiXOZ/rQKcvKlo
-         +gCT7HCerrjI3Z++7G5gEOZOr54xJdVe88C3B8PCZAeYM3RCgkLPpfRnegX5cWCKBT5c
-         WVRbwRRHMAkI7UJwv4BoA8l/PLGQG9JbDSOdqhf6fMKT98iGoiYr92SZSqnk5+S1jFlF
-         QbEyDbR5U0A+lM22OeL/1RDwVyzyQgrlURU+9XPZtWdWujUv2nF4CN4rgn9pkszpqyHa
-         Iz8KlpRQjsfksq0txyAuGWg+xkYBS7n4rhPQKVKoVRYZIBnGe5ioGXxqIV2IvcjVa7op
-         bSHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiuoIdrCy/0EDDwpFqPyQfk/su3hOK51ogf55yIQ3UQvEz7Ws26sQqTovdk9dFeZ7KhBd9SwAMBfvCSQ==@vger.kernel.org, AJvYcCWp7BVazMty7lrz6mE7Mn5CRZUEG15j2LhGE68VOGMaKtBKQfx6ognH9OJs+1IenWyV3jhriv7DmQ+E@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEMhVsKwlfNwJ5siKRA7wEEfITx0hdgFaocujsKHRgWOUcbESG
-	YLI5BdY2qt8v64zmWR2gSQYunF2TYeWS512w1JxWjsFRG0g9DkmHKp35
-X-Gm-Gg: ASbGncv3z9cWt+hyL7KMPCXo4ZkBUD9RtUF8zeVZQZmW8/0FkcJDsEWBadCcjs4Witt
-	O8uLBmaNkDlCoGZgkEMO03HkIa0plUG9vDKGtLgiql65EQukiEBCA16ixVIbZx/3j4wE3ilNSW7
-	SRtCTOdkKG7KswHdjkxpOz1S0aGiTtLh8E++q5ImrdFTOPEEi+WTmEQvweBMuTd9yA3G6TdhQEo
-	EzrZvzbbSmXWUbqGhHnsY8oylcGgcOwqdG5O6UKN/QebjdhdxW6p/WYmf1ChQoWr7nDgw1QVbFj
-	PZMUuBKDTf1uJ8kmSNaW/Km0JnaZT7aQxRCMBeZTbRzm/UE/JmcwEh7oYZLUBNEPOaT/wVA2EPP
-	5
-X-Google-Smtp-Source: AGHT+IG3/FXqnXBivzAWNNsh8xVfD7ZQvg15nUwD9p2hN8Mh1LbdLR57At8KzqtSjzxSC6T3cweYJg==
-X-Received: by 2002:a17:90b:3c02:b0:313:d343:4e09 with SMTP id 98e67ed59e1d1-31a90b0ed5cmr10102680a91.3.1751554019897;
-        Thu, 03 Jul 2025 07:46:59 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:26e4:d0f3:5643:fb4a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9cc8fe33sm2493339a91.44.2025.07.03.07.46.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 07:46:59 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: pavel@kernel.org
-Cc: lee@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	alkuor@gmail.com,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] dt-bindings: leds: ncp5623: Add 0x39 as a valid I2C address
-Date: Thu,  3 Jul 2025 11:46:44 -0300
-Message-Id: <20250703144644.2878253-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=niF8wOn9GTKmhQIt/vu6p0p8Z3gSuCH+GiDxHVgqCEA=;
+        b=sLf6O7Rb1EbM53tC54Biu6JrVOTp7ymSxWXQICX5Mz1L6bUVSPDb1+nIeJaRUdF0lo
+         KfUoDd9q1pr3N6JCLRPRc+URqFF0gu/HI1nGzGxcWaOWoQ5Dx1lvCtyG8EN5eDKnwyD9
+         bRMTzLe9g4+hYbiRwS1UTF537gJK5hDS0jJFblI4tpAVY/xFZYidb317m4Nqv3A+YrRE
+         i8AlYzINTbeQOS0NEoAar56qKsexSVDzoSM0jtUNcSqUjVgQzgfccxR0S3NCDFeO1E4n
+         4D8DvEw9+am1IYrx3tgmnfAoghkVmVFDrgY8FNozwApdtQVpaOjXCibo6zHP/7w2TG2u
+         kSWA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4JKlRq4RUHQdgeULvS/cX//YLUQLGO36w0RColjxpLtWfdzL2pbPpAUlWqWbEG46ONS8RI5WYNnr8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNS+z22SwIcpCcmyhUIMkcVXSfvJI7ze/B0fLOJna/6u9vFCb1
+	Jr/UfZKLUDMg+nx29IN0Tn4za/n4y2veLupko3fWk/6RGJ7qmuBYGB/k6LmJOZRyyJA5ZyWiIrB
+	pINno2vM9oXnnfzAjCnGcqij7avI38nr476/jLvE8uw==
+X-Gm-Gg: ASbGncvttVlzAXV+bkgz5+/6jbDwWm1GIXdvG4P0abXuGFBAKdtchKQHB/Cgn9xbBgM
+	XP2P9d4VwUdvUx+j5IjOXLGU0FeB712QxWxf+H7KxoEmFweDjqxr8HprJ6r9N7HNtkxx6Ukh86+
+	sqMd7CQJNvgkyElIpQgeQSD/sxlU7LBYO0wK4GXwlO1LWp/xSsBdzfGeXKZZ8cEd46cZJAnsrhV
+	cLAXA==
+X-Google-Smtp-Source: AGHT+IG9wu0uUr476DbA/3qZswqv3IWybYnshmLMaeMC5NZB1lprrIjfyK4Q5zzWoXuqVSaEu2jCsm7XUNSyqiP3lMI=
+X-Received: by 2002:a05:690c:315:b0:70f:84c8:3105 with SMTP id
+ 00721157ae682-71659128263mr59933107b3.37.1751559606842; Thu, 03 Jul 2025
+ 09:20:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250627-leds-is31fl3236a-v2-0-f6ef7495ce65@thegoodpenguin.co.uk>
+ <20250627-leds-is31fl3236a-v2-1-f6ef7495ce65@thegoodpenguin.co.uk> <20250702162230.GY10134@google.com>
+In-Reply-To: <20250702162230.GY10134@google.com>
+From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Date: Thu, 3 Jul 2025 17:19:55 +0100
+X-Gm-Features: Ac12FXy_CDFzKjm4AokW8a0bG4a5ZEtQ-LJTabWie8Pk2p6JfFDWqEKdOo_LGZg
+Message-ID: <CAA6zWZ+KE+4bMVzacVB=EYMr0YrCbFWia6Y6LgCs8GZTTuMRHA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] leds/leds-is31fl32xx: add support for is31fl3236a
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The NCP5623C variant has the I2C address at 0x39 according its datasheet:
+> So close!
+:)
 
-https://www.mouser.com/datasheet/2/308/NCP5623C-D-64591.pdf
-
-Make 0x39 a valid I2C address in the dt-binding.
-
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml b/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
-index 9c9f3a682ba2..11d45c7f741d 100644
---- a/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
-+++ b/Documentation/devicetree/bindings/leds/onnn,ncp5623.yaml
-@@ -19,7 +19,9 @@ properties:
-       - onnn,ncp5623
- 
-   reg:
--    const: 0x38
-+    enum:
-+      - 0x38
-+      - 0x39
- 
-   multi-led:
-     type: object
--- 
-2.34.1
-
+>  This should line-up with the '(.
+Spacebar to the rescue it is then.
 
