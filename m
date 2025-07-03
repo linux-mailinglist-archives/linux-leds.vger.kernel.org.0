@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-4973-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-4974-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E791AF6B1A
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 09:10:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93527AF6B29
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 09:11:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40B121C2146A
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 07:10:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E8627B5B4E
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Jul 2025 07:10:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBE1296148;
-	Thu,  3 Jul 2025 07:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3242951DD;
+	Thu,  3 Jul 2025 07:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kanyamu+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rDLrlRJx"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810346AA7;
-	Thu,  3 Jul 2025 07:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5A429A9;
+	Thu,  3 Jul 2025 07:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751526604; cv=none; b=t50HNnrf5hOoBtYjBzbyG0Sv7n9Aebx6pnVmoIZtlkRLDCE5aquufAiNgNvWxuluj0HAZQlsHVXckNjPF9UlcKQakZoxrVwGXAEnGSo7Kd8fwivUQVlT49OVrXLQU6Su6Sr7rq+jeE3vxhX9MXItPLJHGkY2exGdPxs9JaZslyM=
+	t=1751526706; cv=none; b=Nn+tnbvuj2rEdb+YpEQbanJIcM2e8gMl5R3sD+QK7lSDxNJZMBrpJVxVe7VULnGIp/CVjBOrkvb/Qau6DKca00E9CHX7gcY9YdQ9OOeba3VQEkgPqlugrxbVkM7WryGzESJ2fSgj4MPehEGFxEqFkNQieWEKbIOIHkSxJHugWbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751526604; c=relaxed/simple;
-	bh=ZflEK9KtQZx3NVCipSsftVLgwQk1kFMu6bPbpdMFjTU=;
+	s=arc-20240116; t=1751526706; c=relaxed/simple;
+	bh=aSHssiIu/r3OHUdbIec9ulQZAyrKLp3mJLSbYRcXRds=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O/Goo1QYJcuHZ/QFu1t6y+BkfZ2cL0a3d613kNcoQmuw9MsFaoWyinqSsoDpmauhVbRj7yP43RBL28w6+Ha0JusUEwP14Sqzq85wq1coe4ANqj84p6e0QqyxFFtfln0K0C7z8Q6Vh6wO8+T954ieWjlJo7Bx8CCcnmrMsyxxjWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kanyamu+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE8AC4CEE3;
-	Thu,  3 Jul 2025 07:10:01 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=PCAVGRZ3/ySTbAUEGjxOGljOHVj/aqDAk6hufbRterXzvMfBxKqj2wlL0/OJQF5W9ZDUq8zak6BTvBR+iNFTP9O7Z5bbf3zrollD4rl3RgoHg1QMsVyukar+fl6taKrFYxhfHEL8csEdReatvDHwe39lNkY4qW78xC5HeszVPRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rDLrlRJx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 758BAC4CEE3;
+	Thu,  3 Jul 2025 07:11:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751526604;
-	bh=ZflEK9KtQZx3NVCipSsftVLgwQk1kFMu6bPbpdMFjTU=;
+	s=k20201202; t=1751526706;
+	bh=aSHssiIu/r3OHUdbIec9ulQZAyrKLp3mJLSbYRcXRds=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kanyamu+zhnxOsIVQVxUxBx5F6obS30Pwb4RSLoTw03An+ussNjvYLDrqMM1iTVyt
-	 hNoTstqHwJv5JT8kF+UKEexP6/7QMHPELWcLvf7xfZ4bGhSY/60srd+l2939Jljykv
-	 DBtgKSFXEXhoR0VSXYaR1MCi/4TSHxRYsMWLEb6/6qH44R/pbwPwLI195Evl9P/l4R
-	 sg7UoWujRvylZ2DSLTKTg9BeyiDtxR1cs7WoubZ2cHiJiK0tVtRmTpstbTDzxnh575
-	 BVUCAH3S7zmYD/Shxad9pnSM8Lt/zV7c807dG3ZsEq/7So2AgXASwnSCieBybCoHp9
-	 VJBbQl/CvYOuw==
-Message-ID: <144df658-262f-423b-b099-8e36679ae761@kernel.org>
-Date: Thu, 3 Jul 2025 09:10:00 +0200
+	b=rDLrlRJxvO51Lx849MABjADWmM7L1fM5lH9p63+t55Qqps8L3Vjv20Vf4D0K+KWAo
+	 I9609IRPAgXKbRV8PShH/3PbI7HL7Gz6n+AAveci2bVasQQSgyiSraqGWU3URNB+C+
+	 BE6mwsrcYjsDINr0vpmJfjQNQXft/r40uif5WTEq+t7Cb/62AwVNidWF5YED/X2nzF
+	 Nl26b1kXBUMWGWaiyB5T9XBbmPgsOKiJJKVf7BDDhWf5+6gcdKGujM0m2rZszhP7d6
+	 FpWyuf0yMRoHQcck86UbFP6NHjfeQDGHDH3enAype6J6NxyedHM766ukiGzPi4uebA
+	 i009Z0pKzhu5g==
+Message-ID: <e98aa9ed-2d32-4db2-b7f2-a5e5ce1d1d84@kernel.org>
+Date: Thu, 3 Jul 2025 09:11:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,13 +50,20 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 1/2] dt-bindings: leds: pwm: Add enable-gpios property
-To: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>, lee@kernel.org,
- pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: bsp-development.geo@leica-geosystems.com
-References: <20250703035256.225289-1-Qing-wu.Li@leica-geosystems.com.cn>
+Subject: Re: [PATCH V2 1/2] dt-bindings: leds: pwm: Add enable-gpios property
+To: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>,
+ "Rob Herring (Arm)" <robh@kernel.org>
+Cc: "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>,
+ "lee@kernel.org" <lee@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "pavel@kernel.org" <pavel@kernel.org>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+References: <20250702114759.223925-1-Qing-wu.Li@leica-geosystems.com.cn>
+ <175146290821.1131432.4001907939183416459.robh@kernel.org>
+ <AM9PR06MB79557F8FFA113011C4D824D6D743A@AM9PR06MB7955.eurprd06.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,25 +109,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250703035256.225289-1-Qing-wu.Li@leica-geosystems.com.cn>
+In-Reply-To: <AM9PR06MB79557F8FFA113011C4D824D6D743A@AM9PR06MB7955.eurprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/07/2025 05:52, LI Qingwu wrote:
-> Some PWM LED chips have a dedicated enable GPIO.
-> This commit adds the support to specify such GPIO.
+On 03/07/2025 05:54, LI Qingwu wrote:
+>>
+>> On Wed, 02 Jul 2025 19:47:58 +0800, LI Qingwu wrote:
+>>> Some PWM LED chips have a dedicated enable GPIO.
+>>> This commit adds the support to specify such GPIO.
+>>>
+>>> Signed-off-by: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
+>>> ---
+>>>  Documentation/devicetree/bindings/leds/leds-pwm.yaml | 8 ++++++++
+>>>  1 file changed, 8 insertions(+)
+>>>
+>>
+>> My bot found errors running 'make dt_binding_check' on your patch:
+>>
+>> yamllint warnings/errors:
+>> ./Documentation/devicetree/bindings/leds/leds-pwm.yaml:44:21: [error] empty
+>> value in block mapping (empty-values)
+> 
+> Fixed in V3
 
-
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-"Add a dedicated enable GPIO, because some PWM LED chips (e.g. foo bar
-models from baz boo) ..."
-
-Give us concrete, verifiable example where this is present. You can also
-upstream your DTS as a proof, works for me.
-
+So your answer to my "never tested" was to send again the same as v2 and
+still not tested?
 
 Best regards,
 Krzysztof
