@@ -1,100 +1,189 @@
-Return-Path: <linux-leds+bounces-5004-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5005-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA6FAFAB93
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Jul 2025 08:18:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E481FAFB9B2
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Jul 2025 19:15:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B489B189BAAB
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Jul 2025 06:18:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2377B3BAE8B
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Jul 2025 17:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53AC279DD1;
-	Mon,  7 Jul 2025 06:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D91D2882AD;
+	Mon,  7 Jul 2025 17:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPsQEllN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mL7TC9+l"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88804189919;
-	Mon,  7 Jul 2025 06:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F93C246770
+	for <linux-leds@vger.kernel.org>; Mon,  7 Jul 2025 17:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751869083; cv=none; b=O5Fh1gcqj0p1BdIdVqnu3x5dZLVAdA4GdbEt+/qd621WtI73GO9GsViE7s4cPnEvk8vjZMlArpCV3vcKgLYd2rHEpvw53TRKOFh0raeVYuClbTC4CmFOe0zE9RLTwCQhynM5ZWZYEVv8/FewF++sQ67I2HsTzpZF27jFnc/LEw8=
+	t=1751908499; cv=none; b=SatIyQ5NpWRWHXFrnK7NKn1c8IuNlmyuFpzfZP+eNbJs5K4oJZgCDhj6f/QfzXfKcnUK2dmmwl37VjkbvY9qzjtKyaMxVWPxp1Br5OL+vbq9L+aHrRxS+kE01dvVqYpjo3rqMpK7iK7+fPwmWrLknWM0eDoB3yeTI3g/JoJ58nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751869083; c=relaxed/simple;
-	bh=FEnyy0ttREgkNusNm/cWMbf4I0ab7s6gN1D2futEk7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nzR4B6AEiyiqRLoYnBySmlBy6cngUzPGmB6oBNJ8bzASUK1dPeWli3PFM9VxHVCTV89Ru0hkVAj/g6ZFPYvf1freXtK9FvxpLGQw1hkwVhboP3t+zYXbge60sJ46egQLwcbXa+91y/GTqtYqemVnNtx6xNMJEnybgX17qo/LAzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPsQEllN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BDEC4CEF1;
-	Mon,  7 Jul 2025 06:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751869083;
-	bh=FEnyy0ttREgkNusNm/cWMbf4I0ab7s6gN1D2futEk7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PPsQEllNgMDXE4dVs6B+mehSZkGlSrO8DkAaLTvEueNX4a7Rbhi5/No3Cj7WJ03kS
-	 7pJt09k5VIwzPWSYQ8qWFX4jjAUFWbpp1i3p7lgBjVnBre41S/DtGJaKHXRQSzD1QF
-	 Fcpl057ZhIqF+NTRhgZlhb+I7nehrd23CTok/vQOBBG37BBGKBuNb2Hws4rjw2qpzk
-	 SER1/5lA92NgyyuqGPDu4LfCPfg/GOsniCTQK7C/HFACE4WgBXNviv3+3d6ddsntcz
-	 Wd3IaYP0D/wkoUjRnuD7l2A25FH+QBWVS4tecg/qY5QajqkH3YCPCq6WQSaHFaYZLW
-	 yKBDUurvm35Ow==
-Date: Mon, 7 Jul 2025 08:18:00 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
-Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH V6 0/2] leds: pwm: Add optional GPIO enable pin support
-Message-ID: <20250707-lovely-practical-chinchilla-fe2d0e@krzk-bin>
-References: <20250707020752.713372-1-Qing-wu.Li@leica-geosystems.com.cn>
+	s=arc-20240116; t=1751908499; c=relaxed/simple;
+	bh=BvTl82WfdPpuJRUWNqGM9stPafmMGHiaNAI0e6polYI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tdYDCUraAt4nenQy85RVNCMdQWvQjbjxCPPLP1MKzPPGxNCH5+A1nbLBOVwvRkc0WqIygENR92vyR4NWgImvkpQ2dAdPfvQmWNGewRm+06oRYe07VqT+OSfgrczHZXjwa38qIqjnGq6UCaccpwc8wd3yHv2oxE4t30IzaffGHu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mL7TC9+l; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-74af4af04fdso3389578b3a.1
+        for <linux-leds@vger.kernel.org>; Mon, 07 Jul 2025 10:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751908497; x=1752513297; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=47QcBpnfyums+ctmfuh5pe+LIWV2zKiMo3LlIfQo4Wo=;
+        b=mL7TC9+lVTYXeBjNpQVZr1Gcmyy/pPs4pDM4DfmymGUGuhHVTfulvQdYTf47+a46PC
+         MMjYVDHWLLqX0P3/IQ+G09b7wgE0O9F994PDrdK/HQAWym8EdmqZJrI8ARhyqC0CyWMv
+         LLRZz7Q/0nGVbrr8dp+WRyMS0Gi/a2tzsuxRykE0sQupjEZZshKitJyEJwQSt0DriM5v
+         1T/A3wIhoFMCowSuDum27+j3mpmpuWkNSmszBkvmGgs+OS6BW29zyKE8ESeHstSUbPJx
+         3OSr1k+pI8ecKQDKizzoaLHtdCUbE4US6NHRQKKtQtoCXOVifzA1nkTjTdvLtiJ1GIxx
+         XBvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751908497; x=1752513297;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=47QcBpnfyums+ctmfuh5pe+LIWV2zKiMo3LlIfQo4Wo=;
+        b=Ez5MJFZjbaNOXmGxKX2LPllXuhqpuWMNs1NGAwI6iZ+8cegBUbQzH7wEOE3WXmG0im
+         2MPXbrM0iavvTgVvFQCEk9G8fJuixNLdW1PYZYxwAHUtnaH4Fmbqi/yM9UNuYkBXuoYt
+         Q+8f79Y26GMrCTVd9pCw6pbMHxJKhmsHMBiTS/0N9+a7EiWDC70e1emWwOqFsKidBbja
+         nxl5yYiQGnJujAgWuXAKdiclNz1aq2lVsR2iR6nnvUmdqL+GDU5tiSWn7fff6nN+Kk0Y
+         6fVWRSijeHvp2qC34XUsERAeLPdiQ338vLZGlhzR9/+Z5D0i02fdQVySI1Z1HmmsTvMP
+         BgUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXjezWIN0Jk8St9zArA45m6iXi6CytELQOdsaMf9n77myrbkERD4+PjBk+g/uvVfcLvY0GNZD4UY0ke@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUw+SFW9e6d3YqreP0X0SnBWpTCKzjCyVx+SyvAj61ujgVlIbD
+	CvLmUFTFjWj8tidMjdo4rITSahG1efscdTo+2W+0hoP60ro/Xnug+jG5
+X-Gm-Gg: ASbGnct97WRKdwWvjuy+QzuEwNE8FVtoKrxi/JAW0QN58GWyvxU/dw7pucRPzKLIL6I
+	VbdDklNGDXQOo4hzz0+ZHUORyy8IpQmG+REkqpmp30wzLXHZF+uRh4s1tj2cEKc/8AyD13R1SkP
+	XFmiqJ3CEpRaEaW88KRJOHqJiw5TeKOFizBMljV5RkHXAlDEvZdYItWXfIFnueC9YlvGqIiPZPQ
+	rapO7vQyyU5mvHPJad00jLPwlqf+AcAarFKjaPOeGXPGp4rRwQdHNy+hHlzy+hI+mwhvxuv7235
+	LNZN5Xb8lN55kC5s9p6VMunONmLaPzg1sfO2WYuO89KFL22+33m2i7ND4s4QXF9cygRVex7tkov
+	lJmdtUpY=
+X-Google-Smtp-Source: AGHT+IHwKeOoWdD//kTHURWW7pJnq911y1bpqPbj29+aGNKsWabEUZJ9RiBfmQDnl8NLncPdcuCx6A==
+X-Received: by 2002:a05:6a20:7294:b0:215:e02f:1eb8 with SMTP id adf61e73a8af0-22b24b3b771mr446529637.14.1751908496420;
+        Mon, 07 Jul 2025 10:14:56 -0700 (PDT)
+Received: from [192.168.2.136] ([123.117.234.173])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b38ee62c615sm9257453a12.60.2025.07.07.10.14.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 10:14:55 -0700 (PDT)
+Message-ID: <2f0af25c-0360-4bb2-bf01-4c1587c6fd3c@gmail.com>
+Date: Tue, 8 Jul 2025 01:14:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250707020752.713372-1-Qing-wu.Li@leica-geosystems.com.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: trigger: netdev: Configure LED blink interval for
+ HW offload
+To: Marek Vasut <marex@denx.de>, linux-leds@vger.kernel.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>,
+ Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>
+References: <20250120113740.91807-1-marex@denx.de>
+From: nyanmisaka <nst799610810@gmail.com>
+In-Reply-To: <20250120113740.91807-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 07, 2025 at 10:07:50AM +0800, LI Qingwu wrote:
-> Add support for an optional GPIO enable pin to the PWM LED driver.
-> Some LED controllers require an additional enable GPIO to be enabled
-> on the device before PWM control can take effect.
+On 1/20/2025 7:36 PM, Marek Vasut wrote:
+> In case a PHY LED implements .blink_set callback to set LED blink
+> interval, call it even if .hw_control is already set, as that LED
+> blink interval likely controls the blink rate of that HW offloaded
+> LED. For PHY LEDs, that can be their activity blinking interval.
 > 
-> Testing:
-> - Tested on i.MX8MP EVK board with TPS92380 LED backlight driver
-> - Verified GPIO enable/disable functionality works correctly
-> - Confirmed both GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW polarities
->   work properly
+> The software blinking is not affected by this change.
 > 
+> With this change, the LED interval setting looks something like this:
+> $ echo netdev > /sys/class/leds/led:green:lan/trigger
+> $ echo 1 > /sys/class/leds/led:green:lan/brightness
+> $ echo 250 > /sys/class/leds/led:green:lan/interval
 > 
-> Device tree configuration used for testing:
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Christian Marangi <ansuelsmth@gmail.com>
+> Cc: Heiner Kallweit <hkallweit1@gmail.com>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Lukasz Majewski <lukma@denx.de>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: linux-leds@vger.kernel.org
+> ---
+>   drivers/leds/trigger/ledtrig-netdev.c | 16 +++++++++++++---
+>   1 file changed, 13 insertions(+), 3 deletions(-)
 > 
-> 	backlight_keypad: backlight-keypad {
-> 		compatible = "pwm-leds";
-> 
-> 		led {
-> 			color = <LED_COLOR_ID_WHITE>;
-> 			enable-gpios = <&pca6416 11 GPIO_ACTIVE_HIGH>;
-> 			function = LED_FUNCTION_KBD_BACKLIGHT;
-> 			max-brightness = <100>;
-> 			pwms = <&pwm3 0 2500 0>;
-> 		};
-> 	};
-> 
-> Changes in V6:
-> - Collected Reviewed-by from Krzysztof Kozlowski on 1/2 patch. (Thanks!)
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index 20dfc9506c0a6..47c44620ba585 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -69,6 +69,7 @@ struct led_netdev_data {
+>   	unsigned int last_activity;
+>   
+>   	unsigned long mode;
+> +	unsigned long blink_delay;
+>   	int link_speed;
+>   	__ETHTOOL_DECLARE_LINK_MODE_MASK(supported_link_modes);
+>   	u8 duplex;
+> @@ -87,6 +88,10 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
+>   	/* Already validated, hw control is possible with the requested mode */
+>   	if (trigger_data->hw_control) {
+>   		led_cdev->hw_control_set(led_cdev, trigger_data->mode);
+> +		if (led_cdev->blink_set) {
+> +			led_cdev->blink_set(led_cdev, &trigger_data->blink_delay,
+> +					    &trigger_data->blink_delay);
+> +		}
+>   
+>   		return;
+>   	}
+> @@ -463,10 +468,11 @@ static ssize_t interval_store(struct device *dev,
+>   			      size_t size)
+>   {
+>   	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> +	struct led_classdev *led_cdev = trigger_data->led_cdev;
+>   	unsigned long value;
+>   	int ret;
+>   
+> -	if (trigger_data->hw_control)
+> +	if (trigger_data->hw_control && !led_cdev->blink_set)
+>   		return -EINVAL;
+>   
+>   	ret = kstrtoul(buf, 0, &value);
+> @@ -475,9 +481,13 @@ static ssize_t interval_store(struct device *dev,
+>   
+>   	/* impose some basic bounds on the timer interval */
+>   	if (value >= 5 && value <= 10000) {
+> -		cancel_delayed_work_sync(&trigger_data->work);
+> +		if (trigger_data->hw_control) {
+> +			trigger_data->blink_delay = value;
+> +		} else {
+> +			cancel_delayed_work_sync(&trigger_data->work);
+>   
+> -		atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
+> +			atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
+> +		}
+>   		set_baseline_state(trigger_data);	/* resets timer */
+>   	}
+>   
 
-Don't send new versions for that. It's just unnecessary traffic and
-effort for us to sort out such emails.
+Hi there, a while ago OpenWRT 24.10 was updated to linux kernel 6.6.93 
+[1] which contains the backport of this commit. Unfortunately this 
+caused the LAN and WAN port LEDs on some MediaTek based routers to not 
+work properly, they just kept blinking.
 
-Read submitting patches in this regard.
+According to a comment [2] by an experienced OpenWRT developer and from 
+my understanding this is a breaking change. Could you please take some 
+time to review the issue in the link and help revert the commit if 
+necessary. Thanks in advance.
 
-Best regards,
-Krzysztof
-
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.6.y&id=3648ddabcdc25aad8af95778d7f87225272815e9
+[2] https://github.com/openwrt/openwrt/issues/19263#issuecomment-3032228022
 
