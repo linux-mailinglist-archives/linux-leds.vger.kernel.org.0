@@ -1,331 +1,160 @@
-Return-Path: <linux-leds+bounces-5008-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5009-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729D2AFCD16
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Jul 2025 16:12:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884AFAFCE6B
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Jul 2025 17:00:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78ED13B5F6A
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Jul 2025 14:11:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98523427605
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Jul 2025 15:00:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7D232E03EE;
-	Tue,  8 Jul 2025 14:12:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A862E0935;
+	Tue,  8 Jul 2025 15:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="0H92cCVW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737752DF3C6;
-	Tue,  8 Jul 2025 14:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEE4223DE7
+	for <linux-leds@vger.kernel.org>; Tue,  8 Jul 2025 15:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751983924; cv=none; b=FuKUbAbkSWyiUUlJT15S0f2tmn90QFtZdbcScyuX1TMc+j2ExNRp6w0bY3xxaC8ImcB2A5crF1xEMj7kCDNFj7OYI/7eM4nqPny/0Z7qPJbBM6iQkUVurmCFQkIJ9fvse0rNDQ3XGy71MK3RvuZagJQzdvLck3hmywT1a0IhM6Y=
+	t=1751986820; cv=none; b=rVURa4TS3WB0WmVyFCSp05UrvaJvMPEWuArY3SnjtuMu6gUWmAUkCYA4AOyq5/lGz/4ixTu6CF9gdmSx9gN7iKdNTzzvfypgW4wg4cAyClAHqQgLeiatc76jIFXL/OHRTTQXTEIlYhCd4NhopHVOJLHhK+KaSa3PNg+DwKXFtCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751983924; c=relaxed/simple;
-	bh=val8ZAwRoBq/78uiszkYC1GmjXsbMkEFFp2nHjscRQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bs91TlmSXOmxSFgsu1kJBhgN/cYBLD5myLSCXrMFJzT3VDqkS8jxLimBjiNEdlaiWt/5xNkCiKs96fLbGoGrKiuhZwbyrtxsAsQnD+3YcbYvVNhEvKnIfW/+DkyOA9i16wxM4Mv+xaEyIJkPDC/FVI58ZX9buMabzfcGhy92iNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bc32J1v54z9tWn;
-	Tue,  8 Jul 2025 16:11:52 +0200 (CEST)
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of linux@timmermann.space designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=linux@timmermann.space
-From: Lukas Timmermann <linux@timmermann.space>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@timmermann.space
-Subject: [PATCH v7 2/2] leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
-Date: Tue,  8 Jul 2025 16:11:14 +0200
-Message-ID: <20250708141114.134950-3-linux@timmermann.space>
-In-Reply-To: <20250708141114.134950-1-linux@timmermann.space>
-References: <20250708141114.134950-1-linux@timmermann.space>
+	s=arc-20240116; t=1751986820; c=relaxed/simple;
+	bh=auCDOToMtdeoKV816i92zq8GG7kcE0+phv+U/FL+vwg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I4nc4V6IiKqdaKuQAA8BQvxX01ioROisERL8XvSNyYyNK1KJPwpPef066oa97GBnw0CqutK+ahkoX22a38bH/trfqnX7ltDaETFp58cNEdpvzQTPBVV4k68zIYh7BiuJeY5nqh3FvSqR0sEEiEytE9JAp68TiNC5kNiOI87dcJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=0H92cCVW; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-450ce3a2dd5so41439715e9.3
+        for <linux-leds@vger.kernel.org>; Tue, 08 Jul 2025 08:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1751986817; x=1752591617; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=axiNVmFJf3G0tfPzjC8i75ML61tt4M701dSEBWFUhK8=;
+        b=0H92cCVWwH0ICYc4i06Pa4/l/5iF7D5Pe8AnBHR4Pj84Pk5xoYK8kvyUtYFFO6EuE1
+         WSL5r8uKXxdf7ycFeVhAskZz2n8CDPEVZKCvs4eHc7covA4URCBF0Wrrt9mHt7vXu09Y
+         5s5Vtvq9ti7ABEO4bxdAbGaVrnGm9tVu8zTew1nxt9LscDe5xS5lpP/K8XIfGqbm97S5
+         SVFkbC/Gush9yvhrYP1eyTM6RsmGWfSb8YaFYLY57vcrrwVPbgZrBZLE0TkHSAcRfUaP
+         2yTmK37FW+HVKG94VHunsC6swzNhSiqEtd/OAvAZ+pqMctg2HKthusU2qVkjTuGpbQkD
+         9cRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751986817; x=1752591617;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=axiNVmFJf3G0tfPzjC8i75ML61tt4M701dSEBWFUhK8=;
+        b=nsPsbBis92BDa75IVf4KBasD1Cz3ckGxo+veabCylzRVy+Dh6pZxKBD8rUpHQXbSp6
+         el3SePE4bwZVzTNPJmQXLz9YwLwsUd5wGz8IqNpkZ5dakpJQs0poifytzpmsw55p2yoz
+         ulk92tjTuPSWkvQghsIxcKxqnuTzEIm9GKuCI9mvdwLCd2X/iAnh79e45WGjOXxgoSGV
+         ey0qYlnptF/TUWDhqZ43207nAqTNHomjGv4txj6qPcDMGvSPMR19S26M/GSnFu9T7SP2
+         L5TmOQYZ7AKXpDxY226mkc9NtgUC1l6oFm4VzPsp/JcfXRqLa7jfJLTUKip/HrKECHTq
+         D+sA==
+X-Gm-Message-State: AOJu0YzzOaV12FvGY0tTHsjPLabF175ygsGMj6G5e3S+cQ9mMXqQ367w
+	u1zzURDUI/uh1GvKaY2MFCevnTVSSVUW0NsAb5XxEewGjwnE9JGvB5ETwPuczFhgo5I=
+X-Gm-Gg: ASbGnctj8ReUg76r7UMs822WCD6YgdZFF+rbXQSUF6TRiQ3R1At3Tc5eE5rQbW4xW68
+	QjF3uLAUrr5R9UyX/fq9HNCnrSNtmVC2oKr+aI5J4qRT5fCFG2Ojr6SGNyl7z8icxrRofxQDTjD
+	E5EeRyTy8sAWbhahqqN7YA8L2KcsegkUFIk1DuGeac5b+Jo9bFs/nxNOGq+NimS80qvJjHKMuzx
+	/UOrjSu7aDQf1J4jQJSY/cAb2IcvvQev7M8O0YnMLdDo3gbce3KzbHSe5/3/O26fUaTA+l92JjB
+	0+/76wZKAapW4bzFqIz5qqFSXRxWQxZ34GDEyjhP6f4gyhDHDtuxZfIziYpR59yZrLzMaq9Ww5k
+	LtLM=
+X-Google-Smtp-Source: AGHT+IF3IKO4V1DflQHKzBykuLgbHSrzzPUngwbd3KG3252Ia4mo2wgTBvGidGP/BYgFBW1MlGQJ5g==
+X-Received: by 2002:a05:600c:1907:b0:442:e9ec:4654 with SMTP id 5b1f17b1804b1-454b4e76790mr147560435e9.8.1751986815686;
+        Tue, 08 Jul 2025 08:00:15 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:23c7:1d1a:9c01:f9da:8274:e1d1:97ce])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47030b4f6sm13517433f8f.10.2025.07.08.08.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jul 2025 08:00:15 -0700 (PDT)
+From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Subject: [PATCH v3 0/3] Add support for is31fl3236a LED controller
+Date: Tue, 08 Jul 2025 15:59:44 +0100
+Message-Id: <20250708-leds-is31fl3236a-v3-0-d68979b042dd@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4bc32J1v54z9tWn
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGAybWgC/2WNQQqDMBBFryKzbsROmki68h7FhcSJDpVEEpUW8
+ e5Nha66fA/++zskikwJ7sUOkTZOHHwGeSnAjp0fSHCfGbBCVWlUYqI+CU7y6iaJUndCGusUOqO
+ NrSHP5kiOX2fy0WYeOS0hvs+HDb/2F6v/YxuKSjhNrr4ZZUmrZhlpCKGfyQ8r+9KGcn1CexzHB
+ z44a9S7AAAA
+X-Change-ID: 20250625-leds-is31fl3236a-39cf52f969c7
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org, 
+ Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>, 
+ Lucca Fachinetti <luccafachinetti@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751986814; l=2206;
+ i=pzalewski@thegoodpenguin.co.uk; s=20250625; h=from:subject:message-id;
+ bh=auCDOToMtdeoKV816i92zq8GG7kcE0+phv+U/FL+vwg=;
+ b=w7+2Vql/JsCl2AXiJkyymPU9MY3Bp2O/Cp5zhitl849uHP96CnE4/P7uLlyVlegPjBYWG+SYd
+ yl0DNGWPqusDkEjjSBZM7Bd7Pd1ifaPR6amWGBUAr3e8RqYasJNIaZO
+X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
+ pk=hHrwBom/yjrVTqpEvKpVXLYfxr6nqBNP16RkQopIRrI=
 
-Since there were no existing drivers for the AS3668 or related devices,
-a new driver was introduced in a separate file. Similar devices were
-reviewed, but none shared enough characteristics to justify code reuse.
-As a result, this driver is written specifically for the AS3668.
+This series of patches adds support for the is31fl3236a led
+controller. The main difference between this IC and the
+is31fl3236 is that there is a new parameter/register that
+moves the operating frequency of the PWM outputs out of 
+the audible range.
 
-Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+To support the new register a property was added in the dt-bindings,
+as this property is at the board layout level ie. not all
+boards will have analog audio and have to worry about it.
+
+To add the new property the old .txt binding documentation was
+ported to .yaml format. There was a previous attempt to do this
+in 2024 but the original author has never acted on the feedback
+given [1]. So I have implemented changes requested in that 
+review and added his Signed-off-by.
+
+The new functionality was tested by scoping the PWM signal. Out of
+reset the IC is in 3kHz mode, thus action is taken only if the new
+boolean value is set to true in the device tree.
+
+[1] https://lore.kernel.org/linux-leds/20240701-overview-video-34f025ede104@spud/
+
+Changes in v2:
+- Added cover letter
+- Ported dt-binding to yaml
+- Refactored driver module
+- Link to v1: https://lore.kernel.org/linux-leds/CAA6zWZ+TbcHrZaZ0ottm0s1mhCLa8TXASii47WKSLn2_zV95bw@mail.gmail.com/T/#t
+
+Changes in v3:
+- Aligned/refactored code properly in C module
+- Refactored dt-bindings yml file
+- Link to v2: https://lore.kernel.org/r/20250627-leds-is31fl3236a-v2-0-f6ef7495ce65@thegoodpenguin.co.uk
+
+Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 ---
- MAINTAINERS                |   1 +
- drivers/leds/Kconfig       |  13 +++
- drivers/leds/Makefile      |   1 +
- drivers/leds/leds-as3668.c | 195 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 210 insertions(+)
- create mode 100644 drivers/leds/leds-as3668.c
+Lucca Fachinetti (1):
+      dt-bindings: leds: is31fl32xx: convert the binding to yaml
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 091206c54c63..945d78fef380 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3511,6 +3511,7 @@ M:	Lukas Timmermann <linux@timmermann.space>
- L:	linux-leds@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
-+F:	drivers/leds/leds-as3668.c
- 
- ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index a104cbb0a001..8cfb423ddf82 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -100,6 +100,19 @@ config LEDS_ARIEL
- 
- 	  Say Y to if your machine is a Dell Wyse 3020 thin client.
- 
-+config LEDS_AS3668
-+	tristate "LED support for AMS AS3668"
-+	depends on LEDS_CLASS
-+	depends on I2C
-+	help
-+	  This option enables support for the AMS AS3668 LED controller.
-+	  The AS3668 provides up to four LED channels and is controlled via
-+	  the I2C bus. This driver offers basic brightness control for each
-+	  channel, without support for blinking or other advanced features.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-as3668.
-+
- config LEDS_AW200XX
- 	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 2f170d69dcbf..983811384fec 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -14,6 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
- obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
- obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
- obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
-+obj-$(CONFIG_LEDS_AS3668)		+= leds-as3668.o
- obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
- obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
- obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
-diff --git a/drivers/leds/leds-as3668.c b/drivers/leds/leds-as3668.c
-new file mode 100644
-index 000000000000..fbf29a6d0296
---- /dev/null
-+++ b/drivers/leds/leds-as3668.c
-@@ -0,0 +1,195 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  Osram AMS AS3668 LED Driver IC
-+ *
-+ *  Copyright (C) 2025 Lukas Timmermann <linux@timmermann.space>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/i2c.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/uleds.h>
-+
-+#define AS3668_MAX_LEDS 4
-+
-+/* Chip Registers */
-+#define AS3668_CHIP_ID1 0x3e
-+#define AS3668_CHIP_ID2 0x3f
-+
-+#define AS3668_CHIP_ID2_SERIAL_MASK GENMASK(7, 4)
-+#define AS3668_CHIP_ID2_REV_MASK GENMASK(3, 0)
-+
-+#define AS3668_CURRX_CONTROL 0x01
-+#define AS3668_CURR1 0x02
-+#define AS3668_CURR2 0x03
-+#define AS3668_CURR3 0x04
-+#define AS3668_CURR4 0x05
-+
-+/* Constants */
-+#define AS3668_CHIP_IDENT 0xa5
-+#define AS3668_CHIP_REV1 0x01
-+
-+struct as3668_led {
-+	struct led_classdev cdev;
-+	struct as3668 *chip;
-+	struct fwnode_handle *fwnode;
-+
-+	int num;
-+};
-+
-+struct as3668 {
-+	struct i2c_client *client;
-+	struct as3668_led leds[AS3668_MAX_LEDS];
-+};
-+
-+static int as3668_read_value(struct i2c_client *client, u8 reg)
-+{
-+	return i2c_smbus_read_byte_data(client, reg);
-+}
-+
-+static int as3668_write_value(struct i2c_client *client, u8 reg, u8 value)
-+{
-+	int err = i2c_smbus_write_byte_data(client, reg, value);
-+
-+	if (err)
-+		dev_err(&client->dev, "error writing to reg 0x%02x, returned %d\n", reg, err);
-+
-+	return err;
-+}
-+
-+static enum led_brightness as3668_brightness_get(struct led_classdev *cdev)
-+{
-+	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
-+
-+	return as3668_read_value(led->chip->client, AS3668_CURR1 + led->num);
-+}
-+
-+static void as3668_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
-+{
-+	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
-+
-+	as3668_write_value(led->chip->client, AS3668_CURR1 + led->num, brightness);
-+}
-+
-+static int as3668_dt_init(struct as3668 *as3668)
-+{
-+	struct device *dev = &as3668->client->dev;
-+	struct as3668_led *led;
-+	struct led_init_data init_data = {};
-+	int err;
-+	u32 reg;
-+
-+	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
-+		err = of_property_read_u32(child, "reg", &reg);
-+		if (err)
-+			return dev_err_probe(dev, err, "unable to read device tree led reg\n");
-+
-+		if (reg < 0 || reg > AS3668_MAX_LEDS)
-+			return dev_err_probe(dev, -EOPNOTSUPP, "unsupported led reg %d\n", reg);
-+
-+		led = &as3668->leds[reg];
-+		led->fwnode = of_fwnode_handle(child);
-+
-+		led->num = reg;
-+		led->chip = as3668;
-+
-+		led->cdev.max_brightness = U8_MAX;
-+		led->cdev.brightness_get = as3668_brightness_get;
-+		led->cdev.brightness_set = as3668_brightness_set;
-+
-+		init_data.fwnode = led->fwnode;
-+		init_data.default_label = ":";
-+
-+		err = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
-+		if (err)
-+			return dev_err_probe(dev, err, "failed to register %d LED\n", reg);
-+	}
-+
-+	return 0;
-+}
-+
-+static int as3668_probe(struct i2c_client *client)
-+{
-+	int err;
-+	u8 chip_id1, chip_id2, chip_serial, chip_rev;
-+	struct as3668 *as3668;
-+
-+	/* Check for sensible i2c address */
-+	if (client->addr != 0x42)
-+		return dev_err_probe(&client->dev, -EFAULT,
-+				     "unexpected address for as3668 device\n");
-+
-+	/* Read identifier from chip */
-+	chip_id1 = as3668_read_value(client, AS3668_CHIP_ID1);
-+
-+	if (chip_id1 != AS3668_CHIP_IDENT)
-+		return dev_err_probe(&client->dev, -ENODEV,
-+				"chip reported wrong id: 0x%02x\n", chip_id1);
-+
-+	/* Check the revision */
-+	chip_id2 = as3668_read_value(client, AS3668_CHIP_ID2);
-+	chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
-+	chip_rev = FIELD_GET(AS3668_CHIP_ID2_REV_MASK, chip_id2);
-+
-+	if (chip_rev != AS3668_CHIP_REV1)
-+		dev_warn(&client->dev, "unexpected chip revision\n");
-+
-+	/* Print out information about the chip */
-+	dev_dbg(&client->dev,
-+		"chip_id: 0x%02x | chip_id2: 0x%02x | chip_serial: 0x%02x | chip_rev: 0x%02x\n",
-+		chip_id1, chip_id2, chip_serial, chip_rev);
-+
-+	as3668 = devm_kzalloc(&client->dev, sizeof(*as3668), GFP_KERNEL);
-+	if (!as3668)
-+		return -ENOMEM;
-+
-+	as3668->client = client;
-+	err = as3668_dt_init(as3668);
-+	if (err)
-+		return dev_err_probe(&client->dev, err, "failed to initialize device\n");
-+
-+	/* Initialize the chip */
-+	as3668_write_value(client, AS3668_CURRX_CONTROL, 0x55);
-+	as3668_write_value(client, AS3668_CURR1, 0x00);
-+	as3668_write_value(client, AS3668_CURR2, 0x00);
-+	as3668_write_value(client, AS3668_CURR3, 0x00);
-+	as3668_write_value(client, AS3668_CURR4, 0x00);
-+
-+	return 0;
-+}
-+
-+static void as3668_remove(struct i2c_client *client)
-+{
-+	as3668_write_value(client, AS3668_CURRX_CONTROL, 0x0);
-+}
-+
-+static const struct i2c_device_id as3668_idtable[] = {
-+	{"as3668"},
-+	{}
-+};
-+
-+MODULE_DEVICE_TABLE(i2c, as3668_idtable);
-+
-+static const struct of_device_id as3668_match_table[] = {
-+	{.compatible = "ams,as3668"},
-+	{}
-+};
-+
-+MODULE_DEVICE_TABLE(of, as3668_match_table);
-+
-+static struct i2c_driver as3668_driver = {
-+	.driver = {
-+		.name           = "leds_as3668",
-+		.of_match_table = as3668_match_table,
-+	},
-+	.probe          = as3668_probe,
-+	.remove         = as3668_remove,
-+	.id_table       = as3668_idtable,
-+};
-+
-+module_i2c_driver(as3668_driver);
-+
-+MODULE_AUTHOR("Lukas Timmermann <linux@timmermann.space>");
-+MODULE_DESCRIPTION("AS3668 LED driver");
-+MODULE_LICENSE("GPL");
+Pawel Zalewski (2):
+      leds/leds-is31fl32xx: add support for is31fl3236a
+      dt-bindings: leds: issi,is31fl3236: add issi,22kHz-pwm property
+
+ .../devicetree/bindings/leds/issi,is31fl3236.yaml  | 104 +++++++++++++++++++++
+ .../devicetree/bindings/leds/leds-is31fl32xx.txt   |  52 -----------
+ drivers/leds/leds-is31fl32xx.c                     |  35 +++++++
+ 3 files changed, 139 insertions(+), 52 deletions(-)
+---
+base-commit: 52da431bf03b5506203bca27fe14a97895c80faf
+change-id: 20250625-leds-is31fl3236a-39cf52f969c7
+
+Best regards,
 -- 
-2.50.0
+Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 
 
