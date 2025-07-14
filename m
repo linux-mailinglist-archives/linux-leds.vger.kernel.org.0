@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-5057-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5058-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64624B03AEA
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 11:36:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A420B03AF0
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 11:37:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71E2F1A601A8
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 09:36:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7AB11A6000E
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 09:37:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04D87242D9B;
-	Mon, 14 Jul 2025 09:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2F523F419;
+	Mon, 14 Jul 2025 09:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwkQu7R5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtM+4Utu"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC38823C518;
-	Mon, 14 Jul 2025 09:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8242B23DEB6;
+	Mon, 14 Jul 2025 09:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752485758; cv=none; b=JBtf7fag7YANjCf4lKDDfE4dWR5xCpiuS8tOeSRpWF2IMX5psWKjS/8kvAaiBvTSfL15PzVnEBcTXPlfyx4ZCVyOHgN1Ok5YQA/4t8IDx54F2+WAACTUIiX80QBl9mN6bKGIG1wAiJuZOYhoy2700gr2KWuapCvJz+eu/Sidt7o=
+	t=1752485820; cv=none; b=gGM3+wAk3bLrQOQ5VJBwtbQkdJw5bL5sJkKnv2vnMxvAvfNYjQGrCwtWcSsB/BLymbBDS1CBEDzQiCKbfkJXi9nxndnC66COXTXJ2PT0ZGkqkyx40zTltdo/BQoDxmxeu5DOVMXcown9VIbeQixotnQaShgTGqePzb2S2w/KjO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752485758; c=relaxed/simple;
-	bh=ioMhl8i8W0G08qo7XdE3s2hXJ0t7pApFJOaYfH/5FJg=;
+	s=arc-20240116; t=1752485820; c=relaxed/simple;
+	bh=q3gecb1dMcXk5bvZjsbtwWdjzJ+eURwjQLKaDhIg7UY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VIZsR100elWn84XSzNaokn86OejAxV5rbQurJFaFQ+djXgt+/6HxlKWfnjrnqeCVqesy0UYTkLwqnLfgZ0HnP/N0YnJJeKmZfRnmLS0PuRDJqVB0Ygn/kvewVkuApfrAW5+NOgJP8CDDV5ouoOfp0kwmvmJSVqyVmoia4vDZdKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwkQu7R5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3154C4CEFC;
-	Mon, 14 Jul 2025 09:35:54 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=VsvYXE7WtbaDWsthDwb3lCcbpNc7FTU+XB053zxdkVspYPq9g82u5P5IK13wxlMls8WzpEjugMkNLcF7RcucPeh3dSEyEXRRCwX52PgYaE2POtJs4aDecHlTbEabiRu3gZRcmTzvSThBufvTQeLqM9aQSs+GLVPRtRUlP8Yh8aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtM+4Utu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F07C4CEF8;
+	Mon, 14 Jul 2025 09:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752485758;
-	bh=ioMhl8i8W0G08qo7XdE3s2hXJ0t7pApFJOaYfH/5FJg=;
+	s=k20201202; t=1752485820;
+	bh=q3gecb1dMcXk5bvZjsbtwWdjzJ+eURwjQLKaDhIg7UY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AwkQu7R5D9R/4FjD71V6ji4QhyjWW4tFcpaTEzfolK6Pgy8VmSK51mfX4Do3y7aq5
-	 dfs6wFzwTKlEUlITL13wVqm2+ch8xPo14dNmr/fjPMg916mpuhzpOsUaW3NoMp7Fz7
-	 BbF5+10YnU/duHPDtomulK5Pc9Lss7WyIFQpfW5xz49GMAzjt8eNvtN5rRFg8q3iAP
-	 RzC0ch+EhNKMSicqaU/UywPLZ+rCl69ocHrk48nTtw3o207gzjRMmtFOZy3rTexHrC
-	 kldpNNxoFdzR/vpo2SYX62ku1FuMj8eZKd8QH69YtC4nIebOV+v6ab74o+f4rLlXlY
-	 KgowQICH691IQ==
-Message-ID: <2273eba8-1f98-4ec3-92f4-82a061e2336d@kernel.org>
-Date: Mon, 14 Jul 2025 11:35:52 +0200
+	b=YtM+4UtuvrkSC4DopkEPxCqpam/FB0InHStxd9z79pPNOqwJEnmGVeuzfOtkeVgpW
+	 X0WxZMXV/P3jvqhKQnXgumqxpfcH1uEzsZR/PipU2RwDQExaK9jhpQPAOMWDGCWlCu
+	 sda53ercJvoquL7ai0TC9jhlT4qoJOV/kLD8gNVZEcu2HTprI/LXmjpOhGD2qhBqs0
+	 aQAHH3HUIu7kpHDIVfP7W3sFY73eheh9aTJ3j//PHEqYIc/fpULnHd3GdvPUF+QcoI
+	 iY/SfYqHtO3r4PCq4oSuG4UPcgqGOeQvg93ELyhM5lLgytsvwmeTCDKZmOTp/YKFYL
+	 rTsw4oFh8F3Mw==
+Message-ID: <a6ac728d-783a-4916-8a94-6c182f32f358@kernel.org>
+Date: Mon, 14 Jul 2025 11:36:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,17 +50,18 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] leds/leds-is31fl32xx: add support for is31fl3236a
+Subject: Re: [PATCH v3 2/3] dt-bindings: leds: is31fl32xx: convert the binding
+ to yaml
 To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
  linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- devicetree@vger.kernel.org
+ devicetree@vger.kernel.org, Lucca Fachinetti <luccafachinetti@gmail.com>
 References: <20250708-leds-is31fl3236a-v3-0-d68979b042dd@thegoodpenguin.co.uk>
- <20250708-leds-is31fl3236a-v3-1-d68979b042dd@thegoodpenguin.co.uk>
- <20250709-primitive-offbeat-toad-08930d@krzk-bin>
- <CAA6zWZKVnrPoutWpKQ+qzg5zNE-dhLxWBiuAoV5vf2qHfzv-LA@mail.gmail.com>
+ <20250708-leds-is31fl3236a-v3-2-d68979b042dd@thegoodpenguin.co.uk>
+ <20250709-happy-gazelle-of-fascination-fe0fd4@krzk-bin>
+ <CAA6zWZKRA2Qn3ajN9f9o_oBTZAgrx22gP28A5CHgx=+0jFrOKg@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,25 +107,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAA6zWZKVnrPoutWpKQ+qzg5zNE-dhLxWBiuAoV5vf2qHfzv-LA@mail.gmail.com>
+In-Reply-To: <CAA6zWZKRA2Qn3ajN9f9o_oBTZAgrx22gP28A5CHgx=+0jFrOKg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/07/2025 11:09, Pawel Zalewski wrote:
->> Bindings go before the users (see submitting patches in DT).
+On 14/07/2025 11:16, Pawel Zalewski wrote:
 > 
-> I think I was confused with point 7 stating that dt-binding should come
+>> Pattern does not match entirely the reg constraints. 36 is 0x24.
+> 
+> Pattern allows for one or more hexadecimal values starting from 1,
+> so the second number should start from zero is the second error here.
 
-Point 7 speaks nothing about DT Bindings.
-
-> last within a series and point 6 stating it is only regarding DTS files,
-
-Neither point 6 says that it regards only DTS files.
-
-> missed point 5 altogether... Thanks !
-
-Are you sure you read correct and latest file?
-
+You cut entire context so I really do not know how the code looks like.
+Anyway, they do not match and this needs to be fixed.
 
 Best regards,
 Krzysztof
