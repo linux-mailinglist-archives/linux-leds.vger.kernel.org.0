@@ -1,113 +1,131 @@
-Return-Path: <linux-leds+bounces-5056-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5057-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D610B03A9F
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 11:18:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64624B03AEA
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 11:36:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65BA1189F8CC
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 09:18:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71E2F1A601A8
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 09:36:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E77C2405F9;
-	Mon, 14 Jul 2025 09:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04D87242D9B;
+	Mon, 14 Jul 2025 09:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="lvdeWwVj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwkQu7R5"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A53246796
-	for <linux-leds@vger.kernel.org>; Mon, 14 Jul 2025 09:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC38823C518;
+	Mon, 14 Jul 2025 09:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752484603; cv=none; b=Ma+xq73VXo/yHBGLEWQyufLzEYzQfdmEutcSk6F8uhU2OWf3z4BzAqptGm5InYOya2lxkaHPDyLmCdcaHM6rqqgtLznxC2zGG9r2nCdiJxgCUBSQyhmkHEVkHru5cfHDNtXWdQEN+OskNHbofquKJcz1pEMa1lrMgF6dVp8kDio=
+	t=1752485758; cv=none; b=JBtf7fag7YANjCf4lKDDfE4dWR5xCpiuS8tOeSRpWF2IMX5psWKjS/8kvAaiBvTSfL15PzVnEBcTXPlfyx4ZCVyOHgN1Ok5YQA/4t8IDx54F2+WAACTUIiX80QBl9mN6bKGIG1wAiJuZOYhoy2700gr2KWuapCvJz+eu/Sidt7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752484603; c=relaxed/simple;
-	bh=nG2jwbcLk7SXQKXcTmNSqdZ+/DC2xEkEzu3JnMvQfYw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KAT/+1spIOuZyIWna6fJ3CXlDRXaGjIgV2x6ojks8yPmln6efs7UTux8OZRIewlppxRyh/jZJxFdqaB16KQ4EpPuhGWr+LzcAgTyl62jtjqqvIBAir+qouTZwOglFokgfVIlvNY4WCdmQavB1r4QFoGsYCC7mwfk1smlqdyb4Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=lvdeWwVj; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-713fba639f3so33532107b3.1
-        for <linux-leds@vger.kernel.org>; Mon, 14 Jul 2025 02:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1752484601; x=1753089401; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nG2jwbcLk7SXQKXcTmNSqdZ+/DC2xEkEzu3JnMvQfYw=;
-        b=lvdeWwVjKR1Pf7nmoNWj3Dn90ESTbhWvKog7RDq9VtpFOsTClHn5MejmUsdBFqCTyU
-         PApnZGWdkWbnOGsMx+VnXgXd8Azc6ijPCAiePwHefBCwVIEE7Uq0jkRJxqrdh11MiT8N
-         yk382KQjVGqdCLWE0oZoWBmmzd4+LpDkuHZKIK2nrM0jswMxhGnmqqKXGsoc21iP3oer
-         Bw/io/VZjAPsOmOYtgASop8OfKVBsONPS+v4Ltlxp/0llxov1WwmK5eSppqwUU51S0s7
-         yYEtgjseZaAFmtUsN6oHWkNfiafLKn18F1RAg60G2mWQxEcAbSYruHyj+acEVNyngwxz
-         XlTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752484601; x=1753089401;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nG2jwbcLk7SXQKXcTmNSqdZ+/DC2xEkEzu3JnMvQfYw=;
-        b=DDjYaDQkQGuBdZxcVS16eTyJJXgq8KoxFsU+6dCI/QMQWZxt7SSssPZJ3eYDReMhVK
-         PZt5OD/kJvX/xC/iCvn+/rq/LajV18IJiNSly7DSNCY7WAS3jT2oxIKKPKOwT4LocnmQ
-         WbjDTTx6zkq6aq1w9q9oz3V0rBOlov0qz1QVm8yOOhmHM8t8Q0UhpbWi+VKRNfJHUboA
-         HymVnlqU5pUmEemIfKEl9rjHRguLoihapgcKlYIDirjniZTxpJkI5y98sVYOI44FxCEI
-         2pauQBlPRFeBqKOqtZEM2/J93IdU0oTIinRAO2GU4t5sdPowNt5J1Ixa8kF2fYbzQDVp
-         L8oA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSTi2NO+4GZGXALlPHLpYGWEFESmcDMZSmh3jEeGTYuggpbPGqLWdTt9jUYntzq3sh+m77ss2KayJj@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwtqC7hJ7jJ0Ws6QSKcdljmjGcn3cechYucmKy0qEu0BXAiW4J
-	hjJR9HjiE+nhdwodHk/WweKANYhzaxifgOEABfp3a4GST5EDYMnruvDxeGigarFcBQYA0TJlDCW
-	1JOKM7xpvftUt+ccSnL1vcgvtTx0p/w0Qx8R5y/ptRg==
-X-Gm-Gg: ASbGncsObRzDRKij0CNTdtlqhEmmaGUsHdeIIKXEQuKfWtpvl5q9L1+/qN0qf77FKQd
-	ar91rVmlJV1rXigQqi7IenO7q/RqZDrgFHlJ2iGlFn0NXz1P8jfdfxSKzcxoWcfon0+/YsQcIOL
-	cL+eBrFOKVC3tKQ1Q6J6hJFRvNn6kaf361RSpQ/4RftF6JohkHKIXl4yzNKxo6kAPWY1TWzmBK3
-	SGJHUEHIvXFdqCvd5hIleJ0iD1CIjvTZa+2J/c8Gg==
-X-Google-Smtp-Source: AGHT+IGGKVZL2gi3YF6dcBpVJCqmCTegzTcKiJ9fHmRZqlNYn7Bg2+Yd24bFWr79pSRo5RVmMmRv+MnI7JAH4UVwWPA=
-X-Received: by 2002:a05:690c:ec6:b0:70d:fe09:9b18 with SMTP id
- 00721157ae682-717d5c373a9mr204630517b3.2.1752484600812; Mon, 14 Jul 2025
- 02:16:40 -0700 (PDT)
+	s=arc-20240116; t=1752485758; c=relaxed/simple;
+	bh=ioMhl8i8W0G08qo7XdE3s2hXJ0t7pApFJOaYfH/5FJg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VIZsR100elWn84XSzNaokn86OejAxV5rbQurJFaFQ+djXgt+/6HxlKWfnjrnqeCVqesy0UYTkLwqnLfgZ0HnP/N0YnJJeKmZfRnmLS0PuRDJqVB0Ygn/kvewVkuApfrAW5+NOgJP8CDDV5ouoOfp0kwmvmJSVqyVmoia4vDZdKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwkQu7R5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3154C4CEFC;
+	Mon, 14 Jul 2025 09:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752485758;
+	bh=ioMhl8i8W0G08qo7XdE3s2hXJ0t7pApFJOaYfH/5FJg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AwkQu7R5D9R/4FjD71V6ji4QhyjWW4tFcpaTEzfolK6Pgy8VmSK51mfX4Do3y7aq5
+	 dfs6wFzwTKlEUlITL13wVqm2+ch8xPo14dNmr/fjPMg916mpuhzpOsUaW3NoMp7Fz7
+	 BbF5+10YnU/duHPDtomulK5Pc9Lss7WyIFQpfW5xz49GMAzjt8eNvtN5rRFg8q3iAP
+	 RzC0ch+EhNKMSicqaU/UywPLZ+rCl69ocHrk48nTtw3o207gzjRMmtFOZy3rTexHrC
+	 kldpNNxoFdzR/vpo2SYX62ku1FuMj8eZKd8QH69YtC4nIebOV+v6ab74o+f4rLlXlY
+	 KgowQICH691IQ==
+Message-ID: <2273eba8-1f98-4ec3-92f4-82a061e2336d@kernel.org>
+Date: Mon, 14 Jul 2025 11:35:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] leds/leds-is31fl32xx: add support for is31fl3236a
+To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ devicetree@vger.kernel.org
 References: <20250708-leds-is31fl3236a-v3-0-d68979b042dd@thegoodpenguin.co.uk>
- <20250708-leds-is31fl3236a-v3-2-d68979b042dd@thegoodpenguin.co.uk> <20250709-happy-gazelle-of-fascination-fe0fd4@krzk-bin>
-In-Reply-To: <20250709-happy-gazelle-of-fascination-fe0fd4@krzk-bin>
-From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Date: Mon, 14 Jul 2025 10:16:29 +0100
-X-Gm-Features: Ac12FXyAnSttrQTxfZ3hyjQUCceH_uU_FETUA29_qdO6yKKW6bWWhuKLl-Sbr54
-Message-ID: <CAA6zWZKRA2Qn3ajN9f9o_oBTZAgrx22gP28A5CHgx=+0jFrOKg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] dt-bindings: leds: is31fl32xx: convert the binding
- to yaml
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org, 
-	Lucca Fachinetti <luccafachinetti@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20250708-leds-is31fl3236a-v3-1-d68979b042dd@thegoodpenguin.co.uk>
+ <20250709-primitive-offbeat-toad-08930d@krzk-bin>
+ <CAA6zWZKVnrPoutWpKQ+qzg5zNE-dhLxWBiuAoV5vf2qHfzv-LA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAA6zWZKVnrPoutWpKQ+qzg5zNE-dhLxWBiuAoV5vf2qHfzv-LA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Driver as Linux driver or LED driver? If the first, then drop.
-LED driver, might not be obvious, could change to controller,
-however the datasheet refers to the device "LED driver".
+On 14/07/2025 11:09, Pawel Zalewski wrote:
+>> Bindings go before the users (see submitting patches in DT).
+> 
+> I think I was confused with point 7 stating that dt-binding should come
 
-> These should be people interested in this hardware, not subsystem
-> maintainers.
+Point 7 speaks nothing about DT Bindings.
 
-I will let maintainers decide who should be included here perhaps ?
+> last within a series and point 6 stating it is only regarding DTS files,
 
-> Keep consistent quotes, either " or '. You made different choice for the
-> same properties even...
+Neither point 6 says that it regards only DTS files.
 
-Copied over from original poster, have not spotted that before, thanks.
+> missed point 5 altogether... Thanks !
 
-> Pattern does not match entirely the reg constraints. 36 is 0x24.
+Are you sure you read correct and latest file?
 
-Pattern allows for one or more hexadecimal values starting from 1,
-so the second number should start from zero is the second error here.
 
-Thanks !
+Best regards,
+Krzysztof
 
