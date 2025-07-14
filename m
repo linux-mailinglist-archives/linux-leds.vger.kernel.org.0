@@ -1,126 +1,211 @@
-Return-Path: <linux-leds+bounces-5058-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5059-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A420B03AF0
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 11:37:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68DFB04660
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 19:24:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7AB11A6000E
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 09:37:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06BD61890D57
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 17:24:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2F523F419;
-	Mon, 14 Jul 2025 09:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E9502652B6;
+	Mon, 14 Jul 2025 17:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtM+4Utu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HsQu2Bqy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8242B23DEB6;
-	Mon, 14 Jul 2025 09:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD4F258CEC;
+	Mon, 14 Jul 2025 17:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752485820; cv=none; b=gGM3+wAk3bLrQOQ5VJBwtbQkdJw5bL5sJkKnv2vnMxvAvfNYjQGrCwtWcSsB/BLymbBDS1CBEDzQiCKbfkJXi9nxndnC66COXTXJ2PT0ZGkqkyx40zTltdo/BQoDxmxeu5DOVMXcown9VIbeQixotnQaShgTGqePzb2S2w/KjO8=
+	t=1752513855; cv=none; b=bM8HtDaH3F10u004jSYs3tareepmlRA/pKOcBvaAsDY8FG/1Cp6pEgU8xw1KYeDTkM7axB4Fn+oVh06T2J/xp2+FrfM/v/0MYU++ZOpQkC4lEFn7CfWBDronq02ey0vIyJKzdRRphQjGlR7YcXOFwQyobejm8lgvuRSJJyRCOv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752485820; c=relaxed/simple;
-	bh=q3gecb1dMcXk5bvZjsbtwWdjzJ+eURwjQLKaDhIg7UY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VsvYXE7WtbaDWsthDwb3lCcbpNc7FTU+XB053zxdkVspYPq9g82u5P5IK13wxlMls8WzpEjugMkNLcF7RcucPeh3dSEyEXRRCwX52PgYaE2POtJs4aDecHlTbEabiRu3gZRcmTzvSThBufvTQeLqM9aQSs+GLVPRtRUlP8Yh8aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtM+4Utu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F07C4CEF8;
-	Mon, 14 Jul 2025 09:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752485820;
-	bh=q3gecb1dMcXk5bvZjsbtwWdjzJ+eURwjQLKaDhIg7UY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YtM+4UtuvrkSC4DopkEPxCqpam/FB0InHStxd9z79pPNOqwJEnmGVeuzfOtkeVgpW
-	 X0WxZMXV/P3jvqhKQnXgumqxpfcH1uEzsZR/PipU2RwDQExaK9jhpQPAOMWDGCWlCu
-	 sda53ercJvoquL7ai0TC9jhlT4qoJOV/kLD8gNVZEcu2HTprI/LXmjpOhGD2qhBqs0
-	 aQAHH3HUIu7kpHDIVfP7W3sFY73eheh9aTJ3j//PHEqYIc/fpULnHd3GdvPUF+QcoI
-	 iY/SfYqHtO3r4PCq4oSuG4UPcgqGOeQvg93ELyhM5lLgytsvwmeTCDKZmOTp/YKFYL
-	 rTsw4oFh8F3Mw==
-Message-ID: <a6ac728d-783a-4916-8a94-6c182f32f358@kernel.org>
-Date: Mon, 14 Jul 2025 11:36:55 +0200
+	s=arc-20240116; t=1752513855; c=relaxed/simple;
+	bh=ivMptVJPBmGjWbt4HyCBkC3tTi1+splFFjDba4/JNF4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dpHJueXI0E0oZ3BsJ++LqMGE3exzm8eV6vaL2X8k3CCPSuoFeeeQiqZ/+icHknDpT+otFbBMWes7E45yF5bBXj3rR+4TtWa4MzjNL3GyntXmxUImQPKTZMXkIbtlA3RPQHfS8cvrTKcKNAw89CNK1acBfb6eUQBOdVbtJTxLsCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HsQu2Bqy; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-748e378ba4fso5364924b3a.1;
+        Mon, 14 Jul 2025 10:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752513853; x=1753118653; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3bNfx4hEwfmcyoQMDWcdh1F4yZRkkE/6FRX59g8xmTQ=;
+        b=HsQu2BqyA6xIf8fU7TxFmi5UXbLP7O0P0aFPuXNlOktG7pPR8UNnJWvC50/UnlhK3T
+         4nC8yPKKjifDozxcRx7UpXIxv0BAbhSTcMb3i0qDb+sgESITb+/E3yGxU9PF5ChgWt5B
+         P8J/bk8HqlzZc4vXifhm2nQkwM6Cf1TOMIUGRoVKVgFnnKj8DiaJALCvD0xMWgEzLjM9
+         Pwcknf54SXRMK+BHEB1Hes/oLcZYTgJpCfXevQAVJVZGcHRll65dLpYqORgpBSWsVO8U
+         JyDtv1AfCHcMosGozZ3zKooZi0Sqp+nT9XHrhmdcIfvdKIvwRA6gfOluKfqFrBgOQAOn
+         xOXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752513853; x=1753118653;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3bNfx4hEwfmcyoQMDWcdh1F4yZRkkE/6FRX59g8xmTQ=;
+        b=wC0usznk+zDJLgUAZP9Z1hgrwnUk9iBuB5oMxG0j9HIjVWpMWmtwNSse9NSSRfE5XX
+         NB58zjrzjRpoyTcgGoKz5LpVBdNZOZofocKeozZQys/FrPLpmG+jeYLgDuoMDHzkJ4Kh
+         WKr3WCNv2FkHNblLgBFo5dFOe0cHXvktIXq5GxuaJgncsMQF2TOxEfK8NYZSb83N6WHm
+         mX9kIHihnHK/8JFbkJnCRw2J7kcOajG99dYP/ZAQw5ruFoQ3DXXbCu7jIiLFf9dhzN5z
+         EK+IjvFGdOk7uQgjfwSYLyziXwxsjrPK1JziA2Ve24ltCGScuqw6+U0qCOzXAdeLmSwV
+         zlSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNxCgHpx0wp2X9RoEtGuOveXHww1W5dmo6WfwEwzGSD7sqjwadjHSk3wHrOxza6em63RsnJfE1NAbV@vger.kernel.org, AJvYcCWgqocuBcmbjXRWGP5vxIlY6p41EELoPpFSibuD0NjBe4bxXyVvsYzL5poG7CP2S4qWZpPQ+3UG6JWu2A==@vger.kernel.org, AJvYcCXV6o8Flk2cCecGBLpGlV/moBhIFzzNpO5AVwwudsWbsbmv+MsYqrsZf5AP9sEVbgX5pRVVTCmzd1jStJ0h@vger.kernel.org, AJvYcCXwuOP9kZUbsFhUJFFOMfm8bX4M04kHpM/uo6MzvKtF7Y5cAoI5X4LY3x3DwDH/c20RzRcrrha6RcU1@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWN6P/EXAyjRjyI8SjgaJG1wRuSxkuqR1Cq/JvuVIu28umpVmh
+	6+O3jP/sKm76h6RHgJ1q6q2/AXKunkEQK1jjxlZtTmN4kYIT7lMjwJgE
+X-Gm-Gg: ASbGncvs1qy8NPHRgMkt0c8L9S0zAzDk1+7oqKgIpFoOl416morzLVzp2GmGBdTmbKv
+	d52F1bVps4+Tnkx/oeV7zueCAkMfqqmM/KxAoXCGKrPYeNGRN9yVKtmLTFPpRv320ppjuuzI43/
+	RRUzNWH06HfxWyFM9g4ivVGryBEmVFz9LPAhdrwvv9qf4uV0RQy7NYSgLPmfvK+L/jTGQjTX7cb
+	5w2DFB/fh+OFHvIhEuX7yot/B5JxqsLGB+ehd1ubY+BcNEM7IRw5h4eVzUEMwCmEFjzoDtbHllw
+	ON9u0J4jEI8F8ht6zY5ou+a8PHVWJDiwNWS07tPrgyB306haa690nhKKUnjAmhhcfTa5IJCIYSk
+	b5O9lvxsBUvLFLANAavEnKaWX6QR0I6SvtQ==
+X-Google-Smtp-Source: AGHT+IECFvznfs7tBOSlhQ9vgkT7vcYrWHE1LgfLJoEE/TrW8B09kb+zHMan5vHOXPzu6cIW2bOAbw==
+X-Received: by 2002:a05:6a21:999d:b0:1f5:80a3:b008 with SMTP id adf61e73a8af0-231202f247emr24340540637.32.1752513852564;
+        Mon, 14 Jul 2025 10:24:12 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([42.114.162.205])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9e06537sm10495468b3a.43.2025.07.14.10.24.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 10:24:12 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v11 0/4] leds: add new LED driver for TI LP5812
+Date: Tue, 15 Jul 2025 00:23:51 +0700
+Message-Id: <20250714172355.84609-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] dt-bindings: leds: is31fl32xx: convert the binding
- to yaml
-To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- devicetree@vger.kernel.org, Lucca Fachinetti <luccafachinetti@gmail.com>
-References: <20250708-leds-is31fl3236a-v3-0-d68979b042dd@thegoodpenguin.co.uk>
- <20250708-leds-is31fl3236a-v3-2-d68979b042dd@thegoodpenguin.co.uk>
- <20250709-happy-gazelle-of-fascination-fe0fd4@krzk-bin>
- <CAA6zWZKRA2Qn3ajN9f9o_oBTZAgrx22gP28A5CHgx=+0jFrOKg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAA6zWZKRA2Qn3ajN9f9o_oBTZAgrx22gP28A5CHgx=+0jFrOKg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/07/2025 11:16, Pawel Zalewski wrote:
-> 
->> Pattern does not match entirely the reg constraints. 36 is 0x24.
-> 
-> Pattern allows for one or more hexadecimal values starting from 1,
-> so the second number should start from zero is the second error here.
+This patch series adds initial support for the TI LP5812,
+a 4x3 matrix RGB LED driver with autonomous engine control.
+This version provides a minimal, clean implementation focused
+on core functionality only. The goal is to upstream a solid
+foundation, with the expectation that additional features can
+be added incrementally in future patches.
 
-You cut entire context so I really do not know how the code looks like.
-Anyway, they do not match and this needs to be fixed.
+The driver integrates with the LED multicolor framework and
+supports a set of basic sysfs interfaces for LED control and
+chip management.
 
-Best regards,
-Krzysztof
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v11:
+- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
+- Simplify LED parsing to use a unified path.
+- Clean up and streamline code
+  - Use alphabetically ordered includes
+  - Remove redundant comments
+  - Fix style issues (e.g., comment capitalization, code placement)
+- Update ABI documentation to reflect reduced feature set.
+- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
+
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
+
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
+
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
+
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
+
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
+
+Nam Tran (4):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add basic support for TI/National Semiconductor LP5812 LED
+    Driver
+  docs: ABI: Document LP5812 LED sysfs interfaces
+  docs: leds: Document TI LP5812 LED driver
+
+ .../ABI/testing/sysfs-bus-i2c-devices-lp5812  |   40 +
+ .../ABI/testing/sysfs-class-led-lp5812        |  120 ++
+ .../devicetree/bindings/leds/ti,lp5812.yaml   |  229 ++++
+ Documentation/leds/index.rst                  |    1 +
+ Documentation/leds/leds-lp5812.rst            |   84 ++
+ MAINTAINERS                                   |   13 +
+ drivers/leds/rgb/Kconfig                      |   13 +
+ drivers/leds/rgb/Makefile                     |    1 +
+ drivers/leds/rgb/leds-lp5812.c                | 1147 +++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h                |  164 +++
+ 10 files changed, 1812 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-lp5812
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
+
+
+base-commit: f09079bd04a924c72d555cd97942d5f8d7eca98c
+-- 
+2.25.1
 
