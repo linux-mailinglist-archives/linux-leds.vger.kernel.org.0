@@ -1,236 +1,186 @@
-Return-Path: <linux-leds+bounces-5063-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5064-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4A4B04673
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 19:25:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7E5B05046
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Jul 2025 06:34:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D1B81892F44
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Jul 2025 17:25:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECB06188D3E2
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Jul 2025 04:34:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F249267B01;
-	Mon, 14 Jul 2025 17:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935AD2C3277;
+	Tue, 15 Jul 2025 04:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hkNU2zvo"
+	dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b="g0w5dBd1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011052.outbound.protection.outlook.com [52.101.70.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7287267AFC;
-	Mon, 14 Jul 2025 17:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752513878; cv=none; b=QuelVp4pfR3WQYTx64BQi78prU/7kdEzDf0PoOy5pzE5/8Eyb6943Y5JBbr9AvyFK9nAEkCu5rXl20aCaSMaXH3E1KUH4K6g2NC+NBNaGtO3dMgJ190c4pw7D+4ZJ0kPuNYiUL+c8BC8O5dwWoOdy1yU7fGmljc8ElwS7IDNXuA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752513878; c=relaxed/simple;
-	bh=56Sl/nGt3m5t3J5G+VzsIzv0+c8kzRwGZwhJI4NYYaI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ctP1f6/oueXSlMs2WCBDO3tx+elIEyNaD6jSe3VZ7sgqr/RC+ivY2/nHEh+Ys4CQUH5cGLQC8aXdI0YlWHETvopWRYarHm7Fef1bH8y/bUffJtmSf8pRq9OE5iGtGJbxR0QKTUusZyBiXGIw7CrcdxVRXWvsNXFcrApBU3PB6UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hkNU2zvo; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-748feca4a61so2572243b3a.3;
-        Mon, 14 Jul 2025 10:24:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC93325D55D;
+	Tue, 15 Jul 2025 04:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752554062; cv=fail; b=sODQgP0nR85QK5OxBH/6Q0hj9gPDwQ/v2hZnBvvKd7CN1XwSmgL+r276dWYAuaQnUnfn8cfLhybTWpZVuZXd3vXQaJKMg8sXE4SweKlCBuHsWXI0uSO7uHK7TgH94Y/y/HXHDFuZBelZDsSqEcIXxWZV89vUV+DklpUhTYb1HVc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752554062; c=relaxed/simple;
+	bh=C+J0cEKMopRWZbnFggQn9O7G3ByoUWrl0EJ1ATxzzp0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gMXAafR8z+/oeGPi7iEHbHbYTg0hptTG7L/jo2BAw4Nc8g5mhZCNbldpmF0P0m9AwqSdecR/2pS4wdQrTAk1HY2RumvwwJ33B86ihA0WrQhsgVLSdtDAGgErZe3388nOcheKoZBJ16Rva7e1qHZ0EEIFn4iTkDRYsXZuquppuaI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn; spf=fail smtp.mailfrom=leica-geosystems.com.cn; dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b=g0w5dBd1; arc=fail smtp.client-ip=52.101.70.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com.cn
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LI3vBVLqoiCK5VSf/je/b3gnDkKAi/Xf7Pl8mLYvsf+10wPvTs0e98E13YLVgejsE+5pG8IUlgBh9R2B7BPEaL74wPGtaaB1QQLOSAWWCo12n/lo5DUOMt7DFvvJ/Xsjj7o7V2LvYFjtZayw3syR4k9zOa393T5Pk4nenKhFANt50JKwwapG1FkNL5iKMH9pA6etA3jUEZdx6KNKGJHo2ceOvdW/aF2wnaIMBpfggebIiYMSlzaB8RZYmkG7GujVvFtk6SgiTMrRmJzwRFvqEcpMIwYFJFMVeldzTCG83yVm45kvi80dztVnRHhvFWfusvZ5XWHxdYrLu5FNRV+V2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LPWBvx0jdygPRw4B15xLPokUuRjjfovgbOyv++j2e/U=;
+ b=Q/rlAYbQhaOaol8PStLx1i60nGtb5mS6F660xBQ5nKGIPbH+8/iaYIo3pZYezTu+8pQFtnTrbysHtPTyHJmd4upjgBOoLeKWfKSPN5f24LZCepltBxcH/DyW5qaSpiCxwkMruBGIb38yT4N1rPaWfzMTxBYey3BiYKjKJcnLWqtxo/6rxKPIPLWD04sNv2olhBj0x0kW3TevAm1/1gApafYE/tjZKCKmpApKP6Ds3G4J48xEIY23D0vZVQKnmBO/6Cu/PwsvIdBbvdwxNDyQjx7J+XUWGJyrR108VF9n6ZLLqt3DtqdYBLxlVM1QZzpQnG7RVMUs1Naw0QSpLe4/jQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.94) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=leica-geosystems.com.cn; dmarc=pass (p=reject sp=reject
+ pct=100) action=none header.from=leica-geosystems.com.cn; dkim=none (message
+ not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752513876; x=1753118676; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4V9Yp9AA3hWAb7aqFhJTn2UKytTjSMNN61SVrfVNk7w=;
-        b=hkNU2zvopT3DJgrEUqXD6pMaRgQgNkTJNXjVdsFpoWWD1Or07isluURJ/oZeTGDZ+q
-         DqWb7kFkkeeuExs5EbWKmG2jjB7/fO6kqRaSRxFDX0wQkvgSd8G/7zISCtWse4Ool9Fk
-         qrpbefK0Hqfh02FqcyybEn3mCZeS23r3D1w5LkClN7gnmNRx7ECLNyYl0llyoh/4M+vm
-         LjbWSFBccP0b+CtiX7p6QmjEBSo8C8q55VXXQY4fI+svHA3zmhOlMsm12btbgmd1yUo0
-         wlJiIGQUHdBUy3vFmOF8FeWmBooE4NlwIou0QIAIJb93dajiU4t8LPTMl+bbDPWiIYk3
-         U0pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752513876; x=1753118676;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4V9Yp9AA3hWAb7aqFhJTn2UKytTjSMNN61SVrfVNk7w=;
-        b=QXLKCC5QdlXzDEXhaNz3TlwwNkmlYKbnLepHOIPR9uvcNabfXKlf+DAl/csNJWP7pQ
-         3RJ8szwkAVqWoKiMe9dxlTZSv7LELo8MKalcwBaqJF6sgo/ZhN7pzPegXOfhmh6AFCE4
-         oTLprRgyrKVTz9C1+f2GLUGzY9HmctIQVG78/jtq5/CF7nFqFMXIPNGz2A6aon1ffJQz
-         5LGW8uEA4pqjsEdUKYntN138x+F4vw1PcWUZsrHSEX/DgvpeH4Wk1qKNvxoy8l40yxRJ
-         evIeemgrmCMmb2HSKzXTpM6jOyVoiLWrRSquysnydn8pkuxjNVzu/MPHlYcBSowQ3nzw
-         v9uw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKNl6Mw1BigeE7Vmlcp7TfaUUAD/gfEq7DSN1w5Jldm3nhYvE1V/cLG/YN+1ww1b96O1nqRIS0ItPyJeRR@vger.kernel.org, AJvYcCWq+Yk0q/MC7zKUuOcFOsJBD7fMoGy+7NLX1oeKv1+awTtALwwJYK11QX455saRotcsJYrbebFMab8G@vger.kernel.org, AJvYcCWr5T4XGu3z38p8QaLWhT681tGGzwc+00k+1GucQsK0lesNp/rCT7SVNnF04GSK73owni4ozKrq5qHGiQ==@vger.kernel.org, AJvYcCX+0wtEvQE1/mZeeLhAmuC/gqjDpZdi1jrCXAXQu8i5tzuEVFQn911H67KEzgdq9+O0ai36OymkGwsr@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKxu2MUOh+UpE3DpBywe2bchwiqTgDv+8hsTmJs4CrTbSR6IIy
-	9oP/jJkte9/jFNal5TEZUQh4BzezJ+c9FgCxWJouTRil0zahWHmhQJP2
-X-Gm-Gg: ASbGncvJ6vskCKXUxwgiB05dWCZsKq71KIbW5bPKy5uY0Tf8zeODiC/Wlhiw2CR14Q3
-	5Z52wqONQf+irqlk57AyRjDJPEUuxzrDaf46Gam9SnX8IJyU5nMjaaIETHVjMmS83yx7/8fFg7x
-	sJOMP0215msc9kcJuRGVRIED4rBA9GYsgJaVpbXwL5DufkeeqqJRHx+Ny1jkimV29Sw3/B9WEpx
-	Dfizuw3gNSTHv8bQdzfAgwEAmLtZToqZonf6YpBHcwJ7CRQuqAGqdSus2USLQyAWONoU2/3SLIV
-	OshtuJZQ6WURVJbcJxjxBQ1Mg8+5y+i42fqVLE7cAhl3Z7tFggzw4Mo+cu+vpCQpLxVMFXhvehq
-	zFrWbzOGs8tlqNoF1ibSS8DBLFOCs+PJqsA==
-X-Google-Smtp-Source: AGHT+IE0vWBFAezL6BFt/xd6WGaxPsrHQkKxkqR4Xfc2/0QldAgEmWlTpd+zhOh8PwX2N7mWh7mZEg==
-X-Received: by 2002:a05:6a00:3cc9:b0:747:b04e:941a with SMTP id d2e1a72fcca58-74ee274d335mr15918850b3a.17.1752513875900;
-        Mon, 14 Jul 2025 10:24:35 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.114.162.205])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9e06537sm10495468b3a.43.2025.07.14.10.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 10:24:35 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
+ d=leica-geosystems.com.cn; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LPWBvx0jdygPRw4B15xLPokUuRjjfovgbOyv++j2e/U=;
+ b=g0w5dBd1MWOIuohwCIiFpchxC3SlXYC29WEQasKg9j2/0xH7REc0FUX7GROntOMWQ9wBek1JEBDZOk/4TZtm5tlwAIz3a5Ck22PigFf3bTkiIspfWb99gfyjFSKoHAG1MsfVJ9+ETUSxv0MZdwiZ6zAwINvTeY55z+abARrM/nw=
+Received: from DU7P195CA0013.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:54d::8) by
+ DU4PR06MB10095.eurprd06.prod.outlook.com (2603:10a6:10:5ee::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
+ 2025 04:34:12 +0000
+Received: from DB1PEPF000509F2.eurprd02.prod.outlook.com
+ (2603:10a6:10:54d:cafe::90) by DU7P195CA0013.outlook.office365.com
+ (2603:10a6:10:54d::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.32 via Frontend Transport; Tue,
+ 15 Jul 2025 04:34:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
+ smtp.mailfrom=leica-geosystems.com.cn; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com.cn;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com.cn
+ designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.94; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.94) by
+ DB1PEPF000509F2.mail.protection.outlook.com (10.167.242.148) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8922.22 via Frontend Transport; Tue, 15 Jul 2025 04:34:10 +0000
+Received: from GEO-W5CG2253GWB.lgs-net.com ([10.132.33.15]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Tue, 15 Jul 2025 06:34:09 +0200
+From: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
+To: lee@kernel.org,
+	pavel@kernel.org,
 	robh@kernel.org,
+	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
-	corbet@lwn.net,
 	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v11 4/4] docs: leds: Document TI LP5812 LED driver
-Date: Tue, 15 Jul 2025 00:23:55 +0700
-Message-Id: <20250714172355.84609-5-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250714172355.84609-1-trannamatk@gmail.com>
-References: <20250714172355.84609-1-trannamatk@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Qing-wu.Li@leica-geosystems.com.cn
+Cc: bsp-development.geo@leica-geosystems.com
+Subject: [PATCH V7 0/2] leds: pwm: Add optional GPIO enable pin support
+Date: Tue, 15 Jul 2025 12:34:03 +0800
+Message-ID: <20250715043405.6281-1-Qing-wu.Li@leica-geosystems.com.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 15 Jul 2025 04:34:10.0127 (UTC) FILETIME=[B551ADF0:01DBF541]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509F2:EE_|DU4PR06MB10095:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ceab3e14-edd5-4023-1a8c-08ddc358d834
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?1FWXdxZNUm9LXkWVqa6L1nTSPILmt9yj4i7k9rDVcU1al9XEk3c2fck9bUNo?=
+ =?us-ascii?Q?MtdpR0+K9x8f4sL2nIhtLLV5OFwihgu0JyZEs7E8Dw79UbBPDuXr1RBQv81u?=
+ =?us-ascii?Q?O4+Mly+GR1vTexglqhYMSWOcRuucaUpft+aQCCyvNgxGW6BhLVYZzr+J1rci?=
+ =?us-ascii?Q?1guaqfaTzXpJ8R8rkERAhOjzcCnue6LgbS60Eat0+VfAVSC/kb5eew+dE6cT?=
+ =?us-ascii?Q?7eTunll9kjHTKuVLbylSYyjwP/I4YVMbl5JYPnd1mjG/eb0cpQEPwz2h7o+d?=
+ =?us-ascii?Q?fO9lYD9KexYMqeGBHdrxX8w+Z1Vqb+J1LhywPy9zX9i43lbOnnbib2UnNmBJ?=
+ =?us-ascii?Q?tL3GmJudOzNgyfVX5vuHRUl8swM8W3Mq1UJxXmjdcMMMm7hDTYoFokMlDJay?=
+ =?us-ascii?Q?qk9CAIDB8ojzpQsICMSOU8KuCoJbirzcNXvFlSMyIWDPZ02lCclYPjPhr1DL?=
+ =?us-ascii?Q?fNl9hU/eLTTNG5wa5VogFTm/XX7gH7jQOA0hYQtpFKxJVFa+TSNOVLP/Qwos?=
+ =?us-ascii?Q?kAQVhMVsMUgOH9La0d6W2FKF87Grfzxjn6pXpZPmhKSPI3Mx3alx3Cx5Oakp?=
+ =?us-ascii?Q?bPFkV0OyJQCSzpaiI52/phk4RaQE5b2zowgduhp1qhuIw40rALjCid27le5M?=
+ =?us-ascii?Q?cQ/IU0+XCLo+KSUSikWhxDIR4kH6jS/srfQCIF/FCnOFbGo9/qre4ycIRU1J?=
+ =?us-ascii?Q?scgcjhNQ3zKMh/t08HUNGejaK7s3tLwL9hCm6prA5uuAdwA+BvWzLf+Xplid?=
+ =?us-ascii?Q?fbNt/zw/fmeyo2Uznffofcd0CmKbO+0gW2bSnWgIEDa/UqrlM6iC9pWqXBnO?=
+ =?us-ascii?Q?MU++cGeeKDdAUwkzrW9gb17GyP0i83sAz4VaKqInwVs9NXvaODijpJNdFZ7K?=
+ =?us-ascii?Q?Ge90cNkxPuezr7OlR8vpk9rFbAnxbyFu7+eVB+cIa3A0IXEbwEsRHIsiwGSj?=
+ =?us-ascii?Q?C36GTFTJRYsCvih2uTYSdp1rnTQ2+eFr0iTWc/rJfeVMx8IZ3Kwp76QFCU2H?=
+ =?us-ascii?Q?FABL/2sABz91hednjhdnktx3XKOW7aOT1ZEtssC2LTsxQiUKXCJQTzfUlFFo?=
+ =?us-ascii?Q?tszl4TMQn5dkqMCVNFP0Xt8wHcG6JCEzS6OYNBNsu+IOZt9EoNAM44bplnY8?=
+ =?us-ascii?Q?9vwB6QA+bny2lo0mK+0y3LXWys8LA0E9UMmLoJYvlECpQm2j0Ync/iSH263M?=
+ =?us-ascii?Q?xT/t74cHfVay/wTmVQky3PatjN2Tuf2naWOl+gDzhPkCWqT4M//iJMKM9hCx?=
+ =?us-ascii?Q?e2jVZqwaE0rwvuOZVDzhOazjvQXn1IHLQ30BXcqzCFmJytj61aCIppSjrpsZ?=
+ =?us-ascii?Q?DTzatefc/JBKF+IFrNBtr2nhMpO/EJK2tFGKlPYa9yVhWW9Mbz6R9vhr9Vqx?=
+ =?us-ascii?Q?zzedCA1jrTSvvetduWi2Frfhw82o0VH7bOHnEf7uYtJiqdVo+U4s1Pt+i6HY?=
+ =?us-ascii?Q?XpcUl8CiPYPeRnzKsdS2df9RP8B+s513ZehM/YAL8seKRRjaqcPth/znnPPo?=
+ =?us-ascii?Q?m4wgi9rOeh6r+uKGlUi9tDvCpG5VRfHK44OX?=
+X-Forefront-Antispam-Report:
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com.cn
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 04:34:10.6896
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ceab3e14-edd5-4023-1a8c-08ddc358d834
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509F2.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR06MB10095
 
-The driver provides sysfs interfaces to control and configure the
-LP5812 device and its LED channels.
+Add support for an optional GPIO enable pin to the PWM LED driver.
+Some LED controllers require an additional enable GPIO to be enabled
+on the device before PWM control can take effect.
 
-The documetation describes the chip's capabilities, sysfs interface,
-and usage examples.
+Testing:
+- Tested on i.MX8MP EVK board with TPS92380 LED backlight driver
+- Verified GPIO enable/disable functionality works correctly
+- Confirmed both GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW polarities
+  work properly
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/leds-lp5812.rst | 84 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- 3 files changed, 86 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 76fae171039c..bebf44004278 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,6 +25,7 @@ LEDs
-    leds-lp5523
-    leds-lp5562
-    leds-lp55xx
-+   leds-lp5812
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-new file mode 100644
-index 000000000000..4538cfdf415d
---- /dev/null
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -0,0 +1,84 @@
-+========================
-+Kernel driver for lp5812
-+========================
-+
-+* TI/National Semiconductor LP5812 LED Driver
-+* Datasheet: https://www.ti.com/product/LP5812#tech-docs
-+
-+Authors: Jared Zhou <jared-zhou@ti.com>
-+
-+Description
-+===========
-+
-+The LP5812 is a 4x3 matrix LED driver with support for both manual and
-+autonomous animation control. It provides features such as:
-+
-+- PWM dimming and DC current control
-+- Slope time configuration
-+- Autonomous Engine Unit (AEU) for LED animation playback
-+- Flexible scan and drive mode configuration
-+
-+This driver provides sysfs interfaces to control and configure the LP5812
-+device and its LED channels.
-+
-+Sysfs Interface
-+===============
-+
-+LP5812 device exposes a chip-level sysfs group:
-+  /sys/bus/i2c/devices/<i2c-dev-addr>/lp5812_chip_setup/
-+
-+The following attributes are available at chip level:
-+  - dev_config: Configure drive mode and scan order (RW)
-+  - device_command: Issue device-wide commands (WO)
-+  - sw_reset: Reset the hardware (WO)
-+  - fault_clear: Clear any device faults (WO)
-+  - tsd_config_status: Read thermal shutdown config status (RO)
-+
-+Each LED channel is exposed as:
-+  /sys/class/leds/led_<id>/
-+
-+Each LED exposes the following attributes:
-+  - activate: Activate or deactivate the LED (WO)
-+  - mode: manual or autonomous mode (WO)
-+  - led_current: DC current value (0–255) (WO)
-+  - max_current: maximum DC current bit setting (RO)
-+  - pwm_dimming_scale: linear or exponential (WO)
-+  - pwm_phase_align: PWM alignment mode (WO)
-+  - auto_time_pause_at_start: config start pause time (WO)
-+  - auto_time_pause_at_stop: config stop pause time (WO)
-+  - auto_playback_eau_number: Activate AEU number (WO)
-+  - auto_playback_time: Animation pattern playback times (WO)
-+  - aeu_playback_time: playback times for the specific AEU (WO)
-+  - aeu_pwm_<pwm_id>: PWM duty cycle setting for the specific AEU (WO)
-+  - aeu_slop_time_<st_id>: slop time setting for the specific AEU (WO)
-+  - lod_lsd: lod and lsd fault detected status (RO)
-+
-+Example Usage
-+=============
-+
-+To control led_A in manual mode::
-+    echo 1 1 1 > /sys/class/leds/LED_A/activate
-+    echo manual manual manual > /sys/class/leds/LED_A/mode
-+    echo 100 100 100 > /sys/class/leds/LED_A/led_current
-+    echo 50 50 50 > /sys/class/leds/LED_A/multi-intensity
-+
-+To control led_A in autonomous mode::
-+    echo 1 1 1 > /sys/bus/i2c/drivers/lp5812/xxxx/led_A/activate
-+    echo autonomous autonomous autonomous > /sys/class/leds/LED_A/mode
-+    echo linear exponential linear > /sys/class/leds/led_<id>/pwm_dimming_scale
-+    echo forward forward backward > /sys/class/leds/led_<id>/pwm_phase_align
-+    echo 0 0 0 > /sys/class/leds/led_A/auto_playback_eau_number # only use AEU1
-+    echo 10 10 10 > /sys/class/leds/led_A/auto_time_pause_at_start
-+    echo 10 10 10 > /sys/class/leds/led_A/auto_time_pause_at_stop
-+    echo 15 15 15 > /sys/class/leds/led_A/auto_playback_time
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm1
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm2
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm3
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm4
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm5
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t1
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t2
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t3
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t4
-+    echo aeu1:1 1 1 > /sys/class/leds/led_A/aeu_playback_time
-+    echo start > /sys/bus/i2c/drivers/lp5812/xxxx/lp5812_chip_setup/device_command
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cdba86f1768b..4fefc7fb7a9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24568,6 +24568,7 @@ S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
- F:	Documentation/ABI/testing/sysfs-class-led-lp5812
- F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-+F:	Documentation/leds/leds-lp5812.rst
- F:	drivers/leds/rgb/Kconfig
- F:	drivers/leds/rgb/Makefile
- F:	drivers/leds/rgb/leds-lp5812.c
+Device tree configuration used for testing:
+
+	backlight_keypad: backlight-keypad {
+		compatible = "pwm-leds";
+
+		led {
+			color = <LED_COLOR_ID_WHITE>;
+			enable-gpios = <&pca6416 11 GPIO_ACTIVE_HIGH>;
+			function = LED_FUNCTION_KBD_BACKLIGHT;
+			max-brightness = <100>;
+			pwms = <&pwm3 0 2500 0>;
+		};
+	};
+
+Changes in V7:
+- Format comment to match kernel style according to inputs from Lee Jones.
+
+
+LI Qingwu (2):
+  dt-bindings: leds: pwm: Add enable-gpios property
+  leds: pwm: Add optional GPIO enable pin support
+
+ .../devicetree/bindings/leds/leds-pwm.yaml    |  7 ++++++
+ drivers/leds/leds-pwm.c                       | 23 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+
 -- 
-2.25.1
+2.43.0
 
 
