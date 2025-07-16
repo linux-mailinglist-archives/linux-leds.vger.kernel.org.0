@@ -1,175 +1,160 @@
-Return-Path: <linux-leds+bounces-5075-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5080-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECC2B0711E
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Jul 2025 11:07:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 628A8B07B4D
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Jul 2025 18:38:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3E5A50595F
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Jul 2025 09:07:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A11831C23D16
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Jul 2025 16:38:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F9A2F1987;
-	Wed, 16 Jul 2025 09:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A9012F4A1E;
+	Wed, 16 Jul 2025 16:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FnlcVqaj"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="GX4Y4wKN"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B812F0C40;
-	Wed, 16 Jul 2025 09:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A9B433AC;
+	Wed, 16 Jul 2025 16:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752656849; cv=none; b=nmphx3vGV7gAyFuvTw2kEKIjj6ayxtnbTMai64LwTCHQHCgEDoeSs8fX4K4cfHj+jlMAPMDcPzqug9C9kW4v2khQHJ9CCYg3OFrzL4oLmJH4OVaVnZmQyhdfRWDdD8WfsQiAaQlQqu+6K7iUMRc5Is0bJsXNtt0RlreBH4Ti40w=
+	t=1752683883; cv=none; b=WJGnKA3MSAyLwOIpRC3z0gLkccKIQi7CRlPt4U76tmhA3grtC/kdu7q1pFadrt81jSOVgRaWmTuVl1Y3MewvhNdnF3FJgr0bpGtQTlAqDXi2RLWg2zMmI+X6CNv5UEstaHStnt6JBgU/0bk+qpE7KxTJh11HRoOZWn4lyLeseNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752656849; c=relaxed/simple;
-	bh=I5haGetjk5CR5fMUuZoz3rwX2PVyWVsn8Vb9i7Affcg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bgXXL6By1bVZHudevf8uedPBzU7peLicJX2Kq31RA1AlFv6Nrs27iHKjKl0jtgsXoawI9heO6TojIwd2y49gVHAVt+hgD3qWV8V0E0O+FpwDUq8/7Vb1SdJ0hJ1dpgUU5ZbmlU0zvg4rshcDeOPU1CYXB44zyHQ7GCu+1NDErTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FnlcVqaj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1B0F6C4CEF9;
-	Wed, 16 Jul 2025 09:07:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1752656849; bh=I5haGetjk5CR5fMUuZoz3rwX2PVyWVsn8Vb9i7Affcg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=FnlcVqajhbuAD3G6jgcUACAEXfKn4/lUKua0aAPT4nQrPcaqRe1488aQByWg91sKq
-	 SNZDMwRVR4zitQNWIpvfjhJBbVggObd2A7gPASoG+WBiQ7OlfiS3RXx5yc202g6P8Z
-	 rRQhFQhVuQ+e0O63c+clEMLdfHahpWV6UV8+yft4=
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 153D2C83F22;
-	Wed, 16 Jul 2025 09:07:29 +0000 (UTC)
-From: Richard Leitner <richard.leitner@linux.dev>
-Date: Wed, 16 Jul 2025 11:07:01 +0200
-Subject: [PATCH v6 11/11] media: i2c: ov9282: dynamic flash_duration
- maximum
+	s=arc-20240116; t=1752683883; c=relaxed/simple;
+	bh=zFmtA21AaEV1+kxfnsDnysiKefMlwlfiKdpeTCGGCyk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fdnk60WBZUMdil5e/39iJPueiD2HbmZskAw+kX05T+jMSrkhKEFa4XSDLXiwCZ7Yghj9wQLOBC+j4LTciZSOGrTUsScqcqqnbjI0QO3xXv1PpdMcAhCcup9Rct6QWQ/2ktJ8kxUtHw8Fe9aer8fATmJp7K0M5zaDGoSW2I1I8ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=GX4Y4wKN; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1752683854; x=1753288654; i=w_armin@gmx.de;
+	bh=zFmtA21AaEV1+kxfnsDnysiKefMlwlfiKdpeTCGGCyk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=GX4Y4wKNu128WgMJ8lxHjftmSrSg5DGfmwzUBmUmJ9dckeBq0oGJ3Uly8aPs0qzc
+	 /sDnCYpqqHNQb8rmPuc4Ktz2tMhtlUActsLWJ684skYiFQpGOQ1paNmqypf9qa1a8
+	 xt4dys9ALbx1HS7l7CIQF/orjbg0btSEnqu60LX8Fjgmx2b/h/rVeJHVEigG0PPbn
+	 AeKnPefuxew6M9T2vTCejXCtU5J6uCNmjyuE0Yh2Enb4eaXHrz6nnud9RBI9JTIpX
+	 lBO7x1QUGjydxt742rv2riSuxLK8ds16N4QmXu7s/ZSESNkkh2d0TEce8/vTTG+o+
+	 8wgkrCyWyQlpLK6VXQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3KPg-1ukA6Z2Pli-00vbSy; Wed, 16
+ Jul 2025 18:37:33 +0200
+Message-ID: <b0ac5ea8-e18c-4460-8366-efef4f6e9cc6@gmx.de>
+Date: Wed, 16 Jul 2025 18:37:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250716-ov9282-flash-strobe-v6-11-934f12aeff33@linux.dev>
-References: <20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev>
-In-Reply-To: <20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- Richard Leitner <richard.leitner@linux.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752656846; l=3617;
- i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=I5haGetjk5CR5fMUuZoz3rwX2PVyWVsn8Vb9i7Affcg=;
- b=VB1tzvKw7r+KAkKWuxzY3h7EKOJfEH0R4/CayW98olpyAwCNKSdi8lRLtPjbL1FnDnYtAmLN5
- Y4gOIfsP120CCzm+SHFgBvZ7SgQLQiywUYomdPDt7oPY4iQyooczujA
-X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
- pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
-X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
- with auth_id=350
+User-Agent: Mozilla Thunderbird
+Subject: Re: [External] : [PATCH 1/3] platform/x86: Add Uniwill WMI driver
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>, ilpo.jarvinen@linux.intel.com,
+ hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+ wse@tuxedocomputers.com, ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+ linux-leds@vger.kernel.org, lee@kernel.org, pobrn@protonmail.com
+References: <20250712112310.19964-1-W_Armin@gmx.de>
+ <20250712112310.19964-2-W_Armin@gmx.de>
+ <2cc8f650-e917-4bed-80f0-e74b37a426f5@oracle.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <2cc8f650-e917-4bed-80f0-e74b37a426f5@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:IIPBYNdS1rgS4+iSJyOtw8Yjfx7X1mylxTIVnWb2bfJdthNEabN
+ NQXd8t37MWppKy8Zsz4jxRULKQk9dyan9vCr3XkSTE7rMImJG9uApiqSldEHRQgA2XTijMv
+ XjAHLvFsa9rUhV7cJTxel/GnXC3DTd6Tf6IGmI/SD0I/BWAhp0+cGM6O+mulZjeMhrMAELd
+ BYqNkjKLkIHijprWagR2Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:nrN5zB//Kyg=;TJgbUBqtiypFW+cUjVwghzoskK0
+ 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
 
-This patch sets the current exposure time as maximum for the
-flash_duration control. As Flash/Strobes which are longer than the
-exposure time have no effect.
-
-Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
----
- drivers/media/i2c/ov9282.c | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index b104ae77f00e9e7777342e48b7bf3caa6d297f69..3253d9f271cb3caef6d85837ebec4f5beb466a4d 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -198,6 +198,7 @@ struct ov9282_mode {
-  * @exp_ctrl: Pointer to exposure control
-  * @again_ctrl: Pointer to analog gain control
-  * @pixel_rate: Pointer to pixel rate control
-+ * @flash_duration: Pointer to flash duration control
-  * @vblank: Vertical blanking in lines
-  * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
-  * @cur_mode: Pointer to current selected sensor mode
-@@ -220,6 +221,7 @@ struct ov9282 {
- 		struct v4l2_ctrl *again_ctrl;
- 	};
- 	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *flash_duration;
- 	u32 vblank;
- 	bool noncontinuous_clock;
- 	const struct ov9282_mode *cur_mode;
-@@ -611,6 +613,15 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
- 					mode->vblank_max, 1, mode->vblank);
- }
- 
-+static u32 ov9282_exposure_to_us(struct ov9282 *ov9282, u32 exposure)
-+{
-+	/* calculate exposure time in µs */
-+	u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
-+	u32 trow_us = (frame_width * 1000000UL) / ov9282->pixel_rate->val;
-+
-+	return exposure * trow_us;
-+}
-+
- /**
-  * ov9282_update_exp_gain() - Set updated exposure and gain
-  * @ov9282: pointer to ov9282 device
-@@ -622,9 +633,10 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
- static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
- {
- 	int ret;
-+	u32 exposure_us = ov9282_exposure_to_us(ov9282, exposure);
- 
--	dev_dbg(ov9282->dev, "Set exp %u, analog gain %u",
--		exposure, gain);
-+	dev_dbg(ov9282->dev, "Set exp %u (~%u us), analog gain %u",
-+		exposure, exposure_us, gain);
- 
- 	ret = ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 1);
- 	if (ret)
-@@ -635,6 +647,12 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
- 		goto error_release_group_hold;
- 
- 	ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, gain);
-+	if (ret)
-+		goto error_release_group_hold;
-+
-+	ret = __v4l2_ctrl_modify_range(ov9282->flash_duration,
-+				       0, exposure_us, 1,
-+				       OV9282_FLASH_DURATION_DEFAULT);
- 
- error_release_group_hold:
- 	ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 0);
-@@ -1420,6 +1438,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl *ctrl;
- 	u32 hblank_min;
-+	u32 exposure_us;
- 	u32 lpfr;
- 	int ret;
- 
-@@ -1491,8 +1510,11 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 	/* Flash/Strobe controls */
- 	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
- 
--	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
--			  0, 13900, 1, 8);
-+	exposure_us = ov9282_exposure_to_us(ov9282, OV9282_EXPOSURE_DEFAULT);
-+	ov9282->flash_duration = v4l2_ctrl_new_std(ctrl_hdlr,
-+						   &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-+						   0, exposure_us,
-+						   1, OV9282_FLASH_DURATION_DEFAULT);
- 
- 	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
- 				      V4L2_CID_FLASH_STROBE_SOURCE,
-
--- 
-2.47.2
-
-
+QW0gMTIuMDcuMjUgdW0gMTM6NDYgc2NocmllYiBBTE9LIFRJV0FSSToNCg0KPg0KPj4gK8KgwqDC
+oCAvKiBSZXBvcnRlZCB3aGVuIHRoZSB1c2VyIGxvY2tzL3VubG9ja3MgdGhlIHN1cGVyIGtleSAq
+Lw0KPj4gK8KgwqDCoCB7IEtFX0lHTk9SRSzCoMKgwqAgVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xP
+Q0tfRU5BQkxFLMKgwqDCoCB7IA0KPj4gS0VZX1VOS05PV04gfX0sDQo+PiArwqDCoMKgIHsgS0Vf
+SUdOT1JFLMKgwqDCoCBVTklXSUxMX09TRF9TVVBFUl9LRVlfTE9DS19ESVNBQkxFLMKgwqDCoCB7
+IA0KPj4gS0VZX1VOS05PV04gfX0sDQo+PiArDQo+PiArwqDCoMKgIC8qIFJlcG9ydGVkIGluIG1h
+bnVhbCBtb2RlIHdoZW4gdG9nZ2xpbmcgdGhlIGFpcnBsYW5lIG1vZGUgDQo+PiBzdGF0dXMgKi8N
+Cj4+ICvCoMKgwqAgeyBLRV9LRVkswqDCoMKgIFVOSVdJTExfT1NEX1JGS0lMTCzCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHsgS0VZX1JGS0lMTCB9fSwNCj4+ICsNCj4+ICvCoMKgwqAgLyogUmVwb3J0
+ZWQgd2hlbiB1c2VyIHdhbnRzIHRvIGN5Y2xlIHRoZSBwbGF0Zm9ybSBwcm9maWxlICovDQo+PiAr
+wqDCoMKgIHsgS0VfSUdOT1JFLMKgwqDCoCBVTklXSUxMX09TRF9QRVJGT1JNQU5DRV9NT0RFX1RP
+R0dMRSzCoMKgwqAgeyANCj4+IEtFWV9VTktOT1dOIH19LA0KPj4gKw0KPj4gK8KgwqDCoCAvKiBS
+ZXBvcnRlZCB3aGVuIHRoZSB1c2VyIHdhbnRzIHRvIGFkanVzdCB0aGUgYnJpZ2h0bmVzcyBvZiB0
+aGUgDQo+PiBrZXlib2FyZMKgICovDQo+DQo+IHJlbW92ZSBleHRyYSAiICIgYWZ0ZXIga2V5Ym9h
+cmQNCg0KV2lsbCBkby4NCg0KVGhhbmtzLA0KQXJtaW4gV29sZg0KDQo+DQo+PiArwqDCoMKgIHsg
+S0VfS0VZLCBVTklXSUxMX09TRF9LQkRJTExVTURPV04swqDCoMKgwqDCoMKgwqAgeyBLRVlfS0JE
+SUxMVU1ET1dOIH19LA0KPj4gK8KgwqDCoCB7IEtFX0tFWSzCoMKgwqAgVU5JV0lMTF9PU0RfS0JE
+SUxMVU1VUCzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHsgS0VZX0tCRElMTFVNVVAgDQo+PiB9fSwN
+Cj4+ICsNCj4+ICvCoMKgwqAgLyogUmVwb3J0ZWQgd2hlbiB0aGUgdXNlciB3YW50cyB0byB0b2dn
+bGUgdGhlIG1pY3JvcGhvbmUgbXV0ZSANCj4+IHN0YXR1cyAqLw0KPj4gK8KgwqDCoCB7IEtFX0tF
+WSzCoMKgwqAgVU5JV0lMTF9PU0RfTUlDX01VVEUswqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB7IEtF
+WV9NSUNNVVRFIH19LA0KPj4gKw0KPj4gK8KgwqDCoCAvKiBSZXBvcnRlZCB3aGVuIHRoZSB1c2Vy
+IGxvY2tzL3VubG9ja3MgdGhlIEZuIGtleSAqLw0KPj4gK8KgwqDCoCB7IEtFX0lHTk9SRSzCoMKg
+wqAgVU5JV0lMTF9PU0RfRk5fTE9DSyzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHsgS0VZX0ZOX0VT
+QyB9fSwNCj4+ICsNCj4+ICvCoMKgwqAgLyogUmVwb3J0ZWQgd2hlbiB0aGUgdXNlciB3YW50cyB0
+byB0b2dnbGUgdGhlIGJyaWdodG5lc3Mgb2YgdGhlIA0KPj4ga2V5Ym9hcmQgKi8NCj4NCj4NCj4g
+VGhhbmtzLA0KPiBBbG9rDQo+DQo=
 
