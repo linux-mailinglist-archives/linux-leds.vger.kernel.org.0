@@ -1,118 +1,166 @@
-Return-Path: <linux-leds+bounces-5083-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5084-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCB8B0887F
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Jul 2025 10:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9351BB09016
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Jul 2025 17:02:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 248B71881BE7
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Jul 2025 08:54:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA3801C440FE
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Jul 2025 15:02:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC25286D79;
-	Thu, 17 Jul 2025 08:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A0FF2F8C21;
+	Thu, 17 Jul 2025 15:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qhwsfa/V"
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="HW3SepBV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0750286D7F;
-	Thu, 17 Jul 2025 08:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47D314AA9
+	for <linux-leds@vger.kernel.org>; Thu, 17 Jul 2025 15:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752742444; cv=none; b=fhY6OkpZsKnlLmq2F46Faqj3/GJuEdu7/PuzPFsMMyYTCqqishZuzpRX/PApQsOyI5iwS/IE71I+E/bmhLTiSZk956PiAcs95ISE6AqmWgn0E1AtEkpQqQ5VR7T/FNvqWUr7qEWct7xHYfircHs3CH9VhgbBkCD+F3Frww+U6Mc=
+	t=1752764539; cv=none; b=f36KGQCw7YkbNUcRrNjdK4CzvZVPhTstEFDLFieVzu19HACt1hpjzI5LpTig8bOCfo2GQRQorFiP+Wjh/g+o4Qt+XLqBg2jsT1tTSPx1PeCeWBoppUzccl1h1k+/YTpMDfATUS/hx4ZVGohFi65W8E7BW7ajssCyCskY4b+wEBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752742444; c=relaxed/simple;
-	bh=ikS7eZGcyckpPcCBZR25oVV9mLaq7LJ2mNH1ZNn1IYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hufDc3kW0qJFbbl8PWERm2bJDdMhSFO4vLZREsn314rEfnh0OAvCJVD7sounOvGI9no0w9JQmItlfr1pLrmeAjTHD8Sgq4QDjJGTIDEzZDK0taSr/DTpLedY4mjIuqyRpfSWILnjU2RiLKf5B6mfMQ/sI23j8dEOJDzAu4QCr00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qhwsfa/V; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752742441; x=1784278441;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ikS7eZGcyckpPcCBZR25oVV9mLaq7LJ2mNH1ZNn1IYI=;
-  b=Qhwsfa/VdxcZ4dEn9B52CSZBb+GJQmjQ2PY1HqtaWv82O3XjkHi/oPQ4
-   WdlJicb0443bhC9IW3Oy+12Ckl5I4o6dqDRMyPlbgstNNhxWB2lvqAFfm
-   2VwuSsJQDh8qzEVlQQ/uvVx5vieN60rl1GmixCP0qeWkHnut8r5PXtYS0
-   L4EG3EV+A+sM0CUnOQapakwdlbyevVINLJmRa7xS9eVhr9AV7bEp/QM3i
-   3t1rgncEdJp88Or+3vLBnggaFUEYGMDuB8TYs7xivr7AWnJ90ddCpBtS2
-   stUS/E6ZrdeGSJJFr3uaDq2DWG+Hcoc4RrU8TkqoQ4MqeZiyn03eU3PXk
-   Q==;
-X-CSE-ConnectionGUID: 3+bxPew5SJi+KrMDEiufmQ==
-X-CSE-MsgGUID: P5yhT7VDT/GKKexWUoLTtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="77545620"
-X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
-   d="scan'208";a="77545620"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 01:54:01 -0700
-X-CSE-ConnectionGUID: d1C2phvQR4ieMhMwvadKsg==
-X-CSE-MsgGUID: kyaY/dfGQBaFgpqj3zXccA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
-   d="scan'208";a="158438320"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Jul 2025 01:53:58 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucKNH-000DPb-32;
-	Thu, 17 Jul 2025 08:53:55 +0000
-Date: Thu, 17 Jul 2025 16:53:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Richard Leitner <richard.leitner@linux.dev>
-Subject: Re: [PATCH v6 10/11] media: i2c: ov9282: implement try_ctrl for
- strobe_duration
-Message-ID: <202507171651.LXHLvA4w-lkp@intel.com>
-References: <20250716-ov9282-flash-strobe-v6-10-934f12aeff33@linux.dev>
+	s=arc-20240116; t=1752764539; c=relaxed/simple;
+	bh=H4LIa626xEOLlaxsQS5X/nt+lLY+d/ck3xmY4NV9Ao8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OyBUUOr+J4B/Kj6gR1siSDtaUHiuVfCpn2mdvCGHmxvu6MhELq0jhR+U6QyGIFSc5B3NKSTNohW99mkeq9XTYACkFcQBxgetdiE6vLyP4Lq8fSLkozUlhVW/KJWEl5V69R/UXbRu2kcYFSNTXoAGXXomJPh5q6jY9NDQoxUsspo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=HW3SepBV; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45634205adaso5524375e9.2
+        for <linux-leds@vger.kernel.org>; Thu, 17 Jul 2025 08:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1752764536; x=1753369336; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gzrbU56K5IfJP3PpMJ1CGzGqrCG/8v9FE3MJTtmSMiU=;
+        b=HW3SepBVb2jPHjk7wigB21HcDE9ZN63poWuscQDMPknvcYw7753woER4JlMdKQzeMf
+         TXR6KhW8D17W0nt6pEAbKdbeVwuwANjE2SD2RWOVr8WPRnCJa3KGbB2Lis0PgadcLLnd
+         mmQqUgSzpxtc7Ry4lm3NRiUqheaxdPo9KE21v8QIZprq6BAIxxLzn4KiF9pw+cu2AMUA
+         JmpzblvRDLXs18g7qX+wxstlWH54IlwvbMYDKUQl6CXBidKEBG60rVHpeVzv1G2ss7H9
+         6DGOPJIBhA/Jdc5uy/4GtJut/gZNQPN+3fI4SszDoJOF2IIhAIaPyYMNmTgmamacbeMf
+         UeKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752764536; x=1753369336;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gzrbU56K5IfJP3PpMJ1CGzGqrCG/8v9FE3MJTtmSMiU=;
+        b=XT5iFkQoyFUNNe6cQUdWD232nUeV5tdgoOr9Iv0lEXS+kyU9P4VWdv/yOp/sstPAW6
+         tXlfLQz8xI3x7/JiDmg5Emwdvykfi2CF8/c4SI46g3Fx6H/b7LO4GVINzIzqHTudxRSN
+         hZXU+It4oIUMTVdeWcJT7y1mPahwXP9SXUjNbmUixEvwqw2nYaSF+F93JtBghKk0YMQP
+         yvg0BA11IE52cutJHTthzKxsRQoc48YjLfNJ9pG27DVt4f77IcAG186Yie3I1nCxFUvZ
+         h9OAFxdkP5Y+3MiyL/1pewpXQOkqh0WWFPeU1EDE7Px8uFnXTmXG5fcpTLwoQMz3N0Js
+         pPzw==
+X-Gm-Message-State: AOJu0YxAyB+IC8tdkXoHXUePC4cpTYn8xGDr9ZQkuinxKD4U2yl99TLU
+	4LdGP4Bpc0Im+LI5qNTgb/1tT91hcrfdnCs5qvwN3zACIyARWW021GAH4PHA878eas9pySCOtv4
+	vH8yEDew=
+X-Gm-Gg: ASbGncvkHYcEXcNa4adWt4yNX/YdN3TwFJZNImEcI7/qkueieL/VO5iwy0dLFUY5fE6
+	JisZmdb0J8AHGLfPWl9pCcXQbfyRq0jzdw5OOW7ufIR74+Z4QDp+1CxjZ/1BLVq1t4JYXYSw3us
+	hSSl/b1uhqENvOiRw4N19VC537dJ3KXju2XAiC6V/p0io7wvHCHA0F5x47sdqHUi7utw5UYd49x
+	fSxKF1hhWguz9dkH6mOUWJqY9LaG1TpLb7tOdUFtZaiN47lSzL+TMvrv7upHjp06Z5vSDbgefVt
+	WxL8EK84tkjNzKcwq1eDTy/WCGXO4kUQq6zGl5eyPJygFaKglW47+BoGaH7q18sWQa+XldgL3Pq
+	Um105dO9fuBX80NYCqab7GI4weBa9i8E+NfFbwS0=
+X-Google-Smtp-Source: AGHT+IF39igwziCAqdOnTt08sRDv6h+pXbJCOVP9ajX8pMoDL7itBz1HPlCLRa7pOM6cyKs5zI1mBw==
+X-Received: by 2002:a05:600c:6097:b0:43c:fdbe:4398 with SMTP id 5b1f17b1804b1-4562e37a142mr63015855e9.6.1752764534621;
+        Thu, 17 Jul 2025 08:02:14 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:23c7:1d1a:9c01:ebc8:7ccb:ef04:4f83])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45634f5cb9bsm25321885e9.10.2025.07.17.08.02.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 08:02:14 -0700 (PDT)
+From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Subject: [PATCH v4 0/3] Add support for is31fl3236a LED controller
+Date: Thu, 17 Jul 2025 16:02:06 +0100
+Message-Id: <20250717-leds-is31fl3236a-v4-0-72ef946bfbc8@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250716-ov9282-flash-strobe-v6-10-934f12aeff33@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG4QeWgC/2WNQQqDMBBFryKzbsROTCRd9R7FhcSJDpVEEpUW8
+ e5Nha66fA/++zskikwJbsUOkTZOHHyG+lKAHTs/kOA+M2CFqtKoxER9Epzk1U0Spe6ENNYpdEY
+ b20CezZEcv87ko808clpCfJ8PG37tL9b8xzYUlXCaXFMbZUmr+zLSEEI/kx9W9qUN5fqE9jiOD
+ x9nWVe7AAAA
+X-Change-ID: 20250625-leds-is31fl3236a-39cf52f969c7
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org, 
+ Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>, 
+ Lucca Fachinetti <luccafachinetti@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752764533; l=2437;
+ i=pzalewski@thegoodpenguin.co.uk; s=20250625; h=from:subject:message-id;
+ bh=H4LIa626xEOLlaxsQS5X/nt+lLY+d/ck3xmY4NV9Ao8=;
+ b=8nn0zcS3v07F3mGen051A6nfQgycEIbgF2T8tAyxDQOe1LoH+6QEjGugKFbGyrn4JvQGAMKZH
+ 1K9TNRZ81CPCnz2By2ZfgBmC1BaldFLuDs0gzCXwsHTKuA1058B5nQn
+X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
+ pk=hHrwBom/yjrVTqpEvKpVXLYfxr6nqBNP16RkQopIRrI=
 
-Hi Richard,
+This series of patches adds support for the is31fl3236a led
+controller. The main difference between this IC and the
+is31fl3236 is that there is a new parameter/register that
+moves the operating frequency of the PWM outputs out of 
+the audible range.
 
-kernel test robot noticed the following build errors:
+To support the new register a property was added in the dt-bindings,
+as this property is at the board layout level ie. not all
+boards will have analog audio and have to worry about it.
 
-[auto build test ERROR on d9946fe286439c2aeaa7953b8c316efe5b83d515]
+To add the new property the old .txt binding documentation was
+ported to .yaml format. There was a previous attempt to do this
+in 2024 but the original author has never acted on the feedback
+given [1]. So I have implemented changes requested in that 
+review and added his Signed-off-by.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-v4l-ctrls-add-a-control-for-flash-strobe-duration/20250716-171003
-base:   d9946fe286439c2aeaa7953b8c316efe5b83d515
-patch link:    https://lore.kernel.org/r/20250716-ov9282-flash-strobe-v6-10-934f12aeff33%40linux.dev
-patch subject: [PATCH v6 10/11] media: i2c: ov9282: implement try_ctrl for strobe_duration
-config: i386-randconfig-014-20250717 (https://download.01.org/0day-ci/archive/20250717/202507171651.LXHLvA4w-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171651.LXHLvA4w-lkp@intel.com/reproduce)
+The new functionality was tested by scoping the PWM signal. Out of
+reset the IC is in 3kHz mode, thus action is taken only if the new
+boolean value is set to true in the device tree.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507171651.LXHLvA4w-lkp@intel.com/
+[1] https://lore.kernel.org/linux-leds/20240701-overview-video-34f025ede104@spud/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Changes in v2:
+- Added cover letter
+- Ported dt-binding to yaml
+- Refactored driver module
+- Link to v1: https://lore.kernel.org/linux-leds/CAA6zWZ+TbcHrZaZ0ottm0s1mhCLa8TXASii47WKSLn2_zV95bw@mail.gmail.com/T/#t
 
-ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov9282.ko] undefined!
->> ERROR: modpost: "__divdi3" [drivers/media/i2c/ov9282.ko] undefined!
+Changes in v3:
+- Aligned/refactored code properly in C module
+- Refactored dt-bindings yml file
+- Link to v2: https://lore.kernel.org/r/20250627-leds-is31fl3236a-v2-0-f6ef7495ce65@thegoodpenguin.co.uk
 
+Changes in v4:
+- Aligned compatible strings array in the C module
+- Addressed Krzysztof's feedback regarding dt-bindings
+- Link to v3: https://lore.kernel.org/r/20250708-leds-is31fl3236a-v3-0-d68979b042dd@thegoodpenguin.co.uk
+
+Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+---
+Lucca Fachinetti (1):
+      dt-bindings: leds: is31fl32xx: convert the binding to yaml
+
+Pawel Zalewski (2):
+      dt-bindings: leds: issi,is31fl3236: add issi,22kHz-pwm property
+      leds/leds-is31fl32xx: add support for is31fl3236a
+
+ .../devicetree/bindings/leds/issi,is31fl3236.yaml  | 120 +++++++++++++++++++++
+ .../devicetree/bindings/leds/leds-is31fl32xx.txt   |  52 ---------
+ drivers/leds/leds-is31fl32xx.c                     |  47 ++++++--
+ 3 files changed, 161 insertions(+), 58 deletions(-)
+---
+base-commit: 52da431bf03b5506203bca27fe14a97895c80faf
+change-id: 20250625-leds-is31fl3236a-39cf52f969c7
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+
 
