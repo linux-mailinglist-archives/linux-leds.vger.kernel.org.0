@@ -1,61 +1,63 @@
-Return-Path: <linux-leds+bounces-5095-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5096-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2B9B0A4F4
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Jul 2025 15:19:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE4EB0A511
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Jul 2025 15:25:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65558AA21E1
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Jul 2025 13:18:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D820F7BD934
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Jul 2025 13:23:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF052D97B4;
-	Fri, 18 Jul 2025 13:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 733122DC32F;
+	Fri, 18 Jul 2025 13:24:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aP1wMZfs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aDLP4QJe"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3F2218EA8;
-	Fri, 18 Jul 2025 13:19:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CEB2D97B4;
+	Fri, 18 Jul 2025 13:24:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752844741; cv=none; b=Z+X1QyyA/x1oqjD4Dyk5EjjXzbtxo/R60SOZPChogeTP9goUvBRiT9EJzz/sGFKncnjysu9wLyfeoJZhvk9R+4mgwfC2lgBzA6ptFXV5IPskLaTDQwN/eYRFp8jN5QmLd2gSzyYpB+gEtj4Gp+6Ae0bSe3ii+v+2100ZWPXVGvU=
+	t=1752845043; cv=none; b=W3MMxTnN9QQdrA8IugLpdSEJSXx0uWlh0aYJhHJi5WFGBk0MIOJpwU/XIFAKzMonNKjBreqicumt4Jg61HCKVr0kjEFgyZlEdPiZvR2obyn8aTuMCIrv5o3glOsINBedxxc/qVindGyT6yfA3Vts4AOpjYEBvXB2jr6lE00LJgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752844741; c=relaxed/simple;
-	bh=/SorCWSf9LtnW4yJ59k/VAkWjt4rcYFDuKL0CK+pxVA=;
+	s=arc-20240116; t=1752845043; c=relaxed/simple;
+	bh=L6YBXu9x6pSAB4gABlg8mIrc72K2kdHir/4TsQxtUY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjWfUWrwIyRwA9dKnJka1fODCP4vzppak9+fgkJUuzGaiep0S27W1+HJuqsBpenrSIit6z0J0y5285VNJhMb+QIxJeCEcbBffbLAJyIK1ApYLrsWx18FlB7TTGVehv9wqK2IZceffaXRtSwM8sFeolYtm3v/jj2i0nyJ/+w644Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aP1wMZfs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95E81C4CEEB;
-	Fri, 18 Jul 2025 13:18:58 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=L6cqmU0lmVFsuE5v6PGATXMtN8mcmyLVt8+WW6IFU34A6H2Z8iz5LU+JUvN18BRrkkHSJdZhYQzHEAKyxENPrjx/Gmd+M9okYBjRGOGY6pmruKpOw1gCaFuyO/SbhgNHrLtvQt3OqMwuJVVth/9mJt6I/Aub+SGHyKJyccLEjWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aDLP4QJe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C56CC4CEEB;
+	Fri, 18 Jul 2025 13:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752844740;
-	bh=/SorCWSf9LtnW4yJ59k/VAkWjt4rcYFDuKL0CK+pxVA=;
+	s=k20201202; t=1752845042;
+	bh=L6YBXu9x6pSAB4gABlg8mIrc72K2kdHir/4TsQxtUY4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aP1wMZfs0YdWa1rv0CE8aNpjubogeXPYmSa4jTINdlZfMh7gzi8jwske+ELPd4CT6
-	 nEGH3c03BXOz8PtFOKvQuk4yTTCVVVWA0beFGKHsYAD2a+b1u9YQdGAFopiDvqY3uA
-	 daG+rC5qlHS9rgxh1uf87eV5gZZTuDXPVb6Y7Pb2LKfZi4ZQeLpuRSYrDTygKoWIXX
-	 qdwsxu/BQwsRvf+gGqVCRhqrwxDBLzMFMc5xjljKTs5oWK/eTgBpU09QsNPA205o4z
-	 FeAT0owJK9kri/Qyn8NXnopairBDvoDINkwJfAP1TjJyDTFXE7G6oflYrmz0ShTC+7
-	 QSCELifveySFw==
-Date: Fri, 18 Jul 2025 14:18:55 +0100
+	b=aDLP4QJe6l6vXRZG1COSN6q9o8Eanm3I3DZDrVbn6NYwBx5dpyJRK+pT/v2Wxslk8
+	 ctY96+0uTG23swxTmV4pZZbEaCWiCG36J3j04VZGUrdcd+h51w1iGAw5yO7Zp6lLi/
+	 W32OSJzgL8f3v/pdwyT/HZt+/bqvci4e37SjdmWAmfdR7tJAM5IxSEZ0HN9YtTZjK7
+	 y2/0Hvbc1fKXRV2CPiCbYwudkKRoWegArEua7sXKUpIrQdAmzkQI7NrKlqjTEKGf4u
+	 2X5YnvnBtHsfXOi1Y5PurSsTWaMwyd9fCKWGAFNB7TXvbiiyAuz7/nPLU8iPr2HTBt
+	 jQiy4mdHAV1rg==
+Date: Fri, 18 Jul 2025 14:23:58 +0100
 From: Lee Jones <lee@kernel.org>
-To: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Steffen Trumtrar <kernel@pengutronix.de>,
-	Pavel Machek <pavel@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] leds: add support for TI LP5860 LED driver chip
-Message-ID: <20250718131855.GC11056@google.com>
-References: <20250514-v6-14-topic-ti-lp5860-v2-0-72ecc8fa4ad7@pengutronix.de>
- <20250514-v6-14-topic-ti-lp5860-v2-2-72ecc8fa4ad7@pengutronix.de>
- <20250523102848.GE1378991@google.com>
- <877c0bqisz.fsf@pengutronix.de>
+To: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
+Cc: "pavel@kernel.org" <pavel@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>
+Subject: Re: [PATCH V3 2/2] leds: pwm: Add optional GPIO enable pin support
+Message-ID: <20250718132358.GD11056@google.com>
+References: <20250703035256.225289-1-Qing-wu.Li@leica-geosystems.com.cn>
+ <20250703035256.225289-2-Qing-wu.Li@leica-geosystems.com.cn>
+ <20250710093726.GD1431498@google.com>
+ <AM9PR06MB7955567B37C06BA7FCB05E22D754A@AM9PR06MB7955.eurprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,100 +67,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <877c0bqisz.fsf@pengutronix.de>
+In-Reply-To: <AM9PR06MB7955567B37C06BA7FCB05E22D754A@AM9PR06MB7955.eurprd06.prod.outlook.com>
 
-On Mon, 14 Jul 2025, Steffen Trumtrar wrote:
+On Mon, 14 Jul 2025, LI Qingwu wrote:
 
 > 
-> Hi,
-> 
-> On 2025-05-23 at 11:28 +01, Lee Jones <lee@kernel.org> wrote:
-> 
-> > On Wed, 14 May 2025, Steffen Trumtrar wrote:
+> > -----Original Message-----
+> > From: Lee Jones <lee@kernel.org>
+> > Sent: Thursday, July 10, 2025 5:37 PM
+> > To: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
+> > Cc: pavel@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
+> > conor+dt@kernel.org; linux-leds@vger.kernel.org; devicetree@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; GEO-CHHER-bsp-development
+> > <bsp-development.geo@leica-geosystems.com>
+> > Subject: Re: [PATCH V3 2/2] leds: pwm: Add optional GPIO enable pin support
 > > 
-> > > Add support for the Texas Instruments LP5860 LED driver chip
-> > > via SPI interfaces.
-> > > > The LP5860 is an LED matrix driver for up to 196 LEDs, which
-> > supports
-> > > short and open detection of the individual channel select lines.
-> > > > The original driver is from an unknown author at Texas Instruments.
-> > Only
-> > > the cryptic handle 'zlzx' is known.
-> > > > Co-developed-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-> > > Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+> > This email is not from Hexagon’s Office 365 instance. Please be careful while
+> > clicking links, opening attachments, or replying to this email.
+> > 
+> > 
+> > On Thu, 03 Jul 2025, LI Qingwu wrote:
+> > 
+> > > add support for optional GPIO-based enable pin control to PWM LED driver.
+> > > some PWM LED chips have a dedicated enable GPIO. This commit adds the
+> > > support to specify such GPIO, activating the pin when LED brightness
+> > > is non-zero and deactivating it when off.
+> > >
+> > > Signed-off-by: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
 > > > ---
-> > >  Documentation/ABI/testing/sysfs-class-spi-lp5860 |  23 ++
-> > >  drivers/leds/Kconfig                             |  23 ++
-> > >  drivers/leds/Makefile                            |   2 +
-> > >  drivers/leds/leds-lp5860-core.c                  | 276 ++++++++++++++++++++
-> > >  drivers/leds/leds-lp5860-spi.c                   |  99 +++++++
+> > >  drivers/leds/leds-pwm.c | 22 ++++++++++++++++++++++
+> > >  1 file changed, 22 insertions(+)
 > > 
-> > Are you going to follow-up with another option?  Say I2C?
+> > Couple of nits.
+> > 
+> > > diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c index
+> > > c73134e7b9514..1397149464b35 100644
+> > > --- a/drivers/leds/leds-pwm.c
+> > > +++ b/drivers/leds/leds-pwm.c
+> > > @@ -17,6 +17,7 @@
+> > >  #include <linux/err.h>
+> > >  #include <linux/pwm.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/gpio/consumer.h>
+> > >
+> > >  struct led_pwm {
+> > >       const char      *name;
+> > > @@ -29,6 +30,7 @@ struct led_pwm_data {
+> > >       struct led_classdev     cdev;
+> > >       struct pwm_device       *pwm;
+> > >       struct pwm_state        pwmstate;
+> > > +     struct gpio_desc        *enable_gpio;
+> > >       unsigned int            active_low;
+> > >  };
+> > >
+> > > @@ -51,6 +53,9 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+> > >       if (led_dat->active_low)
+> > >               duty = led_dat->pwmstate.period - duty;
+> > >
+> > > +     gpiod_set_value_cansleep(led_dat->enable_gpio,
+> > > +                              brightness == LED_OFF ? 0 : 1);
+> > 
+> > Put this on one line.
+> > 
 > 
-> the chip also supports connection via I2C, but it's unlikely that I will add that myself.
-> 
-> > >  drivers/leds/leds-lp5860.h                       | 315 +++++++++++++++++++++++
-> > >  6 files changed, 738 insertions(+)
-> > > > diff --git a/Documentation/ABI/testing/sysfs-class-spi-lp5860
-> > b/Documentation/ABI/testing/sysfs-class-spi-lp5860
-> > 
-> > This doesn't belong here.
-> > 
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..d24b49d38ecae55f1a1a4e465fbe71d30eff497e
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-class-spi-lp5860
-> > > @@ -0,0 +1,23 @@
-> > > +What:           /sys/class/spi_master/spi<bus>/spi<bus>.<dev>/b_current_set
-> > 
-> > Why would you want to change the current of the SPI bus?
-> > 
-> 
-> Where does it belong? I grepped and followed the eeprom
-> (Documentation/ABI/testing/sysfs-class-spi-eeprom) which uses sernum
-> in the same way. Directions welcome.
+> putting it on one line would result in 87 columns as you noted. 
+> I was following the 80-column guideline from
+> Documentation/process/coding-style.rst, which states "The preferred 
+> limit on the length of a single line is 80 columns."
+> Additionally, I used clang-format to format the code, which automatically 
+> split this line to stay within the 80-column limit. The current formatting 
+> follows the kernel's .clang-format configuration.
 
-I mean, in this patch.  Submit this part to the SPI subsystem maintainer.
+The 80-char limit was penned by the ancient Egyptians.  We have 4k
+monitors now.  Feel free to use up to 100-chars in order to prevent
+these silly line-wraps in this subsystem.
 
-> > > +Date:           May 2025
-> > > +KernelVersion:  6.15
-> > > +Contact:        Steffen Trumtrar <kernel@pengutronix.de>
-> > > +Description:
-> > > +	Contains and sets the current for the B color group.
+> > > +
+> > >       led_dat->pwmstate.duty_cycle = duty;
+> > >       /*
+> > >        * Disabling a PWM doesn't guarantee that it emits the inactive level.
+> > > @@ -132,6 +137,23 @@ static int led_pwm_add(struct device *dev, struct
+> > led_pwm_priv *priv,
+> > >               break;
+> > >       }
+> > >
+> > > +     /* Claim the GPIO as ASIS and set the value
 > > 
-> > What does the current set?  Brightness?
+> > Explain what ASIS is please.
 > > 
-> > If so, the user shouldn't be expected to know what current set in order
-> > to obtain a specific brightness.  Instead, shouldn't you use
-> > /sys/class/leds/<led>/multi_intensity and let the driver deal with the
-> > particulars of setting that brightness?
+> > > +      * later on to honor the different default states
+> > > +      */
+> > 
+> > Use proper multi-line comments please.
+> > 
+> You're absolutely right about the multi-line comment format, I'll fix that.
+> 
+> > > +     led_data->enable_gpio =
+> > > +             devm_fwnode_gpiod_get(dev, fwnode, "enable",
+> > GPIOD_ASIS,
+> > > + NULL);
+> > 
+> > One line please.
 > > 
 > 
-> The chip has a global setting for the current of the three color
-> groups. And an indiviual setting for every LED itself. The
-> multi_intensity is for one LED as far as I understand. And the
-> brightness of the whole matrix can be controlled via this global
-> current setting.
+> result in 96 columns, do you really want that?
+> > > +
+> > 
+> > Drop this line.
+> > 
+> > > +     /* enable_gpio is optional */
+> > 
+> > Comments start with a capital letter.
+> > 
+> > Place this comment inside the second if () statement.
+> > 
+> > > +     if (IS_ERR(led_data->enable_gpio)) {
+> > > +             if (PTR_ERR(led_data->enable_gpio) == -ENOENT)
+> > > +                     led_data->enable_gpio = NULL;
+> > > +             else
+> > > +                     return PTR_ERR(led_data->enable_gpio);
+> > > +     }
+> > > +
+> > > +     gpiod_direction_output(led_data->enable_gpio,
+> > > +                            !!led_data->cdev.brightness);
+> > 
+> > One line.
+> 
+> result in 84 columns.
 
-What I mean is - don't call it current.  Use what it does when you
-change the current.
+Great!  16 left to go!
 
-> (...)
-> 
-> Thanks for the rest of the feedback. I already addressed all of that
-> in my patches, but I'm not sure what is the correct way to proceed
-> with the sysfs ABI entries.
-> 
-> 
-> Thanks,
-> Steffen
-> 
-> -- 
-> Pengutronix e.K.                | Dipl.-Inform. Steffen Trumtrar |
-> Steuerwalder Str. 21            | https://www.pengutronix.de/    |
-> 31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
-> Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
-> 
+[...]
 
 -- 
 Lee Jones [李琼斯]
