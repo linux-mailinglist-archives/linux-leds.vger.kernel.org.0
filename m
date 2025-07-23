@@ -1,137 +1,409 @@
-Return-Path: <linux-leds+bounces-5106-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5107-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79663B0C42B
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Jul 2025 14:34:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98054B0EE77
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Jul 2025 11:31:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFAEF3BA6F4
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Jul 2025 12:34:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F0AC546E10
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Jul 2025 09:31:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3BFE2D0C69;
-	Mon, 21 Jul 2025 12:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01D8027FB03;
+	Wed, 23 Jul 2025 09:31:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d7BP+yY/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZv5YO0V"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7771629E118;
-	Mon, 21 Jul 2025 12:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7311C84D0;
+	Wed, 23 Jul 2025 09:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753101281; cv=none; b=u96sRF1PoaQw0xEHKPQJbfuCIZ+ofC/NtW+h2LNJrDIunhLTGK230Fo+8xUbJcrP7RLJ26mOjDA5+pzwzmiQTG+L+QjDqgnwErwCAhuA5eGnwC7gAP6BGcwGURDvw/Q4HdxxSUg4SMSewUU0PEVHlxNPvB3DO/GosJByzZyu/Pk=
+	t=1753263073; cv=none; b=tZXrma25ahlBRKRusyb6vj05CICQIBgCzwkvnYYUFkyzi/9nzg69nbCfCUM3hVv+m7/VBTLcbIUMt5LnqckSDe+tnfA2S5Jk1tB5lVMLqpw4cHgVxEOb9RowbcCT7HAp6LYszhuKa+b/ccDDGb05940OZzPjS+54pSjTJFgWuBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753101281; c=relaxed/simple;
-	bh=O/J0badNgn2nj/B0NQ6ehOklCqlk9D3dOuHd41MpWVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nqgu1KuQpC46NpLzvxg+EcESxsFTmBmNZD52dBnRsCejR/GjXUJiB8iWNdgzeGseiUfBeEVmk1hlYQAvWCO4Q82+Pu5c7mORB7FASZTNfrg4VWT8EWolfWhs4GFeEO3zvKEZ4dSAWRNz5si/jvB3hCQYr1noboc0+ppGcYzJ00Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d7BP+yY/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D1DBC4CEED;
-	Mon, 21 Jul 2025 12:34:38 +0000 (UTC)
+	s=arc-20240116; t=1753263073; c=relaxed/simple;
+	bh=WfnuZ0Mwt7UWG+eQ4u6fHUfDMSZ4NpKzbnvg4OLO8AE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sr36Tkwj/pEQ3RBQhf6WclS6r8MENP3IbGPeA6lFXSDF3mmb8Ad7voWe0ojAjsDgaCYHcZh5TfyKyR5UmtfWU8DdywiA4omhpIYQycgwM01efn0IM+9dLE7Qe83W2rhPnj6LNdILqEsji+aLipZgsgzGKqgY/e+OKq3f/3u+CuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZv5YO0V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83B2FC4CEF4;
+	Wed, 23 Jul 2025 09:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753101281;
-	bh=O/J0badNgn2nj/B0NQ6ehOklCqlk9D3dOuHd41MpWVE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=d7BP+yY/wRMW7JB8iFNqYE9uCbHfMftiN+5CsSXaKhJqx5EocHX1vEG4BAZ9jzL/0
-	 PAHuhbZn7Ep1CdLDihI7LUG5E9IFwqkbUE5btgzy2NccNTKqDGj5W/hA/PIHaCn8ri
-	 7BrioYZaznZMB6OLtSahkbE0IaHyZZxcrEPO7HkBVWw7Q3sYS/2LyofPwzLRHUiuUi
-	 83iMDUzlYrNViPhAATe6bMWyR8o2W1TDHH4L3F8RNJaeghWjw3ldb1o1cuDY+ffh2W
-	 AOzCPjFSK5qkY/OfSIHsp3yVHz/VnXXVazxMGbfWUSBY3wcL9HS1dVo2m+6DGj4rTN
-	 yw/sZ1Fya51pg==
-Message-ID: <f327a84d-8979-438d-aa05-c64472a93c16@kernel.org>
-Date: Mon, 21 Jul 2025 14:34:36 +0200
+	s=k20201202; t=1753263073;
+	bh=WfnuZ0Mwt7UWG+eQ4u6fHUfDMSZ4NpKzbnvg4OLO8AE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IZv5YO0V3xhJGLBo1dVH9bIdseZ/4ikEzZAEMfsiXEi+wRzUJBiOhfBLK5BHkqOYl
+	 jPXLDcnrqq8Y+VhT0j1RWYc1WRyImkG1ySPyU/D8B+OJmLsrR+WQhuv788AREvrP92
+	 Tx6DL9J1vFOXAqpLIqbuNJRbCb5CCsX6Olf9Nk7fYdH/IgDNYLsKy4lqBweci+V+bV
+	 UH1UgHg5fNv8L7Kt2ezPsIMfyCi9bby3N61uetclP/FsQsVb7J9wPWLWlUW+eEcQyq
+	 9mS1UBbB854T+0CB8OLR0aR00L/E8/5uxYKJcCoy5F32V39KBZE5tmOnz7e76dWWq8
+	 vsjcOBcdMMUQw==
+Date: Wed, 23 Jul 2025 10:31:08 +0100
+From: Lee Jones <lee@kernel.org>
+To: Lukas Timmermann <linux@timmermann.space>
+Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] leds: as3668: Driver for the ams Osram 4-channel
+ i2c LED driver
+Message-ID: <20250723093108.GQ11056@google.com>
+References: <20250708141114.134950-1-linux@timmermann.space>
+ <20250708141114.134950-3-linux@timmermann.space>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] dt-bindings: leds: is31fl32xx: convert the binding
- to yaml
-To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- devicetree@vger.kernel.org, Lucca Fachinetti <luccafachinetti@gmail.com>
-References: <20250721-leds-is31fl3236a-v5-0-264e841f4da9@thegoodpenguin.co.uk>
- <20250721-leds-is31fl3236a-v5-1-264e841f4da9@thegoodpenguin.co.uk>
- <4f57cca8-49a8-4431-b41c-78097eb11da9@kernel.org>
- <CAA6zWZ+x9cj4kOTepYNZ+9anCruSP+dgdsyux6iVKF+vN1Heaw@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAA6zWZ+x9cj4kOTepYNZ+9anCruSP+dgdsyux6iVKF+vN1Heaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250708141114.134950-3-linux@timmermann.space>
 
-On 21/07/2025 14:26, Pawel Zalewski wrote:
->> This still does not match min/max constraints. You already got the
->> comment on this and nothing improved.
+On Tue, 08 Jul 2025, Lukas Timmermann wrote:
+
+> Since there were no existing drivers for the AS3668 or related devices,
+> a new driver was introduced in a separate file. Similar devices were
+> reviewed, but none shared enough characteristics to justify code reuse.
+> As a result, this driver is written specifically for the AS3668.
 > 
-> It was not clear to me what you are after, so you want the pattern to be:
+> Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+> ---
+>  MAINTAINERS                |   1 +
+>  drivers/leds/Kconfig       |  13 +++
+>  drivers/leds/Makefile      |   1 +
+>  drivers/leds/leds-as3668.c | 195 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 210 insertions(+)
+>  create mode 100644 drivers/leds/leds-as3668.c
 > 
-> ^led@(?:[1-9a-f]|1[0-9a-f]|2[0-4])$
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 091206c54c63..945d78fef380 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3511,6 +3511,7 @@ M:	Lukas Timmermann <linux@timmermann.space>
+>  L:	linux-leds@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
+> +F:	drivers/leds/leds-as3668.c
+>  
+>  ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
+>  M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index a104cbb0a001..8cfb423ddf82 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -100,6 +100,19 @@ config LEDS_ARIEL
+>  
+>  	  Say Y to if your machine is a Dell Wyse 3020 thin client.
+>  
+> +config LEDS_AS3668
+> +	tristate "LED support for AMS AS3668"
+> +	depends on LEDS_CLASS
+> +	depends on I2C
+> +	help
+> +	  This option enables support for the AMS AS3668 LED controller.
+> +	  The AS3668 provides up to four LED channels and is controlled via
+> +	  the I2C bus. This driver offers basic brightness control for each
+> +	  channel, without support for blinking or other advanced features.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called leds-as3668.
+> +
+>  config LEDS_AW200XX
+>  	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
+>  	depends on LEDS_CLASS
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index 2f170d69dcbf..983811384fec 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -14,6 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
+>  obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
+>  obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
+>  obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
+> +obj-$(CONFIG_LEDS_AS3668)		+= leds-as3668.o
+>  obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
+>  obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
+>  obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
+> diff --git a/drivers/leds/leds-as3668.c b/drivers/leds/leds-as3668.c
+> new file mode 100644
+> index 000000000000..fbf29a6d0296
+> --- /dev/null
+> +++ b/drivers/leds/leds-as3668.c
+> @@ -0,0 +1,195 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + *  Osram AMS AS3668 LED Driver IC
+> + *
+> + *  Copyright (C) 2025 Lukas Timmermann <linux@timmermann.space>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/i2c.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/uleds.h>
+> +
+> +#define AS3668_MAX_LEDS 4
+> +
+> +/* Chip Registers */
 
-led@([1-9a-f]|1[0-9a-f]|2[0-4])$
-should be enough
+This should be obvious in the nomenclature.
 
+> +#define AS3668_CHIP_ID1 0x3e
 
+AS3668_CHIP_ID1_REG
+
+> +#define AS3668_CHIP_ID2 0x3f
+> +
+> +#define AS3668_CHIP_ID2_SERIAL_MASK GENMASK(7, 4)
+> +#define AS3668_CHIP_ID2_REV_MASK GENMASK(3, 0)
+> +
+> +#define AS3668_CURRX_CONTROL 0x01
+> +#define AS3668_CURR1 0x02
+> +#define AS3668_CURR2 0x03
+> +#define AS3668_CURR3 0x04
+> +#define AS3668_CURR4 0x05
+> +
+> +/* Constants */
+> +#define AS3668_CHIP_IDENT 0xa5
+
+What's the difference between ID and IDENT?
+
+> +#define AS3668_CHIP_REV1 0x01
+
+How many REVs can one chip have?
+
+> +struct as3668_led {
+> +	struct led_classdev cdev;
+> +	struct as3668 *chip;
+> +	struct fwnode_handle *fwnode;
+> +
+> +	int num;
+
+We can do better than 'num'.
+
+> +};
+> +
+> +struct as3668 {
+> +	struct i2c_client *client;
+> +	struct as3668_led leds[AS3668_MAX_LEDS];
+> +};
+> +
+> +static int as3668_read_value(struct i2c_client *client, u8 reg)
+> +{
+> +	return i2c_smbus_read_byte_data(client, reg);
+> +}
+> +
+> +static int as3668_write_value(struct i2c_client *client, u8 reg, u8 value)
+> +{
+> +	int err = i2c_smbus_write_byte_data(client, reg, value);
+> +
+> +	if (err)
+> +		dev_err(&client->dev, "error writing to reg 0x%02x, returned %d\n", reg, err);
+> +
+> +	return err;
+> +}
+
+These look like abstractions for the sake of abstractions.
+
+Just use the i2c_smbus_*() calls directly.
+
+> +static enum led_brightness as3668_brightness_get(struct led_classdev *cdev)
+> +{
+> +	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
+> +
+> +	return as3668_read_value(led->chip->client, AS3668_CURR1 + led->num);
+> +}
+> +
+> +static void as3668_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
+> +{
+> +	struct as3668_led *led = container_of(cdev, struct as3668_led, cdev);
+> +
+> +	as3668_write_value(led->chip->client, AS3668_CURR1 + led->num, brightness);
+> +}
+> +
+> +static int as3668_dt_init(struct as3668 *as3668)
+> +{
+> +	struct device *dev = &as3668->client->dev;
+> +	struct as3668_led *led;
+> +	struct led_init_data init_data = {};
+> +	int err;
+> +	u32 reg;
+> +
+> +	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+> +		err = of_property_read_u32(child, "reg", &reg);
+> +		if (err)
+> +			return dev_err_probe(dev, err, "unable to read device tree led reg\n");
+
+"'reg' property missing from %s\n", child->name
+
+> +
+> +		if (reg < 0 || reg > AS3668_MAX_LEDS)
+> +			return dev_err_probe(dev, -EOPNOTSUPP, "unsupported led reg %d\n", reg);
+
+"'reg' property in %s is out of scope: %d\n", child->name, reg
+
+> +		led = &as3668->leds[reg];
+> +		led->fwnode = of_fwnode_handle(child);
+> +
+> +		led->num = reg;
+> +		led->chip = as3668;
+> +
+> +		led->cdev.max_brightness = U8_MAX;
+> +		led->cdev.brightness_get = as3668_brightness_get;
+> +		led->cdev.brightness_set = as3668_brightness_set;
+> +
+> +		init_data.fwnode = led->fwnode;
+> +		init_data.default_label = ":";
+> +
+> +		err = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
+> +		if (err)
+> +			return dev_err_probe(dev, err, "failed to register %d LED\n", reg);
+
+Swap "%d" and "LED"
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int as3668_probe(struct i2c_client *client)
+> +{
+> +	int err;
+> +	u8 chip_id1, chip_id2, chip_serial, chip_rev;
+> +	struct as3668 *as3668;
+
+Nit: structs at the top, then filter down in size order.
+
+> +	/* Check for sensible i2c address */
+> +	if (client->addr != 0x42)
+
+No magic numbers - define this please.
+
+> +		return dev_err_probe(&client->dev, -EFAULT,
+> +				     "unexpected address for as3668 device\n");
+
+Unwrap this - you can use up to 100-chars in LEDs.
+
+"Expected I2C address %x, got %x", <DEFINE>, client->addr"
+
+> +	/* Read identifier from chip */
+> +	chip_id1 = as3668_read_value(client, AS3668_CHIP_ID1);
+> +
+> +	if (chip_id1 != AS3668_CHIP_IDENT)
+> +		return dev_err_probe(&client->dev, -ENODEV,
+> +				"chip reported wrong id: 0x%02x\n", chip_id1);
+
+Unlikely.  This too is unexpected, as above.
+
+> +	/* Check the revision */
+> +	chip_id2 = as3668_read_value(client, AS3668_CHIP_ID2);
+
+Is child_id2 not for another chip?
+
+This is ambiguous, please improve the variable nomenclature.
+
+> +	chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
+> +	chip_rev = FIELD_GET(AS3668_CHIP_ID2_REV_MASK, chip_id2);
+> +
+> +	if (chip_rev != AS3668_CHIP_REV1)
+> +		dev_warn(&client->dev, "unexpected chip revision\n");
+
+Values please.
+
+> +	/* Print out information about the chip */
+> +	dev_dbg(&client->dev,
+> +		"chip_id: 0x%02x | chip_id2: 0x%02x | chip_serial: 0x%02x | chip_rev: 0x%02x\n",
+> +		chip_id1, chip_id2, chip_serial, chip_rev);
+> +
+> +	as3668 = devm_kzalloc(&client->dev, sizeof(*as3668), GFP_KERNEL);
+> +	if (!as3668)
+> +		return -ENOMEM;
+> +
+> +	as3668->client = client;
+
+\n
+
+> +	err = as3668_dt_init(as3668);
+> +	if (err)
+> +		return dev_err_probe(&client->dev, err, "failed to initialize device\n");
+
+No need for 2 error messages.
+
+> +	/* Initialize the chip */
+> +	as3668_write_value(client, AS3668_CURRX_CONTROL, 0x55);
+
+No magic numbers.
+
+> +	as3668_write_value(client, AS3668_CURR1, 0x00);
+> +	as3668_write_value(client, AS3668_CURR2, 0x00);
+> +	as3668_write_value(client, AS3668_CURR3, 0x00);
+> +	as3668_write_value(client, AS3668_CURR4, 0x00);
+> +
+> +	return 0;
+> +}
+> +
+> +static void as3668_remove(struct i2c_client *client)
+> +{
+> +	as3668_write_value(client, AS3668_CURRX_CONTROL, 0x0);
+> +}
+> +
+> +static const struct i2c_device_id as3668_idtable[] = {
+> +	{"as3668"},
+
+Spaces after the '{' and before the '}'.
+
+> +	{}
+> +};
+> +
+
+Remove this line.
+
+> +MODULE_DEVICE_TABLE(i2c, as3668_idtable);
+> +
+> +static const struct of_device_id as3668_match_table[] = {
+> +	{.compatible = "ams,as3668"},
+
+Spaces after the '{' and before the '}'.
+
+> +	{}
+> +};
+> +
+
+Remove this line.
+
+> +MODULE_DEVICE_TABLE(of, as3668_match_table);
+> +
+> +static struct i2c_driver as3668_driver = {
+> +	.driver = {
+> +		.name           = "leds_as3668",
+> +		.of_match_table = as3668_match_table,
+> +	},
+> +	.probe          = as3668_probe,
+> +	.remove         = as3668_remove,
+> +	.id_table       = as3668_idtable,
+
+Remove all of the odd tabbing from in here.
+
+A single space is fine.
+
+> +};
+> +
+
+Remove.
+
+> +module_i2c_driver(as3668_driver);
+> +
+> +MODULE_AUTHOR("Lukas Timmermann <linux@timmermann.space>");
+> +MODULE_DESCRIPTION("AS3668 LED driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.50.0
 > 
-> So the range of the unit@ string is controlled via the pattern
-> orthogonal to reg,
-> the range of the reg property explicitly via minimum/maximum which are decimal,
-> despite the fact that the reg itself can be a hex value, which is
-> preferred for readability
 
-Yes, just write min/max decimal in the list. It's not an address, but index.
-
-Best regards,
-Krzysztof
+-- 
+Lee Jones [李琼斯]
 
