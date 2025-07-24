@@ -1,216 +1,212 @@
-Return-Path: <linux-leds+bounces-5119-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5120-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F613B102A8
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Jul 2025 10:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E31AB10595
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Jul 2025 11:19:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 860A0AC5C65
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Jul 2025 08:02:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 294903A44EB
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Jul 2025 09:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34393272E4C;
-	Thu, 24 Jul 2025 08:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FBE613C8FF;
+	Thu, 24 Jul 2025 09:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b="tk7/7LQx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSD8O9ef"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013034.outbound.protection.outlook.com [40.107.162.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158EC273D86;
-	Thu, 24 Jul 2025 08:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753344161; cv=fail; b=Vp73SxAc6rXA3dXiWYIfRcvkHYdCAiiT0sIV4GW13/V7O76EwR+Zv3fLN+0nbMIth4zmXBDv1fhZmsktogZzErn1JDYY5rVhhxAHo7lZE83Z6eUrLTLWjeerE20rTaBd/m1W8rrapndgxRGOuWIaPoU+E7cO9ULZYcDT6wqKPvw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753344161; c=relaxed/simple;
-	bh=fwSizUpSkqsnZx5PqQ/dxN4Pdii1OKCwjFrF7t2a6dQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oC6/ahfNoIiNUjoDOniwv08PtUXps5huZqUOEmjdLBuc5gzEAG5AnDBRRuSfTS8Aad7BI6MlPXCIQvwvHv+yybTUnb6hl/fXKXgrA6Vz3f64+neuP8LLnbUhZbVg1W2J9pYboOMJ3+8wopaogmHEOzVnm/92JqW4AykIzsfbdlc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn; spf=fail smtp.mailfrom=leica-geosystems.com.cn; dkim=pass (1024-bit key) header.d=leica-geosystems.com.cn header.i=@leica-geosystems.com.cn header.b=tk7/7LQx; arc=fail smtp.client-ip=40.107.162.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com.cn
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w9KgkdYE8qFTgRqC3xX+ax20RsmlmMbt2BqXaNByRZnj+YvPIYtKJtxjTxVVHWNhLqRuagBZsBKpzZxYXXsiPrGKLwq1SeB98Y6Lq6Po3g0teBMYTk/Jjn/H1+b/H5QjMjnHZraj1YfELCRAevdZC28ECg0UTlNMqW/GkS64LMs0oXiJyLblWwtxh4yS5Tj0C3j6nPhfZzgfRYr2v1CgOOJ2ylmq55vCOEIR1eNVzfvhMx9uR5xJaXV7dgTTRp851i449WXvzAkNQ6uUCDCLKDG2nMfdaY3/vfPt0f/FIJLKBCtCEFHG5FyoVyvDtBcDc9u7Kh3ydtmAvYjorRczlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gnCNIOfn1E2adG2rM9z752G9+Fco4Niri/25c0/8rM8=;
- b=ZOrqjVGcWZItgUF7/Ia+xyJHjOM3dLJsdqk4fLshrpJV8uvGHTlNF59IoMnOMrWGh4CX8Jk5SbevClMPeCwcpBje5rRgT9/RuufH4wNC9XznsVe5jAyvs60eJUwCOEvu+qXjuPBnxFmSjPK82MNWAtr6JbtGwgbK6GOZGlQPp+62XhFNTh0IYsZEmKWfwpMmRmUi3FOmdGgjf1nhP3F3WP+Q0VV1MD4JrXbijEHDcKsQRs4JktR41L551I4khrsMOkEo/IELQ3q24Tyif6SzSrEeZpUwZpFh10kcTvrkS54Xl7rBmdGrGcFYGpNyJ4O7jyW6LEUWpBil8fcDRoNO7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.94) smtp.rcpttodomain=vger.kernel.org
- smtp.mailfrom=leica-geosystems.com.cn; dmarc=pass (p=reject sp=reject
- pct=100) action=none header.from=leica-geosystems.com.cn; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=leica-geosystems.com.cn; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gnCNIOfn1E2adG2rM9z752G9+Fco4Niri/25c0/8rM8=;
- b=tk7/7LQxTvXqoG6OFmvagliIeUsPh9LDZ22WNGL7PIyWe+ahD3bzJ1TT+lOzY3mgaBe6O5QTdMDUfDZtYX6zxf5uisUSqR068adPtUee7bR30SQg9gMvztkuvKHDw4x1V8jSKD4a3dSYMaT6PwhM1GMDQIZkQdHUcc72ZN2zX0Y=
-Received: from PAZP264CA0046.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1fc::8)
- by VI1PR06MB6479.eurprd06.prod.outlook.com (2603:10a6:800:12d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.22; Thu, 24 Jul
- 2025 08:02:32 +0000
-Received: from AM2PEPF0001C70E.eurprd05.prod.outlook.com
- (2603:10a6:102:1fc:cafe::7f) by PAZP264CA0046.outlook.office365.com
- (2603:10a6:102:1fc::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.22 via Frontend Transport; Thu,
- 24 Jul 2025 08:02:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
- smtp.mailfrom=leica-geosystems.com.cn; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com.cn;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com.cn
- designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.94; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.94) by
- AM2PEPF0001C70E.mail.protection.outlook.com (10.167.16.202) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8964.20 via Frontend Transport; Thu, 24 Jul 2025 08:02:32 +0000
-Received: from GEO-W5CG2253GWB.lgs-net.com ([10.132.33.42]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Thu, 24 Jul 2025 10:02:31 +0200
-From: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Qing-wu.Li@leica-geosystems.com.cn
-Subject: [PATCH V8 2/2] leds: pwm: Add optional GPIO enable pin support
-Date: Thu, 24 Jul 2025 16:02:21 +0800
-Message-ID: <20250724080221.7562-3-Qing-wu.Li@leica-geosystems.com.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250724080221.7562-1-Qing-wu.Li@leica-geosystems.com.cn>
-References: <20250724080221.7562-1-Qing-wu.Li@leica-geosystems.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88105258CE7
+	for <linux-leds@vger.kernel.org>; Thu, 24 Jul 2025 09:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753348749; cv=none; b=IUK1jFIltfvW/Xg1pXOfwJTO0rU6OLdpVarJOrDOtUm37CvF3NpxMy6V5rxPj3DhWj1J7WvEX6kOlQYsHXErfW/IEv5VYOw98rmFOmeSBT7kcSO9HZuTs0aBtbqVbDsC9t0Le2xr92YEB+6OmA2a3Prold0Qm+Pfgl/8fmVZr9s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753348749; c=relaxed/simple;
+	bh=+fCA2x0LxHhcMy0iVOe9P1P8fWg4N2zdLZBKyW6b2qI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SA6pen8KDNT2/nZsJaUP4lswGUhvAmPGSZCBaGkodKXRwpIFWMJWg5Vomi/514BSg99FCTD2JVp7wLiNxaMPVSZpCxtnl5pDTdP/UA4hpNU/p7gQZj+51NxeDy657HcVO1LTyCs6vb3TVFPRWLvvFGXJuXItvEtYb3wWEG9VK4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSD8O9ef; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753348747; x=1784884747;
+  h=date:from:to:cc:subject:message-id;
+  bh=+fCA2x0LxHhcMy0iVOe9P1P8fWg4N2zdLZBKyW6b2qI=;
+  b=fSD8O9efHXh/viyNwW4f3bXuJXKqzEvRloeMn97Z7Xq2UB5LwVN/ig/d
+   CDRQPIfbt6IHbsRriv+6LbWfTOqdhosv7SWD5uKxvC+JlD/nUB8o2dItM
+   3oNze7POvP2YoaeGLUIGmNvyyQYhc/LufLkUNwXLIdphfJAS/ZlQ+LJG6
+   di0DymytrAzlDBJjsQ790t/wCpaUi2GOE12FkjJoik8iPUmXoOqdeky3R
+   JmHxMJ1TdtLsso0SZFS2DkWFm70RpAz6yMKnx+lpYuDDfnS7zuOa/4tLY
+   yQGi+xUDthOhBha0AqKOEwc6fG50I/xL0MQ2JCVBKxxUrs3T5hd0jWzTF
+   w==;
+X-CSE-ConnectionGUID: 8stSjJEiTX+EtbG2yF0BEQ==
+X-CSE-MsgGUID: 8RtDAKw9RBaI7+aRiaDxqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55594788"
+X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
+   d="scan'208";a="55594788"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 02:19:05 -0700
+X-CSE-ConnectionGUID: 0OMRnbDkR+GLccPRPP9DXA==
+X-CSE-MsgGUID: qu15FOcITPKHvB0H25zkTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
+   d="scan'208";a="159339002"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 24 Jul 2025 02:19:04 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ues6P-000KGz-2y;
+	Thu, 24 Jul 2025 09:19:01 +0000
+Date: Thu, 24 Jul 2025 17:18:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 26f732791f2bcab18f59c61915bbe35225f30136
+Message-ID: <202507241718.q6QYNH5n-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 Jul 2025 08:02:31.0691 (UTC) FILETIME=[4E8CB5B0:01DBFC71]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C70E:EE_|VI1PR06MB6479:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: fd495326-da11-45a5-54b5-08ddca887156
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?T5vJklXhIsQk/w3m3iCU4e84MgqB2KJaEzY1OKL0E/txh4N8rG4Jp32t+Eyx?=
- =?us-ascii?Q?A0+DyC9Z+As3e6nWBU0jAyKnMU8mp0vW4lbSBgmOz/9671c4+gr6Nb4jXgDx?=
- =?us-ascii?Q?ylH6QJ2BQTjgmXPAqphPCJbAmxlH4erN2iQyThl2fcHVyu+kONXpj+d9NONr?=
- =?us-ascii?Q?Kn2jWJLDYhcssrXduuE/FoBNxO38WA+RT5gcRgLhc8jBvnqFHxeCTo45jLFH?=
- =?us-ascii?Q?2JeUatlhJX9em7coUQV8EkH5kq1eMNHurCgjPCJaXIItioETk/C3LqsYp5n0?=
- =?us-ascii?Q?udAYjYAqmL+X8vReGrqUdonjXJXqgT/DljIpCKusnOjKii64KbCowHjID4dZ?=
- =?us-ascii?Q?Oh03T8LWAUHciF0gqPOur7vGMeiI+VzmFSAgghMmYhgsABei5lFiF5PbfEMF?=
- =?us-ascii?Q?W8xXrWcEC6h2ClW+a1QbaRI7I5OvorJQLx48haIJBMFwkPv+5xgqhh0uYt6J?=
- =?us-ascii?Q?0bXLGMJqHXxfBYHpq5wQYwEl7OI8YHHCoDhQYn9yPmC1KpkA+GO/9aAsuUXo?=
- =?us-ascii?Q?mveKMG5zdAwOnsbwCiYQ8UsGppQfFkTxNwCMJ03AJ39hZ+hALsiKzkUSJGUN?=
- =?us-ascii?Q?WWkDOb2Xm/vvAjBwELfA6WJz8Qw8dclOpwhvVp2EfSjshkdrLiXqrtaFZJ4K?=
- =?us-ascii?Q?NbdNvIUTyP5hURna5u82++EsPuBHQB0fNaODbqDZ2ghfs99ugtXAuvrwUrqG?=
- =?us-ascii?Q?QGvg8aHr+vcK/MGH656/Het2/Dts+/+47VPphP0BJE8K9pn/DemVrG+oqa43?=
- =?us-ascii?Q?Qz8awuY6KFgTRgsKdvyLngY+oV/Ax+bm4C59vqfq9AKjrHnUMe2xeKebUh/v?=
- =?us-ascii?Q?scNpFTyLmDip8Idcm7Jf6nYja9K3VmQPvTHM8owHzHeHniiU7pgexUb1DzEI?=
- =?us-ascii?Q?mSjC/mPG3cRAWTX6YZ6MJRj7zpYskD9HFs31X8wkP3BxzBWrra4pD0Ib1Djx?=
- =?us-ascii?Q?d4jvSGMFi2fj2IjmuIFM0mbHqg/gMSLHfwHUw550dhWoYDQy4qixDRyFpTCE?=
- =?us-ascii?Q?x/LRRQsuiDKYFzgblsaFBIqJgvpJuRRDKhWynz1cF5nAuuWgwNdtCORr7UvL?=
- =?us-ascii?Q?/+DCEc3pkcAX/AoiGBOVdrGy6u2yzHktu2NCfxfarCFNa9BdyJzT/Ixw5uPh?=
- =?us-ascii?Q?sewm+lPxEAsThrsHQcISpeAEZiLJUug702uW1ud+MeKxbJ8hmITELyFDCOca?=
- =?us-ascii?Q?ocYB+H/QDF4TlHpEf3fdUOFbUcIyvTtPQn4IkUE/dveI7lj6AoXJhc/Zxcwn?=
- =?us-ascii?Q?vzoSelr1cfcJMFFQslU5yWAU/qR/+VerljTbVQWq8p6SZKMto3EKuyctsndN?=
- =?us-ascii?Q?I1BYTKMYbAIWhvRPakr8flokSpdJiFGiqxFzLOUfLk0SrCQbb43kNVf9eDxO?=
- =?us-ascii?Q?bFmznTs64wofJQBf3D9U1M8+SmWfZ4nShuEbgYHvQUV43/yOaUDCRQXjfs12?=
- =?us-ascii?Q?DmwZ6DYPLSmNXoLQ0pJwENimWf5Y7vHzaFAagc0etlo5Uu0KE7gAZQXmFJkj?=
- =?us-ascii?Q?fJ6sFcQ7+QxxuhOwgSugsLxYw0D1y0i5H7b6?=
-X-Forefront-Antispam-Report:
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com.cn
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2025 08:02:32.1372
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd495326-da11-45a5-54b5-08ddca887156
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM2PEPF0001C70E.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB6479
 
-Add support for optional GPIO-based enable pin control to PWM LED driver.
-Some PWM LED driver chips like TPS92380 and LT3743 require a separate
-enable signal in addition to PWM control. Implement support for such
-GPIO control through the "enable-gpios" device tree property, activating
-the pin when LED brightness is non-zero and deactivating it when off.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 26f732791f2bcab18f59c61915bbe35225f30136  Revert "leds: trigger: netdev: Configure LED blink interval for HW offload"
 
-Tested on i.MX8MP EVK with TPS92380 LED driver chip
+elapsed time: 1451m
 
-Signed-off-by: LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>
----
- drivers/leds/leds-pwm.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+configs tested: 119
+configs skipped: 3
 
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index c73134e7b9514..08a1f735166ad 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -17,6 +17,7 @@
- #include <linux/err.h>
- #include <linux/pwm.h>
- #include <linux/slab.h>
-+#include <linux/gpio/consumer.h>
- 
- struct led_pwm {
- 	const char	*name;
-@@ -29,6 +30,7 @@ struct led_pwm_data {
- 	struct led_classdev	cdev;
- 	struct pwm_device	*pwm;
- 	struct pwm_state	pwmstate;
-+	struct gpio_desc	*enable_gpio;
- 	unsigned int		active_low;
- };
- 
-@@ -51,6 +53,8 @@ static int led_pwm_set(struct led_classdev *led_cdev,
- 	if (led_dat->active_low)
- 		duty = led_dat->pwmstate.period - duty;
- 
-+	gpiod_set_value_cansleep(led_dat->enable_gpio, brightness == LED_OFF ? 0 : 1);
-+
- 	led_dat->pwmstate.duty_cycle = duty;
- 	/*
- 	 * Disabling a PWM doesn't guarantee that it emits the inactive level.
-@@ -132,6 +136,22 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
- 		break;
- 	}
- 
-+	/*
-+	 * Claim the GPIO as GPIOD_ASIS and set the value
-+	 * later on to honor the different default states
-+	 */
-+	led_data->enable_gpio = devm_fwnode_gpiod_get(dev, fwnode, "enable", GPIOD_ASIS, NULL);
-+
-+	if (IS_ERR(led_data->enable_gpio)) {
-+		if (PTR_ERR(led_data->enable_gpio) == -ENOENT)
-+			/* Enable GPIO is optional */
-+			led_data->enable_gpio = NULL;
-+		else
-+			return PTR_ERR(led_data->enable_gpio);
-+	}
-+
-+	gpiod_direction_output(led_data->enable_gpio, !!led_data->cdev.brightness);
-+
- 	ret = devm_led_classdev_register_ext(dev, &led_data->cdev, &init_data);
- 	if (ret) {
- 		dev_err(dev, "failed to register PWM led for %s: %d\n",
--- 
-2.43.0
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250723    gcc-8.5.0
+arc                   randconfig-002-20250723    gcc-9.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                         at91_dt_defconfig    clang-22
+arm                   randconfig-001-20250723    gcc-13.4.0
+arm                   randconfig-002-20250723    gcc-13.4.0
+arm                   randconfig-003-20250723    clang-16
+arm                   randconfig-004-20250723    clang-22
+arm                           tegra_defconfig    gcc-15.1.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250723    clang-22
+arm64                 randconfig-002-20250723    clang-16
+arm64                 randconfig-003-20250723    clang-16
+arm64                 randconfig-004-20250723    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250723    gcc-12.5.0
+csky                  randconfig-002-20250723    gcc-14.3.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250723    clang-22
+hexagon               randconfig-002-20250723    clang-22
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386        buildonly-randconfig-001-20250723    clang-20
+i386        buildonly-randconfig-002-20250723    clang-20
+i386        buildonly-randconfig-003-20250723    clang-20
+i386        buildonly-randconfig-004-20250723    clang-20
+i386        buildonly-randconfig-005-20250723    gcc-11
+i386        buildonly-randconfig-006-20250723    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250723    gcc-15.1.0
+loongarch             randconfig-002-20250723    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                          hp300_defconfig    gcc-15.1.0
+m68k                       m5475evb_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250723    gcc-8.5.0
+nios2                 randconfig-002-20250723    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250723    gcc-8.5.0
+parisc                randconfig-002-20250723    gcc-15.1.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                      chrp32_defconfig    clang-19
+powerpc               randconfig-001-20250723    gcc-10.5.0
+powerpc               randconfig-002-20250723    gcc-8.5.0
+powerpc               randconfig-003-20250723    gcc-12.5.0
+powerpc64             randconfig-001-20250723    clang-22
+powerpc64             randconfig-002-20250723    clang-22
+powerpc64             randconfig-003-20250723    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250723    gcc-9.5.0
+riscv                 randconfig-002-20250723    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250723    clang-22
+s390                  randconfig-002-20250723    clang-20
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250723    gcc-12.5.0
+sh                    randconfig-002-20250723    gcc-9.5.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250723    gcc-8.5.0
+sparc                 randconfig-002-20250723    gcc-8.5.0
+sparc                       sparc32_defconfig    gcc-15.1.0
+sparc64               randconfig-001-20250723    gcc-12.5.0
+sparc64               randconfig-002-20250723    gcc-14.3.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250723    gcc-12
+um                    randconfig-002-20250723    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250723    gcc-12
+x86_64      buildonly-randconfig-002-20250723    gcc-11
+x86_64      buildonly-randconfig-003-20250723    gcc-11
+x86_64      buildonly-randconfig-004-20250723    clang-20
+x86_64      buildonly-randconfig-005-20250723    gcc-12
+x86_64      buildonly-randconfig-006-20250723    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250723    gcc-13.4.0
+xtensa                randconfig-002-20250723    gcc-10.5.0
+xtensa                    smp_lx200_defconfig    gcc-15.1.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
