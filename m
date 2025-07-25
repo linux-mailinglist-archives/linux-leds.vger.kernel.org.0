@@ -1,250 +1,99 @@
-Return-Path: <linux-leds+bounces-5138-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5139-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E775B123A3
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 20:13:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E8CB124E9
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 21:51:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 881B4545355
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 18:13:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C5C71CE1A25
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 19:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4F262EFD86;
-	Fri, 25 Jul 2025 18:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A5824DD00;
+	Fri, 25 Jul 2025 19:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7IReT1m"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010341A23A4;
-	Fri, 25 Jul 2025 18:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9A81E766F;
+	Fri, 25 Jul 2025 19:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753467179; cv=none; b=Y+id3wmjCwDE6ddvJ3Xijb3FY40jT4WnuAshBxUruDputfLQDsma05rnsH9UzMwMRWCMqqNKMCmoqsJ8NmYwqZFweitMEjhDrEKnNgcN7C090Z3ubKMebPI4TN0hmKRLkfjbRLhC7kIesbXvLASopdfuKHXhBPX6xx6X5+0XA3Y=
+	t=1753473104; cv=none; b=rhXRLgU1hERyQM+Au7a/WJIduCNrpgaIKqcobltYix3BzPSetSheJTw+8sobLEqOZZKhfNmpMgwaBwsUKoeRrC8zjtNazv+/o23qKyIRYRyeKCkIgk3JHzwSGskpuZ6T3k+NDelUIuL1VkJACAN+Oj4oIwZEVMHhD87uhRutdhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753467179; c=relaxed/simple;
-	bh=EpzX4gVltvQWn439XtsEeaalCBacbreSsUzM2HbBzQg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ENWWveneNkri3UDbBjmgWHyDTSEAAivf5w6rNfE494byuTEdOtJuz4OMz36SifT8D8PleH/x/Hs9knl3JDZzYqulGfRpaEOCVlWVZkKQwCxPlYvqzsOr29/MMK61fLxsv4fMKuS3+kWS3ANv3s558KFlRP8NBTh7meIjGFQLFek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4321E176C;
-	Fri, 25 Jul 2025 11:12:49 -0700 (PDT)
-Received: from [10.57.4.83] (unknown [10.57.4.83])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A29DE3F6A8;
-	Fri, 25 Jul 2025 11:12:53 -0700 (PDT)
-Message-ID: <6817efe1-f2c2-4686-bdf1-fca11f066e3a@arm.com>
-Date: Fri, 25 Jul 2025 19:12:50 +0100
+	s=arc-20240116; t=1753473104; c=relaxed/simple;
+	bh=HIFZCasQnvflawLHEinivIZ7CGoYHgz1TfOYSlsci5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ldnfDQEBz/AiF0lbR9kIaBmUyPtzyt+w5M/1V6uC02F0d0W+/xr09lbFwoyEfnemFOtYXPFdZMVR+vU2ESGF7sa1RhunO+8oHXNt9gUkOd0bpXowjpUQGzk+YitlIgEXp1V6X4+EHly7lR0BIp8+WOvjJFiUAb1L6hw4XoANDFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7IReT1m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C08BEC4CEE7;
+	Fri, 25 Jul 2025 19:51:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753473103;
+	bh=HIFZCasQnvflawLHEinivIZ7CGoYHgz1TfOYSlsci5A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c7IReT1m8egDm2RiZG6IZs9XJkWSVWWEaWM2T9QRwgauUdX2AFDzeVRji+7xYvf7w
+	 2q5Iq3z3/d+RbsVRQ2TymUaZsf7afz1W1pHCg6neFeqOeAH092Rfhqb0RwuYUv7/pA
+	 2sUaBr7obPmpG9Dd+eD7eFRQnZXyNO/znE8rgPc/yqfp/pRLxTXZbhso5dJxsmagpv
+	 TEojpnKd1CEmpaXLYT1n7FyiMD7faZq0Mif46V7ZOTZe5uPTjHDb2XJEnNM0sbPn1w
+	 2KIQ1Ox/iZbrveQ7eeXIjyiu0LwcAfEAOsUWt8NOXvbsJPC5FW7GzEYVn6MTJJP2R/
+	 lSDhPTaQdiSJQ==
+Date: Fri, 25 Jul 2025 14:51:43 -0500
+From: Rob Herring <robh@kernel.org>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: Shawn Guo <shawnguo@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Daniel Thompson <danielt@kernel.org>, Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	Pavel Machek <pavel@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 1/4] dt-bindings: backlight: Add max25014 bindings
+Message-ID: <20250725195143.GA1735522-robh@kernel.org>
+References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
+ <20250725-max25014-v1-1-0e8cce92078e@gocontroll.com>
+ <175345006903.1002291.4212198267952446360.robh@kernel.org>
+ <03096180-1e33-4dd0-b027-cc18a5010e46@gocontroll.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: BUG: Circular locking dependency on netdev led trigger on NanoPi
- R5S
-To: Diederik de Haas <didi.debian@cknow.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: linux-leds@vger.kernel.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <DBLBPIBKFCJV.36AVW8JY88L7H@cknow.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <DBLBPIBKFCJV.36AVW8JY88L7H@cknow.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <03096180-1e33-4dd0-b027-cc18a5010e46@gocontroll.com>
 
-On 2025-07-25 6:48 pm, Diederik de Haas wrote:
-> Hi,
+On Fri, Jul 25, 2025 at 04:06:45PM +0200, Maud Spierings wrote:
 > 
-> I have a FriendlyELEC NanoPi R5S (with rk3568 SoC) and in commit
-> 1631cbdb8089 ("arm64: dts: rockchip: Improve LED config for NanoPi R5S")
 > 
-> I tried to improve its LED configuration and that included
-> ``linux,default-trigger = "netdev"``
+> On 7/25/25 15:27, Rob Herring (Arm) wrote:
+> > 
+> > On Fri, 25 Jul 2025 13:09:23 +0200, Maud Spierings wrote:
+> > > The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> > > with intgrated boost controller.
+> > > 
+> > > Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> > > ---
+> > >   .../bindings/leds/backlight/maxim,max25014.yaml    | 78 ++++++++++++++++++++++
+> > >   MAINTAINERS                                        |  5 ++
+> > >   2 files changed, 83 insertions(+)
+> > > 
+> > 
+> > My bot found errors running 'make dt_binding_check' on your patch:
 > 
-> Problem: sometimes I got a 'hung task' error which resulted in the WAN
-> port not to come up (that's the only one I use) and logging in via
-> serial also didn't work, so pulling the plug was the only remedy.
-> 
-> Robin Murphy quickly identified that it likely had to do with led
-> triggers and removing those netdev triggers made the problem go away[1].
-> To find out what actually caused it, I built a kernel with PROOF_LOCKING
-> and PRINTK_CALLER enabled, which after adding a patch which fixed an
-> OOPS [2], showed the underlaying problem:
+> Pretty sure I did that, but I've never gotten those tools to work quite
+> right, I'll look at it for v2
 
-For the record, I think the actual deadlock condition Diederik's system 
-hits in practice is a shorter cycle, wherein immediately after acquiring 
-pernet_ops_rwsem, thread #0 then tries to take rtnl_mutex, which forms a 
-straight inversion against thread #2 (which holds rtnl_mutex from 
-devinet_ioctl()).
+What's the issue?
 
-Thanks,
-Robin.
-
->     ======================================================
->     WARNING: possible circular locking dependency detected
->     6.16-rc7+unreleased-arm64-cknow #1 Not tainted
->     ------------------------------------------------------
->     modprobe/936 is trying to acquire lock:
->     ffffc943e0edc3b0 (pernet_ops_rwsem){++++}-{4:4}, at: register_netdevice_notifier+0x38/0x148
-> 
->     but task is already holding lock:
->     ffff0001f2762248 (&led_cdev->trigger_lock){+.+.}-{4:4}, at: led_trigger_register+0x14c/0x1e0
-> 
->     which lock already depends on the new lock.
-> 
-> 
->     the existing dependency chain (in reverse order) is:
-> 
->     -> #3 (&led_cdev->trigger_lock){+.+.}-{4:4}:
->            lock_acquire+0x1cc/0x348
->            down_write+0x40/0xd8
->            led_trigger_set_default+0x5c/0x170
->            led_classdev_register_ext+0x340/0x488
->            __sdhci_add_host+0x190/0x368 [sdhci]
->            dwcmshc_probe+0x2b8/0x6b0 [sdhci_of_dwcmshc]
->            platform_probe+0x70/0xe8
->            really_probe+0xc8/0x3a0
->            __driver_probe_device+0x84/0x160
->            driver_probe_device+0x44/0x128
->            __device_attach_driver+0xc4/0x170
->            bus_for_each_drv+0x90/0xf8
->            __device_attach_async_helper+0xc0/0x120
->            async_run_entry_fn+0x40/0x180
->            process_one_work+0x23c/0x640
->            worker_thread+0x1b4/0x360
->            kthread+0x150/0x250
->            ret_from_fork+0x10/0x20
-> 
->     -> #2 (triggers_list_lock){++++}-{4:4}:
->            lock_acquire+0x1cc/0x348
->            down_write+0x40/0xd8
->            led_trigger_register+0x58/0x1e0
->            phy_led_triggers_register+0xf4/0x258 [libphy]
->            phy_attach_direct+0x328/0x3a8 [libphy]
->            phylink_fwnode_phy_connect+0xb0/0x138 [phylink]
->            __stmmac_open+0xec/0x520 [stmmac]
->            stmmac_open+0x4c/0xe8 [stmmac]
->            __dev_open+0x13c/0x310
->            __dev_change_flags+0x1d4/0x260
->            netif_change_flags+0x2c/0x80
->            dev_change_flags+0x90/0xd0
->            devinet_ioctl+0x55c/0x730
->            inet_ioctl+0x1e4/0x200
->            sock_do_ioctl+0x6c/0x140
->            sock_ioctl+0x328/0x3c0
->            __arm64_sys_ioctl+0xb4/0x118
->            invoke_syscall+0x6c/0x100
->            el0_svc_common.constprop.0+0x48/0xf0
->            do_el0_svc+0x24/0x38
->            el0_svc+0x54/0x1e0
->            el0t_64_sync_handler+0x10c/0x140
->            el0t_64_sync+0x198/0x1a0
-> 
->     -> #1 (rtnl_mutex){+.+.}-{4:4}:
->            lock_acquire+0x1cc/0x348
->            __mutex_lock+0xac/0x590
->            mutex_lock_nested+0x2c/0x40
->            rtnl_lock+0x24/0x38
->            register_netdevice_notifier+0x40/0x148
->            rtnetlink_init+0x40/0x68
->            netlink_proto_init+0x120/0x158
->            do_one_initcall+0x88/0x3b8
->            kernel_init_freeable+0x2d0/0x340
->            kernel_init+0x28/0x160
->            ret_from_fork+0x10/0x20
-> 
->     -> #0 (pernet_ops_rwsem){++++}-{4:4}:
->            check_prev_add+0x114/0xcb8
->            __lock_acquire+0x12e8/0x15f0
->            lock_acquire+0x1cc/0x348
->            down_write+0x40/0xd8
->            register_netdevice_notifier+0x38/0x148
->            netdev_trig_activate+0x18c/0x1e8 [ledtrig_netdev]
->            led_trigger_set+0x1d4/0x328
->            led_trigger_register+0x194/0x1e0
->            netdev_led_trigger_init+0x20/0xff8 [ledtrig_netdev]
->            do_one_initcall+0x88/0x3b8
->            do_init_module+0x5c/0x270
->            load_module+0x1ed8/0x2608
->            init_module_from_file+0x94/0x100
->            idempotent_init_module+0x1e8/0x2f0
->            __arm64_sys_finit_module+0x70/0xe8
->            invoke_syscall+0x6c/0x100
->            el0_svc_common.constprop.0+0x48/0xf0
->            do_el0_svc+0x24/0x38
->            el0_svc+0x54/0x1e0
->            el0t_64_sync_handler+0x10c/0x140
->            el0t_64_sync+0x198/0x1a0
-> 
->     other info that might help us debug this:
-> 
->     Chain exists of:
->       pernet_ops_rwsem --> triggers_list_lock --> &led_cdev->trigger_lock
-> 
->      Possible unsafe locking scenario:
-> 
->            CPU0                    CPU1
->            ----                    ----
->       lock(&led_cdev->trigger_lock);
->                                    lock(triggers_list_lock);
->                                    lock(&led_cdev->trigger_lock);
->       lock(pernet_ops_rwsem);
-> 
->      *** DEADLOCK ***
-> 
->     2 locks held by modprobe/936:
->      #0: ffffc943e0d2baa8 (leds_list_lock){++++}-{4:4}, at: led_trigger_register+0x10c/0x1e0
->      #1: ffff0001f2762248 (&led_cdev->trigger_lock){+.+.}-{4:4}, at: led_trigger_register+0x14c/0x1e0
-> 
->     stack backtrace:
->     CPU: 0 UID: 0 PID: 936 Comm: modprobe Not tainted 6.16-rc7+unreleased-arm64-cknow #1 PREEMPTLAZY  Debian 6.16~rc7-2~exp1
->     Hardware name: FriendlyElec NanoPi R5S (DT)
->     Call trace:
->      show_stack+0x34/0xa0 (C)
->      dump_stack_lvl+0x70/0x98
->      dump_stack+0x18/0x24
->      print_circular_bug+0x230/0x280
->      check_noncircular+0x174/0x188
->      check_prev_add+0x114/0xcb8
->      __lock_acquire+0x12e8/0x15f0
->      lock_acquire+0x1cc/0x348
->      down_write+0x40/0xd8
->      register_netdevice_notifier+0x38/0x148
->      netdev_trig_activate+0x18c/0x1e8 [ledtrig_netdev]
->      led_trigger_set+0x1d4/0x328
->      led_trigger_register+0x194/0x1e0
->      netdev_led_trigger_init+0x20/0xff8 [ledtrig_netdev]
->      do_one_initcall+0x88/0x3b8
->      do_init_module+0x5c/0x270
->      load_module+0x1ed8/0x2608
->      init_module_from_file+0x94/0x100
->      idempotent_init_module+0x1e8/0x2f0
->      __arm64_sys_finit_module+0x70/0xe8
->      invoke_syscall+0x6c/0x100
->      el0_svc_common.constprop.0+0x48/0xf0
->      do_el0_svc+0x24/0x38
->      el0_svc+0x54/0x1e0
->      el0t_64_sync_handler+0x10c/0x140
->      el0t_64_sync+0x198/0x1a0
->     leds-gpio gpio-leds: bus: 'platform': really_probe: bound device to driver leds-gpio
-> 
-> Full serial log can be found at [3] which is quite verbose and the boot
-> took way longer then normal as the following was added to cmdline:
-> ``dyndbg="file dd.c func really_probe +p" maxcpus=1``
-> 
-> Free free to ask for additional info and/or to run tests.
-> 
-> Cheers,
->    Diederik
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/commit/?h=arm/fixes&id=912b1f2a796ec73530a709b11821cb0c249fb23e
-> [2] https://lore.kernel.org/linux-rockchip/f81b88df-9959-4968-a60a-b7efd3d5ea24@arm.com/
-> [3] https://paste.sr.ht/~diederik/142e92bfb29bbb58bca18a74cdffc5e0ba79081c
-
+Rob
 
