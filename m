@@ -1,231 +1,273 @@
-Return-Path: <linux-leds+bounces-5136-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5137-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5A5B11FC2
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 16:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BF3B12336
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 19:48:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A127D3A6FFF
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 14:06:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9CE4AE3282
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Jul 2025 17:48:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CA331DFE09;
-	Fri, 25 Jul 2025 14:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75BC2EFDBE;
+	Fri, 25 Jul 2025 17:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="ZoxmfZxa"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="rFKl1ERZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11022082.outbound.protection.outlook.com [52.101.66.82])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B0110FD;
-	Fri, 25 Jul 2025 14:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753452416; cv=fail; b=h+SIeMoak8xb6qvPqKDTKXHnN7OzR7El6YG17VBjYsFGCcV9pngs/WMMomE+5m03K3cSMY/EupgMHZyh1PcJYoVZMv7aMXTdYyjT17a386NH7RDYk9OW0GD5yv6H0ctRnWs3DY7b31SRcrDP3bOH9cy2WSCf9BC2QGtAgKTI4F8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753452416; c=relaxed/simple;
-	bh=moT2HFfBld0Yect6Zeu9nvzOShnr920JwH6m1BtKEhM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BRKdZmR6Zg446wFsNokvJ5uzo9eYo1bvvlrpNl6IU33UKmLkkL8+s2NZbYiTWaV93p+XQKd+jEWWoQK8yomQDtnqSn4+z8qLxCL7n3E55FXQxDSqm38xU8rAMc/Vx+sR1jTyAcx7tNnqXPvMwEdqLT9K3/VQc4K5Atlo2j5/pLI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=ZoxmfZxa; arc=fail smtp.client-ip=52.101.66.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hV3w+fvNiAbPcLPVL6DtE0wheQNnwznHC8zRqif8Mic9q8RYsfYQBVTqUjvxB7F+WJj8lmM/smXSA513GUuMHE8/zZ9i3F4htcrEqmoXLMLsulCz09z3dipAmk9u1E9ku9M5JI6bkDIGe4qrOEikHXBpgBA6sYCdk9HHxvLTrJpcvxfU+lCkEipN0yCFOsdXyBS9JlAWhC2QP/cTigQp/ntALrBow6sZCY1bJ/XNmC2/kWYUbJ73HOniYKJYRHeLmpWboNG7dI/jRksnruFVvqYpyt0j2R3GOSp27CXisGrXfZ7AGLmAXRSDI0sMO2t52wmNlYYMiSfoRTJ2UveSQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N6GvOr8rlvCqGEt5E0ZVFivmeWba41UMwLIhyLyaFew=;
- b=vf086KlzM3srl4Xagflf2lizlPoPojqV+PvOMcAE1kjlZ+RcLFrLKEDsGTBsZsgHdVlFulwJVguKlktJIEU/7ytAdgX/TF4svHlV3FpFlPi2g0ZM3Eu7t2dJYAowrbyv4qJ6m68APafVRYdBKuxQCmd32GB7pM+txJ+bcWEsCY3d+HYGVPfnZO2WNBFGbRfOSZiSrFdxH2F9uw+w0WowHGreWOq9il4zKbxCjlqRxQl0+ldQrONLcemJAiogejOAZKVdduBw91cHRHqjt3F4YHBgt8XhKEgtCUOcVeO7qAMmtM9DpDZADyU2g7hIVju1OSGvvAh79+FgwqKG5iC6pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gocontroll.com; dmarc=pass action=none
- header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N6GvOr8rlvCqGEt5E0ZVFivmeWba41UMwLIhyLyaFew=;
- b=ZoxmfZxahdwSqO27tmYyBy95q1cPbTZjkVzlwtpO50rN7VvazBP84zoU9Q/J0s8YmrJSNkv7a5MTJoLk75G7LgVaxtaIVc6KPzcaMsla0pR4VzML10fFs0/Ov6kms/mKS76YWqH95btih7wCH2YTPFP60vbJNkRBizZHaQbXau4vC9mEXm66W1b9tOwyU+t5kNhtS/4jpWMCzsH6t+xWN37TNqXLKYdQImohqSpR1EHo8ePXoovqBNCokhtHB4yBDCOqbNCqWfRwa+Nmr2gFKgS0nDglCRf5rHUYoPpM9HjqAxZMtAQvXlKH3AwxQsjahc8qUkkAYQwa1yTEDw62lw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gocontroll.com;
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
- by DB9PR04MB11512.eurprd04.prod.outlook.com (2603:10a6:10:5e1::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.22; Fri, 25 Jul
- 2025 14:06:46 +0000
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f%4]) with mapi id 15.20.8922.037; Fri, 25 Jul 2025
- 14:06:46 +0000
-Message-ID: <03096180-1e33-4dd0-b027-cc18a5010e46@gocontroll.com>
-Date: Fri, 25 Jul 2025 16:06:45 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: backlight: Add max25014 bindings
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <danielt@kernel.org>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>
-References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
- <20250725-max25014-v1-1-0e8cce92078e@gocontroll.com>
- <175345006903.1002291.4212198267952446360.robh@kernel.org>
-Content-Language: en-US
-From: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <175345006903.1002291.4212198267952446360.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR04CA0082.eurprd04.prod.outlook.com
- (2603:10a6:208:be::23) To PA4PR04MB7630.eurprd04.prod.outlook.com
- (2603:10a6:102:ec::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66322EFDBA
+	for <linux-leds@vger.kernel.org>; Fri, 25 Jul 2025 17:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753465706; cv=none; b=Ys9F4SgNfHYIve4dAgedExeIZODgjDVgv7xFJJ7fp/DVw7MzvfBwwzPzVtQldUBj46ibGVtLkk3ayFlBumaZwKRdPrHDDrG4n1pWJAhq2k43x0EVECuKRJwFWfK6S0MtL11W2YCmams+ysE9pY53Gyy3UEgCUl0j+NzO96C1z0k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753465706; c=relaxed/simple;
+	bh=Wib0GKw0OPRGeW19Pa0wdX36eYgmdl6sqTMiT/3s8Rg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:From:Cc; b=PeWW+piM3cEwnn73SZj6iY+EzeVB/H1B1eU5FnsKlURVRjvM/13J79CO7PMsvtDSlHdIuMjNeE+MUZGktZ/9JleO/4glgaU/Qqgpj/wgX5AHKZqoLM1Ve7ixiUZZ20pmJWqlRPXhuceanNdg9Xspre5o6sOIUGEmONdOTDU5Nko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=rFKl1ERZ; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|DB9PR04MB11512:EE_
-X-MS-Office365-Filtering-Correlation-Id: 879b086d-e442-4e19-54af-08ddcb847dbf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|10070799003|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?KzJiTXlkK1hWQUxmQWJ6Qm5nT0pxUWpwdlAzK25jWEVXU3lFbGxsRVNNbWRu?=
- =?utf-8?B?emQ4bWNzS0VJL2tLa0ZjUk53Z1lBa1Q2VDVURUtBeVcyaitxdDg4di9qUmVi?=
- =?utf-8?B?QUhMV1VWRU1kb2tWRmhJa0p1VGxncjB4amlsejBENXo5ZHRPa2luL29nY01P?=
- =?utf-8?B?K3J0MTdNQmRpZWI5blcvOG8zbEowM1Z3YnlEelVtZkFXWVNLN0d6U0VmYTF0?=
- =?utf-8?B?UG9yeVBkMzhZQlJtVlVoT0I5eDJIT2lQb3o5Q2h3T3ZOMTc0bDM0Q2M5U0tN?=
- =?utf-8?B?WGhDbnJiYkk1TFRVNUVDUlRzaEl2c09FOHFCZENLeDk2SFFDMjlhVGhQdGsz?=
- =?utf-8?B?VlR1OEt5RWowcVMwSDNBc29Xclp0WXV0Y0p0ME1Ca1ZobzUwcExGZTBXczdm?=
- =?utf-8?B?TFc3NzNIM3hwd2x2Q3ZyTHZRM3cxbW1aWkxtSDlmNndCTVo0Z1pwcFpzQzBI?=
- =?utf-8?B?Y01QTWJOSXBpRjBWcEhrcXpiSVYyUzlTODhoTUJheGVHUWZrNDFpMDMydlN3?=
- =?utf-8?B?aEFNUXRDU2QzUzhoMDlJZEw4RXF6bW1mbTJoMC9CbkhRYnJiRkFSL2dDaDRQ?=
- =?utf-8?B?cjA5djhJWFI2NEQ1Zys5SGZFcTlsY1lReGp5ZmdweUZFVllqQXEzRFpLOURQ?=
- =?utf-8?B?UnFCdHZmdVRYUWQzbU1qQ3RzVkl1Zk0yNytPaVVRK1Fja1hwVGJsbUxvRkYz?=
- =?utf-8?B?N2psZVl5R2ROaUh2S0xsb1lKNExWQXNyRmhrOHlHNEVEeXd0WHdZMmRjM1Nr?=
- =?utf-8?B?dEZIanRTLytRTEkxTnNPOUFEUERaSmh6RVdWbHhOaHdLeE5RZi9tYjd2dnpF?=
- =?utf-8?B?OHRUN0FrZHArWi9YUWZ3V05rN21nQ2xMei9EV0dxZlZNK2FYOFZYUitsbkFJ?=
- =?utf-8?B?MHFuaTR1bWZRUEp6eSsySUpFQXphc2NTTFNJN1U4OFZhZWJKbDFIeUtTbGdU?=
- =?utf-8?B?NWp5dGRFa200QXBXblBFY2xVU1JGd3IvK3kzcmUvMi9zMUVvWDB4UG9sMlMx?=
- =?utf-8?B?WW8vRjJ0UlNKSXRlbjdDVUxKMmZObkR3YzZ2MlY4dDdNREUraVNjcFlNbWdX?=
- =?utf-8?B?TTYvV2NmdHpBL3dZL0JBNnQ5V0t1NEUvNjQwMHRrd3JaTmVtSU02bC8xZmNh?=
- =?utf-8?B?UnB4ZC9iRkpPQnc4SjRIcUJVcVc4SHlSQ3ZoT3NkS0NMRlc3R2xiOWVPb0ow?=
- =?utf-8?B?MlRjVklFclJsS1paWGFHNEFlYXpEd3dZQlpVTW1ORFR2cjQyRGlVNVZhZ1Z4?=
- =?utf-8?B?Slc4Wm15Q1lZMmtBS2hDL1cyZTVyVkJQb0JNZWhwbmkyRVBQR1pxTHg1NHBL?=
- =?utf-8?B?dVlPc2dIdXRYWjFsUWZJR3dES0RwQTlkWUh3c3h1TEY5a010M2tPY1pLcUZs?=
- =?utf-8?B?bHpGdUhFZTF2Qzl2S0p2MXg5R0phU3plbUgvTGVuODJsUUI3cm1OOUZCT0ZD?=
- =?utf-8?B?NlQyTFMrWENINTg1TGxzdDhER2l6Tlh6alVxVUpUcExQeG9nOGU2NzZvNVFv?=
- =?utf-8?B?M1dCeU5uU0V3S0JxbmVoYXBoeFIxb0NXMnVWam0xUUhNTHVzd1lheGNCdXIz?=
- =?utf-8?B?dGZ0NlA4SE9yNjY4R0dob0MvZ29ITDdSOGZ6ZzV0TFhvVHcvSjhJZjlWekNQ?=
- =?utf-8?B?a0JLVnhGZlVlZUt4QmJvQ1FBT3lEWkQ0dGlkWGQ0d0h1VjNEUlA0Y2hHMjMx?=
- =?utf-8?B?aG5vT1EyUlljeGVMM1hiUnltZG80M0kzdFNrV0pFd050NFdHbUlWUmZxVmVo?=
- =?utf-8?B?SzNVZ2pMWi9iVzdTRXRxdjgwcG83QnZydVpGL1dpT0dGMTRWRWNBOU9OVVFy?=
- =?utf-8?Q?+dEd87Q4uWxBQ1CkwWKRoPuvlWr3+e+93HP0c=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(7416014)(1800799024)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cUdhZnY5b044NWJSQUVyVlNjK2RYZTlMb2gyWHRPb3hIZk05dlFUMXNWT01D?=
- =?utf-8?B?SW00K0R2cmdGeUZLZ3hHUzNiTStBRnBOOS8ybGIreU0veUtxeWQrQW9rYzVY?=
- =?utf-8?B?QlJzVkkzRzBQbTZiZUNjUWdxeklFbEVuREx4ZCtpQnlneStscjMwcHh3d1hX?=
- =?utf-8?B?QjZDdURIVVpVT3JBWG40TnR2WURNVXJvaHdnN1pFWXdyVTEyc1VMVGdGd2la?=
- =?utf-8?B?eE5KTFIrSnQvYXBaQ1IrTWVDYWtrdUkxKy9jWGFQanJYb0JJSVpuNlNMS1lS?=
- =?utf-8?B?eEFxeDh3S2lPRkQvYnczR3JlVWREeFEvNlp5c0pWYTV1ZFJmb3dkcEtZVUkv?=
- =?utf-8?B?Tk9KM29JTmRONURyWmhXb1FuTDlBNWs1Q3Z3bjdoMW12c0N0RWJoQm4xckJ5?=
- =?utf-8?B?MVRaRXBxODkvV0FwalJlZTh5bFFGdjZCdVBpTy9kV1JKMjVrelQvUHlNZmM1?=
- =?utf-8?B?ekJGbVI1OFB1em5VVmpzVm5KYjZJRXJmbVh3WnZ1bCtIT29PV3dFNFMzUVly?=
- =?utf-8?B?SFlxREcrZWFBTDdRSGVJZmg3UW15YlRLY2JXMDFrbTlsVUZqMUJzSXhNWXNK?=
- =?utf-8?B?U0k4dWFRdGtqTHdqSXZudnVTS2JxM0NRYnRjZTBGcnlYVzlnRFlDZWU2d0JC?=
- =?utf-8?B?dDEyeXgrRUdUL0RTYXMzU3NCeFh0c0g3Q3puM0JwOXN6d0NCOGR4RXZnUndv?=
- =?utf-8?B?RlUwZm1nV1cyQlJkQXhVMFpBNjBsWEpKd1g1VkVIMUFaRWM2RG1XdTlRYkxP?=
- =?utf-8?B?SkNHUFU2cmV5Yi9BZXFtM202c2tmRDZNUC91YldVelhJVENyN1lQN3ZNVWM5?=
- =?utf-8?B?Q3hucjZ3dGNpMmdyaHBtbG1lM0RtNzlzdTNjSkNZc1kxZnJ3Q05pWnFOSEFS?=
- =?utf-8?B?OTYzU0JPZTA4OVVKUHUrQXNRTFNnb2xGYWVVS2ltUzlKVG94cUVWVEwvQTVm?=
- =?utf-8?B?WFcwYlA0YnJIMHdTTi9GWThBdlFIZVFXSTNXZWcxQ3pxVC83cGdvR0dDNy91?=
- =?utf-8?B?Y0J5a2p6aGNxUVIyQ1QzL3QwQ1hsa08vVmdwK2dFUnBSdXYwQWFaT2lyYytY?=
- =?utf-8?B?bkl6eFprMFEvWUhGc1ZHaWd4Qkc0bVRMeVV0QVd5SVNrSXNXVFJxL3FiZlZG?=
- =?utf-8?B?TDkydWdCM2thQzg4QXJRZnk4eUVzNW5aUXRqVjk4ZFQwZ3RPTnFOZmZTQ09Y?=
- =?utf-8?B?OTdXVVQrenM4NFZRR1VPMjlwQUV4SndwQlZzc3FvazVqZEdqZVVIRjRwdnZx?=
- =?utf-8?B?V0RXVVZEdjNmYVFoZVd6VDFMcktUWXFBaTZ0MVVINWVmcHdXbGdoK2tTWFFr?=
- =?utf-8?B?NjZTcFNrSmJCK2lTZ2pURHpzTnpMWWo4bS9xVlFObzY2ODY2SmJyMThZWUhX?=
- =?utf-8?B?Um01WkZlek8rbmJRSmp5TWk2eTlDTEJZVnRhc0I3dGlIZHl0STFFNjFpL3Zo?=
- =?utf-8?B?L3I4Rm9WQkdyd1JVbFVIeU0yWDRBbGNML0FBM2NvRVZXSENxZStYN2x5VEJL?=
- =?utf-8?B?Tk1GYlBxSDB1d0JOOTAvWm5OaXR3TGpvVmcyWGc0VStVemlBNTZycndZODB0?=
- =?utf-8?B?aEZwaHUwb1VKMlZRd3pQcktIMWJNMTluZ3RqTlhmSzg2YmhBbEdDSStCV1NI?=
- =?utf-8?B?YkZGSEIvZWwrUzcvdHZvU09XWGQvQ29OYzYvdzlUdlgvVVBQRGtURjQ0NTZX?=
- =?utf-8?B?OUx0T0V6dUFyYUlGYlFHVkNTNFpJTGgvRTlIbFpUODAyczZVYmxFckdhMUl1?=
- =?utf-8?B?MHVPTjBLVFVKRG9LeUFWUGJNVGVBWWxqVUF4SnRhTjZrNGxqRGNXN01EVDBI?=
- =?utf-8?B?VHQ0WVZpYW8xRlFERU41RHkxdmo4Z2x6K3BkR0lqS0Z4L2c4c2pSM01Wd09I?=
- =?utf-8?B?UGZDZC9rYmlQRkh3WDJoM2h4a200dkRnNVVjdmxXU255UkEvdVRWRWhLREVP?=
- =?utf-8?B?MFNveS83Vk8zN1hENzNwaXhISktVTXE0K0JSWldMUFBJRFcwRmNrNWRFdEw1?=
- =?utf-8?B?Mm52T0FDMTBmMkIrUTVXWldxRTQ4OE9uVGp4RzZaazJXRlRBSXp0ZlRvOWtk?=
- =?utf-8?B?YXB6elJIMHZQUjdHWWJHczlqNzdYcE5wVHRBeEpFM0wyd09FUU5lQWM2Q08x?=
- =?utf-8?B?cUZkOUhtMjVTSWxhSnpnWVRhbktTUm5QZFhxOVdmTDNBck5yS3FWNDdpMnNh?=
- =?utf-8?B?dDVkMFhuNXpEUUxYR0hBK0J1bUlhVk82d0Q5Y2NkaEM3eDM0cXhRUEhxTmk2?=
- =?utf-8?B?cUR4WDM4QWVGTzhYRkVlNGFNTlNnPT0=?=
-X-OriginatorOrg: gocontroll.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 879b086d-e442-4e19-54af-08ddcb847dbf
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2025 14:06:46.3628
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /p1cbB29eNqAJH4j7u94nnOG01+XcVIIoFEdKQInoPAa7+K3K2WrN++nh9u2h698dcTt5K+Nx61WUFvaPuHjeEof45Nt/CGQJSD0U0ZqJQ4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB11512
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1753465692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=HOh2/7q7Oj21JFMLSwgw0cSPTuUuF6M/s5BwAyegtKM=;
+	b=rFKl1ERZJID/6udTNkn7bbOz3jMhx1YRXPhQ/+DM6N71sr9f6tcqGHkfFVOpL3GYSmRuzB
+	+ry464+i2ZYj7cZBFJcKkP9qiulJyKgjFPgAPCdF8BSXSWnREPtQrxfHJSiGV5DK/LSVa7
+	HpDf+A55pqU8Xy/+VH2zSXcrb8y2oxxrt+idzY6TV4GiUt8K6paeDU4a3JUuTk1aOkT3Qf
+	hybpY5DgYju3Ff3+Ak75B6Cq5SkTlRkaHIRA7r6ZG90CbWhYm3X9FDF98krk0Cr4b052Ws
+	U/ZGSslEpF5hgXQ2zgU3iFA8WVGoiGTWzgDeeDe08KTmp3PAhYNWHI3GmBoxzw==
+Content-Type: multipart/signed;
+ boundary=05a4ad5a0d7fd99f8edf9ab4b2d58bf2d6e61cebf8097ca6d088ce78129d;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Fri, 25 Jul 2025 19:48:03 +0200
+Message-Id: <DBLBPIBKFCJV.36AVW8JY88L7H@cknow.org>
+To: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>
+Subject: BUG: Circular locking dependency on netdev led trigger on NanoPi
+ R5S
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+Cc: "Robin Murphy" <robin.murphy@arm.com>, <linux-leds@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Diederik de Haas" <didi.debian@cknow.org>
+X-Migadu-Flow: FLOW_OUT
+
+--05a4ad5a0d7fd99f8edf9ab4b2d58bf2d6e61cebf8097ca6d088ce78129d
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+Hi,
+
+I have a FriendlyELEC NanoPi R5S (with rk3568 SoC) and in commit
+1631cbdb8089 ("arm64: dts: rockchip: Improve LED config for NanoPi R5S")
+
+I tried to improve its LED configuration and that included
+``linux,default-trigger =3D "netdev"``
+
+Problem: sometimes I got a 'hung task' error which resulted in the WAN
+port not to come up (that's the only one I use) and logging in via
+serial also didn't work, so pulling the plug was the only remedy.
+
+Robin Murphy quickly identified that it likely had to do with led
+triggers and removing those netdev triggers made the problem go away[1].
+To find out what actually caused it, I built a kernel with PROOF_LOCKING
+and PRINTK_CALLER enabled, which after adding a patch which fixed an
+OOPS [2], showed the underlaying problem:
+
+   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+   WARNING: possible circular locking dependency detected
+   6.16-rc7+unreleased-arm64-cknow #1 Not tainted
+   ------------------------------------------------------
+   modprobe/936 is trying to acquire lock:
+   ffffc943e0edc3b0 (pernet_ops_rwsem){++++}-{4:4}, at: register_netdevice_=
+notifier+0x38/0x148
+
+   but task is already holding lock:
+   ffff0001f2762248 (&led_cdev->trigger_lock){+.+.}-{4:4}, at: led_trigger_=
+register+0x14c/0x1e0
+
+   which lock already depends on the new lock.
 
 
+   the existing dependency chain (in reverse order) is:
 
-On 7/25/25 15:27, Rob Herring (Arm) wrote:
-> 
-> On Fri, 25 Jul 2025 13:09:23 +0200, Maud Spierings wrote:
->> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
->> with intgrated boost controller.
->>
->> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->> ---
->>   .../bindings/leds/backlight/maxim,max25014.yaml    | 78 ++++++++++++++++++++++
->>   MAINTAINERS                                        |  5 ++
->>   2 files changed, 83 insertions(+)
->>
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
+   -> #3 (&led_cdev->trigger_lock){+.+.}-{4:4}:
+          lock_acquire+0x1cc/0x348
+          down_write+0x40/0xd8
+          led_trigger_set_default+0x5c/0x170
+          led_classdev_register_ext+0x340/0x488
+          __sdhci_add_host+0x190/0x368 [sdhci]
+          dwcmshc_probe+0x2b8/0x6b0 [sdhci_of_dwcmshc]
+          platform_probe+0x70/0xe8
+          really_probe+0xc8/0x3a0
+          __driver_probe_device+0x84/0x160
+          driver_probe_device+0x44/0x128
+          __device_attach_driver+0xc4/0x170
+          bus_for_each_drv+0x90/0xf8
+          __device_attach_async_helper+0xc0/0x120
+          async_run_entry_fn+0x40/0x180
+          process_one_work+0x23c/0x640
+          worker_thread+0x1b4/0x360
+          kthread+0x150/0x250
+          ret_from_fork+0x10/0x20
 
-Pretty sure I did that, but I've never gotten those tools to work quite 
-right, I'll look at it for v2
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.example.dtb: backlight@6f (maxim,max25014): Unevaluated properties are not allowed ('bl-name' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+   -> #2 (triggers_list_lock){++++}-{4:4}:
+          lock_acquire+0x1cc/0x348
+          down_write+0x40/0xd8
+          led_trigger_register+0x58/0x1e0
+          phy_led_triggers_register+0xf4/0x258 [libphy]
+          phy_attach_direct+0x328/0x3a8 [libphy]
+          phylink_fwnode_phy_connect+0xb0/0x138 [phylink]
+          __stmmac_open+0xec/0x520 [stmmac]
+          stmmac_open+0x4c/0xe8 [stmmac]
+          __dev_open+0x13c/0x310
+          __dev_change_flags+0x1d4/0x260
+          netif_change_flags+0x2c/0x80
+          dev_change_flags+0x90/0xd0
+          devinet_ioctl+0x55c/0x730
+          inet_ioctl+0x1e4/0x200
+          sock_do_ioctl+0x6c/0x140
+          sock_ioctl+0x328/0x3c0
+          __arm64_sys_ioctl+0xb4/0x118
+          invoke_syscall+0x6c/0x100
+          el0_svc_common.constprop.0+0x48/0xf0
+          do_el0_svc+0x24/0x38
+          el0_svc+0x54/0x1e0
+          el0t_64_sync_handler+0x10c/0x140
+          el0t_64_sync+0x198/0x1a0
 
-Ah oops, leftover from old version, fixed in rv2
+   -> #1 (rtnl_mutex){+.+.}-{4:4}:
+          lock_acquire+0x1cc/0x348
+          __mutex_lock+0xac/0x590
+          mutex_lock_nested+0x2c/0x40
+          rtnl_lock+0x24/0x38
+          register_netdevice_notifier+0x40/0x148
+          rtnetlink_init+0x40/0x68
+          netlink_proto_init+0x120/0x158
+          do_one_initcall+0x88/0x3b8
+          kernel_init_freeable+0x2d0/0x340
+          kernel_init+0x28/0x160
+          ret_from_fork+0x10/0x20
 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250725-max25014-v1-1-0e8cce92078e@gocontroll.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-> 
-Kind Regards,
-Maud
+   -> #0 (pernet_ops_rwsem){++++}-{4:4}:
+          check_prev_add+0x114/0xcb8
+          __lock_acquire+0x12e8/0x15f0
+          lock_acquire+0x1cc/0x348
+          down_write+0x40/0xd8
+          register_netdevice_notifier+0x38/0x148
+          netdev_trig_activate+0x18c/0x1e8 [ledtrig_netdev]
+          led_trigger_set+0x1d4/0x328
+          led_trigger_register+0x194/0x1e0
+          netdev_led_trigger_init+0x20/0xff8 [ledtrig_netdev]
+          do_one_initcall+0x88/0x3b8
+          do_init_module+0x5c/0x270
+          load_module+0x1ed8/0x2608
+          init_module_from_file+0x94/0x100
+          idempotent_init_module+0x1e8/0x2f0
+          __arm64_sys_finit_module+0x70/0xe8
+          invoke_syscall+0x6c/0x100
+          el0_svc_common.constprop.0+0x48/0xf0
+          do_el0_svc+0x24/0x38
+          el0_svc+0x54/0x1e0
+          el0t_64_sync_handler+0x10c/0x140
+          el0t_64_sync+0x198/0x1a0
+
+   other info that might help us debug this:
+
+   Chain exists of:
+     pernet_ops_rwsem --> triggers_list_lock --> &led_cdev->trigger_lock
+
+    Possible unsafe locking scenario:
+
+          CPU0                    CPU1
+          ----                    ----
+     lock(&led_cdev->trigger_lock);
+                                  lock(triggers_list_lock);
+                                  lock(&led_cdev->trigger_lock);
+     lock(pernet_ops_rwsem);
+
+    *** DEADLOCK ***
+
+   2 locks held by modprobe/936:
+    #0: ffffc943e0d2baa8 (leds_list_lock){++++}-{4:4}, at: led_trigger_regi=
+ster+0x10c/0x1e0
+    #1: ffff0001f2762248 (&led_cdev->trigger_lock){+.+.}-{4:4}, at: led_tri=
+gger_register+0x14c/0x1e0
+
+   stack backtrace:
+   CPU: 0 UID: 0 PID: 936 Comm: modprobe Not tainted 6.16-rc7+unreleased-ar=
+m64-cknow #1 PREEMPTLAZY  Debian 6.16~rc7-2~exp1
+   Hardware name: FriendlyElec NanoPi R5S (DT)
+   Call trace:
+    show_stack+0x34/0xa0 (C)
+    dump_stack_lvl+0x70/0x98
+    dump_stack+0x18/0x24
+    print_circular_bug+0x230/0x280
+    check_noncircular+0x174/0x188
+    check_prev_add+0x114/0xcb8
+    __lock_acquire+0x12e8/0x15f0
+    lock_acquire+0x1cc/0x348
+    down_write+0x40/0xd8
+    register_netdevice_notifier+0x38/0x148
+    netdev_trig_activate+0x18c/0x1e8 [ledtrig_netdev]
+    led_trigger_set+0x1d4/0x328
+    led_trigger_register+0x194/0x1e0
+    netdev_led_trigger_init+0x20/0xff8 [ledtrig_netdev]
+    do_one_initcall+0x88/0x3b8
+    do_init_module+0x5c/0x270
+    load_module+0x1ed8/0x2608
+    init_module_from_file+0x94/0x100
+    idempotent_init_module+0x1e8/0x2f0
+    __arm64_sys_finit_module+0x70/0xe8
+    invoke_syscall+0x6c/0x100
+    el0_svc_common.constprop.0+0x48/0xf0
+    do_el0_svc+0x24/0x38
+    el0_svc+0x54/0x1e0
+    el0t_64_sync_handler+0x10c/0x140
+    el0t_64_sync+0x198/0x1a0
+   leds-gpio gpio-leds: bus: 'platform': really_probe: bound device to driv=
+er leds-gpio
+
+Full serial log can be found at [3] which is quite verbose and the boot
+took way longer then normal as the following was added to cmdline:
+``dyndbg=3D"file dd.c func really_probe +p" maxcpus=3D1``
+
+Free free to ask for additional info and/or to run tests.
+
+Cheers,
+  Diederik
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/commit/?h=
+=3Darm/fixes&id=3D912b1f2a796ec73530a709b11821cb0c249fb23e
+[2] https://lore.kernel.org/linux-rockchip/f81b88df-9959-4968-a60a-b7efd3d5=
+ea24@arm.com/
+[3] https://paste.sr.ht/~diederik/142e92bfb29bbb58bca18a74cdffc5e0ba79081c
+
+--05a4ad5a0d7fd99f8edf9ab4b2d58bf2d6e61cebf8097ca6d088ce78129d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaIPDVQAKCRDXblvOeH7b
+bnPAAQDYRsF+p1M4hDupJfWX0bALrNqxmOkDdi52tQ8G0+kYdQD/UQuyU6+40zJE
+CIAARZKfYH/t7AST8gNNJ+VTr0zm/ww=
+=bygX
+-----END PGP SIGNATURE-----
+
+--05a4ad5a0d7fd99f8edf9ab4b2d58bf2d6e61cebf8097ca6d088ce78129d--
 
