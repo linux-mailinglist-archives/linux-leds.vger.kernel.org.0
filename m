@@ -1,580 +1,154 @@
-Return-Path: <linux-leds+bounces-5141-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5142-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069D5B12D27
-	for <lists+linux-leds@lfdr.de>; Sun, 27 Jul 2025 01:59:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FD6B12E25
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Jul 2025 09:57:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A0467A27D5
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Jul 2025 23:57:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FFC7189C480
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Jul 2025 07:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A4C7230BCC;
-	Sat, 26 Jul 2025 23:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E58194A59;
+	Sun, 27 Jul 2025 07:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="ABXLpmMm"
+	dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b="CnHoGnSS"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5D4157493;
-	Sat, 26 Jul 2025 23:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FDF433A4;
+	Sun, 27 Jul 2025 07:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753574357; cv=none; b=khBk1HXyKnVtj5Yhi26UKtAn0ztrnrBIuoMfV8YFe6AWCUmRAPH6Tw50qbPEych9bx1O6975A5grTgLzAP39Ma/9vzxXkp1fq/vRoXfHdxOWcuiXmcJhPJqSod1nDPfb9pJFPJPsgI9gMJVMeVVPxcOrAZHMaHTr4FgIsqPBF+Q=
+	t=1753603069; cv=none; b=gsueje4cb932DsjfFz+Bvst7jKr+XJnPdSzV0QsQClkT+oVFc42qfwVCn2IhNrvOtc/NhcYglXbbOWcJGqPFzTfgpDIOhhko2lbOw0VnM8W07IUOVpjANb5Tbagwdx2RBENfvBcmkiSYMnNJQXlo3e+uM6ifGXnM/DcfVNEMWIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753574357; c=relaxed/simple;
-	bh=4y/9ozgEa3vSBMySss7FQqmMUasRvEv12Ly0KW39cIM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kooz+irvqeD/RZfTOKi4jLVQLsbntPhm7EaDKuFda+A8Atid5wlUha+jf8dsOWcnqVIBa3aWjxxaCGi1XZdKTYbp+JPE2KDP2nLUoV14YSyh2+YViJSsx0PFdUiSeFBKeZ8EdhjYYSspwdxdoqa8kpVvjjoesnwRc7bcMIObUEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=ABXLpmMm; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1753574343; x=1754179143; i=w_armin@gmx.de;
-	bh=3adfUmGJAQTDsg8dc9ZFK5gg80YQKxwU2G23G6030r4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=ABXLpmMmIYsZq7GPeNAJvSo3TC0naKaxqpwqVA0ZrQWcJLR3jMTb50xFWEwyoowp
-	 2hRQHSB0Ncg7UVG5om7xeK3AglVYWZviSOLsPPIAkV05cTj1kzwDrpEMMkJ0DWUsy
-	 +4qRurbs+hV2KTSjy7X6YrbFY1rLENgrPmzvOdj32zfEzQFRIYjWHUqjwFP5AxPOv
-	 AsVIZwuxs+iMe76NLjd00Rsbj91S+7SinhjhDPA74CXHX8zilM2/b6dSYuzrqghSG
-	 kLWbzYDPXRVw6q3PsyL/KhQpsxe6c26U3C9QUswkE2nnRMSYeO9R9MsepW0Mgow75
-	 yuhqwxVJMYEVUiL/rg==
+	s=arc-20240116; t=1753603069; c=relaxed/simple;
+	bh=SdELJwIbA+c51zLR+hAFh0+Z2/Xc+ZfDCiE78vHesQI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kkPHhCtAyVckpJpQOJsBmQkR/ytuBV1QO/H8JFHhi77tLGbbuZxSBLznsUNAf5oc/dyUy1+GN824HN6u8bYPKXEd/GbyZqiDmSsWNSx22rw/xfxt7r+QrEY/rz6QqIg/r4FkF7VWvjvvnOAAm6cVyM6UYYqegQ0RXDMAlLohIMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us; spf=pass smtp.mailfrom=gmx.us; dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b=CnHoGnSS; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.us
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.us;
+	s=s31663417; t=1753603055; x=1754207855; i=len.bao@gmx.us;
+	bh=hYUGBfp2u4s0lenU7GMdlp9Z1BD2mSHG7Ed7amzTntk=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=CnHoGnSSPQLcbeO4L4ixvYGJyxuX5iBVf0uH8ZYRjaUYb2FF8igm+yuSx1jQJISj
+	 fiSru6I0ECWgV75lpAxZ0a4ItX+N6tEvps06brXfbV+0XdDToU5arf9IOWyVzR96Q
+	 9GVzAYLOa77KBWMG6BCWdrE/qXUbfJ51KwhUKwad8MFOgGZaSVad1VqLKsr01bnMw
+	 8yKpxzuEzqmE/edh1ESM1YG5itpJx0yncht9WtPnapOFvBz3op6qMcJ7jADTEFIbS
+	 mZANt5K97RG/PkJXRnCvz8ttZay7F247MDGIO2ilH+CHgwvVaebFd8SILKYDwYDBP
+	 4YgdmXUuhvvmFW3/Uw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M1ps8-1ui0eV02jQ-005zCg; Sun, 27
- Jul 2025 01:59:03 +0200
-Message-ID: <eac46383-c54c-419e-b63e-c2fd003f2b6c@gmx.de>
-Date: Sun, 27 Jul 2025 01:58:59 +0200
+Received: from ubuntu ([79.159.189.119]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1My36N-1uTsn311ah-00ulTu; Sun, 27
+ Jul 2025 09:57:34 +0200
+From: Len Bao <len.bao@gmx.us>
+To: Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	Len Bao <len.bao@gmx.us>
+Subject: [PATCH] leds: max77705: Function return instead of variable assignment
+Date: Sun, 27 Jul 2025 07:56:45 +0000
+Message-ID: <20250727075649.34496-1-len.bao@gmx.us>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] platform/x86: (ayn-ec) Add RGB Interface
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <hansg@kernel.org>
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Alok Tiwari <alok.a.tiwari@oracle.com>,
- David Box <david.e.box@linux.intel.com>,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- Lee Jones <lee@kernel.org>, pavel@kernel.org, linux-leds@vger.kernel.org
-References: <20250726204041.516440-1-derekjohn.clark@gmail.com>
- <20250726204041.516440-4-derekjohn.clark@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20250726204041.516440-4-derekjohn.clark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mUU4qwtZ46dBJwKkU34I7QItx1iiS8jag0jb0eoEMLct4PtaLJN
- 4QpbdtwJ5CeZrC94DjPFZZX9LXuu81SIsh24DWK62Iar5jhIrl/yDNbsj+QB0aMA0l9jlc6
- o729zik57HsMMtqfZaTsnyKmdc54o8EkMSkS3rG3yaum37poBFN9prp18viI4V2hbO4e/pf
- IexYvv12OY5TbmEExivCw==
+X-Provags-ID: V03:K1:BkG4EHYQA14N2zQ/aei/3d4PHFHOyfY4SuJgaqdJO7cpiRIl37r
+ OE1Y8gnCXKrQZrlPUPHmlnoKWKakN0uOcuddSi7kVPq63PMezUo1opuK70i8hVCJhVS6zwC
+ l0ti3OHGaiefBlycfvP16tY6ibbeFVd6ScjLF/HW16HhEiaENQY6dMzTNYx9yRULRa4GRVJ
+ xCl5iVxclOBUKfKPkBvrg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:dw/Rf/keMT4=;b9CXhyejac/faLZU0jeLlYoScp3
- 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
- hCe7XvLKwQR7lZ9ubxYAryk=
+UI-OutboundReport: notjunk:1;M01:P0:wCdwL6+QkQs=;fTEd4qvNF+sJqk+Bbb37a1rhKXP
+ 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
+ WqxpoNZjMIw==
 
-Am 26.07.25 um 22:40 schrieb Derek J. Clark:
+Coverity noticed that assigning value -EINVAL to 'ret' in the if
+statement is useless because 'ret' is overwritten a few lines later.
+However, afer inspect the code, this warning reveals that we need to
+return -EIVANL instead of the variable assignment. So, fix it.
 
-> Adds an EC controlled LED Multicolor Class Device for controlling the
-> RGB rings around the joysticks.
->
-> The EC provides a single register for each of the colors red, green, and
-> blue, as well as a mode switching register. The EC accepts values
-> [0-255] for all colors. There are two available effects: breathe, which =
-is
-> the default when the device is started, and monocolor. When resuming fro=
-m
-> sleep the user selected effect will be overwritten by the EC, so the
-> driver retains the last setting and resets on resume. When setting a
-> color, each color register is set before a final "write" code is sent to
-> the device. The EC may briefly reflect the "write" code when writing, bu=
-t
-> quickly changes to the "monocolor" value once complete. The driver
-> interprets both of these values as "monocolor" in _show to simplify the
-> sysfs exposed to the user.
->
-> Two custom attributes are added to the standard LED parent device:
-> effect, a RW file descriptor used to set the effect, and effect_index,
-> which enumerates the available valid options.
->
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> ---
->   drivers/platform/x86/Kconfig  |   3 +
->   drivers/platform/x86/ayn-ec.c | 285 ++++++++++++++++++++++++++++++++++
->   2 files changed, 288 insertions(+)
->
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 4819bfcffb6b..85dfb88cca6f 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -308,6 +308,9 @@ config AYN_EC
->   	tristate "AYN x86 devices EC platform control"
->   	depends on ACPI
->   	depends on HWMON
-> +	depends on NEW_LEDS
-> +	select LEDS_CLASS
-> +	select LEDS_CLASS_MULTICOLOR
->   	help
->   	  This is a driver for AYN and Tectoy x86 handheld devices. It provid=
-es
->   	  temperature monitoring, manual fan speed control, fan curve control=
-,
-> diff --git a/drivers/platform/x86/ayn-ec.c b/drivers/platform/x86/ayn-ec=
-.c
-> index 466cc33adcb0..25f748d7db18 100644
-> --- a/drivers/platform/x86/ayn-ec.c
-> +++ b/drivers/platform/x86/ayn-ec.c
-> @@ -28,6 +28,8 @@
->   #include <linux/hwmon.h>
->   #include <linux/init.h>
->   #include <linux/kernel.h>
-> +#include <linux/led-class-multicolor.h>
-> +#include <linux/leds.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
->   #include <linux/sysfs.h>
-> @@ -68,6 +70,16 @@
->   #define AYN_SENSOR_PROC_TEMP_REG	0x09 /* CPU Core */
->   #define AYN_SENSOR_VCORE_TEMP_REG	0x08 /* vCore */
->  =20
-> +/* EC Controlled RGB registers */
-> +#define AYN_LED_MC_RED_REG	0xB0 /* Range 0x00-0xFF */
-> +#define AYN_LED_MC_GREEN_REG	0xB1 /* Range 0x00-0xFF */
-> +#define AYN_LED_MC_BLUE_REG	0xB2 /* Range 0x00-0xFF */
-> +#define AYN_RGB_EFFECT_REG	0xB3
-> +
-> +/* RGB effect modes */
-> +#define AYN_RGB_EFFECT_BREATHE		0x00
-> +#define AYN_RGB_EFFECT_MONOCOLOR	0x55
-> +#define AYN_RGB_EFFECT_WRITE		0xAA
->  =20
->   /* Handle ACPI lock mechanism */
->   #define ACPI_LOCK_DELAY_MS 500
-> @@ -86,7 +98,9 @@ int ayn_pwm_curve_registers[10] =3D {
->   };
->  =20
->   struct ayn_device {
-> +	struct led_classdev *led_cdev;
->   	u32 ayn_lock; /* ACPI EC Lock */
-> +	u8 rgb_effect;
->   } drvdata;
->  =20
->   struct thermal_sensor {
-> @@ -103,6 +117,33 @@ static struct thermal_sensor thermal_sensors[] =3D =
-{
->   	{}
->   };
->  =20
-> +#define DEVICE_ATTR_RW_NAMED(_name, _attrname)               \
-> +	struct device_attribute dev_attr_##_name =3D {         \
-> +		.attr =3D { .name =3D _attrname, .mode =3D 0644 }, \
-> +		.show =3D _name##_show,                        \
-> +		.store =3D _name##_store,                      \
-> +	}
-> +
-> +#define DEVICE_ATTR_RO_NAMED(_name, _attrname)               \
-> +	struct device_attribute dev_attr_##_name =3D {         \
-> +		.attr =3D { .name =3D _attrname, .mode =3D 0444 }, \
-> +		.show =3D _name##_show,                        \
-> +	}
+Coverity-id: 1646104
+Fixes: aebb5fc9a0d8 ("leds: max77705: Add LEDs support")
+Signed-off-by: Len Bao <len.bao@gmx.us>
+=2D--
+ drivers/leds/leds-max77705.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please use DEVICE_ATTR_RW()/DEVICE_ATTR_RO() directly.
+diff --git a/drivers/leds/leds-max77705.c b/drivers/leds/leds-max77705.c
+index 933cb4f19..b7403b3fc 100644
+=2D-- a/drivers/leds/leds-max77705.c
++++ b/drivers/leds/leds-max77705.c
+@@ -180,7 +180,7 @@ static int max77705_add_led(struct device *dev, struct=
+ regmap *regmap, struct fw
+=20
+ 		ret =3D fwnode_property_read_u32(np, "reg", &reg);
+ 		if (ret || reg >=3D MAX77705_LED_NUM_LEDS)
+-			ret =3D -EINVAL;
++			return -EINVAL;
+=20
+ 		info =3D devm_kcalloc(dev, num_channels, sizeof(*info), GFP_KERNEL);
+ 		if (!info)
+=2D-=20
+2.43.0
 
-> +
-> +/* Handle ACPI lock mechanism */
-> +#define ACPI_LOCK_DELAY_MS 500
-
-You already defined ACPI_LOCK_DELAY_MS earlier, please remove.
-
-> +
-> +/* RGB effect values */
-> +enum RGB_EFFECT_OPTION {
-> +	BREATHE,
-> +	MONOCOLOR,
-> +};
-> +
-> +static const char *const RGB_EFFECT_TEXT[] =3D {
-> +	[BREATHE] =3D "breathe",
-> +	[MONOCOLOR] =3D "monocolor",
-> +};
-
-No capslock for variables please.
-
-> +
->   static bool lock_global_acpi_lock(void)
->   {
->   	return ACPI_SUCCESS(acpi_acquire_global_lock(ACPI_LOCK_DELAY_MS,
-> @@ -528,10 +569,253 @@ static struct attribute *ayn_sensors_attrs[] =3D =
-{
->  =20
->   ATTRIBUTE_GROUPS(ayn_sensors);
->  =20
-> +/**
-> + * rgb_effect_write() - Set the RGB effect stored in drvdata.rgb_effect=
-.
-> + */
-> +static int rgb_effect_write(void)
-> +{
-> +	return write_to_ec(AYN_RGB_EFFECT_REG, drvdata.rgb_effect);
-> +};
-> +
-> +/**
-> + * rgb_effect_read() - Read the RGB effect and store it in drvdata.rgb_=
-effect.
-> + */
-> +static int rgb_effect_read(void)
-> +{
-> +	int ret;
-> +	long effect;
-> +
-> +	ret =3D read_from_ec(AYN_RGB_EFFECT_REG, 1, &effect);
-> +	if (ret)
-> +		return ret;
-> +
-> +	switch (effect) {
-> +	case AYN_RGB_EFFECT_WRITE:
-> +	case AYN_RGB_EFFECT_MONOCOLOR:
-> +		drvdata.rgb_effect =3D AYN_RGB_EFFECT_WRITE;
-> +		break;
-> +	default:
-> +		drvdata.rgb_effect =3D AYN_RGB_EFFECT_BREATHE;
-
-You will need some locking around rgb_effect.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * rgb_effect_store() - Store the given RGB effect and set it.
-> + *
-> + * @dev: parent device of the given attribute.
-> + * @attr: The attribute to write to.
-> + * @buf: Input value string from sysfs write.
-> + * @count: The number of bytes written.
-> + *
-> + * Return: The number of bytes written, or an error.
-> + */
-> +static ssize_t rgb_effect_store(struct device *dev,
-> +				struct device_attribute *attr, const char *buf,
-> +				size_t count)
-> +{
-> +	int ret;
-> +
-> +	ret =3D sysfs_match_string(RGB_EFFECT_TEXT, buf);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (ret)
-> +		drvdata.rgb_effect =3D AYN_RGB_EFFECT_WRITE;
-> +	else
-> +		drvdata.rgb_effect =3D AYN_RGB_EFFECT_BREATHE;
-> +
-> +	ret =3D rgb_effect_write();
-> +	if (ret)
-> +		return ret;
-> +
-> +	return count;
-> +};
-> +
-> +/**
-> + * rgb_effect_show() - Read the current RGB effect.
-> + *
-> + * @dev: parent device of the given attribute.
-> + * @attr: The attribute to read.
-> + * @buf: Buffer to read to.
-> + *
-> + * Return: The number of bytes read, or an error.
-> + */
-> +static ssize_t rgb_effect_show(struct device *dev,
-> +			       struct device_attribute *attr, char *buf)
-> +{
-> +	int ret, i;
-> +
-> +	ret =3D rgb_effect_read();
-> +	if (ret)
-> +		return ret;
-> +
-> +	switch (drvdata.rgb_effect) {
-> +	case AYN_RGB_EFFECT_WRITE:
-> +	case AYN_RGB_EFFECT_MONOCOLOR:
-> +		i =3D MONOCOLOR;
-> +		break;
-> +	default:
-> +		i =3D BREATHE;
-> +		break;
-> +	}
-> +
-> +	return sysfs_emit(buf, "%s\n", RGB_EFFECT_TEXT[i]);
-> +};
-> +
-> +static DEVICE_ATTR_RW_NAMED(rgb_effect, "effect");
-> +
-> +/**
-> + * rgb_effect_show() - Display the RGB effects available.
-> + *
-> + * @dev: parent device of the given attribute.
-> + * @attr: The attribute to read.
-> + * @buf: Buffer to read to.
-> + *
-> + * Return: The number of bytes read, or an error.
-> + */
-> +static ssize_t rgb_effect_index_show(struct device *dev,
-> +				     struct device_attribute *attr, char *buf)
-> +{
-> +	size_t count =3D 0;
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(RGB_EFFECT_TEXT); i++)
-> +		count +=3D sysfs_emit_at(buf, count, "%s ", RGB_EFFECT_TEXT[i]);
-> +
-> +	buf[count - 1] =3D '\n';
-> +
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RO_NAMED(rgb_effect_index, "effect_index");
-
-We might need to coordinate this with the LED subsystem maintainer. I CCed=
- him so that he can
-voice his opinion about those sysfs attributes. Personally i would move th=
-ose attributes below
-the platform device.
-
-> +
-> +/**
-> + * ayn_led_mc_brightness_set() - Write the brightness for the RGB LED.
-> + *
-> + * @led_cdev: Parent LED device for the led_classdev_mc.
-> + * @brightness: Brightness value to write [0-255].
-> + */
-> +static void ayn_led_mc_brightness_set(struct led_classdev *led_cdev,
-> +				      enum led_brightness brightness)
-> +{
-> +	struct led_classdev_mc *led_cdev_mc =3D lcdev_to_mccdev(led_cdev);
-> +	struct mc_subled s_led;
-> +	int i, ret, val;
-> +
-> +	switch (drvdata.rgb_effect) {
-> +	case AYN_RGB_EFFECT_WRITE:
-> +	case AYN_RGB_EFFECT_MONOCOLOR:
-> +		break;
-> +	case AYN_RGB_EFFECT_BREATHE:
-> +		return;
-> +	}
-
-This might confuse uses when they switch back to monocolor mode. I suggest=
- that
-you write the RGB values regardless of the currently selected effect.
-
-> +
-> +	led_cdev->brightness =3D brightness;
-> +	for (i =3D 0; i < led_cdev_mc->num_colors; i++) {
-> +		s_led =3D led_cdev_mc->subled_info[i];
-> +		val =3D brightness * s_led.intensity / led_cdev->max_brightness;
-
-Please check if you can use led_mc_calc_color_components() instead.
-
-> +		ret =3D write_to_ec(s_led.channel, val);
-> +		if (ret) {
-> +			dev_err(led_cdev->dev,
-> +				"Error setting brightness:  %d\n", ret);
-> +			return;
-> +		}
-> +	}
-> +
-> +	/* Must write mode again to change to set color */
-> +	write_to_ec(AYN_RGB_EFFECT_REG, AYN_RGB_EFFECT_WRITE);
-> +};
-> +
-> +/**
-> + * ayn_led_mc_brightness_get() - Get the brightness for the RGB LED.
-> + *
-> + * @led_cdev: Parent LED device for the led_classdev_mc.
-> + *
-> + * Return: Current brightness.
-> + */
-> +static enum led_brightness ayn_led_mc_brightness_get(struct led_classde=
-v *led_cdev)
-> +{
-> +	return led_cdev->brightness;
-> +};
-
-This looks strange, are you sure that you have to provide this callback?
-
-> +
-> +static struct attribute *ayn_led_mc_attrs[] =3D {
-> +	&dev_attr_rgb_effect.attr,
-> +	&dev_attr_rgb_effect_index.attr,
-> +	NULL,
-> +};
-> +
-> +static struct attribute_group ayn_led_mc_group =3D {
-> +	.attrs =3D ayn_led_mc_attrs,
-> +};
-> +
-> +struct mc_subled ayn_led_mc_subled_info[] =3D {
-> +	{
-> +		.color_index =3D LED_COLOR_ID_RED,
-> +		.brightness =3D 0,
-> +		.intensity =3D 0,
-> +		.channel =3D AYN_LED_MC_RED_REG,
-> +	},
-> +	{
-> +		.color_index =3D LED_COLOR_ID_GREEN,
-> +		.brightness =3D 0,
-> +		.intensity =3D 0,
-> +		.channel =3D AYN_LED_MC_GREEN_REG,
-> +	},
-> +	{
-> +		.color_index =3D LED_COLOR_ID_BLUE,
-> +		.brightness =3D 0,
-> +		.intensity =3D 0,
-> +		.channel =3D AYN_LED_MC_BLUE_REG,
-> +	},
-> +};
-
-Please initialize the intensity fields with the current RGB register value=
-s
-during probe. Also please declare the array as static.
-
-> +
-> +struct led_classdev_mc ayn_led_mc =3D {
-> +	.led_cdev =3D {
-> +		.name =3D "ayn:rgb:joystick_rings",
-> +		.brightness =3D 0,
-
-Does the EC support some kind of "RGB off" state? If not then please initi=
-alize the brightness field
-with 0 if the RGB value during probe is not 0x000000 and 255 otherwise. Al=
-so please declare the LED device
-as static.
-
-> +		.max_brightness =3D 255,
-> +		.brightness_set =3D ayn_led_mc_brightness_set,
-> +		.brightness_get =3D ayn_led_mc_brightness_get,
-> +		.color =3D LED_COLOR_ID_RGB,
-> +	},
-> +	.num_colors =3D ARRAY_SIZE(ayn_led_mc_subled_info),
-> +	.subled_info =3D ayn_led_mc_subled_info,
-> +};
-
-Should the LED be disabled during suspend? If yes then please set the LED_=
-CORE_SUSPENDRESUME flag on the LED device.
-
-> +
-> +static int ayn_ec_resume(struct platform_device *pdev)
-> +{
-> +	struct led_classdev *led_cdev =3D drvdata.led_cdev;
-> +	int ret;
-> +
-> +	ret =3D rgb_effect_write();
-> +	if (ret)
-> +		return ret;
-> +
-> +	ayn_led_mc_brightness_set(led_cdev, led_cdev->brightness);
-> +
-> +	return 0;
-> +}
-
-Using regmap would make this much easier.
-
-> +
->   static int ayn_ec_probe(struct platform_device *pdev)
->   {
->   	struct device *dev =3D &pdev->dev;
->   	struct device *hwdev;
-> +	int ret;
-> +
-> +	ret =3D devm_led_classdev_multicolor_register(dev, &ayn_led_mc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D devm_device_add_group(ayn_led_mc.led_cdev.dev, &ayn_led_mc_gro=
-up);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drvdata.led_cdev =3D &ayn_led_mc.led_cdev;
-> +	ret =3D rgb_effect_read();
-> +	if (ret)
-> +		return ret;
->  =20
->   	hwdev =3D devm_hwmon_device_register_with_info(dev, "aynec", NULL,
->   						     &ayn_ec_chip_info,
-> @@ -544,6 +828,7 @@ static struct platform_driver ayn_ec_driver =3D {
->   		.name =3D "ayn-ec",
->   	},
->   	.probe =3D ayn_ec_probe,
-> +	.resume =3D ayn_ec_resume,
-
-Please do not use the legacy PM callback, instead use DEFINE_SIMPLE_DEV_PM=
-_OPS() and the driver.pm field.
-
-Thanks,
-Armin Wolf
-
->   };
->  =20
->   static struct platform_device *ayn_ec_device;
 
