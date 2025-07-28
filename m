@@ -1,198 +1,181 @@
-Return-Path: <linux-leds+bounces-5151-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5152-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410BEB1353B
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 08:59:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63930B13762
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 11:18:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60099174C1A
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 06:59:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3EDD57A116F
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 09:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B6AB224898;
-	Mon, 28 Jul 2025 06:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227CD1F0E47;
+	Mon, 28 Jul 2025 09:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iR2H1KRh"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fULjTh3Q"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81448221FBD;
-	Mon, 28 Jul 2025 06:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE7F1D8E1A
+	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 09:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753685969; cv=none; b=U7J/UBhGNqBqnMdYJtydt7Lx5FGR1rC8WaXatRotDzcXv0O2NevAWN2BU7v5md7ZZ5keHU0v4wgrrmqGQwYbLbEyvnU3mZF8dR/9HhrZMh3X3XkSBNo3a7QbvEQx3nPsn8t6nSetW8rTScx/mBaEnej7KZLFefGmfXPuqNItmHY=
+	t=1753694309; cv=none; b=RsikByuuJd4IdQJ8jIfnaxkxux1SWpHtdUPWir/iRpIiMsM7QVLe/Wmx1rcxDaoTzP3Mk2qh760FYWBCaszdx434WGvTHktVrr4xDO5G8LXpUwrJemtC+DFXf3qF7oSTk4SSmqMyvts9UxCXlah4iV3IIH64GxWkKF4dLw9hNno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753685969; c=relaxed/simple;
-	bh=1gGQqcuTpwlDuOG5nW9o/+/3vvav73+T6HPmtWFDrh8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ER+Mq/XJSKoTryEKQDjS3rvqUwXHbGG+SL9uzage6W9cjGPOR2AWdNpldo6OKZrHgikkYuD4reiXWU2TNtFNvEQs4VFiAfeByELQUjyTVDdl/RUeX5PKExhZDU5FUEW89oj50Jrk8uFygzWcRU7TJfiNi1VDFCbcmbN+1QUHl3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iR2H1KRh; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2363616a1a6so32091435ad.3;
-        Sun, 27 Jul 2025 23:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753685967; x=1754290767; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OkKBohb0H+Mix4rGG0STRwa3Ll+wukMWMjrkix/cROM=;
-        b=iR2H1KRhKkSV+d9vtr4qxEPWZvc5P3MUPDQXyjpZLWph+OuHKgtQYmtFK+h2juTmGR
-         x7gNJxTEL/udf7D0mQKVaAO3P28RWCmJzEf4h44TDv6Gad9nAOc+bvM9hfetVjWoY1eR
-         r1Nh3xqdHjn+7Vw0crjQ4vo2i72U8wQEWZDO5OYnAn1uX0+pie608GLCXinUCAWPqUWg
-         kT0f5OGs5i69D7muFaa8HCfASP6UtbJJb/bYa2+T+eIj5vo7Xw0NUFkZ929yt0nJrbqz
-         WpDEFzEMYeDWsQlGw4i63BujejTs1EhDEKCXbl7W1oE1J9s50rq+BLX3+RLCj+hiIM6m
-         FOHA==
+	s=arc-20240116; t=1753694309; c=relaxed/simple;
+	bh=TQy4wpeke2IpAX8Ay7c73Lotd/eKc8KcfKiU4s6AF4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hfYriAvCBfx4cLYuztTdt+nzAKVHytdLQKBErxb3jv0Bp8EzFqIQogQczmF8neFLnd357LJgkEaoFMzkG7cutAWQAF1R7eZQ1UC4K48MoGwdfoAG0ix4RJ+t195chi0OEtxmzWSl+ASu37tol1w6EDySx615RSxjnCX9Ot+mA2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fULjTh3Q; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56S4rWok008526
+	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 09:18:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7SGp8zd3BLivqufn6oxM03DzQ7qXGoIy8XhcA82Nfs0=; b=fULjTh3QvCJxpoNW
+	yHJuZZsVo6qbDdaSWNHnQHucn+ww/4AUZPJfo+TFRzSBGrtz77CnCMnk4NXEC3wh
+	vG1/Sx/Q96lXXVBBakRrrNgzO/4Mdq4t3g6Lg1yyXN3RWMEMf082l6PPllsq4l4Y
+	e89NjV5/SCMojQIVZOJLfhRkaP80c/oPFVp4rcZq78rkFfK7TS8iJPoG4ea9SL/T
+	n5C7rrzmKtVt7wBxKCJYjgpEyXb7YRNf1rRRTJQMz6fW9UEjyL3BIv4d211LzjWg
+	DmQe5rTyECL5eOTLNQDf3qOIGWBwUjDiUmpS/CR5RjNSzY5x08xaYjuvk5Jiem71
+	pCIvWA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qsk3xe9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 09:18:25 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ab7077ad49so7564001cf.1
+        for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 02:18:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753685967; x=1754290767;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OkKBohb0H+Mix4rGG0STRwa3Ll+wukMWMjrkix/cROM=;
-        b=bIpd9UpzaHnP4DcYXjhUxGfgCdOcf4A5bk59Jh6uQW8soOQKN5s+fpItuebDFY9Z7s
-         /ES0nip8Jx3fbWl4aoUignQzRNfsH93XiEU0n85uB5rYQG3DuhWsuRSukfFlp/DwhOMt
-         weX1XgDuot/3CnL5cxV9bbum6NN9eLPOUquhzjVduVOFNm9TWpQAbf5mzg7uAlfxn/qc
-         Kr0sPtwJjAa1u+6cjMWSKlUnb8fIUsRGRItILO/iL5hrdZRHS8+uzesaXQ3RzjLvACB7
-         AenOryorR+44lf5nqjZaNeB/F7hbEnUjrYJwloeSqe7D4vIVmiD9497F0BdHwC9Dl3Ol
-         gWgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhjvSuiLO01KD6NU/td4qU8iON9tUl3G2VYGqo0XI4gMx9V2I5BEwMqUWRVR7fqrDjsHl5pOHaAoPiNk1v@vger.kernel.org, AJvYcCVF77nJ9t+xK5Xd6EB0OyO5QuzsWHUQvALlmH+t8ikNf9og3Uz7/aWmxqos9+pt4Q3Q6Vpz578RVel7@vger.kernel.org, AJvYcCWRCCmo2C1vmzDk/399aoVTS8BQMLUfUWJBJmXSvv4VdxfAxv47WA4e3s9dbrkLKiR4e4GGC9k2prZLnA==@vger.kernel.org, AJvYcCXV95ckDeSbSMYdMzW3AVbf1D/ZmmT3hD8Lld45H7Z7FD46dZj6mbgNz+I3jDLp/alCAok4LBaxpHUG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8Du509DXkrBuFRfT8scC1vXgto7dwhvvP2/7TDuWZ9VOK8Z/0
-	QIlKW8RUi4+MPGgSYHwRWDDjncL38Oxq54v1nLnLxjKavmiDdUtdzUU/
-X-Gm-Gg: ASbGnctlSbTYPQbNAy9X4Ktycs/7rIr6F7irAtzGvE5HfkzIeXe8R/RW4Zec+R/e4FZ
-	wsuAK5yXRr8FGgYGOIJngaAY3iCBa7M0MqE+V+oyJMndj4dZIXiJgV92T/ieM9fTn6FT/LZzU3/
-	JTc6/trfTYf8Byy9cUStg3DXR8RWPdXo8eN1ei8DCG3Nce15YxnlhWX7jF4p/YVKJMR9zWNyAPE
-	qGz+toSTVACUst2TaI7rpxy04oNSRjj31MQ9VodDn1+t/t0tYCzl+QaOmnXyW2fgCPKxyFJeGbB
-	UddC2sts/X2S364yGGl/fnzLe7oD/kz8Y1gV9mPcWQQnkgPoaRDXKt6oV7U8qlIcXVLEkw7C5S8
-	I9EGiaO3LPueBDkGZxZfEbv2ZFDoNdmh0OTGxGcHrvNuG7neA
-X-Google-Smtp-Source: AGHT+IH+zoKeUdOVxEIwJ5VGmhXghiMyPZxDAWa5ZPvQkqkUR/BfemWKzPCaRvIlTtHMXX2xvor8/A==
-X-Received: by 2002:a17:903:98d:b0:240:44aa:7f3a with SMTP id d9443c01a7336-24044aa8419mr7348505ad.31.1753685966705;
-        Sun, 27 Jul 2025 23:59:26 -0700 (PDT)
-Received: from localhost.localdomain ([171.254.200.159])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31eff8b20d7sm1050375a91.38.2025.07.27.23.59.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jul 2025 23:59:26 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v12 4/4] docs: leds: Document TI LP5812 LED driver
-Date: Mon, 28 Jul 2025 13:58:14 +0700
-Message-Id: <20250728065814.120769-5-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250728065814.120769-1-trannamatk@gmail.com>
-References: <20250728065814.120769-1-trannamatk@gmail.com>
+        d=1e100.net; s=20230601; t=1753694304; x=1754299104;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7SGp8zd3BLivqufn6oxM03DzQ7qXGoIy8XhcA82Nfs0=;
+        b=ecAbdQdirT5swSlKiaLK/0lUe6hPOoEuxWgYFmnx/kIrYT22cak5wktuM/rq2ggi/8
+         GxiiCMBeFz9usma2HexRo3CJ/nghOD1CKJqVlMAYo4v5ThPkkxmU8kt+0NPnWsSsQAPG
+         tjLnAs0agiOElzqGBsrnc/CGnq6tGPFTy+85bdc64t+tbZ/B0TTPmDfbM3HNVI1WywAo
+         Klq+TzMphxpdScofgPr3DvbSkKII92sjoElNSHhlxlFrrIae3XS2ZcaoZdVtPPv0hzdK
+         yR6wfZSGvDCBv7Rka/Q1kc00ruH0BBc/Z9tM6rwPtmCu7uCdBRFbrouisWCykClCNXG1
+         cdMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVI3jhsJIiBzPi0CMttAlptwdA9Hi/4ECK18tJlZvBhiVCIG9yroq+dY3EPGaYaHAFxgWGZou/impfX@vger.kernel.org
+X-Gm-Message-State: AOJu0YxENn6EaM3hs/L8NH+kkimAs+d4iP87NwjnCnbQAtxWXG304wMn
+	DLDs9XGxsr7tw70SUS3OQpTmC3iYooES0/M7as1h2Vf4Sl+rlxjuBtXvfs6hv51jCu12OE5rVn7
+	YZcru/CP5LvpWM0fAws/ZysK1VhNE5rx/B8MLr3uS8uuy/GnIWYhspf+bnweQ90s7
+X-Gm-Gg: ASbGncvIlHSwyXdA7eDxsb/iVUNF9dtg68CcdLbS3EIt7Sl8WaAaARBy/rdV2fFIGGg
+	N9dZNt2iPSA15kjhZl8KLjCkhAiv0Br5UpqN3uMrX/GMMhUxruufpZiuS9jK4SQqbZ5yiSCi+LD
+	9loBd5/RAhYIsPgLnKRMgOyTx73u3JzOT8s3ZGPeuTzqjN3mMpj599BtJE7H6XbZtQKhHrV++2Z
+	KkKY1dbKsTp0TiUiyhnb2XbfgCXQqA2DZn58gFY0GYgwEQgYfbGcEwXx/tjMrsBymMULBXpy4AH
+	O4wqJ1dRHxElW5vpsxYvV+39GFrn9X5bZq7AZruB4cPHhWZS339ra3P9yWweKZh/Ou/IvkVmS8z
+	4w3ffPq7pOfwdkaCOVA==
+X-Received: by 2002:a05:622a:155:b0:4ab:592f:3ae8 with SMTP id d75a77b69052e-4ae8f0bf7d1mr70574891cf.14.1753694303796;
+        Mon, 28 Jul 2025 02:18:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG99s9jbeEPXz6eIs8dgyiMqI98NLRjj666o9an4AuVAJtsvSCWH09AjQ1FNN+sQ7fK1Gh0xg==
+X-Received: by 2002:a05:622a:155:b0:4ab:592f:3ae8 with SMTP id d75a77b69052e-4ae8f0bf7d1mr70574711cf.14.1753694303234;
+        Mon, 28 Jul 2025 02:18:23 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61500a5728bsm2856429a12.23.2025.07.28.02.18.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Jul 2025 02:18:22 -0700 (PDT)
+Message-ID: <0d99a9e8-5ad6-4826-9fb7-753724dc53ad@oss.qualcomm.com>
+Date: Mon, 28 Jul 2025 11:18:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] leds: flash: leds-qcom-flash: update torch current
+ clamp setting
+To: Fenglin Wu <fenglin.wu@oss.qualcomm.com>, kernel@oss.qualcomm.com,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250725-fix-torch-clamp-issue-v1-0-4cf3ebaa4c67@oss.qualcomm.com>
+ <20250725-fix-torch-clamp-issue-v1-1-4cf3ebaa4c67@oss.qualcomm.com>
+ <fb79df7b-1c7b-4085-9f12-35b7cd56bb87@oss.qualcomm.com>
+ <f4f46e92-3d49-4bcf-a23e-223c758f56e9@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <f4f46e92-3d49-4bcf-a23e-223c758f56e9@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=KdDSsRYD c=1 sm=1 tr=0 ts=68874061 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=7tzVVK5p8Zpjar64nkwA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: 0BytZYmuXOtYB4cfP8r5iFWQGtt6RRtH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA2NCBTYWx0ZWRfX0PacT59MfLs1
+ zGHywVW5yinOL1KceOvM0L8cgc88VF0/y5YXVGiguJMQjDHoF+e2KuA1GymS30YHxIGOdCG/3WZ
+ TF7Q5Gdsduj2YafN74Uh/4+N+tBc9BPj5cYkSheqAreTWUJQNAdihgnLCxgfS5OBdEV3SJp8Gbl
+ MLln/x+hBgbUe3awD2f+dB1FRBug0EjbAu1/H+K6u0U8W7Dy50Wa6GH8cbAqUvq7iJYYVpB3h+T
+ QU29U8H3TWWYQpDwUvq/6SuAXFn8AVRAVC9/Tp/AovvNP+kIFkF+2zQ98Dtq5bYlZVjEIYAvIyZ
+ m+i4T5d5QaW3nrjFMvOgI6Y8gsSEt1WAH/AHqdEZpHfomRW+gG242kot4huARFscOxUi08xXt8T
+ Lbd0HTDgDk85QA5TgoKkHZQ6MBFH/LgHR2DXC8N6onDMnpXxPf6ynV06xsBnZjnL9WcpYOSS
+X-Proofpoint-ORIG-GUID: 0BytZYmuXOtYB4cfP8r5iFWQGtt6RRtH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-28_03,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507280064
 
-The driver provides sysfs interfaces to control and configure the
-LP5812 device and its LED channels.
+On 7/28/25 4:27 AM, Fenglin Wu wrote:
+> 
+> On 7/25/2025 8:37 PM, Konrad Dybcio wrote:
+>> On 7/25/25 12:04 PM, 'Fenglin Wu via B4 Relay' via kernel wrote:
+>>> From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+>>>
+>>> There is a register to clamp the flash current per LED channel when
+>>> safety timer is disabled. It needs to be updated according to the
+>>> maximum torch LED current setting to ensure the torch current won't
+>>> be clamped unexpectedly.
+>>>
+>>> Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
+>>> Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+>>> ---
+>>>   drivers/leds/flash/leds-qcom-flash.c | 16 +++++++++++++---
+>>>   1 file changed, 13 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+>>> index 89cf5120f5d55bbb7e24faa8c3a946416f8fed46..9c2e41cfddcf2d50d5a633cb157084371a631d74 100644
+>>> --- a/drivers/leds/flash/leds-qcom-flash.c
+>>> +++ b/drivers/leds/flash/leds-qcom-flash.c
+>>> @@ -1,6 +1,6 @@
+>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>>   /*
+>>> - * Copyright (c) 2022, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>> + * Copyright (c) 2022, 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>    */
+>>>     #include <linux/bitfield.h>
+>>> @@ -111,6 +111,7 @@ enum {
+>>>       REG_IRESOLUTION,
+>>>       REG_CHAN_STROBE,
+>>>       REG_CHAN_EN,
+>>> +    REG_TORCH_CLAMP,
+>> This is not the name of this register on at least PM8150L
+> The register is referred to as 'TIMER_DISA_MITIGATION_CLAMP' in the documentation. 'TIMER_DISA' indicates the flash module operating in torch mode. We can remove 'MITIGATION' to create a shorter name for the enum.>>
+>>>       REG_THERM_THRSH1,
+>>>       REG_THERM_THRSH2,
+>>>       REG_THERM_THRSH3,
+>>> @@ -127,6 +128,7 @@ static const struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
+>>>       REG_FIELD(0x47, 0, 5),                  /* iresolution    */
+>>>       REG_FIELD_ID(0x49, 0, 2, 3, 1),         /* chan_strobe    */
+>>>       REG_FIELD(0x4c, 0, 2),                  /* chan_en    */
+>>> +    REG_FIELD(0xec, 0, 6),            /* torch_clamp    */
+>> Please keep it sorted by address
+> I need to keep the 'therm_thrsh1/2/3' register fields at the end of this array because 'mvflash_4ch_regs' doesn't include a 'therm_thrsh3' register. Placing the 'therm_thrshx' registers in the middle would require creating a placeholder, which I couldn't figure out how to do effectively. Do you have any suggestions?
 
-The documetation describes the chip's capabilities, sysfs interface,
-and usage examples.
+Designated initializers (i.e. [REG_CHAN_EN] = REG_FIELD(...),)
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/leds-lp5812.rst | 46 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- 3 files changed, 48 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
-
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 76fae171039c..bebf44004278 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,6 +25,7 @@ LEDs
-    leds-lp5523
-    leds-lp5562
-    leds-lp55xx
-+   leds-lp5812
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-new file mode 100644
-index 000000000000..7d464334557c
---- /dev/null
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -0,0 +1,46 @@
-+========================
-+Kernel driver for lp5812
-+========================
-+
-+* TI/National Semiconductor LP5812 LED Driver
-+* Datasheet: https://www.ti.com/product/LP5812#tech-docs
-+
-+Authors: Jared Zhou <jared-zhou@ti.com>
-+
-+Description
-+===========
-+
-+The LP5812 is a 4x3 matrix LED driver with support for both manual and
-+autonomous animation control. This driver provides sysfs interfaces to
-+control and configure the LP5812 device and its LED channels.
-+
-+Sysfs Interface
-+===============
-+
-+LP5812 device exposes a chip-level sysfs group:
-+  /sys/bus/i2c/devices/<i2c-dev-addr>/lp5812_chip_setup/
-+
-+The following attributes are available at chip level:
-+  - dev_config: Configure drive mode and scan order (RW)
-+  - sw_reset: Reset the hardware (WO)
-+  - fault_clear: Clear any device faults (WO)
-+  - tsd_config_status: Read thermal shutdown config status (RO)
-+
-+Each LED channel is exposed as:
-+  /sys/class/leds/led_<id>/
-+
-+Each LED exposes the following attributes:
-+  - activate: Activate or deactivate the LED (WO)
-+  - led_current: DC current value (0–255) (WO)
-+  - max_current: maximum DC current bit setting (RO)
-+  - lod_lsd: lod and lsd fault detected status (RO)
-+
-+Example Usage
-+=============
-+
-+To control led_A in manual mode::
-+    echo "tcmscan:4:0:1:2:3" > /sys/bus/i2c/devices/.../lp5812_chip_setup/dev_config
-+    echo 1 1 1 > /sys/class/leds/LED_A/activate
-+    echo 100 100 100 > /sys/class/leds/LED_A/led_current
-+    echo 50 50 50 > /sys/class/leds/LED_A/multi_intensity
-+    echo 255 > /sys/class/leds/LED_A/brightness
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cdba86f1768b..4fefc7fb7a9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24568,6 +24568,7 @@ S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
- F:	Documentation/ABI/testing/sysfs-class-led-lp5812
- F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-+F:	Documentation/leds/leds-lp5812.rst
- F:	drivers/leds/rgb/Kconfig
- F:	drivers/leds/rgb/Makefile
- F:	drivers/leds/rgb/leds-lp5812.c
--- 
-2.25.1
-
+Konrad
 
