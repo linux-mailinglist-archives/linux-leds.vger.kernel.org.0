@@ -1,223 +1,222 @@
-Return-Path: <linux-leds+bounces-5146-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5147-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62EB9B134EE
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 08:33:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE21B1352E
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 08:58:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B6CF3A5732
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 06:32:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F41316F8A6
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 06:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3182621D3E2;
-	Mon, 28 Jul 2025 06:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB672222CC;
+	Mon, 28 Jul 2025 06:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="Sukd44TU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mh2uaANc"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023141.outbound.protection.outlook.com [40.107.159.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3766F8821;
-	Mon, 28 Jul 2025 06:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753684394; cv=fail; b=Fy7sbiWRQJlOOnLwLsPucOwF7VLtEwIswBMnJQzgWY2zoyAAp4Pvzf8nk2VDEAnizZ+clKN6cf7RJTkGPGSRT9iobuf8HmOr9WvDjoZE3O/seJctw/xX8Bp1asWK2mnDK98kiUJcL3QNOxtySfhgJxhUpRruWneJOf+lM8lP7Cg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753684394; c=relaxed/simple;
-	bh=MgaoGr7itDmLiv4w0VyKGJOvrthRy/W0c/A+/963+sw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aFYlo5JOWqg/rKClzreVB9pSzmzdf0Zoy6hx8kptmQz1EaEAHzpE5DcvbVrZmZg1w9ScPXsxZ952hIuX7Z6tWJLRFIvW6tFfZAFYMZI4/Da4HnOvjSVXPZ7lPMFzQhZUkc62CckkywvI77iSLsfIAhopOL6a0DmzmNsU1HCbNUg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=Sukd44TU; arc=fail smtp.client-ip=40.107.159.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VFWHrRFk+5u6d7gUG15ptiQlPHs52AnVg5POzUqMpT9p1K3482lk0QrpqSHn3Z+lzUKmLMeY3AFA3LMiNISz8SFA65ziPeQaOeToiGHgGcd5O066a+5jQRz2P7Kuddx5/NYeQn1WYXCJzctnvPyj/9jVed9aygPg14HjslL8ivjM+8GHeABsBM0++2aZ43PP/OIXgoF9RuxYucK1BUFNp0PNtxQXwCut7VL0a5OmCiaCj7YhtzwhelvwPnpXXhu0iPIoLsZdyn+eTWsMY8/CzyiOmCAOwcHiB5q8i2VSYuD74NsIszR/ACEQmnaniaMGYHdvqbDalVLGvi6n76rZXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gZxAnS9hPnm5itigStgwqVXvrn55VwmvYrb7VcYMn34=;
- b=KwSiNyEo/VGwO9wJcGGb3Ox6bpnWbGKteDa75WrcW1TvP4uFZjsjx7lYKQqaYmeDOXUX7jUtrqRLk6m/Hndw76iDvOyQZkWAqY8KnVWEBbWL9elP1gjdbDLH/cBV8vxwe9uD9V9HW6heUM3QXUlRLt7jHSmO2zR95Nee/Abrh4HNO3/HhNSlUxguhqQGqF/+0U3A7m/4I5ITCerKJFWcmr1ZJOdqQ8UyXRsX+SBSQ7+1cYxoLG25Wu5KaEJbbZ7k7zWjFL1isWZfK8teWR6uVKVhwTs640sE2I3HhGggslmY+tXN5hse1DiRFZLsBfJMq07p+YF5OZct+gSbQp6BPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gocontroll.com; dmarc=pass action=none
- header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FCF26AF3;
+	Mon, 28 Jul 2025 06:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753685927; cv=none; b=A3V75lMZ0bft3I0OQkDpZhs5wlQGYnou7TjeE5slBXUJHdtgYs1Q1MFKMkCxTg0KbiCKB96hqGBfuNBsckf+NkSfXBGr75w9/alLqADzj6XXKq7l+YWZ238BTGELcR1f1e1+0cQSmyS9WoUFlcBQkp/73FqVldbrtjS01G5dxyk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753685927; c=relaxed/simple;
+	bh=4S2t+qE/5uPuO5jpqSVMCJS2M7xGHBGq71JIsDLV/m8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NVOnwhwBWKsX7s0Ta266UG018UJmns1ejQhgcEgkwWtMSsBgWdAq/jePUoSI672PCi+iJPFYWYj3PL6CMgMDTV6abRy3+/JfUcc5AX2KkA4/hxszSOEJpZQAP8n5YtU/+QIlzS9cCUauySVmYyEWv1GDg//o3w9xxRCew0h9KKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mh2uaANc; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so5086921a12.0;
+        Sun, 27 Jul 2025 23:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gZxAnS9hPnm5itigStgwqVXvrn55VwmvYrb7VcYMn34=;
- b=Sukd44TUn6a81mcgH4A8pby46boXZLJVjKa+sux4eIChNmteeQ1mWEmek06hsUqWmQX7HuNVIRmQR7WJ5T3SAtv/pPNjgD2cgEJ1HO7TbMNo/eRxl0rMLbrTmyddQM2yNiisRaRYvE5EMJEquMZAWRVxsdyf+D1gDkaIvQWrPtGq2VnjQuS2WjBuogaeQvkFu9YciLUigOUwxkSFsHWXJZYMoBPCTMD0n4I8xjE1LRdkMINylqhw/vv51MLE1VoUk9bvqpt/EIw04vfL8v7OsmwHj5VzPPQi3PMIYc29aGzWv7A1V31vLLmc93OmiGP/I9o0MOyeuTZGsT4wVS8yKQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gocontroll.com;
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
- by DU4PR04MB11410.eurprd04.prod.outlook.com (2603:10a6:10:5cc::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Mon, 28 Jul
- 2025 06:33:06 +0000
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f%4]) with mapi id 15.20.8922.037; Mon, 28 Jul 2025
- 06:33:06 +0000
-Message-ID: <ab112eef-e9c1-4d26-adea-69cf85634413@gocontroll.com>
-Date: Mon, 28 Jul 2025 08:33:05 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: backlight: Add max25014 bindings
-To: Rob Herring <robh@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <danielt@kernel.org>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>
-References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
- <20250725-max25014-v1-1-0e8cce92078e@gocontroll.com>
- <175345006903.1002291.4212198267952446360.robh@kernel.org>
- <03096180-1e33-4dd0-b027-cc18a5010e46@gocontroll.com>
- <20250725195143.GA1735522-robh@kernel.org>
-Content-Language: en-US
-From: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <20250725195143.GA1735522-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P192CA0022.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:5e1::20) To PA4PR04MB7630.eurprd04.prod.outlook.com
- (2603:10a6:102:ec::16)
+        d=gmail.com; s=20230601; t=1753685925; x=1754290725; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N5cFTI0lWvo1waLhWHtuy0Wvvax1ffCK1XjtpE5A23Y=;
+        b=mh2uaANc8YsBsZQ5nI6sjLjYddMh2iMjQXSsyh8MQXfxB/cKqNQII+Kmp/btR3lc6D
+         EtBjDTSvowNSfO7dlI1gW1XYhLesni06meSMUU5TUiP8y14WERsiksrnB079h+YLPE72
+         ZGl79vS1bE+eRWPdaFT7qRPXkF3zeVSMAO8jKSX3NCylYFZlOZC61QrtIOrIAjUDt4/v
+         ncvZX/5ejpBhch/WThN6pj/PjeNkLeg7Qu9//w12gcUmLecjqvg+CsWd724uETwktxYU
+         17FK/qaMz9whdDkjlYbHxRWHXSTMDRWEdUI3U4kr6O3I0RV5Kv0QAXSKBn9N/XFZml9Q
+         dFcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753685925; x=1754290725;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N5cFTI0lWvo1waLhWHtuy0Wvvax1ffCK1XjtpE5A23Y=;
+        b=Gv6XkFxwnR9k2PrUzlgwN6O+PxseJsB21Rvq6PvpuQG/urIsIlrjP1EULTtj3Tjbyg
+         9ycnDQ5kdru8xxs3lF7SvWvNtVfBxsmNaMyzXO+CZMDRwXYUMXLASMkzWaLI1XrvZabH
+         bYvWfdCXFlEHyAuouFXk6uvgPP+GQiWNqXbkALHQ/E3M9LNzu7aqBl8D7ztbKf1CLVUt
+         JSgBCyC3OqHkoNoyeeuLM6sJgaXG0JRQU1xrypVWto4281qig9mxGt6guo+iOubFC4eu
+         GJz8VgfWeGTX5fz8Jw+6n9IFE6OS5Hbru+4SeLOM4ndBAx4XIZ3zIrpD+lkJK+rOXhxO
+         JD0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUp+6p2HIHCLGU7tflFF84XRyRF3AxKuUPfe8Vh8VUa20G8RAFKtT8gh/ZCm+NCKm6i9WiliMzotaO/@vger.kernel.org, AJvYcCVb5g6m2cbl6bx3cRH8lEzgYQKpQQAw2LDef/4CkWKW6+40dBYSz/Pn3xqrUtq5/mG1aQrfj4koeSPV7w==@vger.kernel.org, AJvYcCWCXCZZd960CYOulE9ZOX8Q5Q/hpWRb1pF06axzm6APBCV6J76bBQyKoxhBQLAgllGpvJYzJFHfeOzjsSAd@vger.kernel.org, AJvYcCXBhzRlvvUxeeoMMCooMReHa61RZcGXFgluQ9coBYc82PFlwXW93GLfSQiW5uhEP31DHUSKCrHCQ6iY@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsBi8j6f7j2742s9J7rgMKr6bI5v4C1RIG2wdLq+bZfisJTaw6
+	FORLeQ8vyyQWVev6dmeGAMgM78YMe+26m0lSpLYMBGhS/XXwBWJTlmZscsKe8Q==
+X-Gm-Gg: ASbGnctHWYlEG4mP57jljTQGnYrEUfpp7+yDb5aQUaspdMb0a2qvgUUdjC33uw4LJYj
+	zMpILCL7ZWaEHnzA+d4K+Y7SMZQNUGwgd06Ko+w+lfrV5stUy/5hglDNrQi00a6v0QVJk9GqvmB
+	8znQmTB6Oa6XIVu0hDGq6xozocrtMuDZfR9tImIPbz+K8ElZ/ikU03WRscuL1/rk787YK+lOWKa
+	0wHzVdUbWpkjSmR2gQXMHB2HjxpPpaDMSRNbBE35el6tUchkWi6VZVmP6L/FOLV0B7DDi9J/4Z8
+	xNwGs7y+LPHU383g55ptLotBmvLIIPkI7AHBJKC2zkI/P6d8xJKc5YRPkNXFDdNV6u2671YwHbX
+	W5xYH1s2d9SvoRRjx1qMJthuyymWq+E2SYPgVaQ==
+X-Google-Smtp-Source: AGHT+IHgfOPWQBuZl5oOkQDaDWLh6wqR5YW4Al2wbx1wv9gBtekJsIggGTh7yezzG7sQujt7lN8pEg==
+X-Received: by 2002:a17:90b:5623:b0:31a:9004:899d with SMTP id 98e67ed59e1d1-31e779fe9b7mr18874964a91.18.1753685925265;
+        Sun, 27 Jul 2025 23:58:45 -0700 (PDT)
+Received: from localhost.localdomain ([171.254.200.159])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31eff8b20d7sm1050375a91.38.2025.07.27.23.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Jul 2025 23:58:44 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v12 0/4] leds: add new LED driver for TI LP5812
+Date: Mon, 28 Jul 2025 13:58:10 +0700
+Message-Id: <20250728065814.120769-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|DU4PR04MB11410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c6ff130-56bb-48e3-9c9d-08ddcda09c71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eURseWtDYjV6dFVVK3B3L0oxdWdNeXVzcTdFV0luRzYrVkdseThNT3lYZUE2?=
- =?utf-8?B?VXlLbXdWdTlMc1pvbytkaTlrM09aOVdHNCtycFgySWFISjcyc1dkZ014cDNN?=
- =?utf-8?B?MGFyZmVsSTlBbFJ1UzM0eTIwU3NLcjhKNE16d3BqL0NlUmliaDZkc0hwOGNv?=
- =?utf-8?B?anc5NlBGOG00bkhjN1JCNVMvOWN1RjZSNkFkZGhnMWVNY0JKV21INFg0dVBT?=
- =?utf-8?B?S3NaekxFTTlFaU5yZlYyNWVpUGY0SlRMRk9zY2tjanRQTVZrUDdYQ3JnSmQ5?=
- =?utf-8?B?VjZlT2krTERDQnIvNmNmcUt0WVVlYXk4Q1Q0TlYyV2xTeC85dUlLbk5Wdjd4?=
- =?utf-8?B?WnZKRVJKWkR5K2U4bG9MR2lKU0hsOUhCQWtWRU5UMlh4ekZmUnFMdU84R1RQ?=
- =?utf-8?B?am00dVNrdUFSZG44clhrNGtaRUdYdnV3cjFCOHA1VHM0VmlnYzIzNUpFV1pk?=
- =?utf-8?B?VWsxaEo5UGdsU3U0WmV0cTZ0Sm54d1U4R2c2MTZjaWNtcVd6UFFwS1E2ZE54?=
- =?utf-8?B?eFg5ZDNTWTFyR0M5Sk0zMWJmL053MUxwRnd1RFE2dFdXdW1ZVnVhUjJ2ZEg5?=
- =?utf-8?B?cnJJYXdkYTRDVHdUTFhSek1RSVU3RU9WWjNPazQvTjhqSU96Q09kMTA3ZnJu?=
- =?utf-8?B?VmNkVmxpWHBsYldWdVFlSXliN24ycm03Y3EzUS9DSGdCUWtzZUVFTGUwN3E4?=
- =?utf-8?B?MlNOeFhxditpdGJUYXZSWVpUdy9GNUs3d2R2YUxWL0diQkZ1ZXhrbGNVM0lF?=
- =?utf-8?B?bCtqVERRMW9ua2x1NmtnUndKaGJVaVFZQm9DR0JGV2NTY2d0eWFGaWV0RTN0?=
- =?utf-8?B?YUJPZmpnVCtFVEI3ZFR2US84bVVaYXpRM1FraWRMZFBlUEV1aFlnMno5QzB0?=
- =?utf-8?B?Vm1qT1NWRG1zNnRNL0JEZmEySEk3NlI2SmxzOVd5cnVLR2IxZE9xbi9vMWIr?=
- =?utf-8?B?NitwcDA4ck1iTFhRbDVMaSttdUZ5SjV2YXpUb0NBWHhMZU1JSU1vT2tiNExP?=
- =?utf-8?B?OGh0RDNPaGM4enRUMFJMWnZOT3RMN0cxdzFLRXhFNVFTM0pEK3o4SkJWNis5?=
- =?utf-8?B?bEZsY1RQZzBnSTdTZ0VUMnU1TGpwQUpqQXJrditCMUt2Z3NTUWxBK0JKc2Zt?=
- =?utf-8?B?eG5RenR0TUVQV2NxZ0UrZHZzTWdZT1ZmUGhRaVl6TjdMUGk2TzNoZGFhVmxH?=
- =?utf-8?B?Qm9CR2JKRGtiQzYwKzl3ZGlGbEtXVUpBYUlBNmJOelJzWHQ5ZW5DU0U5RFRz?=
- =?utf-8?B?Tml2TmVhWXdsSTZkWnFCUjVaRjVkU2c2US91SHBtbzl3UWxlejFtNEpLK1dj?=
- =?utf-8?B?dWhEOEJhM0EycFFjR3RValFjOVVwL2hmNW9OdDczTDFYQWpZRWF2ayt0OGtx?=
- =?utf-8?B?SnVqbkRrRWlCYkZoWTAxVnBrMjJVWjAwQUtqanV5M3JVWUVnQWF2bElsSys4?=
- =?utf-8?B?bU1LN3ZJVURhUXVCSWYwUWdxd2s1ZjRqaWxDM3ZLZlBmekhTcURMMUY2ZXE3?=
- =?utf-8?B?WlZwMjYyME9leTQrdjZtQjhZRWJaZmtvRFVadVJiU0ZaWHcvcUIvUk1LWU9G?=
- =?utf-8?B?KzI5Q21mdTBqbDhPSCtKZCtVVEUvaUpMa05SbjZSYm1Zb3B1bHpFOC9XdXJX?=
- =?utf-8?B?UDdLeFpCNCttYUo1Qng5UVdJRUdVSEpkR1k1cXFtUjBiWUIxU2hLdlNlNElu?=
- =?utf-8?B?aHFoR2hndlFYZUdtRHo2clRnOW12eGhUVDR1ZFlsODhsRDJ1S0ZTZmMyYXNq?=
- =?utf-8?B?WmpFQzZBUm0rQ0thSGpSK0RwTHFFTzd6WUdaNVh6WXBIWklBSDJ6QlBNNTJw?=
- =?utf-8?B?TmRkYUZnd3J3bHVaWFFNTXF2WmtoRkNCZ25la2dXSzJ0a2RnNVB0V1dJRUFp?=
- =?utf-8?B?ZWd6aTg5dTJhNXNITXdsdUt3Nm5qWC9BY3hHTEl1RUprcXhxRWREVXh3bHVD?=
- =?utf-8?Q?KC/ZhZr82ko=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Mmt2Wm9Rc2NYWG9SMXdiMkMyWFJ5L1JuU1dLNEJFeGVhcnByRk5nd2xhZnhZ?=
- =?utf-8?B?YnRTNmp3cTlTMUh4YnJ0SXowUC9HbmpFUTFVK1o5NVJFSmVkMW5nUGhVS2ll?=
- =?utf-8?B?U29DUHErdTJDRDhnZmhLSUpFWmZISGdhT21RWnRRdUswQzBkaFptenV6VUZi?=
- =?utf-8?B?bWw2b2doZDhKdjVjS1BBYjJoYjkxTlNVdC8xUW9sdnA5YTR0Y1diTHNTWDVk?=
- =?utf-8?B?MGF0aFNtWHd3NDF3Z08vbzJFNW5CTWw0Sjl5cXhMMlhlclZ4eW1YTW5KTjZk?=
- =?utf-8?B?eXVaOWtlbjVPakdYRXpSSUluOG1mbi9LY1l4eDlNMmJWL2F1ZnhhYlpCSkNF?=
- =?utf-8?B?NjgwN3lxTjFzcmtwR0ducXdZaEZOcGw4TDFSQW9CaGU0Y2RVSExqcGtNSGk1?=
- =?utf-8?B?cUp5Z0JXOXBTWGFJTXhZQUI4akxHejMzbjdMN2x3UW5sa05MeTU0emxVYVpz?=
- =?utf-8?B?QkV4amtYQzFOSTNIZEVFR3NUTXlEcm5nSk41MUtnZVljekV6VVJ2bDljVTE0?=
- =?utf-8?B?OWttNHpFOGtBekc3ZnJJS0Q5UWxYQ0Zuc2xSTzUxRXo5Wk9OSGsyc0taaUJi?=
- =?utf-8?B?YjluM21jTng2S2JkYytMcnM0MkcvVUplb1BkUUYwZFBnUWtzYkN4ZmpDUVlV?=
- =?utf-8?B?VEYybXA0cW80VDB1R0RiYWdzQTVOVzg2Qk42T1BLWTNqZzZzMXFuT1p4cUc1?=
- =?utf-8?B?ZHMrWXZqZXpKRDdBa1psMGRGR2J1L0o3NXZHMWNZRjZBOFlGdGpaNklCZ00x?=
- =?utf-8?B?b3Y0aFpvUXVGN1FJWkJibzUwclNvVVB5UTJ6MWFqeTFQSXo5VVg1S1Y0eERW?=
- =?utf-8?B?eS9mYmM4TTRKMEJNV1JSaGlad3dDTzd3T3B4V3JlMStnK014VlpvdXlsOFM3?=
- =?utf-8?B?Tng0NkxnL3lwSzJzU2grR0pESDJtcmZlUEV2NnRkUS9qRGNiT1VYUUsycldw?=
- =?utf-8?B?TVoza3p2R21BQWJQTEp2L0RuMXVMbk1ZdmVsWkpEWmlrbVBBeDRFKzE4RU84?=
- =?utf-8?B?RHp3NjczcHN4djRaREpkR3ZFaVVENnlITlc1VFhvcjl0bWVwc2toOFQ3dkc3?=
- =?utf-8?B?SmE0MFUyc2t0Q3kzQnoweURCV2EvT2srcnpWZ3FyazBWamN4ODZJYnRrdDAw?=
- =?utf-8?B?cnRGRllBNGYrVkdNU0N6MXp3c3hTemFUcHFOV3RTdFB6SmUwRkNJRmJ1U2o3?=
- =?utf-8?B?ZmJBVk4rUGpxSnJ2UU5oWkwxZVJnVDQ0bm9OcmVIb21FVC8wQkM2N24raHFP?=
- =?utf-8?B?YXdDVFNRV3VremdVT2JSTXQyaGtyNDgxWloya2dpb1VuVFgvbzRPaytOeGd0?=
- =?utf-8?B?N0dUd2ppazF0M0Jtb1B5U3R0NVhSN21SM04vaDY3bE1HYlFLTkV1bHFKZEVU?=
- =?utf-8?B?L3dqd1NWVE9vbUo2REIrS3hqbUV1eVZab09LS2YraUVKY0xZZTIvcnFpa05S?=
- =?utf-8?B?ZXhTRTNzbHRFUFRWR2FoKzcyVGNUQyt2dElnK1FBU0t1Q3kzUGlKeWVwVlFF?=
- =?utf-8?B?WERhRlgyYzFZcG1ld3BHRkJXVW5YTXV5RDMzL2VUVzRXTkNRRUdDN2s0Q3p6?=
- =?utf-8?B?Z3Y4SjYzUUt0aGpLYUVtR3BPMVlsNnNtalRYTWJsY01TRlVJQ1doZCtNSkxN?=
- =?utf-8?B?VEZrOGM2bGRVV2htVzZqMVVJRGU1QkpSNWNrOE5HM1U0N2sxMjVGdnVIQmdS?=
- =?utf-8?B?UTBWSmlXdHgzRDhOYUZSOTFTS2pZOU1wVkUzZCtxcEZEOXcxOENyeU5FbDVZ?=
- =?utf-8?B?VjJpcFN5V2JaSmt3ekRFbUpsYWJNUXo5RW96bWVZT1ZwdFpRYkJFdDJNVm1W?=
- =?utf-8?B?Ry9POGZkZklUam5LbkJXRCtranhVZ0pNN0p0NXVRSEZ0Ui9NTGhNZDVzclNq?=
- =?utf-8?B?N3B5MGI2SFBFK2dlNnJZYWZDdjZULzB3K1VnOWZEMHJEZFNyRDhTSVNLbHQr?=
- =?utf-8?B?TlJPbmRrZHBYMjBCVU5HelZLS3piR0VSTTlXWHhYL045aGs0NVNtb1hsNGow?=
- =?utf-8?B?KytNSnBVTWFhQkJYTHNVazdpQmZ2N2tUb21QZnowcmdFbTlTYzVCZnF6ZXFT?=
- =?utf-8?B?bllRNlBaQ3pRMkprZUxCdkdMcXJ5V1puTTU4NHNUcGpFZllIbW5HZ0QxejBm?=
- =?utf-8?B?YnYrU3MwRU1vdklYZ05LMlIzV2JnQVBCZlppbW1QQkpwVFkvclpWMStUTlRT?=
- =?utf-8?B?SFllcm9CQy9Ubi9KQlBBZ2k4ejZLTVNZUElMQTZ2Q3MyVW5JRjhRSlpDcklY?=
- =?utf-8?B?Mlg1d05sWEppeEVISzFwVDVnWElRPT0=?=
-X-OriginatorOrg: gocontroll.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c6ff130-56bb-48e3-9c9d-08ddcda09c71
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 06:33:06.1608
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8POtSvwVwy9G8+eSyd5R9diKPlzzDhlrQrUHIgbxlc/WKBk3K7aN656tj5Hyn77eEE963vNn+vUbzIwNAVaCRpWR+/8SAAnBYyZYvTWtp4k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11410
+Content-Transfer-Encoding: 8bit
+
+This patch series adds initial support for the TI LP5812,
+a 4x3 matrix RGB LED driver with autonomous engine control.
+This version provides a minimal, clean implementation focused
+on core functionality only. The goal is to upstream a solid
+foundation, with the expectation that additional features can
+be added incrementally in future patches.
+
+The driver integrates with the LED multicolor framework and
+supports a set of basic sysfs interfaces for LED control and
+chip management.
+
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v12:
+- Reordered helper functions above lp5812_probe() for better structure.
+- Clarified DT-only support by removing fallback paths and i2c_device_id table.
+- Directly assign platform_data to the correct pointer instead of relying on
+  string comparisons (LP5812_SC_LED, LP5812_MC_LED) and container_of() casting.
+  This simplifies the logic and avoids unnecessary type checks.
+- Removed redundant messages.
+- Update ABI documentation to reflect reduced feature set.
+- Link to v11: https://lore.kernel.org/lkml/20250714172355.84609-1-trannamatk@gmail.com/
+
+Changes in v11:
+- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
+- Simplify LED parsing to use a unified path.
+- Clean up and streamline code
+  - Use alphabetically ordered includes
+  - Remove redundant comments
+  - Fix style issues (e.g., comment capitalization, code placement)
+- Update ABI documentation to reflect reduced feature set.
+- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
+
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
+
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
+
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
+
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
+
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
+
+Nam Tran (4):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add basic support for TI/National Semiconductor LP5812 LED
+    Driver
+  docs: ABI: Document LP5812 LED sysfs interfaces
+  docs: leds: Document TI LP5812 LED driver
+
+ .../ABI/testing/sysfs-bus-i2c-devices-lp5812  |   32 +
+ .../ABI/testing/sysfs-class-led-lp5812        |   32 +
+ .../devicetree/bindings/leds/ti,lp5812.yaml   |  229 ++++
+ Documentation/leds/index.rst                  |    1 +
+ Documentation/leds/leds-lp5812.rst            |   46 +
+ MAINTAINERS                                   |   13 +
+ drivers/leds/rgb/Kconfig                      |   13 +
+ drivers/leds/rgb/Makefile                     |    1 +
+ drivers/leds/rgb/leds-lp5812.c                | 1086 +++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h                |  164 +++
+ 10 files changed, 1617 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-lp5812
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
 
 
-
-On 7/25/25 21:51, Rob Herring wrote:
-> On Fri, Jul 25, 2025 at 04:06:45PM +0200, Maud Spierings wrote:
->>
->>
->> On 7/25/25 15:27, Rob Herring (Arm) wrote:
->>>
->>> On Fri, 25 Jul 2025 13:09:23 +0200, Maud Spierings wrote:
->>>> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
->>>> with intgrated boost controller.
->>>>
->>>> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->>>> ---
->>>>    .../bindings/leds/backlight/maxim,max25014.yaml    | 78 ++++++++++++++++++++++
->>>>    MAINTAINERS                                        |  5 ++
->>>>    2 files changed, 83 insertions(+)
->>>>
->>>
->>> My bot found errors running 'make dt_binding_check' on your patch:
->>
->> Pretty sure I did that, but I've never gotten those tools to work quite
->> right, I'll look at it for v2
-> 
-> What's the issue?
-
-I'm on arch, and I believe there is some specific version dependencies 
-in some of the libraries used, so I have a venv for doing kernel work 
-but it still doesn't seem quite happy sometimes. I may have just messed 
-something in that part and thought I did it correctly, but didn't.
-
-I think I have it working properly now though, just did a quick test and 
-it worked as intended.
+base-commit: f09079bd04a924c72d555cd97942d5f8d7eca98c
+-- 
+2.25.1
 
 
