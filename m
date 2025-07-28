@@ -1,181 +1,164 @@
-Return-Path: <linux-leds+bounces-5152-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5153-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63930B13762
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 11:18:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D68B144BB
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Jul 2025 01:38:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3EDD57A116F
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 09:17:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B2061AA0454
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 23:38:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227CD1F0E47;
-	Mon, 28 Jul 2025 09:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5E8F239E70;
+	Mon, 28 Jul 2025 23:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fULjTh3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NrHCP9T/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE7F1D8E1A
-	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 09:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14504236A8B;
+	Mon, 28 Jul 2025 23:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753694309; cv=none; b=RsikByuuJd4IdQJ8jIfnaxkxux1SWpHtdUPWir/iRpIiMsM7QVLe/Wmx1rcxDaoTzP3Mk2qh760FYWBCaszdx434WGvTHktVrr4xDO5G8LXpUwrJemtC+DFXf3qF7oSTk4SSmqMyvts9UxCXlah4iV3IIH64GxWkKF4dLw9hNno=
+	t=1753745879; cv=none; b=NTTRWaEeLjdZHPK3aGPOSqW9w10CMIJvx57Cah+gae8rhrE0Bf5ef87PYR/aVRrlVr00tUiLR9kCvuEfxT0KwzdIbSjwQm1skBRHHwZDXkOocgbQf+2+hVc2oP89/q0PjEvEF23wQhdfxp1MsaoPOkZ5Sd09CBKIRghBy7PcyiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753694309; c=relaxed/simple;
-	bh=TQy4wpeke2IpAX8Ay7c73Lotd/eKc8KcfKiU4s6AF4Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hfYriAvCBfx4cLYuztTdt+nzAKVHytdLQKBErxb3jv0Bp8EzFqIQogQczmF8neFLnd357LJgkEaoFMzkG7cutAWQAF1R7eZQ1UC4K48MoGwdfoAG0ix4RJ+t195chi0OEtxmzWSl+ASu37tol1w6EDySx615RSxjnCX9Ot+mA2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fULjTh3Q; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56S4rWok008526
-	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 09:18:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7SGp8zd3BLivqufn6oxM03DzQ7qXGoIy8XhcA82Nfs0=; b=fULjTh3QvCJxpoNW
-	yHJuZZsVo6qbDdaSWNHnQHucn+ww/4AUZPJfo+TFRzSBGrtz77CnCMnk4NXEC3wh
-	vG1/Sx/Q96lXXVBBakRrrNgzO/4Mdq4t3g6Lg1yyXN3RWMEMf082l6PPllsq4l4Y
-	e89NjV5/SCMojQIVZOJLfhRkaP80c/oPFVp4rcZq78rkFfK7TS8iJPoG4ea9SL/T
-	n5C7rrzmKtVt7wBxKCJYjgpEyXb7YRNf1rRRTJQMz6fW9UEjyL3BIv4d211LzjWg
-	DmQe5rTyECL5eOTLNQDf3qOIGWBwUjDiUmpS/CR5RjNSzY5x08xaYjuvk5Jiem71
-	pCIvWA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qsk3xe9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 09:18:25 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ab7077ad49so7564001cf.1
-        for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 02:18:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753694304; x=1754299104;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7SGp8zd3BLivqufn6oxM03DzQ7qXGoIy8XhcA82Nfs0=;
-        b=ecAbdQdirT5swSlKiaLK/0lUe6hPOoEuxWgYFmnx/kIrYT22cak5wktuM/rq2ggi/8
-         GxiiCMBeFz9usma2HexRo3CJ/nghOD1CKJqVlMAYo4v5ThPkkxmU8kt+0NPnWsSsQAPG
-         tjLnAs0agiOElzqGBsrnc/CGnq6tGPFTy+85bdc64t+tbZ/B0TTPmDfbM3HNVI1WywAo
-         Klq+TzMphxpdScofgPr3DvbSkKII92sjoElNSHhlxlFrrIae3XS2ZcaoZdVtPPv0hzdK
-         yR6wfZSGvDCBv7Rka/Q1kc00ruH0BBc/Z9tM6rwPtmCu7uCdBRFbrouisWCykClCNXG1
-         cdMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVI3jhsJIiBzPi0CMttAlptwdA9Hi/4ECK18tJlZvBhiVCIG9yroq+dY3EPGaYaHAFxgWGZou/impfX@vger.kernel.org
-X-Gm-Message-State: AOJu0YxENn6EaM3hs/L8NH+kkimAs+d4iP87NwjnCnbQAtxWXG304wMn
-	DLDs9XGxsr7tw70SUS3OQpTmC3iYooES0/M7as1h2Vf4Sl+rlxjuBtXvfs6hv51jCu12OE5rVn7
-	YZcru/CP5LvpWM0fAws/ZysK1VhNE5rx/B8MLr3uS8uuy/GnIWYhspf+bnweQ90s7
-X-Gm-Gg: ASbGncvIlHSwyXdA7eDxsb/iVUNF9dtg68CcdLbS3EIt7Sl8WaAaARBy/rdV2fFIGGg
-	N9dZNt2iPSA15kjhZl8KLjCkhAiv0Br5UpqN3uMrX/GMMhUxruufpZiuS9jK4SQqbZ5yiSCi+LD
-	9loBd5/RAhYIsPgLnKRMgOyTx73u3JzOT8s3ZGPeuTzqjN3mMpj599BtJE7H6XbZtQKhHrV++2Z
-	KkKY1dbKsTp0TiUiyhnb2XbfgCXQqA2DZn58gFY0GYgwEQgYfbGcEwXx/tjMrsBymMULBXpy4AH
-	O4wqJ1dRHxElW5vpsxYvV+39GFrn9X5bZq7AZruB4cPHhWZS339ra3P9yWweKZh/Ou/IvkVmS8z
-	4w3ffPq7pOfwdkaCOVA==
-X-Received: by 2002:a05:622a:155:b0:4ab:592f:3ae8 with SMTP id d75a77b69052e-4ae8f0bf7d1mr70574891cf.14.1753694303796;
-        Mon, 28 Jul 2025 02:18:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG99s9jbeEPXz6eIs8dgyiMqI98NLRjj666o9an4AuVAJtsvSCWH09AjQ1FNN+sQ7fK1Gh0xg==
-X-Received: by 2002:a05:622a:155:b0:4ab:592f:3ae8 with SMTP id d75a77b69052e-4ae8f0bf7d1mr70574711cf.14.1753694303234;
-        Mon, 28 Jul 2025 02:18:23 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61500a5728bsm2856429a12.23.2025.07.28.02.18.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jul 2025 02:18:22 -0700 (PDT)
-Message-ID: <0d99a9e8-5ad6-4826-9fb7-753724dc53ad@oss.qualcomm.com>
-Date: Mon, 28 Jul 2025 11:18:20 +0200
+	s=arc-20240116; t=1753745879; c=relaxed/simple;
+	bh=d5USwsfIDWjUBX0yYghQYpQ7tSx0AvWQrT43SCi54vY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kPTthVKe4YPOIc2dztiTX3j0RmKvxDpO6IX9aJy7uuJBUXWmK9wypa0X6nyZBwnkGmvihorr8+JkihtEOuzZcXuSDZom34qzCHfO1EVNEjTPDKghw1VeDi69ppAPl16cdDODBeX95eVQYCJA8uo3Zz95PSjpr7TLBjGUaYglQA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NrHCP9T/; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753745879; x=1785281879;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d5USwsfIDWjUBX0yYghQYpQ7tSx0AvWQrT43SCi54vY=;
+  b=NrHCP9T/nM6sQ2K65NU3v/luvdecW8br0P/ii8Fqmd1ozKQOJyHmiouM
+   8SB+FaKJTjtGdQ24/nxkvZJU1X3Hn6JKtMdiRMFgDqMaNqQEhCH5FdYDL
+   751luanytBJY/6lR/IIkocAwxjIX8ISAM6TvmszOgH8ybbjI96iee5aqM
+   olgppLOz8Et24jBF0Lvwr+xo6ZHnChao6GawXh9WN4muuU+3suyBVwWh8
+   QE7xqLjV1ejNESC84wf/TjdWY6qNxxEKj2JI6XQA161bT4UZlARDuI7LL
+   /VpSiZiwTWyX6KsRsJArdshZdHR23WhJHpvJW09aZFPI3/jLfE6DFK9JT
+   w==;
+X-CSE-ConnectionGUID: Etg5SvyOTLqWon2ddhdijQ==
+X-CSE-MsgGUID: Y57H3OPER4+EokFIns2geQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="78557785"
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="78557785"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 16:37:56 -0700
+X-CSE-ConnectionGUID: gPjxMOclSPOq9M8U0Ti/9w==
+X-CSE-MsgGUID: t41SLsw+RuOpoDAEchBjlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="162113820"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 28 Jul 2025 16:37:52 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugXPi-0000pH-0i;
+	Mon, 28 Jul 2025 23:37:50 +0000
+Date: Tue, 29 Jul 2025 07:36:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pavel@kernel.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Nam Tran <trannamatk@gmail.com>
+Subject: Re: [PATCH v12 2/4] leds: add basic support for TI/National
+ Semiconductor LP5812 LED Driver
+Message-ID: <202507290749.YxykcKRV-lkp@intel.com>
+References: <20250728065814.120769-3-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] leds: flash: leds-qcom-flash: update torch current
- clamp setting
-To: Fenglin Wu <fenglin.wu@oss.qualcomm.com>, kernel@oss.qualcomm.com,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>
-Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250725-fix-torch-clamp-issue-v1-0-4cf3ebaa4c67@oss.qualcomm.com>
- <20250725-fix-torch-clamp-issue-v1-1-4cf3ebaa4c67@oss.qualcomm.com>
- <fb79df7b-1c7b-4085-9f12-35b7cd56bb87@oss.qualcomm.com>
- <f4f46e92-3d49-4bcf-a23e-223c758f56e9@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <f4f46e92-3d49-4bcf-a23e-223c758f56e9@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=KdDSsRYD c=1 sm=1 tr=0 ts=68874061 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=7tzVVK5p8Zpjar64nkwA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: 0BytZYmuXOtYB4cfP8r5iFWQGtt6RRtH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA2NCBTYWx0ZWRfX0PacT59MfLs1
- zGHywVW5yinOL1KceOvM0L8cgc88VF0/y5YXVGiguJMQjDHoF+e2KuA1GymS30YHxIGOdCG/3WZ
- TF7Q5Gdsduj2YafN74Uh/4+N+tBc9BPj5cYkSheqAreTWUJQNAdihgnLCxgfS5OBdEV3SJp8Gbl
- MLln/x+hBgbUe3awD2f+dB1FRBug0EjbAu1/H+K6u0U8W7Dy50Wa6GH8cbAqUvq7iJYYVpB3h+T
- QU29U8H3TWWYQpDwUvq/6SuAXFn8AVRAVC9/Tp/AovvNP+kIFkF+2zQ98Dtq5bYlZVjEIYAvIyZ
- m+i4T5d5QaW3nrjFMvOgI6Y8gsSEt1WAH/AHqdEZpHfomRW+gG242kot4huARFscOxUi08xXt8T
- Lbd0HTDgDk85QA5TgoKkHZQ6MBFH/LgHR2DXC8N6onDMnpXxPf6ynV06xsBnZjnL9WcpYOSS
-X-Proofpoint-ORIG-GUID: 0BytZYmuXOtYB4cfP8r5iFWQGtt6RRtH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-28_03,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507280064
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250728065814.120769-3-trannamatk@gmail.com>
 
-On 7/28/25 4:27 AM, Fenglin Wu wrote:
-> 
-> On 7/25/2025 8:37 PM, Konrad Dybcio wrote:
->> On 7/25/25 12:04 PM, 'Fenglin Wu via B4 Relay' via kernel wrote:
->>> From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
->>>
->>> There is a register to clamp the flash current per LED channel when
->>> safety timer is disabled. It needs to be updated according to the
->>> maximum torch LED current setting to ensure the torch current won't
->>> be clamped unexpectedly.
->>>
->>> Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
->>> Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
->>> ---
->>>   drivers/leds/flash/leds-qcom-flash.c | 16 +++++++++++++---
->>>   1 file changed, 13 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
->>> index 89cf5120f5d55bbb7e24faa8c3a946416f8fed46..9c2e41cfddcf2d50d5a633cb157084371a631d74 100644
->>> --- a/drivers/leds/flash/leds-qcom-flash.c
->>> +++ b/drivers/leds/flash/leds-qcom-flash.c
->>> @@ -1,6 +1,6 @@
->>>   // SPDX-License-Identifier: GPL-2.0-only
->>>   /*
->>> - * Copyright (c) 2022, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>> + * Copyright (c) 2022, 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
->>>    */
->>>     #include <linux/bitfield.h>
->>> @@ -111,6 +111,7 @@ enum {
->>>       REG_IRESOLUTION,
->>>       REG_CHAN_STROBE,
->>>       REG_CHAN_EN,
->>> +    REG_TORCH_CLAMP,
->> This is not the name of this register on at least PM8150L
-> The register is referred to as 'TIMER_DISA_MITIGATION_CLAMP' in the documentation. 'TIMER_DISA' indicates the flash module operating in torch mode. We can remove 'MITIGATION' to create a shorter name for the enum.>>
->>>       REG_THERM_THRSH1,
->>>       REG_THERM_THRSH2,
->>>       REG_THERM_THRSH3,
->>> @@ -127,6 +128,7 @@ static const struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
->>>       REG_FIELD(0x47, 0, 5),                  /* iresolution    */
->>>       REG_FIELD_ID(0x49, 0, 2, 3, 1),         /* chan_strobe    */
->>>       REG_FIELD(0x4c, 0, 2),                  /* chan_en    */
->>> +    REG_FIELD(0xec, 0, 6),            /* torch_clamp    */
->> Please keep it sorted by address
-> I need to keep the 'therm_thrsh1/2/3' register fields at the end of this array because 'mvflash_4ch_regs' doesn't include a 'therm_thrsh3' register. Placing the 'therm_thrshx' registers in the middle would require creating a placeholder, which I couldn't figure out how to do effectively. Do you have any suggestions?
+Hi Nam,
 
-Designated initializers (i.e. [REG_CHAN_EN] = REG_FIELD(...),)
+kernel test robot noticed the following build warnings:
 
-Konrad
+[auto build test WARNING on f09079bd04a924c72d555cd97942d5f8d7eca98c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-add-TI-National-Semiconductor-LP5812-LED-Driver/20250728-150224
+base:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+patch link:    https://lore.kernel.org/r/20250728065814.120769-3-trannamatk%40gmail.com
+patch subject: [PATCH v12 2/4] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+config: hexagon-randconfig-r073-20250729 (https://download.01.org/0day-ci/archive/20250729/202507290749.YxykcKRV-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1b4db78d2eaa070b3f364a2d2b2b826a5439b892)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507290749.YxykcKRV-lkp@intel.com/
+
+New smatch warnings:
+drivers/leds/rgb/leds-lp5812.c:920 lp5812_probe() warn: inconsistent indenting
+
+Old smatch warnings:
+drivers/leds/rgb/leds-lp5812.c:467 lp5812_multicolor_brightness() error: uninitialized symbol 'ret'.
+
+vim +920 drivers/leds/rgb/leds-lp5812.c
+
+   903	
+   904	static int lp5812_probe(struct i2c_client *client)
+   905	{
+   906		struct lp5812_chip *chip;
+   907		struct device_node *np = dev_of_node(&client->dev);
+   908		struct lp5812_led *led;
+   909		int ret;
+   910	
+   911		if (!np)
+   912			return -EINVAL;
+   913	
+   914		chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+   915		if (!chip)
+   916			return -ENOMEM;
+   917	
+   918		chip->cfg = i2c_get_match_data(client);
+   919		ret = lp5812_of_populate_pdata(&client->dev, np, chip);
+ > 920			if (ret)
+   921				return ret;
+   922	
+   923		led = devm_kcalloc(&client->dev, chip->num_channels, sizeof(*led), GFP_KERNEL);
+   924		if (!led)
+   925			return -ENOMEM;
+   926	
+   927		chip->client = client;
+   928		mutex_init(&chip->lock);
+   929		i2c_set_clientdata(client, led);
+   930	
+   931		ret = lp5812_init_device(chip);
+   932		if (ret)
+   933			return ret;
+   934	
+   935		ret = lp5812_register_leds(led, chip);
+   936		if (ret)
+   937			goto err_out;
+   938	
+   939		ret = lp5812_register_sysfs(chip);
+   940		if (ret)
+   941			goto err_out;
+   942	
+   943		return 0;
+   944	
+   945	err_out:
+   946		lp5812_deinit_device(chip);
+   947		return ret;
+   948	}
+   949	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
