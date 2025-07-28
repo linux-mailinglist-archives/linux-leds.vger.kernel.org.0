@@ -1,224 +1,223 @@
-Return-Path: <linux-leds+bounces-5145-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5146-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEFFB132F0
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 04:27:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EB9B134EE
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 08:33:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB9CA172748
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 02:27:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B6CF3A5732
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jul 2025 06:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96E881DF75D;
-	Mon, 28 Jul 2025 02:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3182621D3E2;
+	Mon, 28 Jul 2025 06:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IlmXr5nd"
+	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="Sukd44TU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023141.outbound.protection.outlook.com [40.107.159.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18431DE4E1
-	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 02:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753669635; cv=none; b=l3N17hRwyFP6kdbFGeg0UbXLr3ePQI7XUD1dM/ruEKF0A2pk39UAHSqLIXh1NzKQsMRbMxMi7RUwhVFW0pmxUheJd5lQoTEWHLRjaeHSsUch7MFIzZPEiqhkIG4Fcs0mu/lJt6BWEWkh4jFXdCjDlbBeySdNAB0FC+DshJKGoDo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753669635; c=relaxed/simple;
-	bh=TDNNE8kLWoaqDvl0HrsSokxjegNquj7Qcvi9WmjNkKY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pLOwBd6yu8R2VKsAmV6br5nFrwAFgQKlR17rGg1sw0UceBgEC4WJWfzDbDcGTg3DMg/V8uvIQE+oTCxqppLIMqw68L8QwXTFRE4QhrswjJ+hLhFarQhXydCccapW61BtIeYuvJzAWu9Ty1EaV0u/Uqlnj/SCj77hAUrAYT/ppB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IlmXr5nd; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56RMNfTR030354
-	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 02:27:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xxnnDu5M7jCNHq7v1GM6s5NrgTWX4qsvmE046sHg2u4=; b=IlmXr5ndPyg31XsO
-	plsjtpCP2fDWjaX6GBxG3EnwwK7+gHBWyKo1M2Xx7dcGnoR4Vf9DQOd2ld/4zO8u
-	S2ZKbuSo4vRVFaRDRBjeq9mujB0PQrs0wZ28PsLoUQ/gltAE4tsw2nnrbinBYU3Q
-	N9NpuDuIU3tz25uYyqd0xwnMsEQRcPGxzyZz7k5lNQJKYlnSu+3EJnCN1cJk32Xr
-	S78i//kVJvKsUYvLzLdg1fq1KmpAThfRx+WpM5E44n+q/E63/5lk24mYdFqVddT3
-	VIbxaVZpsxWFWl/O4HEYndKd1p9IkbvAkN8Xcx8KCwohgeGJtnGNUNyCBhho3GJO
-	I/dEFA==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484nytu3uj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-leds@vger.kernel.org>; Mon, 28 Jul 2025 02:27:13 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-b3bde4d4d5cso2973640a12.2
-        for <linux-leds@vger.kernel.org>; Sun, 27 Jul 2025 19:27:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753669632; x=1754274432;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xxnnDu5M7jCNHq7v1GM6s5NrgTWX4qsvmE046sHg2u4=;
-        b=vIl70dJElWjV+oCEcDTLt1BQKTweVcbpkvYaxk2W7aX0FNTLW7SZpx1qOJ0aXx8jtH
-         Pb35Q53k+Pk5CzRGyZf2ABEL0NNCQAY6AGZ3nSQUcw5gXjdcpvgjsHMH2Dhg2YbJSsq/
-         DMRXw0DEWYL7914D+tlpnn7YLdPuF47KRrtfdfzFzPPRSophA98Zyk17/4WfQsIeP9JG
-         TiFDM8VZqAPLwfFahG+fCr5H0dzF5y4CjEWH+6VCO1s8AKeRVsRU3NcyFwB/8e0sjW8u
-         dFCyN5tpabEEeX2wa7TaR0LvIOK6cEjNcqnupfr9n0/XkCqVmjuKde95BhTHX9cdatjq
-         a65Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX2TBarLM8wQ72PRXbbxr9yfh7b8U/VpoT5gCKcwC+XJb9EsOCKluWWAjRaKVM8JbHLeasU5RTR8aXY@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4qafrSD/0lhgCu2XNCR1JCSpHGtPC5/XFWWVyNyji0llWYs+0
-	AbSRgNdJ69rvmAEk4JNLn47RFef2iVnj7DRCF9R0vV+Uz6zyoz78DOLnU4YJ8bcJTTi+ZUmJfua
-	dZ5+mUiDXG918U9X1YdkjzmFa9mFEHky12jKzv6Ab3Q+7O3KXVvmSw9h/4Fb1tUfBICMG3xxv
-X-Gm-Gg: ASbGncss9kkoQCltdA0q+KVR+I02lkG3tyzBKE3AqxfmiOFcUUfqlhMZKLI32o1GVtj
-	/MBbSM808z31Ui+dPMde5cckC5DOqnUtPltP+IDgNdGue1Gezg9ovstVXoL+rsKoR7oJun0opl6
-	icIahxSAhYcAVsuzSgn5WNQ8S/81r+9EaGdxF0nffTzUdDONKiO7Ss9K0+ZzlsyCKjADRZisdB5
-	MNBR+0v97spGfoGrR+mEcy5MniOgCnRvesCBKVp9B6pYJ15xb9+Uk8FAk7nR/d+gl2GP7ARkLur
-	7vNwgwrILnNEF6MvesdsdGWcD+2dPVMNp3ehnPx7AoKiysesn64Hf132vk4tpRvgsnnsWZjrzuH
-	BElcokrynX+Rs4ejOxHl67w==
-X-Received: by 2002:a05:6a20:6a10:b0:220:82c7:309c with SMTP id adf61e73a8af0-23d700530damr16725384637.7.1753669631934;
-        Sun, 27 Jul 2025 19:27:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF1TYV05TAbYf0Mn8FQUW8ymE6il92dGhFdjqipkgdv9WjaAwbfX4QISLwpca7BCrJRR2sf6A==
-X-Received: by 2002:a05:6a20:6a10:b0:220:82c7:309c with SMTP id adf61e73a8af0-23d700530damr16725340637.7.1753669631325;
-        Sun, 27 Jul 2025 19:27:11 -0700 (PDT)
-Received: from [10.133.33.111] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7640b2dbbc2sm3923978b3a.95.2025.07.27.19.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Jul 2025 19:27:10 -0700 (PDT)
-Message-ID: <f4f46e92-3d49-4bcf-a23e-223c758f56e9@oss.qualcomm.com>
-Date: Mon, 28 Jul 2025 10:27:07 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3766F8821;
+	Mon, 28 Jul 2025 06:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.141
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753684394; cv=fail; b=Fy7sbiWRQJlOOnLwLsPucOwF7VLtEwIswBMnJQzgWY2zoyAAp4Pvzf8nk2VDEAnizZ+clKN6cf7RJTkGPGSRT9iobuf8HmOr9WvDjoZE3O/seJctw/xX8Bp1asWK2mnDK98kiUJcL3QNOxtySfhgJxhUpRruWneJOf+lM8lP7Cg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753684394; c=relaxed/simple;
+	bh=MgaoGr7itDmLiv4w0VyKGJOvrthRy/W0c/A+/963+sw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=aFYlo5JOWqg/rKClzreVB9pSzmzdf0Zoy6hx8kptmQz1EaEAHzpE5DcvbVrZmZg1w9ScPXsxZ952hIuX7Z6tWJLRFIvW6tFfZAFYMZI4/Da4HnOvjSVXPZ7lPMFzQhZUkc62CckkywvI77iSLsfIAhopOL6a0DmzmNsU1HCbNUg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=Sukd44TU; arc=fail smtp.client-ip=40.107.159.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VFWHrRFk+5u6d7gUG15ptiQlPHs52AnVg5POzUqMpT9p1K3482lk0QrpqSHn3Z+lzUKmLMeY3AFA3LMiNISz8SFA65ziPeQaOeToiGHgGcd5O066a+5jQRz2P7Kuddx5/NYeQn1WYXCJzctnvPyj/9jVed9aygPg14HjslL8ivjM+8GHeABsBM0++2aZ43PP/OIXgoF9RuxYucK1BUFNp0PNtxQXwCut7VL0a5OmCiaCj7YhtzwhelvwPnpXXhu0iPIoLsZdyn+eTWsMY8/CzyiOmCAOwcHiB5q8i2VSYuD74NsIszR/ACEQmnaniaMGYHdvqbDalVLGvi6n76rZXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gZxAnS9hPnm5itigStgwqVXvrn55VwmvYrb7VcYMn34=;
+ b=KwSiNyEo/VGwO9wJcGGb3Ox6bpnWbGKteDa75WrcW1TvP4uFZjsjx7lYKQqaYmeDOXUX7jUtrqRLk6m/Hndw76iDvOyQZkWAqY8KnVWEBbWL9elP1gjdbDLH/cBV8vxwe9uD9V9HW6heUM3QXUlRLt7jHSmO2zR95Nee/Abrh4HNO3/HhNSlUxguhqQGqF/+0U3A7m/4I5ITCerKJFWcmr1ZJOdqQ8UyXRsX+SBSQ7+1cYxoLG25Wu5KaEJbbZ7k7zWjFL1isWZfK8teWR6uVKVhwTs640sE2I3HhGggslmY+tXN5hse1DiRFZLsBfJMq07p+YF5OZct+gSbQp6BPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gocontroll.com; dmarc=pass action=none
+ header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gZxAnS9hPnm5itigStgwqVXvrn55VwmvYrb7VcYMn34=;
+ b=Sukd44TUn6a81mcgH4A8pby46boXZLJVjKa+sux4eIChNmteeQ1mWEmek06hsUqWmQX7HuNVIRmQR7WJ5T3SAtv/pPNjgD2cgEJ1HO7TbMNo/eRxl0rMLbrTmyddQM2yNiisRaRYvE5EMJEquMZAWRVxsdyf+D1gDkaIvQWrPtGq2VnjQuS2WjBuogaeQvkFu9YciLUigOUwxkSFsHWXJZYMoBPCTMD0n4I8xjE1LRdkMINylqhw/vv51MLE1VoUk9bvqpt/EIw04vfL8v7OsmwHj5VzPPQi3PMIYc29aGzWv7A1V31vLLmc93OmiGP/I9o0MOyeuTZGsT4wVS8yKQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gocontroll.com;
+Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
+ by DU4PR04MB11410.eurprd04.prod.outlook.com (2603:10a6:10:5cc::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Mon, 28 Jul
+ 2025 06:33:06 +0000
+Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
+ ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
+ ([fe80::311b:ad3a:4a62:7b5f%4]) with mapi id 15.20.8922.037; Mon, 28 Jul 2025
+ 06:33:06 +0000
+Message-ID: <ab112eef-e9c1-4d26-adea-69cf85634413@gocontroll.com>
+Date: Mon, 28 Jul 2025 08:33:05 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: backlight: Add max25014 bindings
+To: Rob Herring <robh@kernel.org>
+Cc: Shawn Guo <shawnguo@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Thompson <danielt@kernel.org>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>
+References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
+ <20250725-max25014-v1-1-0e8cce92078e@gocontroll.com>
+ <175345006903.1002291.4212198267952446360.robh@kernel.org>
+ <03096180-1e33-4dd0-b027-cc18a5010e46@gocontroll.com>
+ <20250725195143.GA1735522-robh@kernel.org>
+Content-Language: en-US
+From: Maud Spierings <maudspierings@gocontroll.com>
+In-Reply-To: <20250725195143.GA1735522-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P192CA0022.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5e1::20) To PA4PR04MB7630.eurprd04.prod.outlook.com
+ (2603:10a6:102:ec::16)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] leds: flash: leds-qcom-flash: update torch current
- clamp setting
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, kernel@oss.qualcomm.com,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>
-Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250725-fix-torch-clamp-issue-v1-0-4cf3ebaa4c67@oss.qualcomm.com>
- <20250725-fix-torch-clamp-issue-v1-1-4cf3ebaa4c67@oss.qualcomm.com>
- <fb79df7b-1c7b-4085-9f12-35b7cd56bb87@oss.qualcomm.com>
-Content-Language: en-US
-From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
-In-Reply-To: <fb79df7b-1c7b-4085-9f12-35b7cd56bb87@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: NW5uCrGJOaeijYv7EZsdZ-tWFHNoSMlb
-X-Proofpoint-ORIG-GUID: NW5uCrGJOaeijYv7EZsdZ-tWFHNoSMlb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDAxOCBTYWx0ZWRfX4c0+ayji2Fve
- gdQ6rxwDseR0yl7fB1WnzQHGTp1ZZ+iwiMsCgBY3uB/ewHJ3a4rfizAypLWNsHyWB4AR83OXj8w
- CntsJAmLc8BuI6buDik2b65iSnp26PWzztvlEj1qR44CLKrRRSon3RT8Xj4O0s7HmYIxvBTwVQ3
- CRKMU3OAzTK6bAuGwSfhHkvJ6RvTDv3479BxOGLpv8CyvWfWFL4wnUqzfJJyYiGEz2Yd3CzIKkB
- 7+z5kOy7bmjqXx0vw/Ko9cvOoWyT5HRy9607WekFCikXfcrGgwe4h7tHGqwcvzqApqME3yQOitu
- yGgAOlx9zy06fVpTQ52LbaZPvSjN3v1t1CwJKwvjhjLUAJwQTZCK3uVQqH+DgwugGOfyS16O2bM
- qqqUN0ijP7aKmmJdnOiBlYIq0rvjmbU5Q6xmVdjhNFt6KFSr1s01Rv0oBcMwSfKycl+ewT1A
-X-Authority-Analysis: v=2.4 cv=CLoqXQrD c=1 sm=1 tr=0 ts=6886e001 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=lsAvw-e0HvHL9ToLdg8A:9
- a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-28_01,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507280018
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|DU4PR04MB11410:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c6ff130-56bb-48e3-9c9d-08ddcda09c71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eURseWtDYjV6dFVVK3B3L0oxdWdNeXVzcTdFV0luRzYrVkdseThNT3lYZUE2?=
+ =?utf-8?B?VXlLbXdWdTlMc1pvbytkaTlrM09aOVdHNCtycFgySWFISjcyc1dkZ014cDNN?=
+ =?utf-8?B?MGFyZmVsSTlBbFJ1UzM0eTIwU3NLcjhKNE16d3BqL0NlUmliaDZkc0hwOGNv?=
+ =?utf-8?B?anc5NlBGOG00bkhjN1JCNVMvOWN1RjZSNkFkZGhnMWVNY0JKV21INFg0dVBT?=
+ =?utf-8?B?S3NaekxFTTlFaU5yZlYyNWVpUGY0SlRMRk9zY2tjanRQTVZrUDdYQ3JnSmQ5?=
+ =?utf-8?B?VjZlT2krTERDQnIvNmNmcUt0WVVlYXk4Q1Q0TlYyV2xTeC85dUlLbk5Wdjd4?=
+ =?utf-8?B?WnZKRVJKWkR5K2U4bG9MR2lKU0hsOUhCQWtWRU5UMlh4ekZmUnFMdU84R1RQ?=
+ =?utf-8?B?am00dVNrdUFSZG44clhrNGtaRUdYdnV3cjFCOHA1VHM0VmlnYzIzNUpFV1pk?=
+ =?utf-8?B?VWsxaEo5UGdsU3U0WmV0cTZ0Sm54d1U4R2c2MTZjaWNtcVd6UFFwS1E2ZE54?=
+ =?utf-8?B?eFg5ZDNTWTFyR0M5Sk0zMWJmL053MUxwRnd1RFE2dFdXdW1ZVnVhUjJ2ZEg5?=
+ =?utf-8?B?cnJJYXdkYTRDVHdUTFhSek1RSVU3RU9WWjNPazQvTjhqSU96Q09kMTA3ZnJu?=
+ =?utf-8?B?VmNkVmxpWHBsYldWdVFlSXliN24ycm03Y3EzUS9DSGdCUWtzZUVFTGUwN3E4?=
+ =?utf-8?B?MlNOeFhxditpdGJUYXZSWVpUdy9GNUs3d2R2YUxWL0diQkZ1ZXhrbGNVM0lF?=
+ =?utf-8?B?bCtqVERRMW9ua2x1NmtnUndKaGJVaVFZQm9DR0JGV2NTY2d0eWFGaWV0RTN0?=
+ =?utf-8?B?YUJPZmpnVCtFVEI3ZFR2US84bVVaYXpRM1FraWRMZFBlUEV1aFlnMno5QzB0?=
+ =?utf-8?B?Vm1qT1NWRG1zNnRNL0JEZmEySEk3NlI2SmxzOVd5cnVLR2IxZE9xbi9vMWIr?=
+ =?utf-8?B?NitwcDA4ck1iTFhRbDVMaSttdUZ5SjV2YXpUb0NBWHhMZU1JSU1vT2tiNExP?=
+ =?utf-8?B?OGh0RDNPaGM4enRUMFJMWnZOT3RMN0cxdzFLRXhFNVFTM0pEK3o4SkJWNis5?=
+ =?utf-8?B?bEZsY1RQZzBnSTdTZ0VUMnU1TGpwQUpqQXJrditCMUt2Z3NTUWxBK0JKc2Zt?=
+ =?utf-8?B?eG5RenR0TUVQV2NxZ0UrZHZzTWdZT1ZmUGhRaVl6TjdMUGk2TzNoZGFhVmxH?=
+ =?utf-8?B?Qm9CR2JKRGtiQzYwKzl3ZGlGbEtXVUpBYUlBNmJOelJzWHQ5ZW5DU0U5RFRz?=
+ =?utf-8?B?Tml2TmVhWXdsSTZkWnFCUjVaRjVkU2c2US91SHBtbzl3UWxlejFtNEpLK1dj?=
+ =?utf-8?B?dWhEOEJhM0EycFFjR3RValFjOVVwL2hmNW9OdDczTDFYQWpZRWF2ayt0OGtx?=
+ =?utf-8?B?SnVqbkRrRWlCYkZoWTAxVnBrMjJVWjAwQUtqanV5M3JVWUVnQWF2bElsSys4?=
+ =?utf-8?B?bU1LN3ZJVURhUXVCSWYwUWdxd2s1ZjRqaWxDM3ZLZlBmekhTcURMMUY2ZXE3?=
+ =?utf-8?B?WlZwMjYyME9leTQrdjZtQjhZRWJaZmtvRFVadVJiU0ZaWHcvcUIvUk1LWU9G?=
+ =?utf-8?B?KzI5Q21mdTBqbDhPSCtKZCtVVEUvaUpMa05SbjZSYm1Zb3B1bHpFOC9XdXJX?=
+ =?utf-8?B?UDdLeFpCNCttYUo1Qng5UVdJRUdVSEpkR1k1cXFtUjBiWUIxU2hLdlNlNElu?=
+ =?utf-8?B?aHFoR2hndlFYZUdtRHo2clRnOW12eGhUVDR1ZFlsODhsRDJ1S0ZTZmMyYXNq?=
+ =?utf-8?B?WmpFQzZBUm0rQ0thSGpSK0RwTHFFTzd6WUdaNVh6WXBIWklBSDJ6QlBNNTJw?=
+ =?utf-8?B?TmRkYUZnd3J3bHVaWFFNTXF2WmtoRkNCZ25la2dXSzJ0a2RnNVB0V1dJRUFp?=
+ =?utf-8?B?ZWd6aTg5dTJhNXNITXdsdUt3Nm5qWC9BY3hHTEl1RUprcXhxRWREVXh3bHVD?=
+ =?utf-8?Q?KC/ZhZr82ko=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Mmt2Wm9Rc2NYWG9SMXdiMkMyWFJ5L1JuU1dLNEJFeGVhcnByRk5nd2xhZnhZ?=
+ =?utf-8?B?YnRTNmp3cTlTMUh4YnJ0SXowUC9HbmpFUTFVK1o5NVJFSmVkMW5nUGhVS2ll?=
+ =?utf-8?B?U29DUHErdTJDRDhnZmhLSUpFWmZISGdhT21RWnRRdUswQzBkaFptenV6VUZi?=
+ =?utf-8?B?bWw2b2doZDhKdjVjS1BBYjJoYjkxTlNVdC8xUW9sdnA5YTR0Y1diTHNTWDVk?=
+ =?utf-8?B?MGF0aFNtWHd3NDF3Z08vbzJFNW5CTWw0Sjl5cXhMMlhlclZ4eW1YTW5KTjZk?=
+ =?utf-8?B?eXVaOWtlbjVPakdYRXpSSUluOG1mbi9LY1l4eDlNMmJWL2F1ZnhhYlpCSkNF?=
+ =?utf-8?B?NjgwN3lxTjFzcmtwR0ducXdZaEZOcGw4TDFSQW9CaGU0Y2RVSExqcGtNSGk1?=
+ =?utf-8?B?cUp5Z0JXOXBTWGFJTXhZQUI4akxHejMzbjdMN2x3UW5sa05MeTU0emxVYVpz?=
+ =?utf-8?B?QkV4amtYQzFOSTNIZEVFR3NUTXlEcm5nSk41MUtnZVljekV6VVJ2bDljVTE0?=
+ =?utf-8?B?OWttNHpFOGtBekc3ZnJJS0Q5UWxYQ0Zuc2xSTzUxRXo5Wk9OSGsyc0taaUJi?=
+ =?utf-8?B?YjluM21jTng2S2JkYytMcnM0MkcvVUplb1BkUUYwZFBnUWtzYkN4ZmpDUVlV?=
+ =?utf-8?B?VEYybXA0cW80VDB1R0RiYWdzQTVOVzg2Qk42T1BLWTNqZzZzMXFuT1p4cUc1?=
+ =?utf-8?B?ZHMrWXZqZXpKRDdBa1psMGRGR2J1L0o3NXZHMWNZRjZBOFlGdGpaNklCZ00x?=
+ =?utf-8?B?b3Y0aFpvUXVGN1FJWkJibzUwclNvVVB5UTJ6MWFqeTFQSXo5VVg1S1Y0eERW?=
+ =?utf-8?B?eS9mYmM4TTRKMEJNV1JSaGlad3dDTzd3T3B4V3JlMStnK014VlpvdXlsOFM3?=
+ =?utf-8?B?Tng0NkxnL3lwSzJzU2grR0pESDJtcmZlUEV2NnRkUS9qRGNiT1VYUUsycldw?=
+ =?utf-8?B?TVoza3p2R21BQWJQTEp2L0RuMXVMbk1ZdmVsWkpEWmlrbVBBeDRFKzE4RU84?=
+ =?utf-8?B?RHp3NjczcHN4djRaREpkR3ZFaVVENnlITlc1VFhvcjl0bWVwc2toOFQ3dkc3?=
+ =?utf-8?B?SmE0MFUyc2t0Q3kzQnoweURCV2EvT2srcnpWZ3FyazBWamN4ODZJYnRrdDAw?=
+ =?utf-8?B?cnRGRllBNGYrVkdNU0N6MXp3c3hTemFUcHFOV3RTdFB6SmUwRkNJRmJ1U2o3?=
+ =?utf-8?B?ZmJBVk4rUGpxSnJ2UU5oWkwxZVJnVDQ0bm9OcmVIb21FVC8wQkM2N24raHFP?=
+ =?utf-8?B?YXdDVFNRV3VremdVT2JSTXQyaGtyNDgxWloya2dpb1VuVFgvbzRPaytOeGd0?=
+ =?utf-8?B?N0dUd2ppazF0M0Jtb1B5U3R0NVhSN21SM04vaDY3bE1HYlFLTkV1bHFKZEVU?=
+ =?utf-8?B?L3dqd1NWVE9vbUo2REIrS3hqbUV1eVZab09LS2YraUVKY0xZZTIvcnFpa05S?=
+ =?utf-8?B?ZXhTRTNzbHRFUFRWR2FoKzcyVGNUQyt2dElnK1FBU0t1Q3kzUGlKeWVwVlFF?=
+ =?utf-8?B?WERhRlgyYzFZcG1ld3BHRkJXVW5YTXV5RDMzL2VUVzRXTkNRRUdDN2s0Q3p6?=
+ =?utf-8?B?Z3Y4SjYzUUt0aGpLYUVtR3BPMVlsNnNtalRYTWJsY01TRlVJQ1doZCtNSkxN?=
+ =?utf-8?B?VEZrOGM2bGRVV2htVzZqMVVJRGU1QkpSNWNrOE5HM1U0N2sxMjVGdnVIQmdS?=
+ =?utf-8?B?UTBWSmlXdHgzRDhOYUZSOTFTS2pZOU1wVkUzZCtxcEZEOXcxOENyeU5FbDVZ?=
+ =?utf-8?B?VjJpcFN5V2JaSmt3ekRFbUpsYWJNUXo5RW96bWVZT1ZwdFpRYkJFdDJNVm1W?=
+ =?utf-8?B?Ry9POGZkZklUam5LbkJXRCtranhVZ0pNN0p0NXVRSEZ0Ui9NTGhNZDVzclNq?=
+ =?utf-8?B?N3B5MGI2SFBFK2dlNnJZYWZDdjZULzB3K1VnOWZEMHJEZFNyRDhTSVNLbHQr?=
+ =?utf-8?B?TlJPbmRrZHBYMjBCVU5HelZLS3piR0VSTTlXWHhYL045aGs0NVNtb1hsNGow?=
+ =?utf-8?B?KytNSnBVTWFhQkJYTHNVazdpQmZ2N2tUb21QZnowcmdFbTlTYzVCZnF6ZXFT?=
+ =?utf-8?B?bllRNlBaQ3pRMkprZUxCdkdMcXJ5V1puTTU4NHNUcGpFZllIbW5HZ0QxejBm?=
+ =?utf-8?B?YnYrU3MwRU1vdklYZ05LMlIzV2JnQVBCZlppbW1QQkpwVFkvclpWMStUTlRT?=
+ =?utf-8?B?SFllcm9CQy9Ubi9KQlBBZ2k4ejZLTVNZUElMQTZ2Q3MyVW5JRjhRSlpDcklY?=
+ =?utf-8?B?Mlg1d05sWEppeEVISzFwVDVnWElRPT0=?=
+X-OriginatorOrg: gocontroll.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c6ff130-56bb-48e3-9c9d-08ddcda09c71
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 06:33:06.1608
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8POtSvwVwy9G8+eSyd5R9diKPlzzDhlrQrUHIgbxlc/WKBk3K7aN656tj5Hyn77eEE963vNn+vUbzIwNAVaCRpWR+/8SAAnBYyZYvTWtp4k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11410
 
 
-On 7/25/2025 8:37 PM, Konrad Dybcio wrote:
-> On 7/25/25 12:04 PM, 'Fenglin Wu via B4 Relay' via kernel wrote:
->> From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+
+On 7/25/25 21:51, Rob Herring wrote:
+> On Fri, Jul 25, 2025 at 04:06:45PM +0200, Maud Spierings wrote:
 >>
->> There is a register to clamp the flash current per LED channel when
->> safety timer is disabled. It needs to be updated according to the
->> maximum torch LED current setting to ensure the torch current won't
->> be clamped unexpectedly.
 >>
->> Fixes: 96a2e242a5dc ("leds: flash: Add driver to support flash LED module in QCOM PMICs")
->> Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
->> ---
->>   drivers/leds/flash/leds-qcom-flash.c | 16 +++++++++++++---
->>   1 file changed, 13 insertions(+), 3 deletions(-)
+>> On 7/25/25 15:27, Rob Herring (Arm) wrote:
+>>>
+>>> On Fri, 25 Jul 2025 13:09:23 +0200, Maud Spierings wrote:
+>>>> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+>>>> with intgrated boost controller.
+>>>>
+>>>> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+>>>> ---
+>>>>    .../bindings/leds/backlight/maxim,max25014.yaml    | 78 ++++++++++++++++++++++
+>>>>    MAINTAINERS                                        |  5 ++
+>>>>    2 files changed, 83 insertions(+)
+>>>>
+>>>
+>>> My bot found errors running 'make dt_binding_check' on your patch:
 >>
->> diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
->> index 89cf5120f5d55bbb7e24faa8c3a946416f8fed46..9c2e41cfddcf2d50d5a633cb157084371a631d74 100644
->> --- a/drivers/leds/flash/leds-qcom-flash.c
->> +++ b/drivers/leds/flash/leds-qcom-flash.c
->> @@ -1,6 +1,6 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->>   /*
->> - * Copyright (c) 2022, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->> + * Copyright (c) 2022, 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
->>    */
->>   
->>   #include <linux/bitfield.h>
->> @@ -111,6 +111,7 @@ enum {
->>   	REG_IRESOLUTION,
->>   	REG_CHAN_STROBE,
->>   	REG_CHAN_EN,
->> +	REG_TORCH_CLAMP,
-> This is not the name of this register on at least PM8150L
-The register is referred to as 'TIMER_DISA_MITIGATION_CLAMP' in the 
-documentation. 'TIMER_DISA' indicates the flash module operating in 
-torch mode. We can remove 'MITIGATION' to create a shorter name for the 
-enum.
->
->>   	REG_THERM_THRSH1,
->>   	REG_THERM_THRSH2,
->>   	REG_THERM_THRSH3,
->> @@ -127,6 +128,7 @@ static const struct reg_field mvflash_3ch_regs[REG_MAX_COUNT] = {
->>   	REG_FIELD(0x47, 0, 5),                  /* iresolution	*/
->>   	REG_FIELD_ID(0x49, 0, 2, 3, 1),         /* chan_strobe	*/
->>   	REG_FIELD(0x4c, 0, 2),                  /* chan_en	*/
->> +	REG_FIELD(0xec, 0, 6),			/* torch_clamp	*/
-> Please keep it sorted by address
-I need to keep the 'therm_thrsh1/2/3' register fields at the end of this 
-array because 'mvflash_4ch_regs' doesn't include a 'therm_thrsh3' 
-register. Placing the 'therm_thrshx' registers in the middle would 
-require creating a placeholder, which I couldn't figure out how to do 
-effectively. Do you have any suggestions?
->
->
->>   	REG_FIELD(0x56, 0, 2),			/* therm_thrsh1 */
->>   	REG_FIELD(0x57, 0, 2),			/* therm_thrsh2 */
->>   	REG_FIELD(0x58, 0, 2),			/* therm_thrsh3 */
->> @@ -142,6 +144,7 @@ static const struct reg_field mvflash_4ch_regs[REG_MAX_COUNT] = {
->>   	REG_FIELD(0x49, 0, 3),			/* iresolution	*/
->>   	REG_FIELD_ID(0x4a, 0, 6, 4, 1),		/* chan_strobe	*/
->>   	REG_FIELD(0x4e, 0, 3),			/* chan_en	*/
->> +	REG_FIELD(0xed, 0, 6),			/* torch_clamp	*/
->>   	REG_FIELD(0x7a, 0, 2),			/* therm_thrsh1 */
->>   	REG_FIELD(0x78, 0, 2),			/* therm_thrsh2 */
->>   };
->> @@ -156,6 +159,7 @@ struct qcom_flash_data {
->>   	u8			max_channels;
->>   	u8			chan_en_bits;
->>   	u8			revision;
->> +	u8			torch_clamp;
->>   };
->>   
->>   struct qcom_flash_led {
->> @@ -702,6 +706,7 @@ static int qcom_flash_register_led_device(struct device *dev,
->>   	u32 current_ua, timeout_us;
->>   	u32 channels[4];
->>   	int i, rc, count;
->> +	u8 torch_clamp;
->>   
->>   	count = fwnode_property_count_u32(node, "led-sources");
->>   	if (count <= 0) {
->> @@ -751,6 +756,12 @@ static int qcom_flash_register_led_device(struct device *dev,
->>   	current_ua = min_t(u32, current_ua, TORCH_CURRENT_MAX_UA * led->chan_count);
->>   	led->max_torch_current_ma = current_ua / UA_PER_MA;
->>   
->> +	torch_clamp = (current_ua / led->chan_count) / TORCH_IRES_UA;
->> +	if (torch_clamp != 0)
->> +		torch_clamp--;
-> In case anyone's wondering, ((1<<6) + 1) 4 * 5000 == 1280000 which we set
-> on some (all?) devices
->
-> Konrad
+>> Pretty sure I did that, but I've never gotten those tools to work quite
+>> right, I'll look at it for v2
+> 
+> What's the issue?
+
+I'm on arch, and I believe there is some specific version dependencies 
+in some of the libraries used, so I have a venv for doing kernel work 
+but it still doesn't seem quite happy sometimes. I may have just messed 
+something in that part and thought I did it correctly, but didn't.
+
+I think I have it working properly now though, just did a quick test and 
+it worked as intended.
+
 
