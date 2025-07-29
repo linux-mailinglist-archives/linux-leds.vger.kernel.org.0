@@ -1,48 +1,52 @@
-Return-Path: <linux-leds+bounces-5159-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5160-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D7CB14858
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Jul 2025 08:40:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7885EB14A26
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Jul 2025 10:32:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 073D9189BEF3
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Jul 2025 06:40:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9C063B15D9
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Jul 2025 08:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 761E125BEE7;
-	Tue, 29 Jul 2025 06:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E979027F74C;
+	Tue, 29 Jul 2025 08:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uHnOt6BX"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Sf+9n6uc"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45162256C8D;
-	Tue, 29 Jul 2025 06:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5630D188006;
+	Tue, 29 Jul 2025 08:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753771231; cv=none; b=B/eMGQHhmzhPPgeoli9d8TkL0u0WNPADo88uTRegLF7WzSL4ONlLCKT8jvqEDm8m67+u05TxVYbVoxR73bowdbvx3M35HlMXj53sHnIRo74oSdkkt27rWzkN+D/3DKiuk6PQk7oCewpcpPfbI3yQt0OTjSYXFmo0aS7V1s3sF40=
+	t=1753777938; cv=none; b=qYZocBt4VADj29KGsPjQO2Jys6gm2JqPV7xwov1+wH1Od5RYlJOy8AuIEs7edpAhCPs1YesUmAbfeHtKfspVj8z9q/YnQ2SD8LtKSCkVyaA+MKJWwavPKBQdbPKpqNn774GnfsJq805dK7lM5gc4wNcVpzpQKtaWlJl9Iv4ZnOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753771231; c=relaxed/simple;
-	bh=HpMOBg0xQEE9Sget2PLCB8VNg5ytGVP8TgLuBUSLghE=;
+	s=arc-20240116; t=1753777938; c=relaxed/simple;
+	bh=+XABJZ1Y+l4x9gpWb/ZBne0JFnnqqRxCjQW8cw5+ybk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bv8pmG6iGH8lKpovr3q9xm+a862Jvrb6BuRyR/DDr5Sca0eijEizq8sF10/5rvPoLpkE6eU25QE8orBO8f15fptAgS+NErAz/r7yj38/3fWrZxc8Czpb3uXkSboty5EmOXaXkZYG2m7sruAYBjYSXXPc1/lZuStTmrs4mRCNzAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uHnOt6BX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02785C4CEEF;
-	Tue, 29 Jul 2025 06:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753771230;
-	bh=HpMOBg0xQEE9Sget2PLCB8VNg5ytGVP8TgLuBUSLghE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uHnOt6BXE217WJ2yTGg6CtgT98TLzBuwCIlHs10FWQy5yMLwebLZHnmjXvHomtywT
-	 FQ8sXjro/MSMbqgL+hmSUMnQDtNtOg2eA0Z25kfh9/Or1KxpPFZv/fbbetALi6YHhx
-	 +nfex54SlDwvEdf+B+gf/KC0oxVzgh0ZBy9/cKq3l76eI5DxO2QQXeAxriyyrj81aK
-	 S9WlIh9sV0oqUt7Q9+L8lUS7zkvwbfMaDYXZynAyFh8TAQbXe92ycDoKcBORjmYHMv
-	 fJGDZrHH4P7ReoHAQ+127gWxcuQrMH51ZKrsy+bw99u1akuLoorXSPjeyVEGrOUbdu
-	 kfjVNAcPXHOkg==
-Message-ID: <bc24e841-94a8-4ca8-9f69-90ec32fbbfca@kernel.org>
-Date: Tue, 29 Jul 2025 08:40:26 +0200
+	 In-Reply-To:Content-Type; b=jCjSfIr80oFRTV1vohmfsUpAExvj/XAOjn07gafYR3DThtoWPG5jHnuyEnfydxjjFwTAWnPTClgrKL2ZeYZ/W5p2LfxbF1z8qVpkkTQrF1CyaP473hvKUeygKaSnwSawCwnso6pTKRTi2QcSDPqPP7Pl7CZuQMn9GKH10HXDYbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Sf+9n6uc; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Ny6TTgLU/SMwi1VgsRmQeRrVFh08FienZHwG6QcdxfU=; b=Sf+9n6ucYRkz2uSDSDBZF8BxDS
+	guhE72SQVW+BZV1de/8bXrTpgFKrpGF0+y91PVKs/QQXe4hLbl3bCKOdCmjRMSlxtYrRJz/J098xs
+	+eHk0Q2Bt5eoH6kSXSE/SVC1/kLm/LIfIiGbjEwnPbw+e+MeMYM15bqOe6YqryxU5CRP2Wx6lWYia
+	xyfQM3BhKqlLuKeddSYad4uuUDm9NbjpeoV9nBJfXHzQu/3xYHGn3McXhWJyVyj5xgqQb/ogD6q6R
+	S1twO3QfWRK5Mh3D0i/NVD2BtvbtQglFV6h4zwk3dFNKbJ4n2vEBxU+bGdmlxXH8zw0JZ7Z9nczkk
+	wltECnBQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ugfks-0000000GGM8-0wb6;
+	Tue, 29 Jul 2025 08:32:14 +0000
+Message-ID: <b6c481bb-e854-405e-a428-90301789fe20@infradead.org>
+Date: Tue, 29 Jul 2025 01:32:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,77 +54,53 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/4] leds: add basic support for TI/National
- Semiconductor LP5812 LED Driver
-To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org
-Cc: pavel@kernel.org, rdunlap@infradead.org, christophe.jaillet@wanadoo.fr,
- krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250728065814.120769-1-trannamatk@gmail.com>
- <20250728065814.120769-3-trannamatk@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: linux-next: Tree for Jul 29 (BACKLIGHT_KTD2801)
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-leds@vger.kernel.org
+References: <20250729153510.3781ac91@canb.auug.org.au>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250728065814.120769-3-trannamatk@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250729153510.3781ac91@canb.auug.org.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/07/2025 08:58, Nam Tran wrote:
 
-...
 
-> +MODULE_DEVICE_TABLE(of, of_lp5812_match);
-> +
-> +static struct i2c_driver lp5812_driver = {
-> +	.driver = {
-> +		.name   = "lp5812",
-> +		.of_match_table = of_match_ptr(of_lp5812_match),
+On 7/28/25 10:35 PM, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20250728:
+> 
 
-v11 was okay here... now you introduced errors.
+on ARCH=um SUBARCH=i386, when
+# CONFIG_GPIOLIB is not set
 
-Best regards,
-Krzysztof
+WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+  Depends on [n]: GPIOLIB [=n] || NEW_LEDS [=y] && GPIOLIB [=n]
+  Selected by [y]:
+  - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+
+
+so BACKLIGHT_KTD2801 should:
+	depends on GPIOLIB
+
+Also, in drivers/leds/Kconfig, does it need duplicate entries for this?
+Can't the second entry be removed?
+(asking since Duje made both entries)
+
+config LEDS_EXPRESSWIRE
+	bool
+	depends on GPIOLIB
+
+
+Thanks.
+
+
+-- 
+~Randy
+
 
