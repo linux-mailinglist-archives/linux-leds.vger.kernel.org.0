@@ -1,208 +1,197 @@
-Return-Path: <linux-leds+bounces-5200-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5201-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D99AB1B420
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Aug 2025 15:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB7DB1D584
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Aug 2025 12:09:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6A5F18A2287
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Aug 2025 13:10:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B8EE188306B
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Aug 2025 10:09:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541A2274656;
-	Tue,  5 Aug 2025 13:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22EB229B2E;
+	Thu,  7 Aug 2025 10:09:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L7GxOmVS"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="UMnhxlT2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2875A2B9B7;
-	Tue,  5 Aug 2025 13:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1365712E7F;
+	Thu,  7 Aug 2025 10:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399393; cv=none; b=FfjQTXDPHvpIzN6jtgTjtX+VBZgCpenDLkpKLyD0zeE/mZZqsN4kImqEF6qMGp3iRNAzWrzhwIacY4+35OeFOA/DVgMdcFr+sOyDe6cXPcoPczUrhWVJn8Mo5TiHiW1N25nO/6U+Kc2NgQCD69o6wo1pLY/bBAHezHZTeu302h4=
+	t=1754561373; cv=none; b=ES0VEwjuiYd2RwX0iG4P6KVzRwDBX9llPo8E0V2mF0AxYo86If9itpyvB945++Nf+PyBXfwxCLVUjjZLS5XVNwqYhlATEWwl0psaDuDAwnvzxj6NXDcVPu0aENJ1jxXZCD2P8JZpD2Tu+Zo+7sRqcqhZ2fGXq+/fAz4XkgpbIw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399393; c=relaxed/simple;
-	bh=t+sWXRf3aOSnZSbG3popf7O5jm6HgLRtEitNREh/jGw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BDgjvKA0qbXOHJrZENH1MgxOX9hacXwAsjTLlhIa/zYWDFhLHbvjR5qLgrorOys84V9h7VHqELGKbzaAKcfh6QcEZn8WZMdgiseNSwcoreAdPcpILi2cXh07uC2prEuro37PXRV28yGJlbxVec6bgvhYqOy41X0/H6h6gjj78jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L7GxOmVS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF6AC4CEF7;
-	Tue,  5 Aug 2025 13:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399392;
-	bh=t+sWXRf3aOSnZSbG3popf7O5jm6HgLRtEitNREh/jGw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L7GxOmVS8S0MzIgrznfFnygm96KdNeQwAUQRk/7VZDTvP4h/ZhjQgR5EbhSVP+BVx
-	 2jwpIigAKCY9T2h6sNpHIm7bEOvEoGG6uYzv6TQO3SBTQScNR/jGp+plsIzZm98GML
-	 keLAJNJwth/t8zH1+Fewy3ptl2MOMSYtVmpHeJePSbjsjTXwhyqAhV/imcs+HgXFJM
-	 133mEwVztdZQLkxxyzcAbNQAKOs+32vcQopllMZVzC6xoAttJ5wJkiVarLtwWQP+OB
-	 kOj456A6wbtZCjqIlBNg22qfKsykVIXQdRc+pDtTv90Sg3qCJEoTuEs7B7r9B0lOrO
-	 IvEGd2VWh7MMw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Johan Adolfsson <johan.adolfsson@axis.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	pavel@kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-5.10] leds: leds-lp50xx: Handle reg to get correct multi_index
-Date: Tue,  5 Aug 2025 09:08:38 -0400
-Message-Id: <20250805130945.471732-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
-References: <20250805130945.471732-1-sashal@kernel.org>
+	s=arc-20240116; t=1754561373; c=relaxed/simple;
+	bh=V1nydN8gNugZAMNzR2LP9TE59bgTN1UQV6hiBgznw40=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N/1N/1Nu7NV8XaWHKM13WJLEBH3EBBHVQN7msv3pVwFi7eqaZ3t/+6q7XgxdlaKMo1AlRnTHzxyDqzgjcF72afpbbUO/idM2OtbVyl+4KXEcRagK8Uiq7pSONcnpZMqKh61Fi8aGCgM52s63GZHRokMQB19BbOJJu/+Ir7t1pF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=UMnhxlT2; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=lJQ8t6Wg5SpMe7LvBgmK2KLgjKo0GUwMiAaC0qTb9SQ=; b=UMnhxlT2HczqXK7idPMzlrhtqS
+	BW1Y8yUJ2Ea17ppOxN1cZku1MiCcGJgw2VpLlpmofmvgPZZSASO7APlIND1OoQIW3nCaL7hqmNEmF
+	AnJyZV2EN4CQ1vu4SJ7ATWn97l0nRXSx09dYZnucaqtb7ZN6bPM3Y5i8ISwulaRvziHhKxfw5AKuG
+	Ke2Okxrtxj0Gi0ZLA4cIkgHB1FmtGKioF/nNr1nWE6r28aonV5HzdlFSg6pMBAXIKZfGR26u3q3H9
+	ZBYDOOtujciuPjI1FcGp/qZumnqR83GilVFXu4i0esSJAYUVcxco6f2xMA9MG/RCHxMB02eqCZOO7
+	I6Oo5CCQ==;
+Received: from i53875a15.versanet.de ([83.135.90.21] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1ujxYo-0007HP-VI; Thu, 07 Aug 2025 12:09:23 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: linux-leds@vger.kernel.org, Marek Vasut <marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>, Andrew Lunn <andrew@lunn.ch>,
+ Christian Marangi <ansuelsmth@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Subject:
+ Re: [PATCH 1/2] dt-bindings: leds: Document netdev trigger
+ netdev-trigger-mode property
+Date: Thu, 07 Aug 2025 12:09:22 +0200
+Message-ID: <2598568.Sgy9Pd6rRy@diego>
+In-Reply-To: <20250113002346.297481-1-marex@denx.de>
+References: <20250113002346.297481-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-From: Johan Adolfsson <johan.adolfsson@axis.com>
+Hi,
 
-[ Upstream commit 2e84a5e5374232e6f356ce5c079a5658d7e4af2c ]
+Am Montag, 13. Januar 2025, 01:23:37 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Marek Vasut:
+> Document netdev trigger specific netdev-trigger-mode property which
+> is used to configure the netdev trigger mode flags. Those mode flags
+> define events on which the LED acts upon when the hardware offload is
+> enabled. This is traditionally configured via sysfs, but that depends
+> on udev rules which are available either too late or never in case of
+> non-Linux systems.
+>=20
+> For each LED with linux,default-trigger =3D "netdev" described in DT, this
+> optional netdev-trigger-mode property supplies the default configuration
+> of the PHY LED mode via DT. This property should be set to a subset of
+> TRIGGER_NETDEV_* flags.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-mc_subled used for multi_index needs well defined array indexes,
-to guarantee the desired result, use reg for that.
+while this is already half a year old, neither me nor b4 have found a
+newer thread, so I hope this is still the most recent one to reply to.
 
-If devicetree child nodes is processed in random or reverse order
-you may end up with multi_index "blue green red" instead of the expected
-"red green blue".
-If user space apps uses multi_index to deduce how to control the leds
-they would most likely be broken without this patch if devicetree
-processing is reversed (which it appears to be).
 
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dts has reg set
-but I don't see how it can have worked without this change.
+> ---
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Christian Marangi <ansuelsmth@gmail.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Heiner Kallweit <hkallweit1@gmail.com>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Lukasz Majewski <lukma@denx.de>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documen=
+tation/devicetree/bindings/leds/common.yaml
+> index 3e8319e443392..1f1148fdf20c0 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -233,6 +233,12 @@ properties:
+>        Maximum timeout in microseconds after which the flash LED is turne=
+d off.
+>        Required for flash LED nodes with configurable timeout.
+> =20
+> +  # Requires netdev trigger
+> +  netdev-trigger-mode:
+> +    description:
+> +      The netdev LED trigger default mode flags, use TRIGGER_NETDEV_ * f=
+lags.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
 
-If reg is not set, an error is returned,
-If reg is out of range, an error is returned.
-reg within led child nodes starts with 0, to map to the iout in each bank.
+as DT is supposed to be a hardware description, I think throwing arbitary
+binary values around is not very readable - especially as the above would
+be a combination of setting-bits for the TRIGGER_NETDEV_* things.
 
-Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Link: https://lore.kernel.org/r/20250617-led-fix-v7-1-cdbe8efc88fa@axis.com
-Signed-off-by: Lee Jones <lee@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+Instead I'd think using boolean dt props would reflect the binary "or"
+way better and also keep all the bitwise nastiness out of the dt.
 
-LLM Generated explanations, may be completely bogus:
+Also "netdev" is a Linux thing, and therefore also set in the
+"linux,default-trigger" property, so I'd think any added netdev-props
+should probably also have a linux,* prefix.
 
-**Backport Status: YES**
 
-This commit is a clear candidate for backporting to stable kernel trees.
-Here's my extensive analysis:
+So in sum, I think the following might look better?
 
-## Bug Fix Nature
+  linux,netdev-trigger-link:
+    description:
+      LED is lit on established link
+    type: boolean
 
-The commit fixes a **real bug** where LED ordering could be incorrect
-when device tree child nodes are processed in random or reverse order.
-Looking at the code changes:
+  linux,netdev-trigger-link-10:
+    description:
+      LED is lit on established link with 10MBit
+    type: boolean
 
-1. **Before the fix** (line 487 in original):
-  ```c
-  mc_led_info[num_colors].color_index = color_id;
-  ```
-  The code was using `num_colors` as the array index, which simply
-  increments for each LED found, regardless of the intended order.
+  linux,netdev-trigger-link-100:
+    description:
+      LED is lit on established link with 100MBit
+    type: boolean
 
-2. **After the fix**:
-  ```c
-  mc_led_info[multi_index].color_index = color_id;
-  ```
-  The code now correctly uses the `reg` property value as the index,
-  ensuring deterministic LED ordering.
+[...]
 
-## Impact on Users
+  linux,netdev-trigger-link-tx:
+    description:
+      LED is triggered when sending data
+    type: boolean
 
-This bug has **significant user-visible impact**:
-- User space applications relying on `multi_index` to control LEDs would
-  break if device tree processing order changes
-- The commit message explicitly states: "If user space apps uses
-  multi_index to deduce how to control the leds they would most likely
-  be broken"
-- Could result in "blue green red" ordering instead of expected "red
-  green blue"
+  linux,netdev-trigger-link-rx:
+    description:
+      LED is triggered when receiving data
+    type: boolean
 
-## Fix Characteristics
+[...]
 
-The fix meets stable tree criteria:
-1. **Small and contained**: Only ~13 lines of actual logic change
-2. **No new features**: Simply ensures correct array indexing
-3. **Low regression risk**: Adds proper validation (bounds checking for
-   `multi_index`)
-4. **Clear bug fix**: Not a refactoring or optimization
+for each element of the led_trigger_netdev_modes enum [0], with the node
+then looking something like:
 
-## Additional Safety
+               leds {
+                       #address-cells =3D <1>;
+                       #size-cells =3D <0>;
 
-The patch adds important safety checks:
-- Requires `reg` property to be set (returns -EINVAL if missing)
-- Validates `reg` is within bounds (`< LP50XX_LEDS_PER_MODULE` which is
-  3)
-- These checks prevent array out-of-bounds access
+                       /* Network LED on the front panel */
+                       led@0 {
+                               reg =3D <0>;
+                               color =3D <LED_COLOR_ID_AMBER>;
+                               function =3D LED_FUNCTION_LAN;
+                               linux,default-trigger =3D "netdev";
+                               linux,netdev-trigger-rx;
+                               linux,netdev-trigger-tx;
+                       };
 
-## Real-world Impact
 
-The commit message mentions that `arch/arm/boot/dts/aspeed/aspeed-bmc-
-facebook-fuji.dts` has reg set but wouldn't work correctly without this
-fix, indicating this affects real hardware in production.
+Heiko
 
-## Stable Tree Rules Compliance
 
-This fix adheres to stable kernel rules:
-- Fixes a real bug affecting users
-- Minimal change with clear boundaries
-- No architectural changes
-- Confined to a single driver subsystem (leds-lp50xx)
-- Adds necessary error checking that was missing
+[0] https://elixir.bootlin.com/linux/v6.16/source/include/linux/leds.h#L603
 
-The bug could cause unpredictable LED behavior depending on device tree
-parsing order, which is exactly the type of issue stable kernels should
-address.
-
- drivers/leds/leds-lp50xx.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-index 02cb1565a9fb..94f8ef6b482c 100644
---- a/drivers/leds/leds-lp50xx.c
-+++ b/drivers/leds/leds-lp50xx.c
-@@ -476,6 +476,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 			return -ENOMEM;
- 
- 		fwnode_for_each_child_node(child, led_node) {
-+			int multi_index;
- 			ret = fwnode_property_read_u32(led_node, "color",
- 						       &color_id);
- 			if (ret) {
-@@ -483,8 +484,16 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 				dev_err(priv->dev, "Cannot read color\n");
- 				return ret;
- 			}
-+			ret = fwnode_property_read_u32(led_node, "reg", &multi_index);
-+			if (ret != 0) {
-+				dev_err(priv->dev, "reg must be set\n");
-+				return -EINVAL;
-+			} else if (multi_index >= LP50XX_LEDS_PER_MODULE) {
-+				dev_err(priv->dev, "reg %i out of range\n", multi_index);
-+				return -EINVAL;
-+			}
- 
--			mc_led_info[num_colors].color_index = color_id;
-+			mc_led_info[multi_index].color_index = color_id;
- 			num_colors++;
- 		}
- 
--- 
-2.39.5
 
 
