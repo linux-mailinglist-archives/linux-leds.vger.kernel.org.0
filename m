@@ -1,275 +1,276 @@
-Return-Path: <linux-leds+bounces-5203-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5204-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0680EB1DEF0
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Aug 2025 23:41:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 063D3B1EB6F
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Aug 2025 17:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DD5417828B
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Aug 2025 21:41:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C195178142
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Aug 2025 15:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D3B23535F;
-	Thu,  7 Aug 2025 21:41:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6F2283155;
+	Fri,  8 Aug 2025 15:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="NRzAOoRv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEKu1+Qa"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CA121E08B;
-	Thu,  7 Aug 2025 21:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68188645;
+	Fri,  8 Aug 2025 15:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754602875; cv=none; b=ahIQZb/Sq3EZsPdYp5WLbc1lTAFSx4o1PkaxTYycDzHzypMQchB3kcgjgYKQMMCFJvno1uSONXOVl7Myrn6FYPZ9F2xbL/TuMp9duHNW9xCN+7UPGL2r36YCYi6p5+YEuBHAIAmfPUIUJD5Qc+0wjnviXy1EU7iYGC7sWXQJhsI=
+	t=1754666350; cv=none; b=d/qNzJTtFz9c6cgj0aU/25vaDo+9LHMBs4Q0FASsCap1QV/p8zm1fu1w8XEIK7vr0zOEjSqjPdLmFWj7ijEYBmbihd2Ya9yawV2AZyZZ3QjQioGZkN10bHldrUQIuKUmfJSI1PDX6Sbr92Ag4xVvrLOK3MVYB9ZqxiRkTj4pquo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754602875; c=relaxed/simple;
-	bh=cXqM5gD6Mo+hyClIWPcFbhJR/YkC1nSwbKBF2DqWaow=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s8azKFtla9ngt8EMPXXc3edqkMTTMYBT8iIL352aVBhIgM2Ec59mNXru0UT4W3PA6Gc+cfNNOySBAZl69SUNXJe4tye/ue9+XXOKpLj/Y9eXvnPb0heFrp0ZCiHV19yF1Ykc1zkqME7q5FijJ3jorRXiEAXCxcqtGHMY/4j3oKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=NRzAOoRv; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=aD1yMUZ3KDpwCaBKtljTbiBmqXW5mc9WhwaVhgSkbXA=; b=NRzAOoRv/BbjP3VTzTERG6MZ9I
-	i6kge7eA2XZwrrMT9juShx1B0Sown58W3xfBtCaWSJmm488DYwNzJdxxjowSmhKgevFneY5FHYSEb
-	WmP82OYYJOjhCmbybsf0l6NM0Xac9dh9qcdGWA4IIrF1XYQpHdzEva9Eh84VUjKkQUneZq/5AGUUS
-	4S3Is4rNt10QwD7sDcm7IqJ18/5LT1RCgMlcR8Lqtu5j9DRcNHOdsvRnk8sb0Y/QWJuAb1APPlnb1
-	7qtBy66cYlljjJadYJ2EwWv3i8AfXvtKMQ/QzcdqSKJefUxUcgKnoo77mz79FgT+vibqNyS5HbHmQ
-	DS35VwLw==;
-Received: from i53875a15.versanet.de ([83.135.90.21] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1uk8MA-0002s9-89; Thu, 07 Aug 2025 23:41:02 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: linux-leds@vger.kernel.org, Marek Vasut <marex@denx.de>
-Cc: Marek Vasut <marex@denx.de>, Andrew Lunn <andrew@lunn.ch>,
- Christian Marangi <ansuelsmth@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Lukasz Majewski <lukma@denx.de>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject:
- Re: [PATCH 2/2] leds: trigger: netdev: Introduce OF mode configuration using
- netdev-trigger-mode property
-Date: Thu, 07 Aug 2025 23:41:01 +0200
-Message-ID: <3258356.fEcJ0Lxnt5@diego>
-In-Reply-To: <20250113002346.297481-2-marex@denx.de>
-References:
- <20250113002346.297481-1-marex@denx.de>
- <20250113002346.297481-2-marex@denx.de>
+	s=arc-20240116; t=1754666350; c=relaxed/simple;
+	bh=tsdeCPIPkX+wdlJnsaj55GinnOFi+s4xef6Bgzt4ay4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AmKyVvIKw95CU5dFGVPeMHqMJKyY00nyqTtIAOLCVgykrovIj/Ls3VRWfv1+EneRS24bLlgFSppVkQQNmUO5p8TERLAbRgK+7EJ+XdS1Twl7/WCpbQUCfbunI+rLlJHLH+niBQinFM61pgSfNHmROLIum4rtVx2Hb4Ch93oqjfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEKu1+Qa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA27C4CEED;
+	Fri,  8 Aug 2025 15:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754666350;
+	bh=tsdeCPIPkX+wdlJnsaj55GinnOFi+s4xef6Bgzt4ay4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jEKu1+QacMpqQYXBXccohR6zFIE5s3psXsmyHRGVtrVZ0pnr1KmEtw/7ur1/cNOIW
+	 7yaC0tT7pE/PEjOsCREluDbIOYElxV91R5zU3GXDduQNPG8iQNtdKgQXXVLW71gXl5
+	 fRmW8W+WmqtOuYX/bt+7acRqoQOvMWs/tb/l9dLqifK5e8D6y8omqS0IUDwTvWnmUF
+	 1F33T1JsWwfXSls+ht4OCwM/ynfr2/txGMl1BZG+D42MTMRH6wjt8FtNVLI5StDKkm
+	 cyfFCwSelTNh5o5BUDnQ68xW+NwKXbG9KE6xPzchGCg1TuE5BEY10KBkXbjn1Yy2DL
+	 MtO6m2yoXCqug==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-gpio@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ath10k@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 00/21] gpiolib: fence off legacy interfaces
+Date: Fri,  8 Aug 2025 17:17:44 +0200
+Message-Id: <20250808151822.536879-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Marek,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Am Montag, 13. Januar 2025, 01:23:38 Mitteleurop=C3=A4ische Sommerzeit schr=
-ieb Marek Vasut:
-> Introduce netdev trigger specific netdev-trigger-mode property which
-> is used to configure the netdev trigger mode flags. Those mode flags
-> define events on which the LED acts upon when the hardware offload is
-> enabled. This is traditionally configured via sysfs, but that depends
-> on userspace, which is available too late and makes ethernet PHY LEDs
-> not work e.g. when NFS root is being mounted.
->=20
-> For each LED with linux,default-trigger =3D "netdev" described in DT, the
-> optional netdev-trigger-mode property supplies the default configuration
-> of the PHY LED mode via DT. This property should be set to a subset of
-> TRIGGER_NETDEV_* flags.
->=20
-> For each LED with linux,default-trigger =3D "netdev" described in DT, the
-> netdev trigger is activated during kernel boot. The trigger is extended
-> the parse the netdev-trigger-mode property and set it as a default value
-> of trigger_data->mode.
->=20
-> It is not possible to immediately configure the LED mode, because the
-> interface to which the PHY and the LED is connected to might not be
-> attached to the PHY yet. The netdev_trig_notify() is called when the
-> PHY got attached to interface, extend netdev_trig_notify() to detect
-> the condition where the LED does have netdev trigger configured in DT
-> but the mode was not yet configured and configure the baseline mode
-> from the notifier. This can reuse most of set_device_name() except for
-> the rtnl_lock() which cannot be claimed in the notifier, so split the
-> relevant core code into set_device_name_locked() and call only the core
-> code.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
->  drivers/leds/trigger/ledtrig-netdev.c | 51 ++++++++++++++++++++-------
->  1 file changed, 38 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger=
-/ledtrig-netdev.c
-> index c15efe3e50780..20dfc9506c0a6 100644
-> --- a/drivers/leds/trigger/ledtrig-netdev.c
-> +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> @@ -23,6 +23,7 @@
->  #include <linux/module.h>
->  #include <linux/netdevice.h>
->  #include <linux/mutex.h>
-> +#include <linux/of.h>
->  #include <linux/phy.h>
->  #include <linux/rtnetlink.h>
->  #include <linux/timer.h>
-> @@ -256,19 +257,9 @@ static ssize_t device_name_show(struct device *dev,
->  	return len;
->  }
-> =20
-> -static int set_device_name(struct led_netdev_data *trigger_data,
-> -			   const char *name, size_t size)
-> +static void set_device_name_locked(struct led_netdev_data *trigger_data,
-> +				  const char *name, size_t size)
->  {
-> -	if (size >=3D IFNAMSIZ)
-> -		return -EINVAL;
-> -
-> -	cancel_delayed_work_sync(&trigger_data->work);
-> -
-> -	/*
-> -	 * Take RTNL lock before trigger_data lock to prevent potential
-> -	 * deadlock with netdev notifier registration.
-> -	 */
-> -	rtnl_lock();
->  	mutex_lock(&trigger_data->lock);
-> =20
->  	if (trigger_data->net_dev) {
-> @@ -298,6 +289,24 @@ static int set_device_name(struct led_netdev_data *t=
-rigger_data,
->  		set_baseline_state(trigger_data);
-> =20
->  	mutex_unlock(&trigger_data->lock);
-> +}
-> +
-> +static int set_device_name(struct led_netdev_data *trigger_data,
-> +			   const char *name, size_t size)
-> +{
-> +	if (size >=3D IFNAMSIZ)
-> +		return -EINVAL;
-> +
-> +	cancel_delayed_work_sync(&trigger_data->work);
-> +
-> +	/*
-> +	 * Take RTNL lock before trigger_data lock to prevent potential
-> +	 * deadlock with netdev notifier registration.
-> +	 */
-> +	rtnl_lock();
-> +
-> +	set_device_name_locked(trigger_data, name, size);
-> +
->  	rtnl_unlock();
-> =20
->  	return 0;
-> @@ -579,6 +588,20 @@ static int netdev_trig_notify(struct notifier_block =
-*nb,
->  	    && evt !=3D NETDEV_CHANGENAME)
->  		return NOTIFY_DONE;
-> =20
-> +	if (evt =3D=3D NETDEV_REGISTER && !trigger_data->device_name[0] &&
-> +	    led_cdev->hw_control_get && led_cdev->hw_control_set &&
-> +	    led_cdev->hw_control_is_supported) {
-> +		struct device *ndev =3D led_cdev->hw_control_get_device(led_cdev);
-> +		if (ndev) {
-> +			const char *name =3D dev_name(ndev);
-> +
-> +			trigger_data->hw_control =3D true;
-> +
-> +			cancel_delayed_work_sync(&trigger_data->work);
-> +			set_device_name_locked(trigger_data, name, strlen(name));
-> +		}
-> +	}
-> +
+Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
+merged for linux-6.17, so now it is possible to use the legacy interfaces
+conditionally and eventually have the support left out of the kernel
+whenever it is not needed.
 
-hmm, somehow this did not work for me as is, because the devicename
-never makes it to the trigger. It seems because
-	phy_led_hw_control_get_device()
-of course only returns a device after the phy got attached somewhere and
-NULL otherwise.
+I created six patches to force-enable CONFIG_GPIOLIB_LEGACY on the
+few (mostly ancient) platforms that still require this, plus a set of
+patches to either add the corresponding Kconfig dependencies that make
+the device drivers conditional on that symbol, or change them to no
+longer require it.
 
-Testsystem is a Qnap TS233 NAS with RK3568 SoC using a dwmac on
-6.16 kernel and 3 LEDs attached to the Motorcomm PHY.
+The final patch ends up turning the Kconfig symbol off by default,
+which of course depends on everything else getting merged first to avoid
+build errors.
 
+I would suggest that patches 1-20 can just get merged through the
+respective maintainer trees independently when they are deemed ready,
+and the final patch can wait another merge window.
 
-On boot into regular Debian I see some separate steps, generating
-events in the netdev trigger:
+     Arnd
 
-=2D dwmac probes and probes the phy
-I see a number of expected NETDEV_REGISTER events
+Arnd Bergmann (21):
+  ARM: select legacy gpiolib interfaces where used
+  m68k: coldfire: select legacy gpiolib interface for mcfqspi
+  mips: select legacy gpiolib interfaces where used
+  sh: select legacy gpiolib interface
+  x86/platform: select legacy gpiolib interfaces where used
+  x86/olpc: select GPIOLIB_LEGACY
+  mfd: wm8994: remove dead legacy-gpio code
+  ASoC: add GPIOLIB_LEGACY dependency where needed
+  input: gpio-keys: make legacy gpiolib optional
+  leds: gpio: make legacy gpiolib interface optional
+  media: em28xx: add special case for legacy gpiolib interface
+  mfd: arizona: make legacy gpiolib interface optional
+  mfd: si476x: add GPIOLIB_LEGACY dependency
+  mfd: aat2870: add GPIOLIB_LEGACY dependency
+  dsa: b53: hide legacy gpiolib usage on non-mips
+  ath10k: remove gpio number assignment
+  nfc: marvell: convert to gpio descriptors
+  nfc: s3fwrn5: convert to gpio descriptors
+  usb: udc: pxa: remove unused platform_data
+  ASoC: pxa: add GPIOLIB_LEGACY dependency
+  gpiolib: turn off legacy interface by default
 
+ arch/arm/mach-mv78xx0/Kconfig                 |  1 +
+ arch/arm/mach-orion5x/Kconfig                 |  1 +
+ arch/arm/mach-pxa/Kconfig                     |  1 +
+ arch/arm/mach-pxa/devices.c                   |  7 --
+ arch/arm/mach-pxa/gumstix.c                   |  1 -
+ arch/arm/mach-pxa/udc.h                       |  8 --
+ arch/arm/mach-s3c/Kconfig.s3c64xx             |  1 +
+ arch/arm/mach-sa1100/Kconfig                  |  1 +
+ arch/m68k/Kconfig.cpu                         |  1 +
+ arch/mips/Kconfig                             |  5 +
+ arch/mips/alchemy/Kconfig                     |  1 -
+ arch/mips/txx9/Kconfig                        |  1 +
+ arch/sh/Kconfig                               |  1 +
+ arch/sh/boards/Kconfig                        |  8 ++
+ arch/sh/boards/mach-highlander/Kconfig        |  1 +
+ arch/sh/boards/mach-rsk/Kconfig               |  3 +
+ arch/x86/Kconfig                              |  1 +
+ drivers/gpio/Kconfig                          | 11 ++-
+ drivers/input/keyboard/gpio_keys.c            |  5 +-
+ drivers/input/keyboard/gpio_keys_polled.c     |  2 +
+ drivers/input/misc/Kconfig                    |  3 +
+ drivers/leds/leds-gpio.c                      |  8 +-
+ drivers/media/usb/em28xx/Kconfig              |  1 +
+ drivers/media/usb/em28xx/em28xx-dvb.c         |  4 +-
+ drivers/mfd/Kconfig                           |  2 +
+ drivers/mfd/arizona-irq.c                     |  5 +-
+ drivers/mfd/rohm-bd71828.c                    |  2 +
+ drivers/mfd/rohm-bd718x7.c                    |  2 +
+ drivers/mfd/wm8994-irq.c                      | 94 +------------------
+ drivers/net/dsa/b53/b53_common.c              | 17 +---
+ drivers/net/dsa/b53/b53_priv.h                | 24 +++--
+ drivers/net/wireless/ath/ath10k/leds.c        |  3 +-
+ drivers/nfc/nfcmrvl/main.c                    | 47 +++-------
+ drivers/nfc/nfcmrvl/nfcmrvl.h                 |  5 +-
+ drivers/nfc/nfcmrvl/uart.c                    |  5 -
+ drivers/nfc/nfcmrvl/usb.c                     |  1 -
+ drivers/nfc/s3fwrn5/i2c.c                     | 42 +++------
+ drivers/nfc/s3fwrn5/phy_common.c              | 12 +--
+ drivers/nfc/s3fwrn5/phy_common.h              |  4 +-
+ drivers/nfc/s3fwrn5/uart.c                    | 30 ++----
+ drivers/platform/x86/Kconfig                  |  3 +
+ .../platform/x86/x86-android-tablets/Kconfig  |  1 +
+ drivers/usb/gadget/udc/pxa25x_udc.c           | 41 +++-----
+ drivers/usb/gadget/udc/pxa25x_udc.h           |  2 +-
+ drivers/usb/gadget/udc/pxa27x_udc.c           | 35 +------
+ drivers/usb/gadget/udc/pxa27x_udc.h           |  2 -
+ include/linux/gpio_keys.h                     |  2 +
+ include/linux/leds.h                          |  2 +
+ include/linux/mfd/arizona/pdata.h             |  6 ++
+ include/linux/mfd/wm8994/pdata.h              |  5 -
+ include/linux/platform_data/pxa2xx_udc.h      | 15 ---
+ sound/pci/Kconfig                             |  1 +
+ sound/soc/codecs/Kconfig                      |  4 +
+ sound/soc/codecs/arizona-jack.c               | 17 +++-
+ sound/soc/pxa/Kconfig                         |  4 +-
+ 55 files changed, 192 insertions(+), 320 deletions(-)
+ delete mode 100644 arch/arm/mach-pxa/udc.h
 
-=2D systemd renames the interface to end0
-[    6.502455] rk_gmac-dwmac fe2a0000.ethernet end0: renamed from eth0
-[    6.509696] netdev_trig_notify evt 11
+-- 
+2.39.5
 
-=2D dhclient end0
-[   62.156033] rk_gmac-dwmac fe2a0000.ethernet end0: Register MEM_TYPE_PAGE=
-_POOL RxQ-0
-[   62.165292] phy_attach_direct
-   ... only here phydev->attached_dev is set ...
-[...]
-[   62.240004] rk_gmac-dwmac fe2a0000.ethernet end0: configuring for phy/rg=
-mii link mode
-[   62.250517] netdev_trig_notify evt 1
-[   65.315407] rk_gmac-dwmac fe2a0000.ethernet end0: Link is Up - 1Gbps/Ful=
-l - flow control rx/tx
-[   65.315415] netdev_trig_notify evt 4
+Cc: Linus Walleij <linus.walleij@linaro.org> (maintainer:GPIO SUBSYSTEM,commit_signer:1/2=50%)
+Cc: Bartosz Golaszewski <brgl@bgdev.pl> (maintainer:GPIO SUBSYSTEM,commit_signer:1/7=14%,commit_signer:1/2=50%)
+Cc: linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM)
 
-
-changing from
-	evt =3D=3D NETDEV_REGISTER
-to
-	evt =3D=3D NETDEV_UP
-in the conditional up there, makes the device_name resolve work for me.
-But right now, I have no clue if that is a bit no-no :-)
-
-Or do we want a NETDEV_PHY_ATTACH (+_DETACH) event type ?
-
-
-I'll try to poke things more
-Heiko
-
-
-
->  	if (!(dev =3D=3D trigger_data->net_dev ||
->  	      (evt =3D=3D NETDEV_CHANGENAME && !strcmp(dev->name, trigger_data-=
->device_name)) ||
->  	      (evt =3D=3D NETDEV_REGISTER && !strcmp(dev->name, trigger_data->d=
-evice_name))))
-> @@ -689,6 +712,7 @@ static int netdev_trig_activate(struct led_classdev *=
-led_cdev)
->  	struct led_netdev_data *trigger_data;
->  	unsigned long mode =3D 0;
->  	struct device *dev;
-> +	u32 val;
->  	int rc;
-> =20
->  	trigger_data =3D kzalloc(sizeof(struct led_netdev_data), GFP_KERNEL);
-> @@ -706,7 +730,8 @@ static int netdev_trig_activate(struct led_classdev *=
-led_cdev)
->  	trigger_data->net_dev =3D NULL;
->  	trigger_data->device_name[0] =3D 0;
-> =20
-> -	trigger_data->mode =3D 0;
-> +	rc =3D of_property_read_u32(led_cdev->dev->of_node, "netdev-trigger-mod=
-e", &val);
-> +	trigger_data->mode =3D rc ? 0 : val;
->  	atomic_set(&trigger_data->interval, msecs_to_jiffies(NETDEV_LED_DEFAULT=
-_INTERVAL));
->  	trigger_data->last_activity =3D 0;
-> =20
->=20
-
-
-
-
+Cc: Andrew Lunn <andrew@lunn.ch> (maintainer:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com> (maintainer:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: Gregory Clement <gregory.clement@bootlin.com> (maintainer:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: Russell King <linux@armlinux.org.uk> (maintainer:ARM PORT)
+Cc: Daniel Mack <daniel@zonque.org> (maintainer:PXA2xx/PXA3xx SUPPORT)
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com> (maintainer:PXA2xx/PXA3xx SUPPORT)
+Cc: Robert Jarzmik <robert.jarzmik@free.fr> (maintainer:PXA2xx/PXA3xx SUPPORT)
+Cc: Krzysztof Kozlowski <krzk@kernel.org> (maintainer:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES,commit_signer:1/2=50%)
+Cc: Alim Akhtar <alim.akhtar@samsung.com> (reviewer:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES)
+Cc: Geert Uytterhoeven <geert@linux-m68k.org> (maintainer:M68K ARCHITECTURE,commit_signer:1/4=25%,authored:1/4=25%,added_lines:2/13=15%,removed_lines:2/6=33%)
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de> (maintainer:MIPS)
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp> (maintainer:SUPERH)
+Cc: Rich Felker <dalias@libc.org> (maintainer:SUPERH)
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de> (maintainer:SUPERH,commit_signer:2/4=50%)
+Cc: Thomas Gleixner <tglx@linutronix.de> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT),added_lines:4/36=11%,removed_lines:6/49=12%)
+Cc: Ingo Molnar <mingo@redhat.com> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: Borislav Petkov <bp@alien8.de> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: Dave Hansen <dave.hansen@linux.intel.com> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: "H. Peter Anvin" <hpa@zytor.com> (reviewer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com> (maintainer:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...,commit_signer:5/7=71%,authored:1/7=14%,added_lines:17/36=47%,removed_lines:27/49=55%,commit_signer:1/2=50%,commit_signer:3/5=60%)
+Cc: Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM,commit_signer:2/5=40%)
+Cc: Pavel Machek <pavel@kernel.org> (maintainer:LED SUBSYSTEM)
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org> (maintainer:EM28XX VIDEO4LINUX DRIVER)
+Cc: Matti Vaittinen <mazziesaccount@gmail.com> (maintainer:ROHM POWER MANAGEMENT IC DEVICE DRIVERS)
+Cc: Florian Fainelli <florian.fainelli@broadcom.com> (maintainer:BROADCOM B53/SF2 ETHERNET SWITCH DRIVER)
+Cc: Jeff Johnson <jjohnson@kernel.org> (maintainer:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: Hans de Goede <hansg@kernel.org> (maintainer:X86 PLATFORM DRIVERS,commit_signer:1/7=14%)
+Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com> (maintainer:X86 PLATFORM DRIVERS)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org> (maintainer:USB SUBSYSTEM)
+Cc: Jaroslav Kysela <perex@perex.cz> (maintainer:SOUND)
+Cc: Takashi Iwai <tiwai@suse.com> (maintainer:SOUND,commit_signer:1/3=33%,authored:1/3=33%,removed_lines:2/2=100%)
+Cc: Liam Girdwood <lgirdwood@gmail.com> (maintainer:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...)
+Cc: Mark Brown <broonie@kernel.org> (maintainer:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...,commit_signer:26/29=90%,commit_signer:1/3=33%)
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com> (authored:1/7=14%,added_lines:4/36=11%,removed_lines:6/49=12%,commit_signer:1/2=50%,authored:1/2=50%,added_lines:5/7=71%,removed_lines:7/7=100%,added_lines:7/7=100%,removed_lines:2/7=29%)
+Cc: "Dr. David Alan Gilbert" <linux@treblig.org> (commit_signer:1/5=20%,authored:1/5=20%,removed_lines:7/10=70%)
+Cc: linux-arm-kernel@lists.infradead.org (moderated list:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: linux-kernel@vger.kernel.org (open list)
+Cc: linux-samsung-soc@vger.kernel.org (open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES)
+Cc: linux-m68k@lists.linux-m68k.org (open list:M68K ARCHITECTURE)
+Cc: linux-mips@vger.kernel.org (open list:MIPS)
+Cc: linux-sh@vger.kernel.org (open list:SUPERH)
+Cc: linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...)
+Cc: linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+Cc: linux-media@vger.kernel.org (open list:EM28XX VIDEO4LINUX DRIVER)
+Cc: patches@opensource.cirrus.com (open list:WOLFSON MICROELECTRONICS DRIVERS)
+Cc: netdev@vger.kernel.org (open list:BROADCOM B53/SF2 ETHERNET SWITCH DRIVER)
+Cc: linux-wireless@vger.kernel.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: ath10k@lists.infradead.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: platform-driver-x86@vger.kernel.org (open list:X86 PLATFORM DRIVERS)
+Cc: linux-usb@vger.kernel.org (open list:USB SUBSYSTEM)
+Cc: linux-sound@vger.kernel.org (open list:SOUND)
 
