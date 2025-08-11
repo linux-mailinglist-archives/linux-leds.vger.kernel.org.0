@@ -1,147 +1,147 @@
-Return-Path: <linux-leds+bounces-5211-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5212-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30798B1F61A
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Aug 2025 21:58:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 634D5B209B2
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Aug 2025 15:10:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0531624E29
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Aug 2025 19:58:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66B25188631C
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Aug 2025 13:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E1AC279DA0;
-	Sat,  9 Aug 2025 19:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75BCD2DC34B;
+	Mon, 11 Aug 2025 13:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xxMMvco7"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ojjnhV8s"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F25279DA6;
-	Sat,  9 Aug 2025 19:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF652D131A
+	for <linux-leds@vger.kernel.org>; Mon, 11 Aug 2025 13:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754769522; cv=none; b=ca6p7p9W5FxdLRWZzzRk+TaFY53YibbOb/u8uOhgNlQUppQKSLsKfozpqxSGW27WVX5N/Jtw/FkNLcCZEunDJC2057CiIt3KyFEtblZG1eUGsBxqT6zW27IdoN+e4EBoBVpslQwycL++yS9uPaeiGnQBDQzUf9kNUENW99VHkUU=
+	t=1754917840; cv=none; b=HR3lxDvspfblTeIFqAZF79aO0H6BZ+IyzgNyo065wGpHcWKSi1qCQhGhHKxXYBYdczhVvgKdc736LQYq10NBVxj0jjthoEYbZUYUlIK2lfv9NyCv+Ekkm2v/MYKVIicuHK6csZNdgYtFtkh6DIFSssMMmI3SSJEwNyg+62LXA54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754769522; c=relaxed/simple;
-	bh=Rzs3tllg1u2j5+XWGCqpWUs6bctzQ/tkvT/sr8cbkPQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tzTIXsFrogkG22yrIR+1C0L3aqVOvZaE9FSjWg9LIe5B55PDOySW3RwXqVzprjJexk5aG6kaBTH/XuYc40hn1rEE/MU/Mk0S2xeREa6WgZaIPhvN2A3kSUQ6MLEsJobNeLziu9PBaIAo7nIqXobZA6D7eDBUJcMGdUdRZimJ6jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xxMMvco7; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bzsCV0Bxbz9spt;
-	Sat,  9 Aug 2025 21:58:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1754769510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6MdNBtNkuXL9Fyp8b+yocC299r5xdWciGVdsFGVZ3s=;
-	b=xxMMvco7lkLdBwxkH+3EDAzYOkdNsvwa1ZedqwSfVlL75W2K8cb8BmPGdPeMIgESa2gnVV
-	B62kuJTu9CNxHnv6qbNP/EEaIF8rdJdIDRFsofY0AXAnsQTEAsvIjW6O21yrDGrFpHuXlJ
-	y7WXvIXRRKwU+IILNiY7uX+00z4/Ia7TLmyKsYxsR6HWbYgP5E6VPenb3cWpIq7bteWJDH
-	QSrrBQELbpqk4ORjbzn27GIBixXqiStgvaF40AZGlwsGuVi60drQghxG7MGR+cCRX50CgA
-	WVt+uCQIEq835UOYXJMw4kfMKaQmedTFYaBDiI+eYpV902hv7kcIKO6OkycdqQ==
-Message-ID: <24277b44-a21e-499d-9194-71edbd483902@mailbox.org>
-Date: Sat, 9 Aug 2025 21:58:26 +0200
+	s=arc-20240116; t=1754917840; c=relaxed/simple;
+	bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AqOT7HU0VumjmdCQaM+EM6ACssesCkWsNTQS7GnDAk8drgTHw0iUCP/pQEIbi5Odpb1c3OocF2z/Bx8ZbVrxMg8etiXQayis6mSlcVg9BJX140yP2vnpqaOH+RTdX+Dm7/+fw8YBXVsIDQtASUfLWXtg4yf4fQw1yGCB4ZOhgkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ojjnhV8s; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2401b855980so30936665ad.1
+        for <linux-leds@vger.kernel.org>; Mon, 11 Aug 2025 06:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1754917837; x=1755522637; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+        b=ojjnhV8sG5RePBCOlfNn+HKKrpovehYP/8l1sr0vNYpFHhYyNj9xWMV43bJeaTo+kp
+         pGJmmwo0JTwJGp+EMoH+TiRmSHHwCWtSKYf/ADQ+n41Fq7MLbvF4puoYKzMZIfAb5Yr5
+         rfyUeS8+hBywvWWe45et8EVilsYHrox7Ct03tWZtWfpes3F5MB7MSmpvGYu3l/KMy0Lm
+         Xz5nZcHYvM5pMpkmNGOifNAmrO7N485x8Dy3qu1/BQr+p2mpzG31DunBz5mKNnrnKK8W
+         RdKVIPz8XNIoKoiGQOe1wq9OXTmtM2HvY5MHwnIuZgNfLGAMI4k+PY6m2DfBQiYd+C7+
+         Xhsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754917837; x=1755522637;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+        b=VB36eHv9gGIDOdPuuUo7QZaoBVWccsPNTMvs3Jc+KJ19+4uXF/DRWLfivEV52HkMRZ
+         gCO39zeVVYrxXXJvHN1i0yx1rea4dpu6p57rTfMG8uXwBeKaC/p00NyvHPTNtT/5yT0L
+         konyPD3JtAaDTLrsbvfOj+y5kwN4eU5SbmMaS7+gjtm5LxfK72ypuEh5Sv1MyQGq3vRk
+         TGcCggxb7wDnvmGDjUwMQfZ9tH/IdnbdgELBMsJZ0m+iYUaJvRsWkD3VIX35bhszPSij
+         G+TgDy93hFFr/3hlOV+EVJkMztr4PhQoqLWD2MMWiDv0j/DnegDcMzKpYx6bTDTNqnYI
+         6LWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVoPYUULvjD6l/QrVeQ79GfjKgmW8JozucZX9gWOrdlLbJf80S9sDbDfTXiruH4sJMUrOvYe/tZRu84@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYGd9B/oAGe/2+pTj+7oQrLrvxhBbn3Na7MyxDNYfZjgJtV6wF
+	MckHQ90EdmnlifTpbd4NnEIhGXWTjTAYodNKsBfjluvJ9JUojk+zIbvRN0TCqHib1ParX7dowVB
+	JFXMs7W58G5BXX8B+vDmBXotvKVoGmJk3iW1AuKsU+Q==
+X-Gm-Gg: ASbGnctmstqOnNvWa6tfVNNHjbuE32rHPkFCtJUnLX+ZmMUB7FCNk7ehE7s4Q45WJvn
+	CpvZJYJ9F5+mSBhDG5g6gj+5+bHlaM7WCejJEcezwA29k6JZBtnfFVtps3lKO4H9fLEajAbRHp/
+	Wgxzg9KyAyk+uSJonfixlnHiDTkZk8MPk3USOOd1V/z+SIgoVX+0pF3PjHYMPa/I3EoBGSxlp51
+	liD83dzoo2bRsW89X7WzUWIyAjwcsiCfHvSq6Q=
+X-Google-Smtp-Source: AGHT+IEgMvtsNpCEbzm+bQO3Dq6oVeggGu7qnt+f1HYUPfLnzNmxpfjIx2ohdBUK5XJ+fhQGIjFsq0lNMPvywZaOZwE=
+X-Received: by 2002:a17:903:32cb:b0:240:96a:b812 with SMTP id
+ d9443c01a7336-242c203d030mr203994295ad.24.1754917837398; Mon, 11 Aug 2025
+ 06:10:37 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Document netdev trigger
- netdev-trigger-mode property
-To: Andrew Lunn <andrew@lunn.ch>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>
-Cc: linux-leds@vger.kernel.org, Christian Marangi <ansuelsmth@gmail.com>,
- Conor Dooley <conor+dt@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-References: <20250113002346.297481-1-marex@denx.de> <2598568.Sgy9Pd6rRy@diego>
- <505f53fc-3481-497e-bc26-a70f3321e075@lunn.ch>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <505f53fc-3481-497e-bc26-a70f3321e075@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 53d3b34a85958bd8789
-X-MBO-RS-META: 4dw6tc584bgwm1zgzyib1d767jq676ox
+References: <20250808151822.536879-1-arnd@kernel.org>
+Date: Mon, 11 Aug 2025 06:10:31 -0700
+X-Gm-Features: Ac12FXxi-t7kK_6HIDwsxWJsHZcp5BcOM26Y8X32Zi2av6pcVu6UuipKim4OtEQ
+Message-ID: <CAMRc=MeyW8gtG_hsLWytCpufQRmg3s5QZenxCvP3MNGmaoo2cA@mail.gmail.com>
+Subject: Re: [PATCH 00/21] gpiolib: fence off legacy interfaces
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Russell King <linux@armlinux.org.uk>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Jeff Johnson <jjohnson@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
+	patches@opensource.cirrus.com, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/9/25 6:29 PM, Andrew Lunn wrote:
->> as DT is supposed to be a hardware description, I think throwing arbitary
->> binary values around is not very readable - especially as the above would
->> be a combination of setting-bits for the TRIGGER_NETDEV_* things.
-> 
-> I tend to agree with you. This is a tricky area, since it does appear
-> in most part to be configuration, not hardware.
-> 
-> What i think you should actually be describing is the label on the
-> case next to the LED.
-> 
-> Taking a random example:
-> 
-> https://www.downloads.netgear.com/files/GDC/Unmanaged_Switches/GS105Pv3_GS105PPv3_GS108LP_GS108PP_GS116LP_GS116PP_DS.pdf
-> 
-> The case says:
-> 
-> Left LED: Link/ACT mode
-> Green = Link at 1000M
-> Yellow = Link at 10/100M
-> Blink = ACT
-> 
-> Right: PoE Mode
-> Green = Powered
-> Yellow = Fault
+On Fri, 8 Aug 2025 17:17:44 +0200, Arnd Bergmann <arnd@kernel.org> said:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
+> merged for linux-6.17, so now it is possible to use the legacy interfaces
+> conditionally and eventually have the support left out of the kernel
+> whenever it is not needed.
+>
+> I created six patches to force-enable CONFIG_GPIOLIB_LEGACY on the
+> few (mostly ancient) platforms that still require this, plus a set of
+> patches to either add the corresponding Kconfig dependencies that make
+> the device drivers conditional on that symbol, or change them to no
+> longer require it.
+>
+> The final patch ends up turning the Kconfig symbol off by default,
+> which of course depends on everything else getting merged first to avoid
+> build errors.
+>
+> I would suggest that patches 1-20 can just get merged through the
+> respective maintainer trees independently when they are deemed ready,
+> and the final patch can wait another merge window.
+>
 
-This is meant to configure the netdev trigger, i.e. how Linux configures 
-the PHY LED behavior (blink at 100/Full, not blink at 10/Full etc.), not 
-the LED labels.
+Oh, not at all, I'm fine sending a second PR late into the merge window to
+get that done in a single cycle.
 
-It is already possible to configure which trigger should be used for 
-each LED in DT, it is also possible to configure trigger settings for 
-some LED triggers in DT, but it is not possible to configure the netdev 
-trigger in DT.
+Thanks for doing this, awesome work!
 
-> So there is in fact four LEDs. Two of them are actually nothing to do
-> with netdev. This shows how flexible 'PHY' LEDs are, they can in fact
-> be used for anything. We currently don't have a PoE trigger, but it
-> should not be too hard to add.
-> 
-> For the two actual netdev LEDs, we need to describe the text of the
-> label. The naming of the DT property also needs to emphasise this is
-> the label. And if the case has no label, you should not be putting
-> properties in DT, the LEDs don't actually have any fixed meaning, it
-> is user space policy to set them.
-> 
-> As you said, there has not been any obvious progress on such a DT
-> binding for 6 months or more. I would probably interpret that as its
-> not particularly important.
-
-This is still in the backlog pipeline, which is too deep now, I'm sorry.
-
-> Maybe it actually makes more sense to work
-> on user space tools
-
-The LEDs have to be configured before userspace is even started, that's 
-what this patchset attempts to solve. Consider the state of the system 
-before (proper) userspace that would configure the LEDs is even started, 
-e.g. initramfs and other such edge cases. DT seems like the only place 
-where this could be described, and it is done so for other LED triggers 
-already.
-
-Userspace configuration is solved by udev rules, that's not a problem.
-
--- 
-Best regards,
-Marek Vasut
-
+Bartosz
 
