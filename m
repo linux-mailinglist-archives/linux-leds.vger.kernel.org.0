@@ -1,129 +1,143 @@
-Return-Path: <linux-leds+bounces-5225-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5226-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A827B27EC8
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Aug 2025 13:02:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1180B27FB2
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Aug 2025 14:07:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D1051C87FD6
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Aug 2025 11:01:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30E54A2759B
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Aug 2025 12:07:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C7902417E6;
-	Fri, 15 Aug 2025 11:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49137278157;
+	Fri, 15 Aug 2025 12:07:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nY4TAH0C"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="obpPn8MQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19D0191F91;
-	Fri, 15 Aug 2025 11:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0691A9FB0
+	for <linux-leds@vger.kernel.org>; Fri, 15 Aug 2025 12:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755255649; cv=none; b=DM7g0SuWoqKedP37hIrmbI+edDh92v5aU0Z6QTVcQK7dfXuxH6jYKf2zA4/DrOzME/esoz2PuH2Lw5CrtiaxSRMO+rmpaIKzHWTlRcaGchHjHuPsJ2qzlGBfLN34Y8qRO8CDuwV+CyxgUPT3pieE/E5ntcmYAOSCEr+jxy0s5oU=
+	t=1755259646; cv=none; b=C0F0g6Z6rAHD7S5rNeEbDDyzylhi4iCSDAsfUCmYRGjUSxS4/fQni3TwT5ojpDb6N+wCoaXlWevL5j/CkykOetm+xGHdbo79CpJ14xtHev3+2gMazuamckTuUKphhquQsm/X9bA8ZQ/8tTrVaWUM0PKtemgyZtAqp9wU48ScYOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755255649; c=relaxed/simple;
-	bh=7Be7o3PALtINeyh/3FWdMdKncJEV6RKJP/fqpEFc0N8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PykjDfLDbZUuOol4mfFJNjggHj31ysfSX1YTKGFPVDO5IHjDoz7LLYc9S6Hkm6MA0GT2uIbKWEGAQYUXc1szUxD/G/PagZXcCUx/hsv5lfGqTG0AG9R1QHz8HC7jzeNdkj9voAyEhzjrgyMg+qYO1xPXomV+rtddYGdqJ7gP8n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nY4TAH0C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D761EC4CEEB;
-	Fri, 15 Aug 2025 11:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755255649;
-	bh=7Be7o3PALtINeyh/3FWdMdKncJEV6RKJP/fqpEFc0N8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nY4TAH0CqypvOQ3YvR5ZUF85meuK5at3CfcdO12nGQfl+7RCZKQzN19vqALnOjlnJ
-	 AiWVAsNvoVIo7VP21bDV31oXw485xzCYUuvTtMB/MaLB38ilibs2uAtRhaJlBc+hMe
-	 YnuB8IfnU9SekuC3baBs7aIDx7oN79JfQsGovN9uNH1PEsli6EFaWjGyZsOy7zImBX
-	 C5cvTlNSU5ksrUB+tu0ltjY9VHxT6pvx0ef9rh+jQbqPlSHU0nuIPq1yFZ1wj7n88d
-	 xS1AtzWPslNmZwQaR91pC1dQhjCOfHK7eOID/prcsIXIu+9hNHvNlkzpG/CZMmd0zQ
-	 Bc7j5jl6lA+Kg==
-Message-ID: <b30905fa-6bd1-47dd-8371-f609d418387b@kernel.org>
-Date: Fri, 15 Aug 2025 13:00:45 +0200
+	s=arc-20240116; t=1755259646; c=relaxed/simple;
+	bh=d7mLkx2zmfajtsD8tZE+IyUM91Hth/Nqpv1oIfjVVHE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=rZmKcxOQNV6/vm/jAAjfGbzhfj6/WkyspngcL72kiEN0t+PKJdxyxTujEP4Bbmps1QPEIlOhUK0TjXI8bAjg4vJM1khyt0QzZFRLRtiJuawzm8ss44cWRi3rdWDen40zDYx/vSPEgnbyIxTK0MoFAHtgP1wZ8Gkg6paGvEkWRBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=obpPn8MQ; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1755259632;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S1snjcKnr5T+gZaU0t/7csMoaxio2O5nUXuj8A3C7QA=;
+	b=obpPn8MQaE6sEdep1Ia26ok2jP1igFkswh5NXhZgsIanDEcTwThXpGlEMMPSaTT+CGYP/t
+	/M+yOmjHMlDJbTfcTKnZKuntmX8kH707C+2MHeoi/kkI2KECDn7E/bJaXxQ9Ivbv2w5Eyr
+	JnDtDhjtP7iu5QIpL5TxkJ3cjuR/ZiY6wqtRwKtza77rNlliSC4PErDNS1IjBLPdmcu+e0
+	8wNP7N3rWxVHBPRR1J+PuFQe9tuO2NcDq7SFRYCVs0NaC2X1In0rLqbOyfN4XDWq3Ar/CP
+	ZRTBl6G3hY8XCXXzoiHvnIhk7T7DMIU7eFRLvRNs2fYjEiWBZVJUke/+tPvDGQ==
+Content-Type: multipart/signed;
+ boundary=8624ee546faf8c26b2a96c7cf02ab2c1b94682b15dc888f8a0edb7954318;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Fri, 15 Aug 2025 14:06:49 +0200
+Message-Id: <DC2ZLORG11W0.1CS78L6F2OV4Q@cknow.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Pavel Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>
+Cc: "Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
+ <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] dt-bindings: leds: Clearly mark label property as
  deprecated
-To: Diederik de Haas <didi.debian@cknow.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20250815104805.405009-1-didi.debian@cknow.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250815104805.405009-1-didi.debian@cknow.org>
+ <b30905fa-6bd1-47dd-8371-f609d418387b@kernel.org>
+In-Reply-To: <b30905fa-6bd1-47dd-8371-f609d418387b@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+
+--8624ee546faf8c26b2a96c7cf02ab2c1b94682b15dc888f8a0edb7954318
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 15/08/2025 12:47, Diederik de Haas wrote:
-> The text description already mentioned the label property was
-> deprecated, but using the 'deprecated' property makes is clearer and
-> more explicit.
-> 
-> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+On Fri Aug 15, 2025 at 1:00 PM CEST, Krzysztof Kozlowski wrote:
+> On 15/08/2025 12:47, Diederik de Haas wrote:
+>> The text description already mentioned the label property was
+>> deprecated, but using the 'deprecated' property makes is clearer and
+>> more explicit.
+>>=20
+>> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+>> ---
+>>  Documentation/devicetree/bindings/leds/common.yaml | 1 +
+>>  1 file changed, 1 insertion(+)
+>>=20
+>
+> Please first read previous discussions:
 
-Please first read previous discussions:
-https://lore.kernel.org/all/20240509110545.49889-1-linux@fw-web.de/
+[I reversed the order of the links so the oldest is first]
 
-https://lore.kernel.org/all/20221122111124.6828-1-cniedermaier@dh-electronics.com/
+> https://lore.kernel.org/all/20221122111124.6828-1-cniedermaier@dh-electro=
+nics.com/
 
-Best regards,
-Krzysztof
+Rob: "They ['function' and 'label'] serve 2 different purposes."
+
+> https://lore.kernel.org/all/20240509110545.49889-1-linux@fw-web.de/
+
+Krzysztof: "I don't think there was conclusion to make it deprecated on
+last attempt"
+
+I agree.
+What I don't understand: Why wasn't the text updated to correct the
+incorrect statement about deprecation (that's how I interpret it now)?
+Or some other conclusion being made and that that will be reflected in
+the text and/or a deprecated property.
+
+Otherwise the confusion remains and then it's just a matter of time
+before a 4th person comes along proposing the same patch.
+And possibly even more harmful: people use it incorrectly.
+
+There's also this line:
+"function-enumerator has no effect when this property is present."
+
+if that is true, and I would assume so as that's what the binding says,
+then I messed up even bigger then I already think I did in commit
+1631cbdb8089 ("arm64: dts: rockchip: Improve LED config for NanoPi R5S")
+resulting in commit
+912b1f2a796e ("arm64: dts: rockchip: Drop netdev led-triggers on NanoPi R5S=
+")
+
+... but I'd have expected that to be pointed out in the review.
+
+I can understand that function-enumerator is used in an automatically
+generated label when a label doesn't exist, but I'm inclined to think
+the same "They serve 2 different purposes" applies here too.
+
+Cheers,
+  Diederik
+
+--8624ee546faf8c26b2a96c7cf02ab2c1b94682b15dc888f8a0edb7954318
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaJ8i5gAKCRDXblvOeH7b
+blHPAP47IybHAz/ehXhdDv8uUzgLK6trTHIF4sa580pxeE3YkQD+IT7PvgXPS4r7
+s6gjTNa7I7J78T4OjK79J1SWdXcrgQg=
+=JWsI
+-----END PGP SIGNATURE-----
+
+--8624ee546faf8c26b2a96c7cf02ab2c1b94682b15dc888f8a0edb7954318--
 
