@@ -1,177 +1,166 @@
-Return-Path: <linux-leds+bounces-5247-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5248-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A64B2C4CA
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 15:11:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B54B2C92D
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 18:11:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78F3D3BCA4C
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 13:03:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7EB91C278C9
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 16:10:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3FA34AB0A;
-	Tue, 19 Aug 2025 13:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0192BE7BB;
+	Tue, 19 Aug 2025 16:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SqGVrLg3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OC+9J4Kb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="myYiL79O"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E643633EB1D;
-	Tue, 19 Aug 2025 13:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1268228031D;
+	Tue, 19 Aug 2025 16:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755608417; cv=none; b=uTZQj3vTB7J2SUzWHScLfcbw0unYFRVTRC5uZnr29IJDGS19qd136d0nGLeq7PDo9yakzf/e6U5qhO8S2I/qfYJqmw+CLPVRX6fy0xVsdjboiWgkgIIlqAY7SU+cJc6/xmk5bC9Tbe/EV21zcH434ZNF6kl2WlmFTvdxAio2UsE=
+	t=1755619830; cv=none; b=YCKH7m4ngUddg9z+PSA4YiHzOoB+CR5ordFiFQRcAUejoSIBLIs2v1WKRn3NyXZBoRilcoSfyiVyyGK+6+RhGsi1a5/cwqZ4ePz2dq6kqdWTtbWTMh5JovsXPNaktkPT2eNVtyT0qbMfS8RDkiLuQiW4u45ta7ZNEnaZDDWonY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755608417; c=relaxed/simple;
-	bh=iloTLwi2gOdLOHKbexssFM/oh+m90ovPugh5A0kAwg4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=p1z4XMLypIFCKAEI9TVB4ntb3BwZF2jz8KM7lAiz0JOhlE6iJHd9KOLVwbNRf6WyGcopKD8gIzw4hqN9+zf7/6PLagwjlWHjltQorqHYL3zVyp+YLBuXMzIvWhv14P6SiWK8ytdsqLYeYwNggUbfU/QtKGOHj+E9TiyEBZmAarc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SqGVrLg3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OC+9J4Kb; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0088E140041B;
-	Tue, 19 Aug 2025 09:00:13 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Tue, 19 Aug 2025 09:00:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1755608412;
-	 x=1755694812; bh=pVVR6isuBZ1Hq6IdzabXkRrNz7PvxwYVf3cjr/ZvJUI=; b=
-	SqGVrLg3KjPC10vTi9aM2tv0M1DoKpcOlaPC2M7hwjSBEO5VCD6ZzVrOhbxXmvf+
-	F4y9V1/MgBdAO1mjDbdRDlSq4J8GOJzYt3gHo3ZbHQ05u7DpmzXsM/dnYKUddahP
-	GEfGYkk5tTbLJt6DN0YPAZiggQmtz6QmjT3F1u3oh4dend+/3DYlc39g2bwsse69
-	Ku+yiGYEhWrIE3KKm9qZmePFtXw/aduaEx83mPI1RiQQHNUZDLi7lV1dywjXB3Mq
-	n2/2JxuPO/CtISMzMspTiCCOWwXmemckw2phyxuiwcosJN1o0YHw+WR4E6TBoMoA
-	zAL4Kub8NO7Dlh5JD5E+FA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1755608412; x=
-	1755694812; bh=pVVR6isuBZ1Hq6IdzabXkRrNz7PvxwYVf3cjr/ZvJUI=; b=O
-	C+9J4Kb21ApnEJ23XRYHxOoh+jzSV+NajisP2Up1h3GRE4QET5ZvPKETdG8MipEy
-	/ARuD5xlRhR3LJWzsBKdZ7ouxLL6kYNNSX/fIOnPdBpgYm2Oipq++ISLEHIjjA1o
-	WAvcRa/YdSaakjletj38k5gZW202RWv2wh3f9G4XPIw8ZrNa39+g1QCaMkmn70wS
-	GufSXaTNaxoXuI7EdlXzxPG9IIUELNw5c068LrEZZUWOfSBZgR0k7vfDH/fCUC+a
-	udwC3XpbFeLWHvLbdXOtR6z6BoHfTudP/967pZC+sf23NHhcodBUVGnRhRs6MZ7E
-	bxa0ufGcy+XOULvbJVbnQ==
-X-ME-Sender: <xms:W3WkaM3YpW1oXr-B5nUlv3Y92qvNBiyh5oOcLeLUoATZtToUztxERg>
-    <xme:W3WkaHGZV5tEsuRmP436uj5Jzx7XYxeVmEHv0Crol362aHDBuS1euG-LP9kWKPmEa
-    PI8kz9MyREkybg0i9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheehheehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopegsrhhglhessghguggvvhdrphhlpdhrtghpthhtohepjhgrvhhivg
-    hrrdgtrghrrhgrshgtohdrtghruhiisehgmhgrihhlrdgtohhmpdhrtghpthhtohephigv
-    shgrnhhishhhhhgvrhgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghrnhgusehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehguhhsthgrvhhorghrsheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepkhgvvghssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvg
-    gvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghlsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrgh
-X-ME-Proxy: <xmx:W3WkaPt0Q-0RrjRp4_NGjkISuXUahVTIAOzau3HnzDxTiLBh99m85Q>
-    <xmx:W3WkaLqONfKBbm8vK0Wnz9WuyXHjcNumGD20WE0siWxrRwhujX0-XQ>
-    <xmx:W3WkaGlfuVrGnwPXZKNtspxjTUxjzPVJAb03DRLPtEFveVRkaDhiPA>
-    <xmx:W3WkaIj7Hg5FsBfFLD8kUoZvy7DzAYeoCtCN5PSF_V40QpZ28_yvlA>
-    <xmx:XHWkaBoLjrTDrHUPizi1HKT1qIaR4oTqLOSKyK5jRz_S89m9S3Hn4E_Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 655FD700065; Tue, 19 Aug 2025 09:00:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1755619830; c=relaxed/simple;
+	bh=CzEPHfYW8kpRzUwS9bh8iZn//FOUhYLotYEGJ2i4AGY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FKExyx90r47kfuqIPCdq8VlQ3ZhU+okiE38U4RUXsnjYMVKwoqRSNFQcHCUGsi+OWSql71o4J5PLA1F4akOMVSzE9wIuZ0SJFXW8/+S8BZ/7tqJMbVBAZlUPdpOxFGY9NnTbTWMvbrD1ITOJaKoL/oZv7nHyb/VNyHXAxn3YdXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=myYiL79O; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24457f3edd4so39873135ad.0;
+        Tue, 19 Aug 2025 09:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755619828; x=1756224628; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y0emXj+oCljrGpKfiPP28TOq/ybIbNfhACDhmudQCAE=;
+        b=myYiL79OWEi3cfbUYr/8pVWCggAaeIAqWsbbV4MSdVsbn8UDYCtdpqCrLhOEy/nElI
+         6uVQQqtdSPe+Ubd5adFCSLMR4IPQEFSiTGo1UoHRAhiaNM2xWX29rrQNAQ3hAdXIH05O
+         IYNbjEX1e96oM2+Mov8+Brj3INW1D2JMjTsmpLzE3ih50YIEjXITBMOEPT5DoohKknzo
+         M+4RHBjEU9oPvwk9Aw0KPaDiX+j8yBdMdyk8kPXpFrHWNIF4RbXgjyRbYD87MKSvWV+M
+         BIbd2kky0vnZRgQk9xyYJwGsKYJ9I1zQhW6pSzR8rgZBeNjODfJ8W7dSc1+LP38mxc8Z
+         u0vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755619828; x=1756224628;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y0emXj+oCljrGpKfiPP28TOq/ybIbNfhACDhmudQCAE=;
+        b=CZE78qelJHWFZGj+ana+WB9zjo1e+wCYsk9y8HijOo9bXavo5Y/8nq7d9N9TMBpr6b
+         QU+SOtrxaGqlqAZhxdakKVEHeOxXULIYtXuhg2UAoJvUl9yVcT0SCBBghVXkwmrKDCdY
+         QaBsD+kr1zX9hk7KAIaP85u/ZOXngMdwXecQ+kcpi9yOQ7WC8Qxq5NJYb6weYiccHfws
+         8W3DeccUHjiVBdo0Fr/aaxQzIuVFGAKUZFsePniO/S1uNXcINQChOTU7g9WaPmaUEKcR
+         RPOpR0ivOzMivxOWUGzeUPLxFFxMhTvzs6jwSP6WJbzEWXJglY4vvfEq8ebULp96H2ZV
+         zCZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUijeMeJRGgJCBObGZqCTHLL+PydldPyUgStSLCx23r/t6v1TLz63WS/nqpMKW6NscQkz2A3j+eje94@vger.kernel.org, AJvYcCUocsDHjon5snWA23F/Epdzgxi2P8Mn+a1+2//CC6PBlSq8+br6tHma5BG/HHXgMmr5VCCGObAoktk+uw==@vger.kernel.org, AJvYcCVhqoI2YOaOwpOdhkN2dPyKZZhRhCP8osc402C88G0xBlruXUcQCFIgCurqMPE2M/1l+5QeukHVo8Ztrf3n@vger.kernel.org, AJvYcCWhzT4SWzGrlGqDhHzWdgbWOou8nYExfBfj+X6winLPyqmCkp4ZPLF9WDHomQK0PEWrzymQLvRQ3jqU@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ10VLU9Jox8T/GzCj3giSUYty0LTPu+/MAWEq2OeNLaDXsEzu
+	OlWrEfFJvIRwS2u1oCBqJ0eRpW1Q5ylOAg/SFt1ZEHQU1+4BjUXgiPx3
+X-Gm-Gg: ASbGnctvu1btDm0ZvMBgdy1V6kBmk4zg00rcmHeLnf58WwNN3Ee0wPWf/al0Nk6/fTv
+	zk2+FfuBfsyDl1HNiP7EILHLS0wUYsZsrhFSiv2yKOfnASt8P0AjIPi5sDyzgYkQO5GX5EqXVcs
+	Vr3/6jroOJfn0y2TrBXOuGf7eFmG96IgqZt14pnJ7UmIdM0tYFq6b+3p9gC3ClYXKLszEqKO2jE
+	mPi45DQGk/7GmEATNAGBH841q947REV5qe4GW2fhy9osICm8Zm84IYUZAoJwOqgBTJYcDqp5Xmv
+	HZ4z1Igs3mobJx6tIfCUejHwO5gxWZY7wAipakKU3dqhfho0pHZqOENLH2GjVpG8dkgqCriKIhg
+	G+k0HI93bphRDMQLxJQphimCRmot8jOrirlFXg0KL6qU3
+X-Google-Smtp-Source: AGHT+IGzaTQxZ+DF/IULZGqoiRjTkZx1hCJiOj5vHSZz9L36d0wwSQgSCuZ4I9pfGxIAUuxXmKeS/A==
+X-Received: by 2002:a17:903:3848:b0:240:968f:4d64 with SMTP id d9443c01a7336-245e0465d7cmr44677755ad.11.1755619828148;
+        Tue, 19 Aug 2025 09:10:28 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([42.116.199.205])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed549261sm953595ad.168.2025.08.19.09.10.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 09:10:27 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: robh@kernel.org
+Cc: lee@kernel.org,
+	pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	krzysztof.kozlowski@linaro.org
+Subject: Re: [PATCH v13 RESEND 1/4] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+Date: Tue, 19 Aug 2025 23:10:20 +0700
+Message-Id: <20250819161020.230107-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <175548430728.3642063.6873272310272616172.robh@kernel.org>
+References: <175548430728.3642063.6873272310272616172.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AXipOkXRca9w
-Date: Tue, 19 Aug 2025 14:59:34 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Lee Jones" <lee@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "Pavel Machek" <pavel@kernel.org>,
- "Javier Carrasco" <javier.carrasco.cruz@gmail.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- "Kees Cook" <kees@kernel.org>, "Anish Kumar" <yesanishhere@gmail.com>,
- "Mukesh Ojha" <quic_mojha@quicinc.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Dmitry Rokosov" <ddrokosov@salutedevices.com>, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <e9252384-a55c-4a91-9c61-06e05a0b2ce4@app.fastmail.com>
-In-Reply-To: <20250819121907.GA7508@google.com>
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-11-arnd@kernel.org> <20250819121907.GA7508@google.com>
-Subject: Re: [PATCH 10/21] leds: gpio: make legacy gpiolib interface optional
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 19, 2025, at 14:19, Lee Jones wrote:
-> On Fri, 08 Aug 2025, Arnd Bergmann wrote:
->>  {
->>  	struct gpio_desc *gpiod;
->> +#ifdef CONFIG_GPIOLIB_LEGACY
->>  	int ret;
->> +#endif
->
-> Isn't there another way to do his that doesn't entail sprinkling #ifery
-> around C-files?
+On Sun, 17 Aug 2025, Rob Herring (Arm) wrote:
+
+> On Mon, 18 Aug 2025 08:26:51 +0700, Nam Tran wrote:
+> > The LP5812 is a 4x3 RGB LED driver with an autonomous animation
+> > engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
+> > or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
+> > dimming, including exponential PWM for smooth brightness control.
+> > 
+> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > ---
+> >  .../devicetree/bindings/leds/ti,lp5812.yaml   | 229 ++++++++++++++++++
+> >  MAINTAINERS                                   |   6 +
+> >  2 files changed, 235 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> > 
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> 
+> 
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250818012654.143058-2-trannamatk@gmail.com
 >
 
-An alternativew would be to duplicate the driver and have
-one modern variant and an additional legacy variant that
-is only used on the few remaining platforms that select CONFIG_GPIOLIB_LEGACY and define platform data. See below
-for the list of files that reference struct gpio_led.
+I do not see any errors/warnings here.
 
-There are already patches to convert some of those to
-software nodes, and a lot of the others can probably be
-removed, in particular the orion5x ones.
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
 
-The leds-gpio driver with just the legacy interfaces left
-would be a really small driver, and removing those bits from
-the normal one would make that a bit simpler as well, but
-there would be some amount of duplication.
+I followed the guideline and ran make dt_binding_check with the latest
+dt-schema installed (pip3 install dtschema --upgrade). I don’t see any
+errors or warnings for my ti,lp5812.yaml schema.
 
-     Arnd
+When I unset DT_SCHEMA_FILES and run the full check against all examples,
+I do get errors/warnings - but they come from other existing schemas, not
+from my patch, e.g.:
 
-$ git grep -wl struct.gpio_led
-arch/arm/mach-omap1/board-ams-delta.c
-arch/arm/mach-omap1/board-osk.c
-arch/arm/mach-orion5x/board-d2net.c
-arch/arm/mach-orion5x/dns323-setup.c
-arch/arm/mach-orion5x/mv2120-setup.c
-arch/arm/mach-orion5x/net2big-setup.c
-arch/arm/mach-orion5x/ts409-setup.c
-arch/arm/mach-s3c/mach-crag6410.c
-arch/arm/mach-sa1100/assabet.c
-arch/mips/alchemy/board-gpr.c
-arch/mips/alchemy/board-mtx1.c
-arch/mips/bcm47xx/leds.c
-arch/mips/include/asm/mach-bcm63xx/board_bcm963xx.h
-arch/mips/loongson32/ls1b/board.c
-arch/mips/txx9/generic/setup.c
-arch/mips/txx9/rbtx4927/setup.c
-arch/powerpc/platforms/44x/warp.c
-arch/sh/boards/mach-rsk/devices-rsk7203.c
-drivers/leds/leds-gpio.c
-drivers/leds/simatic/simatic-ipc-leds-gpio-core.c
-drivers/net/wireless/ath/ath10k/core.h
-drivers/net/wireless/ath/ath10k/leds.c
-drivers/platform/x86/barco-p50-gpio.c
-drivers/platform/x86/intel/atomisp2/led.c
-drivers/platform/x86/meraki-mx100.c
-drivers/platform/x86/pcengines-apuv2.c
-drivers/platform/x86/sel3350-platform.c
+Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml: properties:ti,rx-gain-reduction-db: '$ref' should not be valid under {'const': '$ref'}
+Documentation/devicetree/bindings/regulator/infineon,ir38060.yaml: maintainers:0: 'Not Me.' does not match '@'
+Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml: properties:audio-gain-db: '$ref' should not be valid under {'const': '$ref'}
+Documentation/devicetree/bindings/phy/fsl,imx8mq-usb-phy.yaml: properties:fsl,phy-pcs-tx-deemph-3p5db-attenuation-db: '$ref' should not be valid under {'const': '$ref'}
+
+My schema (ti,lp5812.yaml) passes cleanly without any issues.
+
+Best regards,
+Nam Tran
 
