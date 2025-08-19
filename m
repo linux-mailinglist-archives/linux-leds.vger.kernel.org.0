@@ -1,141 +1,155 @@
-Return-Path: <linux-leds+bounces-5241-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5243-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF687B2BF92
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 12:59:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B315B2C380
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 14:29:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B22B684395
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 10:59:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A121668077E
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 12:23:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0161322DD8;
-	Tue, 19 Aug 2025 10:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46E6833CE84;
+	Tue, 19 Aug 2025 12:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFAUQzIO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K5bsTs5N"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798E431E10A;
-	Tue, 19 Aug 2025 10:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A46333CE80;
+	Tue, 19 Aug 2025 12:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755601144; cv=none; b=TdsLKasFmGdjmw7LVo99E98uhU9IEmR/IOB4oAq/OrT0EmvZ/DWl72Rr7xBczjwvKonAu2shSi8gwY9pQeIEA6GzkFChUKz0CnGmCRvp/8oyHqpoOQ+8lQHmrQ8AQ2p1X8kCWI4a/ZEBuJ45q+lVlo+5N4SzWlkPuVO0/zQhEOE=
+	t=1755605954; cv=none; b=Ex65xhFkNerDjwHhrIUyK+oOcDkJtWE+fEAGXFbLTAEmUjVtGYxh2PnkeovkUhiOgbaDk9Iv0K0m1CM4+3VyuBx+kGzpAnHs96QDjWZWvnaBqpHyBGdpY7QmxDvA4Bv8ErXAIz2iWbQ7kbqccnlyNf99GO/kEAP0BFP/LC/FTOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755601144; c=relaxed/simple;
-	bh=4IkvT70nHT7DJuTLaCAnhM8pgdfF6Jlm4i+ijqif6h0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jAxj8QRK2swVaxii+Xx6VHXmHyRsKltnmjGhewXi1jeNqVJ8MFZ4cwWoL49tMr/c39KdxuguWx1qnXRJ1BVjocYct821YXKC8WWinEXXoxW43/n0X/Msjctqx3SbG5ceG+heA08sFDxbg42PPmffDHE3tfc2pAmypS4n3S9mFMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KFAUQzIO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D9CCC19424;
-	Tue, 19 Aug 2025 10:59:04 +0000 (UTC)
+	s=arc-20240116; t=1755605954; c=relaxed/simple;
+	bh=ZnRUmRVVGkmS7UY8myey8qrazbdPpSvr6DsYsxMhx/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=twmEd604pNci6A3DONvG1M6AbxUis9Du6V0z8qphPiGKjk5jYGA+IraNzREFxTivoQGyX+9696nctC2RBSu1sf1euUoZCfPQSXVlz7XFb/qV+r8jLTNfa2USk0p0h1Sw0zUKB6wTFNY1ag9AlQD06iNE7vJ/5mSNRv22q6Ga6QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K5bsTs5N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59600C4CEF1;
+	Tue, 19 Aug 2025 12:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755601144;
-	bh=4IkvT70nHT7DJuTLaCAnhM8pgdfF6Jlm4i+ijqif6h0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KFAUQzIOR+leIQKJcUy4B90FB3ChcuAZoS9nHClOE2t5JBv9KB+3hppHNdF0WT/Ml
-	 U3LaBp8IGvf9rY2B3QAK4OndIR46wiAlmbKbl0y1Lu/r+e2JuzJUSaZ6lbli2OKv4o
-	 6uatutfD8cvIkqR7IF76J5pjOWX+O1hgCwbGzpZPn9EeA5zWj13iWfXEnu9GbEVVhV
-	 zYAg9mi5ImgFKUcCYraLTy1r5Lc8p8Og3LutjhdRF41rUKlhNXSIOl5JQgamzHZ8dK
-	 7mEt6aWINcNeiWTnwumktE3+V5cdZUjoLS5J7k1LOhV2MPhHsBbZ6LO41KXHMZA7Cu
-	 pvexCzJPL7ZuA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2488BCA0EFB;
-	Tue, 19 Aug 2025 10:59:04 +0000 (UTC)
-From: Maud Spierings via B4 Relay <devnull+maudspierings.gocontroll.com@kernel.org>
-Date: Tue, 19 Aug 2025 12:59:02 +0200
-Subject: [PATCH v2 4/4] arm64: dts: freescale:
- moduline-display-av123z7m-n17: add backlight
+	s=k20201202; t=1755605953;
+	bh=ZnRUmRVVGkmS7UY8myey8qrazbdPpSvr6DsYsxMhx/8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K5bsTs5N/8lF6M/ljp6RvKs5cgFjxa/J2Spqi40KYATAreNu8+LNyK7fqu19vxXjS
+	 AJgfNrJURUcVXaLUjetFrgfXHQJKC1Mc+J1n8ORbJ/AmywI5A8kBZg75aEwV/Xbogc
+	 ViDFsFY/pbYrw8cSbTz4h5Yha/uJGWJ0ZZH+c4jgphUd9Jua+NFbWqwl9xVAYh1C6P
+	 d5qn8udyL+SioNcIoRXIXG/H4lZl+k2GRIrxMzFE3xFPwF16+P4YgtHnZp9pbz6pjT
+	 GCCtX0YJJbYrDYK8dQ3758q08B1YGDlBzd4K/l1WXjSanDmD/tl6gDBGLZbYaXtcvK
+	 4TM3oI1/oSwQg==
+Date: Tue, 19 Aug 2025 13:19:07 +0100
+From: Lee Jones <lee@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-gpio@vger.kernel.org, Pavel Machek <pavel@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Kees Cook <kees@kernel.org>, Anish Kumar <yesanishhere@gmail.com>,
+	Mukesh Ojha <quic_mojha@quicinc.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Rokosov <ddrokosov@salutedevices.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/21] leds: gpio: make legacy gpiolib interface optional
+Message-ID: <20250819121907.GA7508@google.com>
+References: <20250808151822.536879-1-arnd@kernel.org>
+ <20250808151822.536879-11-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250819-max25014-v2-4-5fd7aeb141ea@gocontroll.com>
-References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
-In-Reply-To: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, 
- Maud Spierings <maudspierings@gocontroll.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755601142; l=1572;
- i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
- bh=xr006rWCG+GoAENJGxVDQaJVtVRYuMkX4hmKlW17MZE=;
- b=o3s7pl43uFDuSAYIBTVfU+HDdqpXl0+vhB17TTwnR9M7Nz9N2n3Eh1HwIQ6KGejAGhPTdZPOp
- OUEO0DwIC5JD8ewHxNjwo1HsnRgNLeaHl673uuPCPkyfALCOXeZv5YC
-X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
- pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
-X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
- with auth_id=341
-X-Original-From: Maud Spierings <maudspierings@gocontroll.com>
-Reply-To: maudspierings@gocontroll.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250808151822.536879-11-arnd@kernel.org>
 
-From: Maud Spierings <maudspierings@gocontroll.com>
+On Fri, 08 Aug 2025, Arnd Bergmann wrote:
 
-Add the missing backlight.
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> There are still a handful of ancient mips/armv5/sh boards that use the
+> gpio_led:gpio member to pass an old-style gpio number, but all modern
+> users have been converted to gpio descriptors.
+> 
+> Make the code that deals with this optional so the legacy interfaces
+> can be left out for all normal builds.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/leds/leds-gpio.c | 8 ++++++--
+>  include/linux/leds.h     | 2 ++
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+> index a3428b22de3a..e43accfa78e9 100644
+> --- a/drivers/leds/leds-gpio.c
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -212,7 +212,9 @@ static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>  					    const struct gpio_led *template)
+>  {
+>  	struct gpio_desc *gpiod;
+> +#ifdef CONFIG_GPIOLIB_LEGACY
+>  	int ret;
+> +#endif
 
-Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
----
- ...p-tx8p-ml81-moduline-display-106-av123z7m-n17.dtso | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+Isn't there another way to do his that doesn't entail sprinkling #ifery
+around C-files?
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtso b/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtso
-index 3eb665ce9d5d2a1c742ffb4feca046e406e29956..9124cd87cce54a5aa7b7ad674f70f814d1dc3515 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtso
-+++ b/arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtso
-@@ -16,6 +16,7 @@
- 
- 	panel {
- 		compatible = "boe,av123z7m-n17";
-+		backlight = <&backlight>;
- 		enable-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
- 		pinctrl-0 = <&pinctrl_panel>;
- 		pinctrl-names = "default";
-@@ -91,10 +92,26 @@ lvds1_out: endpoint {
- 		};
- 	};
- 
--	/* max25014 @ 0x6f */
-+	backlight: backlight@6f {
-+		reg = <0x6f>;
-+		compatible = "maxim,max25014";
-+		default-brightness = <50>;
-+		enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		maxim,iset = <7>;
-+		maxim,strings = <1 1 1 1>;
-+	};
- };
- 
- &iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX8MP_IOMUXC_GPIO1_IO04__GPIO1_IO04
-+				(MX8MP_PULL_UP | MX8MP_PULL_ENABLE)
-+		>;
-+	};
-+
- 	pinctrl_lvds_bridge: lvdsbridgegrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_SAI1_TXD2__GPIO4_IO14
+>  	/*
+>  	 * This means the LED does not come from the device tree
+> @@ -228,6 +230,7 @@ static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>  		return gpiod;
+>  	}
+>  
+> +#ifdef CONFIG_GPIOLIB_LEGACY
+>  	/*
+>  	 * This is the legacy code path for platform code that
+>  	 * still uses GPIO numbers. Ultimately we would like to get
+> @@ -244,6 +247,7 @@ static struct gpio_desc *gpio_led_get_gpiod(struct device *dev, int idx,
+>  		return ERR_PTR(ret);
+>  
+>  	gpiod = gpio_to_desc(template->gpio);
+> +#endif
+>  	if (!gpiod)
+>  		return ERR_PTR(-EINVAL);
+>  
+> @@ -276,8 +280,8 @@ static int gpio_led_probe(struct platform_device *pdev)
+>  				led_dat->gpiod =
+>  					gpio_led_get_gpiod(dev, i, template);
+>  			if (IS_ERR(led_dat->gpiod)) {
+> -				dev_info(dev, "Skipping unavailable LED gpio %d (%s)\n",
+> -					 template->gpio, template->name);
+> +				dev_info(dev, "Skipping unavailable LED gpio %s\n",
+> +					 template->name);
+>  				continue;
+>  			}
+>  
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index b16b803cc1ac..034643f40152 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -676,7 +676,9 @@ typedef int (*gpio_blink_set_t)(struct gpio_desc *desc, int state,
+>  struct gpio_led {
+>  	const char *name;
+>  	const char *default_trigger;
+> +#ifdef CONFIG_GPIOLIB_LEGACY
+>  	unsigned 	gpio;
+> +#endif
+>  	unsigned	active_low : 1;
+>  	unsigned	retain_state_suspended : 1;
+>  	unsigned	panic_indicator : 1;
+> -- 
+> 2.39.5
+> 
 
 -- 
-2.50.1
-
-
+Lee Jones [李琼斯]
 
