@@ -1,106 +1,107 @@
-Return-Path: <linux-leds+bounces-5244-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5245-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6E4B2C3B0
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 14:33:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D56B2C3A6
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 14:33:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 586C51C21F5C
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 12:29:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E7467B7019
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 12:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2414C3043A4;
-	Tue, 19 Aug 2025 12:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB7D334719;
+	Tue, 19 Aug 2025 12:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLR+ngqj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUV1pM+P"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6C230505D;
-	Tue, 19 Aug 2025 12:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4A832C300;
+	Tue, 19 Aug 2025 12:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755606521; cv=none; b=kuBl8We4WDQhQIK7I3+cCPj3GDDPhLz5o75RWEUR1/IlJ4JeaJovj5olhnN9S36tykDA4wW05QIERzsSYwmIhzbbDvFAd+OK7g9fPNSQGggrx+HWzPrNF99eEH/ScFFkPqkHuCkctQzCs0HPZDn+MzLqEXbpvvv/o8XX6PmthsM=
+	t=1755606750; cv=none; b=nwWYzairyDEpzpQ0G/GJbR2IhBfkHM0dO8Ua6kUE+hW+L1edmh8i1mNnyztCGyL74Uq2+fHcqO+sPNg+h0fARjrCfTuwEI9sk4bZ0kuND60/tHwUAMcDMZdfx+S7m5dyogbNh7UsIsE4ziatEKlMYQXl1TGy4RZW2lWe7TclSOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755606521; c=relaxed/simple;
-	bh=73NLA3Q5TxwI++kTf2HzDKfU8xX1fFXua00XcnHgTMw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FFyZq1iZahYpO5RV/KyA2tu56K7VG9lQoTs0xMQBdNt60t1XBOPHBPHi0rR+XQxDF/GRSisYqLI3hNDIMLKKvwan8YYqGN9f1wNBk6ndyripSiq4vl0cl4I5p790gehJKBUjylmzmVUUM3ObFnau8lWpmvRZI9C9QV30lQ4mjks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLR+ngqj; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55ce52b01caso5998959e87.3;
-        Tue, 19 Aug 2025 05:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755606516; x=1756211316; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=73NLA3Q5TxwI++kTf2HzDKfU8xX1fFXua00XcnHgTMw=;
-        b=kLR+ngqjQBGGX1PH7AvR8L5DwCsiYw5sKvOqlPPr65fSfTBUr7WIRrNvF+NyJp7U+y
-         lqibKPKYMgUJS4xOYDSkjFWSet5fB1uOv0RVZOMuWAfCKYnIdWf3djriL72it3gofQoC
-         MSy4Ud2SR8hDDIIpSzYxM1FhZ95TrLZZKcfHC3WcBUbl5j1QbhZXn4b6kv/UBf6Uaw+w
-         TEUbbWPifzV48XU2OBkwNZ3kipU1p5wpWyZDoCu7aPp7SBvNVxJvvHzCEgfmDUeLPFDP
-         GdYOeOYhdliaMUSS1lTm46Hgq/n8QUtK5mGDQ3qaS88DWyIP23VSgDSeRAytz+OQuuSH
-         woXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755606516; x=1756211316;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=73NLA3Q5TxwI++kTf2HzDKfU8xX1fFXua00XcnHgTMw=;
-        b=ivenKlRVOP4BgpY4F3AeALDtHMPTUXZNZ9Xy1zFgGwz403aDSXqtlVs223hsVN7gYj
-         5lF3xhIVhkEN62GaKfCbamUkvLTsTZetqTFhNiXkmvIleFZjEcSJo0zVudZfP8X8ce3p
-         j+mmqhq2vTzM9tCs3LXl+p+OkXnGa94OTOXeo16M8oXHD7BsJFK6d+LL9lmGb4/XnwoK
-         yoRTakamxz/g8xXtqtRccFe9gUoku7c5lnLilN75jWpWVWAjHWmdwL02CemQty+/rz3L
-         AdOhaeZDVgxBRCCKclSWguXBOc10E29dZ+gEiuOV7SpvblU8YzDGSbgimdfSn0HjPZzP
-         lMYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHA5g+waw/P0XFEulbP7gt2E3W4bzGOYe/+nTsihvdPv+0wk89NNyePSrBUM4uFY6PGWHknncOJarYR5A=@vger.kernel.org, AJvYcCUoOnXjucBUS04ciW9+SaMEvskD/wLt+B8OAtM043xvpl2kfTijS3HZO0En8rOCdAk38IUu+lS37fUZ@vger.kernel.org, AJvYcCVEUbCL17NY5qvSpxX1z4lyHHnzqmkNG2mz2KFkuzJDlW3UcsQB2wG9VAvy1Rl32PrYSnWw7AcdcSVhiDih@vger.kernel.org, AJvYcCXZ8bqS81wKj/sj9XT1Cl19P0W1r1D9vg0CKPKH2LGYMO6ZF2pEPOKBge9eD4Xw2QXMpT4j33aDNzEsqA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDC9AgP+3NRJXZO27Qst12IfmAE5OStELG+fJzFqHdsAUhzOV4
-	gh9HsPLyfAOkU3xq439McW1k5OkHLDfQLjoZ+t3DtAxXQqX6ZStsq+gfay7HEvebnieNG47KgLi
-	Q11atqaH4kH/g06eIJKcuE37niLpzjKs=
-X-Gm-Gg: ASbGncsqkphR6RMmUC8PxuS9nPT4KLpWP25Kf7ZpEfL5p8kVgTu2GKNgVkU/Jw+Y67k
-	MK8P/UFrOg+DJySqSpS0f7WgZB8khu0plZT55ZGLzZLfz8COZhCwuC1EhiHt0O5tf97tv2C8s+k
-	e3n2Y9Rr5UrY7u9vsjMtz0tnwaEltSzROoMW9CUo+NIRDR6RskDit2DB+aLVF09Ne1+Zn4YMiNg
-	4y4SokV28olp5ZTYCPOIMPfzRGa3CkBdtuCAIY=
-X-Google-Smtp-Source: AGHT+IF3FdZF8lxL8RpNSUh6zxATY4SIt92cNJtcaia124EXxHOqkJg6/HCXrud0DRgssmpwJMmfWsjfkko12V6DytQ=
-X-Received: by 2002:a05:6512:1349:b0:55b:8e2e:8cc7 with SMTP id
- 2adb3069b0e04-55e008538e5mr661274e87.42.1755606516081; Tue, 19 Aug 2025
- 05:28:36 -0700 (PDT)
+	s=arc-20240116; t=1755606750; c=relaxed/simple;
+	bh=wjs09Gdigf2R0IE1uLQxql5R4PimNeWNLQzbngasLiU=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=SWn33NghYdyS1llPyrEkO94Jo3R3HBVdbzm24cwJH0EYM56vhe8B1SPWli7H40a8hvmeF1BVP4zUeDSaxLaJwoqzNMLmiNVUKvHWQHS0ZV1BDI4YYl9OmesYzy5dUTD3l/nr2mfcYpw/B+GbpXVwH8G/0eRNicapCgjz2ihx2rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUV1pM+P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9002C116C6;
+	Tue, 19 Aug 2025 12:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755606750;
+	bh=wjs09Gdigf2R0IE1uLQxql5R4PimNeWNLQzbngasLiU=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=KUV1pM+PSUrbgiuC2qfRrjBmoh/K7SwKUZPEG9Sx43lERH2mIAhJXE43x+YxV+SGd
+	 BdtNUMqKKJlINMh6dccC0ScwziqT9emXyV3D+9wnX46JUt0c61L45wM8zOfFf0CUsy
+	 97atbCKu7MfQ/4A3q50GqnxaNp6SbtNu00FjCioMQHjnpu///w0Wgu48LG7iKegR3U
+	 RtPibAw8lDKnpEhhsGpLfj9WdTX0+K7FHZIU0mYidnxYnEIqCUDkH/n/cMTfLHPWT7
+	 IhwS1l80k7T0xpDkP4EHbmRjQGlOAcqofRTPzapIJnpKAwBV6uY2JPtc91+jz2rP06
+	 rz76yHEIf9sUQ==
+Date: Tue, 19 Aug 2025 07:32:29 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com> <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: imx@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+ Shawn Guo <shawnguo@kernel.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Daniel Thompson <danielt@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org, 
+ linux-leds@vger.kernel.org, Helge Deller <deller@gmx.de>
+To: Maud Spierings <maudspierings@gocontroll.com>
 In-Reply-To: <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 19 Aug 2025 09:28:24 -0300
-X-Gm-Features: Ac12FXxqW79wXsLJzEF9Uadzf5uAoXqplbY5O5fWW6-5y6AnA9c00um3MEHlLP8
-Message-ID: <CAOMZO5D6m3V2ZpFOtabrkvf6+SGE+3-xpAE=PZo+Ak=49ozyLg@mail.gmail.com>
+References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
+ <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
+Message-Id: <175560674579.26233.12902824583404207699.robh@kernel.org>
 Subject: Re: [PATCH v2 1/4] dt-bindings: backlight: Add max25014 bindings
-To: maudspierings@gocontroll.com
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, dri-devel@lists.freedesktop.org, 
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 19, 2025 at 7:59=E2=80=AFAM Maud Spierings via B4 Relay
-<devnull+maudspierings.gocontroll.com@kernel.org> wrote:
->
-> From: Maud Spierings <maudspierings@gocontroll.com>
->
+
+On Tue, 19 Aug 2025 12:58:59 +0200, Maud Spierings wrote:
 > The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
 > with intgrated boost controller.
+> 
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+>  .../bindings/leds/backlight/maxim,max25014.yaml    | 79 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 84 insertions(+)
+> 
 
-Typo: integrated
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
