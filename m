@@ -1,165 +1,126 @@
-Return-Path: <linux-leds+bounces-5248-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5249-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B54B2C92D
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 18:11:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FF5B2C9CB
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 18:34:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7EB91C278C9
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 16:10:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE046A02D79
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 16:30:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0192BE7BB;
-	Tue, 19 Aug 2025 16:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 650FA2580F3;
+	Tue, 19 Aug 2025 16:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="myYiL79O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/AHUDJ7"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1268228031D;
-	Tue, 19 Aug 2025 16:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63DE2566E2;
+	Tue, 19 Aug 2025 16:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755619830; cv=none; b=YCKH7m4ngUddg9z+PSA4YiHzOoB+CR5ordFiFQRcAUejoSIBLIs2v1WKRn3NyXZBoRilcoSfyiVyyGK+6+RhGsi1a5/cwqZ4ePz2dq6kqdWTtbWTMh5JovsXPNaktkPT2eNVtyT0qbMfS8RDkiLuQiW4u45ta7ZNEnaZDDWonY4=
+	t=1755620995; cv=none; b=D4P/VTb/ddyBQVszvLINm6TExK43cA4o24jH3lqyeVAa6PQChWmgwHyqPUtzndqTvSYWL8vtcnpsE1iqPPYHBe0az6fMiCa74ZIKFk0z8icIlBsQyXWpyhpNXmJ90bQJjxyJiO7dorGdZsr6iUKT06HUl3ySDOnviSt6Jdqzf0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755619830; c=relaxed/simple;
-	bh=CzEPHfYW8kpRzUwS9bh8iZn//FOUhYLotYEGJ2i4AGY=;
+	s=arc-20240116; t=1755620995; c=relaxed/simple;
+	bh=LEh5+EL4Nzc6sLyJ3DdS8xRDmSSNUY1AsJkhlelX8cQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FKExyx90r47kfuqIPCdq8VlQ3ZhU+okiE38U4RUXsnjYMVKwoqRSNFQcHCUGsi+OWSql71o4J5PLA1F4akOMVSzE9wIuZ0SJFXW8/+S8BZ/7tqJMbVBAZlUPdpOxFGY9NnTbTWMvbrD1ITOJaKoL/oZv7nHyb/VNyHXAxn3YdXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=myYiL79O; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=H4SRqoTSLKhleV+eQDK/zv2/wOM7c2UcfG2doPX7nZYSFT+jBqSCaXyaNqJNKWgP66V8HeRvD2BP3IaAFekkSkrBqvuRN/Eq06/hxDYgq9fo3vgo94nN9zbSOyfZXfBbhpLzhNDXfRlN25R4C1eckMttskCPE9zkYhze/BozStE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/AHUDJ7; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24457f3edd4so39873135ad.0;
-        Tue, 19 Aug 2025 09:10:28 -0700 (PDT)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-244581d9866so45465285ad.2;
+        Tue, 19 Aug 2025 09:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755619828; x=1756224628; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755620993; x=1756225793; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y0emXj+oCljrGpKfiPP28TOq/ybIbNfhACDhmudQCAE=;
-        b=myYiL79OWEi3cfbUYr/8pVWCggAaeIAqWsbbV4MSdVsbn8UDYCtdpqCrLhOEy/nElI
-         6uVQQqtdSPe+Ubd5adFCSLMR4IPQEFSiTGo1UoHRAhiaNM2xWX29rrQNAQ3hAdXIH05O
-         IYNbjEX1e96oM2+Mov8+Brj3INW1D2JMjTsmpLzE3ih50YIEjXITBMOEPT5DoohKknzo
-         M+4RHBjEU9oPvwk9Aw0KPaDiX+j8yBdMdyk8kPXpFrHWNIF4RbXgjyRbYD87MKSvWV+M
-         BIbd2kky0vnZRgQk9xyYJwGsKYJ9I1zQhW6pSzR8rgZBeNjODfJ8W7dSc1+LP38mxc8Z
-         u0vw==
+        bh=FqqImRksTG1fesPJZdycheMXzhTsoEqoZjDJ0rDf6ZE=;
+        b=B/AHUDJ72oERfvIIhzLNgPTzCHA24Hp9yBhyDPUJaXR15w15qPxtBxlEp1ziVdDpCj
+         WJ8ab74Taiwt8sscfp8JxENyNtbDCUqB1k6/vxMwzaJVryAWezrpbClqSus1kmamXpkK
+         PdHds/A9x8M182xlujuLekusMAZzUSnLKkGcwGoLxLfSNB2SFe7lRP8ak0h9dw3NXj5A
+         uyeNsEL9LZK3z0oryQ02DHV7uclmo+jPuYijqfqOsiSq8OwloyXM5JGWPFXGlIB7Cmxt
+         xuhjrocFTyE4jj8Er0/+/xBNrhmKD+AIUsjA+lb1klAgwzuVYyno5AxeJhhnpyFhx2fU
+         RCyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755619828; x=1756224628;
+        d=1e100.net; s=20230601; t=1755620993; x=1756225793;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y0emXj+oCljrGpKfiPP28TOq/ybIbNfhACDhmudQCAE=;
-        b=CZE78qelJHWFZGj+ana+WB9zjo1e+wCYsk9y8HijOo9bXavo5Y/8nq7d9N9TMBpr6b
-         QU+SOtrxaGqlqAZhxdakKVEHeOxXULIYtXuhg2UAoJvUl9yVcT0SCBBghVXkwmrKDCdY
-         QaBsD+kr1zX9hk7KAIaP85u/ZOXngMdwXecQ+kcpi9yOQ7WC8Qxq5NJYb6weYiccHfws
-         8W3DeccUHjiVBdo0Fr/aaxQzIuVFGAKUZFsePniO/S1uNXcINQChOTU7g9WaPmaUEKcR
-         RPOpR0ivOzMivxOWUGzeUPLxFFxMhTvzs6jwSP6WJbzEWXJglY4vvfEq8ebULp96H2ZV
-         zCZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUijeMeJRGgJCBObGZqCTHLL+PydldPyUgStSLCx23r/t6v1TLz63WS/nqpMKW6NscQkz2A3j+eje94@vger.kernel.org, AJvYcCUocsDHjon5snWA23F/Epdzgxi2P8Mn+a1+2//CC6PBlSq8+br6tHma5BG/HHXgMmr5VCCGObAoktk+uw==@vger.kernel.org, AJvYcCVhqoI2YOaOwpOdhkN2dPyKZZhRhCP8osc402C88G0xBlruXUcQCFIgCurqMPE2M/1l+5QeukHVo8Ztrf3n@vger.kernel.org, AJvYcCWhzT4SWzGrlGqDhHzWdgbWOou8nYExfBfj+X6winLPyqmCkp4ZPLF9WDHomQK0PEWrzymQLvRQ3jqU@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJ10VLU9Jox8T/GzCj3giSUYty0LTPu+/MAWEq2OeNLaDXsEzu
-	OlWrEfFJvIRwS2u1oCBqJ0eRpW1Q5ylOAg/SFt1ZEHQU1+4BjUXgiPx3
-X-Gm-Gg: ASbGnctvu1btDm0ZvMBgdy1V6kBmk4zg00rcmHeLnf58WwNN3Ee0wPWf/al0Nk6/fTv
-	zk2+FfuBfsyDl1HNiP7EILHLS0wUYsZsrhFSiv2yKOfnASt8P0AjIPi5sDyzgYkQO5GX5EqXVcs
-	Vr3/6jroOJfn0y2TrBXOuGf7eFmG96IgqZt14pnJ7UmIdM0tYFq6b+3p9gC3ClYXKLszEqKO2jE
-	mPi45DQGk/7GmEATNAGBH841q947REV5qe4GW2fhy9osICm8Zm84IYUZAoJwOqgBTJYcDqp5Xmv
-	HZ4z1Igs3mobJx6tIfCUejHwO5gxWZY7wAipakKU3dqhfho0pHZqOENLH2GjVpG8dkgqCriKIhg
-	G+k0HI93bphRDMQLxJQphimCRmot8jOrirlFXg0KL6qU3
-X-Google-Smtp-Source: AGHT+IGzaTQxZ+DF/IULZGqoiRjTkZx1hCJiOj5vHSZz9L36d0wwSQgSCuZ4I9pfGxIAUuxXmKeS/A==
-X-Received: by 2002:a17:903:3848:b0:240:968f:4d64 with SMTP id d9443c01a7336-245e0465d7cmr44677755ad.11.1755619828148;
-        Tue, 19 Aug 2025 09:10:28 -0700 (PDT)
+        bh=FqqImRksTG1fesPJZdycheMXzhTsoEqoZjDJ0rDf6ZE=;
+        b=n60P55gPJELH0MpYgIpRZfyvyYiZVTyfgNs0yVXJYwgNcX6xmQEydeQGyieuc7uDo9
+         qSTg2nNJOsVov4hD+CGWxGbwmv75apjvUk2BuiR0TDGG0skBXLs/xVEY6Q13sYwRluBh
+         y66ZvlXpXkhCZ7G5dzsCFtb/d60jGUS/Ttp//hsBFyF8qvtxIkfWAhqLA6BSE+FhQyiv
+         d5PkVlCqHzCjL0jVx4TDtxUzP5uc3E6dUhf+FC2tuZsKGQMcueVujAvO2kO32JGXaZYm
+         SeR81ROASc4XQ+r4i7mnIWN0wPduSjl6F/vzG6euKTi9NJZmlHvnWhHcRAqhoI8DMzQH
+         E0ag==
+X-Forwarded-Encrypted: i=1; AJvYcCUT63QbGSpLtYFyntkyHDP3b1NR8mt888+DwR5MvRuig5YGq/UtNgxmBUd5F1JNA92HnMWZ3h02vaiIliaj@vger.kernel.org, AJvYcCUgTmX0JZ4pUA2qyWn4MoIObwoA/4bO1M9WFswcDPRxj26+vtriXQ+1pDX0NGAtORfZ5FU7hHobGKpN@vger.kernel.org, AJvYcCVUQrUfEpL/mscCpNGnIas9IHybjri3JSBqsvotQAej7iYl5oxTy1Tsvz3rJ2yDVyySTZWidX6IUdEt@vger.kernel.org, AJvYcCVW2kX4sgLNzRxTdugmVF6b0kkAggW8xWWtuaPzgd0FkHIzhzpY+UVBA9EoAeVQjnoPepScEb3USVKBRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzb7/vUjAIAan2KtQH70ZKG1KKx/kwGMUDb8WrPy81Uvx7Asj2g
+	3loW+Q1q0aAAYpN59832UdhZPJjhjyF/S/GsNL6RVpf54joAVJPMPn/m
+X-Gm-Gg: ASbGncujLqjqCiET/egM0r8Yaa6CM6h7BwWvRu5e7z0KNuEHX3Mog84gAbpspynY8CB
+	ARhwjeQTPMU2k779YJIt1FalGx98oQyWw+i8/qzr5AFaGbu99UjVbTJPFKpDdPiBOXNX56KEWmF
+	yFdku0DN6kqLpWQqlKcfosf/da6Z88VN2DTHirDlG/qHNfi5fnam86DYYsW4gBHbHuzacCSS7sh
+	dHERwDR9q3Lg3n1OQgz9sM6rohaneNMYRJ2mhHJgObHzd/RzUM3eAlVkWvcucEwC2xczvE+rs0b
+	3VVp77CTJpLsHAehIZZ+0t9fvJ6ErQpVPxi4aNlr7oqPeAOEwJEcBQS1IQmCqROYY7v7yP7X4EV
+	e4OUQUQtEc4AvcP+wY7A9pJjc9NhH1B2wYZZ/G8y8Lytz
+X-Google-Smtp-Source: AGHT+IEPPrOZ11ZGYWHJ95bgwYbUGRCGS2tjPJuQVjKEv08VeOHkgaomk1LRMWfyup7vOdhXaXf5Mw==
+X-Received: by 2002:a17:903:98c:b0:242:9d61:2b60 with SMTP id d9443c01a7336-245e02a22edmr35767885ad.6.1755620993119;
+        Tue, 19 Aug 2025 09:29:53 -0700 (PDT)
 Received: from DESKTOP-P76LG1N.lan ([42.116.199.205])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed549261sm953595ad.168.2025.08.19.09.10.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed379e92sm1632755ad.65.2025.08.19.09.29.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 09:10:27 -0700 (PDT)
+        Tue, 19 Aug 2025 09:29:52 -0700 (PDT)
 From: Nam Tran <trannamatk@gmail.com>
-To: robh@kernel.org
+To: rdunlap@infradead.org
 Cc: lee@kernel.org,
 	pavel@kernel.org,
-	rdunlap@infradead.org,
+	gregkh@linuxfoundation.org,
 	christophe.jaillet@wanadoo.fr,
 	krzk+dt@kernel.org,
+	robh@kernel.org,
 	conor+dt@kernel.org,
 	corbet@lwn.net,
 	linux-leds@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	krzysztof.kozlowski@linaro.org
-Subject: Re: [PATCH v13 RESEND 1/4] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-Date: Tue, 19 Aug 2025 23:10:20 +0700
-Message-Id: <20250819161020.230107-1-trannamatk@gmail.com>
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 RESEND 3/4] docs: ABI: Document LP5812 LED sysfs interfaces
+Date: Tue, 19 Aug 2025 23:29:45 +0700
+Message-Id: <20250819162945.231085-1-trannamatk@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <175548430728.3642063.6873272310272616172.robh@kernel.org>
-References: <175548430728.3642063.6873272310272616172.robh@kernel.org>
+In-Reply-To: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
+References: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Sun, 17 Aug 2025, Rob Herring (Arm) wrote:
+On Sun, 17 Aug 2025, Randy Dunlap wrote:
 
-> On Mon, 18 Aug 2025 08:26:51 +0700, Nam Tran wrote:
-> > The LP5812 is a 4x3 RGB LED driver with an autonomous animation
-> > engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
-> > or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
-> > dimming, including exponential PWM for smooth brightness control.
-> > 
-> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > ---
-> >  .../devicetree/bindings/leds/ti,lp5812.yaml   | 229 ++++++++++++++++++
-> >  MAINTAINERS                                   |   6 +
-> >  2 files changed, 235 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-> > 
+> > +What:		/sys/class/leds/led_<id>/lod_lsd
+> > +Date:		July 2025
+> > +KernelVersion:	6.17
+> > +Contact:	Nam Tran <trannamatk@gmail.com>
+> > +Description:
+> > +		0 0 mean no lod and lsd fault detected, 1 1 mean lod and lsd fault detected (RO)
 > 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> 
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250818012654.143058-2-trannamatk@gmail.com
->
+> At first the "0 0" and "1 1" confused me (thought it was a typo),
+> but I think what you are showing here is a sysfs file with 2 values, right?
+> That used to be discouraged (or even nacked), although I don't know the
+> current policy on that.
 
-I do not see any errors/warnings here.
+The lod_lsd sysfs file currently reports two values: the first value is the LOD
+(LED open detection) fault status, the first value is the LOD (LED open detection)
+fault status.
 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-
-I followed the guideline and ran make dt_binding_check with the latest
-dt-schema installed (pip3 install dtschema --upgrade). I don’t see any
-errors or warnings for my ti,lp5812.yaml schema.
-
-When I unset DT_SCHEMA_FILES and run the full check against all examples,
-I do get errors/warnings - but they come from other existing schemas, not
-from my patch, e.g.:
-
-Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml: properties:ti,rx-gain-reduction-db: '$ref' should not be valid under {'const': '$ref'}
-Documentation/devicetree/bindings/regulator/infineon,ir38060.yaml: maintainers:0: 'Not Me.' does not match '@'
-Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml: properties:audio-gain-db: '$ref' should not be valid under {'const': '$ref'}
-Documentation/devicetree/bindings/phy/fsl,imx8mq-usb-phy.yaml: properties:fsl,phy-pcs-tx-deemph-3p5db-attenuation-db: '$ref' should not be valid under {'const': '$ref'}
-
-My schema (ti,lp5812.yaml) passes cleanly without any issues.
+I followed this approach to keep the two related fault bits in a single file, but
+I'm open to splitting them into separate sysfs entries if that is preferred.
 
 Best regards,
 Nam Tran
