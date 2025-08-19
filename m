@@ -1,127 +1,209 @@
-Return-Path: <linux-leds+bounces-5249-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5250-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FF5B2C9CB
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 18:34:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8189CB2CD4E
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 21:50:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE046A02D79
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 16:30:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED7CC7A3D6A
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Aug 2025 19:48:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 650FA2580F3;
-	Tue, 19 Aug 2025 16:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D55942D248C;
+	Tue, 19 Aug 2025 19:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/AHUDJ7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbSR4YNA"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63DE2566E2;
-	Tue, 19 Aug 2025 16:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ECA26E17A;
+	Tue, 19 Aug 2025 19:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755620995; cv=none; b=D4P/VTb/ddyBQVszvLINm6TExK43cA4o24jH3lqyeVAa6PQChWmgwHyqPUtzndqTvSYWL8vtcnpsE1iqPPYHBe0az6fMiCa74ZIKFk0z8icIlBsQyXWpyhpNXmJ90bQJjxyJiO7dorGdZsr6iUKT06HUl3ySDOnviSt6Jdqzf0Q=
+	t=1755633011; cv=none; b=a5DTlnRZdm7AS0SmvJwxk+vdTg6r29gG88JvO9G9ulD0346LjhOTCfLQYk8YaWLycKPledorrZ/eWPTlf0Fxm+tHQVaY86YPy7zWFJGmpiZ7wIRfbozEA8TzTqb1aF9R3rdJcUsKLSv6eb41jnkamh9kPfGEUbO9gjLd2fpag9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755620995; c=relaxed/simple;
-	bh=LEh5+EL4Nzc6sLyJ3DdS8xRDmSSNUY1AsJkhlelX8cQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=H4SRqoTSLKhleV+eQDK/zv2/wOM7c2UcfG2doPX7nZYSFT+jBqSCaXyaNqJNKWgP66V8HeRvD2BP3IaAFekkSkrBqvuRN/Eq06/hxDYgq9fo3vgo94nN9zbSOyfZXfBbhpLzhNDXfRlN25R4C1eckMttskCPE9zkYhze/BozStE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/AHUDJ7; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-244581d9866so45465285ad.2;
-        Tue, 19 Aug 2025 09:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755620993; x=1756225793; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FqqImRksTG1fesPJZdycheMXzhTsoEqoZjDJ0rDf6ZE=;
-        b=B/AHUDJ72oERfvIIhzLNgPTzCHA24Hp9yBhyDPUJaXR15w15qPxtBxlEp1ziVdDpCj
-         WJ8ab74Taiwt8sscfp8JxENyNtbDCUqB1k6/vxMwzaJVryAWezrpbClqSus1kmamXpkK
-         PdHds/A9x8M182xlujuLekusMAZzUSnLKkGcwGoLxLfSNB2SFe7lRP8ak0h9dw3NXj5A
-         uyeNsEL9LZK3z0oryQ02DHV7uclmo+jPuYijqfqOsiSq8OwloyXM5JGWPFXGlIB7Cmxt
-         xuhjrocFTyE4jj8Er0/+/xBNrhmKD+AIUsjA+lb1klAgwzuVYyno5AxeJhhnpyFhx2fU
-         RCyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755620993; x=1756225793;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FqqImRksTG1fesPJZdycheMXzhTsoEqoZjDJ0rDf6ZE=;
-        b=n60P55gPJELH0MpYgIpRZfyvyYiZVTyfgNs0yVXJYwgNcX6xmQEydeQGyieuc7uDo9
-         qSTg2nNJOsVov4hD+CGWxGbwmv75apjvUk2BuiR0TDGG0skBXLs/xVEY6Q13sYwRluBh
-         y66ZvlXpXkhCZ7G5dzsCFtb/d60jGUS/Ttp//hsBFyF8qvtxIkfWAhqLA6BSE+FhQyiv
-         d5PkVlCqHzCjL0jVx4TDtxUzP5uc3E6dUhf+FC2tuZsKGQMcueVujAvO2kO32JGXaZYm
-         SeR81ROASc4XQ+r4i7mnIWN0wPduSjl6F/vzG6euKTi9NJZmlHvnWhHcRAqhoI8DMzQH
-         E0ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUT63QbGSpLtYFyntkyHDP3b1NR8mt888+DwR5MvRuig5YGq/UtNgxmBUd5F1JNA92HnMWZ3h02vaiIliaj@vger.kernel.org, AJvYcCUgTmX0JZ4pUA2qyWn4MoIObwoA/4bO1M9WFswcDPRxj26+vtriXQ+1pDX0NGAtORfZ5FU7hHobGKpN@vger.kernel.org, AJvYcCVUQrUfEpL/mscCpNGnIas9IHybjri3JSBqsvotQAej7iYl5oxTy1Tsvz3rJ2yDVyySTZWidX6IUdEt@vger.kernel.org, AJvYcCVW2kX4sgLNzRxTdugmVF6b0kkAggW8xWWtuaPzgd0FkHIzhzpY+UVBA9EoAeVQjnoPepScEb3USVKBRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb7/vUjAIAan2KtQH70ZKG1KKx/kwGMUDb8WrPy81Uvx7Asj2g
-	3loW+Q1q0aAAYpN59832UdhZPJjhjyF/S/GsNL6RVpf54joAVJPMPn/m
-X-Gm-Gg: ASbGncujLqjqCiET/egM0r8Yaa6CM6h7BwWvRu5e7z0KNuEHX3Mog84gAbpspynY8CB
-	ARhwjeQTPMU2k779YJIt1FalGx98oQyWw+i8/qzr5AFaGbu99UjVbTJPFKpDdPiBOXNX56KEWmF
-	yFdku0DN6kqLpWQqlKcfosf/da6Z88VN2DTHirDlG/qHNfi5fnam86DYYsW4gBHbHuzacCSS7sh
-	dHERwDR9q3Lg3n1OQgz9sM6rohaneNMYRJ2mhHJgObHzd/RzUM3eAlVkWvcucEwC2xczvE+rs0b
-	3VVp77CTJpLsHAehIZZ+0t9fvJ6ErQpVPxi4aNlr7oqPeAOEwJEcBQS1IQmCqROYY7v7yP7X4EV
-	e4OUQUQtEc4AvcP+wY7A9pJjc9NhH1B2wYZZ/G8y8Lytz
-X-Google-Smtp-Source: AGHT+IEPPrOZ11ZGYWHJ95bgwYbUGRCGS2tjPJuQVjKEv08VeOHkgaomk1LRMWfyup7vOdhXaXf5Mw==
-X-Received: by 2002:a17:903:98c:b0:242:9d61:2b60 with SMTP id d9443c01a7336-245e02a22edmr35767885ad.6.1755620993119;
-        Tue, 19 Aug 2025 09:29:53 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.116.199.205])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed379e92sm1632755ad.65.2025.08.19.09.29.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 09:29:52 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: rdunlap@infradead.org
-Cc: lee@kernel.org,
-	pavel@kernel.org,
-	gregkh@linuxfoundation.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 RESEND 3/4] docs: ABI: Document LP5812 LED sysfs interfaces
-Date: Tue, 19 Aug 2025 23:29:45 +0700
-Message-Id: <20250819162945.231085-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
-References: <1075a908-23d0-4a9e-97d2-cb68d1d6b675@infradead.org>
+	s=arc-20240116; t=1755633011; c=relaxed/simple;
+	bh=rXxbSd4NGFsxG7Du96tt0eWEUIA3BJVgGFwkWbEkdlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KO1QRVUODhOBgEfSJ+RgAOXERHDEplTpVSjinBNhlsRkZeQN/tVrQb3794dfp6q+xburA5mKFKIH9mWeqsExSghzhIJS1oTWDEBplZwEJSSMshkZ7QU/H1BKd4Wb9/pcVNB2LGOga/QBPDoQlUyXw0iMzral1eczYHzu8OrVQco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbSR4YNA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF38C4CEF1;
+	Tue, 19 Aug 2025 19:50:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755633009;
+	bh=rXxbSd4NGFsxG7Du96tt0eWEUIA3BJVgGFwkWbEkdlI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hbSR4YNABzlsy9pJN7WzfYzMVwnfolauDV1rXZvGW1mI57p37MW6oOe/+01+xg9uF
+	 zOXCvwuNvXPxm6cWiQ+QwG4+aQ5CfXoZ0i5/CzsnUVt8SMTgpdKuzYChqbu9fZs7FM
+	 WQl10SuiBy8dl8BBGcq8xO+lE7sfEYW1Ll9/qOBU7AjSmHPDXQBC/eU36HnOrllsLg
+	 1tWHtEsc0si4gDYUsimTmzNppaCEJ2nBflrXkrQjRUTnlVAgSc5CY+2Sa6hb9i0Dsf
+	 GZyAXddObnGMRBLA4YPev/YmuJ+IsW4i9++EooA4pKs4GusYblwazFzCp2/tINsGiy
+	 atSDfqecI84Lw==
+Date: Tue, 19 Aug 2025 14:50:08 -0500
+From: Rob Herring <robh@kernel.org>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: backlight: Add max25014 bindings
+Message-ID: <20250819195008.GA1218175-robh@kernel.org>
+References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
+ <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
 
-On Sun, 17 Aug 2025, Randy Dunlap wrote:
-
-> > +What:		/sys/class/leds/led_<id>/lod_lsd
-> > +Date:		July 2025
-> > +KernelVersion:	6.17
-> > +Contact:	Nam Tran <trannamatk@gmail.com>
-> > +Description:
-> > +		0 0 mean no lod and lsd fault detected, 1 1 mean lod and lsd fault detected (RO)
+On Tue, Aug 19, 2025 at 12:58:59PM +0200, Maud Spierings wrote:
+> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> with intgrated boost controller.
 > 
-> At first the "0 0" and "1 1" confused me (thought it was a typo),
-> but I think what you are showing here is a sysfs file with 2 values, right?
-> That used to be discouraged (or even nacked), although I don't know the
-> current policy on that.
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+>  .../bindings/leds/backlight/maxim,max25014.yaml    | 79 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 84 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..30b591152fa31d5e43243cac44c72028b05b5f8a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim max25014 backlight controller
+> +
+> +maintainers:
+> +  - Maud Spierings <maudspierings@gocontroll.com>
+> +
+> +allOf:
+> +  - $ref: common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - maxim,max25014
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-supply:
+> +    description: Regulator which controls the boost converter input rail.
+> +
+> +  pwms:
+> +    maxItems: 1
+> +
+> +  maxim,iset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-The lod_lsd sysfs file currently reports two values: the first value is the LOD
-(LED open detection) fault status, the first value is the LOD (LED open detection)
-fault status.
+       maximum: 15
 
-I followed this approach to keep the two related fault bits in a single file, but
-I'm open to splitting them into separate sysfs entries if that is preferred.
+> +    default: 11
+> +    description:
+> +      Value of the ISET register field (0-15).
 
-Best regards,
-Nam Tran
+Perhaps a little on what this controls? 
+
+> +
+> +  maxim,strings:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      A 4-bit bitfield that describes which led strings to turn on.
+> +    minItems: 4
+> +    maxItems: 4
+
+       items:
+         maximum: 1
+
+But why not just an 8-bit value 0x0-0xF?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - maxim,strings
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        backlight: backlight@6f {
+
+Drop unused labels.
+
+> +            reg = <0x6f>;
+> +            compatible = "maxim,max25014";
+
+compatible is always first.
+
+> +            default-brightness = <50>;
+> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+> +            interrupt-parent = <&gpio1>;
+> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&pinctrl_backlight>;
+
+Generally we don't put pinctrl properties in examples as they are always 
+allowed.
+
+> +            power-supply = <&reg_backlight>;
+> +            pwms = <&pwm1>;
+> +            maxim,iset = <7>;
+> +            maxim,strings = <1 1 1 1>;
+> +        };
+> +    };
+> +
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e81d5f9fbd16cc384356804390d65652bbb9e3f6..11c73d2e37fac22aea852152746236c1472f41b8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14972,6 +14972,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+>  F:	drivers/media/i2c/max2175*
+>  F:	include/uapi/linux/max2175.h
+>  
+> +MAX25014 BACKLIGHT DRIVER
+> +M:	Maud Spierings <maudspierings@gocontroll.com>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> +
+>  MAX31335 RTC DRIVER
+>  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+>  L:	linux-rtc@vger.kernel.org
+> 
+> -- 
+> 2.50.1
+> 
 
