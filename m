@@ -1,109 +1,108 @@
-Return-Path: <linux-leds+bounces-5264-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5265-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6902BB2E57B
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 21:08:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6879AB2E5DF
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 21:52:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB0B11C84DA4
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 19:09:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDEAA5E4125
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 19:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18DF27FD78;
-	Wed, 20 Aug 2025 19:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67F126F2B2;
+	Wed, 20 Aug 2025 19:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bm54gcJz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuC0x3zE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F9617A314;
-	Wed, 20 Aug 2025 19:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD942F4A;
+	Wed, 20 Aug 2025 19:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755716926; cv=none; b=ECImqAOap4inlPd4aoM1Iy3LgWDhSOTMpNl0mpG8nGWT591zk9jJmlhkCXdalLGThZP+7N52vr2U3x9vhm1Cl8IEMpyZXl9q7kwmaXeI84SMkpdstBnOx/HtJrfvL84mis77sWrtSJRwzXC5HZIab8pHrG+qsnuaEvU2NpzFYR0=
+	t=1755719523; cv=none; b=bie9t8yZkcv0aGWOgLDUaZvZnHCNZ8DveVLs1vnZVxpQzXphcqK+bGskCqqaBN81g1WQIg2u4IjKYJ0/YZrd0wIIDCjR/+xC5R0wjt+0M1EpAhasxV/icg33VXll6riO+n8w+lBrISLf7B8WMrMStcB2UUEY8zKQvLXx6o0fotY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755716926; c=relaxed/simple;
-	bh=HcDyeRjH+0g3ubSN5NYaXUP6Sk1mYq3xyhgSnMrL9KU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mQ8TF1pNz/sZeu+/LLKLqLcMLMNoyz7COe/BH3Ac+iMg1sgHFy8j6RIbtQXoRrA/GJh2ZApBfqBftzj0YXuaZ5Rq5IWUBj757dlcmE+1XI5Px/vA1G2vWSDnrjlnlQfrjZHFTQJdi+G1jRJTv3p0nhLeUvwAKOynpaQLOANLuSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bm54gcJz; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6188b5b1f1cso258471a12.0;
-        Wed, 20 Aug 2025 12:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755716923; x=1756321723; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HcDyeRjH+0g3ubSN5NYaXUP6Sk1mYq3xyhgSnMrL9KU=;
-        b=Bm54gcJzgoCLvoyYrnvPzCblGkc0rtViUv+4bN7zXTxkYeaSL52pQ8FzfDav8wnoEp
-         8WfxoaA5TB3OB8qOfofAWVKEb57PSI4l8qVHWaFuGXN1/PFvUuvKy4nVajWWJi8bg7xW
-         wfHQ1K5/TGjG4swQVqjppJXuFABBU51thzsUJ20dUEdwpLbzbediWINaO/+rGNMurAhj
-         KNExOrngXn7xhpWl6WO2u7zFauc46nD+VCsMm7mhkQykkEzfx0v1dCsaviy6e+tKH0T3
-         5bhFM4hBHhgh9dJNMn1+Inltd5XWG54HkWhKYTvjXK6ofDkuRZ4SYwIfjrMSkV7rSvtA
-         aUmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755716923; x=1756321723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HcDyeRjH+0g3ubSN5NYaXUP6Sk1mYq3xyhgSnMrL9KU=;
-        b=sBsQJwT5Lw7U7uaN+qsmKcXz7SRo6XZgJcRSBaRKEW04QXPSlxjpUvGsr4p1dapNxw
-         vRc1W7UwHd1cx1hYhrovxcmTLfYj5XEcHiPWiPn2oe6+Pnow4Ehn66C7jDkaIulHMCtI
-         qP5NIuAsqLqyfk3CCwE3STWGcLoJ/vUNPOuL0H0WXaiDbc6LCPp0Vaj0GfaWVO9t+A0L
-         /kVBayag5WojjToGSpmqnqA74DUP12oPoErp5gLX5mEKcamI4trhYRkFqP7etPbrLGIK
-         /lJrmz5iJ0djKDJiv7FFNlc/YZqfIjb/D97BAAppoV5rQJ40TU63i7GyJyYx4bNXo79o
-         bAmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVf+Kv5H+Fd4SpeNfmJ5lUhO3WSNLlgpG1f5qjMCWHlWN2VODxB+W069TCMgPm6yzvesKxosBA+5GzN@vger.kernel.org, AJvYcCVwBEhn0M1sbArW8KKDFpNj794U9AmzdjGqFIDNunvwDQ7FA7er90zR12faxI54l9GiwdIRzmyngkKeFF5O@vger.kernel.org, AJvYcCXqG56w1DT/dJCyv03JgTIAoo+8Ebxi2sg9RF4tJ44MhsxhhdTwikeix8HfwDlJjr1M2kT3lRo0wGP0Gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7zQO3x0apKB3ST7JHm62nNhpiLHNtNjOktJP2tW5/Dhs3AOKF
-	BSjVPNU1KWtXmy0dm9vtVURrHOxAIQavEWxeF0UzNicg8kAnC+nJ5UdgWE5WreAZ9VnxKe/m8gH
-	F0BLyhgTRZuQe5JGBPM7vvp/t5L998Zc=
-X-Gm-Gg: ASbGncviTmiTnBLu88xdcyeQrZQMOLJH20ob5G/SI/Tn6Rhm40a3PLAFde5Kud58Krp
-	06EMHT3Wv6muO6FIV1qC3CArz5bNKb7+GWAUEq24cN/zMXmFBh9+UFX3eOk0bMgyFAlPVyImYKr
-	6vqARzoRsQWGxCIvFboQjArPV5IlHw6uRMXVvktxXfE5P9vl70aGnxsIbMEcqBuXnZpzahBBxaB
-	HVLEnQ+2OzG0/1tsQ==
-X-Google-Smtp-Source: AGHT+IHjCRoLLJwsbsTLX+7XbOUyGhHR35RnvdQoPKy3xduLiLTbN+JBYUbUk+vA0ohxdOk67QoYySFRQIuqws38vG8=
-X-Received: by 2002:a17:907:3fa3:b0:af9:6bfb:58b7 with SMTP id
- a640c23a62f3a-afdf00f7b01mr337333866b.5.1755716923109; Wed, 20 Aug 2025
- 12:08:43 -0700 (PDT)
+	s=arc-20240116; t=1755719523; c=relaxed/simple;
+	bh=zGAyQrb62JlwMvikL117lzOzDR5dBsupAPSQ54LsUKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sU8l9zp+rvmE3IC3ijbcfyUaXtbxjEDjbFtVzd+52wX9LPf+xqzL8eNN9lAVUOljKbUlaFrdjWinV84KgiyuisYzGINdEF9C4U9Q7iRnHpYkbtuP3/P2Z/XgIMDJHB66feJOrca8ck6VDlQnPuR0/O0WtJKFLDOH9CHJiCsNwMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuC0x3zE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32D04C4CEE7;
+	Wed, 20 Aug 2025 19:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755719523;
+	bh=zGAyQrb62JlwMvikL117lzOzDR5dBsupAPSQ54LsUKQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZuC0x3zE4gY1tWkVNK9i4nhhTH4EbDDvBu2juzSEV7/jw15X+2uo84+nNGRFgUnnF
+	 92bkohYSJ+2OJVEnztRDZCWhZ51mKfSwI2s8iUjbzxConu7HiUFFqhXQS++N0dSX85
+	 iUPMYJ+YCKPFr9CUSoqnCiPyZQaTfZqIArdUwbZLAa8WKiJyunvYh5+Q4oxbc2ILd0
+	 JLJZOlM5hc2HMwDlUemYPpQYT8I65Y+d5OybGu/T8imPmPyY3dbWbcP8AxFOXxn/Yl
+	 /DuEyKtYmsppEGMdpRYF/B6C6CoMQTdpIjGwoLHu1OjgLTHAhp5NYH5jw/5bNCFCG1
+	 X7QCWZyUCg5Kw==
+Date: Wed, 20 Aug 2025 20:51:58 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Boris Gjenero <boris.gjenero@gmail.com>,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Paolo Sabatino <paolo.sabatino@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH v3 4/4] MAINTAINERS: Add entry for TM16xx driver
+Message-ID: <20250820-clock-easiness-850342f716f3@spud>
+References: <20250820163120.24997-1-jefflessard3@gmail.com>
+ <20250820163120.24997-5-jefflessard3@gmail.com>
+ <CAHp75VfyR0cjnC6C6Xy8x9nTREdAgbjo18RLYNRzoLc6KmXnTA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820163120.24997-1-jefflessard3@gmail.com> <20250820163120.24997-5-jefflessard3@gmail.com>
-In-Reply-To: <20250820163120.24997-5-jefflessard3@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 20 Aug 2025 22:08:06 +0300
-X-Gm-Features: Ac12FXwmMQGAdofCnD6L6CapMXC695A-jukjMfaKnUeE5mWFbt2l_Dj9Qq6u1fQ
-Message-ID: <CAHp75VfyR0cjnC6C6Xy8x9nTREdAgbjo18RLYNRzoLc6KmXnTA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] MAINTAINERS: Add entry for TM16xx driver
-To: =?UTF-8?Q?Jean=2DFran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, devicetree@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Boris Gjenero <boris.gjenero@gmail.com>, Christian Hewitt <christianshewitt@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Paolo Sabatino <paolo.sabatino@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ED76KRMEHLfSRas1"
+Content-Disposition: inline
+In-Reply-To: <CAHp75VfyR0cjnC6C6Xy8x9nTREdAgbjo18RLYNRzoLc6KmXnTA@mail.gmail.com>
+
+
+--ED76KRMEHLfSRas1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 20, 2025 at 7:31=E2=80=AFPM Jean-Fran=C3=A7ois Lessard
-<jefflessard3@gmail.com> wrote:
+On Wed, Aug 20, 2025 at 10:08:06PM +0300, Andy Shevchenko wrote:
+> On Wed, Aug 20, 2025 at 7:31=E2=80=AFPM Jean-Fran=C3=A7ois Lessard
+> <jefflessard3@gmail.com> wrote:
+>=20
+> Besides the missing commit message, the main part of this patch should
+> be merged with the patch 2 where the YAML file is being added.
+> Otherwise it will be a dangling file. I dunno if DT tooling has its
+> own concept of a maintainer database, though.
 
-Besides the missing commit message, the main part of this patch should
-be merged with the patch 2 where the YAML file is being added.
-Otherwise it will be a dangling file. I dunno if DT tooling has its
-own concept of a maintainer database, though.
+get_maintainer.pl will pull the maintainer out of the file, so it won't be
+truly dangling without a way to associate Jean-Fran=C3=A7ois with this file=
+, if
+that;s what you mean.
 
+--ED76KRMEHLfSRas1
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-With Best Regards,
-Andy Shevchenko
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKYnXgAKCRB4tDGHoIJi
+0iIgAQDiRFM5SkzAyXH55vfBZqtQCGaLrGiXAkLlcUyyxoL5CAD+JTcy5r2rjqNV
+J1FVxjeFIXCicwdRH1M/+3G3W13qTgY=
+=ACTV
+-----END PGP SIGNATURE-----
+
+--ED76KRMEHLfSRas1--
 
