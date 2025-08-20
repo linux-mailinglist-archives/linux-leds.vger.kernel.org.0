@@ -1,67 +1,60 @@
-Return-Path: <linux-leds+bounces-5252-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5253-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8EEB2D4AD
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 09:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66507B2D5E4
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 10:17:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4630188B6C4
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 07:17:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3928C18866DC
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 08:15:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75BFF2D372A;
-	Wed, 20 Aug 2025 07:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D7C2D837E;
+	Wed, 20 Aug 2025 08:14:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+Mg0cGN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cvcgfbvS"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA4827A925;
-	Wed, 20 Aug 2025 07:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4242239E91;
+	Wed, 20 Aug 2025 08:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755674223; cv=none; b=Lu1epyEsRLX2a4b02vdoaWYpKvTaiBqvim7AfyYG4MsaPRZ9+YlYCS4tMkh+v+LVe3eZ47SkjCZRL6COvnzOsXM8BBqjPU/9F3c+wJkYXbH6lKZ3+VmNK+UZAsf0gsaqs+6AwXna1ou8njF+xx/1XDrGe/WWfiT28RJPMoOwnt0=
+	t=1755677676; cv=none; b=AWWYKSlGU/ir5SijQUdqdIwwIWbW8nEVVAKnsacsyGDh4O6YnslEFS3UGgZ4AG5lH+o8CVKqm9Dt39EtCSB1D95z3+lQW/MFNSEDJmkCvJEp8zosGjHb7D+bB53OKxb+XXMtz25pSdVNv5Yp85j1N2Jv5sNgq+UZt7Nw51kOZyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755674223; c=relaxed/simple;
-	bh=5QX32rJNvEnTDH9xV1QQy+bxz6g/HzsiTFIRBQBuJ98=;
+	s=arc-20240116; t=1755677676; c=relaxed/simple;
+	bh=Q0amB+FLN0DKHfucM8btGqFHkdrP29AlfTdO55mBX58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=psSdg3vUZDGFjTOF3zu0zIg+J+djoJ8AQhpZg8yHaBd/HHpvHv1My0I8lqIzMczbO5oKsMT0YRVNsU6iwBR3HUjrfD/yfTJ+MD0skQtk098X90DAR/DDJL9fE5LFy1bccH6ge0FYqqDfOuop47gbjhEnQrSxkpExpxE4Vo03aAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+Mg0cGN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62EFEC113CF;
-	Wed, 20 Aug 2025 07:16:59 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fdsqo/r11td9e6lZ+KwaKwjtoGT0GWAeN4rk38fqH9R2PJPpHVq2MjcmaqGNJLGevKucioMjuD+otxg02JIbJEZcXq2tWOlpjfT7UEAVJmdRpRe/xe7/VDYDDCvFReDMP+OHV03Lh/leusyQLh+YntAfQmAbyuVRE+wV0y5GA4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cvcgfbvS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E08A0C113D0;
+	Wed, 20 Aug 2025 08:14:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755674222;
-	bh=5QX32rJNvEnTDH9xV1QQy+bxz6g/HzsiTFIRBQBuJ98=;
+	s=k20201202; t=1755677676;
+	bh=Q0amB+FLN0DKHfucM8btGqFHkdrP29AlfTdO55mBX58=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D+Mg0cGNBCCwxQQj2Tjgj8vdHuLmQ65VgO8Of2q/PXj28Ep11hlLnAUYzM8gGeT3I
-	 TvtUfcXRTnjvokClpW85XKTT8emnXz6gwpQjGIs7H3ZExlR+nY1E91PG4zDCoECDm9
-	 bgnZTITT9Ma4MHizmbzzMFEnb7J5q1d3k7Wr8pBPvZQEx8FkZOn9znRWvSK+egIPiu
-	 Fj6veHIhqOwnd6lFGtigpN8mWJqqZZDkkzYxVXXG9h9gp24MhGFH2HOVF32Mgad4ge
-	 jO/wXgd3+CbeS7EXPCFlTGhmX1ajCIUhsambS/u4VNVPAfhGCUeZvM0M/djR6azWqi
-	 CyIXvDVsr40+g==
-Date: Wed, 20 Aug 2025 08:16:56 +0100
-From: Lee Jones <lee@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Kees Cook <kees@kernel.org>, Anish Kumar <yesanishhere@gmail.com>,
-	Mukesh Ojha <quic_mojha@quicinc.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Rokosov <ddrokosov@salutedevices.com>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/21] leds: gpio: make legacy gpiolib interface optional
-Message-ID: <20250820071656.GJ7508@google.com>
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-11-arnd@kernel.org>
- <20250819121907.GA7508@google.com>
- <e9252384-a55c-4a91-9c61-06e05a0b2ce4@app.fastmail.com>
+	b=cvcgfbvS6AsdIkvJMpDJNKGzo221HJZRMdcyFRDHWAMrBbTVX1tnPNSNsugIoaj7I
+	 v5vK2w3XllMb+jW38L1BUIgzU9Sg2va5GYCyRTEp88dH1zhat3N4Q8sKRWSkZCyPuk
+	 him2qQyqT9SmbJGhAq5gABuTTDg1qGJQx57Mjv426uOahFC+95JgcBpjHOWaXu1fVR
+	 ZnkjtM6XqbuiDkFLhF7mtPBb6oclYlJ8/RDPF4EewW2M7DSCtvizmMAcb4RXXja9lT
+	 MZGGnW+dp2TGAwyfuCNtBu3keCcn4LFrE6M8S58tjvAdSP8xOuqlp55UCCxHlydhob
+	 uYsYemGDsE8VA==
+Date: Wed, 20 Aug 2025 10:14:33 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Diederik de Haas <didi.debian@cknow.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Clearly mark label property as
+ deprecated
+Message-ID: <20250820-hairy-economic-wildebeest-ba25a1@kuoka>
+References: <20250815104805.405009-1-didi.debian@cknow.org>
+ <b30905fa-6bd1-47dd-8371-f609d418387b@kernel.org>
+ <DC2ZLORG11W0.1CS78L6F2OV4Q@cknow.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -70,42 +63,49 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e9252384-a55c-4a91-9c61-06e05a0b2ce4@app.fastmail.com>
+In-Reply-To: <DC2ZLORG11W0.1CS78L6F2OV4Q@cknow.org>
 
-On Tue, 19 Aug 2025, Arnd Bergmann wrote:
-
-> On Tue, Aug 19, 2025, at 14:19, Lee Jones wrote:
-> > On Fri, 08 Aug 2025, Arnd Bergmann wrote:
-> >>  {
-> >>  	struct gpio_desc *gpiod;
-> >> +#ifdef CONFIG_GPIOLIB_LEGACY
-> >>  	int ret;
-> >> +#endif
+On Fri, Aug 15, 2025 at 02:06:49PM +0200, Diederik de Haas wrote:
+> On Fri Aug 15, 2025 at 1:00 PM CEST, Krzysztof Kozlowski wrote:
+> > On 15/08/2025 12:47, Diederik de Haas wrote:
+> >> The text description already mentioned the label property was
+> >> deprecated, but using the 'deprecated' property makes is clearer and
+> >> more explicit.
+> >> 
+> >> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+> >> ---
+> >>  Documentation/devicetree/bindings/leds/common.yaml | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >> 
 > >
-> > Isn't there another way to do his that doesn't entail sprinkling #ifery
-> > around C-files?
-> >
+> > Please first read previous discussions:
 > 
-> An alternativew would be to duplicate the driver and have
-> one modern variant and an additional legacy variant that
-> is only used on the few remaining platforms that select CONFIG_GPIOLIB_LEGACY and define platform data. See below
-> for the list of files that reference struct gpio_led.
+> [I reversed the order of the links so the oldest is first]
 > 
-> There are already patches to convert some of those to
-> software nodes, and a lot of the others can probably be
-> removed, in particular the orion5x ones.
+> > https://lore.kernel.org/all/20221122111124.6828-1-cniedermaier@dh-electronics.com/
 > 
-> The leds-gpio driver with just the legacy interfaces left
-> would be a really small driver, and removing those bits from
-> the normal one would make that a bit simpler as well, but
-> there would be some amount of duplication.
+> Rob: "They ['function' and 'label'] serve 2 different purposes."
+> 
+> > https://lore.kernel.org/all/20240509110545.49889-1-linux@fw-web.de/
+> 
+> Krzysztof: "I don't think there was conclusion to make it deprecated on
+> last attempt"
+> 
+> I agree.
+> What I don't understand: Why wasn't the text updated to correct the
+> incorrect statement about deprecation (that's how I interpret it now)?
+> Or some other conclusion being made and that that will be reflected in
+> the text and/or a deprecated property.
+> 
+> Otherwise the confusion remains and then it's just a matter of time
+> before a 4th person comes along proposing the same patch.
+> And possibly even more harmful: people use it incorrectly.
 
-Sounds like we're between a rock and a hard place with this.
+Whatever change you want to do here, I expect to address one way or
+another these previous discussions. If the code is confusing, refine the
+description. But not in a way which ignored previous feedbacks.
 
-Will the legacy parts be removed at some point or do you foresee us
-supporting this forever?
+Best regards,
+Krzysztof
 
--- 
-Lee Jones [李琼斯]
 
