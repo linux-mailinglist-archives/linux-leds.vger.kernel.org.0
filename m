@@ -1,141 +1,152 @@
-Return-Path: <linux-leds+bounces-5254-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5255-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DACB2D703
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 10:49:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBCAB2DA30
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 12:38:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8BF83ABCD7
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 08:47:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 550411C4679D
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 10:38:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 249FC2D97A4;
-	Wed, 20 Aug 2025 08:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E552E2DF0;
+	Wed, 20 Aug 2025 10:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KB4Wh/fI"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="O8I9Ir9g"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAC92D97BE;
-	Wed, 20 Aug 2025 08:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974C22E2DDD
+	for <linux-leds@vger.kernel.org>; Wed, 20 Aug 2025 10:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755679641; cv=none; b=ZddRk4W4yY6vwzkiDIBXMelIqLEidFe79GKtQ1yg8ovqei/Fp3G23yQgQ9999/0NU4tqgiuEwfNAv8EGdJmiQ5sL4AZyelzEDtYgd7tsUgDK7YppCtyLPO4bffgi1u6fzMzEBrfu4a/InlDhBIMvF/4d6jZ9btCJnk0Jg3dBWmM=
+	t=1755686275; cv=none; b=cglvMv5qFgpOGXixqbsm8a/XirfcqqkPRJcPMx6WAVYy+A9bXTR7ua2xLaRwf/Au1YXgiSSjg7rcr7Gjh8cHitAehc11nHdfQ/hdICBhVU3pCnnr59xfYhb2lto5qYd53BHPmIG8+YaySMHEVCZfveXHXcCcuuFFvhFDzpO7Qpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755679641; c=relaxed/simple;
-	bh=pgn0AbX8RFlvQ5v7Qq1Plx71CSWg6jfnKWWkncRYq3c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VmYLBamXfqTSAUFXjgQ63SOwDi2QKDEK752WMGdUpjaxBkdYKweoFsY7B+KWFgRq8fmx50SdIvCRvS6PLJ9j/i0wE0JcM7ceQ1ArBMEk+pN/8oYcW2NOrkbiO8Tm5IZugu1R+TfbbZUksOBLgYSeoLuZJRHt6MOx0VukudY/tMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KB4Wh/fI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7362EC113D0;
-	Wed, 20 Aug 2025 08:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755679640;
-	bh=pgn0AbX8RFlvQ5v7Qq1Plx71CSWg6jfnKWWkncRYq3c=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=KB4Wh/fIry8N9tvIl3bcxYExjCRETzQRAWXeEd2Kk6yTxajsVPPX3Erw7VwHqYfEj
-	 4kTwVlzu09f785ajmjsGliWEU8LjZ30PrudmyudSC6tD8hwhEragGbhKaSjD9jnDFy
-	 wFA9YudF5SY6G3jT0Qdum1CAQG4Y1YZGSrVNgnaKRgiHQu4Ec5ahx7ntIrGlC7dTu7
-	 4isvDwsX7wTys7zkr2iD6ylt5l8S4U7SzcODhC9t+9P2b7BdJrMAAohINaz6STbnsn
-	 D6pBFoq3K4AqUy61+zYecyFaokd8Bz9djqZdCF9zUfC83lNOr/fDvoQf24apoSesdh
-	 WTwe9qU8CrShw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E54CA0EF8;
-	Wed, 20 Aug 2025 08:47:20 +0000 (UTC)
-From: Andrei Lalaev via B4 Relay <devnull+andrei.lalaev.anton-paar.com@kernel.org>
-Date: Wed, 20 Aug 2025 10:47:12 +0200
-Subject: [PATCH] leds: leds-lp55xx: use correct address for memory
- programming
+	s=arc-20240116; t=1755686275; c=relaxed/simple;
+	bh=3CpKgxRpCYawooW49w6wb+ri8TL4dLwEPi6doAWrbfs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=KdoqWEDZ2AM9pyoN8vK6mOEGVa6DUu+4JAvuLswaagwPaAJjrjMfAjOteWm2jMAB9drFPvBFX/1XUhrSOcK2Bj3S/ETyezyS1/XS5QfvTknto0ZecBAJ6XKKPbTTUEtAKo6vTvF8svzjsrTxIac6nZtF5XhLb9XXYV3etivvD24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=O8I9Ir9g; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-lp5562-prog-mem-address-v1-1-8569647fa71d@anton-paar.com>
-X-B4-Tracking: v=1; b=H4sIAI+LpWgC/x3MwQqDMAyA4VeRnA10qR3iqwwPnU01MLUkIIPiu
- 6/s+B3+v4KxChtMXQXlS0zOo+HRd7Bs8VgZJTUDOQpuJIefEsKTsOi54s47xpSUzTBn7+NC4c0
- 0QKuLcpbv//ya7/sHE2NruWkAAAA=
-X-Change-ID: 20250820-lp5562-prog-mem-address-ff33ac25be24
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Christian Marangi <ansuelsmth@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Andrei Lalaev <andrei.lalaev@anton-paar.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755679639; l=2080;
- i=andrei.lalaev@anton-paar.com; s=20250820; h=from:subject:message-id;
- bh=8WvWq+dM1/5loxJ8nu3rUh9bYc0hws/+X0jjGLoaSrc=;
- b=aBLz/tpvJEzPDaAHWI4BCDHTmY+tWTlHTu4HCifxtdidOgtoNyVPGWJ5kt2KhMbk+Dpl/2jMA
- pcqqBTyEw1SDiAjK7ruwhq6h9+Sfsf/xUEwd5n2fV/29RuXsZPp45xb
-X-Developer-Key: i=andrei.lalaev@anton-paar.com; a=ed25519;
- pk=728nZXw7ILalhZmxQ0hPJ77AKRvsdNkq+v6XdryA5fM=
-X-Endpoint-Received: by B4 Relay for andrei.lalaev@anton-paar.com/20250820
- with auth_id=496
-X-Original-From: Andrei Lalaev <andrei.lalaev@anton-paar.com>
-Reply-To: andrei.lalaev@anton-paar.com
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1755686270;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LR7oamsLXiIEp2PWmQM+Y8/7Bo4DrxhgzvH8C2oVFno=;
+	b=O8I9Ir9gH5qd+hA7zlVyuHursR2TU0TquTG3CH6W8Da655CBQGQf8IJ2gZBBp4lhxqSmnU
+	kgaViDUqKxtRmX+ltQ/vfSkdZAPaJEOymgYqztV0eySs+IwF32Lh03GE00qA6oSYtEzXtp
+	KBqrHFG5g3PjXCWryY/KuaEnheFpVCgB5mcQlyMDDSLOvNIilKorJQ67Scmr1ouP6ShJVF
+	mn/zsHP5dzEjvz2wKEa8fRSTh4gI8D/b5P08Sqvxk1nV6jc82QP1VPYZnTUZyhonA9tGBm
+	YDHIDf9NkD5srFSy0dckRleBON/Y5c1BPvqTQ9vQWpVa7gUnlq7en9Et5hCBJg==
+Content-Type: multipart/signed;
+ boundary=1d9ff9570717d375168b9ca28d86c87a4db6edce1af1be67cd4ffe114401;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Wed, 20 Aug 2025 12:37:38 +0200
+Message-Id: <DC76U4GVR0O2.1HXLEPCF8BG02@cknow.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Jacek Anaszewski"
+ <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: leds: Clearly mark label property as
+ deprecated
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+References: <20250815104805.405009-1-didi.debian@cknow.org>
+ <b30905fa-6bd1-47dd-8371-f609d418387b@kernel.org>
+ <DC2ZLORG11W0.1CS78L6F2OV4Q@cknow.org>
+ <20250820-hairy-economic-wildebeest-ba25a1@kuoka>
+In-Reply-To: <20250820-hairy-economic-wildebeest-ba25a1@kuoka>
+X-Migadu-Flow: FLOW_OUT
 
-From: Andrei Lalaev <andrei.lalaev@anton-paar.com>
+--1d9ff9570717d375168b9ca28d86c87a4db6edce1af1be67cd4ffe114401
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Memory programming doesn't work for devices without page support.
-For example, LP5562 has 3 engines but doesn't support pages,
-the start address is changed depending on engine number.
-According to datasheet [1], the PROG MEM register addresses for each
-engine are as follows:
+On Wed Aug 20, 2025 at 10:14 AM CEST, Krzysztof Kozlowski wrote:
+> On Fri, Aug 15, 2025 at 02:06:49PM +0200, Diederik de Haas wrote:
+>> On Fri Aug 15, 2025 at 1:00 PM CEST, Krzysztof Kozlowski wrote:
+>> > On 15/08/2025 12:47, Diederik de Haas wrote:
+>> >> The text description already mentioned the label property was
+>> >> deprecated, but using the 'deprecated' property makes is clearer and
+>> >> more explicit.
+>> >>=20
+>> >> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+>> >> ---
+>> >>  Documentation/devicetree/bindings/leds/common.yaml | 1 +
+>> >>  1 file changed, 1 insertion(+)
+>> >>=20
+>> >
+>> > Please first read previous discussions:
+>>=20
+>> [I reversed the order of the links so the oldest is first]
+>>=20
+>> > https://lore.kernel.org/all/20221122111124.6828-1-cniedermaier@dh-elec=
+tronics.com/
+>>=20
+>> Rob: "They ['function' and 'label'] serve 2 different purposes."
+>>=20
+>> > https://lore.kernel.org/all/20240509110545.49889-1-linux@fw-web.de/
+>>=20
+>> Krzysztof: "I don't think there was conclusion to make it deprecated on
+>> last attempt"
+>>=20
+>> I agree.
+>> What I don't understand: Why wasn't the text updated to correct the
+>> incorrect statement about deprecation (that's how I interpret it now)?
+>> Or some other conclusion being made and that that will be reflected in
+>> the text and/or a deprecated property.
+>>=20
+>> Otherwise the confusion remains and then it's just a matter of time
+>> before a 4th person comes along proposing the same patch.
+>> And possibly even more harmful: people use it incorrectly.
+>
+> Whatever change you want to do here, I expect to address one way or
+> another these previous discussions. If the code is confusing, refine the
+> description. But not in a way which ignored previous feedbacks.
 
-  Engine 1: 0x10
-  Engine 2: 0x30
-  Engine 3: 0x50
+I'm not going to make a change.
 
-However, the current implementation incorrectly calculates the address
-of PROG MEM register using the engine index starting from 1:
+I thought I would be making (more) explicit what the binding says.
+Apparently I read/interpreted it incorrectly. What I described above is
+how I currently interpret the *confusion* text/discussion. Is that
+correct? I have no idea. That I'm at least the 3rd person proposing this
+change indicates I'm not the only one who is confused.
 
-  prog_mem_base = 0x10
-  LP55xx_BYTES_PER_PAGE = 0x20
+IMO it's up to a/the maintainer to make a decision and that should then
+be reflected in the binding, which should fix any confusion.
 
-  Engine 1: 0x10 + 0x20 * 1 = 0x30
-  Engine 2: 0x10 + 0x20 * 2 = 0x50
-  Engine 3: 0x10 + 0x20 * 3 = 0x70
+I hadn't looked at the code yet, but *I*IUC the code should follow the
+binding, not the other way around. That's how I have interpreted
+(mostly your) comments related to various binding patches ever since I
+started actively following upstream(ing) work. Which (again) may be an
+incorrect interpretation.
 
-This results in writing to the wrong engine memory, causing pattern
-programming to fail.
+Regards,
+  Diederik
 
-To correct it, the engine index should be decreased:
-  Engine 1: 0x10 + 0x20 * 0 = 0x10
-  Engine 2: 0x10 + 0x20 * 1 = 0x30
-  Engine 3: 0x10 + 0x20 * 2 = 0x50
+--1d9ff9570717d375168b9ca28d86c87a4db6edce1af1be67cd4ffe114401
+Content-Type: application/pgp-signature; name="signature.asc"
 
-1 - https://www.ti.com/lit/ds/symlink/lp5562.pdf
+-----BEGIN PGP SIGNATURE-----
 
-Fixes: 31379a57cf2f ("leds: leds-lp55xx: Generalize update_program_memory function")
-Signed-off-by: Andrei Lalaev <andrei.lalaev@anton-paar.com>
----
- drivers/leds/leds-lp55xx-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaKWldwAKCRDXblvOeH7b
+btBmAQD1JHjz6wVqq6gTPmRfqgFiNxJqJCcz46DN0b+ZxQsbxAEArC+y6rxDn6tN
+msQRrdwHK3Ic9gU5uPGEpj5/vERYRwU=
+=tljW
+-----END PGP SIGNATURE-----
 
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index e71456a56ab8dae56988f50edd267e8e55090df8..fd447eb7eb15e243f1c470085f7780a8da866286 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -212,7 +212,7 @@ int lp55xx_update_program_memory(struct lp55xx_chip *chip,
- 	 * For LED chip that support page, PAGE is already set in load_engine.
- 	 */
- 	if (!cfg->pages_per_engine)
--		start_addr += LP55xx_BYTES_PER_PAGE * idx;
-+		start_addr += LP55xx_BYTES_PER_PAGE * (idx - 1);
- 
- 	for (page = 0; page < program_length / LP55xx_BYTES_PER_PAGE; page++) {
- 		/* Write to the next page each 32 bytes (if supported) */
-
----
-base-commit: b19a97d57c15643494ac8bfaaa35e3ee472d41da
-change-id: 20250820-lp5562-prog-mem-address-ff33ac25be24
-
-Best regards,
--- 
-Andrei Lalaev <andrei.lalaev@anton-paar.com>
-
-
+--1d9ff9570717d375168b9ca28d86c87a4db6edce1af1be67cd4ffe114401--
 
