@@ -1,51 +1,50 @@
-Return-Path: <linux-leds+bounces-5265-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5266-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6879AB2E5DF
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 21:52:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD74FB2E63E
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 22:12:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDEAA5E4125
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 19:52:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D61927BBC6B
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Aug 2025 20:08:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67F126F2B2;
-	Wed, 20 Aug 2025 19:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C1328688A;
+	Wed, 20 Aug 2025 20:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuC0x3zE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCxq1Q3d"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD942F4A;
-	Wed, 20 Aug 2025 19:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F4824503B;
+	Wed, 20 Aug 2025 20:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755719523; cv=none; b=bie9t8yZkcv0aGWOgLDUaZvZnHCNZ8DveVLs1vnZVxpQzXphcqK+bGskCqqaBN81g1WQIg2u4IjKYJ0/YZrd0wIIDCjR/+xC5R0wjt+0M1EpAhasxV/icg33VXll6riO+n8w+lBrISLf7B8WMrMStcB2UUEY8zKQvLXx6o0fotY=
+	t=1755720488; cv=none; b=nNjmqtibVEaf+z7GDi9omMYRW9a65OiDwbGrkg4MEoTOlmLjVQ8dXKcOE2pgxHCsN1XKELeKZ54VGI1+7GK/vwMoHFRk7ARavGHUSXgMQClPtt+t2Rs2CN0lX+sufpAMxioDgKDrHpO45j+OWJE/vBb8OGo+VEaXZoGPZXNXMpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755719523; c=relaxed/simple;
-	bh=zGAyQrb62JlwMvikL117lzOzDR5dBsupAPSQ54LsUKQ=;
+	s=arc-20240116; t=1755720488; c=relaxed/simple;
+	bh=/G9A7kPuah5GXIsWIFBAQ6+/j6rQ0Qtswu0ghfH3Xb8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sU8l9zp+rvmE3IC3ijbcfyUaXtbxjEDjbFtVzd+52wX9LPf+xqzL8eNN9lAVUOljKbUlaFrdjWinV84KgiyuisYzGINdEF9C4U9Q7iRnHpYkbtuP3/P2Z/XgIMDJHB66feJOrca8ck6VDlQnPuR0/O0WtJKFLDOH9CHJiCsNwMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuC0x3zE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32D04C4CEE7;
-	Wed, 20 Aug 2025 19:52:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNHaeoohh7YFW5Rxd6K9wyPUZ6tqGDGoBAQtEh4eaTDFysAVElRk/qLkvJe/YLLxYbzLJFHFnXBux0xvoWvsqGYPJjR9OWRfjEXJGXeQuqDz5rSGnmksRm44w964Cf4E+LlTps141dLAV7O9F0OQ7iuMdhOTu6gWKDYajVmYl0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCxq1Q3d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36794C4CEE7;
+	Wed, 20 Aug 2025 20:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755719523;
-	bh=zGAyQrb62JlwMvikL117lzOzDR5dBsupAPSQ54LsUKQ=;
+	s=k20201202; t=1755720488;
+	bh=/G9A7kPuah5GXIsWIFBAQ6+/j6rQ0Qtswu0ghfH3Xb8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZuC0x3zE4gY1tWkVNK9i4nhhTH4EbDDvBu2juzSEV7/jw15X+2uo84+nNGRFgUnnF
-	 92bkohYSJ+2OJVEnztRDZCWhZ51mKfSwI2s8iUjbzxConu7HiUFFqhXQS++N0dSX85
-	 iUPMYJ+YCKPFr9CUSoqnCiPyZQaTfZqIArdUwbZLAa8WKiJyunvYh5+Q4oxbc2ILd0
-	 JLJZOlM5hc2HMwDlUemYPpQYT8I65Y+d5OybGu/T8imPmPyY3dbWbcP8AxFOXxn/Yl
-	 /DuEyKtYmsppEGMdpRYF/B6C6CoMQTdpIjGwoLHu1OjgLTHAhp5NYH5jw/5bNCFCG1
-	 X7QCWZyUCg5Kw==
-Date: Wed, 20 Aug 2025 20:51:58 +0100
+	b=BCxq1Q3dN+NSRV/70cGCYfWY6SPW0Jtif+SbJ1rXtSxNzAtpr7XdC5j23EMEt77xo
+	 WfaCgDKnQz5crq1DfldD+aSqNa3VeWAshOIGPrZUPJYr485J3JUawoxEN+Tyf988Io
+	 d0m2RaNe7cq21emaTC3ehF+7/yne4A8eluQyArSda7T8bDVleAmQsLFa4b8ku1VXRE
+	 X4sKIQwd1YhucqjHvOkRQZWdc+XIIaKQFVWItTJB3+yL0sASQ7DrVA8KOV8V4yumkS
+	 NXrpDkDnqbzhNgIcxGBG1vl+PvadNNh8vcnxPVJMkJBpKlEdKG9LQFB95djlZFGNA+
+	 E/7iimuegTseg==
+Date: Wed, 20 Aug 2025 21:08:01 +0100
 From: Conor Dooley <conor@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+To: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -57,11 +56,11 @@ Cc: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Paolo Sabatino <paolo.sabatino@gmail.com>,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: Re: [PATCH v3 4/4] MAINTAINERS: Add entry for TM16xx driver
-Message-ID: <20250820-clock-easiness-850342f716f3@spud>
+Subject: Re: [PATCH v3 1/4] dt-bindings: vendor-prefixes: Add fdhisi,
+ titanmec, princeton, winrise, wxicore
+Message-ID: <20250820-wired-deserve-421d76bdd1c9@spud>
 References: <20250820163120.24997-1-jefflessard3@gmail.com>
- <20250820163120.24997-5-jefflessard3@gmail.com>
- <CAHp75VfyR0cjnC6C6Xy8x9nTREdAgbjo18RLYNRzoLc6KmXnTA@mail.gmail.com>
+ <20250820163120.24997-2-jefflessard3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -69,40 +68,107 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ED76KRMEHLfSRas1"
+	protocol="application/pgp-signature"; boundary="ptAdB7JQkIezWcQ4"
 Content-Disposition: inline
-In-Reply-To: <CAHp75VfyR0cjnC6C6Xy8x9nTREdAgbjo18RLYNRzoLc6KmXnTA@mail.gmail.com>
+In-Reply-To: <20250820163120.24997-2-jefflessard3@gmail.com>
 
 
---ED76KRMEHLfSRas1
-Content-Type: text/plain; charset=utf-8
+--ptAdB7JQkIezWcQ4
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 20, 2025 at 10:08:06PM +0300, Andy Shevchenko wrote:
-> On Wed, Aug 20, 2025 at 7:31=E2=80=AFPM Jean-Fran=C3=A7ois Lessard
-> <jefflessard3@gmail.com> wrote:
+On Wed, Aug 20, 2025 at 12:31:14PM -0400, Jean-Fran=E7ois Lessard wrote:
+> Add vendor prefixes:
+> - fdhisi: Fuzhou Fuda Hisi Microelectronics Co., Ltd.
+> - titanmec: Shenzhen Titan Micro Electronics Co., Ltd.
+> - princeton: Princeton Technology Corp.
+> - winrise: Shenzhen Winrise Technology Co., Ltd.
+> - wxicore: Wuxi i-Core Electronics Co., Ltd.
 >=20
-> Besides the missing commit message, the main part of this patch should
-> be merged with the patch 2 where the YAML file is being added.
-> Otherwise it will be a dangling file. I dunno if DT tooling has its
-> own concept of a maintainer database, though.
+> The titanmec prefix is based on the company's domain name titanmec.com.
+> The remaining prefixes are based on company names, as these manufacturers=
+ either
+> lack active .com domains or their .com domains are occupied by unrelated
+> businesses.
+>=20
+> The fdhisi and titanmec prefixes were originally identified by Andreas F=
+=E4rber.
+>=20
+> CC: Andreas F=E4rber <afaerber@suse.de>
+> Signed-off-by: Jean-Fran=E7ois Lessard <jefflessard3@gmail.com>
 
-get_maintainer.pl will pull the maintainer out of the file, so it won't be
-truly dangling without a way to associate Jean-Fran=C3=A7ois with this file=
-, if
-that;s what you mean.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+but some reason why all these are being added together would be nice.
 
---ED76KRMEHLfSRas1
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 77160cd47..9fdba2911 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -540,6 +540,8 @@ patternProperties:
+>      description: Fastrax Oy
+>    "^fcs,.*":
+>      description: Fairchild Semiconductor
+> +  "^fdhisi,.*":
+> +    description: Fuzhou Fuda Hisi Microelectronics Co., Ltd.
+>    "^feixin,.*":
+>      description: Shenzhen Feixin Photoelectic Co., Ltd
+>    "^feiyang,.*":
+> @@ -1233,6 +1235,8 @@ patternProperties:
+>      description: Prime View International (PVI)
+>    "^primux,.*":
+>      description: Primux Trading, S.L.
+> +  "^princeton,.*":
+> +    description: Princeton Technology Corp.
+>    "^probox2,.*":
+>      description: PROBOX2 (by W2COMP Co., Ltd.)
+>    "^pri,.*":
+> @@ -1567,6 +1571,8 @@ patternProperties:
+>      description: Texas Instruments
+>    "^tianma,.*":
+>      description: Tianma Micro-electronics Co., Ltd.
+> +  "^titanmec,.*":
+> +    description: Shenzhen Titan Micro Electronics Co., Ltd.
+>    "^tlm,.*":
+>      description: Trusted Logic Mobility
+>    "^tmt,.*":
+> @@ -1724,6 +1730,8 @@ patternProperties:
+>      description: Wingtech Technology Co., Ltd.
+>    "^winlink,.*":
+>      description: WinLink Co., Ltd
+> +  "^winrise,.*":
+> +    description: Shenzhen Winrise Technology Co., Ltd.
+>    "^winsen,.*":
+>      description: Winsen Corp.
+>    "^winstar,.*":
+> @@ -1740,6 +1748,8 @@ patternProperties:
+>      description: Wobo
+>    "^wolfvision,.*":
+>      description: WolfVision GmbH
+> +  "^wxicore,.*":
+> +    description: Wuxi i-Core Electronics Co., Ltd.
+>    "^x-powers,.*":
+>      description: X-Powers
+>    "^xen,.*":
+> --=20
+> 2.43.0
+>=20
+
+--ptAdB7JQkIezWcQ4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKYnXgAKCRB4tDGHoIJi
-0iIgAQDiRFM5SkzAyXH55vfBZqtQCGaLrGiXAkLlcUyyxoL5CAD+JTcy5r2rjqNV
-J1FVxjeFIXCicwdRH1M/+3G3W13qTgY=
-=ACTV
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKYrIQAKCRB4tDGHoIJi
+0s9AAP9WOmOrTvsrhQrT0zhJmk7EDVOROhIxOhRWU9M3yp3KCQEA4tWmwkqk1NBL
+6cTTXzgVb0/IKkD384C8m6M+moakRAk=
+=PWXY
 -----END PGP SIGNATURE-----
 
---ED76KRMEHLfSRas1--
+--ptAdB7JQkIezWcQ4--
 
