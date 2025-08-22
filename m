@@ -1,202 +1,203 @@
-Return-Path: <linux-leds+bounces-5285-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5286-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41CCB30E8B
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 08:09:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D46B30F74
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 08:47:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3FAE7AC2F1
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 06:07:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4BACA1BA14F6
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 06:45:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAFBA296BC2;
-	Fri, 22 Aug 2025 06:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEB4D2E6104;
+	Fri, 22 Aug 2025 06:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+f1n9KJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pc9JHtt2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098167262F;
-	Fri, 22 Aug 2025 06:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FC02E5D39;
+	Fri, 22 Aug 2025 06:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755842962; cv=none; b=JH9dWgX3sqt6c0dbMapCe7x0AUOBkgF3O1IxXCrDp9+PfF1hIhm52rya/GkpVh8/u7AwAqIo6aw4JmP9Tl7mEY7xuj8rG94OMUzmKaPGUsYRClNMAGrhze5YnOlbZLLcmYRvh73HcyhsC9OAiZZnxcyJATr4dpyFId03fp+Kp9o=
+	t=1755845071; cv=none; b=Bp+BGH7u02Z8Z1NTgWzN0MrOdaVCUob4lj4rDQb3S2+MtvTL8zR6JlKkYPUOqBliRJ6iOcA8XZEysFhuE5igvYSZ1sPVJ5sszDJ95ZpSwEL1Elr8ZtI3oYqW7k/IFjjTKmYay+BF9+NQMm4pRzLOum6dGgS3vtSDzzMy7bO5Tlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755842962; c=relaxed/simple;
-	bh=9yTb3PAVEacxL6bQaT/9FkSQrAKZ3na8Gmlj6O0VA8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ik12WfGrjdravorTv40t65JNXVqOMKjj7bLJ27sAyClthrhnYzgGQLsESuHHMYzegXbq1+UhzXOjfMLCXGl2Wm685ID+Svl5oynQKxtBBnUd3ymoYCVRw3qPsehOVK8CiEShRO9KRyTNIgcZQGZ9Lsa7MKsItRdKoUfShGE/0gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+f1n9KJ; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afcb78c66dcso254663966b.1;
-        Thu, 21 Aug 2025 23:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755842959; x=1756447759; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xi9ufJCYcPUexTZJoE4UsVh6dtoNuzhBR4xZQUiWPNo=;
-        b=I+f1n9KJPJtvibzgGgR6cIcqZoh3XJEwYPrZbcRBQ7oB61yIzOGvZB6/imY0S04JL3
-         qHbWfDV/ozxHUKNt7VUHTFFYr+DLmSrDBvoTH+syZOUGSdZF6TyaallI3+HPeTV4MLli
-         /EASz0apZPxSxAMa5jeanx6II8dW4mRbQn723SnnxhxiomCD+A5FcPVXmOqq+DWE8EM8
-         v9RLbin7b1uabKTOeZ1lUs3zScuV9i9941NDn41z00KzxedE0CWLxEWWzPtVlGw08roF
-         I3vusAFr8gKE20f15cO9CMAt/nVOu7G/ECHG5I+ug1FkHY8UB9VRC/eXy2/QoGT0Q3t7
-         jSJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755842959; x=1756447759;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xi9ufJCYcPUexTZJoE4UsVh6dtoNuzhBR4xZQUiWPNo=;
-        b=RtOgSX+jDMJdIQsh7+f+13xFAplAzXilSCLBIb/IbpRFLEV7set28yUQqjPZWZqLvu
-         PMacPkIPeHhseFiMpHAFYtpdOEcSKM2en73oT+u+aKutMX7zZfZGeUflScELnLJw4W36
-         nvgxZKUYT7Gyuyzmtk14U7XeePrBdN/MsH85bmuj9Gc1A9GXaP+NjbHygrnpsIzKaR2E
-         0q+Y222OzS0xP3S+54oc4nw7WmaN9w8Whou9ys4x+u0ulZsGabKvNYl2hCPay89HbCGz
-         gXbjvEJBAESrbYcO32gkm/bQ9PPJy4FmpC0dIXj0zpM+Zw5toorDCSjEgI8fLwRpV70j
-         vjzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUr+XgzWdn0jKrpRLc8hBprv2Mh8vZ5hlM9o0GCA0wULJfSuEx6YjDgAhPdXFDSYN+DCcQKY8aRmNw7OGvz@vger.kernel.org, AJvYcCV3yLUtDNQNDX5Yd4zH8EdPHM+KOapcTBAz2mPd8xGzwdWQCvnNtotter9GDLvcwlAtUM9xuLQrChrc9Q==@vger.kernel.org, AJvYcCW9p+w3uDcFnAQ7PVtHgN/sI/V8Xp1AFWiLAboGmAeOhN4PJa6DhIzMxA26DfSAG9JrLP0UJuGNYcKh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxt8qF3roo7At6TqzZ66VVF56uQcsqzjWDBZw1DAHsm25TFwri6
-	LslwcVhuEy+3jBduwzxQEI8XnlF1OkHnrpGKjDoscxkWb6I5Yi8ZA5J4YLpgMVoyd2q+0j7WcOA
-	ZeMqCDN+hsMSk4Sp6fdG20yt1DI5X9nI=
-X-Gm-Gg: ASbGncuXx6vFLdsyVgCNHwCaYVD1/QpQFekhBC1Roi++fXv7x41Fz231FEQZw2UIeJZ
-	88EV6cwGqXwyQvJ3B8qJtEfuNUe3mnK2WI1Qmx0Oxxw4AVy28jPKWe9gQ4uQv5kqLoj43d1bQGy
-	Ds9Qp85wkf2yrIPZWk0Jih118hBazW2rqsfXkKotw+qEWG0hmuMkU940oocfQvbPI22etyhoLiI
-	Jrp5gofJuOHTcMPog==
-X-Google-Smtp-Source: AGHT+IHe8G376Jxt79RgjqddGtxUfu8mc1uuyD/D5cLtuNRmXpCaDXIePUP3fceF5qlhVgDDU3amnDOg/XupQNgEvvo=
-X-Received: by 2002:a17:907:7fa1:b0:af9:8c1c:b9be with SMTP id
- a640c23a62f3a-afe28f15455mr160114366b.14.1755842959043; Thu, 21 Aug 2025
- 23:09:19 -0700 (PDT)
+	s=arc-20240116; t=1755845071; c=relaxed/simple;
+	bh=ub4B+wXFvePiETd1ne9e/twVZbwp9V27Fi2+Rm7VHew=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QCTlURz/d4mTWViyan5wDeLr/IIgYfabtD8ZiVLsdMyXV+XAovqaLIaNM819rMXIT1UcJS8tW8oFC3KDdezg0AeIc3C0pZDTcYM3xdr7Trkm+C7wj9GIsws8wE381OrmH/9EeyuMARHKKV0pcbvIpbBP2j3jSMpGhf/UC/1Yz00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pc9JHtt2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF6CC113D0;
+	Fri, 22 Aug 2025 06:44:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755845071;
+	bh=ub4B+wXFvePiETd1ne9e/twVZbwp9V27Fi2+Rm7VHew=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Pc9JHtt2QYudRWiANZkSO2MPTpHme9jW9dvfhuf5KP+V4iL4hmQ1dCKoe/U8kH6NH
+	 oxYYtU8i/MTwE/l4UL65bcP8ZQrVscmKutWwm2H7Jp2JRWCuQQ3TxTbIHH0h4URvh8
+	 rBB8ilB8fwa1B2zgO7P/ZpFfV1N8yzCronYzZKM9blUa0J5kqwZ2qX9YrNOF1v6JE/
+	 kdgVTS9TmxfeeChehE9WtR8iHL7RK3XThUPMphOrM2p0ZHeZMoBaH4UPbtkUQdagXG
+	 K+sMQ/y7oRqfE38jeDT8AHFH1TwuTMkFPzVI+h7nuQJS1AZfpHo2Gcyc/xlqoSvYRg
+	 PJ1S5YQ0ag78g==
+Message-ID: <68ff2e14-19db-4d4c-8390-8fd2ec9e2c48@kernel.org>
+Date: Fri, 22 Aug 2025 08:44:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] dt-bindings: auxdisplay: add Titan Micro
+ Electronics TM16xx
+To: =?UTF-8?Q?Jean-Fran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, =?UTF-8?Q?Andreas_F=C3=A4rber?=
+ <afaerber@suse.de>, Boris Gjenero <boris.gjenero@gmail.com>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Paolo Sabatino <paolo.sabatino@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 References: <20250820163120.24997-1-jefflessard3@gmail.com>
- <20250820163120.24997-4-jefflessard3@gmail.com> <CAHp75VfG7p+YYV1b9f6i_o-VrLhMh_=TaLdZTVRWHa8ky-G8Zg@mail.gmail.com>
- <D21AECF9-85D7-4846-9DE6-8B9DD912339D@gmail.com> <CAHp75Vcdp5fHPNAy=_iEFR6Fa5PEE4U++T5owE1mW_H2-y3ijA@mail.gmail.com>
- <D0111A5F-5FA1-4405-A86A-C0D772FDAAEA@gmail.com>
-In-Reply-To: <D0111A5F-5FA1-4405-A86A-C0D772FDAAEA@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 22 Aug 2025 09:08:42 +0300
-X-Gm-Features: Ac12FXx0gZV2c6nDcTrplAHEqnsRimF8H_nsVjFm26TxmGuBxUQqmzLIBvyhYVc
-Message-ID: <CAHp75VcpJzMUtrN2kBhWs90G3n6_NWTBhw3MX2WpuhsDt7zmjQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] auxdisplay: Add TM16xx 7-segment LED matrix
- display controllers driver
-To: =?UTF-8?Q?Jean=2DFran=C3=A7ois_Lessard?= <jefflessard3@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, devicetree@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Boris Gjenero <boris.gjenero@gmail.com>, Christian Hewitt <christianshewitt@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Paolo Sabatino <paolo.sabatino@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20250820163120.24997-3-jefflessard3@gmail.com>
+ <20250821-funny-hasty-poodle-582053@kuoka>
+ <7CD0DD74-EB4A-414B-B22E-E9248ECF8CBC@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <7CD0DD74-EB4A-414B-B22E-E9248ECF8CBC@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 22, 2025 at 5:20=E2=80=AFAM Jean-Fran=C3=A7ois Lessard
-<jefflessard3@gmail.com> wrote:
-> Le 21 ao=C3=BBt 2025 16 h 19 min 23 s HAE, Andy Shevchenko <andy.shevchen=
-ko@gmail.com> a =C3=A9crit :
-> >On Thu, Aug 21, 2025 at 10:04=E2=80=AFPM Jean-Fran=C3=A7ois Lessard
-> ><jefflessard3@gmail.com> wrote:
-> >> Le 21 ao=C3=BBt 2025 04 h 08 min 51 s HAE, Andy Shevchenko <andy.shevc=
-henko@gmail.com> a =C3=A9crit :
-> >> >On Wed, Aug 20, 2025 at 7:32=E2=80=AFPM Jean-Fran=C3=A7ois Lessard
-> >> ><jefflessard3@gmail.com> wrote:
+On 21/08/2025 17:16, Jean-François Lessard wrote:
+>>
+>>> +      # Controllers with titanmec,tm1650 fallback
+>>> +      - items:
+>>> +          - enum:
+>>> +              - fdhisi,fd650
+>>> +              - wxicore,aip650
+>>> +          - const: titanmec,tm1650
+>>> +      - const: titanmec,tm1650
+>>> +      # Canonical standalone controllers
+>>
+>> Drop
+>>
+>>> +      - const: fdhisi,fd620
+>>> +      - const: fdhisi,fd655
+>>> +      - const: fdhisi,fd6551
+>>> +      - const: titanmec,tm1620
+>>> +      - const: titanmec,tm1638
+>>> +      - const: winrise,hbs658
+>>
+>> This is one enum
+>>
+> 
+> Well received. I followed the older style and will adopt the modern approach:
+> 
+> properties:
+>   compatible:
+>     items:
+>       - enum:
+>           - fdhisi,fd628
+>           - princeton,pt6964
+>           - wxicore,aip1628
+>           - wxicore,aip1618
+>           - fdhisi,fd650
+>           - wxicore,aip650
+>           - fdhisi,fd620
+>           - fdhisi,fd655
+>           - fdhisi,fd6551
+>           - titanmec,tm1620
+>           - titanmec,tm1638
+>           - winrise,hbs658
+>       - enum:
+>           - titanmec,tm1628
+>           - titanmec,tm1618
+>           - titanmec,tm1650
+>     minItems: 1
+>     maxItems: 2
+> 
+> Fallback relationships will be documented explicitly in the binding’s description.
 
-...
+Sorry, but what? I commented under specific lines. Why are you changing
+other things?
 
-> >> >> +#define TM16XX_DRIVER_NAME "tm16xx"
 
-> >> The TM16XX_DRIVER_NAME macro is standard practice for consistent strin=
-g usage
-> >> in registration and module macros.
-> >> If helpful, I can add a leading /* module name */ header comment.
-> >
-> >Instead of an unneeded comment it seems better to use explicit string
-> >literal in all cases (two?).
->
-> I'm surprised by this preference since driver name macros are very common
-> practice, but I'll use explicit string literals to align on this preferen=
-ce.
+> 
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  label:
+>>> +    description: Name of the entire device
+>>> +    default: display
+>>
+>> Huh? Why do you need label? Are you sure auxdisplays have labels?
+>>
+>>
+> 
+> Display integrates with the LED subsystem (/sys/class/leds), where label is
+> a standard property per leds/common.yaml. It ensures predictable LED class
+> device naming when multiple display instances are present, following established
+> LED subsystem conventions rather than general DT naming rules.
 
-Usually we put a macro to something which (theoretically) might
-change. The driver name is part of an ABI and I prefer it to be
-explicit as we do not break an ABI. Once introduced it can't be
-modified or removed. Also it's better to see clearly exactly at the
-place in use in the code the name as it's easier to (git) grep for
-something similar. With a macro I would need to grep at least twice to
-see the users.
+You want to say that top level node is like LED? Then probably it misses
+common.yaml reference. Although I am still puzzled... you have sub nodes
+for actual LEDs, no?
 
-...
+> 
+> If helpful, I can add a $ref to /schemas/leds/common.yaml#/properties/label
+> or include its description explicitly.
+> 
 
-> >> >> +       keypad->state =3D devm_bitmap_zalloc(display->dev, nbits, G=
-FP_KERNEL);
-> >> >> +       keypad->last_state =3D devm_bitmap_zalloc(display->dev, nbi=
-ts, GFP_KERNEL);
-> >> >> +       keypad->changes =3D devm_bitmap_zalloc(display->dev, nbits,=
- GFP_KERNEL);
-> >> >> +       if (!keypad->state || !keypad->last_state || !keypad->chang=
-es) {
-> >> >> +               ret =3D -ENOMEM;
-> >
-> >> >> +               goto free_keypad;
-> >
-> >(Hit send too early that time...) This goto is bad. It means
-> >misunderstanding of the devm concept. See below.
->
-> I can assure I understand the devm paradigm. The keypad probe is optional=
-,
-> failure doesn't fail the main driver probe but only generates a warning. =
-The
-> cleanup code prevents memory from staying allocated until device removal
-> in this specific optional failure case. However, if you insist, I'll remo=
-ve the
-> cleanup and let devm handle it normally.
 
-Assume you have a separate feature, let's say keypad driver for some
-complex HW, like this one, and you have even a separate (library)
-driver for it. Then you want to introduce some kind of library
-functions to probe and remove the only keypad part, here are two
-options:
-- follow the library pattern with plain (non-devm) k*alloc() in probe
-and kfree in remove
-- use driver pattern with devm
-
-If you choose the second one, it will be weird to call devm_kfree().
-The rule of thumb the devm_$FREE_MY_RESOURSE() *must* be *well*
-justified. Because it's exceptional. Losing 1kb memory or so is not
-enough to justify.
-
-> >> >> +       }
-> >> >> +
-> >> >> +       input =3D devm_input_allocate_device(display->dev);
-
-> >> >> +free_bitmaps:
-> >> >> +       devm_kfree(display->dev, keypad->state);
-> >> >> +       devm_kfree(display->dev, keypad->last_state);
-> >> >> +       devm_kfree(display->dev, keypad->changes);
-> >> >> +free_keypad:
-> >> >> +       devm_kfree(display->dev, keypad);
-> >> >> +       return ret;
-> >
-> >No way. We don't do that, If required it signals about exceptional
-> >case (0.01% probability) or misunderstanding of devm:
-> >- managed resources are managed by core, no need to call for free
-> >- using managed resources in the contexts when object lifetime is
-> >short is incorrect, needs to be switched to the plain alloc (nowadays
-> >with __free() from cleanup.h to have RAII enabled)
-> >
-> >Choose one of these and fix the code accordingly.
->
-> Same as above.
-
---=20
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Krzysztof
 
