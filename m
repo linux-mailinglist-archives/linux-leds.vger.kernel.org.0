@@ -1,249 +1,251 @@
-Return-Path: <linux-leds+bounces-5290-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5291-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB932B3108F
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 09:35:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF68FB319E0
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 15:41:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5ACCDAC3F3B
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 07:35:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A22ABB07FA3
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 13:34:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DCA92E889F;
-	Fri, 22 Aug 2025 07:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF2AA30504F;
+	Fri, 22 Aug 2025 13:32:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="fafUOXVO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QkownOw/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021120.outbound.protection.outlook.com [52.101.70.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB9E22DF85;
-	Fri, 22 Aug 2025 07:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.120
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755848125; cv=fail; b=cW8BbZmSnWvbuHgSv1MG1lNe2JxdZBemycFFYmc0fIQobRIx/TWoFs2gybYqGkqINubwrqrgleCyqKv/anT2zJg+/SHaMxQ5fd2r4Xq5brpoqIpAZpfAuoHhU0s2B+OXOVo/oCLoFCTP4aVan+NY/541fOmFJ4skLr+BMP39dYI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755848125; c=relaxed/simple;
-	bh=XqoW+gQclY/L+RyWTHPRSRHy+yXoKMTyydq80kgtdac=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uD9qk1t/hhi13kFZGtAvZAdfV8dcUlfh603wyMkVzqW+gKU7R0Z0u16i6uAJ92Oulmu0yKpmTrGldy6rBUOEliputlFjemQPjfTGL+xNfEjbX6DcXFvBRaInRlIOqVnAG9Pvi72tEQCMVb2SShAaXfkROc6YPgz9grwlE8g6zkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=fafUOXVO; arc=fail smtp.client-ip=52.101.70.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fK0Cf/uRnRb4P2wnniQMfoy/OtX+Gf8X8cnZzzApe8qDhezNgfza8qRoKl1MiVJI9oSoV0ciXxhOK+KChxhTV2UESGG5VgIC2drMN2muciw/tk42GMiqAn0v8XhNf/7DbtpJg86CbQTkaWi7xxFFdMt8bI+SRHUAURG2ia7Gsn3UjsJ3+2zGMF4YuSY/LCWQejpdrbE0JelgwiQyWfFhCiSUJq007jBgyLpgLPvuk0aOopyWu11kgrTIpldAEH/MFxyj7kuyIc6CVfswtikc5f/Kz3Uk0jNwUaqpiZrFNadSlAoZXfmdRsEJ68mWBTq/jTLYTd657jm2zUirdjf/uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kL+cU0P3p9/AntoaKdh98f8pMamuudHJ1hHX8STHjJo=;
- b=A63DJs8oLEZhqVE/lwEHzHCzk5sv/j49Wye0w9/F4I6j6/lt0mFL+liTrI6XrjlH3M4+pGV2cb5ipmdT0nuVw45sjgzaWkej5DCpr1r9upQakGlEeUh0BeiqBImQPfB1PyWmznMNlYY0656/oQdmKBGiRE29OcFZQd0YtKQ8hQBsGtSP2lnopSYLXOyCbIZhRiHZ2KSB6s7atmefkd05pjXengnPdKvii/ZohCMQrV3i/riuhbB65HuLc8uVEvXw47Gr6dtb5AOMrqtWJTw5HBGHz7WyU60nGS+LlnxiRaxVlGHA86LnTG/K3kpqMz86wHPXvASWhJvqJjMy4KWThA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gocontroll.com; dmarc=pass action=none
- header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30123305044;
+	Fri, 22 Aug 2025 13:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755869551; cv=none; b=XplRr4C1VlVukvWThy3CenEx+LeI4hBViEW8TpUamEb5yp0xUWgkbKPSQ3Yrqt5ThJNd6BKq8vUZ4zva1LpFWnFUzhb/M3Y8s94gLkyUZGR7k7o0px4fJfaCphGGHgZyoHNoMQQT113tN8NKjy3bPee+TWhUf9seApb2ynqke9s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755869551; c=relaxed/simple;
+	bh=hMeLI6sw3gUXDyoKayVnNX/dUnPqtksPtByEZI0A1z8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=sU6aBgdToS7a0n0OZYPPL7ZNdUqJJz7U+09RUVp0e8rBpfBHC/IaDb2sYgezbvhuw2N61D/IHPKSkfs3gWA0jlU+j8F5S0q8sCVFj+tEVT5UUNaj2G/VJ7qDOTjGglkrRmtd/tlmJVcnIR4s7C1IddzM6t9WmEFP+SG3otYYWlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QkownOw/; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-70d9f5bdf63so3016236d6.0;
+        Fri, 22 Aug 2025 06:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kL+cU0P3p9/AntoaKdh98f8pMamuudHJ1hHX8STHjJo=;
- b=fafUOXVODW+r9mj2AMj7DVBWq9Ti0Pwn3PM2LVUB5vCRNU05PhTLCVhqk/yicmApOLbgPPm2HQ27d9aMfurrvYdXwxlRiFv+ZRVxfUBQNNGFXOFWFp1zA+0gsMMYTw2ipop9rDV9FDF+FU/XjFfWr/53IFi0LIhkFa6joJBTiUyeRs3QwYE79HTAcIPnsbmw8hA2Eo7+fd8EqVmwgjUYPvEyx6gfKX2Y+WLrAqOYSksfLYbFxnFlzXdxDsP0VjXlIQl+EN7camuS39Z1pe0yP4KkHtDW1N2z6rG77/ODzwLd/yse0+rpIeILV2vODugX9on+wOMMYCF9Vc7yi0lInw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gocontroll.com;
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
- by AM9PR04MB8601.eurprd04.prod.outlook.com (2603:10a6:20b:438::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.17; Fri, 22 Aug
- 2025 07:35:20 +0000
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f%4]) with mapi id 15.20.9052.014; Fri, 22 Aug 2025
- 07:35:19 +0000
-Message-ID: <8e7796b2-1e6f-4c91-93d0-a72f6343ab47@gocontroll.com>
-Date: Fri, 22 Aug 2025 09:35:18 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: backlight: Add max25014 bindings
-To: Daniel Thompson <daniel@riscstar.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
- <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
- <aKgboFjwjtZsanWb@aspen.lan>
-Content-Language: en-US
-From: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <aKgboFjwjtZsanWb@aspen.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR05CA0088.eurprd05.prod.outlook.com
- (2603:10a6:208:136::28) To PA4PR04MB7630.eurprd04.prod.outlook.com
- (2603:10a6:102:ec::16)
+        d=gmail.com; s=20230601; t=1755869549; x=1756474349; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XuZlS9CdHDUq6B5dMplRyOq4bbNsojpePygP+1WONy4=;
+        b=QkownOw/QLLnJGkHOHiSYH5u4DRTyaIayg3ZRWOBAr9gBsAGs9/Ez2ItNwzq6R0cd1
+         qGCUrpOSK9Gz2Md7K1xznWpq4+EfdF4qSjwuQXjuM3WemoL/JszTwypDAWdE20veaYil
+         TQi3XnMrC4QpxHKrWLtf4HSZCAuwuyCK3nbF26IDMEtuoeadfB1z1CO1avL0n2fDt9Vo
+         svOenfaONKauA4usIy/Rre5yXV2uZd2djR3CW5TX0VDIHzf13N4zi5mhe/B1yQWH4lo/
+         8Ycqh3fvniX9mBrNIo06AZe8az3kGNkLcOQ/FcI0/M6ocOFhN8SRQZwmPvrrPdwfJ95W
+         2Nvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755869549; x=1756474349;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XuZlS9CdHDUq6B5dMplRyOq4bbNsojpePygP+1WONy4=;
+        b=pc2zl4dtamY+jK1O/b95ArP3d2B0mGZMPQ6hlmwXM2LDl/5Ok7n+1guozbQonIElWx
+         zqtRyCqh21RmKpVlyKdpVITMc/Ow0V3u74An3e9uOMAjvWGLgi1v72idxe9XQGMZzaZH
+         BNJ0n7aZBsTSb88uRI+ZCWth+FlmxNZoc+4aCQqjrDh5vItMfwYyWZ9UlNW2lXEom4il
+         kt8Vo28ZdJN4+FWFMHP/Ce+k0iyB7980kFTsK7KR4S5rdKFbVe2trK258NLZb6URM93f
+         sY5lw+P1AMqGGWXVczF0IXAKIiNE670Awaf2o97riWcC1ad8gzLm/mBZLyWIWyY0kwqv
+         49CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/1vak+wZ1gL9sYUVxPk2pDRqPPB6RvcAnq4SyF3kZ1vPbMwmXIXshzoYydXgeeIRH8zmRXD+KRfat@vger.kernel.org, AJvYcCVdWWc/k+KPxTzhnHtSVeYgRreR3iXxWlAuWljWm7YU+flSGbbQes7b1WzfE4uQEbyKZAmdwxGfq/yK6g==@vger.kernel.org, AJvYcCW9M6CnP8DcX8Vwzj7uO1jc9eC9F03GEs24IRSg6dQLZ7Wq9lfKASUdm+bPlTQPG/nBVxx/QRnTQP2YDmma@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZpPOz6zbBP2fZhpwFFswzG6TOv+aGvB3CMaN1MiJzgIOTuZhH
+	g9aIwW1XgTgiCIqlQ1YDWbrgiTvPZ3zdL6ks0xGn2f2LERo4XEy7kJ0H
+X-Gm-Gg: ASbGncukG0D18tKWbXdcV7t6gmCnPuhptYZGbRzLUqBQ1RvivWGJfIO+GsL8DoUbFMP
+	v6t2dDZdOGA3qENgr40nDz84BaA0vPj9EHJ+n0GNTamFWJuazSnh3z2eMlXbQtZ4g010DdN40sq
+	fSGDd+XDfi2RxCoQlEVJpoF0ZJpVVsMXKEn7Pra5q4IEt/UgOouQN82trgYGLNe2uKYai/xI7el
+	Iyw0b6vI5bCBgH3j49IcpcM/NE2HtqEFaDmlX1i0kBThftvoV+1ROISU5QofVO/ETe7lCh2b2ZF
+	HpW0F7LPid9VqON4LCKAD2xDol0gxMv91dOSfDugYzamXBQ96zdfxCuRNfA2BfJClpBAIXYORN+
+	CEi+Z9YVc3jyIrjlqZ7tmbf667w83kSeTKcq64WhRczha46rnxRqAtvtMeJvtr6hp0smeHA==
+X-Google-Smtp-Source: AGHT+IEjadA/NQ4eTXrSAMGW+6h4cl/2RbaQhY90jc9D/bpRGmD57y852aiTXAQFMmPR61h2M5NXRA==
+X-Received: by 2002:a05:6214:d0e:b0:70d:857c:a1c9 with SMTP id 6a1803df08f44-70d97350721mr37311346d6.62.1755869547857;
+        Fri, 22 Aug 2025 06:32:27 -0700 (PDT)
+Received: from [127.0.0.1] (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ba906706esm124241126d6.17.2025.08.22.06.32.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Aug 2025 06:32:27 -0700 (PDT)
+Date: Fri, 22 Aug 2025 09:32:24 -0400
+From: =?ISO-8859-1?Q?Jean-Fran=E7ois_Lessard?= <jefflessard3@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, devicetree@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?ISO-8859-1?Q?Andreas_F=E4rber?= <afaerber@suse.de>,
+ Boris Gjenero <boris.gjenero@gmail.com>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Paolo Sabatino <paolo.sabatino@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_2/4=5D_dt-bindings=3A_auxdisp?=
+ =?US-ASCII?Q?lay=3A_add_Titan_Micro_Electronics_TM16xx?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <68ff2e14-19db-4d4c-8390-8fd2ec9e2c48@kernel.org>
+References: <20250820163120.24997-1-jefflessard3@gmail.com> <20250820163120.24997-3-jefflessard3@gmail.com> <20250821-funny-hasty-poodle-582053@kuoka> <7CD0DD74-EB4A-414B-B22E-E9248ECF8CBC@gmail.com> <68ff2e14-19db-4d4c-8390-8fd2ec9e2c48@kernel.org>
+Message-ID: <B4F3471D-5227-4D8A-8C18-AB0676845985@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|AM9PR04MB8601:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f37759e-9237-45d7-6b35-08dde14e7220
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OEpaSEkyU2tTQlU3dVFJdGk4bCtzQmhvNnA3UmszdEVOMFBEK0dXMlRkaHZ3?=
- =?utf-8?B?SVg4QWZMNFVvcHVmVkJwTkRUNVA2Q3JmajBvZWd6Y3k3alNFRkRmRk9LdHE3?=
- =?utf-8?B?U2Z5eFhwZzJFSEp2UXgvczU4Sk9WbzFhZ0ZNdDllaFdybzNrRW4rREQxRlY0?=
- =?utf-8?B?VXZZV1RsZ2VuaUNMNzRzS04vWHBMWTBJQW5LRFFpZnNUZGVITmU5cGVIVUZC?=
- =?utf-8?B?NUNvbkFFUnNjRW51cVFDUnpiRlpMTlY2L2tqSTRtMmtob1QxMWxzdkRXZjNP?=
- =?utf-8?B?MnhoYU9wQkpQNHhtcjVreXVZVjh4dGpWMW9UQ1lRVkV2ZFg4ejRMTVlHZUR0?=
- =?utf-8?B?blhqRjNEUXhzWjRRbllVeXk5V1h3cTIzSEEwbmFZM09iYWxjUjU0QVVVMmV0?=
- =?utf-8?B?dm1ZMHlDSkswWDNqTk5Bcm11WURIZFJiODVjYlNJL2Y5Qmp3dzlyb2E1TEdX?=
- =?utf-8?B?eVluNEZYNytOL3RMUzFHekpPZTVtaG1LQ0FYd2VsMVVzakQ3WHBaRFpjNkM4?=
- =?utf-8?B?SkFNVDMwekFJVXNjNmNWZ2F3Q0p0TGhPalNYWVRxc1hNWUcwWFN2MmF5Vy9C?=
- =?utf-8?B?aXRBNGhBTHdMbGpOMlJxRmdOblVXbkN5M0hkOHo1VHQ2UC9Cb1U0TnZ3cits?=
- =?utf-8?B?cG1yd2pBNWxrMWRQSTNRQmJHbFErRS9IalZOdGJSODNXYUdXVnNqbldxMEph?=
- =?utf-8?B?WlJWNlFJYmNRREk3Y1dubWpsclNhWmV6c1ZOL1FGaXUxZGFnSHBVckl6Y3U5?=
- =?utf-8?B?U1FIUkE2QUExcjhCdVRZZEEwYmhIRFhLRzhHSE5USmp6ejByeGRlM2hNenJz?=
- =?utf-8?B?VzdWK3k0ZEc3aG9yLzNaZVJndFNkNDk2WjJ4cnJSTEMrcTJURFVzbng2MWE1?=
- =?utf-8?B?bFJweWxNRUpZU0xadEU4N2VwckJIRzhSWEFJUDRSMjlQWjBiQTJUR0dONGtn?=
- =?utf-8?B?T1FlakptcXE4b2l5WEh2NmhXUEQ5dk9aUEVEbnNRVUV5YjlOTFlRZzBROW1i?=
- =?utf-8?B?Qk9wTjdwbHZjcjR0NnBJVzVPRDRFSkU4clRoanV0dlh4TFAwMldYQWsvWFhm?=
- =?utf-8?B?UnVyc1JiczNHT0R5dlVWM1c0RXlpc2MyeTl0bTVhV21qYnRKNHMyOFNyNmJy?=
- =?utf-8?B?ODNyM3Jzemd5Smp3dEF1eEM2K0lLcTVXSXdPOHByZ2x1Qk90UmxlTlZEeFZm?=
- =?utf-8?B?c0YxQk5ZWDlzMHNYR3ZEZGNUNit2ck92ekhJN2hXMEFZN0hBUE94dTN2T21m?=
- =?utf-8?B?c3VXOFl2TmxtQ0ZWQUZXWktleC9HMXZLWGV2WDhGUGJWaG9IMks3L0ZhTm12?=
- =?utf-8?B?d29UTWlIcnQ5WS9jdmgxMWhxaTJScVE3WTMwSjRVZlVOWDhEeEVybUgyaXFS?=
- =?utf-8?B?djdCVW85VzlGdzZPUmJuNWNMM2hrV1diQkp6YUNucDBWMzZPK3lnL2lJNXQr?=
- =?utf-8?B?UDJqVlY0cDQ2M3F3elpHekIvQllqeVI0K0pNVmp3c1ZUZ0N0cHFtbTg0dmhD?=
- =?utf-8?B?RGZ3RUVKbGZueGY1YXoyYzR6TjlYU0sxUE5wMmkzODFiVUtTZUlZdm5UbmUr?=
- =?utf-8?B?ZGdvMDlDMmFEdVpzeVRMTGNxMlNZbUQ3QVNlMUFlYS80VXpGai9vREg4SnV4?=
- =?utf-8?B?T2NUeEx0YzZVdlpoOTN3K3lucHo3YWd1cXhqa2svVitXUEYvakZaaWpGdEZJ?=
- =?utf-8?B?VW43L2pVMjRLK0k5R1YySkw0aTBQQ3puSmtvNmROQncySXk2M1JFMmlOSFhL?=
- =?utf-8?B?SStmbW91Qy9Nc1B6TFRTeGJ5VVlVK3BCSGRPQVd6L1hGeXJnVWtEUjlyeUNS?=
- =?utf-8?Q?fZZqIe6VyYXVGJG7umetMuTaoSiecSKbEKnFE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NmJONGxNci9oSUtDSkxXbnJDVlZKR2Z2ZjhjUDdJSXBvQ3Y1aTdUYVQ5ZFhV?=
- =?utf-8?B?ZUJFeU9KbnhvRHZmMGV4UmJ6SGJ4di9wM2tmT3FjYWYxY2dZazhxUitUZWtJ?=
- =?utf-8?B?SDdQcFNnalZtVFBWaWJTVldqWm83M3JKMjVvdlZ0SVpGc1h6Qk1nS3ZEQU9t?=
- =?utf-8?B?NFZxZTRIVEhQRFY3bk1LeGZhSVJaZEJmQnlyT09CZFl6TWhZSGV0S24xL3J1?=
- =?utf-8?B?dmJKRm1BN2ZaV2g3dmtTckVGU3pqVHM4Z0F2VGVEdk5Ba3JIb2dhMG0wWURx?=
- =?utf-8?B?S25sdUF4cmJFb1J1eGR3TmR0b3htcjMxcnZ5elBMRVNKajEzeldsWFN0Titx?=
- =?utf-8?B?SmJDelFXMkF0T01DT05WMlA3SjZ0NmVYN0VsRXpscWwzQUxaSjZBQ2U3R3Vn?=
- =?utf-8?B?WFdnd0FRZXIzMEQzcUtCS2ZDSkR0STZMWEZxNmJjb1R2TE0wQjVrZTlJdWdj?=
- =?utf-8?B?b2xRaW9CcERVWWNNWkZmUERacWNSSWxLWldFa2lWdURhNXJaSGJWTE1jdHV1?=
- =?utf-8?B?dmNiK3RkV1RmM0YvN09CZTVYY20zbVhuUUpCTEQ4Sk5rKy9uTCswMHRQTXZs?=
- =?utf-8?B?a3ZZWU1tNXJFeW9EZ1YrdGZDTVNtNlVyRkVNV3JuOU51Qi82YzJwcmdEK3ZU?=
- =?utf-8?B?NjNJUzF4V0FENXYwekluYkJiYkZXR0lINDRjY2YwcmZrT0RYN3YrYWMxWnNh?=
- =?utf-8?B?U2M2aWp6SzM1UGZWcEtLR051WG0ydDhoY2w1Y2FzZFZaTXJXK3NIM2h2aXFW?=
- =?utf-8?B?YzhFSW41YlhhNzRjbG95anlyRUhvNDBBNk1pRis0OGluMHpPWXpoSHE5N2U2?=
- =?utf-8?B?ci9HR0x0dmlqM0RmK0NhM2JCVjlGZTFiQWs4TnlBOWlXaDEzb1ltM1RHTSs0?=
- =?utf-8?B?ek05eXhsWkszUXdhQVFLbjlRYVF2NjFtRnRwRTJ0THQ1WUZ3TVYvcU1YN1di?=
- =?utf-8?B?WnRYYmxaK3lraXpnWTRsSTdYZGY5Q1Z5VUorQi9vUWFBR1lDNnpMSTV2aDRu?=
- =?utf-8?B?Ym1ZWkVaLzBrd1V6U0pIdTNFZnNwM1YwVDE4N1NPZHJwUFBMbGl1V2trMlcv?=
- =?utf-8?B?N3Bucmp6Qy96ckNxYzhJQXhNL1JkWW5yOEhkK0wxSGpmTjRuSjNyajFZaGt5?=
- =?utf-8?B?bm1HV0p2NktsQ2VvMUNaOTU4OWNvWTlSTERtRTI0ZXBzcE1qaTY2TjRYU2ZT?=
- =?utf-8?B?clJWeFYvd3Zwcm1RdGNLVldXY3Q0UWtYaVFqd0d2WFdya1BhcU5JVldudy9V?=
- =?utf-8?B?OWlUMUN0K3JhSTNlM0xWSnZzalVNa2xwR25wVlVOYldYVjFoYnlQU1gra01U?=
- =?utf-8?B?OEFzZXhpKzB6a0loZW02bnRNek9oK2s4cXdPeDNQL2srdjE4SjNSVGlyVHpr?=
- =?utf-8?B?eHdXTTRDb2xIWGRzRzg2bm03eVlaM0tmQVhSWFFaM2dYVi9RSFNXT09RdXdL?=
- =?utf-8?B?QWNSSlVCRTJnaDBkMWEvVmhFUlhuS0lwTVYzenJjL1Brd0poYjFOZmFqeTFX?=
- =?utf-8?B?YjdVaGVQczkrZ1A0eUhrOENWdVN4ckwxdkxyM3VtL2NQdmNoL25uVFFWYXpl?=
- =?utf-8?B?aTdwb0Q0MWNQRmFwVVdRMXVvc2hDaUxQeGQ2dUhZSmxveUZDcVhzLzlnRkkw?=
- =?utf-8?B?OHFKbzFOd2F6bHU1NTI5VW1XcVBUSGVlWVlDbk8ycTNZTnJrNkdBSkFCaWhv?=
- =?utf-8?B?aHNLUXMyYXZKWXFEZHNXelQ4V1c1djVPQXdMMWlhMU1hd3FGQjhSVHRmdStj?=
- =?utf-8?B?ZjVwbkN5K3RyeFhGKzJZbkpaK3hlcllpQUZEQ3lrb3NxY0JBcUdaS2REMk9N?=
- =?utf-8?B?cTlmR2x3STlHWnlZeWI0S2xyZUxHSlFoUU0yemFJOTJDTzl5MGpZVXlxSVNW?=
- =?utf-8?B?OGt1QzcyemtJdzFmbmRnS25uWW5CZ0hNNlJiczlSakNtTndhV3VPZGNFQ3lt?=
- =?utf-8?B?aXpOamZLbG1MdVBVQkErZkFKN2JvQ1UvRkxEYlF4c1FYL0JRVlNMSnBoZGh0?=
- =?utf-8?B?STk3UGhYV0RUNEZYcWluTGg1T0VlUkxQQmdVNmxMTURGL3RnVS95dVBWaGx4?=
- =?utf-8?B?SWQ2TTJFUmFvbjNVWmRpN2JoMmIrS29OTUR2M21xdlpoTHdta2FtNDR1UHE2?=
- =?utf-8?B?MmRzZ0lSMGR1NDNPSkFUZ1E4MUpWQlFIT3NOb2NDaXpPTFB2OW9FcWlydlRE?=
- =?utf-8?B?TnJ2YkNpaVBlR1N6SzJIL2lyUkY2Rk5qdWZHRHoxQnZ2R1J1MUM1cG1zN0N4?=
- =?utf-8?B?ell4SkJUMkFQN1lFdHBTdDBEclFnPT0=?=
-X-OriginatorOrg: gocontroll.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f37759e-9237-45d7-6b35-08dde14e7220
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 07:35:19.6267
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U2i+z+Hgzfaz3UqM1s9eWUtmTv1m4paCFQ98w+OS+NAcbSh1VclIJaV9KL7uBZDrZhQM7nrdIs8DNSt5WsoI+ceUmZMNt542Iik3s46BXR4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8601
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/22/25 09:26, Daniel Thompson wrote:
-> On Tue, Aug 19, 2025 at 12:58:59PM +0200, Maud Spierings via B4 Relay wrote:
->> From: Maud Spierings <maudspierings@gocontroll.com>
->>
->> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
->> with intgrated boost controller.
->>
->> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->> ---
->>   .../bindings/leds/backlight/maxim,max25014.yaml    | 79 ++++++++++++++++++++++
->>   MAINTAINERS                                        |  5 ++
->>   2 files changed, 84 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..30b591152fa31d5e43243cac44c72028b05b5f8a
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
->> @@ -0,0 +1,79 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Maxim max25014 backlight controller
->> +
->> +maintainers:
->> +  - Maud Spierings <maudspierings@gocontroll.com>
->> +
->> +allOf:
->> +  - $ref: common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - maxim,max25014
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  enable-gpios:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
-> 
-> Is the interrupt useful for anything?
-> 
-> AFAIK its perfectly OK for DT bindings to describe hardware features the
-> driver does not use... but is the driver missing out on error reporting
-> (for example) by not using this interrupt for anything?
+Le 22 ao=C3=BBt 2025 02 h 44 min 26 s HAE, Krzysztof Kozlowski <krzk@kernel=
+=2Eorg> a =C3=A9crit=C2=A0:
+>On 21/08/2025 17:16, Jean-Fran=C3=A7ois Lessard wrote:
+>>>
+>>>> +      # Controllers with titanmec,tm1650 fallback
+>>>> +      - items:
+>>>> +          - enum:
+>>>> +              - fdhisi,fd650
+>>>> +              - wxicore,aip650
+>>>> +          - const: titanmec,tm1650
+>>>> +      - const: titanmec,tm1650
+>>>> +      # Canonical standalone controllers
+>>>
+>>> Drop
+>>>
+>>>> +      - const: fdhisi,fd620
+>>>> +      - const: fdhisi,fd655
+>>>> +      - const: fdhisi,fd6551
+>>>> +      - const: titanmec,tm1620
+>>>> +      - const: titanmec,tm1638
+>>>> +      - const: winrise,hbs658
+>>>
+>>> This is one enum
+>>>
+>>=20
+>> Well received=2E I followed the older style and will adopt the modern a=
+pproach:
+>>=20
+>> properties:
+>>   compatible:
+>>     items:
+>>       - enum:
+>>           - fdhisi,fd628
+>>           - princeton,pt6964
+>>           - wxicore,aip1628
+>>           - wxicore,aip1618
+>>           - fdhisi,fd650
+>>           - wxicore,aip650
+>>           - fdhisi,fd620
+>>           - fdhisi,fd655
+>>           - fdhisi,fd6551
+>>           - titanmec,tm1620
+>>           - titanmec,tm1638
+>>           - winrise,hbs658
+>>       - enum:
+>>           - titanmec,tm1628
+>>           - titanmec,tm1618
+>>           - titanmec,tm1650
+>>     minItems: 1
+>>     maxItems: 2
+>>=20
+>> Fallback relationships will be documented explicitly in the binding=E2=
+=80=99s description=2E
+>
+>Sorry, but what? I commented under specific lines=2E Why are you changing
+>other things?
+>
+>
 
-The interrupt is indeed for error reporting, it is not wired up in the 
-driver right now (although there is already a function for scanning the 
-error registers, I am not sure how I would properly hook that up to an 
-irq. This is my first driver so I thought to keep things simple for now, 
-these extra functions can be added later), same with the pwms for 
-example. But jeah I wanted to fully describe the hardware in the 
-bindings as from what I understand that is what should be done.
+I apologize for misunderstanding=2E I hope this fits your specific comment=
+s:
 
-Kind regards,
-Maud
+properties:
+  compatible:
+    oneOf:
+      - items:
+          - enum:
+              - fdhisi,fd628
+              - princeton,pt6964
+              - wxicore,aip1628
+          - const: titanmec,tm1628 =20
+      - items:
+          - enum:
+              - wxicore,aip1618
+          - const: titanmec,tm1618
+      - items:
+          - enum:
+              - fdhisi,fd650
+              - wxicore,aip650
+          - const: titanmec,tm1650
+      - enum:
+          - titanmec,tm1628
+          - titanmec,tm1618
+          - titanmec,tm1650
+          - fdhisi,fd620
+          - fdhisi,fd655
+          - fdhisi,fd6551
+          - titanmec,tm1620
+          - titanmec,tm1638
+          - winrise,hbs658
 
+>>=20
+>>>> +
+>>>> +  reg:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  label:
+>>>> +    description: Name of the entire device
+>>>> +    default: display
+>>>
+>>> Huh? Why do you need label? Are you sure auxdisplays have labels?
+>>>
+>>>
+>>=20
+>> Display integrates with the LED subsystem (/sys/class/leds), where labe=
+l is
+>> a standard property per leds/common=2Eyaml=2E It ensures predictable LE=
+D class
+>> device naming when multiple display instances are present, following es=
+tablished
+>> LED subsystem conventions rather than general DT naming rules=2E
+>
+>You want to say that top level node is like LED? Then probably it misses
+>common=2Eyaml reference=2E Although I am still puzzled=2E=2E=2E you have =
+sub nodes
+>for actual LEDs, no?
+>
+
+The top-level device node is registered as a pseudo-LED device to control =
+the
+entire display (brightness 0-7, digits) via /sys/class/leds/{label}=2E
+Individual LED icons are separate LED devices at
+/sys/class/leds/{label}::{function} with on/off status control (brightness=
+ 0-1)=2E
+
+However, the top-level pseudo-LED shouldn't support all LED properties
+(no color, function, trigger-sources, etc=2E), so I'll reference specific
+properties from leds/common=2Eyaml rather than the entire schema:
+
+  label:
+    $ref: /schemas/leds/common=2Eyaml#/properties/label
+  max-brightness:
+    $ref: /schemas/leds/common=2Eyaml#/properties/max-brightness
+
+This approach provides LED subsystem consistency while avoiding inappropri=
+ate=20
+properties for the entire display=2E
+
+>>=20
+>> If helpful, I can add a $ref to /schemas/leds/common=2Eyaml#/properties=
+/label
+>> or include its description explicitly=2E
+>>=20
+
+Best Regards,
+Jean-Fran=C3=A7ois Lessard
 
