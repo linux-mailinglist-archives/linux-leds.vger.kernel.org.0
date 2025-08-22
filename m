@@ -1,79 +1,79 @@
-Return-Path: <linux-leds+bounces-5287-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5288-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366E7B31024
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 09:21:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6A6B3104A
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 09:26:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2D6F1CE0B14
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 07:21:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0980AAC0D3E
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 07:26:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0289A2E62DC;
-	Fri, 22 Aug 2025 07:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC342E8B64;
+	Fri, 22 Aug 2025 07:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="CzrCEgtp"
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="zNVQzzFn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964452E7657
-	for <linux-leds@vger.kernel.org>; Fri, 22 Aug 2025 07:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9886E2E7BDE
+	for <linux-leds@vger.kernel.org>; Fri, 22 Aug 2025 07:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755847257; cv=none; b=ZkOk1N9wN8+vHCy4TW3mEhgE1crE2eQAx8nYamKzg1V3BN6m9x/zENB0BIPb4PTbPdOqrygjw3LGk4H2P40MnEA8IY2vVsZZAAVEQq9rnZVfHfa8FoLtkxuWM4FbWv/sibsqvB6UqWlwPogAk2VYk7PDC5wn5j3e1TwIDRm8awg=
+	t=1755847591; cv=none; b=ld3mpsw1agtUuVPeR308pZ01FQML032zvKVvexh6LWhQy3gT4kY9iH6Q4LCQjpzKcf/T7u9Lbt1A1YRrDjk6IbxTngpSS/OQXATle9tWEO1+BmhVcMdSGG/BGBEVIPYEA8cCJ8zA4w/FWkoAdyb96xNr8zSM/QduhAYliR+p18c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755847257; c=relaxed/simple;
-	bh=Wqi2mO2fmQYFGAwZhuS4EvTXv9c8e4vGOynXydsCYEg=;
+	s=arc-20240116; t=1755847591; c=relaxed/simple;
+	bh=0cIVGZsKog3LpWjaV7XG6J5KkdzzL27b/J6vLZIoci4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t7VpuqfsU5QMXe7bMLvfgGYXS8KDrCA7lEQdyZotwVSqoL7TjkVTefCD5eK3LIGfNRCOeuFyWaz4g/ZQ+BD9KnusKkFTdEhnBafxrO7TVt64IBbBSirGgAUDs6oOpixZhsdgcj7qEs6Wu4+aHO4eloiuijc3xsgNeCpLYjb4mX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=CzrCEgtp; arc=none smtp.client-ip=209.85.221.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=guztTGxUUXBEaWeOYxFH5Hro2GMTV8e32kGR397xHy5Htr/5WypULExMwFVGDsC6Krz6+3uz0UnxWOv7E5kcPmy21BSfjgn9QDh7oSQ+28VaFp4XfK+dBLdCb1tuNvn9Gs1b/x/XHaMbrdcmKHZX9y+hI98t0yD4HN7lSZXr6p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=zNVQzzFn; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b9e7437908so1194932f8f.3
-        for <linux-leds@vger.kernel.org>; Fri, 22 Aug 2025 00:20:55 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45a1b0bd237so13420465e9.2
+        for <linux-leds@vger.kernel.org>; Fri, 22 Aug 2025 00:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1755847254; x=1756452054; darn=vger.kernel.org;
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1755847587; x=1756452387; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IvJwbcOsjvAx4Cb95HKEUrId4UgDZ83tfHPDy6XNbLM=;
-        b=CzrCEgtpdoGkqnoFgd3BDRMQ2P/eQhCKG4Z0wkSUWcnLPt1vgcTCwf9zdi6p2aBpn8
-         VL1Pwp52zWpuBdNhKhgTgRVKmkCSbU/9DNoleP+RBHNhZdW9XSVosePCGKsFvgQR+LL1
-         2sDzg3Iub364w8hWEyuPXhF4CYwMK8tiuqW+X2KccwWuE0FHvxLDpAUTwiTYmjv1TwBw
-         Rysft3BvN4jEh2qSjaZ97wcE7EMngwGILnucCnRNhJkqgQGxFt6ox/d2oIN1zfzfqahV
-         nI4VviJ6iWybgjVU9uI0SzAFZkcToWpjpXmnlJoxSjLuRCgLaOK9IiH52C399oVODUzZ
-         jmdw==
+        bh=lK3kj6aT+uG8TNpObwIxTe+g6r92LKlTq+gjwtDBVRk=;
+        b=zNVQzzFnw6Ir2uWiC0VDKKumRfmUWCmeEV31QGKcZ2nzBt4CI97D5zdXjcrOEHjS0h
+         xZ5yZWK9gnuuNPd9PEZnUUIOmLC2Cd0dVUKsXitGDOU0lNvynkUexFOGtCqQ/vp/lxgI
+         HbJZvVDtCaK08BhzMB9rjzNbbgGrbAQoHarWOfCMLk4JiZS7sxhxcApcag6oUH3r4HZd
+         etubO1LL0MaWgki/QT5hQ6EPCP26zR1TW/tBrwLXBEfcnJrhr+UbT912a4ITqoNKLGHf
+         eGfp+KVlD9n5veE5OCs3CS23rYqicCrXT4TGgTN+ki5KCoQnhM1/r6/DbYRyXNxyM9D0
+         axsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755847254; x=1756452054;
+        d=1e100.net; s=20230601; t=1755847587; x=1756452387;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IvJwbcOsjvAx4Cb95HKEUrId4UgDZ83tfHPDy6XNbLM=;
-        b=RENSonz61JLPuczAr13KdLIspy4f3VzdkOCvAJ7Oo6r4aE8zgrEZyBjOu7bHkG6Sz0
-         4W2foJDqw9zxSr076K1qHMoepgjkr9VYAeHZdb+8TYV0rp6qU3JZpd6pqnfS4od2WWBx
-         ifFFhd0C1uema8+ojm+UDhzQW+6coCvliNc10ZGHAhZLf5Lyp9HWzmZCCVuC6kI0gLFs
-         +TikJrOifNAimPz0eYQT6HLH8sPAFfAUYoMnd+9FuThKGnsT/Lmc97WtWjJGCUxlLLxy
-         I21U1jYNqrdJyh9sOZY83btgy7SbRKf0J0JmBI+EzoHSiSH/iEiwvqN5Rb9IbDHzjfiH
-         HUJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUH8eUALH3iG3kDOjBvw8Hzldk5PPjx800P4fV6Ozmj7Bi9jnMzgZZRa8UGQY89VaHSja884NAGwPrk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM7Tc27N0uxTekAkMTja/m2NK1aVWNhugPfoOZTz8zszOmVTJL
-	BYCsfPittXDJko6uGqtqYNB40jbdRQdDY7FoE0ZYkc97SH2jgt2+5Mpm8UGWxcweBts=
-X-Gm-Gg: ASbGncu+eMQayiSOduejrWcc9Q2U+RPqeflSWoWAJ/qaw0IfEO3CDlQqDyMYZpqn+9c
-	1itOmusWc5zzGhdY8VziW26gGBwu2yYlHQbpiDw/K6UCWr+WAFobxZ4wtgai/KdmDAHUg4L4eBs
-	2O5KOTph5zaOz9KLhkGtcFO69wALbOENZUOKm1wqM/Cj1JWpgBckWH2Ba0VbXIypBXcU9y2cbSh
-	L8VLanF5R0IQZdzfHlAm7MgesRClq3bq/xM1gjsR5JnZMGA0SXWl5913hm+cx7CXRq5eeyh8q6L
-	d01HOldpZaMA2pJJE1bKFWhRsBpA36fLClkeeilCxCBUjFEoUwz//c/EIze0oMqPTa5ZxG1tI+y
-	rwXlgEB4SiSy1ag8LixxFFRNei7cBtUw2kg3oSdXf9eF+xLRefNHh1hXW1Lrx/YlXf28W3kM6Ax
-	harze42A==
-X-Google-Smtp-Source: AGHT+IFLbHL5Jfp1HiEMgBzb/cWVZllJl0fqqVCyRz90kU9u6d+rKWlXzqxgMmKXZyGMMiOGZn0oyA==
-X-Received: by 2002:a5d:5f4e:0:b0:3c0:7e02:67b9 with SMTP id ffacd0b85a97d-3c5dcefeda4mr1234311f8f.61.1755847253747;
-        Fri, 22 Aug 2025 00:20:53 -0700 (PDT)
+        bh=lK3kj6aT+uG8TNpObwIxTe+g6r92LKlTq+gjwtDBVRk=;
+        b=mAAJYEiahVCedNfQeXr/XNbkwRnnX6oTVhX83xScR/4CE5a15iqWc/1hADhlAmgaRb
+         k6+r8QRPVRiH7SJEbD0NsYOu61pnvDOMBChQdmQjpvsQrOjrunMjbByPa80rWPbxVQvr
+         mLA198cOIdieqR+tE1mrXhwCyoadY5n8w83o/sULryVCMme+uTnQA6YEr5dCFS7WLqvw
+         HEoAwI/EvYhlQxakLTfJuoZIS9ifhx1DpmpLBGIVJa8tu3dQhO+NWES9G5zib7+ctdwO
+         ItKGLk29F8jY3R5gVhw5g2MwyKvg7YciwXtWHvG9TKIqdgf1jQ6sV3yp88i2nQLXcmve
+         tjNA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJbssedilimpXzzTIF+VaQKXPZcrg94RiNz1jLnmehcMHfWY+L0LgdJ06GphAvJppr+ZR+bUeWU+Ns@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/rtzp0XMrF64G1b0bZjhroEsFaMoTYcWWvDUF/ccK7wSRApuf
+	9vXNqcTK214yaJNwidTT9DcvNgQNo42ovmANo8lSAAsKsNOAHTCs132CRVtBbHsRLJw=
+X-Gm-Gg: ASbGncvVoVHsL9m+q+NXdBkUqaftY60yraGFfZ73kNeGTkKUrGNMULvJM0pOToM58Ih
+	3CK6AIeuTiGPOTJYIPwCbIFLCpD44MGndbI0NQmpJ5oWcOWvUYe3I1GWPGW2rA+9GQ+gjGDe+Oa
+	/nP4CLZIfoeJaoaW/SXoQn0ocS+upSzLNJoyLkEPjpU2mWkNf8loWF3wb6Lh84NQwBbnKFoHiDa
+	bgruOeDBMJMlGj9k9H7DgNhGCVV0BX1hCMxpILA/TDzFWqFkjLbCPXA2U17DYFYn5l8THiEKV65
+	8sR+PjBhjgt0b3sO8NAYrT8XB1wefJ/p4utLGyFLZ+7mkxDXQm+G8ZlX4jz+GX2LsIl7J7aUUek
+	j0JmbK3PqfyZbUv+Jw0IZC78oYKb6yumW8JB+PmeQw9SKrNqEnE6Q0pN4kJxtEiRH8xf4LC4TsV
+	fDgIdKRg==
+X-Google-Smtp-Source: AGHT+IHDuHRP55niLwTskQO1m/b/5ctH5UZu5kjoy3BiQ8RvkZmMD4Fr6kF/PognPgs2X/R938TpUw==
+X-Received: by 2002:a05:600c:1c28:b0:459:d780:3604 with SMTP id 5b1f17b1804b1-45b51798fb1mr14095255e9.3.1755847586840;
+        Fri, 22 Aug 2025 00:26:26 -0700 (PDT)
 Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077c576b7sm14060427f8f.63.2025.08.22.00.20.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b50e2f0adsm25076255e9.13.2025.08.22.00.26.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 00:20:53 -0700 (PDT)
-Date: Fri, 22 Aug 2025 08:20:50 +0100
+        Fri, 22 Aug 2025 00:26:26 -0700 (PDT)
+Date: Fri, 22 Aug 2025 08:26:24 +0100
 From: Daniel Thompson <daniel@riscstar.com>
 To: maudspierings@gocontroll.com
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
@@ -87,12 +87,11 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
 	Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
 	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	MaudSpieringsmaudspierings@gocontroll.com
-Subject: Re: [PATCH v2 2/4] backlight: add max25014atg backlight
-Message-ID: <aKgaUtcNoOsga6l7@aspen.lan>
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: backlight: Add max25014 bindings
+Message-ID: <aKgboFjwjtZsanWb@aspen.lan>
 References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
- <20250819-max25014-v2-2-5fd7aeb141ea@gocontroll.com>
+ <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -101,102 +100,59 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819-max25014-v2-2-5fd7aeb141ea@gocontroll.com>
+In-Reply-To: <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
 
-On Tue, Aug 19, 2025 at 12:59:00PM +0200, Maud Spierings via B4 Relay wrote:
+On Tue, Aug 19, 2025 at 12:58:59PM +0200, Maud Spierings via B4 Relay wrote:
 > From: Maud Spierings <maudspierings@gocontroll.com>
 >
 > The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
 > with intgrated boost controller.
 >
-> Signed-off-by: Maud Spierings maudspierings@gocontroll.com
-
-Looking good but still a few small comments (below).
-
-
-> diff --git a/drivers/video/backlight/max25014.c b/drivers/video/backlight/max25014.c
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+>  .../bindings/leds/backlight/maxim,max25014.yaml    | 79 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 84 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
 > new file mode 100644
-> index 0000000000000000000000000000000000000000..fe5e0615cf6d151868b56ebb9544b175b09dfcee
+> index 0000000000000000000000000000000000000000..30b591152fa31d5e43243cac44c72028b05b5f8a
 > --- /dev/null
-> +++ b/drivers/video/backlight/max25014.c
-> @@ -0,0 +1,395 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Backlight driver for Maxim MAX25014
-> + *
-> + * Copyright (C) 2025 GOcontroll B.V.
-> + * Author: Maud Spierings <maudspierings@gocontroll.com>
-> + */
+> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#include <linux/backlight.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
+> +title: Maxim max25014 backlight controller
 > +
-> +#define MAX25014_ISET_DEFAULT_100 11
-> +#define MAX_BRIGHTNESS (100)
-> +#define MIN_BRIGHTNESS (0)
-> +#define TON_MAX (130720) /* @153Hz */
-> +#define TON_STEP (1307) /* @153Hz */
-> +#define TON_MIN (0)
+> +maintainers:
+> +  - Maud Spierings <maudspierings@gocontroll.com>
 > +
-> +#define MAX25014_DEV_ID         (0x00)
-> +#define MAX25014_REV_ID         (0x01)
-> +#define MAX25014_ISET           (0x02)
-> +#define MAX25014_IMODE          (0x03)
-> +#define MAX25014_TON1H          (0x04)
-> +#define MAX25014_TON1L          (0x05)
-> +#define MAX25014_TON2H          (0x06)
-> +#define MAX25014_TON2L          (0x07)
-> +#define MAX25014_TON3H          (0x08)
-> +#define MAX25014_TON3L          (0x09)
-> +#define MAX25014_TON4H          (0x0A)
-> +#define MAX25014_TON4L          (0x0B)
-> +#define MAX25014_TON_1_4_LSB    (0x0C)
-> +#define MAX25014_SETTING        (0x12)
-> +#define MAX25014_DISABLE        (0x13)
-> +#define MAX25014_BSTMON         (0x14)
-> +#define MAX25014_IOUT1          (0x15)
-> +#define MAX25014_IOUT2          (0x16)
-> +#define MAX25014_IOUT3          (0x17)
-> +#define MAX25014_IOUT4          (0x18)
-> +#define MAX25014_OPEN           (0x1B)
-> +#define MAX25014_SHORT_GND      (0x1C)
-> +#define MAX25014_SHORT_LED      (0x1D)
-> +#define MAX25014_MASK           (0x1E)
-> +#define MAX25014_DIAG           (0x1F)
-
-There is no need to put raw numbers in brackets.
-
-
+> +allOf:
+> +  - $ref: common.yaml#
 > +
-> +#define MAX25014_IMODE_HDIM     BIT(2)
-> +#define MAX25014_ISET_ENABLE    BIT(5)
-> +#define MAX25014_ISET_PSEN      BIT(4)
-> +#define MAX25014_DIAG_HW_RST    BIT(2)
-> +#define MAX25014_SETTING_FPWM   GENMASK(6, 4)
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - maxim,max25014
 > +
-> +struct max25014 {
-> +	struct i2c_client *client;
-> +	struct backlight_device *bl;
-> +	struct regmap *regmap;
-> +	struct max25014_platform_data *pdata;
-
-This appears to be unused.
-
-
-> +	struct gpio_desc *enable;
-> +	struct regulator *vin; /* regulator for boost converter Vin rail */
-> +	uint32_t initial_brightness;
-
-It is important to keep the initial_brightness for the lifetime of the
-driver?
-
-> +	uint32_t iset;
-> +	uint8_t strings_mask;
-> +};
+> +  reg:
+> +    maxItems: 1
 > +
+> +  enable-gpios:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+
+Is the interrupt useful for anything?
+
+AFAIK its perfectly OK for DT bindings to describe hardware features the
+driver does not use... but is the driver missing out on error reporting
+(for example) by not using this interrupt for anything?
 
 
 Daniel.
