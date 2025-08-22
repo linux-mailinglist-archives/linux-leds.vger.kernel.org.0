@@ -1,66 +1,66 @@
-Return-Path: <linux-leds+bounces-5289-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5290-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63242B31081
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 09:31:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB932B3108F
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 09:35:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11AD41CE2E73
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 07:32:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5ACCDAC3F3B
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Aug 2025 07:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D01C2E2F14;
-	Fri, 22 Aug 2025 07:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DCA92E889F;
+	Fri, 22 Aug 2025 07:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="KR90/IZ7"
+	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="fafUOXVO"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023112.outbound.protection.outlook.com [52.101.72.112])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021120.outbound.protection.outlook.com [52.101.70.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675CF1A4F12;
-	Fri, 22 Aug 2025 07:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB9E22DF85;
+	Fri, 22 Aug 2025 07:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.120
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755847894; cv=fail; b=VSNWsWTn7MXNS29b/SReBSCalEVB3zX2mKZENh+Qa/Q3H59g8mzIjW2wvndvpiBfb/HIHcttHJKJX2DkCnnAfPNcVZWufcD08RlFU52WBtnpiQMyKu4XmJZ+5oFJbIw03ut27fxmvN0GlZoFk5/FokjTZPOWPueb8dCyHuFtJAI=
+	t=1755848125; cv=fail; b=cW8BbZmSnWvbuHgSv1MG1lNe2JxdZBemycFFYmc0fIQobRIx/TWoFs2gybYqGkqINubwrqrgleCyqKv/anT2zJg+/SHaMxQ5fd2r4Xq5brpoqIpAZpfAuoHhU0s2B+OXOVo/oCLoFCTP4aVan+NY/541fOmFJ4skLr+BMP39dYI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755847894; c=relaxed/simple;
-	bh=WP7gx8GGEnqMwZTqruq8y5C436otZ7kBd+tyLtehLYU=;
+	s=arc-20240116; t=1755848125; c=relaxed/simple;
+	bh=XqoW+gQclY/L+RyWTHPRSRHy+yXoKMTyydq80kgtdac=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ek4KhZKjrMu+t9sNLscnTzFA/BtTEYrs96J7dAB4U5th3pzKFvM8LY7E/3U4j/ZHLfqpL2bpcTgpm4IxITseypWKFfLhEECFc9rtWrIimIU8604Vbuwn9RHPDeQStJ87LA5EkigXX4geht5aE9OtAVWkUApqrIxsvpN09NrO97A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=KR90/IZ7; arc=fail smtp.client-ip=52.101.72.112
+	 Content-Type:MIME-Version; b=uD9qk1t/hhi13kFZGtAvZAdfV8dcUlfh603wyMkVzqW+gKU7R0Z0u16i6uAJ92Oulmu0yKpmTrGldy6rBUOEliputlFjemQPjfTGL+xNfEjbX6DcXFvBRaInRlIOqVnAG9Pvi72tEQCMVb2SShAaXfkROc6YPgz9grwlE8g6zkE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=fafUOXVO; arc=fail smtp.client-ip=52.101.70.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BH+arbWM+irrgPUenBXDuxSyqYmp7WNTncR6y0bIyvC57oAJpV33mTZAPILk2i2inuuYqu62B08JBHypyWgFMNdX/TbgaNY6XKjYBEX9kboWpqbqi3TiEC3xWrtTHfRr2haqlJKittqp3gGs3UfjE0B8vhDMVu2uaYd6Rkn9OTdWVBAy+nq0offcYG3ve1YRBQBoCzesURqE5e9MnuutYEgKtR+DW+j4GhRkrMzr4trHa6Iehq8NVpoBphG3AEUrzWlUNvoZfAXR0YC2QVSIsHVhFNg2qL8BGl87aDI+d2Y00PaNftnAErNmA/xCov/8c4EzQCba4vTM83VrWlEzIA==
+ b=fK0Cf/uRnRb4P2wnniQMfoy/OtX+Gf8X8cnZzzApe8qDhezNgfza8qRoKl1MiVJI9oSoV0ciXxhOK+KChxhTV2UESGG5VgIC2drMN2muciw/tk42GMiqAn0v8XhNf/7DbtpJg86CbQTkaWi7xxFFdMt8bI+SRHUAURG2ia7Gsn3UjsJ3+2zGMF4YuSY/LCWQejpdrbE0JelgwiQyWfFhCiSUJq007jBgyLpgLPvuk0aOopyWu11kgrTIpldAEH/MFxyj7kuyIc6CVfswtikc5f/Kz3Uk0jNwUaqpiZrFNadSlAoZXfmdRsEJ68mWBTq/jTLYTd657jm2zUirdjf/uA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TRP1IVAK27/PrHfYZfvJtPna+BkqnjSPf4xCFVi3Myg=;
- b=hLjfrI5A+1NsGFhAtUYyQLmWkP4NKIfMHvcNMyg0WUhQ21uLrWMGRpOQQ4faLuLYCuX3N+vVlk93rvBcIf1N6eL8Xra72p4XT8NQyKsBRlAcnCgptD36LUzub28YTEC7NLRLnBKA0aNBLAnntga2tI+RGS3f7nbNulEOEiKNOZtKF65sAGmD+4YQLPuT9kJ/4s7PdoKxeT/nkFNhikRaKh6nMOWGpnzG1Ql97xlBMMaxfPo391BSSwZgDjUAUw9wVzHMlAia5lH10uBDnSCVAyf7+ZF2aVV9h8+O6NSKhIRqOu32ckm5UYB00MTdioAq6SmiMSz5LQaZub3+5sTr0g==
+ bh=kL+cU0P3p9/AntoaKdh98f8pMamuudHJ1hHX8STHjJo=;
+ b=A63DJs8oLEZhqVE/lwEHzHCzk5sv/j49Wye0w9/F4I6j6/lt0mFL+liTrI6XrjlH3M4+pGV2cb5ipmdT0nuVw45sjgzaWkej5DCpr1r9upQakGlEeUh0BeiqBImQPfB1PyWmznMNlYY0656/oQdmKBGiRE29OcFZQd0YtKQ8hQBsGtSP2lnopSYLXOyCbIZhRiHZ2KSB6s7atmefkd05pjXengnPdKvii/ZohCMQrV3i/riuhbB65HuLc8uVEvXw47Gr6dtb5AOMrqtWJTw5HBGHz7WyU60nGS+LlnxiRaxVlGHA86LnTG/K3kpqMz86wHPXvASWhJvqJjMy4KWThA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=gocontroll.com; dmarc=pass action=none
  header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TRP1IVAK27/PrHfYZfvJtPna+BkqnjSPf4xCFVi3Myg=;
- b=KR90/IZ7DKqoWk33ykfs4Nc1TF+TbIrFIXWCTXnr/adHPzpAwz5Gs15eqN53sXYUTJXEOkgw1ZwfXTJS9erDSCwjpR7TLDz8VwNbTlRPXaDIg3E1fHwDRCEsHnTRb5BsnQCkgdKXpEHGsG8wTajFwnPyvErGukcJvEAbYjXAK8lRBSZk1nX8gTNE5AlXChMCImm9MX/dofoOkWI97XrN+ErOcBfsfNWFPNTFqMpeTarr3aft6EN7biF5xO2mftIm6bVJ9emkRqdCwO3YkhasC/hAkOI5hkUzZMWxkTPAg7hlNbv7g3bk0umY9Vcvu2zmjbpUqQgOKGWh/5uqhA4vqg==
+ bh=kL+cU0P3p9/AntoaKdh98f8pMamuudHJ1hHX8STHjJo=;
+ b=fafUOXVODW+r9mj2AMj7DVBWq9Ti0Pwn3PM2LVUB5vCRNU05PhTLCVhqk/yicmApOLbgPPm2HQ27d9aMfurrvYdXwxlRiFv+ZRVxfUBQNNGFXOFWFp1zA+0gsMMYTw2ipop9rDV9FDF+FU/XjFfWr/53IFi0LIhkFa6joJBTiUyeRs3QwYE79HTAcIPnsbmw8hA2Eo7+fd8EqVmwgjUYPvEyx6gfKX2Y+WLrAqOYSksfLYbFxnFlzXdxDsP0VjXlIQl+EN7camuS39Z1pe0yP4KkHtDW1N2z6rG77/ODzwLd/yse0+rpIeILV2vODugX9on+wOMMYCF9Vc7yi0lInw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=gocontroll.com;
 Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
- by PA4PR04MB9485.eurprd04.prod.outlook.com (2603:10a6:102:27d::18) with
+ by AM9PR04MB8601.eurprd04.prod.outlook.com (2603:10a6:20b:438::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Fri, 22 Aug
- 2025 07:31:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.17; Fri, 22 Aug
+ 2025 07:35:20 +0000
 Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
  ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
  ([fe80::311b:ad3a:4a62:7b5f%4]) with mapi id 15.20.9052.014; Fri, 22 Aug 2025
- 07:31:28 +0000
-Message-ID: <e5bdc85b-361c-4909-a10d-fd48077a6c70@gocontroll.com>
-Date: Fri, 22 Aug 2025 09:31:26 +0200
+ 07:35:19 +0000
+Message-ID: <8e7796b2-1e6f-4c91-93d0-a72f6343ab47@gocontroll.com>
+Date: Fri, 22 Aug 2025 09:35:18 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] backlight: add max25014atg backlight
+Subject: Re: [PATCH v2 1/4] dt-bindings: backlight: Add max25014 bindings
 To: Daniel Thompson <daniel@riscstar.com>
 Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
  Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
@@ -71,18 +71,17 @@ Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
  Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- MaudSpieringsmaudspierings@gocontroll.com
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
- <20250819-max25014-v2-2-5fd7aeb141ea@gocontroll.com>
- <aKgaUtcNoOsga6l7@aspen.lan>
+ <20250819-max25014-v2-1-5fd7aeb141ea@gocontroll.com>
+ <aKgboFjwjtZsanWb@aspen.lan>
 Content-Language: en-US
 From: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <aKgaUtcNoOsga6l7@aspen.lan>
+In-Reply-To: <aKgboFjwjtZsanWb@aspen.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM9P193CA0003.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::8) To PA4PR04MB7630.eurprd04.prod.outlook.com
+X-ClientProxiedBy: AM0PR05CA0088.eurprd05.prod.outlook.com
+ (2603:10a6:208:136::28) To PA4PR04MB7630.eurprd04.prod.outlook.com
  (2603:10a6:102:ec::16)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -91,205 +90,160 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|PA4PR04MB9485:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34e6109f-5731-42f2-a40d-08dde14de7e8
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|AM9PR04MB8601:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f37759e-9237-45d7-6b35-08dde14e7220
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|7416014;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UVd5R3d5SmdDR1JjeGszcTdPYUxjalowTmpjQlM2di9DOVJRSVpmemFyNHBS?=
- =?utf-8?B?dDg3M1NmVmxtTUJmeFNXZjNZME9xYzNGaXRDYS9tdUhpbllNSDRFV21GTVlo?=
- =?utf-8?B?TjZkbzY4VDZibTQ0ZVF6T3FMVWFmdlZLR0FRRThHSjBnSGhCN1FXQ24vUmU1?=
- =?utf-8?B?Q28xNkNCTWxPWVBWWDdTNnMxVTFJc3UyS3kzYTcyVGVyNjZ6Qm45Q3gwdnJY?=
- =?utf-8?B?Z2NPUWVHcEhKUU5DTTk3Sm9WaUlBZ0xtMWhEVHhyM1hCRytUczBRd1Rzd2gr?=
- =?utf-8?B?dFI3Rmp0MjJJcGNrb2FrLys5RjlKOU11ZWR1eU9ZSVBhU2o1bk9lbFExWjNs?=
- =?utf-8?B?YUhCa3pQYjBMVUlpUWM1ZlRFSkVDekNZOUxxek1LQzNhcEtjM25sekRyZFl6?=
- =?utf-8?B?NmJ1M1lFNGN0U25WRnI1dnZIRXhFZEpCVi9oYmdWWnU4RTg4VHJZd1c3T2kv?=
- =?utf-8?B?TTBNSHFTYVJkTElXeVdFY0RCUGFCZEF0M2RmdjFHNXJtVGMxRVRSUVNCWWxI?=
- =?utf-8?B?UkFyUmEwMkVJNmJ2WmVKU2tYS21QVnBXbUJtc1dPUFZqRGtua0I0eDdpQUlT?=
- =?utf-8?B?a0o4M3dBRUNkaDhrdmxkbkg0OTNkOXRxT0lWN2JsT1lSOXd3bXBhQVhlZVh2?=
- =?utf-8?B?aDBhbWtjZThwcU56TWd4TEorVlptYzBybXZwRlVnUEoyYUlBMFZSd2FpYWpL?=
- =?utf-8?B?ck11c0tndC9xSGRhb1F2dEZwSE9Rd0pZd1RYV0lnemFMTzV1Vy8ySFNwY2lJ?=
- =?utf-8?B?VVA4SVE4dWJHU21yZllHODBUOWZPSjZCNUVtWW5PNWlFaWExZENGK2VCNlF0?=
- =?utf-8?B?QlI3djdWY1ovUjBuSUhuYmhLVEJkSXNrZW5GYkFWcEpsOVpOYmVPbUY1OWVY?=
- =?utf-8?B?QlZpZnY1MTRRaVVpZWIyUmI3MCtKa2pyclVjY2srV2NvT2lHRmtlV0RkRWYr?=
- =?utf-8?B?dGRjcHpZcFVLYkVJaE9lUEhqSWRyaEx1THlhOXFIOTNORVhPS2ZZei9Zd2Fi?=
- =?utf-8?B?MVh4TndadXBENzZRVXQzYUdDdjN5RUZlclRSRUJBVmhTSlpHRWt3d2ZEWnU2?=
- =?utf-8?B?eE1xT2JhOUg5WWxUMXR3U0dpZlRQYm0zNlF3cktVbXcxeXBrMWxhaXoxQmk3?=
- =?utf-8?B?bjIxaDhabXlXeUhubHNFdXVVZSs5K21XcTRMUjJMbVhBd2F6dWI2RzF4Ym93?=
- =?utf-8?B?QllKZFJyWGpMTndScU0yZWVIOVFxNUkxMENpSWRYQzlBZm1nWERSbUpnZDFz?=
- =?utf-8?B?eUFFaFBLNnRwZmpWOHh6azlKQXU3clBSMVlSMmxyM0FBMWcwc0RjTlBTZ3o2?=
- =?utf-8?B?SmlYWGZQckJPSVdIajRxNGJKWEVsUElmcDNwSm85VUxHTWUrdXBzWTd2RFF4?=
- =?utf-8?B?eHpDSEU2RVFHQ0dyN0Z5RW9mK2JSZUU0NXN6UU9keEpjUUxvTWhPdnhLV1lH?=
- =?utf-8?B?clRUOHdKTDkzM0FTeDI2YVVzUTNKOWJRNjRObUJFcFpieFp0ODg4M3lNUHpR?=
- =?utf-8?B?KzgzRXlFZXZrS1YxOGNRc1NLdFU3NVhtck8rNDVwZTdyeHZzczhxaUxnZDhM?=
- =?utf-8?B?cUczNnZjbmpqK3pCMHhURTIzYW0vTkdRK25rNVJmTWZIMit3OXozdHJFVnlV?=
- =?utf-8?B?WFpjWmF5NHp0Qzgxa1ZYYVdSQm9LT3JpQm4yMEc0K0d4eDBnQWZEYk5Lbkd5?=
- =?utf-8?B?dXB1K1h2L2szU0poWW5KQ3RGMjBnbm4zbU00eDFsRUhwS3BFSy9JSkRyZnpW?=
- =?utf-8?B?d0FtVFdQWDBrK3pvdHJBQ1BSalNxb2s5NHpLM2pCcFhoOHNHRHBsM2hUWTdi?=
- =?utf-8?B?VU82UXk1dE1KQzdrRi9GZU9jZTBlNng0bG4zcStpWDJaMEZqYkY5UHphMmhH?=
- =?utf-8?B?YTcwVlpVMmk4NWtKa3MyVE5aZExtZ3lFWmh2Y212RStVM2dwS2cyYVJlVnFa?=
- =?utf-8?Q?dNNoEwLk9AI=3D?=
+	=?utf-8?B?OEpaSEkyU2tTQlU3dVFJdGk4bCtzQmhvNnA3UmszdEVOMFBEK0dXMlRkaHZ3?=
+ =?utf-8?B?SVg4QWZMNFVvcHVmVkJwTkRUNVA2Q3JmajBvZWd6Y3k3alNFRkRmRk9LdHE3?=
+ =?utf-8?B?U2Z5eFhwZzJFSEp2UXgvczU4Sk9WbzFhZ0ZNdDllaFdybzNrRW4rREQxRlY0?=
+ =?utf-8?B?VXZZV1RsZ2VuaUNMNzRzS04vWHBMWTBJQW5LRFFpZnNUZGVITmU5cGVIVUZC?=
+ =?utf-8?B?NUNvbkFFUnNjRW51cVFDUnpiRlpMTlY2L2tqSTRtMmtob1QxMWxzdkRXZjNP?=
+ =?utf-8?B?MnhoYU9wQkpQNHhtcjVreXVZVjh4dGpWMW9UQ1lRVkV2ZFg4ejRMTVlHZUR0?=
+ =?utf-8?B?blhqRjNEUXhzWjRRbllVeXk5V1h3cTIzSEEwbmFZM09iYWxjUjU0QVVVMmV0?=
+ =?utf-8?B?dm1ZMHlDSkswWDNqTk5Bcm11WURIZFJiODVjYlNJL2Y5Qmp3dzlyb2E1TEdX?=
+ =?utf-8?B?eVluNEZYNytOL3RMUzFHekpPZTVtaG1LQ0FYd2VsMVVzakQ3WHBaRFpjNkM4?=
+ =?utf-8?B?SkFNVDMwekFJVXNjNmNWZ2F3Q0p0TGhPalNYWVRxc1hNWUcwWFN2MmF5Vy9C?=
+ =?utf-8?B?aXRBNGhBTHdMbGpOMlJxRmdOblVXbkN5M0hkOHo1VHQ2UC9Cb1U0TnZ3cits?=
+ =?utf-8?B?cG1yd2pBNWxrMWRQSTNRQmJHbFErRS9IalZOdGJSODNXYUdXVnNqbldxMEph?=
+ =?utf-8?B?WlJWNlFJYmNRREk3Y1dubWpsclNhWmV6c1ZOL1FGaXUxZGFnSHBVckl6Y3U5?=
+ =?utf-8?B?U1FIUkE2QUExcjhCdVRZZEEwYmhIRFhLRzhHSE5USmp6ejByeGRlM2hNenJz?=
+ =?utf-8?B?VzdWK3k0ZEc3aG9yLzNaZVJndFNkNDk2WjJ4cnJSTEMrcTJURFVzbng2MWE1?=
+ =?utf-8?B?bFJweWxNRUpZU0xadEU4N2VwckJIRzhSWEFJUDRSMjlQWjBiQTJUR0dONGtn?=
+ =?utf-8?B?T1FlakptcXE4b2l5WEh2NmhXUEQ5dk9aUEVEbnNRVUV5YjlOTFlRZzBROW1i?=
+ =?utf-8?B?Qk9wTjdwbHZjcjR0NnBJVzVPRDRFSkU4clRoanV0dlh4TFAwMldYQWsvWFhm?=
+ =?utf-8?B?UnVyc1JiczNHT0R5dlVWM1c0RXlpc2MyeTl0bTVhV21qYnRKNHMyOFNyNmJy?=
+ =?utf-8?B?ODNyM3Jzemd5Smp3dEF1eEM2K0lLcTVXSXdPOHByZ2x1Qk90UmxlTlZEeFZm?=
+ =?utf-8?B?c0YxQk5ZWDlzMHNYR3ZEZGNUNit2ck92ekhJN2hXMEFZN0hBUE94dTN2T21m?=
+ =?utf-8?B?c3VXOFl2TmxtQ0ZWQUZXWktleC9HMXZLWGV2WDhGUGJWaG9IMks3L0ZhTm12?=
+ =?utf-8?B?d29UTWlIcnQ5WS9jdmgxMWhxaTJScVE3WTMwSjRVZlVOWDhEeEVybUgyaXFS?=
+ =?utf-8?B?djdCVW85VzlGdzZPUmJuNWNMM2hrV1diQkp6YUNucDBWMzZPK3lnL2lJNXQr?=
+ =?utf-8?B?UDJqVlY0cDQ2M3F3elpHekIvQllqeVI0K0pNVmp3c1ZUZ0N0cHFtbTg0dmhD?=
+ =?utf-8?B?RGZ3RUVKbGZueGY1YXoyYzR6TjlYU0sxUE5wMmkzODFiVUtTZUlZdm5UbmUr?=
+ =?utf-8?B?ZGdvMDlDMmFEdVpzeVRMTGNxMlNZbUQ3QVNlMUFlYS80VXpGai9vREg4SnV4?=
+ =?utf-8?B?T2NUeEx0YzZVdlpoOTN3K3lucHo3YWd1cXhqa2svVitXUEYvakZaaWpGdEZJ?=
+ =?utf-8?B?VW43L2pVMjRLK0k5R1YySkw0aTBQQ3puSmtvNmROQncySXk2M1JFMmlOSFhL?=
+ =?utf-8?B?SStmbW91Qy9Nc1B6TFRTeGJ5VVlVK3BCSGRPQVd6L1hGeXJnVWtEUjlyeUNS?=
+ =?utf-8?Q?fZZqIe6VyYXVGJG7umetMuTaoSiecSKbEKnFE=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(7416014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NnpyMURGSGVlK3lrU2M1emJ0VFI4Y0hUMVBLcEl3V284Z3BjRndIeVk0eDVx?=
- =?utf-8?B?Tk5lbW1PSkhvSFlpN3ZjWFBraTZpTS9qcm9DZ0dxUnp2ZE9lL25PVXluUnR0?=
- =?utf-8?B?cmdBS1N2a2xEWldyK0NXWlY2NGNLZGNicVN2SzNFekI1NVhPUnhTSDcrZEZ3?=
- =?utf-8?B?N1FyWUhBTFByOU03amVnQVVyTmJrclg5RENkbXM4NXJqcStrcVVzazdyY2t6?=
- =?utf-8?B?azdybmJYbFc1OWlPZVY3LzcxTVlOcUFXOHFseFBEdGxja2JNaE1QMXVTSXlS?=
- =?utf-8?B?Y0dDMlpNYmR1eC9FTG1raVAxZkxqTGtqUW1YcEVoU1JBTkRneEM5RFM5ZUJB?=
- =?utf-8?B?MXd5Z21EbldTWHZPZGNXc0lXR2kxUnpCdlBsaG5vMUMzV3pDVzl0dnFPbUU2?=
- =?utf-8?B?Z0dyZndhZFZ1c1BnNGpYOVVMT3JKRUxWd0V0T3oxb1lVVGZHaThkR1VvRm9Q?=
- =?utf-8?B?Um95amV5RFhlaUtrditZbFd1c204aytWaFRWRzlWZHZ5RHlCaTFmbzluaUcw?=
- =?utf-8?B?S2lQdEc5L0pIZnBuM0dBeVZpYnliVXZWeXVnMHVOM2JnMFNZaFNxay9aZ0xy?=
- =?utf-8?B?K092YTQ0clNpR2lzOUx4cElFVjFxc1dGUzdhM25BekZVci8zbVdBZkkvL1Br?=
- =?utf-8?B?M2o4VmVpNEFJSEg2cG8wMDN5clFsUE5DNmJCa2dvNTZ1Z09UbmxpcmtPajAr?=
- =?utf-8?B?dW84UWkxb0xuTElqNDNyNE1CSmFsanNUcWJjcTVLczBvbkpTOFBaQ01RZENk?=
- =?utf-8?B?ZmFzKy9YZ29ZajNsQytlSGJLSEt0QjhoeUtHQUtMTVBrWEtlMExCaFhvUHQz?=
- =?utf-8?B?K2d3MkNRUmhMQXY2Zk43ZkZJUVU4dmZGRm0yYjN2dDR5RHNoOG9mSWI3QU1v?=
- =?utf-8?B?UzRUTHRtNEtScFlOUjVSYS8xUHJrMzBqZExPWFQ1ajh3aDVxTFY5YThweit4?=
- =?utf-8?B?VCtJUVJ0MnhaRkdUeWRBVnNhMElhUEtnSXBicndURmc2bHJDcG5NMStKaG15?=
- =?utf-8?B?U2dYQUNvbXRPb3NrSlZrTUhQeDVPUDZIb1V0MHlaVUZRVnRramNwSFRFZ2Yy?=
- =?utf-8?B?aGQ5OFFCSEREdy8zS01nc1JMZGhBeFQzQVczMTRscHBjK3YwYTFnL05Ib0Ja?=
- =?utf-8?B?QU4yR3V0S1pxQjNVemVPVnllaklTdXJSN3A1dXNSZTFGaUN0L3l0RXNDcnlx?=
- =?utf-8?B?dlRYdUgyYTZoWXVBVG9sTmEvSno2S3JHbGUzS1BQNENFdC9aNzBvWk82YjhH?=
- =?utf-8?B?Z1hQdE83bHRxUUZlMXVBTnVLWC92ZEVWTGtMc2NMdWlDMXRUN08zZ3VneEpl?=
- =?utf-8?B?aFUrczRQYjlEZDIrWlNvRnErK1M2aXZET3d0UWt5WG4reGQrZ3U5THpBc2k1?=
- =?utf-8?B?QjE5enFVYjFudlJWZ2hzV0tqem9MU3hJWUJuRG5MMHVObktRQXRpekE4K1dx?=
- =?utf-8?B?c2xsc3FNRml3WWw0eDI1aXhRNXpCMm1GY2NEUk15YldSU0tJRFFUYVJ4REx4?=
- =?utf-8?B?WllyZHlQRGV5NVoyM3h3QzFhZFB0TDJUVXpKWURwRWZWQ2N2WG9OU3JMYUdv?=
- =?utf-8?B?NWhqMW41aUc1cGNiNlJkV0l5U1pLQ3Q3ODlXTWthbitlblhPOURYN0ovK3RU?=
- =?utf-8?B?T0svQnlJcE51eWwwWjl4cjVBZndIZC9oYjJPL1N4M1FKZEY2cE4wUUxyUHFi?=
- =?utf-8?B?OHFlTlFrWit5ekQ4N0tneTUydXp0WlpuUm1RUmtKZ1cxTHhsWWNTeFNiZFBO?=
- =?utf-8?B?RDc1SWdGSFdId3ViZTVQb3pOSTFqUktTTTlKV2NGeGM3Nmh4dzc3MEwzdmxo?=
- =?utf-8?B?WFJnZXlLZERKWnlIa1RBak83Mm9UdVoza0g3L2swT2RqL1NDWnoyZGk5djhI?=
- =?utf-8?B?aFF3eHloL1dGKzU4alBHOUpPaUNRSUNrS3lYN1Q1N0phNzJLZTNZUmsweE1w?=
- =?utf-8?B?ZzVpQkF0K3hIQ0ZQUGJpS3AyRFZIdE5EZW5DRUUzUFl0dmJkUHFxRW8xQmtJ?=
- =?utf-8?B?RGc0cHVnOTExQ200bFk0aU9WelV5WjZzOVFybVl3S01WNEc0cDZ1REdFdXQ5?=
- =?utf-8?B?QndVTURHamd4WEluZzMrMi9XMkVNTWhHbi9YMDRKMlhadHI0SDdCMkJmNFRv?=
- =?utf-8?B?T3libWFTU1NHT1NST2VYYjFlWkg2OWtZY3lUZ2VnWXZoekE5eU5WaHY2M2Ji?=
- =?utf-8?B?TTBVcFFHV2JtU1B2SEIzc3pKaTU0RCttdVArdHZzS2ZYdWRJK0c5WENXd2F0?=
- =?utf-8?B?UGpIWXc4UGIvd0wyME82eXNndTh3PT0=?=
+	=?utf-8?B?NmJONGxNci9oSUtDSkxXbnJDVlZKR2Z2ZjhjUDdJSXBvQ3Y1aTdUYVQ5ZFhV?=
+ =?utf-8?B?ZUJFeU9KbnhvRHZmMGV4UmJ6SGJ4di9wM2tmT3FjYWYxY2dZazhxUitUZWtJ?=
+ =?utf-8?B?SDdQcFNnalZtVFBWaWJTVldqWm83M3JKMjVvdlZ0SVpGc1h6Qk1nS3ZEQU9t?=
+ =?utf-8?B?NFZxZTRIVEhQRFY3bk1LeGZhSVJaZEJmQnlyT09CZFl6TWhZSGV0S24xL3J1?=
+ =?utf-8?B?dmJKRm1BN2ZaV2g3dmtTckVGU3pqVHM4Z0F2VGVEdk5Ba3JIb2dhMG0wWURx?=
+ =?utf-8?B?S25sdUF4cmJFb1J1eGR3TmR0b3htcjMxcnZ5elBMRVNKajEzeldsWFN0Titx?=
+ =?utf-8?B?SmJDelFXMkF0T01DT05WMlA3SjZ0NmVYN0VsRXpscWwzQUxaSjZBQ2U3R3Vn?=
+ =?utf-8?B?WFdnd0FRZXIzMEQzcUtCS2ZDSkR0STZMWEZxNmJjb1R2TE0wQjVrZTlJdWdj?=
+ =?utf-8?B?b2xRaW9CcERVWWNNWkZmUERacWNSSWxLWldFa2lWdURhNXJaSGJWTE1jdHV1?=
+ =?utf-8?B?dmNiK3RkV1RmM0YvN09CZTVYY20zbVhuUUpCTEQ4Sk5rKy9uTCswMHRQTXZs?=
+ =?utf-8?B?a3ZZWU1tNXJFeW9EZ1YrdGZDTVNtNlVyRkVNV3JuOU51Qi82YzJwcmdEK3ZU?=
+ =?utf-8?B?NjNJUzF4V0FENXYwekluYkJiYkZXR0lINDRjY2YwcmZrT0RYN3YrYWMxWnNh?=
+ =?utf-8?B?U2M2aWp6SzM1UGZWcEtLR051WG0ydDhoY2w1Y2FzZFZaTXJXK3NIM2h2aXFW?=
+ =?utf-8?B?YzhFSW41YlhhNzRjbG95anlyRUhvNDBBNk1pRis0OGluMHpPWXpoSHE5N2U2?=
+ =?utf-8?B?ci9HR0x0dmlqM0RmK0NhM2JCVjlGZTFiQWs4TnlBOWlXaDEzb1ltM1RHTSs0?=
+ =?utf-8?B?ek05eXhsWkszUXdhQVFLbjlRYVF2NjFtRnRwRTJ0THQ1WUZ3TVYvcU1YN1di?=
+ =?utf-8?B?WnRYYmxaK3lraXpnWTRsSTdYZGY5Q1Z5VUorQi9vUWFBR1lDNnpMSTV2aDRu?=
+ =?utf-8?B?Ym1ZWkVaLzBrd1V6U0pIdTNFZnNwM1YwVDE4N1NPZHJwUFBMbGl1V2trMlcv?=
+ =?utf-8?B?N3Bucmp6Qy96ckNxYzhJQXhNL1JkWW5yOEhkK0wxSGpmTjRuSjNyajFZaGt5?=
+ =?utf-8?B?bm1HV0p2NktsQ2VvMUNaOTU4OWNvWTlSTERtRTI0ZXBzcE1qaTY2TjRYU2ZT?=
+ =?utf-8?B?clJWeFYvd3Zwcm1RdGNLVldXY3Q0UWtYaVFqd0d2WFdya1BhcU5JVldudy9V?=
+ =?utf-8?B?OWlUMUN0K3JhSTNlM0xWSnZzalVNa2xwR25wVlVOYldYVjFoYnlQU1gra01U?=
+ =?utf-8?B?OEFzZXhpKzB6a0loZW02bnRNek9oK2s4cXdPeDNQL2srdjE4SjNSVGlyVHpr?=
+ =?utf-8?B?eHdXTTRDb2xIWGRzRzg2bm03eVlaM0tmQVhSWFFaM2dYVi9RSFNXT09RdXdL?=
+ =?utf-8?B?QWNSSlVCRTJnaDBkMWEvVmhFUlhuS0lwTVYzenJjL1Brd0poYjFOZmFqeTFX?=
+ =?utf-8?B?YjdVaGVQczkrZ1A0eUhrOENWdVN4ckwxdkxyM3VtL2NQdmNoL25uVFFWYXpl?=
+ =?utf-8?B?aTdwb0Q0MWNQRmFwVVdRMXVvc2hDaUxQeGQ2dUhZSmxveUZDcVhzLzlnRkkw?=
+ =?utf-8?B?OHFKbzFOd2F6bHU1NTI5VW1XcVBUSGVlWVlDbk8ycTNZTnJrNkdBSkFCaWhv?=
+ =?utf-8?B?aHNLUXMyYXZKWXFEZHNXelQ4V1c1djVPQXdMMWlhMU1hd3FGQjhSVHRmdStj?=
+ =?utf-8?B?ZjVwbkN5K3RyeFhGKzJZbkpaK3hlcllpQUZEQ3lrb3NxY0JBcUdaS2REMk9N?=
+ =?utf-8?B?cTlmR2x3STlHWnlZeWI0S2xyZUxHSlFoUU0yemFJOTJDTzl5MGpZVXlxSVNW?=
+ =?utf-8?B?OGt1QzcyemtJdzFmbmRnS25uWW5CZ0hNNlJiczlSakNtTndhV3VPZGNFQ3lt?=
+ =?utf-8?B?aXpOamZLbG1MdVBVQkErZkFKN2JvQ1UvRkxEYlF4c1FYL0JRVlNMSnBoZGh0?=
+ =?utf-8?B?STk3UGhYV0RUNEZYcWluTGg1T0VlUkxQQmdVNmxMTURGL3RnVS95dVBWaGx4?=
+ =?utf-8?B?SWQ2TTJFUmFvbjNVWmRpN2JoMmIrS29OTUR2M21xdlpoTHdta2FtNDR1UHE2?=
+ =?utf-8?B?MmRzZ0lSMGR1NDNPSkFUZ1E4MUpWQlFIT3NOb2NDaXpPTFB2OW9FcWlydlRE?=
+ =?utf-8?B?TnJ2YkNpaVBlR1N6SzJIL2lyUkY2Rk5qdWZHRHoxQnZ2R1J1MUM1cG1zN0N4?=
+ =?utf-8?B?ell4SkJUMkFQN1lFdHBTdDBEclFnPT0=?=
 X-OriginatorOrg: gocontroll.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34e6109f-5731-42f2-a40d-08dde14de7e8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f37759e-9237-45d7-6b35-08dde14e7220
 X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 07:31:27.9303
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 07:35:19.6267
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: imLGDEjrx+2ZMpF4Yu2UYh2b5PkBFKbVJbkyIX+fedjlpxWYYadF3v+VdnKDuvt8W6keYSj/onKo5RZNdrLiWtENQyykL9IC9cIWBrwUDZc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9485
+X-MS-Exchange-CrossTenant-UserPrincipalName: U2i+z+Hgzfaz3UqM1s9eWUtmTv1m4paCFQ98w+OS+NAcbSh1VclIJaV9KL7uBZDrZhQM7nrdIs8DNSt5WsoI+ceUmZMNt542Iik3s46BXR4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8601
 
-Hi Daniel,
-Thanks for the review!
-
-On 8/22/25 09:20, Daniel Thompson wrote:
-> On Tue, Aug 19, 2025 at 12:59:00PM +0200, Maud Spierings via B4 Relay wrote:
+On 8/22/25 09:26, Daniel Thompson wrote:
+> On Tue, Aug 19, 2025 at 12:58:59PM +0200, Maud Spierings via B4 Relay wrote:
 >> From: Maud Spierings <maudspierings@gocontroll.com>
 >>
 >> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
 >> with intgrated boost controller.
 >>
->> Signed-off-by: Maud Spierings maudspierings@gocontroll.com
-> 
-> Looking good but still a few small comments (below).
-> 
-> 
->> diff --git a/drivers/video/backlight/max25014.c b/drivers/video/backlight/max25014.c
+>> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+>> ---
+>>   .../bindings/leds/backlight/maxim,max25014.yaml    | 79 ++++++++++++++++++++++
+>>   MAINTAINERS                                        |  5 ++
+>>   2 files changed, 84 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
 >> new file mode 100644
->> index 0000000000000000000000000000000000000000..fe5e0615cf6d151868b56ebb9544b175b09dfcee
+>> index 0000000000000000000000000000000000000000..30b591152fa31d5e43243cac44c72028b05b5f8a
 >> --- /dev/null
->> +++ b/drivers/video/backlight/max25014.c
->> @@ -0,0 +1,395 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Backlight driver for Maxim MAX25014
->> + *
->> + * Copyright (C) 2025 GOcontroll B.V.
->> + * Author: Maud Spierings <maudspierings@gocontroll.com>
->> + */
+>> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+>> @@ -0,0 +1,79 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +#include <linux/backlight.h>
->> +#include <linux/gpio/consumer.h>
->> +#include <linux/i2c.h>
->> +#include <linux/regmap.h>
->> +#include <linux/slab.h>
+>> +title: Maxim max25014 backlight controller
 >> +
->> +#define MAX25014_ISET_DEFAULT_100 11
->> +#define MAX_BRIGHTNESS (100)
->> +#define MIN_BRIGHTNESS (0)
->> +#define TON_MAX (130720) /* @153Hz */
->> +#define TON_STEP (1307) /* @153Hz */
->> +#define TON_MIN (0)
+>> +maintainers:
+>> +  - Maud Spierings <maudspierings@gocontroll.com>
 >> +
->> +#define MAX25014_DEV_ID         (0x00)
->> +#define MAX25014_REV_ID         (0x01)
->> +#define MAX25014_ISET           (0x02)
->> +#define MAX25014_IMODE          (0x03)
->> +#define MAX25014_TON1H          (0x04)
->> +#define MAX25014_TON1L          (0x05)
->> +#define MAX25014_TON2H          (0x06)
->> +#define MAX25014_TON2L          (0x07)
->> +#define MAX25014_TON3H          (0x08)
->> +#define MAX25014_TON3L          (0x09)
->> +#define MAX25014_TON4H          (0x0A)
->> +#define MAX25014_TON4L          (0x0B)
->> +#define MAX25014_TON_1_4_LSB    (0x0C)
->> +#define MAX25014_SETTING        (0x12)
->> +#define MAX25014_DISABLE        (0x13)
->> +#define MAX25014_BSTMON         (0x14)
->> +#define MAX25014_IOUT1          (0x15)
->> +#define MAX25014_IOUT2          (0x16)
->> +#define MAX25014_IOUT3          (0x17)
->> +#define MAX25014_IOUT4          (0x18)
->> +#define MAX25014_OPEN           (0x1B)
->> +#define MAX25014_SHORT_GND      (0x1C)
->> +#define MAX25014_SHORT_LED      (0x1D)
->> +#define MAX25014_MASK           (0x1E)
->> +#define MAX25014_DIAG           (0x1F)
+>> +allOf:
+>> +  - $ref: common.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - maxim,max25014
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  enable-gpios:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
 > 
-> There is no need to put raw numbers in brackets.
-
-gone in the next version, I'll also align the defines at the top better.
->> +
->> +#define MAX25014_IMODE_HDIM     BIT(2)
->> +#define MAX25014_ISET_ENABLE    BIT(5)
->> +#define MAX25014_ISET_PSEN      BIT(4)
->> +#define MAX25014_DIAG_HW_RST    BIT(2)
->> +#define MAX25014_SETTING_FPWM   GENMASK(6, 4)
->> +
->> +struct max25014 {
->> +	struct i2c_client *client;
->> +	struct backlight_device *bl;
->> +	struct regmap *regmap;
->> +	struct max25014_platform_data *pdata;
+> Is the interrupt useful for anything?
 > 
-> This appears to be unused.
+> AFAIK its perfectly OK for DT bindings to describe hardware features the
+> driver does not use... but is the driver missing out on error reporting
+> (for example) by not using this interrupt for anything?
 
-oops forgot to remove that, how did it even build with that?
+The interrupt is indeed for error reporting, it is not wired up in the 
+driver right now (although there is already a function for scanning the 
+error registers, I am not sure how I would properly hook that up to an 
+irq. This is my first driver so I thought to keep things simple for now, 
+these extra functions can be added later), same with the pwms for 
+example. But jeah I wanted to fully describe the hardware in the 
+bindings as from what I understand that is what should be done.
 
->> +	struct gpio_desc *enable;
->> +	struct regulator *vin; /* regulator for boost converter Vin rail */
->> +	uint32_t initial_brightness;
-> 
-> It is important to keep the initial_brightness for the lifetime of the
-> driver?
-
-I guess not, though I am not sure how to comfortably transport this 
-value to the max25014_configure() otherwise. Some temporary value that I 
-create in the probe function then pass as reference to 
-max25014_parse_dt() and then to max25014_configure()?
-
->> +	uint32_t iset;
->> +	uint8_t strings_mask;
->> +};
->> +
-> 
 Kind regards,
 Maud
+
 
