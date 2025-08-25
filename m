@@ -1,150 +1,229 @@
-Return-Path: <linux-leds+bounces-5302-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5303-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A65AB335E8
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 07:48:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB01B34102
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 15:43:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDB5B179263
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 05:48:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CC111891E5C
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 13:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FC9F23B63C;
-	Mon, 25 Aug 2025 05:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEB78277C98;
+	Mon, 25 Aug 2025 13:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFwrdK9x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCr5k46v"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AFAF9CB;
-	Mon, 25 Aug 2025 05:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CF923D297;
+	Mon, 25 Aug 2025 13:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756100920; cv=none; b=DYbYME74+Wj0vhPMY9vQfe23Ncb8S6zIMZfqkRpGsaEFzLU+lrcEuefrwlUUFW5q5YGVjfql6skaSKZDIWk+zYicwTLVUC8C/Xl0v3MQAzPUJt85BeCwZKaHSeMlSrY5LR+oxCBplkRMEf5hyprUazl2wkVuaRFoNTlsbWqoFFQ=
+	t=1756129408; cv=none; b=gpRH0UQIJLsWNsT+mk3wi2X7VpCiN4D1jCGMhuHHAPZ6j9RabRERkowNKvFZaK8xAdEE/74Cdq44WA1RD4MrZcxsWMEuRlH2BRcQN6eYuZWPbRm4w4OnndRtttXsfrINcFFoan+hxZSMdjlu8oEOCVIDT69EM8r7ctAqzo8hnlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756100920; c=relaxed/simple;
-	bh=Jau+FjbOfy7Vl+xOE9VJa+DMB+eQb+pmr32ecZWVjsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pWwnXTdwxFWwplwfCuXazXv3KgDALG8EWtVWbDPZL8+sX9+6cVmm5rmSozpUXzKIQKWtWbw6PIcy6KquQbJh1MXVOToxVNHmZZnLwdfNNcH+k8hLBG6jv31ZIKOelr7I6lkQEKjgbcNpOsOkPEi0sYu3HUacWktJPw4SZTrSEvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFwrdK9x; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756100918; x=1787636918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Jau+FjbOfy7Vl+xOE9VJa+DMB+eQb+pmr32ecZWVjsU=;
-  b=aFwrdK9xbGYlMHfgHK3MlJd97A/7Zye/mTOtyPbjQqMM+gTzjjuqXmys
-   MukSrg7eT9ISLkt0mc9FJAUyirlkurz3Bq0gbD7Li0/9X5e+v9Hhn/rms
-   sXVvfZkFKR2F26dU58J611RlOSzWwkeVxCvqsQZ7opf6QqphqGiJlkQvs
-   uRcFBkHseyNwP/pebwNBX8cwoKGqXckunhzAsgVRQs34b59IWzgzx8Sux
-   WGhFvVqJsOwdErXP3LwdjHx3T2GW5MCoTDJzTLTMqbu5KjAxbDwKm0gIy
-   EbrLY+oRidwzdmBqT28oYg+gwx6Mt9HqheMn16A9K8oxmsaD2PKNKl64w
-   w==;
-X-CSE-ConnectionGUID: GDpoRBcHQpqU4N0qllzAJQ==
-X-CSE-MsgGUID: fD/UmzMPTh6tci5A2oVIAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="68900439"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68900439"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 22:48:37 -0700
-X-CSE-ConnectionGUID: inir8pOrQie6HNXlUdaVng==
-X-CSE-MsgGUID: X1PuEl9VQ+qzvjbI5xM1qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="174511206"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 22:48:34 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2295D12023C;
-	Mon, 25 Aug 2025 08:48:31 +0300 (EEST)
-Date: Mon, 25 Aug 2025 08:48:31 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v6 03/11] Documentation: uAPI: media: add
- V4L2_CID_FLASH_DURATION
-Message-ID: <aKv5LyZHoO1F3pMp@kekkonen.localdomain>
-References: <20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev>
- <20250716-ov9282-flash-strobe-v6-3-934f12aeff33@linux.dev>
- <aKv3uUXf87im8ajX@kekkonen.localdomain>
+	s=arc-20240116; t=1756129408; c=relaxed/simple;
+	bh=hQMwXvLwmQEv1kEvo1+9eCKCllPAT+aam54JtX7RwQE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eyXcScnTu6cgE5ntPhszV9/X46z6rkI3UAfCmHaQnbr2s3j3bEHg9JCbJtjX4mtWHRJd3i5Oj3Oz+PxY9o9bI2D6Ouojh46oOBt8jPnmIt25HqfF8aJ2chxOVveO9h9OLfrpQGhpbANqQ4tVkpdMbRbOWk3SyNAd0o1psKTEjpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCr5k46v; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afcb732eee6so763533366b.0;
+        Mon, 25 Aug 2025 06:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756129405; x=1756734205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jAbKVYpYb9nh9ya4q0qpbx2OQpViyyQmlpd1mwtIPFY=;
+        b=TCr5k46vkdO0EJSjFFVjZxe1+IglZ9VemDdyZNgptfYQrmF90+VXp3CX2ji7Yxd8v+
+         xmo64m6HgUnqwMU352Ok0Oc5+KPgDiLimk8stgQsLjE+CGaFjrngSCZ79/uvm5jV7itS
+         BEtu4Azkb/IwpjEEVg1BEpSwAyyuxJSxVvQ3/8EQ7N93E1bykFDpDU4mYMNIud84Z05f
+         82f3Wh0X8ZYfQmzsY8upg2fPjx3Y01Nu5tVWc/CPjRT9tzROytAkMSnR5HrOX/ph+Ugf
+         llFcPhqFWpAG5I5fz2jXHTMrkIdyuqdDLXr8/AB7LuhRR8XBh/BUxwocm5LAeB03Hk+p
+         SJPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756129405; x=1756734205;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jAbKVYpYb9nh9ya4q0qpbx2OQpViyyQmlpd1mwtIPFY=;
+        b=q4ueCMckbKzZML+aIAU5DjExwmYXmT7/xJVMF8GFbMHw4FAuwiRIq9rW2sx/e4hFjp
+         VOSX0fjdh9xLNVFaJa96p3O7qZayubI5pIsQStk7GHUv4mKkxIZX1UzV8Xb/Ged5tbvY
+         3N0X5OEjerasKChfgYE3Ox11ibKJqSaqYbuYkKWZC1kbMLwG4TpvU7JnP8wmOQSqsHfh
+         EDZc0fadS1hDPDo01nPg0qPmNjJW1dxs1OHQs/t6iPMk4TRv+/yRNfEfZkQBVLd9722P
+         rBCri1EOCEc+pHaa6YvyK9HJQVDxPKrsLK3gVKddSo/4FlG0Ku/kSiOVG3LuHtCpvZPc
+         iGbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVuHT4x9IEC5uXU0DqT8kTDhK41wz4PI5I2IYV/tkUV8PgNI6VEEa3UbjR6WdqdRmB1v7lgQznJQ2jG@vger.kernel.org, AJvYcCX/iIX55n4d5u+yHV4rwZe2IcX8HyTZGKKQQuMs+SC199Nq4tLtNwLIQ7h2yjWtple4FTH1Zihkbj8Bm9o=@vger.kernel.org, AJvYcCXmIGF6BI7QjX1Bbw5zwFEGwf3Rl0gPkdjlOIUW8TzXUQZXw8lfdgAqPTjADHBW43mWaYOeA9Wep/PL2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj2Hkin+/6OoRpEbNxgaWLvz7sWJGnuhlB8c3pkYAuARpiV7yy
+	Yiic5LIpw1/WHi7iRWbUm2BmpkLOQydTQksKKuk0yL0EqRgLm6iJ2Rw=
+X-Gm-Gg: ASbGnctSUOHCFgdoq47Ab2ZpFbwg4xZbOGzCgPEEb/aPRes8lZzkfT6a+mZGkSpA48I
+	yROY0y8XdngOxkO61lcA/sxfgRrckuYARBoe7kzThHTjd8z1cz+/Sa9OPTIH+lMhzPe0GuXaojs
+	+OMkKoilh0Ak0QuRX8VqrHp5ZJ2lpbWrBnnwT1JjPWYBp6fEwgkpvbHDIA17p+Z4H9cbNRFL688
+	P+P5KjJOi94xbvnk9pPymSa/SGjXrcOd87MHBAKFeFSfb4M7sw10ufO8v5xGFiDtuB/x1Uy4dVX
+	YUW0Vbcd3NWW+XMrCUy70HiDi5QNbScHi2w4I9Vrb0593BTXFxYZPHuoNX89E4ro2E9ZPYKB5e6
+	1KH2lb6Kd3e5NRUxzPLAZKfEz750zLhoBxygYxxxPoHTEKhqhnYcIsw9sh2cWSFz51uWsZXqqKF
+	BXbKotB6szqw==
+X-Google-Smtp-Source: AGHT+IHLJ4qg6ex2bm+0hQ+1u00bCZ4MtkgwHM+oSFotZaHnr+IyLH+ElzkG+gFK7XgWDVfoZZ4PwA==
+X-Received: by 2002:a17:907:3e13:b0:af4:12f6:420 with SMTP id a640c23a62f3a-afe29441ab7mr1037855666b.13.1756129404949;
+        Mon, 25 Aug 2025 06:43:24 -0700 (PDT)
+Received: from [10.104.197.164] (mob-194-230-160-118.cgn.sunrise.net. [194.230.160.118])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe70f0121bsm326761666b.55.2025.08.25.06.43.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Aug 2025 06:43:24 -0700 (PDT)
+Message-ID: <eac8ce16-4e63-4092-8729-dc73b3433ece@gmail.com>
+Date: Mon, 25 Aug 2025 15:43:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 05/11] [RFC] leds: led-class: Add devicetree support to
+ led_get()
+To: Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Daniel Scally <djrscally@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+ Mark Pearson <markpearson@lenovo.com>, Andy Yeh <andy.yeh@intel.com>,
+ Hao Yao <hao.yao@intel.com>, linux-media@vger.kernel.org,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, artur@madrzak.eu
+References: <20230120114524.408368-1-hdegoede@redhat.com>
+ <20230120114524.408368-6-hdegoede@redhat.com>
+Content-Language: en-US
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+In-Reply-To: <20230120114524.408368-6-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aKv3uUXf87im8ajX@kekkonen.localdomain>
 
-On Mon, Aug 25, 2025 at 08:42:19AM +0300, Sakari Ailus wrote:
-> Hi Richard,
-> 
-> Thanks for the update (and for the ping!).
-> 
-> On Wed, Jul 16, 2025 at 11:06:53AM +0200, Richard Leitner wrote:
-> > Add the new strobe_duration control to v4l uAPI documentation.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > index d22c5efb806a183a3ad67ec3e6550b002a51659a..03a58ef94be7c870f55d5a9bb09503995dbfb402 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > @@ -186,3 +186,8 @@ Flash Control IDs
-> >      charged before strobing. LED flashes often require a cooldown period
-> >      after strobe during which another strobe will not be possible. This
-> >      is a read-only control.
-> > +
-> > +``V4L2_CID_FLASH_DURATION (integer)``
-> > +    Duration the flash should be on when the flash LED is in flash mode
-> > +    (V4L2_FLASH_LED_MODE_FLASH). The unit should be microseconds (µs)
-> > +    if possible.
-> > 
-> 
-> I think we should add this is related to the hardware strobe.
-> 
-> How about:
-> 
-> ``V4L2_CID_FLASH_DURATION (integer)``
-> 
->     Duration of the flash strobe from the strobe source, typically a camera
->     sensor. Controlling the flash LED strobe length this way requires that the
->     flash LED driver's :ref:`flash LED mode <v4l2-cid-flash-led-mode>` is set
->     to ``V4L2_FLASH_LED_MODE_FLASH`` and :ref:`strobe source
->     <v4l2-cid-strobe-source>` is set to ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``.
->     The unit should be microseconds (µs) if possible.
 
-Also adding a reference to V4L2_CID_FLASH_HW_STROBE_SIGNAL:
+On 1/20/23 12:45, Hans de Goede wrote:
+> Turn of_led_get() into a more generic __of_led_get() helper function,
+> which can lookup LEDs in devicetree by either name or index.
+>
+> And use this new helper to add devicetree support to the generic
+> (non devicetree specific) [devm_]led_get() function.
+>
+> This uses the standard devicetree pattern of adding a -names string array
+> to map names to the indexes for an array of resources.
+>
+> Note the new led-names property for LED consumers is not added
+> to the devicetree documentation because there seems to be no
+> documentation for the leds property itself to extend it with this.
+> It seems that how LED consumers should be described is not documented
+> at all ATM.
+>
+> This patch is marked as RFC because of both the missing devicetree
+> documentation and because there are no devicetree users of
+> the generic [devm_]led_get() function for now.
+>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-``V4L2_CID_FLASH_DURATION (integer)``
-    Duration of the flash strobe from the strobe source, typically a camera
-    sensor. Controlling the flash LED strobe length this way requires that the
-    strobe source's :ref:`V4L2_CID_FLASH_HW_STROBE_SIGNAL
-    <v4l2-cid-flash-hw-strobe>` is enabled and flash LED driver's :ref:`flash
-    LED mode <v4l2-cid-flash-led-mode>` is set to ``V4L2_FLASH_LED_MODE_FLASH``
-    and :ref:`strobe source <v4l2-cid-strobe-source>` is set to
-    ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``. The unit should be microseconds (µs)
-    if possible.
 
-Similarly, the documentation for V4L2_CID_FLASH_HW_STROBE_SIGNAL should be
-amended with a reference, but the label needs to exist first. I think you
-could merge the two documentation patches to make this easier.
+Hi,
 
--- 
-Sakari Ailus
+It appears this patch was marked as RFC due some missing dt-bindings and 
+not having direct DT consumers at the time, and was eventually left out. 
+With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which 
+mostly use MIPI cameras, this feature becomes more desired. I have 
+rebased this patch onto 6.17-rc2, and can confirm its (still) working as 
+expected (with respective DT changes) on Dell XPS 9345.
+
+What would be the best approach to revive this patch? For Hans to respin 
+this? Alternatively I could respin it myself keeping the original 
+authorship.
+Regarding missing dt-binding documentation, would 
+`Documentation/devicetree/bindings/leds/common.yaml` be the good place 
+for it? Afaiu it was mentioned that noÂ  appropriate LED bindings exists 
+in this series (3yo), but this binding is ~6yo, so perhaps its not a 
+right place after all.
+
+Thank you in advance,
+Alex
+
+> ---
+>   drivers/leds/led-class.c | 37 ++++++++++++++++++++++++++++---------
+>   1 file changed, 28 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 0c4b8d8d2b4f..2f3af6e30208 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -234,19 +234,18 @@ static struct led_classdev *led_module_get(struct device *led_dev)
+>   	return led_cdev;
+>   }
+>   
+> -/**
+> - * of_led_get() - request a LED device via the LED framework
+> - * @np: device node to get the LED device from
+> - * @index: the index of the LED
+> - *
+> - * Returns the LED device parsed from the phandle specified in the "leds"
+> - * property of a device tree node or a negative error-code on failure.
+> - */
+> -struct led_classdev *of_led_get(struct device_node *np, int index)
+> +static struct led_classdev *__of_led_get(struct device_node *np, int index,
+> +					 const char *name)
+>   {
+>   	struct device *led_dev;
+>   	struct device_node *led_node;
+>   
+> +	/*
+> +	 * For named LEDs, first look up the name in the "led-names" property.
+> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
+> +	 */
+> +	if (name)
+> +		index = of_property_match_string(np, "led-names", name);
+>   	led_node = of_parse_phandle(np, "leds", index);
+>   	if (!led_node)
+>   		return ERR_PTR(-ENOENT);
+> @@ -256,6 +255,19 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
+>   
+>   	return led_module_get(led_dev);
+>   }
+> +
+> +/**
+> + * of_led_get() - request a LED device via the LED framework
+> + * @np: device node to get the LED device from
+> + * @index: the index of the LED
+> + *
+> + * Returns the LED device parsed from the phandle specified in the "leds"
+> + * property of a device tree node or a negative error-code on failure.
+> + */
+> +struct led_classdev *of_led_get(struct device_node *np, int index)
+> +{
+> +	return __of_led_get(np, index, NULL);
+> +}
+>   EXPORT_SYMBOL_GPL(of_led_get);
+>   
+>   /**
+> @@ -329,9 +341,16 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
+>   struct led_classdev *led_get(struct device *dev, char *con_id)
+>   {
+>   	struct led_lookup_data *lookup;
+> +	struct led_classdev *led_cdev;
+>   	const char *provider = NULL;
+>   	struct device *led_dev;
+>   
+> +	if (dev->of_node) {
+> +		led_cdev = __of_led_get(dev->of_node, -1, con_id);
+> +		if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
+> +			return led_cdev;
+> +	}
+> +
+>   	mutex_lock(&leds_lookup_lock);
+>   	list_for_each_entry(lookup, &leds_lookup_list, list) {
+>   		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
 
