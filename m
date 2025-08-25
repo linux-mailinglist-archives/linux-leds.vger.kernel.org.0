@@ -1,78 +1,78 @@
-Return-Path: <linux-leds+bounces-5299-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5300-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264B1B3348D
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 05:33:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E429FB33494
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 05:33:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6AC717E600
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 03:33:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7624420411
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Aug 2025 03:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DFAF26D4EB;
-	Mon, 25 Aug 2025 03:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F2F275B0D;
+	Mon, 25 Aug 2025 03:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kznsV13Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jk6PxHK+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5313025D917;
-	Mon, 25 Aug 2025 03:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BB5269AEE;
+	Mon, 25 Aug 2025 03:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756092769; cv=none; b=tWb0isGeNcOGub8iljTMMp4J9Wyz3Oxj8J/nvnbpRujUqsxNoX8XIFreB1hF41oPi1GuKVJ6n+k/vQHk1d8pn6HMJL3GGLfDhE/u/ofPKjeqqNzfekuTzRiD3FMB6qB8qKci9PTAPaRHD1eDSB7zEsZloMGc3n9mfwanyn2Ltv0=
+	t=1756092770; cv=none; b=dU11q8F0wmGHDKQ+hSVPeZz9tZj/JLe3Iojv1VZ2IYcD26aU4OKBiiM2iFx0cjBpzL8WRhOKjK8Y5ueqe61GdDOatz6l5+M2AO883/Ujw927ua4tTpHHyZ6WQyzkEYan4yyPqOW2nHcvVmA4XGaYRU4A84FHXsjHYU1xdAc049Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756092769; c=relaxed/simple;
-	bh=uQdUs+gRS29PSICgO4m/EfZCr5hAaQDUvp6ZoOPquHI=;
+	s=arc-20240116; t=1756092770; c=relaxed/simple;
+	bh=86TleQdUi+JMz+iUg6eiKigh7Qwwees0tjmyxXdZMBA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RB4qFTsGs4SGOTF4WBnYyWfv9qcTi5WPftxuBr4uOehM95j2EoKRCUjB7lpcUP83OjDbKk+lZz5otFE6C908jxYFbWLNh6VQWDXktZbddakGhGNewDqXRewP4EvHcjZ5bWspNxQu8mRzs/5HBc1GkJovenCibP7bAJ56x6Om91Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kznsV13Q; arc=none smtp.client-ip=209.85.160.179
+	 MIME-Version:Content-Type; b=bpQI0tluVkQRyn6f5czGHbU6lMQUB6/uuQ1VX1eHSs3F6pB1bKj0zTHtkaQwxWUKtMucq8MJPqOHHvatS8hGP4aP3SPmOrNijuTZAilgSpWXvEmjUckpy6pOjyY21XFWs413H3tQEtTYsX+Ycckjbwg8uAAA+dlMM5TyTCuyiuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jk6PxHK+; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4b28184a8b3so47122401cf.1;
-        Sun, 24 Aug 2025 20:32:47 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-70d93f5799bso27264336d6.1;
+        Sun, 24 Aug 2025 20:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756092766; x=1756697566; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756092768; x=1756697568; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dXf+dqUtTAWA9fwRLFryIKYUZaDkHD+b1P+hK8T7SS4=;
-        b=kznsV13QvghyuQyRddmhSgN8WoB+CVmCCw8dA3evXICILX2AIv4V+NozBoi1/6P6hh
-         dC5jYsSGndDBaOSxjO/W2CZlLjACHdtlNY7RUE8IOFkZTMF17535brNdDXNzZMk3TJmX
-         8AcHe4C6w69BgCYWLiixHLpFYFPfFFqcxepEch87BQz9J4c1DeC8Fbag/3m9GPYUQpAw
-         YVBs52TtZN7+kxEjAGCqaK4UZ8IwkLZjnLSuDfxzSUFvjkN/GblLGyvUViWahqo0tOo7
-         yzPDyImKCuyNQsvBESxqsS6/7A97yrPcx4/va5GdCqUTqtAE0680k6rgqqKdM4yZmSZu
-         6Qdg==
+        bh=TBg2VgzadmcpGOk4rK6TKexSA/3pGGW3w4j/3ZDiVuk=;
+        b=Jk6PxHK+0SVKQBSqD1/Jg6YHkeYYnOSvmb8mMA11jhSICMqfAvmZEfji2kXF4YKuOD
+         R+cpC6GMSpsonqY2Ko0AmVohpVoqJnSNlxjucGkpPJKcukvnznM9GL1ra84nPjnAGvZo
+         EQbOfGdGJAyS+2uCcwJTTs9L1WZk0ECi4/58yGB2PdyabBkbL+JHdGqHZbM05VcKW8Rz
+         hn8jEJ3iVrO8HBRe/zX9kyHBucA1LDGYYNsYZ9BjR1xsHnDbofdMUljW3yC90bswuWKN
+         r/ObRrN8z7y76p+BZSGZPu+O2sG9cdz6qGHVgkrwmJ1C3+eQqbdChW1g4xqelJtmNUBs
+         42kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756092766; x=1756697566;
+        d=1e100.net; s=20230601; t=1756092768; x=1756697568;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dXf+dqUtTAWA9fwRLFryIKYUZaDkHD+b1P+hK8T7SS4=;
-        b=C95Efrfvh3TFKwgghgqxBwXVBBh/WCxswgdfVi0OBI+kRrxyo20ZckShXnn8edQDva
-         +5Kvkz79M1ZRfIvMRdMVum7c2QzqoiM1GBosfaQRaHQZ/PJDWjiT/FFLRXhjBBRVh+YB
-         2iCNwX6qmwNa7Nb9fEWkLjeEOw/4wL+Ly/Lduto6u+vRaX5QY22koMwQif2FwF9u/p/G
-         Qgj+n9ksew1GHkOPgafk7uIoyyoAWBnzjoI23PYP7Rx2miSuxTZVLoGP4yNWCZtbSaXX
-         Z5LdNcZSrTED6wIPSpZ6I3UaGS1QKRz2+5TvUXv3KFSS2BeoEJG1lqCSaCW4j+RGXMAQ
-         ngaw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7pdmMoCCSUfAxb4bj6g4LmgNzj0meKGTDGu4c5CenbnaHAutEOwUA5OTKTaGiLKyiqHTwRP0fnWp+@vger.kernel.org, AJvYcCW9i4OMHy8XS28fiXhr1hFVYSupX6gKeQTxR9A3WqI3wYU5/kM/KiBEdRoYQLN4FszqjX9a2IiQscMIdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXUpK8ckzUbhweLoiNsBhpdwPh8bj45mHilCufLoUmO6C3FRgC
-	gRjDr6xvb1KAsGogswCVmuR81MH5hDEF5NQiDBhtFaL1vBPD4HKpJm4hsFSeK5Zp
-X-Gm-Gg: ASbGncutOyF9gDF/5sJccTlsOwBhDy/sBgJ8DDMb6caRn3dIMCMXdwHy8+HwSSZtc0b
-	we3ji5HxQkHjAOvwrVXiMo/8mK7f8FjVUzw3z59JzlH2GBeoD0dcrG5jDqg5wDfFANYR21YcBeA
-	l3hhzhAkr5gtmaP2/RZikh98t3+NBD2t2NFo3P2lesqRqqxg/NQ/xs3RsHyUTM7K/kBFCePRxNp
-	lWya+MUdXvaQ0Cc5voc6ASa2KPRykkYmehqNVgGskZNyqh0hLO/3Doqjtas8Mj4U7JuZA07TMaY
-	FWxHya5bRUHiVfIpVFTSgcG7qAK99EI02ezxO75IvLnQspVU0uWOonMycspzdUjw1KDPW8ZFHqM
-	VtAuS7hfz+DqBJu84HdwE399X0ZSQzSAaGBAowO4XInOQOIF7ZWEsMIBOajZLLIqvGinM
-X-Google-Smtp-Source: AGHT+IEZxMZi3ocIIlYZ8mQpbFhBd5hqZk64cDvWc/PklYP03OTTS+gXDLjTBt/IJ9m0oQC5Vvvq4A==
-X-Received: by 2002:ac8:5e49:0:b0:4b2:9ac2:686e with SMTP id d75a77b69052e-4b2aab4a159mr126509091cf.77.1756092766101;
-        Sun, 24 Aug 2025 20:32:46 -0700 (PDT)
+        bh=TBg2VgzadmcpGOk4rK6TKexSA/3pGGW3w4j/3ZDiVuk=;
+        b=YRCeqRTv4v5kajKXLD0jbTWUBrV378ZTaL6KCoTKGbSWFS/rqKvR6kownHTZnXYC2T
+         ZUfNjkezZPDg/mnnLr6dNvmaXXQOohwhbVarsYpy3EnRCjTvajqqEFqbFUIH90E0lwe4
+         IF9uNH23S0kYAZdrskU4qf98Q3xD4l3a3fiogGo/6AbAKIKuwx5pkHVnSJIgKeln8wEK
+         gAmHqEg2JDKRZjTyN84IhZazq8EzzGW91IjiHL0gBtAKT6Al+P8aOzlIH9r+eCAwU2/x
+         lmaKhwXA+cWi9Cm8pPceqpy1eZEaWm5H9t2PB+o/jAseTcCqetzLvlb3RwSopxhf2/Q8
+         aiaA==
+X-Forwarded-Encrypted: i=1; AJvYcCWGjeySqjN3q7X1Nogbd+hM6fGJSLYowMc6RQyC5ncx3WKy00AKLwhmTxHNBtdyztLrlhGQhEaBriGxFg==@vger.kernel.org, AJvYcCXxFN+82I57LPXCnEgRUIMjsCVevs62eMFU8Tih6qOd9W3osveEDCAtfXKNTp32/HbuMmSWpJm3kJWT@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnPk6jKReR8+HzLHQQf+JuY/rY1Rj5bhLa9guyVms+/SnwmARX
+	tI8+osFkBmgDxuci9Brcetal45BJ4cW8xXryTfzwknIBTTbLi7yJiGredE4+fq87
+X-Gm-Gg: ASbGnct3DheESHFpf3qPE8Sa4ZdhuC8iUTxz6w1UXY/XpUnicdGvBu8H1jqHMn6eiuL
+	V3rCzhzK7KIksBDIpUsJbF9YZ75ANpJZpZHHuQG7Zv4F43HwRxGHkmUlzflp8pC/2aJMIr71UR0
+	pj8WEiAKwRH+X+VcPajBQUHyfeMtG5Hyx2OwjI3eLH0pR2sutACsisU2unquZ+x3ibX+lzUFsl1
+	03XNUyoCx1AIzqJ6Q66HqftMNr6UObGazv9IGBx0ZD/VR7iTSEX9HvOeOOsiRQR0KNSalGjKgg5
+	WKXdbJDu5qRV1ZnkXYEB37rOCsFLv35Vtb0PgBLmDPFepL9Es2TSHU4DpcZ8OkGZWsBdOO7dVhM
+	GAqoaY/MknWS02L4Ign9jfKSVTDIt9JIge2JOgAqfFIdQTjx8OTrC6CGNH+0ap2TCgcNu
+X-Google-Smtp-Source: AGHT+IFhNLcyNRLc6FBOHTmkWtIT2E6LZrw6Ey2M5g78X5SqbCh1vY56jLnRhBMGDZid4Nt7qMWdQw==
+X-Received: by 2002:a05:6214:2265:b0:70d:bdd2:7cbb with SMTP id 6a1803df08f44-70dbdd285c3mr24890816d6.42.1756092767433;
+        Sun, 24 Aug 2025 20:32:47 -0700 (PDT)
 Received: from localhost (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b2b8ca1609sm43240851cf.17.2025.08.24.20.32.45
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70da72dbf82sm37709216d6.70.2025.08.24.20.32.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 20:32:45 -0700 (PDT)
+        Sun, 24 Aug 2025 20:32:47 -0700 (PDT)
 From: =?UTF-8?q?Jean-Fran=C3=A7ois=20Lessard?= <jefflessard3@gmail.com>
 To: Andy Shevchenko <andy@kernel.org>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -82,9 +82,9 @@ To: Andy Shevchenko <andy@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v4 5/6] auxdisplay: TM16xx: Add support for I2C-based controllers
-Date: Sun, 24 Aug 2025 23:32:31 -0400
-Message-ID: <20250825033237.60143-6-jefflessard3@gmail.com>
+Subject: [PATCH v4 6/6] auxdisplay: TM16xx: Add support for SPI-based controllers
+Date: Sun, 24 Aug 2025 23:32:32 -0400
+Message-ID: <20250825033237.60143-7-jefflessard3@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250825033237.60143-1-jefflessard3@gmail.com>
 References: <20250825033237.60143-1-jefflessard3@gmail.com>
@@ -98,78 +98,82 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Add support for TM16xx-compatible auxiliary display controllers connected
-via the I2C bus.
+via the SPI bus.
 
 The implementation includes:
-- I2C driver registration and initialization
-- Probe/remove logic for I2C devices
+- SPI driver registration and initialization
+- Probe/remove logic for SPI devices
 - Controller-specific handling and communication sequences
 - Integration with the TM16xx core driver for common functionality
 
-This allows platforms using TM16xx or compatible controllers over I2C to be
+This allows platforms using TM16xx or compatible controllers over SPI to be
 managed by the TM16xx driver infrastructure.
 
 Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
 ---
+
+Notes:
+    include <linux/of.h> is required for of_match_ptr
+
  MAINTAINERS                     |   1 +
  drivers/auxdisplay/Kconfig      |   7 +
  drivers/auxdisplay/Makefile     |   1 +
- drivers/auxdisplay/tm16xx_i2c.c | 332 ++++++++++++++++++++++++++++++++
- 4 files changed, 341 insertions(+)
- create mode 100644 drivers/auxdisplay/tm16xx_i2c.c
+ drivers/auxdisplay/tm16xx_spi.c | 398 ++++++++++++++++++++++++++++++++
+ 4 files changed, 407 insertions(+)
+ create mode 100644 drivers/auxdisplay/tm16xx_spi.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8edcdd52c..51cc910e2 100644
+index 51cc910e2..1ee45be14 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -25409,6 +25409,7 @@ F:	Documentation/ABI/testing/sysfs-class-leds-tm16xx
- F:	Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx.yaml
- F:	drivers/auxdisplay/tm16xx.h
+@@ -25411,6 +25411,7 @@ F:	drivers/auxdisplay/tm16xx.h
  F:	drivers/auxdisplay/tm16xx_core.c
-+F:	drivers/auxdisplay/tm16xx_i2c.c
+ F:	drivers/auxdisplay/tm16xx_i2c.c
  F:	drivers/auxdisplay/tm16xx_keypad.c
++F:	drivers/auxdisplay/tm16xx_spi.c
  
  TMIO/SDHI MMC DRIVER
+ M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
 diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-index b5dcd024d..6238e753d 100644
+index 6238e753d..868625596 100644
 --- a/drivers/auxdisplay/Kconfig
 +++ b/drivers/auxdisplay/Kconfig
-@@ -535,6 +535,7 @@ config TM16XX
- 	select LEDS_TRIGGERS
+@@ -536,6 +536,7 @@ config TM16XX
  	select INPUT_MATRIXKMAP
  	select TM16XX_KEYPAD if (INPUT)
-+	select TM16XX_I2C if (I2C)
+ 	select TM16XX_I2C if (I2C)
++	select TM16XX_SPI if (SPI)
  	help
  	  This driver supports the following TM16XX compatible
  	  I2C and SPI 7-segment led display chips:
-@@ -553,6 +554,12 @@ config TM16XX_KEYPAD
+@@ -560,6 +561,12 @@ config TM16XX_I2C
  	help
- 	  Enable keyscan support for TM16XX driver.
+ 	  Enable I2C support for TM16XX driver.
  
-+config TM16XX_I2C
++config TM16XX_SPI
 +	tristate
 +	depends on TM16XX
 +	help
-+	  Enable I2C support for TM16XX driver.
++	  Enable SPI support for TM16XX driver.
 +
  #
  # Character LCD with non-conforming interface section
  #
 diff --git a/drivers/auxdisplay/Makefile b/drivers/auxdisplay/Makefile
-index a9b9c8ff0..ba7b310f5 100644
+index ba7b310f5..2485a3a67 100644
 --- a/drivers/auxdisplay/Makefile
 +++ b/drivers/auxdisplay/Makefile
-@@ -19,3 +19,4 @@ obj-$(CONFIG_SEG_LED_GPIO)	+= seg-led-gpio.o
- obj-$(CONFIG_TM16XX)		+= tm16xx.o
+@@ -20,3 +20,4 @@ obj-$(CONFIG_TM16XX)		+= tm16xx.o
  tm16xx-y			+= tm16xx_core.o
  tm16xx-$(CONFIG_TM16XX_KEYPAD)	+= tm16xx_keypad.o
-+obj-$(CONFIG_TM16XX_I2C)	+= tm16xx_i2c.o
-diff --git a/drivers/auxdisplay/tm16xx_i2c.c b/drivers/auxdisplay/tm16xx_i2c.c
+ obj-$(CONFIG_TM16XX_I2C)	+= tm16xx_i2c.o
++obj-$(CONFIG_TM16XX_SPI)	+= tm16xx_spi.o
+diff --git a/drivers/auxdisplay/tm16xx_spi.c b/drivers/auxdisplay/tm16xx_spi.c
 new file mode 100644
-index 000000000..3beca7e43
+index 000000000..fcc69c5f6
 --- /dev/null
-+++ b/drivers/auxdisplay/tm16xx_i2c.c
-@@ -0,0 +1,332 @@
++++ b/drivers/auxdisplay/tm16xx_spi.c
+@@ -0,0 +1,398 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * TM16xx and compatible LED display/keypad controller driver
@@ -178,30 +182,40 @@ index 000000000..3beca7e43
 + * Copyright (C) 2024 Jean-François Lessard
 + */
 +
-+#include <linux/i2c.h>
 +#include <linux/mod_devicetable.h>
++#include <linux/of.h>
++#include <linux/spi/spi.h>
 +
 +#include "tm16xx.h"
 +
-+static int tm16xx_i2c_probe(struct i2c_client *client)
++#define TM16XX_SPI_BUFFER_SIZE	8
++#define TM16XX_SPI_TWAIT_US	2
++
++static int tm16xx_spi_probe(struct spi_device *spi)
 +{
 +	const struct tm16xx_controller *controller;
 +	struct tm16xx_display *display;
 +	int ret;
 +
-+	controller = i2c_get_match_data(client);
++	controller = spi_get_device_match_data(spi);
 +	if (!controller)
 +		return -EINVAL;
 +
-+	display = devm_kzalloc(&client->dev, sizeof(*display), GFP_KERNEL);
++	display = devm_kzalloc(&spi->dev, sizeof(*display), GFP_KERNEL);
 +	if (!display)
 +		return -ENOMEM;
 +
-+	display->client.i2c = client;
-+	display->dev = &client->dev;
++	/* Allocate DMA-safe buffer */
++	display->spi_buffer = devm_kzalloc(&spi->dev, TM16XX_SPI_BUFFER_SIZE,
++					   GFP_KERNEL);
++	if (!display->spi_buffer)
++		return -ENOMEM;
++
++	display->client.spi = spi;
++	display->dev = &spi->dev;
 +	display->controller = controller;
 +
-+	i2c_set_clientdata(client, display);
++	spi_set_drvdata(spi, display);
 +
 +	ret = tm16xx_probe(display);
 +	if (ret)
@@ -210,296 +224,352 @@ index 000000000..3beca7e43
 +	return 0;
 +}
 +
-+static void tm16xx_i2c_remove(struct i2c_client *client)
++static void tm16xx_spi_remove(struct spi_device *spi)
 +{
-+	struct tm16xx_display *display = i2c_get_clientdata(client);
++	struct tm16xx_display *display = spi_get_drvdata(spi);
 +
 +	tm16xx_remove(display);
 +}
 +
 +/**
-+ * tm16xx_i2c_write() - I2C write helper for controller
-+ * @display: pointer to tm16xx_display structure
-+ * @data: command and data bytes to send
-+ * @len: number of bytes in @data
++ * tm16xx_spi_read() - SPI read helper for controller
++ * @display: pointer to tm16xx_display
++ * @cmd: command to send
++ * @cmd_len: length of command
++ * @data: buffer for received data
++ * @data_len: length of data to read
 + *
 + * Return: 0 on success, negative error code on failure
 + */
-+static int tm16xx_i2c_write(struct tm16xx_display *display, u8 *data, size_t len)
++static int tm16xx_spi_read(struct tm16xx_display *display, u8 *cmd,
++			   size_t cmd_len, u8 *data, size_t data_len)
 +{
-+	dev_dbg(display->dev, "i2c_write %*ph", (char)len, data);
-+
-+	/* expected sequence: S Command [A] Data [A] P */
-+	struct i2c_msg msg = {
-+		.addr = data[0] >> 1,
-+		.flags = 0,
-+		.len = len - 1,
-+		.buf = &data[1],
-+	};
++	struct spi_device *spi = display->client.spi;
++	struct spi_message msg;
 +	int ret;
 +
-+	ret = i2c_transfer(display->client.i2c->adapter, &msg, 1);
-+	if (ret < 0)
-+		return ret;
++	dev_dbg(display->dev, "spi_write %*ph", (char)cmd_len, cmd);
 +
-+	return (ret == 1) ? 0 : -EIO;
++	/* If STB is high during transmission, command is invalid.
++	 * Reading requires a minimum 2 microseconds wait (Twait)
++	 * after the 8th CLK rising edge before reading on falling edge.
++	 */
++	struct spi_transfer xfers[2] = {
++		{
++			.tx_buf = cmd,
++			.len = cmd_len,
++			.cs_change = 0, /* NO CS toggle */
++			.delay.value = TM16XX_SPI_TWAIT_US,
++			.delay.unit = SPI_DELAY_UNIT_USECS,
++		}, {
++			.rx_buf = data,
++			.len = data_len,
++		}
++	};
++
++	spi_message_init_with_transfers(&msg, xfers, ARRAY_SIZE(xfers));
++
++	ret = spi_sync(spi, &msg);
++
++	dev_dbg(display->dev, "spi_read %*ph", (char)data_len, data);
++
++	return ret;
 +}
 +
 +/**
-+ * tm16xx_i2c_read() - I2C read helper for controller
-+ * @display: pointer to tm16xx_display structure
-+ * @cmd: command/address byte to send before reading
-+ * @data: buffer to receive data
-+ * @len: number of bytes to read into @data
++ * tm16xx_spi_write() - SPI write helper for controller
++ * @display: pointer to tm16xx_display
++ * @data: data to write
++ * @len: number of bytes to write
 + *
 + * Return: 0 on success, negative error code on failure
 + */
-+static int tm16xx_i2c_read(struct tm16xx_display *display, u8 cmd, u8 *data,
-+			   size_t len)
++static int tm16xx_spi_write(struct tm16xx_display *display, u8 *data, size_t len)
 +{
-+	/* expected sequence: S Command [A] [Data] [A] P */
-+	struct i2c_msg msgs[1] = {{
-+		.addr = cmd >> 1,
-+		.flags = I2C_M_RD | I2C_M_NO_RD_ACK,
-+		.len = len,
-+		.buf = data,
-+	}};
++	dev_dbg(display->dev, "spi_write %*ph", (char)len, data);
++
++	struct spi_device *spi = display->client.spi;
++
++	return spi_write(spi, data, len);
++}
++
++/* SPI controller-specific functions */
++static int tm1628_init(struct tm16xx_display *display)
++{
++	const enum led_brightness brightness = display->main_led.brightness;
++	const u8 num_grids = display->num_grids;
++	u8 *cmd = display->spi_buffer;
 +	int ret;
 +
-+	ret = i2c_transfer(display->client.i2c->adapter, msgs, ARRAY_SIZE(msgs));
++	/* Set mode command based on grid count */
++	cmd[0] = TM16XX_CMD_MODE;
++	if (num_grids <= 4)
++		cmd[0] |= TM16XX_MODE_4GRIDS;
++	else if (num_grids == 5)
++		cmd[0] |= TM16XX_MODE_5GRIDS;
++	else if (num_grids == 6)
++		cmd[0] |= TM16XX_MODE_6GRIDS;
++	else
++		cmd[0] |= TM16XX_MODE_7GRIDS;
++
++	ret = tm16xx_spi_write(display, cmd, 1);
 +	if (ret < 0)
 +		return ret;
 +
-+	dev_dbg(display->dev, "i2c_read %ph: %*ph\n", &cmd, (char)len, data);
-+
-+	return (ret == ARRAY_SIZE(msgs)) ? 0 : -EIO;
-+}
-+
-+/* I2C controller-specific functions */
-+static int tm1650_init(struct tm16xx_display *display)
-+{
-+	u8 cmds[2];
-+	const enum led_brightness brightness = display->main_led.brightness;
-+
-+	cmds[0] = TM1650_CMD_CTRL;
-+	cmds[1] = TM16XX_CTRL_BRIGHTNESS(brightness, brightness, TM1650) |
-+		  TM1650_CTRL_SEG8_MODE;
-+
-+	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-+}
-+
-+static int tm1650_data(struct tm16xx_display *display, u8 index,
-+		       unsigned int grid)
-+{
-+	u8 cmds[2];
-+
-+	cmds[0] = TM1650_CMD_ADDR + index * 2;
-+	cmds[1] = grid; /* SEG 1 to 8 */
-+
-+	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-+}
-+
-+static int tm1650_keys(struct tm16xx_display *display)
-+{
-+	u8 keycode, row, col;
-+	bool pressed;
-+	int ret;
-+
-+	ret = tm16xx_i2c_read(display, TM1650_CMD_READ, &keycode, 1);
-+	if (ret)
-+		return ret;
-+
-+	if (keycode == 0x00 || keycode == 0xFF)
-+		return -EINVAL;
-+
-+	row = FIELD_GET(TM1650_KEY_ROW_MASK, keycode);
-+	pressed = FIELD_GET(TM1650_KEY_DOWN_MASK, keycode) != 0;
-+	if ((keycode & TM1650_KEY_COMBINED) == TM1650_KEY_COMBINED) {
-+		tm16xx_set_key(display, row, 0, pressed);
-+		tm16xx_set_key(display, row, 1, pressed);
-+	} else {
-+		col = FIELD_GET(TM1650_KEY_COL_MASK, keycode);
-+		tm16xx_set_key(display, row, col, pressed);
-+	}
-+
-+	return 0;
-+}
-+
-+static int fd655_init(struct tm16xx_display *display)
-+{
-+	u8 cmds[2];
-+	const enum led_brightness brightness = display->main_led.brightness;
-+
-+	cmds[0] = FD655_CMD_CTRL;
-+	cmds[1] = TM16XX_CTRL_BRIGHTNESS(brightness, brightness % 3, FD655);
-+
-+	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-+}
-+
-+static int fd655_data(struct tm16xx_display *display, u8 index,
-+		      unsigned int grid)
-+{
-+	u8 cmds[2];
-+
-+	cmds[0] = FD655_CMD_ADDR + index * 2;
-+	cmds[1] = grid; /* SEG 1 to 8 */
-+
-+	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-+}
-+
-+static int fd6551_init(struct tm16xx_display *display)
-+{
-+	u8 cmds[2];
-+	const enum led_brightness brightness = display->main_led.brightness;
-+
-+	cmds[0] = FD6551_CMD_CTRL;
-+	cmds[1] = TM16XX_CTRL_BRIGHTNESS(brightness, ~(brightness - 1), FD6551);
-+
-+	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
-+}
-+
-+static void hbs658_swap_nibbles(u8 *data, size_t len)
-+{
-+	for (size_t i = 0; i < len; i++)
-+		data[i] = (data[i] << 4) | (data[i] >> 4);
-+}
-+
-+static int hbs658_init(struct tm16xx_display *display)
-+{
-+	const enum led_brightness brightness = display->main_led.brightness;
-+	u8 cmd;
-+	int ret;
-+
 +	/* Set data command */
-+	cmd = TM16XX_CMD_WRITE | TM16XX_DATA_ADDR_AUTO;
-+	hbs658_swap_nibbles(&cmd, 1);
-+	ret = tm16xx_i2c_write(display, &cmd, 1);
++	cmd[0] = TM16XX_CMD_WRITE | TM16XX_DATA_ADDR_AUTO;
++	ret = tm16xx_spi_write(display, cmd, 1);
 +	if (ret < 0)
 +		return ret;
 +
 +	/* Set control command with brightness */
-+	cmd = TM16XX_CMD_CTRL |
-+	      TM16XX_CTRL_BRIGHTNESS(brightness, brightness - 1, TM16XX);
-+	hbs658_swap_nibbles(&cmd, 1);
-+	ret = tm16xx_i2c_write(display, &cmd, 1);
++	cmd[0] = TM16XX_CMD_CTRL |
++		 TM16XX_CTRL_BRIGHTNESS(brightness, brightness - 1, TM16XX);
++	ret = tm16xx_spi_write(display, cmd, 1);
 +	if (ret < 0)
 +		return ret;
 +
 +	return 0;
 +}
 +
-+static int hbs658_data(struct tm16xx_display *display, u8 index,
++static int tm1618_data(struct tm16xx_display *display, u8 index,
 +		       unsigned int grid)
 +{
-+	u8 cmds[2];
++	u8 *cmd = display->spi_buffer;
 +
-+	cmds[0] = TM16XX_CMD_ADDR + index * 2;
-+	cmds[1] = grid;
++	cmd[0] = TM16XX_CMD_ADDR + index * 2;
++	cmd[1] = FIELD_GET(TM1618_BYTE1_MASK, grid);
++	cmd[2] = FIELD_GET(TM1618_BYTE2_MASK, grid) << TM1618_BYTE2_SHIFT;
 +
-+	hbs658_swap_nibbles(cmds, ARRAY_SIZE(cmds));
-+	return tm16xx_i2c_write(display, cmds, ARRAY_SIZE(cmds));
++	return tm16xx_spi_write(display, cmd, 3);
 +}
 +
-+static int hbs658_keys(struct tm16xx_display *display)
++static int tm1628_data(struct tm16xx_display *display, u8 index,
++		       unsigned int grid)
 +{
-+	u8 cmd, keycode, col;
-+	int ret;
++	u8 *cmd = display->spi_buffer;
 +
-+	cmd = TM16XX_CMD_READ;
-+	hbs658_swap_nibbles(&cmd, 1);
-+	ret = tm16xx_i2c_read(display, cmd, &keycode, 1);
++	cmd[0] = TM16XX_CMD_ADDR + index * 2;
++	cmd[1] = FIELD_GET(TM1628_BYTE1_MASK, grid);
++	cmd[2] = FIELD_GET(TM1628_BYTE2_MASK, grid);
++
++	return tm16xx_spi_write(display, cmd, 3);
++}
++
++static int tm1628_keys(struct tm16xx_display *display)
++{
++	u8 *cmd = display->spi_buffer;
++	u8 *codes = display->spi_buffer;
++	int ret, i;
++
++	cmd[0] = TM16XX_CMD_READ;
++	ret = tm16xx_spi_read(display, cmd, 1, codes, TM1628_KEY_READ_LEN);
 +	if (ret)
 +		return ret;
 +
-+	hbs658_swap_nibbles(&keycode, 1);
++	/* prevent false readings */
++	for (i = 0; i < TM1628_KEY_READ_LEN; i++) {
++		if (codes[i] & ~TM1628_KEY_MASK)
++			return -EINVAL;
++	}
 +
-+	if (keycode != 0xFF) {
-+		col = FIELD_GET(HBS658_KEY_COL_MASK, keycode);
-+		tm16xx_set_key(display, 0, col, true);
++	tm16xx_for_each_key(display, row, col) {
++		int byte = col >> 1;
++		int bit = row + ((col & 1) * 3);
++		bool value = !!(codes[byte] & BIT(bit));
++
++		tm16xx_set_key(display, row, col, value);
 +	}
 +
 +	return 0;
 +}
 +
-+/* I2C controller definitions */
-+static const struct tm16xx_controller tm1650_controller = {
-+	.max_grids = 4,
++static int tm1638_keys(struct tm16xx_display *display)
++{
++	u8 *cmd = display->spi_buffer;
++	u8 *codes = display->spi_buffer;
++	int ret, i;
++
++	cmd[0] = TM16XX_CMD_READ;
++	ret = tm16xx_spi_read(display, cmd, 1, codes, TM1638_KEY_READ_LEN);
++	if (ret)
++		return ret;
++
++	/* prevent false readings */
++	for (i = 0; i < TM1638_KEY_READ_LEN; i++) {
++		if (codes[i] & ~TM1638_KEY_MASK)
++			return -EINVAL;
++	}
++
++	tm16xx_for_each_key(display, row, col) {
++		int byte = col >> 1;
++		int bit = (2 - row) + ((col & 1) << 2);
++		bool value = !!(codes[byte] & BIT(bit));
++
++		tm16xx_set_key(display, row, col, value);
++	}
++
++	return 0;
++}
++
++static int tm1618_keys(struct tm16xx_display *display)
++{
++	u8 *cmd = display->spi_buffer;
++	u8 *codes = display->spi_buffer;
++	int ret, i;
++
++	cmd[0] = TM16XX_CMD_READ;
++	ret = tm16xx_spi_read(display, cmd, 1, codes, TM1618_KEY_READ_LEN);
++	if (ret)
++		return ret;
++
++	/* prevent false readings */
++	for (i = 0; i < TM1618_KEY_READ_LEN; i++) {
++		if (codes[i] & ~TM1618_KEY_MASK)
++			return -EINVAL;
++	}
++
++	tm16xx_set_key(display, 0, 0, !!(codes[0] & BIT(1)));
++	tm16xx_set_key(display, 0, 1, !!(codes[0] & BIT(4)));
++	tm16xx_set_key(display, 0, 2, !!(codes[1] & BIT(1)));
++	tm16xx_set_key(display, 0, 3, !!(codes[1] & BIT(4)));
++	tm16xx_set_key(display, 0, 4, !!(codes[2] & BIT(1)));
++
++	return 0;
++}
++
++static int fd620_data(struct tm16xx_display *display, u8 index,
++		      unsigned int grid)
++{
++	u8 *cmd = display->spi_buffer;
++
++	cmd[0] = TM16XX_CMD_ADDR + index * 2;
++	cmd[1] = FIELD_GET(FD620_BYTE1_MASK, grid);
++	cmd[2] = FIELD_GET(FD620_BYTE2_MASK, grid) << FD620_BYTE2_SHIFT;
++
++	return tm16xx_spi_write(display, cmd, 3);
++}
++
++static int fd620_keys(struct tm16xx_display *display)
++{
++	u8 *cmd = display->spi_buffer;
++	u8 *codes = display->spi_buffer;
++	int ret, i;
++
++	cmd[0] = TM16XX_CMD_READ;
++	ret = tm16xx_spi_read(display, cmd, 1, codes, FD620_KEY_READ_LEN);
++	if (ret)
++		return ret;
++
++	/* prevent false readings */
++	for (i = 0; i < FD620_KEY_READ_LEN; i++) {
++		if (codes[i] & ~FD620_KEY_MASK)
++			return -EINVAL;
++	}
++
++	tm16xx_set_key(display, 0, 0, codes[0] & BIT(0));
++	tm16xx_set_key(display, 0, 1, codes[0] & BIT(3));
++	tm16xx_set_key(display, 0, 2, codes[1] & BIT(0));
++	tm16xx_set_key(display, 0, 3, codes[1] & BIT(3));
++	tm16xx_set_key(display, 0, 4, codes[2] & BIT(0));
++	tm16xx_set_key(display, 0, 5, codes[2] & BIT(3));
++	tm16xx_set_key(display, 0, 6, codes[3] & BIT(0));
++
++	return 0;
++}
++
++/* SPI controller definitions */
++static const struct tm16xx_controller tm1618_controller = {
++	.max_grids = 7,
 +	.max_segments = 8,
 +	.max_brightness = 8,
-+	.max_key_rows = 4,
-+	.max_key_cols = 7,
-+	.init = tm1650_init,
-+	.data = tm1650_data,
-+	.keys = tm1650_keys,
++	.max_key_rows = 1,
++	.max_key_cols = 5,
++	.init = tm1628_init,
++	.data = tm1618_data,
++	.keys = tm1618_keys,
 +};
 +
-+static const struct tm16xx_controller fd655_controller = {
-+	.max_grids = 5,
-+	.max_segments = 7,
-+	.max_brightness = 3,
-+	.max_key_rows = 5,
-+	.max_key_cols = 7,
-+	.init = fd655_init,
-+	.data = fd655_data,
-+	.keys = tm1650_keys,
-+};
-+
-+static const struct tm16xx_controller fd6551_controller = {
-+	.max_grids = 5,
-+	.max_segments = 7,
++static const struct tm16xx_controller tm1620_controller = {
++	.max_grids = 6,
++	.max_segments = 10,
 +	.max_brightness = 8,
 +	.max_key_rows = 0,
 +	.max_key_cols = 0,
-+	.init = fd6551_init,
-+	.data = fd655_data,
++	.init = tm1628_init,
++	.data = tm1628_data,
 +	.keys = NULL,
 +};
 +
-+static const struct tm16xx_controller hbs658_controller = {
++static const struct tm16xx_controller tm1628_controller = {
++	.max_grids = 7,
++	.max_segments = 14, /* seg 11 unused */
++	.max_brightness = 8,
++	.max_key_rows = 2,
++	.max_key_cols = 10,
++	.init = tm1628_init,
++	.data = tm1628_data,
++	.keys = tm1628_keys,
++};
++
++static const struct tm16xx_controller tm1638_controller = {
++	.max_grids = 8,
++	.max_segments = 10,
++	.max_brightness = 8,
++	.max_key_rows = 3,
++	.max_key_cols = 8,
++	.init = tm1628_init,
++	.data = tm1628_data,
++	.keys = tm1638_keys,
++};
++
++static const struct tm16xx_controller fd620_controller = {
 +	.max_grids = 5,
 +	.max_segments = 8,
 +	.max_brightness = 8,
 +	.max_key_rows = 1,
-+	.max_key_cols = 8,
-+	.init = hbs658_init,
-+	.data = hbs658_data,
-+	.keys = hbs658_keys,
++	.max_key_cols = 7,
++	.init = tm1628_init,
++	.data = fd620_data,
++	.keys = fd620_keys,
 +};
 +
 +#if IS_ENABLED(CONFIG_OF)
-+static const struct of_device_id tm16xx_i2c_of_match[] = {
-+	{ .compatible = "titanmec,tm1650", .data = &tm1650_controller },
-+	{ .compatible = "fdhisi,fd6551",   .data = &fd6551_controller },
-+	{ .compatible = "fdhisi,fd655",    .data = &fd655_controller  },
-+	{ .compatible = "winrise,hbs658",  .data = &hbs658_controller },
++static const struct of_device_id tm16xx_spi_of_match[] = {
++	{ .compatible = "titanmec,tm1618",  .data = &tm1618_controller },
++	{ .compatible = "titanmec,tm1620",  .data = &tm1620_controller },
++	{ .compatible = "titanmec,tm1628",  .data = &tm1628_controller },
++	{ .compatible = "titanmec,tm1638",  .data = &tm1638_controller },
++	{ .compatible = "fdhisi,fd620",     .data = &fd620_controller  },
 +	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(of, tm16xx_i2c_of_match);
++MODULE_DEVICE_TABLE(of, tm16xx_spi_of_match);
 +#endif
 +
-+static const struct i2c_device_id tm16xx_i2c_id[] = {
-+	{ "tm1650", (kernel_ulong_t)&tm1650_controller },
-+	{ "fd6551", (kernel_ulong_t)&fd6551_controller },
-+	{ "fd655",  (kernel_ulong_t)&fd655_controller  },
-+	{ "hbs658", (kernel_ulong_t)&hbs658_controller },
++static const struct spi_device_id tm16xx_spi_id[] = {
++	{ "tm1618",  (kernel_ulong_t)&tm1618_controller },
++	{ "tm1620",  (kernel_ulong_t)&tm1620_controller },
++	{ "tm1628",  (kernel_ulong_t)&tm1628_controller },
++	{ "tm1638",  (kernel_ulong_t)&tm1638_controller },
++	{ "fd620",   (kernel_ulong_t)&fd620_controller  },
 +	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(i2c, tm16xx_i2c_id);
++MODULE_DEVICE_TABLE(spi, tm16xx_spi_id);
 +
-+static struct i2c_driver tm16xx_i2c_driver = {
++static struct spi_driver tm16xx_spi_driver = {
 +	.driver = {
-+		.name = "tm16xx-i2c",
-+		.of_match_table = of_match_ptr(tm16xx_i2c_of_match),
++		.name = "tm16xx-spi",
++		.of_match_table = of_match_ptr(tm16xx_spi_of_match),
 +	},
-+	.probe = tm16xx_i2c_probe,
-+	.remove = tm16xx_i2c_remove,
-+	.shutdown = tm16xx_i2c_remove,
-+	.id_table = tm16xx_i2c_id,
++	.probe = tm16xx_spi_probe,
++	.remove = tm16xx_spi_remove,
++	.shutdown = tm16xx_spi_remove,
++	.id_table = tm16xx_spi_id,
 +};
-+module_i2c_driver(tm16xx_i2c_driver);
++module_spi_driver(tm16xx_spi_driver);
 +
 +MODULE_AUTHOR("Jean-François Lessard");
-+MODULE_DESCRIPTION("TM16xx-i2c LED Display Controllers");
++MODULE_DESCRIPTION("TM16xx-spi LED Display Controllers");
 +MODULE_LICENSE("GPL");
 +MODULE_IMPORT_NS("TM16XX");
 -- 
