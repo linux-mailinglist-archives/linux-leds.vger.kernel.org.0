@@ -1,92 +1,92 @@
-Return-Path: <linux-leds+bounces-5316-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5317-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4B1B35277
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 06:04:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4E9B36BE9
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 16:50:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 059287A2A62
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 04:03:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9BE7A03D14
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 14:40:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9056923507B;
-	Tue, 26 Aug 2025 04:04:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5250A3570B2;
+	Tue, 26 Aug 2025 14:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzM/8HwL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWQjBBhn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040CD3D984;
-	Tue, 26 Aug 2025 04:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCC4350825;
+	Tue, 26 Aug 2025 14:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756181068; cv=none; b=oJWhUV1NKMF+cF7xY6nOxAfBhUZbny8c13lnmzVA79BJu50gA0JB/tGzbp38MkShfUrCODIQlJgPNAgD8Qd8GETqSc5ejpLQrfm15sQQ11xKyAdY49CQqA4g/RzhGRvgXxvlfzz6CAPYId7KjfGFncMo9cnxswoeKlThMlkreYQ=
+	t=1756219054; cv=none; b=IBY632WTEPRVcjG6cGAU6dGqwkzO0EZD0NjVXrHrNS9kITiskQ8Fn/QTsuGr0WLuL31mg+yd1cNxdl6MM2HkWElfZJlr7d4YNqwDQu2t1qDV9eDpyA829YndY436JHWSqUWpdQRVHkA8hAJkZobonq5UdMQeSA/pR2zj7y2H0Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756181068; c=relaxed/simple;
-	bh=QX4wEww9pCxHTxsGEF4cX9KVwza5+WczsesrfODaono=;
+	s=arc-20240116; t=1756219054; c=relaxed/simple;
+	bh=sdAcFErMaAvxIj3OAhwQFkrxPJpihi9tsFCYZuFzsvY=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=chP6nrvYkfhfg1/lcRjsWQuLS6EPSj0NgktuO0vIXA5s3rIPhF/UjFXJXz1GNAbTMmUT+tHKJDTKPukf/C/jnCO6WimE41aRPxxGf1k+ET4YmQKrx5uEr/M9gD1khxnNYZhXxR9vLBSM3Z0YilsZ88EqgJwzvAvgToIg3jvRv/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzM/8HwL; arc=none smtp.client-ip=209.85.222.181
+	 MIME-Version:Content-Type; b=KK0lUYZb11H048A596V/aIsxHzRpex+l7s0NC5/w9eNCnyz3ijJX4ZEf+yfQg5F8wsAc6ogXWjr8umO9qnCBRMi6Q8KZLaJI5UA6befpAil7vYK6dyP+3G4+xuneQQewk8+AkdNufrf96DSXsvNvGdG5vcb964DWWs91JCxBwlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWQjBBhn; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7e87068760bso558906685a.3;
-        Mon, 25 Aug 2025 21:04:26 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-70d9a65c371so38687286d6.2;
+        Tue, 26 Aug 2025 07:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756181066; x=1756785866; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756219051; x=1756823851; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:references
          :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=jZS8NQFSL7DR515j0Sn4SCmSwIfVSg5w6wgOrN140yU=;
-        b=XzM/8HwLkX1QcESdg1KWa131g7027Qn/QQwCw0ppyZEnqtCZMGNHdOgWhlViYgioi9
-         /f2shAoNHj+gzjcAy8wBzJaRZqFUDv1kCXA8eVziXHv1EgDWcfwXP4biYza85P5hpHds
-         KMVjjJpwmcAFUbs9ivtbwmLLzHvXbflsAEbT2lF820TH9fZwGg/8lvuiNAvA6Fcs43j1
-         oIwgBsSj2kZ1Jju9MFJzTpSeWjbCYVFPe2NuZIpXts6vPba+QGrgM5GVnAVZ6IcwXu2F
-         RQI0iFIEF6JsvNb5KODc3blC/RqCz8WE8L+WGX1Jue/7X4HTLJ555Fh5RpCLh7Z4/D0L
-         svJA==
+        bh=ES8UZSAXeLNqh3Lam8d3aYOJAro3fOK+7OrQsDbtpKE=;
+        b=IWQjBBhnmTfwkDS4PecwWu+Rg8opzWJWXhxhJIkI7Gt6IGb5r2czVupvnpWSV25tBH
+         Ta4qpXRX8in8LS75mjrfSsaQQRybHdxAT8gdPRKKhY4JV52gkgEF2YQqoxt6e2JUqkzl
+         a/u2jTAFh7Zic48IXzbh0ECPtlJz/Gu/CYXCx6seZN86AW5fkmVhLubRbLG5X0HMNF0x
+         p4W0FVECOPbWbSnyTjI9NiFA4gDd0J8t18wbq0Ud4cjqhkFNypFyz8rye+5/tKrnmC6M
+         4LWPJvAQ0GEKjEFeOdg/WS6B5yfOv+/8RtsZ/kfqcPx+qPaJJ+2noE0ItjgA6nLhz3xQ
+         158w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756181066; x=1756785866;
+        d=1e100.net; s=20230601; t=1756219051; x=1756823851;
         h=content-transfer-encoding:mime-version:message-id:references
          :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jZS8NQFSL7DR515j0Sn4SCmSwIfVSg5w6wgOrN140yU=;
-        b=dRwqywPmAXP2k5xjnUmkKhxlPR0QdbDcA54iP5FAQpOFvB4mzYA5jSz9WB3zmd4JMA
-         46nCXxyUKQjNOvivAKse8d2ZFSEaSINu9Brbb19XvxYM+6ZuoAp5oxn+HwFAtrREZ9ID
-         bnM2hqaryoZPKv2f5SXJxYE0ZeFHms2vC1xI0xWcZ8i6Csed19VPqxvk5Gyt46+98S0F
-         uS5ldJL0+MC93oW1AS/MMbqXLMP8xICX8okxoyVAUxCWPS9wTPTCoSwtwyetWrL0bVj4
-         xSBk0gmxy3CprNz6XiJax9Q1050Ecb1o8cRoshE8RZgfVb3X1pH1TymfSR121mzXPA+C
-         JH5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUp7x4FTSRhcyEC1QOEypXqf07YLS9x9B5hxEyN2uZFh4tVvrQK/9YaN+jdFwNJUkbs/YyI7hBt189R@vger.kernel.org, AJvYcCVlClKuOHrLREmpn5z2Ni7qhMZ84Zl6O2Z5ANRyHdp0X/Ps0dOIsHEDEIfmLfaQRiaD6Xh/dsvOGqCM6Q==@vger.kernel.org, AJvYcCWemzHUUAnQicGe9A0q/hOn5VMJki61DEAWP+8fFGxfs3PSoyDRHMjw29PxC+p6M8VcWmwnmxsaoPLEGVDC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/dqjnbFYBHuLqDVcDBIm9xIu4GragXrayXMqAwPahjElv7jEq
-	9udf9dVdZtjrCOeT19SNIFvOvHqnf+wSFfX6sI6wG2rmd3MB0r/AaOmW
-X-Gm-Gg: ASbGnctw9bHedsutRmavlGfWz5SysxP1wc6R9PqF3M2WQrHiutVAqpPnTPr84i8GKbN
-	o3x/QJDQKBxMp0rq6gsWkehBjglt6+pMJmjGIdmMtKkkKI0r0Oj2S/j36EGdK3xPuvemTnhIbH5
-	rov75neSrxLybBB1xvikJRfJ/j/cCR4KZyHQR3VIS2FKtIn2lH8pGEr/f+1UFxQeT2N2J90TwBA
-	urueUCB6ac0HL91e7Eg4aJMOMx6CLxcYNW8wQBxfo2QvXnbGFLxGOcaSeo9GssZfV0Sj7B+QCwz
-	7wYeoR+CrC9yBkbAGxIV4fa7t4zMvcp6lX6k4ilg7IzHyvXgsumAtshuIauoEt0gstHhI4hRXHZ
-	J3dua8mhstFxItinxNbFL8k690zoCsZSqEOOBB0f5h5iG5qfI+mvClZUI/ChQPDxF7POBRVP1DH
-	t7S2fa
-X-Google-Smtp-Source: AGHT+IH2SSfDB4Q2waex8Aus1LEdieEpNTqqcPRdKf0uR1xlUQydrt++uCeAkL2S5XxFS9ziY/ydYw==
-X-Received: by 2002:a05:620a:1a23:b0:7f2:2982:1eaf with SMTP id af79cd13be357-7f229822d16mr435119685a.74.1756181065722;
-        Mon, 25 Aug 2025 21:04:25 -0700 (PDT)
+        bh=ES8UZSAXeLNqh3Lam8d3aYOJAro3fOK+7OrQsDbtpKE=;
+        b=khi6GHInb8QdoJb5rA3DPV36Z7sb2UrK1lqvok9CVxuNROv7EAiN9LiEdaMZVTbP7G
+         HTnGArcuSrxZR0xmsAZS2f3/HqfsGaSfjGyAuOExdGJ92mhmYdFOeDzns1HbZT4wvXjH
+         EJeiZxye0iIitOJcu4mWQbNAOBZ76C2gIFHzuxelX631ue029f6ti/ADaIsRR37/sFD9
+         siVg3loOLdqtnNtQe+hkHV2S/9hpDSOtWi106s1UaOyCirGjomyXIUfj9acmgPV3qdwp
+         xE6QZ9NHFOg+cWyrmm/jxYRKqY0nEZsp64ZZjtMyXPt5cXhGUPj3uGI16F1W9BXNeW3H
+         R4Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2Q4YnJiNzUGDmBLRF3swvfj3psHpfJcsmgM+VBtv8qfgcWbgh6s72JI3AXiway8EHsNXr3ktofvKp2A==@vger.kernel.org, AJvYcCVCe6i6tdlolTiWAX+cjsJr+WDAf1pRiAQMzcCe8drR7Hd+evh2nq6ZcTYv12eRNI18OSNvXO1RRoN4@vger.kernel.org, AJvYcCWL8v1W5hrxo+O6sypNVjBv/xfYdGscW8j7rj7Qv+CUBgL79+0X5S7H2keT0YgYyE+10RCotlBH+xDjeLQt@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8PkdfO1U72iYQ10IMSSaWXb6DIrRUtkoacUlEM95mGGtdQu2b
+	T9siY2JhU6SZpEXIYV4aU4lg+tHW830Dew61MUE0e5mTf/WX7469PZkrWYJPODG7
+X-Gm-Gg: ASbGncutmb0rLnW2vmCOPXZrl1geFnwYGtA9Q8tNg+yQersbHMu9eZCNDuc9L1kGYKo
+	rRHCwpGG7j8XX9PWASO56hOnV6u6R/LjhpZxngys49kr4kNUJK0N4Y+1iIgmXHRf7pQ9cuwd9Ub
+	PMsjEpeb598RYoxo9nwJYzg7DkzuND+jmUn+mK/WmLF5l0G8tXqBUGWExbk9e3XYDIOIcKm0aoO
+	6Vv4lPZ/tznZSvJGxbNrJX7u1DLmlPOF2ajlEuZm4XRonf8RuXzuPZXFSr39cGX6fxKQFV5zt9W
+	mmEdFtGSF5Y1AoqJ1AltyhPBuk6objqqcfH/oUiq0gdbJvjwZVhC9xxWsqyKzCVYqF8Fdjh5xqu
+	xOtBvt7pGnvlcQiGheEKSqqrwa/d6M07IC6NJI+r0fmFQNA4G4SHBA+G8skLv3SOYfuvVTbYb1p
+	jhPXaD
+X-Google-Smtp-Source: AGHT+IFhkbvyIvr6q1+Yn2QpSuxFtkr6HhRaTDTmME6KiT+mb1YTq2nsdcHZdwXHuGruZM9V0cM8Kw==
+X-Received: by 2002:ad4:5de8:0:b0:70d:c4d7:3731 with SMTP id 6a1803df08f44-70dc4d73853mr68375996d6.34.1756219051181;
+        Tue, 26 Aug 2025 07:37:31 -0700 (PDT)
 Received: from [127.0.0.1] (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ebeca23e3csm623864785a.4.2025.08.25.21.04.25
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70da72cc195sm65283496d6.63.2025.08.26.07.37.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 21:04:25 -0700 (PDT)
-Date: Tue, 26 Aug 2025 00:04:26 -0400
+        Tue, 26 Aug 2025 07:37:30 -0700 (PDT)
+Date: Tue, 26 Aug 2025 10:37:28 -0400
 From: =?ISO-8859-1?Q?Jean-Fran=E7ois_Lessard?= <jefflessard3@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rob Herring <robh@kernel.org>
 CC: Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_6/6=5D_auxdisplay=3A_TM16xx=3A?=
- =?US-ASCII?Q?_Add_support_for_SPI-based_controllers?=
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_2/6=5D_dt-bindings=3A_auxdisp?=
+ =?US-ASCII?Q?lay=3A_add_Titan_Micro_Electronics_TM16xx?=
 User-Agent: Thunderbird for Android
-In-Reply-To: <aKx--dksx6-WUOp8@smile.fi.intel.com>
-References: <20250825033237.60143-1-jefflessard3@gmail.com> <20250825033237.60143-7-jefflessard3@gmail.com> <aKx--dksx6-WUOp8@smile.fi.intel.com>
-Message-ID: <70B636E1-DA86-4CB0-A06D-4C0A99FD95BD@gmail.com>
+In-Reply-To: <44C925EA-73CF-46C3-86C4-BD8ECD33AE00@gmail.com>
+References: <20250825033237.60143-1-jefflessard3@gmail.com> <20250825033237.60143-3-jefflessard3@gmail.com> <20250825182521.GA4157069-robh@kernel.org> <44C925EA-73CF-46C3-86C4-BD8ECD33AE00@gmail.com>
+Message-ID: <B53D4113-91EE-4B64-AD74-F8F8BF8EFB25@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -97,39 +97,189 @@ Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Le 25 ao=C3=BBt 2025 11 h 19 min 21 s HAE, Andy Shevchenko <andriy=2Eshevch=
-enko@intel=2Ecom> a =C3=A9crit=C2=A0:
->On Sun, Aug 24, 2025 at 11:32:32PM -0400, Jean-Fran=C3=A7ois Lessard wrot=
-e:
->> Add support for TM16xx-compatible auxiliary display controllers connect=
-ed
->> via the SPI bus=2E
+Le 25 ao=C3=BBt 2025 21 h 33 min 58 s HAE, "Jean-Fran=C3=A7ois Lessard" <je=
+fflessard3@gmail=2Ecom> a =C3=A9crit=C2=A0:
+>Le 25 ao=C3=BBt 2025 14 h 26 min 57 s HAE, Rob Herring <robh@kernel=2Eorg=
+> a =C3=A9crit=C2=A0:
+>>On Sun, Aug 24, 2025 at 11:32:28PM -0400, Jean-Fran=C3=A7ois Lessard wro=
+te:
+>>> Add documentation for TM16xx-compatible 7-segment LED display controll=
+ers
+>>> with keyscan=2E
+>>>=20
+>>> Signed-off-by: Jean-Fran=C3=A7ois Lessard <jefflessard3@gmail=2Ecom>
+>>> ---
+>>>
+=2E=2E=2E
+>>>  =2E=2E=2E/bindings/auxdisplay/titanmec,tm16xx=2Eyaml  | 477 +++++++++=
++++++++++
+>>>  MAINTAINERS                                   |   5 +
+>>>  2 files changed, 482 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/auxdisplay/titan=
+mec,tm16xx=2Eyaml
+>>>=20
+>>> diff --git a/Documentation/devicetree/bindings/auxdisplay/titanmec,tm1=
+6xx=2Eyaml b/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx=
+=2Eyaml
+>>> new file mode 100644
+>>> index 000000000=2E=2Ec94556d95
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx=2Ey=
+aml
+>>> @@ -0,0 +1,477 @@
+>>> +# SPDX-License-Identifier: (GPL-2=2E0-only OR BSD-2-Clause)
+>>> +%YAML 1=2E2
+>>> +---
+>>> +$id: http://devicetree=2Eorg/schemas/auxdisplay/titanmec,tm16xx=2Eyam=
+l#
+>>> +$schema: http://devicetree=2Eorg/meta-schemas/core=2Eyaml#
+>>> +
+>>> +title: Auxiliary displays based on TM16xx and compatible LED controll=
+ers
+>>> +
+=2E=2E=2E
+>>> +
+>>> +  digits:
+>>> +    type: object
+>>> +    description: Container for 7-segment digit group definitions
+>>> +    additionalProperties: false
+>>> +
+>>> +    properties:
+>>> +      "#address-cells":
+>>> +        const: 1
+>>> +      "#size-cells":
+>>> +        const: 0
+>>> +
+>>> +    patternProperties:
+>>> +      "^digit@[0-9]+$":
+>>> +        type: object
+>>> +        unevaluatedProperties: false
+>>> +
+>>> +        properties:
+>>> +          reg:
+>>> +            description: Digit position identifier
+>>
+>>Position is right to left (0 on right)? Please clarify=2E
 >>=20
->> The implementation includes:
->> - SPI driver registration and initialization
->> - Probe/remove logic for SPI devices
->> - Controller-specific handling and communication sequences
->> - Integration with the TM16xx core driver for common functionality
->>=20
->> This allows platforms using TM16xx or compatible controllers over SPI t=
-o be
->> managed by the TM16xx driver infrastructure=2E
->>=20
->> Signed-off-by: Jean-Fran=C3=A7ois Lessard <jefflessard3@gmail=2Ecom>
->> ---
 >
->> Notes:
->>     include <linux/of=2Eh> is required for of_match_ptr
+>I'll clarify: digit positions are numbered sequentially left-to-right,=20
+>with reg=3D0 representing the leftmost digit position as displayed to the=
+ user=2E
 >
->Yeah, please drop the latter and remove the former=2E
+>>> +            maxItems: 1
+>>> +
+>>> +          segments:
+>>> +            $ref: /schemas/types=2Eyaml#/definitions/uint32-matrix
+>>> +            description: |
+>>> +              Array of grid/segment coordinate pairs for each 7-segme=
+nt position=2E
+>>> +              Each entry is <grid segment> mapping to standard 7-segm=
+ent positions
+>>> +              in order: a, b, c, d, e, f, g
+>>> +
+>>> +              Standard 7-segment layout:
+>>> +                 aaa
+>>> +                f   b
+>>> +                f   b
+>>> +                 ggg
+>>> +                e   c
+>>> +                e   c
+>>> +                 ddd
+>>> +            items:
+>>> +              items:
+>>> +                - description: Grid index
+>>> +                - description: Segment index
+>>
+>>Can't you do an array instead and make the array index be the grid or=20
+>>segment index?
+>>
+>
+>Original design was array-based:
+>- titanmec,digits: array of grid indices
+>- titanmec,segment-mapping: array of segment indices for a,b,c,d,e,f,g
+>- titanmec,transposed: boolean for matrix-transposed cases
+>
+>The current explicit coordinate approach was adopted based on v2 feedback=
+ and
+>handles both standard and transposed wiring patterns effectively, where
+>manufacturers swap grid/segment relationships:
+>- Standard: digit segments use same grid, different segments =20
+>- Transposed: digit segments use same segment, different grids
+>It also future-proofs potential irregular wiring patterns where individua=
+l
+>digits might have different grid/segment relationships=2E
+>
+>Unless you have strong objections, I prefer to keep this approach to avoi=
+d
+>further churn, as it's proven to handle all the real-world board layouts
+>encountered=2E
+>
+>See=20
+>ttps://lore=2Ekernel=2Eorg/linux-devicetree/9133F5BC-7F4E-4732-9649-178E5=
+A698273@gmail=2Ecom/
 >
 
-Well received=2E
+Diving deeper on your suggestion of using arrays, would this revised desig=
+n be
+acceptable?
 
->All other comments are the same as per I=C2=B2C counterpart of the driver=
-=2E
->
+properties:
+  digits:
+    patternProperties:
+      "^digit@[0-9]+$":
+        properties:
+          reg:
+            maxItems: 1
+           =20
+          grids:
+            $ref: /schemas/types=2Eyaml#/definitions/uint32-array
+            description: Grid indices for segments a,b,c,d,e,f,g in order
+            minItems: 7
+            maxItems: 7
+           =20
+          segments:
+            $ref: /schemas/types=2Eyaml#/definitions/uint32-array =20
+            description: Segment indices for segments a,b,c,d,e,f,g in ord=
+er
+            minItems: 7
+            maxItems: 7
 
-Acknowledged=2E
+This approach:
+- Uses arrays as you suggested, indexed by segment position
+- Maintains flexibility for both standard and transpose layouts
+- Keeps the semantic clarity that Krzysztof requested
+
+Example usage would be:
+
+digit@0 {
+    reg =3D <0>;
+    grids =3D <4 4 4 4 4 4 4>;     // Standard: all segments use same grid
+    segments =3D <3 4 5 0 1 2 6>;   // Different segment indices
+};
+
+// vs transpose case:
+digit@0 {
+    reg =3D <0>;
+    grids =3D <0 1 2 3 4 5 6>;     // Transpose: different grids
+    segments =3D <3 3 3 3 3 3 3>;   // Same segment index
+};
+
+Would this better align with your preference for array-based approaches?
+
+If so, the remaining question is if these needs to be vendor prefixed
+or if they are still generic enough hardware description concept
+applicable to any 7-segment display controller=2E
+
+>>> +            minItems: 7
+>>> +            maxItems: 7
+>>> +
+>>> +        required:
+>>> +          - reg
+>>> +          - segments
+>>> +
+=2E=2E=2E
+
+Best Regards
+Jean-Fran=C3=A7ois Lessard
 
 
