@@ -1,285 +1,272 @@
-Return-Path: <linux-leds+bounces-5317-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5318-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4E9B36BE9
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 16:50:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3553CB36DA0
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 17:23:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9BE7A03D14
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 14:40:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA672163EDD
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Aug 2025 15:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5250A3570B2;
-	Tue, 26 Aug 2025 14:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3FB4223DE5;
+	Tue, 26 Aug 2025 15:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWQjBBhn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DUMZmKiU"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCC4350825;
-	Tue, 26 Aug 2025 14:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB02023875D;
+	Tue, 26 Aug 2025 15:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756219054; cv=none; b=IBY632WTEPRVcjG6cGAU6dGqwkzO0EZD0NjVXrHrNS9kITiskQ8Fn/QTsuGr0WLuL31mg+yd1cNxdl6MM2HkWElfZJlr7d4YNqwDQu2t1qDV9eDpyA829YndY436JHWSqUWpdQRVHkA8hAJkZobonq5UdMQeSA/pR2zj7y2H0Jw=
+	t=1756221785; cv=none; b=GeMteeAWMr0D1tjKOduHjjZrZOYQtBz+cNr6H9c5eydFN2SkJHyqL8M9Y6AXOslCIQ8aGa1KgVdeOQtZztZf36PPnrXUWyKz+ckQWoVV/ar8FQXMVhKW42XaezfLmv+QBXQj6SeA7iJT0NHcJhMUY9iEjQXN2DJR6dooHsKK2Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756219054; c=relaxed/simple;
-	bh=sdAcFErMaAvxIj3OAhwQFkrxPJpihi9tsFCYZuFzsvY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=KK0lUYZb11H048A596V/aIsxHzRpex+l7s0NC5/w9eNCnyz3ijJX4ZEf+yfQg5F8wsAc6ogXWjr8umO9qnCBRMi6Q8KZLaJI5UA6befpAil7vYK6dyP+3G4+xuneQQewk8+AkdNufrf96DSXsvNvGdG5vcb964DWWs91JCxBwlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWQjBBhn; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-70d9a65c371so38687286d6.2;
-        Tue, 26 Aug 2025 07:37:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756219051; x=1756823851; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ES8UZSAXeLNqh3Lam8d3aYOJAro3fOK+7OrQsDbtpKE=;
-        b=IWQjBBhnmTfwkDS4PecwWu+Rg8opzWJWXhxhJIkI7Gt6IGb5r2czVupvnpWSV25tBH
-         Ta4qpXRX8in8LS75mjrfSsaQQRybHdxAT8gdPRKKhY4JV52gkgEF2YQqoxt6e2JUqkzl
-         a/u2jTAFh7Zic48IXzbh0ECPtlJz/Gu/CYXCx6seZN86AW5fkmVhLubRbLG5X0HMNF0x
-         p4W0FVECOPbWbSnyTjI9NiFA4gDd0J8t18wbq0Ud4cjqhkFNypFyz8rye+5/tKrnmC6M
-         4LWPJvAQ0GEKjEFeOdg/WS6B5yfOv+/8RtsZ/kfqcPx+qPaJJ+2noE0ItjgA6nLhz3xQ
-         158w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756219051; x=1756823851;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ES8UZSAXeLNqh3Lam8d3aYOJAro3fOK+7OrQsDbtpKE=;
-        b=khi6GHInb8QdoJb5rA3DPV36Z7sb2UrK1lqvok9CVxuNROv7EAiN9LiEdaMZVTbP7G
-         HTnGArcuSrxZR0xmsAZS2f3/HqfsGaSfjGyAuOExdGJ92mhmYdFOeDzns1HbZT4wvXjH
-         EJeiZxye0iIitOJcu4mWQbNAOBZ76C2gIFHzuxelX631ue029f6ti/ADaIsRR37/sFD9
-         siVg3loOLdqtnNtQe+hkHV2S/9hpDSOtWi106s1UaOyCirGjomyXIUfj9acmgPV3qdwp
-         xE6QZ9NHFOg+cWyrmm/jxYRKqY0nEZsp64ZZjtMyXPt5cXhGUPj3uGI16F1W9BXNeW3H
-         R4Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCU2Q4YnJiNzUGDmBLRF3swvfj3psHpfJcsmgM+VBtv8qfgcWbgh6s72JI3AXiway8EHsNXr3ktofvKp2A==@vger.kernel.org, AJvYcCVCe6i6tdlolTiWAX+cjsJr+WDAf1pRiAQMzcCe8drR7Hd+evh2nq6ZcTYv12eRNI18OSNvXO1RRoN4@vger.kernel.org, AJvYcCWL8v1W5hrxo+O6sypNVjBv/xfYdGscW8j7rj7Qv+CUBgL79+0X5S7H2keT0YgYyE+10RCotlBH+xDjeLQt@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8PkdfO1U72iYQ10IMSSaWXb6DIrRUtkoacUlEM95mGGtdQu2b
-	T9siY2JhU6SZpEXIYV4aU4lg+tHW830Dew61MUE0e5mTf/WX7469PZkrWYJPODG7
-X-Gm-Gg: ASbGncutmb0rLnW2vmCOPXZrl1geFnwYGtA9Q8tNg+yQersbHMu9eZCNDuc9L1kGYKo
-	rRHCwpGG7j8XX9PWASO56hOnV6u6R/LjhpZxngys49kr4kNUJK0N4Y+1iIgmXHRf7pQ9cuwd9Ub
-	PMsjEpeb598RYoxo9nwJYzg7DkzuND+jmUn+mK/WmLF5l0G8tXqBUGWExbk9e3XYDIOIcKm0aoO
-	6Vv4lPZ/tznZSvJGxbNrJX7u1DLmlPOF2ajlEuZm4XRonf8RuXzuPZXFSr39cGX6fxKQFV5zt9W
-	mmEdFtGSF5Y1AoqJ1AltyhPBuk6objqqcfH/oUiq0gdbJvjwZVhC9xxWsqyKzCVYqF8Fdjh5xqu
-	xOtBvt7pGnvlcQiGheEKSqqrwa/d6M07IC6NJI+r0fmFQNA4G4SHBA+G8skLv3SOYfuvVTbYb1p
-	jhPXaD
-X-Google-Smtp-Source: AGHT+IFhkbvyIvr6q1+Yn2QpSuxFtkr6HhRaTDTmME6KiT+mb1YTq2nsdcHZdwXHuGruZM9V0cM8Kw==
-X-Received: by 2002:ad4:5de8:0:b0:70d:c4d7:3731 with SMTP id 6a1803df08f44-70dc4d73853mr68375996d6.34.1756219051181;
-        Tue, 26 Aug 2025 07:37:31 -0700 (PDT)
-Received: from [127.0.0.1] (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70da72cc195sm65283496d6.63.2025.08.26.07.37.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 07:37:30 -0700 (PDT)
-Date: Tue, 26 Aug 2025 10:37:28 -0400
-From: =?ISO-8859-1?Q?Jean-Fran=E7ois_Lessard?= <jefflessard3@gmail.com>
-To: Rob Herring <robh@kernel.org>
-CC: Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_2/6=5D_dt-bindings=3A_auxdisp?=
- =?US-ASCII?Q?lay=3A_add_Titan_Micro_Electronics_TM16xx?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <44C925EA-73CF-46C3-86C4-BD8ECD33AE00@gmail.com>
-References: <20250825033237.60143-1-jefflessard3@gmail.com> <20250825033237.60143-3-jefflessard3@gmail.com> <20250825182521.GA4157069-robh@kernel.org> <44C925EA-73CF-46C3-86C4-BD8ECD33AE00@gmail.com>
-Message-ID: <B53D4113-91EE-4B64-AD74-F8F8BF8EFB25@gmail.com>
+	s=arc-20240116; t=1756221785; c=relaxed/simple;
+	bh=BZuK+TBMT4BMUx4VSTl6olbTXsQYlv9hDSt/enMKmCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gn00zJZ8R3pdPvBk/kkw4Keo/11mHUWQQ2Twa14u9k9FaxMD3GAb/s0p2NdPzn9Riq1CHO8iqzTEc89X5tIUAVRXpBBiBpLV3qybSY2gkbPixV1K47Wol4e7UMLijsFA20zO7TqwDFCQJTMDkFDPJfdKaHvjDhEDAlbkU4Yt2dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DUMZmKiU; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756221783; x=1787757783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=BZuK+TBMT4BMUx4VSTl6olbTXsQYlv9hDSt/enMKmCA=;
+  b=DUMZmKiUleAJLKo5k22//qbLBkyioXixWpCUX2N/c0gniS0RlEb9Ys/q
+   o4GXBEGliRETwZNJ800Z90ADESS/dnkGWicufQ2i18vgtqVp2+BuyNjwR
+   R7lYDKeCEWB+oGC5jtHl6h0gtu+Xglh0Xs6RRXDV8X4zFNbXZAMGuYtXc
+   bIdi1tgBAnfix7+Lz5b9p+c+hH+pLohp26zFlCA9VkCqZbBdb8KyQpSLy
+   Qdg7pN2qIxupFbYYjwtTQfU1jPXNAdXFTVCgmAcoZwVEAOvgwCKDToSZ5
+   9H7txedr1xlPZdBgd7Wm7B0BPUY5UdHeBp+L5UzmY5IyCrz6Qa3yPBrXE
+   w==;
+X-CSE-ConnectionGUID: 7BW5ajiRQ4+/ThRQ8cfw1g==
+X-CSE-MsgGUID: bq6KyoHrQeaqzSUmi4/KXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="69899005"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69899005"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 08:23:03 -0700
+X-CSE-ConnectionGUID: na3KtayEQWGbtC/OX3RNfQ==
+X-CSE-MsgGUID: /LK6KlhJSySEWagjiYYI6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="200545338"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 08:23:00 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uqvVh-00000008oUb-0Mng;
+	Tue, 26 Aug 2025 18:22:57 +0300
+Date: Tue, 26 Aug 2025 18:22:56 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	Paolo Sabatino <paolo.sabatino@gmail.com>,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Boris Gjenero <boris.gjenero@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH v4 3/6] auxdisplay: Add TM16xx 7-segment LED matrix
+ display controllers driver
+Message-ID: <aK3RUIt0O-uzEo4-@smile.fi.intel.com>
+References: <20250825033237.60143-1-jefflessard3@gmail.com>
+ <20250825033237.60143-4-jefflessard3@gmail.com>
+ <aKx9zQNppjNNMJEt@smile.fi.intel.com>
+ <3E7CE725-4C10-41C9-9B44-58E7EC6B5F4F@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3E7CE725-4C10-41C9-9B44-58E7EC6B5F4F@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Le 25 ao=C3=BBt 2025 21 h 33 min 58 s HAE, "Jean-Fran=C3=A7ois Lessard" <je=
-fflessard3@gmail=2Ecom> a =C3=A9crit=C2=A0:
->Le 25 ao=C3=BBt 2025 14 h 26 min 57 s HAE, Rob Herring <robh@kernel=2Eorg=
-> a =C3=A9crit=C2=A0:
->>On Sun, Aug 24, 2025 at 11:32:28PM -0400, Jean-Fran=C3=A7ois Lessard wro=
-te:
->>> Add documentation for TM16xx-compatible 7-segment LED display controll=
-ers
->>> with keyscan=2E
->>>=20
->>> Signed-off-by: Jean-Fran=C3=A7ois Lessard <jefflessard3@gmail=2Ecom>
->>> ---
->>>
-=2E=2E=2E
->>>  =2E=2E=2E/bindings/auxdisplay/titanmec,tm16xx=2Eyaml  | 477 +++++++++=
-+++++++++
->>>  MAINTAINERS                                   |   5 +
->>>  2 files changed, 482 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/auxdisplay/titan=
-mec,tm16xx=2Eyaml
->>>=20
->>> diff --git a/Documentation/devicetree/bindings/auxdisplay/titanmec,tm1=
-6xx=2Eyaml b/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx=
-=2Eyaml
->>> new file mode 100644
->>> index 000000000=2E=2Ec94556d95
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/auxdisplay/titanmec,tm16xx=2Ey=
-aml
->>> @@ -0,0 +1,477 @@
->>> +# SPDX-License-Identifier: (GPL-2=2E0-only OR BSD-2-Clause)
->>> +%YAML 1=2E2
->>> +---
->>> +$id: http://devicetree=2Eorg/schemas/auxdisplay/titanmec,tm16xx=2Eyam=
-l#
->>> +$schema: http://devicetree=2Eorg/meta-schemas/core=2Eyaml#
->>> +
->>> +title: Auxiliary displays based on TM16xx and compatible LED controll=
-ers
->>> +
-=2E=2E=2E
->>> +
->>> +  digits:
->>> +    type: object
->>> +    description: Container for 7-segment digit group definitions
->>> +    additionalProperties: false
->>> +
->>> +    properties:
->>> +      "#address-cells":
->>> +        const: 1
->>> +      "#size-cells":
->>> +        const: 0
->>> +
->>> +    patternProperties:
->>> +      "^digit@[0-9]+$":
->>> +        type: object
->>> +        unevaluatedProperties: false
->>> +
->>> +        properties:
->>> +          reg:
->>> +            description: Digit position identifier
->>
->>Position is right to left (0 on right)? Please clarify=2E
->>=20
->
->I'll clarify: digit positions are numbered sequentially left-to-right,=20
->with reg=3D0 representing the leftmost digit position as displayed to the=
- user=2E
->
->>> +            maxItems: 1
->>> +
->>> +          segments:
->>> +            $ref: /schemas/types=2Eyaml#/definitions/uint32-matrix
->>> +            description: |
->>> +              Array of grid/segment coordinate pairs for each 7-segme=
-nt position=2E
->>> +              Each entry is <grid segment> mapping to standard 7-segm=
-ent positions
->>> +              in order: a, b, c, d, e, f, g
->>> +
->>> +              Standard 7-segment layout:
->>> +                 aaa
->>> +                f   b
->>> +                f   b
->>> +                 ggg
->>> +                e   c
->>> +                e   c
->>> +                 ddd
->>> +            items:
->>> +              items:
->>> +                - description: Grid index
->>> +                - description: Segment index
->>
->>Can't you do an array instead and make the array index be the grid or=20
->>segment index?
->>
->
->Original design was array-based:
->- titanmec,digits: array of grid indices
->- titanmec,segment-mapping: array of segment indices for a,b,c,d,e,f,g
->- titanmec,transposed: boolean for matrix-transposed cases
->
->The current explicit coordinate approach was adopted based on v2 feedback=
- and
->handles both standard and transposed wiring patterns effectively, where
->manufacturers swap grid/segment relationships:
->- Standard: digit segments use same grid, different segments =20
->- Transposed: digit segments use same segment, different grids
->It also future-proofs potential irregular wiring patterns where individua=
-l
->digits might have different grid/segment relationships=2E
->
->Unless you have strong objections, I prefer to keep this approach to avoi=
-d
->further churn, as it's proven to handle all the real-world board layouts
->encountered=2E
->
->See=20
->ttps://lore=2Ekernel=2Eorg/linux-devicetree/9133F5BC-7F4E-4732-9649-178E5=
-A698273@gmail=2Ecom/
->
+On Mon, Aug 25, 2025 at 01:48:45PM -0400, Jean-François Lessard wrote:
+> Le 25 août 2025 11 h 14 min 21 s HAE, Andy Shevchenko <andriy.shevchenko@intel.com> a écrit :
+> >On Sun, Aug 24, 2025 at 11:32:29PM -0400, Jean-François Lessard wrote:
 
-Diving deeper on your suggestion of using arrays, would this revised desig=
-n be
-acceptable?
+...
 
-properties:
-  digits:
-    patternProperties:
-      "^digit@[0-9]+$":
-        properties:
-          reg:
-            maxItems: 1
-           =20
-          grids:
-            $ref: /schemas/types=2Eyaml#/definitions/uint32-array
-            description: Grid indices for segments a,b,c,d,e,f,g in order
-            minItems: 7
-            maxItems: 7
-           =20
-          segments:
-            $ref: /schemas/types=2Eyaml#/definitions/uint32-array =20
-            description: Segment indices for segments a,b,c,d,e,f,g in ord=
-er
-            minItems: 7
-            maxItems: 7
+> >> +Date:		August 2025
+> >> +KernelVersion:	6.17
+> >
+> >The Date should be approximate date of the kernel release (alternatively, -rc1
+> >of that). The version is estimated version where ABI can be found first.
 
-This approach:
-- Uses arrays as you suggested, indexed by segment position
-- Maintains flexibility for both standard and transpose layouts
-- Keeps the semantic clarity that Krzysztof requested
+> >Both of these need to be changed.
+> 
+> Given that 6.17-rc3 was just released, should I target 6.18 for the kernel
+> version and use a March 2025 date for the estimated release timeframe?
 
-Example usage would be:
+6.18
+The date is not in the past, obviously. You can consult with this site:
+https://hansen.beer/~dave/phb/
 
-digit@0 {
-    reg =3D <0>;
-    grids =3D <4 4 4 4 4 4 4>;     // Standard: all segments use same grid
-    segments =3D <3 4 5 0 1 2 6>;   // Different segment indices
-};
+...
 
-// vs transpose case:
-digit@0 {
-    reg =3D <0>;
-    grids =3D <0 1 2 3 4 5 6>;     // Transpose: different grids
-    segments =3D <3 3 3 3 3 3 3>;   // Same segment index
-};
+> >So, the driver is under auxdisplay, but at the same time it completely relies
+> >on LED subsystem... What's going on here?
+> 
+> The design integrates with the LED subsystem for two main reasons:
+> 
+> 1. Brightness control:
+> The entire display brightness is controlled at the display level
+> (individual LED icons can only be on/off via their brightness attributes).
+> The LED subsystem provides established mechanisms for this.
+> 
+> 2. Coherent sysfs interface:
+> This provides consistent /sys/class/leds/display for display-level controls
+> and /sys/class/leds/display::{function} for individual icons.
+> 
+> I'm seeking your guidance on the best design for the auxdisplay subsystem.
+> 
+> >Btw, have you seen
+> >https://lore.kernel.org/linux-leds/20231011190017.1230898-1-wse@tuxedocomputers.com/
+> >? And  if so, what're your takeaways? (Yes, I know that's about different HW)
+> 
+> I've read the thread but I'm not clear on the specific point you're making.
+> Could you clarify what aspect I should focus on?
 
-Would this better align with your preference for array-based approaches?
+If you have a LED matrix, perhaps we can consider different approaches as well.
+(It's all about the current HW, is it a 7-segment or arbitrary display, if the
+ former, that discussion is unrelated)
 
-If so, the remaining question is if these needs to be vendor prefixed
-or if they are still generic enough hardware description concept
-applicable to any 7-segment display controller=2E
+> (Though, my personal opinion is that using auxdisplay for keyboard LEDs
+> doesn't really make sense. I think it would be better to properly implement
+> it the required mechanism into input subsystem, with maybe some
+> integration with the leds subsystem. Just a quick opinion, I do not
+> master all aspects of this question at all.)
 
->>> +            minItems: 7
->>> +            maxItems: 7
->>> +
->>> +        required:
->>> +          - reg
->>> +          - segments
->>> +
-=2E=2E=2E
+...
 
-Best Regards
-Jean-Fran=C3=A7ois Lessard
+> >> + * Copyright (C) 2024 Jean-François Lessard
+> >
+> >My calendar shows something different.
+> 
+> The original code was developed in 2024, though it's being submitted in 2025.
+
+But haven't you changed it in 2025?
+
+...
+
+> >> +#include <linux/bitmap.h>
+> >
+> >Is this used?
+> 
+> Yes, display->state is a bitmap. I'll move this include to tm16xx_core.c
+> since it's not used in the header itself.
+
+Yes, that's what I meant "used by this header file".
+
+...
+
+> >> +	union {
+> >> +		struct i2c_client *i2c;
+> >> +		struct spi_device *spi;
+> >> +	} client;
+> >
+> >Why? Just drop it. struct device *dev is enough and I can't see the need
+> >in this at all.
+> 
+> I'll remove this union and use container_of(dev, struct i2c_client, dev)
+> or container_of(dev, struct spi_device, dev) where the specific client type
+> is needed.
+
+This is in correlation with the regmap proposal.
+
+...
+
+> >> +static ssize_t tm16xx_map_seg7_show(struct device *dev,
+> >> +				    struct device_attribute *attr, char *buf)
+> >> +{
+> >> +	memcpy(buf, &map_seg7, sizeof(map_seg7));
+> >> +	return sizeof(map_seg7);
+> >> +}
+> >
+> >Can we use LINEDISP library?
+> 
+> I considered this but have two concerns:
+> 
+> 1. It creates attributes under a virtual "linedisp.{n}" device,
+> which conflicts with the coherent LED sysfs design
+
+It creates the specific attributes for the 7-segment HW, So look at it
+from this angle. We have well established library and we expect 7-seg
+drivers will use it to make sure that user space may be written in uniform
+way.
+
+> 2. Messages scroll indefinitely. There should be control for single-pass scrolling
+
+If we miss that, add it to linedisp. I wouldn't mind, actually I will be in
+favour of the development of that library.
+
+> I'm willing to contribute improvements to line-display if needed,
+> but this depends on resolving the main LED design question above.
+
+...
+
+> >> +		display->num_digits = 0;
+> >> +		fwnode_for_each_child_node(digits_node, child)
+> >> +			display->num_digits++;
+> >
+> >Don't we have a _count API for this?
+> 
+> I'll use device_get_child_node_count() instead of manual counting loops.
+
+fwnode_get_child_node_count() I assume you meant.
+
+...
+
+> >> +	dev_dbg(dev, "Number of grids: %u\n", display->num_grids);
+> >> +	dev_dbg(dev, "Number of segments: %u\n", display->num_segments);
+> >
+> >I didn't get this. You mean that they are not strictly 7-segment ones?
+> 
+> The terminology is confusing - "segment" is used both for 7-segment digits
+> (which are indeed 7-segment) and for controller matrix coordinates
+> (grid,segment) from datasheets. Controllers support varying numbers of segments
+> For individual LED icons, not necessarily related to 7-segment displays.
+> I'll add a comment to clarify this distinction.
+
+Hmm... Maybe try to rename these 'segments' to something else, like 'hwseg'
+(find a better name).
+
+...
+
+> >> +	/* Initialize main LED properties */
+> >> +	if (dev->of_node)
+> >> +		main->name = dev->of_node->name;
+> >> +	if (!main->name)
+> >> +		main->name = "display";
+> >> +	device_property_read_string(dev, "label", &main->name);
+> >
+> >My gosh. This is done in the LED core if we even need this...
+> 
+> This relates to the LED subsystem integration question. If my design approach
+> is acceptable, I'll review the LED core implementation to avoid duplicating
+> this logic if possible.
+
+I think if you integrate LED for special LED icons and linedisp for 7-segment
+into a single driver, it's fine. I just can't speak about LED icons case.
+The 7-seg LGTM (assuming linedisp and other existing APIs/ABIs to use, if required).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
