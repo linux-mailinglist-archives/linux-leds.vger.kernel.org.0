@@ -1,119 +1,104 @@
-Return-Path: <linux-leds+bounces-5367-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5368-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F342CB401B6
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 15:00:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4235FB40C99
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 19:57:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0B773B2672
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 12:58:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D59CB1B62B5C
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 17:57:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F68A2D7398;
-	Tue,  2 Sep 2025 12:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E834308F1A;
+	Tue,  2 Sep 2025 17:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwazNMHJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqrBGoEw"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7272D5C95;
-	Tue,  2 Sep 2025 12:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A51C286D69;
+	Tue,  2 Sep 2025 17:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756817774; cv=none; b=OflUV30N9gXKLZY2hp1scbAjUj1nG7/F7KbOGURtB9TKkMiYSECYRchaPr+iogtlSvc0M3LDgz+FL4yizQttHuOfFP4CCFOnGUcufEgK+5v8aovMvDfMsQmQGbHUPGGCFhnaPGC4Wuqs26I/xM+E9Z44vn1YgwlaY6H4MBQhDP0=
+	t=1756835848; cv=none; b=B7cmKFK8ifLhGfbpxymIDZk8UjwMW0G+iBe4fgxuRkLSLZLzTY4f1zN+5nVSyBYinT9mXaoWzUajLiadXubB7yQLgMJg6WP/nlFxjPG+PpkuHTHESLKYFcy94qHhDzJJocJvJ97a+pw8v5Q3x8AQGdO50KRBWRCpqc+cIS2N0yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756817774; c=relaxed/simple;
-	bh=6fXt4bhKhGQeDgocLc+VTGxwmm9hlaSYbwbrhqO4eo4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lucBmrwg++jHdYRdZCeDdEewQV8yTkO9VH8r6aYoCyLEEhM0cDDeEv8/AIXY67ZL3LWYQcVHHiNWJD5xn5U+4WUcSIpBx3RR4JXNSxUZLX+nXr1non7c0csbBC4IV4YCXN7SAqCKcTorBGJl/TCEpKSfyYL+WcrC63s32vPSHTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwazNMHJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F86C4CEF4;
-	Tue,  2 Sep 2025 12:56:03 +0000 (UTC)
+	s=arc-20240116; t=1756835848; c=relaxed/simple;
+	bh=NajCRsREB6rWXuMhOuOZJW01EgK0za22LT6u6sfxwrc=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=UaSHArVH6Dwb/l8AMFO2j1MZSon28rbHU9KoEcoat45KAy5dUdXyi1FU414bhxEa+YitU/fd9DxDXxo9ROPIQHrz4glYAaOcuOvUqSLZOebijZgwI9RjR9gpEZd2Xok5kcHGlH10JbW7pkFGzmNYYjZhWCEwMjfL7VAKrhsROd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqrBGoEw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35EBC4CEED;
+	Tue,  2 Sep 2025 17:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756817774;
-	bh=6fXt4bhKhGQeDgocLc+VTGxwmm9hlaSYbwbrhqO4eo4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pwazNMHJ405xvwddvksWXCvf2Bzxx2noy2IUYDoxR08pNT70eoYJ6avMGFl9/Brfy
-	 djIhKc4IwsWYRDzf4ckgbuj4YCoKw+9YxQrmPP2zcN5BTWN72msT/8L7gG1b4AnNXA
-	 H4LLv6NBYhzDqxK03/Bs/TmEL+LOYNY+NS+YPvoSxcEaL2K4fCDy8dQcwcD1Yoj3r7
-	 9WeAzZMLfWuw825r0YE0Jvdw3d0z5Gpm6BLaVjSBhLdAAnUEwVxIWvjvouZoMk16IB
-	 vPb54RivBXsgQ9vEkrWC7YCee6GXl108+ujfuPj+LCZ1l3MNDksA1EisuEfyh34BqK
-	 8exw6nerb4i/Q==
-From: Lee Jones <lee@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Gregory Clement <gregory.clement@bootlin.com>, 
- Russell King <linux@armlinux.org.uk>, Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Matti Vaittinen <mazziesaccount@gmail.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Jeff Johnson <jjohnson@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- "Dr. David Alan Gilbert" <linux@treblig.org>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
- linux-mips@vger.kernel.org, linux-sh@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-media@vger.kernel.org, patches@opensource.cirrus.com, 
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
- ath10k@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
-References: <20250808151822.536879-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/21] gpiolib: fence off legacy interfaces
-Message-Id: <175681776381.2341743.17892612215782644085.b4-ty@kernel.org>
-Date: Tue, 02 Sep 2025 13:56:03 +0100
+	s=k20201202; t=1756835847;
+	bh=NajCRsREB6rWXuMhOuOZJW01EgK0za22LT6u6sfxwrc=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=DqrBGoEwc9k0455eR+TX56WiJArbQu5hzcMCMD1t7bjjRr5n6KjCGJ0CXS3Gw+7gG
+	 cxsFhwsyjGPMYpxYJcBNSq/9YPFlms5Qr4GZXDnDXc7p/Lia8sdcKF34uDO110d26A
+	 pBUQZm3r1nwZ0FK9Ni1YFWFyMv7pjA+FPZnvXm/OWtoyDeUyKyxvli/ZK+mAoz4Dna
+	 XUjTIj5lGKDaFtwpMTkRDoHbJVPey8Jty17I3F0d+60Q8xrcCldrWBLXI2Dkg61gDw
+	 qTK4VSKfdVfPyDUjgk+1EL5eLzvfBRhFASNsc4HgtHVJhkfnoZyBWhf6GQ9g4vdpI9
+	 OEBdlJZtflzGA==
+Date: Tue, 02 Sep 2025 12:57:26 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-c81fc
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ devicetree@vger.kernel.org, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Pavel Machek <pavel@kernel.org>
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+In-Reply-To: <010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com>
+References: <20250902-leds-v1-0-4a31e125276b@vinarskis.com>
+ <010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com>
+Message-Id: <175683578222.936579.14691292401216531153.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: add generic LED consumer
+ documentation
 
-On Fri, 08 Aug 2025 17:17:44 +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+
+On Tue, 02 Sep 2025 11:10:51 +0000, Aleksandrs Vinarskis wrote:
+> Currently supports passing 'led-names' used to map LED devices to their
+> respective functions.
 > 
-> Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
-> merged for linux-6.17, so now it is possible to use the legacy interfaces
-> conditionally and eventually have the support left out of the kernel
-> whenever it is not needed.
+> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> ---
+>  .../devicetree/bindings/leds/leds-consumer.yaml    | 69 ++++++++++++++++++++++
+>  1 file changed, 69 insertions(+)
 > 
-> [...]
 
-Applied, thanks!
+My bot found errors running 'make dt_binding_check' on your patch:
 
-[12/21] mfd: arizona: make legacy gpiolib interface optional
-        commit: 12f6c0afc8987d72017a3ecf7c1183cb951b0d24
-[13/21] mfd: si476x: add GPIOLIB_LEGACY dependency
-        commit: 1ae250257e43b3fba225e4f8ea7d87125dc861ae
-[14/21] mfd: aat2870: add GPIOLIB_LEGACY dependency
-        commit: 3144986f37911f131f373743f294b2941a8ef37c
+yamllint warnings/errors:
 
---
-Lee Jones [李琼斯]
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-consumer.example.dtb: camera@36 (ovti,ov02c10): Unevaluated properties are not allowed ('led-names', 'leds' were unexpected)
+	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02e10.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
