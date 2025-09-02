@@ -1,163 +1,113 @@
-Return-Path: <linux-leds+bounces-5369-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5370-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F928B40D0C
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 20:21:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D02EBB40FFD
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 00:23:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C12343A20A0
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 18:21:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03FDF7030CC
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Sep 2025 22:23:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10B1346A0C;
-	Tue,  2 Sep 2025 18:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D2E27702B;
+	Tue,  2 Sep 2025 22:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BENSyEAR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ew59oYmv"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C225232F77E;
-	Tue,  2 Sep 2025 18:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7806223DFD
+	for <linux-leds@vger.kernel.org>; Tue,  2 Sep 2025 22:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756837275; cv=none; b=oM7tk9NNIzRj6FUTpIHEzotJE5K2/PwDFkeatBXE5Zr34q3aD6aqRGJx5DB290zCmIv8jqLrhpxjLyrI2WKchdLLhDtEQ/jXp52ZONU9T6XnZ/Vg+GCYf6hpgyEjDU593pN4Lqqt3LpvTC07ggUWQ/YWI9sMZzIG8BcCYwascFg=
+	t=1756851775; cv=none; b=bQrSQEzNfZzDu4s7l6/jnC4kUaWcO9Q68XBM8N6etIyfo7LSI3zGwlwqTSmupl8OTOAePHp4i52lNPCPl0apFbjrBXdwNF2NdbKb67fMDqvBJwDDOlpb71uh8n+WcFP6+Tl4MH9QnQbItnId+7SWNOginvY/r8F5rNKH9YSrjT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756837275; c=relaxed/simple;
-	bh=zU2EDLEMo680ntNEFZH+tqJSVVxO3a/KNdwsdnSX67E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Edk9MiOr/Yh9dLdJ4wQYinkozhb9U7HnJhGnGGt+emWcnOJj22QukRfD9QirWltw7axDDfSrHB4yHWd3WL8iB//+aiEb674QH7U6toUT0c+J7UCs2Go22wh/Dreo+DBLee/0mQi0ELiPLFtDjUF5YawyfVpZlwOGM3M6ZBkTs4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BENSyEAR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA71C4CEED;
-	Tue,  2 Sep 2025 18:21:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756837275;
-	bh=zU2EDLEMo680ntNEFZH+tqJSVVxO3a/KNdwsdnSX67E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BENSyEARX0veb5fM58xX+/cnIpjr3Kqq9bjdnwPv5itD+nqISyEomW3N1G0I7e9bL
-	 BvLmuvy3NV3fJJp6BiERpLOIrUw0cr0vPssEMVboIpYzDa0moTaJ886wRZpPEDdDnB
-	 guM0LaEJNwzo5ZqD71gxLkHgt50bAbQasdqRSuoTzSvS2hKh1knCVHeJkrwWLvpD/s
-	 IME0YbsmZzpul3zJngFlYrACKB8SFQl+QmzjcujeoHkPMlIr7pJUjwMAW6YwbwpFN/
-	 KKyCNz8k2j51Oqo1QEsuYIGqyqwuVRese+FBV2SY4A9JrjULF/gQomiD8I3DEWPFNk
-	 2c93c9bMe7xag==
-Date: Tue, 2 Sep 2025 13:21:14 -0500
-From: Rob Herring <robh@kernel.org>
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: leds: add generic LED consumer
- documentation
-Message-ID: <20250902182114.GA965402-robh@kernel.org>
-References: <20250902-leds-v1-0-4a31e125276b@vinarskis.com>
- <010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com>
+	s=arc-20240116; t=1756851775; c=relaxed/simple;
+	bh=c5ZAWb2I5q99uD6aQ+b8A4cpEjo1rdI5DVDKG4LuqrA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aw5NjUN+KoRcygF5yYj1aNLEqY+6ehxnZIaMvy42wYKsmO7qpE264Fmb5BE3dxfDLvhRDws81ZtCsRSSkXKZl28/kSLo1BJkUT6prLEENo78x52CR68vBfS7Q8L80Vmqd7E8Bi55kQ6SaLYs6bEPvmYPcMwRSJrKc0HyqA3ud5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ew59oYmv; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55f98e7782bso424680e87.0
+        for <linux-leds@vger.kernel.org>; Tue, 02 Sep 2025 15:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756851772; x=1757456572; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c5ZAWb2I5q99uD6aQ+b8A4cpEjo1rdI5DVDKG4LuqrA=;
+        b=Ew59oYmvI2PWBHlr9KQZ36tIKwxIqKzy8soRQdUFxNFmWYcLMEInLJmm3Q3N6kq7Xo
+         FhIcj5X2fk7fMxTmnVq1Y0UOmIscUpGcTlwiBrrJSHqrIccOufcvQp/R2DkVzE9WmdvY
+         AcpROhifRJvpu9arXJ0kZFoUx5q2DhtYin0vm/mzGl1qcZg4+LDq9rQyA27O1/wus2V2
+         ogkm/OEkSLcIscBSwvsT0c9UcqrYXX7tT+X1u9Gk6Iq2xKSz3PBYziZMtTjuxRyPUDKl
+         rkrMo2xce83HsQB4HHAglHQop1ssKhlj8pxTz9jJm3DMTbwh9oZJaS9xmzt9mXp6gAbt
+         1Ojw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756851772; x=1757456572;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c5ZAWb2I5q99uD6aQ+b8A4cpEjo1rdI5DVDKG4LuqrA=;
+        b=ZKJW+m4064tySeOaIBU7QdYCi2tG6Xl+Ng0I6P97llFFXoPcZD8jEFrm55lgPm1y9G
+         qX6V5RkzXUHd/NE7n/wZELHdUgB3rh/2zC5/5iiFUK3S/2LJtQhOcO95348PBpZqCZmw
+         xlEfrY8fos7VyUR8CchOEmmcrDAzKI93KGCG3TI6tUEU9Ll7Wp8tNsmki0Cq9p2uRzpP
+         DgUTMP76PGIlV6c/fIVEeCS0ogZdEU9u1ypiyupUBCaixD8NYmWZ23qn6YSoM2epUlhg
+         f5oPzY1Y6sEKl6rRySEEUPLAb73qiVl/cU39P+xfcbZEk7WU1Qx0xPMBnmzlIhXud9+m
+         eBmw==
+X-Forwarded-Encrypted: i=1; AJvYcCXWs0PiGNKhqtzUPhcRwCK/6e+5QjTF5sJx2YMorD00JoIZK/K0mTd7XdtvUNHF9tbR27JOWg0QiE91@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMBJUClehIScpM9iNI/3lBbD7Rqwxnj1TLQK6EQ/ntj/+IhZ0Y
+	/KxtK8Q1ZfKtecLzNZlFozmN1mved5pJ+eeftAuzz3DYS0+YgqohHl7py9ISW1TuzW7ds6uq7cT
+	FQWsp//lkSyjL/CX8JMkj0q1Ig1ckDfGwqDXU6BTEVQ==
+X-Gm-Gg: ASbGnctY3imZLSI7PG715qS9AxlcxNrM75zq4mPFypCwiwhVnrQqhAPGsLAAFTGbtA/
+	M8aD3lrWTeTtZU7J2fBqxvElqhwhPjgOTz58kEYgxRpHKX96x8Z3SHtYFThCJaUNkU3oFNxNiJb
+	T3IcP4nbmDNouelN2MlVWOdN7zwdGobwAsHuGPB3+oXI7tUFg3mQZJZjRxjXVG1+Cb1G5I2GIE4
+	MwBwYI=
+X-Google-Smtp-Source: AGHT+IFQRGeGkqSRHlpbbwEEe+BktSC7N09qc9dXiOntfH/vXYvWup1CnGQRGCfnRYYYVhfmTuJ9U+CboIOl/bTErjA=
+X-Received: by 2002:a05:6512:2443:b0:55f:5621:3db4 with SMTP id
+ 2adb3069b0e04-55f70567e41mr3922521e87.0.1756851771955; Tue, 02 Sep 2025
+ 15:22:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com>
+References: <20250902-leds-v1-0-4a31e125276b@vinarskis.com> <010201990a1f6559-9e836a40-f534-4535-bd59-5e967d80559a-000000@eu-west-1.amazonses.com>
+In-Reply-To: <010201990a1f6559-9e836a40-f534-4535-bd59-5e967d80559a-000000@eu-west-1.amazonses.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 3 Sep 2025 00:22:40 +0200
+X-Gm-Features: Ac12FXyRf_pKEWPlPHi9SeHKYYB-Zq6KNU81FKSVa0b4KkGrn0kE1luoxtWISEo
+Message-ID: <CACRpkdanKRPHOzpUV5muwCkNraRDZgoGJnEJ+_=udrtBrqVxwA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] leds: led-class: Add devicetree support to led_get()
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 02, 2025 at 11:10:51AM +0000, Aleksandrs Vinarskis wrote:
-> Currently supports passing 'led-names' used to map LED devices to their
-> respective functions.
-> 
-> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
-> ---
->  .../devicetree/bindings/leds/leds-consumer.yaml    | 69 ++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.yaml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a63e78417df84609e279835f7dae62e3ad2f0bf5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common leds consumer
-> +
-> +maintainers:
-> +  - Aleksandrs Vinarskis <alex@vinarskis.com>
-> +
-> +description:
-> +  Some LED defined in DT are required by other DT consumers, for example
-> +  v4l2 subnode may require privacy or flash LED.
-> +
-> +  Document LED properties that its consumers may define.
+On Tue, Sep 2, 2025 at 1:10=E2=80=AFPM Aleksandrs Vinarskis <alex@vinarskis=
+.com> wrote:
 
-We already have the trigger-source binding for "attaching" LEDs to 
-devices. Why does that not work here?
+> From: Hans de Goede <hansg@kernel.org>
+>
+> Turn of_led_get() into a more generic __of_led_get() helper function,
+> which can lookup LEDs in devicetree by either name or index.
 
-Rob
+I don't really like __inner_function() as naming since it
+is easily confused with __COMPILER_FLAGS__ and also
+with __non_atomic_bitset().
 
-> +
-> +properties:
-> +  leds:
-> +    description:
-> +      Phandle to LED device(s) required by particular consumer.
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +  led-names:
-> +    description:
-> +      List of device name(s). Used to map LED devices to their respective
-> +      functions, when consumer requires more than one LED.
-> +
-> +additionalProperties: true
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      camera@36 {
-> +        compatible = "ovti,ov02c10";
-> +        reg = <0x36>;
-> +
-> +        reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&cam_rgb_default>;
-> +
-> +        led-names = "privacy-led";
-> +        leds = <&privacy_led>;
-> +
-> +        clocks = <&ov02e10_clk>;
-> +
-> +        assigned-clocks = <&ov02e10_clk>;
-> +        assigned-clock-rates = <19200000>;
-> +
-> +        avdd-supply = <&vreg_l7b_2p8>;
-> +        dvdd-supply = <&vreg_l7b_2p8>;
-> +        dovdd-supply = <&vreg_cam_1p8>;
-> +
-> +        port {
-> +          ov02e10_ep: endpoint {
-> +            data-lanes = <1 2>;
-> +            link-frequencies = /bits/ 64 <400000000>;
-> +            remote-endpoint = <&csiphy4_ep>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> 
-> -- 
-> 2.48.1
-> 
+I would name it of_led_get_inner() simply.
+
+Admitted it's nitpicky, feel free to ignore this remark, my
+reviewed-by holds.
+
+Yours,
+Linus Walleij
 
