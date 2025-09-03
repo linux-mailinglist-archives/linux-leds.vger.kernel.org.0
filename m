@@ -1,68 +1,66 @@
-Return-Path: <linux-leds+bounces-5380-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5381-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3717FB42D28
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Sep 2025 01:01:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8E5B42DBB
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Sep 2025 01:56:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E56D47C2902
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 23:01:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF075567D91
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 23:56:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE0F2E1C79;
-	Wed,  3 Sep 2025 23:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F0D2F6587;
+	Wed,  3 Sep 2025 23:56:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="E9X/y0U+"
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="gXZ+AP05"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-106111.protonmail.ch (mail-106111.protonmail.ch [79.135.106.111])
+Received: from mail-244108.protonmail.ch (mail-244108.protonmail.ch [109.224.244.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D692DECBF;
-	Wed,  3 Sep 2025 23:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C752D7DC2;
+	Wed,  3 Sep 2025 23:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756940489; cv=none; b=fc/oFJnmY0zWep6ahXNmt/XzHQ3Nhix/Wg38/QyWp5JiLOORU0pmhX01Fz72aMDMMpTFf/moBTIs95/FEXbhmyUlQfQWizhanU5/4KOVR8Eh5A2TrAwnTMisHhgCjrx3vV2+GjMbqGcse3V1Zr1klmTwC9wG5O/J8ylLNxyUyR8=
+	t=1756943791; cv=none; b=W+VYqp4u6He55PQ/fPdlteQoyN5bYwiyQ5+aj17nL1Gb9bHEzNnVSrm4Eo5AGmVeqmxTU4SBpBqsdMyvsYauvkuKCu2MkKwNwrNw5IfMhBxpxbxUY2+XjDieMQMHb9eLmmF6KNNNgH7iWpUXQP0rqoaXU70eyjBOV/n314A0sDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756940489; c=relaxed/simple;
-	bh=lZ9xb05bUXxKypMRgvZnimpNmq21pgLVLuItt/0VFy4=;
+	s=arc-20240116; t=1756943791; c=relaxed/simple;
+	bh=D/mDCChrYqtDDtdXfScMQpY0yIpDjNoZE3g/ZJ+d2UA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BwkDQJAWGJsF3rvEUVumoZePZ+VURN7C/aUS9ptcH/H9Q1j2/q0qo7sXtRot3wOl8+3Nx3wz5hBhyXSm5yhjVwI0QtYJ2RrbOv60P3yRDLyn2plpYNtSsjSPZwKOsFsPy8VqLKFNO7ImrOH00HwS+W1gEj456dE3eFzWBIP7okw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=E9X/y0U+; arc=none smtp.client-ip=79.135.106.111
+	 MIME-Version; b=HGPgSL/idoqNQXlnKz1V1ZgCBcVfbLzh36x3404Hqbt334leVbItsSb8oVmi8G8AN9eAqZUto9zWg4NcOlBOq5Myf9526qTg+bB3uFSfgcq1zmswdzNPHEtAlueoJoOhylG2tES9DKkw8AyYmytGbjq14OzuRY0tP1pNoYlr+jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=gXZ+AP05; arc=none smtp.client-ip=109.224.244.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1756940477; x=1757199677;
-	bh=auZFfKxrrTCXJ1CCI6DDscX7wnIOgy6WBhNj7GtVhbg=;
+	s=protonmail; t=1756943779; x=1757202979;
+	bh=ntDpt7+HVnRWmi4X9YIRcXQEYGfUYQYmSHg1m3hbxyQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
 	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=E9X/y0U+Gnzi8BWpYc3G+wxmYVKc4FEQXrvwuJPBcJfnCvtOdEG+CJ2hTngoFc7fL
-	 XvPdNlVAE+oZSifPj1NkGoT5D8iicgZ1YrCmNASznGLkVeW6fTQUj0QNQm44q7NI90
-	 KuQDdjzv9iPx3BfIYx9cdvRjT6nyRYLJEWcXgBrNc3Ucln6QMWpA3Tij5qNh6baqjk
-	 OByzA6ewal95TXMPkcwFHeVw3bvVAdNaVpUeRLtl5vlAkYXk4+/aji5OFkkG9xBezG
-	 DZRcZcKb1tZ+iZbSBj4S6ThF071boS5QfS2jqAoVQpzPslxwJNLMFe9mg5pIoG0uhG
-	 ZczV9pTksa67Q==
-X-Pm-Submission-Id: 4cHJ4q3ZjKz2ScCs
+	b=gXZ+AP05Uflj/zoh/w6+7gVcu4keyIqogk4lcyVZiv+7gQZLpcFzApxG/KFVQL3xj
+	 0urH8vRyzizckl3uDX8jJzPmF8R1sVaneg++vEiiNyj/+OqgNmQcmJ9Mzv2Lto8uit
+	 Rh+vSFYEfKfOgKecClHigeXj9cuU5NbfxphXjxM8rjjNPy7+pRwmQsxlNNQL6o+rqh
+	 cjWWgRNLmKdjEQuY/fvo9chwvp/3uMNw4252TGZ0WeYv2TCn0a9XvsUomfwDnwZxS9
+	 HdSZVOc0TvlTMCS7gijOaoPmj867F/YvzRBeN0UF5jlRn/BWV7xog/chUosrGyUPNh
+	 mnWxrZw0MY2Pw==
+X-Pm-Submission-Id: 4cHKJK54ppz2ScCs
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
-To: hansg@kernel.org,
-	Aleksandrs Vinarskis <alex@vinarskis.com>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: andy.shevchenko@gmail.com,
+To: robh@kernel.org,
+	Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: bryan.odonoghue@linaro.org,
+	conor+dt@kernel.org,
 	devicetree@vger.kernel.org,
-	linus.walleij@linaro.org,
+	hansg@kernel.org,
+	krzk+dt@kernel.org,
+	lee@kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH 2/2] leds: led-class: Add devicetree support to led_get()
-Date: Thu,  4 Sep 2025 01:01:12 +0200
-Message-ID: <8aa9dfc5-5e77-48af-b2f4-f1964d20d6d1@kernel.org>
+	linux-leds@vger.kernel.org,
+	pavel@kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: leds: add generic LED consumer documentation
+Date: Thu,  4 Sep 2025 01:56:15 +0200
+Message-ID: <20250903235615.134520-1-alex@vinarskis.com>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <8aa9dfc5-5e77-48af-b2f4-f1964d20d6d1@kernel.org>
-References: <8aa9dfc5-5e77-48af-b2f4-f1964d20d6d1@kernel.org>
+In-Reply-To: <20250902182114.GA965402-robh@kernel.org>
+References: <20250902182114.GA965402-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -71,149 +69,120 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> Hi Aleksandrs,
-> 
-> Thank you for working on this.
-> 
-> On 2-Sep-25 1:10 PM, Aleksandrs Vinarskis wrote:
-> > From: Hans de Goede <hansg@kernel.org>
+> On Tue, Sep 02, 2025 at 11:10:51AM +0000, Aleksandrs Vinarskis wrote:
+> > Currently supports passing 'led-names' used to map LED devices to their
+> > respective functions.
 > > 
-> > Turn of_led_get() into a more generic __of_led_get() helper function,
-> > which can lookup LEDs in devicetree by either name or index.
-> > 
-> > And use this new helper to add devicetree support to the generic
-> > (non devicetree specific) [devm_]led_get() function.
-> > 
-> > This uses the standard devicetree pattern of adding a -names string array
-> > to map names to the indexes for an array of resources.
-> > 
-> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Reviewed-by: Lee Jones <lee@kernel.org>
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Please update this to:
-> 
-> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> 
-> to match the update of the author which you already did.
-> 
-> Also note that checkpatch should complain about the mismatch,
-> please ensure to run checkpatch before posting v2.
-
-Hi,
-
-ahh, I actually did not even see that email got changed, apologies. Seems
-'b4' auto-corrected it when sending, which would explain why checkpatch
-did not catch it, as I run it before importing and sending via 'b4'. Sure,
-will fix - did you mean to change your signoff to R-by, or is it a mistake?
-
-> 
-> > Tested-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> > Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 > > ---
-> >  drivers/leds/led-class.c | 38 +++++++++++++++++++++++++++++---------
-> >  1 file changed, 29 insertions(+), 9 deletions(-)
+> >  .../devicetree/bindings/leds/leds-consumer.yaml    | 69 ++++++++++++++++++++++
+> >  1 file changed, 69 insertions(+)
 > > 
-> > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> > index 15633fbf3c166aa4f521774d245f6399a642bced..6f2ef4fa556b44ed3bf69dff556ae16fd2b7652b 100644
-> > --- a/drivers/leds/led-class.c
-> > +++ b/drivers/leds/led-class.c
-> > @@ -248,19 +248,18 @@ static const struct class leds_class = {
-> >  	.pm = &leds_class_dev_pm_ops,
-> >  };
-> >  
-> > -/**
-> > - * of_led_get() - request a LED device via the LED framework
-> > - * @np: device node to get the LED device from
-> > - * @index: the index of the LED
-> > - *
-> > - * Returns the LED device parsed from the phandle specified in the "leds"
-> > - * property of a device tree node or a negative error-code on failure.
-> > - */
-> > -static struct led_classdev *of_led_get(struct device_node *np, int index)
-> > +static struct led_classdev *__of_led_get(struct device_node *np, int index,
-> > +					 const char *name)
-> >  {
-> >  	struct device *led_dev;
-> >  	struct device_node *led_node;
-> >  
-> > +	/*
-> > +	 * For named LEDs, first look up the name in the "led-names" property.
-> > +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
-> > +	 */
-> > +	if (name)
-> > +		index = of_property_match_string(np, "led-names", name);
-> >  	led_node = of_parse_phandle(np, "leds", index);
-> >  	if (!led_node)
-> >  		return ERR_PTR(-ENOENT);
-> > @@ -271,6 +270,20 @@ static struct led_classdev *of_led_get(struct device_node *np, int index)
-> >  	return led_module_get(led_dev);
-> >  }
-> >  
-> > +/**
-> > + * of_led_get() - request a LED device via the LED framework
-> > + * @np: device node to get the LED device from
-> > + * @index: the index of the LED
-> > + *
-> > + * Returns the LED device parsed from the phandle specified in the "leds"
-> > + * property of a device tree node or a negative error-code on failure.
-> > + */
-> > +struct led_classdev *of_led_get(struct device_node *np, int index)
-> > +{
-> > +	return __of_led_get(np, index, NULL);
-> > +}
-> > +EXPORT_SYMBOL_GPL(of_led_get);
+> > diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.yaml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..a63e78417df84609e279835f7dae62e3ad2f0bf5
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
+> > @@ -0,0 +1,69 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Common leds consumer
+> > +
+> > +maintainers:
+> > +  - Aleksandrs Vinarskis <alex@vinarskis.com>
+> > +
+> > +description:
+> > +  Some LED defined in DT are required by other DT consumers, for example
+> > +  v4l2 subnode may require privacy or flash LED.
+> > +
+> > +  Document LED properties that its consumers may define.
 > 
-> I probably did this myself, but since of_led_get() is private now
-> (I guess it was not private before?) and since we are moving away from
-> "of" specific functions to using generic dev_xxxx functions in the kernel
-> in general, I think this just should be a static helper.
-> 
-> Or probably even better: just add the name argument to of_led_get()
-> before without renaming it, update the existing callers to pass
-> an extra NULL arg and completely drop this wrapper.
-> 
+> We already have the trigger-source binding for "attaching" LEDs to 
+> devices. Why does that not work here?
 
-That indeed sounds like a better and cleaner option, will change it.
-This way also incorporates the rest of the feedback on this series.
+I have not actually considered this, as the existing privacy-led solution
+from the original series is not trigger based. At least one of the reasons
+for that is that trigger source can be rather easily altered from user
+space, which would've been bad for this use case. If v4l2 acquires control
+over the LED it actually removes triggers and disables sysfs on that LED.
 
-> Also notice that adding the EXPORT_SYMBOL_GPL() while there was
-> none before should go hand in hand with adding a prototype to
-> a relevant .h file. However please just keep this private and
-> drop the wrapper.
+Regarding DT check that is failing because 'ovti,ov02e10.yaml' does not
+allow for additional properties - the same issue would apply to basically
+any camera, I missed it. So would need to either include this new binding
+in 'video-interface-devices.yaml', or drop new binding and directly include
+these new generic LED related properties in the video one. However, in this
+case it gets a bit ugly, as the latter already contains 'flash-leds' for
+flash specifically, and we would be adding a more generic way only used for
+privacy LED, at least for now... not too sure whats the best way here,
+leaning towards 1st option.
 
-Thanks for the clarification, missed that, and the review.
+Let me know what you think,
 
 Alex
 
+
 > 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
+> Rob
 > 
 > > +
-> >  /**
-> >   * led_put() - release a LED device
-> >   * @led_cdev: LED device
-> > @@ -342,9 +355,16 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
-> >  struct led_classdev *led_get(struct device *dev, char *con_id)
-> >  {
-> >  	struct led_lookup_data *lookup;
-> > +	struct led_classdev *led_cdev;
-> >  	const char *provider = NULL;
-> >  	struct device *led_dev;
-> >  
-> > +	if (dev->of_node) {
-> > +		led_cdev = __of_led_get(dev->of_node, -1, con_id);
-> > +		if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
-> > +			return led_cdev;
-> > +	}
+> > +properties:
+> > +  leds:
+> > +    description:
+> > +      Phandle to LED device(s) required by particular consumer.
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +  led-names:
+> > +    description:
+> > +      List of device name(s). Used to map LED devices to their respective
+> > +      functions, when consumer requires more than one LED.
 > > +
-> >  	mutex_lock(&leds_lookup_lock);
-> >  	list_for_each_entry(lookup, &leds_lookup_list, list) {
-> >  		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+> > +additionalProperties: true
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/leds/common.h>
+> > +
+> > +    i2c {
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      camera@36 {
+> > +        compatible = "ovti,ov02c10";
+> > +        reg = <0x36>;
+> > +
+> > +        reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
+> > +        pinctrl-names = "default";
+> > +        pinctrl-0 = <&cam_rgb_default>;
+> > +
+> > +        led-names = "privacy-led";
+> > +        leds = <&privacy_led>;
+> > +
+> > +        clocks = <&ov02e10_clk>;
+> > +
+> > +        assigned-clocks = <&ov02e10_clk>;
+> > +        assigned-clock-rates = <19200000>;
+> > +
+> > +        avdd-supply = <&vreg_l7b_2p8>;
+> > +        dvdd-supply = <&vreg_l7b_2p8>;
+> > +        dovdd-supply = <&vreg_cam_1p8>;
+> > +
+> > +        port {
+> > +          ov02e10_ep: endpoint {
+> > +            data-lanes = <1 2>;
+> > +            link-frequencies = /bits/ 64 <400000000>;
+> > +            remote-endpoint = <&csiphy4_ep>;
+> > +          };
+> > +        };
+> > +      };
+> > +    };
+> > +
+> > +...
+> > 
+> > -- 
+> > 2.48.1
 > > 
 
