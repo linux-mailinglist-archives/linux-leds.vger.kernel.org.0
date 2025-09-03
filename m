@@ -1,142 +1,199 @@
-Return-Path: <linux-leds+bounces-5371-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5372-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD40FB41300
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 05:33:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF28BB415A4
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 08:55:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E1E4701180
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 03:33:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BF90540717
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 06:55:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C15F2C21E4;
-	Wed,  3 Sep 2025 03:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83C522D9485;
+	Wed,  3 Sep 2025 06:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMWVH2qo"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xKPAlruC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF7E2C187;
-	Wed,  3 Sep 2025 03:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101E22D879E
+	for <linux-leds@vger.kernel.org>; Wed,  3 Sep 2025 06:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756870419; cv=none; b=So7cXJnODXt34FUwLTGH4TjMCyv05po6QoYTArecn/oRwlHrS95SmaW9RPqbNZEkpNLw2QCWB1cJDByllT2Zme+pM8uquC5UCzEByWLclXM79zTP6ZsQEDBBqVRq7mnkUtwP/2apIA8EoXAObO3X9c/c5tvTMSQPI+qKkeZMzV0=
+	t=1756882500; cv=none; b=jxMrCAbPThvWaqT+cYoJj0F9Y8TLet4/9uPxK2CkV5n4zwncaG4cFbPtNYy1dHOU6s0B3ELhLB6cNq8qP2z6jQS+3d4SivgxHU373iCrV+AvKdGNh07HLm6LPu/+H26cLljxDCu5E8TzjTmC2ayTgp1zY0/u8nMb2GiPfOFfkqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756870419; c=relaxed/simple;
-	bh=KjJPPPnlF/4cG0K1w0Hbt1M1HCy1yQFWLgfhATomQTM=;
+	s=arc-20240116; t=1756882500; c=relaxed/simple;
+	bh=fx9m8I+bnFu6YFqFIx8UzjaVPlzpct3IdUYNb8nf/uU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iEiSzjwJJwyuaUCTPPW+nZ2l850bu1rAEy6bcFiIdf2vZ9YpElFJQzkCAw6KHlX06Vgz1ZqIhHJ5NJmc22JaZBgCqF9LJO7yjDPyoQ+tSiLKicmaOwM2eH0srHwf31ZzJyU7GudW+qp9Qch7YC9arqbAO0plIR14NsGrK4x9G9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMWVH2qo; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756870417; x=1788406417;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KjJPPPnlF/4cG0K1w0Hbt1M1HCy1yQFWLgfhATomQTM=;
-  b=gMWVH2qoWptkjPEppMMfZi4GTasfX8odRAj61mIeEGIgHa4vrVI4Z4yN
-   FuWDtNZCM+ub7A4gEn/Uo+ll/edAkxbkDwSCXMFo4ktltLXWz1rSU/mGQ
-   wtPZW4M6NytDFSJ6IUw7pjcY9MaWC1wUjd4zx0fqlLh6LbxpsbLw1Lj05
-   gEdviNAeyEYW7MVOVvwRqCy1hznovE95VKB9Rt25KQNfvACy1Qy1UMGlC
-   CwtWzMwA0oG9moez4vPUkAz+bWyuAFsUVjLInc8+cI1xNFc8OqT7d6d6q
-   j6KYHGrbE0SqO2Ifqkq2zZZ18ayQt2eEIdyivjAO3aanes84Ay9/ZEcna
-   g==;
-X-CSE-ConnectionGUID: rJbzoJSGR1yoKLECuMZ6tw==
-X-CSE-MsgGUID: YIT2tT4xSxa790QpIu3KQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="76615094"
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="76615094"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 20:33:37 -0700
-X-CSE-ConnectionGUID: jHvz5aTbTnqG+7nKH56bjQ==
-X-CSE-MsgGUID: FdCLDxpbQbKRygIawc8dcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="176720839"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Sep 2025 20:33:32 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uteEZ-0003Jb-1x;
-	Wed, 03 Sep 2025 03:32:53 +0000
-Date: Wed, 3 Sep 2025 11:31:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aleksandrs Vinarskis <alex@vinarskis.com>,
-	Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Aleksandrs Vinarskis <alex@vinarskis.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 2/2] leds: led-class: Add devicetree support to led_get()
-Message-ID: <202509031142.WBnVOXZW-lkp@intel.com>
-References: <010201990a1f6559-9e836a40-f534-4535-bd59-5e967d80559a-000000@eu-west-1.amazonses.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUl1gbkDriUbXRpRCeCgKH9WW6uGc+HlIJAS7AjGRtpU2PMSQFxZjHTGXVjwBTD+8Mk3IYEf2xrU9UrRfRUpM5vVpOGNgJXIODw7dAT4EIjpRHmRXvqguoUt29QV5hrCTWr7cxsAJDVNb88IYndQ4YcV5vF7gbqKAhmGq1nqsPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xKPAlruC; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 3 Sep 2025 08:54:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756882485;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4jFDaRtvJdeG/8DPwr/WLJ5E2a7HLkN/FvmStdNByxk=;
+	b=xKPAlruCZjj2Mj1AUXwCnLy195uqzzKwiHsPQRsCw3LOYQMrOqW3jxIAaEDYsVw6eTFp9c
+	afwPlHF8zwt3lqrtZzTL4tcJnvXxXIE+N42gHWpcwiD2UJjiWMMWbTJZYtH9h7sj96xeLB
+	2YrsStw+6mj/lLJIsqtaPM1D2e4QkhU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v7 07/10] media: i2c: ov9282: add strobe_duration v4l2
+ control
+Message-ID: <uzgdukvgqkpg5koehz6kzxg6dfjes7p5ntd5oyqgqpr7gz5otd@ykwax6c2bo6x>
+References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
+ <20250901-ov9282-flash-strobe-v7-7-d58d5a694afc@linux.dev>
+ <aLYISb07ziGDmFGS@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <010201990a1f6559-9e836a40-f534-4535-bd59-5e967d80559a-000000@eu-west-1.amazonses.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aLYISb07ziGDmFGS@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Aleksandrs,
+Hi Sakari,
 
-kernel test robot noticed the following build warnings:
+thanks again for the review :)
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.17-rc4 next-20250902]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Mon, Sep 01, 2025 at 11:55:37PM +0300, Sakari Ailus wrote:
+> Hi Richard,
+> 
+> On Mon, Sep 01, 2025 at 05:05:12PM +0200, Richard Leitner wrote:
+> > Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
+> > feature of the sensor. This is implemented by transforming the given µs
+> > value by an interpolated formula to a "span step width" value and
+> > writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
+> > PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
+> > 
+> > The maximum control value is set to the period of the current default
+> > framerate.
+> > 
+> > All register values are based on the OV9281 datasheet v1.53 (jan 2019)
+> > and tested using an ov9281 VisionComponents module.
+> > 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > ---
+> >  drivers/media/i2c/ov9282.c | 31 ++++++++++++++++++++++++++++++-
+> >  1 file changed, 30 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index ff0f69f0dc3a2d0518806b9ea65c1b520b5c55fb..c405e3411daf37cf98d5af3535702f8321394af5 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -97,6 +97,10 @@
+> >  #define OV9282_REG_MIPI_CTRL00	0x4800
+> >  #define OV9282_GATED_CLOCK	BIT(5)
+> >  
+> > +/* Flash/Strobe control registers */
+> > +#define OV9282_REG_FLASH_DURATION	0x3925
+> > +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001a
+> > +
+> >  /* Input clock rate */
+> >  #define OV9282_INCLK_RATE	24000000
+> >  
+> > @@ -687,6 +691,25 @@ static int ov9282_set_ctrl_flash_hw_strobe_signal(struct ov9282 *ov9282, bool en
+> >  				current_val);
+> >  }
+> >  
+> > +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, u32 value)
+> > +{
+> > +	/*
+> > +	 * Calculate "strobe_frame_span" increments from a given value (µs).
+> > +	 * This is quite tricky as "The step width of shift and span is
+> > +	 * programmable under system clock domain.", but it's not documented
+> > +	 * how to program this step width (at least in the datasheet available
+> > +	 * to the author at time of writing).
+> > +	 * The formula below is interpolated from different modes/framerates
+> > +	 * and should work quite well for most settings.
+> > +	 */
+> > +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
+> > +
+> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
+> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
+> > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
+> > +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
+> 
+> The bitwise and operation is redundant.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandrs-Vinarskis/leds-led-class-Add-devicetree-support-to-led_get/20250902-191342
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/010201990a1f6559-9e836a40-f534-4535-bd59-5e967d80559a-000000%40eu-west-1.amazonses.com
-patch subject: [PATCH 2/2] leds: led-class: Add devicetree support to led_get()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250903/202509031142.WBnVOXZW-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031142.WBnVOXZW-lkp@intel.com/reproduce)
+True. Thanks for the catch!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509031142.WBnVOXZW-lkp@intel.com/
+> 
+> Could you do this in a single write?
 
-All warnings (new ones prefixed by >>):
+I've implemented this in single byte writes due to some "special
+behaviour" of the vision components ov9281 modules. On those modules
+single byte interactions seem broken in some cases. Maybe Laurent knows
+more about this and the current state, as he was/is in contact with VC.
 
->> drivers/leds/led-class.c:281:22: warning: no previous prototype for 'of_led_get' [-Wmissing-prototypes]
-     281 | struct led_classdev *of_led_get(struct device_node *np, int index)
-         |                      ^~~~~~~~~~
+See also: https://lore.kernel.org/all/918ce2ca-55ff-aff8-ea6c-0c17f566d59d@online.de/
 
+Nonetheless, thanks for the pointer. I haven't documented this
+accordingly. I will try to reproduce the issue again and either change
+this to a single write or add a describing comment.
 
-vim +/of_led_get +281 drivers/leds/led-class.c
+> 
+> Also error handling is (largely) missing.
 
-   272	
-   273	/**
-   274	 * of_led_get() - request a LED device via the LED framework
-   275	 * @np: device node to get the LED device from
-   276	 * @index: the index of the LED
-   277	 *
-   278	 * Returns the LED device parsed from the phandle specified in the "leds"
-   279	 * property of a device tree node or a negative error-code on failure.
-   280	 */
- > 281	struct led_classdev *of_led_get(struct device_node *np, int index)
-   282	{
-   283		return __of_led_get(np, index, NULL);
-   284	}
-   285	EXPORT_SYMBOL_GPL(of_led_get);
-   286	
+Good catch. Thanks.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> > +}
+> > +
+> >  /**
+> >   * ov9282_set_ctrl() - Set subdevice control
+> >   * @ctrl: pointer to v4l2_ctrl structure
+> > @@ -756,6 +779,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  	case V4L2_CID_FLASH_HW_STROBE_SIGNAL:
+> >  		ret = ov9282_set_ctrl_flash_hw_strobe_signal(ov9282, ctrl->val);
+> >  		break;
+> > +	case V4L2_CID_FLASH_DURATION:
+> > +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
+> > +		break;
+> >  	default:
+> >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+> >  		ret = -EINVAL;
+> > @@ -1346,7 +1372,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	u32 lpfr;
+> >  	int ret;
+> >  
+> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > @@ -1414,6 +1440,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	/* Flash/Strobe controls */
+> >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
+> >  
+> > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> > +			  0, 13900, 1, 8);
+> > +
+> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+> >  	if (!ret) {
+> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> > 
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
+
+regards;rl
 
