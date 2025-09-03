@@ -1,94 +1,214 @@
-Return-Path: <linux-leds+bounces-5374-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5375-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1337CB415B7
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 08:58:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A999B41609
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 09:15:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAD65680041
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 06:58:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 776D318970E5
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Sep 2025 07:15:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7222D8DC3;
-	Wed,  3 Sep 2025 06:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FABA2DA74D;
+	Wed,  3 Sep 2025 07:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2QROvXO"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NlaunSTV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0211E2307;
-	Wed,  3 Sep 2025 06:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1334E2DA758;
+	Wed,  3 Sep 2025 07:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756882727; cv=none; b=j507v7eWq1TSFeXHAMSOkQq6WmLpJ0FavExOrptAM3xQ/36AYIArLrfuNT5OmehDgcTiKG0jbSk2q8vpPdIs33QniPFYV1S/SjTt9JScq0CuDUEe3hl2sL8F7xZeFK5EaX+e2/iSfeuAElVz6nh1stjBz9+QO4OOlcJF+mBraKs=
+	t=1756883637; cv=none; b=QMZagU+yyWWCyjhyItWXKhZdzM/cXfxCwMDrCwjT5bzw7Qe8U6Ac5waFl1lcnPsMcjtG3K6Q5JpXl/rdwVl0DTFmYAoD/C0L6WFc3dlDCcggIJ5VEATVktmySE08YQm7SKJEjQokvZzvstsJVNDlqDst1L0JHV1BS1KAwVO1w4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756882727; c=relaxed/simple;
-	bh=vUWUJn3wqJjqy81MaeShFl0Xntlqdjk7YZVwE3WI3Ao=;
+	s=arc-20240116; t=1756883637; c=relaxed/simple;
+	bh=3bsoKh7pwzsjTaE8y+xv/UQl2ol1MZOSQnd3LIiYdj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNthfpfV5SrGR/d0Oln+wBj3YbGxc7H7KfJ1F75nXABq085uTad1d1g5klO7XPBTphZ2K3LKIBrMddEc7zR+m4or78tFhGW6/+aEgd0xeRpqqoe2qwqgwrJVHtovz1xVvXlU7zbAHPRFWEIbpdGXHiD7fCyCD9i6SsBCdchyuNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2QROvXO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FCB0C4CEF0;
-	Wed,  3 Sep 2025 06:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756882727;
-	bh=vUWUJn3wqJjqy81MaeShFl0Xntlqdjk7YZVwE3WI3Ao=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B2QROvXOkXQ3HW0H4QuCs3oLIlwFps02ZnmPTvIVeFF2ExCwCuFw0dAwPfahoLXkB
-	 zCwaZeo2v/VDBJzeZEG9iD2hy8vrwHkoe0VWgbxpQatAakE5mPhnGSaI+ZbL82wWAU
-	 1xds/av9xI8QxItHavhvyLkq85O2dLGmalfBj498Tgcd1hVBy1AZBEHx7xz3tZi4wj
-	 hJVEy4LsidlbLjnvt6nQbzd/c8GSVPI4SM8Xa1cFygcqywd6n3UiKwi7Nfj7h5JnNV
-	 5VcC4zP3ezbLUVtwYve668firjnBdd7LUk0mS5C+wq5auGeVo6zhzalQoIBW8sUY92
-	 bwGgn0mleOvyQ==
-Date: Wed, 3 Sep 2025 07:58:41 +0100
-From: Lee Jones <lee@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Aleksandrs Vinarskis <alex@vinarskis.com>,
-	Hans de Goede <hansg@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 2/2] leds: led-class: Add devicetree support to led_get()
-Message-ID: <20250903065841.GX2163762@google.com>
-References: <20250902-leds-v1-0-4a31e125276b@vinarskis.com>
- <010201990a1f6559-9e836a40-f534-4535-bd59-5e967d80559a-000000@eu-west-1.amazonses.com>
- <CACRpkdanKRPHOzpUV5muwCkNraRDZgoGJnEJ+_=udrtBrqVxwA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=k+RIk11O4Yq6PoYn1ZqUj2oizaYdV7XBcz/FGpHaBbs0pbR97DnT8/6ilosPSbOiVynjs6iKhZrtZhmVG+3DynzsqxFJt8V+HKPb0pLCXTRslmMG624TFuqj/FysMf6o10nc/1C+HoYWbgYpkKEKBG6SUGGM1MkT9Fjq+40lJOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NlaunSTV; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 3 Sep 2025 09:13:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756883623;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z440aFv+/UP4+faxOUN6+DJHRq+/eFSfX0QMC17zTLQ=;
+	b=NlaunSTVEAIr/y5FSevib/zOXS8KquuauoIXWFDq4X/dFdf2twoKx46sSU6TrBsO6YdB38
+	QIhwpDX9MG17xec4UI+aAXuJdkDpbGOtXaiJmhmcBXiNvACmXygjJzqcRM1EpWkH4zJAgn
+	WzOF9xGePvmNrCZbI5jCQJStTlL067s=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v7 10/10] media: i2c: ov9282: dynamic flash_duration
+ maximum
+Message-ID: <j4t7zyhf4zhn5t27os7yxi3chaux3m6bjlxe774crmdmzzm54f@dlk5s5ai7ehc>
+References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
+ <20250901-ov9282-flash-strobe-v7-10-d58d5a694afc@linux.dev>
+ <aLYNQ4W8f55G_7HP@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdanKRPHOzpUV5muwCkNraRDZgoGJnEJ+_=udrtBrqVxwA@mail.gmail.com>
+In-Reply-To: <aLYNQ4W8f55G_7HP@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 03 Sep 2025, Linus Walleij wrote:
+Hi Sakari,
 
-> On Tue, Sep 2, 2025 at 1:10 PM Aleksandrs Vinarskis <alex@vinarskis.com> wrote:
+On Tue, Sep 02, 2025 at 12:16:51AM +0300, Sakari Ailus wrote:
+> Hi Richard,
 > 
-> > From: Hans de Goede <hansg@kernel.org>
-> >
-> > Turn of_led_get() into a more generic __of_led_get() helper function,
-> > which can lookup LEDs in devicetree by either name or index.
+> On Mon, Sep 01, 2025 at 05:05:15PM +0200, Richard Leitner wrote:
+> > This patch sets the current exposure time as maximum for the
+> > flash_duration control. As Flash/Strobes which are longer than the
+> > exposure time have no effect.
+> > 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > ---
+> >  drivers/media/i2c/ov9282.c | 30 ++++++++++++++++++++++++++----
+> >  1 file changed, 26 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index b104ae77f00e9e7777342e48b7bf3caa6d297f69..3253d9f271cb3caef6d85837ebec4f5beb466a4d 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -198,6 +198,7 @@ struct ov9282_mode {
+> >   * @exp_ctrl: Pointer to exposure control
+> >   * @again_ctrl: Pointer to analog gain control
+> >   * @pixel_rate: Pointer to pixel rate control
+> > + * @flash_duration: Pointer to flash duration control
+> >   * @vblank: Vertical blanking in lines
+> >   * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
+> >   * @cur_mode: Pointer to current selected sensor mode
+> > @@ -220,6 +221,7 @@ struct ov9282 {
+> >  		struct v4l2_ctrl *again_ctrl;
+> >  	};
+> >  	struct v4l2_ctrl *pixel_rate;
+> > +	struct v4l2_ctrl *flash_duration;
+> >  	u32 vblank;
+> >  	bool noncontinuous_clock;
+> >  	const struct ov9282_mode *cur_mode;
+> > @@ -611,6 +613,15 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
+> >  					mode->vblank_max, 1, mode->vblank);
+> >  }
+> >  
+> > +static u32 ov9282_exposure_to_us(struct ov9282 *ov9282, u32 exposure)
+> > +{
+> > +	/* calculate exposure time in �s */
+> > +	u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
+> > +	u32 trow_us = (frame_width * 1000000UL) / ov9282->pixel_rate->val;
 > 
-> I don't really like __inner_function() as naming since it
-> is easily confused with __COMPILER_FLAGS__ and also
-> with __non_atomic_bitset().
+> Redundant parentheses.
+
+True. Will fix this. Thanks for the catch.
+
 > 
-> I would name it of_led_get_inner() simply.
+> > +
+> > +	return exposure * trow_us;
+> > +}
+> > +
+> >  /**
+> >   * ov9282_update_exp_gain() - Set updated exposure and gain
+> >   * @ov9282: pointer to ov9282 device
+> > @@ -622,9 +633,10 @@ static int ov9282_update_controls(struct ov9282 *ov9282,
+> >  static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
+> >  {
+> >  	int ret;
+> > +	u32 exposure_us = ov9282_exposure_to_us(ov9282, exposure);
+> >  
+> > -	dev_dbg(ov9282->dev, "Set exp %u, analog gain %u",
+> > -		exposure, gain);
+> > +	dev_dbg(ov9282->dev, "Set exp %u (~%u us), analog gain %u",
+> > +		exposure, exposure_us, gain);
+> >  
+> >  	ret = ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 1);
+> >  	if (ret)
+> > @@ -635,6 +647,12 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
+> >  		goto error_release_group_hold;
+> >  
+> >  	ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, gain);
+> > +	if (ret)
+> > +		goto error_release_group_hold;
+> > +
+> > +	ret = __v4l2_ctrl_modify_range(ov9282->flash_duration,
+> > +				       0, exposure_us, 1,
+> > +				       OV9282_FLASH_DURATION_DEFAULT);
+> >  
+> >  error_release_group_hold:
+> >  	ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 0);
+> > @@ -1420,6 +1438,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	struct v4l2_fwnode_device_properties props;
+> >  	struct v4l2_ctrl *ctrl;
+> >  	u32 hblank_min;
+> > +	u32 exposure_us;
+> >  	u32 lpfr;
+> >  	int ret;
+> >  
+> > @@ -1491,8 +1510,11 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	/* Flash/Strobe controls */
+> >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
+> >  
+> > -	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> > -			  0, 13900, 1, 8);
+> > +	exposure_us = ov9282_exposure_to_us(ov9282, OV9282_EXPOSURE_DEFAULT);
+> > +	ov9282->flash_duration = v4l2_ctrl_new_std(ctrl_hdlr,
+> > +						   &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> > +						   0, exposure_us,
+> > +						   1, OV9282_FLASH_DURATION_DEFAULT);
+> 
+> Wrap this differently, please, e.g. after '='.
 
-I'm personally okay with '__' to mean private.  There are many examples
-of this already.  I'm generally less happy with '__' functions being
-exported or otherwise used outside of the subsystem / core that they
-reside in.
+This is wrapped the same way as all other v4l2_ctrl_new_X() calls in
+ov9282_init_controls(). Therefore I've chosen to do it this way here
+too.
 
--- 
-Lee Jones [李琼斯]
+So if I'm going to change this one, IMHO all others should be changed
+too (exp_ctrl, again_ctrl, vblank_ctrl, pixel_rate, link_freq_ctrl,
+hblank_ctrl). Is this intended?
+
+If so I'm wondering if this would be a suiteable approach?
+
+ov9282->flash_duration =
+	v4l2_ctrl_new_std(ctrl_hdlr,
+			   &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+			   0, exposure_us,
+			   1, OV9282_FLASH_DURATION_DEFAULT);
+
+It is fine for checkpatch, but introduces a newline for every ctrl and
+tbh I'm not sure if it improves readability?
+
+> 
+> >  
+> >  	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
+> >  				      V4L2_CID_FLASH_STROBE_SOURCE,
+> > 
+> 
+> To me the set looks good but I wouldn't mind about having a bit more
+> review.
+
+Thanks for your continuous feedback! It improved the series a lot!
+
+Is there anyhthing I can assists/help?
+
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
+
+regards;rl
 
