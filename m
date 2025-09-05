@@ -1,134 +1,131 @@
-Return-Path: <linux-leds+bounces-5400-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5401-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0E1B450AE
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Sep 2025 10:01:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B140B453E4
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Sep 2025 11:59:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F386DA42852
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Sep 2025 08:00:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DF197B9B74
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Sep 2025 09:57:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9572FD7DE;
-	Fri,  5 Sep 2025 08:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8022729B216;
+	Fri,  5 Sep 2025 09:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="byR/Ou5J"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ju7VL2t+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-106113.protonmail.ch (mail-106113.protonmail.ch [79.135.106.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C5A2F9C2A
-	for <linux-leds@vger.kernel.org>; Fri,  5 Sep 2025 08:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B096B29992B;
+	Fri,  5 Sep 2025 09:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757059217; cv=none; b=EqYR935gsz+30V2cd7VkQMxysgGT/rvCb45E1xohFnbx/LFn8CzuTF75JFzvpGUgnbWJ927zVMpBQtrgsq7tqu9j5ahPNvSXkYEPwQDUDS1LbXayqYuD8Fnerkm+mg3guotdxpi3YiAnQ0cfW2MgIuyEMJW0rSETd0Z4WgNI9hk=
+	t=1757066331; cv=none; b=gMEtvvgJ+uyMW95cahC345Eo+CtF7BM6/11e8TkddijNiAqPI8qG6cPJb+s4unvCcV8naMnnP8YnUV7oRXiELG15d7Hl9cd/0ZuKWqLyL/EpQhtuqt2iVh8jnRL+hqHaMCYJV690UtEqmpj2uMBlJfACfCOIHgMZE7GVIlq2QD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757059217; c=relaxed/simple;
-	bh=edWT6KdBWyksJJHrbWQQWgcHw91Jmbb/HxPT7wxRo/w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ni6vsdKJ/1BynGhoTh9a6UPs/LLl5NMKwZoNiFpyukuZ4eWFVnz/NhPvoKUy13eYeE3rp7RBYFWBSBl1MxVYYd3PbfQ+0gSpgpjyqyT62GG10TU7tccE3t9991yR7h0VF+MsexRfipgFIxwUHgqROIsC/Tv0uqeWMvnDYGvbZE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=byR/Ou5J; arc=none smtp.client-ip=79.135.106.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757059213; x=1757318413;
-	bh=91qDt4aSXmfJHmp9z9JEKedQZehuTGRF2Qw0y+ToL4c=;
-	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=byR/Ou5JsdLbXUMHPk15tlUl0O7VgudGiQrUKw+EObIXH5Kg24RKVpnurvOBc6qsp
-	 Wlz0VIc2Xq8xkSuurQiMBWj7en4ol4ksaUvRzzI0eBWNLRmczZ5tIqfz4TgsGkVbw8
-	 6oCW7lvNQBEOe0hE0PlZ1+gRvjYdPUnHuuc9O5kNFeHoLJTcg1ybR2Jm43jLILUWYm
-	 UwaAAK/Ie6/6nmbZf8z3tmur8MLWKPe4htq1ntv54uP+HkOW1FBrnFUcrkFDFz0fpt
-	 oIFzuUmci8/YFdEO7Nu8BGAVtsRtIu/DrxoHoxPJoc2sWQZetLGkK1Vj3lVtonHkei
-	 BQGdVBg0R8fMw==
-X-Pm-Submission-Id: 4cJ80B4J0gz2ScWP
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Fri, 05 Sep 2025 09:59:32 +0200
-Subject: [PATCH v2 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
+	s=arc-20240116; t=1757066331; c=relaxed/simple;
+	bh=HwKAByuNhyttoGvFHgIccch/Uo155Ry0ykJWPvr1wMk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n1UbRWRqBy3e2gD8pe571xLzQfsCFLSHXz3sU8fhBvyXLDZEiIoHaW+OZuKFiEE/eiG5sF5PQeuZ21RvRjtZ56gcfQSv1mcYeWFXbOS/qX6+zjtkpBCwb66OOzgwVAguikuEVgEt6LAoyNXpfffb8QcQBYGuybFFxDbhEnBiVe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ju7VL2t+; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61d3d622a2bso3997247a12.0;
+        Fri, 05 Sep 2025 02:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757066328; x=1757671128; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Fbkrslrl/U4EHGtpNkUJapA11UFx/rFpQL4PlMt2+o=;
+        b=Ju7VL2t+yE45YjZPcFLMqEBvgyXRKiYbvbgLNNZRphjEFwfpZcwS4fvmI0k6roSAKl
+         /V6XDy/i9hptqFECLx3d+++AbyPKYLcWg1C6KrMmWbe303e2V2TIeu6RC7cRSFDD5TqY
+         9/3efbb1buRTSFM2eBykAPR9NTexuFKI05DbcsG/jcwjvOk6BRfzphMT1JxTiHxpKom9
+         1NOCh0pJp3aIHYCYHWmiorUBrTPQWMV2gP4QjIMb/K8xdbYUeAXweBhRKlDe/PtskEuK
+         jUPckMfqTjt+0Xbwcda5QkOsmfADb3KbTOIb2zpD7k4/UflsmEKxQoFBuoESbYfbJkVB
+         6K9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757066328; x=1757671128;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/Fbkrslrl/U4EHGtpNkUJapA11UFx/rFpQL4PlMt2+o=;
+        b=XGUbKioqqbwv+k9M5etEzYqQKkhl7+1bA1N8c8Z3WWNA/y63VQ7g5aeIxIYuVV7Nxj
+         X0V/Uy6MYk/BqKg5vetCr9L31qY3W8RdRPYuIGYm2b/TY67tHlCeJ9aVpOC27aWxOPHt
+         qUwk64+QmF2gkMuvqPf+R4J0KK7hAnn0bgQB6Q08kwpGmgyKT+eFJ5XYhnIkC7/203oI
+         YrJjFkfnzEBloQw3kqtPUreW++GL06LIimguitGjHE92IZ83gW0PT4VLCZtty2d8BwBx
+         4xRUQANyKshe66+nBE97TdXaaQ6CVtojzadOs5depRc82105aPk8HrElwWufT+UVn/cw
+         m2lw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5TusZsWvANO5QZpBXjLiJwxhew1dnrOoc7dllKEzE7eckRu1bUWFnp/aUR+pw4qmN0zxzuFTNAHOg6zQxjw==@vger.kernel.org, AJvYcCUlOK3CKTpXbnnS0tyubxPjZO5EQlCze+ekMjTFAbNtyNdkOYZoJXlPooKsIt0JJCEf/3ICocNdH1WOY9sg@vger.kernel.org, AJvYcCVbNTTXsf2TIF5N1c6KeavA8WNATQ28zP0HpKx5VywvKCwzd154IyQWj5wLFBPCeo1RKIFOl6Fhkx/LMA==@vger.kernel.org, AJvYcCWW7HOUcEp+pHWlBK60JShV2u18zwJkXwokE99xuW/X7r6Z3v9iXV8eAKUvh21Z2OJvs38dyvxHFHH5L6A=@vger.kernel.org, AJvYcCXa/d6LaBGz9hn5qX4R5J5PSkuieBTP6JVfqLyYmVxyJhzbJjuoysiG+Ls8FFyzZziMFrYktiiXQgaq@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH99YiwiSHCOuig6bKEw9pCBV3TAN2o8UKGuhXyjH3QTcfaRCo
+	PDOHpMj3Em+8iisF5D829NanknmSzjkLnzo//XrCqZkUsn7YDNoM6AzW+2bY+kiRMmZ+yN7RrIe
+	4lMMZd+QYh8yhp5N2DjzqXQPEJG+Cnl8=
+X-Gm-Gg: ASbGncsRIz13No41OSggY9WfDCX/gggjUAAWmT5V1hd1MeitwwrcnLA/LfE2xz9mJB+
+	FXvR37bk9B8WNk6r6t4jXHukU/JkEfN0eFdhmpGZURaiyGjUkQ3oz9q6Uw/QNv5cNkLDmezJnwC
+	ICY434PloAlLr5BheBEvuDE7dTEN5gHq7CbFcUJo+SrD3rbVSzFMNzVszMqTjmYAMJBdabmgsPQ
+	/pXAWoYYftoaKH2kP+r
+X-Google-Smtp-Source: AGHT+IG+T0I2sVJ76wcpIaEPBSRBiZu3omKGiXauTUn6MdjpxAu1nCa0lZ8hdCy65HkLKv48pMVIExJVfsOtu7NoIlE=
+X-Received: by 2002:a17:906:b24e:b0:afd:eb4f:d5d2 with SMTP id
+ a640c23a62f3a-b04931b6715mr244720966b.31.1757066327695; Fri, 05 Sep 2025
+ 02:58:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-leds-v2-4-ed8f66f56da8@vinarskis.com>
-References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
-In-Reply-To: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Aleksandrs Vinarskis <alex@vinarskis.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1667; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=edWT6KdBWyksJJHrbWQQWgcHw91Jmbb/HxPT7wxRo/w=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBm7ZtQn+QrvYmBferxhro26SRLDQ/c7UwVnzq4QytJWM
- OleJRreUcrCIMbFICumyNL952ta16K5axmua3yDmcPKBDKEgYtTACYS957hn+UtoyaP4xP8Ikv5
- vZlWvHkX0snO9OXInZqTnK8jD8p4PWFk2BPx1l09o+pyA2/fxKd/6kMUi9tzTM7zuU2y+ZU1a+k
- VZgA=
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com> <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
+In-Reply-To: <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 5 Sep 2025 12:58:11 +0300
+X-Gm-Features: Ac12FXxgVWw8at73QOgiZhDzD-M5RC_p2kCHNqId-Qnd1EcmDzHOPtVe7B7RZ5s
+Message-ID: <CAHp75VfSoDHX-zy3Kdk0=oBA64mKddXqHh7v6RwfzRJo8Az_1A@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] leds: led-class: Add devicetree support to led_get()
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Jacopo Mondi <jacopo@jmondi.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Leverage newly introduced 'leds' and 'led-names' properties to pass
-indicator's phandle and function to v4l2 subnode. The latter supports
-privacy led since couple of years ago under 'privacy-led' designation.
-Unlike initially proposed trigger-source based approach, this solution
-cannot be easily bypassed from userspace, thus reducing privacy
-concerns.
+On Fri, Sep 5, 2025 at 11:00=E2=80=AFAM Aleksandrs Vinarskis <alex@vinarski=
+s.com> wrote:
 
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+> Add 'name' argument to of_led_get() such that it can lookup LEDs in
+> devicetree by either name or index.
+>
+> And use this modified function to add devicetree support to the generic
+> (non devicetree specific) [devm_]led_get() function.
+>
+> This uses the standard devicetree pattern of adding a -names string array
+> to map names to the indexes for an array of resources.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..03801b174713cb9962c10072a73e9516abc45930 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -83,15 +83,11 @@ leds {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_indicator_en>;
- 
--		led-camera-indicator {
--			label = "white:camera-indicator";
-+		privacy_led: privacy-led {
- 			function = LED_FUNCTION_INDICATOR;
- 			color = <LED_COLOR_ID_WHITE>;
- 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
--			linux,default-trigger = "none";
- 			default-state = "off";
--			/* Reuse as a panic indicator until we get a "camera on" trigger */
--			panic-indicator;
- 		};
- 	};
- 
-@@ -685,6 +681,9 @@ camera@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_rgb_default>;
- 
-+		led-names = "privacy-led";
-+		leds = <&privacy_led>;
-+
- 		clocks = <&camcc CAMCC_MCLK3_CLK>;
- 
- 		orientation = <0>;	/* Front facing */
+...
 
--- 
-2.48.1
+> +       if (dev->of_node) {
 
+This check is not needed.
+
+Currently of_led_get() returns -ENOENT if the np is NULL or index is
+invalid (negative value).
+Same will be with the added index search as in case of error it will
+hold a negative value.
+
+> +               led_cdev =3D of_led_get(dev->of_node, -1, con_id);
+> +               if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) !=3D -ENOENT)
+> +                       return led_cdev;
+> +       }
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
