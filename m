@@ -1,205 +1,152 @@
-Return-Path: <linux-leds+bounces-5425-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5426-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FA4B47E47
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Sep 2025 22:22:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728A4B48135
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Sep 2025 01:18:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAA1D189F6B8
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Sep 2025 20:22:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD66D17D3EC
+	for <lists+linux-leds@lfdr.de>; Sun,  7 Sep 2025 23:18:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F11120E005;
-	Sun,  7 Sep 2025 20:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4525223278D;
+	Sun,  7 Sep 2025 23:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LlxKO0JV"
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="K8LcTonE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-244107.protonmail.ch (mail-244107.protonmail.ch [109.224.244.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAD7189BB0;
-	Sun,  7 Sep 2025 20:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742D4139D1B;
+	Sun,  7 Sep 2025 23:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757276539; cv=none; b=eGx4pWfinA7HAX1/p7vAVCBZ+SV5c85n1Q+6lvhT/iTSqVMlMtx+pVkGgQWflgrnGE0QiZTJ46n6DAaPysGmUy8XMKJUGZXvNLi1s5CBm07jzdZpzg5CsOhtHnE37OwOOpzgtb5TXiORI+KLnkPnrYq/JcLFpaqrQbQniU98Rnk=
+	t=1757287107; cv=none; b=faBwerMswXLBWGKwtimDqR4SmXWYHl51+RrDyj6xQxIogobNrb4bBgA4ORGnaUxqJcg6TgBWLXqYbymC7cZZUKV+ESrKYS6GdAG18xmQDgYV8+U6v7mt9YTWAhDe7ih+PhefYsNISKUTQrPbODJm+8njwMYggZf90miW670rOxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757276539; c=relaxed/simple;
-	bh=1yLKb+iIj/Mee0xM+qiAWihAxtTjpZ1rDSvsMvY5ahM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MHJArCrwbdGWw8nE2fOagZLyDKURYtJEylQszhZ6StWdhPsM5NBy4dcVEqWEsndJ7ZuUeeFq1tL4Ofqgcto12vRuXN2tDcAFHS1lTvfq3eLiYgrKGDHnq0a+iF7C+Rc1AWSZXgX3K1eTDiQaqapBw67V/+M7INPPaR0gJ1NN5C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LlxKO0JV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C89DD19E7;
-	Sun,  7 Sep 2025 22:21:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757276463;
-	bh=1yLKb+iIj/Mee0xM+qiAWihAxtTjpZ1rDSvsMvY5ahM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LlxKO0JV1BZb6cxVGr+8qJ/PloH9pCgqKwAZR2bPH6jB0EVefJAvC0rtA8qcBF7ch
-	 5wizFr4py4VmeVy4iVl6ozkO49Na902fbJrhjPBo11oCBf/fC/W1uCepbXmcTk1xUE
-	 r1yxkg9eqp7Fui3lzNxNOOQgAKynS1GRFGwAU/qQ=
-Date: Sun, 7 Sep 2025 22:21:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v7 07/10] media: i2c: ov9282: add strobe_duration v4l2
- control
-Message-ID: <20250907202154.GE19568@pendragon.ideasonboard.com>
-References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
- <20250901-ov9282-flash-strobe-v7-7-d58d5a694afc@linux.dev>
- <aLYISb07ziGDmFGS@kekkonen.localdomain>
- <uzgdukvgqkpg5koehz6kzxg6dfjes7p5ntd5oyqgqpr7gz5otd@ykwax6c2bo6x>
- <20250907201839.GC19568@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1757287107; c=relaxed/simple;
+	bh=k8iX8f1s+IR8AvU1agIi/j65Y7bAoHiH3WV53x45EE4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tyOmXKqkRLTkSEQKrZ96em3iioJiBLy/gJIDRx0dXjv3zJzS2lq6ppWof4huGts793hx+Wc9LkYWmcuzDu4NNFovdnl3y7NUimIoknJvQBxOF0020CQzFcNSXP3VqHoM8+PXwC/HjcrZe0TTZ/TXkHfB1nSvpRlc2bbvlenj4jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=K8LcTonE; arc=none smtp.client-ip=109.224.244.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+	s=protonmail; t=1757287096; x=1757546296;
+	bh=E8FRq9d04k6YYbAmL36bn60thwFzL/SsLK8ZOEggcFE=;
+	h=From:Subject:Date:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=K8LcTonEyRrDL6rilzK5+auaZbIX+ZvrF/aZpkI22wFAWucu5YVFFTJpgfeF1sUE0
+	 jvD5ipo7+6negfyQKk7BrMNgWctMtq0icu8wAo3h9xFm4Kf58z6gEP84lX4qLp+az5
+	 lMQ6yVtkJl+QucVcAcvDnQneJW182pz072iMv6eFmPEixhFmq/UUbekFN6PNOCQDPT
+	 X0G2K6j/rzSgDX+qXPbi4HW66W6ZukDqNMf57xfXQZFTcXF7d/xo0R2eFPjoRfWYTu
+	 07ZZfKq62KXnEjBH9Vq64IpFvBBPv1/j6b3RBqvtcXQ4mpmgaQxivmnhcXyAe9+xiX
+	 dq98rf6EbziKQ==
+X-Pm-Submission-Id: 4cKmGZ61Bxz1DF4H
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Subject: [PATCH v3 0/4] leds: privacy-led support for devicetree
+Date: Mon, 08 Sep 2025 01:18:02 +0200
+Message-Id: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250907201839.GC19568@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKoSvmgC/12MQQ7CIBBFr9LMWgxQoejKexgXCFM7UVvDGKJpe
+ ndp48J0+X7+eyMwJkKGQzVCwkxMQ1+g3lQQOt9fUVAsDFpqI/dSiztGFsGq4JrGx+gklOszYUv
+ vJXM6F+6IX0P6LNWs5nUVyEpIsfO1QqWNbuzlmKn3iW/E2zA8YI5k/S+an6iLiNG11rbGRu/W4
+ jRNX3fY3brVAAAA
+X-Change-ID: 20250902-leds-c61c877add80
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2779; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=k8iX8f1s+IR8AvU1agIi/j65Y7bAoHiH3WV53x45EE4=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBn7hDboOuU/Y7Bm/5y71XeXBfdSc5V2Vi/Ow+FbL5qZv
+ e48qqneUcrCIMbFICumyNL952ta16K5axmua3yDmcPKBDKEgYtTACaytoXhn96TVc9UZy/TC2La
+ fNx82s47pzXi7plIH1RhO+Nycu+K52cYGeYbHT5ebGvptf1JsyOfAGNretiVtbK30qpnTL35MX6
+ eKw8A
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
-On Sun, Sep 07, 2025 at 10:18:40PM +0200, Laurent Pinchart wrote:
-> On Wed, Sep 03, 2025 at 08:54:42AM +0200, Richard Leitner wrote:
-> > On Mon, Sep 01, 2025 at 11:55:37PM +0300, Sakari Ailus wrote:
-> > > On Mon, Sep 01, 2025 at 05:05:12PM +0200, Richard Leitner wrote:
-> > > > Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
-> > > > feature of the sensor. This is implemented by transforming the given µs
-> > > > value by an interpolated formula to a "span step width" value and
-> > > > writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
-> > > > PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
-> 
-> You name the register OV9282_REG_FLASH_DURATION below. Is
-> "FLASH_DURATION" a term found in the datasheet ?
-> 
-> > > > 
-> > > > The maximum control value is set to the period of the current default
-> > > > framerate.
-> 
-> Should it be adjusted based on the sensor configuration ?
+Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+LEDs has landed, but the DT part was left out. Introduce missing
+dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+enable privacy-led on Lenovo Thinkpad x13s.
 
-I've now noticed patch 10/10.
+With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+mostly use MIPI cameras, this feature becomes more desired. Original
+rebased patch is still working as expected (with respective DT changes)
+on Dell XPS 9345.
 
-> > > > 
-> > > > All register values are based on the OV9281 datasheet v1.53 (jan 2019)
-> > > > and tested using an ov9281 VisionComponents module.
-> > > > 
-> > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > > > ---
-> > > >  drivers/media/i2c/ov9282.c | 31 ++++++++++++++++++++++++++++++-
-> > > >  1 file changed, 30 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > > index ff0f69f0dc3a2d0518806b9ea65c1b520b5c55fb..c405e3411daf37cf98d5af3535702f8321394af5 100644
-> > > > --- a/drivers/media/i2c/ov9282.c
-> > > > +++ b/drivers/media/i2c/ov9282.c
-> > > > @@ -97,6 +97,10 @@
-> > > >  #define OV9282_REG_MIPI_CTRL00	0x4800
-> > > >  #define OV9282_GATED_CLOCK	BIT(5)
-> > > >  
-> > > > +/* Flash/Strobe control registers */
-> > > > +#define OV9282_REG_FLASH_DURATION	0x3925
-> > > > +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001a
-> > > > +
-> > > >  /* Input clock rate */
-> > > >  #define OV9282_INCLK_RATE	24000000
-> > > >  
-> > > > @@ -687,6 +691,25 @@ static int ov9282_set_ctrl_flash_hw_strobe_signal(struct ov9282 *ov9282, bool en
-> > > >  				current_val);
-> > > >  }
-> > > >  
-> > > > +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, u32 value)
-> > > > +{
-> > > > +	/*
-> > > > +	 * Calculate "strobe_frame_span" increments from a given value (µs).
-> > > > +	 * This is quite tricky as "The step width of shift and span is
-> > > > +	 * programmable under system clock domain.", but it's not documented
-> > > > +	 * how to program this step width (at least in the datasheet available
-> > > > +	 * to the author at time of writing).
-> > > > +	 * The formula below is interpolated from different modes/framerates
-> > > > +	 * and should work quite well for most settings.
-> > > > +	 */
-> > > > +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
-> 
-> I wonder if the register value ends up being expressed as a number of
-> lines.
-> 
-> > > > +
-> > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
-> > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
-> > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
-> > > > +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
-> 
-> The CCI helpers would make this much simpler.
-> 
-> > > The bitwise and operation is redundant.
-> > 
-> > True. Thanks for the catch!
-> > 
-> > > Could you do this in a single write?
-> > 
-> > I've implemented this in single byte writes due to some "special
-> > behaviour" of the vision components ov9281 modules. On those modules
-> > single byte interactions seem broken in some cases. Maybe Laurent knows
-> > more about this and the current state, as he was/is in contact with VC.
-> > 
-> > See also: https://lore.kernel.org/all/918ce2ca-55ff-aff8-ea6c-0c17f566d59d@online.de/
-> > 
-> > Nonetheless, thanks for the pointer. I haven't documented this
-> > accordingly. I will try to reproduce the issue again and either change
-> > this to a single write or add a describing comment.
-> > 
-> > > Also error handling is (largely) missing.
-> > 
-> > Good catch. Thanks.
-> > 
-> > > > +}
-> > > > +
-> > > >  /**
-> > > >   * ov9282_set_ctrl() - Set subdevice control
-> > > >   * @ctrl: pointer to v4l2_ctrl structure
-> > > > @@ -756,6 +779,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  	case V4L2_CID_FLASH_HW_STROBE_SIGNAL:
-> > > >  		ret = ov9282_set_ctrl_flash_hw_strobe_signal(ov9282, ctrl->val);
-> > > >  		break;
-> > > > +	case V4L2_CID_FLASH_DURATION:
-> > > > +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
-> > > > +		break;
-> > > >  	default:
-> > > >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> > > >  		ret = -EINVAL;
-> > > > @@ -1346,7 +1372,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > >  	u32 lpfr;
-> > > >  	int ret;
-> > > >  
-> > > > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> > > > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-> > > >  	if (ret)
-> > > >  		return ret;
-> > > >  
-> > > > @@ -1414,6 +1440,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > >  	/* Flash/Strobe controls */
-> > > >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
-> > > >  
-> > > > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> > > > +			  0, 13900, 1, 8);
-> > > > +
-> > > >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> > > >  	if (!ret) {
-> > > >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+Changelog to original series:
+- Pick RFC patch, pick R-by, drop RFC-related commit message part
+- Add new DT binding to describe generic LED consumer properties
+- Rebase and test on X1E laptop
 
+[1] https://lore.kernel.org/all/20230120114524.408368-6-hdegoede@redhat.com/
+
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+Changes in v3:
+- Drop unnecessary 'dev->of_node' check by Andy
+- Keep 'panic-indicator;' in DT by Konrad
+- Fix property/property-name order by Konrad
+- Add missing 'led-names' enum definition for video devices by Rob
+- Add oneOf to 'leds' to avoid conflict with nodes of same name by Rob
+- Link to v2: https://lore.kernel.org/r/20250905-leds-v2-0-ed8f66f56da8@vinarskis.com
+
+Changes in v2:
+- Fixed mailing issue
+- Fixed wrong R-by, add my missing sign-off
+- Elaborated cover letter/commits descriptions to better describe why
+  this is needed, and why trigger-source could not be used instead
+- dt-bindings: expanded schema description, fixed s/phandle/phandle-array/,
+  expanded the example
+- dt-bindings: added patch to commonize 'leds' from other schemas
+- leds: dropped wrapper, dropped exporting of private functions
+- dts: added patch to utilize privacy-led on Lenovo Thinkpad x13s
+- Link to v1: https://lore.kernel.org/all/010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com/
+
+---
+Aleksandrs Vinarskis (3):
+      dt-bindings: leds: add generic LED consumer documentation
+      dt-bindings: leds: commonize leds property
+      arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
+
+Hans de Goede (1):
+      leds: led-class: Add devicetree support to led_get()
+
+ .../bindings/leds/backlight/led-backlight.yaml     |  6 +-
+ .../devicetree/bindings/leds/leds-consumer.yaml    | 89 ++++++++++++++++++++++
+ .../bindings/leds/leds-group-multicolor.yaml       |  5 +-
+ .../bindings/media/video-interface-devices.yaml    |  8 ++
+ .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  8 +-
+ drivers/leds/led-class.c                           | 17 ++++-
+ 6 files changed, 118 insertions(+), 15 deletions(-)
+---
+base-commit: 3db46a82d467bd23d9ebc473d872a865785299d8
+change-id: 20250902-leds-c61c877add80
+
+Best regards,
 -- 
-Regards,
+Aleksandrs Vinarskis <alex@vinarskis.com>
 
-Laurent Pinchart
 
