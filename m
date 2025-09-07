@@ -1,205 +1,118 @@
-Return-Path: <linux-leds+bounces-5412-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5413-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0201EB466F7
-	for <lists+linux-leds@lfdr.de>; Sat,  6 Sep 2025 01:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC93B47A6E
+	for <lists+linux-leds@lfdr.de>; Sun,  7 Sep 2025 12:17:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4F665A4A93
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Sep 2025 23:02:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06C6717E4C3
+	for <lists+linux-leds@lfdr.de>; Sun,  7 Sep 2025 10:17:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 786A62BD02A;
-	Fri,  5 Sep 2025 23:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30AB6221F12;
+	Sun,  7 Sep 2025 10:17:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gJR8Peuy"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="rn8DKKPt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-69.smtpout.orange.fr [80.12.242.69])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B6527CB04;
-	Fri,  5 Sep 2025 23:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8573421CA0D;
+	Sun,  7 Sep 2025 10:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757113330; cv=none; b=NXpGzVTo03OQLBQcldKTRq+hrymUwURxlYzzDErNNRAkvr8Efx2TYs2Id50T4e0vX37j9jQNu1/J19pPVmHYLkiYv56kjehx8QKj20pdSNNFHAcLIAQa9bebvK6oUo30pMmZJ7nXrFyBVGjf+LkZaJP3um/O26dziLklAC1Zn6Y=
+	t=1757240247; cv=none; b=ifOcFlOm49wJ6Nz/O3ofFoukSvc8sl9d8KkrasE8seNc+qoCpyAzdecp3ksivK8yaySspjFNl6PW6s0YIN38nIv1UcJ9ZVoCLtMrFseTvUj0OSHKrYxLIqO7Eom1JyJCeuRCGffTxPZrPzcRemEV1IURyWOwZYB/9pHrWZmYmTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757113330; c=relaxed/simple;
-	bh=A+4/RdKySax+tzp4GDPn4PRAlrr/cIuU7Wohf04Emrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NfTO/eTsZcUbsnG/I53y9cFlhIaD4zfZs5vMZFxar1gtjx3oYmhoVaCLnQjSUHLDuZpHivIQBGO5W8MwDYJcHh17CndMgMUE1Tbl1LALpjVPDnL6WmJlzjhTa6pjc1MQ9AwD8pEP0b763HfDd3TyVJk5TIREua9FSVsrF+SS2TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gJR8Peuy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E75C4CEF1;
-	Fri,  5 Sep 2025 23:02:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757113329;
-	bh=A+4/RdKySax+tzp4GDPn4PRAlrr/cIuU7Wohf04Emrs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gJR8Peuy40MtGwzANFz9PbLYWO6HTL+KwUXl8BCSi3g9DFIXW1L3UKNH1X+545mdM
-	 DP18sjIqbsM+dpCD7qMLBv2lsN1pwS7Xr/aMDqEGbEM6zrWV+fedBKT1WlBcE/Tq0u
-	 14NyYaGYukxn9wgLr7ImvCh8+xLcOBn+WIhQjg0JpENWRqzEOaxb2lhwNWB2WgSU9X
-	 6L+Nm8e65pDvfx3wXoDhOjGp0KodUbF9kV9y+RPjs8lTVA8e6SN3r4yQoON+DeBqpT
-	 Wsc4tjSK5EMpUwxbzyS/TLQ+RMqybcObpGQECFOpyVU/v4+KbjMmMBpnosefcpaF8f
-	 PP4fAYdYBqsxg==
-Date: Fri, 5 Sep 2025 18:02:09 -0500
-From: Rob Herring <robh@kernel.org>
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] dt-bindings: leds: commonize leds property
-Message-ID: <20250905230209.GA1423697-robh@kernel.org>
-References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
- <20250905-leds-v2-2-ed8f66f56da8@vinarskis.com>
- <20250905152404.GB953718-robh@kernel.org>
- <Lm6PLaup84KHzhxYTbsrQIbEeQpc6dj65aLkLFvOx7QwvuXS9ON53Csa2v6LBp4hd9iIQilvGhXqx4kXv4cfqgYUeA49vrVdWJw-fNMLu2Y=@vinarskis.com>
+	s=arc-20240116; t=1757240247; c=relaxed/simple;
+	bh=VyLQINgFLxfwpG6Ab3GLfcDxtTMx9J9bYm0a0HSvfNo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BL5Q80vPjMdZWQJGcFIvXheqLCKbO3X/D7Jb5Vj1sUY/aQerOLoW3eDS7pvFRthg4uQ4mzmmnHZdXVwf5O3hBYYBfCkXQ5Tvg1ldg5q6etnRBDs04Y5QUINdMvOCIa9YOthwEsBElawT989/ZSmaiVdPS8FCnf9l12YA25O01gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=rn8DKKPt; arc=none smtp.client-ip=80.12.242.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id vCRRuFMYKVnEZvCRRuvdfD; Sun, 07 Sep 2025 12:16:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1757240173;
+	bh=/8eo79CGIBKMU4I0nlE/+knG5URcycp+FdSO1C7XFNM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=rn8DKKPtX/W8hBMbom+AY6GhwsLKdpzDO4pbxD8GPEUg7CCHvVq/vW28eidYIANYe
+	 EIG9Ow+3n60Q8xeyU+bS698FBWrW28Yilp0UuvTWTJlyzbHmhD7xli5zaibMwwRn6r
+	 AXjcQUgFWCGLRh6IsGx4LjbST9ko/pMt33ICNmjcoxBMx7GXNK8xonucqxxVm3LzRW
+	 znhtLGqRbAAgMzAfngd7bSXU6J0PDpL1hjNFE5tU/V6IekvGx+72kdhSAFH7qAyhfD
+	 24eKgc9EdqcuMwKPbdGZ5tPGu13W7UfRDvj9sIKydcbuFVOWjeKYaqdzh7k//JTkOX
+	 DKiNIBD/3PKcg==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 07 Sep 2025 12:16:13 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-leds@vger.kernel.org
+Subject: [PATCH] leds: is31fl319x: Use devm_mutex_init()
+Date: Sun,  7 Sep 2025 12:16:09 +0200
+Message-ID: <267aba6eab12be67c297fcd52fcf45a0856338bb.1757240150.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Lm6PLaup84KHzhxYTbsrQIbEeQpc6dj65aLkLFvOx7QwvuXS9ON53Csa2v6LBp4hd9iIQilvGhXqx4kXv4cfqgYUeA49vrVdWJw-fNMLu2Y=@vinarskis.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 05, 2025 at 04:48:52PM +0000, Aleksandrs Vinarskis wrote:
-> On Friday, September 5th, 2025 at 17:24, Rob Herring <robh@kernel.org> wrote:
-> 
-> > 
-> > 
-> > On Fri, Sep 05, 2025 at 09:59:30AM +0200, Aleksandrs Vinarskis wrote:
-> > 
-> > > A number of existing schemas use 'leds' property to provide
-> > > phandle-array of LED(s) to the consumer. Additionally, with the
-> > > upcoming privacy-led support in device-tree, v4l2 subnode could be a
-> > > LED consumer, meaning that all camera sensors should support 'leds'
-> > > and 'led-names' property via common 'video-interface-devices.yaml'.
-> > > 
-> > > To avoid dublication, commonize 'leds' property from existing schemas
-> > > to newly introduced 'led-consumer.yaml'.
-> > > 
-> > > Signed-off-by: Aleksandrs Vinarskis alex@vinarskis.com
-> > > ---
-> > > .../devicetree/bindings/leds/backlight/led-backlight.yaml | 7 +------
-> > > Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml | 6 +-----
-> > > .../devicetree/bindings/media/video-interface-devices.yaml | 3 +++
-> > > 3 files changed, 5 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> > > index f5554da6bc6c73e94c4a2c32b150b28351b25f16..5e19b4376715eeb05cb789255db209ed27f8822f 100644
-> > > --- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> > > @@ -18,17 +18,12 @@ description:
-> > > 
-> > > allOf:
-> > > - $ref: common.yaml#
-> > > + - $ref: /schemas/leds/leds-consumer.yaml#
-> > 
-> > 
-> > Drop.
-> > 
-> > > properties:
-> > > compatible:
-> > > const: led-backlight
-> > > 
-> > > - leds:
-> > > - description: A list of LED nodes
-> > > - $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > - items:
-> > > - maxItems: 1
-> > 
-> > 
-> > You need to keep the property here:
-> > 
-> > leds: true
-> > 
-> > > -
-> > > required:
-> > > - compatible
-> > > - leds
-> > > diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> > > index 8ed059a5a724f68389a1d0c4396c85b9ccb2d9af..b4f326e8822a3bf452b22f5b9fa7189696f760a4 100644
-> > > --- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> > > +++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> > > @@ -17,16 +17,12 @@ properties:
-> > > compatible:
-> > > const: leds-group-multicolor
-> > > 
-> > > - leds:
-> > > - description:
-> > > - An aray of monochromatic leds
-> > > - $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > -
-> > > required:
-> > > - leds
-> > > 
-> > > allOf:
-> > > - $ref: leds-class-multicolor.yaml#
-> > > + - $ref: /schemas/leds/leds-consumer.yaml#
-> > 
-> > 
-> > 
-> > Same comments in this one.
-> > 
-> > > unevaluatedProperties: false
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> > > index cf7712ad297c01c946fa4dfdaf9a21646e125099..1e25cea0ff71da2cfd1c7c4642713199f3542c0a 100644
-> > > --- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> > > @@ -10,6 +10,9 @@ maintainers:
-> > > - Jacopo Mondi jacopo@jmondi.org
-> > > - Sakari Ailus sakari.ailus@linux.intel.com
-> > > 
-> > > +allOf:
-> > > + - $ref: /schemas/leds/leds-consumer.yaml#
-> > 
-> > 
-> > This can be dropped. The user still has to define how many entries and
-> > what the values of led-names are.
-> 
-> Hmm, but where should it be added then? If I just drop it, MIPI 
-> camera schemas which are based on 'video-interface-devices.yaml' and 
-> have 'unevaluatedProperties: false' throw warnings because 'leds' was 
-> not expected. Including the example in 'led-consumer.yaml' as found 
-> by your bot (because of patch order your bot only run on 1/4, adding 
-> this very change fixes it).
+Use devm_mutex_init() instead of hand-writing it.
 
-> In this case, v4l2 subnode is the LED user, which is some camera. It 
-> seems most/all of these cameras are based on this binding, so instead 
-> of adding new led related properties to all of them, I thought this 
-> is a good common place for it... Shall I add #entries and available 
-> options for 'led-names' here to make it complete?
+This saves some LoC, improves readability and saves some space in the
+generated .o file.
 
-Every camera doesn't have the same LEDs, so you have to define exactly 
-what's there for each one. If you want to do it in 
-video-interface-devices.yanl, then you are standardizing it for 
-everyone. Maybe that's fine? If so, you need something like:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  20011	   6752	    128	  26891	   690b	drivers/leds/leds-is31fl319x.o
 
-leds:
-  minItems: 1
-  maxItems: 2
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  19715	   6680	    128	  26523	   679b	drivers/leds/leds-is31fl319x.o
 
-led-names:
-  items:
-    enum:
-      - flash
-      - privacy
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/leds/leds-is31fl319x.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-Rob
+diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319x.c
+index 27bfab3da479..e411cee06dab 100644
+--- a/drivers/leds/leds-is31fl319x.c
++++ b/drivers/leds/leds-is31fl319x.c
+@@ -483,11 +483,6 @@ static inline int is31fl3196_db_to_gain(u32 dezibel)
+ 	return dezibel / IS31FL3196_AUDIO_GAIN_DB_STEP;
+ }
+ 
+-static void is31f1319x_mutex_destroy(void *lock)
+-{
+-	mutex_destroy(lock);
+-}
+-
+ static int is31fl319x_probe(struct i2c_client *client)
+ {
+ 	struct is31fl319x_chip *is31;
+@@ -503,8 +498,7 @@ static int is31fl319x_probe(struct i2c_client *client)
+ 	if (!is31)
+ 		return -ENOMEM;
+ 
+-	mutex_init(&is31->lock);
+-	err = devm_add_action_or_reset(dev, is31f1319x_mutex_destroy, &is31->lock);
++	err = devm_mutex_init(dev, &is31->lock);
+ 	if (err)
+ 		return err;
+ 
+-- 
+2.51.0
+
 
