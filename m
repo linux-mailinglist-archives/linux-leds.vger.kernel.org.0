@@ -1,144 +1,141 @@
-Return-Path: <linux-leds+bounces-5434-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5435-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905D6B48A84
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Sep 2025 12:47:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8B1B48C5A
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Sep 2025 13:38:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99C301B2600D
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Sep 2025 10:48:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E76831B259EE
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Sep 2025 11:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C46220F34;
-	Mon,  8 Sep 2025 10:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A642E22BF;
+	Mon,  8 Sep 2025 11:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="rHRRoMKi"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hK+SkrDw"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-24421.protonmail.ch (mail-24421.protonmail.ch [109.224.244.21])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2271DB154
-	for <linux-leds@vger.kernel.org>; Mon,  8 Sep 2025 10:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6741E1E19;
+	Mon,  8 Sep 2025 11:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757328464; cv=none; b=dhQq+WHryUSSvoFkKuLgU3ZIhRNHUEtq8so1ASZJuFFp6d8ZA7jzWsK8ffIjOJsMsEKek1KS4CqamC4FVyHc1bFzuAfh5tx+tQH+dwXTVTe2kQlQQZtDdnK0G526yLACjatLUDRlTzjIykxXCcIkieKH7T4lcaQ89aI1+4LdTHc=
+	t=1757331529; cv=none; b=GvmA3k6EDLTxAXDmEWXTIN4+SncMc6d03HXtJVvdDsuI6fJqLai/h218C91DPqAf9NoOQT7KpWXhiuJidmnYHlyAPPrdhCtE7sNV2Fb5aHiFeGQLqHXOQYWHgLdF8ZhLJjSXBVC/Gnc+Jd7i5IFYWPgXvi/zCZqBx6/KpRbYmAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757328464; c=relaxed/simple;
-	bh=GRAURU3Mqaf7KaktvQ1n9Gicg1JGR9+tA9y0iqtZSrw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ETiGMzTvkOVDmG7RPtdJnsdEchz3AYm8YKiSny03iAL4/G47ZKO0QtTYpOmxTWenYvdAt2ZZQw07tZMlVNt9D+0/hM+ZS5OXVai3h2nG0IG+M1t+CGTObh6WH+65SRuml1KUeIL2G/J9u7qdOY86pqtoDFKNv9UFzWymivQSCJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=rHRRoMKi; arc=none smtp.client-ip=109.224.244.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757328453; x=1757587653;
-	bh=GRAURU3Mqaf7KaktvQ1n9Gicg1JGR9+tA9y0iqtZSrw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=rHRRoMKiSM2IqxK/L4hzKFWIdzT4Omy5CUfdK75ZKOXkMBT44K9qh4djCHzv13vWS
-	 8y3TlB8Rr+MyqrLJlMv/Prh0+2eBS6smgYdNjK+7xjgCvb9PgeX+81cgPcPEHgp38y
-	 rajgb0ozlR2a6pNhphhRxkS2n9+6c0vGTHVCu3cZMkvIy3QdsVEb1r45mHFLvXj5ee
-	 P7vPxuBWlZIoqmaUkg+C6atj89phdhgsB8bW59T7QecoDbVoKN3HXF0m/XaM7dFfTU
-	 4/J/VZXNHFAgOZUEUFGJjvlbD+XK1cyoavMuQc6FmyNizU6VRx2SLNm/5RJ4DbY3eb
-	 QBy9qg40q+HcQ==
-Date: Mon, 08 Sep 2025 10:47:27 +0000
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
-Message-ID: <dMbLo1ph9fkRREvsauWvJiPeAWXSJwCHx1dgUC_1xcJvDPjOzydsGiEUipaM_KZqeiwgacNxZbAvSLndg1jo2LnFaKcnFJK72S-NFtjuHOA=@vinarskis.com>
-In-Reply-To: <39b955b9-a152-458a-8e09-908efebaaccd@oss.qualcomm.com>
-References: <20250908-leds-v3-0-5944dc400668@vinarskis.com> <20250908-leds-v3-2-5944dc400668@vinarskis.com> <0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com> <046b289d-b6a5-45f9-88b1-090e2ab7c95d@kernel.org> <39b955b9-a152-458a-8e09-908efebaaccd@oss.qualcomm.com>
-Feedback-ID: 158356072:user:proton
-X-Pm-Message-ID: bdeaa268caab16c72c28850bbc5c56704aa415ad
+	s=arc-20240116; t=1757331529; c=relaxed/simple;
+	bh=78HQTbMxkxICVwNrNUz/nBn6v8URdG0pSjB6Se329gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jQO/cryCljdlqaLg9zzsIsxoi7VW2r0fpktasmdVlmbF6PwSIwDdu5H2BclsZdX+osVbMaBkWyOV+6pJ9adXZofAohZkcS0Rv90MTlhFSW16T7a+GrueNoIEPyXXDac5UJZiAmHWUBPMrOZOFtNhbRNWdWWmg+OFXlNU6jnCoLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hK+SkrDw; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Mon, 8 Sep 2025 13:38:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757331525;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HM+3u8vSgO7cECxpJBI6TasYUQutn7K+Scs1YfDyRPM=;
+	b=hK+SkrDw8cFmp4A8S6xqcyzYQKVshAka7iQlthmE/qCWs5LXnOIQOQ466ervxGpOkdpw3V
+	evm03lABFeZ4IBUhCrJukTAKS5gnurvb2S44SEAGbehFF9Iy3xT+SpwTopeYIONFwieP7A
+	ej3Zxc9VFPniIuiroTKIxMOa2CK4odg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v7 08/10] media: i2c: ov9282: add strobe_source v4l2
+ control
+Message-ID: <pr42kk7pxmj7p5sdakgqgu5f2kacifublyjn5cp3nkfjqivub7@czcsi2da6nmi>
+References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
+ <20250901-ov9282-flash-strobe-v7-8-d58d5a694afc@linux.dev>
+ <20250907202049.GD19568@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250907202049.GD19568@pendragon.ideasonboard.com>
+X-Migadu-Flow: FLOW_OUT
 
+Hi Laurent,
 
+thanks for your feedback!
 
+On Sun, Sep 07, 2025 at 10:20:49PM +0200, Laurent Pinchart wrote:
+> Hi Richard,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Sep 01, 2025 at 05:05:13PM +0200, Richard Leitner wrote:
+> > Add read-only V4L2_CID_FLASH_STROBE_SOURCE control. Its value is fixed
+> > to V4L2_FLASH_STROBE_SOURCE_EXTERNAL as the camera sensor triggers the
+> > strobe based on its register settings.
+> 
+> I don't think you should implement this control in the sensor driver. It
+> should only be implemented in the flash controller driver to select the
+> source.
 
+Totally true. This was introduced in the first version of this series to
+enable the flash output. Now as we have V4L2_CID_FLASH_STROBE_SOURCE (or
+however it will be named finally) this, for no reason, became a read-only
+property. This shouldn't be there at all.
 
+Thanks for the catch. I will remove it from the series!
 
-On Monday, September 8th, 2025 at 09:36, Konrad Dybcio <konrad.dybcio@oss.q=
-ualcomm.com> wrote:
+> 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > ---
+> >  drivers/media/i2c/ov9282.c | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index c405e3411daf37cf98d5af3535702f8321394af5..9efc82a1929a76c6fb245e7dbfb5276a133d1c5d 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -1368,11 +1368,12 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
+> >  	const struct ov9282_mode *mode = ov9282->cur_mode;
+> >  	struct v4l2_fwnode_device_properties props;
+> > +	struct v4l2_ctrl *ctrl;
+> >  	u32 hblank_min;
+> >  	u32 lpfr;
+> >  	int ret;
+> >  
+> > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
+> > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 13);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > @@ -1443,6 +1444,14 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> >  			  0, 13900, 1, 8);
+> >  
+> > +	ctrl = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
+> > +				      V4L2_CID_FLASH_STROBE_SOURCE,
+> > +				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL,
+> > +				      ~(1 << V4L2_FLASH_STROBE_SOURCE_EXTERNAL),
+> > +				      V4L2_FLASH_STROBE_SOURCE_EXTERNAL);
+> > +	if (ctrl)
+> > +		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > +
+> >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+> >  	if (!ret) {
+> >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
->=20
->=20
-> On 9/8/25 9:33 AM, Hans de Goede wrote:
->=20
-> > Hi,
-> >=20
-> > On 8-Sep-25 09:20, Konrad Dybcio wrote:
-> >=20
-> > > On 9/8/25 1:18 AM, Aleksandrs Vinarskis wrote:
-> > >=20
-> > > > A number of existing schemas use 'leds' property to provide
-> > > > phandle-array of LED(s) to the consumer. Additionally, with the
-> > > > upcoming privacy-led support in device-tree, v4l2 subnode could be =
-a
-> > > > LED consumer, meaning that all camera sensors should support 'leds'
-> > > > and 'led-names' property via common 'video-interface-devices.yaml'.
-> > > >=20
-> > > > To avoid dublication, commonize 'leds' property from existing schem=
-as
-> > > > to newly introduced 'led-consumer.yaml'.
-> > > >=20
-> > > > Signed-off-by: Aleksandrs Vinarskis alex@vinarskis.com
-> > > > ---
-> > >=20
-> > > [...]
-> > >=20
-> > > > + leds:
-> > > > + minItems: 1
-> > > > + maxItems: 1
-> > >=20
-> > > My brain compiler suggests this will throw a warning (minItems should
-> > > be redundant in this case)
+thanks again!
 
-No complaints when running `dt_bindings_check` on this nor the camera senso=
-r
-that uses this binding. I thought it would be better to keep it even though
-right now only one LED is supported, so that when `led-names` are extended
-with new functions, one can just bump maxItems and not accidentally forget
-to introduce minItems. No strong opinion though, perhaps Rob can decide
-since he is the one that suggested to add minItems,maxItems that I didn't
-think of?
-
-> > >=20
-> > > > +
-> > > > + led-names:
-> > > > + enum:
-> > > > + - privacy-led
-> > >=20
-> > > Nit: "privacy" makes more sense without the suffix, as we inherently
-> > > know this is supposed to be an LED
-> >=20
-> > Note "privacy-led" as name is already used on the x86/ACPI side and
-> > the code consuming this will be shared.
-> >=20
-> > With that said if there is a strong preference for going with just
-> > "privacy" the x86 side can be adjusted since the provider-info is
-> > generated through a LED lookup table on the x86/ACPI side. So we can
-> > just modify both the lookup table generation as well as the already
-> > existing led_get(dev, "privacy-led") call to use just "privacy"
-> > without problems.
->=20
->=20
-> In that case, it may be cleaner to just go with what we have today
-> (unless the dt maintainers have stronger opinions)
-
-Sounds good, thanks both for the feedback.
-
-Alex
-
->=20
-> Konrad
+regards;rl
 
