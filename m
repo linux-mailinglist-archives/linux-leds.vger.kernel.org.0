@@ -1,135 +1,215 @@
-Return-Path: <linux-leds+bounces-5477-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5478-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73ADB51673
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 14:02:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEB2B51681
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 14:05:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EADC85673F5
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 12:02:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F30023AE20D
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 12:05:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B32131A576;
-	Wed, 10 Sep 2025 12:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="nxKIfJms"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4071228CF5E;
+	Wed, 10 Sep 2025 12:05:11 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-43172.protonmail.ch (mail-43172.protonmail.ch [185.70.43.172])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9564831A541;
-	Wed, 10 Sep 2025 12:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFED428725D;
+	Wed, 10 Sep 2025 12:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757505697; cv=none; b=DBTxQfPmBGVsJ5o5jFyrExhp8zbveWAj9wJJv/WnVLA67sO+6QeEpbZTJ2kYuyJSzu/PRl3aHEBGc0nlFYXadD6Jz8BhpFBSRNU0/IHSMe2YQQ43VVwMITnRiKygGf1/RbAp+Djh4lWsLVxl6McLYcEmrQmomaoZLAwoFAcgSu8=
+	t=1757505911; cv=none; b=VBMYhT7K2h8oagdbU+VlFWDn9GNeYE/eTGub+ai052EvjJ0AyVDekkTCymLWtd5cgnNt88AZYFjldjn9F7nNbZ1VEDYMoiln1K/RLvjP6BO5wHmhGE9FNb5mjM9Hy1AjLLDbdxNY107bo9jA60dGdNK6lkU/3uNH4jLb+a/oOX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757505697; c=relaxed/simple;
-	bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rxSDRm8ua2DAZPHm+HWoB28wbZMgrBSpxHY7TQyajRThobv8R89aE7LEDG6iGorpCzgN//5uttV2B3kHt1W5JiN7lDreKLanLpdLf5RbI5YqrfdrmDPWGwy+kykh4ialP6ebhqHsLTVh65Nj2xkBHkrACli36b2dvKcGPBfSzSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=nxKIfJms; arc=none smtp.client-ip=185.70.43.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757505693; x=1757764893;
-	bh=WVAZkSDamM6pxbj/GVHH3PYvdQm8SxrqzkK9f4jXnr4=;
-	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=nxKIfJms1/EPDF2HS5xwwb92MGQcXOgW2xAGSYKO/aN/nXCtVgdV3Enh+sRkKQUCW
-	 GJKVFanLebo5nyF8tsDPxP1ZcVI7WkSVHgCdJ24MF70Jgfj415Q68R6DMCv6/DXkRV
-	 621U8c31AWGcuCDgahqmXkLmctcUaynRXqFKJTrXtEvOwpMGKzjesvdHy0EgwhIHOR
-	 7+oNt9iwzgFR3DuHD57ZitUZokapfRDD8/hnyw4C98CSHb/7o/Vb792ZawfF9K5t6c
-	 iFulP+8RheD46veqhco7YwO7VdCyJ4v/ArX+4evMd1H55kzMxZsiOtJfcRbIBs82Q9
-	 uaY5OE7SPUUIw==
-X-Pm-Submission-Id: 4cMK6L5h8sz2ScCs
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Wed, 10 Sep 2025 14:01:11 +0200
-Subject: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
+	s=arc-20240116; t=1757505911; c=relaxed/simple;
+	bh=bdzDIfJAO9naVesO5ghAegwF290w/9cda2jd2nwY0wg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:Cc:
+	 In-Reply-To:Content-Type; b=AjriitSNtjD8MjdYjlI4UssuOqJF0JiFxaTFCOZ59g6Bd7AJKgUE6L2S7crqYkvPY+bBEHd47dRGYRmDa0nq3aEETW+LQEZRoWCbDf8iBibZFZr/nqwzW/9PHs2HPjRMYy6umZKNpsWlquYudA3zyzFIiFdMuyqiPlYX+yW9zd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cMKBM1ygYz9tSL;
+	Wed, 10 Sep 2025 14:04:59 +0200 (CEST)
+Message-ID: <b4d2866d-e391-4230-a07d-05854456c185@timmermann.space>
+Date: Wed, 10 Sep 2025 14:04:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+From: Lukas Timmermann <linux@timmermann.space>
+Subject: Re: [PATCH v8 2/2] leds: as3668: Driver for the ams Osram 4-channel
+ i2c LED driver
+To: Lee Jones <lee@kernel.org>
+References: <20250808213143.146732-1-linux@timmermann.space>
+ <20250808213143.146732-3-linux@timmermann.space>
+ <20250902075037.GA2163762@google.com>
+ <886ea017-7b40-43e8-a366-9e890b10c0f8@timmermann.space>
+ <20250902120944.GJ2163762@google.com>
+Content-Language: en-US, de-DE
+Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250902120944.GJ2163762@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Aleksandrs Vinarskis <alex@vinarskis.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHMyZI+928Yv/w+vEmlnVHGMUzT96w4z3xpjjAf0fiw
- iVm4VeVOkpZGMS4GGTFFFm6/3xN61o0dy3DdY1vMHNYmUCGMHBxCsBEonYzMry5dl/8gPvelMuL
- ZLWYY9kOrpq5e/+lqzohM8uP/ZuRVOjKyHCOm938QuKrFRNtdtgKT1mwYN7krlWSkpJ53VV+hR9
- ipHgB
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
-Leverage newly introduced 'leds' and 'led-names' properties to pass
-indicator's phandle and function to v4l2 subnode. The latter supports
-privacy led since couple of years ago under 'privacy-led' designation.
-Unlike initially proposed trigger-source based approach, this solution
-cannot be easily bypassed from userspace, thus reducing privacy
-concerns.
+I'm sorry for the last message. It was sent incorrectly. Here is a fixed 
+version.
 
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4fec8c1d1f20ee525bc 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -83,14 +83,11 @@ leds {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_indicator_en>;
- 
--		led-camera-indicator {
--			label = "white:camera-indicator";
-+		privacy_led: privacy-led {
- 			function = LED_FUNCTION_INDICATOR;
- 			color = <LED_COLOR_ID_WHITE>;
- 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
--			linux,default-trigger = "none";
- 			default-state = "off";
--			/* Reuse as a panic indicator until we get a "camera on" trigger */
- 			panic-indicator;
- 		};
- 	};
-@@ -685,6 +682,9 @@ camera@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_rgb_default>;
- 
-+		leds = <&privacy_led>;
-+		led-names = "privacy";
-+
- 		clocks = <&camcc CAMCC_MCLK3_CLK>;
- 
- 		orientation = <0>;	/* Front facing */
-
--- 
-2.48.1
-
+On Tue, 02 Sep 2025, Lee Jones wrote:
+> On Tue, 02 Sep 2025, Lukas Timmermann wrote:
+> 
+>> On Tue, 02 Sep 2025, Lee Jones wrote:> On Fri, 08 Aug 2025, Lukas Timmermann
+>> wrote:
+>>>
+>>>> Since there were no existing drivers for the AS3668 or related devices,
+>>>> a new driver was introduced in a separate file. Similar devices were
+>>>> reviewed, but none shared enough characteristics to justify code reuse.
+>>>> As a result, this driver is written specifically for the AS3668.
+>>>>
+>>>> Signed-off-by: Lukas Timmermann <linux@timmermann.space>
+>>>> ---
+>>>>    MAINTAINERS                |   1 +
+>>>>    drivers/leds/Kconfig       |  13 +++
+>>>>    drivers/leds/Makefile      |   1 +
+>>>>    drivers/leds/leds-as3668.c | 202 +++++++++++++++++++++++++++++++++++++
+>>>>    4 files changed, 217 insertions(+)
+>>>>    create mode 100644 drivers/leds/leds-as3668.c
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 091206c54c63..945d78fef380 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -3511,6 +3511,7 @@ M:	Lukas Timmermann <linux@timmermann.space>
+>>>>    L:	linux-leds@vger.kernel.org
+>>>>    S:	Maintained
+>>>>    F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
+>>>> +F:	drivers/leds/leds-as3668.c
+>>>>    ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
+>>>>    M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+>>>> index a104cbb0a001..8cfb423ddf82 100644
+>>>> --- a/drivers/leds/Kconfig
+>>>> +++ b/drivers/leds/Kconfig
+>>>> @@ -100,6 +100,19 @@ config LEDS_ARIEL
+>>>>    	  Say Y to if your machine is a Dell Wyse 3020 thin client.
+>>>> +config LEDS_AS3668
+>>>> +	tristate "LED support for AMS AS3668"
+>>>> +	depends on LEDS_CLASS
+>>>> +	depends on I2C
+>>>> +	help
+>>>> +	  This option enables support for the AMS AS3668 LED controller.
+>>>> +	  The AS3668 provides up to four LED channels and is controlled via
+>>>> +	  the I2C bus. This driver offers basic brightness control for each
+>>>> +	  channel, without support for blinking or other advanced features.
+>>>> +
+>>>> +	  To compile this driver as a module, choose M here: the module
+>>>> +	  will be called leds-as3668.
+>>>> +
+>>>>    config LEDS_AW200XX
+>>>>    	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
+>>>>    	depends on LEDS_CLASS
+>>>> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+>>>> index 2f170d69dcbf..983811384fec 100644
+>>>> --- a/drivers/leds/Makefile
+>>>> +++ b/drivers/leds/Makefile
+>>>> @@ -14,6 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
+>>>>    obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
+>>>>    obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
+>>>>    obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
+>>>> +obj-$(CONFIG_LEDS_AS3668)		+= leds-as3668.o
+>>>>    obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
+>>>>    obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
+>>>>    obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
+>>>> diff --git a/drivers/leds/leds-as3668.c b/drivers/leds/leds-as3668.c
+>>>> new file mode 100644
+>>>> index 000000000000..0cfd3b68f90c
+>>>> --- /dev/null
+>>>> +++ b/drivers/leds/leds-as3668.c
+>>>> @@ -0,0 +1,202 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>>>> +/*
+>>>> + *  Osram AMS AS3668 LED Driver IC
+>>>> + *
+>>>> + *  Copyright (C) 2025 Lukas Timmermann <linux@timmermann.space>
+>>>> + */
+>>>> +
+>>>> +#include <linux/bitfield.h>
+>>>> +#include <linux/i2c.h>
+>>>> +#include <linux/leds.h>
+>>>> +#include <linux/module.h>
+>>>> +#include <linux/uleds.h>
+>>>> +
+>>>> +#define AS3668_MAX_LEDS 4
+>>>> +#define AS3668_EXPECTED_I2C_ADDR 0x42
+>>>> +
+>>>> +/* Chip Ident */
+>>>> +
+>>>> +#define AS3668_CHIP_ID1_REG 0x3e
+>>>
+>>> Can you tab out all of the values please.
+>>>
+>>>> +#define AS3668_CHIP_ID2_REG 0x3f
+>>>> +#define AS3668_CHIP_ID1_EXPECTED_IDENTIFIER 0xa5
+>>>
+>>> This is odd.  What do you mean by expected?
+>>>
+>>> What kind of ID is this?  Board ID, platform ID, Chip ID?
+>>>
+>>> Call it that instead.
+>> Calling it just AS3668_CHIP_ID1 then?
+>> It's the identifier of the chip model burned into silicon in the CHIP_ID1
+>> register. Checking it isn't critical in the first place.
+>> It catches errors made in DT files but nothing else. You haven't commented
+>> about that so i guess it's okay. Are drivers in the led subsystem supposed
+>> to check that?>
+> 
+> CHIP_ID1 is the register, but what does the number signify?
+> 
+> What version of the chip?  Does the chip have a name?
+> 
+> What's the difference between the values in ID1 and ID2?
+> 
+CHIP_ID1 is a register which contains a fixed magic number so a driver 
+can check if it's talking to the correct chip. There is no deeper 
+meaning to the number as far as the datasheet is concerned. We simply 
+check the number. It's supposed to be 10100101b according to the datasheet.
+CHIP_ID2 contains two fixed values. The upper four bits indicate a 
+serial number of some sorts. The datasheet doesn't specify an expected 
+value and doesn't state it's purpose. I suspect it to change between 
+production runs. The lower four bits of the CHIP_ID2 register contains 
+the revision of the chip.
+None of these values are particulary important for the function of the 
+driver. My suggested driver does check CHIP_ID1 just to fail early.
+>>>> +#define AS3668_CHIP_ID2_SERIAL_MASK GENMASK(7, 4)
+>>>> +#define AS3668_CHIP_ID2_REV_MASK GENMASK(3, 0)
+>>>> +
+>>>> +/* Current Control */
+>>>> +
+>>>
+>>> The X thing (below) is weirding me out.
+>>>
+>>>> +#define AS3668_CURRX_CONTROL_REG 0x01
+>>>
+>>> Drop the X.
+>> The datasheet explictly calls this "CurrX control". It configures the
+>> outputs for different modes like off/on and pwm or pattern generation for
+>> all four channels simultaneously.
+>> I could imagine AS3668_MODE_REG being more descriptive but we would diverge
+>> from the datasheet. Is that acceptable?>
+> 
+> It is if you say it is.  Some authors like to stick to the datasheet,
+> which I would respect.  Others think that datasheet authors / register
+> namers are bonkers and the S/W should be much more friendly to readers.
+> 
+All the register names are taken from the datasheet. I considered 
+renaming them but I think it would do more harm than good as the 
+datasheet is publicly available and could be helpful for future changes.
 
