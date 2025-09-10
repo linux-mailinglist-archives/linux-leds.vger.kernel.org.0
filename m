@@ -1,134 +1,177 @@
-Return-Path: <linux-leds+bounces-5468-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5470-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584E2B514F7
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 13:09:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AF7B5161A
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 13:50:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84E5F5E0E0D
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 11:09:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A450467CEC
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 11:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D15831C587;
-	Wed, 10 Sep 2025 11:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFBA328725B;
+	Wed, 10 Sep 2025 11:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="eWzpltn8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTUmsG5H"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-43172.protonmail.ch (mail-43172.protonmail.ch [185.70.43.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DDB31C57B;
-	Wed, 10 Sep 2025 11:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871D12797B8;
+	Wed, 10 Sep 2025 11:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502488; cv=none; b=pQ9BiKnOl4h/cEvS5kCHqegXMffD6ebEVT7utlJngM0ETpvZlTqBmDyLJdSfipztK/zafKsYeG5IVAiJ6kZTf7+bQreJGQg2XX91yX/F/8FEf1POux5BhfUA4F8VkaZEpu/8s4NJQHg3tEOZ+MlaSzfg+6iHC75esh1R7PWG4AA=
+	t=1757505030; cv=none; b=sjc/CwCaSr9FDbEo5vTCjz31+j4b/aBtkZc13UlbaW9Q93AFfRVvwEIE1w4mpR0NwGBFQFDkyfko1G6PrwrRKnfMTZx2SPrjTcXeh2KHdPt5ijFjOCmuIYrKYBKENH/KidWDGnLShiyuXGLV1NpbGhWjZ+0cYoQdSumTty950fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502488; c=relaxed/simple;
-	bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QZW8V7vU1nKj3BSFOfZv5PI6BJtKBrUWEGtKvEbQSc2eUjTEn6FYWY7pD8sf1ZEPp4WZFGJEAxQE+PkZAM4k+U9zNKXA3bU35HqDEAigHpoYTtgaTgcIrI11kT6PEzEDJXa7cGSC5kgbgeO8W2W+Ivmk3dfdYYMTev5bZcJVjeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=eWzpltn8; arc=none smtp.client-ip=185.70.43.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757502484; x=1757761684;
-	bh=WVAZkSDamM6pxbj/GVHH3PYvdQm8SxrqzkK9f4jXnr4=;
-	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=eWzpltn87rCiyyQBJUp7vRnPZXNyU3H0OzGMPb6LPJkb61q32Zrteoq/uwCgjzwfa
-	 uVFd3PYwEuFIIq7atpigf46P8ZL2pTBrlfQvwdcKGL4xYZ8QKm2AV05op6kbqSU7WY
-	 N+OAWNaPM4rI/6QFVtjhczhUW9L3stNPuBFxhe3gjoJ1Ik5APcaXhQubQ7A4CTbM8W
-	 BQgdjDmdE+MAbdWIIg3eNOd40fba6CDtAMHZJ1SSH/iALN5t8lLpd/fWy8RUN3kQyH
-	 vW1qk9FOsHwcVVJzKkzGkMyBI5+CPtdYdu0o08c88q1HQD6BSb6knnqifYiXhFX4HL
-	 g3/TtFNTlANew==
-X-Pm-Submission-Id: 4cMHwc5yG7z2ScCt
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Wed, 10 Sep 2025 13:07:40 +0200
-Subject: [PATCH v4 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
+	s=arc-20240116; t=1757505030; c=relaxed/simple;
+	bh=Mqve2GlzuCnytDpGTk9tHKkadC70O5DHUUGd7vf/G5w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S5Soh6kXA3ZNM8PUGzcedh0FF1UVR94qR7L1rSTqa6VAC9yUnkUrpB7DnEB3NuEjW6L144lyAyuCpX5v7cOw43URuPlNJWAUHfmr/Fng+rmKymwrR3mYyYE92ursXSGI2yIoTUEpJ6i/5MXZpdHXno1sHOZBypcu++85H1EE7TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTUmsG5H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D60CC4CEF0;
+	Wed, 10 Sep 2025 11:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757505030;
+	bh=Mqve2GlzuCnytDpGTk9tHKkadC70O5DHUUGd7vf/G5w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fTUmsG5HDreIpInwmgyZdNcXNx2hqdqP6qfXcPywMRX9Hj1Ru3YkS7n6GPpXECYdz
+	 mFiuMbqFopUta/wM3P2gMcyok8tOMih3woSxLB6BF5dYcTlFIdzJlt9VAM39M8INeW
+	 q3WQNOdElVDgMoJIXXm6ods1NWvC8/TiEILn0nCvEgWsszNEZztNf4jjcr1RGZjb9V
+	 Z+k17mqFFVTAB1oaWfdLYkNc80vZbv9dNAG4giobT4C0vwmBRkMbzG9jv4mvAhmjVB
+	 T5bHSH4zByLazl7SvyqpVs6FmFz7CIkmWrgZR499DYw2K441qsihyB/+ffKFQcP/Yu
+	 3lWFU8FQ008xw==
+Message-ID: <c6c80870-386b-473d-b643-bcd64c86c692@kernel.org>
+Date: Wed, 10 Sep 2025 13:50:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-leds-v4-4-1fc320488233@vinarskis.com>
-References: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
-In-Reply-To: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] dt-bindings: leds: add generic LED consumer
+ documentation
+To: Aleksandrs Vinarskis <alex@vinarskis.com>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+ Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Daniel Thompson <danielt@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHY1i7Dd/wNV2TMgp7/s+PfduOR475Z84UuM//ueLxT
- d1eAx/9jlIWBjEuBlkxRZbuP1/TuhbNXctwXeMbzBxWJpAhDFycAjAR5wxGhvPensm6/BOZRP7q
- VEmGWNl0lk05mCiwiCHnGiNjTn+eBCPD7uPXChdOn3RV9nVGJEe93F+JWe/vX1q67/aZa6Zv77V
- GsAEA
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+References: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
+ <20250910-leds-v4-1-1fc320488233@vinarskis.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20250910-leds-v4-1-1fc320488233@vinarskis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Leverage newly introduced 'leds' and 'led-names' properties to pass
-indicator's phandle and function to v4l2 subnode. The latter supports
-privacy led since couple of years ago under 'privacy-led' designation.
-Unlike initially proposed trigger-source based approach, this solution
-cannot be easily bypassed from userspace, thus reducing privacy
-concerns.
+Hi Aleksandrs,
 
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thank you for your continued work on this.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4fec8c1d1f20ee525bc 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -83,14 +83,11 @@ leds {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_indicator_en>;
- 
--		led-camera-indicator {
--			label = "white:camera-indicator";
-+		privacy_led: privacy-led {
- 			function = LED_FUNCTION_INDICATOR;
- 			color = <LED_COLOR_ID_WHITE>;
- 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
--			linux,default-trigger = "none";
- 			default-state = "off";
--			/* Reuse as a panic indicator until we get a "camera on" trigger */
- 			panic-indicator;
- 		};
- 	};
-@@ -685,6 +682,9 @@ camera@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_rgb_default>;
- 
-+		leds = <&privacy_led>;
-+		led-names = "privacy";
-+
- 		clocks = <&camcc CAMCC_MCLK3_CLK>;
- 
- 		orientation = <0>;	/* Front facing */
+One small remark below.
 
--- 
-2.48.1
+On 10-Sep-25 1:07 PM, Aleksandrs Vinarskis wrote:
+> Introduce common generic led consumer binding, where consumer defines
+> led(s) by phandle, as opposed to trigger-source binding where the
+> trigger source is defined in led itself.
+> 
+> Add already used in some schemas 'leds' parameter which expects
+> phandle-array. Additionally, introduce 'led-names' which could be used
+> by consumers to map LED devices to their respective functions.
+> 
+> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> ---
+>  .../devicetree/bindings/leds/leds-consumer.yaml    | 67 ++++++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.yaml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..045b7a4fcd3bdcfb19a02fe4435b40445c168115
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common leds consumer
+> +
+> +maintainers:
+> +  - Aleksandrs Vinarskis <alex@vinarskis.com>
+> +
+> +description:
+> +  Some LED defined in DT are required by other DT consumers, for example
+> +  v4l2 subnode may require privacy or flash LED. Unlike trigger-source
+> +  approach which is typically used as 'soft' binding, referencing LED
+> +  devices by phandle makes things simpler when 'hard' binding is desired.
+> +
+> +  Document LED properties that its consumers may define.
+> +
+> +select: true
+> +
+> +properties:
+> +  leds:
+> +    oneOf:
+> +      - type: object
+> +      - $ref: /schemas/types.yaml#/definitions/phandle-array
+> +        description:
+> +          A list of LED device(s) required by a particular consumer.
+> +        items:
+> +          maxItems: 1
+> +
+> +  led-names:
+> +    description:
+> +      A list of device name(s). Used to map LED devices to their respective
+> +      functions, when consumer requires more than one LED.
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    leds {
+> +        compatible = "gpio-leds";
+> +
+> +        privacy_led: privacy-led {
+> +            color = <LED_COLOR_ID_RED>;
+> +            default-state = "off";
+> +            function = LED_FUNCTION_INDICATOR;
+> +            gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
+> +        };
+> +    };
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      v4l2_node: camera@36 {
+> +        reg = <0x36>;
+> +
+> +        leds = <&privacy_led>;
+> +        led-names = "privacy-led";
+
+This should probable be:
+
+        led-names = "privacy";
+
+Now without the "-led".
+
+Regards,
+
+Hans
+
 
 
