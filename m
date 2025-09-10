@@ -1,170 +1,162 @@
-Return-Path: <linux-leds+bounces-5464-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5465-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97C0B51264
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 11:23:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4319CB514F5
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 13:09:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F86E1B2831C
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 09:23:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1291D7BF357
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 11:07:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C2D9313E0C;
-	Wed, 10 Sep 2025 09:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6353F31770D;
+	Wed, 10 Sep 2025 11:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="CgSV/a87"
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="AtdkphF0"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-24420.protonmail.ch (mail-24420.protonmail.ch [109.224.244.20])
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838CF30E825;
-	Wed, 10 Sep 2025 09:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961F231691F;
+	Wed, 10 Sep 2025 11:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757496183; cv=none; b=lUxKtzUeAWrwOyfrq/rkVpbYHpmHlBa79kDISid7Z6fB7OO2SVTw0dRfEi0ncKVszpEZLSP+s+VJ9VIIuWlrwy4xzhVn+YljnnEL4Sf4MSoMF4TC0aEWllRui5zzOhyhgdiD8kbX8I6VY37w0hth+7//I9Cy7afxSm5HI009xMw=
+	t=1757502482; cv=none; b=saGlg6d0pTG5fZHNoX8WUDCLGcRD5SZGa6/te5cWyZK2YBlNVDoFyq4S7c2w53MzlgiNJupp78OdSeeJym+wPS2KBXT5jEyd2c+3Z9jzyVCoyEFYcV16d2wHSDB74xRTvZPaCfpu2/h2IhcKWC/IukSt61GIqIRvwQM8qLHtDYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757496183; c=relaxed/simple;
-	bh=4onIzWMeUt//GL9CyNwI0FhKhKNi3drWUGjY2yv9wa8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RSAglvxMJz191gT5qTECTyXGe7Aw9ruI0DvN+DCq5sbcMj4V4tjVnq6+tSYYmFggApq1iIyPe/8mvdffPCTuSlAPul0ZwKLlGTAR4w0sIwU72Mm65C2bKNldQhBsB1J057mj3dNhWD8FowufSn7JzRYgidBZvFVjDqhKNUrxU+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=CgSV/a87; arc=none smtp.client-ip=109.224.244.20
+	s=arc-20240116; t=1757502482; c=relaxed/simple;
+	bh=qsJHj1/1oQfPkq1JRCPMlD2tTi2M5NZLR9YYmawyVz8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MIByKokDxJwENv3Lj+W6UkJ2+ynQckstONq5oC5Wu7ybT/jdrGu0leWXfNcmJ2WrEUBW/oRXByzJYG7pda9oQy+vEvnJP5WfQDhfzL0Y0RbENVIRv7glS6G371qHlX5f7U086PTVbyiyRIeb9Hf1/cU4PUNryL5QaqkIkwf0ZTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=AtdkphF0; arc=none smtp.client-ip=79.135.106.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757496176; x=1757755376;
-	bh=4onIzWMeUt//GL9CyNwI0FhKhKNi3drWUGjY2yv9wa8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=CgSV/a87QtXOKD/VDNEQGeFeRKWFFnJ6lSD75SjxX+25xcJS98O1Q03OS2+6GyoJX
-	 dVsNSU+kX8vPlH6gjCnciUUOu9vVEeMNzIOWzdChcANqCdfYdTSWFKod5ArUKSC61l
-	 izs9Lm4GDxHHqV6YVkPmX/6r9jptLfaqrQXXAejA5i310zJjwbJFPoMsy8QoBsFXfl
-	 VjEl5k+XM2SBxGpwz/JG++f3o27ExkInkiwecwS9vwYYUTxQGpiRqAHWuoU2Tasn80
-	 WtX1M8Fe7pABIvrYWUewDoSx4ro/vdyepm1xYazylM43ahXvWopM/IygBZET6BtWDq
-	 Th5nwOvvJPe5Q==
-Date: Wed, 10 Sep 2025 09:22:53 +0000
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+	s=protonmail; t=1757502472; x=1757761672;
+	bh=GGr7fDU5v7KaXRd0heWu4LqMfFjXkgK/6awD39LMV8k=;
+	h=From:Subject:Date:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=AtdkphF01wT4SiyUHCXgAtzNhXcV4Wy5b2Q3KzOajeLEwIJAKbguBTLjuiEG/voTX
+	 Wa/SQi3REY5UKA/uM7RpvYgvu+bexG3o97Kgn+nXfa1MKw+4sbeeycYj3JQjHrP41A
+	 auZHhi4mlpjMmEGabgLt20CaEfIBUiWYNwoYOWzatgQH8/OkY7IjIg5UcdL+H6Wa2e
+	 TimUJlhFJuvdIfKPCKr6wyXHuIHfzHMtFaWzcvfCzPf5cZ29z/7Axmg/RMZLENllJl
+	 VbknhM6DpoPFnXocpn9OcM6Kv9wdw4ER1Lc10TJhmcgTXHcBSi3Kn2FseHKnLLTC4O
+	 nvgO4U4+XDQkg==
+X-Pm-Submission-Id: 4cMHwP2szfz2ScCw
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: leds: add generic LED consumer documentation
-Message-ID: <u6ZY13Lkl_fUDmiudck6EB28tChZkCOAUHGYLWvwJAQCWGBVio_VmhdPHlS1WBmN9XrftBvjSjwT7Ok-IpeW57AX2xv7u4dMPoC-1iO5z0g=@vinarskis.com>
-In-Reply-To: <108895ac-0c4d-4aee-86b1-96461e00def3@oss.qualcomm.com>
-References: <20250908-leds-v3-0-5944dc400668@vinarskis.com> <20250908-leds-v3-1-5944dc400668@vinarskis.com> <MOj2NUVAdyu9bvVkEON8rhAlGJ9FRRh9gJABkrOR_6gKhE8rmeZ5Isbj9noA1bDZ12gY4dlDpEtmEjxlRTucCssKwTo4f5nCowMOin85IKk=@vinarskis.com> <d957d16f-d206-4f7d-b52e-a2cad9e4abfc@kernel.org> <108895ac-0c4d-4aee-86b1-96461e00def3@oss.qualcomm.com>
-Feedback-ID: 158356072:user:proton
-X-Pm-Message-ID: d2805003f1d5c8c724396ed245543dea6900c2f6
+Subject: [PATCH v4 0/4] leds: privacy-led support for devicetree
+Date: Wed, 10 Sep 2025 13:07:36 +0200
+Message-Id: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPhbwWgC/22Qy2rDMBBFf8VoXZmRrFdCCPmP0oUqjR2RxG6lR
+ LSE/Hsndhah7WbgDnMOzL2ygjlhYevmyjLWVNI0UlAvDQt7Pw7IU6TMJEgNK5D8iLHwYERw1vo
+ YHTA6/cjYp69Z8/pGeZ/Kecrfs7WK+/aXoAoOXPlOoJBaWvO+q2n0uRxSacN0YndJlc+gfoCSQ
+ IyuN6bXJnr3H9g9g+4BdgTqlVIxKABj/oC35Y+Mnxdq4bw8w05Yip9bWDebxShAgLIgW0uTC04
+ 1lWF3wDzisZ3ysCXX7QeSVqS6WQEAAA==
+X-Change-ID: 20250902-leds-c61c877add80
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Daniel Thompson <danielt@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3237; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=qsJHj1/1oQfPkq1JRCPMlD2tTi2M5NZLR9YYmawyVz8=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHYxheb8r40ty4+pzO8wTXCq6la94LV0g3Jx9yvj8x4
+ bvO8ttVHSUsDGJcDLJiiizdf76mdS2au5bhusY3mDmsTCBDGLg4BWAittMY/qnK8czacojR72bZ
+ HXe/mN7/mlHBHK/Fz172UL4e7C1tq8Lw4+2cZXubObdqfM6wfnPpX+p7tdqojMxvd+uj7nD9dY7
+ jBAA=
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
+Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+LEDs has landed, but the DT part was left out. Introduce missing
+dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+enable privacy-led on Lenovo Thinkpad x13s.
 
+With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+mostly use MIPI cameras, this feature becomes more desired. Original
+rebased patch is still working as expected (with respective DT changes)
+on Dell XPS 9345.
 
+Changelog to original series:
+- Pick RFC patch, pick R-by, drop RFC-related commit message part
+- Add new DT binding to describe generic LED consumer properties
+- Rebase and test on X1E laptop
 
+[1] https://lore.kernel.org/all/20230120114524.408368-6-hdegoede@redhat.com/
 
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+Changes in v4:
+- Rename `privacy-led` to `privacy`, depend on x86/ACPI change
+- Simplify example in dt-binding for led-consumer.yaml
+- This series now depends on: https://lore.kernel.org/all/20250910104702.7470-1-hansg@kernel.org/
+- Link to v3: https://lore.kernel.org/r/20250908-leds-v3-0-5944dc400668@vinarskis.com
 
-On Wednesday, September 10th, 2025 at 10:35, Konrad Dybcio <konrad.dybcio@o=
-ss.qualcomm.com> wrote:
+Changes in v3:
+- Drop unnecessary 'dev->of_node' check by Andy
+- Keep 'panic-indicator;' in DT by Konrad
+- Fix property/property-name order by Konrad
+- Add missing 'led-names' enum definition for video devices by Rob
+- Add oneOf to 'leds' to avoid conflict with nodes of same name by Rob
+- Link to v2: https://lore.kernel.org/r/20250905-leds-v2-0-ed8f66f56da8@vinarskis.com
 
->=20
->=20
-> On 9/9/25 10:39 PM, Hans de Goede wrote:
->=20
-> > Hi,
-> >=20
-> > On 9-Sep-25 6:57 PM, Aleksandrs Vinarskis wrote:
-> >=20
-> > > On Monday, September 8th, 2025 at 01:18, Aleksandrs Vinarskis alex@vi=
-narskis.com wrote:
-> > >=20
-> > > > Introduce common generic led consumer binding, where consumer defin=
-es
-> > > > led(s) by phandle, as opposed to trigger-source binding where the
-> > > > trigger source is defined in led itself.
-> > > >=20
-> > > > Add already used in some schemas 'leds' parameter which expects
-> > > > phandle-array. Additionally, introduce 'led-names' which could be u=
-sed
-> > > > by consumers to map LED devices to their respective functions.
-> > > >=20
-> > > > Signed-off-by: Aleksandrs Vinarskis alex@vinarskis.com
-> > > >=20
-> > > > ---
-> > > > .../devicetree/bindings/leds/leds-consumer.yaml | 89 ++++++++++++++=
-++++++++
-> > > > 1 file changed, 89 insertions(+)
-> > > >=20
-> > > > diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.y=
-aml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..d50a3850f6336e9e3a5=
-2eb1374e36ea50de27f47
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-> > > > @@ -0,0 +1,89 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Common leds consumer
-> > > > +
-> > > > +maintainers:
-> > > > + - Aleksandrs Vinarskis alex@vinarskis.com
-> > > >=20
-> > > > +
-> > > > +description:
-> > > > + Some LED defined in DT are required by other DT consumers, for ex=
-ample
-> > > > + v4l2 subnode may require privacy or flash LED. Unlike trigger-sou=
-rce
-> > > > + approach which is typically used as 'soft' binding, referencing L=
-ED
-> > > > + devices by phandle makes things simpler when 'hard' binding is de=
-sired.
-> > > > +
-> > > > + Document LED properties that its consumers may define.
-> > > > +
-> > > > +select: true
-> > > > +
-> > > > +properties:
-> > > > + leds:
-> > > > + oneOf:
-> > > > + - type: object
-> > > > + - $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > > + description:
-> > > > + A list of LED device(s) required by a particular consumer.
-> > > > + items:
-> > > > + maxItems: 1
-> > > > +
-> > > > + led-names:
-> > >=20
-> > > While going over the feedback I realized `leds` and `led-names` do
-> > > not follow `property`, `property-names` convention. Any objections
-> > > if I rename `led-names` to `leds-names` for consistency?
-> >=20
-> > No objections from me, `leds-names` indeed is better.
->=20
->=20
-> FWIW we have "clocks"/"clock-names", "resets"/"reset-names" etc.
->=20
-> I sometimes refer to "property"/"property-names" during review to
-> bring attention to the preferred style (ordering of such entries),
-> which is maybe what confused you
+Changes in v2:
+- Fixed mailing issue
+- Fixed wrong R-by, add my missing sign-off
+- Elaborated cover letter/commits descriptions to better describe why
+  this is needed, and why trigger-source could not be used instead
+- dt-bindings: expanded schema description, fixed s/phandle/phandle-array/,
+  expanded the example
+- dt-bindings: added patch to commonize 'leds' from other schemas
+- leds: dropped wrapper, dropped exporting of private functions
+- dts: added patch to utilize privacy-led on Lenovo Thinkpad x13s
+- Link to v1: https://lore.kernel.org/all/010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com/
 
-Hmm fair. Just thought 'led-names' looks a bit ugly under 'leds'. But
-you are right, since there are already "clocks"/"clock-names",
-"resets"/"reset-names", lets keep it that way.
+---
+Aleksandrs Vinarskis (3):
+      dt-bindings: leds: add generic LED consumer documentation
+      dt-bindings: leds: commonize leds property
+      arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
 
-Thanks for clarification,
+Hans de Goede (1):
+      leds: led-class: Add devicetree support to led_get()
 
-Alex
+ .../bindings/leds/backlight/led-backlight.yaml     |  6 +-
+ .../devicetree/bindings/leds/leds-consumer.yaml    | 67 ++++++++++++++++++++++
+ .../bindings/leds/leds-group-multicolor.yaml       |  5 +-
+ .../bindings/media/video-interface-devices.yaml    |  8 +++
+ .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  8 +--
+ drivers/leds/led-class.c                           | 17 +++++-
+ 6 files changed, 96 insertions(+), 15 deletions(-)
+---
+base-commit: 3db46a82d467bd23d9ebc473d872a865785299d8
+change-id: 20250902-leds-c61c877add80
+prerequisite-message-id: <20250910104702.7470-1-hansg@kernel.org>
+prerequisite-patch-id: 429eb224c966424b458a7179e10e1f3172408eb8
 
->=20
-> Konrad
+Best regards,
+-- 
+Aleksandrs Vinarskis <alex@vinarskis.com>
+
 
