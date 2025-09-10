@@ -1,213 +1,167 @@
-Return-Path: <linux-leds+bounces-5472-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5473-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A96B51639
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 13:57:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321FDB51656
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 14:01:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 634A6565AF4
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 11:57:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15FC31C80F5C
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 12:01:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD03C313526;
-	Wed, 10 Sep 2025 11:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C7702877DC;
+	Wed, 10 Sep 2025 12:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="Vq7egJMy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C5B25A355;
-	Wed, 10 Sep 2025 11:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4378E19644B;
+	Wed, 10 Sep 2025 12:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757505433; cv=none; b=M1lJnMyz2HE92e5Z+/XKDa7iixJUp5SIvfO41R75FDNwY0ckdKvlySuPMLUQiO/flyqfYGkRYyKYQY0nRyXovW2WeGjtCd9HCzSjl9dzQxquAzP6+pyxG30e/j59g9vtgINunqJvbyt3lYhT728rh5/eX+Up3SWEwrYA7q4eD9o=
+	t=1757505688; cv=none; b=TTli9QqERyKp8hkDsEM1bAHyNVdricQn/V1yj/2ZGxr5nlaHmsA/Z9kJnWAzy6GlfI/hE+32axUloBFMm2e0FsxTghrjioKeagEuqf0C2VfiexLq9rN1hP3MsAxsYVWnn54XN7L0lfPGO8WJ/mIW3820Xvm3deQUXiZ5fGkM8KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757505433; c=relaxed/simple;
-	bh=BNAymGbsk/LLslNv3KQi0+YNC2Er1zFt+MJxHW7z8Sc=;
-	h=Message-ID:Date:MIME-Version:Subject:References:To:Cc:From:
-	 In-Reply-To:Content-Type; b=edcpvIEBg+xOfUXGlKJxYwpzsWtJfvd2KNy4w+KxkzC2y5w2iKVVs/DNEc/6RV14NC1m/oZaCzqp3CrWmWmdyWh8HsX1bYkXdvMjNdGU9LzYGkiA3PI6NF75sxwVnV+/916AClgYMOstzN4QcHZTc+cybRt+9cygkD78sb0mjag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space; spf=pass smtp.mailfrom=timmermann.space; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timmermann.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timmermann.space
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cMK1F4jMYz9tZT;
-	Wed, 10 Sep 2025 13:57:05 +0200 (CEST)
-Message-ID: <9d3cce84-451d-4af1-a54a-e6de8cb9699e@timmermann.space>
-Date: Wed, 10 Sep 2025 13:57:03 +0200
+	s=arc-20240116; t=1757505688; c=relaxed/simple;
+	bh=pJ6tiNTrjS4YxOdr4O7jX1Q9jdumfA7pm9EcJFYC3WI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iWt7+OwEf8dYm4kWvBQfi4KVpk8XOumAolpzmvcT87/hPy0S67TYVAwxns0+c0UUJaD/JBurBUZFvswMxJ37yqWScrM9XHFJuE1FNQYK/DmrPkHGiupG/KqIcpvpOEh5EsiMrd9xPDQ3e5ScRO6kzVETIECL/nLGHHTMV65PL9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=Vq7egJMy; arc=none smtp.client-ip=79.135.106.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+	s=protonmail; t=1757505683; x=1757764883;
+	bh=6Zua8HZFQSMU7UHKMIvAOiAzH8T9S1RtjgX2NSNgKC0=;
+	h=From:Subject:Date:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Vq7egJMyLWieTgV2yprw2WHZaaJBLKZDszFKw/2b3ogNcc7vQvZ5wGlVKwZ3cA7dR
+	 b4hRcPILf0jmD7newWaGvzOjp+tkkVaiLxiZRvb0yNClj/ixBOecu6NKRtxSgFMoEQ
+	 OE0c2qwO8QaOj1DbvMvSiK+n2XG2lxOoK49/fntzkwo9OStrBFYBhS8L8T8EkPNTdl
+	 xKHxjF6D/YL1COSwCkQa3xvsoY2hHCQxLC47eWJNvxi+XZiSdhI5T44Po5WsPhY+Qo
+	 pMNGZRlEy3v0NyXTCt36RTIj0UUD5jNbhcDSopvOzEBdxYD9SLWatF2uMDQQ9ARvuV
+	 8iLqTmwuXpy1w==
+X-Pm-Submission-Id: 4cMK68619cz2ScCs
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Subject: [PATCH v5 0/4] leds: privacy-led support for devicetree
+Date: Wed, 10 Sep 2025 14:01:07 +0200
+Message-Id: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: [PATCH v8 2/2] leds: as3668: Driver for the ams Osram 4-channel i2c
- LED driver
-Content-Language: en-US, de-DE
-References: <32c7324f-60cb-4cae-beff-0a177a7986ea@timmermann.space>
-To: Lee Jones <lee@kernel.org>
-Cc: pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Lukas Timmermann <linux@timmermann.space>
-In-Reply-To: <32c7324f-60cb-4cae-beff-0a177a7986ea@timmermann.space>
-X-Forwarded-Message-Id: <32c7324f-60cb-4cae-beff-0a177a7986ea@timmermann.space>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAINowWgC/23Q32rCMBQG8FcpuV7Kyd9GEfE9xi6y5LQGtd0SL
+ Rviu+9YOyjiTeAL5/ddfFdWMCcsbF1dWcYxlTT0FMxbxcLe9x3yFCkzCdLACiQ/Yiw8WBFc0/g
+ YHTA6/crYpp+p5v2D8j6V85B/p9ZR3H+fCkbBgWuvBAppZGM/d2PqfS6HVOownNi9ZJRLaGYoC
+ WJ0rbWtsdG7V1AtoZuhImhWWsegAax9CfUCCpihJijaoCRo56RSz/D2GCDj94XmOz9WYCcsxU/
+ zravNf6MA3YCsG3q54LRv6XYHzD0e6yF3W+q6/QF6JJJYkgEAAA==
+X-Change-ID: 20250902-leds-c61c877add80
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Daniel Thompson <danielt@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Aleksandrs Vinarskis <alex@vinarskis.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3394; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=pJ6tiNTrjS4YxOdr4O7jX1Q9jdumfA7pm9EcJFYC3WI=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHM/odMqxfSO9Z1qCefF78+YdT56dFuWimHO/fO0X19
+ RHnFyvCO0pZGMS4GGTFFFm6/3xN61o0dy3DdY1vMHNYmUCGMHBxCsBEbjxm+J9yItE/7W3Uah2J
+ XT43dHQDD77PO5V65hO/6YW+K4HBbukM/zTr7BcZe0VNdKneIvCIpVLP/Ii2QFuc8fWdW0SZFE9
+ rsAAA
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
-On Tue, 02 Sep 2025, Lee Jones wrote:
-> On Tue, 02 Sep 2025, Lukas Timmermann wrote:
->
->> On Tue, 02 Sep 2025, Lee Jones wrote:> On Fri, 08 Aug 2025, Lukas 
->> Timmermann
->> wrote:
->>>
->>>> Since there were no existing drivers for the AS3668 or related devices,
->>>> a new driver was introduced in a separate file. Similar devices were
->>>> reviewed, but none shared enough characteristics to justify code reuse.
->>>> As a result, this driver is written specifically for the AS3668.
->>>>
->>>> Signed-off-by: Lukas Timmermann <linux@timmermann.space>
->>>> ---
->>>> MAINTAINERS | 1 +
->>>> drivers/leds/Kconfig | 13 +++
->>>> drivers/leds/Makefile | 1 +
->>>> drivers/leds/leds-as3668.c | 202 +++++++++++++++++++++++++++++++++++++
->>>> 4 files changed, 217 insertions(+)
->>>> create mode 100644 drivers/leds/leds-as3668.c
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 091206c54c63..945d78fef380 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -3511,6 +3511,7 @@ M: Lukas Timmermann <linux@timmermann.space>
->>>> L: linux-leds@vger.kernel.org
->>>> S: Maintained
->>>> F: Documentation/devicetree/bindings/leds/ams,as3668.yaml
->>>> +F: drivers/leds/leds-as3668.c
->>>> ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
->>>> M: Tianshu Qiu <tian.shu.qiu@intel.com>
->>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>> index a104cbb0a001..8cfb423ddf82 100644
->>>> --- a/drivers/leds/Kconfig
->>>> +++ b/drivers/leds/Kconfig
->>>> @@ -100,6 +100,19 @@ config LEDS_ARIEL
->>>> Say Y to if your machine is a Dell Wyse 3020 thin client.
->>>> +config LEDS_AS3668
->>>> + tristate "LED support for AMS AS3668"
->>>> + depends on LEDS_CLASS
->>>> + depends on I2C
->>>> + help
->>>> + This option enables support for the AMS AS3668 LED controller.
->>>> + The AS3668 provides up to four LED channels and is controlled via
->>>> + the I2C bus. This driver offers basic brightness control for each
->>>> + channel, without support for blinking or other advanced features.
->>>> +
->>>> + To compile this driver as a module, choose M here: the module
->>>> + will be called leds-as3668.
->>>> +
->>>> config LEDS_AW200XX
->>>> tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
->>>> depends on LEDS_CLASS
->>>> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
->>>> index 2f170d69dcbf..983811384fec 100644
->>>> --- a/drivers/leds/Makefile
->>>> +++ b/drivers/leds/Makefile
->>>> @@ -14,6 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520) += leds-adp5520.o
->>>> obj-$(CONFIG_LEDS_AN30259A) += leds-an30259a.o
->>>> obj-$(CONFIG_LEDS_APU) += leds-apu.o
->>>> obj-$(CONFIG_LEDS_ARIEL) += leds-ariel.o
->>>> +obj-$(CONFIG_LEDS_AS3668) += leds-as3668.o
->>>> obj-$(CONFIG_LEDS_AW200XX) += leds-aw200xx.o
->>>> obj-$(CONFIG_LEDS_AW2013) += leds-aw2013.o
->>>> obj-$(CONFIG_LEDS_BCM6328) += leds-bcm6328.o
->>>> diff --git a/drivers/leds/leds-as3668.c b/drivers/leds/leds-as3668.c
->>>> new file mode 100644
->>>> index 000000000000..0cfd3b68f90c
->>>> --- /dev/null
->>>> +++ b/drivers/leds/leds-as3668.c
->>>> @@ -0,0 +1,202 @@
->>>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>>> +/*
->>>> + * Osram AMS AS3668 LED Driver IC
->>>> + *
->>>> + * Copyright (C) 2025 Lukas Timmermann <linux@timmermann.space>
->>>> + */
->>>> +
->>>> +#include <linux/bitfield.h>
->>>> +#include <linux/i2c.h>
->>>> +#include <linux/leds.h>
->>>> +#include <linux/module.h>
->>>> +#include <linux/uleds.h>
->>>> +
->>>> +#define AS3668_MAX_LEDS 4
->>>> +#define AS3668_EXPECTED_I2C_ADDR 0x42
->>>> +
->>>> +/* Chip Ident */
->>>> +
->>>> +#define AS3668_CHIP_ID1_REG 0x3e
->>>
->>> Can you tab out all of the values please.
->>>
->>>> +#define AS3668_CHIP_ID2_REG 0x3f
->>>> +#define AS3668_CHIP_ID1_EXPECTED_IDENTIFIER 0xa5
->>>
->>> This is odd. What do you mean by expected?
->>>
->>> What kind of ID is this? Board ID, platform ID, Chip ID?
->>>
->>> Call it that instead.
->> Calling it just AS3668_CHIP_ID1 then?
->> It's the identifier of the chip model burned into silicon in the CHIP_ID1
->> register. Checking it isn't critical in the first place.
->> It catches errors made in DT files but nothing else. You haven't 
->> commented
->> about that so i guess it's okay. Are drivers in the led subsystem 
->> supposed
->> to check that?>
->
-> CHIP_ID1 is the register, but what does the number signify?
->
-> What version of the chip? Does the chip have a name?
->
-> What's the difference between the values in ID1 and ID2?
->
-CHIP_ID1 is a register which contains a fixed magic number so a driver 
-can check if it's talking to the correct chip. There is no deeper 
-meaning to the number as far as the datasheet is concerned. We simply 
-check the number. It's supposed to be 10100101b according to the datasheet.
-CHIP_ID2 contains two fixed values. The upper four bits indicate a 
-serial number of some sorts. The datasheet doesn't specify an expected 
-value and doesn't state it's purpose. I suspect it to change between 
-production runs. The lower four bits of the CHIP_ID2 register contains 
-the revision of the chip.
-None of these values are particulary important for the function of the 
-driver. My suggested driver does check CHIP_ID1 just to fail early.
->>>> +#define AS3668_CHIP_ID2_SERIAL_MASK GENMASK(7, 4)
->>>> +#define AS3668_CHIP_ID2_REV_MASK GENMASK(3, 0)
->>>> +
->>>> +/* Current Control */
->>>> +
->>>
->>> The X thing (below) is weirding me out.
->>>
->>>> +#define AS3668_CURRX_CONTROL_REG 0x01
->>>
->>> Drop the X.
->> The datasheet explictly calls this "CurrX control". It configures the
->> outputs for different modes like off/on and pwm or pattern generation for
->> all four channels simultaneously.
->> I could imagine AS3668_MODE_REG being more descriptive but we would 
->> diverge
->> from the datasheet. Is that acceptable?>
->
-> It is if you say it is. Some authors like to stick to the datasheet,
-> which I would respect. Others think that datasheet authors / register
-> namers are bonkers and the S/W should be much more friendly to readers.
->
-All the register names are taken from the datasheet. I considered 
-renaming them but I think it would do more harm than good as the 
-datasheet is publicly available and could be helpful for future changes.
+Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+LEDs has landed, but the DT part was left out. Introduce missing
+dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+enable privacy-led on Lenovo Thinkpad x13s.
+
+With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+mostly use MIPI cameras, this feature becomes more desired. Original
+rebased patch is still working as expected (with respective DT changes)
+on Dell XPS 9345.
+
+Changelog to original series:
+- Pick RFC patch, pick R-by, drop RFC-related commit message part
+- Add new DT binding to describe generic LED consumer properties
+- Rebase and test on X1E laptop
+
+[1] https://lore.kernel.org/all/20230120114524.408368-6-hdegoede@redhat.com/
+
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+Changes in v5:
+- Fix last occurance of `privacy-led` to `privacy`
+- Link to v4: https://lore.kernel.org/r/20250910-leds-v4-0-1fc320488233@vinarskis.com
+
+Changes in v4:
+- Rename `privacy-led` to `privacy`, depend on x86/ACPI change
+- Simplify example in dt-binding for led-consumer.yaml
+- This series now depends on: https://lore.kernel.org/all/20250910104702.7470-1-hansg@kernel.org/
+- Link to v3: https://lore.kernel.org/r/20250908-leds-v3-0-5944dc400668@vinarskis.com
+
+Changes in v3:
+- Drop unnecessary 'dev->of_node' check by Andy
+- Keep 'panic-indicator;' in DT by Konrad
+- Fix property/property-name order by Konrad
+- Add missing 'led-names' enum definition for video devices by Rob
+- Add oneOf to 'leds' to avoid conflict with nodes of same name by Rob
+- Link to v2: https://lore.kernel.org/r/20250905-leds-v2-0-ed8f66f56da8@vinarskis.com
+
+Changes in v2:
+- Fixed mailing issue
+- Fixed wrong R-by, add my missing sign-off
+- Elaborated cover letter/commits descriptions to better describe why
+  this is needed, and why trigger-source could not be used instead
+- dt-bindings: expanded schema description, fixed s/phandle/phandle-array/,
+  expanded the example
+- dt-bindings: added patch to commonize 'leds' from other schemas
+- leds: dropped wrapper, dropped exporting of private functions
+- dts: added patch to utilize privacy-led on Lenovo Thinkpad x13s
+- Link to v1: https://lore.kernel.org/all/010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com/
+
+---
+Aleksandrs Vinarskis (3):
+      dt-bindings: leds: add generic LED consumer documentation
+      dt-bindings: leds: commonize leds property
+      arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
+
+Hans de Goede (1):
+      leds: led-class: Add devicetree support to led_get()
+
+ .../bindings/leds/backlight/led-backlight.yaml     |  6 +-
+ .../devicetree/bindings/leds/leds-consumer.yaml    | 67 ++++++++++++++++++++++
+ .../bindings/leds/leds-group-multicolor.yaml       |  5 +-
+ .../bindings/media/video-interface-devices.yaml    |  8 +++
+ .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  8 +--
+ drivers/leds/led-class.c                           | 17 +++++-
+ 6 files changed, 96 insertions(+), 15 deletions(-)
+---
+base-commit: 3db46a82d467bd23d9ebc473d872a865785299d8
+change-id: 20250902-leds-c61c877add80
+prerequisite-message-id: <20250910104702.7470-1-hansg@kernel.org>
+prerequisite-patch-id: 429eb224c966424b458a7179e10e1f3172408eb8
+
+Best regards,
+-- 
+Aleksandrs Vinarskis <alex@vinarskis.com>
+
 
