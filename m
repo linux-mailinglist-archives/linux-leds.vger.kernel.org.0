@@ -1,173 +1,113 @@
-Return-Path: <linux-leds+bounces-5486-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5487-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7684B51F5D
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 19:48:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD3EB5296C
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Sep 2025 09:00:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 738F7A048F8
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Sep 2025 17:48:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 695825676C8
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Sep 2025 07:00:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADA932F741;
-	Wed, 10 Sep 2025 17:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XxXIqeoF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7280026FA67;
+	Thu, 11 Sep 2025 06:59:59 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2287B33438E
-	for <linux-leds@vger.kernel.org>; Wed, 10 Sep 2025 17:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB3226E703
+	for <linux-leds@vger.kernel.org>; Thu, 11 Sep 2025 06:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757526466; cv=none; b=TskceEFL6e7smXreExXTeeATWsa2UkZ+Mm3jyEyIn+grCopoTwSCmzLZRlq7bRGW+11V6qxwPrAKtpznLfK7Ipa9q2Qv/5uYbV7e5cYMrIiesBu4LSSOUkvkNId8WO43vY+csafAk9hjIPxKQAXJFy6t8aMjshBKM5mOozKzppY=
+	t=1757573999; cv=none; b=hq0p3bK10KX0TIzma8PFOQQWR3MXu6Yj35qo0+NBxIyPxcfeXyxpeZzt3kMVxlBOg+eXjCfdle11NPS0D9yIHUF3E7npXa6bqKVdKmty7VndCSMRjhzYHnIa+IlbmHCJRuA+SH8m5eggEFp8ibfgNKyRhiZEk5QZocNy9ih3Eq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757526466; c=relaxed/simple;
-	bh=4cQwm7Q2pRjHNrxMhXKFmcxzEdebTfOxr8vSlGhts8Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nsL5ljRGC0For6+22Hb9bXpXxvWNk3hjWmBR+LlJuahwYtgWB+11Rj8jmeaW0amP2ltnaa8z+ckAO5PBREDsQnkzBbr1vQNDGalFntquV4nMhtIzAHp3AglWipvKDmpzJaw+BFX576MhwW0vgYlD52Yt+ZkGHuDXXplbT+RTRq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XxXIqeoF; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6089a13961cso2699014d50.0
-        for <linux-leds@vger.kernel.org>; Wed, 10 Sep 2025 10:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757526463; x=1758131263; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=043TJq6hpWw8pYqx0PWm3cQzQQkOF8ixWKwRpDFzK+o=;
-        b=XxXIqeoFCiTE6dLksjPMry56lc+fBNBEuDI7T9Lr55owuYSvvejsFeYoAm5fsSwGHJ
-         tYhJySfG52UcikCsX6p1kqq/jw+xHkYVcejry4QiYKT8vJ+XR1bcI1Nogh3DpsUIbHtN
-         yEzO8XZEiTpb1k+g+qL8TlIi4DdXaBAF3iFTlwA2BO3dWnqhivt2I1Y8rGcqlmwcTXdJ
-         B8XUQM/b+NmmrqTWaVIIUo7tNEcTJm+KRkD1rCueZ2Aw4g9yLmNWBEv1/ZOMozYT9lgH
-         05hdeP6yPf/c2aT18Y3KsU4+GjF/u2XLVMWRMgKWFyQxUg4M7w7UkjhSdindYlPT9sUH
-         Kpiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757526463; x=1758131263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=043TJq6hpWw8pYqx0PWm3cQzQQkOF8ixWKwRpDFzK+o=;
-        b=wryo5m6WaTnNDfasDr6HSgiK8Itee33OTkXAuRzw67EkArnipn7gHZbJVbZSd62NPk
-         5fTNjyOE0ULlf1Rwa/1me6zINDGZ7MeDIZLnwVfYgmA5k4ricLN6xCRo+9Fu6kKLu2rD
-         x2PjSaYP3eBXzQ/Gy5BYpJJfjjpze93L0/BnzkWLotqRpVajQDYpWgY2aVVxPG74PcCr
-         cVYj1TFn8ni0VMYarfeoX290TgpuKueNczssAx1YDIcRRm+Yq82QbAq5BjcMRdm9YeaQ
-         UukR6u2F/9j2Vzpxsw4fe9uc8JHwOGLyR71hF6ce9UgJiDGvLnosxD/+3loGsK5EUGaZ
-         VkbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuvGPfsBoCtZ50u3X43X7oV3PMsgTUH+V6+/lxK2XDsKYpjXMlpNJJ4ba2qNPzhoXnP68AkCv/AG14@vger.kernel.org
-X-Gm-Message-State: AOJu0YzY2qAj8a39FscJhk9r6x2FEToY3N64eA2HS3HnRtuTJQfsvcIK
-	48Wk9AhlGJ60S3TEHHFeSInNGhWLpGr4lXzdCdtyHrC7bYVOHRsN0ELlA66OpJpoWLpN0oTfbYu
-	aTJll54aOqcZ19/2iuIsgIucZsFKH1MY=
-X-Gm-Gg: ASbGnctdruiCq5xPdvueMpBFRD9CkKU5oxlEmmNGGpdzLzpnAUy/NzLKgP8fG6Dm1sh
-	ZgPdjwJ4rbFocEpN0BF7Kq9EDTEdol79TfFvfwHVpZ1WJJrm8iJwmqEgjUEgm/fHS8S14kifcQB
-	vP3Ywn0qU/4gCfTVjKEJ6FAGcaFgv4c+RF4yMNniJJztPMc/7GJyAo15X9DVDUp2iYWdZPByGSK
-	1PDmhnx
-X-Google-Smtp-Source: AGHT+IHxqld34a90SEM7ZlyhxBZvKGmf9aZideR0Sg0xlweL+lpFqlqovs0nnqC44Do1K8CC6oK2kjmZ56tu8gmw1Tg=
-X-Received: by 2002:a05:690e:430e:b0:5fc:541b:cea3 with SMTP id
- 956f58d0204a3-6102135dfeemr9750495d50.2.1757526462993; Wed, 10 Sep 2025
- 10:47:42 -0700 (PDT)
+	s=arc-20240116; t=1757573999; c=relaxed/simple;
+	bh=xYIy1XN64GZ5/gu04ZuovWY5JAMht1uak8z/8ld38Yg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YyNkVZaYAx5kjE9wGXkn2v1ZfsHSLvT4uo++dApE38zhh+Nx7ksi2G86WI6ivdYrv0jzIsMP07kZANUcsog1rsfkCB2YZNK1qyhxfY790SGe4vSKLthRn9NB8mGVpjTna7+7/ocap1Av5QScPFpOIyHgA9hAQU/Ax3+vQ8CVSes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.trumtrar@pengutronix.de>)
+	id 1uwbHa-0002uj-Sn; Thu, 11 Sep 2025 08:59:50 +0200
+From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Subject: [PATCH v3 0/3] LED: Add basic LP5860 LED matrix driver
+Date: Thu, 11 Sep 2025 08:59:30 +0200
+Message-Id: <20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
- <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com> <CAOvMTZhxJ3atv62ui5+ahNKV1vb7JXnwwm4xxvg5p=o5p2HnDQ@mail.gmail.com>
-In-Reply-To: <CAOvMTZhxJ3atv62ui5+ahNKV1vb7JXnwwm4xxvg5p=o5p2HnDQ@mail.gmail.com>
-From: Steev Klimaszewski <threeway@gmail.com>
-Date: Wed, 10 Sep 2025 12:47:32 -0500
-X-Gm-Features: Ac12FXwyR3KsW504KghsIm6qGTQ8W8fmNLhinJPGzylKTRxTbEJk3t0TSqYGRWY
-Message-ID: <CAOvMTZhmacxPsM3GcLL9cNq-1BonkwycYKY=hwtVXTz5UF_LYQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Daniel Thompson <danielt@kernel.org>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFJzwmgC/3XNQQqDMBCF4auUrDslGRMTu+o9SheaRB0oKtEGi
+ 3j3Ril0UVz+D+abhY0+kB/Z9bSw4CON1HcpsvOJ2bbsGg/kUjPkqDiKAmIOQsLUD2RhIngOyuQ
+ calSlNFWOVhcs3Q7B1zTv7v2RuqVx6sN7fxPFtn5F5AdiFMBBotGyclYrkd0G3zWvKfQdzRfn2
+ cZG/FEqIQcUJkqjt9bUpSyd/qPWdf0AjxwtwwoBAAA=
+X-Change-ID: 20250219-v6-14-topic-ti-lp5860-f25a48b62c79
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Steffen Trumtrar <kernel@pengutronix.de>, Pavel Machek <pavel@kernel.org>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Steffen Trumtrar <s.trumtrar@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
-Hi Aleksandrs,
+The lp5860 is a LED matrix driver with 18 constant current sinks and 11
+scan switches which allows controlling up to 196 LED dots.
 
-On Wed, Sep 10, 2025 at 12:04=E2=80=AFPM Steev Klimaszewski <threeway@gmail=
-.com> wrote:
->
-> Hi Aleksandrs,
->
-> On Wed, Sep 10, 2025 at 7:01=E2=80=AFAM Aleksandrs Vinarskis <alex@vinars=
-kis.com> wrote:
-> >
-> > Leverage newly introduced 'leds' and 'led-names' properties to pass
-> > indicator's phandle and function to v4l2 subnode. The latter supports
-> > privacy led since couple of years ago under 'privacy-led' designation.
-> > Unlike initially proposed trigger-source based approach, this solution
-> > cannot be easily bypassed from userspace, thus reducing privacy
-> > concerns.
-> >
-> > Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
-> > ---
-> >  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++---=
--
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts=
- b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4f=
-ec8c1d1f20ee525bc 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > @@ -83,14 +83,11 @@ leds {
-> >                 pinctrl-names =3D "default";
-> >                 pinctrl-0 =3D <&cam_indicator_en>;
-> >
-> > -               led-camera-indicator {
-> > -                       label =3D "white:camera-indicator";
-> > +               privacy_led: privacy-led {
->
-> Should this now be privacy_led: privacy { ?
->
-> >                         function =3D LED_FUNCTION_INDICATOR;
-> >                         color =3D <LED_COLOR_ID_WHITE>;
-> >                         gpios =3D <&tlmm 28 GPIO_ACTIVE_HIGH>;
-> > -                       linux,default-trigger =3D "none";
-> >                         default-state =3D "off";
-> > -                       /* Reuse as a panic indicator until we get a "c=
-amera on" trigger */
-> >                         panic-indicator;
-> >                 };
-> >         };
-> > @@ -685,6 +682,9 @@ camera@10 {
-> >                 pinctrl-names =3D "default";
-> >                 pinctrl-0 =3D <&cam_rgb_default>;
-> >
-> > +               leds =3D <&privacy_led>;
-> > +               led-names =3D "privacy";
-> > +
-> >                 clocks =3D <&camcc CAMCC_MCLK3_CLK>;
-> >
-> >                 orientation =3D <0>;      /* Front facing */
-> >
-> > --
-> > 2.48.1
-> >
->
-> v5 does not turn the led on here on my X13s whereas v3 did (and v4 was
-> not tested)
+This series adds just the basic support for the device on the SPI bus.
+It is also possible to use it on I2C. The interface can be
+switched/selected via an interface select pin.
 
-From IRC conversations, the issue was not having
-https://lore.kernel.org/all/20250910104702.7470-1-hansg@kernel.org
-applied - with this prerequisite, v5 works here
+Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+---
+Changes in v3:
+- fix c-styling errors
+- rename functions/defines/variables
+- split out ABI documentation
+- rename [rgb]_current* to [rgb]_global_brightness*
+- rework multi-led probing
+- Link to v2: https://lore.kernel.org/r/20250514-v6-14-topic-ti-lp5860-v2-0-72ecc8fa4ad7@pengutronix.de
 
-Tested-by: Steev Klimaszewski <threeway@gmail.com>
+Changes in v2:
+- add open and short detection
+- add ABI documentation
+- fix devicetree binding (maxItems/minItems)
+- fix commit message to imperative mood
+- minor cleanup
+- Link to v1: https://lore.kernel.org/r/20250220-v6-14-topic-ti-lp5860-v1-0-42874bdc7513@pengutronix.de
+
+---
+Steffen Trumtrar (3):
+      dt-bindings: leds: add lp5860 LED controller
+      leds: add support for TI LP5860 LED driver chip
+      Documentation: ABI: add lp5860 led matrix controller
+
+ Documentation/ABI/testing/sysfs-class-spi-lp5860   |  23 ++
+ .../devicetree/bindings/leds/leds-lp5860.yaml      | 111 ++++++++
+ drivers/leds/Kconfig                               |  28 ++
+ drivers/leds/Makefile                              |   2 +
+ drivers/leds/leds-lp5860-core.c                    | 222 +++++++++++++++
+ drivers/leds/leds-lp5860-spi.c                     |  90 ++++++
+ include/linux/platform_data/leds-lp5860.h          | 305 +++++++++++++++++++++
+ 7 files changed, 781 insertions(+)
+---
+base-commit: a32cf8a562e776ee75d4fa9432719e855d70fc03
+change-id: 20250219-v6-14-topic-ti-lp5860-f25a48b62c79
+
+Best regards,
+-- 
+Steffen Trumtrar <s.trumtrar@pengutronix.de>
+
 
