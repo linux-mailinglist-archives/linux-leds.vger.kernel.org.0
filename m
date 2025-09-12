@@ -1,274 +1,230 @@
-Return-Path: <linux-leds+bounces-5504-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5505-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932C9B542A0
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Sep 2025 08:17:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A50B54935
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Sep 2025 12:17:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 469791651EC
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Sep 2025 06:17:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5CE31168E28
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Sep 2025 10:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08184243374;
-	Fri, 12 Sep 2025 06:17:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2C952F3C1F;
+	Fri, 12 Sep 2025 10:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="ONz/9qgc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cRdsS/HT"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11021097.outbound.protection.outlook.com [52.101.65.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80975134BD;
-	Fri, 12 Sep 2025 06:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.97
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757657838; cv=fail; b=kYuHpDbZY3nHNtnSqnFxaXZe87O6KLPhGABe7GXoRqzd5h/PHXm7c+Flj0L2v2guxjYBdguHdJtpCh2Aj9ZdEFp0uj9f+gWUiJ5k/HF2lY7NKMlg1gtamsPu2tBQ3k8OTR2IK/d4eEYVaCqUM7IrwFP3b0btRxFLTW7YsdAJfOY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757657838; c=relaxed/simple;
-	bh=E4XFrvV5tld89Ur/xQG7j5AauP/X6IQ5eYgwTtITc3w=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uMVSl7wtmKZ6t5Swowa2rDTQGQfgoRVd74N+4lK5P5hAWGqRfINLQ19R0ZwY/a1g9YpjlNfidr3b5vbU9Zs71A/VfLJu5kzdzIYDO6/BTyPuoHAe2TRHc9wlgMioHVBOlt9VR2c+f6xp8fZwFB2lwGjOsPKgPmXJ/L76jwwkbkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com; spf=pass smtp.mailfrom=gocontroll.com; dkim=pass (2048-bit key) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b=ONz/9qgc; arc=fail smtp.client-ip=52.101.65.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gocontroll.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gocontroll.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C8v2pKW2W0jE5FyVzRVoE8VRMK5S8buiHsTbAV2drKNyCCU3cKB432VYUi1TEWy3bTo1h/oPvebl1EpMKZDS8DxNeMwdHgDnIJaEbD/1PjaQZTtmyo8k5SW0HFWRPHOTBhiJqTT5CxGRVgjU8rvXlRJ05VTwvPfMAUDpCjzgSrnNZ4D7i2TnMc/5Pcd2WJTiHWbZajlQtkcmQBY9sTg+0j8l9kQ61+OxbDlHhMNj3fdJNguRPyBzOx5/7RSHRmidirJoRehUaM+ZlcxD95d4G52ri+m/lTgdAEGHgiw5UZpkhaK+i/ZopZKsM9yXGV5fueE0uERhRCAf6z7PMvmDiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kHoISVlm0y+BTh19FSqQcONOiluYUMMRpWfjIldVELI=;
- b=eVnOZLvKLtU/FZjC+STiL6Pl04q3T4tefvXy80qlWrw2bAMxL5bMdkvEgLt1YsfOmRFIdzV1euoUSkXzJ8qPLllNqwD53bOmAnaO+0MsCX0Dj+CTz68H0/oGxNFu3N5Ov3+6F6FPYL9406z+FP1wmPfFLkyjTe0LiCl3uJ/pzxrrDsuD9QwSy7c7oIwsXI0sUCYQKqs+iPY57p1lahv/RMpuce8eaUyxIsfQHCEK2UzPoQIiOc/i95JK/KxSBIkdC78rbVdlUGP4Gar8lD2MK/7LigAa3MX6bZ2FvlcBOTlyIk5VImeegXHW/7NiTzuPDaTo5wW3iR57nLschaJDVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gocontroll.com; dmarc=pass action=none
- header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670E12F39C0
+	for <linux-leds@vger.kernel.org>; Fri, 12 Sep 2025 10:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757672017; cv=none; b=sNjFrsaQjiADe8Iisimr47hZ2ebpHbrTluuX3HvO+84YTjZtcRRA+wJUUWZiKKIkNqc1JgUGv6PXN/r0adihnZUXbyG59wYM7yCxA+REwQLbJrxAyqzy6MRGYxwvn/tVrau5VW/GnBHqWzLkQJU/nWcrxDsDJGNcIgZjVMgHZ58=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757672017; c=relaxed/simple;
+	bh=/OWtcAZEOcPhx9UUr52r3oPYHKOagu17XGDHuTXXdVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gu2twOHam9OgLl34Nfnj5pDj5xTwWdlA0cQvAkFU83eRz3pUxIDUW3ujCPdFxm4B+7z8vGKmHXj8S+6IXFkJaLd61D3xI+XamF3cse1MijAiOCk4mOTAiYyviRoxOQSgn4+VikANszUdAO/q0UOsnNfpVAn0HCWjq3b5KuCCzgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cRdsS/HT; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-afcb7a16441so259613666b.2
+        for <linux-leds@vger.kernel.org>; Fri, 12 Sep 2025 03:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kHoISVlm0y+BTh19FSqQcONOiluYUMMRpWfjIldVELI=;
- b=ONz/9qgcj0GbLTcpAOYuPdFr58I5X4fHkwPmjN1GquG2gRPCOR5W/yVSyidcvkP4PW7lFKvPopEsfwSE3yHHm/j/6qxaYYRLD92568NDGpPFufmmdVdsSeW4PHPWPcGTch5WA06SuZESnourY/TvSLg/i1+aoOPjoTS+f6MoWnsNdWErwYjKlWW6IC693UQEWMyZUjTpg93Q6HrpufFfLSC0SuIR7Gh9zExrZnTlHD0TPzy1Rddo6rHCA23+pOmN38VZy8ESAFcLAXJkhvvaOL1QSYnZ9XSaqUh1DB54z+WpwHhfXNBz2YidQT8g0qlOTfRT2D7ljadivdf2IerqVQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gocontroll.com;
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
- by AS8PR04MB8008.eurprd04.prod.outlook.com (2603:10a6:20b:2a7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.17; Fri, 12 Sep
- 2025 06:17:11 +0000
-Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
- ([fe80::311b:ad3a:4a62:7b5f%6]) with mapi id 15.20.9115.017; Fri, 12 Sep 2025
- 06:17:11 +0000
-Message-ID: <3960b845-3838-4690-b01d-21e61ccfa8fd@gocontroll.com>
-Date: Fri, 12 Sep 2025 08:17:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: backlight: Add max25014 bindingsy
-To: Frank Li <Frank.li@nxp.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20250911-max25014-v3-0-d03f4eba375e@gocontroll.com>
- <20250911-max25014-v3-1-d03f4eba375e@gocontroll.com>
- <aMLrrcBZ2Kc4o84t@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Maud Spierings <maudspierings@gocontroll.com>
-In-Reply-To: <aMLrrcBZ2Kc4o84t@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P191CA0015.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::20) To PA4PR04MB7630.eurprd04.prod.outlook.com
- (2603:10a6:102:ec::16)
+        d=gmail.com; s=20230601; t=1757672012; x=1758276812; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ThoxGb368oKgFs/rr2WTmFtwKNun3Wa7IhqSPfymgb8=;
+        b=cRdsS/HTNUTIgUz7Dkb+4BbNnSd2OEjkhkcALkWs/YyVE27dJuQff64T762FVGquEf
+         +shOsODxQGZ0jYtdCkKyu/u2QXm5XgBOaWYUnwJqkkY0TapfI0k98axI1yzLhlFToncT
+         uyCMKbT6J9qeQrFQqjoDe8i79ezgZSs4DtpMpYPXBlD0xc8H0feLF9NQzpvwGbYTR1d1
+         Fv1x7lI/9Autv3QRTHrKt80ZQUcN+CmXc90slabtf+f7aLXgM06CYRgTfCihWQte+VnM
+         aHRA9ZP9y4WfchjN5PbFoYC4ar82JP647nwgtdmCOTtl62q827yPyDl8slJPJZnP2pPl
+         5d2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757672012; x=1758276812;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ThoxGb368oKgFs/rr2WTmFtwKNun3Wa7IhqSPfymgb8=;
+        b=qLIWLs5RAV1fgr7os+vrChbO28XB87Y86zprBYuGGM9J3j62giAywqnY4n6rCfy0ol
+         5aoyFaa/eoVIMKL6PIabIrwpE6VmvKRC2eUrY1C1QlxMCKFa4/RaO1xRetv1dwtqyj88
+         Dbz+QsgCijuDpnnrZrZurQY9BDapPewfb6bZSGGvuOyjU8ueWmcQOKoPuW/w7bDpnUkm
+         +KmaKT7InUjdgPDBKzhuB9PWeKg1zuiJklRy6h+akM7HmiFvKw5l02akzmj7ZNiiFgwB
+         8vKnvWhHIx01BsR2T2VnyZwIRmy7tKZgfnQjM/9bJFEElEQe3cRKhI3R3wXaddyQCztL
+         oCkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWS8pPP3PG4DEh02biHOFkFuMXjs9kinsZV0L31abvuyaqqw+yXav3ESMy41bIL77paEV7OR/Uzac15@vger.kernel.org
+X-Gm-Message-State: AOJu0YyesPW47AapfDPTw67L6GnEL2MkFK7fYU5e8goGQt6bQPTsb7nT
+	sFU8plcC5gB6GJsAZ1BAicsc9I3DH8U+2KxiBNfGdSOO/+2Cz86HF7dd
+X-Gm-Gg: ASbGncui37qWol74zLSnQihvS5SZQAKWmkMMYT7ov5UR27M3/AKYjhzv6ondCz/db5I
+	lx3OCaErZ/PoiF/8UHhn92oetxKbkPUGdG+F5HFbtvLFL29QIFVej6mdYzEq7SkX/nARhfHL2jH
+	aEBC39Y0s7zm/dDYCyYup/nUa7/z+26VIPUPf6hdwppTCyTapkJpdgvaPf6DGgeSlogR+yko+zi
+	2sqvZDz0ZYes3qOgxBdG4RPxZ3iYzeMKrHNX2yKrgcrXb4R5kXP3nTHsy0xV+KRctTC4JdKncNx
+	ra/VwXa1XQb4FcEaBPDLxJHYDDADCK0U7Uw9bXzjwJeSojnoDkP0pt8S42rTfhZj6Rx2cPyKVhD
+	L4jj+sSyUI5KyQ+Gsy4tE1Mj1+bbgAdr7rO1iCGUQVGKmiALGnl4W1ZedVvfQYxK3Bq7pgyNECP
+	TPBBaAxXxtf9a0GkzL+YqczcC3hLkk2bN1gDy3x8uOvtueK72hpiTXgQ4PWBWBJi7J9m5mpPt4s
+	2DT4Mr5TtovlDllTsCETXq5JOfcHcYsvOVAFg==
+X-Google-Smtp-Source: AGHT+IFmg+eT81PbiNuQPgY7s2M341XtTM4x4qlGKkFnfABcJKEen0jVYDipX4R0Xf97aWu0aqSmSg==
+X-Received: by 2002:a17:907:3c8d:b0:afe:23e9:2b4d with SMTP id a640c23a62f3a-b07c365d4c1mr242353666b.43.1757672012173;
+        Fri, 12 Sep 2025 03:13:32 -0700 (PDT)
+Received: from ?IPV6:2a02:8388:e103:2700:3587:c16e:ba16:4b22? (2a02-8388-e103-2700-3587-c16e-ba16-4b22.cable.dynamic.v6.surfer.at. [2a02:8388:e103:2700:3587:c16e:ba16:4b22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b32dd408sm336095566b.59.2025.09.12.03.13.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Sep 2025 03:13:31 -0700 (PDT)
+Message-ID: <58758ff1-e7d7-4c47-a513-f65bdf777a6a@gmail.com>
+Date: Fri, 12 Sep 2025 12:13:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|AS8PR04MB8008:EE_
-X-MS-Office365-Filtering-Correlation-Id: f303a714-b3a4-4e7f-7b88-08ddf1c40222
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Y3l6bFJWbU84cW1wQnFZejV3Z2ozRjgrMDU5RkUxaXg5dDJuNVgweU44VW9V?=
- =?utf-8?B?dTkrNmpSZzhmU014anRsblNnWHFyNjVKcGtNTlhMeEZZZFU1Wm9Jb2ovVnds?=
- =?utf-8?B?c0JHWkVZVU1wUkxsbDQ5VDB0YTlBd0REUHNpTUpHWEhjSHczVzBTZE0xaG9E?=
- =?utf-8?B?Si9vZTVCMlRVYTJ6WG5DZUdsaDV6bnhWQlBuU2RISEttay9DNm1OeWJTNGhi?=
- =?utf-8?B?R2d2bjJyRjhXL2xqWlRBcUNlckVhWWpKOGwwZ1lFRzJzK3A0NXdTMnZvRkJx?=
- =?utf-8?B?cWlhSkRNZ3FXNDVOZGJjUnZkU0l5VDFZcDhnbzBaRjIyNDNReVJoS21rZFhV?=
- =?utf-8?B?cEl2emt5SncwaEVnQWpWdUpKODMzc09Fc1ZsZ1FUa2dXVG9Xdy9ZOGVqWVlV?=
- =?utf-8?B?cmtWaGtnY0d5YnM2UFJQOU5wYkJKaFY5WWU4bmMzQnlNNVNydXBFYzRjUW83?=
- =?utf-8?B?bXQ1bTNYZkFPSnNhUkJoQ2FUQmJFVlR5bWFhWm5QSnVSY1lhUllQNzdMbHZu?=
- =?utf-8?B?MkN5dVdpdmpaTTRpcVVmKzZocDczS2c3MSsvR2Z5TnpCbkNFU0Fxd2VFOXpn?=
- =?utf-8?B?a2NVWHRjaFY0QktsWjV5dThONWRMcUdHM2NBOFVFL29CM05CZmJSSzB2MUdh?=
- =?utf-8?B?aldQcGlhNUcvTUI2RGk0OTkreVY5Y1crMEQ0S3hYK1gxSmxqdWlVZS9MTWh3?=
- =?utf-8?B?MzRkbWE3N0lJcWRRdGh4N0tVcEk0RDkwbmo1U3lhbDhFR2QrcHVYNVFoRDJT?=
- =?utf-8?B?RnNoSzBGMUsyb2V5eWJ3MzB5bEd4WTBpZjNkWW80MWFEZit4azE0T1NtWVAz?=
- =?utf-8?B?SWdTRlZqNFR5ZGNCc1dNNzdOQ0lwWHBWdEN5UmdLRmYwdUp3K082dktmYk1H?=
- =?utf-8?B?blVPeEJCeWRJd0ZsNGNLZFEvTGVhMXFyMG82YkZrbUp1Y3BFSHdGRG81VjVB?=
- =?utf-8?B?ZVdsZThsVWl3eUZ5ZFREQ0Zld01mYU8xWFVqOUNwNlZGT2FJelBzVGtHTFoz?=
- =?utf-8?B?bVRtbDB1Y1h1dVgzNUgvbEhvZUxESWtHMzIrZGRXbE9HeGppd0dYU1cwai9Y?=
- =?utf-8?B?OFJnbEJLSkZwaTRPb0dYMkUzcU5relZCc1hVRU40TUhKZTgwb01WTHk5ZFkv?=
- =?utf-8?B?OEFnWHFGWCtiSi9xRndBK2UwazVjMGRSUUVacW5MYTEwQ0d1c0NmRFZMRlR0?=
- =?utf-8?B?TGpXTkhVZWFFSjR1cU9oaVd1eVRtTElONm5kU1RKZ1M3RmwxS2xZLy9kbVJl?=
- =?utf-8?B?MnRvZlRjV0lOa2V0VGQyQTQ0ZzBGR2pqWEtqQXZSZkZLbFhIVWlybXJVNFJp?=
- =?utf-8?B?ODJmOHZHU3NKRnJXeVhwOUZLT01JMnVlUDZ0cDlPaFl2WlNUVEU5VlUrVjd0?=
- =?utf-8?B?Qml6TXJUbTRFR2FmOEYrNmlkY2dLaFhaaXhTaC9pMHZWVUN0QjlMZXB3YkFF?=
- =?utf-8?B?UWNzYlVJMHpoT1lJcnpsb05lR0RtaVJRSU5ZekVVUSsvY3RhN1lobk54TVkr?=
- =?utf-8?B?dG5ZSUl1c1ZWUUtFbE1xNG4rMVVRQkxSZG9HNnlmZlB2NXdIWHhPSXlvVEto?=
- =?utf-8?B?SDhhd0VDS1NRSEVLS2RNVEpKRFNJd1NhZXRDbnlyYjNIclo3TnVRQXU1NDFy?=
- =?utf-8?B?bDk5dVl3NUdVY0JydVNJa2NDa1ZSSTBwN0FoeTdUOWpTQmIzdFdycUc4a0dD?=
- =?utf-8?B?TW50UzVpOW1GenNpY3pMTkdsNXFzVFZKby9tMkJXS3ZwdWgwRE5sQXMxcnpz?=
- =?utf-8?B?TzA5aStqMUxEdTFLOFRuM01DQzc2TFpRVy9MOEtVa1RndFZBa25DcVQ1RnVD?=
- =?utf-8?Q?CunnHAe9IpUfOYWuwPfsFR3DqaOkX0xCJ4NLk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7630.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NFdrOVkwNkFZcGpibGxBMVg4K0pUVHlHaUFKclIyRE84WFNSSWZXOThDenZM?=
- =?utf-8?B?clBNbFJVYlFrNkNtWDE5WFJFeUhwZk1IaldUNWRKZGp4VXNJU1g4Wko2WDNP?=
- =?utf-8?B?dWJtU0tyV0s5SGZYbW1OeVNJeVNGWHR3T2owZXBZKy9tUUJBMVNYWlNlMXZH?=
- =?utf-8?B?aEpPNU1IK3BaR1pxblg1Vnc2aWE3NkdZWlFQa1JnbFpvRURqUERsbkNKQ1RP?=
- =?utf-8?B?WEQ5V2ZsOThrZGp4QjlobkFMVi9oUzNEUmw4OE9lUlQxODRqWDRHZ0JqUTJD?=
- =?utf-8?B?a3graXlCMGJNaCtCR2Z5dTViSFE0RURLbU1yZkVweTB5N1J6YlRrOHkxRStu?=
- =?utf-8?B?blErRk81S0ZZSEV5dDlrTW1HTDNrOC9BS1l6ME5vVW9ob1I3TXFwZUVaSXh2?=
- =?utf-8?B?WTBGdDV1QkkvUjJ0cGsxTkx2UTFPMm1aeG9CTTc0U2l4RzV5eFA4NWY3amxJ?=
- =?utf-8?B?c0IvVGYybnpzVGFIenV5NXkzbkhmY0FqRS9jd0V5bjdHU3lVV1ErcDNQcGlL?=
- =?utf-8?B?WGNIaWwwN2FaZW8zeEw0STdxUHgwd1FWZ1hram9OcE5TTDZGbDlrMW9rdkdi?=
- =?utf-8?B?UlVjTnhCbDNPM3RmSWdIZFp3bzE5S1JsRjllWmFoaVJzNFFyN2xBQTRsSnJD?=
- =?utf-8?B?K3dQYjhIRHFWTzZoUnFJM0hjMHEwRStyVDV1VjIzbThyUjhBU2tkYXJBbnoy?=
- =?utf-8?B?L0U1M3dTWnNqc2pYUG1ud2NqSXpXQ3pYWWZ3UFhSZ2tMb3htMC9nOCsxVkZB?=
- =?utf-8?B?eXhIMUx6eE9mVDN3aFhHODl0K3NobnhVRGk0V1FGdGZaYk5oaGN6d2VKcUpN?=
- =?utf-8?B?N3JVTWUxMkJqOVBWalNmVlFoUExLYm54d3orckFJN2hXbDNWVmZDbG10MVZs?=
- =?utf-8?B?Myt6NkNDbjlXUkZtM2dobmpndER3S2RJRkIvWHY5M0E3M1ViZW1DL0h4azRH?=
- =?utf-8?B?SG9vbVpveWFraGNjMVY1c3E5amNUOFRoL1JLbXBXZkZ0NDBCcTFSdFVDOVlj?=
- =?utf-8?B?d2FzcmFEZVF3RHhuN2JWZ1FPeExEcVFIaDQyeVFLYmdaUTk4QkFGMjROTnNX?=
- =?utf-8?B?UUhHZldOSlNZUHh5djlodzFqN1dLbmVvcXBmcHl4V2psUngrRlM3OHNValFV?=
- =?utf-8?B?dWxIdTh4QkhGRkQyRlp6VGRTa2w3VXN0dEsyK21JSERsVFRrUkF0enhuSjVY?=
- =?utf-8?B?aEFYMTU2ZFJ2WEs3d3FwTUI4NU1kZjFxZXpuUCtYZ1loaW5mc3ZuNTdKdXcr?=
- =?utf-8?B?NVd5S1BLUmYzdUkwSnRmaEQ5MmYxMXpmQUVOa1RIczNSNnczalFySVRWU01r?=
- =?utf-8?B?NWJTWGhiczFscXh6MUMzVC9NUUNhaGFLbGZQVzlHZ3krR1JIdVZMc0hzbXJP?=
- =?utf-8?B?K0Q0M0xkejRPQzY4dm1rZVRvbVpiOUNzd3hKd2laejNodXZGMDBQcXhENWxl?=
- =?utf-8?B?UmlxNXM0S2N0UWM3UVFuUlR0RCsrTUxCeFdTVXpVVU9WQXNnbmRZdzZZWWxw?=
- =?utf-8?B?Mk1FOUo0VlF5OXJPWXA4VTd6Z3Faa1dYNG5DVFVnY1lKdnJJZnJWTTA2elk3?=
- =?utf-8?B?bjBSMzFKNXFjNGx4SWswWm0xcHEwNi8wekZXRXFabkdYRjAyMTIvREFuenZ5?=
- =?utf-8?B?MlVubGhMWVcvSzJhcFNsckFIaURZSTZuYUE1bEdPZ3NTOW5zcW51Y0FWa2Fq?=
- =?utf-8?B?UXc0SlNuWmRVNDZWeDgwQkpzYi9tTWhjZHo4Um9aMm5zODRhdFJLYjYxK1NM?=
- =?utf-8?B?eXQzMkRFZUFvTVJBMlFPeXJwa1ZBbGtKNzJWM2tOcXVLV0czb2tkbFhIaFUz?=
- =?utf-8?B?Z1d5T05JNmJic2JqWU4xdkF5azA1WnRjT1FZaHJ1N2FZWXVMaytwMlI1alF4?=
- =?utf-8?B?RzdpQlpibnN0Q1ZJNHY2UFJxb01KNndZc205bXp3cUVXRUNsQ0pUckZZbmhK?=
- =?utf-8?B?cEp2RExqTk9xaEt4VG9tYzN4eEt1MmtTMnptTkJ3ckJTRXh3VFdOZGpEMEJo?=
- =?utf-8?B?cFE5NmFmb0RkWnJRc0pnc0lEMjN6VDFGSElBamFsVnNIV0F2MVBsVEdqRm53?=
- =?utf-8?B?SmF0QzliWDhiT2MrK2VMMlF0Qy95T3Jnak9EcjdsZHRSaGx3UHpvL1FUbGp0?=
- =?utf-8?B?VGxFakNzY2hSMzdkK2txK1Mra3F6eVNRSVpKdU5jM01OUGxkRERqZUptamhB?=
- =?utf-8?B?V2RyaWFDZXVERWRDZHkyWG9uODF6TVd6aEFQQmtzb0hURWkzNWd0S0k1eGNh?=
- =?utf-8?B?N2tZbjlzQmFjMUN5cXpHM25nNUxRPT0=?=
-X-OriginatorOrg: gocontroll.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f303a714-b3a4-4e7f-7b88-08ddf1c40222
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 06:17:11.0372
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ytZER8S0guSueur5QRj99YkGRp0U/y6UepklbEXWE42m6myZP+QBDQiIN8c+OHN1Zm1lezpUcvB1onj3PvfGHbxcYmRTJJ5A7vSCeWhchKE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8008
+User-Agent: Mozilla Thunderbird
+Subject: Re: use-after-free in firmware_fallback_sysfs
+To: Russ Weight <russ.weight@linux.dev>,
+ "Lalaev, Andrei" <andrei.lalaev@anton-paar.com>
+Cc: "rafael@kernel.org" <rafael@kernel.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "dakr@kernel.org" <dakr@kernel.org>, "mcgrof@kernel.org"
+ <mcgrof@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+References: <AS8PR03MB690125FD99DEC3AF5887AE0DC800A@AS8PR03MB6901.eurprd03.prod.outlook.com>
+ <uotbao55xzmqx6rjzfxq63fzow5nesyqy7gb3illrgkwxrhvee@2wzvsghvk2qe>
+Content-Language: en-GB
+From: Andrei Lalaev <andrey.lalaev@gmail.com>
+In-Reply-To: <uotbao55xzmqx6rjzfxq63fzow5nesyqy7gb3illrgkwxrhvee@2wzvsghvk2qe>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Frank,
-Thanks for the review.
-
-On 9/11/25 17:33, Frank Li wrote:
-> On Thu, Sep 11, 2025 at 09:53:18AM +0200, Maud Spierings via B4 Relay wrote:
->> From: Maud Spierings <maudspierings@gocontroll.com>
->>
->> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
->> with integrated boost controller.
->>
->> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->> ---
->>   .../bindings/leds/backlight/maxim,max25014.yaml    | 81 ++++++++++++++++++++++
->>   MAINTAINERS                                        |  5 ++
->>   2 files changed, 86 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..e113a2ad16aa74f982b9c2ea80578aed2d9424fe
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
->> @@ -0,0 +1,81 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Maxim max25014 backlight controller
->> +
->> +maintainers:
->> +  - Maud Spierings <maudspierings@gocontroll.com>
->> +
->> +allOf:
->> +  - $ref: common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - maxim,max25014
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  enable-gpios:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  power-supply:
->> +    description: Regulator which controls the boost converter input rail.
->> +
->> +  pwms:
->> +    maxItems: 1
->> +
->> +  maxim,iset:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    maximum: 15
->> +    default: 11
->> +    description:
->> +      Value of the ISET register field. This controls the current scale of the
->> +      outputs, a higher number means more current.
+On 12.09.2025 00:35, Russ Weight wrote:
 > 
-> Use standard unit. Do not use register value directly.
-
-It is unfortunately not just a value in Amps, it depends on the hardware 
-design. There is a kind of "default" table with a 49.9K resistor, but 
-depending on that resistor the current is different.
-
->> +
->> +  maxim,strings:
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->> +    description:
->> +      A 4-bit bitfield that describes which led strings to turn on.
->> +    minItems: 4
->> +    maxItems: 4
->> +    items:
->> +      maximum: 1
+> On Thu, Sep 04, 2025 at 04:58:45AM +0000, Lalaev, Andrei wrote:
+>> Hi,
+>>
+>> We performed a long-term stability test on the LP5562 driver by repeatedly
+>> downloading different LED firmwares using sysfs interface.
+>> And after some time, we see the following "use-after-free" trace on kernel 6.12.11:
+>>
+>> [  274.759115] BUG: KASAN: slab-use-after-free in firmware_fallback_sysfs (include/linux/list.h:153 include/linux/list.h:169 drivers/base/firmware_loader/fallback.c:98 drivers/base/firmware_loader/fallback.c:162 drivers/base/firmware_loader/fallback.c:238)
+>> [  274.766743] Write of size 4 at addr b31d0850 by task kworker/2:2/137
+>> [  274.774680] CPU: 2 UID: 0 PID: 137 Comm: kworker/2:2 Tainted: G         C         6.12.11 #1
+>> [  274.783208] Tainted: [C]=CRAP
+>> [  274.786215] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+>> [  274.792775] Workqueue: events request_firmware_work_func
+>> [  274.798151] Call trace:
+>> [  274.800720] dump_backtrace from show_stack (arch/arm/kernel/traps.c:259)
+>> [  274.805827]  r7:600f0093 r6:600f0093 r5:b19659b4 r4:00000000
+>> [  274.811510] show_stack from dump_stack_lvl (lib/dump_stack.c:122)
+>> [  274.816613] dump_stack_lvl from print_report (mm/kasan/report.c:378 mm/kasan/report.c:488)
+>> [  274.822073]  r7:000031d0 r6:df7dba00 r5:f13bbb20 r4:b31d0850
+>> [  274.827755] print_report from kasan_report (mm/kasan/report.c:603)
+>> [  274.832885]  r10:b2d56c20 r9:cdc89808 r8:00003a98 r7:b0f653ac r6:00000004 r5:00000001
+>> [  274.840744]  r4:b31d0850
+>> [  274.843298] kasan_report from __asan_report_store4_noabort (mm/kasan/report_generic.c:385)
+>> [  274.849804]  r7:b9f72c00 r6:cdc89800 r5:b5d31e00 r4:b5d31e10
+>> [  274.855488] __asan_report_store4_noabort from firmware_fallback_sysfs (include/linux/list.h:153 include/linux/list.h:169 drivers/base/firmware_loader/fallback.c:98 drivers/base/firmware_loader/fallback.c:162 drivers/base/firmware_loader/fallback.c:238)
+>> [  274.863105] firmware_fallback_sysfs from _request_firmware (drivers/base/firmware_loader/main.c:941)
+>> [  274.869862]  r10:f13bbda0 r9:b9f72c80 r8:b19c73d8 r7:00000004 r6:00000000 r5:b5d31e00
+>> [  274.877718]  r4:f13bbd00
+>> [  274.880273] _request_firmware from request_firmware_work_func (drivers/base/firmware_loader/main.c:1196)
+>> [  274.887226]  r10:b9f72e98 r9:b9f72e94 r8:f13bbde0 r7:173ee5d3 r6:00000000 r5:ad2777b0
+>> [  274.895097]  r4:b9f72e80
+>> [  274.897661] request_firmware_work_func from process_one_work (kernel/workqueue.c:3235)
+>> [  274.904613]  r10:00000000 r9:b7d7e1e0 r8:b7d7dd80 r7:d76b53c0 r6:b2013c00 r5:b9f72e80
+>> [  274.912469]  r4:b2371a00
+>> [  274.915024] process_one_work from worker_thread (kernel/workqueue.c:3304 (discriminator 2) kernel/workqueue.c:3391 (discriminator 2))
+>> [  274.920823]  r10:b2371a2c r9:b2371a00 r8:b9f72e84 r7:b2371a2c r6:d76b53dc r5:a546e345
+>> [  274.928678]  r4:00000007
+>> [  274.931234] worker_thread from kthread (kernel/kthread.c:389)
+>> [  274.936179]  r10:f0933ca0 r9:b2371a00 r8:b7f6b800 r7:b019ad18 r6:b2354880 r5:b7d7dd80
+>> [  274.944035]  r4:b2354d00
+>> [  274.946592] kthread from ret_from_fork (arch/arm/kernel/entry-common.S:138)
+>> [  274.951350] Exception stack(0xf13bbfb0 to 0xf13bbff8)
+>> [  274.956435] bfa0:                                     00000000 00000000 00000000 00000000
+>> [  274.964647] bfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+>> [  274.972858] bfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+>> [  274.979508]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:b01ba280
+>> [  274.987365]  r4:b2354d00 r3:00000000
+>>
+>> [  274.992472] Allocated by task 8 on cpu 0 at 273.209883s:
+>> [  274.997814] kasan_save_track (mm/kasan/common.c:48 mm/kasan/common.c:68)
+>> [  274.997858] kasan_save_alloc_info (mm/kasan/generic.c:566)
+>> [  274.997892] __kasan_kmalloc (mm/kasan/common.c:398)
+>> [  274.997926] __kmalloc_cache_noprof (mm/slub.c:4319)
+>> [  274.997957] alloc_lookup_fw_priv (drivers/base/firmware_loader/main.c:131 drivers/base/firmware_loader/main.c:190)
+>> [  274.997993] _request_firmware (drivers/base/firmware_loader/main.c:769 drivers/base/firmware_loader/main.c:899)
+>> [  274.998023] request_firmware_work_func (drivers/base/firmware_loader/main.c:1196)
+>> [  274.998055] process_one_work (kernel/workqueue.c:3235)
+>> [  274.998084] worker_thread (kernel/workqueue.c:3304 (discriminator 2) kernel/workqueue.c:3391 (discriminator 2))
+>> [  274.998112] kthread (kernel/kthread.c:389)
+>> [  274.998149] ret_from_fork (arch/arm/kernel/entry-common.S:138)
+>>
+>> [  274.999686] Freed by task 8 on cpu 0 at 273.230581s:
+>> [  275.004679] kasan_save_track (mm/kasan/common.c:48 mm/kasan/common.c:68)
+>> [  275.004718] kasan_save_free_info (mm/kasan/generic.c:582 (discriminator 1))
+>> [  275.004747] __kasan_slab_free (mm/kasan/common.c:271)
+>> [  275.004782] kfree (mm/slub.c:4601 (discriminator 3) mm/slub.c:4749 (discriminator 3))
+>> [  275.004810] free_fw_priv (drivers/base/firmware_loader/main.c:231)
+>> [  275.004840] release_firmware (drivers/base/firmware_loader/main.c:604 drivers/base/firmware_loader/main.c:1170 drivers/base/firmware_loader/main.c:1166)
+>> [  275.004871] lp55xx_firmware_loaded (drivers/leds/leds-lp55xx-common.c:549) leds_lp55xx_common
+>> [  275.005074] request_firmware_work_func (drivers/base/firmware_loader/main.c:1197)
+>> [  275.005112] process_one_work (kernel/workqueue.c:3235)
+>> [  275.005145] worker_thread (kernel/workqueue.c:3304 (discriminator 2) kernel/workqueue.c:3391 (discriminator 2))
+>> [  275.005174] kthread (kernel/kthread.c:389)
+>> [  275.005212] ret_from_fork (arch/arm/kernel/entry-common.S:138)
+>> [  275.006754] The buggy address belongs to the object at b31d0800 which belongs to the cache kmalloc-128 of size 128
+>> [  275.018610] The buggy address is located 80 bytes inside of freed 128-byte region [b31d0800, b31d0880)
+>> [  275.030938] The buggy address belongs to the physical page:
+>> [  275.036533] page: refcount:1 mapcount:0 mapping:00000000 index:0x0 pfn:0x131d0
+>> [  275.036568] flags: 0x0(zone=0)
+>> [  275.036598] page_type: f5(slab)
+>> [  275.036634] raw: 00000000 b2001400 df9544e0 00000002 00000000 00100010 f5000000 00000001
+>> [  275.036659] page dumped because: kasan: bad access detected
+>>
+>> [  275.038189] Memory state around the buggy address:
+>> [  275.043008]  b31d0700: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>> [  275.049563]  b31d0780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>> [  275.056120] >b31d0800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>> [  275.062669]                                          ^
+>> [  275.067831]  b31d0880: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>> [  275.074386]  b31d0900: 00 00 00 00 00 00 00 00 00 00 fc fc fc fc fc fc
+>> [  275.080938] ==================================================================
+>>
+>> I couldn't find any related patches to fix this issue in upstream, so
+>> I have made the following patch to address this issue, but I have some concerns about it.
+>>
+>> Could someone please provide feedback or insights on this?
+>>
+>> ----
+>>  drivers/base/firmware_loader/main.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
+>> index c6664a787..1a49022f4 100644
+>> --- a/drivers/base/firmware_loader/main.c
+>> +++ b/drivers/base/firmware_loader/main.c
+>> @@ -211,6 +211,7 @@ static void __free_fw_priv(struct kref *ref)
+>>  		 (unsigned int)fw_priv->size);
+>>  
+>>  	list_del(&fw_priv->list);
+>> +	list_del(&fw_priv->pending_list);
 > 
-> led should have standard interface.
+> References to &fw_priv->pending_list in this context would need to
+> be bounded with "#ifdef CONFIG_FW_LOADER_USER_HELPER".
 > 
-> check  Documentation/devicetree/bindings/leds/common.yaml
+> Have you repeated your long-term stability test with this change?
+> 
 
-Thanks I will investigate, that may indeed be a better abstraction.
+Hi Russ,
 
-Kind regards,
-Maud
+Yes, sure. I had the test running for 2 days, and no "use-after-free" appeared.
 
+-- 
+Best regards,
+Andrei Lalaev
 
