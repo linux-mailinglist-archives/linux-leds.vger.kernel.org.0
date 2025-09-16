@@ -1,127 +1,131 @@
-Return-Path: <linux-leds+bounces-5516-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5517-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A26CB59633
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Sep 2025 14:29:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76655B5978A
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Sep 2025 15:25:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7E191883EAF
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Sep 2025 12:29:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 288021BC6392
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Sep 2025 13:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E8C307AC6;
-	Tue, 16 Sep 2025 12:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29EA315D2C;
+	Tue, 16 Sep 2025 13:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arr8eIEG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oz2kAG5V"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1BF2C1591;
-	Tue, 16 Sep 2025 12:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A855C314A62;
+	Tue, 16 Sep 2025 13:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758025739; cv=none; b=siHtcQHzOSIeXFYogQi7Vw0iH5SNgHCX5g+P0wlXUdlWNsCqnxR+EcDGa9ySHqF9a+6XG9Wpws/nnqXY5FMGuMcQQaJ0jMz8NGy2RWsc1s7sH1TCdEO2wauXpv5LCpBPoHV9BA8FmvSVaeaqtpvhVr/+VJ2dd5AxfUEXB4GSWZc=
+	t=1758029117; cv=none; b=UxOSK1C2EzQEjdOaN4a61Sc9YZRmhJ7qvCU0Sg5MSEWY20pa1HJA8uXaFLZZy4gqz3Op11gAJAjiOoUfpP/sEkLnnU8QOptx7PPrqYnMl6pk+9YvBEFLBbYn0rWuzkFreFvXeog5CCiZBIQaU0iZT7tM9zSua94TxRMoL2MHi1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758025739; c=relaxed/simple;
-	bh=ufbpKFGMaPkQFTeuXMfQuM5xPh9Pyrq3kfj35C9mwaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tEKdyUirlQu0BNmKBQf9hITX2THyQc3UlYcNoq8BI1M1uwRFc/leZNcvmlRUvk3PIvyqoATd+g/YF6+OzfAmt8sKJGLzqlTttwzNB3SidkvuK3cU3j2aN2RY4Pk31SpoaLSZKBf+YtaMDaYDqeEB/rNzUKG8p9CVKbIH+Hf56Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arr8eIEG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A45BC4CEEB;
-	Tue, 16 Sep 2025 12:28:56 +0000 (UTC)
+	s=arc-20240116; t=1758029117; c=relaxed/simple;
+	bh=stqsNDi0MRmRsGuVrx4YIZiZv4PKdOen65Yeo1HfsEg=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=AwsS9LSVbwwfH3n/WHpv4ZiVLieuadeUFcxEqnzm0UVdQKtylQw4R4X5gCybEg+z7s5fcQpSrLv1X1JbwS+1eBy154GKp3joPyCSZ7Y/NY2Xhg5hwtjmyokb9Y7PnYI89VJAyVV6pWMZ69k6VcQtKtNqXly50ywwL1jA8UJASxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oz2kAG5V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09815C4AF0B;
+	Tue, 16 Sep 2025 13:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758025738;
-	bh=ufbpKFGMaPkQFTeuXMfQuM5xPh9Pyrq3kfj35C9mwaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=arr8eIEGWBmy0530jOL7/rJYFrqihIngrPOATRcP+4zTOTu9510+s0GCfToHHcuLG
-	 1NcMzlSvH6HlZIDQiv4kRK5LV0XLHeOJxYQYVyf1GMdY4KXXQfdQrpIg8kf9iQ/AfZ
-	 r//fniNFsZ55idmg+K8So9uzXrndpsksZ/rEhSeRF/JPhlDbCv6nVHk2CdzMCjsGOy
-	 rIv9GMOJjEKMbFA5d8xuza1E8mP2RXMihkSuihVFnxH5CnH7TQHDF5jpAK1IGCX5lt
-	 QSsEQMzKCV11z3AW90Z5gGjzX7KekyVC/l2wtDFLa5oowcTZIJAKnWp4wPLZ2kbl4h
-	 O2LX1TJfm+nig==
-Date: Tue, 16 Sep 2025 13:28:53 +0100
-From: Lee Jones <lee@kernel.org>
-To: Jonathan Brophy <professorjonny98@gmail.com>
-Cc: Pavel Machek <pavel@kernel.org>,
-	Jonathan Brophy <professor_jonny@hotmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH 2/5] leds: rgb: Add Virtual Color LED Group driver to Make
-Message-ID: <20250916122853.GC3585920@google.com>
-References: <20250916110217.45894-1-professorjonny98@gmail.com>
- <20250916110217.45894-2-professorjonny98@gmail.com>
+	s=k20201202; t=1758029117;
+	bh=stqsNDi0MRmRsGuVrx4YIZiZv4PKdOen65Yeo1HfsEg=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=Oz2kAG5VEW1Kt/uhKXZqkiiF2PDUyogatKvB9PyUaKmfN9gV7VVUDJsygv0pSvJWO
+	 uWJEqEwR5S7Z7bQ50qHK29B4UMp+eP9KhB+FpYJf4knNTEYmELEsEoxtUH8s8iExz0
+	 +Dx2ZgtX9CkOj+8PgHfGEyQmIamf+zC8e9dOM6T53NOCaa/Nr+mLcGm5AIxx7Hm4We
+	 qY9npojjHnFcVY0kjxe1c5c22KOLAXsJbsbPwhykRX3WTjyvcryUtLWIwpt2uNm3ri
+	 ry0XEtzYxA0PEwEzoVit3O9SuTURP4t7m+4FiHszGLcb8ZgUN8+wbq5MjGsembJAAh
+	 xXNzsJ/xg1zqQ==
+Date: Tue, 16 Sep 2025 08:25:16 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250916110217.45894-2-professorjonny98@gmail.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+ Radoslav Tsvetkov <rtsvetkov@gradotech.eu>, devicetree@vger.kernel.org, 
+ Jonathan Brophy <professor_jonny@hotmail.com>, linux-leds@vger.kernel.org, 
+ Pavel Machek <pavel@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, lee Jones <lee@kernel.org>
+To: Jonathan Brophy <professorjonny98@gmail.com>
+In-Reply-To: <20250916110217.45894-3-professorjonny98@gmail.com>
+References: <20250916110217.45894-1-professorjonny98@gmail.com>
+ <20250916110217.45894-3-professorjonny98@gmail.com>
+Message-Id: <175802889901.3636371.13778327614351953763.robh@kernel.org>
+Subject: Re: [PATCH 3/5] dt-bindings: leds: Add YAML bindings for Virtual
+ Color LED Group driver
 
-On Tue, 16 Sep 2025, Jonathan Brophy wrote:
 
+On Tue, 16 Sep 2025 23:02:15 +1200, Jonathan Brophy wrote:
 > From: Jonathan Brophy <professor_jonny@hotmail.com>
 > 
-> This commit adds the Virtual Color driver to led/rgb Make and Kconfig.
+> Document Virtual Color device tree bindings.
 > 
 > Co-developed-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
 > Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
 > ---
->  drivers/leds/rgb/Kconfig  | 17 +++++++++++++++++
->  drivers/leds/rgb/Makefile |  1 +
-
-This should be squashed into the patch that introduces the driver.
-
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-> index 222d943d8..70a80fd46 100644
-> --- a/drivers/leds/rgb/Kconfig
-> +++ b/drivers/leds/rgb/Kconfig
-> @@ -75,4 +75,21 @@ config LEDS_MT6370_RGB
->  	  This driver can also be built as a module. If so, the module
->  	  will be called "leds-mt6370-rgb".
->  
-> +config LEDS_GROUP_VIRTUALCOLOR
-> +	tristate "Virtual LED Group Driver with Priority Control"
-> +	depends on OF || COMPILE_TEST
-> +	help
-> +	  This option enables support for virtual LED groups that aggregate
-> +	  multiple monochromatic LEDs with priority-based control. It allows
-> +	  managing concurrent LED activation requests by ensuring only the
-> +	  highest-priority LED state is active at any given time.
-> +
-> +	  Multiple LEDs can be grouped together and controlled as a single
-> +	  virtual LED with priority levels and blinking support. This is
-> +	  useful for systems that need to manage multiple LED indicators
-> +	  with different priority levels.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called leds-group-virtualcolor.
-> +
->  endif # LEDS_CLASS_MULTICOLOR
-> diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-> index a501fd27f..693fd300b 100644
-> --- a/drivers/leds/rgb/Makefile
-> +++ b/drivers/leds/rgb/Makefile
-> @@ -6,3 +6,4 @@ obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
->  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
->  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
->  obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
-> +obj-$(CONFIG_LEDS_GROUP_VIRTUALCOLOR)	+= leds-group-virtualcolor.o
-> -- 
-> 2.43.0
+>  .../leds/leds-group-virtualcolor.yaml         | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
 > 
 
--- 
-Lee Jones [李琼斯]
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml:5:6: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml:6:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml:79:7: [error] no new line character at the end of file (new-line-at-end-of-file)
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml: monochromatic-leds: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml: patternProperties:^led@[0-9a-f]$:properties:monochromatic-leds:items:maxItems: False schema does not allow 1
+	hint: Scalar properties should not have array keywords
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml: patternProperties:^led@[0-9a-f]$:properties:monochromatic-leds:type: 'array' is not one of ['boolean', 'object']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml:
+	Error in referenced schema matching $id: http://devicetree.org/schemas/leds/leds.yaml
+	Tried these paths (check schema $id if path is wrong):
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds.yaml
+	/usr/local/lib/python3.13/dist-packages/dtschema/schemas/leds/leds.yaml
+
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.example.dtb: leds (leds-group-virtualcolor): '#address-cells', '#size-cells' do not match any of the regexes: '^led@[0-9a-f]$', '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.example.dtb: leds (leds-group-virtualcolor): {'compatible': ['leds-group-virtualcolor'], '#address-cells': 1, '#size-cells': 0, 'led@0': {'reg': [[0]], 'label': ['status:red'], 'monochromatic-leds': [4294967295], 'priority': 2, 'blink-delay-on': 500, 'blink-delay-off': 500}, 'led@1': {'reg': [[1]], 'label': ['status:green'], 'monochromatic-leds': [4294967295], 'priority': 1}, '$nodename': ['leds']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/leds/leds.yaml#"}
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.example.dtb: leds (leds-group-virtualcolor): led@0: {'reg': [[0]], 'label': ['status:red'], 'monochromatic-leds': [4294967295], 'priority': 2, 'blink-delay-on': 500, 'blink-delay-off': 500} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/leds/leds.yaml#"}
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.example.dtb: leds (leds-group-virtualcolor): led@0:monochromatic-leds:0: 4294967295 is not of type 'array'
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.example.dtb: leds (leds-group-virtualcolor): led@1: {'reg': [[1]], 'label': ['status:green'], 'monochromatic-leds': [4294967295], 'priority': 1} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/leds/leds.yaml#"}
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.example.dtb: leds (leds-group-virtualcolor): led@1:monochromatic-leds:0: 4294967295 is not of type 'array'
+	from schema $id: http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250916110217.45894-3-professorjonny98@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
