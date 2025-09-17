@@ -1,58 +1,79 @@
-Return-Path: <linux-leds+bounces-5527-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5528-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95A1B7DFE9
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Sep 2025 14:39:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13245B80B84
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Sep 2025 17:49:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEDE31BC7080
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Sep 2025 10:14:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48BE57BC143
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Sep 2025 15:45:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20450343202;
-	Wed, 17 Sep 2025 10:14:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F05653362AB;
+	Wed, 17 Sep 2025 15:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lr1ppb7u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVEYuTLn"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD152DC34B
-	for <linux-leds@vger.kernel.org>; Wed, 17 Sep 2025 10:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA29532129F;
+	Wed, 17 Sep 2025 15:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758104068; cv=none; b=K5dcma8IX5u8iYiN6YDDKg+zoQ54b0CXE4qDK9qXAfG3v24vS3pYLTD7NCiGsW3tAWAhqD2naXNLZa85Fel7MnOV4fd2HFAxOKWPGLvrMhwdeV7UW0pmmVIJ++7PsO2sDi9WI+2NC2h3iC+XGPAf+8Br8zd8T8L5GLEyjxcOOEs=
+	t=1758123837; cv=none; b=AgXQ7uPMI7YUxaHtjkwleOm5F7rbxE2byiiub1mE0lxIzBWC/qcAwZIp9CLp/9yT6f2dX8f/xDnUdYWTvNGArr8sDc3rqCXl5j2YUfjXyXe/czRGty/eQ8+qjqBoKDj1txW7+ZmZvAKDonM9XkYcmXR0jffb3hB4XIx92zxnHic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758104068; c=relaxed/simple;
-	bh=u4zwrXzT6esvcbuq/jdZUWFS/YEojQJHh6vaqWF4shY=;
+	s=arc-20240116; t=1758123837; c=relaxed/simple;
+	bh=M7bmsCJOctouLMHagcFSejZI7FxeTupipz2eFgc7ACg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qb1ABHKDSTH6wwdmj5zVmpg8uszYvVxPqFiyLohNdDrOTBTxKstkwQ+RVgD0SlZmaleFBLV6ESyHgI1m92TKOlru1XHVvtRkEmiGzwNODZFoFm+W+yP2YX8ymCRe/j5hcb0C9eGMe9/umU94YUX7ghuOvNGUA9R6b/nIVkR9U1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lr1ppb7u; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 17 Sep 2025 12:14:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758104064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Yk6DpBpPq8n8MipKzyklGb8+4khNwiX8CnZ/+4BUYTE=;
-	b=lr1ppb7ufMEyGPJKgnNpK6Yjnt69LP0p4Aw/EOfq+ucD38KC3+qgU3kDKWcHYPif1YKV4A
-	EfI8pk02LT190uT8n7V5xZXyiGgUyyBL/6sTOv43HDa4NBERGCXmDCRGiceZYhgbq4uWzv
-	xYjxd4an3GWi0kcpCgUoAGmOcHpSr7E=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	Hans Verkuil <hverkuil@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ok1u4A3ArdoXGAHRbUOQglaLiu6HyPBVXy46jQ8VJ+iHHBGw7DkmGuSfZ881SqAz+BoSwiE61loyJHEofbDSeAH2OOMHWQQ3Cb6YWEb7SaXZzu5CnjLIuzQp7cdgZf8BllA3hRAzsk+xvWIKsDmegmQHzAKreIxy9O+fYIZhd6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVEYuTLn; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758123836; x=1789659836;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=M7bmsCJOctouLMHagcFSejZI7FxeTupipz2eFgc7ACg=;
+  b=bVEYuTLnL1WvhLCTCV+8iN6IKp4kM1LfBWsFoyyo8cXa+EAAB0KbPjEb
+   WtomC+py29WQBu+ffhWZ11CoyaownZ4JqDgubM6cxmj0d167ZDXg5CxER
+   LHUleDnz1rPjNn3CGDrX4+q5Ln8Y292hZNDZbDJwDamc1CEIWeURdD+jj
+   AKs1mKbIjiycXaq1ZzOwvOpEWVzs8e4GLgCt4ardySYAw8+IVgUsNi18j
+   mJtECa/e2+Re//hAwZIfuLmYmo9AiqygNZ+9U8Jg2KG28xgp0xFZcZONu
+   r8XmJCTcef8HgNmQ5Y6ey+HjzJAPwV2VO16lFBRxNSUNZsPGoCqjLLgV7
+   A==;
+X-CSE-ConnectionGUID: 5VOX7tGYQl6+gZdkxjPgwA==
+X-CSE-MsgGUID: VTL1abs8RWSFpbf9LBqAyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="70685734"
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
+   d="scan'208";a="70685734"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 08:43:55 -0700
+X-CSE-ConnectionGUID: pbI9dMX5RNucmu4Zq5EiKQ==
+X-CSE-MsgGUID: sTvATFxVQ02Wzn7Nz8Emxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
+   d="scan'208";a="206208885"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.41])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 08:43:52 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B105711FC22;
+	Wed, 17 Sep 2025 18:43:49 +0300 (EEST)
+Date: Wed, 17 Sep 2025 18:43:49 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
 Subject: Re: [PATCH v7 04/10] Documentation: uAPI: media: add
  V4L2_CID_FLASH_{DURATION,HW_STROBE_SIGNAL}
-Message-ID: <7h6ni4u34hpmfpu56fbcx3sz7fxeqdskjkwbgatttycsljl2we@5wlox7llfa74>
+Message-ID: <aMrXNXexGBXCxbKd@kekkonen.localdomain>
 References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
  <20250901-ov9282-flash-strobe-v7-4-d58d5a694afc@linux.dev>
  <20250907194953.GA19568@pendragon.ideasonboard.com>
@@ -69,15 +90,10 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <mk77d6dn2qn6wrlgyu4sxpwufe7eupi4xcvx7yblo7bki4b5h6@brircux3j6ct>
-X-Migadu-Flow: FLOW_OUT
 
-Hi Laurent and Sakari,
+Hi Richard,
 
-just a friendly ping for the pending feedback on this series :-)
-
-regards;rl
-
-On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
+On Tue, Sep 09, 2025 at 12:29:55PM +0200, Richard Leitner wrote:
 > Hi Laurent,
 > 
 > thanks for your great (and quick) feedback!
@@ -194,6 +210,9 @@ On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
 >     generating the hardware flash strobe signal, typically a camera sensor,
 >     connected to a flash controller. It must not be implemented by the flash
 >     controller. Typically the flash strobe pulse needs to be activated by
+
+I'd drop the sentence on flash controller as this is UAPI documentation.
+
 >     enabling the strobe source's :ref:`flash strobe output
 >     <v4l2-cid-flash-strobe-oe>`.
 > 
@@ -207,6 +226,9 @@ On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
 > ``V4L2_CID_FLASH_STROBE_OE (boolean)``
 >     Enables the output of a hardware strobe signal from the strobe source,
 >     when using external strobe. This control shall be implemented by the device
+
+I'd remove the comma.
+
 >     generating the hardware flash strobe signal, typically a camera sensor,
 >     connected to a flash controller.
 > 
@@ -214,6 +236,11 @@ On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
 >     strobe signal can be configured by adjusting its
 >     :ref:`flash duration <v4l2-cid-flash-duration>`. In case the device has a
 >     fixed strobe length, the flash duration control must not be implemented.
+
+I don't see why the duration control wouldn't be implemented in this case:
+it's still relevant for the user space to know how long the duration is.
+I'd simply drop this sentence.
+
 > 
 >     The flash controllers :ref:`strobe source <v4l2-cid-flash-strobe-source>`
 >     must be configured to ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL`` for this
@@ -266,6 +293,19 @@ On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
 > sensor...
 > 
 > What's your opinion on this, Sakari, Laurent, Dave?
+
+I checked what CCS defines exposure time as a function of the external
+clock frequency:
+
+	exposure time = tFlash_strobe_width_ctrl / ext_clk_freq *
+			flash_strobe_adjustment
+
+The added accuracy is relevant for xenon (admittedly rare these days, but
+depends on the device) flash but probably not so for LEDs.
+
+So I'm fine with keeping this as-is and perhaps adding CCS specific private
+controls separately.
+
 > 
 > > 
 > > > > I think we also need to decide how to handle camera sensors whose flash
@@ -323,6 +363,9 @@ On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
 > > > shorter than V4L2_CID_FLASH_HW_STROBE_SIGNAL.
 > > 
 > > Sakari, what's your opinion ?
+
+I slightly prefer the former, too.
+
 > > 
 > > > > > +    Enables the output of a hardware strobe signal from the strobe source,
 > > > > > +    typically a camera sensor. To control a flash LED driver connected to this
@@ -344,4 +387,9 @@ On Tue, Sep 09, 2025 at 12:29:59PM +0200, Richard Leitner wrote:
 > > Laurent Pinchart
 > 
 > thanks & regards;rl
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
