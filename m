@@ -1,334 +1,104 @@
-Return-Path: <linux-leds+bounces-5538-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5539-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96E4B921CA
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Sep 2025 18:03:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C82BB92486
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Sep 2025 18:45:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 957873A9107
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Sep 2025 16:03:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19C3A1904ED0
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Sep 2025 16:45:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B63F3101D9;
-	Mon, 22 Sep 2025 16:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B79F19A288;
+	Mon, 22 Sep 2025 16:45:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="DnVplL8a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UIfyz9AG"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A58215198;
-	Mon, 22 Sep 2025 16:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E0F17C203;
+	Mon, 22 Sep 2025 16:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758557001; cv=none; b=KxbMtOUlOYo5gc8H49LZ6/eKquIyBIKYApR5hLfJ7sK2PoTLshN+VvpUPmttgMUnXhD2QBrUsO6AYL2v/ZQdUvXZE7XkJEaaMSXxFT1oAykUVl/S0OXlwgsKhwUYFDxtNGJc0Cz5IX/rbRGcweMQrtd5G74YpGxUphYXqqKe5rI=
+	t=1758559508; cv=none; b=iIuVbt5m0sZJtVkL5nGxnQ3Eu+XfE/OunRx+ay17CYBeTBum1MtFm1S5N7k/WXSeUpsE9xy+kQHuT7VvHSgAk1JgQhKQ+o7uftn+Caia68zANTQZiwPD/2Vimf0ec7ngXQTwC/oAn2E/kSWS4JrDXeCzeWEPsHe99tw+6v0AP6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758557001; c=relaxed/simple;
-	bh=cnE2mwrNJ9hoxH+WQXBdIFiMpTlVahWsPFo8dQBv8sA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WKGv9cXYe4cdjWrOzUAQWqTKQM0yrKwVAhhmh0Mo1o61IfbJelv7AqcyOUVjRLiRkjhMZV/kuzIHacwg1LUKIrzf9NxIdPEjeKLTkz/SCMQ/QpJJJLc2dkbCAPMCZg8PZkSzpPcEduEvxw2g3KCb4yNbu5Ctzfxo3iwD2BksH5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=DnVplL8a; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (p5de45015.dip0.t-ipconnect.de [93.228.80.21])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 541E62FC0050;
-	Mon, 22 Sep 2025 18:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1758556995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GmS3kAdNmYpXo6m851GNpsQc+Nc4IEuVvFsLrRqTcfs=;
-	b=DnVplL8aBpInNAqF+YAA7+L5BYD7+qh4+XaxVUhRCorymDV6NOMrKtDlcVw0wm1HH1TPp+
-	Ht+XSNhKfO/Xeid0atWl6/J+Uft7tZwu0ectvWsQOVwDrSM267R5ezLBrh0h6TG7ko/UVl
-	npmuVx0aArqtF7J36T5Z1uWImDKeo88=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <2273f725-aab4-47a6-bccf-22c1789f5e02@tuxedocomputers.com>
-Date: Mon, 22 Sep 2025 18:03:15 +0200
+	s=arc-20240116; t=1758559508; c=relaxed/simple;
+	bh=0t57xInRak71R35ROrahgnSbv1afzy9QNVSLOtl8+fU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FtSUfULMhKQ0Xa7DemxAX6JZZL+kCHThV/+DFL3K2pZ3HtELynLYJM6R/eUNgXokGOvZE+ViucAHk0AF2hqTNkfWE76Jm20E0ABVd6JIzxS7gSriHkF+Tp2c4AMo50Eue5TKv59hJ0rxRYNpoe85IA7uawROcppv7by+dAYkG9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UIfyz9AG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C23C4CEF0;
+	Mon, 22 Sep 2025 16:45:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758559507;
+	bh=0t57xInRak71R35ROrahgnSbv1afzy9QNVSLOtl8+fU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UIfyz9AGQHVaiVvfyGSqO9MDNU63T/YbqonAyTokYTMR8sTYtxojQtZK7wa13gxIB
+	 IMUlkJNnjTFopLrOiGFqOqz2igYKgDgYGFNUBrVy+Rm7eTkV5kcy+H1w0Xv9wahAoZ
+	 ZEsJ6K0HKIelrQHGgURmubysIs4f1N6EzemN+hMYWVyRUNJChkoelXozHPi5EQy+eS
+	 oYNj+mazTy06/rzkQPjccuZtq9KfzAVlfiqHrhvf5RZHaxo6HSdFWn6bvM6evCYXt2
+	 17K4QVCXJfk0jaZona8dUHVRmNlU8b5KI+m9Od9rZ5W99DbIhEvTIDNn9wqlss4UiV
+	 s+FRriqtB7nxQ==
+Date: Mon, 22 Sep 2025 11:45:05 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jonathan Brophy <professorjonny98@gmail.com>
+Cc: lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Jonathan Brophy <professor_jonny@hotmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH 3/5] dt-bindings: leds: Add YAML bindings for Virtual
+ Color LED Group driver
+Message-ID: <20250922164505.GA390320-robh@kernel.org>
+References: <20250916110217.45894-1-professorjonny98@gmail.com>
+ <20250916110217.45894-3-professorjonny98@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] platform/x86: Add Uniwill laptop driver
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
- hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
- ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
- alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org, lee@kernel.org,
- pobrn@protonmail.com
-References: <20250831192708.9654-1-W_Armin@gmx.de>
- <20250831192708.9654-2-W_Armin@gmx.de>
- <cf5b6334-7558-4115-92e4-28b4b531490a@tuxedocomputers.com>
- <8400b8c2-5ee6-47db-889a-e3224010357d@gmx.de>
- <8cffb232-052a-4eff-84ea-af6254b837f9@tuxedocomputers.com>
- <cb7d0111-927f-40fe-b0f7-73e3a5136746@tuxedocomputers.com>
- <2e38c9e1-ef5d-4344-ab12-4f4305040422@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <2e38c9e1-ef5d-4344-ab12-4f4305040422@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250916110217.45894-3-professorjonny98@gmail.com>
 
+On Tue, Sep 16, 2025 at 11:02:15PM +1200, Jonathan Brophy wrote:
+> From: Jonathan Brophy <professor_jonny@hotmail.com>
+> 
+> Document Virtual Color device tree bindings.
+> 
+> Co-developed-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
+> Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
+> ---
+>  .../leds/leds-group-virtualcolor.yaml         | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
+> new file mode 100644
+> index 000000000..945058415
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-group-virtualcolor.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/leds/leds-group-virtualcolor.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +title: Virtual LED Group with Priority Control
+> +
+> +maintainers:
+> +  - Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
+> +
+> +description: |
+> +  Virtual LED group driver that combines multiple monochromatic LEDs into logical
+> +  groups with priority-based control. The driver ensures only the highest-priority
+> +  LED state is active at any given time.
 
-Am 18.09.25 um 23:25 schrieb Armin Wolf:
-> Am 09.09.25 um 21:13 schrieb Werner Sembach:
->
->>
->> Am 09.09.25 um 11:18 schrieb Werner Sembach:
->>> Hi,
->>>
->>> Am 08.09.25 um 18:29 schrieb Armin Wolf:
->>>>>> +static ssize_t fn_lock_show(struct device *dev, struct device_attribute 
->>>>>> *attr, char *buf)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = regmap_read(data->regmap, EC_ADDR_BIOS_OEM, &value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return sysfs_emit(buf, "%s\n", str_enable_disable(value & 
->>>>>> FN_LOCK_STATUS));
->>>>>> +}
->>>>>> +
->>>>>> +static DEVICE_ATTR_RW(fn_lock);
->>>>>
->>>>> The fn_lock register value does not automatically get updated by pressing 
->>>>> the fn+esc key (unlicke the super_key_lock), so the driver needs to do 
->>>>> that manually.
->>>>>
->>>>> Another posibility is: uniwill sometimes have a "config" and an 
->>>>> "immediate" value for a setting, waybe we have the config value here (and 
->>>>> have the immediate value for the super_key_lock)
->>>>>
->>>>> Also I realized: The value here is preserved on hot, but not on cold 
->>>>> reboots, maybe this should be initialized by the driver for consistency?
->>>>>
->>>> fn_lock should not change when the users presses Fn + ESC, instead this 
->>>> setting controls whether the EC will enter Fn lock mode when the user presses
->>>> this key combination.
->>>
->>> At least on my device Fn + ESC does toggle the Fn lock regardless of this 
->>> setting. How I love these Uniwill inconsistencies ...
->>>
->>> I talked with Christoffer and he said that the "Intel Project" line from 
->>> Uniwill does behave differently at multiple locations
->>>
->>> If the devices really behave differently we have the first mutually 
->>> exclusive feature here: FN Lock Enable vs FN Lock Toggle
->>
->> Thinking about how to name this to make it consistent and clear by name only 
->> what is happening, my idea would be:
->>
->> - fn_lock_toggle_enable (for the behavior on your device)
->>
->> - fn_lock_enable (for the behavior on my devices)
->>
->> - super_key_toggle_enable (for the behavior on your device)
->>
->> - super_key_enable (for the behavior on my devices)
->>
->> - touchpad_toggle_enable (for the behavior on your device)
->>
->> There is no touchpad_enable as this is handled by userspace.
->>
-> OK, i will rename the sysfs attributes accordingly. However i suggest that 
-> support for the other sysfs attributes
-> be added in a separate patch series, as i want to get this one merged as soon 
-> as possible.
-ack
->
-> Could you test the next revision of this patch series on your device as  the  
-> other testers sometimes take a lot of time to respond?
-ofc, but only the hwmon and keyboard part apply to our devices
->
->>>
->>>> Additionally, some models seem to allow users to change those settings 
->>>> inside the BIOS itself, so i am against overwriting the
->>>> boot configuration when loading the driver.
->>> That's probably what's sets the value on cold boot.
->>>>>> +static ssize_t super_key_lock_show(struct device *dev, struct 
->>>>>> device_attribute *attr, char *buf)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = regmap_read(data->regmap, EC_ADDR_SWITCH_STATUS, &value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return sysfs_emit(buf, "%s\n", str_enable_disable(!(value & 
->>>>>> SUPER_KEY_LOCK_STATUS)));
->>>>>> +}
->>>>>> +
->>>>>> +static DEVICE_ATTR_RW(super_key_lock);
->>>>>
->>>>> I did not know what "super_key_lock" was supposed to mean at first, a more 
->>>>> fitting name would be super_key_enable imho.
->>>>>
->>>>> Cold vs hot reboot volatility not tested, but wouldn't hurt to initialize 
->>>>> imho as i don't trust uniwill to be consistent in this point across 
->>>>> multiple device generations.
->>>>>
->>>> This sysfs attribute controls whether or not the super key can be locked 
->>>> using a key combination i forgot about. Initializing those settings
->>>> is something best done by userspace, i suggest to use a udev rule for that.
->>>
->>> No again, at least on the devices i have here: the key combination is fn+f9, 
->>> but not present on all devides (the fn functions get shifted quite around on 
->>> different uniwill devices anyway)
->>>
->>> The combination still works when this is set to disable and just sets it to 
->>> enable.
->>>
->>>>
->>>>>> +
->>>>>> +static ssize_t touchpad_toggle_store(struct device *dev, struct 
->>>>>> device_attribute *attr,
->>>>>> +                     const char *buf, size_t count)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = sysfs_match_string(uniwill_enable_disable_strings, buf);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    if (ret)
->>>>>> +        value = 0;
->>>>>> +    else
->>>>>> +        value = TOUCHPAD_TOGGLE_OFF;
->>>>>> +
->>>>>> +    ret = regmap_update_bits(data->regmap, EC_ADDR_OEM_4, 
->>>>>> TOUCHPAD_TOGGLE_OFF, value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return count;
->>>>>> +}
->>>>>> +
->>>>>> +static ssize_t touchpad_toggle_show(struct device *dev, struct 
->>>>>> device_attribute *attr, char *buf)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = regmap_read(data->regmap, EC_ADDR_OEM_4, &value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return sysfs_emit(buf, "%s\n", str_enable_disable(!(value & 
->>>>>> TOUCHPAD_TOGGLE_OFF)));
->>>>>> +}
->>>>>> +
->>>>>> +static DEVICE_ATTR_RW(touchpad_toggle);
->>>>> What exactly does this do? Seems like a noop on my testing devices. Also 
->>>>> is touchpad disable not already handled by userspace?
->>>>
->>>> This settings controls whether or not the user can disable the internal 
->>>> touchpad using a specific key combination.
->>>
->>> Ok, this function seems to be not present on non Intel project devices from 
->>> Uniwill. Here the touchpad toggle just sends a key combination (Super + 
->>> Control + KEY_ZENKAKUHANKAKU or F24 depending on kernel version) and lets 
->>> userspace handle the rest.
->>>
->>> Never mind then.
->>>
->>>>>> +static const struct hwmon_ops uniwill_ops = {
->>>>>> +    .visible = 0444,
->>>>>> +    .read = uniwill_read,
->>>>>> +    .read_string = uniwill_read_string,
->>>>>> +};
->>>>>
->>>>> .visible should hide gpu temp sensor on devices that don't have a dgpu and 
->>>>> therefore not gpu temp sensor (the value is stuck at 0 on these devices)
->>>>>
->>>>> also the number of fan might also not always be exactly 2
->>>>>
->>>> I see, i will introduce separate feature flags for each sensor.
->>> thanks
->>>>>> +static int __init uniwill_init(void)
->>>>>> +{
->>>>>> +    const struct dmi_system_id *id;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    id = dmi_first_match(uniwill_dmi_table);
->>>>>> +    if (!id) {
->>>>>> +        if (!force)
->>>>>> +            return -ENODEV;
->>>>>> +
->>>>>> +        /* Assume that the device supports all features */
->>>>>> +        supported_features = UINT_MAX;
->>>>>
->>>>> in the future there might be mutually exclusive feature (for example when 
->>>>> Uniwil repurposes EC registers)
->>>>>
->>>>> my suggestion would be to have a "force_supported_features" in addition 
->>>>> that overwrites the supported_features list (also for devices that are in 
->>>>> the list)
->>>>>
->>>>> so something like:
->>>>>
->>>>> if (!id && !force)
->>>>>
->>>>>     return -ENODEV
->>>>>
->>>>> if (force)
->>>>>
->>>>>     supported_features = force_supported_features
->>>>>
->>>>> else
->>>>>
->>>>>     supported_features = (uintptr_t)id->driver_data;
->>>>>
->>>> Interesting idea, but i would prefer to keep the individual feature bit 
->>>> definitions private. Because of this i suggest we
->>>> look into this idea once we actually encounter such a situation where we 
->>>> have conflicting feature bits.
->>>
->>> Then maybe just have all the features as separate module parameters?
->>>
->>> On this note: Maybe also do the FN Key handling based on a feature bit? Not 
->>> that i see a particular reason why you wouldn't want to have it, but for 
->>> consistency and debugging reasons (and also if sometimes ins the future an 
->>> incompatibility arises here because Uniwill repurposed a wmi event or 
->>> something).
->>>
->>> Just thinking out loud.
->>>
-> I suggest that we implement the handling around those additional feature bits 
-> inside a separate patch series.
-
-ack
-
-working on my patch series here: 
-https://gitlab.com/tuxedocomputers/development/packages/linux/-/tree/tuxedo-drivers_upstream_wip 
-will send it separately after this got merged
-
->
-> Thanks,
-> Armin Wolf
->
->>>>
->>>> Thanks,
->>>> Armin Wolf
->>>
->>> Best regards,
->>>
->>> Werner
->>>
+Isn't this what the multi-led binding already does?
 
