@@ -1,78 +1,78 @@
-Return-Path: <linux-leds+bounces-5581-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5582-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7333B9B7E7
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Sep 2025 20:33:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6B4B9B80B
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Sep 2025 20:36:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 995F93BF48B
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Sep 2025 18:33:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72CE332238F
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Sep 2025 18:36:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51382459F3;
-	Wed, 24 Sep 2025 18:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3D7E315D59;
+	Wed, 24 Sep 2025 18:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efsmGQUS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtBmNeMB"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333C921D3F2
-	for <linux-leds@vger.kernel.org>; Wed, 24 Sep 2025 18:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2886B2E11C8
+	for <linux-leds@vger.kernel.org>; Wed, 24 Sep 2025 18:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758738782; cv=none; b=bw8f2aO4iPVl1JHfe3G/1Pt7dRAIoI5lrUXMthHl07MlLQFX0ZzBJWUKHNHd/T8Ly6scuBsHsaUWG6g8pwAMDx423bI2DMyFxBj7s4+NMxB+awbfu6BLoHAGQ6P/tdFuyd62HuMSZ6n9Nq20yHIU2eK2u1q8T9ifVxPybBYCuoo=
+	t=1758738973; cv=none; b=WjyFOVsn18aGGoa0/M6iN/1FQpMZYr3mUQZZqXk/z7iciFuOKhvuUaWQshK3qlNxofNu8fJo+hvX1aOYqQaWar7mKESvwBfc7FqKtpzn3ZzYVzARsukR9WVS6XRiQq9S/Lnpw2L+J7Mbg77e5iYtVW9iIV9m6IUzCklc48HJ/jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758738782; c=relaxed/simple;
-	bh=BPmp7/HZwCEN2P3jkfww+6QmR4v0glh9O0ulkchMmyA=;
+	s=arc-20240116; t=1758738973; c=relaxed/simple;
+	bh=2aLfX7a8qrLe04EEuCsSWXOjT7NO0ExrjFnQIBlHj04=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxg9Rc97MiAyhQja+nSzkwvSsPTfJUclfXQMzOyuYGvPJo+CJNtqkX+BN8mQI99VOnRt/1bY8fBk/uLAz7YELjr4wg3yJD6pTFnPMXNWeyvFgHFC6ZVKo+bYTaD2otAujxlYVNSgld3OZiZR3bndN1PxSeYxKCjOH/zbr1+5l1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efsmGQUS; arc=none smtp.client-ip=209.85.216.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=TcFyAN2+1dMzti2uSybEgpCnhcDPzoMdRJCX0BkT7+PUX8CJeILcQpKMS3VC40yNqtIzgkUOT14R4VfnEFiQBbPA9a88Llf/PoLYSIpYg3OSsJ8ffoXU7zfAtDSkelc2FPumy42FhbBmKIYZm591dMEvNJwBtBHI4ZKa+kUwB1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtBmNeMB; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-32eb45ab7a0so173836a91.0
-        for <linux-leds@vger.kernel.org>; Wed, 24 Sep 2025 11:33:00 -0700 (PDT)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-27eceb38eb1so886705ad.3
+        for <linux-leds@vger.kernel.org>; Wed, 24 Sep 2025 11:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758738780; x=1759343580; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758738971; x=1759343771; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ZiGUngEg1bz9RIGYOxgVE+7eeU9JAJ9lijyiP/taFE=;
-        b=efsmGQUSpeAlPhYHne6mC9XC+C9cNzm6ws/4Ul28qA1tV22MQq/u+/O0JouKGUlWsB
-         Wg8aQR3IWtavWeaibMajUZYpQ73rb5v4O6F0KOmCFAq5Gz6PwNetVK7bWKp8Tw6mPL7E
-         5ZuAfkeO8xgdBah+Js9Z3uVhESeJZWIqvVbPgx3uF/xguI+WgG4yLngOl9cmHZTTn6Ng
-         LS/WfY3SG3CVQ37ATQh/qhypJX5s+AoKuctiUHKPWFvEPbAOkCNNC8g8OLLCR3UZ23Ka
-         g8HLw1zh61PvqSya2YzFZyovay2iCDkNmu+7zp5GQKFxoSswiC8LBZczkewG1LArYuuk
-         HlBw==
+        bh=RuMDAryKyhqMDr6B+XSq4gaOR0tjLhHQ+hf5EwbyoXs=;
+        b=FtBmNeMB04FY3JGB6PNvtOFMiiWfAj4garK3jVjddYu+aBCpnKJv62bLvq1W//T70a
+         y4kpNyp7rAle3Axx60PHhi6UEdug4mVpmTWaiXKH7HrgfEK/PWpxCcW0GSz76SJe4Dr9
+         occhHLHIxPq0kTA95Jz5yBEygNFimb1rEmkA1gh+VV5Pqlk8iMz81SJJZ0+AJISXUxZt
+         wdtaeEH1wwkn7kSP5ttEoRqBmeHlsXKKhB8JQMcokPHbGgOVheMDGjqihXZULw08wYio
+         ZlNFk+yeDUGN96q/XFWEIvy11lkr81KqELV2YRixghqOF9U1I8bvBJ6ZhOrkKSss3XPz
+         GONQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758738780; x=1759343580;
+        d=1e100.net; s=20230601; t=1758738971; x=1759343771;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ZiGUngEg1bz9RIGYOxgVE+7eeU9JAJ9lijyiP/taFE=;
-        b=c5EcuAKvvQU/hSOVT10qbV7fVUVyldrljUVU86YyDMP74Lrem/RbjSRqQZBXfi9zOP
-         FJrllsxMp2vUF6QJOp6Tt6DfqiCQpQECRLwA/BviUQStRIhxa4CH1z5q9dLfnUO/keTH
-         vv5Cp+uF7yGYhDDhWiHaogbrG/YASnVQ+eOApGEHtO8fUjz9OkW0B3ndXkpu5Vh5DDAH
-         KF5O4ugtFwsSMEfav0naRhb0Y8e3GdHYoTomFh3UkSc+QpSiFZHq9lNiKxMwyzPWX8ro
-         BVJ9r3vXNqnyGuj+F/uKQuccDzTkYqwEaxZxABGmnvlSVxPaOwm8hDGPDCwZKaS5hJO8
-         6ahg==
-X-Forwarded-Encrypted: i=1; AJvYcCVY8V3Zju8ttAe7viDbF9gs0aepntCN2ecjOeOv4uR6tPI61eQ41CF8ivaUpT/6cqUy0CS1/mOJMmxx@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTwv+wzTMtD9mvqAnsnNeEJhKF4FlrxOVBK90f96v71hC+zVEo
-	LVeycBb208HieaasP4ZppMVwNM7gcFXjTBqWZ8roaE+zBUu0xYwHSc76
-X-Gm-Gg: ASbGncuCNZHsb55cW6GMdbLuTwsJ7YT97YdptpJwFhGGOO/fvpVu/SmPso8rhryqmxe
-	Cdn0ZLVWnqqKDKOrflg+ecPI9fFXa9CvzeYhHv7LlU0hhvl1rVXZmwaqO4MRWTK1fqE2jqmMNi3
-	yhWPWeE6bPD6cPPmFmSUEivPawX6PQq5aLyn1BGoH69wqi2KuOrpt73D1+kM3fANwemjEh7yvIA
-	9OIncqd87aJ4ax9SFnpgCHyIhTNMEu1DFm0FzLVL+27stLgCGXye2BUam7Ej1aiIMWakUBHuaFE
-	/V4s8WLe6wgKR3SHmJnGjnG8gaR6070cMixbCAnGFECo0YKQjSSf/uGfUJThfHZtSKChT+y7MC3
-	CMkV+y8ZRdq7d6gjEKY4QfUQ=
-X-Google-Smtp-Source: AGHT+IGjh8GHJkW4HrCxPM3eBOhaOjfwbgk4g/556B0RsOzYugb+CgPT02LHWIyv3xFJhWkcNdv5fA==
-X-Received: by 2002:a17:90b:3d4b:b0:32d:d4fa:4c3 with SMTP id 98e67ed59e1d1-3342a2ef04fmr506703a91.31.1758738780237;
-        Wed, 24 Sep 2025 11:33:00 -0700 (PDT)
+        bh=RuMDAryKyhqMDr6B+XSq4gaOR0tjLhHQ+hf5EwbyoXs=;
+        b=tqLX77g0PcYLKc8gBFHPj+xZnBz2k7Uxg4WnHZ7old1QbT+KGQtkLLk3SXIQRZKZH6
+         1FRfpqGdi77+ahcVBlL6DolTgAHiyfdohVDjdU2zvC6EEHxj6qNfarjiHygSiD9gobc2
+         mBKjlR83KpyeUbCggk0RPc4q+8vqMLS864OdEC3u5jnx9hnuVFctMFIPRQoyg0Cli1uF
+         GR6QAF4owtuldM1pJ4f74V7FDQ0ImuRl3K7ftwDXA2jaU/3OYJEcc3165qIXdfFFMJaD
+         Ta0vOIzQlCBPX2TJQmXyDhdqr/UWuxrO+t1YkH4U4mfXRJatfCnxorXN5+GyU6zw6d1f
+         MYgg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0E2YDVyI0Mol+AXC86admALLg42gTsi2MKWYgnB/fEEgOB1wfeKydyZZgEj908DbBbADAH1CxCv1A@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd8YBIq8qber3/+ZJTwfewsfkO55wtcs30DrMOdyZxYD6qfdQ5
+	uMuUTR5m+nvGXd/gc/Ahy7HAykZdkiG7033TKiFLkffmWNkx+XR8004B
+X-Gm-Gg: ASbGncvhftcXbF6FFG0fol22LZvWLjJ5mva3d0aQ9vjAAPx6D7IrbbOWA80BYgY8yp4
+	fGfeRGJvqr9r2z/qvVbGzNHk1FhdnJX2wbPYGmiohMRXSQHDavomeHGxEzfukvUJFWEdo9vUM4e
+	yV/fJXClxxMVSSwCCvsb77S7lrKGrQE7Aj+omxe8KgztD8M+keG935GiS7qGYj7plCoDMmaFPPw
+	OSXwLmg9PrcM0E9QGwPNxBnBILw/7qh4FoqFdcPPlr7b0x8D5hmXihAqLXm3t0iP+ddZO9/rqqe
+	ggueD7T/HP+K5my+2lAS7WMTBqdDGhQnvGlkOXyLTvDkj/szOGns/AVAz7LNIL5FX93hJgA8yL9
+	UAa3TspZxlcPxDLiAsVP2Am0=
+X-Google-Smtp-Source: AGHT+IFpCuPX+NdIWL+u5IkcBx4+VbKV/4827jy+s9/WEKKxG/dZ2BXBXewNNRlOFgtg+akJrLG03A==
+X-Received: by 2002:a17:902:dac5:b0:27a:6c30:49c with SMTP id d9443c01a7336-27ed4a56ba4mr5732905ad.27.1758738971104;
+        Wed, 24 Sep 2025 11:36:11 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:f4c4:bad6:f33e:ddc9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bda06ccsm3113092a91.7.2025.09.24.11.32.58
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd90367sm3096304a91.5.2025.09.24.11.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 11:32:59 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:32:56 -0700
+        Wed, 24 Sep 2025 11:36:10 -0700 (PDT)
+Date: Wed, 24 Sep 2025 11:36:07 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -92,11 +92,11 @@ Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Paolo Abeni <pabeni@redhat.com>, Mark Brown <broonie@kernel.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 02/16] ACPI: property: Use ACPI functions in
- acpi_graph_get_next_endpoint() only
-Message-ID: <iqfarpvf72l7qbhfinopjb27qvfm7wg77d4yhuy5qyubcwtcd2@exmcuvgqr353>
+Subject: Re: [PATCH v2 11/16] Input: touch-overlay - Use
+ fwnode_for_each_child_node() instead
+Message-ID: <amnjiro7qhreys4upoh6ggqurom6gudk2gw5ayrfjhj243wqwh@o4hf6txhsm62>
 References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
- <20250924074602.266292-3-sakari.ailus@linux.intel.com>
+ <20250924074602.266292-12-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -105,25 +105,35 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250924074602.266292-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250924074602.266292-12-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
+On Wed, Sep 24, 2025 at 10:45:57AM +0300, Sakari Ailus wrote:
+> fwnode_for_each_child_node() is now the same as
+> fwnode_for_each_available_child_node() on all backends (OF, ACPI and
+> swnode). In order to remove the available variants, switch the uses to
+> non-available variants.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-On Wed, Sep 24, 2025 at 10:45:48AM +0300, Sakari Ailus wrote:
-> Calling fwnode_get_next_child_node() in ACPI implementation of the fwnode
-> property API is somewhat problematic as the latter is used in the
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-How exactly is this problematic?
-
-> impelementation of the former. Instead of using
-> fwnode_get_next_child_node() in acpi_graph_get_next_endpoint(), call
-> acpi_get_next_subnode() directly instead.
-
-I think we are moving into the world of mixed fwnode types with software
-nodes/secondary fwnodes, so I do not think this is a step in right
-direction.
-
-Thanks.
+> ---
+>  drivers/input/touch-overlay.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touch-overlay.c b/drivers/input/touch-overlay.c
+> index b9fd82c4829d..7eaaaef1bd82 100644
+> --- a/drivers/input/touch-overlay.c
+> +++ b/drivers/input/touch-overlay.c
+> @@ -82,7 +82,7 @@ int touch_overlay_map(struct list_head *list, struct input_dev *input)
+>  	if (!overlay)
+>  		return 0;
+>  
+> -	fwnode_for_each_available_child_node(overlay, fw_segment) {
+> +	fwnode_for_each_child_node(overlay, fw_segment) {
+>  		segment = devm_kzalloc(dev, sizeof(*segment), GFP_KERNEL);
+>  		if (!segment) {
+>  			fwnode_handle_put(fw_segment);
 
 -- 
 Dmitry
