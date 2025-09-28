@@ -1,575 +1,253 @@
-Return-Path: <linux-leds+bounces-5606-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5609-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EBABA4226
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Sep 2025 16:23:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDECBA658A
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Sep 2025 03:33:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DA543B4AB6
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Sep 2025 14:23:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E82C17C0CA
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Sep 2025 01:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901182FB99A;
-	Fri, 26 Sep 2025 14:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6CA2459D9;
+	Sun, 28 Sep 2025 01:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQEC6Lpl"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="KBie6zbV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955052F9D8C
-	for <linux-leds@vger.kernel.org>; Fri, 26 Sep 2025 14:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106A324469E;
+	Sun, 28 Sep 2025 01:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758896370; cv=none; b=DQFDaV5DYxt+z8fN4J6vSop78gDfwl4TBc8bIRNfkHFlX2e7bNj5kFYOewI38N/yHMqdzNoTmCtZ3UY+eiysX4UNttnmuefwfbIvMt4BQlEh6Q6HcCP2f+vumvaxZQnI2O6YRkBj1D3U+W3LYNQYZSmPAv2mU7oeZ88JWXFNquc=
+	t=1759023214; cv=none; b=URQv8HY3I7HpHEeLWwyJik5y9HonwG+bKDbJ7EWNFY2UXUzrOPzvY89vKlpgMWNJC8yWwYhSk9qXboUcgWcoJRSlgeZ9UU4z0ahuTbzGgV57cSl8INjydqfn3WfHtEX1gcDBck1C2LuTJ3rSL25+VBL0Fr/HeqUJlAhLWn6VqyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758896370; c=relaxed/simple;
-	bh=AFFdWPUAXAFNGiiOEJ3coICAhEAc2Pe4JDD1q1kvAsk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U8Cc8ZerYo5264zsnPByXhbC8Ym8NS6Fx+K5c45EARd3YgYNQgI75oKsopd+pT8wDikx3ZS2WXnggslZ3S7+Yv0256hQXsDNbfQeNvJDc0geMtLtERb/s07z6YRFXRnrcthFQVdj2FvRe5iO/fImLMjePQFNY8CzZ8YMfAAefIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQEC6Lpl; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4dca66a31f7so16116331cf.3
-        for <linux-leds@vger.kernel.org>; Fri, 26 Sep 2025 07:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758896366; x=1759501166; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UkNfR44T1+aQMXki6JhTMzsXZD4Y5zeYdM+FX7jC1nQ=;
-        b=RQEC6Lplq2Ua6dRSq4fQUzYnO/zK6IQfuNrn28qSLjrZCJH5R0LBYfNIgsWfAEqPz+
-         xjAxsWrmfDUb2HB17YdHFEwNap8AkpM4AgjPLO6o4u+I0ykTzfPkY0BCH0pQbTqnBqjY
-         FdG5S8RopxZ5Womk/j6NdCc0E+Z9TS9MrUIVfFQ+U0VCHoFAm1/hxSRtRiOe6gEpspFa
-         JeVZg8i82H6cbIOmzUZ11xsLgX51ICPk+CLrOaAXlDm3i4mdrEEOOFR8+Aw217YjqDTH
-         sMgOplgNO5lZRx9KAvMCN4p8EiIA/jlQrrYHVuMK13cYA4PHC1kre+yfrRe9/3XpMj1P
-         YrHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758896366; x=1759501166;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UkNfR44T1+aQMXki6JhTMzsXZD4Y5zeYdM+FX7jC1nQ=;
-        b=CbGQfq1z6Bu8d/uUKzOmPZy24lPiVEYzYA9GZvUb90QnFWcrD+meR3L6DQCOGPszUd
-         saFPRDdlRwQ4cr+RJl4fCmg1FNejG0Iphf3EmemITp41hfNaGKjDV7LlUEp3gb6V1JVo
-         8VJ4Cy1a9KBY2686ZXufnzSfkYPy6lbuEdH6+UX3Dj6Ah3Mz47wfW/44i2JNHLrYMngE
-         hiuS0/+wzrVv+3GJ5EZxtRbmfsTFA+1MjbEMZ7pjtICX6Dj4Kr7e4pHQgHEd0rRrN5m3
-         Sjg0Lstyp3TBFWEMm0r7641q0Px9l/bn2gkK4NVbST6NebivgP9l0zI/k7HLkAtdyx5U
-         5Pug==
-X-Forwarded-Encrypted: i=1; AJvYcCXSKaNhudGrSJEu6IZP7cDjaKg8wpfesGwPpKzYljG3UNw73rpZSGTWZNd3FDg3MXfXBZecc54fQWOm@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTqZ1rfor8s6BOaWgQ6zVYxbh4BtSaN8mGkSnDhAFaWhZZeC74
-	2LEEzZ1Dau26CdwANXVPpPAaR5Q0+2cqn+9ccxVih6WpzlDxLbEsTdARC2RI25Gk
-X-Gm-Gg: ASbGncvJ8sQv5Yne0gNjEAbhWPXphp2Xah/+xoWj6T7XNeaQdtsy8EACRVWw3N6kHDo
-	2j8pVh7O18W1LzNYBEUmkLcTHTZ0AkkTv72qmVsXudmLBbStZW/5fT0AhMDsXmh/f5VJ8eKp1Rm
-	mByzrV/qPLffgpM1NJmPuZ6M/CVEb66t+Glb4jbORLiqaFquWG6kyeCU5i7KzYym6SxpPHsnNdm
-	UK6PUKKoJs4S9rqKSBfAuzznprR1nlCD0+1TLLTHcpgGyLKf80icVPk41Pu2f3XPikL/3E8Oo2C
-	/yYM6MbHOAoHsVQFb7TILEvo3sxj1Es+Q5KfCNJt2t+cbF4I7GmpyCZuJhIOBY6VtZ4vNzlzPKz
-	iCbG74Kk/MdBiftKRHbIi2QOX3tNSk5klzmjp9hd2GZfYDYAeonKBxTJvzlcOguQTa28G
-X-Google-Smtp-Source: AGHT+IGODqsrQGtDZCGx0icngB4w/TaZU1Mpxmyd+O5pnNZPVLJSOQqzJ+8c4HQwg7u/RJ/qyoQEbw==
-X-Received: by 2002:a05:622a:2ce:b0:4d8:cb2f:7fac with SMTP id d75a77b69052e-4da4934ac23mr102100951cf.35.1758896366349;
-        Fri, 26 Sep 2025 07:19:26 -0700 (PDT)
-Received: from localhost (modemcable197.17-162-184.mc.videotron.ca. [184.162.17.197])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-85c341319besm286940985a.64.2025.09.26.07.19.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 07:19:25 -0700 (PDT)
-From: =?UTF-8?q?Jean-Fran=C3=A7ois=20Lessard?= <jefflessard3@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1759023214; c=relaxed/simple;
+	bh=GvBWZFAvOicXLR2DAZxB+PTxg1LPIYuNilHsONg1S1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Bj72N13fsTrqvJXYwPRNcljCCVvQKxIAIWYbA4vU2DnwAeI4FMBU4QDq0Nl9vazYJPoZskRNZb3EOI8/4HeKUEVh/8VxroDVyvv3BpC67nReuCcNzgYJ83TBKpI4KLlpPPM+y4CifYvuQuYWw5tREKN0LqnzlmBXcXEvLkI5irY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=KBie6zbV; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1759023184; x=1759627984; i=w_armin@gmx.de;
+	bh=/a4UcX317X7c+QXgym05/ShDh/HWShcIa9s2eybVwCc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=KBie6zbV/8bFlF/XUFQprep9FDWqi8tbBeCupU/Dr0h1W8OwRNdqJDvyunP2q6IT
+	 J4IZtZEw/m3LoIN3ydy/sWfZKXRYQXBCWRPJ3jvdtJjzlyD7/5bkgxUNnpevYWu62
+	 +JJIgT+VlP9Kg1ZOqRdNs+VWqlia8R9jUKkrEELtfXUVA0Syn+CGQ32Cb1dhDxa/Z
+	 SF38giUPw638W9WmKYdVYuf9ZT3iCydvbT7rajNkkeci15XIPy6WQ4FhSJ52Z6OuW
+	 4fGYqrUTMTqa/2oiTxdn55N7t65NoaKqSQnsJitjh+xyDXFmRChG5BoMYmUyvapUd
+	 vFL6A8QvTRGMaTHKww==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.fritz.box ([93.202.247.91]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MjS9I-1uaXc20seY-00pWNV; Sun, 28 Sep 2025 03:33:04 +0200
+From: Armin Wolf <W_Armin@gmx.de>
+To: ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com,
+	chumuzero@gmail.com,
+	corbet@lwn.net,
+	cs@tuxedo.de,
+	wse@tuxedocomputers.com,
+	ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com,
 	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v5 7/7] auxdisplay: TM16xx: Add support for SPI-based controllers
-Date: Fri, 26 Sep 2025 10:19:08 -0400
-Message-ID: <20250926141913.25919-8-jefflessard3@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250926141913.25919-1-jefflessard3@gmail.com>
-References: <20250926141913.25919-1-jefflessard3@gmail.com>
+	lee@kernel.org,
+	pobrn@protonmail.com
+Subject: [PATCH v4 0/2] Add support for Uniwill laptop features
+Date: Sun, 28 Sep 2025 03:32:51 +0200
+Message-Id: <20250928013253.10869-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:f1JIfSzeyo6DU1oXqFB0cNhitwLxgQeHHdeY9qoXrZ34nxIxvpg
+ 2S7noZT8hYNtWYnbm3alVAGp7I8bom20u86QGVIY1SbOLXmia5uJXFR1KVG3cFOD9DbDNzc
+ 1cjNOvuVuiFrYgv7HtYlQPtBVQiCuXxIiRhYzOiHS619BCc9XJSBkBPzqBzr4kaX7mHOUFT
+ wNtVMql0qJmCldIqLPEnw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bX1RJanil0Y=;rSCjc6GWZVzVORSfenAbhUP4lo5
+ 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
+ SjxSDJgF75UpnOdLEEzQvHw==
 
-Add support for TM16xx-compatible auxiliary display controllers connected
-via the SPI bus.
+This patch series adds support for the various features found on
+laptops manufactured by Uniwill. Those features are:
 
-The implementation includes:
-- SPI driver registration and initialization
-- Probe/remove logic for SPI devices
-- Controller-specific handling and communication sequences
-- Integration with the TM16xx core driver for common functionality
+ - battery charge limiting
+ - RGB lightbar control
+ - hwmon support
+ - improved hotkey support
+ - keyboard-related settings
 
-This allows platforms using TM16xx or compatible controllers over SPI to be
-managed by the TM16xx driver infrastructure.
+This patch series is based on the following out-of-tree drivers:
 
-Signed-off-by: Jean-François Lessard <jefflessard3@gmail.com>
----
- MAINTAINERS                     |   1 +
- drivers/auxdisplay/Kconfig      |  16 ++
- drivers/auxdisplay/Makefile     |   1 +
- drivers/auxdisplay/tm16xx_spi.c | 397 ++++++++++++++++++++++++++++++++
- 4 files changed, 415 insertions(+)
- create mode 100644 drivers/auxdisplay/tm16xx_spi.c
+ - https://github.com/pobrn/qc71_laptop
+ - https://gitlab.com/tuxedocomputers/development/packages/tuxedo-drivers
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8a8a53efee52..5d5e5f01e8ed 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25450,6 +25450,7 @@ F:	drivers/auxdisplay/tm16xx.h
- F:	drivers/auxdisplay/tm16xx_core.c
- F:	drivers/auxdisplay/tm16xx_i2c.c
- F:	drivers/auxdisplay/tm16xx_keypad.c
-+F:	drivers/auxdisplay/tm16xx_spi.c
- 
- TMIO/SDHI MMC DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
-diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-index d48c2f18950e..61e5af8d0a3d 100644
---- a/drivers/auxdisplay/Kconfig
-+++ b/drivers/auxdisplay/Kconfig
-@@ -560,6 +560,22 @@ config TM16XX_I2C
- 	  will be called tm16xx_i2c and you will also get tm16xx for the
- 	  core module.
- 
-+config TM16XX_SPI
-+	tristate "TM16XX-compatible SPI 7-segment LED controllers with keyscan"
-+	depends on SPI
-+	select TM16XX
-+	help
-+	  This driver supports the following TM16XX compatible
-+	  SPI (3-wire) 7-segment led display chips:
-+	  - Titanmec: TM1618, TM1620, TM1628, TM1638
-+	  - Fuda Hisi: FD620, FD628
-+	  - i-Core: AiP1618, AiP1628
-+	  - Princeton: PT6964
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called tm16xx_spi and you will also get tm16xx for the
-+	  core module.
-+
- #
- # Character LCD with non-conforming interface section
- #
-diff --git a/drivers/auxdisplay/Makefile b/drivers/auxdisplay/Makefile
-index ba7b310f5667..2485a3a6769d 100644
---- a/drivers/auxdisplay/Makefile
-+++ b/drivers/auxdisplay/Makefile
-@@ -20,3 +20,4 @@ obj-$(CONFIG_TM16XX)		+= tm16xx.o
- tm16xx-y			+= tm16xx_core.o
- tm16xx-$(CONFIG_TM16XX_KEYPAD)	+= tm16xx_keypad.o
- obj-$(CONFIG_TM16XX_I2C)	+= tm16xx_i2c.o
-+obj-$(CONFIG_TM16XX_SPI)	+= tm16xx_spi.o
-diff --git a/drivers/auxdisplay/tm16xx_spi.c b/drivers/auxdisplay/tm16xx_spi.c
-new file mode 100644
-index 000000000000..b305301f918c
---- /dev/null
-+++ b/drivers/auxdisplay/tm16xx_spi.c
-@@ -0,0 +1,397 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TM16xx and compatible LED display/keypad controller driver
-+ * Supports TM16xx, FD6xx, PT6964, HBS658, AIP16xx and related chips.
-+ *
-+ * Copyright (C) 2025 Jean-François Lessard
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/device.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/spi/spi.h>
-+
-+#include "tm16xx.h"
-+
-+#define TM16XX_SPI_BUFFER_SIZE	8
-+#define TM16XX_SPI_TWAIT_US	2
-+
-+static int tm16xx_spi_probe(struct spi_device *spi)
-+{
-+	const struct tm16xx_controller *controller;
-+	struct tm16xx_display *display;
-+	int ret;
-+
-+	controller = spi_get_device_match_data(spi);
-+	if (!controller)
-+		return -EINVAL;
-+
-+	display = devm_kzalloc(&spi->dev, sizeof(*display), GFP_KERNEL);
-+	if (!display)
-+		return -ENOMEM;
-+
-+	/* Allocate DMA-safe buffer */
-+	display->spi_buffer = devm_kzalloc(&spi->dev, TM16XX_SPI_BUFFER_SIZE, GFP_KERNEL);
-+	if (!display->spi_buffer)
-+		return -ENOMEM;
-+
-+	display->dev = &spi->dev;
-+	display->controller = controller;
-+
-+	spi_set_drvdata(spi, display);
-+
-+	ret = tm16xx_probe(display);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void tm16xx_spi_remove(struct spi_device *spi)
-+{
-+	struct tm16xx_display *display = spi_get_drvdata(spi);
-+
-+	tm16xx_remove(display);
-+}
-+
-+/**
-+ * tm16xx_spi_read() - SPI read helper for controller
-+ * @display: pointer to tm16xx_display
-+ * @cmd: command to send
-+ * @cmd_len: length of command
-+ * @data: buffer for received data
-+ * @data_len: length of data to read
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+static int tm16xx_spi_read(struct tm16xx_display *display, u8 *cmd,
-+			   size_t cmd_len, u8 *data, size_t data_len)
-+{
-+	struct spi_device *spi = to_spi_device(display->dev);
-+	struct spi_message msg;
-+	int ret;
-+
-+	/* If STB is high during transmission, command is invalid.
-+	 * Reading requires a minimum 2 microseconds wait (Twait)
-+	 * after the 8th CLK rising edge before reading on falling edge.
-+	 */
-+	struct spi_transfer xfers[2] = {
-+		{
-+			.tx_buf = cmd,
-+			.len = cmd_len,
-+			.cs_change = 0, /* NO CS toggle */
-+			.delay.value = TM16XX_SPI_TWAIT_US,
-+			.delay.unit = SPI_DELAY_UNIT_USECS,
-+		}, {
-+			.rx_buf = data,
-+			.len = data_len,
-+		}
-+	};
-+
-+	spi_message_init_with_transfers(&msg, xfers, ARRAY_SIZE(xfers));
-+
-+	ret = spi_sync(spi, &msg);
-+
-+	return ret;
-+}
-+
-+/**
-+ * tm16xx_spi_write() - SPI write helper for controller
-+ * @display: pointer to tm16xx_display
-+ * @data: data to write
-+ * @len: number of bytes to write
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+static int tm16xx_spi_write(struct tm16xx_display *display, u8 *data, size_t len)
-+{
-+	struct spi_device *spi = to_spi_device(display->dev);
-+
-+	return spi_write(spi, data, len);
-+}
-+
-+/* SPI controller-specific functions */
-+static int tm1628_init(struct tm16xx_display *display)
-+{
-+	const enum led_brightness brightness = display->main_led.brightness;
-+	const u8 num_hwgrid = display->num_hwgrid;
-+	u8 *cmd = display->spi_buffer;
-+	int ret;
-+
-+	/* Set mode command based on grid count */
-+	cmd[0] = TM16XX_CMD_MODE;
-+	if (num_hwgrid <= 4)
-+		cmd[0] |= TM16XX_MODE_4GRIDS;
-+	else if (num_hwgrid == 5)
-+		cmd[0] |= TM16XX_MODE_5GRIDS;
-+	else if (num_hwgrid == 6)
-+		cmd[0] |= TM16XX_MODE_6GRIDS;
-+	else
-+		cmd[0] |= TM16XX_MODE_7GRIDS;
-+
-+	ret = tm16xx_spi_write(display, cmd, 1);
-+	if (ret)
-+		return ret;
-+
-+	/* Set data command */
-+	cmd[0] = TM16XX_CMD_WRITE | TM16XX_DATA_ADDR_AUTO;
-+	ret = tm16xx_spi_write(display, cmd, 1);
-+	if (ret)
-+		return ret;
-+
-+	/* Set control command with brightness */
-+	cmd[0] = TM16XX_CMD_CTRL |
-+		 TM16XX_CTRL_BRIGHTNESS(brightness, brightness - 1, TM16XX);
-+	ret = tm16xx_spi_write(display, cmd, 1);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int tm1618_data(struct tm16xx_display *display, u8 index,
-+		       unsigned int grid)
-+{
-+	u8 *cmd = display->spi_buffer;
-+
-+	cmd[0] = TM16XX_CMD_ADDR + index * 2;
-+	cmd[1] = FIELD_GET(TM1618_BYTE1_MASK, grid);
-+	cmd[2] = FIELD_GET(TM1618_BYTE2_MASK, grid) << TM1618_BYTE2_SHIFT;
-+
-+	return tm16xx_spi_write(display, cmd, 3);
-+}
-+
-+static int tm1628_data(struct tm16xx_display *display, u8 index,
-+		       unsigned int grid)
-+{
-+	u8 *cmd = display->spi_buffer;
-+
-+	cmd[0] = TM16XX_CMD_ADDR + index * 2;
-+	cmd[1] = FIELD_GET(TM1628_BYTE1_MASK, grid);
-+	cmd[2] = FIELD_GET(TM1628_BYTE2_MASK, grid);
-+
-+	return tm16xx_spi_write(display, cmd, 3);
-+}
-+
-+static int tm1628_keys(struct tm16xx_display *display)
-+{
-+	u8 *cmd = display->spi_buffer;
-+	u8 *codes = display->spi_buffer;
-+	unsigned int i;
-+	int bit, byte;
-+	bool value;
-+	int ret;
-+
-+	cmd[0] = TM16XX_CMD_READ;
-+	ret = tm16xx_spi_read(display, cmd, 1, codes, TM1628_KEY_READ_LEN);
-+	if (ret)
-+		return ret;
-+
-+	/* prevent false readings */
-+	for (i = 0; i < TM1628_KEY_READ_LEN; i++) {
-+		if (codes[i] & ~TM1628_KEY_MASK)
-+			return -EINVAL;
-+	}
-+
-+	tm16xx_for_each_key(display, row, col) {
-+		byte = col >> 1;
-+		bit = row + ((col & 1) * 3);
-+		value = !!(codes[byte] & BIT(bit));
-+
-+		tm16xx_set_key(display, row, col, value);
-+	}
-+
-+	return 0;
-+}
-+
-+static int tm1638_keys(struct tm16xx_display *display)
-+{
-+	u8 *cmd = display->spi_buffer;
-+	u8 *codes = display->spi_buffer;
-+	unsigned int i;
-+	int bit, byte;
-+	bool value;
-+	int ret;
-+
-+	cmd[0] = TM16XX_CMD_READ;
-+	ret = tm16xx_spi_read(display, cmd, 1, codes, TM1638_KEY_READ_LEN);
-+	if (ret)
-+		return ret;
-+
-+	/* prevent false readings */
-+	for (i = 0; i < TM1638_KEY_READ_LEN; i++) {
-+		if (codes[i] & ~TM1638_KEY_MASK)
-+			return -EINVAL;
-+	}
-+
-+	tm16xx_for_each_key(display, row, col) {
-+		byte = col >> 1;
-+		bit = (2 - row) + ((col & 1) << 2);
-+		value = !!(codes[byte] & BIT(bit));
-+
-+		tm16xx_set_key(display, row, col, value);
-+	}
-+
-+	return 0;
-+}
-+
-+static int tm1618_keys(struct tm16xx_display *display)
-+{
-+	u8 *cmd = display->spi_buffer;
-+	u8 *codes = display->spi_buffer;
-+	unsigned int i;
-+	int ret;
-+
-+	cmd[0] = TM16XX_CMD_READ;
-+	ret = tm16xx_spi_read(display, cmd, 1, codes, TM1618_KEY_READ_LEN);
-+	if (ret)
-+		return ret;
-+
-+	/* prevent false readings */
-+	for (i = 0; i < TM1618_KEY_READ_LEN; i++) {
-+		if (codes[i] & ~TM1618_KEY_MASK)
-+			return -EINVAL;
-+	}
-+
-+	tm16xx_set_key(display, 0, 0, !!(codes[0] & BIT(1)));
-+	tm16xx_set_key(display, 0, 1, !!(codes[0] & BIT(4)));
-+	tm16xx_set_key(display, 0, 2, !!(codes[1] & BIT(1)));
-+	tm16xx_set_key(display, 0, 3, !!(codes[1] & BIT(4)));
-+	tm16xx_set_key(display, 0, 4, !!(codes[2] & BIT(1)));
-+
-+	return 0;
-+}
-+
-+static int fd620_data(struct tm16xx_display *display, u8 index,
-+		      unsigned int grid)
-+{
-+	u8 *cmd = display->spi_buffer;
-+
-+	cmd[0] = TM16XX_CMD_ADDR + index * 2;
-+	cmd[1] = FIELD_GET(FD620_BYTE1_MASK, grid);
-+	cmd[2] = FIELD_GET(FD620_BYTE2_MASK, grid) << FD620_BYTE2_SHIFT;
-+
-+	return tm16xx_spi_write(display, cmd, 3);
-+}
-+
-+static int fd620_keys(struct tm16xx_display *display)
-+{
-+	u8 *cmd = display->spi_buffer;
-+	u8 *codes = display->spi_buffer;
-+	unsigned int i;
-+	int ret;
-+
-+	cmd[0] = TM16XX_CMD_READ;
-+	ret = tm16xx_spi_read(display, cmd, 1, codes, FD620_KEY_READ_LEN);
-+	if (ret)
-+		return ret;
-+
-+	/* prevent false readings */
-+	for (i = 0; i < FD620_KEY_READ_LEN; i++) {
-+		if (codes[i] & ~FD620_KEY_MASK)
-+			return -EINVAL;
-+	}
-+
-+	tm16xx_set_key(display, 0, 0, codes[0] & BIT(0));
-+	tm16xx_set_key(display, 0, 1, codes[0] & BIT(3));
-+	tm16xx_set_key(display, 0, 2, codes[1] & BIT(0));
-+	tm16xx_set_key(display, 0, 3, codes[1] & BIT(3));
-+	tm16xx_set_key(display, 0, 4, codes[2] & BIT(0));
-+	tm16xx_set_key(display, 0, 5, codes[2] & BIT(3));
-+	tm16xx_set_key(display, 0, 6, codes[3] & BIT(0));
-+
-+	return 0;
-+}
-+
-+/* SPI controller definitions */
-+static const struct tm16xx_controller tm1618_controller = {
-+	.max_grids = 7,
-+	.max_segments = 8,
-+	.max_brightness = 8,
-+	.max_key_rows = 1,
-+	.max_key_cols = 5,
-+	.init = tm1628_init,
-+	.data = tm1618_data,
-+	.keys = tm1618_keys,
-+};
-+
-+static const struct tm16xx_controller tm1620_controller = {
-+	.max_grids = 6,
-+	.max_segments = 10,
-+	.max_brightness = 8,
-+	.max_key_rows = 0,
-+	.max_key_cols = 0,
-+	.init = tm1628_init,
-+	.data = tm1628_data,
-+};
-+
-+static const struct tm16xx_controller tm1628_controller = {
-+	.max_grids = 7,
-+	.max_segments = 14, /* seg 11 unused */
-+	.max_brightness = 8,
-+	.max_key_rows = 2,
-+	.max_key_cols = 10,
-+	.init = tm1628_init,
-+	.data = tm1628_data,
-+	.keys = tm1628_keys,
-+};
-+
-+static const struct tm16xx_controller tm1638_controller = {
-+	.max_grids = 8,
-+	.max_segments = 10,
-+	.max_brightness = 8,
-+	.max_key_rows = 3,
-+	.max_key_cols = 8,
-+	.init = tm1628_init,
-+	.data = tm1628_data,
-+	.keys = tm1638_keys,
-+};
-+
-+static const struct tm16xx_controller fd620_controller = {
-+	.max_grids = 5,
-+	.max_segments = 8,
-+	.max_brightness = 8,
-+	.max_key_rows = 1,
-+	.max_key_cols = 7,
-+	.init = tm1628_init,
-+	.data = fd620_data,
-+	.keys = fd620_keys,
-+};
-+
-+static const struct of_device_id tm16xx_spi_of_match[] = {
-+	{ .compatible = "titanmec,tm1618",  .data = &tm1618_controller },
-+	{ .compatible = "titanmec,tm1620",  .data = &tm1620_controller },
-+	{ .compatible = "titanmec,tm1628",  .data = &tm1628_controller },
-+	{ .compatible = "titanmec,tm1638",  .data = &tm1638_controller },
-+	{ .compatible = "fdhisi,fd620",     .data = &fd620_controller  },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, tm16xx_spi_of_match);
-+
-+static const struct spi_device_id tm16xx_spi_id[] = {
-+	{ "tm1618",  (kernel_ulong_t)&tm1618_controller },
-+	{ "tm1620",  (kernel_ulong_t)&tm1620_controller },
-+	{ "tm1628",  (kernel_ulong_t)&tm1628_controller },
-+	{ "tm1638",  (kernel_ulong_t)&tm1638_controller },
-+	{ "fd620",   (kernel_ulong_t)&fd620_controller  },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, tm16xx_spi_id);
-+
-+static struct spi_driver tm16xx_spi_driver = {
-+	.driver = {
-+		.name = "tm16xx-spi",
-+		.of_match_table = tm16xx_spi_of_match,
-+	},
-+	.probe = tm16xx_spi_probe,
-+	.remove = tm16xx_spi_remove,
-+	.shutdown = tm16xx_spi_remove,
-+	.id_table = tm16xx_spi_id,
-+};
-+module_spi_driver(tm16xx_spi_driver);
-+
-+MODULE_AUTHOR("Jean-François Lessard");
-+MODULE_DESCRIPTION("TM16xx-spi LED Display Controllers");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("TM16XX");
--- 
-2.43.0
+Additionally the OEM software of the Intel Nuc x15 was
+reverse-engineered to have a better understanding about the underlying
+hardware interface.
+
+The first patch introduces the uniwill-laptop driver that consists of
+two parts: a WMI part responsible for receiving platform events and
+a ACPI part that does the majority of the work by talking to the
+underlying embedded controller using the INOU0000 ACPI device.
+The whole driver uses a DMI whitelist for identifying supported
+notebook models as both the ACPI device ID and the WMI device GUID
+are shared with a wide range of notebook models that might use a
+different embedded controller register layout.
+
+The second patch additionally adds some documentation for configuring
+and using said driver.
+
+Special thanks go to:
+
+ - github user cyear for bring up this topic on the lm-sensors issue
+   tracker and being the tester for various prototype versions
+ - github user dumingqiao for testing the battery, lightbar and
+   keyboard-related features
+ - Tuxedo computers for giving advice on how to design the userspace
+   interface
+
+NOTE: During testing it turned out that the touchpad_toggle sysfs
+attribute does not work. The reason for this is unknown, as the driver
+emulates the behaviour of the OEM application just fine. I suspect
+that this feature only controls some obscure key combination we dont
+know about, so i decided to send out this series regardless.
+
+Changes since v3:
+- Add support for UNIWILL_OSD_SUPER_KEY_LOCK_CHANGED event
+- rename sysfs files to prepare for future changes
+- use kstrtobool() for handling sysfs input
+- add proper led locking
+
+Changed since v2:
+- Use the INOU0000 ACPI device for talking to the EC as it is much
+  faster than the WMI interface used before. Additionally the OEM
+  application also uses this ACPI inteface through a special driver.
+- Merge the uniwill-wmi driver into the uniwill-laptop driver as
+  the WMI driver should only load when matching the DMI whitelist.
+- Various small fixes
+
+Changes since v1:
+- spelling fixes
+- add missing error handling when reading PWM duty cycle
+- fix error when setting the super key lock sysfs attribute
+
+Changes since the RFC series:
+- spelling fixes
+- mention the INOU0000 ACPI device inside thew documentation
+- use MILLIDEGREE_PER_DEGREE instead of 1000
+- use power_supply_get_property_direct() to prevent deadlock
+- add support for KEY_KBDILLUMDOWN and KEY_KBDILLUMUP
+
+Armin Wolf (2):
+  platform/x86: Add Uniwill laptop driver
+  Documentation: laptops: Add documentation for uniwill laptops
+
+ .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
+ Documentation/admin-guide/laptops/index.rst   |    1 +
+ .../admin-guide/laptops/uniwill-laptop.rst    |   60 +
+ Documentation/wmi/devices/uniwill-laptop.rst  |  198 +++
+ MAINTAINERS                                   |   11 +
+ drivers/platform/x86/Kconfig                  |    2 +
+ drivers/platform/x86/Makefile                 |    3 +
+ drivers/platform/x86/uniwill/Kconfig          |   38 +
+ drivers/platform/x86/uniwill/Makefile         |    8 +
+ drivers/platform/x86/uniwill/uniwill-acpi.c   | 1547 +++++++++++++++++
+ drivers/platform/x86/uniwill/uniwill-wmi.c    |   92 +
+ drivers/platform/x86/uniwill/uniwill-wmi.h    |  127 ++
+ 12 files changed, 2140 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+ create mode 100644 Documentation/admin-guide/laptops/uniwill-laptop.rst
+ create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
+ create mode 100644 drivers/platform/x86/uniwill/Kconfig
+ create mode 100644 drivers/platform/x86/uniwill/Makefile
+ create mode 100644 drivers/platform/x86/uniwill/uniwill-acpi.c
+ create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.c
+ create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.h
+
+=2D-=20
+2.39.5
 
 
