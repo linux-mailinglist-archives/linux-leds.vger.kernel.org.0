@@ -1,279 +1,257 @@
-Return-Path: <linux-leds+bounces-5608-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5610-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56075BA657E
-	for <lists+linux-leds@lfdr.de>; Sun, 28 Sep 2025 03:33:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6AEBA659F
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Sep 2025 03:37:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12C373BC4AD
-	for <lists+linux-leds@lfdr.de>; Sun, 28 Sep 2025 01:33:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 574F0189B883
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Sep 2025 01:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC1B5245020;
-	Sun, 28 Sep 2025 01:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBA30244693;
+	Sun, 28 Sep 2025 01:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="I/DZ329g"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="WEBYNZ9o"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1297124468C;
-	Sun, 28 Sep 2025 01:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BAC24418F;
+	Sun, 28 Sep 2025 01:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759023202; cv=none; b=swzIWLhBZcc75FmC/SnV1r5UcCHf+YdAnNVFLtoNb/+KLI7AmzKcnwy1NBYx2sRhfRyBf9WdgH3JCsjmqyQzPFR5JXAs8PEzlYGw5e8I9AzW4Nh1ezGnrXsnbYo4IF+TKBPNU4dBP65VtDOXiDSa/xOEC2uLkcUbU1kfTuyEniA=
+	t=1759023435; cv=none; b=JtpA7e3ZKWtUL/luTBJ3F1TEJXKXfvcIYYOztP9Plple2ErbEpzPrufi6pQFJQfzOogXH3O2qMuImEjAaOZDW0K4lxicoDSIAx1rLoTY4GQLUeg8nKBPx/f6Am3Qak04S1bwOalWz6NOPRaFmz1U2onhSQ2dxR/Xjk9Nd64GmYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759023202; c=relaxed/simple;
-	bh=DJGCZXfpCZ8yGEIdk9Ayv+6btxIgDm+lldI+on6QVr4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OWBVXrgfMvEp/9OPnqKt3V5NWiY1fjAHosrEsVMMMK9PQIdleURI/hE6AzPHa76pSuaYm70f4c9VqdpET0oNwIUZ5Xa3CA59BEi3zjHBrUsYqOzZnuqRU4wJBYA5dUYu1yL6QsgyReP6SS8roRofocISPdexDHwAdPanyVYCoIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=I/DZ329g; arc=none smtp.client-ip=212.227.15.18
+	s=arc-20240116; t=1759023435; c=relaxed/simple;
+	bh=KRnlCspYDguXzWhh2C9e1CajT/5bG/oSUsqMFedflew=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=A5Eh6gEGR3sJhaKlp6tVXfdcOj9byaVl05oy1uGcdhlDTIP4EpgBgzzXUo4f8Fhr9o6Rhy2cGBHyu+yf6orpfZANI2O+x7BW9i7JUMsdJivEKVfUHTCziQaHvABJ02BAkZ00BqgZ9+bn4qbpWwdeaGUSabmJj3Q6O/k5XBJhbag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=WEBYNZ9o; arc=none smtp.client-ip=212.227.17.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1759023193; x=1759627993; i=w_armin@gmx.de;
-	bh=/m6Kon3V4rihxFv0iXr3NEJ6fMTRsTEqRDMnhm+25MY=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
+	s=s31663417; t=1759023415; x=1759628215; i=w_armin@gmx.de;
+	bh=dACQdQJOmHxMPIzcnEO/z8uEP74o/NjiTRxLyjbm2Co=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=I/DZ329gZf03NmIoSMRxuTOifBT4VaFjgKszoM3PGa+nhc5O2sHI8CJyPBWd6oA6
-	 Tl4w7o0FP7KS93fh3cgF4XmjsWug+aPzHjUnm4nSlQV3qbiHL1yFgZ7/sq/Y7xzvV
-	 hfSjRk+jLDstzfIpWCrFeYL2/f2AN1H9KkN7D8vRK33oqsPmr46owxppah0PyFthf
-	 Z+SO0163ug+OODtUs/v6mop1cUciJmPVMWaEjO0lYUBoYe5o82nQB1sGO9IzURiSD
-	 TCm1SQGtr1YtR0xlPVbfA1Z6X2aSq9xwZnPZDjWiEZqE7cyc23XwvhIDYqfgSZNa5
-	 VaCFVvLu/FV5lhM2fA==
+	b=WEBYNZ9o+zSLeq3Qzxz/9oA9KQDURnNdGw0OXyh8FgGLsPCGaRWkQs7Z9sEfs4tS
+	 fsQyCGUlSzhY/WMqyEnBRKfl8HMeyf+KJGVX4BseUQmCtHMj6cBwZ533nUMUe1AEh
+	 BnXcLQwfKjPfkAswKhnmWy3WeNk/tYDX047/U14v8XfFxcDLIpB+4i9RXDSu/CXWy
+	 cxD/EFwA4fHO+7Lla87oyMOTvuRLtsUw5+ZaPkMqZSvdH3zSvnUOg6fEM1IRnibxb
+	 LFMmT3PeHjrBAAEs5FfNR/ZdmFaXRLOW4jvWUXARhmczZAhqIge66mUbevBAjwIUa
+	 1lzh1LQ2SYxokqmjuQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.fritz.box ([93.202.247.91]) by mail.gmx.net
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MQMyZ-1uh0fI1MCP-00HlE5; Sun, 28 Sep 2025 03:33:13 +0200
-From: Armin Wolf <W_Armin@gmx.de>
-To: ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com,
-	chumuzero@gmail.com,
-	corbet@lwn.net,
-	cs@tuxedo.de,
-	wse@tuxedocomputers.com,
-	ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	rdunlap@infradead.org,
-	alok.a.tiwari@oracle.com,
-	linux-leds@vger.kernel.org,
-	lee@kernel.org,
-	pobrn@protonmail.com
-Subject: [PATCH v4 2/2] Documentation: laptops: Add documentation for uniwill laptops
-Date: Sun, 28 Sep 2025 03:32:53 +0200
-Message-Id: <20250928013253.10869-3-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250928013253.10869-1-W_Armin@gmx.de>
-References: <20250928013253.10869-1-W_Armin@gmx.de>
+Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTABT-1utizx2ZKR-00U4sJ; Sun, 28
+ Sep 2025 03:36:54 +0200
+Message-ID: <7ac5615c-c2dc-4aa3-b527-aadfb701bfda@gmx.de>
+Date: Sun, 28 Sep 2025 03:36:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tiBAdwIPrGnWVsD2jqQIN+PquVlbNzXwWLjj3eUR9D+sryMggy+
- YzjTr7hpbGX5pTu1cwFeSsX29wYc4aeyuUjom72EukZ17Qz0m47B6X3ni7dsPlgV76LKrRC
- EZwUSewtQon13M8GgnIRuE3/mBL53bmq2ikymMlBWWKxeBfEkDUALtUjBLSXjZb4hDuQ7HV
- zmItT0A0+jHmUi8gkMNpQ==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] Add support for Uniwill laptop features
+From: Armin Wolf <W_Armin@gmx.de>
+To: ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, chumuzero@gmail.com,
+ corbet@lwn.net, cs@tuxedo.de, wse@tuxedocomputers.com,
+ ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+ alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org, lee@kernel.org,
+ pobrn@protonmail.com
+References: <20250928013253.10869-1-W_Armin@gmx.de>
+Content-Language: en-US
+In-Reply-To: <20250928013253.10869-1-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:xqEGvrJybzXo6T18wNuCWMsZe/7LwrH1qpawJ+AOzzSOUgvTL+Z
+ PwPNkMklwAmcgboEVA0kDTTE19bmOxxaUJD2YfYVWgdjI/U9aJtQGcxv+hFAh9SPRFEIgf4
+ 8/Ng15U8xy0BNGdfFWutMM7/Y85vp2fCllEvdaLoCU+6+OTl82SVSW4JgTRcGe8vnzSaflP
+ lhW+b41JC0ccdSNWWh/kA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:CaL+NnrnQBY=;dHhLFU5FUhekS7TfoOfCSyX2s/w
- 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
- g/CLBy9KjKZiefMBQngOS++CwyedzDFT6ko=
+UI-OutboundReport: notjunk:1;M01:P0:QAA1Pdo1V2A=;jVSWl2DezgyNBX1qS87QlRJuW8g
+ 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
+ iRfMRcURamDU2A==
 
-Add documentation for admins regarding Uniwill laptops. This should
-help them to setup the uniwill-laptop driver, which sadly cannot be
-loaded automatically.
+Am 28.09.25 um 03:32 schrieb Armin Wolf:
 
-Reported-by: cyear <chumuzero@gmail.com>
-Closes: https://github.com/lm-sensors/lm-sensors/issues/508
-Closes: https://github.com/Wer-Wolf/uniwill-laptop/issues/3
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- Documentation/admin-guide/laptops/index.rst   |  1 +
- .../admin-guide/laptops/uniwill-laptop.rst    | 60 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 62 insertions(+)
- create mode 100644 Documentation/admin-guide/laptops/uniwill-laptop.rst
+> This patch series adds support for the various features found on
+> laptops manufactured by Uniwill. Those features are:
+>
+>   - battery charge limiting
+>   - RGB lightbar control
+>   - hwmon support
+>   - improved hotkey support
+>   - keyboard-related settings
+>
+> This patch series is based on the following out-of-tree drivers:
+>
+>   - https://github.com/pobrn/qc71_laptop
+>   - https://gitlab.com/tuxedocomputers/development/packages/tuxedo-drivers
+>
+> Additionally the OEM software of the Intel Nuc x15 was
+> reverse-engineered to have a better understanding about the underlying
+> hardware interface.
+>
+> The first patch introduces the uniwill-laptop driver that consists of
+> two parts: a WMI part responsible for receiving platform events and
+> a ACPI part that does the majority of the work by talking to the
+> underlying embedded controller using the INOU0000 ACPI device.
+> The whole driver uses a DMI whitelist for identifying supported
+> notebook models as both the ACPI device ID and the WMI device GUID
+> are shared with a wide range of notebook models that might use a
+> different embedded controller register layout.
+>
+> The second patch additionally adds some documentation for configuring
+> and using said driver.
+>
+> Special thanks go to:
+>
+>   - github user cyear for bring up this topic on the lm-sensors issue
+>     tracker and being the tester for various prototype versions
+>   - github user dumingqiao for testing the battery, lightbar and
+>     keyboard-related features
+>   - Tuxedo computers for giving advice on how to design the userspace
+>     interface
+>
+> NOTE: During testing it turned out that the touchpad_toggle sysfs
+> attribute does not work. The reason for this is unknown, as the driver
+> emulates the behaviour of the OEM application just fine. I suspect
+> that this feature only controls some obscure key combination we dont
+> know about, so i decided to send out this series regardless.
 
-diff --git a/Documentation/admin-guide/laptops/index.rst b/Documentation/a=
-dmin-guide/laptops/index.rst
-index db842b629303..6432c251dc95 100644
-=2D-- a/Documentation/admin-guide/laptops/index.rst
-+++ b/Documentation/admin-guide/laptops/index.rst
-@@ -17,3 +17,4 @@ Laptop Drivers
-    sonypi
-    thinkpad-acpi
-    toshiba_haps
-+   uniwill-laptop
-diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Docume=
-ntation/admin-guide/laptops/uniwill-laptop.rst
-new file mode 100644
-index 000000000000..a16baf15516b
-=2D-- /dev/null
-+++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-@@ -0,0 +1,60 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+Uniwill laptop extra features
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+On laptops manufactured by Uniwill (either directly or as ODM), the ``uni=
-will-laptop`` driver
-+handles various platform-specific features.
-+
-+Module Loading
-+--------------
-+
-+The ``uniwill-laptop`` driver relies on a DMI table to automatically load=
- on supported devices.
-+When using the ``force`` module parameter, this DMI check will be omitted=
-, allowing the driver
-+to be loaded on unsupported devices for testing purposes.
-+
-+Hotkeys
-+-------
-+
-+Usually the FN keys work without a special driver. However as soon as the=
- ``uniwill-laptop`` driver
-+is loaded, the FN keys need to be handled manually. This is done automati=
-cally by the driver itself.
-+
-+Keyboard settings
-+-----------------
-+
-+The ``uniwill-laptop`` driver allows the user to enable/disable:
-+
-+ - the FN and super key lock functionality of the integrated keyboard
-+ - the touchpad toggle functionality of the integrated touchpad
-+
-+See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
-+
-+Hwmon interface
-+---------------
-+
-+The ``uniwill-laptop`` driver supports reading of the CPU and GPU tempera=
-ture and supports up to
-+two fans. Userspace applications can access sensor readings over the hwmo=
-n sysfs interface.
-+
-+Platform profile
-+----------------
-+
-+Support for changing the platform performance mode is currently not imple=
-mented.
-+
-+Battery Charging Control
-+------------------------
-+
-+The ``uniwill-laptop`` driver supports controlling the battery charge lim=
-it. This happens over
-+the standard ``charge_control_end_threshold`` power supply sysfs attribut=
-e. All values
-+between 1 and 100 percent are supported.
-+
-+Additionally the driver signals the presence of battery charging issues t=
-hrough the standard
-+``health`` power supply sysfs attribute.
-+
-+Lightbar
-+--------
-+
-+The ``uniwill-laptop`` driver exposes the lightbar found on some models a=
-s a standard multicolor
-+LED class device. The default name of this LED class device is ``uniwill:=
-multicolor:status``.
-+
-+See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on =
-how to control the various
-+animation modes of the lightbar.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b4623730a41d..cbb874f3b0d7 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25920,6 +25920,7 @@ M:	Armin Wolf <W_Armin@gmx.de>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-+F:	Documentation/admin-guide/laptops/uniwill-laptop.rst
- F:	Documentation/wmi/devices/uniwill-laptop.rst
- F:	drivers/platform/x86/uniwill/uniwill-acpi.c
- F:	drivers/platform/x86/uniwill/uniwill-wmi.c
-=2D-=20
-2.39.5
+When testing those patches on your device, could you (Werner) also check
+if the keyboard-related sysfs attributes accept "0" and "1" and also contain
+"0" and "1" depending on the state of the associated functions?
 
+Thanks,
+Armin Wolf
+
+> Changes since v3:
+> - Add support for UNIWILL_OSD_SUPER_KEY_LOCK_CHANGED event
+> - rename sysfs files to prepare for future changes
+> - use kstrtobool() for handling sysfs input
+> - add proper led locking
+>
+> Changed since v2:
+> - Use the INOU0000 ACPI device for talking to the EC as it is much
+>    faster than the WMI interface used before. Additionally the OEM
+>    application also uses this ACPI inteface through a special driver.
+> - Merge the uniwill-wmi driver into the uniwill-laptop driver as
+>    the WMI driver should only load when matching the DMI whitelist.
+> - Various small fixes
+>
+> Changes since v1:
+> - spelling fixes
+> - add missing error handling when reading PWM duty cycle
+> - fix error when setting the super key lock sysfs attribute
+>
+> Changes since the RFC series:
+> - spelling fixes
+> - mention the INOU0000 ACPI device inside thew documentation
+> - use MILLIDEGREE_PER_DEGREE instead of 1000
+> - use power_supply_get_property_direct() to prevent deadlock
+> - add support for KEY_KBDILLUMDOWN and KEY_KBDILLUMUP
+>
+> Armin Wolf (2):
+>    platform/x86: Add Uniwill laptop driver
+>    Documentation: laptops: Add documentation for uniwill laptops
+>
+>   .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
+>   Documentation/admin-guide/laptops/index.rst   |    1 +
+>   .../admin-guide/laptops/uniwill-laptop.rst    |   60 +
+>   Documentation/wmi/devices/uniwill-laptop.rst  |  198 +++
+>   MAINTAINERS                                   |   11 +
+>   drivers/platform/x86/Kconfig                  |    2 +
+>   drivers/platform/x86/Makefile                 |    3 +
+>   drivers/platform/x86/uniwill/Kconfig          |   38 +
+>   drivers/platform/x86/uniwill/Makefile         |    8 +
+>   drivers/platform/x86/uniwill/uniwill-acpi.c   | 1547 +++++++++++++++++
+>   drivers/platform/x86/uniwill/uniwill-wmi.c    |   92 +
+>   drivers/platform/x86/uniwill/uniwill-wmi.h    |  127 ++
+>   12 files changed, 2140 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+>   create mode 100644 Documentation/admin-guide/laptops/uniwill-laptop.rst
+>   create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
+>   create mode 100644 drivers/platform/x86/uniwill/Kconfig
+>   create mode 100644 drivers/platform/x86/uniwill/Makefile
+>   create mode 100644 drivers/platform/x86/uniwill/uniwill-acpi.c
+>   create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.c
+>   create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.h
+>
 
