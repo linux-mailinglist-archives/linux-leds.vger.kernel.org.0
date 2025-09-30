@@ -1,111 +1,121 @@
-Return-Path: <linux-leds+bounces-5625-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5626-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49E7BA8C8A
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Sep 2025 11:55:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50304BABDDA
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 09:41:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0C553BFF58
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Sep 2025 09:55:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0AFAB18873A0
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 07:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 668632EDD76;
-	Mon, 29 Sep 2025 09:54:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17AAC2BE051;
+	Tue, 30 Sep 2025 07:40:40 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD512ED866;
-	Mon, 29 Sep 2025 09:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914922BF016
+	for <linux-leds@vger.kernel.org>; Tue, 30 Sep 2025 07:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759139671; cv=none; b=fCvtsahD6r6+6+v3itXfqZbNdVxpuDb0xayOgGSw/Bndz/OJNl65MyqJp9Xr6kywMDC7o80Ybl0RBaNjOgd9jGF0H5NJU7+ooHQ4tbMYljPLdeoHzr/606eC3vKRnOjWdbvD1blDQvWYE7TpczwLBmSXcs2gMxnBa4ft5l3ND5g=
+	t=1759218040; cv=none; b=a4jpsrkeleZc8nFZ4vJecor9V7hJ9XjRe9d37oDlSp5jrbEQOcDUQuXj9bdqnGcSgsgj2kze6e4mN9o9/C7wsmcsQb2Tb1W4dO2Od8Lf23sLtqKg8tzWHILgZzUFb1YrM8V3U+3fA4DD7Hhqm5AycMa2bSbIt68aERf9fiPqTp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759139671; c=relaxed/simple;
-	bh=lDn9F5tx2ppP7pvI0PEL6bF9L5E+LPHwI3GzH2Xe9BQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SS2NjxDUwvAXmh8lbx0jJXk/c6Qyz80Qo/i8KEpT+mvAfuHFM8ms9tofciUcP2nDj2dptiU5X6vw8uJ0D5ZZx2K5BYJC+DD6O/yHJflVsvo5VB5UU0XhOaXyXIbbOXOol3XtmEfL5p+HXeQxDUhjUZ92xCeGozcbeyn016lEKVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cZxNm4wjsz6L52D;
-	Mon, 29 Sep 2025 17:54:16 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 25BDE1402FE;
-	Mon, 29 Sep 2025 17:54:27 +0800 (CST)
-Received: from localhost (10.47.64.220) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 29 Sep
- 2025 10:54:25 +0100
-Date: Mon, 29 Sep 2025 10:54:24 +0100
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: <linux-acpi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-spi@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Len
- Brown" <lenb@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Javier Carrasco
-	<javier.carrasco@wolfvision.net>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek
-	<pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>, Chanwoo Choi
-	<cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, "Laurent
- Pinchart" <laurent.pinchart@ideasonboard.com>, Paul Elder
-	<paul.elder@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	<UNGLinuxDriver@microchip.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Mark Brown
-	<broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@kernel.org>
-Subject: Re: [PATCH v2 16/16] spi: cadence: Remove explicit device node
- availability check
-Message-ID: <20250929105424.00007069@huawei.com>
-In-Reply-To: <20250924074602.266292-17-sakari.ailus@linux.intel.com>
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
-	<20250924074602.266292-17-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1759218040; c=relaxed/simple;
+	bh=2Z51Vo0xsqWYUMvSkxTt20h8sXfSDUfaV6whn3Jzwgs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=n72BKVYjNBAsGW6LQpfRJOnl44ntz2VmWCV3UYxENU6D6dEfwlrnAVNlX6r8fIm78n3pQR60C4qEjXWqkgzI/NH05T1UFyAUIxQIjj+sC7+riVY4N6XpETyBle0Yxq2Ua7mNBT+sZPNM4iDa0QWe/pdoQYZZT9SPzLNFrV0G2OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.pengutronix.de)
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <s.trumtrar@pengutronix.de>)
+	id 1v3UyM-00076x-HE; Tue, 30 Sep 2025 09:40:30 +0200
+From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>,  Rob Herring <robh@kernel.org>,  Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
+  Steffen Trumtrar <kernel@pengutronix.de>,  Pavel Machek
+ <pavel@kernel.org>,  Mark Brown <broonie@kernel.org>,
+  linux-leds@vger.kernel.org,  devicetree@vger.kernel.org,
+  linux-spi@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] leds: add support for TI LP5860 LED driver chip
+In-Reply-To: <20250916153412.GA3837873@google.com> (Lee Jones's message of
+	"Tue, 16 Sep 2025 16:34:12 +0100")
+References: <20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de>
+	<20250911-v6-14-topic-ti-lp5860-v3-2-390738ef9d71@pengutronix.de>
+	<20250916153412.GA3837873@google.com>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Tue, 30 Sep 2025 09:40:28 +0200
+Message-ID: <875xd0jslv.fsf@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; format=flowed
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
-On Wed, 24 Sep 2025 10:46:02 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 
-> Don't check the availability of child device nodes explicitly as this is
-> now embedded in device_for_each_child_node().
+Hi,
+
+On 2025-09-16 at 16:34 +01, Lee Jones <lee@kernel.org> wrote:
+
+> > +#include <linux/gpio.h>
+> > +#include <linux/led-class-multicolor.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of_gpio.h>
+> > +#include <linux/of_platform.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#include <linux/platform_data/leds-lp5860.h>
+> > +
+> > +static struct lp5860_led *mcled_cdev_to_led(struct led_classdev_mc *mc_cdev)
+> > +{
+> > +	return container_of(mc_cdev, struct lp5860_led, mc_cdev);
+> > +}
+> > +
+> > +LP5860_SHOW_MODE(r_global_brightness_set, LP5860_REG_R_CURRENT_SET, LP5860_CC_GROUP_MASK, 0)
+> > +LP5860_STORE_MODE(r_global_brightness_set, LP5860_REG_R_CURRENT_SET, LP5860_CC_GROUP_MASK, 0)
+> > +DEVICE_ATTR_RW(r_global_brightness_set);
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-
-> ---
->  drivers/spi/spi-cadence-xspi.c | 3 ---
->  1 file changed, 3 deletions(-)
+> How is this different to /sys/class/leds/<led>/multi_intensity?
 > 
-> diff --git a/drivers/spi/spi-cadence-xspi.c b/drivers/spi/spi-cadence-xspi.c
-> index 6dcba0e0ddaa..23e426ef9b9c 100644
-> --- a/drivers/spi/spi-cadence-xspi.c
-> +++ b/drivers/spi/spi-cadence-xspi.c
-> @@ -908,9 +908,6 @@ static int cdns_xspi_of_get_plat_data(struct platform_device *pdev)
->  	unsigned int cs;
->  
->  	device_for_each_child_node(&pdev->dev, fwnode_child) {
-> -		if (!fwnode_device_is_available(fwnode_child))
-> -			continue;
-> -
->  		if (fwnode_property_read_u32(fwnode_child, "reg", &cs)) {
->  			dev_err(&pdev->dev, "Couldn't get memory chip select\n");
->  			fwnode_handle_put(fwnode_child);
+> # echo 43 226 138 > /sys/class/leds/multicolor:status/multi_intensity
+> red -
+>     intensity = 138
+>     max_brightness = 255
+> green -
+>     intensity = 43
+>     max_brightness = 255
+> blue -
+>     intensity = 226
+>     max_brightness = 255
+>
 
+the LP5860 has a register for setting the maximal brightness that holds for all LEDs in the matrix. multi_intensity and max_brightness is only for that one multicolor LED, right? And I can only manipulate the max_brightness of that one multicolor LED instance.
+If I'm wrong, I'd be happy to not have to add the sysfs files.
+
+> 
+> (...)
+> 
+
+I addressed all the other comments for my v4.
+
+
+Thanks,
+Steffn
+
+-- 
+Pengutronix e.K.                | Dipl.-Inform. Steffen Trumtrar |
+Steuerwalder Str. 21            | https://www.pengutronix.de/    |
+31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
+Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
 
