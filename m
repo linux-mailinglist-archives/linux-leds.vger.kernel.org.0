@@ -1,121 +1,189 @@
-Return-Path: <linux-leds+bounces-5626-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5627-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50304BABDDA
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 09:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CE9BAC39C
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 11:16:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0AFAB18873A0
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 07:41:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4087F188D867
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 09:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17AAC2BE051;
-	Tue, 30 Sep 2025 07:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662662E9EA1;
+	Tue, 30 Sep 2025 09:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsWpFlo+"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914922BF016
-	for <linux-leds@vger.kernel.org>; Tue, 30 Sep 2025 07:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C46021A95D;
+	Tue, 30 Sep 2025 09:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759218040; cv=none; b=a4jpsrkeleZc8nFZ4vJecor9V7hJ9XjRe9d37oDlSp5jrbEQOcDUQuXj9bdqnGcSgsgj2kze6e4mN9o9/C7wsmcsQb2Tb1W4dO2Od8Lf23sLtqKg8tzWHILgZzUFb1YrM8V3U+3fA4DD7Hhqm5AycMa2bSbIt68aERf9fiPqTp8=
+	t=1759223741; cv=none; b=ZtF1/oTtGgwN54Lg8mYhlYwhwaBSnD2MlGGUi6PJdYOV23/6sj2cviKFsef1R8JFRNCsEpkOoBazGHTuskByXfAsyRJGG5B9onds41RU+QHAQUXEsr6X2H/V+gT1IrKmHWJ6k0RFE3Db4UW4fNSYx4VF/Hk3LZXeah1rlOhzxFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759218040; c=relaxed/simple;
-	bh=2Z51Vo0xsqWYUMvSkxTt20h8sXfSDUfaV6whn3Jzwgs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=n72BKVYjNBAsGW6LQpfRJOnl44ntz2VmWCV3UYxENU6D6dEfwlrnAVNlX6r8fIm78n3pQR60C4qEjXWqkgzI/NH05T1UFyAUIxQIjj+sC7+riVY4N6XpETyBle0Yxq2Ua7mNBT+sZPNM4iDa0QWe/pdoQYZZT9SPzLNFrV0G2OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.pengutronix.de)
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <s.trumtrar@pengutronix.de>)
-	id 1v3UyM-00076x-HE; Tue, 30 Sep 2025 09:40:30 +0200
-From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>,  Rob Herring <robh@kernel.org>,  Krzysztof
- Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
-  Steffen Trumtrar <kernel@pengutronix.de>,  Pavel Machek
- <pavel@kernel.org>,  Mark Brown <broonie@kernel.org>,
-  linux-leds@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-spi@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] leds: add support for TI LP5860 LED driver chip
-In-Reply-To: <20250916153412.GA3837873@google.com> (Lee Jones's message of
-	"Tue, 16 Sep 2025 16:34:12 +0100")
-References: <20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de>
-	<20250911-v6-14-topic-ti-lp5860-v3-2-390738ef9d71@pengutronix.de>
-	<20250916153412.GA3837873@google.com>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Tue, 30 Sep 2025 09:40:28 +0200
-Message-ID: <875xd0jslv.fsf@pengutronix.de>
+	s=arc-20240116; t=1759223741; c=relaxed/simple;
+	bh=4u6qPEoom1yzsgPG/RiuqPrapQHxzaEyZJYu/J36gVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KgBh/ZNbWMJ2gTWSqX99WjikrJ2BCK5mtOdF8Z/axKCSKPZDUee8rBuPJKF9fvUm7SvC7yycjiX1NRi9QOPBfMZAXzinz/WmC0fIBbtZPRSYzvViB78xKKOLQ9DeW9/ndyTO74kTnXEKq6D6+WaPARIxF5gIKFJ5t8mlzd/Vjko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsWpFlo+; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759223739; x=1790759739;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4u6qPEoom1yzsgPG/RiuqPrapQHxzaEyZJYu/J36gVs=;
+  b=YsWpFlo+QmtmwfZKjNOwE+zdT5KiIIkifAtwf5TB0VpQp8+4JaCYGkJZ
+   7o1t+th/7IfLCET2v1x9NR7cU7EfQ5HwfNZzSG6BZB/wGvyVwrazmYvs2
+   iwwX8tLYTJIDljK5iMow5itmZ51LZ9bdsVCo0iiJSl0cYJIf1ViJYQC6D
+   LgTsUZWECA1swltCwuMT6uEDHWRmteKLu/nyzIehdOeoox91ZdBbLh7as
+   zNAJ6xWNvhJSR5aRoB5cUvKkPHyvzHuiSqvUtXgIQUWyYAVpFOfSCgvnc
+   NYHAD4xccGXkVtTLuBcWXkwoo4je9W4GJaTFOI6NQ3rrgSprWZw725nhS
+   Q==;
+X-CSE-ConnectionGUID: T5GJeV7SR36oYzmx70Owpg==
+X-CSE-MsgGUID: 2eU2UKyXQqeXLmlIy7X+wQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65296925"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65296925"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 02:15:38 -0700
+X-CSE-ConnectionGUID: h3lsygxZT8yC8rzVkS8v2Q==
+X-CSE-MsgGUID: t5LwEXYPSNCNRRntXuKYNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
+   d="scan'208";a="178880006"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Sep 2025 02:15:34 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v3WSK-00015t-1L;
+	Tue, 30 Sep 2025 09:15:32 +0000
+Date: Tue, 30 Sep 2025 17:15:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
+	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+	lee@kernel.org, pobrn@protonmail.com
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+Message-ID: <202509301709.jGxwZmZX-lkp@intel.com>
+References: <20250928013253.10869-2-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250928013253.10869-2-W_Armin@gmx.de>
+
+Hi Armin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lwn/docs-next]
+[also build test ERROR on linus/master v6.17 next-20250929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/platform-x86-Add-Uniwill-laptop-driver/20250928-093543
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20250928013253.10869-2-W_Armin%40gmx.de
+patch subject: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250930/202509301709.jGxwZmZX-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301709.jGxwZmZX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509301709.jGxwZmZX-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1243 |                 guard(mutex)(&data->battery_lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:49:1: note: expanded from here
+      49 | class_mutex_t
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1250:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1250 |                 guard(mutex)(&data->input_lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:60:1: note: expanded from here
+      60 | class_mutex_t
+         | ^
+>> drivers/platform/x86/uniwill/uniwill-acpi.c:1249:2: error: cannot jump from switch statement to this case label
+    1249 |         default:
+         |         ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1243 |                 guard(mutex)(&data->battery_lock);
+         |                 ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:47:1: note: expanded from here
+      47 | __UNIQUE_ID_guard1072
+         | ^
+   2 warnings and 1 error generated.
 
 
-Hi,
+vim +1249 drivers/platform/x86/uniwill/uniwill-acpi.c
 
-On 2025-09-16 at 16:34 +01, Lee Jones <lee@kernel.org> wrote:
-
-> > +#include <linux/gpio.h>
-> > +#include <linux/led-class-multicolor.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_gpio.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#include <linux/platform_data/leds-lp5860.h>
-> > +
-> > +static struct lp5860_led *mcled_cdev_to_led(struct led_classdev_mc *mc_cdev)
-> > +{
-> > +	return container_of(mc_cdev, struct lp5860_led, mc_cdev);
-> > +}
-> > +
-> > +LP5860_SHOW_MODE(r_global_brightness_set, LP5860_REG_R_CURRENT_SET, LP5860_CC_GROUP_MASK, 0)
-> > +LP5860_STORE_MODE(r_global_brightness_set, LP5860_REG_R_CURRENT_SET, LP5860_CC_GROUP_MASK, 0)
-> > +DEVICE_ATTR_RW(r_global_brightness_set);
-> 
-> How is this different to /sys/class/leds/<led>/multi_intensity?
-> 
-> # echo 43 226 138 > /sys/class/leds/multicolor:status/multi_intensity
-> red -
->     intensity = 138
->     max_brightness = 255
-> green -
->     intensity = 43
->     max_brightness = 255
-> blue -
->     intensity = 226
->     max_brightness = 255
->
-
-the LP5860 has a register for setting the maximal brightness that holds for all LEDs in the matrix. multi_intensity and max_brightness is only for that one multicolor LED, right? And I can only manipulate the max_brightness of that one multicolor LED instance.
-If I'm wrong, I'd be happy to not have to add the sysfs files.
-
-> 
-> (...)
-> 
-
-I addressed all the other comments for my v4.
-
-
-Thanks,
-Steffn
+  1235	
+  1236	static int uniwill_notifier_call(struct notifier_block *nb, unsigned long action, void *dummy)
+  1237	{
+  1238		struct uniwill_data *data = container_of(nb, struct uniwill_data, nb);
+  1239		struct uniwill_battery_entry *entry;
+  1240	
+  1241		switch (action) {
+  1242		case UNIWILL_OSD_BATTERY_ALERT:
+  1243			guard(mutex)(&data->battery_lock);
+  1244			list_for_each_entry(entry, &data->batteries, head) {
+  1245				power_supply_changed(entry->battery);
+  1246			}
+  1247	
+  1248			return NOTIFY_OK;
+> 1249		default:
+  1250			guard(mutex)(&data->input_lock);
+  1251			sparse_keymap_report_event(data->input_device, action, 1, true);
+  1252	
+  1253			return NOTIFY_OK;
+  1254		}
+  1255	}
+  1256	
 
 -- 
-Pengutronix e.K.                | Dipl.-Inform. Steffen Trumtrar |
-Steuerwalder Str. 21            | https://www.pengutronix.de/    |
-31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
-Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
