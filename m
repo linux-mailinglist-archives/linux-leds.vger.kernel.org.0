@@ -1,189 +1,464 @@
-Return-Path: <linux-leds+bounces-5627-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5628-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CE9BAC39C
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 11:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C563BAC7C9
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 12:31:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4087F188D867
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 09:17:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A80211881BCA
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Sep 2025 10:31:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662662E9EA1;
-	Tue, 30 Sep 2025 09:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E75B846B5;
+	Tue, 30 Sep 2025 10:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsWpFlo+"
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="eA7Yo35l"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C46021A95D;
-	Tue, 30 Sep 2025 09:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51622C08CF
+	for <linux-leds@vger.kernel.org>; Tue, 30 Sep 2025 10:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759223741; cv=none; b=ZtF1/oTtGgwN54Lg8mYhlYwhwaBSnD2MlGGUi6PJdYOV23/6sj2cviKFsef1R8JFRNCsEpkOoBazGHTuskByXfAsyRJGG5B9onds41RU+QHAQUXEsr6X2H/V+gT1IrKmHWJ6k0RFE3Db4UW4fNSYx4VF/Hk3LZXeah1rlOhzxFs=
+	t=1759228229; cv=none; b=mUcCFiwQ27Ac+BYQwkIhw4DtfKEiKu/xtWFKLDfxY5dDylngOtJMIih9QPk6MJUKq4fzqHOulPioL+hZqjkTq+FppWS3UG/NxmGt5QHtIzu01rXBXG6PMtQDg3NqSRfyfQWHOuFMN2gy/aY0LrR/7TfmILePf2hXKMkvjV9tLWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759223741; c=relaxed/simple;
-	bh=4u6qPEoom1yzsgPG/RiuqPrapQHxzaEyZJYu/J36gVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgBh/ZNbWMJ2gTWSqX99WjikrJ2BCK5mtOdF8Z/axKCSKPZDUee8rBuPJKF9fvUm7SvC7yycjiX1NRi9QOPBfMZAXzinz/WmC0fIBbtZPRSYzvViB78xKKOLQ9DeW9/ndyTO74kTnXEKq6D6+WaPARIxF5gIKFJ5t8mlzd/Vjko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsWpFlo+; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759223739; x=1790759739;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4u6qPEoom1yzsgPG/RiuqPrapQHxzaEyZJYu/J36gVs=;
-  b=YsWpFlo+QmtmwfZKjNOwE+zdT5KiIIkifAtwf5TB0VpQp8+4JaCYGkJZ
-   7o1t+th/7IfLCET2v1x9NR7cU7EfQ5HwfNZzSG6BZB/wGvyVwrazmYvs2
-   iwwX8tLYTJIDljK5iMow5itmZ51LZ9bdsVCo0iiJSl0cYJIf1ViJYQC6D
-   LgTsUZWECA1swltCwuMT6uEDHWRmteKLu/nyzIehdOeoox91ZdBbLh7as
-   zNAJ6xWNvhJSR5aRoB5cUvKkPHyvzHuiSqvUtXgIQUWyYAVpFOfSCgvnc
-   NYHAD4xccGXkVtTLuBcWXkwoo4je9W4GJaTFOI6NQ3rrgSprWZw725nhS
-   Q==;
-X-CSE-ConnectionGUID: T5GJeV7SR36oYzmx70Owpg==
-X-CSE-MsgGUID: 2eU2UKyXQqeXLmlIy7X+wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65296925"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65296925"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 02:15:38 -0700
-X-CSE-ConnectionGUID: h3lsygxZT8yC8rzVkS8v2Q==
-X-CSE-MsgGUID: t5LwEXYPSNCNRRntXuKYNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="178880006"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Sep 2025 02:15:34 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v3WSK-00015t-1L;
-	Tue, 30 Sep 2025 09:15:32 +0000
-Date: Tue, 30 Sep 2025 17:15:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
-	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
-	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
-	lee@kernel.org, pobrn@protonmail.com
-Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
-Message-ID: <202509301709.jGxwZmZX-lkp@intel.com>
-References: <20250928013253.10869-2-W_Armin@gmx.de>
+	s=arc-20240116; t=1759228229; c=relaxed/simple;
+	bh=X/wr3MGDTFOkNuPn/VRTyZUuH3wQb7AS6HDcmUoL2gw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jfoBG/flfRhDpGHwWZqn/JjzDjVGsslaHVW9XAObQIhhJOvNlPL1g4A5jLPs9HusYlLk/H3l77JtUWkFvQyvcRUv5uklgdbEhqY68XUI8eC/oKiYeQCsmjwfkeBCW+RvnQm8j3ehw8Nnb7GkAgiKAQ512GWWpkTUtdRes4BlHqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b=eA7Yo35l; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e542196c7so10578495e9.0
+        for <linux-leds@vger.kernel.org>; Tue, 30 Sep 2025 03:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1759228225; x=1759833025; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zmaySRiI+50ei/d4R4eMAr86JU+dCSIoSVR2L4OQo0M=;
+        b=eA7Yo35lCKlL4hgbb0e/vCHSh3r2XqzBvKZYrvjhSPshrJ+uvSmGqxs27Yuyvv7EZn
+         dWAAMmFBqEuSt1qHIa2vm8Az4XPngccBn4n1bXLNxSTbdZQlpw86Ew2V8gas2xnBpt1d
+         BZHwA2xHlrCjwNTqt7cptEBRYi93GvW/U8qJgs8YIc58eVADfE7dPy5c9LUFBsUybszB
+         S89AsJ+3BMRVnB7xfcjRcwK38Dqr1o6QTYESF2m9Epapo6tOOsSCEIOA+VKViWSBKknR
+         dG0QJuHvMk21MkeaqgT/zmUwIBAONIy06H7VeSiRm4DLOUkF26Gp5dwJs1YFTFNmRdt7
+         9fUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759228225; x=1759833025;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zmaySRiI+50ei/d4R4eMAr86JU+dCSIoSVR2L4OQo0M=;
+        b=u9QA9CSk963FKyyInNKeY/Ux+zUp3iAjRahqkZqAZRFh9rceX9VDGTfeEpCuzBVJBs
+         jzVYMdgYaY/mWohZraWaQ3sRbJIgIZZ/j2ZE0gyS2lU2noW8UpM9oLG0PH0WM5jUolHB
+         SBN3G/ECGYee+/GeZt1gcz/v4pujG7aV5T74iXviVH1cf3Cl5tfBfipDh4wWWmGummz9
+         mp67ECNDB3nrAA+zciGvtSbgMBBRkvEuJq0xZqvGsXiorBZHUZSInENVPpRHvCbqRu8m
+         H7xE93fATKGYT61cn2k21IRryU1vpUOMB8ERnS3SennI6eqXVLODCI361JdOAX7wjxYZ
+         ogCw==
+X-Gm-Message-State: AOJu0YxSxYb8W7m7ri0w/SNDVkneKlTka5gzhNA5q3XhesqaI6dTOJps
+	GtAy+ToaGiRR+mc3+IrzLXHVYRH7VA+CRctvIrx1fVe5WK8Jkvo1HK4D803lTSH76W7y1dTYR4Z
+	3AOf1kA8=
+X-Gm-Gg: ASbGncti6jqrFBZ9T5WK3OHumjwR2OeR5G6n3iJzKvnhEkra+okTw/YwvFzdh3TS4tO
+	AqD/U1Y0670T2WFVgEtT6soNG4EQTPQ7ejYXF4ya+82shJB+frscsbrpYVR+5xNqpxi/ZxyqlIz
+	ZmB3c6wMTJECIihlIqtWGUFl2e3mXhvZCHVvO02N4T7ZKWgzto8WsCIdLoAoo4d16j4/jGGkMQm
+	asxPi1dQh8BSQZzg19UXUwNfLak7FwiTjQcGy/TCg9w0D7DZsblPiTL3NRcS6Naw+E04q4HQHnx
+	Hp3Vv71yn5cw4OV9veIw1lVh3tLbu7404pqFe8DCaXRqoTGlIjbglltRxpa13Ld8umLBW+xcApx
+	qwNuQR3MMPEGfEWfUXIte42TsuO0SzozAj/q10fyiUeG6djijbWCyWyti
+X-Google-Smtp-Source: AGHT+IFN0hIRcZoNqQ/BXbbnuzyPPrC0zmvjlktDHX2VYIVGF+l1FpDVip6kw8/3WovkLU1UeVSBIg==
+X-Received: by 2002:a05:600c:859a:b0:45d:e775:d8b8 with SMTP id 5b1f17b1804b1-46e58aac95bmr28632445e9.1.1759228224806;
+        Tue, 30 Sep 2025 03:30:24 -0700 (PDT)
+Received: from [127.0.1.1] ([2a02:c7c:8a3e:8c00:7ec6:d455:268:da])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc5602efdsm23223104f8f.34.2025.09.30.03.30.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Sep 2025 03:30:24 -0700 (PDT)
+From: Harrison Carter <hcarter@thegoodpenguin.co.uk>
+Date: Tue, 30 Sep 2025 11:27:26 +0100
+Subject: [PATCH] dt-bindings: leds: bcm6358: Convert to DT Schema
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250928013253.10869-2-W_Armin@gmx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250930-brcm6358-to-dt-v1-1-ba833ceb1575@thegoodpenguin.co.uk>
+X-B4-Tracking: v=1; b=H4sIAI2w22gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDSyNj3aSi5FwzY1ML3ZJ83ZQS3UQzy7REQyMjC1NDIyWgpoKi1LTMCrC
+ B0bG1tQAkRflwYAAAAA==
+X-Change-ID: 20250923-brcm6358-to-dt-a69fa1228512
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonas Gorski <jonas.gorski@gmail.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Harrison Carter <hcarter@thegoodpenguin.co.uk>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1759228224; l=9147;
+ i=hcarter@thegoodpenguin.co.uk; s=20250904; h=from:subject:message-id;
+ bh=X/wr3MGDTFOkNuPn/VRTyZUuH3wQb7AS6HDcmUoL2gw=;
+ b=icoOAdMjWv1x3npmyRzVppa34/1BdDBPVIN1UuG/eIYF48Ev4NTVs8ACbvT8Gsn38+ajx2IAB
+ TlEK0OysxV8DkJPsRd9b5ZLgNvfW6znbbTZyilG9n9HuGPBWlPgkU3z
+X-Developer-Key: i=hcarter@thegoodpenguin.co.uk; a=ed25519;
+ pk=xn5ghTMMWQniDtZih4xwKCTAaBHDozflTmqNKtaKo6s=
 
-Hi Armin,
+Convert the brcm,bcm6358 LEDs to DT Schema format
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Harrison Carter <hcarter@thegoodpenguin.co.uk>
+---
+ .../bindings/leds/brcm,bcm6358-leds.yaml           | 187 +++++++++++++++++++++
+ .../devicetree/bindings/leds/leds-bcm6358.txt      | 143 ----------------
+ 2 files changed, 187 insertions(+), 143 deletions(-)
 
-[auto build test ERROR on lwn/docs-next]
-[also build test ERROR on linus/master v6.17 next-20250929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..a9052a29aa7bd6ddc252258bfe4982325499713f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+@@ -0,0 +1,187 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LEDs connected to Broadcom BCM6358 controller
++
++description: This controller is present on BCM6358 and
++  BCM6368. In these SoCs there are Serial LEDs (LEDs
++  connected to a 74x164 controller), which can either be
++  controlled by software (exporting the 74x164 as spi-gpio) 
++  or by hardware using this driver. See example at
++  Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml.
++
++maintainers:
++  - Jonas Gorski <jonas.gorski@gmail.com>
++
++properties:
++  compatible:
++    const: brcm,bcm6358-leds
++
++  reg:
++    maxItems: 1
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  brcm,clk-div:
++    description: SCK signal Divider. Default 1
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [1, 2, 4, 8]
++
++  brcm,clk-dat-low:
++    description: Makes clock and data signals active low.
++      Default false.
++    type: boolean
++
++patternProperties:
++  "^led@[0,1]?([0-9]|[a-z])$":
++    type: object
++    $ref: common.yaml
++    description: Each LED is represented as a sub-node of
++      this device.
++
++    properties:
++      reg:
++        description: LED pin number
++        maximum: 31
++        minimum: 0
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: true
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    /* The bcm6358 SOC */
++    soc {
++        #address-cells = <1>;
++        #size-cells = <1>;
++
++        led-controller@fffe00d0 {
++            compatible = "brcm,bcm6358-leds";
++            #address-cells = <1>;
++            #size-cells = <0>;
++            reg = <0xfffe00d0 0x8>;
++
++            alarm_white@0 {
++                reg = <0>;
++                active-low;
++                label = "white:alarm";
++            };
++            tv_white@2 {
++                reg = <2>;
++                active-low;
++                label = "white:tv";
++            };
++            tel_white@3 {
++                reg = <3>;
++                active-low;
++                label = "white:tel";
++            };
++            adsl_white@4 {
++                reg = <4>;
++                active-low;
++                label = "white:adsl";
++            };
++        };
++    };
++  - |
++    /* The bcm6368 SOC */
++    led-controller@100000d0 {
++        compatible = "brcm,bcm6358-leds";
++        #address-cells = <1>;
++        #size-cells = <0>;
++        reg = <0x100000d0 0x8>;
++
++        brcm,pol-low;
++        brcm,clk-div = <4>;
++
++        power_red@0 {
++            reg = <0>;
++            active-low;
++            label = "red:power";
++        };
++        power_green@1 {
++            reg = <1>;
++            active-low;
++            label = "green:power";
++            default-state = "on";
++        };
++        power_blue@2 {
++            reg = <2>;
++            label = "blue:power";
++        };
++        broadband_red@3 {
++            reg = <3>;
++            active-low;
++            label = "red:broadband";
++        };
++        broadband_green@4 {
++            reg = <4>;
++            label = "green:broadband";
++        };
++        broadband_blue@5 {
++            reg = <5>;
++            active-low;
++            label = "blue:broadband";
++        };
++        wireless_red@6 {
++            reg = <6>;
++            active-low;
++            label = "red:wireless";
++        };
++        wireless_green@7 {
++            reg = <7>;
++            active-low;
++            label = "green:wireless";
++        };
++        wireless_blue@8 {
++            reg = <8>;
++            label = "blue:wireless";
++        };
++        phone_red@9 {
++            reg = <9>;
++            active-low;
++            label = "red:phone";
++        };
++        phone_green@10 {
++            reg = <10>;
++            active-low;
++            label = "green:phone";
++        };
++        phone_blue@11 {
++            reg = <11>;
++            label = "blue:phone";
++        };
++        upgrading_red@12 {
++            reg = <12>;
++            active-low;
++            label = "red:upgrading";
++        };
++        upgrading_green@13 {
++            reg = <13>;
++            active-low;
++            label = "green:upgrading";
++        };
++        upgrading_blue@14 {
++            reg = <14>;
++            label = "blue:upgrading";
++        };
++    };
++...
++
+diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+deleted file mode 100644
+index 211ffc3c4a201235e8d242b0230747b5dfe2a417..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
++++ /dev/null
+@@ -1,143 +0,0 @@
+-LEDs connected to Broadcom BCM6358 controller
+-
+-This controller is present on BCM6358 and BCM6368.
+-In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
+-which can either be controlled by software (exporting the 74x164 as spi-gpio.
+-See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
+-by hardware using this driver.
+-
+-Required properties:
+-  - compatible : should be "brcm,bcm6358-leds".
+-  - #address-cells : must be 1.
+-  - #size-cells : must be 0.
+-  - reg : BCM6358 LED controller address and size.
+-
+-Optional properties:
+-  - brcm,clk-div : SCK signal divider. Possible values are 1, 2, 4 and 8.
+-    Default : 1
+-  - brcm,clk-dat-low : Boolean, makes clock and data signals active low.
+-    Default : false
+-
+-Each LED is represented as a sub-node of the brcm,bcm6358-leds device.
+-
+-LED sub-node required properties:
+-  - reg : LED pin number (only LEDs 0 to 31 are valid).
+-
+-LED sub-node optional properties:
+-  - label : see Documentation/devicetree/bindings/leds/common.txt
+-  - default-state : see
+-    Documentation/devicetree/bindings/leds/common.txt
+-  - linux,default-trigger : see
+-    Documentation/devicetree/bindings/leds/common.txt
+-
+-Examples:
+-Scenario 1 : BCM6358
+-	leds0: led-controller@fffe00d0 {
+-		compatible = "brcm,bcm6358-leds";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0xfffe00d0 0x8>;
+-
+-		alarm_white {
+-			reg = <0>;
+-			active-low;
+-			label = "white:alarm";
+-		};
+-		tv_white {
+-			reg = <2>;
+-			active-low;
+-			label = "white:tv";
+-		};
+-		tel_white {
+-			reg = <3>;
+-			active-low;
+-			label = "white:tel";
+-		};
+-		adsl_white {
+-			reg = <4>;
+-			active-low;
+-			label = "white:adsl";
+-		};
+-	};
+-
+-Scenario 2 : BCM6368
+-	leds0: led-controller@100000d0 {
+-		compatible = "brcm,bcm6358-leds";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0x100000d0 0x8>;
+-		brcm,pol-low;
+-		brcm,clk-div = <4>;
+-
+-		power_red {
+-			reg = <0>;
+-			active-low;
+-			label = "red:power";
+-		};
+-		power_green {
+-			reg = <1>;
+-			active-low;
+-			label = "green:power";
+-			default-state = "on";
+-		};
+-		power_blue {
+-			reg = <2>;
+-			label = "blue:power";
+-		};
+-		broadband_red {
+-			reg = <3>;
+-			active-low;
+-			label = "red:broadband";
+-		};
+-		broadband_green {
+-			reg = <4>;
+-			label = "green:broadband";
+-		};
+-		broadband_blue {
+-			reg = <5>;
+-			active-low;
+-			label = "blue:broadband";
+-		};
+-		wireless_red {
+-			reg = <6>;
+-			active-low;
+-			label = "red:wireless";
+-		};
+-		wireless_green {
+-			reg = <7>;
+-			active-low;
+-			label = "green:wireless";
+-		};
+-		wireless_blue {
+-			reg = <8>;
+-			label = "blue:wireless";
+-		};
+-		phone_red {
+-			reg = <9>;
+-			active-low;
+-			label = "red:phone";
+-		};
+-		phone_green {
+-			reg = <10>;
+-			active-low;
+-			label = "green:phone";
+-		};
+-		phone_blue {
+-			reg = <11>;
+-			label = "blue:phone";
+-		};
+-		upgrading_red {
+-			reg = <12>;
+-			active-low;
+-			label = "red:upgrading";
+-		};
+-		upgrading_green {
+-			reg = <13>;
+-			active-low;
+-			label = "green:upgrading";
+-		};
+-		upgrading_blue {
+-			reg = <14>;
+-			label = "blue:upgrading";
+-		};
+-	};
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/platform-x86-Add-Uniwill-laptop-driver/20250928-093543
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20250928013253.10869-2-W_Armin%40gmx.de
-patch subject: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250930/202509301709.jGxwZmZX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301709.jGxwZmZX-lkp@intel.com/reproduce)
+---
+base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+change-id: 20250923-brcm6358-to-dt-a69fa1228512
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509301709.jGxwZmZX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1243 |                 guard(mutex)(&data->battery_lock);
-         |                 ^
-   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
-     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |         ^
-   <scratch space>:49:1: note: expanded from here
-      49 | class_mutex_t
-         | ^
-   drivers/platform/x86/uniwill/uniwill-acpi.c:1250:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1250 |                 guard(mutex)(&data->input_lock);
-         |                 ^
-   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
-     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |         ^
-   <scratch space>:60:1: note: expanded from here
-      60 | class_mutex_t
-         | ^
->> drivers/platform/x86/uniwill/uniwill-acpi.c:1249:2: error: cannot jump from switch statement to this case label
-    1249 |         default:
-         |         ^
-   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1243 |                 guard(mutex)(&data->battery_lock);
-         |                 ^
-   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:47:1: note: expanded from here
-      47 | __UNIQUE_ID_guard1072
-         | ^
-   2 warnings and 1 error generated.
-
-
-vim +1249 drivers/platform/x86/uniwill/uniwill-acpi.c
-
-  1235	
-  1236	static int uniwill_notifier_call(struct notifier_block *nb, unsigned long action, void *dummy)
-  1237	{
-  1238		struct uniwill_data *data = container_of(nb, struct uniwill_data, nb);
-  1239		struct uniwill_battery_entry *entry;
-  1240	
-  1241		switch (action) {
-  1242		case UNIWILL_OSD_BATTERY_ALERT:
-  1243			guard(mutex)(&data->battery_lock);
-  1244			list_for_each_entry(entry, &data->batteries, head) {
-  1245				power_supply_changed(entry->battery);
-  1246			}
-  1247	
-  1248			return NOTIFY_OK;
-> 1249		default:
-  1250			guard(mutex)(&data->input_lock);
-  1251			sparse_keymap_report_event(data->input_device, action, 1, true);
-  1252	
-  1253			return NOTIFY_OK;
-  1254		}
-  1255	}
-  1256	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Harrison Carter <hcarter@thegoodpenguin.co.uk>
+
 
