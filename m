@@ -1,51 +1,52 @@
-Return-Path: <linux-leds+bounces-5672-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5673-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92576BC63E9
-	for <lists+linux-leds@lfdr.de>; Wed, 08 Oct 2025 20:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39CCBC63EF
+	for <lists+linux-leds@lfdr.de>; Wed, 08 Oct 2025 20:11:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45EB440599B
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Oct 2025 18:10:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BBE3405F92
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Oct 2025 18:10:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79A42BEFFA;
-	Wed,  8 Oct 2025 18:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B4862C08A8;
+	Wed,  8 Oct 2025 18:10:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="DEBwRB6S"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="m5AngRcT"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8BE291C13
-	for <linux-leds@vger.kernel.org>; Wed,  8 Oct 2025 18:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6393029DB61
+	for <linux-leds@vger.kernel.org>; Wed,  8 Oct 2025 18:10:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759947052; cv=none; b=RrfutpJbR9R6vrcSZaYWKEJKG7es+s6Fq67I3MrpE6xisvY6jdvjALxG+A7wn4wKyqK3F8ALnuKB0ifYM+jsh66wi5AKiSddgr03H+0tZHrZq8V+8idRzYAeFhh06Hevz+jznVnWI+17b7EVZbSMAE3K2z1D4xq4t+6RGgULqrs=
+	t=1759947054; cv=none; b=dmc0TPC1PB8/K4UXy4D5npvQ+onAa1Am7FgQrqvK7TZ8FFkXXEwTQpA3xBaMhAXqiIlhCd+j74nIcd3xR6f42av91gek3pe78Cq94Qeqb/5P0e5gNsJh4f0gnC0HlP3U9CQPGSLPUKqVfP1kfWPso947b/v1TLQ0WugCZZxBo54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759947052; c=relaxed/simple;
-	bh=c2hc+fmf/izOaFAd97rHa6VeWLubfQfOeJhQz8oQcG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GP9nH04RXgpahHlAsYXyZJ3cdok2wvU99fhS3X+oDdk2jjpeAeO0oTMXnXqu21C4bW+Tu7V/9w6gB49dbrPbgYDb+ZBLn6kjElJojEnKryYtw2PNLtlbO0PDEOEndgp/fTS6b79Aw1IMl+FC49uk1eSq+9V6DZgxd3f+BYfprkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=DEBwRB6S; arc=none smtp.client-ip=185.67.36.65
+	s=arc-20240116; t=1759947054; c=relaxed/simple;
+	bh=SaGxqTldM1xsGEyQJzMNlPIGiii+/O+77EXJ3kOV6yA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VY5knalhGIOlgHoFMGugzJ0C1NhuX04HkIAosI9hehDe+ClBw2wKQFA6DEuA+NNLewnASuyqdAem7I1yJ/zwPOueQw5cHwX7qHjo/Fl4ibJzyv72IhKTxj03oBELy2SIAPwYq3Zjbjdxs0oHPZRf5BaDSl/0jSF5dKSu4UnuV/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=m5AngRcT; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 38769240027
-	for <linux-leds@vger.kernel.org>; Wed,  8 Oct 2025 20:10:43 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id C7D2A240028
+	for <linux-leds@vger.kernel.org>; Wed,  8 Oct 2025 20:10:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1759947043; bh=bz5I0bfrS47v6XjHM6K8VutZ5ZE8ALuRAqGU6IUzCZ8=;
+	t=1759947044; bh=g9UUqZTuO/pVU1g1HZjC8FVIAQ6keeZB0dh+9qZDMYs=;
 	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
 	 Content-Transfer-Encoding:Autocrypt:OpenPGP:From;
-	b=DEBwRB6SvWFCMusrAu7tKe1y8zj7s62q+ak1zJcfCRSIZjWqovr238TX5bHjBRbjB
-	 w0CdA47/Uw5tR3P2Cp49Q7YTwJOuttN6/+XtwUtECH0t8BUGFCkEW64IH6IEX462Z9
-	 /KZSZbsDT7MCjljeskjv61LNUhZeAZAUy8D0h3GBBRlHB6KBwrt7lbq3Lx0rogcY2T
-	 Y8JlNOFlersUHitgqcPYEH0lKdat/Q7PwbBMjfbcQQIgw6kMkiTjQeje2cCnQHQDkO
-	 afj81mwcilhW/NX7g/h7PFFW/IVYYVo0ddsYOknSkQkx+qD1+eoLf6I37thH5PBhIL
-	 O5WDte8U3KuWA==
+	b=m5AngRcTsImkVuHPJ+AjNSmEDhETeQ6YrkI5NRxY9rI3Lcpk+QtIX2+P9Tuwtwiz1
+	 GKcs5+xEXOYQ7N9vq9yBYJC+sjSAG7l+52gNGjoJSxLsQKwoqwVXYOUO71SEptaX+v
+	 lNHwgBZ1yy2zPDIkH++Xuz2cgfJFrYMvmKU8MCJr9JKnkXqTlrdQ9UCgd+Op+gVCOK
+	 ZkedOAoKWokMFE9QnWfKvh2tZYLRvDGr9MESG6rw1UBRufe5HeROV3y4LbKUf3NLQl
+	 4Z3R0iAAIwPWDGc4xn6vURtfSJ5CzO4rBKpg+O54xVtTlBRqnZviGkeuB7HXcEeuSG
+	 MYIFpg/YqOvBQ==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4chgzM70WHz9rxS;
-	Wed,  8 Oct 2025 20:10:39 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4chgzQ0ZwKz9rxY;
+	Wed,  8 Oct 2025 20:10:42 +0200 (CEST)
 From: Markus Probst <markus.probst@posteo.de>
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -69,9 +70,11 @@ Cc: Markus Probst <markus.probst@posteo.de>,
 	linux-leds@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] Add first led driver written in Rust
-Date: Wed, 08 Oct 2025 18:10:42 +0000
-Message-ID: <20251008181027.662616-1-markus.probst@posteo.de>
+Subject: [PATCH 1/4] rust: i2c: add read and write byte data abstractions
+Date: Wed, 08 Oct 2025 18:10:43 +0000
+Message-ID: <20251008181027.662616-2-markus.probst@posteo.de>
+In-Reply-To: <20251008181027.662616-1-markus.probst@posteo.de>
+References: <20251008181027.662616-1-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -122,50 +125,78 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-This patch series adds the first led driver written in Rust to the
-kernel.
+In addition to the core abstractions, implement
 
-The following changes were made:
-* extends the not-yet-merged i2c patch series (see below) to include
-  abstractions for reading and writing to i2c clients.
+* `i2c::I2cClient::read_byte` - read a byte from the i2c client
+* `i2c::I2cClient::write_byte` - write a byte to the i2c client
 
-* add a wrapper of Vec, that allows to initialize PinInit items with
-  the gurantee that these will never be moved.
+* `i2c::I2cClient::read_byte_data` - read byte data from the i2c client
+* `i2c::I2cClient::write_byte_data` - write byte data to the i2c client
 
-* add basic led classdev abstractions to register and unregister leds
+* `i2c::I2cClient::read_word_data` - read word data from the i2c client
+* `i2c::I2cClient::write_word_data` - write word data to the i2c client
 
-* add a driver for the atmega1608 microcontroller used in synology
-  devices.
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+ rust/kernel/i2c.rs | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-This patch series requires and is based on:
-https://lore.kernel.org/rust-for-linux/20251005102226.41876-1-igor.korotin.linux@gmail.com/T/#t
-
-Atmega1608 is a programmable microcontroller. It has been preprogrammed
-to allow leds being controlled via the i2c bus. This driver can only be
-used on synology devices using this microcontroller.
-
-Information on how to interact with it, has been gained by viewing the
-drivers/leds/leds-atmega1608.c file licensed under GPL found here (thats the only documentation):
-https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/r1000/linux-4.4.x.txz
-
-Markus Probst (4):
-  rust: i2c: add read and write byte data abstractions
-  rust: add pinned wrapper of Vec
-  rust: leds: add basic led classdev abstractions
-  leds: add driver for synology atmega1608 controlled LEDs
-
- MAINTAINERS                     |   6 +
- drivers/leds/Kconfig            |   9 +
- drivers/leds/Makefile           |   1 +
- drivers/leds/leds_atmega1608.rs | 377 ++++++++++++++++++++++++++++++++
- rust/kernel/alloc/kvec.rs       |  86 ++++++++
- rust/kernel/i2c.rs              |  45 ++++
- rust/kernel/led.rs              | 299 +++++++++++++++++++++++++
- rust/kernel/lib.rs              |   1 +
- 8 files changed, 824 insertions(+)
- create mode 100644 drivers/leds/leds_atmega1608.rs
- create mode 100644 rust/kernel/led.rs
-
+diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+index 73858aecc131..57b02b65f90f 100644
+--- a/rust/kernel/i2c.rs
++++ b/rust/kernel/i2c.rs
+@@ -463,6 +463,51 @@ impl<Ctx: device::DeviceContext> I2cClient<Ctx> {
+     fn as_raw(&self) -> *mut bindings::i2c_client {
+         self.0.get()
+     }
++
++    /// Reads a byte from the i2c client
++    pub fn read_byte(&self) -> Result<u8> {
++        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
++        // `struct i2c_client`.
++        let value = unsafe { bindings::i2c_smbus_read_byte(self.as_raw()) };
++        to_result(value).map(|()| value as u8)
++    }
++
++    /// Writes a byte to the i2c client
++    pub fn write_byte(&self, value: u8) -> Result<()> {
++        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
++        // `struct i2c_client`.
++        to_result(unsafe { bindings::i2c_smbus_write_byte(self.as_raw(), value) })
++    }
++
++    /// Reads byte data from the i2c client
++    pub fn read_byte_data(&self, reg: u8) -> Result<u8> {
++        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
++        // `struct i2c_client`.
++        let value = unsafe { bindings::i2c_smbus_read_byte_data(self.as_raw(), reg) };
++        to_result(value).map(|()| value as u8)
++    }
++
++    /// Writes byte data to the i2c client
++    pub fn write_byte_data(&self, reg: u8, value: u8) -> Result<()> {
++        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
++        // `struct i2c_client`.
++        to_result(unsafe { bindings::i2c_smbus_write_byte_data(self.as_raw(), reg, value) })
++    }
++
++    /// Reads word data from the i2c client
++    pub fn read_word_data(&self, reg: u8) -> Result<u16> {
++        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
++        // `struct i2c_client`.
++        let value = unsafe { bindings::i2c_smbus_read_word_data(self.as_raw(), reg) };
++        to_result(value).map(|()| value as u16)
++    }
++
++    /// Writes word data to the i2c client
++    pub fn write_word_data(&self, reg: u8, value: u16) -> Result<()> {
++        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
++        // `struct i2c_client`.
++        to_result(unsafe { bindings::i2c_smbus_write_word_data(self.as_raw(), reg, value) })
++    }
+ }
+ 
+ // SAFETY: `I2cClient` is a transparent wrapper of a type that doesn't depend on `I2cClient`'s generic
 -- 
 2.49.1
 
