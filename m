@@ -1,299 +1,126 @@
-Return-Path: <linux-leds+bounces-5669-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5671-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A876CBC31FF
-	for <lists+linux-leds@lfdr.de>; Wed, 08 Oct 2025 03:52:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CEDBC509E
+	for <lists+linux-leds@lfdr.de>; Wed, 08 Oct 2025 14:57:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D3803AB284
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Oct 2025 01:52:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2683019E3E83
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Oct 2025 12:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C2B299A84;
-	Wed,  8 Oct 2025 01:52:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB4C426657B;
+	Wed,  8 Oct 2025 12:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iO0IvzA6"
+	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="vN4sZAug"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB55298991;
-	Wed,  8 Oct 2025 01:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7D925782A;
+	Wed,  8 Oct 2025 12:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759888332; cv=none; b=qGj7Ki8SdYZgClQmQbZtCcxAYG1LCwxE/Q2uJ6Lg3D2mSo8GcQww4gc9QswObMU+p3U3HJMtBHvJ6SNdKDR3xXIYn3+74rL4cu5K3fCkEzF4rvRHZWkYj5m0Y/VTVbMve+gSZbs9S4V0GCne9NuHYMGhBUWFlj57v2+ObWe5bm0=
+	t=1759928159; cv=none; b=E/TyqjVwL9wbg0v57mhB0qTN2FmPKXb+r27jLy28QmPEdBBOLXjiqMWX7PLjXcB5GMNR0UaUKKgvKBf/MdbVzIuI/p+BuS0Zgh4whNkYzaACK8sXPiJ3yYwSA5UR6udm46BotnaB/OIR6GioR0s/feiPaPDcp9u5yLQElI/wjBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759888332; c=relaxed/simple;
-	bh=5AFl3n3LAr3gOBJkKSOwHWSJop5Q7yIEH3hGBTfEgqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bnysskIZbDF7WcNM9LkmEdNgcvOA4wJfuYk6gLQ/hskuJt2D69rdgbDMqe/+3glR53farRtTsiIhLNvLM/nzv+KZSyrLSb8Pev6NXZctnjxauSytQrPH+8GfCFCmrrWIDCvB6O2s1f3R+SyULc4r1VlYRB+/K+aWCirybN7oWtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iO0IvzA6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FF9C4CEF1;
-	Wed,  8 Oct 2025 01:52:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759888331;
-	bh=5AFl3n3LAr3gOBJkKSOwHWSJop5Q7yIEH3hGBTfEgqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iO0IvzA6fm2xYBVCP6dV3BCvm1RaXUx1yOVIuPGvkKOjjZ7rYV7JEbXNHZmwOzQoq
-	 cLr1Y0WMqQRRWmxONiY/iFmHg0zJFlM0U4gPiMyWytRV20yRqMYE3PG7QPBMh2TDKJ
-	 pTT/RgtrUjhYQ0h8IPw27FxlUP3kVQ7VfyfX8DA6EYWp/D0xwMeYJ0z8fQoz5bIjca
-	 pBTZDbfbvBcZvdOx7/H32viC49Wk/lA8VXawvLn3voCpmeti836LDLDbC8URWoElxm
-	 LhsepGAaNbrf9vzCN1HCJahF+azeSevrCB412zsSAzfaLTpqSJfNZrl7XaWqR8DTV3
-	 2aBm/jNCBnqHA==
-Date: Tue, 7 Oct 2025 20:52:10 -0500
-From: Rob Herring <robh@kernel.org>
-To: Harrison Carter <hcarter@thegoodpenguin.co.uk>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonas Gorski <jonas.gorski@gmail.com>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: bcm6358: Convert to DT Schema
-Message-ID: <20251008015210.GA1925508-robh@kernel.org>
-References: <20250930-brcm6358-to-dt-v1-1-ba833ceb1575@thegoodpenguin.co.uk>
+	s=arc-20240116; t=1759928159; c=relaxed/simple;
+	bh=pDfzvHYumkVNgP6Bt5JPh8DBBBEuka+mLIWH3ZAsB2o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=atA1fIAKvaQfHKmII73F+aOD4yiA1yl1QixHJkAqivOOtZGiYZPzAOjnht0HJx0sRmB/dSljp6jn2WDGXqHGLpZEUZjMoXKZhTpvyR7fT7xcM62fLGuACDq+IGEoUq1QdIY/r9CiYQRcsMIOJ7QEd/jRc3BnLEj8LWd7KheoLe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=vN4sZAug; arc=none smtp.client-ip=212.243.197.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
+Received: from localhost (localhost [127.0.0.1])
+	by mail.hostpark.net (Postfix) with ESMTP id 308291626A;
+	Wed, 08 Oct 2025 14:50:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
+	content-transfer-encoding:mime-version:x-mailer:message-id:date
+	:date:subject:subject:from:from; s=sel2011a; t=1759927814; bh=pD
+	fzvHYumkVNgP6Bt5JPh8DBBBEuka+mLIWH3ZAsB2o=; b=vN4sZAugpzoz2+uT9T
+	8IQQnCxYyVpNNcNZ/bHq6PufnqkdwfRGcnYiI2QqQ1LcqvwuHvJQ/IZpGwu+hbz7
+	3rg4ZlwUuy5b6whf62mh0qTBWHHPB6RX8qoU+7KdKZEOtGba8vopOOpokFDceugm
+	pDvu3FH+YefZAU1EU98quYmXg=
+X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
+Received: from mail.hostpark.net ([127.0.0.1])
+ by localhost (mail1.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
+ id a5dJLw3_iP49; Wed,  8 Oct 2025 14:50:14 +0200 (CEST)
+Received: from customer (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.hostpark.net (Postfix) with ESMTPSA id A3E951614C;
+	Wed, 08 Oct 2025 14:50:13 +0200 (CEST)
+From: Christian Hitz <christian@klarinett.li>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: Christian Hitz <christian.hitz@bbv.ch>,
+	stable@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: leds-lp50xx: allow LED 0 to be added to module bank
+Date: Wed,  8 Oct 2025 14:32:21 +0200
+Message-ID: <20251008123222.1117331-1-christian@klarinett.li>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250930-brcm6358-to-dt-v1-1-ba833ceb1575@thegoodpenguin.co.uk>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 30, 2025 at 11:27:26AM +0100, Harrison Carter wrote:
-> Convert the brcm,bcm6358 LEDs to DT Schema format
-> 
-> Signed-off-by: Harrison Carter <hcarter@thegoodpenguin.co.uk>
-> ---
->  .../bindings/leds/brcm,bcm6358-leds.yaml           | 187 +++++++++++++++++++++
->  .../devicetree/bindings/leds/leds-bcm6358.txt      | 143 ----------------
->  2 files changed, 187 insertions(+), 143 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a9052a29aa7bd6ddc252258bfe4982325499713f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-> @@ -0,0 +1,187 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LEDs connected to Broadcom BCM6358 controller
-> +
-> +description: This controller is present on BCM6358 and
+From: Christian Hitz <christian.hitz@bbv.ch>
 
-Start paragraph on new line.
+led_banks contains LED module number(s) that should be grouped into the
+module bank. led_banks is 0-initialized.
+By checking the led_banks entries for 0, un-set entries are detected.
+But a 0-entry also indicates that LED module 0 should be grouped into the
+module bank.
 
-> +  BCM6368. In these SoCs there are Serial LEDs (LEDs
-> +  connected to a 74x164 controller), which can either be
-> +  controlled by software (exporting the 74x164 as spi-gpio) 
-> +  or by hardware using this driver. See example at
-> +  Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml.
+By only iterating over the available entries no check for unused entries
+is required and LED module 0 can be added to bank.
 
-Wrap lines at 80 chars.
+Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
+Cc: stable@vger.kernel.org
+---
+ drivers/leds/leds-lp50xx.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-> +
-> +maintainers:
-> +  - Jonas Gorski <jonas.gorski@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: brcm,bcm6358-leds
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +  brcm,clk-div:
-> +    description: SCK signal Divider. Default 1
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [1, 2, 4, 8]
-
-default: 1
-
-And drop it from the description.
-
-> +
-> +  brcm,clk-dat-low:
-> +    description: Makes clock and data signals active low.
-> +      Default false.
-
-Default false makes no sense. That's always the case for a boolean. The 
-only way it can't be is if it is required, but then what is the point of 
-a required boolean property.
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index 94f8ef6b482c..d50c7f3e8f99 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -341,17 +341,15 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
+ 	return ret;
+ }
  
-> +    type: boolean
-> +
-> +patternProperties:
-> +  "^led@[0,1]?([0-9]|[a-z])$":
+-static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[])
++static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[], int num_leds)
+ {
+ 	u8 led_config_lo, led_config_hi;
+ 	u32 bank_enable_mask = 0;
+ 	int ret;
+ 	int i;
+ 
+-	for (i = 0; i < priv->chip_info->max_modules; i++) {
+-		if (led_banks[i])
+-			bank_enable_mask |= (1 << led_banks[i]);
+-	}
++	for (i = 0; i < num_leds; i++)
++		bank_enable_mask |= (1 << led_banks[i]);
+ 
+ 	led_config_lo = bank_enable_mask;
+ 	led_config_hi = bank_enable_mask >> 8;
+@@ -405,7 +403,7 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
+ 			return ret;
+ 		}
+ 
+-		ret = lp50xx_set_banks(priv, led_banks);
++		ret = lp50xx_set_banks(priv, led_banks, num_leds);
+ 		if (ret) {
+ 			dev_err(priv->dev, "Cannot setup banked LEDs\n");
+ 			return ret;
+-- 
+2.51.0
 
-This should be 0-0x1f. So '^led@(0|1?[0-9a-f])$'
-
-> +    type: object
-> +    $ref: common.yaml
-
-       unevaluatedProperties: false
-
-(which will make your example fail)
-
-> +    description: Each LED is represented as a sub-node of
-> +      this device.
-> +
-> +    properties:
-> +      reg:
-> +        description: LED pin number
-> +        maximum: 31
-> +        minimum: 0
-> +
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: true
-
-Cannot be true. Only false is allowed.
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    /* The bcm6358 SOC */
-> +    soc {
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-
-Drop this node. Unnecessary for the example.
-
-> +
-> +        led-controller@fffe00d0 {
-> +            compatible = "brcm,bcm6358-leds";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            reg = <0xfffe00d0 0x8>;
-> +
-> +            alarm_white@0 {
-> +                reg = <0>;
-> +                active-low;
-> +                label = "white:alarm";
-> +            };
-> +            tv_white@2 {
-> +                reg = <2>;
-> +                active-low;
-> +                label = "white:tv";
-> +            };
-> +            tel_white@3 {
-> +                reg = <3>;
-> +                active-low;
-> +                label = "white:tel";
-> +            };
-> +            adsl_white@4 {
-> +                reg = <4>;
-> +                active-low;
-> +                label = "white:adsl";
-> +            };
-> +        };
-> +    };
-> +  - |
-> +    /* The bcm6368 SOC */
-> +    led-controller@100000d0 {
-> +        compatible = "brcm,bcm6358-leds";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        reg = <0x100000d0 0x8>;
-> +
-> +        brcm,pol-low;
-> +        brcm,clk-div = <4>;
-> +
-> +        power_red@0 {
-> +            reg = <0>;
-> +            active-low;
-> +            label = "red:power";
-> +        };
-> +        power_green@1 {
-> +            reg = <1>;
-> +            active-low;
-> +            label = "green:power";
-> +            default-state = "on";
-> +        };
-> +        power_blue@2 {
-> +            reg = <2>;
-> +            label = "blue:power";
-> +        };
-> +        broadband_red@3 {
-> +            reg = <3>;
-> +            active-low;
-> +            label = "red:broadband";
-> +        };
-> +        broadband_green@4 {
-> +            reg = <4>;
-> +            label = "green:broadband";
-> +        };
-> +        broadband_blue@5 {
-> +            reg = <5>;
-> +            active-low;
-> +            label = "blue:broadband";
-> +        };
-> +        wireless_red@6 {
-> +            reg = <6>;
-> +            active-low;
-> +            label = "red:wireless";
-> +        };
-> +        wireless_green@7 {
-> +            reg = <7>;
-> +            active-low;
-> +            label = "green:wireless";
-> +        };
-> +        wireless_blue@8 {
-> +            reg = <8>;
-> +            label = "blue:wireless";
-> +        };
-> +        phone_red@9 {
-> +            reg = <9>;
-> +            active-low;
-> +            label = "red:phone";
-> +        };
-> +        phone_green@10 {
-> +            reg = <10>;
-> +            active-low;
-> +            label = "green:phone";
-> +        };
-> +        phone_blue@11 {
-> +            reg = <11>;
-> +            label = "blue:phone";
-> +        };
-> +        upgrading_red@12 {
-> +            reg = <12>;
-> +            active-low;
-> +            label = "red:upgrading";
-> +        };
-> +        upgrading_green@13 {
-> +            reg = <13>;
-> +            active-low;
-> +            label = "green:upgrading";
-> +        };
-> +        upgrading_blue@14 {
-> +            reg = <14>;
-> +            label = "blue:upgrading";
-> +        };
-> +    };
-
-I don't think we need 2 examples.
-
-Rob
 
