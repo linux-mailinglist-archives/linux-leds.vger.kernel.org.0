@@ -1,304 +1,178 @@
-Return-Path: <linux-leds+bounces-5718-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5719-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D50BCA8EA
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 20:21:25 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D63CBCAC65
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 22:16:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2871189407C
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 18:21:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4A54835488A
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 20:16:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23C6923D7D4;
-	Thu,  9 Oct 2025 18:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7326426A0DD;
+	Thu,  9 Oct 2025 20:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHIkDUP8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FP3xQ7GX"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87502B9B7;
-	Thu,  9 Oct 2025 18:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5791EA7EC;
+	Thu,  9 Oct 2025 20:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760034069; cv=none; b=XE7m3bXRHtmNmrLhFHgb77efP/nxC0XawSLHpUzEnzZWdgFQuk26qET8gk6aeks5ehMOgwlFdl7Rk+8usJc6wjOP6qTTUxyqekni+zBvLObgQVKHWuvsf6RAWYqj1ZB+ywFq065CPYcVnySgsOmki4xekKM2UEkE8q/4kq7aLNE=
+	t=1760040982; cv=none; b=Ou5WvHtMq04NL0+5ZTnMiziz4h8O5Kkw//6B9OqngFo/VNaTW6NoBnfvyr36DyWOE7MgKzdsyxjxAAoeT6UwFZqAvAQbUYIO4flq7VD5rZtHB6Xo3E1rk45GJvlwvSdJz0iyL349WfhU+ipASc+VDPVBjfgkXGK5DWF8Fzl30Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760034069; c=relaxed/simple;
-	bh=gSU8W5D4kBW7HRmvXDO5mEeTlq8vT4Rj7qnh9fKuWsc=;
+	s=arc-20240116; t=1760040982; c=relaxed/simple;
+	bh=IWSnNSei8RRn9htiOUVDRbUjeFnamuDaQ4nZ4n46zLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hQhqk2Zn2whYLt7Jv15OCpHmpRTmhQdcjDPdYmjokYT9ShjjVF/3R0yaLXn3wSKIIGFROfJkMbWEnmBbtI8+8Fwq0eqF5vER2RJIqDI5iij0lY604svAEm3+jGcDn6+KQ/RwC2TDS0U3rp452li3+KjKKn4j1MlnYfLO/ltP+YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHIkDUP8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3023DC4CEE7;
-	Thu,  9 Oct 2025 18:21:03 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=I8Jt62rnU2jdMYe5ElXEDr8wSAZApD8nvyyjIP/LIVQO6K9/aN59qZDvyfKZrqBkadERKRboyiY51FS0Hk+uWuz8dHFyzqr2cijfAJeQep0tIZhcf2uUChZY+f7o5njr/XcdGJRJIAC313j5v7s5yOyceoQ/EfPomcIKQxzHFGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FP3xQ7GX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5526FC4CEE7;
+	Thu,  9 Oct 2025 20:16:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760034067;
-	bh=gSU8W5D4kBW7HRmvXDO5mEeTlq8vT4Rj7qnh9fKuWsc=;
+	s=k20201202; t=1760040981;
+	bh=IWSnNSei8RRn9htiOUVDRbUjeFnamuDaQ4nZ4n46zLw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MHIkDUP8L1PxRA/oWJPqb0+xdtOgd6Cv0hkFUhfzjX963Uaq73ApP7JeaUXF65O9e
-	 ysw38t0EbeE1V2n/6itF9XDl8LbBFsb2EH0taFpB/2djmBnBoTCyxDbpzmgdHyFYcP
-	 aXQkyk3fOHuDgHq2z85I22XolPBpy4S2m/JixFojMjRRPF8yWczmM6BOnoVhAsr0Ub
-	 OycjLXvvfJ93Df/wglCnwldJOjkr4YNCc2U/i9ThK/tT4+iRHBUU0EpbSHngC8Z7D3
-	 5PRafWTVx4F09M/lMsA+ifwsDyhkNfsOnYo+ILl7RTNltlKERFxLCoohw4Xh98cMI2
-	 ff0UNX8hKmI/A==
-Date: Thu, 9 Oct 2025 19:21:00 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: maudspierings@gocontroll.com, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 1/4] dt-bindings: backlight: Add max25014 bindings
-Message-ID: <20251009-overjoyed-unpopular-54f69e9bd82c@spud>
-References: <20251009-max25014-v4-0-6adb2a0aa35f@gocontroll.com>
- <20251009-max25014-v4-1-6adb2a0aa35f@gocontroll.com>
- <aOfM7jnlPO77YSu1@lizhi-Precision-Tower-5810>
+	b=FP3xQ7GXQp/QP+gpUaLPNEvB4S8G+2unZHJq/Q3L3XBufoDkCFIjQs2cvk1nOhW5G
+	 X3oggIEsnEjcWhnuidq7ynvjwZ02SAFXfFXOmFldkxXKs0Y7zUR6HjoJIdCpXQW9cx
+	 +ALVNkipODgz9r+kGGUKPYeaU+c+hx/kumOpyqz6WFhscNLQ8ygVyRvZ0ZOcPP1jld
+	 cJh28wb1uKFTNw+A0YM3mQWqKgbo00hF/19PwY/hG33WUb3IOw9kbxqjVz1hF9eQhh
+	 ONefS/VVhVblCjmG9Q7OuE2HBFvbsIvzTQcuRNUy+dvD33FHoU8nK3YFF4wX1ZRunt
+	 Pc3RJXPJ0J/sw==
+Date: Thu, 9 Oct 2025 15:16:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: lee@kernel.org, pavel@kernel.org, gregkh@linuxfoundation.org,
+	rdunlap@infradead.org, christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v15 1/3] dt-bindings: leds: add TI/National Semiconductor
+ LP5812 LED Driver
+Message-ID: <20251009201620.GA3267176-robh@kernel.org>
+References: <20251005153337.94025-1-trannamatk@gmail.com>
+ <20251005153337.94025-2-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GWNRbICvH2XFNKt7"
-Content-Disposition: inline
-In-Reply-To: <aOfM7jnlPO77YSu1@lizhi-Precision-Tower-5810>
-
-
---GWNRbICvH2XFNKt7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251005153337.94025-2-trannamatk@gmail.com>
 
-On Thu, Oct 09, 2025 at 10:55:42AM -0400, Frank Li wrote:
-> On Thu, Oct 09, 2025 at 08:48:25AM +0200, Maud Spierings via B4 Relay wro=
-te:
-> > From: Maud Spierings <maudspierings@gocontroll.com>
->=20
-> Subject needn't double bindings.
->=20
-> dt-bindings: backlight: Add max25014 support
->=20
-> >
-> > The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> > with integrated boost controller.
-> >
-> > In the current implementation the control registers for channel 1,
-> > control all channels. So only one led subnode with led-sources is
-> > supported right now. If at some point the driver functionality is
-> > expanded the bindings can be easily extended with it.
->=20
-> Need descript hardware, not driver. Need descript full functions even tho=
-ugh
-> driver have not implement yet.
->=20
-> >
-> > Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> > ---
-> >  .../bindings/leds/backlight/maxim,max25014.yaml    | 109 +++++++++++++=
-++++++++
-> >  MAINTAINERS                                        |   5 +
-> >  2 files changed, 114 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max=
-25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max2501=
-4.yaml
-> > new file mode 100644
-> > index 0000000000000..496520e1374e5
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.y=
-aml
-> > @@ -0,0 +1,109 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Maxim max25014 backlight controller
-> > +
-> > +maintainers:
-> > +  - Maud Spierings <maudspierings@gocontroll.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - maxim,max25014
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +  enable-gpios:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-supply:
-> > +    description: Regulator which controls the boost converter input ra=
-il.
-> > +
-> > +  pwms:
-> > +    maxItems: 1
-> > +
-> > +  maxim,iset:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    maximum: 15
-> > +    default: 11
-> > +    description:
-> > +      Value of the ISET register field. This controls the current scal=
-e of the
-> > +      outputs, a higher number means more current.
->=20
-> Can't use register value directly, need use standard unit. or percentage
->=20
-> 100: means max, 0: min.
+On Sun, Oct 05, 2025 at 10:33:35PM +0700, Nam Tran wrote:
+> The LP5812 is a 4x3 RGB LED driver with an autonomous animation
+> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
+> or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
+> dimming, including exponential PWM for smooth brightness control.
+> 
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+>  .../devicetree/bindings/leds/ti,lp5812.yaml   | 290 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 296 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/ti,lp5812.yaml b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> new file mode 100644
+> index 000000000000..d759ba7a86fc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> @@ -0,0 +1,290 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/ti,lp5812.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LP5812 4x3 Matrix RGB LED Driver with Autonomous Control
+> +
+> +maintainers:
+> +  - Nam Tran <trannamatk@gmail.com>
+> +
+> +description: |
+> +  The LP5812 is a 4x3 matrix RGB LED driver with I2C interface
+> +  and autonomous animation engine control.
+> +  For more product information please see the link below:
+> +  https://www.ti.com/product/LP5812#tech-docs
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,lp5812
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  ti,operation-mode:
+> +    description: |
+> +      Selects the LED operation mode of the LP5812. The device supports
+> +      three modes:
+> +        - Direct-drive mode ("direct_mode") drives up to 4 LEDs directly
+> +        by internal current sinks (LED0-LED3).
 
-=46rom that datasheet, it seems like the values here don't neatly map to
-currents, because it depends on the value of the iref register. I don't
-love percentages here either, too much of a force-fit for me.
+I would make this the default and call the property 'ti,scan-mode'.
 
-If current is used, a property for the reference resistor will be
-needed, to compute the register values. That only makes sense to me if
-Maxim/Analog provide a formula that can be used to calculate the
-appropriate register value, and I did not find one in the datasheet from
-my quick skim, only two example current tables.
-Sure, those two examples can be reverse-engineered to give a way to
-compute it, but can we be sure that the numbers apply across the whole
-range of permitted values for the resistor?
+> +        - TCM-drive mode ("tcmscan:<n>:<order...>") drives up to 12 LEDs
+> +        (4 RGB) using 1-4 scan multiplexing. The <n> specifies the number
+> +        of scans (1-4), and <order...> defines the scan order of the outputs.
+> +        - Mix-drive mode ("mixscan:<n>:<direct>:<order...>") combines
+> +        direct-drive and TCM-drive outputs. The <n> specifies the number
+> +        of scans, <direct> selects the direct-drive outputs, and <order...>
+> +        defines the scan order.
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum:
+> +      - direct_mode
+> +      - tcmscan:1:0
+> +      - tcmscan:1:1
+> +      - tcmscan:1:2
+> +      - tcmscan:1:3
+> +      - tcmscan:2:0:1
+> +      - tcmscan:2:0:2
+> +      - tcmscan:2:0:3
+> +      - tcmscan:2:1:2
+> +      - tcmscan:2:1:3
+> +      - tcmscan:2:2:3
+> +      - tcmscan:3:0:1:2
+> +      - tcmscan:3:0:1:3
+> +      - tcmscan:3:0:2:3
+> +      - tcmscan:4:0:1:2:3
+> +      - mixscan:1:0:1
+> +      - mixscan:1:0:2
+> +      - mixscan:1:0:3
+> +      - mixscan:1:1:0
+> +      - mixscan:1:1:2
+> +      - mixscan:1:1:3
+> +      - mixscan:1:2:0
+> +      - mixscan:1:2:1
+> +      - mixscan:1:2:3
+> +      - mixscan:1:3:0
+> +      - mixscan:1:3:1
+> +      - mixscan:1:3:2
+> +      - mixscan:2:0:1:2
+> +      - mixscan:2:0:1:3
+> +      - mixscan:2:0:2:3
+> +      - mixscan:2:1:0:2
+> +      - mixscan:2:1:0:3
+> +      - mixscan:2:1:2:3
+> +      - mixscan:2:2:0:1
+> +      - mixscan:2:2:0:3
+> +      - mixscan:2:2:1:3
+> +      - mixscan:2:3:0:1
+> +      - mixscan:2:3:0:2
+> +      - mixscan:2:3:1:2
+> +      - mixscan:3:0:1:2:3
+> +      - mixscan:3:1:0:2:3
+> +      - mixscan:3:2:0:1:3
+> +      - mixscan:3:3:0:1:2
 
-I don't like using register values for stuff, but I think it is the most
-accurate and least likely to cause problems way of representing this.
+I'm not sure its worth listing out every combination. I'd just do this 
+even if illegal combinations are allowed:
 
-Maud, on the language used - its the ISET field in the ISET register, I
-think the property should make that clear.
+pattern: '^(tcm|mix):[1-4](:[0-3]){1,4}$'
 
-> > +patternProperties:
-> > +  "^led@[01]$":
-
-Why does this have [01] if reg has to be zero?
-
-> > +    type: object
-> > +    description: Properties for a string of connected LEDs.
-> > +    $ref: common.yaml#
-> > +
-> > +    properties:
-> > +      reg:
-> > +        const: 0
-> > +
-> > +      led-sources:
-> > +        allOf:
-> > +          - minItems: 1
-> > +            maxItems: 4
-> > +            items:
-> > +              minimum: 0
-> > +              maximum: 3
-> > +            default: [0, 1, 2, 3]
-> > +
-> > +      default-brightness:
-> > +        minimum: 0
-> > +        maximum: 100
-> > +        default: 50
-> > +
-> > +    required:
-> > +      - reg
-> > +
-> > +    additionalProperties: false
->=20
-> there are $ref, should use unevaluatedProperties: false
-
-Not always, looks like they've listed some properties from the file,
-which would make addtionalPropeties: false correct if they dont want
-the other properties in the file to be used.
-
->=20
-> Frank
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    i2c {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        backlight@6f {
-> > +            compatible =3D "maxim,max25014";
-> > +            reg =3D <0x6f>;
-> > +            enable-gpios =3D <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> > +            interrupt-parent =3D <&gpio1>;
-> > +            interrupts =3D <2 IRQ_TYPE_EDGE_FALLING>;
-> > +            power-supply =3D <&reg_backlight>;
-> > +            pwms =3D <&pwm1>;
-> > +            maxim,iset =3D <7>;
-> > +
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            led@0 {
-> > +                reg =3D <0>;
-> > +                led-sources =3D <0 1 2 3>;
-> > +                default-brightness =3D <50>;
-> > +            };
-> > +        };
-> > +    };
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 47fbc5e06808f..be5e2515900ce 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -15171,6 +15171,11 @@ F:	Documentation/userspace-api/media/drivers/m=
-ax2175.rst
-> >  F:	drivers/media/i2c/max2175*
-> >  F:	include/uapi/linux/max2175.h
-> >
-> > +MAX25014 BACKLIGHT DRIVER
-> > +M:	Maud Spierings <maudspierings@gocontroll.com>
-> > +S:	Maintained
-> > +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> > +
-> >  MAX31335 RTC DRIVER
-> >  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
-> >  L:	linux-rtc@vger.kernel.org
-> >
-> > --
-> > 2.51.0
-> >
-> >
-
---GWNRbICvH2XFNKt7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaOf9DAAKCRB4tDGHoIJi
-0p3tAP47AzB5bTLsDsM2hZCp4QQOrxzGbZd7QeTNZnPvuVKVjAD/ajHvzPM9GJH6
-JrmJ4TzHGEQovDKBG7x28JpYUVrfTQ8=
-=7s2i
------END PGP SIGNATURE-----
-
---GWNRbICvH2XFNKt7--
+Rob
 
