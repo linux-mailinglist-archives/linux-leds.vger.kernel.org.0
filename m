@@ -1,81 +1,80 @@
-Return-Path: <linux-leds+bounces-5688-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5689-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0A6BC8C50
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 13:23:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F65DBC8D25
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 13:30:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C53B43A1A3F
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 11:23:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6AF931A60D68
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 11:30:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5799B2DECAA;
-	Thu,  9 Oct 2025 11:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 109A22E092E;
+	Thu,  9 Oct 2025 11:29:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jIYZsP3Z"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PWVUgVvZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FCE2D2391
-	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 11:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937112DEA89
+	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 11:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760009021; cv=none; b=Sk1szkC32dnDtDA0GmuGRFR09tf6UxfxWsaGiEYB0W2+CqYYbRymjbDeazHKECKhf+LCp+Foq97d8lJGlgRFixen6tcdBF2jQsdmJRM0jkXUaDxG+0lKMkyFZMK2gObiZuFqfHSSAxurCWC5aZmLc93Z1ltI7Zv9zVFHrrGkbG0=
+	t=1760009377; cv=none; b=VvaRuD/V/PHXbgrkklI7v8FBT6v/WXDufk4eQeDug7Rp4F5lLZYXgCAFh/9zhIh9aJs2CCt+5zg2SUkfrh5Y1yemo3Fs7ppjC6l4qHJGmN55DTCgrt15hSMUEVQRF16ILceHJlyuCLuegMV84ap6GoaijG9fEGOxkRq8U1/G40c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760009021; c=relaxed/simple;
-	bh=53+4wMC+Onj0pcyyb0tfum8mda0xbfemyz90dOOvrPc=;
+	s=arc-20240116; t=1760009377; c=relaxed/simple;
+	bh=8gRLvm/4+KXkDjVOQ4zHDlxZfOn+rnBCPUs7sPbzxAk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CP9gtlzxdXGSDhLqpmfH6bbTFVrzexhh6dSxJl5vACsi68LTDKFmTwUiglcI7Q49k1++8oKVptzlWWTZuyjH+w4J4wxtoZNg1koEuQexZ5umlag30lsuKvEWbrFUDroaCJSiVQSda8VBp4zVKEDL1QmJD/8fbKVAvCOkjO7xFgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jIYZsP3Z; arc=none smtp.client-ip=209.85.221.74
+	 To:Cc:Content-Type; b=G73EqAvUK4yLSXj6GByXOZMS88dc0yooeUItF3RyAqvrcMvhk9TtEc9Aai30NHQcr+BwLyqhFGVa97H81+tN8AXoJJVrPVNHUtGEVEzDbv3Lv/60vJc2K+A/RkUJP2RBYPXvbD7aiYMF2eAjCThM5WlJoDyJg75se+aFfoEV3XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PWVUgVvZ; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3ece0fd841cso869831f8f.0
-        for <linux-leds@vger.kernel.org>; Thu, 09 Oct 2025 04:23:39 -0700 (PDT)
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-46e4fa584e7so4193945e9.0
+        for <linux-leds@vger.kernel.org>; Thu, 09 Oct 2025 04:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760009018; x=1760613818; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1760009374; x=1760614174; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=53+4wMC+Onj0pcyyb0tfum8mda0xbfemyz90dOOvrPc=;
-        b=jIYZsP3ZMtzVqywlXndbqPqKh3siGpvb4G4NLele1GQsI5qTVbkQfx8+aR7LfGYB4E
-         vMoIaVwS7AyfJnQznILuSCjqJ7my0mepXBKTGfSIhxpwASrtN7nJC8jVaE+FF+1Z3eEU
-         S2WjHnga+XjcBHMlu7W/FfcbCpO62aVHo7UsTAALEey23RoqgOew5Ad1gPeC77LerDi0
-         Xqtdh7Wt3EBtTsWriWQfL47dlFC8cOCu3MKPQv7W6C2xlAavto1OO04U3h8t1APRdUJq
-         UvNk8AatoKnTdU+yrwByNV4h5M+OwecuOeeRUoy2UYttdMe+e8ycVrQiX6SIUBrPXQS4
-         Yavw==
+        bh=Icejpz9ICmR/HbhI7E8FM6WDudvlxzHYJDrZrpd4/Ak=;
+        b=PWVUgVvZSNwIgwOkHAjiYDOt/Rx+vx3FKlHQblN02weV4JOUGCorSsakyXgp8USmQs
+         psB1csvmpG5l7xphDwVuBYcKYHBUm600IpIOQAfmJ/bntokWM9Oj/ORQfhiA/E9zk6Rl
+         dtPWoNQfY2xRW8FUif2bleqpBf3gpXZ9CSDnuFn4HtqXcbNLJIK5XnWuPZMv7qwoPgVk
+         IiDtxut5YXhH7qqcoXmcUEKlubFuxc4waFnHIM1ZN/ViCO0cVZxiamQWcZ4JR/3+DXCB
+         q7jJDx80j372t/ukvyaWrqB1Q//sQRzmMzSlN5a/K/Mxad8n9ysA4BWtE5FnmuHwzUSj
+         0lgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760009018; x=1760613818;
+        d=1e100.net; s=20230601; t=1760009374; x=1760614174;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=53+4wMC+Onj0pcyyb0tfum8mda0xbfemyz90dOOvrPc=;
-        b=PsKEBudBznC7jVmTl1wJTHkRrYA6B813N3t4cNuXwIAuWUowAB6FvYmw31+k4/mrh6
-         s+1PNBR+Z3tMP0BUH2+0v5QZw6Nso5zdRMYDHM1y5hLOmJDBRLQsA5pW/sYVQjDbuYNt
-         vJwOwAA9Hm4fENXXAT6T1i3RVNwsAuP/QGh7siEQ/i1LjBTpwDPY4Z3PxWeQKc2ykgP/
-         SmpNzRO6RKJCD3j+XwhXA89JkQYLpAmrMwJYCPJKqOBg3NiUv8ecq0SyI5Trz02dt0Gi
-         au+9/nNnLGJmgPIJgz3jeV5Uz8/yWkbh/boOEVOkRpp/Aha/d5ppnxocBvVfS0nx3WLO
-         kcNw==
-X-Forwarded-Encrypted: i=1; AJvYcCUD/htdFjWQ8cF5eyRKgZi51umoVECKmlhtgFzLjmad9rHvAIX8IBKnj+CQj4pQcOofDwHnTfVUd0Nd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys8/s69buhsp4Hv6qRTqIDOpKjcLTZ5hke/le3rwb3pW4Lg+hJ
-	tthP5JlkvEiuJcxVD+/XEHnvjl3VnF1UNCd+a8Oyv0tbBG5nUCi7qJ0gRXNYGu9n7d8AkqfW7WV
-	xkv5YTMwQ/DUOQcBAmw==
-X-Google-Smtp-Source: AGHT+IFjXIT5EP3KT1wMYJ4PufzJKQ9ukEXL5xHmneDlYICUhOq5Et5M4EP34H+NtT1tIG0ujZvZF/13qZWJj6U=
-X-Received: from wmvz5.prod.google.com ([2002:a05:600d:6285:b0:45b:7fa6:f2ef])
+        bh=Icejpz9ICmR/HbhI7E8FM6WDudvlxzHYJDrZrpd4/Ak=;
+        b=U5GLAo/IObkYqJ+UQDoNaxJ5OoxtZg9jPMnrKIt5kn8W8DLw8V8RNYF9+GvVR9zqmw
+         YDPLlHoUR6DJR/CnQ/OcGg7LD+WzKPiFPeJLxfoXQuyfpmL7IJV0iHDOHlIWSWyzc9mE
+         /Yz547lJSt1waBKYFYw9yB/ImuEEbnFQ2B2H3iEZcK6L65Gso2U0Qh45plRp0Ljr6IKQ
+         QunRSF4GkKHdpdAdhzBY+64HT/IyqdqdGOnyBcHtJgOpuMPXNqBYzwpAEWX0gmK2vpH+
+         XZFOTXS4Ch7VCL92Ao0ttT99T59Ox/JZ/8XRfV8K2HtbfYf39RrDd438vdAkKmnxJ3qK
+         /pxg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9q5wPFWPrh3ToRpCNK8KNA9llbt+oYhjfmNe57BcZFCNI2oSqKzvOIOfd0yp2vX60GRynPUW5q2z1@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEf5E0oTLr1xRAyGPKR4ieKYUCmU2Cb7ey70WEbP4R02Sln1xL
+	rN/ihrt1VP1xy52D9UZ8ZdSTyq0ysbGYD6yPTGXHkzxkrJzVIcCpXHW/JAz9dXf9L5Id2bOw2rn
+	EwUZDXQ8cUXoKOzeqvQ==
+X-Google-Smtp-Source: AGHT+IEppe+l/HYnDey+5S61G6gKK0Qvds/9QShFQ18NPgRJoLutTJe3S5yJXRnYIGXj3ynGXe664QfI0/yRTCk=
+X-Received: from wmga22.prod.google.com ([2002:a05:600c:2d56:b0:46e:3921:1b1])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8586:b0:46e:37a7:48d1 with SMTP id 5b1f17b1804b1-46fab89b7abmr30193915e9.34.1760009017907;
- Thu, 09 Oct 2025 04:23:37 -0700 (PDT)
-Date: Thu, 9 Oct 2025 11:23:36 +0000
-In-Reply-To: <20251008181027.662616-3-markus.probst@posteo.de>
+ 2002:a05:600c:a346:b0:46e:4925:c74f with SMTP id 5b1f17b1804b1-46fa9aeff82mr51996085e9.20.1760009374077;
+ Thu, 09 Oct 2025 04:29:34 -0700 (PDT)
+Date: Thu, 9 Oct 2025 11:29:32 +0000
+In-Reply-To: <20251008181027.662616-2-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20251008181027.662616-1-markus.probst@posteo.de>
- <20251008181027.662616-2-markus.probst@posteo.de> <20251008181027.662616-3-markus.probst@posteo.de>
-Message-ID: <aOebOPvpi1sYKOuM@google.com>
-Subject: Re: [PATCH 2/4] rust: add pinned wrapper of Vec
+References: <20251008181027.662616-1-markus.probst@posteo.de> <20251008181027.662616-2-markus.probst@posteo.de>
+Message-ID: <aOecnHYkBYEbUsi4@google.com>
+Subject: Re: [PATCH 1/4] rust: i2c: add read and write byte data abstractions
 From: Alice Ryhl <aliceryhl@google.com>
 To: Markus Probst <markus.probst@posteo.de>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
@@ -89,25 +88,65 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Danilo Krummric
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 
-On Wed, Oct 08, 2025 at 06:10:45PM +0000, Markus Probst wrote:
-> Implement a wrapper of Vec that guarantees that its content will never be
-> moved, unless the item implements Unpin, allowing PinInit to be
-> initialized on the Vec.
+On Wed, Oct 08, 2025 at 06:10:43PM +0000, Markus Probst wrote:
+> In addition to the core abstractions, implement
+> 
+> * `i2c::I2cClient::read_byte` - read a byte from the i2c client
+> * `i2c::I2cClient::write_byte` - write a byte to the i2c client
+> 
+> * `i2c::I2cClient::read_byte_data` - read byte data from the i2c client
+> * `i2c::I2cClient::write_byte_data` - write byte data to the i2c client
+> 
+> * `i2c::I2cClient::read_word_data` - read word data from the i2c client
+> * `i2c::I2cClient::write_word_data` - write word data to the i2c client
+> 
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> ---
+>  rust/kernel/i2c.rs | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+> 
+> diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+> index 73858aecc131..57b02b65f90f 100644
+> --- a/rust/kernel/i2c.rs
+> +++ b/rust/kernel/i2c.rs
+> @@ -463,6 +463,51 @@ impl<Ctx: device::DeviceContext> I2cClient<Ctx> {
+>      fn as_raw(&self) -> *mut bindings::i2c_client {
+>          self.0.get()
+>      }
+> +
+> +    /// Reads a byte from the i2c client
+> +    pub fn read_byte(&self) -> Result<u8> {
+> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
+> +        // `struct i2c_client`.
+> +        let value = unsafe { bindings::i2c_smbus_read_byte(self.as_raw()) };
+> +        to_result(value).map(|()| value as u8)
+> +    }
+> +
+> +    /// Writes a byte to the i2c client
+> +    pub fn write_byte(&self, value: u8) -> Result<()> {
+> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
+> +        // `struct i2c_client`.
+> +        to_result(unsafe { bindings::i2c_smbus_write_byte(self.as_raw(), value) })
+> +    }
+> +
+> +    /// Reads byte data from the i2c client
+> +    pub fn read_byte_data(&self, reg: u8) -> Result<u8> {
+> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
+> +        // `struct i2c_client`.
+> +        let value = unsafe { bindings::i2c_smbus_read_byte_data(self.as_raw(), reg) };
+> +        to_result(value).map(|()| value as u8)
+> +    }
+> +
+> +    /// Writes byte data to the i2c client
+> +    pub fn write_byte_data(&self, reg: u8, value: u8) -> Result<()> {
+> +        // SAFETY: By the type invariant of `Self`, `self.as_raw()` is a pointer to a valid
+> +        // `struct i2c_client`.
+> +        to_result(unsafe { bindings::i2c_smbus_write_byte_data(self.as_raw(), reg, value) })
+> +    }
 
-> +/// A pinned wrapper of the [`Vec`] type.
-> +///
-> +/// It is guaranteed that the contents will never be moved, unless T implements Unpin.
-> +pub struct PinnedVec<T, A: Allocator>(Vec<T, A>);
-
-Could we simply use `Pin<Vec<T>>` for this purpose? Why the new struct?
-
-In fact, does the utility added by commit ac9eea3d08c2 ("rust: alloc:
-implement Box::pin_slice()") not satisfy your needs?
-
-
-
-Also, this thread seems mangled. Patches 2, 3, and 4 should all be
-replies to patch 1. Right now the thread is deeply nested.
+I think it would be useful if the documentation for these methods has an
+explanation of the difference between `write_byte` and
+`write_byte_data`.
 
 Alice
 
