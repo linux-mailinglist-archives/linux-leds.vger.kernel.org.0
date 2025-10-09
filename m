@@ -1,459 +1,273 @@
-Return-Path: <linux-leds+bounces-5711-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5713-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284B1BCA555
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 19:08:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1EBBCA6F0
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 19:52:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C72013AB1D8
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 17:08:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 750A319E4DD8
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 17:53:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C533A23D7DD;
-	Thu,  9 Oct 2025 17:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B72223AE87;
+	Thu,  9 Oct 2025 17:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="FLuQZGt3"
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="HI09IMJK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A788023A9BE
-	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 17:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2416F1E2614;
+	Thu,  9 Oct 2025 17:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760029681; cv=none; b=WCTLAlzI3hiH6Kr5rVVZOXyY/EsHNCIZULuIC6uxH4Z7n9SIcxSuXy6I5o37vCYCRFOzqUwIrQErzvSRrZ0YzZAOX5wP63l5XHRLAeYb7hOUFM8qEGjnIwPZeIS4v5F8yL8OsuUfonbCZ5qIYLaD0wEvYPtldTbLZcXntzB8cTo=
+	t=1760032375; cv=none; b=P0FQ6h+QhIVHE8D/3zwqg1BREVP5p5AUEDPePRkI/3+tc4UdaDpa5rNdIEbWjgjWAOPPbIHrBM1aphIxsqPdNoOn27vUfXFPacUvfWPp3MVpDKOVhP7y+2sKl2uRtoFjQOT+y3SlB7LuU7ExVDEaKxJhUJ7aveXT1HT4q6D0igw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760029681; c=relaxed/simple;
-	bh=HsJlFXmTtn+6F53p9248bYCRpbQn4cG6ElphdF2A5I0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pyPJ4Ht8EI919+3KuURrBC+DUdUZapMekGFJp/1gJPBHL9ksaZdLaINi9kzTrFHgHIymYM32h0hY309yoY5jqYTWEvkImvo2ZuDeG5Lrj1/92icjRn5MoSkgW8QcvefjUm0m0YclOFg5/uKtPFb8PwDYhQU68L3ZuqzcGEXIFJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=FLuQZGt3; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 21D4F240105
-	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 19:07:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1760029678; bh=GoMIaR/jMyBEUfeUogX618tSLBnZpki3PRU9UIDR6aE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Autocrypt:OpenPGP:From;
-	b=FLuQZGt3B/IdS2FLZa/wyoZdg/Vp9X9SAbLytkCxxvVdNkkVwHXop9VG+zsNCv4En
-	 m/l86IDon9oz9wo+ieZFIeeiRgKC8dXgtapYySBKDQ2gv+shgg81/xvm0PRMJCDRJG
-	 k8U7rKBbBQReUJiNjoJrV5g0zUdyHRLwHmD8TbK5Ixfd413f6TQsTvyCYOMwrcJlpv
-	 oXimcsgcK7Jg92f6S0HbReBrwHZBtGeBsw7Pb5XggyKHFxFzobBW082yzE4DcES0kY
-	 9IpQbm88R0TEyAuo+QQU0bhsdpu8KprZkghxxoZg8CzrbfzgcaVFV/gOBytdbunuS4
-	 QZfxaCUf0EtuQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4cjGXX1x0Vz9rwn;
-	Thu,  9 Oct 2025 19:07:56 +0200 (CEST)
-From: Markus Probst <markus.probst@posteo.de>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	bjorn3_gh@protonmail.com,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Markus Probst <markus.probst@posteo.de>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH 2/2] rust: leds: add basic led classdev abstractions
-Date: Thu, 09 Oct 2025 17:07:57 +0000
-Message-ID: <20251009170739.235221-3-markus.probst@posteo.de>
-In-Reply-To: <20251009170739.235221-1-markus.probst@posteo.de>
+	s=arc-20240116; t=1760032375; c=relaxed/simple;
+	bh=qtU2rFo8yI3jNIeXdNxhBqMCScYY1yTPc0U4P8t46gM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Nzbz/o37tscDXcR/GGzhQwN+GHIvbWI+nJCi9kAK6z+8dOMTSD4gpL6VBqQ14UBAWxmoU4ZbbVB65Vw0KGPR3gHs/lydjoziKVg2naADDrvAt9z8vUBKJ5xqivWD27MgFUD8b9eM/XNI+76XS7vHlytOrnoTRdk4sbIINz6KbX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=HI09IMJK; arc=none smtp.client-ip=178.154.239.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+Received: from mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:942:0:640:e3c0:0])
+	by forward501b.mail.yandex.net (Yandex) with ESMTPS id D6FF6815F8;
+	Thu, 09 Oct 2025 20:45:12 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 6jO01WfL2a60-nQyH15nE;
+	Thu, 09 Oct 2025 20:45:11 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1760031912;
+	bh=x7K5fTud9s21pFBlBGR3b/kQuJRZd7zsdo5BIJhLpmo=;
+	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+	b=HI09IMJKXD8NPZsFam4A++R5vfUAxnXGjOl9rDNcKrba76BuwmlzQIj+9i7QyQky5
+	 bWCTeC3wRYhYAqkAg89YZMpPm7EnexnKw8o0KXbjT5hX+m1h1TtuLvPmB8ZQodeg6X
+	 bjjoDMZvIuLCfzxeR1YaaYxZCgjRbQNcLdl8VyAI=
+Authentication-Results: mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+Date: Thu, 9 Oct 2025 20:45:04 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Markus Probst <markus.probst@posteo.de>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek <pavel@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Uladzislau Rezki <urezki@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
+ Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/2] rust: add basic Pin<Vec<T, A>> abstractions
+Message-ID: <20251009204504.6b833fa1@nimda.home>
+In-Reply-To: <20251009170739.235221-2-markus.probst@posteo.de>
 References: <20251009170739.235221-1-markus.probst@posteo.de>
+	<20251009170739.235221-2-markus.probst@posteo.de>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Implement the core abstractions needed for led class devices, including:
+On Thu, 09 Oct 2025 17:07:56 +0000
+Markus Probst <markus.probst@posteo.de> wrote:
 
-* `led::Handler` - the trait for handling leds, including
-  `brightness_set`
+Hi Markus,
 
-* `led::InitData` - data set for the led class device
+I noticed a few typos in the code comments and the commit descriptions.
 
-* `led::Device` - a safe wrapper arround `led_classdev`
+> Implement core Pin<Vec<T, A>> abstractions, incluing
+>  * `Vec::pin` and `Vec::into_pin` for constructing a `Pin<Vec<T, A>>`.
+>    If T does not implement `Unpin`, it values will never be moved.
+>  * a extension for `Pin<Vec<T, A>>` allowing PinInit to be initialied
+> on a Pin<Vec>, as well as truncating and poping values from the Vec
+> 
 
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- rust/kernel/led.rs | 296 +++++++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs |   1 +
- 2 files changed, 297 insertions(+)
- create mode 100644 rust/kernel/led.rs
+"incluing" -> "including"
+"it values will..." -> "its values will..."
+"a extension" -> "an extension"
+"initialied" -> "initialized"
+"poping values" -> "popping values"
 
-diff --git a/rust/kernel/led.rs b/rust/kernel/led.rs
-new file mode 100644
-index 000000000000..2fddc6088e09
---- /dev/null
-+++ b/rust/kernel/led.rs
-@@ -0,0 +1,296 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Abstractions for the leds driver model.
-+//!
-+//! C header: [`include/linux/leds.h`](srctree/include/linux/leds.h)
-+
-+use core::pin::Pin;
-+
-+use pin_init::{pin_data, pinned_drop, PinInit};
-+
-+use crate::{
-+    alloc::KBox,
-+    container_of,
-+    device::{self, property::FwNode},
-+    error::{code::EINVAL, from_result, to_result, Error, Result},
-+    prelude::GFP_KERNEL,
-+    str::CStr,
-+    try_pin_init,
-+    types::Opaque,
-+};
-+
-+/// The led class device representation.
-+///
-+/// This structure represents the Rust abstraction for a C `struct led_classdev`.
-+#[pin_data(PinnedDrop)]
-+pub struct Device {
-+    handler: KBox<dyn HandlerImpl>,
-+    #[pin]
-+    classdev: Opaque<bindings::led_classdev>,
-+}
-+
-+/// The led init data representation.
-+///
-+/// This structure represents the Rust abstraction for a C `struct led_init_data`.
-+#[derive(Default)]
-+pub struct InitData<'a> {
-+    fwnode: Option<&'a FwNode>,
-+    default_label: Option<&'a CStr>,
-+    devicename: Option<&'a CStr>,
-+    devname_mandatory: bool,
-+}
-+
-+impl InitData<'static> {
-+    /// Creates a new [`LedInitData`]
-+    pub fn new() -> Self {
-+        Self::default()
-+    }
-+}
-+
-+impl<'a> InitData<'a> {
-+    /// Sets the firmware node
-+    pub fn fwnode<'b, 'c>(self, fwnode: &'b FwNode) -> InitData<'c>
-+    where
-+        'a: 'c,
-+        'b: 'c,
-+    {
-+        InitData {
-+            fwnode: Some(fwnode),
-+            ..self
-+        }
-+    }
-+
-+    /// Sets a default label
-+    pub fn default_label<'b, 'c>(self, label: &'b CStr) -> InitData<'c>
-+    where
-+        'a: 'c,
-+        'b: 'c,
-+    {
-+        InitData {
-+            default_label: Some(label),
-+            ..self
-+        }
-+    }
-+
-+    /// Sets the device name
-+    pub fn devicename<'b, 'c>(self, devicename: &'b CStr) -> InitData<'c>
-+    where
-+        'a: 'c,
-+        'b: 'c,
-+    {
-+        InitData {
-+            devicename: Some(devicename),
-+            ..self
-+        }
-+    }
-+
-+    /// Sets if a device name is mandatory
-+    pub fn devicename_mandatory(self, mandatory: bool) -> Self {
-+        Self {
-+            devname_mandatory: mandatory,
-+
-+            ..self
-+        }
-+    }
-+}
-+
-+/// The led handler trait.
-+///
-+/// # Examples
-+///
-+///```
-+/// # use kernel::{c_str, led, alloc::KBox, error::{Result, code::ENOSYS}};
-+/// # use core::pin::Pin;
-+///
-+/// struct MyHandler;
-+///
-+///
-+/// impl led::Handler for MyHandler {
-+///     const BLOCKING = false;
-+///     const MAX_BRIGHTNESS = 255;
-+///
-+///     fn brightness_set(&self, _brightness: u32) -> Result<()> {
-+///         // Set the brightness for the led here
-+///         Ok(())
-+///     }
-+/// }
-+///
-+/// fn register_my_led() -> Result<Pin<KBox<led::Device>>> {
-+///     let handler = MyHandler;
-+///     KBox::pin_init(led::Device::new(
-+///         None,
-+///         None,
-+///         led::InitData::new()
-+///             .default_label(c_str!("my_led")),
-+///         handler,
-+///     ))
-+/// }
-+///```
-+/// Led drivers must implement this trait in order to register and handle a [`Device`].
-+pub trait Handler {
-+    /// If set true, [`Handler::brightness_set`] and [`Handler::blink_set`] must not sleep
-+    /// and perform the operation immediately.
-+    const BLOCKING: bool;
-+    /// Set this to true, if [`Handler::blink_set`] is implemented.
-+    const BLINK: bool = false;
-+    /// The max brightness level
-+    const MAX_BRIGHTNESS: u32;
-+
-+    /// Sets the brightness level
-+    ///
-+    /// See also [`Handler::BLOCKING`]
-+    fn brightness_set(&self, brightness: u32) -> Result<()>;
-+
-+    /// Activates hardware accelerated blinking.
-+    ///
-+    /// delays are in milliseconds. If both are zero, a sensible default should be chosen.
-+    /// The caller should adjust the timings in that case and if it can't match the values
-+    /// specified exactly. Setting the brightness to 0 will disable the hardware accelerated
-+    /// blinking.
-+    ///
-+    /// See also [`Handler::BLOCKING`]
-+    fn blink_set(&self, _delay_on: &mut usize, _delay_off: &mut usize) -> Result<()> {
-+        Err(EINVAL)
-+    }
-+}
-+
-+trait HandlerImpl {
-+    fn brightness_set(&self, brightness: u32) -> Result<()>;
-+    fn blink_set(&self, delay_on: &mut usize, delay_off: &mut usize) -> Result<()>;
-+}
-+
-+impl<T: Handler> HandlerImpl for T {
-+    fn brightness_set(&self, brightness: u32) -> Result<()> {
-+        T::brightness_set(self, brightness)
-+    }
-+
-+    fn blink_set(&self, delay_on: &mut usize, delay_off: &mut usize) -> Result<()> {
-+        T::blink_set(self, delay_on, delay_off)
-+    }
-+}
-+
-+// SAFETY: A `led::Device` can be unregistered from any thread.
-+unsafe impl Send for Device {}
-+
-+// SAFETY: `led::Device` can be shared among threads because all methods of `led::Device`
-+// are thread safe.
-+unsafe impl Sync for Device {}
-+
-+impl Device {
-+    /// Registers a new led classdev.
-+    ///
-+    /// The [`Device`] will be unregistered and drop.
-+    pub fn new<'a, T: Handler + 'static>(
-+        parent: Option<&'a device::Device>,
-+        init_data: InitData<'a>,
-+        handler: T,
-+    ) -> impl PinInit<Self, Error> + use<'a, T> {
-+        try_pin_init!(Self {
-+            handler <- {
-+                let handler: KBox<dyn HandlerImpl> = KBox::<T>::new(handler, GFP_KERNEL)?;
-+                Ok::<_, Error>(handler)
-+            },
-+            classdev <- Opaque::try_ffi_init(|ptr: *mut bindings::led_classdev| {
-+                // SAFETY: `try_ffi_init` guarantees that `ptr` is valid for write.
-+                unsafe { ptr.write(bindings::led_classdev {
-+                    max_brightness: T::MAX_BRIGHTNESS,
-+                    brightness_set: T::BLOCKING.then_some(
-+                        brightness_set as unsafe extern "C" fn(*mut bindings::led_classdev, u32)
-+                    ),
-+                    brightness_set_blocking: (!T::BLOCKING).then_some(
-+                        brightness_set_blocking
-+                            as unsafe extern "C" fn(*mut bindings::led_classdev,u32) -> i32
-+                    ),
-+                    blink_set: T::BLINK.then_some(
-+                        blink_set
-+                            as unsafe extern "C" fn(*mut bindings::led_classdev, *mut usize,
-+                                                    *mut usize) -> i32
-+                    ),
-+                    .. bindings::led_classdev::default()
-+                }) };
-+
-+                let mut init_data = bindings::led_init_data {
-+                    fwnode: init_data.fwnode.map_or(core::ptr::null_mut(), FwNode::as_raw),
-+                    default_label: init_data.default_label
-+                                            .map_or(core::ptr::null(), CStr::as_char_ptr),
-+                    devicename: init_data.devicename.map_or(core::ptr::null(), CStr::as_char_ptr),
-+                    devname_mandatory: init_data.devname_mandatory,
-+                };
-+
-+                let parent = parent
-+                    .map_or(core::ptr::null_mut(), device::Device::as_raw);
-+
-+                // SAFETY:
-+                // - `parent` is guaranteed to be a pointer to a valid `device`
-+                //    or a null pointer.
-+                // - `ptr` is guaranteed to be a pointer to an initialized `led_classdev`.
-+                to_result(unsafe {
-+                    bindings::led_classdev_register_ext(parent, ptr, &mut init_data)
-+                })
-+            }),
-+        })
-+    }
-+}
-+
-+extern "C" fn brightness_set(led_cdev: *mut bindings::led_classdev, brightness: u32) {
-+    // SAFETY: `led_cdev` is a valid pointer to a `led_classdev` stored inside a `Device`.
-+    let classdev = unsafe {
-+        &*container_of!(
-+            led_cdev.cast::<Opaque<bindings::led_classdev>>(),
-+            Device,
-+            classdev
-+        )
-+    };
-+    let _ = classdev.handler.brightness_set(brightness);
-+}
-+
-+extern "C" fn brightness_set_blocking(
-+    led_cdev: *mut bindings::led_classdev,
-+    brightness: u32,
-+) -> i32 {
-+    // SAFETY: `led_cdev` is a valid pointer to a `led_classdev` stored inside a `Device`.
-+    let classdev = unsafe {
-+        &*container_of!(
-+            led_cdev.cast::<Opaque<bindings::led_classdev>>(),
-+            Device,
-+            classdev
-+        )
-+    };
-+    from_result(|| {
-+        classdev.handler.brightness_set(brightness)?;
-+        Ok(0)
-+    })
-+}
-+
-+extern "C" fn blink_set(
-+    led_cdev: *mut bindings::led_classdev,
-+    delay_on: *mut usize,
-+    delay_off: *mut usize,
-+) -> i32 {
-+    // SAFETY: `led_cdev` is a valid pointer to a `led_classdev` stored inside a `Device`.
-+    let classdev = unsafe {
-+        &*container_of!(
-+            led_cdev.cast::<Opaque<bindings::led_classdev>>(),
-+            Device,
-+            classdev
-+        )
-+    };
-+    from_result(|| {
-+        classdev.handler.blink_set(
-+            // SAFETY: `delay_on` is guaranteed to be a valid pointer to usize
-+            unsafe { &mut *delay_on },
-+            // SAFETY: `delay_on` is guaranteed to be a valid pointer to usize
-+            unsafe { &mut *delay_off },
-+        )?;
-+        Ok(0)
-+    })
-+}
-+
-+#[pinned_drop]
-+impl PinnedDrop for Device {
-+    fn drop(self: Pin<&mut Self>) {
-+        // SAFETY: The existence of `self` guarantees that `self.classdev` has previously been
-+        // successfully registered with `led_classdev_register_ext`
-+        unsafe { bindings::led_classdev_unregister(self.classdev.get()) };
-+    }
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index e5247f584ad2..f42c60da21ae 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -97,6 +97,7 @@
- pub mod jump_label;
- #[cfg(CONFIG_KUNIT)]
- pub mod kunit;
-+pub mod led;
- pub mod list;
- pub mod miscdevice;
- pub mod mm;
--- 
-2.49.1
+Thanks,
+Onur
+
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> ---
+>  rust/kernel/alloc.rs      |  1 +
+>  rust/kernel/alloc/kvec.rs | 86
+> +++++++++++++++++++++++++++++++++++++++ rust/kernel/prelude.rs    |
+> 2 +- 3 files changed, 88 insertions(+), 1 deletion(-)
+> 
+> diff --git a/rust/kernel/alloc.rs b/rust/kernel/alloc.rs
+> index a2c49e5494d3..9c129eaf0625 100644
+> --- a/rust/kernel/alloc.rs
+> +++ b/rust/kernel/alloc.rs
+> @@ -24,6 +24,7 @@
+>  pub use self::kvec::KVec;
+>  pub use self::kvec::VVec;
+>  pub use self::kvec::Vec;
+> +pub use self::kvec::PinnedVecExt;
+>  
+>  /// Indicates an allocation error.
+>  #[derive(Copy, Clone, PartialEq, Eq, Debug)]
+> diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
+> index 3c72e0bdddb8..d5582a7f17e9 100644
+> --- a/rust/kernel/alloc/kvec.rs
+> +++ b/rust/kernel/alloc/kvec.rs
+> @@ -16,11 +16,13 @@
+>      ops::DerefMut,
+>      ops::Index,
+>      ops::IndexMut,
+> +    pin::Pin,
+>      ptr,
+>      ptr::NonNull,
+>      slice,
+>      slice::SliceIndex,
+>  };
+> +use pin_init::PinInit;
+>  
+>  mod errors;
+>  pub use self::errors::{InsertError, PushError, RemoveError};
+> @@ -109,6 +111,21 @@ pub struct Vec<T, A: Allocator> {
+>      _p: PhantomData<A>,
+>  }
+>  
+> +/// Extension for Pin<Vec<T, A>>
+> +pub trait PinnedVecExt<T> {
+> +    /// Pin-initializes P and appends it to the back of the [`Vec`]
+> instance without reallocating.
+> +    fn push_pin_init<E: From<PushError<P>>, P: PinInit<T, E>>(&mut
+> self, init: P) -> Result<(), E>; +
+> +    /// Shortens the vector, setting the length to `len` and drops
+> the removed values.
+> +    /// If `len` is greater than or equal to the current length,
+> this does nothing.
+> +    ///
+> +    /// This has no effect on the capacity and will not allocate.
+> +    fn truncate(&mut self, len: usize);
+> +
+> +    /// Removes the last element from a vector and drops it
+> returning true, or false if it is empty.
+> +    fn pop(&mut self) -> bool;
+> +}
+> +
+>  /// Type alias for [`Vec`] with a [`Kmalloc`] allocator.
+>  ///
+>  /// # Examples
+> @@ -719,6 +736,18 @@ pub fn retain(&mut self, mut f: impl FnMut(&mut
+> T) -> bool) { }
+>          self.truncate(num_kept);
+>      }
+> +
+> +    /// Constructs a new `Pin<Vec<T, A>>`.
+> +    #[inline]
+> +    pub fn pin(capacity: usize, flags: Flags) -> Result<Pin<Self>,
+> AllocError> {
+> +        Self::with_capacity(capacity, flags).map(Pin::<Self>::from)
+> +    }
+> +
+> +    /// Convert a [`Vec<T,A>`] to a [`Pin<Vec<T,A>>`]. If `T` does
+> not implement
+> +    /// [`Unpin`], then its values will be pinned in memory and
+> can't be moved.
+> +    pub fn into_pin(this: Self) -> Pin<Self> {
+> +        this.into()
+> +    }
+>  }
+>  
+>  impl<T: Clone, A: Allocator> Vec<T, A> {
+> @@ -1294,6 +1323,63 @@ fn drop(&mut self) {
+>      }
+>  }
+>  
+> +impl<T, A: Allocator> PinnedVecExt<T> for Pin<Vec<T, A>> {
+> +    fn truncate(&mut self, len: usize) {
+> +        // SAFETY: truncate will not reallocate the Vec
+> +        // CAST: Pin<Ptr> is a transparent wrapper of Ptr
+> +        unsafe { &mut *core::ptr::from_mut(self).cast::<Vec<T, A>>()
+> }.truncate(len);
+> +    }
+> +
+> +    fn push_pin_init<E: From<PushError<P>>, P: PinInit<T, E>>(&mut
+> self, init: P) -> Result<(), E> {
+> +        // SAFETY: capacity, spare_capacity_mut and inc_len will not
+> +        // reallocate the Vec.
+> +        // CAST: Pin<Ptr> is a transparent wrapper of Ptr
+> +        let this = unsafe { &mut
+> *core::ptr::from_mut(self).cast::<Vec<T, A>>() }; +
+> +        if this.len() < this.capacity() {
+> +            let spare = this.spare_capacity_mut();
+> +            // SAFETY: the length is less than the capacity, so
+> `spare` is non-empty.
+> +            unsafe {
+> init.__pinned_init(spare.get_unchecked_mut(0).as_mut_ptr())? };
+> +            // SAFETY: We just initialised the first spare entry, so
+> it is safe to
+> +            // increase the length by 1. We also know that the new
+> length is <= capacity.
+> +            unsafe { this.inc_len(1) };
+> +            Ok(())
+> +        } else {
+> +            Err(E::from(PushError(init)))
+> +        }
+> +    }
+> +
+> +    fn pop(&mut self) -> bool {
+> +        if self.is_empty() {
+> +            return false;
+> +        }
+> +
+> +        // SAFETY:
+> +        // - We just checked that the length is at least one.
+> +        // - dec_len will not reallocate the Vec
+> +        // CAST: Pin<Ptr> is a transparent wrapper of Ptr
+> +        let ptr: *mut [T] = unsafe {
+> (*core::ptr::from_mut(self).cast::<Vec<T, A>>()).dec_len(1) }; +
+> +        // SAFETY: the contract of `dec_len` guarantees that the
+> elements in `ptr` are
+> +        // valid elements whose ownership has been transferred to
+> the caller.
+> +        unsafe { ptr::drop_in_place(ptr) };
+> +        true
+> +    }
+> +}
+> +
+> +impl<T, A: Allocator> From<Vec<T, A>> for Pin<Vec<T, A>> {
+> +    /// Converts a `Vec<T, A>` into a `Pin<Vec<T, A>>`. If `T` does
+> not implement [`Unpin`], then
+> +    /// every value in v will be pinned in memory and can't be moved.
+> +    ///
+> +    /// This moves `v` into `Pin` without moving any of the values
+> of `v` or allocating and copying
+> +    /// any memory.
+> +    fn from(v: Vec<T, A>) -> Self {
+> +        // SAFETY: The values wrapped inside a `Pin<Vec<T, A>>`
+> cannot be moved or replaced as long
+> +        // as `T` does not implement `Unpin`.
+> +        unsafe { Pin::new_unchecked(v) }
+> +    }
+> +}
+> +
+>  #[macros::kunit_tests(rust_kvec_kunit)]
+>  mod tests {
+>      use super::*;
+> diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
+> index 25fe97aafd02..7179e2ca2a14 100644
+> --- a/rust/kernel/prelude.rs
+> +++ b/rust/kernel/prelude.rs
+> @@ -19,7 +19,7 @@
+>      c_ushort, c_void,
+>  };
+>  
+> -pub use crate::alloc::{flags::*, Box, KBox, KVBox, KVVec, KVec,
+> VBox, VVec, Vec}; +pub use crate::alloc::{flags::*, Box, KBox, KVBox,
+> KVVec, KVec, PinnedVecExt, VBox, VVec, Vec}; 
+>  #[doc(no_inline)]
+>  pub use macros::{export, kunit_tests, module, vtable};
 
 
