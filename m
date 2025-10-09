@@ -1,51 +1,52 @@
-Return-Path: <linux-leds+bounces-5709-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5710-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7A4BCA549
-	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 19:08:03 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A127BCA54C
+	for <lists+linux-leds@lfdr.de>; Thu, 09 Oct 2025 19:08:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C6323A8468
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 17:08:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2AD6A4EFEE4
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Oct 2025 17:08:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C388823B605;
-	Thu,  9 Oct 2025 17:07:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF2A23A9AC;
+	Thu,  9 Oct 2025 17:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="okT4Jkp4"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="LgOSvufk"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D701DDDD
-	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 17:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7B7238C36
+	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 17:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760029679; cv=none; b=fUUB2Rj9GlKUTqf0y58fJbZemEyKVzk4bI1Wr6FaQ26fTNp/1v5u3xFJnsc777hDsc0eXKpcbUkaq0AL2+tq3217vdrPsG6YJO2bxrFlA0I7hoWBu5RsQEbJ9XY9q60SmQ22GAIVK0GCBzLKg+h2t70shfPQJ4BxNxqHJNoJNUw=
+	t=1760029681; cv=none; b=M2OZ33hXXx3ENGkmUHagCBywqgdweHGG4PCD0ttgc9BPhdi9ad+/Aj6J9Pq7GzoCL5av6CO0JGxWD/72PH+AgUWWeEQZYODvKS7S/gbNVYf3dWFlxCXx9owD+VcFY/Vc3e7cKCsf2DLi+XXTfPjQyxKUfFgx4EKjMklhv2Bjcsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760029679; c=relaxed/simple;
-	bh=Bp58wsy3PqTuPL5jXo2k50WFlVyPuXQ0lYv4HL07EUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hBElQfgJQHP9IjzOAA/PjKUNg1/2JBntAyY38815AwJCZcZmPbcqfSIlnqJFHLDnz4tptPH+DewX4MFjcHgsCDuyBqh3Aq14U4XuoJL1naHLGac0Esw0awbahSf+d4VIgs0DAjP/AmxV6KbOvufuyFE4/uzeWjA4yaMETCKHdQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=okT4Jkp4; arc=none smtp.client-ip=185.67.36.66
+	s=arc-20240116; t=1760029681; c=relaxed/simple;
+	bh=/4nbU1JCeOKduD0yHuo1Jiez+5bhrH1RVPcGWE3LPRo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rjlOHIS+sVMf7RaTF8b+msjgOxXOfBbTX3bmL8gqE+I9N+3HpwP0T52R2AGQ+QPgYzMEMMsD8uSm+5QP0iHxyVlQKUrKE9DOnzpxkhBwxD6aB8tBF0Ag53OMkiJzN1NzfE57Ve5+Q5wdJDCq8DDhsTL4OdsQu8bgmU6whknZ5aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=LgOSvufk; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id E3CD3240104
-	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 19:07:55 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id E319C24002A
+	for <linux-leds@vger.kernel.org>; Thu,  9 Oct 2025 19:07:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1760029675; bh=vaOtRkhRtkAyTP7CfO1cERz5TFR6iDNeGsnZNGd91UU=;
+	t=1760029676; bh=dmilRWrN9ElHMrnLhqw8mvzkGEVxGiO1hZWeLfIT4lg=;
 	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
 	 Content-Transfer-Encoding:Autocrypt:OpenPGP:From;
-	b=okT4Jkp4hkUocOkXE6CHatgsTV03xoNgH2XcFcXLPbmhs0Ma4mSDknA1bowcA7dGD
-	 PL5j8q8UMU42HhlVSCJR+2YU5/XTPJu4omHwrIcTgtaft9SKbdED9HZIzF627acM20
-	 Zb5iJYbnucth46ilBw1n40eZiHjoYZLV98ADbhFifF2289TlXDAnWUngUQ/TSiaNyZ
-	 kcwQWFCZ1C2R0swPNV+ah8qTTzRAdNjsHOuFpBmtRcApnjwiZXb4VJI3tAsxdNQP1U
-	 rnQMdWkrwgBOTzi0/4aSbCDn3U3y0GE+4iaTJLVZpqsc5e+wLdernWyWGEt/9ax2fj
-	 ZywvNLMouFK0A==
+	b=LgOSvufkxbmhBkOvLifnNlnRo1TkT8AojJXuRRbgtBBLJf/VwIc670bram/zcf2Nh
+	 6z9OibNUQj8CzZYuYTERqG1ID/Blzj0T9A7I0LdFupGbvKzxKxnHxwzyejeY3NqsiZ
+	 Nwg2SnedWy4TTmem7Zl+Z9fCJGdHSrUjA4RUeZEjv3MFYCzqQdl9/EtEQBARfAt3Ph
+	 UCJIP5wnfTAx7VeAnd4rVMcAYUEyYUzrFkpHVN+fQhfUL7I7T4dYB2nJND6EpNaJzg
+	 7EL8RO1na0sEL0dO17YuypFs86i4L5HThgEdIIwAAALGoN/zxMmyIs/7J+GKCXaAAf
+	 1pUEAMBqpZVmA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4cjGXT57yKz9rxK;
-	Thu,  9 Oct 2025 19:07:53 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4cjGXW16m7z9rxN;
+	Thu,  9 Oct 2025 19:07:55 +0200 (CEST)
 From: Markus Probst <markus.probst@posteo.de>
 To: Danilo Krummrich <dakr@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
@@ -67,9 +68,11 @@ Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH 0/2] rust: leds: add led classdev abstractions
-Date: Thu, 09 Oct 2025 17:07:55 +0000
-Message-ID: <20251009170739.235221-1-markus.probst@posteo.de>
+Subject: [PATCH 1/2] rust: add basic Pin<Vec<T, A>> abstractions
+Date: Thu, 09 Oct 2025 17:07:56 +0000
+Message-ID: <20251009170739.235221-2-markus.probst@posteo.de>
+In-Reply-To: <20251009170739.235221-1-markus.probst@posteo.de>
+References: <20251009170739.235221-1-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -120,35 +123,167 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-This patch series has previously been contained in
-https://lore.kernel.org/rust-for-linux/20251008181027.662616-1-markus.probst@posteo.de/T/#t
-which added a rust written led driver for a microcontroller via i2c.
+Implement core Pin<Vec<T, A>> abstractions, incluing
+ * `Vec::pin` and `Vec::into_pin` for constructing a `Pin<Vec<T, A>>`.
+   If T does not implement `Unpin`, it values will never be moved.
+ * a extension for `Pin<Vec<T, A>>` allowing PinInit to be initialied on a
+   Pin<Vec>, as well as truncating and poping values from the Vec
 
-As the reading and writing to the i2c client via the register!
-macro has not been implemented yet [1], the patch series will only
-contain the additional abstractions required.
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+ rust/kernel/alloc.rs      |  1 +
+ rust/kernel/alloc/kvec.rs | 86 +++++++++++++++++++++++++++++++++++++++
+ rust/kernel/prelude.rs    |  2 +-
+ 3 files changed, 88 insertions(+), 1 deletion(-)
 
-[1] https://lore.kernel.org/rust-for-linux/DDDS2V0V2NVJ.16ZKXCKUA1HUV@kernel.org/
-
-The following changes were made:
-* add basic Pin<Vec<T, A>> abstractions, that allow to initialize PinInit items with
-  the gurantee that these will never be moved.
-
-* add basic led classdev abstractions to register and unregister leds
-
-
-Markus Probst (2):
-  rust: add basic Pin<Vec<T, A>> abstractions
-  rust: leds: add basic led classdev abstractions
-
- rust/kernel/alloc.rs      |   1 +
- rust/kernel/alloc/kvec.rs |  86 +++++++++++
- rust/kernel/led.rs        | 296 ++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs        |   1 +
- rust/kernel/prelude.rs    |   2 +-
- 5 files changed, 385 insertions(+), 1 deletion(-)
- create mode 100644 rust/kernel/led.rs
-
+diff --git a/rust/kernel/alloc.rs b/rust/kernel/alloc.rs
+index a2c49e5494d3..9c129eaf0625 100644
+--- a/rust/kernel/alloc.rs
++++ b/rust/kernel/alloc.rs
+@@ -24,6 +24,7 @@
+ pub use self::kvec::KVec;
+ pub use self::kvec::VVec;
+ pub use self::kvec::Vec;
++pub use self::kvec::PinnedVecExt;
+ 
+ /// Indicates an allocation error.
+ #[derive(Copy, Clone, PartialEq, Eq, Debug)]
+diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
+index 3c72e0bdddb8..d5582a7f17e9 100644
+--- a/rust/kernel/alloc/kvec.rs
++++ b/rust/kernel/alloc/kvec.rs
+@@ -16,11 +16,13 @@
+     ops::DerefMut,
+     ops::Index,
+     ops::IndexMut,
++    pin::Pin,
+     ptr,
+     ptr::NonNull,
+     slice,
+     slice::SliceIndex,
+ };
++use pin_init::PinInit;
+ 
+ mod errors;
+ pub use self::errors::{InsertError, PushError, RemoveError};
+@@ -109,6 +111,21 @@ pub struct Vec<T, A: Allocator> {
+     _p: PhantomData<A>,
+ }
+ 
++/// Extension for Pin<Vec<T, A>>
++pub trait PinnedVecExt<T> {
++    /// Pin-initializes P and appends it to the back of the [`Vec`] instance without reallocating.
++    fn push_pin_init<E: From<PushError<P>>, P: PinInit<T, E>>(&mut self, init: P) -> Result<(), E>;
++
++    /// Shortens the vector, setting the length to `len` and drops the removed values.
++    /// If `len` is greater than or equal to the current length, this does nothing.
++    ///
++    /// This has no effect on the capacity and will not allocate.
++    fn truncate(&mut self, len: usize);
++
++    /// Removes the last element from a vector and drops it returning true, or false if it is empty.
++    fn pop(&mut self) -> bool;
++}
++
+ /// Type alias for [`Vec`] with a [`Kmalloc`] allocator.
+ ///
+ /// # Examples
+@@ -719,6 +736,18 @@ pub fn retain(&mut self, mut f: impl FnMut(&mut T) -> bool) {
+         }
+         self.truncate(num_kept);
+     }
++
++    /// Constructs a new `Pin<Vec<T, A>>`.
++    #[inline]
++    pub fn pin(capacity: usize, flags: Flags) -> Result<Pin<Self>, AllocError> {
++        Self::with_capacity(capacity, flags).map(Pin::<Self>::from)
++    }
++
++    /// Convert a [`Vec<T,A>`] to a [`Pin<Vec<T,A>>`]. If `T` does not implement
++    /// [`Unpin`], then its values will be pinned in memory and can't be moved.
++    pub fn into_pin(this: Self) -> Pin<Self> {
++        this.into()
++    }
+ }
+ 
+ impl<T: Clone, A: Allocator> Vec<T, A> {
+@@ -1294,6 +1323,63 @@ fn drop(&mut self) {
+     }
+ }
+ 
++impl<T, A: Allocator> PinnedVecExt<T> for Pin<Vec<T, A>> {
++    fn truncate(&mut self, len: usize) {
++        // SAFETY: truncate will not reallocate the Vec
++        // CAST: Pin<Ptr> is a transparent wrapper of Ptr
++        unsafe { &mut *core::ptr::from_mut(self).cast::<Vec<T, A>>() }.truncate(len);
++    }
++
++    fn push_pin_init<E: From<PushError<P>>, P: PinInit<T, E>>(&mut self, init: P) -> Result<(), E> {
++        // SAFETY: capacity, spare_capacity_mut and inc_len will not
++        // reallocate the Vec.
++        // CAST: Pin<Ptr> is a transparent wrapper of Ptr
++        let this = unsafe { &mut *core::ptr::from_mut(self).cast::<Vec<T, A>>() };
++
++        if this.len() < this.capacity() {
++            let spare = this.spare_capacity_mut();
++            // SAFETY: the length is less than the capacity, so `spare` is non-empty.
++            unsafe { init.__pinned_init(spare.get_unchecked_mut(0).as_mut_ptr())? };
++            // SAFETY: We just initialised the first spare entry, so it is safe to
++            // increase the length by 1. We also know that the new length is <= capacity.
++            unsafe { this.inc_len(1) };
++            Ok(())
++        } else {
++            Err(E::from(PushError(init)))
++        }
++    }
++
++    fn pop(&mut self) -> bool {
++        if self.is_empty() {
++            return false;
++        }
++
++        // SAFETY:
++        // - We just checked that the length is at least one.
++        // - dec_len will not reallocate the Vec
++        // CAST: Pin<Ptr> is a transparent wrapper of Ptr
++        let ptr: *mut [T] = unsafe { (*core::ptr::from_mut(self).cast::<Vec<T, A>>()).dec_len(1) };
++
++        // SAFETY: the contract of `dec_len` guarantees that the elements in `ptr` are
++        // valid elements whose ownership has been transferred to the caller.
++        unsafe { ptr::drop_in_place(ptr) };
++        true
++    }
++}
++
++impl<T, A: Allocator> From<Vec<T, A>> for Pin<Vec<T, A>> {
++    /// Converts a `Vec<T, A>` into a `Pin<Vec<T, A>>`. If `T` does not implement [`Unpin`], then
++    /// every value in v will be pinned in memory and can't be moved.
++    ///
++    /// This moves `v` into `Pin` without moving any of the values of `v` or allocating and copying
++    /// any memory.
++    fn from(v: Vec<T, A>) -> Self {
++        // SAFETY: The values wrapped inside a `Pin<Vec<T, A>>` cannot be moved or replaced as long
++        // as `T` does not implement `Unpin`.
++        unsafe { Pin::new_unchecked(v) }
++    }
++}
++
+ #[macros::kunit_tests(rust_kvec_kunit)]
+ mod tests {
+     use super::*;
+diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
+index 25fe97aafd02..7179e2ca2a14 100644
+--- a/rust/kernel/prelude.rs
++++ b/rust/kernel/prelude.rs
+@@ -19,7 +19,7 @@
+     c_ushort, c_void,
+ };
+ 
+-pub use crate::alloc::{flags::*, Box, KBox, KVBox, KVVec, KVec, VBox, VVec, Vec};
++pub use crate::alloc::{flags::*, Box, KBox, KVBox, KVVec, KVec, PinnedVecExt, VBox, VVec, Vec};
+ 
+ #[doc(no_inline)]
+ pub use macros::{export, kunit_tests, module, vtable};
 -- 
 2.49.1
 
