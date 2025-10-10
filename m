@@ -1,261 +1,341 @@
-Return-Path: <linux-leds+bounces-5721-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5722-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFAFBCCCA6
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 13:41:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D275ABCCD69
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 14:09:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AB5F43517D3
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 11:41:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 875E23B7DE7
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 12:09:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B252857F6;
-	Fri, 10 Oct 2025 11:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E88D288C2D;
+	Fri, 10 Oct 2025 12:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rGikc5D8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDgROrDJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E479A283FFC
-	for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 11:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7158A288C3B
+	for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 12:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760096493; cv=none; b=g5ryAVc26LsafJlKm7/uPUv/GM5WpUBgB2H+OzyoEM5vfbIup4kok4+PXc2ceEM/sW4AST1GAMVk73po3QGmuJEtokfrJr2IF511B/QTkjXmxTp/APHm/fdLeKPDG8TFix0wwaAw2c02/yWK10khet0aWMqxS150Ngrb0kcWRic=
+	t=1760098154; cv=none; b=Au5wBfU4E/xLrjYTl9PoPajTQVU6RURG96IycEd2uzc4CtX0nl1fkd22IpiT/nWBqIIsCYGZxdyoHxAfDg3sACfkcuM9whASQlZ14f4xuFmT2VfOyDaNwg5cuQ9UgJkqhEsLx0IXdU3WCi/Zv1L/ifQ0TvPeEHvrP74rqmoh58w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760096493; c=relaxed/simple;
-	bh=tkTiJxl8UaIbZrZ5Iepj0nO+SegQeIHdV23Q7udL7N4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Dezx5uGkshE0SfY4UdFyGC12xW8s1K1vZ7tuT4I88uQj0xS7acjy2RSTdEgsruMQMN48vPEVTAPDEcPQO5SjWRLLB8yHGiArTPyG286J1EIumx1kLXIao1KzZZS5/lhPhtVXlPEk0+3JJ3boVXE+WEWU4LC1oIF9cm4M+4LD7RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rGikc5D8; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-46e36f9c651so12755205e9.3
-        for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 04:41:31 -0700 (PDT)
+	s=arc-20240116; t=1760098154; c=relaxed/simple;
+	bh=s9qnktjcv8VtwzZYiATpyxkv376jOmaSks+JF/0i/yY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b+aniRvEHdqQENGrCsMXbuMWKfuVnhllDnivDSZfIRX4SnhkUhDp+3T/GfHGjYxKwqArBPTBWo+jcFjmFVwnfwjTnFvELpwXJ/PkzN6aVzPr93SxaWU3wNgfKHNu3pGO7EvWXvvi+u2r7Nvq1DRwLM9AmH9tMdnKvRnPGAZ78AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDgROrDJ; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-36453927ffaso16731971fa.2
+        for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 05:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760096490; x=1760701290; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sP1h7PdQ3Yf2Ey8PajK3BooFysbtdE3P3YzTihFpbEs=;
-        b=rGikc5D8PvagHb1ouCLTYxB4MT2aFUJAbupk3y9xPxbgsZ13XjaiSkJTenEzflWWDs
-         nPMImH8020/xg9npDzx5TSEJyS5PuTvmOpH6i72tl89XVU8BpzclJ1FyUcV99+OYsjjI
-         478KRY/sdawONQbYjaZWSZkFbbW+ni3dlw2oGHJj/+WMENIxhbDsIaqVomE9zCz9u5iI
-         HebcHkLTkdONlZtKvYi+SfDqVgd3GRT5Uj0MYjj57RYV2arnTwSa5/Zv65gsG8dXZwpw
-         Q8Q1Xj29fM3+X8ZHB+IZP2vjmir9uxXGj4mOds/m5fSc57I+CMo/goTTnIOEQjERHTHn
-         pF7Q==
+        d=gmail.com; s=20230601; t=1760098149; x=1760702949; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G4ZKKJF1rgzzv66FdFdHNcRihXsO8tluLNbeNizMoJ0=;
+        b=BDgROrDJCwQLBWwJMnmyPI9kmMOnBhP3p+7BnpJgZFRfRd0hn/HcnNQSxPUIWQxbgm
+         FRRzAOlZQVCirsVD6TP5nK9RXUEl0BNDK3w9BUwrrJTjKP/j5/HbNz3xIthLbe/vkgcd
+         2XQHpMgMcxsolJA6rQ7adMQWC6zA3pNBLe+rrBGWK6vtSkztG1b8emBhATglNijni+R8
+         zFPVmllzVWL6L9GJvboZRyg5WUKOaQ3lyJkfQVOgXyM4qDn55wRGD080qsfUjOeTj5em
+         vF6+8dMFFJRBKAKGu1Kop2HJ7scmYesnNH0XaFliYnnQ55eXdJR1lcAnhX35mSb+C710
+         VgNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760096490; x=1760701290;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sP1h7PdQ3Yf2Ey8PajK3BooFysbtdE3P3YzTihFpbEs=;
-        b=GrOfjJK4PQwSxeIXm5E22pNSiktj7kn7gqpp6vtWFw2n7GbdvG3uOWsEfzLbK6VxJq
-         Sug+XsDOd9+dkMy6wVt6Ra88SVXEHn3PoQ9+g77IH6f7/gMQgI735228sEWrYa8pmFXF
-         a9PwvB93X1gvbVrhw4XH8lim7L7IgduexOqFqDPl/FG6eEB3BaQ/by6h8CEieUpDIadF
-         HCKZHDJwwPRVC3xbxxCz1bAKBHeAOYbOEvuMckknhQVB5ibeyh5KSQN2Q/E0mQ8rHGcW
-         difndES94QFM8cCXbhZmy6yH6ufiQY9cHpiblyQZBsxAx/dWU9aKWEfRbLx2zZ3tKhyV
-         pczw==
-X-Forwarded-Encrypted: i=1; AJvYcCXget4YchJ8uSc43Zc8Zeq2oYGcdwj1fE6M2qTyrPOY7e+AdBz9feHLXokWECXHaW4Ua2nAIWDeHjBQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwW4dhJT3PhgwVaNFu9DuXUbyo6SP/STh9Fbt4sZYa+WYS0xbLR
-	9SbAzy4C9fgPbEVKxyDWFP28dsViN0eRI7d9Q9ATs01/pGoW4lZZ6ziQunJtX0txzFzljBztbgB
-	YgCwsnHj9NG4XRLjORw==
-X-Google-Smtp-Source: AGHT+IH3iJKq/ZtJ/E8VBomZJGoJfltkSLDyqS69fUM9FlpvzWFrevx3ZuXdfXPbtVyCDBNDeQ3SHEuV9o3AiXY=
-X-Received: from wmv6.prod.google.com ([2002:a05:600c:26c6:b0:46e:15a3:1c9b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1d1a:b0:46e:4a78:dea9 with SMTP id 5b1f17b1804b1-46fa9af17d4mr78562825e9.17.1760096490360;
- Fri, 10 Oct 2025 04:41:30 -0700 (PDT)
-Date: Fri, 10 Oct 2025 11:41:29 +0000
-In-Reply-To: <20251009181203.248471-3-markus.probst@posteo.de>
+        d=1e100.net; s=20230601; t=1760098149; x=1760702949;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G4ZKKJF1rgzzv66FdFdHNcRihXsO8tluLNbeNizMoJ0=;
+        b=chu0U2Av6iXm79kYQLBRWl5fxtC4P1ip8zsXJJ8jz8lKqeFvBEG1QHOsLHcoyl4GQA
+         nafUba/RWO4iqrpjj1fUvEyt9rzz7e5QehIZo7a0n/osL0tUDN88tifYGvdunDXLxaP7
+         dbTgAkHtr69K2Q8rKoBiJH8VtpPnG4KEs/kE0kKXALpsso/dYaeJIAgs51LsIg/TXJQv
+         Wga1JIv7/rDBbpPr2U4KhSPhINwzhsE+R61VNhgj7twqjelbDeangmm+GoTyNJ00OafE
+         u3LO5KcFmYhBwMcuUZ0Rb8ag/PQAoUNfkj8BXwHFmnxwxe4VwRg0dKxOXftpcfu3QmgL
+         dUpg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnAb+xJLpRf5McrgG1MoPMSmllGaEXtJ79e26G0t8YG6Cq3lCe/IyryY9XHlGtRyd/vUjOsCkiA8ax@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTfemZ5hPMjuo47u+LH1QZdITruUCSj1q7WDTHQLRyPgfCZh7r
+	oDaYbkqN1TbiKKjuXnA7a1yym8G9bF5I0M0PUAwRTbQuCHJVTTpYb3nE
+X-Gm-Gg: ASbGncvBy6/wQVGMFIO+TAhpeOrgW7FIeOsNmbZfnPGSQo6TxhpirIa/nmYkpnWAAXK
+	SG3RDEYVDUzIx8iKZ1iZ0LHwc5dzTS0JJei40p55ueaMHHi/2A+1wrl3rM30aFuSQ4bfuLZcU2W
+	vVgAmrMXiRHETd3HNcmE+B31cyoQwmWUFi+KRaEe0Cg1Ri7e+vbMyYeZfZd9L1oc+nSLTEup2B7
+	4OLdqAHjCBy2EOZ3FRVAJ9je7c9NORhejw0RxS5lj7dXhjtZ+YYuXVcnv2LBzqv2Hm3DaOZkCK7
+	mHUsSn+ZhwldqAx/vBVrh/TKVElwhcouJRlbjkOWizeEwEzypKOX2sXbd+PD7oS3SwnzVz+kj5q
+	0zcDfGukzNaETxe5A3jdzxx+uzQ39/kHFPdsR6QNZJfGQjPd2U/loDXKmluqjTntSGZcVwTvjcM
+	aNDvvM6djcdmT7MpbsEJP6K7la7vGUH28s+w==
+X-Google-Smtp-Source: AGHT+IH3knEaO7uQwDSiykr6b7dNy3NcVzjxL7nST2lJTVdnkH3+ref73CXvsxpJUFDrDoKyyQ0hew==
+X-Received: by 2002:a05:651c:435c:20b0:376:3a83:428d with SMTP id 38308e7fff4ca-3763a8353e9mr2470301fa.48.1760098149101;
+        Fri, 10 Oct 2025 05:09:09 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088577836sm820546e87.100.2025.10.10.05.09.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 05:09:08 -0700 (PDT)
+Message-ID: <8ea507eb-f78c-4a16-882b-112e277fa1b6@gmail.com>
+Date: Fri, 10 Oct 2025 15:09:07 +0300
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251009181203.248471-1-markus.probst@posteo.de> <20251009181203.248471-3-markus.probst@posteo.de>
-Message-ID: <aOjw6QtVArJ807MX@google.com>
-Subject: Re: [PATCH v2 2/2] rust: leds: add basic led classdev abstractions
-From: Alice Ryhl <aliceryhl@google.com>
-To: Markus Probst <markus.probst@posteo.de>
-Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 06/13] mfd: bd71828: Support ROHM BD72720
+To: Lee Jones <lee@kernel.org>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andreas Kemnade <andreas@kemnade.info>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-gpio@vger.kernel.org
+References: <cover.1759824376.git.mazziesaccount@gmail.com>
+ <93142a80d90a0ac80b27090d0c83914675aad94d.1759824376.git.mazziesaccount@gmail.com>
+ <20251009161847.GE2890766@google.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20251009161847.GE2890766@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 09, 2025 at 06:12:34PM +0000, Markus Probst wrote:
-> Implement the core abstractions needed for led class devices, including:
+Hi deee Ho Lee,
+
+And Thanks for the review!
+
+On 09/10/2025 19:18, Lee Jones wrote:
+> On Tue, 07 Oct 2025, Matti Vaittinen wrote:
 > 
-> * `led::Handler` - the trait for handling leds, including
->   `brightness_set`
+>> The ROHM BD72720 is a power management IC which continues the BD71828
+>> family of PMICs. Similarly to the BD71815 and BD71828, the BD72720
+>> integrates regulators, charger, RTC, clock gate and GPIOs.
+>>
+>> The main difference to the earlier PMICs is that the BD72720 has two
+>> different I2C slave addresses. In addition to the registers behind the
+>> 'main I2C address', most of the charger (and to some extent LED) control
+>> is done via registers behind a 'secondary I2C slave address', 0x4c.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> ---
+>> Note: This patch depends on the series: "power: supply: add charger for
+>> BD71828" by Andreas:
+>> https://lore.kernel.org/all/20250918-bd71828-charger-v5-0-851164839c28@kemnade.info/
+>>
+>> There are some new variants being planned. Most notably, the BD73900
+>> should be almost identical to the BD72720 - for everything else except
+>> the charger block.
+>> ---
+
+// snip
+
+>> +
+>> +static struct regmap *bd72720_secondary_regmap;
 > 
-> * `led::InitData` - data set for the led class device
+> Dynamically allocate this and add it to .platform_data once it's
+> populated.
 > 
-> * `led::Device` - a safe wrapper around `led_classdev`
+
+This can be done but I suppose it's unnecessary churn. This driver does 
+not (at the moment) support more than one instance of the PMIC anyways. 
+(The button data is not alloacted).
+
+This is not really a problem as typically there is only 1 of these PMICs 
+to be controlled.
+
+// snip
+
+>>   
+>> +/*
+>> + * The BD72720 is an odd beast in that it contains two separate sets of
+>> + * registers, both starting from address 0x0. The twist is that these "pages"
+>> + * are behind different I2C slave addresses. Most of the registers are behind
+>> + * a slave address 0x4b, which will be used as the "main" address for this
+>> + * device.
+>> + * Most of the charger related registers are located behind slave address 0x4c.
+>> + * It is tempting to push the dealing with the charger registers and the extra
+>> + * 0x4c device in power-supply driver - but perhaps it's better for the sake of
+>> + * the cleaner re-use to deal with setting up all of the regmaps here.
+>> + * Furthermore, the LED stuff may need access to both of these devices.
+>> + */
+>> +#define BD72720_SECONDARY_I2C_SLAVE 0x4c
+>> +static const struct regmap_range bd72720_volatile_ranges_4b[] = {
+>> +	{
+>> +		/* RESETSRC1 and 2 are write '1' to clear */
+>> +		.range_min = BD72720_REG_RESETSRC_1,
+>> +		.range_max = BD72720_REG_RESETSRC_2,
 > 
-> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> regmap_reg_range()?
 
-> +/// The led class device representation.
-> +///
-> +/// This structure represents the Rust abstraction for a C `struct led_classdev`.
-> +#[pin_data(PinnedDrop)]
-> +pub struct Device {
-> +    handler: KBox<dyn HandlerImpl>,
-> +    #[pin]
-> +    classdev: Opaque<bindings::led_classdev>,
-> +}
+Ah, thanks. Out of the curiosity - do you know why this macro is written 
+on lowercase?
 
-Is it not possible to use Device<T> with a `handler: T` field here? That
-avoids the box. I don't think other abstractions have needed that. If
-it's needed, then why is LED special?
+// snip
+>> +static int bd72720_set_type_config(unsigned int **buf, unsigned int type,
+>> +				   const struct regmap_irq *irq_data,
+>> +				   int idx, void *irq_drv_data)
+>> +{
+>> +	const struct regmap_irq_type *t = &irq_data->type;
+>> +
+>> +	/*
+>> +	 * The regmap IRQ ecpects IRQ_TYPE_EDGE_BOTH to be written to register
+>> +	 * as logical OR of the type_falling_val and type_rising_val. This is
+>> +	 * not how the BD72720 implements this configuration, hence we need
+>> +	 * to handle this specific case separately.
+>> +	 */
+>> +	if (type == IRQ_TYPE_EDGE_BOTH) {
+>> +		buf[0][idx] &= ~t->type_reg_mask;
+>> +		buf[0][idx] |= BD72720_GPIO_IRQ_TYPE_BOTH;
+>> +
+>> +		return 0;
+>> +	}
+>> +
+>> +	return regmap_irq_set_type_config_simple(buf, type, irq_data, idx,
+>> +						 irq_drv_data);
+> 
+> Use 100-chars to avoid these pointless wraps please.
 
-> +/// The led handler trait.
-> +///
-> +/// # Examples
-> +///
-> +///```
-> +/// # use kernel::{c_str, led, alloc::KBox, error::{Result, code::ENOSYS}};
-> +/// # use core::pin::Pin;
-> +///
-> +/// struct MyHandler;
-> +///
-> +///
-> +/// impl led::Handler for MyHandler {
-> +///     const BLOCKING = false;
-> +///     const MAX_BRIGHTNESS = 255;
-> +///
-> +///     fn brightness_set(&self, _brightness: u32) -> Result<()> {
-> +///         // Set the brightness for the led here
-> +///         Ok(())
-> +///     }
-> +/// }
-> +///
-> +/// fn register_my_led() -> Result<Pin<KBox<led::Device>>> {
-> +///     let handler = MyHandler;
-> +///     KBox::pin_init(led::Device::new(
-> +///         None,
-> +///         None,
-> +///         led::InitData::new()
-> +///             .default_label(c_str!("my_led")),
-> +///         handler,
-> +///     ))
-> +/// }
-> +///```
-> +/// Led drivers must implement this trait in order to register and handle a [`Device`].
-> +pub trait Handler {
-> +    /// If set true, [`Handler::brightness_set`] and [`Handler::blink_set`] must not sleep
-> +    /// and perform the operation immediately.
-> +    const BLOCKING: bool;
-> +    /// Set this to true, if [`Handler::blink_set`] is implemented.
-> +    const BLINK: bool = false;
+gnarl. I think we have discussed this before :)
+I would love to keep the lines short - closer to 80 chars - because that 
+way I can fit 3 terminals on my screen. All the years spent staring at 
+the monitor are taking their toll, and my vision isn't as good as it 
+used to be. Frightening thing being that it seems I will only need to 
+increase the font in the future :/
 
-We have a macro called #[vtable] that automatically generates this kind
-of constant for you. Please use it.
+Well, sure the lines can be split if you feel strongly about it - but I 
+have a real reason (other than the usual - "they have always been like 
+that") to try keep them short...
 
-> +impl Device {
-> +    /// Registers a new led classdev.
-> +    ///
-> +    /// The [`Device`] will be unregistered and drop.
-> +    pub fn new<'a, T: Handler + 'static>(
-> +        parent: Option<&'a device::Device>,
-> +        init_data: InitData<'a>,
-> +        handler: T,
-> +    ) -> impl PinInit<Self, Error> + use<'a, T> {
-> +        try_pin_init!(Self {
-> +            handler <- {
-> +                let handler: KBox<dyn HandlerImpl> = KBox::<T>::new(handler, GFP_KERNEL)?;
-> +                Ok::<_, Error>(handler)
-> +            },
-> +            classdev <- Opaque::try_ffi_init(|ptr: *mut bindings::led_classdev| {
-> +                // SAFETY: `try_ffi_init` guarantees that `ptr` is valid for write.
-> +                unsafe { ptr.write(bindings::led_classdev {
-> +                    max_brightness: T::MAX_BRIGHTNESS,
-> +                    brightness_set: T::BLOCKING.then_some(
-> +                        brightness_set as unsafe extern "C" fn(*mut bindings::led_classdev, u32)
-> +                    ),
-> +                    brightness_set_blocking: (!T::BLOCKING).then_some(
-> +                        brightness_set_blocking
-> +                            as unsafe extern "C" fn(*mut bindings::led_classdev,u32) -> i32
-> +                    ),
-> +                    blink_set: T::BLINK.then_some(
-> +                        blink_set
-> +                            as unsafe extern "C" fn(*mut bindings::led_classdev, *mut usize,
-> +                                                    *mut usize) -> i32
+>> +}
+>> +
+>>   static const struct regmap_irq_chip bd71828_irq_chip = {
+>>   	.name = "bd71828_irq",
+>>   	.main_status = BD71828_REG_INT_MAIN,
+>> @@ -465,6 +814,28 @@ static const struct regmap_irq_chip bd71815_irq_chip = {
+>>   	.irq_reg_stride = 1,
+>>   };
+>>   
+>> +static const unsigned int bd72720_irq_type_base = BD72720_REG_GPIO1_CTRL;
+> 
+> This makes it look like a global variable, which I am allergic to.
+> 
+> Perhaps make it clear that this is a single element static array instead.
 
-I think you can just do `blink_set as _`.
+Ok. Just a comment will do?
 
-> +                    ),
-> +                    .. bindings::led_classdev::default()
-> +                }) };
-> +
-> +                let mut init_data = bindings::led_init_data {
-> +                    fwnode: init_data.fwnode.map_or(core::ptr::null_mut(), FwNode::as_raw),
-> +                    default_label: init_data.default_label
-> +                                            .map_or(core::ptr::null(), CStr::as_char_ptr),
-> +                    devicename: init_data.devicename.map_or(core::ptr::null(), CStr::as_char_ptr),
-> +                    devname_mandatory: init_data.devname_mandatory,
-> +                };
-> +
-> +                let parent = parent
-> +                    .map_or(core::ptr::null_mut(), device::Device::as_raw);
-> +
-> +                // SAFETY:
-> +                // - `parent` is guaranteed to be a pointer to a valid `device`
-> +                //    or a null pointer.
-> +                // - `ptr` is guaranteed to be a pointer to an initialized `led_classdev`.
-> +                to_result(unsafe {
-> +                    bindings::led_classdev_register_ext(parent, ptr, &mut init_data)
+>> +static const struct regmap_irq_chip bd72720_irq_chip = {
+>> +	.name = "bd72720_irq",
+>> +	.main_status = BD72720_REG_INT_LVL1_STAT,
+>> +	.irqs = &bd72720_irqs[0],
+>> +	.num_irqs = ARRAY_SIZE(bd72720_irqs),
+>> +	.status_base = BD72720_REG_INT_PS1_STAT,
+>> +	.unmask_base = BD72720_REG_INT_PS1_EN,
+>> +	.config_base = &bd72720_irq_type_base,
+>> +	.num_config_bases = 1,
+>> +	.num_config_regs = 2,
+>> +	.set_type_config = bd72720_set_type_config,
+>> +	.ack_base = BD72720_REG_INT_PS1_STAT,
+>> +	.init_ack_masked = true,
+>> +	.num_regs = 12,
+>> +	.num_main_regs = 1,
+>> +	.sub_reg_offsets = &bd72720_sub_irq_offsets[0],
+>> +	.num_main_status_bits = 8,
+>> +	.irq_reg_stride = 1,
+>> +};
+>> +
+>>   static int set_clk_mode(struct device *dev, struct regmap *regmap,
+>>   			int clkmode_reg)
+>>   {
+>> @@ -511,6 +882,25 @@ static void bd71828_remove_poweroff(void *data)
+>>   	pm_power_off = NULL;
+>>   }
+>>   
+>> +static int bd72720_get_secondary_regmap(struct i2c_client *i2c,
+> 
+> Does this 'secondary' have a specific purpose or a better name?
 
-So it's ok that `init_data` is valid for the duration of this call and
-no longer? It doesn't stash a pointer to it anywhere?
+I am not entirely sure. When I asked this from the designers they just 
+told me that they needed more than 255 registers so they added another 
+slave address... (I'm not sure what would have been wrong with using a 
+page register). So, I assume they just placed stuff that didn't fit in 
+first 255 register there. But yeah, it looks like most of the registers 
+there are related to the charger. So, perhaps it isn't completely 
+misleading to use "charger regmap"? The data-sheet seems to be just 
+using "Register map 1" and "Register map 2" in the tables listing these 
+registers. I kind of like using something which maps easily to the 
+data-sheet, but I really have no strong opinion on this.
 
-> +extern "C" fn brightness_set(led_cdev: *mut bindings::led_classdev, brightness: u32) {
-> +    // SAFETY: `led_cdev` is a valid pointer to a `led_classdev` stored inside a `Device`.
-> +    let classdev = unsafe {
-> +        &*container_of!(
-> +            led_cdev.cast::<Opaque<bindings::led_classdev>>(),
+>> +					const struct mfd_cell *mfd, int cells)
+>> +{
 
-Please use Opaque::cast_from instead.
+// snip
 
-> +    // SAFETY: `led_cdev` is a valid pointer to a `led_classdev` stored inside a `Device`.
-> +    let classdev = unsafe {
-> +        &*container_of!(
-> +            led_cdev.cast::<Opaque<bindings::led_classdev>>(),
-> +            Device,
-> +            classdev
-> +        )
-> +    };
+>> diff --git a/include/linux/mfd/rohm-bd72720.h b/include/linux/mfd/rohm-bd72720.h
+>> new file mode 100644
+>> index 000000000000..856a6962b1b2
+>> --- /dev/null
+>> +++ b/include/linux/mfd/rohm-bd72720.h
+>> @@ -0,0 +1,632 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/*
+>> + * Copyright 2024 ROHM Semiconductors.
+> 
+> Seems odd to introduce a new file with an old date.
 
-Instead of repeating this logic many times, I suggest a Device::from_raw
-method.
+I originally wrote this last year :) I can it update though. Thanks.
 
-> +extern "C" fn blink_set(
-> +    led_cdev: *mut bindings::led_classdev,
-> +    delay_on: *mut usize,
-> +    delay_off: *mut usize,
-> +) -> i32 {
-> +    // SAFETY: `led_cdev` is a valid pointer to a `led_classdev` stored inside a `Device`.
-> +    let classdev = unsafe {
-> +        &*container_of!(
-> +            led_cdev.cast::<Opaque<bindings::led_classdev>>(),
-> +            Device,
-> +            classdev
-> +        )
-> +    };
-> +    from_result(|| {
-> +        classdev.handler.blink_set(
-> +            // SAFETY: `delay_on` is guaranteed to be a valid pointer to usize
-> +            unsafe { &mut *delay_on },
-> +            // SAFETY: `delay_on` is guaranteed to be a valid pointer to usize
-> +            unsafe { &mut *delay_off },
+> 
+>> + *
+>> + * Author: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+>> + */
+>> +
+>> +#ifndef _MFD_BD72720_H
+>> +#define _MFD_BD72720_H
+>> +
+>> +#include <linux/regmap.h>
+>> +
+>> +enum {
+>> +	BD72720_BUCK1,
+>> +	BD72720_BUCK2,
+>> +	BD72720_BUCK3,
+>> +	BD72720_BUCK4,
+>> +	BD72720_BUCK5,
+>> +	BD72720_BUCK6,
+>> +	BD72720_BUCK7,
+>> +	BD72720_BUCK8,
+>> +	BD72720_BUCK9,
+>> +	BD72720_BUCK10,
+>> +	BD72720_BUCK11,
+>> +	BD72720_LDO1,
+>> +	BD72720_LDO2,
+>> +	BD72720_LDO3,
+>> +	BD72720_LDO4,
+>> +	BD72720_LDO5,
+>> +	BD72720_LDO6,
+>> +	BD72720_LDO7,
+>> +	BD72720_LDO8,
+>> +	BD72720_LDO9,
+>> +	BD72720_LDO10,
+>> +	BD72720_LDO11,
+>> +	BD72720_REGULATOR_AMOUNT,
+>> +};
+>> +
+>> +/* BD72720 interrupts */
+>> +#define BD72720_INT_LONGPUSH_MASK BIT(0)
+> 
+> Tab out the values please.
 
-To create a mutable reference, this safety comment should argue why it
-is the case that nobody will access these fields for the duration of
-`blink_set`. (For example, from another thread?)
+Ok, sure.
 
-Alice
+Ps.
+I do really appreciate you going through RFCs :) Kudos!
+
+Yours,
+	-- Matti
+
 
