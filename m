@@ -1,341 +1,287 @@
-Return-Path: <linux-leds+bounces-5722-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5723-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D275ABCCD69
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 14:09:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F86BCD029
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 15:03:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 875E23B7DE7
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 12:09:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6518D3BAC04
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Oct 2025 13:03:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E88D288C2D;
-	Fri, 10 Oct 2025 12:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 941002EFD8F;
+	Fri, 10 Oct 2025 13:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDgROrDJ"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="TTKfclH1"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7158A288C3B
-	for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 12:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A4853A7
+	for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 13:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760098154; cv=none; b=Au5wBfU4E/xLrjYTl9PoPajTQVU6RURG96IycEd2uzc4CtX0nl1fkd22IpiT/nWBqIIsCYGZxdyoHxAfDg3sACfkcuM9whASQlZ14f4xuFmT2VfOyDaNwg5cuQ9UgJkqhEsLx0IXdU3WCi/Zv1L/ifQ0TvPeEHvrP74rqmoh58w=
+	t=1760101394; cv=none; b=hFGEPF0tcc52ePXnpaipE3vmYHfmZTVQITfo+X8NiEsQArLLw6ug2oHp+KHEN0C14r635zI/9bfQMfSfrNI2H5Ukqhigx9MC6RmOi7JTTICAB1ZOp5z7lB13XfIXXFOqcdWxoLTeWl01+hoqCEwtnFgJiqsf9xPnlAS+GZCBGnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760098154; c=relaxed/simple;
-	bh=s9qnktjcv8VtwzZYiATpyxkv376jOmaSks+JF/0i/yY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b+aniRvEHdqQENGrCsMXbuMWKfuVnhllDnivDSZfIRX4SnhkUhDp+3T/GfHGjYxKwqArBPTBWo+jcFjmFVwnfwjTnFvELpwXJ/PkzN6aVzPr93SxaWU3wNgfKHNu3pGO7EvWXvvi+u2r7Nvq1DRwLM9AmH9tMdnKvRnPGAZ78AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDgROrDJ; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-36453927ffaso16731971fa.2
-        for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 05:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760098149; x=1760702949; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G4ZKKJF1rgzzv66FdFdHNcRihXsO8tluLNbeNizMoJ0=;
-        b=BDgROrDJCwQLBWwJMnmyPI9kmMOnBhP3p+7BnpJgZFRfRd0hn/HcnNQSxPUIWQxbgm
-         FRRzAOlZQVCirsVD6TP5nK9RXUEl0BNDK3w9BUwrrJTjKP/j5/HbNz3xIthLbe/vkgcd
-         2XQHpMgMcxsolJA6rQ7adMQWC6zA3pNBLe+rrBGWK6vtSkztG1b8emBhATglNijni+R8
-         zFPVmllzVWL6L9GJvboZRyg5WUKOaQ3lyJkfQVOgXyM4qDn55wRGD080qsfUjOeTj5em
-         vF6+8dMFFJRBKAKGu1Kop2HJ7scmYesnNH0XaFliYnnQ55eXdJR1lcAnhX35mSb+C710
-         VgNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760098149; x=1760702949;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G4ZKKJF1rgzzv66FdFdHNcRihXsO8tluLNbeNizMoJ0=;
-        b=chu0U2Av6iXm79kYQLBRWl5fxtC4P1ip8zsXJJ8jz8lKqeFvBEG1QHOsLHcoyl4GQA
-         nafUba/RWO4iqrpjj1fUvEyt9rzz7e5QehIZo7a0n/osL0tUDN88tifYGvdunDXLxaP7
-         dbTgAkHtr69K2Q8rKoBiJH8VtpPnG4KEs/kE0kKXALpsso/dYaeJIAgs51LsIg/TXJQv
-         Wga1JIv7/rDBbpPr2U4KhSPhINwzhsE+R61VNhgj7twqjelbDeangmm+GoTyNJ00OafE
-         u3LO5KcFmYhBwMcuUZ0Rb8ag/PQAoUNfkj8BXwHFmnxwxe4VwRg0dKxOXftpcfu3QmgL
-         dUpg==
-X-Forwarded-Encrypted: i=1; AJvYcCWnAb+xJLpRf5McrgG1MoPMSmllGaEXtJ79e26G0t8YG6Cq3lCe/IyryY9XHlGtRyd/vUjOsCkiA8ax@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTfemZ5hPMjuo47u+LH1QZdITruUCSj1q7WDTHQLRyPgfCZh7r
-	oDaYbkqN1TbiKKjuXnA7a1yym8G9bF5I0M0PUAwRTbQuCHJVTTpYb3nE
-X-Gm-Gg: ASbGncvBy6/wQVGMFIO+TAhpeOrgW7FIeOsNmbZfnPGSQo6TxhpirIa/nmYkpnWAAXK
-	SG3RDEYVDUzIx8iKZ1iZ0LHwc5dzTS0JJei40p55ueaMHHi/2A+1wrl3rM30aFuSQ4bfuLZcU2W
-	vVgAmrMXiRHETd3HNcmE+B31cyoQwmWUFi+KRaEe0Cg1Ri7e+vbMyYeZfZd9L1oc+nSLTEup2B7
-	4OLdqAHjCBy2EOZ3FRVAJ9je7c9NORhejw0RxS5lj7dXhjtZ+YYuXVcnv2LBzqv2Hm3DaOZkCK7
-	mHUsSn+ZhwldqAx/vBVrh/TKVElwhcouJRlbjkOWizeEwEzypKOX2sXbd+PD7oS3SwnzVz+kj5q
-	0zcDfGukzNaETxe5A3jdzxx+uzQ39/kHFPdsR6QNZJfGQjPd2U/loDXKmluqjTntSGZcVwTvjcM
-	aNDvvM6djcdmT7MpbsEJP6K7la7vGUH28s+w==
-X-Google-Smtp-Source: AGHT+IH3knEaO7uQwDSiykr6b7dNy3NcVzjxL7nST2lJTVdnkH3+ref73CXvsxpJUFDrDoKyyQ0hew==
-X-Received: by 2002:a05:651c:435c:20b0:376:3a83:428d with SMTP id 38308e7fff4ca-3763a8353e9mr2470301fa.48.1760098149101;
-        Fri, 10 Oct 2025 05:09:09 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088577836sm820546e87.100.2025.10.10.05.09.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 05:09:08 -0700 (PDT)
-Message-ID: <8ea507eb-f78c-4a16-882b-112e277fa1b6@gmail.com>
-Date: Fri, 10 Oct 2025 15:09:07 +0300
+	s=arc-20240116; t=1760101394; c=relaxed/simple;
+	bh=Eu2Qc4KaT+NnDHmLVMT2oqGbuA6SS5VAnlNjCDUa09M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pmASB69nwwh8kviAwMbJxCXB3Is2Zk5F2Gn0LDBTvR5ZGpEWk1OwL3SKMYF6Y/W1xTHmfqde+5LrNeiMaxIhY9B91avKNyrpWqdBuhBcg+xmW5RQiJAtWxMZaFmIyvKjcJ77jmcjBzWjQ3xtPSUo9ehasOY8Z5wkWjzCypfre5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=TTKfclH1; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 22629240029
+	for <linux-leds@vger.kernel.org>; Fri, 10 Oct 2025 15:03:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1760101390; bh=Eu2Qc4KaT+NnDHmLVMT2oqGbuA6SS5VAnlNjCDUa09M=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:Autocrypt:OpenPGP:From;
+	b=TTKfclH1fSqqF4NwZoW8jgsF1+Izmy8xgnfBrEBn94J5L8VABOSr7Eyc8srlPT8Fi
+	 5O6CSvAwKTpjugZZvJqtJ8pdN0YskbqqJEe8mqruyu+ozV5BYdSe4VKi6deKV+YPUl
+	 B0rCUlynJQhTfp+VoSMLlNFU+OToT/TWNsKnCbCw+cpy3cpkjyZbVlR2C67WtWwxV9
+	 BLOypcefFuM+3TcFtgd/cVvoUl6imZbx6SCCHvuMQZq/84H30lEw6XC81p1tAt/pGs
+	 BqwTE5XXoTOZCZWbmNnN49wL2UWWOxORpaIBjfeuAMd4iMaSBiZzUpHxeNodFYGQLG
+	 1g1DL9HUxNbWQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cjn3b3RVZz6v20;
+	Fri, 10 Oct 2025 15:03:07 +0200 (CEST)
+Message-ID: <eb61decbcc8cb31525ad61cef04a227e10a85766.camel@posteo.de>
+Subject: Re: [PATCH v2 2/2] rust: leds: add basic led classdev abstractions
+From: Markus Probst <markus.probst@posteo.de>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek <pavel@kernel.org>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, "Liam R. Howlett"	
+ <Liam.Howlett@oracle.com>, Uladzislau Rezki <urezki@gmail.com>, Boqun Feng	
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com,  Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org
+Date: Fri, 10 Oct 2025 13:03:09 +0000
+In-Reply-To: <aOjw6QtVArJ807MX@google.com>
+References: <20251009181203.248471-1-markus.probst@posteo.de>
+	 <20251009181203.248471-3-markus.probst@posteo.de>
+	 <aOjw6QtVArJ807MX@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 06/13] mfd: bd71828: Support ROHM BD72720
-To: Lee Jones <lee@kernel.org>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andreas Kemnade <andreas@kemnade.info>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-gpio@vger.kernel.org
-References: <cover.1759824376.git.mazziesaccount@gmail.com>
- <93142a80d90a0ac80b27090d0c83914675aad94d.1759824376.git.mazziesaccount@gmail.com>
- <20251009161847.GE2890766@google.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20251009161847.GE2890766@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-Hi deee Ho Lee,
-
-And Thanks for the review!
-
-On 09/10/2025 19:18, Lee Jones wrote:
-> On Tue, 07 Oct 2025, Matti Vaittinen wrote:
-> 
->> The ROHM BD72720 is a power management IC which continues the BD71828
->> family of PMICs. Similarly to the BD71815 and BD71828, the BD72720
->> integrates regulators, charger, RTC, clock gate and GPIOs.
->>
->> The main difference to the earlier PMICs is that the BD72720 has two
->> different I2C slave addresses. In addition to the registers behind the
->> 'main I2C address', most of the charger (and to some extent LED) control
->> is done via registers behind a 'secondary I2C slave address', 0x4c.
->>
->> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>
->> ---
->> Note: This patch depends on the series: "power: supply: add charger for
->> BD71828" by Andreas:
->> https://lore.kernel.org/all/20250918-bd71828-charger-v5-0-851164839c28@kemnade.info/
->>
->> There are some new variants being planned. Most notably, the BD73900
->> should be almost identical to the BD72720 - for everything else except
->> the charger block.
->> ---
-
-// snip
-
->> +
->> +static struct regmap *bd72720_secondary_regmap;
-> 
-> Dynamically allocate this and add it to .platform_data once it's
-> populated.
-> 
-
-This can be done but I suppose it's unnecessary churn. This driver does 
-not (at the moment) support more than one instance of the PMIC anyways. 
-(The button data is not alloacted).
-
-This is not really a problem as typically there is only 1 of these PMICs 
-to be controlled.
-
-// snip
-
->>   
->> +/*
->> + * The BD72720 is an odd beast in that it contains two separate sets of
->> + * registers, both starting from address 0x0. The twist is that these "pages"
->> + * are behind different I2C slave addresses. Most of the registers are behind
->> + * a slave address 0x4b, which will be used as the "main" address for this
->> + * device.
->> + * Most of the charger related registers are located behind slave address 0x4c.
->> + * It is tempting to push the dealing with the charger registers and the extra
->> + * 0x4c device in power-supply driver - but perhaps it's better for the sake of
->> + * the cleaner re-use to deal with setting up all of the regmaps here.
->> + * Furthermore, the LED stuff may need access to both of these devices.
->> + */
->> +#define BD72720_SECONDARY_I2C_SLAVE 0x4c
->> +static const struct regmap_range bd72720_volatile_ranges_4b[] = {
->> +	{
->> +		/* RESETSRC1 and 2 are write '1' to clear */
->> +		.range_min = BD72720_REG_RESETSRC_1,
->> +		.range_max = BD72720_REG_RESETSRC_2,
-> 
-> regmap_reg_range()?
-
-Ah, thanks. Out of the curiosity - do you know why this macro is written 
-on lowercase?
-
-// snip
->> +static int bd72720_set_type_config(unsigned int **buf, unsigned int type,
->> +				   const struct regmap_irq *irq_data,
->> +				   int idx, void *irq_drv_data)
->> +{
->> +	const struct regmap_irq_type *t = &irq_data->type;
->> +
->> +	/*
->> +	 * The regmap IRQ ecpects IRQ_TYPE_EDGE_BOTH to be written to register
->> +	 * as logical OR of the type_falling_val and type_rising_val. This is
->> +	 * not how the BD72720 implements this configuration, hence we need
->> +	 * to handle this specific case separately.
->> +	 */
->> +	if (type == IRQ_TYPE_EDGE_BOTH) {
->> +		buf[0][idx] &= ~t->type_reg_mask;
->> +		buf[0][idx] |= BD72720_GPIO_IRQ_TYPE_BOTH;
->> +
->> +		return 0;
->> +	}
->> +
->> +	return regmap_irq_set_type_config_simple(buf, type, irq_data, idx,
->> +						 irq_drv_data);
-> 
-> Use 100-chars to avoid these pointless wraps please.
-
-gnarl. I think we have discussed this before :)
-I would love to keep the lines short - closer to 80 chars - because that 
-way I can fit 3 terminals on my screen. All the years spent staring at 
-the monitor are taking their toll, and my vision isn't as good as it 
-used to be. Frightening thing being that it seems I will only need to 
-increase the font in the future :/
-
-Well, sure the lines can be split if you feel strongly about it - but I 
-have a real reason (other than the usual - "they have always been like 
-that") to try keep them short...
-
->> +}
->> +
->>   static const struct regmap_irq_chip bd71828_irq_chip = {
->>   	.name = "bd71828_irq",
->>   	.main_status = BD71828_REG_INT_MAIN,
->> @@ -465,6 +814,28 @@ static const struct regmap_irq_chip bd71815_irq_chip = {
->>   	.irq_reg_stride = 1,
->>   };
->>   
->> +static const unsigned int bd72720_irq_type_base = BD72720_REG_GPIO1_CTRL;
-> 
-> This makes it look like a global variable, which I am allergic to.
-> 
-> Perhaps make it clear that this is a single element static array instead.
-
-Ok. Just a comment will do?
-
->> +static const struct regmap_irq_chip bd72720_irq_chip = {
->> +	.name = "bd72720_irq",
->> +	.main_status = BD72720_REG_INT_LVL1_STAT,
->> +	.irqs = &bd72720_irqs[0],
->> +	.num_irqs = ARRAY_SIZE(bd72720_irqs),
->> +	.status_base = BD72720_REG_INT_PS1_STAT,
->> +	.unmask_base = BD72720_REG_INT_PS1_EN,
->> +	.config_base = &bd72720_irq_type_base,
->> +	.num_config_bases = 1,
->> +	.num_config_regs = 2,
->> +	.set_type_config = bd72720_set_type_config,
->> +	.ack_base = BD72720_REG_INT_PS1_STAT,
->> +	.init_ack_masked = true,
->> +	.num_regs = 12,
->> +	.num_main_regs = 1,
->> +	.sub_reg_offsets = &bd72720_sub_irq_offsets[0],
->> +	.num_main_status_bits = 8,
->> +	.irq_reg_stride = 1,
->> +};
->> +
->>   static int set_clk_mode(struct device *dev, struct regmap *regmap,
->>   			int clkmode_reg)
->>   {
->> @@ -511,6 +882,25 @@ static void bd71828_remove_poweroff(void *data)
->>   	pm_power_off = NULL;
->>   }
->>   
->> +static int bd72720_get_secondary_regmap(struct i2c_client *i2c,
-> 
-> Does this 'secondary' have a specific purpose or a better name?
-
-I am not entirely sure. When I asked this from the designers they just 
-told me that they needed more than 255 registers so they added another 
-slave address... (I'm not sure what would have been wrong with using a 
-page register). So, I assume they just placed stuff that didn't fit in 
-first 255 register there. But yeah, it looks like most of the registers 
-there are related to the charger. So, perhaps it isn't completely 
-misleading to use "charger regmap"? The data-sheet seems to be just 
-using "Register map 1" and "Register map 2" in the tables listing these 
-registers. I kind of like using something which maps easily to the 
-data-sheet, but I really have no strong opinion on this.
-
->> +					const struct mfd_cell *mfd, int cells)
->> +{
-
-// snip
-
->> diff --git a/include/linux/mfd/rohm-bd72720.h b/include/linux/mfd/rohm-bd72720.h
->> new file mode 100644
->> index 000000000000..856a6962b1b2
->> --- /dev/null
->> +++ b/include/linux/mfd/rohm-bd72720.h
->> @@ -0,0 +1,632 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/*
->> + * Copyright 2024 ROHM Semiconductors.
-> 
-> Seems odd to introduce a new file with an old date.
-
-I originally wrote this last year :) I can it update though. Thanks.
-
-> 
->> + *
->> + * Author: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
->> + */
->> +
->> +#ifndef _MFD_BD72720_H
->> +#define _MFD_BD72720_H
->> +
->> +#include <linux/regmap.h>
->> +
->> +enum {
->> +	BD72720_BUCK1,
->> +	BD72720_BUCK2,
->> +	BD72720_BUCK3,
->> +	BD72720_BUCK4,
->> +	BD72720_BUCK5,
->> +	BD72720_BUCK6,
->> +	BD72720_BUCK7,
->> +	BD72720_BUCK8,
->> +	BD72720_BUCK9,
->> +	BD72720_BUCK10,
->> +	BD72720_BUCK11,
->> +	BD72720_LDO1,
->> +	BD72720_LDO2,
->> +	BD72720_LDO3,
->> +	BD72720_LDO4,
->> +	BD72720_LDO5,
->> +	BD72720_LDO6,
->> +	BD72720_LDO7,
->> +	BD72720_LDO8,
->> +	BD72720_LDO9,
->> +	BD72720_LDO10,
->> +	BD72720_LDO11,
->> +	BD72720_REGULATOR_AMOUNT,
->> +};
->> +
->> +/* BD72720 interrupts */
->> +#define BD72720_INT_LONGPUSH_MASK BIT(0)
-> 
-> Tab out the values please.
-
-Ok, sure.
-
-Ps.
-I do really appreciate you going through RFCs :) Kudos!
-
-Yours,
-	-- Matti
+T24gRnJpLCAyMDI1LTEwLTEwIGF0IDExOjQxICswMDAwLCBBbGljZSBSeWhsIHdyb3RlOgo+IE9u
+IFRodSwgT2N0IDA5LCAyMDI1IGF0IDA2OjEyOjM0UE0gKzAwMDAsIE1hcmt1cyBQcm9ic3Qgd3Jv
+dGU6Cj4gPiBJbXBsZW1lbnQgdGhlIGNvcmUgYWJzdHJhY3Rpb25zIG5lZWRlZCBmb3IgbGVkIGNs
+YXNzIGRldmljZXMsCj4gPiBpbmNsdWRpbmc6Cj4gPiAKPiA+ICogYGxlZDo6SGFuZGxlcmAgLSB0
+aGUgdHJhaXQgZm9yIGhhbmRsaW5nIGxlZHMsIGluY2x1ZGluZwo+ID4gwqAgYGJyaWdodG5lc3Nf
+c2V0YAo+ID4gCj4gPiAqIGBsZWQ6OkluaXREYXRhYCAtIGRhdGEgc2V0IGZvciB0aGUgbGVkIGNs
+YXNzIGRldmljZQo+ID4gCj4gPiAqIGBsZWQ6OkRldmljZWAgLSBhIHNhZmUgd3JhcHBlciBhcm91
+bmQgYGxlZF9jbGFzc2RldmAKPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogTWFya3VzIFByb2JzdCA8
+bWFya3VzLnByb2JzdEBwb3N0ZW8uZGU+Cj4gCj4gPiArLy8vIFRoZSBsZWQgY2xhc3MgZGV2aWNl
+IHJlcHJlc2VudGF0aW9uLgo+ID4gKy8vLwo+ID4gKy8vLyBUaGlzIHN0cnVjdHVyZSByZXByZXNl
+bnRzIHRoZSBSdXN0IGFic3RyYWN0aW9uIGZvciBhIEMgYHN0cnVjdAo+ID4gbGVkX2NsYXNzZGV2
+YC4KPiA+ICsjW3Bpbl9kYXRhKFBpbm5lZERyb3ApXQo+ID4gK3B1YiBzdHJ1Y3QgRGV2aWNlIHsK
+PiA+ICvCoMKgwqAgaGFuZGxlcjogS0JveDxkeW4gSGFuZGxlckltcGw+LAo+ID4gK8KgwqDCoCAj
+W3Bpbl0KPiA+ICvCoMKgwqAgY2xhc3NkZXY6IE9wYXF1ZTxiaW5kaW5nczo6bGVkX2NsYXNzZGV2
+PiwKPiA+ICt9Cj4gCj4gSXMgaXQgbm90IHBvc3NpYmxlIHRvIHVzZSBEZXZpY2U8VD4gd2l0aCBh
+IGBoYW5kbGVyOiBUYCBmaWVsZCBoZXJlPwo+IFRoYXQKPiBhdm9pZHMgdGhlIGJveC4gSSBkb24n
+dCB0aGluayBvdGhlciBhYnN0cmFjdGlvbnMgaGF2ZSBuZWVkZWQgdGhhdC4gSWYKPiBpdCdzIG5l
+ZWRlZCwgdGhlbiB3aHkgaXMgTEVEIHNwZWNpYWw/ClRoZSBoYW5kbGVyIHZhcmlhYmxlIGlzIGRl
+ZmluZWQsIGJlY2F1c2UgbGVkcyB1c3VhbGx5IHN0b3JlIGFkZGl0aW9uYWwKZGF0YS4gSWYgYW4g
+bGVkIGRyaXZlciBoYXMgbXVsdGlwbGUgbGVkcywgaXQgbmVlZHMgdG8ga25vdyB3aGljaCBvbmUs
+CndpdGhvdXQgZGVmaW5pbmcgZm9yIGVhY2ggbGVkIGl0cyBvd24gc3RydWN0LiBJdCBhbHNvIG5l
+ZWRzIGFjY2VzcyB0bwpyZXNvdXJjZXMgd2hpY2ggYWxsb3dzIGl0IHRvIGNvbnRyb2wgdGhlIGxl
+ZHMsIGUuZy4gSTJjQ2xpZW50IChoYXNuJ3QKYmVlbiBtZXJnZWQgeWV0KSwgSW8gYW5kIHNvIG9u
+LgoKSXQgaXMgcG9zc2libGUgdG8gc3RvcmUgaGFuZGxlcjogVCwgYnV0IEkgd291bGQgbm90IGtu
+b3cgYSB3YXkgdG8gY2FsbAppdCBkeW5hbWljYWxseSwgYmVjYXVzZSBUIGlzIHVua25vd24gYXQg
+YnJpZ2h0bmVzc19zZXQsCmJyaWdodG5lc3Nfc2V0X2Jsb2NraW5nIGFuZCBibGlua19zZXQgbWV0
+aG9kcy4KCkkgY291bGQgbWF5YmUgd29yayBpdCBhcm91bmQgYnkgY3JlYXRpbmcgdW5zYWZlIGV4
+dGVybiAiQyIgbWV0aG9kcyB3aXRoCm1ldGhvZCBib2R5IHByZS1kZWZpbmVkIGluIHRoZSBIYW5k
+bGVyIHRyYWl0LCB3aGljaCBpcyB0aGVuIHVzZWQgdG8KcmVmZXJlbmNlIGJyaWdodG5lc3Nfc2V0
+IGV0Yy4gZGlyZWN0bHkgdGhvdWdoLgoKPiAKPiA+ICsvLy8gVGhlIGxlZCBoYW5kbGVyIHRyYWl0
+Lgo+ID4gKy8vLwo+ID4gKy8vLyAjIEV4YW1wbGVzCj4gPiArLy8vCj4gPiArLy8vYGBgCj4gPiAr
+Ly8vICMgdXNlIGtlcm5lbDo6e2Nfc3RyLCBsZWQsIGFsbG9jOjpLQm94LCBlcnJvcjo6e1Jlc3Vs
+dCwKPiA+IGNvZGU6OkVOT1NZU319Owo+ID4gKy8vLyAjIHVzZSBjb3JlOjpwaW46OlBpbjsKPiA+
+ICsvLy8KPiA+ICsvLy8gc3RydWN0IE15SGFuZGxlcjsKPiA+ICsvLy8KPiA+ICsvLy8KPiA+ICsv
+Ly8gaW1wbCBsZWQ6OkhhbmRsZXIgZm9yIE15SGFuZGxlciB7Cj4gPiArLy8vwqDCoMKgwqAgY29u
+c3QgQkxPQ0tJTkcgPSBmYWxzZTsKPiA+ICsvLy/CoMKgwqDCoCBjb25zdCBNQVhfQlJJR0hUTkVT
+UyA9IDI1NTsKPiA+ICsvLy8KPiA+ICsvLy/CoMKgwqDCoCBmbiBicmlnaHRuZXNzX3NldCgmc2Vs
+ZiwgX2JyaWdodG5lc3M6IHUzMikgLT4gUmVzdWx0PCgpPiB7Cj4gPiArLy8vwqDCoMKgwqDCoMKg
+wqDCoCAvLyBTZXQgdGhlIGJyaWdodG5lc3MgZm9yIHRoZSBsZWQgaGVyZQo+ID4gKy8vL8KgwqDC
+oMKgwqDCoMKgwqAgT2soKCkpCj4gPiArLy8vwqDCoMKgwqAgfQo+ID4gKy8vLyB9Cj4gPiArLy8v
+Cj4gPiArLy8vIGZuIHJlZ2lzdGVyX215X2xlZCgpIC0+IFJlc3VsdDxQaW48S0JveDxsZWQ6OkRl
+dmljZT4+PiB7Cj4gPiArLy8vwqDCoMKgwqAgbGV0IGhhbmRsZXIgPSBNeUhhbmRsZXI7Cj4gPiAr
+Ly8vwqDCoMKgwqAgS0JveDo6cGluX2luaXQobGVkOjpEZXZpY2U6Om5ldygKPiA+ICsvLy/CoMKg
+wqDCoMKgwqDCoMKgIE5vbmUsCj4gPiArLy8vwqDCoMKgwqDCoMKgwqDCoCBOb25lLAo+ID4gKy8v
+L8KgwqDCoMKgwqDCoMKgwqAgbGVkOjpJbml0RGF0YTo6bmV3KCkKPiA+ICsvLy/CoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgLmRlZmF1bHRfbGFiZWwoY19zdHIhKCJteV9sZWQiKSksCj4gPiArLy8v
+wqDCoMKgwqDCoMKgwqDCoCBoYW5kbGVyLAo+ID4gKy8vL8KgwqDCoMKgICkpCj4gPiArLy8vIH0K
+PiA+ICsvLy9gYGAKPiA+ICsvLy8gTGVkIGRyaXZlcnMgbXVzdCBpbXBsZW1lbnQgdGhpcyB0cmFp
+dCBpbiBvcmRlciB0byByZWdpc3RlciBhbmQKPiA+IGhhbmRsZSBhIFtgRGV2aWNlYF0uCj4gPiAr
+cHViIHRyYWl0IEhhbmRsZXIgewo+ID4gK8KgwqDCoCAvLy8gSWYgc2V0IHRydWUsIFtgSGFuZGxl
+cjo6YnJpZ2h0bmVzc19zZXRgXSBhbmQKPiA+IFtgSGFuZGxlcjo6Ymxpbmtfc2V0YF0gbXVzdCBu
+b3Qgc2xlZXAKPiA+ICvCoMKgwqAgLy8vIGFuZCBwZXJmb3JtIHRoZSBvcGVyYXRpb24gaW1tZWRp
+YXRlbHkuCj4gPiArwqDCoMKgIGNvbnN0IEJMT0NLSU5HOiBib29sOwo+ID4gK8KgwqDCoCAvLy8g
+U2V0IHRoaXMgdG8gdHJ1ZSwgaWYgW2BIYW5kbGVyOjpibGlua19zZXRgXSBpcwo+ID4gaW1wbGVt
+ZW50ZWQuCj4gPiArwqDCoMKgIGNvbnN0IEJMSU5LOiBib29sID0gZmFsc2U7Cj4gCj4gV2UgaGF2
+ZSBhIG1hY3JvIGNhbGxlZCAjW3Z0YWJsZV0gdGhhdCBhdXRvbWF0aWNhbGx5IGdlbmVyYXRlcyB0
+aGlzCj4ga2luZAo+IG9mIGNvbnN0YW50IGZvciB5b3UuIFBsZWFzZSB1c2UgaXQuCj4gCj4gPiAr
+aW1wbCBEZXZpY2Ugewo+ID4gK8KgwqDCoCAvLy8gUmVnaXN0ZXJzIGEgbmV3IGxlZCBjbGFzc2Rl
+di4KPiA+ICvCoMKgwqAgLy8vCj4gPiArwqDCoMKgIC8vLyBUaGUgW2BEZXZpY2VgXSB3aWxsIGJl
+IHVucmVnaXN0ZXJlZCBhbmQgZHJvcC4KPiA+ICvCoMKgwqAgcHViIGZuIG5ldzwnYSwgVDogSGFu
+ZGxlciArICdzdGF0aWM+KAo+ID4gK8KgwqDCoMKgwqDCoMKgIHBhcmVudDogT3B0aW9uPCYnYSBk
+ZXZpY2U6OkRldmljZT4sCj4gPiArwqDCoMKgwqDCoMKgwqAgaW5pdF9kYXRhOiBJbml0RGF0YTwn
+YT4sCj4gPiArwqDCoMKgwqDCoMKgwqAgaGFuZGxlcjogVCwKPiA+ICvCoMKgwqAgKSAtPiBpbXBs
+IFBpbkluaXQ8U2VsZiwgRXJyb3I+ICsgdXNlPCdhLCBUPiB7Cj4gPiArwqDCoMKgwqDCoMKgwqAg
+dHJ5X3Bpbl9pbml0IShTZWxmIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhhbmRsZXIg
+PC0gewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsZXQgaGFuZGxlcjogS0Jv
+eDxkeW4gSGFuZGxlckltcGw+ID0KPiA+IEtCb3g6OjxUPjo6bmV3KGhhbmRsZXIsIEdGUF9LRVJO
+RUwpPzsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgT2s6OjxfLCBFcnJvcj4o
+aGFuZGxlcikKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0sCj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBjbGFzc2RldiA8LSBPcGFxdWU6OnRyeV9mZmlfaW5pdCh8cHRyOiAqbXV0Cj4g
+PiBiaW5kaW5nczo6bGVkX2NsYXNzZGV2fCB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIC8vIFNBRkVUWTogYHRyeV9mZmlfaW5pdGAgZ3VhcmFudGVlcyB0aGF0IGBwdHJgIGlz
+Cj4gPiB2YWxpZCBmb3Igd3JpdGUuCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHVuc2FmZSB7IHB0ci53cml0ZShiaW5kaW5nczo6bGVkX2NsYXNzZGV2IHsKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtYXhfYnJpZ2h0bmVzczogVDo6TUFYX0JS
+SUdIVE5FU1MsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJp
+Z2h0bmVzc19zZXQ6IFQ6OkJMT0NLSU5HLnRoZW5fc29tZSgKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyaWdodG5lc3Nfc2V0IGFzIHVuc2FmZSBl
+eHRlcm4gIkMiCj4gPiBmbigqbXV0IGJpbmRpbmdzOjpsZWRfY2xhc3NkZXYsIHUzMikKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCApLAo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyaWdodG5lc3Nfc2V0X2Jsb2NraW5nOgo+ID4g
+KCFUOjpCTE9DS0lORykudGhlbl9zb21lKAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJpZ2h0bmVzc19zZXRfYmxvY2tpbmcKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXMgdW5zYWZl
+IGV4dGVybiAiQyIgZm4oKm11dAo+ID4gYmluZGluZ3M6OmxlZF9jbGFzc2Rldix1MzIpIC0+IGkz
+Mgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICksCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmxpbmtfc2V0OiBUOjpCTElOSy50
+aGVuX3NvbWUoCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBibGlua19zZXQKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgYXMgdW5zYWZlIGV4dGVybiAiQyIgZm4oKm11dAo+ID4gYmluZGlu
+Z3M6OmxlZF9jbGFzc2RldiwgKm11dCB1c2l6ZSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKm11dCB1c2l6ZSkgLT4KPiA+IGkzMgo+IAo+IEkgdGhp
+bmsgeW91IGNhbiBqdXN0IGRvIGBibGlua19zZXQgYXMgX2AuCj4gCj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAuLiBiaW5kaW5nczo6bGVkX2NsYXNzZGV2OjpkZWZhdWx0KCkKPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfSkgfTsKPiA+ICsKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGV0IG11dCBpbml0X2RhdGEgPSBiaW5kaW5nczo6bGVk
+X2luaXRfZGF0YSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Zndub2RlOgo+ID4gaW5pdF9kYXRhLmZ3bm9kZS5tYXBfb3IoY29yZTo6cHRyOjpudWxsX211dCgp
+LCBGd05vZGU6OmFzX3JhdyksCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZGVmYXVsdF9sYWJlbDogaW5pdF9kYXRhLmRlZmF1bHRfbGFiZWwKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gLm1hcF9vcihjb3JlOjpwdHI6Om51bGwoKSwgQ1N0
+cjo6YXNfY2hhcl9wdHIpLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGRldmljZW5hbWU6Cj4gPiBpbml0X2RhdGEuZGV2aWNlbmFtZS5tYXBfb3IoY29yZTo6cHRy
+OjpudWxsKCksIENTdHI6OmFzX2NoYXJfcHRyKSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBkZXZuYW1lX21hbmRhdG9yeToKPiA+IGluaXRfZGF0YS5kZXZuYW1l
+X21hbmRhdG9yeSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfTsKPiA+ICsK
+PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGV0IHBhcmVudCA9IHBhcmVudAo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5tYXBfb3IoY29yZTo6
+cHRyOjpudWxsX211dCgpLAo+ID4gZGV2aWNlOjpEZXZpY2U6OmFzX3Jhdyk7Cj4gPiArCj4gPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWToKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgLy8gLSBgcGFyZW50YCBpcyBndWFyYW50ZWVkIHRvIGJlIGEg
+cG9pbnRlciB0byBhCj4gPiB2YWxpZCBgZGV2aWNlYAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAvL8KgwqDCoCBvciBhIG51bGwgcG9pbnRlci4KPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgLy8gLSBgcHRyYCBpcyBndWFyYW50ZWVkIHRvIGJlIGEgcG9pbnRl
+ciB0byBhbgo+ID4gaW5pdGlhbGl6ZWQgYGxlZF9jbGFzc2RldmAuCj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHRvX3Jlc3VsdCh1bnNhZmUgewo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJpbmRpbmdzOjpsZWRfY2xhc3NkZXZfcmVnaXN0ZXJf
+ZXh0KHBhcmVudCwKPiA+IHB0ciwgJm11dCBpbml0X2RhdGEpCj4gCj4gU28gaXQncyBvayB0aGF0
+IGBpbml0X2RhdGFgIGlzIHZhbGlkIGZvciB0aGUgZHVyYXRpb24gb2YgdGhpcyBjYWxsCj4gYW5k
+Cj4gbm8gbG9uZ2VyPyBJdCBkb2Vzbid0IHN0YXNoIGEgcG9pbnRlciB0byBpdCBhbnl3aGVyZT8K
+aW5pdF9kYXRhLT5wYXJlbnQgaGFzIGEgcmVmZXJlbmNlIGNvdW50IChpdCBleGlzdHMgYXMgbG9u
+ZyBhcyB0aGUKbGVkX2NsYXNzZGV2KQppbml0X2RhdGEtPmRldmljZW5hbWUgd2lsbCBvbmx5IGJl
+IHVzZWQgb24gcmVnaXN0ZXIgKHRvIGJ1aWxkIHRoZQpsZWRfY2xhc3NkZXYgbmFtZSBhbG9uZ3Np
+ZGUgb3RoZXIgcGFyYW1ldGVycykKaW5pdF9kYXRhLT5md25vZGUgd2lsbCBiZSBhY2Nlc3NlZCBv
+biByZWdpc3RlciBhbmQgc3RvcmVkIGluCmxlZF9jbGFzc2Rldi4gSSBsb29rZWQgYXQgdGhlIGZ1
+bmN0aW9uIGFnYWluLCB0byBteSBzdXJwcmlzIGl0IGRvZXMgbm90CmluY3JlbWVudCB0aGUgcmVm
+ZXJlbmNlIGNvdW50IG9mIGZ3bm9kZSwgc28gdGhpcyBjb3VsZCBiZSBhbiBpc3N1ZS4KCj4gCj4g
+PiArZXh0ZXJuICJDIiBmbiBicmlnaHRuZXNzX3NldChsZWRfY2RldjogKm11dAo+ID4gYmluZGlu
+Z3M6OmxlZF9jbGFzc2RldiwgYnJpZ2h0bmVzczogdTMyKSB7Cj4gPiArwqDCoMKgIC8vIFNBRkVU
+WTogYGxlZF9jZGV2YCBpcyBhIHZhbGlkIHBvaW50ZXIgdG8gYSBgbGVkX2NsYXNzZGV2YAo+ID4g
+c3RvcmVkIGluc2lkZSBhIGBEZXZpY2VgLgo+ID4gK8KgwqDCoCBsZXQgY2xhc3NkZXYgPSB1bnNh
+ZmUgewo+ID4gK8KgwqDCoMKgwqDCoMKgICYqY29udGFpbmVyX29mISgKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGxlZF9jZGV2LmNhc3Q6OjxPcGFxdWU8YmluZGluZ3M6OmxlZF9jbGFzc2Rl
+dj4+KCksCj4gCj4gUGxlYXNlIHVzZSBPcGFxdWU6OmNhc3RfZnJvbSBpbnN0ZWFkLgo+IAo+ID4g
+K8KgwqDCoCAvLyBTQUZFVFk6IGBsZWRfY2RldmAgaXMgYSB2YWxpZCBwb2ludGVyIHRvIGEgYGxl
+ZF9jbGFzc2RldmAKPiA+IHN0b3JlZCBpbnNpZGUgYSBgRGV2aWNlYC4KPiA+ICvCoMKgwqAgbGV0
+IGNsYXNzZGV2ID0gdW5zYWZlIHsKPiA+ICvCoMKgwqDCoMKgwqDCoCAmKmNvbnRhaW5lcl9vZiEo
+Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsZWRfY2Rldi5jYXN0Ojo8T3BhcXVlPGJpbmRp
+bmdzOjpsZWRfY2xhc3NkZXY+PigpLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRGV2aWNl
+LAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2xhc3NkZXYKPiA+ICvCoMKgwqDCoMKgwqDC
+oCApCj4gPiArwqDCoMKgIH07Cj4gCj4gSW5zdGVhZCBvZiByZXBlYXRpbmcgdGhpcyBsb2dpYyBt
+YW55IHRpbWVzLCBJIHN1Z2dlc3QgYQo+IERldmljZTo6ZnJvbV9yYXcKPiBtZXRob2QuCj4gCj4g
+PiArZXh0ZXJuICJDIiBmbiBibGlua19zZXQoCj4gPiArwqDCoMKgIGxlZF9jZGV2OiAqbXV0IGJp
+bmRpbmdzOjpsZWRfY2xhc3NkZXYsCj4gPiArwqDCoMKgIGRlbGF5X29uOiAqbXV0IHVzaXplLAo+
+ID4gK8KgwqDCoCBkZWxheV9vZmY6ICptdXQgdXNpemUsCj4gPiArKSAtPiBpMzIgewo+ID4gK8Kg
+wqDCoCAvLyBTQUZFVFk6IGBsZWRfY2RldmAgaXMgYSB2YWxpZCBwb2ludGVyIHRvIGEgYGxlZF9j
+bGFzc2RldmAKPiA+IHN0b3JlZCBpbnNpZGUgYSBgRGV2aWNlYC4KPiA+ICvCoMKgwqAgbGV0IGNs
+YXNzZGV2ID0gdW5zYWZlIHsKPiA+ICvCoMKgwqDCoMKgwqDCoCAmKmNvbnRhaW5lcl9vZiEoCj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsZWRfY2Rldi5jYXN0Ojo8T3BhcXVlPGJpbmRpbmdz
+OjpsZWRfY2xhc3NkZXY+PigpLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRGV2aWNlLAo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2xhc3NkZXYKPiA+ICvCoMKgwqDCoMKgwqDCoCAp
+Cj4gPiArwqDCoMKgIH07Cj4gPiArwqDCoMKgIGZyb21fcmVzdWx0KHx8IHsKPiA+ICvCoMKgwqDC
+oMKgwqDCoCBjbGFzc2Rldi5oYW5kbGVyLmJsaW5rX3NldCgKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIC8vIFNBRkVUWTogYGRlbGF5X29uYCBpcyBndWFyYW50ZWVkIHRvIGJlIGEgdmFsaWQK
+PiA+IHBvaW50ZXIgdG8gdXNpemUKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVuc2FmZSB7
+ICZtdXQgKmRlbGF5X29uIH0sCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6
+IGBkZWxheV9vbmAgaXMgZ3VhcmFudGVlZCB0byBiZSBhIHZhbGlkCj4gPiBwb2ludGVyIHRvIHVz
+aXplCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyAmbXV0ICpkZWxheV9vZmYg
+fSwKPiAKPiBUbyBjcmVhdGUgYSBtdXRhYmxlIHJlZmVyZW5jZSwgdGhpcyBzYWZldHkgY29tbWVu
+dCBzaG91bGQgYXJndWUgd2h5Cj4gaXQKPiBpcyB0aGUgY2FzZSB0aGF0IG5vYm9keSB3aWxsIGFj
+Y2VzcyB0aGVzZSBmaWVsZHMgZm9yIHRoZSBkdXJhdGlvbiBvZgo+IGBibGlua19zZXRgLiAoRm9y
+IGV4YW1wbGUsIGZyb20gYW5vdGhlciB0aHJlYWQ/KQo+IAo+IEFsaWNlCgpUaGFua3MKLSBNYXJr
+dXMgUHJvYnN0Cg==
 
 
