@@ -1,175 +1,344 @@
-Return-Path: <linux-leds+bounces-5733-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5734-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34F7BCF58A
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Oct 2025 15:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4770BBD00FB
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Oct 2025 12:41:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2BC4189F60C
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Oct 2025 13:09:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C61B18923E0
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Oct 2025 10:41:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824BE2777E1;
-	Sat, 11 Oct 2025 13:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E470271469;
+	Sun, 12 Oct 2025 10:41:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U85xZFnL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZI+gZSyt"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C825B267B02
-	for <linux-leds@vger.kernel.org>; Sat, 11 Oct 2025 13:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0D61E260D;
+	Sun, 12 Oct 2025 10:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760188156; cv=none; b=ZWKk02jbXCGJGUyC5iQNX8W9j5YclWlVWCsPoAid/pkWH6Ahd2eo/zssClRwsm1YcxYYjey3C+ufPBbOK1iAT/wsNH/Bc3OSyrTnMmLG6gGVq0ydQizWTv1RTko1T53tyiNRiAPjuB3dw7jXgMMHNrVpZZDRn2393ByBnQBFabs=
+	t=1760265664; cv=none; b=Zzfy61x4xOBOLwkIE+sPncpiGnBw4R7HCwy62JqV1xBRc4JVrN/x6tMBhqUmNn4eK6Fa/3/oUyjDXYs7AoDk57PZrL04YXcgZIjK0rn47qo5NQq6SErhIM6D3bubLoORIXuQRPXijgvKPEjIBbW8vFEgw3JvAXM3OkqoK+KYDLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760188156; c=relaxed/simple;
-	bh=tlkJwfNU1cVCPDhRsrqFR+Vps9eI4PoV/Fx5dERZ4Hc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q6iGqubK00nbeHdocs2ba1uFPIdTad1PB1G8N7pGVa4jnjg+z1TEunBWiEJ5JPQxqTuE3ZKctR2pV0dQgWWbh8OgMxcnaRZJUkIiZtAtGpv3JAB1ZDY3SMOyBEsKYwMuue1FICEJDpQ/9w+nMoFWJ6LhwEqHdrmXV1xHEc9WAMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U85xZFnL; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-57d5ccd73dfso2992998e87.0
-        for <linux-leds@vger.kernel.org>; Sat, 11 Oct 2025 06:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760188149; x=1760792949; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yFqG+W0h7HPgIYyh4oB9VLKX2QzoB0wmqumVtSZ2KnI=;
-        b=U85xZFnL/s6LyNi08VC2ZWFtDhecXGC1aL+t9r7B2Q80j5EslV56CuZ0OpnAFYOfR0
-         3hZqWXVh6NaixA++Q+mnu039jKqlgvlphyl6eH0eNxNct3kGGfr8hQJf9jATsoFMn+PJ
-         USSJ3+juxDZNAO/4qvA8qIcIogcEFIwWpNtVTOSHgYsD+s3W5oqzqXHc738H6e5wKTB6
-         SMMBa9KycRuaZUedtMI+mDZ/oRRIOBmAC76wwVwn1Nj1uSTjOaeevHLf/Fh7Bm51CMp5
-         kQ7GSaXZycPp/CrTTkXcgrf5pMbynuFEv2R9dLSzh7NhuucdWXQzRD6+OHsREK/O+HdI
-         dOxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760188149; x=1760792949;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yFqG+W0h7HPgIYyh4oB9VLKX2QzoB0wmqumVtSZ2KnI=;
-        b=CZbNgkXouQuQN+oowKuV8aznMgHykZ5eDsfoCUOaLhLQTNoJAJ8XLGHMfP9wjsYSJM
-         7+nB363SG6TtRjR4lz3hupxH4NdiC2GnrTjvFmntt1u5rVUvc/NplLVh6H2LKKGIuHT9
-         1aUfwYX0tF6RllPyRK44PvSztXeWpGPL8XOWMJSqNeJ5v7Hjj86df9M44YUh4/SzLbRQ
-         rh59e5t+xVBAg2bMseQajGIPhrBTFTYV+USz9o/OehoDq6vkbnnTdu5ZaT/Oj+5k9kXe
-         J+LrZRJamzvSRmTLZPj9InW6Nw8pafiHV5qysVCk2igc7u8rYIqmwsotVh3wlhKrrE2u
-         HFeA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5ni2glhR7gmpgOitXDTGx8hIBm1CL04os2N8oP3gb1d7TIka0v4g5b1O3h5F54oGor/ODMU0xS3PI@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUYZ3jSa7AwF2wvmCJmx7Af0SSbniwDDlUEP6CthlRplQsQEp5
-	cHxMSf6krZWQahapNUttdiyYuZKG5Gw3aDHmBAZVCCQauZHzlO1krkWY
-X-Gm-Gg: ASbGncvozfkH8l/mc3VtfP4nksnJ9GcBj008KQyA/83BKthxqw3m2bQp//Mm30xNhJJ
-	f7Etj1Q8u0L7la2WqOeYRr6UzOHESIfp43riZ+/0NubeljvcexyjN7qkrBYVZpJ3WxM+YowBiTY
-	AltTyMuDUwC6kIV7VHlQJ2zZJ5bG/9JrNCtOpL7X7ZtPCIisHEnFZte8H3lTcdLKqtOIQhgvLA6
-	HIjuTqHXDZGMhPVy8oPStmFo6SGcm+CNefeSlNUKTT8yZAohILVnMF940i91XOqt5K5wTGZog21
-	w1u+BkBIJdOSDVtBRpVXt2AvZWUWcqk0dKbEkme665FhBz+wG83TS4xyAedVMDG5E1c/TviHMio
-	C6wU4M4njll/i5coFlp1aYipirNYwrGiEhtE/F49cUozcluNbuGoRyrLAEceKXK1G
-X-Google-Smtp-Source: AGHT+IEsd2dh3b7ZCBcS7C11Y+DmJop0Y5QgiZQ50QcK97YSeU7ZYKZ8b42eMZzoz9RF9b0Cs+MNcw==
-X-Received: by 2002:a05:6512:1246:b0:55f:4ac2:a597 with SMTP id 2adb3069b0e04-5906d87babamr4379026e87.7.1760188148525;
-        Sat, 11 Oct 2025 06:09:08 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e5790sm1919616e87.19.2025.10.11.06.09.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Oct 2025 06:09:07 -0700 (PDT)
-Message-ID: <5d8ec4c3-1b36-470b-a1c7-629060a154ce@gmail.com>
-Date: Sat, 11 Oct 2025 15:09:05 +0200
+	s=arc-20240116; t=1760265664; c=relaxed/simple;
+	bh=6XZ2TepMGYVcVHdXOwYD9BHbnutdWTq3FqUNdlx3Khg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=STTPsvoICKtawhW/DQs3qcZG68iWpsXFh3BYTlQgt0rjaFl7Zg835kkwNXzCk3faGKeZdkyzai8ccu7Vfv7SgZw7rB2pTRkYPThSwTyt6glXrDuDDZ6OCCqWPiwuG2CX0KMYwIFTZP3jL70yiEu9dfI8zicZQvnreT4X0dcHWAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZI+gZSyt; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760265661; x=1791801661;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6XZ2TepMGYVcVHdXOwYD9BHbnutdWTq3FqUNdlx3Khg=;
+  b=ZI+gZSytVzh3GpodcMWuprjz6CM9yGbQF8E5rViFdxBhRHUapanIDs/X
+   1djWyBdRAOdo45p6u9bbbGKlKlq0pqTgAAOmipKyHLMrprdwR4SdS+QGi
+   ViqcKR8RlKzWQbtfIGPqDgYYfLXEymIPt0YFQuQ8AQMkKhMUv+HcVw2z2
+   MUz/DV7e2w6LpnuBCBZcK/v0SVJXH/tnyL0mYTa1a5wrFJVyqv14oHCSO
+   v2G5ifjoaDwTNo97oa3xV3uSCGln8kimHAPlfqVGe9wo9BK0QEqXE0zYJ
+   1hZouxXRf4D4H+2Yayp1UGc4JkguzfOqGxukeufXswAnCqmtRfgaDpXwn
+   A==;
+X-CSE-ConnectionGUID: 32Y+OeTSS8Gr1ZkGtfNhPw==
+X-CSE-MsgGUID: dd0m7/GDTIiXLlFJpsO2Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="61457193"
+X-IronPort-AV: E=Sophos;i="6.19,223,1754982000"; 
+   d="scan'208";a="61457193"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 03:41:00 -0700
+X-CSE-ConnectionGUID: vwmq1nJRQi+Ue/vAP1l63A==
+X-CSE-MsgGUID: a+9iheqfT/uCpHMSjG3ShA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,223,1754982000"; 
+   d="scan'208";a="212318719"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 12 Oct 2025 03:40:55 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7tVV-0004Kd-1V;
+	Sun, 12 Oct 2025 10:40:53 +0000
+Date: Sun, 12 Oct 2025 18:40:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Markus Probst <markus.probst@posteo.de>,
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Markus Probst <markus.probst@posteo.de>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] rust: leds: add basic led classdev abstractions
+Message-ID: <202510121801.TbAguq2S-lkp@intel.com>
+References: <20251010225349.734350-3-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] leds: add support for TI LP5860 LED driver chip
-To: Steffen Trumtrar <s.trumtrar@pengutronix.de>, Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Steffen Trumtrar <kernel@pengutronix.de>,
- Pavel Machek <pavel@kernel.org>, Mark Brown <broonie@kernel.org>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de>
- <20250911-v6-14-topic-ti-lp5860-v3-2-390738ef9d71@pengutronix.de>
- <20250916153412.GA3837873@google.com> <875xd0jslv.fsf@pengutronix.de>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <875xd0jslv.fsf@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251010225349.734350-3-markus.probst@posteo.de>
 
-Hi Steffen
+Hi Markus,
 
-On 9/30/25 09:40, Steffen Trumtrar wrote:
-> 
-> Hi,
-> 
-> On 2025-09-16 at 16:34 +01, Lee Jones <lee@kernel.org> wrote:
-> 
->> > +#include <linux/gpio.h>
->> > +#include <linux/led-class-multicolor.h>
->> > +#include <linux/module.h>
->> > +#include <linux/of_gpio.h>
->> > +#include <linux/of_platform.h>
->> > +#include <linux/regmap.h>
->> > +
->> > +#include <linux/platform_data/leds-lp5860.h>
->> > +
->> > +static struct lp5860_led *mcled_cdev_to_led(struct led_classdev_mc 
->> *mc_cdev)
->> > +{
->> > +    return container_of(mc_cdev, struct lp5860_led, mc_cdev);
->> > +}
->> > +
->> > +LP5860_SHOW_MODE(r_global_brightness_set, LP5860_REG_R_CURRENT_SET, 
->> LP5860_CC_GROUP_MASK, 0)
->> > +LP5860_STORE_MODE(r_global_brightness_set, 
->> LP5860_REG_R_CURRENT_SET, LP5860_CC_GROUP_MASK, 0)
->> > +DEVICE_ATTR_RW(r_global_brightness_set);
->>
->> How is this different to /sys/class/leds/<led>/multi_intensity?
->>
->> # echo 43 226 138 > /sys/class/leds/multicolor:status/multi_intensity
->> red -
->>     intensity = 138
->>     max_brightness = 255
->> green -
->>     intensity = 43
->>     max_brightness = 255
->> blue -
->>     intensity = 226
->>     max_brightness = 255
->>
-> 
-> the LP5860 has a register for setting the maximal brightness that holds 
-> for all LEDs in the matrix. multi_intensity and max_brightness is only 
-> for that one multicolor LED, right? And I can only manipulate the 
-> max_brightness of that one multicolor LED instance.
-> If I'm wrong, I'd be happy to not have to add the sysfs files.
+kernel test robot noticed the following build errors:
 
-It seems that this device is similar in the aspect of LED grouping
-to LP50xx family. There is already a driver for that one [0] with
-related bindings. Grouping solution could be addressed similarly to the
-banking mechanism in that driver.
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on v6.17]
+[cannot apply to rust/rust-next rust/alloc-next linus/master next-20251010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-That of course means that this patch needs a significant rework.
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Probst/rust-add-basic-Pin-Vec-T-A-abstractions/20251011-065458
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20251010225349.734350-3-markus.probst%40posteo.de
+patch subject: [PATCH v3 2/2] rust: leds: add basic led classdev abstractions
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251012/202510121801.TbAguq2S-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510121801.TbAguq2S-lkp@intel.com/reproduce)
 
-First thing that strikes me after analyzing datasheet is that
-LEDs are not assigned to any group since LP5860_REG_GRP_SEL_START
-address is not referenced anywhere, and this is base address for
-Dot_grp_selN registers that enable affiliation of the LED to given
-group. No need for global brightness setting then.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510121801.TbAguq2S-lkp@intel.com/
 
-Anyway, I'd add proper support for this device with DT knobs
-to enable both grouping and individual approach to controlling the LEDs.
+All errors (new ones prefixed by >>):
 
-Driver [0] should serve as good guidance for that.
-
-[0] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/leds/leds-lp50xx.c
+>> error[E0277]: the trait bound `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>: LedOps` is not satisfied
+   --> rust/doctests_kernel_generated.rs:6097:6
+   |
+   6097 | /      KBox::pin_init(led::Device::new(
+   6098 | |          None,
+   6099 | |          None,
+   6100 | |          led::InitData::new()
+   6101 | |              .default_label(c_str!("my_led")),
+   6102 | |          MyLedOps,
+   6103 | |      ))
+   | |_______^ the trait `LedOps` is not implemented for `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   |
+   = help: the trait `LedOps` is implemented for `MyLedOps`
+   note: required by a bound in `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::Device`
+   --> rust/kernel/led.rs:26:22
+   |
+   26   | pub struct Device<T: LedOps> {
+   |                      ^^^^^^ required by this bound in `Device`
+--
+>> error[E0277]: `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>` cannot be shared between threads safely
+   --> rust/doctests_kernel_generated.rs:6097:6
+   |
+   6097 | /      KBox::pin_init(led::Device::new(
+   6098 | |          None,
+   6099 | |          None,
+   6100 | |          led::InitData::new()
+   6101 | |              .default_label(c_str!("my_led")),
+   6102 | |          MyLedOps,
+   6103 | |      ))
+   | |_______^ `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>` cannot be shared between threads safely
+   |
+   = help: within `FwNode`, the trait `Sync` is not implemented for `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>`
+   note: required because it appears within the type `Opaque<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>`
+   --> rust/kernel/types.rs:324:12
+   |
+   324  | pub struct Opaque<T> {
+   |            ^^^^^^
+   note: required because it appears within the type `FwNode`
+   --> rust/kernel/device/property.rs:35:12
+   |
+   35   | pub struct FwNode(Opaque<bindings::fwnode_handle>);
+   |            ^^^^^^
+   = note: required for `&FwNode` to implement `Send`
+   note: required because it appears within the type `Option<&FwNode>`
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.0/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:589:10
+   |
+   589  | pub enum Option<T> {
+   |          ^^^^^^
+   note: required because it appears within the type `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   --> rust/kernel/led.rs:36:12
+   |
+   36   | pub struct InitData<'a> {
+   |            ^^^^^^^^
+   = note: required for `Device<InitData<'_>>` to implement `Send`
+   note: required by a bound in `Devres`
+   --> rust/kernel/devres.rs:108:22
+   |
+   108  | pub struct Devres<T: Send> {
+   |                      ^^^^ required by this bound in `Devres`
+   = note: the full name for the type has been written to 'rust/doctests_kernel_generated.long-type-938713932875159562.txt'
+   = note: consider using `--verbose` to print the full type name to the console
+--
+>> error[E0107]: missing generics for struct `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::Device`
+   --> rust/doctests_kernel_generated.rs:6096:47
+   |
+   6096 |  fn register_my_led() -> Result<Pin<KBox<led::Device>>> {
+   |                                               ^^^^^^ expected 1 generic argument
+   |
+   note: struct defined here, with 1 generic parameter: `T`
+   --> rust/kernel/led.rs:26:12
+   |
+   26   | pub struct Device<T: LedOps> {
+   |            ^^^^^^ -
+   help: add missing generic argument
+   |
+   6096 |  fn register_my_led() -> Result<Pin<KBox<led::Device<T>>>> {
+   |                                                     +++
+--
+>> error[E0277]: the trait bound `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>: LedOps` is not satisfied
+   --> rust/doctests_kernel_generated.rs:6100:10
+   |
+   6097 |        KBox::pin_init(led::Device::new(
+   |                       ---------------- required by a bound introduced by this call
+   ...
+   6100 | /          led::InitData::new()
+   6101 | |              .default_label(c_str!("my_led")),
+   | |_____________________________________________^ the trait `LedOps` is not implemented for `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   |
+   = help: the trait `LedOps` is implemented for `MyLedOps`
+   note: required by a bound in `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::Device::<T>::new`
+   --> rust/kernel/led.rs:168:9
+   |
+   168  | impl<T: LedOps> Device<T> {
+   |         ^^^^^^ required by this bound in `Device::<T>::new`
+   ...
+   172  |     pub fn new<'a>(
+   |            --- required by a bound in this associated function
+--
+>> error[E0277]: the trait bound `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>: LedOps` is not satisfied
+   --> rust/doctests_kernel_generated.rs:6097:21
+   |
+   6097 |        KBox::pin_init(led::Device::new(
+   |  _____________________^
+   6098 | |          None,
+   6099 | |          None,
+   6100 | |          led::InitData::new()
+   6101 | |              .default_label(c_str!("my_led")),
+   6102 | |          MyLedOps,
+   6103 | |      ))
+   | |______^ the trait `LedOps` is not implemented for `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   |
+   = help: the trait `LedOps` is implemented for `MyLedOps`
+   note: required by a bound in `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::Device<T>`
+   --> rust/kernel/led.rs:168:9
+   |
+   168  | impl<T: LedOps> Device<T> {
+   |         ^^^^^^ required by this bound in `Device<T>`
+--
+>> error[E0277]: the trait bound `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>: LedOps` is not satisfied
+   --> rust/doctests_kernel_generated.rs:6097:6
+   |
+   6097 |      KBox::pin_init(led::Device::new(
+   |      ^^^^^^^^^^^^^^ the trait `LedOps` is not implemented for `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   |
+   = help: the trait `LedOps` is implemented for `MyLedOps`
+   note: required by a bound in `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::Device`
+   --> rust/kernel/led.rs:26:22
+   |
+   26   | pub struct Device<T: LedOps> {
+   |                      ^^^^^^ required by this bound in `Device`
+--
+>> error[E0277]: `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>` cannot be shared between threads safely
+   --> rust/doctests_kernel_generated.rs:6097:6
+   |
+   6097 |      KBox::pin_init(led::Device::new(
+   |      ^^^^^^^^^^^^^^ `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>` cannot be shared between threads safely
+   |
+   = help: within `FwNode`, the trait `Sync` is not implemented for `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>`
+   note: required because it appears within the type `Opaque<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>`
+   --> rust/kernel/types.rs:324:12
+   |
+   324  | pub struct Opaque<T> {
+   |            ^^^^^^
+   note: required because it appears within the type `FwNode`
+   --> rust/kernel/device/property.rs:35:12
+   |
+   35   | pub struct FwNode(Opaque<bindings::fwnode_handle>);
+   |            ^^^^^^
+   = note: required for `&FwNode` to implement `Send`
+   note: required because it appears within the type `Option<&FwNode>`
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.0/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:589:10
+   |
+   589  | pub enum Option<T> {
+   |          ^^^^^^
+   note: required because it appears within the type `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   --> rust/kernel/led.rs:36:12
+   |
+   36   | pub struct InitData<'a> {
+   |            ^^^^^^^^
+   = note: required for `Device<InitData<'_>>` to implement `Send`
+   note: required by a bound in `Devres`
+   --> rust/kernel/devres.rs:108:22
+   |
+   108  | pub struct Devres<T: Send> {
+   |                      ^^^^ required by this bound in `Devres`
+   = note: the full name for the type has been written to 'rust/doctests_kernel_generated.long-type-938713932875159562.txt'
+   = note: consider using `--verbose` to print the full type name to the console
+--
+>> error[E0277]: the trait bound `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>: LedOps` is not satisfied
+   --> rust/doctests_kernel_generated.rs:6097:6
+   |
+   6097 |      KBox::pin_init(led::Device::new(
+   |      ^^^^ the trait `LedOps` is not implemented for `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   |
+   = help: the trait `LedOps` is implemented for `MyLedOps`
+   note: required by a bound in `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::Device`
+   --> rust/kernel/led.rs:26:22
+   |
+   26   | pub struct Device<T: LedOps> {
+   |                      ^^^^^^ required by this bound in `Device`
+--
+>> error[E0277]: `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>` cannot be shared between threads safely
+   --> rust/doctests_kernel_generated.rs:6097:6
+   |
+   6097 |      KBox::pin_init(led::Device::new(
+   |      ^^^^ `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>` cannot be shared between threads safely
+   |
+   = help: within `FwNode`, the trait `Sync` is not implemented for `UnsafeCell<MaybeUninit<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>>`
+   note: required because it appears within the type `Opaque<rust_doctest_kernel_alloc_kbox_rs_7::kernel::bindings::fwnode_handle>`
+   --> rust/kernel/types.rs:324:12
+   |
+   324  | pub struct Opaque<T> {
+   |            ^^^^^^
+   note: required because it appears within the type `FwNode`
+   --> rust/kernel/device/property.rs:35:12
+   |
+   35   | pub struct FwNode(Opaque<bindings::fwnode_handle>);
+   |            ^^^^^^
+   = note: required for `&FwNode` to implement `Send`
+   note: required because it appears within the type `Option<&FwNode>`
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.0/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:589:10
+   |
+   589  | pub enum Option<T> {
+   |          ^^^^^^
+   note: required because it appears within the type `rust_doctest_kernel_alloc_kbox_rs_7::kernel::led::InitData<'_>`
+   --> rust/kernel/led.rs:36:12
+   |
+   36   | pub struct InitData<'a> {
+   |            ^^^^^^^^
+   = note: required for `Device<InitData<'_>>` to implement `Send`
+   note: required by a bound in `Devres`
+   --> rust/kernel/devres.rs:108:22
+   |
+   108  | pub struct Devres<T: Send> {
+   |                      ^^^^ required by this bound in `Devres`
+   = note: the full name for the type has been written to 'rust/doctests_kernel_generated.long-type-938713932875159562.txt'
+   = note: consider using `--verbose` to print the full type name to the console
 
 -- 
-Best regards,
-Jacek Anaszewski
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
