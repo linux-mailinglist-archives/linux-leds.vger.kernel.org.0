@@ -1,279 +1,155 @@
-Return-Path: <linux-leds+bounces-5745-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5746-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AABBD1EA4
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 10:03:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3462BBD228B
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 10:55:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C1074ED408
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 08:03:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 843DF1899649
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 08:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A784D2EB845;
-	Mon, 13 Oct 2025 08:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 517242FB608;
+	Mon, 13 Oct 2025 08:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPdDqU93"
+	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="VaaJ/2+F"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFB42EB5DE;
-	Mon, 13 Oct 2025 08:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD9034BA41;
+	Mon, 13 Oct 2025 08:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760342605; cv=none; b=oluZb7QUx5XoPc4k3P9N1ytOn3NySpEVmp/Hp64IOcQrHFL6AgWrImlZRvkzM0ZgD2VljlYL/v10GuNsiNHA5yW9s1SyOiyZjrF9+Ci21q9NY2fYzw6126JuRK1zzcVpRVn6C8ztNPDzC3i1MBLUnvwffxQRwkC7m+NNGaau/u8=
+	t=1760345741; cv=none; b=dghHzVAoaoabP0KGo+lDyIPOEhadcM7KEbERAqU4K6VKL7wPw1Oyi5YMLfxPgFw35nz9HL7kQVq4/cpyYkm4l6l8d0eQ/swcKz2rPxQ9kfdVHpiigj1A1g8SGVwjAgurTV6DFC53+mtfOxiuRDiSptJCeJMknF8oo+G5fLskdw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760342605; c=relaxed/simple;
-	bh=ISWExC7c0gJhdjKh1DPstfuLbXdo32wmETxjLgp8ZEI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=R3qwRUs+uTRrWc/a6BHEt+aUqrDNynC2jFVNQObp151n/u7Khw2pdL80ntFIRnghc8yredpIFAz3NZWOD/STmwidrR6HDhvOkzSJKgQS6xSgkb2VZFP392x32KSf9/OLm5RQj85LI27WRmd9DffYc5bObIfedeeILunLbvqYSHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPdDqU93; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D47CC4CEE7;
-	Mon, 13 Oct 2025 08:03:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760342605;
-	bh=ISWExC7c0gJhdjKh1DPstfuLbXdo32wmETxjLgp8ZEI=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=IPdDqU93073rsE9vYZBYQbpyqGXzgcIpqxtOdjbcrjxUPOuzfJK7j10HS2D1MCa5t
-	 ZCc+euuF56yqBB0I8ewzluqRw1Yx1Ohck8x1oT1vVhJIzwD3DLhVSycHvzeGcbuyVh
-	 94UwD3VseQYs6yZ2VWSezmxhkXjFc+PeUaq8wBd21AK6HpogawnaAns2+JMAYEn57l
-	 gpJqgQbemVdVTeAp0Aks3f48+Ql26Zv45Hr4Dtxz4G5zba7++sgg7HVd+9M8rqKDjp
-	 NVdt6jgYClmt2C/PADywSFvdIqboQ5A2MlDs+D187vVYlFZu9O6IcKtgvi0LzQ6zLf
-	 XF2Wpyhw8LB6Q==
+	s=arc-20240116; t=1760345741; c=relaxed/simple;
+	bh=o5seUCJtivNGWArJ7uKirtNugIYIcisVModvsY2Dfkk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mP4cPNuu3HBrDFcXLc9YsXrOleEiVGQnEQ9QXU9J77/7Xj8xeAvYvCvAMNX1ITXsk5hA2NCTF4QGu0zeOZUVGLhdNFWiXhJjti8OWdUg2Z9AoE/eY+u8EoxIuBw2Pg2UZ8M2ehujPUHHMnhrVpm1bm6fQwCcbGn2pXOE2yVl9u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=VaaJ/2+F; arc=none smtp.client-ip=212.243.197.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
+Received: from localhost (localhost [127.0.0.1])
+	by mail.hostpark.net (Postfix) with ESMTP id 15B55162FB;
+	Mon, 13 Oct 2025 10:55:30 +0200 (CEST)
+Authentication-Results: mail0.hostpark.net (amavis); dkim=pass (1024-bit key)
+ reason="pass (just generated, assumed good)" header.d=klarinett.li
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
+	content-transfer-encoding:mime-version:references:in-reply-to
+	:x-mailer:message-id:date:date:subject:subject:from:from; s=
+	sel2011a; t=1760345729; bh=o5seUCJtivNGWArJ7uKirtNugIYIcisVModvs
+	Y2Dfkk=; b=VaaJ/2+Fjx/piV0zzNS3XtAd9rOMgRmolhN6TVVZ7S91p63ybPb9M
+	k9XOQUba9ToNLKxlPgmDKYnXFY4YbuRpI44k7vJf2Le+RfDLNnlqQRqnZ+6nRe1M
+	cqHQTLDwcRq4VL7TbBWkf99dB4RPB1txnxAS1JKenvEquApMctmWP4=
+X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
+Received: from mail.hostpark.net ([127.0.0.1])
+ by localhost (mail0.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
+ id p3ezNfMLZ4UJ; Mon, 13 Oct 2025 10:55:29 +0200 (CEST)
+Received: from customer (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.hostpark.net (Postfix) with ESMTPSA id 63477162C7;
+	Mon, 13 Oct 2025 10:55:28 +0200 (CEST)
+From: Christian Hitz <christian@klarinett.li>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Christian Hitz <christian@klarinett.li>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Christian Hitz <christian.hitz@bbv.ch>,
+	stable@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: leds-lp50xx: allow LED 0 to be added to module bank
+Date: Mon, 13 Oct 2025 10:54:42 +0200
+Message-ID: <20251013085514.512508-1-christian@klarinett.li>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <6f6fbebf-bdb6-402d-8aa1-9f33eae914ed@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 13 Oct 2025 10:03:19 +0200
-Message-Id: <DDH1DE35H7L0.1Z2R655P701HR@kernel.org>
-Cc: "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
- <vbabka@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, "Uladzislau
- Rezki" <urezki@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor
- Gross" <tmgross@umich.edu>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] rust: add basic Pin<Vec<T, A>> abstractions
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Markus Probst" <markus.probst@posteo.de>, "Danilo Krummrich"
- <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Lee Jones" <lee@kernel.org>, "Pavel Machek"
- <pavel@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20251012145221.172116-1-markus.probst@posteo.de>
- <20251012145221.172116-2-markus.probst@posteo.de>
- <DDGHGF4XOJQG.2MVGBMPK0KUQE@kernel.org>
- <e550b0862e9ea87e50688d1ec8f623638d170a3a.camel@posteo.de>
- <DDGNXV9KS3RS.2WHS4OOYM6DOP@kernel.org>
- <2a31fcd045582382987c8c1da7c4b7d58a1dff61.camel@posteo.de>
-In-Reply-To: <2a31fcd045582382987c8c1da7c4b7d58a1dff61.camel@posteo.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon Oct 13, 2025 at 12:11 AM CEST, Markus Probst wrote:
-> On Sun, 2025-10-12 at 23:31 +0200, Benno Lossin wrote:
->> On Sun Oct 12, 2025 at 6:57 PM CEST, Markus Probst wrote:
->> > From what I can tell, there is no way to get a `Pin<&mut Vec<T,
->> > A>>`
->> > from a `&mut Pin<Vec<T, A>>`. We can only get `Pin<&mut [T]>` which
->> > is
->> > not usable in our case.
->>=20
->> Hmm yeah that's true.
->>=20
->> > If there is way, without the extension trait or an extra struct, I
->> > would be happy to implement it.
->>=20
->> So I tried to look for the usage site of this and I found this usage
->> in
->> your v1:
->>=20
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mut l=
-eds =3D KPinnedVec::with_capacity(
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 Atmega1608LedAddress::VALUES.len() *
->> Atmega1608LedId::VALUES.len(),
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 GFP_KERNEL,
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )?;
->> =C2=A0=C2=A0=C2=A0 +
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mut i=
- =3D 0;
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for addr =
-in Atmega1608LedAddress::VALUES {
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 let mode_lock =3D Arc::pin_init(new_mutex!(()),
->> GFP_KERNEL)?;
->> =C2=A0=C2=A0=C2=A0 +
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 for id in Atmega1608LedId::VALUES {
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let Some(child) =3D
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
->> fwnode.get_child_by_name(&CString::try_from_fmt(fmt!("led@{i}"))?)
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else {
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 continue;
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->> =C2=A0=C2=A0=C2=A0 +
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let client =3D ARef::clone(&client)=
-;
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mode_lock =3D Arc::clone(&mode_=
-lock);
->> =C2=A0=C2=A0=C2=A0 +
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 leds.push_pin_init(LedClassDev::new=
-(
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Some(idev),
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 None,
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LedInitData=
-::new().fwnode(&child),
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Atmega1608L=
-ed {
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 addr,
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 id,
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 client,
->> =C2=A0=C2=A0=C2=A0 +
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 mode_lock,
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ))?;
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i +=3D 1;
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 }
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(KBox::=
-new(Self { client, leds }, GFP_KERNEL)?.into())
->>=20
->> And I think using `Vec` for this is just wrong. `Vec` is a data
->> structure that supports growing and shrinking the allocation. But you
->> just need a fixed size buffer that holds all your data. Do you think
->> that `Pin<Box<[LedClassDev]>>` would suffice if it had proper support
->> from pin-init?
-> As you can see in v1, the number of leds (or vec entries) depends on
-> the fwnode (see the continue statement there). I don't think that
-> counts as fixed size. `Pin<KBox<[Option<LedClassDev>]>>` could
-> potentially be used instead of `Pin<KVec<LedClassDev>>` in my scenario,
-> but that would require an extra byte of allocation for the max leds of
-> 24 each and the code would look more ugly. At the point I use Option in
-> the slice, its basically an unoptimized Vec (instead of storing the
-> length, it stores if an item in the buffer is present or not).
+On Sat, 11 Oct 2025 14:16:16 +0200 Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
 
-You can just make the length of the slice be the desired length? (also,
-`i` is never incremented in the `continue` case, so it will act like a
-`break`?)
+> Hi Christian,
+> 
+> On 10/8/25 14:32, Christian Hitz wrote:
+> > From: Christian Hitz <christian.hitz@bbv.ch>
+> > 
+> > led_banks contains LED module number(s) that should be grouped into the
+> > module bank. led_banks is 0-initialized.
+> > By checking the led_banks entries for 0, un-set entries are detected.
+> > But a 0-entry also indicates that LED module 0 should be grouped into the
+> > module bank.
+> > 
+> > By only iterating over the available entries no check for unused entries
+> > is required and LED module 0 can be added to bank.
+> > 
+> > Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
+> > Cc: stable@vger.kernel.org
+> > ---
+> >   drivers/leds/leds-lp50xx.c | 10 ++++------
+> >   1 file changed, 4 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> > index 94f8ef6b482c..d50c7f3e8f99 100644
+> > --- a/drivers/leds/leds-lp50xx.c
+> > +++ b/drivers/leds/leds-lp50xx.c
+> > @@ -341,17 +341,15 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
+> >   	return ret;
+> >   }
+> >   
+> > -static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[])
+> > +static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[], int num_leds)
+> >   {
+> >   	u8 led_config_lo, led_config_hi;
+> >   	u32 bank_enable_mask = 0;
+> >   	int ret;
+> >   	int i;
+> >   
+> > -	for (i = 0; i < priv->chip_info->max_modules; i++) {
+> > -		if (led_banks[i])
+> > -			bank_enable_mask |= (1 << led_banks[i]);
+> > -	}
+> > +	for (i = 0; i < num_leds; i++)
+> > +		bank_enable_mask |= (1 << led_banks[i]);
+> 
+> Probably the first idea was to have a bitmask indicating which bank
+> to enable, but it ended up in having array of bank ids in DT with no
+> related adjustment in the driver.
+> 
+> This patch deserves Fixes tag.
 
-One option that we have would be storing the initializers in a vec:
+This code has not changed since the inital introduction of this driver.
 
-    fn probe(
-        pdev: &I2cClient<kernel::device::Core>,
-        _id_info: Option<&Self::IdInfo>,
-    ) -> Result<Pin<KBox<Self>>> {
-        let idev =3D pdev.as_ref();
-   =20
-        let Some(fwnode) =3D idev.fwnode() else {
-            return Err(EINVAL);
-        };
-   =20
-        let client: ARef<I2cClient> =3D pdev.into();
-   =20
-        client
-            .write_byte_data(1, 0)
-            .inspect_err(|err| dev_err!(idev, "unable to remove led mask: {=
-err:?}\n"))?;
-   =20
-        let mut led_init =3D KVec::new();
-   =20
-        let mut i =3D 0;
-        for addr in Atmega1608LedAddress::VALUES {
-            let mode_lock =3D Arc::pin_init(new_mutex!(()), GFP_KERNEL)?;
-   =20
-            for id in Atmega1608LedId::VALUES {
-                let Some(child) =3D
-                    fwnode.get_child_by_name(&CString::try_from_fmt(fmt!("l=
-ed@{i}"))?)
-                else {
-                    continue;
-                };
-   =20
-                let client =3D ARef::clone(&client);
-                let mode_lock =3D Arc::clone(&mode_lock);
-   =20
-                led_init.push(LedClassDev::new(
-                    Some(idev),
-                    None,
-                    LedInitData::new().fwnode(&child),
-                    Atmega1608Led {
-                        addr,
-                        id,
-                        client,
-                        mode_lock,
-                    },
-                ))?;
-                i +=3D 1;
-            }
-        }
-        let leds =3D Vec::pin_init_slice(led_init, GFP_KERNEL)?;
-        Ok(KBox::new(Self { client, leds }, GFP_KERNEL)?.into())
-    }
+Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
 
-And `Vec::pin_init_slice` would have the following signature:
+> 
+> >   
+> >   	led_config_lo = bank_enable_mask;
+> >   	led_config_hi = bank_enable_mask >> 8;
+> > @@ -405,7 +403,7 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
+> >   			return ret;
+> >   		}
+> >   
+> > -		ret = lp50xx_set_banks(priv, led_banks);
+> > +		ret = lp50xx_set_banks(priv, led_banks, num_leds);
+> >   		if (ret) {
+> >   			dev_err(priv->dev, "Cannot setup banked LEDs\n");
+> >   			return ret;
+> 
+> Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> 
+> -- 
+> Best regards,
+> Jacek Anaszewski
 
-    fn pin_init_slice<T, I, E>(this: Vec<I>, flags: alloc::Flags) -> Result=
-<Pin<Box<[T]>>>
-    where
-        I: PinInit<T, E>,
-        Error: From<E>;
-
----
-Cheers,
-Benno
-
->
->>=20
->> Also, please don't top-post [1] and take a look at your mail client
->> configuration, it puts lots of extra `> ` at the end which looks
->> pretty
->> strange [2].
-> Yes, I did notice that. It is not present when writing a reply, but
-> after it got sent for some reason (most replies, not all). It is GNOME
-> Evolution in its default settings basically. My distro ships a 4 months
-> outdated version (3.56.2), which shouldn't be too old, but I will
-> investiage.
->
-> Thanks
-> - Markus Probst
->>=20
->> [1]:
->> https://docs.kernel.org/process/submitting-patches.html#use-trimmed-inte=
-rleaved-replies-in-email-discussions
->> [2]:
->> https://lore.kernel.org/all/e550b0862e9ea87e50688d1ec8f623638d170a3a.cam=
-el@posteo.de
->>=20
->> ---
->> Cheers,
->> Benno
+Sent using hkml (https://github.com/sjp38/hackermail)
 
