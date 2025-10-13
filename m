@@ -1,202 +1,169 @@
-Return-Path: <linux-leds+bounces-5770-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5771-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E7DBD5862
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 19:36:40 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FFEBD5BC0
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 20:34:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CC6D18A1FA6
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 17:37:03 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8B03F4ED924
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 18:34:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 945C0308F2E;
-	Mon, 13 Oct 2025 17:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 813EC2D6E6F;
+	Mon, 13 Oct 2025 18:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPGIi96D"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ym8M83Gj"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83CA307AF4
-	for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 17:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8CD259CA5
+	for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 18:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760376981; cv=none; b=U+O2vsvZCklCyXpVlzabnwdRReGZxpiJg6eC2hzTdyl/JwEr7o1kRNnI92o0DgmDwF3mGIE3zs0waSRr7n5Y1gZ+vlWabaBMEyl/6r/sO0hKcf4OQEdNpX849IRMCwiYJ5cfYOzPh1rB9x2C/fMk8RUk44slX44+6rOxYJqDH2Q=
+	t=1760380471; cv=none; b=c9uviO6soxO/DNiApZcqNjq5ArINPeTvCXb8i4Id7vS1qjBIE1XAGA+z/udy0Sck/vTbvTXeYlRzSIdznT3Jp0nHme+MuMSI2dcRxS0la5JdXpLwnc96Y8JMtnRg/cqFm9Uhbm3Fu1mCfVT+2zqBBmi/WCRDnu509AbBqSD7KUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760376981; c=relaxed/simple;
-	bh=kLhYvW9AlQj3sw1QpHiRoyVeEgjoCSxOeoymqVdqNfM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KVXGtjTW20X7tGFS7m9pc8AgLHqTIHZRlAo16bF8jScMo/c6EgJpdYvp+v5WfK/FZEnZ/+zCaMMdU/UdAYR84UGJ9g2Xkq4uGkgnDdeC8AIh/8Uigyd2YB5tpx75rcA1jHwgM1W66OrJVknKm0Rnxmhcm9xYSojTmeu3KWINtY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPGIi96D; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7800ff158d5so4204598b3a.1
-        for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 10:36:19 -0700 (PDT)
+	s=arc-20240116; t=1760380471; c=relaxed/simple;
+	bh=MhcnUYIzW/AjzXhn2E+PvO698S4Cf6FqeCfg4+Wjp0k=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=bosKXuhycPIk3lUzViDcHKj37ejPRta917OUfjbhRng9Mp+KdbadUp3ATh8lB3jfVqy9d0qMcrFEREYo31UipVAUtc5k+Pvy18Nua+36ZpsU9AAXUdcIrzp5eRkVyI1hcB9GZBFpIafg6wvLGy2KikexYz8lqhjury3xZWi1jtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ym8M83Gj; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-afcb7338319so458011266b.0
+        for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 11:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760376979; x=1760981779; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ATjbUVjPtgk2XgFOIG18XCiG2R9zjwgC0SeHYooUTnk=;
-        b=XPGIi96DDR6OCLXKkcE8BymmlmVKx2STHm4imtuIFGaF8LCkvDnsDv8W2fOwmpcVcH
-         bglAtmzFauzwVLMOemMRSZQ5FHO0qqZtgJbA/gPeep9KJHkjpwqmZO11bGE6REtGZeYn
-         mvJiJy0CA5D+79023G81CQYNcdEecAWkE66Dw5FxY8BEGwo7q4BS5M1PdkpDWcsHvvvJ
-         DgAdfAHzP6RzA9romX7fkBuWGkUI2UFCuf2kcUXOifDlt2eBmzWLLpRIwbsRnmO5vL+x
-         kL+kDJ5xFkOHc7RlAFP6AlR+TUErEGCdyCjVnFb85nM0pG+zwCH6O9oXTRvAie3H9/Pl
-         zY0g==
+        d=google.com; s=20230601; t=1760380468; x=1760985268; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ay88j/QH+hyyaDBYdXcO1dx59pcNYIrbAIsPI7MQ/r0=;
+        b=ym8M83GjNWGwF+4tsGmYsHLbaPw+5Q9ol66z0+BSv49SO2oEAvVk0y9EDa/WyxIv11
+         i5R0F1Nc26odJPK0HVY8O94K7oUEXSeVXAbvDb/GpZBzlAC4547cUecaYabC3e3bim3c
+         UVwAJ5mGmA1FqmR1OneRzlQVpbNhyZYqdNZI1VUMB6ygLh8lhun8FDksBYlzR/b6MRuR
+         a7HAH3tHmQbE5LhVgiClt62YbVp3CfK2bkWPyI0VVMh+RqGGBLrEFVIZKNPukDtAFJE3
+         +HRyzafHZEE1jCnV8WVP511z1nFi6XHzq8zbxOmUC5Ac2XLsmfuU5yXgjQP6tvmHrU7q
+         8wmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760376979; x=1760981779;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ATjbUVjPtgk2XgFOIG18XCiG2R9zjwgC0SeHYooUTnk=;
-        b=p6kyfhckb6fBHQ7FA4pXRM1acUupGw4VaeMk43kddzNvgJjbBc/WM7PVLWFI/v3sNv
-         IqjXq4PBge4mUcM5jqhNVLVhYLPwG0aY+pL2Pq3ueIQO7FnrhdvRRL+gGpFsKUCcqK4c
-         5v0T7PNV4foubWcx5Zoax29CtcyVMnnv24YMi/xUamE5cEiFXtqfXwIuX47C0oppAnSf
-         oCp4sTx9FbfXecYweFDiBTAzZZGpgBskDYE7zw5WfNrXc5u4WUCer8dRUgeQd+DWA1KP
-         ATH5+WbYLNmiyujJZdfD6Kv8R3GYc30ggs39Pz6A5XcEpYGxS9Iv2hWGLI3DlQB569Ef
-         BM8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXZqKMXpbK25BhGOKbMt/+5CepRHnsSTwmWNVIu4Lo7ARauzFqSrbZthaklOsGY8aT7UAvcKhrgiMhn@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPFCOeYwlMXtC24kmoMfeAGBQE3zSvrK/k6iJShjzBEGl576Yu
-	UvINUw6ke1kV4+nGQ4OTTKYW8GiDVGeMrh/wSAICj5Y4UD6GvIhB3MB0
-X-Gm-Gg: ASbGnct3NAyP8NrCzPciXiwSpYLo5BzfxnHdzYymZzQZ6lW83JXODFaO8q74ofMN0S2
-	HW09rJ6fpVipYIK0h6IwGEqfhNbwjG/MhnEoHZJNbb+Sa0+tc/8LhKHvFg83lvzEYnOrMBvzYP1
-	aDSqu+tH282SW+bhis0A1tKcWKjmsIticdDBhNFiVvyK61j6bDrgDnwaq6ritIEwYQFk26gxCdW
-	m0Dg6mgFwfhu9VLwBTTntAtrswxtzE7mA4XZVOMen4xD7KVQq3O6HWrExxQrRUtu2vYwdq684pL
-	V1IpUfuYn/uPMnNaM/E3zCX6W/y+pkn6jUece1Z5pR5yIT0ofWrDUqkPNZhDnem67/TWI/SVZ/I
-	SprMZG4LNu1qkJj0D+1vymHCOcJcS0lSvGzPrVUmY+bBdG3ziPt/+gIR9aPSgf5U=
-X-Google-Smtp-Source: AGHT+IFS124pQtyx/H2Lv0NWRAsl1qkpj5e9oFH32lZ3m9oPB5Gj53gUtGzgXf4Pr7LrwD/HWfgOgQ==
-X-Received: by 2002:a05:6a00:2e89:b0:772:45ee:9b9e with SMTP id d2e1a72fcca58-793857fe5b8mr22582029b3a.9.1760376978836;
-        Mon, 13 Oct 2025 10:36:18 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.118.149.214])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b060754sm12424546b3a.13.2025.10.13.10.36.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 10:36:17 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	gregkh@linuxfoundation.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v16 3/3] docs: leds: Document TI LP5812 LED driver
-Date: Tue, 14 Oct 2025 00:35:51 +0700
-Message-Id: <20251013173551.108205-4-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251013173551.108205-1-trannamatk@gmail.com>
-References: <20251013173551.108205-1-trannamatk@gmail.com>
+        d=1e100.net; s=20230601; t=1760380468; x=1760985268;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ay88j/QH+hyyaDBYdXcO1dx59pcNYIrbAIsPI7MQ/r0=;
+        b=FS50PvTzfDy8a4WsPore5K8aRAxKPgkXS1ET5voFyxDPHWS8clnQ4nC+nDFKTCUCp6
+         Alh4DTxPOnJ/hlx9W4wkRK8XlMWjHkwkfTLU94Z92ua7XiKoNKyMOHa2RhZL5XkRGSAp
+         N1UPsEOrXZuHS0yeR7ew3zYitoFQMJDird8YhIJh7cToyK6p868ctVUW2qchaLWZQyFy
+         o0cpM0+KWqxxxlJ2gvSQJGpgX72kcc5c5MAhPc3mCTC+SLQ+u4JL98dFXzFLx8NOD7Sy
+         doMGQ5QTo7uhcbpFUgwc/q59r4O2EUh36xvDY3B/KmJJ12u0yKjfzhxRTDK+mPCHFpAx
+         obJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXollIRMYTUdlyqTtFO0OpoNfMMOzlLxO10RmmeXPxYebiMDACYdGsUcoyZB2VZstr7+j2Es12Zjt2B@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf8jePNI9RPjRPhbndcR6SRLvezuufAQ4W0fDDUwtOg3xrz2PW
+	KFUoNqNrjXZG2ogjuhZ3Vj1SRh54hf23dNV4xYlEVllui6oD70u0wHFGE7vVsbH4kpYjEG2Vwgx
+	Qog/vOJhS3KuEFwowzg==
+X-Google-Smtp-Source: AGHT+IGe1qNQN2z1oRXedOyQR3Zfee2RXdyhLUdBm0dMR5H6rdNOgRFmc0Gkgty5AvsElHYqpi3+spY3mX20Te0=
+X-Received: from ejn19.prod.google.com ([2002:a17:906:593:b0:b3c:12c2:d0dd])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:2689:b0:b3e:bb87:772c with SMTP id a640c23a62f3a-b50aab9c912mr2457025366b.17.1760380467851;
+ Mon, 13 Oct 2025 11:34:27 -0700 (PDT)
+Date: Mon, 13 Oct 2025 18:34:27 +0000
+In-Reply-To: <20251012145221.172116-3-markus.probst@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20251012145221.172116-1-markus.probst@posteo.de> <20251012145221.172116-3-markus.probst@posteo.de>
+Message-ID: <aO1GM4WXs37Zpm0G@google.com>
+Subject: Re: [PATCH v4 2/2] rust: leds: add basic led classdev abstractions
+From: Alice Ryhl <aliceryhl@google.com>
+To: Markus Probst <markus.probst@posteo.de>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Uladzislau Rezki <urezki@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-The driver provides sysfs interfaces to control and configure the
-LP5812 device and its LED channels.
+On Sun, Oct 12, 2025 at 02:52:39PM +0000, Markus Probst wrote:
+> Implement the core abstractions needed for led class devices, including:
+> 
+> * `led::LedOps` - the trait for handling leds, including
+>   `brightness_set`, `brightness_get` and `blink_set`
+> 
+> * `led::InitData` - data set for the led class device
+> 
+> * `led::Device` - a safe wrapper around `led_classdev`
+> 
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
 
-The documetation describes the chip's capabilities, sysfs interface,
-and usage examples.
+> +pub trait LedOps: Send + 'static + Sized {
+> +    /// If set true, [`LedOps::brightness_set`] and [`LedOps::blink_set`] must not sleep
+> +    /// and perform the operation immediately.
+> +    const BLOCKING: bool;
+> +    /// The max brightness level
+> +    const MAX_BRIGHTNESS: u32;
+> +
+> +    /// Sets the brightness level.
+> +    ///
+> +    /// See also [`LedOps::BLOCKING`]
+> +    fn brightness_set(&self, brightness: u32) -> Result<()>;
+> +
+> +    /// Gets the current brightness level.
+> +    fn brightness_get(&self) -> u32 {
+> +        build_error!(VTABLE_DEFAULT_ERROR)
+> +    }
+> +
+> +    /// Activates hardware accelerated blinking.
+> +    ///
+> +    /// delays are in milliseconds. If both are zero, a sensible default should be chosen.
+> +    /// The caller should adjust the timings in that case and if it can't match the values
+> +    /// specified exactly. Setting the brightness to 0 will disable the hardware accelerated
+> +    /// blinking.
+> +    ///
+> +    /// See also [`LedOps::BLOCKING`]
+> +    fn blink_set(&self, _delay_on: &mut usize, _delay_off: &mut usize) -> Result<()> {
+> +        build_error!(VTABLE_DEFAULT_ERROR)
+> +    }
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/leds-lp5812.rst | 50 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- 3 files changed, 52 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
+These functions should probably take a &Device<Bound> argument so that
+they can use methods that require a bound device (such as IO).
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 76fae171039c..bebf44004278 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,6 +25,7 @@ LEDs
-    leds-lp5523
-    leds-lp5562
-    leds-lp55xx
-+   leds-lp5812
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-new file mode 100644
-index 000000000000..4c22d9a79d14
---- /dev/null
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -0,0 +1,50 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+Kernel driver for lp5812
-+========================
-+
-+* TI/National Semiconductor LP5812 LED Driver
-+* Datasheet: https://www.ti.com/product/LP5812#tech-docs
-+
-+Authors: Jared Zhou <jared-zhou@ti.com>
-+
-+Description
-+===========
-+
-+The LP5812 is a 4x3 matrix LED driver with support for both manual and
-+autonomous animation control. This driver provides sysfs interfaces to
-+control and configure the LP5812 device and its LED channels.
-+
-+Sysfs Interface
-+===============
-+
-+This driver uses the standard multicolor LED class interfaces defined
-+in `Documentation/ABI/testing/sysfs-class-led-multicolor`.
-+
-+Each LP5812 LED output appears under ``/sys/class/leds/`` with its
-+assigned label (for example ``LED_A``).
-+
-+The following attributes are exposed:
-+  - multi_intensity: Per-channel RGB intensity control.
-+  - brightness: Standard brightness control (0-255)
-+
-+Autonomous Control Modes
-+========================
-+
-+The driver also supports autonomous control through pattern configuration
-+(e.g., direct, tcmscan, or mixscan modes) defined in the device tree.
-+When configured, the LP5812 can generate transitions and color effects
-+without CPU intervention.
-+
-+Refer to the device tree binding document for valid mode strings and
-+configuration examples.
-+
-+Example Usage
-+=============
-+
-+To control LED_A::
-+    # Set RGB intensity (R=50, G=50, B=50)
-+    echo 50 50 50 > /sys/class/leds/LED_A/multi_intensity
-+    # Set overall brightness to maximum
-+    echo 255 > /sys/class/leds/LED_A/brightness
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7166e80c189b..314b5555c027 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25418,6 +25418,7 @@ M:	Nam Tran <trannamatk@gmail.com>
- L:	linux-leds@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-+F:	Documentation/leds/leds-lp5812.rst
- F:	drivers/leds/rgb/Kconfig
- F:	drivers/leds/rgb/Makefile
- F:	drivers/leds/rgb/leds-lp5812.c
--- 
-2.25.1
+> +impl<T: LedOps> Device<T> {
+> +    /// Registers a new led classdev.
+> +    ///
+> +    /// The [`Device`] will be unregistered on drop.
+> +    pub fn new<'a>(
+> +        parent: &'a device::Device<Bound>,
+> +        init_data: InitData<'a>,
+> +        ops: T,
+> +    ) -> impl PinInit<Devres<Self>, Error> + 'a {
+> +        Devres::new(
+> +            parent,
+> +            try_pin_init!(Self {
+> +                ops,
+> +                classdev <- Opaque::try_ffi_init(|ptr: *mut bindings::led_classdev| {
+> +                    // SAFETY: `try_ffi_init` guarantees that `ptr` is valid for write.
+> +                    // `led_classdev` gets fully initialized in-place by
+> +                    // `led_classdev_register_ext` including `mutex` and `list_head`.
+> +                    unsafe { ptr.write(bindings::led_classdev {
+> +                        max_brightness: T::MAX_BRIGHTNESS,
+> +                        brightness_set: T::BLOCKING
+> +                            .then_some(Adapter::<T>::brightness_set_callback),
+> +                        brightness_set_blocking: (!T::BLOCKING)
+> +                            .then_some(Adapter::<T>::brightness_set_blocking_callback),
+> +                        brightness_get: T::HAS_BRIGHTNESS_GET
+> +                            .then_some(Adapter::<T>::brightness_get_callback),
+> +                        blink_set: T::HAS_BLINK_SET
+> +                            .then_some(Adapter::<T>::blink_set_callback),
+> +                        .. bindings::led_classdev::default()
+> +                    }) };
 
+This doesn't look like something rustfmt would output? Could you run
+rustfmt if you haven't already. If it doesn't do anything, then please
+format it outside of the macro and move it back in.
+
+Alice
 
