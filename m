@@ -1,137 +1,279 @@
-Return-Path: <linux-leds+bounces-5744-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5745-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA608BD1000
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 02:44:38 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AABBD1EA4
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 10:03:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A71F1893687
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 00:45:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C1074ED408
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 08:03:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A0D1DA0E1;
-	Mon, 13 Oct 2025 00:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A784D2EB845;
+	Mon, 13 Oct 2025 08:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyTV70OP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPdDqU93"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A34211F;
-	Mon, 13 Oct 2025 00:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFB42EB5DE;
+	Mon, 13 Oct 2025 08:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760316273; cv=none; b=RNgtYtH5ZktCjO3E7PzEbkBC4peh8lYNGEEJV1lMsna3CHlpUB+4qYBcpWA+zO6wqj90r8gpzpdWgVzqOsEm7XY4WL0qy8MyMzwKWc60wpmQzFH82GSc3OGsXJcXJ4CDzqLF0amiqdG9GYOgUSDXEbMVVTiqRtrC0visdZHMBqU=
+	t=1760342605; cv=none; b=oluZb7QUx5XoPc4k3P9N1ytOn3NySpEVmp/Hp64IOcQrHFL6AgWrImlZRvkzM0ZgD2VljlYL/v10GuNsiNHA5yW9s1SyOiyZjrF9+Ci21q9NY2fYzw6126JuRK1zzcVpRVn6C8ztNPDzC3i1MBLUnvwffxQRwkC7m+NNGaau/u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760316273; c=relaxed/simple;
-	bh=vZIrRpa1++fpehXM29JEkhYaLWzQwzQLHpVBSIkYNso=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=StHmQjsOpBIeHBGmWjgcRIRdSStr+t5W6G+FCEQyoroO9QB/qKDlUKWMwGPjxxe/DO5J3qCvBUl6uaO6xpmdA+tH00KlLEorBeoUntNJE+Bf9H+hnYvWJVy8kyf4/TqHhlNxP8MlNxmn4hfcIR0E7c37BfXJN7wZwZXC7UCTeP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyTV70OP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE9AC4CEE7;
-	Mon, 13 Oct 2025 00:44:30 +0000 (UTC)
+	s=arc-20240116; t=1760342605; c=relaxed/simple;
+	bh=ISWExC7c0gJhdjKh1DPstfuLbXdo32wmETxjLgp8ZEI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=R3qwRUs+uTRrWc/a6BHEt+aUqrDNynC2jFVNQObp151n/u7Khw2pdL80ntFIRnghc8yredpIFAz3NZWOD/STmwidrR6HDhvOkzSJKgQS6xSgkb2VZFP392x32KSf9/OLm5RQj85LI27WRmd9DffYc5bObIfedeeILunLbvqYSHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPdDqU93; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D47CC4CEE7;
+	Mon, 13 Oct 2025 08:03:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760316272;
-	bh=vZIrRpa1++fpehXM29JEkhYaLWzQwzQLHpVBSIkYNso=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XyTV70OPWOHxAoTacgT5jMoITcw/rLk+LmvTAazRaPSmYhHbmMZnBufdI1D6IRVyw
-	 XJHl9wpiI+IsDHmA2RZrcMc1fQ/edCHcH5/XPLY4Dh42DGqzuiWMrRA902BXb8hAHi
-	 VtAK2LPgQasQrm3Exs/FTYLwDUaE5JN3Z3fxn/9ppJOEwmIICWxTif9eDEUQZY9qom
-	 B/rFQ+etwZjc3rvEr0GIMB5czmnpRUl7V4d8AuP/nBG3c00SMgTKaPTNTR/IC/oXvz
-	 /0ChoLCxLR/E2eax3pNTUsSY5qoODUAhT3U+HVzIwllmZ4m3e8kE84qjvbDDdA/7O7
-	 mquE20pDGomPQ==
-Message-ID: <14aec202-39a0-45fc-9d5f-20fb6806eca3@kernel.org>
-Date: Mon, 13 Oct 2025 02:44:28 +0200
+	s=k20201202; t=1760342605;
+	bh=ISWExC7c0gJhdjKh1DPstfuLbXdo32wmETxjLgp8ZEI=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=IPdDqU93073rsE9vYZBYQbpyqGXzgcIpqxtOdjbcrjxUPOuzfJK7j10HS2D1MCa5t
+	 ZCc+euuF56yqBB0I8ewzluqRw1Yx1Ohck8x1oT1vVhJIzwD3DLhVSycHvzeGcbuyVh
+	 94UwD3VseQYs6yZ2VWSezmxhkXjFc+PeUaq8wBd21AK6HpogawnaAns2+JMAYEn57l
+	 gpJqgQbemVdVTeAp0Aks3f48+Ql26Zv45Hr4Dtxz4G5zba7++sgg7HVd+9M8rqKDjp
+	 NVdt6jgYClmt2C/PADywSFvdIqboQ5A2MlDs+D187vVYlFZu9O6IcKtgvi0LzQ6zLf
+	 XF2Wpyhw8LB6Q==
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] leds: Add Virtual Color LED Group driver
-To: Jonathan Brophy <professor_jonny@hotmail.com>,
- Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <20251009084339.1586319-1-professorjonny98@gmail.com>
- <c1d2b2f5-1755-48f3-ac02-952bda718193@kernel.org>
- <DS0PR84MB374668EBA934375770E4A6CA9FEAA@DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DS0PR84MB374668EBA934375770E4A6CA9FEAA@DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Mon, 13 Oct 2025 10:03:19 +0200
+Message-Id: <DDH1DE35H7L0.1Z2R655P701HR@kernel.org>
+Cc: "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
+ <vbabka@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, "Uladzislau
+ Rezki" <urezki@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, "Andreas Hindborg"
+ <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor
+ Gross" <tmgross@umich.edu>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] rust: add basic Pin<Vec<T, A>> abstractions
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Markus Probst" <markus.probst@posteo.de>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Lee Jones" <lee@kernel.org>, "Pavel Machek"
+ <pavel@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20251012145221.172116-1-markus.probst@posteo.de>
+ <20251012145221.172116-2-markus.probst@posteo.de>
+ <DDGHGF4XOJQG.2MVGBMPK0KUQE@kernel.org>
+ <e550b0862e9ea87e50688d1ec8f623638d170a3a.camel@posteo.de>
+ <DDGNXV9KS3RS.2WHS4OOYM6DOP@kernel.org>
+ <2a31fcd045582382987c8c1da7c4b7d58a1dff61.camel@posteo.de>
+In-Reply-To: <2a31fcd045582382987c8c1da7c4b7d58a1dff61.camel@posteo.de>
 
-On 13/10/2025 02:24, Jonathan Brophy wrote:
-> On FRI, 10 October 2025, Krzysztof Kozlowski wrote:
-> 
-> 
->>> +	if (!ret) {
->>> +		vled->blink_delay_on = blink_interval;
->>> +		vled->blink_delay_off = blink_interval;
->>> +	}
->>> +
->>> +	phandle_count = fwnode_property_count_u32(child_fwnode, "leds");
->>
->>
->> No, don't mix OF and fwnode.
-> 
-> Thanks for the guidance I am working my way through the List if fixes and will offer a new patch set when complete.
-> 
-> Just one question is there a preference to use Device Tree (OF) functions or FWnode functions?
-> It is my under standing FWnode is newer and  more universal.
+On Mon Oct 13, 2025 at 12:11 AM CEST, Markus Probst wrote:
+> On Sun, 2025-10-12 at 23:31 +0200, Benno Lossin wrote:
+>> On Sun Oct 12, 2025 at 6:57 PM CEST, Markus Probst wrote:
+>> > From what I can tell, there is no way to get a `Pin<&mut Vec<T,
+>> > A>>`
+>> > from a `&mut Pin<Vec<T, A>>`. We can only get `Pin<&mut [T]>` which
+>> > is
+>> > not usable in our case.
+>>=20
+>> Hmm yeah that's true.
+>>=20
+>> > If there is way, without the extension trait or an extra struct, I
+>> > would be happy to implement it.
+>>=20
+>> So I tried to look for the usage site of this and I found this usage
+>> in
+>> your v1:
+>>=20
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mut l=
+eds =3D KPinnedVec::with_capacity(
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 Atmega1608LedAddress::VALUES.len() *
+>> Atmega1608LedId::VALUES.len(),
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 GFP_KERNEL,
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )?;
+>> =C2=A0=C2=A0=C2=A0 +
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mut i=
+ =3D 0;
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for addr =
+in Atmega1608LedAddress::VALUES {
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 let mode_lock =3D Arc::pin_init(new_mutex!(()),
+>> GFP_KERNEL)?;
+>> =C2=A0=C2=A0=C2=A0 +
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 for id in Atmega1608LedId::VALUES {
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let Some(child) =3D
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+>> fwnode.get_child_by_name(&CString::try_from_fmt(fmt!("led@{i}"))?)
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else {
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 continue;
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
+>> =C2=A0=C2=A0=C2=A0 +
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let client =3D ARef::clone(&client)=
+;
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mode_lock =3D Arc::clone(&mode_=
+lock);
+>> =C2=A0=C2=A0=C2=A0 +
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 leds.push_pin_init(LedClassDev::new=
+(
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Some(idev),
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 None,
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LedInitData=
+::new().fwnode(&child),
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Atmega1608L=
+ed {
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 addr,
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 id,
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 client,
+>> =C2=A0=C2=A0=C2=A0 +
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 mode_lock,
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ))?;
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i +=3D 1;
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(KBox::=
+new(Self { client, leds }, GFP_KERNEL)?.into())
+>>=20
+>> And I think using `Vec` for this is just wrong. `Vec` is a data
+>> structure that supports growing and shrinking the allocation. But you
+>> just need a fixed size buffer that holds all your data. Do you think
+>> that `Pin<Box<[LedClassDev]>>` would suffice if it had proper support
+>> from pin-init?
+> As you can see in v1, the number of leds (or vec entries) depends on
+> the fwnode (see the continue statement there). I don't think that
+> counts as fixed size. `Pin<KBox<[Option<LedClassDev>]>>` could
+> potentially be used instead of `Pin<KVec<LedClassDev>>` in my scenario,
+> but that would require an extra byte of allocation for the max leds of
+> 24 each and the code would look more ugly. At the point I use Option in
+> the slice, its basically an unoptimized Vec (instead of storing the
+> length, it stores if an item in the buffer is present or not).
 
-I think fwnode is better, but my comment here was - choose one.
+You can just make the length of the slice be the desired length? (also,
+`i` is never incremented in the `continue` case, so it will act like a
+`break`?)
 
-Best regards,
-Krzysztof
+One option that we have would be storing the initializers in a vec:
+
+    fn probe(
+        pdev: &I2cClient<kernel::device::Core>,
+        _id_info: Option<&Self::IdInfo>,
+    ) -> Result<Pin<KBox<Self>>> {
+        let idev =3D pdev.as_ref();
+   =20
+        let Some(fwnode) =3D idev.fwnode() else {
+            return Err(EINVAL);
+        };
+   =20
+        let client: ARef<I2cClient> =3D pdev.into();
+   =20
+        client
+            .write_byte_data(1, 0)
+            .inspect_err(|err| dev_err!(idev, "unable to remove led mask: {=
+err:?}\n"))?;
+   =20
+        let mut led_init =3D KVec::new();
+   =20
+        let mut i =3D 0;
+        for addr in Atmega1608LedAddress::VALUES {
+            let mode_lock =3D Arc::pin_init(new_mutex!(()), GFP_KERNEL)?;
+   =20
+            for id in Atmega1608LedId::VALUES {
+                let Some(child) =3D
+                    fwnode.get_child_by_name(&CString::try_from_fmt(fmt!("l=
+ed@{i}"))?)
+                else {
+                    continue;
+                };
+   =20
+                let client =3D ARef::clone(&client);
+                let mode_lock =3D Arc::clone(&mode_lock);
+   =20
+                led_init.push(LedClassDev::new(
+                    Some(idev),
+                    None,
+                    LedInitData::new().fwnode(&child),
+                    Atmega1608Led {
+                        addr,
+                        id,
+                        client,
+                        mode_lock,
+                    },
+                ))?;
+                i +=3D 1;
+            }
+        }
+        let leds =3D Vec::pin_init_slice(led_init, GFP_KERNEL)?;
+        Ok(KBox::new(Self { client, leds }, GFP_KERNEL)?.into())
+    }
+
+And `Vec::pin_init_slice` would have the following signature:
+
+    fn pin_init_slice<T, I, E>(this: Vec<I>, flags: alloc::Flags) -> Result=
+<Pin<Box<[T]>>>
+    where
+        I: PinInit<T, E>,
+        Error: From<E>;
+
+---
+Cheers,
+Benno
+
+>
+>>=20
+>> Also, please don't top-post [1] and take a look at your mail client
+>> configuration, it puts lots of extra `> ` at the end which looks
+>> pretty
+>> strange [2].
+> Yes, I did notice that. It is not present when writing a reply, but
+> after it got sent for some reason (most replies, not all). It is GNOME
+> Evolution in its default settings basically. My distro ships a 4 months
+> outdated version (3.56.2), which shouldn't be too old, but I will
+> investiage.
+>
+> Thanks
+> - Markus Probst
+>>=20
+>> [1]:
+>> https://docs.kernel.org/process/submitting-patches.html#use-trimmed-inte=
+rleaved-replies-in-email-discussions
+>> [2]:
+>> https://lore.kernel.org/all/e550b0862e9ea87e50688d1ec8f623638d170a3a.cam=
+el@posteo.de
+>>=20
+>> ---
+>> Cheers,
+>> Benno
 
