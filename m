@@ -1,467 +1,159 @@
-Return-Path: <linux-leds+bounces-5765-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5766-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A26BD4FA9
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 18:25:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86F4BD583D
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 19:35:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDAEE3A9872
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 16:02:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 037C218A539B
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 17:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B185731E0E6;
-	Mon, 13 Oct 2025 15:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE37303A3A;
+	Mon, 13 Oct 2025 17:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TrhEZU72"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWTQ2wtZ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448A23126B7;
-	Mon, 13 Oct 2025 15:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982412C0296
+	for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 17:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370002; cv=none; b=Cyfe1ZDU5OvX3KEaVxmKrJCwB3ffRnUXoXxCh6bEFoGyZk7GEqtCt7kL53vEnOISi56amM4rWF/hqZ5SxXyx+QHNdelgCiDfvzAmihrsQduzBK4OHcN/AQ62KxhY+czPX3Fo1eTAbrb5lLT96eJTSusaq2QzWsUq4ie65Iwwfuk=
+	t=1760376950; cv=none; b=X6xcjYeP89jRzfUtfL9KQc6nVMqFGtKVO9KDiy0df/jn7P6I6Bu2C28PBH08O6wgZxLZO2pU0fEe9eRBeziGvTd+cbQhMB5Dp3B1AT4kapIn3aTWVmqGkN2apBtmLRVsJ/mbKjF0l2CBvFmcsA2r5y52eNL4G9jUb4gf1LQvjrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370002; c=relaxed/simple;
-	bh=sQALxnqWnyeSEMQQ0RYyI6aibdSYc8AEXRbsUuo2WO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Thz+z5bhAIew6LuJpz+wglocBNlT5Mv5o8EhNtlXOHdsVbAp/du0se8/h7AxNp95KLdBdxHTgmxlrkFdGcNLOH8ahHXPoav34sjGTbYWtnql/+EuXvTAym5MBTpflyiXM70JCHKfhvOmJWORZk3LPTCG9vbqxdJ5+LLpae8l/YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=TrhEZU72; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1760369997;
-	bh=sQALxnqWnyeSEMQQ0RYyI6aibdSYc8AEXRbsUuo2WO0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TrhEZU72r/+nrE6r5eTBIaHb02eYruhwh/6Kfwag28zUhjbGvS7gY2J9HguMBB2zx
-	 yzxbwurE7SgZ32uIjUCOySMxKV2vEZSnJOPMgRzz65f9DaYC+yJQa/wsGRZp6akLo1
-	 UGg4prMxS4fcOdQpnYTNEf5NH1AmClZs5XCMwzDM=
-Date: Mon, 13 Oct 2025 17:39:55 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Jonathan Brophy <professorjonny98@gmail.com>
-Cc: lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Jonathan Brophy <professor_jonny@hotmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] leds: Add Virtual Color LED Group driver
-Message-ID: <7175bcaf-f588-41ec-afe6-117eceffc28d@t-8ch.de>
-References: <20251013120955.227572-1-professorjonny98@gmail.com>
- <20251013120955.227572-5-professorjonny98@gmail.com>
+	s=arc-20240116; t=1760376950; c=relaxed/simple;
+	bh=L0l1dvVBxI7aQ6QdvNh005q/lMuJAaIhHH3fZWHnXOs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rta5FEvCmQo/Omtge3on9gCfcG9EZGOgGNWTTbM8yGHo3PDIJ2hfhhm7Fxll/k5e6aPOBt3vjkPwRZdzigd94stkEC4tdZTUgsyQFMO8Q216SVWz/Pa6tvPxoKenfihBS/vV/99uL7a/8FE1cGc8xzLw1WrcaMXdj/ej0zBMZcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWTQ2wtZ; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3682ac7f33fso51308601fa.0
+        for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 10:35:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760376947; x=1760981747; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sg1Kp/xD6wqtV9F7MB6gIXsPYnhCTR4iWbhAE/BQKm0=;
+        b=IWTQ2wtZZjJUBq5Qo/vg/A3uocbp5W6Rs1qtW/6GgE88gPr8SEA4BSns57eI/6QfJN
+         CkeVHFlegqo6hH4qz61+S0hK30xDUSiLDEEdRLrbesLooInPic8GmCZc01g/teJ7r64f
+         KLIhp4E2aNFfNitIbJYq2fbYPG5cTX960MKTNwGcg0IIdtlIKZu12tXDvoeMHOxrrnyL
+         HD7Aw5FxbvMw6cHImeuLe1sSml0N+l2BTZqefxTI/57qdW8R3q1DwKLwD8+XBhPP27D5
+         aVs1seOqgBTF/KZPr8v3BnvXNzcRJ2qFfXzEgXnAnB+swtssAcW/gPRs7Ugvix5QMO42
+         6TWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760376947; x=1760981747;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sg1Kp/xD6wqtV9F7MB6gIXsPYnhCTR4iWbhAE/BQKm0=;
+        b=Y6jccwb62uS7AYuoZoPGDBS3rKMg398p/bG27tOeqJmi47j23kvahq4B7sxJfqUTVJ
+         u+6CuQ8abicbOjOEB61ZjVBOn3ag9mlnTYTiKM+mR2bP51oBbPMpEG43L5b0D7dY+h6d
+         VAff+6S2gZ+B9hz1aslJ0A7h0Oi/fnp5Sww9hj5vnEh1C2DFRclMgvOLPrOYxngcZytp
+         +a8AggihYEGTfe7PT93CWS+IsQr4diYV08+3j4+RQ1/x8uYYeZHgzFVMLlblGoNbwdVI
+         UgxLsAKwTW3L1WBk76TVzVftQfFt0Ae8Q69axdMq2tgNWi/4mh15ZitoPgv+qei1c2kT
+         qm8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV4Fk8r5n2YMxjxBSunRErF0rCLym94WVXS4RKATdo2f8U5WzBnsFEuvT575T4DVbXz+l0V0TpUmFpB@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzyru4o7Q6BwwuGUspkRY8IsrNdQq041P/scqBNX2QXPUo6oigY
+	HXDErpEUWgYu2oYrIy9eRq4mh/Fae6qgF9mMwgv93cEupWVt3Q4R4rbV
+X-Gm-Gg: ASbGncsqhUTP7G698bQToIDehBmly5s42GNEN+rW+u8kJ8yFLhYHptfD9b+Fkwu4sS/
+	2XC8JK7aIt7nIma1GNbbAT+9VHYuJNmxxintQLet89TSbqlWegTrMVsNDoEGmvRYBZD5HpmUd+i
+	KsobnpFTSeWg+cuyUKExfaLFzrjUtTs04iKjEdJu4pv1Mig6ziEonYFWLg4ycxEOUFNywPRLRC5
+	bXpvhwIRQ9cX00KrI3HAjCrmM15nHxpY5ry/KuNIcz5P+yhHTxduZHI/Da5E6eFr55i10tVFlM0
+	A+wE8auMQhlWWgcHPKFx4/Y6/N9evXkjUwpOJjyDQ/zkOadny+tHYN6E/ZtwysNoED3FF2N0TbC
+	gyI5K18oIzHvkzjwcRLStSTjWvSCHWL7gk/WK/jLxaCTcWFc6txawag==
+X-Google-Smtp-Source: AGHT+IEV56bnvcGPwOPYB8vnYJAS9fKrH/qReZKaBeWAX+wJt7Mt+B1FaBTD08zZaMMvB5YtKyIwJQ==
+X-Received: by 2002:a05:651c:3246:20b0:376:5391:88b1 with SMTP id 38308e7fff4ca-3765391f543mr14711741fa.9.1760376946456;
+        Mon, 13 Oct 2025 10:35:46 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088577571sm4306355e87.102.2025.10.13.10.35.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Oct 2025 10:35:44 -0700 (PDT)
+Message-ID: <c68111e0-e651-44ee-af7f-737a408fe080@gmail.com>
+Date: Mon, 13 Oct 2025 19:35:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013120955.227572-5-professorjonny98@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: leds-lp50xx: allow LED 0 to be added to module bank
+To: Christian Hitz <christian@klarinett.li>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Christian Hitz <christian.hitz@bbv.ch>, stable@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251013085514.512508-1-christian@klarinett.li>
+Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20251013085514.512508-1-christian@klarinett.li>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2025-10-14 01:09:48+1300, Jonathan Brophy wrote:
-> From: Jonathan Brophy <professor_jonny@hotmail.com>
+On 10/13/25 10:54, Christian Hitz wrote:
+> On Sat, 11 Oct 2025 14:16:16 +0200 Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
 > 
-> Introduces a new driver that implements virtual LED groups,
-> aggregating multiple monochromatic LEDs into virtual groups and providing
-> priority-based control for concurrent state management.
+>> Hi Christian,
+>>
+>> On 10/8/25 14:32, Christian Hitz wrote:
+>>> From: Christian Hitz <christian.hitz@bbv.ch>
+>>>
+>>> led_banks contains LED module number(s) that should be grouped into the
+>>> module bank. led_banks is 0-initialized.
+>>> By checking the led_banks entries for 0, un-set entries are detected.
+>>> But a 0-entry also indicates that LED module 0 should be grouped into the
+>>> module bank.
+>>>
+>>> By only iterating over the available entries no check for unused entries
+>>> is required and LED module 0 can be added to bank.
+>>>
+>>> Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
+>>> Cc: stable@vger.kernel.org
+>>> ---
+>>>    drivers/leds/leds-lp50xx.c | 10 ++++------
+>>>    1 file changed, 4 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+>>> index 94f8ef6b482c..d50c7f3e8f99 100644
+>>> --- a/drivers/leds/leds-lp50xx.c
+>>> +++ b/drivers/leds/leds-lp50xx.c
+>>> @@ -341,17 +341,15 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
+>>>    	return ret;
+>>>    }
+>>>    
+>>> -static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[])
+>>> +static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[], int num_leds)
+>>>    {
+>>>    	u8 led_config_lo, led_config_hi;
+>>>    	u32 bank_enable_mask = 0;
+>>>    	int ret;
+>>>    	int i;
+>>>    
+>>> -	for (i = 0; i < priv->chip_info->max_modules; i++) {
+>>> -		if (led_banks[i])
+>>> -			bank_enable_mask |= (1 << led_banks[i]);
+>>> -	}
+>>> +	for (i = 0; i < num_leds; i++)
+>>> +		bank_enable_mask |= (1 << led_banks[i]);
+>>
+>> Probably the first idea was to have a bitmask indicating which bank
+>> to enable, but it ended up in having array of bank ids in DT with no
+>> related adjustment in the driver.
+>>
+>> This patch deserves Fixes tag.
 > 
-> Author: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> Co Author: Jonathan Brophy <professor_jonny@hotmail.com>
-> Copyright (C) 2024 Jonathan Brophy <professor_jonny@hotmail.com>
-> 
-> Co-developed-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> Signed-off-by: Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> Tested-by: Jonathan Brophy <professor_jonny@hotmail.com>
-> Signed-off-by: Jonathan Brophy <professor_jonny@hotmail.com>
-> ---
->  drivers/leds/rgb/Kconfig                   |  17 +
->  drivers/leds/rgb/Makefile                  |   1 +
->  drivers/leds/rgb/leds-group-virtualcolor.c | 439 +++++++++++++++++++++
->  3 files changed, 457 insertions(+)
->  create mode 100644 drivers/leds/rgb/leds-group-virtualcolor.c
-> 
-(...)
+> This code has not changed since the inital introduction of this driver.
 
-> diff --git a/drivers/leds/rgb/leds-group-virtualcolor.c b/drivers/leds/rgb/leds-group-virtualcolor.c
-> new file mode 100644
-> index 000000000000..e11ad155d3b4
-> --- /dev/null
-> +++ b/drivers/leds/rgb/leds-group-virtualcolor.c
-> @@ -0,0 +1,439 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Virtual LED Group Driver with Priority Control
-> + *
-> + * Implements virtual LED groups by aggregating multiple
-> + * monochromatic LEDs. Provides priority-based control for managing
-> + * concurrent LED activation requests, ensuring only the highest-priority
-> + * LED state is active at any given time.
-> + *
-> + * Code created by Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-> + * Copyright (C) 2024 Jonathan Brophy <professor_jonny@hotmail.com>
-> + *
-> + */
-> +
-> +#include <linux/gpio/consumer.h>
+Yeah, I had on mind design approach changes between subsequent
+versions of the patch that was adding the driver.
 
-Looks unnecessary.
+> Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
+-- 
+Best regards,
+Jacek Anaszewski
 
-> +#include <linux/leds.h>
-
-#include <linux/list.h>
-
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +
-> +struct virtual_led {
-> +	struct led_classdev cdev;
-> +	struct led_classdev **monochromatics;
-> +	struct leds_virtualcolor *vc_data;
-> +	int num_monochromatics;
-> +	int priority;
-> +	unsigned long blink_delay_on;
-> +	unsigned long blink_delay_off;
-> +	struct list_head list;
-> +};
-> +
-> +struct leds_virtualcolor {
-> +	struct virtual_led *vleds;
-> +	int num_vleds;
-> +	struct list_head active_leds;
-> +	struct mutex lock; // Protects access to active LEDs
-> +};
-> +
-> +static void virtual_set_monochromatic_brightness(struct virtual_led *vled,
-> +						 enum led_brightness brightness)
-> +{
-> +	int i;
-> +
-> +	if (vled->blink_delay_on || vled->blink_delay_off) {
-> +		unsigned long blink_mask = (BIT(LED_BLINK_SW) | BIT(LED_BLINK_ONESHOT) |
-> +					    BIT(LED_SET_BLINK));
-> +
-> +		/*
-> +		 * Make sure the LED is not already blinking.
-> +		 * We don't want to call led_blink_set multiple times.
-> +		 */
-> +		if (!(vled->cdev.work_flags & blink_mask))
-
-work_flags don't look they are meant to be used by drivers.
-
-> +			led_blink_set(&vled->cdev, &vled->blink_delay_on, &vled->blink_delay_off);
-> +
-> +		/* Update the blink delays if they have changed */
-> +		if (vled->blink_delay_on != vled->cdev.blink_delay_on ||
-> +		    vled->blink_delay_off != vled->cdev.blink_delay_off) {
-> +			vled->cdev.blink_delay_on = vled->blink_delay_on;
-> +			vled->cdev.blink_delay_off = vled->blink_delay_off;
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < vled->num_monochromatics; i++)
-> +		led_set_brightness(vled->monochromatics[i], brightness);
-> +}
-> +
-> +static ssize_t priority_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct virtual_led *vled = dev_get_drvdata(dev);
-> +
-> +	return sprintf(buf, "%d\n", vled->priority);
-
-sysfs_emit();
-
-> +}
-> +
-> +static ssize_t priority_store(struct device *dev, struct device_attribute *attr, const char *buf,
-> +			      size_t count)
-> +{
-> +	struct virtual_led *vled = dev_get_drvdata(dev);
-> +	int new_priority;
-> +	int ret;
-> +
-> +	ret = kstrtoint(buf, 10, &new_priority);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	vled->priority = new_priority;
-
-No locking?
-
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RW(priority);
-> +
-> +static ssize_t blink_delay_on_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct virtual_led *vled = dev_get_drvdata(dev);
-> +
-> +	return sprintf(buf, "%lu\n", vled->blink_delay_on);
-> +}
-
-Why does this have a custom blinking UAPI?
-Shouldn't it be generic?
-
-(...)
-
-> +static int leds_virtualcolor_init_vled(struct device *dev, struct device_node *child,
-> +				       struct virtual_led *vled, struct leds_virtualcolor *vc_data)
-> +{
-> +	struct led_init_data init_data = {};
-> +	u32 blink_interval;
-> +	u32 phandle_count;
-> +	u32 max_brightness;
-> +	int ret;
-> +	int i;
-
-INIT_LIST_HEAD(&vled->list);
-
-> +
-> +	ret = of_property_read_u32(child, "priority", &vled->priority);
-> +	if (ret)
-> +		vled->priority = 0;
-> +
-> +	ret = of_property_read_u32(child, "blink", &blink_interval);
-> +	if (!ret) {
-> +		vled->blink_delay_on = blink_interval;
-> +		vled->blink_delay_off = blink_interval;
-> +	}
-> +
-> +	phandle_count = of_property_count_elems_of_size(child, "leds", sizeof(u32));
-> +	if (phandle_count <= 0) {
-> +		dev_err(dev, "No monochromatic LEDs specified for virtual LED %s\n",
-> +			vled->cdev.name);
-> +		return -EINVAL;
-> +	}
-> +
-> +	vled->num_monochromatics = phandle_count;
-> +	vled->monochromatics = devm_kcalloc(dev, vled->num_monochromatics,
-> +					    sizeof(*vled->monochromatics), GFP_KERNEL);
-> +	if (!vled->monochromatics)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < vled->num_monochromatics; i++) {
-> +		struct led_classdev *led_cdev;
-> +
-> +		led_cdev = devm_of_led_get_optional(dev, i);
-> +		if (IS_ERR(led_cdev)) {
-> +			/*
-> +			 * If the LED is not available yet, defer the probe.
-> +			 * The probe will be retried when it becomes available.
-> +			 */
-> +			if (PTR_ERR(led_cdev) == -EPROBE_DEFER)
-> +				return -EPROBE_DEFER;
-> +
-> +			ret = PTR_ERR(led_cdev);
-> +			dev_err(dev, "Failed to get monochromatic LED for %s, error %d\n",
-> +				vled->cdev.name, ret);
-> +			return ret;
-> +		}
-
-Just use dev_err_probe(), it will properly handle -EPROBE_DEFER.
-
-> +
-> +		vled->monochromatics[i] = led_cdev;
-> +	}
-> +
-> +	ret = of_property_read_u32(child, "max-brightness", &max_brightness);
-> +	if (ret)
-> +		vled->cdev.max_brightness = LED_FULL;
-> +	else
-> +		vled->cdev.max_brightness = max_brightness;
-> +
-> +	vled->cdev.brightness_set_blocking = virtual_led_brightness_set;
-> +	vled->cdev.flags = LED_CORE_SUSPENDRESUME;
-> +
-> +	init_data.fwnode = NULL; // Use OF, not fwnode
-
-Why?
-
-> +	ret = devm_led_classdev_register_ext(dev, &vled->cdev, &init_data);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register virtual LED %s\n", vled->cdev.name);
-> +		return ret;
-> +	}
-
-if (ret)
-	return dev_err_probe() ...
-
-> +
-> +	ret = device_create_file(vled->cdev.dev, &dev_attr_priority);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to create sysfs attribute for priority\n");
-> +		return ret;
-> +	}
-
-Use 'struct platform_driver::driver::dev_groups' to let the driver core
-manage your sysfs attributes instead of doing it manually.
-
-> +
-> +	ret = device_create_file(vled->cdev.dev, &dev_attr_blink_delay_on);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to create sysfs attribute for blink_delay_on\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = device_create_file(vled->cdev.dev, &dev_attr_blink_delay_off);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to create sysfs attribute for blink_delay_off\n");
-> +		return ret;
-> +	}
-> +
-> +	vled->vc_data = vc_data;
-> +
-> +	return 0;
-> +}
-> +
-> +static int leds_virtualcolor_disable_sysfs_access(struct device *dev, struct virtual_led *vled)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < vled->num_monochromatics; i++) {
-> +		struct led_classdev *led_cdev = vled->monochromatics[i];
-> +
-> +		mutex_lock(&led_cdev->led_access);
-
-This mutex looks unnecessary.
-
-> +		led_sysfs_disable(led_cdev);
-> +		mutex_unlock(&led_cdev->led_access);
-> +
-> +		devm_add_action_or_reset(dev, restore_sysfs_write_access, led_cdev);
-
-Check for errors.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int leds_virtualcolor_probe(struct platform_device *pdev)
-> +{
-> +	struct leds_virtualcolor *vc_data;
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *child;
-> +	int count = 0;
-> +	int ret;
-> +
-> +	vc_data = devm_kzalloc(dev, sizeof(*vc_data), GFP_KERNEL);
-> +	if (!vc_data)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&vc_data->lock);
-
-Use devm_mutex_init(), then you can get rid of all the mutex_destroy()
-calls below.
-
-> +	INIT_LIST_HEAD(&vc_data->active_leds);
-> +
-> +	vc_data->num_vleds = of_get_child_count(dev->of_node);
-> +	if (vc_data->num_vleds == 0) {
-> +		dev_err(dev, "No virtual LEDs defined in device tree\n");
-
-return dev_err_probe();
-
-> +		ret = -EINVAL;
-> +		goto err_mutex_destroy;
-> +	}
-> +
-> +	vc_data->vleds = devm_kcalloc(dev, vc_data->num_vleds, sizeof(*vc_data->vleds), GFP_KERNEL);
-> +	if (!vc_data->vleds) {
-> +		ret = -ENOMEM;
-> +		goto err_mutex_destroy;
-> +	}
-> +
-> +	for_each_child_of_node(dev->of_node, child) {
-
-for_each_child_of_node_scoped() should be nicer.
-Also I think you should check for available, or better yet use
-for_each_available_child_of_node_scoped().
-
-> +		struct virtual_led *vled = &vc_data->vleds[count];
-> +
-> +		ret = leds_virtualcolor_init_vled(dev, child, vled, vc_data);
-> +		if (ret) {
-> +			if (ret != -EPROBE_DEFER)
-> +				dev_err(dev, "Failed to initialize virtual LED %d\n", count);
-> +
-> +			of_node_put(child);
-> +			goto err_node_put;
-> +		}
-> +
-> +		count++;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, vc_data);
-> +
-> +	if (of_property_read_bool(dev->of_node, "monochromatics-ro")) {
-
-The property should be documented.
-
-> +		int i;
-> +
-> +		for (i = 0; i < count; i++) {
-> +			struct virtual_led *vled = &vc_data->vleds[i];
-> +
-> +			ret = leds_virtualcolor_disable_sysfs_access(dev, vled);
-> +			if (ret)
-> +				goto err_node_put;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +
-> +err_node_put:
-> +	mutex_destroy(&vc_data->lock);
-> +	return ret;
-> +
-> +err_mutex_destroy:
-
-Both labels have the same code behind them.
-
-> +	mutex_destroy(&vc_data->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static void leds_virtualcolor_remove(struct platform_device *pdev)
-> +{
-> +	struct leds_virtualcolor *vc_data = platform_get_drvdata(pdev);
-> +	int i, j;
-> +
-> +	for (i = 0; i < vc_data->num_vleds; i++) {
-> +		struct virtual_led *vled = &vc_data->vleds[i];
-> +
-> +		device_remove_file(vled->cdev.dev, &dev_attr_priority);
-> +		device_remove_file(vled->cdev.dev, &dev_attr_blink_delay_on);
-> +		device_remove_file(vled->cdev.dev, &dev_attr_blink_delay_off);
-
-No need to clean up sysfs files, they will be cleaned up automatically.
-
-> +
-> +		for (j = 0; j < vled->num_monochromatics; j++) {
-> +			if (vled->monochromatics[j]) {
-> +				led_put(vled->monochromatics[j]);
-
-This is dropping the reference acquired by devm_of_led_get_optional(),
-correct? Then it is unnecessary, as the reference will be dropped
-automatically by the devres framework.
-
-> +				vled->monochromatics[j] = NULL;
-
-This looks unnecessary, the memory is going to be freed anyways.
-
-> +			}
-> +		}
-> +	}
-> +
-> +	mutex_destroy(&vc_data->lock);
-> +}
-
-(...)
 
