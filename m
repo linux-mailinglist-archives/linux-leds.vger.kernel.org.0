@@ -1,155 +1,105 @@
-Return-Path: <linux-leds+bounces-5746-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5747-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3462BBD228B
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 10:55:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65498BD243A
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 11:23:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 843DF1899649
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 08:56:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DC7A3C4194
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Oct 2025 09:22:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 517242FB608;
-	Mon, 13 Oct 2025 08:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F4092FD1C2;
+	Mon, 13 Oct 2025 09:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="VaaJ/2+F"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W6437GWE"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD9034BA41;
-	Mon, 13 Oct 2025 08:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62582FB0BB
+	for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 09:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760345741; cv=none; b=dghHzVAoaoabP0KGo+lDyIPOEhadcM7KEbERAqU4K6VKL7wPw1Oyi5YMLfxPgFw35nz9HL7kQVq4/cpyYkm4l6l8d0eQ/swcKz2rPxQ9kfdVHpiigj1A1g8SGVwjAgurTV6DFC53+mtfOxiuRDiSptJCeJMknF8oo+G5fLskdw4=
+	t=1760347348; cv=none; b=NovgrLtSMjsYjxTx1vKoj97U7t+B8sTUdoqMLJY8SoIv+hXR09g2mKc2k42FP1/XWuZS7zSlAPlDOlBkh9P9p2SzMIHo8WJTfOhjxW1HTxpBxbb15ePjiU9rOH7Cxyptw+k7XKLNQVdpLTF9z9Q/EW8uM5RLn/j3z5QGz4vAcxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760345741; c=relaxed/simple;
-	bh=o5seUCJtivNGWArJ7uKirtNugIYIcisVModvsY2Dfkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mP4cPNuu3HBrDFcXLc9YsXrOleEiVGQnEQ9QXU9J77/7Xj8xeAvYvCvAMNX1ITXsk5hA2NCTF4QGu0zeOZUVGLhdNFWiXhJjti8OWdUg2Z9AoE/eY+u8EoxIuBw2Pg2UZ8M2ehujPUHHMnhrVpm1bm6fQwCcbGn2pXOE2yVl9u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=VaaJ/2+F; arc=none smtp.client-ip=212.243.197.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
-Received: from localhost (localhost [127.0.0.1])
-	by mail.hostpark.net (Postfix) with ESMTP id 15B55162FB;
-	Mon, 13 Oct 2025 10:55:30 +0200 (CEST)
-Authentication-Results: mail0.hostpark.net (amavis); dkim=pass (1024-bit key)
- reason="pass (just generated, assumed good)" header.d=klarinett.li
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
-	content-transfer-encoding:mime-version:references:in-reply-to
-	:x-mailer:message-id:date:date:subject:subject:from:from; s=
-	sel2011a; t=1760345729; bh=o5seUCJtivNGWArJ7uKirtNugIYIcisVModvs
-	Y2Dfkk=; b=VaaJ/2+Fjx/piV0zzNS3XtAd9rOMgRmolhN6TVVZ7S91p63ybPb9M
-	k9XOQUba9ToNLKxlPgmDKYnXFY4YbuRpI44k7vJf2Le+RfDLNnlqQRqnZ+6nRe1M
-	cqHQTLDwcRq4VL7TbBWkf99dB4RPB1txnxAS1JKenvEquApMctmWP4=
-X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
-Received: from mail.hostpark.net ([127.0.0.1])
- by localhost (mail0.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
- id p3ezNfMLZ4UJ; Mon, 13 Oct 2025 10:55:29 +0200 (CEST)
-Received: from customer (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.hostpark.net (Postfix) with ESMTPSA id 63477162C7;
-	Mon, 13 Oct 2025 10:55:28 +0200 (CEST)
-From: Christian Hitz <christian@klarinett.li>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Christian Hitz <christian@klarinett.li>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Christian Hitz <christian.hitz@bbv.ch>,
-	stable@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: leds-lp50xx: allow LED 0 to be added to module bank
-Date: Mon, 13 Oct 2025 10:54:42 +0200
-Message-ID: <20251013085514.512508-1-christian@klarinett.li>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <6f6fbebf-bdb6-402d-8aa1-9f33eae914ed@gmail.com>
-References: 
+	s=arc-20240116; t=1760347348; c=relaxed/simple;
+	bh=YcL+pfwHaciAhA+DIE3esJzDqXvZMrvSN+Utrx9QEv0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=tW6Kmi0qw7VTxWwll5KkEOEsu77QVpoSyLlz/Y6Wf1rXYHUY89fmuLoeqv6ucYTjkNrZKnmegcI0IKjwKk1yIcaVE3O8prWFAjzKz3WIdzxyIuu3nsKVVT5t3zHO6nzsK9e77a2dQnoA/Fdyfa6dm86hAL9yHpR/GdJCeGua4jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W6437GWE; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3ee10a24246so3583504f8f.3
+        for <linux-leds@vger.kernel.org>; Mon, 13 Oct 2025 02:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760347345; x=1760952145; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQVd9PQAMr1vRmq9PA7Kb7qWQrANWRTDb6YrEyD4+/0=;
+        b=W6437GWEvEw7fPLxJWpDAjGCreJ/JnP3hKC8alR22Tc8Lvm9D3Q+Gd5GoGikdDrUVA
+         D/BI09RpRIzAIJ9El+tyOAQ5pONtfWMQBDt260BcYnnf6+wLL8InKBYCP3XAJHgSOmbq
+         cxF/dJEM9pZdZ3voNssVPB82jZfrfNoglfKP6C3755Zyn1aVZdyWG9mOdqWTX4CgKIIr
+         /UbveKPyj/xI4GevQzsQJnJGQIqxi5M589qIM+qtpRNvsX563mxW3pTa8MVcwFGiwbe0
+         NE2BGQXzI04trz1YbK0HWP8cOULOuZFt050UuY8ziGjWlc13goz8IghTR0FF1p4PM2fF
+         Edgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760347345; x=1760952145;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQVd9PQAMr1vRmq9PA7Kb7qWQrANWRTDb6YrEyD4+/0=;
+        b=UFTkV/sR3w+DtsFL6KznyRvw6qrKosUU8YSLsgRUoJz4L7Nd1OyLl6uEIx61Yn03eU
+         HUL86WNOJXTljx+x1qx1gMYQWFMO9fpgpk+QkQi3q7Fw02EV2FC88ChzstKGgGD8aZoW
+         xxwapsgM8O1BcrU7UBAQpHB86x6NyjHgP6pI6TLEW0PetH0Rlfm8rGA38nv1ACErKOtm
+         a1FFjnp5pzWoRRL4pyUQLZ3qlLmr24VLUz1CRSRzX+skaF9lGXOcWNsgRCLXAOCChAAM
+         x+yiqRjLWsk57L+dZoAmqqrgBSkAxqdom3PzsIDqKSsKAP5wWqFn5fMV6JKgCZFu2ckb
+         7ysw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEuaAfqzFsrzc5UnkcIuNZXKNVw6OCtnLX5xYfMbWiBgMKyOF13PrP7thPN/w0bQM40AL1j/BEQzWe@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0XJ66NShJlDQ3HviEF22yv7M+m1+Qj8bzoAhfF3Sfky9f0zPq
+	PG28S8EERfQJcvr+d+YTzxtrG5OZZiKupIl1R61CfaeYZdWdu/rvvJxeivLkgYcb2EN5SXD5CjD
+	pG8XJVomxP60iLz8KAQ==
+X-Google-Smtp-Source: AGHT+IFhyQPEWSetqelza7/DFTbXzpX+DQ4Q5PhuLc71xjCRewxMXg+EPLK2L6PIkVQZIbscZLpNoWZoH5pGl7Q=
+X-Received: from wrue9.prod.google.com ([2002:a5d:4e89:0:b0:40f:b976:8cba])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:22c7:b0:425:8546:6870 with SMTP id ffacd0b85a97d-42667177d60mr12376827f8f.21.1760347345039;
+ Mon, 13 Oct 2025 02:22:25 -0700 (PDT)
+Date: Mon, 13 Oct 2025 09:22:23 +0000
+In-Reply-To: <DDH1DE35H7L0.1Z2R655P701HR@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20251012145221.172116-1-markus.probst@posteo.de>
+ <20251012145221.172116-2-markus.probst@posteo.de> <DDGHGF4XOJQG.2MVGBMPK0KUQE@kernel.org>
+ <e550b0862e9ea87e50688d1ec8f623638d170a3a.camel@posteo.de>
+ <DDGNXV9KS3RS.2WHS4OOYM6DOP@kernel.org> <2a31fcd045582382987c8c1da7c4b7d58a1dff61.camel@posteo.de>
+ <DDH1DE35H7L0.1Z2R655P701HR@kernel.org>
+Message-ID: <aOzEz23fWxHZbvdh@google.com>
+Subject: Re: [PATCH v4 1/2] rust: add basic Pin<Vec<T, A>> abstractions
+From: Alice Ryhl <aliceryhl@google.com>
+To: Benno Lossin <lossin@kernel.org>
+Cc: Markus Probst <markus.probst@posteo.de>, Danilo Krummrich <dakr@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	bjorn3_gh@protonmail.com, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Sat, 11 Oct 2025 14:16:16 +0200 Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
+On Mon, Oct 13, 2025 at 10:03:19AM +0200, Benno Lossin wrote:
+> And `Vec::pin_init_slice` would have the following signature:
+> 
+>     fn pin_init_slice<T, I, E>(this: Vec<I>, flags: alloc::Flags) -> Result<Pin<Box<[T]>>>
+>     where
+>         I: PinInit<T, E>,
+>         Error: From<E>;
 
-> Hi Christian,
-> 
-> On 10/8/25 14:32, Christian Hitz wrote:
-> > From: Christian Hitz <christian.hitz@bbv.ch>
-> > 
-> > led_banks contains LED module number(s) that should be grouped into the
-> > module bank. led_banks is 0-initialized.
-> > By checking the led_banks entries for 0, un-set entries are detected.
-> > But a 0-entry also indicates that LED module 0 should be grouped into the
-> > module bank.
-> > 
-> > By only iterating over the available entries no check for unused entries
-> > is required and LED module 0 can be added to bank.
-> > 
-> > Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >   drivers/leds/leds-lp50xx.c | 10 ++++------
-> >   1 file changed, 4 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> > index 94f8ef6b482c..d50c7f3e8f99 100644
-> > --- a/drivers/leds/leds-lp50xx.c
-> > +++ b/drivers/leds/leds-lp50xx.c
-> > @@ -341,17 +341,15 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
-> >   	return ret;
-> >   }
-> >   
-> > -static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[])
-> > +static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[], int num_leds)
-> >   {
-> >   	u8 led_config_lo, led_config_hi;
-> >   	u32 bank_enable_mask = 0;
-> >   	int ret;
-> >   	int i;
-> >   
-> > -	for (i = 0; i < priv->chip_info->max_modules; i++) {
-> > -		if (led_banks[i])
-> > -			bank_enable_mask |= (1 << led_banks[i]);
-> > -	}
-> > +	for (i = 0; i < num_leds; i++)
-> > +		bank_enable_mask |= (1 << led_banks[i]);
-> 
-> Probably the first idea was to have a bitmask indicating which bank
-> to enable, but it ended up in having array of bank ids in DT with no
-> related adjustment in the driver.
-> 
-> This patch deserves Fixes tag.
+We already have Box::pin_slice().
 
-This code has not changed since the inital introduction of this driver.
-
-Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
-
-> 
-> >   
-> >   	led_config_lo = bank_enable_mask;
-> >   	led_config_hi = bank_enable_mask >> 8;
-> > @@ -405,7 +403,7 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
-> >   			return ret;
-> >   		}
-> >   
-> > -		ret = lp50xx_set_banks(priv, led_banks);
-> > +		ret = lp50xx_set_banks(priv, led_banks, num_leds);
-> >   		if (ret) {
-> >   			dev_err(priv->dev, "Cannot setup banked LEDs\n");
-> >   			return ret;
-> 
-> Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> 
-> -- 
-> Best regards,
-> Jacek Anaszewski
-
-Sent using hkml (https://github.com/sjp38/hackermail)
+Alice
 
