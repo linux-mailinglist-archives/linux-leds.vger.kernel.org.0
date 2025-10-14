@@ -1,200 +1,123 @@
-Return-Path: <linux-leds+bounces-5777-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5778-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94831BD8229
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 10:19:18 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3E4BD8C4B
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 12:29:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8DF964F9133
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 08:19:15 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2D7EC4FA16A
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 10:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366AA30F814;
-	Tue, 14 Oct 2025 08:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8410D2F656B;
+	Tue, 14 Oct 2025 10:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pT0lO+KV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DdfYgz7Y"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9B930F81D;
-	Tue, 14 Oct 2025 08:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87682EA720
+	for <linux-leds@vger.kernel.org>; Tue, 14 Oct 2025 10:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760429952; cv=none; b=aTBF8qucIk6qdo0+1sZhghf+sWZfEaHdaBuuDZsfgXdNjjSnoUEFzqe0UbMG1FOy9/f+eInoROOJDpkiHUe3OXktkcZRODf6fTbGQ6usyEPD5u86fjd2BeYI7+Lh0Ewy+19FaNbaNWhaUPJ3gCbdaxyyNd6FijzgAc/0Mejx0Gk=
+	t=1760437768; cv=none; b=MJ4wXVu6hjuoABYvRF4mBCYcw9NoUqxJDwshVKa9jVxO1PluUI1XTL9w1Q29mQLwJEWcZTa7v+ccl76ogfh7bMbZnNu4Qu0eJ8UJfoJRlcJOH70SfwQL6yyPTrtEzNfkFkkw1dUgI1kHTBQAzqNVBLFldZhMdl6mamMt/paX424=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760429952; c=relaxed/simple;
-	bh=ZrB24db1zOJCMRMbowUUI3RqQgi8OeEP8pKOKUWPygc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pkCb/Ju0IT5ICUfa/jiGS+1krdn0YCvAE4cyhFvQSg5/7WkP1k1Hy1/8DjTsiu7FMkdCLv1ze8Vch/C0t1v8ft86NpgucE+TnFFJ97dYhJ/XUUjJW6Vpl6Bblkkt68RRj19O5yttLx4hk/ub8VTot6n/e6f5SliHAhHjb+HSyVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pT0lO+KV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63C84C4CEF9;
-	Tue, 14 Oct 2025 08:19:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760429951;
-	bh=ZrB24db1zOJCMRMbowUUI3RqQgi8OeEP8pKOKUWPygc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pT0lO+KVK1/+QwgtMgImp8vu72Nby9B5YnrbkCGEJqpPV9bv98aZsaHQdHoMEo8Ql
-	 MRqnfgf4XuaU1EaLaNEUFOZN16uOrkQ5bnl/Dl5IJJVHXWwx/Lecwe5otRVIGQdvol
-	 5dgb3dH8Unzt1BYvuFloZQrkQXlBSKSClztz8xJTpci/MOZen/CSjkILmghf7m6YVa
-	 KzXV9KtKslNWfOUPPadtgSw5ll44wCQPmjAe5mHDrAEM1Zpe41s8pV3sBBfTEYohEf
-	 rJ3B5pWGExs8K+6gDdvqTgHY5nUO8BYsjHEOiQiiQrokhx0hGwRfYJPNC9zqclRkRc
-	 iS65sivVhdKLA==
-Message-ID: <c44a56bd-955a-4e4a-af3c-7ba754659f69@kernel.org>
-Date: Tue, 14 Oct 2025 10:19:05 +0200
+	s=arc-20240116; t=1760437768; c=relaxed/simple;
+	bh=hYbEH8aG5/g2lPpfG/EurG4fthUUtSOeRcTH4W6yxtc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UOGDtBSPufa5bOmyB+XC9QfqXAIQBUpdHxEhNNnRO8ECwwQOr+VYYVLLnvfymSKNzliN4QvgQJFaTz0k/GFY9ERZuxAoBgUpdR97l21QVQuu90GygHPjlVDZ/D0JSWKE6ApJNo5x+xINAwko4gQ0RjTmeJg1PsK6v4xzLvol0j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DdfYgz7Y; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-749399349ddso61053817b3.3
+        for <linux-leds@vger.kernel.org>; Tue, 14 Oct 2025 03:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760437766; x=1761042566; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VNwslOTb5JOWqs8U+YdiNL7KIGdnAR5sXRre+K3C3ks=;
+        b=DdfYgz7Y5rKyJFlUITSxKyldlwkvFkFQZTgk6UA/p2LEY5CQpKFBwncD4udabSboBD
+         rrm7E9bZUvkucLxDDq/dee2j3ql/kyuWvNF76DVstATfP4FCeHsXikyQTr70j8gEegzH
+         6KBn9Q62DDmtvc6VOh/nVPMqXKRqIMZliBdzMUV3/nvoWOleqspYJuCmx7ThPZhyNaPu
+         PpNDgzBbY0qGjQohu1bTNSwB90F1Bg/jp0WGIuOPXch/joPJYuGRP/IgXNu6GZoB3NgZ
+         IFXuHOl2RqiBiFiPM7Wc7tPFXEMkBmvdiCn+FmB8KXnMe5/9jHXnh19NqyYjGuwKuthi
+         EhLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760437766; x=1761042566;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VNwslOTb5JOWqs8U+YdiNL7KIGdnAR5sXRre+K3C3ks=;
+        b=RSi0E0WmkuzWX8H7ESdJPU7gF8M0zd6VVHut4/2djxMiC9alNOchVmCHI9VioVNunE
+         HIhAX33IvxVNRnoJOwbSmQmMfcKYPVzBiDOxN+hGoY/nJhw4P7uvspgXDUxXgPnxAQN9
+         HyaQCoRodEMym83sMaNZYT57466CFq/NqnLe20fOOEo7LxLhjVl2vcivxdfaKQsU5FY7
+         wGTmvabo80HhnJlfDuniFcNZya7M6M4JRaEAJ6iDJF0plR9TQYyk+/3fLp6LCpNSvAX+
+         eWlwFJH1yL22xMp739RZC/vaZQ7aYyLA9/KdoU0FMP6dHC3mV5ZKgTCarH20pXjnBVzT
+         GMyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/0ercuY4lvyIfdV5dO7wm3X2Q338C6pfKUkRgjKN+gl3q7cokKxeivo6YBsSng1kKcPX/ySdAU1gw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyo74aL8T1shRVWz6IninY0KvStayZ46twah1VrBEnzT0n+zW6N
+	7PDGBQHx7szH+DqkIoxcx5tjSh+KQdmacDRU/n8aNyXpXyNrpqeh2391VQUJ0l0aU4ylT0ZBFry
+	nudvUcsxy5wyfu1qrhQzC3Aw6v5/vGMbEUSL8dAmajw==
+X-Gm-Gg: ASbGncsJq/4SdEUPi0Au7A7PgUAzHXKeGkGy9XqU3zOCUNXrGVBhlszVi1215D5gBSm
+	kJml3lxSiARZfaAOFkkYNaULRXj21v77DlE5oGSdTVOIzyVJ433XFwJOX55qAvy/TmwRxz66OHS
+	Bn0PBvp3kuJimB7t3rKtP2IDZB5kxZnyzjohakBNNqIppniczUY6XlQqMIAHTzOnEWKnpHIAmPQ
+	ZWAuEb5qzWPMySS7iJY/ZhiE/VAcVjGOoIzsIaT
+X-Google-Smtp-Source: AGHT+IFDFh6iWuOmPmvWilDaFBE5YfW3xBkJ2+8+m1/8Q1QTZSI3MhsChmCnpdF1r4INYGcDiNPz/lr8Vbf/DOouGeY=
+X-Received: by 2002:a53:ce8c:0:b0:636:19c8:278e with SMTP id
+ 956f58d0204a3-63ccb84414bmr14226319d50.14.1760437765773; Tue, 14 Oct 2025
+ 03:29:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: leds: Add YAML bindings for Virtual
- Color LED Group driver
-To: Jonathan Brophy <professor_jonny@hotmail.com>,
- Jonathan Brophy <professorjonny98@gmail.com>, lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <20251013120955.227572-1-professorjonny98@gmail.com>
- <20251013120955.227572-2-professorjonny98@gmail.com>
- <8c3796eb-63d0-4650-b296-60894461a806@kernel.org>
- <DS0PR84MB374636FF53989F5D94D821D49FEBA@DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DS0PR84MB374636FF53989F5D94D821D49FEBA@DS0PR84MB3746.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1759824376.git.mazziesaccount@gmail.com>
+ <19d537f9920cae5fa849b649e5bc42ba0b8e52f8.1759824376.git.mazziesaccount@gmail.com>
+ <CACRpkdbHBQQnnTUrUzOrYxzQKCzDyy8aNK7w8OEFz-ic8ic1FQ@mail.gmail.com> <f2e6f0eb-b412-4cf6-8615-d669b8066393@gmail.com>
+In-Reply-To: <f2e6f0eb-b412-4cf6-8615-d669b8066393@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 14 Oct 2025 12:29:10 +0200
+X-Gm-Features: AS18NWDIhtpPAtiexOECYnDlN0ABGxByFw8_QgkDjMMcng7GLnSDiPGnwdY3LaY
+Message-ID: <CACRpkdb-Oz4RXWjLEH2ffKhe3jRxVTSN1u5g=tTTfQHpXW1=8w@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/13] dt-bindings: power: supply: BD72720 managed battery
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andreas Kemnade <andreas@kemnade.info>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 14/10/2025 05:08, Jonathan Brophy wrote:
->> Few minor things follow up, but considering missing reasoning I did not perform full review.
->>
->> A nit, subject: drop second/last, redundant "YAML bindings for". The "dt-bindings" prefix is already stating that these are bindings.
->> See also:
->> https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
->>
->> ... and driver. Again - explain the hardware. Bindings are not for driver.
-> 
-> I'm kind a little bit confused what you mean by this statement.
-> 
-> I'm guessing I should omit hardware info in the class yaml and move it to a group yaml like the multicolor ones as below?
+On Mon, Oct 13, 2025 at 3:00=E2=80=AFPM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
 
+> >> +  rohm,volt-drop-very-low-temp-microvolt:
+> >> +    description: VDR table for very low temperature
+> >
+> > Doesn't the four last properties require to be defined as uint32-array?
+>
+> I have been under impression that the "-microvolt" ending suffices, but
+> I may be wrong. At last the 'make dt_binding_check' didn't give me a shou=
+t.
 
-I speak about the subject.
+Ah you're right, I tend to forget about all the magic Rob has put into
+dtsschema.
 
-> If so that is just a mistake on my part not knowing the file structure well.
-> 
-> https://www.kernel.org/doc/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> https://elixir.bootlin.com/linux/v6.17.1/source/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> 
->>>
->>> +description: |
->>> +  Bindings to show how to achieve logically grouped virtual LEDs.
->>> +  The nodes and properties defined in this document are unique to the
->>> +  virtualcolor LED class.
->>
->> That's completely redundant statement.
-> 
-> Ok fair enough, but I basically cloned this comment from the leds-group-multicolor as they have something simular.
-> 
->>> +  Common LED nodes and properties are inherited from the common.yaml  
->>> + within this documentation directory
->>
->> As well drop. Your description is pretty obvious and does not help at all.
-> 
-> Ok thanks
-> 
->>> +    properties:
->>> +      reg:
->>> +        maxItems: 1
->>> +        description: Virtual LED number
->>> +
->>> +      leds:
->>> +        $ref: /schemas/types.yaml#/definitions/phandle-array
->>> +        description: List of phandles to the monochromatic LEDs to 
->>> + group
->>> +
->>> +      function:
->>> +        description: |
->>> +          For virtualcolor LEDs this property should be defined as
->>> +          LED_FUNCTION_VIRTUAL_STATUS as outlined in:
->>> +          include/dt-bindings/leds/common.h.
->>> +
->>> +      priority:
->>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>> +        description: Priority level for LED activation
->>> +          (higher value means higher priority)
->>> +
->>> +      blink-delay-on:
->>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>> +        description: Time in milliseconds the LED is on during blink
->>> +
->>> +      blink-delay-off:
->>> +        $ref: /schemas/types.yaml#/definitions/uint32
->>> +        description: Time in milliseconds the LED is off during blink
->>> +        note: Setting just one of the blink delays to a valid value while
->>> +          setting the other to null will cause the LED to operate with a one-shot
->>> +          on or off delay instead of a repeat cycle.
->>
->>
->> And drop all above, except reg and leds. If these are new properties, then you need to use proper unit suffixes.
->>
->> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
-> 
-> Thanks for pointing this out I guessed there was a definition's somewhere,
+> >> +        rohm,voltage-vdr-thresh-microvolt =3D <4150000>;
+> >
+> > This property seems to be missing from the bindings?
+>
+> I think it is the first binding in the file :)
 
+Ugh I missed it.
 
-You reference common LED bindings, so no need to duplicate properties
-from there.
-
-
-Best regards,
-Krzysztof
+Yours,
+Linus Walleij
 
