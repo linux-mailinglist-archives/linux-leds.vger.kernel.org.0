@@ -1,78 +1,72 @@
-Return-Path: <linux-leds+bounces-5781-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5782-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D57BD9EEB
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 16:15:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D803ABDA246
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 16:50:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0975C18823D0
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 14:15:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 832D0188850C
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Oct 2025 14:47:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100A225D1FC;
-	Tue, 14 Oct 2025 14:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FD92FF64C;
+	Tue, 14 Oct 2025 14:46:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="IH+6utQW"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="O4XD0DHQ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBA72522BE
-	for <linux-leds@vger.kernel.org>; Tue, 14 Oct 2025 14:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F232701C4
+	for <linux-leds@vger.kernel.org>; Tue, 14 Oct 2025 14:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760451324; cv=none; b=pWIbbWhb8DNZ7K7TbtDfqwU7CXbvfsY5Mw9H2M405P8FZt+fBcH+4vabJhT9YUoj/9MSiQx3M71oJK08HASFiXZl2/+2Dk37/UoaUNEYi60lKO9RM7NtgX55o9rw+Msh/CBm6iqaR/UBPP5j3gJwEEe7twbqrNyf+PocLU+1q8Q=
+	t=1760453207; cv=none; b=t8NhYU+Inp/L7pRrUtlPqnpJu8mXzzBQO/T5atP7IET3bnYQ03g6UsbXSpr9FAVctr8tEGvE9ODF/IO5Ip0OPjB1sb46SpSdK65uWko3YmOqIHqeYIetDhvabKUnK8x8bKOeeqJN0Ju+ndDCT7eVtMx2odsi0pFZJdo1EBTo2S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760451324; c=relaxed/simple;
-	bh=D9X+ge4+42e6vJ+QfBJ0jPFw5DsFCP2/hhp9A662sYQ=;
+	s=arc-20240116; t=1760453207; c=relaxed/simple;
+	bh=mQD076zqipwjL0zhWvp4jYIm/DeAQnP22lZJv1kJu3s=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Blh+N2jEaqmaptJMXcgMsN1BcDh5a77xQ3VQYSPz/+87qAH+MYaTjU5ksuDGzUVLbvDQlwohL/QIK6ibSRQNvF/mBmMpUPdGMYe3fVqSBB7///z1zDNw3+UkypFlsmsk8aGtN7TyPglSujpdcl9h/mXw8RZbVts2HeFLtYY+ohA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=IH+6utQW; arc=none smtp.client-ip=185.67.36.65
+	 Content-Type:MIME-Version; b=so889swK1AktDssIvixdOg5XOJclU+YG+OBczyzKHkQeLCGi829JWmANyUNenQKlzZVx9+sdQmb2ivvxkNf5M4g9rtIEqIfDWqAhGprNxKCl4e0kJyvi3y1bMJFAIWm8uPeg3j/MR1REgSpMaxA+5JTsoWxUQuuSyyVa2JsaDCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=O4XD0DHQ; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 0854F240027
-	for <linux-leds@vger.kernel.org>; Tue, 14 Oct 2025 16:15:20 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id 474F5240028
+	for <linux-leds@vger.kernel.org>; Tue, 14 Oct 2025 16:46:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1760451320; bh=D9X+ge4+42e6vJ+QfBJ0jPFw5DsFCP2/hhp9A662sYQ=;
+	t=1760453203; bh=mQD076zqipwjL0zhWvp4jYIm/DeAQnP22lZJv1kJu3s=;
 	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version:Autocrypt:OpenPGP:From;
-	b=IH+6utQWvsJxdPEKhOnwn/SYlOwL7x4uXeqPA4QM/sSaG+olNFm0DfSpD5KTV4Gx6
-	 LvuecWqbPHMIpTu2RKlzA0jPIzTHjjT88nwfJjw+TfWV8GQkvCfA37ONw4IJHcJ3Ke
-	 CI1HeMVK3FZsoUPJrWsvUnPl6X579zhlfcJ+9spyVPpfoDrP5DNwamWraS13UwlphC
-	 YLKQP5Ee7H/MfZTAWV+K1eR++SwmOekftKrTvOSQFsMvct4zNn2+pEo1H+kUTs23fO
-	 WYPvcmwgAd00p+v36PgOnYoBBwevdeNyWiLwzzx4z/yDS1BjGCFr/1E03WpRvUa6jx
-	 cA4bS8CsYBEhg==
+	b=O4XD0DHQilBK/3qihxb2hOZfYSUf2PAIBMQhQSdzIO7p6S8RbDwG5cC9Wi5ciTEv3
+	 wf1jpPQ6CJftIE7ixYsUUJaKGxNY+oCOZ1yR6Yx1vrFIDz+Px7nJETOsF81O5L2iGJ
+	 JFZX7+omfWzT4bsE8bvWmVf0dOM67c7aVJFHRQa8mXYSsmokN/bYa+3bPF/LURGgdM
+	 tXVhv7x0MFu31iO62TeQ4OGM0VbU+MBJgOj6R9pJuiPgENqqgBYOQpYZE3bv/DVDF2
+	 HGrZzPX6eZ7jjv3hBglpNhvkH8HyIoHBd89gWrUDrD6vOldZxK5UBTql/I4eYwTdGZ
+	 Ti/PrMlIIftUw==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4cmGT11Nr8z9rxB;
-	Tue, 14 Oct 2025 16:15:17 +0200 (CEST)
-Message-ID: <4297a3f3028bd463ed5de38568e87d8ccf82aaa6.camel@posteo.de>
-Subject: Re: [PATCH v4 1/2] rust: add basic Pin<Vec<T, A>> abstractions
+	by submission (posteo.de) with ESMTPSA id 4cmH9D2NQyz6v1l;
+	Tue, 14 Oct 2025 16:46:40 +0200 (CEST)
+Message-ID: <d3e51448678bf5a94746cc34825c35073c02d00e.camel@posteo.de>
+Subject: Re: [PATCH v4 2/2] rust: leds: add basic led classdev abstractions
 From: Markus Probst <markus.probst@posteo.de>
-To: Benno Lossin <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Lee
- Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka	
- <vbabka@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Uladzislau
- Rezki	 <urezki@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, 	bjorn3_gh@protonmail.com, Andreas Hindborg
- <a.hindborg@kernel.org>, Alice Ryhl	 <aliceryhl@google.com>, Trevor Gross
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Lorenzo
+ Stoakes	 <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Uladzislau Rezki
+ <urezki@gmail.com>, Boqun Feng	 <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, bjorn3_gh@protonmail.com,  Benno Lossin
+ <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross
  <tmgross@umich.edu>, 	rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, 	linux-leds@vger.kernel.org
-Date: Tue, 14 Oct 2025 14:15:19 +0000
-In-Reply-To: <DDH9YJEJVF3V.I1SQK1WZ775R@kernel.org>
+Date: Tue, 14 Oct 2025 14:46:42 +0000
+In-Reply-To: <DDHGUQ9B4J2K.X1VXMMU6O5O4@kernel.org>
 References: <20251012145221.172116-1-markus.probst@posteo.de>
-	 <20251012145221.172116-2-markus.probst@posteo.de>
-	 <DDGHGF4XOJQG.2MVGBMPK0KUQE@kernel.org>
-	 <e550b0862e9ea87e50688d1ec8f623638d170a3a.camel@posteo.de>
-	 <DDGNXV9KS3RS.2WHS4OOYM6DOP@kernel.org>
-	 <2a31fcd045582382987c8c1da7c4b7d58a1dff61.camel@posteo.de>
-	 <DDH1DE35H7L0.1Z2R655P701HR@kernel.org>
-	 <4bfba51907578cc0f4f25368240720f4148a2736.camel@posteo.de>
-	 <DDH9YJEJVF3V.I1SQK1WZ775R@kernel.org>
+	 <20251012145221.172116-3-markus.probst@posteo.de>
+	 <aO1GM4WXs37Zpm0G@google.com> <DDHGUQ9B4J2K.X1VXMMU6O5O4@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -122,118 +116,83 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-T24gTW9uLCAyMDI1LTEwLTEzIGF0IDE2OjQ3ICswMjAwLCBCZW5ubyBMb3NzaW4gd3JvdGU6Cj4g
-T24gTW9uIE9jdCAxMywgMjAyNSBhdCAzOjQzIFBNIENFU1QsIE1hcmt1cyBQcm9ic3Qgd3JvdGU6
-Cj4gPiBPbiBNb24sIDIwMjUtMTAtMTMgYXQgMTA6MDMgKzAyMDAsIEJlbm5vIExvc3NpbiB3cm90
-ZToKPiA+ID4gT24gTW9uIE9jdCAxMywgMjAyNSBhdCAxMjoxMSBBTSBDRVNULCBNYXJrdXMgUHJv
-YnN0IHdyb3RlOgo+ID4gPiA+IE9uIFN1biwgMjAyNS0xMC0xMiBhdCAyMzozMSArMDIwMCwgQmVu
-bm8gTG9zc2luIHdyb3RlOgo+ID4gPiA+ID4gT24gU3VuIE9jdCAxMiwgMjAyNSBhdCA2OjU3IFBN
-IENFU1QsIE1hcmt1cyBQcm9ic3Qgd3JvdGU6Cj4gPiA+ID4gPiA+IEZyb20gd2hhdCBJIGNhbiB0
-ZWxsLCB0aGVyZSBpcyBubyB3YXkgdG8gZ2V0IGEgYFBpbjwmbXV0Cj4gPiA+ID4gPiA+IFZlYzxU
-LAo+ID4gPiA+ID4gPiBBPj5gCj4gPiA+ID4gPiA+IGZyb20gYSBgJm11dCBQaW48VmVjPFQsIEE+
-PmAuIFdlIGNhbiBvbmx5IGdldCBgUGluPCZtdXQKPiA+ID4gPiA+ID4gW1RdPmAKPiA+ID4gPiA+
-ID4gd2hpY2gKPiA+ID4gPiA+ID4gaXMKPiA+ID4gPiA+ID4gbm90IHVzYWJsZSBpbiBvdXIgY2Fz
-ZS4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gSG1tIHllYWggdGhhdCdzIHRydWUuCj4gPiA+ID4gPiAK
-PiA+ID4gPiA+ID4gSWYgdGhlcmUgaXMgd2F5LCB3aXRob3V0IHRoZSBleHRlbnNpb24gdHJhaXQg
-b3IgYW4gZXh0cmEKPiA+ID4gPiA+ID4gc3RydWN0LCBJCj4gPiA+ID4gPiA+IHdvdWxkIGJlIGhh
-cHB5IHRvIGltcGxlbWVudCBpdC4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gU28gSSB0cmllZCB0byBs
-b29rIGZvciB0aGUgdXNhZ2Ugc2l0ZSBvZiB0aGlzIGFuZCBJIGZvdW5kCj4gPiA+ID4gPiB0aGlz
-Cj4gPiA+ID4gPiB1c2FnZQo+ID4gPiA+ID4gaW4KPiA+ID4gPiA+IHlvdXIgdjE6Cj4gPiA+ID4g
-PiAKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqAgbGV0IG11dCBsZWRzID0gS1Bpbm5l
-ZFZlYzo6d2l0aF9jYXBhY2l0eSgKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBBdG1lZ2ExNjA4TGVkQWRkcmVzczo6VkFMVUVTLmxlbigpICoKPiA+ID4gPiA+IEF0bWVn
-YTE2MDhMZWRJZDo6VkFMVUVTLmxlbigpLAo+ID4gPiA+ID4gwqDCoMKgICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIEdGUF9LRVJORUwsCj4gPiA+ID4gPiDCoMKgwqAgK8KgwqDCoMKgwqDCoMKgICk/
-Owo+ID4gPiA+ID4gwqDCoMKgICsKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqAgbGV0
-IG11dCBpID0gMDsKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqAgZm9yIGFkZHIgaW4g
-QXRtZWdhMTYwOExlZEFkZHJlc3M6OlZBTFVFUyB7Cj4gPiA+ID4gPiDCoMKgwqAgK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgbGV0IG1vZGVfbG9jayA9Cj4gPiA+ID4gPiBBcmM6OnBpbl9pbml0KG5l
-d19tdXRleCEoKCkpLAo+ID4gPiA+ID4gR0ZQX0tFUk5FTCk/Owo+ID4gPiA+ID4gwqDCoMKgICsK
-PiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3IgaWQgaW4gQXRtZWdh
-MTYwOExlZElkOjpWQUxVRVMgewo+ID4gPiA+ID4gwqDCoMKgICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgbGV0IFNvbWUoY2hpbGQpID0KPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAKPiA+ID4gPiA+IGZ3bm9kZS5nZXRfY2hpbGRf
-YnlfbmFtZSgmQ1N0cmluZzo6dHJ5X2Zyb21fZm10KGZtdCEoImxlZEB7aX0KPiA+ID4gPiA+ICIp
-KT8KPiA+ID4gPiA+ICkKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGVsc2Ugewo+ID4gPiA+ID4gwqDCoMKgICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBjb250aW51ZTsKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIH07Cj4gPiA+ID4gPiDCoMKgwqAgKwo+ID4gPiA+ID4gwqDCoMKgICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGV0IGNsaWVudCA9IEFSZWY6OmNsb25lKCZj
-bGllbnQpOwo+ID4gPiA+ID4gwqDCoMKgICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-bGV0IG1vZGVfbG9jayA9IEFyYzo6Y2xvbmUoJm1vZGVfbG9jayk7Cj4gPiA+ID4gPiDCoMKgwqAg
-Kwo+ID4gPiA+ID4gwqDCoMKgICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGVkcy5w
-dXNoX3Bpbl9pbml0KExlZENsYXNzRGV2OjpuZXcoCj4gPiA+ID4gPiDCoMKgwqAgK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFNvbWUoaWRldiksCj4gPiA+ID4gPiDCoMKg
-wqAgK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5vbmUsCj4gPiA+ID4g
-PiDCoMKgwqAgK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIExlZEluaXRE
-YXRhOjpuZXcoKS5md25vZGUoJmNoaWxkKSwKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQXRtZWdhMTYwOExlZCB7Cj4gPiA+ID4gPiDCoMKg
-wqAgK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYWRkciwK
-PiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBpZCwKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBjbGllbnQsCj4gPiA+ID4gPiDCoMKgwqAgKwo+ID4gPiA+ID4g
-wqDCoMKgICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1v
-ZGVfbG9jaywKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfSwKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgICkpPzsKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGkgKz0gMTsKPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4gPiA+
-ID4gPiDCoMKgwqAgK8KgwqDCoMKgwqDCoMKgIH0KPiA+ID4gPiA+IMKgwqDCoCArwqDCoMKgwqDC
-oMKgwqAgT2soS0JveDo6bmV3KFNlbGYgeyBjbGllbnQsIGxlZHMgfSwKPiA+ID4gPiA+IEdGUF9L
-RVJORUwpPy5pbnRvKCkpCj4gPiA+ID4gPiAKPiA+ID4gPiA+IEFuZCBJIHRoaW5rIHVzaW5nIGBW
-ZWNgIGZvciB0aGlzIGlzIGp1c3Qgd3JvbmcuIGBWZWNgIGlzIGEKPiA+ID4gPiA+IGRhdGEKPiA+
-ID4gPiA+IHN0cnVjdHVyZSB0aGF0IHN1cHBvcnRzIGdyb3dpbmcgYW5kIHNocmlua2luZyB0aGUg
-YWxsb2NhdGlvbi4KPiA+ID4gPiA+IEJ1dAo+ID4gPiA+ID4geW91Cj4gPiA+ID4gPiBqdXN0IG5l
-ZWQgYSBmaXhlZCBzaXplIGJ1ZmZlciB0aGF0IGhvbGRzIGFsbCB5b3VyIGRhdGEuIERvCj4gPiA+
-ID4gPiB5b3UKPiA+ID4gPiA+IHRoaW5rCj4gPiA+ID4gPiB0aGF0IGBQaW48Qm94PFtMZWRDbGFz
-c0Rldl0+PmAgd291bGQgc3VmZmljZSBpZiBpdCBoYWQgcHJvcGVyCj4gPiA+ID4gPiBzdXBwb3J0
-Cj4gPiA+ID4gPiBmcm9tIHBpbi1pbml0Pwo+ID4gPiA+IEFzIHlvdSBjYW4gc2VlIGluIHYxLCB0
-aGUgbnVtYmVyIG9mIGxlZHMgKG9yIHZlYyBlbnRyaWVzKQo+ID4gPiA+IGRlcGVuZHMKPiA+ID4g
-PiBvbgo+ID4gPiA+IHRoZSBmd25vZGUgKHNlZSB0aGUgY29udGludWUgc3RhdGVtZW50IHRoZXJl
-KS4gSSBkb24ndCB0aGluawo+ID4gPiA+IHRoYXQKPiA+ID4gPiBjb3VudHMgYXMgZml4ZWQgc2l6
-ZS4gYFBpbjxLQm94PFtPcHRpb248TGVkQ2xhc3NEZXY+XT4+YCBjb3VsZAo+ID4gPiA+IHBvdGVu
-dGlhbGx5IGJlIHVzZWQgaW5zdGVhZCBvZiBgUGluPEtWZWM8TGVkQ2xhc3NEZXY+PmAgaW4gbXkK
-PiA+ID4gPiBzY2VuYXJpbywKPiA+ID4gPiBidXQgdGhhdCB3b3VsZCByZXF1aXJlIGFuIGV4dHJh
-IGJ5dGUgb2YgYWxsb2NhdGlvbiBmb3IgdGhlIG1heAo+ID4gPiA+IGxlZHMKPiA+ID4gPiBvZgo+
-ID4gPiA+IDI0IGVhY2ggYW5kIHRoZSBjb2RlIHdvdWxkIGxvb2sgbW9yZSB1Z2x5LiBBdCB0aGUg
-cG9pbnQgSSB1c2UKPiA+ID4gPiBPcHRpb24gaW4KPiA+ID4gPiB0aGUgc2xpY2UsIGl0cyBiYXNp
-Y2FsbHkgYW4gdW5vcHRpbWl6ZWQgVmVjIChpbnN0ZWFkIG9mIHN0b3JpbmcKPiA+ID4gPiB0aGUK
-PiA+ID4gPiBsZW5ndGgsIGl0IHN0b3JlcyBpZiBhbiBpdGVtIGluIHRoZSBidWZmZXIgaXMgcHJl
-c2VudCBvciBub3QpLgo+ID4gPiAKPiA+ID4gWW91IGNhbiBqdXN0IG1ha2UgdGhlIGxlbmd0aCBv
-ZiB0aGUgc2xpY2UgYmUgdGhlIGRlc2lyZWQgbGVuZ3RoPwo+ID4gVGhhdCB3b3VsZCB3b3JrLCBi
-dXQgY3JlYXRlcyBhbm90aGVyIGFsbG9jYXRpb24gb24gdGhlIGhlYXAKPiA+IChWZWM8ST4pCj4g
-PiB0aGF0IGNvdWxkIGhhdmUgYmVlbiBhdm9pZGVkLiBJIGRvbid0IHRoaW5rIGl0IHdvdWxkIG1h
-a2UKPiA+IGBQaW48VmVjPFQsCj4gPiBBPj5gIG9ic29sZXRlLgo+ID4gCj4gPiBPciB3b3VsZCB5
-b3UgcmF0aGVyIHNheSwgc3VjaCBhbGxvY2F0aW9ucyBkb24ndCBtYXR0ZXI/Cj4gCj4gTm8sIGJ1
-dCB5b3UncmUgYWxyZWFkeSBhbGxvY2F0aW5nIG9uY2UgcGVyIGlubmVyIGxvb3AgaW52b2NhdGlv
-biwgdGhlCj4gYENTdHJpbmc6OnRyeV9mcm9tX2ZtdGAgZnVuY3Rpb24gYWxsb2NhdGVzIDopCj4g
-Cj4gSSBkb24ndCBrbm93IHRoZSBraW5kIG9mIGFwcGxpY2F0aW9uIHRoYXQgeW91J3JlIHdyaXRp
-bmcsIGRvZXMKPiBwZXJmb3JtYW5jZSBtYXR0ZXI/IElmIHllcywgdGhlbiBqdXN0IHJ1biB5b3Vy
-IGJlbmNobWFyayBzdWl0ZSBvbgo+IGJvdGgKPiB2ZXJzaW9ucyBhbmQgbG9vayBhdCB0aGUgZGlm
-ZmVyZW5jZS4gSWYgeW91IGRvbid0IGhhdmUgYSBiZW5jaG1hcmsKPiBzdWl0ZSwgdGhlbiBwZXJm
-IHByb2JhYmx5IGlzbid0IGltcG9ydGFudCBlbm91Z2guClRoZXJlIGlzIG5vIG1vZGVsIHRoYXQg
-d291bGQgYmUgYWJsZSB0byBtYWtlIHVzZSBvZiB0aGlzIGRyaXZlciB1bmRlciA0CkdCIG9mIFJB
-TSwgYnV0IEkgYXNzdW1lZCBjb2RlIHNob3VsZCBiZSBhcyBvcHRpbWl6ZWQgYXMgcG9zc2libGUg
-aW4gdGhlCmxpbnV4IGtlcm5lbC4gSXRzIG9ubHkgcnVuIG9uY2UgYXQgZHJpdmVyIGluaXRpYWxp
-emF0aW9uLCBzbyBpdCBkb2Vzbid0Cm1hdHRlciBmb3IgbWUgYXQgbGVhc3QuCj4gCj4gQWxzbyBp
-ZiB5b3UgcmVhbGx5IHdhbnQgdG8gYXZvaWQgdGhlIGFsbG9jYXRpb24sIHRoZW4geW91IHByb2Jh
-Ymx5Cj4gY291bGQKPiBmaXJzdCBxdWVyeSB0aGUgbGVuZ3RoIGFuZCBzdG9yZSBvbmx5IHRoYXQg
-aW4gYSBsb2NhbCB2YXIgYW5kIHRoZW4KPiBjcmVhdGUgdGhlIGluaXRpYWxpemVycyBvbi1kZW1h
-bmQuIEJ1dCB0aGVuIGFnYWluIHRvIHF1ZXJ5IHRoYXQKPiB5b3UncmUKPiBjcmVhdGluZyBhIHN0
-cmluZyBldmVyeSBsb29wIGl0ZXJhdGlvbiwgd2hpY2ggYWxsb2NhdGVzIDopCj4gCj4gPiA+IChh
-bHNvLAo+ID4gPiBgaWAgaXMgbmV2ZXIgaW5jcmVtZW50ZWQgaW4gdGhlIGBjb250aW51ZWAgY2Fz
-ZSwgc28gaXQgd2lsbCBhY3QKPiA+ID4gbGlrZQo+ID4gPiBhCj4gPiA+IGBicmVha2A/KQo+ID4g
-WW91IGp1c3QgZm91bmQgYSBidWcgaW4gdjEuCj4gCj4gOikKPiAKPiA+IFRoYW5rcwo+ID4gLSBN
-YXJrdXMgUHJvYnN0Cj4gPiAKPiA+IFsxXQo+ID4gaHR0cHM6Ly9kb2NzLnJzL2FycmF5dmVjL2xh
-dGVzdC9hcnJheXZlYy9zdHJ1Y3QuQXJyYXlTdHJpbmcuaHRtbAo+IAo+IERpZCB5b3UgZm9yZ2V0
-IHRvIHB1dCBhIHJlZmVyZW5jZSB0byB0aGlzPwpJIGRpZCBhbHNvIG5vdGljZSB0aGUgYENTdHJp
-bmc6OnRyeV9mcm9tX2ZtdGAgd2hpbGUgd3JpdGluZyB0aGUgZW1haWwuClRoZXJlIHdhcyBvbmNl
-IGEgcGFydCBpbiB0aGUgZW1haWwgd2hpY2ggSSByZW1vdmVkIChJIHdvdWxkIGhhdmUgZGVhbHQK
-d2l0aCBpdCBsYXRlciksIGluIHdoaWNoIEkgd291bGQgaGF2ZSBhc2tlZCBpZiBpdCB3b3VsZCBh
-bHNvIG1ha2Ugc2Vuc2UKdG8gYWRkIGFuIGFic3RyYWN0aW9uIGZvciBmaXhlZC1hbGxvY2F0ZWQg
-YyBzdHJpbmdzIG9uIHRoZSBzdGFjayAoYXMgaXQKY3VycmVudGx5IHdvdWxkIGFsc28gaGF2ZSBi
-ZWVuIGFuIHVubmVjZXNzYXJ5IGFsbG9jYXRpb24pLiBUaGUgbGluayB3YXMKbWVhbnQgYXMgcmVm
-ZXJlbmNlIHRvIGFuIGV4aXN0aW5nIGltcGxlbWVudGF0aW9uICh3aGljaCBJIGZvcmdvdCB0bwpy
-ZW1vdmUpLgoKVGhhbmtzCi0gTWFya3VzIFByb2JzdAoKPiAKPiAtLS0KPiBDaGVlcnMsCj4gQmVu
-bm8K
+On Mon, 2025-10-13 at 22:11 +0200, Danilo Krummrich wrote:
+> On Mon Oct 13, 2025 at 8:34 PM CEST, Alice Ryhl wrote:
+> > On Sun, Oct 12, 2025 at 02:52:39PM +0000, Markus Probst wrote:
+> > > Implement the core abstractions needed for led class devices,
+> > > including:
+> > >=20
+> > > * `led::LedOps` - the trait for handling leds, including
+> > > =C2=A0 `brightness_set`, `brightness_get` and `blink_set`
+> > >=20
+> > > * `led::InitData` - data set for the led class device
+> > >=20
+> > > * `led::Device` - a safe wrapper around `led_classdev`
+> > >=20
+> > > Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> >=20
+> > > +pub trait LedOps: Send + 'static + Sized {
+> > > +=C2=A0=C2=A0=C2=A0 /// If set true, [`LedOps::brightness_set`] and
+> > > [`LedOps::blink_set`] must not sleep
+> > > +=C2=A0=C2=A0=C2=A0 /// and perform the operation immediately.
+> > > +=C2=A0=C2=A0=C2=A0 const BLOCKING: bool;
+> > > +=C2=A0=C2=A0=C2=A0 /// The max brightness level
+> > > +=C2=A0=C2=A0=C2=A0 const MAX_BRIGHTNESS: u32;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 /// Sets the brightness level.
+> > > +=C2=A0=C2=A0=C2=A0 ///
+> > > +=C2=A0=C2=A0=C2=A0 /// See also [`LedOps::BLOCKING`]
+> > > +=C2=A0=C2=A0=C2=A0 fn brightness_set(&self, brightness: u32) -> Resu=
+lt<()>;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 /// Gets the current brightness level.
+> > > +=C2=A0=C2=A0=C2=A0 fn brightness_get(&self) -> u32 {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 build_error!(VTABLE_DEFAU=
+LT_ERROR)
+> > > +=C2=A0=C2=A0=C2=A0 }
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 /// Activates hardware accelerated blinking.
+> > > +=C2=A0=C2=A0=C2=A0 ///
+> > > +=C2=A0=C2=A0=C2=A0 /// delays are in milliseconds. If both are zero,=
+ a sensible
+> > > default should be chosen.
+> > > +=C2=A0=C2=A0=C2=A0 /// The caller should adjust the timings in that =
+case and if
+> > > it can't match the values
+> > > +=C2=A0=C2=A0=C2=A0 /// specified exactly. Setting the brightness to =
+0 will
+> > > disable the hardware accelerated
+> > > +=C2=A0=C2=A0=C2=A0 /// blinking.
+> > > +=C2=A0=C2=A0=C2=A0 ///
+> > > +=C2=A0=C2=A0=C2=A0 /// See also [`LedOps::BLOCKING`]
+> > > +=C2=A0=C2=A0=C2=A0 fn blink_set(&self, _delay_on: &mut usize, _delay=
+_off: &mut
+> > > usize) -> Result<()> {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 build_error!(VTABLE_DEFAU=
+LT_ERROR)
+> > > +=C2=A0=C2=A0=C2=A0 }
+> >=20
+> > These functions should probably take a &Device<Bound> argument so
+> > that
+> > they can use methods that require a bound device (such as IO).
+>=20
+> Indeed!
+>=20
+> @Markus: Note that this guarantee is given by the LED device
+> registration being
+> lifetime controlled by devres, while led_classdev_unregister() is
+> synchronized
+> against those callbacks.
+>=20
+> For the latter, please double check that this is actually the case --
+> I'm not
+> familiar with the LED subsystem, I'm reviewing from driver-core
+> perspective. But
+> from a quick look it should be the case. :)
 
+There is also the led_classdev->dev device, but I assume you mean the
+parent of the led classdev (the one being passed on register)?
+
+Thanks
+- Markus Probst
 
