@@ -1,202 +1,220 @@
-Return-Path: <linux-leds+bounces-5787-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5788-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A850FBDD301
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Oct 2025 09:46:30 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D2EBDECE4
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Oct 2025 15:44:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8EA0C4E8AA2
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Oct 2025 07:46:29 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BE7C634ABC6
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Oct 2025 13:44:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9433126AD;
-	Wed, 15 Oct 2025 07:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4B722ACEF;
+	Wed, 15 Oct 2025 13:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PzHhYOI7"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="bNqn54IK"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5762153E7
-	for <linux-leds@vger.kernel.org>; Wed, 15 Oct 2025 07:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181D518BC3D
+	for <linux-leds@vger.kernel.org>; Wed, 15 Oct 2025 13:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760514384; cv=none; b=FCp8REAasU2yGru877NJziFCc8MIkOCIAsOiyrjDZwk+Kxfzcd7bTDWOuEqEeMaxqyeuL9EYLW5qXa/YQE5cabD25uSrluI9mmpuXw1ZwYhIQib5E5tzkuQzTTlL7Z9AQDnoChGLkdNBvP+jEVF/pJqTN/Vk6dY6DwAoLc3JLoM=
+	t=1760535890; cv=none; b=WbhyeYgD9ViapQjH1ciiGeDCw2r3lRhSdrzOXIAUirIs7r+97o/Om7/Qhd5CbH6eyGmBKuG4wtUchj5yqT8+dF8aMtHXBxhtDUtz3KdxAn6SLlCGsKY3mI5ZoNo/3BQ+WODzxG9eFiydT+SqzLS1b0RI1SUgOe634gtn7ghe5ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760514384; c=relaxed/simple;
-	bh=BC15KuwCSg0SviAD2NX9WP0PeUqiSLVuQjRMVITVnHE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UnEySM7picnhsA5aC8vshzYvFfEwgkpBNH2pFOxLKvw6SFaGNv5hVEHa/Bqdyrmgf126eJM/2tSB4AjxuwFGY+YPrmD1S2hPHVxf5OBC3c+yi6xlMUe0cNdIJQSpjl2pKbJKIjiDZLnNvUsfB714yIhub3X73wDBin4YsKl8bj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PzHhYOI7; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59093250aabso5082927e87.2
-        for <linux-leds@vger.kernel.org>; Wed, 15 Oct 2025 00:46:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760514380; x=1761119180; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=p2MNLLJ09ZFJ09dXhL/1vB6MSlJ3nz18TUtg3KkoHkI=;
-        b=PzHhYOI78oHjFm7MZWikF3C2dWia5TEvAGB6Zf+sjI8zY7NICRbYjk7TUk+0AzEBJb
-         Aeej+6lL7TiW8itdbiV8URhCJVb1JJg2qPGE6qSFgklAonjoAzWvinCSIcWa1QYKurL/
-         AtbFt0+ShIG46QQY8FxAFlo7GJkFgaLz3rEav9MgfDrfFQZ6TmIzYVYajPoHywY+DqYw
-         LYlIq8xyVimQp7efUBhlQSi66dl/QfWHmG05JRfqkSm8DdGjPRhjwIobaLz0KWKWQuT8
-         yZm9vfB/4LIJCdzFSS2WW3plX0qYsm3a6aa8CVhPzpT2u+4/K03Jv0slBgvT3Tg2qiW8
-         5ZIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760514380; x=1761119180;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p2MNLLJ09ZFJ09dXhL/1vB6MSlJ3nz18TUtg3KkoHkI=;
-        b=fR2JKYBDxw0lfC9ywvzOUnLcW/xqeoR49Wl3Y1HLyKimvQxeokjv6OSNZGMrAswsL+
-         qGzA6b4a3bVVB8HAenHcmR9cpFS0S6B7n04oH3YjvtXCczvSIAd9AYQG/Pxts7/uuZZ9
-         qle7qAmJ02JYmphXjuQFpikwYyx1x9jG0p9cX+K5IvySgTb2HATyMRZIsvgR3d2CbL7w
-         vVcifX+x8soBpItUvx4RzSSZNvLpFncenmY5vCEcRBBTlffT6HavkazE7v/v8cODcHgS
-         bQF1LGQnHwnyH/y2kEI6T+5yZ0w+qlJmRu9PrkpZ8spp9uh7YEV3V6JWTgSdHebhaKMM
-         CxLw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXQlpLwQ6tueRrYJN3UlNRXl/P7py8Kbs2ujkh7zX0/CCBzaq4vexRBybs+XAy2jty1631mwLjxItJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjyHALIwRYHvo4ZF8yNzQfjqYmQzbECrSA5AzJbQ7cmbsY0Ysq
-	dkgF0Z10tk3HIWxOeOBJlBtkj+WdtZlwH4scxgyIbW+0C795XM56C52D
-X-Gm-Gg: ASbGncs7zwF2k22oPk5Ug7nngcVJ6Lnd5s6DOEoRhPwbKVzq5duWVnXsHghsYvuibDD
-	yu59afmMHh5Ie4Drzp7eJtbHQJTI5U67dbzCY7RO109KIsEb8OPcKLXu6mp1/j8RfWF8S1na9NB
-	pHGTmOoc05f2YCrikCU/1yOLAUVtdH471AcZTaxfohPIAZ6cth/7u0rvugDcDPGPwUrfj2qAE2M
-	S861EY4Q+956RKsrrEhN+O6pvGkqtbOurjiMMunmAQAsy1amr52q7eVLOeGvGMbzxWvdNUN+1OM
-	XOsHvmtbdpSze8lXTk47/T5ebJzVbus242+d6bp256rwwDOgJgrnV3nKE7L+WNFuQZhmEeAp5oS
-	A5sZL7ZDGyDHjKGQyXcgnAXwZ25VuwUMXnh96Wm6AfMuA4EAVyWJc4GzphuEmWaPw7UqGNGh4qG
-	Ke65L6fIOLFxB5wTS+3CrHeMM=
-X-Google-Smtp-Source: AGHT+IECrk7yi+Pwe9pZO4hGvEmNp5pxm/s4OrGMFnEn/EkQ/+8aZDd4HdtIeMunC3aM5IGda/MJPw==
-X-Received: by 2002:a05:6512:3b29:b0:58b:23e:249 with SMTP id 2adb3069b0e04-5906d892889mr7308450e87.18.1760514380271;
-        Wed, 15 Oct 2025 00:46:20 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591c20253b1sm1336364e87.79.2025.10.15.00.46.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 00:46:19 -0700 (PDT)
-Message-ID: <07bd2e21-8631-4812-9021-3d3b2dbc7050@gmail.com>
-Date: Wed, 15 Oct 2025 10:46:18 +0300
+	s=arc-20240116; t=1760535890; c=relaxed/simple;
+	bh=lFAGPMOJGo/3aMHHyf3A9h5Mnxa9R2n5KMimlrUhYPI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lxzyxwAPbtEoNuTRfSAKqWnrjh+i+CaTrAI5ukgQEif1cmAuf1Zf+M/jBSylVSZGZNcJN1a3H6TmRULQqfV3Frd/2gKv+y/5PP5vz1MKxgKshH2+S035advar24zQkz8MXiZ6iUG2tCe6wBJf07MbJPBtUEiYUUQW2vtObsFTaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=bNqn54IK; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 07EDD240105
+	for <linux-leds@vger.kernel.org>; Wed, 15 Oct 2025 15:44:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1760535886; bh=lFAGPMOJGo/3aMHHyf3A9h5Mnxa9R2n5KMimlrUhYPI=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:Autocrypt:OpenPGP:From;
+	b=bNqn54IK1u2UPNrpl92Xj3TJOTlx9B8csk+fT/EzilNqETV65nci5V/C18dQeIkwZ
+	 KHoj9tpE5vEzRH7eK3i7LVuxi/rsdfNK8PfjXih7HGHfcc32V0CUv6mX5syJwtZsAa
+	 gssv09nP5aaE+pln5KW3ETqLCM4CKx5ZRv5JXBpzfdxZ4gZGMkUwR4V5+u5Fqf15x/
+	 XmIkZ7h3zZ4bXT3Dz1VbpCo/dllg4DHH0KFxtkw78ybEvVjAHN2OQ6quVDk4CNLYNi
+	 8PgeGJtTP6JykIqxm9FwcEtmDliOz3qwGfrCzyovlBKVVr9sifnVe00wKmVK4UhdWh
+	 4pZ8jONNdxK+Q==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cmslH4V8tz9rxM;
+	Wed, 15 Oct 2025 15:44:43 +0200 (CEST)
+Message-ID: <7de58fd25b52dd5195c8ac06ed4df5a1e60e5070.camel@posteo.de>
+Subject: Re: [PATCH v4 2/2] rust: leds: add basic led classdev abstractions
+From: Markus Probst <markus.probst@posteo.de>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek <pavel@kernel.org>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, "Liam R. Howlett"	
+ <Liam.Howlett@oracle.com>, Uladzislau Rezki <urezki@gmail.com>, Boqun Feng	
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com,  Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org
+Date: Wed, 15 Oct 2025 13:44:45 +0000
+In-Reply-To: <aO1GM4WXs37Zpm0G@google.com>
+References: <20251012145221.172116-1-markus.probst@posteo.de>
+	 <20251012145221.172116-3-markus.probst@posteo.de>
+	 <aO1GM4WXs37Zpm0G@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 06/13] mfd: bd71828: Support ROHM BD72720
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: Lee Jones <lee@kernel.org>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-gpio@vger.kernel.org
-References: <cover.1759824376.git.mazziesaccount@gmail.com>
- <93142a80d90a0ac80b27090d0c83914675aad94d.1759824376.git.mazziesaccount@gmail.com>
- <20251009161847.GE2890766@google.com>
- <8ea507eb-f78c-4a16-882b-112e277fa1b6@gmail.com>
- <20251010150317.07bfdbe8@kemnade.info>
- <d2295506-bf70-4142-8537-0fdf9cb04a30@gmail.com>
- <20251013151900.3e4cc69f@kemnade.info>
- <5ef55577-b8ae-4c8d-a965-ee356c47c691@gmail.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-In-Reply-To: <5ef55577-b8ae-4c8d-a965-ee356c47c691@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On 14/10/2025 08:41, Matti Vaittinen wrote:
-> On 13/10/2025 16:19, Andreas Kemnade wrote:
->> On Mon, 13 Oct 2025 12:27:33 +0300
->> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
->>
->>> Hi Andreas!
->>>
->>> First of all, thanks for taking a look at this!
->>>
->>> On 10/10/2025 16:03, Andreas Kemnade wrote:
->>>> On Fri, 10 Oct 2025 15:09:07 +0300
->>>> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
->>>>>>> +static int bd72720_get_secondary_regmap(struct i2c_client *i2c,
->>>>>>
->>>>>> Does this 'secondary' have a specific purpose or a better name?
->>>>>
->>>>> I am not entirely sure. When I asked this from the designers they just
->>>>> told me that they needed more than 255 registers so they added another
->>>>> slave address... (I'm not sure what would have been wrong with using a
->>>>> page register). So, I assume they just placed stuff that didn't fit in
->>>>> first 255 register there. But yeah, it looks like most of the 
->>>>> registers
->>>>> there are related to the charger. So, perhaps it isn't completely
->>>>> misleading to use "charger regmap"? The data-sheet seems to be just
->>>>> using "Register map 1" and "Register map 2" in the tables listing 
->>>>> these
->>>>> registers. I kind of like using something which maps easily to the
->>>>> data-sheet, but I really have no strong opinion on this.
->>>>
->>>> just another idea: What about one regmap with custom functions covering
->>>> both these adresses? Maybe that could even be added to the regmap
->>>> functionality, maybe with a 0x100 offset for the second range.
->>>> That way the rest of the code only needs to real with one regmap
->>>> and properly defined registers.
->>>
->>> Interesting idea.
->>>
->>> I suppose you mean something like implementing custom remap_read() and
->>> regmap_write() - which would practically select the I2C adapter to use
->>> based on the register address - and then doing same thing as the
->>> regmap_i2c_smbus_i2c_write() / regmap_i2c_smbus_i2c_read() do?
->>>
->>> I suppose this would mean duplicating the functionality provided by the
->>> regmap_i2c_smbus_i2c_write() and the regmap_i2c_smbus_i2c_read(), which
->>> are static. It'd also mean we'll lose the 1 to 1 mapping between the
->>> register addresses in driver and addresses in the data-sheet. I agree
->>> this wouldn't be such a huge thing if we used offset like 0x100 though.
->>>
->> Well, you could also stack regmaps like ntxec.c is doing (but there
->> for some very weird reason). That would avoid duplicating code.
-> 
-// snip
-> 
-> If this works, then I kind of like this. It avoids using the platform 
-> data and simplifies the regmap getting in the power_supply driver. 
-> Thanks for the good idea Andreas!
+T24gTW9uLCAyMDI1LTEwLTEzIGF0IDE4OjM0ICswMDAwLCBBbGljZSBSeWhsIHdyb3RlOgo+IE9u
+IFN1biwgT2N0IDEyLCAyMDI1IGF0IDAyOjUyOjM5UE0gKzAwMDAsIE1hcmt1cyBQcm9ic3Qgd3Jv
+dGU6Cj4gPiBJbXBsZW1lbnQgdGhlIGNvcmUgYWJzdHJhY3Rpb25zIG5lZWRlZCBmb3IgbGVkIGNs
+YXNzIGRldmljZXMsCj4gPiBpbmNsdWRpbmc6Cj4gPiAKPiA+ICogYGxlZDo6TGVkT3BzYCAtIHRo
+ZSB0cmFpdCBmb3IgaGFuZGxpbmcgbGVkcywgaW5jbHVkaW5nCj4gPiDCoCBgYnJpZ2h0bmVzc19z
+ZXRgLCBgYnJpZ2h0bmVzc19nZXRgIGFuZCBgYmxpbmtfc2V0YAo+ID4gCj4gPiAqIGBsZWQ6Oklu
+aXREYXRhYCAtIGRhdGEgc2V0IGZvciB0aGUgbGVkIGNsYXNzIGRldmljZQo+ID4gCj4gPiAqIGBs
+ZWQ6OkRldmljZWAgLSBhIHNhZmUgd3JhcHBlciBhcm91bmQgYGxlZF9jbGFzc2RldmAKPiA+IAo+
+ID4gU2lnbmVkLW9mZi1ieTogTWFya3VzIFByb2JzdCA8bWFya3VzLnByb2JzdEBwb3N0ZW8uZGU+
+Cj4gCj4gPiArcHViIHRyYWl0IExlZE9wczogU2VuZCArICdzdGF0aWMgKyBTaXplZCB7Cj4gPiAr
+wqDCoMKgIC8vLyBJZiBzZXQgdHJ1ZSwgW2BMZWRPcHM6OmJyaWdodG5lc3Nfc2V0YF0gYW5kCj4g
+PiBbYExlZE9wczo6Ymxpbmtfc2V0YF0gbXVzdCBub3Qgc2xlZXAKPiA+ICvCoMKgwqAgLy8vIGFu
+ZCBwZXJmb3JtIHRoZSBvcGVyYXRpb24gaW1tZWRpYXRlbHkuCj4gPiArwqDCoMKgIGNvbnN0IEJM
+T0NLSU5HOiBib29sOwo+ID4gK8KgwqDCoCAvLy8gVGhlIG1heCBicmlnaHRuZXNzIGxldmVsCj4g
+PiArwqDCoMKgIGNvbnN0IE1BWF9CUklHSFRORVNTOiB1MzI7Cj4gPiArCj4gPiArwqDCoMKgIC8v
+LyBTZXRzIHRoZSBicmlnaHRuZXNzIGxldmVsLgo+ID4gK8KgwqDCoCAvLy8KPiA+ICvCoMKgwqAg
+Ly8vIFNlZSBhbHNvIFtgTGVkT3BzOjpCTE9DS0lOR2BdCj4gPiArwqDCoMKgIGZuIGJyaWdodG5l
+c3Nfc2V0KCZzZWxmLCBicmlnaHRuZXNzOiB1MzIpIC0+IFJlc3VsdDwoKT47Cj4gPiArCj4gPiAr
+wqDCoMKgIC8vLyBHZXRzIHRoZSBjdXJyZW50IGJyaWdodG5lc3MgbGV2ZWwuCj4gPiArwqDCoMKg
+IGZuIGJyaWdodG5lc3NfZ2V0KCZzZWxmKSAtPiB1MzIgewo+ID4gK8KgwqDCoMKgwqDCoMKgIGJ1
+aWxkX2Vycm9yIShWVEFCTEVfREVGQVVMVF9FUlJPUikKPiA+ICvCoMKgwqAgfQo+ID4gKwo+ID4g
+K8KgwqDCoCAvLy8gQWN0aXZhdGVzIGhhcmR3YXJlIGFjY2VsZXJhdGVkIGJsaW5raW5nLgo+ID4g
+K8KgwqDCoCAvLy8KPiA+ICvCoMKgwqAgLy8vIGRlbGF5cyBhcmUgaW4gbWlsbGlzZWNvbmRzLiBJ
+ZiBib3RoIGFyZSB6ZXJvLCBhIHNlbnNpYmxlCj4gPiBkZWZhdWx0IHNob3VsZCBiZSBjaG9zZW4u
+Cj4gPiArwqDCoMKgIC8vLyBUaGUgY2FsbGVyIHNob3VsZCBhZGp1c3QgdGhlIHRpbWluZ3MgaW4g
+dGhhdCBjYXNlIGFuZCBpZgo+ID4gaXQgY2FuJ3QgbWF0Y2ggdGhlIHZhbHVlcwo+ID4gK8KgwqDC
+oCAvLy8gc3BlY2lmaWVkIGV4YWN0bHkuIFNldHRpbmcgdGhlIGJyaWdodG5lc3MgdG8gMCB3aWxs
+Cj4gPiBkaXNhYmxlIHRoZSBoYXJkd2FyZSBhY2NlbGVyYXRlZAo+ID4gK8KgwqDCoCAvLy8gYmxp
+bmtpbmcuCj4gPiArwqDCoMKgIC8vLwo+ID4gK8KgwqDCoCAvLy8gU2VlIGFsc28gW2BMZWRPcHM6
+OkJMT0NLSU5HYF0KPiA+ICvCoMKgwqAgZm4gYmxpbmtfc2V0KCZzZWxmLCBfZGVsYXlfb246ICZt
+dXQgdXNpemUsIF9kZWxheV9vZmY6ICZtdXQKPiA+IHVzaXplKSAtPiBSZXN1bHQ8KCk+IHsKPiA+
+ICvCoMKgwqDCoMKgwqDCoCBidWlsZF9lcnJvciEoVlRBQkxFX0RFRkFVTFRfRVJST1IpCj4gPiAr
+wqDCoMKgIH0KPiAKPiBUaGVzZSBmdW5jdGlvbnMgc2hvdWxkIHByb2JhYmx5IHRha2UgYSAmRGV2
+aWNlPEJvdW5kPiBhcmd1bWVudCBzbwo+IHRoYXQKPiB0aGV5IGNhbiB1c2UgbWV0aG9kcyB0aGF0
+IHJlcXVpcmUgYSBib3VuZCBkZXZpY2UgKHN1Y2ggYXMgSU8pLgpIb3cgYWJvdXQgaW5zdGVhZCBz
+b21ldGhpbmcgbGlrZQoKbW9kIGRldmljZSB7CgogIHVuc2FmZSB0cmFpdCBDb250YWluZXI8Q3R4
+OiBEZXZpY2VDb250ZXh0PjogQXNSZWY8RGV2aWNlPEN0eD4+IHsKICAgIGNvbnN0IE9mZnNldDog
+dXNpemU7CgogICAgdW5zYWZlIGZuIGZyb21fZGV2aWNlKGRldjogJkRldmljZTxDdHg+KSAtPiAm
+U2VsZiB7CiAgICAgICA8aW1wbGVtZW50YXRpb24gaGVyZT4KICAgIH0KICB9CgogIHVuc2FmZSBp
+bXBsIERldmljZTxDdHg+IGZvciBDb250YWluZXI8Q3R4PiB7CiAgICBjb25zdCBPZmZzZXQ6IHVz
+aXplID0gMDsKICB9Cgp9CgpBbmQgaW5zdGVhZCBvZiBwYXNzaW5nICZEZXZpY2U8Qm91bmQ+IHRv
+IHRoZSBmdW5jdGlvbnMsIHdlIHNob3VsZCBhZGQgYQp0eXBlIHBhcmFtZXRlciB0byBMZWRPcHMs
+IGUuZy46Cgp0cmFpdCBMZWRPcHM8VDogZGV2aWNlOjpDb250YWluZXI8ZGV2aWNlOjpCb3VuZD4+
+IHsKCiAgLi4uCgogIGZuIGJyaWdodG5lc3Nfc2V0KCZzZWxmLCBkZXY6ICZULCBicmlnaHRuZXNz
+OiB1MzIpIC0+IFJlc3VsdDwoKT47CgogIC4uLgoKfQoKaW1wbDxUOiBMZWRPcHM8RT4sIEU6IGRl
+dmljZTo6Q29udGFpbmVyPGRldmljZTo6Qm91bmQ+PiBEZXZpY2U8VD4gewoKICBwdWIgZm4gbmV3
+PCdhPigKICAgICAgICBwYXJlbnQ6ICYnYSBFLAogICAgICAgIGluaXRfZGF0YTogSW5pdERhdGE8
+J2E+LAogICAgICAgIG9wczogVCwKICAgICkgLT4gaW1wbCBQaW5Jbml0PERldnJlczxTZWxmPiwg
+RXJyb3I+ICsgJ2EgewogICAgIC4uLgogIH0KCiAgLi4uCgp9CgpJbiB0aGUgZXhhbXBsZSBvZiBp
+MmMgKG9yIGFueSBvdGhlciBjb250YWluZXIgZm9yIGBzdHJ1Y3QgZGV2aWNlYCksIHdlCmltcGxl
+bWVudCB0aGUgZGV2aWNlOjpDb250YWluZXIgdHJhaXQ6Cgptb2QgaTJjIHsKCiAgdW5zYWZlIGlt
+cGwgZGV2aWNlOjpDb250YWluZXIgZm9yIEkyY0NsaWVudCB7CiAgICBjb25zdCBPZmZzZXQ6IHVz
+aXplID0gb2Zmc2V0X29mIShiaW5kaW5nczo6aTJjX2NsaWVudCwgZGV2KTsKICB9Cgp9ClRoaXMg
+YWxsb3dzIHRoZSBMZWRPcHMgZnVuY3Rpb24gdG8gdXNlIGFueSBmdW5jdGlvbnMgZnJvbSB0aGUg
+STJjQ2xpZW50Cm9yIGFueSBvdGhlciBkZXZpY2UgY29udGFpbmVyIHdoaWNoIG1heSBiZSB1c2Vk
+IChyZW1vdmluZyB0aGUgbmVlZCB0bwpzdG9yZSBpdCBpbnNpZGUgdGhlIExlZE9wcyBpbXBsZW1l
+bnRhdGlvbnMgc3RydWN0KS4gSXQgc3RpbGwgYWxsb3dzCkRldmljZTxCb3VuZD4gdG8gYmUgdXNl
+ZCwgYXMgaXQgYWxzbyB3b3VsZCBpbXBsZW1lbnQgZGV2aWNlOjpDb250YWluZXIuCgpUaGFua3MK
+LSBNYXJrdXMgUHJvYnN0Cgo+IAo+ID4gK2ltcGw8VDogTGVkT3BzPiBEZXZpY2U8VD4gewo+ID4g
+K8KgwqDCoCAvLy8gUmVnaXN0ZXJzIGEgbmV3IGxlZCBjbGFzc2Rldi4KPiA+ICvCoMKgwqAgLy8v
+Cj4gPiArwqDCoMKgIC8vLyBUaGUgW2BEZXZpY2VgXSB3aWxsIGJlIHVucmVnaXN0ZXJlZCBvbiBk
+cm9wLgo+ID4gK8KgwqDCoCBwdWIgZm4gbmV3PCdhPigKPiA+ICvCoMKgwqDCoMKgwqDCoCBwYXJl
+bnQ6ICYnYSBkZXZpY2U6OkRldmljZTxCb3VuZD4sCj4gPiArwqDCoMKgwqDCoMKgwqAgaW5pdF9k
+YXRhOiBJbml0RGF0YTwnYT4sCj4gPiArwqDCoMKgwqDCoMKgwqAgb3BzOiBULAo+ID4gK8KgwqDC
+oCApIC0+IGltcGwgUGluSW5pdDxEZXZyZXM8U2VsZj4sIEVycm9yPiArICdhIHsKPiA+ICvCoMKg
+wqDCoMKgwqDCoCBEZXZyZXM6Om5ldygKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBhcmVu
+dCwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRyeV9waW5faW5pdCEoU2VsZiB7Cj4gPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9wcywKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgY2xhc3NkZXYgPC0gT3BhcXVlOjp0cnlfZmZpX2luaXQofHB0cjogKm11
+dAo+ID4gYmluZGluZ3M6OmxlZF9jbGFzc2Rldnwgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogYHRyeV9mZmlfaW5pdGAgZ3VhcmFudGVlcyB0
+aGF0Cj4gPiBgcHRyYCBpcyB2YWxpZCBmb3Igd3JpdGUuCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgLy8gYGxlZF9jbGFzc2RldmAgZ2V0cyBmdWxseSBpbml0aWFs
+aXplZCBpbi0KPiA+IHBsYWNlIGJ5Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgLy8gYGxlZF9jbGFzc2Rldl9yZWdpc3Rlcl9leHRgIGluY2x1ZGluZwo+ID4gYG11
+dGV4YCBhbmQgYGxpc3RfaGVhZGAuCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgdW5zYWZlIHsgcHRyLndyaXRlKGJpbmRpbmdzOjpsZWRfY2xhc3NkZXYgewo+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWF4X2JyaWdo
+dG5lc3M6IFQ6Ok1BWF9CUklHSFRORVNTLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJpZ2h0bmVzc19zZXQ6IFQ6OkJMT0NLSU5HCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiAu
+dGhlbl9zb21lKEFkYXB0ZXI6OjxUPjo6YnJpZ2h0bmVzc19zZXRfY2FsbGJhY2spLAo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJpZ2h0bmVzc19z
+ZXRfYmxvY2tpbmc6ICghVDo6QkxPQ0tJTkcpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiAudGhlbl9zb21lKEFkYXB0ZXI6OjxU
+Pjo6YnJpZ2h0bmVzc19zZXRfYmxvY2tpbmdfY2FsbGJhY2spLAo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJpZ2h0bmVzc19nZXQ6IFQ6OkhBU19C
+UklHSFRORVNTX0dFVAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoAo+ID4gLnRoZW5fc29tZShBZGFwdGVyOjo8VD46OmJyaWdodG5lc3Nf
+Z2V0X2NhbGxiYWNrKSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGJsaW5rX3NldDogVDo6SEFTX0JMSU5LX1NFVAo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gLnRoZW5fc29tZShB
+ZGFwdGVyOjo8VD46OmJsaW5rX3NldF9jYWxsYmFjayksCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuLiBiaW5kaW5nczo6bGVkX2NsYXNzZGV2Ojpk
+ZWZhdWx0KCkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9KSB9
+Owo+IAo+IFRoaXMgZG9lc24ndCBsb29rIGxpa2Ugc29tZXRoaW5nIHJ1c3RmbXQgd291bGQgb3V0
+cHV0PyBDb3VsZCB5b3UgcnVuCj4gcnVzdGZtdCBpZiB5b3UgaGF2ZW4ndCBhbHJlYWR5LiBJZiBp
+dCBkb2Vzbid0IGRvIGFueXRoaW5nLCB0aGVuCj4gcGxlYXNlCj4gZm9ybWF0IGl0IG91dHNpZGUg
+b2YgdGhlIG1hY3JvIGFuZCBtb3ZlIGl0IGJhY2sgaW4uCj4gCj4gQWxpY2UK
 
-Hmm. This morning I tested this approach. I converted the MFD driver and 
-some sub-devices, and I mostly liked it. Mostly.
-
-When adding the offset only to the addresses behind the 'secondary 
-slave', the addresses behind the 'real slave' (which the MFD driver is 
-bound), can be accessed using both the 'wrapper' and the 'real' regmap. 
-Assuming the cache is kept in the 'real' regmaps. This is a small 
-performance penalty compared to having the cache already in the wrapper, 
-but it allows the drivers like the regulator driver, which only use the 
-'primary slave' to just get a regmap from the MFD parent, no matter 
-whether they get the 'wrapper' of the 'real' one. So, no deviation in 
-these slave devices - nice.
-
-MFD gains a tad more complexity due to the additional wrapper regmap. 
-That's not bad though. MFD also needs to use the 'unwrapped' register 
-addresses for the slave regmap config (ranges and max register). This 
-won't get extremely ugly though as we can do some simple macros for 
-'unwrapping'.
-
-What I do dislike is the fact that the register addresses for the 
-secondary slave will now be 9 bits. This will require some modifications 
-in the power-supply driver, which currently stores the addresses using 
-u8. The register values can still be 8-bits though, so maybe it won't 
-get that bad. I haven't tested this yet.
-
-As a result, I am not entirely convinced, but not totally against this 
-idea either.
-
-I'll be away for a bit more than a week, starting from Friday, so it may 
-be I won't spin the next version until around the last days of the October.
-
-Yours,
-	-- Matti.
 
