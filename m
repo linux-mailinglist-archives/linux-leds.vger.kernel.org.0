@@ -1,100 +1,192 @@
-Return-Path: <linux-leds+bounces-5796-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5797-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FA8BE3B3B
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 15:28:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E60AEBE40A1
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 16:56:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07C7D3BC880
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 13:28:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7209919A73C6
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 14:57:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A93B4339B34;
-	Thu, 16 Oct 2025 13:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5510343D80;
+	Thu, 16 Oct 2025 14:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="100tgXPO"
+	dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b="ZVsv7fdL"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mail.hostpark.net (mail.hostpark.net [212.243.197.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4176339B28
-	for <linux-leds@vger.kernel.org>; Thu, 16 Oct 2025 13:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62456343D85;
+	Thu, 16 Oct 2025 14:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.243.197.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760621332; cv=none; b=bJOf9rNaW9/aHdtIHWKv30vnEw4YgzTG/o+S5lmGuXa52KndvhZO1TZMEIE+aA4T4uS2DF3S2gpBz5XKnYVF0BX3rI6Z+D18jxhnL/S52MR9vo55UxcR76NbpLpbwamNCfjcxa+SbR4ELpx7BIXpQAIj7ei0GobqezsmAwpnnew=
+	t=1760626602; cv=none; b=R15N9xxNF9XHbpIp2YThPDfkLrPOgV+v2X+3SmDZDbcPMxGN8p0NkQKC082eCM+1ihY7QcEnAjiGt6xTK+vRDW3mT4G5yT5SR9pqFalAxT6728wk34HIU2gjtkQbxiznoEgVgvXbaDPpG4eGjO/+hhJmQUKGnfV1EWEz7a9iOs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760621332; c=relaxed/simple;
-	bh=yXITrtW5JHJgs7EZqQXs3E8iTvXoW2BNmrEyDm+VM6s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=olO2R+eh2MlijG8FcY4uwNpmdf4NTEHbww8g/n0Fmpl1P28NOMxWyMOQBfdp3iw0T2PfkwEGfuE3+v76zscqgF8Nw6qBkCJzdTwcBEQU2K0xdcwpcHsZ7ehsDyhsXzO7unQopUqv5zfZvgyqBQo9m/sGWxRugLUtQtY7IHrDrTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=100tgXPO; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 1C3CB1A142E
-	for <linux-leds@vger.kernel.org>; Thu, 16 Oct 2025 13:28:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E52786062C;
-	Thu, 16 Oct 2025 13:28:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0DFE4102F22EF;
-	Thu, 16 Oct 2025 15:28:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760621327; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=PIs+eMpB75h0QvSbjmDChujBOc8Dh9k+MG5umnAccEw=;
-	b=100tgXPO7dl5N6tNL037vtgZJs7S82gIn7i4T4rXANAH+Dwb6tnzVSAUWvVyBASrHhaUsN
-	qYgO1bA/GjUoZnWUFYLuH7TYZiPH7HmGqNBjQUTfXXa5UoWq/QZR3GsWhMjRs3wGZRhYKF
-	0uoiORULknDp04kgyoQg7lFMU+67jxtVHNr35aayYxNb7+2rAl22Fd1HLF8WZslFsfPAbj
-	9yFLrzGh/MjtC1p3Ni84OWtx6qHUiDR+h0jp+RO54pHP/TONORLEzwUg3PAb5cDYpN++kT
-	aXM5DLENuOaHvgEQwwUvPv80yEzwH+Cj1pZ9XUuoz7g16FVG3yIJ1yQMsmyuuw==
-From: Thomas Richard <thomas.richard@bootlin.com>
-Date: Thu, 16 Oct 2025 15:28:37 +0200
-Subject: [PATCH] leds: upboard: fix module alias
+	s=arc-20240116; t=1760626602; c=relaxed/simple;
+	bh=Ek2ILsSfxxehyC+PgeYS48DStt27lqnZk8RnptziTzg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NrmKFPXm+QX0balA9XMRI3m0uBb/CtDDQNgNeck/xAgrurtSAAx3TFWZj748d94YEgCWIiSvm3dkSDGse4tbxSGGuIiN15Jvz9oq+hMlAUAWjKPTkEiQpAaWUreTTxhh7ERqu3SUxCVItEYASZG/KIGYA5Fsi7XZFyA7hGJi1eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li; spf=pass smtp.mailfrom=klarinett.li; dkim=pass (1024-bit key) header.d=klarinett.li header.i=@klarinett.li header.b=ZVsv7fdL; arc=none smtp.client-ip=212.243.197.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=klarinett.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=klarinett.li
+Received: from localhost (localhost [127.0.0.1])
+	by mail.hostpark.net (Postfix) with ESMTP id 63EFC162C9;
+	Thu, 16 Oct 2025 16:56:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klarinett.li; h=
+	content-transfer-encoding:mime-version:x-mailer:message-id:date
+	:date:subject:subject:from:from; s=sel2011a; t=1760626588; bh=Ek
+	2ILsSfxxehyC+PgeYS48DStt27lqnZk8RnptziTzg=; b=ZVsv7fdL7vfZ/HRUQW
+	5uIoZtMyEds8t98Qt1FoxgSGOUKb3LwX46ffX9hNihkET6Z2BoeLHpNEuVwVSLue
+	AN3O0kFRMPdxUCJ7IjIVGwXF5pZEGyALalL2Alz1EbXD+IP20IWnxMIr5/Az7mpu
+	AXxmNn7VRVmwWGiE4r2P4/mE8=
+X-Virus-Scanned: by Hostpark/NetZone Mailprotection at hostpark.net
+Received: from mail.hostpark.net ([127.0.0.1])
+ by localhost (mail0.hostpark.net [127.0.0.1]) (amavis, port 10224) with ESMTP
+ id uyut2nYIzpeB; Thu, 16 Oct 2025 16:56:28 +0200 (CEST)
+Received: from customer (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.hostpark.net (Postfix) with ESMTPSA id 65BF2162C2;
+	Thu, 16 Oct 2025 16:56:27 +0200 (CEST)
+From: Christian Hitz <christian@klarinett.li>
+To: Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Dan Murphy <dmurphy@ti.com>
+Cc: Christian Hitz <christian.hitz@bbv.ch>,
+	stable@vger.kernel.org,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: leds-lp50xx: enable chip before any communication
+Date: Thu, 16 Oct 2025 16:56:23 +0200
+Message-ID: <20251016145623.2863553-1-christian@klarinett.li>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251016-leds-upboard-fix-module-alias-v1-1-be63bafcf250@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAATz8GgC/x3MQQqEMAxA0atI1gYaR2X0KuIi2jgGOlYalAHx7
- pZZPvj8C0ySikFfXJDkVNO4ZVBZwLzy9hFUnw2Vqxpy1GIQb3jsU+TkcdEffqM/giAHZUPq6sa
- 9eXkREeTHniQ3//8w3vcDY1XT1W8AAAA=
-X-Change-ID: 20251016-leds-upboard-fix-module-alias-194508af3111
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw, 
- Thomas Richard <thomas.richard@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-Fix module alias for auto-loading.
+From: Christian Hitz <christian.hitz@bbv.ch>
 
-Fixes: 0ef2929a0181 ("leds: Add AAEON UP board LED driver")
-Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
+If a GPIO is used to control the chip's enable pin, it needs to be pulled
+high before any SPI communication is attempted.
+Split lp50xx_enable_disable() into two distinct functions to enforce
+correct ordering.
+Observe correct timing after manipulating the enable GPIO and SPI
+communication.
+
+Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
+
+Signed-off-by: Christian Hitz <christian.hitz@bbv.ch>
+Cc: stable@vger.kernel.org
 ---
- drivers/leds/leds-upboard.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/leds/leds-lp50xx.c | 51 +++++++++++++++++++++++++++-----------
+ 1 file changed, 36 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/leds/leds-upboard.c b/drivers/leds/leds-upboard.c
-index b350eb294280fd68535c47843417f4282f97b423..12989b2f195309cc930095ecc5f855065e88d9aa 100644
---- a/drivers/leds/leds-upboard.c
-+++ b/drivers/leds/leds-upboard.c
-@@ -123,4 +123,4 @@ MODULE_AUTHOR("Gary Wang <garywang@aaeon.com.tw>");
- MODULE_AUTHOR("Thomas Richard <thomas.richard@bootlin.com>");
- MODULE_DESCRIPTION("UP Board LED driver");
- MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:upboard-led");
-+MODULE_ALIAS("platform:upboard-leds");
-
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20251016-leds-upboard-fix-module-alias-194508af3111
-
-Best regards,
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index d19b6a459151..f23e9ae434e4 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -52,6 +52,8 @@
+ 
+ #define LP50XX_SW_RESET		0xff
+ #define LP50XX_CHIP_EN		BIT(6)
++#define LP50XX_START_TIME_US	500
++#define LP50XX_RESET_TIME_US	3
+ 
+ /* There are 3 LED outputs per bank */
+ #define LP50XX_LEDS_PER_MODULE	3
+@@ -374,19 +376,42 @@ static int lp50xx_reset(struct lp50xx *priv)
+ 	return regmap_write(priv->regmap, priv->chip_info->reset_reg, LP50XX_SW_RESET);
+ }
+ 
+-static int lp50xx_enable_disable(struct lp50xx *priv, int enable_disable)
++static int lp50xx_enable(struct lp50xx *priv)
+ {
+ 	int ret;
+ 
+-	ret = gpiod_direction_output(priv->enable_gpio, enable_disable);
++	if (priv->enable_gpio) {
++		ret = gpiod_direction_output(priv->enable_gpio, 1);
++		if (ret)
++			return ret;
++
++		udelay(LP50XX_START_TIME_US);
++	} else {
++		ret = lp50xx_reset(priv);
++		if (ret)
++			return ret;
++	}
++
++	return regmap_write(priv->regmap, LP50XX_DEV_CFG0, LP50XX_CHIP_EN);
++}
++
++static int lp50xx_disable(struct lp50xx *priv)
++{
++	int ret;
++
++	ret = regmap_write(priv->regmap, LP50XX_DEV_CFG0, 0);
+ 	if (ret)
+ 		return ret;
+ 
+-	if (enable_disable)
+-		return regmap_write(priv->regmap, LP50XX_DEV_CFG0, LP50XX_CHIP_EN);
+-	else
+-		return regmap_write(priv->regmap, LP50XX_DEV_CFG0, 0);
++	if (priv->enable_gpio) {
++		ret = gpiod_direction_output(priv->enable_gpio, 0);
++		if (ret)
++			return ret;
++
++		udelay(LP50XX_RESET_TIME_US);
++	}
+ 
++	return 0;
+ }
+ 
+ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
+@@ -453,6 +478,10 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+ 		return dev_err_probe(priv->dev, PTR_ERR(priv->enable_gpio),
+ 				     "Failed to get enable GPIO\n");
+ 
++	ret = lp50xx_enable(priv);
++	if (ret)
++		return ret;
++
+ 	priv->regulator = devm_regulator_get(priv->dev, "vled");
+ 	if (IS_ERR(priv->regulator))
+ 		priv->regulator = NULL;
+@@ -550,14 +579,6 @@ static int lp50xx_probe(struct i2c_client *client)
+ 		return ret;
+ 	}
+ 
+-	ret = lp50xx_reset(led);
+-	if (ret)
+-		return ret;
+-
+-	ret = lp50xx_enable_disable(led, 1);
+-	if (ret)
+-		return ret;
+-
+ 	return lp50xx_probe_dt(led);
+ }
+ 
+@@ -566,7 +587,7 @@ static void lp50xx_remove(struct i2c_client *client)
+ 	struct lp50xx *led = i2c_get_clientdata(client);
+ 	int ret;
+ 
+-	ret = lp50xx_enable_disable(led, 0);
++	ret = lp50xx_disable(led);
+ 	if (ret)
+ 		dev_err(led->dev, "Failed to disable chip\n");
+ 
 -- 
-Thomas Richard <thomas.richard@bootlin.com>
+2.51.0
 
 
