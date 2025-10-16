@@ -1,107 +1,124 @@
-Return-Path: <linux-leds+bounces-5792-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5793-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D78BDFD87
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Oct 2025 19:28:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF802BE3004
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 13:05:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C732B4EBF1D
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Oct 2025 17:28:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7360342506A
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 11:05:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E273633A002;
-	Wed, 15 Oct 2025 17:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A908627D77A;
+	Thu, 16 Oct 2025 11:05:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C42KKnd+"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="pRpluJdy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD4B338F21;
-	Wed, 15 Oct 2025 17:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B2F26E717
+	for <linux-leds@vger.kernel.org>; Thu, 16 Oct 2025 11:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760549283; cv=none; b=IHeXvx41Orf/U4bH65KTlqJck1HR5PInm8caub+PZ/IczC3rFHYRehwa9wSoA71y9rB+bBusixRESInOp/cfGmV7Eh+1vbcCeXFCBJ9QwZ9CTNCxnMUYbwF7jA8+9PIKl3hWWK0Lfm1K9ufWxsz4cEnToAWptIfEGU5bpGjrB2g=
+	t=1760612702; cv=none; b=hTXRfCtBXlzQ0ur0xRKlWPHvD43X25L3mAHoY7t5XrxbO8jsmAFca2hbpK4EhiyoumDzIy7w3gPp/3iPuYfqFVv8LNd/DFA60e5Fh469dC2jMktccM2uzqX2f0IvNkM4x5aFYDrTwsvTM8YWJA/yEUD67QjVO2znMjPkBHfD3ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760549283; c=relaxed/simple;
-	bh=ygYSReZYoQQfbRjOy+h8AzmtWJKt0WboxvKPa7Hw9C8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=iu+K5Yah6LzoCazl6WbSqAzqJlU1586SfTqcRRdkeT9dMaXrcabB/tA0VbYkFf6ORFGZ13qchrNDItZMftBB//7azuK0ulj56eOYMtgmopBtzuWl3dPAbV4HHmYe9uwMv3sEYIFCicWFjJLQ5C0Gzu9zq40bsR9hC0xIx+o24po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C42KKnd+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FACCC4CEF8;
-	Wed, 15 Oct 2025 17:27:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760549282;
-	bh=ygYSReZYoQQfbRjOy+h8AzmtWJKt0WboxvKPa7Hw9C8=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
-	b=C42KKnd+nGR/z5rWWtWTRKMwIyDtCmvAvMXP14LddLR2sL6+TwO8GN+u29mr1Nkdh
-	 4yajPj7C8oVRQvwMv/WwFRaeMMyx0M6W6sGtzwbmqjCNQfsnKsp9w3txsQKqDe1Dy4
-	 cqcVuloPCf34TxVjHhAfM2YM6rS0DXVLmvj1Ms9dwGdlYBRDPzwbJURQGDdJC1YKwd
-	 617REbHxu3TnQjqno/csNuPZSJ7wmjVFCje28musun5pQKuQH6fUbFuDX29Vii5k3I
-	 Z37tgPS39MmqXXoHBmwMJC0ssoc8bGHG15KGTaFSNrsQSODuTVLvTIAo3Jr4v4lZ2u
-	 w4osYN5QgxYJA==
+	s=arc-20240116; t=1760612702; c=relaxed/simple;
+	bh=yNh22VpgcD5iZWVVFSioXx5eXaPdBuNnJFKRzPH5pTU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kHlW/o7DfAIY8Y8hV2O6KyPKSWMoxMYEF0sLeZ2pMDNlyhheTb+UxVvzybjPFZMRMJalp0yVDL0PMTa7mgAyQ6jNd06cHdRLZ1gNTxHuIzcEhXRNQoY9+NZ80W7/FIpRP3LF4s9ApKYUXZdnSFwpteH/AShlKAXTBmQdxbodH2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=pRpluJdy; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-58afb2f42e3so718898e87.2
+        for <linux-leds@vger.kernel.org>; Thu, 16 Oct 2025 04:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1760612699; x=1761217499; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yNh22VpgcD5iZWVVFSioXx5eXaPdBuNnJFKRzPH5pTU=;
+        b=pRpluJdy3S+CmDzXCmPjKSBJfhuP8TPPFH+u7ATDkyoMP4R+1l2RoPyVSN67iquszO
+         o4uB/WoV0GiLeWx3LNUficLXtDZf9+DTS7qZp5r6FyZoI6UGU/oJV26rioeFEIdxdq0y
+         4u5vJiFENGLNf0xFDUyhD2pasms+CSYyW/T4H5SkdsTXToFJJH+WcvyYDho6hgeJIwZ0
+         /P0Nvx4GD9Y8DzA4RtPNCo5UBJoh/wFx4LZjE8ECuRJqRNaUQzUNu7p2tP58RlxzBA+V
+         CfVmdl4S62YC3zNQhwHKlA8JpONHFDxSrUjfy1KxGo76NQw8edj65PWMQfocxX4/JBue
+         trzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760612699; x=1761217499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yNh22VpgcD5iZWVVFSioXx5eXaPdBuNnJFKRzPH5pTU=;
+        b=Tm/QQJ/xjge74wxZPO6UG/KM4imyLt855jyonJIIQh8ED3MDu2KpNX20tiTPaRGFjd
+         Dcl+LQ01Wugfix1EjhHUMpSWLo7Kjjv6axfbUWtEoGuUHuoNLfrUj3paaeDj3mNEj4dm
+         30klTQwuVNBnP4igcBEzdydOqT4rsP7R+NCT5LDCpV1nQL5t4GMJ/vqhJb0d98u1yU77
+         zclZIo3eE1rO71gyDWSPFKFJaYUGqNNjNDwqfaKgmNcvikF3+0RGiMRyzeOzmlVlmWVD
+         9UGD4nYdInyU7JTXNccnDpQzzdWpox0zNtgvGZXOPeYnhEEFbuvp3IhQtohOhRwFuhf2
+         gYig==
+X-Forwarded-Encrypted: i=1; AJvYcCVTHGKRTx/ajkTrQXNk4TjetJZHRgLZBX7S89F67yTa3SS9cQVAmPAFp9HMBfhYj79NOgloAP+jTCuA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9IpNhA29H9+aZEaBHf0pMbpZfetHsK7UCi6q+V47DSsLgk6Tb
+	ZeMHh2yXSk3WqeapGi1WF2LIKyMLgQkr4VnjVoDWhUUrQZNT4oMdIvSA9eOm/li7S/m/nMmBrZC
+	7zF5bhsNK1DM7xqhfMU2suqXJ117yzGDoWCt+O0NU2Q==
+X-Gm-Gg: ASbGncvZRrUxZWkwfRnJKpMl/Fj/xTEMoY4gzLoANRxkAV+gEEcFsGW8nCDbL3QrPWD
+	8oDSNUWSDueh/c2tK6sJshGgTzPDtYPOWDyQqkeun/CUdCwsa3cj1mPNQKzOpfro3icHK88keqD
+	zDiKwhRTM/iwjDKYWu1nIcVlIvCQ54iQYy9mS6uW1c7tYIW83GdxbJNEE5/Uqb1R4MAz8ATGpUj
+	81voGsxJmXM60yqyREBfotCXMvHtNS3FSJN4qTUMKKkSmLJxMRBVUwEnbJLHjb9a3GTWAL9ZyEZ
+	J0VYNvFRjAeIyI+lYuLlVp1LzH4=
+X-Google-Smtp-Source: AGHT+IFayaCD0pSGBkneNyn/a6xVpthdUoJp6sRMc3xLlMt0uMSjEDaswBOJxo1hM6bEJaYHKB510/0SUrWtiIUFhV4=
+X-Received: by 2002:a05:6512:1510:10b0:591:c2f8:9a60 with SMTP id
+ 2adb3069b0e04-591c2f89da8mr2767654e87.31.1760612698712; Thu, 16 Oct 2025
+ 04:04:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <cover.1759824376.git.mazziesaccount@gmail.com> <ed65074dbedaf2b503d789b38bd9710926d08a55.1759824376.git.mazziesaccount@gmail.com>
+In-Reply-To: <ed65074dbedaf2b503d789b38bd9710926d08a55.1759824376.git.mazziesaccount@gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 16 Oct 2025 13:04:46 +0200
+X-Gm-Features: AS18NWBwUA24uaqVHxHl7BqIfjkNE89oORmb5j7GI3HGq5QpCdYV7wiF_boIXL4
+Message-ID: <CAMRc=Mcv3Mt1HHBtJtC4ZQt-RL=0UPODxWmab8Sn0-TA1fTtzg@mail.gmail.com>
+Subject: Re: [RFC PATCH 09/13] gpio: Support ROHM BD72720 gpios
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Andreas Kemnade <andreas@kemnade.info>, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Oct 2025 19:27:57 +0200
-Message-Id: <DDJ2MSQ0UJQL.199XI9U29HPXL@kernel.org>
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>, "Lee Jones" <lee@kernel.org>, "Pavel
- Machek" <pavel@kernel.org>, "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
- "Vlastimil Babka" <vbabka@suse.cz>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, "Uladzislau Rezki" <urezki@gmail.com>, "Boqun
- Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-leds@vger.kernel.org>
-To: "Markus Probst" <markus.probst@posteo.de>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v4 2/2] rust: leds: add basic led classdev abstractions
-References: <20251012145221.172116-1-markus.probst@posteo.de>
- <20251012145221.172116-3-markus.probst@posteo.de>
- <aO1GM4WXs37Zpm0G@google.com>
- <7de58fd25b52dd5195c8ac06ed4df5a1e60e5070.camel@posteo.de>
- <DDIZC4MK2CFW.1DPDIJR4HPKGY@kernel.org>
- <25f3fd337ce5e58915125c4e2eb85ef4d7af3627.camel@posteo.de>
-In-Reply-To: <25f3fd337ce5e58915125c4e2eb85ef4d7af3627.camel@posteo.de>
 
-On Wed Oct 15, 2025 at 5:02 PM CEST, Markus Probst wrote:
-> Not necessarily every, like I said `container::Device` itself also
-> would implement `device::Container` (still allowing &Device<Bound>).
+On Tue, Oct 7, 2025 at 10:34=E2=80=AFAM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
+>
+> The ROHM BD72720 has 6 pins which may be configured as GPIOs. The
+> GPIO1 ... GPIO5 and EPDEN pins. The configuration is done to OTP at the
+> manufacturing, and it can't be read at runtime. The device-tree is
+> required to tell the software which of the pins are used as GPIOs.
+>
+> Keep the pin mapping static regardless the OTP. This way the user-space
+> can always access the BASE+N for GPIO(N+1) (N =3D 0 to 4), and BASE + 5
+> for the EPDEN pin. Do this by setting always the number of GPIOs to 6,
+> and by using the valid-mask to invalidate the pins which aren't configure=
+d
+> as GPIOs.
+>
+> First two pins can be set to be either input or output by OTP. Direction
+> can't be changed by software. Rest of the pins can be set as outputs
+> only. All of the pins support generating interrupts.
+>
+> Support the Input/Output state getting/setting and the output mode
+> configuration (open-drain/push-pull).
+>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> ---
 
-Sure, but eventually we'll need all bus devices to implement it because you=
- want
-to be able to use this class device on any bus.
-
-> We already know the address of it with the `struct led_classdev`-
->`parent` field, we just need to substract the offset from `<T as
-> Container>::Offset`, and we have the address of the device container
-> (like `struct i2c_client`). No Box needed.
-
-Yeah, that should work.
-
-What I still don't like about it (and didn't like back then when I thought =
-about
-something similar) is that this provides a publicly accessible unsafe way t=
-o
-upcast from a generic device to a bus device.
-
-However, I do see the ergonomic advantage for drivers. Even though I'd say =
-it's
-minor, it is indeed nice that the class device callbacks can already carry =
-the
-actual parent bus device.
-
-So, I'm fine giving this a shot. If go for an implementation, please name t=
-he
-trait something along the lines of device::IntoBusDevice, device::Container=
- is
-too generic. Only bus devices have a DeviceContext.
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
