@@ -1,116 +1,134 @@
-Return-Path: <linux-leds+bounces-5800-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5801-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E34BE5318
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 21:11:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E37B1BE531E
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 21:11:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C6BA44E1B77
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 19:11:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BCDD1A67B25
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 19:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9CE32877D4;
-	Thu, 16 Oct 2025 19:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4770F28934F;
+	Thu, 16 Oct 2025 19:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="F6MxgT1P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sOZqgV4y"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E2F2882CF;
-	Thu, 16 Oct 2025 19:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC3C2882CF;
+	Thu, 16 Oct 2025 19:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760641882; cv=none; b=BscDaDM5ESc2SARWk0MAQ/FKuGUcbXFI74AKwtM/YnDUs0Bu69k8yGIHCs87AHqSHNITUuMdEqrZGoWuOlkWnT3tY+XXX/1OeE9uOSH3TQJbPfbw0OaLtcKLrHAUT3jhwumkGmTUdGOJPi75yN/VlVsRBQZ66yzl4H4uDWy7i6I=
+	t=1760641897; cv=none; b=fwN5vdPAJOG9V4hMC6JCdp8BIUJqPEwB0vd8ipc49mHvk/ObJnzZRL//ApbfYdVoG97C6z5suCL8Tz4MfwsPrGUF7ut0NG6YZpKZfeq6m4YWccqwwyFVJ90RSV/6GFXyADhRU8X5v3A4f4I2V5iPVHqwFYLHm0253wEqDqrLCR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760641882; c=relaxed/simple;
-	bh=Kpmyv3Tv62MdWYPZiBCYni86OvTfWF0aCytZpAdko0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=owjhiwccTuXw1oLEcUG19+JFopFfJTXivLTP8lJSnd+MeHhgG7Mr7Dslhzo8ZxpmrrYoWdcpiNzXF7Zv6Ww4OX/bCiXKJXpCL81o2Zzcjmchs8fnehs4++PtJskqHuYltl7+4WGK5SGzeo/8P27/tDAPL/Da1ZZXK+bH6phNx2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=F6MxgT1P; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=oVHJo5eFnWVELSPqB/MrO2ee7+O6J+manXe99W9VUME=; b=F6
-	MxgT1PfjkrFXENmfT6Hqia08MbAxRN7GjzE/P4+Yexg4VM+pOv1OVA8HG2LyoAD+WQO5i4eggcAE3
-	CEM4/xwhPzg88aedaB0IANeNisN0Hm03QDYsRXsOzH5WvuHpx7kaDXhln3cz+Mmoxo+0CEgzMDWfE
-	VITKQKEYDf1z4eA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1v9TNV-00BCM5-Ov; Thu, 16 Oct 2025 21:11:09 +0200
-Date: Thu, 16 Oct 2025 21:11:09 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH leds v2 00/10] Add support for offloading netdev trigger
- to HW + example implementation for Turris Omnia
-Message-ID: <87875554-1747-4b0e-9805-aed1a4c69a82@lunn.ch>
-References: <20210601005155.27997-1-kabel@kernel.org>
- <CA+V-a8tW9tWw=-fFHXSvYPeipd8+ADUuQj7DGuKP-xwDrdAbyQ@mail.gmail.com>
- <7d510f5f-959c-49b7-afca-c02009898ef2@lunn.ch>
- <CA+V-a8ve0eKmBWuxGgVd_8uzy0mkBm=qDq2U8V7DpXhvHTFFww@mail.gmail.com>
+	s=arc-20240116; t=1760641897; c=relaxed/simple;
+	bh=UbCNphhlaX3wHmv2o+SwlseSHS5o1cCnf8JhScRwRus=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IMZjSbyvr3ZaxFBitYo0WZfw/NcQnUDHdbTaT5I3uyJVaXR6yttzFnNl9m4Yq8nnUU1kBc8PMKM6eOlUv54MgDQTa5A1Gce3siiYuZMjTqbULCbdXSxLB0wsj5pTb25rcAKbWmgpafNkCym8hifbSCgW7xKYfblW+tytZA/++yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sOZqgV4y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1469C4CEF9;
+	Thu, 16 Oct 2025 19:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760641896;
+	bh=UbCNphhlaX3wHmv2o+SwlseSHS5o1cCnf8JhScRwRus=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sOZqgV4y36NberIi8tTTtKQylExhiBNOKDDzIkQ4wI+3Noig3A2BZS/BalgDcsoCW
+	 Gae6DVh7gyUtO9shWmoMJzEvvZsGevbqRnfd3UVURcWbJFQualNZwF/NIJeGeEsVQx
+	 PAuomMcahDA9958NpwRvQime7KLtXhNMBDJzgKftvh+3s3tpHCudxOg/by+Vae+95J
+	 s0bF2na/zG1X8wDwnFTzHnrc6LBpWdcKYZmH9JXpU+/LxQ4leJGoF5upQ14gZNu3vS
+	 24MNI0aJ9oas7WGty/WRUwoIsXkaUYVWC1N2YB7YVxs5Xwc9ol0OMPiyyKgYM+Z4W/
+	 /wWbZrBdNPNlQ==
+Message-ID: <44d6ea9f-8559-464d-ac39-20495375bf0e@kernel.org>
+Date: Thu, 16 Oct 2025 21:11:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8ve0eKmBWuxGgVd_8uzy0mkBm=qDq2U8V7DpXhvHTFFww@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: upboard: fix module alias
+To: Thomas Richard <thomas.richard@bootlin.com>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
+References: <20251016-leds-upboard-fix-module-alias-v1-1-be63bafcf250@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20251016-leds-upboard-fix-module-alias-v1-1-be63bafcf250@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 16, 2025 at 07:53:17PM +0100, Lad, Prabhakar wrote:
-> Hi Andrew,
+On 16/10/2025 15:28, Thomas Richard wrote:
+> Fix module alias for auto-loading.
+
+Fix what exactly? It was a completely correct alias. Please describe
+here bug (so WHY you are doing this) not what you are doing.
+
 > 
-> On Thu, Oct 16, 2025 at 2:14 PM Andrew Lunn <andrew@lunn.ch> wrote:
-> >
-> > > > Marek Behún (10):
-> > > >   leds: trigger: netdev: don't explicitly zero kzalloced data
-> > > >   leds: trigger: add API for HW offloading of triggers
-> > > >   leds: trigger: netdev: move trigger data structure to global include
-> > > >     dir
-> > > >   leds: trigger: netdev: support HW offloading
-> > > >   leds: trigger: netdev: change spinlock to mutex
-> > > >   leds: core: inform trigger that it's deactivation is due to LED
-> > > >     removal
-> > > >   leds: turris-omnia: refactor sw mode setting code into separate
-> > > >     function
-> > > >   leds: turris-omnia: refactor brightness setting function
-> > > >   leds: turris-omnia: initialize each multicolor LED to white color
-> > > >   leds: turris-omnia: support offloading netdev trigger for WAN LED
-> > > >
-> > > Do you plan to progress with the above series anytime soon? If not I
-> > > want to give this patch [0] again a respin.
-> >
-> > What features are you missing from the current kernel code, which this
-> > series adds?
-> >
-> I’m working on a platform that uses the VSC8541 PHY. On this platform,
-> LED0 and LED1 are connected to the external connector, and LED1 is
-> also connected to the Ethernet switch to indicate the PHY link status.
-> As a result, whenever there is link activity, the PHY link status
-> signal to the switch toggles, causing the switch to incorrectly detect
-> the link as going up and down.
-
-So you think the current /sys/class/leds code is not sufficient. You
-can use it from udev etc, to make the LED indicate link, but then
-userspace could change it to something else. I _think_ only root can
-use /sys/class/leds to change the function of the LED, so it is not
-too bad as is? Or do you really want to make the configuration read
-only?
-
-	Andrew
-
+> Fixes: 0ef2929a0181 ("leds: Add AAEON UP board LED driver")
+> Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
+> ---
+>  drivers/leds/leds-upboard.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-upboard.c b/drivers/leds/leds-upboard.c
+> index b350eb294280fd68535c47843417f4282f97b423..12989b2f195309cc930095ecc5f855065e88d9aa 100644
+> --- a/drivers/leds/leds-upboard.c
+> +++ b/drivers/leds/leds-upboard.c
+> @@ -123,4 +123,4 @@ MODULE_AUTHOR("Gary Wang <garywang@aaeon.com.tw>");
+>  MODULE_AUTHOR("Thomas Richard <thomas.richard@bootlin.com>");
+>  MODULE_DESCRIPTION("UP Board LED driver");
+>  MODULE_LICENSE("GPL");
+> -MODULE_ALIAS("platform:upboard-led");
+> +MODULE_ALIAS("platform:upboard-leds");
+Best regards,
+Krzysztof
 
