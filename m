@@ -1,145 +1,88 @@
-Return-Path: <linux-leds+bounces-5803-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-5804-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61822BE543F
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 21:44:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEA4BE7565
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Oct 2025 11:03:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 052154E4188
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Oct 2025 19:44:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88E513B2C67
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Oct 2025 09:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05E1F2DC35C;
-	Thu, 16 Oct 2025 19:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0D828750C;
+	Fri, 17 Oct 2025 09:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="SXcSD+vC"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hRwzDNd4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FDE2253EC;
-	Thu, 16 Oct 2025 19:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22A81E5714
+	for <linux-leds@vger.kernel.org>; Fri, 17 Oct 2025 09:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760643852; cv=none; b=jqexx86wWYbr7THjN4qOBqMtl5lBNjuAOWBgTp1zGr0YHd2rpcKfzcjX85fqiqGRmvR527ZRFxBs8QBB6HQU/DMhn2jpjYV3Cf4VrYhB0GXxz40LS3mlRlcBdvjLIbU0fNacc+/YTCf5hYKl8LrlIEjYw2vGPzMcsZxWg3GNO+c=
+	t=1760691661; cv=none; b=NVsTf0v4eJvOgdqjh7tu12aLI3hgz5k7/+5Q6T9EYgE1j1Wqpbd3VGQiMLZ5b08c34rAPbnS7fgYaI88AZNv82LZAt8/PasVcqdIXOy5zUwk131XM7T9bTd99RsZm14KUcVPEnsNw7DxPenfuRW/qzYqocsLzM4+os8Iikz1Hyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760643852; c=relaxed/simple;
-	bh=fpfMIqGiN+5JaFXAfQM+JL8gqh0Cq7TCWKFJRan0cC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GZSWrPATUXWMZs06q09eVWn+PfWeNXXknEW6vxwq7dysYBsCgcT+BbV95E/cC2oWAX93icvIGitIj111X8ld6jdXTDzRGJuYmezqB2WnnvXYIxSR2buwIPgSwso744Wa/hwTZdYKbwa16yFUEz0I41bE3mIepdz8xUyZSldQGh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=SXcSD+vC; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=I/FPmxwkdQsHDYC9iULzo+LvmJj79arCdwTsaLGZGtw=; b=SXcSD+vCUVLqnuB90leEpBu3v0
-	FeKvaRsdXh/de4GkCL/rvEbJfyYAikN0FwYaWbHBDKX7RF3vy7H05IWIAWUc+92aCV7eXtatmoe9q
-	ePV/z4gzPgqR3fE2SCQPRH0mlQRTGsLhOJL1e4Z/bhmeJ1DUR2hI5lXFqTvTNmYTOLgk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1v9TtP-00BCVS-3R; Thu, 16 Oct 2025 21:44:07 +0200
-Date: Thu, 16 Oct 2025 21:44:07 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH leds v2 00/10] Add support for offloading netdev trigger
- to HW + example implementation for Turris Omnia
-Message-ID: <bd95b778-a062-47b1-a386-e4561ef0c8cd@lunn.ch>
-References: <20210601005155.27997-1-kabel@kernel.org>
- <CA+V-a8tW9tWw=-fFHXSvYPeipd8+ADUuQj7DGuKP-xwDrdAbyQ@mail.gmail.com>
- <7d510f5f-959c-49b7-afca-c02009898ef2@lunn.ch>
- <CA+V-a8ve0eKmBWuxGgVd_8uzy0mkBm=qDq2U8V7DpXhvHTFFww@mail.gmail.com>
- <87875554-1747-4b0e-9805-aed1a4c69a82@lunn.ch>
- <CA+V-a8vv=5yRDD-fRMohTiJ=8j-1Nq-Q7iU16Opoe0PywFb6Zg@mail.gmail.com>
+	s=arc-20240116; t=1760691661; c=relaxed/simple;
+	bh=mY3OvQ3rYUK5KdTmwUtH6nyQZzxPGP/sqEDsajp9PMs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C2Hr1m0kl8lGvhjaEvaPCUNFgcTUyxstHtZoDl4td6EG7TuT9xCFDt9VYqZECLrVNfbulwHvjweO41IMRv92eoQWtDb5IhHyEvzmN8HpsWukcE7JJop0ZQ6xUFnHVibQl+hwOh/Yx6GtySByqLN8ujWcHvjbhhlT7cwk7zikYSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hRwzDNd4; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 4A4B51A1460;
+	Fri, 17 Oct 2025 09:00:58 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 20BAE606DB;
+	Fri, 17 Oct 2025 09:00:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 57E4A102F2342;
+	Fri, 17 Oct 2025 11:00:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760691657; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=ch81BcX9X3+I94fyKG6pbtXcoNAUDjd0YkMmgRQ8ReQ=;
+	b=hRwzDNd4IM+PEVEZqDL3YELnlExz95C1x01qGbNRO1TObU4ojXT45HLTqOT1HsN7Q+iUrS
+	fJbnhym8riSwpCIfEHXQarwS/vnzpcaglHTm1xBkQKff8C1CIMX+jg759ALjAvrTBh6hUd
+	T9VPq3XxSt0GABT2tYHtmnYNRvwGGpz2MeoS92e90Ku4FSjvNJfRt6WIIhZ2LrUTJfp1+4
+	dEu7SOHQArLSKndmX5xbU0aqI81Rq3DlnzfH9LH6bIiwNuB88E1EhzofhjtrgtlJolrj8o
+	veVQQ7z2wkSo+/Uq8zkwL15xVHswpB6oJzIuZhQTkL89P9VfAvIaQi9p5/JBRg==
+Message-ID: <690812a9-2f2c-4a88-b6fb-a3789e931d11@bootlin.com>
+Date: Fri, 17 Oct 2025 11:00:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8vv=5yRDD-fRMohTiJ=8j-1Nq-Q7iU16Opoe0PywFb6Zg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] leds: upboard: fix module alias
+To: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw
+References: <20251016-leds-upboard-fix-module-alias-v1-1-be63bafcf250@bootlin.com>
+ <44d6ea9f-8559-464d-ac39-20495375bf0e@kernel.org>
+Content-Language: en-US
+From: Thomas Richard <thomas.richard@bootlin.com>
+In-Reply-To: <44d6ea9f-8559-464d-ac39-20495375bf0e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-> I haven't explored the current leds code tbh. Can you please point me
-> to any PHY which uses leds if any.
+On 10/16/25 9:11 PM, Krzysztof Kozlowski wrote:
+> On 16/10/2025 15:28, Thomas Richard wrote:
+>> Fix module alias for auto-loading.
+> 
+> Fix what exactly? It was a completely correct alias. Please describe
+> here bug (so WHY you are doing this) not what you are doing.
 
-~/linux/drivers/net/phy$ grep .led_brightness_set *
-air_en8811h.c:static int air_led_brightness_set(struct phy_device *phydev, u8 index,
-air_en8811h.c:	.led_brightness_set	= air_led_brightness_set,
-as21xxx.c:static int as21xxx_led_brightness_set(struct phy_device *phydev,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-as21xxx.c:		.led_brightness_set = as21xxx_led_brightness_set,
-bcm-phy-lib.c:int bcm_phy_led_brightness_set(struct phy_device *phydev,
-bcm-phy-lib.c:EXPORT_SYMBOL_GPL(bcm_phy_led_brightness_set);
-bcm-phy-lib.h:int bcm_phy_led_brightness_set(struct phy_device *phydev,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-broadcom.c:	.led_brightness_set	= bcm_phy_led_brightness_set,
-dp83867.c:dp83867_led_brightness_set(struct phy_device *phydev,
-dp83867.c:		.led_brightness_set = dp83867_led_brightness_set,
-dp83td510.c:static int dp83td510_led_brightness_set(struct phy_device *phydev, u8 index,
-dp83td510.c:	.led_brightness_set = dp83td510_led_brightness_set,
-intel-xway.c:static int xway_gphy_led_brightness_set(struct phy_device *phydev,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-intel-xway.c:		.led_brightness_set = xway_gphy_led_brightness_set,
-marvell.c:static int m88e1318_led_brightness_set(struct phy_device *phydev,
-marvell.c:		.led_brightness_set = m88e1318_led_brightness_set,
-marvell.c:		.led_brightness_set = m88e1318_led_brightness_set,
-marvell.c:		.led_brightness_set = m88e1318_led_brightness_set,
-marvell.c:		.led_brightness_set = m88e1318_led_brightness_set,
-marvell.c:		.led_brightness_set = m88e1318_led_brightness_set,
-mxl-86110.c:static int mxl86110_led_brightness_set(struct phy_device *phydev,
-mxl-86110.c:		.led_brightness_set	= mxl86110_led_brightness_set,
-mxl-86110.c:		.led_brightness_set	= mxl86110_led_brightness_set,
-mxl-gpy.c:static int gpy_led_brightness_set(struct phy_device *phydev,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
-mxl-gpy.c:		.led_brightness_set = gpy_led_brightness_set,
+The module alias does not match the cell name defined in the MFD driver,
+so if the driver is built as a module, it is not automatically loaded.
 
-	Andrew
+Best Regards,
+Thomas
+
 
